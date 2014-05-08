@@ -6,15 +6,12 @@ set(
   VariationalRegistrationMultiResolutionFilterTest.cxx
 )
 
-# list(APPEND ExternalData_URL_TEMPLATES "https://googledrive.com/host/0B-qP96NdUKVfTFVZYUNyNEJoTlk/ExternalData_%(algo)_%(hash)")
-# list(APPEND ExternalData_URL_TEMPLATES "file:///vol/medic01/users/aschmidt/Dropbox/ITKExternalData/ExternalData_%(algo)_%(hash)")
+# both approaches do not work
 #list(APPEND ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
 set(
   ExternalData_URL_TEMPLATES
   "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)"
 )
-
-message(STATUS "Using OpenCL: ${ExternalData_URL_TEMPLATES}")
 
 createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
 
@@ -24,6 +21,7 @@ createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module
 #
 #####################################
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
+set(INPUTDIR ${${itk-module}_SOURCE_DIR}/test/Input)
 
 itk_add_test(
   NAME VariationalRegistrationFilterTest
@@ -45,9 +43,9 @@ itk_add_test(
 set(
   COMMON_PARAMS2D
   -F
-  DATA{Input/img1.png}
+  ${INPUTDIR}/img1.png
   -M
-  DATA{Input/img2.png}
+  ${INPUTDIR}/img2.png
   -l
   4
   -p
@@ -218,6 +216,8 @@ itk_add_test(
     1.5
     -s
     1
+    -e
+    2
     -W
     ${TEMP}/${TESTNAME}.tif
 )
@@ -239,6 +239,8 @@ itk_add_test(
     1.5
     -s
     2
+    -e
+    2
     -W
     ${TEMP}/${TESTNAME}.tif
 )
@@ -249,9 +251,9 @@ itk_add_test(
 set(
   COMMON_PARAMS3D
   -F
-  DATA{Input/10-P_5x5x5.nii.gz}
+  ${INPUTDIR}/10-P_5x5x5.nii.gz
   -M
-  DATA{Input/60-P_5x5x5.nii.gz}
+  ${INPUTDIR}/60-P_5x5x5.nii.gz
   -l
   3
   -p
@@ -398,6 +400,8 @@ itk_add_test(
     1
     -s
     1
+    -e
+    2
     -W
     ${TEMP}/${TESTNAME}.nii.gz
     -O
@@ -420,6 +424,8 @@ itk_add_test(
     -a
     1
     -s
+    2
+    -e
     2
     -W
     ${TEMP}/${TESTNAME}.nii.gz
