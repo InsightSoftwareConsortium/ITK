@@ -29,11 +29,35 @@ namespace itk
 
 /** \class itk::VariationalRegistrationStopCriterion
  *
- * TODO class documentation
+ * A flexible stop criterion for the variational registration framework.
  *
- *  \sa VariationalRegistrationFilter
+ * \par This stop criterion is realised as an observer for the
+ * itkVariationalRegistrationFilter and
+ * itkVariationalRegistrationMultiResolutionFilter.
+ * It allows testing for
+ * - Number of increase counts for the associated metric
+ * - Slope of a line fitted to the last metric values
  *
- *  \ingroup VariationalRegistration
+ * \par For the line fitting, three different modes can be chosen:
+ * - Original: Metric values are used as they are provided by the registration
+ *   filter
+ * - Normalized: [min,max] are scaled to [0,1]
+ * - Scaled: [0,max] are scaled to [0,1]
+ *
+ * \par In multi resolution settings, it can be useful to use different stopping
+ * criteria for each MR level. Therefore, different multi resolution policies
+ * can be chosen:
+ * - Default: Don't change criterion depending on the multi resolution level
+ * - Simple graduated: Line fitting and increase count check on finest level,
+ *   only increase count check on other levels
+ * - Graduated: Line fitting and increase count check on finest level,
+ *   only increase count check on second finest level, no check (maximum number
+ *   of iterations) on other levels
+ *
+ * \sa VariationalRegistrationFilter
+ * \sa VariationalRegistrationMultiResolutionFilter
+ *
+ * \ingroup VariationalRegistration
  */
 template <class TRegistrationFilter, class TMRFilter>
 class ITK_EXPORT VariationalRegistrationStopCriterion : public Command
@@ -124,31 +148,38 @@ public:
     LINE_FITTING_MODE_SCALED = 2
   };
 
-  /** Set the line fitting mode. */
+  /** Set the line fitting mode. Three modes are provided:
+   * - Original: Metric values are used as they are provided by the registration
+   *   filter
+   * - Normalized: [min,max] are scaled to [0,1]
+   * - Scaled: [0,max] are scaled to [0,1] */
   itkSetEnumMacro(LineFittingMode, LineFittingMode);
 
   /** Get the line fitting mode. */
   itkGetEnumMacro(LineFittingMode, LineFittingMode);
 
+  /** Set line fitting mode to original. */
   void
   SetLineFittingModeToOriginalValues()
   {
     this->SetLineFittingMode(LINE_FITTING_MODE_ORIGINAL);
   }
 
+  /** Set line fitting mode to normalized values. */
   void
   SetLineFittingModeToNormalizedValues()
   {
     this->SetLineFittingMode(LINE_FITTING_MODE_NORMALIZED);
   }
 
+  /** Set line fitting mode to scaled values. */
   void
   SetLineFittingModeToScaledValues()
   {
     this->SetLineFittingMode(LINE_FITTING_MODE_SCALED);
   }
 
-  /** Enumerate for the different multi-resolution stop criterion strategies. */
+  /** Enumerate for the different multi resolution policies. */
   enum MultiResolutionPolicy
   {
     MULTI_RESOLUTION_POLICY_DEFAULT = 0,
@@ -156,7 +187,14 @@ public:
     MULTI_RESOLUTION_POLICY_GRADUATED = 2
   };
 
-  /** Set the multi resolution policy. */
+  /** Set the multi resolution policy. Three different multi resolution policies
+   * are provided:
+   * - Default: Don't change criterion depending on the multi resolution level
+   * - Simple graduated: Line fitting and increase count check on finest level,
+   *   only increase count check on other levels
+   * - Graduated: Line fitting and increase count check on finest level,
+   *   only increase count check on second finest level, no check (maximum number
+   *   of iterations) on other levels */
   itkSetEnumMacro(MultiResolutionPolicy, MultiResolutionPolicy);
 
   /** Get the multi resolution policy. */
