@@ -286,7 +286,6 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 {
   typedef typename PointType::ValueType           PointValueType;
   typedef typename OutputType::ValueType          DerivativeValueType;
-  typedef typename ContinuousIndexType::ValueType ContinuousIndexValueType;
 
   PointType neighPoint1 = point;
   PointType neighPoint2 = point;
@@ -354,8 +353,6 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 ::EvaluateSpecialized(const PointType & point, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const
 {
   typedef typename PointType::ValueType           PointValueType;
-  typedef typename OutputType::ValueType          DerivativeValueType;
-  typedef typename ContinuousIndexType::ValueType ContinuousIndexValueType;
 
   const InputImageType *inputImage = this->GetInputImage();
   const unsigned int numberComponents = inputImage->GetNumberOfComponentsPerPixel();

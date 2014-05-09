@@ -239,7 +239,6 @@ ImageToHistogramFilter< TImage >
   for( unsigned int i=1; i<m_Histograms.size(); i++ )
     {
     typedef typename HistogramType::ConstIterator         HistogramIterator;
-    typedef typename HistogramType::AbsoluteFrequencyType AbsoluteFrequencyType;
 
     HistogramIterator hit = m_Histograms[i]->Begin();
     HistogramIterator end = m_Histograms[i]->End();

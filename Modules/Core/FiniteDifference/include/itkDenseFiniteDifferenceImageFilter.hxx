@@ -230,9 +230,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ThreadedCalculateChange(const ThreadRegionType & regionToProcess, ThreadIdType)
 {
-  typedef typename OutputImageType::RegionType                    RegionType;
   typedef typename OutputImageType::SizeType                      SizeType;
-  typedef typename OutputImageType::IndexType                     IndexType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType NeighborhoodIteratorType;
 
   typedef ImageRegionIterator< UpdateBufferType > UpdateIteratorType;

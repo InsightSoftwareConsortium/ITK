@@ -468,7 +468,6 @@ void
 Versor< T >
 ::Set(const VectorType & axis)
 {
-  typedef typename VectorType::RealValueType VectorRealValueType;
   const ValueType sinangle2 =  axis.GetNorm();
   if ( sinangle2 > NumericTraits< ValueType >::One )
     {
