@@ -12,8 +12,8 @@ set(
    Information on the implementation can be found in:
 
    Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:
-   A Flexible Variational Registration Framework, Insight Journal, 2014"
-  # TODO Add ITK IJ handle
+   A Flexible Variational Registration Framework, Insight Journal, 2014
+   http://hdl.handle.net/10380/3460"
 )
 
 itk_module(

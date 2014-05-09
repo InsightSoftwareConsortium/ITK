@@ -69,6 +69,7 @@ namespace itk
  *  For details see:
  *    - Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:
  *      <i>A Flexible Variational Registration Framework</i>, Insight Journal, 2014
+ *      http://hdl.handle.net/10380/3460
  *    - Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
  *      <i>Estimation of lung motion fields in 4D CT data by variational non-linear
  *      intensity-based registration: A comparison and evaluation study</i>,
