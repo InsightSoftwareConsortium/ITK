@@ -33,7 +33,9 @@ extern "C"
 #include "getopt.h"
 }
 
-#define ExceptionMacro(x) std::cerr << "ERROR: " x << std::endl;
+#define ExceptionMacro(x)                \
+  std::cerr << "ERROR: " x << std::endl; \
+  return EXIT_FAILURE;
 
 // Project includes:
 #include "itkConfigure.h"
@@ -178,7 +180,7 @@ main(int argc, char * argv[])
   }
   catch (itk::ExceptionObject & error)
   {
-    std::cerr << "Error during registration of required factories: " << error << std::endl;
+    ExceptionMacro("Error during registration of required factories: " << error);
   }
 
   std::cout << "==========================================" << std::endl;
@@ -304,7 +306,6 @@ main(int argc, char * argv[])
         else
         {
           ExceptionMacro("Search space unknown!");
-          return EXIT_FAILURE;
         }
         break;
       case 'u':
@@ -373,7 +374,6 @@ main(int argc, char * argv[])
         else
         {
           ExceptionMacro("Force type unknown!");
-          return EXIT_FAILURE;
         }
         break;
       case 'd':
@@ -393,7 +393,6 @@ main(int argc, char * argv[])
         else
         {
           ExceptionMacro("Force domain unknown!");
-          return EXIT_FAILURE;
         }
         break;
       case 'p':
@@ -469,12 +468,10 @@ main(int argc, char * argv[])
   if (fixedImageFilename == NULL || movingImageFilename == NULL)
   {
     ExceptionMacro(<< "No input fixed and/or moving image given!");
-    return EXIT_FAILURE;
   }
   if (outputDisplacementFilename == NULL && warpedImageFilename == NULL)
   {
     ExceptionMacro(<< "No output (deformation field or warped image) given!");
-    return EXIT_FAILURE;
   }
 
   //////////////////////////////////////////////
@@ -530,7 +527,6 @@ main(int argc, char * argv[])
   if (fixedImage.IsNull() || movingImage.IsNull())
   {
     ExceptionMacro(<< "Fixed or moving image data is null");
-    return EXIT_FAILURE;
   }
 
   if (maskImageFilename != NULL)
@@ -547,7 +543,6 @@ main(int argc, char * argv[])
     if (maskImage.IsNull())
     {
       ExceptionMacro(<< "Mask image data is null");
-      return EXIT_FAILURE;
     }
   }
   if (initialFieldFilename != NULL)
@@ -563,7 +558,6 @@ main(int argc, char * argv[])
     if (initialField.IsNull())
     {
       ExceptionMacro(<< "Initial deformation field is null");
-      return EXIT_FAILURE;
     }
   }
 
@@ -597,7 +591,6 @@ main(int argc, char * argv[])
     catch (itk::ExceptionObject & err)
     {
       ExceptionMacro(<< "Could not match input images!");
-      return EXIT_FAILURE;
     }
 
     movingImage = matcher->GetOutput();
