@@ -18,7 +18,6 @@ createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module
 #
 #####################################
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
-set(INPUTDIR ${${itk-module}_SOURCE_DIR}/test/Input)
 
 itk_add_test(
   NAME VariationalRegistrationFilterTest
@@ -40,9 +39,9 @@ itk_add_test(
 set(
   COMMON_PARAMS2D
   -F
-  ${INPUTDIR}/img1.png
+  DATA{Input/img1.png}
   -M
-  ${INPUTDIR}/img2.png
+  DATA{Input/img2.png}
   -l
   4
   -p
@@ -52,7 +51,7 @@ set(
 )
 
 # Print help test
-set(TESTNAME VariationalRegistrationPrintHelpTest)
+set(TESTNAME VariationalRegistration2DPrintHelpTest)
 itk_add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -267,6 +266,16 @@ set(
   1
   -g
   0.00001
+)
+
+# Print help test
+set(TESTNAME VariationalRegistration3DPrintHelpTest)
+itk_add_test(
+  NAME ${TESTNAME}
+  COMMAND
+    itkTestDriver
+    $<TARGET_FILE:VariationalRegistration>
+    -?
 )
 
 # Active Thirion forces and gaussian smoothing
