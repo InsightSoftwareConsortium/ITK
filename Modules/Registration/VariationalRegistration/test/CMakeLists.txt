@@ -64,7 +64,7 @@ itk_add_test(
     -?
 )
 
-# Active Thirion forces and gaussian smoothing
+# Active Thirion forces and gaussian smoothing, test 3D output
 set(TESTNAME VariationalRegistrationGaussian2DTest)
 itk_add_test(
   NAME ${TESTNAME}
@@ -83,6 +83,9 @@ itk_add_test(
     0
     -W
     ${TEMP}/${TESTNAME}.tif
+    -3
+    -O
+    ${TEMP}/${TESTNAME}.mha
 )
 
 # Active Thirion forces and diffusive regularization
