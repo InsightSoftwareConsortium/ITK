@@ -23,12 +23,14 @@
  *    - Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:
  *      <i>A Flexible Variational Registration Framework</i>, Insight Journal, 2014
  *    - Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
- *      <i>Estimation of lung motion fields in 4D CT data by variational non-linear intensity-based registration:
- *      A comparison and evaluation study</i>, Phys. Med. Biol., 2014
+ *      <i>Estimation of lung motion fields in 4D CT data by variational non-linear
+ *      intensity-based registration: A comparison and evaluation study</i>,
+ *      Phys. Med. Biol., 2014
  *    - Jan Ehrhardt, Rene Werner, Alexander Schmidt-Richberg and Heinz Handels:
- *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic image registration.</i>
- *      IEEE Trans. Med. Imaging, 30(2), 2011
+ *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
+ *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
+
 //
 // Add -DUSE_2D_IMPL as COMPILE_FLAG to generate 2D version.
 //
