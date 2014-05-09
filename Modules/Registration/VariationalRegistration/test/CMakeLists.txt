@@ -260,9 +260,9 @@ itk_add_test(
 set(
   COMMON_PARAMS3D
   -F
-  ${INPUTDIR}/10-P_5x5x5.nii.gz
+  DATA{Input/10-P_5x5x5.nii.gz}
   -M
-  ${INPUTDIR}/60-P_5x5x5.nii.gz
+  DATA{Input/60-P_5x5x5.nii.gz}
   -l
   3
   -p
