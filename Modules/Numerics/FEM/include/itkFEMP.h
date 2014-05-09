@@ -19,6 +19,7 @@
 #define __itkFEMP_h
 
 #include <iostream>
+#include "itkMacro.h"
 
 namespace itk
 {
