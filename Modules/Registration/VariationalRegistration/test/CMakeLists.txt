@@ -51,6 +51,16 @@ set(
   0.00001
 )
 
+# Print help test
+set(TESTNAME VariationalRegistrationPrintHelpTest)
+itk_add_test(
+  NAME ${TESTNAME}
+  COMMAND
+    itkTestDriver
+    $<TARGET_FILE:VariationalRegistration2D>
+    -?
+)
+
 # Active Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationGaussian2DTest)
 itk_add_test(
