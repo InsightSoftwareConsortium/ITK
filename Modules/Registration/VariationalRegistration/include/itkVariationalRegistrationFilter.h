@@ -155,8 +155,10 @@ public:
   typedef typename RegularizerType::Pointer                                  RegularizerPointer;
   typedef VariationalRegistrationDiffusionRegularizer<DisplacementFieldType> DefaultRegularizerType;
 
-  /** Set/Get the regularizer. */
+  /** Set the regularizer. */
   itkSetObjectMacro(Regularizer, RegularizerType);
+
+  /** Get the regularizer. */
   itkGetConstReferenceObjectMacro(Regularizer, RegularizerType);
 
   /** Set the fixed image. */
@@ -204,20 +206,37 @@ public:
   virtual std::vector<SmartPointer<DataObject>>::size_type
   GetNumberOfValidRequiredInputs() const;
 
-  /** Set/Get whether the deformation field is smoothed
+  /** Set that the deformation field is smoothed
    * (regularized). Smoothing the deformation yields a solution
    * elastic in nature. If SmoothDisplacementField is on, then the
-   * deformation field is smoothed using the DenseRegistrationRegularizer. */
-  itkSetMacro(SmoothDisplacementField, bool);
-  itkGetConstMacro(SmoothDisplacementField, bool);
+   * deformation field is smoothed using the VariationalRegistrationRegularizer. */
   itkBooleanMacro(SmoothDisplacementField);
+
+  /** Set whether the deformation field is smoothed
+   * (regularized). Smoothing the deformation yields a solution
+   * elastic in nature. If SmoothDisplacementField is on, then the
+   * deformation field is smoothed using the VariationalRegistrationRegularizer. */
+  itkSetMacro(SmoothDisplacementField, bool);
+
+  /** Set that the update field is smoothed (regularized). Smoothing the
+   * update field yields a solution viscous in nature. If SmoothUpdateField is
+   * on, then the update field is smoothed using the VariationalRegistrationRegularizer. */
+  itkGetConstMacro(SmoothDisplacementField, bool);
+
+  /** Set whether the update field is smoothed (regularized). Smoothing the
+   * update field yields a solution viscous in nature. If SmoothUpdateField is
+   * on, then the update field is smoothed using the VariationalRegistrationRegularizer. */
+  itkSetMacro(SmoothUpdateField, bool);
 
   /** Set/Get whether the update field is smoothed
    * (regularized). Smoothing the update field yields a solution
    * viscous in nature. If SmoothUpdateField is on, then the
-   * update field is smoothed using the DenseRegistrationRegularizer. */
-  itkSetMacro(SmoothUpdateField, bool);
+   * update field is smoothed using the VariationalRegistrationRegularizer. */
   itkGetConstMacro(SmoothUpdateField, bool);
+
+  /** Get whether the update field is smoothed (regularized). Smoothing the
+   * update field yields a solution viscous in nature. If SmoothUpdateField is
+   * on, then the update field is smoothed using the VariationalRegistrationRegularizer. */
   itkBooleanMacro(SmoothUpdateField);
 
   /** Get the metric value. The metric value is the mean square difference
@@ -237,6 +256,8 @@ public:
 protected:
   VariationalRegistrationFilter();
   ~VariationalRegistrationFilter() {}
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

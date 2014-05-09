@@ -34,8 +34,8 @@ namespace itk
  *  Positions mapped to outside of the input image buffer are assigned
  *  the value of the next boundary pixel in the image.
  *
- *  The input image is set via SetInput. The input displacement field
- *  is set via SetDisplacementField.
+ *  The input image is set via SetInput(). The input displacement field
+ *  is set via SetDisplacementField().
  *
  *  This filter is implemented as a multithreaded filter.
  *

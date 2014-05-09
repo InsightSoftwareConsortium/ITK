@@ -582,7 +582,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
 }
 
 /*
- * Print status information
+ * Calculate the index in the complex image for a given offset.
  */
 template <class TDisplacementField>
 typename VariationalRegistrationElasticRegularizer<TDisplacementField>::DisplacementFieldType::IndexType

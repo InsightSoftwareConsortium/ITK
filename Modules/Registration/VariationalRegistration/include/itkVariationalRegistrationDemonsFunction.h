@@ -113,27 +113,29 @@ public:
                 void *                   globalData,
                 const FloatOffsetType &  offset = FloatOffsetType(0.0));
 
-  /** Select if the fixed image or warped image gradient is used for
-   * computing the demon forces. The warped image gradient is used by default. */
+  /** Select that the fixed image gradient is used for computing the forces. */
   virtual void
   SetGradientTypeToFixedImage()
   {
     m_GradientType = GRADIENT_TYPE_FIXED;
   }
 
+  /** Select that the warped image gradient is used for computing the forces. */
   virtual void
   SetGradientTypeToWarpedMovingImage()
   {
     m_GradientType = GRADIENT_TYPE_WARPED;
   }
 
+  /** Select that fixed and warped image gradients are used for computing the
+   *  forces. */
   virtual void
   SetGradientTypeToSymmetric()
   {
     m_GradientType = GRADIENT_TYPE_SYMMETRIC;
   }
 
-  /** Set/Get the threshold below which the absolute difference of
+  /** Set the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
@@ -142,6 +144,11 @@ public:
   {
     m_IntensityDifferenceThreshold = threshold;
   }
+
+  /** Get the threshold below which the absolute difference of
+   * intensity yields a match. When the intensities match between a
+   * moving and fixed image pixel, the update vector (for that
+   * iteration) will be the zero vector. */
   virtual double
   GetIntensityDifferenceThreshold() const
   {
@@ -154,6 +161,7 @@ protected:
 
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

@@ -89,6 +89,8 @@ public:
 protected:
   VariationalRegistrationDiffusionRegularizer();
   ~VariationalRegistrationDiffusionRegularizer() {}
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

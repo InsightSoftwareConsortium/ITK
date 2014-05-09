@@ -90,19 +90,27 @@ public:
    * the displacement field. */
   itkGetConstReferenceMacro(StandardDeviations, StandardDeviationsType);
 
-  /** Set/Get the desired maximum error of the Gaussian kernel approximate.
+  /** Set the desired maximum error of the Gaussian kernel approximate.
    * \sa GaussianOperator. */
   itkSetMacro(MaximumError, double);
+
+  /** Get the desired maximum error of the Gaussian kernel approximate.
+   * \sa GaussianOperator. */
   itkGetConstMacro(MaximumError, double);
 
-  /** Set/Get the desired limits of the Gaussian kernel width.
+  /** Set the desired limits of the Gaussian kernel width.
    * \sa GaussianOperator. */
   itkSetMacro(MaximumKernelWidth, unsigned int);
+
+  /** Get the desired limits of the Gaussian kernel width.
+   * \sa GaussianOperator. */
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
 
 protected:
   VariationalRegistrationGaussianRegularizer();
   ~VariationalRegistrationGaussianRegularizer() {}
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

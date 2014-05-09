@@ -50,12 +50,12 @@ namespace itk
  * VariationalRegistrationRegularizer. The exponentiation of the velocity field \f$ \phi(x)=exp(v(x))\f$ is done using
  * the ExponentialDisplacementFieldImageFilter.
  *
- *  You can set SmoothUpdateField to smooth the velocity field before exponentiation.
+ *  You can set SmoothUpdateField() to smooth the velocity field before exponentiation.
  *
+ *  \sa VariationalRegistrationFilter
  *  \sa VariationalRegistrationFunction
  *  \sa VariationalRegistrationRegularizer
  *  \sa ExponentialDisplacementFieldImageFilter
- *  \sa VariationalRegistrationFilter
  *  \sa DenseFiniteDifferenceImageFilter
  *
  *  \ingroup VariationalRegistration
@@ -123,8 +123,10 @@ public:
   /** The value type of a time step.  Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** Set/Get the desired number of iterations for the exponentiator. */
+  /** Set the desired number of iterations for the exponentiator. */
   itkSetMacro(NumberOfExponentiatorIterations, unsigned int);
+
+  /** Get the desired number of iterations for the exponentiator. */
   itkGetConstMacro(NumberOfExponentiatorIterations, unsigned int);
 
   /** Set initial deformation field. \warning This can't be used for diffeomorphic registration.*/
@@ -155,6 +157,8 @@ public:
 protected:
   VariationalDiffeomorphicRegistrationFilter();
   ~VariationalDiffeomorphicRegistrationFilter() {}
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -175,8 +179,10 @@ protected:
   typedef itk::ExponentialDisplacementFieldImageFilter<DisplacementFieldType, DisplacementFieldType>
     FieldExponentiatorType;
 
+  /** Typename for the exponentiator. */
   typedef typename FieldExponentiatorType::Pointer FieldExponentiatorPointer;
 
+  /** Get the exponentiator used to compute a displacement from a velocity field. */
   virtual FieldExponentiatorPointer
   GetExponentiator()
   {

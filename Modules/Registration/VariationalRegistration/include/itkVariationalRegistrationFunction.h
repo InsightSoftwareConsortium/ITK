@@ -237,6 +237,8 @@ public:
 protected:
   VariationalRegistrationFunction();
   ~VariationalRegistrationFunction() {}
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

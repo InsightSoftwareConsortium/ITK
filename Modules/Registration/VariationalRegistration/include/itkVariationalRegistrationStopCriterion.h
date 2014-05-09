@@ -31,20 +31,20 @@ namespace itk
  *
  *  A flexible stop criterion for the variational registration framework.
  *
- *  \par This stop criterion is realised as an observer for the
+ *  This stop criterion is realised as an observer for the
  *  itkVariationalRegistrationFilter and
  *  itkVariationalRegistrationMultiResolutionFilter.
  *  It allows testing for
  *    - Number of increase counts for the associated metric
  *    - Slope of a line fitted to the last metric values
  *
- *  \par For the line fitting, three different modes can be chosen:
+ *  For the line fitting, three different modes can be chosen:
  *    - Original: Metric values are used as they are provided by the registration
  *      filter
  *    - Normalized: [min,max] are scaled to [0,1]
  *    - Scaled: [0,max] are scaled to [0,1]
  *
- *  \par In multi resolution settings, it can be useful to use different stopping
+ *  In multi resolution settings, it can be useful to use different stopping
  *  criteria for each MR level. Therefore, different multi resolution policies
  *  can be chosen:
  *    - Default: Don't change criterion depending on the multi resolution level
@@ -242,6 +242,8 @@ public:
 protected:
   VariationalRegistrationStopCriterion();
   ~VariationalRegistrationStopCriterion();
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

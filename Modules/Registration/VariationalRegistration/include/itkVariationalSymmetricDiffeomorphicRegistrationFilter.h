@@ -60,11 +60,11 @@ namespace itk
  *
  *  You can set SmoothUpdateField to smooth the velocity field before exponentiation.
  *
+ *  \sa VariationalRegistrationFilter
+ *  \sa VariationalDiffeomorphicRegistrationFilter
  *  \sa VariationalRegistrationFunction
  *  \sa VariationalRegistrationRegularizer
  *  \sa ExponentialDisplacementFieldImageFilter
- *  \sa VariationalDiffeomorphicRegistrationFilter
- *  \sa VariationalRegistrationFilter
  *  \sa DenseFiniteDifferenceImageFilter
  *
  *  \ingroup VariationalRegistration
@@ -139,6 +139,8 @@ public:
 protected:
   VariationalSymmetricDiffeomorphicRegistrationFilter();
   ~VariationalSymmetricDiffeomorphicRegistrationFilter() {}
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

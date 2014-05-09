@@ -96,17 +96,23 @@ public:
 
   typedef typename fftw::Proxy<RealTypeFFT> FFTWProxyType;
 
-  /** Set/Get the regularization weight lambda */
+  /** Set the regularization weight lambda. */
   itkSetMacro(Lambda, ValueType);
+
+  /** Get the regularization weight lambda. */
   itkGetConstMacro(Lambda, ValueType);
 
-  /** Set/Get the regularization weight mu */
+  /** Set the regularization weight mu. */
   itkSetMacro(Mu, ValueType);
+
+  /** Get the regularization weight mu. */
   itkGetConstMacro(Mu, ValueType);
 
 protected:
   VariationalRegistrationElasticRegularizer();
   ~VariationalRegistrationElasticRegularizer() {}
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -144,6 +150,7 @@ protected:
   virtual void
   ThreadedSolveElasticLES(OffsetValueType from, OffsetValueType to);
 
+  /** Calculate the offset in the complex image. */
   typename DisplacementFieldType::IndexType
   CalculateComplexImageIndex(OffsetValueType offset);
 

@@ -122,20 +122,22 @@ public:
                 void *                   globalData,
                 const FloatOffsetType &  offset = FloatOffsetType(0.0));
 
-  /** Select if the fixed image or warped image gradient is used for
-   * computing the forces. The fixed image gradient is used by default. */
+  /** Select that the fixed image gradient is used for computing the forces. */
   virtual void
   SetGradientTypeToFixedImage()
   {
     m_GradientType = GRADIENT_TYPE_FIXED;
   }
 
+  /** Select that the warped image gradient is used for computing the forces. */
   virtual void
   SetGradientTypeToWarpedMovingImage()
   {
     m_GradientType = GRADIENT_TYPE_WARPED;
   }
 
+  /** Select that fixed and warped image gradients are used for computing the
+   *  forces. */
   virtual void
   SetGradientTypeToSymmetric()
   {
@@ -151,6 +153,8 @@ public:
 protected:
   VariationalRegistrationNCCFunction();
   ~VariationalRegistrationNCCFunction() {}
+
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

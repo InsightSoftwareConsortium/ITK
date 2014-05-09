@@ -70,15 +70,20 @@ public:
 
   typedef typename NumericTraits<PixelType>::ValueType ValueType;
 
-  /** Set/Get whether the image spacing should be considered or not */
+  /** Set whether the image spacing should be considered or not */
   itkSetMacro(UseImageSpacing, bool);
+
+  /** Get whether the image spacing is considered or not */
   itkGetConstMacro(UseImageSpacing, bool);
+
+  /** Set whether the image spacing should be considered or not */
   itkBooleanMacro(UseImageSpacing);
 
 protected:
   VariationalRegistrationRegularizer();
   ~VariationalRegistrationRegularizer() {}
 
+  /** Print information about the filter. */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
