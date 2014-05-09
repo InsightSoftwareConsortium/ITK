@@ -27,6 +27,7 @@
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration8RegisteredSlice.png}
 //  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{VersorRigid3DTransform}
@@ -35,12 +36,11 @@
 // center and translation of the transform.  The case of rigid registration of
 // 3D images is probably one of the most commonly found cases of image registration.
 //
-//
 // \index{itk::Versor\-Rigid3D\-Transform}
 // \index{itk::Centered\-Transform\-Initializer!In 3D}
 //
-//
 // Software Guide : EndLatex
+
 #include "itkImageRegistrationMethodv4.h"
 #include "itkMeanSquaresImageToImageMetricv4.h"
 
@@ -52,35 +52,38 @@
 //  \index{itk::Centered\-Transform\-Initializer!header}
 //
 //  Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 // Software Guide : EndCodeSnippet
+
 //  Software Guide : BeginLatex
 //
 //  The parameter space of the \code{VersorRigid3DTransform} is not a vector
 //  space, due to the fact that addition is not a closed operation in the space
-//  of versor components. This precluded the use of standard gradient descent
-//  algorithms for optimizing the parameter space of this transform in ITKv3,
-//  and a special optimizer \doxygen{VersorRigid3DTransformOptimizer} was used
-//  in registration configuration.
-//  This optimizer was a varient implementation of the gradient descent optimizer
-//  and was using Versor composition for updating the first three components of the
-//  parameters array, and Vector addition for updating the last three components of
-//  the parameters array~\cite{Hamilton1866,Joly1905}.
-//  However, in ITKv4 framework, the task of updating parameters is delegated to the
-//  transforms themselves using the "UpdateTransformParameters" function.
-//  This function is implemented in \code{Transform} class as a virtual function,
-//  and each derived transform class can have its specefic implemenation.
-//  In the \code{VersorRigid3DTransform} the updating function is reimplemented using
-//  versor composition for the rotation parameters.
+//  of versor components. Hence, we need to use Versor composition operation to
+//  update the first three components of the parameter array (rotation parameters),
+//  and Vector addition for updating the last three components of the parameters
+//  array (translation parameters)~\cite{Hamilton1866,Joly1905}.
 //
-//  \index{itk::Versor\-Rigid3D\-Transform\-Optimizer!header}
+//  In previous version of ITK, a special optimizer \doxygen{VersorRigid3DTransformOptimizer}
+//  was needed to be used in registration configuration to deal with the versor computations.
+//  However, in ITKv4, fortunately the \doxygen{RegularStepGradientDescentOptimizerv4}
+//  can be used for both vector and versor transforms optimization since in the new
+//  registration framework the task of updating parameters is delegated to the
+//  transforms themselves. The "UpdateTransformParameters" function is implemented
+//  in \doxygen{Transform} class as a virtual function, and all the derived transform
+//  classes can have their own specific implementations of this function. Due to this
+//  fact, the updating function can be re-implemented for the versor transforms in such
+//  a way that cab be able to handle the versor composition of the ratation parameters.
 //
 //  Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
-#include "itkVersorTransformOptimizerv4.h"
+#include "itkRegularStepGradientDescentOptimizerv4.h"
 // Software Guide : EndCodeSnippet
+
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
@@ -105,8 +108,8 @@ protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::VersorTransformOptimizerv4      OptimizerType;
-  typedef   const OptimizerType *              OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
+  typedef   const OptimizerType *                             OptimizerPointer;
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
     Execute( (const itk::Object *)caller, event);
@@ -154,15 +157,19 @@ int main( int argc, char *argv[] )
   //  \index{itk::Versor\-Rigid3D\-Transform!Instantiation}
   //
   //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::VersorRigid3DTransform< double > TransformType;
   // Software Guide : EndCodeSnippet
-  typedef itk::VersorTransformOptimizerv4                                         OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetricv4< FixedImageType, MovingImageType > MetricType;
+
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>    OptimizerType;
+  typedef itk::MeanSquaresImageToImageMetricv4<
+                                            FixedImageType,
+                                            MovingImageType >   MetricType;
   typedef itk::ImageRegistrationMethodv4<
-                                        FixedImageType,
-                                        MovingImageType,
-                                        TransformType >                           RegistrationType;
+                                      FixedImageType,
+                                      MovingImageType,
+                                      TransformType >           RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -171,46 +178,31 @@ int main( int argc, char *argv[] )
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
 
-  // One level registration is performed using the shrink factor 1 and smoothing sigma 1
-
-  const unsigned int numberOfLevels = 1;
-
-  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
-  shrinkFactorsPerLevel.SetSize( 1 );
-  shrinkFactorsPerLevel[0] = 1;
-
-  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
-  smoothingSigmasPerLevel.SetSize( 1 );
-  smoothingSigmasPerLevel[0] = 0;
-
-  registration->SetNumberOfLevels( numberOfLevels );
-  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
-  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
-
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed below, and it points to the
-  //  registration method transform. This transform will be initialized using
-  //  \doxygen{CenteredTransformInitializer}.
+  //  The initial transform object is constructed below. This transform will be initialized,
+  //  and its initial parameters will be considered as the parameters to be used when
+  //  the registration process starts.
   //
-  //  \index{itk::Versor\-Rigid3D\-Transform!New()}
   //  \index{itk::Versor\-Rigid3D\-Transform!Pointer}
-  //  \index{itk::Registration\-Method!SetTransform()}
   //
   //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
-    // transform will be the output of the registration
-  TransformType::Pointer  transform = const_cast<TransformType *>( registration->GetOutput()->Get() );
+  TransformType::Pointer  initialTransform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
+
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
+
 
   //  Software Guide : BeginLatex
   //
@@ -218,7 +210,7 @@ int main( int argc, char *argv[] )
   //  explicitly call \code{Update()} on the readers since the
   //  \doxygen{CenteredTransformInitializer} will do it as part of its
   //  computations. The following code instantiates the type of the
-  //  initializer. This class is templated over the fixed and moving image type
+  //  initializer. This class is templated over the fixed and moving image types
   //  as well as the transform type. An initializer is then constructed by
   //  calling the \code{New()} method and assigning the result to a smart
   //  pointer.
@@ -228,12 +220,16 @@ int main( int argc, char *argv[] )
   // \index{itk::Centered\-Transform\-Initializer!SmartPointer}
   //
   //  Software Guide : EndLatex
+
+
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer< TransformType,
                                              FixedImageType,
                                              MovingImageType >  TransformInitializerType;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  TransformInitializerType::Pointer initializer =
+                                          TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
+
 
   //  Software Guide : BeginLatex
   //
@@ -243,10 +239,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  initializer->SetTransform(   transform );
+  initializer->SetTransform(   initialTransform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
+
+
   //  Software Guide : BeginLatex
   //
   //  The use of the geometrical centers is selected by calling
@@ -257,6 +255,7 @@ int main( int argc, char *argv[] )
   //  \index{Centered\-Transform\-Initializer!GeometryOn()}
   //
   //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   initializer->MomentsOn();
   // Software Guide : EndCodeSnippet
@@ -273,6 +272,7 @@ int main( int argc, char *argv[] )
   initializer->InitializeTransform();
   // Software Guide : EndCodeSnippet
 
+
   //  Software Guide : BeginLatex
   //
   //  The rotation part of the transform is initialized using a
@@ -284,6 +284,7 @@ int main( int argc, char *argv[] )
   //  rotation axis and an angle.
   //
   //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef TransformType::VersorType  VersorType;
   typedef VersorType::VectorType     VectorType;
@@ -294,18 +295,23 @@ int main( int argc, char *argv[] )
   axis[2] = 1.0;
   const double angle = 0;
   rotation.Set(  axis, angle  );
-  transform->SetRotation( rotation );
+  initialTransform->SetRotation( rotation );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  //  We now pass the parameters of the current transform as the initial
-  //  parameters to be used when the registration process starts.
+  //  Now the current parameters of the initial transform will be set
+  //  to the registration method, so they can be assigned to the optimizable
+  //  tranaform directly.
   //
   //  Software Guide : EndLatex
 
+  // Software Guide : BeginCodeSnippet
+  registration->InitializeOutputTransformFromReference( initialTransform );
+  // Software Guide : EndCodeSnippet
+
   typedef OptimizerType::ScalesType       OptimizerScalesType;
-  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales( initialTransform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
   optimizerScales[0] = 1.0;
   optimizerScales[1] = 1.0;
@@ -314,17 +320,31 @@ int main( int argc, char *argv[] )
   optimizerScales[4] = translationScale;
   optimizerScales[5] = translationScale;
   optimizer->SetScales( optimizerScales );
-  optimizer->SetMaximumStepSizeInPhysicalUnits( 0.2000  );
   optimizer->SetNumberOfIterations( 200 );
   optimizer->SetLearningRate( 0.2 );
-  optimizer->SetConvergenceWindowSize( 5 );
-  optimizer->SetMinimumConvergenceValue( 1e-3 );
+  optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetReturnBestParametersAndValue(true);
 
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
+
+  // One level registration process without shrinking and smoothing.
+  //
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
   try
     {
@@ -342,8 +362,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const OptimizerType::ParametersType finalParameters =
-                                          transform->GetParameters();
+  const TransformType::ParametersType finalParameters =
+                            registration->GetOutput()->Get()->GetParameters();
 
   const double versorX              = finalParameters[0];
   const double versorY              = finalParameters[1];
@@ -369,12 +389,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's execute this example over some of the images available in the ftp
-  //  site
+  //  Let's execute this example over some of the images available in the
+  //  following website
   //
-  //  \url{ftp://public.kitware.com/pub/itk/Data/BrainWeb}
+  //  \url{http://public.kitware.com/pub/itk/Data/BrainWeb}
   //
-  //  Note that the images in the ftp site are compressed in \code{.tgz} files.
+  //  Note that the images in this website are compressed in \code{.tgz} files.
   //  You should download these files an uncompress them in your local system.
   //  After decompressing and extracting the files you could take a pair of
   //  volumes, for example the pair:
@@ -385,20 +405,25 @@ int main( int argc, char *argv[] )
   //  \end{itemize}
   //
   //  The second image is the result of intentionally rotating the first image
-  //  by $10$ degrees around the origin and shifting it $15mm$ in $X$.  The
-  //  registration takes $24$ iterations and produces:
+  //  by $10$ degrees around the origin and shifting it $15mm$ in $X$.
+  //
+  //  Also, instead of doing the above steps manually, you can turn on the
+  //  "ITK_USE_BRAINWEB_DATA" flag in your build environment. Then, the above
+  //  data will be loaded to your local build directory.
+  //
+  //  The registration takes $21$ iterations and produces:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [-6.03744e-05, 5.91487e-06, -0.0871932, 2.64659, -17.4637, -0.00232496]
+  //  [7.2295e-05, -7.20626e-05, -0.0872168, 2.64765, -17.4626, -0.00147153]
   //  \end{verbatim}
   //  \end{center}
   //
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Versor        = $(-6.03744e-05, 5.91487e-06, -0.0871932)$
-  //  \item Translation   = $(2.64659,  -17.4637,  -0.00232496)$ millimeters
+  //  \item Versor        = $(7.2295e-05, -7.20626e-05, -0.0872168)$
+  //  \item Translation   = $(2.64765,  -17.4626,  -0.00147153)$ millimeters
   //  \end{itemize}
   //
   //  This Versor is equivalent to a rotation of $9.98$ degrees around the $Z$
@@ -414,9 +439,15 @@ int main( int argc, char *argv[] )
   //  rotation matrix and offset resulting form the $6$ parameters.
   //
   //  Software Guide : EndLatex
+
+  TransformType::Pointer finalTransform = TransformType::New();
+
+  finalTransform->SetFixedParameters( registration->GetOutput()->Get()->GetFixedParameters() );
+  finalTransform->SetParameters( finalParameters );
+
   // Software Guide : BeginCodeSnippet
-  TransformType::MatrixType matrix = transform->GetMatrix();
-  TransformType::OffsetType offset = transform->GetOffset();
+  TransformType::MatrixType matrix = finalTransform->GetMatrix();
+  TransformType::OffsetType offset = finalTransform->GetOffset();
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;
   // Software Guide : EndCodeSnippet
@@ -428,18 +459,18 @@ int main( int argc, char *argv[] )
   //  \begin{center}
   //  \begin{verbatim}
   //  Matrix =
-  //      0.984795 0.173722 2.23132e-05
-  //      -0.173722 0.984795 0.000119257
-  //      -1.25621e-06 -0.00012132 1
+  //      0.984786 0.173769 -0.000156187
+  //      -0.173769 0.984786 -0.000131469
+  //      0.000130965 0.000156609 1
   //
   //  Offset =
-  //      [-15.0105, -0.00672343, 0.0110854]
+  //      [-15, 0.0189186, -0.0305439]
   //  \end{verbatim}
   //  \end{center}
   //
   //  From the rotation matrix it is possible to deduce that the rotation is
   //  happening in the X,Y plane and that the angle is on the order of
-  //  $\arcsin{(0.173722)}$ which is very close to 10 degrees, as we expected.
+  //  $\arcsin{(0.173769)}$ which is very close to 10 degrees, as we expected.
   //
   //  Software Guide : EndLatex
 
@@ -500,9 +531,10 @@ int main( int argc, char *argv[] )
   //  registration are plotted at every iteration too.
   //
   //  Shell and Gnuplot scripts for generating the diagrams in
-  //  Figure~\ref{fig:ImageRegistration8Plots} are available in the directory
+  //  Figure~\ref{fig:ImageRegistration8Plots} are available in the \code{ITKSoftwareGuide}
+  //  module under the directory
   //
-  //  \code{InsightDocuments/SoftwareGuide/Art}
+  //  \code{SoftwareGuide/Art}
   //
   //  You are strongly encouraged to run the example code, since only in this
   //  way you can gain a first hand experience with the behavior of the
@@ -520,14 +552,14 @@ int main( int argc, char *argv[] )
   typedef itk::ResampleImageFilter<
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
-  TransformType::Pointer finalTransform = TransformType::New();
-  finalTransform->SetCenter( transform->GetCenter() );
-  finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
+
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+
   resampler->SetTransform( finalTransform );
   resampler->SetInput( movingImageReader->GetOutput() );
+
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+
   resampler->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
@@ -558,12 +590,16 @@ int main( int argc, char *argv[] )
                                   FixedImageType,
                                   OutputImageType >   RescalerType;
   RescalerType::Pointer intensityRescaler = RescalerType::New();
+
   intensityRescaler->SetInput( difference->GetOutput() );
   intensityRescaler->SetOutputMinimum(   0 );
   intensityRescaler->SetOutputMaximum( 255 );
+
   difference->SetInput1( fixedImageReader->GetOutput() );
   difference->SetInput2( resampler->GetOutput() );
+
   resampler->SetDefaultPixelValue( 1 );
+
   WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput( intensityRescaler->GetOutput() );
 
@@ -603,6 +639,7 @@ int main( int argc, char *argv[] )
                                fixedImage->GetLargestPossibleRegion();
   FixedImageType::SizeType  size  = inputRegion.GetSize();
   FixedImageType::IndexType start = inputRegion.GetIndex();
+
   // Select one slice as output
   size[2]  =  0;
   start[2] = 90;
