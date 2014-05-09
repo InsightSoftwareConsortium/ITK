@@ -49,12 +49,27 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DCMTKImageIO, ImageIOBase);
 
+  /** enum for DCMTK log level.  These are defined here without
+   *  reference to DCMTK library enumerations, to avoid including
+   * dcmtk headers in this header.
+   */
+  enum LogLevel
+  {
+    TRACE_LOG_LEVEL = 0,
+    DEBUG_LOG_LEVEL,
+    INFO_LOG_LEVEL ,
+    WARN_LOG_LEVEL ,
+    ERROR_LOG_LEVEL,
+    FATAL_LOG_LEVEL,
+    OFF_LOG_LEVEL,
+  };
+
   /** */
   void SetDicomImagePointer( DicomImage* UserProvided)
     {
     m_DImage = UserProvided;
     m_DicomImageSetByUser = true;
-    };
+    }
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -80,6 +95,11 @@ public:
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
   virtual void Write(const void *buffer);
+
+  /** Set the DCMTK Message Logging Level */
+  void SetLogLevel(LogLevel level);
+  /** Get the DCMTK Message Logging Level */
+  LogLevel GetLogLevel() const;
 
   DCMTKImageIO();
   ~DCMTKImageIO();

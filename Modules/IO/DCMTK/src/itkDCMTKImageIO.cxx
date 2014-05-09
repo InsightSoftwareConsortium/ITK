@@ -28,6 +28,7 @@
 #include "dcmtk/dcmjpeg/djdecode.h"
 #include "dcmtk/dcmjpls/djdecode.h"
 #include "dcmtk/dcmdata/dcrledrg.h"
+#include "dcmtk/oflog/oflog.h"
 
 namespace itk
 {
@@ -48,7 +49,6 @@ DCMTKImageIO::DCMTKImageIO()
   m_UseJPLSCodec = false;
   m_UseRLECodec  = false;
   m_DicomImageSetByUser = 0;
-
   this->AddSupportedWriteExtension(".dcm");
   this->AddSupportedWriteExtension(".DCM");
   this->AddSupportedWriteExtension(".dicom");
@@ -58,6 +58,68 @@ DCMTKImageIO::DCMTKImageIO()
   // this->AddSupportedReadExtension(".DCM");
   // this->AddSupportedReadExtension(".dicom");
   // this->AddSupportedReadExtension(".DICOM");
+
+  // DCMTK loves printing warnings, turn off by default.
+  this->SetLogLevel(FATAL_LOG_LEVEL);
+}
+
+void
+DCMTKImageIO
+::SetLogLevel(LogLevel level)
+{
+  switch(level)
+    {
+    case TRACE_LOG_LEVEL:
+      OFLog::configure(OFLogger::TRACE_LOG_LEVEL);
+      break;
+    case DEBUG_LOG_LEVEL:
+      OFLog::configure(OFLogger::DEBUG_LOG_LEVEL);
+      break;
+    case INFO_LOG_LEVEL:
+      OFLog::configure(OFLogger::INFO_LOG_LEVEL);
+      break;
+    case WARN_LOG_LEVEL:
+      OFLog::configure(OFLogger::WARN_LOG_LEVEL);
+      break;
+    case ERROR_LOG_LEVEL:
+      OFLog::configure(OFLogger::ERROR_LOG_LEVEL);
+      break;
+    case FATAL_LOG_LEVEL:
+      OFLog::configure(OFLogger::FATAL_LOG_LEVEL);
+      break;
+    case OFF_LOG_LEVEL:
+      OFLog::configure(OFLogger::OFF_LOG_LEVEL);
+      break;
+    default:
+      itkExceptionMacro(<< "Unknown DCMTK Logging constant "
+                        << level);
+    }
+}
+
+DCMTKImageIO::LogLevel
+DCMTKImageIO
+::GetLogLevel() const
+{
+  dcmtk::log4cplus::Logger rootLogger = dcmtk::log4cplus::Logger::getRoot();
+  switch(rootLogger.getLogLevel())
+    {
+    case OFLogger::TRACE_LOG_LEVEL:
+      return TRACE_LOG_LEVEL;
+    case OFLogger::DEBUG_LOG_LEVEL:
+      return DEBUG_LOG_LEVEL;
+    case OFLogger::INFO_LOG_LEVEL:
+      return INFO_LOG_LEVEL;
+    case OFLogger::WARN_LOG_LEVEL:
+      return WARN_LOG_LEVEL;
+    case OFLogger::ERROR_LOG_LEVEL:
+      return ERROR_LOG_LEVEL;
+    case OFLogger::FATAL_LOG_LEVEL:
+      return FATAL_LOG_LEVEL;
+    case OFLogger::OFF_LOG_LEVEL:
+      return OFF_LOG_LEVEL;
+    }
+  // will never happen
+  return FATAL_LOG_LEVEL;
 }
 
 /** Destructor */
