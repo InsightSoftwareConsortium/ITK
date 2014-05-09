@@ -591,13 +591,13 @@ struct HasNumericTraits {
   struct Constraints {
     void constraints()
     {
-      typedef typename NumericTraits< T >::ValueType      ValueType;
-      typedef typename NumericTraits< T >::PrintType      PrintType;
-      typedef typename NumericTraits< T >::AbsType        AbsType;
-      typedef typename NumericTraits< T >::AccumulateType AccumulateType;
-      typedef typename NumericTraits< T >::RealType       RealType;
-      typedef typename NumericTraits< T >::ScalarRealType ScalarRealType;
-      typedef typename NumericTraits< T >::FloatType      FloatType;
+      Detail::UniqueType< typename NumericTraits< T >::ValueType >();
+      Detail::UniqueType< typename NumericTraits< T >::PrintType >();
+      Detail::UniqueType< typename NumericTraits< T >::AbsType >();
+      Detail::UniqueType< typename NumericTraits< T >::AccumulateType >();
+      Detail::UniqueType< typename NumericTraits< T >::RealType >();
+      Detail::UniqueType< typename NumericTraits< T >::ScalarRealType >();
+      Detail::UniqueType< typename NumericTraits< T >::FloatType >();
       T    a;
       bool b;
 
@@ -625,7 +625,7 @@ struct HasPixelTraits {
   struct Constraints {
     void constraints()
     {
-      typedef typename PixelTraits< T >::ValueType ValueType;
+      Detail::UniqueType< typename PixelTraits< T >::ValueType >();
       unsigned int a = PixelTraits< T >::Dimension;
       Detail::IgnoreUnusedVariable(a);
     }
@@ -640,7 +640,7 @@ struct HasValueType {
   struct Constraints {
     void constraints()
     {
-      typedef typename T::ValueType ValueType;
+      Detail::UniqueType< typename T::ValueType >();
     }
   };
 
@@ -669,7 +669,7 @@ struct HasJoinTraits {
   struct Constraints {
     void constraints()
     {
-      typedef typename JoinTraits< T1, T2 >::ValueType ValueType;
+      Detail::UniqueType< typename JoinTraits< T1, T2 >::ValueType >();
     }
   };
 
