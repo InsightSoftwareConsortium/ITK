@@ -1,12 +1,5 @@
 include_directories("${VariationalRegistration_SOURCE_DIR}/src")
 
-# Test if ITK was built with ITKReview. This is necessary because the filter
-# itkExponentialDisplacementFieldImageFilter is used in the module
-if(NOT Module_ITKReview)
-   MESSAGE(ERROR " Module_VariationalRegistration requires Module_ITKReview."
-                 " Please set Module_ITKReview to ON in CMake.")
-endif(NOT Module_ITKReview)
-
 # Test if ITK is built with FFTW. FFTWD is recommended and required for the
 # tests with elastic regularisation to pass.
 if(ITK_USE_FFTWD OR ITK_USE_FFTWF)

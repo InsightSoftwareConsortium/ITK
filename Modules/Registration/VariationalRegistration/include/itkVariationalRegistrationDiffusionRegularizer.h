@@ -26,24 +26,24 @@ namespace itk
 
 /** \class itk::VariationalRegistrationDiffusionRegularizer
  *
- * \brief This class performs diffusive regularization of a vector field.
+ *  \brief This class performs diffusive regularization of a vector field.
  *
- * This class implements the diffusive regularization as described in
- * <em>Fischer and Modersitzki. "Fast diffusion registration." Contemporary
- * Mathematics 313 (2002): 117-128.</em>.
+ *  This class implements the diffusive regularization as described in
+ *  <em>Fischer and Modersitzki. "Fast diffusion registration." Contemporary
+ *  Mathematics 313 (2002): 117-128.</em>.
  *
- * We efficiently compute \f$u^{out}=(Id - A)^{-1}[u^{in}]\f$ with
- * \f$A[u]=\alpha\Delta u\f$ using additive operator splitting (AOS).
- * Please note that \f$\alpha\f$ corresponds to \f$\tau\alpha\f$ in Eq.(2)
- * in VariationalRegistrationFilter.
+ *  We efficiently compute \f$u^{out}=(Id - A)^{-1}[u^{in}]\f$ with
+ *  \f$A[u]=\alpha\Delta u\f$ using additive operator splitting (AOS).
+ *  Please note that \f$\alpha\f$ corresponds to \f$\tau\alpha\f$ in Eq.(2)
+ *  in VariationalRegistrationFilter.
  *
  *  \sa VariationalRegistrationFilter
  *  \sa VariationalRegistrationRegularizer
  *
  *  \ingroup VariationalRegistration
  *
- *  \note This class was developed with funding from:
- *
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt

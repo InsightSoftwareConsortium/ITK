@@ -23,30 +23,36 @@ namespace itk
 {
 
 /** \class ContinuousBorderWarpImageFilter
- * \brief Warps an image using an input deformation field with continuous boundary conditions.
+ *  \brief Warps an image using an input deformation field with continuous boundary conditions.
  *
- * ContinuousBorderWarpImageFilter warps an existing image with respect to
- * a given displacement field and a given interpolation scheme.The default
- * interpolation typed used is the LinearInterpolateImageFunction.
- * The user can specify a particular interpolation function via
- * SetInterpolator().
+ *  ContinuousBorderWarpImageFilter warps an existing image with respect to
+ *  a given displacement field and a given interpolation scheme.The default
+ *  interpolation typed used is the LinearInterpolateImageFunction.
+ *  The user can specify a particular interpolation function via
+ *  SetInterpolator().
  *
- * Positions mapped to outside of the input image buffer are assigned
- * the value of the next boundary pixel in the image.
+ *  Positions mapped to outside of the input image buffer are assigned
+ *  the value of the next boundary pixel in the image.
  *
- * The input image is set via SetInput. The input displacement field
- * is set via SetDisplacementField.
+ *  The input image is set via SetInput. The input displacement field
+ *  is set via SetDisplacementField.
  *
- * This filter is implemented as a multithreaded filter.
+ *  This filter is implemented as a multithreaded filter.
  *
- * \sa WarpImageFilter
+ *  \sa WarpImageFilter
  *
- * \warning This filter assumes that the input type, output type
- * and displacement field type all have the same number of dimensions.
+ *  \warning This filter assumes that the input type, output type
+ *  and displacement field type all have the same number of dimensions.
  *
- * \ingroup VariationalRegistration
- * \ingroup GeometricTransforms
- * \ingroup MultiThreaded
+ *  \ingroup VariationalRegistration
+ *  \ingroup GeometricTransforms
+ *  \ingroup MultiThreaded
+ *
+ *  \note This class was developed with funding from:
+ *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  */
 template <class TInputImage, class TOutputImage, class TDisplacementField>
 class ITK_EXPORT ContinuousBorderWarpImageFilter : public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>

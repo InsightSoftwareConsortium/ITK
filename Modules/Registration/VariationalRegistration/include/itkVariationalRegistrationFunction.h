@@ -27,22 +27,22 @@ namespace itk
 
 /** \class itk::VariationalRegistrationFunction
  *
- * \brief Base class for force calculation in the variational registration framework.
+ *  \brief Base class for force calculation in the variational registration framework.
  *
- * This class is templated over fixed image type, moving image type and deformation field type.
- * This function has the fixed image, the moving image and the current displacement field as input
- * and computes an update value in \c ComputeUpdate().
+ *  This class is templated over fixed image type, moving image type and deformation field type.
+ *  This function has the fixed image, the moving image and the current displacement field as input
+ *  and computes an update value in \c ComputeUpdate().
  *
- * Implement a concrete force type in a subclass; overwrite the methods
- * \c InitializeIteration() and \c ComputeUpdate().
+ *  Implement a concrete force type in a subclass; overwrite the methods
+ *  \c InitializeIteration() and \c ComputeUpdate().
  *
  *  \sa VariationalRegistrationFilter
  *
  *  \ingroup FiniteDifferenceFunctions
  *  \ingroup VariationalRegistration
  *
- *  \note This class was developed with funding from:
- *
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt

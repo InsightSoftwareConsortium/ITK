@@ -27,15 +27,15 @@ namespace itk
 
 /** \class itk::VariationalRegistrationSSDFunction
  *
- * \brief This class computes SSD forces in the variational registration framework.
+ *  \brief This class computes SSD forces in the variational registration framework.
  *
- * This class implements SSD forces given by
- * \f[
- * f^{SSD}(x)=\tau\kappa(F(x)-M(x+u(x)))\nabla M(x+u(x))
- * \f]
- * \f$\tau\f$ is the step size and \f$\kappa\f$ is the mean squared spacing.
- * Alternative, the classical gradient \f$\nabla M(x+u(x))\f$ can be replaced by \f$\nabla F(x)\f$
- * or \f$\frac{\nabla F(x) + \nabla M(x+u(x))}{2}\f$.
+ *  This class implements SSD forces given by
+ *  \f[
+ *    f^{SSD}(x)=\tau\kappa(F(x)-M(x+u(x)))\nabla M(x+u(x))
+ *  \f]
+ *  \f$\tau\f$ is the step size and \f$\kappa\f$ is the mean squared spacing.
+ *  Alternative, the classical gradient \f$\nabla M(x+u(x))\f$ can be replaced by \f$\nabla F(x)\f$
+ *  or \f$\frac{\nabla F(x) + \nabla M(x+u(x))}{2}\f$.
  *
  *  \sa VariationalRegistrationFilter
  *  \sa VariationalRegistrationFunction
@@ -43,8 +43,8 @@ namespace itk
  *  \ingroup FiniteDifferenceFunctions
  *  \ingroup VariationalRegistration
  *
- *  \note This class was developed with funding from:
- *
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt

@@ -25,34 +25,38 @@ namespace itk
 
 /** \class itk::VariationalSymmetricDiffeomorphicRegistrationFilter
  *
- * \brief Symmetric diffeomorphic deformable registration of two images using static velocity fields.
+ *  \brief Symmetric diffeomorphic deformable registration of two images using
+ *  static velocity fields.
  *
- * VariationalSymmetricDiffeomorphicRegistrationFilter is derived from VariationalRegistrationFilter and
- * aims to minimize the  functional
+ *  VariationalSymmetricDiffeomorphicRegistrationFilter is derived from
+ *  \c VariationalRegistrationFilter and aims to minimize the  functional
  *  \f[
- *  (1)\quad J( \phi ) = \frac{1}{2} (D[R, T\circ\phi] + D[R\circ\phi^{-1}, T]) + \alpha S[\phi] \rightarrow \min
+ *    (1)\quad J( \phi ) = \frac{1}{2} (D[R, T\circ\phi] + D[R\circ\phi^{-1}, T])
+ *    + \alpha S[\phi] \rightarrow \min
  *  \f]
- * with \f$ \phi(x)=exp(v(x))\f$ and \f$ v(x)\f$ is a static velocity field.
- * Let \f$ f \f$ denote the force term corresponding to the similarity measure \f$ D\f$ and \f$ A\f$ denote the  linear
- * differential operator associated with the regularization term \f$ S \f$,
- * VariationalSymmetricDiffeomorphicRegistrationFilter implements the following iterative scheme to compute \f$ v\f$
- * (and \f$ \phi\f$):
- *   - initialize \f$ v_0 \f$ (default \f$ v_0=0 \f$), \f$ \phi_0=exp(v_0)\f$ and \f$ \phi_0^{-1}=exp(-v_0)\f$
- *   - <b>do</b>
- *     - compute the forward update field \f$ f_k^{forw} \f$ using \f$ R(x) \f$ and the warped image \f$ T\circ\phi_k
- * \f$
- *     - compute the backward update field \f$ f_k^{back} \f$ using the warped image \f$ R(x)\circ\phi_k^{-1} \f$ and
- * \f$ T \f$
- *     - compute the next velocity field by \f$ v_{k+1} = (Id - \tau\alpha A)^{-1}(v_k + \frac{\tau}{2}(f_k^{forw} +
- * f_k^{back}))\f$
- *     - compute the next transformation \f$ \phi_{k+1}=exp(v_{k+1})\f$ and the inverse \f$
- * \phi_{k+1}^{-1}=exp(-v_{k+1})\f$
- *   - <b>until</b> \f$ StopCriterion\f$ is fulfilled or \f$ k>maxIter \f$
+ *  with \f$ \phi(x)=exp(v(x))\f$ and \f$ v(x)\f$ is a static velocity field.
+ *  Let \f$ f \f$ denote the force term corresponding to the similarity measure
+ *  \f$ D\f$ and \f$ A\f$ denote the  linear differential operator associated
+ *  with the regularization term \f$ S \f$, VariationalSymmetricDiffeomorphicRegistrationFilter
+ *  implements the following iterative scheme to compute \f$ v\f$ (and \f$ \phi\f$):
+ *    - initialize \f$ v_0 \f$ (default \f$ v_0=0 \f$), \f$ \phi_0=exp(v_0)\f$
+ *      and \f$\phi_0^{-1}=exp(-v_0)\f$
+ *    - <b>do</b>
+ *      - compute the forward update field \f$ f_k^{forw} \f$ using \f$ R(x) \f$
+ *        and the warped image \f$ T\circ\phi_k \f$
+ *      - compute the backward update field \f$ f_k^{back} \f$ using the warped
+ *        image \f$ R(x)\circ\phi_k^{-1} \f$ and \f$ T \f$
+ *      - compute the next velocity field by \f$ v_{k+1} = (Id - \tau\alpha A)^{-1}
+ *        (v_k + \frac{\tau}{2}(f_k^{forw} + f_k^{back}))\f$
+ *      - compute the next transformation \f$ \phi_{k+1}=exp(v_{k+1})\f$ and the
+ *        inverse \f$ \phi_{k+1}^{-1}=exp(-v_{k+1})\f$
+ *    - <b>until</b> \f$ StopCriterion\f$ is fulfilled or \f$ k>maxIter \f$
  *
- *  The force term \f$ f \f$ is implemented in a subclass of VariationalRegistrationFunction. The computation
- *  of the regularization with \f$ (Id - \tau\alpha A)^{-1}\f$ is implemented in a subclass of
- * VariationalRegistrationRegularizer. The exponentiation of the velocity field \f$ \phi(x)=exp(v(x))\f$ is done using
- * the ExponentialDisplacementFieldImageFilter.
+ *  The force term \f$ f \f$ is implemented in a subclass of VariationalRegistrationFunction.
+ *  The computation of the regularization with \f$ (Id - \tau\alpha A)^{-1}\f$
+ *  is implemented in a subclass of VariationalRegistrationRegularizer. The
+ *  exponentiation of the velocity field \f$ \phi(x)=exp(v(x))\f$ is done using
+ *  the ExponentialDisplacementFieldImageFilter.
  *
  *  You can set SmoothUpdateField to smooth the velocity field before exponentiation.
  *
@@ -63,19 +67,22 @@ namespace itk
  *  \sa VariationalRegistrationFilter
  *  \sa DenseFiniteDifferenceImageFilter
  *
- *  \ingroup VariationalRegistration
- *
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  *
- * For details see:
- *   - <i>Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
- *     "Estimation of lung motion fields in 4D CT data by variational non-linear intensity-based registration:
- *      A comparison and evaluation study", Phys. Med. Biol., 2014</i>
- *   - <i>Jan Ehrhardt, Rene Werner, Alexander Schmidt-Richberg and Heinz Handels:
- *     "Statistical modeling of 4D respiratory lung motion using diffeomorphic image registration."
- *     IEEE Trans. Med. Imaging, 30(2), 2011</i>
+ *  For details see:
+ *    - Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:
+ *      <i>A Flexible Variational Registration Framework</i>, Insight Journal, 2014
+ *    - Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
+ *      <i>Estimation of lung motion fields in 4D CT data by variational non-linear
+ *      intensity-based registration: A comparison and evaluation study</i>,
+ *      Phys. Med. Biol., 2014
+ *    - Jan Ehrhardt, Rene Werner, Alexander Schmidt-Richberg and Heinz Handels:
+ *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
+ *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class ITK_EXPORT VariationalSymmetricDiffeomorphicRegistrationFilter

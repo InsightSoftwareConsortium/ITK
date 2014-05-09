@@ -30,13 +30,13 @@ namespace itk
  *
  * This class implements \em active, \em passive and \em symmetric Demons forces given by
  * \f[
- * f^{active}(x)=\tau\frac{(F(x)-M(x+u(x)))}{\|\nabla M(x+u(x))\|^2 + \kappa|F(x)-M(x+u(x))|^2}\nabla M(x+u(x))
+ *   f^{active}(x)=\tau\frac{(F(x)-M(x+u(x)))}{\|\nabla M(x+u(x))\|^2 + \kappa|F(x)-M(x+u(x))|^2}\nabla M(x+u(x))
  * \f]
  * \f[
- * f^{passive}(x)=\tau\frac{(F(x)-M(x+u(x)))}{\|\nabla F(x)\|^2 + \kappa|F(x)-M(x+u(x))|^2}\nabla F(x)
+ *   f^{passive}(x)=\tau\frac{(F(x)-M(x+u(x)))}{\|\nabla F(x)\|^2 + \kappa|F(x)-M(x+u(x))|^2}\nabla F(x)
  * \f]
  * \f[
- * f^{symmetric}(x)=\tau\frac{(F(x)-M(x+u(x)))}{\|\frac{\nabla F(x) + \nabla M(x+u(x))}{2}\|^2 +
+ *   f^{symmetric}(x)=\tau\frac{(F(x)-M(x+u(x)))}{\|\frac{\nabla F(x) + \nabla M(x+u(x))}{2}\|^2 +
  * \kappa|F(x)-M(x+u(x))|^2}\frac{\nabla F(x) + \nabla M(x+u(x))}{2}
  * \f]
  * with \f$\tau\f$ as the step size and \f$\kappa\f$ as the mean squared spacing.
@@ -47,11 +47,11 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup VariationalRegistration
  *
- * \note This class was developed with funding from:
- *
- * \author Alexander Schmidt-Richberg
- * \author Rene Werner
- * \author Jan Ehrhardt
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class ITK_EXPORT VariationalRegistrationDemonsFunction

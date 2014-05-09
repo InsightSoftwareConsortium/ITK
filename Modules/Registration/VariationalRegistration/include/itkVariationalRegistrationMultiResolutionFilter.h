@@ -72,6 +72,12 @@ namespace itk
  *  The current implementation of this class does not support streaming.
  *
  *  \ingroup VariationalRegistration
+ *
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType = float>
 class ITK_EXPORT VariationalRegistrationMultiResolutionFilter

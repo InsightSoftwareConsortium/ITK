@@ -29,35 +29,41 @@ namespace itk
 
 /** \class itk::VariationalRegistrationStopCriterion
  *
- * A flexible stop criterion for the variational registration framework.
+ *  A flexible stop criterion for the variational registration framework.
  *
- * \par This stop criterion is realised as an observer for the
- * itkVariationalRegistrationFilter and
- * itkVariationalRegistrationMultiResolutionFilter.
- * It allows testing for
- * - Number of increase counts for the associated metric
- * - Slope of a line fitted to the last metric values
+ *  \par This stop criterion is realised as an observer for the
+ *  itkVariationalRegistrationFilter and
+ *  itkVariationalRegistrationMultiResolutionFilter.
+ *  It allows testing for
+ *    - Number of increase counts for the associated metric
+ *    - Slope of a line fitted to the last metric values
  *
- * \par For the line fitting, three different modes can be chosen:
- * - Original: Metric values are used as they are provided by the registration
- *   filter
- * - Normalized: [min,max] are scaled to [0,1]
- * - Scaled: [0,max] are scaled to [0,1]
+ *  \par For the line fitting, three different modes can be chosen:
+ *    - Original: Metric values are used as they are provided by the registration
+ *      filter
+ *    - Normalized: [min,max] are scaled to [0,1]
+ *    - Scaled: [0,max] are scaled to [0,1]
  *
- * \par In multi resolution settings, it can be useful to use different stopping
- * criteria for each MR level. Therefore, different multi resolution policies
- * can be chosen:
- * - Default: Don't change criterion depending on the multi resolution level
- * - Simple graduated: Line fitting and increase count check on finest level,
- *   only increase count check on other levels
- * - Graduated: Line fitting and increase count check on finest level,
- *   only increase count check on second finest level, no check (maximum number
- *   of iterations) on other levels
+ *  \par In multi resolution settings, it can be useful to use different stopping
+ *  criteria for each MR level. Therefore, different multi resolution policies
+ *  can be chosen:
+ *    - Default: Don't change criterion depending on the multi resolution level
+ *    - Simple graduated: Line fitting and increase count check on finest level,
+ *      only increase count check on other levels
+ *    - Graduated: Line fitting and increase count check on finest level,
+ *      only increase count check on second finest level, no check (maximum number
+ *      of iterations) on other levels
  *
- * \sa VariationalRegistrationFilter
- * \sa VariationalRegistrationMultiResolutionFilter
+ *  \sa VariationalRegistrationFilter
+ *  \sa VariationalRegistrationMultiResolutionFilter
  *
- * \ingroup VariationalRegistration
+ *  \ingroup VariationalRegistration
+ *
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  */
 template <class TRegistrationFilter, class TMRFilter>
 class ITK_EXPORT VariationalRegistrationStopCriterion : public Command

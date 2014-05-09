@@ -26,20 +26,20 @@ namespace itk
 
 /** \class itk::VariationalRegistrationRegularizer
  *
- * \brief Base class for regularization component in the variational registration framework.
+ *  \brief Base class for regularization component in the variational registration framework.
  *
- * This class is templated over the deformation field type. The input of this filter is a
- * vector field \f$ u \f$ and the output is the regularized (i.e. smoothed) vector field.
+ *  This class is templated over the deformation field type. The input of this filter is a
+ *  vector field \f$ u \f$ and the output is the regularized (i.e. smoothed) vector field.
  *
- * Implement a concrete regularization method in a subclass; overwrite the methods
- * \c Initialize() and \c GenerateData().
+ *  Implement a concrete regularization method in a subclass; overwrite the methods
+ *  \c Initialize() and \c GenerateData().
  *
  *  \sa VariationalRegistrationFilter
  *
  *  \ingroup VariationalRegistration
  *
- *  \note This class was developed with funding from:
- *
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt

@@ -29,16 +29,16 @@ namespace itk
 
 /** \class itk::VariationalRegistrationElasticRegularizer
  *
- * \brief This class performs linear elastic regularization of a vector field.
+ *  \brief This class performs linear elastic regularization of a vector field.
  *
- * This class implements linear elastic regularization as described in
- * <em>Modersitzki. "Numerical methods for image registration". OUP Oxford, 2003.</em>.
+ *  This class implements linear elastic regularization as described in
+ *  <em>Modersitzki. "Numerical methods for image registration". OUP Oxford, 2003.</em>.
  *
- * We compute \f$u^{out}=(Id - A)^{-1}[u^{in}]\f$ with
- * \f$A[u]=\mu\Delta u + (\mu+\lambda)\nabla(\nabla\cdot u)\f$ using an FFT based method.
- * Please note that for given Lame constants \f$\mu'\f$ and \f$\lambda'\f$ you have to set
- * \f$\mu=\tau\mu'\f$ and \f$\lambda=\tau\lambda'\f$ (see Eq.(2)
- * in VariationalRegistrationFilter).
+ *  We compute \f$u^{out}=(Id - A)^{-1}[u^{in}]\f$ with
+ *  \f$A[u]=\mu\Delta u + (\mu+\lambda)\nabla(\nabla\cdot u)\f$ using an FFT based method.
+ *  Please note that for given Lame constants \f$\mu'\f$ and \f$\lambda'\f$ you have to set
+ *  \f$\mu=\tau\mu'\f$ and \f$\lambda=\tau\lambda'\f$ (see Eq.(2)
+ *  in VariationalRegistrationFilter).
  *
  *  \sa VariationalRegistrationFilter
  *  \sa VariationalRegistrationRegularizer
@@ -47,8 +47,8 @@ namespace itk
  *
  *  \warning This class is only implemented for image dimension 2 or 3.
  *
- *  \note This class was developed with funding from:
- *
+ *  \note This class was developed with funding from the German Research
+ *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt

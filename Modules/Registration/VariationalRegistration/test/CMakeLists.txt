@@ -7,11 +7,8 @@ set(
 )
 
 # both approaches do not work
-#list(APPEND ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
-set(
-  ExternalData_URL_TEMPLATES
-  "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)"
-)
+# list(APPEND ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
+# set(ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
 
 createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
 
