@@ -153,11 +153,15 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
 
   /* Use a pre-allocated jacobian object for efficiency */
-  FixedTransformJacobianType & jacobian =
-    const_cast< FixedTransformJacobianType &   >(this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian);
+  typedef JacobianType & JacobianReferenceType;
+  JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
+  JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
 
   /** For dense transforms, this returns identity */
-  this->m_JointAssociate->m_MovingTransform->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian );
+  this->m_JointAssociate->GetMovingTransform()->
+    ComputeJacobianWithRespectToParametersCachedTemporaries(virtualPoint,
+                                                            jacobian,
+                                                            jacobianPositional);
 
   for ( NumberOfParametersType par = 0; par < this->GetCachedNumberOfLocalParameters(); par++ )
     {

@@ -284,9 +284,13 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   // Compute the transform Jacobian.
   typedef JacobianType & JacobianReferenceType;
   JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
+  JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
   if( this->m_MattesAssociate->GetComputeDerivative() )
     {
-    this->m_MattesAssociate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian);
+    this->m_MattesAssociate->GetMovingTransform()->
+      ComputeJacobianWithRespectToParametersCachedTemporaries(virtualPoint,
+                                                              jacobian,
+                                                              jacobianPositional);
     }
 
   SizeValueType movingParzenBin = 0;

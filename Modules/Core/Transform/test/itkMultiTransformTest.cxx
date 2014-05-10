@@ -125,13 +125,21 @@ public:
   typedef typename Superclass::TransformType                TransformType;
   typedef typename Superclass::TransformTypePointer         TransformTypePointer;
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer  InverseTransformBasePointer;
+  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
+  typedef typename Superclass::InputPointType              InputPointType;
+  typedef typename Superclass::JacobianType                JacobianType;
 
-  typename Superclass::OutputPointType TransformPoint( const typename Superclass::InputPointType & point ) const
+  typename Superclass::OutputPointType TransformPoint( const InputPointType & point ) const
   {
     return point;
   }
 
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & itkNotUsed(p), JacobianType & itkNotUsed(jacobian) ) const ITK_OVERRIDE
+    {
+    itkExceptionMacro(
+      "ComputeJacobianWithRespectToParamters( InputPointType, JacobianType"
+      " is unimplemented for " << this->GetNameOfClass() );
+    }
 protected:
   MultiTransformTestTransform(){};
   virtual ~MultiTransformTestTransform(){};

@@ -177,6 +177,7 @@ protected:
     /** Pre-allocated transform jacobian objects, for use as needed by dervied
      * classes for efficiency. */
     JacobianType                 MovingTransformJacobian;
+    JacobianType                 MovingTransformJacobianPositional;
     };
   itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, GetValueAndDerivativePerThreadStruct,
                                             PaddedGetValueAndDerivativePerThreadStruct);

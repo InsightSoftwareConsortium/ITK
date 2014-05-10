@@ -290,9 +290,9 @@ void
 RegistrationParameterScalesEstimator< TMetric >
 ::ComputeSquaredJacobianNorms( const VirtualPointType  & point, ParametersType & squareNorms )
 {
-  JacobianType jacobian;
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
   const SizeValueType dim = this->GetDimension();
+  JacobianType jacobian(dim,numPara);
 
   if (this->GetTransformForward())
     {

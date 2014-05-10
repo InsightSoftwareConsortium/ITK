@@ -227,7 +227,7 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   testPoint[1] = 8;
 
   /* Test LocalJacobian methods */
-  DisplacementTransformType::JacobianType jacobian;
+  DisplacementTransformType::JacobianType jacobian(2,2);
   displacementTransform->ComputeJacobianWithRespectToPosition( testPoint, jacobian );
   std::cout << "Local jacobian estimated. " << std::endl << jacobian << std::endl;
   if( !sameArray2D( jacobian, fieldJTruth, 1e-6 ) )

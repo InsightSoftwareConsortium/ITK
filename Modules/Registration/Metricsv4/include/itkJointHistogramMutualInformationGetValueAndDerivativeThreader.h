@@ -60,6 +60,7 @@ public:
   typedef typename Superclass::MeasureType             MeasureType;
   typedef typename Superclass::DerivativeType          DerivativeType;
   typedef typename Superclass::DerivativeValueType     DerivativeValueType;
+  typedef typename Superclass::JacobianType            JacobianType;
 
   typedef TJointHistogramMetric                                             JointHistogramMetricType;
   typedef typename JointHistogramMetricType::InternalComputationValueType   InternalComputationValueType;
@@ -67,7 +68,6 @@ public:
   typedef typename JointHistogramMetricType::MarginalPDFInterpolatorType    MarginalPDFInterpolatorType;
   typedef typename JointHistogramMetricType::JointPDFInterpolatorPointer    JointPDFInterpolatorPointer;
   typedef typename JointHistogramMetricType::MarginalPDFInterpolatorPointer MarginalPDFInterpolatorPointer;
-  typedef typename JointHistogramMetricType::FixedTransformJacobianType     FixedTransformJacobianType;
   typedef typename JointHistogramMetricType::NumberOfParametersType         NumberOfParametersType;
   typedef typename JointHistogramMetricType::JointPDFType                   JointPDFType;
   typedef typename JointHistogramMetricType::MarginalPDFType                MarginalPDFType;

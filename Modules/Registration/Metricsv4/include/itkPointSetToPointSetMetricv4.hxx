@@ -235,6 +235,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 
   value = NumericTraits<MeasureType>::Zero;
   MovingTransformJacobianType  jacobian( MovingPointDimension, this->GetNumberOfLocalParameters() );
+  MovingTransformJacobianType  jacobianPositional( MovingPointDimension, MovingPointDimension );
 
   DerivativeType localTransformDerivative( this->GetNumberOfLocalParameters() );
   localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::Zero );
@@ -286,7 +287,10 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
       // Reset to zero since we're not accumulating in the local-support case.
       localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::Zero );
       }
-    this->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualIt.Value(), jacobian );
+    this->GetMovingTransform()->
+      ComputeJacobianWithRespectToParametersCachedTemporaries(virtualIt.Value(),
+                                                              jacobian,
+                                                              jacobianPositional);
     for ( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
       {
       for( DimensionType d = 0; d < PointDimension; ++d )

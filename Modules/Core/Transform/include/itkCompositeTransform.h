@@ -358,7 +358,18 @@ public:
    * Compute the Jacobian with respect to the parameters for the compositie
    * transform using Jacobian rule. See comments in the implementation.
    */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & j) const;
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & j) const ITK_OVERRIDE;
+
+  /**
+   * Expanded interface to Compute the Jacobian with respect to the parameters for the compositie
+   * transform using Jacobian rule. This version takes in temporary
+   * variables to avoid excessive constructions.
+   * NOTE: outJacobian and jacobianWithRespectToPosition MUST be sized
+   * prior to the call; outJacobian's size should be
+   * [NDimensions, this->GetNumberOfLocalParameters() ]
+   * jacobianWithRespectToPosition size == [ NDimensions, NDimensions ]
+   */
+  virtual void ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType & jacobianWithRespectToPosition ) const ITK_OVERRIDE;
 
 protected:
   CompositeTransform();

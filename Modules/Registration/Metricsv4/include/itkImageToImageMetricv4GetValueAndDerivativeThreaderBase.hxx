@@ -47,6 +47,10 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
 {
   //---------------------------------------------------------------
   // Resize the per thread memory objects.
+  //-----------------------------------------------------------------
+  // Cache some values
+  this->m_CachedNumberOfParameters      = this->m_Associate->GetNumberOfParameters();
+  this->m_CachedNumberOfLocalParameters = this->m_Associate->GetNumberOfLocalParameters();
 
   /* Per-thread results */
   const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
@@ -59,8 +63,11 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
       {
       /* Allocate intermediary per-thread storage used to get results from
        * derived classes */
-      this->m_GetValueAndDerivativePerThreadVariables[i].LocalDerivatives.SetSize( this->m_Associate->GetNumberOfLocalParameters() );
-      this->m_GetValueAndDerivativePerThreadVariables[i].MovingTransformJacobian.SetSize( this->m_Associate->VirtualImageDimension, this->m_Associate->GetNumberOfLocalParameters() );
+      this->m_GetValueAndDerivativePerThreadVariables[i].LocalDerivatives.SetSize( this->m_CachedNumberOfLocalParameters );
+      this->m_GetValueAndDerivativePerThreadVariables[i].MovingTransformJacobian.SetSize(
+        this->m_Associate->VirtualImageDimension, this->m_CachedNumberOfLocalParameters );
+      this->m_GetValueAndDerivativePerThreadVariables[i].MovingTransformJacobianPositional.SetSize(
+        this->m_Associate->VirtualImageDimension, this->m_Associate->VirtualImageDimension );
       if ( this->m_Associate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField )
         {
         /* For transforms with local support, e.g. displacement field,
@@ -76,7 +83,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
         {
         itkDebugMacro("ImageToImageMetricv4::Initialize: transform does NOT have local support\n");
         /* This size always comes from the moving image */
-        const NumberOfParametersType globalDerivativeSize = this->m_Associate->GetNumberOfParameters();
+        const NumberOfParametersType globalDerivativeSize = this->m_CachedNumberOfParameters;
         /* Global transforms get a separate derivatives container for each thread
          * that holds the result over a particular image region.
          * Use a CompensatedSummation value to provide for better consistency between
@@ -99,18 +106,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
         /* Be sure to init to 0 here, because the threader may not use
          * all the threads if the region is better split into fewer
          * subregions. */
-        for( NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+        for( NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; p++ )
           {
           this->m_GetValueAndDerivativePerThreadVariables[thread].CompensatedDerivatives[p].ResetToZero();
           }
         }
       }
     }
-
-  //-----------------------------------------------------------------
-  // Cache some values
- this->m_CachedNumberOfParameters      = this->m_Associate->GetNumberOfParameters();
- this->m_CachedNumberOfLocalParameters = this->m_Associate->GetNumberOfLocalParameters();
 }
 
 template< typename TDomainPartitioner, typename TImageToImageMetricv4 >
