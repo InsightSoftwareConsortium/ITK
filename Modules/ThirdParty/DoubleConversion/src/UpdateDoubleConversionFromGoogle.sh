@@ -59,8 +59,10 @@ cd ..
 #
 # Check to see if LICENSE file changed -- if changed, fix in a separate
 # commit.
-if [ ! diff double-conversion/LICENSE ../Modules/ThirdParty/DoubleConversion/LICENSE ]
+if  diff double-conversion/LICENSE ../Modules/ThirdParty/DoubleConversion/src/LICENSE
 then
+    echo LICENSE file unchanged
+else
     echo The double-conversion LICENSE file has changed.  Please
     echo add the change in a separate commit by hand and run this script again.
     exit 1
