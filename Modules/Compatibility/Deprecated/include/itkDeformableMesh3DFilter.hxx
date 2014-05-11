@@ -32,7 +32,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
   m_Step = 0;
   m_StepThreshold = 0;
   m_PotentialOn = 0;
-  m_K = 0;
+  m_K = ITK_NULLPTR;
   m_ObjectLabel = 0;
   m_Scale.Fill(1.0);
   m_Stiffness.Fill(0.1);
@@ -54,7 +54,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::~DeformableMesh3DFilter()
 {
   delete[] m_K;
-  m_K = 0;
+  m_K = ITK_NULLPTR;
 }
 
 /* PrintSelf. */

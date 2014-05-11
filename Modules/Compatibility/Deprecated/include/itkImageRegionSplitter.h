@@ -120,7 +120,7 @@ protected:
   virtual unsigned int GetNumberOfSplitsInternal(unsigned int,
                                          const IndexValueType regionIndex[],
                                          const SizeValueType regionSize[],
-                                         unsigned int requestedNumber) const
+                                         unsigned int requestedNumber) const ITK_OVERRIDE
   {
     // this function adapts the legecy method, defined in this class
     // be used by the ImageRegionSplitterBase.
@@ -139,7 +139,7 @@ protected:
                                 unsigned int i,
                                 unsigned int numberOfPieces,
                                 IndexValueType regionIndex[],
-                                SizeValueType regionSize[]) const
+                                SizeValueType regionSize[]) const ITK_OVERRIDE
   {
     // this function adapts the legecy method, defined in this class
     // be used by the ImageRegionSplitterBase.
@@ -160,7 +160,7 @@ protected:
     return numberOfPieces;
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ImageRegionSplitter(const ImageRegionSplitter &); //purposely not implemented

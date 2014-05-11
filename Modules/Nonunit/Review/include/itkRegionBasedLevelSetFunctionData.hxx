@@ -29,7 +29,7 @@ RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
   m_WeightedNumberOfPixelsInsideLevelSet  = 0.;
   m_WeightedNumberOfPixelsOutsideLevelSet = 0.;
 
-  m_HeavisideFunctionOfLevelSetImage = 0;
+  m_HeavisideFunctionOfLevelSetImage = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TFeatureImage >

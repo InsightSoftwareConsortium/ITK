@@ -184,7 +184,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 {
   this->Superclass::SetFunctionCount(n);
 
-  this->m_UpdateBuffers.resize(n, 0);
+  this->m_UpdateBuffers.resize(n, ITK_NULLPTR);
 
   for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {

@@ -33,6 +33,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "itkConfigure.h"
+#include "itkMacro.h"
 #include <sys/stat.h>
 #include <time.h>
 #include <string.h>
@@ -88,7 +89,7 @@ int main(int argc, char* argv[])
       "ITKConfig.cmake",
       "ITKConfigVersion.cmake",
       "ITKTargets.cmake",
-      0
+      ITK_NULLPTR
     };
 
   for(const char** f = files; *f; ++f)

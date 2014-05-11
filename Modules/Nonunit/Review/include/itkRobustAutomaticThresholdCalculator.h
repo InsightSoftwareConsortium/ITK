@@ -105,7 +105,7 @@ public:
 protected:
   RobustAutomaticThresholdCalculator();
   virtual ~RobustAutomaticThresholdCalculator() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   RobustAutomaticThresholdCalculator(const Self &); //purposely not implemented

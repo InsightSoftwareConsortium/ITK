@@ -96,7 +96,7 @@ public:
 protected:
   KappaSigmaThresholdImageCalculator();
   virtual ~KappaSigmaThresholdImageCalculator() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   KappaSigmaThresholdImageCalculator(const Self &); //purposely not implemented

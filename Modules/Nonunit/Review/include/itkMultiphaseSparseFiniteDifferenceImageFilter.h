@@ -305,7 +305,7 @@ public:
   {
     this->Superclass::SetFunctionCount(n);
 
-    m_SparseData.resize(this->m_FunctionCount, 0);
+    m_SparseData.resize(this->m_FunctionCount, ITK_NULLPTR);
 
     for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
       {

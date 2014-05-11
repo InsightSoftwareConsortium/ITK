@@ -33,7 +33,7 @@ template< typename TInputImage >
 OtsuThresholdImageCalculator< TInputImage >
 ::OtsuThresholdImageCalculator()
 {
-  m_Image = NULL;
+  m_Image = ITK_NULLPTR;
   m_Threshold = NumericTraits< PixelType >::Zero;
   m_NumberOfHistogramBins = 128;
   m_RegionSetByUser = false;

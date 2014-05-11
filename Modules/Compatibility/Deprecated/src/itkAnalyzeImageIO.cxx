@@ -707,12 +707,12 @@ void AnalyzeImageIO::Read(void *buffer)
 
   try  // try block to ensure we close the file
     {
-    if ( file_p == NULL )
+    if ( file_p == ITK_NULLPTR )
       {
       /* Do a separate check to take care of case #4 */
       ImageFileName += ".gz";
       file_p = gzopen(ImageFileName.c_str(), "rb");
-      if ( file_p == NULL )
+      if ( file_p == ITK_NULLPTR )
         {
         itkExceptionMacro(<< "Analyze Data File can not be read: "
                           << " The following files were attempted:\n "
@@ -774,13 +774,13 @@ void AnalyzeImageIO::Read(void *buffer)
       }
 
     gzclose(file_p);
-    file_p = NULL;
+    file_p = ITK_NULLPTR;
     SwapBytesIfNecessary( buffer, this->GetImageSizeInPixels() );
     }
   catch ( ... )
     {
     // close file and rethrow
-    if ( file_p != NULL )
+    if ( file_p != ITK_NULLPTR )
       {
       gzclose(file_p);
       }
@@ -1497,7 +1497,7 @@ AnalyzeImageIO
     {
     // Open the *.img.gz file for writing.
     gzFile file_p = gzopen(ImageFileName.c_str(), "wb");
-    if ( file_p == NULL )
+    if ( file_p == ITK_NULLPTR )
       {
       itkExceptionMacro(<< "Error, Can not write compressed image file for " << m_FileName);
       }
@@ -1525,12 +1525,12 @@ AnalyzeImageIO
         bytesRemaining -= bytesToWrite;
         }
       gzclose(file_p);
-      file_p = NULL;
+      file_p = ITK_NULLPTR;
       }
     catch ( ... )
       {
       // close file and rethrow exception
-      if ( file_p != NULL )
+      if ( file_p != ITK_NULLPTR )
         {
         gzclose(file_p);
         }

@@ -269,7 +269,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   bool passed = true;
   try
     {
-    registrator->SetInput( NULL );
+    registrator->SetInput( ITK_NULLPTR );
     registrator->SetNumberOfIterations( 2 );
     registrator->Update();
     }
@@ -294,7 +294,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   try
     {
     registrator->SetInput( caster->GetOutput() );
-    registrator->SetMovingImage( NULL );
+    registrator->SetMovingImage( ITK_NULLPTR );
     registrator->Update();
     }
   catch( itk::ExceptionObject & err )
@@ -318,7 +318,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
     {
     fptr = dynamic_cast<FunctionType *>(
       registrator->GetDifferenceFunction().GetPointer() );
-    fptr->SetMovingImageInterpolator( NULL );
+    fptr->SetMovingImageInterpolator( ITK_NULLPTR );
     registrator->SetInput( initField );
     registrator->Update();
     }
