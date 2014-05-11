@@ -49,6 +49,7 @@ int itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   BinaryOpeningType::Pointer opening = BinaryOpeningType::New();
 
   opening->SetInput( reader->GetOutput() );
+  opening->SetFeatureImage( reader2->GetOutput() );
 
   //testing get/set ForegroundValue macro
   int ForegroundValue = ( atoi(argv[4]) );
