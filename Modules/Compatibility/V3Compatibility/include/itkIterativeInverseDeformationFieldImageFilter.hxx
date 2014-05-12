@@ -51,7 +51,7 @@ void IterativeInverseDeformationFieldImageFilter< TInputImage, TOutputImage >
     {
     itkExceptionMacro("\n Input is missing.");
     }
-  if ( !TInputImage::ImageDimension == TOutputImage::ImageDimension )
+  if ( ! ( TInputImage::ImageDimension == TOutputImage::ImageDimension ) )
     {
     itkExceptionMacro("\n Image Dimensions must be the same.");
     }
