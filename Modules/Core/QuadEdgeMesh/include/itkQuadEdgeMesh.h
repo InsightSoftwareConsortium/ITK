@@ -304,7 +304,7 @@ public:
     int dimension) const
   {
     (void)dimension;
-    return ( (BoundaryAssignmentsContainerPointer)0 );
+    return ( (BoundaryAssignmentsContainerPointer)ITK_NULLPTR );
   }
 
 #endif

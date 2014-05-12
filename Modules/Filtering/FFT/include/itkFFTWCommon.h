@@ -130,7 +130,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftwf_plan_dft_c2r(rank,n,in,out,roflags);
-    if( plan == NULL )
+    if( plan == ITK_NULLPTR )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -222,7 +222,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftwf_plan_dft_r2c(rank,n,in,out,roflags);
-    if( plan == NULL )
+    if( plan == ITK_NULLPTR )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -316,7 +316,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftwf_plan_dft(rank,n,in,out,sign,roflags);
-    if( plan == NULL )
+    if( plan == ITK_NULLPTR )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -431,7 +431,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftw_plan_dft_c2r(rank,n,in,out,roflags);
-    if( plan == NULL )
+    if( plan == ITK_NULLPTR )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -522,7 +522,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftw_plan_dft_r2c(rank,n,in,out,roflags);
-    if( plan == NULL )
+    if( plan == ITK_NULLPTR )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -616,7 +616,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftw_plan_dft(rank,n,in,out,sign,roflags);
-    if( plan == NULL )
+    if( plan == ITK_NULLPTR )
       {
       // no wisdom available for that plan
       if( canDestroyInput )

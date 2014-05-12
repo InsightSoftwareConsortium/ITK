@@ -165,7 +165,7 @@ typename Rigid3DTransform< TScalar >::InverseTransformBasePointer
 Rigid3DTransform< TScalar >::GetInverseTransform() const
 {
   Pointer inv = New();
-  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
+  return this->GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
 }
 
 template< typename TScalar >

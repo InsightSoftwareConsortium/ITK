@@ -88,7 +88,7 @@ static bool isDeclineString(std::string response)
 }
 
 itk::SimpleFastMutexLock              itk::FFTWGlobalConfiguration::m_CreationLock;
-itk::FFTWGlobalConfiguration::Pointer itk::FFTWGlobalConfiguration::m_Instance=NULL;
+itk::FFTWGlobalConfiguration::Pointer itk::FFTWGlobalConfiguration::m_Instance=ITK_NULLPTR;
 
 FFTWGlobalConfiguration::Pointer
 FFTWGlobalConfiguration

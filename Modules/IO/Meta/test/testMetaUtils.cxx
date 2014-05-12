@@ -22,6 +22,7 @@
 
 #include <metaUtils.h>
 #include "itksys/SystemTools.hxx"
+#include "itkMacro.h"
 
 int testMetaUtils(int argc, char * argv[])
 {
@@ -238,7 +239,7 @@ int testMetaUtils(int argc, char * argv[])
     std::cout << "ElementSize not defined" << std::endl;
 
   int nNames=0;
-  char **names=NULL;
+  char **names=ITK_NULLPTR;
   ++fieldIter;
   if((*fieldIter)->defined)
     {

@@ -45,8 +45,8 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_IntensityDifferenceThreshold = 0.001;
   m_MaximumUpdateStepLength = 0.5;
 
-  this->SetMovingImage(NULL);
-  this->SetFixedImage(NULL);
+  this->SetMovingImage(ITK_NULLPTR);
+  this->SetFixedImage(ITK_NULLPTR);
   m_FixedImageSpacing.Fill(1.0);
   m_FixedImageOrigin.Fill(0.0);
   m_FixedImageDirection.SetIdentity();
@@ -70,7 +70,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_MovingImageWarper->SetInterpolator(m_MovingImageInterpolator);
   m_MovingImageWarper->SetEdgePaddingValue( NumericTraits< MovingPixelType >::max() );
 
-  m_MovingImageWarperOutput = 0;
+  m_MovingImageWarperOutput = ITK_NULLPTR;
 
   m_Metric = NumericTraits< double >::max();
   m_SumOfSquaredDifference = 0.0;

@@ -29,8 +29,8 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
 ::KappaSigmaThresholdImageCalculator(void)
 {
   this->m_Valid = false;
-  this->m_Image = NULL;
-  this->m_Mask = NULL;
+  this->m_Image = ITK_NULLPTR;
+  this->m_Mask = ITK_NULLPTR;
   this->m_MaskValue = NumericTraits< MaskPixelType >::max();
   this->m_Output = NumericTraits< InputPixelType >::Zero;
   this->m_SigmaFactor = 2;

@@ -33,7 +33,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 {
   this->m_NeighborhoodRadius.Fill(2);
 
-  this->m_MaskImage = NULL;
+  this->m_MaskImage = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TMaskImage, typename TOutputImage >

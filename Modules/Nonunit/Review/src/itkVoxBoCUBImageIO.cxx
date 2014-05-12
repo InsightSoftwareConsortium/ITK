@@ -102,7 +102,7 @@ public:
   CompressedCUBFileAdaptor(const char *file, const char *mode)
   {
     m_GzFile = gzopen(file, mode);
-    if ( m_GzFile == NULL )
+    if ( m_GzFile == ITK_NULLPTR )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be accessed");
@@ -119,7 +119,7 @@ public:
       }
   }
 
-  unsigned char ReadByte()
+  virtual unsigned char ReadByte() ITK_OVERRIDE
   {
     int byte = gzgetc(m_GzFile);
 
@@ -134,9 +134,9 @@ public:
     return static_cast< unsigned char >( byte );
   }
 
-  void ReadData(void *data, SizeType bytes)
+  virtual void ReadData(void *data, SizeType bytes) ITK_OVERRIDE
   {
-    if ( m_GzFile == NULL )
+    if ( m_GzFile == ITK_NULLPTR )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be read");
@@ -158,9 +158,9 @@ public:
       }
   }
 
-  void WriteData(const void *data, SizeType bytes)
+  virtual void WriteData(const void *data, SizeType bytes) ITK_OVERRIDE
   {
-    if ( m_GzFile == NULL )
+    if ( m_GzFile == ITK_NULLPTR )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be written");
@@ -208,7 +208,7 @@ public:
       }
   }
 
-  unsigned char ReadByte()
+  virtual unsigned char ReadByte() ITK_OVERRIDE
   {
     int byte = fgetc(m_File);
 
@@ -223,9 +223,9 @@ public:
     return static_cast< unsigned char >( byte );
   }
 
-  void ReadData(void *data, SizeType bytes)
+  virtual void ReadData(void *data, SizeType bytes) ITK_OVERRIDE
   {
-    if ( m_File == NULL )
+    if ( m_File == ITK_NULLPTR )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be read");
@@ -247,9 +247,9 @@ public:
       }
   }
 
-  void WriteData(const void *data, SizeType bytes)
+  virtual void WriteData(const void *data, SizeType bytes) ITK_OVERRIDE
   {
-    if ( m_File == NULL )
+    if ( m_File == ITK_NULLPTR )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be written");
@@ -321,8 +321,8 @@ VoxBoCUBImageIO::VoxBoCUBImageIO()
 {
   InitializeOrientationMap();
   m_ByteOrder = BigEndian;
-  m_Reader = NULL;
-  m_Writer = NULL;
+  m_Reader = ITK_NULLPTR;
+  m_Writer = ITK_NULLPTR;
 }
 
 /** Destructor */
@@ -351,12 +351,12 @@ VoxBoCUBImageIO::CreateReader(const char *filename)
       }
     else
       {
-      return NULL;
+      return ITK_NULLPTR;
       }
     }
   catch ( ... )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 }
 
@@ -379,12 +379,12 @@ VoxBoCUBImageIO::CreateWriter(const char *filename)
       }
     else
       {
-      return NULL;
+      return ITK_NULLPTR;
       }
     }
   catch ( ... )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 }
 
@@ -393,7 +393,7 @@ bool VoxBoCUBImageIO::CanReadFile(const char *filename)
   // First check if the file can be read
   GenericCUBFileAdaptor *reader = CreateReader(filename);
 
-  if ( reader == NULL )
+  if ( reader == ITK_NULLPTR )
     {
     itkDebugMacro(<< "The file is not a valid CUB file");
     return false;
@@ -441,7 +441,7 @@ bool VoxBoCUBImageIO::CanWriteFile(const char *name)
 
 void VoxBoCUBImageIO::Read(void *buffer)
 {
-  if ( m_Reader == NULL )
+  if ( m_Reader == ITK_NULLPTR )
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
@@ -465,7 +465,7 @@ void VoxBoCUBImageIO::ReadImageInformation()
 
   // Create a reader
   m_Reader = CreateReader( m_FileName.c_str() );
-  if ( m_Reader == NULL )
+  if ( m_Reader == ITK_NULLPTR )
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
@@ -614,7 +614,7 @@ void
 VoxBoCUBImageIO
 ::WriteImageInformation(void)
 {
-  if ( m_Writer == NULL )
+  if ( m_Writer == ITK_NULLPTR )
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
@@ -743,7 +743,7 @@ VoxBoCUBImageIO
   WriteImageInformation();
   m_Writer->WriteData( buffer, this->GetImageSizeInBytes() );
   delete m_Writer;
-  m_Writer = NULL;
+  m_Writer = ITK_NULLPTR;
 }
 
 /** Print Self Method */

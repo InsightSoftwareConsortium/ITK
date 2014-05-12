@@ -36,8 +36,8 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   m_TimeStep = 0.0;
   m_DistanceForGradient = 0.0;
   m_Resolution = 0;
-  m_K = 0;
-  m_NewNodes = 0;
+  m_K = ITK_NULLPTR;
+  m_NewNodes = ITK_NULLPTR;
   m_NewNodeLimit = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
@@ -55,11 +55,11 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
       if ( m_NewNodes[i] )
         {
         free(m_NewNodes[i]);
-        m_NewNodes[i] = 0;
+        m_NewNodes[i] = ITK_NULLPTR;
         }
       }
     free(m_NewNodes);
-    m_NewNodes = 0;
+    m_NewNodes = ITK_NULLPTR;
     }
 
   if ( m_K )
@@ -204,7 +204,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   m_NewNodes = (float **)malloc(sizeof( float * ) * m_NewNodeLimit);
   for ( unsigned int i = 0; i < m_NewNodeLimit; i++ )
     {
-    m_NewNodes[i] = 0;
+    m_NewNodes[i] = ITK_NULLPTR;
     }
 
   //---------------------------------------------------------------------

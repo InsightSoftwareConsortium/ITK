@@ -57,7 +57,7 @@ int WriteAnalyzeTestFiles(const std::string & AugmentName)
   std::string ImageZFilename(AugmentName);
   ImageZFilename += "LittleEndianZ.img.gz";
   gzFile  file_p = ::gzopen( ImageZFilename.c_str(), "wb" );
-  if( file_p==NULL )
+  if( file_p==ITK_NULLPTR )
     {
     return EXIT_FAILURE;
     }

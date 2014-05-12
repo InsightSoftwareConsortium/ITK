@@ -83,7 +83,7 @@ class ManualWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
       {
       this->m_WisdomFilename=wfn;
       }
-    virtual std::string GenerateWisdomFilename(const std::string itkNotUsed(baseCacheDirectory) ) const
+    virtual std::string GenerateWisdomFilename(const std::string itkNotUsed(baseCacheDirectory) ) const ITK_OVERRIDE
       {
        return this->m_WisdomFilename;
       }
@@ -94,7 +94,7 @@ class ManualWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 class SimpleWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
-    virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const
+    virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const ITK_OVERRIDE
       {
        return baseCacheDirectory+FFTWPathSep+".itksimple.wisdom";
       }
@@ -103,7 +103,7 @@ class SimpleWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 class HostnameWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
-    virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const
+    virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const ITK_OVERRIDE
       {
 
       itksys::SystemInformation hostInfo;
@@ -130,7 +130,7 @@ public:
       m_UseSteppingCode(true)
     {}
 
-    virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const
+    virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const ITK_OVERRIDE
       {
       //Now build the hardware string by system interogation
       itksys::SystemInformation hardwareInfo;

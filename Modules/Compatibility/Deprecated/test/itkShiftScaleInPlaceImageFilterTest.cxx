@@ -31,7 +31,7 @@ class ShiftScaleInPlaceFilterWatcher : public FilterWatcher
   ShiftScaleInPlaceFilterWatcher(itk::ProcessObject* o, std::string name)
     : FilterWatcher(o), m_Name( name ) {};
 
-  virtual void StartFilter()
+  virtual void StartFilter() ITK_OVERRIDE
     {
     m_Start = ::clock();
     std::cout << "-------- Start " << m_Process->GetNameOfClass()
@@ -40,7 +40,7 @@ class ShiftScaleInPlaceFilterWatcher : public FilterWatcher
               << std::flush;
     }
 
-  virtual void EndFilter()
+  virtual void EndFilter() ITK_OVERRIDE
     {
     m_End = ::clock();
     std::cout << "-------- End " << m_Process->GetNameOfClass()
@@ -48,7 +48,7 @@ class ShiftScaleInPlaceFilterWatcher : public FilterWatcher
     std::cout << std::endl;
     }
 
-  virtual void ShowProgress() {}
+  virtual void ShowProgress() ITK_OVERRIDE {}
 
   std::string m_Name;
 };
