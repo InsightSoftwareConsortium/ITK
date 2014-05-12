@@ -71,7 +71,7 @@ ThresholdImageFilter< TImage >
 }
 
 /**
- * The values greater than or equal to the value are set to OutsideValue
+ * The values greater than the threshold value are set to OutsideValue
  */
 template< typename TImage >
 void
@@ -88,7 +88,7 @@ ThresholdImageFilter< TImage >
 }
 
 /**
- * The values less than or equal to the value are set to OutsideValue
+ * The values less than the threshold value are set to OutsideValue
  */
 template< typename TImage >
 void
@@ -104,7 +104,7 @@ ThresholdImageFilter< TImage >
 }
 
 /**
- * The values outside the range are set to OutsideValue
+ * The values outside the threshold range (less than lower or greater than upper) are set to OutsideValue
  */
 template< typename TImage >
 void
