@@ -222,8 +222,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
   typename InternalImageType::RegionType region;
   region.SetSize(size);
   m_InternalImage->SetRegions(region);
-  m_InternalImage->Allocate();
-  m_InternalImage->FillBuffer(0);
+  m_InternalImage->Allocate(true); // initialize buffer to zero
 }
 
 /** Evaluate the function at the specifed point */

@@ -59,9 +59,8 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   region.SetSize(size);
   region.SetIndex(index);
   m_Image->SetRegions( region );
-  m_Image->Allocate();
-  m_Image->FillBuffer(0);
-
+  m_Image->Allocate(true); // initialize buffer
+                                                  // to zero
 
   /** Create a line */
   float teta = 0.20; // radians

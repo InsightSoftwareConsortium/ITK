@@ -43,14 +43,14 @@ SpecialCoordinatesImage< TPixel, VImageDimension >
 template< typename TPixel, unsigned int VImageDimension >
 void
 SpecialCoordinatesImage< TPixel, VImageDimension >
-::Allocate()
+::Allocate(bool initialize)
 {
   SizeValueType num;
 
   this->ComputeOffsetTable();
   num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
 
-  m_Buffer->Reserve(num);
+  m_Buffer->Reserve(num,initialize);
 }
 
 template< typename TPixel, unsigned int VImageDimension >

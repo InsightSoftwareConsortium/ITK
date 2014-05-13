@@ -67,11 +67,7 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
   region.SetSize(size);
   region.SetIndex(index);
   image->SetRegions( region );
-  image->Allocate();
-
-  PixelType p = itk::NumericTraits< PixelType >::Zero;
-
-  image->FillBuffer( p );
+  image->Allocate(true); // initialize buffer to zero
 
   ImageMaskSpatialObjectType::Pointer imageMaskSpatialObject =
     ImageMaskSpatialObjectType::New();

@@ -232,8 +232,9 @@ public:
    *
    * This method should be pure virtual, if backwards compatibility
    * was not required.
+   *
    */
-  virtual void Allocate() {}
+  virtual void Allocate(bool initialize=false);
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This

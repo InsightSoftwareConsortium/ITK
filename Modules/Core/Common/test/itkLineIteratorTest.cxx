@@ -53,8 +53,7 @@ int itkLineIteratorTest(int argc, char*argv[])
 
   ImageType::Pointer output = ImageType::New();
   output->SetRegions(region);
-  output->Allocate();
-  output->FillBuffer(0);
+  output->Allocate(true); // initialize buffer to zero
 
   // First test: empty line
   IndexType startIndex;

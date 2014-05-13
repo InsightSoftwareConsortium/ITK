@@ -47,7 +47,7 @@ VectorImage< TPixel, VImageDimension >
 template< typename TPixel, unsigned int VImageDimension >
 void
 VectorImage< TPixel, VImageDimension >
-::Allocate()
+::Allocate(const bool UseDefaultConstructor)
 {
   if ( m_VectorLength == 0 )
     {
@@ -58,7 +58,7 @@ VectorImage< TPixel, VImageDimension >
   this->ComputeOffsetTable();
   num = this->GetOffsetTable()[VImageDimension];
 
-  m_Buffer->Reserve(num * m_VectorLength);
+  m_Buffer->Reserve(num * m_VectorLength,UseDefaultConstructor);
 }
 
 template< typename TPixel, unsigned int VImageDimension >

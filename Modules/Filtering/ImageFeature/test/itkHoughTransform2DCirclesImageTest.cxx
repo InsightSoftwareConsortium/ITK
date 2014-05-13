@@ -42,8 +42,8 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   region.SetSize(size);
   region.SetIndex(index);
   m_Image->SetRegions( region );
-  m_Image->Allocate();
-  m_Image->FillBuffer(0);
+  m_Image->Allocate(true); // initialize buffer
+                                                  // to zero
 
   /** Create 3 circles */
   unsigned int center[3][2];
@@ -94,8 +94,9 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   std::cout << "Allocating Hough Space Image" << std::endl;
   ImageType::Pointer m_HoughSpaceImage = ImageType::New();
   m_HoughSpaceImage->SetRegions( region );
-  m_HoughSpaceImage->Allocate();
-  m_HoughSpaceImage->FillBuffer(0);
+  m_HoughSpaceImage->Allocate(true); // initialize
+                                                            // buffer
+                                                            // to zero
 
   /** Apply gradient filter to the input image */
   typedef itk::CastImageFilter<

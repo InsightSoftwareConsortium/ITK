@@ -46,8 +46,7 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
   typedef Image< char, SpaceDimension > CharImageType;
   typename CharImageType::Pointer tempImage = CharImageType::New();
   tempImage->SetRegions(m_SupportSize);
-  tempImage->Allocate();
-  tempImage->FillBuffer(0);
+  tempImage->Allocate(true); // initialize buffer to zero
 
   typedef ImageRegionConstIteratorWithIndex< CharImageType > IteratorType;
   IteratorType iterator( tempImage, tempImage->GetBufferedRegion() );

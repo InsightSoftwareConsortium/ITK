@@ -53,6 +53,13 @@ ImageBase< VImageDimension >
   m_PhysicalPointToIndex.SetIdentity();
 }
 
+template< unsigned int VImageDimension >
+void
+ImageBase< VImageDimension >
+::Allocate(bool)
+{
+}
+
 /**
  *
  */

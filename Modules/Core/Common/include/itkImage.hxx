@@ -44,18 +44,17 @@ Image< TPixel, VImageDimension >
   m_Buffer = PixelContainer::New();
 }
 
-//----------------------------------------------------------------------------
 template< typename TPixel, unsigned int VImageDimension >
 void
 Image< TPixel, VImageDimension >
-::Allocate()
+::Allocate(bool initializePixels)
 {
   SizeValueType num;
 
   this->ComputeOffsetTable();
   num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
 
-  m_Buffer->Reserve(num);
+  m_Buffer->Reserve(num, initializePixels);
 }
 
 template< typename TPixel, unsigned int VImageDimension >

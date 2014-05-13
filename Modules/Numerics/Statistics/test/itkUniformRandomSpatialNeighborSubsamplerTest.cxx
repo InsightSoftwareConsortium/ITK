@@ -60,8 +60,8 @@ int itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char* argv[] )
   region.SetIndex(idx);
 
   inImage->SetRegions(region);
-  inImage->Allocate();
-  inImage->FillBuffer(0);
+  inImage->Allocate(true); // initialize buffer
+                                                  // to zero
 
   AdaptorType::Pointer sample = AdaptorType::New();
   sample->SetImage(inImage);

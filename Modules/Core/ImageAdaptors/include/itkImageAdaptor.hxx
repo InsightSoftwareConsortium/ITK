@@ -45,6 +45,13 @@ ImageAdaptor< TImage, TAccessor >
 ::~ImageAdaptor()
 {}
 
+template< typename TImage, typename TAccessor >
+void
+ImageAdaptor< TImage, TAccessor >
+::Allocate(bool initialize)
+{
+  m_Image->Allocate(initialize);
+}
 //----------------------------------------------------------------------------
 template< typename TImage, typename TAccessor >
 void

@@ -219,8 +219,8 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   outputImagePtr->SetRequestedRegion( inputImagePtr->GetRequestedRegion() );
   outputImagePtr->SetBufferedRegion( inputImagePtr->GetBufferedRegion() );
   outputImagePtr->SetLargestPossibleRegion( inputImagePtr->GetLargestPossibleRegion() );
-  outputImagePtr->Allocate();
-  outputImagePtr->FillBuffer(0);
+  outputImagePtr->Allocate(true); // initialize
+                                                         // buffer to zero
 
   InputImageConstIteratorType inputIt( inputImagePtr, inputImagePtr->GetLargestPossibleRegion() );
   OutputImageIteratorType     outputIt( outputImagePtr, outputImagePtr->GetLargestPossibleRegion() );
@@ -394,8 +394,9 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   projectionImagePtr->SetRequestedRegion(projectionRegion);
   projectionImagePtr->SetBufferedRegion(projectionRegion);
   projectionImagePtr->SetLargestPossibleRegion(projectionRegion);
-  projectionImagePtr->Allocate();
-  projectionImagePtr->FillBuffer(0);
+  projectionImagePtr->Allocate(true); // initialize
+                                                             // buffer
+                                                             // to zero
 
   typedef ImageRegionIterator< ProjectionImageType > ProjectionImageIteratorType;
   ProjectionImageIteratorType projectionIt( projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion() );

@@ -53,8 +53,8 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3(int, char * [
 
     ImageType::Pointer inputImage = ImageType::New();
     inputImage->SetRegions(region);
-    inputImage->Allocate();
-    inputImage->FillBuffer(0);
+    inputImage->Allocate(true); // initialize
+                                                       // buffer to zero
 
     itk::ImageLinearIteratorWithIndex<ImageType> it( inputImage, region );
 

@@ -30,8 +30,8 @@ void CreateImagex(LocalImageType::Pointer& image)
   LocalImageType::RegionType region(start,size);
 
   image->SetRegions(region);
-  image->Allocate();
-  image->FillBuffer(0);
+  image->Allocate(true); // initialize buffer
+                                                // to zero
 }
 
 int itkShapedIteratorFromStructuringElementTest(int, char*[])

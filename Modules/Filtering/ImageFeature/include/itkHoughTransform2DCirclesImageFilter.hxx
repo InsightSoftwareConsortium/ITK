@@ -98,8 +98,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   m_RadiusImage->SetOrigin( inputImage->GetOrigin() );
   m_RadiusImage->SetSpacing( inputImage->GetSpacing() );
   m_RadiusImage->SetDirection( inputImage->GetDirection() );
-  m_RadiusImage->Allocate();
-  m_RadiusImage->FillBuffer(0);
+  m_RadiusImage->Allocate(true); // initialize
+                                                        // buffer to zero
 
   ImageRegionConstIteratorWithIndex< InputImageType > image_it( inputImage,  inputImage->GetRequestedRegion() );
   image_it.GoToBegin();
@@ -192,8 +192,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   outputImage->SetOrigin( this->GetOutput(0)->GetOrigin() );
   outputImage->SetSpacing( this->GetOutput(0)->GetSpacing() );
   outputImage->SetDirection( this->GetOutput(0)->GetDirection() );
-  outputImage->Allocate();
-  outputImage->FillBuffer(0);
+  outputImage->Allocate(true); // initialize
+                                                      // buffer to zero
 
   ImageRegionConstIteratorWithIndex< OutputImageType > image_it( this->GetOutput(0),  this->GetOutput(
                                                                    0)->GetRequestedRegion() );
