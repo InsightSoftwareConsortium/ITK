@@ -5,6 +5,8 @@ PROJECT(LabelErodeDilate)
 SET(BRAIN_ATLAS ${CMAKE_CURRENT_SOURCE_DIR}/images/HarvardOxford-cort-maxprob-thr50-1mm.nii.gz)
 SET(POINTIM ${CMAKE_CURRENT_SOURCE_DIR}/BugsFromDzenan/vCenters10.mha)
 SET(BRAIN_SLICE ${CMAKE_CURRENT_SOURCE_DIR}/images/axial.png)
+SET(HOLEIM ${CMAKE_CURRENT_SOURCE_DIR}/images/hole.nii.gz)
+SET(DOTIM ${CMAKE_CURRENT_SOURCE_DIR}/images/dot.nii.gz)
 
 #include some macros from another file...
 INCLUDE(IJMacros.txt)
@@ -77,7 +79,7 @@ ENDIF(BUILD_WRAPPERS)
 IF(BUILD_TESTING)
 
 FOREACH(CurrentExe labelSetsErode labelSetsPerf
-labelSetsDilatePerf labelSetsDilateWSPerf labelSetsDilateDanielssonPerf labelSetsDilate labelSetsDilateWS labelSetsDilateDanielsson reportNonZero labelSetsDilateSelected labelDilateLoopTest)
+labelSetsDilatePerf labelSetsDilateWSPerf labelSetsDilateDanielssonPerf labelSetsDilate labelSetsDilateWS labelSetsDilateDanielsson reportNonZero labelSetsDilateSelected labelDilateLoopTest labelSetsDilateEllipse labelSetsErodeEllipse)
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 ENDFOREACH(CurrentExe)
@@ -128,5 +130,13 @@ ADD_TEST(LoopDilateTest2  ${TEST_COMMAND} labelDilateLoopTest  -i ${BRAIN_SLICE}
 
 
 
+ADD_TEST(testLabelDilateEllipse ${TEST_COMMAND} labelSetsDilateEllipse  -i
+${DOTIM} -o labdilate3d_ell.nii.gz -r 20 --radius2 10 --radius3 10
+--compare labdilate3d_ell.nii.gz  ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/labdilate3d_ell.nii.gz
+)
 
+ADD_TEST(testLabelErodeEllipse ${TEST_COMMAND} labelSetsErodeEllipse  -i
+${HOLEIM} -o laberode3d_ell.nii.gz -r 20 --radius2 10 --radius3 10
+--compare laberode3d_ell.nii.gz  ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/laberode3d_ell.nii.gz
+)
 

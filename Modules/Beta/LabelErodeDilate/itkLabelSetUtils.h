@@ -431,6 +431,7 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
                          const RealType m_Extreme,
                          const RealType image_scale,
                          const RealType Sigma,
+                         const RealType BaseSigma,
                          const bool lastpass)
 {
   // traditional erosion - can't optimise the same way as the first pass
@@ -441,11 +442,8 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
     {
     iscale = image_scale;
     }
-  // restructure equation to reduce numerical error
-//  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
-  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0);
+  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0*Sigma);
   LineBufferType LineBuf(LineLength);
-//  LineBufferType tmpLineBuf(LineLength);
   LabelBufferType LabBuf(LineLength);
 
   inputIterator.SetDirection(direction);
@@ -510,8 +508,8 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
       // if one end of the run touches the image edge, then we leave
       // the value as 1
       RealType leftend=0,rightend=0;
-      if (first == 0) leftend=Sigma;
-      if (last == LineLength - 1) rightend = Sigma;
+      if (first == 0) leftend=BaseSigma;
+      if (last == LineLength - 1) rightend = BaseSigma;
 
       ShortLineBuf[0]=leftend;
       ShortLineBuf[SLL+1]=rightend;
@@ -537,7 +535,7 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
       while (!outputLabIterator.IsAtEndOfLine())
         {
         typename TInIter::PixelType val = 0;
-        if (LineBuf[j2] == Sigma)
+        if (LineBuf[j2] == BaseSigma)
           {
           val=LabBuf[j2];
           }
@@ -565,7 +563,8 @@ void doOneDimensionDilate(TInIter &inputIterator, TDistIter &inputDistIterator,
                           const bool m_UseImageSpacing,
                           const RealType m_Extreme,
                           const RealType image_scale,
-                          const RealType Sigma)
+                          const RealType Sigma
+  )
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
@@ -577,8 +576,8 @@ void doOneDimensionDilate(TInIter &inputIterator, TDistIter &inputDistIterator,
     iscale = image_scale;
     }
   // restructure equation to reduce numerical error
-//  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
-  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 );
+  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+//  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 );
   LineBufferType LineBuf(LineLength);
   LabelBufferType LabBuf(LineLength);
   LineBufferType tmpLineBuf(LineLength);

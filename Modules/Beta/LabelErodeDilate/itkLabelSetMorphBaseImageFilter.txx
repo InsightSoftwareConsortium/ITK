@@ -42,7 +42,7 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
 }
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
-void 
+void
 LabelSetMorphBaseImageFilter<TInputImage, doDilate,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId)
 {
@@ -151,9 +151,9 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage >
   m_DistanceImage->FillBuffer(0);
   m_DistanceImage->CopyInformation(inputImage);
 
-  // set up the scaling parameter
   if (this->GetUseImageSpacing())
     {
+
     // radius is in mm
     for (unsigned P=0;P<InputImageType::ImageDimension;P++)
       {
@@ -169,6 +169,27 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage >
       {
       m_Scale[P] = (0.5*m_Radius[P] * m_Radius[P]+1);
       }
+    }
+
+  // set up the scaling parameter
+  // first non zero element of m_Scale sets the value used the first
+  // active pass over the image.
+  // Subsequent non zero values are scaled by the first non zero
+  // value to support elliptical operations.
+  // The first value needs to be recorded for use by the erosion operation.
+  unsigned firstval=0;
+  for (unsigned P=0;P<InputImageType::ImageDimension;P++)
+    {
+    if (m_Radius[P] != 0)
+      {
+      firstval=P;
+      break;
+      }
+    }
+  m_BaseSigma = m_Scale[firstval];
+  for (unsigned P=firstval+1;P<InputImageType::ImageDimension;P++)
+    {
+    m_Scale[P] = m_Scale[P]/m_Scale[firstval];
     }
 
   m_FirstPassDone = false;

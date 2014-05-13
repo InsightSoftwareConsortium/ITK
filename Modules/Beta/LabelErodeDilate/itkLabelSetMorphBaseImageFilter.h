@@ -5,11 +5,11 @@
 
 namespace itk
 {
-#if	ITK_VERSION_MAJOR < 4
-	typedef int ThreadIdType;
-	typedef int RegionIndexType;
+#if     ITK_VERSION_MAJOR < 4
+        typedef int ThreadIdType;
+        typedef int RegionIndexType;
 #else
-	typedef unsigned int RegionIndexType;
+        typedef unsigned int RegionIndexType;
 #endif
 /**
  * \class LabelSetMorphBaseImageFilter
@@ -115,7 +115,9 @@ protected:
   int m_MagnitudeSign;
   int m_CurrentDimension;
   bool m_FirstPassDone;
-
+  // this is the first non-zero entry in the radius. Needed to
+  // support elliptical operations
+  RealType m_BaseSigma;
 private:
   LabelSetMorphBaseImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

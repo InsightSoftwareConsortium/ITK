@@ -64,7 +64,7 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>
   typename TInputImage::ConstPointer   inputImage(    this->GetInput ()   );
   typename TOutputImage::Pointer       outputImage(   this->GetOutput()        );
 
-  
+
   outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
   outputImage->Allocate();
   RegionType region = outputRegionForThread;
@@ -76,7 +76,7 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>
   InputDistIteratorType inputDistIterator(this->m_DistanceImage, region);
   OutputDistIteratorType outputDistIterator(this->m_DistanceImage, region);
 
-  // setup the progress reporting 
+  // setup the progress reporting
   // deal with the first dimension - this should be copied to the
   // output if the scale is 0
 
@@ -89,39 +89,40 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>
     unsigned long LineLength = region.GetSize()[this->m_CurrentDimension];
     RealType image_scale = this->GetInput()->GetSpacing()[this->m_CurrentDimension];
     bool lastpass = (this->m_CurrentDimension == ImageDimension - 1);
-    
+
     if (!this->m_FirstPassDone)
       {
       LabSet::doOneDimensionErodeFirstPass<InputConstIteratorType,OutputDistIteratorType, OutputIteratorType,
-					   RealType>(inputIterator, outputDistIterator, outputIterator,
-						     *progress, LineLength, 
-						     this->m_CurrentDimension,
-						     this->m_MagnitudeSign, 
-						     this->m_UseImageSpacing,
-						     this->m_Extreme,
-						     image_scale,
-						     this->m_Scale[this->m_CurrentDimension],
-				   lastpass);
+                                           RealType>(inputIterator, outputDistIterator, outputIterator,
+                                                     *progress, LineLength,
+                                                     this->m_CurrentDimension,
+                                                     this->m_MagnitudeSign,
+                                                     this->m_UseImageSpacing,
+                                                     this->m_Extreme,
+                                                     image_scale,
+                                                     this->m_Scale[this->m_CurrentDimension],
+                                                     lastpass);
       }
     else
       {
       // do a standard erosion
-      LabSet::doOneDimensionErode<InputConstIteratorType, 
-	InputDistIteratorType,
-	OutputIteratorType,
-	OutputDistIteratorType,
-	RealType>(inputIterator, 
-		  inputDistIterator,
-		  outputDistIterator, 
-		  outputIterator,
-		  *progress, LineLength, 
-		  this->m_CurrentDimension,
-		  this->m_MagnitudeSign, 
-		  this->m_UseImageSpacing,
-		  this->m_Extreme,
-		  image_scale,
-		  this->m_Scale[this->m_CurrentDimension],
-		  lastpass);
+      LabSet::doOneDimensionErode<InputConstIteratorType,
+        InputDistIteratorType,
+        OutputIteratorType,
+        OutputDistIteratorType,
+        RealType>(inputIterator,
+                  inputDistIterator,
+                  outputDistIterator,
+                  outputIterator,
+                  *progress, LineLength,
+                  this->m_CurrentDimension,
+                  this->m_MagnitudeSign,
+                  this->m_UseImageSpacing,
+                  this->m_Extreme,
+                  image_scale,
+                  this->m_Scale[this->m_CurrentDimension],
+                  this->m_BaseSigma,
+                  lastpass);
 
       }
     }
