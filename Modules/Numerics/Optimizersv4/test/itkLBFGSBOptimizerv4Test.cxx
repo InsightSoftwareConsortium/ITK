@@ -242,14 +242,20 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
 
   itkOptimizer->SetInitialPosition( currentValue );
 
-  // Set up boundary conditions
+  /**
+   * Set the boundary condition for each variable, where
+   * select[i] = 0 if x[i] is unbounded,
+   *           = 1 if x[i] has only a lower bound,
+   *           = 2 if x[i] has both lower and upper bounds, and
+   *           = 3 if x[1] has only an upper bound
+   */
   OptimizerType::BoundValueType lower(SpaceDimension);
   OptimizerType::BoundValueType upper(SpaceDimension);
   OptimizerType::BoundSelectionType select(SpaceDimension);
 
   lower.Fill( -1 );
   upper.Fill( 10 );
-  select.Fill( 2 );
+  select.Fill( itk::LBFGSBOptimizerv4::BOTHBOUNDED );
 
   itkOptimizer->SetLowerBound( lower );
   itkOptimizer->SetUpperBound( upper );
@@ -318,7 +324,9 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
   bool pass = true;
   std::string errorIn;
 
+  // true parameters considering bounding constrains -1 <= x <= 10
   double trueParameters[2] = { 4.0/3.0, -1.0 };
+
   for( unsigned int j = 0; j < 2; ++j )
     {
     if( ! itk::Math::FloatAlmostEqual( finalPosition[j], trueParameters[j] ) )
@@ -347,11 +355,90 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
     return EXIT_FAILURE;
     }
 
+  //
   // Test with local-support transform. Should FAIL.
   // Such transforms are not yet supported.
+  //
   std::cout << "-------------------------------" << std::endl;
   metric->SetHasLocalSupport( true );
   TRY_EXPECT_EXCEPTION( itkOptimizer->StartOptimization() );
+
+  //
+  //  Test in unbounded mode
+  //
+  std::cout << std::endl << "Test in unbounded mode:" << std::endl;
+
+  OptimizerType::Pointer  itkOptimizer2 = OptimizerType::New();
+
+  // Set up boundary conditions
+  select.Fill( 0 );
+  itkOptimizer2->SetBoundSelection( select );
+
+  std::cout << "Set metric parameters." << std::endl;
+  metric->SetParameters( initialValue );
+  metric->SetHasLocalSupport( false );
+
+  itkOptimizer2->SetMetric( metric.GetPointer() );
+  itkOptimizer2->SetInitialPosition( currentValue );
+
+  itkOptimizer2->SetCostFunctionConvergenceFactor( F_Convergence_Factor );
+  itkOptimizer2->SetGradientConvergenceTolerance( Projected_G_Tolerance );
+  itkOptimizer2->SetMaximumNumberOfIterations( Max_Iterations );
+  itkOptimizer2->SetMaximumNumberOfFunctionEvaluations( Max_Iterations );
+
+  itkOptimizer2->AddObserver( itk::StartEvent(), eventChecker );
+  itkOptimizer2->AddObserver( itk::IterationEvent(), eventChecker );
+  itkOptimizer2->AddObserver( itk::EndEvent(), eventChecker );
+
+  try
+    {
+    itkOptimizer2->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << "Exception thrown ! " << std::endl;
+    std::cerr << "An error occurred during Optimization" << std::endl;
+    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Boundaries after optimization: " << std::endl;
+  std::cout << "Upper bound size: " << itkOptimizer2->GetUpperBound().size() << std::endl;
+  std::cout << "Lower bound size: " << itkOptimizer2->GetLowerBound().size() << std::endl;
+
+  const OptimizerType::ParametersType & finalPosition2 = itkOptimizer2->GetCurrentPosition();
+  std::cout << "Solution = (" << finalPosition2[0] << "," << finalPosition2[1] << ")" << std::endl;
+  std::cout << "Final Function Value = " << itkOptimizer2->GetValue() << std::endl;
+
+  // check results
+  pass = true;
+
+  // true parameters when there is no constrain
+  trueParameters[0] = 2.0;
+  trueParameters[1] = -2.0;
+
+  for( unsigned int j = 0; j < 2; ++j )
+    {
+    if( ! itk::Math::FloatAlmostEqual( finalPosition2[j], trueParameters[j], 4, 0.01 ) )
+      {
+      pass = false;
+      errorIn = "solution";
+      }
+    }
+
+  if( ! itk::Math::FloatAlmostEqual( itkOptimizer2->GetValue(), -10.0, 4, 0.01 ) )
+    {
+    pass = false;
+    errorIn = "final function value";
+    }
+
+  if( !pass )
+    {
+    std::cerr << "\nError in " << errorIn << ".\n";
+    std::cerr << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

@@ -160,7 +160,7 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
         // function tolerance reached
         this->failure_code_ = CONVERGED_FTOL;
       }
-      else if (vcl_strncmp("CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+      else if (vcl_strncmp("CONVERGENCE:_NORM_OF_PROJECTED_GRADIENT_<=_PGTOL",
                            task, 48) == 0)
       {
         // gradient tolerance reached
