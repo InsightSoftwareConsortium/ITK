@@ -89,10 +89,7 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(DeformationFieldDimension, unsigned int, TDisplacementField::ImageDimension);
 
-  /** Deformation field typedef support. */
-  //  typedef TDeformationField                           DeformationFieldType;
-  //  typedef typename DeformationFieldType::Pointer      DeformationFieldPointer;
-  //  typedef typename DeformationFieldType::PixelType    DisplacementType;
+  /** Displacement field typedef support. */
   typedef TDisplacementField                        DisplacementFieldType;
   typedef typename DisplacementFieldType::Pointer   DisplacementFieldPointer;
   typedef typename DisplacementFieldType::PixelType DisplacementType;
@@ -110,7 +107,7 @@ protected:
   /** WarpImageFilter is implemented as a multi-threaded filter.
    * As such, it needs to provide and implementation for
    * ThreadedGenerateData(). */
-  void
+  virtual void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
 private:

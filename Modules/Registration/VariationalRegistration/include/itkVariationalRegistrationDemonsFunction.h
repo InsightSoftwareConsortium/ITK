@@ -162,7 +162,7 @@ protected:
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Type of available image forces */

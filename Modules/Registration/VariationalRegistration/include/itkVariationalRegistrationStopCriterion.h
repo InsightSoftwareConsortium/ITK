@@ -29,11 +29,11 @@ namespace itk
 
 /** \class itk::VariationalRegistrationStopCriterion
  *
- *  A flexible stop criterion for the variational registration framework.
+ *  \brief A flexible stop criterion for the variational registration framework.
  *
  *  This stop criterion is realised as an observer for the
- *  itkVariationalRegistrationFilter and
- *  itkVariationalRegistrationMultiResolutionFilter.
+ *  VariationalRegistrationFilter and
+ *  VariationalRegistrationMultiResolutionFilter.
  *  It allows testing for
  *    - Number of increase counts for the associated metric
  *    - Slope of a line fitted to the last metric values
@@ -128,7 +128,7 @@ public:
    * value the gradient is smaller then DistanceGradientThresh, the stop
    * criterion is satisfied.
    * \param it Number of fitting iterations. */
-  void
+  virtual void
   SetNumberOfFittingIterations(const int it);
 
   /** Get number of fitting iterations. */
@@ -165,21 +165,21 @@ public:
   itkGetEnumMacro(LineFittingMode, LineFittingMode);
 
   /** Set line fitting mode to original. */
-  void
+  virtual void
   SetLineFittingModeToOriginalValues()
   {
     this->SetLineFittingMode(LINE_FITTING_MODE_ORIGINAL);
   }
 
   /** Set line fitting mode to normalized values. */
-  void
+  virtual void
   SetLineFittingModeToNormalizedValues()
   {
     this->SetLineFittingMode(LINE_FITTING_MODE_NORMALIZED);
   }
 
   /** Set line fitting mode to scaled values. */
-  void
+  virtual void
   SetLineFittingModeToScaledValues()
   {
     this->SetLineFittingMode(LINE_FITTING_MODE_SCALED);
@@ -207,7 +207,7 @@ public:
   itkGetEnumMacro(MultiResolutionPolicy, MultiResolutionPolicy);
 
   /** In each level, use the default stop criterion of the registration filter. */
-  void
+  virtual void
   SetMultiResolutionPolicyToDefault()
   {
     this->SetMultiResolutionPolicy(MULTI_RESOLUTION_POLICY_DEFAULT);
@@ -216,7 +216,7 @@ public:
   /** Apply a simple graduated policy:
    *  - On coarser levels, perform increase count check.
    *  - On finest level, also apply line fitting. */
-  void
+  virtual void
   SetMultiResolutionPolicyToSimpleGraduated()
   {
     this->SetMultiResolutionPolicy(MULTI_RESOLUTION_POLICY_SIMPLE_GRADUATED);
@@ -227,16 +227,16 @@ public:
    *    max number of iterations.
    *  - On the second finest level, perform increase count check.
    *  - On finest level, also apply line fitting. */
-  void
+  virtual void
   SetMultiResolutionPolicyToGraduated()
   {
     this->SetMultiResolutionPolicy(MULTI_RESOLUTION_POLICY_GRADUATED);
   }
 
-  void
+  virtual void
   Execute(itk::Object * caller, const itk::EventObject & event);
 
-  void
+  virtual void
   Execute(const itk::Object * caller, const itk::EventObject & event);
 
 protected:
@@ -244,7 +244,7 @@ protected:
   ~VariationalRegistrationStopCriterion();
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Set the flags according to the multi-resolution policy for
@@ -267,7 +267,7 @@ protected:
   CheckStopRegistration();
 
   /** Calculate linear regression line. */
-  void
+  virtual void
   FitLine(const double * const x, const double * const y, const int n, double * m, double * b);
 
 private:

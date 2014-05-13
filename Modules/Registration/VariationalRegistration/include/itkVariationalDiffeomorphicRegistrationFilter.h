@@ -50,7 +50,7 @@ namespace itk
  * VariationalRegistrationRegularizer. The exponentiation of the velocity field \f$ \phi(x)=exp(v(x))\f$ is done using
  * the ExponentialDisplacementFieldImageFilter.
  *
- *  You can set SmoothUpdateField() to smooth the velocity field before exponentiation.
+ *  You can set SmoothUpdateFieldOn() to smooth the velocity field before exponentiation.
  *
  *  \sa VariationalRegistrationFilter
  *  \sa VariationalRegistrationFunction
@@ -160,7 +160,7 @@ protected:
   ~VariationalDiffeomorphicRegistrationFilter() {}
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This method is called before iterating the solution. */

@@ -29,7 +29,7 @@ namespace itk
  *  static velocity fields.
  *
  *  VariationalSymmetricDiffeomorphicRegistrationFilter is derived from
- *  \c VariationalRegistrationFilter and aims to minimize the  functional
+ *  VariationalRegistrationFilter and aims to minimize the  functional
  *  \f[
  *    (1)\quad J( \phi ) = \frac{1}{2} (D[R, T\circ\phi] + D[R\circ\phi^{-1}, T])
  *    + \alpha S[\phi] \rightarrow \min
@@ -58,7 +58,7 @@ namespace itk
  *  exponentiation of the velocity field \f$ \phi(x)=exp(v(x))\f$ is done using
  *  the ExponentialDisplacementFieldImageFilter.
  *
- *  You can set SmoothUpdateField to smooth the velocity field before exponentiation.
+ *  You can set SmoothUpdateFieldOn() to smooth the velocity field before exponentiation.
  *
  *  \sa VariationalRegistrationFilter
  *  \sa VariationalDiffeomorphicRegistrationFilter
@@ -142,7 +142,7 @@ protected:
   ~VariationalSymmetricDiffeomorphicRegistrationFilter() {}
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This method is called before iterating the solution. */

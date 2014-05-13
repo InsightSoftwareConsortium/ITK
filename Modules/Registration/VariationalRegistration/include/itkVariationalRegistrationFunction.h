@@ -31,10 +31,10 @@ namespace itk
  *
  *  This class is templated over fixed image type, moving image type and deformation field type.
  *  This function has the fixed image, the moving image and the current displacement field as input
- *  and computes an update value in \c ComputeUpdate().
+ *  and computes an update value in ComputeUpdate().
  *
  *  Implement a concrete force type in a subclass; overwrite the methods
- *  \c InitializeIteration() and \c ComputeUpdate().
+ *  InitializeIteration() and ComputeUpdate().
  *
  *  \sa VariationalRegistrationFilter
  *
@@ -95,84 +95,84 @@ public:
 
 
   /** Set the Moving image.  */
-  void
+  virtual void
   SetMovingImage(const MovingImageType * ptr)
   {
     m_MovingImage = ptr;
   }
 
   /** Get the Moving image. */
-  const MovingImageType *
+  virtual const MovingImageType *
   GetMovingImage(void) const
   {
     return m_MovingImage;
   }
 
   /** Set the fixed image. */
-  void
+  virtual void
   SetFixedImage(const FixedImageType * ptr)
   {
     m_FixedImage = ptr;
   }
 
   /** Get the fixed image. */
-  const FixedImageType *
+  virtual const FixedImageType *
   GetFixedImage(void) const
   {
     return m_FixedImage;
   }
 
   /** Set the deformation field. */
-  void
+  virtual void
   SetDisplacementField(DisplacementFieldType * ptr)
   {
     m_DisplacementField = ptr;
   }
 
   /** Get the deformation field. */
-  const DisplacementFieldType *
+  virtual const DisplacementFieldType *
   GetDisplacementField(void) const
   {
     return m_DisplacementField;
   }
 
   /** Set the mask image. */
-  void
+  virtual void
   SetMaskImage(const MaskImageType * ptr)
   {
     m_MaskImage = ptr;
   }
 
   /** Get the mask image. */
-  const MaskImageType *
+  virtual const MaskImageType *
   GetMaskImage(void) const
   {
     return m_MaskImage;
   }
 
   /** Set the moving image warper. */
-  void
+  virtual void
   SetMovingImageWarper(MovingImageWarperType * ptr)
   {
     m_MovingImageWarper = ptr;
   }
 
   /** Get the moving image warper. */
-  const MovingImageWarperType *
+  virtual const MovingImageWarperType *
   GetMovingImageWarper(void) const
   {
     return m_MovingImageWarper;
   }
 
   /** Set the time step. This time step will be used by ComputeGlobalTimeStep(). */
-  void
+  virtual void
   SetTimeStep(TimeStepType timeStep)
   {
     m_TimeStep = timeStep;
   }
 
   /** Get the time step. */
-  const TimeStepType
+  virtual const TimeStepType
   GetTimeStep(void) const
   {
     return m_TimeStep;
@@ -180,7 +180,7 @@ public:
 
   /** Set the MaskBackgroundThreshold. All Pixels of the mask image will be
    *  treated as background if the are <= this threshold. */
-  void
+  virtual void
   SetMaskBackgroundThreshold(MaskImagePixelType threshold)
   {
     m_MaskBackgroundThreshold = threshold;
@@ -188,14 +188,14 @@ public:
 
   /** Get the MaskBackgroundThreshold. All Pixels of the mask image will be
    *  treated as background if the are <= this threshold. */
-  MaskImagePixelType
+  virtual MaskImagePixelType
   GetMaskBackgroundThreshold(void) const
   {
     return m_MaskBackgroundThreshold;
   }
 
   /** Set the object's state before each iteration. */
-  virtual void
+  virtual virtual void
   InitializeIteration();
 
   /** Computes the time step for an update.
@@ -239,7 +239,7 @@ protected:
   ~VariationalRegistrationFunction() {}
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Warp the moving image into the domain of the fixed image using the
@@ -248,7 +248,7 @@ protected:
   WarpMovingImage(void);
 
   /** Get the warped image. */
-  const WarpedImagePointer
+  virtual const WarpedImagePointer
   GetWarpedImage(void) const;
 
   /** A global data type for this class of equation. Used to store

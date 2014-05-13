@@ -63,7 +63,7 @@ namespace itk
  *    - <b>until</b> \f$ StopCriterion\f$ is fulfilled or \f$ k>maxIter \f$
  *
  *  \f$ StopCriterion\f$ is implemented in the class VariationalRegistrationStopCriterion.
- *  Use AddObserver( IterationEvent(), \f$ StopCriterion\f$) to enable different types of stop criteria in the
+ *  Use AddObserver() to enable different types of stop criteria in the
  *  variational registration framework.
  *
  *  VariationalRegistrationFilter has the following parameters:
@@ -163,27 +163,27 @@ public:
   itkGetConstReferenceObjectMacro(Regularizer, RegularizerType);
 
   /** Set the fixed image. */
-  void
+  virtual void
   SetFixedImage(const FixedImageType * ptr);
 
   /** Get the fixed image. */
-  const FixedImageType *
+  virtual const FixedImageType *
   GetFixedImage(void) const;
 
   /** Set the moving image. */
-  void
+  virtual void
   SetMovingImage(const MovingImageType * ptr);
 
   /** Get the moving image. */
-  const MovingImageType *
+  virtual const MovingImageType *
   GetMovingImage(void) const;
 
   /** Set the mask image. */
-  void
+  virtual void
   SetMaskImage(const MaskImageType * ptr);
 
   /** Get the mask image. */
-  const MaskImageType *
+  virtual const MaskImageType *
   GetMaskImage(void) const;
 
   /** Set initial deformation field. */
@@ -259,7 +259,7 @@ protected:
   ~VariationalRegistrationFilter() {}
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** It is difficult to compute in advance the input moving image region

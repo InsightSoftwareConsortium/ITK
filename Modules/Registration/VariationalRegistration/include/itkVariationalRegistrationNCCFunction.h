@@ -43,7 +43,7 @@ namespace itk
  *    \frac{\sum_w (F-\bar{F})(M-\bar{M})}{\sum_w (F-\bar{F})^2}(F-\bar{F})\right)
  *    \nabla M(x+u(x))
  *  \f]
- *  \f$\tau\f$ is the step size and \f$\kappa\f$ is the mean squared spacing. Use \c SetRadius()
+ *  \f$\tau\f$ is the step size and \f$\kappa\f$ is the mean squared spacing. Use SetRadius()
  *  (see FiniteDifferenceFunction) to set the size of the neighbourhood to compute local mean values
  *  \f$\bar{F}\f$ and \f$\bar{M}\f$ and the local sums.
  *  Alternative, the classical gradient \f$\nabla M(x+u(x))\f$ can be replaced by \f$\nabla F(x)\f$
@@ -155,7 +155,7 @@ protected:
   ~VariationalRegistrationNCCFunction() {}
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** FixedImage image neighborhood iterator type. */

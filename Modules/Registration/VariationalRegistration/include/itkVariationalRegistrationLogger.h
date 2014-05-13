@@ -60,15 +60,15 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** print iterations, levels or metric values on IterationEvent or InitializeEvent */
-  void
+  /** Print iterations, levels or metric values on IterationEvent or InitializeEvent */
+  virtual void
   Execute(itk::Object * caller, const itk::EventObject & event)
   {
     Execute((const itk::Object *)caller, event);
   }
 
-  /** print iterations, levels or metric values on IterationEvent or InitializeEvent */
-  void
+  /** Print iterations, levels or metric values on IterationEvent or InitializeEvent */
+  virtual void
   Execute(const itk::Object * caller, const itk::EventObject & event);
 
 protected:
@@ -76,7 +76,7 @@ protected:
   ~VariationalRegistrationLogger();
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
 private:

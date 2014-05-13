@@ -113,7 +113,7 @@ protected:
   ~VariationalRegistrationElasticRegularizer() {}
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Execute regularization. This method is multi-threaded but does not

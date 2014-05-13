@@ -56,7 +56,7 @@ namespace itk
  *  GetOutputField(). However, GetDisplacementField() always returns the
  *  corresponding displacement field.
  *
- *  MultiResolutionPyramidImageFilters are used to downsample the fixed
+ *  MultiResolutionPyramidImageFilter are used to downsample the fixed
  *  and moving images. A VectorExpandImageFilter is used to upsample
  *  the deformation as we move from a coarse to fine solution.
  *
@@ -68,8 +68,6 @@ namespace itk
  *
  *  \sa MultiResolutionPyramidImageFilter
  *  \sa VectorExpandImageFilter
- *
- *  The current implementation of this class does not support streaming.
  *
  *  \ingroup VariationalRegistration
  *

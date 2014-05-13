@@ -91,7 +91,7 @@ protected:
   ~VariationalRegistrationDiffusionRegularizer() {}
 
   /** Print information about the filter. */
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Execute regularization. This method is multi-threaded but does not
@@ -106,12 +106,12 @@ protected:
 
   /** Calculation and LU decomposition of the tridiagonal matrices
    * using the Thomas algorithm (TDMA). */
-  void
+  virtual void
   InitLUMatrices(ValueType ** alpha, ValueType ** beta, ValueType ** gamma, int n, int dim);
 
   /** Regularize a given component (dimension) of the deformation field. This
    *  is called for each ImageDimension by GenerateData(). */
-  void
+  virtual void
   RegularizeComponent(const int component);
 
   /** A struct to store parameters for multithreaded function call. */
