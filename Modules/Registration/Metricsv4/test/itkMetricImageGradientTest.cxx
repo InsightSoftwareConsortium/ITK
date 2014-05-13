@@ -112,7 +112,7 @@ protected:
                              const MovingImageGradientType &  itkNotUsed(mappedMovingImageGradient),
                              MeasureType &                    itkNotUsed(metricValueReturn),
                              DerivativeType &                 itkNotUsed(localDerivativeReturn),
-                             const ThreadIdType               itkNotUsed(threadID) ) const
+                             const ThreadIdType               itkNotUsed(threadId) ) const
   {
     return false;
   }

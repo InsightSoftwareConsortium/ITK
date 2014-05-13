@@ -103,7 +103,7 @@ template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCo
 bool
 CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
 TImageToImageMetric, TCorrelationMetric>
-::ProcessVirtualPoint( const VirtualIndexType & itkNotUsed(virtualIndex), const VirtualPointType & virtualPoint, const ThreadIdType threadID )
+::ProcessVirtualPoint( const VirtualIndexType & itkNotUsed(virtualIndex), const VirtualPointType & virtualPoint, const ThreadIdType threadId )
 {
   FixedImagePointType         mappedFixedPoint;
   FixedImagePixelType         mappedFixedPixelValue;
@@ -151,8 +151,8 @@ TImageToImageMetric, TCorrelationMetric>
   /* Do the specific calculations for values */
   try
     {
-    this->m_CorrelationMetricPerThreadVariables[threadID].FixSum += mappedFixedPixelValue;
-    this->m_CorrelationMetricPerThreadVariables[threadID].MovSum += mappedMovingPixelValue;
+    this->m_CorrelationMetricPerThreadVariables[threadId].FixSum += mappedFixedPixelValue;
+    this->m_CorrelationMetricPerThreadVariables[threadId].MovSum += mappedMovingPixelValue;
     }
   catch( ExceptionObject & exc )
     {
@@ -163,7 +163,7 @@ TImageToImageMetric, TCorrelationMetric>
     }
   if( pointIsValid )
     {
-    this->m_GetValueAndDerivativePerThreadVariables[threadID].NumberOfValidPoints++;
+    this->m_GetValueAndDerivativePerThreadVariables[threadId].NumberOfValidPoints++;
     }
 
   return pointIsValid;

@@ -893,14 +893,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
                  MovingImagePointType & mappedPoint,
                  bool & sampleOk,
                  double & movingImageValue,
-                 ThreadIdType threadID) const
+                 ThreadIdType threadId) const
 {
   sampleOk = true;
   TransformType *transform;
 
-  if ( threadID > 0 )
+  if ( threadId > 0 )
     {
-    transform = this->m_ThreaderTransform[threadID - 1];
+    transform = this->m_ThreaderTransform[threadId - 1];
     }
   else
     {
@@ -949,10 +949,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       BSplineTransformWeightsType *   weightsHelper;
       BSplineTransformIndexArrayType *indicesHelper;
 
-      if ( threadID > 0 )
+      if ( threadId > 0 )
         {
-        weightsHelper = &( this->m_ThreaderBSplineTransformWeights[threadID - 1] );
-        indicesHelper = &( this->m_ThreaderBSplineTransformIndices[threadID - 1] );
+        weightsHelper = &( this->m_ThreaderBSplineTransformWeights[threadId - 1] );
+        indicesHelper = &( this->m_ThreaderBSplineTransformIndices[threadId - 1] );
         }
       else
         {
@@ -984,7 +984,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       sampleOk = sampleOk && m_BSplineInterpolator->IsInsideBuffer(mappedPoint);
       if ( sampleOk )
         {
-        movingImageValue = m_BSplineInterpolator->Evaluate(mappedPoint, threadID);
+        movingImageValue = m_BSplineInterpolator->Evaluate(mappedPoint, threadId);
         }
       }
     else
@@ -1011,15 +1011,15 @@ ImageToImageMetric< TFixedImage, TMovingImage >
                                 bool & sampleOk,
                                 double & movingImageValue,
                                 ImageDerivativesType & movingImageGradient,
-                                ThreadIdType threadID) const
+                                ThreadIdType threadId) const
 {
   TransformType *transform;
 
   sampleOk = true;
 
-  if ( threadID > 0 )
+  if ( threadId > 0 )
     {
-    transform = this->m_ThreaderTransform[threadID - 1];
+    transform = this->m_ThreaderTransform[threadId - 1];
     }
   else
     {
@@ -1068,10 +1068,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       BSplineTransformWeightsType *   weightsHelper;
       BSplineTransformIndexArrayType *indicesHelper;
 
-      if ( threadID > 0 )
+      if ( threadId > 0 )
         {
-        weightsHelper = &( this->m_ThreaderBSplineTransformWeights[threadID - 1] );
-        indicesHelper = &( this->m_ThreaderBSplineTransformIndices[threadID - 1] );
+        weightsHelper = &( this->m_ThreaderBSplineTransformWeights[threadId - 1] );
+        indicesHelper = &( this->m_ThreaderBSplineTransformIndices[threadId - 1] );
         }
       else
         {
@@ -1106,7 +1106,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
         this->m_BSplineInterpolator->EvaluateValueAndDerivative(mappedPoint,
                                                                 movingImageValue,
                                                                 movingImageGradient,
-                                                                threadID);
+                                                                threadId);
         }
       }
     else
@@ -1115,7 +1115,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       sampleOk = sampleOk && m_Interpolator->IsInsideBuffer(mappedPoint);
       if ( sampleOk )
         {
-        this->ComputeImageDerivatives(mappedPoint, movingImageGradient, threadID);
+        this->ComputeImageDerivatives(mappedPoint, movingImageGradient, threadId);
         movingImageValue = this->m_Interpolator->Evaluate(mappedPoint);
         }
       }
@@ -1132,13 +1132,13 @@ void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::ComputeImageDerivatives(const MovingImagePointType & mappedPoint,
                           ImageDerivativesType & gradient,
-                          ThreadIdType threadID) const
+                          ThreadIdType threadId) const
 {
   if ( m_InterpolatorIsBSpline )
     {
     // Computed moving image gradient using derivative BSpline kernel.
     gradient = m_BSplineInterpolator->EvaluateDerivative(mappedPoint,
-                                                         threadID);
+                                                         threadId);
     }
   else
     {
@@ -1182,9 +1182,9 @@ ImageToImageMetric< TFixedImage, TMovingImage >
                                const_cast< void * >( static_cast< const void * >( &m_ThreaderParameter ) ) );
   m_Threader->SingleMethodExecute();
 
-  for ( ThreadIdType threadID = 0; threadID < m_NumberOfThreads - 1; threadID++ )
+  for ( ThreadIdType threadId = 0; threadId < m_NumberOfThreads - 1; threadId++ )
     {
-    this->m_NumberOfPixelsCounted += m_ThreaderNumberOfMovingImageSamples[threadID];
+    this->m_NumberOfPixelsCounted += m_ThreaderNumberOfMovingImageSamples[threadId];
     }
 }
 
@@ -1206,15 +1206,15 @@ ITK_THREAD_RETURN_TYPE
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreadedPreProcess(void *arg)
 {
-  ThreadIdType                threadID;
+  ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadID = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   mtParam = (MultiThreaderParameterType *)
             ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
 
-  mtParam->metric->GetValueThreadPreProcess(threadID, false);
+  mtParam->metric->GetValueThreadPreProcess(threadId, false);
 
   return ITK_THREAD_RETURN_VALUE;
 }
@@ -1227,15 +1227,15 @@ ITK_THREAD_RETURN_TYPE
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreaded(void *arg)
 {
-  ThreadIdType                threadID;
+  ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadID = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   mtParam = (MultiThreaderParameterType *)
             ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
 
-  mtParam->metric->GetValueThread(threadID);
+  mtParam->metric->GetValueThread(threadId);
 
   return ITK_THREAD_RETURN_VALUE;
 }
@@ -1248,15 +1248,15 @@ ITK_THREAD_RETURN_TYPE
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreadedPostProcess(void *arg)
 {
-  ThreadIdType                threadID;
+  ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadID = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   mtParam = (MultiThreaderParameterType *)
             ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
 
-  mtParam->metric->GetValueThreadPostProcess(threadID, false);
+  mtParam->metric->GetValueThreadPostProcess(threadId, false);
 
   return ITK_THREAD_RETURN_VALUE;
 }
@@ -1264,15 +1264,15 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueThread(ThreadIdType threadID) const
+::GetValueThread(ThreadIdType threadId) const
 {
   // Figure out how many samples to process
   int chunkSize = m_NumberOfFixedImageSamples / m_NumberOfThreads;
 
   // Skip to this thread's samples to process
-  unsigned int fixedImageSample = threadID * chunkSize;
+  unsigned int fixedImageSample = threadId * chunkSize;
 
-  if ( threadID == m_NumberOfThreads - 1 )
+  if ( threadId == m_NumberOfThreads - 1 )
     {
     chunkSize = m_NumberOfFixedImageSamples
                 - ( ( m_NumberOfThreads - 1 )
@@ -1282,7 +1282,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   if ( m_WithinThreadPreProcess )
     {
-    this->GetValueThreadPreProcess(threadID, true);
+    this->GetValueThreadPreProcess(threadId, true);
     }
 
   // Process the samples
@@ -1294,12 +1294,12 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     double               movingImageValue;
     // Get moving image value
     this->TransformPoint(fixedImageSample, mappedPoint, sampleOk, movingImageValue,
-                         threadID);
+                         threadId);
 
     if ( sampleOk )
       {
       // CALL USER FUNCTION
-      if ( GetValueThreadProcessSample(threadID, fixedImageSample,
+      if ( GetValueThreadProcessSample(threadId, fixedImageSample,
                                        mappedPoint, movingImageValue) )
         {
         ++numSamples;
@@ -1307,9 +1307,9 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       }
     }
 
-  if ( threadID > 0 )
+  if ( threadId > 0 )
     {
-    m_ThreaderNumberOfMovingImageSamples[threadID - 1] = numSamples;
+    m_ThreaderNumberOfMovingImageSamples[threadId - 1] = numSamples;
     }
   else
     {
@@ -1318,7 +1318,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   if ( m_WithinThreadPostProcess )
     {
-    this->GetValueThreadPostProcess(threadID, true);
+    this->GetValueThreadPostProcess(threadId, true);
     }
 }
 
@@ -1345,9 +1345,9 @@ ImageToImageMetric< TFixedImage, TMovingImage >
                                const_cast< void * >( static_cast< const void * >( &m_ThreaderParameter ) ) );
   m_Threader->SingleMethodExecute();
 
-  for ( ThreadIdType threadID = 0; threadID < m_NumberOfThreads - 1; threadID++ )
+  for ( ThreadIdType threadId = 0; threadId < m_NumberOfThreads - 1; threadId++ )
     {
-    this->m_NumberOfPixelsCounted += m_ThreaderNumberOfMovingImageSamples[threadID];
+    this->m_NumberOfPixelsCounted += m_ThreaderNumberOfMovingImageSamples[threadId];
     }
 }
 
@@ -1369,15 +1369,15 @@ ITK_THREAD_RETURN_TYPE
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreadedPreProcess(void *arg)
 {
-  ThreadIdType                threadID;
+  ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadID = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   mtParam = (MultiThreaderParameterType *)
             ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
 
-  mtParam->metric->GetValueAndDerivativeThreadPreProcess(threadID, false);
+  mtParam->metric->GetValueAndDerivativeThreadPreProcess(threadId, false);
 
   return ITK_THREAD_RETURN_VALUE;
 }
@@ -1390,15 +1390,15 @@ ITK_THREAD_RETURN_TYPE
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreaded(void *arg)
 {
-  ThreadIdType                threadID;
+  ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadID = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   mtParam = (MultiThreaderParameterType *)
             ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
 
-  mtParam->metric->GetValueAndDerivativeThread(threadID);
+  mtParam->metric->GetValueAndDerivativeThread(threadId);
 
   return ITK_THREAD_RETURN_VALUE;
 }
@@ -1411,15 +1411,15 @@ ITK_THREAD_RETURN_TYPE
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreadedPostProcess(void *arg)
 {
-  ThreadIdType                threadID;
+  ThreadIdType                threadId;
   MultiThreaderParameterType *mtParam;
 
-  threadID = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadId = ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   mtParam = (MultiThreaderParameterType *)
             ( ( (MultiThreaderType::ThreadInfoStruct *)( arg ) )->UserData );
 
-  mtParam->metric->GetValueAndDerivativeThreadPostProcess(threadID, false);
+  mtParam->metric->GetValueAndDerivativeThreadPostProcess(threadId, false);
 
   return ITK_THREAD_RETURN_VALUE;
 }
@@ -1427,15 +1427,15 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeThread(ThreadIdType threadID) const
+::GetValueAndDerivativeThread(ThreadIdType threadId) const
 {
   // Figure out how many samples to process
   int chunkSize = m_NumberOfFixedImageSamples / m_NumberOfThreads;
 
   // Skip to this thread's samples to process
-  unsigned int fixedImageSample = threadID * chunkSize;
+  unsigned int fixedImageSample = threadId * chunkSize;
 
-  if ( threadID == m_NumberOfThreads - 1 )
+  if ( threadId == m_NumberOfThreads - 1 )
     {
     chunkSize = m_NumberOfFixedImageSamples
                 - ( ( m_NumberOfThreads - 1 )
@@ -1446,7 +1446,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   if ( m_WithinThreadPreProcess )
     {
-    this->GetValueAndDerivativeThreadPreProcess(threadID, true);
+    this->GetValueAndDerivativeThreadPreProcess(threadId, true);
     }
 
   // Process the samples
@@ -1459,12 +1459,12 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     // Get moving image value
     TransformPointWithDerivatives(fixedImageSample, mappedPoint, sampleOk,
                                   movingImageValue, movingImageGradientValue,
-                                  threadID);
+                                  threadId);
 
     if ( sampleOk )
       {
       // CALL USER FUNCTION
-      if ( this->GetValueAndDerivativeThreadProcessSample(threadID,
+      if ( this->GetValueAndDerivativeThreadProcessSample(threadId,
                                                           fixedImageSample,
                                                           mappedPoint,
                                                           movingImageValue,
@@ -1475,9 +1475,9 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       }
     }
 
-  if ( threadID > 0 )
+  if ( threadId > 0 )
     {
-    m_ThreaderNumberOfMovingImageSamples[threadID - 1] = numSamples;
+    m_ThreaderNumberOfMovingImageSamples[threadId - 1] = numSamples;
     }
   else
     {
@@ -1486,7 +1486,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   if ( m_WithinThreadPostProcess )
     {
-    this->GetValueAndDerivativeThreadPostProcess(threadID, true);
+    this->GetValueAndDerivativeThreadPostProcess(threadId, true);
     }
 }
 
@@ -1575,13 +1575,13 @@ void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::SynchronizeTransforms() const
 {
-  for ( ThreadIdType threadID = 0; threadID < m_NumberOfThreads - 1; threadID++ )
+  for ( ThreadIdType threadId = 0; threadId < m_NumberOfThreads - 1; threadId++ )
     {
     /** Set the fixed parameters first. Some transforms have parameters which depend on
         the values of the fixed parameters. For instance, the BSplineTransform
         checks the grid size (part of the fixed parameters) before setting the parameters. */
-    this->m_ThreaderTransform[threadID]->SetFixedParameters( this->m_Transform->GetFixedParameters() );
-    this->m_ThreaderTransform[threadID]->SetParameters( this->m_Transform->GetParameters() );
+    this->m_ThreaderTransform[threadId]->SetFixedParameters( this->m_Transform->GetFixedParameters() );
+    this->m_ThreaderTransform[threadId]->SetParameters( this->m_Transform->GetParameters() );
     }
 }
 } // end namespace itk

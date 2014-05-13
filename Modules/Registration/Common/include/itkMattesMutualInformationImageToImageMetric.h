@@ -277,22 +277,22 @@ private:
   void ComputeFixedImageParzenWindowIndices( FixedImageSampleContainer & samples);
 
   /** Compute PDF derivative contribution for each parameter. */
-  void ComputePDFDerivatives(ThreadIdType threadID, unsigned int sampleNumber, int movingImageParzenWindowIndex,
+  void ComputePDFDerivatives(ThreadIdType threadId, unsigned int sampleNumber, int movingImageParzenWindowIndex,
                                      const ImageDerivativesType
                                      &  movingImageGradientValue,
                                      PDFValueType cubicBSplineDerivativeValue) const;
 
-  virtual void GetValueThreadPreProcess(ThreadIdType threadID, bool withinSampleThread) const;
-  virtual void GetValueThreadPostProcess(ThreadIdType threadID, bool withinSampleThread) const;
+  virtual void GetValueThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const;
+  virtual void GetValueThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const;
   //NOTE:  The signature in base class requires that movingImageValue is of type double
-  virtual bool GetValueThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
+  virtual bool GetValueThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
                                                   const MovingImagePointType & mappedPoint,
                                                   double movingImageValue) const;
 
-  virtual void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadID, bool withinSampleThread) const;
-  virtual void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadID, bool withinSampleThread) const;
+  virtual void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadId, bool withinSampleThread) const;
+  virtual void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadId, bool withinSampleThread) const;
   //NOTE:  The signature in base class requires that movingImageValue is of type double
-  virtual bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadID, SizeValueType fixedImageSample,
+  virtual bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
                                                                const MovingImagePointType & mappedPoint,
                                                                double movingImageValue, const ImageDerivativesType &
                                                                movingImageGradientValue) const;

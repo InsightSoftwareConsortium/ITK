@@ -81,23 +81,23 @@ throw ( ExceptionObject )
 
   m_PerThread = new AlignedPerThreadType[this->m_NumberOfThreads];
 
-  for( ThreadIdType threadID = 0; threadID < this->m_NumberOfThreads; threadID++ )
+  for( ThreadIdType threadId = 0; threadId < this->m_NumberOfThreads; threadId++ )
     {
-    m_PerThread[threadID].m_MSEDerivative.SetSize(this->m_NumberOfParameters);
+    m_PerThread[threadId].m_MSEDerivative.SetSize(this->m_NumberOfParameters);
     }
 }
 
 template <typename TFixedImage, typename TMovingImage>
 inline bool
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
-::GetValueThreadProcessSample(ThreadIdType threadID,
+::GetValueThreadProcessSample(ThreadIdType threadId,
                               SizeValueType fixedImageSample,
                               const MovingImagePointType & itkNotUsed(mappedPoint),
                               double movingImageValue) const
 {
   double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
 
-  m_PerThread[threadID].m_MSE += diff * diff;
+  m_PerThread[threadId].m_MSE += diff * diff;
 
   return true;
 }
@@ -153,7 +153,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 template <typename TFixedImage, typename TMovingImage>
 inline bool
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
-::GetValueAndDerivativeThreadProcessSample(ThreadIdType threadID,
+::GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId,
                                            SizeValueType fixedImageSample,
                                            const MovingImagePointType & itkNotUsed(mappedPoint),
                                            double movingImageValue,
@@ -162,7 +162,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 {
   double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
 
-  AlignedPerThreadType &threadS =  m_PerThread[threadID];
+  AlignedPerThreadType &threadS =  m_PerThread[threadId];
 
   threadS.m_MSE += diff * diff;
 
@@ -176,9 +176,9 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
   // the reference counts.
   TransformType *transform;
 
-  if( threadID > 0 )
+  if( threadId > 0 )
     {
-    transform = this->m_ThreaderTransform[threadID - 1];
+    transform = this->m_ThreaderTransform[threadId - 1];
     }
   else
     {
@@ -232,9 +232,9 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
   memset( derivative.data_block(),
           0,
           this->m_NumberOfParameters * sizeof( double ) );
-  for( ThreadIdType threadID = 0; threadID < this->m_NumberOfThreads; threadID++ )
+  for( ThreadIdType threadId = 0; threadId < this->m_NumberOfThreads; threadId++ )
     {
-    memset( m_PerThread[threadID].m_MSEDerivative.data_block(),
+    memset( m_PerThread[threadId].m_MSEDerivative.data_block(),
             0,
             this->m_NumberOfParameters * sizeof( double ) );
     }

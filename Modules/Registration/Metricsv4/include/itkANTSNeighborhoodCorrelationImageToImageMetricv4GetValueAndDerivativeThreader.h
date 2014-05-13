@@ -218,7 +218,7 @@ protected:
          const MovingImageGradientType &   itkNotUsed(mappedMovingImageGradient),
          MeasureType &                     itkNotUsed(metricValueReturn),
          DerivativeType &                  itkNotUsed(localDerivativeReturn),
-         const ThreadIdType                itkNotUsed(threadID) ) const
+         const ThreadIdType                itkNotUsed(threadId) ) const
      {
         itkExceptionMacro("ProcessPoint should never be reached in ANTS CC metric threader class.");
      }
@@ -252,12 +252,12 @@ protected:
    * UpdateQueuesAtBeginningOfLine or \c UpdateQueuesToNextScanWindow. */
   void UpdateQueues(const ScanIteratorType &scanIt,
     ScanMemType &scanMem, const ScanParametersType &scanParameters,
-    const ThreadIdType threadID) const;
+    const ThreadIdType threadId) const;
 
   void UpdateQueuesAtBeginningOfLine(
     const ScanIteratorType &scanIt, ScanMemType &scanMem,
     const ScanParametersType &scanParameters,
-    const ThreadIdType threadID) const;
+    const ThreadIdType threadId) const;
 
   /** Increment the iterator and check to see if we're at the end of the
    * line.  If so, go to the next line.  Otherwise, add the
@@ -265,19 +265,19 @@ protected:
   void UpdateQueuesToNextScanWindow(
     const ScanIteratorType &scanIt, ScanMemType &scanMem,
     const ScanParametersType &scanParameters,
-    const ThreadIdType threadID) const;
+    const ThreadIdType threadId) const;
 
   /** Test to see if there are any voxels we need to handle in the current
    * window. */
   bool ComputeInformationFromQueues(
     const ScanIteratorType &scanIt, ScanMemType &scanMem,
     const ScanParametersType &scanParameters,
-    const ThreadIdType threadID) const;
+    const ThreadIdType threadId) const;
 
   void ComputeMovingTransformDerivative(
     const ScanIteratorType &scanIt, ScanMemType &scanMem,
     const ScanParametersType &scanParameters, DerivativeType &deriv,
-    MeasureType &local_cc, const ThreadIdType threadID) const;
+    MeasureType &local_cc, const ThreadIdType threadId) const;
 
 private:
   ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented

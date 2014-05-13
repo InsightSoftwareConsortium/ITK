@@ -267,7 +267,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
                 const MovingImageGradientType &    movingImageGradient,
                 MeasureType &                      itkNotUsed(metricValueReturn),
                 DerivativeType &                   itkNotUsed(localDerivativeReturn),
-                const ThreadIdType                 threadID) const
+                const ThreadIdType                 threadId) const
 {
 
   /*
@@ -280,7 +280,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   const InternalComputationValueType & f1 = fixedImageValue - this->m_CorrelationAssociate->m_AverageFix;
   const InternalComputationValueType & m1 = movingImageValue - this->m_CorrelationAssociate->m_AverageMov;
 
-  AlignedCorrelationMetricValueDerivativePerThreadStruct & cumsum = this->m_CorrelationMetricValueDerivativePerThreadVariables[threadID];
+  AlignedCorrelationMetricValueDerivativePerThreadStruct & cumsum = this->m_CorrelationMetricValueDerivativePerThreadVariables[threadId];
   cumsum.f += f1;
   cumsum.m += m1;
   cumsum.f2 += f1 * f1;
@@ -291,7 +291,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     {
     /* Use a pre-allocated jacobian object for efficiency */
     typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
-    JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadID].MovingTransformJacobian;
+    JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
 
     /** For dense transforms, this returns identity */
     this->m_CorrelationAssociate->GetMovingTransform()->ComputeJacobianWithRespectToParameters(virtualPoint, jacobian);

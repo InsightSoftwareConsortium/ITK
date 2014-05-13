@@ -104,10 +104,10 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadID ) const;
+        const ThreadIdType                threadId ) const;
 
   /** Compute PDF derivative contribution for each parameter. */
-  virtual void ComputePDFDerivatives(const ThreadIdType &    threadID,
+  virtual void ComputePDFDerivatives(const ThreadIdType &    threadId,
                              const OffsetValueType &         fixedImageParzenWindowIndex,
                              const JacobianType &            jacobian,
                              const OffsetValueType &         pdfMovingIndex,
