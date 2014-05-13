@@ -96,19 +96,19 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadID ) const;
+        const ThreadIdType                threadId ) const;
 
   inline InternalComputationValueType ComputeFixedImageMarginalPDFDerivative(
                                         const MarginalPDFPointType & margPDFpoint,
-                                        const ThreadIdType threadID ) const;
+                                        const ThreadIdType threadId ) const;
 
   inline InternalComputationValueType ComputeMovingImageMarginalPDFDerivative(
                                         const MarginalPDFPointType & margPDFpoint,
-                                        const ThreadIdType threadID ) const;
+                                        const ThreadIdType threadId ) const;
 
   inline InternalComputationValueType ComputeJointPDFDerivative(
                                           const JointPDFPointType & jointPDFpoint,
-                                          const ThreadIdType threadID,
+                                          const ThreadIdType threadId,
                                           const SizeValueType ind ) const;
   struct JointHistogramMIPerThreadStruct
     {

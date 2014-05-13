@@ -186,9 +186,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 ::ComputeResults() const
 {
   // Collect some results
-  for( ThreadIdType threadID = 1, lastThread = this->GetNumberOfThreadsUsed(); threadID < lastThread; ++threadID )
+  for( ThreadIdType threadId = 1, lastThread = this->GetNumberOfThreadsUsed(); threadId < lastThread; ++threadId )
     {
-    this->m_ThreaderJointPDFSum[0] += this->m_ThreaderJointPDFSum[threadID];
+    this->m_ThreaderJointPDFSum[0] += this->m_ThreaderJointPDFSum[threadId];
     }
   if( this->m_ThreaderJointPDFSum[0] < itk::NumericTraits< PDFValueType >::epsilon() )
     {
@@ -336,12 +336,12 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   // code used by GetValue and GetValueAndDerivative.
   // Should be threaded. But if modified to do so, should probably not be threaded
   // separately, but rather as a part of all post-processing.
-  for( ThreadIdType threadID = 0, localNumberOfThreadsUsed = this->GetNumberOfThreadsUsed();
-       threadID < localNumberOfThreadsUsed; ++threadID )
+  for( ThreadIdType threadId = 0, localNumberOfThreadsUsed = this->GetNumberOfThreadsUsed();
+       threadId < localNumberOfThreadsUsed; ++threadId )
     {
-    const int histogramBlockSize = this->m_NumberOfHistogramBins * ( this->m_ThreaderJointPDFEndBin[threadID] - this->m_ThreaderJointPDFStartBin[threadID] + 1 );
+    const int histogramBlockSize = this->m_NumberOfHistogramBins * ( this->m_ThreaderJointPDFEndBin[threadId] - this->m_ThreaderJointPDFStartBin[threadId] + 1 );
 
-    const unsigned int tPdfPtrOffset = ( this->m_ThreaderJointPDFStartBin[threadID] * this->m_ThreaderJointPDF[0]->GetOffsetTable()[1] );
+    const unsigned int tPdfPtrOffset = ( this->m_ThreaderJointPDFStartBin[threadId] * this->m_ThreaderJointPDF[0]->GetOffsetTable()[1] );
     JointPDFValueType * const pdfPtrStart = this->m_ThreaderJointPDF[0]->GetBufferPointer() + tPdfPtrOffset;
 
     // The PDF domain is chunked based on thread.  Each thread consolodates independent parts of the PDF.
@@ -355,7 +355,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
         {
         *( pdfPtr++ ) += *( tPdfPtr++ );
         }
-      for( int i = this->m_ThreaderJointPDFStartBin[threadID], endBin= this->m_ThreaderJointPDFEndBin[threadID]; i <= endBin; ++i )
+      for( int i = this->m_ThreaderJointPDFStartBin[threadId], endBin= this->m_ThreaderJointPDFEndBin[threadId]; i <= endBin; ++i )
         {
         this->m_ThreaderFixedImageMarginalPDF[0][i] += this->m_ThreaderFixedImageMarginalPDF[t][i];
         }
@@ -367,7 +367,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
       {
       jointPDFSum += *( pdfPtr++ );
       }
-    this->m_ThreaderJointPDFSum[threadID] = jointPDFSum;
+    this->m_ThreaderJointPDFSum[threadId] = jointPDFSum;
   }
 }
 

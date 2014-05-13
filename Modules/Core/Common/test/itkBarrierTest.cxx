@@ -46,14 +46,14 @@ public:
 
 ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )
 {
-  itk::ThreadIdType threadID = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
+  itk::ThreadIdType threadId = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
   BarrierTestUserData *data = static_cast<BarrierTestUserData *>(
                   ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
   for (unsigned int i = 0;  i < data->m_NumberOfIterations; i++)
     {
     // set the value for this iteration
-    data->m_Counter[threadID] = i;
+    data->m_Counter[threadId] = i;
 
     // wait for all the other threads
     data->m_FirstBarrier->Wait();
@@ -89,9 +89,9 @@ ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
 
 ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
 {
-  itk::ThreadIdType threadID = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
+  itk::ThreadIdType threadId = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
 
-  if (threadID == 3)
+  if (threadId == 3)
     {
     BarrierCheckIncrement( ptr );
     }

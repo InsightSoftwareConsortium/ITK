@@ -175,7 +175,7 @@ template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJ
 typename JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >::InternalComputationValueType
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::ComputeFixedImageMarginalPDFDerivative( const MarginalPDFPointType & margPDFpoint,
-                                          const ThreadIdType threadID ) const
+                                          const ThreadIdType threadId ) const
 {
   InternalComputationValueType offset = 0.5*this->m_JointPDFSpacing[0];
   InternalComputationValueType eps = this->m_JointPDFSpacing[0];
@@ -202,8 +202,8 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   InternalComputationValueType delta = rightpoint[0]-leftpoint[0];
   if ( delta > NumericTraits< InternalComputationValueType >::Zero )
     {
-    InternalComputationValueType deriv = this->m_ThreaderFixedImageMarginalPDFInterpolator[threadID]->Evaluate(rightpoint) -
-      this->m_ThreaderFixedImageMarginalPDFInterpolator[threadID]->Evaluate(leftpoint);
+    InternalComputationValueType deriv = this->m_ThreaderFixedImageMarginalPDFInterpolator[threadId]->Evaluate(rightpoint) -
+      this->m_ThreaderFixedImageMarginalPDFInterpolator[threadId]->Evaluate(leftpoint);
     return deriv/delta;
     }
   else

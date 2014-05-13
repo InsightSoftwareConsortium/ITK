@@ -110,7 +110,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadID ) const;
+        const ThreadIdType                threadId ) const;
 
 private:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented

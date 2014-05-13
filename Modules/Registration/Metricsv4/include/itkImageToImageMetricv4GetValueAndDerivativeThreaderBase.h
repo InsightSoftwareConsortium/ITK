@@ -138,7 +138,7 @@ protected:
    * Results must be returned by derived classes in:
    *   \param metricValueReturn
    *   \param localDerivativeReturn
-   * \param threadID may be used as needed, for example to access any per-thread
+   * \param threadId may be used as needed, for example to access any per-thread
    * data cached during pre-processing by the derived class.
    * \warning  This is called from the threader, and thus must be thread-safe.
    */
@@ -153,14 +153,14 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadID ) const = 0;
+        const ThreadIdType                threadId ) const = 0;
 
 
   /** Store derivative result from a single point calculation.
    * \warning If this method is overridden or otherwise not used
    * in a derived class, be sure to *accumulate* results. */
   virtual void StorePointDerivativeResult( const VirtualIndexType & virtualIndex,
-                                           const ThreadIdType threadID );
+                                           const ThreadIdType threadId );
 
   struct GetValueAndDerivativePerThreadStruct
     {

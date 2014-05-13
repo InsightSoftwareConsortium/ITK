@@ -149,7 +149,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
                                             subdomain);
 
   // Execute the actual method with appropriate sub-domain.
-  // If the threadID is greater than the total number of regions
+  // If the threadId is greater than the total number of regions
   // that PartitionDomain will create, don't use this thread.
   // Sometimes the threads dont break up very well and it is just
   // as efficient to leave a few threads idle.
