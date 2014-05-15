@@ -20,6 +20,7 @@
 #include "itkByteSwapper.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
+#include "vnl/vnl_matrix.h"
 #include <stdio.h>
 #include <fstream>
 
@@ -147,20 +148,42 @@ FDFImageIO::ReadImageInformation()
 
       if (name == "orientation")
       {
+        const unsigned      numDim(this->GetNumberOfDimensions());
         std::vector<double> orientation;
         StringToVector(value, orientation);
 
-        for (unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
+        vnl_matrix<double> testDirections(numDim, numDim);
+
+        for (unsigned int i = 0; i < numDim; i++)
         {
           std::vector<double> componentVector;
-          for (unsigned int j = 0; j < this->GetNumberOfDimensions(); j++)
+          for (unsigned int j = 0; j < numDim; j++)
           {
-            componentVector.push_back(orientation[i * this->GetNumberOfDimensions() + j]);
+            double val = orientation[i * numDim + j];
+            testDirections(j, i) = val;
+            componentVector.push_back(val);
           }
           this->SetDirection(i, componentVector);
         }
+        // check for degenerate dimensions. this will happen
+        // if the dimension of the image is 2 but the
+        // direction matrix in the file is 3x3.
+        // if direction matrix is degenerate, punt and set
+        // directions to identity
+        if (vnl_determinant(testDirections) == 0)
+        {
+          for (unsigned int i = 0; i < numDim; i++)
+          {
+            std::vector<double> componentVector;
+            for (unsigned int j = 0; j < numDim; j++)
+            {
+              double val = i == j ? 1.0 : 0.0;
+              componentVector.push_back(val);
+            }
+            this->SetDirection(i, componentVector);
+          }
+        }
       }
-
       if (name == "span")
       {
         StringToVector(value, this->m_Span);
