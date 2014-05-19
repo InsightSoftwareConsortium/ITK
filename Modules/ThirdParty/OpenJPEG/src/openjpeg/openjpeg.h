@@ -33,6 +33,8 @@
 #ifndef OPENJPEG_H
 #define OPENJPEG_H
 
+#include "openjpeg_mangle.h"
+
 #include "openjpegDllConfig.h"
 
 #if defined(OPJ_STATIC) || (!defined(WIN32) && !defined(__MINGW32__)) || defined(__WIN32__)

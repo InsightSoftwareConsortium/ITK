@@ -8,3 +8,8 @@ set(ITKOpenJPEG_INCLUDE_DIRS
 set(ITKOpenJPEG_LIBRARIES itkopenjpeg)
 
 itk_module_impl()
+
+install(FILES ${ITKOpenJPEG_SOURCE_DIR}/src/itk_openjpeg.h
+  DESTINATION ${ITKOpenJPEG_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
+  )
