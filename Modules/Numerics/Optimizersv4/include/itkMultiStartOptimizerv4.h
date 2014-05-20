@@ -73,10 +73,11 @@ public:
   } StopConditionType;
 
   /** Stop condition return string type */
-  typedef std::string                            StopConditionReturnStringType;
+  typedef typename Superclass::StopConditionReturnStringType StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  typedef std::ostringstream                     StopConditionDescriptionType;
+  typedef typename Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
+  /** Stop condition return string type */
 
   /** It should be possible to derive the internal computation type from the class object. */
   typedef TInternalComputationValueType             InternalComputationValueType;
@@ -119,7 +120,7 @@ public:
   virtual void ResumeOptimization();
 
   /** Get the reason for termination */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const;
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
 
   /** Get the list of parameters over which to search.  */
   ParametersListType & GetParametersList();

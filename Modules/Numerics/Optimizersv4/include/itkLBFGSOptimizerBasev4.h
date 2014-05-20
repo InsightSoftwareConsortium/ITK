@@ -72,6 +72,12 @@ public:
   typedef Superclass::ParametersType ParametersType;
   typedef Superclass::ScalesType     ScalesType;
 
+  /** Stop condition return string type */
+  typedef Superclass::StopConditionReturnStringType StopConditionReturnStringType;
+
+  /** Stop condition internal string type */
+  typedef Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
+
   /** Method for getting access to the internal optimizer. */
   TInternalVnlOptimizerType * GetOptimizer(void);
 
@@ -104,7 +110,7 @@ public:
   itkGetConstMacro(GradientConvergenceTolerance, double);
 
   /** Get the reason for termination */
-  virtual const std::string GetStopConditionDescription() const;
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
 
 protected:
   LBFGSOptimizerBasev4();
