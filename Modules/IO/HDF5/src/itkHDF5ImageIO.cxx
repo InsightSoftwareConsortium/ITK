@@ -388,7 +388,7 @@ TScalar
 HDF5ImageIO
 ::ReadScalar(const std::string &DataSetName)
 {
-  hsize_t dim;
+  hsize_t dim[1];
   H5::DataSet scalarSet = this->m_H5File->openDataSet(DataSetName);
   H5::DataSpace Space = scalarSet.getSpace();
 
@@ -397,8 +397,8 @@ HDF5ImageIO
     itkExceptionMacro(<< "Wrong # of dims for TransformType "
                       << "in HDF5 File");
     }
-  Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
-  if(dim != 1)
+  Space.getSimpleExtentDims(dim,ITK_NULLPTR);
+  if(dim[0] != 1)
     {
     itkExceptionMacro(<< "Elements > 1 for scalar type "
                       << "in HDF5 File");
@@ -476,7 +476,7 @@ HDF5ImageIO
 ::ReadVector(const std::string &DataSetName)
 {
   std::vector<TScalar> vec;
-  hsize_t dim;
+  hsize_t dim[1];
   H5::DataSet vecSet = this->m_H5File->openDataSet(DataSetName);
   H5::DataSpace Space = vecSet.getSpace();
 
@@ -485,13 +485,13 @@ HDF5ImageIO
     itkExceptionMacro(<< "Wrong # of dims for TransformType "
                       << "in HDF5 File");
     }
-  Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
-  vec.resize(dim);
-  TScalar *buf = new TScalar[dim];
+  Space.getSimpleExtentDims(dim,ITK_NULLPTR);
+  vec.resize(dim[0]);
+  TScalar *buf = new TScalar[dim[0]];
   H5::PredType vecType =
     GetType<TScalar>();
   vecSet.read(buf,vecType);
-  for(unsigned i = 0; i < dim; i++)
+  for(unsigned i = 0; i < dim[0]; i++)
     {
     vec[i] = buf[i];
     }
@@ -785,13 +785,13 @@ HDF5ImageIO
       H5::DataSet metaDataSet = this->m_H5File->openDataSet(localMetaDataName);
       H5::DataType metaDataType = metaDataSet.getDataType();
       H5::DataSpace metaDataSpace = metaDataSet.getSpace();
-      if(metaDataSpace.getSimpleExtentNdims() > 1)
+      if(metaDataSpace.getSimpleExtentNdims() != 1)
         {
         // ignore > 1D metadata
         continue;
         }
-      hsize_t metaDataDims;
-      metaDataSpace.getSimpleExtentDims(&metaDataDims);
+      hsize_t metaDataDims[1];
+      metaDataSpace.getSimpleExtentDims(metaDataDims);
       //
       // work around bool/int confusion on disk.
       if(metaDataType == H5::PredType::NATIVE_INT)
@@ -821,7 +821,7 @@ HDF5ImageIO
           this->StoreMetaData<int>(&metaDict,
                               localMetaDataName,
                               name,
-                              metaDataDims);
+                              metaDataDims[0]);
           }
         }
       else if(metaDataType == H5::PredType::NATIVE_CHAR)
@@ -829,63 +829,63 @@ HDF5ImageIO
         this->StoreMetaData<char>(&metaDict,
                                   localMetaDataName,
                                   name,
-                                  metaDataDims);
+                                  metaDataDims[0]);
         }
       else if(metaDataType == H5::PredType::NATIVE_UCHAR)
         {
         this->StoreMetaData<unsigned char>(&metaDict,
                                            localMetaDataName,
                                            name,
-                                           metaDataDims);
+                                           metaDataDims[0]);
         }
       else if(metaDataType == H5::PredType::NATIVE_SHORT)
         {
         this->StoreMetaData<short>(&metaDict,
                                    localMetaDataName,
                                    name,
-                                   metaDataDims);
+                                   metaDataDims[0]);
         }
       else if(metaDataType == H5::PredType::NATIVE_USHORT)
         {
         this->StoreMetaData<unsigned short>(&metaDict,
                                             localMetaDataName,
                                             name,
-                                            metaDataDims);
+                                            metaDataDims[0]);
         }
       else if(metaDataType == H5::PredType::NATIVE_UINT)
         {
         this->StoreMetaData<unsigned int>(&metaDict,
                                           localMetaDataName,
                                           name,
-                                          metaDataDims);
+                                          metaDataDims[0]);
         }
       else if(metaDataType == H5::PredType::NATIVE_LONG)
         {
         this->StoreMetaData<long>(&metaDict,
                                   localMetaDataName,
                                   name,
-                                  metaDataDims);
+                                  metaDataDims[0]);
         }
       else if(metaDataType == H5::PredType::NATIVE_ULONG)
         {
         this->StoreMetaData<unsigned long>(&metaDict,
                                            localMetaDataName,
                                            name,
-                                           metaDataDims);
+                                           metaDataDims[0]);
         }
       else if(metaDataType == H5::PredType::NATIVE_FLOAT)
         {
         this->StoreMetaData<float>(&metaDict,
                                    localMetaDataName,
                                    name,
-                                   metaDataDims);
+                                   metaDataDims[0]);
         }
       else if(metaDataType == H5::PredType::NATIVE_DOUBLE)
         {
         this->StoreMetaData<double>(&metaDict,
                                     localMetaDataName,
                                     name,
-                                    metaDataDims);
+                                    metaDataDims[0]);
         }
       else
         {
