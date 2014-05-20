@@ -63,8 +63,10 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
   typedef itk::fem::Element2DC0LinearQuadrilateralMembrane MembraneElementType;
   MembraneElementType::Pointer e0 = MembraneElementType::New();
   e0->SetGlobalNumber(0);
-  e0->SetMaterial( dynamic_cast<ElasticityType *>( m.GetPointer() ) );
-
+  if ( dynamic_cast<ElasticityType *>( m.GetPointer() ))
+    {
+    e0->SetMaterial( dynamic_cast<ElasticityType *>( m.GetPointer() ) );
+    }
   typedef itk::fem::ImageToRectilinearFEMObjectFilter<ImageType> MeshFilterType;
   MeshFilterType::Pointer meshFilter = MeshFilterType::New();
   meshFilter->SetInput( reader->GetOutput() );
@@ -162,9 +164,9 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
 
   std::cout << "Material Property Test :";
 
-  ElasticityType * m1 = dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() );
-
-  if ( (m1->GetYoungsModulus() != 3000.0) ||
+  ElasticityType * m1 =
+    dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() );
+  if ( !m1 || (m1->GetYoungsModulus() != 3000.0) ||
       (m1->GetCrossSectionalArea() != 0.02) ||
       (m1->GetMomentOfInertia() != 0.004) )
     {
