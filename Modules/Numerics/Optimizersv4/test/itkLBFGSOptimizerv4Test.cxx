@@ -52,7 +52,7 @@ public:
   typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
 
-  itkTypeMacro( itkLBFGSOptimizerv4TestMetric, SingleValuedCostFunction );
+  itkTypeMacro( itkLBFGSOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
