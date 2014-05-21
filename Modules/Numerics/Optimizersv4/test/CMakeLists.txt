@@ -22,7 +22,8 @@ set(ITKOptimizersv4Tests
   itkLBFGSOptimizerv4Test.cxx
   itkLBFGSBOptimizerv4Test.cxx
   itkRegularStepGradientDescentOptimizerv4Test.cxx
-  )
+  itkAmoebaOptimizerv4Test.cxx
+ )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
@@ -120,6 +121,10 @@ itk_add_test(NAME itkLBFGSOptimizerv4Test
 itk_add_test(NAME itkLBFGSBOptimizerv4Test
   COMMAND ITKOptimizersv4TestDriver
   itkLBFGSBOptimizerv4Test)
+
+itk_add_test(NAME itkAmoebaOptimizerv4Test
+  COMMAND ITKOptimizersv4TestDriver
+  itkAmoebaOptimizerv4Test)
 
 itk_add_test(NAME itkRegularStepGradientDescentOptimizerv4Test
   COMMAND ITKOptimizersv4TestDriver
