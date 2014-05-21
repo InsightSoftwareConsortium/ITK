@@ -58,10 +58,6 @@ public:
 
   typedef Superclass::ParametersType              ParametersType;
   typedef Superclass::DerivativeType              DerivativeType;
-
-  typedef vnl_vector<double>                      VectorType;
-  typedef vnl_matrix<double>                      MatrixType;
-
   typedef Superclass::MeasureType                 MeasureType;
 
   itkLBFGSOptimizerv4TestMetric()
