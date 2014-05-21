@@ -110,6 +110,12 @@ public:
     std::cout << "StartOptimization called from derived class. doOnlyInitialization: " << doOnlyInitialization << std::endl;
     }
 
+  /** Stop condition return string type */
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const
+    {
+    return std::string("Placeholder test return string" );
+    }
+
 };
 
 /**
@@ -124,6 +130,11 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
   MetricType::Pointer metric = MetricType::New();
   ObjectToObjectOptimizerBaseTestOptimizer::Pointer optimizer = ObjectToObjectOptimizerBaseTestOptimizer::New();
 
+  if( optimizer->GetStopConditionDescription() != std::string("Placeholder test return string") )
+    {
+    std::cerr << "GetStopConditionDescription did not return properly" << std::endl;
+    return EXIT_FAILURE;
+    }
   /* exercise some methods */
   optimizer->SetMetric( metric );
   if( optimizer->GetMetric() != metric )

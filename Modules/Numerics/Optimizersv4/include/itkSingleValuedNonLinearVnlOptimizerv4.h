@@ -56,6 +56,12 @@ public:
   typedef Superclass::ParametersType ParametersType;
   typedef Superclass::ScalesType     ScalesType;
 
+  /** Stop condition return string type */
+  typedef Superclass::StopConditionReturnStringType StopConditionReturnStringType;
+
+  /** Stop condition internal string type */
+  typedef Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
+
   virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
 
   /** Set the metric (cost function). This method has to be overloaded
@@ -73,6 +79,9 @@ public:
    * \note The metric value is cached in the base class, retrieved via GetValue(). */
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
+
+  /** Get the reason for termination */
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const = 0;
 
 protected:
   SingleValuedNonLinearVnlOptimizerv4();

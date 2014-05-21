@@ -62,10 +62,10 @@ public:
     } StopConditionType;
 
   /** Stop condition return string type */
-  typedef std::string                            StopConditionReturnStringType;
+  typedef typename Superclass::StopConditionReturnStringType StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  typedef std::ostringstream                     StopConditionDescriptionType;
+  typedef typename Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
 
   /** It should be possible to derive the internal computation type from the class object. */
   typedef TInternalComputationValueType          InternalComputationValueType;
@@ -109,7 +109,7 @@ public:
   virtual void StopOptimization(void);
 
   /** Get the reason for termination */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const;
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
 
   /** Modify the gradient in place, to advance the optimization.
    * This call performs a threaded modification for transforms with

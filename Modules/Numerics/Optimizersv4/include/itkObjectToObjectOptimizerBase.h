@@ -109,6 +109,12 @@ public:
   /** Measure type */
   typedef typename MetricType::MeasureType                   MeasureType;
 
+  /** Stop condition return string type */
+  typedef std::string         StopConditionReturnStringType;
+
+  /** Stop condition internal string type */
+  typedef std::ostringstream  StopConditionDescriptionType;
+
   /** Accessors for Metric */
   itkSetObjectMacro( Metric, MetricType );
   itkGetModifiableObjectMacro(Metric, MetricType );
@@ -229,6 +235,9 @@ protected:
    * automatic scale estimation during StartOptimization()
    */
   bool                          m_DoEstimateScales;
+
+  /** Stop condition return string type */
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const = 0;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
