@@ -200,6 +200,9 @@ public:
    * perform any additional initialization before performing optimization. */
   virtual void StartOptimization( bool doOnlyInitialization = false );
 
+  /** Stop condition return string type */
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const = 0;
+
 protected:
 
   /** Default constructor */
@@ -235,9 +238,6 @@ protected:
    * automatic scale estimation during StartOptimization()
    */
   bool                          m_DoEstimateScales;
-
-  /** Stop condition return string type */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const = 0;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
