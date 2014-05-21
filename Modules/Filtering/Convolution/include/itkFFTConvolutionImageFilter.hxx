@@ -331,7 +331,6 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   typedef ExtractImageFilter< InternalImageType, OutputImageType > ExtractFilterType;
 
   typename ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
-  extractFilter->SetDirectionCollapseToIdentity();
   extractFilter->InPlaceOn();
   extractFilter->GraftOutput( this->GetOutput() );
 
@@ -353,9 +352,16 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   progress->RegisterInternalFilter( extractFilter, progressWeight );
   extractFilter->Update();
 
-  // Graft the output of the crop filter back onto this
-  // filter's output.
-  this->GraftOutput( extractFilter->GetOutput() );
+  OutputImageType *extractedImage = extractFilter->GetOutput();
+  OutputImageType *output = this->GetOutput();
+
+  // Only manually copy the buffer via the pixel container.
+  // The output meta-data of the extract filter is not correct and
+  // different that the GenerateOutputInformation method. So just copy
+  // the buffer.
+  output->SetBufferedRegion(extractedImage->GetBufferedRegion());
+  output->SetPixelContainer(extractedImage->GetPixelContainer());
+
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
