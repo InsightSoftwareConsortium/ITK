@@ -97,7 +97,10 @@ int itkFEMGenerateMeshTest(int, char *[])
     }
 
   itk::fem::Element3DC0LinearHexahedronStrain::Pointer e2 = itk::fem::Element3DC0LinearHexahedronStrain::New();
-  e2->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( m ) );
+  if (  dynamic_cast<itk::fem::MaterialLinearElasticity *>( m ))
+    {
+    e2->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( m ) );
+    }
 
   try
     {

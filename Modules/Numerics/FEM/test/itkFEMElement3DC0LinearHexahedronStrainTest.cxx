@@ -64,6 +64,11 @@ int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 
   FEMObjectSpatialObjectType::Pointer femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );
+  if (!femSO)
+    {
+    std::cout << " dynamic_cast [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
   delete children;
 
   femSO->GetFEMObject()->FinalizeMesh();

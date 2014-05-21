@@ -108,28 +108,40 @@ int itkFEMObjectTest(int, char *[])
   e1->SetGlobalNumber(0);
   e1->SetNode( 0, femObject->GetNode(0) );
   e1->SetNode( 1, femObject->GetNode(1) );
-  e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
+  if ( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(1).GetPointer() ))
+    {
+    e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
+    }
   femObject->AddNextElement( e1.GetPointer());
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(1);
   e1->SetNode( 0, femObject->GetNode(1) );
   e1->SetNode( 1, femObject->GetNode(2) );
-  e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
+  if ( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ))
+    {
+    e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
+    }
   femObject->AddNextElement( e1.GetPointer());
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(2);
   e1->SetNode( 0, femObject->GetNode(1) );
   e1->SetNode( 1, femObject->GetNode(3) );
-  e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(2).GetPointer() ) );
+  if ( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(2).GetPointer() ))
+    {
+    e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(2).GetPointer() ) );
+    }
   femObject->AddNextElement( e1.GetPointer());
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(3);
   e1->SetNode( 0, femObject->GetNode(0) );
   e1->SetNode( 1, femObject->GetNode(4) );
-  e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(1).GetPointer() ) );
+  if ( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(1).GetPointer() ))
+    {
+    e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(1).GetPointer() ) );
+    }
   femObject->AddNextElement( e1.GetPointer());
 
   itk::fem::LoadBC::Pointer l1;
