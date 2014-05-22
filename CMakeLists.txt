@@ -199,7 +199,7 @@ set( ITK_FUTURE_LEGACY_REMOVE 0 CACHE INTERNAL "Remove code that will become leg
 mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_V3_COMPATIBILITY)
 
 # The disabling of legacy code, and the ITKv3 compatibility option can not both be
-# requested.  If removal of legacy code is requested, then ITKV3_COMPATIBILITY must
+# requested. If removal of legacy code is requested, then ITKV3_COMPATIBILITY must
 # be off.
 if(ITKV3_COMPATIBILITY AND ITK_LEGACY_REMOVE)
   message(FATAL_ERROR "Invlaid configuration: ITKV3_COMPATIBILITY AND ITK_LEGACY_REMOVE can not both be ON")
@@ -375,7 +375,7 @@ endif()
 
 #-----------------------------------------------------------------------------
 # The subdirectories added below this line should use only the public
-# interface with find_package(ITK).  Set ITK_DIR to use this ITK build.
+# interface with find_package(ITK). Set ITK_DIR to use this ITK build.
 set(ITK_DIR "${ITK_BINARY_DIR}")
 
 include(Wrapping/itkWrapSetup.cmake)
@@ -395,6 +395,6 @@ endif()
 # Provide an option for generating documentation.
 add_subdirectory(Utilities/Doxygen)
 
-# Create target to download data from the ITKData group.  This must come after
+# Create target to download data from the ITKData group. This must come after
 # all tests have been added that reference the group, so we put it last.
 ExternalData_Add_Target(ITKData)

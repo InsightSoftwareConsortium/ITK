@@ -10,10 +10,13 @@ itkBinaryMorphologicalClosingImageFilterTest.cxx
 itkBinaryMorphologicalOpeningImageFilterTest.cxx
 itkBinaryOpeningByReconstructionImageFilterTest.cxx
 itkBinaryThinningImageFilterTest.cxx
+itkErodeObjectMorphologyImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKBinaryMathematicalMorphology  "${ITKBinaryMathematicalMorphology-Test_LIBRARIES}" "${ITKBinaryMathematicalMorphologyTests}")
 
+itk_add_test(NAME itkErodeObjectMorphologyImageFilterTest
+      COMMAND ITKBinaryMathematicalMorphologyTestDriver itkErodeObjectMorphologyImageFilterTest)
 itk_add_test(NAME itkBinaryClosingByReconstructionImageFilterTest
       COMMAND ITKBinaryMathematicalMorphologyTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png

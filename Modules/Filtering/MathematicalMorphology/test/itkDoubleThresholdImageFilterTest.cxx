@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-//
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -79,12 +78,71 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
 
   // Setup the fillhole method
   threshold->SetInput(  reader->GetOutput() );
-  threshold->SetInsideValue( 255 );
-  threshold->SetOutsideValue( 0 );
-  threshold->SetThreshold1( atoi(argv[3]) );
-  threshold->SetThreshold2( atoi(argv[4]) );
-  threshold->SetThreshold3( atoi(argv[5]) );
-  threshold->SetThreshold4( atoi(argv[6]) );
+  const OutputPixelType InsideValue = threshold->GetInsideValue();
+  const OutputPixelType OutsideValue = threshold->GetOutsideValue();
+  if (InsideValue == 255)
+  {
+    threshold->SetInsideValue( 255 );
+  }
+  if (OutsideValue == 0)
+  {
+    threshold->SetOutsideValue( 0 );
+  }
+
+  int thresholds[4];
+  for(unsigned i = 0; i < 4; ++i)
+    {
+    thresholds[i] = atoi(argv[i+3]);
+    }
+  threshold->SetThreshold1( thresholds[0] );
+  threshold->SetThreshold2( thresholds[1] );
+  threshold->SetThreshold3( thresholds[2] );
+  threshold->SetThreshold4( thresholds[3] );
+  unsigned error = EXIT_SUCCESS;
+
+  if(threshold->GetThreshold1() != thresholds[0])
+    {
+    std::cerr << "Expected " << thresholds[0] << "for threshold 1, found " <<
+      threshold->GetThreshold1() << std::endl;
+    error = EXIT_FAILURE;
+    }
+  if(threshold->GetThreshold2() != thresholds[1])
+    {
+    std::cerr << "Expected " << thresholds[1] << "for threshold 2, found " <<
+      threshold->GetThreshold2() << std::endl;
+    error = EXIT_FAILURE;
+    }
+  if(threshold->GetThreshold3() != thresholds[2])
+    {
+    std::cerr << "Expected " << thresholds[1] << "for threshold 3, found " <<
+      threshold->GetThreshold3() << std::endl;
+    error = EXIT_FAILURE;
+    }
+  if(threshold->GetThreshold4() != thresholds[3])
+    {
+    std::cerr << "Expected " << thresholds[1] << "for threshold 4, found " <<
+      threshold->GetThreshold4() << std::endl;
+    error = EXIT_FAILURE;
+    }
+  if (thresholds[0] <= thresholds[1] &&
+      thresholds[1] <= thresholds[2] &&
+      thresholds[2] <= thresholds[3])
+    {
+    std::cerr<<"Values inputed as Threshold meet the requirement"<<std::endl;
+    }
+  else
+    {
+    std::cerr << "Thresholds aren't monotonically ascending" << std::endl;
+    error = EXIT_FAILURE;
+    }
+  if (threshold->GetFullyConnected() != false)
+    {
+    threshold->SetFullyConnected(false);
+    }
+  else
+    {
+    threshold->SetFullyConnected(false);
+    }
 
   // Run the filter
   rescaler->SetInput( threshold->GetOutput() );
@@ -93,5 +151,5 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
 
-  return EXIT_SUCCESS;
+  return error;
 }

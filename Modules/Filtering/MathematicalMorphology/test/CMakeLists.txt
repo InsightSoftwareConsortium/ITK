@@ -28,6 +28,7 @@ itkGrayscaleDilateImageFilterTest.cxx
 itkGrayscaleErodeImageFilterTest.cxx
 itkGrayscaleMorphologicalClosingImageFilterTest2.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest2.cxx
+itkMorphologicalGradientImageFilterTest2.cxx
 )
 
 CreateTestDriver(ITKMathematicalMorphology  "${ITKMathematicalMorphology-Test_LIBRARIES}" "${ITKMathematicalMorphologyTests}")
@@ -118,6 +119,11 @@ itk_add_test(NAME itkMorphologicalGradientImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MorphologicalGradientImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
     itkMorphologicalGradientImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png)
+itk_add_test(NAME itkMorphologicalGradientImageFilterTest2
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MorphologicalGradientImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
+    itkMorphologicalGradientImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png)
 itk_add_test(NAME itkOpeningByReconstructionImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/OpeningByReconstructionImageFilterTest.png}
