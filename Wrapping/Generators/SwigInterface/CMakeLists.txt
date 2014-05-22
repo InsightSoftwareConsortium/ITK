@@ -8,6 +8,13 @@
 
 option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." OFF)
 
+# Require at least SWIG 3.0.0
+if(ITK_USE_SYSTEM_SWIG)
+  if(${SWIG_VERSION} VERSION_LESS 3.0.0)
+    message(WARNING "Swig version less than 3.0.0: \"${SWIG_VERSION}\".")
+  endif()
+endif()
+
 set(swig_version 3.0.0)
 set(swig_md5     9c8278fad527dda4bf38edffe5acc394)
 set(swigwin_md5  c1d85fee2421d4edac552923fc4e5bde)

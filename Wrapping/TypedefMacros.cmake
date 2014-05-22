@@ -79,10 +79,6 @@ macro(itk_wrap_module library_name)
   # The itk.swg file and the library file for the current library are implicitly added.
   set(WRAPPER_SWIG_LIBRARY_FILES )
 
-  # WRAPPER_LIBRARY_SWIG_INPUTS. SWIG input files to be fed to swig (not
-  # Swig). A full path to each input is required.
-  set(WRAPPER_LIBRARY_SWIG_INPUTS )
-
   # WRAPPER_LIBRARY_CXX_SOURCES. C++ sources to be compiled and linked in
   # to the wrapper library (with no prior processing by swig, etc.)
   # A full path to each input is required.
