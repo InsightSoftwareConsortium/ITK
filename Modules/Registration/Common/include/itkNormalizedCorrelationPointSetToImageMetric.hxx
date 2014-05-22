@@ -169,7 +169,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
   PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
   PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
-  TransformJacobianType jacobian;
+  TransformJacobianType jacobian(TMovingImage::ImageDimension,
+                                 this->m_Transform->GetNumberOfParameters());
+  TransformJacobianType jacobianCache(TMovingImage::ImageDimension,TMovingImage::ImageDimension);
 
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
@@ -195,7 +197,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
       this->m_NumberOfPixelsCounted++;
 
       // Now compute the derivatives
-      this->m_Transform->ComputeJacobianWithRespectToParameters(inputPoint, jacobian);
+      this->m_Transform->ComputeJacobianWithRespectToParametersCachedTemporaries(inputPoint,
+                                                                                 jacobian,
+                                                                                 jacobianCache);
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
@@ -316,6 +320,10 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
   PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
   PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
+  TransformJacobianType jacobian(TMovingImage::ImageDimension,
+                                 this->m_Transform->GetNumberOfParameters());
+  TransformJacobianType jacobianCache(TMovingImage::ImageDimension,TMovingImage::ImageDimension);
+
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
     InputPointType inputPoint;
@@ -340,8 +348,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
       this->m_NumberOfPixelsCounted++;
 
       // Now compute the derivatives
-      TransformJacobianType jacobian;
-      this->m_Transform->ComputeJacobianWithRespectToParameters(inputPoint, jacobian);
+      this->m_Transform->ComputeJacobianWithRespectToParametersCachedTemporaries(inputPoint,
+                                                                                 jacobian,
+                                                                                 jacobianCache);
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.

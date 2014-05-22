@@ -669,6 +669,19 @@ CompositeTransform<TScalar, NDimensions>
    * M rows = dimensionality of the transforms
    * N cols = total number of parameters in the selected sub transforms. */
   outJacobian.SetSize( NDimensions, this->GetNumberOfLocalParameters() );
+  JacobianType jacobianWithRespectToPosition(NDimensions, NDimensions);
+  this->ComputeJacobianWithRespectToParametersCachedTemporaries( p, outJacobian, jacobianWithRespectToPosition );
+}
+
+template
+<typename TScalar, unsigned int NDimensions>
+void
+CompositeTransform<TScalar, NDimensions>
+::ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType & jacobianWithRespectToPosition ) const
+{
+  //NOTE: This must have been done outside of outJacobian.SetSize( NDimensions, this->GetNumberOfLocalParameters() );
+  //NOTE: assert( outJacobian.GetSize == ( NDimensions, this->GetNumberOfLocalParameters() ) )
+  //NOTE: assert( jacobianWithRespectToPosition.GetSize == (NDimensions, NDimensions) )
 
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
 
@@ -755,11 +768,10 @@ CompositeTransform<TScalar, NDimensions>
     // do this before computing the transformedPoint for the next iteration
     if( offsetLast > 0 )
       {
-      JacobianType j1(NDimensions, NDimensions);
-      transform->ComputeJacobianWithRespectToPosition(transformedPoint, j1);
+      transform->ComputeJacobianWithRespectToPosition(transformedPoint, jacobianWithRespectToPosition);
 
       const JacobianType & old_j = outJacobian.extract(NDimensions, offsetLast, 0, 0);
-      const JacobianType & update_j = j1 * old_j;
+      const JacobianType & update_j = jacobianWithRespectToPosition * old_j;
 
       outJacobian.update(update_j, 0, 0);
 

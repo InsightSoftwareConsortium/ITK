@@ -58,9 +58,13 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
   /* Use a pre-allocated jacobian object for efficiency */
   typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
   JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
+  JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
 
   /** For dense transforms, this returns identity */
-  this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian );
+  this->m_Associate->GetMovingTransform()->
+    ComputeJacobianWithRespectToParametersCachedTemporaries(virtualPoint,
+                                                            jacobian,
+                                                            jacobianPositional);
 
   for ( unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); par++ )
     {
