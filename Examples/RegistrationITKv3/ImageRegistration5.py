@@ -177,7 +177,3 @@ writer = itkImageFileWriterUS2_New()
 writer.SetFileName( argv[3] )
 writer.SetInput( outputCast.GetOutput() )
 writer.Update()
-
-
-
-
