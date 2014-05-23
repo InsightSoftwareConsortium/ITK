@@ -122,8 +122,8 @@ itk_add_test(NAME itkMorphologicalGradientImageFilterTest
 itk_add_test(NAME itkMorphologicalGradientImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MorphologicalGradientImageFilterTest.png}
-              ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
-    itkMorphologicalGradientImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png)
+              ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest2.png
+    itkMorphologicalGradientImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest2.png)
 itk_add_test(NAME itkOpeningByReconstructionImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/OpeningByReconstructionImageFilterTest.png}
