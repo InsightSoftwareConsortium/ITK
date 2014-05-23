@@ -190,6 +190,8 @@ int itkPowellOptimizerv4Test(int, char* [] )
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << "StopConditionDescription: "
+            << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   //
   // check results to see if it is within range
