@@ -211,8 +211,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
   myImageType2D2::Pointer outputDistance2D2 = filter2D->GetOutput();
   filter2D->Update();
 
-
-
   /* Show ImageSpacing Distance map */
   std::cout << "Use ImageSpacing Distance Map with squared distance turned off" << std::endl;
   itk::ImageSliceConstIteratorWithIndex<myImageType2D2> it2D5(
