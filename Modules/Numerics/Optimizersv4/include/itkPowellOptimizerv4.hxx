@@ -32,6 +32,9 @@ PowellOptimizerv4<TInternalComputationValueType>
   m_MaximumLineIteration(100),
   m_CatchGetValueException(false),
   m_MetricWorstPossibleValue(0),
+  m_StepLength(0),
+  m_StepTolerance(0),
+  m_ValueTolerance(0),
   m_CurrentCost(0),
   m_Stop(false)
 {
