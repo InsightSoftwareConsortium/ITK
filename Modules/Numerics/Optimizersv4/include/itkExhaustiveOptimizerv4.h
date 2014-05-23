@@ -128,7 +128,8 @@ public:
   itkGetConstReferenceMacro(MinimumMetricValuePosition, ParametersType);
   itkGetConstReferenceMacro(MaximumMetricValuePosition, ParametersType);
   itkGetConstReferenceMacro(CurrentIndex, ParametersType);
-  itkGetConstReferenceMacro(MaximumNumberOfIterations, SizeValueType);
+  itkGetConstMacro(CurrentIteration, SizeValueType);
+  itkGetConstMacro(MaximumNumberOfIterations, SizeValueType);
 
   /** Get the reason for termination */
   virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;

@@ -158,9 +158,11 @@ public:
     if ( ITK_NULLPTR != optimizer )
     {
       OptimizerType::ParametersType currentIndex = optimizer->GetCurrentIndex ();
+      itk::SizeValueType currentIteration = optimizer->GetCurrentIteration();
 
       if ( currentIndex.GetSize () == 2 )
       {
+        std::cout << currentIteration << ": ";
         std::cout << " @ index = " << currentIndex << std::endl;
         // Casting is safe here since the indices are always integer values (but there are stored in doubles):
         unsigned long idx = static_cast < unsigned long > ( currentIndex [ 0 ] + 21 * currentIndex [ 1 ] );
