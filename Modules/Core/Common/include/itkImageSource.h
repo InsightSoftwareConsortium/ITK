@@ -332,22 +332,22 @@ protected:
    */
   virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const;
 
-  /** Split the output's RequestedRegion into "num" pieces, returning
+  /** Split the output's RequestedRegion into "pieces" pieces, returning
    * region "i" as "splitRegion". This method is called concurrently
-   * "num" times. The  regions must not overlap. The method returns the number of pieces that
-   * the routine is capable of splitting the output RequestedRegion,
-   * i.e. return value is less than or equal to "num".
+   * "pieces" times. The  regions must not overlap. The method returns the number
+   * of pieces that the routine is capable of splitting the output RequestedRegion,
+   * i.e. return value is less than or equal to "pieces".
    *
    * To override the algorithm used split the image this method should
-   * no longer be overridden. It stead the algorithm should be
-   * implemented in a ImageRegionSplitter class, and the
+   * no longer be overridden. Instead, the algorithm should be
+   * implemented in a ImageRegionSplitterBase class, and the
    * GetImageRegionSplitter should overridden to return the splitter
    * object with the desired algorithm.
    *
    * \sa GetImageRegionSplitter
    **/
   virtual
-  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
+  unsigned int SplitRequestedRegion(unsigned int i, unsigned int pieces, OutputImageRegionType & splitRegion);
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the
