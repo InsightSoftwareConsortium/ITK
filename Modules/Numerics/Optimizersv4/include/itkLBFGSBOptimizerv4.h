@@ -69,6 +69,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LBFGSBOptimizerv4, Superclass);
 
+  enum BoundSelectionValues {
+    UNBOUNDED = 0,
+    LOWERBOUNDED = 1,
+    BOTHBOUNDED = 2,
+    UPPERBOUNDED = 3
+    };
+
   /**  BoundValue type.
    *  Use for defining the lower and upper bounds on the variables.
    */

@@ -213,12 +213,12 @@ LBFGSBOptimizerv4
     this->SetInitialPosition( m_Metric->GetParameters() );
     }
 
-  if ( m_LowerBound.size() < numberOfParameters )
+  if ( m_LowerBound.size() < numberOfParameters && !m_BoundSelection.is_zero() )
     {
     itkExceptionMacro(<< "LowerBound array does not have sufficient number of elements");
     }
 
-  if ( m_UpperBound.size() < numberOfParameters )
+  if ( m_UpperBound.size() < numberOfParameters && !m_BoundSelection.is_zero() )
     {
     itkExceptionMacro(<< "UppperBound array does not have sufficient number of elements");
     }
