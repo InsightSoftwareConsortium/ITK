@@ -81,6 +81,7 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
   this->m_Origin -= this->m_Difference;
 #else
   this->m_Frequency = 1e6;
+  this->m_Difference = 0.0;
 #endif  // defined(WIN32) || defined(_WIN32)
 }
 

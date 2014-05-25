@@ -36,7 +36,7 @@ class WeightedAdd2
 public:
   typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
   typedef typename NumericTraits< TInput1 >::RealType       RealType;
-  WeightedAdd2() {}
+  WeightedAdd2() : m_Alpha(0.0), m_Beta(0.0) {}
   ~WeightedAdd2() {}
   bool operator!=(const WeightedAdd2 & other) const
   {

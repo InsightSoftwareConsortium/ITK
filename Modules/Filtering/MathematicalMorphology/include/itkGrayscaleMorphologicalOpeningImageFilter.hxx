@@ -29,17 +29,17 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage, typename TKernel >
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
-::GrayscaleMorphologicalOpeningImageFilter()
+::GrayscaleMorphologicalOpeningImageFilter() :
+  m_HistogramDilateFilter(HistogramDilateFilterType::New()),
+  m_HistogramErodeFilter(HistogramErodeFilterType::New()),
+  m_BasicDilateFilter(BasicDilateFilterType::New()),
+  m_BasicErodeFilter(BasicErodeFilterType::New()),
+  m_VanHerkGilWermanDilateFilter(VanHerkGilWermanDilateFilterType::New()),
+  m_VanHerkGilWermanErodeFilter(VanHerkGilWermanErodeFilterType::New()),
+  m_AnchorFilter(AnchorFilterType::New()),
+  m_Algorithm(HISTO),
+  m_SafeBorder(true)
 {
-  m_BasicDilateFilter = BasicDilateFilterType::New();
-  m_BasicErodeFilter = BasicErodeFilterType::New();
-  m_HistogramDilateFilter = HistogramDilateFilterType::New();
-  m_HistogramErodeFilter = HistogramErodeFilterType::New();
-  m_VanHerkGilWermanDilateFilter = VanHerkGilWermanDilateFilterType::New();
-  m_VanHerkGilWermanErodeFilter = VanHerkGilWermanErodeFilterType::New();
-  m_AnchorFilter = AnchorFilterType::New();
-  m_Algorithm = HISTO;
-  m_SafeBorder = true;
 }
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >

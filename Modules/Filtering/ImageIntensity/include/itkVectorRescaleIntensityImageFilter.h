@@ -31,7 +31,7 @@ class VectorMagnitudeLinearTransform
 {
 public:
   typedef typename NumericTraits< typename TInput::ValueType >::RealType RealType;
-  VectorMagnitudeLinearTransform() {}
+  VectorMagnitudeLinearTransform() : m_Factor(0.0) {}
   ~VectorMagnitudeLinearTransform() {}
   void SetFactor(RealType a) { m_Factor = a; }
   itkStaticConstMacro(VectorDimension, unsigned int, TInput::Dimension);

@@ -162,6 +162,7 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 
   m_IsInBounds = false;
   m_IsInBoundsValid = false;
+  m_NeedToUseBoundaryCondition = false;
 }
 
 template< typename TImage >

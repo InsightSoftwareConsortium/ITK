@@ -27,20 +27,19 @@ namespace Statistics
 {
 template< typename TKdTree >
 KdTreeBasedKmeansEstimator< TKdTree >
-::KdTreeBasedKmeansEstimator()
+::KdTreeBasedKmeansEstimator() :
+  m_CurrentIteration(0),
+  m_MaximumIteration(100),
+  m_CentroidPositionChanges(0.0),
+  m_CentroidPositionChangesThreshold(0.0),
+  m_KdTree(ITK_NULLPTR),
+  m_DistanceMetric(EuclideanDistanceMetric< ParameterType >::New()),
+  m_UseClusterLabels(false),
+  m_GenerateClusterLabels(false),
+  m_MeasurementVectorSize(0),
+  m_MembershipFunctionsObject(MembershipFunctionVectorObjectType::New())
 {
-  m_CentroidPositionChangesThreshold = 0.0;
-  m_KdTree = ITK_NULLPTR;
-  m_UseClusterLabels = false;
-  m_MaximumIteration = 100;
-  m_DistanceMetric = EuclideanDistanceMetric< ParameterType >::New();
-
-  m_MembershipFunctionsObject = MembershipFunctionVectorObjectType::New();
-
-  m_CentroidPositionChanges = 0.0;
   m_TempVertex.Fill(0.0);
-  m_CurrentIteration = 0;
-  m_MeasurementVectorSize = 0;
 }
 
 template< typename TKdTree >

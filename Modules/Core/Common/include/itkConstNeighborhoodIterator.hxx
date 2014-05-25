@@ -177,16 +177,18 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 
 template< typename TImage, typename TBoundaryCondition >
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
-::ConstNeighborhoodIterator()
+::ConstNeighborhoodIterator() :
+  m_IsInBounds(false),
+  m_IsInBoundsValid(false),
+  m_NeedToUseBoundaryCondition(false)
 {
   IndexType zeroIndex; zeroIndex.Fill(0);
-
   SizeType zeroSize; zeroSize.Fill(0);
 
   m_Bound.Fill(0);
   m_Begin = ITK_NULLPTR;
   m_BeginIndex.Fill(0);
-  // m_ConstImage
+
   m_End   = ITK_NULLPTR;
   m_EndIndex.Fill(0);
   m_Loop.Fill(0);
@@ -201,9 +203,6 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
     }
 
   this->ResetBoundaryCondition();
-
-  m_IsInBounds = false;
-  m_IsInBoundsValid = false;
 
   m_BoundaryCondition = &m_InternalBoundaryCondition;
 }

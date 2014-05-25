@@ -27,15 +27,14 @@ namespace Statistics
 {
 template< typename TSample >
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::ExpectationMaximizationMixtureModelEstimator()
+::ExpectationMaximizationMixtureModelEstimator() :
+  m_Sample(ITK_NULLPTR),
+  m_MaxIteration(100),
+  m_CurrentIteration(0),
+  m_TerminationCode(NOT_CONVERGED),
+  m_MembershipFunctionsObject           (MembershipFunctionVectorObjectType::New()),
+  m_MembershipFunctionsWeightArrayObject(MembershipFunctionsWeightsArrayObjectType::New())
 {
-  m_TerminationCode = NOT_CONVERGED;
-
-  m_MembershipFunctionsObject            = MembershipFunctionVectorObjectType::New();
-  m_MembershipFunctionsWeightArrayObject =
-    MembershipFunctionsWeightsArrayObjectType::New();
-  m_Sample = ITK_NULLPTR;
-  m_MaxIteration = 100;
 }
 
 template< typename TSample >

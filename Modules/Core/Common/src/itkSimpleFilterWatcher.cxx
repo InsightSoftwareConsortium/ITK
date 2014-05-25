@@ -75,20 +75,23 @@ SimpleFilterWatcher
 }
 
 SimpleFilterWatcher
-::SimpleFilterWatcher()
-{
-  // Initialize state
-  m_Steps = 0;
-  m_Comment = "Not watching an object";
-  m_TestAbort = false;
-  m_Iterations = 0;
+::SimpleFilterWatcher() :
+  m_Steps(0),
+  m_Iterations(0),
 #if defined( _COMPILER_VERSION ) && ( _COMPILER_VERSION == 730 )
-  m_Quiet = true;
+  m_Quiet(true),
 #else
-  m_Quiet = false;
+  m_Quiet(false),
 #endif
-
-  m_Process = ITK_NULLPTR;
+  m_TestAbort(false),
+  m_Comment("Not watching an object"),
+  m_Process(ITK_NULLPTR),
+  m_StartTag(0),
+  m_EndTag(0),
+  m_ProgressTag(0),
+  m_IterationTag(0),
+  m_AbortTag(0)
+{
 }
 
 SimpleFilterWatcher

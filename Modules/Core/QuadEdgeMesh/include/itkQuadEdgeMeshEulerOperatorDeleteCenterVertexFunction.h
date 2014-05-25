@@ -63,7 +63,7 @@ public:
   }
 
 protected:
-  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){}
+  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() : m_OldPointID(0) {}
   ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){}
 
 private:

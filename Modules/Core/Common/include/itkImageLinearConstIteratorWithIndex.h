@@ -130,7 +130,11 @@ public:
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageLinearConstIteratorWithIndex():ImageConstIteratorWithIndex< TImage >(), m_Direction(0) {}
+  ImageLinearConstIteratorWithIndex() :
+    ImageConstIteratorWithIndex< TImage >(),
+    m_Jump(0),
+    m_Direction(0)
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */

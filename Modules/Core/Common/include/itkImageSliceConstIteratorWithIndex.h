@@ -136,10 +136,12 @@ public:
    * particular region of that image. */
   ImageSliceConstIteratorWithIndex(const ImageType *ptr,
                                    const RegionType & region):
-    ImageConstIteratorWithIndex< TImage >(ptr, region)
+    ImageConstIteratorWithIndex< TImage >(ptr, region),
+    m_PixelJump(0),
+    m_LineJump(0),
+    m_Direction_A(0),
+    m_Direction_B(1)
   {
-    m_Direction_A = 0;
-    m_Direction_B = 1;
   }
 
   /** Constructor that can be used to cast from an ImageIterator to an

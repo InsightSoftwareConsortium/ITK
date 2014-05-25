@@ -176,7 +176,7 @@ protected:
   class CandidateVector
   {
 public:
-    CandidateVector() {}
+    CandidateVector() : m_MeasurementVectorSize(0) {}
 
     struct Candidate {
       CentroidType Centroid;

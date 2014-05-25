@@ -27,11 +27,13 @@ namespace Statistics
 {
 template< typename TMeasurement, typename TFrequencyContainer >
 Histogram< TMeasurement, TFrequencyContainer >
-::Histogram()
+::Histogram() :
+  m_Size(0),
+  m_OffsetTable(OffsetTableType(this->GetMeasurementVectorSize() + 1)),
+  m_FrequencyContainer(FrequencyContainerType::New()),
+  m_NumberOfInstances(0),
+  m_ClipBinsAtEnds(true)
 {
-  this->m_ClipBinsAtEnds = true;
-  this->m_FrequencyContainer = FrequencyContainerType::New();
-  this->m_OffsetTable = OffsetTableType(this->GetMeasurementVectorSize() + 1);
   for ( unsigned int i = 0; i < this->GetMeasurementVectorSize() + 1; i++ )
     {
     this->m_OffsetTable[i] = itk::NumericTraits< InstanceIdentifier >::Zero;

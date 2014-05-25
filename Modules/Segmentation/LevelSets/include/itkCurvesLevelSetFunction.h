@@ -113,15 +113,15 @@ public:
   virtual void Initialize(const RadiusType & r);
 
 protected:
-  CurvesLevelSetFunction()
+  CurvesLevelSetFunction() :
+    m_Center(0),
+    m_DerivativeSigma(1.0)
   {
     //Curvature term is the minimal curvature.
     this->UseMinimalCurvatureOn();
     this->SetAdvectionWeight(NumericTraits< ScalarValueType >::One);
     this->SetPropagationWeight(NumericTraits< ScalarValueType >::One);
     this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
-
-    m_DerivativeSigma = 1.0;
   }
 
   virtual ~CurvesLevelSetFunction() {}

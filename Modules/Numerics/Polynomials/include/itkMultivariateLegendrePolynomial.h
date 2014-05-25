@@ -213,11 +213,12 @@ public:
   class SimpleForwardIterator
   {
 public:
-    SimpleForwardIterator (MultivariateLegendrePolynomial *polynomial)
+    SimpleForwardIterator (MultivariateLegendrePolynomial *polynomial) :
+      m_MultivariateLegendrePolynomial(polynomial),
+      m_Dimension  (m_MultivariateLegendrePolynomial->GetDimension()),
+      m_DomainSize (m_MultivariateLegendrePolynomial->GetDomainSize()),
+      m_IsAtEnd(false)
     {
-      m_MultivariateLegendrePolynomial = polynomial;
-      m_Dimension   = m_MultivariateLegendrePolynomial->GetDimension();
-      m_DomainSize  = m_MultivariateLegendrePolynomial->GetDomainSize();
       m_Index.resize(m_Dimension);
       std::fill(m_Index.begin(), m_Index.end(), 0);
     }

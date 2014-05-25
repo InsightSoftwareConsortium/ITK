@@ -23,11 +23,12 @@
 namespace itk
 {
 FreeSurferBinaryMeshIO
-::FreeSurferBinaryMeshIO()
+::FreeSurferBinaryMeshIO() :
+  m_FilePosition(0),
+  m_FileTypeIdentifier(0)
 {
   this->AddSupportedWriteExtension(".fsb");
   this->AddSupportedWriteExtension(".fcv");
-  m_FilePosition = 0;
 }
 
 bool

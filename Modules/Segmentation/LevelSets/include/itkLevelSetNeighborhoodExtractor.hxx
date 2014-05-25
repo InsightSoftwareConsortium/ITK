@@ -32,19 +32,19 @@ namespace itk
  */
 template< typename TLevelSet >
 LevelSetNeighborhoodExtractor< TLevelSet >
-::LevelSetNeighborhoodExtractor()
+::LevelSetNeighborhoodExtractor() :
+  m_LevelSetValue(0.0),
+  m_InsidePoints(ITK_NULLPTR),
+  m_OutsidePoints(ITK_NULLPTR),
+  m_InputLevelSet(ITK_NULLPTR),
+  m_NarrowBanding(false),
+  m_NarrowBandwidth(12.0),
+  m_InputNarrowBand(ITK_NULLPTR),
+  m_LargeValue(NumericTraits< PixelType >::max()),
+  m_LastPointIsInside(false)
 {
-  m_LevelSetValue = 0.0;
-  m_InsidePoints = ITK_NULLPTR;
-  m_OutsidePoints = ITK_NULLPTR;
-  m_InputLevelSet = ITK_NULLPTR;
-
-  m_LargeValue = NumericTraits< PixelType >::max();
   m_NodesUsed.resize(SetDimension);
 
-  m_NarrowBanding = false;
-  m_NarrowBandwidth = 12.0;
-  m_InputNarrowBand = ITK_NULLPTR;
   for ( unsigned int i = 0; i < SetDimension; ++i )
     {
     m_ImageSize[i] = 0;

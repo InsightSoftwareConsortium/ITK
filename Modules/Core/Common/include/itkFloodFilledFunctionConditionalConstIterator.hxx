@@ -65,6 +65,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 
   // Set up the temporary image
   this->InitializeIterator();
+
 }
 
 template< typename TImage, typename TFunction >
@@ -72,6 +73,9 @@ void
 FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::InitializeIterator()
 {
+  m_FoundUncheckedNeighbor = false;
+  m_IsValidIndex = false;
+
   // Get the origin and spacing from the image in simple arrays
   m_ImageOrigin  = this->m_Image->GetOrigin();
   m_ImageSpacing = this->m_Image->GetSpacing();

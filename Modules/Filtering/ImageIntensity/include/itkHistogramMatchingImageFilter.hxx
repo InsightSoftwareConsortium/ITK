@@ -30,28 +30,34 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
-::HistogramMatchingImageFilter()
+::HistogramMatchingImageFilter() :
+  m_NumberOfHistogramLevels(256),
+  m_NumberOfMatchPoints(1),
+  m_ThresholdAtMeanIntensity(true),
+  m_SourceIntensityThreshold(0),
+  m_ReferenceIntensityThreshold(0),
+  m_OutputIntensityThreshold(0.0),
+  m_SourceMinValue(0.0),
+  m_SourceMaxValue(0.0),
+  m_SourceMeanValue(0.0),
+  m_ReferenceMinValue(0.0),
+  m_ReferenceMaxValue(0.0),
+  m_ReferenceMeanValue(0.0),
+  m_OutputMinValue(0.0),
+  m_OutputMaxValue(0.0),
+  m_OutputMeanValue(0.0),
+  m_SourceHistogram(HistogramType::New()),
+  m_ReferenceHistogram(HistogramType::New()),
+  m_OutputHistogram(HistogramType::New()),
+  m_LowerGradient(0.0),
+  m_UpperGradient(0.0)
 {
   this->SetNumberOfRequiredInputs(2);
-
-  m_NumberOfHistogramLevels = 256;
-  m_NumberOfMatchPoints = 1;
 
   m_QuantileTable.set_size(3, m_NumberOfMatchPoints + 2);
   m_QuantileTable.fill(0);
   m_Gradients.set_size(m_NumberOfMatchPoints + 1);
   m_Gradients.fill(0);
-
-  m_ThresholdAtMeanIntensity = true;
-  m_SourceIntensityThreshold = 0;
-  m_ReferenceIntensityThreshold = 0;
-  m_LowerGradient = 0.0;
-  m_UpperGradient = 0.0;
-
-  // Create histograms.
-  m_SourceHistogram = HistogramType::New();
-  m_ReferenceHistogram = HistogramType::New();
-  m_OutputHistogram = HistogramType::New();
 }
 
 /*

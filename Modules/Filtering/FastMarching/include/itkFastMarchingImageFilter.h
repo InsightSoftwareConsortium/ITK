@@ -136,6 +136,7 @@ public:
   class AxisNodeType:public NodeType
   {
 public:
+    AxisNodeType() : m_Axis(0) {}
     int GetAxis() const { return m_Axis; }
     void SetAxis(int axis) { m_Axis = axis; }
     const AxisNodeType & operator=(const NodeType & node)

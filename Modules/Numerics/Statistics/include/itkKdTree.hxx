@@ -27,12 +27,13 @@ namespace Statistics
 template<typename TSample>
 KdTreeNonterminalNode<TSample>
 ::KdTreeNonterminalNode( unsigned int partitionDimension,
-  MeasurementType partitionValue, Superclass *left, Superclass *right )
+                         MeasurementType partitionValue, Superclass *left, Superclass *right ) :
+  m_PartitionDimension(partitionDimension),
+  m_PartitionValue(partitionValue),
+  m_InstanceIdentifier(0),
+  m_Left(left),
+  m_Right(right)
 {
-  this->m_PartitionDimension = partitionDimension;
-  this->m_PartitionValue = partitionValue;
-  this->m_Left = left;
-  this->m_Right = right;
 }
 
 template<typename TSample>

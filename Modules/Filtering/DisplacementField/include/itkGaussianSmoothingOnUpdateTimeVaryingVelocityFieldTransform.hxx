@@ -33,12 +33,13 @@ namespace itk
 
 template<typename TScalar, unsigned int NDimensions>
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
-::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform()
+::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() :
+  m_GaussianSmoothingTempFieldModifiedTime(0),
+  m_GaussianSpatialSmoothingVarianceForTheUpdateField(3.0),
+  m_GaussianSpatialSmoothingVarianceForTheTotalField(0.5),
+  m_GaussianTemporalSmoothingVarianceForTheUpdateField(0.25),
+  m_GaussianTemporalSmoothingVarianceForTheTotalField(0.0)
 {
-  this->m_GaussianSpatialSmoothingVarianceForTheUpdateField = 3.0;
-  this->m_GaussianSpatialSmoothingVarianceForTheTotalField = 0.5;
-  this->m_GaussianTemporalSmoothingVarianceForTheUpdateField = 0.25;
-  this->m_GaussianTemporalSmoothingVarianceForTheTotalField = 0.0;
 }
 
 template<typename TScalar, unsigned int NDimensions>

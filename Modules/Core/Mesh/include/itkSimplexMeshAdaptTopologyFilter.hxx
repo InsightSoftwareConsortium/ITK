@@ -33,14 +33,15 @@
 namespace itk
 {
 template< typename TInputMesh, typename TOutputMesh >
-SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >::SimplexMeshAdaptTopologyFilter()
+SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >::SimplexMeshAdaptTopologyFilter() :
+  m_IdOffset(0),
+  m_Threshold(0.5),
+  m_SelectionMethod(0),
+  m_ModifiedCount(0),
+  m_Output(TOutputMesh::New())
 {
-  m_Output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput( 0, m_Output.GetPointer() );
-  m_ModifiedCount = 0;
-  m_SelectionMethod = 0;
-  m_Threshold = 0.5;
 }
 
 template< typename TInputMesh, typename TOutputMesh >
