@@ -140,6 +140,9 @@ public:
    */
   typedef DataObjectDecorator<OutputTransformType>                    DecoratedOutputTransformType;
   typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
+  typedef DataObjectDecorator<InitialTransformType>                   DecoratedInitialTransformType;
+  typedef typename DecoratedInitialTransformType::Pointer             DecoratedInitialTransformPointer;
+
 
   typedef ShrinkImageFilter<FixedImageType, VirtualImageType>         ShrinkFilterType;
   typedef typename ShrinkFilterType::ShrinkFactorsType                ShrinkFactorsPerDimensionContainerType;
@@ -228,6 +231,23 @@ public:
   itkSetObjectMacro( MovingInitialTransform, InitialTransformType );
   itkGetModifiableObjectMacro( MovingInitialTransform, InitialTransformType );
 
+  /** Set/Get the initial transform to be optimized
+   *
+   * This transform is composed with the MovingInitialTransform to
+   * specify the initial transformation from the moving image to
+   * the virtual image. It is used for the default parameters, and can
+   * be use to specify the transform type.
+   *
+   * If the filter has "InPlace" set then this transform will be the
+   * output transform object or "grafted" to the output. Otherwise,
+   * this InitialTransform will be deep copied or "cloned" to the
+   * output.
+   *
+   * If this parameter is not set then a default constructed output
+   * transform is used.
+   */
+  itkSetGetDecoratedObjectInputMacro(InitialTransform, InitialTransformType);
+
   /** Set/Get the transform adaptors. */
   void SetTransformParametersAdaptorsPerLevel( TransformParametersAdaptorsContainerType & );
   const TransformParametersAdaptorsContainerType & GetTransformParametersAdaptorsPerLevel() const;
@@ -306,7 +326,14 @@ public:
   virtual DataObjectPointer MakeOutput( DataObjectPointerArraySizeType ) ITK_OVERRIDE;
 
   /** Returns the transform resulting from the registration process  */
+  virtual DecoratedOutputTransformType * GetOutput();
   virtual const DecoratedOutputTransformType * GetOutput() const;
+
+  virtual DecoratedOutputTransformType * GetTransformOutput() { return this->GetOutput(); }
+  virtual const DecoratedOutputTransformType * GetTransformOutput() const { return this->GetOutput(); }
+
+  virtual OutputTransformType * GetModifiableTransform();
+  virtual const OutputTransformType * GetTransform() const;
 
   /** Get the current level.  This is a helper function for reporting observations. */
   itkGetConstMacro( CurrentLevel, SizeValueType );
@@ -323,13 +350,13 @@ public:
    /** Get the current convergence state per level.  This is a helper function for reporting observations. */
    itkGetConstReferenceMacro( IsConverged, bool );
 
-  /** Direct initialization of the optimizable transform
-   * parameters.  These values provide the starting
-   * parameter location for the optimizer and the resulting
-   * registration transform will need to be composed with
-   * the static values of the MovingInitialTransform.
+  /** Request that the InitialTransform be grafted onto the output,
+   * there by not creating a copy.
    */
-   void InitializeOutputTransformFromReference( const OutputTransformType * initTransform );
+  itkSetMacro(InPlace, bool);
+  itkGetConstMacro(InPlace, bool);
+  itkBooleanMacro(InPlace);
+
 
 #ifdef ITKV3_COMPATIBILITY
   /** Method that initiates the registration. This will Initialize and ensure
@@ -357,6 +384,8 @@ protected:
 
   /** Perform the registration. */
   virtual void  GenerateData() ITK_OVERRIDE;
+
+  virtual void AllocateOutputs();
 
   /** Initialize by setting the interconnects between the components. */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
@@ -395,11 +424,18 @@ protected:
 
   CompositeTransformPointer                                       m_CompositeTransform;
 
+  //TODO: m_OutputTransform should be removed and replaced with a named input parameter for
+  //      the pipeline  --- Along with many other fixes
   OutputTransformPointer                                          m_OutputTransform;
+
 
 private:
   ImageRegistrationMethodv4( const Self & );   //purposely not implemented
-  void operator=( const Self & );                  //purposely not implemented
+  void operator=( const Self & );              //purposely not implemented
+
+
+  bool                                                            m_InPlace;
+
 };
 } // end namespace itk
 

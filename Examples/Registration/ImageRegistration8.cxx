@@ -307,7 +307,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  registration->InitializeOutputTransformFromReference( initialTransform );
+  registration->SetInitialTransform( initialTransform );
   // Software Guide : EndCodeSnippet
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
