@@ -37,7 +37,7 @@ namespace itk
  */
 template< typename T >
 DataObjectDecorator< T >
-::DataObjectDecorator():m_Component()
+::DataObjectDecorator()
 {}
 
 /**
@@ -54,11 +54,11 @@ DataObjectDecorator< T >
 template< typename T >
 void
 DataObjectDecorator< T >
-::Set(const T *val)
+::Set( const ComponentType *val)
 {
   if ( m_Component != val )
     {
-    m_Component = val;
+    m_Component = const_cast<ComponentType*>(val);
     this->Modified();
     }
 }
@@ -71,7 +71,84 @@ const T *
 DataObjectDecorator< T >
 ::Get() const
 {
-  return m_Component;
+  return m_Component.GetPointer();
+}
+
+/**
+ *
+ */
+template< typename T >
+T *
+DataObjectDecorator< T >
+::GetModifiable()
+{
+  return m_Component.GetPointer();
+}
+
+/**
+ *
+ */
+template< typename T >
+ModifiedTimeType
+DataObjectDecorator< T >
+::GetMTime() const
+{
+  const ModifiedTimeType t = Superclass::GetMTime();
+  if (m_Component.IsNotNull())
+    {
+    return std::max(t, m_Component->GetMTime());
+    }
+  return t;
+}
+
+/**
+ *
+ */
+template< typename T >
+void
+DataObjectDecorator< T >
+::Initialize()
+{
+  Superclass::Initialize();
+
+  // make sure the MTime does not change
+  if ( m_Component.IsNull())
+    {
+    return;
+    }
+  if ( m_Component->GetMTime() > Superclass::GetMTime() )
+    {
+    this->SetTimeStamp(m_Component->GetTimeStamp());
+    }
+  m_Component = ITK_NULLPTR;
+}
+
+/**
+ *
+ */
+template< typename T >
+void
+DataObjectDecorator< T >
+::Graft( const DataObject *data )
+{
+  const Self *decorator = dynamic_cast< const Self * >( data );
+  this->Graft(decorator);
+}
+
+/**
+ *
+ */
+template< typename T >
+void
+DataObjectDecorator< T >
+::Graft( const Self *data )
+{
+  if ( !data )
+    {
+    return;
+    }
+
+  this->Set(data->m_Component);
 }
 
 /**
