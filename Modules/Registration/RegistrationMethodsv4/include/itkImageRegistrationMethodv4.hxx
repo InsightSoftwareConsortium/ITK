@@ -522,8 +522,18 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
 
   // fallback allocation and initialization
 
-  // initialize to identity? Allocate?
+
+  // initialize to identity? what happens if we re-run with optimized values?
   itkDebugMacro("fallback allocation of output transform");
+
+  if ( !decoratedOutputTransform->Get() )
+    {
+    // the output decorated component is null, allocate
+    OutputTransformPointer ptr;
+    Self::MakeOutputTransform(ptr);
+    decoratedOutputTransform->Set(ptr);
+    }
+
   this->m_OutputTransform = this->GetModifiableTransform();
 
 }
@@ -840,8 +850,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     {
     case 0:
       {
+      OutputTransformPointer ptr;
+      Self::MakeOutputTransform(ptr);
       DecoratedOutputTransformPointer transformDecorator =  DecoratedOutputTransformType::New();
-      transformDecorator->Set( OutputTransformType::New() );
+      transformDecorator->Set( ptr );
       return transformDecorator.GetPointer();
       }
     default:

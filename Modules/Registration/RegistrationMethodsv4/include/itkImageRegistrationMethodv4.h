@@ -85,7 +85,10 @@ namespace itk
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage = TFixedImage>
+template<typename TFixedImage,
+         typename TMovingImage,
+         typename TOutputTransform=Transform<double, TFixedImage::ImageDimension,  TFixedImage::ImageDimension >,
+         typename TVirtualImage = TFixedImage>
 class ImageRegistrationMethodv4
 :public ProcessObject
 {
@@ -433,8 +436,19 @@ private:
   ImageRegistrationMethodv4( const Self & );   //purposely not implemented
   void operator=( const Self & );              //purposely not implemented
 
-
   bool                                                            m_InPlace;
+
+  // helper function to create the right kind of concrete transform
+  template<typename TTransform>
+  static void MakeOutputTransform(SmartPointer<TTransform> &ptr)
+    {
+      ptr = TTransform::New();
+    }
+
+  static void MakeOutputTransform(SmartPointer<InitialTransformType> &ptr)
+    {
+      ptr = itk::IdentityTransform<RealType, ImageDimension>::New().GetPointer();
+    }
 
 };
 } // end namespace itk
