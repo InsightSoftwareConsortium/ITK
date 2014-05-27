@@ -42,7 +42,6 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
   this->m_ModifyGradientByLearningRateThreader = modifyGradientByLearningRateThreader;
 
   this->m_NumberOfIterations = 100;
-  this->m_CurrentIteration   = 0;
   this->m_StopCondition      = MAXIMUM_NUMBER_OF_ITERATIONS;
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
 }
@@ -61,7 +60,6 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Number of iterations: " << this->m_NumberOfIterations  << std::endl;
-  os << indent << "Current iteration: " << this->m_CurrentIteration << std::endl;
   os << indent << "Stop condition:"<< this->m_StopCondition << std::endl;
   os << indent << "Stop condition description: " << this->m_StopConditionDescription.str()  << std::endl;
 }

@@ -28,7 +28,6 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 ::ExhaustiveOptimizerv4() :
   m_CurrentValue(0),
   m_NumberOfSteps(0),
-  m_CurrentIteration(0),
   m_Stop(false),
   m_CurrentParameter(0),
   m_StepLength(1.0),
@@ -68,7 +67,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   m_MaximumMetricValue = initialValue;
   m_MinimumMetricValue = initialValue;
 
-  m_CurrentIteration          = 0;
+  this->m_CurrentIteration          = 0;
   m_MaximumNumberOfIterations = 1;
 
   const unsigned int spaceDimension = this->m_Metric->GetParameters().GetSize();
@@ -148,7 +147,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 
     this->InvokeEvent( IterationEvent() );
     this->AdvanceOneStep();
-    m_CurrentIteration++;
+    this->m_CurrentIteration++;
     }
 }
 
@@ -247,7 +246,6 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   os << indent << "InitialPosition = " << m_InitialPosition << std::endl;
   os << indent << "CurrentValue = " << m_CurrentValue << std::endl;
   os << indent << "NumberOfSteps = " << m_NumberOfSteps << std::endl;
-  os << indent << "CurrentIteration = " << m_CurrentIteration << std::endl;
   os << indent << "Stop = " << m_Stop << std::endl;
   os << indent << "CurrentParameter = " << m_CurrentParameter << std::endl;
   os << indent << "StepLength = " << m_StepLength << std::endl;

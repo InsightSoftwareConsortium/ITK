@@ -102,9 +102,6 @@ public:
   /** Get the number of iterations. */
   itkGetConstReferenceMacro(NumberOfIterations, SizeValueType);
 
-  /** Get the current iteration number. */
-  itkGetConstMacro(CurrentIteration, SizeValueType);
-
   /** Create an instance of the local optimizer */
   void InstantiateLocalOptimizer(void);
 
@@ -152,7 +149,6 @@ protected:
   StopConditionType             m_StopCondition;
   StopConditionDescriptionType  m_StopConditionDescription;
   SizeValueType                 m_NumberOfIterations;
-  SizeValueType                 m_CurrentIteration;
   ParametersListType            m_ParametersList;
   MetricValuesListType          m_MetricValuesList;
   MeasureType                   m_MinimumMetricValue;

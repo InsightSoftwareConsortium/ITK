@@ -32,7 +32,6 @@ AmoebaOptimizerv4
   this->m_AutomaticInitialSimplex        = true;
   this->m_InitialSimplexDelta.Fill( NumericTraits< ParametersType::ValueType >::One );
   this->m_OptimizeWithRestarts = false;
-  this->m_CurrentIteration = 0;
   this->m_VnlOptimizer = ITK_NULLPTR;
 }
 
@@ -67,12 +66,9 @@ AmoebaOptimizerv4
      << ( this->m_AutomaticInitialSimplex ? "On" : "Off" ) << std::endl;
   os << indent << "InitialSimplexDelta: "
      << this->m_InitialSimplexDelta << std::endl;
-  os << indent << "CurrentIteration: "
-     << this->m_CurrentIteration << std::endl;
 }
 
 
-/** Get the Optimizer */
 vnl_amoeba *
 AmoebaOptimizerv4
 ::GetOptimizer() const
@@ -95,28 +91,14 @@ void
 AmoebaOptimizerv4
 ::SetMetric(MetricType *metric)
 {
-  // assign to base class
   this->m_Metric = metric;
 
-       //call our ancestors SetCostFunction, we are overriding it - this would
-       //be the correct thing to do so that the GetCostFunction() would work
-       //correctly. Unfortunately, there is a side effect to
-       //this function call, it also sets the scales to one if they haven't been
-       //initialized yet. This causes the optimization to use the scales which
-       //only increases the computationaly complexity without any benefit.
-       //Right now the result of GetCostFunction() will be a null pointer.
-  //SingleValuedNonLinearOptimizer::SetCostFunction( costFunction );
-
-                    //if cost function is NULL this will throw an exception
-                    //when the pointer is dereferenced
-
-  // assign to vnl cost-function adaptor
+  //if cost function is NULL this will throw an exception when the pointer is dereferenced
   const unsigned int numberOfParameters = metric->GetNumberOfParameters();
 
+  // assign to vnl cost-function adaptor
   CostFunctionAdaptorType *adaptor = new CostFunctionAdaptorType( numberOfParameters );
   adaptor->SetCostFunction( metric );
-              //our ancestor, SingleValuedNonLinearVnlOptimizerv4, will release
-              //the adaptor's memory in its destructor or if it is set again
   this->SetCostFunctionAdaptor( adaptor );
   this->Modified();
 }
@@ -146,10 +128,10 @@ AmoebaOptimizerv4
   //start the actual work
   this->InvokeEvent( StartEvent() );
 
-              //configure the vnl optimizer
+  //configure the vnl optimizer
   CostFunctionAdaptorType *adaptor = GetNonConstCostFunctionAdaptor();
-       //get rid of previous instance of the internal optimizer and create a
-       //new one
+  //get rid of previous instance of the internal optimizer and create a
+  //new one
   delete m_VnlOptimizer;
   m_VnlOptimizer = new vnl_amoeba( *adaptor );
   m_VnlOptimizer->set_max_iterations( static_cast< int >( m_MaximumNumberOfIterations ) );
@@ -202,7 +184,6 @@ AmoebaOptimizerv4
   //multiple restart heuristic
   if( this->m_OptimizeWithRestarts )
     {
-    double currentValue;
     this->m_CurrentIteration = static_cast<unsigned int>( m_VnlOptimizer->get_num_evaluations() );
     bool converged = false;
     unsigned int i=1;
@@ -216,8 +197,8 @@ AmoebaOptimizerv4
       m_VnlOptimizer->minimize( parameters, delta );
       this->m_CurrentIteration += static_cast<unsigned int>
                           (m_VnlOptimizer->get_num_evaluations());
-      currentValue = adaptor->f( parameters );
-             // be consistent with the underlying vnl amoeba implementation
+      double currentValue = adaptor->f( parameters );
+      // be consistent with the underlying vnl amoeba implementation
       double maxAbs = 0.0;
       for( unsigned j=0; j<n; j++ )
         {
@@ -229,7 +210,7 @@ AmoebaOptimizerv4
       converged = fabs( bestValue - currentValue ) <
                   this->m_FunctionConvergenceTolerance &&
                   maxAbs < this->m_ParametersConvergenceTolerance;
-               //this comparison is valid both for min and max because the
+               //this comparison is valid because the
                //adaptor is set to always return the function value
                //corresponding to minimization
       if( currentValue < bestValue )

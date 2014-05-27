@@ -54,8 +54,6 @@ namespace itk
  * max(|best_parameters_i - current_parameters_i|) is less than a threshold
  * (SetParametersConvergenceTolerance).
  *
- *
- * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizersv4
  */
 class AmoebaOptimizerv4:
@@ -139,9 +137,6 @@ public:
   /** Report the reason for stopping. */
   virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
 
-  /** Return current number of iterations */
-  itkGetConstMacro(CurrentIteration, SizeValueType);
-
   /** Method for getting access to the internal optimizer. */
   vnl_amoeba * GetOptimizer(void) const;
 
@@ -166,7 +161,6 @@ private:
   bool                            m_AutomaticInitialSimplex;
   ParametersType                  m_InitialSimplexDelta;
   bool                            m_OptimizeWithRestarts;
-  SizeValueType                   m_CurrentIteration;
   vnl_amoeba *                    m_VnlOptimizer;
 
   std::ostringstream              m_StopConditionDescription;

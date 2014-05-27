@@ -144,9 +144,6 @@ public:
   /** This optimizer does not support scaling of the derivatives. */
   virtual void SetScales(const ScalesType &) ITK_OVERRIDE;
 
-  /** Get the current iteration number. */
-  itkGetConstReferenceMacro(CurrentIteration, unsigned int);
-
   /** Get the current infinity norm of the project gradient of the cost
    * function. */
   itkGetConstReferenceMacro(InfinityNormOfProjectedGradient, double);
@@ -166,7 +163,6 @@ private:
   double       m_CostFunctionConvergenceFactor;
   unsigned int m_MaximumNumberOfIterations;
   unsigned int m_MaximumNumberOfCorrections;
-  unsigned int m_CurrentIteration;
   double       m_InfinityNormOfProjectedGradient;
 
   ParametersType          m_InitialPosition;

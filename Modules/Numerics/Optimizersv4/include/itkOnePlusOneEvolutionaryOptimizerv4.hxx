@@ -40,7 +40,6 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
   m_Stop = false;
   m_StopConditionDescription.str("");
   m_CurrentCost = 0;
-  m_CurrentIteration = 0;
   m_FrobeniusNorm = 0.0;
 }
 
@@ -155,7 +154,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
     {
     A(i, i) = m_InitialRadius / scales[i];
     }
-  m_CurrentIteration = 0;
+  this->m_CurrentIteration = 0;
 
   for ( unsigned int iter = 0; iter < m_MaximumIteration; iter++ )
     {
@@ -167,7 +166,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
       break;
       }
 
-    ++m_CurrentIteration;
+    ++this->m_CurrentIteration;
 
     for ( unsigned int i = 0; i < spaceDimension; i++ )
       {
@@ -328,7 +327,6 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
   os << indent << "Shrink Fractor    " << GetShrinkFactor()     << std::endl;
   os << indent << "Initialized       " << GetInitialized()      << std::endl;
   os << indent << "Current Cost      " << GetCurrentCost()      << std::endl;
-  os << indent << "Current Iteration " << GetCurrentIteration() << std::endl;
   os << indent << "Frobenius Norm    " << GetFrobeniusNorm()    << std::endl;
   os << indent << "CatchGetValueException   " << GetCatchGetValueException()
      << std::endl;

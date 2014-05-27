@@ -157,7 +157,6 @@ protected:
   ParametersType  m_InitialPosition;
   MeasureType     m_CurrentValue;
   StepsType       m_NumberOfSteps;
-  SizeValueType   m_CurrentIteration;
   bool            m_Stop;
   unsigned int    m_CurrentParameter;
   double          m_StepLength;
