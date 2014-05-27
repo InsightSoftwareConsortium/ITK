@@ -79,7 +79,7 @@ public:
   itkTypeMacro( TimeVaryingBSplineVelocityFieldTransform, VelocityFieldTransform );
 
   /** New macro for creation of through a Smart Pointer */
-  itkSimpleNewMacro( Self );
+  itkNewMacro( Self );
 
   /** InverseTransform type. */
   typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
