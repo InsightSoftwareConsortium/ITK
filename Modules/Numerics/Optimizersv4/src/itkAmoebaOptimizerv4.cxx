@@ -32,6 +32,7 @@ AmoebaOptimizerv4
   this->m_AutomaticInitialSimplex        = true;
   this->m_InitialSimplexDelta.Fill( NumericTraits< ParametersType::ValueType >::One );
   this->m_OptimizeWithRestarts = false;
+  this->m_CurrentIteration = 0;
   this->m_VnlOptimizer = ITK_NULLPTR;
 }
 
@@ -66,6 +67,8 @@ AmoebaOptimizerv4
      << ( this->m_AutomaticInitialSimplex ? "On" : "Off" ) << std::endl;
   os << indent << "InitialSimplexDelta: "
      << this->m_InitialSimplexDelta << std::endl;
+  os << indent << "CurrentIteration: "
+     << this->m_CurrentIteration << std::endl;
 }
 
 
@@ -200,19 +203,18 @@ AmoebaOptimizerv4
   if( this->m_OptimizeWithRestarts )
     {
     double currentValue;
-    unsigned int totalEvaluations = static_cast<unsigned int>
-      (m_VnlOptimizer->get_num_evaluations());
+    this->m_CurrentIteration = static_cast<unsigned int>( m_VnlOptimizer->get_num_evaluations() );
     bool converged = false;
     unsigned int i=1;
-    while( !converged && ( totalEvaluations < m_MaximumNumberOfIterations ) )
+    while( !converged && ( this->m_CurrentIteration < m_MaximumNumberOfIterations ) )
       {
       this->m_VnlOptimizer->set_max_iterations(
-        static_cast< int >( this->m_MaximumNumberOfIterations - totalEvaluations ) );
+        static_cast< int >( this->m_MaximumNumberOfIterations - this->m_CurrentIteration ) );
       parameters = bestPosition;
       delta = delta*( 1.0/pow( 2.0, static_cast<double>(i) ) *
                      (rand() > RAND_MAX/2 ? 1 : -1) );
       m_VnlOptimizer->minimize( parameters, delta );
-      totalEvaluations += static_cast<unsigned int>
+      this->m_CurrentIteration += static_cast<unsigned int>
                           (m_VnlOptimizer->get_num_evaluations());
       currentValue = adaptor->f( parameters );
              // be consistent with the underlying vnl amoeba implementation
