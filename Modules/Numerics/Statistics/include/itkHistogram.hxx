@@ -29,7 +29,7 @@ template< typename TMeasurement, typename TFrequencyContainer >
 Histogram< TMeasurement, TFrequencyContainer >
 ::Histogram() :
   m_Size(0),
-  m_OffsetTable(OffsetTableType(this->GetMeasurementVectorSize() + 1)),
+  m_OffsetTable(OffsetTableType(Superclass::GetMeasurementVectorSize() + 1)),
   m_FrequencyContainer(FrequencyContainerType::New()),
   m_NumberOfInstances(0),
   m_ClipBinsAtEnds(true)
