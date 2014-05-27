@@ -738,7 +738,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
   virtual void Set##name(const type *_arg)                                        \
     {                                                                             \
     itkDebugMacro("setting input " #name " to " << _arg);                         \
-    if ( _arg != static_cast< type * >( this->ProcessObject::GetInput(#name) ) )  \
+    if ( _arg != itkDynamicCastInDebugMode< type * >( this->ProcessObject::GetInput(#name) ) )  \
       {                                                                           \
       this->ProcessObject::SetInput( #name, const_cast< type * >( _arg ) );       \
       this->Modified();                                                           \
@@ -749,9 +749,8 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 #define itkGetInputMacro(name, type)                                                                            \
   virtual const type * Get##name() const                                                                        \
     {                                                                                                           \
-    itkDebugMacro( "returning input " << #name " of "                                                           \
-                                      << static_cast< const type * >( this->ProcessObject::GetInput(#name) ) ); \
-    return static_cast< const type * >( this->ProcessObject::GetInput(#name) );                                 \
+    itkDebugMacro( "returning input " << #name " of " <<  this->ProcessObject::GetInput(#name) );               \
+    return itkDynamicCastInDebugMode< const type * >( this->ProcessObject::GetInput(#name) );                   \
     }
 
 /** Set a decorated input. This defines the Set"name"() and a Set"name"Input() method */
@@ -759,7 +758,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
   virtual void Set##name##Input(const SimpleDataObjectDecorator< type > *_arg)                                \
     {                                                                                                         \
     itkDebugMacro("setting input " #name " to " << _arg);                                                     \
-    if ( _arg != static_cast< SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ) \
+    if ( _arg != itkDynamicCastInDebugMode< SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ) \
       {                                                                                                       \
       this->ProcessObject::SetInput( #name, const_cast< SimpleDataObjectDecorator< type > * >( _arg ) );      \
       this->Modified();                                                                                       \
@@ -770,7 +769,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     typedef SimpleDataObjectDecorator< type > DecoratorType;         \
     itkDebugMacro("setting input " #name " to " << _arg);            \
     const DecoratorType *oldInput =                                  \
-      static_cast< const DecoratorType * >(                          \
+      itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
     if ( oldInput && oldInput->Get() == _arg )                       \
       {                                                              \
@@ -785,16 +784,15 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 #define itkGetDecoratedInputMacro(name, type)                                                                 \
   virtual const SimpleDataObjectDecorator< type > * Get##name##Input() const                                                                 \
     {                                                                                                                                        \
-    itkDebugMacro( "returning input " << #name " of "                                                                                        \
-                                      << static_cast< const SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ); \
-    return static_cast< const SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) );                                 \
+    itkDebugMacro( "returning input " << #name " of " << this->ProcessObject::GetInput(#name) );                                             \
+    return itkDynamicCastInDebugMode< const SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) );                   \
     }                                                                \
   virtual const type & Get##name() const                             \
     {                                                                \
     itkDebugMacro("Getting input " #name);                           \
     typedef SimpleDataObjectDecorator< type > DecoratorType;         \
     const DecoratorType *input =                                     \
-      static_cast< const DecoratorType * >(                          \
+      itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
     if( input == ITK_NULLPTR )                                       \
       {                                                              \
@@ -817,7 +815,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
   virtual void Set##name##Input(const DataObjectDecorator< type > *_arg)                                \
     {                                                                                                   \
     itkDebugMacro("setting input " #name " to " << _arg);                                               \
-    if ( _arg != static_cast< DataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ) \
+    if ( _arg != itkDynamicCastInDebugMode< DataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ) \
       {                                                                                                 \
       this->ProcessObject::SetInput( #name, const_cast< DataObjectDecorator< type > * >( _arg ) );      \
       this->Modified();                                                                                 \
@@ -828,7 +826,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     typedef DataObjectDecorator< type > DecoratorType;               \
     itkDebugMacro("setting input " #name " to " << _arg);            \
     const DecoratorType *oldInput =                                  \
-      static_cast< const DecoratorType * >(                          \
+      itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
     if ( oldInput && oldInput->Get() == _arg )                       \
       {                                                              \
@@ -846,16 +844,15 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 #define itkGetDecoratedObjectInputMacro(name, type)          \
   virtual const DataObjectDecorator< type > * Get##name##Input() const                                                                 \
     {                                                                                                                                  \
-    itkDebugMacro( "returning input " << #name " of "                                                                                  \
-                                      << static_cast< const DataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) ) ); \
-    return static_cast< const DataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) );                                 \
+      itkDebugMacro( "returning input " << #name " of "<< this->ProcessObject::GetInput(#name) );                                      \
+    return itkDynamicCastInDebugMode< const DataObjectDecorator< type > * >( this->ProcessObject::GetInput(#name) );                   \
     }                                                                \
   virtual const type * Get##name() const                             \
     {                                                                \
     itkDebugMacro("Getting input " #name);                           \
     typedef DataObjectDecorator< type > DecoratorType;               \
     const DecoratorType *input =                                     \
-      static_cast< const DecoratorType * >(                          \
+      itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
     if( input == ITK_NULLPTR )                                       \
       {                                                              \
