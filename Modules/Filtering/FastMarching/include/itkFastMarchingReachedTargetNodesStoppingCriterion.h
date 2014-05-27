@@ -147,13 +147,15 @@ public:
 protected:
 
   /** Constructor */
-  FastMarchingReachedTargetNodesStoppingCriterion() : Superclass()
+  FastMarchingReachedTargetNodesStoppingCriterion() :
+    Superclass(),
+    m_TargetCondition(AllTargets),
+    m_NumberOfTargetsToBeReached(0),
+    m_TargetOffset(NumericTraits< OutputPixelType >::Zero),
+    m_StoppingValue(NumericTraits< OutputPixelType >::Zero),
+    m_Satisfied(false),
+    m_Initialized(false)
   {
-    m_TargetCondition = AllTargets;
-    m_TargetOffset = NumericTraits< OutputPixelType >::Zero;
-    m_StoppingValue = NumericTraits< OutputPixelType >::Zero;
-    m_Satisfied = false;
-    m_Initialized = false;
   }
 
   /** Destructor */

@@ -38,10 +38,11 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::m_NoPoi
 template< typename TVRef, typename TFRef,
           typename TPrimalData, typename TDualData, bool PrimalDual >
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
-::GeometricalQuadEdge()
+::GeometricalQuadEdge() :
+  m_Origin(m_NoPoint),
+  m_DataSet(false),
+  m_LineCellIdent(0)
 {
-  this->m_Origin     = m_NoPoint;
-  this->m_DataSet = false;
 }
 
 /**

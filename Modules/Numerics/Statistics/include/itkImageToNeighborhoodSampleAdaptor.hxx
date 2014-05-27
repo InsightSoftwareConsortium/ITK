@@ -25,19 +25,20 @@ namespace Statistics {
 
   template < typename TImage, typename TBoundaryCondition>
 ImageToNeighborhoodSampleAdaptor< TImage, TBoundaryCondition>
-::ImageToNeighborhoodSampleAdaptor()
+  ::ImageToNeighborhoodSampleAdaptor() :
+    m_Image(ITK_NULLPTR),
+    m_UseImageRegion(true)
 {
-  m_Image = ITK_NULLPTR;
   m_Radius.Fill(0);
+  m_NeighborIndexInternal.Fill(0);
+
   NeighborhoodIndexType start;
   NeighborhoodSizeType sz;
   start.Fill(0);
   sz.Fill(0);
   m_Region.SetIndex(start);
   m_Region.SetSize(sz);
-  m_UseImageRegion = true;
   this->SetMeasurementVectorSize(1);
-  m_NeighborIndexInternal.Fill(0);
 }
 
 template < typename TImage, typename TBoundaryCondition>

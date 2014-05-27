@@ -28,6 +28,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   m_NumberOfRegions(0),
   m_InternalLambda(0),
   m_InitialNumberOfRegions(0),
+  m_TotalBorderLength(0.0),
   m_BorderCandidate(ITK_NULLPTR),
   m_InitialRegionArea(0)
 {

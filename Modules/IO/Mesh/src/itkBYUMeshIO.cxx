@@ -23,12 +23,13 @@
 namespace itk
 {
 BYUMeshIO
-::BYUMeshIO()
+::BYUMeshIO() :
+  m_FilePosition(0),
+  m_PartId(NumericTraits< SizeValueType >::max()),
+  m_FirstCellId(NumericTraits< SizeValueType >::One),
+  m_LastCellId(NumericTraits< SizeValueType >::max())
 {
   this->AddSupportedWriteExtension(".byu");
-  m_PartId = itk::NumericTraits< SizeValueType >::max();
-  m_FirstCellId = itk::NumericTraits< SizeValueType >::One;
-  m_LastCellId = itk::NumericTraits< SizeValueType >::max();
 }
 
 bool

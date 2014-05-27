@@ -128,19 +128,24 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
 template< typename TInputImage, typename TOutputImage >
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::ParallelSparseFieldLevelSetImageFilter()
+::ParallelSparseFieldLevelSetImageFilter() :
+  m_ConstantGradientValue(1.0),
+  m_NumberOfLayers(ImageDimension),
+  m_IsoSurfaceValue(m_ValueZero),
+  m_NumOfThreads(0),
+  m_SplitAxis(0),
+  m_ZSize(0),
+  m_BoundaryChanged(false),
+  m_Boundary(ITK_NULLPTR),
+  m_GlobalZHistogram(ITK_NULLPTR),
+  m_MapZToThreadNumber(ITK_NULLPTR),
+  m_ZCumulativeFrequency(ITK_NULLPTR),
+  m_Data(ITK_NULLPTR),
+  m_Stop(false),
+  m_InterpolateSurfaceLocation(true),
+  m_BoundsCheckingActive(false)
 {
-  m_IsoSurfaceValue = m_ValueZero;
-  m_NumberOfLayers = ImageDimension;
   this->SetRMSChange( static_cast< double >( m_ValueOne ) );
-  m_InterpolateSurfaceLocation = true;
-  m_BoundsCheckingActive = false;
-  m_ConstantGradientValue = 1.0;
-  m_GlobalZHistogram = ITK_NULLPTR;
-  m_ZCumulativeFrequency = ITK_NULLPTR;
-  m_MapZToThreadNumber = ITK_NULLPTR;
-  m_Boundary = ITK_NULLPTR;
-  m_Data = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TOutputImage >

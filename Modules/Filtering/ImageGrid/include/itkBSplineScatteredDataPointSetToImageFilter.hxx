@@ -77,6 +77,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_BSplineEpsilon = std::numeric_limits<RealType>::epsilon();
 
   this->m_IsFittingComplete = false;
+  this->m_CurrentLevel = 0;
 }
 
 template<typename TInputPointSet, typename TOutputImage>

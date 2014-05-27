@@ -24,7 +24,7 @@ namespace itk
 {
 template< typename TImageType >
 ConditionalConstIterator< TImageType >
-::ConditionalConstIterator()
+::ConditionalConstIterator() : m_IsAtEnd(false)
 {}
 
 template< typename TImageType >

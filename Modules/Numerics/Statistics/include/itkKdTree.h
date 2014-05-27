@@ -535,7 +535,7 @@ public:
   {
   public:
     /** Constructor */
-    NearestNeighbors() {}
+    NearestNeighbors() : m_FarthestNeighborIndex(0) {}
 
     /** Destructor */
     ~NearestNeighbors() {}

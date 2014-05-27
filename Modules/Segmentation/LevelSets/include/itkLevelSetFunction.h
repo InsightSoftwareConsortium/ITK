@@ -290,13 +290,15 @@ public:
   }
 
 protected:
-  LevelSetFunction()
+  LevelSetFunction() :
+    m_Center(0),
+    m_UseMinimalCurvature(false),
+    m_EpsilonMagnitude(static_cast< ScalarValueType >( 1.0e-5 )),
+    m_AdvectionWeight(NumericTraits< ScalarValueType >::Zero),
+    m_PropagationWeight(NumericTraits< ScalarValueType >::Zero),
+    m_CurvatureWeight(NumericTraits< ScalarValueType >::Zero),
+    m_LaplacianSmoothingWeight(NumericTraits< ScalarValueType >::Zero)
   {
-    m_EpsilonMagnitude = static_cast< ScalarValueType >( 1.0e-5 );
-    m_AdvectionWeight = m_PropagationWeight =
-                          m_CurvatureWeight = m_LaplacianSmoothingWeight =
-                                                NumericTraits< ScalarValueType >::Zero;
-    m_UseMinimalCurvature = false;
   }
 
   virtual ~LevelSetFunction() {}

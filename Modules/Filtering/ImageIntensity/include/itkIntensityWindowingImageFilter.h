@@ -32,7 +32,13 @@ class IntensityWindowingTransform
 {
 public:
   typedef typename NumericTraits< TInput >::RealType RealType;
-  IntensityWindowingTransform() {}
+  IntensityWindowingTransform() :
+    m_Factor(0.0),
+    m_Offset(0.0),
+    m_OutputMaximum(0),
+    m_OutputMinimum(0),
+    m_WindowMaximum(0),
+    m_WindowMinimum(0) {}
   ~IntensityWindowingTransform() {}
   bool operator!=(const IntensityWindowingTransform & other) const
   {

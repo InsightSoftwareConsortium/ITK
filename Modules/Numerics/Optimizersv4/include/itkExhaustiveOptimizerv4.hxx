@@ -25,19 +25,19 @@ namespace itk
 
 template<typename TInternalComputationValueType>
 ExhaustiveOptimizerv4<TInternalComputationValueType>
-::ExhaustiveOptimizerv4()
+::ExhaustiveOptimizerv4() :
+  m_CurrentValue(0),
+  m_NumberOfSteps(0),
+  m_CurrentIteration(0),
+  m_Stop(false),
+  m_CurrentParameter(0),
+  m_StepLength(1.0),
+  m_CurrentIndex(0),
+  m_MaximumNumberOfIterations(0),
+  m_MaximumMetricValue(0.0),
+  m_MinimumMetricValue(0.0),
+  m_StopConditionDescription("")
 {
-  itkDebugMacro("Constructor");
-
-  m_StepLength = 1.0;
-  m_CurrentIteration   =   0;
-  m_CurrentValue = 0;
-  m_CurrentParameter = 0;
-  m_CurrentIndex.Fill(0);
-  m_Stop = false;
-  m_NumberOfSteps.Fill(0);
-
-  m_StopConditionDescription.str("");
 }
 
 template<typename TInternalComputationValueType>

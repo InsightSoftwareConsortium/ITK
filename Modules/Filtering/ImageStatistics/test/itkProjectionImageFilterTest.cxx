@@ -34,7 +34,7 @@ template <typename TInputPixel, typename TOutputPixel>
 class BinaryAccumulator
 {
 public:
-  BinaryAccumulator( unsigned long ) {}
+  BinaryAccumulator( unsigned long ) : m_IsForeground(false) {}
   ~BinaryAccumulator(){}
 
   inline void Initialize()

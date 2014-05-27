@@ -33,14 +33,29 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
   m_N1( 1.0 ),
   m_N2( 1.0 ),
   m_N3( 1.0 ),
-  m_Direction( 0 )
+  m_D1( 0.0 ),
+  m_D2( 0.0 ),
+  m_D3( 0.0 ),
+  m_D4( 0.0 ),
+  m_M1( 0.0 ),
+  m_M2( 0.0 ),
+  m_M3( 0.0 ),
+  m_M4( 0.0 ),
+  m_BN1( 0.0 ),
+  m_BN2( 0.0 ),
+  m_BN3( 0.0 ),
+  m_BN4( 0.0 ),
+  m_BM1( 0.0 ),
+  m_BM2( 0.0 ),
+  m_BM3( 0.0 ),
+  m_BM4( 0.0 ),
+  m_Direction( 0 ),
+  m_ImageRegionSplitter(ImageRegionSplitterDirection::New())
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
 
   this->InPlaceOff();
-
-  this->m_ImageRegionSplitter = ImageRegionSplitterDirection::New();
 }
 
 /**
