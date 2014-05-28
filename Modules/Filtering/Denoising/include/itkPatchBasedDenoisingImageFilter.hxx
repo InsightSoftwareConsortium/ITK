@@ -42,9 +42,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_TotalNumberPixels(0),        // not valid until an image is provided
   m_UseSmoothDiscPatchWeights(true),
   m_UseFastTensorComputations(true),
-  m_KernelBandwidthSigma(false),
   m_KernelBandwidthSigmaIsSet(false),
-  m_IntensityRescaleInvFactor(0.0), // not valid until Initialize()
   m_KernelBandwidthFractionPixelsForEstimation(0.20),
   m_ComputeConditionalDerivatives(false),
   m_MinSigma(NumericTraits<RealValueType>::min() * 100), // to avoid divide by zero
