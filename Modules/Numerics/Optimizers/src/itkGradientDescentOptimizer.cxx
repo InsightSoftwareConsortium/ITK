@@ -27,7 +27,6 @@ namespace itk
  */
 GradientDescentOptimizer
 ::GradientDescentOptimizer() :
-  m_Gradient(0.0),
   m_Maximize(false),
   m_LearningRate(1.0),
   m_Stop(false),
