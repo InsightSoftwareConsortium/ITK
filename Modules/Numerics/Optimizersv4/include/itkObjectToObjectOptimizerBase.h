@@ -189,6 +189,12 @@ public:
   /** Return current number of iterations. */
   itkGetConstMacro(CurrentIteration, SizeValueType);
 
+  /** Set the number of iterations. */
+  itkSetMacro(NumberOfIterations, SizeValueType);
+
+  /** Get the number of iterations. */
+  itkGetConstMacro(NumberOfIterations, SizeValueType);
+
   /** Get a reference to the current position of the optimization.
    * This returns the parameters from the assigned metric, since the optimizer
    * itself does not store a position. */
@@ -215,6 +221,7 @@ protected:
   MetricTypePointer             m_Metric;
   ThreadIdType                  m_NumberOfThreads;
   SizeValueType                 m_CurrentIteration;
+  SizeValueType                 m_NumberOfIterations;
 
   /** Metric measure value at a given iteration, as most recently evaluated. */
   MeasureType                   m_CurrentMetricValue;

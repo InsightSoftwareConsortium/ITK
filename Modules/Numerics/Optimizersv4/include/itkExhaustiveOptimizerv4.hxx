@@ -32,11 +32,11 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   m_CurrentParameter(0),
   m_StepLength(1.0),
   m_CurrentIndex(0),
-  m_MaximumNumberOfIterations(0),
   m_MaximumMetricValue(0.0),
   m_MinimumMetricValue(0.0),
   m_StopConditionDescription("")
 {
+  this->m_NumberOfIterations = 0;
 }
 
 template<typename TInternalComputationValueType>
@@ -67,14 +67,14 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   m_MaximumMetricValue = initialValue;
   m_MinimumMetricValue = initialValue;
 
-  this->m_CurrentIteration          = 0;
-  m_MaximumNumberOfIterations = 1;
+  this->m_CurrentIteration = 0;
+  this->m_NumberOfIterations = 1;
 
   const unsigned int spaceDimension = this->m_Metric->GetParameters().GetSize();
 
   for ( unsigned int i = 0; i < spaceDimension; i++ )
     {
-    m_MaximumNumberOfIterations *= ( 2 * m_NumberOfSteps[i] + 1 );
+    this->m_NumberOfIterations *= ( 2 * m_NumberOfSteps[i] + 1 );
     }
 
   m_CurrentIndex.SetSize(spaceDimension);
@@ -250,7 +250,6 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   os << indent << "CurrentParameter = " << m_CurrentParameter << std::endl;
   os << indent << "StepLength = " << m_StepLength << std::endl;
   os << indent << "CurrentIndex = " << m_CurrentIndex << std::endl;
-  os << indent << "MaximumNumberOfIterations = " << m_MaximumNumberOfIterations << std::endl;
   os << indent << "MaximumMetricValue = " << m_MaximumMetricValue << std::endl;
   os << indent << "MinimumMetricValue = " << m_MinimumMetricValue << std::endl;
   os << indent << "MinimumMetricValuePosition = " << m_MinimumMetricValuePosition << std::endl;

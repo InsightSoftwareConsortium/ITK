@@ -131,11 +131,6 @@ public:
 
   itkGetConstMacro(CostFunctionConvergenceFactor, double);
 
-  /** Set/Get the MaximumNumberOfIterations. Default is 500 */
-  virtual void SetMaximumNumberOfIterations(unsigned int);
-
-  itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
-
   /** Set/Get the MaximumNumberOfCorrections. Default is 5 */
   virtual void SetMaximumNumberOfCorrections(unsigned int);
 
@@ -161,7 +156,6 @@ private:
   void operator=(const Self &); //purposely not implemented
 
   double       m_CostFunctionConvergenceFactor;
-  unsigned int m_MaximumNumberOfIterations;
   unsigned int m_MaximumNumberOfCorrections;
   double       m_InfinityNormOfProjectedGradient;
 

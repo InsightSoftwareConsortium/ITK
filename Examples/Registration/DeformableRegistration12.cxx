@@ -248,7 +248,7 @@ int main( int argc, char *argv[] )
 
   optimizer->SetCostFunctionConvergenceFactor( 1.e7 );
   optimizer->SetGradientConvergenceTolerance( 1e-35 );
-  optimizer->SetMaximumNumberOfIterations( 200 );
+  optimizer->SetNumberOfIterations( 200 );
   optimizer->SetMaximumNumberOfFunctionEvaluations( 200 );
   optimizer->SetMaximumNumberOfCorrections( 7 );
   // Software Guide : EndCodeSnippet

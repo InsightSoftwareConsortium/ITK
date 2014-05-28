@@ -22,7 +22,6 @@ namespace itk
 LBFGSBOptimizerv4
   ::LBFGSBOptimizerv4():
   m_CostFunctionConvergenceFactor(1e+7),
-  m_MaximumNumberOfIterations(500),
   m_MaximumNumberOfCorrections(5),
   m_InfinityNormOfProjectedGradient(0.0),
   m_InitialPosition(0),
@@ -52,9 +51,6 @@ LBFGSBOptimizerv4
 
   os << indent << "CostFunctionConvergenceFactor: "
   << m_CostFunctionConvergenceFactor << std::endl;
-
-  os << indent << "MaximumNumberOfIterations: "
-  << m_MaximumNumberOfIterations << std::endl;
 
   os << indent << "MaximumNumberOfEvaluations: "
   << m_MaximumNumberOfFunctionEvaluations << std::endl;
@@ -147,14 +143,6 @@ LBFGSBOptimizerv4
     {
     m_VnlOptimizer->set_cost_function_convergence_factor( m_CostFunctionConvergenceFactor );
     }
-  this->Modified();
-}
-
-void
-LBFGSBOptimizerv4
-::SetMaximumNumberOfIterations(unsigned int value)
-{
-  m_MaximumNumberOfIterations = value;
   this->Modified();
 }
 

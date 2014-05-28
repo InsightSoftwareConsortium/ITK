@@ -222,7 +222,7 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
 
   itkOptimizer->SetCostFunctionConvergenceFactor( F_Convergence_Factor );
   itkOptimizer->SetGradientConvergenceTolerance( Projected_G_Tolerance );
-  itkOptimizer->SetMaximumNumberOfIterations( Max_Iterations );
+  itkOptimizer->SetNumberOfIterations( Max_Iterations );
   itkOptimizer->SetMaximumNumberOfFunctionEvaluations( Max_Iterations );
 
   const unsigned int SpaceDimension = 2;
@@ -295,8 +295,8 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
     << itkOptimizer->GetCostFunctionConvergenceFactor() << std::endl;
   std::cout << "ProjectedGradientTolerance   = "
     << itkOptimizer->GetGradientConvergenceTolerance() << std::endl;
-  std::cout << "MaximumNumberOfIterations   = "
-    << itkOptimizer->GetMaximumNumberOfIterations() << std::endl;
+  std::cout << "NumberOfIterations   = "
+    << itkOptimizer->GetNumberOfIterations() << std::endl;
   std::cout << "MaximumNumberOfEvaluations   = "
     << itkOptimizer->GetMaximumNumberOfFunctionEvaluations() << std::endl;
   std::cout << "MaximumNumberOfCorrections   = "
@@ -383,7 +383,7 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
 
   itkOptimizer2->SetCostFunctionConvergenceFactor( F_Convergence_Factor );
   itkOptimizer2->SetGradientConvergenceTolerance( Projected_G_Tolerance );
-  itkOptimizer2->SetMaximumNumberOfIterations( Max_Iterations );
+  itkOptimizer2->SetNumberOfIterations( Max_Iterations );
   itkOptimizer2->SetMaximumNumberOfFunctionEvaluations( Max_Iterations );
 
   itkOptimizer2->AddObserver( itk::StartEvent(), eventChecker );

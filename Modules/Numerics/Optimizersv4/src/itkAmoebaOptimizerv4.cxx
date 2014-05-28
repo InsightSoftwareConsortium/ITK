@@ -26,7 +26,7 @@ AmoebaOptimizerv4
 ::AmoebaOptimizerv4() :
   m_InitialSimplexDelta(1)
 {
-  this->m_MaximumNumberOfIterations      = 500;
+  this->m_NumberOfIterations      = 500;
   this->m_ParametersConvergenceTolerance = 1e-8;
   this->m_FunctionConvergenceTolerance   = 1e-4;
   this->m_AutomaticInitialSimplex        = true;
@@ -56,8 +56,6 @@ AmoebaOptimizerv4
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "MaximumNumberOfIterations: "
-     << this->m_MaximumNumberOfIterations << std::endl;
   os << indent << "ParametersConvergenceTolerance: "
      << this->m_ParametersConvergenceTolerance << std::endl;
   os << indent << "FunctionConvergenceTolerance: "
@@ -134,7 +132,7 @@ AmoebaOptimizerv4
   //new one
   delete m_VnlOptimizer;
   m_VnlOptimizer = new vnl_amoeba( *adaptor );
-  m_VnlOptimizer->set_max_iterations( static_cast< int >( m_MaximumNumberOfIterations ) );
+  m_VnlOptimizer->set_max_iterations( static_cast< int >( m_NumberOfIterations ) );
   m_VnlOptimizer->set_x_tolerance(m_ParametersConvergenceTolerance);
   m_VnlOptimizer->set_f_tolerance(m_FunctionConvergenceTolerance);
 
@@ -187,10 +185,10 @@ AmoebaOptimizerv4
     this->m_CurrentIteration = static_cast<unsigned int>( m_VnlOptimizer->get_num_evaluations() );
     bool converged = false;
     unsigned int i=1;
-    while( !converged && ( this->m_CurrentIteration < m_MaximumNumberOfIterations ) )
+    while( !converged && ( this->m_CurrentIteration < m_NumberOfIterations ) )
       {
       this->m_VnlOptimizer->set_max_iterations(
-        static_cast< int >( this->m_MaximumNumberOfIterations - this->m_CurrentIteration ) );
+        static_cast< int >( this->m_NumberOfIterations - this->m_CurrentIteration ) );
       parameters = bestPosition;
       delta = delta*( 1.0/pow( 2.0, static_cast<double>(i) ) *
                      (rand() > RAND_MAX/2 ? 1 : -1) );
@@ -235,7 +233,7 @@ AmoebaOptimizerv4
   this->m_StopConditionDescription.str( "" );
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
   if ( static_cast< unsigned int >( this->m_VnlOptimizer->get_num_evaluations() )
-       < this->m_MaximumNumberOfIterations )
+       < this->m_NumberOfIterations )
     {
     this->m_StopConditionDescription << "Both parameters convergence tolerance ("
                                << this->m_ParametersConvergenceTolerance
@@ -249,7 +247,7 @@ AmoebaOptimizerv4
     {
     this->m_StopConditionDescription << "Maximum number of iterations exceeded."
                                      << " Number of iterations is "
-                                     << this->m_MaximumNumberOfIterations;
+                                     << this->m_NumberOfIterations;
     }
   this->InvokeEvent( EndEvent() );
 }

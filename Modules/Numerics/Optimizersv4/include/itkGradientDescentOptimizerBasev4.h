@@ -90,12 +90,6 @@ public:
   /** Get stop condition enum */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
-  /** Set the number of iterations. */
-  itkSetMacro(NumberOfIterations, SizeValueType);
-
-  /** Get the number of iterations. */
-  itkGetConstReferenceMacro(NumberOfIterations, SizeValueType);
-
   /** Resume optimization.
    * This runs the optimization loop, and allows continuation
    * of stopped optimization */
@@ -155,7 +149,6 @@ protected:
   bool                          m_Stop;
   StopConditionType             m_StopCondition;
   StopConditionDescriptionType  m_StopConditionDescription;
-  SizeValueType                 m_NumberOfIterations;
 
   /** Current gradient */
   DerivativeType     m_Gradient;

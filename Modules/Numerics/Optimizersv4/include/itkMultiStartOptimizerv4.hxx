@@ -52,7 +52,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number of iterations: " << this->m_NumberOfIterations  << std::endl;
   os << indent << "Stop condition:"<< this->m_StopCondition << std::endl;
   os << indent << "Stop condition description: " << this->m_StopConditionDescription.str()  << std::endl;
 }

@@ -31,6 +31,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
   this->m_Metric = ITK_NULLPTR;
   this->m_CurrentIteration = 0;
+  this->m_NumberOfIterations = 100;
   this->m_CurrentMetricValue = 0;
   // Initialize, but w/out calling SetNumberOfThreads, to avoid
   // valgrind warning.
@@ -96,6 +97,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
     {
     os << indent << "CurrentIteration: " << this->m_CurrentIteration << std::endl;
     }
+  os << indent << "Number of iterations: " << this->m_NumberOfIterations  << std::endl;
   os << indent << "DoEstimateScales: " << this->m_DoEstimateScales << std::endl;
 }
 
