@@ -176,7 +176,7 @@ int main( int argc, char *argv[] )
   typedef itk::ImageRegistrationMethodv4<
                                         FixedImageType,
                                         MovingImageType,
-                                        TransformType >    RegistrationType;
+                                        TransformType>    RegistrationType;
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   // One level registration is performed using the shrink factor 1 and smoothing sigma 1
@@ -199,7 +199,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer transform = const_cast<TransformType *>( registration->GetOutput()->Get() );
+  TransformType::Pointer transform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
   registration->SetFixedImage( fixedImage );
@@ -209,6 +209,8 @@ int main( int argc, char *argv[] )
   registration->SetNumberOfLevels( numberOfLevels );
   registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
   registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
+  registration->SetInitialTransform( transform );
+  registration->InPlaceOn();
 
   // Initialize the BSpline transform
 
