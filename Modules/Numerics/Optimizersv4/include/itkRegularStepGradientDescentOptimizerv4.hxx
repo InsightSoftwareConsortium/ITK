@@ -26,14 +26,13 @@ namespace itk
 template<typename TInternalComputationValueType>
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 ::RegularStepGradientDescentOptimizerv4():
-  m_LearningRate( NumericTraits<TInternalComputationValueType>::One ),
   m_RelaxationFactor( 0.5 ),
   m_MinimumStepLength( 1e-4 ), // Initialize parameter for the convergence checker
   m_GradientMagnitudeTolerance( 1e-4 ),
-  m_CurrentStepLength( 0 ),
-  m_ReturnBestParametersAndValue( false )
+  m_CurrentStepLength( 0 )
 {
-  this->m_PreviousGradient.Fill(0.0f);
+  this->m_DoEstimateLearningRateAtEachIteration = false;
+  this->m_DoEstimateLearningRateOnce = false;
 }
 
 template<typename TInternalComputationValueType>
@@ -47,9 +46,9 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Learning rate (step size):" << this->m_LearningRate << std::endl;
-  os << indent << "Minimum step length: " << this->m_MinimumStepLength << std::endl;
   os << indent << "Relaxation factor: " << this->m_RelaxationFactor << std::endl;
+  os << indent << "Minimum step length: " << this->m_MinimumStepLength << std::endl;
+  os << indent << "Gradient magnitude tolerance: " << this->m_GradientMagnitudeTolerance << std::endl;
 }
 
 template<typename TInternalComputationValueType>
@@ -57,17 +56,10 @@ void
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
 {
-  itkDebugMacro("StartOptimization");
+  this->m_UseConvergenceMonitoring = false;
 
-  /* Estimate the parameter scales if requested. */
-  if ( this->m_ScalesEstimator.IsNotNull() && this->m_DoEstimateScales )
-    {
-    this->m_ScalesEstimator->EstimateScales(this->m_Scales);
-    itkDebugMacro( "Estimated scales = " << this->m_Scales );
-    }
-
-  /* Must call the superclass version for basic validation and setup */
-  Superclass::StartOptimization( doOnlyInitialization );
+  /* Must call the grandparent version for basic validation and setup */
+  GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StartOptimization( doOnlyInitialization );
 
   if( this->m_ReturnBestParametersAndValue )
     {
@@ -97,83 +89,6 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     {
     this->ResumeOptimization();
     }
-}
-
-template<typename TInternalComputationValueType>
-void
-RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
-::StopOptimization(void)
-{
-  if( this->m_ReturnBestParametersAndValue )
-    {
-    this->m_Metric->SetParameters( this->m_BestParameters );
-    this->m_CurrentMetricValue = this->m_CurrentBestValue;
-    }
-  Superclass::StopOptimization();
-}
-
-template<typename TInternalComputationValueType>
-void
-RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
-::ResumeOptimization()
-{
-  this->m_StopConditionDescription.str("");
-  this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
-  this->InvokeEvent( StartEvent() );
-
-  this->m_Stop = false;
-  while( ! this->m_Stop )
-    {
-    // Do not run the loop if the maximum number of iterations is reached or its value is zero.
-    if ( this->m_CurrentIteration >= this->m_NumberOfIterations )
-      {
-      this->m_StopCondition = Superclass::MAXIMUM_NUMBER_OF_ITERATIONS;
-      this->m_StopConditionDescription << "Maximum number of iterations (" << this->m_NumberOfIterations << ") exceeded.";
-      this->StopOptimization();
-      break;
-      }
-
-    this->m_PreviousGradient = this->m_Gradient;
-    /* Compute metric value/derivative. */
-    try
-      {
-      /* m_Gradient will be sized as needed by metric. If it's already
-       * proper size, no new allocation is done. */
-      this->m_Metric->GetValueAndDerivative( this->m_CurrentMetricValue, this->m_Gradient );
-      }
-    catch ( ExceptionObject & err )
-      {
-      this->m_StopCondition = Superclass::COSTFUNCTION_ERROR;
-      this->m_StopConditionDescription << "Metric error during optimization";
-      this->StopOptimization();
-
-        // Pass exception to caller
-      throw err;
-      }
-
-    /* Check if optimization has been stopped externally.
-     * (Presumably this could happen from a multi-threaded client app?) */
-    if ( this->m_Stop )
-      {
-      this->m_StopConditionDescription << "StopOptimization() called";
-      break;
-      }
-
-    /* Advance one step along the gradient.
-     * This will modify the gradient and update the transform. */
-    this->AdvanceOneStep();
-
-    /* Store best value and position */
-    if ( this->m_ReturnBestParametersAndValue && this->m_CurrentMetricValue < this->m_CurrentBestValue )
-      {
-      this->m_CurrentBestValue = this->m_CurrentMetricValue;
-      this->m_BestParameters = this->GetCurrentPosition( );
-      }
-
-    /* Update and check iteration count */
-    this->m_CurrentIteration++;
-
-    } //while (!m_Stop)
 }
 
 template<typename TInternalComputationValueType>
@@ -259,6 +174,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     return;
     }
 
+  this->EstimateLearningRate();
   this->ModifyGradientByLearningRate();
   const double factor = NumericTraits<typename ScalesType::ValueType>::OneValue() / gradientMagnitude;
 

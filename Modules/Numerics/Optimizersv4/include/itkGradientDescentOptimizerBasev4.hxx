@@ -43,6 +43,14 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 
   this->m_StopCondition      = MAXIMUM_NUMBER_OF_ITERATIONS;
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
+
+  this->m_MaximumStepSizeInPhysicalUnits = NumericTraits<TInternalComputationValueType>::Zero;
+
+  this->m_UseConvergenceMonitoring = true;
+  this->m_ConvergenceWindowSize = 50;
+
+  this->m_DoEstimateLearningRateAtEachIteration = false;
+  this->m_DoEstimateLearningRateOnce = true;
 }
 
 //-------------------------------------------------------------------
@@ -113,6 +121,47 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
     /* Global transforms are small, so update without threading. */
     this->ModifyGradientByScalesOverSubRange( fullrange );
     }
+}
+
+template<typename TInternalComputationValueType>
+void
+GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
+::StartOptimization( bool doOnlyInitialization )
+{
+  itkDebugMacro("StartOptimization");
+
+  /* Validate some settings */
+  if ( this->m_ScalesEstimator.IsNotNull() &&
+      this->m_DoEstimateLearningRateOnce &&
+      this->m_DoEstimateLearningRateAtEachIteration )
+    {
+    itkExceptionMacro("Both m_DoEstimateLearningRateOnce and "
+                      "m_DoEstimateLearningRateAtEachIteration "
+                      "are enabled. Not allowed. ");
+    }
+
+  /* Estimate the parameter scales if requested. */
+  if ( this->m_ScalesEstimator.IsNotNull() && this->m_DoEstimateScales )
+    {
+    this->m_ScalesEstimator->EstimateScales(this->m_Scales);
+    itkDebugMacro( "Estimated scales = " << this->m_Scales );
+
+    /* If user hasn't set this, assign the default. */
+    if ( this->m_MaximumStepSizeInPhysicalUnits <= NumericTraits<TInternalComputationValueType>::epsilon())
+      {
+      this->m_MaximumStepSizeInPhysicalUnits = this->m_ScalesEstimator->EstimateMaximumStepSize();
+      }
+    }
+
+  if ( this->m_UseConvergenceMonitoring )
+    {
+    // Initialize the convergence checker
+    this->m_ConvergenceMonitoring = ConvergenceMonitoringType::New();
+    this->m_ConvergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
+    }
+
+  /* Must call the superclass version for basic validation and setup */
+  Superclass::StartOptimization( doOnlyInitialization );
 }
 
 //-------------------------------------------------------------------
