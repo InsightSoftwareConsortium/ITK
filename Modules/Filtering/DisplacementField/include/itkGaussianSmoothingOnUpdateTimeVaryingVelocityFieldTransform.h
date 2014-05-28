@@ -52,7 +52,7 @@ public:
                                                 TimeVaryingVelocityFieldTransform );
 
   /** New macro for creation of through a Smart Pointer */
-  itkSimpleNewMacro( Self );
+  itkNewMacro( Self );
 
   /** Dimension of the time varying velocity field. */
   itkStaticConstMacro( TimeVaryingVelocityFieldDimension, unsigned int, NDimensions+1 );
