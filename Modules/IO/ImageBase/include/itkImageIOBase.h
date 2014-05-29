@@ -33,6 +33,7 @@
 #include "itkImageRegionSplitterBase.h"
 
 #include "vnl/vnl_vector.h"
+#include "vcl_compiler.h"
 
 #include <fstream>
 #include <string>
@@ -690,6 +691,10 @@ private:
     static const IOComponentType CType = ctype; \
   }
 
+// the following typemaps are not platform independent
+#if  VCL_CHAR_IS_SIGNED
+IMAGEIOBASE_TYPEMAP(signed char, CHAR);
+#endif // VCL_CHAR_IS_SIGNED
 IMAGEIOBASE_TYPEMAP(char, CHAR);
 IMAGEIOBASE_TYPEMAP(unsigned char, UCHAR);
 IMAGEIOBASE_TYPEMAP(short, SHORT);
