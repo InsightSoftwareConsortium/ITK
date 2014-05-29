@@ -65,7 +65,7 @@ static bool TestPrintNeighborhood( IteratorType & p, VectorIteratorType & v )
     }
 
   std::cout
-    << "Ouptut from GetPixel( const IndexType & index, const TImage * image ) const"
+    << "Output from GetPixel( const IndexType & index, const TImage * image ) const"
     << std::endl;
 
   i = 0;
@@ -216,7 +216,7 @@ int itkConstantBoundaryConditionTest(int, char* [] )
 
   for ( it2.GoToBegin(), vit2.GoToBegin(); !it2.IsAtEnd(); ++it2, ++vit2 )
     {
-    std::cout << "Index: " << it.GetIndex() << std::endl;
+    std::cout << "Index: " << it2.GetIndex() << std::endl;
     bool success = TestPrintNeighborhood(it2, vit2);
     if ( !success )
       {
