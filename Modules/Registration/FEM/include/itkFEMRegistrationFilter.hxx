@@ -137,9 +137,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetMaxLevel(u
     }
 }
 
-/**
- * Set the standard deviations.
- */
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetStandardDeviations(double value)
 {
@@ -175,7 +172,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::RunRegistrati
       {
       m_Field = m_TotalField;
       }
-    //this->ComputeJacobian(1., m_Field, 2.5);
     this->ComputeJacobian( );
     WarpImage(m_OriginalMovingImage);
     }
@@ -268,7 +264,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ChooseMetric(
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage( const MovingImageType * ImageToWarp)
 {
-  // -------------------------------------------------------
   itkDebugMacro( << "Warping image" << std::endl);
 
   typename WarperType::Pointer warper = WarperType::New();
@@ -736,10 +731,9 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
   if( ImageDimension == 3 )
     {
     // FIXME SHOULD BE 2.0 over meshpixperelt
-    rstep = 1.25 / ( (double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]); //
-    sstep = 1.25 / ( (double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]); //
-    tstep = 1.25 / ( (double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]); //
-//  std::cout << " r s t steps " << rstep << " " << sstep << " "<< tstep << std::endl;
+    rstep = 1.25 / ( (double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]);
+    sstep = 1.25 / ( (double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]);
+    tstep = 1.25 / ( (double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]);
 
     Pos.set_size(ImageDimension);
     int numElements = mySolver->GetInput()->GetNumberOfElements();
@@ -1203,12 +1197,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve
       }
 
     // now expand the field for the next level, if necessary.
-    if( m_CurrentLevel == m_MaxLevel - 1 && m_Field )
-      {
-      PrintVectorField(900000);
-      std::cout << " field size " << m_Field->GetLargestPossibleRegion().GetSize() << std::endl;
-
-      }
 
     itkDebugMacro( << " end level " << m_CurrentLevel );
 
@@ -1395,7 +1383,6 @@ Element::Float FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::Gol
     }
 
   mySolver->SetEnergyToMin(xmin);
-  std::cout << " emin " << fmin <<  " at xmin " << xmin << std::endl;
   return std::fabs(static_cast<double>(fmin) );
 }
 
