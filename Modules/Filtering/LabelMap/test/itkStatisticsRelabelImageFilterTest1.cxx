@@ -30,7 +30,7 @@ int itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
     {
     std::cerr << "Usage: " << argv[0] << " input feature output";
     std::cerr << " background";
-    std::cerr << "reverseOrdering attribute" << std::endl;
+    std::cerr << " reverseOrdering attribute" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -46,37 +46,38 @@ int itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   reader2->SetFileName( argv[2] );
 
   typedef itk::StatisticsRelabelImageFilter< IType, IType > RelabelType;
-  RelabelType::Pointer opening = RelabelType::New();
+  RelabelType::Pointer statisticsRelabel = RelabelType::New();
 
-  opening->SetInput( reader->GetOutput() );
+  statisticsRelabel->SetInput( reader->GetOutput() );
+  statisticsRelabel->SetFeatureImage( reader2->GetOutput() );
 
   //testing get/set BackgroundValue macro
   int BackgroundValue = ( atoi(argv[4]) );
-  opening->SetBackgroundValue( BackgroundValue );
-  TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
+  statisticsRelabel->SetBackgroundValue( BackgroundValue );
+  TEST_SET_GET_VALUE( BackgroundValue, statisticsRelabel->GetBackgroundValue() );
 
   //testing boolean macro for ReverseOrdering
-  opening->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
+  statisticsRelabel->ReverseOrderingOn();
+  TEST_SET_GET_VALUE( true, statisticsRelabel->GetReverseOrdering() );
 
-  opening->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
+  statisticsRelabel->ReverseOrderingOff();
+  TEST_SET_GET_VALUE( false, statisticsRelabel->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
   bool reverseOrdering = atoi( argv[5] );
-  opening->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
+  statisticsRelabel->SetReverseOrdering( reverseOrdering );
+  TEST_SET_GET_VALUE( reverseOrdering , statisticsRelabel->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
   RelabelType::AttributeType attribute = atoi( argv[6] );
-  opening->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
+  statisticsRelabel->SetAttribute( attribute );
+  TEST_SET_GET_VALUE( attribute, statisticsRelabel->GetAttribute() );
 
-  itk::SimpleFilterWatcher watcher(opening, "filter");
+  itk::SimpleFilterWatcher watcher(statisticsRelabel, "filter");
 
   typedef itk::ImageFileWriter< IType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( opening->GetOutput() );
+  writer->SetInput( statisticsRelabel->GetOutput() );
   writer->SetFileName( argv[3] );
   writer->UseCompressionOn();
 

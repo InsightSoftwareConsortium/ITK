@@ -493,6 +493,11 @@ itk_add_test(NAME itkStatisticsPositionLabelMapFilterTest1
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkShapePositionLabelMapFilterTest1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png
     itkStatisticsPositionLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png CenterOfGravity)
+itk_add_test(NAME itkStatisticsRelabelImageFilterTest1
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/cthead1-statistics-relabel_image-baseline.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkStatisticsRelabelImageFilterTest1.png
+    itkStatisticsRelabelImageFilterTest1 DATA{Input/cthead1Label.png} DATA{Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkStatisticsRelabelImageFilterTest1.png 0 0 202)
 itk_add_test(NAME itkAutoCropLabelMapFilterTest2
       COMMAND ITKLabelMapTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkAutoCropLabelMapFilterTest2-92.png}
