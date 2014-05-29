@@ -107,8 +107,8 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
     Direction[2][2] = 1;
     imageFilter->SetDirection(Direction);
   }
-  imageFilter->SetInsideValue( 200.0);
-  imageFilter->SetOutsideValue( 0.0);
+  imageFilter->SetInsideValue(200);
+  imageFilter->SetOutsideValue(0);
   const double imTolerance = imageFilter->GetTolerance();
   if (imTolerance > 1e-5)
   {
