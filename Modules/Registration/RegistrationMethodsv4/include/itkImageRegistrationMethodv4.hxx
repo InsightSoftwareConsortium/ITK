@@ -47,10 +47,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   Self::AddRequiredInputName("Moving",1);
   ProcessObject::SetNumberOfRequiredInputs(2);
 
+  // optional named inputs
+  Self::SetInput("InitialTransform", ITK_NULLPTR);
+  Self::SetInput("FixedInitialTransform", ITK_NULLPTR);
+  Self::SetInput("MovingInitialTransform", ITK_NULLPTR);
 
-  // "InitialTransform" optional input
-  Self::AddRequiredInputName("InitialTransform");
-  Self::RemoveRequiredInputName("InitialTransform"); // make it optional
 
   Self::ReleaseDataBeforeUpdateFlagOff();
 
@@ -69,12 +70,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   this->m_CompositeTransform = CompositeTransformType::New();
 
   typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
-
-  typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
-  this->m_FixedInitialTransform = defaultFixedInitialTransform;
-
-  typename IdentityTransformType::Pointer defaultMovingInitialTransform = IdentityTransformType::New();
-  this->m_MovingInitialTransform = defaultMovingInitialTransform;
 
   typedef MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType> DefaultMetricType;
   typename DefaultMetricType::Pointer mutualInformationMetric = DefaultMetricType::New();
@@ -281,6 +276,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     itkExceptionMacro( "The image metric is not present." );
     }
 
+  InitialTransformType* movingInitialTransform = const_cast<InitialTransformType*>(this->GetMovingInitialTransform());
+  InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>(this->GetFixedInitialTransform());
+
   this->m_CurrentIteration = 0;
   this->m_CurrentMetricValue = 0.0;
   this->m_CurrentConvergenceValue = 0.0;
@@ -313,10 +311,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     // of the composite transform since we can avoid some matrix multiplications.
 
     // Skip adding an IdentityTransform to the m_CompositeTransform
-    if( this->m_MovingInitialTransform.IsNotNull() &&
-      std::string(this->m_MovingInitialTransform->GetNameOfClass() ) != std::string("IdentityTransform") )
+    if( movingInitialTransform != ITK_NULLPTR &&
+      std::string(movingInitialTransform->GetNameOfClass() ) != std::string("IdentityTransform") )
       {
-      this->m_CompositeTransform->AddTransform( this->m_MovingInitialTransform );
+      this->m_CompositeTransform->AddTransform( movingInitialTransform );
       }
 
     this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
@@ -343,7 +341,16 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   typename MultiMetricType::Pointer multiMetric2 = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
   if( multiMetric2 )
     {
-    multiMetric2->SetFixedTransform( this->m_FixedInitialTransform );
+    if ( fixedInitialTransform )
+      {
+      multiMetric2->SetFixedTransform( fixedInitialTransform );
+      }
+    else
+      {
+      typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+      typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
+      multiMetric2->SetFixedTransform( defaultFixedInitialTransform );
+      }
     multiMetric2->SetMovingTransform( this->m_CompositeTransform );
     multiMetric2->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
     for( unsigned int n = 0; n < multiMetric2->GetNumberOfMetrics(); n++ )
@@ -364,7 +371,16 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
     if( imageMetric.IsNotNull() )
       {
-      imageMetric->SetFixedTransform( this->m_FixedInitialTransform );
+      if ( fixedInitialTransform )
+        {
+         imageMetric->SetFixedTransform( fixedInitialTransform );
+        }
+      else
+        {
+        typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+        typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
+        imageMetric->SetFixedTransform( defaultFixedInitialTransform );
+        }
       imageMetric->SetMovingTransform( this->m_CompositeTransform );
       imageMetric->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
       }

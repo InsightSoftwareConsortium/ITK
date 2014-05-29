@@ -856,7 +856,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
         this->ProcessObject::GetInput(#name) );                      \
     if( input == ITK_NULLPTR )                                       \
       {                                                              \
-      itkExceptionMacro(<<"input" #name " is not set");              \
+      return ITK_NULLPTR;                                            \
       }                                                              \
     return input->Get();                                             \
     }

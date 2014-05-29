@@ -100,6 +100,7 @@ public:
   typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
   typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
 
+  typedef typename Superclass::InitialTransformType                   InitialTransformType;
   typedef TOutputTransform                                            OutputTransformType;
   typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
   typedef typename OutputTransformType::ScalarType                    RealType;

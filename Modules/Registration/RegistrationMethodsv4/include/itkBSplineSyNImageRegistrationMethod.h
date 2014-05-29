@@ -83,6 +83,7 @@ public:
 
   typedef typename Superclass::NumberOfIterationsArrayType            NumberOfIterationsArrayType;
 
+  typedef typename Superclass::InitialTransformType                   InitialTransformType;
   typedef TOutputTransform                                            OutputTransformType;
   typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
   typedef typename OutputTransformType::ScalarType                    RealType;
