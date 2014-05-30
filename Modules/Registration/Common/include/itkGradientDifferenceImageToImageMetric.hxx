@@ -265,7 +265,10 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
       ++iterate;
       }
 
-    m_Variance[iDimension] /= nPixels;
+    if (nPixels > 0)
+      {
+      m_Variance[iDimension] /= nPixels;
+      }
     }
 }
 

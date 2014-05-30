@@ -322,12 +322,32 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
     m_Mean[i] = objaddp[i] / objnum;
     m_STD[i] = std::sqrt( ( objaddpp[i] - ( objaddp[i] * objaddp[i] ) / objnum ) / ( objnum - 1 ) );
     m_STDTolerance[i] = m_STD[i] * m_STDPercentError[i];
-    b_Mean[i] = bkgaddp[i] / bkgnum;
-    b_STD[i] = std::sqrt( ( bkgaddpp[i] - ( bkgaddp[i] * bkgaddp[i] ) / bkgnum ) / ( bkgnum - 1 ) );
-    diffMean[i] = ( b_Mean[i] - m_Mean[i] ) / m_Mean[i];
-    if ( diffMean[i] < 0 ) { diffMean[i] = -diffMean[i]; }
-    diffSTD[i] = ( b_STD[i] - m_STD[i] ) / m_STD[i];
-    if ( diffSTD[i] < 0 ) { diffSTD[i] = -diffSTD[i]; }
+    if (bkgnum > 0)
+      {
+      b_Mean[i] = bkgaddp[i] / bkgnum;
+      }
+    if (bkgnum > 1)
+      {
+      b_STD[i] =
+        std::sqrt( ( bkgaddpp[i] - ( bkgaddp[i] * bkgaddp[i] ) / bkgnum )
+                   / ( bkgnum - 1 ) );
+      }
+    if (m_Mean[i] != 0.0)
+      {
+      diffMean[i] = ( b_Mean[i] - m_Mean[i] ) / m_Mean[i];
+      }
+    if ( diffMean[i] < 0 )
+      {
+      diffMean[i] = -diffMean[i];
+      }
+    if (m_STD[i] != 0.0)
+      {
+      diffSTD[i] = ( b_STD[i] - m_STD[i] ) / m_STD[i];
+      }
+    if ( diffSTD[i] < 0 )
+      {
+      diffSTD[i] = -diffSTD[i];
+      }
     if ( this->GetUseBackgroundInAPrior() )
       {
       m_MeanTolerance[i] = diffMean[i] * m_Mean[i] * this->GetMeanDeviation();
