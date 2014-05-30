@@ -104,9 +104,6 @@ public:
   itkGetConstReferenceMacro(CurrentCost, MeasureType);
   virtual const MeasureType & GetValue() const { return this->GetCurrentCost(); }
 
-  /** Return Current Iteration */
-  itkGetConstReferenceMacro(CurrentIteration, unsigned int);
-
   /** Get the current line search iteration */
   itkGetConstReferenceMacro(CurrentLineIteration, unsigned int);
 
@@ -208,7 +205,6 @@ private:
   unsigned int m_SpaceDimension;
 
   /** Current iteration */
-  unsigned int m_CurrentIteration;
   unsigned int m_CurrentLineIteration;
 
   /** Maximum iteration limit. */

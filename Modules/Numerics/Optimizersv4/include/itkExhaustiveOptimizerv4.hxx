@@ -28,16 +28,15 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 ::ExhaustiveOptimizerv4() :
   m_CurrentValue(0),
   m_NumberOfSteps(0),
-  m_CurrentIteration(0),
   m_Stop(false),
   m_CurrentParameter(0),
   m_StepLength(1.0),
   m_CurrentIndex(0),
-  m_MaximumNumberOfIterations(0),
   m_MaximumMetricValue(0.0),
   m_MinimumMetricValue(0.0),
   m_StopConditionDescription("")
 {
+  this->m_NumberOfIterations = 0;
 }
 
 template<typename TInternalComputationValueType>
@@ -68,14 +67,14 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   m_MaximumMetricValue = initialValue;
   m_MinimumMetricValue = initialValue;
 
-  m_CurrentIteration          = 0;
-  m_MaximumNumberOfIterations = 1;
+  this->m_CurrentIteration = 0;
+  this->m_NumberOfIterations = 1;
 
   const unsigned int spaceDimension = this->m_Metric->GetParameters().GetSize();
 
   for ( unsigned int i = 0; i < spaceDimension; i++ )
     {
-    m_MaximumNumberOfIterations *= ( 2 * m_NumberOfSteps[i] + 1 );
+    this->m_NumberOfIterations *= ( 2 * m_NumberOfSteps[i] + 1 );
     }
 
   m_CurrentIndex.SetSize(spaceDimension);
@@ -148,7 +147,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 
     this->InvokeEvent( IterationEvent() );
     this->AdvanceOneStep();
-    m_CurrentIteration++;
+    this->m_CurrentIteration++;
     }
 }
 
@@ -247,12 +246,10 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   os << indent << "InitialPosition = " << m_InitialPosition << std::endl;
   os << indent << "CurrentValue = " << m_CurrentValue << std::endl;
   os << indent << "NumberOfSteps = " << m_NumberOfSteps << std::endl;
-  os << indent << "CurrentIteration = " << m_CurrentIteration << std::endl;
   os << indent << "Stop = " << m_Stop << std::endl;
   os << indent << "CurrentParameter = " << m_CurrentParameter << std::endl;
   os << indent << "StepLength = " << m_StepLength << std::endl;
   os << indent << "CurrentIndex = " << m_CurrentIndex << std::endl;
-  os << indent << "MaximumNumberOfIterations = " << m_MaximumNumberOfIterations << std::endl;
   os << indent << "MaximumMetricValue = " << m_MaximumMetricValue << std::endl;
   os << indent << "MinimumMetricValue = " << m_MinimumMetricValue << std::endl;
   os << indent << "MinimumMetricValuePosition = " << m_MinimumMetricValuePosition << std::endl;

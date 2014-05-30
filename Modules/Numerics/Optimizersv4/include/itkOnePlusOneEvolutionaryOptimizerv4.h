@@ -136,9 +136,6 @@ public:
   itkGetConstReferenceMacro(CurrentCost, MeasureType);
   virtual const MeasureType & GetValue() const ITK_OVERRIDE;
 
-  /** Return Current Iteration */
-  itkGetConstReferenceMacro(CurrentIteration, unsigned int);
-
   /** Return if optimizer has been initialized */
   itkGetConstReferenceMacro(Initialized, bool);
 
@@ -174,9 +171,6 @@ private:
 
   /** Maximum iteration limit. */
   unsigned int m_MaximumIteration;
-
-  /** Current iteration */
-  unsigned int m_CurrentIteration;
 
   bool   m_CatchGetValueException;
   double m_MetricWorstPossibleValue;

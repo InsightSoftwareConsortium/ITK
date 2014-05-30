@@ -131,11 +131,6 @@ public:
 
   itkGetConstMacro(CostFunctionConvergenceFactor, double);
 
-  /** Set/Get the MaximumNumberOfIterations. Default is 500 */
-  virtual void SetMaximumNumberOfIterations(unsigned int);
-
-  itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
-
   /** Set/Get the MaximumNumberOfCorrections. Default is 5 */
   virtual void SetMaximumNumberOfCorrections(unsigned int);
 
@@ -143,9 +138,6 @@ public:
 
   /** This optimizer does not support scaling of the derivatives. */
   virtual void SetScales(const ScalesType &) ITK_OVERRIDE;
-
-  /** Get the current iteration number. */
-  itkGetConstReferenceMacro(CurrentIteration, unsigned int);
 
   /** Get the current infinity norm of the project gradient of the cost
    * function. */
@@ -164,9 +156,7 @@ private:
   void operator=(const Self &); //purposely not implemented
 
   double       m_CostFunctionConvergenceFactor;
-  unsigned int m_MaximumNumberOfIterations;
   unsigned int m_MaximumNumberOfCorrections;
-  unsigned int m_CurrentIteration;
   double       m_InfinityNormOfProjectedGradient;
 
   ParametersType          m_InitialPosition;

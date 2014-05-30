@@ -92,15 +92,6 @@ public:
   /** Get stop condition enum */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
-  /** Set the number of iterations. */
-  itkSetMacro(NumberOfIterations, SizeValueType);
-
-  /** Get the number of iterations. */
-  itkGetConstReferenceMacro(NumberOfIterations, SizeValueType);
-
-  /** Get the current iteration number. */
-  itkGetConstMacro(CurrentIteration, SizeValueType);
-
   /** Begin the optimization */
   virtual void StartOptimization( bool doOnlyInitialization = false );
 
@@ -136,8 +127,6 @@ public:
   bool                          m_Stop;
   StopConditionType             m_StopCondition;
   StopConditionDescriptionType  m_StopConditionDescription;
-  SizeValueType                 m_NumberOfIterations;
-  SizeValueType                 m_CurrentIteration;
   OptimizersListType            m_OptimizersList;
   MetricValuesListType          m_MetricValuesList;
   MeasureType                   m_MinimumMetricValue;

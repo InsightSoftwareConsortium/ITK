@@ -26,7 +26,6 @@ template<typename TInternalComputationValueType>
 PowellOptimizerv4<TInternalComputationValueType>
 ::PowellOptimizerv4():
   m_SpaceDimension(0),
-  m_CurrentIteration(0),
   m_CurrentLineIteration(0),
   m_MaximumIteration(100),
   m_MaximumLineIteration(100),
@@ -452,9 +451,9 @@ PowellOptimizerv4<TInternalComputationValueType>
   this->SetLine(p, xit);
   fx = this->GetLineValue(0, tempCoord);
 
-  for ( m_CurrentIteration = 0;
-        m_CurrentIteration <= m_MaximumIteration;
-        m_CurrentIteration++ )
+  for ( this->m_CurrentIteration = 0;
+        this->m_CurrentIteration <= m_MaximumIteration;
+        this->m_CurrentIteration++ )
     {
     fp = fx;
     ibig = 0;
@@ -569,7 +568,6 @@ PowellOptimizerv4<TInternalComputationValueType>
   os << indent << "Catch GetValue Exception " << m_CatchGetValueException   << std::endl;
   os << indent << "Space Dimension   " << m_SpaceDimension   << std::endl;
   os << indent << "Maximum Iteration " << m_MaximumIteration << std::endl;
-  os << indent << "Current Iteration " << m_CurrentIteration << std::endl;
   os << indent << "StepLength        " << m_StepLength       << std::endl;
   os << indent << "StepTolerance     " << m_StepTolerance    << std::endl;
   os << indent << "ValueTolerance    " << m_ValueTolerance   << std::endl;

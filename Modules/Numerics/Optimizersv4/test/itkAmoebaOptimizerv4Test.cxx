@@ -323,7 +323,7 @@ int AmoebaTest1()
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
   // set optimizer parameters
-  itkOptimizer->SetMaximumNumberOfIterations( 10 );
+  itkOptimizer->SetNumberOfIterations( 10 );
 
   double xTolerance = 0.01;
   itkOptimizer->SetParametersConvergenceTolerance( xTolerance );
@@ -347,13 +347,13 @@ int AmoebaTest1()
 
   try
     {
-    std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
+    std::cout << "Run for " << itkOptimizer->GetNumberOfIterations();
     std::cout << " iterations or less." << std::endl;
 
     itkOptimizer->StartOptimization();
 
-    itkOptimizer->SetMaximumNumberOfIterations( 100 );
-    std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
+    itkOptimizer->SetNumberOfIterations( 100 );
+    std::cout << "Continue for " << itkOptimizer->GetNumberOfIterations();
     std::cout << " iterations or less." << std::endl;
 
     OptimizerType::ParametersType currentPosition = itkOptimizer->GetCurrentPosition();
@@ -424,7 +424,7 @@ int AmoebaTest2()
 
          // set optimizer parameters
   unsigned int maxIterations = 100;
-  itkOptimizer->SetMaximumNumberOfIterations( maxIterations );
+  itkOptimizer->SetNumberOfIterations( maxIterations );
 
   double xTolerance = 0.01;
   itkOptimizer->SetParametersConvergenceTolerance( xTolerance );
