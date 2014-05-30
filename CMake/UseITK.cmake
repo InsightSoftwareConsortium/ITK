@@ -35,7 +35,7 @@ endmacro()
 set(LIST_OF_IMAGEIO_FORMATS
     Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC
     MINC
-    MGH SCIFIO
+    MGH SCIFIO FDF
     )
 
 # Set each IO format's module name and factory name
