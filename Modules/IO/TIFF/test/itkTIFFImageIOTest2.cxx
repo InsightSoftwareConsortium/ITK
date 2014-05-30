@@ -48,8 +48,8 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
   region.SetIndex( start );
 
   image->SetRegions( region );
-  image->Allocate();
-  image->FillBuffer(0);
+  image->Allocate(true); // initialize buffer
+                                                // to zero
 
   ImageType::SpacingType spacing;
 

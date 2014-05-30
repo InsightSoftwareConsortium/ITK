@@ -39,10 +39,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
   region.SetSize( size );
 
   image->SetRegions( region );
-  image->Allocate();
-
-  ImageType::PixelType initialValue = 0;
-  image->FillBuffer( initialValue );
+  image->Allocate(true); // initialize buffer to zero
 
   // Fill the image with a straight line
   for(unsigned int i=0;i<50;i++)

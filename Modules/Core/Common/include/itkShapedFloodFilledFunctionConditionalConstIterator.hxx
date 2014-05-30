@@ -96,8 +96,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   m_TempPtr->SetLargestPossibleRegion(tempRegion);
   m_TempPtr->SetBufferedRegion(tempRegion);
   m_TempPtr->SetRequestedRegion(tempRegion);
-  m_TempPtr->Allocate();
-  m_TempPtr->FillBuffer(NumericTraits< typename TTempImage::PixelType >::Zero);
+  m_TempPtr->Allocate(true); // initialize buffer to zero
 
   // Initialize the queue by adding the start index assuming one of
   // the m_Seeds is "inside" This might not be true, in which

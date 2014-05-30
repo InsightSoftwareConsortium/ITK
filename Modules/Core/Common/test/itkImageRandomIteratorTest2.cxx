@@ -61,8 +61,8 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
   region.SetSize( size );
 
   image->SetRegions( region );
-  image->Allocate();
-  image->FillBuffer(0);
+  image->Allocate(true); // initialize buffer to zero
+
   typedef itk::ImageRandomIteratorWithIndex< ImageType >      RandomIteratorType;
 
   RandomIteratorType it( image, region );

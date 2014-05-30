@@ -218,8 +218,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
       }
     }
   this->m_CoefficientImages[0]->SetDirection( direction );
-  this->m_CoefficientImages[0]->Allocate();
-  this->m_CoefficientImages[0]->FillBuffer( 0 );
+  this->m_CoefficientImages[0]->Allocate(true); // initializes buffer to zero
 
   // Copy the information to the rest of the images
   for( unsigned int i = 1; i < SpaceDimension; i++ )
@@ -227,8 +226,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
     this->m_CoefficientImages[i]->CopyInformation( this->m_CoefficientImages[0] );
     this->m_CoefficientImages[i]->SetRegions(
       this->m_CoefficientImages[0]->GetLargestPossibleRegion() );
-    this->m_CoefficientImages[i]->Allocate();
-    this->m_CoefficientImages[i]->FillBuffer( 0 );
+    this->m_CoefficientImages[i]->Allocate(true); // initialize buffer to zero
     }
 }
 

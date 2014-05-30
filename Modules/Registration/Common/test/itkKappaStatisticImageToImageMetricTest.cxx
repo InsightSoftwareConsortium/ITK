@@ -50,8 +50,8 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
   // Create fixed image
   UCharImage2DType::Pointer fixedImage = UCharImage2DType::New();
   fixedImage->SetRegions(imageSize);
-  fixedImage->Allocate();
-  fixedImage->FillBuffer(0);
+  fixedImage->Allocate(true); // initialize
+                                                     // buffer to zero
   fixedImage->Update();
 
   UCharIteratorType fixedIt( fixedImage, fixedImage->GetBufferedRegion() );
@@ -67,8 +67,8 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
   // Create moving image
   UCharImage2DType::Pointer movingImage = UCharImage2DType::New();
   movingImage->SetRegions(imageSize);
-  movingImage->Allocate();
-  movingImage->FillBuffer(0);
+  movingImage->Allocate(true); // initialize
+                                                      // buffer to zero
   movingImage->Update();
 
   UCharIteratorType movingIt( movingImage, movingImage->GetBufferedRegion() );
@@ -140,14 +140,14 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 
   DoubleImage2DType::Pointer xGradImage = DoubleImage2DType::New();
   xGradImage->SetRegions(imageSize);
-  xGradImage->Allocate();
-  xGradImage->FillBuffer(0);
+  xGradImage->Allocate(true); // initialize
+                                                     // buffer to zero
   xGradImage->Update();
 
   DoubleImage2DType::Pointer yGradImage = DoubleImage2DType::New();
   yGradImage->SetRegions(imageSize);
-  yGradImage->Allocate();
-  yGradImage->FillBuffer(0);
+  yGradImage->Allocate(true); // initialize
+                                                     // buffer to zero
   yGradImage->Update();
 
   DoubleIteratorType xGradIt( xGradImage, xGradImage->GetBufferedRegion() );

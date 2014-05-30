@@ -76,7 +76,7 @@ LabelMap< TLabelObject >
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
-::Allocate()
+::Allocate(bool)
 {
   this->Initialize();
 }

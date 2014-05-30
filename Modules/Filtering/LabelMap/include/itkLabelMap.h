@@ -136,7 +136,7 @@ public:
   virtual void Initialize();
 
   /**  */
-  virtual void Allocate();
+  virtual void Allocate(bool initialize = false) ITK_OVERRIDE;
 
   virtual void Graft(const DataObject *data);
 

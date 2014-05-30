@@ -73,13 +73,11 @@ void ReallocateImage()
   SizeType size = {{5, 3}};
 
   testImage->SetRegions( size );
-  testImage->Allocate();
-  testImage->FillBuffer( 0 );
+  testImage->Allocate(true); // initialize buffer to zero
 
   SizeType size2 = {{100, 100}};
   testImage->SetRegions( size2 );
-  testImage->Allocate();
-  testImage->FillBuffer( 0 );
+  testImage->Allocate(true); // initialize buffer to zero
 }
 
 int itkObjectFactoryTest2(int argc, char *argv[])

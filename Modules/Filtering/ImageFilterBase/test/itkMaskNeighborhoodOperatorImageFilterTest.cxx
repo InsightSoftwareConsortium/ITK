@@ -53,12 +53,12 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
 
   region = input->GetOutput()->GetBufferedRegion();
   mask1->SetRegions( region );
-  mask1->Allocate();
-  mask1->FillBuffer(0);
+  mask1->Allocate(true); // initialize buffer
+                                                // to zero
 
   mask2->SetRegions( region );
-  mask2->Allocate();
-  mask2->FillBuffer(0);
+  mask2->Allocate(true); // initialize buffer
+                                                // to zero
 
 
   size = region.GetSize();

@@ -51,11 +51,7 @@ int main(int, char *[])
 
   // Pixel data is allocated
   image->SetRegions( region );
-  image->Allocate();
-
-  // The image buffer is initialized to a particular value
-  ImageType::PixelType  initialValue = 0;
-  image->FillBuffer( initialValue );
+  image->Allocate(true); // initialize buffer to zero
 
 
   // Software Guide : BeginLatex

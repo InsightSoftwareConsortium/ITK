@@ -104,11 +104,10 @@ int itkTransformToDisplacementFieldSourceTest1( int argc, char *argv[] )
   region.SetIndex(index);
   ImageType::Pointer image = ImageType::New();
   image->SetRegions(region);
-  image->Allocate();
+  image->Allocate(true); // initialize buffer to zero
   image->SetSpacing(spacing);
   image->SetOrigin(origin);
   image->SetDirection(inputDirection);
-  image->FillBuffer( itk::NumericTraits< ScalarPixelType >::Zero );
 
   float     incrValue = 100.0;
   IndexType pixelIndex;

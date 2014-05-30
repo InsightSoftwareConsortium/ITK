@@ -70,8 +70,8 @@ static MaskImageType::Pointer CreateMaskImage()
 
   MaskImageType::RegionType region( start, size );
   image->SetRegions( region );
-  image->Allocate();
-  image->FillBuffer(0);
+  image->Allocate(true); // initialize buffer
+                                                // to zero
 
   MaskImageType::IndexType startMask;
   MaskImageType::SizeType  sizeMask;
@@ -111,8 +111,8 @@ static MaskImageType::Pointer CreateLargerMaskImage()
 
   MaskImageType::RegionType region( start, size );
   image->SetRegions( region );
-  image->Allocate();
-  image->FillBuffer(0);
+  image->Allocate(true); // initialize buffer
+                                                // to zero
   return image;
 }
 

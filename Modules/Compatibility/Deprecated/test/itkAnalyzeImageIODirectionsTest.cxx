@@ -74,8 +74,7 @@ public:
 
   image3D->SetRegions( region3D );
 
-  image3D->Allocate();
-  image3D->FillBuffer( itk::NumericTraits< PixelType >::Zero );
+  image3D->Allocate(true); // initialize buffer to zero
 
   image3D->SetDirection( direction );
 

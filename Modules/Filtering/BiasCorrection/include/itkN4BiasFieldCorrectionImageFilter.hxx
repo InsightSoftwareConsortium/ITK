@@ -124,9 +124,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealImagePointer logBiasField = RealImageType::New();
   logBiasField->CopyInformation( inputImage );
   logBiasField->SetRegions( inputImage->GetLargestPossibleRegion() );
-  logBiasField->Allocate();
-  logBiasField->FillBuffer( 0.0 );
-
+  logBiasField->Allocate(true); // initialize buffer to zero
 
   // Iterate until convergence or iterative exhaustion.
   unsigned int maximumNumberOfLevels = 1;
@@ -434,8 +432,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealImagePointer sharpenedImage = RealImageType::New();
   sharpenedImage->CopyInformation( inputImage );
   sharpenedImage->SetRegions( inputImage->GetLargestPossibleRegion() );
-  sharpenedImage->Allocate();
-  sharpenedImage->FillBuffer( 0.0 );
+  sharpenedImage->Allocate(true); // initialize buffer to zero
 
   ImageRegionIterator<RealImageType> ItC(
     sharpenedImage, sharpenedImage->GetLargestPossibleRegion() );
