@@ -32,6 +32,7 @@
     std::cout << "Trying " << #command << std::endl; \
     command;  \
     std::cerr << "Failed to catch expected exception" << std::endl;  \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;\
     return EXIT_FAILURE;  \
     }  \
   catch( itk::ExceptionObject & excp )  \
@@ -50,6 +51,7 @@
   catch( itk::ExceptionObject & excp )  \
     {  \
     std::cerr << excp << std::endl; \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
     return EXIT_FAILURE;  \
     }
 
@@ -59,8 +61,9 @@
   if( !(_TEST_EXPECT_TRUE_command) )                                    \
     {                                                                   \
     std::cerr << "Error in " << #command << std::endl;                  \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
     std::cerr << "Expected true" << std::endl;                          \
-    std::cerr << "but got  " <<  _TEST_EXPECT_TRUE_command << std::endl; \
+    std::cerr << "  but got  " <<  _TEST_EXPECT_TRUE_command << std::endl; \
     return EXIT_FAILURE;                                                \
     }                                                                   \
   }
@@ -71,6 +74,7 @@
     if( !(_TEST_EXPECT_EQUAL_result) )                                  \
     {                                                                   \
     std::cerr << "Error in " << #lh << " == " << #rh << std::endl;      \
+    std::cerr << "\tIn " __FILE__ ", line " << __LINE__ << std::endl;   \
     std::cerr << "\tlh: " << (lh) << std::endl;                         \
     std::cerr << "\trh: " << (rh) << std::endl;                         \
     std::cerr << "Expression is not equal" << std::endl;                \
@@ -83,6 +87,7 @@
   if( variable.GetPointer() != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
     std::cerr << "Expected " << variable.GetPointer() << std::endl; \
     std::cerr << "but got  " << command << std::endl; \
     return EXIT_FAILURE; \
@@ -93,6 +98,7 @@
   if( variable != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
     std::cerr << "Expected " << variable << std::endl;   \
     std::cerr << "but got  " << command << std::endl; \
     return EXIT_FAILURE; \
@@ -102,6 +108,7 @@
   if( NULL != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
     std::cerr << "Expected " << "NULL" << std::endl;   \
     std::cerr << "but got  " << command << std::endl; \
     return EXIT_FAILURE; \
