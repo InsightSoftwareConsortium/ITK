@@ -36,10 +36,10 @@ GPUImage< TPixel, VImageDimension >::~GPUImage()
 }
 
 template <typename TPixel, unsigned int VImageDimension>
-void GPUImage< TPixel, VImageDimension >::Allocate()
+void GPUImage< TPixel, VImageDimension >::Allocate(bool initialize)
 {
   // allocate CPU memory - calling Allocate() in superclass
-  Superclass::Allocate();
+  Superclass::Allocate(initialize);
 
   // allocate GPU memory
   this->ComputeOffsetTable();
