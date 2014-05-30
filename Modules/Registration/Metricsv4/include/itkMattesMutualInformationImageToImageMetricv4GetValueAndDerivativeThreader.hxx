@@ -207,6 +207,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
                 DerivativeType &,
                 const ThreadIdType                 threadId) const
 {
+  const bool doComputeDerivative = this->m_MattesAssociate->GetComputeDerivative();
   /**
    * Compute this sample's contribution to the marginal
    *   and joint distributions.
@@ -222,7 +223,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     }
 
   // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
-  PDFValueType movingImageParzenWindowTerm = movingImageValue / this->m_MattesAssociate->m_MovingImageBinSize - this->m_MattesAssociate->m_MovingImageNormalizedMin;
+  const PDFValueType movingImageParzenWindowTerm = movingImageValue / this->m_MattesAssociate->m_MovingImageBinSize - this->m_MattesAssociate->m_MovingImageNormalizedMin;
   OffsetValueType movingImageParzenWindowIndex = static_cast<OffsetValueType>( movingImageParzenWindowTerm );
 
   // Make sure the extreme values are in valid bins
@@ -270,7 +271,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   // Store the pdf indecies for this point.
   // Just store the starting pdfMovingIndex and we'll iterate later
   // over the next four to collect results.
-  if( this->m_MattesAssociate->GetComputeDerivative() && ( this->m_MattesAssociate->HasLocalSupport() ) )
+  if( doComputeDerivative && ( this->m_MattesAssociate->HasLocalSupport() ) )
     {
     const OffsetValueType jointPdfIndex1D = pdfMovingIndex + (fixedImageParzenWindowIndex * this->m_MattesAssociate->m_NumberOfHistogramBins);
     localDerivativeOffset = this->m_MattesAssociate->ComputeParameterOffsetFromVirtualIndex( virtualIndex, this->GetCachedNumberOfLocalParameters() );
@@ -284,9 +285,9 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   // Compute the transform Jacobian.
   typedef JacobianType & JacobianReferenceType;
   JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
-  JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
-  if( this->m_MattesAssociate->GetComputeDerivative() )
+  if( doComputeDerivative )
     {
+    JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
     this->m_MattesAssociate->GetMovingTransform()->
       ComputeJacobianWithRespectToParametersCachedTemporaries(virtualPoint,
                                                               jacobian,
@@ -295,7 +296,6 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   SizeValueType movingParzenBin = 0;
 
-  const bool doComputeDerivative = this->m_MattesAssociate->GetComputeDerivative();
   const bool transformIsDisplacement = this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField;
   while( pdfMovingIndex <= pdfMovingIndexMax )
     {
@@ -307,24 +307,32 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
       // Compute the cubicBSplineDerivative for later repeated use.
       const PDFValueType cubicBSplineDerivativeValue = this->m_MattesAssociate->m_CubicBSplineDerivativeKernel->Evaluate(movingImageParzenWindowArg);
 
-      // Pointer to local derivative partial result container.
-      // Not used with global support transforms.
-      DerivativeValueType * localSupportDerivativeResultPtr = ITK_NULLPTR;
 
       if( transformIsDisplacement )
         {
+        // Pointer to local derivative partial result container.
+        // Not used with global support transforms.
         // ptr to where the derivative result should go, for efficiency
-        localSupportDerivativeResultPtr = &( this->m_MattesAssociate->m_LocalDerivativeByParzenBin[movingParzenBin][localDerivativeOffset] );
-        }
+        DerivativeValueType * localSupportDerivativeResultPtr =
+          &( this->m_MattesAssociate->m_LocalDerivativeByParzenBin[movingParzenBin][localDerivativeOffset] );
+        // Compute PDF derivative contribution.
 
-      // Compute PDF derivative contribution.
-      this->ComputePDFDerivatives(threadId,
-        fixedImageParzenWindowIndex,
-        jacobian,
-        pdfMovingIndex,
-        movingImageGradient,
-        cubicBSplineDerivativeValue,
-        localSupportDerivativeResultPtr);
+        this->ComputePDFDerivativesLocalSupportTransform(
+          jacobian,
+          movingImageGradient,
+          cubicBSplineDerivativeValue,
+          localSupportDerivativeResultPtr);
+        }
+      else
+        {
+        // Compute PDF derivative contribution.
+        this->ComputePDFDerivativesGlobalSupportTransform(threadId,
+          fixedImageParzenWindowIndex,
+          jacobian,
+          pdfMovingIndex,
+          movingImageGradient,
+          cubicBSplineDerivativeValue);
+        }
       }
 
     movingImageParzenWindowArg += 1.0;
@@ -339,32 +347,22 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   return false;
 }
 
-/**
- * ComputePDFDerivative
- */
 template< typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric >
 void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMattesMutualInformationMetric >
-::ComputePDFDerivatives(const ThreadIdType &            threadId,
+::ComputePDFDerivativesGlobalSupportTransform(const ThreadIdType &            threadId,
                         const OffsetValueType &         fixedImageParzenWindowIndex,
                         const JacobianType &            jacobian,
                         const OffsetValueType &         pdfMovingIndex,
                         const MovingImageGradientType & movingImageGradient,
-                        const PDFValueType &            cubicBSplineDerivativeValue,
-                        DerivativeValueType *           localSupportDerivativeResultPtr) const
+                        const PDFValueType &            cubicBSplineDerivativeValue) const
 {
   // Update bins in the PDF derivatives for the current intensity pair
   const OffsetValueType pdfFixedIndex = fixedImageParzenWindowIndex;
 
-  const bool isDisplacementField = ( this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField );
-
-  JointPDFDerivativesValueType *derivPtr=ITK_NULLPTR;
-  if( ! isDisplacementField )
-    {
-    derivPtr = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadId]->GetBufferPointer()
+  JointPDFDerivativesValueType *derivPtr = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadId]->GetBufferPointer()
       + ( pdfFixedIndex  * this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadId]->GetOffsetTable()[2] )
       + ( pdfMovingIndex * this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadId]->GetOffsetTable()[1] );
-    }
 
   for( NumberOfParametersType mu = 0, maxElement=this->GetCachedNumberOfLocalParameters(); mu < maxElement; ++mu )
     {
@@ -375,16 +373,31 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
       }
 
     const PDFValueType derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
-    if( isDisplacementField )
+    *( derivPtr ) -= derivativeContribution;
+    ++derivPtr;
+    }
+}
+
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric >
+void
+MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMattesMutualInformationMetric >
+::ComputePDFDerivativesLocalSupportTransform(
+                        const JacobianType &            jacobian,
+                        const MovingImageGradientType & movingImageGradient,
+                        const PDFValueType &            cubicBSplineDerivativeValue,
+                        DerivativeValueType *           localSupportDerivativeResultPtr) const
+{
+  for( NumberOfParametersType mu = 0, maxElement=this->GetCachedNumberOfLocalParameters(); mu < maxElement; ++mu )
+    {
+    PDFValueType innerProduct = 0.0;
+    for( SizeValueType dim = 0, lastDim = this->m_MattesAssociate->MovingImageDimension; dim < lastDim; ++dim )
       {
-      *( localSupportDerivativeResultPtr ) += derivativeContribution;
-      localSupportDerivativeResultPtr++;
+      innerProduct += jacobian[dim][mu] * movingImageGradient[dim];
       }
-    else
-      {
-      *( derivPtr ) -= derivativeContribution;
-      ++derivPtr;
-      }
+
+    const PDFValueType derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
+    *( localSupportDerivativeResultPtr ) += derivativeContribution;
+    localSupportDerivativeResultPtr++;
     }
 }
 
