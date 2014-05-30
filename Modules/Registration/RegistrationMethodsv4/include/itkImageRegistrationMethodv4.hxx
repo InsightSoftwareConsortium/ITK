@@ -49,6 +49,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   this->m_NumberOfFixedImages = 0;
   this->m_NumberOfMovingImages = 0;
 
+  Self::ReleaseDataBeforeUpdateFlagOff();
+
   this->m_CompositeTransform = CompositeTransformType::New();
 
   typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;

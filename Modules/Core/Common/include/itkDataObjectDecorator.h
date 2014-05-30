@@ -74,6 +74,7 @@ public:
 
   /** Typedef for the component type (object being decorated) */
   typedef T                        ComponentType;
+  typedef typename T::Pointer      ComponentPointer;
   typedef typename T::ConstPointer ComponentConstPointer;
 
   /** Method for creation through the object factory. */
@@ -83,10 +84,44 @@ public:
   itkTypeMacro(DataObjectDecorator, DataObject);
 
   /** Set the contained object */
-  virtual void Set(const T *val);
+  virtual void Set( const ComponentType *val);
 
   /** Get the contained object */
-  virtual const T * Get() const;
+  virtual const ComponentType * Get() const;
+  virtual ComponentType * GetModifiable();
+
+  /** The most recent MTime of this object and the held component */
+  virtual ModifiedTimeType GetMTime() const ITK_OVERRIDE;
+
+  /** Restore the data object to its initial state. This means
+   *  releasing the help component.
+   */
+  virtual void Initialize() ITK_OVERRIDE;
+
+  /** \brief Graft the content of one decorator onto another
+   *
+   * The DataObject is dynamically_cast to this type, if successful
+   * then the component pointer is copies to that both decorators
+   * refer to the same object.
+   */
+  virtual void Graft( const DataObject * ) ITK_OVERRIDE;
+  void Graft( const Self * decorator );
+
+  /** Method to aid in dynamic Graft of polymorphic types.
+   *
+   * To this method by default a raw pointer must be used or explicit
+   * template parameter must be provided.
+   */
+  template <typename TOther>
+  void Graft( const DataObjectDecorator<TOther> * decorator )
+    {
+      ComponentType *component = const_cast< ComponentType * >( dynamic_cast< const ComponentType * >( decorator->Get() ) );
+      if ( !component  )
+        {
+        return;
+        }
+      this->Set( component );
+    }
 
 protected:
   DataObjectDecorator();
@@ -99,7 +134,7 @@ private:
   DataObjectDecorator(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
 
-  ComponentConstPointer m_Component;
+  ComponentPointer m_Component;
 };
 } // end namespace itk
 
