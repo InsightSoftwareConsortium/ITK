@@ -26,6 +26,8 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkSize.h"
 #include "itkDefaultConvertPixelTraits.h"
+#include "itkDataObjectDecorator.h"
+
 
 namespace itk
 {
@@ -121,8 +123,11 @@ public:
    */
   typedef Transform< TTransformPrecisionType,
                      itkGetStaticConstMacro(ImageDimension),
-                     itkGetStaticConstMacro(ImageDimension) >       TransformType;
-  typedef typename TransformType::ConstPointer TransformPointerType;
+                     itkGetStaticConstMacro(ImageDimension) >   TransformType;
+  typedef typename TransformType::ConstPointer                  TransformPointerType;
+  typedef DataObjectDecorator<TransformType>                    DecoratedTransformType;
+  typedef typename DecoratedTransformType::Pointer              DecoratedTransformPointer;
+
 
   /** Interpolator typedef. */
   typedef InterpolateImageFunction< InputImageType,
@@ -185,8 +190,7 @@ public:
    * the filter uses an Identity transform. You must provide a different
    * transform here, before attempting to run the filter, if you do not want to
    * use the default Identity transform. */
-  itkSetConstObjectMacro(Transform, TransformType);
-  itkGetConstObjectMacro(Transform, TransformType);
+   itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
 
   /** Get/Set the interpolator function.  The default is
    * LinearInterpolateImageFunction<InputImageType,
@@ -247,10 +251,10 @@ public:
     *  this method can be used to specify an image from which to
     *  copy the information. UseReferenceImageOn must be set to utilize the
     *  reference image. */
-  void SetReferenceImage(const ReferenceImageBaseType *image);
+  itkSetInputMacro(ReferenceImage, ReferenceImageBaseType);
 
   /** Get the reference image that is defining the output information. */
-  const ReferenceImageBaseType * GetReferenceImage() const;
+  itkGetInputMacro(ReferenceImage, ReferenceImageBaseType);
 
   /** Turn on/off whether a specified reference image should be used to define
    *  the output information. */
@@ -338,7 +342,6 @@ private:
   void operator=(const Self &);      //purposely not implemented
 
   SizeType                m_Size;         // Size of the output image
-  TransformPointerType    m_Transform;    // Transform
   InterpolatorPointerType m_Interpolator; // Image function for
                                           // interpolation
   ExtrapolatorPointerType m_Extrapolator; // Image function for
