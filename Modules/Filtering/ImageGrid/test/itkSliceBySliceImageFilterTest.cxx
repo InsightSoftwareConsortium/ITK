@@ -199,5 +199,9 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
+  // check NULL input/output
+  TRY_EXPECT_EXCEPTION(badFilter->SetInputFilter(ITK_NULLPTR));
+  TRY_EXPECT_EXCEPTION(badFilter->SetOutputFilter(ITK_NULLPTR));
+
   return EXIT_SUCCESS;
 }

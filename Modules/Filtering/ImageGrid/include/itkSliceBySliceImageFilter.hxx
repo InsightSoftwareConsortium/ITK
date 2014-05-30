@@ -130,6 +130,11 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
                          TInternalOutputImageType >
 ::SetInputFilter(InputFilterType *filter)
 {
+  if ( !filter )
+    {
+    itkExceptionMacro("InputFilter cannot be NULL.");
+    }
+
   if ( m_InputFilter.GetPointer() != filter )
     {
     this->Modified();
@@ -146,6 +151,11 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
                          TInternalOutputImageType >
 ::SetOutputFilter(OutputFilterType *filter)
 {
+  if ( !filter )
+    {
+    itkExceptionMacro("OutputFilter cannot be NULL.");
+    }
+
   if ( m_OutputFilter.GetPointer() != filter )
     {
     this->Modified();
