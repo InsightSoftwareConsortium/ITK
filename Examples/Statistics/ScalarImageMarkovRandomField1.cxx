@@ -290,7 +290,15 @@ int main( int argc, char * argv [] )
     classifier->AddMembershipFunction( membershipFunction );
     meanDistance += static_cast< double > (centroid[0]);
     }
-  meanDistance /= numberOfClasses;
+  if (numberOfClasses > 0)
+    {
+    meanDistance /= numberOfClasses;
+    }
+  else
+    {
+    std::cerr << "ERROR: numberOfClasses is 0" << std::endl;
+    return EXIT_FAILURE;
+    }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

@@ -116,10 +116,13 @@ MinMaxCurvatureFlowFunction< TImage >
     }
 
   // normalize the operator so that it sums to one
-  for ( opIter = m_StencilOperator.Begin(); opIter < opEnd; ++opIter )
+  if (numPixelsInSphere != 0)
     {
-    *opIter = static_cast< PixelType >( (double)*opIter
-                                        / (double)numPixelsInSphere );
+    for ( opIter = m_StencilOperator.Begin(); opIter < opEnd; ++opIter )
+      {
+      *opIter = static_cast< PixelType >( (double)*opIter
+                                          / (double)numPixelsInSphere );
+      }
     }
 }
 

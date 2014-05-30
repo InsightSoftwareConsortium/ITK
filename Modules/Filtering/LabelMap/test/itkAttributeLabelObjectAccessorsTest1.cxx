@@ -88,7 +88,10 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
       ++it2;
       }
 
-    mean /= size;
+    if (size)
+      {
+      mean /= size;
+      }
 
     labelObject->SetAttribute( mean );
     // make sure that we get the same value

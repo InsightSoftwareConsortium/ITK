@@ -250,7 +250,10 @@ void BSplineResampleImageFilterBase< TInputImage, TOutputImage >
           }
         if ( i2 > (int)inModK )
           {
-          i2 = i2 % inModK;
+          if (inModK)
+            {
+            i2 = i2 % inModK;
+            }
           // Removed because i1 can never be greater than inModK, right?
           //if (i2 > inModK)
           //i2=inModK-i2;  //TODO: I don't think this is correct.
