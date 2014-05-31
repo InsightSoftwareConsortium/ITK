@@ -1,18 +1,5 @@
 # Set a list of group names
-set(group_list
-  Core
-  IO
-  Filtering
-  Registration
-  Segmentation
-  Numerics
-  Video
-  ThirdParty
-  Bridge
-  Nonunit
-  Compatibility
-  Remote
-  )
+set(group_list Core IO Filtering Registration Segmentation Numerics Video ThirdParty Bridge Nonunit Compatibility)
 
 set(Core_documentation "This group of modules contain the toolkit framework used
 by other modules.  There are common base classes for data objects and process
@@ -56,16 +43,6 @@ used by other ITK modules.")
 
 set(Nonunit_documentation "This group of modules are intended to make use of an
 extensive set of the toolkit modules.")
-
-set(Remote_documentation "This group of modules is for ITK based code that have
-additional third-party dependencies not bundled with the toolkit,
-new algorithms or implementations seeking greater exposure and adoption,
-algorithms that hope to eventually be integrated into the toolkit,
-niche algorithms with limited application, and Modules in progress that do not
-yet have the test coverage and cross-platform standards required by the main toolkit.
-+The modules are OFF by default in ITK's CMake configuration.
-Note that these modules do get the same level of support and backwards
-compatibility as other modules in the toolkit.")
 
 # Set a module name list for each group
 foreach( group ${group_list} )
