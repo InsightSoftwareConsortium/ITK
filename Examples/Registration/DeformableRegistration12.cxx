@@ -168,8 +168,7 @@ int main( int argc, char *argv[] )
 
   typedef itk::ImageRegistrationMethodv4<
                                         FixedImageType,
-                                        MovingImageType,
-                                        TransformType >    RegistrationType;
+                                        MovingImageType >    RegistrationType;
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   //  Software Guide : BeginLatex
@@ -179,7 +178,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
   //
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer transform = const_cast<TransformType *>( registration->GetOutput()->Get() );
+  TransformType::Pointer transform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
   unsigned int numberOfGridNodesInOneDimension = 7;
@@ -207,6 +206,9 @@ int main( int argc, char *argv[] )
   transform->SetTransformDomainPhysicalDimensions( fixedPhysicalDimensions );
   transform->SetTransformDomainMeshSize( meshSize );
   transform->SetTransformDomainDirection( fixedImage->GetDirection() );
+
+  registration->SetInitialTransform( transform );
+  registration->InPlaceOn();
 
   typedef TransformType::ParametersType     ParametersType;
 
