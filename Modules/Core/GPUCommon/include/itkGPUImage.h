@@ -76,7 +76,7 @@ public:
   //
   // Allocate CPU and GPU memory space
   //
-  void Allocate();
+  virtual void Allocate(bool initialize=false) ITK_OVERRIDE;
 
   virtual void Initialize();
 
