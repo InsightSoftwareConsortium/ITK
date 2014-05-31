@@ -471,6 +471,9 @@ int main( int argc, char *argv[] )
   try
     {
     registration->Update();
+    std::cout << "Optimizer stop condition: "
+    << registration->GetOptimizer()->GetStopConditionDescription()
+    << std::endl;
     }
   catch( itk::ExceptionObject & err )
     {

@@ -19,8 +19,7 @@
 #define __itkGradientDescentOptimizerBasev4_h
 
 #include "itkObjectToObjectOptimizerBase.h"
-
-#include "itkObjectToObjectOptimizerBase.h"
+#include "itkWindowConvergenceMonitoringFunction.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
 #include "itkDomainThreader.h"
 
@@ -84,11 +83,27 @@ public:
 
   typedef typename Superclass::ParametersType                ParametersType;
 
+  /** Type for the convergence checker */
+  typedef itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType>
+  ConvergenceMonitoringType;
+
   /** Get the most recent gradient values. */
   itkGetConstReferenceMacro( Gradient, DerivativeType );
 
   /** Get stop condition enum */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
+
+  /** Set the number of iterations. */
+  itkSetMacro(NumberOfIterations, SizeValueType);
+
+  /** Get the number of iterations. */
+  itkGetConstMacro(NumberOfIterations, SizeValueType);
+
+  /** Get the current iteration number. */
+  itkGetConstMacro(CurrentIteration, SizeValueType);
+
+  /** Start and run the optimization */
+  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
   /** Resume optimization.
    * This runs the optimization loop, and allows continuation
@@ -142,6 +157,39 @@ protected:
   GradientDescentOptimizerBasev4Template();
   virtual ~GradientDescentOptimizerBasev4Template();
 
+  /** Flag to control use of the ScalesEstimator (if set) for
+   * automatic learning step estimation at *each* iteration.
+   */
+  bool m_DoEstimateLearningRateAtEachIteration;
+
+  /** Flag to control use of the ScalesEstimator (if set) for
+   * automatic learning step estimation only *once*, during first iteration.
+   */
+  bool m_DoEstimateLearningRateOnce;
+
+  /** The maximum step size in physical units, to restrict learning rates.
+   * Only used with automatic learning rate estimation.
+   * It may be initialized either by calling SetMaximumStepSizeInPhysicalUnits
+   * manually or by using m_ScalesEstimator automatically, and the former has
+   * higher priority than the latter. See main documentation.
+   */
+  TInternalComputationValueType  m_MaximumStepSizeInPhysicalUnits;
+
+  /** Flag to control using the convergence monitoring for stop condition.
+   *  This flag should be always set to true except for regular step gradient
+   *  descent optimizer that uses minimum step length to check the convergence.
+   */
+  bool m_UseConvergenceMonitoring;
+
+  /** Window size for the convergence checker.
+   *  The convergence checker calculates convergence value by fitting to
+   *  a window of the energy (metric value) profile.
+   */
+  SizeValueType m_ConvergenceWindowSize;
+
+  /** The convergence checker. */
+  typename ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;
+
   typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByScalesThreader;
   typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByLearningRateThreader;
 
@@ -155,6 +203,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
+
   GradientDescentOptimizerBasev4Template( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 

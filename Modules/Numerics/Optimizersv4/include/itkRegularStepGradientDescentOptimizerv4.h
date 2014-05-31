@@ -18,7 +18,7 @@
 #ifndef __itkRegularStepGradientDescentOptimizerv4_h
 #define __itkRegularStepGradientDescentOptimizerv4_h
 
-#include "itkGradientDescentOptimizerBasev4.h"
+#include "itkGradientDescentOptimizerv4.h"
 #include <itkCompensatedSummation.h>
 
 namespace itk
@@ -44,14 +44,14 @@ namespace itk
    */
 template<typename TInternalComputationValueType>
 class RegularStepGradientDescentOptimizerv4
-: public GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
+: public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef RegularStepGradientDescentOptimizerv4                                 Self;
-  typedef GradientDescentOptimizerBasev4Template<TInternalComputationValueType> Superclass;
-  typedef SmartPointer< Self >                                                  Pointer;
-  typedef SmartPointer< const Self >                                            ConstPointer;
+  typedef RegularStepGradientDescentOptimizerv4                               Self;
+  typedef GradientDescentOptimizerv4Template<TInternalComputationValueType>   Superclass;
+  typedef SmartPointer< Self >                                                Pointer;
+  typedef SmartPointer< const Self >                                          ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegularStepGradientDescentOptimizerv4, Superclass);
@@ -76,12 +76,6 @@ public:
   /** Compensated summation type */
   typedef CompensatedSummation< InternalComputationValueType >   CompensatedSummationType;
 
-  /** Set the learning rate. */
-  itkSetMacro(LearningRate, TInternalComputationValueType);
-
-  /** Get the learning rate. */
-  itkGetConstReferenceMacro(LearningRate, TInternalComputationValueType);
-
   /** Minimum step length (learning rate) value for convergence checking.
    *  The step length is decreased by relaxation factor if the step is too
    *  long, and the algorithm passes the local minimum.
@@ -102,42 +96,24 @@ public:
   itkSetMacro(GradientMagnitudeTolerance, TInternalComputationValueType);
   itkGetConstReferenceMacro(GradientMagnitudeTolerance, TInternalComputationValueType);
 
-  /** Flag. Set to have the optimizer track and return the best
-   *  best metric value and corresponding best parameters that were
-   *  calculated during the optimization. This captures the best
-   *  solution when the optimizer oversteps or osciallates near the end
-   *  of an optimization.
-   *  Results are stored in m_CurrentMetricValue and in the assigned metric's
-   *  parameters, retrievable via optimizer->GetCurrentPosition().
-   *  This option requires additional memory to store the best
-   *  parameters, which can be large when working with high-dimensional
-   *  transforms such as DisplacementFieldTransform.
-   */
-  itkSetMacro(ReturnBestParametersAndValue, bool);
-  itkGetConstReferenceMacro(ReturnBestParametersAndValue, bool);
-  itkBooleanMacro(ReturnBestParametersAndValue);
-
   /** Start and run the optimization */
-  virtual void StartOptimization( bool doOnlyInitialization = false );
-
-  virtual void StopOptimization(void);
-
-  virtual void ResumeOptimization();
+  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
 protected:
 
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep(void) ITK_OVERRIDE;
 
   /** Modify the input gradient over a given index range. */
-  virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange );
-  virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange );
+  virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
+  virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
 
-  /** Manual learning rate to apply. It is overridden by
-   * automatic learning rate estimation if enabled. See main documentation.
+  /**
+   *  When the local minima is passed by taking a large step,
+   *  the step size is adjusted by the relaxation factor, so we
+   *  can take smaller steps toward the minimum point.
    */
-  TInternalComputationValueType  m_LearningRate;
   TInternalComputationValueType  m_RelaxationFactor;
 
   /** Default constructor */
@@ -154,18 +130,8 @@ protected:
   /** Minimum gradient magnitude value for convergence checking */
   TInternalComputationValueType  m_GradientMagnitudeTolerance;
 
-  /** Store the best value and related paramters */
-  MeasureType                  m_CurrentBestValue;
+  /** Store the current step length */
   MeasureType                  m_CurrentStepLength;
-  ParametersType               m_BestParameters;
-
-  /** Flag to control returning of best value and parameters. */
-  bool m_ReturnBestParametersAndValue;
-
-  /** Store the previous gradient value at each iteration,
-   * so we can detect the changes in geradient direction.
-   */
-  DerivativeType m_PreviousGradient;
 
 private:
   RegularStepGradientDescentOptimizerv4( const Self & ); //purposely not implemented

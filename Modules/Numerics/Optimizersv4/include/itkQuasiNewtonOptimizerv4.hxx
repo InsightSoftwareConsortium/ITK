@@ -112,20 +112,20 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   if (this->GetCurrentIteration() == 0)
     {
       // initialize some information
-    m_PreviousValue = this->GetCurrentMetricValue();
-    m_PreviousPosition = this->GetCurrentPosition();
-    m_PreviousGradient = this->GetGradient();
+    this->m_PreviousValue = this->GetCurrentMetricValue();
+    this->m_PreviousPosition = this->GetCurrentPosition();
+    this->m_PreviousGradient = this->GetGradient();
 
-    m_BestValue = this->m_CurrentMetricValue;
-    m_BestPosition = this->m_CurrentPosition;
-    m_BestIteration = this->GetCurrentIteration();
+    this->m_BestValue = this->m_CurrentMetricValue;
+    this->m_BestPosition = this->m_CurrentPosition;
+    this->m_BestIteration = this->GetCurrentIteration();
     }
   else if (m_BestValue > this->m_CurrentMetricValue)
     {
       // store the best value and related information
-    m_BestValue = this->m_CurrentMetricValue;
-    m_BestPosition = this->m_CurrentPosition;
-    m_BestIteration = this->GetCurrentIteration();
+    this->m_BestValue = this->m_CurrentMetricValue;
+    this->m_BestPosition = this->m_CurrentPosition;
+    this->m_BestIteration = this->GetCurrentIteration();
     }
 
   if ( this->GetCurrentIteration() - m_BestIteration
@@ -171,9 +171,9 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   this->EstimateNewtonStep();
 
   /** Save for the next iteration */
-  m_PreviousValue = this->GetCurrentMetricValue();
-  m_PreviousPosition = this->GetCurrentPosition();
-  m_PreviousGradient = this->GetGradient();
+  this->m_PreviousValue = this->GetCurrentMetricValue();
+  this->m_PreviousPosition = this->GetCurrentPosition();
+  this->m_PreviousGradient = this->GetGradient();
 
   this->CombineGradientNewtonStep();
   this->ModifyCombinedNewtonStep();

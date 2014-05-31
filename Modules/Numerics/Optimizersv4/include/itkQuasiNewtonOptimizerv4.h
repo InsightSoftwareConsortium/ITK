@@ -130,7 +130,6 @@ protected:
   /** The information about the previous step */
   MeasureType    m_PreviousValue;
   ParametersType m_PreviousPosition;
-  DerivativeType m_PreviousGradient;
 
   /** The best value so far and relevant information */
   MeasureType    m_BestValue;

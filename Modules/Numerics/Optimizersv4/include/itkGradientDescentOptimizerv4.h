@@ -19,7 +19,6 @@
 #define __itkGradientDescentOptimizerv4_h
 
 #include "itkGradientDescentOptimizerBasev4.h"
-#include "itkWindowConvergenceMonitoringFunction.h"
 
 namespace itk
 {
@@ -105,10 +104,6 @@ public:
   typedef typename Superclass::ParametersType               ParametersType;
   typedef typename Superclass::StopConditionType            StopConditionType;
 
-  /** Type for the convergence checker */
-  typedef itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType>
-  ConvergenceMonitoringType;
-
   /** Set the learning rate. */
   itkSetMacro(LearningRate, TInternalComputationValueType);
 
@@ -188,11 +183,11 @@ public:
   itkBooleanMacro(ReturnBestParametersAndValue);
 
   /** Start and run the optimization */
-  virtual void StartOptimization( bool doOnlyInitialization = false );
+  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
-  virtual void StopOptimization(void);
+  virtual void StopOptimization(void) ITK_OVERRIDE;
 
-  virtual void ResumeOptimization();
+  virtual void ResumeOptimization() ITK_OVERRIDE;
 
   /** Estimate the learning rate based on the current gradient. */
   virtual void EstimateLearningRate();
@@ -201,21 +196,16 @@ protected:
 
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep(void) ITK_OVERRIDE;
 
   /** Modify the gradient over a given index range. */
-  virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange );
-  virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange );
+  virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
+  virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
 
   /** Manual learning rate to apply. It is overridden by
    * automatic learning rate estimation if enabled. See main documentation.
    */
   TInternalComputationValueType  m_LearningRate;
-
-  /** The maximum step size in physical units, to restrict learning rates.
-   * Only used with automatic learning rate estimation. See main documentation.
-   */
-  TInternalComputationValueType  m_MaximumStepSizeInPhysicalUnits;
 
   /** Default constructor */
   GradientDescentOptimizerv4Template();
@@ -232,18 +222,9 @@ protected:
    */
   TInternalComputationValueType m_MinimumConvergenceValue;
 
-  /** Window size for the convergence checker.
-   *  The convergence checker calculates convergence value by fitting to
-   *  a window of the energy (metric value) profile.
-   */
-  SizeValueType m_ConvergenceWindowSize;
-
   /** Current convergence value. */
   /* WindowConvergenceMonitoringFunction always returns output convergence value in 'TInternalComputationValueType' precision */
   TInternalComputationValueType m_ConvergenceValue;
-
-  /** The convergence checker. */
-  typename ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;
 
   /** Store the best value and related paramters */
   MeasureType                  m_CurrentBestValue;
@@ -252,16 +233,14 @@ protected:
   /** Flag to control returning of best value and parameters. */
   bool m_ReturnBestParametersAndValue;
 
-private:
-  /** Flag to control use of the ScalesEstimator (if set) for
-   * automatic learning step estimation at *each* iteration.
+  /** Store the previous gradient value at each iteration,
+   * so we can detect the changes in geradient direction.
+   * This is needed by the regular step gradient descent and
+   * Quasi newton optimizers.
    */
-  bool m_DoEstimateLearningRateAtEachIteration;
+  DerivativeType m_PreviousGradient;
 
-  /** Flag to control use of the ScalesEstimator (if set) for
-   * automatic learning step estimation only *once*, during first iteration.
-   */
-  bool m_DoEstimateLearningRateOnce;
+private:
 
   GradientDescentOptimizerv4Template( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
