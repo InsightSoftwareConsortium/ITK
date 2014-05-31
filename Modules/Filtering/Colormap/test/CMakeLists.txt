@@ -1,9 +1,15 @@
 itk_module_test()
 set(ITKColormapTests
+itkCustomColormapFunctionTest.cxx
 itkScalarToRGBColormapImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKColormap  "${ITKColormap-Test_LIBRARIES}" "${ITKColormapTests}")
+
+itk_add_test(NAME itkCustomColormapFunctionTest
+      COMMAND ITKColormapTestDriver
+    itkCustomColormapFunctionTest
+              DATA{Input/bone.txt})
 
 itk_add_test(NAME RGBColormapTest_red
       COMMAND ITKColormapTestDriver
