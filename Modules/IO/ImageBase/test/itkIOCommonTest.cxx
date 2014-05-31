@@ -119,15 +119,15 @@ bool CheckFileNameParsing(const std::string & fileName,
 
   std::cout << "FullFileName: \"" << fileName << "\"" << std::endl;
   std::cout << "FileName: (expected) \"" << correctNameOnly
-            << "\" (actual) \"" << (nameOnly != ITK_NULLPTR ? static_cast<const char *>(nameOnly) : "(null)")
+            << "\" (actual) \"" << static_cast<const char *>(nameOnly)
             << "\""
             << " (correct) " << nameMatches << std::endl;
   std::cout << "Extension: (expected) \"" << correctExtension
-            << "\" (actual) \"" << (extension != ITK_NULLPTR ? static_cast<const char *>(extension) : "(null)")
+            << "\" (actual) \"" << static_cast<const char *>(extension)
             << "\""
             << " (correct) " << extensionMatches << std::endl;
   std::cout << "Path: (expected) \"" << correctPath
-            << "\" (actual) \"" << (path != ITK_NULLPTR ? static_cast<const char *>(path) : "(null)")
+            << "\" (actual) \"" << static_cast<const char *>(path)
             << "\""
             << " (correct) " << pathMatches << std::endl;
 

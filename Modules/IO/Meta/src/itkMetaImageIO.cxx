@@ -1023,16 +1023,19 @@ MetaImageIO
     }
   // Propagage direction cosine information.
   double *transformMatrix = static_cast< double * >( malloc( numberOfDimensions * numberOfDimensions * sizeof( double ) ) );
-  for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
+  if (transformMatrix)
     {
-    for ( unsigned int jj = 0; jj < numberOfDimensions; ++jj )
+    for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
       {
-      transformMatrix[ii * numberOfDimensions + jj] =
-        this->GetDirection(ii)[jj];
+      for ( unsigned int jj = 0; jj < numberOfDimensions; ++jj )
+        {
+        transformMatrix[ii * numberOfDimensions + jj] =
+          this->GetDirection(ii)[jj];
+        }
       }
+    m_MetaImage.TransformMatrix(transformMatrix);
+    free(transformMatrix);
     }
-  m_MetaImage.TransformMatrix(transformMatrix);
-  free(transformMatrix);
 
   m_MetaImage.CompressedData(m_UseCompression);
 

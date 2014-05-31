@@ -170,9 +170,15 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
   ElasticityType * m1 =
     dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() );
 
-  if ( !m1 || (m1->GetYoungsModulus() != 3000.0) ||
-       (m1->GetCrossSectionalArea() != 0.02) ||
-       (m1->GetMomentOfInertia() != 0.004) )
+  if ( m1 == ITK_NULLPTR)
+    {
+    std::cout << " [FAILED]" << std::endl;
+    std::cout << "\tdynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) failed" << std::endl;
+    foundError = true;
+    }
+  else if ((m1->GetYoungsModulus() != 3000.0) ||
+           (m1->GetCrossSectionalArea() != 0.02) ||
+           (m1->GetMomentOfInertia() != 0.004) )
     {
       std::cout << " [FAILED]" << std::endl;
       std::cout << "\tExpected  3000.0, 0.02, 0.004" << " Obtained ";
