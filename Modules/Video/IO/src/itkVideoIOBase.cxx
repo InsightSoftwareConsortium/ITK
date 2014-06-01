@@ -24,7 +24,17 @@
 namespace itk
 {
 
-VideoIOBase::VideoIOBase()
+VideoIOBase::VideoIOBase() :
+  m_ReadType(ReadFromFile),
+  m_FramesPerSecond(0.0),
+  m_FrameTotal(NumericTraits<SizeValueType>::Zero),
+  m_CurrentFrame(NumericTraits<SizeValueType>::Zero),
+  m_IFrameInterval(NumericTraits<SizeValueType>::Zero),
+  m_LastIFrame(NumericTraits<SizeValueType>::Zero),
+  m_Ratio(0.0),
+  m_PositionInMSec(0.0),
+  m_WriterOpen(false),
+  m_ReaderOpen(false)
 {
 }
 

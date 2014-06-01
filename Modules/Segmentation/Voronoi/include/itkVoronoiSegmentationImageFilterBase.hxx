@@ -29,20 +29,21 @@ namespace itk
 /* Constructor: setting the default parameter values. */
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::VoronoiSegmentationImageFilterBase()
+::VoronoiSegmentationImageFilterBase() :
+  m_NumberOfSeeds(200),
+  m_MinRegion(20),
+  m_Steps(0),
+  m_LastStepSeeds(0),
+  m_NumberOfSeedsToAdded(0),
+  m_NumberOfBoundary(0),
+  m_MeanDeviation(0.8),
+  m_UseBackgroundInAPrior(false),
+  m_OutputBoundary(false),
+  m_InteractiveSegmentation(false),
+  m_WorkingVD(VoronoiDiagram::New()),
+  m_VDGenerator(VoronoiDiagramGenerator::New())
 {
   m_Size.Fill(0);
-  m_MinRegion = 20;
-  m_Steps = 0;
-  m_LastStepSeeds = 0;
-  m_NumberOfSeeds = 200;
-  m_NumberOfSeedsToAdded = 0;
-  m_MeanDeviation = 0.8;
-  m_UseBackgroundInAPrior = false;
-  m_OutputBoundary = false;
-  m_InteractiveSegmentation = false;
-  m_WorkingVD = VoronoiDiagram::New();
-  m_VDGenerator = VoronoiDiagramGenerator::New();
 }
 
 /* Destructor. */

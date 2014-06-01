@@ -20,6 +20,7 @@
 
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
+#include "itkNumericTraits.h"
 #include <vector>
 
 namespace itk
@@ -37,7 +38,9 @@ public:
   TDataType   m_Data;
   TIndexType  m_Index;
   signed char m_NodeState;
-  BandNode() : m_NodeState( 0 ) {}
+  BandNode() :
+    m_Data(NumericTraits<TDataType>::ZeroValue()), m_NodeState(0)
+  {}
 };
 
 /** \class NarrowBand

@@ -203,7 +203,9 @@ public:
   }
 
 protected:
-  SegmentTable() {}
+  SegmentTable() :
+    m_MaximumDepth(0)
+  {}
   virtual ~SegmentTable() {}
 
   HashMapType m_HashMap;

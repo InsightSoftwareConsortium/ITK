@@ -27,6 +27,7 @@ namespace Statistics {
 ImageToNeighborhoodSampleAdaptor< TImage, TBoundaryCondition>
   ::ImageToNeighborhoodSampleAdaptor() :
     m_Image(ITK_NULLPTR),
+    m_InstanceIdentifierInternal(0),
     m_UseImageRegion(true)
 {
   m_Radius.Fill(0);

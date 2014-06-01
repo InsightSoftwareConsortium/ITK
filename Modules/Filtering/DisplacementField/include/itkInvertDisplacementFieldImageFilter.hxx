@@ -23,7 +23,6 @@
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImageDuplicator.h"
 #include "itkImageRegionIterator.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkMutexLockHolder.h"
 
 namespace itk
@@ -35,19 +34,20 @@ namespace itk
 template<typename TInputImage, typename TOutputImage>
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::InvertDisplacementFieldImageFilter() :
- m_MaximumNumberOfIterations( 20 ),
- m_MaxErrorToleranceThreshold( 0.1 ),
- m_MeanErrorToleranceThreshold( 0.001 )
+  m_Interpolator(DefaultInterpolatorType::New()),
+  m_MaximumNumberOfIterations(20),
+  m_MaxErrorToleranceThreshold(0.1),
+  m_MeanErrorToleranceThreshold(0.001),
+
+  m_ComposedField(DisplacementFieldType::New()),
+  m_ScaledNormImage(RealImageType::New()),
+  m_MaxErrorNorm(0.0),
+  m_MeanErrorNorm(0.0),
+  m_Epsilon(0.0),
+  m_DoThreadedEstimateInverse(false),
+  m_EnforceBoundaryCondition(true)
 {
   this->SetNumberOfRequiredInputs( 1 );
-
-  typedef VectorLinearInterpolateImageFunction <InputFieldType, RealType> DefaultInterpolatorType;
-  typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
-  this->m_Interpolator = interpolator;
-
-  this->m_ComposedField = DisplacementFieldType::New();
-  this->m_ScaledNormImage = RealImageType::New();
-  this->m_EnforceBoundaryCondition = true;
 }
 
 template<typename TInputImage, typename TOutputImage>

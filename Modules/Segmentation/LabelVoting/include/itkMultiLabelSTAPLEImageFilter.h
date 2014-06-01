@@ -27,6 +27,7 @@
 #include "vector"
 #include "itkArray.h"
 #include "itkArray2D.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -256,12 +257,15 @@ public:
   }
 
 protected:
-  MultiLabelSTAPLEImageFilter()
+  MultiLabelSTAPLEImageFilter() :
+    m_TotalLabelCount(0),
+    m_LabelForUndecidedPixels(NumericTraits<OutputPixelType>::Zero),
+    m_HasLabelForUndecidedPixels(false),
+    m_HasPriorProbabilities(false),
+    m_HasMaximumNumberOfIterations(false),
+    m_MaximumNumberOfIterations(0),
+    m_TerminationUpdateThreshold(1e-5)
   {
-    this->m_HasLabelForUndecidedPixels = false;
-    this->m_HasPriorProbabilities = false;
-    this->m_HasMaximumNumberOfIterations = false;
-    this->m_TerminationUpdateThreshold = 1e-5;
   }
   virtual ~MultiLabelSTAPLEImageFilter() {}
 
