@@ -100,8 +100,7 @@ public:
   using Superclass::SetInput;
   virtual void SetInput( const TransformInputType * transform );
   const TransformInputType * GetInput() const;
-  virtual void SetTransform( const TransformType * transform );
-  const TransformType * GetTransform() const;
+  itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
 
   /** Set/Get the start index of the output largest possible region.
    * The default is an index of all zeros. */
@@ -136,10 +135,10 @@ public:
     *  this method can be used to specify an image from which to
     *  copy the information. UseReferenceImageOn must be set to utilize the
     *  reference image. */
-  void SetReferenceImage(const ReferenceImageBaseType *image);
+  itkSetInputMacro(ReferenceImage, ReferenceImageBaseType);
 
   /** Get the reference image that is defining the output information. */
-  const ReferenceImageBaseType * GetReferenceImage() const;
+  itkGetInputMacro(ReferenceImage, ReferenceImageBaseType);
 
   /** Turn on/off whether a specified reference image should be used to define
    *  the output information. */
