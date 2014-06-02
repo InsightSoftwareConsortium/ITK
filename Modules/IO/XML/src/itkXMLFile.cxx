@@ -21,6 +21,7 @@
 #include "itkXMLFile.h"
 #include "itksys/SystemTools.hxx"
 #include <fstream>
+#include "expat.h"
 
 namespace itk
 {

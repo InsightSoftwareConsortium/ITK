@@ -18,7 +18,6 @@
 #ifndef __itkXMLFile_h
 #define __itkXMLFile_h
 #include "itkLightProcessObject.h"
-#include "expat.h"
 #include <fstream>
 
 namespace itk
