@@ -20,9 +20,22 @@
 
 #include "itkSingleValuedNonLinearVnlOptimizerv4.h"
 #include "vnl/algo/vnl_lbfgs.h"
+#include "vnl/algo/vnl_lbfgsb.h"
 
 namespace itk
 {
+/* Necessary forward declaration see below for definition */
+/** \class LBFGSOptimizerBaseHelperv4
+ * \brief Wrapper helper around vnl optimizer.
+ *
+ * This class is used to translate iteration events, etc, from
+ * vnl_lbfgsb into iteration events in ITK.
+ *
+ * \ingroup ITKOptimizersv4
+ */
+template< typename TInternalVnlOptimizerType >
+class LBFGSOptimizerBaseHelperv4;
+
 /** \class LBFGSOptimizerBasev4
  * \brief Abstract base for vnl lbfgs algorithm optimizers in ITKv4 registration framework.
  *
@@ -78,8 +91,11 @@ public:
   /** Stop condition internal string type */
   typedef Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
 
+  /** The vnl optimizer */
+  typedef LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>   InternalOptimizerType;
+
   /** Method for getting access to the internal optimizer. */
-  TInternalVnlOptimizerType * GetOptimizer(void);
+  InternalOptimizerType * GetOptimizer(void);
 
   /** Start optimization with an initial value. */
   virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
@@ -120,12 +136,21 @@ protected:
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 
   bool                         m_OptimizerInitialized;
-  TInternalVnlOptimizerType *  m_VnlOptimizer;
+  InternalOptimizerType *      m_VnlOptimizer;
   mutable std::ostringstream   m_StopConditionDescription;
 
   bool         m_Trace;
   unsigned int m_MaximumNumberOfFunctionEvaluations;
   double       m_GradientConvergenceTolerance;
+
+  double       m_InfinityNormOfProjectedGradient;
+  unsigned int m_MaximumNumberOfIterations;
+  double       m_CostFunctionConvergenceFactor;
+
+  // give the helper access to member variables, to update iteration
+  // counts, etc.
+  friend class LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>;
+  friend class LBFGSBOptimizerHelperv4;
 
 private:
   LBFGSOptimizerBasev4(const Self &); //purposely not implemented

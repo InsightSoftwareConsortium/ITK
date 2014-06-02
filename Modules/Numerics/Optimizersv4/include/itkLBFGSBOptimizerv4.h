@@ -23,6 +23,17 @@
 
 namespace itk
 {
+/* Necessary forward declaration */
+/** \class LBFGSBOptimizerHelperv4
+ * \brief Wrapper helper around vnl_lbfgsb.
+ *
+ * This class is used to translate iteration events, etc, from
+ * vnl_lbfgsb into iteration events in ITK.
+ *
+ * \ingroup ITKOptimizersv4
+ */
+class LBFGSBOptimizerHelperv4;
+
 /** \class LBFGSBOptimizerv4
  * \brief Limited memory Broyden Fletcher Goldfarb Shannon minimization with simple bounds.
  *
@@ -148,16 +159,18 @@ protected:
   virtual ~LBFGSBOptimizerv4();
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
+  typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+
   /** Internal optimizer type. */
-  typedef   vnl_lbfgsb   InternalOptimizerType;
+  typedef   LBFGSBOptimizerHelperv4   InternalOptimizerType;
+
+  friend class LBFGSBOptimizerHelperv4;
 
 private:
   LBFGSBOptimizerv4(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
-  double       m_CostFunctionConvergenceFactor;
   unsigned int m_MaximumNumberOfCorrections;
-  double       m_InfinityNormOfProjectedGradient;
 
   ParametersType          m_InitialPosition;
   BoundValueType          m_LowerBound;

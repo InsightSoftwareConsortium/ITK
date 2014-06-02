@@ -19,11 +19,61 @@
 
 namespace itk
 {
+/** \class LBFGSBOptimizerHelperv4
+ * \brief Wrapper helper around vnl_lbfgsb.
+ *
+ * This class is used to translate iteration events, etc, from
+ * vnl_lbfgsb into iteration events in ITK.
+ */
+class LBFGSBOptimizerHelperv4:
+public LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>
+{
+  public:
+  typedef LBFGSBOptimizerHelperv4                  Self;
+  typedef LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>   Superclass;
+
+  /** Create with a reference to the ITK object */
+  LBFGSBOptimizerHelperv4(vnl_cost_function & f,
+                          LBFGSBOptimizerv4 * const itkObj);
+
+  protected:
+  /** Handle new iteration event */
+  virtual bool report_iter();
+};
+
+/** Create with a reference to the ITK object */
+LBFGSBOptimizerHelperv4
+::LBFGSBOptimizerHelperv4(vnl_cost_function & f, LBFGSBOptimizerv4 * const itkObj):
+  Superclass::LBFGSOptimizerBaseHelperv4(f, itkObj)
+{
+}
+
+/** Handle new iteration event */
+bool
+LBFGSBOptimizerHelperv4
+::report_iter()
+{
+  Superclass::report_iter();
+
+  m_ItkObj->m_InfinityNormOfProjectedGradient = this->get_inf_norm_projected_gradient();
+  m_ItkObj->InvokeEvent( IterationEvent() );
+  m_ItkObj->m_CurrentIteration = this->num_iterations_;
+
+    // Return true to terminate the optimization loop.
+  if ( this->num_iterations_ > m_ItkObj->m_MaximumNumberOfIterations )
+    {
+    return true;
+    }
+  else
+    {
+    return false;
+    }
+}
+//-------------------------------------------------------------------------
+
 LBFGSBOptimizerv4
   ::LBFGSBOptimizerv4():
-  m_CostFunctionConvergenceFactor(1e+7),
   m_MaximumNumberOfCorrections(5),
-  m_InfinityNormOfProjectedGradient(0.0),
   m_InitialPosition(0),
   m_LowerBound(0),
   m_UpperBound(0),
@@ -62,7 +112,7 @@ LBFGSBOptimizerv4
   << this->GetValue() << std::endl;
 
   os << indent << "InfinityNormOfProjectedGradient: "
-  << m_InfinityNormOfProjectedGradient << std::endl;
+  << this->m_InfinityNormOfProjectedGradient << std::endl;
 
   if ( this->m_VnlOptimizer )
     {
@@ -164,6 +214,9 @@ LBFGSBOptimizerv4
 {
   Superclass::SetMetric( metric );
 
+  CostFunctionAdaptorType *adaptor = this->GetCostFunctionAdaptor();
+  m_VnlOptimizer = new InternalOptimizerType( *adaptor, this );
+
   // set the optimizer parameters
   m_VnlOptimizer->set_trace( m_Trace );
   m_VnlOptimizer->set_lower_bound( m_LowerBound );
@@ -237,4 +290,5 @@ LBFGSBOptimizerv4
 
   this->InvokeEvent( EndEvent() );
 }
+
 } // end namespace itk

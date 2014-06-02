@@ -20,8 +20,31 @@
 
 #include "itkLBFGSOptimizerBasev4.h"
 
+extern "C" {
+  extern double v3p_netlib_dpmeps_();
+}
+
 namespace itk
 {
+
+template< typename TInternalVnlOptimizerType >
+class LBFGSOptimizerBaseHelperv4: public TInternalVnlOptimizerType
+{
+  public:
+  typedef LBFGSOptimizerBaseHelperv4  Self;
+  typedef TInternalVnlOptimizerType   Superclass;
+
+  LBFGSOptimizerBaseHelperv4(vnl_cost_function & f,
+                             LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * itkObj):
+  TInternalVnlOptimizerType(f),
+  m_ItkObj(itkObj)
+  {
+  }
+
+  protected:
+  LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * m_ItkObj;
+};
+
 template<typename TInternalVnlOptimizerType>
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 ::LBFGSOptimizerBasev4():
@@ -29,7 +52,10 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
   m_VnlOptimizer(ITK_NULLPTR),
   m_Trace(false),
   m_MaximumNumberOfFunctionEvaluations(2000),
-  m_GradientConvergenceTolerance(1e-5)
+  m_GradientConvergenceTolerance(1e-5),
+  m_InfinityNormOfProjectedGradient(0.0),
+  m_MaximumNumberOfIterations(500),
+  m_CostFunctionConvergenceFactor(1e+7)
 {
 }
 
@@ -142,7 +168,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
     delete m_VnlOptimizer;
     }
 
-  m_VnlOptimizer = new TInternalVnlOptimizerType( *adaptor );
+  m_VnlOptimizer = new InternalOptimizerType( *adaptor, this );
 }
 
 template<typename TInternalVnlOptimizerType>
@@ -163,7 +189,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 }
 
 template<typename TInternalVnlOptimizerType>
-TInternalVnlOptimizerType *
+typename LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::InternalOptimizerType *
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 ::GetOptimizer()
 {
@@ -188,7 +214,16 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
         m_StopConditionDescription << "Dodgy input";
         break;
       case vnl_nonlinear_minimizer::CONVERGED_FTOL:
-        m_StopConditionDescription << "Function tolerance reached";
+        m_StopConditionDescription << "Function tolerance reached after "
+                                    << m_CurrentIteration
+                                    << " iterations. "
+                                    << "The relative reduction of the cost function <= "
+                                    << m_CostFunctionConvergenceFactor * v3p_netlib_dpmeps_()
+                                    << " = CostFunctionConvergenceFactor ("
+                                    << m_CostFunctionConvergenceFactor
+                                    << ") * machine precision ("
+                                    << v3p_netlib_dpmeps_()
+                                    << ").";
         break;
       case vnl_nonlinear_minimizer::CONVERGED_XTOL:
         m_StopConditionDescription << "Solution tolerance reached";
