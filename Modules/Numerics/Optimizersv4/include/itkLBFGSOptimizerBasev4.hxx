@@ -49,7 +49,6 @@ template<typename TInternalVnlOptimizerType>
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 ::LBFGSOptimizerBasev4():
   m_OptimizerInitialized(false),
-  m_VnlOptimizer(ITK_NULLPTR),
   m_Trace(false),
   m_MaximumNumberOfFunctionEvaluations(2000),
   m_GradientConvergenceTolerance(1e-5),
@@ -63,7 +62,6 @@ template<typename TInternalVnlOptimizerType>
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 ::~LBFGSOptimizerBasev4()
 {
-  delete m_VnlOptimizer;
 }
 
 template<typename TInternalVnlOptimizerType>
@@ -163,12 +161,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 
   this->SetCostFunctionAdaptor( adaptor );
 
-  if ( m_OptimizerInitialized )
-    {
-    delete m_VnlOptimizer;
-    }
-
-  m_VnlOptimizer = new InternalOptimizerType( *adaptor, this );
+  m_VnlOptimizer.TakeOwnership( new InternalOptimizerType( *adaptor, this ) );
 }
 
 template<typename TInternalVnlOptimizerType>
@@ -193,7 +186,7 @@ typename LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::InternalOptimizerType 
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 ::GetOptimizer()
 {
-  return m_VnlOptimizer;
+  return m_VnlOptimizer.GetPointer();
 }
 
 template<typename TInternalVnlOptimizerType>

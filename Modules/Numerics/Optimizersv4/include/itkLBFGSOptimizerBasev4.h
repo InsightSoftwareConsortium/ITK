@@ -21,6 +21,7 @@
 #include "itkSingleValuedNonLinearVnlOptimizerv4.h"
 #include "vnl/algo/vnl_lbfgs.h"
 #include "vnl/algo/vnl_lbfgsb.h"
+#include "itkAutoPointer.h"
 
 namespace itk
 {
@@ -136,13 +137,15 @@ protected:
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 
   bool                         m_OptimizerInitialized;
-  InternalOptimizerType *      m_VnlOptimizer;
-  mutable std::ostringstream   m_StopConditionDescription;
+
+  typedef AutoPointer<InternalOptimizerType>  InternalOptimizerAutoPointer;
+  InternalOptimizerAutoPointer  m_VnlOptimizer;
+
+  mutable std::ostringstream    m_StopConditionDescription;
 
   bool         m_Trace;
   unsigned int m_MaximumNumberOfFunctionEvaluations;
   double       m_GradientConvergenceTolerance;
-
   double       m_InfinityNormOfProjectedGradient;
   unsigned int m_MaximumNumberOfIterations;
   double       m_CostFunctionConvergenceFactor;
