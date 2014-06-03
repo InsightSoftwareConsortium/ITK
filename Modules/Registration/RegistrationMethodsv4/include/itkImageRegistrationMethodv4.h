@@ -227,12 +227,12 @@ public:
   itkGetConstMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
 
   /** Set/Get the initial fixed transform. */
-  itkSetObjectMacro( FixedInitialTransform, InitialTransformType );
-  itkGetModifiableObjectMacro( FixedInitialTransform, InitialTransformType );
+  itkSetGetDecoratedObjectInputMacro( FixedInitialTransform, InitialTransformType );
+  //virtual InitialTransformType * GetModifiableFixedInitialTransform();
 
   /** Set/Get the initial moving transform. */
-  itkSetObjectMacro( MovingInitialTransform, InitialTransformType );
-  itkGetModifiableObjectMacro( MovingInitialTransform, InitialTransformType );
+  itkSetGetDecoratedObjectInputMacro( MovingInitialTransform, InitialTransformType );
+  //virtual InitialTransformType * GetModifiableMovingInitialTransform();
 
   /** Set/Get the initial transform to be optimized
    *
@@ -419,9 +419,6 @@ protected:
   std::vector<ShrinkFactorsPerDimensionContainerType>             m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;
   bool                                                            m_SmoothingSigmasAreSpecifiedInPhysicalUnits;
-
-  InitialTransformPointer                                         m_MovingInitialTransform;
-  InitialTransformPointer                                         m_FixedInitialTransform;
 
   TransformParametersAdaptorsContainerType                        m_TransformParametersAdaptorsPerLevel;
 
