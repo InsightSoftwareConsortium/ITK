@@ -228,11 +228,9 @@ public:
 
   /** Set/Get the initial fixed transform. */
   itkSetGetDecoratedObjectInputMacro( FixedInitialTransform, InitialTransformType );
-  //virtual InitialTransformType * GetModifiableFixedInitialTransform();
 
   /** Set/Get the initial moving transform. */
   itkSetGetDecoratedObjectInputMacro( MovingInitialTransform, InitialTransformType );
-  //virtual InitialTransformType * GetModifiableMovingInitialTransform();
 
   /** Set/Get the initial transform to be optimized
    *
