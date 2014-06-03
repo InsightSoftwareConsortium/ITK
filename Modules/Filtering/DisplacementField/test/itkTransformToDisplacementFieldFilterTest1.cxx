@@ -19,7 +19,7 @@
  * a deformation field from the transform, and uses the WarpImageFilter and
  * compares the two results to ensure that the same answer is found in both cases.
  * This test was written by Yong Quaing Zhao in order to address bug
- * 0008930http://public.kitware.com/Bug/view.php?id=893
+ * 0008930http://public.kitware.com/Bug/view.php?id=8930
  */
 
 #include <fstream>
@@ -204,11 +204,8 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
   /** Create an setup deformation field generator. */
   DisplacementFieldGeneratorType::Pointer defGenerator
     = DisplacementFieldGeneratorType::New();
-  defGenerator->SetSize( size );
-  defGenerator->SetOutputSpacing( outputSpacing );
-  defGenerator->SetOutputOrigin( outputOrigin );
-  defGenerator->SetOutputStartIndex( outputIndex );
-  defGenerator->SetOutputDirection( outputDirection );
+  defGenerator->UseReferenceImageOn();
+  defGenerator->SetReferenceImage(resample->GetOutput());
   defGenerator->SetTransform( eulerTransform );
   try
     {

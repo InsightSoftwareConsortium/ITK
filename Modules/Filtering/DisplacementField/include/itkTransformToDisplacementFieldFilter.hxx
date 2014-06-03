@@ -42,6 +42,10 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
 
   this->SetNumberOfRequiredInputs( 1 );
   this->SetPrimaryInputName( "Transform" );
+
+  //  #1 "ReferenceImage" optional
+  Self::AddRequiredInputName("ReferenceImage",1);
+  Self::RemoveRequiredInputName("ReferenceImage");
 }
 
 
@@ -88,33 +92,6 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
   this->SetOutputOrigin(pp);
 }
 
-
-template< typename TOutputImage, typename TScalarType >
-const typename TransformToDisplacementFieldFilter< TOutputImage, TScalarType >::ReferenceImageBaseType *
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
-::GetReferenceImage() const
-{
-  Self * surrogate = const_cast< Self * >( this );
-  const ReferenceImageBaseType *referenceImage =
-    static_cast< const ReferenceImageBaseType * >( surrogate->ProcessObject::GetInput(1) );
-
-  return referenceImage;
-}
-
-
-template< typename TOutputImage, typename TScalarType >
-void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
-::SetReferenceImage( const ReferenceImageBaseType *image )
-{
-  if ( image != itkDynamicCastInDebugMode< const ReferenceImageBaseType * >( this->ProcessObject::GetInput(1) ) )
-    {
-    this->ProcessObject::SetNthInput( 1, const_cast< ReferenceImageBaseType * >( image ) );
-    this->Modified();
-    }
-}
-
-
 template< typename TOutputImage, typename TScalarType >
 void
 TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
@@ -128,37 +105,12 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
     }
 }
 
-
-template< typename TOutputImage, typename TScalarType >
-void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
-::SetTransform( const TransformType * input )
-{
-  const TransformInputType * oldInput = itkDynamicCastInDebugMode< const TransformInputType * >( this->ProcessObject::GetPrimaryInput() );
-  if( oldInput && oldInput->Get() == input )
-    {
-    return;
-    }
-  typename TransformInputType::Pointer newInput = TransformInputType::New();
-  newInput->Set( input );
-  this->SetInput( newInput );
-}
-
-
 template< typename TOutputImage, typename TScalarType >
 const typename TransformToDisplacementFieldFilter< TOutputImage, TScalarType >::TransformInputType *
 TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
 ::GetInput() const
 {
   return itkDynamicCastInDebugMode< const TransformInputType * >( this->GetPrimaryInput() );
-}
-
-template< typename TOutputImage, typename TScalarType >
-const typename TransformToDisplacementFieldFilter< TOutputImage, TScalarType >::TransformType *
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
-::GetTransform() const
-{
-  return itkDynamicCastInDebugMode< const TransformInputType * >( this->GetPrimaryInput() )->Get();
 }
 
 
@@ -173,14 +125,35 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
     return;
     }
 
-  RegionType outputRegion;
-  outputRegion.SetSize( this->GetSize() );
-  outputRegion.SetIndex( this->GetOutputStartIndex() );
-  output->SetLargestPossibleRegion( outputRegion );
+  const ReferenceImageBaseType *referenceImage = this->GetReferenceImage();
 
-  output->SetSpacing( this->GetOutputSpacing() );
-  output->SetOrigin( this->GetOutputOrigin() );
-  output->SetDirection( this->GetOutputDirection() );
+  // Set the size of the output region
+  if ( m_UseReferenceImage && referenceImage )
+    {
+    output->SetLargestPossibleRegion(
+      referenceImage->GetLargestPossibleRegion() );
+    }
+  else
+    {
+    typename TOutputImage::RegionType outputLargestPossibleRegion;
+    outputLargestPossibleRegion.SetSize(m_Size);
+    outputLargestPossibleRegion.SetIndex(m_OutputStartIndex);
+    output->SetLargestPossibleRegion(outputLargestPossibleRegion);
+    }
+
+  // Set spacing and origin
+  if ( m_UseReferenceImage && referenceImage )
+    {
+    output->SetSpacing( referenceImage->GetSpacing() );
+    output->SetOrigin( referenceImage->GetOrigin() );
+    output->SetDirection( referenceImage->GetDirection() );
+    }
+  else
+    {
+    output->SetSpacing(m_OutputSpacing);
+    output->SetOrigin(m_OutputOrigin);
+    output->SetDirection(m_OutputDirection);
+    }
 }
 
 
