@@ -56,3 +56,6 @@ itk_add_test(NAME  MaximumDecisionRuleTest COMMAND ${ITK_TEST_DRIVER}
 
 itk_add_test(NAME  MaximumRatioDecisionRuleTest COMMAND ${ITK_TEST_DRIVER}
           $<TARGET_FILE:MaximumRatioDecisionRule>)
+
+itk_add_test(NAME  KdTreeTest COMMAND ${ITK_TEST_DRIVER}
+          $<TARGET_FILE:KdTree>)

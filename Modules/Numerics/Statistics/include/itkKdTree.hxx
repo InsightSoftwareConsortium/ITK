@@ -184,7 +184,19 @@ template<typename TSample>
 void
 KdTree<TSample>
 ::Search( const MeasurementVectorType & query,
-  unsigned int numberOfNeighborsRequested, InstanceIdentifierVectorType &result ) const
+         unsigned int numberOfNeighborsRequested, InstanceIdentifierVectorType &result ) const
+{
+  // This function has two different signatures. The other signature, that returns the distances vector too,
+  // is called here; however, its distances vector is discarded.
+  std::vector<double> not_used_distances;
+  this->Search(query, numberOfNeighborsRequested, result, not_used_distances);
+}
+
+template<typename TSample>
+void
+KdTree<TSample>
+::Search( const MeasurementVectorType & query,
+  unsigned int numberOfNeighborsRequested, InstanceIdentifierVectorType &result, std::vector<double> &distances ) const
 {
   if( numberOfNeighborsRequested > this->Size() )
     {
@@ -215,6 +227,7 @@ KdTree<TSample>
     nearestNeighbors );
 
   result = nearestNeighbors.GetNeighbors();
+  distances = nearestNeighbors.GetDistances();
 }
 
 template<typename TSample>

@@ -121,7 +121,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef TreeType::NearestNeighbors    NeighborsType;
   typedef TreeType::KdTreeNodeType      NodeType;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
@@ -214,19 +213,51 @@ int main()
   // Software Guide : BeginCodeSnippet
   unsigned int numberOfNeighbors = 3;
   TreeType::InstanceIdentifierVectorType neighbors;
-  tree->Search( queryPoint, numberOfNeighbors, neighbors );
+  tree->Search( queryPoint, numberOfNeighbors, neighbors);
 
-  std::cout << "kd-tree knn search result:" << std::endl
+  std::cout << "\n*** kd-tree knn search result using an Euclidean distance metric:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl;
-  std::cout << "measurement vector : distance" << std::endl;
+  std::cout << "measurement vector : distance from querry point " << std::endl;
+  std::vector<double> distances1 (numberOfNeighbors);
+  for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
+     {
+     distances1[i] =  distanceMetric->Evaluate(
+                                        tree->GetMeasurementVector( neighbors[i] ));
+     std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
+               << "] : "
+               << distances1[i]
+               << std::endl;
+               }
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  //
+  // Instead of using an Euclidean distance metric, Tree itself can also return
+  // the distance vector. Here we get the distance values from tree and compare
+  // them with previous values.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  std::vector<double> distances2;
+  tree->Search( queryPoint, numberOfNeighbors, neighbors, distances2 );
+
+  std::cout << "\n*** kd-tree knn search result directly from tree:" << std::endl
+            << "query point = [" << queryPoint << "]" << std::endl
+            << "k = " << numberOfNeighbors << std::endl;
+  std::cout << "measurement vector : distance from querry point " << std::endl;
   for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
     {
     std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
               << "] : "
-              << distanceMetric->Evaluate(
-                  tree->GetMeasurementVector( neighbors[i] ))
+              << distances2[i]
               << std::endl;
+    if ( distances2[i] != distances1[i] )
+      {
+      std::cerr << "Mismatched distance values by tree." << std::endl;
+      return -1;
+      }
     }
   // Software Guide : EndCodeSnippet
 
@@ -239,18 +270,30 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
+  std::vector<double> distances3;
+  centroidTree->Search( queryPoint, numberOfNeighbors, neighbors, distances3 );
+
   centroidTree->Search( queryPoint, numberOfNeighbors, neighbors );
-  std::cout << "weighted centroid kd-tree knn search result:" << std::endl
+  std::cout << "\n*** Weighted centroid kd-tree knn search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl;
-  std::cout << "measurement vector : distance" << std::endl;
+  std::cout << "measurement vector : distance_by_distMetric : distance_by_tree" << std::endl;
+  std::vector<double> distances4 (numberOfNeighbors);
   for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
     {
+    distances4[i] = distanceMetric->Evaluate(
+                                      centroidTree->GetMeasurementVector( neighbors[i]));
     std::cout << "[" << centroidTree->GetMeasurementVector( neighbors[i] )
-              << "] : "
-              << distanceMetric->Evaluate(
-                  centroidTree->GetMeasurementVector( neighbors[i]))
+              << "]       :       "
+              << distances4[i]
+              << "            :       "
+              << distances3[i]
               << std::endl;
+    if ( distances2[i] != distances1[i] )
+      {
+      std::cerr << "Mismatched distance values by centroid tree." << std::endl;
+      return -1;
+      }
     }
   // Software Guide : EndCodeSnippet
 
@@ -268,7 +311,8 @@ int main()
 
   tree->Search( queryPoint, radius, neighbors );
 
-  std::cout << "kd-tree radius search result:" << std::endl
+  std::cout << "\nSearching points within a hyper-spherical kernel:" << std::endl;
+  std::cout << "*** kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl;
   std::cout << "measurement vector : distance" << std::endl;
@@ -292,7 +336,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   centroidTree->Search( queryPoint, radius, neighbors );
-  std::cout << "weighted centroid kd-tree radius search result:" << std::endl
+  std::cout << "\n*** Weighted centroid kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl;
   std::cout << "measurement vector : distance" << std::endl;

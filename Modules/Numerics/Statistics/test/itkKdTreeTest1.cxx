@@ -108,22 +108,31 @@ int itkKdTreeTest1(int argc , char * argv [] )
 
     distanceMetric->SetOrigin( origin );
 
+    // First, get distance from the search API
+    std::vector<double> searchDistance;
+    tree->Search( queryPoint, numberOfNeighbors, neighbors, searchDistance );
+
+    // We can also get distance from the distance metric
     tree->Search( queryPoint, numberOfNeighbors, neighbors );
 
     for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
       {
-      const double distance =
+      const double distanceFromMetric =
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i] ));
 
-      if( distance > vnl_math::eps )
+      if( distanceFromMetric > vnl_math::eps ||
+          searchDistance[i] > vnl_math::eps ||
+          distanceFromMetric != searchDistance[i]  )
         {
         std::cerr << "kd-tree knn search result:" << std::endl
                   << "query point = [" << queryPoint << "]" << std::endl
                   << "k = " << numberOfNeighbors << std::endl;
-        std::cerr << "measurement vector : distance" << std::endl;
+        std::cerr << "measurement vector : distance_by_distMetric : distance_by_tree" << std::endl;
         std::cerr << "[" << tree->GetMeasurementVector( neighbors[i] )
                   << "] : "
-                  << distance << std::endl;
+                  << distanceFromMetric
+                  << " : "
+                  << searchDistance[i] << std::endl;
         numberOfFailedPoints1++;
         }
       }
