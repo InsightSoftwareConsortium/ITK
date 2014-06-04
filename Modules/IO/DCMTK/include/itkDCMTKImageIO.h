@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDCMTKImageIO_h
 #define __itkDCMTKImageIO_h
+#include "ITKIODCMTKExport.h"
 
 
 #include <fstream>
@@ -35,7 +36,7 @@ namespace itk
  *
  * \ingroup ITKIODCMTK
  */
-class DCMTKImageIO:public ImageIOBase
+class ITKIODCMTK_EXPORT DCMTKImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

@@ -3,7 +3,7 @@ itkHDF5ImageIOFactory.cxx
 itkHDF5ImageIO.cxx
 )
 
-add_library(ITKIOHDF5 ${ITKIOHDF5_SRC})
+add_library(ITKIOHDF5 ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOHDF5_SRC})
 
 target_link_libraries(ITKIOHDF5
 ${ITKHDF5_LIBRARIES}

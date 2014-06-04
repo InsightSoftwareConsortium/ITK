@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkNiftiImageIOFactory_h
 #define __itkNiftiImageIOFactory_h
+#include "ITKIONIFTIExport.h"
 
 
 #include "itkObjectFactoryBase.h"
@@ -28,7 +29,7 @@ namespace itk
    * \brief Create instances of NiftiImageIO objects using an object factory.
    * \ingroup ITKIONIFTI
    */
-class NiftiImageIOFactory:public ObjectFactoryBase
+class ITKIONIFTI_EXPORT NiftiImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDCMTKImageIOFactory_h
 #define __itkDCMTKImageIOFactory_h
+#include "ITKIODCMTKExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
  * \brief Create instances of DCMTKImageIO objects using an object factory.
  * \ingroup ITKIODCMTK
  */
-class DCMTKImageIOFactory:public ObjectFactoryBase
+class ITKIODCMTK_EXPORT DCMTKImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

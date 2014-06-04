@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkDCMTKSeriesFileNames_h
 #define __itkDCMTKSeriesFileNames_h
+#include "ITKIODCMTKExport.h"
 
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
@@ -47,7 +48,7 @@ namespace itk
  *
  * \ingroup ITKIODCMTK
  */
-class DCMTKSeriesFileNames:public ProcessObject
+class ITKIODCMTK_EXPORT DCMTKSeriesFileNames:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

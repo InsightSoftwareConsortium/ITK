@@ -24,6 +24,7 @@
 
 #ifndef __itkHDF5ImageIO_h
 #define __itkHDF5ImageIO_h
+#include "ITKIOHDF5Export.h"
 
 
 // itk namespace first suppresses
@@ -82,7 +83,7 @@ class MetaDataDictionary;
  *
  */
 
-class HDF5ImageIO:public StreamingImageIOBase
+class ITKIOHDF5_EXPORT HDF5ImageIO:public StreamingImageIOBase
 {
 public:
   /** Standard class typedefs. */

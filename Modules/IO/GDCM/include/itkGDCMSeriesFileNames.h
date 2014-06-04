@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkGDCMSeriesFileNames_h
 #define __itkGDCMSeriesFileNames_h
+#include "ITKIOGDCMExport.h"
 
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
@@ -50,7 +51,7 @@ namespace itk
  */
 typedef std::vector< std::string > FilenamesContainer;
 typedef std::vector< std::string > SerieUIDContainer;
-class GDCMSeriesFileNames:public ProcessObject
+class ITKIOGDCM_EXPORT GDCMSeriesFileNames:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
