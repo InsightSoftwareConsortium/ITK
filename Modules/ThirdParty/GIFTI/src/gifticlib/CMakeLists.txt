@@ -21,7 +21,7 @@ if("${ITK_VERSION_MAJOR}" GREATER 0.0)
 # ITK provides expat and zlib.
   include_directories(${ITKNIFTI_INCLUDE_DIRS})
   set(PACKAGE_PREFIX "ITK")
-  set(EXPAT_LIBRARIES ITKEXPAT)
+  set(EXPAT_LIBRARIES ${ITKExpat_LIBRARIES})
   set(ZLIB_LIBRARIES ITKznz)
   set(NIFTI_LIBRARIES ITKniftiio)
   set(ZLIB_FOUND 1)
