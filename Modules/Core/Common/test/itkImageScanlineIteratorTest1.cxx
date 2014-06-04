@@ -110,6 +110,10 @@ int itkImageScanlineIteratorTest1(int, char* [] )
     it.NextLine();
     }
 
+  itk::ImageScanlineConstIterator<ImageType > testBeginEnd(o3, region);
+  testBeginEnd.GoToBeginOfLine();
+  testBeginEnd.GoToEndOfLine();
+
   itk::ImageScanlineConstIterator<ImageType > standardCIt(o3, region);
 
   // Iterate over a region using a simple loop and a const iterator

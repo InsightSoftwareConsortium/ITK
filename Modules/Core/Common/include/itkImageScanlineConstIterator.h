@@ -174,7 +174,7 @@ public:
    */
   void GoToBeginOfLine(void)
   {
-    this->Offset = m_SpanBeginOffset;
+    this->m_Offset = m_SpanBeginOffset;
   }
 
   /** Go to the past end pixel of the current line.
@@ -187,7 +187,7 @@ public:
    */
   void GoToEndOfLine(void)
   {
-    this->Offset = m_SpanEndOffset;
+    this->m_Offset = m_SpanEndOffset;
   }
 
   /** Test if the index is at the end of line
