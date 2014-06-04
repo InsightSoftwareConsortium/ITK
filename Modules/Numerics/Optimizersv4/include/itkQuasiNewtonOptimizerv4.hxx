@@ -27,9 +27,12 @@ namespace itk
 template<typename TInternalComputationValueType>
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::QuasiNewtonOptimizerv4Template():
-  m_BestValue(0.0),m_BestPosition(0),m_BestIteration(0)
+  m_MaximumIterationsWithoutProgress(30),
+  m_PreviousValue(0.0),
+  m_BestValue(0.0),
+  m_BestPosition(0),
+  m_BestIteration(0)
 {
-  this->m_MaximumIterationsWithoutProgress = 30;
   this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
 
   // m_MaximumNewtonStepSizeInPhysicalUnits is used for automatic learning
@@ -39,9 +42,10 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   this->m_MaximumNewtonStepSizeInPhysicalUnits = NumericTraits<TInternalComputationValueType>::Zero;
 
   /** Threader for Quasi-Newton method */
-  typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>  OptimizerType;
-  typedef typename OptimizerType::Pointer                                                          OptimizerPointer;
-
+  typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>
+    OptimizerType;
+  typedef typename OptimizerType::Pointer
+    OptimizerPointer;
   OptimizerPointer estimateNewtonStepThreader = OptimizerType::New();
 
   this->m_EstimateNewtonStepThreader = estimateNewtonStepThreader;

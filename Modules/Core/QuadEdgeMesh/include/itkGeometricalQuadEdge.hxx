@@ -40,6 +40,7 @@ template< typename TVRef, typename TFRef,
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 ::GeometricalQuadEdge() :
   m_Origin(m_NoPoint),
+  m_Data(),
   m_DataSet(false),
   m_LineCellIdent(0)
 {

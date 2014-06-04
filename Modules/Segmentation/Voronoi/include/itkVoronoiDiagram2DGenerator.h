@@ -175,7 +175,8 @@ private:
     FortuneEdge() :
       m_A(0.0),
       m_B(0.0),
-      m_C(0.0)
+      m_C(0.0),
+      m_Edgenbr(0)
     {
       m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = ITK_NULLPTR;
     }

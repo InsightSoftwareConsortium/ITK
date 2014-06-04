@@ -54,6 +54,7 @@ SimplexMeshGeometry
   meanCurvature = c;
 
   neighborSet = ITK_NULLPTR;
+  closestAttractorIndex = 0;
 }
 
 SimplexMeshGeometry

@@ -20,6 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorInterpolateImageFunction.h"
+#include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkSimpleFastMutexLock.h"
 
 namespace itk
@@ -74,6 +75,8 @@ public:
   typedef typename VectorType::ComponentType                        RealType;
   typedef Image<RealType, ImageDimension>                           RealImageType;
   typedef VectorInterpolateImageFunction<InputFieldType, RealType>  InterpolatorType;
+  typedef VectorLinearInterpolateImageFunction <InputFieldType, RealType>
+                                                                    DefaultInterpolatorType;
 
   /** Get the interpolator. */
   itkGetModifiableObjectMacro( Interpolator, InterpolatorType );
