@@ -67,13 +67,14 @@ public:
   itkTypeMacro( TransformParametersAdaptorBase, Object );
 
   /** Typedefs associated with the transform */
-  typedef TTransform                                     TransformType;
-  typedef typename TransformType::Pointer                TransformPointer;
-  typedef typename TransformType::ParametersType         ParametersType;
+  typedef TTransform                                     TransformBaseType;
+  typedef typename TransformBaseType::Pointer            TransformBasePointer;
+  typedef typename TransformBaseType::ParametersType     ParametersType;
   typedef typename ParametersType::ValueType             ParametersValueType;
 
-  /** Set the transform to be adapted */
-  itkSetObjectMacro( Transform, TransformType );
+  // note: the void pointer is use to ensure this method has lower
+  // overloaded priority and avoid an ambiguous overloaded method
+  virtual void SetTransform( TransformBaseType *_arg, void * priorityLower = ITK_NULLPTR ) = 0;
 
   /** Set the fixed parameters */
   itkSetMacro( RequiredFixedParameters, ParametersType );
@@ -90,11 +91,10 @@ protected:
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE
   {
-    this->m_Transform->Print( os, indent );
+    Superclass::PrintSelf( os, indent );
     os << "Fixed parameters" << this->m_RequiredFixedParameters << std::endl;
   }
 
-  TransformPointer                           m_Transform;
   ParametersType                             m_RequiredFixedParameters;
 
 private:

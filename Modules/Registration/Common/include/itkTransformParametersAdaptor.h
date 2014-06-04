@@ -19,6 +19,7 @@
 #define __itkTransformParametersAdaptor_h
 
 #include "itkTransformParametersAdaptorBase.h"
+#include "itkTransform.h"
 
 namespace itk
 {
@@ -52,13 +53,13 @@ namespace itk
  */
 template<typename TTransform>
 class TransformParametersAdaptor
-: public TransformParametersAdaptorBase<TTransform>
+: public TransformParametersAdaptorBase< Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension> >
 {
 public:
 
   /** Standard class typedefs. */
   typedef TransformParametersAdaptor                     Self;
-  typedef TransformParametersAdaptorBase<TTransform>     Superclass;
+  typedef TransformParametersAdaptorBase<Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension> >     Superclass;
   typedef SmartPointer<Self>                             Pointer;
   typedef SmartPointer<const Self>                       ConstPointer;
 
@@ -66,13 +67,22 @@ public:
   itkTypeMacro( TransformParametersAdaptor, TransformParametersAdaptorBase );
 
   /** Typedefs associated with the transform */
+
+  typedef typename Superclass::TransformBaseType         TransformBaseType;
   typedef TTransform                                     TransformType;
-  typedef typename Superclass::TransformPointer          TransformPointer;
-  typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename TransformType::Pointer                TransformPointer;
+  typedef typename TransformType::ParametersType         ParametersType;
   typedef typename Superclass::ParametersValueType       ParametersValueType;
 
   /** Set the transform to be adapted */
   itkSetObjectMacro( Transform, TransformType );
+
+  virtual void SetTransform( TransformBaseType * _arg, void * )
+    {
+      TransformType *tx = dynamic_cast<TransformType *>(_arg);
+      itkAssertOrThrowMacro( tx != ITK_NULLPTR, "Unable to convert Transform to require concrete transform!" );
+      this->SetTransform(tx);
+    }
 
   /** New macro for creation of through the object factory. */
   itkNewMacro( Self );
@@ -90,13 +100,13 @@ protected:
   TransformParametersAdaptor() {}
   ~TransformParametersAdaptor() {}
 
-  void PrintSelf( std::ostream & os, Indent itkNotUsed( indent ) ) const
+  void PrintSelf( std::ostream & os, Indent indent ) const
   {
-    os << "Fixed parameters: " << this->m_RequiredFixedParameters << std::endl;
+    Superclass::PrintSelf( os, indent );
+    this->m_Transform->Print( os, indent.GetNextIndent() );
   }
 
   TransformPointer                           m_Transform;
-  ParametersType                             m_RequiredFixedParameters;
 
 private:
   TransformParametersAdaptor( const Self & ); //purposely not implemented

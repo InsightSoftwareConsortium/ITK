@@ -28,7 +28,7 @@
 #include "itkImageToImageMetricv4.h"
 #include "itkShrinkImageFilter.h"
 #include "itkTransform.h"
-#include "itkTransformParametersAdaptor.h"
+#include "itkTransformParametersAdaptorBase.h"
 
 #include <vector>
 
@@ -156,7 +156,7 @@ public:
   typedef Array<RealType>                                             MetricSamplingPercentageArrayType;
 
   /** Transform adaptor typedefs */
-  typedef TransformParametersAdaptor<OutputTransformType>             TransformParametersAdaptorType;
+  typedef TransformParametersAdaptorBase<InitialTransformType>        TransformParametersAdaptorType;
   typedef typename TransformParametersAdaptorType::Pointer            TransformParametersAdaptorPointer;
   typedef std::vector<TransformParametersAdaptorPointer>              TransformParametersAdaptorsContainerType;
 
