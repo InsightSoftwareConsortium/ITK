@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkMetaImageIOFactory_h
 #define __itkMetaImageIOFactory_h
+#include "ITKIOMetaExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
  * \brief Create instances of MetaImageIO objects using an object factory.
  * \ingroup ITKIOMeta
  */
-class MetaImageIOFactory:public ObjectFactoryBase
+class ITKIOMeta_EXPORT MetaImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

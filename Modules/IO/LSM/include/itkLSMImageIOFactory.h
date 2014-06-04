@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkLSMImageIOFactory_h
 #define __itkLSMImageIOFactory_h
+#include "ITKIOLSMExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -37,7 +38,7 @@ namespace itk
  * \brief Create instances of LSMImageIO objects using an object factory.
  * \ingroup ITKIOLSM
  */
-class LSMImageIOFactory:public ObjectFactoryBase
+class ITKIOLSM_EXPORT LSMImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

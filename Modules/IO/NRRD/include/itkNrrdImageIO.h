@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkNrrdImageIO_h
 #define __itkNrrdImageIO_h
+#include "ITKIONRRDExport.h"
 
 
 #include "itkImageIOBase.h"
@@ -33,7 +34,7 @@ namespace itk
  *  \ingroup IOFilters
  * \ingroup ITKIONRRD
  */
-class NrrdImageIO:public ImageIOBase
+class ITKIONRRD_EXPORT NrrdImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

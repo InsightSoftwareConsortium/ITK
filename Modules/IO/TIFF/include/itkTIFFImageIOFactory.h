@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkTIFFImageIOFactory_h
 #define __itkTIFFImageIOFactory_h
+#include "ITKIOTIFFExport.h"
 
 
 #include "itkObjectFactoryBase.h"
@@ -28,7 +29,7 @@ namespace itk
  * \brief Create instances of TIFFImageIO objects using an object factory.
  * \ingroup ITKIOTIFF
  */
-class TIFFImageIOFactory:public ObjectFactoryBase
+class ITKIOTIFF_EXPORT TIFFImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

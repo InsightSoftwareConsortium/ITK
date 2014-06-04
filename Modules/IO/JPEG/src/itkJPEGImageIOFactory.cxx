@@ -50,7 +50,7 @@ JPEGImageIOFactory::GetDescription(void) const
 
 static bool JPEGImageIOFactoryHasBeenRegistered;
 
-void JPEGImageIOFactoryRegister__Private(void)
+void ITKIOJPEG_EXPORT JPEGImageIOFactoryRegister__Private(void)
 {
   if( ! JPEGImageIOFactoryHasBeenRegistered )
     {

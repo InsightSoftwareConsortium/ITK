@@ -50,7 +50,7 @@ NrrdImageIOFactory::GetDescription() const
 
 static bool NrrdImageIOFactoryHasBeenRegistered;
 
-void NrrdImageIOFactoryRegister__Private(void)
+void ITKIONRRD_EXPORT NrrdImageIOFactoryRegister__Private(void)
 {
   if( ! NrrdImageIOFactoryHasBeenRegistered )
     {
