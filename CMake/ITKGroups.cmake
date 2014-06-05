@@ -63,7 +63,7 @@ new algorithms or implementations seeking greater exposure and adoption,
 algorithms that hope to eventually be integrated into the toolkit,
 niche algorithms with limited application, and Modules in progress that do not
 yet have the test coverage and cross-platform standards required by the main toolkit.
-+The modules are OFF by default in ITK's CMake configuration.
+The modules are OFF by default in ITK's CMake configuration.
 Note that these modules do get the same level of support and backwards
 compatibility as other modules in the toolkit.")
 
