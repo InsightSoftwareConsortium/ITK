@@ -29,6 +29,8 @@
 #define __itkTestingStretchIntensityImageFilter_hxx
 
 #include "itkTestingStretchIntensityImageFilter.h"
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -97,12 +99,9 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
       {
       m_InputMaximum = value;
       }
-    else
+    if ( value < m_InputMinimum )
       {
-      if ( value < m_InputMinimum )
-        {
-        m_InputMinimum = value;
-        }
+      m_InputMinimum = value;
       }
     ++it;
     }
