@@ -27,6 +27,7 @@
 #include "itkCompositeTransform.h"
 #include "itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor.h"
 #include "itkVector.h"
+#include "itkTestingMacros.h"
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -136,8 +137,8 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
 
   // Set the number of iterations
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerType;
-  GradientDescentOptimizerType * optimizer = reinterpret_cast<GradientDescentOptimizerType *>(
-    const_cast<typename AffineRegistrationType::OptimizerType *>( affineSimple->GetOptimizer() ) );
+  GradientDescentOptimizerType * optimizer = dynamic_cast<GradientDescentOptimizerType *>( affineSimple->GetModifiableOptimizer() );
+  TEST_EXPECT_TRUE( optimizer != ITK_NULLPTR );
   optimizer->SetNumberOfIterations( numberOfAffineIterations );
   std::cout << "number of affine iterations: " << numberOfAffineIterations << std::endl;
 
@@ -165,7 +166,7 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
 
   typedef itk::CompositeTransform<RealType, ImageDimension> CompositeTransformType;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
-  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::OutputTransformType *>( affineSimple->GetOutput()->Get() ) );
+  compositeTransform->AddTransform( affineSimple->GetModifiableTransform() );
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> AffineResampleFilterType;
   typename AffineResampleFilterType::Pointer affineResampler = AffineResampleFilterType::New();
@@ -198,7 +199,7 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
   typename VelocityFieldRegistrationType::Pointer velocityFieldRegistration = VelocityFieldRegistrationType::New();
 
   typedef typename VelocityFieldRegistrationType::OutputTransformType OutputTransformType;
-  typename OutputTransformType::Pointer outputTransform = const_cast<OutputTransformType *>( velocityFieldRegistration->GetOutput()->Get() );
+  typename OutputTransformType::Pointer outputTransform = velocityFieldRegistration->GetModifiableTransform();
 
   velocityFieldRegistration->SetFixedImage( fixedImage );
   velocityFieldRegistration->SetMovingImage( movingImage );

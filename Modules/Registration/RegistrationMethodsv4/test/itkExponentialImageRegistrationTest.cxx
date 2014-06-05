@@ -62,9 +62,9 @@ public:
     typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
-    typename itk::ObjectToObjectOptimizerBase::Pointer optimizerBase = (const_cast<TFilter*>(filter))->GetModifiableOptimizer();
+    const itk::ObjectToObjectOptimizerBase * optimizerBase = filter->GetOptimizer();
     typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
-    typename GradientDescentOptimizerv4Type::Pointer optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>(optimizerBase.GetPointer());
+    typename GradientDescentOptimizerv4Type::ConstPointer optimizer = dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
     if( !optimizer )
       {
       itkGenericExceptionMacro( "Error dynamic_cast failed" );
@@ -217,7 +217,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
 
   typedef itk::CompositeTransform<RealType, VImageDimension> CompositeTransformType;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
-  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::OutputTransformType *>( affineSimple->GetOutput()->Get() ) );
+  compositeTransform->AddTransform( affineSimple->GetModifiableTransform() );
 
   typedef itk::Vector<RealType, VImageDimension> VectorType;
   VectorType zeroVector( 0.0 );
@@ -234,7 +234,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, ConstantVelocityFieldTransformType> DisplacementFieldRegistrationType;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
 
-  typename ConstantVelocityFieldTransformType::Pointer fieldTransform = const_cast<ConstantVelocityFieldTransformType *>( displacementFieldSimple->GetOutput()->Get() );
+  typename ConstantVelocityFieldTransformType::Pointer fieldTransform = displacementFieldSimple->GetModifiableTransform();
   fieldTransform->SetGaussianSmoothingVarianceForTheUpdateField( 0.75 );
   fieldTransform->SetGaussianSmoothingVarianceForTheConstantVelocityField( 1.5 );
   fieldTransform->SetConstantVelocityField( displacementField );
@@ -338,7 +338,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  compositeTransform->AddTransform( const_cast<ConstantVelocityFieldTransformType *>( displacementFieldSimple->GetOutput()->Get() ) );
+  compositeTransform->AddTransform( displacementFieldSimple->GetModifiableTransform() );
 
   std::cout << "After displacement registration: " << std::endl
             << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl

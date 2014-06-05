@@ -58,9 +58,9 @@ public:
     typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
-    typename itk::ObjectToObjectOptimizerBase::Pointer optimizerBase = (const_cast<TFilter*>(filter))->GetModifiableOptimizer();
+    const itk::ObjectToObjectOptimizerBase* optimizerBase = filter->GetOptimizer();
     typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
-    typename GradientDescentOptimizerv4Type::Pointer optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>(optimizerBase.GetPointer());
+    typename GradientDescentOptimizerv4Type::ConstPointer optimizer = dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
     if( !optimizer )
       {
       itkGenericExceptionMacro( "Error dynamic_cast failed" );
@@ -230,7 +230,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
-  resampler->SetTransform( const_cast<typename AffineRegistrationType::OutputTransformType *>( affineSimple->GetOutput()->Get() ) );
+  resampler->SetTransform( affineSimple->GetTransform() );
   resampler->SetInput( movingImage );
   resampler->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
   resampler->SetOutputOrigin( fixedImage->GetOrigin() );
