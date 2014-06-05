@@ -45,7 +45,7 @@ bool TestGaussianOperator( double variance,
 
   op.CreateDirectional();
 
-  std::cout.precision(16);
+  std::streamsize savePrecision = std::cout.precision(16);
 
   double total = std::accumulate( op.Begin(), op.End(), 0.0 );
 
@@ -61,6 +61,7 @@ bool TestGaussianOperator( double variance,
     }
   else
     {
+    std::cout.precision(savePrecision);
     return true;
     }
 
@@ -73,6 +74,7 @@ bool TestGaussianOperator( double variance,
       }
     std::cout << "---end--" << std::endl;
 
+    std::cout.precision(savePrecision);
     return false;
 
 }

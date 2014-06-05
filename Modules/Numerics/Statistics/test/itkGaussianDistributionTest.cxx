@@ -22,6 +22,8 @@
 int itkGaussianDistributionTest(int, char* [] )
 {
   std::cout << "itkGaussianDistribution Test \n \n";
+  std::streamsize previousPrecisionCout = std::cout.precision();
+  std::streamsize previousWidthCout = std::cout.width();
 
   typedef itk::Statistics::GaussianDistribution DistributionType;
 
@@ -406,5 +408,7 @@ int itkGaussianDistributionTest(int, char* [] )
   distributionFunction->SetParameters( parameters1 );
   distributionFunction->Print( std::cout );
 
+  std::cout.precision(previousPrecisionCout);
+  std::cout.width(previousWidthCout);
   return status;
 }

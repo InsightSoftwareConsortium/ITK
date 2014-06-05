@@ -67,6 +67,8 @@ int itkImageAdaptorNthElementTest(int, char* [] )
                                myFloatImageType >       myFilterType;
 
 
+  std::streamsize previousWidthCout = std::cout.width();
+
   //-------------------------------------------------------------
   //                 Create and Allocate the image
   //-------------------------------------------------------------
@@ -303,6 +305,7 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     ++ito;
   }
 
+  std::cout.width(previousWidthCout);
   return EXIT_SUCCESS;
 
 }

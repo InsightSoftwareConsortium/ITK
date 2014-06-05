@@ -42,6 +42,8 @@ void test(int testIdx)
   typedef itk::Image< unsigned char, Dimension >  myImageType2D1;
   typedef itk::Image< PixelType, Dimension >      myImageType2D2;
 
+  std::streamsize previousWidthCout = std::cout.width();
+
   /* TEST 1: For a point image, SignedDaniessonDistanceMapImageFilter should
    * give the same output as DaniessonDistanceMapImageFilter  */
 
@@ -247,4 +249,6 @@ void test(int testIdx)
       }
     it2D2.NextSlice();
     }
+
+    std::cout.width(previousWidthCout);
 }

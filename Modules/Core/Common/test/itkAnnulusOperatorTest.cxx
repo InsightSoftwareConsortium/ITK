@@ -63,6 +63,9 @@ int itkAnnulusOperatorTest(int, char* [] )
             << ", t = " << normalizedAnnulus.GetThickness()
             << std::endl;
   unsigned int i, j, k;
+
+  std::streamsize saveWidth = std::cout.width();
+  std::streamsize savePrecision = std::cout.precision();
   for (i=0, k=0; i < normalizedAnnulusSize[1]; ++i)
     {
     for (j=0; j < normalizedAnnulusSize[0]; ++j, ++k)
@@ -215,6 +218,8 @@ int itkAnnulusOperatorTest(int, char* [] )
       }
     std::cout << std::endl;
     }
+  std::cout.width(saveWidth);
+  std::cout.precision(savePrecision);
 
   return EXIT_SUCCESS;
 }

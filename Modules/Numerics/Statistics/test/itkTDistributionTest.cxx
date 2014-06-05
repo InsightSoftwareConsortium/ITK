@@ -22,6 +22,8 @@
 int itkTDistributionTest(int, char* [] )
 {
   std::cout << "itkTDistribution Test \n \n";
+  std::streamsize previousPrecisionCout = std::cout.precision();
+  std::streamsize previousWidthCout = std::cout.width();
 
   typedef itk::Statistics::TDistribution DistributionType;
 
@@ -499,5 +501,7 @@ int itkTDistributionTest(int, char* [] )
   distributionFunction->SetParameters( parameters0 );
   distributionFunction->Print( std::cout );
 
+  std::cout.precision(previousPrecisionCout);
+  std::cout.width(previousWidthCout);
   return status;
 }

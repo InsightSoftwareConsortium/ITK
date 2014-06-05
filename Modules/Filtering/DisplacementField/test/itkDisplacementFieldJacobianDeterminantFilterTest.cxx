@@ -22,7 +22,8 @@
 
 static bool TestDisplacementJacobianDeterminantValue(void)
 {
-  std::cout.precision(9);
+  std::streamsize previousPrecisionCout = std::cout.precision(9);
+
   bool testPassed = true;
   const unsigned int ImageDimension = 2;
 
@@ -95,6 +96,8 @@ static bool TestDisplacementJacobianDeterminantValue(void)
     {
     std::cout << "Test passed." << std::endl;
     }
+
+  std::cout.precision(previousPrecisionCout);
   return testPassed;
 }
 

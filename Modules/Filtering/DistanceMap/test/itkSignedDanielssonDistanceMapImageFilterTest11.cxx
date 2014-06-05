@@ -22,6 +22,7 @@
 int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
 {
 
+  std::streamsize previousWidthCout = std::cout.width();
   std::cout << "Test ITK Liza Signed Danielsson Distance Map" << std::endl << std::endl;
 
   std::cout << "Compute the distance map of a 5x5 image" << std::endl;
@@ -127,6 +128,8 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
   if( filter2D->GetSquaredDistance() != true )
     {
     std::cerr << "filter2D->GetSquaredDistance() != true" <<std::endl;
+
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -139,6 +142,8 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
   if( vcl_fabs( distance2 - distance1 * distance1 ) > epsilon )
     {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
+
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -193,18 +198,24 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
   if( filter2D->GetUseImageSpacing() != true )
     {
     std::cerr << "filter2D->GetUseImageSpacing() != true" <<std::endl;
+
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
   if( filter2D->GetInsideIsPositive() != true )
     {
     std::cerr << "filter2D->GetInsideIsPositive() != true" <<std::endl;
+
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
   if( filter2D->GetSquaredDistance() == true )
     {
     std::cerr << "filter2D->GetSquaredDistance() == true & it should not" <<std::endl;
+
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   filter2D->SetUseImageSpacing( true );
@@ -237,5 +248,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
     }
 
 
+  std::cout.width(previousWidthCout);
   return EXIT_SUCCESS;
 }

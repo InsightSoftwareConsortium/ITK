@@ -22,7 +22,7 @@
 
 int main( int, char *[] )
 {
-  std::cout.precision( 24 );
+  std::streamsize savePrecision = std::cout.precision(24);
 
   std::cout << "e: " << itk::Math::e << std::endl;
   std::cout << "log2e: " << itk::Math::log2e << std::endl;
@@ -68,6 +68,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != -1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
@@ -77,6 +78,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -89,6 +91,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != 1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
@@ -98,6 +101,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -115,6 +119,7 @@ int main( int, char *[] )
     {
     std::cout << " result is: " << itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) << std::endl;
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
@@ -124,6 +129,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -136,6 +142,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != 1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
@@ -145,6 +152,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -158,11 +166,13 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != -6 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
     std::cout << "floatRepresentationfx1 is almost equal to floatRepresentationfx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   else
@@ -179,11 +189,13 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != 6 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
     std::cout << "floatRepresentationfx1 is almost equal to floatRepresentationfx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   else
@@ -202,6 +214,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != 0 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
@@ -211,6 +224,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -233,6 +247,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -247,6 +262,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) < 0 )
     {
     std::cout << "Did not get the expected FloatDifferenceULP sign." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   else
@@ -265,6 +281,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) > 0 )
     {
     std::cout << "Did not get the expected FloatDifferenceULP sign." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   else
@@ -293,6 +310,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != -1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
@@ -302,6 +320,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -313,6 +332,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != 1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
@@ -322,6 +342,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -334,11 +355,13 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != -6 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
     {
     std::cout << "floatRepresentationdx1 is almost equal to floatRepresentationdx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   else
@@ -354,11 +377,13 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != 6 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
     {
     std::cout << "floatRepresentationdx1 is almost equal to floatRepresentationdx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   else
@@ -376,6 +401,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != 0 )
     {
     std::cout << "Unexpected float distance." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
@@ -385,6 +411,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -405,6 +432,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
@@ -419,6 +447,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) < 0 )
     {
     std::cout << "Did not get the expected FloatDifferenceULP sign." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   else
@@ -437,6 +466,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) > 0 )
     {
     std::cout << "Did not get the expected FloatDifferenceULP sign." << std::endl;
+    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
   else
@@ -444,5 +474,6 @@ int main( int, char *[] )
     std::cout << "Got the expected FloatDifferenceULP sign.\n" << std::endl;
     }
 
+  std::cout.precision(savePrecision);
   return EXIT_SUCCESS;
 }
