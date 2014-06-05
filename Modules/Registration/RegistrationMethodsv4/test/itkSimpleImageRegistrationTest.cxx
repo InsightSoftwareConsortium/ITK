@@ -56,7 +56,7 @@ public:
       std::cout << std::endl;
       const TFilter * filter =
       dynamic_cast< const TFilter * >( object );
-    if( typeid( event ) != typeid( itk::InitializeEvent ) || object == ITK_NULLPTR )
+    if( typeid( event ) != typeid( itk::MultiResolutionIterationEvent ) || object == ITK_NULLPTR )
       { return; }
 
     unsigned int currentLevel = filter->GetCurrentLevel();
@@ -200,7 +200,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 
   typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
-  affineSimple->AddObserver( itk::InitializeEvent(), affineObserver );
+  affineSimple->AddObserver( itk::MultiResolutionIterationEvent(), affineObserver );
 
   {
   typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;

@@ -284,7 +284,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   this->m_CurrentConvergenceValue = 0.0;
   this->m_IsConverged = false;
 
-  this->InvokeEvent( InitializeEvent() );
+  this->InvokeEvent( MultiResolutionIterationEvent() );
 
   // For each level, we adapt the current transform.  For many transforms, e.g.
   // affine, the base transform adaptor does not do anything.  However, in the
