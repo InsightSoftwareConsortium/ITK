@@ -326,15 +326,27 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
       {
       b_Mean[i] = bkgaddp[i] / bkgnum;
       }
+    else
+      {
+      b_Mean[i] = 0.0;
+      }
     if (bkgnum > 1)
       {
       b_STD[i] =
         std::sqrt( ( bkgaddpp[i] - ( bkgaddp[i] * bkgaddp[i] ) / bkgnum )
                    / ( bkgnum - 1 ) );
       }
+    else
+      {
+      b_STD[i] = 0.0;
+      }
     if (m_Mean[i] != 0.0)
       {
       diffMean[i] = ( b_Mean[i] - m_Mean[i] ) / m_Mean[i];
+      }
+    else
+      {
+      diffMean[i] = 0.0;
       }
     if ( diffMean[i] < 0 )
       {
@@ -343,6 +355,10 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
     if (m_STD[i] != 0.0)
       {
       diffSTD[i] = ( b_STD[i] - m_STD[i] ) / m_STD[i];
+      }
+    else
+      {
+      diffSTD[i] = 0.0;
       }
     if ( diffSTD[i] < 0 )
       {
