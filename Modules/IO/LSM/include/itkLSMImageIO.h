@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkLSMImageIO_h
 #define __itkLSMImageIO_h
+#include "ITKIOLSMExport.h"
 
 #include "itkTIFFImageIO.h"
 #include <fstream>
@@ -43,7 +44,7 @@ namespace itk
  *
  * \ingroup ITKIOLSM
  */
-class LSMImageIO:public TIFFImageIO
+class ITKIOLSM_EXPORT LSMImageIO:public TIFFImageIO
 {
 public:
   /** Standard class typedefs. */

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkNrrdImageIOFactory_h
 #define __itkNrrdImageIOFactory_h
+#include "ITKIONRRDExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
  * \brief Create instances of NrrdImageIO objects using an object factory.
  * \ingroup ITKIONRRD
  */
-class NrrdImageIOFactory:public ObjectFactoryBase
+class ITKIONRRD_EXPORT NrrdImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

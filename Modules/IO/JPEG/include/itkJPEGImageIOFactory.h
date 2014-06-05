@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkJPEGImageIOFactory_h
 #define __itkJPEGImageIOFactory_h
+#include "ITKIOJPEGExport.h"
 
 
 #include "itkObjectFactoryBase.h"
@@ -28,7 +29,7 @@ namespace itk
  * \brief Create instances of JPEGImageIO objects using an object factory.
  * \ingroup ITKIOJPEG
  */
-class JPEGImageIOFactory:public ObjectFactoryBase
+class ITKIOJPEG_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

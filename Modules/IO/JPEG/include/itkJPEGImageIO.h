@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkJPEGImageIO_h
 #define __itkJPEGImageIO_h
+#include "ITKIOJPEGExport.h"
 
 
 #include "itkImageIOBase.h"
@@ -31,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKIOJPEG
  */
-class JPEGImageIO:public ImageIOBase
+class ITKIOJPEG_EXPORT JPEGImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

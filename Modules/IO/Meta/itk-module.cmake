@@ -5,6 +5,7 @@ MetaImage can either consist of a simple plain text header coupled with a data
 file (usually .mhd + .raw) or the header inline with the data (usually .mha).")
 
 itk_module(ITKIOMeta
+  ENABLE_SHARED
   DEPENDS
     ITKMetaIO
     ITKIOImageBase

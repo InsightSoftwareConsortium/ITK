@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkTIFFImageIO_h
 #define __itkTIFFImageIO_h
+#include "ITKIOTIFFExport.h"
 
 #include "itkImageIOBase.h"
 #include <fstream>
@@ -39,7 +40,7 @@ class TIFFReaderInternal;
  * \wikiexample{IO/TIFFImageIO,Write a TIFF image}
  * \endwiki
  */
-class TIFFImageIO:public ImageIOBase
+class ITKIOTIFF_EXPORT TIFFImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

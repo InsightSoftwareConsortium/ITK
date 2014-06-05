@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkMetaArrayWriter_h
 #define __itkMetaArrayWriter_h
+#include "ITKIOMetaExport.h"
 
 #include "itkLightProcessObject.h"
 #include "itkArray.h"
@@ -26,7 +27,7 @@
 
 namespace itk
 {
-class MetaArrayWriter:public LightProcessObject
+class ITKIOMeta_EXPORT MetaArrayWriter:public LightProcessObject
 {
 public:
 
