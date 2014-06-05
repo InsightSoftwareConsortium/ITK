@@ -199,7 +199,9 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
   typename VelocityFieldRegistrationType::Pointer velocityFieldRegistration = VelocityFieldRegistrationType::New();
 
   typedef typename VelocityFieldRegistrationType::OutputTransformType OutputTransformType;
-  typename OutputTransformType::Pointer outputTransform = velocityFieldRegistration->GetModifiableTransform();
+  typename OutputTransformType::Pointer outputTransform = OutputTransformType::New();
+  velocityFieldRegistration->SetInitialTransform( outputTransform );
+  velocityFieldRegistration->InPlaceOn();
 
   velocityFieldRegistration->SetFixedImage( fixedImage );
   velocityFieldRegistration->SetMovingImage( movingImage );

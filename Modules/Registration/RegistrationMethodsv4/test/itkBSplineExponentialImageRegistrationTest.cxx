@@ -221,7 +221,7 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
   typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, DisplacementFieldTransformType> DisplacementFieldRegistrationType;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
 
-  typename DisplacementFieldTransformType::Pointer fieldTransform = displacementFieldSimple->GetModifiableTransform();
+  typename DisplacementFieldTransformType::Pointer fieldTransform = DisplacementFieldTransformType::New();
 
   typename DisplacementFieldTransformType::ArrayType updateControlPoints;
   updateControlPoints.Fill( 10 );
@@ -233,6 +233,9 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
   fieldTransform->SetNumberOfControlPointsForTheConstantVelocityField( velocityControlPoints );
   fieldTransform->SetConstantVelocityField( displacementField );
   fieldTransform->SetCalculateNumberOfIntegrationStepsAutomatically( true );
+
+  displacementFieldSimple->SetInitialTransform( fieldTransform );
+  displacementFieldSimple->InPlaceOn();
 
   typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType> CorrelationMetricType;
   typename CorrelationMetricType::Pointer correlationMetric = CorrelationMetricType::New();

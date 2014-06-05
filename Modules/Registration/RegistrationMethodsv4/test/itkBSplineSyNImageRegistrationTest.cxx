@@ -190,7 +190,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
   displacementFieldRegistration->SetOptimizerWeights( optimizerWeights );
 
   typedef typename DisplacementFieldRegistrationType::OutputTransformType OutputTransformType;
-  typename OutputTransformType::Pointer outputTransform = displacementFieldRegistration->GetModifiableTransform();
+  typename OutputTransformType::Pointer outputTransform = OutputTransformType::New();
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
 
@@ -294,6 +294,8 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
+  displacementFieldRegistration->SetInitialTransform( outputTransform );
+  displacementFieldRegistration->InPlaceOn();
 
   try
     {

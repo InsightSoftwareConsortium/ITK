@@ -234,7 +234,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, ConstantVelocityFieldTransformType> DisplacementFieldRegistrationType;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
 
-  typename ConstantVelocityFieldTransformType::Pointer fieldTransform = displacementFieldSimple->GetModifiableTransform();
+  typename ConstantVelocityFieldTransformType::Pointer fieldTransform = ConstantVelocityFieldTransformType::New();
   fieldTransform->SetGaussianSmoothingVarianceForTheUpdateField( 0.75 );
   fieldTransform->SetGaussianSmoothingVarianceForTheConstantVelocityField( 1.5 );
   fieldTransform->SetConstantVelocityField( displacementField );
@@ -320,6 +320,9 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     adaptors.push_back( fieldTransformAdaptor.GetPointer() );
     }
   displacementFieldSimple->SetTransformParametersAdaptorsPerLevel( adaptors );
+
+  displacementFieldSimple->SetInitialTransform( fieldTransform );
+  displacementFieldSimple->InPlaceOn();
 
   typedef CommandIterationUpdate<DisplacementFieldRegistrationType> DisplacementFieldRegistrationCommandType;
   typename DisplacementFieldRegistrationCommandType::Pointer displacementFieldObserver = DisplacementFieldRegistrationCommandType::New();

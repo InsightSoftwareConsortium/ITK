@@ -215,9 +215,12 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   typename DisplacementFieldRegistrationType::Pointer displacementFieldRegistration = DisplacementFieldRegistrationType::New();
 
   typedef typename DisplacementFieldRegistrationType::OutputTransformType OutputTransformType;
-  typename OutputTransformType::Pointer outputTransform = displacementFieldRegistration->GetModifiableTransform();
+  typename OutputTransformType::Pointer outputTransform = OutputTransformType::New();
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
+
+  displacementFieldRegistration->SetInitialTransform( outputTransform );
+  displacementFieldRegistration->InPlaceOn();
 
   //Test member functions
   displacementFieldRegistration->SetDownsampleImagesForMetricDerivatives(false);

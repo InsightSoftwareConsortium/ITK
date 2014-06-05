@@ -236,7 +236,7 @@ int PerformBSplineImageRegistration( int argc, char *argv[] )
   smoothingSigmasPerLevel[1] = 1;
   smoothingSigmasPerLevel[2] = 1;
 
-  typename BSplineTransformType::Pointer outputBSplineTransform = bsplineRegistration->GetModifiableTransform();
+  typename BSplineTransformType::Pointer outputBSplineTransform =  BSplineTransformType::New();
 
   typename BSplineTransformType::PhysicalDimensionsType physicalDimensions;
   typename BSplineTransformType::MeshSizeType meshSize;
@@ -293,6 +293,9 @@ int PerformBSplineImageRegistration( int argc, char *argv[] )
   outputBSplineTransform->SetTransformDomainMeshSize( meshSize );
   outputBSplineTransform->SetTransformDomainDirection( fixedImage->GetDirection() );
   outputBSplineTransform->SetIdentity();
+
+  bsplineRegistration->SetInitialTransform( outputBSplineTransform );
+  bsplineRegistration->InPlaceOn();
 
   typedef CommandIterationUpdate<BSplineRegistrationType> BSplineRegistrationCommandType;
   typename BSplineRegistrationCommandType::Pointer bsplineObserver = BSplineRegistrationCommandType::New();
