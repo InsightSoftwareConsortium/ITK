@@ -15,22 +15,29 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#define ITK_TEMPLATE_EXPLICIT_MetaDataObject
 #include "itkMetaDataObject.h"
 
 namespace itk
 {
 
-ITK_NATIVE_TYPE_METADATAPRINT( unsigned char );
-ITK_NATIVE_TYPE_METADATAPRINT( char );
-ITK_NATIVE_TYPE_METADATAPRINT( signed char );
-ITK_NATIVE_TYPE_METADATAPRINT( unsigned short );
-ITK_NATIVE_TYPE_METADATAPRINT( short );
-ITK_NATIVE_TYPE_METADATAPRINT( unsigned int );
-ITK_NATIVE_TYPE_METADATAPRINT( int );
-ITK_NATIVE_TYPE_METADATAPRINT( unsigned long );
-ITK_NATIVE_TYPE_METADATAPRINT( long );
-ITK_NATIVE_TYPE_METADATAPRINT( float );
-ITK_NATIVE_TYPE_METADATAPRINT( double );
-ITK_NATIVE_TYPE_METADATAPRINT( std::string );
+template class ITKCommon_EXPORT MetaDataObject< bool >;
+template class ITKCommon_EXPORT MetaDataObject< unsigned char >;
+template class ITKCommon_EXPORT MetaDataObject< char >;
+template class ITKCommon_EXPORT MetaDataObject< signed char >;
+template class ITKCommon_EXPORT MetaDataObject< unsigned short >;
+template class ITKCommon_EXPORT MetaDataObject< short >;
+template class ITKCommon_EXPORT MetaDataObject< unsigned int >;
+template class ITKCommon_EXPORT MetaDataObject< int >;
+template class ITKCommon_EXPORT MetaDataObject< unsigned long >;
+template class ITKCommon_EXPORT MetaDataObject< long >;
+template class ITKCommon_EXPORT MetaDataObject< float >;
+template class ITKCommon_EXPORT MetaDataObject< double >;
+template class ITKCommon_EXPORT MetaDataObject< std::string >;
+template class ITKCommon_EXPORT MetaDataObject< Array<char> >;
+template class ITKCommon_EXPORT MetaDataObject< Array<int> >;
+template class ITKCommon_EXPORT MetaDataObject< Array<float> >;
+template class ITKCommon_EXPORT MetaDataObject< Array<double> >;
+template class ITKCommon_EXPORT MetaDataObject< Matrix<double> >;
 
 } // end namespace itk

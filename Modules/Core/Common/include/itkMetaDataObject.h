@@ -30,8 +30,8 @@
 
 #include "itkMetaDataDictionary.h"
 #include "itkMacro.h"
-#include "itkCommand.h"
-#include "itkFastMutexLock.h"
+#include "itkArray.h"
+#include "itkMatrix.h"
 
 #include <cstring>
 
@@ -178,37 +178,46 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
 
   const MetaDataObjectBase::ConstPointer baseObjectSmartPointer = Dictionary[key];
 
-  if ( baseObjectSmartPointer.IsNull() || strcmp( typeid( T ).name(), baseObjectSmartPointer->GetMetaDataObjectTypeName() ) != 0 )
+  MetaDataObject< T > const * const TempMetaDataObject = dynamic_cast< MetaDataObject< T > const * >( baseObjectSmartPointer.GetPointer() );
+  if ( TempMetaDataObject == ITK_NULLPTR )
     {
     return false;
     }
-    {
-    MetaDataObject< T > const * const TempMetaDataObject = dynamic_cast< MetaDataObject< T > const * >( baseObjectSmartPointer.GetPointer() );
-    if ( TempMetaDataObject != ITK_NULLPTR )
-      {
-      outval = TempMetaDataObject->GetMetaDataObjectValue();
-      }
-    else
-      {
-      return false;
-      }
-    }
+
+  outval = TempMetaDataObject->GetMetaDataObjectValue();
   return true;
 }
 
-// Specializations
-template <> ITKCommon_EXPORT void MetaDataObject< unsigned char >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< char >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< signed char >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< unsigned short >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< short >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< unsigned int >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< int >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< unsigned long >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< long >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< float >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< double >::Print( std::ostream & os ) const;
-template <> ITKCommon_EXPORT void MetaDataObject< std::string >::Print( std::ostream & os ) const;
+#ifndef ITK_TEMPLATE_EXPLICIT_MetaDataObject
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#if defined( ITKCommon_EXPORTS )
+// don't use export
+#define ITKCommon_EXPORT_EXPLICIT
+#else
+// only import/hidden
+#define ITKCommon_EXPORT_EXPLICIT ITKCommon_EXPORT
+#endif
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< bool >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< unsigned char >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< char >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< signed char >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< unsigned short >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< short >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< unsigned int >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< int >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< unsigned long >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< long >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< float >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< double >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< std::string >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< Array<char> >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< Array<int> >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< Array<float> >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< Array<double> >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< Matrix<double> >;
+#undef ITKCommon_EXPORT_EXPLICIT
+#endif
 
 } // end namespace itk
 
