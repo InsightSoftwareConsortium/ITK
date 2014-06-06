@@ -18,6 +18,7 @@ endif()
 
 if(ITK_WRAPPING)
   if(NOT ITK_BUILD_SHARED_LIBS)
-    message(FATAL_ERROR "Wrapping requires a shared build, change BUILD_SHARED_LIBS to ON")
+    message(WARNING "Wrapping requires a shared build, changing BUILD_SHARED_LIBS to ON")
+    set(BUILD_SHARED_LIBS ON CACHE BOOL "Build ITK with shared libraries." FORCE )
   endif()
 endif()
