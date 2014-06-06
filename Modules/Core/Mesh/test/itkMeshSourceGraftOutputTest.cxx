@@ -190,6 +190,8 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
 
 int itkMeshSourceGraftOutputTest(int, char* [] )
 {
+  std::streamsize saveWidth = std::cout.width();
+
   // Declare the mesh pixel type.
   // Those are the values associated
   // with each mesh point. (not used on this filter test)
@@ -298,6 +300,7 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
 
   // All objects should be automatically destroyed at this point
 
+  std::cout.width(saveWidth);
   return EXIT_SUCCESS;
 
 }

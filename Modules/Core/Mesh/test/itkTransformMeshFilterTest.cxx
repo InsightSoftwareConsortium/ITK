@@ -22,6 +22,7 @@
 
 int itkTransformMeshFilterTest(int, char* [] )
 {
+  std::streamsize saveWidth = std::cout.width();
 
   // Declare the mesh pixel type.
   // Those are the values associated
@@ -158,6 +159,7 @@ int itkTransformMeshFilterTest(int, char* [] )
 
   // All objects should be automatically destroyed at this point
 
+  std::cout.width(saveWidth);
   return EXIT_SUCCESS;
 
 }

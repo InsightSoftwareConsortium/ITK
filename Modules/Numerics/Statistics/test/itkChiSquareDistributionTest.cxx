@@ -22,6 +22,8 @@
 int itkChiSquareDistributionTest(int, char* [] )
 {
   std::cout << "itkChiSquareDistribution Test \n \n";
+  std::streamsize previousPrecisionCout = std::cout.precision();
+  std::streamsize previousWidthCout = std::cout.width();
 
   typedef itk::Statistics::ChiSquareDistribution DistributionType;
 
@@ -558,5 +560,7 @@ int itkChiSquareDistributionTest(int, char* [] )
   distributionFunction->SetParameters( parameters1 );
   TEST_SET_GET_VALUE( parameters1[0], distributionFunction->GetMean() );
 
+  std::cout.precision(previousPrecisionCout);
+  std::cout.width(previousWidthCout);
   return status;
 }

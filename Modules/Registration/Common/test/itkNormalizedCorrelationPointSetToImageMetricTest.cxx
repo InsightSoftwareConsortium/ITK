@@ -36,6 +36,9 @@
 int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
 {
 
+  std::streamsize previousPrecisionCout = std::cout.precision();
+  std::streamsize previousWidthCout = std::cout.width();
+
 //------------------------------------------------------------
 // Create two simple images
 //------------------------------------------------------------
@@ -195,6 +198,9 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
     {
     std::cout << "Metric initialization failed" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
+
+    std::cout.precision(previousPrecisionCout);
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -266,6 +272,9 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
     std::cout << "Value = " << metric->GetValue( parameters );
     std::cout << "If you are reading this message the Metric " << std::endl;
     std::cout << "is NOT managing exceptions correctly    " << std::endl;
+
+    std::cout.precision(previousPrecisionCout);
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & e )
@@ -282,6 +291,9 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
     std::cout << "Value = " << measure << std::endl;
     std::cout << "If you are reading this message the Metric " << std::endl;
     std::cout << "is NOT managing exceptions correctly    " << std::endl;
+
+    std::cout.precision(previousPrecisionCout);
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & e )
@@ -293,6 +305,8 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
     }
 
 
+  std::cout.precision(previousPrecisionCout);
+  std::cout.width(previousWidthCout);
   return EXIT_SUCCESS;
 
 }

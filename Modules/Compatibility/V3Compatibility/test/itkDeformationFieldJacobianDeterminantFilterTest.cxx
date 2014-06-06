@@ -23,7 +23,8 @@
 
 static bool TestDeformationJacobianDeterminantValue(void)
 {
-  std::cout.precision(9);
+  std::streamsize savePrecision = std::cout.precision(9);
+
   bool testPassed = true;
   const unsigned int ImageDimension = 2;
 
@@ -97,6 +98,7 @@ static bool TestDeformationJacobianDeterminantValue(void)
     {
     std::cout << "Test passed." << std::endl;
     }
+  std::cout.precision(savePrecision);
   return testPassed;
 }
 

@@ -35,6 +35,9 @@
 int itkMeanSquaresImageMetricTest(int, char* [] )
 {
 
+  std::streamsize previousPrecisionCout = std::cout.precision();
+  std::streamsize previousWidthCout = std::cout.width();
+
 //------------------------------------------------------------
 // Create two simple images
 //------------------------------------------------------------
@@ -155,6 +158,9 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     {
     std::cout << "Metric initialization failed" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
+
+    std::cout.precision(previousPrecisionCout);
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -256,6 +262,9 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
                 << measure << ", should be " << referenceMeasure
                 << ", computed derivative is " << derivative
                 << ", should be " << referenceDerivative << std::endl;
+
+      std::cout.precision(previousPrecisionCout);
+      std::cout.width(previousWidthCout);
       return EXIT_FAILURE;
       }
     }
@@ -289,6 +298,9 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     std::cout << "Metric value computed with " << numThreads
               << " threads is incorrect. Computed value is "
               << measure << ", should be " << referenceMeasure << std::endl;
+
+    std::cout.precision(previousPrecisionCout);
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   std::cout << "Test reducing global max number of threads... PASSED." << std::endl;
@@ -315,6 +327,9 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     std::cout << "Value = " << metric->GetValue( parameters );
     std::cout << "If you are reading this message the Metric " << std::endl;
     std::cout << "is NOT managing exceptions correctly    " << std::endl;
+
+    std::cout.precision(previousPrecisionCout);
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & e )
@@ -331,6 +346,9 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     std::cout << "Value = " << measure << std::endl;
     std::cout << "If you are reading this message the Metric " << std::endl;
     std::cout << "is NOT managing exceptions correctly    " << std::endl;
+
+    std::cout.precision(previousPrecisionCout);
+    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & e )
@@ -360,6 +378,8 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   if( !pass ) \
     { \
     std::cout << "Test failed." << std::endl; \
+    std::cout.precision(previousPrecisionCout); \
+    std::cout.width(previousWidthCout);         \
     return EXIT_FAILURE; \
     }
 
@@ -367,6 +387,9 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   TEST_INITIALIZATION_ERROR( FixedImage, ITK_NULLPTR, fixedImage );
   TEST_INITIALIZATION_ERROR( MovingImage, ITK_NULLPTR, movingImage );
   TEST_INITIALIZATION_ERROR( Interpolator, ITK_NULLPTR, interpolator );
+
+  std::cout.precision(previousPrecisionCout);
+  std::cout.width(previousWidthCout);
 
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;

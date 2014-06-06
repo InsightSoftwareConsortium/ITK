@@ -112,6 +112,8 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     ++it;
   }
 
+  std::streamsize saveWidth = std::cout.width();
+
   std::cout << "Initial RGBPixel Image Values : " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() )
@@ -241,6 +243,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     ++ito;
   }
 
+  std::cout.width(saveWidth);
   return EXIT_SUCCESS;
 
 }
