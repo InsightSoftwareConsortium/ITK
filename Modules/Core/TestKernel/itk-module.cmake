@@ -20,6 +20,8 @@ itk_module(ITKTestKernel
     ITKIOVTK
     ITKKWSys
     ITKDoubleConversion
+  TEST_DEPENDS
+    ITKImageStatistics
   DESCRIPTION
     "${DOCUMENTATION}"
 )

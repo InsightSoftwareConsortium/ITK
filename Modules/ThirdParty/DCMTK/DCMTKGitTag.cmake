@@ -1,6 +1,6 @@
 # Set GIT tag here for use in multiple CMakeLists.txt
 #
-set(DCMTK_GIT_REPOSITORY "http://github.com/InsightSoftwareConsortium/DCMTK.git")
+set(DCMTK_GIT_REPOSITORY "https://github.com/InsightSoftwareConsortium/DCMTK.git")
 # This is a specific tag.  It corresponds to the symbolic tag
 # 20131114_DCMTK_PATCHES_FOR_ITK which incorporates changes needed to build and deploy
 # with ITK
