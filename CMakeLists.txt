@@ -155,8 +155,16 @@ macro(itk_memcheck_ignore)
 endmacro()
 
 #-----------------------------------------------------------------------------
+# Python Wrapping
+option(ITK_WRAP_PYTHON "Build python support" OFF)
+
+#-----------------------------------------------------------------------------
 # ITK build configuration options.
-option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
+if(ITK_WRAP_PYTHON)
+  option(BUILD_SHARED_LIBS "Build ITK with shared libraries." ON)
+else()
+  option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
+endif()
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
 include(ITKSetStandardCompilerFlags)
@@ -191,7 +199,11 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 # Provide compatibility options.
 option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
 option(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
-option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
+if(ITK_WRAP_PYTHON)
+  option(ITK_LEGACY_SILENT "Silence all legacy code messages." ON)
+else()
+  option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
+endif()
 # The ITK_FUTURE_LEGACY_REMOVE is a very advanced feature only
 # available to developers at configuration time by manually
 # adding this to the CMakeCache.txt -DITK_FUTURE_LEGACY_REMOVE:BOOL=ON
