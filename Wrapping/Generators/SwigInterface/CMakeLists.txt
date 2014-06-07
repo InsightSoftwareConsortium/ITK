@@ -15,9 +15,9 @@ if(ITK_USE_SYSTEM_SWIG)
   endif()
 endif()
 
-set(swig_version 3.0.0)
-set(swig_md5     9c8278fad527dda4bf38edffe5acc394)
-set(swigwin_md5  c1d85fee2421d4edac552923fc4e5bde)
+set(swig_version 3.0.2)
+set(swig_md5     62f9b0d010cef36a13a010dc530d0d41)
+set(swigwin_md5  3f18de4fc09ab9abb0d3be37c11fbc8f)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version}/swig.exe")
