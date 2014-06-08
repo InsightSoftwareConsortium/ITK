@@ -28,6 +28,7 @@
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 #include "itkCompositeTransform.h"
 #include "itkVector.h"
+#include "itkTestingMacros.h"
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -109,8 +110,8 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   // Set the number of iterations
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
-  GradientDescentOptimizerv4Type * optimizer = reinterpret_cast<GradientDescentOptimizerv4Type *>(
-    const_cast<typename AffineRegistrationType::OptimizerType *>( affineSimple->GetOptimizer() ) );
+  GradientDescentOptimizerv4Type * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
+  TEST_EXPECT_TRUE( optimizer != ITK_NULLPTR );
 #ifdef NDEBUG
   optimizer->SetNumberOfIterations( 100 );
 #else
@@ -140,7 +141,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   typedef itk::CompositeTransform<RealType, ImageDimension> CompositeTransformType;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
-  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::OutputTransformType *>( affineSimple->GetOutput()->Get() ) );
+  compositeTransform->AddTransform( affineSimple->GetModifiableTransform() );
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> AffineResampleFilterType;
   typename AffineResampleFilterType::Pointer affineResampler = AffineResampleFilterType::New();
@@ -189,7 +190,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
   displacementFieldRegistration->SetOptimizerWeights( optimizerWeights );
 
   typedef typename DisplacementFieldRegistrationType::OutputTransformType OutputTransformType;
-  typename OutputTransformType::Pointer outputTransform = const_cast<OutputTransformType *>( displacementFieldRegistration->GetOutput()->Get() );
+  typename OutputTransformType::Pointer outputTransform = OutputTransformType::New();
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
 
@@ -293,6 +294,8 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
+  displacementFieldRegistration->SetInitialTransform( outputTransform );
+  displacementFieldRegistration->InPlaceOn();
 
   try
     {

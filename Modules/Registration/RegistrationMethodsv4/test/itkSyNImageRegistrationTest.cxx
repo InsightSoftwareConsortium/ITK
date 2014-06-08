@@ -27,6 +27,7 @@
 #include "itkCompositeTransform.h"
 #include "itkDisplacementFieldTransformParametersAdaptor.h"
 #include "itkVector.h"
+#include "itkTestingMacros.h"
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -83,10 +84,10 @@ public:
     const typename FixedImageType::SizeType ImageSize = shrinkFilter->GetOutput()->GetBufferedRegion().GetSize();
 
     const typename DisplacementFieldType::SizeType FixedDisplacementFieldSize =
-      const_cast<DisplacementFieldTransformType *>( filter->GetFixedToMiddleTransform() )->GetDisplacementField()->GetBufferedRegion().GetSize();
+      filter->GetFixedToMiddleTransform()->GetDisplacementField()->GetBufferedRegion().GetSize();
 
     const typename DisplacementFieldType::SizeType MovingDisplacementFieldSize =
-      const_cast<DisplacementFieldTransformType *>( filter->GetMovingToMiddleTransform() )->GetDisplacementField()->GetBufferedRegion().GetSize();
+      filter->GetMovingToMiddleTransform()->GetDisplacementField()->GetBufferedRegion().GetSize();
 
     if( ( FixedDisplacementFieldSize == ImageSize ) && ( MovingDisplacementFieldSize == ImageSize ) )
       {
@@ -143,8 +144,8 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
 
   // Set the number of iterations
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
-  GradientDescentOptimizerv4Type * optimizer = reinterpret_cast<GradientDescentOptimizerv4Type *>(
-    const_cast<typename AffineRegistrationType::OptimizerType *>( affineSimple->GetOptimizer() ) );
+  GradientDescentOptimizerv4Type * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
+  TEST_EXPECT_TRUE( optimizer != ITK_NULLPTR );
 #ifdef NDEBUG
   optimizer->SetNumberOfIterations( 100 );
 #else
@@ -171,7 +172,7 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
 
   typedef itk::CompositeTransform<RealType, ImageDimension> CompositeTransformType;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
-  compositeTransform->AddTransform( const_cast<typename AffineRegistrationType::OutputTransformType *>( affineSimple->GetOutput()->Get() ) );
+  compositeTransform->AddTransform( affineSimple->GetModifiableTransform() );
 
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> AffineResampleFilterType;
   typename AffineResampleFilterType::Pointer affineResampler = AffineResampleFilterType::New();
@@ -214,9 +215,12 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   typename DisplacementFieldRegistrationType::Pointer displacementFieldRegistration = DisplacementFieldRegistrationType::New();
 
   typedef typename DisplacementFieldRegistrationType::OutputTransformType OutputTransformType;
-  typename OutputTransformType::Pointer outputTransform = const_cast<OutputTransformType *>( displacementFieldRegistration->GetOutput()->Get() );
+  typename OutputTransformType::Pointer outputTransform = OutputTransformType::New();
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
+
+  displacementFieldRegistration->SetInitialTransform( outputTransform );
+  displacementFieldRegistration->InPlaceOn();
 
   //Test member functions
   displacementFieldRegistration->SetDownsampleImagesForMetricDerivatives(false);
