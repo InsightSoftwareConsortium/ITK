@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkAffineTransform.h"
+#include "itkStdStreamStateSave.h"
 
 typedef  itk::Matrix<double, 2, 2> Matrix2Type;
 typedef  itk::Vector<double, 2>    Vector2Type;
@@ -102,9 +103,14 @@ int itkAffineTransformTest(int, char *[])
       of the tests themselves. The assumption is that this code
       has been well-tested by other means already. */
 
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   /* Set outstream precision */
-  std::streamsize previousPrecisionCout = std::cout.precision(20);
-  std::streamsize previousPrecisionCerr = std::cerr.precision(20);
+  std::cout.precision(20);
+  std::cerr.precision(20);
 
   int any = 0;         // Any errors detected in testing?
 
@@ -807,10 +813,6 @@ int itkAffineTransformTest(int, char *[])
       return EXIT_FAILURE;
       }
     }
-
-  // restore previous outstream precision
-  std::cout.precision(previousPrecisionCout);
-  std::cerr.precision(previousPrecisionCerr);
 
   return any;
 }
