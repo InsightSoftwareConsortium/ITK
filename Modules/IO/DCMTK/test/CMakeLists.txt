@@ -6,6 +6,7 @@ set(ITKIODCMTKTests
   itkDCMTKImageIOOrthoDirTest.cxx
   itkDCMTKMultiFrame4DTest.cxx
   itkDCMTKLoggerTest.cxx
+  itkDCMTKImageIOSlopeInterceptTest.cxx
 )
 
 
@@ -78,4 +79,10 @@ itk_add_test(NAME itkDCMTKImageIONonSquareTest
 
 itk_add_test(NAME ITKDCMTKLoggerTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKLoggerTest
+  )
+
+itk_add_test(NAME itkDCMTKImageIOSlopeInterceptTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOSlopeInterceptTest
+  DATA{Input/slopeInterceptOrig.dcm}
+  DATA{Input/slopeIntercept.dcm}
   )

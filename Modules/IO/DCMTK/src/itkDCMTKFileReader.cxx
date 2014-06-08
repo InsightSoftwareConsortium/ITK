@@ -441,9 +441,11 @@ DCMTKFileReader
     {
     this->m_FrameCount = 1;
     }
-  int fnum;
-  this->GetElementIS(0x0020,0x0013,fnum);
-  this->m_FileNumber = fnum;
+  int fnum(0);
+  if(this->GetElementIS(0x0020,0x0013,fnum,false) == EXIT_SUCCESS)
+    {
+    this->m_FileNumber = fnum;
+    }
 }
 
 int
@@ -1299,12 +1301,23 @@ DCMTKFileReader
       rval = this->GetElementDS<double>(0x0018, 0x2010, 2, &_spacing[0],false);
       }
     }
+
   if(rval == EXIT_SUCCESS)
     {
     // slice thickness
-    rval = this->GetElementDS<double>(0x0018,0x0050,1,&_spacing[2],false);
+    spacing[0] = _spacing[1];
+    spacing[1] = _spacing[0];
+    if(this->GetElementDS<double>(0x0018,0x0050,1,&_spacing[2],false) == EXIT_SUCCESS)
+      {
+      spacing[2] = _spacing[2];
+      }
+    else
+      {
+      // punt, thicknes of 1
+      spacing[2] = 1.0;
+      }
     }
-  if(rval != EXIT_SUCCESS)
+  else if(rval != EXIT_SUCCESS)
     {
     rval = this->GetElementSQ(0x5200,0x9230,spacingSequence,false);
     if(rval != EXIT_SUCCESS)
@@ -1321,19 +1334,17 @@ DCMTKFileReader
           {
           subSequence.GetElementDS<double>(0x0028,0x0030,2,_spacing);
           subSequence.GetElementDS<double>(0x0018,0x0050,1,&_spacing[2]);
+          //
+          // spacing is row spacing\column spacing
+          // but a slice is width-first, i.e. columns increase fastest.
+          //
+          spacing[0] = _spacing[1];
+          spacing[1] = _spacing[0];
+          spacing[2] = _spacing[2];
+
           }
         }
       }
-    }
-  //
-  // spacing is row spacing\column spacing
-  // but a slice is width-first, i.e. columns increase fastest.
-  //
-  if(rval == EXIT_SUCCESS)
-    {
-    spacing[0] = _spacing[1];
-    spacing[1] = _spacing[0];
-    spacing[2] = _spacing[2];
     }
   return rval;
 }
