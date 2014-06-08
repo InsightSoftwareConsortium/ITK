@@ -23,6 +23,7 @@
 namespace itk
 {
 /** \class MagnitudeAndPhaseToComplexImageFilter
+ *
  * \brief Implements pixel-wise conversion of magnitude and phase data into
  * complex voxels.
  *
@@ -47,8 +48,8 @@ namespace itk
  * This class was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/326
  *
- * \sa RealAndImaginaryToComplexImageFilter
- * \ingroup ITKReview
+ * \sa ComposeImageFilter
+ * \ingroup ITKFFT
  */
 namespace Functor
 {
@@ -77,7 +78,7 @@ public:
 
 template< typename TInputImage1,
           typename TInputImage2 = TInputImage1,
-          typename TOutputImage = itk::Image< std::complex< typename TInputImage1::PixelType>,
+          typename TOutputImage = itk::Image< std::complex< typename TInputImage1::PixelType >,
                                            TInputImage1::ImageDimension > >
 class MagnitudeAndPhaseToComplexImageFilter:
   public BinaryFunctorImageFilter<
@@ -132,10 +133,8 @@ protected:
   virtual ~MagnitudeAndPhaseToComplexImageFilter() {}
 
 private:
-  MagnitudeAndPhaseToComplexImageFilter(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
-                                                       // implemented
+  MagnitudeAndPhaseToComplexImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                        //purposely not implemented
 };
 } // end namespace itk
 
