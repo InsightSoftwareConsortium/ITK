@@ -11,6 +11,9 @@ http://hdl.handle.net/10380/3330
 itk_module(
   PhaseSymmetry
   DEPENDS
+    ITKCommon
+    ITKFFT
+    ITKImageIntensity
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
