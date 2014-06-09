@@ -112,6 +112,7 @@ LogGaborFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageReg
   }
 }
 
+
 template <typename TOutputImage>
 void
 LogGaborFreqImageSource<TOutputImage>::SetSpacing(const float * spacing)
@@ -133,6 +134,7 @@ LogGaborFreqImageSource<TOutputImage>::SetSpacing(const float * spacing)
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
@@ -156,6 +158,7 @@ LogGaborFreqImageSource<TOutputImage>::SetSpacing(const double * spacing)
   }
 }
 
+
 template <typename TOutputImage>
 void
 LogGaborFreqImageSource<TOutputImage>::SetOrigin(const float * origin)
@@ -177,6 +180,7 @@ LogGaborFreqImageSource<TOutputImage>::SetOrigin(const float * origin)
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
@@ -200,6 +204,7 @@ LogGaborFreqImageSource<TOutputImage>::SetOrigin(const double * origin)
   }
 }
 
+
 template <typename TOutputImage>
 void
 LogGaborFreqImageSource<TOutputImage>::SetSize(const SizeValueType * size)
@@ -221,6 +226,7 @@ LogGaborFreqImageSource<TOutputImage>::SetSize(const SizeValueType * size)
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
