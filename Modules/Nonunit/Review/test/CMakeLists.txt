@@ -86,16 +86,6 @@ set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 
-
-if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
-  set( ITKReviewTests
-    ${ITKReviewTests}
-    itkFFTComplexToComplexImageFilterTest01.cxx
-    itkFFTComplexToComplexImageFilterTest02.cxx
-    )
-endif()
-
-
 CreateTestDriver_SupportBuildInIOFactories(ITKReview  "${ITKReview-Test_LIBRARIES}" "${ITKReviewTests}")
 
 itk_add_test(NAME itkAddConstantToImageFilterTest

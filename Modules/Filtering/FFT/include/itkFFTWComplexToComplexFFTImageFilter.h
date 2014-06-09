@@ -15,19 +15,21 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWComplexToComplexImageFilter_h
-#define __itkFFTWComplexToComplexImageFilter_h
+#ifndef __itkFFTWComplexToComplexFFTImageFilter_h
+#define __itkFFTWComplexToComplexFFTImageFilter_h
 
-#include "itkFFTComplexToComplexImageFilter.h"
+#include "itkComplexToComplexFFTImageFilter.h"
 #include "itkFFTWCommon.h"
 
 
 namespace itk
 {
-/** \class FFTWComplexToComplexImageFilter
+/** \class FFTWComplexToComplexFFTImageFilter
+ *
  *  \brief Implements an API to enable the Fourier transform or the inverse
  *  Fourier transform of images with complex valued voxels to be computed using
  *  either FFTW from MIT or the FFTW interface in Intel MKL.
+ *
  * This filter is multithreaded and supports input images with sizes which are not
  * a power of two.
  *
@@ -48,28 +50,27 @@ namespace itk
  *
  * \ingroup FourierTransform
  * \ingroup MultiThreaded
- * \ingroup ITKReview
+ * \ingroup ITKFFT
  *
  * \sa FFTWGlobalConfiguration
  */
 template< typename TImage >
-class FFTWComplexToComplexImageFilter:
-  public FFTComplexToComplexImageFilter< TImage >
+class FFTWComplexToComplexFFTImageFilter:
+  public ComplexToComplexFFTImageFilter< TImage >
 {
 public:
-  typedef FFTWComplexToComplexImageFilter                      Self;
-  typedef FFTComplexToComplexImageFilter< TImage >             Superclass;
-  typedef SmartPointer< Self >                                 Pointer;
-  typedef SmartPointer< const Self >                           ConstPointer;
-
   /** Standard class typedefs. */
+  typedef FFTWComplexToComplexFFTImageFilter       Self;
+  typedef ComplexToComplexFFTImageFilter< TImage > Superclass;
+  typedef SmartPointer< Self >                     Pointer;
+  typedef SmartPointer< const Self >               ConstPointer;
+
   typedef TImage                               ImageType;
   typedef typename ImageType::PixelType        PixelType;
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
-  //
   // the proxy type is a wrapper for the fftw API
   // since the proxy is only defined over double and float,
   // trying to use any other pixel type is inoperative, as
@@ -82,18 +83,14 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWComplexToComplexImageFilter,
-               FFTComplexToComplexImageFilter);
+  itkTypeMacro(FFTWComplexToComplexFFTImageFilter,
+               ComplexToComplexFFTImageFilter);
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       ImageType::ImageDimension);
 
   /** Image type typedef support. */
   typedef typename ImageType::SizeType ImageSizeType;
-
-  //
-  // these should be defined in every FFT filter class
-  virtual bool FullMatrix();
 
   /**
    * Set/Get the behavior of wisdom plan creation. The default is
@@ -120,13 +117,8 @@ public:
   }
 
 protected:
-  FFTWComplexToComplexImageFilter()
-    {
-    m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
-    }
-  virtual ~FFTWComplexToComplexImageFilter()
-    {
-    }
+  FFTWComplexToComplexFFTImageFilter();
+  virtual ~FFTWComplexToComplexFFTImageFilter() {}
 
   virtual void UpdateOutputData(DataObject *output);
 
@@ -136,7 +128,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  FFTWComplexToComplexImageFilter(const Self&); //purposely not implemented
+  FFTWComplexToComplexFFTImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   bool m_CanUseDestructiveAlgorithm;
@@ -149,7 +141,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTWComplexToComplexImageFilter.hxx"
+#include "itkFFTWComplexToComplexFFTImageFilter.hxx"
 #endif
 
-#endif //__itkFFTWComplexToComplexImageFilter_h
+#endif //__itkFFTWComplexToComplexFFTImageFilter_h
