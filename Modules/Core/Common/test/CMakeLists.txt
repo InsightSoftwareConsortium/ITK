@@ -101,6 +101,7 @@ itkPointGeometryTest.cxx
 itkMersenneTwisterRandomVariateGeneratorTest.cxx
 itkNumberToStringTest.cxx
 itkTimeProbeTest.cxx
+itkStdStreamStateSaveTest.cxx
 )
 
 set(ITKCommon2Tests
@@ -326,6 +327,7 @@ itk_add_test(NAME itkSinRegularizedHeavisideStepFunctionTest1
  COMMAND ITKCommon1TestDriver itkSinRegularizedHeavisideStepFunctionTest1)
 itk_add_test(NAME itkPixelAccessTest COMMAND ITKCommon1TestDriver itkPixelAccessTest)
 itk_add_test(NAME itkPointGeometryTest COMMAND ITKCommon1TestDriver itkPointGeometryTest)
+itk_add_test(NAME itkStdStreamStateSaveTest COMMAND ITKCommon1TestDriver itkStdStreamStateSaveTest)
 
 #
 # This test should be enabled if you suspect that the memory leak detector
