@@ -149,7 +149,7 @@ protected:
    * the default constructor is used to initialize each element.  POD date types
    * initialize to zero.
    */
-  virtual TElement * AllocateElements(ElementIdentifier size, const bool UseDefaultConstructor = false) const;
+  virtual TElement * AllocateElements(ElementIdentifier size, bool UseDefaultConstructor = false) const;
 
   virtual void DeallocateManagedMemory();
 
