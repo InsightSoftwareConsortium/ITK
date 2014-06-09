@@ -111,7 +111,7 @@ public:
   /**
    * Function to set the stored value of type MetaDataObjectType.
    * \author Hans J. Johnson
-   * \param NewValue A constant reference to at MetaDataObjectType.
+   * \param newValue A constant reference to at MetaDataObjectType.
    */
   void SetMetaDataObjectValue(const MetaDataObjectType & newValue);
 
@@ -213,7 +213,7 @@ template <> ITKCommon_EXPORT void MetaDataObject< std::string >::Print( std::ost
 } // end namespace itk
 
 /**
- * \def NATIVE_TYPE_METADATAPRINT( TYPE_NAME )
+ * \def ITK_NATIVE_TYPE_METADATAPRINT( TYPE_NAME )
  * \brief An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for types that
  * have operator<< defined.
