@@ -1,7 +1,6 @@
 ###############################################################################
-# find swig
-#find_package(SWIG REQUIRED)
-#include(${SWIG_USE_FILE})
+# Find python
+find_package(PythonInterp REQUIRED)
 
 ###############################################################################
 # Build swig
@@ -143,12 +142,10 @@ else()
   set(SWIG_EXECUTABLE ${swig_ep} CACHE FILEPATH "swig executable." FORCE)
 endif()
 
-
 ###############################################################################
-# find python
-find_package(PythonInterp REQUIRED)
 
-set(CABLE_INDEX ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "cableidx path")
+set(IDX_GENERATOR ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "idx generator path")
+set(PYGCCXML_DIR ${CMAKE_SOURCE_DIR}/Modules/ThirdParty/pygccxml/src CACHE INTERNAL "pygccxml path")
 
 ###############################################################################
 # install the files requires for swiginterface
@@ -159,12 +156,9 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   WRAP_ITK_INSTALL(/Configuration/Generators/SwigInterface module.i.in)
   WRAP_ITK_INSTALL(/Configuration/Generators/SwigInterface module.includes.in)
 
-  install(DIRECTORY pygccxml-1.0.0
+  install(DIRECTORY ${PYGCCXML_DIR}
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Generators/SwigInterface"
-    PATTERN ".svn" EXCLUDE
-    PATTERN "CVS" EXCLUDE
-    PATTERN "docs" EXCLUDE
-    PATTERN "unittests" EXCLUDE
+    PATTERN ".git" EXCLUDE
   )
 
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/idx.py"
@@ -254,15 +248,6 @@ macro(itk_end_wrap_module_swig_interface)
 #      set(opts ${opts} --import "${bi}")
 #    endforeach()
 
-  # message("${opts}")
-
-    # configure the test driver, to set the python path to the pygccxml dir
-  #   find_program(ITK_TEST_DRIVER itkTestDriver)
-  #   set(PYTHON_PYGCCXML_DRIVER "${ITK_TEST_DRIVER}"
-  #     --add-before-env PYTHONPATH "${WRAP_ITK_CMAKE_DIR}/pygccxml-1.0.0/"
-  #     "${PYTHON_EXECUTABLE}"
-  #   )
-
     if(ITK_WRAP_EXPLICIT)
       set(opts ${opts} --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
     endif()
@@ -277,12 +262,13 @@ macro(itk_end_wrap_module_swig_interface)
 #        --include ${WRAPPER_LIBRARY_NAME}.includes
 #        --import ${module_interface_file}
         --swig-include ${module}_ext.i
-        -w1 -w3 -w51 -w52 -w53 -w54 #--warning-error
+        -w1 -w3 -w51 -w52 -w53 -w54
         -A protected -A private
+        -p ${PYGCCXML_DIR}
+        -g ${GCCXML}
         --typedef-input ${typedef_in_file}
         --typedef-output ${typedef_file}
         --include ${module}SwigInterface.h
-        # --verbose
         ${xml_file}
         ${interface_file}
       DEPENDS ${DEPS} ${idx_files} ${IGENERATOR} # ${SWIG_INTERFACE_IDX_FILES} ${SWIG_INTERFACE_FILES} ${typedef_in_file} # ${includes_file}
@@ -393,9 +379,9 @@ macro(itk_end_wrap_submodule_swig_interface module)
   set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
   add_custom_command(
     OUTPUT ${idx_file}
-    COMMAND ${CABLE_INDEX}
-          ${xml_file} ${idx_file}
-    DEPENDS ${CABLE_INDEX} ${xml_file}
+    COMMAND ${IDX_GENERATOR}
+      ${PYGCCXML_DIR} ${GCCXML} ${xml_file} ${idx_file}
+    DEPENDS ${IDX_GENERATOR} ${xml_file}
   )
   WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${idx_file}")
 #   add_custom_target(${module}Idx DEPENDS ${idx_file})
