@@ -114,8 +114,6 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize(void)
   ArrayType wv;
   ArrayType sig;
   ArrayType orientation;
-  double    angleBandwidth;
-
 
   FloatImageStack tempStack;
   FloatImageStack lgStack;
@@ -183,9 +181,6 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData(void)
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
   inputSize = input->GetLargestPossibleRegion().GetSize();
   int ndims = int(TInputImage::ImageDimension);
-
-  double initialPoint = 0;
-  double epsilon = 0.0001;
 
   typename ComplexImageType::Pointer finput = ComplexImageType::New();
   typename ComplexImageType::Pointer bpinput = ComplexImageType::New();
