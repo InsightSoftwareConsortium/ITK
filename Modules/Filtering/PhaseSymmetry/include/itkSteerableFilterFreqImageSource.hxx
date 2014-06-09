@@ -26,9 +26,11 @@ SteerableFilterFreqImageSource<TOutputImage>::SteerableFilterFreqImageSource()
   // this->ReleaseDataBeforeUpdateFlagOn();
 }
 
+
 template <class TOutputImage>
 SteerableFilterFreqImageSource<TOutputImage>::~SteerableFilterFreqImageSource()
 {}
+
 
 template <class TOutputImage>
 void
@@ -37,7 +39,7 @@ SteerableFilterFreqImageSource<TOutputImage>::PrintSelf(std::ostream & os, Inden
   Superclass::PrintSelf(os, indent);
 }
 
-//----------------------------------------------------------------------------
+
 template <typename TOutputImage>
 void
 SteerableFilterFreqImageSource<TOutputImage>::GenerateOutputInformation()
@@ -58,6 +60,7 @@ SteerableFilterFreqImageSource<TOutputImage>::GenerateOutputInformation()
   output->SetOrigin(m_Origin);
   output->SetDirection(m_Direction);
 }
+
 
 template <typename TOutputImage>
 void
@@ -126,6 +129,7 @@ SteerableFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputI
   }
 }
 
+
 template <typename TOutputImage>
 void
 SteerableFilterFreqImageSource<TOutputImage>::SetSpacing(const float * spacing)
@@ -147,6 +151,7 @@ SteerableFilterFreqImageSource<TOutputImage>::SetSpacing(const float * spacing)
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
@@ -170,6 +175,7 @@ SteerableFilterFreqImageSource<TOutputImage>::SetSpacing(const double * spacing)
   }
 }
 
+
 template <typename TOutputImage>
 void
 SteerableFilterFreqImageSource<TOutputImage>::SetOrigin(const float * origin)
@@ -191,6 +197,7 @@ SteerableFilterFreqImageSource<TOutputImage>::SetOrigin(const float * origin)
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
@@ -214,6 +221,7 @@ SteerableFilterFreqImageSource<TOutputImage>::SetOrigin(const double * origin)
   }
 }
 
+
 template <typename TOutputImage>
 void
 SteerableFilterFreqImageSource<TOutputImage>::SetSize(const SizeValueType * size)
@@ -235,6 +243,7 @@ SteerableFilterFreqImageSource<TOutputImage>::SetSize(const SizeValueType * size
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
