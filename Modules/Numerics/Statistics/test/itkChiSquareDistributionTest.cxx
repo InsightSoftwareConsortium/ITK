@@ -18,12 +18,16 @@
 
 #include "itkChiSquareDistribution.h"
 #include "itkTestingMacros.h"
+#include "itkStdStreamStateSave.h"
 
 int itkChiSquareDistributionTest(int, char* [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   std::cout << "itkChiSquareDistribution Test \n \n";
-  std::streamsize previousPrecisionCout = std::cout.precision();
-  std::streamsize previousWidthCout = std::cout.width();
 
   typedef itk::Statistics::ChiSquareDistribution DistributionType;
 
@@ -560,7 +564,5 @@ int itkChiSquareDistributionTest(int, char* [] )
   distributionFunction->SetParameters( parameters1 );
   TEST_SET_GET_VALUE( parameters1[0], distributionFunction->GetMean() );
 
-  std::cout.precision(previousPrecisionCout);
-  std::cout.width(previousWidthCout);
   return status;
 }

@@ -19,10 +19,15 @@
 #include <iostream>
 #include <cmath>
 #include "itkRealTimeClock.h"
+#include "itkStdStreamStateSave.h"
 
 int itkRealTimeClockTest( int, char * [] )
 {
-  std::streamsize savePrecision = std::cout.precision(30);
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   try
     {
 
@@ -80,7 +85,6 @@ int itkRealTimeClockTest( int, char * [] )
         std::cerr << "Precision error in time difference" << std::endl;
         std::cerr << "Expected " << secondsE << " seconds " << std::endl;
         std::cerr << "But got  " << secondsD << " seconds " << std::endl;
-        std::cout.precision(savePrecision);
         return EXIT_FAILURE;
         }
       }
@@ -89,11 +93,9 @@ int itkRealTimeClockTest( int, char * [] )
   catch(...)
     {
     std::cerr << "Exception catched !!" << std::endl;
-    std::cout.precision(savePrecision);
     return EXIT_FAILURE;
     }
 
-  std::cout.precision(savePrecision);
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }

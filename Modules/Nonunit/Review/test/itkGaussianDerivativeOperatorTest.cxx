@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkGaussianDerivativeOperator.h"
+#include "itkStdStreamStateSave.h"
 
 namespace
 {
@@ -45,7 +46,7 @@ bool TestGaussianOperator( double variance,
 
   op.CreateDirectional();
 
-  std::streamsize savePrecision = std::cout.precision(16);
+  std::cout.precision(16);
 
   double total = std::accumulate( op.Begin(), op.End(), 0.0 );
 
@@ -61,7 +62,6 @@ bool TestGaussianOperator( double variance,
     }
   else
     {
-    std::cout.precision(savePrecision);
     return true;
     }
 
@@ -74,7 +74,6 @@ bool TestGaussianOperator( double variance,
       }
     std::cout << "---end--" << std::endl;
 
-    std::cout.precision(savePrecision);
     return false;
 
 }
@@ -83,6 +82,11 @@ bool TestGaussianOperator( double variance,
 
 int itkGaussianDerivativeOperatorTest( int argc, char *argv[] )
 {
+
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
 
   if (argc == 5 )
     {

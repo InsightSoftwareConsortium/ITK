@@ -18,10 +18,16 @@
 
 #include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
+#include "itkStdStreamStateSave.h"
 #include <iostream>
 
 int itkSignedMaurerDistanceMapImageFilterTest11(int, char* [] )
 {
+
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
 
   std::cout << "Test ITK Liza Signed Maurer Distance Map" << std::endl << std::endl;
 

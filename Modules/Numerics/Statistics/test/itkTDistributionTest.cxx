@@ -18,12 +18,15 @@
 
 #include "itkTDistribution.h"
 #include "itkTestingMacros.h"
+#include "itkStdStreamStateSave.h"
 
 int itkTDistributionTest(int, char* [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+  itk::StdStreamStateSave coutState(std::cout);
+
   std::cout << "itkTDistribution Test \n \n";
-  std::streamsize previousPrecisionCout = std::cout.precision();
-  std::streamsize previousWidthCout = std::cout.width();
 
   typedef itk::Statistics::TDistribution DistributionType;
 
@@ -501,7 +504,5 @@ int itkTDistributionTest(int, char* [] )
   distributionFunction->SetParameters( parameters0 );
   distributionFunction->Print( std::cout );
 
-  std::cout.precision(previousPrecisionCout);
-  std::cout.width(previousWidthCout);
   return status;
 }

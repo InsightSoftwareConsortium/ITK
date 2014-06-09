@@ -19,10 +19,14 @@
 #include "itkTransformMeshFilter.h"
 #include "itkMesh.h"
 #include "itkAffineTransform.h"
+#include "itkStdStreamStateSave.h"
 
 int itkTransformMeshFilterTest(int, char* [] )
 {
-  std::streamsize saveWidth = std::cout.width();
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
 
   // Declare the mesh pixel type.
   // Those are the values associated
@@ -159,7 +163,6 @@ int itkTransformMeshFilterTest(int, char* [] )
 
   // All objects should be automatically destroyed at this point
 
-  std::cout.width(saveWidth);
   return EXIT_SUCCESS;
 
 }

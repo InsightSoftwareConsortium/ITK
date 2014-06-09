@@ -20,10 +20,10 @@
 #include "itkDeformationFieldJacobianDeterminantFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkVector.h"
-
+#include "itkStdStreamStateSave.h"
 static bool TestDeformationJacobianDeterminantValue(void)
 {
-  std::streamsize savePrecision = std::cout.precision(9);
+  itk::StdStreamStateSave coutState(std::cout);
 
   bool testPassed = true;
   const unsigned int ImageDimension = 2;
@@ -98,7 +98,6 @@ static bool TestDeformationJacobianDeterminantValue(void)
     {
     std::cout << "Test passed." << std::endl;
     }
-  std::cout.precision(savePrecision);
   return testPassed;
 }
 

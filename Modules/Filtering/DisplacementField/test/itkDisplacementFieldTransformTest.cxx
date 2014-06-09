@@ -20,6 +20,7 @@
 
 #include "itkDisplacementFieldTransform.h"
 #include "itkCenteredAffineTransform.h"
+#include "itkStdStreamStateSave.h"
 
 const unsigned int dimensions = 2;
 typedef itk::DisplacementFieldTransform<double, dimensions>
@@ -118,7 +119,10 @@ bool sameArray2D( const TArray2D & a1, const TArray2D & a2, double epsilon = 1e-
 int itkDisplacementFieldTransformTest(int, char *[] )
 {
 
-  std::streamsize previousPrecisionCout = std::cout.precision(12);
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
 
   typedef  itk::Matrix<ScalarType, dimensions, dimensions> Matrix2Type;
   typedef  itk::Vector<ScalarType, dimensions>             Vector2Type;
@@ -167,28 +171,24 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cerr << "Incorrect size from fixed parameters." << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
   if( origin != origin2 )
     {
     std::cerr << "Incorrect origin from fixed parameters." << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
   if( spacing != spacing2 )
     {
     std::cerr << "Incorrect spacing from fixed parameters." << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
   if( direction != direction2 )
     {
     std::cerr << "Incorrect direction from fixed parameters." << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -242,7 +242,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "Failed getting local jacobian. Should be " << std::endl << affineMatrix << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -258,7 +257,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "Failed getting local inverse jacobian. Should be " << std::endl << invfieldJTruth << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -268,7 +266,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "Failed getting local inverse jacobian. Should be " << std::endl << invfieldJTruth << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -287,8 +284,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     std::cout << "Failed returning identity for "
     "ComputeJacobianWithRespectToParameters( point, ... )"
               << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
   DisplacementTransformType::IndexType testIndex;
@@ -300,8 +295,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     std::cout << "Failed returning identity for "
     "ComputeJacobianWithRespectToParameters( index, ... )"
               << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -319,8 +312,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   if( !samePoint( deformOutput, deformTruth  ) )
     {
     std::cout << "Failed transforming point 1. Should be " << deformTruth << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -335,8 +326,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   if( !sameVector( deformVector, deformVectorTruth, 0.0001 ) )
     {
     std::cout << "Failed transforming vector 1. Should be " << deformVectorTruth << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -354,8 +343,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   if( !caughtException )
     {
     std::cout << "Expected TransformVector(vector) to throw exception." << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -371,8 +358,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   if( !sameVariableVector( deformVVector, deformVVectorTruth, 0.0001 ) )
     {
     std::cout << "Failed transforming variable length vector 1. Should be " << deformVVectorTruth << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -390,8 +375,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   if( !caughtException )
     {
     std::cout << "Expected TransformVector(vector) to throw exception." << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -407,8 +390,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "Failed transforming vector 1. Should be "
               << deformcVectorTruth << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -427,8 +408,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "Expected TransformCovariantVector(vector) to throw exception."
               << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -446,8 +425,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     std::cout
     << "Failed transforming variable length covariant vector 1. Should be "
     << deformcVVectorTruth << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -466,8 +443,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "Expected TransformCovariantVector(vector) to throw exception."
               << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -509,8 +484,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "Expected TransformDiffusionTensor(tensor) to throw exception."
               << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -531,8 +504,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "Expected SetParameters with wrong size to throw exception."
               << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -565,8 +536,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
       std::cout << "UpdateTransformParameters test failed: " << std::endl;
       std::cout << "params: " << std::endl << params << std::endl
                 << "updateTruth: " << std::endl << updateTruth << std::endl;
-
-      std::cout.precision(previousPrecisionCout);
       return EXIT_FAILURE;
       }
     }
@@ -577,8 +546,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     {
     std::cout << "DisplacementFieldTransform returned 'true' for IsLinear()."
     " Expected 'false'." << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -589,8 +556,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   if( displacementTransform->GetInverse( inverseTransform ) )
     {
     std::cout << "Expected GetInverse() to fail." << std::endl;
-
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -598,7 +563,5 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   displacementTransform->SetInverseDisplacementField( field );
 
   std::cout << "PASSED" << std::endl;
-
-  std::cout.precision(previousPrecisionCout);
   return EXIT_SUCCESS;
 }

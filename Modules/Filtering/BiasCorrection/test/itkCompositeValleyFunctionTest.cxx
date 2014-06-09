@@ -20,9 +20,15 @@
 #include "vnl/vnl_math.h"
 
 #include "itkCompositeValleyFunction.h"
+#include "itkStdStreamStateSave.h"
 
 int itkCompositeValleyFunctionTest(int , char* [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   itk::Array< double > means(2);
   itk::Array< double > sigmas(2);
 
@@ -45,8 +51,8 @@ int itkCompositeValleyFunctionTest(int , char* [] )
     return EXIT_FAILURE;
     }
 
-  std::ios_base::fmtflags prevousSetfCout = std::cout.setf(std::ios::scientific);
-  std::streamsize previousPrecisionCout = std::cout.precision(12);
+  std::cout.setf(std::ios::scientific);
+  std::cout.precision(12);
 
   double interval1 = function.GetInterval();
   double interval2 =
@@ -60,8 +66,6 @@ int itkCompositeValleyFunctionTest(int , char* [] )
               << std::endl;
     std::cout << "Interval value using the calculation = " << interval2
               << std::endl;
-    std::cout.setf(prevousSetfCout);
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
 
@@ -76,13 +80,8 @@ int itkCompositeValleyFunctionTest(int , char* [] )
     std::cout << "diff = " << vnl_math_abs(value1 - value2) << std::endl;
     std::cout << "Test fails: operator()" << std::endl;
 
-    std::cout.setf(prevousSetfCout);
-    std::cout.precision(previousPrecisionCout);
     return EXIT_FAILURE;
     }
-
-  std::cout.setf(prevousSetfCout);
-  std::cout.precision(previousPrecisionCout);
 
   std::cout << "Test succeed" << std::endl;
   return EXIT_SUCCESS;

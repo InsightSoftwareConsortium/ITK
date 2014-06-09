@@ -18,11 +18,16 @@
 
 #include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
+#include "itkStdStreamStateSave.h"
 
 int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
 {
 
-  std::streamsize previousWidthCout = std::cout.width();
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   std::cout << "Test ITK Liza Signed Danielsson Distance Map" << std::endl << std::endl;
 
   std::cout << "Compute the distance map of a 5x5 image" << std::endl;
@@ -129,7 +134,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
     {
     std::cerr << "filter2D->GetSquaredDistance() != true" <<std::endl;
 
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -143,7 +147,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
     {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
 
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -199,7 +202,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
     {
     std::cerr << "filter2D->GetUseImageSpacing() != true" <<std::endl;
 
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -207,7 +209,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
     {
     std::cerr << "filter2D->GetInsideIsPositive() != true" <<std::endl;
 
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -215,7 +216,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
     {
     std::cerr << "filter2D->GetSquaredDistance() == true & it should not" <<std::endl;
 
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   filter2D->SetUseImageSpacing( true );
@@ -247,7 +247,5 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
     it2D5.NextSlice();
     }
 
-
-  std::cout.width(previousWidthCout);
   return EXIT_SUCCESS;
 }
