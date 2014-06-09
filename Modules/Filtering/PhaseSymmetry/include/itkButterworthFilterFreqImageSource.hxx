@@ -22,9 +22,11 @@ ButterworthFilterFreqImageSource<TOutputImage>::ButterworthFilterFreqImageSource
   m_Direction.SetIdentity();
 }
 
+
 template <class TOutputImage>
 ButterworthFilterFreqImageSource<TOutputImage>::~ButterworthFilterFreqImageSource()
 {}
+
 
 template <class TOutputImage>
 void
@@ -33,7 +35,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::PrintSelf(std::ostream & os, Ind
   Superclass::PrintSelf(os, indent);
 }
 
-//----------------------------------------------------------------------------
+
 template <typename TOutputImage>
 void
 ButterworthFilterFreqImageSource<TOutputImage>::GenerateOutputInformation()
@@ -54,6 +56,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::GenerateOutputInformation()
   output->SetOrigin(m_Origin);
   output->SetDirection(m_Direction);
 }
+
 
 template <typename TOutputImage>
 void
@@ -101,6 +104,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(
   }
 }
 
+
 template <typename TOutputImage>
 void
 ButterworthFilterFreqImageSource<TOutputImage>::SetSpacing(const float * spacing)
@@ -122,6 +126,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::SetSpacing(const float * spacing
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
@@ -145,6 +150,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::SetSpacing(const double * spacin
   }
 }
 
+
 template <typename TOutputImage>
 void
 ButterworthFilterFreqImageSource<TOutputImage>::SetOrigin(const float * origin)
@@ -166,6 +172,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::SetOrigin(const float * origin)
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
@@ -189,6 +196,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::SetOrigin(const double * origin)
   }
 }
 
+
 template <typename TOutputImage>
 void
 ButterworthFilterFreqImageSource<TOutputImage>::SetSize(const SizeValueType * size)
@@ -210,6 +218,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::SetSize(const SizeValueType * si
     this->Modified();
   }
 }
+
 
 template <typename TOutputImage>
 void
