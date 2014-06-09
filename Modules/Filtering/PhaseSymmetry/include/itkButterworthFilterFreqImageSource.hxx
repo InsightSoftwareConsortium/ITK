@@ -62,12 +62,11 @@ template <typename TOutputImage>
 void
 ButterworthFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  tid)
+  ThreadIdType                  itkNotUsed(threadId))
 {
-  // The a pointer to the output image
-  typename TOutputImage::Pointer                     outputPtr = this->GetOutput();
+  TOutputImage *                                     outputPtr = this->GetOutput();
   typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
-  OutputIterator                                     outIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
+  OutputIterator                                     outIt = OutputIterator(outputPtr, outputRegionForThread);
 
   int ndims = TOutputImage::ImageDimension;
 
