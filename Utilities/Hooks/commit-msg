@@ -56,7 +56,7 @@ while IFS='' read line; do
   PERF:   - performance improvement
   STYLE:  - no logic impact (indentation, comments)
   WIP:    - Work In Progress not ready for merge
-To reference Mantis issue XY, add " (#XY)" to the END of the FIRST line.'
+To reference JIRA issue XXXX, add " (#ITK-XXXX)" to the END of the FIRST line.'
 
     # Reject bug number reference that CDash rejects.
     echo "$line" |
