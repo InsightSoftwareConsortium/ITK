@@ -624,8 +624,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     this->m_TransformParametersAdaptorsPerLevel.clear();
     for( SizeValueType level = 0; level < this->m_NumberOfLevels; level++ )
       {
-      typename TransformParametersAdaptorType::Pointer transformParametersAdaptor = TransformParametersAdaptorType::New();
-      this->m_TransformParametersAdaptorsPerLevel.push_back( transformParametersAdaptor.GetPointer() );
+      this->m_TransformParametersAdaptorsPerLevel.push_back( ITK_NULLPTR );
       }
 
     for( unsigned int level = 0; level < this->m_NumberOfLevels; ++level )

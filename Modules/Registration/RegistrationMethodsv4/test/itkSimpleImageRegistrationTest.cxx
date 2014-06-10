@@ -76,7 +76,10 @@ public:
     std::cout << "  CL Current level:           " << currentLevel << std::endl;
     std::cout << "   SF Shrink factor:          " << shrinkFactors << std::endl;
     std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
+    if (adaptors[currentLevel])
+      {
+      std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
+      }
     std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
     std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << std::endl;
     std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
@@ -230,7 +233,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   fieldTransform->SetGaussianSmoothingVarianceForTheTotalField( 1.5 );
   fieldTransform->SetDisplacementField( displacementField );
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, DisplacementFieldTransformType> DisplacementFieldRegistrationType;
+  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> DisplacementFieldRegistrationType;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
   displacementFieldSimple->SetObjectName("displacementFieldSimple");
 
