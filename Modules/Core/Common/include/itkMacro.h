@@ -556,68 +556,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)
 #endif
 
-//=============================================================================
-/* Choose a way to prevent template instantiation on this platform.
-  - ITK_TEMPLATE_DO_NOT_INSTANTIATE = use #pragma do_not_instantiate to
-                                      prevent instantiation
-  - ITK_TEMPLATE_EXTERN = use extern template to prevent instantiation
-*/
-#if defined( __INTEL_COMPILER ) && __INTEL_COMPILER >= 700
-#define ITK_TEMPLATE_EXTERN 1
-#elif defined( __GNUC__ ) && __GNUC__ >= 3
-#define ITK_TEMPLATE_EXTERN 1
-#elif defined( _MSC_VER )
-#define ITK_TEMPLATE_EXTERN 1
-#endif
-#if !defined( ITK_TEMPLATE_DO_NOT_INSTANTIATE )
-#define ITK_TEMPLATE_DO_NOT_INSTANTIATE 0
-#endif
-#if !defined( ITK_TEMPLATE_EXTERN )
-#define ITK_TEMPLATE_EXTERN 0
-#endif
-
-/* Define a macro to explicitly instantiate a template.
-  - ITK_TEMPLATE_EXPORT(X) =
-      Explicitly instantiate X, where X is of the form N(a1[,a2...,aN]).
-      examples: ITK_TEMPLATE_EXPORT(1(class Foo<int>))
-                ITK_TEMPLATE_EXPORT(2(class Bar<int, char>))
-      Use one level of expansion delay to allow user code to have
-      a macro determining the number of arguments. */
-#define ITK_TEMPLATE_EXPORT(x) ITK_TEMPLATE_EXPORT_DELAY(x)
-#define ITK_TEMPLATE_EXPORT_DELAY(x) template ITK_TEMPLATE_##x;
-
-/* Define a macro to prevent template instantiations.
-  - ITK_TEMPLATE_IMPORT(X) =
-      Prevent instantiation of X, where X is of the form N(a1[,a2...,aN]).
-      examples: ITK_TEMPLATE_IMPORT(1(class Foo<int>))
-                ITK_TEMPLATE_IMPORT(2(class Bar<int, char>))
-      Use one level of expansion delay to allow user code to have
-      a macro determining the number of arguments.
-*/
-#if ITK_TEMPLATE_EXTERN
-#define ITK_TEMPLATE_IMPORT_DELAY(x) extern template ITK_TEMPLATE_##x;
-#elif ITK_TEMPLATE_DO_NOT_INSTANTIATE
-#define ITK_TEMPLATE_IMPORT_DELAY(x) \
-  ITK_TEMPLATE_IMPORT_IMPL(do_not_instantiate ITK_TEMPLATE_##x)
-#define ITK_TEMPLATE_IMPORT_IMPL(x) _Pragma(#x)
-#endif
-#if defined( ITK_TEMPLATE_IMPORT_DELAY )
-#define ITK_TEMPLATE_IMPORT(x) ITK_TEMPLATE_IMPORT_DELAY(x)
-#define ITK_TEMPLATE_IMPORT_WORKS 1
-#else
-#define ITK_TEMPLATE_IMPORT(x)
-#define ITK_TEMPLATE_IMPORT_WORKS 0
-#endif
-
-//=============================================================================
-
-/* Define macros to export and import template instantiations for each
-   library in ITK.  */
-#define ITK_EXPORT_ITKCommon(c, x, n) \
-  ITK_EXPORT_TEMPLATE(ITKCommon_EXPORT, c, x, n)
-#define ITK_IMPORT_ITKCommon(c, x, n) \
-  ITK_IMPORT_TEMPLATE(ITKCommon_EXPORT, c, x, n)
-
 //--------------------------------------------------------------------------------
 //  Helper macros for Template Meta-Programming techniques of for-loops
 // unrolling
