@@ -18,7 +18,6 @@
 
 #include <iostream>
 #include "itkMesh.h"
-#include "itkAddImageFilter.h"
 
   class Bogus
   {
@@ -68,20 +67,5 @@ int itkNewTest ( int , char* [] )
   // typedef itk::ForwardDifferenceOperator<double> iDHFO;
   // iDHFO::Pointer dhfo = iDHFO::New();
 
-  // AddImageFilter
-  typedef itk::AddImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double> > iFIA;
-  iFIA::Pointer FIA = iFIA::New();
-  if(FIA.IsNull())
-    {
-    return EXIT_FAILURE;
-    }
-
-  // BinaryImageFilter
-  typedef itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus > iFIB;
-  iFIB::Pointer FIB = iFIB::New();
-  if(FIB.IsNull())
-    {
-    return EXIT_FAILURE;
-    }
   return EXIT_SUCCESS;
 }

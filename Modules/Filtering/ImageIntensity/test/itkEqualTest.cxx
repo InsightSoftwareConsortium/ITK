@@ -20,6 +20,24 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLogicTestSupport.h"
 
+// A bogus class for testing purposes.
+class Bogus
+{
+public:
+  // typedef Bogus Self;
+  // typedef SmartPointer<Self> Pointer;
+  // itkNewMacro(Self);
+  //     static Bogus* New() { return new Bogus(); };
+  //     void Register() {};
+  //     void UnRegister() {};
+
+  float operator() ( double d, double ) { return (float) d; }
+  void Visit ( int, Bogus* ) {}
+  int GetCellTopologyId() { return 1; }
+  int GetTopologyId() { return 1; }
+  Bogus() {}
+  virtual ~Bogus() {}
+};
 int itkEqualTest(int, char* [] )
 {
 
@@ -41,7 +59,6 @@ int itkEqualTest(int, char* [] )
   // Declare the type of the Region
   typedef itk::ImageRegion<myDimension>    myRegionType;
 
-  // Declare the type for the ADD filter
   typedef itk::BinaryFunctorImageFilter<
     myImageType1,
     myImageType2,
@@ -118,6 +135,10 @@ int itkEqualTest(int, char* [] )
   {
   // Create a logic Filter
   myFilterTypePointer filter = myFilterType::New();
+  if(filter.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
 
   // Connect the input images
   filter->SetInput1( inputImageA );
@@ -208,7 +229,17 @@ int itkEqualTest(int, char* [] )
     }
 
   }
+
+  {
+  // BinaryImageFilter
+  typedef itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus > iFIB;
+  iFIB::Pointer FIB = iFIB::New();
+  if(FIB.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
+  }
+
 // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

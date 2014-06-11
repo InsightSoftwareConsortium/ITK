@@ -3,7 +3,6 @@ set(ITKCommon1Tests
 itkAbortProcessObjectTest.cxx
 itkCommandObserverObjectTest.cxx
 itkAdaptorComparisonTest.cxx
-itkCellInterfaceTest.cxx
 itkCovariantVectorGeometryTest.cxx
 itkDataTypeTest.cxx
 itkDecoratorTest.cxx
@@ -28,8 +27,6 @@ itkImageRandomNonRepeatingIteratorWithIndexTest.cxx
 itkImageRandomNonRepeatingIteratorWithIndexTest2.cxx
 itkImageSliceIteratorTest.cxx
 itkTreeContainerTest2.cxx
-itkTriangleCellTest.cxx
-itkQuadrilateralCellTest.cxx
 itkRGBPixelTest.cxx
 itkLightObjectTest.cxx
 itkBoundingBoxTest.cxx
@@ -59,7 +56,6 @@ itkNumericTraitsTest.cxx
 itkImageRegionTest.cxx
 itkExceptionObjectTest.cxx
 itkNeighborhoodOperatorTest.cxx
-itkNewTest.cxx
 itkNumericsTest.cxx
 itkAnnulusOperatorTest.cxx
 itkLineIteratorTest.cxx
@@ -215,7 +211,6 @@ itk_add_test(NAME itkImageAdaptorPipeLineTest COMMAND ITKCommon1TestDriver itkIm
 itk_add_test(NAME itkThreadedImageRegionPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedImageRegionPartitionerTest)
 itk_add_test(NAME itkImportContainerTest COMMAND ITKCommon1TestDriver itkImportContainerTest)
 itk_add_test(NAME itkImportImageTest COMMAND ITKCommon1TestDriver itkImportImageTest)
-itk_add_test(NAME itkCellInterfaceTest COMMAND ITKCommon1TestDriver itkCellInterfaceTest)
 itk_add_test(NAME itkCovariantVectorGeometryTest COMMAND ITKCommon1TestDriver itkCovariantVectorGeometryTest)
 itk_add_test(NAME itkDataTypeTest COMMAND ITKCommon1TestDriver itkDataTypeTest)
 itk_add_test(NAME itkDecoratorTest COMMAND ITKCommon1TestDriver  itkDecoratorTest)
@@ -362,7 +357,6 @@ itk_add_test(NAME itkNeighborhoodAlgorithmTest COMMAND ITKCommon1TestDriver itkN
 itk_add_test(NAME itkNeighborhoodTest COMMAND ITKCommon2TestDriver itkNeighborhoodTest)
 itk_add_test(NAME itkNeighborhoodIteratorTest COMMAND ITKCommon2TestDriver itkNeighborhoodIteratorTest)
 itk_add_test(NAME itkNeighborhoodOperatorTest COMMAND ITKCommon1TestDriver itkNeighborhoodOperatorTest)
-itk_add_test(NAME itkNewTest COMMAND ITKCommon1TestDriver itkNewTest)
 itk_add_test(NAME itkNumericsTest COMMAND ITKCommon1TestDriver itkNumericsTest)
 itk_add_test(NAME itkNumericTraitsTest COMMAND  ITKCommon1TestDriver --full-output itkNumericTraitsTest)
 itk_add_test(NAME itkIntTypesTest COMMAND ITKCommon1TestDriver itkIntTypesTest)
@@ -383,8 +377,6 @@ itk_add_test(NAME itkRealTimeClockTest COMMAND ITKCommon1TestDriver itkRealTimeC
 itk_add_test(NAME itkRealTimeStampTest COMMAND ITKCommon1TestDriver itkRealTimeStampTest)
 itk_add_test(NAME itkRealTimeIntervalTest COMMAND ITKCommon1TestDriver itkRealTimeIntervalTest)
 itk_add_test(NAME itkTimeProbeTest COMMAND ITKCommon1TestDriver itkTimeProbeTest)
-itk_add_test(NAME itkTriangleCellTest COMMAND ITKCommon1TestDriver itkTriangleCellTest)
-itk_add_test(NAME itkQuadrilateralCellTest COMMAND ITKCommon1TestDriver itkQuadrilateralCellTest)
 itk_add_test(NAME itkRGBPixelTest COMMAND ITKCommon1TestDriver itkRGBPixelTest)
 itk_add_test(NAME itkSparseImageTest COMMAND ITKCommon1TestDriver itkSparseImageTest)
 itk_add_test(NAME itkSimpleFilterWatcherTest COMMAND ITKCommon1TestDriver itkSimpleFilterWatcherTest)

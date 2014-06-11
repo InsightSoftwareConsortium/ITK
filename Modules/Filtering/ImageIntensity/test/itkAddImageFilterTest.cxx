@@ -143,6 +143,13 @@ int itkAddImageFilterTest(int, char* [] )
     ++it3;
   }
 
+  // AddImageFilter
+  typedef itk::AddImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double> > iFIA;
+  iFIA::Pointer FIA = iFIA::New();
+  if(FIA.IsNull())
+    {
+    return EXIT_FAILURE;
+    }
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
