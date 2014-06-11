@@ -6,6 +6,7 @@ itkFullToHalfHermitianImageFilterTest.cxx
 itkVnlFFTTest.cxx
 itkVnlRealFFTTest.cxx
 itkForwardInverseFFTImageFilterTest.cxx
+itkMagnitudeAndPhaseToComplexImageFilterTest.cxx
 )
 
 if (ITK_USE_FFTWF)
@@ -117,3 +118,12 @@ itk_add_test(NAME itkForwardInverseFFTImageFilterTest1
 itk_add_test(NAME itkForwardInverseFFTImageFilterTest2
   COMMAND ITKFFTTestDriver
   itkForwardInverseFFTImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Shapes.png})
+itk_add_test(NAME itkMagnitudeAndPhaseToComplexImageFilterTest
+  COMMAND ITKFFTTestDriver
+    --compare
+      DATA{Baseline/itkMagnitudeAndPhaseToComplexImageFilterTestBaseline.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
+    itkMagnitudeAndPhaseToComplexImageFilterTest
+      DATA{Input/itkBrainSliceComplexMagnitude.mha}
+      DATA{Input/itkBrainSliceComplexPhase.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha )
