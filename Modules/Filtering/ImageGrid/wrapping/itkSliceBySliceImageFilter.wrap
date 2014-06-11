@@ -1,13 +1,22 @@
-itk_wrap_class("itk::SliceBySliceImageFilter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
-    math(EXPR d_1 "${d} - 1")
-    itk_wrap_filter_dims(has_d_1 ${d_1})
-    if(has_d_1)
-      # avoid the vector and covariant vector types: the type
-      # Image< Vector< T, N >, N-1 > is not wrapped
-      itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2 ${d})
-      itk_wrap_image_filter("${WRAP_ITK_RGB}" 2 ${d})
-      itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 2 ${d})
-    endif(has_d_1)
-  endforeach(d)
-itk_end_wrap_class()
+# Check if we have the right dimensions before wrapping
+foreach(d ${ITK_WRAP_DIMS})
+  math(EXPR d_1 "${d} - 1")
+endforeach(d)
+itk_wrap_filter_dims(has_d_1 ${d_1})
+
+# Wrap if allowed
+if(has_d_1)
+  itk_wrap_class("itk::SliceBySliceImageFilter" POINTER)
+    foreach(d ${ITK_WRAP_DIMS})
+      math(EXPR d_1 "${d} - 1")
+      itk_wrap_filter_dims(has_d_1 ${d_1})
+      if(has_d_1)
+        # avoid the vector and covariant vector types: the type
+        # Image< Vector< T, N >, N-1 > is not wrapped
+        itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2 ${d})
+        itk_wrap_image_filter("${WRAP_ITK_RGB}" 2 ${d})
+        itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 2 ${d})
+      endif(has_d_1)
+    endforeach(d)
+  itk_end_wrap_class()
+endif(has_d_1)

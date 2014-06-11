@@ -1,3 +1,7 @@
-itk_wrap_class("itk::MaskFeaturePointSelectionFilter" POINTER_WITH_2_SUPERCLASSES)
-  itk_wrap_image_filter("${WRAP_ITK_REAL}" 1 3)
-itk_end_wrap_class()
+itk_wrap_filter_dims(has_d_3 3)
+
+if(has_d_3)
+  itk_wrap_class("itk::MaskFeaturePointSelectionFilter" POINTER_WITH_2_SUPERCLASSES)
+    itk_wrap_image_filter("${WRAP_ITK_REAL}" 1 3)
+  itk_end_wrap_class()
+endif(has_d_3)

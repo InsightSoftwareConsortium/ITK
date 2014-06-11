@@ -1,7 +1,8 @@
-itk_wrap_class("itk::DiffusionTensor3D")
-  itk_wrap_filter_dims(d 3)
-  if(d)
+itk_wrap_filter_dims(has_d_3 3)
+
+if(has_d_3)
+  itk_wrap_class("itk::DiffusionTensor3D")
     itk_wrap_template("${ITKM_F}" "${ITKT_F}")
     itk_wrap_template("${ITKM_D}" "${ITKT_D}")
-  endif(d)
-itk_end_wrap_class()
+  itk_end_wrap_class()
+endif(has_d_3)
