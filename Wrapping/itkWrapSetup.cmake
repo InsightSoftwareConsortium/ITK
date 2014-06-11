@@ -21,4 +21,9 @@ if(ITK_WRAPPING)
     message(WARNING "Wrapping requires a shared build, changing BUILD_SHARED_LIBS to ON")
     set(BUILD_SHARED_LIBS ON CACHE BOOL "Build ITK with shared libraries." FORCE )
   endif()
+
+  if(ITK_USE_64BITS_IDS AND WIN32)
+    message(FATAL_ERROR "Wrapping with ITK_USE_64BITS_IDS is not supported on Windows.
+    Please turn OFF ITK_USE_64BITS_IDS.")
+  endif()
 endif()
