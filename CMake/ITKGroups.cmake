@@ -116,15 +116,15 @@ configure_file(
 # Modules that should be OFF
 foreach( group ${group_list} )
   set( _${group}_on_module_list )
-  list( LENGTH _${group}_module_files _num_modules )
+  list( LENGTH _${group}_module_list _num_modules )
   set( _current_module 0 )
   while( ${_current_module} LESS ${_num_modules} )
-    list( GET _${group}_module_files ${_current_module} _module_file )
-    get_filename_component (module_file_dir ${_module_file} PATH)
-    if (NOT EXISTS "${module_file_dir}/itk-module-init.cmake")
-      list( GET _${group}_module_list ${_current_module} _module_name )
-      # Remote Modules do not start with "ITK", and should not be ON by default.
-      if( "${_module_name}" MATCHES "^ITK" )
+    list( GET _${group}_module_list ${_current_module} _module_name )
+    # Remote Modules do not start with "ITK", and should not be ON by default.
+    if( "${_module_name}" MATCHES "^ITK" )
+      list( GET _${group}_module_files ${_current_module} _module_file )
+      get_filename_component (module_file_dir ${_module_file} PATH)
+      if (NOT EXISTS "${module_file_dir}/itk-module-init.cmake")
         list( APPEND _${group}_on_module_list ${_module_name} )
       endif()
     endif()
