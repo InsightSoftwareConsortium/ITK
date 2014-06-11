@@ -19,11 +19,10 @@
 #include <iostream>
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
+#include "itkStdStreamStateSave.h"
 
 static bool TestDisplacementJacobianDeterminantValue(void)
 {
-  std::streamsize previousPrecisionCout = std::cout.precision(9);
-
   bool testPassed = true;
   const unsigned int ImageDimension = 2;
 
@@ -97,13 +96,17 @@ static bool TestDisplacementJacobianDeterminantValue(void)
     std::cout << "Test passed." << std::endl;
     }
 
-  std::cout.precision(previousPrecisionCout);
   return testPassed;
 }
 
 int
 itkDisplacementFieldJacobianDeterminantFilterTest(int , char * [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   bool ValueTestPassed=TestDisplacementJacobianDeterminantValue();
   try
     {

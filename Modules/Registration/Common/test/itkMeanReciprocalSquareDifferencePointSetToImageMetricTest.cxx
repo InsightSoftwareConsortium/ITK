@@ -23,6 +23,7 @@
 #include "itkPointSet.h"
 
 #include <iostream>
+#include "itkStdStreamStateSave.h"
 
 /**
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
@@ -35,6 +36,10 @@
 
 int itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char* [] )
 {
+
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+  itk::StdStreamStateSave coutState(std::cout);
 
 //------------------------------------------------------------
 // Create two simple images

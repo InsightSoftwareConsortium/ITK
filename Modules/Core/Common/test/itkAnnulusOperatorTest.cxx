@@ -17,9 +17,15 @@
  *=========================================================================*/
 
 #include "itkAnnulusOperator.h"
+#include "itkStdStreamStateSave.h"
 
 int itkAnnulusOperatorTest(int, char* [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   const unsigned int Dimension = 2;
   typedef float                                        PixelType;
   typedef itk::AnnulusOperator< PixelType, Dimension > OperatorType;
@@ -64,8 +70,6 @@ int itkAnnulusOperatorTest(int, char* [] )
             << std::endl;
   unsigned int i, j, k;
 
-  std::streamsize saveWidth = std::cout.width();
-  std::streamsize savePrecision = std::cout.precision();
   for (i=0, k=0; i < normalizedAnnulusSize[1]; ++i)
     {
     for (j=0; j < normalizedAnnulusSize[0]; ++j, ++k)
@@ -218,8 +222,6 @@ int itkAnnulusOperatorTest(int, char* [] )
       }
     std::cout << std::endl;
     }
-  std::cout.width(saveWidth);
-  std::cout.precision(savePrecision);
 
   return EXIT_SUCCESS;
 }

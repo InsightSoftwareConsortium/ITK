@@ -23,6 +23,7 @@
 #include "itkPointSet.h"
 
 #include <iostream>
+#include "itkStdStreamStateSave.h"
 
 /**
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
@@ -36,8 +37,9 @@
 int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
 {
 
-  std::streamsize previousPrecisionCout = std::cout.precision();
-  std::streamsize previousWidthCout = std::cout.width();
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+  itk::StdStreamStateSave coutState(std::cout);
 
 //------------------------------------------------------------
 // Create two simple images
@@ -208,8 +210,6 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     std::cout << "Metric initialization failed" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -269,8 +269,6 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     std::cout << "If you are reading this message the Metric " << std::endl;
     std::cout << "is NOT managing exceptions correctly    " << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & e )
@@ -288,8 +286,6 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     std::cout << "If you are reading this message the Metric " << std::endl;
     std::cout << "is NOT managing exceptions correctly    " << std::endl;
 
-    std::cout.precision(previousPrecisionCout);
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & e )
@@ -300,9 +296,5 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     std::cout << "Test for exception throwing... PASSED ! "  << std::endl;
     }
 
-
-  std::cout.precision(previousPrecisionCout);
-  std::cout.width(previousWidthCout);
   return EXIT_SUCCESS;
-
 }

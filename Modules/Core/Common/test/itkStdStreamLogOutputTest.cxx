@@ -19,9 +19,15 @@
 #include <iostream>
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
+#include "itkStdStreamStateSave.h"
 
 int itkStdStreamLogOutputTest( int argc, char *argv [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   try
     {
 
@@ -35,7 +41,6 @@ int itkStdStreamLogOutputTest( int argc, char *argv [] )
     itk::StdStreamLogOutput::Pointer output = itk::StdStreamLogOutput::New();
 
     std::cout << "Testing itk::StdStreamLogOutput" << std::endl;
-    std::streamsize savePrecision = std::cout.precision(15);
 
     std::cout << "  Testing with standard console stream" << std::endl;
     output->SetStream(std::cout);
@@ -43,7 +48,6 @@ int itkStdStreamLogOutputTest( int argc, char *argv [] )
     output->Write("This is the test message.\n");
     output->Write("This is the second test message.\n", 1.2345);
     output->Flush();
-    std::cout.precision(savePrecision);
 
     std::cout << "  Testing with a file stream" << std::endl;
     std::ofstream fout(argv[1]);

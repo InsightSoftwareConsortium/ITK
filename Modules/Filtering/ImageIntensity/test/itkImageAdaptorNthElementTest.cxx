@@ -28,10 +28,15 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNthElementImageAdaptor.h"
 #include "itkAddImageFilter.h"
-
+#include "itkStdStreamStateSave.h"
 
 int itkImageAdaptorNthElementTest(int, char* [] )
 {
+
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
 
   //-------------------------------------------------------------
   //                        Typedefs
@@ -66,8 +71,6 @@ int itkImageAdaptorNthElementTest(int, char* [] )
                                myFloatImageType,
                                myFloatImageType >       myFilterType;
 
-
-  std::streamsize previousWidthCout = std::cout.width();
 
   //-------------------------------------------------------------
   //                 Create and Allocate the image
@@ -305,7 +308,6 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     ++ito;
   }
 
-  std::cout.width(previousWidthCout);
   return EXIT_SUCCESS;
 
 }

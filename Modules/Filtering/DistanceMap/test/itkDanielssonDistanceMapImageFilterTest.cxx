@@ -18,11 +18,14 @@
 
 #include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
+#include "itkStdStreamStateSave.h"
 
 int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 {
-
-  std::streamsize previousWidthCout = std::cout.width();
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
 
   std::cout << "Test ITK Danielsson Distance Map" << std::endl << std::endl;
 
@@ -194,7 +197,6 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   if( filter2D->GetSquaredDistance() != true )
     {
     std::cerr << "filter2D->GetSquaredDistance() != true" <<std::endl;
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -206,7 +208,6 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   if( std::fabs( distance2 - distance1 * distance1 ) > epsilon )
     {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -255,7 +256,6 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   if( filter2D->GetInputIsBinary() != true )
     {
     std::cerr << "filter2D->GetInputIsBinary() != true" <<std::endl;
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -265,7 +265,6 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   if( filter2D->GetUseImageSpacing() != true )
     {
     std::cerr << "filter2D->GetUseImageSpacing() != true" << std::endl;
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -282,7 +281,6 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
     {
     std::cerr << "Error when image spacing is anisotropic." << std::endl;
     std::cerr << "Pixel value was " << pixelValue << ", expected " << expectedValue << std::endl;
-    std::cout.width(previousWidthCout);
     return EXIT_FAILURE;
     }
 
@@ -348,6 +346,5 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   filter3D->SetInput( inputImage3D );
   filter3D->Update();
 
-  std::cout.width(previousWidthCout);
   return EXIT_SUCCESS;
 }

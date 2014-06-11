@@ -19,6 +19,7 @@
 #include "itkTransformMeshFilter.h"
 #include "itkMesh.h"
 #include "itkAffineTransform.h"
+#include "itkStdStreamStateSave.h"
 
 namespace itk
 {
@@ -190,7 +191,10 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
 
 int itkMeshSourceGraftOutputTest(int, char* [] )
 {
-  std::streamsize saveWidth = std::cout.width();
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
 
   // Declare the mesh pixel type.
   // Those are the values associated
@@ -300,7 +304,6 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
 
   // All objects should be automatically destroyed at this point
 
-  std::cout.width(saveWidth);
   return EXIT_SUCCESS;
 
 }

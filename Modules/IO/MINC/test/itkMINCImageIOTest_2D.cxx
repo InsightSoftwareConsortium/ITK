@@ -25,6 +25,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkImageMomentsCalculator.h"
+#include "itkStdStreamStateSave.h"
 
 template<typename ImageType> int test_image_moments(const char *input_image,const char *output_image,double total, double mx,double my,double epsilon)
 {
@@ -79,6 +80,11 @@ template<typename ImageType> int test_image_moments(const char *input_image,cons
 int itkMINCImageIOTest_2D( int argc, char * argv [] )
 {
 
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   if ( argc < 3 )
     {
     std::cerr << "Missing Arguments " << std::endl;
@@ -120,7 +126,6 @@ int itkMINCImageIOTest_2D( int argc, char * argv [] )
       int ret=EXIT_SUCCESS;
 
       // save and restore cout's precision, to silence a Coverity warning
-      std::streamsize defaultPrecision = std::cout.precision();
       std::cout.precision( 10 );
       if( test_image_moments<itk::Image< double, 2 > >(input,NULL,total,mx,my,epsilon) != EXIT_SUCCESS )
         {
@@ -131,7 +136,6 @@ int itkMINCImageIOTest_2D( int argc, char * argv [] )
         {
         ret=EXIT_FAILURE;
         }
-      std::cout.precision( defaultPrecision );
       return ret;
     }
   catch( itk::ExceptionObject & excp )

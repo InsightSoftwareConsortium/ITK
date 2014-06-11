@@ -29,10 +29,14 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkRedPixelAccessor.h"
 #include "itkAddImageFilter.h"
-
+#include "itkStdStreamStateSave.h"
 
 int itkImageAdaptorPipeLineTest(int, char* [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
 
   //-------------------------------------------------------------
   //                        Typedefs
@@ -111,8 +115,6 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     it.Set( initialRGBPixelValue );
     ++it;
   }
-
-  std::streamsize saveWidth = std::cout.width();
 
   std::cout << "Initial RGBPixel Image Values : " << std::endl;
   it.GoToBegin();
@@ -243,7 +245,6 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     ++ito;
   }
 
-  std::cout.width(saveWidth);
   return EXIT_SUCCESS;
 
 }

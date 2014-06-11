@@ -19,9 +19,15 @@
 #include <fstream>
 
 #include "itkSymmetricEigenSystem.h"
+#include "itkStdStreamStateSave.h"
 
 int itkSymmetricEigenSystemTest(int , char* [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   typedef itk::SymmetricEigenSystem< double, 2 > EigenSystemType;
 
   EigenSystemType::Pointer eigen = EigenSystemType::New();
@@ -48,7 +54,7 @@ int itkSymmetricEigenSystemTest(int , char* [] )
 
   std::cout << "Matrix: " << mat << std::endl;
   double temp;
-  std::ios_base::fmtflags saveFlags = std::cout.setf(std::ios::scientific, std::ios::floatfield);
+  std::cout.setf(std::ios::scientific, std::ios::floatfield);
 
   for ( unsigned int i = 0; i < 2; i++ )
     {
@@ -59,7 +65,6 @@ int itkSymmetricEigenSystemTest(int , char* [] )
           std::cout << "wrong eigen value "
                     << vnl_math_abs(1 - (temp / eigenValues[i]))
                     << std::endl;
-          std::cout.setf(saveFlags);
           return EXIT_FAILURE;
         }
     }
@@ -79,14 +84,12 @@ int itkSymmetricEigenSystemTest(int , char* [] )
       if ( vnl_math_abs(vnl_math_abs(dotProduct) - 1 ) > precision )
         {
           std::cout << "wrong eigen vector " << dotProduct << std::endl;
-          std::cout.setf(saveFlags);
           return EXIT_FAILURE;
         }
 
       std::cout << std::endl;
     }
 
-  std::cout.setf(saveFlags);
   std::cout << "Test succeeded." << std::endl;
   return EXIT_SUCCESS;
 }

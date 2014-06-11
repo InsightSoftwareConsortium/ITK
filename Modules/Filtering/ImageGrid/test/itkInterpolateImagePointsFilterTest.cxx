@@ -29,6 +29,7 @@
 #include <iostream>
 
 #include "itkInterpolateImagePointsFilter.h"
+#include "itkStdStreamStateSave.h"
 
 #include "itkGaussianImageSource.h"
 
@@ -143,7 +144,6 @@ int test2DInterpolateImagePointsFilter()
   resamp->Update();
   resamp->Print(std::cout);
 
-  std::streamsize previousWidthCout = std::cout.width();
   // Get results and compare for accuracy
   ImageType2DPointer outputImage;
   outputImage = resamp->GetOutput();
@@ -168,7 +168,6 @@ int test2DInterpolateImagePointsFilter()
     }
   std::cout << std::endl;
 
-  std::cout.width(previousWidthCout);
   return (flag);
 }
 
@@ -176,7 +175,6 @@ int test3DInterpolateImagePointsFilter()
 {
   int flag = 0;
 
-  std::streamsize previousPrecisionCout = std::cout.width();
   std::cout << "Testing 3D InterpolateImagePointsFilter.\n ";
 
   // Initialize input image
@@ -261,13 +259,17 @@ int test3DInterpolateImagePointsFilter()
     std::cout << "*** test3DInterpolateImagePointsFilter() Passed.\n" << std::endl;
     }
 
-  previousPrecisionCout = std::cout.width(previousPrecisionCout);
   return flag;
 }
 
 int
 itkInterpolateImagePointsFilterTest( int, char * [] )
 {
+// Save the format stream variables for std::cout
+// They will be restored when coutState goes out of scope
+// scope.
+  itk::StdStreamStateSave coutState(std::cout);
+
   int flag = 0;           /* Did this test program work? */
 
   std::cout << "Testing B Spline interpolation methods:\n";
