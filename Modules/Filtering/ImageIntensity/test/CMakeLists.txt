@@ -76,6 +76,7 @@ itkLessEqualTest.cxx
 itkLessTest.cxx
 itkClampImageFilterTest.cxx
 itkNthElementPixelAccessorTest2.cxx
+itkMagnitudeAndPhaseToComplexImageFilterTest.cxx
 )
 
 # Disable optimization on the tests below to avoid possible
@@ -277,3 +278,12 @@ itk_add_test(NAME itkClampImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkClampImageFilterTest)
 itk_add_test(NAME itkNthElementPixelAccessorTest2
       COMMAND ITKImageIntensityTestDriver itkNthElementPixelAccessorTest2)
+itk_add_test(NAME itkMagnitudeAndPhaseToComplexImageFilterTest
+      COMMAND ITKImageIntensityTestDriver
+    --compare
+      DATA{Baseline/itkMagnitudeAndPhaseToComplexImageFilterTestBaseline.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
+    itkMagnitudeAndPhaseToComplexImageFilterTest
+      DATA{Input/itkBrainSliceComplexMagnitude.mha}
+      DATA{Input/itkBrainSliceComplexPhase.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha )
