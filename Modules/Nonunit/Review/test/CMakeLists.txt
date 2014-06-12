@@ -277,9 +277,6 @@ itk_add_test(NAME itkGridForwardWarpImageFilterTest
 itk_add_test(NAME itkImageReadComplexWriteMagnitudeAndPhaseTest
       COMMAND ITKReviewTestDriver itkImageReadComplexWriteMagnitudeAndPhaseTest
               ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplex.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha)
-itk_add_test(NAME itkImageReadMagnitudeAndPhaseWriteComplexTest
-      COMMAND ITKReviewTestDriver itkImageReadMagnitudeAndPhaseWriteComplexTest
-              ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplexMagnitude.mha ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplexPhase.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
 itk_add_test(NAME itkImageFunctionTest
       COMMAND ITKReviewTestDriver itkImageFunctionTest)
 itk_add_test(NAME itkJPEG2000Test00
