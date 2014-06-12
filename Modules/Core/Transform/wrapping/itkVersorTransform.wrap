@@ -1,6 +1,7 @@
-itk_wrap_class("itk::VersorTransform" POINTER)
-  itk_wrap_filter_dims(d3 3)
-  if(d3)
+itk_wrap_filter_dims(has_d_3 3)
+
+if(has_d_3)
+  itk_wrap_class("itk::VersorTransform" POINTER)
     itk_wrap_template("${ITKM_D}" "${ITKT_D}")
-  endif(d3)
-itk_end_wrap_class()
+  itk_end_wrap_class()
+endif(has_d_3)
