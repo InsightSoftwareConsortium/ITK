@@ -33,7 +33,7 @@ endmacro()
 
 # a list of image IOs to be registered when the corresponding modules are enabled
 set(LIST_OF_IMAGEIO_FORMATS
-    Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC
+    Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC GE4 GE5
     MINC
     MGH SCIFIO FDF
     )
@@ -47,6 +47,12 @@ set(Gipl_module_name ITKIOGIPL)
 
 set(MGH_module_name MGHIO)
 set(MGH_factory_name MGHImageIO)
+
+set(GE4_module_name ITKIOGE)
+set(GE4_factory_name GE4ImageIO)
+set(GE5_module_name ITKIOGE)
+set(GE5_factory_name GE5ImageIO)
+
 
 set(SCIFIO_module_name SCIFIO)
 set(SCIFIO_factory_name SCIFIOImageIO)
