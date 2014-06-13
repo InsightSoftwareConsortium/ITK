@@ -57,7 +57,7 @@ public:
     }
 
 protected:
-  TElement* AllocateElements(ElementIdentifier size) const
+  TElement* AllocateElements(ElementIdentifier size, bool) const
     {
     std::cout << "TestImportImageContainer: Allocating "
               << size << " elements of type "

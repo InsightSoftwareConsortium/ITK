@@ -170,7 +170,7 @@ ImportImageContainer< TElementIdentifier, TElement >
 
 template< typename TElementIdentifier, typename TElement >
 TElement *ImportImageContainer< TElementIdentifier, TElement >
-::AllocateElements(ElementIdentifier size, const bool UseDefaultConstructor ) const
+::AllocateElements(ElementIdentifier size, bool UseDefaultConstructor ) const
 {
   // Encapsulate all image memory allocation here to throw an
   // exception when memory allocation fails even when the compiler
