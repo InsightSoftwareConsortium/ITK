@@ -168,9 +168,9 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   // coordinates of the center of the first pixel in N-D
-  ImageType::PointType origin;
-  origin.Fill(0.0);
-  image->SetOrigin( origin );
+  ImageType::PointType newOrigin;
+  newOrigin.Fill(0.0);
+  image->SetOrigin( newOrigin );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -184,16 +184,18 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const ImageType::PointType& orgn = image->GetOrigin();
+  const ImageType::PointType & origin = image->GetOrigin();
 
   std::cout << "Origin = ";
-  std::cout << orgn[0] << ", " << orgn[1] << ", " << orgn[2] << std::endl;
+  std::cout << origin[0] << ", " << origin[1] << ", " << origin[2] << std::endl;
+
+  // Software Guide : EndCodeSnippet
 
   //TODO: This example should really be writen for a more complicated direction cosine. i.e.
   //     As the first index element increases, the 1st physcial space decreases.
 
-  // Software Guide : EndCodeSnippet
-
+  //  Software Guide : BeginLatex
+  //
   // The image direction matrix represents the orientation relationships between
   // the image samples and physical space coordinate systems.  The image direction
   // matrix is an orthonormal matrix that describes the possible permutation of image Index

@@ -408,7 +408,7 @@ int main( int argc, char *argv[] )
   //  by $10$ degrees around the origin and shifting it $15mm$ in $X$.
   //
   //  Also, instead of doing the above steps manually, you can turn on the
-  //  "ITK_USE_BRAINWEB_DATA" flag in your build environment. Then, the above
+  //  "ITK\_USE\_BRAINWEB\_DATA" flag in your build environment. Then, the above
   //  data will be loaded to your local build directory.
   //
   //  The registration takes $21$ iterations and produces:
