@@ -68,6 +68,9 @@
 
 // 'identifier' : identifier was truncated to 'number' characters in the debug information
 #pragma warning ( disable : 4786 )
+
+// nonstandard extension used : 'extern' before template explicit instantiation
+#pragma warning ( disable : 4231 )
 #endif // _MSC_VER
 
 #endif
