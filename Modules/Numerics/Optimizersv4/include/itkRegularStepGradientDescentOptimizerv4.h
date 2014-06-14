@@ -130,8 +130,8 @@ protected:
   /** Minimum gradient magnitude value for convergence checking */
   TInternalComputationValueType  m_GradientMagnitudeTolerance;
 
-  /** Store the current step length */
-  MeasureType                  m_CurrentStepLength;
+  /** Current scale for learning rate */
+  MeasureType                  m_CurrentLearningRateRelaxation;
 
 private:
   RegularStepGradientDescentOptimizerv4( const Self & ); //purposely not implemented
