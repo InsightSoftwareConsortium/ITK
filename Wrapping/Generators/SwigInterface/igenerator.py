@@ -27,7 +27,7 @@ optionParser.add_option("--swig-include", action="append", dest="swig_includes",
 optionParser.add_option("--import", action="append", dest="imports", default=[], metavar="FILE", help="File to be imported in the generated interface file.")
 optionParser.add_option("--typedef-input", action="store", type="string", dest="typedef_input")
 optionParser.add_option("--typedef-output", action="store", type="string", dest="typedef_output")
-optionParser.add_option("-w", "--disable-warning", action="append", dest="warnings", default=[], metavar="WARNING", help="Warning to be disabled.")
+optionParser.add_option("-w", "--disable-warning", action="append", dest="igenerator_warnings", default=[], metavar="WARNING", help="Warning to be disabled.")
 optionParser.add_option("-A", "--disable-access-warning", action="append", dest="access_warnings", default=[], metavar="LEVEL", help="Access level where warnings are disabled (public, protected, private).")
 optionParser.add_option("-W", "--warning-error", action="store_true", dest="warningError", help="Treat warnings as errors.")
 optionParser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Log what is currently done.")
@@ -37,6 +37,11 @@ optionParser.add_option("-g", "--gccxml-path", action="store", dest="gccxml_path
 options, args = optionParser.parse_args()
 
 sys.path.append(options.pygccxml_path)
+import warnings
+# Temporarly hide pygccxml warnings
+# Import normally once pygccxml 1.6.0 is out
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 import pygccxml
 
 # the output file
@@ -54,17 +59,17 @@ usedTypes = set()
 typedefSource = {}
 
 
-warnings = set()
+igenerator_warnings = set()
 
-def warn( id, msg, doWarn=True ):
+def igenerator_warn( id, msg, doWarn=True ):
   if not doWarn:
     # don't warn for anything
     return
-  if str(id) not in options.warnings:
-    if not options.verbose and (id, msg) in warnings:
+  if str(id) not in options.igenerator_warnings:
+    if not options.verbose and (id, msg) in igenerator_warnings:
       # just do nothing
       return
-    warnings.add((id, msg))
+    igenerator_warnings.add((id, msg))
     if options.verbose:
       if options.warningError:
         print("error(%s): %s" % (str(id), msg), file=sys.stderr)
@@ -289,7 +294,7 @@ def get_alias( decl_string, w=True ):
   s = s.replace( "itk::FilenamesContainer", "std::vector< std::string >")
 
   if s.startswith( "itk::") and not notWrappedRegExp.match( s ):
-    warn( 4, "ITK type not wrapped, or currently not known: %s" % s, w )
+    igenerator_warn( 4, "ITK type not wrapped, or currently not known: %s" % s, w )
 
   usedTypes.add( s )
   return s + end
@@ -308,7 +313,7 @@ def load_idx(file_name):
     aliases[ full_name ] = alias
     # store the source of the def
     if typedefSource.has_key( alias ) and file_name != typedefSource[ alias ]:
-      warn( 7, "%s in %s is already defined in %s." % (alias, file_name, typedefSource[ alias ]) )
+      igenerator_warn( 7, "%s in %s is already defined in %s." % (alias, file_name, typedefSource[ alias ]) )
     else:
       typedefSource[ alias ] = file_name
     # don't declare the typedef - they are included from .include files
@@ -371,7 +376,7 @@ def generate_class( typedef, indent=0 ):
       # iterate over the members
       for member in typedef.type.declaration.get_members( access=access ):
         if isinstance( member, pygccxml.declarations.typedef.typedef_t ):
-          warn( 51, "Member typedef are not supported: %s" % member.name, w )
+          igenerator_warn( 51, "Member typedef are not supported: %s" % member.name, w )
         elif isinstance( member, pygccxml.declarations.calldef.member_function_t ):
           generate_method( typedef, member, indent, w )
         elif isinstance( member, pygccxml.declarations.calldef.constructor_t ):
@@ -383,15 +388,15 @@ def generate_class( typedef, indent=0 ):
         elif isinstance( member, pygccxml.declarations.enumeration.enumeration_t ):
           generate_nested_enum( typedef, member, indent, w )
         elif isinstance( member, pygccxml.declarations.variable.variable_t ):
-          warn( 52, "Member variables are not supported: %s" % member.name, w )
+          igenerator_warn( 52, "Member variables are not supported: %s" % member.name, w )
         elif isinstance( member, pygccxml.declarations.class_declaration.class_t ):
-          warn( 53, "Member classes are not supported: %s" % member.name, w )
+          igenerator_warn( 53, "Member classes are not supported: %s" % member.name, w )
         elif isinstance( member, pygccxml.declarations.class_declaration.class_declaration_t ):
-          warn( 53, "Member classes are not supported: %s" % member.name, w )
+          igenerator_warn( 53, "Member classes are not supported: %s" % member.name, w )
         elif isinstance( member, pygccxml.declarations.calldef.casting_operator_t ):
-          warn( 54, "Member casting operators are not supported: %s" % member.name, w )
+          igenerator_warn( 54, "Member casting operators are not supported: %s" % member.name, w )
         else :
-          warn( 50, "Unknown member type: %s" % repr(member), w )
+          igenerator_warn( 50, "Unknown member type: %s" % repr(member), w )
 
     # finally, close the class
     outputFile.write("  "*indent)
@@ -471,12 +476,12 @@ def generate_method( typedef, method, indent, w ):
   # avoid the apply method for the class vnl_c_vector: the signature is quite strange
   # and currently confuse swig :-/
   if "(" in method.return_type.decl_string :
-    warn( 1, "ignoring method not supported by swig '%s::%s'." % (typedef.name, method.name), w )
+    igenerator_warn( 1, "ignoring method not supported by swig '%s::%s'." % (typedef.name, method.name), w )
     return
 
   if ( (typedef.name.startswith('vnl_') and method.name in ["as_ref"])
        or (typedef.name.startswith('itk') and method.name in ["rBegin", "rEnd", "GetSpacingCallback", "GetOriginCallback", "Begin", "End"]) ) :
-    warn( 3, "ignoring black listed method '%s::%s'." % (typedef.name, method.name), w )
+    igenerator_warn( 3, "ignoring black listed method '%s::%s'." % (typedef.name, method.name), w )
     return
 
   # iterate over the arguments
@@ -484,7 +489,7 @@ def generate_method( typedef, method, indent, w ):
   for arg in method.arguments:
     s = "%s %s" % (get_alias(getDeclarationString(arg), w), arg.name)
     if "(" in s:
-      warn( 1, "ignoring method not supported by swig '%s::%s'." % (typedef.name, method.name), w )
+      igenerator_warn( 1, "ignoring method not supported by swig '%s::%s'." % (typedef.name, method.name), w )
       return
     # append the default value if it exists
     if arg.default_value:
@@ -577,7 +582,7 @@ for typedef in wrappers_ns.typedefs(): #allow_empty=True):
   if s.startswith("::"):
     s = s[2:]
   if not aliases.has_key( s ) :
-    warn( 2, "%s (%s) should be already defined in the idx files." % (s, typedef.name) )
+    igenerator_warn( 2, "%s (%s) should be already defined in the idx files." % (s, typedef.name) )
     aliases[s] = typedef.name
     # declare the typedef
     headerFile.write("typedef %s %s;\n" % (s, typedef.name))
@@ -608,11 +613,11 @@ for typedef in wrappers_ns.typedefs():
     classes.append( (typedef.name, [get_alias(super_class.related_class.decl_string) for super_class in typedef.type.declaration.bases], typedef) )
 
   elif isinstance( typedef.type.declaration, pygccxml.declarations.enumeration.enumeration_t ):
-    # warn( 6, "Enum are currently supported only nested in a class." )
+    # igenerator_warn( 6, "Enum are currently supported only nested in a class." )
     generate_enum( typedef )
 
   else:
-    warn( 5, "Unknown type type: %s" % str(typedef.type.declaration) )
+    igenerator_warn( 5, "Unknown type type: %s" % str(typedef.type.declaration) )
 
 
 # copy the classes in a new ordered list, according to the dependencies
@@ -642,7 +647,7 @@ for typedef in typedefs:
   generate_class( typedef )
 
 
-if len(warnings) > 0 and options.warningError:
+if len(igenerator_warnings) > 0 and options.warningError:
   sys.exit(1)
 
 
