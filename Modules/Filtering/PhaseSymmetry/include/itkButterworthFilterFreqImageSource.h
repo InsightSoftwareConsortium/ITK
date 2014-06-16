@@ -17,20 +17,9 @@
 namespace itk
 {
 
-/** \class GaussianImageSource
- * \brief Generate an n-dimensional image of the mon.
+/** \class ButterworthFilterFreqImageSource
  *
- * GaussianImageSource generates an image of a Gaussian.
- * m_Normalized determines whether or not the Gaussian is normalized
- * (whether or not the sum over infinite space is 1.0)
- * When creating an image, it is preferable to _not_ normalize the Gaussian
- * m_Scale scales the output of the Gaussian to span a range
- * larger than 0->1, and is typically set to the maximum value
- * of the output data type (for instance, 255 for uchars)
- *
- * The output image may be of any dimension.
- *
- * \ingroup DataSources
+ * \ingroup PhaseSymmetry
  */
 template <typename TOutputImage>
 class ITK_EXPORT ButterworthFilterFreqImageSource : public ImageSource<TOutputImage>
