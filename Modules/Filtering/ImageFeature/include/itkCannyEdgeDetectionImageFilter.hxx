@@ -592,12 +592,9 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
      << m_Center << std::endl;
   os << "Stride: "
      << m_Stride << std::endl;
-  os << "Gaussian Filter: " << std::endl;
-  m_GaussianFilter->Print( os, indent.GetNextIndent() );
-  os << "Multiply image Filter: " << std::endl;
-  m_MultiplyImageFilter->Print( os, indent.GetNextIndent() );
-  os << "UpdateBuffer1: " << std::endl;
-  m_UpdateBuffer1->Print( os, indent.GetNextIndent() );
+  itkPrintSelfObjectMacro( GaussianFilter );
+  itkPrintSelfObjectMacro( MultiplyImageFilter );
+  itkPrintSelfObjectMacro( UpdateBuffer1 );
 }
 } //end of itk namespace
 #endif

@@ -360,7 +360,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   for (SizeValueType i = 0; i < this->GetNumberOfMetrics(); i++)
     {
     os << indent << "~~~ Metric " << i << " ~~~" << std::endl;
-    this->m_MetricQueue[i]->Print(os, indent );
+    this->m_MetricQueue[i]->Print(os, indent.GetNextIndent() );
     }
 }
 

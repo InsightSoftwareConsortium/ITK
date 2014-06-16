@@ -701,15 +701,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   os << indent << "CurrentLevel: " << this->m_CurrentLevel << std::endl;
   os << indent << "ElapsedIterations: "
      << this->m_ElapsedIterations << std::endl;
-  if ( this->m_LogBiasFieldControlPointLattice )
-    {
-    os << indent << "LogBiasFieldControlPointLattice:" << std::endl;
-    this->m_LogBiasFieldControlPointLattice->Print( os, indent.GetNextIndent() );
-    }
-  else
-    {
-    os << indent << "LogBiasFieldControlPointLattice: " << "(null)" << std::endl;
-    }
+  itkPrintSelfObjectMacro( LogBiasFieldControlPointLattice );
 }
 
 } // end namespace itk

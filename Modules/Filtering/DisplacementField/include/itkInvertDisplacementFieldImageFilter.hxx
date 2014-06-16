@@ -256,8 +256,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << "Interpolator:" << std::endl;
-  this->m_Interpolator->Print( os, indent );
+  itkPrintSelfObjectMacro( Interpolator );
 
   os << "Maximum number of iterations: " << this->m_MaximumNumberOfIterations << std::endl;
   os << "Max error tolerance threshold: " << this->m_MaxErrorToleranceThreshold << std::endl;

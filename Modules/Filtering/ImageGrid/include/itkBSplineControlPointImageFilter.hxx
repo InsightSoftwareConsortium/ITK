@@ -638,7 +638,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   Superclass::PrintSelf( os, indent );
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    this->m_Kernel[i]->Print( os, indent );
+    this->m_Kernel[i]->Print( os, indent.GetNextIndent() );
     }
   os << indent << "Spline order: " << this->m_SplineOrder << std::endl;
   os << indent << "Close dimension: " << this->m_CloseDimension << std::endl;

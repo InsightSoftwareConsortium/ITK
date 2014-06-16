@@ -103,7 +103,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const
   {
     Superclass::PrintSelf( os, indent );
-    this->m_Transform->Print( os, indent.GetNextIndent() );
+    itkPrintSelfObjectMacro( Transform );
   }
 
   TransformPointer                           m_Transform;

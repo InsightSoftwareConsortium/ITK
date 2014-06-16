@@ -1194,8 +1194,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   unsigned int i;
   os << indent << "m_IsoSurfaceValue: " << m_IsoSurfaceValue << std::endl;
-  os << indent << "m_LayerNodeStore: " << std::endl;
-  m_LayerNodeStore->Print( os, indent.GetNextIndent() );
+  itkPrintSelfObjectMacro( LayerNodeStore );
   os << indent << "m_BoundsCheckingActive: " << m_BoundsCheckingActive;
   for ( i = 0; i < m_Layers.size(); i++ )
     {

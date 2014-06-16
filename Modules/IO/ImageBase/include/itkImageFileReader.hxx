@@ -51,15 +51,7 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
 {
   Superclass::PrintSelf(os, indent);
 
-  if ( m_ImageIO )
-    {
-    os << indent << "ImageIO: \n";
-    m_ImageIO->Print( os, indent.GetNextIndent() );
-    }
-  else
-    {
-    os << indent << "ImageIO: (null)" << "\n";
-    }
+  itkPrintSelfObjectMacro( ImageIO );
 
   os << indent << "UserSpecifiedImageIO flag: " << m_UserSpecifiedImageIO << "\n";
   os << indent << "m_UseStreaming: " << m_UseStreaming << "\n";

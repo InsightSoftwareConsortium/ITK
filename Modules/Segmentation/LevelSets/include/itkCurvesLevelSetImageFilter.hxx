@@ -45,8 +45,7 @@ CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "CurvesFunction: \n";
-  m_CurvesFunction->Print( os, indent.GetNextIndent() );
+  itkPrintSelfObjectMacro( CurvesFunction );
 }
 
 template< typename TInputImage, typename TFeatureImage, typename TOutputType >

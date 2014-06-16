@@ -515,20 +515,12 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ObjectToObjectMetric: " << std::endl
-     << indent << "Fixed Transform: " << std::endl
-     << indent << this->m_FixedTransform << std::endl
-     << indent << "Moving Transform: " << std::endl
-     << indent << this->m_MovingTransform << std::endl;
-  if( this->m_VirtualImage.IsNull() )
-    {
-    os << indent << "Virtual Image: NULL " << std::endl;
-    }
-  else
-    {
-    os << indent << "Virtual Image: " << std::endl
-       << indent << this->m_VirtualImage << std::endl;
-    }
+  os << indent << "ObjectToObjectMetric: " << std::endl;
+
+  itkPrintSelfObjectMacro( FixedTransform );
+  itkPrintSelfObjectMacro( MovingTransform );
+  itkPrintSelfObjectMacro( VirtualImage );
+
   os << indent << "m_UserHasSetVirtualDomain: " << this->m_UserHasSetVirtualDomain << std::endl
      << indent << "m_NumberOfValidPoints: " << this->m_NumberOfValidPoints << std::endl;
 }
