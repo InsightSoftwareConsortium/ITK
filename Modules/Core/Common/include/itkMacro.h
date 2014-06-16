@@ -658,6 +658,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 #else
   return static_cast<TTarget>(x);
 #endif
+}
 
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1088,7 +1089,5 @@ class kernel                  \
   {                                 \
     return kernel::GetOpenCLSource();  \
   }
-
-}
 
 #endif //end of itkMacro.h
