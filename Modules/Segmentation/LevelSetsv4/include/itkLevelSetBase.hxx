@@ -213,19 +213,7 @@ void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::CopyInformation(const DataObject *data)
 {
-  const LevelSetBase *levelSet = ITK_NULLPTR;
-
-  try
-    {
-    levelSet = dynamic_cast< const LevelSetBase * >( data );
-    }
-  catch ( ... )
-    {
-    // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetBase::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( LevelSetBase * ).name() );
-    }
+  const LevelSetBase *levelSet = dynamic_cast< const LevelSetBase * >( data );
 
   if ( !levelSet )
     {
@@ -252,19 +240,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
   // Copy Meta Data
   this->CopyInformation(data);
 
-  const Self * levelSet = ITK_NULLPTR;
-
-  try
-    {
-    levelSet = dynamic_cast< const Self * >( data );
-    }
-  catch ( ... )
-    {
-    // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetBase::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+  const Self * levelSet = dynamic_cast< const Self * >( data );
 
   if ( !levelSet )
     {

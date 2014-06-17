@@ -131,124 +131,121 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
   phyData =
     dynamic_cast< const ImageBase< InputImageDimension > * >( this->GetInput() );
 
-  if ( phyData )
-    {
-    // Copy what we can from the image from spacing and origin of the input
-    // This logic needs to be augmented with logic that select which
-    // dimensions to copy
-
-    const typename InputImageType::SpacingType &
-    inputSpacing = inputPtr->GetSpacing();
-    const typename InputImageType::DirectionType &
-    inputDirection = inputPtr->GetDirection();
-    const typename InputImageType::PointType &
-    inputOrigin = inputPtr->GetOrigin();
-
-    typename OutputImageType::SpacingType outputSpacing;
-    typename OutputImageType::DirectionType outputDirection;
-    typename OutputImageType::PointType outputOrigin;
-    outputOrigin.Fill(0.0);
-
-    if ( static_cast< unsigned int >( OutputImageDimension ) >
-         static_cast< unsigned int >( InputImageDimension ) )
-      {
-      // copy the input to the output and fill the rest of the
-      // output with zeros.
-      for ( unsigned int i = 0; i < InputImageDimension; ++i )
-        {
-        outputSpacing[i] = inputSpacing[i];
-        outputOrigin[i] = inputOrigin[i];
-        for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
-          {
-          outputDirection[i][dim] = inputDirection[i][dim];
-          }
-        }
-      for (unsigned int i=InputImageDimension; i < OutputImageDimension; ++i )
-        {
-        outputSpacing[i] = 1.0;
-        outputOrigin[i] = 0.0;
-        for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
-          {
-          outputDirection[i][dim] = 0.0;
-          }
-        outputDirection[i][i] = 1.0;
-        }
-      }
-    else
-      {
-      // copy the non-collapsed part of the input spacing and origing to the
-      // output
-      outputDirection.SetIdentity();
-      int nonZeroCount = 0;
-      for ( unsigned int i = 0; i < InputImageDimension; ++i )
-        {
-        if ( m_ExtractionRegion.GetSize()[i] )
-          {
-          outputSpacing[nonZeroCount] = inputSpacing[i];
-          outputOrigin[nonZeroCount] = inputOrigin[i];
-          int nonZeroCount2 = 0;
-          for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
-            {
-            if ( m_ExtractionRegion.GetSize()[dim] )
-              {
-              outputDirection[nonZeroCount][nonZeroCount2] =
-                inputDirection[nonZeroCount][dim];
-              ++nonZeroCount2;
-              }
-            }
-          nonZeroCount++;
-          }
-        }
-      }
-    // if the filter changes from a higher to a lower dimension, or
-    // if, after rebuilding the direction cosines, there's a zero
-    // length cosine vector, reset the directions to identity.
-    switch(m_DirectionCollaspeStrategy)
-      {
-    case DIRECTIONCOLLAPSETOIDENTITY:
-        {
-        outputDirection.SetIdentity();
-        }
-      break;
-    case DIRECTIONCOLLAPSETOSUBMATRIX:
-        {
-        if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
-          {
-          itkExceptionMacro( << "Invalid submatrix extracted for collapsed direction." );
-          }
-        }
-      break;
-    case DIRECTIONCOLLAPSETOGUESS:
-        {
-        if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
-          {
-          outputDirection.SetIdentity();
-          }
-        }
-      break;
-    case DIRECTIONCOLLAPSETOUNKOWN:
-    default:
-        {
-        itkExceptionMacro( << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
-          << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "
-          << typeid( ImageBase< InputImageDimension > * ).name() );
-        }
-      }
-
-    // set the spacing and origin
-    outputPtr->SetSpacing(outputSpacing);
-    outputPtr->SetDirection(outputDirection);
-    outputPtr->SetOrigin(outputOrigin);
-    outputPtr->SetNumberOfComponentsPerPixel(
-      inputPtr->GetNumberOfComponentsPerPixel() );
-    }
-  else
+  if ( phyData == ITK_NULLPTR )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::ExtractSliceImageFilter::GenerateOutputInformation "
                        << "cannot cast input to "
                        << typeid( ImageBase< InputImageDimension > * ).name() );
     }
+  // Copy what we can from the image from spacing and origin of the input
+  // This logic needs to be augmented with logic that select which
+  // dimensions to copy
+
+  const typename InputImageType::SpacingType &
+    inputSpacing = inputPtr->GetSpacing();
+  const typename InputImageType::DirectionType &
+    inputDirection = inputPtr->GetDirection();
+  const typename InputImageType::PointType &
+    inputOrigin = inputPtr->GetOrigin();
+
+  typename OutputImageType::SpacingType outputSpacing;
+  typename OutputImageType::DirectionType outputDirection;
+  typename OutputImageType::PointType outputOrigin;
+  outputOrigin.Fill(0.0);
+
+  if ( static_cast< unsigned int >( OutputImageDimension ) >
+       static_cast< unsigned int >( InputImageDimension ) )
+    {
+    // copy the input to the output and fill the rest of the
+    // output with zeros.
+    for ( unsigned int i = 0; i < InputImageDimension; ++i )
+      {
+      outputSpacing[i] = inputSpacing[i];
+      outputOrigin[i] = inputOrigin[i];
+      for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
+        {
+        outputDirection[i][dim] = inputDirection[i][dim];
+        }
+      }
+    for (unsigned int i=InputImageDimension; i < OutputImageDimension; ++i )
+      {
+      outputSpacing[i] = 1.0;
+      outputOrigin[i] = 0.0;
+      for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
+        {
+        outputDirection[i][dim] = 0.0;
+        }
+      outputDirection[i][i] = 1.0;
+      }
+    }
+  else
+    {
+    // copy the non-collapsed part of the input spacing and origing to the
+    // output
+    outputDirection.SetIdentity();
+    int nonZeroCount = 0;
+    for ( unsigned int i = 0; i < InputImageDimension; ++i )
+      {
+      if ( m_ExtractionRegion.GetSize()[i] )
+        {
+        outputSpacing[nonZeroCount] = inputSpacing[i];
+        outputOrigin[nonZeroCount] = inputOrigin[i];
+        int nonZeroCount2 = 0;
+        for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
+          {
+          if ( m_ExtractionRegion.GetSize()[dim] )
+            {
+            outputDirection[nonZeroCount][nonZeroCount2] =
+              inputDirection[nonZeroCount][dim];
+            ++nonZeroCount2;
+            }
+          }
+        nonZeroCount++;
+        }
+      }
+    }
+  // if the filter changes from a higher to a lower dimension, or
+  // if, after rebuilding the direction cosines, there's a zero
+  // length cosine vector, reset the directions to identity.
+  switch(m_DirectionCollaspeStrategy)
+    {
+    case DIRECTIONCOLLAPSETOIDENTITY:
+    {
+    outputDirection.SetIdentity();
+    }
+    break;
+    case DIRECTIONCOLLAPSETOSUBMATRIX:
+    {
+    if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
+      {
+      itkExceptionMacro( << "Invalid submatrix extracted for collapsed direction." );
+      }
+    }
+    break;
+    case DIRECTIONCOLLAPSETOGUESS:
+    {
+    if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
+      {
+      outputDirection.SetIdentity();
+      }
+    }
+    break;
+    case DIRECTIONCOLLAPSETOUNKOWN:
+    default:
+    {
+    itkExceptionMacro( << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
+                       << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "
+                       << typeid( ImageBase< InputImageDimension > * ).name() );
+    }
+    }
+
+  // set the spacing and origin
+  outputPtr->SetSpacing(outputSpacing);
+  outputPtr->SetDirection(outputDirection);
+  outputPtr->SetOrigin(outputOrigin);
+  outputPtr->SetNumberOfComponentsPerPixel(
+    inputPtr->GetNumberOfComponentsPerPixel() );
 }
 
 

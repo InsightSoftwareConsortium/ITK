@@ -81,19 +81,7 @@ LevelSetSparseImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = ITK_NULLPTR;
-
-  try
-    {
-    LevelSet = dynamic_cast< const Self* >( data );
-    }
-  catch( ... )
-    {
-    // mesh could not be cast back down
-    itkExceptionMacro( << "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+  const Self *LevelSet = dynamic_cast< const Self* >( data );
 
   if ( !LevelSet )
     {
@@ -170,18 +158,7 @@ LevelSetSparseImage< TOutput, VDimension >
 {
   Superclass::CopyInformation( data );
 
-  const Self *LevelSet = ITK_NULLPTR;
-  try
-    {
-    LevelSet = dynamic_cast< const Self* >( data );
-    }
-  catch( ... )
-    {
-    // LevelSet could not be cast back down
-    itkExceptionMacro( << "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+  const Self *LevelSet = dynamic_cast< const Self* >( data );
 
   if ( !LevelSet )
     {

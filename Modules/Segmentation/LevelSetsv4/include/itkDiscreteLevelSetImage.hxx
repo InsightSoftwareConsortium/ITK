@@ -710,20 +710,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 {
   Superclass::CopyInformation( data );
 
-  const Self *LevelSet = ITK_NULLPTR;
-
-  try
-    {
-    LevelSet = dynamic_cast< const Self * >( data );
-    }
-  catch ( ... )
-    {
-    // LevelSet could not be cast back down
-    itkExceptionMacro( << "itk::DiscreteLevelSetImage::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
-
+  const Self *LevelSet = dynamic_cast< const Self * >( data );
   if ( !LevelSet )
     {
     // pointer could not be cast back down
@@ -740,19 +727,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = ITK_NULLPTR;
-
-  try
-    {
-    LevelSet = dynamic_cast< const Self* >( data );
-    }
-  catch( ... )
-    {
-    // image could not be cast back down
-    itkExceptionMacro( << "itk::DiscreteLevelSetImage::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                         << typeid( Self * ).name() );
-    }
+  const Self *LevelSet = dynamic_cast< const Self* >( data );
 
   if ( !LevelSet )
     {
