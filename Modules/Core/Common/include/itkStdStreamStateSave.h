@@ -32,12 +32,14 @@ namespace itk
  * format state) and resets the resource to a default state upon destruction.
  *
  * Typical usage:
- * #include "itkStdStreamStateSave.h"
- *   itk::StdStreamStateSave coutState(std::cout);
- *   std::cout.precision(20);
- *   std::cout.hex();
- *   ...
- *   return;
+ \code{.cpp}
+ itk::StdStreamStateSave coutState(std::cout);
+ std::cout.precision(20);
+ std::cout.hex();
+ ...
+ return;
+ \endcode
+ *
  * \ingroup ITKCommon
  */
 
