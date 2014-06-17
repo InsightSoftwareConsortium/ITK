@@ -161,7 +161,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
 
     const RealType value  = static_cast< RealType >( x ) * m_Scale + m_Shift;
 
-    OutputPixelType  result = static_cast< OutputPixelType >( value );
+    OutputPixelType  result =  Math::Round< OutputPixelType >( value );
 
     result = ( result > m_OutputMaximum ) ? m_OutputMaximum : result;
     result = ( result < m_OutputMinimum ) ? m_OutputMinimum : result;
