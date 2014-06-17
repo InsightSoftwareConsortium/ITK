@@ -128,8 +128,8 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
       break;
       }
 
-    /* Store the previous value of gradient that will be used by child optimizers. */
-    this->m_PreviousGradient = this->m_Gradient;
+    // Save previous value with shallow swap that will be used by child optimizer.
+    swap( this->m_PreviousGradient, this->m_Gradient );
 
     /* Compute metric value/derivative. */
     try
