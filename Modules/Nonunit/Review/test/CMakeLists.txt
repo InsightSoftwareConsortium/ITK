@@ -274,9 +274,6 @@ itk_add_test(NAME itkGaussianDerivativeOperatorTest
       COMMAND ITKReviewTestDriver itkGaussianDerivativeOperatorTest)
 itk_add_test(NAME itkGridForwardWarpImageFilterTest
       COMMAND ITKReviewTestDriver itkGridForwardWarpImageFilterTest)
-itk_add_test(NAME itkImageReadComplexWriteMagnitudeAndPhaseTest
-      COMMAND ITKReviewTestDriver itkImageReadComplexWriteMagnitudeAndPhaseTest
-              ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplex.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha)
 itk_add_test(NAME itkImageFunctionTest
       COMMAND ITKReviewTestDriver itkImageFunctionTest)
 itk_add_test(NAME itkJPEG2000Test00
