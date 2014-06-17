@@ -2017,7 +2017,8 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "ITK_USE_FFTWF" \
                          "ITK_USE_CONCEPT_CHECKING" \
                          "__itkMacro_h" \
-                         "ITK_LEGACY_REMOVE"
+                         "ITK_LEGACY_REMOVE" \
+                         "ITKCommon_EXPORT_EXPLICIT"
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
