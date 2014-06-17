@@ -140,7 +140,16 @@ public:
 
   /** Get the Inner Scalar Product from the Tensor. */
   RealValueType GetInnerScalarProduct() const;
+
 };
+
+
+template<typename T>
+inline void swap( DiffusionTensor3D<T> &a, DiffusionTensor3D<T> &b )
+{
+  a.swap(b);
+}
+
 } // end namespace itk
 #include "itkNumericTraitsDiffusionTensor3DPixel.h"
 

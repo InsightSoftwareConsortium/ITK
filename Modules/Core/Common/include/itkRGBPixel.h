@@ -168,6 +168,14 @@ std::ostream & operator<<(std::ostream & os,
 template< typename TComponent  >
 std::istream & operator>>(std::istream & is,
                                      RGBPixel< TComponent > & c);
+
+
+template<typename T>
+inline void swap( RGBPixel<T> &a, RGBPixel<T> &b )
+{
+  a.swap(b);
+}
+
 } // end namespace itk
 
 //

@@ -283,6 +283,14 @@ ITKCommon_EXPORT Vector< float, 3 > CrossProduct(const Vector< float, 3 > &,
 
 ITKCommon_EXPORT Vector< int, 3 > CrossProduct(const Vector< int, 3 > &,
                                                const Vector< int, 3 > &);
+
+
+template< typename T, unsigned int NVectorDimension >
+inline void swap( Vector<T, NVectorDimension> &a, Vector<T, NVectorDimension> &b )
+{
+  a.swap(b);
+}
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
