@@ -339,16 +339,7 @@ ImageBase< VImageDimension >
 {
   typedef ImageBase< VImageDimension > ImageBaseType;
 
-  const ImageBaseType *image;
-
-  try
-    {
-    image = dynamic_cast< const ImageBaseType * >( data );
-    }
-  catch ( ... )
-    {
-    return;
-    }
+  const ImageBaseType *image = dynamic_cast< const ImageBaseType * >( data );
 
   if ( !image )
     {
