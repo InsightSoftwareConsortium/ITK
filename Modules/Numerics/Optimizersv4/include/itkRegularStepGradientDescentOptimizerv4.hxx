@@ -250,6 +250,50 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     }
 }
 
+/**
+* Estimate the learning rate.
+*/
+template<typename TInternalComputationValueType>
+void
+RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
+::EstimateLearningRate()
+{
+  if ( this->m_ScalesEstimator.IsNull() )
+    {
+    return;
+    }
+  if ( this->m_DoEstimateLearningRateAtEachIteration ||
+      (this->m_DoEstimateLearningRateOnce && this->m_CurrentIteration == 0) )
+    {
+    TInternalComputationValueType stepScale
+    = this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
+
+    if (stepScale <= NumericTraits<TInternalComputationValueType>::epsilon())
+      {
+      this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
+      }
+    else
+      {
+      this->m_LearningRate = this->m_MaximumStepSizeInPhysicalUnits / stepScale;
+      }
+    CompensatedSummationType compensatedSummation;
+    for( SizeValueType dim = 0; dim < this->m_Gradient.Size(); ++dim )
+      {
+      const double weighted = this->m_Gradient[dim];
+      compensatedSummation += weighted * weighted;
+      }
+    const double gradientMagnitude = std::sqrt( compensatedSummation.GetSum() );
+
+    //
+    // Specialized to keep the step size regularized this additional
+    // scale is needed to make the learning rate independent on the
+    // gradient magnitude.
+    //
+    this->m_LearningRate *= gradientMagnitude;
+
+    }
+}
+
 }//namespace itk
 
 #endif

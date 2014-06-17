@@ -18,15 +18,27 @@ itk_add_test(NAME ImageRegistrationHistogramPlotterTest COMMAND  ${ITK_TEST_DRIV
 )
 set_property(TEST ImageRegistrationHistogramPlotterTest APPEND PROPERTY LABELS RUNS_LONG)
 
-itk_add_test(NAME ImageRegistration1Test COMMAND  ${ITK_TEST_DRIVER}
+itk_add_test(NAME ImageRegistration1Test1 COMMAND  ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ImageRegistration1TestPixelCentered.png}
-            ${TEMP}/ImageRegistration1TestPixelCentered.png
+            ${TEMP}/ImageRegistration1Test1PixelCentered.png
   $<TARGET_FILE:ImageRegistration1>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration1TestPixelCentered.png
-        ${TEMP}/ImageRegistration1DifferenceAfterTestPixelCentered.png
-        ${TEMP}/ImageRegistration1DifferenceBeforeTestPixelCentered.png
+        ${TEMP}/ImageRegistration1Test1PixelCentered.png
+        ${TEMP}/ImageRegistration1DifferenceAfterTest1PixelCentered.png
+        ${TEMP}/ImageRegistration1DifferenceBeforeTest1PixelCentered.png
+)
+
+itk_add_test(NAME ImageRegistration1Test2 COMMAND  ${ITK_TEST_DRIVER}
+  --compare DATA{${BASELINE}/ImageRegistration1TestPixelCentered.png}
+            ${TEMP}/ImageRegistration1Test2PixelCentered.png
+  $<TARGET_FILE:ImageRegistration1>
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/ImageRegistration1Test2PixelCentered.png
+        ${TEMP}/ImageRegistration1DifferenceAfterTest2PixelCentered.png
+        ${TEMP}/ImageRegistration1DifferenceBeforeTest2PixelCentered.png
+        1
 )
 
 itk_add_test(NAME ImageRegistration2Test COMMAND ${ITK_TEST_DRIVER}

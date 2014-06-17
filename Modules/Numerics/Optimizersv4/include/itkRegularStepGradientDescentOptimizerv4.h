@@ -99,6 +99,9 @@ public:
   /** Start and run the optimization */
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
+  /** Estimate the learning rate based on the current gradient. */
+  virtual void EstimateLearningRate();
+
 protected:
 
   /** Advance one Step following the gradient direction.
