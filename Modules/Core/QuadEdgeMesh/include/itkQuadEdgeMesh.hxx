@@ -82,19 +82,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::Graft(const DataObject *data)
 {
   this->Superclass::Graft(data);
-  const Self *mesh = ITK_NULLPTR;
-
-  try
-    {
-    mesh = dynamic_cast< const Self * >( data );
-    }
-  catch ( ... )
-    {
-    // mesh could not be cast back down
-    itkExceptionMacro( << "itk::QuadEdgeMesh::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+  const Self *mesh = dynamic_cast< const Self * >( data );
 
   if ( !mesh )
     {

@@ -545,7 +545,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   // check if we are the same type
   const Self *source = dynamic_cast< const Self * >( data );
 
-  if ( !source )
+  if ( source == ITK_NULLPTR )
     {
     std::cout << "CopyInformation: objects are not of the same type"
               << std::endl;

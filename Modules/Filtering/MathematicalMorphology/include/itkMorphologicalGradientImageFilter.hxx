@@ -44,14 +44,7 @@ void
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
 {
-  const FlatKernelType *flatKernel = ITK_NULLPTR;
-
-  try
-    {
-    flatKernel = dynamic_cast< const FlatKernelType * >( &kernel );
-    }
-  catch ( ... )
-                  {}
+  const FlatKernelType *flatKernel = dynamic_cast< const FlatKernelType * >( &kernel );
 
   if ( flatKernel != ITK_NULLPTR && flatKernel->GetDecomposable() )
     {
@@ -96,14 +89,7 @@ void
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetAlgorithm(int algo)
 {
-  const FlatKernelType *flatKernel = NULL;
-
-  try
-    {
-    flatKernel = dynamic_cast< const FlatKernelType * >( &this->GetKernel() );
-    }
-  catch ( ... )
-                  {}
+  const FlatKernelType *flatKernel = dynamic_cast< const FlatKernelType * >( &this->GetKernel() );
 
   if ( m_Algorithm != algo )
     {

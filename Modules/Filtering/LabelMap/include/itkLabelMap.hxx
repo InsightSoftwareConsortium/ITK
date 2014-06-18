@@ -86,37 +86,27 @@ void
 LabelMap< TLabelObject >
 ::Graft(const DataObject *data)
 {
+  if(data == ITK_NULLPTR)
+    {
+    return; // nothing to do
+    }
   // call the superclass' implementation
   Superclass::Graft(data);
 
-  if ( data )
+  // Attempt to cast data to an Image
+  const Self *imgData = dynamic_cast< const Self * >( data );
+
+  if ( imgData == ITK_NULLPTR )
     {
-    // Attempt to cast data to an Image
-    const Self *imgData;
-
-    try
-      {
-      imgData = dynamic_cast< const Self * >( data );
-      }
-    catch ( ... )
-      {
-      return;
-      }
-
-    if ( imgData )
-      {
-      // Now copy anything remaining that is needed
-      m_LabelObjectContainer = imgData->m_LabelObjectContainer;
-      m_BackgroundValue = imgData->m_BackgroundValue;
-      }
-    else
-      {
-      // pointer could not be cast back down
-      itkExceptionMacro( << "itk::Image::Graft() cannot cast "
-                         << typeid( data ).name() << " to "
-                         << typeid( const Self * ).name() );
-      }
+    // pointer could not be cast back down
+    itkExceptionMacro( << "itk::Image::Graft() cannot cast "
+                       << typeid( data ).name() << " to "
+                       << typeid( const Self * ).name() );
     }
+
+  // Now copy anything remaining that is needed
+  m_LabelObjectContainer = imgData->m_LabelObjectContainer;
+  m_BackgroundValue = imgData->m_BackgroundValue;
 }
 
 template< typename TLabelObject >

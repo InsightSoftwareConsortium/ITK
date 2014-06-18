@@ -374,19 +374,7 @@ void
 PointSet< TPixelType, VDimension, TMeshTraits >
 ::CopyInformation(const DataObject *data)
 {
-  const PointSet *pointSet = ITK_NULLPTR;
-
-  try
-    {
-    pointSet = dynamic_cast< const PointSet * >( data );
-    }
-  catch ( ... )
-    {
-    // pointer could not be cast back down
-    itkExceptionMacro( << "itk::PointSet::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( PointSet * ).name() );
-    }
+  const PointSet *pointSet = dynamic_cast< const PointSet * >( data );
 
   if ( !pointSet )
     {
@@ -413,19 +401,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
   // Copy Meta Data
   this->CopyInformation(data);
 
-  const Self *pointSet = ITK_NULLPTR;
-
-  try
-    {
-    pointSet = dynamic_cast< const Self * >( data );
-    }
-  catch ( ... )
-    {
-    // pointer could not be cast back down
-    itkExceptionMacro( << "itk::PointSet::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+  const Self *pointSet = dynamic_cast< const Self * >( data );
 
   if ( !pointSet )
     {

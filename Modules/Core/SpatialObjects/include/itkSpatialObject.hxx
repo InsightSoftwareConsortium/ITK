@@ -845,17 +845,15 @@ SpatialObject< TDimension >
 {
   const SpatialObject *imgData = dynamic_cast< const SpatialObject * >( data );
 
-  if ( imgData )
-    {
-    m_RequestedRegion = imgData->GetRequestedRegion();
-    }
-  else
+  if ( imgData == ITK_NULLPTR)
     {
     // pointer could not be cast back down
     itkExceptionMacro(
       << "itk::ImageBase::SetRequestedRegion(const DataObject *) cannot cast "
       << typeid( data ).name() << " to " << typeid( SpatialObject * ).name() );
     }
+
+  m_RequestedRegion = imgData->GetRequestedRegion();
 }
 
 template< unsigned int TDimension >
@@ -979,18 +977,16 @@ void SpatialObject< TDimension >
 
   imgData = dynamic_cast< const SpatialObject * >( data );
 
-  if ( imgData )
-    {
-    // Copy the meta data for this data type
-    m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
-    }
-  else
+  if ( imgData == ITK_NULLPTR )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::SpatialObject::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( SpatialObject * ).name() );
     }
+
+  // Copy the meta data for this data type
+  m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
 
   // check if we are the same type
   const Self *source = dynamic_cast< const Self * >( data );

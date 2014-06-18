@@ -1138,19 +1138,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 {
   this->Superclass::CopyInformation(data);
 
-  const Self *mesh = ITK_NULLPTR;
-
-  try
-    {
-    mesh = dynamic_cast< const Self * >( data );
-    }
-  catch ( ... )
-    {
-    // mesh could not be cast back down
-    itkExceptionMacro( << "itk::Mesh::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+  const Self *mesh = dynamic_cast< const Self * >( data );
 
   if ( !mesh )
     {
@@ -1170,19 +1158,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 {
   this->Superclass::Graft(data);
 
-  const Self *mesh = ITK_NULLPTR;
-
-  try
-    {
-    mesh = dynamic_cast< const Self * >( data );
-    }
-  catch ( ... )
-    {
-    // mesh could not be cast back down
-    itkExceptionMacro( << "itk::Mesh::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+  const Self *mesh = dynamic_cast< const Self * >( data );
 
   if ( !mesh )
     {
