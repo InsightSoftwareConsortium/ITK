@@ -102,6 +102,7 @@ itkMersenneTwisterRandomVariateGeneratorTest.cxx
 itkNumberToStringTest.cxx
 itkTimeProbeTest.cxx
 itkStdStreamStateSaveTest.cxx
+VNLSparseLUSolverTraitsTest.cxx
 )
 
 set(ITKCommon2Tests
@@ -249,6 +250,7 @@ itk_add_test(NAME itkBoundaryConditionTest COMMAND ITKCommon1TestDriver itkBound
 itk_add_test(NAME itkByteSwapTest COMMAND ITKCommon1TestDriver itkByteSwapTest)
 itk_add_test(NAME itkBSplineInterpolationWeightFunctionTest COMMAND ITKCommon2TestDriver itkBSplineInterpolationWeightFunctionTest)
 itk_add_test(NAME itkBSplineKernelFunctionTest COMMAND ITKCommon1TestDriver itkBSplineKernelFunctionTest)
+itk_add_test(NAME VNLSparseLUSolverTraitsTest COMMAND ITKCommon1TestDriver VNLSparseLUSolverTraitsTest)
 
 itk_add_test(NAME itkConstNeighborhoodIteratorTest
       COMMAND ITKCommon2TestDriver --redirectOutput ${TEMP}/itkConstNeighborhoodIteratorTest.txt

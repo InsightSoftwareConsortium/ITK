@@ -87,7 +87,7 @@ public:
   static bool Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
   {
     SolverType solver( iA );
-    oX = solver.solve( iB );
+    Solve( solver, iB, oX );
 
     return true;
   }
@@ -98,9 +98,7 @@ public:
              VectorType & oX, VectorType & oY, VectorType & oZ )
   {
     SolverType solver( iA );
-    oX = solver.solve( iBx );
-    oY = solver.solve( iBy );
-    oZ = solver.solve( iBz );
+    Solve( solver, iBx, iBy, iBz, oX, oY, oZ );
 
     return true;
   }
@@ -111,12 +109,35 @@ public:
              VectorType & oX, VectorType & oY)
   {
     SolverType solver( iA );
-    oX = solver.solve( iBx );
-    oY = solver.solve( iBy );
+    Solve( solver, iBx, iBy, oX, oY );
 
     return true;
   }
 
+  /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ factoring the internal matrix if needed */
+  static void Solve( SolverType & solver, const VectorType & iB, VectorType & oX )
+  {
+    oX = solver.solve( iB );
+  }
+
+  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$ factoring the internal matrix if needed */
+  static void Solve( SolverType & solver,
+             const VectorType & iBx, const VectorType & iBy, const VectorType & iBz,
+             VectorType & oX, VectorType & oY, VectorType & oZ )
+  {
+    oX = solver.solve( iBx );
+    oY = solver.solve( iBy );
+    oZ = solver.solve( iBz );
+  }
+
+  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$ factoring the internal matrix if needed */
+  static void Solve( SolverType & solver,
+             const VectorType & iBx, const VectorType & iBy,
+             VectorType & oX, VectorType & oY )
+  {
+    oX = solver.solve( iBx );
+    oY = solver.solve( iBy );
+  }
 };
 
 #endif
