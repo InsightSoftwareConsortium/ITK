@@ -779,8 +779,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
+  Indent indent2 = indent.GetNextIndent();
 
-  os << "Number of levels = " << this->m_NumberOfLevels << std::endl;
+  os << indent << "Number of levels = " << this->m_NumberOfLevels << std::endl;
 
   for( unsigned int level = 0; level < this->m_NumberOfLevels; ++level )
     {
@@ -791,11 +792,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
 
   if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
     {
-    os << indent << indent << "Smoothing sigmas are specified in physical units." << std::endl;
+    os << indent2 << "Smoothing sigmas are specified in physical units." << std::endl;
     }
   else
     {
-    os << indent << indent << "Smoothing sigmas are specified in voxel units." << std::endl;
+    os << indent2 << "Smoothing sigmas are specified in voxel units." << std::endl;
     }
 
   if( this->m_OptimizerWeights.Size() > 0 )

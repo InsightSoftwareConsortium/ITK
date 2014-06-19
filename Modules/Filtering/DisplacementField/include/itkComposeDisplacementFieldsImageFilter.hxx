@@ -129,10 +129,8 @@ void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  os << "Interpolator:" << std::endl;
-  this->m_Interpolator->Print( os, indent );
-
   Superclass::PrintSelf( os, indent );
+  itkPrintSelfObjectMacro( Interpolator );
 }
 
 }  //end namespace itk

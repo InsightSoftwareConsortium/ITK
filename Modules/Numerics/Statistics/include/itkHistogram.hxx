@@ -743,8 +743,7 @@ Histogram< TMeasurement, TFrequencyContainer >
     os << this->m_OffsetTable[i] << "  ";
     }
   os << std::endl;
-  os << indent << "FrequencyContainerPointer: " << std::endl;
-  m_FrequencyContainer->Print( os,  indent.GetNextIndent() );
+  itkPrintSelfObjectMacro( FrequencyContainer );
 }
 
 template< typename TMeasurement, typename TFrequencyContainer >

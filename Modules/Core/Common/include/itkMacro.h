@@ -1090,4 +1090,17 @@ class kernel                  \
     return kernel::GetOpenCLSource();  \
   }
 
+// A useful macro in the PrintSelf method for printing member variables
+// which are pointers to object based on the LightObject class.
+#define itkPrintSelfObjectMacro(name)                                 \
+  if (static_cast<const LightObject*>(this->m_##name) == ITK_NULLPTR) \
+    {                                                                 \
+    os << indent << #name << ": (null)" << std::endl;                 \
+    }                                                                 \
+  else                                                                \
+    {                                                                 \
+    os << indent << #name << ": " << std::endl;                       \
+    this->m_##name->Print(os,indent.GetNextIndent());                 \
+    }
+
 #endif //end of itkMacro.h

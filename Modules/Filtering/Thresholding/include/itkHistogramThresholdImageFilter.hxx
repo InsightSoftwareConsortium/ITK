@@ -160,8 +160,7 @@ HistogramThresholdImageFilter<TInputImage,TOutputImage,TMaskImage>
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue) << std::endl;
   os << indent << "InsideValue: "
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue) << std::endl;
-  os << indent << "Calculator: ";
-  m_Calculator->Print( os, indent.GetNextIndent() );
+  itkPrintSelfObjectMacro( Calculator );
   os << indent << "Threshold (computed): "
      << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold) << std::endl;
   os << indent << "Mask image in use: " << (bool)(this->GetMaskImage() ) << std::endl;

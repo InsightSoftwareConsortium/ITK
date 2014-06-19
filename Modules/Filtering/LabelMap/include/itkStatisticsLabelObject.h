@@ -553,15 +553,7 @@ protected:
     // os << indent << "CentralMoments: " << std::endl << m_CentralMoments;
     os << indent << "WeightedPrincipalMoments: " << m_WeightedPrincipalMoments << std::endl;
     os << indent << "WeightedPrincipalAxes: " << std::endl << m_WeightedPrincipalAxes;
-    os << indent << "Histogram: ";
-    if ( m_Histogram.IsNull() )
-      {
-      os << "NULL" << std::endl;
-      }
-    else
-      {
-      m_Histogram->Print(os, indent);
-      }
+    itkPrintSelfObjectMacro( Histogram );
   }
 
 private:

@@ -187,8 +187,7 @@ WarpHarmonicEnergyCalculator< TInputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "HarmonicEnergy: " << m_HarmonicEnergy << std::endl;
-  os << indent << "Image: " << std::endl;
-  m_Image->Print( os, indent.GetNextIndent() );
+  itkPrintSelfObjectMacro( Image );
   os << indent << "Region: " << std::endl;
   m_Region.Print( os, indent.GetNextIndent() );
   os << indent << "Region set by User: " << m_RegionSetByUser << std::endl;

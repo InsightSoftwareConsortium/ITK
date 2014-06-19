@@ -75,24 +75,8 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
     os << indent << "m_Weights is unset. Treated as identity." << std::endl;
     }
   os << indent << "m_WeightsAreIdentity: " << this->GetWeightsAreIdentity() << std::endl;
-  if( this->m_Metric.IsNotNull() )
-    {
-    os << indent << "Metric: " << std::endl;
-    m_Metric->Print( os, indent.GetNextIndent() );
-    }
-  else
-    {
-    os << indent << "Metric is not set." << std::endl;
-    }
-  if( this->m_ScalesEstimator.IsNull() )
-    {
-    os << indent << "No ScalesEstimator set." << std::endl;
-    }
-  else
-    {
-    os << indent << "ScalesEstimator: " << std::endl;
-    this->m_ScalesEstimator->Print( os, indent.GetNextIndent() );
-    }
+  itkPrintSelfObjectMacro( Metric );
+  itkPrintSelfObjectMacro( ScalesEstimator );
   if ( this->m_CurrentIteration > 0 )
     {
     os << indent << "CurrentIteration: " << this->m_CurrentIteration << std::endl;

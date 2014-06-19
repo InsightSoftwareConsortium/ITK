@@ -2560,26 +2560,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   os << indent << "KernelBandwidthMultiplicationFactor: "
      << m_KernelBandwidthMultiplicationFactor << std::endl;
 
-  if (m_Sampler)
-    {
-    os << indent << "Sampler: " << std::endl;
-    m_Sampler->Print(os,indent.GetNextIndent() );
-    }
-  else
-    {
-    os << indent << "Sampler: " << "(None)" << std::endl;
-    }
+  itkPrintSelfObjectMacro( Sampler );
+  itkPrintSelfObjectMacro( UpdateBuffer );
 
-  if (m_UpdateBuffer)
-    {
-    os << indent << "Update buffer:\n";
-    m_UpdateBuffer->Print(os, indent.GetNextIndent() );
-    os << std::endl;
-    }
-  else
-    {
-    os << indent << "Update buffer is NULL" << std::endl;
-    }
   os << std::endl;
 }
 
