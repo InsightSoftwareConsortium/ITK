@@ -29,7 +29,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
   m_RelaxationFactor( 0.5 ),
   m_MinimumStepLength( 1e-4 ), // Initialize parameter for the convergence checker
   m_GradientMagnitudeTolerance( 1e-4 ),
-  m_CurrentStepLength( 0 )
+  m_CurrentLearningRateRelaxation( 0 )
 {
   this->m_DoEstimateLearningRateAtEachIteration = false;
   this->m_DoEstimateLearningRateOnce = false;
@@ -46,6 +46,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Current learning rate relaxation: " << m_CurrentLearningRateRelaxation << std::endl;
   os << indent << "Relaxation factor: " << this->m_RelaxationFactor << std::endl;
   os << indent << "Minimum step length: " << this->m_MinimumStepLength << std::endl;
   os << indent << "Gradient magnitude tolerance: " << this->m_GradientMagnitudeTolerance << std::endl;
@@ -74,8 +75,8 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
   this->m_Gradient.Fill(0.0f);
   this->m_PreviousGradient.Fill(0.0f);
 
-  // Reset the iterations and step length when the optimizer is started again.
-  this->m_CurrentStepLength = this->m_LearningRate;
+  // Reset the iterations and learning rate scale when the optimizer is started again.
+  this->m_CurrentLearningRateRelaxation = 1.0;
   this->m_CurrentIteration = 0;
 
   // validity check for the value of GradientMagnitudeTolerance
@@ -157,16 +158,18 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     // If there is a direction change
   if ( scalarProduct < 0 )
     {
-    this->m_CurrentStepLength *= this->m_RelaxationFactor;
+    this->m_CurrentLearningRateRelaxation *= this->m_RelaxationFactor;
     }
 
-  if ( this->m_CurrentStepLength < this->m_MinimumStepLength )
+  const double stepLength = this->m_CurrentLearningRateRelaxation*this->m_LearningRate;
+
+  if ( stepLength < this->m_MinimumStepLength )
     {
     this->m_StopCondition = Superclass::STEP_TOO_SMALL;
     this->m_StopConditionDescription << "Step too small after "
                                   << this->m_CurrentIteration
                                   << " iterations. Current step ("
-                                  << this->m_CurrentStepLength
+                                  << stepLength
                                   << ") is less than minimum step ("
                                   << this->m_MinimumStepLength
                                   << ").";
@@ -243,7 +246,51 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
   /* Loop over the range. It is inclusive. */
   for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
     {
-    this->m_Gradient[j] = this->m_Gradient[j] * this->m_CurrentStepLength;
+    this->m_Gradient[j] = this->m_Gradient[j] * this->m_CurrentLearningRateRelaxation*this->m_LearningRate;
+    }
+}
+
+/**
+* Estimate the learning rate.
+*/
+template<typename TInternalComputationValueType>
+void
+RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
+::EstimateLearningRate()
+{
+  if ( this->m_ScalesEstimator.IsNull() )
+    {
+    return;
+    }
+  if ( this->m_DoEstimateLearningRateAtEachIteration ||
+      (this->m_DoEstimateLearningRateOnce && this->m_CurrentIteration == 0) )
+    {
+    TInternalComputationValueType stepScale
+    = this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
+
+    if (stepScale <= NumericTraits<TInternalComputationValueType>::epsilon())
+      {
+      this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
+      }
+    else
+      {
+      this->m_LearningRate = this->m_MaximumStepSizeInPhysicalUnits / stepScale;
+      }
+    CompensatedSummationType compensatedSummation;
+    for( SizeValueType dim = 0; dim < this->m_Gradient.Size(); ++dim )
+      {
+      const double weighted = this->m_Gradient[dim];
+      compensatedSummation += weighted * weighted;
+      }
+    const double gradientMagnitude = std::sqrt( compensatedSummation.GetSum() );
+
+    //
+    // Specialized to keep the step size regularized this additional
+    // scale is needed to make the learning rate independent on the
+    // gradient magnitude.
+    //
+    this->m_LearningRate *= gradientMagnitude;
+
     }
 }
 

@@ -99,6 +99,9 @@ public:
   /** Start and run the optimization */
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
+  /** Estimate the learning rate based on the current gradient. */
+  virtual void EstimateLearningRate();
+
 protected:
 
   /** Advance one Step following the gradient direction.
@@ -130,8 +133,8 @@ protected:
   /** Minimum gradient magnitude value for convergence checking */
   TInternalComputationValueType  m_GradientMagnitudeTolerance;
 
-  /** Store the current step length */
-  MeasureType                  m_CurrentStepLength;
+  /** Current scale for learning rate */
+  MeasureType                  m_CurrentLearningRateRelaxation;
 
 private:
   RegularStepGradientDescentOptimizerv4( const Self & ); //purposely not implemented

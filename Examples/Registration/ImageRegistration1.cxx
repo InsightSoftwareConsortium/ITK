@@ -108,7 +108,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [differenceImageAfter]";
-    std::cerr << "[differenceImageBefore]" << std::endl;
+    std::cerr << "[differenceImageBefore] [useEstimator]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -407,6 +407,22 @@ int main( int argc, char *argv[] )
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetRelaxationFactor( 0.5 );
   // Software Guide : EndCodeSnippet
+
+  bool useEstimator = false;
+  if( argc > 6 )
+    {
+    useEstimator = atoi(argv[6]) != 0;
+    }
+
+  if( useEstimator )
+    {
+    typedef itk::RegistrationParameterScalesFromPhysicalShift<MetricType> ScalesEstimatorType;
+    ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
+    scalesEstimator->SetMetric( metric );
+    scalesEstimator->SetTransformForward( true );
+    optimizer->SetScalesEstimator( scalesEstimator );
+    optimizer->SetDoEstimateLearningRateOnce( true );
+    }
 
 
   //  Software Guide : BeginLatex
