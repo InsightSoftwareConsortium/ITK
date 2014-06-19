@@ -66,7 +66,6 @@
 #cmakedefine ITK_USE_64BITS_IDS
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_32
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_64
-#cmakedefine ITK_WRAPPING
 
 // defined if the system has <tr1/type_traits> header
 #cmakedefine ITK_HAS_STLTR1_TR1_TYPE_TRAITS
