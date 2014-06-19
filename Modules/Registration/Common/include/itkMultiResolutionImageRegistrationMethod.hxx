@@ -351,7 +351,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
     // Invoke an iteration event.
     // This allows a UI to reset any of the components between
     // resolution level.
-    this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent( MultiResolutionIterationEvent() );
 
     // Check if there has been a stop request
     if ( m_Stop )

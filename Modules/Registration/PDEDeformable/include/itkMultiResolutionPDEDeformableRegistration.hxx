@@ -386,7 +386,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
                                (int)m_FixedImagePyramid->GetNumberOfLevels() );
 
     // Invoke an iteration event.
-    this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent( MultiResolutionIterationEvent() );
 
     // We can release data from pyramid which are no longer required.
     if ( movingLevel > 0 )
