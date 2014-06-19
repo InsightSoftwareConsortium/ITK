@@ -26,8 +26,8 @@ configure_file(src/itk_H5Cpp.h.in src/itk_H5Cpp.h)
 
 itk_module_impl()
 
-if(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  install(FILES ${ITKHDF5_BINARY_DIR}/src/itk_hdf5.h
-                ${ITKHDF5_BINARY_DIR}/src/itk_H5Cpp.h
-    DESTINATION ${ITKHDF5_INSTALL_INCLUDE_DIR})
-endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
+install(FILES ${ITKHDF5_BINARY_DIR}/src/itk_hdf5.h
+              ${ITKHDF5_BINARY_DIR}/src/itk_H5Cpp.h
+  DESTINATION ${ITKHDF5_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
+  )
