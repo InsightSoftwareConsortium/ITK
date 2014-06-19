@@ -49,7 +49,8 @@ namespace itk
  * http://hdl.handle.net/1926/326
  *
  * \sa ComposeImageFilter
- * \ingroup ITKFFT
+ *
+ * \ingroup ITKImageIntensity
  */
 namespace Functor
 {
