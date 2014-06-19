@@ -243,7 +243,7 @@ inline
 CovariantVector< T, NVectorDimension >
 operator*(const T & scalar, const CovariantVector< T, NVectorDimension > & v)
 {
-  return v * scalar;
+  return v.operator*(scalar);
 }
 
 /** Performs the scalar product of a covariant with a contravariant.

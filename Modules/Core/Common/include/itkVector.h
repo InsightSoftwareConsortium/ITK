@@ -252,7 +252,7 @@ inline
 Vector< T, NVectorDimension >
 operator*(const T & scalar, const Vector< T, NVectorDimension > & v)
 {
-  return v * scalar;
+  return v.operator*( scalar);
 }
 
 /** Print content to an ostream */
