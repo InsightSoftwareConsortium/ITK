@@ -1,18 +1,10 @@
-
-# Make it easier to enable the main supported languages, by providing the option even when
-# the Wrapping directory has not yet been included
-option(ITK_WRAP_PYTHON "Build python support" OFF)
-
-option(ITK_WRAPPING "Build external languages support" OFF)
-mark_as_advanced(ITK_WRAPPING)
-
 # check whether we should go in the wrapping folder, even with ITK_WRAPPING is OFF
+# ITK_WRAPPING is an internal variable that indicates wrapping for any
+# language will be attempted.
 if(NOT ITK_WRAPPING_REACHED)
   if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA)
     # force ITK_WRAPPING to ON
-    unset(ITK_WRAPPING CACHE)
-    option(ITK_WRAPPING "Build external languages support" ON)
-    mark_as_advanced(ITK_WRAPPING)
+    set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
   endif()
 endif()
 

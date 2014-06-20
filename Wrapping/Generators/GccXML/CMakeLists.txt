@@ -133,7 +133,6 @@ macro(itk_end_wrap_submodule_gccxml module)
             -fxml-start=_cable_
             -o ${xml_file}
             ${CONFIG_GCCXML_INC_CONTENTS}
-            -DCSWIG
             -DCABLE_CONFIGURATION
             -DITK_MANUAL_INSTANTIATION
             ${cxx_file}
@@ -146,7 +145,6 @@ macro(itk_end_wrap_submodule_gccxml module)
             -fxml-start=_cable_
             -fxml=${xml_file}
             --gccxml-gcc-options ${gccxml_inc_file}
-            -DCSWIG
             -DCABLE_CONFIGURATION
             -DITK_MANUAL_INSTANTIATION
             ${ADDITIONAL_GCC_XML_FLAGS}
