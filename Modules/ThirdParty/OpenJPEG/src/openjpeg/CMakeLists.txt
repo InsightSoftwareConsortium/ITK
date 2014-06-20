@@ -64,6 +64,18 @@ CONFIGURE_FILE(${ITK3P_OpenJPEG_SOURCE_DIR}/openjpegDllConfig.h.in
 CONFIGURE_FILE(${ITK3P_OpenJPEG_SOURCE_DIR}/opj_configure.h.in
                ${ITK3P_OpenJPEG_BINARY_DIR}/opj_configure.h)
 
+#-----------------------------------------------------------------------------
+# configure name mangling to allow multiple libraries to coexist
+# peacefully
+if(EXISTS ${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg_mangle.h.in)
+set(MANGLE_PREFIX itk)
+configure_file(${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg_mangle.h.in
+               ${ITK3P_OpenJPEG_BINARY_DIR}/openjpeg_mangle.h
+             @ONLY)
+else()
+  file(WRITE ${ITK3P_OpenJPEG_BINARY_DIR}/openjpeg_mangle.h "/* No mangling used */\n")
+endif()
+
 INCLUDE_DIRECTORIES("${ITK3P_OpenJPEG_BINARY_DIR}")
 
 # Create the library
@@ -79,20 +91,17 @@ IF(ITK_LIBRARY_PROPERTIES)
   SET_TARGET_PROPERTIES(${OPENJPEG_LIBRARY_NAME} PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 ENDIF(ITK_LIBRARY_PROPERTIES)
 
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS ${OPENJPEG_LIBRARY_NAME}
-    EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
-    RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
-    LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
-    ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
-    )
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
-
-if(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  install(FILES
-    ${ITK3P_OpenJPEG_BINARY_DIR}/openjpegDllConfig.h
-    ${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg.h
-    DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_openjpeg.h #include "itkopenjpeg/openjpeg.h"
-    COMPONENT Development
+INSTALL(TARGETS ${OPENJPEG_LIBRARY_NAME}
+  EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
+  RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
+  LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
+  ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
   )
-endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
+
+install(FILES
+  ${ITK3P_OpenJPEG_BINARY_DIR}/openjpegDllConfig.h
+  ${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg.h
+  ${ITK3P_OpenJPEG_BINARY_DIR}/openjpeg_mangle.h
+  DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
+  )

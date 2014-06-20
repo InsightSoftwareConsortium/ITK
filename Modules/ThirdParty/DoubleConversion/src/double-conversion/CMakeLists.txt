@@ -33,15 +33,11 @@ itk_module_target(itkdouble-conversion NO_INSTALL)
 # install command to set up library install
 # given the above PUBLIC_HEADER property set, this
 # pulls along all the header files with the library.
-if(NOT ITK_INSTALL_NO_LIBRARIES)
-  install(TARGETS itkdouble-conversion
-    EXPORT ${ITKDoubleConversion-targets}
-    RUNTIME DESTINATION "${ITKDoubleConversion_INSTALL_RUNTIME_DIR}" COMPONENT Applications
-    LIBRARY DESTINATION "${ITKDoubleConversion_INSTALL_LIBRARY_DIR}" COMPONENT Libraries
-    ARCHIVE DESTINATION "${ITKDoubleConversion_INSTALL_LIBRARY_DIR}" COMPONENT Development)
-endif()
+install(TARGETS itkdouble-conversion
+  EXPORT ${ITKDoubleConversion-targets}
+  RUNTIME DESTINATION "${ITKDoubleConversion_INSTALL_RUNTIME_DIR}" COMPONENT Applications
+  LIBRARY DESTINATION "${ITKDoubleConversion_INSTALL_LIBRARY_DIR}" COMPONENT Libraries
+  ARCHIVE DESTINATION "${ITKDoubleConversion_INSTALL_LIBRARY_DIR}" COMPONENT Development)
 
-if(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  install(FILES ${headers}
-    DESTINATION "${ITKDoubleConversion_INSTALL_INCLUDE_DIR}" COMPONENT Development)
-endif()
+install(FILES ${headers}
+  DESTINATION "${ITKDoubleConversion_INSTALL_INCLUDE_DIR}" COMPONENT Development)
