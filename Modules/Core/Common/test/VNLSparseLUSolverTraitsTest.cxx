@@ -20,6 +20,7 @@
 #include "vnl/vnl_math.h" // vnl_math_abs
 
 #include <iostream>
+#include <cstdlib>
 
 template< class TVector >
 bool VectorsEquals( const TVector & v1,
