@@ -3,6 +3,7 @@ ITK Images stored in the <a href=\"http://www.hdfgroup.org/HDF5/\">HDF5</a>
 data model and file format.")
 
 itk_module(ITKIOHDF5
+  ENABLE_SHARED
   DEPENDS
     ITKCommon
     ITKIOImageBase

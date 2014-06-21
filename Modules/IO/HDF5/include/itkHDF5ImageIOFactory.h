@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkHDF5ImageIOFactory_h
 #define __itkHDF5ImageIOFactory_h
+#include "ITKIOHDF5Export.h"
 
 
 #include "itkObjectFactoryBase.h"
@@ -30,7 +31,7 @@ namespace itk
    * factory.
    * \ingroup ITKIOHDF5
    */
-class HDF5ImageIOFactory:public ObjectFactoryBase
+class ITKIOHDF5_EXPORT HDF5ImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

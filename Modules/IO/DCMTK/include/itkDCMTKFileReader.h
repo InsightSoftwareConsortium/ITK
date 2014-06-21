@@ -18,6 +18,7 @@
 #ifndef __itkDCMTKFileReader_h
 
 #define __itkDCMTKFileReader_h
+#include "ITKIODCMTKExport.h"
 #include <stack>
 #include <vector>
 #include "itkByteSwapper.h"
