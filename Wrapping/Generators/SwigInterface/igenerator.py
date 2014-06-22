@@ -419,27 +419,27 @@ def get_alias(decl_string, w=True):
 
 
 def load_idx(file_name):
-    f = file(file_name)
-    for l in f:
-        (full_name, alias, module) = re.findall(r'{(.*)} {(.*)} {(.*)}', l)[0]
-        # workaround lack of :: prefix in idx files
-        # TODO: would it be better to remove the :: prefix in the output of
-        # pygccxml ?
-        # full_name = "::"+full_name
-        # normalize some basic type names
-        full_name = normalize(full_name)
-        # TODO: add a warning if the type is defined several times
-        aliases[full_name] = alias
-        # store the source of the def
-        if alias in typedefSource and file_name != typedefSource[alias]:
-            igenerator_warn(
-                7, "%s in %s is already defined in %s." %
-                (alias, file_name, typedefSource[alias]))
-        else:
-            typedefSource[alias] = file_name
-        # don't declare the typedef - they are included from .include files
-        # outputFile.write("typedef %s %s;\n" % (full_name, alias))
-    f.close()
+    with open(file_name, "r") as f:
+        for l in f:
+            (full_name, alias, module) = \
+                re.findall(r'{(.*)} {(.*)} {(.*)}', l)[0]
+            # workaround lack of :: prefix in idx files
+            # TODO: would it be better to remove the :: prefix in the output of
+            # pygccxml ?
+            # full_name = "::"+full_name
+            # normalize some basic type names
+            full_name = normalize(full_name)
+            # TODO: add a warning if the type is defined several times
+            aliases[full_name] = alias
+            # store the source of the def
+            if alias in typedefSource and file_name != typedefSource[alias]:
+                igenerator_warn(
+                    7, "%s in %s is already defined in %s." %
+                    (alias, file_name, typedefSource[alias]))
+            else:
+                typedefSource[alias] = file_name
+            # don't declare the typedef - they are included from .include files
+            # outputFile.write("typedef %s %s;\n" % (full_name, alias))
 
 mdx_loaded = set()
 
@@ -449,9 +449,8 @@ def load_mdx(file_name):
         # already loaded - no need to do it again
         return
     mdx_loaded.add(file_name)
-    f = file(file_name)
-    ls = f.readlines()
-    f.close()
+    with open(file_name, "r") as f:
+        ls = f.readlines()
     for l in ls:
         if l.startswith('%') or l.isspace():
             # exclude the lines which are starting with % - that's not the idx
@@ -761,14 +760,13 @@ for f in options.includes:
         s.add(i)
 # and the includes files from other files
 for file_name in options.take_includes:
-    f = file(file_name)
-    for l in f:
-        if l.startswith('#include'):
-            i = " ".join(l.strip().split())
-            if i not in s:
-                headerFile.write(i + '\n')
-                s.add(i)
-    f.close()
+    with open(file_name, "r") as f:
+        for l in f:
+            if l.startswith('#include'):
+                i = " ".join(l.strip().split())
+                if i not in s:
+                    headerFile.write(i + '\n')
+                    s.add(i)
 headerFile.write("%}\n\n\n")
 
 # load the aliases files
@@ -889,15 +887,13 @@ if options.typedef_output:
     typedefFile.write("#ifndef __%sSwigInterface_h\n" % moduleName)
     typedefFile.write("#define __%sSwigInterface_h\n" % moduleName)
     if options.typedef_input:
-        f = file(options.typedef_input)
-        typedefFile.write(f.read() + '\n')
-        f.close()
+        with open(options.typedef_input, "r") as f:
+            typedefFile.write(f.read() + '\n')
     for src in usedSources:
         typedefFile.write('#include "%sSwigInterface.h"\n' % src)
     typedefFile.write("#endif\n")
-    f = file(options.typedef_output, "w")
-    f.write(typedefFile.getvalue())
-    f.close()
+    with open(options.typedef_output, "w") as f:
+        f.write(typedefFile.getvalue())
 
 
 # finally, really write the output
@@ -905,14 +901,18 @@ content = headerFile.getvalue() + importFile.getvalue() + \
     includeFile.getvalue() + outputFile.getvalue()
 
 if args[1] != '-':
+
+    if options.keep and os.path.exists(args[1]):
+        with open(args[1], "r") as f:
+            filecontent = f.read()
+
     if options.keep and os.path.exists(args[1]) and \
-            file(args[1]).read() == content:
+            filecontent == content:
         info("%s unchanged." % args[1])
     else:
         info("Writing %s." % args[1])
-        f = file(args[1], "w")
-        f.write(content)
-        f.close()
+        with open(args[1], "w") as f:
+            f.write(content)
 else:
     sys.stdout.write(content)
 
