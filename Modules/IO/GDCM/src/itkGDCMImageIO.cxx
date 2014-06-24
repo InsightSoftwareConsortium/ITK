@@ -280,6 +280,44 @@ void GDCMImageIO::InternalReadImageInformation()
   const unsigned int *  dims = image.GetDimensions();
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
+  switch ( pixeltype )
+    {
+    case gdcm::PixelFormat::INT8:
+      m_InternalComponentType = ImageIOBase::CHAR; // Is it signed char ?
+      break;
+    case gdcm::PixelFormat::UINT8:
+      m_InternalComponentType = ImageIOBase::UCHAR;
+      break;
+    /* INT12 / UINT12 should not happen anymore in any modern DICOM */
+    case gdcm::PixelFormat::INT12:
+      m_InternalComponentType = ImageIOBase::SHORT;
+      break;
+    case gdcm::PixelFormat::UINT12:
+      m_InternalComponentType = ImageIOBase::USHORT;
+      break;
+    case gdcm::PixelFormat::INT16:
+      m_InternalComponentType = ImageIOBase::SHORT;
+      break;
+    case gdcm::PixelFormat::UINT16:
+      m_InternalComponentType = ImageIOBase::USHORT;
+      break;
+    // RT / SC have 32bits
+    case gdcm::PixelFormat::INT32:
+      m_InternalComponentType = ImageIOBase::INT;
+      break;
+    case gdcm::PixelFormat::UINT32:
+      m_InternalComponentType = ImageIOBase::UINT;
+      break;
+    //case gdcm::PixelFormat::FLOAT16: // TODO
+    case gdcm::PixelFormat::FLOAT32:
+      m_InternalComponentType = ImageIOBase::FLOAT;
+      break;
+    case gdcm::PixelFormat::FLOAT64:
+      m_InternalComponentType = ImageIOBase::DOUBLE;
+      break;
+    default:
+      itkExceptionMacro("Unhandled PixelFormat: " << pixeltype);
+    }
 
   m_RescaleIntercept = image.GetIntercept();
   m_RescaleSlope = image.GetSlope();
@@ -978,44 +1016,89 @@ void GDCMImageIO::Write(const void *buffer)
                            "This is currently not supported");
       }
     }
+  else if( this->GetInternalComponentType() != UNKNOWNCOMPONENTTYPE )
+    {
+    const IOComponentType internalComponentType = this->GetInternalComponentType();
+    switch( internalComponentType )
+      {
+      //
+      //  This set of conversions deal with less cases than the conversion from
+      //  gdcm::PixelFormat to itk::ImageIOBase, because the INT12 and INT16
+      //  types map both to SHORT, and because the FLOAT32 and FLOAT64 have
+      //  already been taken care of. The float case use an Integer internal
+      //  storage, and specifies the precision desired for it.
+      //
+      case ImageIOBase::CHAR:
+        outpixeltype = gdcm::PixelFormat::INT8;
+        break;
+      case ImageIOBase::UCHAR:
+        outpixeltype = gdcm::PixelFormat::UINT8;
+        break;
+      case ImageIOBase::SHORT:
+        outpixeltype = gdcm::PixelFormat::INT16;
+        break;
+      case ImageIOBase::USHORT:
+        outpixeltype = gdcm::PixelFormat::UINT16;
+        break;
+      case ImageIOBase::INT:
+        outpixeltype = gdcm::PixelFormat::INT32;
+        break;
+      case ImageIOBase::UINT:
+        outpixeltype = gdcm::PixelFormat::UINT32;
+        break;
+      default:
+        itkExceptionMacro(<< "DICOM does not support this component type");
+      }
+    }
 
   image.SetPhotometricInterpretation(pi);
+  SizeValueType len;
   if ( outpixeltype != gdcm::PixelFormat::UNKNOWN )
     {
     image.SetPixelFormat(outpixeltype);
+    len = image.GetBufferLength() * outpixeltype.GetBitsStored() / pixeltype.GetBitsStored();
     }
   else
     {
+    outpixeltype = pixeltype;
     image.SetPixelFormat(pixeltype);
+    len = image.GetBufferLength();
     }
-  SizeValueType len = image.GetBufferLength();
 
-  size_t numberOfBytes = this->GetImageSizeInBytes();
+  const size_t numberOfBytes = this->GetImageSizeInBytes();
 
   gdcm::DataElement pixeldata( gdcm::Tag(0x7fe0, 0x0010) );
   // Handle rescaler here:
   // Whenever shift / scale is needed... do it !
-  if( outpixeltype != gdcm::PixelFormat::UNKNOWN )
+  if( m_RescaleIntercept != 0.0 || m_RescaleSlope != 1.0 || outpixeltype != pixeltype )
     {
-    itkAssertInDebugAndIgnoreInReleaseMacro( m_RescaleIntercept != 0 || m_RescaleSlope != 1 );
-    // rescale from float to unsigned short
     gdcm::Rescaler ir;
     ir.SetIntercept(m_RescaleIntercept);
     ir.SetSlope(m_RescaleSlope);
     ir.SetPixelFormat(pixeltype);
-    ir.SetMinMaxForPixelType( static_cast<double>(outpixeltype.GetMin()), static_cast<double>(outpixeltype.GetMax()) );
+
+    // Workaround because SetUseTargetPixelType does not apply to
+    // InverseRescale
+    const double minValue = static_cast<double>( outpixeltype.GetMin() );
+    const double maxValue = static_cast<double>( outpixeltype.GetMax() );
+    const double minValueMapped = minValue * m_RescaleSlope + m_RescaleIntercept;
+    const double maxValueMapped = maxValue * m_RescaleSlope + m_RescaleIntercept;
+    ir.SetMinMaxForPixelType( minValueMapped, maxValueMapped );
+
     image.SetIntercept(m_RescaleIntercept);
     image.SetSlope(m_RescaleSlope);
-    char *copy = new char[len];
-    ir.InverseRescale(copy, (const char *)buffer, numberOfBytes);
-    pixeldata.SetByteValue(copy, static_cast<uint32_t>(len));
-    delete[] copy;
+    char *copyBuffer = new char[len];
+    const char * inputBuffer = static_cast< const char *>( buffer );
+    ir.InverseRescale(copyBuffer, inputBuffer, numberOfBytes);
+    pixeldata.SetByteValue(copyBuffer, static_cast<uint32_t>(len));
+    delete[] copyBuffer;
     }
   else
     {
     itkAssertInDebugAndIgnoreInReleaseMacro(len == numberOfBytes);
     // only do a straight copy:
-    pixeldata.SetByteValue( (const char *)buffer, static_cast<unsigned int>(numberOfBytes) );
+    const char * inputBuffer = static_cast< const char *>( buffer );
+    pixeldata.SetByteValue( inputBuffer, static_cast<unsigned int>(numberOfBytes) );
     }
   image.SetDataElement(pixeldata);
 

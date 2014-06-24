@@ -20,41 +20,43 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkGDCMImageIO.h"
-
-#include <fstream>
-
+#include "itkMetaDataObject.h"
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-int itkGDCMImageIOTest(int ac, char* av[])
+int itkGDCMImageIOTest(int argc, char* argv[])
 {
 
-  if(ac < 5)
+  if(argc < 6)
     {
-    std::cerr << "Usage: " << av[0] << " DicomImage OutputDicomImage OutputImage RescalDicomImage\n";
+    std::cerr << "Usage: " << argv[0] << " DicomImage OutputDicomImage OutputImage RescaledDicomImage RescaledOutputImage\n";
     return EXIT_FAILURE;
     }
+  const char * dicomImageFileName = argv[1];
+  const char * outputDicomFileName = argv[2];
+  const char * outputImageFileName = argv[3];
+  const char * rescaledDicomFileName = argv[4];
+  const char * rescaledOutputImageFileName = argv[5];
 
-
+  const unsigned int Dimension = 2;
   typedef short                                   InputPixelType;
-  typedef itk::Image< InputPixelType, 2 >         InputImageType;
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  typedef itk::Image< InputPixelType, Dimension > InputImageType;
 
   typedef itk::GDCMImageIO                        ImageIOType;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
 
+  typedef itk::ImageFileReader< InputImageType >  ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( av[1] );
+  reader->SetFileName( dicomImageFileName );
   reader->SetImageIO( gdcmImageIO );
-
   try
     {
     reader->Update();
     }
-  catch (itk::ExceptionObject & e)
+  catch( itk::ExceptionObject & error )
     {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "Error: exception in file reader " << std::endl;
+    std::cerr << error << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -96,75 +98,105 @@ int itkGDCMImageIOTest(int ac, char* av[])
     }
 
   // Rewrite the image in DICOM format
-  //
-  typedef itk::ImageFileWriter< InputImageType >  Writer1Type;
-  Writer1Type::Pointer writer1 = Writer1Type::New();
-  writer1->SetFileName( av[2] );
-  writer1->SetInput( reader->GetOutput() );
-  writer1->SetImageIO( gdcmImageIO );
+  typedef itk::ImageFileWriter< InputImageType > DicomWriterType;
+  DicomWriterType::Pointer dicomWriter = DicomWriterType::New();
+  dicomWriter->SetFileName( outputDicomFileName );
+  dicomWriter->SetInput( reader->GetOutput() );
+  dicomWriter->UseInputMetaDataDictionaryOff();
+  dicomWriter->SetImageIO( gdcmImageIO );
 
   try
     {
-    writer1->Update();
+    dicomWriter->Update();
     }
-  catch (itk::ExceptionObject & e)
+  catch( itk::ExceptionObject & error )
     {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "Error: exception in file writer " << std::endl;
+    std::cerr << error << std::endl;
     return EXIT_FAILURE;
     }
 
+  typedef itk::ImageFileReader< InputImageType > GeneratedDicomReaderType;
+  GeneratedDicomReaderType::Pointer generatedDicomReader = GeneratedDicomReaderType::New();
+  generatedDicomReader->SetFileName( outputDicomFileName );
+
+  typedef itk::ImageFileWriter< InputImageType > MetaWriterType;
+  MetaWriterType::Pointer metaWriter = MetaWriterType::New();
+  metaWriter->SetFileName( outputImageFileName );
+  metaWriter->SetInput( generatedDicomReader->GetOutput() );
+  try
+    {
+    metaWriter->Update();
+    }
+  catch( itk::ExceptionObject & error )
+    {
+    std::cerr << "Error: exception in file writer " << std::endl;
+    std::cerr << error << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
   // Rescale intensities and rewrite the image in another format
   //
-  typedef unsigned char                   WritePixelType;
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  typedef unsigned char                              RescaledPixelType;
+  typedef itk::Image< RescaledPixelType, Dimension > RescaledImageType;
   typedef itk::RescaleIntensityImageFilter<
-    InputImageType, WriteImageType >      RescaleFilterType;
+    InputImageType, RescaledImageType >              RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
   rescaler->SetInput( reader->GetOutput() );
 
-  typedef itk::ImageFileWriter< WriteImageType >  Writer2Type;
-  Writer2Type::Pointer writer2 = Writer2Type::New();
-  writer2->SetFileName( av[3] );
-  writer2->SetInput( rescaler->GetOutput() );
-
-  try
-    {
-    writer2->Update();
-    }
-  catch (itk::ExceptionObject & e)
-    {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-    }
-
   // Rewrite the image in DICOM format but using less bits per pixel
   //
-  typedef itk::ImageFileWriter< WriteImageType >  Writer3Type;
-
-  Writer3Type::Pointer writer3 = Writer3Type::New();
-  writer3->SetFileName( av[4] );
-  writer3->SetInput( rescaler->GetOutput() );
-  writer3->UseInputMetaDataDictionaryOff ();
-  writer3->SetImageIO( gdcmImageIO );
-
-  try
-    {
-    writer3->Update();
-    }
-  catch (itk::ExceptionObject & e)
-    {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-    }
+  typedef itk::ImageFileWriter< RescaledImageType > RescaledDicomWriterType;
+  RescaledDicomWriterType::Pointer rescaledDicomWriter = RescaledDicomWriterType::New();
+  rescaledDicomWriter->SetFileName( rescaledDicomFileName );
+  rescaledDicomWriter->SetInput( rescaler->GetOutput() );
+  rescaledDicomWriter->UseInputMetaDataDictionaryOff();
+  itk::MetaDataDictionary & dict = gdcmImageIO->GetMetaDataDictionary();
+  std::ostringstream ostrm;
+  ostrm << itk::Math::Round< int, double >( -1. * rescaler->GetShift() );
+  itk::EncapsulateMetaData< std::string >( dict, "0028|1052", ostrm.str() );
+  ostrm.str( "" );
+  ostrm << itk::Math::Ceil< int, double >( 1. / rescaler->GetScale() );
+  itk::EncapsulateMetaData< std::string >( dict, "0028|1053", ostrm.str() );
+  gdcmImageIO->SetInternalComponentType( itk::ImageIOBase::UCHAR );
+  rescaledDicomWriter->SetImageIO( gdcmImageIO );
 
   gdcmImageIO->Print( std::cout );
 
-  return EXIT_SUCCESS;
+  try
+    {
+    rescaledDicomWriter->Update();
+    }
+  catch( itk::ExceptionObject & error )
+    {
+    std::cerr << "Error: exception in file writer " << std::endl;
+    std::cerr << error << std::endl;
+    return EXIT_FAILURE;
+    }
 
+  typedef itk::ImageFileReader< RescaledImageType > GeneratedRescaledDicomReaderType;
+  GeneratedRescaledDicomReaderType::Pointer rescaledDicomReader = GeneratedRescaledDicomReaderType::New();
+  rescaledDicomReader->SetFileName( rescaledDicomFileName );
+
+  typedef itk::ImageFileWriter< RescaledImageType >  RescaledMetaWriterType;
+  RescaledMetaWriterType::Pointer rescaledMetaWriter = RescaledMetaWriterType::New();
+  rescaledMetaWriter->SetFileName( rescaledOutputImageFileName );
+  rescaledMetaWriter->SetInput( rescaledDicomReader->GetOutput() );
+
+  try
+    {
+    rescaledMetaWriter->Update();
+    }
+  catch( itk::ExceptionObject & error )
+    {
+    std::cerr << "Error: exception in file writer " << std::endl;
+    std::cerr << error << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS;
 }

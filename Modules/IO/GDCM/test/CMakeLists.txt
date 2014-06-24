@@ -16,17 +16,65 @@ itkGDCMLoadImageSpacingTest.cxx
 CreateTestDriver(ITKIOGDCM  "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")
 
 itk_add_test(NAME itkGDCMImageIOTest1
-      COMMAND ITKIOGDCMTestDriver itkGDCMImageIOTest
-              DATA{${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm} ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest.dcm)
+  COMMAND ITKIOGDCMTestDriver
+  --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.mha
+    DATA{Baseline/itkGDCMImageIOTestBaseline.mha}
+  --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestRescaled.mha
+    DATA{Baseline/itkGDCMImageIOTestRescaledBaseline.mha}
+  itkGDCMImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm}
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestRescaled.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestRescaled.mha
+  )
 itk_add_test(NAME itkGDCMImageIOTest2
-      COMMAND ITKIOGDCMTestDriver itkGDCMImageIOTest
-              DATA{${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest.dcm} ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest2.dcm)
+  COMMAND ITKIOGDCMTestDriver
+  --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.mha
+    DATA{Baseline/itkGDCMImageIOTest2Baseline.mha}
+  --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2Rescaled.mha
+    DATA{Baseline/itkGDCMImageIOTest2RescaledBaseline.mha}
+  itkGDCMImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest.dcm}
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2Rescaled.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2Rescaled.mha
+  )
 itk_add_test(NAME itkGDCMImageIOTest3
-      COMMAND ITKIOGDCMTestDriver itkGDCMImageIOTest
-              DATA{${ITK_DATA_ROOT}/Input/012345.002.050} ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest3.dcm)
+  COMMAND ITKIOGDCMTestDriver
+  --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.mha
+    DATA{Baseline/itkGDCMImageIOTest3Baseline.mha}
+  --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3Rescaled.mha
+    DATA{Baseline/itkGDCMImageIOTest3RescaledBaseline.mha}
+  itkGDCMImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest3.dcm}
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3Rescaled.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3Rescaled.mha
+  )
 itk_add_test(NAME itkGDCMImageIOTest4
-      COMMAND ITKIOGDCMTestDriver itkGDCMImageIOTest
-              DATA{${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest3.dcm} ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
+  COMMAND ITKIOGDCMTestDriver
+  --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.mha
+    DATA{Baseline/itkGDCMImageIOTest4Baseline.mha}
+  --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4Rescaled.mha
+    DATA{Baseline/itkGDCMImageIOTest4RescaledBaseline.mha}
+  itkGDCMImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/012345.002.050}
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4Rescaled.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4Rescaled.mha
+  )
 itk_add_test(NAME itkGDCMImageIOTest5
       COMMAND ITKIOGDCMTestDriver itkGDCMImageIOTest2
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest5)

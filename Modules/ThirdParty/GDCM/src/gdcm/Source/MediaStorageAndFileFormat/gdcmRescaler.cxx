@@ -303,12 +303,12 @@ bool Rescaler::InverseRescale(char *out, const char *in, size_t n)
   // else integral type
   switch(PF)
     {
-  //case PixelFormat::UINT8:
-  //  InverseRescaleFunctionIntoBestFit<uint8_t>(out,(uint8_t*)in,n);
-  //  break;
-  //case PixelFormat::INT8:
-  //  InverseRescaleFunctionIntoBestFit<int8_t>(out,(int8_t*)in,n);
-  //  break;
+  case PixelFormat::UINT8:
+    InverseRescaleFunctionIntoBestFit<uint8_t>(out,(uint8_t*)in,n);
+    break;
+  case PixelFormat::INT8:
+    InverseRescaleFunctionIntoBestFit<int8_t>(out,(int8_t*)in,n);
+    break;
   case PixelFormat::UINT16:
     InverseRescaleFunctionIntoBestFit<uint16_t>(out,(uint16_t*)in,n);
     break;

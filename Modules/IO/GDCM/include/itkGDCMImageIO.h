@@ -110,10 +110,11 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void *buffer) ITK_OVERRIDE;
 
-  /** Get the original component type of the image. This differs from
+  /** Set/Get the original component type of the image. This differs from
    * ComponentType which may change as a function of rescale slope and
    * intercept. */
   itkGetEnumMacro(InternalComponentType, IOComponentType);
+  itkSetEnumMacro(InternalComponentType, IOComponentType);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
