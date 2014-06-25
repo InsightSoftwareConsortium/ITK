@@ -48,9 +48,9 @@
 //
 // Software Guide : EndLatex
 
-#include "itkImageRegistrationMethod.h"
-#include "itkMeanSquaresImageToImageMetric.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkImageRegistrationMethodv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
+#include "itkRegularStepGradientDescentOptimizerv4.h"
 
 
 //  Software Guide : BeginLatex
@@ -91,8 +91,8 @@ protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::RegularStepGradientDescentOptimizer  OptimizerType;
-  typedef   const OptimizerType *                   OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
+  typedef   const OptimizerType *                             OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -127,7 +127,7 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned char   PixelType;
+  typedef  float           PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
@@ -148,41 +148,71 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetric<
-                                    FixedImageType,
-                                    MovingImageType >    MetricType;
-  typedef itk:: LinearInterpolateImageFunction<
-                                    MovingImageType,
-                                    double          >    InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
-                                    FixedImageType,
-                                    MovingImageType >    RegistrationType;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>     OptimizerType;
+  typedef itk::MeanSquaresImageToImageMetricv4<
+                                      FixedImageType,
+                                      MovingImageType >          MetricType;
+  typedef itk::ImageRegistrationMethodv4<
+                                      FixedImageType,
+                                      MovingImageType,
+                                      TransformType >            RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
-  registration->SetInterpolator(  interpolator  );
 
 
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed below and passed to the registration
+  //  In the Hello World! example, we used Moving/Fixed initial transforms
+  //  to initialize the registration configuration. This approach gives a
+  //  good intuition of the registration method specially when we aim to run
+  //  a multi-stage registration process, as the output of each stage can
+  //  be set as the moving initial transform for the next stage.
+  //
+  //  Inside the registration filter, this initial moving transform (\Gamma_{mi})
+  //  is added to an internal composite transform along with an updatable
+  //  identity transform (\Gamma_{u}). Although the whole composite transform
+  //  is used for metric evaluation, only the \Gamma_{u} is set to be updated
+  //  by the optimizer. The \Gamma_{u} will be considered as the output transform of
+  //  the current stage when the optimization process is converged.
+  //
+  //  As seen above, the output of each stage does not include the initialization
+  //  parameters, so we need to concatenate the results of all stages into a composite
+  //  transform that can be considered as the final transform of the whole registration
   //  method.
+
+  //  Assume a registration process with three stages. The following shows how the final
+  //  composite transform maps each point of the moving image space to the warped space:
+  //
+  //  I'_{m} (x) = I_{m}(\Gamma_{stage_1}(\Gamma_{stage_2}(\Gamma_{stage_3}(x) ) ) )
+  //
+  //
+  //  In this example a different method is used for initialization which is closer
+  //  to what was happening in the previous version of ITK. In this approach we try to
+  //  initialize the parameters of the optimizable transform (\Gamma_{u}) directly.
+  //
+  //  Using of this method is very simple and efficient when we have only one level of
+  //  registration like the case of this example.
+  //  Also, a good application of this initialization method in a multi-stage scenario
+  //  is when two consequent stages have the same transform types, or at least the initial
+  //  parameters can easily be inferred from the result of the previous stage like when a
+  //  translation transform is followed by a rigid transform.
+  //
+  //  For this purpose, first, the initial transform object is constructed below.
+  //  This transform will be initialized, and its initial parameters will be considered as
+  //  the parameters to be used when the registration process starts.
   //
   //  \index{itk::CenteredRigid2DTransform!New()}
   //  \index{itk::CenteredRigid2DTransform!Pointer}
-  //  \index{itk::RegistrationMethod!SetTransform()}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer  transform = TransformType::New();
-  registration->SetTransform( transform );
+  TransformType::Pointer initialTransform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -198,10 +228,6 @@ int main( int argc, char *argv[] )
 
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
-  fixedImageReader->Update();
-
-  registration->SetFixedImageRegion(
-     fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
   //  Software Guide : BeginLatex
@@ -283,8 +309,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  transform->SetCenter( centerFixed );
-  transform->SetTranslation( centerMoving - centerFixed );
+  initialTransform->SetCenter( centerFixed );
+  initialTransform->SetTranslation( centerMoving - centerFixed );
   // Software Guide : EndCodeSnippet
 
 
@@ -295,37 +321,45 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  transform->SetAngle( 0.0 );
+  initialTransform->SetAngle( 0.0 );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Now we pass the current transform's parameters as the initial
-  //  parameters to be used when the registration process starts.
+  //  Now the current parameters of the initial transform will be set
+  //  to registration method, so they can be assigned to the \Gamma_{u} directly.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  registration->SetInitialTransformParameters( transform->GetParameters() );
+  registration->SetInitialTransform( initialTransform );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
   //  Keeping in mind that the scale of units in rotation and translation is
-  //  quite different, we take advantage of the scaling functionality provided
-  //  by the optimizers. We know that the first element of the parameters array
-  //  corresponds to the angle that is measured in radians, while the other
-  //  parameters correspond to translations that are measured in millimeters.
-  //  For this reason we use small factors in the scales associated with
-  //  translations and the coordinates of the rotation center .
+  //  quite different. For example here we know that the first element of the
+  //  parameters array corresponds to the angle that is measured in radians, while
+  //  the other parameters correspond to translations that are measured in millimeters,
+  //  so a naive application of gradient descent optimizer will not produce a smooth
+  //  change of parameters, due to this fact that a similar change of \Delta
+  //  to each parameter will produce a different magnitude of impact on transform.
+  //  As the result, we need ``parameter scales'' to customize the learning rate for
+  //  each parameter. We can take advantage of the scaling functionality provided
+  //  by the optimizers.
+  //
+  //  In this example we use small factors in the scales associated with
+  //  translations and the coordinates of the rotation center.
+  //  However, for the transforms with larger parameters sets, it is not intuitive for user to
+  //  set the scales. In such cases, fortunately a framework for automated estimation of
+  //  parameter scales is provided by ITKv4 that will be discussed in later examples.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef OptimizerType::ScalesType       OptimizerScalesType;
-  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales( initialTransform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
@@ -341,13 +375,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Next we set the normal parameters of the optimization method. In this
-  //  case we are using an \doxygen{RegularStepGradientDescentOptimizer}.
+  //  case we are using an \doxygen{RegularStepGradientDescentOptimizerv4}.
   //  Below, we define the optimization parameters like the relaxation factor,
-  //  initial step length, minimal step length and number of iterations. These
-  //  last two act as stopping criteria for the optimization.
+  //  learning rate (initial step length), minimal step length and number of
+  //  iterations. These last two act as stopping criteria for the optimization.
   //
   //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetRelaxationFactor()}
-  //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetMaximumStepLength()}
+  //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetLearningRate()}
   //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetMinimumStepLength()}
   //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetNumberOfIterations()}
   //
@@ -364,7 +398,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetRelaxationFactor( 0.6 );
-  optimizer->SetMaximumStepLength( initialStepLength );
+  optimizer->SetLearningRate( initialStepLength );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
@@ -374,6 +408,22 @@ int main( int argc, char *argv[] )
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
+
+  // One level registration process without shrinking and smoothing.
+  //
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels ( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
   try
     {
@@ -389,8 +439,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  OptimizerType::ParametersType finalParameters =
-                    registration->GetLastTransformParameters();
+  const TransformType::ParametersType finalParameters =
+                            registration->GetOutput()->Get()->GetParameters();
 
   const double finalAngle           = finalParameters[0];
   const double finalRotationCenterX = finalParameters[1];
@@ -436,16 +486,16 @@ int main( int argc, char *argv[] )
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.177458, 110.489, 128.488, 0.0106296, 0.00194103]
+  //  [0.17762, 110.489, 128.487, 0.00925022, 0.00140223]
   //  \end{verbatim}
   //  \end{center}
   //
   //  These results are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                  $0.177458$     radians
-  //  \item Center        = $( 110.489    , 128.488      )$ millimeters
-  //  \item Translation   = $(   0.0106296,   0.00194103 )$ millimeters
+  //  \item Angle         =                  $0.17762$     radians
+  //  \item Center        = $( 110.489    , 128.487      )$ millimeters
+  //  \item Translation   = $(   0.00925022,   0.00140223 )$ millimeters
   //  \end{itemize}
   //
   //  As expected, these values match the misalignment intentionally introduced
@@ -505,14 +555,13 @@ int main( int argc, char *argv[] )
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
-  TransformType::Pointer finalTransform = TransformType::New();
+  //TransformType::ConstPointer finalTransform = TransformType::New();
 
-  finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
+  //TransformType::ConstPointer finalTransform = registration->GetTransform();
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
+  resample->SetTransform( registration->GetTransform() );
   resample->SetInput( movingImageReader->GetOutput() );
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
@@ -521,13 +570,20 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef itk::ImageFileWriter< FixedImageType >  WriterFixedType;
+  typedef unsigned char                            OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  typedef itk::CastImageFilter<
+                        FixedImageType,
+                        OutputImageType >          CastFilterType;
+  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
-  WriterFixedType::Pointer      writer =  WriterFixedType::New();
+  WriterType::Pointer      writer =  WriterType::New();
+  CastFilterType::Pointer  caster =  CastFilterType::New();
 
   writer->SetFileName( argv[3] );
 
-  writer->SetInput( resample->GetOutput()   );
+  caster->SetInput( resample->GetOutput() );
+  writer->SetInput( caster->GetOutput()   );
 
   try
     {
@@ -549,10 +605,6 @@ int main( int argc, char *argv[] )
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
-  typedef  unsigned char  OutputPixelType;
-
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-
   typedef itk::RescaleIntensityImageFilter<
                                   DifferenceImageType,
                                   OutputImageType >   RescalerType;
@@ -568,8 +620,6 @@ int main( int argc, char *argv[] )
   resample->SetDefaultPixelValue( 1 );
 
   intensityRescaler->SetInput( difference->GetOutput() );
-
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer      writer2 =  WriterType::New();
 
@@ -621,23 +671,23 @@ int main( int argc, char *argv[] )
   //  \ref{fig:FixedMovingImageRegistration5b}. In order to accelerate
   //  convergence it is convenient to use a larger step length as shown here.
   //
-  //  \code{optimizer->SetMaximumStepLength( 1.0 );}
+  //  \code{optimizer->SetMaximumStepLength( 1.3 );}
   //
-  //  The registration now takes $46$ iterations and produces the following
+  //  The registration now takes $35$ iterations and produces the following
   //  results:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.174454, 110.361, 128.647, 12.977, 15.9761]
+  //  [0.174552, 110.041, 128.917, 12.9339, 15.9149]
   //  \end{verbatim}
   //  \end{center}
   //
   //  These parameters are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.174454$   radians
-  //  \item Center        = $( 110.361     , 128.647      )$ millimeters
-  //  \item Translation   = $(  12.977     ,  15.9761     )$ millimeters
+  //  \item Angle         =                     $0.17452$   radians
+  //  \item Center        = $( 110.041     , 128.917      )$ millimeters
+  //  \item Translation   = $(  12.9339     ,  15.9149     )$ millimeters
   //  \end{itemize}
   //
   //  These values approximately match the initial misalignment intentionally

@@ -30,31 +30,35 @@
 //
 // In this example, we will solve a simple multi-modality problem using another
 // implementation of mutual information. This implementation was published by
-// Mattes~\emph{et. al}~\cite{Mattes2003}. One of the main differences between
-// \doxygen{MattesMutualInformationImageToImageMetric} and
-// \doxygen{MutualInformationImageToImageMetric} is that only one spatial
-// sample set is used for the whole registration process instead of using new
-// samples every iteration. The use of a single sample set results in a much
-// smoother cost function and hence allows the use of more intelligent
-// optimizers. In this example, we will use the
-// RegularStepGradientDescentOptimizer.  Another noticeable difference is that
-// pre-normalization of the images is not necessary as the metric rescales
-// internally when building up the discrete density functions.  Other
-// differences between the two mutual information implementations are described
-// in detail in Section \ref{sec:MutualInformationMetric}.
+// Mattes~\emph{et. al}~\cite{Mattes2003}.
+//
+// Instead of using the whole virtual domain (usually fixed image domain) for the registration,
+// we can use a spatial sample set by supplying an arbitrary point list over which to
+// evaluate the metric. The point list is expected to be in the fixed image domain, and
+// the points are transformed into the virtual domain internally as needed. User can
+// define the point set via "SetFixedSampledPointSet", and the point set is enabled to use
+// by calling "SetUsedFixedSampledPointSet".
+//
+// A single virtual domain or spatial sample set is used for the whole registration
+// process. The use of a single sample set results in a smooth cost function
+// and hence allows the use of intelligent optimizers. In this example, we will
+// use the \doxygen{RegularStepGradientDescentOptimizerv4}.
+//
+// Also, notice that pre-normalization of the images is not necessary in this example
+// as the metric rescales internally when building up the discrete density functions.
 //
 // First, we include the header files of the components used in this example.
 //
-// \index{itk::ImageRegistrationMethod!Multi-Modality}
+// \index{itk::ImageRegistrationMethodv4!Multi-Modality}
 //
 // Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImageRegistrationMethod.h"
+#include "itkImageRegistrationMethodv4.h"
 #include "itkTranslationTransform.h"
-#include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkMattesMutualInformationImageToImageMetricv4.h"
+#include "itkRegularStepGradientDescentOptimizerv4.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -82,8 +86,8 @@ protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
-  typedef   const OptimizerType *                  OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double> OptimizerType;
+  typedef   const OptimizerType *                            OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -119,19 +123,17 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned short  PixelType;
+  typedef  float           PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::LinearInterpolateImageFunction<
-                                    MovingImageType,
-                                    double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
+  typedef itk::TranslationTransform< double, Dimension >         TransformType;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>     OptimizerType;
+  typedef itk::ImageRegistrationMethodv4<
                                     FixedImageType,
-                                    MovingImageType    > RegistrationType;
+                                    MovingImageType,
+                                    TransformType    > RegistrationType;
 
   //  Software Guide : BeginLatex
   //
@@ -144,19 +146,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MattesMutualInformationImageToImageMetric<
-                                          FixedImageType,
-                                          MovingImageType >    MetricType;
+  typedef itk::MattesMutualInformationImageToImageMetricv4<
+                                                    FixedImageType,
+                                                    MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
 
-  TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   registration->SetOptimizer(     optimizer     );
-  registration->SetTransform(     transform     );
-  registration->SetInterpolator(  interpolator  );
 
 
   //  Software Guide : BeginLatex
@@ -174,24 +172,22 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The metric requires two parameters to be selected: the number of bins
-  //  used to compute the entropy and the number of spatial samples used to
-  //  compute the density estimates. In typical application 50 histogram bins
+  //  The metric requires one parameter to be selected: the number of bins
+  //  used to compute the entropy. In typical application 50 histogram bins
   //  are sufficient. Note however, that the number of bins may have dramatic
-  //  effects on the optimizer's behavior. The number of spatial samples to be
-  //  used depends on the content of the image. If the images are smooth and do
-  //  not contain much detail, then using approximately $1$ percent of the
-  //  pixels will do. On the other hand, if the images are detailed, it may be
-  //  necessary to use a much higher proportion, such as $20$ percent.
+  //  effects on the optimizer's behavior.
+  //  In this example the whole virtual image domain is used rather than just a
+  //  a sampled point set.
+  //  To calculate the image gradients, an image gradient calculator based on
+  //  ImageFunction is used instead of image gradient filters. Image gradient
+  //  methods are defined in the super class \index{ImageToImageMetricv4}.
   //
-  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfHistogramBins()}
-  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
+  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metricv4!SetNumberOfHistogramBins()}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   unsigned int numberOfBins = 24;
-  unsigned int numberOfSamples = 10000;
   // Software Guide : EndCodeSnippet
 
   if( argc > 7 )
@@ -199,39 +195,14 @@ int main( int argc, char *argv[] )
     numberOfBins = atoi( argv[7] );
     }
 
-  if( argc > 8 )
-    {
-    numberOfSamples = atoi( argv[8] );
-    }
-
 
   // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( numberOfBins );
-  metric->SetNumberOfSpatialSamples( numberOfSamples );
+  metric->SetUseFixedSampledPointSet( false );
+  metric->SetUseMovingImageGradientFilter( false );
+  metric->SetUseFixedImageGradientFilter( false );
   // Software Guide : EndCodeSnippet
 
-
-  // Software Guide : BeginLatex
-  //
-  // One mechanism for bringing the Metric to its limit is to disable the
-  // sampling and use all the pixels present in the FixedImageRegion. This can
-  // be done with the \code{UseAllPixelsOn()} method. You may want to try this
-  // option only while you are fine tuning all other parameters of your
-  // registration. We don't use this method in this current example though.
-  //
-  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!UseAllPixelsOn()}
-  //
-  // Software Guide : EndLatex
-
-
-  if( argc > 9 )
-    {
-    // Define whether to calculate the metric derivative by explicitly
-    // computing the derivatives of the joint PDF with respect to the Transform
-    // parameters, or doing it by progressively accumulating contributions from
-    // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[9] ) );
-    }
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -245,35 +216,24 @@ int main( int argc, char *argv[] )
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
 
-  fixedImageReader->Update();
-
-  registration->SetFixedImageRegion(
-       fixedImageReader->GetOutput()->GetBufferedRegion() );
-
-
-  typedef RegistrationType::ParametersType ParametersType;
-  ParametersType initialParameters( transform->GetNumberOfParameters() );
-
-  initialParameters[0] = 0.0;  // Initial offset in mm along X
-  initialParameters[1] = 0.0;  // Initial offset in mm along Y
-
-  registration->SetInitialTransformParameters( initialParameters );
-
 
   //  Software Guide : BeginLatex
   //
-  //  Another significant difference in the metric is that it computes the
-  //  negative mutual information and hence we need to minimize the cost
-  //  function in this case. In this example we will use the same optimization
-  //  parameters as in Section \ref{sec:IntroductionImageRegistration}.
+  //  Notice that in ITKv4 registration framework, optimizers always try
+  //  to minimize the cost function, and the metrics always return a parameter
+  //  and derivative result that improves the optimization, so this metric
+  //  computes the negative mutual information.
+  //  The optimization parameters are tuned for this example, so they are not
+  //  exactly the same as the parameters used in Section
+  //  \ref{sec:IntroductionImageRegistration}.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->MinimizeOn();
-  optimizer->SetMaximumStepLength( 2.00 );
+  optimizer->SetLearningRate( 2.00 );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
+  optimizer->ReturnBestParametersAndValueOn();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -303,6 +263,21 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
+  // One level registration process without shrinking and smoothing.
+  //
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels ( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
   try
     {
@@ -318,7 +293,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  ParametersType finalParameters = registration->GetLastTransformParameters();
+  TransformType::ParametersType finalParameters =
+                            registration->GetOutput()->Get()->GetParameters();
 
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
@@ -338,18 +314,17 @@ int main( int argc, char *argv[] )
   std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-  std::cout << " Stop Condition  = " << optimizer->GetStopCondition() << std::endl;
-
+  std::cout << " Stop Condition  = " << optimizer->GetStopConditionDescription() << std::endl;
 
   //  Software Guide : BeginLatex
   //
   //  This example is executed using the same multi-modality images as the one
   //  in section~\ref{sec:MultiModalityRegistrationViolaWells} The registration
-  //  converges after $59$ iterations and produces the following results:
+  //  converges after $40$ iterations and produces the following results:
   //
   //  \begin{verbatim}
-  //  Translation X = 13.0283
-  //  Translation Y = 17.007
+  //  Translation X = 13.0153
+  //  Translation Y = 17.0798
   //  \end{verbatim}
   //
   //  These values are a very close match to the true misalignment introduced in
@@ -357,19 +332,13 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-
   typedef itk::ResampleImageFilter<
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
-  TransformType::Pointer finalTransform = TransformType::New();
-
-  finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
-
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
+  resample->SetTransform( registration->GetTransform() );
   resample->SetInput( movingImageReader->GetOutput() );
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
@@ -415,7 +384,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4Output}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardBefore}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardAfter}
-  // \itkcaption[MattesMutualInformationImageToImageMetric output images]{The mapped
+  // \itkcaption[MattesMutualInformationImageToImageMetricv4 output images]{The mapped
   // moving image (left) and the composition of fixed and moving images before
   // (center) and after (right) registration with Mattes mutual information.}
   // \label{fig:ImageRegistration4Output}
@@ -457,7 +426,7 @@ int main( int argc, char *argv[] )
 
 
   // After registration
-  resample->SetTransform( finalTransform );
+  resample->SetTransform( registration->GetTransform() );
   if( argc > 6 )
     {
     writer->SetFileName( argv[6] );
@@ -472,7 +441,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations}
   // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations2}
   // \includegraphics[width=0.6\textwidth]{ImageRegistration4TraceMetric}
-  // \itkcaption[MattesMutualInformationImageToImageMetric output plots]{Sequence
+  // \itkcaption[MattesMutualInformationImageToImageMetricv4 output plots]{Sequence
   // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration4TraceTranslations}
   // \end{figure}
@@ -485,10 +454,10 @@ int main( int argc, char *argv[] )
   //  optimizer searched the parameter space.  Comparing these trace plots with
   //  Figures \ref{fig:ImageRegistration2TraceTranslations} and
   //  \ref{fig:ImageRegistration2TraceMetric}, we can see that the measures
-  //  produced by MattesMutualInformationImageToImageMetric are smoother than
+  //  produced by MattesMutualInformationImageToImageMetricv4 are smoother than
   //  those of the MutualInformationImageToImageMetric. This smoothness allows
   //  the use of more sophisticated optimizers such as the
-  //  \doxygen{RegularStepGradientDescentOptimizer} which efficiently locks
+  //  \doxygen{RegularStepGradientDescentOptimizerv4} which efficiently locks
   //  onto the optimal value.
   //
   //
@@ -514,7 +483,7 @@ int main( int argc, char *argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=0.8\textwidth]{ImageRegistration4TraceTranslationsNumberOfBins}
-  // \itkcaption[MattesMutualInformationImageToImageMetric number of
+  // \itkcaption[MattesMutualInformationImageToImageMetricv4 number of
   // bins]{Sensitivity of the optimization path to the number of Bins used for
   // estimating the value of Mutual Information with Mattes et al. approach.}
   // \label{fig:ImageRegistration4TraceTranslationsNumberOfBins}
@@ -538,9 +507,9 @@ int main( int argc, char *argv[] )
   //  The plots in Figures~\ref{fig:ImageRegistration4TraceTranslations}
   //  and~\ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} were
   //  generated using Gnuplot. The scripts used for this purpose are available
-  //  in the \code{InsightDocuments} CVS module under the directory
+  //  in the \code{ITKSoftwareGuide} CVS module under the directory
   //
-  //  ~\code{InsightDocuments/SoftwareGuide/Art}
+  //  ~\code{SoftwareGuide/Art}
   //
   //  The use of these scripts was similar to what was described at the end of
   //  section~\ref{sec:MultiModalityRegistrationViolaWells}.

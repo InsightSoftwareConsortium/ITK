@@ -39,9 +39,9 @@
 //
 // Software Guide : EndLatex
 
-#include "itkImageRegistrationMethod.h"
-#include "itkMeanSquaresImageToImageMetric.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkImageRegistrationMethodv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
+#include "itkRegularStepGradientDescentOptimizerv4.h"
 
 
 #include "itkCenteredTransformInitializer.h"
@@ -85,8 +85,8 @@ protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
-  typedef   const OptimizerType *                  OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
+  typedef   const OptimizerType *                             OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -164,38 +164,36 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetric<
-            FixedImageType, MovingImageType >            MetricType;
-  typedef itk:: LinearInterpolateImageFunction<
-            MovingImageType, double          >           InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
-            FixedImageType, MovingImageType >            RegistrationType;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>       OptimizerType;
+  typedef itk::MeanSquaresImageToImageMetricv4<
+                                          FixedImageType,
+                                          MovingImageType >        MetricType;
+  typedef itk::ImageRegistrationMethodv4<
+                                  FixedImageType,
+                                  MovingImageType,
+                                  TransformType >                   RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
-  registration->SetInterpolator(  interpolator  );
 
 
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed below and passed to the registration
-  //  method.
+  //  The transform object is constructed below and is initialized before registration
+  //  process starts.
   //
   //  \index{itk::AffineTransform!New()}
   //  \index{itk::AffineTransform!Pointer}
-  //  \index{itk::RegistrationMethod!SetTransform()}
+  //  \index{itk::RegistrationMethodv4!SetTransform()}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
-  registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
 
@@ -209,26 +207,23 @@ int main( int argc, char *argv[] )
 
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
-  fixedImageReader->Update();
-
-  registration->SetFixedImageRegion(
-     fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
   //  Software Guide : BeginLatex
   //
   //  In this example, we again use the
   //  \doxygen{CenteredTransformInitializer} helper class in order to compute
-  //  a reasonable value for the initial center of rotation and the
-  //  translation. The initializer is set to use the center of mass of each
+  //  reasonable values for the initial center of rotation and the
+  //  translations. The initializer is set to use the center of mass of each
   //  image as the initial correspondence correction.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer<
-            TransformType, FixedImageType,
-            MovingImageType >  TransformInitializerType;
+                                        TransformType,
+                                        FixedImageType,
+                                        MovingImageType >  TransformInitializerType;
   TransformInitializerType::Pointer initializer
                                             = TransformInitializerType::New();
   initializer->SetTransform(   transform );
@@ -241,14 +236,14 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Now we pass the parameters of the current transform as the initial
-  //  parameters to be used when the registration process starts.
+  //  Now we pass the transform object to the registration filter. It also will be updated as the
+  //  ouput of the registration method since the "InPlace" is set.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  registration->SetInitialTransformParameters(
-                                 transform->GetParameters() );
+  registration->SetInitialTransform( transform );
+  registration->InPlaceOn();
   // Software Guide : EndCodeSnippet
 
 
@@ -265,6 +260,7 @@ int main( int argc, char *argv[] )
 
 
   double translationScale = 1.0 / 1000.0;
+
   if( argc > 8 )
     {
     translationScale = atof( argv[8] );
@@ -290,14 +286,14 @@ int main( int argc, char *argv[] )
   //
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
-  //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
-  //  optimization parameters like initial step length, minimal step length
-  //  and number of iterations. These last two act as stopping criteria for
-  //  the optimization.
+  //  \doxygen{RegularStepGradientDescentOptimizerv4}. Below, we define the
+  //  optimization parameters like learning rate (initial step length), minimal
+  //  step length and number of iterations. These last two act as stopping
+  //  criteria for the optimization.
   //
   //  Software Guide : EndLatex
 
-  double steplength = 0.1;
+  double steplength = 1.0;
 
   if( argc > 6 )
     {
@@ -314,23 +310,9 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( steplength );
+  optimizer->SetLearningRate( steplength );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( maxNumberOfIterations );
-  // Software Guide : EndCodeSnippet
-
-
-  //  Software Guide : BeginLatex
-  //
-  //  We also set the optimizer to do minimization by calling the
-  //  \code{MinimizeOn()} method.
-  //
-  //  \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!MinimizeOn()}
-  //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  optimizer->MinimizeOn();
   // Software Guide : EndCodeSnippet
 
 
@@ -338,6 +320,23 @@ int main( int argc, char *argv[] )
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
+
+
+  // One level registration process without shrinking and smoothing.
+  //
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels ( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
 
   //  Software Guide : BeginLatex
@@ -368,21 +367,19 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Once the optimization converges, we recover the parameters from the
-  //  registration method. This is done with the
-  //  \code{GetLastTransformParameters()} method. We can also recover the
+  //  registration method. We can also recover the
   //  final value of the metric with the \code{GetValue()} method and the
   //  final number of iterations with the \code{GetCurrentIteration()}
   //  method.
   //
-  //  \index{itk::RegistrationMethod!GetValue()}
-  //  \index{itk::RegistrationMethod!GetCurrentIteration()}
-  //  \index{itk::RegistrationMethod!GetLastTransformParameters()}
+  //  \index{itk::RegistrationMethodv4!GetValue()}
+  //  \index{itk::RegistrationMethodv4!GetCurrentIteration()}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  OptimizerType::ParametersType finalParameters =
-                    registration->GetLastTransformParameters();
+  const TransformType::ParametersType finalParameters =
+                                  registration->GetOutput()->Get()->GetParameters();
 
   const double finalRotationCenterX = transform->GetCenter()[0];
   const double finalRotationCenterY = transform->GetCenter()[1];
@@ -441,27 +438,27 @@ int main( int argc, char *argv[] )
   //  \ref{fig:FixedMovingImageRegistration9}. We execute the code using the
   //  following parameters: step length=1.0, translation scale= 0.0001 and
   //  maximum number of iterations = 300. With these images and parameters
-  //  the registration takes $98$ iterations and produces
+  //  the registration takes $92$ iterations and produces
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //   96 58.09 [0.986481, -0.169104, 0.166411, 0.986174, 12.461, 16.0754]
+  //   90   44.0851  [0.9849, -0.1729, 0.1725, 0.9848, 12.4541, 16.0759] AffineAngle: 9.9494
   //  \end{verbatim}
   //  \end{center}
   //
   //  These results are interpreted as
   //
   //  \begin{itemize}
-  //  \item Iterations   = 98
-  //  \item Final Metric = 58.09
-  //  \item Center       = $( 111.204,   131.6   )$ millimeters
-  //  \item Translation  = $(   12.461,  16.0754 )$ millimeters
-  //  \item Affine scales = $(1.00185, .999137)$
+  //  \item Iterations   = 92
+  //  \item Final Metric = 44.0386
+  //  \item Center       = $( 111.204,   131.591   )$ millimeters
+  //  \item Translation  = $(   12.4542,  16.076 )$ millimeters
+  //  \item Affine scales = $(1.00014, .999732)$
   //  \end{itemize}
   //
   //  The second component of the matrix values is usually associated with
   //  $\sin{\theta}$. We obtain the rotation through SVD of the affine
-  //  matrix. The value is $9.6526$ degrees, which is approximately the
+  //  matrix. The value is $9.9494$ degrees, which is approximately the
   //  intentional misalignment of $10.0$ degrees.
   //
   // \begin{figure}
@@ -522,14 +519,9 @@ int main( int argc, char *argv[] )
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
-  TransformType::Pointer finalTransform = TransformType::New();
-
-  finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
-
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
-  resampler->SetTransform( finalTransform );
+  resampler->SetTransform( transform );
   resampler->SetInput( movingImageReader->GetOutput() );
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();

@@ -24,7 +24,7 @@
 // this situation it is quite helpful to track the evolution of the
 // registration as it progresses. The following section illustrates the
 // mechanisms provided in ITK for monitoring the activity of the
-// ImageRegistrationMethod class.
+// ImageRegistrationMethodv4 class.
 //
 // Insight implements the \emph{Observer/Command} design pattern
 // \cite{Gamma1995}. (See Section~\ref{sec:EventHandling} for an overview.)
@@ -57,10 +57,10 @@
 // Software Guide : EndLatex
 
 
-#include "itkImageRegistrationMethod.h"
+#include "itkImageRegistrationMethodv4.h"
 #include "itkTranslationTransform.h"
-#include "itkMeanSquaresImageToImageMetric.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
+#include "itkRegularStepGradientDescentOptimizerv4.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -156,8 +156,8 @@ public:
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef const OptimizerType *                        OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>   OptimizerType;
+  typedef const OptimizerType *                                OptimizerPointer;
   // Software Guide : EndCodeSnippet
 
 
@@ -278,35 +278,28 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned short  PixelType;
+  typedef  float           PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
+  typedef itk::TranslationTransform< double, Dimension >      TransformType;
 
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
 
-  typedef itk::LinearInterpolateImageFunction<
-                                    MovingImageType,
-                                    double             > InterpolatorType;
-
-  typedef itk::ImageRegistrationMethod<
+  typedef itk::ImageRegistrationMethodv4<
                                     FixedImageType,
-                                    MovingImageType   >  RegistrationType;
+                                    MovingImageType,
+                                    TransformType     >  RegistrationType;
 
-  typedef itk::MeanSquaresImageToImageMetric<
+  typedef itk::MeanSquaresImageToImageMetricv4<
                                       FixedImageType,
                                       MovingImageType >  MetricType;
 
-  TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   registration->SetOptimizer(     optimizer     );
-  registration->SetTransform(     transform     );
-  registration->SetInterpolator(  interpolator  );
 
   MetricType::Pointer         metric        = MetricType::New();
 
@@ -324,24 +317,28 @@ int main( int argc, char *argv[] )
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
 
-  fixedImageReader->Update(); // This is needed to make the BufferedRegion below valid.
-
-  registration->SetFixedImageRegion(
-       fixedImageReader->GetOutput()->GetBufferedRegion() );
-
-  typedef RegistrationType::ParametersType ParametersType;
-  ParametersType initialParameters( transform->GetNumberOfParameters() );
-
-  initialParameters[0] = 0.0;  // Initial offset in mm along X
-  initialParameters[1] = 0.0;  // Initial offset in mm along Y
-
-  registration->SetInitialTransformParameters( initialParameters );
-
-  optimizer->SetMaximumStepLength( 4.00 );
-  optimizer->SetMinimumStepLength( 0.01 );
+  // Set parameters of the optimizer
+  //
+  optimizer->SetLearningRate( 4 );
+  optimizer->SetMinimumStepLength( 0.001 );
+  optimizer->SetRelaxationFactor( 0.5 );
   optimizer->SetNumberOfIterations( 200 );
 
-  optimizer->MaximizeOff();
+  // One level registration process without shrinking and smoothing.
+  //
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels ( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
 
   //  Software Guide : BeginLatex
@@ -379,7 +376,7 @@ int main( int argc, char *argv[] )
   //  method. In order for the RTTI mechanism to work correctly, a newly
   //  created event of the desired type must be passed as the first
   //  argument. The second argument is simply the smart pointer to the
-  //  optimizer. Figure \ref{fig:ImageRegistration3Observer} illustrates the
+  //  observer. Figure \ref{fig:ImageRegistration3Observer} illustrates the
   //  interaction between the Command/Observer class and the registration
   //  method.
   //
@@ -428,23 +425,27 @@ int main( int argc, char *argv[] )
   //  It produces the following output.
   //
   //  \begin{verbatim}
-  //   0 = 4499.45 : [2.9287, 2.72447]
-  //   1 = 3860.84 : [5.62751, 5.67683]
-  //   2 = 3450.68 : [8.85516, 8.03952]
-  //   3 = 3152.07 : [11.7997, 10.7469]
-  //   4 = 2189.97 : [13.3628, 14.4288]
-  //   5 = 1047.21 : [11.292, 17.851]
-  //   6 = 900.189 : [13.1602, 17.1372]
-  //   7 = 19.6301 : [12.3268, 16.5846]
-  //   8 = 237.317 : [12.7824, 16.7906]
-  //   9 = 38.1331 : [13.1833, 17.0894]
-  //   10 = 18.9201 : [12.949, 17.002]
-  //   11 = 1.15456 : [13.074, 16.9979]
-  //   12 = 2.42488 : [13.0115, 16.9994]
-  //   13 = 0.0590549 : [12.949, 17.002]
-  //   14 = 1.15451 : [12.9803, 17.001]
-  //   15 = 0.173731 : [13.0115, 16.9997]
-  //   16 = 0.0586584 : [12.9959, 17.0001]
+  //   0 = 4499.45 : [2.9286959512455857, 2.7244705953923805]
+  //   1 = 3860.84 : [6.135143776902402, 5.115849348610004]
+  //   2 = 3508.02 : [8.822660051952475, 8.078492808653918]
+  //   3 = 3117.31 : [10.968558473732326, 11.454158663474674]
+  //   4 = 2125.43 : [13.105290365964755, 14.835634202454191]
+  //   5 = 911.308 : [12.75173580401588, 18.819978461140323]
+  //   6 = 741.417 : [13.139053510563274, 16.857840597942413]
+  //   7 = 16.8918 : [12.356787624301035, 17.480785285045815]
+  //   8 = 233.714 : [12.79212443526829, 17.234854683011704]
+  //   9 = 39.8027 : [13.167510875734614, 16.904574468172815]
+  //   10 = 16.5731 : [12.938831371165355, 17.005597654570586]
+  //   11 = 1.68763 : [13.063495692092735, 16.996443033457986]
+  //   12 = 1.79437 : [13.001061362657559, 16.999307384689935]
+  //   13 = 0.000762481 : [12.945418587211314, 17.0277701944711]
+  //   14 = 1.74802 : [12.974454390534774, 17.01621663980765]
+  //   15 = 0.430253 : [13.002439510423766, 17.002309966416835]
+  //   16 = 0.00531816 : [12.989877586882951, 16.99301810428082]
+  //   17 = 0.0721346 : [12.996759235073881, 16.996716492365685]
+  //   18 = 0.00996773 : [13.00288423694971, 17.00156618393022]
+  //   19 = 0.00516378 : [12.99928608126834, 17.000045636412015]
+  //   20 = 0.000228075 : [13.00123653240422, 16.999943471681494]
   //  \end{verbatim}
   //  You can verify from the code in the \code{Execute()} method that the first
   //  column is the iteration number, the second column is the metric value and
@@ -459,7 +460,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
 
-  ParametersType finalParameters = registration->GetLastTransformParameters();
+  TransformType::ParametersType finalParameters =
+                            registration->GetOutput()->Get()->GetParameters();
 
   const double TranslationAlongX = finalParameters[0];
   const double TranslationAlongY = finalParameters[1];
@@ -481,14 +483,9 @@ int main( int argc, char *argv[] )
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
-  TransformType::Pointer finalTransform = TransformType::New();
-
-  finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
-
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
+  resample->SetTransform( registration->GetTransform() );
   resample->SetInput( movingImageReader->GetOutput() );
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();

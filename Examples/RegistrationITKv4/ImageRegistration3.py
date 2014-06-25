@@ -20,6 +20,8 @@ from InsightToolkit import *
 
 from sys import argv
 
+
+
 #
 #  Read the fixed and moving images using filenames
 #  from the command line arguments
