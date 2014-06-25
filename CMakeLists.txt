@@ -120,11 +120,10 @@ endmacro()
 # When this data is available, additional 3D tests are enabled.
 option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)
 mark_as_advanced(ITK_USE_BRAINWEB_DATA)
-
 if(ITK_BRAINWEB_DATA_ROOT)
   message(WARNING
-    "ITK_BRANWEB_DATA_ROOT is not longer supported!"
-    "Please update to ITK_USE_BRANWEB_DATA."
+    "ITK_BRAINWEB_DATA_ROOT is not longer supported!"
+    "Please update to ITK_USE_BRAINWEB_DATA."
     )
 endif()
 
