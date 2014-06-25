@@ -4,7 +4,6 @@
 # itk::Command has to be available in all ITK wrapped files
 set(WRAPPER_DEFAULT_INCLUDE
   itkCommand.h
-  itkStatisticsLabelObject.h
 )
 
 # define some macro to help creation of types vars
@@ -243,22 +242,28 @@ WRAP_TYPE("itk::Point" "P")
 END_WRAP_TYPE()
 set(itk_Wrap_Point ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::LevelSetNode" "LSN")
-  # Only make level set nodes for the selected image pixel types
-  foreach(d ${ITK_WRAP_DIMS})
-    foreach(type ${WRAP_ITK_SCALAR})
-      ADD_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
+if(ITKGroup_Filtering)
+  # Needed by Modules/Filtering/FastMarching/wrapping/itkLevelSetNode.wrap
+  WRAP_TYPE("itk::LevelSetNode" "LSN")
+    # Only make level set nodes for the selected image pixel types
+    foreach(d ${ITK_WRAP_DIMS})
+      foreach(type ${WRAP_ITK_SCALAR})
+        ADD_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
+      endforeach()
     endforeach()
-  endforeach()
-END_WRAP_TYPE()
-set(itk_Wrap_LevelSetNode ${WRAPPER_TEMPLATES})
+  END_WRAP_TYPE()
+  set(itk_Wrap_LevelSetNode ${WRAPPER_TEMPLATES})
+endif(ITKGroup_Filtering)
 
-WRAP_TYPE("itk::FlatStructuringElement" "SE")
-  foreach(d ${ITK_WRAP_DIMS})
-    ADD_TEMPLATE("${d}"  "${d}")
-  endforeach()
-END_WRAP_TYPE()
-set(itk_Wrap_StructuringElement ${WRAPPER_TEMPLATES})
+if(ITKGroup_Filtering)
+  # Needed by Modules/Filtering/MathematicalMorphology/wrapping/itkFlatStructuringElement.wrap
+  WRAP_TYPE("itk::FlatStructuringElement" "SE")
+    foreach(d ${ITK_WRAP_DIMS})
+      ADD_TEMPLATE("${d}"  "${d}")
+    endforeach()
+  END_WRAP_TYPE()
+  set(itk_Wrap_StructuringElement ${WRAPPER_TEMPLATES})
+endif(ITKGroup_Filtering)
 
 WRAP_TYPE("itk::SpatialObject" "SO")
   foreach(d ${ITK_WRAP_DIMS})
@@ -273,11 +278,14 @@ WRAP_TYPE("itk::Statistics::Histogram" "H")
 END_WRAP_TYPE()
 set(itk_Wrap_Histogram ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::LabelMap" "LM")
-  foreach(d ${ITK_WRAP_DIMS})
-    ADD_TEMPLATE("${d}" "itk::StatisticsLabelObject< ${ITKT_UL}, ${d} >")
-endforeach()
-END_WRAP_TYPE()
-set(itk_Wrap_LabelMap ${WRAPPER_TEMPLATES})
+if(ITKGroup_Filtering)
+  # Needed by Modules/Filtering/LabelMap/wrapping/ITKLabelMapBase.wrap
+  WRAP_TYPE("itk::LabelMap" "LM")
+    foreach(d ${ITK_WRAP_DIMS})
+      ADD_TEMPLATE("${d}" "itk::StatisticsLabelObject< ${ITKT_UL}, ${d} >")
+  endforeach()
+  END_WRAP_TYPE()
+  set(itk_Wrap_LabelMap ${WRAPPER_TEMPLATES})
+endif(ITKGroup_Filtering)
 
 #------------------------------------------------------------------------------
