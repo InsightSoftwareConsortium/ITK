@@ -72,7 +72,6 @@ MetaVesselTubeConverter< NDimensions >
   vesselTubeSO->GetProperty()->SetAlpha(vesselTubeMO->Color()[3]);
 
   typedef itk::VesselTubeSpatialObjectPoint< NDimensions > VesselTubePointType;
-  typedef VesselTubePointType *                            TubePointPointer;
 
   typedef VesselTubeMetaObjectType::PointListType ListType;
   ListType::const_iterator it2 = vesselTubeMO->GetPoints().begin();

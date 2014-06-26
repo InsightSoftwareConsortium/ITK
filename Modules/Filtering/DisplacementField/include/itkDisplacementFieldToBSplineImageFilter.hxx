@@ -84,9 +84,6 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
   typename PointSetType::Pointer fieldPoints = PointSetType::New();
   fieldPoints->Initialize();
 
-  typedef typename ImporterType::OutputImageType        ImporterOutputImageType;
-  typedef typename ImporterOutputImageType::RegionType  ImporterRegionType;
-
   typedef typename InputFieldType::PointType InputFieldPointType;
   typedef ContinuousIndex<typename InputFieldPointType::CoordRepType, ImageDimension> ContinuousIndexType;
 
