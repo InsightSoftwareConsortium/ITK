@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef __itkGDCMImageIOFactory_h
 #define __itkGDCMImageIOFactory_h
-#include "ITKIOGDCMExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -28,7 +27,7 @@ namespace itk
  * \brief Create instances of GDCMImageIO objects using an object factory.
  * \ingroup ITKIOGDCM
  */
-class ITKIOGDCM_EXPORT GDCMImageIOFactory:public ObjectFactoryBase
+class GDCMImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

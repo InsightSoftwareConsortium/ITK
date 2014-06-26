@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef __itkGDCMImageIO_h
 #define __itkGDCMImageIO_h
-#include "ITKIOGDCMExport.h"
 
 #define ITKIO_DEPRECATED_GDCM1_API
 
@@ -84,7 +83,7 @@ namespace itk
  * \endwiki
  */
 class InternalHeader;
-class ITKIOGDCM_EXPORT GDCMImageIO:public ImageIOBase
+class GDCMImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
