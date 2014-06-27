@@ -66,17 +66,22 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 
-template<typename TFixedPointSet,  typename TMovingPointSet>
+template<typename TFixedPointSet,  typename TMovingPointSet,
+  class TInternalComputationValueType = double>
 class PointSetToPointSetMetricv4
-: public ObjectToObjectMetric<TFixedPointSet::PointDimension, TMovingPointSet::PointDimension>
+: public ObjectToObjectMetric<TFixedPointSet::PointDimension, TMovingPointSet::PointDimension,
+   Image<TInternalComputationValueType, TFixedPointSet::PointDimension>, TInternalComputationValueType>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef PointSetToPointSetMetricv4                                                            Self;
-  typedef ObjectToObjectMetric<TFixedPointSet::PointDimension, TMovingPointSet::PointDimension> Superclass;
-  typedef SmartPointer<Self>                                                                    Pointer;
-  typedef SmartPointer<const Self>                                                              ConstPointer;
+  typedef PointSetToPointSetMetricv4                                        Self;
+  typedef ObjectToObjectMetric<TFixedPointSet::PointDimension,
+    TMovingPointSet::PointDimension,
+    Image<TInternalComputationValueType, TFixedPointSet::PointDimension>,
+    TInternalComputationValueType>                                          Superclass;
+  typedef SmartPointer<Self>                                                Pointer;
+  typedef SmartPointer<const Self>                                          ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( PointSetToPointSetMetricv4, ObjectToObjectMetric );

@@ -67,14 +67,15 @@ namespace itk {
  * \ingroup ITKMetricsv4
  */
 
-template<typename TPointSet>
+template<typename TPointSet, class TInternalComputationValueType = double>
 class JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 :
-    public PointSetToPointSetMetricv4<TPointSet, TPointSet>
+    public PointSetToPointSetMetricv4<TPointSet, TPointSet, TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
   typedef JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 Self;
-  typedef PointSetToPointSetMetricv4<TPointSet, TPointSet>     Superclass;
+  typedef PointSetToPointSetMetricv4<TPointSet, TPointSet,
+    TInternalComputationValueType>                             Superclass;
   typedef SmartPointer<Self>                                   Pointer;
   typedef SmartPointer<const Self>                             ConstPointer;
 
@@ -202,9 +203,11 @@ public:
   /** Get the noise kernel sigma for the anistropic covariances. */
   itkGetConstMacro( KernelSigma, RealType );
 
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType & point, const PixelType & pixel = 0 ) const;
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType & point,
+    const PixelType & pixel = 0 ) const;
 
-  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const;
+  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType &,
+    LocalDerivativeType &, const PixelType & pixel = 0 ) const;
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
@@ -214,7 +217,8 @@ protected:
   JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
   ~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
 
-  void ComputeValueAndDerivative( const PointType & samplePoint, MeasureType &value, LocalDerivativeType &derivativeReturn, bool calcValue, bool calcDerivative ) const;
+  void ComputeValueAndDerivative( const PointType & samplePoint, MeasureType & value,
+    LocalDerivativeType &derivativeReturn, bool calcValue, bool calcDerivative ) const;
 
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
