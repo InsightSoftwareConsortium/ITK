@@ -336,7 +336,6 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
       }
     else if ( spatialObjectTypeName == "MeshSpatialObject" )
       {
-      typedef itk::Mesh< PixelType, NDimensions, TMeshTraits > MeshType;
       currentMeta = this->SpatialObjectToMetaObject< MetaMeshConverter< NDimensions, PixelType, TMeshTraits > > ( *it );
       }
     else

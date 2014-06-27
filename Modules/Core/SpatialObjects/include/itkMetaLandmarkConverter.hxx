@@ -52,9 +52,6 @@ MetaLandmarkConverter< NDimensions >
   LandmarkSpatialObjectPointer landmarkSO =
     LandmarkSpatialObjectType::New();
 
-  //typedef LandmarkSpatialObjectType::VectorType VectorType;
-  typedef vnl_vector< double > VectorType;
-
   unsigned int ndims = landmarkMO->NDims();
   double       spacing[NDimensions];
   for ( unsigned int ii = 0; ii < ndims; ii++ )

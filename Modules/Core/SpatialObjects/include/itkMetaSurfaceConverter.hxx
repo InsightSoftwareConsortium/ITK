@@ -66,7 +66,6 @@ MetaSurfaceConverter< NDimensions >
   surfaceSO->GetProperty()->SetAlpha(surfaceMO->Color()[3]);
 
   typedef typename SurfaceSpatialObjectType::SurfacePointType SurfacePointType;
-  typedef SurfacePointType *                                  SurfacePointPointer;
 
   typedef SurfaceMetaObjectType::PointListType ListType;
 

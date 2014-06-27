@@ -18,6 +18,7 @@
 #ifndef __itkLinearInterpolateImageFunction_hxx
 #define __itkLinearInterpolateImageFunction_hxx
 
+#include "itkConceptChecking.h"
 #include "itkLinearInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
@@ -88,7 +89,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
    */
   // When RealType is VariableLengthVector, 'value' will be resized properly
   // below when it's assigned again.
-  typedef typename NumericTraits< RealType >::ScalarRealType RealTypeScalarRealType;
+  Concept::Detail::UniqueType< typename NumericTraits< RealType >::ScalarRealType >();
 
   RealType value;
   // Initialize variable "value" with overloaded function so that
@@ -96,7 +97,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
   // to all zeros of length equal to the InputImagePtr first pixel length.
   this->MakeZeroInitializer( inputImagePtr, value );
 
-  typedef typename NumericTraits< InputPixelType >::ScalarRealType InputPixelScalarRealType;
+  Concept::Detail::UniqueType< typename NumericTraits< InputPixelType >::ScalarRealType >();
 
   for ( unsigned int counter = 0; counter < m_Neighbors; ++counter )
     {
