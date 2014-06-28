@@ -136,6 +136,9 @@ warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 import pygccxml
 
+# Apply file, for passing std::string as reference in methods
+applyFile = StringIO()
+applyFileNames = []
 # the output file
 outputFile = StringIO()
 
@@ -693,6 +696,15 @@ def generate_method(typedef, method, indent, w):
             ", ".join(args),
             const))
 
+    # Check the method arguments for std::string passed by reference.
+    # In this case, save the name of the argument in the applyFileNames list
+    # for further usage.
+    for arg in method.arguments:
+        # arg.type is an instance, there is no clean API in pygccxml to get the
+        # name of the type as a string. This functionnality needs to be added
+        # to pygccxml. Meanwhile, we can use the __str__() method.
+        if arg.type.__str__() == "std::string &":
+            applyFileNames.append(arg.name)
 
 # init the pygccxml stuff
 pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
@@ -895,10 +907,20 @@ if options.typedef_output:
     with open(options.typedef_output, "w") as f:
         f.write(typedefFile.getvalue())
 
+# When a std::string is passed by reference, we need to add the %apply
+# line with the argument name, and the INOUT command.
+# Use a set() to have remove duplicates, this will work event if we got
+# multiple functions with the same argument name in the same .i file
+# (swig should take care of it).
+applyFileNames = set(applyFileNames)
+for name in applyFileNames:
+    applyFile.write(
+        "%apply (std::string& INOUT) { std::string & " + name + "};\n")
+applyFile.write("\n\n")
 
 # finally, really write the output
 content = headerFile.getvalue() + importFile.getvalue() + \
-    includeFile.getvalue() + outputFile.getvalue()
+    includeFile.getvalue() + applyFile.getvalue() + outputFile.getvalue()
 
 if args[1] != '-':
 
