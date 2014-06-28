@@ -249,7 +249,6 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   typedef typename VersorRigid3DTransformType::OutputVectorType VectorType;
   typedef typename VersorRigid3DTransformType::OutputPointType  PointType;
-  typedef typename VersorRigid3DTransformType::CenterType       RotationCenterType;
 
   // Compute the centroids
   PointType fixedCentroid;
