@@ -29,8 +29,8 @@ namespace itk
  * \brief This class defines how to read and write STL file format.
  *
  * \author Luis Ibanez, Kitware Inc.
+ *
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
  * \ingroup IOSTL
  */
 class ITKIOMesh_EXPORT STLMeshIO : public MeshIOBase
