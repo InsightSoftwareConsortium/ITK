@@ -52,7 +52,7 @@ template< typename TImage >
 ReflectiveImageRegionConstIterator< TImage >
 ::ReflectiveImageRegionConstIterator(const Self & it)
 {
-  this->Operator = ( it );
+  this->operator= ( it );
   this->GoToBegin();
 }
 
