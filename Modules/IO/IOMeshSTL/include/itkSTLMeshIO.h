@@ -18,6 +18,8 @@
 #ifndef __itkSTLMeshIO_h
 #define __itkSTLMeshIO_h
 
+#include "IOSTLExport.h"
+
 #include "itkMeshIOBase.h"
 
 #include <fstream>
@@ -33,7 +35,7 @@ namespace itk
  * \ingroup ITKIOMesh
  * \ingroup IOSTL
  */
-class ITKIOMesh_EXPORT STLMeshIO : public MeshIOBase
+class IOSTL_EXPORT STLMeshIO : public MeshIOBase
 {
 public:
   /** Standard "Self" typedef. */
