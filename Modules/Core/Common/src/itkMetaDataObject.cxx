@@ -39,5 +39,9 @@ template class ITKCommon_EXPORT MetaDataObject< Array<int> >;
 template class ITKCommon_EXPORT MetaDataObject< Array<float> >;
 template class ITKCommon_EXPORT MetaDataObject< Array<double> >;
 template class ITKCommon_EXPORT MetaDataObject< Matrix<double> >;
+template class ITKCommon_EXPORT MetaDataObject< std::vector<float> >;
+template class ITKCommon_EXPORT MetaDataObject< std::vector<double> >;
+template class ITKCommon_EXPORT MetaDataObject< std::vector<std::vector<double> > >;
+template class ITKCommon_EXPORT MetaDataObject< std::vector<std::vector<float> > >;
 
 } // end namespace itk
