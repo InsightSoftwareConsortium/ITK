@@ -17,7 +17,8 @@
  *=========================================================================*/
 #ifndef __itkSTLMeshIOFactory_h
 #define __itkSTLMeshIOFactory_h
-#include "ITKIOMeshExport.h"
+
+#include "IOSTLExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
@@ -29,7 +30,7 @@ namespace itk
  *
  * \ingroup IOSTL
  */
-class ITKIOMesh_EXPORT STLMeshIOFactory : public ObjectFactoryBase
+class IOSTL_EXPORT STLMeshIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
