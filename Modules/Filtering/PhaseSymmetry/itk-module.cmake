@@ -16,5 +16,6 @@ itk_module(
     ITKImageIntensity
   TEST_DEPENDS
     ITKTestKernel
+  EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
