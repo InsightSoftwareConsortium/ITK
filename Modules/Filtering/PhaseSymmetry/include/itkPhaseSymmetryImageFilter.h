@@ -27,7 +27,7 @@ See Peter Kovesi's site for details on the filter
 #include "itkMagnitudeAndPhaseToComplexImageFilter.h"
 #include "itkImageAdaptor.h"
 #include "itkForwardFFTImageFilter.h"
-#include "itkFFTComplexToComplexImageFilter.h"
+#include "itkComplexToComplexFFTImageFilter.h"
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToPhaseImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
@@ -124,7 +124,7 @@ protected:
 
   typedef ForwardFFTImageFilter<InputImageType>            FFTFilterType;
   typedef typename FFTFilterType::OutputImageType          ComplexImageType;
-  typedef FFTComplexToComplexImageFilter<ComplexImageType> IFFTFilterType;
+  typedef ComplexToComplexFFTImageFilter<ComplexImageType> IFFTFilterType;
 
 
   typedef std::vector<typename FloatImageType::Pointer> FloatImageStack;
