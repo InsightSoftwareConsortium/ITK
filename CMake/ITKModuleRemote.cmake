@@ -67,7 +67,7 @@ function(_git_update git_executable git_repository git_tag module_dir)
   # Is the hash checkout out that we want?
   if(NOT ("${tag_hash}" STREQUAL "${head_hash}"))
     execute_process(
-      COMMAND "${git_executable}" fetch
+      COMMAND "${git_executable}" fetch "${git_repository}"
       WORKING_DIRECTORY "${module_dir}"
       RESULT_VARIABLE error_code
       )
