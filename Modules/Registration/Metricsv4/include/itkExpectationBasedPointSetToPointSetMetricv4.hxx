@@ -24,8 +24,8 @@
 namespace itk {
 
 /** Constructor */
-template<typename TFixedPointSet, typename TMovingPointSet>
-ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::ExpectationBasedPointSetToPointSetMetricv4() :
   m_PointSetSigma( 1.0 ),
   m_PreFactor( 0.0 ),
@@ -35,15 +35,15 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 }
 
 /** Destructor */
-template<typename TFixedPointSet, typename TMovingPointSet>
-ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::~ExpectationBasedPointSetToPointSetMetricv4()
 {
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::Initialize( void ) throw ( ExceptionObject )
 {
   Superclass::Initialize();
@@ -56,10 +56,10 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   this->m_Denominator = 2.0 * vnl_math_sqr( this->m_PointSetSigma );
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet>
-typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::MeasureType
-ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::GetLocalNeighborhoodValue( const PointType & point, const PixelType & itkNotUsed( pixel ) ) const
 {
   MeasureType localValue = NumericTraits<MeasureType>::Zero;
@@ -77,9 +77,9 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return localValue;
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
   MeasureType &measure, LocalDerivativeType &localDerivative, const PixelType & itkNotUsed( pixel ) ) const
 {
@@ -130,9 +130,9 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     }
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 typename LightObject::Pointer
-ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::InternalClone( void ) const
 {
   typename Self::Pointer rval = Self::New();
@@ -144,9 +144,9 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return rval.GetPointer();
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
+ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

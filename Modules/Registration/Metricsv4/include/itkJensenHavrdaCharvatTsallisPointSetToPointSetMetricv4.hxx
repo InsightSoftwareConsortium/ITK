@@ -23,8 +23,8 @@
 namespace itk {
 
 /** Constructor */
-template<typename TPointSet>
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+template<typename TPointSet, class TInternalComputationValueType>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() :
   m_UseAnisotropicCovariances( false ),
   m_PointSetSigma( static_cast<RealType>( 1.0 ) ),
@@ -39,16 +39,16 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 }
 
 /** Destructor */
-template<typename TPointSet>
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+template<typename TPointSet, class TInternalComputationValueType>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4()
 {
 }
 
 /** Initialize the metric */
-template<typename TPointSet>
+template<typename TPointSet, class TInternalComputationValueType>
 void
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::Initialize( void ) throw ( ExceptionObject )
 {
   Superclass::Initialize();
@@ -83,10 +83,10 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   this->m_Prefactor1 = 1.0 / ( this->m_TotalNumberOfPoints * this->m_TotalNumberOfPoints );
 }
 
-template<typename TPointSet>
-typename JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+template<typename TPointSet, class TInternalComputationValueType>
+typename JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::MeasureType
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::GetLocalNeighborhoodValue( const PointType & point, const PixelType & itkNotUsed( pixel ) ) const
 {
   MeasureType value;
@@ -96,17 +96,17 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 }
 
 /** Get both the match Measure and the Derivative Measure  */
-template<typename TPointSet>
+template<typename TPointSet, class TInternalComputationValueType>
 void
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point, MeasureType & value, LocalDerivativeType & derivative, const PixelType & itkNotUsed( pixel ) ) const
 {
   this->ComputeValueAndDerivative( point, value, derivative, true, true );
 }
 
-template<typename TPointSet>
+template<typename TPointSet, class TInternalComputationValueType>
 void
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::ComputeValueAndDerivative( const PointType & samplePoint, MeasureType & value, LocalDerivativeType & derivativeReturn, bool calcValue, bool calcDerivative ) const
 {
 
@@ -187,9 +187,9 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
     }
 }
 
-template<typename TPointSet>
+template<typename TPointSet, class TInternalComputationValueType>
 typename LightObject::Pointer
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::InternalClone( void ) const
 {
   typename Self::Pointer rval = Self::New();
@@ -205,9 +205,9 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   return rval.GetPointer();
 }
 
-template<typename TPointSet>
+template<typename TPointSet, class TInternalComputationValueType>
 void
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
