@@ -69,8 +69,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
 
   this->m_CompositeTransform = CompositeTransformType::New();
 
-  typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
-
   typedef MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType> DefaultMetricType;
   typename DefaultMetricType::Pointer mutualInformationMetric = DefaultMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );

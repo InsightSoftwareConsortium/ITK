@@ -69,7 +69,6 @@ MetaDTITubeConverter< NDimensions >
   tubeSO->GetProperty()->SetAlpha(tube->Color()[3]);
 
   typedef itk::DTITubeSpatialObjectPoint< NDimensions > TubePointType;
-  typedef TubePointType *                               TubePointPointer;
 
   MetaDTITube::PointListType::const_iterator it2 = tube->GetPoints().begin();
 

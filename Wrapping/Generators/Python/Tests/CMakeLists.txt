@@ -422,6 +422,11 @@ if(ITK_WRAP_float AND WRAP_2)
           SpatialObject.png
   )
 
+  add_python_test(PythonReadDicomAndReadTag
+    ${CMAKE_CURRENT_SOURCE_DIR}/ReadDicomAndReadTag.py
+    DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
+  )
+
 endif()
 
 

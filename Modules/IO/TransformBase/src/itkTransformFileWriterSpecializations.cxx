@@ -34,7 +34,6 @@ inline void AddToTransformList(typename TransformBaseTemplate<TInputScalar>::Con
   typedef typename OutputTransformType::Pointer      OutputTransformPointer;
   typedef typename OutputTransformType::ConstPointer OutputTransformConstPointer;
   typedef std::list< OutputTransformPointer >        OutputTransformListType;
-  typedef std::list< OutputTransformConstPointer >   OutputConstTransformListType;
 
   const std::string transformName = transform->GetTransformTypeAsString();
   OutputTransformPointer convertedTransform;

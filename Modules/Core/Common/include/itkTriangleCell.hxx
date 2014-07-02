@@ -507,7 +507,6 @@ TriangleCell< TCellInterface >
   // u32 is orthogonal to v12
   //
   const double dotproduct =  v12 * v32;
-  typedef typename VectorType::ValueType VectorValueType;
   VectorType u12 = v12 - v32 * ( dotproduct / v32.GetSquaredNorm() );
   VectorType u32 = v32 - v12 * ( dotproduct / v12.GetSquaredNorm() );
 

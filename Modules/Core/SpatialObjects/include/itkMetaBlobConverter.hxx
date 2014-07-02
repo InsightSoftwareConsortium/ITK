@@ -50,9 +50,6 @@ MetaBlobConverter< NDimensions >
 
   typename BlobSpatialObjectType::Pointer blob = BlobSpatialObjectType::New();
 
-  //typedef BlobSpatialObjectType::VectorType VectorType;
-  typedef vnl_vector< double > VectorType;
-
   unsigned int ndims = Blob->NDims();
   double       spacing[NDimensions];
   for ( unsigned int ii = 0; ii < ndims; ii++ )
@@ -70,7 +67,6 @@ MetaBlobConverter< NDimensions >
   blob->GetProperty()->SetAlpha(Blob->Color()[3]);
 
   typedef itk::SpatialObjectPoint< NDimensions > BlobPointType;
-  typedef BlobPointType *                        BlobPointPointer;
 
   MetaBlob::PointListType::const_iterator it2 = Blob->GetPoints().begin();
 

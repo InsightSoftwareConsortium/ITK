@@ -53,7 +53,6 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
 {
   typename ImageType::Pointer rval = ImageType::New();
 
-  typedef typename ImageType::Pointer     ImagePointer;
   typedef typename ImageType::SizeType    SizeType;
   typedef typename ImageType::SpacingType SpacingType;
   typedef typename ImageType::RegionType  RegionType;
@@ -137,8 +136,6 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
     itkExceptionMacro(<< "Can't downcast SpatialObject to ImageSpatialObject");
     }
   typedef typename ImageType::ConstPointer     ImageConstPointer;
-  typedef typename ImageType::SizeType         SizeType;
-  typedef typename ImageType::RegionType       RegionType;
 
   ImageConstPointer SOImage = imageSO->GetImage();
 

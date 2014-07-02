@@ -93,7 +93,6 @@ TimeVaryingVelocityFieldIntegrationImageFilter
   typedef typename DisplacementFieldType::SpacingType   SpacingType;
   typedef typename DisplacementFieldType::PointType     OriginType;
   typedef typename DisplacementFieldType::DirectionType DirectionType;
-  typedef typename DisplacementFieldType::RegionType    RegionType;
 
   SizeType size;
   SpacingType spacing;
