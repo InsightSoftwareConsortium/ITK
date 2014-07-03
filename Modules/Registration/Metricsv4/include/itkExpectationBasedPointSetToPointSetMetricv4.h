@@ -49,7 +49,8 @@ public:
 
   /** Standard class typedefs. */
   typedef ExpectationBasedPointSetToPointSetMetricv4                   Self;
-  typedef PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>  Superclass;
+  typedef PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
+    TInternalComputationValueType>                                     Superclass;
   typedef SmartPointer<Self>                                           Pointer;
   typedef SmartPointer<const Self>                                     ConstPointer;
 
