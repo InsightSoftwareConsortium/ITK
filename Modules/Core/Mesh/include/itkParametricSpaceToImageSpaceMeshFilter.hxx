@@ -56,13 +56,11 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
   typedef typename TInputMesh::PointsContainer  InputPointsContainer;
   typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
 
-  typedef typename TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
   typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
 
   typedef typename TInputMesh::PointDataContainer  InputPointDataContainer;
   typedef typename TOutputMesh::PointDataContainer OutputPointDataContainer;
 
-  typedef typename TInputMesh::PointDataContainerPointer  InputPointDataContainerPointer;
   typedef typename TOutputMesh::PointDataContainerPointer OutputPointDataContainerPointer;
 
   const InputMeshType *inputMesh    =  this->GetInput();
