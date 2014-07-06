@@ -77,3 +77,6 @@ if(ITK_VISIBLEHUMAN_DATA_ROOT)
     DEPENDS VisibleHumanStreamReadWriteTest
     )
 endif()
+
+itk_add_test(NAME TransformReadWriteTest
+  COMMAND $<TARGET_FILE:TransformReadWrite> ${TEMP}/TransformReadWrite.h5 )
