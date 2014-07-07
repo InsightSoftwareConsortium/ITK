@@ -45,11 +45,14 @@ movingImage = movingImageReader.GetOutput()
 #  Instantiate the classes for the registration framework
 #
 registration = itkImageRegistrationMethodF2F2_New()
-imageMetric  = itkMeanSquaresImageToImageMetricF2F2_New()
+imageMetric  = itkMattesMutualInformationImageToImageMetricF2F2_New()
 transform    = itkTranslationTransform2_New()
 optimizer    = itkRegularStepGradientDescentOptimizer_New()
 interpolator = itkLinearInterpolateImageFunctionF2D_New()
 
+
+imageMetric.SetNumberOfHistogramBins( 20 );
+imageMetric.SetNumberOfSpatialSamples( 10000 );
 
 registration.SetOptimizer(    optimizer.GetPointer()    )
 registration.SetTransform(    transform.GetPointer()    )
@@ -122,8 +125,8 @@ region = fixedImage.GetLargestPossibleRegion()
 resampler.SetSize( region.GetSize() )
 
 resampler.SetOutputSpacing( fixedImage.GetSpacing() )
+resampler.SetOutputDirection( fixedImage.GetDirection() )
 resampler.SetOutputOrigin(  fixedImage.GetOrigin()  )
-resampler.SetOutputDirection(  fixedImage.GetDirection()  )
 resampler.SetDefaultPixelValue( 100 )
 
 outputCast = itkRescaleIntensityImageFilterF2US2_New()
@@ -139,5 +142,3 @@ writer = itkImageFileWriterUS2_New()
 writer.SetFileName( argv[3] )
 writer.SetInput( outputCast.GetOutput() )
 writer.Update()
-
-

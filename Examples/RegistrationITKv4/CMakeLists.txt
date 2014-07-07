@@ -1,4 +1,4 @@
-project(ImageRegistration)
+project(ITKv4ImageRegistration)
 include_regular_expression("^.*$")
 
 add_executable(ImageRegistration3 ImageRegistration3.cxx )
@@ -149,23 +149,6 @@ target_link_libraries(ImageRegistration17 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
 target_link_libraries(ImageRegistrationHistogramPlotter ${ITK_LIBRARIES})
-
-add_executable(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
-target_link_libraries(MeanSquaresImageMetric1 ${ITK_LIBRARIES})
-
-if(ITKV3_COMPATIBILITY)
-  add_executable(DeformationFieldJacobian DeformationFieldJacobian.cxx )
-  target_link_libraries(DeformationFieldJacobian ${ITK_LIBRARIES})
-endif()
-
-add_executable(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
-target_link_libraries(IterativeClosestPoint1 ${ITK_LIBRARIES})
-
-add_executable(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
-target_link_libraries(IterativeClosestPoint2 ${ITK_LIBRARIES})
-
-add_executable(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
-target_link_libraries(IterativeClosestPoint3 ${ITK_LIBRARIES})
 
 if(BUILD_TESTING)
   add_subdirectory(test)

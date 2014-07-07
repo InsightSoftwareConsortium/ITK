@@ -180,8 +180,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The registration method type is instantiated using the types of the
-  //  fixed and moving images and the output transform. This class is responsible
-  //  for interconnecting all the components that we have described so far.
+  //  fixed and moving images as well as the output transform type. This class
+  //  is responsible for interconnecting all the components that we have described so far.
   //
   //  Software Guide : EndLatex
 
@@ -209,18 +209,18 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Transform is created using the same way, and its parameters
-  //  will be assigned later by the output of registration.
+  //  In this example we do not need to create the transform
+  //  object like above since the transform type is already passed to the
+  //  registration method as an template parameter.
   //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  TransformType::Pointer       transform     = TransformType::New();
-  // Software Guide : EndCodeSnippet
-
-  //  Software Guide : BeginLatex
   //
   //  Each component is now connected to the instance of the registration method.
+  //  Notice that the transform object does not need to be passed
+  //  to the registration method, and it is only created to be assigned later by the
+  //  output parameters of the registration process.
+  //  In fact, the registration filter creates its internal instantiation of the
+  //  transform object using the transform type as a template parameter.
+  //
   //  \index{itk::RegistrationMethodv4!SetMetric()}
   //  \index{itk::RegistrationMethodv4!SetOptimizer()}
   //  \index{itk::RegistrationMethodv4!SetFixedImage()}
@@ -313,13 +313,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef TransformType::ParametersType ParametersType;
-  ParametersType initialParameters( transform->GetNumberOfParameters() );
+  TransformType::Pointer movingInitialTransform = TransformType::New();
 
+  TransformType::ParametersType initialParameters( movingInitialTransform->GetNumberOfParameters() );
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
 
-  TransformType::Pointer movingInitialTransform = TransformType::New();
   movingInitialTransform->SetParameters( initialParameters );
 
   registration->SetMovingInitialTransform( movingInitialTransform );
@@ -327,17 +326,41 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Inside the registration filter the initial moving transform will be added
-  //  to a composite transform that already includes the target optimizable transform,
-  //  and the result composite transform will be used in optimizer.
+  //  Inside the registration filter the moving initial transform will be added
+  //  to a composite transform that already includes the output optimizable transform.
+  //  This resultant composite transform will be used in the optimizer for evaluatation
+  //  of the metric values at each iteration.
   //
-  //  However, notice that the initial fixed transform will not be optimized.
-  //  This transform just transfers the fixed image from the fixed image
-  //  space to the virtual space where all the registration computations happen.
-  //  The virtual space is usually set the same as fixed image space.
-  //  Hence, in most of the times the fixed initial transform would be an identity
-  //  transform (as its default value is), and it can be skipped. However, in this
-  //  example it is set explicity.
+  //  In spite of the above, the fixed initial transform is not used in the optimization
+  //  process. It only transfers the fixed image to the virtual image domain where the metric
+  //  evaluation happens.
+  //
+  //  Virtual image is a new concept added to the ITKv4 registration framework,
+  //  and it potentially lets us to do the registration process in a physical space
+  //  totally different than the fixed image and moving image domains.
+  //  In fact, the region over which metric evaluation is performed is called virtual image
+  //  domain. This domain defines the resolution at which the evaluation is performed,
+  //  as well as the physical coordinate system.
+  //
+  //  The virtual reference domain is taken from the "virtual image" buffered region, and
+  //  the input images should be mapped to this reference sapce using the fixed and moving
+  //  initial transforms.
+  //
+  //  Note that the legacy intuitive registration framework can be considered as a special
+  //  case where the virtual domain is the same as the fixed image domain.
+  //  As this case practically happens in most of the real life applications, the
+  //  virtual image is set to be the same as the fixed image by default.
+  //
+  //  However, user can define the virtual domain different than the fixed image domain by calling
+  //  either "SetVirtualDomain" or "SetVirtualDomainFromImage".
+  //
+  //  In this example, like the most examples of this chapter, the virtual image is considered
+  //  the same as the fixed image. Hence, the registration process happens in the fixed image
+  //  physical domain, and the fixed initial transform would be only an identity transform (as
+  //  its default value) and can be skipped.
+  //
+  //  As a "Hello World!" example should show all the basics, the fixed initial transform
+  //  is set explicity here.
   //
   //  Software Guide : EndLatex
 
@@ -347,6 +370,17 @@ int main( int argc, char *argv[] )
 
   registration->SetFixedInitialTransform( identityTransform );
   // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  Above shows only one way to initialize the registration configuration.
+  //  Another option is to initialize the output optimizable transform directly.
+  //  In this approach, first an initial transform is created; then, its parameters
+  //  are passed to the registration method via "SetInitialTransform(Fixed)Parameters".
+  //  This method of initialization is shown in ImageRegistration5 example.
+  //
+  //  Software Guide : EndLatex
+
 
   //  Software Guide : BeginLatex
   //
@@ -448,11 +482,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  ITKv4 allows for multistage registration framework whereby each stage is
-  //  different in the resolution of virtual space, and the smoothness of the
+  //  different in the resolution of its virtual space and the smoothness of the
   //  fixed and moving images.
   //  These criteria need to be defined before registration starts. Otherwise,
   //  the default values will be used.
-  //  In this example, we run a simple image registration in one stage with no
+  //  In this example, we run a simple registration in one stage with no
   //  space shrinking and smoothness on the input data.
   //
   //  Software Guide : EndLatex
@@ -502,31 +536,21 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  // In a real life application, you may attempt to recover from the error by
-  // taking more effective actions in the catch block. Here we are simply
-  // printing out a message and then terminating the execution of the program.
+  //  In a real life application, you may attempt to recover from the error by
+  //  taking more effective actions in the catch block. Here we are simply
+  //  printing out a message and then terminating the execution of the program.
   //
-  //  Software Guide : EndLatex
-
-  //  Software Guide : BeginLatex
   //
-  //  The result of the registration process is obtained using the \code{GetOutput()}
-  //  method.
-  //  The parameters of the target transform are set by the registration filter output.
-  //  The output of the registration filter is obtained using the \code{GetOutput()}
-  //  method.
-  //  Note the use of the  methods \code{GetOutput()} and \code{Get()}. This combination
-  //  is needed here because the registration method acts as a filter whose output is a
-  //  transform decorated in the form of a \doxygen{DataObject}. For details in this
-  //  construction you may want to read the documentation of the \doxygen{DataObjectDecorator}.
+  //  The result of the registration process is obtained using the \code{GetTransform()}
+  //  method. It returns a constant pointer to the output transform.
+  //  The parameters of the target transform are set by the registration output parameters.
   //
-  //  \index{itk::ImageRegistrationMethodv4!GetOutput()!Get()}
+  //  \index{itk::ImageRegistrationMethodv4!GetTransform()}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  transform->SetFixedParameters(  registration->GetOutput()->Get()->GetFixedParameters()  );
-  transform->SetParameters(   registration->GetOutput()->Get()->GetParameters()   );
+  TransformType::ConstPointer transform = registration->GetTransform();
   // Software Guide : EndCodeSnippet
 
 
@@ -539,7 +563,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ParametersType finalParameters = transform->GetParameters();
+  TransformType::ParametersType finalParameters = transform->GetParameters();
   const double TranslationAlongX = finalParameters[0];
   const double TranslationAlongY = finalParameters[1];
   // Software Guide : EndCodeSnippet
@@ -622,10 +646,12 @@ int main( int argc, char *argv[] )
   //
   //  It is common, as the last step of a registration task, to use the
   //  resulting transform to map the moving image into the fixed image space.
-  //  However, we should notice that the transform that is produced as output
-  //  of the registration method does not include the probable initial transform.
-  //  Therefore, a composite transform should be created that includes both initial
-  //  and output transforms.
+  //
+  //  Before the mapping process, notice that we have not used the direct initialization
+  //  of the output transform in this example, so the parameters of the moving initial
+  //  transform are not reflected in the output parameters of the registration filter.
+  //  Hence, a composite transform is needed to concatenate both initial and output
+  //  transforms together.
   //
   //  Software Guide : EndLatex
 
@@ -635,7 +661,7 @@ int main( int argc, char *argv[] )
                               Dimension > CompositeTransformType;
   CompositeTransformType::Pointer  outputCompositeTransform = CompositeTransformType::New();
   outputCompositeTransform->AddTransform( movingInitialTransform );
-  outputCompositeTransform->AddTransform( transform );
+  outputCompositeTransform->AddTransform( registration->GetModifiableTransform() );
   // Software Guide : EndCodeSnippet
 
 
