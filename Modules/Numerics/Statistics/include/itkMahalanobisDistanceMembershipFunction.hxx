@@ -145,17 +145,21 @@ MahalanobisDistanceMembershipFunction< TVector >
   // Our inverse covariance is always well formed. When the covariance
   // is singular, we use a diagonal inverse covariance with a large diagnonal
 
-  // Compute ( y - mean )
-  vnl_vector< double > tempVector( measurementVectorSize );
-
-  for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
-    {
-    tempVector[i] = measurement[i] - m_Mean[i];
-    }
-
   // temp = ( y - mean )^t * InverseCovariance * ( y - mean )
-  double temp = dot_product( tempVector,
-                             m_InverseCovariance.GetVnlMatrix() * tempVector );
+  //
+  // This is manually done to remove dynamic memory allocation:
+  // double temp = dot_product( tempVector,  m_InverseCovariance.GetVnlMatrix() * tempVector );
+  //
+  double temp = 0.0;
+  for (unsigned int r = 0; r < measurementVectorSize; ++r)
+    {
+    double rowdot = 0.0;
+    for(unsigned int c = 0; c < measurementVectorSize; ++c)
+      {
+      rowdot += m_InverseCovariance(r, c) * ( measurement[c] - m_Mean[c] );
+      }
+    temp += rowdot * ( measurement[r] - m_Mean[r] );
+    }
 
   return temp;
 }
