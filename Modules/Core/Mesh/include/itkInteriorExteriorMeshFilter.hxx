@@ -59,16 +59,12 @@ InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
 ::GenerateData(void)
 {
   typedef typename TInputMesh::PointsContainer  InputPointsContainer;
-  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
 
   typedef typename TInputMesh::PointsContainerConstPointer InputPointsContainerConstPointer;
-  typedef typename TOutputMesh::PointsContainerPointer     OutputPointsContainerPointer;
 
   typedef typename TInputMesh::PointDataContainer  InputPointDataContainer;
-  typedef typename TOutputMesh::PointDataContainer OutputPointDataContainer;
 
   typedef typename TInputMesh::PointDataContainerConstPointer InputPointDataContainerConstPointer;
-  typedef typename TOutputMesh::PointDataContainerPointer     OutputPointDataContainerPointer;
 
   const InputMeshType *inputMesh =  this->GetInput();
   OutputMeshPointer    outputMesh =  this->GetOutput();
