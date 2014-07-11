@@ -134,7 +134,6 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 
   typedef typename InputImageType::RegionType InputRegionType;
   typedef typename InputImageType::SizeType   InputSizeType;
-  typedef typename InputImageType::IndexType  InputIndexType;
 
   InputRegionType region;
 

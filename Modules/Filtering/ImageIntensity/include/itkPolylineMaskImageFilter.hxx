@@ -188,14 +188,11 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   typedef typename TInputImage::SpacingType       InputImageSpacingType;
   typedef ImageRegionConstIterator< TInputImage > InputImageConstIteratorType;
 
-  typedef typename TOutputImage::IndexType    ImageIndexType;
   typedef typename TOutputImage::PixelType    PixelType;
   typedef ImageRegionIterator< TOutputImage > OutputImageIteratorType;
 
-  typedef typename TPolyline::Pointer        PolylinePointer;
   typedef typename TPolyline::VertexType     VertexType;
   typedef typename TPolyline::VertexListType VertexListType;
-  typedef typename TPolyline::IndexType      PolylineIndexType;
 
   typedef Point< double, 3 > OriginType;
 
@@ -226,7 +223,6 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   OutputImageIteratorType     outputIt( outputImagePtr, outputImagePtr->GetLargestPossibleRegion() );
 
   typedef NearestNeighborInterpolateImageFunction< TInputImage, double > InterpolatorType;
-  typedef typename InterpolatorType::OutputType                          OutputType;
   typedef typename InterpolatorType::PointType InterpolatorPointType;
 
   /* Generate the transformation matrix */
@@ -402,8 +398,6 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   ProjectionImageIteratorType projectionIt( projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion() );
 
   itkDebugMacro(<< "Rotation matrix"  << m_RotationMatrix);
-
-  typedef typename VertexListType::Pointer VertexListPointer;
 
   const VertexListType *container      = polylinePtr->GetVertexList();
 

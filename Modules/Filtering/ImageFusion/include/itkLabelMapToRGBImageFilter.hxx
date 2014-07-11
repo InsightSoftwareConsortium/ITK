@@ -56,8 +56,6 @@ LabelMapToRGBImageFilter<TInputImage, TOutputImage>
 {
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
 
-  typedef typename LabelObjectType::LengthType  LengthType;
-
   FunctorType function;
   function.SetBackgroundValue( this->GetInput()->GetBackgroundValue() );
 
