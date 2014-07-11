@@ -106,7 +106,6 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   this->m_FinalMeans = estimator->GetParameters();
 
   typedef typename InputImageType::RegionType RegionType;
-  typedef typename InputImageType::SizeType   SizeType;
 
   // Now classify the samples
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();

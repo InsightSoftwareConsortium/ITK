@@ -41,8 +41,6 @@ int itkMIRegistrationFunctionTest(int, char* [] )
   typedef double                                PixelType;
   typedef itk::Vector<double,ImageDimension>    DeformationPixelType;
 
-  typedef double                   CoordinateRepresentationType;
-
   //Allocate Images
   typedef itk::Image<PixelType,ImageDimension>         MovingImageType;
   typedef itk::Image<PixelType,ImageDimension>         FixedImageType;
@@ -52,8 +50,6 @@ int itkMIRegistrationFunctionTest(int, char* [] )
   // Declare Gaussian Sources
   typedef itk::GaussianImageSource< MovingImageType >  MovingImageSourceType;
   typedef itk::GaussianImageSource< FixedImageType  >  FixedImageSourceType;
-  typedef MovingImageSourceType::Pointer               MovingImageSourcePointer;
-  typedef FixedImageSourceType::Pointer                FixedImageSourcePointer;
 
   // Note: the following declarations are classical arrays
   FixedImageType::SizeValueType fixedImageSize[]     = {  100,  100 };

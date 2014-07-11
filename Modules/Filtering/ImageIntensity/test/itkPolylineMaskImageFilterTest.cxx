@@ -46,15 +46,6 @@ int itkPolylineMaskImageFilterTest(int , char * [] )
   typedef itk::Vector<double, iDimension>            inputVectorType;
   typedef itk::PolyLineParametricPath<pDimension>    inputPolylineType;
 
-  // Declare the type of the index to access images
-  typedef itk::Index<iDimension>         inputIndexType;
-
-  // Declare the type of the size
-  typedef itk::Size<iDimension>          inputSizeType;
-
-  // Declare the type of the Region
-  typedef itk::ImageRegion<iDimension>   inputRegionType;
-
   // Create vector
   inputVectorType   inputUpVector,inputViewVector;
 

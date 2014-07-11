@@ -63,9 +63,6 @@ int itkMRFImageFilterTest(int, char* [] )
   vecImage->SetBufferedRegion( region );
   vecImage->Allocate();
 
-  // setup the iterators
-  typedef VecImageType::PixelType::VectorType VecPixelType;
-
   enum { VecImageDimension = VecImageType::ImageDimension };
   typedef itk::ImageRegionIterator< VecImageType > VecIterator;
 
@@ -287,13 +284,8 @@ int itkMRFImageFilterTest(int, char* [] )
   // grabbed from the MRF application pipeline.
   //----------------------------------------------------------------------
   //---------------------------------------------------------------------
-  typedef VecImagePixelType MeasurementVectorType;
-
   typedef itk::ImageClassifierBase< VecImageType,
     ClassImageType > ClassifierType;
-
-  typedef itk::ClassifierBase<VecImageType>::Pointer
-    ClassifierBasePointer;
 
   typedef ClassifierType::Pointer ClassifierPointer;
   ClassifierPointer myClassifier = ClassifierType::New();

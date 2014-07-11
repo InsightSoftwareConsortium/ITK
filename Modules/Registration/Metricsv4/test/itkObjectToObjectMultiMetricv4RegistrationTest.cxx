@@ -83,7 +83,6 @@ void ObjectToObjectMultiMetricv4RegistrationTestCreateImages( typename TImage::P
 
    // Declare Gaussian Sources
   typedef itk::GaussianImageSource< TImage >        GaussianImageSourceType;
-  typedef typename GaussianImageSourceType::Pointer GaussianImageSourcePointer;
 
   typename TImage::SizeType size;
   size.Fill( ImageSize );

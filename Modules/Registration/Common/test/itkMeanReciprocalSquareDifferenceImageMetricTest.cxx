@@ -57,8 +57,6 @@ int itkMeanReciprocalSquareDifferenceImageMetricTest(int, char* [] )
   // Declare Gaussian Sources
   typedef itk::GaussianImageSource< MovingImageType >  MovingImageSourceType;
   typedef itk::GaussianImageSource< FixedImageType  >  FixedImageSourceType;
-  typedef MovingImageSourceType::Pointer               MovingImageSourcePointer;
-  typedef FixedImageSourceType::Pointer                FixedImageSourcePointer;
 
   // Note: the following declarations are classical arrays
   FixedImageType::SizeValueType fixedImageSize[]     = {  100,  100 };
@@ -102,7 +100,6 @@ int itkMeanReciprocalSquareDifferenceImageMetricTest(int, char* [] )
 
   typedef MetricType::TransformType                 TransformBaseType;
   typedef TransformBaseType::ParametersType         ParametersType;
-  typedef TransformBaseType::JacobianType           JacobianType;
 
   MetricType::Pointer  metric = MetricType::New();
   metric->Print(std::cout);

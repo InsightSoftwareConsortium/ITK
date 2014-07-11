@@ -37,8 +37,6 @@ int doDenoising(const std::string & inputFileName, const std::string & outputFil
 
   typedef itk::PatchBasedDenoisingImageFilter<ImageT, ImageT> FilterType;
 
-  typedef typename FilterType::PatchWeightsType PatchType;
-
   typedef itk::Statistics::GaussianRandomSpatialNeighborSubsampler<
     typename FilterType::PatchSampleType, typename ImageT::RegionType> SamplerType;
 

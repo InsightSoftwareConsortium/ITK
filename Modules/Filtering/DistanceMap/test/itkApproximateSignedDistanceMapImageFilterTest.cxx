@@ -59,7 +59,6 @@ int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
   typedef itk::Image<InputPixelType,ImageDimension>  InputImageType;
   typedef itk::Image<OutputPixelType,ImageDimension> OutputImageType;
   typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;
-  typedef InputImageType::IndexType                  IndexType;
   typedef itk::Point<double,ImageDimension>          PointType;
 
   // Make a binary input image based on the signed distance function
