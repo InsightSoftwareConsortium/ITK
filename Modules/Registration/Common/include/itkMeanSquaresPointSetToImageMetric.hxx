@@ -59,7 +59,6 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
@@ -117,8 +116,6 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
   this->m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters(parameters);
-
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
@@ -221,8 +218,6 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
   MeasureType measure = NumericTraits<MeasureType>::Zero;
 
   this->SetTransformParameters(parameters);
-
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);

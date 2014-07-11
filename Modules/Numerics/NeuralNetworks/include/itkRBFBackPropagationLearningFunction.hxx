@@ -42,11 +42,6 @@ RBFBackPropagationLearningFunction<LayerType,TTargetVector>
   typename LayerType::WeightSetType::Pointer outputweightset = layer->GetModifiableOutputWeightSet();
   typename LayerType::WeightSetType::Pointer inputweightset = layer->GetModifiableInputWeightSet();
 
-  typedef typename LayerType::InputVectorType  InputVectorType;
-  typedef typename LayerType::OutputVectorType OutputVectorType;
-
-  typedef RBFLayer<InputVectorType,OutputVectorType> RbfLayerType;
-  typedef typename RbfLayerType::InternalVectorType  ArrayType;
   typename LayerType::ValuePointer currentdeltavalues = inputweightset->GetTotalDeltaValues();
   vnl_matrix<ValueType> DW_temp(currentdeltavalues,inputweightset->GetNumberOfOutputNodes(),
                                            inputweightset->GetNumberOfInputNodes());
