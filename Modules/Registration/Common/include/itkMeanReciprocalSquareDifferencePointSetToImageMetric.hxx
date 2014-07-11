@@ -61,8 +61,6 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
-
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
     InputPointType inputPoint;
@@ -122,8 +120,6 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   double lambdaSquared = std::pow(this->m_Lambda, 2);
 
   this->SetTransformParameters(parameters);
-
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
@@ -230,8 +226,6 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   this->SetTransformParameters(parameters);
   double lambdaSquared = std::pow(this->m_Lambda, 2);
-
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);

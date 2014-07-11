@@ -79,7 +79,6 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 ::StartOptimization()
 {
   const DisplacementVectorType zeroVector( 0.0 );
-  typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
 
   typename VirtualImageType::ConstPointer virtualDomainImage;
   typename MovingImageMaskType::ConstPointer movingImageMask;

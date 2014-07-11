@@ -115,7 +115,6 @@ int itkGradientDescentOptimizerTest(int, char* [] )
 
   typedef  itk::GradientDescentOptimizer  OptimizerType;
 
-  typedef OptimizerType::ScalesType        ScalesType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

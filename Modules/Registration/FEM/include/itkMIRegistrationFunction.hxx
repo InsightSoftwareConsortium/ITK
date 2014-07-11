@@ -145,7 +145,6 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   //
   // NOTE : must estimate sigma for each pdf
 
-  typedef vnl_matrix< double >               matrixType;
   typedef std::vector< double >              sampleContainerType;
   typedef std::vector< CovariantVectorType > gradContainerType;
   typedef std::vector< double >              gradMagContainerType;

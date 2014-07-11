@@ -130,7 +130,6 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 ::StartOptimization()
 {
   const DisplacementVectorType zeroVector( 0.0 );
-  typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
   typename VirtualImageType::ConstPointer virtualDomainImage;
   typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
   if( multiMetric )
