@@ -1064,10 +1064,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                                                     EigenVectorsCacheType& eigenVecsCache,
                                                     RealType& symMatrixLogMap, RealArrayType& geodesicDist)
 {
-  typedef typename PixelType::MatrixType            MatrixType;
   typedef typename RealType::EigenValuesArrayType   RealEigenValuesArrayType;
   typedef typename RealType::EigenVectorsMatrixType RealEigenVectorsMatrixType;
-  typedef typename RealType::MatrixType             RealMatrixType;
   EigenValuesArrayType       eigenVals;
   EigenVectorsMatrixType     eigenVecs;
   RealEigenValuesArrayType   YEigenVals;
@@ -1250,7 +1248,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 {
   typedef typename RealType::EigenValuesArrayType   RealEigenValuesArrayType;
   typedef typename RealType::EigenVectorsMatrixType RealEigenVectorsMatrixType;
-  typedef typename RealType::MatrixType             RealMatrixType;
   RealEigenValuesArrayType   eigenVals;
   RealEigenVectorsMatrixType eigenVecs;
   RealEigenValuesArrayType   YEigenVals;

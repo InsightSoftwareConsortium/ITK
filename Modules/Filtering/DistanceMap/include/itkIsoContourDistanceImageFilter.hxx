@@ -263,8 +263,6 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
   //3. Computation over the narrowband
   ConstBandIterator bandIt  = m_NarrowBandRegion[threadId].Begin;
   ConstBandIterator bandEnd = m_NarrowBandRegion[threadId].End;
-  typedef ImageRegionConstIterator< InputImageType > ConstIteratorType;
-  typedef ImageRegionIterator< OutputImageType >     IteratorType;
 
   unsigned int n;
 

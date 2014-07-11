@@ -96,8 +96,6 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
   InputLineIteratorType InLineIt(inputImage, outputRegionForThread);
   InLineIt.SetDirection(BestDirection);
 
-  typedef ImageRegionIterator< OutputImageType > OutputIteratorType;
-  //OutputIteratorType oit(outputImage, outputRegionForThread);
   InLineIt.GoToBegin();
   IndexType LineStart;
   //PrevLineStart = InLineIt.GetIndex();

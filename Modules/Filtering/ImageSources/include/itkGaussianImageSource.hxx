@@ -133,7 +133,6 @@ GaussianImageSource< TOutputImage >
 
   // Create and initialize a new gaussian function
   typedef itk::GaussianSpatialFunction< double, NDimensions > FunctionType;
-  typedef typename FunctionType::InputType                    FunctionPositionType;
   typename FunctionType::Pointer pGaussian = FunctionType::New();
 
   pGaussian->SetSigma(m_Sigma);
