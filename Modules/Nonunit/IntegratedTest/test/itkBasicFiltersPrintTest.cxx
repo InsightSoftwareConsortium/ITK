@@ -81,10 +81,6 @@ int itkBasicFiltersPrintTest(int , char* [])
   typedef itk::Image<float,2>         InputType;
   typedef itk::Image<float,2>         OutputType;
   typedef itk::Image<unsigned char,2> CharType;
-  typedef itk::Image<unsigned char,3> CharType3D;
-
-  typedef itk::Point<float,2>       MeshPixelType;
-  typedef itk::Mesh<MeshPixelType>  MeshType;
 
   typedef itk::Vector<float,2>     VectorType;
   typedef itk::Image<VectorType,2> VectorImageType;
@@ -94,20 +90,6 @@ int itkBasicFiltersPrintTest(int , char* [])
 
   //typedef itk::Neighborhood<unsigned short,2> KernelType;
   typedef itk::BinaryBallStructuringElement<unsigned short,2> KernelType;
-
-  // Used for MaskImageFilter
-  typedef itk::Image<unsigned short,2> MaskImageType;
-
-  // Used for TransformMeshFilter
-  typedef itk::AffineTransform<float,3> AffineTransformType;
-
-  // Used for InteriorExteriorMeshFilter
-  typedef itk::Point<float, 3> PointType;
-  typedef itk::SphereSpatialFunction< MeshType::PointDimension,
-    MeshType::PointType > SphereSpatialFunctionType;
-
-  // Used for SpatialFunctionImageEvaluator
-  typedef itk::GaussianSpatialFunction<char,2> GaussianSpatialFunctionType;
 
 
   itk::AcosImageFilter<InputType,OutputType>::Pointer AcosImageFilterObj =

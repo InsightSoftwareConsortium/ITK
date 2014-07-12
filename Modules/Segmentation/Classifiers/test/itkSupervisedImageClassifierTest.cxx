@@ -298,7 +298,6 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //---------------------------------------------------------------------
   // Multiband data is now available in the right format
   //---------------------------------------------------------------------
-  typedef VecImagePixelType MeasurementVectorType;
 
   typedef itk::ImageClassifierBase< VecImageType,
     ClassImageType > SupervisedClassifierType;

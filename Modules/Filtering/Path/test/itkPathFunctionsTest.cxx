@@ -32,8 +32,6 @@ int itkPathFunctionsTest(int, char*[])
 
   typedef  ImageType::IndexType                           IndexType;
   typedef  InPathType::VertexType                         VertexType;
-  typedef  InPathType::OffsetType                         OffsetType;
-  typedef  InPathType::InputType                          InPathInputType;
 
   bool passed = true;
 

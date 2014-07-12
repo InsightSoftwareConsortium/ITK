@@ -66,7 +66,6 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
 
   typedef itk::Image<PixelType,ImageDimension>      ImageType;
   typedef itk::Image<unsigned char,ImageDimension>  OutputImageType;
-  typedef ImageType::IndexType                      IndexType;
   typedef itk::Point<double,ImageDimension>         PointType;
 
   // Fill an input image with simple signed distance function
@@ -134,15 +133,12 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
- //Create narrowband
-  typedef ImageType::IndexType            IndexType;
-  typedef ImageType::PixelType            DataType;
+  // Create narrowband
   typedef IsoContourType::BandNodeType    BandNodeType;
   typedef IsoContourType::NarrowBandType  NarrowBandType;
-  //typedef itk::NarrowBand<BandNodeType> NarrowBandType;
 
   NarrowBandType::Pointer band = NarrowBandType::New();
-  //Create nodes
+  // Create nodes
   BandNodeType node;
 
   iter.GoToBegin();
