@@ -325,7 +325,6 @@ void Segmenter< TInputImage >
   ImageRegionIterator< OutputImageType >                   labelIt;
 
   typename BoundaryType::face_t::Pointer face;
-  typedef typename BoundaryType::flat_hash_t flats_t;
   typename BoundaryType::flat_hash_t           * flats;
   typename BoundaryType::flat_hash_t::iterator flats_it;
   typename BoundaryType::flat_region_t flr;

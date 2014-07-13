@@ -30,7 +30,6 @@ int itkLineIteratorTest(int argc, char*argv[])
   typedef unsigned char                    PixelType;
   typedef itk::Image<PixelType, Dimension> ImageType;
   typedef ImageType::RegionType::IndexType IndexType;
-  typedef IndexType::IndexValueType        IndexValueType;
 
  if (argc < 2)
     {

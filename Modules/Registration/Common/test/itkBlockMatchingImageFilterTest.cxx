@@ -99,9 +99,6 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
   typedef itk::MaskFeaturePointSelectionFilter< InputImageType >  FeatureSelectionFilterType;
   typedef FeatureSelectionFilterType::FeaturePointsType           PointSetType;
 
-  typedef FeatureSelectionFilterType::PointType       PointType;
-  typedef FeatureSelectionFilterType::InputImageType  ImageType;
-
   // Feature Selection
   FeatureSelectionFilterType::Pointer featureSelectionFilter = FeatureSelectionFilterType::New();
 

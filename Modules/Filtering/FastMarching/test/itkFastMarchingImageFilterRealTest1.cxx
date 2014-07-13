@@ -69,7 +69,6 @@ int itkFastMarchingImageFilterRealTest1(int argc, char* argv[] )
                                &ShowProgressObject::ShowProgress);
   marcher->AddObserver( itk::ProgressEvent(), command);
 
-  typedef FastMarchingType::NodeType      NodeType;
   typedef FastMarchingType::NodePairType  NodePairType;
 //  typedef FastMarchingType::NodeContainerType NodeContainerType;
   typedef FastMarchingType::NodePairContainerType NodePairContainerType;

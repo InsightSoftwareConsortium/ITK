@@ -72,7 +72,6 @@ int itkTransformToDisplacementFieldFilterTest( int argc, char * argv [] )
   typedef DisplacementFieldGeneratorType::SpacingType    SpacingType;
   typedef DisplacementFieldGeneratorType::OriginType     OriginType;
   typedef DisplacementFieldGeneratorType::IndexType      IndexType;
-  typedef DisplacementFieldGeneratorType::RegionType     RegionType;
   typedef itk::ImageFileWriter<
     DisplacementFieldImageType >                         WriterType;
 

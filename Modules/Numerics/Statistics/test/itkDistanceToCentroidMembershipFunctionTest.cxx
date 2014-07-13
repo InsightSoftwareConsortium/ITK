@@ -29,7 +29,6 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
 
   typedef itk::Statistics::DistanceToCentroidMembershipFunction<
     MeasurementVectorType >   MembershipFunctionType;
-  typedef itk::Statistics::MembershipFunctionBase< MeasurementVectorType > BaseType;
 
   MembershipFunctionType::Pointer function = MembershipFunctionType::New();
 

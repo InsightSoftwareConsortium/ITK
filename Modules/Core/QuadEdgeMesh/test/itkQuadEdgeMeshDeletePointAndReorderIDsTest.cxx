@@ -24,8 +24,6 @@ int itkQuadEdgeMeshDeletePointAndReorderIDsTest( int , char* [] )
   typedef double PixelType;
   const unsigned int Dimension = 3;
   typedef itk::QuadEdgeMesh< PixelType, Dimension > MeshType;
-  typedef MeshType::CellTraits                      CellTraits;
-  typedef CellTraits::QuadEdgeType                  QEType;
   typedef MeshType::CellType                        CellType;
   typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
 

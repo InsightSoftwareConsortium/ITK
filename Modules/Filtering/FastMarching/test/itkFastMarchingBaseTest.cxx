@@ -108,9 +108,6 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
     const unsigned Dimension = 3;
     typedef itk::Image<PixelType, Dimension> ImageType;
 
-    typedef itk::FastMarchingStoppingCriterionBase< ImageType, ImageType >
-        ImageCriterionType;
-
     ImageType::Pointer input = ImageType::New();
 
     typedef itk::FastMarchingBaseTestHelper< ImageType, ImageType >
@@ -139,8 +136,6 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
     if( atoi( argv[1] ) == 1 )
       {
       typedef itk::QuadEdgeMesh<PixelType, 3, itk::QuadEdgeMeshTraits< PixelType, 3, bool, bool > > MeshType;
-      typedef itk::FastMarchingStoppingCriterionBase< MeshType, MeshType >
-          MeshCriterionType;
 
       MeshType::Pointer input = MeshType::New();
 

@@ -27,10 +27,6 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
   typedef MeshType::Pointer                                   MeshPointer;
   typedef MeshType::QEType                                    QEType;
-  typedef MeshType::PointIdentifier                           PointIdentifier;
-  typedef MeshType::PointType                                 PointType;
-  typedef MeshType::CellType                                  CellType;
-  typedef itk::QuadEdgeMeshLineCell< CellType >               LineCellType;
 
   typedef itk::QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType>
     JoinFacet;

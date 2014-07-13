@@ -40,7 +40,6 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   char* dataFileName = argv[1];
   int dataSize = 2000;
   int bucketSize = atoi( argv[3] );
-  typedef itk::FixedArray< double, 2 > MeanType;
   double minStandardDeviation = atof( argv[2] );
 
   itk::Array< double > trueMeans(4);

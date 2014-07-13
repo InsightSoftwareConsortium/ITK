@@ -36,16 +36,10 @@ int itkSampleToHistogramFilterTest7( int, char * [] )
   typedef itk::Statistics::SampleToHistogramFilter<
     SampleType, HistogramType > FilterType;
 
-  typedef FilterType::InputHistogramSizeObjectType         InputHistogramSizeObjectType;
-  typedef FilterType::HistogramSizeType                    HistogramSizeType;
-  typedef FilterType::HistogramMeasurementType             HistogramMeasurementType;
-  typedef FilterType::HistogramMeasurementVectorType       HistogramMeasurementVectorType;
-  typedef FilterType::InputHistogramMeasurementObjectType  InputHistogramMeasurementObjectType;
-  typedef FilterType::
-    InputHistogramMeasurementVectorObjectType  InputHistogramMeasurementVectorObjectType;
+  typedef FilterType::HistogramSizeType              HistogramSizeType;
+  typedef FilterType::HistogramMeasurementVectorType HistogramMeasurementVectorType;
 
   FilterType::Pointer filter = FilterType::New();
-
   SampleType::Pointer sample = SampleType::New();
 
 

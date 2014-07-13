@@ -305,10 +305,8 @@ int itkMultiGradientOptimizerv4Test(int, char* [] )
   std::cout << "MultiGradient descent Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::MultiGradientOptimizerv4  OptimizerType;
-
-  typedef MultiGradientOptimizerv4TestMetric::ParametersType    ParametersType;
-  typedef MultiGradientOptimizerv4TestMetric::ParametersPointer ParametersPointer;
+  typedef  itk::MultiGradientOptimizerv4                     OptimizerType;
+  typedef MultiGradientOptimizerv4TestMetric::ParametersType ParametersType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

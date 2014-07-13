@@ -43,7 +43,6 @@ int itkOrientedImage3DTest( int ac, char * av[] )
   typedef itk::ImageFileReader< ImageType >           ReaderType;
 
   typedef ImageType::IndexType                        IndexType;
-  typedef ImageType::PointType                        PointType;
   typedef IndexType::IndexValueType                   IndexValueType;
 
   ReaderType::Pointer reader = ReaderType::New();

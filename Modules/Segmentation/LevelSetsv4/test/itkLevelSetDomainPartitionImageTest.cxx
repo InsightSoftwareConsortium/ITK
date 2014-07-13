@@ -35,9 +35,6 @@ int itkLevelSetDomainPartitionImageTest( int argc, char* argv[] )
   typedef itk::Image< InputPixelType, Dimension >           InputImageType;
   typedef itk::IdentifierType                               IdentifierType;
 
-  typedef std::list< IdentifierType >                       IdListType;
-  typedef itk::Image< IdListType, Dimension >               IdListImageType;
-
   typedef itk::LevelSetDomainPartitionImage< InputImageType > DomainPartitionSourceType;
   typedef DomainPartitionSourceType::ListImageType            ListImageType;
   typedef DomainPartitionSourceType::LevelSetDomainRegionVectorType LevelSetDomainRegionVectorType;

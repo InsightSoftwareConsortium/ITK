@@ -119,9 +119,6 @@ int itkAffineTransformTest(int, char *[])
   Vector2Type vector2, vector2Truth;
 
   /* Create a 2D identity transformation and show its parameters */
-  typedef itk::Point<double, 12>     ParametersType;
-  typedef itk::Matrix<double, 2, 12> JacobianType;
-
   typedef itk::AffineTransform<double, 2> Affine2DType;
   Affine2DType::Pointer id2 = Affine2DType::New();
   matrix2 = id2->GetMatrix();

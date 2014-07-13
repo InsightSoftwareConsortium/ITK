@@ -24,7 +24,6 @@ int itkShiSparseLevelSetImageTest( int , char* [] )
   typedef itk::ShiSparseLevelSetImage< Dimension > SparseLevelSetType;
 
   typedef SparseLevelSetType::LabelMapType LabelMapType;
-  typedef LabelMapType::Pointer            LabelMapPointer;
   typedef LabelMapType::IndexType          IndexType;
 
   IndexType index;

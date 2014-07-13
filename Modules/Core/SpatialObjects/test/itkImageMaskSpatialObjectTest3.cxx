@@ -41,7 +41,6 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
   typedef itk::ImageMaskSpatialObject<NDimensions>     ImageMaskSpatialObjectType;
   typedef ImageMaskSpatialObjectType::PixelType        PixelType;
   typedef itk::Image<PixelType,NDimensions>            ImageType;
-  typedef ImageMaskSpatialObjectType::BoundingBoxType  BoundingBox;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 5, 5, 5 }};

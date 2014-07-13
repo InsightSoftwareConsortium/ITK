@@ -56,7 +56,6 @@ int itkVectorImageReadWriteTest(int argc, char * argv [])
   vector1[2] =  3.0;
   vector1[3] =  4.0;
 
-  typedef itk::ImageLinearIteratorWithIndex< ImageType >      IteratorType;
   typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
 
   //Create the 9x9 input image

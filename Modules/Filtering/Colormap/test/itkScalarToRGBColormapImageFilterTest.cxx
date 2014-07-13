@@ -46,7 +46,6 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
   typedef itk::RGBPixel<unsigned char>    RGBPixelType;
 
   typedef itk::Image<PixelType, ImageDimension>     ImageType;
-  typedef itk::Image<float, ImageDimension>         RealImageType;
   typedef itk::Image<RGBPixelType, ImageDimension>  RGBImageType;
 
   typedef itk::ImageFileReader<ImageType>           ReaderType;

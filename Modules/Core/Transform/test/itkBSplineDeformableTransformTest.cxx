@@ -203,7 +203,6 @@ int itkBSplineDeformableTransformTest1()
 
   // use the other version of TransformPoint
   typedef TransformType::WeightsType             WeightsType;
-  typedef TransformType::IndexType               IndexType;
   typedef TransformType::ParameterIndexArrayType IndexArrayType;
 
   WeightsType    weights( transform->GetNumberOfWeights() );
@@ -455,8 +454,6 @@ int itkBSplineDeformableTransformTest2()
    * Define a vector field as Dimension number of images
    */
   const unsigned int Dimension = 2;
-  typedef double PixelType;
-
 
   // Set up the transform
   const unsigned int SplineOrder = 3;

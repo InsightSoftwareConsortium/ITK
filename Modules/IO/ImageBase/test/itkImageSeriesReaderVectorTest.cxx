@@ -28,10 +28,8 @@ int itkImageSeriesReaderVectorTest(int ac, char* av[])
   }
 
   typedef itk::VectorImage< unsigned short, 3>            VectorImageType;
-  typedef itk::Image< itk::Vector<unsigned short, 3>, 3 > ImageOfVectorType;
 
   typedef itk::ImageSeriesReader<VectorImageType>   VectorImageSeriesReader;
-  typedef itk::ImageSeriesReader<ImageOfVectorType> ImageOfVectorSeriesReader;
 
   VectorImageSeriesReader::FileNamesContainer fnames;
   for (int i = 1; i < ac; ++i)

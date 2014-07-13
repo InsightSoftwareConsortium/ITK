@@ -35,10 +35,7 @@ int itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
   typedef itk::LabelObject< unsigned long, dim > LabelObjectType;
   typedef LabelObjectType::IndexType             IndexType;
   typedef itk::LabelMap< LabelObjectType >       LabelMapType;
-  typedef LabelMapType::RegionType               RegionType;
   typedef LabelMapType::SizeType                 SizeType;
-  typedef LabelMapType::LabelObjectVectorType    LabelObjectVectorType;
-  typedef LabelMapType::LabelVectorType          LabelVectorType;
   typedef itk::Image< unsigned char, dim >       ImageType;
 
   typedef itk::LabelMapToLabelImageFilter<LabelMapType, ImageType> LabelMapToLabelImageFilterType;

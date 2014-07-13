@@ -50,9 +50,6 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
 
   typedef itk::MaskFeaturePointSelectionFilter< InputImageType, InputImageType, PointSetType >  FilterType;
 
-  typedef FilterType::PointType       PointType;
-  typedef FilterType::InputImageType  ImageType;
-
   //Set up the reader
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );

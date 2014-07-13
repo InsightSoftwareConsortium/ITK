@@ -44,10 +44,8 @@ int test_FileListVideoIO ( const char* input,
 
   // ITK typedefs
   typedef itk::RGBPixel<char>                  PixelType;
-  typedef itk::ImportImageFilter<PixelType, 2> ImportFilterType;
   typedef itk::Image<PixelType, 2>             ImageType;
   typedef itk::ImageFileReader<ImageType>      ReaderType;
-  typedef itk::ImageFileWriter<ImageType>      WriterType;
 
   int ret = EXIT_SUCCESS;
 

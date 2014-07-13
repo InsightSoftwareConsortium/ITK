@@ -55,7 +55,6 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
   typedef MeshType::Pointer                                   MeshPointer;
   typedef MeshType::QEType                                    QEType;
   typedef MeshType::PointIdentifier                           PointIdentifier;
-  typedef MeshType::PointType                                 PointType;
   typedef MeshType::CellType                                  CellType;
   typedef itk::QuadEdgeMeshLineCell< CellType >               LineCellType;
 

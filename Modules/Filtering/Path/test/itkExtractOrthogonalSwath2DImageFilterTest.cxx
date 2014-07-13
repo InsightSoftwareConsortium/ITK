@@ -39,11 +39,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   typedef itk::FourierSeriesPath<2>            FSPathType;
 
   typedef InPathType::VertexType               VertexType;
-  typedef InPathType::OffsetType               OffsetType;
-  typedef InPathType::InputType                InPathInputType;
-
   typedef ImageType::IndexType                 IndexType;
-  typedef ImageType::SizeType                  SizeType;
 
   typedef itk::PathToChainCodePathFilter<InPathType,ChainPathType>
     Filter1Type;

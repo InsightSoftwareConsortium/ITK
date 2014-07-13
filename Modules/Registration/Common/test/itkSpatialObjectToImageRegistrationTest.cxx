@@ -209,7 +209,6 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 {
   typedef itk::GroupSpatialObject<2>   GroupType;
   typedef itk::EllipseSpatialObject<2> EllipseType;
-  typedef itk::LineSpatialObject<2>    LineType;
 
   // Create a group with 3 ellipses linked by lines.
   EllipseType::Pointer ellipse1 = EllipseType::New();

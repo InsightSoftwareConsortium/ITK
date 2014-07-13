@@ -189,7 +189,6 @@ int itkVectorTest(int, char* [] )
   bb[0] = 0.0; bb[1] = 1.0; bb[2] = 0.0;
   cc = itk::CrossProduct(aa,bb);
   std::cout << "(" << aa << ") cross (" << bb << ") : (" << cc << ")" << std::endl;
-  typedef itk::Vector<int, 3> IntVector3;
   DoubleVector3 ia, ib, ic;
   ia[0] = 1; ia[1] = 0; ia[2] = 0;
   ib[0] = 0; ib[1] = 1; ib[2] = 0;

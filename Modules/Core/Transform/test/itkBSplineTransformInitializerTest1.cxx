@@ -159,7 +159,6 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Point<float, ImageDimension>      PointType;
   typedef itk::Vector<float, ImageDimension>     VectorType;
   typedef itk::Image<VectorType, ImageDimension> DeformationFieldType;
 

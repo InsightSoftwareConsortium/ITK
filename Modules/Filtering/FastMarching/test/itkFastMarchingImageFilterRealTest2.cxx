@@ -71,10 +71,6 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
                                &ShowProgressObject::ShowProgress);
   marcher->AddObserver( itk::ProgressEvent(), command);
 
-  typedef FastMarchingType::NodeType              NodeType;
-  typedef FastMarchingType::NodePairType          NodePairType;
-  typedef FastMarchingType::NodePairContainerType NodePairContainerType;
-
   // specify the size of the output image
   FloatImageType::SizeType size = {{64,64}};
   marcher->SetOutputSize( size );

@@ -52,18 +52,9 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //------------------------------------------------------
   typedef itk::Image<double,NDIMENSION> InputImageType;
   typedef itk::Image<double,NDIMENSION> OutputImageType;
-  typedef itk::Image<double,NDIMENSION> MeanImageType;
 
-
-  typedef InputImageType::PixelType ImagePixelType;
-
-  typedef InputImageType::PixelType InputImagePixelType;
-
-  typedef
-    itk::ImageRegionIterator< InputImageType > InputImageIterator;
-
-  typedef
-    itk::ImageRegionIterator< OutputImageType > OutputImageIterator;
+  typedef itk::ImageRegionIterator< InputImageType >  InputImageIterator;
+  typedef itk::ImageRegionIterator< OutputImageType > OutputImageIterator;
 
   InputImageType::Pointer image1 = InputImageType::New();
 

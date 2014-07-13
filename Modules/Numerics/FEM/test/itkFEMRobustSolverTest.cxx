@@ -73,7 +73,6 @@ int itkFEMRobustSolverTest(int, char *[])
 
   /** FEM element typedef support */
   typedef itk::fem::Element::VectorType                  FEMVectorType;
-  typedef itk::fem::Element::MatrixType                  FEMMatrixType;
 
   /** FEM container typedef support */
   typedef FEMObjectType::LoadContainerType        LoadContainerType;

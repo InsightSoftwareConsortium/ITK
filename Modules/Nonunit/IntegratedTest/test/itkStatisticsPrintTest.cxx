@@ -38,7 +38,6 @@
 int itkStatisticsPrintTest(int , char* [])
 {
   typedef float TMeasurementType;
-  typedef float FrequencyType;
 
   typedef itk::FixedArray< TMeasurementType, 2 >  TMeasurementVectorType;
   typedef itk::Image< TMeasurementVectorType, 3 > ImageType;
@@ -81,13 +80,8 @@ int itkStatisticsPrintTest(int , char* [])
 
   typedef itk::Statistics::MembershipSample< SampleType > MembershipSampleType;
 
-  typedef itk::Statistics::MembershipFunctionBase< TMeasurementVectorType > MembershipFunctionBaseType;
-
   typedef itk::Statistics::DistanceToCentroidMembershipFunction<
             TMeasurementVectorType > DistanceToCentroidMembershipFunctionType;
-
-  typedef itk::Statistics::DistanceMetric< TMeasurementVectorType >
-    DistanceType;
 
   typedef itk::Statistics::EuclideanDistanceMetric< TMeasurementVectorType >
     EuclideanDistanceMetricType;

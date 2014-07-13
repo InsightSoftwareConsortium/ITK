@@ -41,13 +41,11 @@ int itkMultiLevelSetDenseImageSubset2DTest( int argc, char* argv[] )
   typedef unsigned short                                      InputPixelType;
   typedef itk::Image< InputPixelType, Dimension >             InputImageType;
   typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
-  typedef itk::ImageFileReader< InputImageType >              ReaderType;
 
   typedef float                                          PixelType;
   typedef itk::Image< PixelType, Dimension >             ImageType;
   typedef itk::LevelSetDenseImage< ImageType >           LevelSetType;
   typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
 
   typedef itk::IdentifierType                                     IdentifierType;
   typedef itk::LevelSetContainer< IdentifierType, LevelSetType >  LevelSetContainerType;

@@ -154,8 +154,6 @@ int itkMaskImageFilterTest(int, char* [] )
   // Vector image tests
   typedef itk::VectorImage<float, myDimension>
     myVectorImageType;
-  typedef itk::ImageRegionIteratorWithIndex<myVectorImageType>
-    myVectorIteratorType;
 
   myVectorImageType::Pointer inputVectorImage  = myVectorImageType::New();
   inputVectorImage->SetLargestPossibleRegion( region );

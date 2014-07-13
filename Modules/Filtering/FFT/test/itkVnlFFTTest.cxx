@@ -43,8 +43,6 @@ int itkVnlFFTTest(int, char *[])
   typedef itk::Image< std::complex<double>, 2> ImageCD2;
   typedef itk::Image< double, 3>               ImageD3;
   typedef itk::Image< std::complex<double>, 3> ImageCD3;
-  typedef itk::Image< double, 4>               ImageD4;
-  typedef itk::Image< std::complex<double>, 4> ImageCD4;
 
   unsigned int SizeOfDimensions1[] = { 4,4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };

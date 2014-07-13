@@ -241,7 +241,6 @@ int itkBSplineTransformTest1()
 
   // use the other version of TransformPoint
   typedef TransformType::WeightsType             WeightsType;
-  typedef TransformType::IndexType               IndexType;
   typedef TransformType::ParameterIndexArrayType IndexArrayType;
 
   WeightsType    weights( transform->GetNumberOfWeights() );

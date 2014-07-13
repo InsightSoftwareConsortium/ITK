@@ -196,7 +196,6 @@ static int RunTest(int argc, char * argv [] )
     }
 
 
-  typedef itk::Point<  float, ImageDimension >        PointType;
   typedef itk::Vector< float, ImageDimension >        VectorType;
   typedef itk::Image< VectorType, ImageDimension >    DeformationFieldType;
 

@@ -69,7 +69,6 @@ int itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char *arg
 
   const unsigned int Dimension = 2;
 
-  typedef double                   FloatType;
   // RGBPixel type is not supported by GradientRecursiveGaussianFilter at this point.
   //typedef itk::RGBPixel<FloatType> PixelType;
   typedef itk::Vector<double, 3>   PixelType;
@@ -98,7 +97,6 @@ int itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char *arg
 
   /** create a composite transform holder for other transforms  */
   typedef itk::CompositeTransform<double, Dimension>    CompositeType;
-  typedef CompositeType::ScalarType                     ScalarType;
 
   CompositeType::Pointer compositeTransform = CompositeType::New();
 

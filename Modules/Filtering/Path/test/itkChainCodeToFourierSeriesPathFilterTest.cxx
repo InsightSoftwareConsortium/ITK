@@ -30,8 +30,6 @@ int itkChainCodeToFourierSeriesPathFilterTest(int, char*[])
   typedef itk::FourierSeriesPath<2>            FSPathType;
 
   typedef InPathType::VertexType               VertexType;
-  typedef InPathType::OffsetType               OffsetType;
-  typedef InPathType::InputType                InPathInputType;
 
   typedef itk::PathToChainCodePathFilter<InPathType,ChainPathType>  Filter1Type;
   typedef itk::ChainCodeToFourierSeriesPathFilter<ChainPathType,FSPathType>

@@ -145,9 +145,8 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
 
   typedef ImageAdaptorInterpolate::ImageType           ImageType;
   typedef ImageAdaptorInterpolate::IndexType           IndexType;
-  typedef ImageAdaptorInterpolate::InputPixelType      InputPixelType;
-  typedef ImageAdaptorInterpolate::PixelType           PixelType;
   typedef ImageAdaptorInterpolate::PointType           PointType;
+  typedef ImageAdaptorInterpolate::InputPixelType      InputPixelType;
   typedef ImageAdaptorInterpolate::OutputType          OutputType;
   typedef ImageAdaptorInterpolate::ContinuousIndexType ContinuousIndexType;
 

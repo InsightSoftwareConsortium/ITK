@@ -32,8 +32,6 @@ int itkLabelImageGaussianInterpolateImageFunctionTest( int , char*[] )
  typedef RegionType::SizeType               SizeType;
  typedef ImageType::IndexType               IndexType;
 
- typedef itk::ContinuousIndex<float, 2>     ContinuousIndexType;
- typedef itk::Point<float,2>                PointType;
  typedef float                              CoordRepType;
 
  //The ImageSizeToCompute

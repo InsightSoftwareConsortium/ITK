@@ -32,8 +32,6 @@ int itkBSplineControlPointImageFunctionTest( int, char * [] )
   typedef float                                         RealType;
   typedef itk::Vector<RealType, DataDimension>          VectorType;
   typedef itk::Image<VectorType, ParametricDimension>   VectorImageType;
-  typedef itk::PointSet
-    <VectorImageType::PixelType, ParametricDimension>   PointSetType;
 
   VectorImageType::Pointer phiLattice = VectorImageType::New();
 

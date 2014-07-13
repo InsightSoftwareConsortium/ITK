@@ -29,13 +29,11 @@ int itkImageSeriesReaderDimensionsTest(int ac, char* av[])
   }
 
 
-  typedef itk::Image<short, 1> Image1DType;
   typedef itk::Image<short, 2> Image2DType;
   typedef itk::Image<short, 3> Image3DType;
   typedef itk::Image<short, 4> Image4DType;
   typedef itk::Image<short, 5> Image5DType;
 
-  typedef itk::ImageSeriesReader<Image1DType> Reader1DType;
   typedef itk::ImageSeriesReader<Image2DType> Reader2DType;
   typedef itk::ImageSeriesReader<Image3DType> Reader3DType;
   typedef itk::ImageSeriesReader<Image4DType> Reader4DType;

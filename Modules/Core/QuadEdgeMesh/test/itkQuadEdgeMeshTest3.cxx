@@ -23,7 +23,6 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   typedef double                                    PixelType;
   typedef itk::QuadEdgeMesh< PixelType, 3 >         MeshType;
   typedef MeshType::CellType                        CellType;
-  typedef MeshType::QEPrimal                        QEPrimal;
   typedef itk::QuadEdgeMeshLineCell< CellType >     LineType;
   typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
 

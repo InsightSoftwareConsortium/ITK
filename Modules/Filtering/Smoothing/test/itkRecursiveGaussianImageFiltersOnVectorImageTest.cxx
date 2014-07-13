@@ -32,7 +32,6 @@ int itkRecursiveGaussianImageFiltersOnVectorImageTest(int, char* [] )
   typedef double                                              PixelComponentType;
   typedef itk::VectorImage< PixelComponentType, Dimension >   ImageType;
   typedef ImageType::PixelType                                PixelType;
-  typedef itk::ImageLinearIteratorWithIndex< ImageType >      IteratorType;
   typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
 
   //Create ON and OFF vectors.

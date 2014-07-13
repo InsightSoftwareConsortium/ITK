@@ -194,9 +194,7 @@ int itkMultiStartOptimizerv4Test(int, char* [] )
   std::cout << "MultiStart  Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::MultiStartOptimizerv4  OptimizerType;
-
-  typedef OptimizerType::ScalesType             ScalesType;
+  typedef itk::MultiStartOptimizerv4 OptimizerType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

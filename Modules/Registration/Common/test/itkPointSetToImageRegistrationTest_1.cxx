@@ -124,7 +124,6 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   typedef MetricType::TransformType                 TransformBaseType;
   typedef TransformBaseType::ParametersType         ParametersType;
-  typedef TransformBaseType::JacobianType           JacobianType;
 
   MetricType::Pointer  metric = MetricType::New();
 

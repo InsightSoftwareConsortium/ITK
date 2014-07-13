@@ -348,7 +348,6 @@ int itkCentralDifferenceImageFunctionOnVectorTestRun( )
   typedef itk::Matrix<double,10,ImageDimension> BadDerivativeType;
 
   typedef itk::CentralDifferenceImageFunction<ImageType,CoordRepType,BadDerivativeType>  BadFunctionType;
-  typedef typename BadFunctionType::OutputType                                           BadOutputType;
 
   typename BadFunctionType::Pointer badFunction = BadFunctionType::New();
   TRY_EXPECT_EXCEPTION( badFunction->SetInputImage( image ) );

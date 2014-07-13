@@ -31,8 +31,6 @@ static bool TestDisplacementJacobianDeterminantValue(void)
 
   // In this case, the image to be warped is also a vector field.
   typedef FieldType                   VectorImageType;
-  typedef VectorImageType::PixelType  PixelType;
-  typedef VectorImageType::IndexType  IndexType;
 
   //=============================================================
 

@@ -237,7 +237,6 @@ unsigned int test_regiongrowKLM1D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
 
@@ -335,7 +334,6 @@ unsigned int test_regiongrowKLM1D()
   ImageData       pixelIn;
   OutputImageData pixelOut;
 
-  typedef LabelledImageType::PixelType                  LabelledImagePixelType;
   typedef itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
   LabelImageIterator
             labelIt( labelledImage, labelledImage->GetBufferedRegion() );
@@ -858,7 +856,6 @@ unsigned int test_regiongrowKLM2D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
 
@@ -1060,8 +1057,6 @@ unsigned int test_regiongrowKLM2D()
   // input image
 
   // setup the iterators
-
-  typedef LabelledImageType::PixelType LabelledImagePixelType;
 
   typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
 
@@ -1365,7 +1360,6 @@ unsigned int test_regiongrowKLM3D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
 
@@ -1701,8 +1695,6 @@ unsigned int test_regiongrowKLM3D()
 
   // setup the iterators
 
-  typedef LabelledImageType::PixelType LabelledImagePixelType;
-
   typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
 
   LabelImageIterator
@@ -2006,7 +1998,6 @@ unsigned int test_regiongrowKLM4D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef ImageType::PixelType                  ImagePixelType;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator;
   ImageIterator inIt( image, image->GetBufferedRegion() );
 
@@ -2127,8 +2118,6 @@ unsigned int test_regiongrowKLM4D()
   // input image
 
   // setup the iterators
-
-  typedef LabelledImageType::PixelType LabelledImagePixelType;
 
   typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
 

@@ -44,10 +44,6 @@ int itkResampleImageTest3(int argc, char * argv [] )
 
   typedef unsigned char                          PixelType;
   typedef itk::Image<PixelType, NDimensions>     ImageType;
-  typedef ImageType::IndexType                   ImageIndexType;
-  typedef ImageType::Pointer                     ImagePointerType;
-  typedef ImageType::RegionType                  ImageRegionType;
-  typedef ImageType::SizeType                    ImageSizeType;
   typedef double                                 CoordRepType;
 
   typedef itk::IdentityTransform<CoordRepType,NDimensions>  TransformType;

@@ -120,7 +120,6 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
 
   /** create a composite transform holder for other transforms  */
   typedef itk::CompositeTransform<double, Dimension>    CompositeType;
-  typedef CompositeType::ScalarType                     ScalarType;
 
   CompositeType::Pointer compositeTransform = CompositeType::New();
 

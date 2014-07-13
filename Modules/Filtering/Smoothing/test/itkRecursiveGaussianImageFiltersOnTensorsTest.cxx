@@ -44,7 +44,6 @@ int itkRecursiveGaussianImageFiltersOnTensorsTest(int, char* [] )
 
   typedef Double3DTensorType                                  PixelType;
   typedef itk::Image< PixelType, Dimension >                  ImageType;
-  typedef itk::ImageLinearIteratorWithIndex< ImageType >      IteratorType;
   typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
 
   //Create the 9x9 input image

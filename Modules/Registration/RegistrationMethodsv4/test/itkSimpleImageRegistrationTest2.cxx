@@ -152,7 +152,6 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   typename GlobalCorrelationMetricType::Pointer gCorrelationMetric = GlobalCorrelationMetricType::New();
 
   typedef itk::ObjectToObjectMultiMetricv4<VImageDimension, VImageDimension> MultiMetricType;
-  typedef typename MultiMetricType::MetricType LocalMetricType;
 
   typename MultiMetricType::Pointer multiMetric = MultiMetricType::New();
   multiMetric->AddMetric( mutualInformationMetric );
@@ -221,7 +220,6 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
     }
 
   {
-  typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
   std::cout << "Affine parameters after registration: " << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
             << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl

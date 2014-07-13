@@ -115,7 +115,6 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
   filter->Print(std::cout);
 
   //Create NarrowBand
-  typedef typename ChamferFilterType::BandNodeType    BandNodeType;
   typedef typename ChamferFilterType::NarrowBandType  NarrowBandType;
 
   typename NarrowBandType::Pointer band = NarrowBandType::New();

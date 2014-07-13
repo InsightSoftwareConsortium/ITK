@@ -40,7 +40,6 @@ bool RunTest(
 
   // Transform Type
   typedef itk::VersorRigid3DTransform< double >     TransformType;
-  typedef TransformType::ParametersType             ParametersType;
 
   // calculate image centers
   TransformType::InputPointType   fixedCenter;

@@ -27,9 +27,6 @@ int itkMeanSampleFilterTest3(int, char* [] )
   typedef double                      MeasurementType;
   const unsigned int                  MeasurementVectorSize = 3;
 
-  typedef itk::FixedArray<
-    MeasurementType, MeasurementVectorSize >   MeasurementVectorType;
-
   typedef itk::Statistics::Histogram< MeasurementType,
           itk::Statistics::DenseFrequencyContainer2 > HistogramType;
 
