@@ -50,7 +50,7 @@ namespace itk
  * ThresholdBelow():
  * The values less than the threshold value are set to OutsideValue
  *
- * ThresholdBetween():
+ * ThresholdOutside():
  * The values outside the threshold range (less than lower or greater
  * than upper) are set to OutsideValue
  *
