@@ -26,6 +26,11 @@
 //    OUTPUTS: {GeodesicActiveContourImageFilterOutput6.png}
 //    ARGUMENTS:    99 114 5 1.0  -0.5  3.0  2
 //  Software Guide : EndCommandLineArgs
+ //  Software Guide : BeginCommandLineArgs
+//    INPUTS:  {BrainProtonDensitySlice.png}
+//    OUTPUTS: {GeodesicActiveContourImageFilterOutput7.png}
+//    ARGUMENTS:    56 92 5.0 1.0 -0.3 2.0 10.0
+//  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {GeodesicActiveContourImageFilterOutput8.png}
@@ -33,7 +38,6 @@
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
-//    OUTPUTS: {GeodesicActiveContourImageFilterOutput7.png}
 //    OUTPUTS: {GeodesicActiveContourImageFilterOutput1.png}
 //    OUTPUTS: {GeodesicActiveContourImageFilterOutput2.png}
 //    OUTPUTS: {GeodesicActiveContourImageFilterOutput3.png}
