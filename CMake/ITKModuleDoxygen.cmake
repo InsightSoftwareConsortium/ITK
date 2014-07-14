@@ -12,7 +12,7 @@ macro( itk_module_doxygen _name )
 
   # _content defines the content of the ${_name}.dox file
   set( _content "/**\n" )
-  set( _content "${_content} \\defgroup ${_name} ${_name} \n" )
+  set( _content "${_content} \\defgroup ${_name} Module ${_name} \n" )
   set( _content "${_content} ${ITK_MODULE_${_name}_DESCRIPTION} \n" )
 
   set( _content "${_content} \\par Dependencies:\n" )
