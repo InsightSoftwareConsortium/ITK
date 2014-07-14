@@ -105,14 +105,8 @@ template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
 ::GenerateData(void)
 {
-  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
-  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
-
-  typedef typename TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
-  typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
-
-  const InputMeshType * inputMesh    =  this->GetInput();
-  OutputMeshPointer   outputMesh     =  this->GetOutput();
+  const InputMeshType * inputMesh = this->GetInput();
+  OutputMeshPointer   outputMesh  = this->GetOutput();
 
   if( !inputMesh )
     {

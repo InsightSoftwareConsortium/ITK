@@ -28,7 +28,6 @@ int itkVTKPolyDataWriterTest01(int argc, char* argv[])
 
   const unsigned int PointDimension = 3;
 
-  typedef unsigned short    PixelType;
   typedef float             PointType;
 
   typedef itk::Mesh< PointType, PointDimension >  MeshType;

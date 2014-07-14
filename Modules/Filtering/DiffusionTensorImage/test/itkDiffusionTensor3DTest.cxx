@@ -422,15 +422,6 @@ int itkDiffusionTensor3DTest(int, char* [] )
   {
     typedef itk::DiffusionTensor3D<int>             TensorType;
 
-    typedef itk::NumericTraits<TensorType>::ValueType      ValueType;
-    typedef itk::NumericTraits<TensorType>::AbsType        AbsType;
-    typedef itk::NumericTraits<TensorType>::AccumulateType AccumulateType;
-    typedef itk::NumericTraits<TensorType>::FloatType      FloatType;
-    typedef itk::NumericTraits<TensorType>::PrintType      PrintType;
-    typedef itk::NumericTraits<TensorType>::RealType       RealType;
-
-    typedef itk::NumericTraits<TensorType>::ScalarRealType ScalarRealType;
-
     TensorType maxTensor = itk::NumericTraits<TensorType>::max();
     std::cout << maxTensor <<std::endl;
 

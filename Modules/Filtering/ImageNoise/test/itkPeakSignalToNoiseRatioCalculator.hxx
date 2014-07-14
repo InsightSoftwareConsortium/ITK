@@ -54,9 +54,6 @@ void
 PeakSignalToNoiseRatioCalculator<TInputImage>
 ::Compute()
 {
-
-  typedef typename InputImageType::IndexType IndexType;
-
   if( !m_Image || !m_NoisyImage )
     {
     return;

@@ -36,7 +36,6 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
   typedef itk::KalmanLinearEstimator<double,6> KalmanFilterType;
 
   typedef KalmanFilterType::VectorType    VectorType;
-  typedef KalmanFilterType::MatrixType    MatrixType;
   typedef KalmanFilterType::ValueType     ValueType;
 
   KalmanFilterType filter;

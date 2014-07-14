@@ -39,16 +39,7 @@ int itkGradientRecursiveGaussianFilterTest4(int argc, char* argv[] )
   const unsigned int myDimension = 2;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>           myImageType;
-
-  // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
-
-  // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
-
-  // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  typedef itk::Image<float, myDimension>       myImageType;
 
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();

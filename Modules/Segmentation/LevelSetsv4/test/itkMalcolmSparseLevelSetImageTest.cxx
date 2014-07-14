@@ -24,7 +24,6 @@ int itkMalcolmSparseLevelSetImageTest( int , char* [] )
   typedef itk::MalcolmSparseLevelSetImage< Dimension > SparseLevelSetType;
 
   typedef SparseLevelSetType::LabelMapType LabelMapType;
-  typedef LabelMapType::Pointer            LabelMapPointer;
   typedef LabelMapType::IndexType          IndexType;
 
   IndexType index;

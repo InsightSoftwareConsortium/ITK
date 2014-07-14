@@ -627,7 +627,6 @@ CellularAggregate< NSpaceDimension >
   SubstratePointer substrate = m_Substrates[substrateId];
 
   typename SubstrateType::IndexType index;
-  typedef typename SubstrateType::IndexType::IndexValueType IndexValueType;
 
   substrate->TransformPhysicalPointToIndex(cellPosition, index);
 

@@ -95,7 +95,6 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
 
   /** create a composite transform holder for other transforms  */
   typedef itk::CompositeTransform<double, Dimension>    CompositeType;
-  typedef typename CompositeType::ScalarType            ScalarType;
 
   typename CompositeType::Pointer compositeTransform = CompositeType::New();
 

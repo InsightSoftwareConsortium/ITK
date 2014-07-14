@@ -124,9 +124,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
 // scope.
   itk::StdStreamStateSave coutState(std::cout);
 
-  typedef  itk::Matrix<ScalarType, dimensions, dimensions> Matrix2Type;
-  typedef  itk::Vector<ScalarType, dimensions>             Vector2Type;
-
   /* Create a displacement field transform */
   DisplacementTransformType::Pointer displacementTransform =
     DisplacementTransformType::New();
@@ -195,7 +192,6 @@ int itkDisplacementFieldTransformTest(int, char *[] )
 
   /* Initialize Affine transform and use to create displacement field */
   typedef itk::CenteredAffineTransform<double, 2> AffineTransformType;
-  typedef AffineTransformType::Pointer            AffineTransformPointer;
   typedef AffineTransformType::MatrixType         AffineMatrixType;
   AffineMatrixType affineMatrix;
   affineMatrix(0, 0) = 1.0;

@@ -63,8 +63,6 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
-  typedef BinaryToSparseAdaptorType::LevelSetOutputType LevelSetOutputType;
-
   typedef itk::Image< char, Dimension >   StatusImageType;
   StatusImageType::Pointer statusImage = StatusImageType::New();
   statusImage->SetRegions( input->GetLargestPossibleRegion() );

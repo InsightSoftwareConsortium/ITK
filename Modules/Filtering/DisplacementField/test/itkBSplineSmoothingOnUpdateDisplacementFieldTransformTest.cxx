@@ -34,11 +34,6 @@ int itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
                                                   double, dimensions>
                                                     DisplacementTransformType;
 
-  typedef DisplacementTransformType::ScalarType     ScalarType;
-
-  typedef  itk::Matrix<ScalarType, dimensions, dimensions>  Matrix2Type;
-  typedef  itk::Vector<ScalarType, dimensions>              Vector2Type;
-
   /* Create a displacement field transform */
   DisplacementTransformType::Pointer displacementTransform =
       DisplacementTransformType::New();

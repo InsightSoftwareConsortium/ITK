@@ -44,7 +44,6 @@ int itkFastMarchingImageFilterRealWithNumberOfElementsTest(int , char* [] )
   FastMarchingType::Pointer marcher = FastMarchingType::New();
   marcher->SetStoppingCriterion( criterion );
 
-  typedef FastMarchingType::NodeType      NodeType;
   typedef FastMarchingType::NodePairType  NodePairType;
 //  typedef FastMarchingType::NodeContainerType NodeContainerType;
   typedef FastMarchingType::NodePairContainerType NodePairContainerType;

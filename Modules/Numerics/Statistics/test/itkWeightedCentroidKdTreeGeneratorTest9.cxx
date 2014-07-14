@@ -72,10 +72,6 @@ int itkWeightedCentroidKdTreeGeneratorTest9(int argc , char * argv [] )
 
   typedef TreeGeneratorType::KdTreeType TreeType;
 
-  typedef TreeType::NearestNeighbors NeighborsType;
-
-  typedef TreeType::KdTreeNodeType NodeType;
-
   TreeType::Pointer tree = treeGenerator->GetOutput();
 
   MeasurementVectorType queryPoint( measurementVectorSize );

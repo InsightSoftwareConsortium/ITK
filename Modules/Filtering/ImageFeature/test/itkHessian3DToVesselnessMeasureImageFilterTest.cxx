@@ -98,8 +98,6 @@ int itkHessian3DToVesselnessMeasureImageFilterTest(int, char* [] )
   typedef itk::HessianRecursiveGaussianImageFilter<
                                             myImageType >  myHessianFilterType;
 
-  typedef myHessianFilterType::OutputImageType myHessianImageType;
-
   // Declare the type for the vesselness filter
   typedef itk::Hessian3DToVesselnessMeasureImageFilter<
                                             float >  myVesselnessFilterType;

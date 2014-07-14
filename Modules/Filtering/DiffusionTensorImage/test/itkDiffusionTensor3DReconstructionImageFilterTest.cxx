@@ -71,7 +71,6 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
 
     // Create gradient images
     //
-    typedef GradientImageType::Pointer GradientImagePointer;
     typedef TensorReconstructionImageFilterType::GradientImageType GradientImageType;
     typedef GradientImageType::RegionType  GradientRegionType;
     typedef GradientRegionType::IndexType  GradientIndexType;

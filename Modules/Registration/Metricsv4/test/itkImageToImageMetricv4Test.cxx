@@ -656,8 +656,6 @@ int itkImageToImageMetricv4Test(int, char ** const)
   metric->SetUseMovingImageGradientFilter( false );
 
   // create a point set, size of image for basic testing
-  typedef ImageToImageMetricv4TestMetricType::FixedImagePixelType
-    FixedImagePixelType;
   typedef ImageToImageMetricv4TestMetricType::FixedSampledPointSetType
     PointSetType;
 

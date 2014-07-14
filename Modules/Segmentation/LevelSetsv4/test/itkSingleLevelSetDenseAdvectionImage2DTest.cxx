@@ -39,7 +39,6 @@ int itkSingleLevelSetDenseAdvectionImage2DTest( int argc, char* argv[] )
 
   typedef unsigned short                                      InputPixelType;
   typedef itk::Image< InputPixelType, Dimension >             InputImageType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
   typedef itk::ImageFileReader< InputImageType >              ReaderType;
 
   typedef float                                          PixelType;

@@ -108,7 +108,6 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
     }
 
   typedef typename FastMarchingType::NodePairType           NodePairType;
-  typedef typename FastMarchingType::NodeType               NodeType;
   typedef typename FastMarchingType::NodePairContainerType  NodePairContainerType;
 
 

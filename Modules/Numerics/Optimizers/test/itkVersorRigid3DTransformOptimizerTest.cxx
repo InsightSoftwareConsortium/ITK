@@ -243,11 +243,8 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   itkOptimizer->SetCostFunction( costFunction );
 
 
-  typedef versorRigid3DCostFunction::ParametersType    ParametersType;
-
-  typedef itk::VersorRigid3DTransform< double > TransformType;
-
-  typedef itk::Versor< double >                   VersorType;
+  typedef versorRigid3DCostFunction::ParametersType ParametersType;
+  typedef itk::Versor< double >                     VersorType;
 
   // We start with a null rotation
   VersorType::VectorType axis;

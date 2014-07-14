@@ -61,7 +61,6 @@ int itkBinaryMask3DMeshSourceTest(int argc, char *argv[] )
 {
   // Declare the type of the Mesh
   typedef itk::Mesh<double>                                  MeshType;
-  typedef MeshType::PointType                                PointType;
   typedef itk::BinaryMask3DMeshSource< ImageType, MeshType > MeshSourceType;
 
   const PixelType backgroundValue = 0;

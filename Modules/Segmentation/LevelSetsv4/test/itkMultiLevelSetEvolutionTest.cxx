@@ -30,7 +30,6 @@ int itkMultiLevelSetEvolutionTest( int , char* [] )
 
   typedef unsigned char                                       InputPixelType;
   typedef itk::Image< InputPixelType, Dimension >             InputImageType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
 
   typedef float                                          PixelType;
   typedef itk::Image< PixelType, Dimension >             ImageType;

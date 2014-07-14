@@ -67,7 +67,6 @@ int itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int , char * [] 
   std::cout << "Creating dummy image...";
 
   typedef itk::Image<float,3>                       OriginalImageType;
-  typedef OriginalImageType::PixelType              PixelType;
   typedef OriginalImageType::IndexType              IndexType;
   typedef OriginalImageType::SizeType               ImageSizeType;
 

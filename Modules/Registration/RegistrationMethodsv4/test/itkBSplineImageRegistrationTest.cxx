@@ -248,7 +248,6 @@ int PerformBSplineImageRegistration( int argc, char *argv[] )
 
   // Create the transform adaptors
 
-  typedef itk::BSplineTransformParametersAdaptor<BSplineTransformType> BSplineTransformAdaptorType;
   typename BSplineRegistrationType::TransformParametersAdaptorsContainerType adaptors;
   // Create the transform adaptors specific to B-splines
   for( unsigned int level = 0; level < numberOfLevels; level++ )

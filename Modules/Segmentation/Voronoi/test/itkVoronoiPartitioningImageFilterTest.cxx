@@ -27,9 +27,6 @@
 int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
 {
   typedef itk::Image<float,2>          FloatImage;
-  typedef itk::Image<unsigned char,2>  UnsignedCharImage;
-  typedef itk::Image<unsigned short,2> UnsignedShortImage;
-  typedef itk::Image<bool,2>           BoolImage;
 
   if (argc != 4)
     {

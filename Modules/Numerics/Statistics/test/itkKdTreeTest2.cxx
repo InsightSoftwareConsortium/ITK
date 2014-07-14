@@ -71,8 +71,6 @@ int itkKdTreeTest2( int argc, char * argv [] )
   treeGenerator->Update();
 
   typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef TreeType::NearestNeighbors    NeighborsType;
-  typedef TreeType::KdTreeNodeType      NodeType;
 
   bool testFailed = false;
 

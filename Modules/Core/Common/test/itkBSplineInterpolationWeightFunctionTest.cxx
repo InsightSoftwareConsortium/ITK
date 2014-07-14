@@ -38,7 +38,6 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   typedef FunctionType::ContinuousIndexType ContinuousIndexType;
   typedef FunctionType::IndexType           IndexType;
   typedef FunctionType::WeightsType         WeightsType;
-  typedef FunctionType::SizeType            SizeType;
 
   FunctionType::Pointer function = FunctionType::New();
 
@@ -130,7 +129,6 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   typedef FunctionType::ContinuousIndexType ContinuousIndexType;
   typedef FunctionType::IndexType           IndexType;
   typedef FunctionType::WeightsType         WeightsType;
-  typedef FunctionType::SizeType            SizeType;
 
   FunctionType::Pointer function = FunctionType::New();
 

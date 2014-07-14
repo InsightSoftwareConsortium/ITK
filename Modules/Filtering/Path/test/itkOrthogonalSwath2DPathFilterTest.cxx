@@ -41,11 +41,8 @@ int itkOrthogonalSwath2DPathFilterTest(int, char*[])
   typedef itk::FourierSeriesPath<2>                   FSPathType;
 
   typedef InPathType::VertexType                      VertexType;
-  typedef InPathType::OffsetType                      OffsetType;
-  typedef InPathType::InputType                       InPathInputType;
 
   typedef ImageType::IndexType                        IndexType;
-  typedef ImageType::SizeType                         SizeType;
 
   typedef itk::OrthogonallyCorrected2DParametricPath  OutputPathType;
 

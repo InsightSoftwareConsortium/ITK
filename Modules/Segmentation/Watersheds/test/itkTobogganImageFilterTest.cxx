@@ -17,9 +17,7 @@
  *=========================================================================*/
 
 #include "itkTobogganImageFilter.h"
-#include "itkGradientMagnitudeImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
-#include "itkDiscreteGaussianImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -38,26 +36,21 @@ int itkTobogganImageFilterTest(int ac, char* av[] )
     }
 
 
-  typedef unsigned char                       PixelType;
-  typedef itk::Image<unsigned char, 2>        InputImageType;
-  typedef itk::Image<float, 2>                FloatImageType;
-  typedef itk::Image<unsigned char, 2>        OutputImageType;
-  typedef itk::Image< itk::IdentifierType, 2> LongImageType;
+  const unsigned int Dimension = 2;
+  typedef unsigned char                               PixelType;
+  typedef itk::Image<PixelType, Dimension>            InputImageType;
+  typedef itk::Image<float, Dimension>                FloatImageType;
+  typedef itk::Image<PixelType, Dimension>            OutputImageType;
+  typedef itk::Image< itk::IdentifierType, Dimension> LongImageType;
 
 
   // Create a pipeline
   typedef itk::CastImageFilter<InputImageType, FloatImageType>
                                            InCastType;
-  typedef itk::RecursiveGaussianImageFilter<InputImageType,FloatImageType>
-                                           GaussianFilterType;
-  typedef itk::GradientMagnitudeImageFilter<FloatImageType,FloatImageType>
-                                           GradientMagnitudeFilterType;
   typedef itk::TobogganImageFilter<FloatImageType>
                                            FilterType;
   typedef itk::CastImageFilter<LongImageType, OutputImageType>
                                            CastType;
-  typedef itk::DiscreteGaussianImageFilter<FloatImageType,FloatImageType>
-                                           DGIFType;
   typedef itk::GradientMagnitudeRecursiveGaussianImageFilter<FloatImageType,FloatImageType>
                                            GMGaussianType;
 

@@ -50,7 +50,6 @@ public:
 int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
 {
   typedef itkQuadEdgeMeshBasicLayerTestHelper::PrimalType  PrimalType;
-  typedef itkQuadEdgeMeshBasicLayerTestHelper::DualType    DualType;
 
   PrimalType* e[5];
 

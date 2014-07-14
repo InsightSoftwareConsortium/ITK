@@ -39,7 +39,6 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 
   // declare the image class
   typedef itk::Image<float,3>                       OriginalImageType;
-  typedef OriginalImageType::PixelType              PixelType;
   typedef OriginalImageType::IndexType              IndexType;
   typedef OriginalImageType::SizeType               ImageSizeType;
 

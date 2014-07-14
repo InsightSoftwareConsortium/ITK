@@ -23,7 +23,6 @@ int itkFourierSeriesPathTest(int, char*[])
 {
   typedef  itk::FourierSeriesPath<2>   PathType;
   typedef  PathType::InputType         InputType;
-  typedef  PathType::IndexType         IndexType;
   typedef  PathType::OffsetType        OffsetType;
   typedef  PathType::VectorType        VectorType;
 

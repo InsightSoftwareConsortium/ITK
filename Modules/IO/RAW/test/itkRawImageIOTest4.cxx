@@ -113,7 +113,6 @@ int itkRawImageIOTest4(int argc, char*argv[])
   typedef unsigned short PixelType;
   const unsigned int ImageDimension = 2;
 
-  typedef itk::RawImageIO<PixelType,ImageDimension> IOType;
   typedef itk::Image<PixelType,ImageDimension>      ImageType;
 
   unsigned int dims[ImageDimension] = { 5, 5 };

@@ -117,7 +117,6 @@ int itkTimeProbesTest(int, char* [] )
   Image3DType::PointType point3D;
 
   typedef itk::ImageRegion< 3 >   Region3DType;
-  typedef Region3DType::IndexType Index3DType;
   typedef Region3DType::SizeType  Size3DType;
   Region3DType region3D;
   Size3DType size3D = {{ 1000, 1000, 1000 }};

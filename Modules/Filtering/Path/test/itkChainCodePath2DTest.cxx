@@ -24,10 +24,8 @@ int itkChainCodePath2DTest(int, char*[])
   typedef  itk::ChainCodePath2D       PathType;
   typedef  PathType::IndexType        IndexType;
   typedef  PathType::OffsetType       OffsetType;
-  typedef  PathType::ChainCodeType    ChainCodeType;
 
   bool passed = true;
-
 
   IndexType   index;
   OffsetType  offset;

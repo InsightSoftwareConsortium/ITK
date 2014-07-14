@@ -28,11 +28,8 @@
 int itkTubeSpatialObjectTest(int, char * [] )
 {
   typedef double                                      ScalarType;
-  typedef bool                                        OutputType;
   typedef itk::Vector< ScalarType, 3>                 Vector;
-  typedef itk::Vector< OutputType, 3>                 OutputVector;
   typedef itk::Point< ScalarType, 3>                  Point;
-  typedef itk::Matrix< ScalarType, 3, 3>              Matrix;
   typedef itk::TubeSpatialObject<3>                   TubeType;
   typedef itk::SmartPointer< TubeType >               TubePointer;
   typedef itk::GroupSpatialObject<3>                  GroupType;

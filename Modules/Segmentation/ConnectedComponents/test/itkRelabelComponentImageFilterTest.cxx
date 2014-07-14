@@ -60,7 +60,6 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
 
   typedef itk::Statistics::Histogram<RealType> HistogramType;
 
-  typedef HistogramType::IndexType HIndexType;
   int NumBins = 13;
   RealType LowerBound = 51.0;
   RealType UpperBound = 252.0;

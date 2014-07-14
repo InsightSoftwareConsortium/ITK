@@ -30,7 +30,6 @@ int itkQuadEdgeMeshAddFaceTest1( int argc, char* argv[] )
   typedef itk::QuadEdgeMesh< double, 3 > MeshType;
   typedef MeshType::PointType            PointType;
   typedef MeshType::PointIdentifier      PointIdentifier;
-  typedef MeshType::CellIdentifier       CellIdentifier;
   typedef std::vector< PointIdentifier > PointIdList;
 
   typedef itk::QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType > BEFunctionType;

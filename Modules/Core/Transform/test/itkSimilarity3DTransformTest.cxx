@@ -46,15 +46,6 @@ int itkSimilarity3DTransformTest(int, char * [] )
   //  Vector type
   typedef    TransformType::InputVectorType VectorType;
 
-  //  Point type
-  typedef    TransformType::InputPointType PointType;
-
-  //  Covariant Vector type
-  typedef    TransformType::InputCovariantVectorType CovariantVectorType;
-
-  //  VnlVector type
-  typedef    TransformType::InputVnlVectorType VnlVectorType;
-
   //  Parameters type
   typedef    TransformType::ParametersType ParametersType;
 

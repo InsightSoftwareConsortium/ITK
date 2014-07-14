@@ -91,7 +91,6 @@ int itkGreaterTest(int, char* [] )
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
   typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType3>  myIteratorType3;
 
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );

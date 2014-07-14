@@ -99,8 +99,6 @@ int itkPowellOptimizerTest(int, char* [] )
 
   typedef  itk::PowellOptimizer  OptimizerType;
 
-  typedef OptimizerType::ScalesType        ScalesType;
-
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 

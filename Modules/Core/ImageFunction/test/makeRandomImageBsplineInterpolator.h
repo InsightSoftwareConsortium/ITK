@@ -16,15 +16,15 @@
  *
  *=========================================================================*/
 
+#ifndef __makeRandomImageBsplineInterpolator_h
+#define __makeRandomImageBsplineInterpolator_h
+
 #include "itkBSplineResampleImageFunction.h"
 #include "itkRandomImageSource.h"
 template<typename BSplineInterpolatorFunctionType>
 typename BSplineInterpolatorFunctionType::Pointer makeRandomImageInterpolator(const int SplineOrder)
 {
-  typedef typename BSplineInterpolatorFunctionType::ContinuousIndexType ContinuousIndexType;
-  typedef typename BSplineInterpolatorFunctionType::CovariantVectorType CovariantVectorType;
-  typedef typename BSplineInterpolatorFunctionType::OutputType OutputType;
-  typedef typename BSplineInterpolatorFunctionType::InputImageType ImageType;;
+  typedef typename BSplineInterpolatorFunctionType::InputImageType ImageType;
 
   /** Generate a random input image and connect to BSpline decomposition filter */
 
@@ -73,3 +73,5 @@ typename BSplineInterpolatorFunctionType::Pointer makeRandomImageInterpolator(co
   interpolator->SetInputImage( randImage );
   return interpolator;
 }
+
+#endif

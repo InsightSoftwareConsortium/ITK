@@ -112,7 +112,6 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   direction[1][2] = 0.0;
   direction[2][2] = 1.0;
 
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
   typedef itk::Size<ImageDimension>          SizeType;
 
   SizeType size; size.Fill(20);

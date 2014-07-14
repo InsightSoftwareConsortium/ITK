@@ -248,9 +248,6 @@ TestImageOfSymMats(const std::string &fname)
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
 
-  typedef itk::ImageRegionIterator<DtiImageType>      IteratorType;
-  typedef itk::ImageRegionConstIterator<DtiImageType> ConstIteratorType;
-
   int dims[7];
   int _index[7];
   for(unsigned i = 0; i < VDimension; i++)

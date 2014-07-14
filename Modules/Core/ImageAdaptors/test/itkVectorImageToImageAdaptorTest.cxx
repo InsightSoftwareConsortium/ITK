@@ -34,7 +34,6 @@ int itkVectorImageToImageAdaptorTest( int, char* [] )
   typedef float PixelType;
 
   typedef itk::VectorImage< PixelType, Dimension >   VectorImageType;
-  typedef itk::VariableLengthVector< PixelType >     InternalPixelType;
 
   typedef itk::VectorImageToImageAdaptor< PixelType, Dimension > VectorImageToImageAdaptorType;
 

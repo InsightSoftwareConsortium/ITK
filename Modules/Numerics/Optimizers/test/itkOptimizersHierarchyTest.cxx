@@ -105,16 +105,6 @@ int itkOptimizersHierarchyTest(int, char* [] )
     pass=false;
     }
 
-  // This cannot be instantiated due to abstract function SetCostFunction()
-  typedef itk::SingleValuedNonLinearVnlOptimizer
-                                SingleValuedNonLinearVnlOptimizerType;
-
-  // This is only type checking. This class is not expected to be instantiated
-  typedef itk::CostFunction     CostFunctionType;
-
-  // This is only type checking. This class is not expected to be instantiated
-  typedef itk::SingleValuedCostFunction     SingleValuedCostFunctionType;
-
   typedef itk::AmoebaOptimizer    AmoebaOptimizerType;
   AmoebaOptimizerType::Pointer   amoeba = AmoebaOptimizerType::New();
   if(amoeba.IsNull())

@@ -82,7 +82,6 @@ int itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1( int argc, char * argv [] )
     }
 
   typedef MeshType::CellsContainerPointer  CellsContainerPointer;
-  typedef MeshType::CellsContainerIterator CellsContainerIterator;
   typedef MeshType::CellType               CellType;
 
   CellsContainerPointer cells = myMesh->GetCells();

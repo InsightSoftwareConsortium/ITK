@@ -451,8 +451,6 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   typedef ImageType::RegionType         RegionType;
   typedef ImageType::SpacingType        SpacingType;
 
-  typedef itk::NumericTraits< PixelType >::RealType    PixelRealType;
-
   SizeType size;
   size[0] = 21;
 

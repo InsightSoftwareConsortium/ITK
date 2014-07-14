@@ -33,12 +33,10 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
     }
 
 
-  typedef    float    InputPixelType;
-  typedef    float    OutputPixelType;
-  static const int ImageDimension=2;
+  typedef float InputPixelType;
+  static const int ImageDimension = 2;
 
   typedef itk::Image< InputPixelType,  ImageDimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, ImageDimension >   OutputImageType;
   typedef itk::ImageFileReader< InputImageType >          ReaderType;
   typedef itk::AdaptiveHistogramEqualizationImageFilter<
                InputImageType >                           FilterType;

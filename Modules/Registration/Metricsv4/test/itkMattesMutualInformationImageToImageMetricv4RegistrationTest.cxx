@@ -104,7 +104,6 @@ int itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, cha
 
   /** create a composite transform holder for other transforms  */
   typedef itk::CompositeTransform<double, Dimension>    CompositeType;
-  typedef CompositeType::ScalarType                     ScalarType;
 
   CompositeType::Pointer compositeTransform = CompositeType::New();
 

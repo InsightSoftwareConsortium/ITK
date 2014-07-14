@@ -54,8 +54,6 @@ template<typename KernelType> int TestKernelTransform(const char *name, KernelTy
   sourceLandmarks->GetPoints()->Reserve( 4 );
 
   // Generate some random coordinates
-  typedef itk::PointSet<float>              PointSet;
-  typedef typename PointSet::PointType      PointType;
   typename KernelPointSetType::CoordRepType randomCoords[3];
   for(int i=0; i < 4; ++i)
     {

@@ -50,7 +50,6 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char* [])
   myImage->Allocate();
   typedef std::vector<ImageType::IndexType>            WalkType;
   typedef WalkType::iterator                           WalkIteratorType;
-  typedef std::pair<WalkIteratorType,WalkIteratorType> WalkIteratorPairType;
   WalkType firstWalk(N);
   RandomConstIteratorType firstIt(myImage, region);
   firstIt.ReinitializeSeed( Seed );

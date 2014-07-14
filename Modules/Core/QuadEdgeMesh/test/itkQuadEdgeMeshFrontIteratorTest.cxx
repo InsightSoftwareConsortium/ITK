@@ -34,7 +34,6 @@ int itkQuadEdgeMeshFrontIteratorTest( int , char *[] )
 {
   typedef itk::QuadEdgeMesh< double, 3 >      MeshType;
   typedef MeshType::Pointer                   MeshPointer;
-  typedef MeshType::CellsContainer::Iterator  CellIterator;
 
   typedef MeshType::PointIdentifier   PointIdentifier;
   typedef std::set< PointIdentifier > PointIdSet;

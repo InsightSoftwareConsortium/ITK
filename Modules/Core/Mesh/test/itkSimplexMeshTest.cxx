@@ -29,10 +29,7 @@ int itkSimplexMeshTest(int , char *[] )
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double> MeshTraits;
 
   typedef itk::SimplexMesh<double,3,MeshTraits>           SimplexMeshType;
-
   typedef itk::SimplexMeshGeometry                        SimplexMeshGeometryType;
-
-  typedef SimplexMeshType::CellType                       CellInterfaceType;
 
   SimplexMeshType::Pointer simplexMesh = SimplexMeshType::New();
 
@@ -52,8 +49,6 @@ int itkSimplexMeshTest(int , char *[] )
    * Typedef the generic cell type for the mesh.  It is an abstract class,
    * so we can only use information from it, like get its pointer type.
    */
-  typedef SimplexMeshType::CellType       CellType;
-  typedef CellType::CellAutoPointer       CellAutoPointer;
   typedef SimplexMeshType::PointType      PointType;
 
   /**

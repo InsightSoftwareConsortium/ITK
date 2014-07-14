@@ -28,9 +28,7 @@ int itkPathIteratorTest(int, char*[])
   typedef  itk::PathIterator< ImageType, PathType >       IterType;
 
   typedef  ImageType::IndexType                           IndexType;
-  typedef  PathType::InputType                            PathInputType;
   typedef  PathType::VertexType                           VertexType;
-  typedef  PathType::OffsetType                           OffsetType;
 
   bool passed = true;
 

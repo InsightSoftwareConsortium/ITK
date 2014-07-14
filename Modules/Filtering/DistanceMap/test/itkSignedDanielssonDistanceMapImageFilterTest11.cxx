@@ -59,8 +59,6 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
    */
 
   typedef  itk::ImageRegionIteratorWithIndex<myImageType2D1> myIteratorType2D1;
-  typedef  itk::ImageRegionIteratorWithIndex<myImageType2D2> myIteratorType2D2;
-
 
   myIteratorType2D1 it2D1(inputImage2D,region2D);
 

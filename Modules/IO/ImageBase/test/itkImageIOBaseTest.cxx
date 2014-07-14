@@ -24,9 +24,6 @@
 
 int itkImageIOBaseTest( int , char * [] )
 {
-  typedef itk::MetaImageIO                 ReaderType;
-  typedef ReaderType::Pointer              ReaderPointerType;
-
   itk::MetaImageIO::Pointer reader = itk::MetaImageIO::New();
   reader->SetNumberOfDimensions(3);
 

@@ -47,7 +47,6 @@ int itkDisplacementFieldTransformCloneTest(int, char *[])
   DisplacementTransformType::Pointer displacementTransform =
     DisplacementTransformType::New();
   typedef DisplacementTransformType::DisplacementFieldType FieldType;
-  typedef DisplacementTransformType::DisplacementFieldType DisplacementFieldType;
   FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
 
   FieldType::SizeType   size;

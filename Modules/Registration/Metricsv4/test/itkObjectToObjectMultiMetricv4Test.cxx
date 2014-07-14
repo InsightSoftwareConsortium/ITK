@@ -195,10 +195,7 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   typedef itk::Image<PixelType,Dimension> MovingImageType;
 
    // Declare Gaussian Sources
-  typedef itk::GaussianImageSource< MovingImageType >  MovingImageSourceType;
   typedef itk::GaussianImageSource< FixedImageType  >  FixedImageSourceType;
-  typedef MovingImageSourceType::Pointer               MovingImageSourcePointer;
-  typedef FixedImageSourceType::Pointer                FixedImageSourcePointer;
 
   // Note: the following declarations are classical arrays
   FixedImageType::SizeValueType     fixedImageSize[]     = {  100,  100 };
@@ -223,9 +220,6 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
 
   // Set up the metric.
   typedef ObjectToObjectMultiMetricv4TestMultiMetricType  MultiMetricType;
-  typedef MultiMetricType::WeightsArrayType               WeightsArrayType;
-  typedef MultiMetricType::ParametersType                 ParametersType;
-
   MultiMetricType::Pointer multiVariateMetric = MultiMetricType::New();
 
   // Instantiate and Add metrics to the queue
@@ -252,8 +246,6 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
 
     VectorType zero;
     zero.Fill(0.0);
-
-    typedef itk::ImageRegion<Dimension> RegionType;
 
     FieldType::Pointer field = FieldType::New();
     field->SetRegions( fixedImage->GetBufferedRegion() );

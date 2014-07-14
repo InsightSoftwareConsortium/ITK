@@ -52,9 +52,6 @@ int itkCenteredAffineTransformTest(int, char *[])
      actually check that the results are correct. */
 
   /* Create a 2D identity transformation and show its parameters */
-  typedef itk::Point<double, 6>     ParametersType;
-  typedef itk::Matrix<double, 2, 6> JacobianType;
-
   typedef itk::CenteredAffineTransform<double, 2> Affine2DType;
   Affine2DType::Pointer id2 = Affine2DType::New();
   matrix2 = id2->GetMatrix();

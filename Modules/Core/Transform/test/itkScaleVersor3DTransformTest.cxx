@@ -50,9 +50,6 @@ int itkScaleVersor3DTransformTest(int, char * [] )
   typedef    itk::ScaleVersor3DTransform<ValueType>  TransformType;
   typedef    TransformType::VersorType               VersorType;
   typedef    TransformType::InputVectorType          VectorType;
-  typedef    TransformType::InputPointType           PointType;
-  typedef    TransformType::InputCovariantVectorType CovariantVectorType;
-  typedef    TransformType::InputVnlVectorType       VnlVectorType;
   typedef    TransformType::ParametersType           ParametersType;
   typedef    TransformType::JacobianType             JacobianType;
   typedef    TransformType::MatrixType               MatrixType;

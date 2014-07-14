@@ -67,7 +67,6 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   bool passed;
 
   // setup trial points
-  typedef MarcherType::NodeType               NodeType;
   typedef MarcherType::NodePairType           NodePairType;
   typedef MarcherType::NodePairContainerType  NodePairContainerType;
 

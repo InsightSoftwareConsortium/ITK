@@ -26,9 +26,7 @@ int itkWhitakerSparseLevelSetImageTest( int , char* [] )
       SparseLevelSetType;
 
   typedef SparseLevelSetType::LabelMapType LabelMapType;
-  typedef LabelMapType::Pointer            LabelMapPointer;
   typedef LabelMapType::IndexType          IndexType;
-
 
   IndexType index;
   index.Fill( 3 );

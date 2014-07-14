@@ -137,8 +137,6 @@ int itkSubsampleTest(int, char* [] )
     std::cerr << "Expected Exception caught: " << excp << std::endl;
     }
 
-  typedef SubsampleType::AbsoluteFrequencyType            AbsoluteFrequencyType;
-
   try
     {
     // Purposely calling GetFrequency() method prematurely in order to trigger an exception.

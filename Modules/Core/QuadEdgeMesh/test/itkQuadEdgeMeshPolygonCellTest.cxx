@@ -31,7 +31,6 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    */
   typedef itk::QuadEdgeMesh<int, 3>  MeshType;
   typedef MeshType::CellTraits       CellTraits;
-  typedef MeshType::CellIdentifier   CellIdentifier;
   typedef MeshType::PointIdentifier  PointIdentifier;
 
   /**

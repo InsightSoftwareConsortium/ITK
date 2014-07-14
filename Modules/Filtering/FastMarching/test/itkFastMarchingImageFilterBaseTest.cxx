@@ -27,9 +27,6 @@ int FastMarchingImageFilterBase( )
   typedef itk::Image< PixelType, VDimension > ImageType;
   typename ImageType::Pointer input = ImageType::New();
 
-  typedef itk::FastMarchingThresholdStoppingCriterion< ImageType, ImageType >
-      CriterionType;
-
   typedef itk::FastMarchingImageFilterBase< ImageType, ImageType >
       FMMType;
   typename FMMType::Pointer fmm = FMMType::New();

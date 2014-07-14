@@ -53,9 +53,6 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
-  typedef InputImageType::Pointer  InputImagePointer;
-  typedef OutputImageType::Pointer OutputImagePointer;
-
   InputPixelType maxLabel = itk::NumericTraits<InputPixelType>::max();
   InputPixelType minLabel =
                  itk::NumericTraits<InputPixelType>::NonpositiveMin();

@@ -67,9 +67,6 @@ TestImageOfVectors(const std::string &fname)
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
 
-  typedef itk::ImageRegionIterator<VectorImageType>      IteratorType;
-  typedef itk::ImageRegionConstIterator<VectorImageType> ConstIteratorType;
-
   int dims[7];
   int _index[7];
   for(unsigned i = 0; i < TDimension; i++)

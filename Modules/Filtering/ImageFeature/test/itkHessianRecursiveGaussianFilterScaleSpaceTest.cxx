@@ -111,8 +111,6 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 
     IndexType centerIndex;
 
-    typedef HessianImageType::PixelType HessianType;
-
     outputImage->TransformPhysicalPointToIndex(center,centerIndex);
 
     // Irrespective of the scale, the Hxx component should be the same
@@ -169,8 +167,6 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
     center.Fill(0.0);
 
     IndexType centerIndex;
-
-    typedef HessianImageType::PixelType HessianType;
 
     outputImage->TransformPhysicalPointToIndex(center,centerIndex);
 

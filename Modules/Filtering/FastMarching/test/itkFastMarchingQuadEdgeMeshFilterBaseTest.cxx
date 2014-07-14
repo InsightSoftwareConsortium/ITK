@@ -67,7 +67,6 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest( int , char * [] )
     ++p_it;
     }
 
-  typedef FastMarchingType::NodeType      NodeType;
   typedef FastMarchingType::NodePairType  NodePairType;
 //  typedef FastMarchingType::NodeContainerType NodeContainerType;
   typedef FastMarchingType::NodePairContainerType NodePairContainerType;

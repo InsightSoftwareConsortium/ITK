@@ -27,8 +27,6 @@ int itkPathToChainCodePathFilterTest(int, char*[])
   typedef itk::ChainCodePath2D                 ChainPathType;
 
   typedef InPathType::VertexType               VertexType;
-  typedef InPathType::OffsetType               OffsetType;
-  typedef InPathType::InputType                InPathInputType;
 
   typedef itk::PathToChainCodePathFilter<InPathType,ChainPathType> FilterType;
 

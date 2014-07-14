@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef _itk_LogicTestSupport_
-#define _itk_LogicTestSupport_
+#ifndef __itkLogicTestSupport_h
+#define __itkLogicTestSupport_h
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include <functional>
@@ -34,8 +34,6 @@ int checkImOnImRes(typename InIm1::Pointer A, typename InIm2::Pointer B,
                    typename ResIm::PixelType BG)
 {
   typedef typename itk::ImageRegionIteratorWithIndex<InIm1>  myIteratorType1;
-  typedef typename itk::ImageRegionIteratorWithIndex<InIm2>  myIteratorType2;
-  typedef typename itk::ImageRegionIteratorWithIndex<ResIm>  myIteratorType3;
 
   OpT Op;
 
@@ -72,7 +70,6 @@ int checkImOnConstRes(typename InIm1::Pointer A, ConstT B,
                    typename ResIm::PixelType BG)
 {
   typedef typename itk::ImageRegionIteratorWithIndex<InIm1>  myIteratorType1;
-  typedef typename itk::ImageRegionIteratorWithIndex<ResIm>  myIteratorType3;
 
   OpT Op;
 
@@ -107,7 +104,6 @@ int checkConstOnImRes(ConstT A, typename InIm1::Pointer B,
                       typename ResIm::PixelType BG)
 {
   typedef typename itk::ImageRegionIteratorWithIndex<InIm1>  myIteratorType1;
-  typedef typename itk::ImageRegionIteratorWithIndex<ResIm>  myIteratorType3;
 
   OpT Op;
 
@@ -134,9 +130,5 @@ int checkConstOnImRes(ConstT A, typename InIm1::Pointer B,
     }
   return EXIT_SUCCESS;
 }
-
-
-
-
 
 #endif

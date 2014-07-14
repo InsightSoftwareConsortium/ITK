@@ -187,8 +187,6 @@ int itkOnePlusOneEvolutionaryOptimizerv4Test(int, char* [] )
 
   typedef  itk::OnePlusOneEvolutionaryOptimizerv4<double>  OptimizerType;
 
-  typedef OptimizerType::ScalesType        ScalesType;
-
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
