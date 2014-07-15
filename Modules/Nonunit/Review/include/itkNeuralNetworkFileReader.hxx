@@ -259,7 +259,6 @@ NeuralNetworkFileReader< TNetwork >
       else if ( !strcmp( (char *)( mF->value ), "NULL" ) )
         {
         std::cout << "NULL" << std::endl;
-        typedef Statistics::SumInputFunction< MeasurementVectorValueType *, MeasurementVectorValueType > ifType;
         layerptr->SetNodeInputFunction(ITK_NULLPTR);
         }
       this->m_Network->AddLayer(layerptr);

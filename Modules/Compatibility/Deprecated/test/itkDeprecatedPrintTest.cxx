@@ -29,20 +29,12 @@
 
 int main (int , char* [])
 {
-  typedef itk::Image<float,2>          InputType;
-  typedef itk::Image<float,3>          InputType3D;
   typedef itk::Image<float,2>          OutputType;
-  typedef itk::Image<bool,2>           BinaryImageType;
-  typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Image<unsigned char,2>  CharType;
 
   typedef itk::Mesh<double>  MeshType;
 
   typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
-
-  // Used for NormalizedCorrelationPointSetToImageMetric
-  typedef itk::PointSet<float,2> PointSetType;
 
   itk::BalloonForceFilter<MeshType,MeshType>::Pointer BalloonForceFilterObj =
     itk::BalloonForceFilter<MeshType,MeshType>::New();

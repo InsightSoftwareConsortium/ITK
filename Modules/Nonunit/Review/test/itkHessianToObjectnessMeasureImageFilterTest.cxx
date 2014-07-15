@@ -44,8 +44,6 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   typedef itk::ImageFileReader<ImageType> FileReaderType;
   typedef itk::ImageFileWriter<ImageType> FileWriterType;
 
-  typedef itk::RescaleIntensityImageFilter<ImageType> RescaleFilterType;
-
   // Declare the type of the recursive Gaussian filter
   typedef itk::HessianRecursiveGaussianImageFilter<
                                             ImageType >  GaussianImageFilterType;

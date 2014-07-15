@@ -27,16 +27,12 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   typedef itk::Vector< double, ImageDimension >   DeformationPixelType;
-  typedef unsigned char                           OutputPixelType;
 
   // Declare the types of the images
   typedef itk::Image<DeformationPixelType, ImageDimension>  DisplacementFieldType;
-  typedef itk::Image<OutputPixelType, ImageDimension>       OutputImageType;
 
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex< DisplacementFieldType >  DeformationIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType >       OutputIteratorType;
-
 
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;

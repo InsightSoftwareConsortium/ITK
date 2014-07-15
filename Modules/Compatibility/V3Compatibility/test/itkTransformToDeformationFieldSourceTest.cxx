@@ -71,7 +71,6 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
   typedef DeformationFieldGeneratorType::SpacingType    SpacingType;
   typedef DeformationFieldGeneratorType::OriginType     OriginType;
   typedef DeformationFieldGeneratorType::IndexType      IndexType;
-  typedef DeformationFieldGeneratorType::RegionType     RegionType;
   typedef itk::ImageFileWriter<
     DeformationFieldImageType >                         WriterType;
 

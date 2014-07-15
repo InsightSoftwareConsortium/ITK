@@ -118,9 +118,7 @@ void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData(void)
 {
-  typedef typename TInputMesh::PointsContainer              InputPointsContainer;
   typedef typename TOutputMesh::PointsContainer             OutputPointsContainer;
-  typedef typename TInputMesh::PointsContainerConstPointer  InputPointsContainerConstPointer;
   typedef typename TOutputMesh::PointsContainerPointer      OutputPointsContainerPointer;
 
   InputMeshConstPointer inputMesh      =  this->GetInput();

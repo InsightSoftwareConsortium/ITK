@@ -81,10 +81,8 @@ main(int, char *[])
   typedef itk::Mesh< PixelType, 3 >         MeshType;
 
   typedef MeshType::PointType               PointType;
-  typedef MeshType::CellType                CellType;
 
   typedef itk::AutomaticTopologyMeshSource< MeshType >   MeshSourceType;
-  typedef MeshSourceType::IdentifierType                 IdentifierType;
   typedef MeshSourceType::IdentifierArrayType            IdentifierArrayType;
 
   MeshSourceType::Pointer meshSource;

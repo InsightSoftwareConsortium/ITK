@@ -87,10 +87,6 @@ int main( int argc, char * argv [] )
 
   adaptor->SetImage(  reader->GetOutput() );
 
-
-  // Define the Measurement vector type from the AdaptorType
-  typedef AdaptorType::MeasurementVectorType  MeasurementVectorType;
-
   // Create the K-d tree structure
   typedef itk::Statistics::WeightedCentroidKdTreeGenerator<
                                       AdaptorType > TreeGeneratorType;

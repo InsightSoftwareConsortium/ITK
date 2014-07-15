@@ -84,14 +84,9 @@ int main()
   // By specifying the \code{VPointDimension} template argument, we can
   // change the dimension of the point. As mentioned earlier, a
   // \code{PointSetToListSampleAdaptor} object cares only about the points, and the
-  // type of measurement vectors is the type of points. Therefore, we can
-  // define the measurement vector type as in the following code snippet.
+  // type of measurement vectors is the type of points.
   //
   // Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  typedef PointSetType::PointType MeasurementVectorType;
-  // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //

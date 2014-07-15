@@ -192,8 +192,6 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   typedef ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
   InputLineIteratorType InLineIt(inputImage, outputRegionForThread);
   InLineIt.SetDirection(BestDirection);
-
-  typedef ImageRegionIterator< OutputImageType > OutputIteratorType;
   InLineIt.GoToBegin();
   IndexType LineStart;
   InLineIt.GoToBegin();

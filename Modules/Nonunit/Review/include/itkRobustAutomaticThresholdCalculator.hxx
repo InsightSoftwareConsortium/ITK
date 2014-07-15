@@ -64,8 +64,6 @@ void
 RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
 ::Compute()
 {
-  typedef typename InputImageType::IndexType IndexType;
-
   if ( !m_Input || !m_Gradient )
     {
     return;
