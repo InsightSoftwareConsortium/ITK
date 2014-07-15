@@ -29,11 +29,8 @@
 int itkVnlFFTWF_RealFFTTest(int argc, char *argv[])
 {
   typedef itk::Image< float, 1>               ImageF1;
-  typedef itk::Image< std::complex<float>, 1> ImageCF1;
   typedef itk::Image< float, 2>               ImageF2;
-  typedef itk::Image< std::complex<float>, 2> ImageCF2;
   typedef itk::Image< float, 3>               ImageF3;
-  typedef itk::Image< std::complex<float>, 3> ImageCF3;
 
   itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
   itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);
