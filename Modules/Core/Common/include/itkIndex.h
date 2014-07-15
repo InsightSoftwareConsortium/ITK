@@ -220,10 +220,24 @@ public:
     return !same;
   }
 
+// false positive warnings with GCC 4.9
+#if defined( __GNUC__ )
+#if ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 9 )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
+#endif
   /** Access an element of the index. Elements are numbered
    * 0, ..., VIndexDimension-1. No bounds checking is performed. */
   IndexValueType & operator[](unsigned int dim)
-  { return m_Index[dim]; }
+  {
+    return m_Index[dim];
+  }
+#if defined( __GNUC__ )
+#if ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 9 )
+#pragma GCC diagnostic pop
+#endif
+#endif
 
   /** Access an element of the index. Elements are numbered
    * 0, ..., VIndexDimension-1. This version can only be an rvalue.
