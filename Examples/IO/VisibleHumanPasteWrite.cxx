@@ -50,10 +50,7 @@ int main(int argc, char *argv[])
   std::string outputImageFile = argv[2];
 
   typedef itk::RGBPixel< unsigned char >  RGBPixelType;
-  typedef itk::Vector< unsigned char, 3 > VRGBPixelType;
   typedef itk::Image< RGBPixelType, 2 >   RGB2DImageType;
-  typedef itk::Image< VRGBPixelType, 2 >  VRGB2DImageType;
-
 
 //  we begin by creating a reader for the file just written that is
 //  capable of streaming

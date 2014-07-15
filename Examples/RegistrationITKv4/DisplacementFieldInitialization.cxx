@@ -102,7 +102,6 @@ int main( int argc, char * argv[] )
 
   //  Create source and target landmarks.
   //
-  typedef FilterType::LandmarkContainerPointer LandmarkContainerPointer;
   typedef FilterType::LandmarkContainer        LandmarkContainerType;
   typedef FilterType::LandmarkPointType        LandmarkPointType;
 

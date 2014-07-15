@@ -89,7 +89,6 @@ int main( int argc, char *argv[] )
 
   typedef Image4DType::IndexType    Index4DType;
   typedef Image4DType::SizeType     Size4DType;
-  typedef Image4DType::RegionType   Region4DType;
   typedef Image4DType::SpacingType  Spacing4DType;
   typedef Image4DType::PointType    Origin4DType;
 

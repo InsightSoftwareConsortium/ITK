@@ -94,7 +94,6 @@ int main( int argc, char *argv[] )
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
-  typedef itk::Image< float, Dimension >      JacobianImageType;
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;

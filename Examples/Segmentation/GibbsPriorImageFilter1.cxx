@@ -124,9 +124,6 @@ int main( int argc, char *argv[] )
   vecImage->SetBufferedRegion( region );
   vecImage->Allocate();
 
-  // setup the iterators
-  typedef VecImageType::PixelType::VectorType VecPixelType;
-
   enum { VecImageDimension = VecImageType::ImageDimension };
   typedef itk::ImageRegionIterator< VecImageType > VecIterator;
 
@@ -211,7 +208,6 @@ int main( int argc, char *argv[] )
   // grabbed from the Gibbs application pipeline.
   //----------------------------------------------------------------------
   //---------------------------------------------------------------------
-  typedef VecImagePixelType MeasurementVectorType;
 
   //  Software Guide : BeginLatex
   //
@@ -223,9 +219,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageClassifierBase< VecImageType,
                                     ClassImageType > ClassifierType;
-  typedef itk::ClassifierBase<VecImageType>::Pointer ClassifierBasePointer;
-
-  typedef ClassifierType::Pointer ClassifierPointer;
+  typedef ClassifierType::Pointer                    ClassifierPointer;
   ClassifierPointer myClassifier = ClassifierType::New();
   // Software Guide : EndCodeSnippet
 

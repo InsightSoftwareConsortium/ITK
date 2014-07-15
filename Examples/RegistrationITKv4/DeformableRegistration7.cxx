@@ -217,8 +217,6 @@ int main( int argc, char *argv[] )
  registration->SetFixedImageRegion( fixedRegion );
 
   // Software Guide : BeginCodeSnippet
-  typedef TransformType::RegionType RegionType;
-
   unsigned int numberOfGridNodes = 8;
 
   TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
