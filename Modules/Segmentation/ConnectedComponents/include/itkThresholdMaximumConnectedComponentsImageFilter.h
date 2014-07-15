@@ -89,7 +89,8 @@ public:
                ImageToImageFilter);
 
   /** Typedef to describe the type of pixel. */
-  typedef typename TInputImage::PixelType PixelType;
+  typedef typename TInputImage::PixelType  PixelType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
 
   /** The pixel type must support comparison operators. */
   itkConceptMacro( PixelTypeComparable, ( Concept::Comparable< PixelType > ) );
@@ -215,8 +216,9 @@ private:
   unsigned int m_MinimumObjectSizeInPixels;
 
   // Binary threshold variables
-  PixelType m_OutsideValue;
-  PixelType m_InsideValue;
+  OutputPixelType m_OutsideValue;
+  OutputPixelType m_InsideValue;
+
   PixelType m_LowerBoundary;
   PixelType m_UpperBoundary;
 
