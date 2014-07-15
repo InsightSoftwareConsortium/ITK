@@ -99,17 +99,11 @@ BoxAccumulateFunction(const TInputImage *inputImage,
 {
   // typedefs
   typedef TInputImage                      InputImageType;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
   typedef typename TInputImage::OffsetType OffsetType;
   typedef TOutputImage                     OutputImageType;
   typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
 
   typedef ImageRegionConstIterator< TInputImage > InputIterator;
-  typedef ImageRegionIterator< TOutputImage >     OutputIterator;
 
   typedef ShapedNeighborhoodIterator< TOutputImage > NOutputIterator;
   InputIterator inIt(inputImage, inputRegion);
@@ -210,11 +204,9 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
   typedef typename TInputImage::RegionType      RegionType;
   typedef typename TInputImage::SizeType        SizeType;
   typedef typename TInputImage::IndexType       IndexType;
-  typedef typename TInputImage::PixelType       PixelType;
   typedef typename TInputImage::OffsetType      OffsetType;
   typedef TOutputImage                          OutputImageType;
   typedef typename TOutputImage::PixelType      OutputPixelType;
-  typedef typename TInputImage::PixelType       InputPixelType;
   // use the face generator for speed
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > FaceCalculatorType;
   typedef typename FaceCalculatorType::FaceListType                             FaceListType;
@@ -394,12 +386,10 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
   typedef typename TInputImage::RegionType      RegionType;
   typedef typename TInputImage::SizeType        SizeType;
   typedef typename TInputImage::IndexType       IndexType;
-  typedef typename TInputImage::PixelType       PixelType;
   typedef typename TInputImage::OffsetType      OffsetType;
   typedef TOutputImage                          OutputImageType;
   typedef typename TOutputImage::PixelType      OutputPixelType;
   typedef typename TInputImage::PixelType       InputPixelType;
-  typedef typename InputPixelType::ValueType    ValueType;
   // use the face generator for speed
   typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > FaceCalculatorType;
   typedef typename FaceCalculatorType::FaceListType                                      FaceListType;
@@ -582,10 +572,6 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
 {
   // typedefs
   typedef TInputImage                         InputImageType;
-  typedef typename TInputImage::RegionType    RegionType;
-  typedef typename TInputImage::SizeType      SizeType;
-  typedef typename TInputImage::IndexType     IndexType;
-  typedef typename TInputImage::PixelType     PixelType;
   typedef typename TInputImage::OffsetType    OffsetType;
   typedef TOutputImage                        OutputImageType;
   typedef typename TOutputImage::PixelType    OutputPixelType;
@@ -593,7 +579,6 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
   typedef typename TInputImage::PixelType     InputPixelType;
 
   typedef ImageRegionConstIterator< TInputImage > InputIterator;
-  typedef ImageRegionIterator< TOutputImage >     OutputIterator;
 
   typedef ShapedNeighborhoodIterator< TOutputImage > NOutputIterator;
   InputIterator inIt(inputImage, inputRegion);

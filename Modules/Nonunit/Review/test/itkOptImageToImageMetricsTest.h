@@ -224,7 +224,6 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
 
   // Mean squares
   typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
-  typedef MeanSquaresMetricInitializer< FixedImageType, MovingImageType > MetricInitializerType;
   typename MetricType::Pointer msMetric = MetricType::New();
   MeanSquaresMetricInitializer< FixedImageType, MovingImageType > msMetricInitializer( msMetric );
 
@@ -232,7 +231,6 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
 
   // Mattes MI
   typedef itk::MattesMutualInformationImageToImageMetric< FixedImageType, MovingImageType > MattesMetricType;
-  typedef MattesMIMetricInitializer< FixedImageType, MovingImageType > MattesMetricInitializerType;
   typename MattesMetricType::Pointer mattesMetric = MattesMetricType::New();
   MattesMIMetricInitializer< FixedImageType, MovingImageType > mattesMetricInitializer( mattesMetric );
 
@@ -345,7 +343,6 @@ void DoDebugTest( FixedImageReaderType* fixedImageReader,
 
   // Mean squares
   typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
-  typedef MeanSquaresMetricInitializer< FixedImageType, MovingImageType > MetricInitializerType;
   typename MetricType::Pointer metric = MetricType::New();
   MeanSquaresMetricInitializer< FixedImageType, MovingImageType > metricInitializer( metric );
 

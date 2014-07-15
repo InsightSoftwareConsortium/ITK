@@ -44,8 +44,6 @@ public:
                MetricType* metric,
                MetricInitializerType metricInitializer)
     {
-    typedef typename MetricType::ParametersType ParametersType;
-
     std::cout << "-------------------------------------------------------------------" << std::endl;
     std::cout << "Testing" << std::endl;
     std::cout << "\tMetric       : " << metric->GetNameOfClass() << std::endl;
@@ -146,7 +144,6 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
 
   // Mean squares
   typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
-  typedef MeanSquaresMetricInitializer< FixedImageType, MovingImageType > MetricInitializerType;
   typename MetricType::Pointer msMetric = MetricType::New();
   MeanSquaresMetricInitializer< FixedImageType, MovingImageType > msMetricInitializer( msMetric );
 
