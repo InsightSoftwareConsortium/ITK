@@ -56,7 +56,6 @@ int main( int argc, char * argv[] )
   typedef   itk::Image< PixelType, ImageDimension >          InputImageType;
   typedef   itk::ImageFileReader< InputImageType  >          ReaderType;
   typedef   itk::ImageFileWriter< InputImageType >           DeformedImageWriterType;
-  typedef   itk::Point<  float, ImageDimension >             FieldPointType;
   typedef   itk::Vector< float, ImageDimension >             FieldVectorType;
   typedef   itk::Image< FieldVectorType,  ImageDimension >   DisplacementFieldType;
   typedef   itk::ImageFileWriter< DisplacementFieldType >    FieldWriterType;
@@ -65,9 +64,7 @@ int main( int argc, char * argv[] )
         ImageDimension>                                      TransformType;
   typedef   itk::Point< CoordinateRepType,
                                   ImageDimension >           PointType;
-  typedef   std::vector< PointType >                         PointArrayType;
   typedef   TransformType::PointSetType                      PointSetType;
-  typedef   PointSetType::Pointer                            PointSetPointer;
   typedef   PointSetType::PointIdentifier                    PointIdType;
   typedef   itk::ResampleImageFilter< InputImageType,
                                       InputImageType  >      ResamplerType;

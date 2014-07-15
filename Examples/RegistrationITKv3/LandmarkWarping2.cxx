@@ -106,7 +106,6 @@ int main( int argc, char * argv[] )
 
   //  Create source and target landmarks.
   //
-  typedef DisplacementSourceType::LandmarkContainerPointer   LandmarkContainerPointer;
   typedef DisplacementSourceType::LandmarkContainer          LandmarkContainerType;
   typedef DisplacementSourceType::LandmarkPointType          LandmarkPointType;
 

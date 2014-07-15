@@ -53,15 +53,11 @@ int itkDeformableTest(int , char *[])
   // Declare the type of the Mesh
   typedef itk::Mesh<double>   DMesh;
 
-  typedef DMesh::PointType   OPointType;
-
   // Declare the type of the gradient image
   typedef itk::CovariantVector<double, myDimension> myGradientType;
   typedef itk::Image<myGradientType, myDimension>   myGradientImageType;
   typedef itk::CovariantVector<double, 2>           double2DVector;
-  typedef itk::CovariantVector<int, 3>              int3DVector;
   typedef itk::CovariantVector<double, 3>           double3DVector;
-  typedef itk::CovariantVector<int, 2>              int2DVector;
 
   typedef itk::BinaryMask3DMeshSource<binaryImageType,DMesh>  myMeshSource;
   typedef itk::LaplacianImageFilter<myImageType, myImageType> myLaplacianFilterType;
@@ -78,9 +74,6 @@ int itkDeformableTest(int , char *[])
 
   binaryImageType::Pointer       biimg=binaryImageType::New();
   myGradientImageType::Pointer   gdimg=myGradientImageType::New();
-
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>         myIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<myGradientImageType> myGradientIteratorType;
 
   binaryImageType::SizeType      bisize={{WIDTH,HEIGHT,DEPTH}};
   binaryImageType::IndexType     biindex;

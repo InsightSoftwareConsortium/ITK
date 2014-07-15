@@ -291,7 +291,6 @@ int main( int argc, char * argv[] )
 //  Software Guide : EndCodeSnippet
 
 
-  typedef itk::Point<  float, ImageDimension >      PointType;
   typedef itk::Vector< float, ImageDimension >      VectorType;
   typedef itk::Image< VectorType, ImageDimension >  DisplacementFieldType;
 

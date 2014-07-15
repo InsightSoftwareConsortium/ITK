@@ -212,12 +212,6 @@ int main( int argc, char *argv[] )
   typedef itk::MultiResolutionImageRegistrationMethod<
                                     InternalImageType,
                                     InternalImageType    > RegistrationType;
-  typedef itk::RecursiveMultiResolutionPyramidImageFilter<
-                                    InternalImageType,
-                                    InternalImageType  >    FixedImagePyramidType;
-  typedef itk::RecursiveMultiResolutionPyramidImageFilter<
-                                    InternalImageType,
-                                    InternalImageType  >   MovingImagePyramidType;
 
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();

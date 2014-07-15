@@ -23,7 +23,6 @@ int TestAnalyzeByteSwap(const std::string & AugmentName)
 {
   int rval;
   typedef itk::Image<double, 3>               ImageType;
-  typedef itk::ImageFileReader< ImageType >   ImageReaderType;
 
   if(WriteAnalyzeTestFiles(AugmentName) == -1)
     {

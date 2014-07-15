@@ -71,7 +71,6 @@ int
 MakeImage(const std::string & AugmentName)
 {
   typedef itk::Image<T, VDimension>         ImageType;
-  typedef itk::ImageFileReader< ImageType > ImageReaderType;
 
   const std::string filename=std::string(typeid(T).name()) +"_"+AugmentName+"_" +std::string("test.hdr");
 

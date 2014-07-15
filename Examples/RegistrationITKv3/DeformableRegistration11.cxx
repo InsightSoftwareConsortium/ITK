@@ -79,7 +79,6 @@ int main(int argc, char *argv[])
 
   // Read the image files
   typedef itk::ImageFileReader< FileImageType > FileSourceType;
-  typedef FileImageType::PixelType              PixType;
 
   FileSourceType::Pointer movingfilter = FileSourceType::New();
   movingfilter->SetFileName( movingImageName );
