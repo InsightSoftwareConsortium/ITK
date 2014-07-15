@@ -235,9 +235,10 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
   VarianceType maxVarBetween = NumericTraits< VarianceType >::Zero;
   for ( j = 0; j < numberOfClasses; j++ )
     {
-    maxVarBetween += (static_cast< VarianceType >( classFrequency[j] ) / static_cast< VarianceType >( globalFrequency ))
+    maxVarBetween += (static_cast< VarianceType >( classFrequency[j] ))
       * static_cast< VarianceType >( ( classMean[j] ) * ( classMean[j] ) );
     }
+  maxVarBetween /= static_cast< VarianceType >( globalFrequency );
 
   // Sum the relevant weights for valley emphasis
   WeightType valleyEmphasisFactor = NumericTraits< WeightType >::Zero;
@@ -270,9 +271,10 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
       // Since we are looking for the argmax, the second term can be ignored because it is a constant, leading to the simpler
       // (\sum_{k=1}^{M} \omega_k \mu_k^2), which is what is implemented here.
       // Although this is no longer truly a "between class variance", we keep that name since it is only different by a constant.
-      varBetween += (static_cast< VarianceType >( classFrequency[j] ) / static_cast< VarianceType >( globalFrequency ))
+      varBetween += (static_cast< VarianceType >( classFrequency[j] ))
               * static_cast< VarianceType >( ( classMean[j] ) * ( classMean[j] ) );
       }
+    varBetween /= static_cast< VarianceType >( globalFrequency );
 
     if (m_ValleyEmphasis)
     {
