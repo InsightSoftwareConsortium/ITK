@@ -59,10 +59,10 @@ ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 
   // Initialize values for the theshold filters
   // Default. Use ITK set macro "SetOutsideValue" to change
-  m_OutsideValue = static_cast< PixelType >( minLabel );
+  m_OutsideValue = static_cast< OutputPixelType >( minLabel );
 
   // Default. Use ITK set macro "SetInsideValue" to change
-  m_InsideValue  = static_cast< PixelType >( maxLabel );
+  m_InsideValue  = static_cast< OutputPixelType >( maxLabel );
 
   m_LowerBoundary = m_ThresholdValue;
 
@@ -212,10 +212,10 @@ ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "InsideValue: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >(
+     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >(
     m_InsideValue ) << std::endl;
   os << indent << "OutsideValue: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >(
+     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >(
     m_OutsideValue ) << std::endl;
   os << indent << "Lower: "
      << static_cast< typename NumericTraits< PixelType >::PrintType >(
