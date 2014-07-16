@@ -195,7 +195,7 @@ public:
   }
 
   /** Set the object's state before each iteration. */
-  virtual virtual void
+  virtual void
   InitializeIteration();
 
   /** Computes the time step for an update.
