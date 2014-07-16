@@ -17,11 +17,14 @@
  *=========================================================================*/
 #ifndef __itkVariationalRegistrationElasticRegularizer_hxx
 #define __itkVariationalRegistrationElasticRegularizer_hxx
-#include "itkVariationalRegistrationElasticRegularizer.h"
 
-#include "itkImageRegionConstIterator.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkNeighborhoodAlgorithm.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+
+#  include "itkVariationalRegistrationElasticRegularizer.h"
+
+#  include "itkImageRegionConstIterator.h"
+#  include "itkImageRegionConstIteratorWithIndex.h"
+#  include "itkNeighborhoodAlgorithm.h"
 
 namespace itk
 {
@@ -618,5 +621,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::PrintSelf(std::os
 }
 
 } // end namespace itk
+
+#endif
 
 #endif

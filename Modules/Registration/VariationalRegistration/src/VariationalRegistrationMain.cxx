@@ -72,7 +72,9 @@ extern "C"
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkVariationalRegistrationGaussianRegularizer.h"
 #include "itkVariationalRegistrationDiffusionRegularizer.h"
-#include "itkVariationalRegistrationElasticRegularizer.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkVariationalRegistrationElasticRegularizer.h"
+#endif
 
 #include "itkVariationalRegistrationStopCriterion.h"
 #include "itkVariationalRegistrationLogger.h"
@@ -705,7 +707,9 @@ main(int argc, char * argv[])
   typedef VariationalRegistrationRegularizer<DisplacementFieldType>          RegularizerType;
   typedef VariationalRegistrationGaussianRegularizer<DisplacementFieldType>  GaussianRegularizerType;
   typedef VariationalRegistrationDiffusionRegularizer<DisplacementFieldType> DiffusionRegularizerType;
-  typedef VariationalRegistrationElasticRegularizer<DisplacementFieldType>   ElasticRegularizerType;
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  typedef VariationalRegistrationElasticRegularizer<DisplacementFieldType> ElasticRegularizerType;
+#endif
 
   RegularizerType::Pointer regularizer;
   switch (regularizerType)
@@ -726,10 +730,14 @@ main(int argc, char * argv[])
     break;
     case 2:
     {
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
       ElasticRegularizerType::Pointer elasticRegularizer = ElasticRegularizerType::New();
       elasticRegularizer->SetMu(regulMu);
       elasticRegularizer->SetLambda(regulLambda);
       regularizer = elasticRegularizer;
+#else
+      ExceptionMacro(<< "ITK has to be built with ITK_USE_FFTWD set ON for elastic regularisation!");
+#endif
     }
     break;
   }

@@ -21,8 +21,10 @@
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreader.h"
 
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+
 // other includes:
-#include "itkFFTWCommon.h"
+#  include "itkFFTWCommon.h"
 
 namespace itk
 {
@@ -83,16 +85,16 @@ public:
 
   /** Types for FFTW proxy */
 
-#if defined(ITK_USE_FFTWD)
+#  if defined(ITK_USE_FFTWD)
   // Prefer to use double precision
   typedef double RealTypeFFT;
-#else
-#  if defined(ITK_USE_FFTWF)
-  // Allow to use single precision
-#    warning "Using single precision for FFT computations!"
+#  else
+#    if defined(ITK_USE_FFTWF)
+// Allow to use single precision
+#      warning "Using single precision for FFT computations!"
   typedef float RealTypeFFT;
+#    endif
 #  endif
-#endif
 
   typedef typename fftw::Proxy<RealTypeFFT> FFTWProxyType;
 
@@ -206,8 +208,9 @@ private:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVariationalRegistrationElasticRegularizer.hxx"
-#endif
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkVariationalRegistrationElasticRegularizer.hxx"
+#  endif
 
+#endif
 #endif
