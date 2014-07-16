@@ -168,6 +168,8 @@ HistogramThresholdImageFilter<TInputImage,TOutputImage,TMaskImage>
   os << indent << "Masking of output: " << this->GetMaskOutput() << std::endl;
   os << indent << "MaskValue: " <<  static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_MaskValue) << std::endl;
 
+  itkPrintSelfObjectMacro(Calculator);
+
 }
 
 
