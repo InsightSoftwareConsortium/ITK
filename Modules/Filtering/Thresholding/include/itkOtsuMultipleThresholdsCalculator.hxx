@@ -18,6 +18,7 @@
 #ifndef __itkOtsuMultipleThresholdsCalculator_hxx
 #define __itkOtsuMultipleThresholdsCalculator_hxx
 
+#include "itkMath.h"
 #include "itkOtsuMultipleThresholdsCalculator.h"
 
 namespace itk
@@ -53,11 +54,8 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
 {
   typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
-  SizeValueType numberOfHistogramBins = histogram->Size();
-  SizeValueType numberOfClasses = classMean.size();
-
-  MeanType      meanOld;
-  FrequencyType freqOld;
+  const SizeValueType numberOfHistogramBins = histogram->Size();
+  const SizeValueType numberOfClasses = classMean.size();
 
   unsigned int k;
   int          j;
@@ -73,8 +71,8 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
       // threshold
       ++thresholdIndexes[j];
 
-      meanOld = classMean[j];
-      freqOld = classFrequency[j];
+      const MeanType meanOld = classMean[j];
+      const FrequencyType freqOld = classFrequency[j];
 
       classFrequency[j] += histogram->GetFrequency(thresholdIndexes[j]);
 
@@ -165,7 +163,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
   typename TInputHistogram::ConstIterator end = histogram->End();
 
   MeanType      globalMean = NumericTraits< MeanType >::Zero;
-  FrequencyType globalFrequency = histogram->GetTotalFrequency();
+  const FrequencyType globalFrequency = histogram->GetTotalFrequency();
   while ( iter != end )
     {
     globalMean += static_cast< MeanType >( iter.GetMeasurementVector()[0] )
@@ -288,7 +286,9 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
       varBetween = varBetween * valleyEmphasisFactor;
     }
 
-    if ( varBetween > maxVarBetween )
+    const unsigned int maxUlps = 1;
+    if ( varBetween > maxVarBetween &&
+         !Math::FloatAlmostEqual( maxVarBetween, varBetween, maxUlps) )
       {
       maxVarBetween = varBetween;
       maxVarThresholdIndexes = thresholdIndexes;
