@@ -107,7 +107,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread,
                         ThreadIdType threadId )
 {
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetSize(InputImageDimension) );
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   typedef ImageRegionConstIterator< TInputImage > IteratorType;
   typedef ImageRegionIterator< TOutputImage >     OutIteratorType;
