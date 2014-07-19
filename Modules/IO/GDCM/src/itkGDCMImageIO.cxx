@@ -1052,18 +1052,16 @@ void GDCMImageIO::Write(const void *buffer)
     }
 
   image.SetPhotometricInterpretation(pi);
-  SizeValueType len;
-  if ( outpixeltype != gdcm::PixelFormat::UNKNOWN )
+  if( outpixeltype != gdcm::PixelFormat::UNKNOWN )
     {
     image.SetPixelFormat(outpixeltype);
-    len = image.GetBufferLength() * outpixeltype.GetBitsStored() / pixeltype.GetBitsStored();
     }
   else
     {
     outpixeltype = pixeltype;
     image.SetPixelFormat(pixeltype);
-    len = image.GetBufferLength();
     }
+  const SizeValueType len = image.GetBufferLength();
 
   const size_t numberOfBytes = this->GetImageSizeInBytes();
 
@@ -1073,9 +1071,15 @@ void GDCMImageIO::Write(const void *buffer)
   if( m_RescaleIntercept != 0.0 || m_RescaleSlope != 1.0 || outpixeltype != pixeltype )
     {
     gdcm::Rescaler ir;
-    ir.SetIntercept(m_RescaleIntercept);
-    ir.SetSlope(m_RescaleSlope);
-    ir.SetPixelFormat(pixeltype);
+    double rescaleIntercept = m_RescaleIntercept;
+    if( m_RescaleIntercept == 0.0 && outpixeltype != pixeltype )
+      {
+      // force type conversion when outputpixeltype != pixeltype
+      rescaleIntercept = -0.0;
+      }
+    ir.SetIntercept( rescaleIntercept );
+    ir.SetSlope( m_RescaleSlope );
+    ir.SetPixelFormat( pixeltype );
 
     // Workaround because SetUseTargetPixelType does not apply to
     // InverseRescale

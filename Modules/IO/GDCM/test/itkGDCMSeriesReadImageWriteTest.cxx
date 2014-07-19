@@ -119,6 +119,7 @@ int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
   it->SetOutputDirectory( argv[3] );
   swriter2->SetInput( rescaler->GetOutput() );
   swriter2->SetImageIO( gdcmIO );
+  gdcmIO->SetInternalComponentType( itk::ImageIOBase::UCHAR );
 
   swriter2->SetFileNames( it->GetOutputFileNames() );
   swriter2->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
