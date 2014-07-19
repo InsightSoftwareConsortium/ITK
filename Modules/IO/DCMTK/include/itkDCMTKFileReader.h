@@ -57,9 +57,9 @@ class DcmDictEntry;
 
 namespace itk
 {
-class DCMTKSequence;
+class ITKIODCMTK_EXPORT DCMTKSequence;
 
-class DCMTKItem
+class ITKIODCMTK_EXPORT DCMTKItem
 {
 public:
   DCMTKItem() : m_DcmItem(0)
@@ -75,7 +75,7 @@ private:
   DcmItem *m_DcmItem;
 };
 
-class DCMTKSequence
+class ITKIODCMTK_EXPORT DCMTKSequence
 {
 public:
   DCMTKSequence() : m_DcmSequenceOfItems(0) {}
@@ -232,7 +232,7 @@ private:
   DcmSequenceOfItems *m_DcmSequenceOfItems;
 };
 
-class DCMTKFileReader
+class ITKIODCMTK_EXPORT DCMTKFileReader
 {
 public:
   typedef DCMTKFileReader Self;
