@@ -37,3 +37,19 @@ foreach(exe
     itk_module_target_label(${exe})
   endif()
 endforeach()
+
+try_run(_libcxx_run_result _using_libcxx
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/../CMake/itkLibCxxVersion.cxx
+  RUN_OUTPUT_VARIABLE _libcxx_version
+  )
+if( ${_using_libcxx} )
+  # This test is know to fail on libc++.  Do not run on versions it is known
+  # to fail until fixed by upstream to avoid dashboard clutter.
+  # See http://llvm.org/bugs/show_bug.cgi?id=17782
+  # http://stackoverflow.com/questions/19725070/discrepancy-between-istreams-operator-double-val-between-libc-and-libstd/19727956#19727956
+  # http://stackoverflow.com/questions/22233868/another-istream-discrepancy-between-libstdc-and-libc
+  if( ${_libcxx_version} VERSION_LESS 1102 )
+    itk_tests_ignore(vnl_test_na)
+  endif()
+endif()
