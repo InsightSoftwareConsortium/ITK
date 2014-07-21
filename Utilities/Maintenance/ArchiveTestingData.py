@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 description = """
 Upload all the ExternalData files to the Midas server.
 
@@ -9,8 +11,6 @@ local ExternalData object store.
 
 Requires pydas: https://github.com/midasplatform/pydas
 """
-
-from __future__ import print_function
 
 import argparse
 import fnmatch
