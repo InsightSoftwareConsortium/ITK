@@ -264,8 +264,8 @@ int main( int argc, char * argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition2}
-  // \itkcaption[ResampleImageFilter selecting the origin of the output
-  // image]{ResampleImageFilter selecting the origin of the output image.}
+  // \itkcaption[ResampleImageFilter origin in the output
+  // image]{ResampleImageFilter origin in the output image.}
   // \label{fig:ResampleImageFilterTransformComposition2}
   // \end{figure}
   //

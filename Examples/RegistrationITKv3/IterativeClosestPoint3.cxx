@@ -29,7 +29,6 @@
 //
 // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
@@ -51,6 +50,7 @@ int main(int argc, char * argv[] )
     return 1;
     }
 
+// Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
   typedef itk::PointSet< float, Dimension >   PointSetType;
@@ -67,8 +67,16 @@ int main(int argc, char * argv[] )
 
   PointType fixedPoint;
   PointType movingPoint;
+// Software Guide : EndCodeSnippet
 
-  // Read the file containing coordinates of fixed points.
+
+// Software Guide : BeginLatex
+//
+// Read the file containing coordinates of fixed points.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   std::ifstream   fixedFile;
   fixedFile.open( argv[1] );
   if( fixedFile.fail() )
@@ -89,8 +97,16 @@ int main(int argc, char * argv[] )
   fixedPointSet->SetPoints( fixedPointContainer );
   std::cout << "Number of fixed Points = "
         << fixedPointSet->GetNumberOfPoints() << std::endl;
+// Software Guide : EndCodeSnippet
 
-  // Read the file containing coordinates of moving points.
+
+// Software Guide : BeginLatex
+//
+// Read the file containing coordinates of moving points.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   std::ifstream   movingFile;
   movingFile.open( argv[2] );
   if( movingFile.fail() )
@@ -111,20 +127,15 @@ int main(int argc, char * argv[] )
   movingPointSet->SetPoints( movingPointContainer );
   std::cout << "Number of moving Points = "
       << movingPointSet->GetNumberOfPoints() << std::endl;
+// Software Guide : EndCodeSnippet
 
-//-----------------------------------------------------------
-// Set up  the Metric
-//-----------------------------------------------------------
+// Software Guide : BeginCodeSnippet
   typedef itk::EuclideanDistancePointMetric<
                                     PointSetType,
                                     PointSetType>
                                                     MetricType;
 
   MetricType::Pointer  metric = MetricType::New();
-
-//-----------------------------------------------------------
-// Set up a Transform
-//-----------------------------------------------------------
 
   typedef itk::TranslationTransform< double, Dimension >      TransformType;
 
@@ -158,32 +169,41 @@ int main(int argc, char * argv[] )
   optimizer->SetValueTolerance( valueTolerance );
   optimizer->SetGradientTolerance( gradientTolerance );
   optimizer->SetEpsilonFunction( epsilonFunction );
+// Software Guide : EndCodeSnippet
 
-  // Start from an Identity transform (in a normal case, the user
-  // can probably provide a better guess than the identity...
+// Software Guide : BeginLatex
+//
+// Start from an Identity transform (in a normal case, the user
+// can probably provide a better guess than the identity...
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   transform->SetIdentity();
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-  //------------------------------------------------------
-  // Connect all the components required for Registration
-  //------------------------------------------------------
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetFixedPointSet( fixedPointSet );
   registration->SetMovingPointSet(   movingPointSet   );
+// Software Guide : EndCodeSnippet
 
-  //------------------------------------------------------
-  // Prepare the Distance Map in order to accelerate
-  // distance computations.
-  //------------------------------------------------------
-  //
-  //  First map the Fixed Points into a binary image.
-  //  This is needed because the DanielssonDistance
-  //  filter expects an image as input.
-  //
-  //-------------------------------------------------
+// Software Guide : BeginLatex
+//
+// Start from an Identity transform (in a normal case, the user
+// can probably provide a better guess than the identity...
+// Prepare the Distance Map in order to accelerate
+// distance computations.
+//
+// First map the Fixed Points into a binary image.
+// This is needed because the DanielssonDistance
+// filter expects an image as input.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char,  Dimension >  BinaryImageType;
 
   typedef itk::PointSetToImageFilter<
@@ -225,7 +245,6 @@ int main(int argc, char * argv[] )
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
-
 // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
