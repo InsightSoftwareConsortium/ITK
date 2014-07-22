@@ -27,7 +27,7 @@
 // ImageRegistrationMethodv4 class.
 //
 // Insight implements the \emph{Observer/Command} design pattern
-// \cite{Gamma1995}. (See Section~\ref{sec:EventHandling} for an overview.)
+// \cite{Gamma1995}.
 // The classes involved in this implementation are the \doxygen{Object},
 // \doxygen{Command} and \doxygen{EventObject} classes. The Object
 // is the base class of most ITK objects. This class maintains a linked

@@ -58,8 +58,8 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // Next we create a PointSet object (see
-  // Section~\ref{sec:CreatingAPointSet} otherwise). The following code
+  // Next we create a PointSet object.
+  // The following code
   // snippet will create a PointSet object that stores points (its coordinate
   // value type is float) in 3D space.
   //

@@ -65,9 +65,9 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // We assume you already know how to create an image (see
-  // Section~\ref{sec:CreatingAnImageSection}). The following code snippet
-  // will create a 2D image of float pixels filled with random values.
+  // We assume you already know how to create an image.
+  // The following code snippet will create a 2D image of float pixels
+  // filled with random values.
   //
   // Software Guide :EndLatex
 
