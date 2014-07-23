@@ -125,7 +125,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// Table~\ref{fig:ImageRandomConstIteratorWithIndexExample} shows the results
+// The following table shows the results
 // of running this example on several of the data files from
 // \code{Examples/Data} with a range of sample sizes.
 //
@@ -138,11 +138,11 @@ int main( int argc, char *argv[] )
 // \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\ \code{RatLungSlice2.mha}
 // & 46.7 & 47.5 & 47.4 & 47.6  \\ \code{BrainT1Slice.png}
 // & 47.2 & 64.1 & 68.0 & 67.8  \\ \end{tabular}
-// \protect\label{fig:ImageRandomConstIteratorWithIndexExample}
 // \itkcaption[ImageRandomConstIteratorWithIndex usage]{Estimates of mean image pixel
 // value using the ImageRandomConstIteratorWithIndex at different sample
 // sizes.}
 // \end{center}
+// \label{tab:ImageRandomConstIteratorWithIndexExample}
 // \end{table}
 //
 // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|)}
