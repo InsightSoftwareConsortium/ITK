@@ -157,7 +157,7 @@ void vnl_sparse_matrix<T>::mult(unsigned int prows, unsigned int pcols,
   assert(prows == columns());
 
   // Clear q matrix.
-  int size = prows*pcols;
+  int size = rows()*pcols;
   for (int temp=0; temp<size; temp++)
     q[temp] = T(0);
 
