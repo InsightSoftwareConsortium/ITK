@@ -88,15 +88,6 @@ typedef int siginfo_t;
 #  include <ifaddrs.h>
 #  define KWSYS_SYSTEMINFORMATION_IMPLEMENT_FQDN
 # endif
-# if defined(KWSYS_SYSTEMINFORMATION_HAS_BACKTRACE)
-#  include <execinfo.h>
-#  if defined(KWSYS_SYSTEMINFORMATION_HAS_CPP_DEMANGLE)
-#    include <cxxabi.h>
-#  endif
-#  if defined(KWSYS_SYSTEMINFORMATION_HAS_SYMBOL_LOOKUP)
-#    include <dlfcn.h>
-#  endif
-# endif
 #endif
 
 #if defined(__OpenBSD__) || defined(__NetBSD__)
@@ -106,6 +97,15 @@ typedef int siginfo_t;
 
 #if defined(KWSYS_SYS_HAS_MACHINE_CPU_H)
 # include <machine/cpu.h>
+#endif
+#if defined(KWSYS_SYSTEMINFORMATION_HAS_BACKTRACE)
+# include <execinfo.h>
+#endif
+#if defined(KWSYS_SYSTEMINFORMATION_HAS_CPP_DEMANGLE)
+# include <cxxabi.h>
+#endif
+#if defined(KWSYS_SYSTEMINFORMATION_HAS_SYMBOL_LOOKUP)
+# include <dlfcn.h>
 #endif
 
 #if defined(__DragonFly__)
