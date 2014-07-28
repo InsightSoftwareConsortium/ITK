@@ -1,8 +1,19 @@
 #
 # Find the packages required by this module
 #
-find_package(VTK REQUIRED)
+
+# Needed VTK version
 set(VERSION_MIN "5.9.20110419")
+
+# Look for VTK
+find_package(VTK REQUIRED)
+
+# Older versions of VTK (VTK 5.5 for example) do not have VTK_VERSION, in this
+# case it needs to be defined manually
+if(NOT VTK_VERSION)
+set(VTK_VERSION "${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
+endif()
+
 if (${VTK_VERSION} VERSION_LESS ${VERSION_MIN})
   message(ERROR " VtkGlue requires VTK version ${VERSION_MIN} or newer but the current version is ${VTK_VERSION}")
 endif()
