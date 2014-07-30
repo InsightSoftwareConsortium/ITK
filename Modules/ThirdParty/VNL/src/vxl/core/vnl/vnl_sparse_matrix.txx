@@ -157,7 +157,7 @@ void vnl_sparse_matrix<T>::mult(unsigned int prows, unsigned int pcols,
   assert(prows == columns());
 
   // Clear q matrix.
-  int size = prows*pcols;
+  int size = rows()*pcols;
   for (int temp=0; temp<size; temp++)
     q[temp] = T(0);
 
@@ -214,8 +214,8 @@ void vnl_sparse_matrix<T>::mult(unsigned int prows, unsigned int pcols,
         // Calculate the product.
         T prod = entry.second * pval;
 
-        // Add the product into the correct position in q.
-        q[row_id + p_col_id*prows] += prod;
+        // Add the product into the correct position in q (fortran order)
+        q[row_id + p_col_id*rows()] += prod;
       }
     }
   }
