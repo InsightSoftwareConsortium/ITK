@@ -1,6 +1,7 @@
 // This is core/vnl/tests/test_sparse_matrix.cxx
 #include <vcl_iostream.h>
 #include <vnl/vnl_sparse_matrix.h>
+#include <vnl/vnl_matrix.h>
 #include <testlib/testlib_test.h>
 
 static
@@ -57,6 +58,18 @@ void test_sparse_int()
   vnl_sparse_matrix<int> r1;
   TEST("r1=r0*m0", (r1=r0*m0, r1.rows()==r0.rows() && r1.columns()==m0.columns() && r1.get(0,2222)==m0(1111,2222)), true);
   TEST("r0*=m0", (r0*=m0, r0==r1), true);
+
+  /// test .mult() with a dense matrix
+  vnl_sparse_matrix<int> s0(5,100); s0(0,0) = 1; s0(0,4) = 1;
+  vnl_matrix<int> s1(100,4,0); s1(0,0) = 1; s1(4,0) = 1; s1(0,1) = 1; s1(4,1) = 1;
+  s1 = s1.transpose(); // s0.mult() expects s1 in col-major order, but s1.data_block() provides row-major order.
+  vnl_matrix<int> s2(5,4,0);
+  s2 = s2.transpose(); // s0.mult() expects s2 in col-major order, but s2.data_block() provides row-major order.
+  TEST("r0.mult(100,4,s1.data_block(),s2.data_block())", \
+    (s0.mult(100,4, s1.data_block(), s2.data_block()), \
+    s2(0,0) == 2 && s2(1,0) == 2 && s2(3,0) == 0 && s2(0,4) == 0 && s2(3,4) == 0), \
+    true);
+  // note: s2 was built in row-major order, so the result is actually s2.transpose().
 
   // Zero-size
 #ifdef ZERO_SIZE_TESTS // these tests seem to cause segfaults, on Linux only, for yet unknown reason...
