@@ -247,5 +247,10 @@ for d in dirs:
     for module in known_modules:
         data = {}
         conf = module + 'Config.py'
-        execfile(os.path.join(d + os.sep + "Configuration", conf), data)
+        path = os.path.join(d + os.sep + "Configuration", conf)
+        if sys.version_info >= (3, 0):
+            with open(path, "rb") as modulefile:
+                exec(modulefile.read(), data)
+        else:
+            execfile(path, data)
         module_data[module] = data
