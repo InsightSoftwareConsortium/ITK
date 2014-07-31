@@ -74,7 +74,7 @@ namespace itk
  * values (zero or one). Only elements of the structuring element
  * having values > 0 are candidates for affecting the center pixel.
  *
- * \sa MovingWindowMeanImageFilter, RankImageFilter, MaskedMovingHistogramImageFitler,
+ * \sa MovingWindowMeanImageFilter, RankImageFilter, MaskedMovingHistogramImageFilter,
  * \sa MovingHistogramMorphologicalGradientImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  *
