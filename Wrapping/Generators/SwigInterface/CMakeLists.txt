@@ -7,19 +7,15 @@ find_package(PythonInterp REQUIRED)
 
 option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." OFF)
 
-# Require at least SWIG 3.0.0
-if(ITK_USE_SYSTEM_SWIG)
-  if(${SWIG_VERSION} VERSION_LESS 3.0.0)
-    message(WARNING "Swig version less than 3.0.0: \"${SWIG_VERSION}\".")
-  endif()
-endif()
+# Minimal swig version
+set(swig_version_min 3.0.0)
 
-set(swig_version 3.0.2)
+set(ITK_SWIG_VERSION 3.0.2)
 set(swig_md5     62f9b0d010cef36a13a010dc530d0d41)
 set(swigwin_md5  3f18de4fc09ab9abb0d3be37c11fbc8f)
 
 if(WIN32)
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version}/swig.exe")
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
 else()
     # follow the standard EP_PREFIX locations
     set ( swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build )
@@ -30,28 +26,39 @@ else()
 endif()
 
 if(ITK_USE_SYSTEM_SWIG)
+
   # the path set for the EP build prevents find_package to do its job
   if("${SWIG_EXECUTABLE}" STREQUAL "${swig_ep}")
     unset(SWIG_DIR CACHE)
     unset(SWIG_EXECUTABLE CACHE)
     unset(SWIG_VERSION CACHE)
   endif()
+
+  # Look for system swig
   find_package(SWIG REQUIRED)
-  # set(SWIG_EXECUTABLE ${swig} CACHE FILEPATH "swig executable." FORCE)
+
+  # Check for the swig version
+  if(${SWIG_VERSION} VERSION_LESS ${swig_version_min})
+    message(WARNING "Swig version less than ${swig_version_min}: \"${SWIG_VERSION}\".")
+  endif()
+
 else()
+
+  # Install swig ourselves
+  set(SWIG_VERSION ${ITK_SWIG_VERSION})
+
   include(ExternalProject)
   if(WIN32)
     itk_download_attempt_check(SWIG)
     ExternalProject_Add(swig
-      URL http://prdownloads.sourceforge.net/swig/swigwin-${swig_version}.zip
+      URL http://prdownloads.sourceforge.net/swig/swigwin-${SWIG_VERSION}.zip
       URL_MD5 ${swigwin_md5}
-      SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version}
+      SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND ""
       )
-    set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version})
-    set(SWIG_VERSION "${swig_version}")
+    set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
   else()
     # From PCR configure
     # Some influential environment variables:
@@ -117,7 +124,7 @@ else()
 
     itk_download_attempt_check(SWIG)
     ExternalProject_Add(swig
-    URL http://prdownloads.sourceforge.net/swig/swig-${swig_version}.tar.gz
+    URL http://prdownloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz
     URL_MD5 ${swig_md5}
     CONFIGURE_COMMAND
       env
@@ -137,7 +144,7 @@ else()
     DEPENDS PCRE
 
     )
-    set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${swig_version} CACHE FILEPATH "swig directory." FORCE)
+    set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
   endif()
   set(SWIG_EXECUTABLE ${swig_ep} CACHE FILEPATH "swig executable." FORCE)
 endif()
