@@ -23,6 +23,7 @@
 #include "itkTextOutput.h"
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkImageMaskSpatialObject.h"
+#include "itkTimeProbe.h"
 
 #include <iostream>
 
@@ -47,7 +48,7 @@
  */
 template< typename TImage, typename TInterpolator>
 int TestMattesMetricWithAffineTransform(
-  TInterpolator * const interpolator, const bool useSampling )
+  TInterpolator * const interpolator, const bool useSampling, const size_t imageSize )
 {
 
 //------------------------------------------------------------
@@ -59,8 +60,8 @@ int TestMattesMetricWithAffineTransform(
   typedef TImage           FixedImageType;
 
   const unsigned int ImageDimension = MovingImageType::ImageDimension;
-
-  typename MovingImageType::SizeType size = {{100,100}};
+  //Image size is scaled to represent sqrt(256^3)
+  typename MovingImageType::SizeType size = {{imageSize,imageSize}};
   typename MovingImageType::IndexType index = {{0,0}};
   typename MovingImageType::RegionType region;
   region.SetSize( size );
@@ -228,6 +229,24 @@ int TestMattesMetricWithAffineTransform(
   // scaled by a factor of 3.
   metric->SetUseFixedImageGradientFilter(false);
   metric->SetUseMovingImageGradientFilter(false);
+  //
+  //-------------------------------------------------------
+  // exercise misc member functions
+  //-------------------------------------------------------
+  std::cout << "Name of class: " << metric->GetNameOfClass() << std::endl;
+  std::cout << "No. of histogram bin used = " << metric->GetNumberOfHistogramBins() << std::endl;
+  if( metric->GetJointPDF().IsNotNull() )
+    {
+    std::cout << "JointPDF image info: " << metric->GetJointPDF() << std::endl;
+    }
+  if( metric->GetJointPDFDerivatives().IsNotNull() )
+    {
+    std::cout << "JointPDFDerivative image info: " << metric->GetJointPDFDerivatives() << std::endl;
+    }
+  std::cout << "GetNumberOfThreadsUsed: " << metric->GetNumberOfThreadsUsed() << std::endl;
+  metric->Print(std::cout);
+
+  // Now start the algorithmc testing
 
   std::cout << "useSampling: " << useSampling << std::endl;
   if( useSampling )
@@ -277,13 +296,20 @@ int TestMattesMetricWithAffineTransform(
 
   bool testFailed = false;
 
+  itk::TimeProbe timerGetValueAndDerivative;
+  itk::TimeProbe timerGetValue;
+
   std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << std::endl;
   for( double trans = -10; trans <= 10; trans += 0.5 )
     {
     parameters[4] = trans;
     transformer->SetParameters( parameters );
+    timerGetValueAndDerivative.Start();
     metric->GetValueAndDerivative( metricValueWithDerivative, derivative );
+    timerGetValueAndDerivative.Stop();
+    timerGetValue.Start();
     metricValueOnly = metric->GetValue();
+    timerGetValue.Stop();
 
     std::cout << "OffsetParam: " << trans << "\tvalueWithDerivative: " << metricValueWithDerivative << "\tvalueOnly: " <<
       metricValueOnly << "\tderivative[4]: " << derivative[4];
@@ -301,6 +327,8 @@ int TestMattesMetricWithAffineTransform(
       std::cout << "\t[PASSED]" << std::endl;
       }
     }
+  std::cerr << "GetValueAndDerivative took " << timerGetValueAndDerivative.GetMean() << " seconds.\n";
+  std::cerr << "GetValue took " << timerGetValue.GetMean() << " seconds.\n";
 
   std::cout << "NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << " of " << metric->GetVirtualRegion().GetNumberOfPixels() << std::endl;
 
@@ -312,12 +340,12 @@ int TestMattesMetricWithAffineTransform(
   metric->Initialize();
   metric->GetValueAndDerivative( metricValueWithDerivative, derivative );
 
-  ParametersType parametersPlus( numberOfParameters );
-  ParametersType parametersMinus( numberOfParameters );
-  typename MetricType::MeasureType measurePlus;
-  typename MetricType::MeasureType measureMinus;
+  ParametersType parameters1Plus( numberOfParameters );
+  ParametersType parameters2Plus( numberOfParameters );
+  ParametersType parameters1Minus( numberOfParameters );
+  ParametersType parameters2Minus( numberOfParameters );
 
-  const double delta = 0.001;
+  const double delta = 0.00001;
 
   const double tolerance = (useSampling) ? static_cast<double>(0.075) : static_cast<double>(0.014);
   for( unsigned int perturbParamIndex = 0; perturbParamIndex < numberOfParameters; ++perturbParamIndex )
@@ -327,30 +355,47 @@ int TestMattesMetricWithAffineTransform(
       {
       if( j == perturbParamIndex )
         {
-        parametersPlus[j] = parameters[perturbParamIndex] + delta;    //positive perturbation
-        parametersMinus[j] = parameters[perturbParamIndex] - delta;  //negative perturbation
+        parameters1Plus[j] = parameters[perturbParamIndex] + delta;      //positive perturbation
+        parameters2Plus[j] = parameters[perturbParamIndex] + 2.0*delta;  //positive perturbation
+        parameters1Minus[j] = parameters[perturbParamIndex] - delta;     //negative perturbation
+        parameters2Minus[j] = parameters[perturbParamIndex] - 2.0*delta; //negative perturbation
         }
       else
         {
-        parametersPlus[j] = parameters[j];
-        parametersMinus[j] = parameters[j];
+        parameters1Plus[j] = parameters[j];
+        parameters1Minus[j] = parameters[j];
+        parameters2Plus[j] = parameters[j];
+        parameters2Minus[j] = parameters[j];
         }
       }
 
-    transformer->SetParameters( parametersPlus );
-    measurePlus = metric->GetValue();
+    transformer->SetParameters( parameters1Plus );
+    const typename MetricType::MeasureType measure1Plus = metric->GetValue();
 
-    transformer->SetParameters( parametersMinus );
-    measureMinus = metric->GetValue();
+    transformer->SetParameters( parameters1Minus );
+    const typename MetricType::MeasureType measure1Minus = metric->GetValue();
+    //Compute a first-order accuracy first order derivative
+    const double firstOrderApproxDerivative = -1.0 * ( measure1Plus - measure1Minus ) / ( 2.0 * delta );
+    //Compute a second-order accuracy first order derivative
+    transformer->SetParameters( parameters2Plus );
+    const typename MetricType::MeasureType measure2Plus = metric->GetValue();
 
-    const double approxDerivative = -1.0 * ( measurePlus - measureMinus ) / ( 2.0 * delta );
-    const double ratio = derivative[perturbParamIndex]/approxDerivative;
+    transformer->SetParameters( parameters2Minus );
+    const typename MetricType::MeasureType measure2Minus = metric->GetValue();
+
+    //Computing second order derivative to get a handle on
+    //stability of estimates from the metric
+    const double secondOrderApproxDerivative = -1.0 * (
+      (-1.0/12.0)*measure2Plus + (+1.0/12.0)*measure2Minus +
+      (+2.0/3.0)*measure1Plus + (-2.0/3.0)*measure1Minus ) / ( delta );
+    const double ratio = derivative[perturbParamIndex]/secondOrderApproxDerivative;
 
     std::cout << "perturbParamIndex: " << perturbParamIndex
-      << "\tparameters[]: " << parameters[perturbParamIndex]
-      << "\tderivative[]" << derivative[perturbParamIndex]
-      << "\tapproxDerivative[]" << approxDerivative
-      << "\tratio: " << ratio;
+      << "\tparameters[: " << parameters[perturbParamIndex]
+      << "]\tmetric->GetDerivative[" << derivative[perturbParamIndex]
+      << "]\n\t\tsecondOrderApproxDerivative[" << secondOrderApproxDerivative
+      << "]\tfirstOrderApproxDerivative[" << firstOrderApproxDerivative
+      << "]\tratio: " << ratio;
 
     const double evalDiff = vnl_math_abs( ratio - 1.0 );
     if ( evalDiff > tolerance )
@@ -364,21 +409,6 @@ int TestMattesMetricWithAffineTransform(
       }
     }
 
-//-------------------------------------------------------
-// exercise misc member functions
-//-------------------------------------------------------
-  std::cout << "Name of class: " << metric->GetNameOfClass() << std::endl;
-  std::cout << "No. of histogram bin used = " << metric->GetNumberOfHistogramBins() << std::endl;
-  if( metric->GetJointPDF().IsNotNull() )
-    {
-    std::cout << "JointPDF image info: " << metric->GetJointPDF() << std::endl;
-    }
-  if( metric->GetJointPDFDerivatives().IsNotNull() )
-    {
-    std::cout << "JointPDFDerivative image info: " << metric->GetJointPDFDerivatives() << std::endl;
-    }
-  std::cout << "GetNumberOfThreadsUsed: " << metric->GetNumberOfThreadsUsed() << std::endl;
-  metric->Print(std::cout);
   if( testFailed )
     {
     return EXIT_FAILURE;
@@ -392,6 +422,8 @@ int TestMattesMetricWithAffineTransform(
 int itkMattesMutualInformationImageToImageMetricv4Test(int, char *[] )
 {
 
+  const size_t imageSize = 100; //NOTE 100 is very small
+
   //typedef itk::Image<unsigned char,2> ImageType;
   typedef itk::Image<double,2> ImageType;
 
@@ -404,31 +436,29 @@ int itkMattesMutualInformationImageToImageMetricv4Test(int, char *[] )
 
   std::cout << "Test metric with a linear interpolator." << std::endl;
   bool useSampling = false;
-  int failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>( linearInterpolator, useSampling );
+  int failed = true;
+  failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>( linearInterpolator, useSampling, imageSize );
   if ( failed )
     {
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
     return EXIT_FAILURE;
     }
-
   useSampling = true;
-  failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>( linearInterpolator, useSampling );
+  failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>( linearInterpolator, useSampling, imageSize );
   if ( failed )
     {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
-
   // Test metric with a BSpline interpolator
   typedef itk::BSplineInterpolateImageFunction< ImageType, double > BSplineInterpolatorType;
 
   BSplineInterpolatorType::Pointer bSplineInterpolator = BSplineInterpolatorType::New();
 
   bSplineInterpolator->SetSplineOrder( 3 );
-
   useSampling = false;
-  std::cout << "Test metric with a BSpline interpolator." << std::endl;
-  failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling );
+  std::cout << "Test metric with a BSpline interpolator and no sampling." << std::endl;
+  failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling, imageSize );
   if ( failed )
     {
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
