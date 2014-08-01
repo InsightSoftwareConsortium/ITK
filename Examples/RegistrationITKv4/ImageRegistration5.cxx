@@ -167,40 +167,65 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  In the Hello World! example, we used Moving/Fixed initial transforms
-  //  to initialize the registration configuration. This approach gives a
-  //  good intuition of the registration method specially when we aim to run
-  //  a multi-stage registration process, as the output of each stage can
-  //  be set as the moving initial transform for the next stage.
+  //  In the Hello World! example, we used Fixed/Moving initial transforms
+  //  to initialize the registration configuration. That approach was good to
+  //  get an intuition of the registration method specially when we aim to run
+  //  a multistage registration process, which the output of each stage can
+  //  be used to initialize the next registration stage.
   //
-  //  Inside the registration filter, this initial moving transform (\Gamma_{mi})
-  //  is added to an internal composite transform along with an updatable
-  //  identity transform (\Gamma_{u}). Although the whole composite transform
-  //  is used for metric evaluation, only the \Gamma_{u} is set to be updated
-  //  by the optimizer. The \Gamma_{u} will be considered as the output transform of
-  //  the current stage when the optimization process is converged.
+  //  To get a better underestanding of the registration process in
+  //  such situations, consider an example of 3 stages registration process
+  //  that is started using an initial moving transform ($\Gamma_{mi}$).
+  //  Multiple stages are handled by linking multiple instantiations of
+  //  \doxygen{ImageRegistrationMethodv4} class.
+  //  Inside the registration filter of the first stage, the initial moving
+  //  transform is added to an internal composite transform along with an updatable
+  //  identity transform ($\Gamma_{u}$). Although the whole composite transform
+  //  is used for metric evaluation, only the $\Gamma_{u}$ is set to be updated
+  //  by the optimizer at each iteration. The $\Gamma_{u}$ will be considered as
+  //  the output transform of the current stage when the optimization process is
+  //  converged. This imply the fact that the output of this stage does not include
+  //  the initialization parameters, so we need to concatenate the output and the
+  //  initialization transform into a composite transform to be considered as the
+  //  final transform of the first registration stage.
   //
-  //  As seen above, the output of each stage does not include the initialization
-  //  parameters, so we need to concatenate the results of all stages into a composite
-  //  transform that can be considered as the final transform of the whole registration
-  //  method.
-
-  //  Assume a registration process with three stages. The following shows how the final
-  //  composite transform maps each point of the moving image space to the warped space:
+  //  $T_{1}$(x) = $\Gamma_{mi}$($\Gamma_{stage_1}$(x) )
   //
-  //  I'_{m} (x) = I_{m}(\Gamma_{stage_1}(\Gamma_{stage_2}(\Gamma_{stage_3}(x) ) ) )
+  //  Consider that as explained in section \ref{sec:FeaturesOfTheRegistrationFramework},
+  //  the above transform is a maping from the vitual domain (i.e. fixed image space, when no
+  //  fixed initial transform) to the moving image space.
+  //
+  //  Then, the result transform of the first stage will be used as the initial moving
+  //  transform for the second stage of the registration process, and this approach goes on
+  //  till the last stage of the registration process.
+  //
+  //  At the end of the registration process, the $\Gamma_{mi}$ and the outputs of each stage
+  //  can be concatenated into a final composite transform that is considered as the final
+  //  output of the whole registration process.
+  //
+  //  $I'_{m}$(x) = $I_{m}$($\Gamma_{mi}$($\Gamma_{stage_1}$($\Gamma_{stage_2}$($\Gamma_{stage_3}$(x) ) ) ) )
+  //
+  //  The above approach is specially useful if individual stages are characterized by
+  //  possible different types of transforms for example when we run a rigid registration
+  //  process that is proceeded by an affine registration and is completed by a BSpline
+  //  registration at the end.
   //
   //
-  //  In this example a different method is used for initialization which is closer
-  //  to what was happening in the previous version of ITK. In this approach we try to
-  //  initialize the parameters of the optimizable transform (\Gamma_{u}) directly.
+  //  In addition to the above method, there is also a direct initialization method in which the
+  //  initial transform will be optimized directly. In this way the initial transform will be
+  //  modified during the registration process, so it can be used as the final transform when
+  //  the registration process is completed. This direct approach is conceptually close to
+  //  what was happening in the previous versions of ITK.
   //
   //  Using of this method is very simple and efficient when we have only one level of
   //  registration like the case of this example.
-  //  Also, a good application of this initialization method in a multi-stage scenario
+  //  Also, a good application of such initialization method in a multi-stage scenario
   //  is when two consequent stages have the same transform types, or at least the initial
   //  parameters can easily be inferred from the result of the previous stage like when a
   //  translation transform is followed by a rigid transform.
+  //
+  //  The direct initialization approach is shown by the current example in which we try
+  //  to initialize the parameters of the optimizable transform ($\Gamma_{u}$) directly.
   //
   //  For this purpose, first, the initial transform object is constructed below.
   //  This transform will be initialized, and its initial parameters will be considered as
@@ -297,11 +322,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //   The most straightforward method of initializing the transform parameters
-  //   is to configure the transform and then get its parameters with the
-  //   method \code{GetParameters()}. Here we initialize the transform by
+  //   Then, we initialize the transform by
   //   passing the center of the fixed image as the rotation center with the
-  //   \code{SetCenter()} method. Then the translation is set as the vector
+  //   \code{SetCenter()} method. Also, the translation is set as the vector
   //   relating the center of the moving image to the center of the fixed
   //   image.  This last vector is passed with the method
   //   \code{SetTranslation()}.
@@ -328,7 +351,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Now the current parameters of the initial transform will be set
-  //  to registration method, so they can be assigned to the \Gamma_{u} directly.
+  //  to registration method, so they can be assigned to the $\Gamma_{u}$ directly.
+  //  Note that you should not confuse the following function with the
+  //  \code{SetMoving(Fixed)InitialTransform()} methods that were used in Hello World! example.
   //
   //  Software Guide : EndLatex
 
@@ -341,9 +366,10 @@ int main( int argc, char *argv[] )
   //  Keeping in mind that the scale of units in rotation and translation is
   //  quite different. For example here we know that the first element of the
   //  parameters array corresponds to the angle that is measured in radians, while
-  //  the other parameters correspond to translations that are measured in millimeters,
+  //  the other parameters correspond to the translations and the center point
+  //  coordinates that are measured in millimeters,
   //  so a naive application of gradient descent optimizer will not produce a smooth
-  //  change of parameters, due to this fact that a similar change of \Delta
+  //  change of parameters, due to this fact that a similar change of $\delta$
   //  to each parameter will produce a different magnitude of impact on transform.
   //  As the result, we need ``parameter scales'' to customize the learning rate for
   //  each parameter. We can take advantage of the scaling functionality provided

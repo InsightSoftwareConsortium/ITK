@@ -28,24 +28,9 @@
 
 // Software Guide : BeginLatex
 //
-// In this example, we will solve a simple multi-modality problem using another
+// In this example, we will solve a simple multi-modality problem using an
 // implementation of mutual information. This implementation was published by
 // Mattes~\emph{et. al}~\cite{Mattes2003}.
-//
-// Instead of using the whole virtual domain (usually fixed image domain) for the registration,
-// we can use a spatial sample set by supplying an arbitrary point list over which to
-// evaluate the metric. The point list is expected to be in the fixed image domain, and
-// the points are transformed into the virtual domain internally as needed. User can
-// define the point set via "SetFixedSampledPointSet", and the point set is enabled to use
-// by calling "SetUsedFixedSampledPointSet".
-//
-// A single virtual domain or spatial sample set is used for the whole registration
-// process. The use of a single sample set results in a smooth cost function
-// and hence allows the use of intelligent optimizers. In this example, we will
-// use the \doxygen{RegularStepGradientDescentOptimizerv4}.
-//
-// Also, notice that pre-normalization of the images is not necessary in this example
-// as the metric rescales internally when building up the discrete density functions.
 //
 // First, we include the header files of the components used in this example.
 //
@@ -138,10 +123,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  In this example the image types and all registration components,
-  //  except the metric, are declared as in Section
-  //  \ref{sec:IntroductionImageRegistration}.
-  //  The Mattes mutual information metric type is
-  //  instantiated using the image types.
+  //  except the metric, are declared as in Section \ref{sec:IntroductionImageRegistration}.
+  //  The Mattes mutual information metric type is instantiated using the image types.
   //
   //  Software Guide : EndLatex
 
@@ -172,15 +155,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The metric requires one parameter to be selected: the number of bins
+  //  The metric requires one parameter to be selected that is the number of bins
   //  used to compute the entropy. In typical application 50 histogram bins
   //  are sufficient. Note however, that the number of bins may have dramatic
   //  effects on the optimizer's behavior.
-  //  In this example the whole virtual image domain is used rather than just a
-  //  a sampled point set.
-  //  To calculate the image gradients, an image gradient calculator based on
-  //  ImageFunction is used instead of image gradient filters. Image gradient
-  //  methods are defined in the super class \index{ImageToImageMetricv4}.
   //
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metricv4!SetNumberOfHistogramBins()}
   //
@@ -198,7 +176,17 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( numberOfBins );
-  metric->SetUseFixedSampledPointSet( false );
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  To calculate the image gradients, an image gradient calculator based on
+  //  ImageFunction is used instead of image gradient filters. Image gradient
+  //  methods are defined in the super class \index{ImageToImageMetricv4}.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   metric->SetUseMovingImageGradientFilter( false );
   metric->SetUseFixedImageGradientFilter( false );
   // Software Guide : EndCodeSnippet
@@ -230,13 +218,29 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetLearningRate( 2.00 );
+  optimizer->SetLearningRate( 8.00 );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
   optimizer->ReturnBestParametersAndValueOn();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
+  // Note that large values of the learning rate will make the optimizer
+  // unstable. Small values, on the other hand, may result in the optimizer
+  // needing too many iterations in order to walk to the extrema of the cost
+  // function. The easy way of fine tuning this parameter is to start with
+  // small values, probably in the range of $\{1.0,5.0\}$. Once the other
+  // registration parameters have been tuned for producing convergence, you
+  // may want to revisit the learning rate and start increasing its value until
+  // you observe that the optimization becomes unstable.  The ideal value for
+  // this parameter is the one that results in a minimum number of iterations
+  // while still keeping a stable path on the parametric space of the
+  // optimization. Keep in mind that this parameter is a multiplicative factor
+  // applied on the gradient of the metric. Therefore, its effect on the
+  // optimizer step length is proportional to the metric values themselves.
+  // Metrics with large values will require you to use smaller values for the
+  // learning rate in order to maintain a similar optimizer behavior.
   //
   // Whenever the regular step gradient descent optimizer encounters that the
   // direction of movement has changed in the parametric space, it reduces the
@@ -279,6 +283,82 @@ int main( int argc, char *argv[] )
   registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
   registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
+  // Software Guide : BeginLatex
+  //
+  // Instead of using the whole virtual domain (usually fixed image domain) for the registration,
+  // we can use a spatial sampled point set by supplying an arbitrary point list over which to
+  // evaluate the metric. The point list is expected to be in the \emph{fixed} image domain, and
+  // the points are transformed into the \emph{virtual} domain internally as needed. User can
+  // define the point set via \code{SetFixedSampledPointSet()}, and the point set is enabled to use
+  // by calling \code{SetUsedFixedSampledPointSet()}.
+  //
+  // Also, instead of dealing with the metric directly, user can define
+  // the sampling percentage and sampling strategy for the registration framework at each level.
+  // In this case registration filter manages the sampling operation over the fixed image space
+  // based on the input strategy (REGULAR, RANDOM) and passes the sampled point set to the metric
+  // internally.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  RegistrationType::MetricSamplingStrategyType  samplingStrategy  =
+                                                          RegistrationType::RANDOM;
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  //
+  // The number of spatial samples to be
+  // used depends on the content of the image. If the images are smooth and do
+  // not contain much details, the number of spatial samples can usually be as low as $1\%$
+  // of the total number of pixels in the fixed image. On the other hand, if the images are
+  // detailed, it may be necessary to use a much higher proportion, such as $20\%$ to $50\%$.
+  // Increasing the number of samples improves the smoothness of the metric,
+  // and therefore helps when this metric is used in conjunction with
+  // optimizers that rely of the continuity of the metric values. The trade-off, of
+  // course, is that a larger number of samples results in longer computation
+  // times per every evaluation of the metric.
+  //
+  // One mechanism for bringing the metric to its limit is to disable the
+  // sampling and use all the pixels present in the FixedImageRegion. This can
+  // be done with the \code{SetUseFixedSampledPointSet( false )} method.
+  // You may want to try this
+  // option only while you are fine tuning all other parameters of your
+  // registration. We don't use this method in this current example though.
+  //
+  //  It has been demonstrated empirically that the number of samples is not a
+  //  critical parameter for the registration process. When you start fine
+  //  tuning your own registration process, you should start using high values
+  //  of number of samples, for example in the range of $20\%$ to $50\%$ of the
+  //  number of pixels in the fixed image. Once you have succeeded to register
+  //  your images you can then reduce the number of samples progressively until
+  //  you find a good compromise on the time it takes to compute one evaluation
+  //  of the metric. Note that it is not useful to have very fast evaluations
+  //  of the metric if the noise in their values results in more iterations
+  //  being required by the optimizer to converge. You must then study the
+  //  behavior of the metric values as the iterations progress, just as
+  //  illustrated in section~\ref{sec:MonitoringImageRegistration}.
+  //
+  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metricv4!Trade-offs}
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  double samplingPercentage = 0.20;
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  //
+  // In ITKv4, a single virtual domain or spatial sample point set is used for the
+  // all iterations of the registration process. The use of a single sample set results
+  // in a smooth cost function that can imporve the functionality of the optimizer.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  registration->SetMetricSamplingStrategy( samplingStrategy );
+  registration->SetMetricSamplingPercentage( samplingPercentage );
+  // Software Guide : EndCodeSnippet
+
   try
     {
     registration->Update();
@@ -318,13 +398,32 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  This example is executed using the same multi-modality images as the one
-  //  in section~\ref{sec:MultiModalityRegistrationViolaWells} The registration
-  //  converges after $40$ iterations and produces the following results:
+  //  Let's execute this example over two of the images provided in
+  //  \code{Examples/Data}:
+  //
+  //  \begin{itemize}
+  //  \item \code{BrainT1SliceBorder20.png}
+  //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
+  //  \end{itemize}
+  //
+  //  \begin{figure}
+  //  \center
+  //  \includegraphics[width=0.44\textwidth]{BrainT1SliceBorder20}
+  //  \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y}
+  //  \itkcaption[Multi-Modality Registration Inputs]{A T1 MRI (fixed image) and a proton
+  //  density MRI (moving image) are provided as input to the registration method.}
+  //  \label{fig:FixedMovingImageRegistration2}
+  //  \end{figure}
+  //
+  //  The second image is the result of intentionally translating the image
+  //  \code{Brain\-Proton\-Density\-Slice\-Border20.png} by $(13,17)$
+  //  millimeters. Both images have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration2}. The registration process
+  //  converges after $46$ iterations and produces the following results:
   //
   //  \begin{verbatim}
-  //  Translation X = 13.0153
-  //  Translation Y = 17.0798
+  //  Translation X = 13.0204
+  //  Translation Y = 17.0006
   //  \end{verbatim}
   //
   //  These values are a very close match to the true misalignment introduced in
@@ -451,15 +550,7 @@ int main( int argc, char *argv[] )
   //  parameter space. The upper-right figure presents a closer look at the
   //  convergence basin for the last iterations of the optimizer. The bottom of
   //  the same figure shows the sequence of metric values computed as the
-  //  optimizer searched the parameter space.  Comparing these trace plots with
-  //  Figures \ref{fig:ImageRegistration2TraceTranslations} and
-  //  \ref{fig:ImageRegistration2TraceMetric}, we can see that the measures
-  //  produced by MattesMutualInformationImageToImageMetricv4 are smoother than
-  //  those of the MutualInformationImageToImageMetric. This smoothness allows
-  //  the use of more sophisticated optimizers such as the
-  //  \doxygen{RegularStepGradientDescentOptimizerv4} which efficiently locks
-  //  onto the optimal value.
-  //
+  //  optimizer searched the parameter space.
   //
   //  Software Guide : EndLatex
 
@@ -469,7 +560,7 @@ int main( int argc, char *argv[] )
   // involved in the fine tuning of parameters for the optimization. For
   // example, the number of bins used in the estimation of Mutual Information
   // has a dramatic effect on the performance of the optimizer. In order to
-  // illustrate this effect, this same example has been executed using a range
+  // illustrate this effect, the same example has been executed using a range
   // of different values for the number of bins, from $10$ to $30$. If you
   // repeat this experiment, you will notice that depending on the number of
   // bins used, the optimizer's path may get trapped early on in local minima.
@@ -489,7 +580,7 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration4TraceTranslationsNumberOfBins}
   // \end{figure}
   //
-
+  //
   // Effects such as the one illustrated here highlight how useless is to
   // compare different algorithms based on a non-exhaustive search of their
   // parameter setting. It is quite difficult to be able to claim that a
@@ -506,13 +597,33 @@ int main( int argc, char *argv[] )
   //
   //  The plots in Figures~\ref{fig:ImageRegistration4TraceTranslations}
   //  and~\ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} were
-  //  generated using Gnuplot. The scripts used for this purpose are available
+  //  generated using Gnuplot\footnote{\url{http://www.gnuplot.info/}}.
+  //  The scripts used for this purpose are available
   //  in the \code{ITKSoftwareGuide} CVS module under the directory
   //
   //  ~\code{SoftwareGuide/Art}
   //
-  //  The use of these scripts was similar to what was described at the end of
-  //  section~\ref{sec:MultiModalityRegistrationViolaWells}.
+  //  Data for the plots was taken directly from the output that the
+  //  Command/Observer in this example prints out to the console. The output
+  //  was processed with the UNIX editor
+  //  \code{sed}\footnote{\url{http://www.gnu.org/software/sed/sed.html}} in
+  //  order to remove commas and brackets that were confusing for Gnuplot's
+  //  parser. Both the shell script for running \code{sed} and for running
+  //  {Gnuplot} are available in the directory indicated above. You may find
+  //  useful to run them in order to verify the results presented here, and to
+  //  eventually modify them for profiling your own registrations.
+  //
+  //  \index{Open Science}
+  //
+  //  Open Science is not just an abstract concept. Open Science is something
+  //  to be practiced every day with the simple gesture of sharing information
+  //  with your peers, and by providing all the tools that they need for
+  //  replicating the results that you are reporting. In Open Science, the only
+  //  bad results are those that can not be
+  //  replicated\footnote{\url{http://science.creativecommons.org/}}. Science
+  //  is dead when people blindly trust authorities~\footnote{For example:
+  //  Reviewers of Scientific Journals.} instead of verifying their statements
+  //  by performing their own experiments ~\cite{Popper1971,Popper2002}.
   //
   // Software Guide : EndLatex
 
