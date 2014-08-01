@@ -118,11 +118,11 @@ public:
    *                            Upper threshold boundary is the
    *                              maximum pixel type intensity.
    */
-  itkSetMacro(InsideValue, PixelType);
-  itkSetMacro(OutsideValue, PixelType);
+  itkSetMacro(InsideValue, OutputPixelType);
+  itkSetMacro(OutsideValue, OutputPixelType);
   itkSetMacro(UpperBoundary, PixelType);
-  itkGetConstMacro(InsideValue, PixelType);
-  itkGetConstMacro(OutsideValue, PixelType);
+  itkGetConstMacro(InsideValue, OutputPixelType);
+  itkGetConstMacro(OutsideValue, OutputPixelType);
   itkGetConstMacro(UpperBoundary, PixelType);
 
   /**
