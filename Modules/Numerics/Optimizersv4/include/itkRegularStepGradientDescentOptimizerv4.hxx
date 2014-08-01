@@ -200,6 +200,14 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 }
 
 template<typename TInternalComputationValueType>
+double
+RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
+::GetCurrentStepLength() const
+{
+  return (this->m_CurrentLearningRateRelaxation * this->m_LearningRate);
+}
+
+template<typename TInternalComputationValueType>
 void
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 ::ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange )
