@@ -21,15 +21,15 @@
 #include "itkFFTWGlobalConfiguration.h"
 #if defined( ITK_USE_FFTWF ) || defined( ITK_USE_FFTWD )
 #include "fftw3.h"
-#endif
-
-#include "itkMutexLockHolder.h"
-
 #if !defined(FFTW_WISDOM_ONLY)
 // FFTW_WISDOM_ONLY is a "beyond guru" option that is only available in fftw 3.2.2
 // to be compatible with all the fftw 3.x API, we need to define this away here:
 #error "FFTW 3.3.2 or later is required so that FFTW_WISDOM_ONLY is defined."
 #endif
+
+#endif
+
+#include "itkMutexLockHolder.h"
 
 namespace itk
 {
