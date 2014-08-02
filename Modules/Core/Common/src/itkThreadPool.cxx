@@ -26,21 +26,35 @@ namespace itk
 SimpleFastMutexLock ThreadPool::m_ThreadProcessIdentifiersVectorMutex;
 SimpleFastMutexLock ThreadPool::m_ThreadPoolInstanceMutex;
 
-ThreadPool* ThreadPool::m_ThreadPoolInstance = ITK_NULLPTR;
+ThreadPool::Pointer ThreadPool::m_ThreadPoolInstance;
 
-ThreadPool *
+
+ThreadPool::Pointer
 ThreadPool
-::GetThreadPool()
+::New()
 {
+  return Self::GetInstance();
+}
+
+
+ThreadPool::Pointer
+ThreadPool
+::GetInstance()
+{
+  MutexLockHolder<SimpleFastMutexLock> mutexHolderAct(m_ThreadPoolInstanceMutex);
+  if( m_ThreadPoolInstance.IsNull() )
     {
-    MutexLockHolder<SimpleFastMutexLock> mutexHolderAct(m_ThreadPoolInstanceMutex);
-    if( m_ThreadPoolInstance == ITK_NULLPTR )
+    // Try the factory first
+    m_ThreadPoolInstance  = ObjectFactory< Self >::Create();
+    // if the factory did not provide one, then create it here
+    if ( m_ThreadPoolInstance.IsNull() )
       {
-      //Create thread pool if it does not exist
       m_ThreadPoolInstance = new ThreadPool();
+      // Remove extra reference from construction.
+      m_ThreadPoolInstance->UnRegister();
       }
     }
-  return m_ThreadPoolInstance;
+    return m_ThreadPoolInstance;
 }
 
 ThreadPool
