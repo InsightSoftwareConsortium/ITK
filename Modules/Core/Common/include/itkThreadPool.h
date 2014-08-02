@@ -96,10 +96,6 @@ public:
    */
   static ThreadPool * GetThreadPool();
 
-
-  /** Waits for maxPollSecs and then stops the threadpool */
-  void DestroyPool(ThreadTimeType maxPollSecs);
-
   /** This method is called to assign a job to the thread pool */
   ThreadProcessIdType AssignWork(ThreadJob worker);
 
