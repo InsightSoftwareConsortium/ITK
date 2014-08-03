@@ -129,11 +129,6 @@ optionParser.add_option(
 options, args = optionParser.parse_args()
 
 sys.path.append(options.pygccxml_path)
-import warnings
-# Temporarly hide pygccxml warnings
-# Import normally once pygccxml 1.6.0 is out
-warnings.filterwarnings("ignore", category=UserWarning)
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 import pygccxml
 
 # Apply file, for passing std::string as reference in methods
