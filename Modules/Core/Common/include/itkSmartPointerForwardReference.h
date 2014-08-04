@@ -103,7 +103,7 @@ private:
 
   void Register();
 
-  void UnRegister();
+  void UnRegister() ITK_NOEXCEPT;
 };
 
 template< typename T >

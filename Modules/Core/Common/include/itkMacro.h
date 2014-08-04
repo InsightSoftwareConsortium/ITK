@@ -129,9 +129,16 @@ namespace itk
 // or pointer-to-member type. It is not implicitly convertible or comparable to
 // integral types, except for bool.
 #define ITK_NULLPTR  nullptr
+// In C++11 the throw-list specification has been deprecated,
+// replaces with the noexcept specifier. Using this function
+// specification adds the run-time check that the method does not
+// throw, if it does throw then std::terminate will be called.
+// Use cautiously.
+#define ITK_NOEXCEPT noexcept
 #else
 #define ITK_OVERRIDE
 #define ITK_NULLPTR  NULL
+#define ITK_NOEXCEPT throw()
 #endif
 
 

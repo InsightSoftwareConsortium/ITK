@@ -408,7 +408,7 @@ Object
  */
 void
 Object
-::UnRegister() const
+::UnRegister() const ITK_NOEXCEPT
 {
   // call the parent
   itkDebugMacro( << "UnRegistered, "

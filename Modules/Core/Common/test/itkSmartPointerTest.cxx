@@ -19,6 +19,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "itkSmartPointer.h"
+#include "itkMacro.h"
 
 class itkTestObject
 {
@@ -151,7 +152,7 @@ int itkSmartPointerTest(int, char* [] )
 
 
   // check test of null pointer
-  itkTestObject::Pointer q(SP_ITK_NULLPTR);
+  itkTestObject::Pointer q(ITK_NULLPTR);
   std::cout << q;
 
   std::cout <<"first test" << std::endl;
