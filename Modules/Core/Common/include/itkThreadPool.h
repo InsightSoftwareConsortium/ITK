@@ -84,17 +84,17 @@ public:
   typedef unsigned int         ThreadCountType;
   typedef ThreadJob::JobIdType ThreadJobIdType;
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThreadPool, Object);
 
-  /** Get a singleton
-   *   pointer.  Only 1 thread pool can exist
-   *  from the singleton.
+  /** Returns the global instance of the ThreadPool */
+  static Pointer New();
+
+  /** Returns the global singleton instance of the ThreadPool
+   *
+   * This method is a Singleton and does not have a New method.
    */
-  static ThreadPool * GetThreadPool();
+  static Pointer GetInstance();
 
   /** This method is called to assign a job to the thread pool */
   ThreadProcessIdType AssignWork(ThreadJob worker);
@@ -257,7 +257,7 @@ private:
       are free. If so, it returns false else returns true */
   ThreadProcessIdentifiers *FindThreadToRun();
 
-  static ThreadPool* m_ThreadPoolInstance;
+  static Pointer m_ThreadPoolInstance;
   /** To lock on m_ThreadPoolInstance */
   static SimpleFastMutexLock m_ThreadPoolInstanceMutex;
 

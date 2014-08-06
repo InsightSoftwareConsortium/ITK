@@ -180,7 +180,7 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
 // ThreadInfoArray is static, the ThreadIDs can be initialized here
 // and will not change.
 
-MultiThreader::MultiThreader() : m_ThreadPool(ThreadPool::GetThreadPool() ), m_UseThreadPool(false)
+MultiThreader::MultiThreader() : m_ThreadPool(ThreadPool::GetInstance() ), m_UseThreadPool(false)
 {
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
