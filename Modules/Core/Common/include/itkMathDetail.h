@@ -39,9 +39,9 @@
 #include <fenv.h> // should this be cfenv?
 #endif /* ITK_HAVE_FENV_H */
 
-#ifdef ITK_HAVE_EMMINTRIN_H
+#if defined( ITK_HAVE_EMMINTRIN_H ) && !defined( __GCCXML__ )
 #include <emmintrin.h> // sse 2 intrinsics
-#endif /* ITK_HAVE_EMMINTRIN_H */
+#endif /* ITK_HAVE_EMMINTRIN_H && ! __GCCXML__ */
 
 // assume no SSE2:
 #define USE_SSE2_64IMPL 0
