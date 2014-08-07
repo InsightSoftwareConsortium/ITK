@@ -21,7 +21,7 @@
 // This example illustrates how to explore the domain of an image metric.  This
 // is a useful exercise to do before starting a registration process, since
 // getting familiar with the characteristics of the metric is fundamental for
-// the appropriate selection of the optimizer to be use for driving the
+// the appropriate selection of the optimizer to be used for driving the
 // registration process, as well as for selecting the optimizer parameters.
 // This process makes possible to identify how noisy a metric may be in a given
 // range of parameters, and it will also give an idea of the number of local
@@ -44,7 +44,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMeanSquaresImageToImageMetric.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
@@ -68,7 +68,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 2;
-  typedef   unsigned char  PixelType;
+  typedef   float          PixelType;
 
   typedef itk::Image< PixelType, Dimension >   ImageType;
 // Software Guide : EndCodeSnippet
@@ -102,7 +102,7 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::MeanSquaresImageToImageMetric<
+  typedef itk::MeanSquaresImageToImageMetricv4<
                             ImageType, ImageType >  MetricType;
 
   MetricType::Pointer metric = MetricType::New();
@@ -123,7 +123,7 @@ int main( int argc, char * argv[] )
 
 
   typedef itk::NearestNeighborInterpolateImageFunction<
-                                 ImageType, double >  InterpolatorType;
+                                    ImageType, double >  InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 // Software Guide : EndCodeSnippet
@@ -144,13 +144,23 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   metric->SetTransform( transform );
-  metric->SetInterpolator( interpolator );
+  metric->SetMovingInterpolator( interpolator );
 
   metric->SetFixedImage(  fixedImage  );
   metric->SetMovingImage( movingImage );
 // Software Guide : EndCodeSnippet
 
-  metric->SetFixedImageRegion(  fixedImage->GetBufferedRegion()  );
+// Software Guide : BeginLatex
+//
+// Note that the \code{SetTransform()} method is equivalent to the
+// \code{SetMovingTransform()} function. In this example there is
+// no need to use the \code{SetFixedTransform()}, sice the virtual
+// domain is assumed to be the same as the fixed image domain set
+// as following.
+//
+// Software Guide : EndLatex
+
+  metric->SetVirtualDomainFromImage(  fixedImage  );
 
   try
     {
@@ -174,7 +184,7 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  MetricType::TransformParametersType displacement( Dimension );
+  MetricType::MovingTransformParametersType displacement( Dimension );
 
   const int rangex = 50;
   const int rangey = 50;
@@ -185,7 +195,8 @@ int main( int argc, char * argv[] )
       {
       displacement[0] = dx;
       displacement[1] = dy;
-      const double value = metric->GetValue( displacement );
+      metric->SetParameters( displacement );
+      const double value = metric->GetValue();
       std::cout << dx << "   "  << dy << "   " << value << std::endl;
       }
     }
@@ -220,7 +231,7 @@ int main( int argc, char * argv[] )
 // generating the graphics in Figure~\ref{fig:MeanSquaresMetricPlot} are
 // available in the directory
 //
-//             \code{InsightDocuments/SoftwareGuide/Art}
+//             \code{ITKSoftwareGuide/SoftwareGuide/Art}
 //
 // Of course, this plotting exercise becomes more challenging when the
 // transform has more than three parameters, and when those parameters have
