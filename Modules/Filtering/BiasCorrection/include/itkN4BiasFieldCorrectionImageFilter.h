@@ -401,11 +401,15 @@ private:
   RealImagePointer UpdateBiasFieldEstimate( RealImageType * );
 
   /**
+   * Reconstruct bias field given the control point lattice.
+   */
+  RealImagePointer ReconstructBiasField( BiasFieldControlPointLatticeType * );
+
+  /**
    * Convergence is determined by the coefficient of variation of the difference
    * image between the current bias field estimate and the previous estimate.
    */
   RealType CalculateConvergenceMeasurement( const RealImageType *, const RealImageType * ) const;
-
 
   MaskPixelType m_MaskLabel;
 

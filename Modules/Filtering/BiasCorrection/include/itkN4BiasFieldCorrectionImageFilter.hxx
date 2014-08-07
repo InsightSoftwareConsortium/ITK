@@ -76,7 +76,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealImagePointer logInputImage = RealImageType::New();
   logInputImage->CopyInformation( inputImage );
   logInputImage->SetRegions( inputRegion );
-  logInputImage->Allocate();
+  logInputImage->Allocate( false );
 
   ImageRegionConstIterator<InputImageType> inpItr( inputImage, inputRegion );
   ImageRegionIterator<RealImageType> outItr( logInputImage, inputRegion );
@@ -124,7 +124,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealImagePointer logBiasField = RealImageType::New();
   logBiasField->CopyInformation( inputImage );
   logBiasField->SetRegions( inputImage->GetLargestPossibleRegion() );
-  logBiasField->Allocate(true); // initialize buffer to zero
+  logBiasField->Allocate( true ); // initialize buffer to zero
 
   // Iterate until convergence or iterative exhaustion.
   unsigned int maximumNumberOfLevels = 1;
@@ -162,12 +162,14 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       typename SubtracterType::Pointer subtracter1 = SubtracterType::New();
       subtracter1->SetInput1( logUncorrectedImage );
       subtracter1->SetInput2( logSharpenedImage );
-      subtracter1->Update();
+
+      RealImagePointer residualBiasField = subtracter1->GetOutput();
+      residualBiasField->Update();
 
       // Smooth the residual bias field estimate and add the resulting
       // control point grid to get the new total bias field estimate.
 
-      RealImagePointer newLogBiasField = this->UpdateBiasFieldEstimate( subtracter1->GetOutput() );
+      RealImagePointer newLogBiasField = this->UpdateBiasFieldEstimate( residualBiasField );
 
       this->m_CurrentConvergenceMeasurement =
         this->CalculateConvergenceMeasurement( logBiasField, newLogBiasField );
@@ -176,22 +178,22 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       typename SubtracterType::Pointer subtracter2 = SubtracterType::New();
       subtracter2->SetInput1( logInputImage );
       subtracter2->SetInput2( logBiasField );
-      subtracter2->Update();
+
       logUncorrectedImage = subtracter2->GetOutput();
+      logUncorrectedImage->Update();
 
       reporter.CompletedStep();
       }
 
-    typedef BSplineControlPointImageFilter
-    <BiasFieldControlPointLatticeType, ScalarImageType>
-    BSplineReconstructerType;
-    typename BSplineReconstructerType::Pointer reconstructer =
-      BSplineReconstructerType::New();
+    typedef BSplineControlPointImageFilter<BiasFieldControlPointLatticeType, ScalarImageType>
+      BSplineReconstructerType;
+    typename BSplineReconstructerType::Pointer reconstructer = BSplineReconstructerType::New();
     reconstructer->SetInput( this->m_LogBiasFieldControlPointLattice );
     reconstructer->SetOrigin( logBiasField->GetOrigin() );
     reconstructer->SetSpacing( logBiasField->GetSpacing() );
     reconstructer->SetDirection( logBiasField->GetDirection() );
     reconstructer->SetSize( logBiasField->GetLargestPossibleRegion().GetSize() );
+    reconstructer->SetSplineOrder( this->m_SplineOrder );
     reconstructer->Update();
 
     typename BSplineReconstructerType::ArrayType numberOfLevels;
@@ -212,7 +214,6 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   typename ExpImageFilterType::Pointer expFilter = ExpImageFilterType::New();
   expFilter->SetInput( logBiasField );
   expFilter->Update();
-
 
   // Divide the input image by the bias field to get the final image.
 
@@ -432,7 +433,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealImagePointer sharpenedImage = RealImageType::New();
   sharpenedImage->CopyInformation( inputImage );
   sharpenedImage->SetRegions( inputImage->GetLargestPossibleRegion() );
-  sharpenedImage->Allocate(true); // initialize buffer to zero
+  sharpenedImage->Allocate( true ); // initialize buffer to zero
 
   ImageRegionIterator<RealImageType> ItC(
     sharpenedImage, sharpenedImage->GetLargestPossibleRegion() );
@@ -569,58 +570,73 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   bspliner->SetPointWeights( weights );
   bspliner->Update();
 
+  typename BiasFieldControlPointLatticeType::Pointer phiLattice = bspliner->GetPhiLattice();
+
   // Add the bias field control points to the current estimate.
 
   if( !this->m_LogBiasFieldControlPointLattice )
     {
-    this->m_LogBiasFieldControlPointLattice = bspliner->GetPhiLattice();
+    this->m_LogBiasFieldControlPointLattice = phiLattice;
     }
   else
     {
     // Ensure that the two lattices occupy the same physical space.  Not
     // necessary for performance since the parameters of the reconstructed
     // bias field are specified later in this function in the reconstructer.
-    bspliner->GetPhiLattice()->SetOrigin( this->m_LogBiasFieldControlPointLattice->GetOrigin() );
+    phiLattice->CopyInformation( this->m_LogBiasFieldControlPointLattice );
 
     typedef AddImageFilter<BiasFieldControlPointLatticeType,
                            BiasFieldControlPointLatticeType,
                            BiasFieldControlPointLatticeType>
-    AdderType;
+      AdderType;
     typename AdderType::Pointer adder = AdderType::New();
     adder->SetInput1( this->m_LogBiasFieldControlPointLattice );
-    adder->SetInput2( bspliner->GetPhiLattice() );
+    adder->SetInput2( phiLattice );
     adder->Update();
 
     this->m_LogBiasFieldControlPointLattice = adder->GetOutput();
     }
 
-  typedef BSplineControlPointImageFilter
-  <BiasFieldControlPointLatticeType, ScalarImageType> BSplineReconstructerType;
-  typename BSplineReconstructerType::Pointer reconstructer =
-    BSplineReconstructerType::New();
-  reconstructer->SetInput( this->m_LogBiasFieldControlPointLattice );
-  reconstructer->SetOrigin( fieldEstimate->GetOrigin() );
-  reconstructer->SetSpacing( fieldEstimate->GetSpacing() );
-  reconstructer->SetDirection( fieldEstimate->GetDirection() );
-  reconstructer->SetSize( fieldEstimate->GetLargestPossibleRegion().GetSize() );
-  reconstructer->Update();
-
-  const InputImageType * inputImage = this->GetInput();
-
-  typedef VectorIndexSelectionCastImageFilter<ScalarImageType, RealImageType>
-  SelectorType;
-  typename SelectorType::Pointer selector = SelectorType::New();
-  selector->SetInput( reconstructer->GetOutput() );
-  selector->SetIndex( 0 );
-  selector->Update();
-  selector->GetOutput()->SetRegions( inputImage->GetRequestedRegion() );
-
-  RealImagePointer smoothField = selector->GetOutput();
-  smoothField->Update();
-  smoothField->DisconnectPipeline();
-  smoothField->SetRegions( inputImage->GetRequestedRegion() );
+  RealImagePointer smoothField = this->ReconstructBiasField( this->m_LogBiasFieldControlPointLattice );
 
   return smoothField;
+}
+
+template<typename TInputImage, typename TMaskImage, typename TOutputImage>
+typename
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
+N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
+::ReconstructBiasField( BiasFieldControlPointLatticeType* controlPointLattice )
+{
+  const InputImageType * inputImage = this->GetInput();
+
+  typedef BSplineControlPointImageFilter
+    <BiasFieldControlPointLatticeType, ScalarImageType> BSplineReconstructerType;
+  typename BSplineReconstructerType::Pointer reconstructer =
+    BSplineReconstructerType::New();
+  reconstructer->SetInput( controlPointLattice );
+  reconstructer->SetOrigin( inputImage->GetOrigin() );
+  reconstructer->SetSpacing( inputImage->GetSpacing() );
+  reconstructer->SetDirection( inputImage->GetDirection() );
+  reconstructer->SetSplineOrder( this->m_SplineOrder );
+  reconstructer->SetSize( inputImage->GetLargestPossibleRegion().GetSize() );
+
+  typename ScalarImageType::Pointer biasFieldBsplineImage = reconstructer->GetOutput();
+  biasFieldBsplineImage->Update();
+
+  typedef VectorIndexSelectionCastImageFilter<ScalarImageType, RealImageType>
+    SelectorType;
+  typename SelectorType::Pointer selector = SelectorType::New();
+  selector->SetInput( biasFieldBsplineImage );
+  selector->SetIndex( 0 );
+
+  RealImagePointer biasField = selector->GetOutput();
+  biasField->Update();
+
+  biasField->DisconnectPipeline();
+  biasField->SetRegions( inputImage->GetRequestedRegion() );
+
+  return biasField;
 }
 
 template<typename TInputImage, typename TMaskImage, typename TOutputImage>
@@ -631,12 +647,11 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
                                    const RealImageType *fieldEstimate2 ) const
 {
   typedef SubtractImageFilter<RealImageType, RealImageType, RealImageType>
-  SubtracterType;
+    SubtracterType;
   typename SubtracterType::Pointer subtracter = SubtracterType::New();
   subtracter->SetInput1( fieldEstimate1 );
   subtracter->SetInput2( fieldEstimate2 );
   subtracter->Update();
-
 
   // Calculate statistics over the mask region
 
