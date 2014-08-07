@@ -94,8 +94,8 @@ public:
   itkGetConstMacro(TransformDirection, TransformDirectionType);
 
 protected:
-  ComplexToComplexFFTImageFilter() {}
-  virtual ~ComplexToComplexFFTImageFilter(){}
+  ComplexToComplexFFTImageFilter():
+    m_TransformDirection( FORWARD ) {}
 
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 

@@ -95,7 +95,8 @@ ComplexToComplexFFTImageFilter< TImage >
 
 template< typename TImage >
 void
-ComplexToComplexFFTImageFilter< TImage >::GenerateInputRequestedRegion()
+ComplexToComplexFFTImageFilter< TImage >
+::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output
