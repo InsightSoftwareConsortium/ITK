@@ -348,13 +348,6 @@ int main( int argc, char * argv[] )
   // \label{fig:LaplacianRecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure~\ref{fig:LaplacianRecursiveGaussianImageFilterInputOutput} illustrates the
-  //  effect of this filter on a MRI proton density image of the brain using
-  //  $\sigma$ values of $3$ (left) and $5$ (right).  The figure shows how the
-  //  attenuation of noise can be regulated by selecting the appropriate
-  //  standard deviation.  This type of scale-tunable filter is suitable for
-  //  performing scale-space analysis.
-  //
   //  Software Guide : EndLatex
 
 
