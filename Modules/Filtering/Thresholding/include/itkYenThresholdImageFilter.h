@@ -40,7 +40,7 @@ namespace itk {
  * http://hdl.handle.net/10380/3279  or
  * http://www.insight-journal.org/browse/publication/811
  *
- * \sa HistogramThresholdImageFitler
+ * \sa HistogramThresholdImageFilter
  *
  * \ingroup Multithreaded
  * \ingroup ITKThresholding
