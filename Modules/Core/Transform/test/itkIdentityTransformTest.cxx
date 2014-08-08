@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkIdentityTransform.h"
+#include "itkTestingMacros.h"
 
 int itkIdentityTransformTest(int, char *[] )
 {
@@ -168,6 +169,10 @@ int itkIdentityTransformTest(int, char *[] )
     {
     std::cout << " [ PASSED ] " << std::endl;
     }
+
+  IdentityTransformType::Pointer inv = IdentityTransformType::New();
+  TEST_EXPECT_TRUE(transform->GetInverse(inv.GetPointer()));
+  TEST_EXPECT_TRUE(!transform->GetInverse(ITK_NULLPTR));
 
   return EXIT_SUCCESS;
 
