@@ -391,6 +391,8 @@ public:
    * Note that the inverse displacement field must be set by the user. */
   virtual InverseTransformBasePointer GetInverseTransform() const;
 
+  virtual void SetIdentity(void);
+
   /** This transform is not linear. */
   virtual TransformCategoryType GetTransformCategory() const
   {

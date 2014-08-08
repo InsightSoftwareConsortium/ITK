@@ -155,6 +155,22 @@ DisplacementFieldTransform<TScalar, NDimensions>
     }
 }
 
+template <typename TScalar, unsigned int NDimensions>
+void
+DisplacementFieldTransform<TScalar, NDimensions>
+::SetIdentity(void)
+{
+  if (!this->m_InverseDisplacementField.IsNull())
+    {
+    this->m_DisplacementField->FillBuffer(OutputVectorType(0.0));
+    }
+  if (!this->m_InverseDisplacementField.IsNull())
+    {
+    this->m_InverseDisplacementField->FillBuffer(OutputVectorType(0.0));
+    }
+}
+
+
 /*
  * ComputeJacobianWithRespectToParameters methods
  */
