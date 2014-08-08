@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKRegistrationMethodsv4Tests
 itkSimpleImageRegistrationTest.cxx
 itkSimpleImageRegistrationTest2.cxx
+itkSimpleImageRegistrationTest3.cxx
 itkExponentialImageRegistrationTest.cxx
 itkBSplineExponentialImageRegistrationTest.cxx
 itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
@@ -66,6 +67,17 @@ itk_add_test(NAME itkSimpleImageRegistrationTest2
               100 # number of affine iterations
               )
 set_property(TEST itkSimpleImageRegistrationTest2 APPEND PROPERTY LABELS RUNS_LONG)
+
+itk_add_test(NAME itkSimpleImageRegistrationTest3
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+              itkSimpleImageRegistrationTest3
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkSimpleImageRegistrationTest3New.nii.gz
+              )
+set_property(TEST itkSimpleImageRegistrationTest3 APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkExponentialImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver

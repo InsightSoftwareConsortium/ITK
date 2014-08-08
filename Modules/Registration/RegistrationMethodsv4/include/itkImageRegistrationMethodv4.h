@@ -354,10 +354,32 @@ public:
   /** Request that the InitialTransform be grafted onto the output,
    * there by not creating a copy.
    */
-  itkSetMacro(InPlace, bool);
-  itkGetConstMacro(InPlace, bool);
-  itkBooleanMacro(InPlace);
+  itkSetMacro( InPlace, bool );
+  itkGetConstMacro( InPlace, bool );
+  itkBooleanMacro( InPlace );
 
+  /**
+   * Initialize the current linear transform to be optimized with the center of the
+   * previous transform in the queue.  This provides a much better initialization than
+   * the default origin.
+   */
+  itkBooleanMacro( InitializeCenterOfLinearOutputTransform );
+  itkSetMacro( InitializeCenterOfLinearOutputTransform, bool );
+  itkGetConstMacro( InitializeCenterOfLinearOutputTransform, bool );
+
+  /**
+   * We try to initialize the center of a linear transform (specifically those
+   * derived from itk::MatrixOffsetTransformBase).  There are a number of
+   * checks that we need to make to account for all possible scenarios:
+   *   1)  we check to make sure the m_OutputTransform is of the appropriate type
+   *       such that it makes sense to try to center the transform.  Local transforms
+   *       such as SyN and B-spline do not need to be "centered",
+   *   2)  we check to make sure the composite transform (to which we'll add the
+   *       m_OutputTransform) is not empty,
+   *   3)  we look for the first previous transform which has a center parameter,
+   *       (which, presumably, been optimized beforehand), and
+   */
+  void InitializeCenterOfLinearOutputTransform();
 
 #ifdef ITKV3_COMPATIBILITY
   /** Method that initiates the registration. This will Initialize and ensure
@@ -423,7 +445,7 @@ protected:
   CompositeTransformPointer                                       m_CompositeTransform;
 
   //TODO: m_OutputTransform should be removed and replaced with a named input parameter for
-  //      the pipeline  --- Along with many other fixes
+  //      the pipeline
   OutputTransformPointer                                          m_OutputTransform;
 
 
@@ -432,6 +454,8 @@ private:
   void operator=( const Self & );              //purposely not implemented
 
   bool                                                            m_InPlace;
+
+  bool                                                            m_InitializeCenterOfLinearOutputTransform;
 
   // helper function to create the right kind of concrete transform
   template<typename TTransform>
