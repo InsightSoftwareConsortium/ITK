@@ -26,9 +26,9 @@
 //
 // Software Guide : EndLatex
 
-#include "itkImageRegistrationMethod.h"
-#include "itkMeanSquaresImageToImageMetric.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkImageRegistrationMethodv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
+#include "itkRegularStepGradientDescentOptimizerv4.h"
 
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
@@ -70,8 +70,8 @@ protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
-  typedef const OptimizerType *                    OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
+  typedef const OptimizerType *                               OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -112,28 +112,25 @@ int main( int argc, char *argv[] )
 
   typedef itk::CenteredRigid2DTransform< double > TransformType;
 
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetric<
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>    OptimizerType;
+  typedef itk::MeanSquaresImageToImageMetricv4<
                                     FixedImageType,
-                                    MovingImageType >    MetricType;
-  typedef itk:: LinearInterpolateImageFunction<
+                                    MovingImageType >           MetricType;
+  typedef itk::ImageRegistrationMethodv4<
+                                    FixedImageType,
                                     MovingImageType,
-                                    double          >    InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
-                                    FixedImageType,
-                                    MovingImageType >    RegistrationType;
+                                    TransformType >             RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
-  registration->SetInterpolator(  interpolator  );
 
   TransformType::Pointer  transform = TransformType::New();
-  registration->SetTransform( transform );
+  registration->SetInitialTransform( transform );
+  registration->InPlaceOn();
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -146,9 +143,6 @@ int main( int argc, char *argv[] )
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
   fixedImageReader->Update();
-
-  registration->SetFixedImageRegion(
-     fixedImageReader->GetOutput()->GetBufferedRegion() );
 
   typedef itk::CenteredTransformInitializer<
                                     TransformType,
@@ -166,8 +160,6 @@ int main( int argc, char *argv[] )
 
   transform->SetAngle( 0.0 );
 
-  registration->SetInitialTransformParameters( transform->GetParameters() );
-
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
@@ -180,7 +172,7 @@ int main( int argc, char *argv[] )
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 0.1    );
+  optimizer->SetLearningRate( 0.1 );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
 
@@ -282,13 +274,29 @@ int main( int argc, char *argv[] )
   //
   //  Finally, the spatial object mask is passed to the image metric.
   //
-  //  \index{itk::ImageToImageMetric!SetFixedImage()}
+  //  \index{itk::ImageToImageMetricv4!SetFixedImageMask()}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   metric->SetFixedImageMask( spatialObjectMask );
   // Software Guide : EndCodeSnippet
+
+  // One level registration process without shrinking and smoothing.
+  //
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels ( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
   try
     {
@@ -305,7 +313,7 @@ int main( int argc, char *argv[] )
     }
 
   OptimizerType::ParametersType finalParameters =
-                    registration->GetLastTransformParameters();
+                                      transform->GetParameters();
 
   const double finalAngle           = finalParameters[0];
   const double finalRotationCenterX = finalParameters[1];
@@ -345,24 +353,35 @@ int main( int argc, char *argv[] )
   //  $Y$. Both images have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingImageRegistration5}.
   //
+  //  The registration converges after $23$ iterations and produces the
+  //  following results:
+  //
+  //  \begin{verbatim}
+  //
+  //  Angle (radians) 0.174407
+  //  Angle (degrees) 9.99281
+  //  Center X      = 111.172
+  //  Center Y      = 131.563
+  //  Translation X = 12.4584
+  //  Translation Y = 16.0726
+  //
+  //  \end{verbatim}
+  //
+  //  These values are a very close match to the true misalignments
+  //  introduced in the moving image.
+  //
+  //  Now we resample the moving image using the transform resulting from the
+  //  registration process.
+  //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  transform->SetParameters( finalParameters );
-
   TransformType::MatrixType matrix = transform->GetMatrix();
   TransformType::OffsetType offset = transform->GetOffset();
 
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;
   // Software Guide : EndCodeSnippet
-
-  //  Software Guide : BeginLatex
-  //
-  //  Now we resample the moving image using the transform resulting from the
-  //  registration process.
-  //
-  //  Software Guide : EndLatex
 
   typedef itk::ResampleImageFilter<
                             MovingImageType,
