@@ -154,11 +154,18 @@ function(itk_add_test)
 endfunction()
 
 #-----------------------------------------------------------------------------
-# ITK macro to ignore a test during MemCheck
+# ITK function to ignore a test
 #
-macro(itk_memcheck_ignore)
+function(itk_tests_ignore)
+  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_TESTS_IGNORE ${ARGN})
+endfunction()
+
+#-----------------------------------------------------------------------------
+# ITK function to ignore a test during MemCheck
+#
+function(itk_memcheck_ignore)
   set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_MEMCHECK_IGNORE ${ARGN})
-endmacro()
+endfunction()
 
 #-----------------------------------------------------------------------------
 # Python Wrapping

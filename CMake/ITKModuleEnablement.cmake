@@ -318,6 +318,7 @@ endforeach()
 
 #----------------------------------------------------------------------------
 get_property(CTEST_CUSTOM_MEMCHECK_IGNORE GLOBAL PROPERTY CTEST_CUSTOM_MEMCHECK_IGNORE)
+get_property(CTEST_CUSTOM_TESTS_IGNORE GLOBAL PROPERTY CTEST_CUSTOM_TESTS_IGNORE)
 configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake @ONLY)
 
 #-----------------------------------------------------------------------------
