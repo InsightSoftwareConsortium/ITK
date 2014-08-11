@@ -3,7 +3,7 @@
 #
 
 # Needed VTK version
-set(VERSION_MIN "5.9.20110419")
+set(VERSION_MIN "5.10.0")
 
 # Look for VTK
 find_package(VTK REQUIRED)
