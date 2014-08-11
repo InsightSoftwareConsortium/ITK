@@ -6,7 +6,15 @@
 set(VERSION_MIN "5.9.20110419")
 
 # Look for VTK
-find_package(VTK REQUIRED)
+find_package(VTK COMPONENTS
+  vtkCommonCore
+  vtkRenderingCore
+  vtkRenderingOpenGL
+  vtkRenderingFreeType
+  vtkInteractionStyle
+  vtkIOImage
+  vtkImagingSources
+  REQUIRED)
 
 # Older versions of VTK (VTK 5.5 for example) do not have VTK_VERSION, in this
 # case it needs to be defined manually
