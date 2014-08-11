@@ -1067,6 +1067,9 @@ MetaImageIO
 
     if ( !m_MetaImage.WriteROI( indexMin, indexMax, m_FileName.c_str() ) )
       {
+      delete[] dSize;
+      delete[] eSpacing;
+      delete[] eOrigin;
       delete[] indexMin;
       delete[] indexMax;
       itkExceptionMacro( "File ROI cannot be written: "
@@ -1083,6 +1086,9 @@ MetaImageIO
     {
     if ( !m_MetaImage.Write( m_FileName.c_str() ) )
       {
+      delete[] dSize;
+      delete[] eSpacing;
+      delete[] eOrigin;
       itkExceptionMacro( "File cannot be written: "
                          << this->GetFileName()
                          << std::endl
@@ -1091,7 +1097,6 @@ MetaImageIO
       }
     }
 
-  // we leak when exceptions are thrown :(
   delete[] dSize;
   delete[] eSpacing;
   delete[] eOrigin;
