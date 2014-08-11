@@ -558,6 +558,12 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   /** Set the inverse displacement field */
   displacementTransform->SetInverseDisplacementField( field );
 
+  displacementTransform->SetIdentity();
+
+  // create a new one with null for both fields
+  displacementTransform = DisplacementTransformType::New();
+  displacementTransform->SetIdentity();
+
   std::cout << "PASSED" << std::endl;
   return EXIT_SUCCESS;
 }
