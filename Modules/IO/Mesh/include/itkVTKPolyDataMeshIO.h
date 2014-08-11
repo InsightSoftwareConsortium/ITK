@@ -945,7 +945,7 @@ protected:
       T *ptr = buffer;
       SizeValueType i = 0;
       const SizeValueType num = this->m_NumberOfCellPixelComponents * this->m_NumberOfCellPixels;
-      if( this->m_NumberOfCellPixelComponents == 3 )
+      if( this->m_NumberOfCellPixelComponents == 2 )
         {
         T zero( itk::NumericTraits<T>::Zero );
         T e12;
@@ -992,7 +992,7 @@ protected:
         }
       else
         {
-        ::itk::ExceptionObject e_(__FILE__, __LINE__,
+        ExceptionObject e_(__FILE__, __LINE__,
                                   "itk::ERROR: VTKPolyDataMeshIO: Unsupported number of components in tensor.",
                                   ITK_LOCATION);
         throw e_;
