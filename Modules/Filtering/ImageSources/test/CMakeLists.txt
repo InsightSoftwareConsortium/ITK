@@ -6,7 +6,7 @@ set(ITKImageSourcesTests
   itkPhysicalPointImageSourceTest.cxx
 )
 
-CreateTestDriver(ITKImageSources "${ITKSource-Test_LIBRARIES}" "${ITKImageSourcesTests}")
+CreateTestDriver(ITKImageSources "${ITKImageSources-Test_LIBRARIES}" "${ITKImageSourcesTests}")
 
 itk_add_test(NAME itkGaborImageSourceTest0
       COMMAND ITKImageSourcesTestDriver
