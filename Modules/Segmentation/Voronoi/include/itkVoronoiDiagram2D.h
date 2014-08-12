@@ -24,10 +24,6 @@
 #include "itkPolygonCell.h"
 #include <vector>
 
-#ifndef NULL
-#define NULL 0
-#endif
-
 namespace itk
 {
 /** \class VoronoiDiagram2D
