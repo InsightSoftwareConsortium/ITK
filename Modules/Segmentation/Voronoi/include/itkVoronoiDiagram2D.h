@@ -169,9 +169,9 @@ public:
   NeighborIdIterator NeighborIdsEnd(int seeds);
 
   /** Iterators for all the vertices of the voronoi diagram. */
-  VertexIterator VertexBegin(void);
+  VertexIterator VertexBegin();
 
-  VertexIterator VertexEnd(void);
+  VertexIterator VertexEnd();
 
   /** Return the given indexed seed. */
   PointType GetSeed(int SeedID);
@@ -198,9 +198,9 @@ public:
   typedef typename std::vector< VoronoiEdge >::iterator VoronoiEdgeIterator;
 
   /** The Iterator of all the edges for the Voronoi diagram. */
-  VoronoiEdgeIterator EdgeBegin(void);
+  VoronoiEdgeIterator EdgeBegin();
 
-  VoronoiEdgeIterator EdgeEnd(void);
+  VoronoiEdgeIterator EdgeEnd();
 
   /** Find the two seed point that around the given edge. */
   EdgeInfo GetSeedsIDAroundEdge(VoronoiEdge *task);
@@ -218,14 +218,30 @@ public:
   }
 
   void ClearRegion(int i)
-  { m_VoronoiRegions[i]->ClearPoints(); }
-  void VoronoiRegionAddPointId(int id, int x)
-  { m_VoronoiRegions[id]->AddPointId(x); }
-  void BuildEdge(int id)
-  { m_VoronoiRegions[id]->BuildEdges(); }
+  {
+    m_VoronoiRegions[i]->ClearPoints();
+  }
 
-  void LineListClear(){ m_LineList.clear(); }
-  void EdgeListClear(){ m_EdgeList.clear(); }
+  void VoronoiRegionAddPointId(int id, int x)
+  {
+    m_VoronoiRegions[id]->AddPointId(x);
+  }
+
+  void BuildEdge(int id)
+  {
+    m_VoronoiRegions[id]->BuildEdges();
+  }
+
+  void LineListClear()
+  {
+    m_LineList.clear();
+  }
+
+  void EdgeListClear()
+  {
+    m_EdgeList.clear();
+  }
+
   void VertexListClear()
   {
     if ( this->m_PointsContainer.IsNull() )
@@ -236,15 +252,51 @@ public:
     this->m_PointsContainer->Initialize();
   }
 
-  int LineListSize(){ return static_cast< int >( m_LineList.size() ); }
-  int EdgeListSize(){ return static_cast< int >( m_EdgeList.size() ); }
-  int VertexListSize(){ return static_cast< int >(this->m_PointsContainer->Size()); }
-  void AddLine(EdgeInfo x){ m_LineList.push_back(x); }
-  void AddEdge(VoronoiEdge x){ m_EdgeList.push_back(x); }
-  void AddVert(PointType x){ this->m_PointsContainer->InsertElement(this->m_PointsContainer->Size(), x);}
-  EdgeInfo GetLine(int id){ return m_LineList[id]; }
-  VoronoiEdge GetEdge(int id){ return m_EdgeList[id]; }
-  PointType GetVertex(int id){ return this-> m_PointsContainer->ElementAt(id); }
+  int LineListSize()
+  {
+    return static_cast< int >( m_LineList.size() );
+  }
+
+  int EdgeListSize()
+  {
+    return static_cast< int >( m_EdgeList.size() );
+  }
+
+  int VertexListSize()
+  {
+    return static_cast< int >(this->m_PointsContainer->Size());
+  }
+
+  void AddLine(EdgeInfo x)
+  {
+    m_LineList.push_back(x);
+  }
+
+  void AddEdge(VoronoiEdge x)
+  {
+    m_EdgeList.push_back(x);
+  }
+
+  void AddVert(PointType x)
+  {
+    this->m_PointsContainer->InsertElement(this->m_PointsContainer->Size(), x);
+  }
+
+  EdgeInfo GetLine(int id)
+  {
+    return m_LineList[id];
+  }
+
+  VoronoiEdge GetEdge(int id)
+  {
+    return m_EdgeList[id];
+  }
+
+  PointType GetVertex(int id)
+  {
+    return this-> m_PointsContainer->ElementAt(id);
+  }
+
   EdgeInfo GetEdgeEnd(int id)
   {
     EdgeInfo x;
@@ -254,7 +306,10 @@ public:
     return x;
   }
 
-  int GetEdgeLineID(int id){ return m_EdgeList[id].m_LineID; }
+  int GetEdgeLineID(int id)
+  {
+    return m_EdgeList[id].m_LineID;
+  }
 
 protected:
   VoronoiDiagram2D();
@@ -274,7 +329,8 @@ private:
 
   std::vector< EdgeInfo >    m_LineList;
   std::vector< VoronoiEdge > m_EdgeList;
-}; // end class: VoronoiDiagram2D
+};
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
