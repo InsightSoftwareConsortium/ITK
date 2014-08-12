@@ -84,7 +84,7 @@ VoronoiDiagram2D< TCoordRepType >
 ::SetOrigin(PointType vorsize)
 {
   m_VoronoiBoundaryOrigin[0] = vorsize[0];
-  m_VoronoiBoundaryOrigin[0] = vorsize[1];
+  m_VoronoiBoundaryOrigin[1] = vorsize[1];
 }
 
 
