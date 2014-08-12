@@ -74,8 +74,6 @@ protected:
   ValueType m_Decay;
   ValueType m_Threshold;
   ValueType m_Epsilon;
-  ValueType m_SigmoidPrimeOffset;
-  ValueType m_SplitEpsilon;
 
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
