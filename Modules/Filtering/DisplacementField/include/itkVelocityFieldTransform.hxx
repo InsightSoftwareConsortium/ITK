@@ -344,13 +344,13 @@ VelocityFieldTransform<TScalar, NDimensions>
 {
   Superclass::PrintSelf( os, indent );
 
-  std::cout << indent << "Interpolator: " << std::endl;
-  std::cout << indent << indent << this->m_VelocityFieldInterpolator << std::endl;
+  os << indent << "Interpolator: " << std::endl;
+  os << indent << indent << this->m_VelocityFieldInterpolator << std::endl;
 
   if( this->m_VelocityField )
     {
-    std::cout << indent << "Velocity Field: " << std::endl;
-    std::cout << indent << indent << this->m_VelocityField << std::endl;
+    os << indent << "Velocity Field: " << std::endl;
+    os << indent << indent << this->m_VelocityField << std::endl;
     }
 
   os << indent << "LowerTimeBound: " << this->m_LowerTimeBound << std::endl;

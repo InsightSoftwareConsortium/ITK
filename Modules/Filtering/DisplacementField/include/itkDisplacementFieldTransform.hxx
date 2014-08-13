@@ -649,30 +649,30 @@ DisplacementFieldTransform<TScalar, NDimensions>
 {
   Superclass::PrintSelf( os, indent );
 
-  std::cout << indent << "Interpolator: " << std::endl;
-  std::cout << indent << indent << this->m_Interpolator << std::endl;
+  os << indent << "Interpolator: " << std::endl;
+  os << indent << indent << this->m_Interpolator << std::endl;
 
-  std::cout << indent << "InverseInterpolator: " << std::endl;
-  std::cout << indent << indent << this->m_InverseInterpolator << std::endl;
+  os << indent << "InverseInterpolator: " << std::endl;
+  os << indent << indent << this->m_InverseInterpolator << std::endl;
 
   if( this->m_DisplacementField )
     {
-    std::cout << indent << "Displacement Field: " << std::endl;
-    std::cout << indent << indent << this->m_DisplacementField << std::endl;
+    os << indent << "Displacement Field: " << std::endl;
+    os << indent << indent << this->m_DisplacementField << std::endl;
     }
   else
     {
-    std::cout << "Displacement field not set." << std::endl;
+    os << "Displacement field not set." << std::endl;
     }
 
   if( this->m_InverseDisplacementField )
     {
-    std::cout << indent << "Inverse Displacement Field: " << std::endl;
-    std::cout << indent << indent << this->m_InverseDisplacementField << std::endl;
+    os << indent << "Inverse Displacement Field: " << std::endl;
+    os << indent << indent << this->m_InverseDisplacementField << std::endl;
     }
   else
     {
-    std::cout << "Inverse Displacement field not set." << std::endl;
+    os << "Inverse Displacement field not set." << std::endl;
     }
 }
 
