@@ -57,7 +57,7 @@ ImageToListSampleAdaptor< TImage >
     itkExceptionMacro("Image has not been set yet");
     }
 
-  return m_Image->GetPixelContainer()->Size();
+  return m_Image->GetLargestPossibleRegion().GetNumberOfPixels();
 }
 
 template< typename TImage >

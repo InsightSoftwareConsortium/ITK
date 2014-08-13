@@ -18,33 +18,40 @@
 
 #include "itkImageToListSampleAdaptor.h"
 #include "itkRandomImageSource.h"
+#include "itkComposeImageFilter.h"
 
-int itkImageToListSampleAdaptorTest(int, char* [] )
+template< typename TImage >
+int itkImageToListSampleAdaptorTestTemplate()
 {
-  std::cout << "ImageToListSampleAdaptor Test \n \n";
+  typedef TImage ImageType;
+  const unsigned int Dimension = ImageType::ImageDimension;
 
-  typedef itk::Image< float, 3 > FloatImage;
+  typedef itk::Image< float, Dimension > FloatImageType;
 
   // Now generate a random image
-  typedef itk::RandomImageSource<FloatImage> SourceType;
-  SourceType::Pointer source = SourceType::New();
+  typedef itk::RandomImageSource< FloatImageType > SourceType;
+  typename SourceType::Pointer source = SourceType::New();
 
-  itk::SizeValueType size[3] = {17, 8, 20};
+  itk::SizeValueType size[Dimension] = {17, 8, 20};
   itk::SizeValueType totalSize = size[0] * size[1] * size[2];
 
   source->SetSize(size);
   float minValue = -100.0;
   float maxValue = 1000.0;
 
-  source->SetMin( static_cast< FloatImage::PixelType >( minValue ) );
-  source->SetMax( static_cast< FloatImage::PixelType >( maxValue ) );
-  source->Update();
+  source->SetMin( static_cast< typename FloatImageType::PixelType >( minValue ) );
+  source->SetMax( static_cast< typename FloatImageType::PixelType >( maxValue ) );
+
+  typedef itk::ComposeImageFilter< FloatImageType, ImageType > ComposeFilterType;
+  typename ComposeFilterType::Pointer composeFilter = ComposeFilterType::New();
+  composeFilter->SetInput( source->GetOutput() );
+  composeFilter->Update();
 
   // creates a sample
-  typedef  itk::Statistics::ImageToListSampleAdaptor< FloatImage >
+  typedef  itk::Statistics::ImageToListSampleAdaptor< ImageType >
     ImageToListSampleAdaptorType;
 
-  ImageToListSampleAdaptorType::Pointer sample = ImageToListSampleAdaptorType::New();
+  typename ImageToListSampleAdaptorType::Pointer sample = ImageToListSampleAdaptorType::New();
 
   //Test if the methods throw exceptions if invoked before setting the image
   try
@@ -72,7 +79,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
 
   try
     {
-    ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector( 0 );
+    typename ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector( 0 );
     std::cerr << "Exception should have been thrown since the input image \
                   is not set yet " << m << std::endl;
     }
@@ -83,7 +90,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
 
   try
     {
-    ImageToListSampleAdaptorType::ImageConstPointer image = sample->GetImage( );
+    typename ImageToListSampleAdaptorType::ImageConstPointer image = sample->GetImage( );
     std::cerr << "Exception should have been thrown since the input image \
                   is not set yet" << std::endl;
     }
@@ -105,7 +112,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
     }
 
 
-  sample->SetImage(source->GetOutput());
+  sample->SetImage( composeFilter->GetOutput() );
 
   // tests begin
 
@@ -126,10 +133,10 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
 
   sample->Print( std::cout );
 
-  FloatImage::IndexType index;
-  FloatImage::PixelType pixel;
+  typename ImageType::IndexType index;
+  typename ImageType::PixelType pixel;
 
-  ImageToListSampleAdaptorType::InstanceIdentifier iid;
+  typename ImageToListSampleAdaptorType::InstanceIdentifier iid;
 
   for ( unsigned int i=0; i < size[2]; i++ )
     {
@@ -143,7 +150,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
 
         pixel = sample->GetImage()->GetPixel( index );
         iid = sample->GetImage()->ComputeOffset( index );
-        if ( sample->GetMeasurementVector(iid)[0] != pixel )
+        if ( sample->GetMeasurementVector(iid)[0] != pixel[0] )
           {
           std::cerr << "Error in pixel value accessed using the adaptor" << std::endl;
           return EXIT_FAILURE;
@@ -157,7 +164,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
   std::cerr << "Iterators..." << std::endl;
     {
     // forward iterator
-    typedef ImageToListSampleAdaptorType::Iterator IteratorType;
+    typedef typename ImageToListSampleAdaptorType::Iterator IteratorType;
 
     IteratorType s_iter = sample->Begin();
 
@@ -178,7 +185,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    ImageToListSampleAdaptorType::InstanceIdentifier iid2 = 0;
+    typename ImageToListSampleAdaptorType::InstanceIdentifier iid2 = 0;
     while (s_iter != sample->End())
       {
       if (sample->GetMeasurementVector(iid2) !=
@@ -220,7 +227,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
   std::cerr << "Const Iterators..." << std::endl;
     {
     // forward iterator
-    typedef ImageToListSampleAdaptorType::ConstIterator  ConstIteratorType;
+    typedef typename ImageToListSampleAdaptorType::ConstIterator  ConstIteratorType;
 
     ConstIteratorType s_iter = sample->Begin();
 
@@ -244,8 +251,8 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
       }
 
     // copy from non-const iterator
-    ImageToListSampleAdaptorType::Iterator nonconst_iter = sample->Begin();
-    ImageToListSampleAdaptorType::ConstIterator s2_iter(nonconst_iter);
+    typename ImageToListSampleAdaptorType::Iterator nonconst_iter = sample->Begin();
+    typename ImageToListSampleAdaptorType::ConstIterator s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
       {
       std::cerr << "Iterator::Copy Constructor (from non-const) failed"
@@ -260,7 +267,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    ImageToListSampleAdaptorType::InstanceIdentifier iid3 = 0;
+    typename ImageToListSampleAdaptorType::InstanceIdentifier iid3 = 0;
     while (s_iter != sample->End())
       {
       if (sample->GetMeasurementVector(iid3) !=
@@ -292,6 +299,21 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
       }
 
     }
-
   return EXIT_SUCCESS;
+}
+
+int itkImageToListSampleAdaptorTest(int, char* [] )
+{
+  int returnValue = EXIT_SUCCESS;
+
+  const unsigned int Dimension = 3;
+
+  typedef itk::VectorImage< float, Dimension > VectorImageType;
+  returnValue += itkImageToListSampleAdaptorTestTemplate< VectorImageType >();
+
+  typedef itk::FixedArray< float, 1 >             FixedArrayType;
+  typedef itk::Image< FixedArrayType, Dimension > FixedArrayImageType;
+  returnValue += itkImageToListSampleAdaptorTestTemplate< FixedArrayImageType >();
+
+  return returnValue;
 }
