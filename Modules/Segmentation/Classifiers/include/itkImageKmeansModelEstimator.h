@@ -113,7 +113,7 @@ namespace itk
  * the membership function objects and populates them.
  *
  * Note: There is a second implementation of k-means algorithm in ITK under the
- * itk::statistics namespace. While this algorithm (GLA/LBG based algorithm) is
+ * itk::Statistics namespace. While this algorithm (GLA/LBG based algorithm) is
  * memory efficient, the other algorithm is time efficient.
  *
  * \sa KdTreeBasedKmeansEstimator, WeightedCentroidKdTreeGenerator, KdTree
