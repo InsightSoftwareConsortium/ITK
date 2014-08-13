@@ -649,31 +649,10 @@ DisplacementFieldTransform<TScalar, NDimensions>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Interpolator: " << std::endl;
-  os << indent << indent << this->m_Interpolator << std::endl;
-
-  os << indent << "InverseInterpolator: " << std::endl;
-  os << indent << indent << this->m_InverseInterpolator << std::endl;
-
-  if( this->m_DisplacementField )
-    {
-    os << indent << "Displacement Field: " << std::endl;
-    os << indent << indent << this->m_DisplacementField << std::endl;
-    }
-  else
-    {
-    os << "Displacement field not set." << std::endl;
-    }
-
-  if( this->m_InverseDisplacementField )
-    {
-    os << indent << "Inverse Displacement Field: " << std::endl;
-    os << indent << indent << this->m_InverseDisplacementField << std::endl;
-    }
-  else
-    {
-    os << "Inverse Displacement field not set." << std::endl;
-    }
+  itkPrintSelfObjectMacro( Interpolator );
+  itkPrintSelfObjectMacro( InverseInterpolator );
+  itkPrintSelfObjectMacro( DisplacementField );
+  itkPrintSelfObjectMacro( InverseDisplacementField )
 }
 
 } // namespace itk
