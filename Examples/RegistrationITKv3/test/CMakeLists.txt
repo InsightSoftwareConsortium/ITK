@@ -117,17 +117,17 @@ itk_add_test(NAME ITKv3ITKv3ConfidenceConnected3DTest COMMAND ${ITK_TEST_DRIVER}
 
 itk_add_test(NAME ITKv3ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ImageRegistration8RegisteredSlice.png}
-            ${TEMP}/ImageRegistration8RegisteredSlice.png
+            ${TEMP}/ImageRegistration8v3RegisteredSlice.png
   $<TARGET_FILE:ITKv3ImageRegistration8>
         DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
         DATA{../../Data/BrainWeb/brainweb1e1a10f20Rot10Tx15.mha}
-        ${TEMP}/ImageRegistration8Output.mhd
-        ${TEMP}/ImageRegistration8DifferenceBefore.mhd
-        ${TEMP}/ImageRegistration8DifferenceAfter.mhd
-        ${TEMP}/ImageRegistration8Output.png
-        ${TEMP}/ImageRegistration8DifferenceBefore.png
-        ${TEMP}/ImageRegistration8DifferenceAfter.png
-        ${TEMP}/ImageRegistration8RegisteredSlice.png
+        ${TEMP}/ImageRegistration8v3Output.mhd
+        ${TEMP}/ImageRegistration8v3DifferenceBefore.mhd
+        ${TEMP}/ImageRegistration8v3DifferenceAfter.mhd
+        ${TEMP}/ImageRegistration8v3Output.png
+        ${TEMP}/ImageRegistration8v3DifferenceBefore.png
+        ${TEMP}/ImageRegistration8v3DifferenceAfter.png
+        ${TEMP}/ImageRegistration8v3RegisteredSlice.png
 )
 
 
