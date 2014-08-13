@@ -503,5 +503,3 @@ itk_add_test(NAME itkThreadPoolTest COMMAND ITKCommon2TestDriver itkThreadPoolTe
 # This test doesn't compile.  It exercises the bug I ran into if you multiply 2 vector images; if you
 # try to compile it the compile fails.
 # itk_add_test(NAME itkVectorMultiplyTest COMMAND ITKCommon2TestDriver itkVectorMultiplyTest)
-
-

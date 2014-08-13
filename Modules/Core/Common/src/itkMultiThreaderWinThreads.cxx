@@ -46,21 +46,21 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
 
 void MultiThreader::MultipleMethodExecute()
 {
-  ThreadIdType thread_loop;
+  ThreadIdType threadCount;
 
   DWORD  threadId;
-  HANDLE process_id[ITK_MAX_THREADS];
+  HANDLE processId[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
   if( m_NumberOfThreads > m_GlobalMaximumNumberOfThreads )
     {
     m_NumberOfThreads = m_GlobalMaximumNumberOfThreads;
     }
-  for( thread_loop = 0; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for( threadCount = 0; threadCount < m_NumberOfThreads; ++threadCount )
     {
-    if( m_MultipleMethod[thread_loop] == (ThreadFunctionType)0 )
+    if( m_MultipleMethod[threadCount] == (ThreadFunctionType)0 )
       {
-      itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
+      itkExceptionMacro(<< "No multiple method set for: " << threadCount);
       return;
       }
     }
@@ -74,21 +74,21 @@ void MultiThreader::MultipleMethodExecute()
   //
   // First, start up the m_NumberOfThreads-1 processes.  Keep track
   // of their process ids for use later in the waitid call
-  for( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for( threadCount = 1; threadCount < m_NumberOfThreads; ++threadCount )
     {
-    m_ThreadInfoArray[thread_loop].UserData =
-      m_MultipleData[thread_loop];
-    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+    m_ThreadInfoArray[threadCount].UserData =
+      m_MultipleData[threadCount];
+    m_ThreadInfoArray[threadCount].NumberOfThreads = m_NumberOfThreads;
 
-    process_id[thread_loop] = (void *)
+    processId[threadCount] = (void *)
       _beginthreadex(0, 0,
-                     ( unsigned int (__stdcall *)(void *) )m_MultipleMethod[thread_loop],
-                     ( (void *)( &m_ThreadInfoArray[thread_loop] ) ), 0,
+                     ( unsigned int (__stdcall *)(void *) )m_MultipleMethod[threadCount],
+                     ( (void *)( &m_ThreadInfoArray[threadCount] ) ), 0,
                      (unsigned int *)&threadId);
 
-    if( process_id == 0 )
+    if( processId[threadCount] == ITK_NULLPTR )
       {
-      itkExceptionMacro("Error in thread creation !!!");
+      itkExceptionMacro("Error in thread creation!");
       }
     }
 
@@ -99,14 +99,14 @@ void MultiThreader::MultipleMethodExecute()
   // The parent thread has finished its method - so now it
   // waits for each of the other processes to
   // exit
-  for( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for( threadCount = 1; threadCount < m_NumberOfThreads; ++threadCount )
     {
-    WaitForSingleObject(process_id[thread_loop], INFINITE);
+    WaitForSingleObject(processId[threadCount], INFINITE);
     }
   // close the threads
-  for( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for( threadCount = 1; threadCount < m_NumberOfThreads; ++threadCount )
     {
-    CloseHandle(process_id[thread_loop]);
+    CloseHandle(processId[threadCount]);
     }
 }
 
