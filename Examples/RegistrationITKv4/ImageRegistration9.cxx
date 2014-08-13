@@ -236,8 +236,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Now we pass the transform object to the registration filter. It also will be updated as the
-  //  ouput of the registration method since the "InPlace" is set.
+  //  Now we pass the transform object to the registration filter, and it will be grafted to
+  //  the output transform of the registration filter by updating its parameters during the
+  //  the registration process.
   //
   //  Software Guide : EndLatex
 
@@ -286,8 +287,8 @@ int main( int argc, char *argv[] )
   //
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
-  //  \doxygen{RegularStepGradientDescentOptimizerv4}. Below, we define the
-  //  optimization parameters like learning rate (initial step length), minimal
+  //  \doxygen{RegularStepGradientDescentOptimizerv4} as before. Below, we define the
+  //  optimization parameters like learning rate (initial step length), minimum
   //  step length and number of iterations. These last two act as stopping
   //  criteria for the optimization.
   //
@@ -343,7 +344,7 @@ int main( int argc, char *argv[] )
   //
   //  Finally we trigger the execution of the registration method by calling
   //  the \code{Update()} method. The call is placed in a \code{try/catch}
-  //  block in case any exceptions are thrown.
+  //  block in the case any exceptions are thrown.
   //
   //  Software Guide : EndLatex
 
@@ -442,7 +443,7 @@ int main( int argc, char *argv[] )
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //   90   44.0851  [0.9849, -0.1729, 0.1725, 0.9848, 12.4541, 16.0759] AffineAngle: 9.9494
+  //   90  44.0851 [0.9849, -0.1729, 0.1725, 0.9848, 12.4541, 16.0759] AffineAngle: 9.9494
   //  \end{verbatim}
   //  \end{center}
   //
@@ -501,9 +502,9 @@ int main( int argc, char *argv[] )
   //
   //  Figure \ref{fig:ImageRegistration9Plots} shows the plots of the main
   //  output parameters of the registration process. The metric values at every
-  //  iteration are shown on the top plot. The angle values are shown on the bottom left plot,
+  //  iteration are shown on the left plot. The angle values are shown on the middle plot,
   //  while the translation components of the registration are presented
-  //  on the bottom right plot. Note that the final total offset of the transform
+  //  on the right plot. Note that the final total offset of the transform
   //  is to be computed as a combination of the shift due rotation plus the
   //  explicit translation set on the transform.
   //

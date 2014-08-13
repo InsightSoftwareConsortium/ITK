@@ -72,11 +72,11 @@
 //  However, in ITKv4, fortunately the \doxygen{RegularStepGradientDescentOptimizerv4}
 //  can be used for both vector and versor transforms optimization since in the new
 //  registration framework the task of updating parameters is delegated to the
-//  transforms themselves. The "UpdateTransformParameters" function is implemented
+//  moving transform itself. The "UpdateTransformParameters" function is implemented
 //  in \doxygen{Transform} class as a virtual function, and all the derived transform
 //  classes can have their own specific implementations of this function. Due to this
 //  fact, the updating function can be re-implemented for the versor transforms in such
-//  a way that cab be able to handle the versor composition of the ratation parameters.
+//  a way that can be able to handle the versor composition of the ratation parameters.
 //
 //  Software Guide : EndLatex
 
@@ -300,9 +300,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Now the current parameters of the initial transform will be set
-  //  to the registration method, so they can be assigned to the optimizable
-  //  tranaform directly.
+  //  Now the current initialized transform will be set
+  //  to the registration method, so its initial parameters can be used to initialize
+  //  the registration process.
   //
   //  Software Guide : EndLatex
 
@@ -406,8 +406,11 @@ int main( int argc, char *argv[] )
   //  by $10$ degrees around the origin and shifting it $15mm$ in $X$.
   //
   //  Also, instead of doing the above steps manually, you can turn on the
-  //  "ITK\_USE\_BRAINWEB\_DATA" flag in your build environment. Then, the above
-  //  data will be loaded to your local build directory.
+  //  following flag in your build environment:
+  //
+  //  \code{ITK\_USE\_BRAINWEB\_DATA}
+  //
+  //  Then, the above  data will be loaded to your local ITK build directory.
   //
   //  The registration takes $21$ iterations and produces:
   //

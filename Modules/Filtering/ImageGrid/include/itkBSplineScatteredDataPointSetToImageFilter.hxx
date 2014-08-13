@@ -1222,6 +1222,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_PhiLattice->SetOrigin( origin );
   this->m_PhiLattice->SetSpacing( spacing );
   this->m_PhiLattice->SetDirection( this->m_Direction );
+
+  this->ProcessObject::SetNthOutput( 1, this->m_PhiLattice.GetPointer() );
 }
 
 template<typename TInputPointSet, typename TOutputImage>

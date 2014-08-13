@@ -173,8 +173,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::MeanSquaresImageToImageMetricv4<
-                                    FixedImageType,
-                                    MovingImageType >    MetricType;
+                                          FixedImageType,
+                                          MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -209,17 +209,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  In this example we do not need to create the transform
-  //  object like above since the transform type is already passed to the
-  //  registration method as an template parameter.
-  //
-  //
   //  Each component is now connected to the instance of the registration method.
-  //  Notice that the transform object does not need to be passed
-  //  to the registration method, and it is only created to be assigned later by the
-  //  output parameters of the registration process.
-  //  In fact, the registration filter creates its internal instantiation of the
-  //  transform object using the transform type as a template parameter.
   //
   //  \index{itk::RegistrationMethodv4!SetMetric()}
   //  \index{itk::RegistrationMethodv4!SetOptimizer()}
@@ -236,8 +226,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
+  //  In this example the transform object does not need to be created and passed to the
+  //  registration method like above since the registration filter will instantiate an internal
+  //  transform object using the transform type that is passed to it as a template parameter.
+  //
   //  Metric needs an interpolator to evaluate the intensities of the fixed and
-  //  moving images at non-rigid positions. The types of fixed and moving interpolators
+  //  moving images at non-grid positions. The types of fixed and moving interpolators
   //  are declared here.
   //
   //  Software Guide : EndLatex
@@ -254,9 +248,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Then, fixed and moving interpolators are created and set to metric.
-  //  Note that linear interpolators are used as default, so this step could be
-  //  skipped in this example.
+  //  Then, fixed and moving interpolators are created and set to the metric.
+  //  Since linear interpolators are used as default, we could skip the following
+  //  step in this example.
   //
   //  \index{itk::MeanSquaresImageToImageMetricv4!SetFixedInterpolator()}
   //  \index{itk::MeanSquaresImageToImageMetricv4!SetMovingInterpolator()}
@@ -264,8 +258,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FixedLinearInterpolatorType::Pointer   fixedInterpolator    = FixedLinearInterpolatorType::New();
-  MovingLinearInterpolatorType::Pointer  movingInterpolator   = MovingLinearInterpolatorType::New();
+  FixedLinearInterpolatorType::Pointer   fixedInterpolator    =
+                                                  FixedLinearInterpolatorType::New();
+  MovingLinearInterpolatorType::Pointer  movingInterpolator   =
+                                                  MovingLinearInterpolatorType::New();
 
   metric->SetFixedInterpolator(  fixedInterpolator  );
   metric->SetMovingInterpolator(  movingInterpolator  );
@@ -315,7 +311,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer movingInitialTransform = TransformType::New();
 
-  TransformType::ParametersType initialParameters( movingInitialTransform->GetNumberOfParameters() );
+  TransformType::ParametersType
+                      initialParameters( movingInitialTransform->GetNumberOfParameters() );
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
 
@@ -326,41 +323,43 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Inside the registration filter the moving initial transform will be added
-  //  to a composite transform that already includes the output optimizable transform.
-  //  This resultant composite transform will be used in the optimizer for evaluatation
-  //  of the metric values at each iteration.
+  //  In the registration filter this moving initial transform will be added to a
+  //  composite transform that already includes an instantiation of the output optimizable
+  //  transform; then, the resultant composite transform will be used by the optimizer to
+  //  evaluate the metric values at each iteration.
   //
-  //  In spite of the above, the fixed initial transform is not used in the optimization
-  //  process. It only transfers the fixed image to the virtual image domain where the metric
-  //  evaluation happens.
+  //  Despite of the above, fixed initial transform does not contribute in the optimization
+  //  process. It is only used to access the fixed image from the virtual image space
+  //  where the metric evaluation happens.
   //
   //  Virtual image is a new concept added to the ITKv4 registration framework,
-  //  and it potentially lets us to do the registration process in a physical space
+  //  and it potentially lets us to do the registration process in a physical domain
   //  totally different than the fixed image and moving image domains.
   //  In fact, the region over which metric evaluation is performed is called virtual image
   //  domain. This domain defines the resolution at which the evaluation is performed,
   //  as well as the physical coordinate system.
   //
   //  The virtual reference domain is taken from the "virtual image" buffered region, and
-  //  the input images should be mapped to this reference sapce using the fixed and moving
+  //  the input images should be accessed from this reference sapce using the fixed and moving
   //  initial transforms.
   //
   //  Note that the legacy intuitive registration framework can be considered as a special
-  //  case where the virtual domain is the same as the fixed image domain.
-  //  As this case practically happens in most of the real life applications, the
-  //  virtual image is set to be the same as the fixed image by default.
-  //
-  //  However, user can define the virtual domain different than the fixed image domain by calling
-  //  either "SetVirtualDomain" or "SetVirtualDomainFromImage".
+  //  case where the virtual domain is the same as the fixed image domain. As this case
+  //  practically happens in most of the real life applications, the virtual image is set
+  //  to be the same as the fixed image by default. However, user can define the virtual
+  //  domain different than the fixed image domain by calling either \code{SetVirtualDomain}
+  //  or \code{SetVirtualDomainFromImage}.
   //
   //  In this example, like the most examples of this chapter, the virtual image is considered
   //  the same as the fixed image. Hence, the registration process happens in the fixed image
-  //  physical domain, and the fixed initial transform would be only an identity transform (as
+  //  physical domain, so the fixed initial transform would be only an identity transform (as
   //  its default value) and can be skipped.
   //
-  //  As a "Hello World!" example should show all the basics, the fixed initial transform
-  //  is set explicity here.
+  //  However, since a "Hello World!" example should show all the basics, we have tried to set
+  //  all the registration components explicity here.
+  //
+  //  In the next session of this chapter, you will get a better underestanding from behind
+  //  the scene of the registration process.
   //
   //  Software Guide : EndLatex
 
@@ -373,16 +372,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Above shows only one way to initialize the registration configuration.
-  //  Another option is to initialize the output optimizable transform directly.
-  //  In this approach, first an initial transform is created; then, its parameters
-  //  are passed to the registration method via "SetInitialTransform(Fixed)Parameters".
-  //  This method of initialization is shown in ImageRegistration5 example.
-  //
-  //  Software Guide : EndLatex
-
-
-  //  Software Guide : BeginLatex
+  //  Also, notice that the above process shows only one way of the initialization of the registration
+  //  configuration. Another option is to initialize the output optimizable transform directly.
+  //  In such approach, a transform object is created, initialized and then passed to
+  //  the registration method via \code{SetTransform()}. This approach is shown in the next examples
+  //  of this chapter.
   //
   //  At this point the registration method is ready for execution. The
   //  optimizer is the component that drives the execution of the
@@ -402,33 +396,30 @@ int main( int argc, char *argv[] )
   //  should have a value between 0 and 1. This factor is set to 0.5 by default,
   //  and it can be changed to a different value via \code{SetRelaxationFactor()}.
   //  Also, the default value for the initial step length is 1, and this value can
-  //  only be changed manually with the method \code{SetLearningRate()}.
+  //  be changed manually with the method \code{SetLearningRate()}.
   //
-  //  In addition to manually settings, in other optimizers of the ITKv4 framework,
-  //  the initial step size can also be estimated automatically, either at each
-  //  iteration or only at the first iteration, by assigning a ScalesEstimator
-  //  (as will be seen in later examples); however, regular step gradient descent
-  //  optimizer does not use the ScaleEstimator to automatically estimate the
-  //  learning rate.
+  //  In addition to manually settings, the initial step size can also be estimated
+  //  automatically, either at each iteration or only at the first iteration,
+  //  by assigning a ScalesEstimator (as will be seen in later examples).
   //
   //  After several reductions of the step length, the optimizer may be moving
   //  in a very restricted area of the transform parameter space. By the method
   //  \code{SetMinimumStepLength()}, user can define how small the step length
-  //  should be to consider convergence to have been reached. This is equivalent
+  //  should be to consider convergence have been reached. This is equivalent
   //  to defining the precision with which the final transform should be known.
   //  User can also set some other stop criteria manually like maximum number of
   //  iterations.
   //
-  //  The convergence method used by this optimizer is like the method used in ITKv3.
-  //  However, in other optimizers of the ITKv4 framework, the convergence criteria is
-  //  set as minimum convergence value that is computed based on the results of the last
-  //  few iterations. The number of iterations involved in computations are defined
-  //  by the convergence window size (it is shown in later examples).
+  //  In other gradient descent based optimizers of the ITKv4 framework, such as
+  //  \doxygen{GradientDescentLineSearchOptimizerv4} and \doxygen{ConjugateGradientLineSearchOptimizerv4},
+  //  the convergence criteria is set via \code{SetMinimumConvergenceValue()} that is computed based on
+  //  the results of the last few iterations. The number of iterations involved in computations
+  //  are defined by the convergence window size via \code{SetConvergenceWindowSize()} that is shown
+  //  in later examples of this chapter.
   //
-  //  Also note that unlike the previous version of \doxygen{ReuglarStepGradientDescentOptimizer},
-  //  ITKv4 does not have a "maximize/minimize" option to modify the effect of
-  //  the metric derivative. The assigned metric is assumed to return a parameter
-  //  derivative result that "improves" the optimization.
+  //  Also note that unlike the previous versions, ITKv4 optimizers do not have a "maximize/minimize"
+  //  option to modify the effect of the metric derivatives. Each assigned metric is assumed to
+  //  return a parameter derivative result that "improves" the optimization.
   //
   //  \index{itk::Gradient\-Descent\-Optimizerv4\-Template!SetLearningRate()}
   //  \index{itk::Gradient\-Descent\-Optimizerv4\-Template!SetMinimumStepLength()}
@@ -542,8 +533,7 @@ int main( int argc, char *argv[] )
   //
   //
   //  The result of the registration process is obtained using the \code{GetTransform()}
-  //  method. It returns a constant pointer to the output transform.
-  //  The parameters of the target transform are set by the registration output parameters.
+  //  method that returns a constant pointer to the output transform.
   //
   //  \index{itk::ImageRegistrationMethodv4!GetTransform()}
   //
@@ -761,10 +751,13 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef unsigned char                            OutputPixelType;
+
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+
   typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType >          CastFilterType;
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   // Software Guide : EndCodeSnippet
 

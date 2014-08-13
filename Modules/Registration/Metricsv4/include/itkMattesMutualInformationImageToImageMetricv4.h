@@ -255,10 +255,7 @@ protected:
   typename std::vector<typename JointPDFType::Pointer>            m_ThreaderJointPDF;
   typename std::vector<typename JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives;
 
-  std::vector<int> m_ThreaderJointPDFStartBin;
-  std::vector<int> m_ThreaderJointPDFEndBin;
-
-  mutable std::vector<PDFValueType> m_ThreaderJointPDFSum;
+  mutable PDFValueType m_JointPDFSum;
 
   /** Store the per-point local derivative result by parzen window bin.
    * For local-support transforms only. */

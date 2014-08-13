@@ -101,7 +101,7 @@ public:
 
   /** Decrease the reference count (release by another object).
     * Delegates the counting to its LightObject superclass  */
-  virtual void UnRegister() const ITK_OVERRIDE
+  virtual void UnRegister() const ITK_NOEXCEPT ITK_OVERRIDE
   {
     this->LightObject::UnRegister();
   }

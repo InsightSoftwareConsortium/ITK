@@ -54,7 +54,7 @@ set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 #-----------------------------------------------------------------------------
 # ITK version number.
 set(ITK_VERSION_MAJOR "4")
-set(ITK_VERSION_MINOR "6")
+set(ITK_VERSION_MINOR "7")
 set(ITK_VERSION_PATCH "0")
 
 if(NOT ITK_INSTALL_RUNTIME_DIR)
@@ -154,11 +154,18 @@ function(itk_add_test)
 endfunction()
 
 #-----------------------------------------------------------------------------
-# ITK macro to ignore a test during MemCheck
+# ITK function to ignore a test
 #
-macro(itk_memcheck_ignore)
+function(itk_tests_ignore)
+  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_TESTS_IGNORE ${ARGN})
+endfunction()
+
+#-----------------------------------------------------------------------------
+# ITK function to ignore a test during MemCheck
+#
+function(itk_memcheck_ignore)
   set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_MEMCHECK_IGNORE ${ARGN})
-endmacro()
+endfunction()
 
 #-----------------------------------------------------------------------------
 # Python Wrapping

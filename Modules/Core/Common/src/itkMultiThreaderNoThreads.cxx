@@ -128,15 +128,30 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 
 void
 MultiThreader
-::WaitForSingleMethodThread(ThreadProcessIDType threadHandle)
+::ThreadPoolWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // No threading library specified.  Do nothing.  No joining or waiting
   // necessary.
 }
 
-ThreadProcessIDType
+ThreadProcessIdType
 MultiThreader
-::DispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+::ThreadPoolDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+{
+  // No threading library specified.  Do nothing.  The computation
+  // will be run by the main execution thread.
+}
+void
+MultiThreader
+::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+{
+  // No threading library specified.  Do nothing.  No joining or waiting
+  // necessary.
+}
+
+ThreadProcessIdType
+MultiThreader
+::SpawnDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
 {
   // No threading library specified.  Do nothing.  The computation
   // will be run by the main execution thread.

@@ -6,9 +6,12 @@ Links
 
 * Homepage: http://www.itk.org
 * Download: http://www.itk.org/ITK/resources/software.html
-* Mailing List: http://www.itk.org/mailman/listinfo/insight-users
+* Mailing List: http://www.itk.org/ITK/help/mailing.html
 * Book: http://www.itk.org/ITK/help/book.html
 * Help: http://www.itk.org/ITK/help/help.html
+* Examples: http://itk.org/ITKExamples/
+* Bugtracker: https://issues.itk.org/
+* Submit a patch: http://www.itk.org/Wiki/ITK/Git/Develop
 
 
 About

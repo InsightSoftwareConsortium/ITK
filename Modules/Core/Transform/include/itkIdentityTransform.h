@@ -192,6 +192,12 @@ public:
       }
   }
 
+  /* Always returns true if not null, as an identity is it's own inverse */
+  bool GetInverse( Self *inverseTransform ) const
+  {
+    return (inverseTransform != ITK_NULLPTR);
+  }
+
   /** Return an inverse of the identity transform - another identity transform.
     */
   virtual InverseTransformBasePointer GetInverseTransform() const

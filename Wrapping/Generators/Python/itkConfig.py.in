@@ -45,7 +45,7 @@ config_py = normalized_path('@CONFIG_PYTHON_CONFIGPY_DIR@')
 # put the itkConfig.py path in the path list
 path = [os.path.join(config_py,'..')]
 # also populate path with the WRAPITK_PYTHON_PATH var
-if os.environ.has_key('WRAPITK_PYTHON_PATH'):
+if 'WRAPITK_PYTHON_PATH' in os.environ:
   path.extend(os.environ['WRAPITK_PYTHON_PATH'].split(':'))
 
 # location for test input

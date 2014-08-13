@@ -1,96 +1,114 @@
+# Copyright 2014 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
-# Distributed under the Boost Software License, Version 1.0. (See
-# accompanying file LICENSE_1_0.txt or copy at
-# http://www.boost.org/LICENSE_1_0.txt)
+# Distributed under the Boost Software License, Version 1.0.
+# See http://www.boost.org/LICENSE_1_0.txt
 
 """
-defines class L{mdecl_wrapper_t} that allows to work on set of declarations,
-as it was one declaration.
+defines class :class:`mdecl_wrapper_t` that allows to work on set of
+declarations, as it was one declaration.
 
-The L{class<mdecl_wrapper_t>} allows user to not write "for" loops within the code.
+The :class:`class <mdecl_wrapper_t>` allows user to not write "for" loops
+within the code.
 """
 
 import os
 
-class call_redirector_t( object ):
+
+class call_redirector_t(object):
+
     """Internal class used to call some function of objects"""
-    def __init__( self, name, decls ):
+
+    def __init__(self, name, decls):
         """creates call_redirector_t instance.
 
-        @param name: name of method, to be called on every object in C{decls} list
-        @param decls: list of objects
+        :param name: name of method, to be called on every object in the
+        `decls` list
+        :param decls: list of objects
         """
-        object.__init__( self )
+        object.__init__(self)
         self.name = name
         self.decls = decls
 
-    def __call__( self, *arguments, **keywords ):
-        """calls method C{self.name} on every object within C{self.decls} list"""
+    def __call__(self, *arguments, **keywords):
+        """calls method :attr:`call_redirector_t.name` on every object
+        within the :attr:`call_redirector_t.decls` list"""
         for d in self.decls:
             callable_ = getattr(d, self.name)
-            callable_( *arguments, **keywords )
+            callable_(*arguments, **keywords)
 
-class mdecl_wrapper_t( object ):
-    """Multiple declarations wrapper.
+
+class mdecl_wrapper_t(object):
+
+    """
+    multiple declarations class wrapper
 
     The main purpose of this class is to allow an user to work on many
     declarations, as they were only one single declaration.
 
-    Example:
-    mb = module_builder_t( ... )
-    #lets say we want to exclude all member functions, that returns reference to int:
-    mb.member_functions( return_type='int &' ).exclude()
+    For example, instead of writing `for` loop like the following
 
-    "exclude" function will be called on every function that match the criteria.
+    .. code-block:: python
+
+       for c in global_namespace.classes():
+           c.compiler = "GCCXML 1.127"
+
+    you can write:
+
+    .. code-block:: python
+
+       global_namespace.classes().compiler = "GCCXML 1.127"
+
+    The same functionality could be applied on "set" methods too.
     """
 
-    def __init__( self, decls ):
-        """@param decls: list of declarations to operate on.
-        @type decls: list of L{declaration wrappers<decl_wrapper_t>}
+    def __init__(self, decls):
+        """:param decls: list of declarations to operate on.
+        :type decls: list of :class:`declaration wrappers <decl_wrapper_t>`
         """
-        object.__init__( self )
+        object.__init__(self)
         self.__dict__['declarations'] = decls
 
-    def __nonzero__( self ):
-        return bool( self.declarations )
+    def __bool__(self):
+        return bool(self.declarations)
 
-    def __len__( self ):
+    def __len__(self):
         """returns the number of declarations"""
-        return len( self.declarations )
+        return len(self.declarations)
 
-    def __getitem__( self, index ):
+    def __getitem__(self, index):
         """provides access to declaration"""
         return self.declarations[index]
 
-    def __iter__( self ):
+    def __iter__(self):
         return iter(self.declarations)
 
-    def __ensure_attribute( self, name ):
-        invalid_decls = filter( lambda d: not hasattr( d, name ), self.declarations )
+    def __ensure_attribute(self, name):
+        invalid_decls = [d for d in self.declarations if not hasattr(d, name)]
         sep = os.linesep + '    '
         if invalid_decls:
-            raise RuntimeError( "Next declarations don't have '%s' attribute: %s" 
-                                % ( name, sep.join( map( str, invalid_decls ) ) ) )
+            raise RuntimeError((
+                "Next declarations don't have '%s' attribute: %s")
+                % (name, sep.join(map(str, invalid_decls))))
 
-    def __setattr__( self, name, value ):
+    def __setattr__(self, name, value):
         """Updates the value of attribute on all declarations.
-        @param name: name of attribute
-        @param value: new value of attribute
+        :param name: name of attribute
+        :param value: new value of attribute
         """
-        self.__ensure_attribute( name )
+        self.__ensure_attribute(name)
         for d in self.declarations:
-            setattr( d, name, value )
+            setattr(d, name, value)
 
-    def __getattr__( self, name ):
-        """@param name: name of method
+    def __getattr__(self, name):
+        """:param name: name of method
         """
-        return call_redirector_t( name, self.declarations )
+        return call_redirector_t(name, self.declarations)
 
-    def __contains__( self, item ):
+    def __contains__(self, item):
         return item in self.declarations
 
     def to_list(self):
         l = []
         for d in self.declarations:
-            l.append( d )
+            l.append(d)
         return l

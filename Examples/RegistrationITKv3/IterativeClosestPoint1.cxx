@@ -31,7 +31,6 @@
 #include "itkPointSetToPointSetRegistrationMethod.h"
 // Software Guide : EndCodeSnippet
 
-#include <iostream>
 #include <fstream>
 
 class CommandIterationUpdate : public itk::Command
@@ -103,9 +102,15 @@ int main(int argc, char * argv[] )
 
   PointType fixedPoint;
   PointType movingPoint;
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Read the file containing coordinates of fixed points.
+//
+// Software Guide : EndLatex
 
-  // Read the file containing coordinates of fixed points.
+// Software Guide : BeginCodeSnippet
   std::ifstream   fixedFile;
   fixedFile.open( argv[1] );
   if( fixedFile.fail() )
@@ -127,8 +132,15 @@ int main(int argc, char * argv[] )
   std::cout <<
     "Number of fixed Points = " <<
     fixedPointSet->GetNumberOfPoints() << std::endl;
+// Software Guide : EndCodeSnippet
 
-  // Read the file containing coordinates of moving points.
+// Software Guide : BeginLatex
+//
+// Read the file containing coordinates of moving points.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   std::ifstream   movingFile;
   movingFile.open( argv[2] );
   if( movingFile.fail() )
@@ -149,35 +161,48 @@ int main(int argc, char * argv[] )
   movingPointSet->SetPoints( movingPointContainer );
   std::cout << "Number of moving Points = "
     << movingPointSet->GetNumberOfPoints() << std::endl;
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Set up the Metric.
+//
+// Software Guide : EndLatex
 
-//-----------------------------------------------------------
-// Set up  the Metric
-//-----------------------------------------------------------
+// Software Guide : BeginCodeSnippet
   typedef itk::EuclideanDistancePointMetric<
                                     PointSetType,
                                     PointSetType>
                                                     MetricType;
 
   MetricType::Pointer  metric = MetricType::New();
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Set up a Transform.
+//
+// Software Guide : EndLatex
 
-//-----------------------------------------------------------
-// Set up a Transform
-//-----------------------------------------------------------
-
+// Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension >      TransformType;
 
   TransformType::Pointer transform = TransformType::New();
+// Software Guide : EndCodeSnippet
 
 
-  // Optimizer Type
+// Software Guide : BeginLatex
+//
+// Set up a the Optimizer and RegistrationMethod.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   typedef itk::LevenbergMarquardtOptimizer OptimizerType;
 
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   optimizer->SetUseCostFunctionGradient(false);
 
-  // Registration Method
   typedef itk::PointSetToPointSetRegistrationMethod<
                                             PointSetType,
                                             PointSetType >
@@ -208,10 +233,15 @@ int main(int argc, char * argv[] )
   transform->SetIdentity();
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
+// Software Guide : EndCodeSnippet
 
-  //------------------------------------------------------
-  // Connect all the components required for Registration
-  //------------------------------------------------------
+// Software Guide : BeginLatex
+//
+// Connect all the components required for Registration
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
@@ -233,10 +263,7 @@ int main(int argc, char * argv[] )
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
-
 // Software Guide : EndCodeSnippet
 
-
   return EXIT_SUCCESS;
-
 }

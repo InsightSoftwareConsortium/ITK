@@ -55,19 +55,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
                                          std::vector<PDFValueType>(this->m_MattesAssociate->m_NumberOfHistogramBins, 0.0F) );
 
   const ThreadIdType localNumberOfThreadsUsed = this->GetNumberOfThreadsUsed();
-  this->m_MattesAssociate->m_ThreaderJointPDFStartBin.resize( localNumberOfThreadsUsed );
-  this->m_MattesAssociate->m_ThreaderJointPDFEndBin.resize(localNumberOfThreadsUsed );
-  const OffsetValueType binRange = this->m_MattesAssociate->m_NumberOfHistogramBins / localNumberOfThreadsUsed;
-  for( ThreadIdType threadId = 0; threadId < localNumberOfThreadsUsed; ++threadId )
-    {
-    this->m_MattesAssociate->m_ThreaderJointPDFStartBin[threadId] = threadId * binRange;
-    this->m_MattesAssociate->m_ThreaderJointPDFEndBin[threadId] = ( threadId + 1 ) * binRange - 1;
-    }
-  // Ensure that the last EndBin range contains the last histogram bin
-  this->m_MattesAssociate->m_ThreaderJointPDFStartBin[localNumberOfThreadsUsed - 1] = ( localNumberOfThreadsUsed - 1 ) * binRange;
-  this->m_MattesAssociate->m_ThreaderJointPDFEndBin[localNumberOfThreadsUsed - 1] = this->m_MattesAssociate->m_NumberOfHistogramBins - 1;
 
-  this->m_MattesAssociate->m_ThreaderJointPDFSum.resize(localNumberOfThreadsUsed);
+  this->m_MattesAssociate->m_JointPDFSum = 0;
 
   JointPDFRegionType jointPDFRegion;
   // For the joint PDF define a region starting from {0,0}
@@ -428,40 +417,31 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   if( this->m_MattesAssociate->GetComputeDerivative() && ( ! this->m_MattesAssociate->HasLocalSupport() ) )
     {
-    const NumberOfParametersType rowSize = this->GetCachedNumberOfLocalParameters() * this->m_MattesAssociate->m_NumberOfHistogramBins;
-    /* See note above about threading. */
-
     // This entire block of code is used to accumulate the per-thread buffers into 1 thread.
-    for( ThreadIdType threadId = 0; threadId < localNumberOfThreadsUsed; ++threadId )
+    // For this thread, how many histogram elements are there?
+    const NumberOfParametersType rowSize = this->GetCachedNumberOfLocalParameters() * this->m_MattesAssociate->m_NumberOfHistogramBins;
+    const SizeValueType histogramTotalElementsSize = rowSize * this->m_MattesAssociate->m_NumberOfHistogramBins;
+
+    JointPDFDerivativesValueType *const accumulatorPdfDPtrStart = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer();
+
+    for( SizeValueType t = 1; t < localNumberOfThreadsUsed; ++t )
       {
-      // For this thread, how many histogram elements are there?
-      const SizeValueType histogramBlockSize = rowSize * ( this->m_MattesAssociate->m_ThreaderJointPDFEndBin[threadId] - this->m_MattesAssociate->m_ThreaderJointPDFStartBin[threadId] + 1 );
-
-      JointPDFDerivativesValueType *const accumulatorPdfDPtrStart = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer()
-        + ( this->m_MattesAssociate->m_ThreaderJointPDFStartBin[threadId] * rowSize );
-
-      const SizeValueType tempThreadPdfDPtrOffset = this->m_MattesAssociate->m_ThreaderJointPDFStartBin[threadId] *  rowSize;
-
-      for( SizeValueType t = 1; t < localNumberOfThreadsUsed; ++t )
+      JointPDFDerivativesValueType * accumulatorPdfDPtr = accumulatorPdfDPtrStart;
+      JointPDFDerivativesValueType const * tempThreadPdfDPtr = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[t]->GetBufferPointer();
+      JointPDFDerivativesValueType const * const tempThreadPdfDPtrEnd = tempThreadPdfDPtr + histogramTotalElementsSize;
+      while( tempThreadPdfDPtr < tempThreadPdfDPtrEnd )
         {
-        JointPDFDerivativesValueType * accumulatorPdfDPtr = accumulatorPdfDPtrStart;
-        JointPDFDerivativesValueType const * tempThreadPdfDPtr = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[t]->GetBufferPointer() + tempThreadPdfDPtrOffset;
-        JointPDFDerivativesValueType const * const tempThreadPdfDPtrEnd = tempThreadPdfDPtr + histogramBlockSize;
-        // for(i = 0; i < histogramBlockSize; i++)
-        while( tempThreadPdfDPtr < tempThreadPdfDPtrEnd )
-          {
-          *( accumulatorPdfDPtr++ ) += *( tempThreadPdfDPtr++ );
-          }
+        *( accumulatorPdfDPtr++ ) += *( tempThreadPdfDPtr++ );
         }
+      }
 
-      const PDFValueType nFactor = 1.0 / ( this->m_MattesAssociate->m_MovingImageBinSize * this->m_MattesAssociate->GetNumberOfValidPoints() );
+    const PDFValueType nFactor = 1.0 / ( this->m_MattesAssociate->m_MovingImageBinSize * this->m_MattesAssociate->GetNumberOfValidPoints() );
 
-      JointPDFDerivativesValueType *             accumulatorPdfDPtr = accumulatorPdfDPtrStart;
-      JointPDFDerivativesValueType const * const tempThreadPdfDPtrEnd = accumulatorPdfDPtrStart + histogramBlockSize;
-      while( accumulatorPdfDPtr < tempThreadPdfDPtrEnd )
-        {
-        *( accumulatorPdfDPtr++ ) *= nFactor;
-        }
+    JointPDFDerivativesValueType *             accumulatorPdfDPtr = accumulatorPdfDPtrStart;
+    JointPDFDerivativesValueType const * const tempThreadPdfDPtrEnd = accumulatorPdfDPtrStart + histogramTotalElementsSize;
+    while( accumulatorPdfDPtr < tempThreadPdfDPtrEnd )
+      {
+      *( accumulatorPdfDPtr++ ) *= nFactor;
       }
     }
 

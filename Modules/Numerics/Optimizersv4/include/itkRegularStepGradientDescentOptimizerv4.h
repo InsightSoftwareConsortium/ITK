@@ -102,6 +102,9 @@ public:
   /** Estimate the learning rate based on the current gradient. */
   virtual void EstimateLearningRate();
 
+  /** Get current gradient step value */
+  double GetCurrentStepLength() const;
+
 protected:
 
   /** Advance one Step following the gradient direction.
