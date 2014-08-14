@@ -24,7 +24,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkEuler3DTransform.h"
+#include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
