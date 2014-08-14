@@ -20,6 +20,7 @@ COMPONENTS
   vtkInteractionStyle
   vtkIOImage
   vtkImagingSources
+  vtkTestingRendering
  REQUIRED)
 ")
 set(ITKVtkGlue_EXPORT_CODE_BUILD "
@@ -34,6 +35,7 @@ COMPONENTS
   vtkInteractionStyle
   vtkIOImage
   vtkImagingSources
+  vtkTestingRendering
 REQUIRED)
 endif()
 ")
