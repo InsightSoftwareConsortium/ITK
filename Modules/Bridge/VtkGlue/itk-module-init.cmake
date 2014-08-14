@@ -14,6 +14,7 @@ find_package(VTK COMPONENTS
   vtkInteractionStyle
   vtkIOImage
   vtkImagingSources
+  vtkTestingRendering
   REQUIRED)
 
 # Older versions of VTK (VTK 5.5 for example) do not have VTK_VERSION, in this
