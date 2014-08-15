@@ -8,7 +8,6 @@ set(ITKVtkGlue_LIBRARIES ITKVtkGlue)
 set(ITKVtkGlue_SYSTEM_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
 set(ITKVtkGlue_SYSTEM_LIBRARY_DIRS ${VTK_LIBRARY_DIRS})
 
-# When this module is loaded by an app, load VTK too.
 set(ITKVtkGlue_EXPORT_CODE_INSTALL "
 set(VTK_DIR \"${VTK_DIR}\")
 find_package(VTK NO_MODULE
