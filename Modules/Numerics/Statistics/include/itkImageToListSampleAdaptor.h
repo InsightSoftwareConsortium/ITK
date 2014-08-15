@@ -263,9 +263,10 @@ public:
   Iterator End()
   {
     ImagePointer           nonConstImage = const_cast< ImageType * >( m_Image.GetPointer() );
-    ImageIteratorType imageIterator( nonConstImage, nonConstImage->GetLargestPossibleRegion() );
+    const typename ImageType::RegionType & largestRegion = nonConstImage->GetLargestPossibleRegion();
+    ImageIteratorType imageIterator( nonConstImage, largestRegion );
     imageIterator.GoToEnd();
-    Iterator          iter( imageIterator, m_Image->GetPixelContainer()->Size() );
+    Iterator          iter( imageIterator, largestRegion.GetNumberOfPixels() );
 
     return iter;
   }
@@ -283,9 +284,10 @@ public:
   /** returns an iterator that points to the end of the container */
   ConstIterator End() const
   {
-    ImageConstIteratorType imageConstIterator( m_Image, m_Image->GetLargestPossibleRegion() );
+    const typename ImageType::RegionType & largestRegion = m_Image->GetLargestPossibleRegion();
+    ImageConstIteratorType imageConstIterator( m_Image, largestRegion );
     imageConstIterator.GoToEnd();
-    ConstIterator          iter( imageConstIterator, m_Image->GetPixelContainer()->Size() );
+    ConstIterator          iter( imageConstIterator, largestRegion.GetNumberOfPixels() );
 
     return iter;
   }
