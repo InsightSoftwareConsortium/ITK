@@ -35,19 +35,19 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   m_NormalizeAcrossScale = false;
   this->m_UseImageDirection = true;
 
-  unsigned int imageDimensionMinus1 = ImageDimension - 1;
+  const int imageDimensionMinus1 = static_cast< int >( ImageDimension ) - 1;
   if ( ImageDimension > 1 )
     {
     m_SmoothingFilters.resize(imageDimensionMinus1);
-    }
 
-  for ( unsigned int i = 0; i < imageDimensionMinus1; i++ )
-    {
-    m_SmoothingFilters[i] = GaussianFilterType::New();
-    m_SmoothingFilters[i]->SetOrder(GaussianFilterType::ZeroOrder);
-    m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-    m_SmoothingFilters[i]->InPlaceOn();
-    m_SmoothingFilters[i]->ReleaseDataFlagOn();
+    for ( int i = 0; i < imageDimensionMinus1; ++i )
+      {
+      m_SmoothingFilters[i] = GaussianFilterType::New();
+      m_SmoothingFilters[i]->SetOrder(GaussianFilterType::ZeroOrder);
+      m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
+      m_SmoothingFilters[i]->InPlaceOn();
+      m_SmoothingFilters[i]->ReleaseDataFlagOn();
+      }
     }
 
   m_DerivativeFilter = DerivativeFilterType::New();
@@ -60,12 +60,12 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   if ( ImageDimension > 1 )
     {
     m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
-    }
 
-  for ( unsigned int i = 1; i < imageDimensionMinus1; i++ )
-    {
-    m_SmoothingFilters[i]->SetInput(
-      m_SmoothingFilters[i - 1]->GetOutput() );
+    for ( int i = 1; i < imageDimensionMinus1; ++i )
+      {
+      m_SmoothingFilters[i]->SetInput(
+        m_SmoothingFilters[i - 1]->GetOutput() );
+      }
     }
 
   m_ImageAdaptor = OutputImageAdaptorType::New();
@@ -81,14 +81,15 @@ void
 GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::SetSigma(ScalarRealType sigma)
 {
-  int imageDimensionMinus1 = static_cast< int >( ImageDimension ) - 1;
-
-  for ( int i = 0; i < imageDimensionMinus1; i++ )
+  if (ImageDimension > 1)
     {
-    m_SmoothingFilters[i]->SetSigma(sigma);
+    const int imageDimensionMinus1 = static_cast< int >( ImageDimension ) - 1;
+    for ( int i = 0; i < imageDimensionMinus1; ++i )
+      {
+      m_SmoothingFilters[i]->SetSigma(sigma);
+      }
     }
   m_DerivativeFilter->SetSigma(sigma);
-
   this->Modified();
 }
 
@@ -114,7 +115,7 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   m_NormalizeAcrossScale = normalize;
 
-  int imageDimensionMinus1 = static_cast< int >( ImageDimension ) - 1;
+  const int imageDimensionMinus1 = static_cast< int >( ImageDimension ) - 1;
   for ( int i = 0; i < imageDimensionMinus1; i++ )
     {
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
@@ -178,10 +179,13 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   // Compute the contribution of each filter to the total progress.
   const double weight = 1.0 / ( ImageDimension * ImageDimension );
 
-  unsigned int imageDimensionMinus1 = ImageDimension - 1;
-  for ( unsigned int i = 0; i < imageDimensionMinus1; i++ )
+  const int imageDimensionMinus1 = static_cast< int >( ImageDimension ) - 1;
+  if( ImageDimension > 1 )
     {
-    progress->RegisterInternalFilter(m_SmoothingFilters[i], weight);
+    for( int i = 0; i < imageDimensionMinus1; ++i )
+      {
+      progress->RegisterInternalFilter(m_SmoothingFilters[i], weight);
+      }
     }
 
   progress->RegisterInternalFilter(m_DerivativeFilter, weight);
@@ -217,21 +221,21 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     outputImage, this->m_ImageAdaptor->GetRequestedRegion() );
 
 
-  for ( unsigned int nc = 0; nc < nComponents; nc++ )
+  for ( unsigned int nc = 0; nc < nComponents; ++nc )
     {
-    for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
+    for ( int dim = 0; dim < ImageDimension; ++dim )
       {
-      unsigned int i = 0;
-      unsigned int j = 0;
-      while (  i < imageDimensionMinus1 )
+      int i = 0;
+      int j = 0;
+      while( i < imageDimensionMinus1 )
         {
-        if ( i == dim )
+        if( i == dim )
           {
-          j++;
-        }
+          ++j;
+          }
         m_SmoothingFilters[i]->SetDirection(j);
-        i++;
-        j++;
+        ++i;
+        ++j;
         }
       m_DerivativeFilter->SetDirection(dim);
 
@@ -329,7 +333,7 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   OutputImageType* output = this->GetOutput();
   const typename TInputImage::ConstPointer inputImage( this->GetInput() );
 
-  unsigned int nComponents = inputImage->GetNumberOfComponentsPerPixel() * ImageDimension;
+  const unsigned int nComponents = inputImage->GetNumberOfComponentsPerPixel() * ImageDimension;
 
 
   output->SetNumberOfComponentsPerPixel( nComponents );
@@ -345,6 +349,7 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   os << indent << "UseImageDirection :   "
      << ( this->m_UseImageDirection ? "On" : "Off" ) << std::endl;
 }
+
 } // end namespace itk
 
 #endif
