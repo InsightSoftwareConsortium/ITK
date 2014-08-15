@@ -149,11 +149,6 @@ macro(itk_end_wrap_module_java)
     set_target_properties(${lib} PROPERTIES SUFFIX .jnilib)
   endif()
 
-  # work around linkage problem on some solaris systems
-  if(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
-    target_link_libraries(${lib} stdc++)
-  endif()
-
   # strict-aliasing breaks produced code with gcc, according to http://www.swig.org/Doc1.3/Java.html#compiling_dynamic
   if(CMAKE_COMPILER_IS_GNUCC)
     set_target_properties(${lib} PROPERTIES COMPILE_FLAGS -fno-strict-aliasing)
