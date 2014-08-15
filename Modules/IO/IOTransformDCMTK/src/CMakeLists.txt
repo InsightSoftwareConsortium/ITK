@@ -1,13 +1,13 @@
 set(
-  ITKIOTransformDCMTK_SRC
+  IOTransformDCMTK_SRCS
   itkDCMTKTransformIO.cxx
   itkDCMTKTransformIOFactory.cxx
 )
 
-add_library(ITKIOTransformDCMTK ${ITKIOTransformDCMTK_SRC})
+add_library(IOTransformDCMTK ${IOTransformDCMTK_SRCS})
 target_link_libraries(
-  ITKIOTransformDCMTK
-  ${ITKIOTransformBase_LIBRARIES}
+  IOTransformDCMTK
+  ${IOTransformBase_LIBRARIES}
   ${ITKDCMTK_LIBRARIES}
 )
-itk_module_target(ITKIOTransformDCMTK)
+itk_module_target(IOTransformDCMTK)
