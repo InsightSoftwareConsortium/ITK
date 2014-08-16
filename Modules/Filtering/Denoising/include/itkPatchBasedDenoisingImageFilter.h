@@ -121,8 +121,8 @@ public:
    */
   typedef FixedArray< PixelValueType, 3 >      EigenValuesArrayType;
   typedef Matrix< PixelValueType, 3, 3 >       EigenVectorsMatrixType;
-  typedef std::vector<EigenValuesArrayType*>   EigenValuesCacheType;
-  typedef std::vector<EigenVectorsMatrixType*> EigenVectorsCacheType;
+  typedef std::vector<EigenValuesArrayType>    EigenValuesCacheType;
+  typedef std::vector<EigenVectorsMatrixType>  EigenVectorsCacheType;
 
   struct ThreadDataStruct
     {

@@ -66,7 +66,7 @@ template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::~PatchBasedDenoisingImageFilter()
 {
-  EmptyCaches();
+  this->EmptyCaches();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -76,14 +76,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 {
   for (unsigned int threadId = 0; threadId < m_ThreadData.size(); ++threadId)
     {
-    SizeValueType cacheSize = m_ThreadData[threadId].eigenValsCache.size();
-    for (SizeValueType c = 0; c < cacheSize; ++c)
-      {
-      delete m_ThreadData[threadId].eigenValsCache[c];
-      delete m_ThreadData[threadId].eigenVecsCache[c];
-      }
-    m_ThreadData[threadId].eigenValsCache.empty();
-    m_ThreadData[threadId].eigenVecsCache.empty();
+    m_ThreadData[threadId].eigenValsCache.clear();
+    m_ThreadData[threadId].eigenVecsCache.clear();
     }
 }
 
@@ -319,7 +313,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     m_NumIndependentComponents = 1;
     }
 
-  EmptyCaches();
+  this->EmptyCaches();
 
   // initialize thread data struct
   const unsigned int numThreads = this->GetNumberOfThreads();
@@ -1074,8 +1068,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   if (useCachedComputations)
     {
-    eigenVals = *(eigenValsCache[cacheIndex]);
-    eigenVecs = *(eigenVecsCache[cacheIndex]);
+    eigenVals = eigenValsCache[cacheIndex];
+    eigenVecs = eigenVecsCache[cacheIndex];
     }
   else
     {
@@ -1094,15 +1088,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
     if (cacheIndex >= eigenValsCache.size() )
       {
-      eigenValsCache.resize(cacheIndex+1, ITK_NULLPTR);
-      eigenVecsCache.resize(cacheIndex+1, ITK_NULLPTR);
+      eigenValsCache.resize(cacheIndex+1);
+      eigenVecsCache.resize(cacheIndex+1);
       }
 
-    delete eigenValsCache[cacheIndex];
-    delete eigenVecsCache[cacheIndex];
-
-    eigenValsCache[cacheIndex] = new EigenValuesArrayType(eigenVals);
-    eigenVecsCache[cacheIndex] = new EigenVectorsMatrixType(eigenVecs);
+    eigenValsCache[cacheIndex] = EigenValuesArrayType(eigenVals);
+    eigenVecsCache[cacheIndex] = EigenVectorsMatrixType(eigenVecs);
     }
 
   // note that the ComputeEigenAnalysis returns a row vector for each
