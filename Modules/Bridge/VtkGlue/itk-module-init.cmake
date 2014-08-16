@@ -6,9 +6,6 @@
 set(VERSION_MIN "5.10.0")
 
 # Look for VTK
-if (Module_WikiExamples)
-  set(VTK_ADDITIONAL_MODULES "vtkTestingRendering;vtkInteractionImage;vtkIOXML")
-endif()
 find_package(VTK COMPONENTS
   vtkCommonCore
   vtkRenderingCore
@@ -17,7 +14,6 @@ find_package(VTK COMPONENTS
   vtkInteractionStyle
   vtkIOImage
   vtkImagingSources
-  ${VTK_ADDITIONAL_MODULES}
   REQUIRED)
 
 # Older versions of VTK (VTK 5.5 for example) do not have VTK_VERSION, in this
