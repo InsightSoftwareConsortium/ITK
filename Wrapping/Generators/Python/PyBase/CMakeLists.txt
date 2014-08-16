@@ -5,9 +5,6 @@ itk_wrap_module("ITKPyBase" Python)
 
   set(WRAPPER_LIBRARY_SWIG_INPUTS "${CMAKE_CURRENT_SOURCE_DIR}/pyBase.i")
 
-  # no wrap_*.cmake file to include, no need to run that
-  # itk_auto_load_submodules()
-
   ADD_PYTHON_CONFIG_TEMPLATE("cerr" "std::cerr" "cerr" "")
   ADD_PYTHON_CONFIG_TEMPLATE("cin" "std::cin" "cin" "")
   ADD_PYTHON_CONFIG_TEMPLATE("clog" "std::clog" "clog" "")
@@ -29,9 +26,7 @@ itk_wrap_module("ITKPyBase" Python)
   ADD_PYTHON_CONFIG_TEMPLATE("string" "std::string" "str" "")
 #  ADD_PYTHON_CONFIG_TEMPLATE("stringstream" "std::stringstream" "stringstream" "")
 
-# TODO: readd the bool (B) once supported by sunstudio
-#  foreach(t B UC US UL SC SS SL F D)
-  foreach(t UC US UL SC SS SL F D)
+  foreach(t B UC US UL SC SS SL F D)
     ADD_PYTHON_CONFIG_TEMPLATE("map" "std::map" "map${t}${t}" "${ITKT_${t}}, ${ITKT_${t}}")
     ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${t}" "${ITKT_${t}}")
     ADD_PYTHON_CONFIG_TEMPLATE("set" "std::set" "set${t}" "${ITKT_${t}}")
