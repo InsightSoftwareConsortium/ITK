@@ -191,8 +191,6 @@ int itkVTKVisualize2DCellsLevelSetLayersTest( int argc, char* argv[] )
   // Here the output level-set will be a "Whitaker" sparse level-set;
   // i.e. only few layers {-2, -1, 0, +1, +2 } around the zero-set are
   // maintained, the rest of the domain is either -3 or +3.
-  typedef float                                      LevelSetPixelType;
-  typedef itk::Image< LevelSetPixelType, Dimension > LevelSetImageType;
 
   int numberOfIterations;
   std::istringstream istrm( argv[2] );
