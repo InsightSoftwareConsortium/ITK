@@ -19,6 +19,8 @@
 #ifndef __itkThreadJob_h
 #define __itkThreadJob_h
 
+#include "itkMacro.h"
+
 namespace itk
 {
 /**
@@ -43,7 +45,7 @@ public:
     m_Id(-1),
     m_Assigned(false),
     m_Executed(false),
-    m_UserData(NULL)
+    m_UserData(ITK_NULLPTR)
   {
   }
 
