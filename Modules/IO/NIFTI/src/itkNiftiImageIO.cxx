@@ -1933,7 +1933,6 @@ NiftiImageIO
       }
     delete[] vecOrder;
     dumpdata(buffer);
-    dumpdata(tobuffer);
     //Need a const cast here so that we don't have to copy the memory for
     //writing.
     this->m_NiftiImage->data = (void *)nifti_buf;
