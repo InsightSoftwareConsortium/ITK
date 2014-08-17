@@ -67,7 +67,6 @@ template<typename T> void ViewRGB(const char *name,
                                const std::string & ext = "png")
 {
   typedef itk::RGBPixel<T>                      ColorPixelType;
-  typedef itk::Image<T, 2 >                     ScalarImageType;
   typedef itk::Image<ColorPixelType, 2 >        ColorImageType;
   typedef itk::ImageFileReader<ColorImageType>  SourceType;
 
