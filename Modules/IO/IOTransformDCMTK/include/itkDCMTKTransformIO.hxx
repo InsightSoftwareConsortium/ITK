@@ -20,6 +20,11 @@
 
 #include "itkDCMTKTransformIO.h"
 
+#include <dcmtk/dcmdata/dcfilefo.h>
+#include <dcmtk/dcmdata/dcdeftag.h>
+#include <dcmtk/dcmdata/dcdatset.h>
+#include <dcmtk/dcmdata/dcuid.h>
+
 namespace itk
 {
 
@@ -37,6 +42,26 @@ template <typename TInternalComputationValueType>
 bool
 DCMTKTransformIO<TInternalComputationValueType>::CanReadFile(const char * fileName)
 {
+  DcmFileFormat     fileFormat;
+  const OFCondition result = fileFormat.loadFile(fileName, EXS_Unknown);
+  if (!result.good())
+  {
+    return false;
+  }
+
+  DcmDataset * dataset = fileFormat.getDataset();
+  OFString     sopClass;
+  if (!dataset->findAndGetOFString(DCM_SOPClassUID, sopClass).good() || sopClass.empty())
+  {
+    return false;
+  }
+
+  OFString seriesNumber;
+  if (sopClass == UID_SpatialRegistrationStorage)
+  {
+    return true;
+  }
+
   return false;
 }
 
