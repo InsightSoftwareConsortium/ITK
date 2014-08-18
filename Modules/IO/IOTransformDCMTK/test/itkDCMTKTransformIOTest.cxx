@@ -16,11 +16,13 @@
  *
  *=========================================================================*/
 
+#include "itkDCMTKTransformIO.h"
 #include "itkDCMTKTransformIOFactory.h"
 #include "itkTransformFileReader.h"
 #include "itkImageSeriesReader.h"
 #include "itkDCMTKImageIO.h"
 #include "itkDCMTKSeriesFileNames.h"
+#include "itkTestingMacros.h"
 
 int
 itkDCMTKTransformIOTest(int argc, char * argv[])
@@ -65,21 +67,29 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   std::cout << "First moving images Series UID: " << movingSeriesFileNames->GetSeriesUIDs()[0] << "\n" << std::endl;
   movingReader->SetFileNames(movingFileNames);
 
-  try
-  {
-    fixedReader->Update();
-    movingReader->Update();
-  }
-  catch (itk::ExceptionObject & error)
-  {
-    std::cerr << "Error: " << error << std::endl;
-    return EXIT_FAILURE;
-  }
+  TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
+  TRY_EXPECT_NO_EXCEPTION(movingReader->Update());
 
-  typedef float                                        ScalarType;
+  typedef float ScalarType;
+
+  itk::DCMTKTransformIOFactory::Pointer dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
+  EXERCISE_BASIC_OBJECT_METHODS(dcmtkTransformIOFactory, itk::DCMTKTransformIOFactory);
+  itk::ObjectFactoryBase::RegisterFactory(dcmtkTransformIOFactory);
+
   typedef itk::TransformFileReaderTemplate<ScalarType> TransformReaderType;
   TransformReaderType::Pointer                         transformReader = TransformReaderType::New();
   transformReader->SetFileName(transformFileName);
+
+  typedef itk::DCMTKTransformIO<ScalarType> TransformIOType;
+  TransformIOType::Pointer                  transformIO = TransformIOType::New();
+  EXERCISE_BASIC_OBJECT_METHODS(transformIO, TransformIOType);
+  transformReader->SetTransformIO(transformIO);
+
+  TEST_EXPECT_TRUE(!transformIO->CanWriteFile(transformFileName));
+
+  TEST_EXPECT_TRUE(!transformIO->CanReadFile("fileThatDoesNotExist.dcm"));
+
+  TEST_EXPECT_TRUE(transformIO->CanReadFile(transformFileName));
 
   return EXIT_SUCCESS;
 }

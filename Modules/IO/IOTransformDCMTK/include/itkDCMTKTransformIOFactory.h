@@ -42,10 +42,10 @@ public:
 
   /** Class methods used to interface with the registered factories. */
   virtual const char *
-  GetITKSourceVersion(void) const ITK_OVERRIDE;
+  GetITKSourceVersion() const ITK_OVERRIDE;
 
   virtual const char *
-  GetDescription(void) const ITK_OVERRIDE;
+  GetDescription() const ITK_OVERRIDE;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -55,9 +55,9 @@ public:
 
   /** Register one factory of this type  */
   static void
-  RegisterOneFactory(void)
+  RegisterOneFactory()
   {
-    DCMTKTransformIOFactory::Pointer metaFactory = DCMTKTransformIOFactory::New();
+    Self::Pointer metaFactory = DCMTKTransformIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

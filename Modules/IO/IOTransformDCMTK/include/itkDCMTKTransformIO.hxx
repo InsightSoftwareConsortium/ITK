@@ -43,8 +43,9 @@ DCMTKTransformIO<TInternalComputationValueType>::CanReadFile(const char * fileNa
 
 template <typename TInternalComputationValueType>
 bool
-DCMTKTransformIO<TInternalComputationValueType>::CanWriteFile(const char * fileName)
+DCMTKTransformIO<TInternalComputationValueType>::CanWriteFile(const char * itkNotUsed(fileName))
 {
+  // Write to file has not yet been implemented.
   return false;
 }
 
