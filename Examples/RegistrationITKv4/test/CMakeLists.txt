@@ -518,6 +518,7 @@ if( ITK_USE_BRAINWEB_DATA )
           ${TEMP}/BSplineWarping2TestDisplacementField.mhd
           ${TEMP}/BSplineWarping2TestTransform.txt
   )
+  set_property(TEST BSplineWarping2Test APPEND PROPERTY LABELS RUNS_LONG)
 
   set( NUMBER_OF_BSPLINE_GRID_NODES 5 )
 
