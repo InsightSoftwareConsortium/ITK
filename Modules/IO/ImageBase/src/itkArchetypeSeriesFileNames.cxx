@@ -245,7 +245,7 @@ ArchetypeSeriesFileNames
     unsigned int                     i = 0;
     while ( groupItr != group.end() )
       {
-      os << indent << indent << "Filenames[" << i << "]: " << *groupItr << std::endl;
+      os << indent << indent << "FileNames[" << i << "]: " << *groupItr << std::endl;
       ++i;
       ++groupItr;
       }

@@ -165,7 +165,7 @@ DCMTKSeriesFileNames
     }
 }
 
-const DCMTKSeriesFileNames::FilenamesContainer &
+const DCMTKSeriesFileNames::FileNamesContainerType &
 DCMTKSeriesFileNames
 ::GetFileNames(const std::string series)
 {
@@ -173,7 +173,7 @@ DCMTKSeriesFileNames
   return m_InputFileNames;
 }
 
-const DCMTKSeriesFileNames::SeriesUIDContainer &
+const DCMTKSeriesFileNames::SeriesUIDContainerType &
 DCMTKSeriesFileNames::
 GetSeriesUIDs()
 {
@@ -182,7 +182,7 @@ GetSeriesUIDs()
 }
 
 
-const DCMTKSeriesFileNames::FilenamesContainer &
+const DCMTKSeriesFileNames::FileNamesContainerType &
 DCMTKSeriesFileNames
 ::GetInputFileNames()
 {
@@ -191,7 +191,7 @@ DCMTKSeriesFileNames
   return this->m_InputFileNames;
 }
 
-const DCMTKSeriesFileNames::FilenamesContainer &
+const DCMTKSeriesFileNames::FileNamesContainerType &
 DCMTKSeriesFileNames
 ::GetOutputFileNames()
 {
@@ -218,7 +218,7 @@ void DCMTKSeriesFileNames
 
   for ( i = 0; i < m_InputFileNames.size(); i++ )
     {
-    os << indent << "InputFilenames[" << i << "]: " << m_InputFileNames[i] << std::endl;
+    os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << std::endl;
     }
 
 }

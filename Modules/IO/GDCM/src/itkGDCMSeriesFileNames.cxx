@@ -77,7 +77,7 @@ void GDCMSeriesFileNames::SetInputDirectory(std::string const & name)
   this->Modified();
 }
 
-const SerieUIDContainer & GDCMSeriesFileNames::GetSeriesUIDs()
+const GDCMSeriesFileNames::SeriesUIDContainerType & GDCMSeriesFileNames::GetSeriesUIDs()
 {
   m_SeriesUIDs.clear();
   // Accessing the first serie found (assume there is at least one)
@@ -103,7 +103,7 @@ const SerieUIDContainer & GDCMSeriesFileNames::GetSeriesUIDs()
   return m_SeriesUIDs;
 }
 
-const FilenamesContainer & GDCMSeriesFileNames::GetFileNames(const std::string serie)
+const GDCMSeriesFileNames::FileNamesContainerType & GDCMSeriesFileNames::GetFileNames(const std::string serie)
 {
   m_InputFileNames.clear();
   // Accessing the first serie found (assume there is at least one)
@@ -180,13 +180,13 @@ const FilenamesContainer & GDCMSeriesFileNames::GetFileNames(const std::string s
   return m_InputFileNames;
 }
 
-const FilenamesContainer & GDCMSeriesFileNames::GetInputFileNames()
+const GDCMSeriesFileNames::FileNamesContainerType & GDCMSeriesFileNames::GetInputFileNames()
 {
   // Do not specify any UID
-  return GetFileNames("");
+  return this->GetFileNames("");
 }
 
-const FilenamesContainer & GDCMSeriesFileNames::GetOutputFileNames()
+const GDCMSeriesFileNames::FileNamesContainerType & GDCMSeriesFileNames::GetOutputFileNames()
 {
   // We are trying to extract the original filename and compose it with a path:
 
@@ -289,13 +289,13 @@ void GDCMSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 
   for ( i = 0; i < m_InputFileNames.size(); i++ )
     {
-    os << indent << "InputFilenames[" << i << "]: " << m_InputFileNames[i] << std::endl;
+    os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << std::endl;
     }
 
   os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
   for ( i = 0; i < m_OutputFileNames.size(); i++ )
     {
-    os << indent << "OutputFilenames[" << i << "]: " << m_OutputFileNames[i] << std::endl;
+    os << indent << "OutputFileNames[" << i << "]: " << m_OutputFileNames[i] << std::endl;
     }
 }
 
