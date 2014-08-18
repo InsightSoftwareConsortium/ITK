@@ -192,17 +192,21 @@ void TransformFileWriterTemplate<ScalarType>
     {
     itkExceptionMacro ("No file name given");
     }
-  typename TransformIOBaseTemplate<ScalarType>::Pointer transformIO =
-    TransformIOFactoryTemplate<ScalarType>::CreateTransformIO( m_FileName.c_str(), WriteMode );
-  if ( transformIO.IsNull() )
+
+  if( m_TransformIO.IsNull() )
     {
-    itkExceptionMacro("Can't Create IO object for file "
-                      << m_FileName);
+    typedef TransformIOFactoryTemplate< ScalarType > TransformFactoryIOType;
+    m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), WriteMode );
+    if ( m_TransformIO.IsNull() )
+      {
+      itkExceptionMacro("Can't Create IO object for file " << m_FileName);
+      }
     }
-  transformIO->SetAppendMode(this->m_AppendMode);
-  transformIO->SetFileName(m_FileName);
-  transformIO->SetTransformList(this->m_TransformList);
-  transformIO->Write();
+
+  m_TransformIO->SetAppendMode(this->m_AppendMode);
+  m_TransformIO->SetFileName(this->m_FileName);
+  m_TransformIO->SetTransformList(this->m_TransformList);
+  m_TransformIO->Write();
 }
 
 template<typename ScalarType>

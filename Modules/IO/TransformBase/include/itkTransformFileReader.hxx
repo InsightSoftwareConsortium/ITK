@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template<typename ScalarType>
 TransformFileReaderTemplate<ScalarType>
 ::TransformFileReaderTemplate() :
@@ -32,12 +32,13 @@ TransformFileReaderTemplate<ScalarType>
 {
 }
 
-/** Destructor */
+
 template<typename ScalarType>
 TransformFileReaderTemplate<ScalarType>
 ::~TransformFileReaderTemplate()
 {
 }
+
 
 template<typename ScalarType>
 void TransformFileReaderTemplate<ScalarType>
@@ -47,19 +48,22 @@ void TransformFileReaderTemplate<ScalarType>
     {
     itkExceptionMacro ("No file name given");
     }
-  typename TransformIOBaseTemplate<ScalarType>::Pointer transformIO =
-      TransformIOFactoryTemplate<ScalarType>::CreateTransformIO( m_FileName.c_str(), /*TransformIOFactoryTemplate<ScalarType>::*/ ReadMode );
-  if ( transformIO.IsNull() )
+
+  if( m_TransformIO.IsNull() )
     {
-    itkExceptionMacro("Can't Create IO object for file "
-                      << m_FileName);
+    typedef TransformIOFactoryTemplate< ScalarType > TransformFactoryIOType;
+    m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), /*TransformIOFactoryTemplate<ScalarType>::*/ ReadMode );
+    if ( m_TransformIO.IsNull() )
+      {
+      itkExceptionMacro("Can't Create IO object for file " << m_FileName);
+      }
     }
 
-  transformIO->SetFileName(m_FileName);
-  transformIO->Read();
+  m_TransformIO->SetFileName(m_FileName);
+  m_TransformIO->Read();
 
-  typename TransformIOBaseTemplate<ScalarType>::TransformListType &ioTransformList =
-  transformIO->GetTransformList();
+  typename TransformIOType::TransformListType &ioTransformList =
+  m_TransformIO->GetTransformList();
 
     // In the case where the first transform in the list is a
     // CompositeTransform, add all the transforms to that first
@@ -88,6 +92,7 @@ void TransformFileReaderTemplate<ScalarType>
       }
     }
 }
+
 
 template<typename ScalarType>
 void TransformFileReaderTemplate<ScalarType>

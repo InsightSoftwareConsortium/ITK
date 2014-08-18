@@ -16,9 +16,8 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-#include <fstream>
 #include "itkHDF5TransformIOFactory.h"
+#include "itkHDF5TransformIO.h"
 #include "itkTransformFileWriter.h"
 #include "itkTransformFileReader.h"
 #include "itkAffineTransform.h"
@@ -39,14 +38,29 @@ template < typename ScalarType, typename DisplacementTransformType >
 static int ReadWriteTest(const char * const fileName)
 {
   // Now test reading/writing many different transform types.
-  typename itk::TransformFileReaderTemplate<ScalarType>::Pointer
-    reader = itk::TransformFileReaderTemplate<ScalarType>::New();
+  typedef itk::TransformFileReaderTemplate< ScalarType > TransformReaderType;
+  typename TransformReaderType::Pointer reader = TransformReaderType::New();
 
-  typename itk::TransformFileWriterTemplate<ScalarType>::Pointer
-    writer = itk::TransformFileWriterTemplate<ScalarType>::New();
+  typedef itk::TransformFileWriterTemplate< ScalarType > TransformWriterType;
+  typename TransformWriterType::Pointer writer = TransformWriterType::New();
 
-  writer->SetFileName( fileName );
   reader->SetFileName( fileName );
+  writer->SetFileName( fileName );
+
+  typedef itk::HDF5TransformIOTemplate< ScalarType > TransformIOType;
+  typename TransformIOType::Pointer transformIO = TransformIOType::New();
+  reader->SetTransformIO( transformIO );
+  if( reader->GetTransformIO() != transformIO.GetPointer() )
+    {
+    std::cerr << "Set/Get TransformIO did not work correctly." << std::endl;
+    return EXIT_FAILURE;
+    }
+  writer->SetTransformIO( transformIO );
+  if( writer->GetTransformIO() != transformIO.GetPointer() )
+    {
+    std::cerr << "Set/Get TransformIO did not work correctly." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   typename DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
     {
