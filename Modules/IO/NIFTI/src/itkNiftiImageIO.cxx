@@ -409,7 +409,7 @@ void RescaleFunction(TBuffer *buffer,
                      double intercept,
                      size_t size)
 {
-  for ( unsigned int i = 0; i < size; i++ )
+  for ( size_t i = 0; i < size; i++ )
     {
     double tmp = static_cast< double >( buffer[i] ) * slope;
     tmp += intercept;
@@ -437,7 +437,7 @@ void NiftiImageIO::Read(void *buffer)
   ImageIORegion::SizeType  size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
 
-  int          numElts = 1;
+  size_t       numElts = 1;
   int          _origin[7];
   int          _size[7];
   unsigned int i;
