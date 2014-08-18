@@ -22,11 +22,14 @@
 int
 itkDCMTKTransformIOTest(int argc, char * argv[])
 {
-  if (argc < 1)
+  if (argc < 4)
   {
-    std::cerr << "Usage: " << argv[0] << " " << std::endl;
+    std::cerr << "Usage: " << argv[0] << " fixedSeriesDirectory movingSeriesDirectory transform" << std::endl;
     return EXIT_FAILURE;
   }
+  const char * fixedSeriesDirectory = argv[1];
+  const char * movingSeriesDirectory = argv[2];
+  const char * transformFileName = argv[3];
 
   return EXIT_SUCCESS;
 }
