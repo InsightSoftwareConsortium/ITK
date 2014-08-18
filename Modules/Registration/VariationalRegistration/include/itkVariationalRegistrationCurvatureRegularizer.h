@@ -16,12 +16,12 @@
  *
  *=========================================================================*/
 #ifndef __itkVariationalRegistrationCurvatureRegularizer_h
-#  define __itkVariationalRegistrationCurvatureRegularizer_h
+#define __itkVariationalRegistrationCurvatureRegularizer_h
 
-#  include "itkVariationalRegistrationRegularizer.h"
-#  include "itkMultiThreader.h"
+#include "itkVariationalRegistrationRegularizer.h"
+#include "itkMultiThreader.h"
 
-// #if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 
 // other includes:
 #  include "itkFFTWCommon.h"
@@ -198,4 +198,4 @@ private:
 #  endif
 
 #endif
-// #endif
+#endif
