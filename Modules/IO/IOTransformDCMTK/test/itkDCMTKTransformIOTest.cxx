@@ -91,5 +91,7 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
 
   TEST_EXPECT_TRUE(transformIO->CanReadFile(transformFileName));
 
+  TRY_EXPECT_EXCEPTION(transformIO->Write());
+
   return EXIT_SUCCESS;
 }

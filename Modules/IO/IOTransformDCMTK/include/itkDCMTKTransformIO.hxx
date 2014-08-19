@@ -84,7 +84,9 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
 template <typename TInternalComputationValueType>
 void
 DCMTKTransformIO<TInternalComputationValueType>::Write()
-{}
+{
+  itkExceptionMacro("Write to file has not yet been implemented.");
+}
 
 } // end namespace itk
 
