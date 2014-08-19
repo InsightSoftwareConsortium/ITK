@@ -90,8 +90,8 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// Filenames should be provided for both the reader and the writer. In this
-// particular example we take those filenames from the command line arguments.
+// File names should be provided for both the reader and the writer. In this
+// particular example we take those file names from the command line arguments.
 //
 // Software Guide : EndLatex
 

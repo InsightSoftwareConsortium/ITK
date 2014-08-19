@@ -56,8 +56,15 @@ public:
   typedef ProcessObject        Superclass;
   typedef SmartPointer< Self > Pointer;
 
-  typedef std::vector< std::string > FilenamesContainer;
-  typedef std::vector< std::string > SeriesUIDContainer;
+  /** Type of the container that holds the UID's for the series. */
+  typedef std::vector< std::string > SeriesUIDContainerType;
+  /** For backwards compatibility. */
+  typedef SeriesUIDContainerType SeriesUIDContainer;
+
+  /** Type of the container that holds the file names in the series. */
+  typedef std::vector< std::string > FileNamesContainerType;
+  /** For backwards compatibility */
+  typedef FileNamesContainerType FilenamesContainer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,7 +89,7 @@ public:
   /** Returns a vector containing the series' file names. The file
    * names are ordered by the strategy define in header.
    * No sorting is done based on UID */
-  const FilenamesContainer & GetInputFileNames();
+  const FileNamesContainerType & GetInputFileNames();
 
   /** Set the directory where the output DICOM serie should be written. */
   void SetOutputDirectory(std::string const & name)
@@ -96,7 +103,7 @@ public:
    * This could be dangerous if the writing has changed 3rd position
    * or some other DICOM tag in the header
    */
-  const FilenamesContainer & GetOutputFileNames();
+  const FileNamesContainerType & GetOutputFileNames();
 
   /** Returns a vector containing the series' file names. The file
    * names are ordered by the strategy define in header.
@@ -104,14 +111,14 @@ public:
    * specified.  An extended UID may be returned/used if
    * SetUseSeriesDetails(true) has been called.
    */
-  const FilenamesContainer & GetFileNames(const std::string serie);
+  const FileNamesContainerType & GetFileNames(const std::string serie);
 
   /** Returns a vector containing all the UIDs found when parsing the
    * direcory specified via SetDirectory. If no direcory is specified
    * return an empty vector.  An extended UID may be returned/used if
    * SetUseSeriesDetails(true) has been called.
    */
-  const SeriesUIDContainer & GetSeriesUIDs();
+  const SeriesUIDContainerType & GetSeriesUIDs();
 
   /** Recursively parse the input directory */
   itkSetMacro(Recursive, bool);
@@ -177,13 +184,13 @@ private:
   std::string m_OutputDirectory;
 
   /** Internal structure to keep the list of input/output filenames */
-  FilenamesContainer m_InputFileNames;
-  FilenamesContainer m_OutputFileNames;
+  FileNamesContainerType m_InputFileNames;
+  FileNamesContainerType m_OutputFileNames;
 
   /** Internal structure to order serie from one directory */
 
   /** Internal structure to keep the list of series UIDs */
-  SeriesUIDContainer m_SeriesUIDs;
+  SeriesUIDContainerType m_SeriesUIDs;
 
   bool m_UseSeriesDetails;
   bool m_Recursive;
