@@ -20,6 +20,8 @@
 
 #include "itkDCMTKTransformIO.h"
 
+#include "itkAffineTransform.h"
+
 #include <dcmtk/dcmdata/dcfilefo.h>
 #include <dcmtk/dcmdata/dcdeftag.h>
 #include <dcmtk/dcmdata/dcdatset.h>
@@ -78,7 +80,109 @@ DCMTKTransformIO<TInternalComputationValueType>::CanWriteFile(const char * itkNo
 template <typename TInternalComputationValueType>
 void
 DCMTKTransformIO<TInternalComputationValueType>::Read()
-{}
+{
+  DcmFileFormat fileFormat;
+  OFCondition   result = fileFormat.loadFile(this->GetFileName(), EXS_Unknown);
+  if (!result.good())
+  {
+    itkExceptionMacro("Could not load transform file: " << this->GetFileName());
+  }
+
+  DcmDataset *         dataset = fileFormat.getDataset();
+  DcmSequenceOfItems * registrationSequence = ITK_NULLPTR;
+  result = dataset->findAndGetSequence(DCM_RegistrationSequence, registrationSequence);
+  if (result.good())
+  {
+    const unsigned long numOfRegistrationSequenceItems = registrationSequence->card();
+    for (unsigned long ii = 0; ii < numOfRegistrationSequenceItems; ++ii)
+    {
+      DcmItem * currentRegistrationSequenceItem = registrationSequence->getItem(ii);
+
+      if (currentRegistrationSequenceItem->isEmpty())
+      {
+        itkDebugMacro("Empty RegistrationSequenceItem in transform file.");
+        break;
+      }
+      DcmSequenceOfItems * matrixRegistrationSequence = ITK_NULLPTR;
+      result =
+        currentRegistrationSequenceItem->findAndGetSequence(DCM_MatrixRegistrationSequence, matrixRegistrationSequence);
+      if (result.good())
+      {
+        const unsigned long numOfMatrixRegistrationSequenceItems = matrixRegistrationSequence->card();
+        for (unsigned long matrixRegistrationSequenceIndex = 0;
+             matrixRegistrationSequenceIndex < numOfMatrixRegistrationSequenceItems;
+             ++matrixRegistrationSequenceIndex)
+        {
+          DcmItem * currentmatrixRegistrationSequenceItem =
+            matrixRegistrationSequence->getItem(matrixRegistrationSequenceIndex);
+          if (currentmatrixRegistrationSequenceItem->isEmpty())
+          {
+            itkDebugMacro("Empty MatrixRegistrationSequenceItem in transform file.");
+            break;
+          }
+          DcmSequenceOfItems * matrixSequence = NULL;
+          result = currentmatrixRegistrationSequenceItem->findAndGetSequence(DCM_MatrixSequence, matrixSequence);
+          if (result.good())
+          {
+            const unsigned long numOfMatrixSequenceItems = matrixSequence->card();
+            for (unsigned long matrixSequenceItemIndex = 0; matrixSequenceItemIndex < numOfMatrixSequenceItems;
+                 ++matrixSequenceItemIndex)
+            {
+              DcmItem * currentMatrixSequenceItem = matrixSequence->getItem(matrixSequenceItemIndex);
+              if (currentMatrixSequenceItem->isEmpty())
+              {
+                itkDebugMacro("Empty MatrixSequence in transform file.");
+                break;
+              }
+              OFString matrixType;
+              result =
+                currentMatrixSequenceItem->findAndGetOFString(DCM_FrameOfReferenceTransformationMatrixType, matrixType);
+              if (result.good())
+              {
+                // TODO switch transform type based on this
+                std::cout << "MATRIX TYPE: " << matrixType << std::endl;
+              }
+              const unsigned int                                                     Dimension = 3;
+              typedef itk::AffineTransform<TInternalComputationValueType, Dimension> AffineTransformType;
+              typename AffineTransformType::Pointer        affineTransform = AffineTransformType::New();
+              typename AffineTransformType::ParametersType transformParameters(Dimension * Dimension + Dimension);
+              OFString                                     matrixString;
+              unsigned long                                matrixEntryIndex = 0;
+              for (unsigned int row = 0; row < Dimension; ++row)
+              {
+                for (unsigned int col = 0; col < Dimension; ++col)
+                {
+                  result = currentMatrixSequenceItem->findAndGetOFString(
+                    DCM_FrameOfReferenceTransformationMatrix, matrixString, matrixEntryIndex);
+                  if (!result.good())
+                  {
+                    itkExceptionMacro("Could not get expected matrix entry.");
+                  }
+                  ++matrixEntryIndex;
+                  transformParameters[row * Dimension + col] = atof(matrixString.c_str());
+                }
+                result = currentMatrixSequenceItem->findAndGetOFString(
+                  DCM_FrameOfReferenceTransformationMatrix, matrixString, matrixEntryIndex);
+                if (!result.good())
+                {
+                  itkExceptionMacro("Could not get expected matrix entry.");
+                }
+                ++matrixEntryIndex;
+                transformParameters[Dimension * Dimension + row] = atof(matrixString.c_str());
+              }
+              affineTransform->SetParameters(transformParameters);
+              std::cout << affineTransform << std::endl;
+            }
+          }
+        }
+      }
+    }
+  }
+  else
+  {
+    itkExceptionMacro("Could not find RegistrationSequence");
+  }
+}
 
 
 template <typename TInternalComputationValueType>

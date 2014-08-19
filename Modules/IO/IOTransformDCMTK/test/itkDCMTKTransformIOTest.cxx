@@ -93,5 +93,7 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
 
   TRY_EXPECT_EXCEPTION(transformIO->Write());
 
+  TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
+
   return EXIT_SUCCESS;
 }
