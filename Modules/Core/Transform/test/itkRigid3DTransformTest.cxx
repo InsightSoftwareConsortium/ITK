@@ -651,6 +651,29 @@ int itkRigid3DTransformTest(int ,char * [] )
       return EXIT_FAILURE;
       }
 
+     // attempt to set a non-orthogonal matrix but within tolerance
+     Ok = true;
+     try
+      {
+      t->SetMatrix( matrix, 1000 );
+      }
+     catch ( itk::ExceptionObject & err )
+      {
+      std::cout << err << std::endl;
+      Ok = false;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      Ok = false;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: caught unexpected exception" << std::endl;
+      return EXIT_FAILURE;
+      }
+
       // attempt to set an orthogonal matrix
       matrix.GetVnlMatrix().set_identity();
 

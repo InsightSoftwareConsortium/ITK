@@ -81,7 +81,14 @@ Rigid3DTransform< TScalar >
 ::SetMatrix(const MatrixType & matrix)
 {
   const double tolerance = 1e-10;
+  this->SetMatrix( matrix, tolerance );
+}
 
+template< typename TScalar >
+void
+Rigid3DTransform< TScalar >
+::SetMatrix(const MatrixType & matrix, double tolerance)
+{
   if ( !this->MatrixIsOrthogonal(matrix, tolerance) )
     {
     itkExceptionMacro(<< "Attempting to set a non-orthogonal rotation matrix");

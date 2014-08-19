@@ -133,6 +133,20 @@ public:
   virtual void SetMatrix(const MatrixType & matrix);
 
   /**
+   * Set the rotation Matrix of a Rigid2D Transform
+   *
+   * This method sets the 2x2 matrix representing the rotation
+   * in the transform.  The Matrix is expected to be orthogonal
+   * with a certain tolerance.
+   *
+   * \warning This method will throw an exception is the matrix
+   * provided as argument is not orthogonal within the given tolerance.
+   *
+   * \sa MatrixOffsetTransformBase::SetMatrix()
+   */
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
+
+  /**
    * Compose the transformation with a translation
    *
    * This method modifies self to include a translation of the

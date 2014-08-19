@@ -90,8 +90,11 @@ public:
 
   /** Directly set the matrix of the transform.
    *
+   * Orthogonality testing is bypassed in this case.
+   *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
   virtual void SetMatrix(const MatrixType & matrix);
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
