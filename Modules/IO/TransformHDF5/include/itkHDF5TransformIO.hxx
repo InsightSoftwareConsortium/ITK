@@ -230,6 +230,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
   // happens in a big try/catch clause
   try
     {
+    delete this->m_H5File;
     this->m_H5File = new H5::H5File(this->GetFileName(),H5F_ACC_RDONLY);
     // open /TransformGroup
     H5::Group transformGroup = this->m_H5File->openGroup(transformGroupName);
@@ -276,6 +277,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
       currentTransformGroup.close();
       }
     transformGroup.close();
+    this->m_H5File->close();
     }
   // catch failure caused by the H5File operations
   catch( H5::Exception & error )
@@ -334,6 +336,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
   sysInfo.RunOSCheck();
   try
     {
+    delete this->m_H5File;
     this->m_H5File = new H5::H5File(this->GetFileName(),H5F_ACC_TRUNC);
 
     this->WriteString(ItkVersion, Version::GetITKVersion());
@@ -367,6 +370,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
       {
       this->WriteOneTransform(count,(*it).GetPointer());
       }
+    this->m_H5File->close();
     }
   // catch failure caused by the H5File operations
   catch( H5::Exception & error )
@@ -374,6 +378,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
     itkExceptionMacro(<< error.getCDetailMsg());
     }
 }
-}
+
+} // end namespace itk
 
 #endif
