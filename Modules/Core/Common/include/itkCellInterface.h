@@ -365,7 +365,7 @@ protected:
   CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return NULL; }
 
   /** Compute the square of the diagonal length of the bounding box. */
-  CoordRepType GetBoundingBoxDiagonalLength2(void) { return NULL; }
+  CoordRepType GetBoundingBoxDiagonalLength2(void) { return 0; }
 
   /** Intersect the given bounding box (bounds[PointDimension*2]) with a line
    * given by an origin (origin[PointDimension]) and direction
