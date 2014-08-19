@@ -215,8 +215,9 @@ public:
   /** Returns the number of components in this vector type */
   static unsigned int GetNumberOfComponents() { return NVectorDimension; }
 
-  /** Divides the vector componets by the vector norm */
-  void Normalize(void);
+  /** Divides the vector components by the vector norm (when the norm is not
+    * null). The norm used is returned. */
+  RealValueType Normalize(void);
 
   void SetNthComponent(int c, const ComponentType & v)
   {  this->operator[](c) = v; }

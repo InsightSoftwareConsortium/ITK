@@ -175,6 +175,35 @@ int itkVectorTest(int, char* [] )
     passed = false;
     }
 
+  // Test GetNorm()
+  s.Fill(0.0);
+  t = s;
+  if ( different(s.GetNorm(), t.GetNorm()) )
+    {
+    passed = false;
+    }
+  t.Fill(20.0);
+  s.Fill(20.0);
+  if ( different(s.GetNorm(), t.GetNorm()) )
+    {
+    passed = false;
+    }
+
+  // Test GetNormalize()
+  s.Fill(0.0);
+  t = s;
+  s.Normalize();
+  if ( s != t )
+    {
+    passed = false;
+    }
+  t[0] = 1.0;
+  s[0] = 100.0;
+  s.Normalize();
+  if ( s != t )
+    {
+    passed = false;
+    }
 
   typedef itk::Vector<float, 3> RealVector3;
   RealVector3 a, b, c;
