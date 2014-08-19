@@ -21,6 +21,10 @@
 #include "itkDCMTKTransformIO.h"
 
 #include "itkAffineTransform.h"
+#include "itkCompositeTransform.h"
+#include "itkEuler3DTransform.h"
+#include "itkScaleTransform.h"
+#include "itkVersorTransform.h"
 
 #include <dcmtk/dcmdata/dcfilefo.h>
 #include <dcmtk/dcmdata/dcdeftag.h>
@@ -81,6 +85,16 @@ template <typename TInternalComputationValueType>
 void
 DCMTKTransformIO<TInternalComputationValueType>::Read()
 {
+  TransformListType & transformList = this->GetReadTransformList();
+  transformList.clear();
+
+  const unsigned int                                                   Dimension = 3;
+  typedef CompositeTransform<TInternalComputationValueType, Dimension> CompositeTransformType;
+  typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
+  // In TransformFileReader, all the following transforms will be added to
+  // this CompositeTransform
+  transformList.push_back(compositeTransform.GetPointer());
+
   DcmFileFormat fileFormat;
   OFCondition   result = fileFormat.loadFile(this->GetFileName(), EXS_Unknown);
   if (!result.good())
@@ -100,8 +114,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
 
       if (currentRegistrationSequenceItem->isEmpty())
       {
-        itkDebugMacro("Empty RegistrationSequenceItem in transform file.");
-        break;
+        itkExceptionMacro("Empty RegistrationSequenceItem in transform file.");
       }
       DcmSequenceOfItems * matrixRegistrationSequence = ITK_NULLPTR;
       result =
@@ -117,7 +130,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
             matrixRegistrationSequence->getItem(matrixRegistrationSequenceIndex);
           if (currentmatrixRegistrationSequenceItem->isEmpty())
           {
-            itkDebugMacro("Empty MatrixRegistrationSequenceItem in transform file.");
+            itkExceptionMacro("Empty MatrixRegistrationSequenceItem in transform file.");
             break;
           }
           DcmSequenceOfItems * matrixSequence = NULL;
@@ -131,18 +144,10 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
               DcmItem * currentMatrixSequenceItem = matrixSequence->getItem(matrixSequenceItemIndex);
               if (currentMatrixSequenceItem->isEmpty())
               {
-                itkDebugMacro("Empty MatrixSequence in transform file.");
+                itkExceptionMacro("Empty MatrixSequence in transform file.");
                 break;
               }
-              OFString matrixType;
-              result =
-                currentMatrixSequenceItem->findAndGetOFString(DCM_FrameOfReferenceTransformationMatrixType, matrixType);
-              if (result.good())
-              {
-                // TODO switch transform type based on this
-                std::cout << "MATRIX TYPE: " << matrixType << std::endl;
-              }
-              const unsigned int                                                     Dimension = 3;
+
               typedef itk::AffineTransform<TInternalComputationValueType, Dimension> AffineTransformType;
               typename AffineTransformType::Pointer        affineTransform = AffineTransformType::New();
               typename AffineTransformType::ParametersType transformParameters(Dimension * Dimension + Dimension);
@@ -171,7 +176,37 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
                 transformParameters[Dimension * Dimension + row] = atof(matrixString.c_str());
               }
               affineTransform->SetParameters(transformParameters);
-              std::cout << affineTransform << std::endl;
+
+              OFString matrixType;
+              result =
+                currentMatrixSequenceItem->findAndGetOFString(DCM_FrameOfReferenceTransformationMatrixType, matrixType);
+              if (result.good())
+              {
+                if (matrixType.find("RIGID_SCALE") != std::string::npos)
+                {
+                  typedef ScaleTransform<TInternalComputationValueType, Dimension> ScaleTransformType;
+                  typename ScaleTransformType::Pointer scaleTransform = ScaleTransformType::New();
+                  scaleTransform->SetMatrix(affineTransform->GetMatrix());
+                  scaleTransform->SetOffset(affineTransform->GetOffset());
+                  transformList.push_back(scaleTransform.GetPointer());
+                }
+                else if (matrixType.find("RIGID") != std::string::npos)
+                {
+                  typedef Euler3DTransform<TInternalComputationValueType> RigidTransformType;
+                  typename RigidTransformType::Pointer                    rigidTransform = RigidTransformType::New();
+                  rigidTransform->SetMatrix(affineTransform->GetMatrix(), 1e-5);
+                  rigidTransform->SetOffset(affineTransform->GetOffset());
+                  transformList.push_back(rigidTransform.GetPointer());
+                }
+                else if (matrixType.find("AFFINE") != std::string::npos)
+                {
+                  transformList.push_back(affineTransform.GetPointer());
+                }
+                else
+                {
+                  itkExceptionMacro("Unknown TransformationMatrixType");
+                }
+              }
             }
           }
         }

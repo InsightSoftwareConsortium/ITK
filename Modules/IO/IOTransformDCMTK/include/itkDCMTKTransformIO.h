@@ -38,13 +38,10 @@ public:
   typedef DCMTKTransformIO                                       Self;
   typedef TransformIOBaseTemplate<TInternalComputationValueType> Superclass;
   typedef SmartPointer<Self>                                     Pointer;
-  typedef typename Superclass::TransformType                     TransformType;
-  typedef typename Superclass::TransformPointer                  TransformPointer;
-  typedef typename Superclass::TransformListType                 TransformListType;
-  typedef typename TransformType::ParametersType                 ParametersType;
 
-  typedef
-    typename TransformIOBaseTemplate<TInternalComputationValueType>::ConstTransformListType ConstTransformListType;
+  typedef typename Superclass::TransformType          TransformType;
+  typedef typename Superclass::TransformListType      TransformListType;
+  typedef typename Superclass::ConstTransformListType ConstTransformListType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DCMTKTransformIO, TransformIOBaseTemplate);

@@ -23,6 +23,7 @@
 #include "itkDCMTKImageIO.h"
 #include "itkDCMTKSeriesFileNames.h"
 #include "itkTestingMacros.h"
+#include "itkCompositeTransform.h"
 
 int
 itkDCMTKTransformIOTest(int argc, char * argv[])
@@ -74,6 +75,7 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
 
   itk::DCMTKTransformIOFactory::Pointer dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
   EXERCISE_BASIC_OBJECT_METHODS(dcmtkTransformIOFactory, itk::DCMTKTransformIOFactory);
+  std::cout << std::endl;
   itk::ObjectFactoryBase::RegisterFactory(dcmtkTransformIOFactory);
 
   typedef itk::TransformFileReaderTemplate<ScalarType> TransformReaderType;
@@ -94,6 +96,19 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   TRY_EXPECT_EXCEPTION(transformIO->Write());
 
   TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
+
+  typedef TransformReaderType::TransformListType TransformListType;
+  TransformListType *                            transformList = transformReader->GetTransformList();
+
+  typedef itk::CompositeTransform<ScalarType, Dimension> ReadTransformType;
+  TransformListType::const_iterator                      transformIt = transformList->begin();
+  ReadTransformType::Pointer readTransform = dynamic_cast<ReadTransformType *>((*transformIt).GetPointer());
+  if (readTransform.IsNull())
+  {
+    std::cerr << "Did not get the expected transform out." << std::endl;
+    return EXIT_FAILURE;
+  }
+  readTransform->Print(std::cout);
 
   return EXIT_SUCCESS;
 }
