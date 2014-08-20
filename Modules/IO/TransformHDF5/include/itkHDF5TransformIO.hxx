@@ -33,14 +33,12 @@ template< typename TInternalComputationValueType >
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::HDF5TransformIOTemplate()
 {
-  this->m_H5File = ITK_NULLPTR;
 }
 
 template< typename TInternalComputationValueType >
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::~HDF5TransformIOTemplate()
 {
-  delete this->m_H5File;
 }
 
 template< typename TInternalComputationValueType >
@@ -230,7 +228,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
   // happens in a big try/catch clause
   try
     {
-    this->m_H5File = new H5::H5File(this->GetFileName(),H5F_ACC_RDONLY);
+    this->m_H5File.TakeOwnership(new H5::H5File(this->GetFileName(),H5F_ACC_RDONLY));
     // open /TransformGroup
     H5::Group transformGroup = this->m_H5File->openGroup(transformGroupName);
 
@@ -334,7 +332,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
   sysInfo.RunOSCheck();
   try
     {
-    this->m_H5File = new H5::H5File(this->GetFileName(),H5F_ACC_TRUNC);
+    this->m_H5File.TakeOwnership(new H5::H5File(this->GetFileName(),H5F_ACC_TRUNC));
 
     this->WriteString(ItkVersion, Version::GetITKVersion());
     this->WriteString(HDFVersion, H5_VERS_INFO);
