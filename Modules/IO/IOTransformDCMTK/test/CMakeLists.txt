@@ -21,6 +21,11 @@ itk_add_test(
   NAME ReadDicomTransformAndResampleExampleTest
   COMMAND
     IOTransformDCMTKTestDriver
+    --compareRadiusTolerance
+    2
+    --compare
+    DATA{Baseline/DicomTransformResampledMovingOutputBaseline.mha}
+    ${TEMP}/DicomTransformResampledMovingOutput.mha
     ReadDicomTransformAndResampleExample
     DATA{Input/rect-centered/,REGEX:image[0-9]+.dcm}
     DATA{Input/rect-offset/,REGEX:image[0-9]+.dcm}
