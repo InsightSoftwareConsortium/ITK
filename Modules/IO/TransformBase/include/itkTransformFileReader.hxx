@@ -59,20 +59,23 @@ void TransformFileReaderTemplate<ScalarType>
   transformIO->Read();
 
   typename TransformIOBaseTemplate<ScalarType>::TransformListType &ioTransformList =
-  transformIO->GetTransformList();
+    transformIO->GetTransformList();
 
-    // In the case where the first transform in the list is a
-    // CompositeTransform, add all the transforms to that first
-    // transform. and return a single composite item on the
-    // m_TransformList
+  // Clear old results.
+  this->m_TransformList.clear();
+
+  // In the case where the first transform in the list is a
+  // CompositeTransform, add all the transforms to that first
+  // transform. and return a single composite item on the
+  // m_TransformList
   const std::string firstTransformName = ioTransformList.front()->GetNameOfClass();
   if(firstTransformName.find("CompositeTransform") != std::string::npos)
     {
     typename TransformListType::const_iterator tit = ioTransformList.begin();
     typename TransformType::Pointer composite = (*tit).GetPointer();
-      //
-      // CompositeTransformIOHelperTemplate knows how to assign to the composite
-      // transform's internal list
+
+    // CompositeTransformIOHelperTemplate knows how to assign to the composite
+    // transform's internal list
     CompositeTransformIOHelperTemplate<ScalarType> helper;
     helper.SetTransformList(composite.GetPointer(),ioTransformList);
 
