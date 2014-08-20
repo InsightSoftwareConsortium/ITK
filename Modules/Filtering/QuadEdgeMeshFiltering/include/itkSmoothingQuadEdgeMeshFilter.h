@@ -33,7 +33,7 @@ class SmoothingQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  typedef SmoothingQuadEdgeMeshFilter                                       Self;
+  typedef SmoothingQuadEdgeMeshFilter                                 Self;
   typedef SmartPointer< Self >                                        Pointer;
   typedef SmartPointer< const Self >                                  ConstPointer;
   typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh > Superclass;
@@ -63,16 +63,9 @@ public:
 
   itkStaticConstMacro(PointDimension, unsigned int, OutputMeshType::PointDimension);
 
-  typedef DelaunayConformingQuadEdgeMeshFilter< InputMeshType, OutputMeshType > InputOutputDelaunayConformingType;
-  typedef typename InputOutputDelaunayConformingType::Pointer                   InputOutputDelaunayConformingPointer;
-
-  typedef DelaunayConformingQuadEdgeMeshFilter< OutputMeshType, OutputMeshType > OutputDelaunayConformingType;
-  typedef typename OutputDelaunayConformingType::Pointer                         OutputDelaunayConformingPointer;
-
   typedef MatrixCoefficients< OutputMeshType > CoefficientsComputation;
 
-  void SetCoefficientsMethod(CoefficientsComputation *iMethod)
-  { m_CoefficientsMethod = iMethod; }
+  void SetCoefficientsMethod(CoefficientsComputation *iMethod);
 
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetConstMacro(NumberOfIterations, unsigned int);
@@ -90,7 +83,13 @@ protected:
 
   CoefficientsComputation *m_CoefficientsMethod;
 
+  typedef DelaunayConformingQuadEdgeMeshFilter< InputMeshType, OutputMeshType > InputOutputDelaunayConformingType;
+  typedef typename InputOutputDelaunayConformingType::Pointer                   InputOutputDelaunayConformingPointer;
+
   InputOutputDelaunayConformingPointer m_InputDelaunayFilter;
+
+  typedef DelaunayConformingQuadEdgeMeshFilter< OutputMeshType, OutputMeshType > OutputDelaunayConformingType;
+  typedef typename OutputDelaunayConformingType::Pointer                         OutputDelaunayConformingPointer;
 
   OutputDelaunayConformingPointer m_OutputDelaunayFilter;
 

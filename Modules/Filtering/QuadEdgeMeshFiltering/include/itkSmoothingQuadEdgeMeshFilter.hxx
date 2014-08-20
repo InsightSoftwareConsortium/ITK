@@ -40,6 +40,15 @@ SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::~SmoothingQuadEdgeMeshFi
 {}
 
 template< typename TInputMesh, typename TOutputMesh >
+void
+SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::
+SetCoefficientsMethod(CoefficientsComputation *iMethod)
+{
+  m_CoefficientsMethod = iMethod;
+  this->Modified();
+}
+
+template< typename TInputMesh, typename TOutputMesh >
 void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
 {
   OutputMeshPointer mesh = OutputMeshType::New();
