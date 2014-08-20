@@ -13,6 +13,7 @@ itk_module(
     ITKTestKernel
     ITKIODCMTK
     ITKIOGDCM
+    ITKImageGrid
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )

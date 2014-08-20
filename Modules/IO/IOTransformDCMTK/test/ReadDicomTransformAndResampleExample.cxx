@@ -27,6 +27,7 @@
 #include "itkCompositeTransform.h"
 #include "itkImageFileWriter.h"
 #include "itkMetaDataObject.h"
+#include "itkResampleImageFilter.h"
 
 
 int
@@ -57,7 +58,7 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
   typedef itk::ImageSeriesReader<ImageType> ReaderType;
   ReaderType::Pointer                       fixedReader = ReaderType::New();
 
-  // DCMTKImageIO does not populate the MetaDataDictionary
+  // DCMTKImageIO does not populate the MetaDataDictionary yet
   // typedef itk::DCMTKImageIO ImageIOType;
   typedef itk::GDCMImageIO ImageIOType;
   ImageIOType::Pointer     fixedIO = ImageIOType::New();
@@ -177,11 +178,39 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
   std::cout << "Moving transform: " << movingTransform << std::endl;
 
 
+  // Compose the transform from the fixed to the moving image
+  ReadTransformType::Pointer movingTransformInverse = ReadTransformType::New();
+  movingTransform->GetInverse(movingTransformInverse);
+
+  ReadTransformType::Pointer fixedToMovingTransform = ReadTransformType::New();
+  fixedToMovingTransform->AddTransform(fixedTransform);
+  fixedToMovingTransform->AddTransform(movingTransformInverse);
+
+  typedef itk::ResampleImageFilter<ImageType, ImageType, ScalarType, ScalarType> ResamplerType;
+  ResamplerType::Pointer                                                         resampler = ResamplerType::New();
+  resampler->SetInput(movingReader->GetOutput());
+  resampler->SetUseReferenceImage(true);
+  resampler->SetReferenceImage(fixedReader->GetOutput());
+  resampler->SetTransform(fixedToMovingTransform);
+
+
   // Write the fixed image and resampled moving image (should look similar)
   typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer                     writer = WriterType::New();
   writer->SetFileName(fixedImageOutputFileName);
   writer->SetInput(fixedReader->GetOutput());
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & error)
+  {
+    std::cerr << "Error: " << error << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  writer->SetInput(resampler->GetOutput());
+  writer->SetFileName(resampledMovingOutputFileName);
   try
   {
     writer->Update();
