@@ -192,6 +192,7 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
   resampler->SetUseReferenceImage(true);
   resampler->SetReferenceImage(fixedReader->GetOutput());
   resampler->SetTransform(fixedToMovingTransform);
+  resampler->SetDefaultPixelValue(-1000);
 
 
   // Write the fixed image and resampled moving image (should look similar)
