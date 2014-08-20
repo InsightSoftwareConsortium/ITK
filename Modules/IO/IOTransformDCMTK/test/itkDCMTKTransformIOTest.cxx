@@ -19,59 +19,21 @@
 #include "itkDCMTKTransformIO.h"
 #include "itkDCMTKTransformIOFactory.h"
 #include "itkTransformFileReader.h"
-#include "itkImageSeriesReader.h"
-#include "itkDCMTKImageIO.h"
-#include "itkDCMTKSeriesFileNames.h"
 #include "itkTestingMacros.h"
 #include "itkCompositeTransform.h"
 
 int
 itkDCMTKTransformIOTest(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " fixedSeriesDirectory movingSeriesDirectory transform" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " transform" << std::endl;
     return EXIT_FAILURE;
   }
-  const char * fixedSeriesDirectory = argv[1];
-  const char * movingSeriesDirectory = argv[2];
-  const char * transformFileName = argv[3];
+  const char * transformFileName = argv[1];
 
-  const unsigned int                       Dimension = 3;
-  typedef short                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
-
-  typedef itk::ImageSeriesReader<ImageType> ReaderType;
-  ReaderType::Pointer                       fixedReader = ReaderType::New();
-
-  typedef itk::DCMTKImageIO ImageIOType;
-  ImageIOType::Pointer      fixedIO = ImageIOType::New();
-  fixedReader->SetImageIO(fixedIO);
-
-  typedef itk::DCMTKSeriesFileNames SeriesFileNamesType;
-  SeriesFileNamesType::Pointer      fixedSeriesFileNames = SeriesFileNamesType::New();
-  fixedSeriesFileNames->SetInputDirectory(fixedSeriesDirectory);
-  typedef SeriesFileNamesType::FilenamesContainer FileNamesContainerType;
-  const FileNamesContainerType &                  fixedFileNames = fixedSeriesFileNames->GetInputFileNames();
-  std::cout << "There are " << fixedFileNames.size() << " fixed image slices." << std::endl;
-  std::cout << "First fixed images Series UID: " << fixedSeriesFileNames->GetSeriesUIDs()[0] << "\n" << std::endl;
-  fixedReader->SetFileNames(fixedFileNames);
-
-  ReaderType::Pointer  movingReader = ReaderType::New();
-  ImageIOType::Pointer movingIO = ImageIOType::New();
-  movingReader->SetImageIO(movingIO);
-
-  SeriesFileNamesType::Pointer movingSeriesFileNames = SeriesFileNamesType::New();
-  movingSeriesFileNames->SetInputDirectory(movingSeriesDirectory);
-  const FileNamesContainerType & movingFileNames = movingSeriesFileNames->GetInputFileNames();
-  std::cout << "There are " << movingFileNames.size() << " moving image slices." << std::endl;
-  std::cout << "First moving images Series UID: " << movingSeriesFileNames->GetSeriesUIDs()[0] << "\n" << std::endl;
-  movingReader->SetFileNames(movingFileNames);
-
-  TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
-  TRY_EXPECT_NO_EXCEPTION(movingReader->Update());
-
-  typedef float ScalarType;
+  const unsigned int Dimension = 3;
+  typedef float      ScalarType;
 
   itk::DCMTKTransformIOFactory::Pointer dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
   EXERCISE_BASIC_OBJECT_METHODS(dcmtkTransformIOFactory, itk::DCMTKTransformIOFactory);
