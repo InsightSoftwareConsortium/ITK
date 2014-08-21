@@ -185,6 +185,8 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
   ReadTransformType::Pointer fixedToMovingTransform = ReadTransformType::New();
   fixedToMovingTransform->AddTransform(fixedTransform);
   fixedToMovingTransform->AddTransform(movingTransformInverse);
+  // Flatten out the two component CompositeTransforms.
+  fixedToMovingTransform->FlattenTransformQueue();
 
   typedef itk::ResampleImageFilter<ImageType, ImageType, ScalarType, ScalarType> ResamplerType;
   ResamplerType::Pointer                                                         resampler = ResamplerType::New();
