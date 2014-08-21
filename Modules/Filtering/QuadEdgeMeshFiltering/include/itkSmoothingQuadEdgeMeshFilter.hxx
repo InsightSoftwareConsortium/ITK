@@ -19,6 +19,7 @@
 #define __itkSmoothingQuadEdgeMeshFilter_hxx
 
 #include "itkSmoothingQuadEdgeMeshFilter.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -51,11 +52,14 @@ SetCoefficientsMethod(CoefficientsComputation *iMethod)
 template< typename TInputMesh, typename TOutputMesh >
 void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
 {
+  OutputPointIdentifier numberOfPoints = this->GetInput()->GetNumberOfPoints();
+
+  ProgressReporter progress( this, 0, m_NumberOfIterations * ( numberOfPoints + 1 ), 100 );
+
   OutputMeshPointer mesh = OutputMeshType::New();
 
   OutputPointsContainerPointer temp = OutputPointsContainer::New();
-
-  temp->Reserve( this->GetInput()->GetNumberOfPoints() );
+  temp->Reserve( numberOfPoints );
 
   OutputPointsContainerPointer  points;
   OutputPointsContainerIterator it;
@@ -136,6 +140,8 @@ void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
         {
         temp->SetElement(it.Index(), p);
         }
+
+      progress.CompletedPixel();
       }
 
     mesh->SetPoints(temp);
@@ -157,6 +163,8 @@ void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
         mesh = m_OutputDelaunayFilter->GetOutput();
         }
       }
+
+    progress.CompletedPixel();
 
     if ( iter + 1 == m_NumberOfIterations )
       {
