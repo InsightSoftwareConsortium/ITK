@@ -20,7 +20,6 @@ from __future__ import print_function
 
 import types
 import inspect
-import sys
 import os
 import warnings
 import itkConfig
@@ -326,13 +325,6 @@ class itkTemplate(object):
         for k in self.keys():
             yield k
 
-    def has_key(self, key):
-        try:
-            value = self[key]
-        except KeyError:
-            return False
-        return True
-
     def __contains__(self, key):
         return key in self
 
@@ -364,10 +356,36 @@ class itkTemplate(object):
     def __len__(self):
         return len(self.keys())
 
+    def GetTypes(self):
+        """Helper method which prints out the available template parameters."""
+
+        print("<itkTemplate %s>" % self.__name__)
+        print("Options:")
+        for tp in self.GetTypesAsList():
+            print("  " + str(tp).replace("(", "[").replace(")", "]"))
+
+    def GetTypesAsList(self):
+        """Helper method which returns the available template parameters."""
+
+        # Make a list of allowed types, and sort them
+        ctypes = []
+        classes = []
+        for key_tuple in self.__template__:
+            key = str(key_tuple)
+            if "itkCType" in key:
+                ctypes.append(key)
+            elif "class" in key:
+                classes.append(key)
+
+        # Sort the lists
+        ctypes = sorted(ctypes)
+        classes = sorted(classes)
+
+        return ctypes + classes
+
 
 # create a new New function which accepts parameters
 def New(self, *args, **kargs):
-    import sys
     import itk
 
     itk.set_inputs(self, args, kargs)
