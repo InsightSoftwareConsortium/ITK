@@ -70,7 +70,7 @@ int TIFFReaderInternal::Open(const char *filename)
   struct stat fs;
   if ( stat(filename, &fs) )
     {
-#if defined(_WIN32)
+#if defined(_WIN32) && ! defined(__MINGW32_VERSION)
     struct _stat64 fs64;
     if ( _stat64(filename, &fs64) )
       {
