@@ -190,7 +190,6 @@ private:
 
   InterpolatorPointerVector     m_Interpolators;
   ExtrapolatorPointerVector     m_Extrapolators;
-  mutable FunctionPointerVector m_Selectors;
 
   /** shape and pose parameters */
   ParametersType m_WeightOfPrincipalComponents;
