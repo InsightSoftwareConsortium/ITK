@@ -190,6 +190,12 @@ public:
     return this->m_ThreaderJointPDFDerivatives[0];
     }
 
+  /** Initialize per-thread components for computing metric
+    * some threads require initialzation of temporary buffers
+    * per thread before processing each thread.
+    */
+  virtual void InitializeThread( const ThreadIdType threadId );
+
 protected:
   MattesMutualInformationImageToImageMetricv4();
   virtual ~MattesMutualInformationImageToImageMetricv4();

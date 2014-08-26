@@ -183,6 +183,107 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+::InitializeThread( const ThreadIdType threadId )
+{
+  /* This block of code is from
+     MattesMutualImageToImageMetric::GetValueAndDerivativeThreadPreProcess */
+  std::fill(
+    this->m_ThreaderFixedImageMarginalPDF[threadId].begin(),
+    this->m_ThreaderFixedImageMarginalPDF[threadId].end(), 0.0F);
+
+  /*
+   * Allocate memory for the joint PDF and joint PDF derivatives accumulator caches
+   * The joint PDF and joint PDF derivatives are store as itk::Image.
+   *
+   * Avoid allocations if already the correct size.
+   * Only recreate if size differ from last time.  If size is the same,
+   * there is no need to recreate the memory
+   */
+  JointPDFRegionType jointPDFRegion;
+    {
+    // For the joint PDF define a region starting from {0,0}
+    // with size {m_NumberOfHistogramBins, this->m_NumberOfHistogramBins}.
+    // The dimension represents fixed image bin size
+    // and moving image bin size , respectively.
+    JointPDFIndexType jointPDFIndex;
+    jointPDFIndex.Fill(0);
+    JointPDFSizeType jointPDFSize;
+    jointPDFSize.Fill(this->m_NumberOfHistogramBins);
+
+    jointPDFRegion.SetIndex(jointPDFIndex);
+    jointPDFRegion.SetSize(jointPDFSize);
+    }
+
+  const bool reinitializeThreaderJointPDF =( this->m_ThreaderJointPDF[threadId].IsNull()
+    ||  ( jointPDFRegion != this->m_ThreaderJointPDF[threadId]->GetBufferedRegion() ) );
+  if (  reinitializeThreaderJointPDF )
+    {
+    // By setting these values, the joint histogram physical locations will
+    // correspond to intensity values.
+    typename JointPDFType::PointType origin;
+    origin[0] = this->m_FixedImageTrueMin;
+    origin[1] = this->m_MovingImageTrueMin;
+    typename JointPDFType::SpacingType spacing;
+    spacing[0] = this->m_FixedImageBinSize;
+    spacing[1] = this->m_MovingImageBinSize;
+
+      {
+      this->m_ThreaderJointPDF[threadId] = JointPDFType::New();
+      this->m_ThreaderJointPDF[threadId]->SetRegions(jointPDFRegion);
+      this->m_ThreaderJointPDF[threadId]->SetOrigin(origin);
+      this->m_ThreaderJointPDF[threadId]->SetSpacing(spacing);
+      // NOTE: true = initizize to zero
+      this->m_ThreaderJointPDF[threadId]->Allocate(true);
+      }
+    }
+  else
+    {
+    // Still need to reset to zero for subsequent runs
+    this->m_ThreaderJointPDF[threadId]->FillBuffer(0.0);
+    }
+
+  if( this->GetComputeDerivative()  &&  ! this->HasLocalSupport() )
+    {
+    JointPDFDerivativesRegionType jointPDFDerivativesRegion;
+      {
+      // For the derivatives of the joint PDF define a region starting from
+      // {0,0,0}
+      // with size {m_NumberOfParameters,m_NumberOfHistogramBins,
+      // this->m_NumberOfHistogramBins}. The dimension represents transform
+      // parameters,
+      // fixed image parzen window index and moving image parzen window index,
+      // respectively.
+      JointPDFDerivativesIndexType jointPDFDerivativesIndex;
+      jointPDFDerivativesIndex.Fill(0);
+      JointPDFDerivativesSizeType jointPDFDerivativesSize;
+      jointPDFDerivativesSize[0] = this->GetNumberOfLocalParameters();
+      jointPDFDerivativesSize[1] = this->m_NumberOfHistogramBins;
+      jointPDFDerivativesSize[2] = this->m_NumberOfHistogramBins;
+
+      jointPDFDerivativesRegion.SetIndex(jointPDFDerivativesIndex);
+      jointPDFDerivativesRegion.SetSize(jointPDFDerivativesSize);
+      }
+    const bool reinitializeThreaderJointPDFDerivatives = ( this->m_ThreaderJointPDFDerivatives[threadId].IsNull() ||
+      (jointPDFDerivativesRegion != this->m_ThreaderJointPDFDerivatives[threadId]->GetBufferedRegion() ));
+    if( reinitializeThreaderJointPDFDerivatives )
+      {
+      // Set the regions and allocate
+      this->m_ThreaderJointPDFDerivatives[threadId] = JointPDFDerivativesType::New();
+      this->m_ThreaderJointPDFDerivatives[threadId]->SetRegions( jointPDFDerivativesRegion);
+      this->m_ThreaderJointPDFDerivatives[threadId]->Allocate(true);
+      }
+    else
+      {
+      // Still need to reset to zero for subsequent runs
+      this->m_ThreaderJointPDFDerivatives[threadId]->FillBuffer(0.0);
+      }
+    }
+}
+
+
+template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+void
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ComputeResults() const
 {
   if( this->m_JointPDFSum < itk::NumericTraits< PDFValueType >::epsilon() )
