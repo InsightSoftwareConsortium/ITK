@@ -65,6 +65,16 @@ ScaleVersor3DTransform<TScalar>
   this->Baseclass::SetMatrix(matrix);
 }
 
+template <typename TScalar>
+void
+ScaleVersor3DTransform<TScalar>
+::SetMatrix(const MatrixType & matrix, double itkNotUsed( tolerance ))
+{
+  // Any matrix should work - bypass orthogonality testing
+  typedef MatrixOffsetTransformBase<TScalar, 3> Baseclass;
+  this->Baseclass::SetMatrix(matrix);
+}
+
 // Set Parameters
 template <typename TScalar>
 void

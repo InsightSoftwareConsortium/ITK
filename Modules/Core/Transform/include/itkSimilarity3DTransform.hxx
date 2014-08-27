@@ -77,6 +77,15 @@ void
 Similarity3DTransform<TScalar>
 ::SetMatrix(const MatrixType & matrix)
 {
+  const double tolerance = 1e-10;
+  this->SetMatrix( matrix, tolerance );
+}
+
+template <typename TScalar>
+void
+Similarity3DTransform<TScalar>
+::SetMatrix(const MatrixType & matrix, double tolerance)
+{
   //
   // Since the matrix should be an orthogonal matrix
   // multiplied by the scale factor, then its determinant
@@ -108,7 +117,6 @@ Similarity3DTransform<TScalar>
   MatrixType testForOrthogonal = matrix;
   testForOrthogonal /= s;
 
-  const double tolerance = 1e-10;
   if( !this->MatrixIsOrthogonal(testForOrthogonal, tolerance) )
     {
     itkExceptionMacro(<< "Attempting to set a non-orthogonal matrix (after removing scaling)");

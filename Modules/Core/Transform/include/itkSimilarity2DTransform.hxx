@@ -273,7 +273,17 @@ Similarity2DTransform<TScalar>::CloneTo(Pointer & result) const
 // Set the similarity matrix
 template <typename TScalar>
 void
-Similarity2DTransform<TScalar>::SetMatrix(const MatrixType & matrix)
+Similarity2DTransform<TScalar>
+::SetMatrix(const MatrixType & matrix)
+{
+  const double tolerance = 1e-10;
+  this->SetMatrix( matrix, tolerance );
+}
+
+template <typename TScalar>
+void
+Similarity2DTransform<TScalar>
+::SetMatrix(const MatrixType & matrix, double tolerance)
 {
   itkDebugMacro("setting  m_Matrix  to " << matrix);
 
@@ -282,7 +292,6 @@ Similarity2DTransform<TScalar>::SetMatrix(const MatrixType & matrix)
 
   test /= test[0][0]; // factor out the scale
 
-  const double tolerance = 1e-10;
   if( !test.is_identity(tolerance) )
     {
     itk::ExceptionObject ex(__FILE__, __LINE__, "Attempt to set a Non-Orthogonal matrix", ITK_LOCATION);

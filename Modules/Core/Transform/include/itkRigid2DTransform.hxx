@@ -67,13 +67,21 @@ template <typename TScalar>
 void
 Rigid2DTransform<TScalar>::SetMatrix(const MatrixType & matrix)
 {
+  const double tolerance = 1e-10;
+  this->SetMatrix( matrix, tolerance );
+}
+
+// Set the rotation matrix with specified tolerance
+template <typename TScalar>
+void
+Rigid2DTransform<TScalar>::SetMatrix(const MatrixType & matrix, double tolerance)
+{
   itkDebugMacro("setting  m_Matrix  to " << matrix);
   // The matrix must be orthogonal otherwise it is not
   // representing a valid rotaion in 2D space
   typename MatrixType::InternalMatrixType test =
     matrix.GetVnlMatrix() * matrix.GetTranspose();
 
-  const double tolerance = 1e-10;
   if( !test.is_identity(tolerance) )
     {
     itk::ExceptionObject ex(__FILE__, __LINE__, "Attempt to set a Non-Orthogonal matrix", ITK_LOCATION);

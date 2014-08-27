@@ -123,6 +123,13 @@ public:
    * \sa MatrixOffsetTransformBase::SetMatrix() */
   virtual void SetMatrix(const MatrixType & matrix);
 
+  /** Directly set the rotation matrix of the transform.
+   * \warning The input matrix must be orthogonal to within the specified tolerance,
+   * else an exception is thrown.
+   *
+   * \sa MatrixOffsetTransformBase::SetMatrix() */
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance );
+
   /**
    * Compose the transformation with a translation
    *
@@ -136,7 +143,7 @@ public:
    * Utility function to test if a matrix is orthogonal within a specified
    * tolerance
    */
-  bool MatrixIsOrthogonal(const MatrixType & matrix, double tol = 1e-10);
+  bool MatrixIsOrthogonal(const MatrixType & matrix, double tolerance = 1e-10);
 
 #ifdef ITKV3_COMPATIBILITY
   /** Get an inverse of this transform. */
