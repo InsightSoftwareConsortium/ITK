@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
 #ifndef __itkButterworthFilterFreqImageSource_h
 #define __itkButterworthFilterFreqImageSource_h
 
@@ -45,6 +44,9 @@ public:
   typedef SmartPointer<Self>               Pointer;
   typedef SmartPointer<const Self>         ConstPointer;
 
+  /** Dimensionality of the output image. */
+  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+
   /** Typedef for the output image PixelType. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
@@ -62,16 +64,6 @@ public:
   /** Direction typedef support.  The direction is the direction
    * cosines of the image. */
   typedef typename TOutputImage::DirectionType DirectionType;
-
-  typedef std::vector<std::vector<double>> RangeType;
-
-  /** Dimensionality of the output image */
-  itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
-
-  /** Type used to store gaussian parameters. */
-
-
-  // Type used to store the range for each axis
 
   /** Size type matches that used for images */
   typedef typename TOutputImage::SizeType      SizeType;
@@ -92,7 +84,7 @@ public:
   SetSize(const SizeType values);
 
   /** Get the size of the output image. */
-  itkGetVectorMacro(Size, const SizeValueType, NDimensions);
+  itkGetVectorMacro(Size, const SizeValueType, ImageDimension);
 
   /** Specify the spacing of the output image. */
   itkSetMacro(Spacing, SpacingType);
@@ -121,7 +113,7 @@ public:
 
   // itkSetMacro(Ranges, RangeType);
 
-  typedef FixedArray<double, itkGetStaticConstMacro(NDimensions)> DoubleArrayType;
+  typedef FixedArray<double, ImageDimension> DoubleArrayType;
 
 
   /** Gets and sets for Log Gabor parameters */
@@ -146,10 +138,10 @@ private:
   void
   operator=(const ButterworthFilterFreqImageSource &); // purposely not implemented
 
-  SizeValueType m_Size[NDimensions]; // size of the output image
-  SpacingType   m_Spacing;           // spacing
-  PointType     m_Origin;            // origin
-  DirectionType m_Direction;         // direction
+  SizeValueType m_Size[ImageDimension]; // size of the output image
+  SpacingType   m_Spacing;              // spacing
+  PointType     m_Origin;               // origin
+  DirectionType m_Direction;            // direction
   double        m_Cutoff;
   double        m_Order;
 };
