@@ -593,8 +593,8 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
   //      set the unit_type to unknown.  if we add units to ITK, we should
   //          convert pixel size to meters and store units as meters (png
   //          has three set of units: meters, radians, and unknown).
-#if (PNG_LIBPNG_VER_MAJOR < 2 && PNG_LIBPNG_VER_MINOR < 4)
-  png_set_sCAL(png_ptr, info_ptr, PNG_SCALE_UNKNOWN, colSpacing,
+#if defined(PNG_sCAL_SUPPORTED) && defined(PNG_FLOATING_POINT_SUPPORTED)
+  png_set_sCAL(png_ptr, info_ptr, PNG_SCALE_METER, colSpacing,
                rowSpacing);
 #endif
 
