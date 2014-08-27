@@ -22,7 +22,7 @@ namespace itk
  * \ingroup PhaseSymmetry
  */
 template <typename TOutputImage>
-class ITK_EXPORT ButterworthFilterFreqImageSource : public ImageSource<TOutputImage>
+class ButterworthFilterFreqImageSource : public ImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */

@@ -22,7 +22,7 @@ namespace itk
  * \ingroup PhaseSymmetry
  */
 template <typename TOutputImage>
-class ITK_EXPORT LogGaborFreqImageSource : public ImageSource<TOutputImage>
+class LogGaborFreqImageSource : public ImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */

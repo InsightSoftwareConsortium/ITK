@@ -18,7 +18,7 @@ namespace itk
 {
 
 template <typename TOutputImage>
-class ITK_EXPORT SteerableFilterFreqImageSource : public ImageSource<TOutputImage>
+class SteerableFilterFreqImageSource : public ImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */
