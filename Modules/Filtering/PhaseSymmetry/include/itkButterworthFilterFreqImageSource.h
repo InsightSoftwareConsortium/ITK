@@ -23,9 +23,6 @@
 #include "itkSize.h"
 #include "itkArray2D.h"
 
-#include <vector>
-#include <complex>
-
 
 namespace itk
 {
@@ -44,14 +41,17 @@ public:
   typedef SmartPointer<Self>               Pointer;
   typedef SmartPointer<const Self>         ConstPointer;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ButterworthFilterFreqImageSource, ImageSource);
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+
   /** Dimensionality of the output image. */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  /** Typedef for the output image PixelType. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
-
-  /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  typedef TOutputImage OutputImageType;
 
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
@@ -66,84 +66,67 @@ public:
   typedef typename TOutputImage::DirectionType DirectionType;
 
   /** Size type matches that used for images */
-  typedef typename TOutputImage::SizeType      SizeType;
-  typedef typename TOutputImage::SizeValueType SizeValueType;
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(ButterworthFilterFreqImageSource, ImageSource);
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  typedef typename TOutputImage::SizeType SizeType;
 
   /** Specify the size of the output image. */
   virtual void
-  SetSize(const SizeValueType * values);
-
-  /** Specify the size of the output image. */
-  virtual void
-  SetSize(const SizeType values);
-
+  SetSize(const SizeType & size);
   /** Get the size of the output image. */
-  itkGetVectorMacro(Size, const SizeValueType, ImageDimension);
+  itkGetConstReferenceMacro(Size, SizeType);
 
   /** Specify the spacing of the output image. */
-  itkSetMacro(Spacing, SpacingType);
   virtual void
-  SetSpacing(const float * values);
-  virtual void
-  SetSpacing(const double * values);
-
+  SetSpacing(const SpacingType & spacing);
   /** Get the spacing of the output image. */
   itkGetConstReferenceMacro(Spacing, SpacingType);
 
   /** Specify the origin of the output image. */
-  itkSetMacro(Origin, PointType);
   virtual void
-  SetOrigin(const float * values);
-  virtual void
-  SetOrigin(const double * values);
-
+  SetOrigin(const PointType & origin);
   /** Get the origin of the output image. */
   itkGetConstReferenceMacro(Origin, PointType);
 
   /** Specify the direction of the output image. */
-  itkSetMacro(Direction, DirectionType);
-
+  virtual void
+  SetDirection(const DirectionType & direction);
   itkGetConstReferenceMacro(Direction, DirectionType);
 
-  // itkSetMacro(Ranges, RangeType);
-
-  typedef FixedArray<double, ImageDimension> DoubleArrayType;
-
-
-  /** Gets and sets for Log Gabor parameters */
+  /** Set/Get the cutoff frequency */
   itkSetMacro(Cutoff, double);
-  itkGetConstReferenceMacro(Cutoff, double);
+  itkGetConstMacro(Cutoff, double);
 
+  /** Set/Get the filter order */
   itkSetMacro(Order, double);
-  itkGetConstReferenceMacro(Order, double);
+  itkGetConstMacro(Order, double);
 
 protected:
   ButterworthFilterFreqImageSource();
-  ~ButterworthFilterFreqImageSource();
-  void
-  PrintSelf(std::ostream & os, Indent indent) const;
-  void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType tid);
+  virtual ~ButterworthFilterFreqImageSource();
+
+  /** Typedef to describe the output image region type. */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
+  typedef FixedArray<double, ImageDimension> DoubleArrayType;
+
   virtual void
-  GenerateOutputInformation();
+  PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType tid) ITK_OVERRIDE;
+  virtual void
+  GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   ButterworthFilterFreqImageSource(const ButterworthFilterFreqImageSource &); // purposely not implemented
   void
   operator=(const ButterworthFilterFreqImageSource &); // purposely not implemented
 
-  SizeValueType m_Size[ImageDimension]; // size of the output image
-  SpacingType   m_Spacing;              // spacing
-  PointType     m_Origin;               // origin
-  DirectionType m_Direction;            // direction
-  double        m_Cutoff;
-  double        m_Order;
+  SizeType      m_Size;      // size of the output image
+  SpacingType   m_Spacing;   // spacing
+  PointType     m_Origin;    // origin
+  DirectionType m_Direction; // direction
+
+  double m_Cutoff;
+  double m_Order;
 };
 
 } // end namespace itk
