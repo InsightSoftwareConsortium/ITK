@@ -19,29 +19,38 @@
 #include "itkImageFileWriter.h"
 
 int
-itkButterworthFilterFreqImageSourceTest(int, char *[])
+itkButterworthFilterFreqImageSourceTest(int argc, char * argv[])
 {
+  if (argc < 2)
+  {
+    std::cerr << "Usage: " << argv[0] << " OutputImage" << std::endl;
+    return EXIT_FAILURE;
+  }
+  const char * outputImageFileName = argv[1];
+
+
   const unsigned int Dimension = 3;
 
   typedef float                            PixelType;
   typedef itk::Image<PixelType, Dimension> ImageType;
 
   typedef itk::ButterworthFilterFreqImageSource<ImageType> ButterworthSourceType;
-  ButterWorthSourceType::Pointer                           butterworthSource = ButterWorthSourceType::New();
+  ButterworthSourceType::Pointer                           butterworthSource = ButterworthSourceType::New();
+
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer                     writer = WriterType::New();
   writer->SetInput(butterworthSource->GetOutput());
-  // try
-  //{
-  // writer->Update();
-  // }
-  // catch( itk::ExceptionObject & error )
-  //{
-  // std::cerr << "Error: " << error << std::endl;
-  // return EXIT_FAILURE;
-  // }
-
+  writer->SetFileName(outputImageFileName);
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & error)
+  {
+    std::cerr << "error: " << error << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

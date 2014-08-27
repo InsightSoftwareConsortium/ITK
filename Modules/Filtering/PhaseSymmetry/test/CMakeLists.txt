@@ -24,6 +24,7 @@ itk_add_test(
   COMMAND
     PhaseSymmetryTestDriver
     itkButterworthFilterFreqImageSourceTest
+    ${ITK_TEST_OUTPUT_DIR}/itkButterworthFilterFreqImageSourceTest.mha
 )
 
 itk_add_test(
