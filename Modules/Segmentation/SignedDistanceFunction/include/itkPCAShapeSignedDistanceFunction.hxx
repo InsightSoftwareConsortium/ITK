@@ -40,7 +40,6 @@ PCAShapeSignedDistanceFunction< TCoordRep, VSpaceDimension, TImage >
   m_Transform = TranslationTransform< TCoordRep, SpaceDimension >::New();
   m_Interpolators.resize(0);
   m_Extrapolators.resize(0);
-  m_Selectors.resize(0);
 
   m_WeightOfPrincipalComponents.SetSize(0);
   m_TransformParameters.SetSize(0);
@@ -159,7 +158,6 @@ throw ( ExceptionObject )
   // set up the interpolators/extrapolators for each of the mean and pc images
   m_Interpolators.resize(m_NumberOfPrincipalComponents + 1);
   m_Extrapolators.resize(m_NumberOfPrincipalComponents + 1);
-  m_Selectors.resize(m_NumberOfPrincipalComponents + 1);
 
   // interpolator/extrapolator for mean image
   m_Interpolators[0] =
@@ -195,35 +193,37 @@ PCAShapeSignedDistanceFunction< TCoordRep, VSpaceDimension, TImage >
 
   itkDebugMacro(<< "mappedPoint:" << mappedPoint);
 
+  typedef typename NumericTraits< OutputType >::RealType RealType;
+  RealType output;
+
   if ( !m_Interpolators[0]->IsInsideBuffer(mappedPoint) )
     {
-    for ( unsigned int i = 0; i <= m_NumberOfPrincipalComponents; i++ )
-      {
-      m_Selectors[i] = m_Extrapolators[i];
-      }
     itkDebugMacro(<< "use extrapolator");
+    output = m_Extrapolators[0]->Evaluate(mappedPoint);
+
+    for ( unsigned int i = 0; i < m_NumberOfPrincipalComponents; ++i )
+      {
+      output += m_Extrapolators[i + 1]->Evaluate(mappedPoint)
+                * m_PrincipalComponentStandardDeviations[i]
+                * m_WeightOfPrincipalComponents[i];
+      }
     }
   else
     {
-    for ( unsigned int i = 0; i <= m_NumberOfPrincipalComponents; i++ )
-      {
-      m_Selectors[i] = m_Interpolators[i];
-      }
     itkDebugMacro(<< "use interpolator");
-    }
+    output = m_Interpolators[0]->Evaluate(mappedPoint);
 
-  typedef typename NumericTraits< OutputType >::RealType RealType;
-  RealType output = m_Selectors[0]->Evaluate(mappedPoint);
-
-  for ( unsigned int i = 0; i < m_NumberOfPrincipalComponents; i++ )
-    {
-    output += m_Selectors[i + 1]->Evaluate(mappedPoint)
-              * m_PrincipalComponentStandardDeviations[i]
-              * m_WeightOfPrincipalComponents[i];
+    for ( unsigned int i = 0; i < m_NumberOfPrincipalComponents; ++i )
+      {
+      output += m_Interpolators[i + 1]->Evaluate(mappedPoint)
+                * m_PrincipalComponentStandardDeviations[i]
+                * m_WeightOfPrincipalComponents[i];
+      }
     }
 
   return output;
 }
+
 } // end namespace itk
 
 #endif
