@@ -23,11 +23,37 @@
 
 namespace itk
 {
-/**
- * \class SmoothingQuadEdgeMeshFilter
- * \brief Quad Edge Mesh Smoothing Filter
+/** \class SmoothingQuadEdgeMeshFilter
+ *
+ * \brief QuadEdgeMesh Smoothing Filter
+ *
+ * This filter adjusts point coordinates using Laplacian smoothing. The
+ * effect is to "relax" the mesh, making the cells better shaped and the
+ * vertices more evenly distributed.
+ *
+ * For one iteration the location of one vertex is computed as follows:
+ * \f[
+ * \boldsymbol{ v' }_i = v_i + m_RelaxationFactor \cdot \frac{ \sum_j w_{ij} ( \boldsymbol{ v_j } - \boldsymbol{ v_i } ) }{ \sum_j w_{ij} }
+ * \f]
+ *
+ * where \f$ w_{ij} \f$ is computed by the means of the set functor
+ * CoefficientsComputation
+ *
+ * This process is then repeated for m_NumberOfIterations (the more iterations,
+ * the smoother the output mesh will be).
+ *
+ * At each iteration, one can run DelaunayConformingQuadEdgeMeshFilter
+ * resulting a more regular (in terms of connectivity) and smoother mesh.
+ * Depending on the mesh size and configuration it could be an expensive
+ * process to run it at each iterations, especially if the number of iterations
+ * is large.  Note that one can still run N iterations without
+ * DelaunayConformingQuadEdgeMeshFilter, then run this filter and apply this
+ * process M times.
+ *
+ *
  * \ingroup ITKQuadEdgeMeshFiltering
  */
+
 template< typename TInputMesh, typename TOutputMesh=TInputMesh >
 class SmoothingQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
@@ -74,12 +100,15 @@ public:
   void SetCoefficientsMethod(CoefficientsComputation *iMethod)
   { m_CoefficientsMethod = iMethod; }
 
+  /** Set/Get the number of iterations */
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetConstMacro(NumberOfIterations, unsigned int);
 
+  /** Set/Get if DelaunayConformingQuadEdgeMeshFilter is used at the end of each iterations */
   itkSetMacro(DelaunayConforming, bool);
   itkGetConstMacro(DelaunayConforming, bool);
 
+  /** Set/Get relaxation factor applied for each iteration */
   itkSetMacro(RelaxationFactor, OutputCoordType);
   itkGetConstMacro(RelaxationFactor, OutputCoordType);
 
