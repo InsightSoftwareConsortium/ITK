@@ -111,6 +111,11 @@ itk_add_test(NAME itkTIFFImageIOFloatTest
     --compare DATA{Baseline/rampFloat.tif}
               ${ITK_TEST_OUTPUT_DIR}/rampFloat.tif
     itkTIFFImageIOTest DATA{Baseline/rampFloat.tif} ${ITK_TEST_OUTPUT_DIR}/rampFloat.tif 3 4)
+  itk_add_test(NAME itkTIFFImageIORGBATest
+      COMMAND ITKIOTIFFTestDriver
+      --compare DATA{Baseline/itkTIFFImageIORGBATestBaseline.tif}
+              ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIORGBATest.tif
+    itkTIFFImageIOTest DATA{Input/RGBAHead.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIORGBATest.tif 3 2)
 
 ######################
 # Test Compression
