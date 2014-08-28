@@ -822,22 +822,27 @@ macro(ADD_PYTHON_POINTER_TYPEMAP template_params)
   set(ITK_WRAP_PYTHON_SWIG_EXT "${text}${ITK_WRAP_PYTHON_SWIG_EXT}")
 endmacro()
 
-
 ###############################################################################
-# Create the PyUtils library
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  add_subdirectory(Tests)
 
+  # Add the Python tests
+  if(BUILD_TESTING)
+    add_subdirectory(Tests)
+  endif()
+
+  # Wrap PyUtils
   macro(itk_end_wrap_modules_python)
     add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)
   endmacro()
 
+  # Wrap PyBase
   macro(itk_wrap_modules_python)
     add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyBase)
   endmacro()
 
 else()
+
   macro(itk_end_wrap_modules_python)
     # just do nothing
   endmacro()
