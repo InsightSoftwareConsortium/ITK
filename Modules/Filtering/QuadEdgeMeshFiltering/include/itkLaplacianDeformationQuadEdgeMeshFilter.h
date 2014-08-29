@@ -46,7 +46,7 @@ namespace itk {
  * vertex \f$v_i\f$.
  *
  * The deformation can be formulated by minimizing the difference from the
- * input surface coordinates  \delta_i . With a continuous formulation, this
+ * input surface coordinates \f$\delta_i\f$. With a continuous formulation, this
  * would lead to the minimization of the following energy:
  * \f[
  * \min_{\boldsymbol{p'}} \int_{\Omega} \| \boldsymbol{\Delta p'} - \boldsymbol{\delta} \| du dv

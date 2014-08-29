@@ -86,7 +86,6 @@ protected:
   /**
    *  \brief Fill matrix iM and vectors Bx and m_By depending on if one
    *  vertex is on the border or not.
-   *  \param iM
    */
   void FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz);
 
