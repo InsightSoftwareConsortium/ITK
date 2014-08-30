@@ -271,6 +271,7 @@ itk_add_test(NAME MultiResImageRegistration1Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/MultiResImageRegistration1Test.png,:}
             ${TEMP}/MultiResImageRegistration1Test.png
   --compareNumberOfPixelsTolerance 100
+  --compareIntensityTolerance 7
   $<TARGET_FILE:MultiResImageRegistration1>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
@@ -284,13 +285,14 @@ itk_add_test(NAME MultiResImageRegistration1Test2 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/MultiResImageRegistration1Test.png,:}
             ${TEMP}/MultiResImageRegistration1Test2.png
   --compareNumberOfPixelsTolerance 100
+  --compareIntensityTolerance 7
   $<TARGET_FILE:MultiResImageRegistration1>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration1Test2.png 100
         ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest2.png
         ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest2.png
-        0
+        32
 )
 set_property(TEST MultiResImageRegistration1Test2 APPEND PROPERTY LABELS RUNS_LONG)
 
@@ -322,6 +324,34 @@ itk_add_test(NAME MultiResImageRegistration2Test2 COMMAND ${ITK_TEST_DRIVER}
         0
 )
 set_property(TEST MultiResImageRegistration2Test2 APPEND PROPERTY LABELS RUNS_LONG)
+
+
+itk_add_test(NAME MultiStageImageRegistration1Test COMMAND ${ITK_TEST_DRIVER}
+  --compare DATA{${BASELINE}/ImageRegistration9TestPixelCentered.png,:}
+            ${TEMP}/MultiStageImageRegistration1Test.png
+  --compareNumberOfPixelsTolerance 10000
+  $<TARGET_FILE:MultiStageImageRegistration1>
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/MultiStageImageRegistration1Test.png  100
+        ${TEMP}/MultiStageImageRegistration1CheckerBoardBeforeTest.png
+        ${TEMP}/MultiStageImageRegistration1CheckerBoardAfterTest.png
+)
+set_property(TEST MultiStageImageRegistration1Test APPEND PROPERTY LABELS RUNS_LONG)
+
+
+itk_add_test(NAME MultiStageImageRegistration2Test COMMAND ${ITK_TEST_DRIVER}
+  --compare DATA{${BASELINE}/ImageRegistration9TestPixelCentered.png,:}
+            ${TEMP}/MultiStageImageRegistration2Test.png
+  --compareNumberOfPixelsTolerance 10000
+  $<TARGET_FILE:MultiStageImageRegistration2>
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/MultiStageImageRegistration2Test.png  100
+        ${TEMP}/MultiStageImageRegistration2CheckerBoardBeforeTest.png
+        ${TEMP}/MultiStageImageRegistration2CheckerBoardAfterTest.png
+)
+set_property(TEST MultiStageImageRegistration2Test APPEND PROPERTY LABELS RUNS_LONG)
 
 
 itk_add_test(NAME DeformableRegistration2Test COMMAND ${ITK_TEST_DRIVER}

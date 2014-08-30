@@ -379,7 +379,8 @@ int main( int argc, char *argv[] )
   //  translations and the coordinates of the rotation center.
   //  However, for the transforms with larger parameters sets, it is not intuitive for user to
   //  set the scales. In such cases, fortunately a framework for automated estimation of
-  //  parameter scales is provided by ITKv4 that will be discussed in later examples.
+  //  parameter scales is provided by ITKv4 that will be discussed later in the example of
+  //  section \ref{sec:MultiStageRegistration}.
   //
   //  Software Guide : EndLatex
 
