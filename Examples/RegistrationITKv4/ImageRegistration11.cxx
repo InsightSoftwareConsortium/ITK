@@ -28,17 +28,17 @@
 // specifically required for the evolutionary optimizer.
 //
 //
-// \index{itk::ImageRegistrationMethod!Multi-Modality}
-// \index{itk::OnePlusOneEvolutionaryOptimizer!Multi-Modality}
+// \index{itk::ImageRegistrationMethodv4!Multi-Modality}
+// \index{itk::OnePlusOneEvolutionaryOptimizerv4!Multi-Modality}
 //
 // Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImageRegistrationMethod.h"
+#include "itkImageRegistrationMethodv4.h"
 #include "itkTranslationTransform.h"
-#include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkOnePlusOneEvolutionaryOptimizer.h"
+#include "itkMattesMutualInformationImageToImageMetricv4.h"
+#include "itkOnePlusOneEvolutionaryOptimizerv4.h"
 #include "itkNormalVariateGenerator.h"
 // Software Guide : EndCodeSnippet
 
@@ -66,8 +66,8 @@ protected:
   CommandIterationUpdate() { m_LastMetricValue = 0.0; };
 
 public:
-  typedef itk::OnePlusOneEvolutionaryOptimizer     OptimizerType;
-  typedef   const OptimizerType *                  OptimizerPointer;
+  typedef itk::OnePlusOneEvolutionaryOptimizerv4<double>   OptimizerType;
+  typedef   const OptimizerType *                          OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -106,24 +106,21 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile ";
-    std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
+    std::cerr << "[samplingPercentage ] " << std::endl;
     return EXIT_FAILURE;
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned short  PixelType;
+  typedef  float           PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::OnePlusOneEvolutionaryOptimizer           OptimizerType;
-  typedef itk::LinearInterpolateImageFunction<
-                                    MovingImageType,
-                                    double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
+  typedef itk::TranslationTransform< double, Dimension >    TransformType;
+  typedef itk::OnePlusOneEvolutionaryOptimizerv4< double >  OptimizerType;
+  typedef itk::ImageRegistrationMethodv4<
                                     FixedImageType,
-                                    MovingImageType    > RegistrationType;
+                                    MovingImageType >       RegistrationType;
 
   //  Software Guide : BeginLatex
   //
@@ -136,34 +133,51 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MattesMutualInformationImageToImageMetric<
+  typedef itk::MattesMutualInformationImageToImageMetricv4<
                                           FixedImageType,
                                           MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
 
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
+  MetricType::Pointer         metric        = MetricType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   registration->SetOptimizer(     optimizer     );
-  registration->SetTransform(     transform     );
-  registration->SetInterpolator(  interpolator  );
-
-  MetricType::Pointer metric = MetricType::New();
   registration->SetMetric( metric  );
 
+  //  Software Guide : BeginLatex
+  //
+  // Metric parameter is set as follows.
+  //
+  //  Software Guide : EndLatex
   metric->SetNumberOfHistogramBins( 20 );
-  metric->SetNumberOfSpatialSamples( 10000 );
 
+  double samplingPercentage = 0.20;
   if( argc > 4 )
     {
-    // Define whether to calculate the metric derivative by explicitly
-    // computing the derivatives of the joint PDF with respect to the Transform
-    // parameters, or doing it by progressively accumulating contributions from
-    // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[4] ) );
+    samplingPercentage = atof( argv[4] );
     }
+
+  //  Software Guide : BeginLatex
+  //
+  //  As our previous discussion in section ~\ref{sec:MultiModalityRegistrationMattes},
+  //  only a subsample of the virtual domain is needed to evaluate the metric.
+  //  The number of spatial samples to be used depends on the content of the image, and
+  //  user can define the sampling percentage and the way that sampling operation
+  //  is managed by the registration framework as follows. Sampling startegy can
+  //  can be defined as \emph{REGULAR} or \emph{RANDOM}, while the default value
+  //  is \emph{NONE}.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  registration->SetMetricSamplingPercentage( samplingPercentage );
+
+  RegistrationType::MetricSamplingStrategyType  samplingStrategy  =
+                                                      RegistrationType::RANDOM;
+  registration->SetMetricSamplingStrategy( samplingStrategy );
+  // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -179,18 +193,17 @@ int main( int argc, char *argv[] )
 
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion(
-       fixedImageReader->GetOutput()->GetBufferedRegion() );
 
-
-  typedef RegistrationType::ParametersType ParametersType;
+  typedef TransformType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
 
-  registration->SetInitialTransformParameters( initialParameters );
+  transform->SetParameters( initialParameters );
 
+  registration->SetInitialTransform( transform );
+  registration->InPlaceOn();
 
   //  Software Guide : BeginLatex
   //
@@ -227,23 +240,32 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Another significant difference in the metric is that it
-  //  computes the negative mutual information and hence we
-  //  need to minimize the cost function in this case. In this
-  //  example we will use the same optimization parameters as in
-  //  Section \ref{sec:IntroductionImageRegistration}.
+  //  Now we set the optimizer parameters as follows.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->MaximizeOff();
-
   optimizer->SetNormalVariateGenerator( generator );
   optimizer->Initialize( 10 );
   optimizer->SetEpsilon( 1.0 );
   optimizer->SetMaximumIteration( 4000 );
   // Software Guide : EndCodeSnippet
 
+  // One level registration process without shrinking and smoothing.
+  //
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels ( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -266,7 +288,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  ParametersType finalParameters = registration->GetLastTransformParameters();
+  ParametersType finalParameters = transform->GetParameters();
 
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
@@ -305,14 +327,9 @@ int main( int argc, char *argv[] )
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
-  TransformType::Pointer finalTransform = TransformType::New();
-
-  finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
-
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
+  resample->SetTransform( transform );
   resample->SetInput( movingImageReader->GetOutput() );
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();

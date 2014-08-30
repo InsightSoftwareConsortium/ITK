@@ -24,16 +24,16 @@
 // Software Guide : EndLatex
 
 
-#include "itkImageRegistrationMethod.h"
+#include "itkImageRegistrationMethodv4.h"
 
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 
 // Software Guide : BeginCodeSnippet
-#include "itkMattesMutualInformationImageToImageMetric.h"
+#include "itkMattesMutualInformationImageToImageMetricv4.h"
 // Software Guide : EndCodeSnippet
 
-#include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkRegularStepGradientDescentOptimizerv4.h"
 
 
 #include "itkImageFileReader.h"
@@ -59,8 +59,8 @@ protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::RegularStepGradientDescentOptimizer  OptimizerType;
-  typedef   const OptimizerType *                   OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
+  typedef   const OptimizerType *                             OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -89,77 +89,58 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile ";
-    std::cerr << "[useExplicitPDFderivatives ] ";
-    std::cerr << "[useCachingBSplineWeights ] " << std::endl;
+    std::cerr << "outputImagefile " << std::endl;
     return EXIT_FAILURE;
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned char   PixelType;
+  typedef  float           PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
   // Software Guide : BeginLatex
+  //
   // The CenteredRigid2DTransform applies a rigid transform in 2D space.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredRigid2DTransform< double >  TransformType;
-  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::LinearInterpolateImageFunction<
-                                    MovingImageType,
-                                    double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
+  typedef itk::RegularStepGradientDescentOptimizerv4<double> OptimizerType;
+
+  typedef itk::ImageRegistrationMethodv4<
                                     FixedImageType,
-                                    MovingImageType    > RegistrationType;
+                                    MovingImageType,
+                                    TransformType >           RegistrationType;
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MattesMutualInformationImageToImageMetric<
+  typedef itk::MattesMutualInformationImageToImageMetricv4<
                                           FixedImageType,
-                                          MovingImageType >    MetricType;
+                                          MovingImageType >   MetricType;
   // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer      transform     = TransformType::New();
+  MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  // Software Guide : EndCodeSnippet
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   registration->SetOptimizer(     optimizer     );
-  registration->SetTransform(     transform     );
-  registration->SetInterpolator(  interpolator  );
-
-
-  MetricType::Pointer metric = MetricType::New();
   registration->SetMetric( metric  );
 
-
+  // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( 20 );
-  metric->SetNumberOfSpatialSamples( 10000 );
 
-  if( argc > 4 )
-    {
-    // Define whether to calculate the metric derivative by explicitly
-    // computing the derivatives of the joint PDF with respect to the Transform
-    // parameters, or doing it by progressively accumulating contributions from
-    // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[4] ) );
-    }
+  double samplingPercentage = 0.20;
+  registration->SetMetricSamplingPercentage( samplingPercentage );
 
-  if( argc > 5 )
-    {
-    // Define whether to cache the BSpline weights and indexes corresponding to
-    // each one of the samples used to compute the metric. Enabling caching will
-    // make the algorithm run faster but it will have a cost on the amount of memory
-    // that needs to be allocated. This option is only relevant when using the
-    // BSplineTransform.
-    metric->SetUseCachingOfBSplineWeights( atoi( argv[5] ) );
-    }
+  RegistrationType::MetricSamplingStrategyType  samplingStrategy  =
+                                                      RegistrationType::RANDOM;
+  registration->SetMetricSamplingStrategy( samplingStrategy );
+  // Software Guide : EndCodeSnippet
 
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
@@ -176,10 +157,8 @@ int main( int argc, char *argv[] )
 
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion(
-       fixedImageReader->GetOutput()->GetBufferedRegion() );
-
   // Software Guide : BeginLatex
+  //
   // The \doxygen{CenteredRigid2DTransform} is initialized by 5 parameters,
   // indicating the angle of rotation, the center coordinates and the
   // translation to be applied after rotation. The initialization is done
@@ -194,11 +173,14 @@ int main( int argc, char *argv[] )
   // mass is computed from the moments obtained from the gray level values.
   // Here we adopt the first approach. The \code{GeometryOn()} method
   // toggles between the approaches.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer<
-            TransformType, FixedImageType,
-            MovingImageType >  TransformInitializerType;
+                                      TransformType,
+                                      FixedImageType,
+                                      MovingImageType >  TransformInitializerType;
   TransformInitializerType::Pointer initializer
                                             = TransformInitializerType::New();
   initializer->SetTransform(   transform );
@@ -211,23 +193,26 @@ int main( int argc, char *argv[] )
 
   transform->SetAngle( 0.0 );
 
-
-  registration->SetInitialTransformParameters( transform->GetParameters() );
+  registration->SetInitialTransform( transform );
+  registration->InPlaceOn();
 
   // Software Guide : BeginLatex
+  //
   // The optimizer scales the metrics (the gradient in this case) by the
   // scales during each iteration. Hence a large value of the center scale
   // will prevent movement along the center during optimization. Here we
   // assume that the fixed and moving images are likely to be related by
   // a translation.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 128.0;
   const double centerScale      = 1000.0; // prevents it from moving
-                                          // during the optimization
+                                            // during the optimization
   optimizerScales[0] = 1.0;
   optimizerScales[1] = centerScale;
   optimizerScales[2] = centerScale;
@@ -236,10 +221,26 @@ int main( int argc, char *argv[] )
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 0.5   );
+  optimizer->SetLearningRate( 0.5   );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 400 );
   // Software Guide : EndCodeSnippet
+
+  // One level registration process without shrinking and smoothing.
+  //
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels ( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -261,9 +262,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef RegistrationType::ParametersType ParametersType;
-
-  ParametersType finalParameters = registration->GetLastTransformParameters();
+  typedef TransformType::ParametersType ParametersType;
+  ParametersType finalParameters = transform->GetParameters();
 
   const double finalAngle           = finalParameters[0];
   const double finalRotationCenterX = finalParameters[1];
@@ -295,14 +295,9 @@ int main( int argc, char *argv[] )
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
-  TransformType::Pointer finalTransform = TransformType::New();
-
-  finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
-
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
+  resample->SetTransform( transform );
   resample->SetInput( movingImageReader->GetOutput() );
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
@@ -313,16 +308,23 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
+  typedef  unsigned char  OutputPixelType;
 
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+
+  typedef itk::CastImageFilter<
+                        FixedImageType,
+                        OutputImageType > CastFilterType;
 
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
+  CastFilterType::Pointer  caster =  CastFilterType::New();
 
   writer->SetFileName( argv[3] );
 
-  writer->SetInput( resample->GetOutput() );
+  caster->SetInput( resample->GetOutput() );
+  writer->SetInput( caster->GetOutput()   );
   writer->Update();
 
   return EXIT_SUCCESS;
@@ -335,18 +337,26 @@ int main( int argc, char *argv[] )
 //
 //  \begin{itemize}
 //  \item \code{BrainProtonDensitySlice.png}
-//  \item \code{BrainProtonDensitySliceBorder20.png}
+//  \item \code{BrainProtonDensitySliceR10X13Y17.png}
 //  \end{itemize}
 //
-//  The second image is the result of intentionally shifting the first
-//  image by $20mm$ in $X$ and $20mm$ in
+//  The second image is the result of intentionally rotating the first
+//  image by $10$ degrees and shifting it $13mm$ in $X$ and $17mm$ in
 //  $Y$. Both images have unit-spacing and are shown in Figure
-//  \ref{fig:FixedMovingImageRegistration1}. The example
+//  \ref{fig:FixedMovingImageRegistration5}. The example
 //  yielded the following results.
 //
 //  \begin{verbatim}
-//  Translation X = 20
-//  Translation Y = 20
+//
+//  Angle (radians) 0.174585
+//  Angle (degrees) 10.003
+//  Center X      = 110
+//  Center Y      = 128
+//  Translation X = 13.09
+//  Translation Y = 15.91
+//
 //  \end{verbatim}
+//
 //  These values match the true misalignment introduced in the moving image.
+//
 //  Software Guide : EndLatex
