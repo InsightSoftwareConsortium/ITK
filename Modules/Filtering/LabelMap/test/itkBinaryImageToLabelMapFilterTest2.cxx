@@ -39,9 +39,9 @@ int itkBinaryImageToLabelMapFilterTest2( int argc, char * argv [] )
   typedef unsigned char BinaryPixelType;
   typedef unsigned char LabelPixelType;
 
-  typedef itk::Image< BinaryPixelType, Dimension > ImageType;
-  typedef itk::LabelObject< LabelPixelType, Dimension >   LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >                LabelMapType;
+  typedef itk::Image< BinaryPixelType, Dimension >      ImageType;
+  typedef itk::LabelObject< LabelPixelType, Dimension > LabelObjectType;
+  typedef itk::LabelMap< LabelObjectType >              LabelMapType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
