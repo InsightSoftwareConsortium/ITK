@@ -189,7 +189,7 @@ int main( int argc, char *argv[] )
   //  initialization transform into a composite transform to be considered as the
   //  final transform of the first registration stage.
   //
-  //  $T_{1}$(x) = $\Gamma_{mi}$($\Gamma_{stage_1}$(x) )
+  //  $ T_{1}(x) = \Gamma_{mi}(\Gamma_{stage_1}(x) ) $
   //
   //  Consider that as explained in section \ref{sec:FeaturesOfTheRegistrationFramework},
   //  the above transform is a maping from the vitual domain (i.e. fixed image space, when no
@@ -203,7 +203,7 @@ int main( int argc, char *argv[] )
   //  can be concatenated into a final composite transform that is considered as the final
   //  output of the whole registration process.
   //
-  //  $I'_{m}$(x) = $I_{m}$($\Gamma_{mi}$($\Gamma_{stage_1}$($\Gamma_{stage_2}$($\Gamma_{stage_3}$(x) ) ) ) )
+  //  $I'_{m}(x) = I_{m}(\Gamma_{mi}(\Gamma_{stage_1}(\Gamma_{stage_2}(\Gamma_{stage_3}(x) ) ) ) )$
   //
   //  The above approach is specially useful if individual stages are characterized by
   //  possible different types of transforms for example when we run a rigid registration
