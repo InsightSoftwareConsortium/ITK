@@ -144,7 +144,7 @@ if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
       0.1  # Step length
       300  # maximum number of iterations
     )
-  set_tests_properties(ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
+  set_tests_properties(ITKv3ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
 endif()
 
 endif()
