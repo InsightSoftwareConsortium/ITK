@@ -35,7 +35,7 @@
 // \doxygen{CenteredRigid2DTransform} class.
 //
 // A similarity transform can be seen as a composition of rotations,
-// translations and uniform \left(\isotropic\right) scaling. It preserves angles and map lines into
+// translations and uniform $\left(isotropic\right)$ scaling. It preserves angles and map lines into
 // lines. This transform is implemented in the toolkit as deriving from a rigid
 // $2D$ transform and with a scale parameter added.
 //
