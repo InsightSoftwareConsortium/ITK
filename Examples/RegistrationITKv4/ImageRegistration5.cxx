@@ -173,11 +173,11 @@ int main( int argc, char *argv[] )
   //  a multi-stage registration process, as the output of each stage can
   //  be set as the moving initial transform for the next stage.
   //
-  //  Inside the registration filter, this initial moving transform (\Gamma_{mi})
+  //  Inside the registration filter, this initial moving transform ($\Gamma_{mi}$)
   //  is added to an internal composite transform along with an updatable
-  //  identity transform (\Gamma_{u}). Although the whole composite transform
-  //  is used for metric evaluation, only the \Gamma_{u} is set to be updated
-  //  by the optimizer. The \Gamma_{u} will be considered as the output transform of
+  //  identity transform ($\Gamma_{u}$). Although the whole composite transform
+  //  is used for metric evaluation, only the $\Gamma_{u}$ is set to be updated
+  //  by the optimizer. The $\Gamma_{u}$ will be considered as the output transform of
   //  the current stage when the optimization process is converged.
   //
   //  As seen above, the output of each stage does not include the initialization
@@ -188,12 +188,12 @@ int main( int argc, char *argv[] )
   //  Assume a registration process with three stages. The following shows how the final
   //  composite transform maps each point of the moving image space to the warped space:
   //
-  //  I'_{m} (x) = I_{m}(\Gamma_{stage_1}(\Gamma_{stage_2}(\Gamma_{stage_3}(x) ) ) )
+  //  $I'_{m} (x) = I_{m}(\Gamma_{stage_1}(\Gamma_{stage_2}(\Gamma_{stage_3}(x) ) ) )$
   //
   //
   //  In this example a different method is used for initialization which is closer
   //  to what was happening in the previous version of ITK. In this approach we try to
-  //  initialize the parameters of the optimizable transform (\Gamma_{u}) directly.
+  //  initialize the parameters of the optimizable transform ($\Gamma_{u}$) directly.
   //
   //  Using of this method is very simple and efficient when we have only one level of
   //  registration like the case of this example.
@@ -328,7 +328,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Now the current parameters of the initial transform will be set
-  //  to registration method, so they can be assigned to the \Gamma_{u} directly.
+  //  to registration method, so they can be assigned to the $\Gamma_{u}$ directly.
   //
   //  Software Guide : EndLatex
 
@@ -343,7 +343,7 @@ int main( int argc, char *argv[] )
   //  parameters array corresponds to the angle that is measured in radians, while
   //  the other parameters correspond to translations that are measured in millimeters,
   //  so a naive application of gradient descent optimizer will not produce a smooth
-  //  change of parameters, due to this fact that a similar change of \Delta
+  //  change of parameters, due to this fact that a similar change of $\Delta$
   //  to each parameter will produce a different magnitude of impact on transform.
   //  As the result, we need ``parameter scales'' to customize the learning rate for
   //  each parameter. We can take advantage of the scaling functionality provided
