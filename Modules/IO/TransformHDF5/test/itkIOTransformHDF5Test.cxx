@@ -16,9 +16,8 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-#include <fstream>
 #include "itkHDF5TransformIOFactory.h"
+#include "itkHDF5TransformIO.h"
 #include "itkTransformFileWriter.h"
 #include "itkTransformFileReader.h"
 #include "itkAffineTransform.h"
@@ -39,14 +38,29 @@ template < typename ScalarType, typename DisplacementTransformType >
 static int ReadWriteTest(const char * const fileName)
 {
   // Now test reading/writing many different transform types.
-  typename itk::TransformFileReaderTemplate<ScalarType>::Pointer
-    reader = itk::TransformFileReaderTemplate<ScalarType>::New();
+  typedef itk::TransformFileReaderTemplate< ScalarType > TransformReaderType;
+  typename TransformReaderType::Pointer reader = TransformReaderType::New();
 
-  typename itk::TransformFileWriterTemplate<ScalarType>::Pointer
-    writer = itk::TransformFileWriterTemplate<ScalarType>::New();
+  typedef itk::TransformFileWriterTemplate< ScalarType > TransformWriterType;
+  typename TransformWriterType::Pointer writer = TransformWriterType::New();
 
-  writer->SetFileName( fileName );
   reader->SetFileName( fileName );
+  writer->SetFileName( fileName );
+
+  typedef itk::HDF5TransformIOTemplate< ScalarType > TransformIOType;
+  typename TransformIOType::Pointer transformIO = TransformIOType::New();
+  reader->SetTransformIO( transformIO );
+  if( reader->GetTransformIO() != transformIO.GetPointer() )
+    {
+    std::cerr << "Set/Get TransformIO did not work correctly." << std::endl;
+    return EXIT_FAILURE;
+    }
+  writer->SetTransformIO( transformIO );
+  if( writer->GetTransformIO() != transformIO.GetPointer() )
+    {
+    std::cerr << "Set/Get TransformIO did not work correctly." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   typename DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
     {
@@ -265,57 +279,6 @@ static int oneTest(const char *const goodname,const char *const badname)
   return EXIT_SUCCESS;
 }
 
-//
-// test endless loop bug in transform reader, triggered by no
-// EOL at end of file.
-// This test will exercise this reported bug:
-// http://public.kitware.com/Bug/view.php?id=7028
-template<typename ScalarType>
-int
-secondTest()
-{
-  std::filebuf fb;
-  fb.open("IllegalTransform.txt",std::ios::out);
-  std::ostream os(&fb);
-  os << "#Insight Transform File V1.0"
-     << std::endl
-     << "#Transform 0"
-     << std::endl
-     << "Transform: AffineTransform_double_10_10"
-     << std::endl
-     << "Parameters: "
-     << "  0 1 2 3 4 5 6 7 8 9 10 11 12"
-     << " 13 14 15 16 17 18 19 20 21 22"
-     << std::endl
-     << "FixedParameters: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18";
-  fb.close();
-  typename itk::TransformFileReaderTemplate<ScalarType>::Pointer reader;
-  reader = itk::TransformFileReaderTemplate<ScalarType>::New();
-  reader->SetFileName("IllegalTransform.txt");
-  try
-    {
-    reader->Update();
-    std::cerr << "FAILED to throw expected exception" << std::endl;
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType *list;
-    list = reader->GetTransformList();
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType::iterator lit =
-      list->begin();
-    while ( lit != list->end() )
-      {
-      (*lit)->Print ( std::cout );
-      ++lit;
-      }
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "EXPECTED Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[SUCCESS]" << std::endl;
-    return EXIT_SUCCESS;
-    }
-  return EXIT_FAILURE;
-}
-
 int itkIOTransformHDF5Test(int argc, char* argv[])
 {
   if (argc > 1)
@@ -323,13 +286,7 @@ int itkIOTransformHDF5Test(int argc, char* argv[])
     itksys::SystemTools::ChangeDirectory(argv[1]);
     }
   const int result1 =  oneTest<float>("Transforms_float.h5", "TransformsBad_float.h5" );
-  const int result2 =  secondTest<float>();
+  const int result2 =  oneTest<double>("Transforms_double.hdf5", "TransformsBad_double.hdf5" );
 
-  const int result3 =  oneTest<double>("Transforms_double.hdf5", "TransformsBad_double.hdf5" );
-  const int result4 =  secondTest<double>();
-
-  return (
-          ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) ) &&
-          ( !( result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS) )
-          );
+  return ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) );
 }

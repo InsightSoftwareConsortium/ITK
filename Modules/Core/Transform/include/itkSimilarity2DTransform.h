@@ -190,6 +190,21 @@ public:
    */
   virtual void SetMatrix(const MatrixType & matrix);
 
+  /**
+   * Set the rotation Matrix of a Similarity 2D Transform
+   *
+   * This method sets the 2x2 matrix representing a similarity
+   * transform.  The Matrix is expected to be a valid
+   * similarity transform within the given tolerance.
+   *
+   * \warning This method will throw an exception if the matrix
+   * provided as argument is not valid.
+   *
+   * \sa MatrixOffsetTransformBase::SetMatrix()
+   *
+   */
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
+
 protected:
   Similarity2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   Similarity2DTransform(unsigned int parametersDimension);

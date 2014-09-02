@@ -15,15 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTComplexToComplexImageFilter_h
-#define __itkFFTComplexToComplexImageFilter_h
+#ifndef __itkComplexToComplexFFTImageFilter_h
+#define __itkComplexToComplexFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include <complex>
 
 namespace itk
 {
-/** \class FFTComplexToComplexImageFilter
+
+/** \class ComplexToComplexFFTImageFilter
  *
  * \brief Implements an API to enable the Fourier transform or the inverse
  * Fourier transform of images with complex valued voxels to be computed.
@@ -45,10 +46,10 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa ForwardFFTImageFilter
- * \ingroup ITKReview
+ * \ingroup ITKFFT
  */
 template< typename TImage >
-class FFTComplexToComplexImageFilter:
+class ComplexToComplexFFTImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
@@ -58,7 +59,7 @@ public:
   typedef TImage OutputImageType;
 
   /** Standard class typedefs. */
-  typedef FFTComplexToComplexImageFilter                        Self;
+  typedef ComplexToComplexFFTImageFilter                        Self;
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
   typedef SmartPointer< Self >                                  Pointer;
   typedef SmartPointer< const Self >                            ConstPointer;
@@ -67,53 +68,56 @@ public:
                       InputImageType::ImageDimension);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTComplexToComplexImageFilter, ImageToImageFilter);
+  itkTypeMacro(ComplexToComplexFFTImageFilter, ImageToImageFilter);
 
   /** Customized object creation methods that support configuration-based
     * selection of FFT implementation.
     *
     * Default implementation is FFTW.
     */
-  static Pointer New(void);
+  static Pointer New();
 
   /** Transform Direction */
-  typedef enum {
-    DIRECT = 1,
-    INVERSE
-    }                                             TransformDirectionType;
+  enum TransformDirectionType {
+    FORWARD = 1,
+    INVERSE = 2
+    };
 
   /** Image type typedef support. */
   typedef typename ImageType::SizeType ImageSizeType;
 
   /** Set/Get the direction in which the transform will be applied.
-   * By selecting DIRECT, this filter will perform a direct Fourier Transform,
-   * By selecting INVERSE, this filter will perform an inverse Fourier Transform,
+   * By selecting FORWARD, this filter will perform a direct, i.e. forward, Fourier Transform,
+   * By selecting INVERSE, this filter will perform an inverse, i.e. backward, Fourier Transform,
    */
   itkSetMacro(TransformDirection, TransformDirectionType);
   itkGetConstMacro(TransformDirection, TransformDirectionType);
 
 protected:
-  FFTComplexToComplexImageFilter() {}
-  virtual ~FFTComplexToComplexImageFilter(){}
+  ComplexToComplexFFTImageFilter():
+    m_TransformDirection( FORWARD ) {}
 
-  /** methods needed for the image filter pipeline */
-  virtual void GenerateOutputInformation(); // figure out allocation for output
-                                            // image
-
-  virtual void GenerateInputRequestedRegion();
-
-  virtual bool FullMatrix() = 0; // must be implemented in child
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  FFTComplexToComplexImageFilter(const Self &); //purposely not implemented
+  ComplexToComplexFFTImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented
 
   TransformDirectionType m_TransformDirection;
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTComplexToComplexImageFilter.hxx"
+#ifndef __itkVnlComplexToComplexFFTImageFilter_h
+#ifndef __itkVnlComplexToComplexFFTImageFilter_hxx
+#ifndef __itkFFTWComplexToComplexFFTImageFilter_h
+#ifndef __itkFFTWComplexToComplexFFTImageFilter_hxx
+#include "itkComplexToComplexFFTImageFilter.hxx"
+#endif
+#endif
+#endif
+#endif
 #endif
 
 #endif

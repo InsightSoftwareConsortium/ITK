@@ -274,6 +274,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
       currentTransformGroup.close();
       }
     transformGroup.close();
+    this->m_H5File->close();
     }
   // catch failure caused by the H5File operations
   catch( H5::Exception & error )
@@ -365,6 +366,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
       {
       this->WriteOneTransform(count,(*it).GetPointer());
       }
+    this->m_H5File->close();
     }
   // catch failure caused by the H5File operations
   catch( H5::Exception & error )
@@ -372,6 +374,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
     itkExceptionMacro(<< error.getCDetailMsg());
     }
 }
-}
+
+} // end namespace itk
 
 #endif

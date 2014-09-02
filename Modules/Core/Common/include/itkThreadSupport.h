@@ -46,7 +46,7 @@ namespace itk
   typedef pthread_mutex_t MutexType;
   typedef pthread_mutex_t FastMutexType;
   typedef void *( * ThreadFunctionType )(void *);
-  typedef pthread_t ThreadProcessIDType;
+  typedef pthread_t ThreadProcessIdType;
 #define ITK_THREAD_RETURN_VALUE  NULL
 #define ITK_THREAD_RETURN_TYPE   void *
 
@@ -56,7 +56,7 @@ namespace itk
   typedef HANDLE                 MutexType;
   typedef CRITICAL_SECTION       FastMutexType;
   typedef LPTHREAD_START_ROUTINE ThreadFunctionType;
-  typedef HANDLE                 ThreadProcessIDType;
+  typedef HANDLE                 ThreadProcessIdType;
 #define ITK_THREAD_RETURN_VALUE 0
 #define ITK_THREAD_RETURN_TYPE DWORD __stdcall
 
@@ -66,7 +66,7 @@ namespace itk
   typedef int     MutexType;
   typedef int     FastMutexType;
   typedef void ( *ThreadFunctionType )(void *);
-  typedef int     ThreadProcessIDType;
+  typedef int     ThreadProcessIdType;
 #define ITK_THREAD_RETURN_VALUE
 #define ITK_THREAD_RETURN_TYPE void
 

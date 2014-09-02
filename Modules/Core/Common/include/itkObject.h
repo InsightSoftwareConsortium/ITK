@@ -102,7 +102,7 @@ public:
   virtual void Register() const ITK_OVERRIDE;
 
   /** Decrease the reference count (release by another object).  */
-  virtual void UnRegister() const ITK_OVERRIDE;
+  virtual void UnRegister() const ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Sets the reference count (use with care)  */
   virtual void SetReferenceCount(int) ITK_OVERRIDE;

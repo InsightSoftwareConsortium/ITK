@@ -720,7 +720,7 @@ str = str
 %template(liststring)     std::list< std::string >;
 
 %template(mapULD)         std::map< unsigned long, double >;
-// %template(mapBB)          std::map< bool, bool >;
+%template(mapBB)          std::map< bool, bool >;
 %template(mapUCUC)        std::map< unsigned char, unsigned char >;
 %template(mapUSUS)        std::map< unsigned short, unsigned short >;
 %template(mapULUL)        std::map< unsigned long, unsigned long >;
@@ -730,8 +730,8 @@ str = str
 %template(mapFF)          std::map< float, float >;
 %template(mapDD)          std::map< double, double >;
 
-// %template(vectorB)        std::vector< bool >;
-// %template(vectorvectorB)  std::vector< std::vector< bool > >;
+%template(vectorB)        std::vector< bool >;
+%template(vectorvectorB)  std::vector< std::vector< bool > >;
 %template(vectorUC)       std::vector< unsigned char >;
 %template(vectorvectorUC) std::vector< std::vector< unsigned char > >;
 %template(vectorUS)       std::vector< unsigned short >;
@@ -749,7 +749,7 @@ str = str
 %template(vectorD)        std::vector< double >;
 %template(vectorvectorD)  std::vector< std::vector< double > >;
 
-// %template(listB)          std::list< bool >;
+%template(listB)          std::list< bool >;
 %template(listUC)         std::list< unsigned char >;
 %template(listUS)         std::list< unsigned short >;
 %template(listUL)         std::list< unsigned long >;
@@ -759,7 +759,7 @@ str = str
 %template(listF)          std::list< float >;
 %template(listD)          std::list< double >;
 
-// %template(setB)          std::set< bool, std::less< bool > >;
+%template(setB)          std::set< bool, std::less< bool > >;
 %template(setUC)         std::set< unsigned char, std::less< unsigned char > >;
 %template(setUS)         std::set< unsigned short, std::less< unsigned short > >;
 %template(setUL)         std::set< unsigned long, std::less< unsigned long > >;

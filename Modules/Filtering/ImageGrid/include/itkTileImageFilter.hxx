@@ -345,10 +345,10 @@ TileImageFilter< TInputImage, TOutputImage >
 {
   Superclass::PrintSelf(os, indent);
 
-  std::cout << "DefaultPixelValue: "
+  os << "DefaultPixelValue: "
             << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_DefaultPixelValue )
             << std::endl;
-  std::cout << "Layout: " << m_Layout << std::endl;
+  os << "Layout: " << m_Layout << std::endl;
 }
 } // end namespace itk
 #endif

@@ -161,17 +161,21 @@ GaussianMembershipFunction< TMeasurementVector >
   const MeasurementVectorSizeType measurementVectorSize =
     this->GetMeasurementVectorSize();
 
-  // Compute ( y - mean )
-  vnl_vector< double > tempVector( measurementVectorSize );
-
-  for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
-    {
-    tempVector[i] = measurement[i] - m_Mean[i];
-    }
-
   // temp = ( y - mean )^t * InverseCovariance * ( y - mean )
-  double temp = dot_product( tempVector,
-                             m_InverseCovariance.GetVnlMatrix() * tempVector );
+  //
+  // This is manually done to remove dynamic memory allocation:
+  // double temp = dot_product( tempVector,  m_InverseCovariance.GetVnlMatrix() * tempVector );
+  //
+  double temp = 0.0;
+  for(MeasurementVectorSizeType r = 0; r < measurementVectorSize; ++r)
+    {
+    double rowdot = 0.0;
+    for (MeasurementVectorSizeType c = 0; c < measurementVectorSize; ++c)
+      {
+      rowdot += m_InverseCovariance(r, c) * ( measurement[c] - m_Mean[c] );
+      }
+    temp += rowdot * ( measurement[r] - m_Mean[r] );
+    }
 
   temp = std::exp(-0.5 * temp);
 

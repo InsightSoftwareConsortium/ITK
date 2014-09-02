@@ -50,16 +50,16 @@ int itkDCMTKSeriesReadImageWrite( int argc, char* argv[] )
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  const ReaderType::FileNamesContainer & filenames = it->GetInputFileNames();
-  unsigned int numberOfFilenames =  filenames.size();
-  std::cout << numberOfFilenames << std::endl;
-  for(unsigned int fni = 0; fni<numberOfFilenames; fni++)
+  const ReaderType::FileNamesContainer & fileNames = it->GetInputFileNames();
+  const unsigned int numberOfFileNames =  fileNames.size();
+  std::cout << numberOfFileNames << std::endl;
+  for(unsigned int fni = 0; fni < numberOfFileNames; ++fni)
     {
     std::cout << "filename # " << fni << " = ";
-    std::cout << filenames[fni] << std::endl;
+    std::cout << fileNames[fni] << std::endl;
     }
 
-  reader->SetFileNames( filenames );
+  reader->SetFileNames( fileNames );
   reader->SetImageIO( dcmtkIO );
 
   try

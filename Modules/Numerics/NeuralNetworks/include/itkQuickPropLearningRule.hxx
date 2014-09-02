@@ -32,11 +32,8 @@ QuickPropLearningRule <LayerType,TTargetVector>
   m_Momentum = 0.9; //Default
   m_Max_Growth_Factor = 1.75;
   m_Decay = -0.0001;
-  m_SplitEpsilon = 1;
   m_Epsilon = 0.55;
   m_Threshold = 0.0;
-  m_SigmoidPrimeOffset = 0;
-  m_SplitEpsilon = 0;
 }
 
 template<typename LayerType, typename TTargetVector>
@@ -171,8 +168,6 @@ QuickPropLearningRule<LayerType,TTargetVector>
   os << indent << "m_Decay = " << m_Decay << std::endl;
   os << indent << "m_Threshold = " << m_Threshold << std::endl;
   os << indent << "m_Epsilon = " << m_Epsilon << std::endl;
-  os << indent << "m_SigmoidPrimeOffset = " << m_SigmoidPrimeOffset << std::endl;
-  os << indent << "m_SplitEpsilon = " << m_SplitEpsilon << std::endl;
   Superclass::PrintSelf( os, indent );
 }
 

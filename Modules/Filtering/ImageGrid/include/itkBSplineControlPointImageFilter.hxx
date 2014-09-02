@@ -41,8 +41,8 @@ namespace itk
 /*
  * BSplineControlPointImageFilter class definitions
  */
-template<typename InputImage, typename TOutputImage>
-BSplineControlPointImageFilter<InputImage, TOutputImage>
+template<typename TInputImage, typename TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::BSplineControlPointImageFilter()
 {
   this->m_SplineOrder.Fill( 3 );
@@ -76,9 +76,9 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
 {
 }
 
-template<typename TInputPointImage, typename TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
-BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::SetNumberOfLevels( ArrayType levels )
 {
   this->m_NumberOfLevels = levels;
@@ -112,18 +112,18 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
   this->Modified();
 }
 
-template<typename TInputPointImage, typename TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
-BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::SetSplineOrder( unsigned int order )
 {
   this->m_SplineOrder.Fill( order );
   this->SetSplineOrder( this->m_SplineOrder );
 }
 
-template<typename TInputPointImage, typename TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
-BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::SetSplineOrder( ArrayType order )
 {
   itkDebugMacro( "Setting m_SplineOrder to " << order );
@@ -177,11 +177,14 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
   this->Modified();
 }
 
-template<typename InputImage, typename TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
+  const TInputImage *inputPtr = this->GetInput();
+  TOutputImage *outputPtr = this->GetOutput();
+
   for( unsigned int i = 0; i < ImageDimension; i++)
     {
     if( this->m_Size[i] == 0 )
@@ -189,11 +192,11 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
       itkExceptionMacro( "Size must be specified." );
       }
     }
-  this->GetOutput()->SetOrigin( this->m_Origin );
-  this->GetOutput()->SetSpacing( this->m_Spacing );
-  this->GetOutput()->SetRegions( this->m_Size );
-  this->GetOutput()->SetDirection( this->m_Direction );
-  this->GetOutput()->Allocate();
+  outputPtr->SetOrigin( this->m_Origin );
+  outputPtr->SetSpacing( this->m_Spacing );
+  outputPtr->SetRegions( this->m_Size );
+  outputPtr->SetDirection( this->m_Direction );
+  outputPtr->Allocate();
 
   unsigned int maximumNumberOfSpans = 0;
   for( unsigned int d = 0; d < ImageDimension; d++ )
@@ -216,34 +219,37 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   for( unsigned int i = 0; i < ImageDimension; i++)
     {
     this->m_NumberOfControlPoints[i] =
-      this->GetInput()->GetLargestPossibleRegion().GetSize()[i];
+      inputPtr->GetLargestPossibleRegion().GetSize()[i];
     }
 }
 
-template<typename InputImage, typename TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType & region,
   ThreadIdType itkNotUsed( threadId ) )
 {
+  const TInputImage *inputPtr = this->GetInput();
+  TOutputImage *outputPtr = this->GetOutput();
+
   typename PointDataImageType::Pointer collapsedPhiLattices[ImageDimension + 1];
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     collapsedPhiLattices[i] = PointDataImageType::New();
-    collapsedPhiLattices[i]->CopyInformation( this->GetInput() );
+    collapsedPhiLattices[i]->CopyInformation( inputPtr );
 
     typename PointDataImageType::SizeType size;
-    size.Fill(1);
+    size.Fill( 1 );
     for( unsigned int j = 0; j < i; j++ )
       {
-      size[j] = this->GetInput()->GetLargestPossibleRegion().GetSize()[j];
+      size[j] = inputPtr->GetLargestPossibleRegion().GetSize()[j];
       }
-    collapsedPhiLattices[i]->SetRegions(size);
+    collapsedPhiLattices[i]->SetRegions( size );
     collapsedPhiLattices[i]->Allocate();
     }
   typedef ImageDuplicator<ControlPointLatticeType> ImageDuplicatorType;
   typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
-  duplicator->SetInputImage( this->GetInput() );
+  duplicator->SetInputImage( inputPtr );
   duplicator->Update();
 
   collapsedPhiLattices[ImageDimension] = duplicator->GetModifiableOutput();
@@ -253,13 +259,11 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     {
     if( this->m_CloseDimension[i] )
       {
-      totalNumberOfSpans[i] =
-        this->GetInput()->GetLargestPossibleRegion().GetSize()[i];
+      totalNumberOfSpans[i] = inputPtr->GetLargestPossibleRegion().GetSize()[i];
       }
     else
       {
-      totalNumberOfSpans[i] =
-        this->GetInput()->GetLargestPossibleRegion().GetSize()[i] -
+      totalNumberOfSpans[i] = inputPtr->GetLargestPossibleRegion().GetSize()[i] -
         this->m_SplineOrder[i];
       }
     }
@@ -268,11 +272,11 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   currentU.Fill( -1 );
 
   typename OutputImageType::IndexType startIndex =
-    this->GetOutput()->GetRequestedRegion().GetIndex();
+    outputPtr->GetRequestedRegion().GetIndex();
   typename PointDataImageType::IndexType startPhiIndex =
-    this->GetInput()->GetLargestPossibleRegion().GetIndex();
+    inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  ImageRegionIteratorWithIndex<OutputImageType> It( this->GetOutput(), region );
+  ImageRegionIteratorWithIndex<OutputImageType> It( outputPtr, region );
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     typename OutputImageType::IndexType idx = It.GetIndex();
@@ -311,9 +315,9 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     }
 }
 
-template<typename InputImage, typename TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::CollapsePhiLattice( PointDataImageType *lattice,
   PointDataImageType *collapsedLattice, const RealType u,
   const unsigned int dimension )
@@ -630,9 +634,9 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
   return psiLattice;
 }
 
-template<typename InputImage, typename TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

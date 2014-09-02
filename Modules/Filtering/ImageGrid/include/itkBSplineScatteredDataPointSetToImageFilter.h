@@ -315,7 +315,10 @@ public:
   /**
    * Get the control point lattice produced by the fitting process.
    */
-  itkGetConstMacro( PhiLattice, PointDataImagePointer );
+  PointDataImagePointer GetPhiLattice()
+    {
+    return static_cast<PointDataImageType *>( this->ProcessObject::GetOutput( 1 ) );
+    }
 
 protected:
   BSplineScatteredDataPointSetToImageFilter();

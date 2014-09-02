@@ -155,6 +155,22 @@ DisplacementFieldTransform<TScalar, NDimensions>
     }
 }
 
+template <typename TScalar, unsigned int NDimensions>
+void
+DisplacementFieldTransform<TScalar, NDimensions>
+::SetIdentity(void)
+{
+  if (!this->m_InverseDisplacementField.IsNull())
+    {
+    this->m_DisplacementField->FillBuffer(OutputVectorType(0.0));
+    }
+  if (!this->m_InverseDisplacementField.IsNull())
+    {
+    this->m_InverseDisplacementField->FillBuffer(OutputVectorType(0.0));
+    }
+}
+
+
 /*
  * ComputeJacobianWithRespectToParameters methods
  */
@@ -633,31 +649,10 @@ DisplacementFieldTransform<TScalar, NDimensions>
 {
   Superclass::PrintSelf( os, indent );
 
-  std::cout << indent << "Interpolator: " << std::endl;
-  std::cout << indent << indent << this->m_Interpolator << std::endl;
-
-  std::cout << indent << "InverseInterpolator: " << std::endl;
-  std::cout << indent << indent << this->m_InverseInterpolator << std::endl;
-
-  if( this->m_DisplacementField )
-    {
-    std::cout << indent << "Displacement Field: " << std::endl;
-    std::cout << indent << indent << this->m_DisplacementField << std::endl;
-    }
-  else
-    {
-    std::cout << "Displacement field not set." << std::endl;
-    }
-
-  if( this->m_InverseDisplacementField )
-    {
-    std::cout << indent << "Inverse Displacement Field: " << std::endl;
-    std::cout << indent << indent << this->m_InverseDisplacementField << std::endl;
-    }
-  else
-    {
-    std::cout << "Inverse Displacement field not set." << std::endl;
-    }
+  itkPrintSelfObjectMacro( Interpolator );
+  itkPrintSelfObjectMacro( InverseInterpolator );
+  itkPrintSelfObjectMacro( DisplacementField );
+  itkPrintSelfObjectMacro( InverseDisplacementField )
 }
 
 } // namespace itk

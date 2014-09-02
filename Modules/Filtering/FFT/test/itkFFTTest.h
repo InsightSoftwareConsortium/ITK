@@ -85,7 +85,7 @@ test_fft(unsigned int *SizeOfDimensions)
   realImage->SetOrigin( origin );
   realImage->SetSpacing( spacing );
   realImage->SetDirection( direction );
-  vnl_sample_reseed( static_cast< int >( itksys::SystemTools::GetTime() / 10000.0 ) );
+  vnl_sample_reseed( static_cast< int >( 123456 ) );
 
   // We use 2 region iterators for this test: the original image
   // iterator and another iterator for the resultant image after

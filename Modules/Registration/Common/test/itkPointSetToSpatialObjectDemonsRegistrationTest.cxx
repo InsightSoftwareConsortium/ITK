@@ -22,7 +22,6 @@
 #include "itkRegularSphereMeshSource.h"
 
 
-/** test */
 int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
 {
   const unsigned int Dimension = 3;
@@ -37,9 +36,9 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
 
   // Set its position
   EllipseType::TransformType::OffsetType offset;
-  offset[0]=50;
-  offset[1]=50;
-  offset[1]=50;
+  offset[0] = 50;
+  offset[1] = 50;
+  offset[2] = 50;
 
   ellipse->ComputeObjectToWorldTransform();
 

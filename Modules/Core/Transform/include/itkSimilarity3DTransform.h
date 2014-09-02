@@ -95,11 +95,20 @@ public:
   virtual void SetIdentity(void);
 
   /** Directly set the rotation matrix of the transform.
+   *
    * \warning The input matrix must be orthogonal with isotropic scaling
    * to within a specified tolerance, else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
   virtual void SetMatrix(const MatrixType & matrix);
+
+  /** Directly set the rotation matrix of the transform.
+   *
+   * \warning The input matrix must be orthogonal with isotropic scaling
+   * to within the specified tolerance, else an exception is thrown.
+   *
+   * \sa MatrixOffsetTransformBase::SetMatrix() */
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
 
   /** Set the transformation from a container of parameters This is typically
    * used by optimizers.  There are 7 parameters. The first three represent the

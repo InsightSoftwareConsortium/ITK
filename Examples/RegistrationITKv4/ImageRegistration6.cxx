@@ -219,7 +219,7 @@ int main( int argc, char *argv[] )
   //  explicitly call \code{Update()} on the readers since the
   //  CenteredTransformInitializer class will do it as part of its
   //  initialization. The following code instantiates the initializer. This
-  //  class is templated over the fixed and moving image type as well as the
+  //  class is templated over the fixed and moving images type as well as the
   //  transform type. An initializer is then constructed by calling the
   //  \code{New()} method and assigning the result to a
   //  \doxygen{SmartPointer}.

@@ -130,7 +130,7 @@ RegularExpressionSeriesFileNames
 
   for ( unsigned int i = 0; i < m_FileNames.size(); i++ )
     {
-    os << indent << "Filenames[" << i << "]: " << m_FileNames[i] << std::endl;
+    os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << std::endl;
     }
 }
 } //namespace ITK

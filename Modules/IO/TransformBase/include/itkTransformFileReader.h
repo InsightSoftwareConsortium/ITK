@@ -32,18 +32,19 @@ namespace itk
    * \endwiki
    */
 template<typename ScalarType>
-class TransformFileReaderTemplate:public LightProcessObject
+class TransformFileReaderTemplate: public LightProcessObject
 {
 public:
 
   /** SmartPointer typedef support */
   typedef TransformFileReaderTemplate         Self;
   typedef SmartPointer< Self >                Pointer;
-  typedef TransformBaseTemplate<ScalarType>   TransformType;
+  typedef TransformBaseTemplate< ScalarType > TransformType;
 
-  typedef typename TransformType::ParametersType                           ParametersType;
-  typedef typename TransformIOBaseTemplate<ScalarType>::TransformPointer   TransformPointer;
-  typedef typename TransformIOBaseTemplate<ScalarType>::TransformListType  TransformListType;
+  typedef typename TransformType::ParametersType      ParametersType;
+  typedef TransformIOBaseTemplate< ScalarType >       TransformIOType;
+  typedef typename TransformIOType::TransformPointer  TransformPointer;
+  typedef typename TransformIOType::TransformListType TransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -64,19 +65,24 @@ public:
   /** Get the list of transform */
   TransformListType * GetTransformList() { return &m_TransformList; }
 
-protected:
-  typename TransformIOBaseTemplate<ScalarType>::Pointer m_TransformIO;
-  TransformFileReaderTemplate(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  /** Set/Get the TransformIO class used internally to read to transform. */
+  itkSetObjectMacro( TransformIO, TransformIOType );
+  itkGetConstObjectMacro( TransformIO, TransformIOType );
 
-  std::string m_FileName;
+protected:
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   TransformFileReaderTemplate();
   virtual ~TransformFileReaderTemplate();
   void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
-  TransformListType m_TransformList;
+  TransformListType                 m_TransformList;
+  typename TransformIOType::Pointer m_TransformIO;
+  std::string                       m_FileName;
+
+private:
+  TransformFileReaderTemplate(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 };
 
 /** This helps to meet backward compatibility */

@@ -412,14 +412,8 @@ ConstantVelocityFieldTransform<TScalar, NDimensions>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "ConstantVelocityFieldInterpolator: " << std::endl;
-  os << indent << indent << this->m_ConstantVelocityFieldInterpolator << std::endl;
-
-  if( this->m_ConstantVelocityField )
-    {
-    os << indent << "Constant Velocity Field: " << std::endl;
-    os << indent << indent << this->m_ConstantVelocityField << std::endl;
-    }
+  itkPrintSelfObjectMacro( ConstantVelocityFieldInterpolator );
+  itkPrintSelfObjectMacro( ConstantVelocityField );
 
   os << indent << "LowerTimeBound: " << this->m_LowerTimeBound << std::endl;
   os << indent << "UpperTimeBound: " << this->m_UpperTimeBound << std::endl;

@@ -43,10 +43,11 @@ public:
   typedef LightProcessObject           Superclass;
   typedef SmartPointer< Self >         Pointer;
 
-  typedef TransformBaseTemplate<ScalarType>                                    TransformType;
-  typedef typename TransformIOBaseTemplate<ScalarType>::TransformPointer       TransformPointer;
-  typedef typename TransformIOBaseTemplate<ScalarType>::ConstTransformPointer  ConstTransformPointer;
-  typedef typename TransformIOBaseTemplate<ScalarType>::ConstTransformListType ConstTransformListType;
+  typedef TransformBaseTemplate< ScalarType >              TransformType;
+  typedef TransformIOBaseTemplate< ScalarType >            TransformIOType;
+  typedef typename TransformIOType::TransformPointer       TransformPointer;
+  typedef typename TransformIOType::ConstTransformPointer  ConstTransformPointer;
+  typedef typename TransformIOType::ConstTransformListType ConstTransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -80,22 +81,27 @@ public:
   /** Write out the transform */
   void Update();
 
+  /** Set/Get the TransformIO class used internally to read to transform. */
+  itkSetObjectMacro( TransformIO, TransformIOType );
+  itkGetConstObjectMacro( TransformIO, TransformIOType );
+
 protected:
-
-  TransformFileWriterTemplate(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
-
   TransformFileWriterTemplate();
   virtual ~TransformFileWriterTemplate();
+
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   void PushBackTransformList(const Object *transObj);
   void OpenStream(std::ofstream & out, bool binary);
 
-  std::string            m_FileName;
-  ConstTransformListType m_TransformList;
-  bool                   m_AppendMode;
+  std::string                       m_FileName;
+  ConstTransformListType            m_TransformList;
+  bool                              m_AppendMode;
+  typename TransformIOType::Pointer m_TransformIO;
+
+  TransformFileWriterTemplate(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 };
 
 /** This helps to meet backward compatibility */

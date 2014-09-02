@@ -80,10 +80,14 @@ itkCompensatedSummation.cxx
 itkArrayOutputSpecialization.cxx
 itkNumberToString.cxx
 itkSmartPointerForwardReferenceProcessObject.cxx
+itkThreadPool.cxx
 )
 
 if(WIN32)
-   set(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx)
+  list(APPEND ITKCommon_SRCS itkWin32OutputWindow.cxx)
+  list(APPEND ITKCommon_SRCS itkWin32OutputWindow.cxx itkWinThreadPool.cxx)
+else()
+  list(APPEND ITKCommon_SRCS itkPThreadPool.cxx)
 endif()
 
 # Prevent optimization from affecting the floating point calculation.
