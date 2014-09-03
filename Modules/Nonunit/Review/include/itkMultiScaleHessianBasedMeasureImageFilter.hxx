@@ -198,7 +198,7 @@ MultiScaleHessianBasedMeasureImageFilter
     progress->RegisterInternalFilter(this->m_HessianToMeasureFilter, .5 / m_NumberOfSigmaSteps);
     }
 
-  for( int scaleLevel = 0; scaleLevel < m_NumberOfSigmaSteps; ++scaleLevel )
+  for( unsigned int scaleLevel = 0; scaleLevel < m_NumberOfSigmaSteps; ++scaleLevel )
     {
     const double sigma  = this->ComputeSigmaValue(scaleLevel);
 
