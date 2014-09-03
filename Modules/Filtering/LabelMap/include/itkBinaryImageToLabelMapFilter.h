@@ -25,6 +25,7 @@
 #include "itkBarrier.h"
 #include "itkLabelMap.h"
 #include "itkLabelObject.h"
+#include "itkImageRegionSplitterDirection.h"
 
 namespace itk
 {
@@ -175,6 +176,11 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
 
+  /** Provide an ImageRegionSplitter that does not split along the first
+   * dimension -- we assume the data is complete along this dimension when
+   * threading. */
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
+
 private:
   BinaryImageToLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented
@@ -248,6 +254,8 @@ private:
   typename std::vector< SizeValueType >   m_FirstLineIdToJoin;
 
   typename Barrier::Pointer m_Barrier;
+
+  ImageRegionSplitterDirection::Pointer m_ImageRegionSplitter;
 
 #if !defined( CABLE_CONFIGURATION )
   LineMapType m_LineMap;
