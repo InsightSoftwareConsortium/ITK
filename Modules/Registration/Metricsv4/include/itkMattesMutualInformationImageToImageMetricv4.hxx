@@ -19,6 +19,8 @@
 #define __itkMattesMutualInformationImageToImageMetricv4_hxx
 
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
+#include "itkCompensatedSummation.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
 
 namespace itk
 {
@@ -349,11 +351,12 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
     }
   // Sum of this threads domain into the this->m_JointPDFSum that covers that part of the domain.
   JointPDFValueType const * pdfPtr = pdfPtrStart;
-  this->m_JointPDFSum = 0.0;
-  for( size_t i = 0; i < numberOfVoxels; i++ )
+  CompensatedSummation< PDFValueType > jointPDFSum;
+  for( SizeValueType i = 0; i < numberOfVoxels; ++i )
     {
-    this->m_JointPDFSum += *( pdfPtr++ );
+    jointPDFSum += *( pdfPtr++ );
     }
+  this->m_JointPDFSum = jointPDFSum.GetSum();
 }
 
 /**
