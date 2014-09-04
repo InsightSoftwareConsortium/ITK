@@ -124,7 +124,7 @@ public:
   typedef typename DisplacementFieldType::DirectionType DisplacementFieldDirectionType;
 
   /** Get the time-varying velocity field control point lattice. */
-  typename VelocityFieldType::Pointer GetTimeVaryingVelocityFieldControlPointLattice()
+  VelocityFieldType * GetTimeVaryingVelocityFieldControlPointLattice()
     {
     return this->GetModifiableVelocityField();
     }

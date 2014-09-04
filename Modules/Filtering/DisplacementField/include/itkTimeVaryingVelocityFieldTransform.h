@@ -96,16 +96,16 @@ public:
 
   /** Get the time-varying velocity field. */
 #if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
-  typename VelocityFieldType::Pointer GetTimeVaryingVelocityField()
+  VelocityFieldType * GetTimeVaryingVelocityField()
     {
     return this->GetModifiableVelocityField();
     }
 #endif
-  typename VelocityFieldType::Pointer GetModifiableTimeVaryingVelocityField()
+  VelocityFieldType * GetModifiableTimeVaryingVelocityField()
     {
     return this->GetModifiableVelocityField();
     }
-  typename VelocityFieldType::ConstPointer GetTimeVaryingVelocityField() const
+  const VelocityFieldType * GetTimeVaryingVelocityField() const
     {
     return this->GetVelocityField();
     }
