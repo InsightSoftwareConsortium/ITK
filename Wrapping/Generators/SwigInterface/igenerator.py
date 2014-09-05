@@ -206,6 +206,7 @@ notWrapped = [
     "itk::SmartPointer< itk::VoronoiDiagram2D<.+> >",
     # used internally in ImageToImageMetric
     "itk::Image< itk::CovariantVector< double, \d+u >, \d+u >",
+    "itk::FixedArray< itk::SmartPointer.+ >",
 ]
 
 notWrappedRegExp = re.compile("|".join(["^" + s + "$" for s in notWrapped]))
