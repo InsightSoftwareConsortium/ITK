@@ -50,12 +50,16 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   // For multi-threading the metric
   m_ThreaderJointPDF(0),
   m_ThreaderJointPDFDerivatives(0),
+  m_AccumulatorJointPDF(ITK_NULLPTR),
+  m_AccumulatorJointPDFDerivatives(ITK_NULLPTR),
   m_JointPDFSum(0.0)
 {
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.
   this->m_DenseGetValueAndDerivativeThreader  = MattesMutualInformationDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader = MattesMutualInformationSparseGetValueAndDerivativeThreaderType::New();
+  this->m_CubicBSplineKernel = CubicBSplineFunctionType::New();
+  this->m_CubicBSplineDerivativeKernel = CubicBSplineDerivativeFunctionType::New();
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
@@ -232,7 +236,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
       this->m_ThreaderJointPDF[threadId]->SetRegions(jointPDFRegion);
       this->m_ThreaderJointPDF[threadId]->SetOrigin(origin);
       this->m_ThreaderJointPDF[threadId]->SetSpacing(spacing);
-      // NOTE: true = initizize to zero
+      // NOTE: true = initialize to zero
       this->m_ThreaderJointPDF[threadId]->Allocate(true);
       }
     }
@@ -280,6 +284,12 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
     }
 }
 
+template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+void
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+::FinalizeThread( const ThreadIdType threadId )
+{
+}
 
 
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
@@ -302,7 +312,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
     }
 
   const PDFValueType normalizationFactor = 1.0 / this->m_JointPDFSum;
-  JointPDFValueType *pdfPtr = this->m_ThreaderJointPDF[0]->GetBufferPointer();
+  JointPDFValueType *pdfPtr = this->m_AccumulatorJointPDF->GetBufferPointer();
   for( unsigned int i = 0; i < this->m_NumberOfHistogramBins; ++i )
     {
     PDFValueType * movingMarginalPtr = &(m_MovingImageMarginalPDF[0]);
@@ -340,7 +350,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
    */
 
   // Setup pointer to point to the first bin
-  JointPDFValueType *jointPDFPtr = this->m_ThreaderJointPDF[0]->GetBufferPointer();
+  JointPDFValueType *jointPDFPtr = this->m_AccumulatorJointPDF->GetBufferPointer();
 
   // Initialize sum to zero
   PDFValueType sum = 0.0;
@@ -375,9 +385,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
           // Collect global derivative contributions
 
           // move joint pdf derivative pointer to the right position
-          JointPDFValueType const * derivPtr = this->m_ThreaderJointPDFDerivatives[0]->GetBufferPointer()
-            + ( fixedIndex  * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[2] )
-            + ( movingIndex * this->m_ThreaderJointPDFDerivatives[0]->GetOffsetTable()[1] );
+          JointPDFValueType const * derivPtr = this->m_AccumulatorJointPDFDerivatives->GetBufferPointer()
+            + ( fixedIndex  * this->m_AccumulatorJointPDFDerivatives->GetOffsetTable()[2] )
+            + ( movingIndex * this->m_AccumulatorJointPDFDerivatives->GetOffsetTable()[1] );
           for( unsigned int parameter = 0, lastParameter = this->GetNumberOfLocalParameters();
                parameter < lastParameter;
                ++parameter, derivPtr++ )
@@ -429,26 +439,65 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 ::GetValueCommonAfterThreadedExecution()
 {
   const ThreadIdType localNumberOfThreadsUsed = this->GetNumberOfThreadsUsed();
-  // This method is from MattesMutualImageToImageMetric::GetValueThreadPostProcess. Common
-  // code used by GetValue and GetValueAndDerivative.
-  // Should be threaded. But if modified to do so, should probably not be threaded
-  // separately, but rather as a part of all post-processing.
-  const size_t numberOfVoxels = this->m_NumberOfHistogramBins* this->m_NumberOfHistogramBins;
-  JointPDFValueType * const pdfPtrStart = this->m_ThreaderJointPDF[0]->GetBufferPointer();
+    {
+    // This method is from MattesMutualImageToImageMetric::GetValueThreadPostProcess. Common
+    // code used by GetValue and GetValueAndDerivative.
+    // Should be threaded. But if modified to do so, should probably not be threaded
+    // separately, but rather as a part of all post-processing.
+
+    const size_t numberOfVoxels = this->m_NumberOfHistogramBins* this->m_NumberOfHistogramBins;
+    JointPDFValueType * const pdfPtrStart = this->m_AccumulatorJointPDF->GetBufferPointer();
+    for( unsigned int t = 0; t < localNumberOfThreadsUsed; ++t )
+      {
+      JointPDFValueType *                 pdfPtr = pdfPtrStart;
+      JointPDFValueType const *          tPdfPtr = this->m_ThreaderJointPDF[t]->GetBufferPointer();
+      JointPDFValueType const * const tPdfPtrEnd = tPdfPtr + numberOfVoxels;
+      while( tPdfPtr < tPdfPtrEnd )
+        {
+        *( pdfPtr++ ) += *( tPdfPtr++ );
+        }
+      }
+    }
+
+  if( this->GetComputeDerivative() && ( ! this->HasLocalSupport() ) )
+    {
+    // This entire block of code is used to accumulate the per-thread buffers into 1 thread.
+    // For this thread, how many histogram elements are there?
+    const SizeValueType rowSize = this->GetNumberOfLocalParameters() * this->m_NumberOfHistogramBins;
+    const SizeValueType histogramTotalElementsSize = rowSize * this->m_NumberOfHistogramBins;
+
+    JointPDFDerivativesValueType *const accumulatorPdfDPtrStart = this->m_AccumulatorJointPDFDerivatives->GetBufferPointer();
+
+    for( SizeValueType t = 0; t < localNumberOfThreadsUsed; ++t )
+      {
+      JointPDFDerivativesValueType * accumulatorPdfDPtr = accumulatorPdfDPtrStart;
+      JointPDFDerivativesValueType const * tempThreadPdfDPtr = this->m_ThreaderJointPDFDerivatives[t]->GetBufferPointer();
+      JointPDFDerivativesValueType const * const tempThreadPdfDPtrEnd = tempThreadPdfDPtr + histogramTotalElementsSize;
+      while( tempThreadPdfDPtr < tempThreadPdfDPtrEnd )
+        {
+        *( accumulatorPdfDPtr++ ) += *( tempThreadPdfDPtr++ );
+        }
+      }
+
+    const PDFValueType nFactor = 1.0 / ( this->m_MovingImageBinSize * this->GetNumberOfValidPoints() );
+
+    JointPDFDerivativesValueType *             accumulatorPdfDPtr = accumulatorPdfDPtrStart;
+    JointPDFDerivativesValueType const * const tempThreadPdfDPtrEnd = accumulatorPdfDPtrStart + histogramTotalElementsSize;
+    while( accumulatorPdfDPtr < tempThreadPdfDPtrEnd )
+      {
+      *( accumulatorPdfDPtr++ ) *= nFactor;
+      }
+    }
   for( unsigned int t = 1; t < localNumberOfThreadsUsed; ++t )
     {
-    JointPDFValueType *                 pdfPtr = pdfPtrStart;
-    JointPDFValueType const *          tPdfPtr = this->m_ThreaderJointPDF[t]->GetBufferPointer();
-    JointPDFValueType const * const tPdfPtrEnd = tPdfPtr + numberOfVoxels;
-    while( tPdfPtr < tPdfPtrEnd )
-      {
-      *( pdfPtr++ ) += *( tPdfPtr++ );
-      }
-    for( size_t i = 0; i < this->m_NumberOfHistogramBins; ++i )
+    for( SizeValueType i = 0; i < this->m_NumberOfHistogramBins; ++i )
       {
       this->m_ThreaderFixedImageMarginalPDF[0][i] += this->m_ThreaderFixedImageMarginalPDF[t][i];
       }
     }
+
+  const SizeValueType numberOfVoxels = this->m_NumberOfHistogramBins* this->m_NumberOfHistogramBins;
+  JointPDFValueType * const pdfPtrStart = this->m_AccumulatorJointPDF->GetBufferPointer();
   // Sum of this threads domain into the this->m_JointPDFSum that covers that part of the domain.
   JointPDFValueType const * pdfPtr = pdfPtrStart;
   CompensatedSummation< PDFValueType > jointPDFSum;
