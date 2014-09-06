@@ -155,14 +155,14 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   this->m_MattesAssociate->m_ThreaderJointPDF.resize(mattesAssociateNumThreadsUsed);
 
   //Resize the sub-sections locks array!
-  if( this->m_JointPDFSubsectionLocks.size() != mattesAssociateNumThreadsUsed )
+  if( this->m_MattesAssociate->m_JointPDFSubsectionLocks.size() != mattesAssociateNumThreadsUsed )
     {
-    this->m_JointPDFSubsectionLocks.resize(mattesAssociateNumThreadsUsed);
-    this->m_JointPDFDerivativeSubsectionLocks.resize(mattesAssociateNumThreadsUsed);
+    this->m_MattesAssociate->m_JointPDFSubsectionLocks.resize(mattesAssociateNumThreadsUsed);
+    this->m_MattesAssociate->m_JointPDFDerivativeSubsectionLocks.resize(mattesAssociateNumThreadsUsed);
     for( ThreadIdType threadId = 0; threadId < mattesAssociateNumThreadsUsed; ++threadId )
       {
-      this->m_JointPDFSubsectionLocks[threadId] = MutexLock::New();
-      this->m_JointPDFDerivativeSubsectionLocks[threadId] = MutexLock::New();
+      this->m_MattesAssociate->m_JointPDFSubsectionLocks[threadId] = MutexLock::New();
+      this->m_MattesAssociate->m_JointPDFDerivativeSubsectionLocks[threadId] = MutexLock::New();
       }
     }
 

@@ -24,6 +24,7 @@
 #include "itkIndex.h"
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
 
 namespace itk
 {
@@ -277,6 +278,10 @@ private:
   /** Perform the final step in computing results */
   virtual void ComputeResults( void ) const;
 
+  std::vector< MutexLock::Pointer >  m_JointPDFSubsectionLocks;
+  std::vector< MutexLock::Pointer >  m_JointPDFDerivativeSubsectionLocks;
+
+  ThreadedIndexedContainerPartitioner::Pointer m_IndexedContainerPartitioner;
 };
 
 } // end namespace itk
