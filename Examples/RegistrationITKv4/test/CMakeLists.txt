@@ -405,6 +405,7 @@ itk_add_test(NAME DeformableRegistration6Test COMMAND ${ITK_TEST_DRIVER}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
         ${TEMP}/DeformableRegistration6Test.png
 )
+set_property(TEST DeformableRegistration6Test APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME BSplineWarping1Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/BSplineWarping1Test.png}
