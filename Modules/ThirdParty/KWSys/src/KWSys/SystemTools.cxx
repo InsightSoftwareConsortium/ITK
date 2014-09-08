@@ -3425,9 +3425,12 @@ kwsys_stl::string SystemTools::RelativePath(const kwsys_stl::string& local, cons
     return "";
     }
 
+  kwsys_stl::string l = SystemTools::CollapseFullPath(local);
+  kwsys_stl::string r = SystemTools::CollapseFullPath(remote);
+
   // split up both paths into arrays of strings using / as a separator
-  kwsys_stl::vector<kwsys::String> localSplit = SystemTools::SplitString(local, '/', true);
-  kwsys_stl::vector<kwsys::String> remoteSplit = SystemTools::SplitString(remote, '/', true);
+  kwsys_stl::vector<kwsys::String> localSplit = SystemTools::SplitString(l, '/', true);
+  kwsys_stl::vector<kwsys::String> remoteSplit = SystemTools::SplitString(r, '/', true);
   kwsys_stl::vector<kwsys::String> commonPath; // store shared parts of path in this array
   kwsys_stl::vector<kwsys::String> finalPath;  // store the final relative path here
   // count up how many matching directory names there are from the start
@@ -4599,111 +4602,6 @@ void SystemTools::Delay(unsigned int msec)
     }
 #endif
 }
-
-void SystemTools::ConvertWindowsCommandLineToUnixArguments(
-  const char *cmd_line, int *argc, char ***argv)
-{
-  if (!cmd_line || !argc || !argv)
-    {
-    return;
-    }
-
-  // A space delimites an argument except when it is inside a quote
-
-  (*argc) = 1;
-
-  size_t cmd_line_len = strlen(cmd_line);
-
-  size_t i;
-  for (i = 0; i < cmd_line_len; i++)
-    {
-    while (isspace(cmd_line[i]) && i < cmd_line_len)
-      {
-      i++;
-      }
-    if (i < cmd_line_len)
-      {
-      if (cmd_line[i] == '\"')
-        {
-        i++;
-        while (cmd_line[i] != '\"' && i < cmd_line_len)
-          {
-          i++;
-          }
-        (*argc)++;
-        }
-      else
-        {
-        while (!isspace(cmd_line[i]) && i < cmd_line_len)
-          {
-          i++;
-          }
-        (*argc)++;
-        }
-      }
-    }
-
-  (*argv) = new char* [(*argc) + 1];
-  (*argv)[(*argc)] = NULL;
-
-  // Set the first arg to be the exec name
-
-  (*argv)[0] = new char [1024];
-#ifdef _WIN32
-  wchar_t tmp[1024];
-  ::GetModuleFileNameW(0, tmp, 1024);
-  strcpy((*argv)[0], Encoding::ToNarrow(tmp).c_str());
-#else
-  (*argv)[0][0] = '\0';
-#endif
-
-  // Allocate the others
-
-  int j;
-  for (j = 1; j < (*argc); j++)
-    {
-    (*argv)[j] = new char [cmd_line_len + 10];
-    }
-
-  // Grab the args
-
-  size_t pos;
-  int argc_idx = 1;
-
-  for (i = 0; i < cmd_line_len; i++)
-    {
-    while (isspace(cmd_line[i]) && i < cmd_line_len)
-      {
-      i++;
-      }
-    if (i < cmd_line_len)
-      {
-      if (cmd_line[i] == '\"')
-        {
-        i++;
-        pos = i;
-        while (cmd_line[i] != '\"' && i < cmd_line_len)
-          {
-          i++;
-          }
-        memcpy((*argv)[argc_idx], &cmd_line[pos], i - pos);
-        (*argv)[argc_idx][i - pos] = '\0';
-        argc_idx++;
-        }
-      else
-        {
-        pos = i;
-        while (!isspace(cmd_line[i]) && i < cmd_line_len)
-          {
-          i++;
-          }
-        memcpy((*argv)[argc_idx], &cmd_line[pos], i - pos);
-        (*argv)[argc_idx][i - pos] = '\0';
-        argc_idx++;
-        }
-      }
-    }
- }
 
 kwsys_stl::string SystemTools::GetOperatingSystemNameAndVersion()
 {

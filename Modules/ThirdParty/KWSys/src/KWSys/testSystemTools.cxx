@@ -507,28 +507,6 @@ static bool CheckStringOperations()
     res = false;    
     }
 
-  int targc;
-  char **targv;
-  kwsys::SystemTools::ConvertWindowsCommandLineToUnixArguments
-    ("\"Local Mojo\\Voodoo.asp\" -CastHex \"D:\\My Secret Mojo\\Voodoo.mp3\"",
-    &targc, &targv);
-  if (targc != 4 || strcmp(targv[1],"Local Mojo\\Voodoo.asp") ||
-      strcmp(targv[2],"-CastHex") || 
-      strcmp(targv[3],"D:\\My Secret Mojo\\Voodoo.mp3"))
-    {
-    kwsys_ios::cerr
-      << "Problem with ConvertWindowsCommandLineToUnixArguments"
-      << "\'\"Local Mojo\\Voodoo.asp\" "
-      << "-CastHex \"D:\\My Secret Mojo\\Voodoo.mp3\"\'"
-      << kwsys_ios::endl;
-    res = false;    
-    }
-  for (;targc >=0; --targc)
-    {
-    delete [] targv[targc];
-    }
-  delete [] targv;
-
   return res;
 }
 
@@ -584,6 +562,33 @@ static bool CheckEnvironmentOperations()
   return res;
 }
 
+
+static bool CheckRelativePath(
+  const kwsys_stl::string& local,
+  const kwsys_stl::string& remote,
+  const kwsys_stl::string& expected)
+{
+  kwsys_stl::string result = kwsys::SystemTools::RelativePath(local, remote);
+  if(expected != result)
+    {
+    kwsys_ios::cerr << "RelativePath(" << local << ", " << remote
+      << ")  yielded " << result << " instead of " << expected << kwsys_ios::endl;
+    return false;
+    }
+  return true;
+}
+
+static bool CheckRelativePaths()
+{
+  bool res = true;
+  res &= CheckRelativePath("/usr/share", "/bin/bash", "../../bin/bash");
+  res &= CheckRelativePath("/usr/./share/", "/bin/bash", "../../bin/bash");
+  res &= CheckRelativePath("/usr//share/", "/bin/bash", "../../bin/bash");
+  res &= CheckRelativePath("/usr/share/../bin/", "/bin/bash", "../../bin/bash");
+  res &= CheckRelativePath("/usr/share", "/usr/share//bin", "bin");
+  return res;
+}
+
 //----------------------------------------------------------------------------
 int testSystemTools(int, char*[])
 {
@@ -614,6 +619,8 @@ int testSystemTools(int, char*[])
   res &= CheckStringOperations();
 
   res &= CheckEnvironmentOperations();
+
+  res &= CheckRelativePaths();
 
   return res ? 0 : 1;
 }
