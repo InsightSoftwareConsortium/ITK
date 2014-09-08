@@ -7,7 +7,7 @@
 get_filename_component(_CheckCPPDirective_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
 macro(CHECK_CPP_DIRECTIVE_EXISTS DIRECTIVE VARIABLE)
- if("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
+ if(NOT DEFINED "HAVE_${VARIABLE}")
   message(STATUS "Checking to see if this platform has the ${DIRECTIVE} C-Preprocessor directive")
   set(DIRECTIVE ${DIRECTIVE})
   configure_file(${_CheckCPPDirective_DIR}/CheckCPPDirectiveExists.cxx.in

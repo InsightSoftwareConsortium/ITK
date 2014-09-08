@@ -7,7 +7,7 @@
 #
 
 macro(TEST_QNANHIBIT VARIABLE LOCAL_TEST_DIR)
-  if("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
+  if(NOT DEFINED "HAVE_${VARIABLE}")
     try_run(${VARIABLE} HAVE_${VARIABLE}
       ${CMAKE_BINARY_DIR}
       ${LOCAL_TEST_DIR}/TestQnanhibit.c
@@ -32,5 +32,5 @@ macro(TEST_QNANHIBIT VARIABLE LOCAL_TEST_DIR)
       message(STATUS "Failed to compile a test (TestQnanhibit.c) necessary to configure for proper handling of IEEE floating point NaN's")
     endif(HAVE_${VARIABLE})
     file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log "TestQnanhibit.c produced following output:\n${OUTPUT}\n\n")
-  endif("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
+  endif()
 endmacro(TEST_QNANHIBIT)

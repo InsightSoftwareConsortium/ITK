@@ -440,7 +440,7 @@ ENDIF (NOT H5_HAVE_SIGSETJMP)
 #  usual places. On MSVC we are just going to use ::clock()
 #-----------------------------------------------------------------------------
 IF (NOT MSVC)
-  IF ("H5_HAVE_TIME_GETTIMEOFDAY" MATCHES "^H5_HAVE_TIME_GETTIMEOFDAY$")
+  IF (NOT DEFINED H5_HAVE_TIME_GETTIMEOFDAY)
     TRY_COMPILE (HAVE_TIME_GETTIMEOFDAY
         ${CMAKE_BINARY_DIR}
         ${HDF5_RESOURCES_DIR}/GetTimeOfDayTest.cpp
@@ -451,9 +451,9 @@ IF (NOT MSVC)
       SET (H5_HAVE_TIME_GETTIMEOFDAY "1" CACHE INTERNAL "H5_HAVE_TIME_GETTIMEOFDAY")
       SET (H5_HAVE_GETTIMEOFDAY "1" CACHE INTERNAL "H5_HAVE_GETTIMEOFDAY")
     ENDIF (HAVE_TIME_GETTIMEOFDAY STREQUAL "TRUE")
-  ENDIF ("H5_HAVE_TIME_GETTIMEOFDAY" MATCHES "^H5_HAVE_TIME_GETTIMEOFDAY$")
+  ENDIF ()
 
-  IF ("H5_HAVE_SYS_TIME_GETTIMEOFDAY" MATCHES "^H5_HAVE_SYS_TIME_GETTIMEOFDAY$")
+  IF (NOT DEFINED H5_HAVE_SYS_TIME_GETTIMEOFDAY)
     TRY_COMPILE (HAVE_SYS_TIME_GETTIMEOFDAY
         ${CMAKE_BINARY_DIR}
         ${HDF5_RESOURCES_DIR}/GetTimeOfDayTest.cpp
@@ -464,7 +464,7 @@ IF (NOT MSVC)
       SET (H5_HAVE_SYS_TIME_GETTIMEOFDAY "1" CACHE INTERNAL "H5_HAVE_SYS_TIME_GETTIMEOFDAY")
       SET (H5_HAVE_GETTIMEOFDAY "1" CACHE INTERNAL "H5_HAVE_GETTIMEOFDAY")
     ENDIF (HAVE_SYS_TIME_GETTIMEOFDAY STREQUAL "TRUE")
-  ENDIF ("H5_HAVE_SYS_TIME_GETTIMEOFDAY" MATCHES "^H5_HAVE_SYS_TIME_GETTIMEOFDAY$")
+  ENDIF ()
 
   IF (NOT HAVE_SYS_TIME_GETTIMEOFDAY AND NOT H5_HAVE_GETTIMEOFDAY)
     MESSAGE (STATUS "---------------------------------------------------------------")
@@ -500,7 +500,7 @@ ENDIF (HDF5_STREAM_VFD)
 
 # For other other specific tests, use this MACRO.
 MACRO (HDF5_FUNCTION_TEST OTHER_TEST)
-  IF ("H5_${OTHER_TEST}" MATCHES "^H5_${OTHER_TEST}$")
+  IF (NOT DEFINED "H5_${OTHER_TEST}")
     SET (MACRO_CHECK_FUNCTION_DEFINITIONS "-D${OTHER_TEST} ${CMAKE_REQUIRED_FLAGS}")
     SET (OTHER_TEST_ADD_LIBRARIES)
     IF (CMAKE_REQUIRED_LIBRARIES)
@@ -547,7 +547,7 @@ MACRO (HDF5_FUNCTION_TEST OTHER_TEST)
           "${OUTPUT}\n"
       )
     ENDIF (${OTHER_TEST})
-  ENDIF ("H5_${OTHER_TEST}" MATCHES "^H5_${OTHER_TEST}$")
+  ENDIF ()
 ENDMACRO (HDF5_FUNCTION_TEST)
 
 #-----------------------------------------------------------------------------
@@ -590,7 +590,7 @@ ENDIF (NOT WINDOWS)
 #-----------------------------------------------------------------------------
 IF (WINDOWS)
   MESSAGE (STATUS "Checking for InitOnceExecuteOnce:")
-  IF("${H5_HAVE_IOEO}" MATCHES "^${H5_HAVE_IOEO}$")
+  IF(NOT DEFINED "${H5_HAVE_IOEO}")
     IF (LARGEFILE)
       SET (CMAKE_REQUIRED_DEFINITIONS
           "${CURRENT_TEST_DEFINITIONS} -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE"
@@ -645,7 +645,7 @@ IF (WINDOWS)
         "${OUTPUT}\n"
         "Return value: ${HAVE_IOEO_EXITCODE}\n")
     ENDIF("${HAVE_IOEO_EXITCODE}" EQUAL 0)
-  ENDIF("${H5_HAVE_IOEO}" MATCHES "^${H5_HAVE_IOEO}$")
+  ENDIF()
 ENDIF (WINDOWS)
 	
 
@@ -750,7 +750,7 @@ ENDIF (HDF5_ENABLE_HSIZET)
 # Macro to determine the various conversion capabilities
 #-----------------------------------------------------------------------------
 MACRO (H5ConversionTests TEST msg)
-  IF ("${TEST}" MATCHES "^${TEST}$")
+  IF (NOT DEFINED "${TEST}")
    # MESSAGE (STATUS "===> ${TEST}")
     TRY_RUN (${TEST}_RUN   ${TEST}_COMPILE
         ${HDF5_BINARY_DIR}/CMake
@@ -777,14 +777,14 @@ MACRO (H5ConversionTests TEST msg)
       )
     ENDIF (${TEST}_COMPILE)
 
-  ENDIF("${TEST}" MATCHES "^${TEST}$")
+  ENDIF()
 ENDMACRO (H5ConversionTests)
 
 #-----------------------------------------------------------------------------
 # Macro to make some of the conversion tests easier to write/read
 #-----------------------------------------------------------------------------
 MACRO (H5MiscConversionTest  VAR TEST msg)
-  IF ("${TEST}" MATCHES "^${TEST}$")
+  IF (NOT DEFINED "${TEST}")
     IF (${VAR})
       SET (${TEST} 1 CACHE INTERNAL ${msg})
       MESSAGE (STATUS "${msg}... yes")
@@ -792,7 +792,7 @@ MACRO (H5MiscConversionTest  VAR TEST msg)
       SET (${TEST} "" CACHE INTERNAL ${msg})
       MESSAGE (STATUS "${msg}... no")
     ENDIF (${VAR})
-  ENDIF ("${TEST}" MATCHES "^${TEST}$")
+  ENDIF ()
 ENDMACRO (H5MiscConversionTest)
 
 #-----------------------------------------------------------------------------
@@ -869,19 +869,19 @@ H5ConversionTests (H5_LDOUBLE_TO_UINT_ACCURATE "Checking IF correctly converting
 # 'unsigned long long' to 'float' and 'double' typecasts.
 # (This flag should be set for all machines.)
 #
-IF (H5_ULLONG_TO_FP_CAST_WORKS MATCHES ^H5_ULLONG_TO_FP_CAST_WORKS$)
+IF (NOT DEFINED H5_ULLONG_TO_FP_CAST_WORKS)
   SET (H5_ULLONG_TO_FP_CAST_WORKS 1 CACHE INTERNAL "Checking IF compiling unsigned long long to floating-point typecasts work")
   MESSAGE (STATUS "Checking IF compiling unsigned long long to floating-point typecasts work... yes")
-ENDIF (H5_ULLONG_TO_FP_CAST_WORKS MATCHES ^H5_ULLONG_TO_FP_CAST_WORKS$)
+ENDIF ()
 # ----------------------------------------------------------------------
 # Set the flag to indicate that the machine can _compile_
 # 'long long' to 'float' and 'double' typecasts.
 # (This flag should be set for all machines.)
 #
-IF (H5_LLONG_TO_FP_CAST_WORKS MATCHES ^H5_LLONG_TO_FP_CAST_WORKS$)
+IF (NOT DEFINED H5_LLONG_TO_FP_CAST_WORKS)
   SET (H5_LLONG_TO_FP_CAST_WORKS 1 CACHE INTERNAL "Checking IF compiling long long to floating-point typecasts work")
   MESSAGE (STATUS "Checking IF compiling long long to floating-point typecasts work... yes")
-ENDIF (H5_LLONG_TO_FP_CAST_WORKS MATCHES ^H5_LLONG_TO_FP_CAST_WORKS$)
+ENDIF ()
 # ----------------------------------------------------------------------
 # Set the flag to indicate that the machine can convert from
 # 'unsigned long long' to 'long double' without precision loss.
