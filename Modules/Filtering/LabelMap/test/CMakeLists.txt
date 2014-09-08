@@ -12,6 +12,7 @@ itkAutoCropLabelMapFilterTest2
 itkBinaryFillholeImageFilterTest1.cxx
 itkBinaryGrindPeakImageFilterTest1.cxx
 itkBinaryImageToLabelMapFilterTest.cxx
+itkBinaryImageToLabelMapFilterTest2.cxx
 itkBinaryImageToShapeLabelMapFilterTest1.cxx
 itkBinaryImageToStatisticsLabelMapFilterTest1.cxx
 itkBinaryReconstructionByDilationImageFilterTest.cxx
@@ -161,6 +162,12 @@ itk_add_test(NAME itkBinaryImageToLabelMapFilterTest5
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/nonConnected3DLines-0.tif}
               ${ITK_TEST_OUTPUT_DIR}/nonConnected3DLines-0.tif
     itkBinaryImageToLabelMapFilterTest DATA{${ITK_DATA_ROOT}/Input/nonConnected3DLines.tif} ${ITK_TEST_OUTPUT_DIR}/nonConnected3DLines-0.tif 0 255 0 0)
+itk_add_test(NAME itkBinaryImageToLabelMapFilterTest6
+      COMMAND ITKLabelMapTestDriver itkBinaryImageToLabelMapFilterTest2
+              DATA{${ITK_DATA_ROOT}/Input/BinaryImage1Row.bmp} ${ITK_TEST_OUTPUT_DIR}/LabelImage1Row.bmp 255 0 2)
+itk_add_test(NAME itkBinaryImageToLabelMapFilterTest7
+      COMMAND ITKLabelMapTestDriver itkBinaryImageToLabelMapFilterTest2
+              DATA{${ITK_DATA_ROOT}/Input/BinaryImage1Row.bmp} ${ITK_TEST_OUTPUT_DIR}/LabelImage1Row.bmp 255 0 1)
 itk_add_test(NAME itkBinaryImageToShapeLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/Spots-binaryimage-to-shapelabel.mha}
