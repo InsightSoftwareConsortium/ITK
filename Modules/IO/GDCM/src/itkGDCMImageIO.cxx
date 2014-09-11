@@ -749,7 +749,7 @@ void GDCMImageIO::Write(const void *buffer)
             {
             de.SetVR( dictEntry.GetVR() );
             }
-#if GDCM_MAJOR_VERSION == 2 && GDCM_MINOR_VERSION <= 12
+#if GDCM_MAJOR_VERSION == 2 && GDCM_MINOR_VERSION == 0 && GDCM_BUILD_VERSION <= 12
           // This will not work in the vast majority of cases but to get at
           // least something working in GDCM 2.0.12
           de.SetByteValue( value.c_str(), static_cast<uint32_t>(value.size()) );
