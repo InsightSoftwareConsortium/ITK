@@ -102,12 +102,15 @@ itk_add_test(NAME itkNormalQuadEdgeMeshFilterTest1
 itk_add_test(NAME itkNormalQuadEdgeMeshFilterTest2
       COMMAND ITKQuadEdgeMeshFilteringTestDriver itkNormalQuadEdgeMeshFilterTest
               DATA{${INPUTDATA}/mushroom.vtk} 2)
-itk_add_test(NAME itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest
-      COMMAND ITKQuadEdgeMeshFilteringTestDriver itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest
-              DATA{${INPUTDATA}/genusZeroSurface01.vtk} ${TEMP}/LaplacianDeformationSoftConstraintsOutput.vtk)
-itk_add_test(NAME itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest
-      COMMAND ITKQuadEdgeMeshFilteringTestDriver itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest
-              DATA{${INPUTDATA}/genusZeroSurface01.vtk} ${TEMP}/LaplacianDeformationHardConstraintsOutput.vtk)
+
+foreach( area 0 1 )
+  itk_add_test(NAME itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsArea${area}Test
+        COMMAND ITKQuadEdgeMeshFilteringTestDriver itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest
+                DATA{${INPUTDATA}/genusZeroSurface01.vtk} ${TEMP}/LaplacianDeformationSoftConstraintsOutput_area${area}.vtk ${area})
+  itk_add_test(NAME itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsArea${area}Test
+        COMMAND ITKQuadEdgeMeshFilteringTestDriver itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest
+                DATA{${INPUTDATA}/genusZeroSurface01.vtk} ${TEMP}/LaplacianDeformationHardConstraintsOutput_area${area}.vtk ${area})
+endforeach()
 
 foreach( border 0 1 )
   foreach( coeff 0 1 2 3 4 )
