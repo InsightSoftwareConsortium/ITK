@@ -755,7 +755,7 @@ void GDCMImageIO::Write(const void *buffer)
           de.SetByteValue( value.c_str(), static_cast<uint32_t>(value.size()) );
 #else
           std::string si = sf.FromString( tag, value.c_str(), value.size() );
-          de.SetByteValue( si.c_str(), si.size() );
+          de.SetByteValue( si.c_str(), static_cast<uint32_t>(si.size()) );
 #endif
           if ( tag.GetGroup() == 0x2 ) fmi.Insert(de);
           else header.Insert(de);   //value, tag.GetGroup(), tag.GetElement());
