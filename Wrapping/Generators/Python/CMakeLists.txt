@@ -292,9 +292,15 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
       "${doc_file}")
   endif()
 
+  set(py3arg)
+  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
+    set(py3arg "-py3")
+  endif()
+
   add_custom_command(
     OUTPUT ${cpp_file} ${python_file}
     COMMAND ${swig_command} -c++ -python -O -features autodoc=1
+    ${py3arg}
     -Werror
     -w302 # Identifier 'name' redefined (ignored)
     -w303 # %extend defined for an undeclared class 'name' (to avoid warning about customization in pyBase.i)
