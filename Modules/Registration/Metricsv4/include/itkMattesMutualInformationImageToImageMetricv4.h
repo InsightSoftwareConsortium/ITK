@@ -24,9 +24,7 @@
 #include "itkIndex.h"
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
-
-#include "itkSimpleFastMutexLock.h"
-#include "itkMutexLockHolder.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
 
 namespace itk
 {
@@ -97,19 +95,18 @@ namespace itk
  */
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage = TFixedImage,
           typename TInternalComputationValueType = double,
-          typename TMetricTraits =
-            DefaultImageToImageMetricTraitsv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType>
+          typename TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
           >
 class MattesMutualInformationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   /** Standard class typedefs. */
-  typedef MattesMutualInformationImageToImageMetricv4                        Self;
+  typedef MattesMutualInformationImageToImageMetricv4                      Self;
   typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                               TInternalComputationValueType, TMetricTraits> Superclass;
-  typedef SmartPointer<Self>                                                 Pointer;
-  typedef SmartPointer<const Self>                                           ConstPointer;
+                             TInternalComputationValueType,TMetricTraits>  Superclass;
+  typedef SmartPointer<Self>                                               Pointer;
+  typedef SmartPointer<const Self>                                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -118,29 +115,29 @@ public:
   itkTypeMacro(MattesMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
   /** Superclass types */
-  typedef typename Superclass::MeasureType    MeasureType;
-  typedef typename Superclass::DerivativeType DerivativeType;
-  typedef typename DerivativeType::ValueType  DerivativeValueType;
+  typedef typename Superclass::MeasureType             MeasureType;
+  typedef typename Superclass::DerivativeType          DerivativeType;
+  typedef typename DerivativeType::ValueType           DerivativeValueType;
 
-  typedef typename Superclass::FixedImageType         FixedImageType;
-  typedef typename Superclass::FixedImagePointType    FixedImagePointType;
-  typedef typename Superclass::FixedImageIndexType    FixedImageIndexType;
-  typedef typename Superclass::FixedImagePixelType    FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType FixedImageGradientType;
+  typedef typename Superclass::FixedImageType          FixedImageType;
+  typedef typename Superclass::FixedImagePointType     FixedImagePointType;
+  typedef typename Superclass::FixedImageIndexType     FixedImageIndexType;
+  typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
+  typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
 
   typedef typename Superclass::MovingImagePointType    MovingImagePointType;
   typedef typename Superclass::MovingImagePixelType    MovingImagePixelType;
   typedef typename Superclass::MovingImageGradientType MovingImageGradientType;
 
-  typedef typename Superclass::MovingTransformType MovingTransformType;
-  typedef typename Superclass::JacobianType        JacobianType;
-  typedef typename Superclass::VirtualImageType    VirtualImageType;
-  typedef typename Superclass::VirtualIndexType    VirtualIndexType;
-  typedef typename Superclass::VirtualPointType    VirtualPointType;
-  typedef typename Superclass::VirtualPointSetType VirtualPointSetType;
+  typedef typename Superclass::MovingTransformType     MovingTransformType;
+  typedef typename Superclass::JacobianType            JacobianType;
+  typedef typename Superclass::VirtualImageType        VirtualImageType;
+  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
+  typedef typename Superclass::VirtualPointType        VirtualPointType;
+  typedef typename Superclass::VirtualPointSetType     VirtualPointSetType;
 
   /** Types inherited from Superclass. */
-  typedef typename Superclass::FixedSampledPointSetPointer FixedSampledPointSetPointer;
+  typedef typename Superclass::FixedSampledPointSetPointer    FixedSampledPointSetPointer;
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType, TVirtualImage::ImageDimension);
@@ -158,7 +155,7 @@ public:
   virtual void Initialize(void) throw ( itk::ExceptionObject );
 
   /** The marginal PDFs are stored as std::vector. */
-  // NOTE:  floating point precision is not as stable.
+  //NOTE:  floating point precision is not as stable.
   // Double precision proves faster and more robust in real-world testing.
   typedef TInternalComputationValueType PDFValueType;
 
@@ -170,14 +167,14 @@ public:
    * Get the internal JointPDF image that was used in
    * creating the metric value.
    */
-  const typename JointPDFType::Pointer GetJointPDF() const
-  {
-    if( this->m_ThreaderJointPDF.size() == 0 )
+  const typename JointPDFType::Pointer GetJointPDF () const
+    {
+    if( this->m_AccumulatorJointPDF.IsNull() )
       {
       return typename JointPDFType::Pointer(ITK_NULLPTR);
       }
-    return this->m_ThreaderJointPDF[0];
-  }
+    return this->m_AccumulatorJointPDF;
+    }
 
   /**
    * Get the internal JointPDFDeriviative image that was used in
@@ -185,27 +182,31 @@ public:
    * This is only created when a global support transform is used, and
    * derivatives are requested.
    */
-  const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives() const
-  {
-    return this->m_JointPDFDerivatives;
-  }
+  const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
+    {
+    if( this->m_AccumulatorJointPDFDerivatives.IsNull() )
+      {
+      return typename JointPDFDerivativesType::Pointer(ITK_NULLPTR);
+      }
+    return this->m_AccumulatorJointPDFDerivatives;
+    }
+
+  /** Initialize per-thread components for computing metric
+    * some threads require initialzation of temporary buffers
+    * per thread before processing each thread.
+    */
+  virtual void InitializeThread( const ThreadIdType threadId );
+  virtual void FinalizeThread( const ThreadIdType threadId );
 
 protected:
   MattesMutualInformationImageToImageMetricv4();
   virtual ~MattesMutualInformationImageToImageMetricv4();
 
-  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedImageRegionPartitioner<
-                                                                                          Superclass::
-                                                                                          VirtualImageDimension>,
-                                                                                        Superclass, Self>;
-  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
-    ThreadedIndexedContainerPartitioner, Superclass, Self>;
-  typedef MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedImageRegionPartitioner<
-                                                                                     Superclass::VirtualImageDimension>,
-                                                                                   Superclass, Self>
+  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  typedef MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >
     MattesMutualInformationDenseGetValueAndDerivativeThreaderType;
-  typedef MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner,
-                                                                                   Superclass, Self>
+  typedef MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
     MattesMutualInformationSparseGetValueAndDerivativeThreaderType;
 
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -220,8 +221,8 @@ protected:
   typedef typename JointPDFDerivativesType::SizeType   JointPDFDerivativesSizeType;
 
   /** Typedefs for BSpline kernel and derivative functions. */
-  typedef BSplineKernelFunction<3, PDFValueType>           CubicBSplineFunctionType;
-  typedef BSplineDerivativeKernelFunction<3, PDFValueType> CubicBSplineDerivativeFunctionType;
+  typedef BSplineKernelFunction<3,PDFValueType>           CubicBSplineFunctionType;
+  typedef BSplineDerivativeKernelFunction<3,PDFValueType> CubicBSplineDerivativeFunctionType;
 
   /** Post-processing code common to both GetValue
    * and GetValueAndDerivative. */
@@ -245,168 +246,42 @@ protected:
   typename CubicBSplineDerivativeFunctionType::Pointer m_CubicBSplineDerivativeKernel;
 
   /** Helper array for storing the values of the JointPDF ratios. */
-  typedef PDFValueType            PRatioType;
-  typedef std::vector<PRatioType> PRatioArrayType;
+  typedef PDFValueType              PRatioType;
+  typedef std::vector<PRatioType>   PRatioArrayType;
 
-  mutable PRatioArrayType m_PRatioArray;
+  mutable PRatioArrayType           m_PRatioArray;
 
   /** Helper array for storing per-parameter linearized index to
    * retrieve the pRatio during evaluation with local-support transform. */
-  mutable std::vector<OffsetValueType> m_JointPdfIndex1DArray;
+  mutable std::vector<OffsetValueType>   m_JointPdfIndex1DArray;
 
   /** The moving image marginal PDF. */
   mutable std::vector<PDFValueType>               m_MovingImageMarginalPDF;
   mutable std::vector<std::vector<PDFValueType> > m_ThreaderFixedImageMarginalPDF;
 
   /** The joint PDF and PDF derivatives. */
-  typename std::vector<typename JointPDFType::Pointer>    m_ThreaderJointPDF;
+  typename std::vector<typename JointPDFType::Pointer>            m_ThreaderJointPDF;
+  typename std::vector<typename JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives;
+  typename JointPDFType::Pointer                                  m_AccumulatorJointPDF;
+  typename JointPDFDerivativesType::Pointer                       m_AccumulatorJointPDFDerivatives;
 
-  /* \class DerivativeBufferManager
-   * A helper class to manage complexities of minimizing memory
-   * needs for mattes mutual information derivative computations
-   * per thread.
-   * \ingroup ITKMetricsv4
-   */
-  class DerivativeBufferManager
-  {
-    typedef DerivativeBufferManager Self;
-public:
-    void Initialize( const size_t MaxBufferLength, const size_t CachedNumberOfLocalParameters,
-                     itk::SimpleFastMutexLock * parentDerivativeLockPtr,
-                     typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives, const size_t whichThreadID)
-    {
-      m_ThisThreadID = whichThreadID;
-      m_CurrentFillSize = 0;
-      m_MemoryBlockSize = CachedNumberOfLocalParameters * MaxBufferLength;
-      m_BufferPDFValuesContainer.resize(MaxBufferLength, ITK_NULLPTR);
-      m_BufferOffsetContainer.resize(MaxBufferLength, 0);
-      m_CachedNumberOfLocalParameters = CachedNumberOfLocalParameters;
-      m_MaxBufferSize = MaxBufferLength;
-      m_ParentJointPDFDerivativesLockPtr = parentDerivativeLockPtr;
-      m_ParentJointPDFDerivatives = parentJointPDFDerivatives;
-      // Allocate and initialize to zero (note the () at the end of the new
-      // operator)
-      // the memory as a single block
-      m_MemoryBlock.resize(m_MemoryBlockSize, 0.0);
-      for( size_t index = 0; index < MaxBufferLength; ++index )
-        {
-        this->m_BufferPDFValuesContainer[index] = &(this->m_MemoryBlock[0]) + index * m_CachedNumberOfLocalParameters;
-        }
-    }
-
-    DerivativeBufferManager() :
-      m_CurrentFillSize(0),
-      m_MemoryBlock(0)
-    {
-    }
-
-    ~DerivativeBufferManager()
-    {
-    }
-
-    size_t GetCachedNumberOfLocalParameters() const
-    {
-      return this->m_CachedNumberOfLocalParameters;
-    }
-
-    void CheckAndDumpIfNecessary()
-    {
-      if( m_CurrentFillSize ==  m_MaxBufferSize )
-        {
-        this->WriteBufferToPDFDerivative(); // NOTE: resets m_CurrentFillSize to
-                                            // zero.
-        }
-
-    }
-
-    // If offset is same as previous offset, then accumulate with previous
-    PDFValueType * GetNextElementAndAddOffset(const OffsetValueType & offset)
-    {
-      m_BufferOffsetContainer[m_CurrentFillSize] = offset;
-      PDFValueType * PDFBufferForWriting = m_BufferPDFValuesContainer[m_CurrentFillSize];
-      ++m_CurrentFillSize;
-      return PDFBufferForWriting;
-    }
-
-    // Simply reset the entire cache to all zeros
-    void WriteBufferToPDFDerivative()
-    {
-      typename std::vector<OffsetValueType>::iterator BufferOffsetContainerIter(this->m_BufferOffsetContainer.begin() );
-      typename std::vector<PDFValueType *>::iterator  BufferPDFValuesContainerIter(
-        this->m_BufferPDFValuesContainer.begin() );
-
-      // NOTE: Only need to write out portion of buffer filled.
-      size_t bufferIndex = 0;
-      // thread safe lazy initialization, prevent race condition on
-      // setting, with an atomic set if null.
-      MutexLockHolder< SimpleFastMutexLock > LockHolder(*this->m_ParentJointPDFDerivativesLockPtr);
-      while( bufferIndex < m_CurrentFillSize )
-        {
-        const OffsetValueType         ThisIndexOffset = *BufferOffsetContainerIter;
-        JointPDFDerivativesValueType *derivPtr = this->m_ParentJointPDFDerivatives->GetBufferPointer()
-          + ThisIndexOffset;
-
-        PDFValueType *             derivativeContribution = *BufferPDFValuesContainerIter;
-        const PDFValueType * const endContribution = derivativeContribution + m_CachedNumberOfLocalParameters;
-        while( derivativeContribution < endContribution )
-          {
-          *( derivPtr ) += *( derivativeContribution );
-          // NOTE: Preliminary inconclusive tests indicates that setting to zero
-          // while it's local in cache is faster than bulk memset after the loop
-          // for small data sets
-          *( derivativeContribution ) = 0.0; // Reset to zero after getting
-                                             // value
-          ++derivativeContribution;
-          ++derivPtr;
-          }
-
-        ++BufferOffsetContainerIter;
-        ++BufferPDFValuesContainerIter;
-        ++bufferIndex;
-        }
-      m_CurrentFillSize = 0; // Reset fill size back to zero.
-    }
-
-private:
-    // DerivativeBufferManager(const Self &); //purposely not implemented
-    // void operator = (const Self &); //purposely not implemented
-
-    // For debugging.  Which thread is this?
-    size_t                       m_ThisThreadID;
-    // How many AccumlatorElements used
-    size_t                       m_CurrentFillSize;
-    // Continguous chunk of memory for efficiency
-    std::vector<PDFValueType>    m_MemoryBlock;
-    // The (number of lines in the buffer) * (cells per line)
-    size_t                       m_MemoryBlockSize;
-    std::vector<PDFValueType *>  m_BufferPDFValuesContainer;
-    std::vector<OffsetValueType> m_BufferOffsetContainer;
-    size_t                       m_CachedNumberOfLocalParameters;
-    size_t                       m_MaxBufferSize;
-    // Pointer handle to parent version
-    SimpleFastMutexLock *   m_ParentJointPDFDerivativesLockPtr;
-    // Smart pointer handle to parent version
-    typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
-  };
-
-  std::vector<DerivativeBufferManager>      m_ThreaderDerivativeManager;
-  SimpleFastMutexLock                       m_JointPDFDerivativesLock;
-  typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives;
-
-  mutable PDFValueType m_JointPDFSum;
+  PDFValueType m_JointPDFSum;
 
   /** Store the per-point local derivative result by parzen window bin.
    * For local-support transforms only. */
-  mutable std::vector<DerivativeType> m_LocalDerivativeByParzenBin;
+  mutable std::vector<DerivativeType>              m_LocalDerivativeByParzenBin;
+
 private:
-  //purposely not implemented
-  MattesMutualInformationImageToImageMetricv4(const Self &);
-  //purposely not implemented
-  void operator = (const Self &);
+  MattesMutualInformationImageToImageMetricv4(const Self &); //purposely not implemented
+  void operator = (const Self &); //purposely not implemented
 
   /** Perform the final step in computing results */
   virtual void ComputeResults( void ) const;
 
+  std::vector< MutexLock::Pointer >  m_JointPDFSubsectionLocks;
+  std::vector< MutexLock::Pointer >  m_JointPDFDerivativeSubsectionLocks;
+
+  ThreadedIndexedContainerPartitioner::Pointer m_IndexedContainerPartitioner;
 };
 
 } // end namespace itk
