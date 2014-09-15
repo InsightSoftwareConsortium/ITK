@@ -325,20 +325,20 @@ int main( int argc, char *argv[] )
   // option only while you are fine tuning all other parameters of your
   // registration. We don't use this method in this current example though.
   //
-  //  It has been demonstrated empirically that the number of samples is not a
-  //  critical parameter for the registration process. When you start fine
-  //  tuning your own registration process, you should start using high values
-  //  of number of samples, for example in the range of $20\%$ to $50\%$ of the
-  //  number of pixels in the fixed image. Once you have succeeded to register
-  //  your images you can then reduce the number of samples progressively until
-  //  you find a good compromise on the time it takes to compute one evaluation
-  //  of the metric. Note that it is not useful to have very fast evaluations
-  //  of the metric if the noise in their values results in more iterations
-  //  being required by the optimizer to converge. You must then study the
-  //  behavior of the metric values as the iterations progress, just as
-  //  illustrated in section~\ref{sec:MonitoringImageRegistration}.
+  // It has been demonstrated empirically that the number of samples is not a
+  // critical parameter for the registration process. When you start fine
+  // tuning your own registration process, you should start using high values
+  // of number of samples, for example in the range of $20\%$ to $50\%$ of the
+  // number of pixels in the fixed image. Once you have succeeded to register
+  // your images you can then reduce the number of samples progressively until
+  // you find a good compromise on the time it takes to compute one evaluation
+  // of the metric. Note that it is not useful to have very fast evaluations
+  // of the metric if the noise in their values results in more iterations
+  // being required by the optimizer to converge. You must then study the
+  // behavior of the metric values as the iterations progress, just as
+  // illustrated in section~\ref{sec:MonitoringImageRegistration}.
   //
-  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metricv4!Trade-offs}
+  // \index{itk::Mutual\-Information\-Image\-To\-Image\-Metricv4!Trade-offs}
   //
   // Software Guide : EndLatex
 

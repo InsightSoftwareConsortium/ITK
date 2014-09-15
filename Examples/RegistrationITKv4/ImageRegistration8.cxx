@@ -67,16 +67,16 @@
 //  and Vector addition for updating the last three components of the parameters
 //  array (translation parameters)~\cite{Hamilton1866,Joly1905}.
 //
-//  In previous version of ITK, a special optimizer \doxygen{VersorRigid3DTransformOptimizer}
-//  was needed to be used in registration configuration to deal with the versor computations.
+//  In the previous version of ITK, a special optimizer, \doxygen{VersorRigid3DTransformOptimizer}
+//  was needed for registration to deal with versor computations.
 //  However, in ITKv4, fortunately the \doxygen{RegularStepGradientDescentOptimizerv4}
-//  can be used for both vector and versor transforms optimization since in the new
-//  registration framework the task of updating parameters is delegated to the
-//  moving transform itself. The "UpdateTransformParameters" function is implemented
-//  in \doxygen{Transform} class as a virtual function, and all the derived transform
-//  classes can have their own specific implementations of this function. Due to this
-//  fact, the updating function can be re-implemented for the versor transforms in such
-//  a way that can be able to handle the versor composition of the ratation parameters.
+//  can be used for both vector and versor transform optimizations because, in the new
+//  registration framework, the task of updating parameters is delegated to the
+//  moving transform itself. The "UpdateTransformParameters" method is implemented
+//  in the \doxygen{Transform} class as a virtual function, and all the derived transform
+//  classes can have their own implementations of this function. Due to this
+//  fact, the updating function is re-implemented for versor transforms
+//  so it can handle versor composition of the rotation parameters.
 //
 //  Software Guide : EndLatex
 

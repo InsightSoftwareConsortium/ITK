@@ -359,7 +359,7 @@ int main( int argc, char *argv[] )
   //  all the registration components explicity here.
   //
   //  In the next session of this chapter, you will get a better underestanding from behind
-  //  the scene of the registration process.
+  //  the scenes of the registration process.
   //
   //  Software Guide : EndLatex
 
