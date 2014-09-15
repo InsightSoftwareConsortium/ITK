@@ -49,12 +49,9 @@ public:
 
   // Declare the datastructure that will be used to hold the
   // dictionary.
-  class MetaDataDictionaryMapType:
-    public std::map< std::string, MetaDataObjectBase::Pointer >
-  {};
-
-  typedef MetaDataDictionaryMapType::iterator       Iterator;
-  typedef MetaDataDictionaryMapType::const_iterator ConstIterator;
+  typedef std::map< std::string, MetaDataObjectBase::Pointer >  MetaDataDictionaryMapType;
+  typedef MetaDataDictionaryMapType::iterator                   Iterator;
+  typedef MetaDataDictionaryMapType::const_iterator             ConstIterator;
 
   // Constructor
   MetaDataDictionary();
