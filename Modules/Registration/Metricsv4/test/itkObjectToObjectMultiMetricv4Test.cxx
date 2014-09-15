@@ -113,7 +113,7 @@ int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestM
     std::cerr << exp << std::endl;
     testStatus = EXIT_FAILURE;
     }
-  if( measure2 != measure )
+  if( ! itk::Math::FloatAlmostEqual( measure2, measure ) )
     {
     std::cerr << "measure does not match between calls to GetValue and GetValueAndDerivative: "
               << "measure: " << measure << " measure2: " << measure2 << std::endl;
@@ -137,7 +137,7 @@ int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestM
       {
       std::cout << " Metric " << i << " derivative : " << metricDerivative << std::endl << std::endl;
       }
-    if( metricValue != multiVariateMetric->GetValueArray()[i] )
+    if( ! itk::Math::FloatAlmostEqual( metricValue, multiVariateMetric->GetValueArray()[i]  ) )
       {
       std::cerr << "Individual metric value " << metricValue
                 << " does not match that returned from multi-variate metric: " << multiVariateMetric->GetValueArray()[i]
