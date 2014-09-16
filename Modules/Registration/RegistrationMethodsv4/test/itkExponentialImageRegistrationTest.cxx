@@ -54,6 +54,10 @@ public:
     {
     const TFilter * filter =
       dynamic_cast< const TFilter * >( object );
+    if(filter == ITK_NULLPTR)
+      {
+      return;
+      }
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       { return; }
 
@@ -161,9 +165,10 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
     dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetModifiableOptimizer() );
-  if( !affineOptimizer )
+  if( affineOptimizer.IsNull())
     {
-    itkGenericExceptionMacro( "Error dynamic_cast failed" );
+    std::cerr << "Error dynamic_cast failed" << std::endl;
+    return EXIT_FAILURE;
     }
 #ifdef NDEBUG
   affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
@@ -180,7 +185,11 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   {
   typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
   typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineSimple->GetModifiableMetric() );
-  //imageMetric->SetUseFloatingPointCorrection(true);
+  if(imageMetric.IsNull())
+    {
+    std::cerr << "Error dynamic_cast failed" << std::endl;
+    return EXIT_FAILURE;
+    }
   imageMetric->SetFloatingPointCorrectionResolution(1e4);
   }
 

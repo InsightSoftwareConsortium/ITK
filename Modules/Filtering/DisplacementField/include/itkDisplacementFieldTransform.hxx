@@ -160,7 +160,7 @@ void
 DisplacementFieldTransform<TScalar, NDimensions>
 ::SetIdentity(void)
 {
-  if (!this->m_InverseDisplacementField.IsNull())
+  if (!this->m_DisplacementField.IsNull())
     {
     this->m_DisplacementField->FillBuffer(OutputVectorType(0.0));
     }

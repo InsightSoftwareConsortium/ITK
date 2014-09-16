@@ -42,6 +42,7 @@ public:
   typedef int JobIdType;
 
   ThreadJob() :
+    m_ThreadFunction(0),
     m_Id(-1),
     m_Assigned(false),
     m_Executed(false),

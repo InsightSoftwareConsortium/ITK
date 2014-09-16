@@ -66,15 +66,14 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   m_DerivativeFilterB->ReleaseDataFlagOn(); // output is only used once
 
   // Deal with the 2D case.
-  if ( numberOfSmoothingFilters > 0 )
+  if(numberOfSmoothingFilters > 0)
     {
     m_SmoothingFilters[0]->SetInput( m_DerivativeFilterB->GetOutput() );
     }
-
+  // connect up smoothing filter chain if necessary
   for ( unsigned int i = 1; i < numberOfSmoothingFilters; i++ )
     {
-    m_SmoothingFilters[i]->SetInput(
-      m_SmoothingFilters[i - 1]->GetOutput() );
+    m_SmoothingFilters[i]->SetInput(m_SmoothingFilters[i - 1]->GetOutput() );
     }
 
   m_ImageAdaptor = OutputImageAdaptorType::New();

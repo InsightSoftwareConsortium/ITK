@@ -29,19 +29,23 @@ SlopeInterceptTest()
   const char *filename = "SlopeIntercept.nii";
   nifti_image * niftiImage = nifti_simple_init_nim();
   niftiImage->fname = (char *)malloc(strlen(filename)+1);
-  strcpy(niftiImage->fname,filename);
-  niftiImage->nifti_type = 1;
-  niftiImage->iname = (char *)malloc(strlen(filename)+1);
-  if (niftiImage->iname)
-    {
-    strcpy(niftiImage->iname,filename);
-    }
-  else
+  if(niftiImage->fname == ITK_NULLPTR)
     {
     std::cerr << "Failed to allocate memory for filename, length requested "
               << strlen(filename) + 1 << std::endl;
     return EXIT_FAILURE;
     }
+  strcpy(niftiImage->fname,filename);
+  niftiImage->nifti_type = 1;
+  niftiImage->iname = (char *)malloc(strlen(filename)+1);
+  if (niftiImage->iname == ITK_NULLPTR)
+    {
+    free(niftiImage->fname);
+    std::cerr << "Failed to allocate memory for filename, length requested "
+              << strlen(filename) + 1 << std::endl;
+    return EXIT_FAILURE;
+    }
+  strcpy(niftiImage->iname,filename);
   niftiImage->dim[0] =
   niftiImage->ndim = 3;
   niftiImage->nx = niftiImage->dim[1] = 8;

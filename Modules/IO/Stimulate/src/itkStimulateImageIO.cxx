@@ -395,7 +395,10 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       std::string datafilename;
       // Remove leading and trailing blanks
       itksys::RegularExpression regexp("stimFileName:[ ]*(.*)[ ]*$");
-      regexp.find(text);
+      if(!regexp.find(text))
+        {
+        itkExceptionMacro(<< "Missing value for stimFileName attribute");
+        }
       datafilename = regexp.match(1);
 
       //if the data filename has a directory specified, use it as is,

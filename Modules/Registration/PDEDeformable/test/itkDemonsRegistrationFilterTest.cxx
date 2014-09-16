@@ -186,10 +186,12 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->UseMovingImageGradientOff();
 
   typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
-  FunctionType * fptr;
-  fptr = dynamic_cast<FunctionType *>(
-    registrator->GetDifferenceFunction().GetPointer() );
-  fptr->Print( std::cout );
+  FunctionType * fptr =
+    dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
+  if(fptr != ITK_NULLPTR)
+    {
+    fptr->Print( std::cout );
+    }
 
   // exercise other member variables
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
@@ -318,8 +320,12 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   passed = false;
   try
     {
-    fptr = dynamic_cast<FunctionType *>(
-      registrator->GetDifferenceFunction().GetPointer() );
+    fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
+    if(fptr == ITK_NULLPTR)
+      {
+      std::cerr << "dynamic_cast failed" << std::cerr;
+      return EXIT_FAILURE;
+      }
     fptr->SetMovingImageInterpolator( ITK_NULLPTR );
     registrator->SetInput( initField );
     registrator->Update();

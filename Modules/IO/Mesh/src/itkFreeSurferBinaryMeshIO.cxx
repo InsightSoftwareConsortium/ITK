@@ -124,24 +124,31 @@ FreeSurferBinaryMeshIO
     {
     const unsigned int numberOfCellPoints = 3;
     // Read input commend
-    char byte;
+    int byte;
 
     //  Extract Comment, and ignore it.
     byte = m_InputFile.get();
 
     std::string comment = "";
 
-    while ( byte != '\n' )
+    while (byte != '\n' )
       {
       comment += byte;
       byte = m_InputFile.get();
+      if(byte == EOF)
+        {
+        itkExceptionMacro(<< "Unexpected EOF");
+        }
       }
-
     // Try to get the second '\n', but if the '\n' is not there, we put the byte
     // back.
     byte = m_InputFile.get();
     if ( byte != '\n' )
       {
+      if(byte == EOF)
+        {
+        itkExceptionMacro(<< "Unexpected EOF");
+        }
       m_InputFile.unget();
       }
 

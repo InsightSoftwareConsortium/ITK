@@ -148,6 +148,10 @@ public:
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
     OptimizerPointer optimizer =  dynamic_cast< OptimizerPointer >( object );
+    if( optimizer == ITK_NULLPTR)
+      {
+      return; // in this unlikely context, just do nothing.
+      }
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
