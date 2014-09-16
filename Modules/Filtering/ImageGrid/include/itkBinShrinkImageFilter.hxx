@@ -100,15 +100,15 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing on region:" << outputRegionForThread);
 
   // Get the input and output pointers
-  InputImageConstPointer inputPtr = this->GetInput();
-  OutputImagePointer     outputPtr = this->GetOutput();
+  const InputImageType * inputPtr = this->GetInput();
+  OutputImageType *      outputPtr = this->GetOutput();
 
-  typedef typename TInputImage::PixelType                    InputPixelType;
-  typedef typename TOutputImage::PixelType                   OutputPixelType;
+  typedef typename InputImageType::PixelType                 InputPixelType;
+  typedef typename OutputImageType::PixelType                OutputPixelType;
   typedef typename NumericTraits< InputPixelType >::RealType AccumulatePixelType;
 
-  typedef ImageScanlineConstIterator< TOutputImage > InputConstIteratorType;
-  typedef ImageScanlineIterator< TOutputImage >      OutputIteratorType;
+  typedef ImageScanlineConstIterator< InputImageType > InputConstIteratorType;
+  typedef ImageScanlineIterator< OutputImageType >     OutputIteratorType;
 
   InputConstIteratorType inputIterator(inputPtr, inputPtr->GetRequestedRegion() );
   OutputIteratorType     outputIterator(outputPtr, outputRegionForThread);
