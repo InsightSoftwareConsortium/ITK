@@ -176,6 +176,11 @@ private:
                                   unsigned int width,
                                   unsigned int height);
 
+  template <typename TComponent>
+  void ReadGenericImage(void *_out,
+                        unsigned int width,
+                        unsigned int height);
+
   unsigned short *m_ColorRed;
   unsigned short *m_ColorGreen;
   unsigned short *m_ColorBlue;

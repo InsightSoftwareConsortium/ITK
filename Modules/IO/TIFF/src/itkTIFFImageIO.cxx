@@ -71,375 +71,26 @@ void TIFFImageIO::ReadGenericImage(void *out,
                                    unsigned int height)
 {
 
-#ifdef TIFF_INT64_T // detect if libtiff4
-  uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
-  uint64_t cc;
-#else
-  tsize_t isize = TIFFScanlineSize(m_InternalImage->m_Image);
-  tsize_t cc;
-#endif
-
-  int      row;
-  size_t   inc;
-  tdata_t  buf = _TIFFmalloc(isize);
-
-  // It is necessary to re-initialize the colors for eachread so
-  // that the colormap remains valid.
-  this->InitializeColors();
-
-  if ( m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG )
-    {
-    itkExceptionMacro(<< "This reader can only do PLANARCONFIG_CONTIG");
-    }
-
-  switch ( this->GetFormat() )
-    {
-    case TIFFImageIO::GRAYSCALE:
-    case TIFFImageIO::PALETTE_GRAYSCALE:
-      inc = 1;
-      break;
-    case TIFFImageIO::RGB_:
-      inc = m_InternalImage->m_SamplesPerPixel;
-      break;
-    case TIFFImageIO::PALETTE_RGB:
-      inc = 3;
-      break;
-    default:
-      inc = 1;
-      break;
-    }
-
   if ( m_ComponentType == UCHAR )
     {
-    unsigned char *image;
-    if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
-      {
-      for ( row = 0; row < (int)height; ++row )
-        {
-        if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
-          {
-          itkExceptionMacro(<< "Problem reading the row: " << row);
-          }
-
-        if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-          {
-          image = reinterpret_cast< unsigned char * >( out ) + (size_t) (row) * width * inc;
-          }
-        else
-          {
-          image = reinterpret_cast< unsigned char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-          }
-
-        for ( cc = 0; cc < isize;
-              cc += m_InternalImage->m_SamplesPerPixel )
-          {
-          inc = this->EvaluateImageAt(image,
-                                      static_cast< unsigned char * >( buf )
-                                      + cc);
-          image += inc;
-          }
-        }
-      }
-    else if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE )
-      {
-      uint32 s;
-      uint32 nsamples;
-      TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
-      for ( s = 0; s < nsamples; s++ )
-        {
-        for ( row = 0; row < (int)height; ++row )
-          {
-          if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
-            {
-            itkExceptionMacro(<< "Problem reading the row: " << row);
-            }
-
-          inc = 3;
-          if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-            {
-            image = reinterpret_cast< unsigned char * >( out ) + (size_t) (row) * width * inc;
-            }
-          else
-            {
-            image = reinterpret_cast< unsigned char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-            }
-
-          for ( cc = 0; cc < isize;
-                cc += m_InternalImage->m_SamplesPerPixel )
-            {
-            inc = this->EvaluateImageAt(image,
-                                        static_cast< unsigned char * >( buf )
-                                        + cc);
-            image += inc;
-            }
-          }
-        }
-      }
+    this->ReadGenericImage<unsigned char>(out, width, height);
     }
   else if ( m_ComponentType == CHAR )
     {
-    char *image;
-    if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
-      {
-      for ( row = 0; row < (int)height; ++row )
-        {
-        if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
-          {
-          itkExceptionMacro(<< "Problem reading the row: " << row);
-          }
-
-        if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-          {
-          image = reinterpret_cast< char * >( out ) + (size_t) (row) * width * inc;
-          }
-        else
-          {
-          image = reinterpret_cast< char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-          }
-
-        for ( cc = 0; cc < isize;
-              cc += m_InternalImage->m_SamplesPerPixel )
-          {
-          inc = this->EvaluateImageAt(image,
-                                      static_cast< char * >( buf )
-                                      + cc);
-          image += inc;
-          }
-        }
-      }
-    else if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE )
-      {
-      uint32 s;
-      uint32 nsamples;
-      TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
-      for ( s = 0; s < nsamples; s++ )
-        {
-        for ( row = 0; row < (int)height; ++row )
-          {
-          if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
-            {
-            itkExceptionMacro(<< "Problem reading the row: " << row);
-            }
-
-          inc = 3;
-          if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-            {
-            image = reinterpret_cast< char * >( out ) + (size_t) (row) * width * inc;
-            }
-          else
-            {
-            image = reinterpret_cast< char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-            }
-
-          for ( cc = 0; cc < isize;
-                cc += m_InternalImage->m_SamplesPerPixel )
-            {
-            inc = this->EvaluateImageAt(image,
-                                        static_cast< char * >( buf )
-                                        + cc);
-            image += inc;
-            }
-          }
-        }
-      }
+    this->ReadGenericImage<char>(out, width, height);
     }
   else if ( m_ComponentType == USHORT )
     {
-    isize /= 2;
-    unsigned short *image;
-    if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
-      {
-      for ( row = 0; row < (int)height; ++row )
-        {
-        if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
-          {
-          itkExceptionMacro(<< "Problem reading the row: " << row);
-          }
-
-        if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-          {
-          image = reinterpret_cast< unsigned short * >( out ) + (size_t) (row) * width * inc;
-          }
-        else
-          {
-          image = reinterpret_cast< unsigned short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-          }
-
-        for ( cc = 0; cc < isize;
-              cc += m_InternalImage->m_SamplesPerPixel )
-          {
-          inc = this->EvaluateImageAt(image,
-                                      static_cast< unsigned short * >( buf )
-                                      + cc);
-          image += inc;
-          }
-        }
-      }
-    else if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE )
-      {
-      uint32 s, nsamples;
-      TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
-      for ( s = 0; s < nsamples; s++ )
-        {
-        for ( row = 0; row < (int)height; ++row )
-          {
-          if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
-            {
-            itkExceptionMacro(<< "Problem reading the row: " << row);
-            }
-
-          if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-            {
-            image = reinterpret_cast< unsigned short * >( out ) + (size_t) (row) * width * inc;
-            }
-          else
-            {
-            image = reinterpret_cast< unsigned short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-            }
-          for ( cc = 0; cc < isize;
-                cc += m_InternalImage->m_SamplesPerPixel )
-            {
-            inc = this->EvaluateImageAt(image,
-                                        static_cast< unsigned short * >( buf )
-                                        + cc);
-            image += inc;
-            }
-          }
-        }
-      }
+    this->ReadGenericImage<unsigned short>(out, width, height);
     }
-  // Short type
   else if ( m_ComponentType == SHORT )
     {
-    isize /= 2;
-    short *image;
-    if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
-      {
-      for ( row = 0; row < (int)height; ++row )
-        {
-        if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
-          {
-          itkExceptionMacro(<< "Problem reading the row: " << row);
-          }
-
-        if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-          {
-          image = reinterpret_cast< short * >( out ) + (size_t) (row) * width * inc;
-          }
-        else
-          {
-          image = reinterpret_cast< short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-          }
-
-        for ( cc = 0; cc < isize;
-              cc += m_InternalImage->m_SamplesPerPixel )
-          {
-          inc = this->EvaluateImageAt(image,
-                                      static_cast< short * >( buf )
-                                      + cc);
-          image += inc;
-          }
-        }
-      }
-    else if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE )
-      {
-      uint32 s, nsamples;
-      TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
-      for ( s = 0; s < nsamples; s++ )
-        {
-        for ( row = 0; row < (int)height; ++row )
-          {
-          if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
-            {
-            itkExceptionMacro(<< "Problem reading the row: " << row);
-            }
-
-          if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-            {
-            image = reinterpret_cast< short * >( out ) + (size_t) (row) * width * inc;
-            }
-          else
-            {
-            image = reinterpret_cast< short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-            }
-          for ( cc = 0; cc < isize;
-                cc += m_InternalImage->m_SamplesPerPixel )
-            {
-            inc = this->EvaluateImageAt(image,
-                                        static_cast< short * >( buf )
-                                        + cc);
-            image += inc;
-            }
-          }
-        }
-      }
+    this->ReadGenericImage<short>(out, width, height);
     }
   else if ( m_ComponentType == FLOAT )
     {
-    isize /= 4;
-    float *image;
-    if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
-      {
-      for ( row = 0; row < (int)height; ++row )
-        {
-        if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
-          {
-          itkExceptionMacro(<< "Problem reading the row: " << row);
-          }
-
-        if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-          {
-          image = reinterpret_cast< float * >( out ) + (size_t) (row) * width * inc;
-          }
-        else
-          {
-          image = reinterpret_cast< float * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-          }
-
-        for ( cc = 0; cc < isize;
-              cc += m_InternalImage->m_SamplesPerPixel )
-          {
-          inc = this->EvaluateImageAt(image,
-                                      static_cast< float * >( buf )
-                                      + cc);
-          image += inc;
-          }
-        }
-      }
-    else if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE )
-      {
-      uint32 s, nsamples;
-      TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
-      for ( s = 0; s < nsamples; s++ )
-        {
-        for ( row = 0; row < (int)height; ++row )
-          {
-          if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
-            {
-            itkExceptionMacro(<< "Problem reading the row: " << row);
-            }
-
-          if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-            {
-            image = reinterpret_cast< float * >( out ) + (size_t) (row) * width * inc;
-            }
-          else
-            {
-            image = reinterpret_cast< float * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
-            }
-          for ( cc = 0; cc < isize;
-                cc += m_InternalImage->m_SamplesPerPixel )
-            {
-            inc = this->EvaluateImageAt(image,
-                                        static_cast< float * >( buf )
-                                        + cc);
-            image += inc;
-            }
-          }
-        }
-      }
+    this->ReadGenericImage<float>(out, width, height);
     }
-  _TIFFfree(buf);
 }
 
 int TIFFImageIO::EvaluateImageAt(void *out, void *in)
@@ -1776,5 +1427,118 @@ void TIFFImageIO::ReadTwoSamplePerPixelImage(void *_out,
     _TIFFfree(buf);
   }
 
+
+template <typename TComponent>
+void TIFFImageIO::ReadGenericImage(void *_out,
+                                   unsigned int width,
+                                   unsigned int height)
+{
+  typedef TComponent ComponentType;
+
+#ifdef TIFF_INT64_T // detect if libtiff4
+   uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
+  uint64_t cc;
+#else
+  tsize_t isize = TIFFScanlineSize(m_InternalImage->m_Image);
+  tsize_t cc;
+#endif
+
+  size_t         inc;
+  tdata_t        buf = _TIFFmalloc(isize);
+  isize /= sizeof(ComponentType);
+
+  ComponentType *out = static_cast< ComponentType* >( _out );
+  ComponentType *image;
+
+  // It is necessary to re-initialize the colors for eachread so
+  // that the colormap remains valid.
+  this->InitializeColors();
+
+  if ( m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG )
+    {
+    itkExceptionMacro(<< "This reader can only do PLANARCONFIG_CONTIG");
+    }
+
+  switch ( this->GetFormat() )
+    {
+    case TIFFImageIO::GRAYSCALE:
+    case TIFFImageIO::PALETTE_GRAYSCALE:
+      inc = 1;
+      break;
+    case TIFFImageIO::RGB_:
+      inc = m_InternalImage->m_SamplesPerPixel;
+      break;
+    case TIFFImageIO::PALETTE_RGB:
+      inc = 3;
+      break;
+    default:
+      inc = 1;
+      break;
+    }
+
+  if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
+    {
+    for ( int row = 0; row < (int)height; ++row )
+      {
+      if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
+        {
+        itkExceptionMacro(<< "Problem reading the row: " << row);
+        }
+
+      if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
+        {
+        image = out + (size_t) (row) * width * inc;
+        }
+      else
+        {
+        image = out + (size_t) (width) * inc * ( height - ( row + 1 ) );
+        }
+
+      for ( cc = 0; cc < isize;
+            cc += m_InternalImage->m_SamplesPerPixel )
+        {
+        inc = this->EvaluateImageAt(image,
+                                    static_cast< ComponentType * >( buf )
+                                    + cc);
+        image += inc;
+        }
+      }
+    }
+  else if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE )
+    {
+    uint32 nsamples;
+    TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
+    for ( uint32 s = 0; s < nsamples; s++ )
+      {
+      for ( int row = 0; row < (int)height; ++row )
+        {
+        if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
+          {
+          itkExceptionMacro(<< "Problem reading the row: " << row);
+          }
+
+        inc = 3;
+        if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
+          {
+          image =  out + (size_t) (row) * width * inc;
+          }
+        else
+          {
+          image = out + (size_t) (width) * inc * ( height - ( row + 1 ) );
+          }
+
+        for ( cc = 0; cc < isize;
+              cc += m_InternalImage->m_SamplesPerPixel )
+          {
+          inc = this->EvaluateImageAt(image,
+                                      static_cast< ComponentType * >( buf )
+                                      + cc);
+          image += inc;
+          }
+        }
+      }
+    }
+  _TIFFfree(buf);
+}
 
 } // end namespace itk
