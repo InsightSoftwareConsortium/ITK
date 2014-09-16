@@ -339,7 +339,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
           }
         else
           {
-          image = reinterpret_cast< unsigned char * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< unsigned char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
@@ -374,7 +374,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
             }
           else
             {
-            image = reinterpret_cast< unsigned char * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< unsigned char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
             }
 
           // We translate the output pixel to be on the right RGB
@@ -409,7 +409,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
           }
         else
           {
-          image = reinterpret_cast< unsigned short * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< unsigned short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
@@ -441,7 +441,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
             }
           else
             {
-            image = reinterpret_cast< unsigned short * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< unsigned short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
             }
           // We translate the output pixel to be on the right RGB
           image += s;
@@ -520,7 +520,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
           }
         else
           {
-          image = reinterpret_cast< unsigned char * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< unsigned char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
@@ -554,7 +554,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
             }
           else
             {
-            image = reinterpret_cast< unsigned char * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< unsigned char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
             }
 
           for ( cc = 0; cc < isize;
@@ -587,7 +587,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
           }
         else
           {
-          image = reinterpret_cast< char * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
@@ -621,7 +621,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
             }
           else
             {
-            image = reinterpret_cast< char * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< char * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
             }
 
           for ( cc = 0; cc < isize;
@@ -655,7 +655,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
           }
         else
           {
-          image = reinterpret_cast< unsigned short * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< unsigned short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
@@ -687,7 +687,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
             }
           else
             {
-            image = reinterpret_cast< unsigned short * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< unsigned short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
             }
           for ( cc = 0; cc < isize;
                 cc += m_InternalImage->m_SamplesPerPixel )
@@ -721,7 +721,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
           }
         else
           {
-          image = reinterpret_cast< short * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
@@ -753,7 +753,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
             }
           else
             {
-            image = reinterpret_cast< short * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< short * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
             }
           for ( cc = 0; cc < isize;
                 cc += m_InternalImage->m_SamplesPerPixel )
@@ -786,7 +786,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
           }
         else
           {
-          image = reinterpret_cast< float * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< float * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
@@ -818,7 +818,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
             }
           else
             {
-            image = reinterpret_cast< float * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< float * >( out ) + (size_t) (width) * inc * ( height - ( row + 1 ) );
             }
           for ( cc = 0; cc < isize;
                 cc += m_InternalImage->m_SamplesPerPixel )
@@ -1081,10 +1081,10 @@ void TIFFImageIO::ReadTiles(void *buffer)
     {
     for ( unsigned int row = 0; row < m_InternalImage->m_Height; row += m_InternalImage->m_TileHeight )
       {
-      unsigned char *tempImage;
-      tempImage =
-        new unsigned char[m_InternalImage->m_TileWidth * m_InternalImage->m_TileHeight
-                          * m_InternalImage->m_SamplesPerPixel];
+      const size_t sz = static_cast<size_t>(m_InternalImage->m_TileWidth)
+        * static_cast<size_t>(m_InternalImage->m_TileHeight)
+        * static_cast<size_t>(m_InternalImage->m_SamplesPerPixel);
+      unsigned char *tempImage = new unsigned char[sz];
 
       if ( TIFFReadTile(m_InternalImage->m_Image, tempImage, col, row, 0, 0) < 0 )
         {
@@ -1103,6 +1103,7 @@ void TIFFImageIO::ReadTiles(void *buffer)
             }
           }
         }
+      delete tempImage;
       }
     }
 }
@@ -1130,6 +1131,12 @@ void TIFFImageIO::ReadVolume(void *buffer)
         }
       }
 
+    const size_t offset = static_cast<size_t>(width)
+      * static_cast<size_t>(height)
+      * static_cast<size_t>(m_InternalImage->m_SamplesPerPixel)
+      * static_cast<size_t>(page);
+
+
     // It is necessary to re-initialize the colors for each page so
     // that the colormap is reset in the GetColor method.  This is
     // also true in the case that each slice has a different colormap.
@@ -1141,33 +1148,34 @@ void TIFFImageIO::ReadVolume(void *buffer)
       if ( m_ComponentType == USHORT )
         {
         unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
-        volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+        volume += offset;
         this->ReadTwoSamplesPerPixelImage(volume, width, height);
         }
       else if ( m_ComponentType == SHORT )
         {
         short *volume = reinterpret_cast< short * >( buffer );
-        volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+        volume += offset;
         this->ReadTwoSamplesPerPixelImage(volume, width, height);
         }
       else if ( m_ComponentType == CHAR )
         {
         char *volume = reinterpret_cast< char * >( buffer );
-        volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+        volume += offset;
         this->ReadTwoSamplesPerPixelImage(volume, width, height);
         }
       else
         {
         unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-        volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+        volume += offset;
         this->ReadTwoSamplesPerPixelImage(volume, width, height);
         }
       break;
       }
     else if ( !m_InternalImage->CanRead() )
       {
-      uint32 *tempImage;
-      tempImage = new uint32[width * height];
+      const size_t sz = static_cast<size_t>(width)
+        * static_cast<size_t>(height);
+      uint32 *tempImage = new uint32[sz];
 
       if ( !TIFFReadRGBAImage(m_InternalImage->m_Image,
                               width, height,
@@ -1291,31 +1299,31 @@ void TIFFImageIO::ReadVolume(void *buffer)
           if ( m_ComponentType == USHORT )
             {
             unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+            volume += offset;
             this->ReadGenericImage(volume, width, height);
             }
           else if ( m_ComponentType == SHORT )
             {
             short *volume = reinterpret_cast< short * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+            volume += offset;
             this->ReadGenericImage(volume, width, height);
             }
           else if ( m_ComponentType == CHAR )
             {
             char *volume = reinterpret_cast< char * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+            volume += offset;
             this->ReadGenericImage(volume, width, height);
             }
           else if ( m_ComponentType == FLOAT )
             {
             float *volume = reinterpret_cast< float * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+            volume += offset;
             this->ReadGenericImage(volume, width, height);
             }
           else
             {
             unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
+            volume += offset;
             this->ReadGenericImage(volume, width, height);
             }
           break;
@@ -1326,25 +1334,25 @@ void TIFFImageIO::ReadVolume(void *buffer)
           if ( m_ComponentType == USHORT )
             {
             unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page * 3;
+            volume += offset * 3;
             this->ReadGenericImage(volume, width, height);
             }
           else if ( m_ComponentType == SHORT )
             {
             short *volume = reinterpret_cast< short * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page * 3;
+            volume += offset * 3;
             this->ReadGenericImage(volume, width, height);
             }
           else if ( m_ComponentType == CHAR )
             {
             char *volume = reinterpret_cast< char * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page * 3;
+            volume += offset * 3;
             this->ReadGenericImage(volume, width, height);
             }
           else
             {
             unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-            volume += width * height * m_InternalImage->m_SamplesPerPixel * page * 3;
+            volume += offset * 3;
             this->ReadGenericImage(volume, width, height);
             }
           break;
@@ -1394,8 +1402,9 @@ void TIFFImageIO::Read(void *buffer)
 
   if ( !m_InternalImage->CanRead() )
     {
-    uint32 *tempImage;
-    tempImage = new uint32[width * height];
+    const size_t sz = static_cast<size_t>(width)
+      * static_cast<size_t>(height);
+    uint32 *tempImage = new uint32[sz];
 
     if ( !TIFFReadRGBAImage(m_InternalImage->m_Image,
                             width, height,
