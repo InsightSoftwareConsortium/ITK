@@ -685,19 +685,21 @@ void GDCMImageIO::Write(const void *buffer)
   const gdcm::Dicts & dicts = g.GetDicts();
   const gdcm::Dict &  pubdict = dicts.GetPublicDict();
 
-  std::string          value;
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
+
   gdcm::Tag            tag;
-  //Smarter approach using real iterators
+
   itk::MetaDataDictionary::ConstIterator itr = dict.Begin();
-  itk::MetaDataDictionary::ConstIterator end = dict.End();
+  const itk::MetaDataDictionary::ConstIterator end = dict.End();
+
   gdcm::StringFilter                     sf;
   sf.SetFile( writer.GetFile() );
 
   while ( itr != end )
     {
+    std::string value;
     const std::string & key = itr->first; //Needed for bcc32
-    ExposeMetaData< std::string >(dict, key, value);
+    ExposeMetaData< std::string >( dict, key, value );
 
     // Convert DICOM name to DICOM (group,element)
     bool b = tag.ReadFromPipeSeparatedString( key.c_str() );
@@ -729,8 +731,14 @@ void GDCMImageIO::Write(const void *buffer)
           gdcm::DataElement de(tag);
           de.SetByteValue( (char *)bin, decodedLengthActual );
           de.SetVR( dictEntry.GetVR() );
-          if ( tag.GetGroup() == 0x2 ) fmi.Insert(de);
-          else header.Insert(de);
+          if ( tag.GetGroup() == 0x2 )
+            {
+            fmi.Insert(de);
+            }
+          else
+            {
+            header.Insert(de);
+            }
           }
         delete[] bin;
         }
@@ -757,8 +765,14 @@ void GDCMImageIO::Write(const void *buffer)
           std::string si = sf.FromString( tag, value.c_str(), value.size() );
           de.SetByteValue( si.c_str(), static_cast<uint32_t>(si.size()) );
 #endif
-          if ( tag.GetGroup() == 0x2 ) fmi.Insert(de);
-          else header.Insert(de);   //value, tag.GetGroup(), tag.GetElement());
+          if ( tag.GetGroup() == 0x2 )
+            {
+            fmi.Insert(de);
+            }
+          else
+            {
+            header.Insert(de);   //value, tag.GetGroup(), tag.GetElement());
+            }
           }
         }
       }
@@ -1155,21 +1169,21 @@ void GDCMImageIO::Write(const void *buffer)
       gdcm::DataElement de( gdcm::Tag(0x0020, 0x000d) ); // Study
       de.SetByteValue( studyuid, static_cast<unsigned int>(strlen(studyuid)) );
       de.SetVR( gdcm::Attribute< 0x0020, 0x000d >::GetVR() );
-      header.Insert(de);
+      header.Replace(de);
       }
     const char *seriesuid = m_SeriesInstanceUID.c_str();
       {
       gdcm::DataElement de( gdcm::Tag(0x0020, 0x000e) ); // Series
       de.SetByteValue( seriesuid, static_cast<unsigned int>(strlen(seriesuid)) );
       de.SetVR( gdcm::Attribute< 0x0020, 0x000e >::GetVR() );
-      header.Insert(de);
+      header.Replace(de);
       }
     const char *frameofreferenceuid = m_FrameOfReferenceInstanceUID.c_str();
       {
       gdcm::DataElement de( gdcm::Tag(0x0020, 0x0052) ); // Frame of Reference
       de.SetByteValue( frameofreferenceuid, static_cast<unsigned int>(strlen( frameofreferenceuid)) );
       de.SetVR( gdcm::Attribute< 0x0020, 0x0052 >::GetVR() );
-      header.Insert(de);
+      header.Replace(de);
       }
     }
 
