@@ -141,12 +141,12 @@ protected:
   void InitializeColors();
 
   void ReadGenericImage(void *out,
-                        unsigned int itkNotUsed(width),
+                        unsigned int width,
                         unsigned int height);
 
   // To support Zeiss images
   void ReadTwoSamplesPerPixelImage(void *out,
-                                   unsigned int itkNotUsed(width),
+                                   unsigned int width,
                                    unsigned int height);
 
   int EvaluateImageAt(void *out, void *in);
@@ -170,6 +170,11 @@ protected:
 private:
   TIFFImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented
+
+  template <typename TComponent>
+  void ReadTwoSamplePerPixelImage(void *_out,
+                                  unsigned int width,
+                                  unsigned int height);
 
   unsigned short *m_ColorRed;
   unsigned short *m_ColorGreen;
