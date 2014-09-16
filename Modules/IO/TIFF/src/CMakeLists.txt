@@ -1,5 +1,6 @@
 set(ITKIOTIFF_SRC
 itkTIFFImageIO.cxx
+itkTIFFReaderInternal.cxx
 itkTIFFImageIOFactory.cxx
 )
 
