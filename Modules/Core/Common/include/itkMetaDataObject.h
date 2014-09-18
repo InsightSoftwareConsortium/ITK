@@ -160,7 +160,7 @@ inline void EncapsulateMetaData(MetaDataDictionary & Dictionary, const char *key
 }
 
 /**
- * FindValInDictionary provides a shortcut for pulling a value of type
+ * ExposeMetaData provides a shortcut for pulling a value of type
  * T out of a MetaDataDictionary.
  * If Dictionary[key] isn't set, return false, otherwise copy into
  * outval reference and return true.
