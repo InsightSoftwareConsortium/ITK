@@ -49,23 +49,6 @@ bool TIFFImageIO::CanReadFile(const char *file)
   return false;
 }
 
-/** To Support Zeiss images that contains only 2 samples per pixel but
- *  are actually RGB images */
-void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
-                                              unsigned int width,
-                                              unsigned int height)
-{
-
-  if ( m_ComponentType == UCHAR )
-    {
-    this->ReadTwoSamplePerPixelImage<unsigned char>(out, width, height);
-    }
-  else if ( m_ComponentType == USHORT )
-    {
-    this->ReadTwoSamplePerPixelImage<unsigned short>(out, width, height);
-    }
-}
-
 void TIFFImageIO::ReadGenericImage(void *out,
                                    unsigned int width,
                                    unsigned int height)
@@ -400,36 +383,7 @@ void TIFFImageIO::ReadVolume(void *buffer)
     // also true in the case that each slice has a different colormap.
     this->InitializeColors();
 
-    // if we have a Zeiss image meaning that the SamplesPerPixel is 2
-    if ( m_InternalImage->m_SamplesPerPixel == 2 )
-      {
-      if ( m_ComponentType == USHORT )
-        {
-        unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
-        volume += offset;
-        this->ReadTwoSamplesPerPixelImage(volume, width, height);
-        }
-      else if ( m_ComponentType == SHORT )
-        {
-        short *volume = reinterpret_cast< short * >( buffer );
-        volume += offset;
-        this->ReadTwoSamplesPerPixelImage(volume, width, height);
-        }
-      else if ( m_ComponentType == CHAR )
-        {
-        char *volume = reinterpret_cast< char * >( buffer );
-        volume += offset;
-        this->ReadTwoSamplesPerPixelImage(volume, width, height);
-        }
-      else
-        {
-        unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-        volume += offset;
-        this->ReadTwoSamplesPerPixelImage(volume, width, height);
-        }
-      break;
-      }
-    else if ( !m_InternalImage->CanRead() )
+    if ( !m_InternalImage->CanRead() )
       {
       const size_t sz = static_cast<size_t>(width)
         * static_cast<size_t>(height);
@@ -870,15 +824,6 @@ void TIFFImageIO::ReadImageInformation()
       {
       m_ComponentType = USHORT;
       }
-    }
-
-  // We check if we have a Zeiss image.
-  // Meaning that the SamplesPerPixel is 2 but the image should be treated as
-  // an RGB image.
-  if ( m_InternalImage->m_SamplesPerPixel == 2 )
-    {
-    this->SetNumberOfComponents(3);
-    this->SetPixelType(RGB);
     }
 
   // if the tiff file is multi-pages
@@ -1338,94 +1283,6 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
 
   return raw_data;
 }
-
-template <typename TComponent>
-void TIFFImageIO::ReadTwoSamplePerPixelImage(void *_out,
-                                             unsigned int width,
-                                             unsigned int height)
-  {
-    typedef TComponent ComponentType;
-
-#ifdef TIFF_INT64_T // detect if libtiff4
-    uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
-    uint64_t cc;
-#else
-    tsize_t isize = TIFFScanlineSize(m_InternalImage->m_Image);
-    tsize_t cc;
-#endif
-    tdata_t  buf = _TIFFmalloc(isize);
-    isize /= sizeof(ComponentType);
-
-    size_t inc = 1;
-
-    ComponentType *out = static_cast< ComponentType* >( _out );
-    ComponentType *image;
-
-    if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
-      {
-      for ( int row = 0; row < (int)height; ++row )
-        {
-        if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
-          {
-          itkExceptionMacro(<< "Problem reading the row: " << row);
-          }
-
-        if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-          {
-          image =  out + (size_t) (row) * width * inc;
-          }
-        else
-          {
-          image = out + (size_t) (width) * inc * ( height - ( row + 1 ) );
-          }
-
-        for ( cc = 0; cc < isize; cc += m_InternalImage->m_SamplesPerPixel )
-          {
-          inc = this->EvaluateImageAt(image,
-                                       static_cast< ComponentType * >( buf )
-                                       + cc);
-          image += inc;
-          }
-        }
-      }
-    else if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE )
-      {
-      uint32 nsamples = 0;
-      TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
-      for ( uint32 s = 0; s < nsamples; s++ )
-        {
-        for ( int row = 0; row < (int)height; ++row )
-          {
-          if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
-            {
-            itkExceptionMacro(<< "Problem reading the row: " << row);
-            }
-
-          inc = 3;
-
-          if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
-            {
-            image = out + (size_t)(row) * width * inc;
-            }
-          else
-            {
-            image = out + (size_t) (width) * inc * ( height - ( row + 1 ) );
-            }
-
-          // We translate the output pixel to be on the right RGB
-          image += s;
-          for ( cc = 0; cc < isize;
-                cc += 1 )
-            {
-            ( *image ) = *( static_cast<ComponentType * >( buf ) + cc );
-            inc = 3;
-            image += inc;
-            }
-          }
-        }
-      }
-    _TIFFfree(buf);
-  }
 
 
 template <typename TComponent>

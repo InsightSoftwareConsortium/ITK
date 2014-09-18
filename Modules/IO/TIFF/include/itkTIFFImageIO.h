@@ -172,11 +172,6 @@ private:
   void operator=(const Self &); //purposely not implemented
 
   template <typename TComponent>
-  void ReadTwoSamplePerPixelImage(void *_out,
-                                  unsigned int width,
-                                  unsigned int height);
-
-  template <typename TComponent>
   void ReadGenericImage(void *_out,
                         unsigned int width,
                         unsigned int height);
