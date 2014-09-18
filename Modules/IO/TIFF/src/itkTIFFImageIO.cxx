@@ -352,8 +352,8 @@ void TIFFImageIO::ReadTiles(void *buffer)
 /** Read a multipage tiff */
 void TIFFImageIO::ReadVolume(void *buffer)
 {
-  int width  = m_InternalImage->m_Width;
-  int height = m_InternalImage->m_Height;
+  const int width  = m_InternalImage->m_Width;
+  const int height = m_InternalImage->m_Height;
 
   for ( unsigned int page = 0; page < m_InternalImage->m_NumberOfPages; page++ )
     {
@@ -373,136 +373,13 @@ void TIFFImageIO::ReadVolume(void *buffer)
       }
 
 
-    // It is necessary to re-initialize the colors for each page so
-    // that the colormap is reset in the GetColor method.  This is
-    // also true in the case that each slice has a different colormap.
-    this->InitializeColors();
+    const size_t pixelOffset = static_cast<size_t>(width)
+      * static_cast<size_t>(height)
+      * static_cast<size_t>(this->GetNumberOfComponents())
+      * static_cast<size_t>(page);
 
-    if ( !m_InternalImage->CanRead() )
-      {
-      const size_t sz = static_cast<size_t>(width)
-        * static_cast<size_t>(height);
-      uint32 *tempImage = new uint32[sz];
+    ReadCurrentPage(buffer, pixelOffset);
 
-      if ( !TIFFReadRGBAImage(m_InternalImage->m_Image,
-                              width, height,
-                              tempImage, 1) )
-        {
-        if ( tempImage != buffer )
-          {
-          delete[] tempImage;
-          }
-        itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
-        }
-
-      const size_t offset = static_cast<size_t>(width)
-        * static_cast<size_t>(height)
-        * 4
-        * static_cast<size_t>(page);
-
-      if ( m_ComponentType == USHORT )
-        {
-        unsigned short *out = (unsigned short *)(buffer) + offset;
-        RGBAImageToBuffer<unsigned short>(out, tempImage);
-        }
-      else if ( m_ComponentType == SHORT )
-        {
-        short *out = (short *)(buffer) + offset;
-        RGBAImageToBuffer<short>(out, tempImage);
-        }
-      else if ( m_ComponentType == CHAR )
-        {
-        char *out = (char *)(buffer) + offset;
-        RGBAImageToBuffer<char>(out, tempImage);
-        }
-      else
-        {
-        unsigned char *out = (unsigned char *)(buffer) + offset;
-        RGBAImageToBuffer<unsigned char>(out, tempImage);
-        }
-      if ( tempImage != buffer )
-        {
-        delete[] tempImage;
-        }
-      }
-    else
-      {
-      unsigned int format = this->GetFormat();
-
-      const size_t offset = static_cast<size_t>(width)
-        * static_cast<size_t>(height)
-        * static_cast<size_t>(m_InternalImage->m_SamplesPerPixel)
-        * static_cast<size_t>(page);
-
-      switch ( format )
-        {
-        case TIFFImageIO::GRAYSCALE:
-        case TIFFImageIO::RGB_:
-        case TIFFImageIO::PALETTE_GRAYSCALE:
-          if ( m_ComponentType == USHORT )
-            {
-            unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
-            volume += offset;
-            this->ReadGenericImage(volume, width, height);
-            }
-          else if ( m_ComponentType == SHORT )
-            {
-            short *volume = reinterpret_cast< short * >( buffer );
-            volume += offset;
-            this->ReadGenericImage(volume, width, height);
-            }
-          else if ( m_ComponentType == CHAR )
-            {
-            char *volume = reinterpret_cast< char * >( buffer );
-            volume += offset;
-            this->ReadGenericImage(volume, width, height);
-            }
-          else if ( m_ComponentType == FLOAT )
-            {
-            float *volume = reinterpret_cast< float * >( buffer );
-            volume += offset;
-            this->ReadGenericImage(volume, width, height);
-            }
-          else
-            {
-            unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-            volume += offset;
-            this->ReadGenericImage(volume, width, height);
-            }
-          break;
-        case TIFFImageIO::PALETTE_RGB:
-          // This differs from PALLETTE_GRAYSCALE only in that the
-          // volume is incremented by 3 times more since the colormap
-          // consists of RGB.
-          if ( m_ComponentType == USHORT )
-            {
-            unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
-            volume += offset * 3;
-            this->ReadGenericImage(volume, width, height);
-            }
-          else if ( m_ComponentType == SHORT )
-            {
-            short *volume = reinterpret_cast< short * >( buffer );
-            volume += offset * 3;
-            this->ReadGenericImage(volume, width, height);
-            }
-          else if ( m_ComponentType == CHAR )
-            {
-            char *volume = reinterpret_cast< char * >( buffer );
-            volume += offset * 3;
-            this->ReadGenericImage(volume, width, height);
-            }
-          else
-            {
-            unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-            volume += offset * 3;
-            this->ReadGenericImage(volume, width, height);
-            }
-          break;
-        default:
-          return;
-        }
-      }
     TIFFReadDirectory(m_InternalImage->m_Image);
     }
 }
@@ -526,85 +403,21 @@ void TIFFImageIO::Read(void *buffer)
 
   // The IO region should be of dimensions 3 otherwise we read only the first
   // page
-  if ( m_InternalImage->m_NumberOfPages > 0 && this->GetIORegion().GetImageDimension() > 2 )
+  if ( m_InternalImage->m_NumberOfPages > 0
+       && this->GetIORegion().GetImageDimension() > 2 )
     {
     this->ReadVolume(buffer);
-    m_InternalImage->Clean();
-    return;
     }
-
-  if ( m_InternalImage->m_NumberOfTiles > 0 && this->GetIORegion().GetImageDimension() > 2 )
+  else if ( m_InternalImage->m_NumberOfTiles > 0
+           && this->GetIORegion().GetImageDimension() > 2 )
     {
     this->ReadTiles(buffer);
-    m_InternalImage->Clean();
-    return;
     }
-
-  int width  = m_InternalImage->m_Width;
-  int height = m_InternalImage->m_Height;
-
-  if ( !m_InternalImage->CanRead() )
+  else
     {
-    const size_t sz = static_cast<size_t>(width)
-      * static_cast<size_t>(height);
-    uint32 *tempImage = new uint32[sz];
-
-    if ( !TIFFReadRGBAImage(m_InternalImage->m_Image,
-                            width, height,
-                            tempImage, 1) )
-      {
-      if ( tempImage != buffer )
-        {
-        delete[] tempImage;
-        }
-      m_InternalImage->Clean();
-      itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
-      }
-    int            xx, yy;
-    uint32 *       ssimage;
-    unsigned char *fimage = (unsigned char *)buffer;
-
-    for ( yy = 0; yy < height; yy++ )
-      {
-      ssimage = tempImage + ( height - yy - 1 ) * width;
-      for ( xx = 0; xx < width; xx++ )
-        {
-        unsigned char red   = static_cast< unsigned char >( TIFFGetR(*ssimage) );
-        unsigned char green = static_cast< unsigned char >( TIFFGetG(*ssimage) );
-        unsigned char blue  = static_cast< unsigned char >( TIFFGetB(*ssimage) );
-        unsigned char alpha = static_cast< unsigned char >( TIFFGetA(*ssimage) );
-
-        *( fimage  ) = red;
-        *( fimage + 1 ) = green;
-        *( fimage + 2 ) = blue;
-        *( fimage + 3 ) = alpha;
-        fimage += 4;
-
-        ssimage++;
-        }
-      }
-
-    if ( tempImage != buffer )
-      {
-      delete[] tempImage;
-      }
-    m_InternalImage->Clean();
-    return;
+    this->ReadCurrentPage(buffer,0);
     }
 
-  unsigned int format = this->GetFormat();
-
-  switch ( format )
-    {
-    case TIFFImageIO::GRAYSCALE:
-    case TIFFImageIO::RGB_:
-    case TIFFImageIO::PALETTE_RGB:
-    case TIFFImageIO::PALETTE_GRAYSCALE:
-      this->ReadGenericImage(buffer, width, height);
-      break;
-    default:
-      return;
-    }
   m_InternalImage->Clean();
 }
 
@@ -1215,6 +1028,136 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
   return raw_data;
 }
 
+
+void TIFFImageIO::ReadCurrentPage(void *buffer, size_t pixelOffset)
+{
+  const int width  = m_InternalImage->m_Width;
+  const int height = m_InternalImage->m_Height;
+
+  // It is necessary to re-initialize the colors for each page so
+  // that the colormap is reset in the GetColor method.  This is
+  // also true in the case that each slice has a different colormap.
+  this->InitializeColors();
+
+  if ( !m_InternalImage->CanRead() )
+    {
+    const size_t sz = static_cast<size_t>(width)
+      * static_cast<size_t>(height);
+
+    uint32 *tempImage = new uint32[sz];
+
+    if ( !TIFFReadRGBAImage(m_InternalImage->m_Image,
+                            width, height,
+                            tempImage, 1) )
+      {
+      if ( tempImage != buffer )
+        {
+        delete[] tempImage;
+        }
+      itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
+      }
+
+
+    if ( m_ComponentType == USHORT )
+      {
+      unsigned short *out = (unsigned short *)(buffer) + pixelOffset;
+      RGBAImageToBuffer<unsigned short>(out, tempImage);
+      }
+    else if ( m_ComponentType == SHORT )
+      {
+      short *out = (short *)(buffer) + pixelOffset;
+      RGBAImageToBuffer<short>(out, tempImage);
+      }
+    else if ( m_ComponentType == CHAR )
+      {
+      char *out = (char *)(buffer) + pixelOffset;
+      RGBAImageToBuffer<char>(out, tempImage);
+      }
+    else
+      {
+      unsigned char *out = (unsigned char *)(buffer) + pixelOffset;
+      RGBAImageToBuffer<unsigned char>(out, tempImage);
+      }
+    if ( tempImage != buffer )
+      {
+      delete[] tempImage;
+      }
+    }
+  else
+    {
+    unsigned int format = this->GetFormat();
+
+    switch ( format )
+      {
+      case TIFFImageIO::GRAYSCALE:
+      case TIFFImageIO::RGB_:
+      case TIFFImageIO::PALETTE_GRAYSCALE:
+        if ( m_ComponentType == USHORT )
+          {
+          unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        else if ( m_ComponentType == SHORT )
+          {
+          short *volume = reinterpret_cast< short * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        else if ( m_ComponentType == CHAR )
+          {
+          char *volume = reinterpret_cast< char * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        else if ( m_ComponentType == FLOAT )
+          {
+          float *volume = reinterpret_cast< float * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        else
+          {
+          unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        break;
+      case TIFFImageIO::PALETTE_RGB:
+        // This differs from PALLETTE_GRAYSCALE only in that the
+        // volume is incremented by 3 times more since the colormap
+        // consists of RGB.
+        if ( m_ComponentType == USHORT )
+          {
+          unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        else if ( m_ComponentType == SHORT )
+          {
+          short *volume = reinterpret_cast< short * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        else if ( m_ComponentType == CHAR )
+          {
+          char *volume = reinterpret_cast< char * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        else
+          {
+          unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
+          volume += pixelOffset;
+          this->ReadGenericImage(volume, width, height);
+          }
+        break;
+      default:
+        return;
+      }
+    }
+
+}
 
 template <typename TComponent>
 void TIFFImageIO::ReadGenericImage(void *_out,

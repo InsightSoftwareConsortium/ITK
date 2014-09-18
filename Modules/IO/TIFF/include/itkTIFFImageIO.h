@@ -171,6 +171,8 @@ private:
   TIFFImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
+  void ReadCurrentPage(void *out, size_t pixelOffset);
+
   template <typename TComponent>
   void ReadGenericImage(void *out,
                         unsigned int width,
