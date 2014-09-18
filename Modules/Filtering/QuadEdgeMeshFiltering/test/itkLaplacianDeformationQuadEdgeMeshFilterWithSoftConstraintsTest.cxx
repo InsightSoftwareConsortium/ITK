@@ -26,11 +26,12 @@
 int itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest( int argc, char* argv[] )
 {
   // ** ERROR MESSAGE AND HELP ** //
-  if( argc != 3 )
+  if( argc != 4 )
     {
     std::cout <<"Requires 3 argument: " <<std::endl;
     std::cout <<"1-Input file name " <<std::endl;
     std::cout <<"2-Output file name " <<std::endl;
+    std::cout <<"3-Use Mixed Area" <<std::endl;
     return EXIT_FAILURE;
     }
 
@@ -50,6 +51,15 @@ int itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest( int argc, 
   filter->SetInput( reader->GetOutput() );
   filter->SetOrder( 1 );
   filter->SetLambda( 1. );
+  if( atoi( argv[3] ) == 1 )
+    {
+    filter->SetAreaComputationType( FilterType::MIXEDAREA );
+    }
+  else
+    {
+    filter->SetAreaComputationType( FilterType::NONE );
+    }
+
 
   typedef itk::ConformalMatrixCoefficients< MeshType > CoefficientType;
   CoefficientType coeff;
