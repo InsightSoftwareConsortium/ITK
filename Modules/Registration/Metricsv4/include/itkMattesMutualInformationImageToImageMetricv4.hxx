@@ -281,66 +281,97 @@ void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::FinalizeThread( const ThreadIdType threadId )
 {
+  const IndexValueType numberOfPDFSubsections = static_cast< IndexValueType >( m_JointPDFSubsectionLocks.size() );
+  const IndexValueType numberOfDerivativesSubsections = static_cast< IndexValueType >( m_JointPDFDerivativeSubsectionLocks.size() );
 
-  // This method is from MattesMutualImageToImageMetric::GetValueThreadPostProcess. Common
-  // code used by GetValue and GetValueAndDerivative.
-  // Should be threaded. But if modified to do so, should probably not be threaded
-  // separately, but rather as a part of all post-processing.
-    {
-    const IndexValueType numberOfVoxels = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
-    JointPDFValueType * const accumPDFPtrStart = this->m_AccumulatorJointPDF->GetBufferPointer();
-    JointPDFValueType *       accumPDFPtr = accumPDFPtrStart;
-    JointPDFValueType *       threadPdfStart = this->m_ThreaderJointPDF[threadId]->GetBufferPointer();
-    JointPDFValueType *       threadPdf = threadPdfStart;
-    const IndexValueType numberOfSubsections = static_cast< IndexValueType >( m_JointPDFSubsectionLocks.size() );
-    const ThreadedIndexedContainerPartitioner::IndexRangeType completeIndexRange = {{0, numberOfVoxels}};
-    ThreadedIndexedContainerPartitioner::IndexRangeType indexRange;
-    for( IndexValueType subsection = 0; subsection < numberOfSubsections; ++subsection )
+  std::vector<bool> isPDFSectionDone(numberOfPDFSubsections,false);
+  std::vector<bool> isPDFDerivativeSectionDone(numberOfDerivativesSubsections,false);
+
+  const IndexValueType pdfNumberOfVoxels = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
+  const IndexValueType derivativeTotalElementSize = this->GetNumberOfLocalParameters() * pdfNumberOfVoxels;
+
+  const ThreadedIndexedContainerPartitioner::IndexRangeType completeIndexRange = {{0, pdfNumberOfVoxels}};
+  const ThreadedIndexedContainerPartitioner::IndexRangeType completeDerivativeIndexRange = {{0, derivativeTotalElementSize}};
+
+  const bool needDerivativesComputation = ( this->GetComputeDerivative() && ( ! this->HasLocalSupport() ) );
+  bool someWorkDelayed=false; //This is true while some more work needs to be done
+  do {
+    someWorkDelayed = false;
+    // This method is from MattesMutualImageToImageMetric::GetValueThreadPostProcess. Common
+    // code used by GetValue and GetValueAndDerivative.
+    // Should be threaded. But if modified to do so, should probably not be threaded
+    // separately, but rather as a part of all post-processing.
       {
-      this->m_IndexedContainerPartitioner->PartitionDomain( subsection, numberOfSubsections, completeIndexRange, indexRange );
-      JointPDFValueType const * const accumPDFEnd = accumPDFPtrStart + indexRange[1];
-      //Get mutex lock for writing to protect subsections of the accumPDFPtr buffer
-      MutexLockHolder< MutexLock > lockHolder(*(m_JointPDFSubsectionLocks[subsection]));
-      while( accumPDFPtr < accumPDFEnd )
+      JointPDFValueType * const accumPDFPtrStart = this->m_AccumulatorJointPDF->GetBufferPointer();
+      JointPDFValueType * const threadPdfStart = this->m_ThreaderJointPDF[threadId]->GetBufferPointer();
+      ThreadedIndexedContainerPartitioner::IndexRangeType indexRange;
+      for( IndexValueType subsection = 0; subsection < numberOfPDFSubsections; ++subsection )
         {
-        *( accumPDFPtr ) += *( threadPdf );
-        *( threadPdf ) = 0.0;
-        ++accumPDFPtr;
-        ++threadPdf;
+        if( ! isPDFSectionDone[subsection] )
+          {
+          //Get mutex lock for writing to protect subsections of the accumPDFPtr buffer
+          MutexLockHolder< MutexLock > lockHolder(*(m_JointPDFSubsectionLocks[subsection]),/*HACK*/ false);
+          if(lockHolder.GetLockCaptured())
+            {
+            this->m_IndexedContainerPartitioner->PartitionDomain( subsection, numberOfPDFSubsections, completeIndexRange, indexRange );
+            JointPDFValueType *       threadPdf = threadPdfStart + indexRange[0];
+            JointPDFValueType *       accumPDFPtr = accumPDFPtrStart + indexRange[0];
+            JointPDFValueType const * const accumPDFEnd = accumPDFPtrStart + indexRange[1];
+            while( accumPDFPtr < accumPDFEnd )
+              {
+              *( accumPDFPtr ) += *( threadPdf );
+              *( threadPdf ) = 0.0;
+              ++accumPDFPtr;
+              ++threadPdf;
+              }
+            isPDFSectionDone[subsection] = true;
+            }
+          else
+            {
+            someWorkDelayed = true;
+            }
+          }
         }
       }
-    }
 
-  if( this->GetComputeDerivative() && ( ! this->HasLocalSupport() ) )
-    {
-    // This entire block of code is used to accumulate the per-thread buffers into 1 thread.
-    // For this thread, how many histogram elements are there?
-    const IndexValueType histogramTotalElementsSize = this->GetNumberOfLocalParameters() * this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
-
-    //Accumulate this thread values for Derivatives
-    JointPDFDerivativesValueType * const accumPDFDerivPtrStart = this->m_AccumulatorJointPDFDerivatives->GetBufferPointer();
-    JointPDFDerivativesValueType       * threadPdfDPtrStart = this->m_ThreaderJointPDFDerivatives[threadId]->GetBufferPointer();
-    JointPDFDerivativesValueType       * threadPdfDPtr = threadPdfDPtrStart;
-
-    JointPDFDerivativesValueType * accumPDFDerivPtr = accumPDFDerivPtrStart;
-    const IndexValueType numberOfSubsections = static_cast< IndexValueType >( m_JointPDFDerivativeSubsectionLocks.size() );
-    const ThreadedIndexedContainerPartitioner::IndexRangeType completeIndexRange = {{0, histogramTotalElementsSize}};
-    ThreadedIndexedContainerPartitioner::IndexRangeType indexRange;
-    for( IndexValueType subsection = 0; subsection < numberOfSubsections; ++subsection )
+    if( needDerivativesComputation )
       {
-      this->m_IndexedContainerPartitioner->PartitionDomain( subsection, numberOfSubsections, completeIndexRange, indexRange );
-      JointPDFDerivativesValueType const * const threadPdfDPtrEnd = threadPdfDPtrStart + indexRange[1];
-      //Get mutex lock for writing
-      MutexLockHolder< MutexLock > lockHolder(*(m_JointPDFDerivativeSubsectionLocks[subsection]));
-      while( threadPdfDPtr < threadPdfDPtrEnd )
+      // This entire block of code is used to accumulate the per-thread buffers into 1 thread.
+      // For this thread, how many histogram elements are there?
+
+      //Accumulate this thread values for Derivatives
+      JointPDFDerivativesValueType * const accumPDFDerivPtrStart = this->m_AccumulatorJointPDFDerivatives->GetBufferPointer();
+      JointPDFDerivativesValueType  * const threadPdfDPtrStart = this->m_ThreaderJointPDFDerivatives[threadId]->GetBufferPointer();
+      ThreadedIndexedContainerPartitioner::IndexRangeType derivativeIndexRange;
+      for( IndexValueType subsection = 0; subsection < numberOfDerivativesSubsections; ++subsection )
         {
-        *( accumPDFDerivPtr ) += *( threadPdfDPtr );
-        *( threadPdfDPtr ) = 0.0;
-        ++accumPDFDerivPtr;
-        ++threadPdfDPtr;
+        if( ! isPDFDerivativeSectionDone[subsection] )
+          {
+          //Get mutex lock for writing
+          MutexLockHolder< MutexLock > lockHolder(*(m_JointPDFDerivativeSubsectionLocks[subsection]),/*HACK*/ false);
+          if(lockHolder.GetLockCaptured())
+            {
+            this->m_IndexedContainerPartitioner->PartitionDomain( subsection, numberOfDerivativesSubsections, completeDerivativeIndexRange, derivativeIndexRange );
+            JointPDFDerivativesValueType       * threadPdfDPtr = threadPdfDPtrStart + derivativeIndexRange[0];
+            JointPDFDerivativesValueType * accumPDFDerivPtr = accumPDFDerivPtrStart + derivativeIndexRange[0];
+            JointPDFDerivativesValueType const * const accumPDFDerivPtrEnd = accumPDFDerivPtrStart + derivativeIndexRange[1];
+            while( accumPDFDerivPtr < accumPDFDerivPtrEnd )
+              {
+              *( accumPDFDerivPtr ) += *( threadPdfDPtr );
+              *( threadPdfDPtr ) = 0.0;
+              ++accumPDFDerivPtr;
+              ++threadPdfDPtr;
+              }
+            isPDFDerivativeSectionDone[subsection] = true;
+            }
+          else
+            {
+            someWorkDelayed = true;
+            }
+          }
         }
       }
-    }
+  } while ( someWorkDelayed );
 }
 
 
