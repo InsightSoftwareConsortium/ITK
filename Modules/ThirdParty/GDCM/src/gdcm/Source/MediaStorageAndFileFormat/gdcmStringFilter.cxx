@@ -228,7 +228,10 @@ std::string StringFilter::FromString(const Tag&t, const char * value, VL const &
       /* el.ReadComputeLength( is ); */ \
       el.SetLength( vl );  \
        for(unsigned int i = 0; i < vm.GetLength(); ++i)  \
+        { \
+        if(i) is.get(); \
         is >> el.GetValue(i);  \
+        } \
       el.Write(os); \
       } \
     break
@@ -330,7 +333,6 @@ std::string StringFilter::FromString(const Tag&t, const char * value, size_t len
     FromStringFilterCase(UL);
     //FromStringFilterCase(UN);
     FromStringFilterCase(US);
-    FromStringFilterCase(UT);
   default:
     gdcmErrorMacro( "Not implemented" );
     assert(0);
