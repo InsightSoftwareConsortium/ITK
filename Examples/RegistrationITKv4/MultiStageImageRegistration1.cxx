@@ -933,7 +933,16 @@ int main( int argc, char *argv[] )
   // Write out checkerboard outputs
   // Before registration
   typedef itk::IdentityTransform< double, Dimension >   TransformType;
-  TransformType::Pointer identityTransform = TransformType::New();
+  TransformType::Pointer identityTransform;
+  try
+    {
+    identityTransform = TransformType::New();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    err.Print(std::cerr);
+    return EXIT_FAILURE;
+    }
   identityTransform->SetIdentity();
   resample->SetTransform( identityTransform );
 
