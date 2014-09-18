@@ -372,11 +372,6 @@ void TIFFImageIO::ReadVolume(void *buffer)
         }
       }
 
-    const size_t offset = static_cast<size_t>(width)
-      * static_cast<size_t>(height)
-      * static_cast<size_t>(m_InternalImage->m_SamplesPerPixel)
-      * static_cast<size_t>(page);
-
 
     // It is necessary to re-initialize the colors for each page so
     // that the colormap is reset in the GetColor method.  This is
@@ -399,100 +394,31 @@ void TIFFImageIO::ReadVolume(void *buffer)
           }
         itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
         }
-      int     xx, yy;
-      uint32 *ssimage;
+
+      const size_t offset = static_cast<size_t>(width)
+        * static_cast<size_t>(height)
+        * 4
+        * static_cast<size_t>(page);
 
       if ( m_ComponentType == USHORT )
         {
-        unsigned short *fimage = (unsigned short *)buffer;
-        fimage += width * height * 4 * page;
-        for ( yy = 0; yy < height; yy++ )
-          {
-          ssimage = tempImage + ( height - yy - 1 ) * width;
-          for ( xx = 0; xx < width; xx++ )
-            {
-            unsigned short red   = static_cast< unsigned short >( TIFFGetR(*ssimage) );
-            unsigned short green = static_cast< unsigned short >( TIFFGetG(*ssimage) );
-            unsigned short blue  = static_cast< unsigned short >( TIFFGetB(*ssimage) );
-            unsigned short alpha = static_cast< unsigned short >( TIFFGetA(*ssimage) );
-
-            *( fimage  ) = red;
-            *( fimage + 1 ) = green;
-            *( fimage + 2 ) = blue;
-            *( fimage + 3 ) = alpha;
-            fimage += 4;
-            ssimage++;
-            }
-          }
+        unsigned short *out = (unsigned short *)(buffer) + offset;
+        RGBAImageToBuffer<unsigned short>(out, tempImage);
         }
       else if ( m_ComponentType == SHORT )
         {
-        short *fimage = (short *)buffer;
-        fimage += width * height * 4 * page;
-        for ( yy = 0; yy < height; yy++ )
-          {
-          ssimage = tempImage + ( height - yy - 1 ) * width;
-          for ( xx = 0; xx < width; xx++ )
-            {
-            short red   = static_cast< short >( TIFFGetR(*ssimage) );
-            short green = static_cast< short >( TIFFGetG(*ssimage) );
-            short blue  = static_cast< short >( TIFFGetB(*ssimage) );
-            short alpha = static_cast< short >( TIFFGetA(*ssimage) );
-
-            *( fimage  ) = red;
-            *( fimage + 1 ) = green;
-            *( fimage + 2 ) = blue;
-            *( fimage + 3 ) = alpha;
-            fimage += 4;
-            ssimage++;
-            }
-          }
+        short *out = (short *)(buffer) + offset;
+        RGBAImageToBuffer<short>(out, tempImage);
         }
       else if ( m_ComponentType == CHAR )
         {
-        char *fimage = (char *)buffer;
-        fimage += width * height * 4 * page;
-        for ( yy = 0; yy < height; yy++ )
-          {
-          ssimage = tempImage + ( height - yy - 1 ) * width;
-          for ( xx = 0; xx < width; xx++ )
-            {
-            char red   = static_cast< char >( TIFFGetR(*ssimage) );
-            char green = static_cast< char >( TIFFGetG(*ssimage) );
-            char blue  = static_cast< char >( TIFFGetB(*ssimage) );
-            char alpha = static_cast< char >( TIFFGetA(*ssimage) );
-
-            *( fimage  ) = red;
-            *( fimage + 1 ) = green;
-            *( fimage + 2 ) = blue;
-            *( fimage + 3 ) = alpha;
-            fimage += 4;
-            ssimage++;
-            }
-          }
+        char *out = (char *)(buffer) + offset;
+        RGBAImageToBuffer<char>(out, tempImage);
         }
       else
         {
-        unsigned char *fimage = (unsigned char *)buffer;
-        fimage += width * height * 4 * page / 2;
-        for ( yy = 0; yy < height; yy++ )
-          {
-          ssimage = tempImage + ( height - yy - 1 ) * width;
-          for ( xx = 0; xx < width; xx++ )
-            {
-            unsigned char red   = static_cast< unsigned char >( TIFFGetR(*ssimage) );
-            unsigned char green = static_cast< unsigned char >( TIFFGetG(*ssimage) );
-            unsigned char blue  = static_cast< unsigned char >( TIFFGetB(*ssimage) );
-            unsigned char alpha = static_cast< unsigned char >( TIFFGetA(*ssimage) );
-
-            *( fimage  ) = red;
-            *( fimage + 1 ) = green;
-            *( fimage + 2 ) = blue;
-            *( fimage + 3 ) = alpha;
-            fimage += 4;
-            ssimage++;
-            }
-          }
+        unsigned char *out = (unsigned char *)(buffer) + offset;
+        RGBAImageToBuffer<unsigned char>(out, tempImage);
         }
       if ( tempImage != buffer )
         {
@@ -502,6 +428,11 @@ void TIFFImageIO::ReadVolume(void *buffer)
     else
       {
       unsigned int format = this->GetFormat();
+
+      const size_t offset = static_cast<size_t>(width)
+        * static_cast<size_t>(height)
+        * static_cast<size_t>(m_InternalImage->m_SamplesPerPixel)
+        * static_cast<size_t>(page);
 
       switch ( format )
         {
@@ -1396,6 +1327,36 @@ void TIFFImageIO::ReadGenericImage(void *_out,
       }
     }
   _TIFFfree(buf);
+}
+
+template <typename TComponent>
+void  TIFFImageIO::RGBAImageToBuffer( void *out, const uint32_t *tempImage )
+{
+  typedef TComponent ComponentType;
+
+  const int width  = m_InternalImage->m_Width;
+  const int height = m_InternalImage->m_Height;
+
+  ComponentType *fimage = (ComponentType *)out;
+
+  for ( int yy = 0; yy < height; ++yy )
+    {
+    const uint32 *ssimage = tempImage + ( height - yy - 1 ) * (size_t) width;
+    for ( int xx = 0; xx < width; ++xx )
+      {
+      const ComponentType red   = static_cast< ComponentType >( TIFFGetR(*ssimage) );
+      const ComponentType green = static_cast< ComponentType >( TIFFGetG(*ssimage) );
+      const ComponentType blue  = static_cast< ComponentType >( TIFFGetB(*ssimage) );
+      const ComponentType alpha = static_cast< ComponentType >( TIFFGetA(*ssimage) );
+
+      *( fimage  ) = red;
+      *( fimage + 1 ) = green;
+      *( fimage + 2 ) = blue;
+      *( fimage + 3 ) = alpha;
+      fimage += 4;
+      ++ssimage;
+      }
+    }
 }
 
 } // end namespace itk

@@ -172,9 +172,12 @@ private:
   void operator=(const Self &); //purposely not implemented
 
   template <typename TComponent>
-  void ReadGenericImage(void *_out,
+  void ReadGenericImage(void *out,
                         unsigned int width,
                         unsigned int height);
+
+  template <typename TComponent>
+    void RGBAImageToBuffer( void *out, const uint32_t *tempImage );
 
   unsigned short *m_ColorRed;
   unsigned short *m_ColorGreen;
