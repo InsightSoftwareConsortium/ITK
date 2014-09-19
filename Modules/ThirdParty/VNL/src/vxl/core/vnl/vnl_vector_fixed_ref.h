@@ -184,7 +184,7 @@ class vnl_vector_fixed_ref_const
 #if !defined(NDEBUG)
   void assert_size( unsigned sz ) const { assert( sz == n ); }
 #else
-  void assert_size( unsigned / * sz */ ) const { }
+  void assert_size( unsigned /* sz */ ) const { }
 #endif
   //: Check that this is finite if not, abort();
   // This function does or tests nothing if NDEBUG is defined
