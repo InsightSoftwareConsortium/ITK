@@ -281,22 +281,32 @@ void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::FinalizeThread( const ThreadIdType threadId )
 {
-  const IndexValueType numberOfPDFSubsections = static_cast< IndexValueType >( m_JointPDFSubsectionLocks.size() );
-  const IndexValueType numberOfDerivativesSubsections = static_cast< IndexValueType >( m_JointPDFDerivativeSubsectionLocks.size() );
+  const IndexValueType pdfNumberOfVoxels = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
+  const IndexValueType derivativeTotalElementSize = this->GetNumberOfLocalParameters() * pdfNumberOfVoxels;
+
+  //NOTE: min needed hear so that if there are more threads than values,
+  //      that the IndexPartitioner does not overrun bounds.
+  const IndexValueType numberOfPDFSubsections = std::min(
+    static_cast< IndexValueType >( m_JointPDFSubsectionLocks.size() ),
+    pdfNumberOfVoxels);
+
+  const IndexValueType numberOfDerivativesSubsections = std::min(
+    static_cast< IndexValueType >( m_JointPDFDerivativeSubsectionLocks.size() ),
+    derivativeTotalElementSize);
 
   std::vector<bool> isPDFSectionDone(numberOfPDFSubsections,false);
   std::vector<bool> isPDFDerivativeSectionDone(numberOfDerivativesSubsections,false);
 
-  const IndexValueType pdfNumberOfVoxels = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
-  const IndexValueType derivativeTotalElementSize = this->GetNumberOfLocalParameters() * pdfNumberOfVoxels;
-
-  const ThreadedIndexedContainerPartitioner::IndexRangeType completeIndexRange = {{0, pdfNumberOfVoxels}};
-  const ThreadedIndexedContainerPartitioner::IndexRangeType completeDerivativeIndexRange = {{0, derivativeTotalElementSize}};
+  //NOTE:  IndexRange is INCLUSIVE of values, so subtract 1 from total number for zero indexing.
+  const ThreadedIndexedContainerPartitioner::IndexRangeType completeIndexRange = {
+      {0, pdfNumberOfVoxels - 1 } };
+  const ThreadedIndexedContainerPartitioner::IndexRangeType completeDerivativeIndexRange = {
+      {0, derivativeTotalElementSize - 1 } };
 
   const bool needDerivativesComputation = ( this->GetComputeDerivative() && ( ! this->HasLocalSupport() ) );
-  bool someWorkDelayed=false; //This is true while some more work needs to be done
+  bool someWorkDelayed;
   do {
-    someWorkDelayed = false;
+    someWorkDelayed = false; //This is set to true while some more work needs to be done
     // This method is from MattesMutualImageToImageMetric::GetValueThreadPostProcess. Common
     // code used by GetValue and GetValueAndDerivative.
     // Should be threaded. But if modified to do so, should probably not be threaded
@@ -310,14 +320,15 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
         if( ! isPDFSectionDone[subsection] )
           {
           //Get mutex lock for writing to protect subsections of the accumPDFPtr buffer
-          MutexLockHolder< MutexLock > lockHolder(*(m_JointPDFSubsectionLocks[subsection]),/*HACK*/ false);
+          MutexLockHolder< MutexLock > lockHolder(*(m_JointPDFSubsectionLocks[subsection]), true);
           if(lockHolder.GetLockCaptured())
             {
-            this->m_IndexedContainerPartitioner->PartitionDomain( subsection, numberOfPDFSubsections, completeIndexRange, indexRange );
+            this->m_IndexedContainerPartitioner->PartitionDomain( subsection, numberOfPDFSubsections,
+                                                                  completeIndexRange, indexRange );
             JointPDFValueType *       threadPdf = threadPdfStart + indexRange[0];
             JointPDFValueType *       accumPDFPtr = accumPDFPtrStart + indexRange[0];
             JointPDFValueType const * const accumPDFEnd = accumPDFPtrStart + indexRange[1];
-            while( accumPDFPtr < accumPDFEnd )
+            while( accumPDFPtr <= accumPDFEnd )
               {
               *( accumPDFPtr ) += *( threadPdf );
               *( threadPdf ) = 0.0;
@@ -348,14 +359,15 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
         if( ! isPDFDerivativeSectionDone[subsection] )
           {
           //Get mutex lock for writing
-          MutexLockHolder< MutexLock > lockHolder(*(m_JointPDFDerivativeSubsectionLocks[subsection]),/*HACK*/ false);
+          MutexLockHolder< MutexLock > lockHolder(*(m_JointPDFDerivativeSubsectionLocks[subsection]),true);
           if(lockHolder.GetLockCaptured())
             {
-            this->m_IndexedContainerPartitioner->PartitionDomain( subsection, numberOfDerivativesSubsections, completeDerivativeIndexRange, derivativeIndexRange );
+            this->m_IndexedContainerPartitioner->PartitionDomain( subsection, numberOfDerivativesSubsections,
+                                                           completeDerivativeIndexRange, derivativeIndexRange );
             JointPDFDerivativesValueType       * threadPdfDPtr = threadPdfDPtrStart + derivativeIndexRange[0];
             JointPDFDerivativesValueType * accumPDFDerivPtr = accumPDFDerivPtrStart + derivativeIndexRange[0];
             JointPDFDerivativesValueType const * const accumPDFDerivPtrEnd = accumPDFDerivPtrStart + derivativeIndexRange[1];
-            while( accumPDFDerivPtr < accumPDFDerivPtrEnd )
+            while( accumPDFDerivPtr <= accumPDFDerivPtrEnd )
               {
               *( accumPDFDerivPtr ) += *( threadPdfDPtr );
               *( threadPdfDPtr ) = 0.0;
