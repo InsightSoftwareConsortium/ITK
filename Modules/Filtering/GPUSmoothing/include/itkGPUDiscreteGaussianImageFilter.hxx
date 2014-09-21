@@ -152,8 +152,6 @@ GPUDiscreteGaussianImageFilter< TInputImage, TOutputImage >
   typedef typename LastFilterType::Pointer         LastFilterPointer;
   typedef typename SingleFilterType::Pointer       SingleFilterPointer;
 */
-  typedef StreamingImageFilter< OutputImageType, OutputImageType > StreamingFilterType;
-  typedef typename StreamingFilterType::Pointer                    StreamingFilterPointer;
 
   // Create a series of operators
   typedef GaussianOperator< RealOutputPixelValueType, ImageDimension > OperatorType;

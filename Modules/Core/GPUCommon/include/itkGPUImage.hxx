@@ -184,8 +184,6 @@ void
 GPUImage< TPixel, VImageDimension >::Graft(const DataObject *data)
 {
   typedef GPUImageDataManager< GPUImage >              GPUImageDataManagerType;
-  typedef typename GPUImageDataManagerType::Superclass GPUImageDataSuperclass;
-  typedef typename GPUImageDataSuperclass::Pointer     GPUImageDataSuperclassPointer;
 
   // call the superclass' implementation
   Superclass::Graft(data);
