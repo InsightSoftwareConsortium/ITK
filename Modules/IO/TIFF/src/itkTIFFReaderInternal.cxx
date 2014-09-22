@@ -235,6 +235,8 @@ int TIFFReaderInternal::CanRead()
                 || this->m_Photometrics == PHOTOMETRIC_MINISBLACK
                 || this->m_Photometrics == PHOTOMETRIC_PALETTE )
            && ( this->m_PlanarConfig == PLANARCONFIG_CONTIG )
+           && ( this->m_Orientation == ORIENTATION_TOPLEFT
+              || this->m_Orientation == ORIENTATION_BOTLEFT )
            && ( !this->m_TileDepth )
            && ( this->m_BitsPerSample == 8 || this->m_BitsPerSample == 16 || this->m_BitsPerSample == 32 ) );
 }

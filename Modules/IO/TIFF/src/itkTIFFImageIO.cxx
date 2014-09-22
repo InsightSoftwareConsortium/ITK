@@ -1190,6 +1190,13 @@ void TIFFImageIO::ReadGenericImage(void *_out,
     itkExceptionMacro(<< "This reader can only do PLANARCONFIG_CONTIG");
     }
 
+  if ( m_InternalImage->m_Orientation != ORIENTATION_TOPLEFT
+    && m_InternalImage->m_Orientation != ORIENTATION_BOTLEFT )
+    {
+    itkExceptionMacro(<< "This reader can only do ORIENTATION_TOPLEFT and  ORIENTATION_BOTLEFT.");
+    }
+
+
   switch ( this->GetFormat() )
     {
     case TIFFImageIO::GRAYSCALE:
@@ -1220,7 +1227,7 @@ void TIFFImageIO::ReadGenericImage(void *_out,
         {
         image = out + (size_t) (row) * width * inc;
         }
-      else
+      else // bottom left
         {
         image = out + (size_t) (width) * inc * ( height - ( row + 1 ) );
         }
@@ -1253,7 +1260,7 @@ void TIFFImageIO::ReadGenericImage(void *_out,
           {
           image =  out + (size_t) (row) * width * inc;
           }
-        else
+        else // bottom left
           {
           image = out + (size_t) (width) * inc * ( height - ( row + 1 ) );
           }
