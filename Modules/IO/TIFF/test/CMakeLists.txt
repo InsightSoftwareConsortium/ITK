@@ -144,6 +144,11 @@ itk_add_test(NAME itkTIFFImageIOPlannarConfig1
               e3db5c8b5ddfb17dc708330c66a22659
     itkTIFFImageIOTest DATA{Input/oxford.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig1.tif 2 1)
 
+itk_add_test(NAME itkTIFFImageIOInfoTest1
+      COMMAND ITKIOTIFFTestDriver
+      itkTIFFImageIOInfoTest DATA{Input/single-channel.ome.tif})
+set_tests_properties( itkTIFFImageIOInfoTest1
+    PROPERTIES PASS_REGULAR_EXPRESSION "OME-XML metadata block")
 ######################
 # Test Compression
 

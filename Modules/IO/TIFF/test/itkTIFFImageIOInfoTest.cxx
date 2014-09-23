@@ -22,7 +22,6 @@
 #include "itkMetaDataObject.h"
 
 
-
 int itkTIFFImageIOInfoTest(int argc, char * argv[])
 {
 
@@ -36,7 +35,7 @@ int itkTIFFImageIOInfoTest(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef unsigned char PType;
+  typedef unsigned char            PType;
   typedef itk::Image< PType, dim > IType;
 
 
@@ -45,12 +44,14 @@ int itkTIFFImageIOInfoTest(int argc, char * argv[])
   reader->SetFileName( argv[1] );
   reader->Update();
 
-  typedef itk::MetaDataDictionary   DictionaryType;
+  typedef itk::MetaDataDictionary            DictionaryType;
   typedef itk::MetaDataObject< std::string > MetaDataStringType;
 
   const  DictionaryType & dictionary = reader->GetImageIO()->GetMetaDataDictionary();
   DictionaryType::ConstIterator itr = dictionary.Begin();
   DictionaryType::ConstIterator end = dictionary.End();
+
+  std::cout << "---MetaDataDictionary---" << std::endl;
   while( itr != end )
     {
     itk::MetaDataObjectBase::Pointer  entry = itr->second;
@@ -60,8 +61,7 @@ int itkTIFFImageIOInfoTest(int argc, char * argv[])
     if( entryvalue )
       {
       std::string tagkey   = itr->first;
-      std::cout << "MetaDataDict " << tagkey << ": " << entryvalue->GetMetaDataObjectValue() << std::endl;
-
+      std::cout  << tagkey << ": " << entryvalue->GetMetaDataObjectValue() << std::endl;
       }
 
     ++itr;
