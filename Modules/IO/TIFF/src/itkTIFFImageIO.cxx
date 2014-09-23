@@ -19,6 +19,7 @@
 #include "itkTIFFImageIO.h"
 #include "itkTIFFReaderInternal.h"
 #include "itksys/SystemTools.hxx"
+#include "itkMetaDataObject.h"
 
 #include "itk_tiff.h"
 
@@ -472,6 +473,7 @@ void TIFFImageIO::InitializeColors()
   m_ImageFormat = TIFFImageIO::NOFORMAT;
 }
 
+
 void TIFFImageIO::ReadImageInformation()
 {
   // If the internal image was not open we open it.
@@ -483,6 +485,8 @@ void TIFFImageIO::ReadImageInformation()
       itkExceptionMacro(<< "Cannot open file " << this->m_FileName << "!");
       }
     }
+
+  ReadTiffInfo();
 
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
@@ -1026,6 +1030,89 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
     }
 
   return raw_data;
+}
+
+void TIFFImageIO::ReadTiffInfo()
+{
+  // trial purposes - read the current directory tags
+  /* an integer array (ttag_t) of TIFF tags of string type */
+  std::vector<ttag_t> tt;
+  tt.push_back(TIFFTAG_ARTIST);
+  tt.push_back(TIFFTAG_COPYRIGHT);
+  tt.push_back(TIFFTAG_DATETIME);
+  tt.push_back(TIFFTAG_DOCUMENTNAME);
+  tt.push_back(TIFFTAG_HOSTCOMPUTER);
+  tt.push_back(TIFFTAG_IMAGEDESCRIPTION);
+  tt.push_back(TIFFTAG_INKNAMES);
+  tt.push_back(TIFFTAG_MAKE);
+  tt.push_back(TIFFTAG_MODEL);
+  tt.push_back(TIFFTAG_PAGENAME);
+  tt.push_back(TIFFTAG_SOFTWARE);
+  tt.push_back(TIFFTAG_TARGETPRINTER);
+
+  //corresponding array of TIFF tag names, copy the above and add quotes
+  std::vector<std::string> ttstr;
+  ttstr.push_back("TIFFTAG_ARTIST");
+  ttstr.push_back("TIFFTAG_COPYRIGHT");
+  ttstr.push_back("TIFFTAG_DATETIME");
+  ttstr.push_back("TIFFTAG_DOCUMENTNAME");
+  ttstr.push_back("TIFFTAG_HOSTCOMPUTER");
+  ttstr.push_back("TIFFTAG_IMAGEDESCRIPTION");
+  ttstr.push_back("TIFFTAG_INKNAMES");
+  ttstr.push_back("TIFFTAG_MAKE");
+  ttstr.push_back("TIFFTAG_MODEL");
+  ttstr.push_back("TIFFTAG_PAGENAME");
+  ttstr.push_back("TIFFTAG_SOFTWARE");
+  ttstr.push_back("TIFFTAG_TARGETPRINTER");
+
+  if (tt.size() != ttstr.size())
+    {
+    std::cerr << "Tag and name mismatch" << std::endl;
+    }
+
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+
+
+  for (unsigned I=0;I<tt.size();I++)
+    {
+    char** description = new char*[255];
+    unsigned st = TIFFGetField(m_InternalImage->m_Image, tt[I], description);
+    if (st)
+      {
+      std::string tagvalue;
+      for (unsigned x = 0; x < st; x++)
+        {
+        tagvalue += description[x];
+        if (st > 1)
+          {
+          // should do something more sensible, but apparently
+          // multistring tags are very rare.
+          tagvalue += "\n";
+          }
+        }
+      EncapsulateMetaData<std::string>(dict, ttstr[I], tagvalue);
+      }
+    delete(description);
+    }
+
+
+  // fetch xml packet
+  uint32 xmlcount;
+  void *xmldata;
+
+  unsigned st = TIFFGetField(m_InternalImage->m_Image, TIFFTAG_XMLPACKET, &xmlcount, &xmldata);
+
+  if (st)  // can this have multiple entries?
+    {
+    std::string xml;
+    for (uint32 x = 0; x < xmlcount; x++)
+      {
+      // adding 1 character at a time ??
+      xml += ((char *)(xmldata))[x];
+      }
+    EncapsulateMetaData<std::string>(dict, "TIFFTAG_XMLPACKET", xml);
+    }
+
 }
 
 

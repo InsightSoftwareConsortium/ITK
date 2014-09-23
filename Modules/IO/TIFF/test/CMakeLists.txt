@@ -4,6 +4,7 @@ itkTIFFImageIOTest.cxx
 itkTIFFImageIOTest2.cxx
 itkTIFFImageIOCompressionTest.cxx
 itkLargeTIFFImageWriteReadTest.cxx
+itkTIFFImageIOInfoTest.cxx
 )
 
 CreateTestDriver(ITKIOTIFF  "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")
