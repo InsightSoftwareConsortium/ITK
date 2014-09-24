@@ -164,7 +164,7 @@ protected:
 
   TIFFReaderInternal *m_InternalImage;
 
-  void ReadTiffInfo();
+  void ReadTIFFTags();
 
   int m_Compression;
   int m_JPEGQuality;

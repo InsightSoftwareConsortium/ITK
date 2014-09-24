@@ -55,13 +55,18 @@ int itkTIFFImageIOInfoTest(int argc, char * argv[])
   while( itr != end )
     {
     itk::MetaDataObjectBase::Pointer  entry = itr->second;
+    const std::string                 tagkey   = itr->first;
 
     MetaDataStringType::Pointer entryvalue =
       dynamic_cast<MetaDataStringType *>( entry.GetPointer() );
+
     if( entryvalue )
       {
-      std::string tagkey   = itr->first;
-      std::cout  << tagkey << ": " << entryvalue->GetMetaDataObjectValue() << std::endl;
+      std::cout << tagkey << ": " << entryvalue->GetMetaDataObjectValue() << std::endl;
+      }
+    else
+      {
+      std::cout << tagkey << ": " << entry << std::endl;
       }
 
     ++itr;

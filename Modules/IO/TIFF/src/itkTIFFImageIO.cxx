@@ -486,7 +486,7 @@ void TIFFImageIO::ReadImageInformation()
       }
     }
 
-  ReadTiffInfo();
+  ReadTIFFTags();
 
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
@@ -961,6 +961,39 @@ namespace itk {
 #define itkTIFFField TIFFFieldInfo
 #endif
 
+namespace {
+size_t itkTIFFDataSize(TIFFDataType type)
+{
+  switch (type)
+  {
+    case TIFF_BYTE:
+    case TIFF_SBYTE:
+    case TIFF_ASCII:
+    case TIFF_UNDEFINED:
+        return 1;
+    case TIFF_SHORT:
+    case TIFF_SSHORT:
+        return 2;
+    case TIFF_LONG:
+    case TIFF_SLONG:
+    case TIFF_FLOAT:
+    case TIFF_IFD:
+    case TIFF_RATIONAL:
+    case TIFF_SRATIONAL:
+        return 4;
+    case TIFF_DOUBLE:
+#ifdef TIFF_INT64_T // detect if libtiff4
+    case TIFF_LONG8:
+    case TIFF_SLONG8:
+    case TIFF_IFD8:
+#endif
+        return 8;
+    default:
+        return 0;
+  }
+}
+}
+
 
 bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
 {
@@ -1032,87 +1065,185 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
   return raw_data;
 }
 
-void TIFFImageIO::ReadTiffInfo()
+void TIFFImageIO::ReadTIFFTags()
 {
-  // trial purposes - read the current directory tags
-  /* an integer array (ttag_t) of TIFF tags of string type */
-  std::vector<ttag_t> tt;
-  tt.push_back(TIFFTAG_ARTIST);
-  tt.push_back(TIFFTAG_COPYRIGHT);
-  tt.push_back(TIFFTAG_DATETIME);
-  tt.push_back(TIFFTAG_DOCUMENTNAME);
-  tt.push_back(TIFFTAG_HOSTCOMPUTER);
-  tt.push_back(TIFFTAG_IMAGEDESCRIPTION);
-  tt.push_back(TIFFTAG_INKNAMES);
-  tt.push_back(TIFFTAG_MAKE);
-  tt.push_back(TIFFTAG_MODEL);
-  tt.push_back(TIFFTAG_PAGENAME);
-  tt.push_back(TIFFTAG_SOFTWARE);
-  tt.push_back(TIFFTAG_TARGETPRINTER);
+  // This method reads the custom (and ascii baseline tags), and
+  // places them into the meta-data dictionary
 
-  //corresponding array of TIFF tag names, copy the above and add quotes
-  std::vector<std::string> ttstr;
-  ttstr.push_back("TIFFTAG_ARTIST");
-  ttstr.push_back("TIFFTAG_COPYRIGHT");
-  ttstr.push_back("TIFFTAG_DATETIME");
-  ttstr.push_back("TIFFTAG_DOCUMENTNAME");
-  ttstr.push_back("TIFFTAG_HOSTCOMPUTER");
-  ttstr.push_back("TIFFTAG_IMAGEDESCRIPTION");
-  ttstr.push_back("TIFFTAG_INKNAMES");
-  ttstr.push_back("TIFFTAG_MAKE");
-  ttstr.push_back("TIFFTAG_MODEL");
-  ttstr.push_back("TIFFTAG_PAGENAME");
-  ttstr.push_back("TIFFTAG_SOFTWARE");
-  ttstr.push_back("TIFFTAG_TARGETPRINTER");
-
-  if (tt.size() != ttstr.size())
-    {
-    std::cerr << "Tag and name mismatch" << std::endl;
-    }
+  // this method is based on libtiff's PrintDirectory method used by
+  // the tiffinfo tool
 
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
+  void *raw_data = ITK_NULLPTR;
+  bool  mem_alloc = false;
 
-  for (unsigned I=0;I<tt.size();I++)
+  const int tagCount = TIFFGetTagListCount( m_InternalImage->m_Image );
+
+  for (int i = 0; i < tagCount; ++i)
     {
-    char** description = new char*[255];
-    unsigned st = TIFFGetField(m_InternalImage->m_Image, tt[I], description);
-    if (st)
+
+    // clean up allocation from prior iteration
+    if (mem_alloc)
       {
-      std::string tagvalue;
-      for (unsigned x = 0; x < st; x++)
+      _TIFFfree(raw_data);
+      mem_alloc = false;
+      }
+    raw_data = ITK_NULLPTR;
+
+    uint32 tag = TIFFGetTagListEntry(m_InternalImage->m_Image, i);
+
+    const itkTIFFField *field  = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+    const char*         field_name = TIFFFieldName(field);
+    unsigned int        value_count = 0;
+
+    if ( field == ITK_NULLPTR )
+    {
+    continue;
+    }
+
+    const int read_count = itkTIFFFieldReadCount( field );
+
+    // check if tag required count argument with GetField
+    if ( itkTIFFFieldPassCount( field ) )
+      {
+      if ( read_count == TIFF_VARIABLE2 )
         {
-        tagvalue += description[x];
-        if (st > 1)
+        uint32_t cnt;
+        if (TIFFGetField(m_InternalImage->m_Image, tag, &cnt, &raw_data) != 1)
           {
-          // should do something more sensible, but apparently
-          // multistring tags are very rare.
-          tagvalue += "\n";
+          continue;
+          }
+        value_count = cnt;
+        }
+      else if ( read_count == TIFF_VARIABLE )
+        {
+        uint16 cnt;
+        if (TIFFGetField(m_InternalImage->m_Image, tag, &cnt, &raw_data) != 1)
+          {
+          continue;
+          }
+        value_count = cnt;
+        }
+      }
+    else
+      {
+      if ( read_count == TIFF_VARIABLE
+           || read_count == TIFF_VARIABLE2 )
+        {
+        value_count = 1;
+        }
+      else if ( read_count ==  TIFF_SPP )
+        {
+        value_count = m_InternalImage->m_SamplesPerPixel;
+        }
+      else
+        {
+        value_count = read_count;
+        }
+
+      if ( itkTIFFFieldDataType( field ) == TIFF_ASCII
+           || read_count == TIFF_VARIABLE
+           || read_count == TIFF_VARIABLE2
+           || read_count == TIFF_SPP
+           || value_count > 1 )
+        {
+        if(TIFFGetField(m_InternalImage->m_Image, tag, &raw_data) != 1)
+          {
+          continue;
           }
         }
-      EncapsulateMetaData<std::string>(dict, ttstr[I], tagvalue);
+      else
+        {
+        const size_t dataSize = itkTIFFDataSize(itkTIFFFieldDataType( field ));
+        raw_data = _TIFFmalloc(dataSize* value_count);
+        mem_alloc = true;
+        if(TIFFGetField(m_InternalImage->m_Image, tag, raw_data) != 1)
+          {
+          continue;
+          }
+        }
       }
-    delete(description);
-    }
+
+    itkDebugMacro( << "TiffInfo tag " << field_name << "("<< tag << "): "
+                   << itkTIFFFieldDataType( field ) << " " << value_count << " " << raw_data);
 
 
-  // fetch xml packet
-  uint32 xmlcount;
-  void *xmldata;
+#define itkEncapsulate(T1,T2)                                           \
+    if ( value_count > 1 ) {                                            \
+      Array<T1> a(value_count);                                         \
+      for(unsigned int cnt = 0; cnt < value_count; ++cnt) { a[cnt] = ((const T2 *)raw_data)[cnt];} \
+      EncapsulateMetaData<itk::Array<T1> >(dict, field_name, a);         \
+      } else {                                                          \
+      EncapsulateMetaData<T1>(dict, field_name,  ((const T2 *)raw_data)[0]); \
+      }
 
-  unsigned st = TIFFGetField(m_InternalImage->m_Image, TIFFTAG_XMLPACKET, &xmlcount, &xmldata);
-
-  if (st)  // can this have multiple entries?
-    {
-    std::string xml;
-    for (uint32 x = 0; x < xmlcount; x++)
+    try
       {
-      // adding 1 character at a time ??
-      xml += ((char *)(xmldata))[x];
+      switch(itkTIFFFieldDataType( field ))
+        {
+        case TIFF_ASCII:
+          if ( value_count > 1 )
+            {
+            EncapsulateMetaData<std::string>(dict, field_name, std::string( (const char *)raw_data, value_count));
+            }
+          else
+            {
+            EncapsulateMetaData<std::string>(dict, field_name, std::string( (const char *)raw_data));
+            }
+          break;
+        case TIFF_BYTE:
+          EncapsulateMetaData<Array<char> >(dict, field_name, Array<char>( (const char *)raw_data, value_count));
+          break;
+        case TIFF_SHORT:
+          itkEncapsulate(unsigned short, uint16);
+          break;
+        case TIFF_LONG:
+          EncapsulateMetaData<unsigned int>(dict, field_name, ((const uint32 *)raw_data)[0]);
+          break;
+        case TIFF_SBYTE:
+          EncapsulateMetaData<signed char>(dict, field_name, ((const int8 *)raw_data)[0]);
+          break;
+        case TIFF_SSHORT:
+          EncapsulateMetaData<short>(dict, field_name, ((const int16 *)raw_data)[0]);
+          break;
+        case TIFF_SLONG:
+          itkEncapsulate(int, int32);
+          break;
+        case TIFF_FLOAT:
+          itkEncapsulate(float, float);
+          break;
+        case TIFF_DOUBLE:
+          itkEncapsulate(double, double);
+          break;
+        case TIFF_IFD:
+#ifdef TIFF_INT64_T // detect if libtiff4
+        case TIFF_LONG8:
+        case TIFF_SLONG8:
+        case TIFF_IFD8:
+#endif
+        case TIFF_RATIONAL:
+        case TIFF_SRATIONAL:
+        case TIFF_UNDEFINED:
+        default:
+          itkWarningMacro( << field_name << " has unsupported data type (" << itkTIFFFieldDataType( field ) << ") for meta-data dictionary." )
+          break;
+        }
       }
-    EncapsulateMetaData<std::string>(dict, "TIFFTAG_XMLPACKET", xml);
+    catch(...)
+      {
+      if (mem_alloc)
+        {
+        _TIFFfree(raw_data);
+        mem_alloc = false;
+        }
+      }
     }
 
+  if (mem_alloc)
+    {
+    _TIFFfree(raw_data);
+    }
 }
 
 
