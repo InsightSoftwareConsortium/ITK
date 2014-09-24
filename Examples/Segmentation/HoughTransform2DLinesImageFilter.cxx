@@ -38,7 +38,6 @@
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
-#include <list>
 #include "itkCastImageFilter.h"
 
 int main( int argc, char *argv[] )
@@ -213,12 +212,9 @@ int main( int argc, char *argv[] )
 
   OutputImageType::Pointer  localOutputImage = OutputImageType::New();
 
-  OutputImageType::RegionType region;
-  region.SetSize(localImage->GetLargestPossibleRegion().GetSize());
-  region.SetIndex(localImage->GetLargestPossibleRegion().GetIndex());
-  localOutputImage->SetRegions( region );
-  localOutputImage->SetOrigin(localImage->GetOrigin());
-  localOutputImage->SetSpacing(localImage->GetSpacing());
+  OutputImageType::RegionType region(localImage->GetLargestPossibleRegion());
+  localOutputImage->SetRegions(region);
+  localOutputImage->CopyInformation(localImage);
   localOutputImage->Allocate(true); // initialize buffer to zero
   // Software Guide : EndCodeSnippet
 
@@ -311,8 +307,9 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }
