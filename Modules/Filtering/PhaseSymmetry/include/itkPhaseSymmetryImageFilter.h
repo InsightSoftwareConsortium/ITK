@@ -59,6 +59,8 @@ namespace itk
  *
  * Phase congruency and feature type templated for an ndimensional image
  * See Peter Kovesi's site for details on the filter
+ *
+ * \ingroup PhaseSymmetry
  */
 template <class TInputImage, class TOutputImage>
 class PhaseSymmetryImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
