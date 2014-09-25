@@ -47,7 +47,6 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-
   /** Dimensionality of the output image. */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
