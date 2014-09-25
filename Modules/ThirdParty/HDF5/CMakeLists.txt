@@ -6,8 +6,10 @@ mark_as_advanced(ITK_USE_SYSTEM_HDF5)
 
 if(ITK_USE_SYSTEM_HDF5)
   find_package(HDF5 REQUIRED C CXX)
-  set(ITKHDF5_SYSTEM_INCLUDE_DIRS
+  set(ITKHDF5_INCLUDE_DIRS
     ${ITKHDF5_BINARY_DIR}/src # itk_hdf5.h and itk_H5Cpp.h
+  )
+  set(ITKHDF5_SYSTEM_INCLUDE_DIRS
     ${HDF5_INCLUDE_DIRS}
     ${HDF5_INCLUDE_DIR_CPP}
     )
