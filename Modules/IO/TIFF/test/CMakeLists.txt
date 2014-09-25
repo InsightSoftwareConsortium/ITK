@@ -117,6 +117,32 @@ itk_add_test(NAME itkTIFFImageIOFloatTest
               ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIORGBATest.tif
     itkTIFFImageIOTest DATA{Input/RGBAHead.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIORGBATest.tif 3 2)
 
+itk_add_test(NAME itkTIFFImageIOOrientation1
+      COMMAND ITKIOTIFFTestDriver
+      --compare  DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
+              ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation1.tif
+    itkTIFFImageIOTest DATA{Input/cthead_oriet_tl.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation1.tif 2 1)
+itk_add_test(NAME itkTIFFImageIOOrientation2
+      COMMAND ITKIOTIFFTestDriver
+      --compare  DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
+              ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation2.tif
+    itkTIFFImageIOTest DATA{Input/cthead_oriet_bl.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation2.tif 2 1)
+itk_add_test(NAME itkTIFFImageIOOrientation3
+      COMMAND ITKIOTIFFTestDriver
+      --compare  DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
+              ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation3.tif
+    itkTIFFImageIOTest DATA{Input/cthead_oriet_br.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation3.tif 2 1)
+itk_add_test(NAME itkTIFFImageIOOrientation4
+      COMMAND ITKIOTIFFTestDriver
+      --compare  DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
+              ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation4.tif
+    itkTIFFImageIOTest DATA{Input/cthead_oriet_tr.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation4.tif 2 1)
+itk_add_test(NAME itkTIFFImageIOPlannarConfig1
+      COMMAND ITKIOTIFFTestDriver
+      --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig1.tif
+              e3db5c8b5ddfb17dc708330c66a22659
+    itkTIFFImageIOTest DATA{Input/oxford.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig1.tif 2 1)
+
 ######################
 # Test Compression
 
