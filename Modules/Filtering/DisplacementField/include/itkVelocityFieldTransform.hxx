@@ -331,6 +331,11 @@ VelocityFieldTransform<TScalar, NDimensions>
   // copy the interpolator
   VelocityFieldInterpolatorPointer newInterp = dynamic_cast<VelocityFieldInterpolatorType *>
     ( this->m_VelocityFieldInterpolator->CreateAnother().GetPointer() );
+  if(newInterp.IsNull())
+    {
+    itkExceptionMacro(<< "dynamic_cast failed.");
+    }
+
   // interpolator needs to know about the velocity field
   newInterp->SetInputImage( rval->GetVelocityField() );
   rval->SetVelocityFieldInterpolator( newInterp );

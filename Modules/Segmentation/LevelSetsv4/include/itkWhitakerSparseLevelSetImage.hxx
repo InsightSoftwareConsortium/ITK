@@ -48,43 +48,49 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
   InputType mapIndex = inputIndex - this->m_DomainOffset;
   LayerMapConstIterator layerIt = this->m_Layers.begin();
 
+  OutputType rval = static_cast<OutputType>(ZeroLayer());
+
   while( layerIt != this->m_Layers.end() )
     {
     LayerConstIterator it = ( layerIt->second ).find( mapIndex );
     if( it != ( layerIt->second ).end() )
       {
-      return it->second;
+      rval = it->second;
+      break;
       }
 
     ++layerIt;
     }
-
-  if( this->m_LabelMap.IsNotNull() )
+  // if layer not found, look using label map
+  if(layerIt == this->m_Layers.end())
     {
-    if( this->m_LabelMap->GetLabelObject( MinusThreeLayer() )->HasIndex( mapIndex ) )
+    if( this->m_LabelMap.IsNotNull() )
       {
-      return static_cast<OutputType>( MinusThreeLayer() );
-      }
-    else
-      {
-      char status = this->m_LabelMap->GetPixel( mapIndex );
-      if( status == this->PlusThreeLayer() )
+      if( this->m_LabelMap->GetLabelObject( MinusThreeLayer() )->HasIndex( mapIndex ) )
         {
-        return static_cast<OutputType>( this->PlusThreeLayer() );
+        rval = static_cast<OutputType>( MinusThreeLayer() );
         }
       else
         {
-        itkGenericExceptionMacro( <<"status "
-                                  << static_cast< int >( status )
-                                  << " should be 3 or -3" );
+        char status = this->m_LabelMap->GetPixel( mapIndex );
+        if( status == this->PlusThreeLayer() )
+          {
+          rval = static_cast<OutputType>( this->PlusThreeLayer() );
+          }
+        else
+          {
+          itkGenericExceptionMacro( <<"status "
+                                    << static_cast< int >( status )
+                                    << " should be 3 or -3" );
+          }
         }
       }
+    else
+      {
+      itkGenericExceptionMacro( <<"Note: m_LabelMap is NULL"  );
+      }
     }
-  else
-    {
-    itkGenericExceptionMacro( <<"Note: m_LabelMap is NULL"  );
-    return this->PlusThreeLayer();
-    }
+  return rval;
 }
 
 // ----------------------------------------------------------------------------

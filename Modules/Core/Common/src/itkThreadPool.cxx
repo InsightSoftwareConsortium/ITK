@@ -61,7 +61,8 @@ ThreadPool
 ::ThreadPool() :
   m_ScheduleForDestruction(false),
   m_ThreadCount(0),
-  m_IdCounter(1)
+  m_IdCounter(1),
+  m_ExceptionOccurred(false)
 {
 }
 
@@ -128,7 +129,7 @@ ThreadPool
     }
   catch( std::exception & itkDebugStatement( e ) )
     {
-    m_ExceptionOccured = true;
+    m_ExceptionOccurred = true;
     itkDebugMacro(<< "Exception occured while waiting for thread with threadHandle : "
                   << threadHandle << std::endl << e.what());
     }
@@ -347,7 +348,7 @@ ThreadPool
   catch( std::exception& e )
     {
     itkDebugMacro(<< std::endl << "Failed to assign work. \n" << e.what() << std::endl );
-    m_ExceptionOccured = true;
+    m_ExceptionOccurred = true;
     itkExceptionMacro(<< e.what() );
     }
   return returnValue;

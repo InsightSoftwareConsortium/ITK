@@ -66,8 +66,11 @@
 
     void Execute(const itk::Object * object, const itk::EventObject & event)
       {
-         const RegistrationFilterType * filter =
-          dynamic_cast< const RegistrationFilterType * >( object );
+         const RegistrationFilterType * filter = dynamic_cast< const RegistrationFilterType * >( object );
+         if(filter == ITK_NULLPTR)
+           {
+           return;
+           }
         if( !(itk::IterationEvent().CheckEvent( &event )) )
           {
           return;

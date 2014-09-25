@@ -256,6 +256,10 @@ CellularAggregate< NSpaceDimension >
 ::Add(CellBase *cellBase, const VectorType & perturbation)
 {
   BioCellType *  cell = dynamic_cast< BioCellType * >( cellBase );
+  if(cell == ITK_NULLPTR)
+    {
+    itkExceptionMacro(<< "dynamic_cast failed.");
+    }
   IdentifierType newcellId       = cell->GetSelfIdentifier();
   IdentifierType newcellparentId = cell->GetParentIdentifier();
 

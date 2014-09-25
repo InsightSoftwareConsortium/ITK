@@ -156,6 +156,11 @@ int PerformBSplineImageRegistration( int argc, char *argv[] )
   {
   typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
   typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineSimple->GetModifiableMetric() );
+  if(imageMetric.IsNull())
+    {
+    std::cout << "dynamic_cast failed." << std::endl;
+    return EXIT_FAILURE;
+    }
   imageMetric->SetFloatingPointCorrectionResolution( 1e4 );
   }
 

@@ -207,9 +207,12 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
 
   typedef RegistrationType::LevelSetMotionFunctionType FunctionType;
 
-  FunctionType * fptr;
-  fptr = dynamic_cast<FunctionType *>( registrator->GetDifferenceFunction().GetPointer() );
-  fptr->Print( std::cout );
+  FunctionType * fptr =
+    dynamic_cast<FunctionType *>( registrator->GetDifferenceFunction().GetPointer() );
+  if(fptr != ITK_NULLPTR)
+    {
+    fptr->Print( std::cout );
+    }
 
   // exercise other member variables
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
@@ -367,8 +370,12 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   passed = false;
   try
     {
-    fptr = dynamic_cast<FunctionType *>(
-      registrator->GetDifferenceFunction().GetPointer() );
+    fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
+    if(fptr == ITK_NULLPTR)
+      {
+      std::cout << "Test failed - too many pixels different." << std::endl;
+      return EXIT_FAILURE;
+      }
     fptr->SetMovingImageInterpolator( ITK_NULLPTR );
     registrator->SetInput( initField );
     registrator->Update();

@@ -170,7 +170,11 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
   {
   typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
   typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineSimple->GetModifiableMetric() );
-  //imageMetric->SetUseFloatingPointCorrection(true);
+  if(imageMetric.IsNull())
+    {
+    std::cout << "Test failed - too many pixels different." << std::endl;
+    return EXIT_FAILURE;
+    }
   imageMetric->SetFloatingPointCorrectionResolution(1e4);
   }
 

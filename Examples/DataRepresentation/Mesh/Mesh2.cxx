@@ -314,6 +314,10 @@ int main(int, char *[])
     {
     MeshType::CellType * cellptr = cellIterator.Value();
     LineType * line = dynamic_cast<LineType *>( cellptr );
+    if(line == ITK_NULLPTR)
+      {
+      continue;
+      }
     std::cout << line->GetNumberOfPoints() << std::endl;
     ++cellIterator;
     }

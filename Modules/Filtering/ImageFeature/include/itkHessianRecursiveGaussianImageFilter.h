@@ -67,7 +67,7 @@ public:
 
   /** Number of smoothing filters. */
   itkStaticConstMacro(NumberOfSmoothingFilters, unsigned int,
-                      TInputImage::ImageDimension - 2);
+                      TInputImage::ImageDimension > 2 ? TInputImage::ImageDimension - 2 : 0);
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.

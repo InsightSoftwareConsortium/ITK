@@ -737,7 +737,12 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     {
     if(!strcmp((*obj)->GetTypeName(),"ImageSpatialObject"))
       {
-      itkImageType::ConstPointer constImage = dynamic_cast<const ImageType*>((*obj).GetPointer())->GetImage();
+      const itkImageType *constImage = dynamic_cast<const ImageType*>((*obj).GetPointer())->GetImage();
+      if(constImage == ITK_NULLPTR)
+        {
+        std::cerr << "dynamic_cast failed." << std::endl;
+        return EXIT_FAILURE;
+        }
       itk::ImageRegionConstIteratorWithIndex< itkImageType > it(constImage, constImage->GetLargestPossibleRegion());
       for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
         {

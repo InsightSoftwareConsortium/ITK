@@ -48,54 +48,61 @@ public:
 
   virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
+      if(object == ITK_NULLPTR)
+        {
+        itkExceptionMacro(<< "Command update on null object");
+        }
       std::cout << "Observing from class " << object->GetNameOfClass();
       if (!object->GetObjectName().empty())
         {
         std::cout << " \"" << object->GetObjectName() << "\"";
         }
       std::cout << std::endl;
-      const TFilter * filter =
-      dynamic_cast< const TFilter * >( object );
-    if( typeid( event ) != typeid( itk::MultiResolutionIterationEvent ) || object == ITK_NULLPTR )
-      { return; }
-
-    unsigned int currentLevel = filter->GetCurrentLevel();
-    typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors = filter->GetShrinkFactorsPerDimension( currentLevel );
-    typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
-    typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
-
-    const itk::ObjectToObjectOptimizerBase* optimizerBase = filter->GetOptimizer();
-    typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
-    typename GradientDescentOptimizerv4Type::ConstPointer optimizer = dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
-    if( !optimizer )
-      {
-      itkGenericExceptionMacro( "Error dynamic_cast failed" );
-      }
-    typename GradientDescentOptimizerv4Type::DerivativeType gradient = optimizer->GetGradient();
-
-    std::cout << "  CL Current level:           " << currentLevel << std::endl;
-    std::cout << "   SF Shrink factor:          " << shrinkFactors << std::endl;
-    std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
-    if (adaptors[currentLevel])
-      {
-      std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
-      }
-    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
-    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << std::endl;
-    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
-    std::cout << "   FG Final metric gradient (sample of values): ";
-    if( gradient.GetSize() < 10 )
-      {
-      std::cout << gradient;
-      }
-    else
-      {
-      for( itk::SizeValueType i = 0; i < gradient.GetSize(); i += (gradient.GetSize() / 16) )
+      const TFilter * filter = dynamic_cast< const TFilter * >( object );
+      if(filter == 0)
         {
-        std::cout << gradient[i] << " ";
+        itkExceptionMacro(<< "dynamic_cast failed, object type " << object->GetNameOfClass());
         }
-      }
-    std::cout << std::endl;
+      if( typeid( event ) != typeid( itk::MultiResolutionIterationEvent ) || object == ITK_NULLPTR )
+        { return; }
+
+      unsigned int currentLevel = filter->GetCurrentLevel();
+      typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors = filter->GetShrinkFactorsPerDimension( currentLevel );
+      typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
+      typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
+
+      const itk::ObjectToObjectOptimizerBase* optimizerBase = filter->GetOptimizer();
+      typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+      typename GradientDescentOptimizerv4Type::ConstPointer optimizer = dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
+      if( !optimizer )
+        {
+        itkGenericExceptionMacro( "Error dynamic_cast failed" );
+        }
+      typename GradientDescentOptimizerv4Type::DerivativeType gradient = optimizer->GetGradient();
+
+      std::cout << "  CL Current level:           " << currentLevel << std::endl;
+      std::cout << "   SF Shrink factor:          " << shrinkFactors << std::endl;
+      std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
+      if (adaptors[currentLevel])
+        {
+        std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
+        }
+      std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
+      std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << std::endl;
+      std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
+      std::cout << "   FG Final metric gradient (sample of values): ";
+      if( gradient.GetSize() < 10 )
+        {
+        std::cout << gradient;
+        }
+      else
+        {
+        for( itk::SizeValueType i = 0; i < gradient.GetSize(); i += (gradient.GetSize() / 16) )
+          {
+          std::cout << gradient[i] << " ";
+          }
+        }
+      std::cout << std::endl;
     }
 };
 

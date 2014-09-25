@@ -19,6 +19,7 @@
 #define __itkScalarToRGBPixelFunctor_hxx
 
 #include "itkScalarToRGBPixelFunctor.h"
+#include "itkByteSwapper.h"
 
 namespace itk
 {
@@ -54,14 +55,15 @@ ScalarToRGBPixelFunctor< TScalar >
 
   if ( this->m_UseMSBForHashing == true )
     {   // swap bytes
-    TScalar tmp;
-    unsigned char *tmpbytes = reinterpret_cast<unsigned char *>( &tmp );
-    unsigned int i = 0;
-    for ( int j = sizeof( TScalar ) - 1; j >= 0; j--, i++ )
+    // always swap regardless of system endianness
+    if(ByteSwapper< TScalar >::SystemIsBigEndian())
       {
-      tmpbytes[i] = bytes[j];
+      ByteSwapper< TScalar >::SwapFromSystemToLittleEndian(&buf);
       }
-    buf = tmp;
+    else
+      {
+      ByteSwapper< TScalar >::SwapFromSystemToBigEndian(&buf);
+      }
     }
 
   RGBPixelType ans;

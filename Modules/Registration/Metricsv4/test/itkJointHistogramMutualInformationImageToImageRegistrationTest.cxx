@@ -75,6 +75,10 @@ public:
     {
     const OptimizerType * optimizer =
       dynamic_cast< const OptimizerType * >( object );
+    if(optimizer == ITK_NULLPTR)
+      {
+      return;
+      }
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;

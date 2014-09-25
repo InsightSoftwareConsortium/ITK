@@ -150,7 +150,7 @@ private:
   unsigned int m_IdCounter;
 
   /** set if exception occurs */
-  bool m_ExceptionOccured;
+  bool m_ExceptionOccurred;
 
   typedef std::map<ThreadJobIdType,ThreadJob> ThreadJobContainerType;
 
