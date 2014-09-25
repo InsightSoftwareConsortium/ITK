@@ -451,6 +451,11 @@ macro(itk_wrap_one_type_swig_interface wrap_method wrap_class swig_name)
     itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass::Pointer" "${swig_name}_Superclass_Pointer")
   endif()
 
+  if("${wrap_method}" MATCHES "CONST_POINTER")
+    # add a const pointer typedef if we are so asked
+    itk_wrap_simple_type_swig_interface("${full_class_name}::ConstPointer" "${swig_name}_ConstPointer")
+  endif()
+
   # the same output with or without FORCE_INSTANTIATE
   itk_wrap_simple_type_swig_interface("${full_class_name}" "${swig_name}")
 

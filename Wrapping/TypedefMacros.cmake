@@ -310,8 +310,8 @@ macro(itk_wrap_class class)
   # itk_wrap_include should be manually called from the wrap_*.cmake file that calls
   # this macro.
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
-  # POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION
-  # POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER
+  # POINTER POINTER_WITH_CONST_POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES
+  # EXPLICIT_SPECIALIZATION POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER
   #
   # Global vars used: none
   # Global vars modified: WRAPPER_INCLUDE_FILES
@@ -353,8 +353,8 @@ macro(itk_wrap_named_class class swig_name)
   # in SWIG (with template definitions providing additional mangled suffixes to this name)
   #
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
-  # POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION
-  # POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER
+  # POINTER POINTER_WITH_CONST_POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES
+  # EXPLICIT_SPECIALIZATION POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER
   # If no parameter is given, the class is simply wrapped as-is. If the parameter
   # is "POINTER" then the class is wrapped and so is the SmartPointer template type
   # that is typedef'd as class::Pointer.
@@ -376,13 +376,13 @@ macro(itk_wrap_named_class class swig_name)
   if("${ARGC}" EQUAL 3)
     set(WRAPPER_WRAP_METHOD "${ARGV2}")
     set(ok 0)
-    foreach(opt POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER)
+    foreach(opt POINTER POINTER_WITH_CONST_POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER)
       if("${opt}" STREQUAL "${WRAPPER_WRAP_METHOD}")
         set(ok 1)
       endif()
     endforeach()
     if(ok EQUAL 0)
-      message(SEND_ERROR "itk_wrap_class: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are POINTER, POINTER_WITH_SUPERCLASS, POINTER_WITH_2_SUPERCLASSES, EXPLICIT_SPECIALIZATION, POINTER_WITH_EXPLICIT_SPECIALIZATION, ENUM and AUTOPOINTER")
+      message(SEND_ERROR "itk_wrap_class: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are POINTER, POINTER_WITH_CONST_POINTER, POINTER_WITH_SUPERCLASS, POINTER_WITH_2_SUPERCLASSES, EXPLICIT_SPECIALIZATION, POINTER_WITH_EXPLICIT_SPECIALIZATION, ENUM and AUTOPOINTER")
     endif()
   endif()
 
@@ -408,7 +408,7 @@ macro(itk_wrap_simple_class class)
   # A fully-qualified 'class' parameter is required as above. The swig name for
   # this class is generated as in itk_wrap_class.
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
-  # POINTER and POINTER_WITH_SUPERCLASS.
+  # POINTER POINTER_WITH_CONST_POINTER and POINTER_WITH_SUPERCLASS.
 
   itk_wrap_class("${class}" ${ARGN})
   # to avoid useless warning: no template can be defined in
@@ -428,7 +428,7 @@ macro(itk_wrap_named_simple_class class swig_name)
   # A fully-qualified 'class' parameter is required as above. The swig name for
   # this class is provided by the second parameter.
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
-  # POINTER and POINTER_WITH_SUPERCLASS.
+  # POINTER POINTER_WITH_CONST_POINTER and POINTER_WITH_SUPERCLASS.
 
   itk_wrap_named_class("${class}" "${swig_name}" ${ARGN})
   # to avoid useless warning: no template can be defined in
@@ -534,6 +534,11 @@ macro(itk_wrap_one_type wrap_method wrap_class swig_name)
   if("${wrap_method}" MATCHES "SUPERCLASS")
     itk_wrap_simple_type("${full_class_name}::Superclass" "${swig_name}_Superclass")
     itk_wrap_simple_type("${full_class_name}::Superclass::Pointer" "${swig_name}_Superclass_Pointer")
+  endif()
+
+  if("${wrap_method}" MATCHES "CONST_POINTER")
+    # add a const pointer typedef if we are so asked
+    itk_wrap_simple_type("${full_class_name}::ConstPointer" "${swig_name}_ConstPointer")
   endif()
 
   itk_wrap_simple_type("${full_class_name}" "${swig_name}")
