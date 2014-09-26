@@ -1303,75 +1303,35 @@ void TIFFImageIO::ReadCurrentPage(void *buffer, size_t pixelOffset)
     }
   else
     {
-    unsigned int format = this->GetFormat();
-
-    switch ( format )
+    if ( m_ComponentType == USHORT )
       {
-      case TIFFImageIO::GRAYSCALE:
-      case TIFFImageIO::RGB_:
-      case TIFFImageIO::PALETTE_GRAYSCALE:
-        if ( m_ComponentType == USHORT )
-          {
-          unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        else if ( m_ComponentType == SHORT )
-          {
-          short *volume = reinterpret_cast< short * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        else if ( m_ComponentType == CHAR )
-          {
-          char *volume = reinterpret_cast< char * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        else if ( m_ComponentType == FLOAT )
-          {
-          float *volume = reinterpret_cast< float * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        else
-          {
-          unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        break;
-      case TIFFImageIO::PALETTE_RGB:
-        // This differs from PALLETTE_GRAYSCALE only in that the
-        // volume is incremented by 3 times more since the colormap
-        // consists of RGB.
-        if ( m_ComponentType == USHORT )
-          {
-          unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        else if ( m_ComponentType == SHORT )
-          {
-          short *volume = reinterpret_cast< short * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        else if ( m_ComponentType == CHAR )
-          {
-          char *volume = reinterpret_cast< char * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        else
-          {
-          unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-          volume += pixelOffset;
-          this->ReadGenericImage(volume, width, height);
-          }
-        break;
-      default:
-        return;
+      unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+      }
+    else if ( m_ComponentType == SHORT )
+      {
+      short *volume = reinterpret_cast< short * >( buffer );
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+      }
+    else if ( m_ComponentType == CHAR )
+      {
+      char *volume = reinterpret_cast< char * >( buffer );
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+      }
+    else if ( m_ComponentType == FLOAT )
+      {
+      float *volume = reinterpret_cast< float * >( buffer );
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+      }
+    else
+      {
+      unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
       }
     }
 
