@@ -323,7 +323,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
     fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
     if(fptr == ITK_NULLPTR)
       {
-      std::cerr << "dynamic_cast failed" << std::cerr;
+      std::cerr << "dynamic_cast failed" << std::endl;
       return EXIT_FAILURE;
       }
     fptr->SetMovingImageInterpolator( ITK_NULLPTR );
