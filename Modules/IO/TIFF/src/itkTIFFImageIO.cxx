@@ -314,41 +314,6 @@ unsigned int TIFFImageIO::GetFormat()
   return m_ImageFormat;
 }
 
-/** Read a tiled tiff */
-void TIFFImageIO::ReadTiles(void *buffer)
-{
-  unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
-
-  for ( unsigned int col = 0; col < m_InternalImage->m_Width; col += m_InternalImage->m_TileWidth )
-    {
-    for ( unsigned int row = 0; row < m_InternalImage->m_Height; row += m_InternalImage->m_TileHeight )
-      {
-      const size_t sz = static_cast<size_t>(m_InternalImage->m_TileWidth)
-        * static_cast<size_t>(m_InternalImage->m_TileHeight)
-        * static_cast<size_t>(m_InternalImage->m_SamplesPerPixel);
-      unsigned char *tempImage = new unsigned char[sz];
-
-      if ( TIFFReadTile(m_InternalImage->m_Image, tempImage, col, row, 0, 0) < 0 )
-        {
-        itkExceptionMacro(<< "Cannot read tile : " << row << "," << col << " from file");
-        }
-
-      unsigned int xx, yy;
-      for ( yy = 0; yy < m_InternalImage->m_TileHeight; yy++ )
-        {
-        for ( xx = 0; xx <  m_InternalImage->m_TileWidth; xx++ )
-          {
-          for ( unsigned int i = 0; i < m_InternalImage->m_SamplesPerPixel; i++ )
-            {
-            *volume = *( tempImage++ );
-            volume++;
-            }
-          }
-        }
-      delete[] tempImage;
-      }
-    }
-}
 
 /** Read a multipage tiff */
 void TIFFImageIO::ReadVolume(void *buffer)
@@ -408,11 +373,6 @@ void TIFFImageIO::Read(void *buffer)
        && this->GetIORegion().GetImageDimension() > 2 )
     {
     this->ReadVolume(buffer);
-    }
-  else if ( m_InternalImage->m_NumberOfTiles > 0
-           && this->GetIORegion().GetImageDimension() > 2 )
-    {
-    this->ReadTiles(buffer);
     }
   else
     {
@@ -590,16 +550,6 @@ void TIFFImageIO::ReadImageInformation()
     m_Origin[2] = 0.0;
     }
 
-  // if the tiff is tiled
-  if ( m_InternalImage->m_NumberOfTiles > 1 )
-    {
-    this->SetNumberOfDimensions(3);
-    m_Dimensions[0] = m_InternalImage->m_TileWidth;
-    m_Dimensions[1] = m_InternalImage->m_TileHeight;
-    m_Dimensions[2] = m_InternalImage->m_NumberOfTiles;
-    m_Spacing[2] = 1.0;
-    m_Origin[2] = 0.0;
-    }
 }
 
 bool TIFFImageIO::CanWriteFile(const char *name)
