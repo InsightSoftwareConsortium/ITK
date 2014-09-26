@@ -21,7 +21,7 @@ itk_end_wrap_class()
 
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkTransformBase.h")
-itk_wrap_class("itk::TransformBaseTemplate" POINTER)
+itk_wrap_class("itk::TransformBaseTemplate" POINTER_WITH_CONST_POINTER)
   foreach(t ${types})
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach(t)

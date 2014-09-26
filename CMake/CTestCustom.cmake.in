@@ -105,6 +105,12 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # Ignore clang's summary warning, assuming prior text has matched some
   # other warning expression:
   "[0-9,]+ warnings? generated."
+
+  # The PCRE, SWIG, and GCCXML third party builds for wrapping.
+  ".*/PCRE/.*"
+  ".*/swig/.*"
+  ".*parser.py.*"
+  ".*/GCC_XML/.*"
   )
 
 if(APPLE)
