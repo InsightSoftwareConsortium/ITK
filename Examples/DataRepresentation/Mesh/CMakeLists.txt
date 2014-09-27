@@ -1,5 +1,4 @@
 project(MeshExamples)
-include_regular_expression("^.*$")
 
 add_executable(PointSet1 PointSet1.cxx )
 target_link_libraries(PointSet1 ${ITK_LIBRARIES})

@@ -1,5 +1,4 @@
 project(ITKv3ImageRegistration)
-include_regular_expression("^.*$")
 
 add_executable(ITKv3ImageRegistration3 ImageRegistration3.cxx )
 target_link_libraries(ITKv3ImageRegistration3 ${ITK_LIBRARIES})

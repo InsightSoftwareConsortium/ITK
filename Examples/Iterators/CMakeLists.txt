@@ -1,8 +1,4 @@
-#
-#  Examples on the use of Iterators.
-#
 project(IteratorExamples)
-include_regular_expression("^.*$")
 
 add_executable(NeighborhoodIterators4 NeighborhoodIterators4.cxx)
 target_link_libraries(NeighborhoodIterators4 ${ITK_LIBRARIES})
