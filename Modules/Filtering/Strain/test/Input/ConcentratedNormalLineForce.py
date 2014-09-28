@@ -119,7 +119,7 @@ with open("../Baseline/LineLoadStrain.vtk", "w") as f:
             f.write(str(exy[j, i]) + " " + str(eyy[j, i]) + " 0.0\n")
             f.write("0.0 0.0 0.0\n\n")
 
-with open("../Baseline/LineLoadStrain.mha", "w") as f:
+with open("../Baseline/LineLoadStrain.mhd", "w") as f:
     f.write("ObjectType = Image\n")
     f.write("NDims = 2\n")
     f.write("BinaryData = True\n")
