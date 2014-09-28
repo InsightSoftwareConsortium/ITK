@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 
-# Calculate displacements and strains for line loading in an elastic half-space
-# of a isotropic, homogeneous body undergoing small strain.
-# See
-# Johnson, K.L. Contact Mechanics.  2.2 Line Loading of an Elastic Half-Space:
-# Concentrated Normal Force. Cambridge University Press.  1985.
-# Fearing, Ronald S and Hollerbach, John M.  Basic Solid Mechanics for Tactile
-# Sensing.  A.I. Memo 771 Massachusetts Institute of Technology Artificial
-# Intelligence Laboratory.  March, 1984.
+"""
+Calculate displacements and strains for line loading in an elastic half-space
+of a isotropic, homogeneous body undergoing small strain.
+
+See
+
+Johnson, K.L. Contact Mechanics.  2.2 Line Loading of an Elastic Half-Space:
+Concentrated Normal Force. Cambridge University Press.  1985.
+Fearing, Ronald S and Hollerbach, John M.  Basic Solid Mechanics for Tactile
+Sensing.  A.I. Memo 771 Massachusetts Institute of Technology Artificial
+Intelligence Laboratory.  March, 1984.
+"""
 
 import numpy as np
 
@@ -16,8 +20,8 @@ PE_term = 2.0 * 1 / 5 / np.pi
 # Poisson's ratio
 nu = 0.495
 
-start = -200
-stop = 201
+start = -50
+stop = 51
 side_length = stop - start
 
 x = np.arange(side_length)
@@ -114,3 +118,23 @@ with open("../Baseline/LineLoadStrain.vtk", "w") as f:
             f.write(str(exx[j, i]) + " " + str(exy[j, i]) + " 0.0\n")
             f.write(str(exy[j, i]) + " " + str(eyy[j, i]) + " 0.0\n")
             f.write("0.0 0.0 0.0\n\n")
+
+with open("../Baseline/LineLoadStrain.mha", "w") as f:
+    f.write("ObjectType = Image\n")
+    f.write("NDims = 2\n")
+    f.write("BinaryData = True\n")
+    f.write("BinaryDataByteOrderMSB = False\n")
+    f.write("CompressedData = False\n")
+    f.write("TransformMatrix = 1 0 0 1\n")
+    f.write("Offset = 0 0\n")
+    f.write("ElementNumberOfChannels = 3\n")
+    f.write("ElementSpacing = 1.0 1.0\n")
+    f.write("DimSize = " + str(ux.shape[0]) + " " + str(ux.shape[1]) + "\n")
+    f.write("ElementType = MET_DOUBLE\n")
+    f.write("ElementDataFile = LineLoadStrain.raw\n")
+with open("../Baseline/LineLoadStrain.raw", "wb") as f:
+    for i in range(ux.shape[0]):
+        for j in range(ux.shape[1]):
+            f.write(exx[j, i])
+            f.write(exy[j, i])
+            f.write(eyy[j, i])

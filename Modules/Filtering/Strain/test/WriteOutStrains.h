@@ -27,7 +27,7 @@
 
 template <class TPixel, unsigned int Dimension, class TTensorImage>
 int
-WriteOutStrains(char * outputPrefix, TTensorImage * strainImage)
+WriteOutStrains(const char * outputPrefix, TTensorImage * strainImage)
 {
   typedef TPixel                           PixelType;
   typedef TTensorImage                     TensorImageType;

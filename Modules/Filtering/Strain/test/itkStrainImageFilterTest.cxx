@@ -31,9 +31,11 @@ itkStrainImageFilterTest(int argc, char * argv[])
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
+  const char * inputDisplacementImageFileName = argv[1];
+  const char * outputFileNamePrefix = argv[2];
 
   const unsigned int                                    Dimension = 2;
-  typedef double                                        PixelType;
+  typedef float                                         PixelType;
   typedef itk::Vector<PixelType, Dimension>             DisplacementVectorType;
   typedef itk::Image<DisplacementVectorType, Dimension> InputImageType;
 
@@ -43,7 +45,7 @@ itkStrainImageFilterTest(int argc, char * argv[])
   FilterType::Pointer filter = FilterType::New();
 
   InputImageType::Pointer inputDisplacements;
-  if (ReadInDisplacements<InputImageType>(argv[1], inputDisplacements) == EXIT_FAILURE)
+  if (ReadInDisplacements<InputImageType>(inputDisplacementImageFileName, inputDisplacements) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
   }
@@ -53,14 +55,14 @@ itkStrainImageFilterTest(int argc, char * argv[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (itk::ExceptionObject & error)
   {
     std::cerr << "Exception caught!" << std::endl;
-    std::cerr << ex << std::endl;
+    std::cerr << error << std::endl;
     return EXIT_FAILURE;
   }
 
-  if (WriteOutStrains<PixelType, Dimension, TensorImageType>(argv[2], filter->GetOutput()) == EXIT_FAILURE)
+  if (WriteOutStrains<PixelType, Dimension, TensorImageType>(outputFileNamePrefix, filter->GetOutput()) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
   }
