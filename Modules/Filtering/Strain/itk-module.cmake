@@ -12,5 +12,6 @@ itk_module(
     SplitComponents
   TEST_DEPENDS
     ITKTestKernel
+  EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
