@@ -19,13 +19,42 @@
 #include "itkFilterWatcher.h"
 #include "itkSinusoidImageSource.h"
 #include "itkTestingMacros.h"
+#include "itkImageFileWriter.h"
 
 int
-itkSinusoidImageSourceTest(int, char *[])
+itkSinusoidImageSourceTest(int argc, char * argv[])
 {
+  if (argc < 2)
+  {
+    std::cerr << "Usage: " << argv[0] << " OutputImage [XFrequency] [YFrequency] [ZFrequency] [PhaseShift]"
+              << std::endl;
+    return EXIT_FAILURE;
+  }
+  const char * outputImageFileName = argv[1];
+  double       xFrequency = 0.02;
+  if (argc > 2)
+  {
+    xFrequency = atof(argv[2]);
+  }
+  double yFrequency = 0.1;
+  if (argc > 3)
+  {
+    yFrequency = atof(argv[3]);
+  }
+  double zFrequency = 0.2;
+  if (argc > 4)
+  {
+    zFrequency = atof(argv[4]);
+  }
+  double phaseShift = 0.2;
+  if (argc > 5)
+  {
+    phaseShift = atof(argv[5]);
+  }
+
   // This can be changed!
-  const unsigned int    Dimension = 3;
-  typedef unsigned char PixelType;
+  const unsigned int Dimension = 3;
+  typedef float      PixelType;
 
   // Image typedef
   typedef itk::Image<PixelType, Dimension> ImageType;
@@ -37,20 +66,18 @@ itkSinusoidImageSourceTest(int, char *[])
 
   ImageType::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };
   ImageType::PointValueType   origin[] = { 1.0f, 4.0f, 2.0f };
-  ImageType::SizeValueType    size[] = { 130, 150, 120 };
+  ImageType::SizeValueType    size[] = { 30, 50, 20 };
 
   SinusoidSourceType::ArrayType frequency;
   frequency[0] = 0.01;
   frequency[1] = 0.2;
   frequency[2] = 0.4;
 
-  const double phaseShift = 0.3;
-
   source->SetSize(size);
   source->SetOrigin(origin);
   source->SetSpacing(spacing);
   source->SetFrequency(frequency);
-  source->SetPhaseShift(phaseShift);
+  source->SetPhaseShift(0.3);
 
   // Test the get macros as well (booorrring...)
   source->GetSize();
@@ -74,16 +101,16 @@ itkSinusoidImageSourceTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  if (params[3] != phaseShift)
+  if (params[3] != 0.3)
   {
     std::cerr << "Parameters have incorrect phase shift value." << std::endl;
     return EXIT_FAILURE;
   }
 
-  params[0] = 0.02;
-  params[1] = 0.1;
-  params[2] = 0.2;
-  params[3] = 0.2;
+  params[0] = xFrequency;
+  params[1] = yFrequency;
+  params[2] = zFrequency;
+  params[3] = phaseShift;
   source->SetParameters(params);
 
   if (source->GetFrequency()[0] != params[0] || source->GetFrequency()[1] != params[1] ||
@@ -111,6 +138,12 @@ itkSinusoidImageSourceTest(int, char *[])
   // Exercise the print method
   std::cout << source << std::endl;
   std::cout << image << std::endl;
+
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer                     writer = WriterType::New();
+  writer->SetFileName(outputImageFileName);
+  writer->SetInput(source->GetOutput());
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // Instantiate 1D case.
   typedef itk::Image<PixelType, 1>              Image1DType;

@@ -113,6 +113,12 @@ private:
 
   /** The phase shift. */
   double m_PhaseShift;
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Really only want to use a floating point pixel because the domain of the
+   * output will be [-1, 1] */
+  itkConceptMacro(FloatPixelType, (Concept::IsFloatingPoint<typename OutputImageType::PixelType>));
+#endif
 };
 
 } // end namespace itk

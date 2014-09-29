@@ -116,9 +116,9 @@ SinusoidImageSource<TOutputImage>::GenerateData()
   const typename OutputImageType::RegionType requestedRegion = outputPtr->GetRequestedRegion();
   OutputIterator                             outIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
 
-
   ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
   // Walk the output image, evaluating the spatial function at each pixel
+  outIt.GoToBegin();
   while (!outIt.IsAtEnd())
   {
     typename TOutputImage::IndexType index = outIt.GetIndex();

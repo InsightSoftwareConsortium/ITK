@@ -46,5 +46,13 @@ itk_add_test(
   NAME itkSinusoidImageSourceTest
   COMMAND
     PhaseSymmetryTestDriver
+    --compare
+    DATA{Baseline/itkSinusoidImageSourceTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkSinusoidImageSourceTest.mha
     itkSinusoidImageSourceTest
+    ${ITK_TEST_OUTPUT_DIR}/itkSinusoidImageSourceTest.mha
+    0.02
+    0.1
+    0.2
+    0.2
 )
