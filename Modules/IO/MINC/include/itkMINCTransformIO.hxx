@@ -273,7 +273,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
       else if( _grid_transform->GetInverseDisplacementField() )
         {
         writer->SetInput( _grid_transform->GetModifiableInverseDisplacementField() );
-        _inverse_grid=false;
+        _inverse_grid=true;
         }
       else
         {
