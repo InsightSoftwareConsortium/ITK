@@ -1,5 +1,8 @@
 ###############################################################################
 
+# Java support is currently broken. Show the warning message.
+message(WARNING "JAVA support in WrapITK is currently broken!")
+
 if(APPLE)
   set( ITK_WRAP_JAVAC_ARGS "-J-mx2048m" CACHE STRING "Extra arguments for javac")
 else()
