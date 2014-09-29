@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHigherOrderAccurateGradientImageFilter_txx
-#define __itkHigherOrderAccurateGradientImageFilter_txx
+#ifndef __itkHigherOrderAccurateGradientImageFilter_hxx
+#define __itkHigherOrderAccurateGradientImageFilter_hxx
 #include "itkHigherOrderAccurateGradientImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
