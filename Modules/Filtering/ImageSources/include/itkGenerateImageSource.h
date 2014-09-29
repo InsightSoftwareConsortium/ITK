@@ -94,11 +94,11 @@ public:
   itkGetConstReferenceMacro(Direction, DirectionType);
 
 protected:
-  GenerateImageSource( );
+  GenerateImageSource();
   // virtual ~GenerateImageSource() default implementation ok
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   GenerateImageSource( const GenerateImageSource &); //purposely not implemented
