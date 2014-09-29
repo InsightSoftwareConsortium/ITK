@@ -20,6 +20,7 @@
 
 #include "itkSpatialFunction.h"
 #include "itkFixedArray.h"
+#include "itkFloatTypes.h"
 
 namespace itk
 {
@@ -39,7 +40,7 @@ namespace itk
  */
 template< typename TOutput = double,
           unsigned int VImageDimension = 3,
-          typename TInput = Point< double, VImageDimension > >
+          typename TInput = Point< SpacePrecisionType, VImageDimension > >
 class GaussianSpatialFunction:
   public SpatialFunction< TOutput, VImageDimension, TInput >
 {

@@ -146,8 +146,6 @@ GaussianImageSource< TOutputImage >
   OutputIterator outIt = OutputIterator( outputPtr,
                                          outputPtr->GetRequestedRegion() );
 
-  // The position at which the function is evaluated
-  Point< double, TOutputImage::ImageDimension > evalPoint;
 
   ProgressReporter progress( this, 0,
                              outputPtr->GetRequestedRegion()
@@ -156,7 +154,9 @@ GaussianImageSource< TOutputImage >
   outIt.GoToBegin();
   while( !outIt.IsAtEnd() )
     {
-    typename TOutputImage::IndexType index = outIt.GetIndex();
+    const typename TOutputImage::IndexType index = outIt.GetIndex();
+    // The position at which the function is evaluated
+    typename FunctionType::InputType evalPoint;
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
     const double value = gaussian->Evaluate(evalPoint);
 

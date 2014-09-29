@@ -65,8 +65,6 @@ GaborImageSource< TOutputImage >
   ImageRegionIteratorWithIndex< OutputImageType >
   outIt( outputPtr, outputPtr->GetRequestedRegion() );
 
-  // The position at which the function is evaluated
-  Point< double, ImageDimension > evalPoint;
 
   ProgressReporter progress( this, 0,
                              outputPtr->GetRequestedRegion().GetNumberOfPixels() );
@@ -74,7 +72,9 @@ GaborImageSource< TOutputImage >
   // Walk the output image, evaluating the spatial function at each pixel
   for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
     {
-    typename OutputImageType::IndexType index = outIt.GetIndex();
+    const typename OutputImageType::IndexType index = outIt.GetIndex();
+    // The position at which the function is evaluated
+    typename OutputImageType::PointType evalPoint;
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
     double sum = 0.0;
     for ( unsigned int i = 1; i < ImageDimension; ++i )
