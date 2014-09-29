@@ -126,11 +126,6 @@ private:
   GaussianImageSource(const GaussianImageSource &); //purposely not implemented
   void operator=(const GaussianImageSource &);      //purposely not implemented
 
-  SizeType      m_Size;              // size of the output image
-  SpacingType   m_Spacing;           // spacing
-  PointType     m_Origin;            // origin
-  DirectionType m_Direction;         // direction
-
   /** Parameters for the Gaussian. */
 
   /** The standard deviation in each direction. */
