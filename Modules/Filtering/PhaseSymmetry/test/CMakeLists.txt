@@ -6,6 +6,7 @@ set(
   itkButterworthFilterFreqImageSourceTest.cxx
   itkLogGaborFreqImageSourceTest.cxx
   itkSteerableFilterFreqImageSourceTest.cxx
+  itkSinusoidImageSourceTest.cxx
 )
 
 createtestdriver( PhaseSymmetry "${PhaseSymmetry-Test_LIBRARIES}" "${PhaseSymmetryTests}")
@@ -39,4 +40,11 @@ itk_add_test(
   COMMAND
     PhaseSymmetryTestDriver
     itkSteerableFilterFreqImageSourceTest
+)
+
+itk_add_test(
+  NAME itkSinusoidImageSourceTest
+  COMMAND
+    PhaseSymmetryTestDriver
+    itkSinusoidImageSourceTest
 )

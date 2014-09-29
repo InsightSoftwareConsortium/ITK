@@ -14,6 +14,7 @@ itk_module(
     ITKCommon
     ITKFFT
     ITKImageIntensity
+    ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
