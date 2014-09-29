@@ -22,6 +22,7 @@
 
 namespace itk
 {
+
 /**
  * \class HigherOrderAccurateDerivativeOperator
  * \brief A NeighborhoodOperator for calculating an n-th order accurate derivative
@@ -57,7 +58,7 @@ namespace itk
  * \ingroup HigherOrderAccurateGradient
  */
 template <class TPixel, unsigned int VDimension = 2, class TAllocator = NeighborhoodAllocator<TPixel>>
-class ITK_EXPORT HigherOrderAccurateDerivativeOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
+class HigherOrderAccurateDerivativeOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /** Standard class typedefs. */
@@ -156,6 +157,7 @@ private:
   /** Order of accuracy. */
   unsigned int m_OrderOfAccuracy;
 };
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

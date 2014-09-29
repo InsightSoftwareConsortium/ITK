@@ -26,10 +26,10 @@
 
 namespace itk
 {
+
 template <class TInputImage, class TOutputImage>
 void
-HigherOrderAccurateDerivativeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion() throw(
-  InvalidRequestedRegionError)
+HigherOrderAccurateDerivativeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
@@ -80,6 +80,7 @@ HigherOrderAccurateDerivativeImageFilter<TInputImage, TOutputImage>::GenerateInp
     throw e;
   }
 }
+
 
 template <class TInputImage, class TOutputImage>
 void
@@ -143,6 +144,7 @@ HigherOrderAccurateDerivativeImageFilter<TInputImage, TOutputImage>::GenerateDat
   this->GraftOutput(filter->GetOutput());
 }
 
+
 template <class TInputImage, class TOutputImage>
 void
 HigherOrderAccurateDerivativeImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -154,6 +156,7 @@ HigherOrderAccurateDerivativeImageFilter<TInputImage, TOutputImage>::PrintSelf(s
   os << indent << "Direction: " << m_Direction << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 }
+
 } // end namespace itk
 
 #endif

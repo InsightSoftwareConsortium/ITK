@@ -23,6 +23,7 @@
 
 namespace itk
 {
+
 /** \class HigherOrderAccurateGradientImageFilter
  *
  * \brief Calculate the image gradient from a higher order accurate
@@ -50,7 +51,7 @@ namespace itk
  * \ingroup HigherOrderAccurateGradient
  */
 template <class TInputImage, class TOperatorValueType = float, class TOutputValueType = float>
-class ITK_EXPORT HigherOrderAccurateGradientImageFilter
+class HigherOrderAccurateGradientImageFilter
   : public ImageToImageFilter<
       TInputImage,
       Image<CovariantVector<TOutputValueType, TInputImage::ImageDimension>, TInputImage::ImageDimension>>
@@ -88,15 +89,6 @@ public:
   typedef CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)> OutputPixelType;
   typedef typename OutputImageType::RegionType                                           OutputImageRegionType;
 
-  /** GradientImageFilter needs a larger input requested region than
-   * the output requested region.  As such, GradientImageFilter needs
-   * to provide an implementation for GenerateInputRequestedRegion()
-   * in order to inform the pipeline execution model.
-   *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void
-  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
-
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
@@ -131,8 +123,17 @@ itkGetConstMacro(OrderOfAccuracy, unsigned int)
 
   protected : HigherOrderAccurateGradientImageFilter();
   virtual ~HigherOrderAccurateGradientImageFilter() {}
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
+
+  /** GradientImageFilter needs a larger input requested region than
+   * the output requested region.  As such, GradientImageFilter needs
+   * to provide an implementation for GenerateInputRequestedRegion()
+   * in order to inform the pipeline execution model.
+   *
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void
+  GenerateInputRequestedRegion();
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -144,8 +145,8 @@ itkGetConstMacro(OrderOfAccuracy, unsigned int)
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  virtual void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   HigherOrderAccurateGradientImageFilter(const Self &); // purposely not implemented

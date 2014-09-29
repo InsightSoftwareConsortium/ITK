@@ -29,6 +29,7 @@
 
 namespace itk
 {
+
 template <class TInputImage, class TOperatorValueType, class TOutputValueType>
 HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::
   HigherOrderAccurateGradientImageFilter()
@@ -40,7 +41,7 @@ HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputV
 template <class TInputImage, class TOperatorValueType, class TOutputValueType>
 void
 HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::
-  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError)
+  GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
@@ -92,6 +93,7 @@ HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputV
     throw e;
   }
 }
+
 
 template <class TInputImage, class TOperatorValueType, class TOutputValueType>
 void
@@ -200,9 +202,7 @@ HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputV
   }
 }
 
-/**
- * Standard "PrintSelf" method
- */
+
 template <class TInputImage, class TOperatorValueType, class TOutputValueType>
 void
 HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::PrintSelf(
@@ -215,6 +215,7 @@ HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputV
   os << indent << "UseImageDirection = " << (this->m_UseImageDirection ? "On" : "Off") << std::endl;
   os << indent << "OrderOfAccuracy: " << this->m_OrderOfAccuracy << std::endl;
 }
+
 } // end namespace itk
 
 #endif
