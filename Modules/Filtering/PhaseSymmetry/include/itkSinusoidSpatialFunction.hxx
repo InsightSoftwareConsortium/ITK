@@ -26,7 +26,7 @@ namespace itk
 {
 template <typename TOutput, unsigned int VImageDimension, typename TInput>
 SinusoidSpatialFunction<TOutput, VImageDimension, TInput>::SinusoidSpatialFunction()
-  : m_PhaseShift(0.0)
+  : m_phaseOffset(0.0)
 {
   m_Frequency.Fill(1.0);
 }
@@ -48,7 +48,7 @@ SinusoidSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(const TInput
     frequencyTerm += this->m_Frequency[ii] * position[ii];
   }
   frequencyTerm *= 2.0 * vnl_math::pi;
-  frequencyTerm += this->m_PhaseShift;
+  frequencyTerm += this->m_phaseOffset;
   const double value = std::cos(frequencyTerm);
   return static_cast<TOutput>(value);
 

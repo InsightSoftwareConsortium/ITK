@@ -71,8 +71,8 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get the sinusoid phase shift in radians. */
-  itkSetMacro(PhaseShift, double);
-  itkGetConstMacro(PhaseShift, double);
+  itkSetMacro(phaseOffset, double);
+  itkGetConstMacro(phaseOffset, double);
   /** Set/Get the per-direction frequency in cycles / spatial unit. */
   itkSetMacro(Frequency, ArrayType);
   itkGetConstReferenceMacro(Frequency, ArrayType);
@@ -80,7 +80,7 @@ public:
   /** Set/get the parameters for this source. When this source is
    * templated over an N-dimensional output image type, the first N
    * values in the parameter array are the Frequency parameters in each
-   * dimension, and the last value is the PhaseShift. */
+   * dimension, and the last value is the phaseOffset. */
   virtual void
   SetParameters(const ParametersType & parameters);
   virtual ParametersType
@@ -112,7 +112,7 @@ private:
   ArrayType m_Frequency;
 
   /** The phase shift. */
-  double m_PhaseShift;
+  double m_phaseOffset;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Really only want to use a floating point pixel because the domain of the

@@ -70,8 +70,8 @@ public:
   Evaluate(const TInput & position) const;
 
   /** Set/Get the sinusoid phase shift in radians. */
-  itkSetMacro(PhaseShift, double);
-  itkGetConstMacro(PhaseShift, double);
+  itkSetMacro(phaseOffset, double);
+  itkGetConstMacro(phaseOffset, double);
   /** Set/Get the per-direction frequency in cycles / spatial unit. */
   itkSetMacro(Frequency, ArrayType);
   itkGetConstReferenceMacro(Frequency, ArrayType);
@@ -91,7 +91,7 @@ private:
   ArrayType m_Frequency;
 
   /** The phase shift. */
-  double m_PhaseShift;
+  double m_phaseOffset;
 };
 } // end namespace itk
 
