@@ -26,6 +26,7 @@
 
 namespace itk
 {
+
 template< typename TOutputImage >
 GaborImageSource< TOutputImage >
 ::GaborImageSource()
@@ -76,11 +77,11 @@ GaborImageSource< TOutputImage >
     typename OutputImageType::IndexType index = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
     double sum = 0.0;
-    for ( unsigned int i = 1; i < ImageDimension; i++ )
+    for ( unsigned int i = 1; i < ImageDimension; ++i )
       {
       sum += vnl_math_sqr( ( evalPoint[i] - this->m_Mean[i] ) / this->m_Sigma[i] );
       }
-    double value = std::exp(-0.5 * sum) * gabor->Evaluate(evalPoint[0] - this->m_Mean[0]);
+    const double value = std::exp(-0.5 * sum) * gabor->Evaluate(evalPoint[0] - this->m_Mean[0]);
 
     // Set the pixel value to the function value
     outIt.Set( static_cast< PixelType >( value ) );
@@ -107,6 +108,7 @@ GaborImageSource< TOutputImage >
     os << indent << "  Calculate complex part: false " << std::endl;
     }
 }
+
 } // end namespace itk
 
 #endif

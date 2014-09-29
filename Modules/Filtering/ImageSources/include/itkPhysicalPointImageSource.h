@@ -76,10 +76,8 @@ private:
 
 }
 
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPhysicalPointImageSource.hxx"
 #endif
-
 
 #endif //__itkPhysicalPointImageSource_h

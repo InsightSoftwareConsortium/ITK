@@ -42,7 +42,7 @@ namespace itk
  */
 template< typename TOutputImage >
 class GaussianImageSource :
-    public ParametricImageSource< TOutputImage >
+  public ParametricImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

@@ -44,8 +44,8 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template< typename TOutputImage >
-class GaborImageSource
-  : public GenerateImageSource< TOutputImage >
+class GaborImageSource:
+  public GenerateImageSource< TOutputImage >
 {
 public:
 
