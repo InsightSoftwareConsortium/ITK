@@ -51,22 +51,6 @@ include("@ITK_CONFIG_MODULE_API_FILE@")
 if(ITK_FIND_COMPONENTS)
   # Specific modules requested by find_package(ITK).
   set(ITK_MODULES_REQUESTED "${ITK_FIND_COMPONENTS}")
-elseif(NOT "${CMAKE_VERSION}" VERSION_GREATER 2.8.4.20110407)
-  # CMake 2.8.4 and lower do not forward the components list through
-  # their FindITK.cmake module, so unless the application called
-  #
-  #   find_package(ITK NO_MODULE ...)
-  #
-  # then only the per-component variables ITK_FIND_REQUIRED_<mod> will
-  # have leaked through.
-  set(ITK_MODULES_REQUESTED "")
-  get_cmake_property(_vars VARIABLES)
-  foreach(v IN LISTS _vars)
-    if("x${v}" MATCHES "^xITK_FIND_REQUIRED_" AND ${v})
-      string(REGEX REPLACE "^ITK_FIND_REQUIRED_" "" _mod "${v}")
-      list(APPEND ITK_MODULES_REQUESTED ${_mod})
-    endif()
-  endforeach()
 endif()
 if(NOT ITK_MODULES_REQUESTED)
   # No specific modules requested.  Use all of them.
