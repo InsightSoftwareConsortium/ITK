@@ -498,12 +498,6 @@ void TIFFImageIO::ReadImageInformation()
       this->SetPixelType(RGBA);
     }
 
-  if ( !m_InternalImage->CanRead() )
-    {
-    this->SetNumberOfComponents(4);
-    this->SetPixelType(RGBA);
-    }
-
   if ( m_InternalImage->m_BitsPerSample <= 8 )
     {
     if ( m_InternalImage->m_SampleFormat == 2 )
@@ -532,6 +526,18 @@ void TIFFImageIO::ReadImageInformation()
       {
       m_ComponentType = USHORT;
       }
+    }
+
+  if ( !m_InternalImage->CanRead() )
+    {
+    char emsg[1024];
+    if ( TIFFRGBAImageOK(m_InternalImage->m_Image, emsg) != 1 )
+      {
+      itkExceptionMacro("Unable to read tiff file: " << emsg);
+      }
+    this->SetNumberOfComponents(4);
+    this->SetPixelType(RGBA);
+    m_ComponentType = UCHAR;
     }
 
   // if the tiff file is multi-pages
@@ -1217,47 +1223,28 @@ void TIFFImageIO::ReadCurrentPage(void *buffer, size_t pixelOffset)
 
   if ( !m_InternalImage->CanRead() )
     {
-    const size_t sz = static_cast<size_t>(width)
-      * static_cast<size_t>(height);
+    uint32 *tempImage = ITK_NULLPTR;
 
-    uint32 *tempImage = new uint32[sz];
-
-    if ( !TIFFReadRGBAImage(m_InternalImage->m_Image,
-                            width, height,
-                            tempImage, 1) )
+    if ( this->GetNumberOfComponents() == 4 &&
+         m_ComponentType == UCHAR )
       {
-      if ( tempImage != buffer )
-        {
-        delete[] tempImage;
-        }
-      itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
-      }
-
-
-    if ( m_ComponentType == USHORT )
-      {
-      unsigned short *out = (unsigned short *)(buffer) + pixelOffset;
-      RGBAImageToBuffer<unsigned short>(out, tempImage);
-      }
-    else if ( m_ComponentType == SHORT )
-      {
-      short *out = (short *)(buffer) + pixelOffset;
-      RGBAImageToBuffer<short>(out, tempImage);
-      }
-    else if ( m_ComponentType == CHAR )
-      {
-      char *out = (char *)(buffer) + pixelOffset;
-      RGBAImageToBuffer<char>(out, tempImage);
+      tempImage = (uint32*)(buffer) + (pixelOffset/4);
       }
     else
       {
-      unsigned char *out = (unsigned char *)(buffer) + pixelOffset;
-      RGBAImageToBuffer<unsigned char>(out, tempImage);
+      itkExceptionMacro("Logic Error: Unexpected buffer type!")
       }
-    if ( tempImage != buffer )
+
+    if ( !TIFFReadRGBAImageOriented(m_InternalImage->m_Image,
+                                    width, height,
+                                    tempImage, ORIENTATION_TOPLEFT, 1) )
       {
-      delete[] tempImage;
+      itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
       }
+
+    unsigned char *out = (unsigned char *)(buffer) + pixelOffset;
+    RGBAImageToBuffer<unsigned char>(out, tempImage);
+
     }
   else
     {
@@ -1391,20 +1378,19 @@ void  TIFFImageIO::RGBAImageToBuffer( void *out, const uint32_t *tempImage )
 
   for ( int yy = 0; yy < height; ++yy )
     {
-    const uint32 *ssimage = tempImage + ( height - yy - 1 ) * (size_t) width;
     for ( int xx = 0; xx < width; ++xx )
       {
-      const ComponentType red   = static_cast< ComponentType >( TIFFGetR(*ssimage) );
-      const ComponentType green = static_cast< ComponentType >( TIFFGetG(*ssimage) );
-      const ComponentType blue  = static_cast< ComponentType >( TIFFGetB(*ssimage) );
-      const ComponentType alpha = static_cast< ComponentType >( TIFFGetA(*ssimage) );
+      const ComponentType red   = static_cast< ComponentType >( TIFFGetR(*tempImage) );
+      const ComponentType green = static_cast< ComponentType >( TIFFGetG(*tempImage) );
+      const ComponentType blue  = static_cast< ComponentType >( TIFFGetB(*tempImage) );
+      const ComponentType alpha = static_cast< ComponentType >( TIFFGetA(*tempImage) );
 
       *( fimage  ) = red;
       *( fimage + 1 ) = green;
       *( fimage + 2 ) = blue;
       *( fimage + 3 ) = alpha;
       fimage += 4;
-      ++ssimage;
+      ++tempImage;
       }
     }
 }
