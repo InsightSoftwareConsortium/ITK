@@ -36,7 +36,7 @@ namespace itk
  * \sa SinusoidImageSource
  *
  * \ingroup SpatialFunctions
- * \ingroup ITKCommon
+ * \ingroup PhaseSymmetry
  */
 template <typename TOutput = double,
           unsigned int VImageDimension = 3,
