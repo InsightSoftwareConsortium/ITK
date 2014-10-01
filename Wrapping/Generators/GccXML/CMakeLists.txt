@@ -28,7 +28,10 @@ else()
   else()
     set(test )
   endif()
-  itk_download_attempt_check(GCC_XML)
+  # If we are building ITK
+  if(ITK_BINARY_DIR)
+    itk_download_attempt_check(GCC_XML)
+  endif()
   ExternalProject_Add(GCC_XML
   URL ${gccxml_url}
   URL_MD5 ${gccxml_md5}
