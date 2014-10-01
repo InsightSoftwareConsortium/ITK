@@ -17,6 +17,7 @@ itk_module(
     ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
+    ITKImageCompose
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
