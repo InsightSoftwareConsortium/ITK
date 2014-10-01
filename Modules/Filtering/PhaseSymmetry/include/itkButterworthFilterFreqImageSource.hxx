@@ -57,13 +57,11 @@ template <typename TOutputImage>
 void
 ButterworthFilterFreqImageSource<TOutputImage>::GenerateOutputInformation()
 {
-  TOutputImage *                   output;
-  typename TOutputImage::IndexType index = { { 0 } };
-
-  output = this->GetOutput(0);
+  OutputImageType * output = this->GetOutput(0);
 
   typename TOutputImage::RegionType largestPossibleRegion;
   largestPossibleRegion.SetSize(m_Size);
+  typename TOutputImage::IndexType index = { { 0 } };
   largestPossibleRegion.SetIndex(index);
   output->SetLargestPossibleRegion(largestPossibleRegion);
 
@@ -79,42 +77,35 @@ ButterworthFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType                  itkNotUsed(threadId))
 {
-  TOutputImage *                                     outputPtr = this->GetOutput();
-  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
-  OutputIterator                                     outIt = OutputIterator(outputPtr, outputRegionForThread);
-
-  int ndims = TOutputImage::ImageDimension;
-
-  double Value = 0;
+  TOutputImage * outputPtr = this->GetOutput();
 
   DoubleArrayType centerPoint;
-  for (int i = 0; i < ndims; i++)
+  for (unsigned int ii = 0; ii < TOutputImage::ImageDimension; ++ii)
   {
-    centerPoint[i] = double(m_Size[i]) / 2.0;
+    centerPoint[ii] = double(m_Size[ii]) / 2.0;
   }
 
-  double                           radius = 0;
-  DoubleArrayType                  dist;
-  typename TOutputImage::IndexType index;
+  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
+  OutputIterator                                     outIt = OutputIterator(outputPtr, outputRegionForThread);
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
-    index = outIt.GetIndex();
+    const typename TOutputImage::IndexType index = outIt.GetIndex();
 
-    radius = 0;
-    Value = 0;
+    double radius = 0.0;
+    double value = 0.0;
 
-    for (int i = 0; i < TOutputImage::ImageDimension; i++)
+    for (unsigned int ii = 0; ii < TOutputImage::ImageDimension; ++ii)
     {
-      dist[i] = (centerPoint[i] - double(index[i])) / double(m_Size[i]);
-      radius = radius + dist[i] * dist[i];
+      const double dist = (centerPoint[ii] - double(index[ii])) / double(m_Size[ii]);
+      radius += dist * dist;
     }
-    radius = sqrt(radius);
-    Value = radius / m_Cutoff;
-    Value = pow(Value, 2 * m_Order);
-    Value = 1 / (1 + Value);
+    radius = std::sqrt(radius);
+    value = radius / m_Cutoff;
+    value = std::pow(value, 2 * m_Order);
+    value = 1 / (1 + value);
 
     // Set the pixel value to the function value
-    outIt.Set((typename TOutputImage::PixelType)Value);
+    outIt.Set(static_cast<typename TOutputImage::PixelType>(value));
   }
 }
 
