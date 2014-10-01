@@ -49,7 +49,10 @@ else()
 
   include(ExternalProject)
   if(WIN32)
-    itk_download_attempt_check(SWIG)
+    # If we are building ITK
+    if(ITK_BINARY_DIR)
+      itk_download_attempt_check(SWIG)
+    endif()
     ExternalProject_Add(swig
       URL http://prdownloads.sourceforge.net/swig/swigwin-${SWIG_VERSION}.zip
       URL_MD5 ${swigwin_md5}
@@ -60,7 +63,7 @@ else()
       )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
   else()
-    # From PCR configure
+    # From PCRE configure
     # Some influential environment variables:
     #  CC          C compiler command
     #  CFLAGS      C compiler flags
@@ -75,7 +78,11 @@ else()
     #  CXXCPP      C++ preprocessor
 
     # build swig as an external project
-    itk_download_attempt_check(PCRE)
+
+    # If we are building ITK
+    if(ITK_BINARY_DIR)
+      itk_download_attempt_check(PCRE)
+    endif()
     ExternalProject_Add(PCRE
     URL http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz
     URL_MD5 ed58bcbe54d3b1d59e9f5415ef45ce1c
@@ -122,7 +129,10 @@ else()
     #              This script will default YFLAGS to the empty string to avoid a
     #              default value of `-d' given by some make applications.
 
-    itk_download_attempt_check(SWIG)
+    # If we are building ITK
+    if(ITK_BINARY_DIR)
+      itk_download_attempt_check(SWIG)
+    endif()
     ExternalProject_Add(swig
     URL http://prdownloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz
     URL_MD5 ${swig_md5}
