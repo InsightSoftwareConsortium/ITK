@@ -56,7 +56,7 @@ GaussianSpatialFunction< TOutput, VImageDimension, TInput >
     {
     const double squareRootOfTwoPi = std::sqrt(2.0 * vnl_math::pi);
 
-    for ( unsigned int i = 0; i < VImageDimension; i++ )
+    for ( unsigned int i = 0; i < VImageDimension; ++i )
       {
       prefixDenom *= m_Sigma[i] * squareRootOfTwoPi;
       }
@@ -64,15 +64,15 @@ GaussianSpatialFunction< TOutput, VImageDimension, TInput >
 
   double suffixExp = 0;
 
-  for ( unsigned int i = 0; i < VImageDimension; i++ )
+  for ( unsigned int i = 0; i < VImageDimension; ++i )
     {
     suffixExp += ( position[i] - m_Mean[i] ) * ( position[i] - m_Mean[i] )
                  / ( 2 * m_Sigma[i] * m_Sigma[i] );
     }
 
-  double value = m_Scale * ( 1 / prefixDenom ) * std::exp(-1 * suffixExp);
+  const double value = m_Scale * ( 1 / prefixDenom ) * std::exp(-1 * suffixExp);
 
-  return (TOutput)value;
+  return static_cast< TOutput >( value );
 }
 
 template< typename TOutput, unsigned int VImageDimension, typename TInput >

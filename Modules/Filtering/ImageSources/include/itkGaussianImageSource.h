@@ -42,7 +42,7 @@ namespace itk
  */
 template< typename TOutputImage >
 class GaussianImageSource :
-    public ParametricImageSource< TOutputImage >
+  public ParametricImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
@@ -107,29 +107,24 @@ public:
    * values in the parameter array are the Sigma parameters in each
    * dimension, the next N values are the Mean parameters in each
    * dimension, and the last value is the Scale. */
-  virtual void SetParameters(const ParametersType & parameters);
-  virtual ParametersType GetParameters() const;
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  virtual ParametersType GetParameters() const ITK_OVERRIDE;
 
   /** Get the number of parameters for this image source. When this
    * source is templated over an N-dimensional output image type, the
    * number of parameters is 2*N+1. */
-  virtual unsigned int GetNumberOfParameters() const;
+  virtual unsigned int GetNumberOfParameters() const ITK_OVERRIDE;
 
 protected:
   GaussianImageSource();
   // ~GaussianImageSource(); default implementation ok
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   GaussianImageSource(const GaussianImageSource &); //purposely not implemented
   void operator=(const GaussianImageSource &);      //purposely not implemented
-
-  SizeType      m_Size;              // size of the output image
-  SpacingType   m_Spacing;           // spacing
-  PointType     m_Origin;            // origin
-  DirectionType m_Direction;         // direction
 
   /** Parameters for the Gaussian. */
 

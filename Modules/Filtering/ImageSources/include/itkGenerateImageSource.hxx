@@ -16,12 +16,13 @@
  *
  *=========================================================================*/
 
-#ifndef  __itkGenerateImageSource_hxx
+#ifndef __itkGenerateImageSource_hxx
 #define __itkGenerateImageSource_hxx
 
 #include "itkGenerateImageSource.h"
 
-namespace itk {
+namespace itk
+{
 
 template< typename TOutputImage >
 GenerateImageSource< TOutputImage >
@@ -34,7 +35,6 @@ GenerateImageSource< TOutputImage >
 }
 
 
-//----------------------------------------------------------------------------
 template< typename TOutputImage >
 void
 GenerateImageSource< TOutputImage >
@@ -55,6 +55,7 @@ GenerateImageSource< TOutputImage >
   output->SetDirection(this->m_Direction);
 }
 
+
 template< typename TOutputImage >
 void
 GenerateImageSource< TOutputImage >
@@ -68,6 +69,7 @@ GenerateImageSource< TOutputImage >
   os << indent << "Direction: " << this->GetDirection() << std::endl;
 
 }
+
 } // end namespace itk
 
 #endif // __itkGenerateImageSour_hxx
