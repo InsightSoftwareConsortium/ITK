@@ -18,11 +18,7 @@
 #ifndef __itkButterworthFilterFreqImageSource_h
 #define __itkButterworthFilterFreqImageSource_h
 
-#include "itkImageSource.h"
-#include "itkFixedArray.h"
-#include "itkSize.h"
-#include "itkArray2D.h"
-
+#include "itkGenerateImageSource.h"
 
 namespace itk
 {
@@ -32,17 +28,17 @@ namespace itk
  * \ingroup PhaseSymmetry
  */
 template <typename TOutputImage>
-class ButterworthFilterFreqImageSource : public ImageSource<TOutputImage>
+class ButterworthFilterFreqImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ButterworthFilterFreqImageSource Self;
-  typedef ImageSource<TOutputImage>        Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef ButterworthFilterFreqImageSource  Self;
+  typedef GenerateImageSource<TOutputImage> Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ButterworthFilterFreqImageSource, ImageSource);
+  itkTypeMacro(ButterworthFilterFreqImageSource, GenerateImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,29 +63,6 @@ public:
   /** Size type matches that used for images */
   typedef typename TOutputImage::SizeType SizeType;
 
-  /** Specify the size of the output image. */
-  virtual void
-  SetSize(const SizeType & size);
-  /** Get the size of the output image. */
-  itkGetConstReferenceMacro(Size, SizeType);
-
-  /** Specify the spacing of the output image. */
-  virtual void
-  SetSpacing(const SpacingType & spacing);
-  /** Get the spacing of the output image. */
-  itkGetConstReferenceMacro(Spacing, SpacingType);
-
-  /** Specify the origin of the output image. */
-  virtual void
-  SetOrigin(const PointType & origin);
-  /** Get the origin of the output image. */
-  itkGetConstReferenceMacro(Origin, PointType);
-
-  /** Specify the direction of the output image. */
-  virtual void
-  SetDirection(const DirectionType & direction);
-  itkGetConstReferenceMacro(Direction, DirectionType);
-
   /** Set/Get the cutoff frequency */
   itkSetMacro(Cutoff, double);
   itkGetConstMacro(Cutoff, double);
@@ -105,24 +78,15 @@ protected:
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  typedef FixedArray<double, ImageDimension> DoubleArrayType;
-
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
   virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType tid) ITK_OVERRIDE;
-  virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   ButterworthFilterFreqImageSource(const ButterworthFilterFreqImageSource &); // purposely not implemented
   void
   operator=(const ButterworthFilterFreqImageSource &); // purposely not implemented
-
-  SizeType      m_Size;      // size of the output image
-  SpacingType   m_Spacing;   // spacing
-  PointType     m_Origin;    // origin
-  DirectionType m_Direction; // direction
 
   double m_Cutoff;
   double m_Order;
