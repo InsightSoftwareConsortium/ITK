@@ -79,7 +79,11 @@ namespace itk {
  * \li Laplacian order by the means of m_Order (according to the literature for
  * m_Order > 3, it can becomes numerically unstable)
  * \li one normalization per vertex based on the local area on the mesh (MIXED_AREA)
- * \li Sparser solver used by the mean of \tparam TSolverTraits
+ * \li Sparser solver used by the mean of the template parameter TSolverTraits
+ *
+ * \tparam TInputMesh Input Mesh Type
+ * \tparam TOutputMesh Output Mesh Type
+ * \tparam TSolverTraits Linear Sparse Solver Traits see VNLIterativeSparseSolverTraits and VNLSparseLUSolverTraits
  *
  *  For details, see http://hdl.handle.net/10380/3410
  *
