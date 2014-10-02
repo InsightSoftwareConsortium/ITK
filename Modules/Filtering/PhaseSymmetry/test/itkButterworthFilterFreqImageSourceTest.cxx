@@ -76,6 +76,8 @@ itkButterworthFilterFreqImageSourceTest(int argc, char * argv[])
   butterworthSource->SetSpacing(inputImage->GetSpacing());
   butterworthSource->SetDirection(inputImage->GetDirection());
   butterworthSource->SetOrigin(inputImage->GetOrigin());
+  butterworthSource->SetCutoff(0.4);
+  butterworthSource->SetOrder(5);
   std::cout << butterworthSource << std::endl;
 
   typedef itk::MultiplyImageFilter<ComplexToRealType, ImageType, ImageType> MultiplyFilterType;
