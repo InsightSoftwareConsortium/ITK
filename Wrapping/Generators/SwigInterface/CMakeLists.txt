@@ -84,8 +84,8 @@ else()
       itk_download_attempt_check(PCRE)
     endif()
     ExternalProject_Add(PCRE
-    URL http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz
-    URL_MD5 ed58bcbe54d3b1d59e9f5415ef45ce1c
+    URL http://downloads.sourceforge.net/project/pcre/pcre/8.36/pcre-8.36.tar.gz
+    URL_MD5 ff7b4bb14e355f04885cf18ff4125c98
     CONFIGURE_COMMAND
       env
         "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
