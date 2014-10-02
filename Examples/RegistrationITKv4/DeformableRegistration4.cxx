@@ -173,8 +173,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::BSplineTransformInitializer< TransformType,
-                                            FixedImageType>      InitializerType;
+  typedef itk::BSplineTransformInitializer<
+    TransformType,
+    FixedImageType> InitializerType;
 
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
@@ -235,7 +236,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RegistrationParameterScalesFromPhysicalShift<MetricType> ScalesEstimatorType;
+  typedef itk::RegistrationParameterScalesFromPhysicalShift<MetricType>
+    ScalesEstimatorType;
   ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric( metric );
   scalesEstimator->SetTransformForward( true );

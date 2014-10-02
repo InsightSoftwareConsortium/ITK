@@ -130,8 +130,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::MattesMutualInformationImageToImageMetricv4<
-                                                    FixedImageType,
-                                                    MovingImageType >    MetricType;
+    FixedImageType,
+    MovingImageType > MetricType;
   // Software Guide : EndCodeSnippet
 
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -302,7 +302,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   RegistrationType::MetricSamplingStrategyType  samplingStrategy  =
-                                                          RegistrationType::RANDOM;
+    RegistrationType::RANDOM;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

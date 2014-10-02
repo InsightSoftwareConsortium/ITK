@@ -158,10 +158,10 @@ protected:
 
   // Software Guide : BeginCodeSnippet
 public:
-  typedef   TRegistration                                       RegistrationType;
-  typedef   RegistrationType *                                  RegistrationPointer;
+  typedef   TRegistration      RegistrationType;
+  typedef   RegistrationType * RegistrationPointer;
   typedef   itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
-  typedef   OptimizerType *                                     OptimizerPointer;
+  typedef   OptimizerType * OptimizerPointer;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -204,10 +204,10 @@ public:
 
     // Software Guide : BeginCodeSnippet
     RegistrationPointer registration =
-                            dynamic_cast<RegistrationPointer>( object );
+      dynamic_cast<RegistrationPointer>( object );
     OptimizerPointer optimizer =
-                            dynamic_cast< OptimizerPointer >(
-                                              registration->GetModifiableOptimizer() );
+      dynamic_cast< OptimizerPointer >(
+        registration->GetModifiableOptimizer() );
     // Software Guide : EndCodeSnippet
 
     unsigned int currentLevel = registration->GetCurrentLevel();
@@ -246,7 +246,8 @@ public:
     else
       {
       optimizer->SetLearningRate( optimizer->GetCurrentStepLength() );
-      optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() * 0.2 );
+      optimizer->SetMinimumStepLength(
+        optimizer->GetMinimumStepLength() * 0.2 );
       }
     // Software Guide : EndCodeSnippet
     }

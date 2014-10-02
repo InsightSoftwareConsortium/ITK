@@ -228,14 +228,14 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RegularStepGradientDescentOptimizerv4< double >          TOptimizerType;
+  typedef itk::RegularStepGradientDescentOptimizerv4< double > TOptimizerType;
   typedef itk::MattesMutualInformationImageToImageMetricv4<
-                                                    FixedImageType,
-                                                    MovingImageType >   MetricType;
+    FixedImageType,
+    MovingImageType > MetricType;
   typedef itk::ImageRegistrationMethodv4<
-                                    FixedImageType,
-                                    MovingImageType,
-                                    TTransformType >                    TRegistrationType;
+    FixedImageType,
+    MovingImageType,
+    TTransformType >  TRegistrationType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -395,8 +395,8 @@ int main( int argc, char *argv[] )
     {
     transRegistration->Update();
     std::cout << "Optimizer stop condition: "
-              << transRegistration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+      << transRegistration->GetOptimizer()->GetStopConditionDescription()
+      << std::endl;
     }
   catch( itk::ExceptionObject & err )
     {
@@ -405,7 +405,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  compositeTransform->AddTransform( transRegistration->GetModifiableTransform() );
+  compositeTransform->AddTransform(
+    transRegistration->GetModifiableTransform() );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -435,10 +436,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ConjugateGradientLineSearchOptimizerv4Template< double >  AOptimizerType;
-  typedef itk::ImageRegistrationMethodv4< FixedImageType,
-                                          MovingImageType,
-                                          ATransformType >               ARegistrationType;
+  typedef itk::ConjugateGradientLineSearchOptimizerv4Template<
+    double >         AOptimizerType;
+  typedef itk::ImageRegistrationMethodv4<
+    FixedImageType,
+    MovingImageType,
+    ATransformType > ARegistrationType;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -529,8 +532,10 @@ int main( int argc, char *argv[] )
   const SizeType    fixedSize    = fixedRegion.GetSize();
 
   ATransformType::InputPointType centerFixed;
-  centerFixed[0] = fixedOrigin[0] + fixedSpacing[0] * fixedSize[0] / 2.0;
-  centerFixed[1] = fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
+  centerFixed[0] =
+    fixedOrigin[0] + fixedSpacing[0] * fixedSize[0] / 2.0;
+  centerFixed[1] =
+    fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
 
   const unsigned int numberOfFixedParameters = affineTx->GetFixedParameters().Size();
   ATransformType::ParametersType fixedParameters( numberOfFixedParameters );
@@ -645,9 +650,9 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::RegistrationParameterScalesFromPhysicalShift<
-                                                        MetricType>   ScalesEstimatorType;
+    MetricType> ScalesEstimatorType;
   ScalesEstimatorType::Pointer scalesEstimator =
-                                        ScalesEstimatorType::New();
+    ScalesEstimatorType::New();
   scalesEstimator->SetMetric( affineMetric );
   scalesEstimator->SetTransformForward( true );
 
@@ -741,8 +746,8 @@ int main( int argc, char *argv[] )
     {
     affineRegistration->Update();
     std::cout << "Optimizer stop condition: "
-              << affineRegistration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+      << affineRegistration->GetOptimizer()->GetStopConditionDescription()
+      << std::endl;
     }
   catch( itk::ExceptionObject & err )
     {
@@ -751,7 +756,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  compositeTransform->AddTransform( affineRegistration->GetModifiableTransform() );
+  compositeTransform->AddTransform(
+    affineRegistration->GetModifiableTransform() );
   // Software Guide : EndCodeSnippet
 
   std::cout << "\nInitial parameters of the registration process: " << std::endl

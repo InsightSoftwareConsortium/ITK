@@ -173,8 +173,9 @@ int main( int argc, char *argv[] )
 
   // Initialize the fixed parameters of transform (grid size, etc).
   //
-  typedef itk::BSplineTransformInitializer< TransformType,
-                                            FixedImageType>      InitializerType;
+  typedef itk::BSplineTransformInitializer<
+    TransformType,
+    FixedImageType> InitializerType;
 
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
@@ -244,13 +245,16 @@ int main( int argc, char *argv[] )
   for( unsigned int i=0; i< SpaceDimension; i++ )
     {
     fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
-    static_cast<double>( fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
+    static_cast<double>(
+      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
 
   // Create the transform adaptors specific to B-splines
   for( unsigned int level = 0; level < numberOfLevels; level++ )
     {
-    typedef itk::ShrinkImageFilter<FixedImageType, FixedImageType> ShrinkFilterType;
+    typedef itk::ShrinkImageFilter<
+      FixedImageType,
+      FixedImageType> ShrinkFilterType;
     ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors( shrinkFactorsPerLevel[level] );
     shrinkFilter->SetInput( fixedImage );
@@ -264,13 +268,17 @@ int main( int argc, char *argv[] )
       requiredMeshSize[d] = meshSize[d] << level;
       }
 
-    typedef itk::BSplineTransformParametersAdaptor<TransformType> BSplineAdaptorType;
+    typedef itk::BSplineTransformParametersAdaptor<TransformType>
+      BSplineAdaptorType;
     BSplineAdaptorType::Pointer bsplineAdaptor = BSplineAdaptorType::New();
     bsplineAdaptor->SetTransform( outputBSplineTransform );
     bsplineAdaptor->SetRequiredTransformDomainMeshSize( requiredMeshSize );
-    bsplineAdaptor->SetRequiredTransformDomainOrigin( shrinkFilter->GetOutput()->GetOrigin() );
-    bsplineAdaptor->SetRequiredTransformDomainDirection( shrinkFilter->GetOutput()->GetDirection() );
-    bsplineAdaptor->SetRequiredTransformDomainPhysicalDimensions( fixedPhysicalDimensions );
+    bsplineAdaptor->SetRequiredTransformDomainOrigin(
+      shrinkFilter->GetOutput()->GetOrigin() );
+    bsplineAdaptor->SetRequiredTransformDomainDirection(
+      shrinkFilter->GetOutput()->GetDirection() );
+    bsplineAdaptor->SetRequiredTransformDomainPhysicalDimensions(
+      fixedPhysicalDimensions );
 
     adaptors.push_back( bsplineAdaptor.GetPointer() );
     }
