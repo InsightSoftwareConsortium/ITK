@@ -77,10 +77,10 @@ ButterworthFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType                  itkNotUsed(threadId))
 {
-  TOutputImage * outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
-  DoubleArrayType centerPoint;
-  for (unsigned int ii = 0; ii < TOutputImage::ImageDimension; ++ii)
+  typename OutputImageType::PointType centerPoint;
+  for (unsigned int ii = 0; ii < ImageDimension; ++ii)
   {
     centerPoint[ii] = double(m_Size[ii]) / 2.0;
   }
@@ -90,19 +90,24 @@ ButterworthFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
     const typename TOutputImage::IndexType index = outIt.GetIndex();
+    // std::cout << "index: " << index << std::endl;
 
     double radius = 0.0;
-    double value = 0.0;
-
-    for (unsigned int ii = 0; ii < TOutputImage::ImageDimension; ++ii)
+    for (unsigned int ii = 0; ii < ImageDimension; ++ii)
     {
       const double dist = (centerPoint[ii] - double(index[ii])) / double(m_Size[ii]);
+      // %todo: is this correct for odd numbers?
+      // const SizeValueType halfLength = m_Size[ii] / 2;
+      // const double dist = (index[ii] % halfLength) / double(halfLength);
       radius += dist * dist;
     }
     radius = std::sqrt(radius);
+    // std::cout << "radius: " << radius << std::endl;
+
+    double value = 0.0;
     value = radius / m_Cutoff;
     value = std::pow(value, 2 * m_Order);
-    value = 1 / (1 + value);
+    value = 1. / (1. + value);
 
     // Set the pixel value to the function value
     outIt.Set(static_cast<typename TOutputImage::PixelType>(value));
