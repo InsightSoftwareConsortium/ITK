@@ -3,14 +3,10 @@
 void
 RegisterTests()
 {
-  REGISTER_TEST(itkStrainImageFilterTest);
   REGISTER_TEST(itkStrainImageFilterAccurateTest);
-  REGISTER_TEST(itkStrainImageFilterDoGTest);
   REGISTER_TEST(itkStrainImageFilterRecursiveGaussianTest);
   REGISTER_TEST(itkStrainImageFilterBSplineTest);
   REGISTER_TEST(itkStrainImageFilterBSplineApproximationTest);
-  REGISTER_TEST(itkStrainImageFilterLagrangianTest);
-  REGISTER_TEST(itkStrainImageFilterEulerianTest);
 }
 
 #include <string>

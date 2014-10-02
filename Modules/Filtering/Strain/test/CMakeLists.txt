@@ -5,6 +5,7 @@ set(
   itkStrainImageFilterTest.cxx
   itkStrainImageFilterLagrangianTest.cxx
   itkStrainImageFilterEulerianTest.cxx
+  itkStrainImageFilterDoGTest.cxx
 )
 
 createtestdriver(Strain "${Strain-Test_LIBRARIES}" "${StrainTests}")
@@ -43,4 +44,16 @@ itk_add_test(
     itkStrainImageFilterEulerianTest
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTest
+)
+
+itk_add_test(
+  NAME itkStrainImageFilterDoGTest
+  COMMAND
+    StrainTestDriver
+    --compare
+    DATA{Baseline/LineLoadStrain.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterDoGTestOutput.vtk
+    itkStrainImageFilterDoGTest
+    DATA{Input/LineLoadDisplacement.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterDoGTest
 )
