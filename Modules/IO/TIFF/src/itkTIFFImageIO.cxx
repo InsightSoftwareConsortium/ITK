@@ -77,136 +77,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
     }
 }
 
-int TIFFImageIO::EvaluateImageAt(void *out, void *in)
-{
-  unsigned char *image = (unsigned char *)out;
-  unsigned char *source = (unsigned char *)in;
-
-  int            increment;
-  unsigned short red, green, blue, alpha;
-
-  switch ( this->GetFormat() )
-    {
-    case TIFFImageIO::GRAYSCALE:
-      if ( m_InternalImage->m_Photometrics ==
-           PHOTOMETRIC_MINISBLACK )
-        {
-        if ( m_ComponentType == USHORT )
-          {
-          unsigned short *image_us = (unsigned short *)out;
-          unsigned short *source_us = (unsigned short *)in;
-          *image_us = *source_us;
-          }
-        else if ( m_ComponentType == SHORT )
-          {
-          short *image_us = (short *)out;
-          short *source_us = (short *)in;
-          *image_us = *source_us;
-          }
-        else if ( m_ComponentType == CHAR )
-          {
-          char *image_us = (char *)out;
-          char *source_us = (char *)in;
-          *image_us = *source_us;
-          }
-        else if ( m_ComponentType == FLOAT )
-          {
-          float *image_us = (float *)out;
-          float *source_us = (float *)in;
-          *image_us = *source_us;
-          }
-        else
-          {
-          *image = *source;
-          }
-        }
-      else
-        {
-        *image = ~( *source );
-        }
-      increment = 1;
-      break;
-    case TIFFImageIO::PALETTE_GRAYSCALE:
-      this->GetColor(*source, &red, &green, &blue);
-      *image = static_cast< unsigned char >( red >> 8 );
-      increment = 1;
-      break;
-    case TIFFImageIO::RGB_:
-      if ( m_ComponentType == USHORT )
-        {
-        unsigned short *image_us = (unsigned short *)out;
-        unsigned short *source_us = (unsigned short *)in;
-
-        red   = *( source_us );
-        green = *( source_us + 1 );
-        blue  = *( source_us + 2 );
-        *( image_us )   = red;
-        *( image_us + 1 ) = green;
-        *( image_us + 2 ) = blue;
-        if ( m_InternalImage->m_SamplesPerPixel == 4 )
-          {
-          alpha = *( source_us + 3 );
-          *( image_us + 3 ) = alpha;
-          }
-        }
-      else
-        {
-        red   = *( source );
-        green = *( source + 1 );
-        blue  = *( source + 2 );
-        *( image )   = red;
-        *( image + 1 ) = green;
-        *( image + 2 ) = blue;
-        if ( m_InternalImage->m_SamplesPerPixel == 4 )
-          {
-          alpha = *( source + 3 );
-          *( image + 3 ) = alpha;
-          }
-        }
-      increment = m_InternalImage->m_SamplesPerPixel;
-      break;
-    case TIFFImageIO::PALETTE_RGB:
-      if ( m_ComponentType == USHORT )
-        {
-        unsigned short *image_us = (unsigned short *)out;
-        unsigned short *source_us = (unsigned short *)in;
-        this->GetColor(*source_us, &red, &green, &blue);
-        *( image_us )   = red << 8;
-        *( image_us + 1 ) = green << 8;
-        *( image_us + 2 ) = blue << 8;
-        }
-      else if ( m_ComponentType == SHORT )
-        {
-        short *image_us = (short *)out;
-        short *source_us = (short *)in;
-        this->GetColor(*source_us, &red, &green, &blue);
-        *( image_us )   = red << static_cast<short int>(8);
-        *( image_us + 1 ) = green << static_cast<short int>(8);
-        *( image_us + 2 ) = blue << static_cast<short int>(8);
-        }
-      else if ( m_ComponentType == CHAR )
-        {
-        this->GetColor(*source, &red, &green, &blue);
-        *( image )   = static_cast< char >( red >> 8 );
-        *( image + 1 ) = static_cast< char >( green >> 8 );
-        *( image + 2 ) = static_cast< char >( blue >> 8 );
-        }
-      else
-        {
-        this->GetColor(*source, &red, &green, &blue);
-        *( image )   = static_cast< unsigned char >( red >> 8 );
-        *( image + 1 ) = static_cast< unsigned char >( green >> 8 );
-        *( image + 2 ) = static_cast< unsigned char >( blue >> 8 );
-        }
-      increment = 3;
-      break;
-    default:
-      return 0;
-    }
-
-  return increment;
-}
-
 void TIFFImageIO::GetColor(int index, unsigned short *red,
                            unsigned short *green, unsigned short *blue)
 {
@@ -478,26 +348,6 @@ void TIFFImageIO::ReadImageInformation()
   m_Dimensions[0] = width;
   m_Dimensions[1] = height;
 
-  switch ( this->GetFormat() )
-    {
-    case TIFFImageIO::GRAYSCALE:
-    case TIFFImageIO::PALETTE_GRAYSCALE:
-      this->SetNumberOfComponents(1);
-      this->SetPixelType(SCALAR);
-      break;
-    case TIFFImageIO::RGB_:
-      this->SetNumberOfComponents(m_InternalImage->m_SamplesPerPixel);
-      this->SetPixelType(RGB);
-      break;
-    case TIFFImageIO::PALETTE_RGB:
-      this->SetNumberOfComponents(3);
-      this->SetPixelType(RGB);
-      break;
-    default:
-      this->SetNumberOfComponents(4);
-      this->SetPixelType(RGBA);
-    }
-
   if ( m_InternalImage->m_BitsPerSample <= 8 )
     {
     if ( m_InternalImage->m_SampleFormat == 2 )
@@ -527,6 +377,45 @@ void TIFFImageIO::ReadImageInformation()
       m_ComponentType = USHORT;
       }
     }
+
+  switch ( this->GetFormat() )
+    {
+    case TIFFImageIO::PALETTE_GRAYSCALE:
+    case TIFFImageIO::GRAYSCALE:
+      this->SetNumberOfComponents(1);
+      this->SetPixelType(SCALAR);
+      break;
+    case TIFFImageIO::RGB_:
+      this->SetNumberOfComponents(m_InternalImage->m_SamplesPerPixel);
+      this->SetPixelType(RGB);
+      break;
+    case TIFFImageIO::PALETTE_RGB:
+      this->SetNumberOfComponents(3);
+      this->SetPixelType(RGB);
+      break;
+    default:
+      // CanRead should be false
+      this->SetNumberOfComponents(4);
+      this->SetPixelType(RGBA);
+    }
+
+  if ( this->GetFormat() == TIFFImageIO::PALETTE_GRAYSCALE ||
+       this->GetFormat() == TIFFImageIO::PALETTE_RGB )
+    {
+    m_ComponentType = UCHAR;
+    // detect if palette appears to be 8-bit or 16-bit
+    for ( unsigned int cc = 0; cc < 256; ++cc )
+      {
+      unsigned short red, green, blue;
+      this->GetColor(cc, &red, &green, &blue);
+      if (red > 255 || green > 255 || blue > 255 )
+        {
+        m_ComponentType = USHORT;
+        break;
+        }
+      }
+    }
+
 
   if ( !m_InternalImage->CanRead() )
     {
@@ -1290,11 +1179,9 @@ void TIFFImageIO::ReadGenericImage(void *_out,
   typedef TComponent ComponentType;
 
 #ifdef TIFF_INT64_T // detect if libtiff4
-   uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
-  uint64_t cc;
+  uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
 #else
   tsize_t isize = TIFFScanlineSize(m_InternalImage->m_Image);
-  tsize_t cc;
 #endif
 
   size_t         inc;
@@ -1353,18 +1240,138 @@ void TIFFImageIO::ReadGenericImage(void *_out,
       image = out + (size_t) (width) * inc * ( height - ( row + 1 ) );
       }
 
-    for ( cc = 0; cc < isize;
-          cc += m_InternalImage->m_SamplesPerPixel )
+    switch ( this->GetFormat() )
       {
-      inc = this->EvaluateImageAt(image,
-                                  static_cast< ComponentType * >( buf )
-                                  + cc);
-      image += inc;
+      case TIFFImageIO::GRAYSCALE:
+        // check inverted
+        PutGrayscale<ComponentType>(image, static_cast< ComponentType * >( buf ), width, 1, 0, 0);
+        break;
+      case TIFFImageIO::RGB_:
+        PutRGB_<ComponentType>(image, static_cast< ComponentType * >( buf ), width, 1, 0, 0);
+        break;
+
+      case TIFFImageIO::PALETTE_GRAYSCALE:
+        switch ( m_InternalImage->m_BitsPerSample )
+          {
+          case 8:
+            PutPaletteGrayscale<ComponentType, unsigned char>(image, static_cast< unsigned char * >( buf ), width, 1, 0, 0);
+            break;
+          case 16:
+            PutPaletteGrayscale<ComponentType, unsigned short>(image, static_cast< unsigned short * >( buf ), width, 1, 0, 0);
+            break;
+          default:
+            itkExceptionMacro(<<  "Sorry, can not handle image with "
+                              << m_InternalImage->m_BitsPerSample
+                              << "-bit samples with palette.");
+          }
+        break;
+      case TIFFImageIO::PALETTE_RGB:
+         switch ( m_InternalImage->m_BitsPerSample )
+          {
+          case 8:
+            PutPaletteRGB<ComponentType, unsigned char>(image, static_cast< unsigned char * >( buf ), width, 1, 0, 0);
+            break;
+          case 16:
+            PutPaletteRGB<ComponentType, unsigned short>(image, static_cast< unsigned short * >( buf ), width, 1, 0, 0);
+            break;
+          default:
+            itkExceptionMacro(<<  "Sorry, can not handle image with "
+                              << m_InternalImage->m_BitsPerSample
+                              << "-bit samples with palette.");
+          }
+        break;
+
+      default:
+        itkExceptionMacro("Logic Error: Unexpected format!");
       }
+
     }
 
   _TIFFfree(buf);
 }
+
+// iso component scalar
+template <typename TType>
+void TIFFImageIO::PutGrayscale( TType *to, TType * from,
+                                unsigned int xsize, unsigned int ysize,
+                                unsigned int toskew, unsigned int fromskew )
+{
+  for( unsigned int y = ysize; y-- > 0;)
+    {
+    std::copy(from, from + xsize, to);
+    to += xsize;
+    to += toskew;
+    from += xsize;
+    from += fromskew;
+    }
+}
+
+
+// iso component scalar
+template <typename TType>
+void TIFFImageIO::PutRGB_( TType *to, TType * from,
+                           unsigned int xsize, unsigned int ysize,
+                           unsigned int toskew, unsigned int fromskew )
+{
+  const size_t samplesPerPixel = m_InternalImage->m_SamplesPerPixel;
+  const size_t linesize = samplesPerPixel*xsize;
+
+  for( unsigned int y = ysize; y-- > 0;)
+    {
+    std::copy(from, from + linesize, to);
+
+    to += linesize;
+    to += toskew;
+    from += linesize;
+    from += fromskew;
+    }
+}
+
+template <typename TType, typename TFromType>
+void TIFFImageIO::PutPaletteRGB( TType *to, TFromType * from,
+                                 unsigned int xsize, unsigned int ysize,
+                                 unsigned int toskew, unsigned int fromskew )
+{
+  unsigned short red, green, blue;
+
+  for( unsigned int y = ysize; y-- > 0;)
+    {
+    for (unsigned int x = xsize; x-- > 0;)
+      {
+        this->GetColor(*from, &red, &green, &blue);
+        *( to )   = red;
+        *( to + 1 ) = green;
+        *( to + 2 ) = blue;
+        to += 3;
+        ++from;
+      }
+    to += toskew;
+    from += fromskew;
+    }
+}
+
+
+template <typename TType,typename TFromType>
+void TIFFImageIO::PutPaletteGrayscale( TType *to, TFromType * from,
+                                       unsigned int xsize, unsigned int ysize,
+                                       unsigned int toskew, unsigned int fromskew )
+{
+  unsigned short red, green, blue;
+
+  for( unsigned int y = ysize; y-- > 0;)
+    {
+    for (unsigned int x = xsize; x-- > 0;)
+      {
+      this->GetColor(*from, &red, &green, &blue);
+      *( to ) = red;
+      ++to;
+      ++from;
+      }
+    to += toskew;
+    from += fromskew;
+    }
+}
+
 
 template <typename TComponent>
 void  TIFFImageIO::RGBAImageToBuffer( void *out, const uint32_t *tempImage )
