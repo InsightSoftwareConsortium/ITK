@@ -3,9 +3,6 @@
 # TCL support is currently unstable. Show the warning message
 message(WARNING "TCL support is currently unstable.But if we you still want to use it, please go ahead!")
 
-# Keep ITK_WRAP_TCL in adavanced mode
-mark_as_advanced(ITK_WRAP_TCL)
-
 find_package(TCL REQUIRED)
 # Hide useless settings provided by FindTCL.
 foreach(entry TCL_LIBRARY_DEBUG

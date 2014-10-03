@@ -3,9 +3,6 @@
 # Ruby support is currently broken. Show the warning message.
 message(WARNING "RUBY support in WrapITK is currently broken!")
 
-# Keep ITK_WRAP_RUBY in advanced mode
-mark_as_advanced(ITK_WRAP_RUBY)
-
 find_package(Ruby)
 mark_as_advanced(RUBY_EXECUTABLE)
 include_directories(${RUBY_INCLUDE_PATH})
