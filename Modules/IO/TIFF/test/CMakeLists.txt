@@ -4,6 +4,7 @@ itkTIFFImageIOTest.cxx
 itkTIFFImageIOTest2.cxx
 itkTIFFImageIOCompressionTest.cxx
 itkLargeTIFFImageWriteReadTest.cxx
+itkTIFFImageIOInfoTest.cxx
 )
 
 CreateTestDriver(ITKIOTIFF  "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")
@@ -142,6 +143,23 @@ itk_add_test(NAME itkTIFFImageIOPlannarConfig1
       --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig1.tif
               e3db5c8b5ddfb17dc708330c66a22659
     itkTIFFImageIOTest DATA{Input/oxford.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig1.tif 2 1)
+itk_add_test(NAME itkTIFFImageIOPlannarConfig2
+      COMMAND ITKIOTIFFTestDriver
+      --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig2.tif
+              91975481ba66709c8f3ccb538af5cd2a
+    itkTIFFImageIOTest DATA{Input/ps-separated.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig2.tif 2 1)
+
+itk_add_test(NAME itkTIFFImageIOInfoTest1
+      COMMAND ITKIOTIFFTestDriver
+      itkTIFFImageIOInfoTest DATA{Input/single-channel.ome.tif})
+set_tests_properties( itkTIFFImageIOInfoTest1
+    PROPERTIES PASS_REGULAR_EXPRESSION "OME-XML metadata block")
+itk_add_test(NAME itkTIFFImageIOInfoTest2
+      COMMAND ITKIOTIFFTestDriver
+      itkTIFFImageIOInfoTest DATA{Input/ps-separated.tif})
+set_tests_properties( itkTIFFImageIOInfoTest2
+    PROPERTIES PASS_REGULAR_EXPRESSION "2014:09:24 14:16:01")
+
 
 ######################
 # Test Compression
