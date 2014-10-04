@@ -50,6 +50,18 @@ void SimpleFastMutexLock::Lock() const
   pthread_mutex_lock(&m_FastMutexLock);
 }
 
+// Non-blocking TryLock the FastMutexLock
+bool SimpleFastMutexLock::TryLock() const
+{
+  const bool lockCaptured = ( pthread_mutex_trylock(&m_FastMutexLock) == 0 );
+  /*
+   * non-blocking lock of mutex
+   * - if mutex is not already locked, you will obtain the lock & own the mutex, and return 0 immediately
+   * - if mutex is already locked, pthread_mutex_trylock() will return immediately wth return value EBUSY
+   */
+  return lockCaptured;
+}
+
 // Unlock the FastMutexLock
 void SimpleFastMutexLock::Unlock() const
 {
