@@ -1,5 +1,4 @@
 project(ImageExamples)
-include_regular_expression("^.*$")
 
 add_executable(Image1 Image1.cxx )
 target_link_libraries(Image1 ${ITK_LIBRARIES})

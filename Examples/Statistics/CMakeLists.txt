@@ -1,6 +1,4 @@
 project(StatisticsExamples)
-include_regular_expression("^.*$")
-
 
 add_executable(BayesianPluginClassifier BayesianPluginClassifier.cxx )
 target_link_libraries(BayesianPluginClassifier ${ITK_LIBRARIES})

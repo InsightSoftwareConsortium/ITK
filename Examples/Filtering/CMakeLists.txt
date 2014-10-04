@@ -1,5 +1,5 @@
 project(FilteringExamples)
-include_regular_expression("^.*$")
+
 add_executable(CompositeFilterExample CompositeFilterExample.cxx )
 target_link_libraries(CompositeFilterExample  ${ITK_LIBRARIES})
 add_executable(FlipImageFilter FlipImageFilter.cxx )
