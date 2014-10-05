@@ -77,5 +77,7 @@ itk_add_test(
   COMMAND
     StrainTestDriver
     itkTransformToStrainFilterTest
+    "BSpline"
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt}
 )

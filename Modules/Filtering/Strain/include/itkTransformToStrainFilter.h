@@ -19,7 +19,7 @@
 #define __itkTransformToStrainFilter_h
 
 #include "itkCovariantVector.h"
-#include "itkImageSource.h"
+#include "itkGenerateImageSource.h"
 #include "itkSymmetricSecondRankTensor.h"
 
 namespace itk
@@ -52,8 +52,8 @@ namespace itk
  */
 template <typename TTransform, typename TOperatorValueType = float, typename TOutputValueType = float>
 class TransformToStrainFilter
-  : public ImageSource<Image<SymmetricSecondRankTensor<TOutputValueType, TTransform::InputSpaceDimension>,
-                             TTransform::InputSpaceDimension>>
+  : public GenerateImageSource<Image<SymmetricSecondRankTensor<TOutputValueType, TTransform::InputSpaceDimension>,
+                                     TTransform::InputSpaceDimension>>
 {
 public:
   /** ImageDimension enumeration. */
@@ -63,8 +63,8 @@ public:
   typedef Image<SymmetricSecondRankTensor<TOutputValueType, ImageDimension>, ImageDimension> OutputImageType;
 
   /** Standard class typedefs. */
-  typedef TransformToStrainFilter      Self;
-  typedef ImageSource<OutputImageType> Superclass;
+  typedef TransformToStrainFilter              Self;
+  typedef GenerateImageSource<OutputImageType> Superclass;
 
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformToStrainFilter, ImageSource);
+  itkTypeMacro(TransformToStrainFilter, GenerateImageSource);
 
   /**
    * Three different types of strains can be calculated, infinitesimal (default), aka

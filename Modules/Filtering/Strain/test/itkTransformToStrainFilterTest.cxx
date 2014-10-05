@@ -24,7 +24,7 @@ int
 itkTransformToStrainFilterTest(int argc, char * argv[])
 {
   /** Check command line arguments. */
-  if (argc < 2)
+  if (argc < 3)
   {
     std::cerr << "Usage: ";
     std::cerr << argv[0] << "<transformName> <strainFieldFileName> [bSplineParametersFile]" << std::endl;

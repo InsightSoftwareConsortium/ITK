@@ -9,6 +9,7 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKImageGradient
+    ITKImageSources
     SplitComponents
   TEST_DEPENDS
     ITKTestKernel
