@@ -51,26 +51,23 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   typedef TransformType::ParametersType                                          ParametersType;
 
   typedef itk::TransformToStrainFilter<TransformType, ScalarPixelType, ScalarPixelType> TransformToStrainFilterType;
-  TransformToStrainFilterType::Pointer transformToStrainFilter = TransformToStrainFilterType::New();
 
-  // typedef DisplacementFieldGeneratorType::SizeType       SizeType;
-  // typedef DisplacementFieldGeneratorType::SpacingType    SpacingType;
-  // typedef DisplacementFieldGeneratorType::OriginType     OriginType;
-  // typedef DisplacementFieldGeneratorType::IndexType      IndexType;
-  // typedef itk::ImageFileWriter<
-  // DisplacementFieldImageType >                         WriterType;
+  // Create output information.
+  typedef TransformToStrainFilterType::SizeType SizeType;
+  SizeType                                      size;
+  size.Fill(20);
 
-  //[>* Create output information. <]
-  // SizeType size;        size.Fill( 20 );
-  // IndexType index;      index.Fill( 0 );
-  // SpacingType spacing;  spacing.Fill( 0.7 );
-  // OriginType origin;    origin.Fill( -10.0 );
+  typedef TransformToStrainFilterType::SpacingType SpacingType;
+  SpacingType                                      spacing;
+  spacing.Fill(0.7);
 
-  //[>* Create transforms. <]
-  // AffineTransformType::Pointer affineTransform
-  //= AffineTransformType::New();
-  // BSplineTransformType::Pointer bSplineTransform
-  //= BSplineTransformType::New();
+  typedef TransformToStrainFilterType::PointType OriginType;
+  OriginType                                     origin;
+  origin.Fill(-10.0);
+
+  // Create transforms.
+  AffineTransformType::Pointer  affineTransform = AffineTransformType::New();
+  BSplineTransformType::Pointer bSplineTransform = BSplineTransformType::New();
   // if ( transformName == "Affine" )
   //{
   //[>* Set the options. <]
@@ -89,79 +86,75 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   // affineTransform->SetParameters( parameters );
   //}
   // else if ( transformName == "BSpline" )
-  //{
-  //[>* Set the options. <]
+  if (transformName == "BSpline")
+  {
+    /* Set the options. */
+    BSplineTransformType::PhysicalDimensionsType dimensions;
+    for (unsigned int dd = 0; dd < Dimension; ++dd)
+    {
+      dimensions[dd] = spacing[dd] * (size[dd] - 1.0);
+    }
+    BSplineTransformType::MeshSizeType  meshSize;
+    BSplineTransformType::DirectionType direction;
+    direction.SetIdentity();
 
-  // BSplineTransformType::PhysicalDimensionsType dimensions;
-  // for( unsigned int d = 0; d < Dimension; ++d )
-  //{
-  // dimensions[d] = spacing[d] * ( size[d] - 1.0 );
-  // }
-  // BSplineTransformType::MeshSizeType meshSize;
-  // BSplineTransformType::DirectionType direction;
-  // direction.SetIdentity();
+    meshSize[0] = 7 - SplineOrder;
+    meshSize[1] = 10 - SplineOrder;
 
-  // meshSize[0] = 7 - SplineOrder;
-  // meshSize[1] = 10 - SplineOrder;
+    bSplineTransform->SetTransformDomainOrigin(origin);
+    bSplineTransform->SetTransformDomainPhysicalDimensions(dimensions);
+    bSplineTransform->SetTransformDomainMeshSize(meshSize);
+    bSplineTransform->SetTransformDomainDirection(direction);
 
-  // bSplineTransform->SetTransformDomainOrigin( origin );
-  // bSplineTransform->SetTransformDomainPhysicalDimensions( dimensions );
-  // bSplineTransform->SetTransformDomainMeshSize( meshSize );
-  // bSplineTransform->SetTransformDomainDirection( direction );
+    // Create and set parameters.
+    ParametersType parameters(bSplineTransform->GetNumberOfParameters());
+    std::ifstream  input(bSplineParametersFile.c_str());
+    if (input.is_open())
+    {
+      for (unsigned int i = 0; i < parameters.GetSize(); ++i)
+      {
+        input >> parameters[i];
+      }
+      input.close();
+    }
+    else
+    {
+      std::cerr << "ERROR: B-spline parameter file not found." << std::endl;
+      return EXIT_FAILURE;
+    }
+    bSplineTransform->SetParametersByValue(parameters);
+  }
+  else
+  {
+    std::cerr << "ERROR: Not a valid transform." << std::endl;
+    return EXIT_FAILURE;
+  }
 
-  //[>* Create and set parameters. <]
-  // ParametersType parameters( bSplineTransform->GetNumberOfParameters() );
-  // std::ifstream input( bSplineParametersFile.c_str() );
-  // if ( input.is_open() )
-  //{
-  // for ( unsigned int i = 0; i < parameters.GetSize(); ++i )
-  //{
-  // input >> parameters[ i ];
-  //}
-  // input.close();
-  // }
-  // else
-  //{
-  // std::cerr << "ERROR: B-spline parameter file not found." << std::endl;
-  // return EXIT_FAILURE;
-  // }
-  // bSplineTransform->SetParametersByValue( parameters );
-  // }
-  // else
-  //{
-  // std::cerr << "ERROR: Not a valid transform." << std::endl;
-  // return EXIT_FAILURE;
-  // }
+  // Create and setup strain field generator.
+  TransformToStrainFilterType::Pointer transformToStrainFilter = TransformToStrainFilterType::New();
+  std::cout << "Name of Class: " << transformToStrainFilter->GetNameOfClass() << std::endl;
+  transformToStrainFilter->SetSize(size);
+  transformToStrainFilter->SetSpacing(spacing);
+  transformToStrainFilter->SetOrigin(origin);
 
-  //[>* Create an setup displacement field generator. <]
-  // DisplacementFieldGeneratorType::Pointer defGenerator = DisplacementFieldGeneratorType::New();
-  // std::cout << "Name of Class: " << defGenerator->GetNameOfClass()
-  //<< std::endl;
-  // defGenerator->SetSize( size );
-  // defGenerator->SetOutputSpacing( spacing );
-  // defGenerator->SetOutputOrigin( origin );
-  // defGenerator->SetOutputStartIndex( index );
-  ////
-  //// for coverage, exercise access methods
-  // spacing  = defGenerator->GetOutputSpacing();
-  // origin = defGenerator->GetOutputOrigin();
-  // DisplacementFieldGeneratorType::DirectionType direction = defGenerator->GetOutputDirection();
-  // std::cout << "Spacing " << spacing
-  //<< " Origin " << origin
-  //<< std::endl << "Direction "
-  //<< direction
-  //<< std::endl;
-  ////defGenerator->SetOutputDirection( direction );
-  // if ( transformName == "Affine" )
-  //{
-  // defGenerator->SetTransform( affineTransform );
-  // }
-  // else if ( transformName == "BSpline" )
-  //{
-  // defGenerator->SetTransform( bSplineTransform );
-  // }
-  // std::cout << "Transform: " << defGenerator->GetTransform()
-  //<< std::endl;
+  // for coverage, exercise access methods
+  spacing = transformToStrainFilter->GetSpacing();
+  origin = transformToStrainFilter->GetOrigin();
+  TransformToStrainFilterType::DirectionType direction = transformToStrainFilter->GetDirection();
+  transformToStrainFilter->SetDirection(direction);
+  std::cout << "Spacing   " << spacing << std::endl
+            << "Origin    " << origin << std::endl
+            << "Direction \n"
+            << direction << std::endl;
+  if (transformName == "Affine")
+  {
+    transformToStrainFilter->SetTransform(affineTransform);
+  }
+  else if (transformName == "BSpline")
+  {
+    transformToStrainFilter->SetTransform(bSplineTransform);
+  }
+  std::cout << "Transform: " << transformToStrainFilter->GetTransform() << std::endl;
 
   //[>* Write displacement field to disk. <]
   // WriterType::Pointer writer = WriterType::New();

@@ -23,20 +23,40 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
-TransformToStrainFilter<TInputImage, TOperatorValueType, TOutputValueType>::TransformToStrainFilter()
+template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
+TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::TransformToStrainFilter()
   : m_StrainForm(INFINITESIMAL)
 {}
 
-template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
+template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
 void
-TransformToStrainFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThreadedGenerateData()
+TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::BeforeThreadedGenerateData()
 {}
 
 
-template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
+template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
 void
-TransformToStrainFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGenerateData(
+TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::SetInput(const TransformInputType * input)
+{
+  if (input != itkDynamicCastInDebugMode<TransformInputType *>(this->ProcessObject::GetPrimaryInput()))
+  {
+    // Process object is not const-correct so the const_cast is required here
+    this->ProcessObject::SetNthInput(0, const_cast<TransformInputType *>(input));
+    this->Modified();
+  }
+}
+
+template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
+const typename TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::TransformInputType *
+TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::GetInput() const
+{
+  return itkDynamicCastInDebugMode<const TransformInputType *>(this->GetPrimaryInput());
+}
+
+
+template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
+void
+TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::ThreadedGenerateData(
   const OutputRegionType & region,
   ThreadIdType             itkNotUsed(threadId))
 {
