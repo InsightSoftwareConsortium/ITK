@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template <class TInputImage, class TOperatorValueType, class TOutputValueType>
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::StrainImageFilter()
   : m_StrainForm(INFINITESIMAL)
 {
@@ -48,7 +48,7 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::StrainImag
   this->m_VectorGradientFilter = NULL;
 }
 
-template <class TInputImage, class TOperatorValueType, class TOutputValueType>
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 void
 StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThreadedGenerateData()
 {
@@ -83,7 +83,7 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThre
 }
 
 
-template <class TInputImage, class TOperatorValueType, class TOutputValueType>
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 void
 StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGenerateData(
   const OutputRegionType & region,
