@@ -1094,13 +1094,16 @@ void TIFFImageIO::ReadTIFFTags()
     uint32 tag = TIFFGetTagListEntry(m_InternalImage->m_Image, i);
 
     const itkTIFFField *field  = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+
+    if ( field == ITK_NULLPTR )
+      {
+      continue;
+      }
+
+
     const char*         field_name = TIFFFieldName(field);
     unsigned int        value_count = 0;
 
-    if ( field == ITK_NULLPTR )
-    {
-    continue;
-    }
 
     const int read_count = itkTIFFFieldReadCount( field );
 
@@ -1163,6 +1166,11 @@ void TIFFImageIO::ReadTIFFTags()
           continue;
           }
         }
+      }
+
+    if (raw_data == ITK_NULLPTR)
+      {
+      continue;
       }
 
     itkDebugMacro( << "TiffInfo tag " << field_name << "("<< tag << "): "
