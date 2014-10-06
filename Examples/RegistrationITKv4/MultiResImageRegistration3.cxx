@@ -59,16 +59,12 @@ public:
       {
       return;
       }
-    RegistrationPointer registration = dynamic_cast<RegistrationPointer>( object );
+    RegistrationPointer registration = static_cast<RegistrationPointer>( object );
     if(registration == ITK_NULLPTR)
       {
       return;
       }
-    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >(registration->GetModifiableOptimizer() );
-    if(optimizer == ITK_NULLPTR)
-      {
-      return;
-      }
+    OptimizerPointer optimizer = static_cast< OptimizerPointer >(registration->GetModifiableOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "
@@ -117,11 +113,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( object );
-      if(optimizer == ITK_NULLPTR)
-        {
-        return;
-        }
+      OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
       if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
         return;

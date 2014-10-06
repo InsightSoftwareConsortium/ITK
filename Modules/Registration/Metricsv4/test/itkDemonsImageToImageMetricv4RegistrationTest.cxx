@@ -70,12 +70,8 @@ public:
       {
       return;
       }
-    const TFilter *optimizer = dynamic_cast< const TFilter * >( object );
+    const TFilter *optimizer = static_cast< const TFilter * >( object );
 
-    if( !optimizer )
-      {
-      itkGenericExceptionMacro( "Error dynamic_cast failed" );
-      }
     std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetValue();
     std::cout << std::endl;
     }

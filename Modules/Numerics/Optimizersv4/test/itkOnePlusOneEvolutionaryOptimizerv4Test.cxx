@@ -158,8 +158,7 @@ public:
 
   virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
-      OptimizerPointer optimizer =
-        dynamic_cast< OptimizerPointer >( object );
+      OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
       if( ! itk::IterationEvent().CheckEvent( &event ) )
         {
         return;
