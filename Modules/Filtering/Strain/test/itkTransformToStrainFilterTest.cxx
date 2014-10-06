@@ -156,21 +156,22 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   }
   std::cout << "Transform: " << transformToStrainFilter->GetTransform() << std::endl;
 
-  //[>* Write displacement field to disk. <]
-  // WriterType::Pointer writer = WriterType::New();
-  // writer->SetInput( defGenerator->GetOutput() );
-  // writer->SetFileName( fileName.c_str() );
+  // Write strain field to disk.
+  typedef itk::ImageFileWriter<TransformToStrainFilterType::OutputImageType> WriterType;
+  WriterType::Pointer                                                        writer = WriterType::New();
+  writer->SetInput(transformToStrainFilter->GetOutput());
+  writer->SetFileName(strainFieldFileName);
 
-  // try
-  //{
-  // writer->Update();
-  // }
-  // catch ( itk::ExceptionObject & err )
-  //{
-  // std::cerr << "Exception detected while generating displacement field" << fileName << std::endl;
-  // std::cerr << " : "  << err << std::endl;
-  // return EXIT_FAILURE;
-  // }
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "Exception detected while generating strain field" << strainFieldFileName << std::endl;
+    std::cerr << " : " << err << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
