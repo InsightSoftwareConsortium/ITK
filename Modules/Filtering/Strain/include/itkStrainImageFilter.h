@@ -69,9 +69,10 @@ public:
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef TInputImage                                                                        InputImageType;
-  typedef Image<SymmetricSecondRankTensor<TOutputValueType, ImageDimension>, ImageDimension> OutputImageType;
-  typedef Image<TOperatorValueType, ImageDimension>                                          OperatorImageType;
+  typedef TInputImage                                                 InputImageType;
+  typedef SymmetricSecondRankTensor<TOutputValueType, ImageDimension> OutputPixelType;
+  typedef Image<OutputPixelType, ImageDimension>                      OutputImageType;
+  typedef Image<TOperatorValueType, ImageDimension>                   OperatorImageType;
 
   /** Standard class typedefs. */
   typedef StrainImageFilter                                   Self;
