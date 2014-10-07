@@ -11,13 +11,32 @@ if(ITK_USE_FFTWF)
   )
 endif(ITK_USE_FFTWF)
 
-add_executable(VariationalRegistration VariationalRegistrationMain.cxx)
+set(VariationalRegistration_SRC VariationalRegistrationMain.cxx)
+
+if(WIN32) # Check if we are on Windows
+  if(MSVC) # Check if we are using the Visual Studio compiler
+    message(
+      WARNING
+      " Module_VariationalRegistration is not testet for Visual C++ Compilers"
+    )
+    include_directories(
+      "${VariationalRegistration_SOURCE_DIR}/src/win32_compatibility"
+    )
+    set(
+      VariationalRegistration_SRC
+      VariationalRegistrationMain.cxx
+      win32_compatibility/getopt.c
+    )
+  endif()
+endif()
+
+add_executable(VariationalRegistration ${VariationalRegistration_SRC})
 target_link_libraries(
   VariationalRegistration
   ${VariationalRegistration_LIBRARIES}
 )
 
-add_executable(VariationalRegistration2D VariationalRegistrationMain.cxx)
+add_executable(VariationalRegistration2D ${VariationalRegistration_SRC})
 target_link_libraries(
   VariationalRegistration2D
   ${VariationalRegistration_LIBRARIES}
