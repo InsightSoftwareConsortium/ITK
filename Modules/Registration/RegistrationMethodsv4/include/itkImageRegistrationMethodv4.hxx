@@ -653,41 +653,46 @@ void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
 ::SetMetricSamplePoints()
 {
+  typedef typename ImageMetricType::VirtualImageType    VirtualDomainImageType;
+  typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
+  const VirtualDomainImageType * virtualImage;
+
   SizeValueType numberOfLocalMetrics = 1;
 
   typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
   if( multiMetric )
     {
     numberOfLocalMetrics = multiMetric->GetNumberOfMetrics();
-    }
-
-  typedef typename ImageMetricType::VirtualImageType    VirtualDomainImageType;
-  typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
-  const VirtualDomainImageType * virtualImage;
-  if( numberOfLocalMetrics == 1 )
-    {
-    typename ImageMetricType::Pointer metric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
-    if( metric.IsNotNull() )
+    if( numberOfLocalMetrics < 1 )
       {
-      virtualImage = metric->GetVirtualImage();
+      itkExceptionMacro("ERROR: Input multi metric should have at least one metric component.");
       }
     else
       {
-      itkExceptionMacro("ERROR: Invalid metric conversion.");
+      typename ImageMetricType::Pointer firstmetric = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() );
+      if( firstmetric.IsNotNull() )
+        {
+        virtualImage = firstmetric->GetVirtualImage();
+        }
+      else
+        {
+        itkExceptionMacro("ERROR: Invalid metric conversion.");
+        }
       }
     }
   else
     {
-    typename ImageMetricType::Pointer multimetric = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() );
-    if( multimetric.IsNotNull() )
+    typename ImageMetricType::Pointer singlemetric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
+    if( singlemetric.IsNotNull() )
       {
-      virtualImage = multimetric->GetVirtualImage();
+      virtualImage = singlemetric->GetVirtualImage();
       }
     else
       {
       itkExceptionMacro("ERROR: Invalid metric conversion.");
       }
     }
+
   const VirtualDomainRegionType & virtualDomainRegion = virtualImage->GetRequestedRegion();
   const typename VirtualDomainImageType::SpacingType oneThirdVirtualSpacing = virtualImage->GetSpacing() / 3.0;
 
@@ -758,15 +763,15 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
         }
       }
 
-    if( numberOfLocalMetrics == 1 )
-      {
-      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedSampledPointSet( samplePointSet );
-      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetUseFixedSampledPointSet( true );
-      }
-    else
+    if( multiMetric )
       {
       dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedSampledPointSet( samplePointSet );
       dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetUseFixedSampledPointSet( true );
+      }
+    else
+      {
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedSampledPointSet( samplePointSet );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetUseFixedSampledPointSet( true );
       }
     }
 }
