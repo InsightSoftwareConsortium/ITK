@@ -72,12 +72,20 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterRecursiveGaussianTest
 )
 
+# BSplineTransform has not yet implemented
+# ComputeJacobianWithRespectToPosition :-(
+#itk_add_test(NAME itkTransformToStrainFilterTest
+#COMMAND StrainTestDriver
+#itkTransformToStrainFilterTest
+#"BSpline"
+#${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTest.mha
+#DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt})
+
 itk_add_test(
   NAME itkTransformToStrainFilterTest
   COMMAND
     StrainTestDriver
     itkTransformToStrainFilterTest
-    "BSpline"
+    "Affine"
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTest.mha
-    DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt}
 )

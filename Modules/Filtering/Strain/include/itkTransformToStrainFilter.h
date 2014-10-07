@@ -60,9 +60,10 @@ public:
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int, TTransform::InputSpaceDimension);
 
-  typedef TTransform                                                                         TransformType;
-  typedef DataObjectDecorator<TransformType>                                                 TransformInputType;
-  typedef Image<SymmetricSecondRankTensor<TOutputValueType, ImageDimension>, ImageDimension> OutputImageType;
+  typedef TTransform                                                  TransformType;
+  typedef DataObjectDecorator<TransformType>                          TransformInputType;
+  typedef SymmetricSecondRankTensor<TOutputValueType, ImageDimension> OutputPixelType;
+  typedef Image<OutputPixelType, ImageDimension>                      OutputImageType;
 
   /** Standard class typedefs. */
   typedef TransformToStrainFilter              Self;
@@ -80,11 +81,6 @@ public:
   /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
    * be in physical coordinates. */
-  using Superclass::SetInput;
-  virtual void
-  SetInput(const TransformInputType * transform) ITK_OVERRIDE;
-  const TransformInputType *
-  GetInput() const;
   itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
 
   /**

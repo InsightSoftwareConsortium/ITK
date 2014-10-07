@@ -51,6 +51,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   typedef TransformType::ParametersType                                          ParametersType;
 
   typedef itk::TransformToStrainFilter<TransformType, ScalarPixelType, ScalarPixelType> TransformToStrainFilterType;
+  TransformToStrainFilterType::Pointer transformToStrainFilter = TransformToStrainFilterType::New();
 
   // Create output information.
   typedef TransformToStrainFilterType::SizeType SizeType;
@@ -68,26 +69,30 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   // Create transforms.
   AffineTransformType::Pointer  affineTransform = AffineTransformType::New();
   BSplineTransformType::Pointer bSplineTransform = BSplineTransformType::New();
-  // if ( transformName == "Affine" )
-  //{
-  //[>* Set the options. <]
-  // OriginType centerOfRotation;
-  // centerOfRotation[ 0 ] = -3.0; centerOfRotation[ 1 ] = -3.0;
-  // affineTransform->SetCenter( centerOfRotation );
-
-  //[>* Create and set parameters. <]
-  // ParametersType parameters( affineTransform->GetNumberOfParameters() );
-  // parameters[ 0 ] =   1.1;
-  // parameters[ 1 ] =   0.1;
-  // parameters[ 2 ] =  -0.2;
-  // parameters[ 3 ] =   0.9;
-  // parameters[ 4 ] =  10.3;
-  // parameters[ 5 ] = -33.8;
-  // affineTransform->SetParameters( parameters );
-  //}
-  // else if ( transformName == "BSpline" )
-  if (transformName == "BSpline")
+  if (transformName == "Affine")
   {
+    transformToStrainFilter->SetTransform(affineTransform.GetPointer());
+
+    // Set the options.
+    OriginType centerOfRotation;
+    centerOfRotation[0] = -3.0;
+    centerOfRotation[1] = -3.0;
+    affineTransform->SetCenter(centerOfRotation);
+
+    // Create and set parameters.
+    ParametersType parameters(affineTransform->GetNumberOfParameters());
+    parameters[0] = 1.1;
+    parameters[1] = 0.1;
+    parameters[2] = -0.2;
+    parameters[3] = 0.9;
+    parameters[4] = 10.3;
+    parameters[5] = -33.8;
+    affineTransform->SetParameters(parameters);
+  }
+  else if (transformName == "BSpline")
+  {
+    transformToStrainFilter->SetTransform(bSplineTransform);
+
     /* Set the options. */
     BSplineTransformType::PhysicalDimensionsType dimensions;
     for (unsigned int dd = 0; dd < Dimension; ++dd)
@@ -126,12 +131,11 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "ERROR: Not a valid transform." << std::endl;
+    std::cerr << "Error: Not a valid transform name." << std::endl;
     return EXIT_FAILURE;
   }
 
   // Create and setup strain field generator.
-  TransformToStrainFilterType::Pointer transformToStrainFilter = TransformToStrainFilterType::New();
   std::cout << "Name of Class: " << transformToStrainFilter->GetNameOfClass() << std::endl;
   transformToStrainFilter->SetSize(size);
   transformToStrainFilter->SetSpacing(spacing);
@@ -146,15 +150,8 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
             << "Origin    " << origin << std::endl
             << "Direction \n"
             << direction << std::endl;
-  if (transformName == "Affine")
-  {
-    transformToStrainFilter->SetTransform(affineTransform);
-  }
-  else if (transformName == "BSpline")
-  {
-    transformToStrainFilter->SetTransform(bSplineTransform);
-  }
-  std::cout << "Transform: " << transformToStrainFilter->GetTransform() << std::endl;
+  std::cout << "Transform: " << std::endl;
+  transformToStrainFilter->GetTransform()->Print(std::cout);
 
   // Write strain field to disk.
   typedef itk::ImageFileWriter<TransformToStrainFilterType::OutputImageType> WriterType;

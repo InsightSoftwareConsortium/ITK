@@ -18,7 +18,7 @@
 #ifndef __itkTransformToStrainFilter_hxx
 #define __itkTransformToStrainFilter_hxx
 
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkTransformToStrainFilter.h"
 
 namespace itk
@@ -37,45 +37,39 @@ TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::Befor
 
 template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
 void
-TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::SetInput(const TransformInputType * input)
-{
-  if (input != itkDynamicCastInDebugMode<TransformInputType *>(this->ProcessObject::GetPrimaryInput()))
-  {
-    // Process object is not const-correct so the const_cast is required here
-    this->ProcessObject::SetNthInput(0, const_cast<TransformInputType *>(input));
-    this->Modified();
-  }
-}
-
-template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
-const typename TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::TransformInputType *
-TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::GetInput() const
-{
-  return itkDynamicCastInDebugMode<const TransformInputType *>(this->GetPrimaryInput());
-}
-
-
-template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
-void
 TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::ThreadedGenerateData(
   const OutputRegionType & region,
   ThreadIdType             itkNotUsed(threadId))
 {
+  const TransformType * input = this->GetTransform();
+
   OutputImageType * output = this->GetOutput();
+  output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
+  typedef ImageRegionIteratorWithIndex<OutputImageType> ImageIteratorType;
+  ImageIteratorType                                     outputIt(output, region);
 
-  ImageRegionIterator<OutputImageType> outputIt(output, region);
-  //// First fill the outputs with zeros.  Better way to do this?  FillBuffer does
-  //// not seem to work.
-  // typename OutputImageType::PixelType outputPixel;
-  // outputPixel.Fill( itk::NumericTraits< TOutputValueType >::Zero );
-  //// @todo use .Value() here?
-  // for( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt )
-  // outputIt.Set( outputPixel );
-  // unsigned int            j;
-  // unsigned int            k;
-  // GradientOutputPixelType gradientPixel;
-
-  //// e_ij += 1/2( du_i/dx_j + du_j/dx_i )
+  // e_ij += 1/2( du_i/dx_j + du_j/dx_i )
+  for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
+  {
+    const typename OutputImageType::IndexType index = outputIt.GetIndex();
+    typename OutputImageType::PointType       point;
+    output->TransformIndexToPhysicalPoint(index, point);
+    typename TransformType::JacobianType jacobian;
+    input->ComputeJacobianWithRespectToPosition(point, jacobian);
+    typename OutputImageType::PixelType outputPixel = outputIt.Get();
+    for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+    {
+      for (unsigned int jj = 0; jj < ImageDimension; ++jj)
+      {
+        outputPixel(ii, jj) += jacobian(ii, jj) / static_cast<TOutputValueType>(2);
+      }
+    }
+    for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+    {
+      outputPixel(ii, ii) += jacobian(ii, ii) / static_cast<TOutputValueType>(2);
+    }
+    outputIt.Set(outputPixel);
+  }
   // for( unsigned int i = 0; i < ImageDimension; ++i )
   //{
   // itk::ImageRegionConstIterator< GradientOutputImageType >
@@ -91,9 +85,8 @@ TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::Threa
   // gradientPixel = gradientIt.Get();
   // for( j = 0; j < i; ++j )
   //{
-  //// @todo use .Value() here?
   // outputPixel( i, j ) += gradientPixel[j] / static_cast< TOutputValueType >( 2 );
-  // }
+  //}
   //// j == i
   // outputPixel( i, i ) += gradientPixel[i];
   // for( j = i + 1; j < ImageDimension; ++j )
