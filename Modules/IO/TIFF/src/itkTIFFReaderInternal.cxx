@@ -72,7 +72,6 @@ void TIFFReaderInternal::Clean()
   this->m_Photometrics = 0;
   this->m_HasValidPhotometricInterpretation = false;
   this->m_PlanarConfig = 0;
-  this->m_TileDepth = 0;
   this->m_CurrentPage = 0;
   this->m_NumberOfPages = 0;
   this->m_NumberOfTiles = 0;
@@ -120,29 +119,10 @@ int TIFFReaderInternal::Initialize()
 
     if ( this->m_NumberOfPages == 0 )
       {
-      if ( !TIFFGetField(this->m_Image,
-                         TIFFTAG_PAGENUMBER, &this->m_CurrentPage,
-                         &this->m_NumberOfPages) )
-        {
-        // Check the Image Description tag to know the number of images
-        // This is used by ImageJ
-        char description[512];
-        if ( TIFFGetField(this->m_Image, TIFFTAG_IMAGEDESCRIPTION, &description) )
-          {
-          // look for the number of images
-          const std::string desc ( description );
-          const std::string::size_type pos = desc.find("images=");
-          const std::string::size_type pos2 = desc.find("\n");
-          if ( ( pos != std::string::npos ) && ( pos2 != std::string::npos ) )
-            {
-            this->m_NumberOfPages = static_cast<short unsigned int>( atoi( desc.substr(pos + 7, pos2 - pos - 7).c_str() ) );
-            }
-          }
-        }
+      itkGenericExceptionMacro("No directories found in TIFF file.");
       }
 
-    // If the number of pages is still zero we look if the image is tiled
-    if ( this->m_NumberOfPages == 0 && TIFFIsTiled(this->m_Image) )
+    if ( TIFFIsTiled(this->m_Image) )
       {
       this->m_NumberOfTiles = TIFFNumberOfTiles(this->m_Image);
 
@@ -211,10 +191,6 @@ int TIFFReaderInternal::Initialize()
       {
       this->m_HasValidPhotometricInterpretation = false;
       }
-    if ( !TIFFGetField(this->m_Image, TIFFTAG_TILEDEPTH, &this->m_TileDepth) )
-      {
-      this->m_TileDepth = 0;
-      }
     }
 
   return 1;
@@ -237,7 +213,6 @@ int TIFFReaderInternal::CanRead()
            && ( this->m_PlanarConfig == PLANARCONFIG_CONTIG )
            && ( this->m_Orientation == ORIENTATION_TOPLEFT
               || this->m_Orientation == ORIENTATION_BOTLEFT )
-           && ( !this->m_TileDepth )
            && ( this->m_BitsPerSample == 8 || this->m_BitsPerSample == 16 || this->m_BitsPerSample == 32 ) );
 }
 

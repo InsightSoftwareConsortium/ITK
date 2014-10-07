@@ -51,7 +51,6 @@ public:
   bool           m_HasValidPhotometricInterpretation;
   uint16_t       m_PlanarConfig;
   uint16_t       m_Orientation;
-  uint32         m_TileDepth;
   uint32_t       m_TileRows;
   uint32_t       m_TileColumns;
   uint32_t       m_TileWidth;
