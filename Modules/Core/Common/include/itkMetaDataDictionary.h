@@ -80,6 +80,8 @@ public:
   void Set(const std::string &, MetaDataObjectBase * );
   bool HasKey(const std::string &) const;
 
+  bool Erase(const std::string&);
+
   /** \warning the following functions SHOULD NOT be used with
    * the visual studio 6 compiler since iterator outside of the dll
    * context cannot be dereferenced safely */

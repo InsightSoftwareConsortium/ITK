@@ -152,6 +152,19 @@ int itkMetaDataDictionaryTest(int , char * [])
        std::cout << excp << std::endl;
        std::cout << "catched EXPECTED exception for invalid key string to MetaDataDictionary" << std::endl;
    }
+
+  if( MyDictionary.Erase( "ASimpleFloatChanged" ) == false )
+    {
+    std::cerr << "Failed to erase ASimpleFloatChanged" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( MyDictionary.Erase( "itk" ) == true )
+    {
+    std::cerr << "Failed erase itk" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
 #endif
 
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
