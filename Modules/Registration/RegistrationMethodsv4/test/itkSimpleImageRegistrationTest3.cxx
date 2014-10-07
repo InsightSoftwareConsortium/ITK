@@ -336,10 +336,10 @@ int itkSimpleImageRegistrationTest3( int argc, char *argv[] )
   switch( atoi( argv[1] ) )
     {
     case 2:
-      PerformCompositeImageRegistration<2>( argc, argv );
+      return PerformCompositeImageRegistration<2>( argc, argv );
       break;
     case 3:
-      PerformCompositeImageRegistration<3>( argc, argv );
+      return PerformCompositeImageRegistration<3>( argc, argv );
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
