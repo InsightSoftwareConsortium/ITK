@@ -3,6 +3,7 @@ set(ITKRegistrationMethodsv4Tests
 itkSimpleImageRegistrationTest.cxx
 itkSimpleImageRegistrationTest2.cxx
 itkSimpleImageRegistrationTest3.cxx
+itkSimplePointSetRegistrationTest.cxx
 itkExponentialImageRegistrationTest.cxx
 itkBSplineExponentialImageRegistrationTest.cxx
 itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
@@ -78,6 +79,13 @@ itk_add_test(NAME itkSimpleImageRegistrationTest3
               ${TEMP}/itkSimpleImageRegistrationTest3New.nii.gz
               )
 set_property(TEST itkSimpleImageRegistrationTest3 APPEND PROPERTY LABELS RUNS_LONG)
+
+itk_add_test(NAME itkSimplePointSetRegistrationTest
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+      itkSimplePointSetRegistrationTest
+      )
+set_property(TEST itkSimplePointSetRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkExponentialImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver

@@ -59,8 +59,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   this->m_CurrentMetricValue = 0.0;
   this->m_CurrentConvergenceValue = 0.0;
   this->m_IsConverged = false;
-  this->m_NumberOfFixedImages = 0;
-  this->m_NumberOfMovingImages = 0;
+  this->m_NumberOfFixedObjects = 0;
+  this->m_NumberOfMovingObjects = 0;
 
   Self::ReleaseDataBeforeUpdateFlagOff();
 
@@ -140,7 +140,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     {
     if( !this->ProcessObject::GetInput( 2 * index ) )
       {
-      this->m_NumberOfFixedImages++;
+      this->m_NumberOfFixedObjects++;
       }
     this->ProcessObject::SetNthInput( 2 * index, const_cast<FixedImageType *>( image ) );
     this->Modified();
@@ -167,7 +167,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     {
     if( !this->ProcessObject::GetInput( 2 * index + 1 ) )
       {
-      this->m_NumberOfMovingImages++;
+      this->m_NumberOfMovingObjects++;
       }
     this->ProcessObject::SetNthInput( 2 * index + 1, const_cast<MovingImageType *>( image ) );
     this->Modified();
@@ -182,6 +182,60 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   itkDebugMacro( "returning moving image input " << index << " of "
                                     << static_cast<const MovingImageType *>( this->ProcessObject::GetInput( 2 * index + 1 ) ) );
   return static_cast<const MovingImageType *>( this->ProcessObject::GetInput( 2 * index + 1 ) );
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
+::SetFixedPointSet( SizeValueType index, const PointSetType *pointSet )
+{
+  itkDebugMacro( "setting fixed point set input " << index << " to " << pointSet );
+  if( pointSet != static_cast<PointSetType *>( this->ProcessObject::GetInput( 2 * index ) ) )
+    {
+    if( !this->ProcessObject::GetInput( 2 * index ) )
+      {
+      this->m_NumberOfFixedObjects++;
+      }
+    this->ProcessObject::SetNthInput( 2 * index, const_cast<PointSetType *>( pointSet ) );
+    this->Modified();
+    }
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage>
+const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>::PointSetType *
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
+::GetFixedPointSet( SizeValueType index ) const
+{
+  itkDebugMacro( "returning fixed point set input " << index << " of "
+                                    << static_cast<const PointSetType *>( this->ProcessObject::GetInput( 2 * index ) ) );
+  return static_cast<const PointSetType *>( this->ProcessObject::GetInput( 2 * index ) );
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
+::SetMovingPointSet( SizeValueType index, const PointSetType *pointSet )
+{
+  itkDebugMacro( "setting moving point set input " << index << " to " << pointSet );
+  if( pointSet != static_cast<PointSetType *>( this->ProcessObject::GetInput( 2 * index + 1 ) ) )
+    {
+    if( !this->ProcessObject::GetInput( 2 * index + 1 ) )
+      {
+      this->m_NumberOfMovingObjects++;
+      }
+    this->ProcessObject::SetNthInput( 2 * index + 1, const_cast<PointSetType *>( pointSet ) );
+    this->Modified();
+    }
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage>
+const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>::PointSetType *
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
+::GetMovingPointSet( SizeValueType index ) const
+{
+  itkDebugMacro( "returning moving point set input " << index << " of "
+                                    << static_cast<const PointSetType *>( this->ProcessObject::GetInput( 2 * index + 1 ) ) );
+  return static_cast<const PointSetType *>( this->ProcessObject::GetInput( 2 * index + 1 ) );
 }
 
 /*
@@ -230,38 +284,57 @@ void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
 ::InitializeRegistrationAtEachLevel( const SizeValueType level )
 {
+
+  // To avoid casting to a multimetric several times, we do it once and use it
+  // throughout this function if the current enumerated metric type is MULTI_METRIC
+  typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
+
   // Sanity checks
 
-  if( this->m_NumberOfFixedImages != this->m_NumberOfMovingImages )
+  if( level == 0 )
     {
-    itkExceptionMacro( "The number of fixed and moving images is not equal." );
-    }
-
-  SizeValueType numberOfImagePairs = static_cast<unsigned int>( 0.5 * this->GetNumberOfIndexedInputs() );
-
-  if( numberOfImagePairs == 0 )
-    {
-    itkExceptionMacro( "There are no input images." );
-    }
-
-  if( numberOfImagePairs > 1 )
-    {
-    // If more than one image pair is set, we assume that the multi-metric
-    // is being used.  We check to see if the number of image pairs is equal
-    // to the number of metrics in the multi-metric.
-
-    typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
-    if( multiMetric )
+    SizeValueType numberOfObjectPairs = static_cast<unsigned int>( 0.5 * this->GetNumberOfIndexedInputs() );
+    if( numberOfObjectPairs == 0 )
       {
-      SizeValueType numberOfMetrics = multiMetric->GetNumberOfMetrics();
-      if( numberOfMetrics != numberOfImagePairs )
+      itkExceptionMacro( "There are no input objects." );
+      }
+
+    if( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC )
+      {
+      this->m_NumberOfMetrics = multiMetric->GetNumberOfMetrics();
+      if( this->m_NumberOfMetrics != numberOfObjectPairs )
         {
         itkExceptionMacro( "Mismatch between number of image pairs and the number of metrics." );
         }
       }
     else
       {
-      itkExceptionMacro( "There is more than one image pair.  Need to use a MultiMetricType." );
+      this->m_NumberOfMetrics = 1;
+      }
+
+    // The number of image pairs also includes NULL image pairs for the point set
+    // metrics
+    if( this->m_NumberOfFixedObjects != this->m_NumberOfMovingObjects )
+      {
+      itkExceptionMacro( "The number of fixed and moving images is not equal." );
+      }
+
+    // Get index of first image metric
+    this->m_FirstImageMetricIndex = -1;
+    if( this->m_NumberOfMetrics == 1 && this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
+      {
+      this->m_FirstImageMetricIndex = 0;
+      }
+    else if( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC )
+      {
+      for( unsigned int n = 0; n < this->m_NumberOfMetrics; n++ )
+        {
+        if( multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC )
+          {
+          this->m_FirstImageMetricIndex = n;
+          break;
+          }
+        }
       }
     }
 
@@ -271,7 +344,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     }
   if( !this->m_Metric )
     {
-    itkExceptionMacro( "The image metric is not present." );
+    itkExceptionMacro( "The metric is not present." );
     }
 
   InitialTransformType* movingInitialTransform = const_cast<InitialTransformType*>( this->GetMovingInitialTransform() );
@@ -332,136 +405,194 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     }
   this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
 
-  // At each resolution and for each image pair, we can
+  // At each resolution and for each image pair (assuming an image metric), we
   //   1. subsample the reference domain (typically the fixed image) and/or
   //   2. smooth the fixed and moving images.
 
-  typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
-  shrinkFilter->SetShrinkFactors( this->m_ShrinkFactorsPerLevel[level] );
-  shrinkFilter->SetInput( this->GetFixedImage( 0 ) );
-  shrinkFilter->Update();
+  typename VirtualImageType::Pointer virtualDomainImage = ITK_NULLPTR;
+  if( this->m_FirstImageMetricIndex >= 0 )
+    {
+    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    shrinkFilter->SetShrinkFactors( this->m_ShrinkFactorsPerLevel[level] );
+    shrinkFilter->SetInput( this->GetFixedImage( this->m_FirstImageMetricIndex ) );
 
-  typename MultiMetricType::Pointer multiMetric2 = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
-  if( multiMetric2 )
+    virtualDomainImage = shrinkFilter->GetOutput();
+    virtualDomainImage->Update();
+    }
+
+  if( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC )
     {
     if( fixedInitialTransform )
       {
-      multiMetric2->SetFixedTransform( fixedInitialTransform );
+      multiMetric->SetFixedTransform( fixedInitialTransform );
       }
     else
       {
       typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
       typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
-      multiMetric2->SetFixedTransform( defaultFixedInitialTransform );
+      multiMetric->SetFixedTransform( defaultFixedInitialTransform );
       }
-    multiMetric2->SetMovingTransform( this->m_CompositeTransform );
-    multiMetric2->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
-    for( unsigned int n = 0; n < multiMetric2->GetNumberOfMetrics(); n++ )
+    multiMetric->SetMovingTransform( this->m_CompositeTransform );
+    if( virtualDomainImage.IsNotNull() )
       {
-      typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType *>( multiMetric2->GetMetricQueue()[n].GetPointer() );
+      multiMetric->SetVirtualDomainFromImage( virtualDomainImage );
+      }
+
+    for( unsigned int n = 0; n < multiMetric->GetNumberOfMetrics(); n++ )
+      {
+      typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() );
       if( imageMetric.IsNotNull() )
         {
-        imageMetric->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
+        if( virtualDomainImage.IsNotNull() )
+          {
+          imageMetric->SetVirtualDomainFromImage( virtualDomainImage );
+          }
+        else
+          {
+          itkExceptionMacro( "Virtual domain image is not specified." );
+          }
         }
       else
         {
-        itkExceptionMacro("ERROR: Invalid metric conversion.");
+        itkExceptionMacro( "Invalid metric conversion." );
         }
       }
+    }
+  else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
+    {
+    typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
+    if( fixedInitialTransform )
+      {
+      imageMetric->SetFixedTransform( fixedInitialTransform );
+      }
+    else
+      {
+      typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+      typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
+      imageMetric->SetFixedTransform( defaultFixedInitialTransform );
+      }
+    imageMetric->SetMovingTransform( this->m_CompositeTransform );
+    if( virtualDomainImage.IsNotNull() )
+      {
+      imageMetric->SetVirtualDomainFromImage( virtualDomainImage );
+      }
+    }
+  else if( this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC )
+    {
+    typename PointSetMetricType::Pointer pointSetMetric =
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() );
+    if( fixedInitialTransform )
+      {
+      pointSetMetric->SetFixedTransform( fixedInitialTransform );
+      }
+    else
+      {
+      typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+      typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
+      pointSetMetric->SetFixedTransform( defaultFixedInitialTransform );
+      }
+    pointSetMetric->SetMovingTransform( this->m_CompositeTransform );
     }
   else
     {
-    typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
-    if( imageMetric.IsNotNull() )
-      {
-      if( fixedInitialTransform )
-        {
-         imageMetric->SetFixedTransform( fixedInitialTransform );
-        }
-      else
-        {
-        typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
-        typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
-        imageMetric->SetFixedTransform( defaultFixedInitialTransform );
-        }
-      imageMetric->SetMovingTransform( this->m_CompositeTransform );
-      imageMetric->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
-      }
-    else
-      {
-      itkExceptionMacro("ERROR: Invalid metric conversion.");
-      }
+    itkExceptionMacro( "Invalid metric conversion." );
     }
 
+  // We update the fixed and moving images for the image metrics and
+  // the fixed and moving point sets for the point set metrics.  Note
+  // that we set the point sets here just like we set the images.
+  // Although this isn't necessary, we want to leave the option for
+  // changing the point sets per level.
+
   this->m_FixedSmoothImages.clear();
+  this->m_FixedSmoothImages.resize( this->m_NumberOfMetrics );
   this->m_MovingSmoothImages.clear();
+  this->m_MovingSmoothImages.resize( this->m_NumberOfMetrics );
 
-  for( unsigned int n = 0; n < numberOfImagePairs; n++ )
+  for( unsigned int n = 0; n < this->m_NumberOfMetrics; n++ )
     {
-    typedef DiscreteGaussianImageFilter<FixedImageType, FixedImageType> FixedImageSmoothingFilterType;
-    typename FixedImageSmoothingFilterType::Pointer fixedImageSmoothingFilter = FixedImageSmoothingFilterType::New();
-    if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
+    if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC ||
+        ( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC &&
+          multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC ) )
       {
-      fixedImageSmoothingFilter->SetUseImageSpacingOn();
-      }
-    else
-      {
-      fixedImageSmoothingFilter->SetUseImageSpacingOff();
-      }
-    fixedImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
-    fixedImageSmoothingFilter->SetMaximumError( 0.01 );
-    fixedImageSmoothingFilter->SetInput( this->GetFixedImage( n ) );
-
-    this->m_FixedSmoothImages.push_back( fixedImageSmoothingFilter->GetOutput() );
-    this->m_FixedSmoothImages[n]->Update();
-    this->m_FixedSmoothImages[n]->DisconnectPipeline();
-
-    typedef DiscreteGaussianImageFilter<MovingImageType, MovingImageType> MovingImageSmoothingFilterType;
-    typename MovingImageSmoothingFilterType::Pointer movingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
-    if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
-      {
-      movingImageSmoothingFilter->SetUseImageSpacingOn();
-      }
-    else
-      {
-      movingImageSmoothingFilter->SetUseImageSpacingOff();
-      }
-    movingImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
-    movingImageSmoothingFilter->SetMaximumError( 0.01 );
-    movingImageSmoothingFilter->SetInput( this->GetMovingImage( n ) );
-
-    this->m_MovingSmoothImages.push_back( movingImageSmoothingFilter->GetOutput() );
-    this->m_MovingSmoothImages[n]->Update();
-    this->m_MovingSmoothImages[n]->DisconnectPipeline();
-
-    // Update the image metric
-
-    typename MultiMetricType::Pointer multiMetric3 = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
-    if( multiMetric3 )
-      {
-      typename ImageMetricType::Pointer metricQueue = dynamic_cast<ImageMetricType *>( multiMetric3->GetMetricQueue()[n].GetPointer() );
-      if( metricQueue.IsNotNull() )
+      typedef DiscreteGaussianImageFilter<FixedImageType, FixedImageType> FixedImageSmoothingFilterType;
+      typename FixedImageSmoothingFilterType::Pointer fixedImageSmoothingFilter = FixedImageSmoothingFilterType::New();
+      if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
         {
-        metricQueue->SetFixedImage( this->m_FixedSmoothImages[n] );
-        metricQueue->SetMovingImage( this->m_MovingSmoothImages[n] );
+        fixedImageSmoothingFilter->SetUseImageSpacingOn();
         }
       else
         {
-        itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+        fixedImageSmoothingFilter->SetUseImageSpacingOff();
+        }
+      fixedImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
+      fixedImageSmoothingFilter->SetMaximumError( 0.01 );
+      fixedImageSmoothingFilter->SetInput( this->GetFixedImage( n ) );
+
+      this->m_FixedSmoothImages[n] = fixedImageSmoothingFilter->GetOutput();
+      this->m_FixedSmoothImages[n]->Update();
+      this->m_FixedSmoothImages[n]->DisconnectPipeline();
+
+      typedef DiscreteGaussianImageFilter<MovingImageType, MovingImageType> MovingImageSmoothingFilterType;
+      typename MovingImageSmoothingFilterType::Pointer movingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
+      if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
+        {
+        movingImageSmoothingFilter->SetUseImageSpacingOn();
+        }
+      else
+        {
+        movingImageSmoothingFilter->SetUseImageSpacingOff();
+        }
+      movingImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
+      movingImageSmoothingFilter->SetMaximumError( 0.01 );
+      movingImageSmoothingFilter->SetInput( this->GetMovingImage( n ) );
+
+      this->m_MovingSmoothImages[n] = movingImageSmoothingFilter->GetOutput();
+      this->m_MovingSmoothImages[n]->Update();
+      this->m_MovingSmoothImages[n]->DisconnectPipeline();
+
+      // Update the image metric
+
+      if( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC )
+        {
+        multiMetric->GetMetricQueue()[n]->SetFixedObject( this->m_FixedSmoothImages[n] );
+        multiMetric->GetMetricQueue()[n]->SetMovingObject( this->m_MovingSmoothImages[n] );
+        }
+      else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
+        {
+        this->m_Metric->SetFixedObject( this->m_FixedSmoothImages[n] );
+        this->m_Metric->SetMovingObject( this->m_MovingSmoothImages[n] );
+        }
+      else
+        {
+        itkExceptionMacro( "Invalid metric type." )
+        }
+      }
+    else if( this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC ||
+        ( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC &&
+          multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::POINT_SET_METRIC ) )
+      {
+
+      // Update the point set metric
+
+      if( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC )
+        {
+        multiMetric->GetMetricQueue()[n]->SetFixedObject( this->GetFixedPointSet( n ) );
+        multiMetric->GetMetricQueue()[n]->SetMovingObject( this->GetMovingPointSet( n ) );
+        }
+      else if( this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC )
+        {
+        this->m_Metric->SetFixedObject( this->GetFixedPointSet( n ) );
+        this->m_Metric->SetMovingObject( this->GetMovingPointSet( n ) );
+        }
+      else
+        {
+        itkExceptionMacro( "Invalid metric type." )
         }
       }
     else
       {
-      typename ImageMetricType::Pointer metric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
-      if( metric.IsNotNull() )
-        {
-        metric->SetFixedImage( this->m_FixedSmoothImages[n] );
-        metric->SetMovingImage( this->m_MovingSmoothImages[n] );
-        }
-      else
-        {
-        itkExceptionMacro("ERROR: Invalid metric conversion.");
-        }
+      itkExceptionMacro( "Invalid metric type." )
       }
     }
 
@@ -665,7 +796,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     numberOfLocalMetrics = multiMetric->GetNumberOfMetrics();
     if( numberOfLocalMetrics < 1 )
       {
-      itkExceptionMacro("ERROR: Input multi metric should have at least one metric component.");
+      itkExceptionMacro( "Input multi metric should have at least one metric component." );
       }
     else
       {
@@ -676,7 +807,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
         }
       else
         {
-        itkExceptionMacro("ERROR: Invalid metric conversion.");
+        itkExceptionMacro( "Invalid metric conversion." );
         }
       }
     }
@@ -689,7 +820,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
       }
     else
       {
-      itkExceptionMacro("ERROR: Invalid metric conversion.");
+      itkExceptionMacro( "Invalid metric conversion." );
       }
     }
 
@@ -931,7 +1062,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
       return transformDecorator.GetPointer();
       }
     default:
-      itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
+      itkExceptionMacro( "MakeOutput request for an output number larger than the expected number of outputs." );
       return ITK_NULLPTR;
     }
 }

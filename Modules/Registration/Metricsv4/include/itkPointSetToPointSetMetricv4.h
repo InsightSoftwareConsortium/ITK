@@ -116,6 +116,7 @@ public:
 
   typedef typename Superclass::MovingDisplacementFieldTransformType  DisplacementFieldTransformType;
 
+  typedef typename Superclass::ObjectType                     ObjectType;
 
   /** Dimension type */
   typedef typename Superclass::DimensionType                  DimensionType;
@@ -175,6 +176,34 @@ public:
   typedef typename Superclass::VirtualIndexType       VirtualIndexType;
   typedef typename Superclass::VirtualPointSetType    VirtualPointSetType;
   typedef typename Superclass::VirtualPointSetPointer VirtualPointSetPointer;
+
+  /** Set fixed point set*/
+  virtual void SetFixedObject( const ObjectType *object )
+    {
+    FixedPointSetType *pointSet = dynamic_cast<FixedPointSetType *>( const_cast<ObjectType *>( object ) );
+    if( pointSet != ITK_NULLPTR )
+      {
+      this->SetFixedPointSet( pointSet );
+      }
+    else
+      {
+      itkExceptionMacro( "Incorrect object type.  Should be a point set." )
+      }
+    }
+
+  /** Set moving point set*/
+  virtual void SetMovingObject( const ObjectType *object )
+    {
+    MovingPointSetType *pointSet = dynamic_cast<MovingPointSetType *>( const_cast<ObjectType *>( object ) );
+    if( pointSet != ITK_NULLPTR )
+      {
+      this->SetMovingPointSet( pointSet );
+      }
+    else
+      {
+      itkExceptionMacro( "Incorrect object type.  Should be a point set." )
+      }
+    }
 
   /** Get/Set the fixed pointset.  */
   itkSetConstObjectMacro( FixedPointSet, FixedPointSetType );
@@ -342,6 +371,15 @@ protected:
    * Only relevant when active transform has local support.
    */
   void StorePointDerivative( const VirtualPointType &, const DerivativeType &, DerivativeType & ) const;
+
+  typedef typename Superclass::MetricCategoryType   MetricCategoryType;
+
+  /** Get metric category */
+  virtual MetricCategoryType GetMetricCategory() const
+    {
+    return Superclass::POINT_SET_METRIC;
+    }
+
 
 private:
   PointSetToPointSetMetricv4( const Self & ); //purposely not implemented

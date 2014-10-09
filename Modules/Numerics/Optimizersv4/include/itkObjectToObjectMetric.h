@@ -18,11 +18,14 @@
 #ifndef __itkObjectToObjectMetric_h
 #define __itkObjectToObjectMetric_h
 
-#include "itkTransform.h"
+
 #include "itkObjectToObjectMetricBase.h"
-#include "itkImage.h"
+
 #include "itkDisplacementFieldTransform.h"
+#include "itkImage.h"
+#include "itkObject.h"
 #include "itkPointSet.h"
+#include "itkTransform.h"
 
 namespace itk
 {
@@ -103,6 +106,9 @@ public:
 
   /**  Type of the measure. */
   typedef typename Superclass::MeasureType            MeasureType;
+
+  /**  Type of object. */
+  typedef typename Superclass::Object                 ObjectType;
 
   /**  Type of the derivative. */
   typedef typename Superclass::DerivativeType         DerivativeType;
@@ -277,6 +283,14 @@ public:
    * is implicitly defined by the point sets and transforms. */
   bool IsInsideVirtualDomain( const VirtualPointType & point ) const;
   bool IsInsideVirtualDomain( const VirtualIndexType & index ) const;
+
+  typedef typename Superclass::MetricCategoryType   MetricCategoryType;
+
+  /** Get metric category */
+  virtual MetricCategoryType GetMetricCategory() const
+    {
+    return Superclass::OBJECT_METRIC;
+    }
 
 protected:
   ObjectToObjectMetric();
