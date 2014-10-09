@@ -154,6 +154,10 @@ namespace itk
    RegionVectorType GetUpdatedBufferedRegions(void) const {return m_UpdatedBufferedRegions; }
    RegionVectorType GetUpdatedRequestedRegions(void) const {return m_UpdatedRequestedRegions; }
 
+   itkGetConstMacro(UpdatedOutputOrigin, PointType);
+   itkGetConstMacro(UpdatedOutputDirection, DirectionType);
+   itkGetConstMacro(UpdatedOutputSpacing, SpacingType);
+   itkGetConstMacro(UpdatedOutputLargestPossibleRegion, ImageRegionType);
 
    /** Clears all saved pipeline information, but increments
     * NumberOfClearPipeline. */

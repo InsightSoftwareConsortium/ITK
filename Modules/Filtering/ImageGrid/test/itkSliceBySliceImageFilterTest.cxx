@@ -152,6 +152,41 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   TEST_EXPECT_TRUE( monitor->VerifyAllInputCanStream(1) );
 
   //
+  // Test that a sliced version of the input image information is passed
+  // through to the internal filters
+  //
+  ImageType::Pointer image = ImageType::New();
+  image->SetRegions(reader->GetOutput()->GetLargestPossibleRegion());
+  image->Allocate();
+  ImageType::SpacingType spacing;
+  ImageType::PointType origin;
+  for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+    {
+    spacing[i] = i + 0.1;
+    origin[i] = i + 0.2;
+    }
+  image->SetSpacing(spacing);
+  image->SetOrigin(origin);
+
+  filter->SetInput(image);
+  filter->Update();
+
+  FilterType::InternalInputImageType::SpacingType expectedInternalSpacing;
+  FilterType::InternalInputImageType::PointType expectedInternalOrigin;
+  for ( unsigned int i = 0, internal_i = 0; internal_i < FilterType::InternalImageDimension; ++i, ++internal_i )
+    {
+    if ( i == slicingDimension )
+      {
+      ++i;
+      }
+
+    expectedInternalSpacing[internal_i] = spacing[i];
+    expectedInternalOrigin[internal_i] = origin[i];
+    }
+  TEST_EXPECT_EQUAL( monitor->GetUpdatedOutputSpacing(), expectedInternalSpacing );
+  TEST_EXPECT_EQUAL( monitor->GetUpdatedOutputOrigin(), expectedInternalOrigin );
+
+  //
   // Exercise PrintSelf()
   //
   filter->Print( std::cout );
