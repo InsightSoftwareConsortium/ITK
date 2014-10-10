@@ -401,21 +401,21 @@ int itkSimpleImageRegistrationTest( int argc, char *argv[] )
    case 2:
      if( strcmp( argv[1], "float") == 0 )
        {
-       PerformSimpleImageRegistration<2,float>( argc, argv );
+       return PerformSimpleImageRegistration<2,float>( argc, argv );
        }
      else
        {
-       PerformSimpleImageRegistration<2,double>( argc, argv );
+       return PerformSimpleImageRegistration<2,double>( argc, argv );
        }
      break;
    case 3:
      if( strcmp( argv[1], "float") == 0 )
        {
-       PerformSimpleImageRegistration<3,float>( argc, argv );
+       return PerformSimpleImageRegistration<3,float>( argc, argv );
        }
      else
        {
-       PerformSimpleImageRegistration<3,double>( argc, argv );
+       return PerformSimpleImageRegistration<3,double>( argc, argv );
        }
      break;
    default:
