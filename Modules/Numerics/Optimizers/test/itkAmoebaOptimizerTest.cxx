@@ -207,8 +207,7 @@ public:
 
   virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
-    const itk::AmoebaOptimizer *optimizer =
-      dynamic_cast< const itk::AmoebaOptimizer * >( object );
+    const itk::AmoebaOptimizer *optimizer = static_cast< const itk::AmoebaOptimizer * >( object );
     if( dynamic_cast< const itk::FunctionEvaluationIterationEvent * >( &event ) )
       {
       std::cout << m_IterationNumber++ << ":  ";

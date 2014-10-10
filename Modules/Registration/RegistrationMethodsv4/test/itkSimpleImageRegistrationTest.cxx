@@ -58,11 +58,8 @@ public:
         std::cout << " \"" << object->GetObjectName() << "\"";
         }
       std::cout << std::endl;
-      const TFilter * filter = dynamic_cast< const TFilter * >( object );
-      if(filter == 0)
-        {
-        itkExceptionMacro(<< "dynamic_cast failed, object type " << object->GetNameOfClass());
-        }
+      const TFilter * filter = static_cast< const TFilter * >( object );
+
       if( typeid( event ) != typeid( itk::MultiResolutionIterationEvent ) || object == ITK_NULLPTR )
         { return; }
 

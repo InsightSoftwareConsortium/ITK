@@ -60,8 +60,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      const itk::ProcessObject * filter =
-        dynamic_cast< const itk::ProcessObject * >( object );
+      const itk::ProcessObject * filter = static_cast< const itk::ProcessObject * >( object );
       if( ! itk::ProgressEvent().CheckEvent( &event ) )
         {
         return;

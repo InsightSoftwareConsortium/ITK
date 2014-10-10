@@ -209,8 +209,7 @@ public:
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    OptimizerPointer optimizer =
-                         dynamic_cast< OptimizerPointer >( object );
+    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
     // Software Guide : EndCodeSnippet
 
 

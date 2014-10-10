@@ -264,9 +264,8 @@ public:
 
   virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
-    const itk::AmoebaOptimizerv4 *optimizer =
-      dynamic_cast< const itk::AmoebaOptimizerv4 * >( object );
-    if( dynamic_cast< const itk::FunctionEvaluationIterationEvent * >( &event ) )
+    const itk::AmoebaOptimizerv4 *optimizer = static_cast< const itk::AmoebaOptimizerv4 * >( object );
+    if( dynamic_cast< const itk::FunctionEvaluationIterationEvent * >( &event ) != ITK_NULLPTR)
       {
       std::cout << m_IterationNumber++ << ":  ";
       std::cout << "x: "<< optimizer->GetCurrentPosition() <<"  ";

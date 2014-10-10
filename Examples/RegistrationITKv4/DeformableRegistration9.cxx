@@ -69,7 +69,7 @@ const unsigned int Dimension = 2;
     void Execute(const itk::Object * object, const itk::EventObject & event)
       {
          const RegistrationFilterType * filter =
-          dynamic_cast< const RegistrationFilterType * >( object );
+           static_cast< const RegistrationFilterType * >( object );
         if( !(itk::IterationEvent().CheckEvent( &event )) )
           {
           return;

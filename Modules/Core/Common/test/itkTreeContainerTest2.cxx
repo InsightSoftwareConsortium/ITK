@@ -142,12 +142,9 @@ public:
   {
     std::cout << event.GetEventName();
 
-    const itk::TreeChangeEvent<TreeType>* e = dynamic_cast<const itk::TreeChangeEvent<TreeType>*>(&event);
+    const itk::TreeChangeEvent<TreeType>* e = static_cast<const itk::TreeChangeEvent<TreeType> * >(&event);
 
-    if ( e )
-      {
-      std::cout << *e->GetChangePosition().Get()  << std::endl;
-      }
+    std::cout << *e->GetChangePosition().Get()  << std::endl;
   }
 
 protected:

@@ -138,8 +138,7 @@ public:
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-       RegistrationFilterType * filter =
-        dynamic_cast<  RegistrationFilterType * >( caller );
+       RegistrationFilterType * filter = static_cast<  RegistrationFilterType * >( caller );
 
        if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
