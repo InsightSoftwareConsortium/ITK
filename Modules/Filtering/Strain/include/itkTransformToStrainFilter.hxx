@@ -24,20 +24,20 @@
 namespace itk
 {
 
-template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
-TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::TransformToStrainFilter()
+template <typename TTransform, typename TOperatorValue, typename TOutputValue>
+TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::TransformToStrainFilter()
   : m_StrainForm(INFINITESIMAL)
 {}
 
-template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
+template <typename TTransform, typename TOperatorValue, typename TOutputValue>
 void
-TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::BeforeThreadedGenerateData()
+TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::BeforeThreadedGenerateData()
 {}
 
 
-template <typename TTransform, typename TOperatorValueType, typename TOutputValueType>
+template <typename TTransform, typename TOperatorValue, typename TOutputValue>
 void
-TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::ThreadedGenerateData(
+TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGenerateData(
   const OutputRegionType & region,
   ThreadIdType             itkNotUsed(threadId))
 {
@@ -61,12 +61,12 @@ TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::Threa
     {
       for (unsigned int jj = 0; jj < ImageDimension; ++jj)
       {
-        outputPixel(ii, jj) += jacobian(ii, jj) / static_cast<TOutputValueType>(2);
+        outputPixel(ii, jj) += jacobian(ii, jj) / static_cast<TOutputValue>(2);
       }
     }
     for (unsigned int ii = 0; ii < ImageDimension; ++ii)
     {
-      outputPixel(ii, ii) += jacobian(ii, ii) / static_cast<TOutputValueType>(2) - static_cast<TOutputValueType>(1);
+      outputPixel(ii, ii) += jacobian(ii, ii) / static_cast<TOutputValue>(2) - static_cast<TOutputValue>(1);
     }
     outputIt.Set(outputPixel);
   }
@@ -85,13 +85,13 @@ TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::Threa
   // gradientPixel = gradientIt.Get();
   // for( j = 0; j < i; ++j )
   //{
-  // outputPixel( i, j ) += gradientPixel[j] / static_cast< TOutputValueType >( 2 );
+  // outputPixel( i, j ) += gradientPixel[j] / static_cast< TOutputValue >( 2 );
   //}
   //// j == i
   // outputPixel( i, i ) += gradientPixel[i];
   // for( j = i + 1; j < ImageDimension; ++j )
   //{
-  // outputPixel( i, j ) += gradientPixel[j] / static_cast< TOutputValueType >( 2 );
+  // outputPixel( i, j ) += gradientPixel[j] / static_cast< TOutputValue >( 2 );
   // }
   // outputIt.Set( outputPixel );
   // }
@@ -120,7 +120,7 @@ TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::Threa
   // for( k = 0; k <= j; ++k )
   //{
   //// @todo use .Value() here?
-  // outputPixel( j, k ) += gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValueType >( 2 );
+  // outputPixel( j, k ) += gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValue >( 2 );
   // }
   //}
   // outputIt.Set( outputPixel );
@@ -147,7 +147,7 @@ TransformToStrainFilter<TTransform, TOperatorValueType, TOutputValueType>::Threa
   // for( k = 0; k <= j; ++k )
   //{
   //// @todo use .Value() here?
-  // outputPixel( j, k ) -= gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValueType >( 2 );
+  // outputPixel( j, k ) -= gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValue >( 2 );
   // }
   //}
   // outputIt.Set( outputPixel );
