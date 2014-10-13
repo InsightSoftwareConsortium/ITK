@@ -69,9 +69,8 @@ namespace itk
  *           -  Some very long (>0xfff) binary fields are not loaded (typically 0029|0010),
  *              you need to explicitely set the maximum length of elements to load to be bigger
  *              (see Get/SetMaxSizeLoadEntry)
- *           - GDCMImageIO was not handling rescale slope/intercept properly. This is fixed as of 11/12/2007
- *           - In DICOM some field are stored directly using there binary representation. When loaded into
- *             the MetaDataDict some fields are converted to ASCII (only VR: OB/OW/OF and UN are encoded as
+ *           - In DICOM some fields are stored directly using their binary representation. When loaded into
+ *             the MetaDataDictionary some fields are converted to ASCII (only VR: OB/OW/OF and UN are encoded as
  *             mime64).
  *
  *  \ingroup IOFilters
