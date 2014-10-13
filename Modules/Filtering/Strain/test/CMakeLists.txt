@@ -85,7 +85,12 @@ itk_add_test(
   NAME itkTransformToStrainFilterTest
   COMMAND
     StrainTestDriver
+    --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffineToDisplacementFieldStrain.mha
     itkTransformToStrainFilterTest
     "Affine"
-    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffineToDisplacementField.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffineToDisplacementFieldStrain.mha
 )

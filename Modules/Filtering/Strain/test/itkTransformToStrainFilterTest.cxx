@@ -19,24 +19,31 @@
 #include "itkBSplineTransform.h"
 #include "itkTransformToStrainFilter.h"
 #include "itkImageFileWriter.h"
+#include "itkTransformToDisplacementFieldFilter.h"
+#include "itkStrainImageFilter.h"
 
 int
 itkTransformToStrainFilterTest(int argc, char * argv[])
 {
   /** Check command line arguments. */
-  if (argc < 3)
+  if (argc < 5)
   {
     std::cerr << "Usage: ";
-    std::cerr << argv[0] << "<transformName> <strainFieldFileName> [bSplineParametersFile]" << std::endl;
+    std::cerr
+      << argv[0]
+      << "<transformName> <strainFieldFileName> <displacementField> <displacementFieldStrain> [bSplineParametersFile]"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
   const std::string transformName = argv[1];
   const std::string strainFieldFileName = argv[2];
+  const std::string displacementFieldFileName = argv[3];
+  const std::string displacementFieldStrainFileName = argv[4];
   std::string       bSplineParametersFile;
-  if (argc > 3)
+  if (argc > 5)
   {
-    bSplineParametersFile = argv[3];
+    bSplineParametersFile = argv[5];
   }
 
   /** Typedefs. */
@@ -66,12 +73,22 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   OriginType                                     origin;
   origin.Fill(-10.0);
 
+  // Create the equivalent strain field by first converting the transform to a
+  // displacement field, then computing the strain from that displacement
+  // field.
+  typedef itk::Vector<ScalarPixelType, Dimension>       DisplacementVectorType;
+  typedef itk::Image<DisplacementVectorType, Dimension> DisplacementFieldType;
+  typedef itk::TransformToDisplacementFieldFilter<DisplacementFieldType, CoordRepresentationType>
+                                             TransformToDisplacementFilterType;
+  TransformToDisplacementFilterType::Pointer transformToDisplacement = TransformToDisplacementFilterType::New();
+
   // Create transforms.
   AffineTransformType::Pointer  affineTransform = AffineTransformType::New();
   BSplineTransformType::Pointer bSplineTransform = BSplineTransformType::New();
   if (transformName == "Affine")
   {
     transformToStrainFilter->SetTransform(affineTransform.GetPointer());
+    transformToDisplacement->SetTransform(affineTransform.GetPointer());
 
     // Set the options.
     OriginType centerOfRotation;
@@ -81,17 +98,24 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
     // Create and set parameters.
     ParametersType parameters(affineTransform->GetNumberOfParameters());
+    // parameters[ 0 ] =   1.1;
+    // parameters[ 1 ] =   0.1;
+    // parameters[ 2 ] =  -0.2;
+    // parameters[ 3 ] =   0.9;
+    // parameters[ 4 ] =  10.3;
+    // parameters[ 5 ] = -33.8;
     parameters[0] = 1.1;
-    parameters[1] = 0.1;
-    parameters[2] = -0.2;
-    parameters[3] = 0.9;
-    parameters[4] = 10.3;
-    parameters[5] = -33.8;
+    parameters[1] = 0.3;
+    parameters[2] = 0.3;
+    parameters[3] = 1.2;
+    parameters[4] = 0.0;
+    parameters[5] = 0.0;
     affineTransform->SetParameters(parameters);
   }
   else if (transformName == "BSpline")
   {
     transformToStrainFilter->SetTransform(bSplineTransform);
+    transformToDisplacement->SetTransform(bSplineTransform);
 
     /* Set the options. */
     BSplineTransformType::PhysicalDimensionsType dimensions;
@@ -153,6 +177,10 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   std::cout << "Transform: " << std::endl;
   transformToStrainFilter->GetTransform()->Print(std::cout);
 
+  transformToDisplacement->SetSize(size);
+  transformToDisplacement->SetOutputSpacing(spacing);
+  transformToDisplacement->SetOutputOrigin(origin);
+
   // Write strain field to disk.
   typedef itk::ImageFileWriter<TransformToStrainFilterType::OutputImageType> WriterType;
   WriterType::Pointer                                                        writer = WriterType::New();
@@ -166,6 +194,39 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   catch (itk::ExceptionObject & err)
   {
     std::cerr << "Exception detected while generating strain field" << strainFieldFileName << std::endl;
+    std::cerr << " : " << err << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Write strain computed from the displacement field.
+  typedef itk::StrainImageFilter<DisplacementFieldType, CoordRepresentationType> StrainImageFilterType;
+  StrainImageFilterType::Pointer strainImageFilter = StrainImageFilterType::New();
+  strainImageFilter->SetInput(transformToDisplacement->GetOutput());
+  writer->SetInput(strainImageFilter->GetOutput());
+  writer->SetFileName(displacementFieldStrainFileName);
+
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "Exception detected while writing strain field" << displacementFieldStrainFileName << std::endl;
+    std::cerr << " : " << err << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  typedef itk::ImageFileWriter<DisplacementFieldType> DisplacementWriterType;
+  DisplacementWriterType::Pointer                     displacementWriter = DisplacementWriterType::New();
+  displacementWriter->SetFileName(displacementFieldFileName);
+  displacementWriter->SetInput(transformToDisplacement->GetOutput());
+  try
+  {
+    displacementWriter->Update();
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "Exception detected while writing strain field" << displacementFieldStrainFileName << std::endl;
     std::cerr << " : " << err << std::endl;
     return EXIT_FAILURE;
   }

@@ -13,6 +13,7 @@ itk_module(
     SplitComponents
   TEST_DEPENDS
     ITKTestKernel
+    ITKDisplacementField
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
