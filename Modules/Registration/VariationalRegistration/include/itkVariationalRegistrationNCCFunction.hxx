@@ -67,17 +67,6 @@ VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField
   os << m_WarpedImageGradientCalculator.GetPointer() << std::endl;
 }
 
-/** Computes the time step for an update.
- * Returns the constant time step scaled with the mean squared spacing.
- * \sa SetTimeStep() */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
-typename VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::Superclass::TimeStepType
-VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeGlobalTimeStep(
-  void * /*gd*/) const
-{
-  return this->GetTimeStep() * m_Normalizer;
-}
-
 /*
  * Set the function state values before each iteration
  */

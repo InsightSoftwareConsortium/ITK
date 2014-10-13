@@ -46,17 +46,6 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
   m_GradientType = GRADIENT_TYPE_WARPED;
 }
 
-/** Computes the time step for an update.
- * Returns the constant time step scaled with the mean squared spacing.
- * \sa SetTimeStep() */
-template <class TFixedImage, class TMovingImage, class TDisplacementField>
-typename VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::Superclass::TimeStepType
-VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeGlobalTimeStep(
-  void * /*gd*/) const
-{
-  return this->GetTimeStep() * m_Normalizer;
-}
-
 /**
  * Set the function state values before each iteration
  */
