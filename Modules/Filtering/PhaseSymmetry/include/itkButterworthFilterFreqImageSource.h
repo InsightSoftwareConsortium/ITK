@@ -46,22 +46,11 @@ public:
   /** Dimensionality of the output image. */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  typedef TOutputImage OutputImageType;
-
-  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
-   * spacing is the geometric distance between image samples. */
-  typedef typename TOutputImage::SpacingType SpacingType;
-
-  /** Origin typedef support.  The origin is the geometric coordinates
-   * of the index (0,0). */
-  typedef typename TOutputImage::PointType PointType;
-
-  /** Direction typedef support.  The direction is the direction
-   * cosines of the image. */
+  typedef TOutputImage                         OutputImageType;
+  typedef typename TOutputImage::SpacingType   SpacingType;
+  typedef typename TOutputImage::PointType     PointType;
   typedef typename TOutputImage::DirectionType DirectionType;
-
-  /** Size type matches that used for images */
-  typedef typename TOutputImage::SizeType SizeType;
+  typedef typename TOutputImage::SizeType      SizeType;
 
   /** Set/Get the cutoff frequency. Should be in the range [0, 0.5], where 0.5
    * corresponds to the Nyquist frequency. */

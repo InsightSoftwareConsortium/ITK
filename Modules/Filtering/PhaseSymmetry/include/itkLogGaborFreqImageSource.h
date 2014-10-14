@@ -37,11 +37,16 @@ public:
   typedef SmartPointer<Self>                Pointer;
   typedef SmartPointer<const Self>          ConstPointer;
 
+  /** Dimensionality of the output image */
+  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+
   typedef typename TOutputImage::RegionType    OutputImageRegionType;
   typedef typename TOutputImage::SizeType      SizeType;
   typedef typename TOutputImage::SpacingType   SpacingType;
   typedef typename TOutputImage::PointType     PointType;
   typedef typename TOutputImage::DirectionType DirectionType;
+
+  typedef FixedArray<double, ImageDimension> ArrayType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LogGaborFreqImageSource, GenerateImageSource);
@@ -49,20 +54,13 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Dimensionality of the output image */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
-
-  /** Type used to store gaussian parameters. */
-
-  typedef FixedArray<double, itkGetStaticConstMacro(NDimensions)> DoubleArrayType;
-
-
-  /** Gets and sets for Log Gabor parameters */
+  /** Set/Get the Gaussian width parameter. */
   itkSetMacro(Sigma, double);
-  itkGetConstReferenceMacro(Sigma, double);
+  itkGetConstMacro(Sigma, double);
 
-  itkSetMacro(Wavelengths, DoubleArrayType);
-  itkGetConstReferenceMacro(Wavelengths, DoubleArrayType);
+  /** Set/Get the wavelengths in each direction. */
+  itkSetMacro(Wavelengths, ArrayType);
+  itkGetConstReferenceMacro(Wavelengths, ArrayType);
 
 protected:
   LogGaborFreqImageSource();
@@ -73,15 +71,15 @@ protected:
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  LogGaborFreqImageSource(const LogGaborFreqImageSource &); // purposely not implemented
-  void
-  operator=(const LogGaborFreqImageSource &); // purposely not implemented
-
   // Ratio of k/wo in each direction
   double m_Sigma;
 
   // The wavelengths in each direction
-  DoubleArrayType m_Wavelengths;
+  ArrayType m_Wavelengths;
+
+  LogGaborFreqImageSource(const LogGaborFreqImageSource &); // purposely not implemented
+  void
+  operator=(const LogGaborFreqImageSource &); // purposely not implemented
 };
 
 } // end namespace itk
