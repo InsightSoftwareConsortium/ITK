@@ -1,9 +1,4 @@
-#
-# Examples on the use of segmentation algorithms
-#
-
 project(ImageSegmentation)
-include_regular_expression("^.*$")
 
 add_executable(ConfidenceConnected ConfidenceConnected.cxx )
 target_link_libraries(ConfidenceConnected ${ITK_LIBRARIES})

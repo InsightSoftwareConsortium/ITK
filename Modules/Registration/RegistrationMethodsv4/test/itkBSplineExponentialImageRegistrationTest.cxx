@@ -50,10 +50,11 @@ public:
 
   virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
-    const TFilter * filter =
-      dynamic_cast< const TFilter * >( object );
+    const TFilter * filter = static_cast< const TFilter * >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
-      { return; }
+      {
+      return;
+      }
 
     unsigned int currentLevel = filter->GetCurrentLevel();
     typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors = filter->GetShrinkFactorsPerDimension( currentLevel );
@@ -62,7 +63,8 @@ public:
 
     const itk::ObjectToObjectOptimizerBase * optimizerBase = filter->GetOptimizer();
     typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
-    typename GradientDescentOptimizerv4Type::ConstPointer optimizer = dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
+    typename GradientDescentOptimizerv4Type::ConstPointer optimizer =
+      dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
     if( !optimizer )
       {
       itkGenericExceptionMacro( "Error dynamic_cast failed" );

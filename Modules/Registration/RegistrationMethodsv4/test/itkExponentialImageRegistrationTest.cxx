@@ -52,14 +52,11 @@ public:
 
   virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
-    const TFilter * filter =
-      dynamic_cast< const TFilter * >( object );
-    if(filter == ITK_NULLPTR)
+    const TFilter * filter = static_cast< const TFilter * >( object );
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
       {
       return;
       }
-    if( typeid( event ) != typeid( itk::IterationEvent ) )
-      { return; }
 
     unsigned int currentLevel = filter->GetCurrentLevel();
     typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors = filter->GetShrinkFactorsPerDimension( currentLevel );

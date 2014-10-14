@@ -204,17 +204,16 @@ public:
 
     // Software Guide : BeginCodeSnippet
     RegistrationPointer registration =
-      dynamic_cast<RegistrationPointer>( object );
+      static_cast<RegistrationPointer>( object );
     OptimizerPointer optimizer =
-      dynamic_cast< OptimizerPointer >(
-        registration->GetModifiableOptimizer() );
+      static_cast< OptimizerPointer >( registration->GetModifiableOptimizer() );
     // Software Guide : EndCodeSnippet
 
     unsigned int currentLevel = registration->GetCurrentLevel();
     typename RegistrationType::ShrinkFactorsPerDimensionContainerType shrinkFactors =
-                                          registration->GetShrinkFactorsPerDimension( currentLevel );
+      registration->GetShrinkFactorsPerDimension( currentLevel );
     typename RegistrationType::SmoothingSigmasArrayType smoothingSigmas =
-                                                    registration->GetSmoothingSigmasPerLevel();
+      registration->GetSmoothingSigmasPerLevel();
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << " Current level = " << currentLevel << std::endl;
@@ -293,8 +292,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
   {
-  OptimizerPointer optimizer =
-  dynamic_cast< OptimizerPointer >( object );
+  OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
   if( !(itk::IterationEvent().CheckEvent( &event )) )
     {
     return;

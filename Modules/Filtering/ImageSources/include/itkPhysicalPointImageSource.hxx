@@ -75,8 +75,6 @@ PhysicalPointImageSource< TOutputImage >
     }
 }
 
-
 } // end namespace itk
-
 
 #endif //__itkPhysicalPointImageSource_hxx

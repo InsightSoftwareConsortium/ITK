@@ -104,8 +104,8 @@ int IBPSOTest1()
   double knownParameters = 2.0;
 
     //the function we want to optimize
-  ParticleSwarmTestF1::Pointer costFunction =
-    ParticleSwarmTestF1::New();
+  itk::ParticleSwarmTestF1::Pointer costFunction =
+    itk::ParticleSwarmTestF1::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
   itkOptimizer->UseSeedOn();
@@ -129,8 +129,8 @@ int IBPSOTest1()
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   //observe the iterations
-  CommandIterationUpdateParticleSwarm::Pointer observer =
-    CommandIterationUpdateParticleSwarm::New();
+  itk::CommandIterationUpdateParticleSwarm::Pointer observer =
+    itk::CommandIterationUpdateParticleSwarm::New();
   if( initalizationBasedTestVerboseFlag )
     {
     itkOptimizer->AddObserver( itk::IterationEvent(), observer );
@@ -212,8 +212,8 @@ int IBPSOTest2()
   knownParameters[1] = -2.0;
 
     //the function we want to optimize
-  ParticleSwarmTestF2::Pointer costFunction =
-    ParticleSwarmTestF2::New();
+  itk::ParticleSwarmTestF2::Pointer costFunction =
+    itk::ParticleSwarmTestF2::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
   itkOptimizer->UseSeedOn();
@@ -238,8 +238,8 @@ int IBPSOTest2()
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   //observe the iterations
-  CommandIterationUpdateParticleSwarm::Pointer observer =
-    CommandIterationUpdateParticleSwarm::New();
+  itk::CommandIterationUpdateParticleSwarm::Pointer observer =
+    itk::CommandIterationUpdateParticleSwarm::New();
   if( initalizationBasedTestVerboseFlag )
     {
     itkOptimizer->AddObserver( itk::IterationEvent(), observer );
@@ -293,8 +293,8 @@ int IBPSOTest3()
   knownParameters[1] = 1.0;
 
     //the function we want to optimize
-  ParticleSwarmTestF3::Pointer costFunction =
-    ParticleSwarmTestF3::New();
+  itk::ParticleSwarmTestF3::Pointer costFunction =
+    itk::ParticleSwarmTestF3::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
   itkOptimizer->UseSeedOn();
@@ -319,8 +319,8 @@ int IBPSOTest3()
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   //observe the iterations
-  CommandIterationUpdateParticleSwarm::Pointer observer =
-    CommandIterationUpdateParticleSwarm::New();
+  itk::CommandIterationUpdateParticleSwarm::Pointer observer =
+    itk::CommandIterationUpdateParticleSwarm::New();
   if( initalizationBasedTestVerboseFlag )
     {
     itkOptimizer->AddObserver( itk::IterationEvent(), observer );

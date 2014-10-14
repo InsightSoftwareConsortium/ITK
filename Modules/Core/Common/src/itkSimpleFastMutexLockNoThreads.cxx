@@ -44,6 +44,12 @@ void SimpleFastMutexLock::Lock() const
 {
 }
 
+// Non-blocking TryLock the FastMutexLock
+bool SimpleFastMutexLock::TryLock() const
+{
+  return true;
+}
+
 // Unlock the FastMutexLock
 void SimpleFastMutexLock::Unlock() const
 {

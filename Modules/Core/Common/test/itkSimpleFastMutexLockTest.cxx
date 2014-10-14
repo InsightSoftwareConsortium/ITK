@@ -22,16 +22,43 @@
 
 int itkSimpleFastMutexLockTest( int , char * [] )
 {
-  itk::SimpleFastMutexLock lock;
+    {
+    itk::SimpleFastMutexLock lock;
 
-  // Acquire the lock
-  lock.Lock();
+    // Acquire the lock
+    lock.Lock();
 
-  // Acquire the lock again; as this call happens within the same thread,
-  // it shouldn't block.
-  // If the lock isn't recursive, it will block forever and the CTest
-  // timeout will cause the test to fail.
-  lock.Lock();
+    // Acquire the lock again; as this call happens within the same thread,
+    // it shouldn't block.
+    // If the lock isn't recursive, it will block forever and the CTest
+    // timeout will cause the test to fail.
+    lock.Lock();
+    }
+
+
+    {  //Test non-blocking version
+    itk::SimpleFastMutexLock nblock;
+    nblock.Lock();
+    nblock.Unlock();
+    const bool testTryLockWhenFree = nblock.TryLock();
+    if ( testTryLockWhenFree != true )
+      {
+      std::cout << "Failed to capture a free lock with TryLock()" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    if (!nblock.TryLock())
+      {
+      std::cout << "Failed to recursively capture a lock with TryLock()" << std::endl;
+      return EXIT_FAILURE;
+      }
+    nblock.Unlock();
+    nblock.Lock();
+    //Ensure the the TryLock() does not cause a deadlock.
+    // If the lock isn't recursive, it will block forever and the CTest
+    // timeout will cause the test to fail.
+    nblock.Unlock();
+    }
 
   return EXIT_SUCCESS;
 }

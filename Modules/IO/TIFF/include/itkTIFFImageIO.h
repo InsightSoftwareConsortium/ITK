@@ -69,9 +69,6 @@ public:
   /** Reads 3D data from multi-pages tiff. */
   virtual void ReadVolume(void *buffer);
 
-  /** Reads 3D data from tiled tiff. */
-  virtual void ReadTiles(void *buffer);
-
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -163,6 +160,8 @@ protected:
   void * ReadRawByteFromTag(unsigned int t, unsigned int & value_count);
 
   TIFFReaderInternal *m_InternalImage;
+
+  void ReadTIFFTags();
 
   int m_Compression;
   int m_JPEGQuality;

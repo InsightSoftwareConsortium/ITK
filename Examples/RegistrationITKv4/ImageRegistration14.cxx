@@ -68,7 +68,7 @@ public:
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
       OptimizerPointer optimizer =
-        dynamic_cast< OptimizerPointer >( object );
+        static_cast< OptimizerPointer >( object );
       if( ! itk::IterationEvent().CheckEvent( &event ) )
         {
         return;

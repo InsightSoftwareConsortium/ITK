@@ -177,8 +177,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    const TFilter * filter =
-      dynamic_cast< const TFilter * >( object );
+    const TFilter * filter = static_cast< const TFilter * >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       { return; }
 

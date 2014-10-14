@@ -168,12 +168,27 @@ function(itk_memcheck_ignore)
 endfunction()
 
 #-----------------------------------------------------------------------------
-# Python Wrapping
-option(ITK_WRAP_PYTHON "Build python support" OFF)
+# Wrapping options
+option(ITK_WRAP_PYTHON "Build Python support" OFF)
+option(ITK_WRAP_JAVA "Build Java support (Currently not supported)" OFF)
+option(ITK_WRAP_RUBY "Build Ruby support (Currently not supported)" OFF)
+option(ITK_WRAP_PERL "Build Perl support (Currently not supported)" OFF)
+option(ITK_WRAP_TCL "Build Tcl support (Currently not supported)" OFF)
+mark_as_advanced(ITK_WRAP_JAVA)
+mark_as_advanced(ITK_WRAP_RUBY)
+mark_as_advanced(ITK_WRAP_PERL)
+mark_as_advanced(ITK_WRAP_TCL)
+
+if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRAP_TCL)
+  # ITK_WRAPPING is an internal variable
+  set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
+else()
+  set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
+endif()
 
 #-----------------------------------------------------------------------------
 # ITK build configuration options.
-if(ITK_WRAP_PYTHON)
+if(ITK_WRAPPING)
   option(BUILD_SHARED_LIBS "Build ITK with shared libraries." ON)
 else()
   option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
@@ -212,7 +227,7 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 # Provide compatibility options.
 option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
 option(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
-if(ITK_WRAP_PYTHON)
+if(ITK_WRAPPING)
   option(ITK_LEGACY_SILENT "Silence all legacy code messages." ON)
 else()
   option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
@@ -300,6 +315,26 @@ option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors
 mark_as_advanced(ITK_USE_CONCEPT_CHECKING)
 option(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
 mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
+
+#-----------------------------------------------------------------------------
+# Mandatory wrapping options.
+# These are not correctly set when using cmake without the -DITK_WRAP_PYTHON:BOOL=ON flag.
+# In this case we need to tell the user that he has to change the flags manually to the right values.
+if(ITK_WRAPPING)
+
+  if(NOT ITK_BUILD_SHARED_LIBS)
+    message(FATAL_ERROR "Wrapping requires shared libs, please set BUILD_SHARED_LIBS=ON")
+  endif()
+
+  if(ITK_USE_64BITS_IDS AND WIN32)
+    message(FATAL_ERROR "Wrapping with ITK_USE_64BITS_IDS is not supported on Windows, please set ITK_USE_64BITS_IDS=OFF")
+  endif()
+
+  if(NOT ITK_LEGACY_SILENT)
+    message(FATAL_ERROR "Wrapping requires to disable legacy code, please set ITK_LEGACY_SILENT=ON")
+  endif()
+
+endif()
 
 #----------------------------------------------------------------------------
 set(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
@@ -403,7 +438,6 @@ endif()
 # interface with find_package(ITK). Set ITK_DIR to use this ITK build.
 set(ITK_DIR "${ITK_BINARY_DIR}")
 
-include(Wrapping/itkWrapSetup.cmake)
 if(ITK_WRAPPING)
   add_subdirectory(Wrapping)
 endif()

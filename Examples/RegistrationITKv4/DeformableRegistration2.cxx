@@ -75,8 +75,7 @@
 
     void Execute(const itk::Object * object, const itk::EventObject & event)
       {
-         const RegistrationFilterType * filter =
-          dynamic_cast< const RegistrationFilterType * >( object );
+         const RegistrationFilterType * filter = static_cast< const RegistrationFilterType * >( object );
         if( !(itk::IterationEvent().CheckEvent( &event )) )
           {
           return;

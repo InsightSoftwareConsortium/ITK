@@ -22,10 +22,34 @@
 #include "itkImageRegistrationMethodv4.h"
 
 #include "itkAffineTransform.h"
-#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
+#include "itkCompositeTransform.h"
+#include "itkEuler2DTransform.h"
+#include "itkEuler3DTransform.h"
 #include "itkCorrelationImageToImageMetricv4.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkObjectToObjectMultiMetricv4.h"
+
+template <unsigned int TImageDimension>
+class RigidTransformTraits
+{
+public:
+  typedef itk::AffineTransform<double, TImageDimension> TransformType;
+};
+
+template <>
+class RigidTransformTraits<2>
+{
+public:
+  typedef itk::Euler2DTransform<double> TransformType;
+};
+
+template <>
+class RigidTransformTraits<3>
+{
+public:
+  typedef itk::Euler3DTransform<double> TransformType;
+};
+
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -127,11 +151,82 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
-  typedef itk::AffineTransform<double, VImageDimension> AffineTransformType;
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, AffineTransformType> AffineRegistrationType;
-  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
-  typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
+  // Set up MI metric
+  typedef itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MIMetricType;
+  typename MIMetricType::Pointer mutualInformationMetric = MIMetricType::New();
+  mutualInformationMetric->SetNumberOfHistogramBins( 20 );
+  mutualInformationMetric->SetUseMovingImageGradientFilter( false );
+  mutualInformationMetric->SetUseFixedImageGradientFilter( false );
+  mutualInformationMetric->SetUseFixedSampledPointSet( false );
 
+  // Set up CC metric
+  typedef itk::CorrelationImageToImageMetricv4<FixedImageType, MovingImageType> GlobalCorrelationMetricType;
+  typename GlobalCorrelationMetricType::Pointer gCorrelationMetric = GlobalCorrelationMetricType::New();
+
+
+  // Stage1: Rigid registration
+  //
+  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> RegistrationType;
+  typename RegistrationType::Pointer rigidRegistration = RegistrationType::New();
+  rigidRegistration->SetObjectName("RigidSimple");
+  // Set up rigid multi metric: It only has one metric component
+  typedef itk::ObjectToObjectMultiMetricv4<VImageDimension, VImageDimension> MultiMetricType;
+
+  typename MultiMetricType::Pointer rigidMultiMetric = MultiMetricType::New();
+  rigidMultiMetric->AddMetric( mutualInformationMetric );
+  rigidRegistration->SetMetric( rigidMultiMetric );
+
+  rigidRegistration->SetFixedImage( fixedImage );
+  rigidRegistration->SetMovingImage( movingImage );
+
+  // Rigid transform that is set to be optimized
+  typedef typename RigidTransformTraits<VImageDimension>::TransformType   RigidTransformType;
+  typename RigidTransformType::Pointer rigidTransform = RigidTransformType::New();
+  rigidRegistration->SetInitialTransform( rigidTransform );
+  rigidRegistration->InPlaceOn();
+
+  typename RegistrationType::ShrinkFactorsArrayType rigidShrinkFactorsPerLevel;
+  rigidShrinkFactorsPerLevel.SetSize( 3 );
+  rigidShrinkFactorsPerLevel[0] = 4;
+  rigidShrinkFactorsPerLevel[1] = 4;
+  rigidShrinkFactorsPerLevel[2] = 4;
+  rigidRegistration->SetShrinkFactorsPerLevel( rigidShrinkFactorsPerLevel );
+
+  typename RegistrationType::MetricSamplingStrategyType rigidSamplingStrategy = RegistrationType::RANDOM;
+  double rigidSamplingPercentage = 0.20;
+  rigidRegistration->SetMetricSamplingStrategy( rigidSamplingStrategy );
+  rigidRegistration->SetMetricSamplingPercentage( rigidSamplingPercentage );
+
+  typedef itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType> RigidScalesEstimatorType;
+  typename RigidScalesEstimatorType::Pointer rigidScalesEstimator = RigidScalesEstimatorType::New();
+  rigidScalesEstimator->SetMetric( mutualInformationMetric );
+  rigidScalesEstimator->SetTransformForward( true );
+
+  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+  GradientDescentOptimizerv4Type * rigidOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( rigidRegistration->GetModifiableOptimizer() );
+  if( !rigidOptimizer )
+    {
+    itkGenericExceptionMacro( "Error dynamic_cast failed" );
+    }
+  rigidOptimizer->SetLearningRate( 0.1 );
+#ifdef NDEBUG
+  rigidOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+#else
+  rigidOptimizer->SetNumberOfIterations( 1 );
+#endif
+  rigidOptimizer->SetDoEstimateLearningRateOnce( false ); //true by default
+  rigidOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
+  rigidOptimizer->SetScalesEstimator( rigidScalesEstimator );
+
+  typedef CommandIterationUpdate<RegistrationType> CommandType;
+  typename CommandType::Pointer rigidObserver = CommandType::New();
+  rigidRegistration->AddObserver( itk::MultiResolutionIterationEvent(), rigidObserver );
+
+
+  // Stage2: Affine registration
+  //
+  typename RegistrationType::Pointer affineSimple = RegistrationType::New();
+  affineSimple->SetObjectName("affineSimple");
   // Ensuring code coverage for boolean macros
   affineSimple->SmoothingSigmasAreSpecifiedInPhysicalUnitsOff();
   affineSimple->SetSmoothingSigmasAreSpecifiedInPhysicalUnits( false );
@@ -141,27 +236,23 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MIMetricType;
-  typename MIMetricType::Pointer mutualInformationMetric = MIMetricType::New();
-  mutualInformationMetric->SetNumberOfHistogramBins( 20 );
-  mutualInformationMetric->SetUseMovingImageGradientFilter( false );
-  mutualInformationMetric->SetUseFixedImageGradientFilter( false );
-  mutualInformationMetric->SetUseFixedSampledPointSet( false );
-
-  typedef itk::CorrelationImageToImageMetricv4<FixedImageType, MovingImageType> GlobalCorrelationMetricType;
-  typename GlobalCorrelationMetricType::Pointer gCorrelationMetric = GlobalCorrelationMetricType::New();
-
-  typedef itk::ObjectToObjectMultiMetricv4<VImageDimension, VImageDimension> MultiMetricType;
-
-  typename MultiMetricType::Pointer multiMetric = MultiMetricType::New();
-  multiMetric->AddMetric( mutualInformationMetric );
-  multiMetric->AddMetric( gCorrelationMetric );
-  affineSimple->SetMetric( multiMetric );
+  // Set up affine multi metric: It has two metric components
+  typename MultiMetricType::Pointer affineMultiMetric = MultiMetricType::New();
+  affineMultiMetric->AddMetric( mutualInformationMetric );
+  affineMultiMetric->AddMetric( gCorrelationMetric );
+  affineSimple->SetMetric( affineMultiMetric );
 
   affineSimple->SetFixedImage( 0, fixedImage );
   affineSimple->SetMovingImage( 0, movingImage );
   affineSimple->SetFixedImage( 1, fixedImage );
   affineSimple->SetMovingImage( 1, movingImage );
+
+  typedef itk::AffineTransform<double, VImageDimension> AffineTransformType;
+  typename AffineTransformType::Pointer   affineTransform  = AffineTransformType::New();
+  affineSimple->SetInitialTransform(  affineTransform  );
+  affineSimple->InPlaceOn();
+
+  affineSimple->SetMovingInitialTransformInput( rigidRegistration->GetTransformOutput() );
 
   typedef itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType> AffineScalesEstimatorType;
   typename AffineScalesEstimatorType::Pointer scalesEstimator1 = AffineScalesEstimatorType::New();
@@ -179,7 +270,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   // Smooth by specified gaussian sigmas for each level.  These values are specified in
   // physical units. Sigmas of zero cause inconsistency between some platforms.
   {
-  typename AffineRegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  typename RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
   smoothingSigmasPerLevel.SetSize( 3 );
   smoothingSigmasPerLevel[0] = 2;
   smoothingSigmasPerLevel[1] = 1;
@@ -187,7 +278,6 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   affineSimple->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
   }
 
-  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
     dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetModifiableOptimizer() );
   if( !affineOptimizer )
@@ -204,8 +294,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
   affineOptimizer->SetScalesEstimator( scalesEstimator1 );
 
-  typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
-  typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
+  typename CommandType::Pointer affineObserver = CommandType::New();
   affineSimple->AddObserver( itk::IterationEvent(), affineObserver );
 
   try
@@ -226,9 +315,14 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
             << std::endl << " optimizer: " << affineOptimizer->GetNumberOfThreads() << std::endl;
   }
 
+  typedef itk::CompositeTransform< double, VImageDimension >  CompositeTransformType;
+  typename CompositeTransformType::Pointer compositeTransform  = CompositeTransformType::New();
+  compositeTransform->AddTransform( rigidTransform );
+  compositeTransform->AddTransform( affineTransform );
+
   typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
-  resampler->SetTransform( affineSimple->GetTransform() );
+  resampler->SetTransform( compositeTransform );
   resampler->SetInput( movingImage );
   resampler->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
   resampler->SetOutputOrigin( fixedImage->GetOrigin() );
@@ -257,10 +351,10 @@ int itkSimpleImageRegistrationTest2( int argc, char *argv[] )
   switch( atoi( argv[1] ) )
    {
    case 2:
-     PerformSimpleImageRegistration2<2>( argc, argv );
+     return PerformSimpleImageRegistration2<2>( argc, argv );
      break;
    case 3:
-     PerformSimpleImageRegistration2<3>( argc, argv );
+     return PerformSimpleImageRegistration2<3>( argc, argv );
      break;
    default:
       std::cerr << "Unsupported dimension" << std::endl;

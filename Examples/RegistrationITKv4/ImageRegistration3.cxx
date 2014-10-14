@@ -210,7 +210,7 @@ public:
 
     // Software Guide : BeginCodeSnippet
     OptimizerPointer optimizer =
-                         dynamic_cast< OptimizerPointer >( object );
+                         static_cast< OptimizerPointer >( object );
     // Software Guide : EndCodeSnippet
 
 

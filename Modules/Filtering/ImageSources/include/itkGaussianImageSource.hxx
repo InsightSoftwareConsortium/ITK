@@ -26,7 +26,7 @@
 
 namespace itk
 {
-//----------------------------------------------------------------------------
+
 template< typename TOutputImage >
 GaussianImageSource< TOutputImage >
 ::GaussianImageSource()
@@ -40,7 +40,7 @@ GaussianImageSource< TOutputImage >
   m_Normalized = false;
 }
 
-//----------------------------------------------------------------------------
+
 template< typename TOutputImage >
 void
 GaussianImageSource< TOutputImage >
@@ -74,14 +74,15 @@ GaussianImageSource< TOutputImage >
   os << indent << "Normalized Gaussian?: " << m_Normalized << std::endl;
 }
 
-//----------------------------------------------------------------------------
+
 template< typename TOutputImage >
 void
 GaussianImageSource< TOutputImage >
 ::SetParameters(const ParametersType & parameters)
 {
-  ArrayType sigma, mean;
-  for ( unsigned int i = 0; i < ArrayType::Length; i++ )
+  ArrayType sigma;
+  ArrayType mean;
+  for ( unsigned int i = 0; i < ArrayType::Length; ++i )
     {
     sigma[i] = parameters[i];
     mean[i]  = parameters[i + ArrayType::Length];
@@ -89,18 +90,18 @@ GaussianImageSource< TOutputImage >
   this->SetSigma( sigma );
   this->SetMean( mean );
 
-  double scale = parameters[2*ArrayType::Length];
+  const double scale = parameters[2*ArrayType::Length];
   this->SetScale( scale );
 }
 
-//----------------------------------------------------------------------------
+
 template< typename TOutputImage >
 typename GaussianImageSource< TOutputImage >::ParametersType
 GaussianImageSource< TOutputImage >
 ::GetParameters() const
 {
   ParametersType parameters( 2*ArrayType::Length + 1 );
-  for ( unsigned int i = 0; i < ArrayType::Length; i++ )
+  for ( unsigned int i = 0; i < ArrayType::Length; ++i )
     {
     parameters[i] = m_Sigma[i];
     parameters[i + ArrayType::Length] = m_Mean[i];
@@ -110,7 +111,7 @@ GaussianImageSource< TOutputImage >
   return parameters;
 }
 
-//----------------------------------------------------------------------------
+
 template< typename TOutputImage >
 unsigned int
 GaussianImageSource< TOutputImage >
@@ -119,7 +120,7 @@ GaussianImageSource< TOutputImage >
   return 2*ArrayType::Length + 1;
 }
 
-//----------------------------------------------------------------------------
+
 template< typename TOutputImage >
 void
 GaussianImageSource< TOutputImage >
@@ -132,38 +133,38 @@ GaussianImageSource< TOutputImage >
   outputPtr->Allocate();
 
   // Create and initialize a new gaussian function
-  typedef itk::GaussianSpatialFunction< double, NDimensions > FunctionType;
-  typename FunctionType::Pointer pGaussian = FunctionType::New();
+  typedef GaussianSpatialFunction< double, NDimensions > FunctionType;
+  typename FunctionType::Pointer gaussian = FunctionType::New();
 
-  pGaussian->SetSigma(m_Sigma);
-  pGaussian->SetMean(m_Mean);
-  pGaussian->SetScale(m_Scale);
-  pGaussian->SetNormalized(m_Normalized);
+  gaussian->SetSigma(m_Sigma);
+  gaussian->SetMean(m_Mean);
+  gaussian->SetScale(m_Scale);
+  gaussian->SetNormalized(m_Normalized);
 
   // Create an iterator that will walk the output region
   typedef ImageRegionIterator< TOutputImage > OutputIterator;
   OutputIterator outIt = OutputIterator( outputPtr,
                                          outputPtr->GetRequestedRegion() );
 
-  // The value produced by the spatial function
-  double value;
-
-  // The position at which the function is evaluated
-  Point< double, TOutputImage::ImageDimension > evalPoint;
 
   ProgressReporter progress( this, 0,
                              outputPtr->GetRequestedRegion()
                              .GetNumberOfPixels() );
   // Walk the output image, evaluating the spatial function at each pixel
-  for (; !outIt.IsAtEnd(); ++outIt )
+  outIt.GoToBegin();
+  while( !outIt.IsAtEnd() )
     {
-    typename TOutputImage::IndexType index = outIt.GetIndex();
+    const typename TOutputImage::IndexType index = outIt.GetIndex();
+    // The position at which the function is evaluated
+    typename FunctionType::InputType evalPoint;
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
-    value = pGaussian->Evaluate(evalPoint);
+    const double value = gaussian->Evaluate(evalPoint);
 
     // Set the pixel value to the function value
-    outIt.Set( ( typename TOutputImage::PixelType )value );
+    outIt.Set( static_cast< typename TOutputImage::PixelType >( value ));
     progress.CompletedPixel();
+
+    ++outIt;
     }
 }
 

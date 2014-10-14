@@ -1,8 +1,4 @@
-#
-#  Examples on the use of SpatialObjects.
-#
 project(SpatialObjectsExamples)
-include_regular_expression("^.*$")
 
 add_executable(ArrowSpatialObject ArrowSpatialObject.cxx)
 target_link_libraries(ArrowSpatialObject  ${ITK_LIBRARIES})

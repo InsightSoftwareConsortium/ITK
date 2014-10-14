@@ -26,9 +26,6 @@ endif()
 
 project(WrapITK)
 
-# set an internal cache to mark when this file is parsed
-set(ITK_WRAPPING_REACHED ON CACHE INTERNAL "Wrapping folder has been reached")
-
 include("CMakeUtilityFunctions.cmake")
 
 enable_testing()

@@ -48,6 +48,18 @@ void SimpleFastMutexLock::Lock() const
   EnterCriticalSection(&m_FastMutexLock);
 }
 
+// Non-blocking TryLock the FastMutexLock
+bool SimpleFastMutexLock::TryLock() const
+{
+  const bool lockCaptured = TryEnterCriticalSection(&m_FastMutexLock);
+  /*
+   * non-blocking lock of mutex
+   * - if mutex is not already locked, you will obtain the lock & own the mutex, and return non-zero immediately
+   * - if mutex is already locked, TryEnterCriticalSection() will return immediately wth return value 0
+   */
+  return lockCaptured;
+}
+
 // Unlock the FastMutexLock
 void SimpleFastMutexLock::Unlock() const
 {

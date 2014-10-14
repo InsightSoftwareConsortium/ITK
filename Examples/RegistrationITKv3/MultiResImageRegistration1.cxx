@@ -193,8 +193,7 @@ public:
     //
     // Software Guide : EndLatex
     // Software Guide : BeginCodeSnippet
-    RegistrationPointer registration =
-                            dynamic_cast<RegistrationPointer>( object );
+    RegistrationPointer registration = static_cast<RegistrationPointer>( object );
     // Software Guide : EndCodeSnippet
 
     // Software Guide : BeginLatex
@@ -212,8 +211,7 @@ public:
     //
     // Software Guide : EndLatex
     // Software Guide : BeginCodeSnippet
-    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >(
-                       registration->GetModifiableOptimizer() );
+    OptimizerPointer optimizer = static_cast< OptimizerPointer >(registration->GetModifiableOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "
@@ -274,8 +272,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer =
-        dynamic_cast< OptimizerPointer >( object );
+      OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
       if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
         return;
