@@ -85,6 +85,11 @@ LogGaborFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageReg
       // const double dist = (index[ii] % halfLength) / double(halfLength);
       radius += dist * dist * m_Wavelengths[ii] * m_Wavelengths[ii];
     }
+    if (radius == 0.0)
+    {
+      outIt.Set(static_cast<typename TOutputImage::PixelType>(0.0));
+      continue;
+    }
     radius = std::sqrt(radius);
     // std::cout << "radius: " << radius << std::endl;
 
