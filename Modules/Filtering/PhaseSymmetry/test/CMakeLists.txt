@@ -39,6 +39,9 @@ itk_add_test(
   NAME itkLogGaborFreqImageSourceTest
   COMMAND
     PhaseSymmetryTestDriver
+    --compare
+    DATA{Baseline/itkLogGaborFreqImageSourceTestFilter.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestFilter.mha
     itkLogGaborFreqImageSourceTest
     DATA{Input/SinusoidImage.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestFilter.mha
