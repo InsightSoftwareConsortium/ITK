@@ -64,8 +64,8 @@ ButterworthFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(
     centerPoint[ii] = double(size[ii]) / 2.0;
   }
 
-  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
-  OutputIterator                                     outIt = OutputIterator(outputPtr, outputRegionForThread);
+  typedef ImageRegionIteratorWithIndex<OutputImageType> OutputIteratorType;
+  OutputIteratorType                                    outIt(outputPtr, outputRegionForThread);
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
     const typename TOutputImage::IndexType index = outIt.GetIndex();
@@ -88,7 +88,6 @@ ButterworthFilterFreqImageSource<TOutputImage>::ThreadedGenerateData(
     value = std::pow(value, 2 * m_Order);
     value = 1. / (1. + value);
 
-    // Set the pixel value to the function value
     outIt.Set(static_cast<typename TOutputImage::PixelType>(value));
   }
 }

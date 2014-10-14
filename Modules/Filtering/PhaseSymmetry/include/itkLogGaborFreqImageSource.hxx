@@ -44,6 +44,7 @@ void
 LogGaborFreqImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
   os << indent << "Sigma: " << m_Sigma << std::endl;
   os << indent << "Wavelengths: " << m_Wavelengths << std::endl;
 }
@@ -54,45 +55,43 @@ void
 LogGaborFreqImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                                                             ThreadIdType                  itkNotUsed(threadId))
 {
-  // The a pointer to the output image
-  typename TOutputImage::Pointer outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
+  const SizeType    size = this->GetSize();
 
-  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIteratorType;
-  OutputIteratorType                                 outIt = OutputIteratorType(outputPtr, outputRegionForThread);
-
-  int ndims = TOutputImage::ImageDimension;
-
-  ArrayType centerPoint;
-  for (int i = 0; i < ndims; i++)
+  PointType centerPoint;
+  for (unsigned int ii = 0; ii < ImageDimension; ++ii)
   {
-    centerPoint[i] = double(this->GetSize()[i]) / 2.0;
+    centerPoint[ii] = double(size[ii]) / 2.0;
   }
 
-  double radius = 0;
-  double sigma = 0;
-  double logGaborValue = 0;
+  typedef ImageRegionIteratorWithIndex<OutputImageType> OutputIteratorType;
+  OutputIteratorType                                    outIt(outputPtr, outputRegionForThread);
 
-  ArrayType                        dist;
-  typename TOutputImage::IndexType index;
+  double sigma = vcl_log(m_Sigma);
+  sigma *= sigma;
+  sigma *= 2;
+
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
-    index = outIt.GetIndex();
-    radius = 0;
-    sigma = 0;
-    logGaborValue = 0;
+    const typename OutputImageType::IndexType index = outIt.GetIndex();
+    // std::cout << "index: " << index << std::endl;
 
-    for (int i = 0; i < TOutputImage::ImageDimension; i++)
+    double radius = 0.0;
+    for (unsigned int ii = 0; ii < ImageDimension; ++ii)
     {
-      dist[i] = (double(index[i]) - centerPoint[i]) / double(this->GetSize()[i]);
-      radius = radius + dist[i] * dist[i] * m_Wavelengths[i] * m_Wavelengths[i];
+      const double dist = (centerPoint[ii] - double(index[ii])) / double(size[ii]);
+      // %todo: is this correct for odd numbers?
+      // const SizeValueType halfLength = size[ii] / 2;
+      // const double dist = (index[ii] % halfLength) / double(halfLength);
+      radius += dist * dist * m_Wavelengths[ii] * m_Wavelengths[ii];
     }
-    radius = sqrt(radius);
+    radius = std::sqrt(radius);
+    // std::cout << "radius: " << radius << std::endl;
 
-    radius = vcl_log(radius) * vcl_log(radius);
-    sigma = 2 * vcl_log(m_Sigma) * vcl_log(m_Sigma);
-    logGaborValue = vcl_exp(-radius / sigma);
+    radius = vcl_log(radius);
+    radius *= radius;
 
-    // Set the pixel value to the function value
+    double logGaborValue = vcl_exp(-radius / sigma);
     outIt.Set(static_cast<typename TOutputImage::PixelType>(logGaborValue));
   }
 }

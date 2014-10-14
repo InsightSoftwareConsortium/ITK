@@ -40,6 +40,7 @@ public:
   /** Dimensionality of the output image */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
+  typedef TOutputImage                         OutputImageType;
   typedef typename TOutputImage::RegionType    OutputImageRegionType;
   typedef typename TOutputImage::SizeType      SizeType;
   typedef typename TOutputImage::SpacingType   SpacingType;
