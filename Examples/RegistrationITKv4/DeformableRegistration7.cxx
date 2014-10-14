@@ -266,7 +266,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int numParameters = outputBSplineTransform->GetNumberOfParameters();
+  const unsigned int numParameters =
+    outputBSplineTransform->GetNumberOfParameters();
   OptimizerType::BoundSelectionType boundSelect( numParameters );
   OptimizerType::BoundValueType upperBound( numParameters );
   OptimizerType::BoundValueType lowerBound( numParameters );

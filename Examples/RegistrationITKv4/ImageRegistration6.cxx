@@ -231,11 +231,12 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer<
-                                      TransformType,
-                                      FixedImageType,
-                                      MovingImageType >  TransformInitializerType;
+    TransformType,
+    FixedImageType,
+    MovingImageType > TransformInitializerType;
 
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

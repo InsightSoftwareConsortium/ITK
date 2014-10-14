@@ -220,11 +220,11 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer<
-                                        TransformType,
-                                        FixedImageType,
-                                        MovingImageType >  TransformInitializerType;
+    TransformType,
+    FixedImageType,
+    MovingImageType >  TransformInitializerType;
   TransformInitializerType::Pointer initializer
-                                            = TransformInitializerType::New();
+    = TransformInitializerType::New();
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
@@ -379,7 +379,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   const TransformType::ParametersType finalParameters =
-                                  registration->GetOutput()->Get()->GetParameters();
+    registration->GetOutput()->Get()->GetParameters();
 
   const double finalRotationCenterX = transform->GetCenter()[0];
   const double finalRotationCenterY = transform->GetCenter()[1];

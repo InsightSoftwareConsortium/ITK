@@ -385,7 +385,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef OptimizerType::ScalesType       OptimizerScalesType;
-  OptimizerScalesType optimizerScales( initialTransform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales(
+    initialTransform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;

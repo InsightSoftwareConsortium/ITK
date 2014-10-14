@@ -197,7 +197,8 @@ int main( int argc, char *argv[] )
     {
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
-    static_cast<double>( fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
+    static_cast<double>(
+      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
   meshSize.Fill( numberOfGridNodesInOneDimension - SplineOrder );
 

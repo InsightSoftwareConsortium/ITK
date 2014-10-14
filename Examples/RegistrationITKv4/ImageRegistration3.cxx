@@ -156,8 +156,8 @@ public:
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RegularStepGradientDescentOptimizerv4<double>   OptimizerType;
-  typedef const OptimizerType *                                OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double> OptimizerType;
+  typedef const OptimizerType *                              OptimizerPointer;
   // Software Guide : EndCodeSnippet
 
 

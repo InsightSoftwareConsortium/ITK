@@ -158,10 +158,10 @@ protected:
 
   // Software Guide : BeginCodeSnippet
 public:
-  typedef   TRegistration                                       RegistrationType;
-  typedef   RegistrationType *                                  RegistrationPointer;
+  typedef   TRegistration      RegistrationType;
+  typedef   RegistrationType * RegistrationPointer;
   typedef   itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
-  typedef   OptimizerType *                                     OptimizerPointer;
+  typedef   OptimizerType * OptimizerPointer;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -203,15 +203,17 @@ public:
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    RegistrationPointer registration = static_cast<RegistrationPointer>( object );
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >(registration->GetModifiableOptimizer() );
+    RegistrationPointer registration =
+      static_cast<RegistrationPointer>( object );
+    OptimizerPointer optimizer =
+      static_cast< OptimizerPointer >( registration->GetModifiableOptimizer() );
     // Software Guide : EndCodeSnippet
 
     unsigned int currentLevel = registration->GetCurrentLevel();
     typename RegistrationType::ShrinkFactorsPerDimensionContainerType shrinkFactors =
-                                          registration->GetShrinkFactorsPerDimension( currentLevel );
+      registration->GetShrinkFactorsPerDimension( currentLevel );
     typename RegistrationType::SmoothingSigmasArrayType smoothingSigmas =
-                                                    registration->GetSmoothingSigmasPerLevel();
+      registration->GetSmoothingSigmasPerLevel();
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << " Current level = " << currentLevel << std::endl;
@@ -243,7 +245,8 @@ public:
     else
       {
       optimizer->SetLearningRate( optimizer->GetCurrentStepLength() );
-      optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() * 0.2 );
+      optimizer->SetMinimumStepLength(
+        optimizer->GetMinimumStepLength() * 0.2 );
       }
     // Software Guide : EndCodeSnippet
     }

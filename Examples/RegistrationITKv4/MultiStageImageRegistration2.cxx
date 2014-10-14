@@ -191,22 +191,23 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::TranslationTransform< double, Dimension >                 TTransformType;
-  typedef itk::RegularStepGradientDescentOptimizerv4<double>             TOptimizerType;
+  typedef itk::TranslationTransform< double, Dimension >     TTransformType;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double> TOptimizerType;
   typedef itk::MattesMutualInformationImageToImageMetricv4<
-                                                      FixedImageType,
-                                                      MovingImageType >  MetricType;
+    FixedImageType,
+    MovingImageType >  MetricType;
   typedef itk::ImageRegistrationMethodv4<
-                                    FixedImageType,
-                                    MovingImageType >                    TRegistrationType;
+    FixedImageType,
+    MovingImageType >  TRegistrationType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  //  Type definitions are the same as previous example with an important subtle change.
-  //  If you notice the transform type is not passed to the registration method as a
-  //  template parameter anymore. In this case, the registration filter will consider
-  //  the transform base class \doxygen{Transform} as the type of its output transform.
+  //  Type definitions are the same as previous example with an important subtle
+  //  change. If you notice the transform type is not passed to the
+  //  registration method as a template parameter anymore. In this case, the
+  //  registration filter will consider the transform base class
+  //  \doxygen{Transform} as the type of its output transform.
   //
   //  Software Guide : EndLatex
 
@@ -222,11 +223,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Instead of passing the transform type, we create an explicit instantiation of
-  //  the transform object outside of the registration filter, and connect that to
-  //  the registration object using \code{SetInitialTransform()} method.
+  //  Instead of passing the transform type, we create an explicit instantiation
+  //  of the transform object outside of the registration filter, and connect
+  //  that to the registration object using \code{SetInitialTransform()} method.
   //  Also, by calling \code{InPlaceOn()} method, this transform object will be
-  //  output transform of the registration filter or will be grafted to the output.
+  //  output transform of the registration filter or will be grafted to the
+  //  output.
   //
   //  Software Guide : EndLatex
 
@@ -310,27 +312,28 @@ int main( int argc, char *argv[] )
   //
   //  Now we upgrade to an Affine transform as the second stage of registration
   //  process,
-  //  and as before, first we define and instantiate different components of the current
-  //  registration stage. We have used a new optimizer but the same metric in new
-  //  configurations.
+  //  and as before, first we define and instantiate different components of the
+  //  current registration stage. We have used a new optimizer but the same
+  //  metric in new configurations.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::AffineTransform< double, Dimension >                      ATransformType;
-  typedef itk::ConjugateGradientLineSearchOptimizerv4Template< double >  AOptimizerType;
+  typedef itk::AffineTransform< double, Dimension > ATransformType;
+  typedef itk::ConjugateGradientLineSearchOptimizerv4Template<
+    double >  AOptimizerType;
   typedef itk::ImageRegistrationMethodv4<
-                                        FixedImageType,
-                                        MovingImageType >                ARegistrationType;
+    FixedImageType,
+    MovingImageType > ARegistrationType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  //  Again notice that \emph{TransformType} is not passed to the type definition
-  //  of the registration filter. It is important because
-  //  when the registration filter considers transform base class \doxygen{Transform}
-  //  as the type of its output transform, it prevents the types mismatch when the
-  //  two stages are cascaded to each other.
+  //  Again notice that \emph{TransformType} is not passed to the type
+  //  definition of the registration filter. It is important because when the
+  //  registration filter considers transform base class \doxygen{Transform}
+  //  as the type of its output transform, it prevents the types mismatch when
+  //  the two stages are cascaded to each other.
   //
   //  Then, all components are instantiated using their \code{New()} method
   //  and connected to the registration object among the transform type.
@@ -358,21 +361,22 @@ int main( int argc, char *argv[] )
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageMomentsCalculator< FixedImageType > FixedImageCalculatorType;
+  typedef itk::ImageMomentsCalculator<
+    FixedImageType > FixedImageCalculatorType;
 
   FixedImageCalculatorType::Pointer fixedCalculator =
-                                                  FixedImageCalculatorType::New();
+    FixedImageCalculatorType::New();
   fixedCalculator->SetImage( fixedImage );
   fixedCalculator->Compute();
 
   FixedImageCalculatorType::VectorType fixedCenter =
-                                            fixedCalculator->GetCenterOfGravity();
+    fixedCalculator->GetCenterOfGravity();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  // Then, we initialize the fixed parameters (center of rotation) in Affine transform
-  //  and connect that to the registration object.
+  // Then, we initialize the fixed parameters (center of rotation) in Affine
+  //  transform and connect that to the registration object.
   //
   //  Software Guide : EndLatex
 
@@ -471,8 +475,8 @@ int main( int argc, char *argv[] )
   //
   //  Once all the registration components are in place,
   //  finally we triger the whole registration process, including two cascaded
-  //  registration stages, by calling \code{Update()} for the registration filter
-  //  of the last stage that causes both stages be updated consequently.
+  //  registration stages, by calling \code{Update()} for the registration
+  //  filter of the last stage that causes both stages be updated consequently.
   //
   //  Software Guide : EndLatex
 
@@ -497,9 +501,9 @@ int main( int argc, char *argv[] )
   //
   //  After all, a composite transform is used to concatenate the results of
   //  all stages together, which will be considered as the
-  //  final output of this multistage process and will be passed to the resampler
-  //  to resample the moving image in to the virtual domain space (fixed image space
-  //  if there is no fixed initial transform).
+  //  final output of this multistage process and will be passed to the
+  //  resampler to resample the moving image in to the virtual domain
+  //  space (fixed image space if there is no fixed initial transform).
   //
   //  Software Guide : EndLatex
 

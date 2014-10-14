@@ -158,7 +158,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RegularStepGradientDescentOptimizerv4<double>       OptimizerType;
+  typedef itk::RegularStepGradientDescentOptimizerv4<double> OptimizerType;
   // Software Guide : EndCodeSnippet
 
 
@@ -236,13 +236,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk:: LinearInterpolateImageFunction<
-                                          FixedImageType,
-                                          double          >    FixedLinearInterpolatorType;
+  typedef itk::LinearInterpolateImageFunction<
+    FixedImageType,
+    double > FixedLinearInterpolatorType;
 
-  typedef itk:: LinearInterpolateImageFunction<
-                                          MovingImageType,
-                                          double          >    MovingLinearInterpolatorType;
+  typedef itk::LinearInterpolateImageFunction<
+    MovingImageType,
+    double > MovingLinearInterpolatorType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -257,10 +257,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FixedLinearInterpolatorType::Pointer   fixedInterpolator    =
-                                                  FixedLinearInterpolatorType::New();
-  MovingLinearInterpolatorType::Pointer  movingInterpolator   =
-                                                  MovingLinearInterpolatorType::New();
+  FixedLinearInterpolatorType::Pointer fixedInterpolator =
+    FixedLinearInterpolatorType::New();
+  MovingLinearInterpolatorType::Pointer movingInterpolator =
+    MovingLinearInterpolatorType::New();
 
   metric->SetFixedInterpolator(  fixedInterpolator  );
   metric->SetMovingInterpolator(  movingInterpolator  );
@@ -310,8 +310,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer movingInitialTransform = TransformType::New();
 
-  TransformType::ParametersType
-                      initialParameters( movingInitialTransform->GetNumberOfParameters() );
+  TransformType::ParametersType initialParameters(
+    movingInitialTransform->GetNumberOfParameters() );
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
 
@@ -646,11 +646,13 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CompositeTransform<
-                              double,
-                              Dimension > CompositeTransformType;
-  CompositeTransformType::Pointer  outputCompositeTransform = CompositeTransformType::New();
+    double,
+    Dimension > CompositeTransformType;
+  CompositeTransformType::Pointer outputCompositeTransform =
+    CompositeTransformType::New();
   outputCompositeTransform->AddTransform( movingInitialTransform );
-  outputCompositeTransform->AddTransform( registration->GetModifiableTransform() );
+  outputCompositeTransform->AddTransform(
+    registration->GetModifiableTransform() );
   // Software Guide : EndCodeSnippet
 
 
