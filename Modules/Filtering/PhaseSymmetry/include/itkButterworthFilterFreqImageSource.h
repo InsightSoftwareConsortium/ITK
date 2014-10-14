@@ -63,8 +63,9 @@ public:
   /** Size type matches that used for images */
   typedef typename TOutputImage::SizeType SizeType;
 
-  /** Set/Get the cutoff frequency */
-  itkSetMacro(Cutoff, double);
+  /** Set/Get the cutoff frequency. Should be in the range [0, 0.5], where 0.5
+   * corresponds to the Nyquist frequency. */
+  itkSetClampMacro(Cutoff, double, 0.0, 0.5);
   itkGetConstMacro(Cutoff, double);
 
   /** Set/Get the filter order */
