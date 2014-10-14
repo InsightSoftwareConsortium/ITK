@@ -49,19 +49,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-
-  typedef std::vector<std::vector<double>> RangeType;
-
   /** Dimensionality of the output image */
-  itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** Type used to store gaussian parameters. */
-
-
-  // Type used to store the range for each axis
-
-
-  // itkSetMacro(Ranges, RangeType);
 
   typedef FixedArray<double, itkGetStaticConstMacro(NDimensions)> DoubleArrayType;
 
@@ -85,8 +76,6 @@ private:
   LogGaborFreqImageSource(const LogGaborFreqImageSource &); // purposely not implemented
   void
   operator=(const LogGaborFreqImageSource &); // purposely not implemented
-
-  RangeType m_Ranges;
 
   // Ratio of k/wo in each direction
   double m_Sigma;
