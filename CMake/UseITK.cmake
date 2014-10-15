@@ -18,7 +18,8 @@ include_directories(BEFORE ${ITK_INCLUDE_DIRS})
 link_directories(${ITK_LIBRARY_DIRS})
 
 macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_name _factory_name)
-  if(${_module_name}_LOADED)
+  list(FIND ITK_MODULES_REQUESTED ${_module_name} _module_was_requested)
+  if(NOT ${_module_was_requested} EQUAL -1)
     # note: this is an internal CMake variable and should not be used outside ITK
     set(_abi)
     if(ITK_MODULE_${_module_name}_ENABLE_SHARED AND BUILD_SHARED_LIBS)
