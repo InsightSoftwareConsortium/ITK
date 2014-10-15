@@ -191,7 +191,7 @@ macro(itk_wrap_module_swig_interface library_name)
   set(SWIG_INTERFACE_MODULE_CONTENT )
   # the list of .idx files generated for the module
   set(SWIG_INTERFACE_IDX_FILES )
-  # build a list of modules to create the ignerator custom command in
+  # build a list of modules to create the igenerator custom command in
   # itk_end_wrap_module_swig_interface
   set(SWIG_INTERFACE_MODULES )
 endmacro()
@@ -232,11 +232,13 @@ macro(itk_end_wrap_module_swig_interface)
   # accumulate the idx files already generated before this module to generate usable depenencies
   set(idx_files )
   foreach(module ${SWIG_INTERFACE_MODULES})
+    set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
+    list(APPEND idx_files ${idx_file})
+  endforeach()
+  foreach(module ${SWIG_INTERFACE_MODULES})
     # create the swig interface
     set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.i")
     set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
-    set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
-    set(idx_files ${idx_files} ${idx_file})
 #    set(includes_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.includes")
     set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
     set(typedef_in_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
@@ -280,16 +282,10 @@ macro(itk_end_wrap_module_swig_interface)
         ${interface_file}
       DEPENDS ${DEPS} ${idx_files} ${IGENERATOR} # ${SWIG_INTERFACE_IDX_FILES} ${SWIG_INTERFACE_FILES} ${typedef_in_file} # ${includes_file}
     )
-  #   add_custom_target(${module}Swig DEPENDS ${interface_file})
-  #   add_dependencies(${module}Swig ${WRAPPER_LIBRARY_NAME}Idx)
-  #   add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${module}Swig)
 
     set(SWIG_INTERFACE_FILES ${SWIG_INTERFACE_FILES} ${interface_file})
-
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${interface_file}")
-
   endforeach()
-
 
   # the mdx file
   set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
