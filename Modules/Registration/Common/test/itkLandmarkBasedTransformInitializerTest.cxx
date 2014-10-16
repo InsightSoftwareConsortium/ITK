@@ -554,5 +554,124 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     }
   } // Second test with dummy
   }
+
+  {
+  std::cout << "\nTesting Landmark alignment with BSplineTransform..." << std::endl;
+
+  typedef  unsigned char  PixelType;
+  const unsigned int Dimension = 3;
+
+  typedef itk::Image< PixelType, Dimension >  FixedImageType;
+  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+
+  FixedImageType::Pointer fixedImage   = FixedImageType::New();
+  MovingImageType::Pointer movingImage = MovingImageType::New();
+
+  // Create fixed and moving images of size 30 x 30 x 30
+  //
+  FixedImageType::RegionType fRegion;
+  FixedImageType::SizeType   fSize;
+  FixedImageType::IndexType  fIndex;
+  fSize.Fill(30);
+  fIndex.Fill(0);
+  fRegion.SetSize( fSize );
+  fRegion.SetIndex( fIndex );
+  MovingImageType::RegionType mRegion;
+  MovingImageType::SizeType   mSize;
+  MovingImageType::IndexType  mIndex;
+  mSize.Fill(30);
+  mIndex.Fill(0);
+  mRegion.SetSize( mSize );
+  mRegion.SetIndex( mIndex );
+  fixedImage->SetLargestPossibleRegion( fRegion );
+  fixedImage->SetBufferedRegion( fRegion );
+  fixedImage->SetRequestedRegion( fRegion );
+  fixedImage->Allocate();
+  movingImage->SetLargestPossibleRegion( mRegion );
+  movingImage->SetBufferedRegion( mRegion );
+  movingImage->SetRequestedRegion( mRegion );
+  movingImage->Allocate();
+
+  FixedImageType::PointType origin;
+  origin[0] = -5;
+  origin[1] = -5;
+  origin[2] = -5;
+  fixedImage->SetOrigin( origin );
+
+  // Set the transform type...
+  const unsigned int SplineOrder = 3;
+  typedef itk::BSplineTransform< double, FixedImageType::ImageDimension, SplineOrder>  TransformType;
+  TransformType::Pointer transform = TransformType::New();
+
+  typedef itk::LandmarkBasedTransformInitializer< TransformType, FixedImageType, MovingImageType > TransformInitializerType;
+  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+
+  TransformInitializerType::LandmarkPointContainer fixedLandmarks;
+  TransformInitializerType::LandmarkPointContainer movingLandmarks;
+  Init3DPoints<TransformInitializerType>(fixedLandmarks,movingLandmarks);
+
+  const unsigned int numLandmarks = 4;
+  double weights[numLandmarks] =
+    {
+    1,3,0.01,0.5
+    };
+
+  TransformInitializerType::LandmarkWeightType landmarkWeights;
+  for(unsigned i = 0; i < numLandmarks; i++)
+    {
+    landmarkWeights.push_back(weights[i]);
+    }
+
+  initializer->SetFixedLandmarks(fixedLandmarks);
+  initializer->SetMovingLandmarks(movingLandmarks);
+  initializer->SetLandmarkWeight(landmarkWeights);
+  initializer->SetTransform(transform);
+  initializer->SetReferenceImage(fixedImage);
+  initializer->SetBSplineNumberOfControlPoints(8);
+  initializer->InitializeTransform();
+
+  // Transform the landmarks now and check for the mismatches.
+  //
+  TransformInitializerType::PointsContainerConstIterator
+    fitr = fixedLandmarks.begin();
+  TransformInitializerType::PointsContainerConstIterator
+    mitr = movingLandmarks.begin();
+
+  typedef TransformInitializerType::OutputVectorType  OutputVectorType;
+  OutputVectorType error;
+  OutputVectorType::RealValueType tolerance = 0.1;
+  bool failed = false;
+
+  while( mitr != movingLandmarks.end() )
+    {
+    std::cout << "  Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
+    << " Transformed fixed Landmark : " <<
+    transform->TransformPoint( *fitr ) << std::endl;
+
+    error = *mitr - transform->TransformPoint( *fitr);
+    std::cout << " error = " << error.GetNorm() << std::endl;
+    if( error.GetNorm() > tolerance )
+      {
+      failed = true;
+      }
+
+    ++mitr;
+    ++fitr;
+    }
+
+  if( failed )
+    {
+    std::cout << "  Fixed landmarks transformed by the transform did not match closely"
+              << " enough with the moving landmarks.  The transform computed was:" << std::endl;
+    transform->Print(std::cout);
+    std::cout << "  [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "  Landmark alignment using BSplineTransform transform [PASSED]" << std::endl;
+    }
+  }
+
   return EXIT_SUCCESS;
 }
