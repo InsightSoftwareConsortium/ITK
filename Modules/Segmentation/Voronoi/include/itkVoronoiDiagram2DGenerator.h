@@ -23,10 +23,6 @@
 
 #include <vector>
 
-#ifndef NULL
-#define NULL 0
-#endif
-
 namespace itk
 {
 /** \class VoronoiDiagram2DGenerator
