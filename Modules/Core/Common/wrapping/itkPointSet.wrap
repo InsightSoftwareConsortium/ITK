@@ -23,4 +23,11 @@ itk_wrap_class("itk::PointSet" POINTER)
     itk_wrap_template("M${ITKM_D}${d}${d}STM${ITKM_D}${d}${d}${d}${d}${ITKM_F}${ITKM_F}M${ITKM_D}${d}${d}"
       "itk::Matrix <${ITKT_D},${d},${d}>,${d},itk::DefaultStaticMeshTraits< itk::Matrix <${ITKT_D},${d},${d}>,${d},${d},${ITKT_F},${ITKT_F},itk::Matrix <${ITKT_D},${d},${d}> >")
   endforeach(d)
+  foreach(d ${ITK_WRAP_DIMS})
+    # Also wrap the point set type needed for MeshBase
+    itk_wrap_template("D${d}STD${d}${d}DFD"
+      "double,${d},itk::DefaultStaticMeshTraits< double,${d},${d},double,float,double >")
+    itk_wrap_template("D${d}DTD${d}${d}DFD"
+      "double,${d},itk::DefaultDynamicMeshTraits< double,${d},${d},double,float,double >")
+  endforeach(d)
 itk_end_wrap_class()
