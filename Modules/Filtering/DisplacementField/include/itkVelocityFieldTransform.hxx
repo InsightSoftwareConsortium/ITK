@@ -92,6 +92,7 @@ VelocityFieldTransform<TScalar, NDimensions>
     }
   else
     {
+    inverse->SetFixedParameters(this->GetFixedParameters());
     inverse->SetUpperTimeBound( this->m_LowerTimeBound );
     inverse->SetLowerTimeBound( this->m_UpperTimeBound );
     inverse->SetDisplacementField( this->m_InverseDisplacementField );

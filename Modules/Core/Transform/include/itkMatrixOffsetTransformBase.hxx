@@ -503,6 +503,7 @@ MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
     return false;
     }
 
+  inverse->SetFixedParameters(this->GetFixedParameters());
   this->GetInverseMatrix();
   if( m_Singular )
     {

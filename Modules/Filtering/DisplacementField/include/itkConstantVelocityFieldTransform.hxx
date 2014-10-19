@@ -94,6 +94,7 @@ ConstantVelocityFieldTransform<TScalar, NDimensions>
     }
   else
     {
+    inverse->SetFixedParameters(this->GetFixedParameters());
     inverse->SetUpperTimeBound( this->GetLowerTimeBound() );
     inverse->SetLowerTimeBound( this->GetUpperTimeBound() );
     inverse->SetDisplacementField( this->m_InverseDisplacementField );

@@ -161,6 +161,7 @@ TranslationTransform<TScalar, NDimensions>::GetInverse(Self *inverse) const
     return false;
     }
 
+  inverse->SetFixedParameters(this->GetFixedParameters());
   inverse->m_Offset   = -m_Offset;
   return true;
 }

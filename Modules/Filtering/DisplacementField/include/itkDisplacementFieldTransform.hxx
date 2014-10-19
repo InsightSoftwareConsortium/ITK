@@ -128,6 +128,7 @@ bool DisplacementFieldTransform<TScalar, NDimensions>
     }
   else
     {
+    inverse->SetFixedParameters(this->GetFixedParameters());
     inverse->SetDisplacementField( this->m_InverseDisplacementField );
     inverse->SetInverseDisplacementField( this->m_DisplacementField );
     inverse->SetInterpolator( this->m_InverseInterpolator );

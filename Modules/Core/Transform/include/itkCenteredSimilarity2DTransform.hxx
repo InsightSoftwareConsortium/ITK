@@ -199,6 +199,7 @@ CenteredSimilarity2DTransform<TScalar>::GetInverse(Self *inverse) const
     return false;
     }
 
+  inverse->SetFixedParameters( this->GetFixedParameters() );
   inverse->SetCenter( this->GetCenter() );  // inverse have the same center
   inverse->SetScale( NumericTraits<double>::One / this->GetScale() );
   inverse->SetAngle( -this->GetAngle() );
