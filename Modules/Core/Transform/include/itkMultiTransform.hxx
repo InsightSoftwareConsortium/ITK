@@ -367,6 +367,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 {
   typename TransformQueueType::const_iterator it;
 
+  //NOTE: MultiTransform delegagtes to
+  //      individual transform for setting FixedParameters
+  //      inverse->SetFixedParameters( this->GetFixedParameters() );
   inverse->ClearTransformQueue();
   for( it = this->m_TransformQueue.begin(); it != this->m_TransformQueue.end(); ++it )
     {

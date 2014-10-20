@@ -613,7 +613,15 @@ int itkAffineTransformTest(int, char *[])
 
   /* Test SetParameters */
   Affine3DType::Pointer        paff = Affine3DType::New();
+  paff->Print( std::cout );
   Affine3DType::ParametersType parameters1( paff->GetNumberOfParameters() );
+  Affine3DType::ParametersType fixed_parameters = paff->GetFixedParameters();
+  const size_t fixed_params_size = fixed_parameters.Size();
+  for(size_t q=0; q < fixed_params_size; ++q)
+  {
+   fixed_parameters[q] = 100.0+q;
+  }
+  paff->SetFixedParameters( fixed_parameters );
 
   /* set up a 3x3 magic square matrix */
   parameters1[0] = 8;
@@ -630,9 +638,59 @@ int itkAffineTransformTest(int, char *[])
   parameters1[10] = 5;
   parameters1[11] = 5;
 
-  paff->Print( std::cout );
   paff->SetParameters( parameters1 );
   paff->Print( std::cout );
+
+  // TEST INVERSE OF INVERSE
+  Affine3DType::Pointer        paff_inv = Affine3DType::New();
+  paff->GetInverse(paff_inv);
+  Affine3DType::Pointer        paff_inv_inv = Affine3DType::New();
+  paff_inv->GetInverse(paff_inv_inv);
+
+  std::cout << "TEST INVERSE" << std::endl;
+  paff_inv->Print(std::cout);
+  std::cout << "TEST INVERSE OF INVERSE" << std::endl;
+  paff_inv_inv->Print(std::cout);
+
+  bool found_inv_inv_descrepancies = false;
+    {
+    Affine3DType::ParametersType parameters1_inv_inv = paff_inv_inv->GetParameters();
+    // Check that Inv(Inv(T)) ~= T
+    double mag_error = 0;
+    for( size_t q = 0; q < parameters1_inv_inv.size(); ++q)
+      {
+      const double v = ( parameters1[q] - parameters1_inv_inv[q]);
+      mag_error += sqrt(v);
+      }
+    if(mag_error > 1e-4 )
+      {
+      std::cout << "ERROR: Moving Parameters do not match!" << std::endl;
+      std::cout << parameters1 << std::endl;
+      std::cout << parameters1_inv_inv << std::endl;
+      found_inv_inv_descrepancies = true;
+      }
+    }
+    {
+    Affine3DType::ParametersType fixed_parameters_inv_inv = paff_inv_inv->GetFixedParameters();
+    double mag_error = 0;
+    for( size_t q = 0; q < fixed_parameters_inv_inv.size(); ++q)
+      {
+      const double v = ( fixed_parameters[q] - fixed_parameters_inv_inv[q]);
+      mag_error += sqrt(v);
+      }
+    if(mag_error > 1e-4 )
+      {
+      std::cout << "ERROR: Fixed Parameters do not match!" << std::endl;
+      std::cout << fixed_parameters << std::endl;
+      std::cout << fixed_parameters_inv_inv << std::endl;
+      found_inv_inv_descrepancies = true;
+      }
+    }
+    if( found_inv_inv_descrepancies )
+    {
+      std::cout << "ERROR: Inverse of Inverse does not match original!" << std::endl;
+      return EXIT_FAILURE;
+    }
 
   Affine3DType::ParametersType parametersRead( paff->GetNumberOfParameters() );
   parametersRead = paff->GetParameters();

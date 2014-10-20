@@ -152,6 +152,7 @@ Rigid2DTransform<TScalar>::GetInverse(Self *inverse) const
     return false;
     }
 
+  inverse->SetFixedParameters(this->GetFixedParameters());
   inverse->SetCenter( this->GetCenter() );  // inverse have the same center
   inverse->SetAngle( -this->GetAngle() );
   inverse->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
