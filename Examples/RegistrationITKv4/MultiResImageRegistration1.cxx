@@ -205,8 +205,8 @@ public:
     // Software Guide : BeginCodeSnippet
     RegistrationPointer registration =
       static_cast<RegistrationPointer>( object );
-    OptimizerPointer optimizer =
-      static_cast< OptimizerPointer >( registration->GetModifiableOptimizer() );
+    OptimizerPointer optimizer =  static_cast< OptimizerPointer >(
+        registration->GetModifiableOptimizer() );
     // Software Guide : EndCodeSnippet
 
     unsigned int currentLevel = registration->GetCurrentLevel();

@@ -421,9 +421,9 @@ int main( int argc, char *argv[] )
 
 
   typedef itk::RegistrationParameterScalesFromPhysicalShift<
-                                                      MetricType>   ScalesEstimatorType;
+    MetricType> ScalesEstimatorType;
   ScalesEstimatorType::Pointer scalesEstimator =
-                                        ScalesEstimatorType::New();
+    ScalesEstimatorType::New();
   scalesEstimator->SetMetric( affineMetric );
   scalesEstimator->SetTransformForward( true );
 

@@ -131,7 +131,8 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef float ReadScalarType;
 
-  typedef itk::TransformFileReaderTemplate< ReadScalarType > TransformReaderType;
+  typedef itk::TransformFileReaderTemplate< ReadScalarType >
+    TransformReaderType;
   TransformReaderType::Pointer reader = TransformReaderType::New();
   // Software Guide : EndCodeSnippet
 
