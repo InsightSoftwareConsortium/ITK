@@ -5,8 +5,13 @@
 # Needed VTK version
 set(VERSION_MIN "5.10.0")
 
+set(_wrap_module)
+if(ITK_WRAP_PYTHON)
+  set(_wrap_module vtkWrappingPythonCore)
+endif()
 # Look for VTK
-find_package(VTK COMPONENTS
+find_package(VTK REQUIRED
+  COMPONENTS
   vtkCommonCore
   vtkRenderingCore
   vtkRenderingOpenGL
@@ -14,7 +19,8 @@ find_package(VTK COMPONENTS
   vtkInteractionStyle
   vtkIOImage
   vtkImagingSources
-  REQUIRED)
+  ${_wrap_module}
+  )
 
 # Older versions of VTK (VTK 5.5 for example) do not have VTK_VERSION, in this
 # case it needs to be defined manually
