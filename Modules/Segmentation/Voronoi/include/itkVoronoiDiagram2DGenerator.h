@@ -23,10 +23,6 @@
 
 #include <vector>
 
-#ifndef NULL
-#define NULL 0
-#endif
-
 namespace itk
 {
 /** \class VoronoiDiagram2DGenerator
@@ -63,7 +59,8 @@ public:
   itkTypeMacro(VoronoiDiagram2DGenerator, MeshSource);
 
   /** Convenient typedefs. */
-  typedef VoronoiDiagram2D< TCoordType > VDMesh;
+  typedef VoronoiDiagram2D< TCoordType > VoronoidDiagramType;
+  typedef VoronoidDiagramType            VDMesh;
   typedef typename VDMesh::SeedsIterator SeedsIterator;
   typedef typename VDMesh::Pointer       OutputType;
   typedef typename VDMesh::PointType     PointType;
