@@ -158,7 +158,7 @@ public:
   virtual typename Superclass::TimeStepType
   ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
   {
-    return return this->GetTimeStep() * m_Normalizer;
+    return this->GetTimeStep() * m_Normalizer;
   }
 
 protected:
