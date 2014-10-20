@@ -536,7 +536,8 @@ int main( int argc, char *argv[] )
   centerFixed[1] =
     fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
 
-  const unsigned int numberOfFixedParameters = affineTx->GetFixedParameters().Size();
+  const unsigned int numberOfFixedParameters =
+    affineTx->GetFixedParameters().Size();
   ATransformType::ParametersType fixedParameters( numberOfFixedParameters );
   for (unsigned int i = 0; i < numberOfFixedParameters; ++i)
     {

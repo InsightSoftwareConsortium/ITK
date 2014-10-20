@@ -307,7 +307,8 @@ int main( int argc, char * argv [] )
     if( count > 0.0 )
       {
       const double probability = count / Sum;
-      JointEntropy += - probability * std::log( probability ) / std::log( 2.0 );
+      JointEntropy +=
+        - probability * std::log( probability ) / std::log( 2.0 );
       }
     ++itr;
     }

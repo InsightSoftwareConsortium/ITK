@@ -110,7 +110,8 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   ImageType::SpacingType spacing;
 
-  // Note: measurement units (e.g., mm, inches, etc.) are defined by the application.
+  // Note: measurement units (e.g., mm, inches, etc.) are defined by the
+  // application.
   spacing[0] = 0.33; // spacing along X
   spacing[1] = 0.33; // spacing along Y
   spacing[2] = 1.20; // spacing along Z
@@ -187,7 +188,9 @@ int main(int, char *[])
   const ImageType::PointType & origin = image->GetOrigin();
 
   std::cout << "Origin = ";
-  std::cout << origin[0] << ", " << origin[1] << ", " << origin[2] << std::endl;
+  std::cout << origin[0] << ", "
+            << origin[1] << ", "
+            << origin[2] << std::endl;
 
   // Software Guide : EndCodeSnippet
 
@@ -311,7 +314,8 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const bool isInside = image->TransformPhysicalPointToIndex( point, pixelIndex );
+  const bool isInside =
+    image->TransformPhysicalPointToIndex( point, pixelIndex );
   if ( isInside )
     {
     ImageType::PixelType pixelValue = image->GetPixel( pixelIndex );
@@ -395,7 +399,8 @@ int main(int, char *[])
   SpacingMatrix( 1,1 ) = ImageSpacing[1];
   SpacingMatrix( 2,2 ) = ImageSpacing[2];
 
-  const ImageType::DirectionType & ImageDirectionCosines = image->GetDirection();
+  const ImageType::DirectionType & ImageDirectionCosines =
+    image->GetDirection();
   const ImageType::PointType &ImageOrigin = image->GetOrigin();
 
   typedef itk::Vector< double, Dimension > VectorType;

@@ -215,15 +215,17 @@ int main()
   TreeType::InstanceIdentifierVectorType neighbors;
   tree->Search( queryPoint, numberOfNeighbors, neighbors);
 
-  std::cout << "\n*** kd-tree knn search result using an Euclidean distance metric:" << std::endl
-            << "query point = [" << queryPoint << "]" << std::endl
-            << "k = " << numberOfNeighbors << std::endl;
+  std::cout <<
+    "\n*** kd-tree knn search result using an Euclidean distance metric:"
+    << std::endl
+    << "query point = [" << queryPoint << "]" << std::endl
+    << "k = " << numberOfNeighbors << std::endl;
   std::cout << "measurement vector : distance from querry point " << std::endl;
   std::vector<double> distances1 (numberOfNeighbors);
   for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
      {
      distances1[i] =  distanceMetric->Evaluate(
-                                        tree->GetMeasurementVector( neighbors[i] ));
+       tree->GetMeasurementVector( neighbors[i] ));
      std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
                << "] : "
                << distances1[i]
@@ -243,7 +245,8 @@ int main()
   std::vector<double> distances2;
   tree->Search( queryPoint, numberOfNeighbors, neighbors, distances2 );
 
-  std::cout << "\n*** kd-tree knn search result directly from tree:" << std::endl
+  std::cout << "\n*** kd-tree knn search result directly from tree:"
+            << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl;
   std::cout << "measurement vector : distance from querry point " << std::endl;
@@ -271,18 +274,21 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   std::vector<double> distances3;
-  centroidTree->Search( queryPoint, numberOfNeighbors, neighbors, distances3 );
+  centroidTree->Search(
+    queryPoint, numberOfNeighbors, neighbors, distances3 );
 
   centroidTree->Search( queryPoint, numberOfNeighbors, neighbors );
-  std::cout << "\n*** Weighted centroid kd-tree knn search result:" << std::endl
+  std::cout << "\n*** Weighted centroid kd-tree knn search result:"
+            << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl;
-  std::cout << "measurement vector : distance_by_distMetric : distance_by_tree" << std::endl;
+  std::cout << "measurement vector : distance_by_distMetric : distance_by_tree"
+            << std::endl;
   std::vector<double> distances4 (numberOfNeighbors);
   for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
     {
     distances4[i] = distanceMetric->Evaluate(
-                                      centroidTree->GetMeasurementVector( neighbors[i]));
+      centroidTree->GetMeasurementVector( neighbors[i]));
     std::cout << "[" << centroidTree->GetMeasurementVector( neighbors[i] )
               << "]       :       "
               << distances4[i]
@@ -311,7 +317,8 @@ int main()
 
   tree->Search( queryPoint, radius, neighbors );
 
-  std::cout << "\nSearching points within a hyper-spherical kernel:" << std::endl;
+  std::cout << "\nSearching points within a hyper-spherical kernel:"
+            << std::endl;
   std::cout << "*** kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl;
@@ -336,7 +343,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   centroidTree->Search( queryPoint, radius, neighbors );
-  std::cout << "\n*** Weighted centroid kd-tree radius search result:" << std::endl
+  std::cout << "\n*** Weighted centroid kd-tree radius search result:"
+            << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl;
   std::cout << "measurement vector : distance" << std::endl;
