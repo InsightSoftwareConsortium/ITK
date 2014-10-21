@@ -229,7 +229,6 @@ macro(itk_load_submodule module)
   # Global vars used: none
   # Global vars modified: WRAPPER_MODULE_NAME WRAPPER_TYPEDEFS
   #                       WRAPPER_INCLUDE_FILES WRAPPER_AUTO_INCLUDE_HEADERS
-  #                       WRAPPER_DO_NOT_CREATE_CXX
 
   itk_wrap_submodule(${module})
 
@@ -245,7 +244,8 @@ macro(itk_load_submodule module)
     endif()
   endif()
 
-  itk_end_wrap_submodule()
+  # Call generator specific macros
+  itk_end_wrap_submodule_all_generators("${WRAPPER_MODULE_NAME}")
 
 endmacro()
 
@@ -272,26 +272,8 @@ macro(itk_wrap_submodule module)
     itk_wrap_include("${inc}")
   endforeach()
   set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
-#   set(WRAPPER_DO_NOT_CREATE_CXX OFF)
 
 endmacro()
-
-macro(itk_end_wrap_submodule)
-  # Write the file, inless the included cmake file told us not to.
-  # A file might declare WRAPPER_DO_NOT_CREATE_CXX if that cmake file
-  # provides a custom wrap_*.cxx file and manually appends it to the
-  # WRAPPER_LIBRARY_SWIG_INPUTS list; thus that file would not
-  # need or want any cxx file generated.
-#   if(NOT WRAPPER_DO_NOT_CREATE_CXX)
-#     WRITE_WRAP_CXX("wrap_${module}.cxx")
-#   endif()
-
-  # call generators specific macros
-  itk_end_wrap_submodule_all_generators("${WRAPPER_MODULE_NAME}")
-
-endmacro()
-
-
 
 ################################################################################
 # Macros to be used in the wrap_*.cmake files themselves.
@@ -440,9 +422,7 @@ endmacro()
 
 
 macro(itk_wrap_include include_file)
-  # Add a header file to the list of files to be #included in the final
-  # cxx file. This list is actually processed in WRITE_WRAP_CXX.
-  #
+  # Add a header file to the list of files to be #included in the final cxx file.
   # Global vars used: WRAPPER_INCLUDE_FILES
   # Global vars modified: WRAPPER_INCLUDE_FILES
   set(already_included 0)
