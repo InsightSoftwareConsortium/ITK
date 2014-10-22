@@ -74,6 +74,18 @@ public:
   typedef typename Superclass::ParametersType     ParametersType;
   typedef TInternalComputationValueType           ParametersValueType;
 
+  /**  Type of object. */
+  typedef Object                                  ObjectType;
+  typedef typename ObjectType::ConstPointer       ObjectConstPointer;
+
+  /** Get/Set the Fixed Object.  */
+  itkSetConstObjectMacro( FixedObject, ObjectType );
+  itkGetConstObjectMacro( FixedObject, ObjectType );
+
+  /** Get/Set the Moving Object.  */
+  itkSetConstObjectMacro( MovingObject, ObjectType );
+  itkGetConstObjectMacro( MovingObject, ObjectType );
+
   /** Source of the gradient(s) used by the metric
    * (e.g. image gradients, in the case of
    * image to image metrics). Defaults to Moving. */
@@ -159,11 +171,29 @@ public:
    * metric value and store it in m_Value. */
   MeasureType GetCurrentValue() const;
 
+  typedef enum {
+    UNKNOWN_METRIC = 0,
+    OBJECT_METRIC = 1,
+    IMAGE_METRIC = 2,
+    POINT_SET_METRIC = 3,
+    MULTI_METRIC = 4
+    } MetricCategoryType;
+
+  /** Get metric category */
+  virtual MetricCategoryType GetMetricCategory() const
+    {
+    return UNKNOWN_METRIC;
+    }
+
 protected:
   ObjectToObjectMetricBaseTemplate();
   virtual ~ObjectToObjectMetricBaseTemplate();
 
   void PrintSelf(std::ostream & os, Indent indent) const;
+
+  /** Fixed and Moving Objects */
+  ObjectConstPointer      m_FixedObject;
+  ObjectConstPointer      m_MovingObject;
 
   GradientSourceType              m_GradientSource;
 

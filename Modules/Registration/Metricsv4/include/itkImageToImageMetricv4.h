@@ -217,6 +217,8 @@ public:
   typedef typename Superclass::FixedTransformJacobianType     FixedTransformJacobianType;
   typedef typename Superclass::MovingTransformJacobianType    MovingTransformJacobianType;
 
+  typedef typename Superclass::ObjectType                     ObjectType;
+
   /** Image-accessor typedefs */
   typedef TFixedImage                             FixedImageType;
   typedef typename FixedImageType::PixelType      FixedImagePixelType;
@@ -356,6 +358,34 @@ public:
   /** Type to represent the number of parameters that are being optimized at
    * any given iteration of the optimizer. */
   typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
+
+  /** Set fixed image*/
+  virtual void SetFixedObject( const ObjectType *object )
+    {
+    FixedImageType *image = dynamic_cast<FixedImageType *>( const_cast<ObjectType *>( object ) );
+    if( image != ITK_NULLPTR )
+      {
+      this->SetFixedImage( image );
+      }
+    else
+      {
+      itkExceptionMacro( "Incorrect object type.  Should be an image." )
+      }
+    }
+
+  /** Set moving image*/
+  virtual void SetMovingObject( const ObjectType *object )
+    {
+    MovingImageType *image = dynamic_cast<MovingImageType *>( const_cast<ObjectType *>( object ) );
+    if( image != ITK_NULLPTR )
+      {
+      this->SetMovingImage( image );
+      }
+    else
+      {
+      itkExceptionMacro( "Incorrect object type.  Should be an image." )
+      }
+    }
 
   /* Get/Set the Fixed Image.  */
   itkSetConstObjectMacro(FixedImage, FixedImageType);
@@ -517,6 +547,14 @@ public:
   {
     return true;
   }
+
+  typedef typename Superclass::MetricCategoryType   MetricCategoryType;
+
+  /** Get metric category */
+  virtual MetricCategoryType GetMetricCategory() const
+    {
+    return Superclass::IMAGE_METRIC;
+    }
 
 protected:
   /* Interpolators for image gradient filters. */

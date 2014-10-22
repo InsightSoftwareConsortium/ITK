@@ -123,6 +123,8 @@ public:
   typedef typename MetricType::ConstPointer        MetricBaseConstPointer;
   typedef std::deque<MetricBasePointer>            MetricQueueType;
 
+  typedef typename Superclass::ObjectType          ObjectType;
+
   typedef typename DerivativeType::ValueType       WeightValueType;
   typedef Array<WeightValueType>                   WeightsArrayType;
   typedef Array<MeasureType>                       MetricValueArrayType;
@@ -140,6 +142,18 @@ public:
   SizeValueType GetNumberOfMetrics() const;
 
   void Initialize(void) throw ( itk::ExceptionObject );
+
+  /** Set fixed object (image, point set, etc.)*/
+  virtual void SetFixedObject( const ObjectType *itkNotUsed( object ) )
+    {
+    itkExceptionMacro( "A single object should not be specified for the multi metric.");
+    }
+
+  /** Set moving object (image, point set, etc.)*/
+  virtual void SetMovingObject( const ObjectType *itkNotUsed( object ) )
+    {
+    itkExceptionMacro( "A single object should not be specified for the multi metric.");
+    }
 
   /** Set each of the component metrics to use this moving transform. */
   virtual void SetMovingTransform( MovingTransformType * );
@@ -175,6 +189,14 @@ public:
   const MetricQueueType & GetMetricQueue() const;
 
   virtual bool SupportsArbitraryVirtualDomainSamples( void ) const;
+
+  typedef typename Superclass::MetricCategoryType   MetricCategoryType;
+
+  /** Get metric category */
+  virtual MetricCategoryType GetMetricCategory() const
+    {
+    return Superclass::MULTI_METRIC;
+    }
 
 protected:
 

@@ -26,6 +26,7 @@
 #include "itkObjectToObjectMultiMetricv4.h"
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkImageToImageMetricv4.h"
+#include "itkPointSetToPointSetMetricv4.h"
 #include "itkShrinkImageFilter.h"
 #include "itkTransform.h"
 #include "itkTransformParametersAdaptorBase.h"
@@ -132,10 +133,13 @@ public:
   typedef ObjectToObjectMetricBaseTemplate<RealType>                  MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
 
+  typedef PointSet<unsigned int, ImageDimension>                      PointSetType;
+
   typedef TVirtualImage                                               VirtualImageType;
 
   typedef ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension, VirtualImageType, RealType>  MultiMetricType;
   typedef ImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>        ImageMetricType;
+  typedef PointSetToPointSetMetricv4<PointSetType, PointSetType, RealType>                         PointSetMetricType;
 
   /**
    * Type for the output: Using Decorator pattern for enabling the transform to be
@@ -195,6 +199,30 @@ public:
     }
   virtual void SetMovingImage( SizeValueType, const MovingImageType * );
   virtual const MovingImageType * GetMovingImage( SizeValueType ) const;
+
+  /** Set/get the fixed point sets. */
+  virtual void SetFixedPointSet( const PointSetType *pointSet )
+    {
+    this->SetFixedPointSet( 0, pointSet );
+    }
+  virtual const PointSetType * GetFixedPointSet() const
+    {
+    return this->GetFixedPointSet( 0 );
+    }
+  virtual void SetFixedPointSet( SizeValueType, const PointSetType * );
+  virtual const PointSetType * GetFixedPointSet( SizeValueType ) const;
+
+  /** Set the moving point sets. */
+  virtual void SetMovingPointSet( const PointSetType *pointSet )
+    {
+    this->SetMovingPointSet( 0, pointSet );
+    }
+  virtual const PointSetType * GetMovingPointSet() const
+    {
+    return this->GetMovingPointSet( 0 );
+    }
+  virtual void SetMovingPointSet( SizeValueType, const PointSetType * );
+  virtual const PointSetType * GetMovingPointSet( SizeValueType ) const;
 
   /** Set/Get the optimizer. */
   itkSetObjectMacro( Optimizer, OptimizerType );
@@ -339,17 +367,17 @@ public:
   /** Get the current level.  This is a helper function for reporting observations. */
   itkGetConstMacro( CurrentLevel, SizeValueType );
 
-   /** Get the current iteration.  This is a helper function for reporting observations. */
-   itkGetConstReferenceMacro( CurrentIteration, SizeValueType );
+  /** Get the current iteration.  This is a helper function for reporting observations. */
+  itkGetConstReferenceMacro( CurrentIteration, SizeValueType );
 
-   /* Get the current metric value.  This is a helper function for reporting observations. */
-   itkGetConstReferenceMacro( CurrentMetricValue, RealType );
+  /* Get the current metric value.  This is a helper function for reporting observations. */
+  itkGetConstReferenceMacro( CurrentMetricValue, RealType );
 
-   /** Get the current convergence value.  This is a helper function for reporting observations. */
-   itkGetConstReferenceMacro( CurrentConvergenceValue, RealType );
+  /** Get the current convergence value.  This is a helper function for reporting observations. */
+  itkGetConstReferenceMacro( CurrentConvergenceValue, RealType );
 
-   /** Get the current convergence state per level.  This is a helper function for reporting observations. */
-   itkGetConstReferenceMacro( IsConverged, bool );
+  /** Get the current convergence state per level.  This is a helper function for reporting observations. */
+  itkGetConstReferenceMacro( IsConverged, bool );
 
   /** Request that the InitialTransform be grafted onto the output,
    * there by not creating a copy.
@@ -425,8 +453,8 @@ protected:
 
   FixedImagesContainerType                                        m_FixedSmoothImages;
   MovingImagesContainerType                                       m_MovingSmoothImages;
-  SizeValueType                                                   m_NumberOfFixedImages;
-  SizeValueType                                                   m_NumberOfMovingImages;
+  SizeValueType                                                   m_NumberOfFixedObjects;
+  SizeValueType                                                   m_NumberOfMovingObjects;
 
   OptimizerPointer                                                m_Optimizer;
   OptimizerWeightsType                                            m_OptimizerWeights;
@@ -435,7 +463,8 @@ protected:
   MetricPointer                                                   m_Metric;
   MetricSamplingStrategyType                                      m_MetricSamplingStrategy;
   MetricSamplingPercentageArrayType                               m_MetricSamplingPercentagePerLevel;
-
+  SizeValueType                                                   m_NumberOfMetrics;
+  int                                                             m_FirstImageMetricIndex;
   std::vector<ShrinkFactorsPerDimensionContainerType>             m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;
   bool                                                            m_SmoothingSigmasAreSpecifiedInPhysicalUnits;
@@ -466,7 +495,7 @@ private:
 
   static void MakeOutputTransform(SmartPointer<InitialTransformType> &ptr)
     {
-      ptr = itk::IdentityTransform<RealType, ImageDimension>::New().GetPointer();
+      ptr = IdentityTransform<RealType, ImageDimension>::New().GetPointer();
     }
 
 };
