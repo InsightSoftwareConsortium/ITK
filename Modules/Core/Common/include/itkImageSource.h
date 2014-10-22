@@ -229,8 +229,8 @@ public:
    * SmartPointer to a DataObject. If a subclass of ImageSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
-  using Superclass::MakeOutput;
   virtual ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  virtual ProcessObject::DataObjectPointer MakeOutput(const ProcessObject::DataObjectIdentifierType &) ITK_OVERRIDE;
 
 protected:
   ImageSource();
