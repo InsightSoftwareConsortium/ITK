@@ -116,6 +116,9 @@ public:
   typedef typename Superclass::DecoratedOutputTransformType           DecoratedOutputTransformType;
   typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
 
+  typedef DisplacementFieldTransform<RealType, ImageDimension>        DisplacementFieldTransformType;
+  typedef typename DisplacementFieldTransformType::Pointer            DisplacementFieldTransformPointer;
+
   typedef Array<SizeValueType>                                        NumberOfIterationsArrayType;
 
   /** Set/Get the learning rate. */
