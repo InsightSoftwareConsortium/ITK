@@ -148,7 +148,7 @@ protected:
 
   unsigned int  GetFormat();
 
-  void GetColor(int index, unsigned short *red,
+  void GetColor(unsigned int index, unsigned short *red,
                 unsigned short *green, unsigned short *blue);
 
   // Check that tag t can be found

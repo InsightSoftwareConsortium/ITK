@@ -77,79 +77,28 @@ void TIFFImageIO::ReadGenericImage(void *out,
     }
 }
 
-void TIFFImageIO::GetColor(int index, unsigned short *red,
+void TIFFImageIO::GetColor(unsigned int index, unsigned short *red,
                            unsigned short *green, unsigned short *blue)
 {
   *red   = 0;
   *green = 0;
   *blue  = 0;
-  if ( index < 0 )
-    {
-    itkExceptionMacro(<< "Color index has to be greater than 0");
-    }
+
   if ( m_TotalColors > 0
        && m_ColorRed && m_ColorGreen && m_ColorBlue )
     {
-    if ( index >= m_TotalColors )
-      {
-      itkExceptionMacro(<< "Color index has to be less than number of colors ("
-                        << m_TotalColors << ")");
-      }
+    index %= m_TotalColors;
+
     *red   = *( m_ColorRed   + index );
     *green = *( m_ColorGreen + index );
     *blue  = *( m_ColorBlue  + index );
     return;
     }
 
-  unsigned short photometric;
-
-  if ( !TIFFGetField(m_InternalImage->m_Image, TIFFTAG_PHOTOMETRIC, &photometric) )
-    {
-    if ( m_InternalImage->m_Photometrics != PHOTOMETRIC_PALETTE )
-      {
-      itkExceptionMacro(<< "You can only access colors for palette images");
-      }
-    }
-
-  unsigned short *red_orig, *green_orig, *blue_orig;
-
-  switch ( m_InternalImage->m_BitsPerSample )
-    {
-    case 1:
-    case 2:
-    case 4:
-    case 8:
-    case 16:
-      break;
-    default:
-      itkExceptionMacro(<<  "Sorry, can not handle image with "
-                        << m_InternalImage->m_BitsPerSample
-                        << "-bit samples");
-    }
-  if ( !TIFFGetField(m_InternalImage->m_Image, TIFFTAG_COLORMAP,
-                     &red_orig, &green_orig, &blue_orig) )
-    {
-    itkExceptionMacro(<< "Missing required \"Colormap\" tag");
-    }
-  m_TotalColors = ( 1L << m_InternalImage->m_BitsPerSample );
-
-  if ( index >= m_TotalColors )
-    {
-    itkExceptionMacro(<< "Color index has to be less than number of colors ("
-                      << m_TotalColors << ")");
-    }
-  m_ColorRed   =   red_orig;
-  m_ColorGreen = green_orig;
-  m_ColorBlue  =  blue_orig;
-
-  *red   = *( red_orig   + index );
-  *green = *( green_orig + index );
-  *blue  = *( blue_orig  + index );
 }
 
 unsigned int TIFFImageIO::GetFormat()
 {
-  unsigned int cc;
 
   if ( m_ImageFormat != TIFFImageIO::NOFORMAT )
     {
@@ -167,18 +116,22 @@ unsigned int TIFFImageIO::GetFormat()
       m_ImageFormat = TIFFImageIO::GRAYSCALE;
       return m_ImageFormat;
     case PHOTOMETRIC_PALETTE:
-      for ( cc = 0; cc < 256; cc++ )
+      this->InitializeColors();
+      if ( m_TotalColors > 0 )
         {
-        unsigned short red, green, blue;
-        this->GetColor(cc, &red, &green, &blue);
-        if ( red != green || red != blue )
+        for ( unsigned int cc = 0; cc < static_cast<unsigned int>(m_TotalColors); ++cc )
           {
-          m_ImageFormat = TIFFImageIO::PALETTE_RGB;
-          return m_ImageFormat;
+          unsigned short red, green, blue;
+          this->GetColor(cc, &red, &green, &blue);
+          if ( red != green || red != blue )
+            {
+            m_ImageFormat = TIFFImageIO::PALETTE_RGB;
+            return m_ImageFormat;
+            }
           }
+        m_ImageFormat = TIFFImageIO::PALETTE_GRAYSCALE;
+        return m_ImageFormat;
         }
-      m_ImageFormat = TIFFImageIO::PALETTE_GRAYSCALE;
-      return m_ImageFormat;
     }
   m_ImageFormat = TIFFImageIO::OTHER;
   return m_ImageFormat;
@@ -258,7 +211,12 @@ TIFFImageIO::TIFFImageIO()
   m_PixelType = SCALAR;
   m_ComponentType = UCHAR;
 
-  this->InitializeColors();
+  m_ColorRed    = ITK_NULLPTR;
+  m_ColorGreen  = ITK_NULLPTR;
+  m_ColorBlue   = ITK_NULLPTR;
+  m_TotalColors = -1;
+  m_ImageFormat = TIFFImageIO::NOFORMAT;
+
   m_InternalImage = new TIFFReaderInternal;
 
   m_Spacing[0] = 1.0;
@@ -301,6 +259,38 @@ void TIFFImageIO::InitializeColors()
   m_ColorBlue   = ITK_NULLPTR;
   m_TotalColors = -1;
   m_ImageFormat = TIFFImageIO::NOFORMAT;
+
+  if ( m_InternalImage == ITK_NULLPTR )
+    {
+    return;
+    }
+
+  unsigned short *red_orig, *green_orig, *blue_orig;
+  if ( !TIFFGetField(m_InternalImage->m_Image, TIFFTAG_COLORMAP,
+                     &red_orig, &green_orig, &blue_orig) )
+    {
+    return;
+    }
+
+  switch ( m_InternalImage->m_BitsPerSample )
+    {
+    case 1:
+    case 2:
+    case 4:
+    case 8:
+    case 16:
+      break;
+    default:
+      itkExceptionMacro(<<  "Sorry, can not handle image with "
+                        << m_InternalImage->m_BitsPerSample
+                        << "-bit samples");
+    }
+
+  m_TotalColors = ( 1L << m_InternalImage->m_BitsPerSample );
+
+  m_ColorRed   =   red_orig;
+  m_ColorGreen = green_orig;
+  m_ColorBlue  =  blue_orig;
 }
 
 
@@ -400,7 +390,8 @@ void TIFFImageIO::ReadImageInformation()
     }
 
   if ( this->GetFormat() == TIFFImageIO::PALETTE_GRAYSCALE ||
-       this->GetFormat() == TIFFImageIO::PALETTE_RGB )
+       this->GetFormat() == TIFFImageIO::PALETTE_RGB
+       && m_TotalColors > 0)
     {
     m_ComponentType = UCHAR;
     // detect if palette appears to be 8-bit or 16-bit
@@ -1105,10 +1096,6 @@ void TIFFImageIO::ReadCurrentPage(void *buffer, size_t pixelOffset)
   const int width  = m_InternalImage->m_Width;
   const int height = m_InternalImage->m_Height;
 
-  // It is necessary to re-initialize the colors for each page so
-  // that the colormap is reset in the GetColor method.  This is
-  // also true in the case that each slice has a different colormap.
-  this->InitializeColors();
 
   if ( !m_InternalImage->CanRead() )
     {
@@ -1137,6 +1124,10 @@ void TIFFImageIO::ReadCurrentPage(void *buffer, size_t pixelOffset)
     }
   else
     {
+
+    this->InitializeColors();
+
+
     if ( m_ComponentType == USHORT )
       {
       unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
@@ -1190,10 +1181,6 @@ void TIFFImageIO::ReadGenericImage(void *_out,
 
   ComponentType *out = static_cast< ComponentType* >( _out );
   ComponentType *image;
-
-  // It is necessary to re-initialize the colors for eachread so
-  // that the colormap remains valid.
-  this->InitializeColors();
 
   if ( m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG )
     {
@@ -1332,18 +1319,20 @@ void TIFFImageIO::PutPaletteRGB( TType *to, TFromType * from,
                                  unsigned int xsize, unsigned int ysize,
                                  unsigned int toskew, unsigned int fromskew )
 {
-  unsigned short red, green, blue;
-
   for( unsigned int y = ysize; y-- > 0;)
     {
     for (unsigned int x = xsize; x-- > 0;)
       {
-        this->GetColor(*from, &red, &green, &blue);
-        *( to )   = red;
-        *( to + 1 ) = green;
-        *( to + 2 ) = blue;
-        to += 3;
-        ++from;
+      const TFromType index = (*from) % m_TotalColors;
+
+      const TType red   = static_cast< TType >( *( m_ColorRed   + index ) );
+      const TType green = static_cast< TType >( *( m_ColorGreen + index ) );
+      const TType blue  = static_cast< TType >( *( m_ColorBlue  + index ) );
+      *( to )   = red;
+      *( to + 1 ) = green;
+      *( to + 2 ) = blue;
+      to += 3;
+      ++from;
       }
     to += toskew;
     from += fromskew;
@@ -1356,14 +1345,14 @@ void TIFFImageIO::PutPaletteGrayscale( TType *to, TFromType * from,
                                        unsigned int xsize, unsigned int ysize,
                                        unsigned int toskew, unsigned int fromskew )
 {
-  unsigned short red, green, blue;
-
   for( unsigned int y = ysize; y-- > 0;)
     {
     for (unsigned int x = xsize; x-- > 0;)
       {
-      this->GetColor(*from, &red, &green, &blue);
-      *( to ) = red;
+      const TFromType index = *from % m_TotalColors;
+
+      *( to ) = static_cast< TType >( *( m_ColorRed   + index ) );
+
       ++to;
       ++from;
       }
