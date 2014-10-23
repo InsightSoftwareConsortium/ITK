@@ -85,8 +85,8 @@ endmacro()
 
 
 macro(itk_wrap_simple_type_gccxml wrap_class swig_name)
-  set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}      typedef ${wrap_class} ${swig_name};\n")
-  set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}  sizeof(${swig_name});\n")
+  set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}    typedef ${wrap_class} ${swig_name};\n")
+  set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}    sizeof(${swig_name});\n")
 endmacro()
 
 
@@ -103,17 +103,9 @@ macro(itk_end_wrap_submodule_gccxml module)
   # Global vars used: WRAPPER_INCLUDE_FILES WRAPPER_MODULE_NAME and WRAPPER_TYPEDEFS
   # Global vars modified: none
 
-#   message("${GCC_XML_INCLUDES}${GCC_XML_TYPEDEFS}")
-
-  # Create the cxx file.
-  set(file_name "${module}.cxx")
-  set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${file_name}")
-  set(CONFIG_WRAPPER_INCLUDES "${GCC_XML_INCLUDES}")
-  set(CONFIG_WRAPPER_MODULE_NAME "${WRAPPER_MODULE_NAME}")
-  set(CONFIG_WRAPPER_TYPEDEFS "${GCC_XML_TYPEDEFS}")
-  set(CONFIG_WRAPPER_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}")
-  configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/wrap_.cxx.in"
-    "${cxx_file}" @ONLY)
+  # Create the cxx file which will be given to gccxml.
+  set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.cxx")
+  configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
   set(ADDITIONAL_GCC_XML_FLAGS "")
   if(MSVC90)
     set( ADDITIONAL_GCC_XML_FLAGS "-D\"_HAS_TR1=0\"" )
@@ -164,7 +156,7 @@ endmacro()
 macro(itk_wrap_one_type_gccxml  wrap_method wrap_class swig_name template_params)
   # insert a blank line to separate the classes
   set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}\n")
-  # add a peace of code for type instantiation
+  # add a piece of code for type instantiation
   set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}\n")
 endmacro()
 
