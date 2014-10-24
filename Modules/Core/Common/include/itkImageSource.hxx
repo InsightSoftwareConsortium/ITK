@@ -67,6 +67,18 @@ ImageSource< TOutputImage >
   return TOutputImage::New().GetPointer();
 }
 
+
+/**
+ *
+ */
+template< typename TOutputImage >
+ProcessObject::DataObjectPointer
+ImageSource< TOutputImage >
+::MakeOutput(const ProcessObject::DataObjectIdentifierType &)
+{
+  return TOutputImage::New().GetPointer();
+}
+
 /**
  *
  */

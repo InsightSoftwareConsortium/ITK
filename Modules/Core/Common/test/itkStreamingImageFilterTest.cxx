@@ -67,6 +67,10 @@ int itkStreamingImageFilterTest(int, char* [] )
 
   itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer;
   streamer = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
+
+  // test MakeOutput by name
+  streamer->MakeOutput( streamer->GetOutputNames()[0] );
+
   streamer->SetInput( monitor->GetOutput() );
   streamer->SetNumberOfStreamDivisions( numberOfStreamDivisions );
   streamer->Update();
