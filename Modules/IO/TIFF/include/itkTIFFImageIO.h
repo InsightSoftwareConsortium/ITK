@@ -146,11 +146,9 @@ protected:
                                    unsigned int width,
                                    unsigned int height);
 
-  int EvaluateImageAt(void *out, void *in);
-
   unsigned int  GetFormat();
 
-  void GetColor(int index, unsigned short *red,
+  void GetColor(unsigned int index, unsigned short *red,
                 unsigned short *green, unsigned short *blue);
 
   // Check that tag t can be found
@@ -179,6 +177,27 @@ private:
 
   template <typename TComponent>
     void RGBAImageToBuffer( void *out, const uint32_t *tempImage );
+
+  template <typename TType>
+    void PutGrayscale( TType *to, TType * from,
+                       unsigned int xsize, unsigned int ysize,
+                       unsigned int toskew, unsigned int fromskew );
+
+  template <typename TType>
+    void PutRGB_( TType *to, TType * from,
+                  unsigned int xsize, unsigned int ysize,
+                  unsigned int toskew, unsigned int fromskew );
+
+
+  template <typename TType, typename TFromType>
+    void PutPaletteGrayscale( TType *to, TFromType * from,
+                              unsigned int xsize, unsigned int ysize,
+                              unsigned int toskew, unsigned int fromskew );
+
+  template <typename TType, typename TFromType>
+    void PutPaletteRGB( TType *to, TFromType * from,
+                        unsigned int xsize, unsigned int ysize,
+                        unsigned int toskew, unsigned int fromskew );
 
   unsigned short *m_ColorRed;
   unsigned short *m_ColorGreen;

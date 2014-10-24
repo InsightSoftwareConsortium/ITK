@@ -100,6 +100,7 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
     chronometer.Start("Write");
     writer->Update();
     chronometer.Stop("Write");
+    image = ITK_NULLPTR;
     }
   catch (itk::ExceptionObject &ex)
     {
