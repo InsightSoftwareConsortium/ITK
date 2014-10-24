@@ -389,8 +389,8 @@ void TIFFImageIO::ReadImageInformation()
       this->SetPixelType(RGBA);
     }
 
-  if ( this->GetFormat() == TIFFImageIO::PALETTE_GRAYSCALE ||
-       this->GetFormat() == TIFFImageIO::PALETTE_RGB
+  if ( (this->GetFormat() == TIFFImageIO::PALETTE_GRAYSCALE ||
+        this->GetFormat() == TIFFImageIO::PALETTE_RGB)
        && m_TotalColors > 0)
     {
     m_ComponentType = UCHAR;
