@@ -32,7 +32,7 @@ template<typename TFixedPointSet, typename TMovingPointSet, class TInternalCompu
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::LabeledPointSetToPointSetMetricv4()
 {
-  typedef EuclideanDistancePointSetToPointSetMetricv4<FixedPointSetType, MovingPointSetType> DefaultMetricType;
+  typedef EuclideanDistancePointSetToPointSetMetricv4<FixedPointSetType, MovingPointSetType, TInternalComputationValueType> DefaultMetricType;
   typename DefaultMetricType::Pointer euclideanMetric = DefaultMetricType::New();
   this->m_PointSetMetric = euclideanMetric;
 
