@@ -325,8 +325,8 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     identityField->Allocate();
     identityField->FillBuffer( zeroVector );
 
-    typedef DisplacementFieldTransform<RealType, ImageDimension> DisplacementFieldTransformType;
-    typename DisplacementFieldTransformType::Pointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
+    typedef DisplacementFieldTransform<RealType, ImageDimension> IdentityDisplacementFieldTransformType;
+    typename IdentityDisplacementFieldTransformType::Pointer identityDisplacementFieldTransform = IdentityDisplacementFieldTransformType::New();
     identityDisplacementFieldTransform->SetDisplacementField( identityField );
 
     if( multiMetric )

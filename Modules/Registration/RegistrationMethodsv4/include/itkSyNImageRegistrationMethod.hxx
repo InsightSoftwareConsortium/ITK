@@ -69,6 +69,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 
   if( level == 0 )
     {
+    // Initialize the FixedToMiddleTransform as an Identity displacement field transform
+    //
     typename VirtualImageType::ConstPointer virtualDomainImage;
     typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
     if( multiMetric )
@@ -97,20 +99,47 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     this->m_FixedToMiddleTransform->SetDisplacementField( fixedDisplacementField );
     this->m_FixedToMiddleTransform->SetInverseDisplacementField( fixedInverseDisplacementField );
 
-    typename DisplacementFieldType::Pointer movingDisplacementField = DisplacementFieldType::New();
-    movingDisplacementField->CopyInformation( virtualDomainImage );
-    movingDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
-    movingDisplacementField->Allocate();
-    movingDisplacementField->FillBuffer( zeroVector );
+    // MovingToMiddleTransform is initialized either by the initial displacementField transform or as an Identity
+    //
+    const unsigned int numberOfTransforms = this->m_CompositeTransform->GetNumberOfTransforms();
+    typename DisplacementFieldTransformType::Pointer initialTransform =
+      dynamic_cast<DisplacementFieldTransformType *>( this->m_CompositeTransform->GetNthTransform(numberOfTransforms-1).GetPointer() );
 
-    typename DisplacementFieldType::Pointer movingInverseDisplacementField = DisplacementFieldType::New();
-    movingInverseDisplacementField->CopyInformation( virtualDomainImage );
-    movingInverseDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
-    movingInverseDisplacementField->Allocate();
-    movingInverseDisplacementField->FillBuffer( zeroVector );
+    if( initialTransform.IsNotNull() )
+      {
+      OutputTransformPointer localMovingToMiddleTransformInverse = OutputTransformType::New();
+      localMovingToMiddleTransformInverse->SetDisplacementField( initialTransform->GetModifiableDisplacementField() );
+      if( initialTransform->GetInverseDisplacementField() )
+        {
+        localMovingToMiddleTransformInverse->SetInverseDisplacementField( initialTransform->GetModifiableInverseDisplacementField() );
+        }
+      else
+        {
+        itkExceptionMacro("ERROR: Missed InverseDisplacementField in the initial transform.");
+        }
+      this->m_MovingToMiddleTransform = dynamic_cast<OutputTransformType *>(localMovingToMiddleTransformInverse->GetInverseTransform().GetPointer() );
+      if( this->m_MovingToMiddleTransform.IsNull() )
+        {
+        itkExceptionMacro("ERROR: Failed to initialize MovingToMiddleTransform.");
+        }
+      }
+    else
+      {
+      typename DisplacementFieldType::Pointer movingDisplacementField = DisplacementFieldType::New();
+      movingDisplacementField->CopyInformation( virtualDomainImage );
+      movingDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
+      movingDisplacementField->Allocate();
+      movingDisplacementField->FillBuffer( zeroVector );
 
-    this->m_MovingToMiddleTransform->SetDisplacementField( movingDisplacementField );
-    this->m_MovingToMiddleTransform->SetInverseDisplacementField( movingInverseDisplacementField );
+      typename DisplacementFieldType::Pointer movingInverseDisplacementField = DisplacementFieldType::New();
+      movingInverseDisplacementField->CopyInformation( virtualDomainImage );
+      movingInverseDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
+      movingInverseDisplacementField->Allocate();
+      movingInverseDisplacementField->FillBuffer( zeroVector );
+
+      this->m_MovingToMiddleTransform->SetDisplacementField( movingDisplacementField );
+      this->m_MovingToMiddleTransform->SetInverseDisplacementField( movingInverseDisplacementField );
+      }
     }
   else if( this->m_TransformParametersAdaptorsPerLevel[level] )
     {
@@ -334,8 +363,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     identityField->Allocate();
     identityField->FillBuffer( zeroVector );
 
-    typedef DisplacementFieldTransform<RealType, ImageDimension> DisplacementFieldTransformType;
-    typename DisplacementFieldTransformType::Pointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
+    DisplacementFieldTransformPointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
     identityDisplacementFieldTransform->SetDisplacementField( identityField );
 
     if( multiMetric )
