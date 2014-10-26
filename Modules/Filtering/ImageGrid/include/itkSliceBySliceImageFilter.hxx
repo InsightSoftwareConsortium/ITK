@@ -208,12 +208,36 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
   typedef typename InternalInputImageType::Pointer InternalInputImagePointer;
   std::vector< InternalInputImagePointer > internalInputs( this->GetNumberOfIndexedInputs() );
 
-  // keep the internal input around each iteration, because if the
-  // fitlers are not run inplace, we don't need to reallocate each iteration
+  typename InputImageType::IndexType originIndex;
+  originIndex.Fill(0);
   for ( unsigned int i = 0; i < numberOfIndexedInputs; i++ )
+    {
+    // Passing through a N-1 direction matrix to the internal slice filter is
+    // not supported to avoid dealing with singularities, but we still account
+    // for the direction matrix when collapsing the origin to an N-1 point.
+    typename InputImageType::PointType inputOrigin;
+    this->GetInput(i)->TransformIndexToPhysicalPoint(originIndex, inputOrigin);
+
+    InternalSpacingType internalInputSpacing;
+    InternalPointType internalInputOrigin;
+    unsigned int internal_dim = 0;
+    for ( unsigned int dim = 0; internal_dim < InternalImageDimension; ++dim, ++internal_dim )
       {
-      internalInputs[i] = InternalInputImageType::New();
+      if ( dim == this->m_Dimension )
+        {
+        ++dim;
+        }
+      internalInputSpacing[internal_dim] = this->GetInput(i)->GetSpacing()[dim];
+      internalInputOrigin[internal_dim] = inputOrigin[dim];
       }
+
+    // keep the internal input around each iteration, because if the
+    // fitlers are not run inplace, we don't need to reallocate each iteration
+    internalInputs[i] = InternalInputImageType::New();
+
+    internalInputs[i]->SetSpacing(internalInputSpacing);
+    internalInputs[i]->SetOrigin(internalInputOrigin);
+    }
 
   const IndexValueType sliceRangeMax =
     static_cast<IndexValueType>(requestedSize[m_Dimension] + requestedIndex[m_Dimension]);

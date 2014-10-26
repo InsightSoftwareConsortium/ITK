@@ -111,12 +111,14 @@ public:
   typedef TInputFilter  InputFilterType;
   typedef TOutputFilter OutputFilterType;
 
-  typedef TInternalInputImage                         InternalInputImageType;
-  typedef typename InternalInputImageType::RegionType InternalRegionType;
-  typedef typename InternalInputImageType::SizeType   InternalSizeType;
-  typedef typename InternalInputImageType::IndexType  InternalIndexType;
-  typedef typename InternalInputImageType::OffsetType InternalOffsetType;
-  typedef typename InternalInputImageType::PixelType  InternalInputPixelType;
+  typedef TInternalInputImage                            InternalInputImageType;
+  typedef typename InternalInputImageType::RegionType    InternalRegionType;
+  typedef typename InternalInputImageType::SizeType      InternalSizeType;
+  typedef typename InternalInputImageType::IndexType     InternalIndexType;
+  typedef typename InternalInputImageType::OffsetType    InternalOffsetType;
+  typedef typename InternalInputImageType::PixelType     InternalInputPixelType;
+  typedef typename InternalInputImageType::SpacingType   InternalSpacingType;
+  typedef typename InternalInputImageType::PointType     InternalPointType;
 
   typedef TInternalOutputImage                        InternalOutputImageType;
   typedef typename InternalOutputImageType::PixelType InternalOutputPixelType;
