@@ -181,7 +181,7 @@ int main( int argc, char *argv[] )
   //
   //  To calculate the image gradients, an image gradient calculator based on
   //  ImageFunction is used instead of image gradient filters. Image gradient
-  //  methods are defined in the super class \index{ImageToImageMetricv4}.
+  //  methods are defined in the super class \code{ImageToImageMetricv4}.
   //
   //  Software Guide : EndLatex
 
@@ -600,7 +600,7 @@ int main( int argc, char *argv[] )
   //  The scripts used for this purpose are available
   //  in the \code{ITKSoftwareGuide} CVS module under the directory
   //
-  //  ~\code{SoftwareGuide/Art}
+  //  ~\code{SoftwareGuide/Art}.
   //
   //  Data for the plots was taken directly from the output that the
   //  Command/Observer in this example prints out to the console. The output

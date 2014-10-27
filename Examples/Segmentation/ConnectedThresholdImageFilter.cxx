@@ -248,7 +248,7 @@ int main( int argc, char *argv[])
   //
   //  The output of this filter is a binary image with zero-value pixels
   //  everywhere except on the extracted region. The intensity value set
-  //  inside the region is selected with the method \code{SetReplaceValue()}
+  //  inside the region is selected with the method \code{SetReplaceValue()}.
   //
   //  \index{itk::ConnectedThresholdImageFilter!SetReplaceValue()}
   //

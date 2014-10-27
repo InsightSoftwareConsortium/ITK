@@ -23,7 +23,7 @@
 //  Key/Value pairs can be specified on the command line. The keys are defined
 //  in the file
 //
-//  \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}
+//  \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}.
 //
 //  Please note that modifying the content of a DICOM header is a very risky
 //  operation. The Header contains fundamental information about the patient

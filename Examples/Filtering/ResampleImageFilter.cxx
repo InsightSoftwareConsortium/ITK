@@ -411,7 +411,7 @@ int main( int argc, char * argv[] )
   //  a distinct gray value in order to highlight the mapping of the image
   //  borders. For example, the following code sets the default external
   //  value of $100$.  The result is shown in the right side of Figure
-  //  \ref{fig:ResampleImageFilterOutput3Analysis}
+  //  \ref{fig:ResampleImageFilterOutput3Analysis}.
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //

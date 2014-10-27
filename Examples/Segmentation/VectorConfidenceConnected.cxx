@@ -189,7 +189,7 @@ int main( int argc, char *argv[] )
   //  The output of this filter is a binary image with zero-value pixels
   //  everywhere except on the extracted region. The intensity value to be
   //  put inside the region is selected with the method
-  //  \code{SetReplaceValue()}
+  //  \code{SetReplaceValue()}.
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetReplaceValue()}
   //

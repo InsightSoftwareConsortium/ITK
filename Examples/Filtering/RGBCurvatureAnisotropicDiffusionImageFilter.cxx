@@ -164,7 +164,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter output is now cast to \code{unsigned char} RGB components by
-  //  using the VectorCastImageFilter
+  //  using the \doxygen{VectorCastImageFilter}.
   //
   //  \index{itk::VectorCastImageFilter!instantiation}
   //  \index{itk::VectorCastImageFilter!New()}

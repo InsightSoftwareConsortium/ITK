@@ -66,7 +66,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required for using this filter is to include its header file.
 //
 //  \index{itk::Curvature\-Anisotropic\-Diffusion\-Image\-Filter!header}
 //

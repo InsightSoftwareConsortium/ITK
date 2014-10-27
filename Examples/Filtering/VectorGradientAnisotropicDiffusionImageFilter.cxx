@@ -24,7 +24,7 @@
 //  vector components are diffused independently of one another using a
 //  conductance term that is linked across the components. The diffusion
 //  equation was illustrated in
-//  \ref{sec:GradientAnisotropicDiffusionImageFilter}
+//  \ref{sec:GradientAnisotropicDiffusionImageFilter}.
 //
 //  This filter is designed to process images of \doxygen{Vector} type.  The
 //  code relies on various typedefs and overloaded operators defined in

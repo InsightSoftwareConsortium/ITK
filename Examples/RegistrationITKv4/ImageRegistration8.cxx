@@ -390,7 +390,7 @@ int main( int argc, char *argv[] )
   //  Let's execute this example over some of the images available in the
   //  following website
   //
-  //  \url{http://public.kitware.com/pub/itk/Data/BrainWeb}
+  //  \url{http://public.kitware.com/pub/itk/Data/BrainWeb}.
   //
   //  Note that the images in this website are compressed in \code{.tgz} files.
   //  You should download these files an uncompress them in your local system.
@@ -535,14 +535,14 @@ int main( int argc, char *argv[] )
   //  Figure~\ref{fig:ImageRegistration8Plots} are available in the \code{ITKSoftwareGuide}
   //  module under the directory
   //
-  //  \code{SoftwareGuide/Art}
+  //  \code{SoftwareGuide/Art}.
   //
   //  You are strongly encouraged to run the example code, since only in this
   //  way you can gain a first hand experience with the behavior of the
   //  registration process. Once again, this is a simple reflection of the
   //  philosophy that we put forward in this book:
   //
-  //  \emph{If you can not replicate it, then it does not exist!}.
+  //  \emph{If you can not replicate it, then it does not exist!}
   //
   //  We have seen enough published papers with pretty pictures, presenting
   //  results that in practice are impossible to replicate. That is vanity, not

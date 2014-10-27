@@ -201,7 +201,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The output resulting from these filter settings is analyzed in Figure
-  //  \ref{fig:ResampleImageFilterTransformComposition1}
+  //  \ref{fig:ResampleImageFilterTransformComposition1}.
   //
   // \begin{figure}
   // \center
@@ -224,7 +224,7 @@ int main( int argc, char * argv[] )
   //
   //  The code for a different selection of origin and image size is
   //  illustrated below.  The resulting output is presented in Figure
-  //  \ref{fig:ResampleImageFilterTransformComposition2}
+  //  \ref{fig:ResampleImageFilterTransformComposition2}.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
@@ -286,7 +286,7 @@ int main( int argc, char * argv[] )
   //  origin assigned to the input image is $O=(50,70)$. An identity
   //  transform is still used as input for the ResampleImageFilter. The
   //  result of executing the filter with these parameters is presented in
-  //  Figure \ref{fig:ResampleImageFilterTransformComposition3}
+  //  Figure \ref{fig:ResampleImageFilterTransformComposition3}.
   //
   // \begin{figure}
   // \center

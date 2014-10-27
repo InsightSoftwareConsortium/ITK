@@ -428,7 +428,7 @@ int main( int argc, char *argv[] )
   //  equivalent of a convolution with a Gaussian kernel followed by a
   //  derivative operator. The sigma of this Gaussian can be used to control
   //  the range of influence of the image edges. This filter has been discussed
-  //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}
+  //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
   //
   //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //
@@ -776,7 +776,7 @@ int main( int argc, char *argv[] )
   // to right and top to bottom: input image to be segmented, image smoothed with an
   // edge-preserving smoothing filter, gradient magnitude of the smoothed
   // image, sigmoid of the gradient magnitude. This last image, the sigmoid, is
-  // used to compute the speed term for the front propagation }
+  // used to compute the speed term for the front propagation. }
   // \label{fig:FastMarchingImageFilterOutput}
   // \end{figure}
   //
