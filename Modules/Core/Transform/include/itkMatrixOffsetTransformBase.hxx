@@ -60,6 +60,8 @@ MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
   m_Singular = false;
   m_InverseMatrix.SetIdentity();
   m_InverseMatrixMTime = m_MatrixMTime;
+  this->m_FixedParameters.SetSize(NInputDimensions);
+  this->m_FixedParameters.Fill(0.0);
 }
 
 
@@ -551,8 +553,7 @@ const typename MatrixOffsetTransformBase<TScalar,
 MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::GetFixedParameters() const
 {
-  this->m_FixedParameters.SetSize(NInputDimensions);
-  for( unsigned int i = 0; i < NInputDimensions; i++ )
+  for( unsigned int i = 0; i < NInputDimensions; ++i )
     {
     this->m_FixedParameters[i] = this->m_Center[i];
     }

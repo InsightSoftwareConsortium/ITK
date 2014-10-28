@@ -244,7 +244,6 @@ const typename ScaleTransform<ScalarType, NDimensions>::ParametersType &
 ScaleTransform<ScalarType, NDimensions>
 ::GetFixedParameters() const
 {
-  m_FixedParameters.SetSize(0);
   return m_FixedParameters;
 }
 
