@@ -79,7 +79,7 @@ int main( int argc, char * argv[] )
   //
   // The only change with respect to the previous example is to replace the
   // DanielssonDistanceMapImageFilter with the
-  // SignedDanielssonDistanceMapImageFilter
+  // SignedDanielssonDistanceMapImageFilter.
   //
   // SoftwareGuide : EndLatex
 

@@ -223,7 +223,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The intensity value allowing us to separate both regions can be
-  //  recovered with the method \code{GetIsolatedValue()}
+  //  recovered with the method \code{GetIsolatedValue()}.
   //
   //  \index{itk::Isolated\-Connected\-Image\-Filter!GetIsolatedValue()}
   //

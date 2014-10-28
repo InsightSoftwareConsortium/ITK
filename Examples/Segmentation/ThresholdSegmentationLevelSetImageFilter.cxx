@@ -399,7 +399,7 @@ int main( int argc, char *argv[] )
   // segmentation of the left ventricle, segmentation of the right ventricle,
   // segmentation of the white matter, attempt of segmentation of the gray
   // matter. The parameters used in this segmentations are presented in
-  // Table~\ref{tab:ThresholdSegmentationLevelSetImageFilter}}
+  // Table~\ref{tab:ThresholdSegmentationLevelSetImageFilter}.}
   // \label{fig:ThresholdSegmentationLevelSetImageFilter} \end{figure}
   //
   //  \begin{table}
@@ -416,7 +416,7 @@ int main( int argc, char *argv[] )
   //  ThresholdSegmentationLevelSetImageFilter for various seed points. The
   //  resulting images are shown in
   //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}
-  //  \label{tab:ThresholdSegmentationLevelSetImageFilter} }.  \end{center}
+  //  \label{tab:ThresholdSegmentationLevelSetImageFilter}.}\end{center}
   //  \end{table}
   //
   //  Software Guide : EndLatex

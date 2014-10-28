@@ -539,7 +539,7 @@ int main( int argc, char *argv[] )
   //  generated using Gnuplot. The scripts used for this purpose are available
   //  in the \code{InsightDocuments} CVS module under the directory
   //
-  //  ~\code{InsightDocuments/SoftwareGuide/Art}
+  //  ~\code{InsightDocuments/SoftwareGuide/Art}.
   //
   //  The use of these scripts was similar to what was described at the end of
   //  section~\ref{sec:MultiModalityRegistrationViolaWells}.

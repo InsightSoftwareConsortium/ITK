@@ -661,7 +661,7 @@ int main( int argc, char *argv[] )
   //  this purpose are available in the \code{InsightDocuments} CVS module
   //  under the directory
   //
-  //  ~\code{InsightDocuments/SoftwareGuide/Art}
+  //  ~\code{InsightDocuments/SoftwareGuide/Art}.
   //
   //  Data for the plots was taken directly from the output that the
   //  Command/Observer in this example prints out to the console. The output

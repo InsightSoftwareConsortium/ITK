@@ -80,6 +80,7 @@
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
+#include "itkImageToSpatialObjectMetric.h"
 //  Software Guide : EndCodeSnippet
 
 

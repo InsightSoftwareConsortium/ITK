@@ -19,7 +19,7 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainT1Slice.png}
 //    OUTPUTS: {BrainT1Slice_labelled.png}
-//    ARGUMENTS:    0 3 14.8 91.6 134.9
+//    ARGUMENTS:    1 3 14.8 91.6 134.9
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -49,7 +49,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
-    std::cerr << " inputScalarImage outputLabeledImage contiguousLabels";
+    std::cerr << " inputScalarImage outputLabeledImage nonContiguousLabels";
     std::cerr << " numberOfClasses mean1 mean2... meanN " << std::endl;
     return EXIT_FAILURE;
     }
@@ -60,7 +60,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginLatex
   //
   // First we define the pixel type and dimension of the image that we intend to
-  // classify. With this image type we can =also declare the
+  // classify. With this image type we can also declare the
   // \doxygen{ImageFileReader} needed for reading the input image, create one and
   // set its input filename.
   //
@@ -68,7 +68,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   typedef signed short       PixelType;
-  const unsigned int          Dimension = 2;
+  const unsigned int         Dimension = 2;
 
   typedef itk::Image<PixelType, Dimension > ImageType;
 
@@ -105,11 +105,11 @@ int main( int argc, char * argv [] )
   // will tend to look very dark when displayed with naive viewers. It is
   // therefore convenient to have the option of spreading the label values over
   // the dynamic range of the output image pixel type. When this is done, the
-  // dynamic range of the pixels is divide by the number of classes in order to
+  // dynamic range of the pixels is divided by the number of classes in order to
   // define the increment between labels. For example, an output image of 8 bits
   // will have a dynamic range of [0:256], and when it is used for holding four
   // classes, the non-contiguous labels will be (0,64,128,192). The selection of
-  // the mode to use is done with the method \code{SetUseContiguousLabels()}.
+  // the mode to use is done with the method \code{SetUseNonContiguousLabels()}.
   //
   // Software Guide : EndLatex
 
