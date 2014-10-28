@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -42,9 +40,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
     << "Using default transform constructor.  Should specify NOutputDims and NParameters as args to constructor.");
 }
 
-/**
- * Constructor
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -58,9 +54,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 {
 }
 
-/**
- * GenerateName
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -76,9 +70,7 @@ std::string Transform<TScalar, NInputDimensions, NOutputDimensions>
   return n.str();
 }
 
-/**
- * Clone
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -103,9 +95,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return loPtr;
 }
 
-/**
- * UpdateTransformParameters
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -161,9 +151,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   this->Modified();
 }
 
-/**
- * Transform vector
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -186,9 +174,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return result;
 }
 
-/**
- * Transform vector
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -211,9 +197,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return result;
 }
 
-/**
- * Transform vector
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -245,9 +229,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return result;
 }
 
-/**
- * Transform covariant vector
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -270,9 +252,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return result;
 }
 
-/**
- * Transform covariant vector
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
@@ -304,9 +284,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return result;
 }
 
-/**
- * Transform tensor
- */
+
 template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputDiffusionTensor3DType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
@@ -321,9 +299,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return result;
 }
 
-/**
- * Transform tensor
- */
+
 template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
@@ -353,9 +329,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 
 }
 
-/**
- * Transform tensor
- */
+
 template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputDiffusionTensor3DType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
@@ -363,14 +337,11 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
                                                                   const JacobianType jacobian ) const
 {
    Matrix<TScalar,3,3> matrix;
-  //typename MatrixType3D dMatrix;
 
   matrix.Fill(0.0);
-  //dMatrix.Fill(0.0);
   for( unsigned int i = 0; i < 3; i++ )
     {
     matrix(i, i) = 1.0;
-    //dMatrix(i, i) = 1.0;
     }
 
   for( unsigned int i = 0; i < NInputDimensions; i++ )
@@ -380,7 +351,6 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
       if( (i < 3) && (j < 3) )
         {
         matrix(i, j) = jacobian(i, j);
-        //dMatrix(i, j) = this->GetDirectionChangeMatrix()(i, j);
         }
       }
     }
@@ -399,12 +369,10 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
     }
 
   // Account for image direction changes between moving and fixed spaces
-  //ev1 = matrix * dMatrix * ev1;
   ev1 = matrix * ev1;
   ev1.Normalize();
 
   // Get aspect of rotated e2 that is perpendicular to rotated e1
-  //ev2 = matrix * dMatrix * ev2;
   ev2 = matrix * ev2;
   double dp = ev2 * ev1;
   if( dp < 0 )
@@ -445,9 +413,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return result;
 }
 
-/**
- * Transform tensor
- */
+
 template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputSymmetricSecondRankTensorType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
@@ -483,9 +449,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return outputTensor;
 }
 
-/**
- * Transform tensor
- */
+
 template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
@@ -528,9 +492,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
   return outputTensor;
 }
 
-/**
- * ComputeInverseJacobianWithRespectToPosition
- */
+
 template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
