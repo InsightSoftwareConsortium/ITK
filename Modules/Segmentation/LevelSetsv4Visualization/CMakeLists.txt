@@ -32,6 +32,7 @@ if(NOT ITK_BINARY_DIR)
   find_package(VTK NO_MODULE
 COMPONENTS
   vtkCommonCore
+  vtkRenderingAnnotation
   vtkRenderingCore
   vtkRenderingOpenGL
   vtkRenderingFreeType
