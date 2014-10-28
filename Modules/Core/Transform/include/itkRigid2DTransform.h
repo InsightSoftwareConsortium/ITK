@@ -18,7 +18,6 @@
 #ifndef __itkRigid2DTransform_h
 #define __itkRigid2DTransform_h
 
-#include <iostream>
 #include "itkMatrixOffsetTransformBase.h"
 
 namespace itk
@@ -199,7 +198,7 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -209,11 +208,11 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
@@ -225,7 +224,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
@@ -234,7 +233,7 @@ public:
   void CloneTo(Pointer & clone) const;
 
   /** Reset the parameters to create and identity transform. */
-  virtual void SetIdentity(void);
+  virtual void SetIdentity();
 
 #ifdef ITKV3_COMPATIBILITY
   /**
@@ -257,18 +256,18 @@ protected:
   /**
     * Print contents of an Rigid2DTransform
     */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute the matrix from angle. This is used in Set methods
    * to update the underlying matrix whenever a transform parameter
    * is changed. */
-  virtual void ComputeMatrix(void);
+  virtual void ComputeMatrix();
 
   /** Compute the angle from the matrix. This is used to compute
    * transform parameters from a given matrix. This is used in
    * MatrixOffsetTransformBase::Compose() and
    * MatrixOffsetTransformBase::GetInverse(). */
-  virtual void ComputeMatrixParameters(void);
+  virtual void ComputeMatrixParameters();
 
   /** Update angle without recomputation of other internal variables. */
   void SetVarAngle(TScalar angle)

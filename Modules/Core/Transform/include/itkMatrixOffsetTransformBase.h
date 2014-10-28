@@ -190,7 +190,7 @@ public:
   /** Set the transformation to an Identity
    *
    * This sets the matrix to identity and the Offset to null. */
-  virtual void SetIdentity(void);
+  virtual void SetIdentity();
 
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
@@ -249,7 +249,7 @@ public:
    * This method returns the offset value of the MatrixOffsetTransformBase.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  const OutputVectorType & GetOffset(void) const
+  const OutputVectorType & GetOffset() const
   {
     return m_Offset;
   }
@@ -311,7 +311,7 @@ public:
    * about the center point.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  const OutputVectorType & GetTranslation(void) const
+  const OutputVectorType & GetTranslation() const
   {
     return m_Translation;
   }
@@ -323,13 +323,13 @@ public:
   void SetParameters(const ParametersType & parameters);
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters(void) const;
+  const ParametersType & GetParameters() const;
 
   /** Set the fixed parameters and update internal transformation. */
   virtual void SetFixedParameters(const ParametersType &);
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters(void) const;
+  virtual const ParametersType & GetFixedParameters() const;
 
   /** Compose with another MatrixOffsetTransformBase
    *
@@ -442,7 +442,7 @@ protected:
 #endif
   /** \deprecated Use GetInverse for public API instead.
    * Method will eventually be made a protected member function */
-  const InverseMatrixType & GetInverseMatrix(void) const;
+  const InverseMatrixType & GetInverseMatrix() const;
 
 protected:
   /** Construct an MatrixOffsetTransformBase object
@@ -460,9 +460,9 @@ protected:
   virtual ~MatrixOffsetTransformBase();
 
   /** Print contents of an MatrixOffsetTransformBase */
-  void PrintSelf(std::ostream & s, Indent indent) const;
+  virtual void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
-  const InverseMatrixType & GetVarInverseMatrix(void) const
+  const InverseMatrixType & GetVarInverseMatrix() const
   {
     return m_InverseMatrix;
   }
@@ -470,7 +470,7 @@ protected:
   {
     m_InverseMatrix = matrix; m_InverseMatrixMTime.Modified();
   }
-  bool InverseMatrixIsOld(void) const
+  bool InverseMatrixIsOld() const
   {
     if( m_MatrixMTime != m_InverseMatrixMTime )
       {
@@ -482,23 +482,23 @@ protected:
       }
   }
 
-  virtual void ComputeMatrixParameters(void);
+  virtual void ComputeMatrixParameters();
 
-  virtual void ComputeMatrix(void);
+  virtual void ComputeMatrix();
 
   void SetVarMatrix(const MatrixType & matrix)
   {
     m_Matrix = matrix; m_MatrixMTime.Modified();
   }
 
-  virtual void ComputeTranslation(void);
+  virtual void ComputeTranslation();
 
   void SetVarTranslation(const OutputVectorType & translation)
   {
     m_Translation = translation;
   }
 
-  virtual void ComputeOffset(void);
+  virtual void ComputeOffset();
 
   void SetVarOffset(const OutputVectorType & offset)
   {

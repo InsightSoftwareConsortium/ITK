@@ -319,35 +319,35 @@ public:
       the last sub-transform to be added is returned first in the
       parameter array. This is the opposite of what's done in the
       parent MultiTransform class. */
-  virtual const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /* SetParameters only for transforms that are set to be optimized
    * See GetParameters() for parameter ordering. */
-  virtual void  SetParameters(const ParametersType & p);
+  virtual void  SetParameters(const ParametersType & p) ITK_OVERRIDE;
 
   /* GetFixedParameters only for transforms that are set to be optimized
    * See GetParameters() for parameter ordering. */
-  virtual const ParametersType & GetFixedParameters(void) const;
+  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /* SetFixedParameters only for transforms that are set to be optimized.
    * See GetParameters() for parameter ordering. */
-  virtual void  SetFixedParameters(const ParametersType & fixedParameters);
+  virtual void  SetFixedParameters(const ParametersType & fixedParameters) ITK_OVERRIDE;
 
   /* Get total number of parameters for transforms that are set to be
    * optimized */
-  virtual NumberOfParametersType GetNumberOfParameters(void) const;
+  virtual NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE;
 
   /* Get total number of local parameters for transforms that are set
    * to be optimized */
-  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const;
+  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const ITK_OVERRIDE;
 
   /* Get total number of fixed parameters for transforms that are set
    * to be optimized */
-  virtual NumberOfParametersType GetNumberOfFixedParameters(void) const;
+  virtual NumberOfParametersType GetNumberOfFixedParameters(void) const ITK_OVERRIDE;
 
   /** Update the transform's parameters by the values in \c update.
    * See GetParameters() for parameter ordering. */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType  factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
   /**
    * Flatten the transform queue such that there are no nested composite transforms.
@@ -374,7 +374,7 @@ public:
 protected:
   CompositeTransform();
   virtual ~CompositeTransform();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */
   virtual typename LightObject::Pointer InternalClone() const;

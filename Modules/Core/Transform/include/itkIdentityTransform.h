@@ -200,7 +200,7 @@ public:
 
   /** Return an inverse of the identity transform - another identity transform.
     */
-  virtual InverseTransformBasePointer GetInverseTransform() const
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE
   {
     return this->New().GetPointer();
   }
@@ -210,30 +210,30 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  virtual TransformCategoryType GetTransformCategory() const
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Self::Linear;
   }
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters(void) const
+  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE
   {
     return this->m_FixedParameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const ParametersType &)
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
   {
   }
 
   /** Get the Parameters. */
-  virtual const ParametersType & GetParameters(void) const
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
   {
     return this->m_Parameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetParameters(const ParametersType &)
+  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE
   {
   }
 

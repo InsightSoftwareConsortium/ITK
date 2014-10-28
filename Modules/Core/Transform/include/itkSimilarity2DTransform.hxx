@@ -23,7 +23,7 @@
 
 namespace itk
 {
-// Constructor with default arguments
+
 template <typename TScalar>
 Similarity2DTransform<TScalar>
 ::Similarity2DTransform() : Superclass(ParametersDimension)
@@ -31,22 +31,25 @@ Similarity2DTransform<TScalar>
   m_Scale = 1.0f;
 }
 
-// Constructor with arguments
+
 template <typename TScalar>
-Similarity2DTransform<TScalar>::Similarity2DTransform(unsigned int parametersDimension) :
+Similarity2DTransform<TScalar>
+::Similarity2DTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
   m_Scale = 1.0f;
 }
 
+
 template <typename TScalar>
-Similarity2DTransform<TScalar>::Similarity2DTransform(unsigned int , unsigned int parametersDimension) :
+Similarity2DTransform<TScalar>
+::Similarity2DTransform(unsigned int , unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
   m_Scale = 1.0f;
 }
 
-// Set Parameters
+
 template <typename TScalar>
 void
 Similarity2DTransform<TScalar>
@@ -86,12 +89,12 @@ Similarity2DTransform<TScalar>
   itkDebugMacro(<< "After setting parameters ");
 }
 
-// Get Parameters
+
 template <typename TScalar>
-const typename Similarity2DTransform<TScalar>::ParametersType
-& Similarity2DTransform<TScalar>
-::GetParameters(void) const
-  {
+const typename Similarity2DTransform<TScalar>::ParametersType &
+Similarity2DTransform<TScalar>
+::GetParameters() const
+{
   itkDebugMacro(<< "Getting parameters ");
 
   this->m_Parameters[0] = this->GetScale();
@@ -107,9 +110,9 @@ const typename Similarity2DTransform<TScalar>::ParametersType
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-  }
+}
 
-// Set Scale Part
+
 template <typename TScalar>
 void
 Similarity2DTransform<TScalar>
@@ -120,11 +123,11 @@ Similarity2DTransform<TScalar>
   this->ComputeOffset();
 }
 
-// Compute the matrix
+
 template <typename TScalar>
 void
 Similarity2DTransform<TScalar>
-::ComputeMatrix(void)
+::ComputeMatrix()
 {
   const double angle = this->GetAngle();
 
@@ -142,11 +145,11 @@ Similarity2DTransform<TScalar>
   this->SetVarMatrix(matrix);
 }
 
-/** Compute the Angle from the Rotation Matrix */
+
 template <typename TScalar>
 void
 Similarity2DTransform<TScalar>
-::ComputeMatrixParameters(void)
+::ComputeMatrixParameters()
 {
   m_Scale = std::sqrt( vnl_math_sqr(this->GetMatrix()[0][0])
                       + vnl_math_sqr(this->GetMatrix()[0][1]) );
@@ -163,6 +166,7 @@ Similarity2DTransform<TScalar>
     std::cout << "Bad Rotation Matrix" << std::endl;
     }
 }
+
 
 template <typename TScalar>
 void
@@ -197,38 +201,41 @@ Similarity2DTransform<TScalar>
   jacobian[1][3] = 1.0;
 }
 
-// Set Identity
+
 template <typename TScalar>
 void
 Similarity2DTransform<TScalar>
-::SetIdentity(void)
+::SetIdentity()
 {
   this->Superclass::SetIdentity();
   m_Scale = static_cast<TScalar>( 1.0f );
 }
 
-// Print self
+
 template <typename TScalar>
 void
-Similarity2DTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
+Similarity2DTransform<TScalar>
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Scale =" << m_Scale  << std::endl;
 }
 
-// Create and return an inverse transformation
+
 template <typename TScalar>
 void
-Similarity2DTransform<TScalar>::CloneInverseTo(Pointer & result) const
+Similarity2DTransform<TScalar>
+::CloneInverseTo(Pointer & result) const
 {
   result = New();
   this->GetInverse( result.GetPointer() );
 }
 
-// return an inverse transformation
+
 template <typename TScalar>
 bool
-Similarity2DTransform<TScalar>::GetInverse(Self *inverse) const
+Similarity2DTransform<TScalar>
+::GetInverse(Self *inverse) const
 {
   if( !inverse )
     {
@@ -244,7 +251,7 @@ Similarity2DTransform<TScalar>::GetInverse(Self *inverse) const
   return true;
 }
 
-// Return an inverse of this transform
+
 template <typename TScalar>
 typename Similarity2DTransform<TScalar>::InverseTransformBasePointer
 Similarity2DTransform<TScalar>
@@ -259,7 +266,7 @@ Similarity2DTransform<TScalar>
   return ITK_NULLPTR;
 }
 
-// Create and return a clone of the transformation
+
 template <typename TScalar>
 void
 Similarity2DTransform<TScalar>::CloneTo(Pointer & result) const
@@ -271,7 +278,7 @@ Similarity2DTransform<TScalar>::CloneTo(Pointer & result) const
   result->SetTranslation( this->GetTranslation() );
 }
 
-// Set the similarity matrix
+
 template <typename TScalar>
 void
 Similarity2DTransform<TScalar>
@@ -280,6 +287,7 @@ Similarity2DTransform<TScalar>
   const double tolerance = 1e-10;
   this->SetMatrix( matrix, tolerance );
 }
+
 
 template <typename TScalar>
 void
@@ -305,6 +313,6 @@ Similarity2DTransform<TScalar>
   this->Modified();
 }
 
-} // namespace
+} // end namespace itk
 
 #endif

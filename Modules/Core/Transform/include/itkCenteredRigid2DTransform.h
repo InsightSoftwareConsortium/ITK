@@ -49,7 +49,6 @@ namespace itk
  * \ingroup ITKTransform
  */
 template< typename TScalar = double >
-// Data type for scalars
 class CenteredRigid2DTransform :
   public Rigid2DTransform< TScalar >
 {
@@ -71,7 +70,7 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
   itkStaticConstMacro(ParametersDimension, unsigned int, 5);
 
-  /** Scalar type. */
+  /** Data type for scalars. */
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Parameters type. */
@@ -117,7 +116,7 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -127,7 +126,7 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation
    * at a given input point.
@@ -136,11 +135,11 @@ public:
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
-  virtual void SetFixedParameters(const ParametersType &);
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE;
 
   /** Get the Fixed Parameters. An empty array is returned
    * as there are no fixed parameters. */
-  virtual const ParametersType & GetFixedParameters(void) const;
+  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
@@ -151,7 +150,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
@@ -166,7 +165,7 @@ protected:
 
   CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   CenteredRigid2DTransform(const Self &); // purposely not implemented

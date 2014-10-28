@@ -23,9 +23,10 @@
 
 namespace itk
 {
-// Constructor with default arguments
+
 template <typename TScalar, unsigned int NDimensions>
-TranslationTransform<TScalar, NDimensions>::TranslationTransform() : Superclass(ParametersDimension),
+TranslationTransform<TScalar, NDimensions>
+::TranslationTransform() : Superclass(ParametersDimension),
   m_IdentityJacobian(NDimensions, NDimensions)
 {
   m_Offset.Fill(0);
@@ -40,14 +41,14 @@ TranslationTransform<TScalar, NDimensions>::TranslationTransform() : Superclass(
     }
 }
 
-// Destructor
+
 template <typename TScalar, unsigned int NDimensions>
-TranslationTransform<TScalar, NDimensions>::
-~TranslationTransform()
+TranslationTransform<TScalar, NDimensions>
+::~TranslationTransform()
 {
 }
 
-// Set the parameters
+
 template <typename TScalar, unsigned int NDimensions>
 void
 TranslationTransform<TScalar, NDimensions>
@@ -74,41 +75,44 @@ TranslationTransform<TScalar, NDimensions>
     }
 }
 
-// Get the parameters
+
 template <typename TScalar, unsigned int NDimensions>
-const typename TranslationTransform<TScalar, NDimensions>::ParametersType
-& TranslationTransform<TScalar, NDimensions>
-::GetParameters(void) const
-  {
+const typename TranslationTransform<TScalar, NDimensions>::ParametersType &
+TranslationTransform<TScalar, NDimensions>
+::GetParameters() const
+{
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     this->m_Parameters[i] = this->m_Offset[i];
     }
   return this->m_Parameters;
-  }
+}
 
-// Print self
+
 template <typename TScalar, unsigned int NDimensions>
 void
-TranslationTransform<TScalar, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
+TranslationTransform<TScalar, NDimensions>
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Offset: " << m_Offset << std::endl;
 }
 
-// Compose with another affine transformation
+
 template <typename TScalar, unsigned int NDimensions>
 void
-TranslationTransform<TScalar, NDimensions>::Compose(const Self *other, bool)
+TranslationTransform<TScalar, NDimensions>
+::Compose(const Self *other, bool)
 {
   this->Translate(other->m_Offset);
 }
 
-// Compose with a translation
+
 template <typename TScalar, unsigned int NDimensions>
 void
-TranslationTransform<TScalar, NDimensions>::Translate(const OutputVectorType & offset, bool)
+TranslationTransform<TScalar, NDimensions>
+::Translate(const OutputVectorType & offset, bool)
 {
   ParametersType newOffset(SpaceDimension);
 
@@ -119,42 +123,47 @@ TranslationTransform<TScalar, NDimensions>::Translate(const OutputVectorType & o
   this->SetParameters(newOffset);
 }
 
-// Transform a point
+
 template <typename TScalar, unsigned int NDimensions>
 typename TranslationTransform<TScalar, NDimensions>::OutputPointType
-TranslationTransform<TScalar, NDimensions>::TransformPoint(const InputPointType & point) const
+TranslationTransform<TScalar, NDimensions>
+::TransformPoint(const InputPointType & point) const
 {
   return point + m_Offset;
 }
 
-// Transform a vector
+
 template <typename TScalar, unsigned int NDimensions>
 typename TranslationTransform<TScalar, NDimensions>::OutputVectorType
-TranslationTransform<TScalar, NDimensions>::TransformVector(const InputVectorType & vect) const
+TranslationTransform<TScalar, NDimensions>
+::TransformVector(const InputVectorType & vect) const
 {
   return vect;
 }
 
-// Transform a vnl_vector_fixed
+
 template <typename TScalar, unsigned int NDimensions>
 typename TranslationTransform<TScalar, NDimensions>::OutputVnlVectorType
-TranslationTransform<TScalar, NDimensions>::TransformVector(const InputVnlVectorType & vect) const
+TranslationTransform<TScalar, NDimensions>
+::TransformVector(const InputVnlVectorType & vect) const
 {
   return vect;
 }
 
-// Transform a CovariantVector
+
 template <typename TScalar, unsigned int NDimensions>
 typename TranslationTransform<TScalar, NDimensions>::OutputCovariantVectorType
-TranslationTransform<TScalar, NDimensions>::TransformCovariantVector(const InputCovariantVectorType & vect) const
+TranslationTransform<TScalar, NDimensions>
+::TransformCovariantVector(const InputCovariantVectorType & vect) const
 {
   return vect;
 }
 
-// return an inverse transformation
+
 template <typename TScalar, unsigned int NDimensions>
 bool
-TranslationTransform<TScalar, NDimensions>::GetInverse(Self *inverse) const
+TranslationTransform<TScalar, NDimensions>
+::GetInverse(Self *inverse) const
 {
   if( !inverse )
     {
@@ -166,7 +175,7 @@ TranslationTransform<TScalar, NDimensions>::GetInverse(Self *inverse) const
   return true;
 }
 
-// Return an inverse of this transform
+
 template <typename TScalar, unsigned int NDimensions>
 typename TranslationTransform<TScalar, NDimensions>::InverseTransformBasePointer
 TranslationTransform<TScalar, NDimensions>
@@ -177,7 +186,7 @@ TranslationTransform<TScalar, NDimensions>
   return GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
 }
 
-// Compute the Jacobian in one position
+
 template <typename TScalar, unsigned int NDimensions>
 void
 TranslationTransform<TScalar, NDimensions>::ComputeJacobianWithRespectToParameters(
@@ -189,7 +198,7 @@ TranslationTransform<TScalar, NDimensions>::ComputeJacobianWithRespectToParamete
   jacobian = this->m_IdentityJacobian;
 }
 
-// Compute jacobian with respect to position
+
 template <typename TScalar, unsigned int NDimensions>
 void
 TranslationTransform<TScalar, NDimensions>
@@ -204,7 +213,7 @@ TranslationTransform<TScalar, NDimensions>
     }
 }
 
-// Set the parameters for an Identity transform of this class
+
 template <typename TScalar, unsigned int NDimensions>
 void
 TranslationTransform<TScalar, NDimensions>::SetIdentity()
@@ -212,6 +221,6 @@ TranslationTransform<TScalar, NDimensions>::SetIdentity()
   m_Offset.Fill(0.0);
 }
 
-} // namespace
+} // end namespace itk
 
 #endif

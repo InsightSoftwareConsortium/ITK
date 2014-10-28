@@ -59,7 +59,6 @@ namespace itk
  * \ingroup ITKTransform
  */
 template< typename TScalar = double >
-// Data type for scalars (float or double)
 class Similarity2DTransform :
   public Rigid2DTransform< TScalar >
 {
@@ -82,7 +81,7 @@ public:
   itkStaticConstMacro(OutputSpaceDimension,     unsigned int, 2);
   itkStaticConstMacro(ParametersDimension,      unsigned int, 4);
 
-  /** Scalar type. */
+  /** Data type for scalars (float or double). */
   typedef typename Superclass::ScalarType ScalarType;
   typedef          TScalar                ScaleType;
 
@@ -136,7 +135,7 @@ public:
     *
     * \sa Transform::SetParameters()
     * \sa Transform::SetFixedParameters() */
-  void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -147,15 +146,15 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation
   * at a given input point.
   */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Set the transformation to an identity. */
-  virtual void SetIdentity(void);
+  virtual void SetIdentity();
 
   /**
    * This method creates and returns a new Similarity2DTransform object
@@ -167,7 +166,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new Similarity2DTransform object
@@ -188,7 +187,7 @@ public:
    * \sa MatrixOffsetTransformBase::SetMatrix()
    *
    */
-  virtual void SetMatrix(const MatrixType & matrix);
+  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
 
   /**
    * Set the rotation Matrix of a Similarity 2D Transform
@@ -203,7 +202,7 @@ public:
    * \sa MatrixOffsetTransformBase::SetMatrix()
    *
    */
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance) ITK_OVERRIDE;
 
 protected:
   Similarity2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
@@ -213,7 +212,7 @@ protected:
   ~Similarity2DTransform()
   {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute matrix from angle and scale. This is used in Set methods
    * to update the underlying matrix whenever a transform parameter

@@ -59,7 +59,6 @@ namespace itk
  */
 template< typename TScalar, // probably only float and double make sense here
           unsigned int NDimensions >
-// Number of dimensions
 class KernelTransform :
   public Transform< TScalar, NDimensions, NDimensions >
 {
@@ -135,31 +134,28 @@ public:
   itkGetModifiableObjectMacro(Displacements, VectorSetType);
 
   /** Compute W matrix. */
-  void ComputeWMatrix(void);
+  void ComputeWMatrix();
 
   /** Compute the position of point in the new space */
-  virtual OutputPointType TransformPoint(const InputPointType & thisPoint) const;
+  virtual OutputPointType TransformPoint(const InputPointType & thisPoint) const ITK_OVERRIDE;
 
   /** These vector transforms are not implemented for this transform */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType &) const                       \
-  {                                                                                             \
-    itkExceptionMacro(                                                                          \
-      << "TransformVector(const InputVectorType &) is not implemented for KernelTransform");    \
+  virtual OutputVectorType TransformVector(const InputVectorType &) const ITK_OVERRIDE
+  {
+    itkExceptionMacro( << "TransformVector(const InputVectorType &) is not implemented for KernelTransform");
   }
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const                 \
-  {                                                                                             \
-    itkExceptionMacro(                                                                          \
-      << "TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform"); \
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
+  {
+    itkExceptionMacro( << "TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform");
   }
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const           \
-  {                                                                                                            \
-    itkExceptionMacro(                                                                                         \
-      << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform"); \
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+  {
+    itkExceptionMacro( << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
   }
 
   /** 'I' (identity) matrix typedef. */
@@ -169,33 +165,33 @@ public:
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const           \
-  {                                                                                 \
-    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "  \
-                       "for " << this->GetNameOfClass() );                          \
+                                                    JacobianType &) const
+  {
+    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
+                       "for " << this->GetNameOfClass() );
   }
 
   /** Set the Transformation Parameters and update the internal transformation.
    * The parameters represent the source landmarks. Each landmark point is
    * represented by NDimensions doubles. All the landmarks are concatenated to
    * form one flat Array<double>. */
-  virtual void SetParameters(const ParametersType &);
+  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE;
 
   /** Set Transform Fixed Parameters:
    *     To support the transform file writer this function was
    *     added to set the target landmarks similar to the
    *     SetParameters function setting the source landmarks
    */
-  virtual void SetFixedParameters(const ParametersType &);
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE;
 
   /** Update the Parameters array from the landmarks corrdinates. */
-  virtual void UpdateParameters(void) const;
+  virtual void UpdateParameters() const;
 
   /** Get the Transformation Parameters - Gets the Source Landmarks */
-  virtual const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters() const;
 
   /** Get Transform Fixed Parameters - Gets the Target Landmarks */
-  virtual const ParametersType & GetFixedParameters(void) const;
+  virtual const ParametersType & GetFixedParameters() const;
 
   /** This transform is not linear, because the transformation of a linear
    * combination of points is not equal to the linear combination of the
