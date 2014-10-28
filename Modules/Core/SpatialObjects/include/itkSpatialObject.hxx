@@ -359,6 +359,11 @@ SpatialObject< TDimension >
     ( *it )->Get()->ComputeObjectToWorldTransform();
     it++;
     }
+  // handle internal inverse
+  if(!this->GetIndexToWorldTransform()->GetInverse( const_cast< TransformType *>( this->GetInternalInverseTransform() ) ))
+    {
+    this->m_InternalInverseTransform = ITK_NULLPTR;
+    }
   delete children;
 }
 
@@ -464,6 +469,12 @@ SpatialObject< TDimension >
                                       ->GetIndexToObjectTransform()
                                       ->GetOffset() );
   m_IndexToWorldTransform->Compose(m_ObjectToWorldTransform, false);
+
+  // handle internal inverse
+  if(!this->GetIndexToWorldTransform()->GetInverse( const_cast< TransformType *>( this->GetInternalInverseTransform() ) ))
+    {
+    this->m_InternalInverseTransform = ITK_NULLPTR;
+    }
 }
 
 /** Get the modification time  */
@@ -904,8 +915,7 @@ bool
 SpatialObject< TDimension >
 ::SetInternalInverseTransformToWorldToIndexTransform() const
 {
-  if ( !this->GetIndexToWorldTransform()->GetInverse(
-         const_cast< TransformType * >( this->GetInternalInverseTransform() ) ) )
+  if( this->m_InternalInverseTransform.IsNull() )
     {
     return false;
     }
