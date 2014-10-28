@@ -33,7 +33,7 @@ template <typename TScalar,
 Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::Transform() :
   m_Parameters(1),
-  m_FixedParameters(1)
+  m_FixedParameters()
 #ifdef ITKV3_COMPATIBILITY
   , m_SharedLocalJacobian(NOutputDimensions, 1)
 #endif
@@ -51,7 +51,7 @@ template <typename TScalar,
 Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::Transform(NumberOfParametersType numberOfParameters) :
   m_Parameters(numberOfParameters),
-  m_FixedParameters(numberOfParameters)
+  m_FixedParameters()
 #ifdef ITKV3_COMPATIBILITY
   , m_SharedLocalJacobian(NOutputDimensions, numberOfParameters)
 #endif
