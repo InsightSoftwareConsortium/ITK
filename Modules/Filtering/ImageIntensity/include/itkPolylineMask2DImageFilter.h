@@ -88,9 +88,6 @@ public:
 
   void SetInput2(const PolylineType *polyline);
 
-  /* Generate Data */
-  void GenerateData(void);
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
@@ -107,6 +104,8 @@ public:
 protected:
   PolylineMask2DImageFilter();
   virtual ~PolylineMask2DImageFilter() {}
+
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   PolylineMask2DImageFilter(const Self &); //purposely not implemented

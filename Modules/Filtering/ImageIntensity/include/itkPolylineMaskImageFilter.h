@@ -110,9 +110,6 @@ public:
   /* 3D Point transforming and projecting function */
   ProjPlanePointType TransformProjectPoint(PointType inputPoint);
 
-  /* Generate Data */
-  void GenerateData(void);
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( VectorHasNumericTraitsCheck,
@@ -123,7 +120,9 @@ public:
 protected:
   PolylineMaskImageFilter();
   virtual ~PolylineMaskImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   PolylineMaskImageFilter(const Self &); //purposely not implemented
