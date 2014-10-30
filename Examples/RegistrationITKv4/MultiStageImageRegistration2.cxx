@@ -416,7 +416,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   affineRegistration->SetMovingInitialTransformInput(
-                                      transRegistration->GetTransformOutput() );
+    transRegistration->GetTransformOutput() );
   // Software Guide : EndCodeSnippet
 
 

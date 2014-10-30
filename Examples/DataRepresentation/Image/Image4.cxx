@@ -372,7 +372,7 @@ int main(int, char *[])
   // \begin{equation}
   //   P_{3X1} = O_{3X1} + D_{3X3} * diag( S_{3X1} )_{3x3} * I_{3X1}
   // \end{equation}
-  // , where $D$ is an orthonormal direction cosines matrix and
+  // where $D$ is an orthonormal direction cosines matrix and
   // $S$ is the image spacing diagonal matrix.
   //
   // In matlab syntax the conversions are:

@@ -51,7 +51,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// First we declare the types of the images
+// First we declare the types of the images.
 //
 // Software Guide : EndLatex
 
