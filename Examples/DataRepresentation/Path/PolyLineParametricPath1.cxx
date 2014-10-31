@@ -49,7 +49,8 @@ int main(int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // The path is instantiated over the dimension of the image. In this case 2D. //
+  // The path is instantiated over the dimension of the image.
+  // In this example the image and path are two-dimensional.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -79,24 +80,15 @@ int main(int argc, char * argv [] )
     }
 
   // Software Guide : BeginCodeSnippet
-
   ImageType::ConstPointer image = reader->GetOutput();
-
-
   PathType::Pointer path = PathType::New();
-
-
   path->Initialize();
 
-
   typedef PathType::ContinuousIndexType    ContinuousIndexType;
-
   ContinuousIndexType cindex;
 
   typedef ImageType::PointType             ImagePointType;
-
   ImagePointType origin = image->GetOrigin();
-
 
   ImageType::SpacingType spacing = image->GetSpacing();
   ImageType::SizeType    size    = image->GetBufferedRegion().GetSize();
@@ -107,15 +99,9 @@ int main(int argc, char * argv [] )
   point[1] = origin[1] + spacing[1] * size[1];
 
   image->TransformPhysicalPointToContinuousIndex( origin, cindex );
-
   path->AddVertex( cindex );
-
   image->TransformPhysicalPointToContinuousIndex( point, cindex );
-
   path->AddVertex( cindex );
-
-
-
   // Software Guide : EndCodeSnippet
 
   return 0;

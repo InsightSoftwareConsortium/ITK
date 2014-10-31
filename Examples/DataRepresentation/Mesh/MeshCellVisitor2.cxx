@@ -46,7 +46,7 @@
 
   //  Software Guide : BeginLatex
   //
-  //  The typical mesh types are now declared
+  //  The typical mesh types are now declared.
   //
   //  Software Guide : EndLatex
 

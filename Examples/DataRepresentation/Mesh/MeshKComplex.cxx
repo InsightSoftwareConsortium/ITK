@@ -186,7 +186,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The second triangle connects points { 0, 2, 3 }
+  //  The second triangle connects points { 0, 2, 3 }.
   //
   //  Software Guide : EndLatex
 
@@ -201,7 +201,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The third triangle connects points { 0, 3, 1 }
+  //  The third triangle connects points { 0, 3, 1 }.
   //
   //  Software Guide : EndLatex
 
@@ -216,7 +216,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The fourth triangle connects points { 3, 2, 1 }
+  //  The fourth triangle connects points { 3, 2, 1 }.
   //
   //  Software Guide : EndLatex
 
@@ -310,7 +310,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  At this point the Mesh contains four points and fifteen cells enumerated
-  //  from 0 to 14.  The points can be visited using PointContainer iterators
+  //  from 0 to 14.  The points can be visited using PointContainer iterators.
   //
   // \index{itk::Mesh!PointsContainer}
   // \index{itk::Mesh!PointsIterators}
@@ -335,7 +335,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The cells can be visited using CellsContainer iterators
+  //  The cells can be visited using CellsContainer iterators.
   //
   // \index{itk::Mesh!CellsContainer}
   // \index{itk::Mesh!CellsIterators}

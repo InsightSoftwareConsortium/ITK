@@ -23,7 +23,7 @@
 // \doxygen{VesselTubeSpatialObject} derives from \doxygen{TubeSpatialObject}.
 // It represents a blood vessel segmented from an image.
 // A VesselTubeSpatialObject is described as a list of centerline points which
-// have a position, a radius, normals,
+// have a position, a radius, and normals.
 //
 // Let's start by including the appropriate header file.
 //
