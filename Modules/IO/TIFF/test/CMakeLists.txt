@@ -84,6 +84,12 @@ itk_add_test(NAME itkTIFFImageIOTest14
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/RGBTestImageCCITTFax4.mha}
               ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.mha
     itkTIFFImageIOTest DATA{${ITK_DATA_ROOT}/Input/RGBTestImageCCITTFax4.tif} ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.mha)
+itk_add_test(NAME itkTIFFImageIOTest15
+      COMMAND ITKIOTIFFTestDriver
+   --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest15.png
+              fd894cf735a09380c3492f46b39a0ab9
+    itkTIFFImageIOTest DATA{Input/jello.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest15.png 2 2)
+
 itk_add_test(NAME itkTIFFImageIOMultiPagesTest
       COMMAND ITKIOTIFFTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/ramp.tif}
