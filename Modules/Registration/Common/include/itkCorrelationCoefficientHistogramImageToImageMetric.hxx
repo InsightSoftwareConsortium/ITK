@@ -41,7 +41,7 @@ typename CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, \
 CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::MeanX(HistogramType & histogram) const
 {
-  MeasureType meanX = NumericTraits< MeasureType >::Zero;
+  MeasureType meanX = NumericTraits< MeasureType >::ZeroValue();
 
   for ( unsigned int i = 0; i < this->m_HistogramSize[0]; i++ )
     {
@@ -61,7 +61,7 @@ typename CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, \
 CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::MeanY(HistogramType & histogram) const
 {
-  MeasureType meanY = NumericTraits< MeasureType >::Zero;
+  MeasureType meanY = NumericTraits< MeasureType >::ZeroValue();
 
   for ( unsigned int i = 0; i < this->m_HistogramSize[1]; i++ )
     {
@@ -81,7 +81,7 @@ typename CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, \
 CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::VarianceX(HistogramType & histogram) const
 {
-  MeasureType varX = NumericTraits< MeasureType >::Zero;
+  MeasureType varX = NumericTraits< MeasureType >::ZeroValue();
 
   for ( unsigned int i = 0; i < this->m_HistogramSize[0]; i++ )
     {
@@ -99,7 +99,7 @@ typename CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, \
 CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::VarianceY(HistogramType & histogram) const
 {
-  MeasureType varY = NumericTraits< MeasureType >::Zero;
+  MeasureType varY = NumericTraits< MeasureType >::ZeroValue();
 
   for ( unsigned int i = 0; i < this->m_HistogramSize[1]; i++ )
     {
@@ -117,7 +117,7 @@ typename CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, \
 CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::Covariance(HistogramType & histogram) const
 {
-  MeasureType var = NumericTraits< MeasureType >::Zero;
+  MeasureType var = NumericTraits< MeasureType >::ZeroValue();
   MeasureType meanX = MeanX(histogram);
   MeasureType meanY = MeanY(histogram);
 

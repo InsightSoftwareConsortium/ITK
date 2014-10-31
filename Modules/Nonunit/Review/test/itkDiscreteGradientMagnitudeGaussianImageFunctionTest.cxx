@@ -62,7 +62,7 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   output->SetRequestedRegion( inputImage->GetRequestedRegion() );
   output->SetBufferedRegion( inputImage->GetBufferedRegion() );
   output->Allocate();
-  output->FillBuffer( itk::NumericTraits<PixelType>::Zero );
+  output->FillBuffer( itk::NumericTraits<PixelType>::ZeroValue() );
 
   // Setup operator parameters
   double variance = atof( argv[3] );

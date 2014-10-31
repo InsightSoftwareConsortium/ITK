@@ -42,7 +42,7 @@ bool
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::IsInside( const InputType& iP ) const
 {
-  return ( this->Evaluate( iP ) <= NumericTraits< OutputType >::Zero );
+  return ( this->Evaluate( iP ) <= NumericTraits< OutputType >::ZeroValue() );
 }
 
 // ----------------------------------------------------------------------------
@@ -92,7 +92,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::EvaluateMeanCurvature( const InputType& iP ) const
 {
-  OutputRealType oValue = NumericTraits< OutputRealType >::Zero;
+  OutputRealType oValue = NumericTraits< OutputRealType >::ZeroValue();
 
   HessianType   hessian = this->EvaluateHessian( iP );
   GradientType  grad = this->EvaluateGradient( iP );
@@ -117,7 +117,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
     }
   else
     {
-    oValue /= ( NumericTraits< OutputRealType >::One + gradNorm );
+    oValue /= ( NumericTraits< OutputRealType >::OneValue() + gradNorm );
     }
 
   return oValue;
@@ -147,7 +147,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
       }
 
     ioData.MeanCurvature.m_Computed = true;
-    ioData.MeanCurvature.m_Value = NumericTraits< OutputRealType >::Zero;
+    ioData.MeanCurvature.m_Value = NumericTraits< OutputRealType >::ZeroValue();
 
     for( unsigned int i = 0; i < Dimension; i++ )
       {
@@ -171,7 +171,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
       }
     else
       {
-      ioData.MeanCurvature.m_Value /= ( NumericTraits< OutputRealType >::One + temp );
+      ioData.MeanCurvature.m_Value /= ( NumericTraits< OutputRealType >::OneValue() + temp );
       }
     }
 }
@@ -203,8 +203,8 @@ void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::SetRequestedRegionToLargestPossibleRegion()
 {
-  m_RequestedNumberOfRegions  = NumericTraits< RegionType >::One;
-  m_RequestedRegion           = NumericTraits< RegionType >::Zero;
+  m_RequestedNumberOfRegions  = NumericTraits< RegionType >::OneValue();
+  m_RequestedRegion           = NumericTraits< RegionType >::ZeroValue();
 }
 
 // ----------------------------------------------------------------------------

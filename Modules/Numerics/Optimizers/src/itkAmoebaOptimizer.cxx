@@ -30,7 +30,7 @@ AmoebaOptimizer
   this->m_ParametersConvergenceTolerance = 1e-8;
   this->m_FunctionConvergenceTolerance   = 1e-4;
   this->m_AutomaticInitialSimplex        = true;
-  this->m_InitialSimplexDelta.Fill( NumericTraits< ParametersType::ValueType >::One );
+  this->m_InitialSimplexDelta.Fill( NumericTraits< ParametersType::ValueType >::OneValue() );
   this->m_OptimizeWithRestarts = false;
   this->m_VnlOptimizer = ITK_NULLPTR;
 }

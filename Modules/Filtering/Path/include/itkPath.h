@@ -80,14 +80,14 @@ public:
    * iterators to know how to go to the beginning of a path. */
   virtual inline InputType StartOfInput() const
   {
-    return NumericTraits< InputType >::Zero;
+    return NumericTraits< InputType >::ZeroValue();
   }
 
   /** Where does the path end (what is the last valid input value)?  This value
    * is sometimes used by IncrementInput() to go to the end of a path. */
   virtual inline InputType EndOfInput() const
   {
-    return NumericTraits< InputType >::One;
+    return NumericTraits< InputType >::OneValue();
   }
 
   /** Evaluate the path at specified location along the path.

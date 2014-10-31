@@ -617,8 +617,8 @@ protected:
   {
     if ( input && output )
       {
-      SizeValueType inputIndex = NumericTraits< SizeValueType >::Zero;
-      SizeValueType outputIndex = NumericTraits< SizeValueType >::Zero;
+      SizeValueType inputIndex = NumericTraits< SizeValueType >::ZeroValue();
+      SizeValueType outputIndex = NumericTraits< SizeValueType >::ZeroValue();
       for ( SizeValueType ii = 0; ii < m_NumberOfCells; ii++ )
         {
         inputIndex++; // ignore the cell type
@@ -639,8 +639,8 @@ protected:
   {
     if ( input && output )
       {
-      SizeValueType inputIndex = itk::NumericTraits< SizeValueType >::Zero;
-      SizeValueType outputIndex = itk::NumericTraits< SizeValueType >::Zero;
+      SizeValueType inputIndex = itk::NumericTraits< SizeValueType >::ZeroValue();
+      SizeValueType outputIndex = itk::NumericTraits< SizeValueType >::ZeroValue();
 
       for ( SizeValueType ii = 0; ii < m_NumberOfCells; ii++ )
         {
@@ -669,8 +669,8 @@ protected:
   {
     if ( input && output )
       {
-      SizeValueType inputIndex = NumericTraits< SizeValueType >::Zero;
-      SizeValueType outputIndex = NumericTraits< SizeValueType >::Zero;
+      SizeValueType inputIndex = NumericTraits< SizeValueType >::ZeroValue();
+      SizeValueType outputIndex = NumericTraits< SizeValueType >::ZeroValue();
       for ( SizeValueType ii = 0; ii < numberOfCells; ii++ )
         {
         output[outputIndex++] = static_cast< TOutput >( cellType );
@@ -690,8 +690,8 @@ protected:
   {
     if ( input && output )
       {
-      SizeValueType inputIndex = NumericTraits< SizeValueType >::Zero;
-      SizeValueType outputIndex = NumericTraits< SizeValueType >::Zero;
+      SizeValueType inputIndex = NumericTraits< SizeValueType >::ZeroValue();
+      SizeValueType outputIndex = NumericTraits< SizeValueType >::ZeroValue();
       for ( SizeValueType ii = 0; ii < numberOfCells; ii++ )
         {
         unsigned int numberOfPoints = static_cast< unsigned int >( input[inputIndex++] );

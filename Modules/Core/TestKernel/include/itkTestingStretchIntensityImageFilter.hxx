@@ -46,7 +46,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
   m_OutputMaximum   = NumericTraits< OutputPixelType >::max();
   m_OutputMinimum   = NumericTraits< OutputPixelType >::NonpositiveMin();
 
-  m_InputMaximum   = NumericTraits< InputPixelType >::Zero;
+  m_InputMaximum   = NumericTraits< InputPixelType >::ZeroValue();
   m_InputMinimum   = NumericTraits< InputPixelType >::max();
 
   m_Scale = 1.0;
@@ -114,7 +114,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
       / ( static_cast< RealType >( m_InputMaximum )
           - static_cast< RealType >( m_InputMinimum ) );
     }
-  else if ( m_InputMaximum != NumericTraits< InputPixelType >::Zero )
+  else if ( m_InputMaximum != NumericTraits< InputPixelType >::ZeroValue() )
     {
     m_Scale =
       ( static_cast< RealType >( m_OutputMaximum )

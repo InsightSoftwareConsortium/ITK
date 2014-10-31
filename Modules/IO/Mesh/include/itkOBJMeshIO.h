@@ -100,7 +100,7 @@ protected:
   void WritePoints(T *buffer, std::ofstream & outputFile)
   {
     NumberToString<T> convert;
-    SizeValueType index = itk::NumericTraits< SizeValueType >::Zero;
+    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
 
     for ( SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++ )
       {
@@ -116,7 +116,7 @@ protected:
   template< typename T >
   void WriteCells(T *buffer, std::ofstream & outputFile)
   {
-    SizeValueType index = itk::NumericTraits< SizeValueType >::Zero;
+    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
 
     for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
       {
@@ -137,7 +137,7 @@ protected:
   void WritePointData(T *buffer, std::ofstream & outputFile)
   {
     NumberToString<T> convert;
-    SizeValueType index = itk::NumericTraits< SizeValueType >::Zero;
+    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
 
     for ( SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
       {

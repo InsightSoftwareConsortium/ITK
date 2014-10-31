@@ -154,8 +154,8 @@ protected:
   {
     m_Variance.Fill(1.0);
     m_MaximumError.Fill(0.01);
-    m_BackgroundValue = NumericTraits< OutputImagePixelType >::Zero;
-    m_ForegroundValue = NumericTraits< OutputImagePixelType >::One;
+    m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
+    m_ForegroundValue = NumericTraits< OutputImagePixelType >::OneValue();
   }
 
   ~ZeroCrossingBasedEdgeDetectionImageFilter(){}

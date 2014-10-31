@@ -132,7 +132,7 @@ VTKPolyDataReader< TOutputMesh >
   itkDebugMacro("pointLine " << pointLine);
 
   // we must use long here because this is the exact type specified by scanf
-  long int numberOfPoints = NumericTraits<PointIdentifier>::Zero;
+  long int numberOfPoints = NumericTraits<PointIdentifier>::ZeroValue();
 
   if ( sscanf(pointLine.c_str(), "%ld", &numberOfPoints) != 1 )
     {
@@ -202,8 +202,8 @@ VTKPolyDataReader< TOutputMesh >
   //
 
   // we must use long here because this is the exact type specified by scanf
-  long int numberOfPolygons = NumericTraits< CellIdentifier >::Zero;
-  long int numberOfIndices = NumericTraits< CellIdentifier >::Zero;
+  long int numberOfPolygons = NumericTraits< CellIdentifier >::ZeroValue();
+  long int numberOfIndices = NumericTraits< CellIdentifier >::ZeroValue();
 
   if ( sscanf(polygonLine.c_str(), "%ld %ld", &numberOfPolygons,
               &numberOfIndices) != 2 )

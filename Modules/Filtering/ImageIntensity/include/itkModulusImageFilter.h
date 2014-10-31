@@ -48,7 +48,7 @@ public:
 
  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
  {
-   if ( B != NumericTraits<TInput2>::Zero )
+   if ( B != NumericTraits<TInput2>::ZeroValue() )
      {
      return static_cast< TOutput >( A % B );
      }

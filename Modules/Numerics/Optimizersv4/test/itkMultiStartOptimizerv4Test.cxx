@@ -63,7 +63,7 @@ public:
 
   virtual void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
     {
-    derivative.Fill( itk::NumericTraits< ParametersValueType >::Zero );
+    derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
   void GetValueAndDerivative( MeasureType & value,

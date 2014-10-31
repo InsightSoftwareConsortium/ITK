@@ -27,7 +27,7 @@ template< typename TSparseImageType >
 NormalVectorFunctionBase< TSparseImageType >
 ::NormalVectorFunctionBase()
 {
-  m_TimeStep = NumericTraits< TimeStepType >::One;
+  m_TimeStep = NumericTraits< TimeStepType >::OneValue();
 }
 
 template< typename TSparseImageType >

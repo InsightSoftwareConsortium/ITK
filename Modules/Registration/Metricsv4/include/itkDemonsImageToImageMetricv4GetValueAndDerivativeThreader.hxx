@@ -98,7 +98,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
   if ( vnl_math_abs(speedValue) < this->m_DemonsAssociate->GetIntensityDifferenceThreshold() ||
        denominator < this->m_DemonsAssociate->GetDenominatorThreshold() )
     {
-    localDerivativeReturn.Fill( NumericTraits<DerivativeValueType>::Zero );
+    localDerivativeReturn.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
     return true;
     }
 

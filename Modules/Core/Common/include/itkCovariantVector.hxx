@@ -144,7 +144,7 @@ typename CovariantVector< T, NVectorDimension >::ValueType
 CovariantVector< T, NVectorDimension >
 ::operator*(const Self & other) const
 {
-  typename NumericTraits< T >::AccumulateType value = NumericTraits< T >::Zero;
+  typename NumericTraits< T >::AccumulateType value = NumericTraits< T >::ZeroValue();
   for ( unsigned int i = 0; i < NVectorDimension; i++ )
     {
     value += ( *this )[i] * other[i];
@@ -160,7 +160,7 @@ typename CovariantVector< T, NVectorDimension >::ValueType
 CovariantVector< T, NVectorDimension >
 ::operator*(const Vector< T, NVectorDimension > & other) const
 {
-  typename NumericTraits< T >::AccumulateType value = NumericTraits< T >::Zero;
+  typename NumericTraits< T >::AccumulateType value = NumericTraits< T >::ZeroValue();
   for ( unsigned int i = 0; i < NVectorDimension; i++ )
     {
     value += ( *this )[i] * other[i];
@@ -176,7 +176,7 @@ typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
 ::GetSquaredNorm(void) const
 {
-  RealValueType sum = NumericTraits< RealValueType >::Zero;
+  RealValueType sum = NumericTraits< RealValueType >::ZeroValue();
 
   for ( unsigned int i = 0; i < NVectorDimension; i++ )
     {

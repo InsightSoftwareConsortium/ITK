@@ -547,7 +547,7 @@ protected:
   /** This method is not implemented or necessary for this solver */
   TimeStepType CalculateChange()
   {
-    return NumericTraits< TimeStepType >::Zero;
+    return NumericTraits< TimeStepType >::ZeroValue();
   }
 
   /** This method does the actual work of calculating change over a region

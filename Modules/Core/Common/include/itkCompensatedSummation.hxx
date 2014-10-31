@@ -59,8 +59,8 @@ void CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TF
 template < typename TFloat >
 CompensatedSummation< TFloat >
 ::CompensatedSummation():
-  m_Sum( NumericTraits< AccumulateType >::Zero ),
-  m_Compensation( NumericTraits< AccumulateType >::Zero )
+  m_Sum( NumericTraits< AccumulateType >::ZeroValue() ),
+  m_Compensation( NumericTraits< AccumulateType >::ZeroValue() )
 {
 }
 
@@ -136,8 +136,8 @@ void
 CompensatedSummation< TFloat >
 ::ResetToZero()
 {
-  this->m_Sum          = NumericTraits< AccumulateType >::Zero;
-  this->m_Compensation = NumericTraits< AccumulateType >::Zero;
+  this->m_Sum          = NumericTraits< AccumulateType >::ZeroValue();
+  this->m_Compensation = NumericTraits< AccumulateType >::ZeroValue();
 }
 
 template < typename TFloat >
@@ -146,7 +146,7 @@ CompensatedSummation< TFloat >
 ::operator=( const FloatType & rhs )
 {
   this->m_Sum          = rhs;
-  this->m_Compensation = NumericTraits< AccumulateType >::Zero;
+  this->m_Compensation = NumericTraits< AccumulateType >::ZeroValue();
 
   return *this;
 }

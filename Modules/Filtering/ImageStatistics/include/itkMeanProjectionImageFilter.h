@@ -58,12 +58,12 @@ public:
 
   ~MeanAccumulator()
   {
-    m_Size = NumericTraits< SizeValueType >::Zero;
+    m_Size = NumericTraits< SizeValueType >::ZeroValue();
   }
 
   inline void Initialize()
   {
-    m_Sum = NumericTraits< TAccumulate >::Zero;
+    m_Sum = NumericTraits< TAccumulate >::ZeroValue();
   }
 
   inline void operator()(const TInputPixel & input)

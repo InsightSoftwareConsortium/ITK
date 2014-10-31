@@ -30,10 +30,10 @@ template<typename TInternalComputationValueType>
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::GradientDescentOptimizerv4Template()
 {
-  this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
+  this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
   this->m_MinimumConvergenceValue = 1e-8;
   this->m_ReturnBestParametersAndValue = false;
-  this->m_PreviousGradient.Fill( NumericTraits<TInternalComputationValueType>::Zero );
+  this->m_PreviousGradient.Fill( NumericTraits<TInternalComputationValueType>::ZeroValue() );
 }
 
 /**
@@ -308,7 +308,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 
     if (stepScale <= NumericTraits<TInternalComputationValueType>::epsilon())
       {
-      this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
+      this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
       }
     else
       {

@@ -222,7 +222,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 
   while( !this->m_StoppingCriterion->IsSatisfied() )
     {
-    this->m_RMSChangeAccumulator = NumericTraits< LevelSetOutputRealType >::Zero;
+    this->m_RMSChangeAccumulator = NumericTraits< LevelSetOutputRealType >::ZeroValue();
 
     // one iteration over all container
     // update each level set based on the different equations provided

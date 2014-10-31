@@ -37,8 +37,8 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
   m_Scale.Fill(1.0);
   m_Stiffness.Fill(0.1);
   m_TimeStep = 0.01;
-  m_PotentialMagnitude = NumericTraits< PixelType >::One;
-  m_GradientMagnitude = NumericTraits< PixelType >::One;
+  m_PotentialMagnitude = NumericTraits< PixelType >::OneValue();
+  m_GradientMagnitude = NumericTraits< PixelType >::OneValue();
 
   m_ImageDepth = 0;
   m_ImageHeight = 0;

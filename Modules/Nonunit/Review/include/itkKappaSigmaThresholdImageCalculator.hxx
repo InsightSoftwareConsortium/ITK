@@ -32,7 +32,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
   this->m_Image = ITK_NULLPTR;
   this->m_Mask = ITK_NULLPTR;
   this->m_MaskValue = NumericTraits< MaskPixelType >::max();
-  this->m_Output = NumericTraits< InputPixelType >::Zero;
+  this->m_Output = NumericTraits< InputPixelType >::ZeroValue();
   this->m_SigmaFactor = 2;
   this->m_NumberOfIterations = 2;
 }

@@ -36,7 +36,7 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
   typedef typename NumericTraits< InputPixelType >::RealType            InputPixelRealType;
   typedef typename NumericTraits< InputPixelRealType >::AccumulateType  AccumulateRealType;
 
-  AccumulateRealType sum = NumericTraits< AccumulateRealType >::Zero;
+  AccumulateRealType sum = NumericTraits< AccumulateRealType >::ZeroValue();
 
   typedef typename NumericTraits<OutputPixelType>::ValueType
       OutputPixelValueType;
@@ -70,7 +70,7 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
   typedef typename NumericTraits< InputPixelType >::RealType            InputPixelRealType;
   typedef typename NumericTraits< InputPixelRealType >::AccumulateType  AccumulateRealType;
 
-  AccumulateRealType sum = NumericTraits< AccumulateRealType >::Zero;
+  AccumulateRealType sum = NumericTraits< AccumulateRealType >::ZeroValue();
 
   typedef typename NumericTraits<OutputPixelType>::ValueType
       OutputPixelValueType;

@@ -39,7 +39,7 @@ EuclideanDistanceMetric< TVector >
   MeasurementVectorTraits::Assert(this->GetOrigin(), measurementVectorSize,
                                   "EuclideanDistanceMetric::Evaluate Origin and input vector have different lengths");
 
-  double sumOfSquares = NumericTraits< double >::Zero;
+  double sumOfSquares = NumericTraits< double >::ZeroValue();
 
   for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
@@ -66,7 +66,7 @@ EuclideanDistanceMetric< TVector >
                       << NumericTraits<MeasurementVectorType>::GetLength(x2) << ")");
     }
 
-  double sumOfSquares = NumericTraits< double >::Zero;
+  double sumOfSquares = NumericTraits< double >::ZeroValue();
 
   for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {

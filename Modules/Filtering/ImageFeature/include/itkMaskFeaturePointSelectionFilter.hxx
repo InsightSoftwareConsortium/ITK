@@ -84,7 +84,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
     m_NonConnectivityOffsets.clear();
     // use Neighbourhood to compute all offsets in radius 1
     Neighborhood< unsigned, ImageDimension> neighborhood;
-    neighborhood.SetRadius( NumericTraits< SizeValueType >::One );
+    neighborhood.SetRadius( NumericTraits< SizeValueType >::OneValue() );
     for ( SizeValueType i = 0, n = neighborhood.Size(); i < n; i++ )
       {
       OffsetType off = neighborhood.GetOffset( i );
@@ -152,7 +152,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
   if ( mask == ITK_NULLPTR )
     {
     // create all 1s selectionMap
-    selectionMap->FillBuffer( NumericTraits< MapPixelType >::One );
+    selectionMap->FillBuffer( NumericTraits< MapPixelType >::OneValue() );
     }
   else
     {

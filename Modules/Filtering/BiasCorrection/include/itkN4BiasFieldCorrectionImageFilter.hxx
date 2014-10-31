@@ -40,13 +40,13 @@ namespace itk {
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::N4BiasFieldCorrectionImageFilter() :
-  m_MaskLabel( NumericTraits<MaskPixelType>::One ),
+  m_MaskLabel( NumericTraits<MaskPixelType>::OneValue() ),
   m_NumberOfHistogramBins( 200 ),
   m_WienerFilterNoise( 0.01 ),
   m_BiasFieldFullWidthAtHalfMaximum( 0.15 ),
   m_ElapsedIterations( 0 ),
   m_ConvergenceThreshold( 0.001 ),
-  m_CurrentConvergenceMeasurement( NumericTraits<RealType>::Zero ),
+  m_CurrentConvergenceMeasurement( NumericTraits<RealType>::ZeroValue() ),
   m_CurrentLevel( 0 ),
   m_SplineOrder( 3 )
 {
@@ -103,7 +103,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
         && ( !confidenceImage ||
              confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
-      if( It.Get() > NumericTraits<typename InputImageType::PixelType>::Zero )
+      if( It.Get() > NumericTraits<typename InputImageType::PixelType>::ZeroValue() )
         {
         It.Set( std::log( static_cast< RealType >( It.Get() ) ) );
         }

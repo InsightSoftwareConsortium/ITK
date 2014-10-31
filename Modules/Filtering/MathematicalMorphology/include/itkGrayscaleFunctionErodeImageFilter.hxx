@@ -47,7 +47,7 @@ GrayscaleFunctionErodeImageFilter< TInputImage, TOutputImage, TKernel >
     {
     // if structuring element is positive, use the pixel under that element
     // in the image minus the structuring element value
-    if ( *kernel_it > NumericTraits< KernelPixelType >::Zero )
+    if ( *kernel_it > NumericTraits< KernelPixelType >::ZeroValue() )
       {
       // subtract the structuring element value to the pixel value,
       // note we use GetPixel() on SmartNeighborhoodIterator to respect

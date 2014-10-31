@@ -193,7 +193,7 @@ OBJMeshIO
   // Set default cell pixel component and point pixel type
   this->m_CellPixelComponentType = FLOAT;
   this->m_CellPixelType  = SCALAR;
-  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::One;
+  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
   this->m_UpdateCellData = false;
 
   CloseFile();

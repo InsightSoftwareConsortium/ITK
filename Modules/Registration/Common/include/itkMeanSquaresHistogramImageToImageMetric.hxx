@@ -28,11 +28,11 @@ typename MeanSquaresHistogramImageToImageMetric< TFixedImage, TMovingImage >
 MeanSquaresHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::EvaluateMeasure(HistogramType & histogram) const
 {
-  MeasureType            measure = NumericTraits< MeasureType >::Zero;
+  MeasureType            measure = NumericTraits< MeasureType >::ZeroValue();
   HistogramIteratorType  it = histogram.Begin();
   HistogramIteratorType  end = histogram.End();
   HistogramFrequencyType totalNumberOfSamples =
-    NumericTraits< HistogramFrequencyType >::Zero;
+    NumericTraits< HistogramFrequencyType >::ZeroValue();
 
   while ( it != end )
     {

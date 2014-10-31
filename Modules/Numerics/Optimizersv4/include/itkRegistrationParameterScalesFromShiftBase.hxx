@@ -113,7 +113,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
           parameterScales[i] *= parameterScales[i];
           }
         //normalize to unit variation
-        parameterScales[i] *= NumericTraits< typename ScalesType::ValueType >::One / vnl_math_sqr( this->m_SmallParameterVariation );
+        parameterScales[i] *= NumericTraits< typename ScalesType::ValueType >::OneValue() / vnl_math_sqr( this->m_SmallParameterVariation );
         }
       }
     }
@@ -139,7 +139,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   // For global transforms, we want a linear approximation of the function
   // of step scale w.r.t "step". This is true only when "step" is close to
   // zero. Therefore, we need to scale "step" down.
-  FloatType maxStep = NumericTraits<FloatType>::Zero;
+  FloatType maxStep = NumericTraits<FloatType>::ZeroValue();
   for (typename ParametersType::SizeValueType p = 0; p < step.GetSize(); p++)
     {
     if (maxStep < std::abs(step[p]))
@@ -149,7 +149,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
     }
   if (maxStep <= NumericTraits<FloatType>::epsilon())
     {
-    return NumericTraits<FloatType>::Zero;
+    return NumericTraits<FloatType>::ZeroValue();
     }
   else
     {
@@ -209,7 +209,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
 
   this->ComputeSampleShifts(deltaParameters, sampleShifts);
 
-  FloatType maxShift = NumericTraits< FloatType >::Zero;
+  FloatType maxShift = NumericTraits< FloatType >::ZeroValue();
   for (SizeValueType s=0; s<sampleShifts.size(); s++)
     {
     if (maxShift < sampleShifts[s])

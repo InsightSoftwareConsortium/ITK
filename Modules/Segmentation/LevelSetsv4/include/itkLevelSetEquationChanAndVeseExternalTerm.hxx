@@ -54,7 +54,7 @@ template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 ::ComputeProductTerm( const LevelSetInputIndexType& iP, LevelSetOutputRealType& prod )
 {
-  prod = -1 * NumericTraits< LevelSetOutputRealType >::One;
+  prod = -1 * NumericTraits< LevelSetOutputRealType >::OneValue();
 
   if( this->m_LevelSetContainer->HasDomainMap() )
     {
@@ -86,7 +86,7 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
           {
           levelSet = this->m_LevelSetContainer->GetLevelSet( kk );
           value = levelSet->Evaluate( iP );
-          prod *= ( NumericTraits< LevelSetOutputRealType >::One - this->m_Heaviside->Evaluate( -value ) );
+          prod *= ( NumericTraits< LevelSetOutputRealType >::OneValue() - this->m_Heaviside->Evaluate( -value ) );
           }
         ++idListIt;
         }
@@ -107,7 +107,7 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
         {
         levelSet = this->m_LevelSetContainer->GetLevelSet( kk );
         value = levelSet->Evaluate( iP );
-        prod *= ( NumericTraits< LevelSetOutputRealType >::One - this->m_Heaviside->Evaluate( -value ) );
+        prod *= ( NumericTraits< LevelSetOutputRealType >::OneValue() - this->m_Heaviside->Evaluate( -value ) );
         }
       ++lsIt;
       }

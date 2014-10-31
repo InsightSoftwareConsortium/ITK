@@ -81,14 +81,14 @@ TriangleHelper< TPoint >::Cotangent(const PointType & iA,
 
   CoordRepType v21_l2 = v21.GetSquaredNorm();
 
-  if ( v21_l2 != NumericTraits< CoordRepType >::Zero )
+  if ( v21_l2 != NumericTraits< CoordRepType >::ZeroValue() )
     {
     v21 /= std::sqrt(v21_l2);
     }
 
   VectorType   v23 = iC - iB;
   CoordRepType v23_l2 = v23.GetSquaredNorm();
-  if ( v23_l2 != NumericTraits< CoordRepType >::Zero )
+  if ( v23_l2 != NumericTraits< CoordRepType >::ZeroValue() )
     {
     v23 /= std::sqrt(v23_l2);
     }
@@ -261,7 +261,7 @@ TriangleHelper< TPoint >::ComputeMixedArea(const PointType & iP1,
     CoordRepType area =
       static_cast< CoordRepType >( TriangleType::ComputeArea(iP1, iP2, iP3) );
 
-    if ( ( iP2 - iP1 ) * ( iP3 - iP1 ) < NumericTraits< CoordRepType >::Zero )
+    if ( ( iP2 - iP1 ) * ( iP3 - iP1 ) < NumericTraits< CoordRepType >::ZeroValue() )
       {
       return 0.5 * area;
       }

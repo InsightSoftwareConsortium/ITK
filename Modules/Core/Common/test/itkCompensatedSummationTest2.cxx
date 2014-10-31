@@ -70,14 +70,14 @@ public:
       itk::CompensatedSummation<double> compensatedSum;
       for( DomainType::IndexValueType i=subdomain[0]; i <= subdomain[1]; i++ )
         {
-        double value = itk::NumericTraits<double>::One / 7;
+        double value = itk::NumericTraits<double>::OneValue() / 7;
         this->m_PerThreadCompensatedSum[threadId].AddElement( value );
         }
       }
 
     virtual void AfterThreadedExecution() ITK_OVERRIDE
       {
-      this->m_Associate->m_UncompensatedSumOfThreads = itk::NumericTraits<double>::Zero;
+      this->m_Associate->m_UncompensatedSumOfThreads = itk::NumericTraits<double>::ZeroValue();
       this->m_Associate->m_CompensatedSumOfThreads.ResetToZero();
 
       for( itk::ThreadIdType i = 0, numThreadsUsed = this->GetNumberOfThreadsUsed(); i < numThreadsUsed; ++i )

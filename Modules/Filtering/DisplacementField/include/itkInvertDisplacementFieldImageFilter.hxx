@@ -138,8 +138,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     /**
      * Multithread processing to multiply each element of the composed field by 1 / spacing
      */
-    this->m_MeanErrorNorm = NumericTraits<RealType>::Zero;
-    this->m_MaxErrorNorm = NumericTraits<RealType>::Zero;
+    this->m_MeanErrorNorm = NumericTraits<RealType>::ZeroValue();
+    this->m_MaxErrorNorm = NumericTraits<RealType>::ZeroValue();
 
     this->m_DoThreadedEstimateInverse = false;
     typename ImageSource<TOutputImage>::ThreadStruct str0;
@@ -213,8 +213,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   else
     {
     VectorType inverseSpacing;
-    RealType localMean = NumericTraits<RealType>::Zero;
-    RealType localMax  = NumericTraits<RealType>::Zero;
+    RealType localMean = NumericTraits<RealType>::ZeroValue();
+    RealType localMax  = NumericTraits<RealType>::ZeroValue();
     for( unsigned int d = 0; d < ImageDimension; ++d )
       {
       inverseSpacing[d]=1.0/this->m_DisplacementFieldSpacing[d];

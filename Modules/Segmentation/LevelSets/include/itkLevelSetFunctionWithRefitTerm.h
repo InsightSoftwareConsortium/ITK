@@ -145,7 +145,7 @@ protected:
                                                 const FloatOffsetType &,
                                                 GlobalDataStruct * = 0) const
   {
-    return NumericTraits< ScalarValueType >::Zero;
+    return NumericTraits< ScalarValueType >::ZeroValue();
   }
 
 private:

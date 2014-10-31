@@ -28,9 +28,9 @@ template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::KappaSigmaThresholdImageFilter()
 {
-  m_OutsideValue   = NumericTraits< OutputPixelType >::Zero;
+  m_OutsideValue   = NumericTraits< OutputPixelType >::ZeroValue();
   m_InsideValue    = NumericTraits< OutputPixelType >::max();
-  m_Threshold      = NumericTraits< InputPixelType >::Zero;
+  m_Threshold      = NumericTraits< InputPixelType >::ZeroValue();
   m_SigmaFactor = 2;
   m_NumberOfIterations = 2;
   m_MaskValue = NumericTraits< MaskPixelType >::max();

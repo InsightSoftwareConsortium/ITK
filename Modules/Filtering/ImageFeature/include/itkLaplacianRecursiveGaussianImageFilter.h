@@ -143,7 +143,7 @@ private:
   public:
     typedef AddMultConstFunctor Self;
 
-    AddMultConstFunctor( void ) : m_Value( NumericTraits<PixelType>::One ) {}
+    AddMultConstFunctor( void ) : m_Value( NumericTraits<PixelType>::OneValue() ) {}
 
     bool operator!=( const Self &other ) const { return !(*this==other); }
     bool operator==( const Self &other ) const { return m_Value == other.m_Value; }

@@ -37,9 +37,9 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   m_Upper = NumericTraits< InputImagePixelType >::max();
   m_Seeds1.clear();
   m_Seeds2.clear();
-  m_ReplaceValue = NumericTraits< OutputImagePixelType >::One;
-  m_IsolatedValue = NumericTraits< InputImagePixelType >::Zero;
-  m_IsolatedValueTolerance = NumericTraits< InputImagePixelType >::One;
+  m_ReplaceValue = NumericTraits< OutputImagePixelType >::OneValue();
+  m_IsolatedValue = NumericTraits< InputImagePixelType >::ZeroValue();
+  m_IsolatedValueTolerance = NumericTraits< InputImagePixelType >::OneValue();
   m_FindUpperThreshold = true;
   m_ThresholdingFailed = false;
 }

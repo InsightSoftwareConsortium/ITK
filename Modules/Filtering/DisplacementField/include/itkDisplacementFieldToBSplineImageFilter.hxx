@@ -89,7 +89,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
 
   typename WeightsContainerType::Pointer weights = WeightsContainerType::New();
 
-  IdentifierType numberOfPoints = NumericTraits< IdentifierType >::Zero;
+  IdentifierType numberOfPoints = NumericTraits< IdentifierType >::ZeroValue();
 
   const typename WeightsContainerType::Element boundaryWeight = 1.0e10;
 

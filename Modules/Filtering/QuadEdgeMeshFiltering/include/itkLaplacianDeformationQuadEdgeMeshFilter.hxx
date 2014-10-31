@@ -53,7 +53,7 @@ LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
   OutputQEPrimal *    qeIt = qe;
   OutputQEPrimal *    qeIt2 = qe->GetOnext();
 
-  OutputCoordRepType oW = NumericTraits< OutputCoordRepType >::Zero;
+  OutputCoordRepType oW = NumericTraits< OutputCoordRepType >::ZeroValue();
 
   do
     {
@@ -96,7 +96,7 @@ LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 
     if ( area < vnl_math::eps )
       {
-      return NumericTraits< OutputCoordRepType >::Zero;
+      return NumericTraits< OutputCoordRepType >::ZeroValue();
       }
     else
       {
@@ -105,7 +105,7 @@ LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
     }
   else
     {
-    return NumericTraits< OutputCoordRepType >::Zero;
+    return NumericTraits< OutputCoordRepType >::ZeroValue();
     }
 }
 
@@ -227,8 +227,8 @@ LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
       }
     else
       {
-      OutputCoordRepType ww  = NumericTraits< OutputCoordRepType >::Zero;
-      OutputCoordRepType w   = NumericTraits< OutputCoordRepType >::Zero;
+      OutputCoordRepType ww  = NumericTraits< OutputCoordRepType >::ZeroValue();
+      OutputCoordRepType w   = NumericTraits< OutputCoordRepType >::ZeroValue();
 
       qe = output->FindEdge(vId);
       if ( qe )
@@ -254,7 +254,7 @@ LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
             if( m_AreaComputationType != NONE )
               {
               AreaMapConstIterator mixedIt = m_MixedAreaMap.find( vId );
-              OutputCoordRepType mixedArea = NumericTraits< OutputCoordRepType >::One;
+              OutputCoordRepType mixedArea = NumericTraits< OutputCoordRepType >::OneValue();
 
               if( mixedIt != m_MixedAreaMap.end() )
                 {

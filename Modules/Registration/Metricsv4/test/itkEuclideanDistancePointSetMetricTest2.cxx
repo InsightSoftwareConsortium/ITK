@@ -215,7 +215,7 @@ int itkEuclideanDistancePointSetMetricTest2Run()
   bool derivative2IsZero = true;
   for( itk::SizeValueType n=0; n < metric->GetNumberOfParameters(); n++ )
     {
-    if( derivative2[n] != itk::NumericTraits<typename PointSetMetricType::DerivativeValueType>::Zero )
+    if( derivative2[n] != itk::NumericTraits<typename PointSetMetricType::DerivativeValueType>::ZeroValue() )
       {
       derivative2IsZero = false;
       }

@@ -34,9 +34,9 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
 
-  m_OutsideValue   = NumericTraits<OutputPixelType>::Zero;
+  m_OutsideValue   = NumericTraits<OutputPixelType>::ZeroValue();
   m_InsideValue    = NumericTraits<OutputPixelType>::max();
-  m_Threshold      = NumericTraits<InputPixelType>::Zero;
+  m_Threshold      = NumericTraits<InputPixelType>::ZeroValue();
   m_MaskValue      = NumericTraits<MaskPixelType>::max();
   m_Calculator     = ITK_NULLPTR;
   m_MaskOutput     = true;

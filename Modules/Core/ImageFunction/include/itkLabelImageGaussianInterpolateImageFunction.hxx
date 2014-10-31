@@ -66,7 +66,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
     }
 
   RealType wmax = 0.0;
-  OutputType Vmax = NumericTraits<OutputType>::Zero;
+  OutputType Vmax = NumericTraits<OutputType>::ZeroValue();
 
   // Create a map object to store weights for each label encountered
   // inside the search region. This is not as efficient as having a

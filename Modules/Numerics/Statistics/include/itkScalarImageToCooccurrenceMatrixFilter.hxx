@@ -54,7 +54,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
   this->m_Max = NumericTraits< PixelType >::max();
 
   //mask inside pixel value
-  this->m_InsidePixelValue = NumericTraits< PixelType >::One;
+  this->m_InsidePixelValue = NumericTraits< PixelType >::OneValue();
 
   this->m_NumberOfBinsPerAxis = DefaultBinsPerAxis;
   this->m_Normalize = false;

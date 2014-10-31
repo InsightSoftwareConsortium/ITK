@@ -65,8 +65,8 @@ namespace itk
  */
 RealTimeStamp::RealTimeStamp()
 {
-  this->m_Seconds = itk::NumericTraits< SecondsCounterType >::Zero;
-  this->m_MicroSeconds = itk::NumericTraits< MicroSecondsCounterType >::Zero;
+  this->m_Seconds = itk::NumericTraits< SecondsCounterType >::ZeroValue();
+  this->m_MicroSeconds = itk::NumericTraits< MicroSecondsCounterType >::ZeroValue();
 }
 
 /**

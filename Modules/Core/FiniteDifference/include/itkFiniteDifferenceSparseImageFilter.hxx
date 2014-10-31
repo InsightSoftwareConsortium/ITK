@@ -170,7 +170,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   // Set up for multithreaded processing.
   FDThreadStruct str;
   str.Filter = this;
-  str.TimeStep = NumericTraits< TimeStepType >::Zero;
+  str.TimeStep = NumericTraits< TimeStepType >::ZeroValue();
   // Not used during the calculate change step for normals.
 
   this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );

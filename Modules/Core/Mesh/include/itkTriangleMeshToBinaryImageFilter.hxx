@@ -40,8 +40,8 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
     m_Origin[i] = 0;
     }
 
-  m_InsideValue = NumericTraits< ValueType >::One;
-  m_OutsideValue = NumericTraits< ValueType >::Zero;
+  m_InsideValue = NumericTraits< ValueType >::OneValue();
+  m_OutsideValue = NumericTraits< ValueType >::ZeroValue();
   m_Direction.GetVnlMatrix().set_identity();
 
   m_Tolerance = 1e-5;

@@ -112,7 +112,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
       }
 
     m_Container[iId] = iTerm;
-    m_TermContribution[iId] = NumericTraits< LevelSetOutputPixelType >::Zero;
+    m_TermContribution[iId] = NumericTraits< LevelSetOutputPixelType >::ZeroValue();
     m_NameContainer[ iTerm->GetTermName() ] = iTerm;
 
     RequiredDataType termRequiredData = iTerm->GetRequiredData();
@@ -172,7 +172,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
     ++id;
 
     m_Container[ id ] = iTerm;
-    m_TermContribution[ id ] = NumericTraits< LevelSetOutputPixelType >::Zero;
+    m_TermContribution[ id ] = NumericTraits< LevelSetOutputPixelType >::ZeroValue();
     m_NameContainer[ iTerm->GetTermName() ] = iTerm;
 
     RequiredDataType termRequiredData = iTerm->GetRequiredData();
@@ -287,7 +287,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 
   MapCFLContainerIterator cfl_it = m_TermContribution.begin();
 
-  LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::Zero;
+  LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::ZeroValue();
 
   while( term_it != term_end )
     {
@@ -314,7 +314,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 
   MapCFLContainerIterator cfl_it = m_TermContribution.begin();
 
-  LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::Zero;
+  LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::ZeroValue();
 
   while( term_it != term_end )
     {
@@ -344,7 +344,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
   while( term_it != term_end )
     {
     ( term_it->second )->Update();
-    ( cfl_it->second )= NumericTraits< LevelSetOutputPixelType >::Zero;
+    ( cfl_it->second )= NumericTraits< LevelSetOutputPixelType >::ZeroValue();
     ++term_it;
     ++cfl_it;
     }
@@ -361,13 +361,13 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 
   MapCFLContainerConstIterator cfl_it = m_TermContribution.begin();
 
-  LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::Zero;
+  LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::ZeroValue();
 
   while( term_it != term_end )
     {
     LevelSetOutputRealType cfl = ( term_it->second )->GetCFLContribution();
 
-    if( cfl == NumericTraits< LevelSetOutputRealType >::Zero )
+    if( cfl == NumericTraits< LevelSetOutputRealType >::ZeroValue() )
       {
       cfl = ( cfl_it->second );
       }

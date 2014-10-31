@@ -125,10 +125,10 @@ public:
   {
     ShapePriorGlobalDataStruct *ans = new ShapePriorGlobalDataStruct();
 
-    ans->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::Zero;
-    ans->m_MaxPropagationChange = NumericTraits< ScalarValueType >::Zero;
-    ans->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::Zero;
-    ans->m_MaxShapePriorChange  = NumericTraits< ScalarValueType >::Zero;
+    ans->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::ZeroValue();
+    ans->m_MaxPropagationChange = NumericTraits< ScalarValueType >::ZeroValue();
+    ans->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::ZeroValue();
+    ans->m_MaxShapePriorChange  = NumericTraits< ScalarValueType >::ZeroValue();
     return ans;
   }
 

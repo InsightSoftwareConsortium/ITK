@@ -26,11 +26,11 @@ template< typename TMesh >
 QuadEdgeMeshTopologyChecker< TMesh >
 ::QuadEdgeMeshTopologyChecker()
 {
-  m_ExpectedNumberOfPoints = NumericTraits< PointIdentifier >::Zero;
-  m_ExpectedNumberOfEdges = NumericTraits< CellIdentifier >::Zero;
-  m_ExpectedNumberOfFaces = NumericTraits< CellIdentifier >::Zero;
-  m_ExpectedNumberOfBoundaries = NumericTraits< CellIdentifier >::Zero;
-  m_ExpectedGenus = NumericTraits< OffsetValueType >::Zero;
+  m_ExpectedNumberOfPoints = NumericTraits< PointIdentifier >::ZeroValue();
+  m_ExpectedNumberOfEdges = NumericTraits< CellIdentifier >::ZeroValue();
+  m_ExpectedNumberOfFaces = NumericTraits< CellIdentifier >::ZeroValue();
+  m_ExpectedNumberOfBoundaries = NumericTraits< CellIdentifier >::ZeroValue();
+  m_ExpectedGenus = NumericTraits< OffsetValueType >::ZeroValue();
   m_Mesh = ITK_NULLPTR;
 }
 

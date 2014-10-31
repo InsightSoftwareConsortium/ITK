@@ -58,7 +58,7 @@ public:
   { return ( std::exp( static_cast< TRealValueType >(-0.5) * vnl_math_sqr(u) ) * m_Factor ); }
 
 protected:
-  GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::One / std::sqrt(static_cast< TRealValueType >(2.0 * vnl_math::pi )) ) {};
+  GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::OneValue() / std::sqrt(static_cast< TRealValueType >(2.0 * vnl_math::pi )) ) {};
   virtual ~GaussianKernelFunction() {};
   void PrintSelf(std::ostream & os, Indent indent) const
   { Superclass::PrintSelf(os, indent); }

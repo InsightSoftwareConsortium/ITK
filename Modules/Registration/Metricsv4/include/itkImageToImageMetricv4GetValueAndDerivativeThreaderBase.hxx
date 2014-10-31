@@ -97,8 +97,8 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   // Set initial values.
   for (ThreadIdType thread = 0; thread < numThreadsUsed; ++thread)
     {
-    this->m_GetValueAndDerivativePerThreadVariables[thread].NumberOfValidPoints = NumericTraits< SizeValueType >::Zero;
-    this->m_GetValueAndDerivativePerThreadVariables[thread].Measure = NumericTraits< InternalComputationValueType >::Zero;
+    this->m_GetValueAndDerivativePerThreadVariables[thread].NumberOfValidPoints = NumericTraits< SizeValueType >::ZeroValue();
+    this->m_GetValueAndDerivativePerThreadVariables[thread].Measure = NumericTraits< InternalComputationValueType >::ZeroValue();
     if( this->m_Associate->GetComputeDerivative() )
       {
       if ( this->m_Associate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
@@ -123,7 +123,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
-  this->m_Associate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::Zero;
+  this->m_Associate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::ZeroValue();
   for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
     {
     this->m_Associate->m_NumberOfValidPoints += this->m_GetValueAndDerivativePerThreadVariables[i].NumberOfValidPoints;
@@ -154,7 +154,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
    * and a warning will be output. */
   if( this->m_Associate->VerifyNumberOfValidPoints( this->m_Associate->m_Value, *(this->m_Associate->m_DerivativeResult) ) )
     {
-    this->m_Associate->m_Value = NumericTraits<MeasureType>::Zero;
+    this->m_Associate->m_Value = NumericTraits<MeasureType>::ZeroValue();
     /* Accumulate the metric value from threads and store the average. */
     for(ThreadIdType threadId = 0; threadId < numThreadsUsed; ++threadId )
       {

@@ -111,13 +111,13 @@ public:
 
   static const Self ZeroValue(const Self  & a)
   {
-    Self b( a.Size(), NumericTraits< T >::Zero );
+    Self b( a.Size(), NumericTraits< T >::ZeroValue() );
     return b;
   }
 
   static const Self OneValue(const Self & a)
   {
-    Self b( a.Size(), NumericTraits< T >::One );
+    Self b( a.Size(), NumericTraits< T >::OneValue() );
     return b;
   }
 

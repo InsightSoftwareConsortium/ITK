@@ -166,7 +166,7 @@ typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::RegionType
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 ::GetBoundingBoxAsImageRegion() const
 {
-  const IndexValueType zero = NumericTraits< IndexValueType >::Zero;
+  const IndexValueType zero = NumericTraits< IndexValueType >::ZeroValue();
   RegionType ans;
 
   ans.SetIndex( this->GetIndex(zero) );

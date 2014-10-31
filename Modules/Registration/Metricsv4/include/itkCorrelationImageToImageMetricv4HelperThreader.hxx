@@ -57,8 +57,8 @@ CorrelationImageToImageMetricv4HelperThreader< TDomainPartitioner, TImageToImage
     // Set initial values.
   for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
     {
-    this->m_CorrelationMetricPerThreadVariables[i].FixSum = NumericTraits<InternalComputationValueType>::Zero;
-    this->m_CorrelationMetricPerThreadVariables[i].MovSum = NumericTraits<InternalComputationValueType>::Zero;
+    this->m_CorrelationMetricPerThreadVariables[i].FixSum = NumericTraits<InternalComputationValueType>::ZeroValue();
+    this->m_CorrelationMetricPerThreadVariables[i].MovSum = NumericTraits<InternalComputationValueType>::ZeroValue();
     }
 
 }
@@ -71,7 +71,7 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
 
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
-  this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::Zero;
+  this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
 
   const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
 
@@ -86,8 +86,8 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
     return;
     }
 
-  InternalComputationValueType sumF = NumericTraits<InternalComputationValueType>::Zero;
-  InternalComputationValueType sumM = NumericTraits<InternalComputationValueType>::Zero;
+  InternalComputationValueType sumF = NumericTraits<InternalComputationValueType>::ZeroValue();
+  InternalComputationValueType sumM = NumericTraits<InternalComputationValueType>::ZeroValue();
 
   for (ThreadIdType threadId = 0; threadId < numThreadsUsed; ++threadId)
     {

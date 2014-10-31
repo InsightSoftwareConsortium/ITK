@@ -80,8 +80,8 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
     }
 
   this->SetMaximumRMSError(0.07);
-  m_UpperBinaryValue = NumericTraits< BinaryValueType >::One;
-  m_LowerBinaryValue = -NumericTraits< BinaryValueType >::One;
+  m_UpperBinaryValue = NumericTraits< BinaryValueType >::OneValue();
+  m_LowerBinaryValue = -NumericTraits< BinaryValueType >::OneValue();
   this->SetNumberOfIterations(1000);
   this->SetUseImageSpacing(false);
 }

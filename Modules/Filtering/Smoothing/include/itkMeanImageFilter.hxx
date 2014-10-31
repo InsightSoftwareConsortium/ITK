@@ -75,7 +75,7 @@ MeanImageFilter< TInputImage, TOutputImage >
 
     while ( !bit.IsAtEnd() )
       {
-      sum = NumericTraits< InputRealType >::Zero;
+      sum = NumericTraits< InputRealType >::ZeroValue();
       for ( i = 0; i < neighborhoodSize; ++i )
         {
         sum += static_cast< InputRealType >( bit.GetPixel(i) );

@@ -120,14 +120,14 @@ public:
       GradientNorm( "GradientNorm" ), MeanCurvature( "MeanCurvature" ),
       ForwardGradient( "ForwardGradient" ), BackwardGradient( "BackwardGradient" )
       {
-      Value.m_Value = NumericTraits< OutputType >::Zero;
-      Gradient.m_Value.Fill( NumericTraits< OutputRealType >::Zero );
-      Hessian.m_Value.Fill( NumericTraits< OutputRealType >::Zero );
-      Laplacian.m_Value = NumericTraits< OutputRealType >::Zero;
-      GradientNorm.m_Value = NumericTraits< OutputRealType >::Zero;
-      MeanCurvature.m_Value = NumericTraits< OutputRealType >::Zero;
-      ForwardGradient.m_Value.Fill( NumericTraits< OutputRealType >::Zero );
-      BackwardGradient.m_Value.Fill( NumericTraits< OutputRealType >::Zero );
+      Value.m_Value = NumericTraits< OutputType >::ZeroValue();
+      Gradient.m_Value.Fill( NumericTraits< OutputRealType >::ZeroValue() );
+      Hessian.m_Value.Fill( NumericTraits< OutputRealType >::ZeroValue() );
+      Laplacian.m_Value = NumericTraits< OutputRealType >::ZeroValue();
+      GradientNorm.m_Value = NumericTraits< OutputRealType >::ZeroValue();
+      MeanCurvature.m_Value = NumericTraits< OutputRealType >::ZeroValue();
+      ForwardGradient.m_Value.Fill( NumericTraits< OutputRealType >::ZeroValue() );
+      BackwardGradient.m_Value.Fill( NumericTraits< OutputRealType >::ZeroValue() );
       }
 
     LevelSetDataType( const LevelSetDataType& iData ) : Value( iData.Value ),

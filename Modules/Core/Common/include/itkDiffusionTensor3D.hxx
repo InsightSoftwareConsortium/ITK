@@ -169,14 +169,14 @@ DiffusionTensor3D< T >
   // zero.
   if ( trace < NumericTraits< RealValueType >::min() )
     {
-    return NumericTraits< RealValueType >::Zero;
+    return NumericTraits< RealValueType >::ZeroValue();
     }
 
   const RealValueType anisotropy = 3.0 * isp - trace * trace;
 
-  if ( anisotropy  < NumericTraits< RealValueType >::Zero )
+  if ( anisotropy  < NumericTraits< RealValueType >::ZeroValue() )
     {
-    return NumericTraits< RealValueType >::Zero;
+    return NumericTraits< RealValueType >::ZeroValue();
     }
 
   const RealValueType relativeAnisotropySquared =

@@ -93,7 +93,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   this->m_Radius = r;
   this->SetSize();
 
-  SizeValueType cumul = NumericTraits< SizeValueType >::One;
+  SizeValueType cumul = NumericTraits< SizeValueType >::OneValue();
   for ( DimensionValueType i = 0; i < VDimension; i++ )
     {
     cumul *= m_Size[i];

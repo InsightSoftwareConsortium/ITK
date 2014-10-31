@@ -31,7 +31,7 @@ Subsample< TSample >
 ::Subsample()
 {
   m_Sample = ITK_NULLPTR;
-  m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::Zero;
+  m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::ZeroValue();
   m_ActiveDimension = 0;
 }
 
@@ -84,7 +84,7 @@ Subsample< TSample >
   typename InstanceIdentifierHolder::iterator idIter = m_IdHolder.begin();
   typename TSample::ConstIterator iter = m_Sample->Begin();
   typename TSample::ConstIterator last = m_Sample->End();
-  m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::Zero;
+  m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::ZeroValue();
   while ( iter != last )
     {
     *idIter++ = iter.GetInstanceIdentifier();
@@ -123,7 +123,7 @@ Subsample< TSample >
 ::Clear()
 {
   m_IdHolder.clear();
-  m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::Zero;
+  m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::ZeroValue();
   this->Modified();
 }
 

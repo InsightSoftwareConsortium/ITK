@@ -170,12 +170,12 @@ BYUMeshIO
   // Set default point pixel component and point pixel type
   this->m_PointPixelComponentType = FLOAT;
   this->m_PointPixelType = SCALAR;
-  this->m_NumberOfPointPixelComponents = itk::NumericTraits< unsigned int >::One;
+  this->m_NumberOfPointPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
 
   // Set default cell pixel component and point pixel type
   this->m_CellPixelComponentType = FLOAT;
   this->m_CellPixelType  = SCALAR;
-  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::One;
+  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
 
   inputFile.close();
 }
@@ -240,7 +240,7 @@ BYUMeshIO
   inputFile.precision(12);
   unsigned int *data = static_cast< unsigned int * >( buffer );
   SizeValueType  numPoints = 0;
-  SizeValueType id = itk::NumericTraits< SizeValueType >::Zero;
+  SizeValueType id = itk::NumericTraits< SizeValueType >::ZeroValue();
   SizeValueType index = 2;
   int           ptId;
   m_FirstCellId -= 1;

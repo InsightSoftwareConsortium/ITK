@@ -87,7 +87,7 @@ MinMaxCurvatureFlowFunction< TImage >
 
   for ( opIter = m_StencilOperator.Begin(); opIter < opEnd; ++opIter )
     {
-    *opIter = NumericTraits< PixelType >::Zero;
+    *opIter = NumericTraits< PixelType >::ZeroValue();
 
     RadiusValueType length = 0;
     for ( j = 0; j < ImageDimension; j++ )
@@ -136,7 +136,7 @@ MinMaxCurvatureFlowFunction< TImage >
 ::ComputeThreshold(const DispatchBase &,
                    const NeighborhoodType & it) const
 {
-  PixelType threshold = NumericTraits< PixelType >::Zero;
+  PixelType threshold = NumericTraits< PixelType >::ZeroValue();
 
   // Compute gradient
   PixelType     gradient[ImageDimension];
@@ -147,7 +147,7 @@ MinMaxCurvatureFlowFunction< TImage >
 
   center = it.Size() / 2;
 
-  gradMagnitude = NumericTraits< PixelType >::Zero;
+  gradMagnitude = NumericTraits< PixelType >::ZeroValue();
   for ( j = 0; j < ImageDimension; j++ )
     {
     stride = it.GetStride( (SizeValueType)j );
@@ -181,8 +181,8 @@ MinMaxCurvatureFlowFunction< TImage >
 
   for ( neighIter = it.Begin(); neighIter < neighEnd; ++neighIter, ++i )
     {
-    PixelType dotProduct = NumericTraits< PixelType >::Zero;
-    PixelType vectorMagnitude = NumericTraits< PixelType >::Zero;
+    PixelType dotProduct = NumericTraits< PixelType >::ZeroValue();
+    PixelType vectorMagnitude = NumericTraits< PixelType >::ZeroValue();
 
     for ( j = 0; j <  ImageDimension; j++ )
       {
@@ -240,7 +240,7 @@ MinMaxCurvatureFlowFunction< TImage >
 
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
-  PixelType threshold = NumericTraits< PixelType >::Zero;
+  PixelType threshold = NumericTraits< PixelType >::ZeroValue();
 
   // Compute gradient
   PixelType     gradient[imageDimension];
@@ -304,7 +304,7 @@ MinMaxCurvatureFlowFunction< TImage >
 
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
-  PixelType threshold = NumericTraits< PixelType >::Zero;
+  PixelType threshold = NumericTraits< PixelType >::ZeroValue();
 
   // Compute gradient
   PixelType     gradient[imageDimension];

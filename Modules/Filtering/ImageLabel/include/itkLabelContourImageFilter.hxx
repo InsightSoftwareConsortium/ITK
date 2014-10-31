@@ -32,7 +32,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::LabelContourImageFilter() :
-  m_BackgroundValue( NumericTraits< OutputImagePixelType >::Zero ),
+  m_BackgroundValue( NumericTraits< OutputImagePixelType >::ZeroValue() ),
   m_NumberOfThreads( 0 ),
   m_FullyConnected( false )
 {

@@ -424,7 +424,7 @@ public:
      * {
      *   for ( unsigned int i = 0; i < VImageDimension; i++ )
      *     {
-     *     TCoordRep sum = NumericTraits< TCoordRep >::Zero;
+     *     TCoordRep sum = NumericTraits< TCoordRep >::ZeroValue();
      *     for ( unsigned int j = 0; j < VImageDimension; j++ )
      *       {
      *       sum += this->m_PhysicalPointToIndex[i][j] * ( point[j] - this->m_Origin[j] );
@@ -476,7 +476,7 @@ public:
   {
     for ( unsigned int r = 0; r < VImageDimension; r++ )
       {
-      TCoordRep sum = NumericTraits< TCoordRep >::Zero;
+      TCoordRep sum = NumericTraits< TCoordRep >::ZeroValue();
       for ( unsigned int c = 0; c < VImageDimension; c++ )
         {
         sum += this->m_IndexToPhysicalPoint(r, c) * index[c];
@@ -541,7 +541,7 @@ public:
     for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
       typedef typename NumericTraits< TCoordRep >::AccumulateType CoordSumType;
-      CoordSumType sum = NumericTraits< CoordSumType >::Zero;
+      CoordSumType sum = NumericTraits< CoordSumType >::ZeroValue();
       for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
         sum += direction[i][j] * inputGradient[j];
@@ -572,7 +572,7 @@ public:
     for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
       typedef typename NumericTraits< TCoordRep >::AccumulateType CoordSumType;
-      CoordSumType sum = NumericTraits< CoordSumType >::Zero;
+      CoordSumType sum = NumericTraits< CoordSumType >::ZeroValue();
       for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
         sum += inverseDirection[i][j] * inputGradient[j];

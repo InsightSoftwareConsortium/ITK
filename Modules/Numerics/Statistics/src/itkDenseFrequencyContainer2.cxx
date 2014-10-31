@@ -25,7 +25,7 @@ DenseFrequencyContainer2
 ::DenseFrequencyContainer2()
 {
   m_FrequencyContainer = FrequencyContainerType::New();
-  m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::Zero;
+  m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
 }
 
 void
@@ -41,7 +41,7 @@ DenseFrequencyContainer2
 ::SetToZero()
 {
   m_FrequencyContainer->Fill(NumericTraits< AbsoluteFrequencyType >::Zero);
-  m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::Zero;
+  m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
 }
 
 bool
@@ -64,7 +64,7 @@ DenseFrequencyContainer2
 {
   if ( id >= m_FrequencyContainer->Size() )
     {
-    return NumericTraits< AbsoluteFrequencyType >::Zero;
+    return NumericTraits< AbsoluteFrequencyType >::ZeroValue();
     }
   return ( *m_FrequencyContainer )[id];
 }

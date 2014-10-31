@@ -67,7 +67,7 @@ public:
 
 protected:
   FastMarchingThresholdStoppingCriterion() : Superclass(),
-    m_Threshold( NumericTraits< OutputPixelType >::Zero )
+    m_Threshold( NumericTraits< OutputPixelType >::ZeroValue() )
   {}
 
   ~FastMarchingThresholdStoppingCriterion() {}

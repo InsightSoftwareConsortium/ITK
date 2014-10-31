@@ -1039,7 +1039,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   ValueType    value, value_temp, delta;
 
-  value = NumericTraits< ValueType >::Zero; // warnings
+  value = NumericTraits< ValueType >::ZeroValue(); // warnings
   bool found_neighbor_flag;
   typename LayerType::Iterator toIt;
   LayerNodeType *node;

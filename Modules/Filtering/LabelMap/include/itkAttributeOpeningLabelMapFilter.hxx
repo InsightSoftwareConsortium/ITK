@@ -28,7 +28,7 @@ template <typename TImage, typename TAttributeAccessor>
 AttributeOpeningLabelMapFilter<TImage, TAttributeAccessor>
 ::AttributeOpeningLabelMapFilter()
 {
-  m_Lambda = NumericTraits< AttributeValueType >::Zero;
+  m_Lambda = NumericTraits< AttributeValueType >::ZeroValue();
   m_ReverseOrdering = false;
   // create the output image for the removed objects
   this->SetNumberOfRequiredOutputs(2);

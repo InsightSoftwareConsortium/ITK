@@ -730,7 +730,7 @@ void WriteTensorBuffer(std::ostream & os, const TComponent * buffer, const Image
   ImageIOBase::SizeType i = 0;
   if( components == 3 )
     {
-    PrintType zero( itk::NumericTraits<TComponent>::Zero );
+    PrintType zero( itk::NumericTraits<TComponent>::ZeroValue() );
     PrintType e12;
     while( i < num )
       {

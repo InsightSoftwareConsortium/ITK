@@ -42,7 +42,7 @@ FastMarchingBase()
   m_SpeedConstant = 1.;
   m_InverseSpeed = -1.;
   m_NormalizationFactor = 1.;
-  m_TargetReachedValue = NumericTraits< OutputPixelType >::Zero;
+  m_TargetReachedValue = NumericTraits< OutputPixelType >::ZeroValue();
   m_TopologyCheck = Nothing;
   m_LargeValue = NumericTraits< OutputPixelType >::max();
   m_TopologyValue = m_LargeValue;

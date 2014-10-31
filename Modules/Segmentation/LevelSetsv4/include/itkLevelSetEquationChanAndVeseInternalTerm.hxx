@@ -27,9 +27,9 @@ namespace itk
 template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::LevelSetEquationChanAndVeseInternalTerm() :
-  m_Mean( NumericTraits< InputPixelRealType >::Zero ),
-  m_TotalValue( NumericTraits< InputPixelRealType >::Zero ),
-  m_TotalH( NumericTraits< LevelSetOutputRealType >::Zero )
+  m_Mean( NumericTraits< InputPixelRealType >::ZeroValue() ),
+  m_TotalValue( NumericTraits< InputPixelRealType >::ZeroValue() ),
+  m_TotalH( NumericTraits< LevelSetOutputRealType >::ZeroValue() )
 {
   this->m_TermName = "Internal Chan And Vese term";
   this->m_RequiredData.insert( "Value" );
@@ -55,7 +55,7 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     }
   else
     {
-    this->m_Mean = NumericTraits< InputPixelRealType >::Zero;
+    this->m_Mean = NumericTraits< InputPixelRealType >::ZeroValue();
     }
 }
 
@@ -63,8 +63,8 @@ template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::InitializeParameters()
 {
-  this->m_TotalValue = NumericTraits< InputPixelRealType >::Zero;
-  this->m_TotalH = NumericTraits< LevelSetOutputRealType >::Zero;
+  this->m_TotalValue = NumericTraits< InputPixelRealType >::ZeroValue();
+  this->m_TotalH = NumericTraits< LevelSetOutputRealType >::ZeroValue();
   this->SetUp();
 }
 
@@ -141,7 +141,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     {
     itkWarningMacro( << "m_Heaviside is NULL" );
     }
-  return NumericTraits< LevelSetOutputPixelType >::Zero;
+  return NumericTraits< LevelSetOutputPixelType >::ZeroValue();
 }
 
 template< typename TInput, typename TLevelSetContainer >
@@ -170,7 +170,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     {
     itkWarningMacro( << "m_Heaviside is NULL" );
     }
-  return NumericTraits< LevelSetOutputPixelType >::Zero;
+  return NumericTraits< LevelSetOutputPixelType >::ZeroValue();
 }
 
 template< typename TInput, typename TLevelSetContainer >

@@ -33,13 +33,13 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   m_BestPosition(0),
   m_BestIteration(0)
 {
-  this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
+  this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
 
   // m_MaximumNewtonStepSizeInPhysicalUnits is used for automatic learning
   // rate estimation. it may be initialized either by calling
   // SetMaximumNewtonStepSizeInPhysicalUnits manually or by using m_ScalesEstimator
   // automatically. and the former has higher priority than the latter.
-  this->m_MaximumNewtonStepSizeInPhysicalUnits = NumericTraits<TInternalComputationValueType>::Zero;
+  this->m_MaximumNewtonStepSizeInPhysicalUnits = NumericTraits<TInternalComputationValueType>::ZeroValue();
 
   /** Threader for Quasi-Newton method */
   typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>
@@ -218,7 +218,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
       }
     }
 
-  TInternalComputationValueType ratio = NumericTraits<TInternalComputationValueType>::One;
+  TInternalComputationValueType ratio = NumericTraits<TInternalComputationValueType>::OneValue();
   if (validNewtonStepExists)
     {
     TInternalComputationValueType gradStepScale
@@ -261,7 +261,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 
   if (stepScale <= NumericTraits<TInternalComputationValueType>::epsilon())
     {
-    this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
+    this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
     }
   else
     {
@@ -269,7 +269,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
     if (this->m_LearningRate > NumericTraits<TInternalComputationValueType>::One)
       {
         // learning rate is at most 1 for a newton step
-      this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
+      this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
       }
     }
 
@@ -292,7 +292,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 
   for (unsigned int i=0; i<numLocalPara; i++)
     {
-    m_HessianArray[loc][i][i] = NumericTraits<TInternalComputationValueType>::One; //identity matrix
+    m_HessianArray[loc][i][i] = NumericTraits<TInternalComputationValueType>::OneValue(); //identity matrix
     }
 
   IndexValueType offset = loc * numLocalPara;
@@ -300,7 +300,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
     {
       // Set to zero for invalid Newton steps.
       // They must be defined since they will be used during step scale estimation.
-    this->m_NewtonStep[offset+p] = NumericTraits<TInternalComputationValueType>::Zero;
+    this->m_NewtonStep[offset+p] = NumericTraits<TInternalComputationValueType>::ZeroValue();
     }
 }
 

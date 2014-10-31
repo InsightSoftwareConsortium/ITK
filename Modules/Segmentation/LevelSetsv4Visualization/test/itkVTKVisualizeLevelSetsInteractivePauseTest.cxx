@@ -203,7 +203,7 @@ visualizeLevelSet( TInputImage * inputImage,
   binary->SetRegions( inputImage->GetLargestPossibleRegion() );
   binary->CopyInformation( inputImage );
   binary->Allocate();
-  binary->FillBuffer( itk::NumericTraits< LevelSetOutputType >::Zero );
+  binary->FillBuffer( itk::NumericTraits< LevelSetOutputType >::ZeroValue() );
 
   typename BinaryImageType::RegionType region;
   typename BinaryImageType::IndexType  index;
@@ -220,7 +220,7 @@ visualizeLevelSet( TInputImage * inputImage,
   iIt.GoToBegin();
   while( !iIt.IsAtEnd() )
     {
-    iIt.Set( itk::NumericTraits< LevelSetOutputType >::One );
+    iIt.Set( itk::NumericTraits< LevelSetOutputType >::OneValue() );
     ++iIt;
     }
 

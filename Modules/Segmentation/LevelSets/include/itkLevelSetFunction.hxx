@@ -60,7 +60,7 @@ LevelSetFunction< TImageType >
   ScalarValueType       gradMag = std::sqrt(gd->m_GradMagSqr);
   ScalarValueType       Pgrad[ImageDimension][ImageDimension];
   ScalarValueType       tmp_matrix[ImageDimension][ImageDimension];
-  const ScalarValueType ZERO = NumericTraits< ScalarValueType >::Zero;
+  const ScalarValueType ZERO = NumericTraits< ScalarValueType >::ZeroValue();
 
   vnl_matrix_fixed< ScalarValueType, ImageDimension, ImageDimension > Curve;
   const ScalarValueType                                               MIN_EIG = NumericTraits< ScalarValueType >::min();
@@ -161,7 +161,7 @@ LevelSetFunction< TImageType >::ComputeMeanCurvature(
   const FloatOffsetType & itkNotUsed(offset), GlobalDataStruct *gd)
 {
   // Calculate the mean curvature
-  ScalarValueType curvature_term = NumericTraits< ScalarValueType >::Zero;
+  ScalarValueType curvature_term = NumericTraits< ScalarValueType >::ZeroValue();
   unsigned int    i, j;
 
   for ( i = 0; i < ImageDimension; i++ )
@@ -187,7 +187,7 @@ LevelSetFunction< TImageType >::InitializeZeroVectorConstant()
 
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    ans[i] = NumericTraits< ScalarValueType >::Zero;
+    ans[i] = NumericTraits< ScalarValueType >::ZeroValue();
     }
 
   return ans;
@@ -262,9 +262,9 @@ LevelSetFunction< TImageType >
   dt /= maxScaleCoefficient;
 
   // reset the values
-  d->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::Zero;
-  d->m_MaxPropagationChange = NumericTraits< ScalarValueType >::Zero;
-  d->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::Zero;
+  d->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::ZeroValue();
+  d->m_MaxPropagationChange = NumericTraits< ScalarValueType >::ZeroValue();
+  d->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::ZeroValue();
 
   return dt;
 }
@@ -297,7 +297,7 @@ LevelSetFunction< TImageType >
                 const FloatOffsetType & offset)
 {
   unsigned int          i, j;
-  const ScalarValueType ZERO = NumericTraits< ScalarValueType >::Zero;
+  const ScalarValueType ZERO = NumericTraits< ScalarValueType >::ZeroValue();
   const ScalarValueType center_value  = it.GetCenterPixel();
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();

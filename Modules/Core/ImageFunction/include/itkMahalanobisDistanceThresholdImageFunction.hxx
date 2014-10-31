@@ -26,7 +26,7 @@ template< typename TInputImage, typename TCoordRep >
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::MahalanobisDistanceThresholdImageFunction()
 {
-  m_Threshold = NumericTraits< double >::Zero;
+  m_Threshold = NumericTraits< double >::ZeroValue();
   m_MahalanobisDistanceMembershipFunction =
     MahalanobisDistanceFunctionType::New();
 }

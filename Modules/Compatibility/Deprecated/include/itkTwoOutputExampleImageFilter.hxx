@@ -34,7 +34,7 @@ template< typename TImage >
 TwoOutputExampleImageFilter< TImage >
 ::TwoOutputExampleImageFilter()
 {
-  m_OutsideValue = NumericTraits< PixelType >::Zero;
+  m_OutsideValue = NumericTraits< PixelType >::ZeroValue();
   m_Lower = NumericTraits< PixelType >::NonpositiveMin();
   m_Upper = NumericTraits< PixelType >::max();
 

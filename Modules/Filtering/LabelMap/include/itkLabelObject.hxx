@@ -28,7 +28,7 @@ namespace itk
 template< typename TLabel, unsigned int VImageDimension >
 LabelObject< TLabel, VImageDimension >::LabelObject()
 {
-  m_Label = NumericTraits< LabelType >::Zero;
+  m_Label = NumericTraits< LabelType >::ZeroValue();
   m_LineContainer.clear();
 }
 

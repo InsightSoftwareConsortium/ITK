@@ -268,7 +268,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
     // neighbors. The weight for each neighbor is the fraction overlap
     // of the neighbor pixel with respect to a pixel centered on point.
     OutputType hessian, currentHessian;
-    TOutput    totalOverlap = NumericTraits< TOutput >::Zero;
+    TOutput    totalOverlap = NumericTraits< TOutput >::ZeroValue();
 
     for ( NumberOfNeighborsType counter = 0; counter < neighbors; counter++ )
       {

@@ -285,11 +285,11 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 
   this->SetTransformParameters(parameters);
   m_TransformMovingImageFilter->UpdateLargestPossibleRegion();
-  MeasureType measure = NumericTraits< MeasureType >::Zero;
+  MeasureType measure = NumericTraits< MeasureType >::ZeroValue();
 
   for ( iDimension = 0; iDimension < FixedImageDimension; iDimension++ )
     {
-    if ( m_Variance[iDimension] == NumericTraits< MovedGradientPixelType >::Zero )
+    if ( m_Variance[iDimension] == NumericTraits< MovedGradientPixelType >::ZeroValue() )
       {
       continue;
       }

@@ -61,8 +61,8 @@ public:
   typedef LogicOpBase Self;
   LogicOpBase()
   {
-    m_ForegroundValue=itk::NumericTraits<TOutput>::One;
-    m_BackgroundValue=itk::NumericTraits<TOutput>::Zero;
+    m_ForegroundValue=itk::NumericTraits<TOutput>::OneValue();
+    m_BackgroundValue=itk::NumericTraits<TOutput>::ZeroValue();
   }
 
   ~LogicOpBase(){};

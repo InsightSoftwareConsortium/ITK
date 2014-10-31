@@ -72,11 +72,11 @@ LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
   LevelSetOutputRealType value;
   if( pixel > 0 )
     {
-    value = NumericTraits< LevelSetOutputRealType >::Zero;
+    value = NumericTraits< LevelSetOutputRealType >::ZeroValue();
     }
   else
     {
-    value = NumericTraits<LevelSetOutputRealType>::One;
+    value = NumericTraits<LevelSetOutputRealType>::OneValue();
     }
   return value;
 }
@@ -90,11 +90,11 @@ LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
   LevelSetOutputRealType value;
   if( pixel > 0 )
     {
-    value = NumericTraits< LevelSetOutputRealType >::Zero;
+    value = NumericTraits< LevelSetOutputRealType >::ZeroValue();
     }
   else
     {
-    value = NumericTraits<LevelSetOutputRealType>::One;
+    value = NumericTraits<LevelSetOutputRealType>::OneValue();
     }
   return value;
 }

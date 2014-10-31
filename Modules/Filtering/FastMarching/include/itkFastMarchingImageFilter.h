@@ -184,7 +184,7 @@ private:
     InternalRegionIterator b_it( iImage, iImage->GetLargestPossibleRegion() );
     b_it.GoToBegin();
 
-    TPixel zero_value = NumericTraits< TPixel >::Zero;
+    TPixel zero_value = NumericTraits< TPixel >::ZeroValue();
     size_t NumberOfPoints = 0;
 
     NodeType node;

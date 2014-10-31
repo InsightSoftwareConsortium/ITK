@@ -129,8 +129,8 @@ public:
 protected:
   ZeroCrossingImageFilter()
   {
-    m_ForegroundValue = NumericTraits< OutputImagePixelType >::One;
-    m_BackgroundValue = NumericTraits< OutputImagePixelType >::Zero;
+    m_ForegroundValue = NumericTraits< OutputImagePixelType >::OneValue();
+    m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
   }
 
   ~ZeroCrossingImageFilter(){}

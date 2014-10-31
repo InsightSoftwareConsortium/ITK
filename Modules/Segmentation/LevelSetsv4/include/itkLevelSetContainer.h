@@ -163,7 +163,7 @@ public:
         image->SetRequestedRegion( otherImage->GetRequestedRegion() );
         image->SetLargestPossibleRegion( otherImage->GetLargestPossibleRegion() );
         image->Allocate();
-        image->FillBuffer( NumericTraits< OutputPixelType >::Zero );
+        image->FillBuffer( NumericTraits< OutputPixelType >::ZeroValue() );
 
         temp_ls->SetImage( image );
         newContainer[ it->first ] = temp_ls;

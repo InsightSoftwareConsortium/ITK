@@ -27,8 +27,8 @@ template< typename TInputMesh, typename TOutputMesh >
 CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CleanQuadEdgeMeshFilter()
 {
-  this->m_AbsoluteTolerance  = NumericTraits< InputCoordRepType >::Zero;
-  this->m_RelativeTolerance  = NumericTraits< InputCoordRepType >::Zero;
+  this->m_AbsoluteTolerance  = NumericTraits< InputCoordRepType >::ZeroValue();
+  this->m_RelativeTolerance  = NumericTraits< InputCoordRepType >::ZeroValue();
 
   this->m_BoundingBox = BoundingBoxType::New();
 
@@ -45,7 +45,7 @@ void
 CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData()
 {
-  InputCoordRepType zeroValue = NumericTraits< InputCoordRepType >::Zero;
+  InputCoordRepType zeroValue = NumericTraits< InputCoordRepType >::ZeroValue();
 
   InputCoordRepType absoluteToleranceSquared = this->m_AbsoluteTolerance * this->m_AbsoluteTolerance;
   if ( ( this->m_AbsoluteTolerance == zeroValue ) && ( this->m_RelativeTolerance != zeroValue ) )

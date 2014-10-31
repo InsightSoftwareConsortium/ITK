@@ -825,7 +825,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
                         DerivativeType & derivative) const
 {
   // Set output values to zero
-  value = NumericTraits<MeasureType>::Zero;
+  value = NumericTraits<MeasureType>::ZeroValue();
 
   if( this->m_UseExplicitPDFDerivatives )
     {

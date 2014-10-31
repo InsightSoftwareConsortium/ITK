@@ -31,7 +31,7 @@ template < typename TInputImage, typename TOutputImage >
 NormalizeToConstantImageFilter< TInputImage, TOutputImage >
 ::NormalizeToConstantImageFilter()
 {
-  m_Constant = NumericTraits<RealType>::One;
+  m_Constant = NumericTraits<RealType>::OneValue();
 }
 
 

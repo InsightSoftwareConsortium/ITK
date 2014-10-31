@@ -28,7 +28,7 @@ namespace itk
 template< typename TImage, typename TKernel, typename TFunction1 >
 VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::VanHerkGilWermanErodeDilateImageFilter():
-  m_Boundary( NumericTraits< InputImagePixelType >::Zero )
+  m_Boundary( NumericTraits< InputImagePixelType >::ZeroValue() )
 {
 }
 

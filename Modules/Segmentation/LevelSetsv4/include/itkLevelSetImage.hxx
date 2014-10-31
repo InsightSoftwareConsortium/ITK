@@ -28,8 +28,8 @@ template< typename TInput, unsigned int VDimension, typename TOutput >
 LevelSetImage< TInput, VDimension, TOutput >
 ::LevelSetImage()
 {
-  this->m_NeighborhoodScales.Fill( NumericTraits< OutputRealType >::One );
-  this->m_DomainOffset.Fill( NumericTraits< OffsetValueType >::Zero );
+  this->m_NeighborhoodScales.Fill( NumericTraits< OutputRealType >::OneValue() );
+  this->m_DomainOffset.Fill( NumericTraits< OffsetValueType >::ZeroValue() );
 }
 
 // ----------------------------------------------------------------------------

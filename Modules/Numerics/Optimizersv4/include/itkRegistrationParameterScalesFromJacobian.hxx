@@ -51,8 +51,8 @@ RegistrationParameterScalesFromJacobian< TMetric >
 
   const SizeValueType numSamples = this->m_SamplePoints.size();
 
-  norms.Fill( NumericTraits< typename ParametersType::ValueType >::Zero );
-  parameterScales.Fill( NumericTraits< typename ScalesType::ValueType >::One );
+  norms.Fill( NumericTraits< typename ParametersType::ValueType >::ZeroValue() );
+  parameterScales.Fill( NumericTraits< typename ScalesType::ValueType >::OneValue() );
 
   // checking each sample point
   for (SizeValueType c=0; c<numSamples; c++)
@@ -90,7 +90,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
   this->ComputeSampleStepScales(step, sampleScales);
 
   const SizeValueType numSamples = this->m_SamplePoints.size();
-  FloatType scaleSum = NumericTraits< FloatType >::Zero;
+  FloatType scaleSum = NumericTraits< FloatType >::ZeroValue();
 
   // checking each sample point
   for (SizeValueType c=0; c<numSamples; c++)

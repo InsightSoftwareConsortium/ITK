@@ -42,7 +42,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
 
   ioImage->SetRegions( region );
   ioImage->Allocate();
-  ioImage->FillBuffer( itk::NumericTraits< PixelType >::Zero );
+  ioImage->FillBuffer( itk::NumericTraits< PixelType >::ZeroValue() );
 
   index.Fill( 5 );
   region.SetIndex( index );

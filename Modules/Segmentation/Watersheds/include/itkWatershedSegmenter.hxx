@@ -179,7 +179,7 @@ void Segmenter< TInputImage >::GenerateData()
   if ( NumericTraits< InputPixelType >::is_integer
        && maximum == NumericTraits< InputPixelType >::max() )
     {
-    maximum -= NumericTraits< InputPixelType >::One;
+    maximum -= NumericTraits< InputPixelType >::OneValue();
     }
   // threshold the image.
   Self::Threshold( thresholdImage, input, regionToProcess, regionToProcess,

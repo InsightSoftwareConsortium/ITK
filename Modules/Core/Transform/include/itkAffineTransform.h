@@ -347,7 +347,7 @@ AffineTransform< TScalar, NDimensions >::BackTransform(const OutputCovariantVect
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    result[i] = NumericTraits< ScalarType >::Zero;
+    result[i] = NumericTraits< ScalarType >::ZeroValue();
     for ( unsigned int j = 0; j < NDimensions; j++ )
       {
       result[i] += this->GetMatrix()[j][i] * vec[j]; // Direct matrix transposed

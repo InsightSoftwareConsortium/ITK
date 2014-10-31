@@ -53,7 +53,7 @@ public:
     // LabelOverlayFunctorImageFilter) Inside LabelOverlayFunctorImageFilter,
     // the values are always initialized
     m_Opacity = 1.0;
-    m_BackgroundValue = NumericTraits< TLabel >::Zero;
+    m_BackgroundValue = NumericTraits< TLabel >::ZeroValue();
   }
 
   inline TRGBPixel operator()(const TInputPixel & p1, const TLabel & p2) const

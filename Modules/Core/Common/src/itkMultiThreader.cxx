@@ -56,7 +56,7 @@ void MultiThreader::SetGlobalMaximumNumberOfThreads(ThreadIdType val)
   m_GlobalMaximumNumberOfThreads = vcl_min( m_GlobalMaximumNumberOfThreads,
                                              (ThreadIdType) ITK_MAX_THREADS );
   m_GlobalMaximumNumberOfThreads = vcl_max( m_GlobalMaximumNumberOfThreads,
-                                             NumericTraits<ThreadIdType>::One );
+                                             NumericTraits<ThreadIdType>::OneValue() );
 
   // If necessary reset the default to be used from now on.
   m_GlobalDefaultNumberOfThreads = vcl_min( m_GlobalDefaultNumberOfThreads,
@@ -76,7 +76,7 @@ void MultiThreader::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
   m_GlobalDefaultNumberOfThreads  = vcl_min( m_GlobalDefaultNumberOfThreads,
                                               m_GlobalMaximumNumberOfThreads );
   m_GlobalDefaultNumberOfThreads  = vcl_max( m_GlobalDefaultNumberOfThreads,
-                                              NumericTraits<ThreadIdType>::One );
+                                              NumericTraits<ThreadIdType>::OneValue() );
 
 }
 
@@ -93,7 +93,7 @@ void MultiThreader::SetNumberOfThreads(ThreadIdType numberOfThreads)
   // clamp between 1 and m_GlobalMaximumNumberOfThreads
   m_NumberOfThreads  = vcl_min( m_NumberOfThreads,
                                  m_GlobalMaximumNumberOfThreads );
-  m_NumberOfThreads  = vcl_max( m_NumberOfThreads, NumericTraits<ThreadIdType>::One );
+  m_NumberOfThreads  = vcl_max( m_NumberOfThreads, NumericTraits<ThreadIdType>::OneValue() );
 
 }
 
@@ -171,7 +171,7 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
 
   // verify that the default number of threads is larger than zero
   m_GlobalDefaultNumberOfThreads  = vcl_max( m_GlobalDefaultNumberOfThreads,
-                                              NumericTraits<ThreadIdType>::One );
+                                              NumericTraits<ThreadIdType>::OneValue() );
 
   return m_GlobalDefaultNumberOfThreads;
 }

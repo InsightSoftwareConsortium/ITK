@@ -51,7 +51,7 @@ public:
 protected:
   ConstantImageSource()
   {
-    m_Value = NumericTraits< typename TOutputImage::PixelType >::Zero;
+    m_Value = NumericTraits< typename TOutputImage::PixelType >::ZeroValue();
   }
   ~ConstantImageSource(){}
 

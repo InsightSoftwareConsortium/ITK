@@ -30,7 +30,7 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 {
   // Don't call SetGradientSource, to avoid valgrind warning.
   this->m_GradientSource = this->GRADIENT_SOURCE_MOVING;
-  this->m_Value = NumericTraits<MeasureType>::Zero;
+  this->m_Value = NumericTraits<MeasureType>::ZeroValue();
 }
 
 //-------------------------------------------------------------------

@@ -28,7 +28,7 @@ template< typename TDomain >
 LevelSetDomainPartitionBase< TDomain >::
 LevelSetDomainPartitionBase()
 {
-  this->m_NumberOfLevelSetFunctions = NumericTraits< IdentifierType >::One;
+  this->m_NumberOfLevelSetFunctions = NumericTraits< IdentifierType >::OneValue();
 }
 
 template< typename TDomain >

@@ -28,7 +28,7 @@ template <typename TScalar>
 Rigid2DTransform<TScalar>::Rigid2DTransform() :
   Superclass(ParametersDimension)
 {
-  m_Angle = NumericTraits<TScalar>::Zero;
+  m_Angle = NumericTraits<TScalar>::ZeroValue();
 }
 
 // Constructor with arguments
@@ -36,14 +36,14 @@ template <typename TScalar>
 Rigid2DTransform<TScalar>::Rigid2DTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
-  m_Angle = NumericTraits<TScalar>::Zero;
+  m_Angle = NumericTraits<TScalar>::ZeroValue();
 }
 
 template <typename TScalar>
 Rigid2DTransform<TScalar>::Rigid2DTransform(unsigned int , unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
-  m_Angle = NumericTraits<TScalar>::Zero;
+  m_Angle = NumericTraits<TScalar>::ZeroValue();
 }
 
 // Destructor
@@ -188,7 +188,7 @@ void
 Rigid2DTransform<TScalar>::SetIdentity(void)
 {
   this->Superclass::SetIdentity();
-  m_Angle = NumericTraits<TScalar>::Zero;
+  m_Angle = NumericTraits<TScalar>::ZeroValue();
 }
 
 // Set the angle of rotation

@@ -70,7 +70,7 @@ ImageToListSampleAdaptor< TImage >
     itkExceptionMacro("Image has not been set yet");
     }
 
-  return NumericTraits< AbsoluteFrequencyType >::One;
+  return NumericTraits< AbsoluteFrequencyType >::OneValue();
 }
 
 template< typename TImage >

@@ -334,7 +334,7 @@ MeshFileWriter< TInputMesh >
   const typename InputMeshType::PointsContainer * points = this->GetInput()->GetPoints();
 
   typename TInputMesh::PointType point;
-  SizeValueType index = NumericTraits< SizeValueType >::Zero;
+  SizeValueType index = NumericTraits< SizeValueType >::ZeroValue();
   typename TInputMesh::PointsContainerConstIterator pter = points->Begin();
 
   while ( pter != points->End() )
@@ -362,7 +362,7 @@ MeshFileWriter< TInputMesh >
   typename TInputMesh::CellType * cellPtr;
 
   // For each cell
-  SizeValueType index = NumericTraits< SizeValueType >::Zero;
+  SizeValueType index = NumericTraits< SizeValueType >::ZeroValue();
   typename TInputMesh::CellsContainerConstIterator cter = cells->Begin();
   while ( cter != cells->End() )
     {

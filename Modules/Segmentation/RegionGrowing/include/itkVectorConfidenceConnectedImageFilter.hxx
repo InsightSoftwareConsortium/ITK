@@ -41,7 +41,7 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   m_NumberOfIterations = 4;
   m_Seeds.clear();
   m_InitialNeighborhoodRadius = 1;
-  m_ReplaceValue = NumericTraits< OutputImagePixelType >::One;
+  m_ReplaceValue = NumericTraits< OutputImagePixelType >::OneValue();
   m_ThresholdFunction = DistanceThresholdFunctionType::New();
 }
 
@@ -285,7 +285,7 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     covariance.fill(NumericTraits< ComponentRealType >::Zero);
     mean.fill(NumericTraits< ComponentRealType >::Zero);
 
-    SizeValueType num = NumericTraits< SizeValueType >::Zero;
+    SizeValueType num = NumericTraits< SizeValueType >::ZeroValue();
 
     SecondIteratorType sit =
       SecondIteratorType (inputImage, secondFunction, m_Seeds);

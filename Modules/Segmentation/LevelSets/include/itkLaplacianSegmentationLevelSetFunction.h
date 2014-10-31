@@ -78,7 +78,7 @@ public:
    */
   void SetAdvectionWeight(const ScalarValueType value)
   {
-    if ( value == NumericTraits< ScalarValueType >::Zero )
+    if ( value == NumericTraits< ScalarValueType >::ZeroValue() )
       {
       Superclass::SetAdvectionWeight(value);
       }

@@ -66,7 +66,7 @@ WindowConvergenceMonitoringFunction<TScalar>
 ::ClearEnergyValues()
 {
   Superclass::ClearEnergyValues();
-  this->m_TotalEnergy = NumericTraits<RealType>::Zero;
+  this->m_TotalEnergy = NumericTraits<RealType>::ZeroValue();
 }
 
 template<typename TScalar>

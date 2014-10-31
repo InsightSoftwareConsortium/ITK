@@ -775,7 +775,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   PixelType identityTensor(m_ZeroPixel);
   for (unsigned int ii = 0; ii < ImageDimension; ++ii)
     {
-    identityTensor(ii,ii) = NumericTraits<PixelValueType>::One;
+    identityTensor(ii,ii) = NumericTraits<PixelValueType>::OneValue();
     }
   RealArrayType identityWeight(m_NumIndependentComponents);
   identityWeight.Fill(NumericTraits<RealValueType>::One);
@@ -2471,7 +2471,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
     useCachedComputations = true;
 
-    RealValueType gaussianJointEntropy = NumericTraits<RealValueType>::Zero;
+    RealValueType gaussianJointEntropy = NumericTraits<RealValueType>::ZeroValue();
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
       {
       RealValueType kernelSigma = m_KernelBandwidthSigma[ic];

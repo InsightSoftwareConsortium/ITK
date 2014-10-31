@@ -28,9 +28,9 @@ typename MutualInformationHistogramImageToImageMetric< TFixedImage, TMovingImage
 MutualInformationHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::EvaluateMeasure(HistogramType & histogram) const
 {
-  MeasureType entropyX = NumericTraits< MeasureType >::Zero;
-  MeasureType entropyY = NumericTraits< MeasureType >::Zero;
-  MeasureType jointEntropy = NumericTraits< MeasureType >::Zero;
+  MeasureType entropyX = NumericTraits< MeasureType >::ZeroValue();
+  MeasureType entropyY = NumericTraits< MeasureType >::ZeroValue();
+  MeasureType jointEntropy = NumericTraits< MeasureType >::ZeroValue();
 
   typedef typename NumericTraits< HistogramFrequencyType >::RealType HistogramFrequencyRealType;
 

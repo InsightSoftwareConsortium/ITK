@@ -1217,7 +1217,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     {
     typename PointIdList::const_iterator itr = points.begin();
     typename PointIdList::const_iterator end = points.end();
-    PointIdentifier count = NumericTraits< PointIdentifier >::Zero;
+    PointIdentifier count = NumericTraits< PointIdentifier >::ZeroValue();
     const PointIdentifier pointId = points[i];
     while ( itr != end )
       {
@@ -1473,7 +1473,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return ( 0 );
     }
 
-  PointIdentifier  numberOfPoints = NumericTraits<PointIdentifier>::Zero;
+  PointIdentifier  numberOfPoints = NumericTraits<PointIdentifier>::ZeroValue();
   PointsContainerConstIterator pointIterator = points->Begin();
   PointsContainerConstIterator pointEnd = points->End();
 
@@ -1500,7 +1500,7 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CellIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeNumberOfFaces() const
 {
-  CellIdentifier  numberOfFaces = NumericTraits<CellIdentifier>::Zero;
+  CellIdentifier  numberOfFaces = NumericTraits<CellIdentifier>::ZeroValue();
   CellsContainerConstIterator cellIterator = this->GetCells()->Begin();
   CellsContainerConstIterator cellEnd      = this->GetCells()->End();
 

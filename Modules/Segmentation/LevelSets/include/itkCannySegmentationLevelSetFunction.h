@@ -100,7 +100,7 @@ protected:
   CannySegmentationLevelSetFunction()
   {
     m_Variance = 0.0;
-    m_Threshold = NumericTraits< ScalarValueType >::Zero;
+    m_Threshold = NumericTraits< ScalarValueType >::ZeroValue();
     m_Caster = CastImageFilter< FeatureImageType, ImageType >::New();
     m_Canny = CannyEdgeDetectionImageFilter< ImageType, ImageType >::New();
     m_Distance = DanielssonDistanceMapImageFilter< ImageType, ImageType >::New();

@@ -625,7 +625,7 @@ CellularAggregate< NSpaceDimension >
     {
     std::cerr << " Cell position doesn't exist for cell Id = ";
     std::cerr << cellId << std::endl;
-    return itk::NumericTraits< SubstrateValueType >::Zero;
+    return itk::NumericTraits< SubstrateValueType >::ZeroValue();
     }
 
   SubstratePointer substrate = m_Substrates[substrateId];

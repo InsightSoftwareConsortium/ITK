@@ -113,9 +113,9 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 
   if( calcDerivative )
     {
-    derivativeReturn.Fill( NumericTraits<DerivativeValueType>::Zero );
+    derivativeReturn.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
     }
-  value = NumericTraits<MeasureType>::Zero;
+  value = NumericTraits<MeasureType>::ZeroValue();
 
   /**
    * first term only
@@ -125,14 +125,14 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 
   probabilityStar /= this->m_TotalNumberOfPoints;
 
-  if( probabilityStar == NumericTraits<RealType>::Zero )
+  if( probabilityStar == NumericTraits<RealType>::ZeroValue() )
     {
     return;
     }
 
   if( calcValue )
     {
-    RealType realOne = NumericTraits<RealType>::One;
+    RealType realOne = NumericTraits<RealType>::OneValue();
     if( this->m_Alpha == realOne )
       {
       value = ( std::log( probabilityStar ) );
@@ -155,7 +155,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
       {
       RealType gaussian = this->m_MovingDensityFunction->GetGaussian( neighbors[n] )->Evaluate( samplePoint );
 
-      if( gaussian == NumericTraits<RealType>::Zero )
+      if( gaussian == NumericTraits<RealType>::ZeroValue() )
         {
         continue;
         }

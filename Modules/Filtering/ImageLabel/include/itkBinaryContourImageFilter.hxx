@@ -36,7 +36,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 {
   m_FullyConnected = false;
   m_ForegroundValue = NumericTraits< InputImagePixelType >::max();
-  m_BackgroundValue = NumericTraits< OutputImagePixelType >::Zero;
+  m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
   m_NumberOfThreads = 0;
 
   this->SetInPlace(false);

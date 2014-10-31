@@ -309,7 +309,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::GetDiagonalLength2(void) const
 {
   typename NumericTraits< CoordRepType >::AccumulateType
-  dist2 = NumericTraits< CoordRepType >::Zero;
+  dist2 = NumericTraits< CoordRepType >::ZeroValue();
 
   if ( this->ComputeBoundingBox() )
     {

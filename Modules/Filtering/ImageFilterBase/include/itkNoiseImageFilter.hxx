@@ -81,8 +81,8 @@ NoiseImageFilter< TInputImage, TOutputImage >
 
     while ( !bit.IsAtEnd() )
       {
-      sum = NumericTraits< InputRealType >::Zero;
-      sumOfSquares = NumericTraits< InputRealType >::Zero;
+      sum = NumericTraits< InputRealType >::ZeroValue();
+      sumOfSquares = NumericTraits< InputRealType >::ZeroValue();
       for ( i = 0; i < neighborhoodSize; ++i )
         {
         value = static_cast< InputRealType >( bit.GetPixel(i) );

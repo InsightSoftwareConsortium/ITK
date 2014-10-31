@@ -134,12 +134,12 @@ FreeSurferAsciiMeshIO
   // Set default point pixel component and point pixel type
   this->m_PointPixelComponentType = FLOAT;
   this->m_PointPixelType = SCALAR;
-  this->m_NumberOfPointPixelComponents = itk::NumericTraits< unsigned int >::One;
+  this->m_NumberOfPointPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
 
   // Set default cell pixel component and point pixel type
   this->m_CellPixelComponentType = FLOAT;
   this->m_CellPixelType  = SCALAR;
-  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::One;
+  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
 }
 
 void
@@ -302,13 +302,13 @@ FreeSurferAsciiMeshIO
     case ULONGLONG:
       {
       WritePoints( static_cast< unsigned long long * >( buffer ), outputFile,
-                  static_cast< unsigned long long >( itk::NumericTraits< unsigned long >::Zero ) );
+                  static_cast< unsigned long long >( itk::NumericTraits< unsigned long >::ZeroValue() ) );
 
       break;
       }
     case LONGLONG:
       {
-      WritePoints( static_cast< long long * >( buffer ), outputFile, static_cast< long long >( itk::NumericTraits< long >::Zero ) );
+      WritePoints( static_cast< long long * >( buffer ), outputFile, static_cast< long long >( itk::NumericTraits< long >::ZeroValue() ) );
 
       break;
       }
@@ -404,12 +404,12 @@ FreeSurferAsciiMeshIO
     case ULONGLONG:
       {
       WriteCells( static_cast< unsigned long long * >( buffer ), outputFile,
-                 static_cast< unsigned long long >( itk::NumericTraits< unsigned long >::Zero ) );
+                 static_cast< unsigned long long >( itk::NumericTraits< unsigned long >::ZeroValue() ) );
       break;
       }
     case LONGLONG:
       {
-      WriteCells( static_cast< long long * >( buffer ), outputFile, static_cast< long long >( itk::NumericTraits< long >::Zero ) );
+      WriteCells( static_cast< long long * >( buffer ), outputFile, static_cast< long long >( itk::NumericTraits< long >::ZeroValue() ) );
       break;
       }
     case FLOAT:

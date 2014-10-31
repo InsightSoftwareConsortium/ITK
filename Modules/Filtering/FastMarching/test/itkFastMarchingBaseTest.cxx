@@ -61,7 +61,7 @@ protected:
   const OutputPixelType GetOutputValue( OutputDomainType* ,
                                   const NodeType& ) const
     {
-    return NumericTraits< OutputPixelType >::Zero;
+    return NumericTraits< OutputPixelType >::ZeroValue();
     }
 
   unsigned char GetLabelValueForGivenNode( const NodeType& ) const

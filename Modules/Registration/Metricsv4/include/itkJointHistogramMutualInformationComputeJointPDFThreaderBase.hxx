@@ -56,8 +56,8 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
     this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->CopyInformation( this->m_Associate->m_JointPDF );
     this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->SetRegions( this->m_Associate->m_JointPDF->GetLargestPossibleRegion() );
     this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->Allocate();
-    this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->FillBuffer( NumericTraits< SizeValueType >::Zero );
-    this->m_JointHistogramMIPerThreadVariables[i].JointHistogramCount = NumericTraits< SizeValueType >::Zero;
+    this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->FillBuffer( NumericTraits< SizeValueType >::ZeroValue() );
+    this->m_JointHistogramMIPerThreadVariables[i].JointHistogramCount = NumericTraits< SizeValueType >::ZeroValue();
     }
 }
 
@@ -119,7 +119,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
   const ThreadIdType numberOfThreadsUsed = this->GetNumberOfThreadsUsed();
 
   typedef typename JointHistogramType::PixelType JointHistogramPixelType;
-  this->m_Associate->m_JointHistogramTotalCount = NumericTraits<SizeValueType>::Zero;
+  this->m_Associate->m_JointHistogramTotalCount = NumericTraits<SizeValueType>::ZeroValue();
   for( ThreadIdType i = 0; i < numberOfThreadsUsed; ++i )
     {
     this->m_Associate->m_JointHistogramTotalCount += this->m_JointHistogramMIPerThreadVariables[i].JointHistogramCount;
@@ -127,7 +127,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
 
   if( this->m_Associate->m_JointHistogramTotalCount == 0 )
     {
-    this->m_Associate->m_JointPDF->FillBuffer( NumericTraits< SizeValueType >::Zero );
+    this->m_Associate->m_JointPDF->FillBuffer( NumericTraits< SizeValueType >::ZeroValue() );
     return;
     }
 
@@ -146,7 +146,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
   JointHistogramPixelType jointHistogramPixel;
   while( !jointPDFIt.IsAtEnd() )
     {
-    jointHistogramPixel = NumericTraits< JointHistogramPixelType >::Zero;
+    jointHistogramPixel = NumericTraits< JointHistogramPixelType >::ZeroValue();
     for( ThreadIdType i = 0; i < numberOfThreadsUsed; ++i )
       {
       jointHistogramPixel += jointHistogramPerThreadIts[i].Get();

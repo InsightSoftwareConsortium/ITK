@@ -32,9 +32,9 @@ template< typename TInputImage, typename TOutputImage >
 SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
 ::SimpleContourExtractorImageFilter()
 {
-  m_InputBackgroundValue  = NumericTraits< InputPixelType >::Zero;
+  m_InputBackgroundValue  = NumericTraits< InputPixelType >::ZeroValue();
   m_InputForegroundValue  = NumericTraits< InputPixelType >::max();
-  m_OutputBackgroundValue  = NumericTraits< OutputPixelType >::Zero;
+  m_OutputBackgroundValue  = NumericTraits< OutputPixelType >::ZeroValue();
   m_OutputForegroundValue  = NumericTraits< OutputPixelType >::max();
 }
 

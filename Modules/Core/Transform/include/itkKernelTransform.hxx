@@ -272,7 +272,7 @@ void KernelTransform<TScalar, NDimensions>::ComputeP()
   IMatrixType    temp;
   InputPointType p;
 
-  p.Fill( NumericTraits<ScalarType>::Zero );
+  p.Fill( NumericTraits<ScalarType>::ZeroValue() );
 
   I.set_identity();
   this->m_PMatrix.set_size( NDimensions * numberOfLandmarks,

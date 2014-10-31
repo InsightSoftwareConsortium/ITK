@@ -655,7 +655,7 @@ struct HasZero {
     {
       T a;
 
-      a = NumericTraits< T >::Zero;
+      a = NumericTraits< T >::ZeroValue();
       Detail::IgnoreUnusedVariable(a);
     }
   };

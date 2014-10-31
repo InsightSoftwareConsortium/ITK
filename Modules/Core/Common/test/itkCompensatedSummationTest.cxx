@@ -103,7 +103,7 @@ int itkCompensatedSummationTest( int, char * [] )
     }
 
   floatAccumulator.ResetToZero();
-  if( floatAccumulator.GetSum() != itk::NumericTraits< FloatType >::Zero )
+  if( floatAccumulator.GetSum() != itk::NumericTraits< FloatType >::ZeroValue() )
     {
     std::cerr << "GetSize() did return the correct value!" << std::endl;
     return EXIT_FAILURE;

@@ -50,7 +50,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 //TEST_RMV20100728   for( unsigned int k = 0; k < VectorDimension; k++ )
 //TEST_RMV20100728     {
 //TEST_RMV20100728     m_EdgePaddingValue[k] =
-// NumericTraits<OutputValueType>::Zero;
+// NumericTraits<OutputValueType>::ZeroValue();
 //TEST_RMV20100728     }
 }
 

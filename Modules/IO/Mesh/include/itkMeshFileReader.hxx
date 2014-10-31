@@ -142,8 +142,8 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 {
   typename TOutputMesh::Pointer output = this->GetOutput();
 
-  SizeValueType        index = NumericTraits< SizeValueType >::Zero;
-  OutputCellIdentifier id = NumericTraits< OutputCellIdentifier >::Zero;
+  SizeValueType        index = NumericTraits< SizeValueType >::ZeroValue();
+  OutputCellIdentifier id = NumericTraits< OutputCellIdentifier >::ZeroValue();
   while ( index < m_MeshIO->GetCellBufferSize() )
     {
     MeshIOBase::CellGeometryType type = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );

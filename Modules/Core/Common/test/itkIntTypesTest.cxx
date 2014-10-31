@@ -39,8 +39,8 @@ template <typename T>
 bool CheckTraits( bool issigned, T* = 0 )
 {
   // make sure that we have a specialized NumericTraits
-  T t0 = itk::NumericTraits<T>::Zero;
-  T t1 = itk::NumericTraits<T>::One;
+  T t0 = itk::NumericTraits<T>::ZeroValue();
+  T t1 = itk::NumericTraits<T>::OneValue();
 
   // just here so that we use the variable
   itk::NumericTraits<T>::IsPositive(t1);

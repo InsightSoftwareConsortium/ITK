@@ -142,7 +142,7 @@ protected:
   NodeValueType FluxStopFunction(const NodeValueType v) const
   {
     // the slow exp function could be replaced with a lookup table
-    if ( v <= 0.0 ) { return NumericTraits< NodeValueType >::One; }
+    if ( v <= 0.0 ) { return NumericTraits< NodeValueType >::OneValue(); }
     else { return static_cast< NodeValueType >( std::exp(m_FluxStopConstant * v) ); }
   }
 

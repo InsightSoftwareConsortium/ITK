@@ -37,7 +37,7 @@ public:
   {
     m_LowerThreshold = NumericTraits< TInput >::NonpositiveMin();
     m_UpperThreshold = NumericTraits< TInput >::max();
-    m_OutsideValue   = NumericTraits< TOutput >::Zero;
+    m_OutsideValue   = NumericTraits< TOutput >::ZeroValue();
     m_InsideValue    = NumericTraits< TOutput >::max();
   }
 

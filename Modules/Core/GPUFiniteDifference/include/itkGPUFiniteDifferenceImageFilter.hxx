@@ -197,7 +197,7 @@ typename GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImage
 GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::ResolveTimeStep(const std::vector< TimeStepType >& timeStepList, const std::vector< bool >& valid) const
 {
-  TimeStepType oMin = NumericTraits< TimeStepType >::Zero;
+  TimeStepType oMin = NumericTraits< TimeStepType >::ZeroValue();
   bool         flag = false;
 
   typename std::vector< TimeStepType >::const_iterator t_it = timeStepList.begin();

@@ -361,7 +361,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
     tensor3(2,2) =  29.0;
 
     AccumulateValueType expectedTrace =
-              itk::NumericTraits< AccumulateValueType >::Zero;
+              itk::NumericTraits< AccumulateValueType >::ZeroValue();
 
     expectedTrace += tensor3(0,0);
     expectedTrace += tensor3(1,1);
@@ -440,10 +440,10 @@ int itkDiffusionTensor3DTest(int, char* [] )
                           = itk::NumericTraits<TensorType>::OneValue();
     std::cout << oneValue <<std::endl;
 
-    TensorType zero = itk::NumericTraits<TensorType>::Zero;
+    TensorType zero = itk::NumericTraits<TensorType>::ZeroValue();
     std::cout << zero <<std::endl;
 
-    TensorType one = itk::NumericTraits<TensorType>::One;
+    TensorType one = itk::NumericTraits<TensorType>::OneValue();
     std::cout << one <<std::endl;
   }
 

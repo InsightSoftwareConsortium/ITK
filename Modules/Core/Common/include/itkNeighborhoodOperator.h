@@ -166,7 +166,7 @@ protected:
   {
     for ( unsigned int i = 0; i < this->Size(); ++i )
       {
-      this->operator[](i) = NumericTraits< PixelType >::Zero;
+      this->operator[](i) = NumericTraits< PixelType >::ZeroValue();
       }
   }
 

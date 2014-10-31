@@ -92,7 +92,7 @@ public:
   {
     GlobalDataStruct *ans = new GlobalDataStruct();
 
-    ans->m_MaxChange   = NumericTraits< ScalarValueType >::Zero;
+    ans->m_MaxChange   = NumericTraits< ScalarValueType >::ZeroValue();
     return ans;
   }
 
@@ -127,7 +127,7 @@ protected:
   struct GlobalDataStruct {
     GlobalDataStruct()
     {
-      m_MaxChange = NumericTraits< ScalarValueType >::Zero;
+      m_MaxChange = NumericTraits< ScalarValueType >::ZeroValue();
     }
 
     ~GlobalDataStruct() {}

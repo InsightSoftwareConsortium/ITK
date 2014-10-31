@@ -59,7 +59,7 @@ void CurvesLevelSetFunction< TImageType, TFeatureImageType >
 
   typename VectorImageType::Pointer gradientImage;
 
-  if ( m_DerivativeSigma != NumericTraits< float >::Zero )
+  if ( m_DerivativeSigma != NumericTraits< float >::ZeroValue() )
     {
     typedef GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >
     DerivativeFilterType;

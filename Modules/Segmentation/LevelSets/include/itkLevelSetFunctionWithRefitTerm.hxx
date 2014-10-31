@@ -41,8 +41,8 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
   m_SparseTargetImage = SparseImageType::New();
 
   this->SetPropagationWeight (NumericTraits< ScalarValueType >::One);
-  m_RefitWeight = NumericTraits< ScalarValueType >::One;
-  m_OtherPropagationWeight = NumericTraits< ScalarValueType >::Zero;
+  m_RefitWeight = NumericTraits< ScalarValueType >::OneValue();
+  m_OtherPropagationWeight = NumericTraits< ScalarValueType >::ZeroValue();
   m_MinVectorNorm = static_cast< ScalarValueType >( 1.0e-6 );
 }
 
@@ -97,7 +97,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
     stride[j] = neighborhood.GetStride(j);
     indicator[j] = one << j;
     }
-  curvature = NumericTraits< ScalarValueType >::Zero;
+  curvature = NumericTraits< ScalarValueType >::ZeroValue();
 
   for ( counterN = 0; counterN < m_NumVertex; counterN++ )
     {
@@ -113,7 +113,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
     // compute the normal vector
     for ( j = 0; j < TImageType::ImageDimension; j++ ) // derivative axis
       {
-      normalvector[j] = NumericTraits< ScalarValueType >::Zero;
+      normalvector[j] = NumericTraits< ScalarValueType >::ZeroValue();
       for ( counterP = 0; counterP < m_NumVertex; counterP++ )
         {
         positionP = positionN;
@@ -176,7 +176,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
       {
       itkExceptionMacro(<< "required node has CurvatureFlag = false\n");
       }
-    refitterm = NumericTraits< ScalarValueType >::Zero;
+    refitterm = NumericTraits< ScalarValueType >::ZeroValue();
     }
   else
     {

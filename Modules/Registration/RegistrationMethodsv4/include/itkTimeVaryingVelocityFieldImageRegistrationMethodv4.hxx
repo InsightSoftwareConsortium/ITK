@@ -140,13 +140,13 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
   while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
     {
     updateDerivative.Fill( 0 );
-    MeasureType value = NumericTraits<MeasureType>::Zero;
-    this->m_CurrentMetricValue = NumericTraits<MeasureType>::Zero;
+    MeasureType value = NumericTraits<MeasureType>::ZeroValue();
+    this->m_CurrentMetricValue = NumericTraits<MeasureType>::ZeroValue();
 
     // Time index zero brings the moving image closest to the fixed image
     for( IndexValueType timePoint = 0; timePoint < numberOfTimePoints; timePoint++ )
       {
-      RealType t = NumericTraits<RealType>::Zero;
+      RealType t = NumericTraits<RealType>::ZeroValue();
       if( numberOfTimePoints > 1 )
         {
         t = static_cast<RealType>( timePoint ) / static_cast<RealType>( numberOfTimePoints - 1 );
@@ -256,7 +256,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
         }
       this->m_Metric->Initialize();
 
-      metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
+      metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::ZeroValue() );
       this->m_Metric->GetValueAndDerivative( value, metricDerivative );
 
       // Ensure that the size of the optimizer weights is the same as the
@@ -351,8 +351,8 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 
       if( this->GetDebug() )
         {
-        RealType spatialNorm = NumericTraits<RealType>::Zero;
-        RealType spatioTemporalNorm = NumericTraits<RealType>::Zero;
+        RealType spatialNorm = NumericTraits<RealType>::ZeroValue();
+        RealType spatioTemporalNorm = NumericTraits<RealType>::ZeroValue();
 
         typename TimeVaryingVelocityFieldType::SizeType radius;
         radius.Fill( 1 );
@@ -367,8 +367,8 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
         ConstNeighborhoodIterator<TimeVaryingVelocityFieldType> ItV( radius, velocityField, faceList.front() );
         for( ItV.GoToBegin(); !ItV.IsAtEnd(); ++ItV )
           {
-          RealType localSpatialNorm = NumericTraits<RealType>::Zero;
-          RealType localSpatioTemporalNorm = NumericTraits<RealType>::Zero;
+          RealType localSpatialNorm = NumericTraits<RealType>::ZeroValue();
+          RealType localSpatioTemporalNorm = NumericTraits<RealType>::ZeroValue();
           for( unsigned int d = 0; d < ImageDimension + 1; d++ )
             {
             DisplacementVectorType vector =  ( ItV.GetNext( d ) - ItV.GetPrevious( d ) ) * 0.5 * velocityFieldSpacing[d];

@@ -517,7 +517,7 @@ QuadrilateralCell< TCellInterface >
 
   for ( unsigned int ii = 0; ii < PointDimension; ++ii )
     {
-    x[ii] = NumericTraits< CoordRepType >::Zero;
+    x[ii] = NumericTraits< CoordRepType >::ZeroValue();
     }
 
   for ( unsigned int ii = 0; ii < NumberOfPoints; ++ii )

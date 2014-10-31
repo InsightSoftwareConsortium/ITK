@@ -41,7 +41,7 @@ ThresholdLabelerImageFilter< TInputImage, TOutputImage >
 {
   m_Thresholds.clear();
   m_RealThresholds.clear();
-  m_LabelOffset = NumericTraits< OutputPixelType >::Zero;
+  m_LabelOffset = NumericTraits< OutputPixelType >::ZeroValue();
 }
 
 /**

@@ -62,11 +62,11 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
   typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
-  AccumulateType sff = NumericTraits<AccumulateType>::Zero;
-  AccumulateType smm = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sfm = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sf  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sm  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sff = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType smm = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sfm = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sf  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sm  = NumericTraits<AccumulateType>::ZeroValue();
 
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
@@ -109,7 +109,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
     }
   else
     {
-    measure = NumericTraits<MeasureType>::Zero;
+    measure = NumericTraits<MeasureType>::ZeroValue();
     }
 
   return measure;
@@ -144,11 +144,11 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
   typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
-  AccumulateType sff  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType smm  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sfm  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sf  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sm  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sff  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType smm  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sfm  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sf  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sm  = NumericTraits<AccumulateType>::ZeroValue();
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
@@ -217,7 +217,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
         this->GetGradientImage()->GetPixel(mappedIndex);
       for( unsigned int par = 0; par < ParametersDimension; par++ )
         {
-        RealType sumD = NumericTraits<RealType>::Zero;
+        RealType sumD = NumericTraits<RealType>::ZeroValue();
         for( unsigned int dim = 0; dim < dimension; dim++ )
           {
           const RealType differential = jacobian(dim, par) * gradient[dim];
@@ -261,7 +261,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
     {
     for( unsigned int i = 0; i < ParametersDimension; i++ )
       {
-      derivative[i] = NumericTraits<MeasureType>::Zero;
+      derivative[i] = NumericTraits<MeasureType>::ZeroValue();
       }
     }
 }
@@ -295,11 +295,11 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
   typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
-  AccumulateType sff  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType smm  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sfm  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sf  = NumericTraits<AccumulateType>::Zero;
-  AccumulateType sm  = NumericTraits<AccumulateType>::Zero;
+  AccumulateType sff  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType smm  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sfm  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sf  = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sm  = NumericTraits<AccumulateType>::ZeroValue();
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
@@ -368,7 +368,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
         this->GetGradientImage()->GetPixel(mappedIndex);
       for( unsigned int par = 0; par < ParametersDimension; par++ )
         {
-        RealType sumD = NumericTraits<RealType>::Zero;
+        RealType sumD = NumericTraits<RealType>::ZeroValue();
         for( unsigned int dim = 0; dim < dimension; dim++ )
           {
           const RealType differential = jacobian(dim, par) * gradient[dim];
@@ -413,9 +413,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
     {
     for( unsigned int i = 0; i < ParametersDimension; i++ )
       {
-      derivative[i] = NumericTraits<MeasureType>::Zero;
+      derivative[i] = NumericTraits<MeasureType>::ZeroValue();
       }
-    value = NumericTraits<MeasureType>::Zero;
+    value = NumericTraits<MeasureType>::ZeroValue();
     }
 }
 

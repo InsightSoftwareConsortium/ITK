@@ -564,7 +564,7 @@ RobustSolver<VDimension>
   typedef itk::VectorContainer< LoadIdentifier, Load::Pointer> VectorContainerType;
   typename VectorContainerType::Pointer newLoadContainer = VectorContainerType::New();
 
-  LoadIdentifier numToRemoveLoads = NumericTraits< LoadIdentifier >::Zero;
+  LoadIdentifier numToRemoveLoads = NumericTraits< LoadIdentifier >::ZeroValue();
 
   LoadContainerType * container = this->m_FEMObject->GetModifiableLoadContainer();
 

@@ -225,7 +225,7 @@ public:
 protected:
   STAPLEImageFilter()
   {
-    m_ForegroundValue = NumericTraits< InputPixelType >::One;
+    m_ForegroundValue = NumericTraits< InputPixelType >::OneValue();
     m_MaximumIterations = NumericTraits< unsigned int >::max();
     m_ElapsedIterations = 0;
     m_ConfidenceWeight = 1.0;

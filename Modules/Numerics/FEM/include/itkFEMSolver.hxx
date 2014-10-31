@@ -114,7 +114,7 @@ typename Solver<VDimension>::Float
 Solver<VDimension>
 ::GetTimeStep() const
 {
-  return NumericTraits< Float >::Zero;
+  return NumericTraits< Float >::ZeroValue();
 }
 
 template <unsigned int VDimension>

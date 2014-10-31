@@ -48,7 +48,7 @@ LevelSetDomainPartitionMesh <TMesh>
     PointIdentifierType & idx = p_it->Index();
     IdentifierListType identifierList;
 
-    for( IdentifierType i = NumericTraits< IdentifierType >::Zero; i < this->m_NumberOfLevelSetFunctions; ++i )
+    for( IdentifierType i = NumericTraits< IdentifierType >::ZeroValue(); i < this->m_NumberOfLevelSetFunctions; ++i )
       {
       if ( this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion( idx ) )
         {

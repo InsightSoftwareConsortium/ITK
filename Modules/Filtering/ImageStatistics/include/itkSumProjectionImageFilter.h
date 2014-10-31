@@ -55,7 +55,7 @@ public:
 
   inline void Initialize()
   {
-    m_Sum = NumericTraits< TOuputPixel >::Zero;
+    m_Sum = NumericTraits< TOuputPixel >::ZeroValue();
   }
 
   inline void operator()(const TInputPixel & input)

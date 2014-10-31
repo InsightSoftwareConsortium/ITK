@@ -195,7 +195,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
         this->m_MattesAssociate->GetNumberOfParameters() );
       // Initialize to zero because we accumulate, and so skipped points will
       // behave properly
-      this->m_MattesAssociate->m_LocalDerivativeByParzenBin[n].Fill( NumericTraits< DerivativeValueType >::Zero );
+      this->m_MattesAssociate->m_LocalDerivativeByParzenBin[n].Fill( NumericTraits< DerivativeValueType >::ZeroValue() );
       }
     }
   if(  this->m_MattesAssociate->GetComputeDerivative() && ! this->m_MattesAssociate->HasLocalSupport() )
@@ -430,7 +430,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   /* Store the number of valid points in the enclosing class
    * m_NumberOfValidPoints by collecting the valid points per thread.
    * We do this here because we're skipping Superclass::AfterThreadedExecution*/
-  this->m_MattesAssociate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::Zero;
+  this->m_MattesAssociate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::ZeroValue();
   for (ThreadIdType threadId = 0; threadId < localNumberOfThreadsUsed; ++threadId)
     {
     this->m_MattesAssociate->m_NumberOfValidPoints += this->m_GetValueAndDerivativePerThreadVariables[threadId].NumberOfValidPoints;

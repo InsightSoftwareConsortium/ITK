@@ -162,7 +162,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
 
   typedef typename TSample::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
   TotalAbsoluteFrequencyType totalFrequency =
-    itk::NumericTraits< TotalAbsoluteFrequencyType >::Zero;
+    itk::NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
 
   typename TSample::ConstIterator iter = input->Begin();
   typename TSample::ConstIterator end = input->End();

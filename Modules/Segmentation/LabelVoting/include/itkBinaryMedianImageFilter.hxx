@@ -37,7 +37,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
 {
   m_Radius.Fill(1);
   m_ForegroundValue = NumericTraits< InputPixelType >::max();
-  m_BackgroundValue = NumericTraits< InputPixelType >::Zero;
+  m_BackgroundValue = NumericTraits< InputPixelType >::ZeroValue();
 }
 
 template< typename TInputImage, typename TOutputImage >

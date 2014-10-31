@@ -33,8 +33,8 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetNumberOfRequiredInputs(2);
 
   m_DistanceMap = ITK_NULLPTR;
-  m_DirectedHausdorffDistance = NumericTraits< RealType >::Zero;
-  m_AverageHausdorffDistance = NumericTraits< RealType >::Zero;
+  m_DirectedHausdorffDistance = NumericTraits< RealType >::ZeroValue();
+  m_AverageHausdorffDistance = NumericTraits< RealType >::ZeroValue();
   m_UseImageSpacing     = true;
 }
 
@@ -156,9 +156,9 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
-  m_DirectedHausdorffDistance = NumericTraits< RealType >::Zero;
+  m_DirectedHausdorffDistance = NumericTraits< RealType >::ZeroValue();
 
-  RealType        sum = NumericTraits< RealType >::Zero;
+  RealType        sum = NumericTraits< RealType >::ZeroValue();
   IdentifierType  pixelcount = 0;
 
   // find max over all threads
@@ -200,7 +200,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   // do the work
   while ( !it1.IsAtEnd() )
     {
-    if ( it1.Get() != NumericTraits< InputImage1PixelType >::Zero )
+    if ( it1.Get() != NumericTraits< InputImage1PixelType >::ZeroValue() )
       {
       // The signed distance map is calculated, but we want the calculation based on the
       // unsigned distance map.  Therefore, we set all distance map values less than 0 to 0.

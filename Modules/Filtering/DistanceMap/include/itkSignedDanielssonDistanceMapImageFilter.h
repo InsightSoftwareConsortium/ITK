@@ -34,11 +34,11 @@ public:
   {
     if ( input )
       {
-      return NumericTraits< InputPixelType >::Zero;
+      return NumericTraits< InputPixelType >::ZeroValue();
       }
     else
       {
-      return NumericTraits< InputPixelType >::One;
+      return NumericTraits< InputPixelType >::OneValue();
       }
   }
 };

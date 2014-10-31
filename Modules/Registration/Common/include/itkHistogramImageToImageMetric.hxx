@@ -37,7 +37,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
   m_DerivativeStepLength = 0.1;
   m_DerivativeStepLengthScales.Fill(1);
   m_UpperBoundIncreaseFactor = 0.001;
-  m_PaddingValue = NumericTraits< FixedImagePixelType >::Zero;
+  m_PaddingValue = NumericTraits< FixedImagePixelType >::ZeroValue();
   m_Histogram = HistogramType::New();
   m_Histogram->SetMeasurementVectorSize(2);
   m_LowerBoundSetByUser = false;

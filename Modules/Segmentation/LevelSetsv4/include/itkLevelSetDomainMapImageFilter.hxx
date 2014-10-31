@@ -77,7 +77,7 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
       const InputImagePixelType nextPixel = iIt.Get();
 
       if ( ( nextPixel != firstCornerPixelValue ) ||
-           ( segmentPixel != NumericTraits< OutputImagePixelType >::Zero ) )
+           ( segmentPixel != NumericTraits< OutputImagePixelType >::ZeroValue() ) )
         {
         const InputImageIndexType & stopIdx = iIt.GetIndex();
         InputImageSizeType sizeOfRegion;
@@ -116,7 +116,7 @@ GenerateData()
   this->m_OutputImage = this->GetOutput();
   this->m_OutputImage->SetBufferedRegion( region );
   this->m_OutputImage->Allocate();
-  this->m_OutputImage->FillBuffer( NumericTraits< OutputImagePixelType >::Zero );
+  this->m_OutputImage->FillBuffer( NumericTraits< OutputImagePixelType >::ZeroValue() );
 
   InputImageIndexType end;
 
@@ -125,7 +125,7 @@ GenerateData()
     end[i] = size[i] - 1;
     }
 
-  IdentifierType segmentId = NumericTraits<IdentifierType>::One;
+  IdentifierType segmentId = NumericTraits<IdentifierType>::OneValue();
 
   InputConstIteratorType iIt( this->m_InputImage, region );
   OutputIndexIteratorType oIt( this->m_OutputImage, region );
@@ -142,7 +142,7 @@ GenerateData()
 
     // outputPixel is null when it has not been processed yet,
     // or there is nothing to be processed
-    if ( ( !inputPixel.empty() ) && ( outputPixel == NumericTraits<OutputImagePixelType>::Zero ) )
+    if ( ( !inputPixel.empty() ) && ( outputPixel == NumericTraits<OutputImagePixelType>::ZeroValue() ) )
       {
       InputImageRegionType subRegion;
       InputImageSizeType sizeOfRegion;
@@ -159,7 +159,7 @@ GenerateData()
           // Check if the input list pixels are different, or
           // the output image already has been assigned to another region
           if ( ( nextPixel != inputPixel ) ||
-               ( currentOutputPixel != NumericTraits< OutputImagePixelType >::Zero ) )
+               ( currentOutputPixel != NumericTraits< OutputImagePixelType >::ZeroValue() ) )
             {
             sameOverlappingLevelSetIds = false;
             }

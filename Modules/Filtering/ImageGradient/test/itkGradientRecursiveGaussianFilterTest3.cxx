@@ -220,7 +220,7 @@ int itkGradientRecursiveGaussianFilterTest3(int argc, char *argv[] )
   myGradImage1DType::Pointer                               scalarPixelGradImage;
   myScalarPixelType pixelBorder;
   myScalarPixelType pixelFill;
-  pixelBorder = itk::NumericTraits<myScalarPixelType>::Zero;
+  pixelBorder = itk::NumericTraits<myScalarPixelType>::ZeroValue();
   pixelFill = static_cast<myScalarPixelType>(100.0);
   runResult = itkGradientRecursiveGaussianFilterTest3Run<myImageScalarType, myGradImage1DType, myComponents1D>( pixelBorder, pixelFill, scalarPixelGradImage, argv[2] );
   if( runResult == EXIT_FAILURE )

@@ -36,7 +36,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 {
   m_Lower = NumericTraits< InputImagePixelType >::NonpositiveMin();
   m_Upper = NumericTraits< InputImagePixelType >::max();
-  m_ReplaceValue = NumericTraits< OutputImagePixelType >::One;
+  m_ReplaceValue = NumericTraits< OutputImagePixelType >::OneValue();
   this->m_Connectivity = FaceConnectivity;
 
   typename InputPixelObjectType::Pointer lower = InputPixelObjectType::New();

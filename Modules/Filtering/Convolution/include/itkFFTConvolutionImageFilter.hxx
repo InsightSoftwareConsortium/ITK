@@ -222,7 +222,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     typedef NormalizeToConstantImageFilter< KernelImageType, InternalImageType >
       NormalizeFilterType;
     typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
-    normalizeFilter->SetConstant( NumericTraits< TInternalPrecision >::One );
+    normalizeFilter->SetConstant( NumericTraits< TInternalPrecision >::OneValue() );
     normalizeFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
     normalizeFilter->SetInput( kernel );
     normalizeFilter->ReleaseDataFlagOn();

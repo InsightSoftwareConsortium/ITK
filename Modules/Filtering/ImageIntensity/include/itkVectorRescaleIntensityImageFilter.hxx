@@ -75,7 +75,7 @@ void
 VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  if ( m_OutputMaximumMagnitude < NumericTraits< OutputRealType >::Zero )
+  if ( m_OutputMaximumMagnitude < NumericTraits< OutputRealType >::ZeroValue() )
     {
     itkExceptionMacro(<< "Maximum output value cannot be negative. You are passing " << m_OutputMaximumMagnitude);
     return;
@@ -89,7 +89,7 @@ VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 
   it.GoToBegin();
 
-  InputRealType maximumSquaredMagnitude = NumericTraits< InputRealType >::Zero;
+  InputRealType maximumSquaredMagnitude = NumericTraits< InputRealType >::ZeroValue();
 
   while ( !it.IsAtEnd() )
     {
