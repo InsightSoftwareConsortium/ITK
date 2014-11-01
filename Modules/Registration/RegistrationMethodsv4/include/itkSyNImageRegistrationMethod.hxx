@@ -50,8 +50,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   this->m_NumberOfIterationsPerLevel[2] = 40;
   this->m_DownsampleImagesForMetricDerivatives = true;
   this->m_AverageMidPointGradients = false;
-  this->m_FixedToMiddleTransform = OutputTransformType::New();
-  this->m_MovingToMiddleTransform = OutputTransformType::New();
+  this->m_FixedToMiddleTransform = NULL;
+  this->m_MovingToMiddleTransform = NULL;
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
@@ -69,62 +69,43 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 
   if( level == 0 )
     {
-    // Initialize the FixedToMiddleTransform as an Identity displacement field transform
+    // If FixedToMiddle and MovingToMiddle transforms are not set already for state restoration
     //
-    typename VirtualImageType::ConstPointer virtualDomainImage;
-    typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
-    if( multiMetric )
+    if( this->m_FixedToMiddleTransform.IsNull() || this->m_MovingToMiddleTransform.IsNull() )
       {
-      virtualDomainImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
-      }
-    else
-      {
-      virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
-      }
+      // Initialize the FixedToMiddleTransform as an Identity displacement field transform
+      //
+      this->m_FixedToMiddleTransform = OutputTransformType::New();
+      this->m_MovingToMiddleTransform = OutputTransformType::New();
 
-    const DisplacementVectorType zeroVector( 0.0 );
-
-    typename DisplacementFieldType::Pointer fixedDisplacementField = DisplacementFieldType::New();
-    fixedDisplacementField->CopyInformation( virtualDomainImage );
-    fixedDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
-    fixedDisplacementField->Allocate();
-    fixedDisplacementField->FillBuffer( zeroVector );
-
-    typename DisplacementFieldType::Pointer fixedInverseDisplacementField = DisplacementFieldType::New();
-    fixedInverseDisplacementField->CopyInformation( virtualDomainImage );
-    fixedInverseDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
-    fixedInverseDisplacementField->Allocate();
-    fixedInverseDisplacementField->FillBuffer( zeroVector );
-
-    this->m_FixedToMiddleTransform->SetDisplacementField( fixedDisplacementField );
-    this->m_FixedToMiddleTransform->SetInverseDisplacementField( fixedInverseDisplacementField );
-
-    // MovingToMiddleTransform is initialized either by the initial displacementField transform or as an Identity
-    //
-    const unsigned int numberOfTransforms = this->m_CompositeTransform->GetNumberOfTransforms();
-    typename DisplacementFieldTransformType::Pointer initialTransform =
-      dynamic_cast<DisplacementFieldTransformType *>( this->m_CompositeTransform->GetNthTransform(numberOfTransforms-1).GetPointer() );
-
-    if( initialTransform.IsNotNull() )
-      {
-      OutputTransformPointer localMovingToMiddleTransformInverse = OutputTransformType::New();
-      localMovingToMiddleTransformInverse->SetDisplacementField( initialTransform->GetModifiableDisplacementField() );
-      if( initialTransform->GetInverseDisplacementField() )
+      typename VirtualImageType::ConstPointer virtualDomainImage;
+      typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
+      if( multiMetric )
         {
-        localMovingToMiddleTransformInverse->SetInverseDisplacementField( initialTransform->GetModifiableInverseDisplacementField() );
+        virtualDomainImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
         }
       else
         {
-        itkExceptionMacro("ERROR: Missed InverseDisplacementField in the initial transform.");
+        virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
         }
-      this->m_MovingToMiddleTransform = dynamic_cast<OutputTransformType *>(localMovingToMiddleTransformInverse->GetInverseTransform().GetPointer() );
-      if( this->m_MovingToMiddleTransform.IsNull() )
-        {
-        itkExceptionMacro("ERROR: Failed to initialize MovingToMiddleTransform.");
-        }
-      }
-    else
-      {
+
+      const DisplacementVectorType zeroVector( 0.0 );
+
+      typename DisplacementFieldType::Pointer fixedDisplacementField = DisplacementFieldType::New();
+      fixedDisplacementField->CopyInformation( virtualDomainImage );
+      fixedDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
+      fixedDisplacementField->Allocate();
+      fixedDisplacementField->FillBuffer( zeroVector );
+
+      typename DisplacementFieldType::Pointer fixedInverseDisplacementField = DisplacementFieldType::New();
+      fixedInverseDisplacementField->CopyInformation( virtualDomainImage );
+      fixedInverseDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
+      fixedInverseDisplacementField->Allocate();
+      fixedInverseDisplacementField->FillBuffer( zeroVector );
+
+      this->m_FixedToMiddleTransform->SetDisplacementField( fixedDisplacementField );
+      this->m_FixedToMiddleTransform->SetInverseDisplacementField( fixedInverseDisplacementField );
+
       typename DisplacementFieldType::Pointer movingDisplacementField = DisplacementFieldType::New();
       movingDisplacementField->CopyInformation( virtualDomainImage );
       movingDisplacementField->SetRegions( virtualDomainImage->GetBufferedRegion() );
@@ -139,6 +120,22 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 
       this->m_MovingToMiddleTransform->SetDisplacementField( movingDisplacementField );
       this->m_MovingToMiddleTransform->SetInverseDisplacementField( movingInverseDisplacementField );
+      }
+    else
+      {
+      if( this->m_FixedToMiddleTransform->GetInverseDisplacementField()
+         && this->m_MovingToMiddleTransform->GetInverseDisplacementField() )
+         {
+         itkDebugMacro( "SyN registration is initialized by restoring the state.");
+         this->m_TransformParametersAdaptorsPerLevel[0]->SetTransform( this->m_MovingToMiddleTransform );
+         this->m_TransformParametersAdaptorsPerLevel[0]->AdaptTransformParameters();
+         this->m_TransformParametersAdaptorsPerLevel[0]->SetTransform( this->m_FixedToMiddleTransform );
+         this->m_TransformParametersAdaptorsPerLevel[0]->AdaptTransformParameters();
+         }
+      else
+        {
+        itkExceptionMacro("ERROR: Invalid state restoration.");
+        }
       }
     }
   else if( this->m_TransformParametersAdaptorsPerLevel[level] )
