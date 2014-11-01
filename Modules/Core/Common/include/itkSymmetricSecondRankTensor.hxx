@@ -240,7 +240,7 @@ SymmetricSecondRankTensor< T, NDimension >
   this->Fill(NumericTraits< T >::Zero);
   for ( unsigned int i = 0; i < Dimension; i++ )
     {
-    ( *this )( i, i ) = NumericTraits< T >::One;
+    ( *this )( i, i ) = NumericTraits< T >::OneValue();
     }
 }
 
@@ -252,7 +252,7 @@ typename SymmetricSecondRankTensor< T, NDimension >::AccumulateValueType
 SymmetricSecondRankTensor< T, NDimension >
 ::GetTrace() const
 {
-  AccumulateValueType trace = NumericTraits< AccumulateValueType >::Zero;
+  AccumulateValueType trace = NumericTraits< AccumulateValueType >::ZeroValue();
   unsigned int        k = 0;
 
   for ( unsigned int i = 0; i < Dimension; i++ )

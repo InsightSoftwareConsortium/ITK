@@ -86,35 +86,35 @@ private:
   inline TRealValueType Evaluate( const Dispatch<0>&, const TRealValueType & itkNotUsed( u ) )
     const
     {
-    return NumericTraits< TRealValueType >::Zero;
+    return NumericTraits< TRealValueType >::ZeroValue();
     }
 
   /** Evaluate the function:  first order spline */
   inline TRealValueType Evaluate( const Dispatch<1>&, const TRealValueType& u ) const
     {
-    if( u == -NumericTraits< TRealValueType >::One )
+    if( u == -NumericTraits< TRealValueType >::OneValue() )
       {
       return static_cast< TRealValueType >(0.5);
       }
-    else if( ( u > -NumericTraits< TRealValueType >::One ) && ( u < NumericTraits< TRealValueType >::Zero ) )
+    else if( ( u > -NumericTraits< TRealValueType >::OneValue() ) && ( u < NumericTraits< TRealValueType >::ZeroValue() ) )
       {
-      return NumericTraits< TRealValueType >::One;
+      return NumericTraits< TRealValueType >::OneValue();
       }
-    else if( u == NumericTraits< TRealValueType >::Zero )
+    else if( u == NumericTraits< TRealValueType >::ZeroValue() )
       {
-      return NumericTraits< TRealValueType >::Zero;
+      return NumericTraits< TRealValueType >::ZeroValue();
       }
-    else if( ( u > NumericTraits< TRealValueType >::Zero ) && ( u < NumericTraits< TRealValueType >::One ) )
+    else if( ( u > NumericTraits< TRealValueType >::ZeroValue() ) && ( u < NumericTraits< TRealValueType >::OneValue() ) )
       {
-      return -NumericTraits< TRealValueType >::One;
+      return -NumericTraits< TRealValueType >::OneValue();
       }
-    else if( u == NumericTraits< TRealValueType >::One )
+    else if( u == NumericTraits< TRealValueType >::OneValue() )
       {
       return static_cast< TRealValueType >(-0.5);
       }
     else
       {
-      return NumericTraits< TRealValueType >::Zero;
+      return NumericTraits< TRealValueType >::ZeroValue();
       }
     }
 
@@ -135,32 +135,32 @@ private:
       }
     else
       {
-      return NumericTraits< TRealValueType >::Zero;
+      return NumericTraits< TRealValueType >::ZeroValue();
       }
     }
 
   /** Evaluate the function:  third order spline. */
   inline TRealValueType Evaluate( const Dispatch<3>&, const TRealValueType& u ) const
     {
-    if( ( u >= NumericTraits< TRealValueType >::Zero ) && ( u < NumericTraits< TRealValueType >::One ) )
+    if( ( u >= NumericTraits< TRealValueType >::ZeroValue() ) && ( u < NumericTraits< TRealValueType >::OneValue() ) )
       {
       return ( static_cast< TRealValueType >(-2.0)* u + static_cast< TRealValueType >(1.5) * u * u );
       }
-    else if( ( u > -NumericTraits< TRealValueType >::One ) && ( u < NumericTraits< TRealValueType >::Zero ) )
+    else if( ( u > -NumericTraits< TRealValueType >::OneValue() ) && ( u < NumericTraits< TRealValueType >::ZeroValue() ) )
       {
       return ( static_cast< TRealValueType >(-2.0) * u - static_cast< TRealValueType >(1.5) * u * u );
       }
-    else if( ( u >= NumericTraits< TRealValueType >::One ) && ( u < static_cast< TRealValueType >(2.0) ) )
+    else if( ( u >= NumericTraits< TRealValueType >::OneValue() ) && ( u < static_cast< TRealValueType >(2.0) ) )
       {
       return ( static_cast< TRealValueType >(-2.0) + static_cast< TRealValueType >(2.0) * u - static_cast< TRealValueType >(0.5) * u * u );
       }
-    else if( ( u > static_cast< TRealValueType >(-2.0) ) && ( u <= -NumericTraits< TRealValueType >::One ) )
+    else if( ( u > static_cast< TRealValueType >(-2.0) ) && ( u <= -NumericTraits< TRealValueType >::OneValue() ) )
       {
       return ( static_cast< TRealValueType >(2.0) + static_cast< TRealValueType >(2.0) * u + static_cast< TRealValueType >(0.5) * u * u );
       }
     else
       {
-      return NumericTraits< TRealValueType >::Zero;
+      return NumericTraits< TRealValueType >::ZeroValue();
       }
     }
 
@@ -168,7 +168,7 @@ private:
   inline TRealValueType Evaluate( const DispatchBase&, const TRealValueType& ) const
     {
     itkExceptionMacro( "Evaluate not implemented for spline order " << SplineOrder );
-    return NumericTraits< TRealValueType >::Zero; // This is to avoid compiler warning about missing
+    return NumericTraits< TRealValueType >::ZeroValue(); // This is to avoid compiler warning about missing
     // return statement. It should never be evaluated.
     }
 };

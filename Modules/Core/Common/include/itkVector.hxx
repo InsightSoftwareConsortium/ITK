@@ -115,7 +115,7 @@ typename Vector< T, TVectorDimension >::RealValueType
 Vector< T, TVectorDimension >
 ::GetSquaredNorm(void) const
 {
-  typename NumericTraits< RealValueType >::AccumulateType sum = NumericTraits< T >::Zero;
+  typename NumericTraits< RealValueType >::AccumulateType sum = NumericTraits< T >::ZeroValue();
   for ( unsigned int i = 0; i < TVectorDimension; i++ )
     {
     const RealValueType value = ( *this )[i];
@@ -221,7 +221,7 @@ typename Vector< T, TVectorDimension >::ValueType
 Vector< T, TVectorDimension >
 ::operator*(const Self & other) const
 {
-  typename NumericTraits< T >::AccumulateType value = NumericTraits< T >::Zero;
+  typename NumericTraits< T >::AccumulateType value = NumericTraits< T >::ZeroValue();
   for ( unsigned int i = 0; i < TVectorDimension; i++ )
     {
     value += ( *this )[i] * other[i];

@@ -96,9 +96,9 @@ protected:
   GaborKernelFunction()
     {
     this->m_CalculateImaginaryPart = false;
-    this->m_Sigma = NumericTraits< TRealValueType >::One;
+    this->m_Sigma = NumericTraits< TRealValueType >::OneValue();
     this->m_Frequency = static_cast<TRealValueType>(0.4);
-    this->m_PhaseOffset = NumericTraits< TRealValueType >::Zero;
+    this->m_PhaseOffset = NumericTraits< TRealValueType >::ZeroValue();
     }
   ~GaborKernelFunction() {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE

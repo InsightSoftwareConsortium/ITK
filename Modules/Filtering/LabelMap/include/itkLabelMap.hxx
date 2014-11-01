@@ -40,7 +40,7 @@ template< typename TLabelObject >
 LabelMap< TLabelObject >
 ::LabelMap()
 {
-  m_BackgroundValue = NumericTraits< LabelType >::Zero;
+  m_BackgroundValue = NumericTraits< LabelType >::ZeroValue();
   this->Initialize();
 }
 

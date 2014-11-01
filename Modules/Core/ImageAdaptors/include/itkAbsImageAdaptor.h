@@ -50,13 +50,13 @@ public:
   static inline void Set(TInternalType & output, const TExternalType & input)
   {
     output = (TInternalType)(
-      ( input > NumericTraits< TExternalType >::Zero ) ? input : -input );
+      ( input > NumericTraits< TExternalType >::ZeroValue() ) ? input : -input );
   }
 
   static inline TExternalType Get(const TInternalType & input)
   {
     return (TExternalType)(
-             ( input > NumericTraits< TInternalType >::Zero ) ? input : -input );
+             ( input > NumericTraits< TInternalType >::ZeroValue() ) ? input : -input );
   }
 };
 } // end namespace Accessor

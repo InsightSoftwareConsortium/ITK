@@ -194,7 +194,7 @@ typename DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >:
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index) const
 {
-  OutputType gradientMagnitude = itk::NumericTraits< OutputType >::Zero;
+  OutputType gradientMagnitude = itk::NumericTraits< OutputType >::ZeroValue();
   OutputType temp;
 
   for ( unsigned int i = 0; i < m_KernelArray.Size(); ++i )
@@ -268,8 +268,8 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
     // Interpolated value is the weighted sum of each of the surrounding
     // neighbors. The weight for each neighbor is the fraction overlap
     // of the neighbor pixel with respect to a pixel centered on point.
-    TOutput value = NumericTraits< TOutput >::Zero;
-    TOutput totalOverlap = NumericTraits< TOutput >::Zero;
+    TOutput value = NumericTraits< TOutput >::ZeroValue();
+    TOutput totalOverlap = NumericTraits< TOutput >::ZeroValue();
 
     for ( NumberOfNeighborsType counter = 0; counter < neighbors; counter++ )
       {

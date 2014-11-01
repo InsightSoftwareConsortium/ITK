@@ -163,7 +163,7 @@ public:
     {
       // initialized to the default values
       this->m_Label = 0;
-      this->m_Sum = NumericTraits< RealType >::Zero;
+      this->m_Sum = NumericTraits< RealType >::ZeroValue();
 
       const unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
 

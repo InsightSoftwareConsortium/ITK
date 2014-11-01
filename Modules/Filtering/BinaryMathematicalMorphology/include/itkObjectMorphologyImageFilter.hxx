@@ -38,7 +38,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
   m_UseBoundaryCondition = false;
 
-  m_ObjectValue = NumericTraits< PixelType >::One;
+  m_ObjectValue = NumericTraits< PixelType >::OneValue();
   //this->SetNumberOfThreads(1);
 }
 

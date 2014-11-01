@@ -46,7 +46,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
     }
 
   // Build an operator so that we can determine the kernel size
-  SizeValueType radius = NumericTraits< SizeValueType >::Zero;
+  SizeValueType radius = NumericTraits< SizeValueType >::ZeroValue();
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -112,7 +112,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   InputImagePixelType this_one, that, abs_this_one, abs_that;
-  InputImagePixelType zero = NumericTraits< InputImagePixelType >::Zero;
+  InputImagePixelType zero = NumericTraits< InputImagePixelType >::ZeroValue();
 
   FixedArray< OffsetValueType, 2 *ImageDimension > offset;
 

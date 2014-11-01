@@ -30,8 +30,8 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::FastMarchingImageToNodePairContainerAdaptor() :
   m_AliveImage( ITK_NULLPTR ), m_TrialImage( ITK_NULLPTR ), m_ForbiddenImage( ITK_NULLPTR ),
   m_AlivePoints( ITK_NULLPTR ), m_TrialPoints( ITK_NULLPTR ), m_ForbiddenPoints( ITK_NULLPTR ),
-  m_AliveValue( NumericTraits< OutputPixelType >::Zero ),
-  m_TrialValue( NumericTraits< OutputPixelType >::Zero ),
+  m_AliveValue( NumericTraits< OutputPixelType >::ZeroValue() ),
+  m_TrialValue( NumericTraits< OutputPixelType >::ZeroValue() ),
   m_IsForbiddenImageBinaryMask( false )
 {}
 
@@ -116,7 +116,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   if( m_ForbiddenImage.IsNotNull() )
     {
     SetPointsFromImage( m_ForbiddenImage, Traits::Forbidden,
-                       NumericTraits< OutputPixelType >::Zero );
+                       NumericTraits< OutputPixelType >::ZeroValue() );
     is_ok = true;
     }
 

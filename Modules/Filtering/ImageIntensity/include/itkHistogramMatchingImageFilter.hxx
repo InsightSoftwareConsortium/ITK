@@ -427,7 +427,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   typename HistogramType::IndexType index(1);
   typename HistogramType::MeasurementVectorType measurement(1);
   typedef typename HistogramType::MeasurementType MeasurementType;
-  measurement[0] = NumericTraits< MeasurementType >::Zero;
+  measurement[0] = NumericTraits< MeasurementType >::ZeroValue();
 
     {
 

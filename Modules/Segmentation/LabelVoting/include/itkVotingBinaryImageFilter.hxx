@@ -36,7 +36,7 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
 {
   m_Radius.Fill(1);
   m_ForegroundValue = NumericTraits< InputPixelType >::max();
-  m_BackgroundValue = NumericTraits< InputPixelType >::Zero;
+  m_BackgroundValue = NumericTraits< InputPixelType >::ZeroValue();
   m_BirthThreshold = 1;
   m_SurvivalThreshold = 1;
 }

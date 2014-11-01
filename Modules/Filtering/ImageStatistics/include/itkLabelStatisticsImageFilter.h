@@ -120,18 +120,18 @@ public:
     LabelStatistics()
     {
       // initialized to the default values
-      m_Count = NumericTraits< IdentifierType >::Zero;
-      m_Sum = NumericTraits< RealType >::Zero;
-      m_SumOfSquares = NumericTraits< RealType >::Zero;
+      m_Count = NumericTraits< IdentifierType >::ZeroValue();
+      m_Sum = NumericTraits< RealType >::ZeroValue();
+      m_SumOfSquares = NumericTraits< RealType >::ZeroValue();
 
       // Set such that the first pixel encountered can be compared
       m_Minimum = NumericTraits< RealType >::max();
       m_Maximum = NumericTraits< RealType >::NonpositiveMin();
 
       // Default these to zero
-      m_Mean = NumericTraits< RealType >::Zero;
-      m_Sigma = NumericTraits< RealType >::Zero;
-      m_Variance = NumericTraits< RealType >::Zero;
+      m_Mean = NumericTraits< RealType >::ZeroValue();
+      m_Sigma = NumericTraits< RealType >::ZeroValue();
+      m_Variance = NumericTraits< RealType >::ZeroValue();
 
       unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
       m_BoundingBox.resize(imageDimension * 2);
@@ -147,18 +147,18 @@ public:
     LabelStatistics(int size, RealType lowerBound, RealType upperBound)
     {
       // initialized to the default values
-      m_Count = NumericTraits< IdentifierType >::Zero;
-      m_Sum = NumericTraits< RealType >::Zero;
-      m_SumOfSquares = NumericTraits< RealType >::Zero;
+      m_Count = NumericTraits< IdentifierType >::ZeroValue();
+      m_Sum = NumericTraits< RealType >::ZeroValue();
+      m_SumOfSquares = NumericTraits< RealType >::ZeroValue();
 
       // Set such that the first pixel encountered can be compared
       m_Minimum = NumericTraits< RealType >::max();
       m_Maximum = NumericTraits< RealType >::NonpositiveMin();
 
       // Default these to zero
-      m_Mean = NumericTraits< RealType >::Zero;
-      m_Sigma = NumericTraits< RealType >::Zero;
-      m_Variance = NumericTraits< RealType >::Zero;
+      m_Mean = NumericTraits< RealType >::ZeroValue();
+      m_Sigma = NumericTraits< RealType >::ZeroValue();
+      m_Variance = NumericTraits< RealType >::ZeroValue();
 
       unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
       m_BoundingBox.resize(imageDimension * 2);

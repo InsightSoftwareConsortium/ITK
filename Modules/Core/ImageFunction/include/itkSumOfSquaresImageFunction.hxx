@@ -59,7 +59,7 @@ SumOfSquaresImageFunction< TInputImage, TCoordRep >
 {
   RealType sumOfSquares;
 
-  sumOfSquares = NumericTraits< RealType >::Zero;
+  sumOfSquares = NumericTraits< RealType >::ZeroValue();
 
   if ( !this->GetInputImage() )
     {

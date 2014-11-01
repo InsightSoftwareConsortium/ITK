@@ -60,7 +60,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 
     typedef NormalizeToConstantImageFilter< KernelImageType, RealImageType > NormalizeFilterType;
     typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
-    normalizeFilter->SetConstant( NumericTraits< RealPixelType >::One );
+    normalizeFilter->SetConstant( NumericTraits< RealPixelType >::OneValue() );
     normalizeFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
     normalizeFilter->SetInput( this->GetKernelImage() );
     normalizeFilter->ReleaseDataFlagOn();

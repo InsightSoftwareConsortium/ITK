@@ -91,7 +91,7 @@ public:
                                     void *itkNotUsed(globalData),
                                     const FloatOffsetType & itkNotUsed(offset = FloatOffsetType(0.0)) )
   {
-    PixelType pix = itk::NumericTraits<PixelType>::Zero;
+    PixelType pix = itk::NumericTraits<PixelType>::ZeroValue();
     return pix;
   }
 #endif

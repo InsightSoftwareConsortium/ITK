@@ -36,7 +36,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 {
   for ( unsigned int i = 0; i < this->GetMeasurementVectorSize() + 1; i++ )
     {
-    this->m_OffsetTable[i] = itk::NumericTraits< InstanceIdentifier >::Zero;
+    this->m_OffsetTable[i] = itk::NumericTraits< InstanceIdentifier >::ZeroValue();
     }
 }
 
@@ -48,7 +48,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 {
   if ( this->GetMeasurementVectorSize() == 0 )
     {
-    return itk::NumericTraits< InstanceIdentifier >::Zero;
+    return itk::NumericTraits< InstanceIdentifier >::ZeroValue();
     }
   InstanceIdentifier size = 1;
   for ( unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++ )
@@ -651,7 +651,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   if ( p < 0.5 )
     {
     n = 0;
-    p_n = NumericTraits< double >::Zero;
+    p_n = NumericTraits< double >::ZeroValue();
     do
       {
       f_n = this->GetFrequency(n, dimension);
@@ -672,14 +672,14 @@ Histogram< TMeasurement, TFrequencyContainer >
   else
     {
     n = size - 1;
-    InstanceIdentifier m = NumericTraits< InstanceIdentifier >::Zero;
-    p_n      = NumericTraits< double >::One;
+    InstanceIdentifier m = NumericTraits< InstanceIdentifier >::ZeroValue();
+    p_n      = NumericTraits< double >::OneValue();
     do
       {
       f_n = this->GetFrequency(n, dimension);
       cumulated += f_n;
       p_n_prev = p_n;
-      p_n = NumericTraits< double >::One - cumulated / totalFrequency;
+      p_n = NumericTraits< double >::OneValue() - cumulated / totalFrequency;
       n--;
       m++;
       }

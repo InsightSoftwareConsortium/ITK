@@ -63,7 +63,7 @@ public:
   void SetAlpha(RealType alpha)
   {
     m_Alpha = alpha;
-    m_Beta  = NumericTraits< RealType >::One - m_Alpha;
+    m_Beta  = NumericTraits< RealType >::OneValue() - m_Alpha;
   }
 
   RealType GetAlpha() const

@@ -60,7 +60,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 
   const PointsContainer * points = this->GetInputPointSet()->GetPoints();
 
-  IdentifierType count = NumericTraits< IdentifierType >::Zero;
+  IdentifierType count = NumericTraits< IdentifierType >::ZeroValue();
 
   typename PointSetType::PointsContainerConstIterator It = points->Begin();
 
@@ -176,7 +176,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
     this->m_EvaluationKNeighborhood,
     static_cast<unsigned int>( this->m_Gaussians.size() ) );
 
-  OutputType sum = NumericTraits< OutputType>::Zero;
+  OutputType sum = NumericTraits< OutputType>::ZeroValue();
 
   if( numberOfNeighbors == this->m_Gaussians.size() )
     {

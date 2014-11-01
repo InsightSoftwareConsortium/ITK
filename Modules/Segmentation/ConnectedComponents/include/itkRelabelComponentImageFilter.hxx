@@ -94,7 +94,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     const LabelType inputValue = static_cast< LabelType >( it.Get() );
 
     // if the input pixel is not the background
-    if ( inputValue != NumericTraits< LabelType >::Zero )
+    if ( inputValue != NumericTraits< LabelType >::ZeroValue() )
       {
       // Does this label already exist
       mapIt = sizeMap.find(inputValue);
@@ -200,7 +200,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     {
     const LabelType inputValue = static_cast< LabelType >( it.Get() );
 
-    if ( inputValue != NumericTraits< LabelType >::Zero )
+    if ( inputValue != NumericTraits< LabelType >::ZeroValue() )
       {
       // lookup the mapped label
       outputValue = static_cast< OutputPixelType >( relabelMap[inputValue] );

@@ -40,9 +40,9 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   m_NumberOfIterations = 4;
   m_Seeds.clear();
   m_InitialNeighborhoodRadius = 1;
-  m_ReplaceValue = NumericTraits< OutputImagePixelType >::One;
-  m_Mean     = NumericTraits< InputRealType >::Zero;
-  m_Variance = NumericTraits< InputRealType >::Zero;
+  m_ReplaceValue = NumericTraits< OutputImagePixelType >::OneValue();
+  m_Mean     = NumericTraits< InputRealType >::ZeroValue();
+  m_Variance = NumericTraits< InputRealType >::ZeroValue();
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -180,12 +180,12 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   InputRealType lower;
   InputRealType upper;
 
-  m_Mean     = itk::NumericTraits< InputRealType >::Zero;
-  m_Variance = itk::NumericTraits< InputRealType >::Zero;
+  m_Mean     = itk::NumericTraits< InputRealType >::ZeroValue();
+  m_Variance = itk::NumericTraits< InputRealType >::ZeroValue();
 
   if ( m_InitialNeighborhoodRadius > 0 )
     {
-    InputRealType sumOfSquares = itk::NumericTraits< InputRealType >::Zero;
+    InputRealType sumOfSquares = itk::NumericTraits< InputRealType >::ZeroValue();
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
@@ -214,8 +214,8 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     }
   else
     {
-    InputRealType sum = itk::NumericTraits< InputRealType >::Zero;
-    InputRealType sumOfSquares = itk::NumericTraits< InputRealType >::Zero;
+    InputRealType sum = itk::NumericTraits< InputRealType >::ZeroValue();
+    InputRealType sumOfSquares = itk::NumericTraits< InputRealType >::ZeroValue();
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
@@ -331,8 +331,8 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 
     typename NumericTraits< typename InputImageType::PixelType >::RealType sum, sumOfSquares;
-    sum = NumericTraits< InputRealType >::Zero;
-    sumOfSquares = NumericTraits< InputRealType >::Zero;
+    sum = NumericTraits< InputRealType >::ZeroValue();
+    sumOfSquares = NumericTraits< InputRealType >::ZeroValue();
     typename TOutputImage::SizeValueType numberOfSamples = 0;
 
     SecondIteratorType sit =

@@ -101,17 +101,17 @@ HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
                                  pixelVariance);
 
   // Finally compute the texture features. Another one pass.
-  MeasurementType energy      = NumericTraits< MeasurementType >::Zero;
-  MeasurementType entropy     = NumericTraits< MeasurementType >::Zero;
-  MeasurementType correlation = NumericTraits< MeasurementType >::Zero;
+  MeasurementType energy      = NumericTraits< MeasurementType >::ZeroValue();
+  MeasurementType entropy     = NumericTraits< MeasurementType >::ZeroValue();
+  MeasurementType correlation = NumericTraits< MeasurementType >::ZeroValue();
 
   MeasurementType inverseDifferenceMoment      =
-    NumericTraits< MeasurementType >::Zero;
+    NumericTraits< MeasurementType >::ZeroValue();
 
-  MeasurementType inertia             = NumericTraits< MeasurementType >::Zero;
-  MeasurementType clusterShade        = NumericTraits< MeasurementType >::Zero;
-  MeasurementType clusterProminence   = NumericTraits< MeasurementType >::Zero;
-  MeasurementType haralickCorrelation = NumericTraits< MeasurementType >::Zero;
+  MeasurementType inertia             = NumericTraits< MeasurementType >::ZeroValue();
+  MeasurementType clusterShade        = NumericTraits< MeasurementType >::ZeroValue();
+  MeasurementType clusterProminence   = NumericTraits< MeasurementType >::ZeroValue();
+  MeasurementType haralickCorrelation = NumericTraits< MeasurementType >::ZeroValue();
 
   double pixelVarianceSquared = pixelVariance * pixelVariance;
   double log2 = std::log(2.0);

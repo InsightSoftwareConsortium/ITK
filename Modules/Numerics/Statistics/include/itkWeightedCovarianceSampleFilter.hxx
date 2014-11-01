@@ -94,7 +94,7 @@ WeightedCovarianceSampleFilter< TSample >
 
   MatrixType output = decoratedOutput->Get();
   output.SetSize( measurementVectorSize, measurementVectorSize );
-  output.Fill( NumericTraits< typename MatrixType::ValueType >::Zero );
+  output.Fill( NumericTraits< typename MatrixType::ValueType >::ZeroValue() );
 
   MeasurementVectorDecoratedType *decoratedMeanOutput =
     itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >( this->ProcessObject::GetOutput(1) );
@@ -116,9 +116,9 @@ WeightedCovarianceSampleFilter< TSample >
   MeasurementVectorRealType diff;
   NumericTraits<MeasurementVectorRealType>::SetLength( diff, measurementVectorSize );
 
-  WeightValueType totalWeight = NumericTraits< WeightValueType >::Zero;
+  WeightValueType totalWeight = NumericTraits< WeightValueType >::ZeroValue();
 
-  WeightValueType totalSquaredWeight = NumericTraits< WeightValueType >::Zero;
+  WeightValueType totalSquaredWeight = NumericTraits< WeightValueType >::ZeroValue();
 
   typename SampleType::ConstIterator iter =      input->Begin();
   const typename SampleType::ConstIterator end = input->End();
@@ -195,7 +195,7 @@ WeightedCovarianceSampleFilter< TSample >
 
   MatrixType output = decoratedOutput->Get();
   output.SetSize( measurementVectorSize, measurementVectorSize );
-  output.Fill( NumericTraits< typename MatrixType::ValueType >::Zero );
+  output.Fill( NumericTraits< typename MatrixType::ValueType >::ZeroValue() );
 
   MeasurementVectorDecoratedType *decoratedMeanOutput =
     itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >( this->ProcessObject::GetOutput(1) );
@@ -217,9 +217,9 @@ WeightedCovarianceSampleFilter< TSample >
   MeasurementVectorRealType diff;
   NumericTraits<MeasurementVectorRealType>::SetLength( diff, measurementVectorSize );
 
-  WeightValueType totalWeight = NumericTraits< WeightValueType >::Zero;
+  WeightValueType totalWeight = NumericTraits< WeightValueType >::ZeroValue();
 
-  WeightValueType totalSquaredWeight = NumericTraits< WeightValueType >::Zero;
+  WeightValueType totalSquaredWeight = NumericTraits< WeightValueType >::ZeroValue();
 
   typename SampleType::ConstIterator iter =      input->Begin();
   const typename SampleType::ConstIterator end = input->End();

@@ -32,7 +32,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 ::SignedMaurerDistanceMapImageFilter():
-  m_BackgroundValue( NumericTraits< InputPixelType >::Zero ),
+  m_BackgroundValue( NumericTraits< InputPixelType >::ZeroValue() ),
   m_Spacing(0.0),
   m_CurrentDimension(0),
   m_InsideIsPositive(false),
@@ -139,7 +139,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   binaryFilter->SetLowerThreshold(this->m_BackgroundValue);
   binaryFilter->SetUpperThreshold(this->m_BackgroundValue);
   binaryFilter->SetInsideValue( NumericTraits< OutputPixelType >::max() );
-  binaryFilter->SetOutsideValue( NumericTraits< OutputPixelType >::Zero );
+  binaryFilter->SetOutsideValue( NumericTraits< OutputPixelType >::ZeroValue() );
   binaryFilter->SetInput( inputPtr );
   binaryFilter->SetNumberOfThreads( nbthreads );
   progressAcc->RegisterInternalFilter( binaryFilter, 0.1f );
@@ -152,7 +152,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
                                     OutputImageType > BorderFilterType;
   typename BorderFilterType::Pointer borderFilter = BorderFilterType::New();
   borderFilter->SetInput( binaryFilter->GetOutput() );
-  borderFilter->SetForegroundValue( NumericTraits< OutputPixelType >::Zero );
+  borderFilter->SetForegroundValue( NumericTraits< OutputPixelType >::ZeroValue() );
   borderFilter->SetBackgroundValue( NumericTraits< OutputPixelType >::max() );
   borderFilter->SetFullyConnected( true );
   borderFilter->SetNumberOfThreads( nbthreads );

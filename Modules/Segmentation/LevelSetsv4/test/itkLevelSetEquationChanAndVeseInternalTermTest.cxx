@@ -89,7 +89,7 @@ int itkLevelSetEquationChanAndVeseInternalTermTest( int argc, char* argv[] )
   binary->SetSpacing( spacing );
   binary->SetOrigin( origin );
   binary->Allocate();
-  binary->FillBuffer( itk::NumericTraits<InputPixelType>::Zero );
+  binary->FillBuffer( itk::NumericTraits<InputPixelType>::ZeroValue() );
 
   index.Fill( 10 );
   size.Fill( 30 );
@@ -101,7 +101,7 @@ int itkLevelSetEquationChanAndVeseInternalTermTest( int argc, char* argv[] )
   iIt.GoToBegin();
   while( !iIt.IsAtEnd() )
     {
-    iIt.Set( itk::NumericTraits<InputPixelType>::One );
+    iIt.Set( itk::NumericTraits<InputPixelType>::OneValue() );
     ++iIt;
     }
 

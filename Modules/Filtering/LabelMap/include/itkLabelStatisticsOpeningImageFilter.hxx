@@ -28,7 +28,7 @@ LabelStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
 ::LabelStatisticsOpeningImageFilter()
 {
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
-  m_Lambda = NumericTraits< double >::Zero;
+  m_Lambda = NumericTraits< double >::ZeroValue();
   m_ReverseOrdering = false;
   m_Attribute = LabelObjectType::MEAN;
   this->SetNumberOfRequiredInputs(2);

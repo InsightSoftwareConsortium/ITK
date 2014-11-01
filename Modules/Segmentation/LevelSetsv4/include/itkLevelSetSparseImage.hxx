@@ -58,7 +58,7 @@ LevelSetSparseImage< TOutput, VDimension >
   for( unsigned int dim = 0; dim < Dimension; dim++ )
     {
     this->m_NeighborhoodScales[dim] =
-        NumericTraits< OutputRealType >::One / static_cast< OutputRealType >( spacing[dim ] );
+        NumericTraits< OutputRealType >::OneValue() / static_cast< OutputRealType >( spacing[dim ] );
     }
   this->Modified();
 }

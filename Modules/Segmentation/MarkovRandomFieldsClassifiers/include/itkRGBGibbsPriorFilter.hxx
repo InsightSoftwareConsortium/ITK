@@ -693,9 +693,9 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
     valid_region_counter[r] = 0;
     }
 
-  LabelType i = NumericTraits< LabelType >::Zero;
-  LabelType k = NumericTraits< LabelType >::Zero;
-  LabelType l = NumericTraits< LabelType >::Zero;
+  LabelType i = NumericTraits< LabelType >::ZeroValue();
+  LabelType k = NumericTraits< LabelType >::ZeroValue();
+  LabelType l = NumericTraits< LabelType >::ZeroValue();
   LabelType label;
 
   while ( !labelledImageIt.IsAtEnd() )

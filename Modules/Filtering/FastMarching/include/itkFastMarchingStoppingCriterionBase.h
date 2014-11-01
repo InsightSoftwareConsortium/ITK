@@ -53,8 +53,8 @@ public:
   /** Reinitialize internal values. */
   void Reinitialize()
     {
-    m_CurrentValue  = NumericTraits< OutputPixelType >::Zero;
-    m_PreviousValue = NumericTraits< OutputPixelType >::Zero;
+    m_CurrentValue  = NumericTraits< OutputPixelType >::ZeroValue();
+    m_PreviousValue = NumericTraits< OutputPixelType >::ZeroValue();
 
     this->Reset();
     }
@@ -72,8 +72,8 @@ public:
   /** Constructor */
   FastMarchingStoppingCriterionBase() : Superclass(), m_Domain( ITK_NULLPTR )
   {
-    m_CurrentValue = NumericTraits< OutputPixelType >::Zero;
-    m_PreviousValue = NumericTraits< OutputPixelType >::Zero;
+    m_CurrentValue = NumericTraits< OutputPixelType >::ZeroValue();
+    m_PreviousValue = NumericTraits< OutputPixelType >::ZeroValue();
   }
 
   /** Destructor */

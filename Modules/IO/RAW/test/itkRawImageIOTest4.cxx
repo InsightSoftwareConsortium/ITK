@@ -82,7 +82,7 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
     it.SetDirection( 0 );
 
 
-    PixelType value = itk::NumericTraits< PixelType >::Zero;
+    PixelType value = itk::NumericTraits< PixelType >::ZeroValue();
     while ( !it.IsAtEnd() )
       {
       while ( !it.IsAtEndOfLine() )
@@ -120,7 +120,7 @@ int itkRawImageIOTest4(int argc, char*argv[])
   typedef itk::PixelTraits< PixelType >::ValueType ComponentType;
   typedef itk::ByteSwapper< ComponentType >        ByteSwapperType;
 
-  PixelType value = itk::NumericTraits< PixelType >::Zero;
+  PixelType value = itk::NumericTraits< PixelType >::ZeroValue();
   unsigned int numberOfPixels = dims[0] * dims[1];
 
   if(argc < 3)
@@ -178,7 +178,7 @@ int itkRawImageIOTest4(int argc, char*argv[])
     return EXIT_FAILURE;
     }
 
-  value = itk::NumericTraits< PixelType >::Zero;
+  value = itk::NumericTraits< PixelType >::ZeroValue();
   for( unsigned int i = 0; i < numberOfPixels; i++ )
     {
     PixelType swappedValue = value;

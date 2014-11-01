@@ -212,7 +212,7 @@ void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::GetDerivative( DerivativeType & derivative ) const
 {
-  MeasureType value = NumericTraits<MeasureType>::Zero;
+  MeasureType value = NumericTraits<MeasureType>::ZeroValue();
   this->CalculateValueAndDerivative( value, derivative, false );
 }
 
@@ -231,14 +231,14 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 {
   this->InitializeForIteration();
   derivative.SetSize( this->GetNumberOfParameters() );
-  derivative.Fill( NumericTraits<DerivativeValueType>::Zero );
+  derivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
 
-  value = NumericTraits<MeasureType>::Zero;
+  value = NumericTraits<MeasureType>::ZeroValue();
   MovingTransformJacobianType  jacobian( MovingPointDimension, this->GetNumberOfLocalParameters() );
   MovingTransformJacobianType  jacobianPositional( MovingPointDimension, MovingPointDimension );
 
   DerivativeType localTransformDerivative( this->GetNumberOfLocalParameters() );
-  localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::Zero );
+  localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
 
   // Virtual point set will be the same size as fixed point set as long as it's
   // generated from the fixed point set.
@@ -252,7 +252,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 
   while( It != end )
     {
-    MeasureType pointValue = NumericTraits<MeasureType>::Zero;
+    MeasureType pointValue = NumericTraits<MeasureType>::ZeroValue();
     LocalDerivativeType pointDerivative;
 
     /* Verify the virtual point is in the virtual domain.
@@ -285,7 +285,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     if( this->HasLocalSupport() )
       {
       // Reset to zero since we're not accumulating in the local-support case.
-      localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::Zero );
+      localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
       }
     this->GetMovingTransform()->
       ComputeJacobianWithRespectToParametersCachedTemporaries(virtualIt.Value(),
@@ -328,7 +328,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 {
   // Determine the number of valid fixed points, using
   // their positions in the virtual domain.
-  SizeValueType numberOfValidPoints = NumericTraits<SizeValueType>::Zero;
+  SizeValueType numberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
   PointsConstIterator virtualIt = this->m_VirtualTransformedPointSet->GetPoints()->Begin();
   while( virtualIt != this->m_VirtualTransformedPointSet->GetPoints()->End() )
     {

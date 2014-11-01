@@ -93,7 +93,7 @@ MalcolmSparseLevelSetImage< VDimension >
                             <<" you better check recommended regularization methods"
                             <<" for Malcolm's representation" );
   HessianType oHessian;
-  oHessian.Fill( NumericTraits< OutputRealType >::Zero );
+  oHessian.Fill( NumericTraits< OutputRealType >::ZeroValue() );
   return oHessian;
 }
 // ----------------------------------------------------------------------------
@@ -111,7 +111,7 @@ MalcolmSparseLevelSetImage< VDimension >
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
   OutputRealType oLaplacian;
-  oLaplacian = NumericTraits< OutputRealType >::Zero;
+  oLaplacian = NumericTraits< OutputRealType >::ZeroValue();
   return oLaplacian;
 }
 // ----------------------------------------------------------------------------
@@ -129,7 +129,7 @@ MalcolmSparseLevelSetImage< VDimension >
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
   OutputRealType oMeanCurvature;
-  oMeanCurvature = NumericTraits< OutputRealType >::Zero;
+  oMeanCurvature = NumericTraits< OutputRealType >::ZeroValue();
   return oMeanCurvature;
 }
 

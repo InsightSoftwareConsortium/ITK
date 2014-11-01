@@ -95,7 +95,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction< TImage >
   double       Cx[ImageDimension];
   double       Cxd[ImageDimension];
 
-  const ScalarValueType ScalarValueTypeZero = NumericTraits< ScalarValueType >::Zero;
+  const ScalarValueType ScalarValueTypeZero = NumericTraits< ScalarValueType >::ZeroValue();
 
   PixelType dx_forward[ImageDimension];
   PixelType dx_backward[ImageDimension];

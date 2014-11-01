@@ -45,7 +45,7 @@ template< typename TInput, typename TOutput >
 class ThresholdLabeler
 {
 public:
-  ThresholdLabeler() { m_LabelOffset = NumericTraits< TOutput >::One; }
+  ThresholdLabeler() { m_LabelOffset = NumericTraits< TOutput >::OneValue(); }
   ~ThresholdLabeler() {}
 
   typedef typename NumericTraits< TInput >::RealType RealThresholdType;

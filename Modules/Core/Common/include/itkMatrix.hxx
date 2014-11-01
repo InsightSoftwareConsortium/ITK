@@ -34,7 +34,7 @@ Matrix< T, NRows, NColumns >
   Vector< T, NRows > result;
   for ( unsigned int r = 0; r < NRows; r++ )
     {
-    T sum = NumericTraits< T >::Zero;
+    T sum = NumericTraits< T >::ZeroValue();
     for ( unsigned int c = 0; c < NColumns; c++ )
       {
       sum += m_Matrix(r, c) * vect[c];
@@ -55,7 +55,7 @@ Matrix< T, NRows, NColumns >
   Point< T, NRows > result;
   for ( unsigned int r = 0; r < NRows; r++ )
     {
-    T sum = NumericTraits< T >::Zero;
+    T sum = NumericTraits< T >::ZeroValue();
     for ( unsigned int c = 0; c < NColumns; c++ )
       {
       sum += m_Matrix(r, c) * pnt[c];
@@ -76,7 +76,7 @@ Matrix< T, NRows, NColumns >
   vnl_vector_fixed< T, NRows > result;
   for ( unsigned int r = 0; r < NRows; r++ )
     {
-    T sum = NumericTraits< T >::Zero;
+    T sum = NumericTraits< T >::ZeroValue();
     for ( unsigned int c = 0; c < NColumns; c++ )
       {
       sum += m_Matrix(r, c) * inVNLvect[c];
@@ -97,7 +97,7 @@ Matrix< T, NRows, NColumns >
   CovariantVector< T, NRows > result;
   for ( unsigned int r = 0; r < NRows; r++ )
     {
-    T sum = NumericTraits< T >::Zero;
+    T sum = NumericTraits< T >::ZeroValue();
     for ( unsigned int c = 0; c < NColumns; c++ )
       {
       sum += m_Matrix(r, c) * covect[c];

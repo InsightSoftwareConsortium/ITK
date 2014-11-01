@@ -42,7 +42,7 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
   m_Valid = false;
   m_Input = ITK_NULLPTR;
   m_Gradient = ITK_NULLPTR;
-  m_Output = NumericTraits< InputPixelType >::Zero;
+  m_Output = NumericTraits< InputPixelType >::ZeroValue();
   m_Pow = 1;
 }
 

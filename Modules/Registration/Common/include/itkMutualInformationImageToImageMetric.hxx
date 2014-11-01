@@ -298,7 +298,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   MeasureType & value,
   DerivativeType & derivative) const
 {
-  value = NumericTraits<MeasureType>::Zero;
+  value = NumericTraits<MeasureType>::ZeroValue();
   unsigned int   numberOfParameters = this->m_Transform->GetNumberOfParameters();
   DerivativeType temp(numberOfParameters);
   temp.Fill(0);

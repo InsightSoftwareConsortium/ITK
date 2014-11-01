@@ -29,7 +29,7 @@ Euler3DTransform<TScalar>
   Superclass(ParametersDimension)
 {
   m_ComputeZYX = false;
-  m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::Zero;
+  m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::ZeroValue();
 }
 
 // Constructor with default arguments
@@ -54,7 +54,7 @@ Euler3DTransform<TScalar>
   Superclass(parametersDimension)
 {
   m_ComputeZYX = false;
-  m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::Zero;
+  m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::ZeroValue();
 }
 
 // Set Angles
@@ -165,7 +165,7 @@ Euler3DTransform<TScalar>
       }
     else
       {
-      m_AngleX = NumericTraits<ScalarType>::Zero;
+      m_AngleX = NumericTraits<ScalarType>::ZeroValue();
       double x = this->GetMatrix()[1][1];
       double y = -this->GetMatrix()[0][1];
       m_AngleZ = std::atan2(y, x);
@@ -187,7 +187,7 @@ Euler3DTransform<TScalar>
       }
     else
       {
-      m_AngleZ = NumericTraits<ScalarType>::Zero;
+      m_AngleZ = NumericTraits<ScalarType>::ZeroValue();
       double x = this->GetMatrix()[0][0];
       double y = this->GetMatrix()[1][0];
       m_AngleY = std::atan2(y, x);
@@ -209,8 +209,8 @@ Euler3DTransform<TScalar>
   const ScalarType sy = std::sin(m_AngleY);
   const ScalarType cz = std::cos(m_AngleZ);
   const ScalarType sz = std::sin(m_AngleZ);
-  const ScalarType one = NumericTraits<ScalarType>::One;
-  const ScalarType zero = NumericTraits<ScalarType>::Zero;
+  const ScalarType one = NumericTraits<ScalarType>::OneValue();
+  const ScalarType zero = NumericTraits<ScalarType>::ZeroValue();
 
   Matrix<TScalar, 3, 3> RotationX;
   RotationX[0][0] = one;  RotationX[0][1] = zero; RotationX[0][2] = zero;

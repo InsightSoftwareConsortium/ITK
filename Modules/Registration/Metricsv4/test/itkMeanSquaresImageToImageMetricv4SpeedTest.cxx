@@ -120,7 +120,7 @@ int itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char *argv[] )
   MetricType::MeasureType valueReturn1;
   MetricType::DerivativeType derivativeReturn;
 
-  MetricType::MeasureType sum = itk::NumericTraits<MetricType::MeasureType>::Zero;
+  MetricType::MeasureType sum = itk::NumericTraits<MetricType::MeasureType>::ZeroValue();
   for( int r=0; r < numberOfReps; r++ )
     {
     metric->GetValueAndDerivative( valueReturn1, derivativeReturn );

@@ -30,10 +30,10 @@ template< typename T >
 Versor< T >
 ::Versor()
 {
-  m_X = NumericTraits< T >::Zero;
-  m_Y = NumericTraits< T >::Zero;
-  m_Z = NumericTraits< T >::Zero;
-  m_W = NumericTraits< T >::One;
+  m_X = NumericTraits< T >::ZeroValue();
+  m_Y = NumericTraits< T >::ZeroValue();
+  m_Z = NumericTraits< T >::ZeroValue();
+  m_W = NumericTraits< T >::OneValue();
 }
 
 /** Copy Constructor */
@@ -66,10 +66,10 @@ void
 Versor< T >
 ::SetIdentity()
 {
-  m_X = NumericTraits< T >::Zero;
-  m_Y = NumericTraits< T >::Zero;
-  m_Z = NumericTraits< T >::Zero;
-  m_W = NumericTraits< T >::One;
+  m_X = NumericTraits< T >::ZeroValue();
+  m_Y = NumericTraits< T >::ZeroValue();
+  m_Z = NumericTraits< T >::ZeroValue();
+  m_W = NumericTraits< T >::OneValue();
 }
 
 /** Return a vnl_quaternion */
@@ -263,11 +263,11 @@ Versor< T >
 
   const RealType vectorNorm = std::sqrt(ax * ax  +  ay * ay  +  az * az);
 
-  if ( vectorNorm == NumericTraits< RealType >::Zero )
+  if ( vectorNorm == NumericTraits< RealType >::ZeroValue() )
     {
-    axis[0] = NumericTraits< T >::Zero;
-    axis[1] = NumericTraits< T >::Zero;
-    axis[2] = NumericTraits< T >::Zero;
+    axis[0] = NumericTraits< T >::ZeroValue();
+    axis[1] = NumericTraits< T >::ZeroValue();
+    axis[2] = NumericTraits< T >::ZeroValue();
     }
   else
     {
@@ -406,9 +406,9 @@ Versor< T >
   if( std::abs( I[0][1] ) > epsilon || std::abs( I[0][2] ) > epsilon ||
     std::abs( I[1][0] ) > epsilon || std::abs( I[1][2] ) > epsilon ||
     std::abs( I[2][0] ) > epsilon || std::abs( I[2][1] ) > epsilon ||
-    std::abs( I[0][0] - itk::NumericTraits<T>::One ) > epsilonDiff ||
-    std::abs( I[1][1] - itk::NumericTraits<T>::One ) > epsilonDiff ||
-    std::abs( I[2][2] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+    std::abs( I[0][0] - itk::NumericTraits<T>::OneValue() ) > epsilonDiff ||
+    std::abs( I[1][1] - itk::NumericTraits<T>::OneValue() ) > epsilonDiff ||
+    std::abs( I[2][2] - itk::NumericTraits<T>::OneValue() ) > epsilonDiff ||
     vnl_det( I ) < 0 )
     {
     itkGenericExceptionMacro(<< "The following matrix does not represent rotation to within an epsion of "
@@ -469,7 +469,7 @@ Versor< T >
 ::Set(const VectorType & axis)
 {
   const ValueType sinangle2 =  axis.GetNorm();
-  if ( sinangle2 > NumericTraits< ValueType >::One )
+  if ( sinangle2 > NumericTraits< ValueType >::OneValue() )
     {
     ExceptionObject exception;
     exception.SetDescription("Trying to initialize a Versor with " \
@@ -478,7 +478,7 @@ Versor< T >
     throw exception;
     }
 
-  const ValueType cosangle2 =  std::sqrt(NumericTraits< double >::One - sinangle2 * sinangle2);
+  const ValueType cosangle2 =  std::sqrt(NumericTraits< double >::OneValue() - sinangle2 * sinangle2);
 
   m_X = axis[0];
   m_Y = axis[1];
@@ -544,8 +544,8 @@ Versor< T >
   const ValueType cosangle2 = std::cos(angle / 2.0);
 
   m_X = sinangle2;
-  m_Y = NumericTraits< T >::Zero;
-  m_Z = NumericTraits< T >::Zero;
+  m_Y = NumericTraits< T >::ZeroValue();
+  m_Z = NumericTraits< T >::ZeroValue();
   m_W = cosangle2;
 }
 
@@ -558,9 +558,9 @@ Versor< T >
   const ValueType sinangle2 = std::sin(angle / 2.0);
   const ValueType cosangle2 = std::cos(angle / 2.0);
 
-  m_X = NumericTraits< T >::Zero;
+  m_X = NumericTraits< T >::ZeroValue();
   m_Y = sinangle2;
-  m_Z = NumericTraits< T >::Zero;
+  m_Z = NumericTraits< T >::ZeroValue();
   m_W = cosangle2;
 }
 
@@ -573,8 +573,8 @@ Versor< T >
   const ValueType sinangle2 = std::sin(angle / 2.0);
   const ValueType cosangle2 = std::cos(angle / 2.0);
 
-  m_X = NumericTraits< T >::Zero;
-  m_Y = NumericTraits< T >::Zero;
+  m_X = NumericTraits< T >::ZeroValue();
+  m_Y = NumericTraits< T >::ZeroValue();
   m_Z = sinangle2;
   m_W = cosangle2;
 }

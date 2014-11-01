@@ -39,7 +39,7 @@ ManhattanDistanceMetric< TVector >
   MeasurementVectorTraits::Assert(this->GetOrigin(), measurementVectorSize,
                                   "ManhattanDistanceMetric::Evaluate Origin and input vector have different lengths");
 
-  double temp, distance = NumericTraits< double >::Zero;
+  double temp, distance = NumericTraits< double >::ZeroValue();
 
   for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
@@ -62,7 +62,7 @@ ManhattanDistanceMetric< TVector >
     itkExceptionMacro(<< "ManhattanDistanceMetric:: The two measurement vectors have unequal size");
     }
 
-  double temp, distance = NumericTraits< double >::Zero;
+  double temp, distance = NumericTraits< double >::ZeroValue();
   for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
     temp = std::abs(x1[i] - x2[i]);

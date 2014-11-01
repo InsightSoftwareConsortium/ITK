@@ -40,7 +40,7 @@ BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::BinaryMorphologicalOpeningImageFilter()
 {
   m_ForegroundValue = NumericTraits< PixelType >::max();
-  m_BackgroundValue = NumericTraits< PixelType >::Zero;
+  m_BackgroundValue = NumericTraits< PixelType >::ZeroValue();
 }
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >

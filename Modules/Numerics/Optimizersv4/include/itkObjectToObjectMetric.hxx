@@ -351,7 +351,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   else
     {
     VirtualSpacingType spacing;
-    spacing.Fill( NumericTraits<typename VirtualSpacingType::ValueType>::One );
+    spacing.Fill( NumericTraits<typename VirtualSpacingType::ValueType>::OneValue() );
     return spacing;
     }
 }
@@ -368,7 +368,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   else
     {
     VirtualDirectionType direction;
-    direction.Fill( NumericTraits<typename VirtualDirectionType::ValueType>::One );
+    direction.Fill( NumericTraits<typename VirtualDirectionType::ValueType>::OneValue() );
     return direction;
     }
 }
@@ -385,7 +385,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   else
     {
     VirtualOriginType origin;
-    origin.Fill( NumericTraits<typename VirtualOriginType::ValueType>::Zero );
+    origin.Fill( NumericTraits<typename VirtualOriginType::ValueType>::ZeroValue() );
     return origin;
     }
 }
@@ -497,7 +497,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   if( this->m_NumberOfValidPoints == 0 )
     {
     value = NumericTraits<MeasureType>::max();
-    derivative.Fill( NumericTraits<DerivativeValueType>::Zero );
+    derivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
     itkWarningMacro("No valid points were found during metric evaluation. "
                     "For image metrics, verify that the images overlap appropriately. "
                     "For instance, you can align the image centers by translation. "

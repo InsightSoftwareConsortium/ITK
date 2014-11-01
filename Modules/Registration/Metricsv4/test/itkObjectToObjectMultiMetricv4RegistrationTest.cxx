@@ -88,13 +88,13 @@ void ObjectToObjectMultiMetricv4RegistrationTestCreateImages( typename TImage::P
   size.Fill( ImageSize );
 
   typename TImage::SpacingType spacing;
-  spacing.Fill( itk::NumericTraits<CoordinateRepresentationType>::One );
+  spacing.Fill( itk::NumericTraits<CoordinateRepresentationType>::OneValue() );
 
   typename TImage::PointType origin;
-  origin.Fill( itk::NumericTraits<CoordinateRepresentationType>::Zero );
+  origin.Fill( itk::NumericTraits<CoordinateRepresentationType>::ZeroValue() );
 
   typename TImage::DirectionType direction;
-  direction.Fill( itk::NumericTraits<CoordinateRepresentationType>::One );
+  direction.Fill( itk::NumericTraits<CoordinateRepresentationType>::OneValue() );
 
   typename GaussianImageSourceType::Pointer  fixedImageSource = GaussianImageSourceType::New();
 
@@ -114,7 +114,7 @@ void ObjectToObjectMultiMetricv4RegistrationTestCreateImages( typename TImage::P
       {
       if( it.GetIndex()[n] < boundary || (static_cast<itk::OffsetValueType>(size[n]) - it.GetIndex()[n]) <= boundary )
         {
-        it.Set( itk::NumericTraits<PixelType>::Zero );
+        it.Set( itk::NumericTraits<PixelType>::ZeroValue() );
         break;
         }
       }

@@ -128,7 +128,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   typename FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
   fixedPointSet->Initialize();
 
-  typename FixedPointSetType::PointIdentifier count = NumericTraits<PointIdentifier>::Zero;
+  typename FixedPointSetType::PointIdentifier count = NumericTraits<PointIdentifier>::ZeroValue();
 
   typename FixedPointSetType::PointsContainerConstIterator It = this->m_FixedPointSet->GetPoints()->Begin();
   typename FixedPointSetType::PointDataContainerIterator ItD = this->m_FixedPointSet->GetPointData()->Begin();
@@ -153,7 +153,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   typename MovingPointSetType::Pointer movingPointSet = MovingPointSetType::New();
   movingPointSet->Initialize();
 
-  typename MovingPointSetType::PointIdentifier count = NumericTraits<PointIdentifier>::Zero;
+  typename MovingPointSetType::PointIdentifier count = NumericTraits<PointIdentifier>::ZeroValue();
 
   typename MovingPointSetType::PointsContainerConstIterator It = this->m_MovingPointSet->GetPoints()->Begin();
   typename MovingPointSetType::PointDataContainerIterator ItD = this->m_MovingPointSet->GetPointData()->Begin();

@@ -62,7 +62,7 @@ public:
 
   inline void Initialize()
   {
-    m_Sum = NumericTraits< TAccumulate >::Zero;
+    m_Sum = NumericTraits< TAccumulate >::ZeroValue();
     m_Values.clear();
   }
 
@@ -77,13 +77,13 @@ public:
     // to avoid division by zero
     if ( m_Size <= 1 )
       {
-      return NumericTraits< RealType >::Zero;
+      return NumericTraits< RealType >::ZeroValue();
       }
 
     typename NumericTraits< TInputPixel >::RealType mean =
       ( (RealType)m_Sum ) / m_Size;
     typename std::vector< TInputPixel >::iterator it;
-    RealType squaredSum = NumericTraits< RealType >::Zero;
+    RealType squaredSum = NumericTraits< RealType >::ZeroValue();
     for ( it = m_Values.begin(); it != m_Values.end(); it++ )
       {
       squaredSum += vnl_math_sqr(*it - mean);

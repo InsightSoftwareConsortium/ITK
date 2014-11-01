@@ -27,9 +27,9 @@ template< typename TLevelSetContainer >
 LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
 ::LevelSetEvolutionStoppingCriterion()
 {
-  this->m_RMSChangeAccumulator = NumericTraits< OutputRealType >::Zero;
-  this->m_NumberOfIterations = NumericTraits< IterationIdType >::Zero;
-  this->m_CurrentIteration = NumericTraits< IterationIdType >::Zero;
+  this->m_RMSChangeAccumulator = NumericTraits< OutputRealType >::ZeroValue();
+  this->m_NumberOfIterations = NumericTraits< IterationIdType >::ZeroValue();
+  this->m_CurrentIteration = NumericTraits< IterationIdType >::ZeroValue();
 }
 
 template< typename TLevelSetContainer >

@@ -296,10 +296,10 @@ protected:
     unsigned  i, j;
     TRealType dx, sum, accum;
 
-    accum = NumericTraits< TRealType >::Zero;
+    accum = NumericTraits< TRealType >::ZeroValue();
     for ( i = 0; i < ImageDimension; ++i )
       {
-      sum = NumericTraits< TRealType >::Zero;
+      sum = NumericTraits< TRealType >::ZeroValue();
       for ( j = 0; j < VectorDimension; ++j )
         {
         dx =  m_DerivativeWeights[i] * m_SqrtComponentWeights[j]

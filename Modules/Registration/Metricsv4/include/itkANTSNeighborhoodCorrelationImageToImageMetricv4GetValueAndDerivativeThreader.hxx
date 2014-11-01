@@ -39,8 +39,8 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
     }
 
   VirtualPointType     virtualPoint;
-  MeasureType          metricValueResult = NumericTraits< MeasureType >::Zero;
-  MeasureType          metricValueSum = NumericTraits< MeasureType >::Zero;
+  MeasureType          metricValueResult = NumericTraits< MeasureType >::ZeroValue();
+  MeasureType          metricValueSum = NumericTraits< MeasureType >::ZeroValue();
   bool                 pointIsValid;
   ScanIteratorType     scanIt;
   ScanParametersType   scanParameters;
@@ -318,11 +318,11 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
   scanParameters.windowLength = scanIt.Size();
   scanParameters.scanRegionBeginIndexDim0 = scanIt.GetBeginIndex()[0];
 
-  scanMem.fixedA = NumericTraits< QueueRealType >::Zero;
-  scanMem.movingA = NumericTraits< QueueRealType >::Zero;
-  scanMem.sFixedMoving = NumericTraits< QueueRealType >::Zero;
-  scanMem.sFixedFixed = NumericTraits< QueueRealType >::Zero;
-  scanMem.sMovingMoving = NumericTraits< QueueRealType >::Zero;
+  scanMem.fixedA = NumericTraits< QueueRealType >::ZeroValue();
+  scanMem.movingA = NumericTraits< QueueRealType >::ZeroValue();
+  scanMem.sFixedMoving = NumericTraits< QueueRealType >::ZeroValue();
+  scanMem.sFixedFixed = NumericTraits< QueueRealType >::ZeroValue();
+  scanMem.sMovingMoving = NumericTraits< QueueRealType >::ZeroValue();
 
   scanMem.fixedImageGradient.Fill(0.0);
   scanMem.movingImageGradient.Fill(0.0);
@@ -493,7 +493,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
 
     if ( ! (sFixedFixed > NumericTraits<LocalRealType>::epsilon() && sMovingMoving > NumericTraits<LocalRealType>::epsilon() ) )
       {
-      deriv.Fill( NumericTraits<DerivativeValueType>::Zero );
+      deriv.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
       return;
       }
 
@@ -517,7 +517,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
 
     for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
       {
-      deriv[par] = NumericTraits<DerivativeValueType>::Zero;
+      deriv[par] = NumericTraits<DerivativeValueType>::ZeroValue();
       for (ImageDimensionType dim = 0; dim < TImageToImageMetric::MovingImageDimension; dim++)
         {
         deriv[par] += derivWRTImage[dim] * jacobian(dim, par);
@@ -538,7 +538,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
     const ThreadIdType threadId )
 {
 
-  MeasureType          metricValueResult = NumericTraits< MeasureType >::Zero;
+  MeasureType          metricValueResult = NumericTraits< MeasureType >::ZeroValue();
   bool                 pointIsValid;
   ScanIteratorType     scanIt;
   ScanParametersType   scanParameters;

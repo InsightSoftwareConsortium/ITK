@@ -143,7 +143,7 @@ ChiSquareDistribution
 {
   if ( p <= 0.0 )
     {
-    return itk::NumericTraits< double >::Zero;
+    return itk::NumericTraits< double >::ZeroValue();
     }
   else if ( p >= 1.0 )
     {

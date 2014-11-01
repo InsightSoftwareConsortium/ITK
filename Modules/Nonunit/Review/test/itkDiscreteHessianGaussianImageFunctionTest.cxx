@@ -67,7 +67,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
     output->SetRequestedRegion( reader->GetOutput()->GetRequestedRegion() );
     output->SetBufferedRegion( reader->GetOutput()->GetBufferedRegion() );
     output->Allocate();
-    output->FillBuffer( itk::NumericTraits<PixelType>::Zero );
+    output->FillBuffer( itk::NumericTraits<PixelType>::ZeroValue() );
     outputs.push_back( output );
     }
 

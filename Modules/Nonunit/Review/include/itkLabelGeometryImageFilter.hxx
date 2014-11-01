@@ -653,7 +653,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< RealType >::Zero;
+    return NumericTraits< RealType >::ZeroValue();
     }
   else
     {
@@ -795,7 +795,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< RealType >::Zero;
+    return NumericTraits< RealType >::ZeroValue();
     }
   else
     {
@@ -814,7 +814,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< RealType >::Zero;
+    return NumericTraits< RealType >::ZeroValue();
     }
   else
     {
@@ -833,7 +833,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< RealType >::Zero;
+    return NumericTraits< RealType >::ZeroValue();
     }
   else
     {
@@ -873,7 +873,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< RealType >::Zero;
+    return NumericTraits< RealType >::ZeroValue();
     }
   else
     {
@@ -938,7 +938,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< RealType >::Zero;
+    return NumericTraits< RealType >::ZeroValue();
     }
   else
     {

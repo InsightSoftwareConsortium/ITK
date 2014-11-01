@@ -194,9 +194,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( p[i] == NumericTraits<CoordRepType>::One )
+    if( p[i] == NumericTraits<CoordRepType>::OneValue() )
       {
-      p[i] = NumericTraits<CoordRepType>::One - this->m_BSplineEpsilon;
+      p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
     if( p[i] < 0.0 || p[i] >= 1.0 )
       {
@@ -348,9 +348,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( p[i] == NumericTraits<CoordRepType>::One )
+    if( p[i] == NumericTraits<CoordRepType>::OneValue() )
       {
-      p[i] = NumericTraits<CoordRepType>::One - this->m_BSplineEpsilon;
+      p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
     if( p[i] < 0.0 || p[i] >= 1.0 )
       {
@@ -522,9 +522,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( p[i] == NumericTraits<CoordRepType>::One )
+    if( p[i] == NumericTraits<CoordRepType>::OneValue() )
       {
-      p[i] = NumericTraits<CoordRepType>::One - this->m_BSplineEpsilon;
+      p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
     if( p[i] < 0.0 || p[i] >= 1.0 )
       {

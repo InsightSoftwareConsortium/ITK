@@ -25,8 +25,8 @@ namespace itk
 template< typename TInput, typename TOutput >
 RegularizedHeavisideStepFunction< TInput, TOutput >
 ::RegularizedHeavisideStepFunction() : Superclass(),
-  m_Epsilon( NumericTraits< RealType >::One ),
-  m_OneOverEpsilon( NumericTraits< RealType >::One )
+  m_Epsilon( NumericTraits< RealType >::OneValue() ),
+  m_OneOverEpsilon( NumericTraits< RealType >::OneValue() )
 {}
 
 template< typename TInput, typename TOutput >

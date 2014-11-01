@@ -47,12 +47,12 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
   this->SetIsoSurfaceValue(0);
   m_MaxRefitIteration = 100;
   m_MaxNormalIteration = 25;
-  m_RMSChangeNormalProcessTrigger = NumericTraits< ValueType >::Zero;
+  m_RMSChangeNormalProcessTrigger = NumericTraits< ValueType >::ZeroValue();
   m_CurvatureBandWidth = static_cast< ValueType >( ImageDimension ) + 0.5;
   m_NormalProcessType = 0;
-  m_NormalProcessConductance = NumericTraits< ValueType >::Zero;
+  m_NormalProcessConductance = NumericTraits< ValueType >::ZeroValue();
   m_NormalProcessUnsharpFlag = false;
-  m_NormalProcessUnsharpWeight = NumericTraits< ValueType >::Zero;
+  m_NormalProcessUnsharpWeight = NumericTraits< ValueType >::ZeroValue();
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -110,7 +110,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
     indicator[j] = one << j;
     }
 
-  curvature = NumericTraits< ValueType >::Zero;
+  curvature = NumericTraits< ValueType >::ZeroValue();
 
   for ( counter = 0; counter < m_NumVertex; counter++ )
     {
@@ -143,7 +143,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
       }
     } // end counter
 
-  if ( flag == true ) { curvature = NumericTraits< ValueType >::Zero; }
+  if ( flag == true ) { curvature = NumericTraits< ValueType >::ZeroValue(); }
   curvature *= m_DimConst;
   return curvature;
 }

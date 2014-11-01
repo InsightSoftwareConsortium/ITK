@@ -56,7 +56,7 @@ MeanImageFunction< TInputImage, TCoordRep >
 {
   RealType sum;
 
-  sum = NumericTraits< RealType >::Zero;
+  sum = NumericTraits< RealType >::ZeroValue();
 
   if ( !this->GetInputImage() )
     {

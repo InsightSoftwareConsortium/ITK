@@ -141,8 +141,8 @@ VTKPolyDataMeshIO
     }
 
   // Initialize number of cells
-  this->m_NumberOfCells  = itk::NumericTraits<SizeValueType>::Zero;
-  this->m_CellBufferSize = itk::NumericTraits<SizeValueType>::Zero;
+  this->m_NumberOfCells  = itk::NumericTraits<SizeValueType>::ZeroValue();
+  this->m_CellBufferSize = itk::NumericTraits<SizeValueType>::ZeroValue();
   MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
 
   // Searching the vtk file
@@ -447,7 +447,7 @@ VTKPolyDataMeshIO
 
           // Set point pixel type
           this->m_PointPixelType  = SCALAR;
-          this->m_NumberOfPointPixelComponents = itk::NumericTraits< unsigned int >::One;
+          this->m_NumberOfPointPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
           this->m_UpdatePointData = true;
           }
         }
@@ -744,7 +744,7 @@ VTKPolyDataMeshIO
 
           // Set cell pixel type
           this->m_CellPixelType  = SCALAR;
-          this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::One;
+          this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
           this->m_UpdateCellData = true;
           }
         }

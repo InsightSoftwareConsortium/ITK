@@ -27,9 +27,9 @@ template< unsigned int VDimension,
           typename TLevelSetValueType,
           typename TEquationContainer >
 UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
-::UpdateWhitakerSparseLevelSet() : m_TimeStep( NumericTraits< LevelSetOutputType >::One ),
-m_RMSChangeAccumulator( NumericTraits< LevelSetOutputType >::Zero ),
-  m_CurrentLevelSetId( NumericTraits< IdentifierType >::Zero ),
+::UpdateWhitakerSparseLevelSet() : m_TimeStep( NumericTraits< LevelSetOutputType >::OneValue() ),
+m_RMSChangeAccumulator( NumericTraits< LevelSetOutputType >::ZeroValue() ),
+  m_CurrentLevelSetId( NumericTraits< IdentifierType >::ZeroValue() ),
 m_MinStatus( LevelSetType::MinusThreeLayer() ),
 m_MaxStatus( LevelSetType::PlusThreeLayer() )
 {

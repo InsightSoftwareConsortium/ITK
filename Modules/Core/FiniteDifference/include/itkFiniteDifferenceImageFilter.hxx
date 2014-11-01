@@ -180,7 +180,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ResolveTimeStep(const std::vector< TimeStepType >& timeStepList,
                   const std::vector< bool >& valid ) const
 {
-  TimeStepType oMin = NumericTraits< TimeStepType >::Zero;
+  TimeStepType oMin = NumericTraits< TimeStepType >::ZeroValue();
   bool         flag = false;
 
   // grab first valid value

@@ -99,7 +99,7 @@ GradientNDAnisotropicDiffusionFunction< TImage >
   PixelRealType dx_aug;
   PixelRealType dx_dim;
 
-  delta = NumericTraits< PixelRealType >::Zero;
+  delta = NumericTraits< PixelRealType >::ZeroValue();
 
   // Calculate the centralized derivatives for each dimension.
   for ( i = 0; i < ImageDimension; i++ )

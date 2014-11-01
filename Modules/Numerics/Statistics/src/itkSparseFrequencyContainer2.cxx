@@ -24,7 +24,7 @@ namespace Statistics
 SparseFrequencyContainer2
 ::SparseFrequencyContainer2()
 {
-  m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::Zero;
+  m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
 }
 
 void
@@ -43,10 +43,10 @@ SparseFrequencyContainer2
   IteratorType end  = m_FrequencyContainer.end();
   while ( iter != end )
     {
-    iter->second = NumericTraits< AbsoluteFrequencyType >::Zero;
+    iter->second = NumericTraits< AbsoluteFrequencyType >::ZeroValue();
     ++iter;
     }
-  m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::Zero;
+  m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
 }
 
 bool

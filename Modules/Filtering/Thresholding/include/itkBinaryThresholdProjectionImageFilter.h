@@ -150,7 +150,7 @@ protected:
   {
     m_ForegroundValue = NumericTraits< OutputPixelType >::max();
     m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
-    m_ThresholdValue = NumericTraits< InputPixelType >::Zero;
+    m_ThresholdValue = NumericTraits< InputPixelType >::ZeroValue();
   }
 
   virtual ~BinaryThresholdProjectionImageFilter() {}

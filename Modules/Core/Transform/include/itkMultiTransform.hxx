@@ -30,8 +30,8 @@ template
 <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 MultiTransform<TScalar, NDimensions, NSubDimensions>::MultiTransform() : Superclass( 0 )
 {
-  this->m_NumberOfLocalParameters = NumericTraits< NumberOfParametersType >::Zero;
-  this->m_LocalParametersUpdateTime = NumericTraits< ModifiedTimeType >::Zero;
+  this->m_NumberOfLocalParameters = NumericTraits< NumberOfParametersType >::ZeroValue();
+  this->m_LocalParametersUpdateTime = NumericTraits< ModifiedTimeType >::ZeroValue();
   this->m_TransformQueue.clear();
 }
 
@@ -107,7 +107,7 @@ const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersT
   /* Resize destructively. But if it's already this size, nothing is done so
    * it's efficient. */
   this->m_Parameters.SetSize( this->GetNumberOfParameters() );
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
   TransformQueueType transforms = this->GetTransformQueue();
   typename TransformQueueType::const_iterator it;
   it = transforms.begin();
@@ -146,7 +146,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
     }
 
   TransformQueueType transforms = this->GetTransformQueue();
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
   typename TransformQueueType::const_iterator it;
   it = transforms.begin();
 
@@ -184,7 +184,7 @@ const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersT
    * it's efficient. */
   this->m_FixedParameters.SetSize( this->GetNumberOfFixedParameters() );
 
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
   typename TransformQueueType::const_iterator it;
   TransformQueueType transforms = this->GetTransformQueue();
   it = transforms.begin();
@@ -221,7 +221,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
   /* Assumes input params are concatenation of the parameters of the
    * sub transforms. */
   TransformQueueType transforms = this->GetTransformQueue();
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
   typename TransformQueueType::const_iterator it;
 
   /* Why is this done? Seems unnecessary. */
@@ -255,7 +255,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
    * However, it seems that number of parameter might change for dense
    * field transfroms (deformation, bspline) during processing and
    * we wouldn't know that in this class, so this is safest. */
-  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
 
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
@@ -282,7 +282,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
   /* Note that unlike in GetNumberOfParameters(), we don't expect the
    * number of local parameters to possibly change, so we can cache
    * the value. */
-  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
@@ -299,7 +299,7 @@ typename MultiTransform<TScalar, NDimensions, NSubDimensions>::NumberOfParameter
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetNumberOfFixedParameters(void) const
 {
-  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
@@ -332,7 +332,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
                       " be same as transform parameter size, " << numberOfParameters << std::endl);
     }
 
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {

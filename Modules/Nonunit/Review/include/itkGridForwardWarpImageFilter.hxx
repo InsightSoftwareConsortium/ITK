@@ -36,8 +36,8 @@ GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 ::GridForwardWarpImageFilter()
 {
   // Setup default values
-  m_BackgroundValue = NumericTraits< PixelType >::Zero;
-  m_ForegroundValue = NumericTraits< PixelType >::One;
+  m_BackgroundValue = NumericTraits< PixelType >::ZeroValue();
+  m_ForegroundValue = NumericTraits< PixelType >::OneValue();
   m_GridPixSpacing = 5;
 }
 

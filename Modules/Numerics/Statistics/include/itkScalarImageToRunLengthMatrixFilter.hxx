@@ -36,9 +36,9 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   m_NumberOfBinsPerAxis( itkGetStaticConstMacro( DefaultBinsPerAxis ) ),
   m_Min( NumericTraits<PixelType>::NonpositiveMin() ),
   m_Max( NumericTraits<PixelType>::max() ),
-  m_MinDistance( NumericTraits<RealType>::Zero ),
+  m_MinDistance( NumericTraits<RealType>::ZeroValue() ),
   m_MaxDistance( NumericTraits<RealType>::max() ),
-  m_InsidePixelValue( NumericTraits<PixelType>::One )
+  m_InsidePixelValue( NumericTraits<PixelType>::OneValue() )
 {
   this->SetNumberOfRequiredInputs( 1 );
   this->SetNumberOfRequiredOutputs( 1 );
@@ -210,7 +210,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
       MeasurementType lastBinMax = this->GetOutput()->
               GetDimensionMaxs( 0 )[ this->GetOutput()->GetSize( 0 ) - 1 ];
 
-      PixelType pixelIntensity( NumericTraits<PixelType>::Zero );
+      PixelType pixelIntensity( NumericTraits<PixelType>::ZeroValue() );
       IndexType index;
 
       index = centerIndex + offset;

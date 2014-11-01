@@ -29,7 +29,7 @@ Rigid3DPerspectiveTransform<TScalar>::Rigid3DPerspectiveTransform() : Superclass
   m_Offset.Fill(0);
   m_Versor.SetIdentity();
   m_RotationMatrix = m_Versor.GetMatrix();
-  m_FocalDistance = NumericTraits<ScalarType>::One;
+  m_FocalDistance = NumericTraits<ScalarType>::OneValue();
   m_FixedOffset.Fill(0);
   m_CenterOfRotation.Fill(0);
   this->m_Parameters.Fill(0);
@@ -83,7 +83,7 @@ Rigid3DPerspectiveTransform<TScalar>
   axis[1] = parameters[1];
   norm += parameters[2] * parameters[2];
   axis[2] = parameters[2];
-  if( norm > NumericTraits<double>::Zero )
+  if( norm > NumericTraits<double>::ZeroValue() )
     {
     norm = std::sqrt(norm);
     }

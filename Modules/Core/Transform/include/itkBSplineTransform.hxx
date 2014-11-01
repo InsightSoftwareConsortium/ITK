@@ -527,7 +527,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
     supportRegion.SetSize( supportSize );
     supportRegion.SetIndex( supportIndex );
 
-    outputPoint.Fill( NumericTraits<ScalarType>::Zero );
+    outputPoint.Fill( NumericTraits<ScalarType>::ZeroValue() );
 
     typedef ImageScanlineConstIterator<ImageType> IteratorType;
     IteratorType               coeffIterator[SpaceDimension];

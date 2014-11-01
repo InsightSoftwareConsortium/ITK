@@ -129,7 +129,7 @@ BoxSpatialObject< TDimension >
     unsigned int i;
     for ( i = 0; i < TDimension; i++ )
       {
-      pntMin[i] = NumericTraits< typename PointType::ValueType >::Zero;
+      pntMin[i] = NumericTraits< typename PointType::ValueType >::ZeroValue();
       pntMax[i] = static_cast< typename PointType::ValueType >( m_Size[i] );
       }
 

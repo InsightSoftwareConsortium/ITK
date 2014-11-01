@@ -63,7 +63,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   output->SetRequestedRegion( inputImage->GetRequestedRegion() );
   output->SetBufferedRegion( inputImage->GetBufferedRegion() );
   output->Allocate();
-  output->FillBuffer( itk::NumericTraits<PixelType>::Zero );
+  output->FillBuffer( itk::NumericTraits<PixelType>::ZeroValue() );
 
   // Setup operator parameters
   unsigned int order[Dimension];

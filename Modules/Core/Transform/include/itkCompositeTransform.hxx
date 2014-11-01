@@ -686,7 +686,7 @@ CompositeTransform<TScalar, NDimensions>
   //NOTE: assert( outJacobian.GetSize == ( NDimensions, this->GetNumberOfLocalParameters() ) )
   //NOTE: assert( jacobianWithRespectToPosition.GetSize == (NDimensions, NDimensions) )
 
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
 
   OutputPointType transformedPoint( p );
 
@@ -805,7 +805,7 @@ const typename CompositeTransform<TScalar, NDimensions>::ParametersType
          * it's efficient. */
     this->m_Parameters.SetSize( this->GetNumberOfParameters() );
 
-    NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+    NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
 
     typename TransformQueueType::const_iterator it = transforms.end();
 
@@ -862,7 +862,7 @@ CompositeTransform<TScalar, NDimensions>
     }
   else
     {
-    NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+    NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
     typename TransformQueueType::const_iterator it;
 
     it = transforms.end();
@@ -909,7 +909,7 @@ const typename CompositeTransform<TScalar, NDimensions>::ParametersType
    * it's efficient. */
   this->m_FixedParameters.SetSize( this->GetNumberOfFixedParameters() );
 
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
   typename TransformQueueType::const_iterator it;
 
   it = transforms.end();
@@ -939,7 +939,7 @@ CompositeTransform<TScalar, NDimensions>
    * sub transforms currently selected for optimization. */
   TransformQueueType transforms = this->GetTransformsToOptimizeQueue();
 
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
 
   typename TransformQueueType::const_iterator it;
 
@@ -982,7 +982,7 @@ CompositeTransform<TScalar, NDimensions>
    * However, it seems that number of parameter might change for dense
    * field transfroms (deformation, bspline) during processing and
    * we wouldn't know that in this class, so this is safest. */
-  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
 
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1; tind >= 0; tind-- )
@@ -1012,7 +1012,7 @@ CompositeTransform<TScalar, NDimensions>
    * set to be used for optimized.
    * Note that unlike in GetNumberOfParameters(), we don't expect the
    * number of local parameters to possibly change. */
-  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1; tind >= 0; tind-- )
     {
@@ -1036,7 +1036,7 @@ CompositeTransform<TScalar, NDimensions>
    * set to be used for optimized.
    * NOTE: We might want to optimize this only to store the result and
    * only re-calc when the composite object has been modified. */
-  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
        tind >= 0; tind-- )
@@ -1073,7 +1073,7 @@ CompositeTransform<TScalar, NDimensions>
                       " be same as transform parameter size, " << numberOfParameters << std::endl);
     }
 
-  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
+  NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
 
 
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;

@@ -278,7 +278,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 
     if (stepScale <= NumericTraits<TInternalComputationValueType>::epsilon())
       {
-      this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
+      this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
       }
     else
       {

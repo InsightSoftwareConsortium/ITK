@@ -255,7 +255,7 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       outputMesh->AddEdge(firstNewIndex, secondNewIndex);
 
       // splitting cell
-      PointIdentifier    newPointIndex = NumericTraits< PointIdentifier >::Zero;
+      PointIdentifier    newPointIndex = NumericTraits< PointIdentifier >::ZeroValue();
       OutputPolygonType *polygon = new OutputPolygonType;
       InputCellAutoPointer newPolygonPointer1;
       newPolygonPointer1.TakeOwnership(polygon);
@@ -350,7 +350,7 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       {
       m_NewSimplexCellPointer.TakeOwnership(new OutputPolygonType);
       InputPolygonPointIdIterator             pointIt =  nextCell->PointIdsBegin();
-      PointIdentifier cnt = NumericTraits< PointIdentifier >::Zero;
+      PointIdentifier cnt = NumericTraits< PointIdentifier >::ZeroValue();
       PointIdentifier first = *pointIt++;
       PointIdentifier startId = first;
 

@@ -40,8 +40,8 @@ PathToImageFilter< TInputPath, TOutputImage >
     m_Origin[i] = 0;
     }
 
-  m_PathValue = NumericTraits< ValueType >::One;
-  m_BackgroundValue = NumericTraits< ValueType >::Zero;
+  m_PathValue = NumericTraits< ValueType >::OneValue();
+  m_BackgroundValue = NumericTraits< ValueType >::ZeroValue();
 }
 
 /** Destructor */

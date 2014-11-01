@@ -45,9 +45,9 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
 ::MaskedMovingHistogramImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
-  this->m_FillValue = NumericTraits< OutputPixelType >::Zero;
+  this->m_FillValue = NumericTraits< OutputPixelType >::ZeroValue();
   this->m_MaskValue = NumericTraits< MaskPixelType >::max();
-  this->m_BackgroundMaskValue = NumericTraits< MaskPixelType >::Zero;
+  this->m_BackgroundMaskValue = NumericTraits< MaskPixelType >::ZeroValue();
   this->m_GenerateOutputMask = true;
   this->SetGenerateOutputMask(false);
 }

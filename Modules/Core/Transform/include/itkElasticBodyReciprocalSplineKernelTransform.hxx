@@ -40,7 +40,7 @@ ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >
 {
   const TScalar r       = x.GetNorm();
   const TScalar factor  =
-    ( r > 1e-8 ) ? ( -1.0 / r ) : NumericTraits< TScalar >::Zero;
+    ( r > 1e-8 ) ? ( -1.0 / r ) : NumericTraits< TScalar >::ZeroValue();
   const TScalar radial  = m_Alpha * r;
 
   for ( unsigned int i = 0; i < NDimensions; i++ )

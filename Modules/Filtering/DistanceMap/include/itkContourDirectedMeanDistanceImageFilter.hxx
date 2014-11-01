@@ -39,7 +39,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 
   m_UseImageSpacing = true;
   m_DistanceMap = ITK_NULLPTR;
-  m_ContourDirectedMeanDistance = NumericTraits< RealType >::Zero;
+  m_ContourDirectedMeanDistance = NumericTraits< RealType >::ZeroValue();
 }
 
 template< typename TInputImage1, typename TInputImage2 >
@@ -162,7 +162,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 
   // find mean over all threads
   IdentifierType  count = 0;
-  RealType        sum = NumericTraits< RealType >::Zero;
+  RealType        sum = NumericTraits< RealType >::ZeroValue();
 
   for ( ThreadIdType i = 0; i < numberOfThreads; i++ )
     {
@@ -175,7 +175,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
     }
   else
     {
-    m_ContourDirectedMeanDistance = NumericTraits< RealType >::Zero;
+    m_ContourDirectedMeanDistance = NumericTraits< RealType >::ZeroValue();
     }
 }
 
@@ -219,7 +219,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
       {
       // first test
       // if current pixel is not on, let's continue
-      if ( bit.GetCenterPixel() != NumericTraits< InputImage1PixelType >::Zero )
+      if ( bit.GetCenterPixel() != NumericTraits< InputImage1PixelType >::ZeroValue() )
         {
         bool bIsOnContour = false;
 
@@ -227,7 +227,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
           {
           // second test if at least one neighbour pixel is off
           // the center pixel belongs to contour
-          if ( bit.GetPixel(i) == NumericTraits< InputImage1PixelType >::Zero )
+          if ( bit.GetPixel(i) == NumericTraits< InputImage1PixelType >::ZeroValue() )
             {
             bIsOnContour = true;
             break;

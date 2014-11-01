@@ -259,7 +259,7 @@ StatisticsImageFilter< TInputImage >
   RealType  variance;
   RealType  sum;
 
-  sum = sumOfSquares = NumericTraits< RealType >::Zero;
+  sum = sumOfSquares = NumericTraits< RealType >::ZeroValue();
   count = 0;
 
   // Find the min/max over all threads and accumulate count, sum and
@@ -312,9 +312,9 @@ StatisticsImageFilter< TInputImage >
   RealType  realValue;
   PixelType value;
 
-  RealType sum = NumericTraits< RealType >::Zero;
-  RealType sumOfSquares = NumericTraits< RealType >::Zero;
-  SizeValueType count = NumericTraits< SizeValueType >::Zero;
+  RealType sum = NumericTraits< RealType >::ZeroValue();
+  RealType sumOfSquares = NumericTraits< RealType >::ZeroValue();
+  SizeValueType count = NumericTraits< SizeValueType >::ZeroValue();
   PixelType min = NumericTraits< PixelType >::max();
   PixelType max = NumericTraits< PixelType >::NonpositiveMin();
 

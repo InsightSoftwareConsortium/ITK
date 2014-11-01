@@ -122,8 +122,8 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
   // if the time step is not globally set
   if( !this->m_UserGloballyDefinedTimeStep )
     {
-    if( ( this->m_Alpha > NumericTraits< LevelSetOutputRealType >::Zero ) &&
-        ( this->m_Alpha < NumericTraits< LevelSetOutputRealType >::One ) )
+    if( ( this->m_Alpha > NumericTraits< LevelSetOutputRealType >::ZeroValue() ) &&
+        ( this->m_Alpha < NumericTraits< LevelSetOutputRealType >::OneValue() ) )
       {
       LevelSetOutputRealType contribution = this->m_EquationContainer->ComputeCFLContribution();
 
@@ -193,9 +193,9 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 
     ThresholdFilterPointer thresh = ThresholdFilterType::New();
     thresh->SetLowerThreshold( NumericTraits< LevelSetOutputType >::NonpositiveMin() );
-    thresh->SetUpperThreshold( NumericTraits< LevelSetOutputType >::Zero );
-    thresh->SetInsideValue( NumericTraits< LevelSetOutputType >::One );
-    thresh->SetOutsideValue( NumericTraits< LevelSetOutputType >::Zero );
+    thresh->SetUpperThreshold( NumericTraits< LevelSetOutputType >::ZeroValue() );
+    thresh->SetInsideValue( NumericTraits< LevelSetOutputType >::OneValue() );
+    thresh->SetOutsideValue( NumericTraits< LevelSetOutputType >::ZeroValue() );
     thresh->SetInput( image );
     thresh->Update();
 
@@ -306,8 +306,8 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 {
   if( !this->m_UserGloballyDefinedTimeStep )
     {
-    if( ( this->m_Alpha > NumericTraits< LevelSetOutputRealType >::Zero ) &&
-        ( this->m_Alpha < NumericTraits< LevelSetOutputRealType >::One ) )
+    if( ( this->m_Alpha > NumericTraits< LevelSetOutputRealType >::ZeroValue() ) &&
+        ( this->m_Alpha < NumericTraits< LevelSetOutputRealType >::OneValue() ) )
       {
       LevelSetOutputRealType contribution = this->m_EquationContainer->ComputeCFLContribution();
 

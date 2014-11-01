@@ -81,7 +81,7 @@ public:
   /** Get the total frequency of the sample. */
   virtual TotalAbsoluteFrequencyType GetTotalFrequency() const
     {
-    TotalAbsoluteFrequencyType sum = NumericTraits< TotalAbsoluteFrequencyType >::Zero;
+    TotalAbsoluteFrequencyType sum = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
     typedef typename std::vector< AbsoluteFrequencyType >::const_iterator Iterator;
     Iterator itr = m_Frequencies.begin();
     while( itr != m_Frequencies.end() )

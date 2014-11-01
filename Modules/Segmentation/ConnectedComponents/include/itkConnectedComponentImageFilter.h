@@ -165,7 +165,7 @@ protected:
   {
     m_FullyConnected = false;
     m_ObjectCount = 0;
-    m_BackgroundValue = NumericTraits< OutputImagePixelType >::Zero;
+    m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
   }
 
   virtual ~ConnectedComponentImageFilter() {}

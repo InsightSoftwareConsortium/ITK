@@ -73,8 +73,8 @@ public:
 
 protected:
   FastMarchingNumberOfElementsStoppingCriterion() : Superclass(),
-    m_CurrentNumberOfElements( NumericTraits< IdentifierType >::Zero ),
-    m_TargetNumberOfElements( NumericTraits< IdentifierType >::Zero )
+    m_CurrentNumberOfElements( NumericTraits< IdentifierType >::ZeroValue() ),
+    m_TargetNumberOfElements( NumericTraits< IdentifierType >::ZeroValue() )
   {}
 
   ~FastMarchingNumberOfElementsStoppingCriterion() {}
@@ -89,7 +89,7 @@ protected:
 
   void Reset()
   {
-    this->m_CurrentNumberOfElements = NumericTraits< IdentifierType >::Zero;
+    this->m_CurrentNumberOfElements = NumericTraits< IdentifierType >::ZeroValue();
   }
 
 private:

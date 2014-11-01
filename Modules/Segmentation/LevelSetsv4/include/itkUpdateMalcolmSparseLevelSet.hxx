@@ -27,8 +27,8 @@ namespace itk
 template< unsigned int VDimension, typename TEquationContainer >
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::UpdateMalcolmSparseLevelSet() :
-  m_CurrentLevelSetId( NumericTraits< IdentifierType >::Zero ),
-  m_RMSChangeAccumulator( NumericTraits< LevelSetOutputRealType >::Zero ),
+  m_CurrentLevelSetId( NumericTraits< IdentifierType >::ZeroValue() ),
+  m_RMSChangeAccumulator( NumericTraits< LevelSetOutputRealType >::ZeroValue() ),
   m_IsUsingUnPhasedPropagation( true )
 {
   this->m_Offset.Fill( 0 );
@@ -147,15 +147,15 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 
     const LevelSetOutputRealType update = termContainer->Evaluate( inputIndex );
 
-    LevelSetOutputType value = NumericTraits< LevelSetOutputType >::Zero;
+    LevelSetOutputType value = NumericTraits< LevelSetOutputType >::ZeroValue();
 
-    if( update > NumericTraits< LevelSetOutputRealType >::Zero )
+    if( update > NumericTraits< LevelSetOutputRealType >::ZeroValue() )
       {
-      value = NumericTraits< LevelSetOutputType >::One;
+      value = NumericTraits< LevelSetOutputType >::OneValue();
       }
-    if( update < NumericTraits< LevelSetOutputRealType >::Zero )
+    if( update < NumericTraits< LevelSetOutputRealType >::ZeroValue() )
       {
-      value = - NumericTraits< LevelSetOutputType >::One;
+      value = - NumericTraits< LevelSetOutputType >::OneValue();
       }
 
     this->m_Update.insert( NodePairType( currentIndex, value ) );
@@ -217,11 +217,11 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 
     const LevelSetOutputType update = upIt->second;
 
-    if( update != NumericTraits< LevelSetOutputType >::Zero )
+    if( update != NumericTraits< LevelSetOutputType >::ZeroValue() )
       {
       oldValue = LevelSetType::ZeroLayer();
 
-      if( update > NumericTraits< LevelSetOutputType >::Zero )
+      if( update > NumericTraits< LevelSetOutputType >::ZeroValue() )
         {
         newValue = LevelSetType::PlusOneLayer();
         }
@@ -328,7 +328,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
     LevelSetInputType currentIdx = nodeIt->first;
     LevelSetInputType inputIndex = currentIdx + this->m_Offset;
 
-    if( update != NumericTraits< LevelSetOutputRealType >::Zero )
+    if( update != NumericTraits< LevelSetOutputRealType >::ZeroValue() )
       {
       // only allow positiveUpdate forces
       if( iContraction )

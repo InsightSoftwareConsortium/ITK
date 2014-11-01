@@ -50,7 +50,7 @@ void GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageT
 
   typename VectorImageType::Pointer gradientImage;
 
-  if ( m_DerivativeSigma != NumericTraits< float >::Zero )
+  if ( m_DerivativeSigma != NumericTraits< float >::ZeroValue() )
   {
     /* compute the gradient of the feature image. */
     typedef GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >

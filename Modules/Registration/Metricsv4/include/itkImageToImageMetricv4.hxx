@@ -278,7 +278,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
       this->m_DerivativeResult->SetSize( globalDerivativeSize );
       }
     /* Clear derivative final result. */
-    this->m_DerivativeResult->Fill( NumericTraits< DerivativeValueType >::Zero );
+    this->m_DerivativeResult->Fill( NumericTraits< DerivativeValueType >::ZeroValue() );
     }
 }
 
@@ -291,7 +291,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
                          FixedImagePixelType & mappedFixedPixelValue ) const
 {
   bool pointIsValid = true;
-  mappedFixedPixelValue = NumericTraits<FixedImagePixelType>::Zero;
+  mappedFixedPixelValue = NumericTraits<FixedImagePixelType>::ZeroValue();
 
   // map the point into fixed space
   this->LocalTransformPoint(virtualPoint,mappedFixedPoint);
@@ -329,7 +329,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
                          MovingImagePixelType & mappedMovingPixelValue ) const
 {
   bool pointIsValid = true;
-  mappedMovingPixelValue = NumericTraits<MovingImagePixelType>::Zero;
+  mappedMovingPixelValue = NumericTraits<MovingImagePixelType>::ZeroValue();
 
   // map the point into moving space
 

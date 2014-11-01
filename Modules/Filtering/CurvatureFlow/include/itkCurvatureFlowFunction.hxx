@@ -109,7 +109,7 @@ CurvatureFlowFunction< TImage >
 
   if ( magnitudeSqr < 1e-9 )
     {
-    return NumericTraits< PixelType >::Zero;
+    return NumericTraits< PixelType >::ZeroValue();
     }
 
   // compute the update value = mean curvature * magnitude

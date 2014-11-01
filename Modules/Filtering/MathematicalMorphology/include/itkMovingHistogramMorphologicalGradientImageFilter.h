@@ -164,7 +164,7 @@ public:
       }
     else
       {
-      return NumericTraits< TInputPixel >::Zero;
+      return NumericTraits< TInputPixel >::ZeroValue();
       }
   }
 

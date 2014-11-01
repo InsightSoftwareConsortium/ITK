@@ -111,7 +111,7 @@ BinaryImageToLevelSetImageAdaptor<
 
   while( !inputIt.IsAtEnd() )
     {
-    if ( inputIt.Get() != NumericTraits< InputImagePixelType >::Zero )
+    if ( inputIt.Get() != NumericTraits< InputImagePixelType >::ZeroValue() )
       {
       innerPart->AddIndex( inputIt.GetIndex() );
       internalIt.Set( LevelSetType::MinusThreeLayer() );
@@ -232,7 +232,7 @@ BinaryImageToLevelSetImageAdaptor<
 {
   LevelSetLabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject( LevelSetType::MinusThreeLayer() );
 
-  const LevelSetOutputType zero = NumericTraits< LevelSetOutputType >::Zero;
+  const LevelSetOutputType zero = NumericTraits< LevelSetOutputType >::ZeroValue();
 
   LevelSetLayerType& layer0 = this->m_LevelSet->GetLayer( LevelSetType::ZeroLayer() );
 
@@ -309,8 +309,8 @@ BinaryImageToLevelSetImageAdaptor<
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
 ::FindPlusOneMinusOneLayer()
 {
-  const LevelSetOutputType minus1 = - NumericTraits< LevelSetOutputType >::One;
-  const LevelSetOutputType plus1 = NumericTraits< LevelSetOutputType >::One;
+  const LevelSetOutputType minus1 = - NumericTraits< LevelSetOutputType >::OneValue();
+  const LevelSetOutputType plus1 = NumericTraits< LevelSetOutputType >::OneValue();
 
   const LevelSetLayerType layer0 = this->m_LevelSet->GetLayer( LevelSetType::ZeroLayer() );
   LevelSetLayerType & layerMinus1 = this->m_LevelSet->GetLayer( LevelSetType::MinusOneLayer() );
@@ -448,7 +448,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::
 
   while( !iIt.IsAtEnd() )
     {
-    if ( iIt.Get() != NumericTraits< InputImagePixelType >::Zero )
+    if ( iIt.Get() != NumericTraits< InputImagePixelType >::ZeroValue() )
       {
       innerPart->AddIndex( iIt.GetIndex() );
       labelIt.Set( LevelSetType::MinusThreeLayer() );
@@ -605,7 +605,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
 
   while( !inputIt.IsAtEnd() )
     {
-    if ( inputIt.Get() != NumericTraits< InputImagePixelType >::Zero )
+    if ( inputIt.Get() != NumericTraits< InputImagePixelType >::ZeroValue() )
       {
       innerPart->AddIndex( inputIt.GetIndex() );
       internalIt.Set( LevelSetType::MinusOneLayer() );
@@ -678,7 +678,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
 
     if( ZeroSet )
       {
-      layer.insert( LayerPairType( idx, NumericTraits< LevelSetOutputType >::Zero ) );
+      layer.insert( LayerPairType( idx, NumericTraits< LevelSetOutputType >::ZeroValue() ) );
       this->m_InternalImage->SetPixel( idx, LevelSetType::ZeroLayer() );
       }
 
@@ -748,7 +748,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
       {
       LayerIdType tempValue = i.Get();
 
-      if( tempValue != NumericTraits< LayerIdType >::Zero )
+      if( tempValue != NumericTraits< LayerIdType >::ZeroValue() )
         {
         if( tempValue == LevelSetType::MinusOneLayer() )
           {
@@ -758,7 +758,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
             break;
             }
           }
-        else // ( tempValue == NumericTraits< LevelSetOutputType >::One )
+        else // ( tempValue == NumericTraits< LevelSetOutputType >::OneValue() )
           {
           hasPositiveLayerNeighbor = true;
           if( hasNegativeLayerNeighbor )

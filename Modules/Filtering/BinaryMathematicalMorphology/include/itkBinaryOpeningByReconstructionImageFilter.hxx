@@ -30,7 +30,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
 ::BinaryOpeningByReconstructionImageFilter()
 {
   m_ForegroundValue = NumericTraits<PixelType>::max();
-  m_BackgroundValue = NumericTraits<PixelType>::Zero;
+  m_BackgroundValue = NumericTraits<PixelType>::ZeroValue();
   m_FullyConnected = false;
 }
 

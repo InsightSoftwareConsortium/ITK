@@ -67,7 +67,7 @@ VectorAnisotropicDiffusionFunction< TImage >
 
   // Now do the actual processing
   accumulator = 0.0;
-  counter     = NumericTraits<SizeValueType>::Zero;
+  counter     = NumericTraits<SizeValueType>::ZeroValue();
 
   // First process the non-boundary region
 

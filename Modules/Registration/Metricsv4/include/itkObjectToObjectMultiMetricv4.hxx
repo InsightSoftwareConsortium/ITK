@@ -121,7 +121,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
                         "Number of weights: " << this->m_MetricWeights.Size() );
       }
     /* normalize the weights */
-    WeightValueType sum = NumericTraits<WeightValueType>::Zero;
+    WeightValueType sum = NumericTraits<WeightValueType>::ZeroValue();
     for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
       {
       sum += this->m_MetricWeights[j];
@@ -139,7 +139,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     {
     /* Initialize to defaults */
     this->m_MetricWeights.SetSize( this->GetNumberOfMetrics() );
-    this->m_MetricWeights.Fill( NumericTraits<WeightValueType>::One / static_cast<WeightValueType>(this->GetNumberOfMetrics()) );
+    this->m_MetricWeights.Fill( NumericTraits<WeightValueType>::OneValue() / static_cast<WeightValueType>(this->GetNumberOfMetrics()) );
     }
 
   /* resize */
@@ -262,20 +262,20 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     {
     derivativeResult.SetSize( this->GetNumberOfParameters() );
     }
-  derivativeResult.Fill( NumericTraits<DerivativeValueType>::Zero );
+  derivativeResult.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
 
   DerivativeType  metricDerivative;
-  MeasureType     metricValue = NumericTraits<MeasureType>::Zero;
+  MeasureType     metricValue = NumericTraits<MeasureType>::ZeroValue();
 
   // Loop over metrics
-  DerivativeValueType totalMagnitude = NumericTraits<DerivativeValueType>::Zero;
+  DerivativeValueType totalMagnitude = NumericTraits<DerivativeValueType>::ZeroValue();
   for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
     {
     this->m_MetricQueue[j]->GetValueAndDerivative( metricValue, metricDerivative);
     this->m_MetricValueArray[j] = metricValue;
 
     DerivativeValueType magnitude = metricDerivative.magnitude();
-    DerivativeValueType weightOverMagnitude = NumericTraits<DerivativeValueType>::Zero;
+    DerivativeValueType weightOverMagnitude = NumericTraits<DerivativeValueType>::ZeroValue();
     totalMagnitude += magnitude;
 
     if( magnitude > NumericTraits<DerivativeValueType>::epsilon() )
@@ -316,7 +316,7 @@ typename ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtual
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetWeightedValue() const
 {
-  MeasureType value = NumericTraits<MeasureType>::Zero;
+  MeasureType value = NumericTraits<MeasureType>::ZeroValue();
 
   for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
     {

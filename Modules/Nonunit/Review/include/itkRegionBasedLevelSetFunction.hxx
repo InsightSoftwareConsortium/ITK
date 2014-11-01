@@ -45,15 +45,15 @@ RegionBasedLevelSetFunction< TInput,
                              TSharedData >
 ::RegionBasedLevelSetFunction()
 {
-  m_Lambda1 = NumericTraits< ScalarValueType >::One;
-  m_Lambda2 = NumericTraits< ScalarValueType >::One;
+  m_Lambda1 = NumericTraits< ScalarValueType >::OneValue();
+  m_Lambda2 = NumericTraits< ScalarValueType >::OneValue();
 
-  m_OverlapPenaltyWeight = NumericTraits< ScalarValueType >::Zero;
-  m_AreaWeight = NumericTraits< ScalarValueType >::Zero;
-  m_VolumeMatchingWeight = NumericTraits< ScalarValueType >::Zero;
-  m_ReinitializationSmoothingWeight = NumericTraits< ScalarValueType >::Zero;
-  m_CurvatureWeight = m_AdvectionWeight = NumericTraits< ScalarValueType >::Zero;
-  m_Volume = NumericTraits< ScalarValueType >::Zero;
+  m_OverlapPenaltyWeight = NumericTraits< ScalarValueType >::ZeroValue();
+  m_AreaWeight = NumericTraits< ScalarValueType >::ZeroValue();
+  m_VolumeMatchingWeight = NumericTraits< ScalarValueType >::ZeroValue();
+  m_ReinitializationSmoothingWeight = NumericTraits< ScalarValueType >::ZeroValue();
+  m_CurvatureWeight = m_AdvectionWeight = NumericTraits< ScalarValueType >::ZeroValue();
+  m_Volume = NumericTraits< ScalarValueType >::ZeroValue();
 
   m_FunctionId = 0;
 
@@ -77,7 +77,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    ans[i] = NumericTraits< ScalarValueType >::Zero;
+    ans[i] = NumericTraits< ScalarValueType >::ZeroValue();
     }
 
   return ans;
@@ -181,9 +181,9 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
 
   // Reset the values
-  d->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::Zero;
-  d->m_MaxGlobalChange      = NumericTraits< ScalarValueType >::Zero;
-  d->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::Zero;
+  d->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::ZeroValue();
+  d->m_MaxGlobalChange      = NumericTraits< ScalarValueType >::ZeroValue();
+  d->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::ZeroValue();
 
   return dt;
 }
@@ -199,7 +199,7 @@ RegionBasedLevelSetFunction< TInput,
   const FloatOffsetType & itkNotUsed(offset), GlobalDataStruct *gd)
 {
   // Calculate the mean curvature
-  ScalarValueType curvature = NumericTraits< ScalarValueType >::Zero;
+  ScalarValueType curvature = NumericTraits< ScalarValueType >::ZeroValue();
 
   unsigned int i, j;
 
@@ -292,12 +292,12 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   // Access the neighborhood center pixel of phi
   const ScalarValueType inputValue = it.GetCenterPixel();
 
-  ScalarValueType laplacian_term = NumericTraits< ScalarValueType >::Zero;
-  ScalarValueType curvature_term = NumericTraits< ScalarValueType >::Zero;
-  ScalarValueType curvature = NumericTraits< ScalarValueType >::Zero;
-  ScalarValueType globalTerm = NumericTraits< ScalarValueType >::Zero;
+  ScalarValueType laplacian_term = NumericTraits< ScalarValueType >::ZeroValue();
+  ScalarValueType curvature_term = NumericTraits< ScalarValueType >::ZeroValue();
+  ScalarValueType curvature = NumericTraits< ScalarValueType >::ZeroValue();
+  ScalarValueType globalTerm = NumericTraits< ScalarValueType >::ZeroValue();
   VectorType      advection_field;
-  ScalarValueType x_energy, advection_term = NumericTraits< ScalarValueType >::Zero;
+  ScalarValueType x_energy, advection_term = NumericTraits< ScalarValueType >::ZeroValue();
 
   // Access the global data structure
   GlobalDataStruct *gd = (GlobalDataStruct *)globalData;
@@ -309,7 +309,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   // Computing the curvature term
   // Used to regularized using the length of contour
   if ( ( dh != 0. )
-       && ( this->m_CurvatureWeight != NumericTraits< ScalarValueType >::Zero ) )
+       && ( this->m_CurvatureWeight != NumericTraits< ScalarValueType >::ZeroValue() ) )
     {
     curvature = this->ComputeCurvature(it, offset, gd);
     curvature_term = this->m_CurvatureWeight * curvature
@@ -321,7 +321,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   // Computing the laplacian term
   // Used in maintaining squared distance function
-  if ( this->m_ReinitializationSmoothingWeight != NumericTraits< ScalarValueType >::Zero )
+  if ( this->m_ReinitializationSmoothingWeight != NumericTraits< ScalarValueType >::ZeroValue() )
     {
     laplacian_term = this->ComputeLaplacian(gd) - curvature;
 
@@ -329,7 +329,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
                       * this->LaplacianSmoothingSpeed(it, offset, gd);
     }
 
-  if ( ( dh != 0. ) && ( m_AdvectionWeight != NumericTraits< ScalarValueType >::Zero ) )
+  if ( ( dh != 0. ) && ( m_AdvectionWeight != NumericTraits< ScalarValueType >::ZeroValue() ) )
     {
     advection_field = this->AdvectionField(it, offset, gd);
 
@@ -338,7 +338,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
       x_energy = m_AdvectionWeight * advection_field[i];
 
       // TODO: Is this condition right ?
-      if ( x_energy > NumericTraits< ScalarValueType >::Zero )
+      if ( x_energy > NumericTraits< ScalarValueType >::ZeroValue() )
         {
         advection_term += advection_field[i] * gd->m_dx_backward[i];
         }

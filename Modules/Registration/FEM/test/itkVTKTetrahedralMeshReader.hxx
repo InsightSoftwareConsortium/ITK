@@ -139,7 +139,7 @@ VTKTetrahedralMeshReader<TOutputMesh>
     std::string pointLine( line, strlen("POINTS "), line.length() );
     itkDebugMacro("pointLine " << pointLine );
 
-    unsigned long numberOfPoints = NumericTraits< unsigned long >::Zero;
+    unsigned long numberOfPoints = NumericTraits< unsigned long >::ZeroValue();
 
     if( sscanf(pointLine.c_str(),"%lu",&numberOfPoints) != 1 )
       {
@@ -211,8 +211,8 @@ VTKTetrahedralMeshReader<TOutputMesh>
     // Read the number of cells
     //
 
-    unsigned long numberOfCells   = NumericTraits< unsigned long >::Zero;
-    unsigned long numberOfIndices = NumericTraits< unsigned long >::Zero;
+    unsigned long numberOfCells   = NumericTraits< unsigned long >::ZeroValue();
+    unsigned long numberOfIndices = NumericTraits< unsigned long >::ZeroValue();
 
     if( sscanf( cellsLine.c_str(), "%lu %lu", &numberOfCells,
         &numberOfIndices ) != 2 )

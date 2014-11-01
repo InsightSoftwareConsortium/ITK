@@ -62,7 +62,7 @@ typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPoint
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::GetLocalNeighborhoodValue( const PointType & point, const PixelType & itkNotUsed( pixel ) ) const
 {
-  MeasureType localValue = NumericTraits<MeasureType>::Zero;
+  MeasureType localValue = NumericTraits<MeasureType>::ZeroValue();
 
   NeighborsIdentifierType neighborhood;
   this->m_MovingTransformedPointsLocator->FindClosestNPoints( point, this->m_EvaluationKNeighborhood, neighborhood );
@@ -87,7 +87,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   measureValues.SetSize( this->m_EvaluationKNeighborhood );
   measureValues.Fill( 0.0 );
 
-  measure = NumericTraits< MeasureType >::Zero;
+  measure = NumericTraits< MeasureType >::ZeroValue();
 
   localDerivative.Fill( 0.0 );
 

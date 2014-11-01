@@ -410,7 +410,7 @@ template <typename TPixel,int VDimension> int MINCReadWriteTest(const char *file
   // Check MetaData
   itk::MetaDataDictionary & metaDict2(im2->GetMetaDataDictionary() );
 
-  double metaDataDouble = itk::NumericTraits< double >::Zero;
+  double metaDataDouble = itk::NumericTraits< double >::ZeroValue();
   if(!itk::ExposeMetaData< double >(metaDict2,"acquisition:TestDouble",
                                     metaDataDouble) ||
      metaDataDouble != 1.23)
@@ -419,7 +419,7 @@ template <typename TPixel,int VDimension> int MINCReadWriteTest(const char *file
     success = EXIT_FAILURE;
     }
 
-  float metaDataFloat = itk::NumericTraits< float >::Zero;
+  float metaDataFloat = itk::NumericTraits< float >::ZeroValue();
   if(!itk::ExposeMetaData< float >(metaDict2,"acquisition:TestFloat",
                                     metaDataFloat) ||
      metaDataFloat != 1.2f)
@@ -429,7 +429,7 @@ template <typename TPixel,int VDimension> int MINCReadWriteTest(const char *file
     success = EXIT_FAILURE;
     }
 
-  int metaDataInt = itk::NumericTraits< int >::Zero;
+  int metaDataInt = itk::NumericTraits< int >::ZeroValue();
   if(!itk::ExposeMetaData< int >(metaDict2,"acquisition:TestInt",
                                  metaDataInt) ||
      metaDataInt != 4)
@@ -664,7 +664,7 @@ template <typename TPixel,int VDimension> int MINCReadWriteTestVector(const char
   // Check MetaData
   itk::MetaDataDictionary & metaDict2(im2->GetMetaDataDictionary() );
 
-  double metaDataDouble = itk::NumericTraits< double >::Zero;
+  double metaDataDouble = itk::NumericTraits< double >::ZeroValue();
   if(!itk::ExposeMetaData< double >(metaDict2,"acquisition:TestDouble",
                                     metaDataDouble) ||
      metaDataDouble != 1.23)
@@ -673,7 +673,7 @@ template <typename TPixel,int VDimension> int MINCReadWriteTestVector(const char
     success = EXIT_FAILURE;
     }
 
-  int metaDataInt = itk::NumericTraits< int >::Zero;
+  int metaDataInt = itk::NumericTraits< int >::ZeroValue();
   if(!itk::ExposeMetaData< int >(metaDict2,"acquisition:TestInt",
                                  metaDataInt) ||
      metaDataInt != 4)

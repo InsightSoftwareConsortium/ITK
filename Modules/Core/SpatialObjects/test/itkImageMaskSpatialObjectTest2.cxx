@@ -170,7 +170,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
     {
     point += incrementVector;
     const bool isInside = maskSO->IsInside( point );
-    double value = itk::NumericTraits< PixelType >::Zero;
+    double value = itk::NumericTraits< PixelType >::ZeroValue();
     maskSO->ValueAt( point, value );
     const bool isZero = (value == itk::NumericTraits< PixelType >::Zero);
     if( (isInside && isZero) || (!isInside && !isZero) )

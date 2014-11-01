@@ -31,11 +31,11 @@ template< typename TInputImage, typename TOutputImage >
 IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 ::IsolatedWatershedImageFilter()
 {
-  m_Threshold = NumericTraits< InputImagePixelType >::Zero;
+  m_Threshold = NumericTraits< InputImagePixelType >::ZeroValue();
   m_Seed1.Fill(0);
   m_Seed2.Fill(0);
-  m_ReplaceValue1 = NumericTraits< OutputImagePixelType >::One;
-  m_ReplaceValue2 = NumericTraits< OutputImagePixelType >::Zero;
+  m_ReplaceValue1 = NumericTraits< OutputImagePixelType >::OneValue();
+  m_ReplaceValue2 = NumericTraits< OutputImagePixelType >::ZeroValue();
   m_IsolatedValue = 0.0;
   m_IsolatedValueTolerance = 0.001;
   m_UpperValueLimit = 1.0;

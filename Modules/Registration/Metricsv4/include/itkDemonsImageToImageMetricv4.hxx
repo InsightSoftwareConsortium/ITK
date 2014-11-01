@@ -35,7 +35,7 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
   // Unlike most other metrics, this defaults to using fixed image gradients
   this->SetGradientSource( this->GRADIENT_SOURCE_FIXED );
 
-  this->m_Normalizer = NumericTraits<TInternalComputationValueType>::One;
+  this->m_Normalizer = NumericTraits<TInternalComputationValueType>::OneValue();
   this->m_DenominatorThreshold = static_cast<TInternalComputationValueType>(1e-9);
   this->m_IntensityDifferenceThreshold = static_cast<TInternalComputationValueType>(0.001);
 
@@ -82,7 +82,7 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
     dimension = MovingImageDimension;
     }
 
-  this->m_Normalizer = NumericTraits<TInternalComputationValueType>::Zero;
+  this->m_Normalizer = NumericTraits<TInternalComputationValueType>::ZeroValue();
   for ( ImageDimensionType k = 0; k < dimension; k++ )
     {
     this->m_Normalizer += imageSpacing[k] * imageSpacing[k];

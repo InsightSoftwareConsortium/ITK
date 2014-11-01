@@ -98,7 +98,7 @@ public:
   struct GlobalDataStruct {
     GlobalDataStruct()
     {
-      ScalarValueType null_value = NumericTraits< ScalarValueType >::Zero;
+      ScalarValueType null_value = NumericTraits< ScalarValueType >::ZeroValue();
 
       m_MaxCurvatureChange   = null_value;
       m_MaxAdvectionChange   = null_value;
@@ -282,14 +282,14 @@ public:
   virtual ScalarValueType LaplacianSmoothingSpeed(
     const NeighborhoodType &,
     const FloatOffsetType &, GlobalDataStruct * = 0) const
-  { return NumericTraits< ScalarValueType >::One; }
+  { return NumericTraits< ScalarValueType >::OneValue(); }
 
   /** \brief Curvature speed can be used to spatially modify the effects of
     curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
                                          const FloatOffsetType &, GlobalDataStruct * = 0
                                          ) const
-  { return NumericTraits< ScalarValueType >::One; }
+  { return NumericTraits< ScalarValueType >::OneValue(); }
 
   /** This method must be defined in a subclass to implement a working function
    * object.  This method is called before the solver begins its work to

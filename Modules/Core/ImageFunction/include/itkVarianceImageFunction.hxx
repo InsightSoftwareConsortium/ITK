@@ -59,8 +59,8 @@ VarianceImageFunction< TInputImage, TCoordRep >
   RealType sumOfSquares;
   RealType var;
 
-  sum = NumericTraits< RealType >::Zero;
-  sumOfSquares = NumericTraits< RealType >::Zero;
+  sum = NumericTraits< RealType >::ZeroValue();
+  sumOfSquares = NumericTraits< RealType >::ZeroValue();
 
   if ( !this->GetInputImage() )
     {

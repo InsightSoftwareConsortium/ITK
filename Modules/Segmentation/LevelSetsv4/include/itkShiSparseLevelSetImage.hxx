@@ -92,7 +92,7 @@ ShiSparseLevelSetImage< VDimension >
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
   HessianType oHessian;
-  oHessian.Fill( NumericTraits< OutputRealType >::Zero );
+  oHessian.Fill( NumericTraits< OutputRealType >::ZeroValue() );
   return oHessian;
 }
 
@@ -108,7 +108,7 @@ ShiSparseLevelSetImage< VDimension >
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
 
-  OutputRealType oLaplacian = NumericTraits< OutputRealType >::Zero;
+  OutputRealType oLaplacian = NumericTraits< OutputRealType >::ZeroValue();
 
   return oLaplacian;
 }
@@ -125,7 +125,7 @@ ShiSparseLevelSetImage< VDimension >
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
 
-  OutputRealType oMeanCurvature = NumericTraits< OutputRealType >::Zero;
+  OutputRealType oMeanCurvature = NumericTraits< OutputRealType >::ZeroValue();
   return oMeanCurvature;
 }
 

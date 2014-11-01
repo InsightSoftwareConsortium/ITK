@@ -119,7 +119,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     return false;
     }
   /** the scalingfactor is the MI specific scaling of the image gradient and jacobian terms */
-  InternalComputationValueType scalingfactor = NumericTraits< InternalComputationValueType >::Zero; // for scaling the jacobian terms
+  InternalComputationValueType scalingfactor = NumericTraits< InternalComputationValueType >::ZeroValue(); // for scaling the jacobian terms
 
   JointPDFPointType jointPDFpoint;
   this->m_JointAssociate->ComputeJointPDFPoint( fixedImageValue, movingImageValue, jointPDFpoint );
@@ -149,7 +149,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }  // end if-block to check non-zero bin contribution
   else
     {
-    scalingfactor = NumericTraits< InternalComputationValueType >::Zero;
+    scalingfactor = NumericTraits< InternalComputationValueType >::ZeroValue();
     }
 
   /* Use a pre-allocated jacobian object for efficiency */
@@ -165,7 +165,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
 
   for ( NumberOfParametersType par = 0; par < this->GetCachedNumberOfLocalParameters(); par++ )
     {
-    InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::Zero;
+    InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::ZeroValue();
     for ( SizeValueType dim = 0; dim < TImageToImageMetric::MovingImageDimension; dim++ )
       {
       sum += scalingfactor * jacobian(dim, par) * movingImageGradient[dim];
@@ -204,7 +204,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     rightpoint[0] = 1.0;
     }
   InternalComputationValueType delta = rightpoint[0]-leftpoint[0];
-  if ( delta > NumericTraits< InternalComputationValueType >::Zero )
+  if ( delta > NumericTraits< InternalComputationValueType >::ZeroValue() )
     {
     InternalComputationValueType deriv = this->m_ThreaderFixedImageMarginalPDFInterpolator[threadId]->Evaluate(rightpoint) -
       this->m_ThreaderFixedImageMarginalPDFInterpolator[threadId]->Evaluate(leftpoint);
@@ -212,7 +212,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
   else
     {
-    return NumericTraits< InternalComputationValueType >::Zero;
+    return NumericTraits< InternalComputationValueType >::ZeroValue();
     }
 }
 
@@ -245,7 +245,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     rightpoint[0] = 1.0;
     }
   InternalComputationValueType delta = rightpoint[0] - leftpoint[0];
-  if ( delta > NumericTraits< InternalComputationValueType >::Zero )
+  if ( delta > NumericTraits< InternalComputationValueType >::ZeroValue() )
     {
     InternalComputationValueType deriv =
       this->m_JointHistogramMIPerThreadVariables[threadId].MovingImageMarginalPDFInterpolator->Evaluate(rightpoint) -
@@ -254,7 +254,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
   else
     {
-    return NumericTraits< InternalComputationValueType >::Zero;
+    return NumericTraits< InternalComputationValueType >::ZeroValue();
     }
 }
 
@@ -293,8 +293,8 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
 
   InternalComputationValueType delta = rightpoint[ind] - leftpoint[ind];
-  InternalComputationValueType deriv = NumericTraits< InternalComputationValueType >::Zero;
-  if ( delta > NumericTraits< InternalComputationValueType >::Zero )
+  InternalComputationValueType deriv = NumericTraits< InternalComputationValueType >::ZeroValue();
+  if ( delta > NumericTraits< InternalComputationValueType >::ZeroValue() )
     {
     deriv = this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->Evaluate(rightpoint)-
           this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->Evaluate(leftpoint);

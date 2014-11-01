@@ -131,21 +131,21 @@ public:
   virtual ScalarValueType PropagationSpeed(
     const NeighborhoodType &,
     const FloatOffsetType &, GlobalDataStruct * = 0) const
-  { return NumericTraits< ScalarValueType >::Zero; }
+  { return NumericTraits< ScalarValueType >::ZeroValue(); }
 
   /** Curvature speed.  Can be used to spatially modify the effects of
       curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
                                          const FloatOffsetType &, GlobalDataStruct * = 0
                                          ) const
-  { return NumericTraits< ScalarValueType >::One; }
+  { return NumericTraits< ScalarValueType >::OneValue(); }
 
   /** Laplacian smoothing speed.  Can be used to spatially modify the
     effects of laplacian smoothing of the level set function */
   virtual ScalarValueType LaplacianSmoothingSpeed(
     const NeighborhoodType &,
     const FloatOffsetType &, GlobalDataStruct * = 0) const
-  { return NumericTraits< ScalarValueType >::One; }
+  { return NumericTraits< ScalarValueType >::OneValue(); }
 
   /** Alpha.  Scales all advection term values. */
   virtual void SetAdvectionWeight(const ScalarValueType a)
@@ -201,9 +201,9 @@ public:
   {
     GlobalDataStruct *ans = new GlobalDataStruct();
 
-    ans->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::Zero;
-    ans->m_MaxPropagationChange = NumericTraits< ScalarValueType >::Zero;
-    ans->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::Zero;
+    ans->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::ZeroValue();
+    ans->m_MaxPropagationChange = NumericTraits< ScalarValueType >::ZeroValue();
+    ans->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::ZeroValue();
     return ans;
   }
 

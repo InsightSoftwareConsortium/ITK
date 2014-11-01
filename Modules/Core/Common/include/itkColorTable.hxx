@@ -82,8 +82,8 @@ ColorTable< TPixel >
     }
   else
     {
-    scale = NumericTraits< TPixel >::One;
-    shift = NumericTraits< TPixel >::Zero;
+    scale = NumericTraits< TPixel >::OneValue();
+    shift = NumericTraits< TPixel >::ZeroValue();
     }
 
   m_Color[0].Set((TPixel)(0.9 * scale + shift),
@@ -161,8 +161,8 @@ ColorTable< TPixel >
     }
   else
     {
-    range = NumericTraits< TPixel >::One;
-    minimum = NumericTraits< TPixel >::Zero;
+    range = NumericTraits< TPixel >::OneValue();
+    minimum = NumericTraits< TPixel >::ZeroValue();
     }
   typename NumericTraits< TPixel >::RealType delta;
   if (m_NumberOfColors > 1)
@@ -218,8 +218,8 @@ ColorTable< TPixel >
     }
   else
     {
-    scale = NumericTraits< TPixel >::One;
-    shift = NumericTraits< TPixel >::Zero;
+    scale = NumericTraits< TPixel >::OneValue();
+    shift = NumericTraits< TPixel >::ZeroValue();
     }
   for ( i = 0; i < n / 2.0; i++ )
     {
@@ -281,8 +281,8 @@ ColorTable< TPixel >
     }
   else
     {
-    minimum = NumericTraits< TPixel >::Zero;
-    maximum  = NumericTraits< TPixel >::One;
+    minimum = NumericTraits< TPixel >::ZeroValue();
+    maximum  = NumericTraits< TPixel >::OneValue();
     }
   for ( i = 0; i < n; i++ )
     {

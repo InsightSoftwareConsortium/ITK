@@ -178,7 +178,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
 
     while ( !bit.IsAtEnd() )
       {
-      RealType a = NumericTraits< RealType >::Zero;
+      RealType a = NumericTraits< RealType >::ZeroValue();
       for ( i = 0; i < ImageDimension; ++i )
         {
         const RealType g = SIP(x_slice[i], bit, op[i]);

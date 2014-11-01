@@ -72,7 +72,7 @@ int itkLevelSetDomainPartitionImageWithKdTreeTest( int argc, char* argv[] )
   binary->SetSpacing( spacing );
   binary->SetOrigin( origin );
   binary->Allocate();
-  binary->FillBuffer( itk::NumericTraits<InputPixelType>::Zero );
+  binary->FillBuffer( itk::NumericTraits<InputPixelType>::ZeroValue() );
 
   IdentifierType numberOfLevelSetFunctions = 10;
 

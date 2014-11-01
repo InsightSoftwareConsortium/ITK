@@ -87,7 +87,7 @@ private:
     const TRealValueType absValue = vnl_math_abs(u);
     if ( absValue  < static_cast< TRealValueType >(0.5) )
       {
-      return NumericTraits< TRealValueType >::One;
+      return NumericTraits< TRealValueType >::OneValue();
       }
     else if ( absValue == static_cast< TRealValueType >(0.5) )
       {
@@ -95,7 +95,7 @@ private:
       }
     else
       {
-      return NumericTraits< TRealValueType >::Zero;
+      return NumericTraits< TRealValueType >::ZeroValue();
       }
   }
 
@@ -103,13 +103,13 @@ private:
   inline TRealValueType Evaluate(const Dispatch< 1 > &, const TRealValueType & u) const
   {
     const TRealValueType absValue = vnl_math_abs(u);
-    if ( absValue  < NumericTraits< TRealValueType >::One )
+    if ( absValue  < NumericTraits< TRealValueType >::OneValue() )
       {
-      return NumericTraits< TRealValueType >::One - absValue;
+      return NumericTraits< TRealValueType >::OneValue() - absValue;
       }
     else
       {
-      return NumericTraits< TRealValueType >::Zero;
+      return NumericTraits< TRealValueType >::ZeroValue();
       }
   }
 
@@ -131,7 +131,7 @@ private:
       }
     else
       {
-      return NumericTraits< TRealValueType >::Zero;
+      return NumericTraits< TRealValueType >::ZeroValue();
       }
   }
 
@@ -139,7 +139,7 @@ private:
   inline TRealValueType Evaluate(const Dispatch< 3 > &, const TRealValueType & u) const
   {
     const TRealValueType absValue = vnl_math_abs(u);
-    if ( absValue  < NumericTraits< TRealValueType >::One )
+    if ( absValue  < NumericTraits< TRealValueType >::OneValue() )
       {
       const TRealValueType sqrValue = vnl_math_sqr(absValue);
       return ( static_cast< TRealValueType >(4.0) - static_cast< TRealValueType >(6.0) * sqrValue
@@ -153,7 +153,7 @@ private:
       }
     else
       {
-      return NumericTraits< TRealValueType >::Zero;
+      return NumericTraits< TRealValueType >::ZeroValue();
       }
   }
 
@@ -162,7 +162,7 @@ private:
   {
     itkExceptionMacro( "Evaluate not implemented for spline order "
       << SplineOrder);
-    return NumericTraits< TRealValueType >::Zero; // This is to avoid compiler warning about missing
+    return NumericTraits< TRealValueType >::ZeroValue(); // This is to avoid compiler warning about missing
                 // return statement.  It should never be evaluated.
   }
 };

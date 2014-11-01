@@ -220,12 +220,12 @@ FreeSurferBinaryMeshIO
 
   // Set default point pixel component and point pixel type
   this->m_PointPixelComponentType = FLOAT;
-  this->m_NumberOfPointPixelComponents = itk::NumericTraits< unsigned int >::One;
+  this->m_NumberOfPointPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
   this->m_PointPixelType = SCALAR;
 
   // Set default cell pixel component and point pixel type
   this->m_CellPixelComponentType = FLOAT;
-  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::One;
+  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
   this->m_CellPixelType  = SCALAR;
 
   CloseFile();

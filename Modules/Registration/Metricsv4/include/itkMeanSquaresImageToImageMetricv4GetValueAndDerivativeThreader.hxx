@@ -68,7 +68,7 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
 
   for ( unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); par++ )
     {
-    localDerivativeReturn[par] = NumericTraits<DerivativeValueType>::Zero;
+    localDerivativeReturn[par] = NumericTraits<DerivativeValueType>::ZeroValue();
     for ( unsigned int nc = 0; nc < nComponents; nc++ )
       {
       MeasureType diffValue = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc,diff);

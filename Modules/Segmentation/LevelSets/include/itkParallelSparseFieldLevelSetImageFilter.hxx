@@ -1128,7 +1128,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ParallelSparseFieldLevelSetThreadStruct str;
 
   str.Filter = this;
-  str.TimeStep = NumericTraits< TimeStepType >::Zero;
+  str.TimeStep = NumericTraits< TimeStepType >::ZeroValue();
 
   this->GetMultiThreader()->SetNumberOfThreads (m_NumOfThreads);
 
@@ -1404,7 +1404,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     // neighborhood.  This is used by some level set functions in sampling a
     // speed, advection, or curvature term.
     if ( this->m_InterpolateSurfaceLocation
-         && ( centerValue = outputIt.GetCenterPixel() ) != NumericTraits< ValueType >::Zero )
+         && ( centerValue = outputIt.GetCenterPixel() ) != NumericTraits< ValueType >::ZeroValue() )
       {
       // Surface is at the zero crossing, so distance to surface is:
       // phi(x) / norm(grad(phi)), where phi(x) is the center of the

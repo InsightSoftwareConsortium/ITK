@@ -33,7 +33,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
 ::m_ValueOne = NumericTraits< typename
                               MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                                                            TFunction, TIdCell >
-                              ::ValueType >::One;
+                              ::ValueType >::OneValue();
 
 template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
@@ -42,7 +42,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
 ::m_ValueZero = NumericTraits< typename
                                MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                                                             TFunction, TIdCell >::
-                               ValueType >::Zero;
+                               ValueType >::ZeroValue();
 
 template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
@@ -819,7 +819,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 
   unsigned int   i;
   ValueType      value_temp, delta;
-  ValueType      value = NumericTraits< ValueType >::Zero; // warnings
+  ValueType      value = NumericTraits< ValueType >::ZeroValue(); // warnings
   bool           found_neighbor_flag;
   LayerIterator  toIt;
   LayerNodeType *node;

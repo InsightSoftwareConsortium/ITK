@@ -74,7 +74,7 @@ typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOu
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::LaplacianSpeed( const LevelSetInputIndexType& itkNotUsed(iP) ) const
 {
-  return NumericTraits< LevelSetOutputRealType >::One;
+  return NumericTraits< LevelSetOutputRealType >::OneValue();
 }
 
 template< typename TInput, typename TLevelSetContainer >

@@ -34,14 +34,14 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
 {
   // Initialize histogram properties
   this->m_NumberOfHistogramBins = 20;
-  this->m_FixedImageTrueMin     = NumericTraits< TInternalComputationValueType >::Zero;
-  this->m_FixedImageTrueMax     = NumericTraits< TInternalComputationValueType >::Zero;
-  this->m_MovingImageTrueMin    = NumericTraits< TInternalComputationValueType >::Zero;
-  this->m_MovingImageTrueMax    = NumericTraits< TInternalComputationValueType >::Zero;
-  this->m_FixedImageBinSize     = NumericTraits< TInternalComputationValueType >::Zero;
-  this->m_MovingImageBinSize    = NumericTraits< TInternalComputationValueType >::Zero;
+  this->m_FixedImageTrueMin     = NumericTraits< TInternalComputationValueType >::ZeroValue();
+  this->m_FixedImageTrueMax     = NumericTraits< TInternalComputationValueType >::ZeroValue();
+  this->m_MovingImageTrueMin    = NumericTraits< TInternalComputationValueType >::ZeroValue();
+  this->m_MovingImageTrueMax    = NumericTraits< TInternalComputationValueType >::ZeroValue();
+  this->m_FixedImageBinSize     = NumericTraits< TInternalComputationValueType >::ZeroValue();
+  this->m_MovingImageBinSize    = NumericTraits< TInternalComputationValueType >::ZeroValue();
   this->m_Padding = 2;
-  this->m_JointPDFSum = NumericTraits< TInternalComputationValueType >::Zero;
+  this->m_JointPDFSum = NumericTraits< TInternalComputationValueType >::ZeroValue();
   this->m_Log2 = std::log(2.0);
   this->m_VarianceForJointPDFSmoothing = 1.5;
 
@@ -218,7 +218,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   /* Prepare histograms for use in GetValueAndDerivative */
 
   // Initialize the joint pdf and the fixed and moving image marginal pdfs
-  PDFValueType pdfzero = NumericTraits< PDFValueType >::Zero;
+  PDFValueType pdfzero = NumericTraits< PDFValueType >::ZeroValue();
   this->m_JointPDF->FillBuffer(pdfzero);
   this->m_FixedImageMarginalPDF->FillBuffer(pdfzero);
   this->m_MovingImageMarginalPDF->FillBuffer(pdfzero);
@@ -244,7 +244,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
     }
 
   // Optionally smooth the joint pdf
-  if (this->m_VarianceForJointPDFSmoothing > NumericTraits< JointPDFValueType >::Zero )
+  if (this->m_VarianceForJointPDFSmoothing > NumericTraits< JointPDFValueType >::ZeroValue() )
     {
     typedef DiscreteGaussianImageFilter<JointPDFType,JointPDFType> DgType;
     typename DgType::Pointer dg = DgType::New();

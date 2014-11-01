@@ -45,18 +45,18 @@ public:
 
   virtual MeasureType GetValue() const ITK_OVERRIDE
     {
-    return itk::NumericTraits< MeasureType >::One;
+    return itk::NumericTraits< MeasureType >::OneValue();
     }
 
   virtual void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
     {
-    derivative.Fill( itk::NumericTraits< ParametersValueType >::Zero );
+    derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
   virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
     {
-    value = itk::NumericTraits< MeasureType >::One;
-    derivative.Fill( itk::NumericTraits< ParametersValueType >::Zero );
+    value = itk::NumericTraits< MeasureType >::OneValue();
+    derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
   virtual unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE

@@ -149,7 +149,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
     // is in-bounds, so we don't do anything else if the point is out of bounds.
     if ( index[dim] < start[dim] + 1 || index[dim] > ( start[dim] + static_cast< OffsetValueType >( size[dim] ) - 2 ) )
       {
-      derivative[dim] = NumericTraits<OutputValueType>::Zero;
+      derivative[dim] = NumericTraits<OutputValueType>::ZeroValue();
       continue;
       }
 
@@ -305,7 +305,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
     neighPoint1[dim] = point[dim] - offset;
     if( ! this->IsInsideBuffer( neighPoint1 ) )
       {
-      orientedDerivative[dim] = NumericTraits<DerivativeValueType>::Zero;
+      orientedDerivative[dim] = NumericTraits<DerivativeValueType>::ZeroValue();
       neighPoint1[dim] = point[dim];
       neighPoint2[dim] = point[dim];
       continue;
@@ -313,7 +313,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
     neighPoint2[dim] = point[dim] + offset;
     if( ! this->IsInsideBuffer( neighPoint2 ) )
       {
-      orientedDerivative[dim] = NumericTraits<DerivativeValueType>::Zero;
+      orientedDerivative[dim] = NumericTraits<DerivativeValueType>::ZeroValue();
       neighPoint1[dim] = point[dim];
       neighPoint2[dim] = point[dim];
       continue;
@@ -371,7 +371,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 
   ScalarDerivativeType componentDerivativeOut;
   ScalarDerivativeType componentDerivative;
-  componentDerivative.Fill( NumericTraits<OutputValueType>::Zero );
+  componentDerivative.Fill( NumericTraits<OutputValueType>::ZeroValue() );
 
   for ( unsigned int dim = 0; dim < Self::ImageDimension; dim++ )
     {
@@ -400,7 +400,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 
         if( dimOutOfBounds[dim] )
           {
-          componentDerivative[dim] = NumericTraits<OutputValueType>::Zero;
+          componentDerivative[dim] = NumericTraits<OutputValueType>::ZeroValue();
           neighPoint1[dim] = point[dim];
           neighPoint2[dim] = point[dim];
           continue;
@@ -502,7 +502,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
          || cindex[dim] > static_cast<ContinuousIndexValueType>
             ( start[dim] + static_cast< OffsetValueType >( size[dim] ) - 2 ) )
       {
-      derivative[dim] = NumericTraits<DerivativeValueType>::Zero;
+      derivative[dim] = NumericTraits<DerivativeValueType>::ZeroValue();
       continue;
       }
 

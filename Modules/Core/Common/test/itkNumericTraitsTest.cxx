@@ -103,10 +103,10 @@ template<typename T> void CheckTraits(const char *name, T t)
   std::cout << "\tepsilon(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::epsilon()) << std::endl;
 
   // check NumericTraits
-  std::cout << "\tIsPositive( One )" << itk::NumericTraits<T>::IsPositive( itk::NumericTraits<T>::One ) << std::endl;
-  std::cout << "\tIsNonpositive( One )" << itk::NumericTraits<T>::IsNonpositive( itk::NumericTraits<T>::One ) << std::endl;
-  std::cout << "\tIsNegative( One )" << itk::NumericTraits<T>::IsNegative( itk::NumericTraits<T>::One ) << std::endl;
-  std::cout << "\tIsNonnegative( One )" << itk::NumericTraits<T>::IsNonnegative( itk::NumericTraits<T>::One ) << std::endl;
+  std::cout << "\tIsPositive( One )" << itk::NumericTraits<T>::IsPositive( itk::NumericTraits<T>::OneValue() ) << std::endl;
+  std::cout << "\tIsNonpositive( One )" << itk::NumericTraits<T>::IsNonpositive( itk::NumericTraits<T>::OneValue() ) << std::endl;
+  std::cout << "\tIsNegative( One )" << itk::NumericTraits<T>::IsNegative( itk::NumericTraits<T>::OneValue() ) << std::endl;
+  std::cout << "\tIsNonnegative( One )" << itk::NumericTraits<T>::IsNonnegative( itk::NumericTraits<T>::OneValue() ) << std::endl;
 
  CheckFixedArrayTraits(t);
 }

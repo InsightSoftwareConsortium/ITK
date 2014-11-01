@@ -64,7 +64,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
   // let choose a background value. Background value should not be given by user
   // because closing is extensive so no background pixels will be added
   // it is just needed for internal erosion filter and constant padder
-  InputPixelType backgroundValue = NumericTraits<InputPixelType>::Zero;
+  InputPixelType backgroundValue = NumericTraits<InputPixelType>::ZeroValue();
   if ( m_ForegroundValue == backgroundValue )
     {
     // current background value is already used for foreground value

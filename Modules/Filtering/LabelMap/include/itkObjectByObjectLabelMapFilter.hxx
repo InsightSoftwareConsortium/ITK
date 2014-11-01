@@ -69,7 +69,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
   m_BI2LM->SetNumberOfThreads( 1 );
 
   // to be sure that no one will use an uninitialized value
-  m_Label = itk::NumericTraits< InputImagePixelType >::Zero;
+  m_Label = itk::NumericTraits< InputImagePixelType >::ZeroValue();
 
 }
 

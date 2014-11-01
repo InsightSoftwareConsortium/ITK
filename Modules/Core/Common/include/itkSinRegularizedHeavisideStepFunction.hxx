@@ -41,13 +41,13 @@ SinRegularizedHeavisideStepFunction< TInput, TOutput >
 {
   if ( static_cast< RealType >( input ) >= this->GetEpsilon() )
     {
-    return NumericTraits< OutputType >::One;
+    return NumericTraits< OutputType >::OneValue();
     }
   else
     {
     if ( static_cast< RealType >( input ) <= -this->GetEpsilon() )
       {
-      return NumericTraits< OutputType >::Zero;
+      return NumericTraits< OutputType >::ZeroValue();
       }
     else
       {
@@ -66,7 +66,7 @@ SinRegularizedHeavisideStepFunction< TInput, TOutput >
 {
   if ( vnl_math_abs( static_cast< RealType >( input ) ) >= this->GetEpsilon() )
     {
-    return NumericTraits< OutputType >::Zero;
+    return NumericTraits< OutputType >::ZeroValue();
     }
   else
     {

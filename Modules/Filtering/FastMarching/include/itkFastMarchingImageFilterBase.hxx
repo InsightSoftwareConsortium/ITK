@@ -569,7 +569,7 @@ InitializeOutput( OutputImageType* oImage )
     NodePairContainerConstIterator pointsIter = this->m_ForbiddenPoints->Begin();
     NodePairContainerConstIterator pointsEnd = this->m_ForbiddenPoints->End();
 
-    OutputPixelType zero = NumericTraits< OutputPixelType >::Zero;
+    OutputPixelType zero = NumericTraits< OutputPixelType >::ZeroValue();
 
     while( pointsIter != pointsEnd )
       {

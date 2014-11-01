@@ -120,7 +120,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>
 {
   itkDebugMacro("StartOptimization");
   SizeValueType maxOpt=this->m_OptimizersList.size();
-  if ( maxOpt == NumericTraits<SizeValueType>::Zero )
+  if ( maxOpt == NumericTraits<SizeValueType>::ZeroValue() )
     {
     itkExceptionMacro(" No optimizers are set.");
     }

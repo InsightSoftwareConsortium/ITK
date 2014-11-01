@@ -38,7 +38,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   this->SetNumberOfRequiredInputs(2);
 
   // Set the default DifferenceThreshold.
-  m_DifferenceThreshold = NumericTraits< OutputPixelType >::Zero;
+  m_DifferenceThreshold = NumericTraits< OutputPixelType >::ZeroValue();
 
   // Set the default ToleranceRadius.
   m_ToleranceRadius = 0;
@@ -46,8 +46,8 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   // Initialize statistics about difference image.
   m_MinimumDifference  = NumericTraits< OutputPixelType >::max();
   m_MaximumDifference = NumericTraits< OutputPixelType >::NonpositiveMin();
-  m_MeanDifference = NumericTraits< RealType >::Zero;
-  m_TotalDifference = NumericTraits< AccumulateType >::Zero;
+  m_MeanDifference = NumericTraits< RealType >::ZeroValue();
+  m_TotalDifference = NumericTraits< AccumulateType >::ZeroValue();
   m_NumberOfPixelsWithDifferences = 0;
   m_IgnoreBoundaryPixels = false;
 }
@@ -102,8 +102,8 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   // Initialize statistics about difference image.
   m_MinimumDifference = NumericTraits< OutputPixelType >::max();
   m_MaximumDifference = NumericTraits< OutputPixelType >::NonpositiveMin();
-  m_MeanDifference = NumericTraits< RealType >::Zero;
-  m_TotalDifference = NumericTraits< AccumulateType >::Zero;
+  m_MeanDifference = NumericTraits< RealType >::ZeroValue();
+  m_TotalDifference = NumericTraits< AccumulateType >::ZeroValue();
   m_NumberOfPixelsWithDifferences = 0;
 
   // Resize the thread temporaries

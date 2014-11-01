@@ -219,7 +219,7 @@ VTKPolyDataWriter< TInputMesh >
       // mesh can be saved.
       cellIterator = cells->Begin();
 
-      PointIdentifier totalNumberOfPointsInPolygons = NumericTraits<PointIdentifier>::Zero;
+      PointIdentifier totalNumberOfPointsInPolygons = NumericTraits<PointIdentifier>::ZeroValue();
       while ( cellIterator != cells->End() )
         {
         CellType *cellPointer = cellIterator.Value();

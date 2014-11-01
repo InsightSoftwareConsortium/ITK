@@ -346,7 +346,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   const typename MetricDerivativeType::SizeValueType metricDerivativeSize = virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;
   MetricDerivativeType metricDerivative( metricDerivativeSize );
 
-  metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
+  metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::ZeroValue() );
   this->m_Metric->GetValueAndDerivative( value, metricDerivative );
 
   // Ensure that the size of the optimizer weights is the same as the

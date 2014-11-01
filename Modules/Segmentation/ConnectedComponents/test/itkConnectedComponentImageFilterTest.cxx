@@ -130,7 +130,7 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
     {
     if (it.Get() == 0)
       {
-      cit.Set(RGBPixelType(itk::NumericTraits< unsigned char >::Zero ));
+      cit.Set(RGBPixelType(itk::NumericTraits< unsigned char >::ZeroValue() ));
       }
     else
       {

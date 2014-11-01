@@ -81,21 +81,21 @@ GenerateData( void )
   this->m_TotalNumberOfRuns = static_cast<unsigned long>
     ( inputHistogram->GetTotalFrequency() );
 
-  MeasurementType shortRunEmphasis = NumericTraits<MeasurementType>::Zero;
-  MeasurementType longRunEmphasis = NumericTraits<MeasurementType>::Zero;
-  MeasurementType greyLevelNonuniformity = NumericTraits<MeasurementType>::Zero;
-  MeasurementType runLengthNonuniformity = NumericTraits<MeasurementType>::Zero;
-  MeasurementType lowGreyLevelRunEmphasis = NumericTraits<MeasurementType>::Zero;
+  MeasurementType shortRunEmphasis = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType longRunEmphasis = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType greyLevelNonuniformity = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType runLengthNonuniformity = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType lowGreyLevelRunEmphasis = NumericTraits<MeasurementType>::ZeroValue();
   MeasurementType highGreyLevelRunEmphasis =
-    NumericTraits<MeasurementType>::Zero;
+    NumericTraits<MeasurementType>::ZeroValue();
   MeasurementType shortRunLowGreyLevelEmphasis =
-    NumericTraits<MeasurementType>::Zero;
+    NumericTraits<MeasurementType>::ZeroValue();
   MeasurementType shortRunHighGreyLevelEmphasis =
-    NumericTraits<MeasurementType>::Zero;
+    NumericTraits<MeasurementType>::ZeroValue();
   MeasurementType longRunLowGreyLevelEmphasis =
-    NumericTraits<MeasurementType>::Zero;
+    NumericTraits<MeasurementType>::ZeroValue();
   MeasurementType longRunHighGreyLevelEmphasis =
-    NumericTraits<MeasurementType>::Zero;
+    NumericTraits<MeasurementType>::ZeroValue();
 
   vnl_vector<double> greyLevelNonuniformityVector(
     inputHistogram->GetSize()[0], 0.0 );

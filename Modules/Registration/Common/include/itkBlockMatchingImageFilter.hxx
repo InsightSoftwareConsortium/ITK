@@ -135,7 +135,7 @@ void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::BeforeThreadedGenerateData()
 {
-  this->m_PointsCount = itk::NumericTraits< SizeValueType >::Zero;
+  this->m_PointsCount = itk::NumericTraits< SizeValueType >::ZeroValue();
   FeaturePointsConstPointer featurePoints = this->GetFeaturePoints();
   if ( featurePoints )
     {
@@ -263,7 +263,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
     movingImage->TransformPhysicalPointToIndex( originalLocation, movingIndex );
 
     // the block is selected for a minimum similarity metric
-    SimilaritiesValue  similarity = NumericTraits< SimilaritiesValue >::Zero;
+    SimilaritiesValue  similarity = NumericTraits< SimilaritiesValue >::ZeroValue();
 
     // New point location
     DisplacementsVector displacement;
@@ -283,11 +283,11 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
     // iterate over neighborhoods in region window
     for ( windowIterator.GoToBegin(); !windowIterator.IsAtEnd(); ++windowIterator )
       {
-      SimilaritiesValue fixedSum = NumericTraits< SimilaritiesValue >::Zero;
-      SimilaritiesValue fixedSumOfSquares = NumericTraits< SimilaritiesValue >::Zero;
-      SimilaritiesValue movingSum = NumericTraits< SimilaritiesValue >::Zero;
-      SimilaritiesValue movingSumOfSquares = NumericTraits< SimilaritiesValue >::Zero;
-      SimilaritiesValue covariance = NumericTraits< SimilaritiesValue >::Zero;
+      SimilaritiesValue fixedSum = NumericTraits< SimilaritiesValue >::ZeroValue();
+      SimilaritiesValue fixedSumOfSquares = NumericTraits< SimilaritiesValue >::ZeroValue();
+      SimilaritiesValue movingSum = NumericTraits< SimilaritiesValue >::ZeroValue();
+      SimilaritiesValue movingSumOfSquares = NumericTraits< SimilaritiesValue >::ZeroValue();
+      SimilaritiesValue covariance = NumericTraits< SimilaritiesValue >::ZeroValue();
 
       // iterate over voxels in blockRadius
       for ( SizeValueType i = 0; i < numberOfVoxelInBlock; i++ ) // windowIterator.Size() == numberOfVoxelInBlock
@@ -306,7 +306,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
       const SimilaritiesValue movingVariance = movingSumOfSquares - numberOfVoxelInBlock * movingMean * movingMean;
       covariance -= numberOfVoxelInBlock * fixedMean * movingMean;
 
-      SimilaritiesValue sim = NumericTraits< SimilaritiesValue >::Zero;
+      SimilaritiesValue sim = NumericTraits< SimilaritiesValue >::ZeroValue();
       if ( fixedVariance * movingVariance )
         {
         sim = ( covariance * covariance ) / ( fixedVariance * movingVariance );

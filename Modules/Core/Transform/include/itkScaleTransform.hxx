@@ -181,7 +181,7 @@ ScaleTransform<ScalarType, NDimensions>::GetInverse(Self *inverse) const
   inverse->SetFixedParameters(this->GetFixedParameters());
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
-    inverse->m_Scale[i] = NumericTraits<double>::One / m_Scale[i];
+    inverse->m_Scale[i] = NumericTraits<double>::OneValue() / m_Scale[i];
     }
 
   return true;

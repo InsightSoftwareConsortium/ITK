@@ -97,7 +97,7 @@ int itkMultiLevelSetDenseImageSubset2DTest( int argc, char* argv[] )
   input->SetSpacing( spacing );
   input->SetOrigin( origin );
   input->Allocate();
-  input->FillBuffer( itk::NumericTraits<InputPixelType>::Zero );
+  input->FillBuffer( itk::NumericTraits<InputPixelType>::ZeroValue() );
 
   index.Fill( 910 );
   size.Fill( 80 );
@@ -109,7 +109,7 @@ int itkMultiLevelSetDenseImageSubset2DTest( int argc, char* argv[] )
   iIt.GoToBegin();
   while( !iIt.IsAtEnd() )
     {
-    iIt.Set( 100*itk::NumericTraits<InputPixelType>::One );
+    iIt.Set( 100*itk::NumericTraits<InputPixelType>::OneValue() );
     ++iIt;
     }
 
@@ -125,7 +125,7 @@ int itkMultiLevelSetDenseImageSubset2DTest( int argc, char* argv[] )
   binary->SetSpacing( spacing );
   binary->SetOrigin( origin );
   binary->Allocate();
-  binary->FillBuffer( itk::NumericTraits<InputPixelType>::Zero );
+  binary->FillBuffer( itk::NumericTraits<InputPixelType>::ZeroValue() );
 
   index.Fill( 30 );
   size.Fill( 40 );
@@ -136,7 +136,7 @@ int itkMultiLevelSetDenseImageSubset2DTest( int argc, char* argv[] )
   bIt.GoToBegin();
   while( !bIt.IsAtEnd() )
     {
-    bIt.Set( itk::NumericTraits<InputPixelType>::One );
+    bIt.Set( itk::NumericTraits<InputPixelType>::OneValue() );
     ++bIt;
     }
 

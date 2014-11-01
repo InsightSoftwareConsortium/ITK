@@ -116,7 +116,7 @@ ImageMaskSpatialObject< TDimension >
   // having to walk the whole image. Since we are using slice iterators,
   // we will implement this only for 3D images.
 
-  PixelType  outsideValue = NumericTraits< PixelType >::Zero;
+  PixelType  outsideValue = NumericTraits< PixelType >::ZeroValue();
   RegionType region;
 
   ImagePointer image = this->GetImage();

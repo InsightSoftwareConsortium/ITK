@@ -26,8 +26,8 @@ SingleValuedNonLinearVnlOptimizerv4
   this->m_Command = CommandType::New();
   this->m_Command->SetCallbackFunction(this,  &SingleValuedNonLinearVnlOptimizerv4::IterationReport);
 
-  this->m_CachedCurrentPosition.Fill( NumericTraits<DerivativeType::ValueType>::Zero );
-  this->m_CachedDerivative.Fill( NumericTraits<DerivativeType::ValueType>::Zero );
+  this->m_CachedCurrentPosition.Fill( NumericTraits<DerivativeType::ValueType>::ZeroValue() );
+  this->m_CachedDerivative.Fill( NumericTraits<DerivativeType::ValueType>::ZeroValue() );
 }
 
 SingleValuedNonLinearVnlOptimizerv4

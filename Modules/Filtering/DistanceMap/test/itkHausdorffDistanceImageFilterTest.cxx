@@ -41,8 +41,8 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   image1->Allocate();
   image2->Allocate();
 
-  image1->FillBuffer( itk::NumericTraits<Pixel1Type>::Zero );
-  image2->FillBuffer( itk::NumericTraits<Pixel2Type>::Zero );
+  image1->FillBuffer( itk::NumericTraits<Pixel1Type>::ZeroValue() );
+  image2->FillBuffer( itk::NumericTraits<Pixel2Type>::ZeroValue() );
 
   typedef Image1Type::RegionType RegionType;
   RegionType region1;
@@ -62,7 +62,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   region2.SetIndex( index );
 
   itk::ImageRegionIterator<Image1Type> it1( image1, region1 );
-  Pixel1Type count = itk::NumericTraits<Pixel1Type>::Zero;
+  Pixel1Type count = itk::NumericTraits<Pixel1Type>::ZeroValue();
   while ( !it1.IsAtEnd() )
     {
     it1.Set( ++count );

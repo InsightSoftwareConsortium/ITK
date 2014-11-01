@@ -45,7 +45,7 @@ MultipleValuedVnlCostFunctionAdaptor
       {
       itkGenericExceptionMacro("ERROR: Scales must have value greater than epsilon! Scale[" << i << "] = " << scales[i] );
       }
-    m_InverseScales[i] = NumericTraits<double>::One / scales[i];
+    m_InverseScales[i] = NumericTraits<double>::OneValue() / scales[i];
     }
   m_ScalesInitialized = true;
 }

@@ -103,7 +103,7 @@ protected:
     {
     NumberToString<T> convert;
     Indent indent(1);
-    SizeValueType index = itk::NumericTraits< SizeValueType >::Zero;
+    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
 
     for( SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++ )
       {
@@ -120,7 +120,7 @@ protected:
   void WriteCells(T *buffer, std::ofstream & outputFile)
     {
     Indent        indent(7);
-    SizeValueType index = itk::NumericTraits< SizeValueType >::Zero;
+    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
 
     for( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
       {

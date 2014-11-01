@@ -24,9 +24,9 @@ namespace itk
 {
 template< unsigned int VImageDimension >
 LabelObjectLine< VImageDimension >::LabelObjectLine() :
-  m_Length( NumericTraits< SizeValueType >::Zero )
+  m_Length( NumericTraits< SizeValueType >::ZeroValue() )
 {
-  m_Index.Fill( NumericTraits< IndexValueType >::Zero );
+  m_Index.Fill( NumericTraits< IndexValueType >::ZeroValue() );
 }
 
 template< unsigned int VImageDimension >

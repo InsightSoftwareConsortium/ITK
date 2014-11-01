@@ -198,7 +198,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       }
     else
       {
-      labelStats.m_Variance = NumericTraits< RealType >::Zero;
+      labelStats.m_Variance = NumericTraits< RealType >::ZeroValue();
       }
 
     // sigma
@@ -372,7 +372,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   if ( mapIt == m_LabelStatistics.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< PixelType >::Zero;
+    return NumericTraits< PixelType >::ZeroValue();
     }
   else
     {
@@ -391,7 +391,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   if ( mapIt == m_LabelStatistics.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< PixelType >::Zero;
+    return NumericTraits< PixelType >::ZeroValue();
     }
   else
     {
@@ -410,7 +410,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   if ( mapIt == m_LabelStatistics.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< PixelType >::Zero;
+    return NumericTraits< PixelType >::ZeroValue();
     }
   else
     {
@@ -429,7 +429,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   if ( mapIt == m_LabelStatistics.end() )
     {
     // label does not exist, return a default value
-    return NumericTraits< PixelType >::Zero;
+    return NumericTraits< PixelType >::ZeroValue();
     }
   else
     {

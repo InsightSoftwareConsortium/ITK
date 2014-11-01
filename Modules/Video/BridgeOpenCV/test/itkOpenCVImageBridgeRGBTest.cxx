@@ -56,14 +56,14 @@ RGBImageTotalAbsDifference(
       return 1;
       }
 
-    TPixelValue localDiff = itk::NumericTraits< TPixelValue >::Zero;
+    TPixelValue localDiff = itk::NumericTraits< TPixelValue >::ZeroValue();
 
     for( unsigned int i = 0; i < 3; i++ )
       {
       localDiff += vnl_math_abs(validPx[i] - testPx[i]);
       }
 
-    if( localDiff != itk::NumericTraits< TPixelValue >::Zero )
+    if( localDiff != itk::NumericTraits< TPixelValue >::ZeroValue() )
       {
       IterType testIt2 = testIt;
       ++testIt2;
@@ -176,7 +176,7 @@ int itkOpenCVImageBridgeTestTemplatedRGB(char* argv0, char* argv1)
           baselineImage, outIplITK);
 
   // Check results of IplImage -> itk::Image
-  if ( itkIplDiff1 != itk::NumericTraits< ComponentType >::Zero )
+  if ( itkIplDiff1 != itk::NumericTraits< ComponentType >::ZeroValue() )
     {
     std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name()
       << " for IplImage -> ITK (RGB), with image difference = " << itkIplDiff1<< std::endl;
@@ -195,7 +195,7 @@ int itkOpenCVImageBridgeTestTemplatedRGB(char* argv0, char* argv1)
           baselineImage, outMatITK);
 
   // Check results of cv::Mat -> itk::Image
-  if ( itkCvMatDiff != itk::NumericTraits< ComponentType >::Zero )
+  if ( itkCvMatDiff != itk::NumericTraits< ComponentType >::ZeroValue() )
     {
     std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name()
       << " for cv::Mat -> ITK (RGB)" << std::endl;

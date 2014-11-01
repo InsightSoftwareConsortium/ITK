@@ -42,7 +42,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
 {
   m_FullyConnected = false;
   m_MarkWatershedLine = true;
-  m_Level = NumericTraits< InputImagePixelType >::Zero;
+  m_Level = NumericTraits< InputImagePixelType >::ZeroValue();
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -111,7 +111,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   wshed->SetFullyConnected(m_FullyConnected);
   wshed->SetMarkWatershedLine(m_MarkWatershedLine);
 
-  if ( m_Level != NumericTraits< InputImagePixelType >::Zero )
+  if ( m_Level != NumericTraits< InputImagePixelType >::ZeroValue() )
     {
     // insert a h-minima filter to remove the smallest minima
     //

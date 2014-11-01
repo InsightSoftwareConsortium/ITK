@@ -131,7 +131,7 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 {
   RegionType ans;
 
-  IndexValueType zero = NumericTraits< IndexValueType >::Zero;
+  IndexValueType zero = NumericTraits< IndexValueType >::ZeroValue();
   ans.SetIndex( this->GetIndex(zero) );
   ans.SetSize( this->GetSize() );
 

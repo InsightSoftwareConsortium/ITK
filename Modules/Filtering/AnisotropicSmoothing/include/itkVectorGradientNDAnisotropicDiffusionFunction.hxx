@@ -155,7 +155,7 @@ VectorGradientNDAnisotropicDiffusionFunction< TImage >
   // Compute update value
   for ( k = 0; k < VectorDimension; k++ )
     {
-    delta[k] = NumericTraits< ScalarValueType >::Zero;
+    delta[k] = NumericTraits< ScalarValueType >::ZeroValue();
 
     for ( i = 0; i < ImageDimension; ++i )
       {

@@ -47,7 +47,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
     interp.GetPointer() );
 
 //TEST_RMV20100728   // Set default padding value to zero
-//TEST_RMV20100728   m_EdgePaddingValue = NumericTraits<OutputPixelType>::Zero;
+//TEST_RMV20100728   m_EdgePaddingValue = NumericTraits<OutputPixelType>::ZeroValue();
 }
 
 /**

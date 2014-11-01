@@ -38,7 +38,7 @@ HuangThresholdCalculator<THistogram, TOutput>
   const HistogramType * histogram = this->GetInput();
 
   TotalAbsoluteFrequencyType total = histogram->GetTotalFrequency();
-  if( total == NumericTraits< TotalAbsoluteFrequencyType >::Zero )
+  if( total == NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue() )
     {
     itkExceptionMacro(<< "Histogram is empty");
     }

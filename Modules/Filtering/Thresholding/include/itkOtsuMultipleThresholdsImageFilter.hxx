@@ -30,7 +30,7 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
 {
   m_NumberOfHistogramBins = 128;
   m_NumberOfThresholds = 1;
-  m_LabelOffset = NumericTraits< OutputPixelType >::Zero;
+  m_LabelOffset = NumericTraits< OutputPixelType >::ZeroValue();
   m_Thresholds.clear();
   m_ValleyEmphasis = false;
 }

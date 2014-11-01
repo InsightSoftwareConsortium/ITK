@@ -58,9 +58,9 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization)
 {
   this->m_ConjugateGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
-  this->m_ConjugateGradient.Fill( itk::NumericTraits< TInternalComputationValueType >::Zero );
+  this->m_ConjugateGradient.Fill( itk::NumericTraits< TInternalComputationValueType >::ZeroValue() );
   this->m_LastGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
-  this->m_LastGradient.Fill( itk::NumericTraits< TInternalComputationValueType >::Zero );
+  this->m_LastGradient.Fill( itk::NumericTraits< TInternalComputationValueType >::ZeroValue() );
   Superclass::StartOptimization( doOnlyInitialization );
 }
 
@@ -80,7 +80,7 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
     this->EstimateLearningRate();
     }
 
-  TInternalComputationValueType gamma = itk::NumericTraits< TInternalComputationValueType >::Zero;
+  TInternalComputationValueType gamma = itk::NumericTraits< TInternalComputationValueType >::ZeroValue();
   TInternalComputationValueType gammaDenom = inner_product( this->m_LastGradient , this->m_LastGradient );
   if ( gammaDenom > itk::NumericTraits< TInternalComputationValueType >::epsilon() )
     {

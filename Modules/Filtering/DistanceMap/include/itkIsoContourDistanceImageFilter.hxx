@@ -32,9 +32,9 @@ template< typename TInputImage, typename TOutputImage >
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::IsoContourDistanceImageFilter()
 {
-  m_LevelSetValue = NumericTraits< InputPixelType >::Zero;
+  m_LevelSetValue = NumericTraits< InputPixelType >::ZeroValue();
 
-  m_FarValue = 10 * NumericTraits< PixelType >::One;
+  m_FarValue = 10 * NumericTraits< PixelType >::OneValue();
 
   m_NarrowBanding = false;
   m_NarrowBand = ITK_NULLPTR;

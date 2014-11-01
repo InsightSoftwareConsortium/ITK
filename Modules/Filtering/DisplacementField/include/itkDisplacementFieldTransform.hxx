@@ -277,19 +277,19 @@ const
   IndexType difIndex[NDimensions][2];
 
   // index offset
-  unsigned int posoff = NumericTraits<unsigned int>::One;
+  unsigned int posoff = NumericTraits<unsigned int>::OneValue();
 
   // space between indices
-  TScalar space = NumericTraits<TScalar>::One;
+  TScalar space = NumericTraits<TScalar>::OneValue();
 
   // minimum distance between neighbors
-  TScalar mindist = NumericTraits<TScalar>::One;
+  TScalar mindist = NumericTraits<TScalar>::OneValue();
 
   // flag indicating a valid location for jacobian calculation
   bool oktosample = true;
 
   // multiplier for getting inverse jacobian
-  TScalar dPixSign = NumericTraits<TScalar>::One;
+  TScalar dPixSign = NumericTraits<TScalar>::OneValue();
   dPixSign = doInverseJacobian ? -dPixSign : dPixSign;
   for( unsigned int row = 0; row < NDimensions; row++ )
     {

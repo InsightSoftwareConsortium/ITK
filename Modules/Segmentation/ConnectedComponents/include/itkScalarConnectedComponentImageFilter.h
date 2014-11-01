@@ -55,7 +55,7 @@ class SimilarPixelsFunctor
 public:
   SimilarPixelsFunctor()
   {
-    m_Threshold = NumericTraits< TInput >::Zero;
+    m_Threshold = NumericTraits< TInput >::ZeroValue();
   }
 
   ~SimilarPixelsFunctor()

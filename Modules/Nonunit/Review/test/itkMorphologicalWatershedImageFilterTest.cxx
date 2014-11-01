@@ -112,10 +112,10 @@ int itkMorphologicalWatershedImageFilterTest(int argc, char * argv[])
 
   RescaleType::Pointer rescale = RescaleType::New();
   rescale->SetInput( filter->GetOutput() );
-  rescale->SetWindowMinimum( itk::NumericTraits< PixelType >::Zero );
+  rescale->SetWindowMinimum( itk::NumericTraits< PixelType >::ZeroValue() );
   rescale->SetWindowMaximum( max->GetMaximum() );
   rescale->SetOutputMaximum( itk::NumericTraits< PixelType >::max() );
-  rescale->SetOutputMinimum( itk::NumericTraits< PixelType >::Zero );
+  rescale->SetOutputMinimum( itk::NumericTraits< PixelType >::ZeroValue() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();

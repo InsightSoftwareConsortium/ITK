@@ -240,7 +240,7 @@ public:
   template< typename TCoordRepB >
   RealType SquaredEuclideanDistanceTo(const Point< TCoordRepB, NPointDimension > & pa) const
   {
-    RealType sum = NumericTraits< RealType >::Zero;
+    RealType sum = NumericTraits< RealType >::ZeroValue();
 
     for ( unsigned int i = 0; i < NPointDimension; i++ )
       {

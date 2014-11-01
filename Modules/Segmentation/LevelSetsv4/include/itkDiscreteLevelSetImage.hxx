@@ -242,7 +242,7 @@ typename DiscreteLevelSetImage< TOutput, VDimension >::OutputRealType
 DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateLaplacian( const InputType& inputIndex ) const
 {
-  OutputRealType oLaplacian = NumericTraits< OutputRealType >::Zero;
+  OutputRealType oLaplacian = NumericTraits< OutputRealType >::ZeroValue();
 
   const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
@@ -468,7 +468,7 @@ typename DiscreteLevelSetImage< TOutput, VDimension >::OutputRealType
 DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateMeanCurvature( const InputType& inputIndex ) const
 {
-  OutputRealType oValue = NumericTraits< OutputRealType >::Zero;
+  OutputRealType oValue = NumericTraits< OutputRealType >::ZeroValue();
 
   HessianType   hessian = this->EvaluateHessian( inputIndex );
   GradientType  grad = this->EvaluateGradient( inputIndex );
@@ -493,7 +493,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     }
   else
     {
-    oValue /= ( NumericTraits< OutputRealType >::One + gradNorm );
+    oValue /= ( NumericTraits< OutputRealType >::OneValue() + gradNorm );
     }
 
   return oValue;
@@ -573,7 +573,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
       }
 
     data.MeanCurvature.m_Computed = true;
-    data.MeanCurvature.m_Value = NumericTraits< OutputRealType >::Zero;
+    data.MeanCurvature.m_Value = NumericTraits< OutputRealType >::ZeroValue();
 
     for( unsigned int i = 0; i < Dimension; i++ )
       {
@@ -597,7 +597,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
       }
     else
       {
-      data.MeanCurvature.m_Value /= ( NumericTraits< OutputRealType >::One + temp );
+      data.MeanCurvature.m_Value /= ( NumericTraits< OutputRealType >::OneValue() + temp );
       }
     }
 }
