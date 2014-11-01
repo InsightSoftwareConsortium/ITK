@@ -48,6 +48,9 @@ namespace itk
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
+ * \deprecated ResampleImageFilter can now resample vector images and should
+ * be used instead of the VectorResampleImageFilter.
+ *
  * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  *
