@@ -181,7 +181,7 @@ PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 template< typename TInputImage, typename TPolyline, typename TVector,
           typename TOutputImage >
 void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   typedef typename TInputImage::SizeType          InputImageSizeType;
   typedef typename TInputImage::PointType         InputImagePointType;

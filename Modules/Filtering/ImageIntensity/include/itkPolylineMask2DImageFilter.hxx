@@ -72,7 +72,7 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 template< typename TInputImage, typename TPolyline,
           typename TOutputImage >
 void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
-::GenerateData(void)
+::GenerateData()
 {
   typedef  LineIterator< TOutputImage >                 LineIteratorType;
   typedef  ImageLinearIteratorWithIndex< TOutputImage > ImageLineIteratorType;
