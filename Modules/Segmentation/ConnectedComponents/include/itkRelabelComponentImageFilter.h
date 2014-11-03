@@ -31,12 +31,14 @@ namespace itk
  * RelabelComponentImageFilter remaps the labels associated with the
  * objects in an image (as from the output of
  * ConnectedComponentImageFilter) such that the label numbers are
- * consecutive with no gaps between the label numbers used.  By
+ * consecutive with no gaps between the label numbers used. By
  * default, the relabeling will also sort the labels based on the size
  * of the object: the largest object will have label #1, the second
- * largest will have label #2, etc.
+ * largest will have label #2, etc. If two labels have the same size
+ * their initial order is kept. The sorting by size can be disabled using
+ * SetSortByObjectSize.
  *
- * Label #0 is assumed to be background is left unaltered by the
+ * Label #0 is assumed to be the background and is left unaltered by the
  * relabeling.
  *
  * RelabelComponentImageFilter is typically used on the output of the
@@ -169,6 +171,12 @@ public:
    * through to the output. */
   itkGetConstMacro(MinimumObjectSize, ObjectSizeType);
 
+  /** Controls whether the object labels are sorted by size.
+  * If false, initial order of labels is kept. */
+  itkSetMacro(SortByObjectSize, bool);
+  itkGetConstMacro(SortByObjectSize, bool);
+  itkBooleanMacro(SortByObjectSize);
+
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is
    * not calculated.  Size of object #1 is
@@ -242,7 +250,8 @@ protected:
 
   RelabelComponentImageFilter():
     m_NumberOfObjects(0), m_NumberOfObjectsToPrint(10),
-    m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0)
+    m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0),
+    m_SortByObjectSize(true)
   { this->InPlaceOff(); }
   virtual ~RelabelComponentImageFilter() {}
 
@@ -268,7 +277,7 @@ protected:
   // put the function objects here for sorting in descending order
   class RelabelComponentSizeInPixelsComparator
   {
-public:
+  public:
     bool operator()(const RelabelComponentObjectType & a,
                     const RelabelComponentObjectType & b)
     {
@@ -301,6 +310,7 @@ private:
   LabelType      m_NumberOfObjectsToPrint;
   LabelType      m_OriginalNumberOfObjects;
   ObjectSizeType m_MinimumObjectSize;
+  bool           m_SortByObjectSize;
 
   ObjectSizeInPixelsContainerType         m_SizeOfObjectsInPixels;
   ObjectSizeInPhysicalUnitsContainerType  m_SizeOfObjectsInPhysicalUnits;

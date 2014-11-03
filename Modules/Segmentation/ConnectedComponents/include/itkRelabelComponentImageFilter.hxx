@@ -135,8 +135,14 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     sizeVector.push_back( ( *mapIt ).second );
     }
 
-  // sort the objects by size and define the map to use to relabel the image
-  std::sort( sizeVector.begin(), sizeVector.end(), RelabelComponentSizeInPixelsComparator() );
+  // Sort the objects by size by default, unless m_SortByObjectSize
+  // is set to false.
+  if ( m_SortByObjectSize )
+    {
+    std::sort(  sizeVector.begin(),
+                sizeVector.end(),
+                RelabelComponentSizeInPixelsComparator() );
+    }
 
   // create a lookup table to map the input label to the output label.
   // cache the object sizes for later access by the user
@@ -230,6 +236,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   os << indent << "NumberOfObjectsToPrint: "
      << m_NumberOfObjectsToPrint << std::endl;
   os << indent << "MinimumObjectSizez: " << m_MinimumObjectSize << std::endl;
+  os << indent << "SortByObjectSize: " << m_SortByObjectSize << std::endl;
 
   typename ObjectSizeInPixelsContainerType::const_iterator it;
   ObjectSizeInPhysicalUnitsContainerType::const_iterator   fit;
