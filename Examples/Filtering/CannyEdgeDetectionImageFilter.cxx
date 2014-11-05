@@ -94,11 +94,11 @@ int main(int argc, char* argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  This filter operates on image of pixel type float. It is then necessary
-  //  to cast the type of the input images that are usually of integer type.
-  //  The \doxygen{CastImageFilter} is used here for that purpose. Its image
-  //  template parameters are defined for casting from the input type to the
-  //  float type using for processing.
+  //  This filter operates on images of pixel type \code{float}. It is then
+  //  necessary to cast the type of the input images which are usually of
+  //  integer type. The \doxygen{CastImageFilter} is used here for this purpose.
+  //  Its image template parameters are defined for casting from the input type
+  //  to the \code{float} type used for processing.
   //
   //  Software Guide : EndLatex
 
@@ -112,7 +112,8 @@ int main(int argc, char* argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CannyEdgeDetectionImageFilter} is instantiated using the float image type.
+  //  The \doxygen{CannyEdgeDetectionImageFilter} is instantiated using the
+  //  \code{float} image type.
   //
   //  \index{itk::CannyEdgeDetectionImageFilter|textbf}
   //

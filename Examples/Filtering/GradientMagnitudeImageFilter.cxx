@@ -220,7 +220,7 @@ int main( int argc, char * argv[] )
   //
   //  This filter does not apply any smoothing to the image before computing the
   //  gradients. The results can therefore be very sensitive to noise and may
-  //  not be best choice for scale space analysis.
+  //  not be the best choice for scale-space analysis.
   //
   //  Software Guide : EndLatex
 

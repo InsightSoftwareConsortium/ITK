@@ -30,7 +30,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The previous exampled showed how to use the
+//  The previous example showed how to use the
 //  \doxygen{RecursiveGaussianImageFilter} for computing the equivalent of a
 //  Laplacian of an image after smoothing with a Gaussian.  The elements used
 //  in this previous example have been packaged together in the

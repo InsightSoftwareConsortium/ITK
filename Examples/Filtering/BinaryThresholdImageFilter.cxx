@@ -39,10 +39,10 @@
 // thresholds---Upper and Lower---and two intensity values---Inside and
 // Outside. For each pixel in the input image, the value of the pixel is
 // compared with the lower and upper thresholds. If the pixel value is inside
-// the range defined by $[Lower,Upper]$ the output pixel is assigned the
-// InsideValue. Otherwise the output pixels are assigned to the OutsideValue.
-// Thresholding is commonly applied as the last operation of a segmentation
-// pipeline.
+// the range defined by $[\text{Lower},\text{Upper}]$ the output pixel is
+// assigned the InsideValue. Otherwise the output pixels are assigned to the
+// OutsideValue. Thresholding is commonly applied as the last operation of a
+// segmentation pipeline.
 //
 // \index{itk::Binary\-Threshold\-Image\-Filter!Instantiation}
 // \index{itk::Binary\-Threshold\-Image\-Filter!Header}
@@ -216,7 +216,7 @@ int main( int argc, char * argv[] )
   //
   //  The execution of the filter is triggered by invoking the \code{Update()}
   //  method.   If the filter's output has been passed as input to subsequent
-  //  filters, the \code{Update()} call on any posterior filters in the
+  //  filters, the \code{Update()} call on any downstream filters in the
   //  pipeline will indirectly trigger the update of this filter.
   //
   //  Software Guide : EndLatex
@@ -238,7 +238,7 @@ int main( int argc, char * argv[] )
   //
   //  Figure \ref{fig:BinaryThresholdImageFilterInputOutput} illustrates the
   //  effect of this filter on a MRI proton density image of the brain. This
-  //  figure shows the limitations of this filter for performing segmentation
+  //  figure shows the limitations of the filter for performing segmentation
   //  by itself. These limitations are particularly noticeable in noisy images
   //  and in images lacking spatial uniformity as is the case with MRI due to
   //  field bias.

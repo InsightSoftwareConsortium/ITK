@@ -246,7 +246,7 @@ int main( int argc, char * argv[] )
   //  regulated by selecting an appropriate $\sigma$.  This type of
   //  scale-tunable filter is suitable for performing scale-space analysis.
   //
-  /// Attention should be paid to the image type chosen to represent the output
+  // Attention should be paid to the image type chosen to represent the output
   //  image since the dynamic range of the gradient magnitude image is usually
   //  smaller than the dynamic range of the input image.
   //
