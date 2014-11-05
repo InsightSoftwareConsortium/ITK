@@ -25,9 +25,9 @@
 //  the appropriate ImageIO class for performing the IO operations. Explicit
 //  selection of the ImageIO also allows the user to invoke specialized
 //  features of a particular class which may not be available from the
-//  general API provide by ImageIO.
+//  general API provided by ImageIO.
 //
-//  The following example illustrates explicit instantiating of an IO class
+//  The following example illustrates explicit instantiation of an IO class
 //  (in this case a VTK file format), setting its parameters and then
 //  connecting it to the \doxygen{ImageFileWriter}.
 //
@@ -218,7 +218,7 @@ int main( int argc, char ** argv )
   //  which this is done is when reading raw image files with the
   //  \doxygen{RawImageIO} object. The drawback of this approach is that the
   //  parameters of the image have to be explicitly written in the code.  The
-  //  direct use of raw file is \textbf{strongly discouraged} in medical
+  //  direct use of raw files is \textbf{strongly discouraged} in medical
   //  imaging.  It is always better to create a header for a raw file by
   //  using any of the file formats that combine a text header file and a raw
   //  binary file, like \doxygen{MetaImageIO}, \doxygen{GiplImageIO} and

@@ -21,8 +21,8 @@
 //  RGB images are commonly used for representing data acquired from cryogenic
 //  sections, optical microscopy and endoscopy. This example illustrates how to
 //  read RGB color images from a set of files containing individual 2D slices
-//  in order to compose a 3D color dataset. Then save it into a single 3D file,
-//  and finally save it again as a set of 2D slices with other names.
+//  in order to compose a 3D color dataset. Then we will save it into a single
+//  3D file, and finally save it again as a set of 2D slices with other names.
 //
 //  This requires the following headers as shown.
 //
@@ -153,8 +153,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Finally, execution of the pipeline can be triggered by invoking the
-  //  Update() method in the volumetric writer. This, of course, is done from
-  //  inside a try/catch block.
+  //  \code{Update()} method in the volumetric writer. This, of course, is done
+  //  from inside a try/catch block.
   //
   //  Software Guide : EndLatex
 
@@ -193,9 +193,9 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // We now reuse the filenames generator in order to produce the list of
+  // We now reuse the filename generator in order to produce the list of
   // filenames for the output series. In this case we just need to modify the
-  // format of the filenames generator. Then, we pass the list of output
+  // format of the filename generator. Then, we pass the list of output
   // filenames to the series writer.
   //
   // Software Guide : EndLatex
@@ -228,7 +228,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  You may have noticed that apart from the declaration of the
-  //  \code{PixelType} there is nothing in this code that is specific for RGB
+  //  \code{PixelType} there is nothing in this code that is specific to RGB
   //  images. All the actions required to support color images are implemented
   //  internally in the \doxygen{ImageIO} objects.
   //

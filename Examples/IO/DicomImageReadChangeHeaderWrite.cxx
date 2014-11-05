@@ -26,12 +26,12 @@
 //  \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}.
 //
 //  Please note that modifying the content of a DICOM header is a very risky
-//  operation. The Header contains fundamental information about the patient
+//  operation. The header contains fundamental information about the patient
 //  and therefore its consistency must be protected from any data corruption.
 //  Before attempting to modify the DICOM headers of your files, you must make
 //  sure that you have a very good reason for doing so, and that you can ensure
 //  that this information change will not result in a lower quality of health
-//  care to be delivered to the patient.
+//  care being delivered to the patient.
 //
 //  \index{DICOM!Changing Headers}
 //
@@ -40,8 +40,8 @@
 // Software Guide : BeginLatex
 //
 // We must start by including the relevant header files. Here we include the
-// image reader, image writer, the image, the Meta data dictionary and its
-// entries the Meta data objects and the GDCMImageIO. The Meta data dictionary
+// image reader, image writer, the image, the metadata dictionary and its
+// entries, the metadata objects and the GDCMImageIO. The metadata dictionary
 // is the data container that stores all the entries from the DICOM header once
 // the DICOM image file is read into an ITK image.
 //
@@ -132,7 +132,7 @@ int main(int argc, char* argv[])
 
 // Software Guide : BeginLatex
 //
-// We take the Meta data dictionary from the image that the reader had loaded
+// We take the metadata dictionary from the image that the reader had loaded
 // in memory.
 //
 // Software Guide : EndLatex
@@ -146,10 +146,10 @@ int main(int argc, char* argv[])
 
 // Software Guide : BeginLatex
 //
-// Now we access the entries in the Meta data dictionary, and for particular
+// Now we access the entries in the metadata dictionary, and for particular
 // key values we assign a new content to the entry. This is done here by taking
 // \{key,value\} pairs from the command line arguments. The relevant method is
-// the EncapsulateMetaData that takes the dictionary and for a given key
+// \code{EncapsulateMetaData} that takes the dictionary and for a given key
 // provided by \code{entryId}, replaces the current value with the content of
 // the \code{value} variable. This is repeated for every potential pair present
 // in the command line arguments.
@@ -167,8 +167,8 @@ int main(int argc, char* argv[])
 
 // Software Guide : BeginLatex
 //
-// Now that the Dictionary has been updated, we proceed to save the image. This
-// output image will have the modified data associated to its DICOM header.
+// Now that the dictionary has been updated, we proceed to save the image. This
+// output image will have the modified data associated with its DICOM header.
 //
 // Using the image type, we instantiate a writer type and construct a writer.
 // A short pipeline between the reader and the writer is connected. The

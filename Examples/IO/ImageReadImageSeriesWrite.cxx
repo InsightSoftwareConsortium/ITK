@@ -157,8 +157,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // With this information we can find the number that will identify the first
-  // and last slices of the 3D data set. This numerical values are then passed to
-  // the filenames generator object that will compose the names of the files
+  // and last slices of the 3D data set. These numerical values are then passed to
+  // the filename generator object that will compose the names of the files
   // where the slices are going to be stored.
   //
   // Software Guide : EndLatex
@@ -185,10 +185,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we trigger the execution of the pipeline with the Update() method
-  //  on the writer. At this point the slices of the image will be saved in
-  //  individual files containing a single slice per file. The filenames used for
-  //  these slices are those produced by the filenames generator.
+  //  Finally we trigger the execution of the pipeline with the \code{Update()}
+  //  method on the writer. At this point the slices of the image will be saved
+  //  in individual files containing a single slice per file. The filenames used
+  //  for these slices are those produced by the filename generator.
   //
   //  Software Guide : EndLatex
 

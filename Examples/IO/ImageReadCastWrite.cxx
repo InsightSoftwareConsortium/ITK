@@ -22,7 +22,7 @@
 //  Programming paradigm, most of the types are defined at compilation
 //  time. It is sometimes important to anticipate conversion between different
 //  types of images. The following example illustrates the common case of
-//  reading an image of one pixel type and writing it on a different pixel
+//  reading an image of one pixel type and writing it as a different pixel
 //  type. This process not only involves casting but also rescaling the image
 //  intensity since the dynamic range of the input and output pixel types can
 //  be quite different.  The \doxygen{RescaleIntensityImageFilter} is used
@@ -80,7 +80,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Note that the dimension of the image in memory should match the one of
-  //  the image in file. There are a couple of special cases in which this
+  //  the image in the file. There are a couple of special cases in which this
   //  condition may be relaxed, but in general it is better to ensure that both
   //  dimensions match.
   //
@@ -115,8 +115,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  A filter object is constructed and the minimum and maximum values of
-  //  the output are selected using the SetOutputMinimum() and
-  //  SetOutputMaximum() methods.
+  //  the output are selected using the \code{SetOutputMinimum()} and
+  //  \code{SetOutputMaximum()} methods.
   //
   //  \index{itk::RescaleIntensityImageFilter!SetOutputMinimum()}
   //  \index{itk::RescaleIntensityImageFilter!SetOutputMaximum()}
@@ -160,7 +160,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The name of the files to be read and written are passed with the
-  //  SetFileName() method.
+  //  \code{SetFileName()} method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -177,7 +177,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we trigger the execution of the pipeline with the Update()
+  //  Finally we trigger the execution of the pipeline with the \code{Update()}
   //  method on the writer. The output image will then be the scaled and cast
   //  version of the input image.
   //
