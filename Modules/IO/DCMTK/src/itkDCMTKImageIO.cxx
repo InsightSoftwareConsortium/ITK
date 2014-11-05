@@ -350,7 +350,17 @@ void DCMTKImageIO::ReadImageInformation()
     this->m_Dimensions[2] = reader.GetFrameCount() / numPhases;
     this->m_Dimensions[3] = numPhases;
     }
-  vnl_vector<double> rowDirection(3),columnDirection(3),sliceDirection(3);
+  vnl_vector<double> rowDirection(3);
+  vnl_vector<double> columnDirection(3);
+  vnl_vector<double> sliceDirection(3);
+
+  rowDirection.fill(0.0);
+  columnDirection.fill(0.0);
+  sliceDirection.fill(0.0);
+  rowDirection[0] = 1.0;
+  columnDirection[1] = 1.0;
+  sliceDirection[2] = 1.0;
+
   reader.GetDirCosines(rowDirection,columnDirection,sliceDirection);
   // orthogonalize
   sliceDirection.normalize();

@@ -43,7 +43,7 @@
 // #include "diregist.h"     /* include to support color images */
 #include "vnl/vnl_cross.h"
 #include "itkIntTypes.h"
-
+#include <algorithm>
 
 namespace itk
 {
@@ -354,6 +354,7 @@ DCMTKSequence
 DCMTKFileReader
 ::~DCMTKFileReader()
 {
+  delete [] m_Origin;
   delete m_DFile;
 }
 
@@ -416,6 +417,8 @@ DCMTKFileReader
     {
     itkGenericExceptionMacro(<< "No filename given" );
     }
+  delete this->m_Origin;
+  this->m_Origin = 0;
   delete this->m_DFile;
   this->m_DFile = new DcmFileFormat();
   OFCondition cond = this->m_DFile->loadFile(this->m_FileName.c_str());
@@ -1097,8 +1100,9 @@ int
 DCMTKFileReader
 ::GetDirCosArray(double *dircos)
 {
-  DCMTKSequence planeSeq;
   int rval;
+  DCMTKSequence planeSeq;
+
   dircos[0] = 1; dircos[1] = 0; dircos[2] = 0;
   dircos[3] = 0; dircos[4] = 1; dircos[5] = 0;
   if((rval = this->GetElementDS(0x0020,0x0037,6,dircos,false)) != EXIT_SUCCESS)
@@ -1107,17 +1111,19 @@ DCMTKFileReader
     if(rval == EXIT_SUCCESS)
       {
       rval = planeSeq.GetElementDS(0x0020,0x0037,6,dircos,false);
+      return rval;
       }
     }
-  if(rval != EXIT_SUCCESS)
+  //
+  // for multiframe Philips images
+  unsigned short candidateSequences[2] =
     {
-    rval = this->GetElementSQ(0x5200,0x9230,planeSeq,false);
-    if(rval != EXIT_SUCCESS)
-      {
-      // this is a complete punt -- in the files I've seen, there was
-      // no 0028,9116 sequence in 5200,9229
-      rval = this->GetElementSQ(0X5200,0X9229,planeSeq,false);
-      }
+      0x9229, // check for Shared Functional Group Sequence first
+      0x9230, // check the Per-frame Functional Groups Sequence
+    };
+  for(unsigned i = 0; i < 2; ++i)
+    {
+    rval = this->GetElementSQ(0x5200,candidateSequences[i],planeSeq,false);
     if(rval == EXIT_SUCCESS)
       {
       DCMTKItem item;
@@ -1125,16 +1131,23 @@ DCMTKFileReader
       if(rval == EXIT_SUCCESS)
         {
         DCMTKSequence subSequence;
+        // Plane Orientation sequence
         rval = item.GetElementSQ(0x0020,0x9116,subSequence,false);
         if(rval == EXIT_SUCCESS)
           {
+          // Image Orientation Patient
           rval = subSequence.GetElementDS(0x0020,0x0037,6,dircos,false);
+          if(rval == EXIT_SUCCESS)
+            {
+            break;
+            }
           }
         }
       }
     }
   return rval;
 }
+
 int
 DCMTKFileReader
 ::GetDirCosines(vnl_vector<double> &dir1,
@@ -1282,9 +1295,7 @@ DCMTKFileReader
   // is guaranteed to be in patient space.
   // Imager Pixel spacing is inter-pixel spacing at the sensor front plane
   // Pixel spacing
-  DCMTKSequence spacingSequence;
-  DCMTKItem item;
-  DCMTKSequence subSequence;
+
   // first, shared function groups sequence, then
   // per-frame groups sequence
   _spacing[0] = _spacing[1] = _spacing[2] = 0.0;
@@ -1316,32 +1327,38 @@ DCMTKFileReader
       // punt, thicknes of 1
       spacing[2] = 1.0;
       }
+    return rval;
     }
-  else if(rval != EXIT_SUCCESS)
+  // this is for multiframe images -- preferentially use the shared
+  // functional group, and then the per-frame functional group
+  unsigned short candidateSequences[2] =
     {
-    rval = this->GetElementSQ(0x5200,0x9230,spacingSequence,false);
-    if(rval != EXIT_SUCCESS)
-      {
-      // this is a complete punt -- in the files I've seen, there was
-      // no 0028,9110
-      rval = this->GetElementSQ(0X5200,0X9229,spacingSequence,false);
-      }
+      0x9229, // check for Shared Functional Group Sequence first
+      0x9230, // check the Per-frame Functional Groups Sequence
+    };
+  for(unsigned i = 0; i < 2; ++i)
+    {
+    DCMTKSequence spacingSequence;
+    rval = this->GetElementSQ(0x5200,candidateSequences[i],spacingSequence,false);
     if(rval == EXIT_SUCCESS)
       {
-      if(spacingSequence.GetElementItem(0,item,false) == EXIT_SUCCESS)
+      DCMTKItem item;
+      rval = spacingSequence.GetElementItem(0,item,false);
+      if(rval == EXIT_SUCCESS)
         {
-        if(item.GetElementSQ(0x0028,0x9110,subSequence,false) == EXIT_SUCCESS)
+        DCMTKSequence subSequence;
+        // Pixel Measures Sequence
+        rval = item.GetElementSQ(0x0028,0x9110,subSequence,false);
+        if(rval == EXIT_SUCCESS)
           {
-          subSequence.GetElementDS<double>(0x0028,0x0030,2,_spacing);
-          subSequence.GetElementDS<double>(0x0018,0x0050,1,&_spacing[2]);
-          //
-          // spacing is row spacing\column spacing
-          // but a slice is width-first, i.e. columns increase fastest.
-          //
-          spacing[0] = _spacing[1];
-          spacing[1] = _spacing[0];
-          spacing[2] = _spacing[2];
-
+          if(subSequence.GetElementDS<double>(0x0028,0x0030,2,_spacing,false) == EXIT_SUCCESS
+             && subSequence.GetElementDS<double>(0x0018,0x0050,1,&_spacing[2]) == EXIT_SUCCESS)
+            {
+            spacing[0] = _spacing[1];
+            spacing[1] = _spacing[0];
+            spacing[2] = _spacing[2];
+            break;
+            }
           }
         }
       }
@@ -1353,35 +1370,56 @@ int
 DCMTKFileReader
 ::GetOrigin(double *origin)
 {
-  DCMTKSequence originSequence;
-  DCMTKItem item;
-  DCMTKSequence subSequence;
-
-  int rval = this->GetElementDS<double>(0x0020,0x0032,3,origin,false);
-  if(rval != EXIT_SUCCESS)
+  // if the origin has yet to be cached
+  if(this->m_Origin == ITK_NULLPTR)
     {
-    rval = this->GetElementSQ(0x5200,0x9230,originSequence,false);
-    if(rval != EXIT_SUCCESS)
-      {
-      // not sure this would ever work, the 5299,9229 sequences i've
-      // seen don't have 0020,9113 in em
-      rval = this->GetElementSQ(0X5200,0X9229,originSequence,false);
-      }
+    this->m_Origin = new double [3];
+    std::fill(this->m_Origin,this->m_Origin+3,0.0);
+    DCMTKSequence originSequence;
+    DCMTKItem item;
+    DCMTKSequence subSequence;
+
+    int rval = this->GetElementDS<double>(0x0020,0x0032,3,origin,false);
     if(rval == EXIT_SUCCESS)
       {
-      rval = originSequence.GetElementItem(0,item,false);
-      if(rval == EXIT_SUCCESS)
+      return EXIT_SUCCESS;
+      }
+    // this is for multiframe images -- preferentially use the shared
+    // functional group, and then the per-frame functional group
+    unsigned short candidateSequences[2] =
+      {
+        0x9229, // check for Shared Functional Group Sequence first
+        0x9230, // check the Per-frame Functional Groups Sequence
+      };
+    for(unsigned i = 0; i < 2; ++i)
+      {
+      rval = this->GetElementSQ(0x5200,candidateSequences[i],originSequence,false);
+      if(rval != EXIT_SUCCESS)
         {
-        rval = item.GetElementSQ(0x0020,0x9113,subSequence,false);
-        if(rval == EXIT_SUCCESS)
-          {
-          subSequence.GetElementDS<double>(0x0020,0x0032,3,origin,true);
-          rval = EXIT_SUCCESS;
-          }
+        continue;
         }
+      rval = originSequence.GetElementItem(0,item,false);
+      if(rval != EXIT_SUCCESS)
+        {
+        continue;
+        }
+      rval = item.GetElementSQ(0x0020,0x9113,subSequence,false);
+      if(rval != EXIT_SUCCESS)
+        {
+        continue;
+        }
+      subSequence.GetElementDS<double>(0x0020,0x0032,3,this->m_Origin,true);
+      if(rval != EXIT_SUCCESS)
+        {
+        continue;
+        }
+      break;
       }
     }
-    return rval;
+  origin[0] = this->m_Origin[0];
+  origin[1] = this->m_Origin[1];
+  origin[2] = this->m_Origin[2];
+  return rval;
 }
 
 bool

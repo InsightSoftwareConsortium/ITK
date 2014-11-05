@@ -241,7 +241,8 @@ public:
                       m_Dataset(0),
                       m_Xfer(EXS_Unknown),
                       m_FrameCount(0),
-                      m_FileNumber(-1L)
+                      m_FileNumber(-1L),
+                      m_Origin(0);
     {
     }
   ~DCMTKFileReader();
@@ -477,6 +478,7 @@ private:
   E_TransferSyntax     m_Xfer;
   Sint32               m_FrameCount;
   long                 m_FileNumber;
+  double *             m_Origin;
 };
 
 extern bool CompareDCMTKFileReaders(DCMTKFileReader *a, DCMTKFileReader *b);
