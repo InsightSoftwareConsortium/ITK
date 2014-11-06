@@ -37,8 +37,8 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage >
 ImageToImageFilter< TInputImage, TOutputImage >
-::ImageToImageFilter() : m_CoordinateTolerance(1.0e-6),
-                         m_DirectionTolerance(1.0e-6)
+::ImageToImageFilter() : m_CoordinateTolerance(Self::GetGlobalDefaultCoordinateTolerance()),
+                         m_DirectionTolerance(Self::GetGlobalDefaultDirectionTolerance())
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);

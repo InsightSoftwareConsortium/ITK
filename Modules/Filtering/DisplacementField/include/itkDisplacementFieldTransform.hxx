@@ -20,6 +20,7 @@
 
 #include "itkDisplacementFieldTransform.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkImageToImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
@@ -33,7 +34,9 @@ namespace itk
  */
 template <typename TScalar, unsigned int NDimensions>
 DisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldTransform()
-: Superclass( 0 )
+: Superclass( 0 ),
+  m_CoordinateTolerance(ImageToImageFilterCommon::GetGlobalDefaultCoordinateTolerance()),
+  m_DirectionTolerance(ImageToImageFilterCommon::GetGlobalDefaultDirectionTolerance())
 {
   this->m_DisplacementField = ITK_NULLPTR;
   this->m_InverseDisplacementField = ITK_NULLPTR;
@@ -453,8 +456,8 @@ DisplacementFieldTransform<TScalar, NDimensions>
 
     // tolerance for origin and spacing depends on the size of pixel
     // tolerance for directions a fraction of the unit cube.
-    const double coordinateTolerance = 1.0e-6 * fieldSpacing[0];
-    const double directionTolerance = 1.0e-6;
+    const double coordinateTolerance = m_CoordinateTolerance * fieldSpacing[0];
+    const double directionTolerance =  m_DirectionTolerance;
 
     std::ostringstream sizeString;
     std::ostringstream originString;

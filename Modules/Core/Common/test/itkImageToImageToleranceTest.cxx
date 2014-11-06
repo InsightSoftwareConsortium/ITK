@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkImage.h"
 #include "itkAddImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkImageToImageToleranceTest( int, char * [] )
 {
@@ -131,5 +132,26 @@ int itkImageToImageToleranceTest( int, char * [] )
               << e << std::endl;
     return EXIT_FAILURE;
     }
+
+  // test global defaults
+  TEST_EXPECT_EQUAL( AddImageFilterType::GetGlobalDefaultCoordinateTolerance(), 1.0e-6);
+  TEST_EXPECT_EQUAL( AddImageFilterType::GetGlobalDefaultDirectionTolerance(), 1.0e-6);
+
+  addImageFilter = AddImageFilterType::New();
+  TEST_EXPECT_EQUAL( addImageFilter->GetCoordinateTolerance(), 1.0e-6);
+  TEST_EXPECT_EQUAL( addImageFilter->GetDirectionTolerance(), 1.0e-6);
+
+  AddImageFilterType::SetGlobalDefaultCoordinateTolerance( 1.0e-4 );
+  TEST_EXPECT_EQUAL( AddImageFilterType::GetGlobalDefaultCoordinateTolerance(), 1.0e-4);
+  TEST_EXPECT_EQUAL( AddImageFilterType::GetGlobalDefaultDirectionTolerance(), 1.0e-6);
+
+  itk::ImageToImageFilterCommon::SetGlobalDefaultDirectionTolerance( 1.0e-5 );
+  TEST_EXPECT_EQUAL( AddImageFilterType::GetGlobalDefaultCoordinateTolerance(), 1.0e-4);
+  TEST_EXPECT_EQUAL( AddImageFilterType::GetGlobalDefaultDirectionTolerance(), 1.0e-5);
+
+  addImageFilter = AddImageFilterType::New();
+  TEST_EXPECT_EQUAL( addImageFilter->GetCoordinateTolerance(), 1.0e-4);
+  TEST_EXPECT_EQUAL( addImageFilter->GetDirectionTolerance(), 1.0e-5);
+
   return EXIT_SUCCESS;
 }
