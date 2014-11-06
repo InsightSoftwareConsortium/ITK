@@ -118,7 +118,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  You may have noticed that apart from the declaration of the
-  //  \code{PixelType} there is nothing in this code that is specific for RGB
+  //  \code{PixelType} there is nothing in this code specific to RGB
   //  images. All the actions required to support color images are implemented
   //  internally in the \doxygen{ImageIO} objects.
   //

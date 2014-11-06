@@ -22,8 +22,8 @@
 //  as another DICOM slice. In the process an intensity rescaling is also
 //  applied.
 //
-//  In order to read and write the slice we use here the \doxygen{GDCMImageIO}
-//  class that encapsulates a connection to the underlying GDCM library. In
+//  In order to read and write the slice we use the \doxygen{GDCMImageIO}
+//  class which encapsulates a connection to the underlying GDCM library. In
 //  this way we gain access from ITK to the DICOM functionalities offered by
 //  GDCM. The GDCMImageIO object is connected as the ImageIO object to be used
 //  by the \doxygen{ImageFileWriter}.
@@ -100,9 +100,9 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 //
-// At this point we can trigger the reading process by invoking the Update()
-// method.  Since this reading process may eventually throw an exception, we
-// place the invocation inside a try/catch block.
+// At this point we can trigger the reading process by invoking the
+// \code{Update()} method.  Since this reading process may eventually throw an
+// exception, we place the invocation inside a \code{try/catch} block.
 //
 // Software Guide : EndLatex
 
@@ -121,19 +121,19 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 //
-// We have now the image in memory and can get access to it by using the
-// GetOutput() method of the reader. In the remaining of this current example,
-// we focus on showing how we can save this image again in DICOM format in a
-// new file.
+// We now have the image in memory and can get access to it using the
+// \code{GetOutput()} method of the reader. In the remainder of this current
+// example, we focus on showing how to save this image again in DICOM
+// format in a new file.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginLatex
 //
 // First, we must instantiate an ImageFileWriter type. Then, we construct one,
-// set the filename to be used for writing and connect the input image to be
-// written. Given that in this example we write the image in different ways,
-// and in each case we use a different writer, we enumerated here the variable
+// set the filename to be used for writing, and connect the input image to be
+// written. Since in this example we write the image in different ways,
+// and in each case use a different writer, we enumerated the variable
 // names of the writer objects as well as their types.
 //
 // Software Guide : EndLatex
@@ -163,9 +163,9 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 //
-// The writing process is triggered by invoking the Update() method. Since this
-// execution may result in exceptions being thrown we place the Update() call
-// inside a try/catch block.
+// The writing process is triggered by invoking the \code{Update()} method.
+// Since this execution may result in exceptions being thrown we place the
+// \code{Update()} call inside a \code{try/catch} block.
 //
 // Software Guide : EndLatex
 
@@ -184,11 +184,10 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 //
-//  We will now rescale the image into a rescaled image one using the rescale
-//  intensity image filter. For this purpose we use a better suited pixel type:
-//  \code{unsigned char} instead of \code{signed short}.  The minimum and
-//  maximum values of the output image are explicitly defined in the rescaling
-//  filter.
+//  We will now rescale the image using the RescaleIntensityImageFilter. For
+//  this purpose we use a better suited pixel type: \code{unsigned char}
+//  instead of \code{signed short}.  The minimum and maximum values of the
+//  output image are explicitly defined in the rescaling filter.
 //
 // Software Guide : EndLatex
 
@@ -210,9 +209,9 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 //
 // We create a second writer object that will save the rescaled image into a
-// file. This time not in DICOM format. This is done only for the sake of
+// new file, which is not in DICOM format. This is done only for the sake of
 // verifying the image against the one that will be saved in DICOM format later
-// on this example.
+// in this example.
 //
 // Software Guide : EndLatex
 
@@ -229,8 +228,8 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 //
-// The writer can be executed by invoking the Update() method from inside a
-// try/catch block.
+// The writer can be executed by invoking the \code{Update()} method from
+// inside a \code{try/catch} block.
 //
 // Software Guide : EndLatex
 

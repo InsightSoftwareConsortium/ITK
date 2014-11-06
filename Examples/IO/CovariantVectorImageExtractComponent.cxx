@@ -60,9 +60,9 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  We read an image of \doxygen{CovariantVector} pixels and extract on of
+  //  We read an image of \doxygen{CovariantVector} pixels and extract one of
   //  its components to generate a scalar image of a consistent pixel type.
-  //  Then, we rescale the intensities of this scalar image and write it as a
+  //  Then, we rescale the intensities of this scalar image and write it as an
   //  image of \code{unsigned short} pixels.
   //
   //  Software Guide : EndLatex
@@ -99,7 +99,7 @@ int main( int argc, char ** argv )
   //
   //  The VectorIndexSelectionCastImageFilter is instantiated
   //  using the input and output image types. A filter object is created with
-  //  the New() method and assigned to a \doxygen{SmartPointer}.
+  //  the \code{New()} method and assigned to a \doxygen{SmartPointer}.
   //
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!Instantiation}
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!New()}
@@ -118,9 +118,9 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The VectorIndexSelectionCastImageFilter class require us to specify
+  //  The VectorIndexSelectionCastImageFilter class requires us to specify
   //  which of the vector components is to be extracted from the vector image.
-  //  This is done with the SetIndex() method. In this example we obtain
+  //  This is done with the \code{SetIndex()} method. In this example we obtain
   //  this value from the command line arguments.
   //
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!SetIndex()}
@@ -165,7 +165,7 @@ int main( int argc, char ** argv )
   //
   //  The minimum and maximum values for the output image are specified in
   //  the following. Note the use of the \doxygen{NumericTraits} class which
-  //  allows to define a number of type-related constant in a generic
+  //  allows us to define a number of type-related constants in a generic
   //  way. The use of traits is a fundamental characteristic of generic
   //  programming~\cite{Austern1999,Alexandrescu2001}.
   //
@@ -182,8 +182,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer using the New() method and
-  //  assign the result to a SmartPointer.
+  //  Below, we create the reader and writer using the \code{New()} method and
+  //  assign the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -206,8 +206,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The name of the file to be read or written is passed with the
-  //  SetFileName() method.
+  //  The name of the file to be read or written is passed to the
+  //  \code{SetFileName()} method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -238,7 +238,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we execute the pipeline by invoking Update() on the
+  //  Finally we execute the pipeline by invoking \code{Update()} on the
   //  writer. The call is placed in a \code{try/catch} block in case exceptions
   //  are thrown.
   //

@@ -41,14 +41,14 @@
 //  \index{HIPAA!Dicom}
 //  \index{Dicom!HIPPA}
 //
-//  When saving datasets in DICOM format it must be made clear whether this
+//  When saving datasets in DICOM format it must be made clear whether these
 //  datasets have been processed in any way, and if so, you should inform the
 //  recipients of the data about the purpose and potential consequences of the
 //  processing. This is fundamental if the datasets are intended to be used for
 //  diagnosis, treatment or follow-up of patients. For example, the simple
-//  reduction of a dataset form a 16-bits/pixel to a 8-bits/pixel
-//  representation may make impossible to detect certain pathologies and as a
-//  result will expose the patient to the risk or remaining untreated for a
+//  reduction of a dataset from a 16-bits/pixel to a 8-bits/pixel
+//  representation may make it impossible to detect certain pathologies and
+//  as a result will expose the patient to the risk of remaining untreated for a
 //  long period of time while her/his pathology progresses.
 //
 //  You are strongly encouraged to get familiar with the report on medical
@@ -65,8 +65,8 @@
 // After all these warnings, let us now go back to the code and get familiar
 // with the use of ITK and GDCM for writing DICOM Series. The first step that
 // we must take is to include the header files of the relevant classes. We
-// include the GDCM image IO class, the GDCM filenames generator, the series
-// reader and writer.
+// include the GDCMImageIO class, the GDCM filenames generator, as well as
+// the series reader and writer.
 //
 // Software Guide : EndLatex
 
@@ -153,7 +153,7 @@ int main( int argc, char* argv[] )
   // Software Guide : BeginLatex
   //
   // We construct one instance of the series reader object. Set the DICOM image
-  // IO object to be use with it, and set the list of filenames to read.
+  // IO object to be used with it, and set the list of filenames to read.
   //
   // Software Guide : EndLatex
 
@@ -187,8 +187,8 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginLatex
   //
-  // At this point we would have the volumetric data loaded in memory and we can
-  // get access to it by invoking the \code{GetOutput()} method in the reader.
+  // At this point we have the volumetric data loaded in memory and we can
+  // access it by invoking the \code{GetOutput()} method in the reader.
   //
   // Software Guide : EndLatex
 
@@ -205,8 +205,8 @@ int main( int argc, char* argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Second, we make sure the output directory exist, using the cross platform
-  //  tools: itksys::SystemTools. In this case we select to create the directory
+  //  Second, we make sure the output directory exists, using the cross-platform
+  //  tools: itksys::SystemTools. In this case we choose to create the directory
   //  if it does not exist yet.
   //
   //  \index{itksys!SystemTools}
@@ -224,7 +224,7 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginLatex
   //
-  // We instantiate explicitly the image type to be used for writing, and use the
+  // We explicitly instantiate the image type to be used for writing, and use the
   // image type for instantiating the type of the series writer.
   //
   // Software Guide : EndLatex
@@ -277,9 +277,8 @@ int main( int argc, char* argv[] )
   //
   //  The following line of code is extremely important for this process to work
   //  correctly.  The line is taking the MetaDataDictionary from the input reader
-  //  and passing it to the output writer. The reason why this step is so
-  //  important is that the MetaDataDictionary contains all the entries of the
-  //  input DICOM header.
+  //  and passing it to the output writer. This step is important because the
+  //  MetaDataDictionary contains all the entries of the input DICOM header.
   //
   //  \index{itk::ImageSeriesReader!GetMetaDataDictionaryArray()}
   //  \index{itk::ImageSeriesWriter!SetMetaDataDictionaryArray()}
@@ -294,8 +293,8 @@ int main( int argc, char* argv[] )
   // Software Guide : BeginLatex
   //
   // Finally we trigger the writing process by invoking the \code{Update()} method
-  // in the series writer. We place this call inside a try/catch block, in case
-  // any exception is thrown during the writing process.
+  // in the series writer. We place this call inside a \code{try/catch} block,
+  // in case any exception is thrown during the writing process.
   //
   // Software Guide : EndLatex
 
@@ -314,10 +313,10 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Please keep in mind that you should avoid to generate DICOM files that have
+  // Please keep in mind that you should avoid generating DICOM files which have
   // the appearance of being produced by a scanner. It should be clear from the
-  // directory or filenames that this data was the result of the
-  // execution of some sort of algorithm. This will help to prevent your dataset
+  // directory or filenames that these data were the result of the
+  // execution of some sort of algorithm. This will prevent your dataset
   // from being used as scanner data by accident.
   //
   // Software Guide : EndLatex

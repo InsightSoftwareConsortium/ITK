@@ -23,7 +23,7 @@
 //  user feedback in interactive programs. Here we simply read a 3D volume,
 //  extract one of its slices and save it as a 2D image. Note that caution
 //  should be used when working with 2D slices from a 3D dataset, since for
-//  most image processing operations, the application of a filter on a
+//  most image processing operations, the application of a filter on an
 //  extracted slice is not equivalent to first applying the filter in the
 //  volume and then extracting the slice.
 //
@@ -105,8 +105,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer  using the New() method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  Below, we create the reader and writer using the \code{New()} method and
+  //  assign the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -124,7 +124,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  SetFileName() method.
+  //  \code{SetFileName()} method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -142,8 +142,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The ExtractImageFilter type is instantiated using the input and
-  //  output image types. A filter object is created with the New()
-  //  method and assigned to a SmartPointer.
+  //  output image types. A filter object is created with the \code{New()}
+  //  method and assigned to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -160,15 +160,15 @@ int main( int argc, char ** argv )
   //
   //  The ExtractImageFilter requires a region to be defined by the
   //  user. The region is specified by an \doxygen{Index} indicating the
-  //  pixel where the region starts and an \doxygen{Size} indication how many
+  //  pixel where the region starts and an \doxygen{Size} indicating how many
   //  pixels the region has along each dimension. In order to extract a $2D$
   //  image from a $3D$ data set, it is enough to set the size of the region
   //  to $0$ in one dimension.  This will indicate to
   //  ExtractImageFilter that a dimensional reduction has been
   //  specified. Here we take the region from the largest possible region of
-  //  the input image. Note that UpdateOutputInformation() is being
-  //  called first on the reader, this method updates the meta-data in
-  //  the outputImage without actually reading in the bulk-data.
+  //  the input image. Note that \code{UpdateOutputInformation()} is being
+  //  called first on the reader. This method updates the metadata in
+  //  the output image without actually reading in the bulk-data.
   //
   //  Software Guide : EndLatex
 
@@ -197,7 +197,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Note that in this case we are extracting a $Z$ slice, and for that
-  //  reason, the dimension to be collapsed in the one with index $2$. You
+  //  reason, the dimension to be collapsed is the one with index $2$. You
   //  may keep in mind the association of index components
   //  $\{X=0,Y=1,Z=2\}$. If we were interested in extracting a slice
   //  perpendicular to the $Y$ axis we would have set \code{size[1]=0;}.
@@ -237,7 +237,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Then the region is passed to the filter using the
-  //  SetExtractionRegion() method.
+  //  \code{SetExtractionRegion()} method.
   //
   //  \index{itk::ExtractImageFilter!SetExtractionRegion()}
   //
@@ -264,7 +264,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we execute the pipeline by invoking Update() on the writer. The
+  //  Finally we execute the pipeline by invoking \code{Update()} on the writer. The
   //  call is placed in a \code{try/catch} block in case exceptions are
   //  thrown.
   //

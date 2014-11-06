@@ -96,7 +96,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // Filename must be provided to both the reader and the writer. In this
+  // A filename must be provided to both the reader and the writer. In this
   // particular case we take those filenames from the command line arguments.
   //
   // Software Guide : EndLatex
@@ -109,7 +109,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // Being this a minimal example, we create a short pipeline where we simply
+  // This being a minimal example, we create a short pipeline where we simply
   // connect the output of the reader to the input of the writer.
   //
   // Software Guide : EndLatex
@@ -121,8 +121,9 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginLatex
   //
   // The execution of this short pipeline is triggered by invoking the writer's
-  // Update() method. This invocation must be placed inside a try/catch
-  // block since its execution may result in exceptions being thrown.
+  // \code{Update()} method. This invocation must be placed inside a
+  // \code{try/catch} block since its execution may result in exceptions being
+  // thrown.
   //
   // Software Guide : EndLatex
 

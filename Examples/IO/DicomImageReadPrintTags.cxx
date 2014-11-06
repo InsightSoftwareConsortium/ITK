@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  It is often valuable to be able to query the entries from the header of a
-//  DICOM file. This can be used for checking for consistency, or simply for
+//  DICOM file. This can be used for consistency checking, or simply for
 //  verifying that we have the correct dataset in our hands.  This example
 //  illustrates how to read a DICOM file and then print out most of the DICOM
 //  header information. The binary fields of the DICOM header are skipped.
@@ -36,8 +36,8 @@
 // Software Guide : BeginLatex
 //
 // The headers of the main classes involved in this example are specified
-// below. They include the image file reader, the GDCM image IO object, the
-// Meta data dictionary and its entry element the Meta data object.
+// below. They include the image file reader, the GDCMImageIO object, the
+// MetaDataDictionary and its entry element, the MetaDataObject.
 //
 // \index{MetaDataDictionary!header}
 // \index{MetaDataObject!header}
@@ -89,7 +89,7 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Using the image type as template parameter we instantiate the type of the
+  // Using the image type as a template parameter we instantiate the type of the
   // image file reader and construct one instance of it.
   //
   // Software Guide : EndLatex
@@ -146,7 +146,7 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Now that the image has been read, we obtain the Meta data dictionary from
+  // Now that the image has been read, we obtain the MetaDataDictionary from
   // the ImageIO object using the \code{GetMetaDataDictionary()} method.
   //
   // \index{MetaDataDictionary}
@@ -203,13 +203,14 @@ int main( int argc, char* argv[] )
 
     // Software Guide : BeginLatex
     //
-    // For those entries that can be converted, we take their DICOM tag and pass it
-    // to the \code{GetLabelFromTag()} method of the GDCMImageIO class. This method
-    // checks the DICOM dictionary and returns the string label associated to the
-    // tag that we are providing in the \code{tagkey} variable. If the label is
-    // found, it is returned in \code{labelId} variable. The method itself return
-    // false if the tagkey is not found in the dictionary.  For example "0010|0010"
-    // in \code{tagkey} becomes "Patient's Name" in \code{labelId}.
+    // For those entries that can be converted, we take their DICOM tag and pass
+    // it to the \code{GetLabelFromTag()} method of the GDCMImageIO class. This
+    // method checks the DICOM dictionary and returns the string label
+    // associated with the tag that we are providing in the \code{tagkey}
+    // variable. If the label is found, it is returned in \code{labelId}
+    // variable. The method itself returns false if the tagkey is not found in
+    // the dictionary.  For example "$0010|0010$" in \code{tagkey} becomes
+    // "Patient's Name" in \code{labelId}.
     //
     // Software Guide : EndLatex
 
@@ -296,7 +297,7 @@ int main( int argc, char* argv[] )
 
     // Software Guide : BeginLatex
     //
-    // If the dynamic cast succeed, then we can print out the values of the label,
+    // If the dynamic cast succeeds, then we can print out the values of the label,
     // the tag and the actual value.
     //
     // Software Guide : EndLatex
@@ -313,8 +314,9 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginLatex
   //
-  //  Another way to read a specific tag is to use the encapsulation above MetaDataDictionary
-  //  Note that this is stricly equivalent to the above code.
+  //  Another way to read a specific tag is to use the encapsulation above
+  //  MetaDataDictionary. Note that this is stricly equivalent to the above
+  //  code.
   //
   // Software Guide : EndLatex
 
@@ -353,7 +355,7 @@ int main( int argc, char* argv[] )
   //  Software Guide : BeginLatex
   //
   // The following piece of code will print out the proper pixel type /
-  // component for instanciating an itk::ImageFileReader that can properly
+  // component for instantiating an \doxygen{ImageFileReader} that can properly
   // import the printed DICOM file.
   //
   //  Software Guide : EndLatex

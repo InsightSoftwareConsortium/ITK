@@ -22,7 +22,7 @@
 //  files in order to compose a volume. The class \doxygen{ImageSeriesReader}
 //  is used for this purpose. This class works in combination with a generator
 //  of filenames that will provide a list of files to be read. In this
-//  particular example we use the \doxygen{NumericSeriesFileNames} class as
+//  particular example we use the \doxygen{NumericSeriesFileNames} class as a
 //  filename generator. This generator uses a \code{printf} style of string format
 //  with a ``\code{\%d}'' field that will be successively replaced by a number specified
 //  by the user. Here we will use a format like ``\code{file\%03d.png}'' for reading
@@ -97,7 +97,7 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // Then, we declare the filenames generator type and create one instance of it.
+  // Then, we declare the filename generator type and create one instance of it.
   //
   // Software Guide : EndLatex
 
@@ -110,7 +110,7 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // The filenames generator requires us to provide a pattern of text for the
+  // The filename generator requires us to provide a pattern of text for the
   // filenames, and numbers for the initial value, last value and increment to be
   // used for generating the names of the files.
   //
@@ -139,7 +139,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The filenames of the input files must be provided to the reader. While the
+  //  The filenames of the input files must be provided to the reader, while the
   //  writer is instructed to write the same volume dataset in a single file.
   //
   //
@@ -165,9 +165,9 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Finally, execution of the pipeline can be triggered by invoking the
-  //  Update() method in the writer. This call must be placed in a try/catch
-  //  block since exceptions be potentially be thrown in the process of reading
-  //  or writing the images.
+  //  \code{Update()} method in the writer. This call must be placed in a
+  //  \code{try/catch} block since exceptions be potentially be thrown in the
+  //  process of reading or writing the images.
   //
   //  Software Guide : EndLatex
 

@@ -20,7 +20,7 @@
 //
 //  This example should arguably be placed in the previous filtering
 //  chapter. However its usefulness for typical IO operations makes it
-//  interesting to mention here. The purpose of this example is to read and
+//  interesting to mention here. The purpose of this example is to read an
 //  image, extract a subregion and write this subregion to a file. This is a
 //  common task when we want to apply a computationally intensive method to
 //  the region of interest of an image.
@@ -96,7 +96,7 @@ int main( int argc, char ** argv )
   //
   //  The RegionOfInterestImageFilter type is instantiated using
   //  the input and output image types. A filter object is created with the
-  //  New() method and assigned to a \doxygen{SmartPointer}.
+  //  \code{New()} method and assigned to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -151,7 +151,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Then the region is passed to the filter using the
-  //  SetRegionOfInterest() method.
+  //  \code{SetRegionOfInterest()} method.
   //
   //  \index{itk::RegionOfInterestImageFilter!SetRegionOfInterest()}
   //
@@ -165,8 +165,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer using the New() method and
-  //  assigning the result to a SmartPointer.
+  //  Below, we create the reader and writer using the \code{New()} method and
+  //  assign the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -191,7 +191,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  SetFileName() method.
+  //  \code{SetFileName()} method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -221,9 +221,9 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we execute the pipeline by invoking Update() on the writer. The
-  //  call is placed in a \code{try/catch} block in case exceptions are
-  //  thrown.
+  //  Finally we execute the pipeline by invoking \code{Update()} on the
+  //  writer. The call is placed in a \code{try/catch} block in case exceptions
+  //  are thrown.
   //
   //  Software Guide : EndLatex
 

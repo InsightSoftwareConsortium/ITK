@@ -25,11 +25,11 @@
 //  arrays of fixed size in which the components have the same representation
 //  type.
 //
-//  In this example we are reading an gradient image from a file (written in
+//  In this example we are reading a gradient image from a file (written in
 //  the previous example) and computing its magnitude using the
 //  \doxygen{VectorMagnitudeImageFilter}. Note that this filter is
 //  different from the \doxygen{GradientMagnitudeImageFilter} which actually
-//  takes a scalar image as input and compute the magnitude of its gradient.
+//  takes a scalar image as input and computes the magnitude of its gradient.
 //  The VectorMagnitudeImageFilter class takes an image of vector
 //  pixel type as input and computes pixel-wise the magnitude of each vector.
 //
@@ -107,7 +107,7 @@ int main( int argc, char ** argv )
   //
   //  The VectorMagnitudeImageFilter is instantiated using the
   //  input and output image types. A filter object is created with the
-  //  New() method and assigned to a \doxygen{SmartPointer}.
+  //  \code{New()} method and assigned to a \doxygen{SmartPointer}.
   //
   //  \index{VectorMagnitudeImageFilter!Instantiation}
   //  \index{VectorMagnitudeImageFilter!New()}
@@ -147,7 +147,7 @@ int main( int argc, char ** argv )
   //
   //  In the following the minimum and maximum values for the output image
   //  are specified. Note the use of the \doxygen{NumericTraits} class which
-  //  allows to define a number of type-related constant in a generic
+  //  allows us to define a number of type-related constants in a generic
   //  way. The use of traits is a fundamental characteristic of generic
   //  programming~\cite{Austern1999,Alexandrescu2001}.
   //
@@ -164,8 +164,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer using the New() method and
-  //  assign the result to a SmartPointer.
+  //  Below, we create the reader and writer using the \code{New()} method and
+  //  assign the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -189,7 +189,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  SetFileName() method.
+  //  \code{SetFileName()} method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -220,7 +220,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we execute the pipeline by invoking Update() on the
+  //  Finally we execute the pipeline by invoking \code{Update()} on the
   //  writer. The call is placed in a \code{try/catch} block in case exceptions
   //  are thrown.
   //

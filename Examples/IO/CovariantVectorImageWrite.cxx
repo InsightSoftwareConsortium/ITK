@@ -72,8 +72,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  We select to read an image of \code{signed short} pixels and compute the
-  //  gradient to produce an image of CovariantVector where each
+  //  We read an image of \code{signed short} pixels and compute the
+  //  gradient to produce an image of CovariantVectors where each
   //  component is of type \code{float}.
   //
   //  Software Guide : EndLatex
@@ -108,7 +108,7 @@ int main( int argc, char ** argv )
   //
   //  The GradientRecursiveGaussianImageFilter class is instantiated
   //  using the input and output image types. A filter object is created with
-  //  the New() method and assigned to a \doxygen{SmartPointer}.
+  //  the \code{New()} method and assigned to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -124,8 +124,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  We select a value for the $\sigma$ parameter of the
-  //  GradientRecursiveGaussianImageFilter. Note that this $\sigma$
-  //  is specified in millimeters.
+  //  GradientRecursiveGaussianImageFilter. Note that $\sigma$
+  //  for this filter is specified in millimeters.
   //
   //  Software Guide : EndLatex
 
@@ -137,8 +137,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer  using the New() method and
-  //  assigning the result to a SmartPointer.
+  //  Below, we create the reader and writer using the \code{New()} method and
+  //  assign the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -162,8 +162,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The name of the file to be read or written is passed with the
-  //  SetFileName() method.
+  //  The name of the file to be read or written is passed to the
+  //  \code{SetFileName()} method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -193,8 +193,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we execute the pipeline by invoking Update() on the writer. The
-  //  call is placed in a \code{try/catch} block in case exceptions are
+  //  Finally we execute the pipeline by invoking \code{Update()} on the writer.
+  //  The call is placed in a \code{try/catch} block in case exceptions are
   //  thrown.
   //
   //  Software Guide : EndLatex

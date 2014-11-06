@@ -71,12 +71,12 @@ int main( int argc, char ** argv )
   //  driven mainly by two considerations:
   //
   //  \begin{itemize}
-  //  \item It should be possible to cast the file pixel type in the file to
+  //  \item It should be possible to cast the pixel type in the file to
   //  the pixel type you select. This casting will be performed using the
   //  standard C-language rules, so you will have to make sure that the
   //  conversion does not result in information being lost.
   //  \item The pixel type in memory should be appropriate to the type of
-  //  processing you intended to apply on the images.
+  //  processing you intend to apply on the images.
   //  \end{itemize}
   //
   //  A typical selection for medical images is illustrated in
@@ -85,16 +85,16 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef short      PixelType;
-  const   unsigned int        Dimension = 2;
+  typedef short         PixelType;
+  const   unsigned int  Dimension = 2;
   typedef itk::Image< PixelType, Dimension >    ImageType;
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Note that the dimension of the image in memory should match the one of
-  //  the image in file. There are a couple of special cases in which this
+  //  Note that the dimension of the image in memory should match that of
+  //  the image in the file. There are a couple of special cases in which this
   //  condition may be relaxed, but in general it is better to ensure that both
   //  dimensions match.
   //
@@ -115,7 +115,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Then, we create one object of each type using the New() method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assign the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -138,7 +138,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The name of the file to be read or written is passed with the
+  //  The name of the file to be read or written is passed to the
   //  SetFileName() method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
@@ -169,7 +169,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  At first view, this may seem as a quite useless program, but it is
+  //  At first glance this may look like a quite useless program, but it is
   //  actually implementing a powerful file format conversion tool! The
   //  execution of the pipeline is triggered by the invocation of the
   //  \code{Update()} methods in one of the final objects. In this case, the final
@@ -198,7 +198,7 @@ int main( int argc, char ** argv )
   //
   //  Note that exceptions should only be caught by pieces of code that know
   //  what to do with them. In a typical application this \code{catch} block
-  //  should probably reside on the GUI code. The action on the \code{catch}
+  //  should probably reside in the GUI code. The action on the \code{catch}
   //  block could inform the user about the failure of the IO operation.
   //
   //  The IO architecture of the toolkit makes it possible to avoid explicit
@@ -206,17 +206,18 @@ int main( int argc, char ** argv )
   //  images.\footnote{In this example no file format is specified; this
   //  program can be used as a general file conversion utility.}  The object
   //  factory mechanism enables the ImageFileReader and ImageFileWriter to
-  //  determine (at run-time) with which file format it is working
+  //  determine (at run-time) which file format it is working
   //  with. Typically, file formats are chosen based on the filename
   //  extension, but the architecture supports arbitrarily complex processes
   //  to determine whether a file can be read or written. Alternatively, the
   //  user can specify the data file format by explicit instantiation and
-  //  assignment the appropriate \doxygen{ImageIO} subclass.
+  //  assignment of the appropriate \doxygen{ImageIO} subclass.
   //
   //  For historical reasons and as a convenience to the user, the
-  //  \doxygen{ImageFileWriter} also has a Write() method that is aliased to
-  //  the \code{Update()} method. You can in principle use either of them but
-  //  \code{Update()} is recommended since Write() may be deprecated in the future.
+  //  \doxygen{ImageFileWriter} also has a \code{Write()} method that is
+  //  aliased to the \code{Update()} method. You can in principle use either
+  //  of them but \code{Update()} is recommended since \code{Write()} may be
+  //  deprecated in the future.
   //
   //  Software Guide : EndLatex
 
