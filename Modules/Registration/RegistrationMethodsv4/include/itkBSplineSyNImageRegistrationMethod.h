@@ -72,14 +72,20 @@ public:
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
   typedef typename Superclass::MovingImagesContainerType              MovingImagesContainerType;
 
+  typedef typename Superclass::PointSetType                           PointSetType;
+
   /** Metric and transform typedefs */
   typedef typename Superclass::ImageMetricType                        ImageMetricType;
   typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
   typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
-  typedef typename Superclass::MultiMetricType                        MultiMetricType;
   typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
   typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
+
+  typedef typename Superclass::MultiMetricType                        MultiMetricType;
+  typedef typename Superclass::MetricType                             MetricType;
+  typedef typename MetricType::Pointer                                MetricPointer;
+  typedef typename Superclass::PointSetMetricType                     PointSetMetricType;
 
   typedef typename Superclass::NumberOfIterationsArrayType            NumberOfIterationsArrayType;
 
@@ -93,10 +99,9 @@ public:
   typedef typename DisplacementFieldType::Pointer                     DisplacementFieldPointer;
   typedef typename DisplacementFieldType::PixelType                   DisplacementVectorType;
 
-  typedef DisplacementFieldToBSplineImageFilter
-    <DisplacementFieldType, DisplacementFieldType>                    BSplineFilterType;
-  typedef typename BSplineFilterType::ArrayType                       ArrayType;
-  typedef typename BSplineFilterType::RealImageType                   WeightedMaskImageType;
+  typedef DisplacementFieldToBSplineImageFilter<DisplacementFieldType>  BSplineFilterType;
+  typedef typename BSplineFilterType::ArrayType                         ArrayType;
+  typedef typename BSplineFilterType::RealImageType                     WeightedMaskImageType;
 
   typedef ImageMaskSpatialObject<ImageDimension>                      ImageMaskSpatialObjectType;
   typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
