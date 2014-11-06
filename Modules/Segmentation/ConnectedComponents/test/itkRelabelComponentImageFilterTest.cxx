@@ -221,5 +221,33 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << "Exception caught while printing statistics" << std::endl;
     }
 
+  // Check for the sizes of the 7 first labels which should be sorted by default
+  unsigned long ref1 [7] = { 7656, 2009, 1586, 1491, 1454, 921, 906 };
+  for ( int i=0; i<6; ++i )
+  {
+  if ( relabel->GetSizeOfObjectsInPixels()[i] != ref1[i] )
+    {
+    std::cerr << "Comparing label size to reference value." << std::endl;
+    std::cerr << "Got " << relabel->GetSizeOfObjectsInPixels()[i] << ", expected " << ref1[i] << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
+  // Disable size sorting
+  relabel->SetSortByObjectSize(false);
+  relabel->Update();
+
+  // Check for the sizes of the 7 first labels which are no more sorted
+  unsigned long ref2 [7] = { 1491, 2, 1, 906, 3, 40, 1 };
+  for ( int i=0; i<6; ++i )
+  {
+  if ( relabel->GetSizeOfObjectsInPixels()[i] != ref2[i] )
+    {
+    std::cerr << "Comparing label size to reference value." << std::endl;
+    std::cerr << "Got " << relabel->GetSizeOfObjectsInPixels()[i] << ", expected " << ref2[i] << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
   return EXIT_SUCCESS;
 }
