@@ -60,6 +60,9 @@
 
 #if defined(_WIN32)
 # include <windows.h>
+# if defined(_MSC_VER) && _MSC_VER >= 1800
+#  define KWSYS_WINDOWS_DEPRECATED_GetVersionEx
+# endif
 # include <errno.h>
 # if defined(KWSYS_SYS_HAS_PSAPI)
 #  include <psapi.h>
@@ -3786,7 +3789,7 @@ bool SystemInformationImplementation::QueryLinuxMemory()
     return false;
     }
 
-  if( unameInfo.release!=0 && strlen(unameInfo.release)>=3 )
+  if( strlen(unameInfo.release)>=3 )
     {
     // release looks like "2.6.3-15mdk-i686-up-4GB"
     char majorChar=unameInfo.release[0];
@@ -5063,6 +5066,10 @@ bool SystemInformationImplementation::QueryOSInformation()
   // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
   ZeroMemory (&osvi, sizeof (OSVERSIONINFOEXW));
   osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
+#ifdef KWSYS_WINDOWS_DEPRECATED_GetVersionEx
+# pragma warning (push)
+# pragma warning (disable:4996)
+#endif
   bOsVersionInfoEx = GetVersionExW ((OSVERSIONINFOW*)&osvi);
   if (!bOsVersionInfoEx)
     {
@@ -5072,6 +5079,9 @@ bool SystemInformationImplementation::QueryOSInformation()
       return false;
       }
     }
+#ifdef KWSYS_WINDOWS_DEPRECATED_GetVersionEx
+# pragma warning (pop)
+#endif
 
   switch (osvi.dwPlatformId)
     {
@@ -5146,7 +5156,7 @@ bool SystemInformationImplementation::QueryOSInformation()
             }
           }
 
-        sprintf (operatingSystem, "%s (Build %ld)", osvi.szCSDVersion, osvi.dwBuildNumber & 0xFFFF);
+        sprintf (operatingSystem, "%ls (Build %ld)", osvi.szCSDVersion, osvi.dwBuildNumber & 0xFFFF);
         this->OSVersion = operatingSystem;
         }
       else
@@ -5195,7 +5205,7 @@ bool SystemInformationImplementation::QueryOSInformation()
       if (osvi.dwMajorVersion <= 4)
         {
         // NB: NT 4.0 and earlier.
-        sprintf (operatingSystem, "version %ld.%ld %s (Build %ld)",
+        sprintf (operatingSystem, "version %ld.%ld %ls (Build %ld)",
                  osvi.dwMajorVersion,
                  osvi.dwMinorVersion,
                  osvi.szCSDVersion,
@@ -5226,7 +5236,7 @@ bool SystemInformationImplementation::QueryOSInformation()
       else
         {
         // Windows 2000 and everything else.
-        sprintf (operatingSystem,"%s (Build %ld)", osvi.szCSDVersion, osvi.dwBuildNumber & 0xFFFF);
+        sprintf (operatingSystem,"%ls (Build %ld)", osvi.szCSDVersion, osvi.dwBuildNumber & 0xFFFF);
         this->OSVersion = operatingSystem;
         }
       break;
