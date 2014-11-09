@@ -1370,6 +1370,7 @@ int
 DCMTKFileReader
 ::GetOrigin(double *origin)
 {
+  int rval = EXIT_SUCCESS;
   // if the origin has yet to be cached
   if(this->m_Origin == ITK_NULLPTR)
     {
@@ -1379,7 +1380,7 @@ DCMTKFileReader
     DCMTKItem item;
     DCMTKSequence subSequence;
 
-    int rval = this->GetElementDS<double>(0x0020,0x0032,3,origin,false);
+    rval = this->GetElementDS<double>(0x0020,0x0032,3,origin,false);
     if(rval == EXIT_SUCCESS)
       {
       return EXIT_SUCCESS;

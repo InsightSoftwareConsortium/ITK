@@ -242,9 +242,8 @@ public:
                       m_Xfer(EXS_Unknown),
                       m_FrameCount(0),
                       m_FileNumber(-1L),
-                      m_Origin(0);
-    {
-    }
+                      m_Origin(0)
+    {}
   ~DCMTKFileReader();
 
   void SetFileName(const std::string &fileName);
