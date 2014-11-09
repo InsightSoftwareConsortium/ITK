@@ -23,26 +23,38 @@
 #include "itkVersorRigid3DTransform.h"
 #include "itkRigid2DTransform.h"
 #include "itkAffineTransform.h"
+#include "itkBSplineTransform.h"
+#include "itkPoint.h"
+#include "itkPointSet.h"
+#include "itkBSplineScatteredDataPointSetToImageFilter.h"
+#include "itkVectorIndexSelectionCastImageFilter.h"
 #include <vector>
-#include <iostream>
 
 namespace itk
 {
 /** \class LandmarkBasedTransformInitializer
- * \brief LandmarkBasedTransformInitializer is a helper class intended to
- * The class computes the transform that aligns the fixed and moving images
- * given a set of landmarks. The class is templated over the Transform type.
+ * This class computes the transform that aligns the fixed and moving images
+ * given a set of pair landmarks. The class is templated over the Transform type
+ * as well as fixed image and moving image types.
  * The transform computed gives the best fit transform that maps the fixed
  * and moving images in a least squares sense. The indices are taken to
  * correspond, so point 1 in the first set will get mapped close to point
- * 1 in the second set, etc. An equal number of fixed and moving landmarks
- * need to be specified using SetFixedLandmarks() SetMovingLandmarks().
- * Any number of landmarks may be specified.
- * Call InitializeTransform() to initialize the transform.
+ * 1 in the second set, etc.
  *
  * Currently, the  following transforms are supported by the class:
  *    VersorRigid3DTransform
  *    Rigid2DTransform
+ *    AffineTransform
+ *    BSplineTransform
+ *
+ * An equal number of fixed and moving landmarks need to be specified using
+ * SetFixedLandmarks() and SetMovingLandmarks(). Any number of landmarks may
+ * be specified.
+ * In the case of using Affine or BSpline transforms, each landmark pair can
+ * contribute in the final transform based on its defined weight. Number of
+ * weights should be equal to the number of landmarks and can be specified using
+ * SetLandmarkWeight(). By defaults are weights are set to one.
+ * Call InitializeTransform() to initialize the transform.
  *
  * The class is based in part on Hybrid/vtkLandmarkTransform originally
  * implemented in python by David G. Gobbi.
@@ -52,13 +64,13 @@ namespace itk
  * using unit quaternions,"
  * http://people.csail.mit.edu/bkph/papers/Absolute_Orientation.pdf
  *
- * The Affine Transform initializer  is based on an algorithm by H
- * Spaeth, and is described in the Insight Journal Article
+ * The Affine Transform initializer is based on an algorithm by H Spaeth,
+ * and is described in the Insight Journal Article
  * "Affine Transformation for Landmark Based Registration Initializer
  * in ITK" by Kim E.Y., Johnson H., Williams N.
  * available at  http://midasjournal.com/browse/publication/825
  *
- * \ingroup ITKTransform
+ * \ingroup ITKRegistrationCommon
  *
  * \wiki
  * \wikiexample{Registration/LandmarkBasedTransformInitializer,Rigidly register one image to another using manually specified landmarks}
@@ -98,6 +110,11 @@ public:
   typedef TFixedImage  FixedImageType;
   typedef TMovingImage MovingImageType;
 
+  /** Set the reference image to define the parametric domain for the BSpline transform */
+  itkSetObjectMacro(ReferenceImage,   FixedImageType);
+
+  /** Set the number of control points to define the parametric domain for the BSpline transform */
+  itkSetMacro(BSplineNumberOfControlPoints, unsigned int);
 
   typedef   typename FixedImageType::ConstPointer  FixedImagePointer;
   typedef   typename MovingImageType::ConstPointer MovingImagePointer;
@@ -108,9 +125,11 @@ public:
   /** Convenience typedefs */
   typedef typename TransformType::InputPointType                  InputPointType;
   typedef typename TransformType::OutputVectorType                OutputVectorType;
-  typedef Point< double, itkGetStaticConstMacro(ImageDimension) > LandmarkPointType;
-  typedef std::vector< LandmarkPointType >                        LandmarkPointContainer;
-  typedef typename LandmarkPointContainer::const_iterator         PointsContainerConstIterator;
+
+  typedef Point< double, ImageDimension >                 LandmarkPointType;
+  typedef std::vector< LandmarkPointType >                LandmarkPointContainer;
+  typedef typename LandmarkPointContainer::const_iterator PointsContainerConstIterator;
+
   typedef typename TransformType::ParametersType                  ParametersType;
   typedef typename ParametersType::ValueType                      ParameterValueType;
   typedef std::vector< double >                                   LandmarkWeightType;
@@ -140,6 +159,12 @@ public:
   typedef VersorRigid3DTransform< ParameterValueType >                          VersorRigid3DTransformType;
   typedef Rigid2DTransform< ParameterValueType >                                Rigid2DTransformType;
   typedef AffineTransform< ParameterValueType, FixedImageType::ImageDimension > AffineTransformType;
+
+  const static unsigned int SplineOrder = 3;
+  typedef BSplineTransform< ParameterValueType,
+                            FixedImageType::ImageDimension,
+                            SplineOrder>                                        BSplineTransformType;
+
   /** Initialize the transform from the landmarks */
   virtual void InitializeTransform();
 
@@ -148,13 +173,6 @@ protected:
   ~LandmarkBasedTransformInitializer(){}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
-
-  // Supported Transform types
-  typedef enum {
-    VersorRigid3Dtransform = 1,
-    Rigid2Dtransfrom,
-    Else
-    } InputTransformType;
 
 private:
   LandmarkBasedTransformInitializer(const Self &); //purposely not implemented
@@ -170,16 +188,16 @@ private:
   void InternalInitializeTransform(Rigid2DTransformType *);
   /** Initializer for AffineTransform */
   void InternalInitializeTransform(AffineTransformType *);
+  /** Initializer for BSplineTransform */
+  void InternalInitializeTransform(BSplineTransformType *);
 
-  FixedImagePointer  m_FixedImage;
-  MovingImagePointer m_MovingImage;
-
+  FixedImagePointer      m_ReferenceImage;
+  TransformPointer       m_Transform;
   LandmarkPointContainer m_FixedLandmarks;
   LandmarkPointContainer m_MovingLandmarks;
-
-  TransformPointer m_Transform;
   /** weights for affine landmarks */
-  LandmarkWeightType m_LandmarkWeight;
+  LandmarkWeightType     m_LandmarkWeight;
+  unsigned int           m_BSplineNumberOfControlPoints;
 
 }; //class LandmarkBasedTransformInitializer
 }  // namespace itk

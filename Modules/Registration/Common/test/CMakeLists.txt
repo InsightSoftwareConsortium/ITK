@@ -54,6 +54,7 @@ itkMutualInformationMetricTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
 itkBlockMatchingImageFilterTest.cxx
+itkLandmarkBasedTransformInitializerTest.cxx
 )
 
 CreateTestDriver(ITKRegistrationCommon  "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationCommonTests}")
@@ -206,6 +207,8 @@ itk_add_test(NAME itkPointSetToPointSetRegistrationTest
 itk_add_test(NAME itkSpatialObjectToImageRegistrationTest
       COMMAND ITKRegistrationCommonTestDriver --redirectOutput itkSpatialObjectToImageRegistrationTest.txt
           itkSpatialObjectToImageRegistrationTest)
+itk_add_test(NAME itkLandmarkBasedTransformInitializerTest
+      COMMAND ITKRegistrationCommonTestDriver itkLandmarkBasedTransformInitializerTest)
 set_tests_properties(itkSpatialObjectToImageRegistrationTest PROPERTIES ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkSpatialObjectToImageRegistrationTest.txt)
 itk_add_test(NAME itkBlockMatchingImageFilterTest
       COMMAND ITKRegistrationCommonTestDriver
