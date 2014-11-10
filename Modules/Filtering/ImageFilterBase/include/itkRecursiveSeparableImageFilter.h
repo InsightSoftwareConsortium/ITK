@@ -21,6 +21,7 @@
 #include "itkInPlaceImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionSplitterDirection.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -164,6 +165,64 @@ protected:
   ScalarRealType m_BM2;
   ScalarRealType m_BM3;
   ScalarRealType m_BM4;
+
+
+  template <typename T1, typename T2>
+  inline void MathEMAMAMAM(T1 &out,
+                           const T1 &a1, const T2 &b1,
+                           const T1 &a2, const T2 &b2,
+                           const T1 &a3, const T2 &b3,
+                           const T1 &a4, const T2 &b4 )
+    {
+      out = a1*b1 + a2*b2 + a3*b3 + a4*b4;
+    }
+
+
+  template <typename T1, typename T2>
+  inline void MathEMAMAMAM(VariableLengthVector<T1> &out,
+                           const VariableLengthVector<T1> &a1, const T2 &b1,
+                           const VariableLengthVector<T1> &a2, const T2 &b2,
+                           const VariableLengthVector<T1> &a3, const T2 &b3,
+                           const VariableLengthVector<T1> &a4, const T2 &b4 )
+    {
+      const unsigned int sz  = a1.GetSize();
+      if (sz != out.GetSize() )
+        {
+        out.SetSize(sz);
+        }
+      for ( unsigned int i = 0; i < sz; ++i)
+        {
+        out[i] = a1[i]*b1 + a2[i]*b2 + a3[i]*b3 + a4[i]*b4;
+        }
+    }
+
+  template <typename T1, typename T2>
+  inline void MathSMAMAMAM(T1 &out,
+                           const T1 &a1, const T2 &b1,
+                           const T1 &a2, const T2 &b2,
+                           const T1 &a3, const T2 &b3,
+                           const T1 &a4, const T2 &b4 )
+    {
+      out -= a1*b1 + a2*b2 + a3*b3 + a4*b4;
+    }
+
+  template <typename T1, typename T2>
+  inline void MathSMAMAMAM(VariableLengthVector<T1> &out,
+                           const VariableLengthVector<T1> &a1, const T2 &b1,
+                           const VariableLengthVector<T1> &a2, const T2 &b2,
+                           const VariableLengthVector<T1> &a3, const T2 &b3,
+                           const VariableLengthVector<T1> &a4, const T2 &b4 )
+    {
+      const unsigned int sz  = a1.GetSize();
+      if (sz != out.GetSize() )
+        {
+        out.SetSize(sz);
+        }
+      for ( unsigned int i = 0; i < sz; ++i)
+        {
+        out[i] -= a1[i]*b1 + a2[i]*b2 + a3[i]*b3 + a4[i]*b4;
+        }
+    }
 
 private:
   RecursiveSeparableImageFilter(const Self &); //purposely not implemented
