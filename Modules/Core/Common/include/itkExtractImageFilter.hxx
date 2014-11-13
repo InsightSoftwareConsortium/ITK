@@ -200,7 +200,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
             if ( m_ExtractionRegion.GetSize()[dim] )
               {
               outputDirection[nonZeroCount][nonZeroCount2] =
-                inputDirection[nonZeroCount][dim];
+                inputDirection[i][dim];
               ++nonZeroCount2;
               }
             }
