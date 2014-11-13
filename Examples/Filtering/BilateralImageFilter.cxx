@@ -31,7 +31,7 @@
 //  domain and one in the image range) are used to smooth the image. The
 //  result is an image that is smoothed in homogeneous regions yet has edges
 //  preserved. The result is similar to anisotropic diffusion but the
-//  implementation in non-iterative.  Another benefit to bilateral filtering
+//  implementation is non-iterative.  Another benefit to bilateral filtering
 //  is that any distance metric can be used for kernel smoothing the image
 //  range. Bilateral filtering is capable of reducing the noise in an image
 //  by an order of magnitude while maintaining edges.  The bilateral operator
@@ -72,8 +72,8 @@
 //  s(f(\mathbf{x}),f(\mathbf{w})) = e^{(\frac{ {( f(\mathbf{x}) - f(\mathbf{w})}^2 }{\sigma^2_s} )}
 //  \end{equation}
 //
-//  where $\sigma_s$ is provided by the user and defines how close should the
-//  neighbors intensity be in order to be considered for the computation of
+//  where $\sigma_s$ is provided by the user and defines how close the
+//  neighbor's intensity be in order to be considered for the computation of
 //  the output value.
 //
 //  \index{itk::BilateralImageFilter}
@@ -163,14 +163,14 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The Bilateral filter requires two parameters. First, the $\sigma$ to be
-  //  used for the Gaussian kernel on image intensities. Second, the set of
-  //  $\sigma$s to be used along each dimension in the space domain. This
-  //  second parameter is supplied as an array of \code{float} or
-  //  \code{double} values. The array dimension matches the image
-  //  dimension. This mechanism makes possible to enforce more coherence
-  //  along some directions. For example, more smoothing can be done along
-  //  the $X$ direction than along the $Y$ direction.
+  //  The Bilateral filter requires two parameters. First, we must specify the
+  //  standard deviation $\sigma$ to be used for the Gaussian kernel on image
+  //  intensities. Second, the set of $\sigma$s to be used along each dimension
+  //  in the space domain. This second parameter is supplied as an array of
+  //  \code{float} or \code{double} values. The array dimension matches the
+  //  image dimension. This mechanism makes it possible to enforce more
+  //  coherence along some directions. For example, more smoothing can be done
+  //  along the $X$ direction than along the $Y$ direction.
   //
   //  In the following code example, the $\sigma$ values are taken from the
   //  command line.  Note the use of \code{ImageType::ImageDimension} to get
@@ -191,8 +191,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The filter parameters are set with the methods SetRangeSigma()
-  //  and SetDomainSigma().
+  //  The filter parameters are set with the methods \code{SetRangeSigma()}
+  //  and \code{SetDomainSigma()}.
   //
   //  \index{itk::BilateralImageFilter!SetRangeSigma()}
   //  \index{itk::BilateralImageFilter!SetDomainSigma()}
@@ -248,7 +248,7 @@ int main( int argc, char * argv[] )
   //
   //  Figure \ref{fig:BilateralImageFilterInputOutput} illustrates the effect
   //  of this filter on a MRI proton density image of the brain. In this
-  //  example the filter was run with a range sigma of $5.0$ and a domain
+  //  example the filter was run with a range $\sigma$ of $5.0$ and a domain
   //  $\sigma$ of $6.0$.  The figure shows how homogeneous regions are
   //  smoothed and edges are preserved.
   //

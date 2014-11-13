@@ -51,7 +51,7 @@
 //  \end{equation}
 //
 // The $Average$ is the average intensity computed over a neighborhood of a
-// user specified radius of the pixel. The choice of the radius governs the
+// user-specified radius of the pixel. The choice of the radius governs the
 // scale of the noise to be removed. The $Threshold$ is calculated as the
 // average of pixel intensities along the direction perpendicular to the
 // gradient at the \emph{extrema} of the local neighborhood.
@@ -169,7 +169,7 @@ int main( int argc, char * argv[] )
   //  The \doxygen{MinMaxCurvatureFlowImageFilter} requires the two normal
   //  parameters of the CurvatureFlow image, the number of iterations to be
   //  performed and the time step used in the computation of the level set
-  //  evolution. In addition to them, the radius of the neighborhood is also
+  //  evolution. In addition, the radius of the neighborhood is also
   //  required. This last parameter is passed using the
   //  \code{SetStencilRadius()} method. Note that the radius is provided as an
   //  integer number since it is referring to a number of pixels from the center
@@ -199,7 +199,7 @@ int main( int argc, char * argv[] )
   //  $10$, more iterations will result in further smoothing and will
   //  increase the computing time linearly. The radius of the stencil can be
   //  typically $1$. The \emph{edge-preserving} characteristic is not perfect
-  //  on this filter, some degradation will occur on the edges and will
+  //  on this filter. Some degradation will occur on the edges and will
   //  increase as the number of iterations is increased.
   //
   //  Software Guide : EndLatex
@@ -208,9 +208,9 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  If the output of this filter has been connected to other filters down
-  //  the pipeline, updating any of the downstream filters would have
-  //  triggered the execution of this one. For example, a writer filter could
-  //  have been used after the curvature flow filter.
+  //  the pipeline, updating any of the downstream filters will
+  //  trigger the execution of this one. For example, a writer filter can
+  //  be used after the curvature flow filter.
   //
   //  Software Guide : EndLatex
 
@@ -250,7 +250,7 @@ int main( int argc, char * argv[] )
   //  brain. In this example the filter was run with a time step of $0.125$,
   //  $10$ iterations and a radius of $1$.  The figure shows how homogeneous
   //  regions are smoothed and edges are preserved. Notice also, that the
-  //  results in the figure has sharper edges than the same example using
+  //  result in the figure has sharper edges than the same example using
   //  simple curvature flow in Figure
   //  \ref{fig:CurvatureFlowImageFilterInputOutput}.
   //

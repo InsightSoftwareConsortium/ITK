@@ -27,7 +27,7 @@
 //  This example illustrates how to use the Fast Fourier Transform filter (FFT)
 //  for processing an image in the spectral domain. Given that FFT computation
 //  can be CPU intensive, there are multiple hardware specific implementations
-//  of FFT. IT is convenient in many cases to delegate the actual computation
+//  of FFT. It is convenient in many cases to delegate the actual computation
 //  of the transform to local available libraries. Particular examples of those
 //  libraries are fftw\footnote{http://www.fftw.org} and the VXL implementation
 //  of FFT. For this reason ITK provides a base abstract class that factorizes
@@ -87,7 +87,7 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// We use the same image type in order to instantiate the FFT filter. In this
+// We use the same image type in order to instantiate the FFT filter, in this
 // case the \doxygen{VnlForwardFFTImageFilter}. Once the filter type is
 // instantiated, we can use it for creating one object by invoking the
 // \code{New()} method and assigning the result to a SmartPointer.
@@ -118,7 +118,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // The execution of the filter can be triggered by invoking the \code{Update()}
-// method.  Since this invocation can eventually throw and exception, the call
+// method.  Since this invocation can eventually throw an exception, the call
 // must be placed inside a try/catch block.
 //
 // Software Guide : EndLatex
@@ -159,7 +159,7 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// Finally we invoke the \code{Update()} method placing inside a try/catch
+// Finally we invoke the \code{Update()} method placed inside a try/catch
 // block.
 //
 // Software Guide : EndLatex
@@ -186,7 +186,7 @@ int main( int argc, char * argv [] )
 //
 // We instantiate first the ImageFilter that will help us to extract the real
 // part from the complex image.  The \code{ComplexToRealImageFilter} takes as
-// first template parameter the type of the complex image and as second
+// its first template parameter the type of the complex image and as its second
 // template parameter it takes the type of the output image pixel. We create
 // one instance of this filter and connect as its input the output of the FFT
 // filter.
@@ -212,8 +212,8 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // Since the range of intensities in the Fourier domain can be quite
-// concentrated, it result convenient to rescale the image in order to
-// visualize it. For this purpose we instantiate here a
+// concentrated, it is convenient to rescale the image in order to
+// visualize it. For this purpose we instantiate a
 // \doxygen{RescaleIntensityImageFilter} that will rescale the intensities of
 // the \code{real} image into a range suitable for writing in a file. We also
 // set the minimum and maximum values of the output to the range of the pixel
@@ -304,7 +304,7 @@ int main( int argc, char * argv [] )
 // Complex images, here we instantiate a reader that will load the Complex
 // image that we just saved. Note that nothing special is required in this
 // case. The instantiation is done just the same as for any other type of
-// image. Which once again illustrates the power of Generic Programming.
+// image, which once again illustrates the power of Generic Programming.
 //
 // Software Guide : EndLatex
 

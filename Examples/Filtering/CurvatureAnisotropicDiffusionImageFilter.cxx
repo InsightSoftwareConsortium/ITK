@@ -149,7 +149,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  This filter requires three parameters, the number of iterations to be
+  //  This filter requires three parameters: the number of iterations to be
   //  performed, the time step used in the computation of the level set
   //  evolution and the value of conductance. These parameters are set using
   //  the methods \code{SetNumberOfIterations()}, \code{SetTimeStep()} and
@@ -182,8 +182,8 @@ int main( int argc, char * argv[] )
   //
   //  Typical values for the time step are 0.125 in $2D$ images and 0.0625 in
   //  $3D$ images. The number of iterations can be usually around $5$, more
-  //  iterations will result in further smoothing and will increase linearly
-  //  the computing time. The conductance parameter is usually around $3.0$.
+  //  iterations will result in further smoothing and will increase the
+  //  computing time linearly. The conductance parameter is usually around $3.0$.
   //
   //  Software Guide : EndLatex
 

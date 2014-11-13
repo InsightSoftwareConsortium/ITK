@@ -19,23 +19,22 @@
 // Software Guide : BeginLatex
 //
 // It is unfortunate that it is still very common to find medical image
-// datasets that have been acquired with large inter-sclice spacings that
+// datasets that have been acquired with large inter-slice spacings that
 // result in voxels with anisotropic shapes. In many cases these voxels have
 // ratios of $[1:5]$ or even $[1:10]$ between the resolution in the plane $(x,y)$
-// and the resolution along the $z$ axis. Such dataset are close to
-// \textbf{useless} for the purpose of computer assisted image analysis. The
-// persistent tendency for acquiring dataset in such formats just reveals how
-// small is the understanding of the third dimension that have been gained in
-// the clinical settings and in many radiology reading rooms. Datasets that are
-// acquired with such large anisotropies bring with them the retrograde
+// and the resolution along the $z$ axis. These datasets are close to
+// \textbf{useless} for the purpose of computer-assisted image analysis. The
+// abundance of datasets acquired with anisotropic voxel sizes bespeaks a
+// dearth of understanding of the third dimension and its importance for
+// medical image analysis in clinical settings and radiology reading rooms.
+// Datasets acquired with large anisotropies bring with them the regressive
 // message: \emph{``I do not think 3D is informative''}.
-// They repeat stubbornly that: \emph{``all that you need to know, can be known
-// by looking at individual slices, one by one''}. However, the fallacy of such
-// statement is made evident with the simple act of looking at the slices when
-// reconstructed in any of the ortogonal planes. The ugliness of the extreme
-// rectangular pixel shapes becomes obvious, along with the clear technical
-// realization that no decent signal processing or algorithms can be performed
-// in such images.
+// They stubbornly insist: \emph{``all that you need to know, can be known
+// by looking at individual slices, one by one''}. However, the fallacy of this
+// statement is made evident by simply viewing the slices when
+// reconstructed in any of the orthogonal planes. The rectangular pixel shape
+// is ugly and distorted, and cripples any signal processing algorithm not
+// designed specifically for this type of image.
 //
 // Image analysts have a long educational battle to fight in the radiological
 // setting in order to bring the message that 3D datasets acquired with
@@ -44,40 +43,42 @@
 // Theorem~\cite{Shannon1948,Shannon1949}.
 //
 // Facing the inertia of many clinical imaging departments and their
-// insistence that these images should be good enough
+// blithe insistence that these images are ``good enough''
 // for image processing, some image analysts have stoically tried
 // to deal with these poor datasets. These image analysts usually
 // proceed to subsample the high in-plane resolution and to super-sample the
 // inter-slice resolution with the purpose of faking the type of dataset that
 // they should have received in the first place: an \textbf{isotropic} dataset.
-// This example is an illustration of how such operation can be performed using
-// the filter available in the Insight Toolkit.
+// This example is an illustration of how such an operation can be performed using
+// the filters available in the Insight Toolkit.
 //
 // Note that this example is not presented here as a \emph{solution} to the
 // problem of anisotropic datasets.  On the contrary, this is simply a
-// \emph{dangerous palliative} that will help to perpetuate the mistake of
-// the image acquisition departments. This code is just an analgesic that
-// will make you believe that you don't have pain, while a real and lethal
-// disease is growing inside you. The real solution to the problem of the
-// atrophic anisotropic dataset is to educate radiologist on the fundamental
+// \emph{dangerous palliative} which will only perpetuate the errant
+// convictions of image acquisition departments. The real solution to the
+// problem of the
+// anisotropic dataset is to educate radiologists regarding the
 // principles of image processing. If you really care about the technical
 // decency of the medical image processing field, and you really care about
 // providing your best effort to the patients who will receive health care
 // directly or indirectly affected by your processed images, then it is your
-// duty to reject anisotropic datasets and to patiently explain radiologist
-// why a barbarity such as a $[1:5]$ anisotropy ratio makes a data set to be
-// just ``a collection of slices'' instead of an authentic 3D datasets.
+// duty to reject anisotropic datasets and to patiently explain to your
+// radiologist why anisotropic data are problematic for processing, and require
+// crude workarounds which handicap your ability to draw accurate
+// conclusions from the data and preclude his or her ability to provide
+// quality care. Any barbarity such as a $[1:5]$ anisotropy ratio should be
+// considered as a mere collection of slices, and not an authentic 3D dataset.
 //
 // Please, before employing the techniques covered in this section, do kindly
 // invite your fellow radiologist to see the dataset in an orthogonal
-// slice. Zoom in that image in a viewer without any linear interpolation
+// slice. Magnify that image in a viewer without any linear interpolation
 // until you see the daunting reality of the rectangular pixels. Let her/him
-// know how absurd is to process digital data that have been sampled at
-// ratios of $[1:5]$ or $[1:10]$.  Then, let them know that the first thing
-// that you are going to do is to throw away all that high in-plane
-// resolution and to \emph{make up} data in-between the slices in order to
-// compensate for their low resolution.  Only then, you will have gained the
-// right to use this code.
+// know how absurd it is to process digital data which have been sampled at
+// ratios of $[1:5]$ or $[1:10]$.  Then, inform them that your only option is
+// to throw away all that high in-plane
+// resolution and to \emph{make up} data between the slices in order to
+// compensate for the low resolution.  Only then will you be justified in
+// using the following code.
 //
 // \index{Anisotropic data sets}
 // \index{Subsampling}
@@ -89,10 +90,10 @@
 
 // Software Guide : BeginLatex
 //
-// Let's now move into the code.... and, yes, bring with you that
+// Let's now move into the code. It is appropriate for you to experience
 // guilt\footnote{A feeling of regret or remorse for having committed some
 // improper act; a recognition of one's own responsibility for doing something
-// wrong.}, because the fact that you are going to use the code below, is the
+// wrong.}, because your use the code below is the
 // evidence that we have lost one more battle on the quest for real 3D dataset
 // processing.
 //
@@ -101,7 +102,7 @@
 // requires that we preprocess the data with a smoothing filter in order to
 // avoid the occurrence of aliasing effects due to overlap of the spectrum in
 // the frequency domain~\cite{Shannon1948,Shannon1949}. The smoothing is
-// performed here using the \code{RecursiveGaussian} filter, given that it
+// performed here using the \code{RecursiveGaussian} filter, because it
 // provides a convenient run-time performance.
 //
 // The first thing that you will need to do in order to resample this ugly
@@ -127,12 +128,12 @@
 // values for the new resampled image. In this particular case we use the
 // \doxygen{IdentityTransform} because the image is going to be resampled by
 // preserving the physical extent of the sampled region. The Linear
-// interpolator is used as a common trade-off, although arguably we should use
+// interpolator is used as a common trade-off\footnote{Although arguably we should use
 // one type of interpolator for the in-plane subsampling process and another
-// one for the inter-slice supersampling, but again, one should wonder why to
-// enter into technical sophistication here, when what we are doing is to
-// cover-up for an improper acquisition of medical data, and we are just trying
-// to make it look as if it was correctly acquired.
+// one for the inter-slice supersampling.  But again, one should wonder why we
+// apply any technical sophistication here, when we are covering up for
+// an improper acquisition of medical data, trying
+// to make it look as if it was correctly acquired.}.
 //
 // Software Guide : EndLatex
 
@@ -170,7 +171,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// We made explicit now our choices for the pixel type and dimension of the
+// We make explicit now our choices for the pixel type and dimension of the
 // input image to be processed, as well as the pixel type that we intend to use
 // for the internal computation during the smoothing and resampling.
 //
@@ -235,7 +236,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// We create two instances of the smoothing filter, one will smooth along the
+// We create two instances of the smoothing filter: one will smooth along the
 // $X$ direction while the other will smooth along the $Y$ direction. They are
 // connected in a cascade in the pipeline, while taking their input from the
 // intensity windowing filter. Note that you may want to skip the intensity
@@ -259,11 +260,11 @@ int main( int argc, char * argv[] )
 // between the evil of subsampling and the evil of supersampling. We advance
 // here the conjecture that the geometrical mean between the in-plane and the
 // inter-slice resolutions should be a convenient isotropic resolution to use.
-// This conjecture is supported on nothing else than intuition and common
+// This conjecture is supported on nothing other than intuition and common
 // sense. You can rightfully argue that this choice deserves a more technical
-// consideration, but then, if you are so inclined to the technical correctness
+// consideration, but then, if you are so concerned about the technical integrity
 // of the image sampling process, you should not be using this code, and should
-// rather we talking about such technical correctness to the radiologist who
+// discuss these issues with the radiologist who
 // acquired this ugly anisotropic dataset.
 //
 // We take the image from the input and then request its array of pixel spacing
@@ -313,9 +314,9 @@ int main( int argc, char * argv[] )
 //
 // Now that we have taken care of the smoothing in-plane, we proceed to
 // instantiate the resampling filter that will reconstruct an isotropic image.
-// We start by declaring the pixel type to be use at the output of such filter,
+// We start by declaring the pixel type to be used as the output of this filter,
 // then instantiate the image type and the type for the resampling filter.
-// Finally we construct an instantiation of such a filter.
+// Finally we construct an instantiation of the filter.
 //
 // Software Guide : EndLatex
 
@@ -334,7 +335,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// The resampling filter requires that we provide a Transform, that in this
+// The resampling filter requires that we provide a Transform, which in this
 // particular case can simply be an identity transform.
 //
 // Software Guide : EndLatex
@@ -429,7 +430,7 @@ int main( int argc, char * argv[] )
 //
 // Finally the values are stored in a \code{SizeType} and passed to the
 // resampling filter. Note that this process requires a casting since the
-// computation are performed in \code{double}, while the elements of the
+// computations are performed in \code{double}, while the elements of the
 // \code{SizeType} are integers.
 //
 // Software Guide : EndLatex
@@ -464,8 +465,8 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// At this point we should take some minutes in silence to reflect on the
-// circumstances that have lead us to accept to cover-up for the improper
+// At this point we should take a moment in silence to reflect on the
+// circumstances that have led us to accept this cover-up for the improper
 // acquisition of medical data.
 //
 // Software Guide : EndLatex
