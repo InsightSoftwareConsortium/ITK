@@ -135,6 +135,8 @@ set(itk_Wrap_FixedArray ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::RGBPixel" "RGB")
   ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
+  # Required by InterpolateImageFunction
+  ADD_TEMPLATE("${ITKM_D}" "${ITKT_D}")
 
   if(ITK_WRAP_rgb_unsigned_short)
     ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
@@ -144,6 +146,8 @@ set(itk_Wrap_RGBPixel ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::RGBAPixel" "RGBA")
   ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
+  # Required by InterpolateImageFunction
+  ADD_TEMPLATE("${ITKM_D}" "${ITKT_D}")
 
   if(ITK_WRAP_rgba_unsigned_short)
      ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
