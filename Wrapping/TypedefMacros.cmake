@@ -167,8 +167,8 @@ macro(itk_auto_load_submodules)
   # and for all builds. That's important for several reasons:
   # - the order is important for the order of creation of python template
   # - the typemaps files are always the same, and the rebuild can be avoided
-  SORT(sorted_cmake_files "${wrap_cmake_files}")
-  foreach(file ${sorted_cmake_files})
+  list(SORT wrap_cmake_files)
+  foreach(file ${wrap_cmake_files})
     # get the module name from module.wrap
     get_filename_component(module "${file}" NAME_WE)
 
@@ -195,8 +195,8 @@ macro(itk_auto_load_submodules)
   # and for all builds. That's important for several reasons:
   # - the order is important for the order of creation of python template
   # - the typemaps files are always the same, and the rebuild can be avoided
-  SORT(sorted_cmake_files "${wrap_cmake_files}")
-  foreach(file ${sorted_cmake_files})
+  list(SORT wrap_cmake_files)
+  foreach(file ${wrap_cmake_files})
     # get the module name from wrap_module.cmake
     get_filename_component(module "${file}" NAME_WE)
     string(REGEX REPLACE "^wrap_" "" module "${module}")

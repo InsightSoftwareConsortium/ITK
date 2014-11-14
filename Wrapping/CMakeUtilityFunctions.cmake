@@ -6,35 +6,6 @@
 # Functions for list operations.
 ################################################################################
 
-macro(SORT var_name list)
-  # Sort the given list and store it in var_name.
-
-  # should be the following 2 lines, but SORT is documented
-  # but not implemented in cmake 2.4.3
-  # set(${var_name} ${list})
-  # list(SORT ${var_name})
-
-  set(sort_tmp1 "")
-  foreach(l ${list})
-    set(sort_inserted 0)
-    set(sort_tmp2 "")
-    foreach(l1 ${sort_tmp1})
-      if("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
-        set(sort_tmp2 ${sort_tmp2} "${l}" "${l1}")
-        set(sort_inserted 1)
-      else()
-        set(sort_tmp2 ${sort_tmp2} "${l1}")
-      endif()
-    endforeach()
-    if(${sort_inserted} EQUAL 0)
-      set(sort_tmp1 ${sort_tmp1} "${l}")
-    else()
-      set(sort_tmp1 ${sort_tmp2})
-    endif()
-  endforeach()
-  set(${var_name} ${sort_tmp1})
-endmacro()
-
 macro(UNIQUE var_name list)
   # Make the given list have only one instance of each unique element and
   # store it in var_name.
