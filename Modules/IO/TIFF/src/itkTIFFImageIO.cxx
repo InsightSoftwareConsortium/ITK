@@ -419,6 +419,9 @@ void TIFFImageIO::ReadImageInformation()
       {
       itkExceptionMacro("Unable to read tiff file: " << emsg);
       }
+
+    itkDebugMacro(<< "Using TIFFReadRGBAImage" );
+
     this->SetNumberOfComponents(4);
     this->SetPixelType(RGBA);
     m_ComponentType = UCHAR;

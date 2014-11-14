@@ -202,6 +202,8 @@ int TIFFReaderInternal::CanRead()
   return ( this->m_Image && ( this->m_Width > 0 ) && ( this->m_Height > 0 )
            && ( this->m_SamplesPerPixel > 0 )
            && compressionSupported
+           && ( m_NumberOfTiles == 0 ) // just use TIFFReadRGBAImage, an
+                                       // native optimized version would be nice
            && ( this->m_HasValidPhotometricInterpretation )
            && ( this->m_Photometrics == PHOTOMETRIC_RGB
                 || this->m_Photometrics == PHOTOMETRIC_MINISWHITE
