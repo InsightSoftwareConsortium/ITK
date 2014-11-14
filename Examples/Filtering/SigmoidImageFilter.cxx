@@ -184,7 +184,7 @@ int main( int argc, char * argv[] )
   //
   //  The input to the SigmoidImageFilter can be taken from any other filter,
   //  such as an image file reader, for example. The output can be passed down the
-  //  pipeline to other filters, like an image file writer. An update call on
+  //  pipeline to other filters, like an image file writer. An \code{Update()} call on
   //  any downstream filter will trigger the execution of the Sigmoid filter.
   //
   //  \index{itk::SigmoidImageFilter!SetInput()}

@@ -133,7 +133,7 @@ int main( int argc, char * argv[] )
   //
   //  The input to the filter can be taken from any other filter, for example
   //  a reader. The output can be passed down the pipeline to other filters,
-  //  for example, a writer. An update call on any downstream filter will
+  //  for example, a writer. An \code{Update()} call on any downstream filter will
   //  trigger the execution of the derivative filter.
   //
   //  \index{itk::DerivativeImageFilter!SetInput()}

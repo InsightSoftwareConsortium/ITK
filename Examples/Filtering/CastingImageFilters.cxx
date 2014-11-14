@@ -32,7 +32,7 @@
 //  section: \doxygen{CastImageFilter}, \doxygen{RescaleIntensityImageFilter},
 //  \doxygen{ShiftScaleImageFilter} and \doxygen{NormalizeImageFilter}.  These
 //  filters are not directly related to each other except that they all modify
-//  pixel values.  They are presented together here with the purpose of
+//  pixel values.  They are presented together here for the purpose of
 //  comparing their individual features.
 //
 //  The CastImageFilter is a very simple filter that acts pixel-wise on an
@@ -51,7 +51,7 @@
 //  The linear transformation applied by this filter can be expressed as
 //
 //  \[ outputPixel = ( inputPixel - inpMin) \times
-//                    \frac{(outMax - outMin )}{(inpMax-inpMin)} + outMin \]
+//                    \frac{(outMax - outMin )}{(inpMax-inpMin)} + outMin \].
 //
 //  The ShiftScaleImageFilter also applies a linear transformation to
 //  the intensities of the input image, but the transformation is specified
@@ -68,7 +68,7 @@
 //  evaluation of mutual information metrics. The linear transformation of
 //  NormalizeImageFilter is given as
 //
-//  \[ outputPixel = \frac{( inputPixel - mean )}{ \sqrt{ variance } } \]
+//  \[ outputPixel = \frac{( inputPixel - mean )}{ \sqrt{ variance } } \].
 //
 //  \index{Casting Images}
 //  \index{itk::CastImageFilter}
@@ -157,7 +157,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Object filters are created by invoking the \code{New()} operator and
+  //  Object filters are created by invoking the \code{New()} method and
   //  assigning the result to \doxygen{SmartPointer}s.
   //
   //  \index{itk::ShiftScaleImageFilter!New()}
