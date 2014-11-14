@@ -198,13 +198,10 @@ int TIFFReaderInternal::Initialize()
 
 int TIFFReaderInternal::CanRead()
 {
+  const bool compressionSupported = ( TIFFIsCODECConfigured(this->m_Compression) == 1 );
   return ( this->m_Image && ( this->m_Width > 0 ) && ( this->m_Height > 0 )
            && ( this->m_SamplesPerPixel > 0 )
-           && ( this->m_Compression == COMPRESSION_NONE
-                || this->m_Compression == COMPRESSION_PACKBITS
-                || this->m_Compression == COMPRESSION_LZW
-                || this->m_Compression == COMPRESSION_DEFLATE
-                )
+           && compressionSupported
            && ( this->m_HasValidPhotometricInterpretation )
            && ( this->m_Photometrics == PHOTOMETRIC_RGB
                 || this->m_Photometrics == PHOTOMETRIC_MINISWHITE

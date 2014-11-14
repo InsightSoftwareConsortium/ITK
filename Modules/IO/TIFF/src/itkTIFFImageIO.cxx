@@ -185,11 +185,6 @@ void TIFFImageIO::Read(void *buffer)
       }
     }
 
-  if ( m_InternalImage->m_Compression == COMPRESSION_OJPEG )
-    {
-    itkExceptionMacro(<< "This reader cannot read old JPEG compression");
-    }
-
   // The IO region should be of dimensions 3 otherwise we read only the first
   // page
   if ( m_InternalImage->m_NumberOfPages > 0
@@ -410,6 +405,15 @@ void TIFFImageIO::ReadImageInformation()
 
   if ( !m_InternalImage->CanRead() )
     {
+    //  exception if compression is not supported
+    if (TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1 )
+      {
+      const TIFFCodec* c = TIFFFindCODEC(this->m_InternalImage->m_Compression);
+      const char * codecName = ( c != ITK_NULLPTR ) ? c->name : "unknown";
+
+      itkExceptionMacro( "TIFF CODEC \"" << codecName << "\" is not supported." );
+      }
+
     char emsg[1024];
     if ( TIFFRGBAImageOK(m_InternalImage->m_Image, emsg) != 1 )
       {
