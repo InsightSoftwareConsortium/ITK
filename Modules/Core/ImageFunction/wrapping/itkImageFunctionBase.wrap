@@ -7,8 +7,17 @@ itk_wrap_class("itk::ImageFunction" POINTER)
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_D}${ITKM_D}"  "${ITKT_I${t}${d}},${ITKT_D},${ITKT_D}")
     endforeach(t)
 
+    # Required by InterpolateImageFunction
     foreach(t ${WRAP_ITK_VECTOR})
       itk_wrap_template("${ITKM_I${t}${d}${d}}${ITKM_VD${d}}${ITKM_D}" "${ITKT_I${t}${d}${d}},${ITKT_VD${d}},${ITKT_D}")
-    endforeach(t)
+      itk_wrap_template("${ITKM_I${t}${d}${d}}${ITKM_CVD${d}}${ITKM_D}" "${ITKT_I${t}${d}${d}},${ITKT_CVD${d}},${ITKT_D}")
+      itk_wrap_template("${ITKM_I${t}${d}${d}}${ITKM_D}${ITKM_D}" "${ITKT_I${t}${d}${d}},${ITKT_D},${ITKT_D}")
+    endforeach()
+    foreach(t ${WRAP_ITK_COLOR})
+      itk_wrap_template("${ITKM_I${t}${d}}${ITKM_${t}}${ITKM_D}" "${ITKT_I${t}${d}},${ITKT_${t}},${ITKT_D}")
+    endforeach()
+    itk_wrap_template("${ITKM_IRGBUC${d}}RGBD${ITKM_D}" "${ITKT_IRGBUC${d}},itk::RGBPixel< double >,${ITKT_D}")
+    itk_wrap_template("${ITKM_IRGBAUC${d}}RGBAD${ITKM_D}" "${ITKT_IRGBAUC${d}},itk::RGBAPixel< double >,${ITKT_D}")
+
   endforeach(d)
 itk_end_wrap_class()

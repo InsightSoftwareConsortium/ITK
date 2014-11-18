@@ -13,8 +13,17 @@ itk_wrap_class("itk::FunctionBase" POINTER)
     itk_wrap_template("${ITKM_CIF${d}}${ITKM_AD}" "${ITKT_CIF${d}} ,${ITKT_AD}")
     itk_wrap_template("${ITKM_CID${d}}${ITKM_AD}" "${ITKT_CID${d}} ,${ITKT_AD}")
     itk_wrap_template("${ITKM_PD${d}}${ITKM_VD${d}}"   "${ITKT_PD${d}}, ${ITKT_VD${d}}")
+    itk_wrap_template("${ITKM_PD${d}}${ITKM_CVD${d}}"   "${ITKT_PD${d}}, ${ITKT_CVD${d}}")
     itk_wrap_template("${ITKM_VF${d}}${ITKM_D}"   "${ITKT_VF${d}} ,${ITKT_D}")
-  endforeach(d)
+
+    # Required by InterpolateImageFunction
+    foreach(t ${WRAP_ITK_COLOR})
+      itk_wrap_template("${ITKM_PD${d}}${ITKM_${t}}" "${ITKT_PD${d}},${ITKT_${t}}")
+    endforeach()
+    itk_wrap_template("${ITKM_PD${d}}RGBD" "${ITKT_PD${d}},itk::RGBPixel< double >")
+    itk_wrap_template("${ITKM_PD${d}}RGBAD" "${ITKT_PD${d}},itk::RGBAPixel< double >")
+
+  endforeach()
 
   itk_wrap_template("${ITKM_D}${ITKM_D}"     "${ITKT_D},${ITKT_D}")
 itk_end_wrap_class()

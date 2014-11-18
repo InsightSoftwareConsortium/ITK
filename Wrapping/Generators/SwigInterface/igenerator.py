@@ -199,8 +199,6 @@ notWrapped = [
     "itk::SmartPointer< itk::Functor::.+",
     "itk::Function::.+",
     "itk::.+Function.*",  # Level set functions
-    # use one more dimension than the wrapped one
-    "itk::InterpolateImageFunction<.+>",
     "itk::watershed::.+",  # ignore the internal classes of the watershed
     # require to wrap too more type
     "itk::SmartPointer< itk::VoronoiDiagram2D<.+> >",
