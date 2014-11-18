@@ -157,7 +157,7 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   //
   ImageType::Pointer image = ImageType::New();
   image->SetRegions(reader->GetOutput()->GetLargestPossibleRegion());
-  image->Allocate();
+  image->Allocate(true);
   ImageType::SpacingType spacing;
   ImageType::PointType origin;
   for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
