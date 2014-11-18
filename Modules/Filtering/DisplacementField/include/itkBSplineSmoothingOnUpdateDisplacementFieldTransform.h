@@ -83,14 +83,14 @@ public:
    * typedefs for projecting the input displacement field onto a
    * B-spline field.
    */
-  typedef typename DisplacementFieldType::PixelType                                              DisplacementVectorType;
-  typedef PointSet<DisplacementVectorType, Dimension>                                            PointSetType;
-  typedef unsigned int                                                                           SplineOrderType;
-  typedef DisplacementFieldToBSplineImageFilter<DisplacementFieldType, DisplacementFieldType>    BSplineFilterType;
-  typedef typename BSplineFilterType::WeightsContainerType                                       WeightsContainerType;
-  typedef DisplacementFieldType                                                                  DisplacementFieldControlPointLatticeType;
-  typedef typename BSplineFilterType::ArrayType                                                  ArrayType;
-  typedef typename ArrayType::ValueType                                                          ArrayValueType;
+  typedef typename DisplacementFieldType::PixelType                            DisplacementVectorType;
+  typedef PointSet<DisplacementVectorType, Dimension>                          PointSetType;
+  typedef unsigned int                                                         SplineOrderType;
+  typedef DisplacementFieldToBSplineImageFilter<DisplacementFieldType>         BSplineFilterType;
+  typedef typename BSplineFilterType::WeightsContainerType                     WeightsContainerType;
+  typedef DisplacementFieldType                                                DisplacementFieldControlPointLatticeType;
+  typedef typename BSplineFilterType::ArrayType                                ArrayType;
+  typedef typename ArrayType::ValueType                                        ArrayValueType;
 
   /**
    * Update the transform's parameters by the values in \c update.  We

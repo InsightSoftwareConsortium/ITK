@@ -114,7 +114,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       }
     }
 
-  InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>(this->GetFixedInitialTransform());
+  InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
 
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<RealType> ConvergenceMonitoringType;
