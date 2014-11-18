@@ -108,7 +108,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  In order to facilitate the interpretation of the transform we set the
-  //  default pixel value to a distinct from the image background.
+  //  default pixel value to a value distinct from the image background.
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
@@ -313,7 +313,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Now consider the effect of the output spacing on the process of image
-  //  resampling.  In order to simplify the analysis, let's put the origin
+  //  resampling.  In order to simplify the analysis, let's set the origin
   //  back to zero in both the input and output images.
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
@@ -373,10 +373,10 @@ int main( int argc, char * argv[] )
   //
   //  Before attempting to analyze the effect of the resampling image filter
   //  it is important to make sure that the image viewer used to display the
-  //  input and output images take the spacing into account and use it to
-  //  appropriately scale the images on the screen. Please note that images
+  //  input and output images takes the spacing into account and
+  //  appropriately scales the images on the screen. Please note that images
   //  in formats like PNG are not capable of representing origin and
-  //  spacing. The toolkit assume trivial default values for them. Figure
+  //  spacing. The toolkit assumes trivial default values for them. Figure
   //  \ref{fig:ResampleImageFilterOutput7} (center) illustrates the effect of
   //  using a naive viewer that does not take pixel spacing into account. A
   //  correct display is presented at the right in the same figure\footnote{A
@@ -512,8 +512,8 @@ int main( int argc, char * argv[] )
   // point is mapped by the transform---identity in this particular case---to
   // the point $Q=(65.0,80.0)$ in the input image space. The point $Q$ is
   // then associated with the pixel of index $I=( ( 65.0 - 0.0 )/2.0 - (80.0
-  // - 0.0)/3.0) =(32.5,26.6)$. Note that the index does not fall on grid
-  // position, for this reason the value to be assigned to the output pixel
+  // - 0.0)/3.0) =(32.5,26.6)$. Note that the index does not fall on a grid
+  // position. For this reason the value to be assigned to the output pixel
   // is computed by interpolating values on the input image around the
   // non-integer index $I=(32.5,26.6)$.
   //

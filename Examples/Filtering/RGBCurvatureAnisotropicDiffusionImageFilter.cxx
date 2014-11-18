@@ -24,7 +24,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The vector anisotropic diffusion approach can equally well be applied to
+//  The vector anisotropic diffusion approach can be applied equally well to
 //  color images. As in the vector case, each RGB component is diffused
 //  independently. The following example illustrates the use of the
 //  \doxygen{VectorCurvatureAnisotropicDiffusionImageFilter} on an image with
@@ -122,7 +122,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another
-  //  filter. Here, an image reader is used as source.
+  //  filter. Here, an image reader is used as a source.
   //
   //  Software Guide : EndLatex
 
@@ -140,7 +140,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  This filter requires two parameters, the number of iterations to be
+  //  This filter requires two parameters: the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. These parameters are set using the methods
   //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.  The filter can
@@ -214,7 +214,7 @@ int main( int argc, char * argv[] )
   //  section of the Visible Woman data set.  In this example the filter was
   //  run with a time step of $0.125$, and $20$ iterations.  The input image
   //  has $570 \times 670$ pixels and the processing took $4$ minutes on a
-  //  Pentium 4 at 2Ghz.
+  //  Pentium 4 at 2GHz.
   //
   //  Software Guide : EndLatex
 

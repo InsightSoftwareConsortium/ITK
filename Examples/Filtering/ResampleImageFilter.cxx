@@ -171,7 +171,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  An instance of the transform object is instantiated and passed to the
-  //  resample filter. By default, the parameters of transform is set to
+  //  resample filter. By default, the parameters of the transform are set to
   //  represent the identity transform.
   //
   //  \index{itk::ResampleImageFilter!SetTransform()}
@@ -328,7 +328,7 @@ int main( int argc, char * argv[] )
   //  \ref{fig:ResampleImageFilterOutput1} is particularly misleading
   //  because the images are rescaled to fit nicely on the text of this book.
   //  Figure \ref{fig:ResampleImageFilterOutput1Analysis} clarifies the
-  //  situation. It shows the two same images placed on a equally scaled
+  //  situation. It shows the two same images placed on an equally-scaled
   //  coordinate system.  It becomes clear here that an identity transform is
   //  being used to map the image data, and that simply, we have requested to
   //  resample additional empty space around the image. The input image is

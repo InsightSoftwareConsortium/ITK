@@ -26,7 +26,7 @@
 //  mask, and finally taking the result of the masking and computing its
 //  inverse Fourier transform.
 //
-//  This typical processing is what it is illustrated in the example below.
+//  This typical process is illustrated in the example below.
 //
 //  \index{itk::Forward\-FFT\-Image\-Filter}
 //  \index{itk::Vnl\-Forward\-FFT\-Image\-Filter}
@@ -117,7 +117,7 @@ int main( int argc, char * argv [] )
   // Now the \doxygen{VnlForwardFFTImageFilter} can be instantiated.
   // Like most ITK filters, the FFT filter is instantiated using the full image type.
   // By not setting the output image type, we decide to use the default one provided
-  // by the filter. Using the type we construct one instance of the filter.
+  // by the filter. Using this type we construct one instance of the filter.
   //
   // Software Guide : EndLatex
 
@@ -133,7 +133,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginLatex
   //
   // Since our purpose is to perform filtering in the frequency domain by
-  // altering the weights of the image spectrum, we need here a filter that will
+  // altering the weights of the image spectrum, we need a filter that will
   // mask the Fourier transform of the input image with a binary image. Note that the
   // type of the spectral image is taken here from the traits of the FFT filter.
   //
@@ -201,7 +201,7 @@ int main( int argc, char * argv [] )
   //
   // The execution of the pipeline can be triggered by invoking the
   // \code{Update()} method in this last filter.  Since this invocation can
-  // eventually throw and exception, the call must be placed inside a try/catch
+  // eventually throw an exception, the call must be placed inside a try/catch
   // block.
   //
   // Software Guide : EndLatex

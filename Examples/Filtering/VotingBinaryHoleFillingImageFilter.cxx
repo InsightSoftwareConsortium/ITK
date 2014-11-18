@@ -38,7 +38,7 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{VotingBinaryHoleFillingImageFilter} applies a voting operation
-//  in order to fill-in cavities. This can be used for smoothing contours and
+//  in order to fill in cavities. This can be used for smoothing contours and
 //  for filling holes in binary images.
 //
 //  \index{itk::Voting\-Binary\-Hole\-Filling\-Image\-Filter}
@@ -169,7 +169,7 @@ int main( int argc, char * argv[] )
   //  foreground pixel. The rule of conversion is that a background pixel will
   //  be converted into a foreground pixel if the number of foreground
   //  neighbors surpass the number of background neighbors by the majority
-  //  value. For example, in a 2D image, with neighborhood or radius 1, the
+  //  value. For example, in a 2D image, with neighborhood of radius 1, the
   //  neighborhood will have size $3 \times 3$. If we set the majority value to
   //  2, then we are requiring that the number of foreground neighbors should
   //  be at least (3x3 -1 )/2 + majority. This is done with the

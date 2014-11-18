@@ -57,7 +57,7 @@ int main( int argc, char * argv[] )
   //  Then we must decide what pixel types to use for the input and output
   //  images. Since the output will contain distances measured in pixels, the
   //  pixel type should be able to represent at least the width of the image,
-  //  or said in $N-D$ terms, the maximum extension along all the dimensions.
+  //  or said in $N$-dimensional terms, the maximum extension along all the dimensions.
   //  The input and output image types are now defined using their respective
   //  pixel type and dimension.
   //
@@ -100,9 +100,9 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The inside is considered as having negative distances. Outside is
-  // treated as having positive distances. To change the convention,
-  // use the InsideIsPositive(bool) function.
+  // The distances inside the circle are defined to be negative, while the
+  // distances outside the circle are positive. To change the convention,
+  // use the \code{InsideIsPositive(bool)} function.
   //
   // Software Guide : EndLatex
 

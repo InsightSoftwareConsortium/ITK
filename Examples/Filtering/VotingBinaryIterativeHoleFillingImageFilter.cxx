@@ -38,9 +38,9 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{VotingBinaryIterativeHoleFillingImageFilter} applies a voting
-//  operation in order to fill-in cavities. This can be used for smoothing
+//  operation in order to fill in cavities. This can be used for smoothing
 //  contours and for filling holes in binary images. This filter runs
-//  internally a \doxygen{VotingBinaryHoleFillingImageFilter} until no
+//  a \doxygen{VotingBinaryHoleFillingImageFilter} internally until no
 //  pixels change or the maximum number of iterations has been reached.
 //
 //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter}
@@ -171,7 +171,7 @@ int main( int argc, char * argv[] )
   //  foreground pixel. The rule of conversion is that a background pixel will
   //  be converted into a foreground pixel if the number of foreground
   //  neighbors surpass the number of background neighbors by the majority
-  //  value. For example, in a 2D image, with neighborhood or radius 1, the
+  //  value. For example, in a 2D image, with neighborhood of radius 1, the
   //  neighborhood will have size $3 \times 3$. If we set the majority value to
   //  2, then we are requiring that the number of foreground neighbors should
   //  be at least (3x3 -1 )/2 + majority. This is done with the
@@ -188,10 +188,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we specify the maximum number of iterations that this filter
-  //  should be run. The number of iteration will determine the maximum size of
-  //  holes and cavities that this filter will be able to fill-in. The more
-  //  iterations you ran, the larger the cavities that will be filled in.
+  //  Finally we specify the maximum number of iterations for which this filter
+  //  should run. The number of iterations will determine the maximum size of
+  //  holes and cavities that this filter will be able to fill. The more
+  //  iterations you run, the larger the cavities that will be filled in.
   //
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetMaximumNumberOfIterations()}
   //

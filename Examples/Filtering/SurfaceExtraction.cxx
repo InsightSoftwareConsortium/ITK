@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  Surface extraction has attracted continuous interest since the early days
-//  of image analysis, in particular on the context of medical applications.
+//  of image analysis, especially in the context of medical applications.
 //  Although it is commonly associated with image segmentation, surface
 //  extraction is not in itself a segmentation technique, instead it is a
 //  transformation that changes the way a segmentation is represented. In its
@@ -29,7 +29,7 @@
 //  Probably the most widely known method of surface extraction is the
 //  \emph{Marching Cubes} algorithm~\cite{MarchingCubes}. Although it has been
 //  followed by a number of variants~\cite{VTKBook}, Marching Cubes has become
-//  an icon on medical image processing. The following example illustrates how
+//  an icon in medical image processing. The following example illustrates how
 //  to perform surface extraction in ITK using an algorithm similar to Marching
 //  Cubes~\footnote{Note that the Marching Cubes algorithm is covered by a
 //  patent that expired on June 5th 2005.}.
@@ -43,12 +43,12 @@
 // Software Guide : BeginLatex
 //
 // The representation of unstructured data in ITK is done with
-// the \doxygen{Mesh}. This class allows to represent N-Dimensional grids of
+// the \doxygen{Mesh}. This class enables us to represent $N$-Dimensional grids of
 // varied topology. It is natural for the filter that extracts surfaces from an
-// Image to produce a Mesh as its output.
+// image to produce a mesh as its output.
 //
 // We initiate our example by including the header files of the surface
-// extraction filter, the image and the Mesh.
+// extraction filter, the image and the mesh.
 //
 // \index{Marching Cubes}
 // \index{Isosurface extraction!Mesh}
@@ -146,12 +146,12 @@ int main(int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// In this particular example, the pixel value to be associated to the object
+// In this example, the pixel value associated with the object
 // to be extracted is read from the command line arguments and it is passed to
 // the filter by using the \code{SetObjectValue()} method. Note that this is
 // different from the traditional isovalue used in the Marching Cubes
 // algorithm.  In the case of the \code{BinaryMask3DMeshSource} filter, the
-// object values defines the membership of pixels to the object from which the
+// object values define the membership of pixels to the object from which the
 // surface will be extracted. In other words, the surface will be surrounding
 // all pixels with value equal to the ObjectValue parameter.
 //
@@ -203,8 +203,8 @@ int main(int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// As a way of taking a look at the output Mesh we print out here its number of
-// Nodes and Cells.
+// We print out the number of nodes and cells in order to inspect the
+// output mesh.
 //
 // Software Guide : EndLatex
 

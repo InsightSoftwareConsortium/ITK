@@ -25,16 +25,16 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{FlipImageFilter} is used for flipping the image content in any
-//  of the coordinate axis. This filter must be used with \textbf{EXTREME}
-//  caution. You probably don't want to appear in the newspapers as the
-//  responsible of a surgery mistake in which a doctor extirpates the left
-//  kidney when it should have extracted the right one\footnote{\emph{Wrong
+//  of the coordinate axes. This filter must be used with \textbf{EXTREME}
+//  caution. You probably don't want to appear in the newspapers as
+//  responsible for a surgery mistake in which a doctor extirpates the left
+//  kidney when he should have extracted the right one\footnote{\emph{Wrong
 //  side} surgery accounts for $2\%$ of the reported medical errors in the United
 //  States. Trivial... but equally dangerous.} . If that prospect doesn't
-//  scares you, maybe it is time for you to reconsider your career in medical
-//  image processing. Flipping effects that may seem innocuous at first view may
-//  still have dangerous consequences. For example flipping the cranio-caudal
-//  axis of a CT scans forces an observer to flip the left-right axis in order
+//  scare you, maybe it is time for you to reconsider your career in medical
+//  image processing. Flipping effects which seem innocuous at first view may
+//  still have dangerous consequences. For example, flipping the cranio-caudal
+//  axis of a CT scan forces an observer to flip the left-right axis in order
 //  to make sense of the image.
 //
 //  \index{itk::FlipImageFilter}
@@ -113,7 +113,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The axis to flip are specified in the form of an Array. In this case we
+  //  The axes to flip are specified in the form of an Array. In this case we
   //  take them from the command line arguments.
   //
   //  \index{itk::FlipImageFilter!Radius}
@@ -136,8 +136,8 @@ int main( int argc, char * argv[] )
   //
   //  The input to the filter can be taken from any other filter, for example
   //  a reader. The output can be passed down the pipeline to other filters,
-  //  for example, a writer. An update call on any downstream filter will
-  //  trigger the execution of the mean filter.
+  //  for example, a writer. Invoking \code{Update()} on any downstream filter
+  //  will trigger the execution of the FlipImage filter.
   //
   //  \index{itk::FlipImageFilter!SetInput()}
   //  \index{itk::FlipImageFilter!GetOutput()}
@@ -164,7 +164,7 @@ int main( int argc, char * argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:FlipImageFilterOutput} illustrates the effect of this
-  //  filter on a slice of MRI brain image using a flip array $[0,1]$ which
+  //  filter on a slice of an MRI brain image using a flip array $[0,1]$ which
   //  means that the $Y$ axis was flipped while the $X$ axis was conserved.
   //
   //  Software Guide : EndLatex

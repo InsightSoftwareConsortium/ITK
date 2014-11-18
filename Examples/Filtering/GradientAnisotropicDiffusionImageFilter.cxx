@@ -22,6 +22,7 @@
 //    ARGUMENTS:    5 0.25 3
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginLatex
+//
 //  The \doxygen{GradientAnisotropicDiffusionImageFilter}  implements an
 //  $N$-dimensional version of the classic Perona-Malik anisotropic diffusion
 //  equation for scalar-valued images \cite{Perona1990}.
@@ -136,12 +137,12 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  This filter requires three parameters, the number of iterations to be
+  //  This filter requires three parameters: the number of iterations to be
   //  performed, the time step and the conductance parameter used in the
   //  computation of the level set evolution. These parameters are set using
   //  the methods \code{SetNumberOfIterations()}, \code{SetTimeStep()} and
   //  \code{SetConductanceParameter()} respectively.  The filter can be
-  //  executed by invoking Update().
+  //  executed by invoking \code{Update()}.
   //
   //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!Update()}
   //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!SetTimeStep()}

@@ -208,7 +208,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter is executed by invoking its \code{Update()} method, or by
-  //  updating any downstream filter, like, for example, an image writer.
+  //  updating any downstream filter, such as an image writer.
   //
   //  \index{itk::GrayscaleDilateImageFilter!Update()}
   //  \index{itk::GrayscaleErodeImageFilter!Update()}

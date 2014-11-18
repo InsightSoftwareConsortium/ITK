@@ -214,7 +214,7 @@ int main( int argc, char * argv[] )
   //
   //  Note that the order in which rotation, scaling and translation are
   //  defined is irrelevant in this transform. This is not the case in the
-  //  Affine transform which is very generic and allow different combinations
+  //  Affine transform which is very generic and allows different combinations
   //  for initialization. In the Similarity2DTransform class the
   //  rotation and scaling will always be applied before the translation.
   //

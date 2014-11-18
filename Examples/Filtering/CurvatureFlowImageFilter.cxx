@@ -26,7 +26,7 @@
 //
 //  The \doxygen{CurvatureFlowImageFilter} performs edge-preserving smoothing
 //  in a similar fashion to the classical anisotropic diffusion. The filter
-//  uses a level set formulation where the iso-intensity contours in a image
+//  uses a level set formulation where the iso-intensity contours in an image
 //  are viewed as level sets, where pixels of a particular intensity form one
 //  level set. The level set function is then evolved under the control of
 //  a diffusion equation where the speed is proportional to the
@@ -42,9 +42,9 @@
 //  Hence, small jagged noise artifacts will disappear quickly, while large
 //  scale interfaces will be slow to evolve, thereby preserving sharp
 //  boundaries between objects. However, it should be noted that although the
-//  evolution at the boundary is slow, some diffusion still occur. Thus,
+//  evolution at the boundary is slow, some diffusion will still occur. Thus,
 //  continual application of this curvature flow scheme will eventually
-//  result is the removal of information as each contour shrinks to a point
+//  result in the removal of information as each contour shrinks to a point
 //  and disappears.
 //
 //  \index{itk::CurvatureFlowImageFilter}
@@ -159,7 +159,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The CurvatureFlow filter requires two parameters, the number of
+  //  The CurvatureFlow filter requires two parameters: the number of
   //  iterations to be performed and the time step used in the computation of
   //  the level set evolution. These two parameters are set using the methods
   //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.
@@ -185,8 +185,8 @@ int main( int argc, char * argv[] )
   //  Typical values for the time step are $0.125$ in $2D$ images and
   //  $0.0625$ in $3D$ images. The number of iterations can be usually around
   //  $10$, more iterations will result in further smoothing and will
-  //  increase linearly the computing time. Edge-preserving behavior is not
-  //  guaranteed by this filter, some degradation will occur on the edges and
+  //  increase the computing time linearly. Edge-preserving behavior is not
+  //  guaranteed by this filter. Some degradation will occur on the edges and
   //  will increase as the number of iterations is increased.
   //
   //  Software Guide : EndLatex
@@ -196,8 +196,8 @@ int main( int argc, char * argv[] )
   //
   //  If the output of this filter has been connected to other filters down
   //  the pipeline, updating any of the downstream filters will
-  //  triggered the execution of this one. For example, a writer filter could
-  //  have been used after the curvature flow filter.
+  //  trigger the execution of this one. For example, a writer filter could
+  //  be used after the curvature flow filter.
   //
   //  Software Guide : EndLatex
 

@@ -21,7 +21,7 @@
 //  This example illustrates how to perform subsampling of a volume using ITK
 //  classes.  In order to avoid aliasing artifacts, the volume must be
 //  processed by a low-pass filter before resampling.  Here we use the
-//  \doxygen{RecursiveGaussianImageFilter} as low-pass filter. The image is
+//  \doxygen{RecursiveGaussianImageFilter} as a low-pass filter. The image is
 //  then resampled by using three different factors, one per dimension of the
 //  image.
 //
@@ -35,7 +35,7 @@
 
 // Software Guide : BeginLatex
 //
-// The most important headers to include here are the ones corresponding to the
+// The most important headers to include here are those corresponding to the
 // resampling image filter, the transform, the interpolator and the smoothing
 // filter.
 //
@@ -141,7 +141,7 @@ int main( int argc, char * argv[] )
 //
 // The smoothing filter of choice is the \code{RecursiveGaussianImageFilter}.
 // We create three of them in order to have the freedom of performing smoothing
-// with different Sigma values along each dimension.
+// with different sigma values along each dimension.
 //
 // Software Guide : EndLatex
 
@@ -171,8 +171,8 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// The Sigma values to use in the smoothing filters is computed based on the
-// pixel spacings of the input image and the factors provided as arguments.
+// The sigma values to use in the smoothing filters are computed based on the
+// pixel spacing of the input image and the factors provided as arguments.
 //
 // Software Guide : EndLatex
 
@@ -193,7 +193,7 @@ int main( int argc, char * argv[] )
 //
 // We instruct each one of the smoothing filters to act along a particular
 // direction of the image, and set them to use normalization across scale space
-// in order to prevent for the reduction of intensity that accompanies the
+// in order to account for the reduction of intensity that accompanies the
 // diffusion process associated with the Gaussian smoothing.
 //
 // Software Guide : EndLatex
@@ -243,7 +243,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// The Linear interpolator is selected given that it provides a good run-time
+// The Linear interpolator is selected because it provides a good run-time
 // performance.  For applications that require better precision you may want to
 // replace this interpolator with the \doxygen{BSplineInterpolateImageFunction}
 // interpolator or with the \doxygen{WindowedSincInterpolateImageFunction}
@@ -281,8 +281,8 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// The origin and direction of the input image is preserved and passed to the
-// output image.
+// The origin and direction of the input image are both preserved and passed to
+// the output image.
 //
 // Software Guide : EndLatex
 
@@ -331,7 +331,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // At this point we can trigger the execution of the resampling by calling the
-// \code{Update()} method, or we can chose to pass the output of the resampling
+// \code{Update()} method, or we can choose to pass the output of the resampling
 // filter to another section of pipeline, for example, an image writer.
 //
 // Software Guide : EndLatex

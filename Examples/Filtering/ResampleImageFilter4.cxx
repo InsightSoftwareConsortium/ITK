@@ -86,7 +86,7 @@ int main( int argc, char * argv[] )
   //
   //  The transform type is instantiated using the coordinate representation
   //  type and the space dimension. Then a transform object is constructed
-  //  with the New() method and passed to a \doxygen{SmartPointer}.
+  //  with the \code{New()} method and passed to a \doxygen{SmartPointer}.
   //
   //  \index{itk::AffineTransform!instantiation}
   //  \index{itk::AffineTransform!New()}
@@ -142,7 +142,7 @@ int main( int argc, char * argv[] )
   //  the image origin nor the image center. Hence, the process of
   //  positioning the output image frame as it is shown in Figure
   //  \ref{fig:ResampleImageFilterOutput10} requires three steps.  First, the
-  //  image origin must be moved to the origin of the coordinate system, this
+  //  image origin must be moved to the origin of the coordinate system. This
   //  is done by applying a translation equal to the negative values of the
   //  image origin.
   //

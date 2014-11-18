@@ -178,9 +178,9 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  If the output of this filter has been connected to other filters down
-  //  the pipeline, updating any of the downstream filters would have
-  //  triggered the execution of this one. For example, a writer could have
-  //  been used after the filter.
+  //  the pipeline, updating any of the downstream filters will
+  //  trigger the execution of this one. For example, a writer could
+  //  be used after the filter.
   //
   //  Software Guide : EndLatex
 
@@ -220,7 +220,7 @@ int main( int argc, char * argv[] )
   //  effect of this filter on a MRI proton density image of the brain.
   //
   //  Note that large Gaussian variances will produce large convolution kernels
-  //  and correspondingly slower computation times.  Unless a high degree of
+  //  and correspondingly longer computation times.  Unless a high degree of
   //  accuracy is required, it may be more desirable to use the approximating
   //  \doxygen{RecursiveGaussianImageFilter} with large variances.
   //
