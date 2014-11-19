@@ -1057,93 +1057,59 @@ NiftiImageIO
     default:
       break;
     }
+
   // there are a wide variety of intents we ignore
   // but a few wee need to care about
   switch ( this->m_NiftiImage->intent_code )
     {
-    case NIFTI_INTENT_NONE:
-      break;
-    case NIFTI_INTENT_CORREL:
-      break;
-    case NIFTI_INTENT_TTEST:
-      break;
-    case NIFTI_INTENT_FTEST:
-      break;
-    case NIFTI_INTENT_ZSCORE:
-      break;
-    case NIFTI_INTENT_CHISQ:
-      break;
-    case NIFTI_INTENT_BETA:
-      break;
-    case NIFTI_INTENT_BINOM:
-      break;
-    case NIFTI_INTENT_GAMMA:
-      break;
-    case NIFTI_INTENT_POISSON:
-      break;
-    case NIFTI_INTENT_NORMAL:
-      break;
-    case NIFTI_INTENT_FTEST_NONC:
-      break;
-    case NIFTI_INTENT_CHISQ_NONC:
-      break;
-    case NIFTI_INTENT_LOGISTIC:
-      break;
-    case NIFTI_INTENT_LAPLACE:
-      break;
-    case NIFTI_INTENT_UNIFORM:
-      break;
-    case NIFTI_INTENT_TTEST_NONC:
-      break;
-    case NIFTI_INTENT_WEIBULL:
-      break;
-    case NIFTI_INTENT_CHI:
-      break;
-    case NIFTI_INTENT_INVGAUSS:
-      break;
-    case NIFTI_INTENT_EXTVAL:
-      break;
-    case NIFTI_INTENT_PVAL:
-      break;
-    case NIFTI_INTENT_LOGPVAL:
-      break;
-    case NIFTI_INTENT_LOG10PVAL:
-      break;
-    case NIFTI_INTENT_ESTIMATE:
-      break;
-    case NIFTI_INTENT_LABEL:
-      break;
-    case NIFTI_INTENT_NEURONAME:
-      break;
-    case NIFTI_INTENT_GENMATRIX:
-      break;
     case NIFTI_INTENT_SYMMATRIX:
       this->SetPixelType(SYMMETRICSECONDRANKTENSOR);
-      break;
-    case NIFTI_INTENT_DISPVECT:
       break;
     case NIFTI_INTENT_VECTOR:
       this->SetPixelType(VECTOR);
       break;
+    case NIFTI_INTENT_NONE:
+    case NIFTI_INTENT_CORREL:
+    case NIFTI_INTENT_TTEST:
+    case NIFTI_INTENT_FTEST:
+    case NIFTI_INTENT_ZSCORE:
+    case NIFTI_INTENT_CHISQ:
+    case NIFTI_INTENT_BETA:
+    case NIFTI_INTENT_BINOM:
+    case NIFTI_INTENT_GAMMA:
+    case NIFTI_INTENT_POISSON:
+    case NIFTI_INTENT_NORMAL:
+    case NIFTI_INTENT_FTEST_NONC:
+    case NIFTI_INTENT_CHISQ_NONC:
+    case NIFTI_INTENT_LOGISTIC:
+    case NIFTI_INTENT_LAPLACE:
+    case NIFTI_INTENT_UNIFORM:
+    case NIFTI_INTENT_TTEST_NONC:
+    case NIFTI_INTENT_WEIBULL:
+    case NIFTI_INTENT_CHI:
+    case NIFTI_INTENT_INVGAUSS:
+    case NIFTI_INTENT_EXTVAL:
+    case NIFTI_INTENT_PVAL:
+    case NIFTI_INTENT_LOGPVAL:
+    case NIFTI_INTENT_LOG10PVAL:
+    case NIFTI_INTENT_ESTIMATE:
+    case NIFTI_INTENT_LABEL:
+    case NIFTI_INTENT_NEURONAME:
+    case NIFTI_INTENT_GENMATRIX:
+    case NIFTI_INTENT_DISPVECT:
     case NIFTI_INTENT_POINTSET:
-      break;
     case NIFTI_INTENT_TRIANGLE:
-      break;
     case NIFTI_INTENT_QUATERNION:
-      break;
     case NIFTI_INTENT_DIMLESS:
-      break;
     case NIFTI_INTENT_TIME_SERIES:
-      break;
     case NIFTI_INTENT_NODE_INDEX:
-      break;
     case NIFTI_INTENT_RGB_VECTOR:
-      break;
     case NIFTI_INTENT_RGBA_VECTOR:
-      break;
     case NIFTI_INTENT_SHAPE:
+    default:
       break;
     }
+
   // set slope/intercept
   if ( this->m_NiftiImage->qform_code == 0
        && this->m_NiftiImage->sform_code == 0 )
