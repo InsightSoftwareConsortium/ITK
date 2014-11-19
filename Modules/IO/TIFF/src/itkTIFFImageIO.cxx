@@ -406,10 +406,10 @@ void TIFFImageIO::ReadImageInformation()
   if ( !m_InternalImage->CanRead() )
     {
     //  exception if compression is not supported
-    if (TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1 )
+    if ( TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1 )
       {
       const TIFFCodec* c = TIFFFindCODEC(this->m_InternalImage->m_Compression);
-      const char * codecName = ( c != ITK_NULLPTR ) ? c->name : "unknown";
+      const char * codecName = ( c != ITK_NULLPTR ) ? static_cast<const char *>(c->name) : "unknown";
 
       itkExceptionMacro( "TIFF CODEC \"" << codecName << "\" is not supported." );
       }
