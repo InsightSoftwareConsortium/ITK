@@ -92,73 +92,73 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 ::FilterDataArray(RealType *outs, const RealType *data,
                   RealType *scratch, SizeValueType ln)
 {
+
+  RealType * scratch1 = outs;
+  RealType * scratch2 = scratch;
   /**
    * Causal direction pass
    */
 
   // this value is assumed to exist from the border to infinity.
-  const RealType outV1 = data[0];
+  const RealType &outV1 = data[0];
 
   /**
    * Initialize borders
    */
 
-  MathEMAMAMAM( scratch[0], outV1  , m_N0,   outV1, m_N1, outV1  , m_N2, outV1, m_N3 );
-  MathEMAMAMAM( scratch[1], data[1], m_N0,   outV1, m_N1, outV1  , m_N2, outV1, m_N3 );
-  MathEMAMAMAM( scratch[2], data[2], m_N0, data[1], m_N1, outV1  , m_N2, outV1, m_N3 );
-  MathEMAMAMAM( scratch[3], data[3], m_N0, data[2], m_N1, data[1], m_N2, outV1, m_N3 );
+  MathEMAMAMAM( scratch1[0], outV1  , m_N0,   outV1, m_N1, outV1  , m_N2, outV1, m_N3 );
+  MathEMAMAMAM( scratch1[1], data[1], m_N0,   outV1, m_N1, outV1  , m_N2, outV1, m_N3 );
+  MathEMAMAMAM( scratch1[2], data[2], m_N0, data[1], m_N1, outV1  , m_N2, outV1, m_N3 );
+  MathEMAMAMAM( scratch1[3], data[3], m_N0, data[2], m_N1, data[1], m_N2, outV1, m_N3 );
 
   // note that the outV1 value is multiplied by the Boundary coefficients m_BNi
-  MathSMAMAMAM( scratch[0], outV1     , m_BN1, outV1     , m_BN2, outV1     , m_BN3, outV1, m_BN4);
-  MathSMAMAMAM( scratch[1], scratch[0], m_D1 , outV1     , m_BN2, outV1     , m_BN3 , outV1, m_BN4);
-  MathSMAMAMAM( scratch[2], scratch[1], m_D1 , scratch[0], m_D2 , outV1     , m_BN3 , outV1, m_BN4);
-  MathSMAMAMAM( scratch[3], scratch[2], m_D1 , scratch[1], m_D2 , scratch[0], m_D3  , outV1, m_BN4);
+  MathSMAMAMAM( scratch1[0], outV1     , m_BN1, outV1     , m_BN2, outV1     , m_BN3, outV1, m_BN4);
+  MathSMAMAMAM( scratch1[1], scratch1[0], m_D1 , outV1     , m_BN2, outV1     , m_BN3 , outV1, m_BN4);
+  MathSMAMAMAM( scratch1[2], scratch1[1], m_D1 , scratch1[0], m_D2 , outV1     , m_BN3 , outV1, m_BN4);
+  MathSMAMAMAM( scratch1[3], scratch1[2], m_D1 , scratch1[1], m_D2 , scratch1[0], m_D3  , outV1, m_BN4);
 
   /**
    * Recursively filter the rest
    */
   for ( unsigned int i = 4; i < ln; i++ )
     {
-    MathEMAMAMAM( scratch[i], data[i], m_N0, data[i - 1]   , m_N1, data[i - 2]   , m_N2, data[i - 3]   , m_N3);
-    MathSMAMAMAM( scratch[i], scratch[i - 1], m_D1, scratch[i - 2], m_D2, scratch[i - 3], m_D3, scratch[i - 4], m_D4);
+    MathEMAMAMAM( scratch1[i], data[i], m_N0, data[i - 1]   , m_N1, data[i - 2]   , m_N2, data[i - 3]   , m_N3);
+    MathSMAMAMAM( scratch1[i], scratch1[i - 1], m_D1, scratch1[i - 2], m_D2, scratch1[i - 3], m_D3, scratch1[i - 4], m_D4);
     }
 
   /**
-   * Store the causal result
+   * Store the causal result: outs = scratch already done via alias
+   *
    */
-  for ( unsigned int i = 0; i < ln; i++ )
-    {
-    outs[i] = scratch[i];
-    }
 
   /**
    * AntiCausal direction pass
    */
 
   // this value is assumed to exist from the border to infinity.
-  const RealType outV2 = data[ln - 1];
+  const RealType &outV2 = data[ln - 1];
 
   /**
    * Initialize borders
    */
-  MathEMAMAMAM( scratch[ln - 1], outV2       , m_M1, outV2     , m_M2, outV2     , m_M3, outV2, m_M4);
-  MathEMAMAMAM( scratch[ln - 2], data[ln - 1], m_M1, outV2     , m_M2, outV2     , m_M3, outV2, m_M4);
-  MathEMAMAMAM( scratch[ln - 3], data[ln - 2], m_M1, data[ln - 1], m_M2, outV2     , m_M3, outV2, m_M4);
-  MathEMAMAMAM( scratch[ln - 4], data[ln - 3], m_M1, data[ln - 2], m_M2, data[ln - 1], m_M3, outV2, m_M4);
+  MathEMAMAMAM( scratch2[ln - 1], outV2       , m_M1, outV2     , m_M2, outV2     , m_M3, outV2, m_M4);
+  MathEMAMAMAM( scratch2[ln - 2], data[ln - 1], m_M1, outV2     , m_M2, outV2     , m_M3, outV2, m_M4);
+  MathEMAMAMAM( scratch2[ln - 3], data[ln - 2], m_M1, data[ln - 1], m_M2, outV2     , m_M3, outV2, m_M4);
+  MathEMAMAMAM( scratch2[ln - 4], data[ln - 3], m_M1, data[ln - 2], m_M2, data[ln - 1], m_M3, outV2, m_M4);
 
   // note that the outV2value is multiplied by the Boundary coefficients m_BMi
-  MathSMAMAMAM( scratch[ln - 1], outV2          , m_BM1, outV2        , m_BM2, outV2        , m_BM3, outV2, m_BM4);
-  MathSMAMAMAM( scratch[ln - 2], scratch[ln - 1], m_D1 , outV2        , m_BM2, outV2        , m_BM3, outV2, m_BM4);
-  MathSMAMAMAM( scratch[ln - 3], scratch[ln - 2], m_D1 , scratch[ln - 1], m_D2 , outV2        , m_BM3, outV2, m_BM4);
-  MathSMAMAMAM( scratch[ln - 4], scratch[ln - 3], m_D1 , scratch[ln - 2], m_D2 , scratch[ln - 1], m_D3 , outV2, m_BM4);
+  MathSMAMAMAM( scratch2[ln - 1], outV2          , m_BM1, outV2        , m_BM2, outV2        , m_BM3, outV2, m_BM4);
+  MathSMAMAMAM( scratch2[ln - 2], scratch2[ln - 1], m_D1 , outV2        , m_BM2, outV2        , m_BM3, outV2, m_BM4);
+  MathSMAMAMAM( scratch2[ln - 3], scratch2[ln - 2], m_D1 , scratch2[ln - 1], m_D2 , outV2        , m_BM3, outV2, m_BM4);
+  MathSMAMAMAM( scratch2[ln - 4], scratch2[ln - 3], m_D1 , scratch2[ln - 2], m_D2 , scratch2[ln - 1], m_D3 , outV2, m_BM4);
 
   /**
    * Recursively filter the rest
    */
   for ( unsigned int i = ln - 4; i > 0; i-- )
     {
-    MathEMAMAMAM( scratch[i - 1], data[i]   , m_M1, data[i + 1]   , m_M2, data[i + 2]   , m_M3, data[i + 3]   , m_M4);
-    MathSMAMAMAM( scratch[i - 1], scratch[i], m_D1, scratch[i + 1], m_D2, scratch[i + 2], m_D3, scratch[i + 3], m_D4);
+    MathEMAMAMAM( scratch2[i - 1], data[i]   , m_M1, data[i + 1]   , m_M2, data[i + 2]   , m_M3, data[i + 3]   , m_M4);
+    MathSMAMAMAM( scratch2[i - 1], scratch2[i], m_D1, scratch2[i + 1], m_D2, scratch2[i + 2], m_D3, scratch2[i + 3], m_D4);
     }
 
   /**
@@ -166,7 +166,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
    */
   for ( unsigned int i = 0; i < ln; i++ )
     {
-    outs[i] += scratch[i];
+    outs[i] += scratch2[i];
     }
 }
 
