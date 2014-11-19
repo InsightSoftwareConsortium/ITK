@@ -90,7 +90,7 @@ template< typename TInputImage, typename TOutputImage >
 void
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 ::FilterDataArray(RealType *outs, const RealType *data,
-                  RealType *scratch, unsigned int ln)
+                  RealType *scratch, SizeValueType ln)
 {
   /**
    * Causal direction pass
@@ -273,7 +273,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
   inputIterator.SetDirection(this->m_Direction);
   outputIterator.SetDirection(this->m_Direction);
 
-  const unsigned int ln = region.GetSize()[this->m_Direction];
+  const SizeValueType ln = region.GetSize(this->m_Direction);
 
   RealType *inps = ITK_NULLPTR;
   RealType *outs = ITK_NULLPTR;
