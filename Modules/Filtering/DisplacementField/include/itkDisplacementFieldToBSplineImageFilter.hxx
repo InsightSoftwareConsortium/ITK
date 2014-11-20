@@ -47,6 +47,11 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   this->m_NumberOfControlPoints.Fill( 4 );
 
   this->m_PointWeights = ITK_NULLPTR;
+
+  this->m_BSplineDomainOrigin.Fill( 0.0 );
+  this->m_BSplineDomainSpacing.Fill( 1.0 );
+  this->m_BSplineDomainSize.Fill( 100 );
+  this->m_BSplineDomainDirection.SetIdentity();
 }
 
 template<typename TInputImage, typename TInputPointSet, typename TOutputImage>
