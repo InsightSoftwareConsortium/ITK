@@ -64,6 +64,9 @@ public:
   /** External support for dimensionality. */
   itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacroNoParent(Neighborhood);
+
   /** External support for pixel type. */
   typedef TPixel PixelType;
 

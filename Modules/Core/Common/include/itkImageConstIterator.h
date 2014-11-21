@@ -94,6 +94,9 @@ public:
   itkStaticConstMacro(ImageIteratorDimension, unsigned int,
                       TImage::ImageDimension);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacroNoParent(ImageConstIterator);
+
   /** Index typedef support. */
   typedef typename TImage::IndexType      IndexType;
 

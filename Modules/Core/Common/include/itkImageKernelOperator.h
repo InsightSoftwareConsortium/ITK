@@ -57,6 +57,8 @@ public:
   typedef typename Superclass::SizeType          SizeType;
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
+  itkTypeMacro(ImageKernelOperator, NeighborhoodOperator);
+
   /** Constructor. */
   ImageKernelOperator() {}
 
@@ -97,10 +99,6 @@ protected:
 
 private:
   typename ImageType::ConstPointer m_ImageKernel;
-
-  /** For compatibility with itkWarningMacro */
-  const char * GetNameOfClass()
-  { return "itkImageKernelOperator"; }
 
 };
 } // namespace itk

@@ -429,7 +429,7 @@ protected:
 #endif
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(CellInterface, LightObject);
+  itkTypeMacroNoParent(CellInterface);
 
 public:
   CellInterface() {}

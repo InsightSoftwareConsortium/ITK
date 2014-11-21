@@ -135,7 +135,7 @@ public:
   typedef typename Superclass::AccessorType          AccessorType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegionConstIterator, ImageIterator);
+  itkTypeMacro(ImageRegionConstIterator, ImageConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionConstIterator():ImageConstIterator< TImage >()

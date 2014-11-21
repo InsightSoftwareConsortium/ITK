@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Barrier, Object);
+  itkTypeMacro(Barrier, LightObject);
 
   /** Creates a new system variable used to implement the barrier.  The
       argument to this method is the number of threads that must Wait() on the

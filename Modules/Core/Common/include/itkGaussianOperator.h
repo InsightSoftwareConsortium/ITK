@@ -72,6 +72,8 @@ public:
   typedef GaussianOperator                                       Self;
   typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
 
+  itkTypeMacro(GaussianOperator, NeighborhoodOperator);
+
   /** Constructor. */
   GaussianOperator():m_Variance(1), m_MaximumError(.01), m_MaximumKernelWidth(30) {}
 
@@ -186,9 +188,6 @@ private:
    *  error causes the kernel to exceed this size. */
   unsigned int m_MaximumKernelWidth;
 
-  /** For compatibility with itkWarningMacro */
-  const char * GetNameOfClass()
-  { return "itkGaussianOperator"; }
 };
 } // namespace itk
 

@@ -71,6 +71,8 @@ public:
   typedef NeighborhoodOperator                           Self;
   typedef Neighborhood< TPixel, VDimension, TAllocator > Superclass;
 
+  itkTypeMacro(NeighborhoodOperator, NeighborhoodOperator);
+
   /** Size object typedef support */
   typedef typename Superclass::SizeType      SizeType;
 
