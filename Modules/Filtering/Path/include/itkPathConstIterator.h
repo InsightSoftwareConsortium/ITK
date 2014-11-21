@@ -132,7 +132,7 @@ public:
   typedef typename PathType::OutputType PathOutputType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PathConstIterator, None);
+  itkTypeMacroNoParent(PathConstIterator);
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetImageIteratorDimension()

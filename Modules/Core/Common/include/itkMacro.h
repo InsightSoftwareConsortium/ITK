@@ -235,6 +235,12 @@ namespace itk
     return #thisClass;                      \
     }
 
+#define itkTypeMacroNoParent(thisClass)             \
+  virtual const char *GetNameOfClass() const \
+  {                                          \
+    return #thisClass;                       \
+  }
+
 namespace itk
 {
 /**

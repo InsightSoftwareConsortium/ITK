@@ -71,7 +71,7 @@ public:
   enum RegionType { ITK_UNSTRUCTURED_REGION, ITK_STRUCTURED_REGION };
 
   /** Standard part of all itk objects. */
-  itkTypeMacro(Region, None);
+  itkTypeMacroNoParent(Region);
 
   /** Subclasses must return a region type describing whether the region
    * is structured or unstructured. */
