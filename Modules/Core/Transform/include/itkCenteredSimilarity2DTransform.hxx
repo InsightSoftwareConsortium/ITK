@@ -22,22 +22,22 @@
 
 namespace itk
 {
-// Constructor with default arguments
+
 template <typename TScalar>
 CenteredSimilarity2DTransform<TScalar>
 ::CenteredSimilarity2DTransform() : Superclass(ParametersDimension)
 {
 }
 
-// Constructor with arguments
+
 template <typename TScalar>
 CenteredSimilarity2DTransform<TScalar>::CenteredSimilarity2DTransform(unsigned int spaceDimension,
-                                                                          unsigned int parametersDimension) :
+                                                                      unsigned int parametersDimension) :
   Superclass(spaceDimension, parametersDimension)
 {
 }
 
-// Set Parameters
+
 template <typename TScalar>
 void
 CenteredSimilarity2DTransform<TScalar>
@@ -85,12 +85,12 @@ CenteredSimilarity2DTransform<TScalar>
   itkDebugMacro(<< "After setting parameters ");
 }
 
-// Get Parameters
+
 template <typename TScalar>
-const typename CenteredSimilarity2DTransform<TScalar>::ParametersType
-& CenteredSimilarity2DTransform<TScalar>
-::GetParameters(void) const
-  {
+const typename CenteredSimilarity2DTransform<TScalar> ::ParametersType &
+CenteredSimilarity2DTransform<TScalar>
+::GetParameters() const
+{
   itkDebugMacro(<< "Getting parameters ");
 
   this->m_Parameters[0] = this->GetScale();
@@ -111,7 +111,8 @@ const typename CenteredSimilarity2DTransform<TScalar>::ParametersType
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-  }
+}
+
 
 template <typename TScalar>
 void
@@ -156,43 +157,50 @@ CenteredSimilarity2DTransform<TScalar>
   jacobian[1][5] = 1.0;
 }
 
+
 template <typename TScalar>
 void
-CenteredSimilarity2DTransform<TScalar>::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
+CenteredSimilarity2DTransform<TScalar>
+::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
 {
   // no fixed parameters
 }
 
+
 template <typename TScalar>
-const typename CenteredSimilarity2DTransform<TScalar>::ParametersType
-& CenteredSimilarity2DTransform<TScalar>::GetFixedParameters(void) const
-  {
+const typename CenteredSimilarity2DTransform<TScalar>::ParametersType &
+CenteredSimilarity2DTransform<TScalar>
+::GetFixedParameters() const
+{
   // return dummy parameters
   this->m_FixedParameters.SetSize(0);
   return this->m_FixedParameters;
-  }
+}
 
-// Print self
+
 template <typename TScalar>
 void
-CenteredSimilarity2DTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
+CenteredSimilarity2DTransform<TScalar>
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-// Create and return an inverse transformation
+
 template <typename TScalar>
 void
-CenteredSimilarity2DTransform<TScalar>::CloneInverseTo(Pointer & result) const
+CenteredSimilarity2DTransform<TScalar>
+::CloneInverseTo(Pointer & result) const
 {
   result = New();
   this->GetInverse( result.GetPointer() );
 }
 
-// return an inverse transformation
+
 template <typename TScalar>
 bool
-CenteredSimilarity2DTransform<TScalar>::GetInverse(Self *inverse) const
+CenteredSimilarity2DTransform<TScalar>
+::GetInverse(Self *inverse) const
 {
   if( !inverse )
     {
@@ -207,7 +215,7 @@ CenteredSimilarity2DTransform<TScalar>::GetInverse(Self *inverse) const
   return true;
 }
 
-// Return an inverse of this transform
+
 template <typename TScalar>
 typename CenteredSimilarity2DTransform<TScalar>::InverseTransformBasePointer
 CenteredSimilarity2DTransform<TScalar>
@@ -222,10 +230,11 @@ CenteredSimilarity2DTransform<TScalar>
   return ITK_NULLPTR;
 }
 
-// Create and return a clone of the transformation
+
 template <typename TScalar>
 void
-CenteredSimilarity2DTransform<TScalar>::CloneTo(Pointer & result) const
+CenteredSimilarity2DTransform<TScalar>
+::CloneTo(Pointer & result) const
 {
   result = New();
   result->SetCenter( this->GetCenter() );
@@ -234,6 +243,6 @@ CenteredSimilarity2DTransform<TScalar>::CloneTo(Pointer & result) const
   result->SetTranslation( this->GetTranslation() );
 }
 
-} // namespace
+} // end namespace itk
 
 #endif

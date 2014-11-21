@@ -18,7 +18,6 @@
 #ifndef __itkScaleTransform_h
 #define __itkScaleTransform_h
 
-#include <iostream>
 #include "itkMatrixOffsetTransformBase.h"
 #include "itkMacro.h"
 #include "itkMatrix.h"
@@ -38,12 +37,9 @@ namespace itk
  * \wikiexample{ImageProcessing/ScaleTransform,Scale an image}
  * \endwiki
  */
-template <
-  typename TScalar = float, // Type for cordinate representation type (float or
+template < typename TScalar = float, // Type for cordinate representation type (float or
                              // double)
-  unsigned int NDimensions = 3>
-// Number of dimensions
-// class ScaleTransform:public Transform< TScalar,
+           unsigned int NDimensions = 3>
 class ScaleTransform : public MatrixOffsetTransformBase< TScalar,
                                                          NDimensions,
                                                          NDimensions >
@@ -104,18 +100,18 @@ public:
    *  specified by the user. The parameters are organized as scale[i] =
    *  parameter[i]. That means that in 3D the scale parameters for the coordinates
    *  {x,y,z} are {parameter[0], parameter[1], parameter[2]} respectively */
-  void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform This is typically
    * used by optimizers during the process of image registration.  The parameters
    * are organized as {scale X, scale Y, scale Z } = { parameter[0],
    * parameter[1], parameter[2] } respectively */
-  const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal
    * transformation. This transform has no fixed paramaters
    */
-  virtual void SetFixedParameters(const ParametersType &)
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
   {
   }
 
@@ -187,12 +183,12 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Set the transformation to an Identity
    *
    * This sets all the scales to 1.0 */
-  void SetIdentity(void)
+  void SetIdentity()
   {
     m_Scale.Fill(1.0);
   }
@@ -209,7 +205,7 @@ public:
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
-  virtual bool IsLinear() const
+  virtual bool IsLinear() const ITK_OVERRIDE
   {
     return true;
   }
@@ -222,7 +218,7 @@ protected:
   ~ScaleTransform();
 
   /** Print contents of an ScaleTransform */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ScaleTransform(const Self & other);   // purposely not implemented
@@ -295,7 +291,7 @@ ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputCovariantVect
   return result;
 }
 
-}  // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkScaleTransform.hxx"

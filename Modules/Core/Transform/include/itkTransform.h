@@ -531,7 +531,7 @@ protected:
    * This does a complete copy of the transform
    * state to the new transform
    */
-  virtual typename LightObject::Pointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);

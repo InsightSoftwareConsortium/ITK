@@ -336,7 +336,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::PreservationOfPrincipalDirectionDiffusionTensor3DReorientation( const InputDiffusionTensor3DType inputTensor,
                                                                   const JacobianType jacobian ) const
 {
-   Matrix<TScalar,3,3> matrix;
+  Matrix<TScalar,3,3> matrix;
 
   matrix.Fill(0.0);
   for( unsigned int i = 0; i < 3; i++ )
@@ -419,7 +419,6 @@ typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputSymmetri
 Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType& inputTensor, const InputPointType & point ) const
 {
-
   JacobianType jacobian;
   this->ComputeJacobianWithRespectToPosition( point, jacobian );
   JacobianType invJacobian;

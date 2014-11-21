@@ -18,7 +18,6 @@
 #ifndef __itkCenteredSimilarity2DTransform_h
 #define __itkCenteredSimilarity2DTransform_h
 
-#include <iostream>
 #include "itkSimilarity2DTransform.h"
 
 namespace itk
@@ -53,7 +52,6 @@ namespace itk
  * \ingroup ITKTransform
  */
 template< typename TScalar = double >
-// Data type for scalars
 class CenteredSimilarity2DTransform :
   public Similarity2DTransform<TScalar>
 {
@@ -123,7 +121,7 @@ public:
     *
     * \sa Transform::SetParameters()
     * \sa Transform::SetFixedParameters() */
-  void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -134,18 +132,18 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
-  virtual void SetFixedParameters(const ParametersType &);
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE;
 
   /** Get the Fixed Parameters. An empty array is returned
    * as there are no fixed parameters. */
-  virtual const ParametersType & GetFixedParameters(void) const;
+  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
@@ -156,7 +154,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
@@ -167,18 +165,15 @@ protected:
   CenteredSimilarity2DTransform();
   CenteredSimilarity2DTransform(unsigned int spaceDimension, unsigned int parametersDimension);
 
-  ~CenteredSimilarity2DTransform()
-  {
-  }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual ~CenteredSimilarity2DTransform() {}
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   CenteredSimilarity2DTransform(const Self &); // purposely not implemented
   void operator=(const Self &);                // purposely not implemented
+};
 
-};                                             // class
-                                               // CenteredSimilarity2DTransform
-}  // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCenteredSimilarity2DTransform.hxx"

@@ -23,9 +23,7 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
+
 template
 <typename TScalar, unsigned int NDimensions>
 CompositeTransform<TScalar, NDimensions>::CompositeTransform()
@@ -35,9 +33,7 @@ CompositeTransform<TScalar, NDimensions>::CompositeTransform()
   this->m_PreviousTransformsToOptimizeUpdateTime = 0;
 }
 
-/**
- * Destructor
- */
+
 template
 <typename TScalar, unsigned int NDimensions>
 CompositeTransform<TScalar, NDimensions>::
@@ -45,9 +41,7 @@ CompositeTransform<TScalar, NDimensions>::
 {
 }
 
-/**
- * Get transform category
- */
+
 template
 <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>::TransformCategoryType
@@ -83,9 +77,7 @@ CompositeTransform<TScalar, NDimensions>
     }
 }
 
-/**
- * Transform point
- */
+
 template
 <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
@@ -109,11 +101,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputPoint;
 }
 
-/**
- * Transform vector
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorType
 CompositeTransform<TScalar, NDimensions>
@@ -136,11 +125,7 @@ CompositeTransform<TScalar, NDimensions>
 }
 
 
-/**
- * Transform vector with position
- */
-template
-<typename TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorType
 CompositeTransform<TScalar, NDimensions>
@@ -164,11 +149,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputVector;
 }
 
-/**
- * Transform vector
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVnlVectorType
 CompositeTransform<TScalar, NDimensions>
@@ -192,11 +174,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputVector;
 }
 
-/**
- * Transform vector
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVnlVectorType
 CompositeTransform<TScalar, NDimensions>
@@ -218,11 +197,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputVector;
 }
 
-/**
- * Transform vector with position
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorPixelType
 CompositeTransform<TScalar, NDimensions>
@@ -244,11 +220,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputVector;
 }
 
-/**
- * Transform vector with position
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorPixelType
 CompositeTransform<TScalar, NDimensions>
@@ -273,11 +246,7 @@ CompositeTransform<TScalar, NDimensions>
 }
 
 
-/**
- * Transform covariant vector
- */
-template
-<typename TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputCovariantVectorType
 CompositeTransform<TScalar, NDimensions>
@@ -299,11 +268,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputVector;
 }
 
-/**
- * Transform covariant vector with position
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputCovariantVectorType
 CompositeTransform<TScalar, NDimensions>
@@ -327,11 +293,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputVector;
 }
 
-/**
- * Transform covariant vector
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorPixelType
 CompositeTransform<TScalar, NDimensions>
@@ -353,11 +316,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputVector;
 }
 
-/**
- * Transform covariant vector with position
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorPixelType
 CompositeTransform<TScalar, NDimensions>
@@ -381,11 +341,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputVector;
 }
 
-/**
- * Transform diffusion tensor 3d
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputDiffusionTensor3DType
 CompositeTransform<TScalar, NDimensions>
@@ -409,11 +366,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputTensor;
 }
 
-/**
- * Transform diffusion tensor 3d
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorPixelType
 CompositeTransform<TScalar, NDimensions>
@@ -437,11 +391,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputTensor;
 }
 
-/**
- * Transform diffusion tensor 3d
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputDiffusionTensor3DType
 CompositeTransform<TScalar, NDimensions>
@@ -463,11 +414,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputTensor;
 }
 
-/**
- * Transform diffusion tensor 3d
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorPixelType
 CompositeTransform<TScalar, NDimensions>
@@ -489,11 +437,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputTensor;
 }
 
-/**
- * Transform ssr tensor
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputSymmetricSecondRankTensorType
 CompositeTransform<TScalar, NDimensions>
@@ -517,11 +462,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputTensor;
 }
 
-/**
- * Transform ssr tensor
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorPixelType
 CompositeTransform<TScalar, NDimensions>
@@ -545,11 +487,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputTensor;
 }
 
-/**
- * Transform ssr tensor
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputSymmetricSecondRankTensorType
 CompositeTransform<TScalar, NDimensions>
@@ -571,11 +510,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputTensor;
 }
 
-/**
- * Transform ssr tensor
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::OutputVectorPixelType
 CompositeTransform<TScalar, NDimensions>
@@ -597,11 +533,8 @@ CompositeTransform<TScalar, NDimensions>
   return outputTensor;
 }
 
-/**
- * return an inverse transformation
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 bool
 CompositeTransform<TScalar, NDimensions>
 ::GetInverse( Self *inverse ) const
@@ -637,11 +570,8 @@ CompositeTransform<TScalar, NDimensions>
   return true;
 }
 
-/**
- * Return an inverse of this transform
- */
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>
 ::InverseTransformBasePointer
 CompositeTransform<TScalar, NDimensions>
@@ -660,8 +590,8 @@ CompositeTransform<TScalar, NDimensions>
     }
 }
 
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
 ::ComputeJacobianWithRespectToParameters( const InputPointType & p, JacobianType & outJacobian ) const
@@ -676,8 +606,7 @@ CompositeTransform<TScalar, NDimensions>
   this->ComputeJacobianWithRespectToParametersCachedTemporaries( p, outJacobian, jacobianWithRespectToPosition );
 }
 
-template
-<typename TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
 ::ComputeJacobianWithRespectToParametersCachedTemporaries( const InputPointType & p, JacobianType & outJacobian, JacobianType & jacobianWithRespectToPosition ) const
@@ -786,12 +715,12 @@ CompositeTransform<TScalar, NDimensions>
     }
 }
 
-template
-<typename TScalar, unsigned int NDimensions>
-const typename CompositeTransform<TScalar, NDimensions>::ParametersType
-& CompositeTransform<TScalar, NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
+const typename CompositeTransform<TScalar, NDimensions>::ParametersType &
+CompositeTransform<TScalar, NDimensions>
 ::GetParameters() const
-  {
+{
   const TransformQueueType & transforms = this->GetTransformsToOptimizeQueue();
   if( transforms.size() == 1 )
     {
@@ -824,10 +753,10 @@ const typename CompositeTransform<TScalar, NDimensions>::ParametersType
     }
 
   return this->m_Parameters;
-  }
+}
 
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
 ::SetParameters(const ParametersType & inputParameters)
@@ -898,11 +827,11 @@ CompositeTransform<TScalar, NDimensions>
     }
 }
 
-template
-<typename TScalar, unsigned int NDimensions>
-const typename CompositeTransform<TScalar, NDimensions>::ParametersType
-& CompositeTransform<TScalar, NDimensions>
-::GetFixedParameters(void) const
+
+template <typename TScalar, unsigned int NDimensions>
+const typename CompositeTransform<TScalar, NDimensions>::ParametersType &
+CompositeTransform<TScalar, NDimensions>
+::GetFixedParameters() const
   {
   TransformQueueType transforms = this->GetTransformsToOptimizeQueue();
   /* Resize destructively. But if it's already this size, nothing is done so
@@ -929,8 +858,7 @@ const typename CompositeTransform<TScalar, NDimensions>::ParametersType
   return this->m_FixedParameters;
   }
 
-template
-<typename TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
 ::SetFixedParameters(const ParametersType & inputParameters)
@@ -970,7 +898,8 @@ CompositeTransform<TScalar, NDimensions>
   while( it != transforms.begin() );
 }
 
-template<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>::NumberOfParametersType
 CompositeTransform<TScalar, NDimensions>
 ::GetNumberOfParameters(void) const
@@ -996,10 +925,11 @@ CompositeTransform<TScalar, NDimensions>
   return result;
 }
 
-template<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>::NumberOfParametersType
 CompositeTransform<TScalar, NDimensions>
-::GetNumberOfLocalParameters(void) const
+::GetNumberOfLocalParameters() const
 {
   if ( this->GetMTime() == this->m_LocalParametersUpdateTime )
    {
@@ -1026,11 +956,11 @@ CompositeTransform<TScalar, NDimensions>
   return result;
 }
 
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename CompositeTransform<TScalar, NDimensions>::NumberOfParametersType
 CompositeTransform<TScalar, NDimensions>
-::GetNumberOfFixedParameters(void) const
+::GetNumberOfFixedParameters() const
 {
   /* Returns to total number of params in all transforms currently
    * set to be used for optimized.
@@ -1050,11 +980,11 @@ CompositeTransform<TScalar, NDimensions>
   return result;
 }
 
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
-::UpdateTransformParameters(  const DerivativeType & update, ScalarType  factor )
+::UpdateTransformParameters( const DerivativeType & update, ScalarType  factor )
 {
   /* Update parameters within the sub-transforms set to be optimized. */
   /* NOTE: We might want to thread this over each sub-transform, if we
@@ -1102,12 +1032,12 @@ CompositeTransform<TScalar, NDimensions>
   this->Modified();
 }
 
-template
-<typename TScalar, unsigned int NDimensions>
-typename CompositeTransform<TScalar, NDimensions>::TransformQueueType
-& CompositeTransform<TScalar, NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
+typename CompositeTransform<TScalar, NDimensions>::TransformQueueType &
+CompositeTransform<TScalar, NDimensions>
 ::GetTransformsToOptimizeQueue() const
-  {
+{
   /* Update the list of transforms to use for optimization only if
    the selection of transforms to optimize may have changed */
   if( this->GetMTime() > this->m_PreviousTransformsToOptimizeUpdateTime )
@@ -1124,10 +1054,10 @@ typename CompositeTransform<TScalar, NDimensions>::TransformQueueType
     this->m_PreviousTransformsToOptimizeUpdateTime = this->GetMTime();
     }
   return this->m_TransformsToOptimizeQueue;
-  }
+}
 
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
 ::FlattenTransformQueue()
@@ -1176,6 +1106,7 @@ CompositeTransform<TScalar, NDimensions>
   this->m_TransformsToOptimizeFlags = transformsToOptimizeFlags;
 }
 
+
 template <typename TScalar, unsigned int NDimensions>
 void
 CompositeTransform<TScalar, NDimensions>
@@ -1210,8 +1141,8 @@ CompositeTransform<TScalar, NDimensions>
   os << indent <<  "End of CompositeTransform." << std::endl << "<<<<<<<<<<" << std::endl;
 }
 
-template
-<typename TScalar, unsigned int NDimensions>
+
+template <typename TScalar, unsigned int NDimensions>
 typename LightObject::Pointer
 CompositeTransform<TScalar, NDimensions>
 ::InternalClone() const
@@ -1244,6 +1175,6 @@ CompositeTransform<TScalar, NDimensions>
   return loPtr;
 }
 
-} // namespace itk
+} // end namespace itk
 
 #endif
