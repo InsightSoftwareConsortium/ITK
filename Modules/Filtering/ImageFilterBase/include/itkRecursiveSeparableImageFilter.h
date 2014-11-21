@@ -131,7 +131,7 @@ protected:
    * outside of this routine (this avoids memory allocation and
    * deallocation in the inner loop of the overall algorithm. */
   void FilterDataArray(RealType *outs, const RealType *data, RealType *scratch,
-                       unsigned int ln);
+                       SizeValueType ln);
 
 protected:
   /** Causal coefficients that multiply the input data. */
