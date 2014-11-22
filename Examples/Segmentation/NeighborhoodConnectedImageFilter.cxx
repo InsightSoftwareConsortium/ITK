@@ -179,8 +179,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The CurvatureFlowImageFilter requires a couple of parameters to
-  //  be defined. The following are typical values for $2D$ images. However
+  //  The CurvatureFlowImageFilter requires a couple of parameters.
+  //  The following are typical values for $2D$ images. However
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
   //

@@ -217,7 +217,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The CurvatureFlowImageFilter requires defining two parameters.  The
+  //  The CurvatureFlowImageFilter requires two parameters.  The
   //  following are typical values for $2D$ images. However they may have to
   //  be adjusted depending on the amount of noise present in the input
   //  image.
@@ -232,15 +232,15 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The ConfidenceConnectedImageFilter requires defining two parameters.
-  //  First, the factor $f$ that the defines how large the range of
+  //  The ConfidenceConnectedImageFilter requires two parameters.
+  //  First, the factor $f$ defines how large the range of
   //  intensities will be. Small values of the multiplier will restrict the
   //  inclusion of pixels to those having very similar intensities to those
   //  in the current region. Larger values of the multiplier will relax the
   //  accepting condition and will result in more generous growth of the
   //  region. Values that are too large will cause the region to grow into
-  //  neighboring regions that may actually belong to separate anatomical
-  //  structures.
+  //  neighboring regions which may belong to separate anatomical
+  //  structures. This is not desirable behavior.
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetMultiplier()}
   //
