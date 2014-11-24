@@ -46,6 +46,10 @@ file( GLOB_RECURSE wiki_examples_list_fullpath
   "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/VectorImages/*.cxx"
   "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Visualization/*.cxx"
 )
+file( GLOB_RECURSE sphinx_examples_list_fullpath
+  "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.cxx"
+  "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.py"
+)
 
 # Use relative paths
 set( examples_list )
@@ -55,7 +59,7 @@ foreach( _example ${examples_list_fullpath} )
   list( APPEND examples_list ${example_relative} )
 endforeach()
 string( LENGTH "${PROJECT_SOURCE_DIR}/Modules/Remote/" root_length )
-foreach( _example ${wiki_examples_list_fullpath} )
+foreach( _example ${wiki_examples_list_fullpath} ${sphinx_examples_list_fullpath} )
   string( SUBSTRING ${_example} ${root_length} -1 example_relative )
   list( APPEND examples_list ${example_relative} )
 endforeach()
