@@ -58,7 +58,7 @@
 // geometrical centers.  The validity of the initial registration should be
 // questioned when the two images are acquired in different imaging modalities.
 // In those cases, the center of mass of intensities in one modality does not
-// necessarily matches the center of mass of intensities in the other imaging
+// necessarily match the center of mass of intensities in the other imaging
 // modality.
 //
 // \index{itk::CenteredRigid2DTransform}
@@ -299,9 +299,9 @@ int main( int argc, char *argv[] )
   //  Now the initialized transform object will be set to the registration method,
   //  and the starting point of the registration is defined by its initial parameters.
   //
-  //  If the \code{InPlaceOn()} is called, this initialized transform will be the output transform
-  //  object or "grafted" to the output. Otherwise, this "InitialTransform" will be deep copied or
-  //  "cloned" to the output.
+  //  If the \code{InPlaceOn()} method is called, this initialized transform will be the output transform
+  //  object or ``grafted'' to the output. Otherwise, this ``InitialTransform'' will be deep-copied or
+  //  ``cloned'' to the output.
   //
   //  Software Guide : EndLatex
 
@@ -366,7 +366,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Since the registration filter has "InPlace" set, the transform object
+  //  Since the registration filter has \code{InPlace} set, the transform object
   //  is grafted to the output and is updated by the registration method.
   //
   //  Software Guide : EndLatex
@@ -435,7 +435,7 @@ int main( int argc, char *argv[] )
   //  infinite combinations of rotation center and translations that will
   //  represent the same actual movement in space. It is more illustrative in
   //  this case to take a look at the actual rotation matrix and offset
-  //  resulting form the five parameters.
+  //  resulting from the five parameters.
   //
   //  Software Guide : EndLatex
 
@@ -480,15 +480,15 @@ int main( int argc, char *argv[] )
   //
   //  The matrix and offset that we obtained at the end of the registration
   //  indicate that this should be equivalent to a rotation of $10^{\circ}$
-  //  around the origin, followed by a translations of $(36.95,-1.21)$. Let's
+  //  around the origin, followed by a translation of $(36.95,-1.21)$. Let's
   //  compute this in detail. First the rotation of the image center by
   //  $10^{\circ}$ around the origin will move the point to
   //  $(86.52,147.97)$. Now, applying a translation of $(36.95,-1.21)$ maps
-  //  this point to $(123.47,146.76)$. Which is close to the result of our
+  //  this point to $(123.47,146.76)$, which is close to the result of our
   //  previous computation.
   //
-  //  It is unlikely that we could have chosen such translations as the
-  //  initial guess, since we tend to think about image in a coordinate
+  //  It is unlikely that we could have chosen these translations as the
+  //  initial guess, since we tend to think about images in a coordinate
   //  system whose origin is in the center of the image.
   //
   // \begin{figure}
@@ -507,7 +507,7 @@ int main( int argc, char *argv[] )
   //  You may be wondering why the actual movement is represented by three
   //  parameters when we take the trouble of using five. In particular, why
   //  use a $5$-dimensional optimizer space instead of a $3$-dimensional
-  //  one. The answer is that by using five parameters we have a much simpler
+  //  one? The answer is that by using five parameters we have a much simpler
   //  way of initializing the transform with the rotation matrix and
   //  offset. Using the minimum three parameters it is not obvious how to
   //  determine what the initial rotation and translations should be.
@@ -556,9 +556,9 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration6Plots} plots the output parameters of
-  //  the registration process. It includes, the metric values at every
+  //  the registration process. It includes the metric values at every
   //  iteration, the angle values at every iteration, and the values of the
-  //  translation components as the registration progress. Note that this is
+  //  translation components as the registration progresses. Note that this is
   //  the complementary translation as used in the transform, not the actual
   //  total translation that is used in the transform offset. We could modify
   //  the observer to print the total offset instead of printing the array of

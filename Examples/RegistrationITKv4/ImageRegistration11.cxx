@@ -147,10 +147,13 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  // Metric parameter is set as follows.
+  // The histogram bins metric parameter is set as follows.
   //
   //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( 20 );
+  // Software Guide : EndCodeSnippet
 
   double samplingPercentage = 0.20;
   if( argc > 4 )
@@ -163,7 +166,7 @@ int main( int argc, char *argv[] )
   //  As our previous discussion in section ~\ref{sec:MultiModalityRegistrationMattes},
   //  only a subsample of the virtual domain is needed to evaluate the metric.
   //  The number of spatial samples to be used depends on the content of the image, and
-  //  user can define the sampling percentage and the way that sampling operation
+  //  the user can define the sampling percentage and the way that sampling operation
   //  is managed by the registration framework as follows. Sampling startegy can
   //  can be defined as \emph{REGULAR} or \emph{RANDOM}, while the default value
   //  is \emph{NONE}.
@@ -239,7 +242,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Now we set the optimizer parameters as follows.
+  //  Now we set the optimizer parameters.
   //
   //  Software Guide : EndLatex
 

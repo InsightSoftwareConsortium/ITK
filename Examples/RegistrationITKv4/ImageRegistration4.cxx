@@ -154,8 +154,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The metric requires one parameter to be selected that is the number of bins
-  //  used to compute the entropy. In typical application 50 histogram bins
+  //  The metric requires the user to specify the number of bins
+  //  used to compute the entropy. In a typical application, 50 histogram bins
   //  are sufficient. Note however, that the number of bins may have dramatic
   //  effects on the optimizer's behavior.
   //
@@ -181,7 +181,7 @@ int main( int argc, char *argv[] )
   //
   //  To calculate the image gradients, an image gradient calculator based on
   //  ImageFunction is used instead of image gradient filters. Image gradient
-  //  methods are defined in the super class \code{ImageToImageMetricv4}.
+  //  methods are defined in the superclass \code{ImageToImageMetricv4}.
   //
   //  Software Guide : EndLatex
 
@@ -206,7 +206,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Notice that in ITKv4 registration framework, optimizers always try
+  //  Notice that in the ITKv4 registration framework, optimizers always try
   //  to minimize the cost function, and the metrics always return a parameter
   //  and derivative result that improves the optimization, so this metric
   //  computes the negative mutual information.
@@ -241,12 +241,12 @@ int main( int argc, char *argv[] )
   // Metrics with large values will require you to use smaller values for the
   // learning rate in order to maintain a similar optimizer behavior.
   //
-  // Whenever the regular step gradient descent optimizer encounters that the
-  // direction of movement has changed in the parametric space, it reduces the
+  // Whenever the regular step gradient descent optimizer encounters
+  // change in the direction of movement in the parametric space, it reduces the
   // size of the step length. The rate at which the step length is reduced is
   // controlled by a relaxation factor. The default value of the factor is
   // $0.5$. This value, however may prove to be inadequate for noisy metrics
-  // since they tend to induce very erratic movements on the optimizers and
+  // since they tend to induce erratic movements on the optimizers and
   // therefore result in many directional changes. In those
   // conditions, the optimizer will rapidly shrink the step length while it is
   // still too far from the location of the extrema in the cost function. In
@@ -287,13 +287,13 @@ int main( int argc, char *argv[] )
   // Instead of using the whole virtual domain (usually fixed image domain) for the registration,
   // we can use a spatial sampled point set by supplying an arbitrary point list over which to
   // evaluate the metric. The point list is expected to be in the \emph{fixed} image domain, and
-  // the points are transformed into the \emph{virtual} domain internally as needed. User can
-  // define the point set via \code{SetFixedSampledPointSet()}, and the point set is enabled to use
+  // the points are transformed into the \emph{virtual} domain internally as needed. The user can
+  // define the point set via \code{SetFixedSampledPointSet()}, and the point set is used
   // by calling \code{SetUsedFixedSampledPointSet()}.
   //
-  // Also, instead of dealing with the metric directly, user can define
+  // Also, instead of dealing with the metric directly, the user may define
   // the sampling percentage and sampling strategy for the registration framework at each level.
-  // In this case registration filter manages the sampling operation over the fixed image space
+  // In this case, the registration filter manages the sampling operation over the fixed image space
   // based on the input strategy (REGULAR, RANDOM) and passes the sampled point set to the metric
   // internally.
   //
@@ -308,7 +308,7 @@ int main( int argc, char *argv[] )
   //
   // The number of spatial samples to be
   // used depends on the content of the image. If the images are smooth and do
-  // not contain much details, the number of spatial samples can usually be as low as $1\%$
+  // not contain many details, the number of spatial samples can usually be as low as $1\%$
   // of the total number of pixels in the fixed image. On the other hand, if the images are
   // detailed, it may be necessary to use a much higher proportion, such as $20\%$ to $50\%$.
   // Increasing the number of samples improves the smoothness of the metric,
@@ -349,7 +349,7 @@ int main( int argc, char *argv[] )
   //
   // In ITKv4, a single virtual domain or spatial sample point set is used for the
   // all iterations of the registration process. The use of a single sample set results
-  // in a smooth cost function that can imporve the functionality of the optimizer.
+  // in a smooth cost function that can improve the functionality of the optimizer.
   //
   // Software Guide : EndLatex
 
@@ -586,7 +586,7 @@ int main( int argc, char *argv[] )
   // particular selection of parameters represent the best combination for
   // running a particular algorithm. Therefore, when comparing the performance
   // of two or more different algorithms, we are faced with the challenge of
-  // proving that none of the algorithms involved in the comparison is being
+  // proving that none of the algorithms involved in the comparison are being
   // run with a sub-optimal set of parameters.
   //
   // Software Guide : EndLatex
@@ -598,11 +598,11 @@ int main( int argc, char *argv[] )
   //  and~\ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} were
   //  generated using Gnuplot\footnote{\url{http://www.gnuplot.info/}}.
   //  The scripts used for this purpose are available
-  //  in the \code{ITKSoftwareGuide} CVS module under the directory
+  //  in the \code{ITKSoftwareGuide} git repository under the directory
   //
   //  ~\code{SoftwareGuide/Art}.
   //
-  //  Data for the plots was taken directly from the output that the
+  //  Data for the plots were taken directly from the output that the
   //  Command/Observer in this example prints out to the console. The output
   //  was processed with the UNIX editor
   //  \code{sed}\footnote{\url{http://www.gnu.org/software/sed/sed.html}} in

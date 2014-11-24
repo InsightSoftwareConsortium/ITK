@@ -162,7 +162,7 @@ int main( int argc, char *argv[] )
   // indicating the angle of rotation, the center coordinates and the
   // translation to be applied after rotation. The initialization is done
   // by the \doxygen{CenteredTransformInitializer}.
-  // The transform can operate in two modes, one assumes that the
+  // The transform can operate in two modes, the first of which assumes that the
   // anatomical objects to be registered are centered in their respective
   // images. Hence the best initial guess for the registration is the one
   // that superimposes those two centers.
@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The optimizer scales the metrics (the gradient in this case) by the
-  // scales during each iteration. Hence a large value of the center scale
+  // scales during each iteration. Therefore, a large value of the center scale
   // will prevent movement along the center during optimization. Here we
   // assume that the fixed and moving images are likely to be related by
   // a translation.

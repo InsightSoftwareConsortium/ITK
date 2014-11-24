@@ -83,7 +83,13 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-// Software Guide : BeginCodeSnippet
+  //  Software Guide : BeginLatex
+  //
+  //  Begin by creating the relevant types.
+  //
+  //  Software Guide: EndLatex
+
+  // Software Guide : BeginCodeSnippet
   const     unsigned int   ImageDimension = 3;
 
   typedef   unsigned char                            PixelType;
@@ -94,6 +100,7 @@ int main( int argc, char * argv[] )
   typedef   itk::ImageFileReader< MovingImageType >  MovingReaderType;
 
   typedef   itk::ImageFileWriter< MovingImageType >  MovingWriterType;
+  // Software Guide : EndCodeSnippet
 
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
@@ -110,13 +117,20 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
+  //  Software Guide : BeginLatex
+  //
+  //  Setup the moving reader and writer, and get the filenames from the
+  //  command line arguments.
+  //
+  //  Software Guide : EndLatex
 
+  //  Software Guide : BeginCodeSnippet
   MovingReaderType::Pointer movingReader = MovingReaderType::New();
   MovingWriterType::Pointer movingWriter = MovingWriterType::New();
 
   movingReader->SetFileName( argv[3] );
   movingWriter->SetFileName( argv[4] );
-
+  // Software Guide : EndCodeSnippet
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
@@ -137,37 +151,41 @@ int main( int argc, char * argv[] )
   FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
   FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
 
+  //  Software Guide : BeginLatex
+  //  Set the resampler spacing, origin, and direction to that of the fixed
+  //  input image.  Do the same with the size and output start index.
+  //  Software Guide : EndLatex
+
+  //  Software Guide : BeginCodeSnippet
   resampler->SetOutputSpacing( fixedSpacing );
   resampler->SetOutputOrigin(  fixedOrigin  );
   resampler->SetOutputDirection(  fixedDirection  );
-
 
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
   FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
   resampler->SetOutputStartIndex(  fixedRegion.GetIndex() );
+  // Software Guide : EndCodeSnippet
 
 
   resampler->SetInput( movingReader->GetOutput() );
 
   movingWriter->SetInput( resampler->GetOutput() );
-//  Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  We instantiate now the type of the \code{BSplineTransform} using
-//  as template parameters the type for coordinates representation, the
-//  dimension of the space, and the order of the B-spline.
-//
-//  \index{BSplineTransform!New}
-//  \index{BSplineTransform!Instantiation}
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  We instantiate now the type of the \code{BSplineTransform} using
+  //  as template parameters the type for coordinates representation, the
+  //  dimension of the space, and the order of the B-spline.
+  //
+  //  \index{BSplineTransform!New}
+  //  \index{BSplineTransform!Instantiation}
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-
+  // Software Guide : BeginCodeSnippet
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
@@ -178,12 +196,10 @@ int main( int argc, char * argv[] )
                             SplineOrder >     TransformType;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
+  //  Software Guide : EndCodeSnippet
 
-//  Software Guide : EndCodeSnippet
 
-
-// Software Guide : BeginCodeSnippet
-
+  // Software Guide : BeginCodeSnippet
   const unsigned int numberOfGridNodes = 8;
 
   TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
@@ -210,30 +226,30 @@ int main( int argc, char * argv[] )
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
   ParametersType parameters( numberOfParameters );
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
-//  Software Guide : BeginLatex
-//
-//  The B-spline grid should now be fed with coeficients at each node. Since
-//  this is a two dimensional grid, each node should receive two coefficients.
-//  Each coefficient pair is representing a displacement vector at this node.
-//  The coefficients can be passed to the B-spline in the form of an array where
-//  the first set of elements are the first component of the displacements for
-//  all the nodes, and the second set of elemets is formed by the second
-//  component of the displacements for all the nodes.
-//
-//  In this example we read such displacements from a file, but for convinience
-//  we have written this file using the pairs of $(x,y)$ displacement for every
-//  node. The elements read from the file should therefore be reorganized when
-//  assigned to the elements of the array. We do this by storing all the odd
-//  elements from the file in the first block of the array, and all the even
-//  elements from the file in the second block of the array. Finally the array
-//  is passed to the B-spline transform using the \code{SetParameters()}.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  The B-spline grid should now be fed with coefficients at each node. Since
+  //  this is a two-dimensional grid, each node should receive two coefficients.
+  //  Each coefficient pair is representing a displacement vector at this node.
+  //  The coefficients can be passed to the B-spline in the form of an array where
+  //  the first set of elements are the first component of the displacements for
+  //  all the nodes, and the second set of elemets is formed by the second
+  //  component of the displacements for all the nodes.
+  //
+  //  In this example we read such displacements from a file, but for convenience
+  //  we have written this file using the pairs of $(x,y)$ displacement for every
+  //  node. The elements read from the file should therefore be reorganized when
+  //  assigned to the elements of the array. We do this by storing all the odd
+  //  elements from the file in the first block of the array, and all the even
+  //  elements from the file in the second block of the array. Finally the array
+  //  is passed to the B-spline transform using the \code{SetParameters()}.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   std::ifstream infile;
 
   infile.open( argv[1] );
@@ -246,35 +262,34 @@ int main( int argc, char * argv[] )
     }
 
   infile.close();
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
-//  Software Guide : BeginLatex
-//
-//   Finally the array is passed to the B-spline transform using the
-//   \code{SetParameters()}.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //   Finally the array is passed to the B-spline transform using the
+  //   \code{SetParameters()}.
+  //
+  //  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-
+  // Software Guide : BeginCodeSnippet
   bsplineTransform->SetParameters( parameters );
-
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
    CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
    resampler->AddObserver( itk::ProgressEvent(), observer );
 
 
-//  Software Guide : BeginLatex
-//
-//  At this point we are ready to use the transform as part of the resample
-//  filter. We trigger the execution of the pipeline by invoking
-//  \code{Update()} on the last filter of the pipeline, in this case writer.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  At this point we are ready to use the transform as part of the resample
+  //  filter. We trigger the execution of the pipeline by invoking
+  //  \code{Update()} on the last filter of the pipeline, in this case the
+  //  writer.
+  //
+  //  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   resampler->SetTransform( bsplineTransform );
 
   try
@@ -287,7 +302,7 @@ int main( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
   typedef itk::Vector< float, ImageDimension >      VectorType;
   typedef itk::Image< VectorType, ImageDimension >  DisplacementFieldType;

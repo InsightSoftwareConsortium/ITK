@@ -19,11 +19,11 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates how to explore the domain of an image metric.  This
-// is a useful exercise to do before starting a registration process, since
-// getting familiar with the characteristics of the metric is fundamental for
-// the appropriate selection of the optimizer to be used for driving the
-// registration process, as well as for selecting the optimizer parameters.
-// This process makes possible to identify how noisy a metric may be in a given
+// is a useful exercise before starting a registration process, since
+// familiarity with the characteristics of the metric is fundamental for
+// appropriate selection of the optimizer and its parameters used to drive the
+// registration process.
+// This process helps identify how noisy a metric may be in a given
 // range of parameters, and it will also give an idea of the number of local
 // minima or maxima in which an optimizer may get trapped while exploring the
 // parametric space.
@@ -138,7 +138,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // The classes required by the metric are connected to it. This includes the
-// fixed and moving images, the interpolator and the  transform.
+// fixed and moving images, the interpolator and the transform.
 //
 // Software Guide : EndLatex
 
@@ -154,13 +154,15 @@ int main( int argc, char * argv[] )
 //
 // Note that the \code{SetTransform()} method is equivalent to the
 // \code{SetMovingTransform()} function. In this example there is
-// no need to use the \code{SetFixedTransform()}, sice the virtual
+// no need to use the \code{SetFixedTransform()}, since the virtual
 // domain is assumed to be the same as the fixed image domain set
 // as following.
 //
 // Software Guide : EndLatex
 
+  // Software Guide : BeginCodeSnippet
   metric->SetVirtualDomainFromImage(  fixedImage  );
+  // Software Guide : EndCodeSnippet
 
   try
     {
@@ -179,7 +181,7 @@ int main( int argc, char * argv[] )
 // Finally we select a region of the parametric space to explore. In this case
 // we are using a translation transform in 2D, so we simply select translations
 // from a negative position to a positive position, in both $x$ and $y$. For
-// each one of those positions we invoke the GetValue() method of the Metric.
+// each one of those positions we invoke the \code{GetValue()} method of the Metric.
 //
 // Software Guide : EndLatex
 
@@ -216,8 +218,8 @@ int main( int argc, char * argv[] )
 //
 // Running this code using the image BrainProtonDensitySlice.png as both the
 // fixed and the moving images results in the plot shown in
-// Figure~\ref{fig:MeanSquaresMetricPlot}. From this Figure, it can be seen
-// that a gradient based optimizer will be appropriate for finding the extrema
+// Figure~\ref{fig:MeanSquaresMetricPlot}. From this figure, it can be seen
+// that a gradient-based optimizer will be appropriate for finding the extrema
 // of the Metric. It is also possible to estimate a good value for the step
 // length of a gradient-descent optimizer.
 //
@@ -235,7 +237,7 @@ int main( int argc, char * argv[] )
 //
 // Of course, this plotting exercise becomes more challenging when the
 // transform has more than three parameters, and when those parameters have
-// very different range of values. In those cases is necessary to select only a
+// very different value ranges. In those cases it is necessary to select only a
 // key subset of parameters from the transform and to study the behavior of the
 // metric when those parameters are varied.
 //

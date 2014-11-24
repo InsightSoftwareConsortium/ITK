@@ -57,8 +57,8 @@
 //
 //  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
-//  grid.  This large number of parameters makes possible to represent a wide
-//  variety of deformations, but it also has the price of requiring a
+//  grid.  This large number of parameters makes it possible to represent a wide
+//  variety of deformations, at the cost of requiring a
 //  significant amount of computation time.
 //
 //  \index{itk::BSplineTransform!header}
@@ -208,13 +208,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Then, the initialized transform is connected to the registration
-  //  object and is set to be the optimized directly during the registration
+  //  object and is set to be optimized directly during the registration
   //  process.
   //
   //  Calling \code{InPlaceOn()} means that the current initialized transform
   //  will optimized directly and is grafted to the output, so it can be
   //  considered as the output transform object. Otherwise, the initial transform
-  //  will be copied or "cloned" to the output transform object, and the copied
+  //  will be copied or ``cloned'' to the output transform object, and the copied
   //  object will be optimized during the registration process.
   //
   //  Software Guide : EndLatex
