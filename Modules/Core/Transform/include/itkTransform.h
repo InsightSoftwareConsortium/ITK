@@ -399,6 +399,12 @@ public:
     return this->m_Parameters.Size();
   }
 
+  /** Return the number of parameters that define the constant elements of a Transfom  */
+  virtual NumberOfParametersType GetNumberOfFixedParameters() const
+    {
+    return this->m_FixedParameters.Size();
+    }
+
   /** Returns a boolean indicating whether it is possible or not to compute the
    * inverse of this current Transform. If it is possible, then the inverse of
    * the transform is returned in the inverseTransform variable passed by the
