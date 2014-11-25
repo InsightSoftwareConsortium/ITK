@@ -19,15 +19,16 @@ set( DOX_MODULE_LIST ${ITK_MODULES_ENABLED} )
 
 foreach(itk-module ${DOX_MODULE_LIST})
   if(${itk-module}_IS_TEST)
-    list( APPEND DOXYGEN_TEST_DIRS "\"${${itk-module}_SOURCE_DIR}\" \\ \n ")
+    list( APPEND DOXYGEN_TEST_DIRS "\"${${itk-module}_SOURCE_DIR}\" \\\n ")
   else()
     if( EXISTS ${${itk-module}_SOURCE_DIR}/include )
-      list( APPEND DOXYGEN_INCLUDE_DIRS "\"${${itk-module}_SOURCE_DIR}/include\" \\ \n")
+      list( APPEND DOXYGEN_INCLUDE_DIRS "\"${${itk-module}_SOURCE_DIR}/include\" \\\n")
     endif()
   endif()
 endforeach()
 
-list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}/Examples\" \n")
+list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}/Examples\" \\\n")
+list( APPEND DOXYGEN_TEST_DIRS " \"${ITK_SOURCE_DIR}/Modules/Remote\"\n")
 
 # By definition DOXYGEN_TEST_DIRS can not be empty. In the worst case if
 # BUILD_TESTING is turned OFF, there is only ${ITK_SOURCE_DIR}/Examples;
