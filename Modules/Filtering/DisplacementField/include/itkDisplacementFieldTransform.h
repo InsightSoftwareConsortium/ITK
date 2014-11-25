@@ -404,6 +404,26 @@ public:
     return Dimension;
   }
 
+  /** get/set the Coordinate tolerance
+   *  This tolerance is used when comparing the space defined
+   *  by deformation fields and it's inverse to ensure they occupy the
+   *  same physical space.
+   *
+   * \sa ImageToImageFilterCommon::SetGlobalDefaultCoordinateTolerance
+   */
+  itkSetMacro(CoordinateTolerance,double);
+  itkGetConstMacro(CoordinateTolerance,double);
+
+  /** get/set the direction tolerance
+   *  This tolerance is used to  when comparing the orientation of the
+   *  deformation fields and it's inverse to ensure they occupy the
+   *  same physical space.
+   *
+   * \sa ImageToImageFilterCommon::SetGlobalDefaultDirectionTolerance
+   */
+  itkSetMacro(DirectionTolerance,double);
+  itkGetConstMacro(DirectionTolerance,double);
+
 protected:
 
   DisplacementFieldTransform();
@@ -452,6 +472,13 @@ private:
    * displacement field into m_FixedParameters.
    */
   virtual void SetFixedParametersFromDisplacementField() const;
+
+  /**
+   *  Tolerances for checking whether displacement field and it's inverse
+   *  occupy the same physical space.
+   */
+  double m_CoordinateTolerance;
+  double m_DirectionTolerance;
 
 };
 

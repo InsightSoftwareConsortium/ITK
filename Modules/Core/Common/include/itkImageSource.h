@@ -36,7 +36,7 @@ namespace itk
 {
 
 /** \class ImageSourceCommon
- * \brief Secondary bass class of ImageSource common between templates
+ * \brief Secondary base class of ImageSource common between templates
  *
  * This class provides common non-templated code which can be compiled
  * and used by all templated versions of ImageSource.

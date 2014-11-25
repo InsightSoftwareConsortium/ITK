@@ -19,6 +19,7 @@ itkVectorImage\.h Template Disable
 itkSmartPointerForwardReferenceProcessObject\.cxx Namespace Disable
 itkSparseImageTest\.cxx InternalVariables Disable
 itkImageAdaptor\.h Template Disable
+itkImageToImageFilter.\h InternalVariables Disable
 itkRayCastInterpolateImageFunction\.hxx Namespace Disable
 itkSimplexMeshGeometry\.h InternalVariables Disable
 itkQuadEdgeMeshEulerOperatorsTestHelper\.h Namespace Disable

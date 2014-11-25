@@ -34,6 +34,29 @@
 
 namespace itk
 {
+
+/** \class ImageToImageFilterCommon
+ * \brief Secondary base class of ImageToImageFilter common between templates
+ *
+ * This class provides common non-templated code which can be compiled
+ * and used by all templated versions of ImageToImageFilter.
+ *
+ * This class must be inherited privately, and light-weight adapting
+ * of methods is required for virtual methods or non-private methods
+ * for the ImageToImageFilter interface.
+ *
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT ImageToImageFilterCommon
+{
+public:
+  static void SetGlobalDefaultCoordinateTolerance(double);
+  static double GetGlobalDefaultCoordinateTolerance();
+  static void SetGlobalDefaultDirectionTolerance(double);
+  static double GetGlobalDefaultDirectionTolerance();
+};
+
+
 /** \class ImageToImageFilter
  * \brief Base class for filters that take an image as input and produce an image as output.
  *
@@ -81,10 +104,13 @@ namespace itk
  * on-disk image formats with differing digits of precision in the
  * position, spacing, and orientation.
  *
- * The default precision for spatial comparison is 1.0e-6 * voxelSpacing
- * for coordinates (i.e. the coordinates must be the same to within
- * one part per million). For the direction cosines the values must be
- * within an absolute tolerance of 1.0e-6.
+ * The default tolerance is govern by the
+ * GlobalDefaultCoordinateTolerance and the
+ * GlobalDefaultDirectionTolerance properties, defaulting to 1.0e-6.
+ * The default tolerance for spatial comparison is then scaled by the
+ * voxelSpacing for coordinates (i.e. the coordinates must be the same
+ * to within one part per million). For the direction cosines the
+ * values must be within the current absolute tolerance.
  *
  * \ingroup ImageFilters
  * \ingroup ITKCommon
@@ -99,7 +125,8 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class ImageToImageFilter:public ImageSource< TOutputImage >
+class ImageToImageFilter:public ImageSource< TOutputImage >,
+  private ImageToImageFilterCommon
 {
 public:
   /** Standard class typedefs. */
@@ -180,6 +207,26 @@ public:
    */
   itkSetMacro(DirectionTolerance,double);
   itkGetConstMacro(DirectionTolerance,double);
+
+  /** get/set the global default direction tolerance
+   *
+   * This value is used to initialize the DirectionTolerance upon
+   * class construction of \b any ImageToImage filter. This has no
+   * effect on currently constructed classes.
+   */
+  using ImageToImageFilterCommon::SetGlobalDefaultDirectionTolerance;
+  using ImageToImageFilterCommon::GetGlobalDefaultDirectionTolerance;
+
+
+  /** get/set the global default coordinate tolerance
+   *
+   * This value is used to initialize the CoordinateTolerance upon
+   * class construction of \b any ImageToImage filter. This has no
+   * effect on currently constructed  classes.
+   */
+  using ImageToImageFilterCommon::SetGlobalDefaultCoordinateTolerance;
+  using ImageToImageFilterCommon::GetGlobalDefaultCoordinateTolerance;
+
 
 protected:
   ImageToImageFilter();
