@@ -173,7 +173,6 @@ CenteredRigid2DTransform<TScalar>
 ::GetFixedParameters() const
 {
   // return dummy parameters
-  this->m_FixedParameters.SetSize(0);
   return this->m_FixedParameters;
 }
 
