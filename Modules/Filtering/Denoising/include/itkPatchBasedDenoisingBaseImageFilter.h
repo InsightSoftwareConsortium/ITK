@@ -33,7 +33,7 @@ namespace itk
 {
 
 /** \class PatchBasedDenoisingBaseImageFilter
- * \brief Base class for patch-based denoisng algorithms.
+ * \brief Base class for patch-based denoising algorithms.
  *
  * Implementation of a denoising filter that uses iterative non-local, or semi-local, weighted
  * averaging of image patches for image denoising. The intensity at each pixel 'p' gets updated as a
