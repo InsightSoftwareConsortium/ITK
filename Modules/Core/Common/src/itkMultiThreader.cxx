@@ -41,6 +41,47 @@
 namespace itk
 {
 
+// GlobalDefaultUseThreadPoolIsInitialized is used only in this
+// file to ensure that the ITK_USE_THREADPOOL environmenal variable
+// is only used as a fall back option.  If the SetGlobalDefaultUseThreadPool
+// API is ever used by the developer, the developers choice is
+// respected over the environmental variable.
+static bool GlobalDefaultUseThreadPoolIsInitialized=false;
+static SimpleFastMutexLock globalDefaultInitializerLock;
+
+bool MultiThreader::m_GlobalDefaultUseThreadPool = false;
+
+void MultiThreader::SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool )
+  {
+  m_GlobalDefaultUseThreadPool = GlobalDefaultUseThreadPool;
+  GlobalDefaultUseThreadPoolIsInitialized=true;
+  }
+
+bool MultiThreader::GetGlobalDefaultUseThreadPool( )
+  {
+  if( ! GlobalDefaultUseThreadPoolIsInitialized )
+    {
+    //
+    // look for runtime request to use thread pool
+    std::string use_threadpool;
+    if( itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL",use_threadpool) )
+      {
+      MutexLockHolder< SimpleFastMutexLock > lock(globalDefaultInitializerLock);
+      use_threadpool = itksys::SystemTools::UpperCase(use_threadpool);
+      //NOTE: GlobalDefaultUseThreadPoolIsInitialized=true after this call
+      if(use_threadpool != "NO" && use_threadpool != "OFF" && use_threadpool != "FALSE")
+        {
+        MultiThreader::SetGlobalDefaultUseThreadPool( true );
+        }
+      else
+        {
+        MultiThreader::SetGlobalDefaultUseThreadPool( false );
+        }
+      }
+    }
+  return m_GlobalDefaultUseThreadPool;
+  }
+
 // Initialize static member that controls global maximum number of threads.
 ThreadIdType MultiThreader::m_GlobalMaximumNumberOfThreads = ITK_MAX_THREADS;
 
@@ -199,16 +240,8 @@ MultiThreader::MultiThreader() : m_ThreadPool(ThreadPool::GetInstance() ), m_Use
   m_SingleMethod = ITK_NULLPTR;
   m_SingleData = ITK_NULLPTR;
   m_NumberOfThreads = this->GetGlobalDefaultNumberOfThreads();
-  //
-  // look for runtime request to use thread pool
-  std::string use_threadpool;
-  if( itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL",use_threadpool) )
-    {
-    if(use_threadpool != "NO" && use_threadpool != "OFF")
-      {
-      this->SetUseThreadPool(true);
-      }
-    }
+
+  this->SetUseThreadPool( MultiThreader::GetGlobalDefaultUseThreadPool() );
 }
 
 MultiThreader::~MultiThreader()

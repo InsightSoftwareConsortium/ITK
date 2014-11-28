@@ -80,8 +80,14 @@ public:
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
   static void SetGlobalMaximumNumberOfThreads(ThreadIdType val);
-
   static ThreadIdType  GetGlobalMaximumNumberOfThreads();
+
+  /** Set/Get whether to use the to use the thread pool
+   * implementation or the spawing implementation of
+   * starting threads.
+   */
+  static void SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool );
+  static bool GetGlobalDefaultUseThreadPool( );
 
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
    * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
@@ -201,6 +207,12 @@ private:
    *  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
    *  ITK_MAX_THREADS and greater than zero. */
   static ThreadIdType m_GlobalMaximumNumberOfThreads;
+
+  /** Global value to effect weather the threadpool implementation should
+   * be used.  This defaults to the environmental variable "ITK_USE_THREADPOOL"
+   * if set, else it default to false and new threads are spawned.
+   */
+  static bool m_GlobalDefaultUseThreadPool;
 
   /*  Global variable defining the default number of threads to set at
    *  construction time of a MultiThreader instance.  The
