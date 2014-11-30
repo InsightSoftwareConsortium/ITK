@@ -88,7 +88,7 @@
 //
 //  Our custom command class is called \code{CommandIterationUpdate}. It
 //  derives from the Command class and declares for convenience the
-//  types \code{Self} and \code{Superclass}. This facilitate the use of
+//  types \code{Self} and \code{Superclass}. This facilitates the use of
 //  standard macros later in the class implementation.
 //
 //  Software Guide : EndLatex

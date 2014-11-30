@@ -135,7 +135,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We define then the types of the images to be registered.
+  //  We then define the types of the images to be registered.
   //
   //  Software Guide : EndLatex
 
@@ -182,7 +182,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed below and is initialized before registration
+  //  The transform object is constructed below and is initialized before the registration
   //  process starts.
   //
   //  \index{itk::AffineTransform!New()}
@@ -504,7 +504,7 @@ int main( int argc, char *argv[] )
   //  iteration are shown on the left plot. The angle values are shown on the middle plot,
   //  while the translation components of the registration are presented
   //  on the right plot. Note that the final total offset of the transform
-  //  is to be computed as a combination of the shift due rotation plus the
+  //  is to be computed as a combination of the shift due to rotation plus the
   //  explicit translation set on the transform.
   //
   //  Software Guide : EndLatex

@@ -168,45 +168,45 @@ int main( int argc, char *argv[] )
   //
   //  In the Hello World! example, we used Fixed/Moving initial transforms
   //  to initialize the registration configuration. That approach was good to
-  //  get an intuition of the registration method specially when we aim to run
-  //  a multistage registration process, which the output of each stage can
+  //  get an intuition of the registration method, specifically when we aim to run
+  //  a multistage registration process, from which the output of each stage can
   //  be used to initialize the next registration stage.
   //
   //  To get a better underestanding of the registration process in
   //  such situations, consider an example of 3 stages registration process
   //  that is started using an initial moving transform ($\Gamma_{mi}$).
   //  Multiple stages are handled by linking multiple instantiations of
-  //  \doxygen{ImageRegistrationMethodv4} class.
+  //  the \doxygen{ImageRegistrationMethodv4} class.
   //  Inside the registration filter of the first stage, the initial moving
   //  transform is added to an internal composite transform along with an updatable
   //  identity transform ($\Gamma_{u}$). Although the whole composite transform
   //  is used for metric evaluation, only the $\Gamma_{u}$ is set to be updated
   //  by the optimizer at each iteration. The $\Gamma_{u}$ will be considered as
   //  the output transform of the current stage when the optimization process is
-  //  converged. This imply the fact that the output of this stage does not include
+  //  converged. This implies that the output of this stage does not include
   //  the initialization parameters, so we need to concatenate the output and the
   //  initialization transform into a composite transform to be considered as the
   //  final transform of the first registration stage.
   //
   //  $ T_{1}(x) = \Gamma_{mi}(\Gamma_{stage_1}(x) ) $
   //
-  //  Consider that as explained in section \ref{sec:FeaturesOfTheRegistrationFramework},
-  //  the above transform is a maping from the vitual domain (i.e. fixed image space, when no
+  //  Consider that, as explained in section \ref{sec:FeaturesOfTheRegistrationFramework},
+  //  the above transform is a mapping from the vitual domain (i.e. fixed image space, when no
   //  fixed initial transform) to the moving image space.
   //
   //  Then, the result transform of the first stage will be used as the initial moving
   //  transform for the second stage of the registration process, and this approach goes on
-  //  till the last stage of the registration process.
+  //  until the last stage of the registration process.
   //
   //  At the end of the registration process, the $\Gamma_{mi}$ and the outputs of each stage
-  //  can be concatenated into a final composite transform that is considered as the final
+  //  can be concatenated into a final composite transform that is considered to be the final
   //  output of the whole registration process.
   //
   //  $I'_{m}(x) = I_{m}(\Gamma_{mi}(\Gamma_{stage_1}(\Gamma_{stage_2}(\Gamma_{stage_3}(x) ) ) ) )$
   //
-  //  The above approach is specially useful if individual stages are characterized by
-  //  possible different types of transforms for example when we run a rigid registration
-  //  process that is proceeded by an affine registration and is completed by a BSpline
+  //  The above approach is especially useful if individual stages are characterized by
+  //  different types of transforms, e.g.  when we run a rigid registration
+  //  process that is proceeded by an affine registration which is completed by a BSpline
   //  registration at the end.
   //
   //
@@ -216,19 +216,19 @@ int main( int argc, char *argv[] )
   //  the registration process is completed. This direct approach is conceptually close to
   //  what was happening in the previous versions of ITK.
   //
-  //  Using of this method is very simple and efficient when we have only one level of
-  //  registration like the case of this example.
-  //  Also, a good application of such initialization method in a multi-stage scenario
+  //  Using this method is very simple and efficient when we have only one level of
+  //  registration, which is the case in this example.
+  //  Also, a good application of this initialization method in a multi-stage scenario
   //  is when two consequent stages have the same transform types, or at least the initial
-  //  parameters can easily be inferred from the result of the previous stage like when a
+  //  parameters can easily be inferred from the result of the previous stage, such as when a
   //  translation transform is followed by a rigid transform.
   //
   //  The direct initialization approach is shown by the current example in which we try
   //  to initialize the parameters of the optimizable transform ($\Gamma_{u}$) directly.
   //
   //  For this purpose, first, the initial transform object is constructed below.
-  //  This transform will be initialized, and its initial parameters will be considered as
-  //  the parameters to be used when the registration process starts.
+  //  This transform will be initialized, and its initial parameters will be
+  //  used when the registration process starts.
   //
   //  \index{itk::CenteredRigid2DTransform!New()}
   //  \index{itk::CenteredRigid2DTransform!Pointer}
@@ -350,7 +350,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Now the current parameters of the initial transform will be set
-  //  to registration method, so they can be assigned to the $\Gamma_{u}$ directly.
+  //  to a registration method, so they can be assigned to the $\Gamma_{u}$ directly.
   //  Note that you should not confuse the following function with the
   //  \code{SetMoving(Fixed)InitialTransform()} methods that were used in Hello World! example.
   //
@@ -362,22 +362,22 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Keeping in mind that the scale of units in rotation and translation is
-  //  quite different. For example here we know that the first element of the
+  //  Keep in mind that the scale of units in rotation and translation is
+  //  quite different. For example, here we know that the first element of the
   //  parameters array corresponds to the angle that is measured in radians, while
   //  the other parameters correspond to the translations and the center point
   //  coordinates that are measured in millimeters,
   //  so a naive application of gradient descent optimizer will not produce a smooth
-  //  change of parameters, due to this fact that a similar change of $\delta$
-  //  to each parameter will produce a different magnitude of impact on transform.
+  //  change of parameters, because a similar change of $\delta$
+  //  to each parameter will produce a different magnitude of impact on the transform.
   //  As the result, we need ``parameter scales'' to customize the learning rate for
   //  each parameter. We can take advantage of the scaling functionality provided
   //  by the optimizers.
   //
   //  In this example we use small factors in the scales associated with
   //  translations and the coordinates of the rotation center.
-  //  However, for the transforms with larger parameters sets, it is not intuitive for user to
-  //  set the scales. In such cases, fortunately a framework for automated estimation of
+  //  However, for the transforms with larger parameters sets, it is not intuitive for a user to
+  //  set the scales. Fortunately, a framework for automated estimation of
   //  parameter scales is provided by ITKv4 that will be discussed later in the example of
   //  section \ref{sec:MultiStageRegistration}.
   //
@@ -552,8 +552,8 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   // Figure \ref{fig:ImageRegistration5Outputs} shows from left to right the
-  // resampled moving image after registration, the difference between fixed
-  // and moving images before registration, and the difference between fixed
+  // resampled moving image after registration, the difference between the fixed
+  // and moving images before registration, and the difference between the fixed
   // and resampled moving image after registration. It can be seen from the
   // last difference image that the rotational component has been solved but
   // that a small centering misalignment persists.
@@ -570,10 +570,10 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration5Plots} shows plots of the main output
-  //  parameters produced from the registration process. This includes, the
+  //  parameters produced from the registration process. This includes the
   //  metric values at every iteration, the angle values at every iteration,
   //  and the translation components of the transform as the registration
-  //  progress.
+  //  progresses.
   //
   //  Software Guide : EndLatex
 
@@ -761,7 +761,7 @@ int main( int argc, char *argv[] )
   //
   //  Figure \ref{fig:ImageRegistration5Plots2} shows plots of the main output
   //  registration parameters when the rotation and translations are combined.
-  //  These results include, the metric values at every iteration, the angle
+  //  These results include the metric values at every iteration, the angle
   //  values at every iteration, and the translation components of the
   //  registration as the registration converges. It can be seen from the
   //  smoothness of these plots that a larger step length could have been

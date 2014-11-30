@@ -28,15 +28,15 @@
 // For this purpose, we introduce the concept of transform adaptors.
 // Each level of each stage is defined by a transform adaptor
 // which describes how to adapt the transform to the current level by
-// increasing the resolution from previous level.
+// increasing the resolution from the previous level.
 // Here, we used \doxygen{BSplineTransformParametersAdaptor} class
 // to adapt the BSpline transform parameters at each resolution level.
 // Note that for many transforms, such as affine, the
 // concept of an adaptor may be nonsensical since the number of transform
-// paramters does not change between resolution levels.
+// parameters does not change between resolution levels.
 //
 // Since this example is quite similar to the previous example on the use
-// of the \code{BSplineTransform} we omit here most of the details already
+// of the \code{BSplineTransform} we omit most of the details already
 // discussed and will focus on the aspects related to the multi-resolution
 // approach.
 //
@@ -103,7 +103,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We instantiate now the type of the \code{BSplineTransform} using
+  //  We instantiate the type of the \code{BSplineTransform} using
   //  as template parameters the type for coordinates representation, the
   //  dimension of the space, and the order of the BSpline.
   //
@@ -204,7 +204,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Registration process is run in three levels. The shrink factors
+  //  The registration process is run in three levels. The shrink factors
   //  and smoothing sigmas are set for each level.
   //
   //  Software Guide : EndLatex

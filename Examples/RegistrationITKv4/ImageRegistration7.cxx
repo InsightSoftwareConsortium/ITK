@@ -35,17 +35,18 @@
 // \doxygen{CenteredRigid2DTransform} class.
 //
 // A similarity transform can be seen as a composition of rotations,
-// translations and uniform $\left(isotropic\right)$ scaling. It preserves angles and map lines into
+// translations and uniform $\left(\text{isotropic}\right)$ scaling. It
+// preserves angles and maps lines into
 // lines. This transform is implemented in the toolkit as deriving from a rigid
 // $2D$ transform and with a scale parameter added.
 //
 // When using this transform, attention should be paid to the fact that scaling
 // and translations are not independent.  In the same way that rotations can
-// locally be seen as translations, scaling also result in local displacements.
+// locally be seen as translations, scaling also results in local displacements.
 // Scaling is performed in general with respect to the origin of coordinates.
 // However, we already saw how ambiguous that could be in the case of
 // rotations. For this reason, this transform also allows users to setup a
-// specific center. This center is use both for rotation and scaling.
+// specific center. This center is used both for rotation and scaling.
 //
 //
 // \index{itk::CenteredSimilarity2DTransform}
@@ -175,7 +176,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  As before, the transform object is constructed and is initialized before it
+  //  As before, the transform object is constructed and initialized before it
   //  is passed to the registration filter.
   //
   //  \index{itk::CenteredSimilarity2DTransform!Pointer}
@@ -263,8 +264,9 @@ int main( int argc, char *argv[] )
   //  Now the initialized transform object will be set to the registration method,
   //  and its initial parameters are used to initialize the registration process.
   //
-  //  Also, by calling the \code{InPlaceOn()}, this initialized transform will be the output transform
-  //  object or "grafted" to the output of the registration process.
+  //  Also, by calling the \code{InPlaceOn()} method, this initialized
+  //  transform will be the output transform
+  //  object or ``grafted'' to the output of the registration process.
   //
   //  Software Guide : EndLatex
 
@@ -280,7 +282,7 @@ int main( int argc, char *argv[] )
   //  translation are quite different, we take advantage of the scaling
   //  functionality provided by the optimizers. We know that the first element
   //  of the parameters array corresponds to the scale factor, the second
-  //  corresponds to the angle, third and forth are the center of rotation and
+  //  corresponds to the angle, third and fourth are the center of rotation and
   //  fifth and sixth are the remaining translation. We use henceforth small
   //  factors in the scales associated with translations and the rotation
   //  center.
@@ -305,10 +307,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We set also the ordinary parameters of the optimization method. In this
+  //  We also set the ordinary parameters of the optimization method. In this
   //  case we are using a
-  //  \doxygen{RegularStepGradientDescentOptimizerv4}. Below defines the
-  //  optimization parameters like initial learning rate (step length), minimal
+  //  \doxygen{RegularStepGradientDescentOptimizerv4}. Below we define the
+  //  optimization parameters, i.e. initial learning rate (step length), minimal
   //  step length and number of iterations. The last two act as stopping criteria
   //  for the optimization.
   //
@@ -475,8 +477,8 @@ int main( int argc, char *argv[] )
   //  Figure \ref{fig:ImageRegistration7Plots} shows the plots of the main
   //  output parameters of the registration process. The metric values at every
   //  iteration are shown on the top. The angle values are shown in the plot at
-  //  left while the translation components of the registration are presented
-  //  in the plot at right.
+  //  the left while the translation components of the registration are presented
+  //  in the plot on the right.
   //
   //  Software Guide : EndLatex
 

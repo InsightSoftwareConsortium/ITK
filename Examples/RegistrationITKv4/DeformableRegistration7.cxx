@@ -22,10 +22,10 @@
 // class for performing registration of two $3D$ images. The example code is
 // for the most part identical to the code presented in
 // Section~\ref{sec:BSplinesMultiGridImageRegistration}. The major difference is
-// that this example we set the image dimension to 3 and replace the
+// that in this example we set the image dimension to 3 and replace the
 // \doxygen{LBFGSOptimizerv4} optimizer with the \doxygen{LBFGSBOptimizerv4}. We
 // made the modification because we found that LBFGS does not behave well when
-// the starting positions is at or close to optimal; instead we used LBFGSB in
+// the starting position is at or close to optimal; instead we used LBFGSB in
 // unconstrained mode.
 //
 //
@@ -57,8 +57,8 @@
 //
 //  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
-//  grid.  This large number of parameters makes possible to represent a wide
-//  variety of deformations, but it also has the price of requiring a
+//  grid.  This large number of parameters enables it to represent a wide
+//  variety of deformations, at the cost of requiring a
 //  significant amount of computation time.
 //
 //  \index{itk::BSplineTransform!header}
@@ -195,7 +195,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed, initialized like previous example
+  //  The transform object is constructed, initialized like previous examples
   //  and passed to the registration method.
   //
   //  \index{itk::ImageRegistrationMethodv4!SetInitialTransform()}
@@ -259,7 +259,7 @@ int main( int argc, char *argv[] )
   //  this optimizer does not support scales estimator and sets all
   //  the parameters scales to one.
   //  Also, we should set the boundary condition for each variable, where
-  //  \emph{boundSelect[i]} can be set as:
+  //  \code{boundSelect[i]} can be set as:
   //
   //  UNBOUNDED, LOWERBOUNDED, BOTHBOUNDED, UPPERBOUNDED
   //

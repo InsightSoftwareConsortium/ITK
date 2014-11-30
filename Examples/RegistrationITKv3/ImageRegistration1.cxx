@@ -27,10 +27,10 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the image registration framework in
-// Insight.  It should be read as a "Hello World" for ITK registration. Which
-// means that for now, you don't ask ``why?''. Instead, use the example as an
-// introduction to the elements that are typically involved in solving an image
-// registration problem.
+// Insight.  It should be read as a ``Hello World'' for ITK registration.
+// Instead of means to an end, this example should be read as a basic
+// introduction to the elements typically involved when solving a problem
+// of image registration.
 //
 // \index{itk::Image!Instantiation}
 // \index{itk::Image!Header}
@@ -115,8 +115,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The types of each one of the components in the registration methods should
-  // be instantiated first. With that purpose, we start by selecting the image
-  // dimension and the type used for representing image pixels.
+  // be instantiated first. We start by selecting the image
+  // dimension and the types to be used for representing image pixels.
   //
   // Software Guide : EndLatex
 
@@ -165,7 +165,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The metric will compare how well the two images match each other. Metric
-  //  types are usually parameterized by the image types as it can be seen in
+  //  types are usually templated over the image types as seen in
   //  the following type declaration.
   //
   //  Software Guide : EndLatex

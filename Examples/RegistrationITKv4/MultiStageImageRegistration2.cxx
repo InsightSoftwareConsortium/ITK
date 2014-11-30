@@ -32,10 +32,10 @@
 //  part, identical to the previous multistage example. The main difference
 //  is that no initial transform is used, and the output of the first stage
 //  is directly linked to the second stage, and the whole registration process
-//  is trigered only once by calling \code{Update()} after the last stage stage.
+//  is triggered only once by calling \code{Update()} after the last stage stage.
 //
-// We will focus on the most relevent changes in current code and skip all the
-// similar parts that are already explained in the previous example.
+//  We will focus on the most relevent changes in current code and skip all the
+//  similar parts already explained in the previous example.
 //
 // \index{itk::ImageRegistrationMethodv4!Multi-Stage}
 //
@@ -204,7 +204,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Type definitions are the same as previous example with an important subtle
-  //  change. If you notice the transform type is not passed to the
+  //  change: the transform type is not passed to the
   //  registration method as a template parameter anymore. In this case, the
   //  registration filter will consider the transform base class
   //  \doxygen{Transform} as the type of its output transform.
@@ -225,9 +225,9 @@ int main( int argc, char *argv[] )
   //
   //  Instead of passing the transform type, we create an explicit instantiation
   //  of the transform object outside of the registration filter, and connect
-  //  that to the registration object using \code{SetInitialTransform()} method.
+  //  that to the registration object using the \code{SetInitialTransform()} method.
   //  Also, by calling \code{InPlaceOn()} method, this transform object will be
-  //  output transform of the registration filter or will be grafted to the
+  //  the output transform of the registration filter or will be grafted to the
   //  output.
   //
   //  Software Guide : EndLatex
@@ -260,11 +260,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  As previous example the first stage is run using only one level of
+  //  As in the previous example, the first stage is run using only one level of
   //  registration at a coarse resolution level. However, notice that we
   //  do not need to update the translation registration filter at this
-  //  step since the output of this stage will be directly connect to the
-  //  initial input of the next stage, so considering the pipeline structure,
+  //  step since the output of this stage will be directly connected to the
+  //  initial input of the next stage. Due to ITK's pipeline structure,
   //  when we call the \code{Update()} at the last stage, the first stage
   //  will be updated as well.
   //
@@ -312,7 +312,7 @@ int main( int argc, char *argv[] )
   //
   //  Now we upgrade to an Affine transform as the second stage of registration
   //  process,
-  //  and as before, first we define and instantiate different components of the
+  //  and as before, we initially define and instantiate different components of the
   //  current registration stage. We have used a new optimizer but the same
   //  metric in new configurations.
   //
@@ -332,7 +332,7 @@ int main( int argc, char *argv[] )
   //  Again notice that \emph{TransformType} is not passed to the type
   //  definition of the registration filter. It is important because when the
   //  registration filter considers transform base class \doxygen{Transform}
-  //  as the type of its output transform, it prevents the types mismatch when
+  //  as the type of its output transform, it prevents the type mismatch when
   //  the two stages are cascaded to each other.
   //
   //  Then, all components are instantiated using their \code{New()} method
@@ -375,8 +375,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  // Then, we initialize the fixed parameters (center of rotation) in Affine
-  //  transform and connect that to the registration object.
+  // Then, we initialize the fixed parameters (center of rotation) in the Affine
+  // transform and connect that to the registration object.
   //
   //  Software Guide : EndLatex
 
@@ -474,9 +474,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Once all the registration components are in place,
-  //  finally we triger the whole registration process, including two cascaded
-  //  registration stages, by calling \code{Update()} for the registration
-  //  filter of the last stage that causes both stages be updated consequently.
+  //  finally we trigger the whole registration process, including two cascaded
+  //  registration stages, by calling \code{Update()} on the registration
+  //  filter of the last stage, which causes both stages be updated.
   //
   //  Software Guide : EndLatex
 
@@ -499,10 +499,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  After all, a composite transform is used to concatenate the results of
+  //  Finally, a composite transform is used to concatenate the results of
   //  all stages together, which will be considered as the
   //  final output of this multistage process and will be passed to the
-  //  resampler to resample the moving image in to the virtual domain
+  //  resampler to resample the moving image into the virtual domain
   //  space (fixed image space if there is no fixed initial transform).
   //
   //  Software Guide : EndLatex
@@ -541,8 +541,8 @@ int main( int argc, char *argv[] )
   //  [0.9860, -0.1742, 0.1751, 0.9862, 0.9219, 0.8023]
   //  \end{verbatim}
   //
-  //  Let's reorder the Affine array of parameters agian as coefficients of matrix
-  //  $\bf{M}$ and vector $\bf{T}$ they can now be seen as
+  //  Let's reorder the Affine array of parameters again as coefficients of matrix
+  //  $\bf{M}$ and vector $\bf{T}$. They can now be seen as
   //
   //  \begin{equation}
   //  M =
@@ -559,9 +559,9 @@ int main( int argc, char *argv[] )
   //  \end{equation}
   //
   //  $10.02$ degrees is the rotation value computed from the affine matrix
-  //  paramters, which approximately equals to the intentional misalignment.
+  //  parameters, which approximately equals the intentional misalignment.
   //
-  //  Also for the totall translation value resulted from both transforms, we have:
+  //  Also for the total translation value resulted from both transforms, we have:
   //
   //  In $X$ direction:
   //  \begin{equation}
@@ -572,7 +572,7 @@ int main( int argc, char *argv[] )
   //  15.1814 + 0.8023 = 15.9837
   //  \end{equation}
   //
-  //  That is closely match the true misalignment introduced in the moving image.
+  //  These results closely match the true misalignment introduced in the moving image.
   //
   //  Software Guide : EndLatex
 

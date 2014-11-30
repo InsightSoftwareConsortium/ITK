@@ -327,7 +327,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // Unlike the ResampleImageFilter, the WarpImageFilter
-  // warps or transform the input image with respect to the deformation field
+  // warps or transforms the input image with respect to the deformation field
   // represented by an image of vectors.  The resulting warped or resampled
   // image is written to file as per previous examples.
   //

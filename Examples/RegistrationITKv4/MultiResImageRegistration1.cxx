@@ -69,7 +69,7 @@
 // Software Guide : BeginLatex
 //
 // The ImageRegistrationMethodv4 solves a registration
-// problem in a coarse to fine manner as illustrated in Figure
+// problem in a coarse-to-fine manner as illustrated in Figure
 // \ref{fig:MultiResRegistrationConcept}. The registration is first performed
 // at the coarsest level using the images at the first level of the fixed and
 // moving image pyramids. The transform parameters determined by the
@@ -98,10 +98,10 @@
 // Tweaking the components between resolution levels can be done using ITK's
 // implementation of the \emph{Command/Observer} design pattern. Before
 // beginning registration at each resolution level,
-// where ImageRegistrationMethodv4 invokes an
+// where ImageRegistrationMethodv4 invokes a
 // \code{MultiResolutionIterationEvent()}. The registration components can
 // be changed by implementing a \doxygen{Command} which responds to the
-// event. A brief description the interaction between events and commands was
+// event. A brief description of the interaction between events and commands was
 // previously presented in Section \ref{sec:MonitoringImageRegistration}.
 //
 // We will illustrate this mechanism by changing the parameters of the
@@ -179,7 +179,7 @@ public:
 
     // Software Guide : BeginLatex
     //
-    // First we verify if that the event invoked is of the right type that is
+    // First we verify that the event invoked is of the right type,
     // \code{itk::MultiResolutionIterationEvent()}.
     // If not, we return without any further action.
     //
@@ -195,7 +195,7 @@ public:
     // Software Guide : BeginLatex
     //
     // We then convert the input object pointer to a RegistrationPointer.
-    // Note that no error checking is done here to verify if the
+    // Note that no error checking is done here to verify the
     // \code{dynamic\_cast} was successful since we know the actual object
     // is a registration method. Then we ask for the optimizer object
     // from the registration method.
@@ -343,7 +343,7 @@ int main( int argc, const char *argv[] )
   //  vectors.
   //
   //  The types for the registration components are then derived using
-  //  the fixed and moving image type as previous examples.
+  //  the fixed and moving image type, as in previous examples.
   //
   //  Software Guide : EndLatex
 
@@ -429,10 +429,10 @@ int main( int argc, const char *argv[] )
   //  We set the number of multi-resolution levels to three and set
   //  the corresponding shrink factor and smoothing sigma values for each
   //  resolution level. Using smoothing in the subsampled images in
-  //  low resolution levels can prevent probable big fluctuations in the
-  //  metric function that helps optimizer not to be trapped in local minima.
-  //  In this simple example we have no smoothing, and we have used small
-  //  shrinkings for the first two resolution levels.
+  //  low-resolution levels can avoid large fluctuations in the
+  //  metric function, which prevents the optimizer from becoming trapped in
+  //  local minima. In this simple example we have no smoothing, and we have
+  //  used small shrinkings for the first two resolution levels.
   //
   //  \index{itk::Image\-Registration\-Methodv4!SetNumberOfLevels()}
   //  \index{itk::Image\-Registration\-Methodv4!SetShrinkFactorsPerLevel()}
@@ -477,7 +477,7 @@ int main( int argc, const char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Then we triger the registration process by calling \code{Update()}.
+  //  Then we trigger the registration process by calling \code{Update()}.
   //
   //  Software Guide : EndLatex
 
@@ -674,7 +674,7 @@ int main( int argc, const char *argv[] )
   //  parameter space.  From the trace, we can see that with the more
   //  aggressive optimization parameters we get quite close to the optimal
   //  value within 5 iterations with the remaining iterations just doing fine
-  //  adjustments. It is interesting to compare these results with the ones
+  //  adjustments. It is interesting to compare these results with those
   //  of the single resolution example in Section
   //  \ref{sec:MultiModalityRegistrationMattes}, where 46 iterations were
   //  required as more conservative optimization parameters had to be used.

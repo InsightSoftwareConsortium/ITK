@@ -29,9 +29,9 @@
 //
 //  This example illustrates the use of more complex components of the
 //  registration framework. In particular, it introduces a multistage,
-//  multi-resolutionary approach to run a multi modal registration process
+//  multi-resolution approach to run a multi-modal registration process
 //  using two linear \doxygen{TranslationTransform} and \doxygen{AffineTransform}.
-//  Also, it shows the use of emph{Scale Estimators}
+//  Also, it shows the use of \emph{Scale Estimators}
 //  for fine-tuning the scale parameters of the optimizer when an Affine
 //  transform is used. The \doxygen{RegistrationParameterScalesFromPhysicalShift}
 //  filter is used for automatic estimation of the parameters scales.
@@ -222,7 +222,7 @@ int main( int argc, char *argv[] )
   //  \doxygen{RegularStepGradientDescentOptimizerv4} is used as the
   //  optimizer of the first stage. Also, we use
   //  \doxygen{MattesMutualInformationImageToImageMetricv4} as the metric
-  //  since it is fitted for a multi modality registration.
+  //  since it is fitted for a multi-modal registration.
   //
   //  Software Guide : EndLatex
 
@@ -324,7 +324,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  In the case of this simple example, the first stage is run only
-  //  in one level of registraion at a coarse resolution.
+  //  in one level of registration at a coarse resolution.
   //
   //  Software Guide : EndLatex
 
@@ -357,8 +357,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Also, for this initial stage we can use a more agressive paramter
-  //  set for the optimizer by taking a big step size and more relaxed
+  //  Also, for this initial stage we can use a more agressive parameter
+  //  set for the optimizer by taking a big step size and relaxing
   //  stop criteria.
   //
   //  Software Guide : EndLatex
@@ -382,7 +382,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Once all the registration components are in place, we triger the registration
+  //  Once all the registration components are in place, we trigger the registration
   //  process by calling \code{Update()} and add the result output transform to the final
   //  composite transform, so this composite transform can be used to initialize the next
   //  registration stage.
@@ -446,7 +446,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   //  Again all the components are instantiated using their \code{New()} method
-  //  and connected to the registration object like in previous stage.
+  //  and connected to the registration object like in previous stages.
   //
   // Software Guide : EndLatex
 
@@ -460,7 +460,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   //  The current stage can be initialized using the initial transform of the
-  //  registration and the result transform of the previous stage that both
+  //  registration and the result transform of the previous stage, so that both
   //  are concatenated into the composite transform.
   //
   // Software Guide : EndLatex
@@ -484,14 +484,14 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  //  In Section \ref{sec:InitializingRegistrationWithMoments} we showed how
-  //  center of rotation is so important in the registration process.
-  //  In Affine transform, the center of rotation is defined by the fixed
-  //  parameters set that as a default is set to [0, 0].
+  //  In Section \ref{sec:InitializingRegistrationWithMoments} we showed
+  //  the importance of center of rotation in the registration process.
+  //  In Affine transforms, the center of rotation is defined by the fixed
+  //  parameters set, which are set by default to [0, 0].
   //  However, consider a situation where the
   //  origin of the virtual space, in which the registration is run, is far away
   //  from the zero origin. In such cases, leaving the center of rotation
-  //  as the default value can make the optimization process so unstable. Therefore,
+  //  as the default value can make the optimization process unstable. Therefore,
   //  we are always interested to set the center of rotation to the center of virtual
   //  space which is usually the fixed image space.
   //
@@ -500,7 +500,7 @@ int main( int argc, char *argv[] )
   //  to the geometrical center of the fixed image. We could also use
   //  \doxygen{ImageMomentsCalculator} filter to compute the center of mass.
   //
-  //  Based on the above discussion, user needs to set the fixed parameters of
+  //  Based on the above discussion, the user must set the fixed parameters of
   //  the registration transform outside of the registraton method, so first
   //  we instantiate an object of the output transform type.
   //
@@ -551,7 +551,7 @@ int main( int argc, char *argv[] )
   //  Then, the initialized output transform should be connected to
   //  the registration object by using \code{SetInitialTransform()} method.
   //
-  //  It is so important to distinguish between the \code{SetInitialTransform()}
+  //  It is important to distinguish between the \code{SetInitialTransform()}
   //  and \code{SetMovingInitialTransform()} that was used to initialize the
   //  registration stage based on the results of the previous stages.
   //  You can assume that the first one is used for direct manipulation of the
@@ -569,7 +569,7 @@ int main( int argc, char *argv[] )
   //  dynamic ranges. Typically the parameters associated with the matrix
   //  have values around $[-1:1]$, although they are not restricted to this
   //  interval.  Parameters associated with translations, on the other hand,
-  //  tend to have much higher values, typically in the order of $10.0$ to
+  //  tend to have much higher values, typically on the order of $10.0$ to
   //  $100.0$. This difference in dynamic range negatively affects the
   //  performance of gradient descent optimizers. ITK provides some mechanisms to
   //  compensate for such differences in values among the parameters when
@@ -581,8 +581,8 @@ int main( int argc, char *argv[] )
   //  optimizer at the current iteration.
   //  These scales are estimated by the user intuitively as shown in previous
   //  examples of this chapter. In our particular case, a common choice
-  //  for the scale parameters is to set to $1.0$ all those associated
-  //  with the matrix coefficients, that is, the first $N \times N$
+  //  for the scale parameters is to set all those associated
+  //  with the matrix coefficients to $1.0$, that is, the first $N \times N$
   //  factors. Then, we set the remaining scale factors to a small value.
   //
   //  Software Guide : EndLatex
@@ -620,15 +620,15 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Based on the above discussion, we need very smaller scales for translation
-  //  parameters of vector $\bf{T}$ ($T_x$, $T_y$) in compare with the parameters
+  //  Based on the above discussion, we need much smaller scales for translation
+  //  parameters of vector $\bf{T}$ ($T_x$, $T_y$) compared to the parameters
   //  of matrix $\bf{M}$ ($M_{11}$, $M_{12}$, $M_{21}$, $M_{22}$).
-  //  However, it is not that easy to have an intuitive estimation of all parameter
+  //  However, it is not easy to have an intuitive estimation of all parameter
   //  scales when we have to deal with a large paramter space.
   //
   //  Fortunately, ITKv4 provides a framework for automated parameter scaling.
   //  \doxygen{RegistrationParameterScalesEstimator} vastly reduces the
-  //  difficulty of tuning parameters for different transform/metric combination.
+  //  difficulty of tuning parameters for different transform/metric combinations.
   //  Parameter scales are estimated by analyzing the result of a small parameter
   //  update on the change in the magnitude of physical space deformation induced
   //  by the transformation.
@@ -643,8 +643,8 @@ int main( int argc, char *argv[] )
   //  In all methods, the goal is to rescale the transform parameters such that
   //  a unit change of each \emph{scaled parameter} will have the same impact on deformation.
   //
-  //  In this example the first filter is chosen to estimate the paramter scales. Then
-  //  scales estimator will be passed to optimizer.
+  //  In this example the first filter is chosen to estimate the parameter scales. The
+  //  scales estimator will then be passed to optimizer.
   //
   //  Software Guide : EndLatex
 
@@ -670,10 +670,10 @@ int main( int argc, char *argv[] )
   //  expected rotation measured in radians. For example, a rotation of $1.0$
   //  degree is about $0.017$ radians.
   //
-  //  However, we do not need to be much woried about the above considerations.
+  //  However, we need not worry about the above considerations.
   //  Thanks to the \emph{ScalesEstimator}, the initial step size can also be
   //  estimated automatically, either at each iteration or only at the first
-  //  iteration. Here, in this example we choose to estimate learning rate
+  //  iteration. In this example we choose to estimate learning rate
   //  once at the begining of the registration process.
   //
   //  Software Guide : EndLatex
@@ -732,9 +732,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we triger the registration process by calling \code{Update()} and
+  //  Finally we trigger the registration process by calling \code{Update()} and
   //  add the output transform of the last stage to the
-  //  composite transform. This composite transform that will be considered as
+  //  composite transform. This composite transform will be considered as
   //  the final transform of this multistage registration process and will be
   //  used by the resampler to resample the moving image in to the virtual domain
   //  space (fixed image space if there is no fixed initial transform).
@@ -802,7 +802,7 @@ int main( int argc, char *argv[] )
   //  \end{verbatim}
   //
   //  As it can be seen, the translation parameters after the first stage
-  //  compensate most of the off distance between fixed and moving images.
+  //  compensate most of the offset between the fixed and moving images.
   //  When the images are close to each other, the affine registration is
   //  run for the rotation and the final match.
   //  By reordering the Affine array of parameters as coefficients of matrix
@@ -831,7 +831,7 @@ int main( int argc, char *argv[] )
   //  matrix. The value is $9.975$ degrees, which is approximately the
   //  intentional misalignment of $10.0$ degrees.
   //
-  //  Also, let's compute the totall translation values resulted from initial transform,
+  //  Also, let's compute the total translation values resulting from initial transform,
   //  translation transform, and the Affine transform together.
   //
   //  In $X$ direction:

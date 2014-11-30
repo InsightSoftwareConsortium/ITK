@@ -34,7 +34,7 @@
 // class for performing registration of two $3D$ images.
 // The class \doxygen{CenteredTransformInitializer} is used to initialize the
 // center and translation of the transform.  The case of rigid registration of
-// 3D images is probably one of the most commonly found cases of image registration.
+// 3D images is probably one of the most common uses of image registration.
 //
 // \index{itk::Versor\-Rigid3D\-Transform}
 // \index{itk::Centered\-Transform\-Initializer!In 3D}
@@ -61,7 +61,7 @@
 //  Software Guide : BeginLatex
 //
 //  The parameter space of the \code{VersorRigid3DTransform} is not a vector
-//  space, due to the fact that addition is not a closed operation in the space
+//  space, because addition is not a closed operation in the space
 //  of versor components. Hence, we need to use Versor composition operation to
 //  update the first three components of the parameter array (rotation parameters),
 //  and Vector addition for updating the last three components of the parameters
@@ -69,10 +69,10 @@
 //
 //  In the previous version of ITK, a special optimizer, \doxygen{VersorRigid3DTransformOptimizer}
 //  was needed for registration to deal with versor computations.
-//  However, in ITKv4, fortunately the \doxygen{RegularStepGradientDescentOptimizerv4}
+//  Fortunately in ITKv4, the \doxygen{RegularStepGradientDescentOptimizerv4}
 //  can be used for both vector and versor transform optimizations because, in the new
 //  registration framework, the task of updating parameters is delegated to the
-//  moving transform itself. The "UpdateTransformParameters" method is implemented
+//  moving transform itself. The \code{UpdateTransformParameters} method is implemented
 //  in the \doxygen{Transform} class as a virtual function, and all the derived transform
 //  classes can have their own implementations of this function. Due to this
 //  fact, the updating function is re-implemented for versor transforms
@@ -180,7 +180,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The initial transform object is constructed below. This transform will be initialized,
-  //  and its initial parameters will be considered as the parameters to be used when
+  //  and its initial parameters will be used when
   //  the registration process starts.
   //
   //  \index{itk::Versor\-Rigid3D\-Transform!Pointer}
@@ -393,7 +393,7 @@ int main( int argc, char *argv[] )
   //  \url{http://public.kitware.com/pub/itk/Data/BrainWeb}.
   //
   //  Note that the images in this website are compressed in \code{.tgz} files.
-  //  You should download these files an uncompress them in your local system.
+  //  You should download these files and decompress them in your local system.
   //  After decompressing and extracting the files you could take a pair of
   //  volumes, for example the pair:
   //
@@ -410,7 +410,7 @@ int main( int argc, char *argv[] )
   //
   //  \code{ITK\_USE\_BRAINWEB\_DATA}
   //
-  //  Then, the above  data will be loaded to your local ITK build directory.
+  //  Then, the above data will be loaded to your local ITK build directory.
   //
   //  The registration takes $21$ iterations and produces:
   //
@@ -437,7 +437,7 @@ int main( int argc, char *argv[] )
   //  translation vector shown above.
   //
   //  It is more illustrative in this case to take a look at the actual
-  //  rotation matrix and offset resulting form the $6$ parameters.
+  //  rotation matrix and offset resulting from the $6$ parameters.
   //
   //  Software Guide : EndLatex
 
@@ -526,19 +526,19 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration8Plots} shows the plots of the main
-  //  output parameters of the registration process. The metric values at every
-  //  iteration. The Z component of the versor is plotted as an indication of
-  //  how the rotation progress. The X,Y translation components of the
+  //  output parameters of the registration process.
+  //  The Z component of the versor is plotted as an indication of
+  //  how the rotation progresses. The X,Y translation components of the
   //  registration are plotted at every iteration too.
   //
   //  Shell and Gnuplot scripts for generating the diagrams in
   //  Figure~\ref{fig:ImageRegistration8Plots} are available in the \code{ITKSoftwareGuide}
-  //  module under the directory
+  //  repository under the directory
   //
   //  \code{SoftwareGuide/Art}.
   //
   //  You are strongly encouraged to run the example code, since only in this
-  //  way you can gain a first hand experience with the behavior of the
+  //  way can you gain first-hand experience with the behavior of the
   //  registration process. Once again, this is a simple reflection of the
   //  philosophy that we put forward in this book:
   //
