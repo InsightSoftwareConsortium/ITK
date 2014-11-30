@@ -108,7 +108,6 @@ namespace itk
  * for Medical Research, Grant U54 EB005149.
  *
  * \par Examples and Datasets
- * \example Examples/Filtering/DiffusionTensor3DReconstructionImageFilter.cxx
  * Sample DTI datasets may be obtained from
  * \verbatim
  *   \li ftp://public.kitware.com/pub/namic/DTI/Data/dwi.nhdr
