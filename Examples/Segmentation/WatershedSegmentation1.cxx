@@ -31,10 +31,10 @@
 //
 // The following example illustrates how to preprocess and segment images
 // using the \doxygen{WatershedImageFilter}. Note that the care with which
-// the data is preprocessed will greatly affect the quality of your result.
+// the data are preprocessed will greatly affect the quality of your result.
 // Typically, the best results are obtained by preprocessing the original
 // image with an edge-preserving diffusion filter, such as one of the
-// anisotropic diffusion filters, or with the bilateral image filter.  As
+// anisotropic diffusion filters, or the bilateral image filter.  As
 // noted in Section~\ref{sec:AboutWatersheds}, the height function used as
 // input should be created such that higher positive values correspond to
 // object boundaries.  A suitable height function for many applications can
@@ -45,7 +45,7 @@
 // \doxygen{VectorGradientMagnitudeImageFilter} is used to generate the
 // height function.  We begin by including all preprocessing filter header
 // files and the header file for the WatershedImageFilter.  We
-// use the vector versions of these filters because the input data is a color
+// use the vector versions of these filters because the input dataset is a color
 // image.
 //
 //
@@ -77,8 +77,8 @@ int main( int argc, char *argv[] )
   //
   // We now declare the image and pixel types to use for instantiation of the
   // filters.  All of these filters expect real-valued pixel types in order to
-  // work properly.  The preprocessing stages are done directly on the
-  // vector-valued data and the segmentation is done using floating point
+  // work properly.  The preprocessing stages are applied directly to the
+  // vector-valued data and the segmentation uses floating point
   // scalar data.  Images are converted from RGB pixel type to
   // numerical vector type using \doxygen{VectorCastImageFilter}.
   //
@@ -182,7 +182,7 @@ int main( int argc, char *argv[] )
   // \subdoxygen{Functor}{ScalarToRGBPixelFunctor} class is a special
   // function object designed to hash a scalar value into an
   // \doxygen{RGBPixel}. Plugging this functor into the
-  // \doxygen{UnaryFunctorImageFilter} creates an image filter for that
+  // \doxygen{UnaryFunctorImageFilter} creates an image filter which
   // converts scalar images to RGB images.
   //
   // Software Guide : EndLatex

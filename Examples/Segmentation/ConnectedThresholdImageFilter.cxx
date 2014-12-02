@@ -49,7 +49,7 @@
 //
 // The criterion used by the ConnectedThresholdImageFilter is based on an
 // interval of intensity values provided by the user. Values of lower and
-// upper threshold should be provided. The region growing algorithm includes
+// upper threshold should be provided. The region-growing algorithm includes
 // those pixels whose intensities are inside the interval.
 //
 // \begin{equation}
@@ -79,7 +79,7 @@
 //  pre-process the image by using an edge-preserving smoothing filter. Any of
 //  the filters discussed in Section~\ref{sec:EdgePreservingSmoothingFilters}
 //  could be used to this end. In this particular example we use the
-//  \doxygen{CurvatureFlowImageFilter}, hence we need to include its header
+//  \doxygen{CurvatureFlowImageFilter}, so we need to include its header
 //  file.
 //
 //  Software Guide : EndLatex
@@ -208,8 +208,8 @@ int main( int argc, char *argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The CurvatureFlowImageFilter requires a couple of parameters to
-  //  be defined. The following are typical values for $2D$ images. However
+  //  The CurvatureFlowImageFilter requires a couple of parameters. 
+  //  The following are typical values for $2D$ images. However
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
   //
@@ -341,7 +341,7 @@ int main( int argc, char *argv[])
   // \end{figure}
   //
   //  Notice that the gray matter is not being completely segmented.  This
-  //  illustrates the vulnerability of the region growing methods when the
+  //  illustrates the vulnerability of the region-growing methods when the
   //  anatomical structures to be segmented do not have a homogeneous
   //  statistical distribution over the image space. You may want to
   //  experiment with different values of the lower and upper thresholds to
@@ -349,7 +349,7 @@ int main( int argc, char *argv[])
   //
   //  Another option for segmenting regions is to take advantage of the
   //  functionality provided by the ConnectedThresholdImageFilter for
-  //  managing multiple seeds. The seeds can be passed one by one to the
+  //  managing multiple seeds. The seeds can be passed one-by-one to the
   //  filter using the \code{AddSeed()} method. You could imagine a user
   //  interface in which an operator clicks on multiple points of the object
   //  to be segmented and each selected point is passed as a seed to this

@@ -102,7 +102,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We now declare the type of the region growing filter. In this case it
+  //  We now declare the type of the region-growing filter. In this case it
   //  is the \doxygen{VectorConfidenceConnectedImageFilter}.
   //
   //  Software Guide : EndLatex
@@ -139,14 +139,14 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The VectorConfidenceConnectedImageFilter requires specifying two
+  //  The VectorConfidenceConnectedImageFilter requires two
   //  parameters.  First, the multiplier factor $f$ defines how large the
   //  range of intensities will be. Small values of the multiplier will
   //  restrict the inclusion of pixels to those having similar intensities to
   //  those already in the current region. Larger values of the multiplier
   //  relax the accepting condition and result in more generous growth of the
   //  region. Values that are too large will cause the region to grow into
-  //  neighboring regions that may actually belong to separate anatomical
+  //  neighboring regions which may actually belong to separate anatomical
   //  structures.
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetMultiplier()}
@@ -290,7 +290,7 @@ int main( int argc, char *argv[] )
   // The coloration of muscular tissue makes it easy to distinguish them from
   // the surrounding anatomical structures. The optic vitrea on the other hand
   // has a coloration that is not very homogeneous inside the eyeball and
-  // does not allow to generate a full segmentation based only on color.
+  // does not facilitate a full segmentation based only on color.
   //
   //  Software Guide : EndLatex
 

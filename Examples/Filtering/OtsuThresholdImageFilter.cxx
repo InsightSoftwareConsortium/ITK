@@ -172,7 +172,7 @@ int main( int argc, char * argv[] )
   //
   //  The execution of the filter is triggered by invoking the \code{Update()}
   //  method.   If the filter's output has been passed as input to subsequent
-  //  filters, the \code{Update()} call on any posterior filters in the
+  //  filters, the \code{Update()} call on any downstream filters in the
   //  pipeline will indirectly trigger the update of this filter.
   //
   //  Software Guide : EndLatex

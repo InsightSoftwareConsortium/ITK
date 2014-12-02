@@ -243,7 +243,7 @@ int main( int argc, char *argv[] )
   //  structures by providing seed pairs in the appropriate locations and
   //  defining values for the lower threshold. It is important to keep in
   //  mind in this and the previous examples that the segmentation is being
-  //  performed in the smoothed version of the image. The selection of
+  //  performed using the smoothed version of the image. The selection of
   //  threshold values should therefore be performed in the smoothed image
   //  since the distribution of intensities could be quite different from
   //  that of the input image.  As a reminder of this fact, Figure

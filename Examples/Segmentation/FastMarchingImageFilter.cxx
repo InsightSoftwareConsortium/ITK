@@ -63,7 +63,7 @@
 // function of the gradient magnitude.  Several mappings are popular in the
 // literature, for example, the negative exponential $exp(-x)$ and the
 // reciprocal $1/(1+x)$. In the current example we decided to use a Sigmoid
-// function since it offers a good deal of control parameters that can be
+// function since it offers a good number of control parameters that can be
 // customized to shape a nice speed image.
 //
 // The mapping should be done in such a way that the propagation speed of the
@@ -451,7 +451,7 @@ int main( int argc, char *argv[] )
   //  an ideal case, the speed value should be $1.0$ in the homogeneous regions
   //  of anatomical structures and the value should decay rapidly to $0.0$
   //  around the edges of structures. The heuristic for finding the values is
-  //  the following. From the gradient magnitude image, let's call $K1$ the
+  //  the following: From the gradient magnitude image, let's call $K1$ the
   //  minimum value along the contour of the anatomical structure to be
   //  segmented. Then, let's call $K2$ an average value of the gradient
   //  magnitude in the middle of the structure. These two values indicate the
@@ -570,9 +570,9 @@ int main( int argc, char *argv[] )
 
 
   //  Here we configure all the writers required to see the intermediate
-  //  outputs of the pipeline. This is added here for providing better
-  //  the necessary images needed when generating the ITKSoftwareGuide
-  //  These intermediate output are normaly not required. Only the output
+  //  outputs of the pipeline. This is added here to provide
+  //  the necessary images for generating the ITKSoftwareGuide.
+  //  These intermediate outputs are normally not required. Only the output
   //  of the final thresholding filter should be relevant.  Observing
   //  intermediate output is helpful in the process of fine tuning the
   //  parameters of filters in the pipeline.
@@ -635,9 +635,9 @@ int main( int argc, char *argv[] )
   //
   //  The FastMarchingImageFilter requires the user to specify the
   //  size of the image to be produced as output. This is done using the
-  //  \code{SetOutputSize()}. Note that the size is obtained here from the
+  //  \code{SetOutputSize()} method. Note that the size is obtained here from the
   //  output image of the smoothing filter. The size of this image is valid
-  //  only after the \code{Update()} methods of this filter has been called
+  //  only after the \code{Update()} method of this filter has been called
   //  directly or indirectly.
   //
   //  Software Guide : EndLatex

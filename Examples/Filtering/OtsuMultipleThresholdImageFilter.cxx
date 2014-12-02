@@ -22,7 +22,9 @@
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
+//
 // This example illustrates how to use the \doxygen{OtsuMultipleThresholdsCalculator}.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -61,7 +63,7 @@ int main( int argc, char * argv[] )
   // OtsuMultipleThresholdsCalculator calculates thresholds for a given
   // histogram so as to maximize the between-class variance. We use
   // ScalarImageToHistogramGenerator to generate histograms. The histogram type
-  // defined by the generator is then used for instantiating the type of the
+  // defined by the generator is then used to instantiate the type of the
   // Otsu threshold calculator.
   //
   // Software Guide : EndLatex
@@ -121,8 +123,11 @@ int main( int argc, char * argv[] )
   reader->SetFileName( argv[1] );
 
   // Software Guide : BeginLatex
+  //
   // The pipeline will look as follows:
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   scalarImageToHistogramGenerator->SetInput( reader->GetOutput() );
   calculator->SetInputHistogram(
@@ -153,10 +158,14 @@ int main( int argc, char * argv[] )
     }
 
   // Software Guide : BeginLatex
+  //
   // Thresholds are obtained using the \code{GetOutput} method
   // \index{itk::OtsuMultipleThresholdsCalculator!GetOutput()}
+  //
   // Software Guide : EndLatex
+
   //Get Thresholds
+
   // Software Guide : BeginCodeSnippet
   const CalculatorType::OutputType &thresholdVector = calculator->GetOutput();
   CalculatorType::OutputType::const_iterator itNum = thresholdVector.begin();
@@ -201,9 +210,7 @@ int main( int argc, char * argv[] )
       {
       std::cerr << "Exception thrown " << excp << std::endl;
       }
-    // Software Guide : BeginCodeSnippet
     }
-  // Software Guide : EndCodeSnippet
 
   // Also write out the image thresholded between the upper threshold and
   // the max intensity.
