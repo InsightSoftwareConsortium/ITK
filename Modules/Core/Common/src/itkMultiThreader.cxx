@@ -59,24 +59,39 @@ void MultiThreader::SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseTh
 
 bool MultiThreader::GetGlobalDefaultUseThreadPool( )
   {
-  if( ! GlobalDefaultUseThreadPoolIsInitialized )
+  // This method must be concurrent thread safe
+
+  if( !GlobalDefaultUseThreadPoolIsInitialized )
     {
-    //
-    // look for runtime request to use thread pool
-    std::string use_threadpool;
-    if( itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL",use_threadpool) )
+
+    MutexLockHolder< SimpleFastMutexLock > lock(globalDefaultInitializerLock);
+
+    // After we have the lock, double check the initialization
+    // flag to ensure it hasn't been changed by another thread.
+
+    if (!GlobalDefaultUseThreadPoolIsInitialized )
       {
-      MutexLockHolder< SimpleFastMutexLock > lock(globalDefaultInitializerLock);
-      use_threadpool = itksys::SystemTools::UpperCase(use_threadpool);
-      //NOTE: GlobalDefaultUseThreadPoolIsInitialized=true after this call
-      if(use_threadpool != "NO" && use_threadpool != "OFF" && use_threadpool != "FALSE")
+      // look for runtime request to use thread pool
+      std::string use_threadpool;
+
+      if( itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL",use_threadpool) )
         {
-        MultiThreader::SetGlobalDefaultUseThreadPool( true );
+
+        use_threadpool = itksys::SystemTools::UpperCase(use_threadpool);
+
+        // NOTE: GlobalDefaultUseThreadPoolIsInitialized=true after this call
+        if(use_threadpool != "NO" && use_threadpool != "OFF" && use_threadpool != "FALSE")
+          {
+          MultiThreader::SetGlobalDefaultUseThreadPool( true );
+          }
+        else
+          {
+          MultiThreader::SetGlobalDefaultUseThreadPool( false );
+          }
         }
-      else
-        {
-        MultiThreader::SetGlobalDefaultUseThreadPool( false );
-        }
+
+      // always set that we are initialized
+      GlobalDefaultUseThreadPoolIsInitialized=true;
       }
     }
   return m_GlobalDefaultUseThreadPool;
@@ -221,7 +236,9 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
 // ThreadInfoArray is static, the ThreadIDs can be initialized here
 // and will not change.
 
-MultiThreader::MultiThreader() : m_ThreadPool(ThreadPool::GetInstance() ), m_UseThreadPool(false)
+MultiThreader::MultiThreader() :
+  m_ThreadPool(ThreadPool::GetInstance() ),
+  m_UseThreadPool( MultiThreader::GetGlobalDefaultUseThreadPool() )
 {
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
@@ -241,7 +258,6 @@ MultiThreader::MultiThreader() : m_ThreadPool(ThreadPool::GetInstance() ), m_Use
   m_SingleData = ITK_NULLPTR;
   m_NumberOfThreads = this->GetGlobalDefaultNumberOfThreads();
 
-  this->SetUseThreadPool( MultiThreader::GetGlobalDefaultUseThreadPool() );
 }
 
 MultiThreader::~MultiThreader()
