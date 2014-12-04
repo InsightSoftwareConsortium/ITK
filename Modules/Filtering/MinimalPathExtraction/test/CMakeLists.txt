@@ -21,21 +21,21 @@ createtestdriver( MinimalPathExtraction "${MinimalPathExtraction-Test_LIBRARIES}
 #Add tests for the source images
 #Noise-01
 add_test(
-  NAME Noise_01_NeighborhoodIterate
+  NAME MinimalPathExtraction_Noise_01_NeighborhoodIterate
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_IterateNeighborhood_2D
     ${TESTING_OUTPUT_PATH}/Noise-01-IterateNeighborhood.png
     ${DATA_DIR}/Noise-01-Speed.mhd ${DATA_DIR}/Noise-01.path 1.0 1.0
 )
 add_test(
-  NAME Noise_01_GradientDescent
+  NAME MinimalPathExtraction_Noise_01_GradientDescent
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_GradientDescent_2D
     ${TESTING_OUTPUT_PATH}/Noise-01-GradientDescent.png
     ${DATA_DIR}/Noise-01-Speed.mhd ${DATA_DIR}/Noise-01.path 1.0 1000
 )
 add_test(
-  NAME Noise_01_RegularStepGradientDescent
+  NAME MinimalPathExtraction_Noise_01_RegularStepGradientDescent
   COMMAND
     MinimalPathExtractionTestDriver
     Test_SpeedToPath_RegularStepGradientDescent_2D
@@ -44,21 +44,21 @@ add_test(
 )
 #Synthetic-01
 add_test(
-  NAME Synthetic_01_NeighborhoodIterate
+  NAME MinimalPathExtraction_Synthetic_01_NeighborhoodIterate
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_IterateNeighborhood_2D
     ${TESTING_OUTPUT_PATH}/Synthetic-01-IterateNeighborhood.png
     ${DATA_DIR}/Synthetic-01-Speed.mhd ${DATA_DIR}/Synthetic-01.path 1.0 1.0
 )
 add_test(
-  NAME Synthetic_01_GradientDescent
+  NAME MinimalPathExtraction_Synthetic_01_GradientDescent
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_GradientDescent_2D
     ${TESTING_OUTPUT_PATH}/Synthetic-01-GradientDescent.png
     ${DATA_DIR}/Synthetic-01-Speed.mhd ${DATA_DIR}/Synthetic-01.path 1.0 1000
 )
 add_test(
-  NAME Synthetic_01_RegularStepGradientDescent
+  NAME MinimalPathExtraction_Synthetic_01_RegularStepGradientDescent
   COMMAND
     MinimalPathExtractionTestDriver
     Test_SpeedToPath_RegularStepGradientDescent_2D
@@ -68,21 +68,21 @@ add_test(
 )
 #Synthetic-02
 add_test(
-  NAME Synthetic_02_NeighborhoodIterate
+  NAME MinimalPathExtraction_Synthetic_02_NeighborhoodIterate
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_IterateNeighborhood_2D
     ${TESTING_OUTPUT_PATH}/Synthetic-02-IterateNeighborhood.png
     ${DATA_DIR}/Synthetic-02-Speed.mhd ${DATA_DIR}/Synthetic-02.path 1.0 1.0
 )
 add_test(
-  NAME Synthetic_02_GradientDescent
+  NAME MinimalPathExtraction_Synthetic_02_GradientDescent
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_GradientDescent_2D
     ${TESTING_OUTPUT_PATH}/Synthetic-02-GradientDescent.png
     ${DATA_DIR}/Synthetic-02-Speed.mhd ${DATA_DIR}/Synthetic-02.path 1.0 3000
 )
 add_test(
-  NAME Synthetic_02_RegularStepGradientDescent
+  NAME MinimalPathExtraction_Synthetic_02_RegularStepGradientDescent
   COMMAND
     MinimalPathExtractionTestDriver
     Test_SpeedToPath_RegularStepGradientDescent_2D
@@ -92,7 +92,7 @@ add_test(
 )
 #Synthetic-03
 add_test(
-  NAME Synthetic_03_NeighborhoodIterate
+  NAME MinimalPathExtraction_Synthetic_03_NeighborhoodIterate
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_IterateNeighborhood_2D
     ${TESTING_OUTPUT_PATH}/Synthetic-03-IterateNeighborhood.png
@@ -100,21 +100,21 @@ add_test(
 )
 #Synthetic-04
 add_test(
-  NAME Synthetic_04_NeighborhoodIterate
+  NAME MinimalPathExtraction_Synthetic_04_NeighborhoodIterate
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_IterateNeighborhood_3D
     ${TESTING_OUTPUT_PATH}/Synthetic-04-IterateNeighborhood.mhd
     ${DATA_DIR}/Synthetic-04-Speed.mhd ${DATA_DIR}/Synthetic-04.path 1.0 1.0
 )
 add_test(
-  NAME Synthetic_04_GradientDescent
+  NAME MinimalPathExtraction_Synthetic_04_GradientDescent
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_GradientDescent_3D
     ${TESTING_OUTPUT_PATH}/Synthetic-04-GradientDescent.mhd
     ${DATA_DIR}/Synthetic-04-Speed.mhd ${DATA_DIR}/Synthetic-04.path 1.0 3000
 )
 add_test(
-  NAME Synthetic_04_RegularStepGradientDescent
+  NAME MinimalPathExtraction_Synthetic_04_RegularStepGradientDescent
   COMMAND
     MinimalPathExtractionTestDriver
     Test_SpeedToPath_RegularStepGradientDescent_3D
@@ -124,14 +124,14 @@ add_test(
 )
 #Real-DSA-01-01
 add_test(
-  NAME Real_DSA_01_01_NeighborhoodIterate
+  NAME MinimalPathExtraction_Real_DSA_01_01_NeighborhoodIterate
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_IterateNeighborhood_2D
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-01-IterateNeighborhood.png
     ${DATA_DIR}/Real-DSA-01-Speed-01.mhd ${DATA_DIR}/Real-DSA-01.path 1.0 0.05
 )
 add_test(
-  NAME Real_DSA_01_01_RegularStepGradientDescent
+  NAME MinimalPathExtraction_Real_DSA_01_01_RegularStepGradientDescent
   COMMAND
     MinimalPathExtractionTestDriver
     Test_SpeedToPath_RegularStepGradientDescent_2D
@@ -141,14 +141,14 @@ add_test(
 )
 #Real-DSA-01-02
 add_test(
-  NAME Real_DSA_01_02_NeighborhoodIterate
+  NAME MinimalPathExtraction_Real_DSA_01_02_NeighborhoodIterate
   COMMAND
     MinimalPathExtractionTestDriver Test_SpeedToPath_IterateNeighborhood_2D
     ${TESTING_OUTPUT_PATH}/Real-DSA-01-02-IterateNeighborhood.png
     ${DATA_DIR}/Real-DSA-01-Speed-02.mhd ${DATA_DIR}/Real-DSA-01.path 1.0 0.05
 )
 add_test(
-  NAME Real_DSA_01_02_RegularStepGradientDescent
+  NAME MinimalPathExtraction_Real_DSA_01_02_RegularStepGradientDescent
   COMMAND
     MinimalPathExtractionTestDriver
     Test_SpeedToPath_RegularStepGradientDescent_2D
