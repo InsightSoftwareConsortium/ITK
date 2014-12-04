@@ -57,6 +57,8 @@ namespace itk
  *
  * \sa itkArrivalFunctionToPathFilter
  * \ingroup ImageToPathFilters
+ *
+ * \ingroup MinimalPathExtraction
  */
 template <class TInputImage, class TOutputPath = PolyLineParametricPath<TInputImage::ImageDimension>>
 class ITK_EXPORT SpeedFunctionToPathFilter : public ArrivalFunctionToPathFilter<TInputImage, TOutputPath>

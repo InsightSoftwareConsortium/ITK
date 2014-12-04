@@ -45,6 +45,8 @@ namespace itk
  * \author Dan Mueller, Queensland University of Technology, dan.muel[at]gmail.com
  *
  * \ingroup Numerics Optimizers
+ *
+ * \ingroup MinimalPathExtraction
  */
 template <class TImage>
 class ITK_EXPORT SingleImageCostFunction : public SingleValuedCostFunction

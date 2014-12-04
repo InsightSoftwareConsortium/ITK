@@ -35,6 +35,8 @@ namespace itk
  * \author Dan Mueller, Queensland University of Technology, dan.muel[at]gmail.com
  *
  * \ingroup ImageFunctions
+ *
+ * \ingroup MinimalPathExtraction
  */
 template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT PhysicalCentralDifferenceImageFunction

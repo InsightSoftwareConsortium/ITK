@@ -32,6 +32,8 @@ namespace itk
  * the Neighborhood size, and optionally the connectivity.
  *
  * \ingroup Numerics Optimizers
+ *
+ * \ingroup MinimalPathExtraction
  */
 class IterateNeighborhoodOptimizer : public SingleValuedNonLinearOptimizer
 {
