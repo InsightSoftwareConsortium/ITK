@@ -68,7 +68,7 @@ PhysicalPointImageSource< TOutputImage >
 
     for( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
       {
-      px[i] = pt[i];
+      px[i] = static_cast<typename PixelType::ValueType> (pt[i]);
       }
     it.Set( px );
     progress.CompletedPixel();

@@ -861,11 +861,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                                        << "]: " << m_ThreadData[threadNum].maxNorm[ic] );
         if (m_ThreadData[threadNum].minNorm[ic] < m_ImageMin[ic])
           {
-          m_ImageMin[ic] = m_ThreadData[threadNum].minNorm[ic];
+          m_ImageMin[ic] = static_cast<PixelValueType> (m_ThreadData[threadNum].minNorm[ic]);
           }
         if (m_ThreadData[threadNum].maxNorm[ic] > m_ImageMax[ic])
           {
-          m_ImageMax[ic] = m_ThreadData[threadNum].maxNorm[ic];
+          m_ImageMax[ic] = static_cast<PixelValueType> (m_ThreadData[threadNum].maxNorm[ic]);
           }
         }
       }
