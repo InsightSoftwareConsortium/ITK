@@ -6,6 +6,7 @@ FDF image format."
 
 itk_module(
   ITKIOFDF
+  ENABLE_SHARED
   DEPENDS
     ITKNIFTI
     ITKIOImageBase

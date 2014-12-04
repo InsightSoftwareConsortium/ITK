@@ -42,4 +42,21 @@ FDFImageIOFactory::GetDescription() const
   return "FDF ImageIO Factory, allows the loading of Varian FDF images into Insight";
 }
 
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool FDFImageIOFactoryHasBeenRegistered;
+
+void ITKIOFDF_EXPORT
+FDFImageIOFactoryRegister__Private(void)
+{
+  if (!FDFImageIOFactoryHasBeenRegistered)
+  {
+    FDFImageIOFactoryHasBeenRegistered = true;
+    FDFImageIOFactory::RegisterOneFactory();
+  }
+}
+
+
 } // end namespace itk

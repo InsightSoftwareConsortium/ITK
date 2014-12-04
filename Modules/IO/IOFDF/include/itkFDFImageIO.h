@@ -17,7 +17,7 @@
 
 #ifndef __itkFDFImageIO_h
 #define __itkFDFImageIO_h
-
+#include "ITKIOFDFExport.h"
 #include "itkImageIOBase.h"
 
 namespace itk
@@ -28,7 +28,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITK_EXPORT FDFImageIO : public ImageIOBase
+class ITKIOFDF_EXPORT FDFImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
