@@ -1,10 +1,10 @@
 itk_module_test()
 
 #Set output path
-set(TESTING_OUTPUT_PATH "${MinimalPath_BINARY_DIR}/Testing/Temporary")
+set(TESTING_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/Output")
 make_directory(${TESTING_OUTPUT_PATH})
 
-set(DATA_DIR ${CMAKE_SOURCE_DIR}/data)
+set(DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data)
 
 set(
   _test
