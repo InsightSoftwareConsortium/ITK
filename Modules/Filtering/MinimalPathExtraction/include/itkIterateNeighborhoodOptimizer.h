@@ -33,7 +33,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-class ITK_EXPORT IterateNeighborhoodOptimizer : public SingleValuedNonLinearOptimizer
+class IterateNeighborhoodOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard class typedefs. */
@@ -133,9 +133,5 @@ private:
 };
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkIterateNeighborhoodOptimizer.hxx"
-#endif
 
 #endif

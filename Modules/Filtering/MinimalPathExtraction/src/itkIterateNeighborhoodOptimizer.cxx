@@ -14,8 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkIterateNeighborhoodOptimizer_txx
-#define _itkIterateNeighborhoodOptimizer_txx
 
 #include "itkIterateNeighborhoodOptimizer.h"
 #include "itkCommand.h"
@@ -220,5 +218,3 @@ IterateNeighborhoodOptimizer ::AdvanceOneStep(void)
 }
 
 } // end namespace itk
-
-#endif
