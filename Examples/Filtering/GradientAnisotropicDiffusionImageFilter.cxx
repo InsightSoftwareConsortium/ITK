@@ -19,7 +19,7 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {GradientAnisotropicDiffusionImageFilterOutput.png}
-//    ARGUMENTS:    5 0.25 3
+//    ARGUMENTS:    15 0.1 3
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginLatex
 //
