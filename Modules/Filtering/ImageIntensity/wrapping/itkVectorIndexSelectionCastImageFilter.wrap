@@ -1,36 +1,47 @@
 itk_wrap_class("itk::VectorIndexSelectionCastImageFilter" POINTER_WITH_SUPERCLASS)
 
-  # begin with VectorImages
+  # Begin with VectorImages
   UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${to_types})
       itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
-    endforeach(t)
-  endforeach(d)
+    endforeach()
+  endforeach()
 
-  # continue with vector and rgb pixel types
+  # RGB
   if(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
     itk_wrap_image_filter_types(RGBUS US)
-  endif(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
+  endif()
 
   if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
     itk_wrap_image_filter_types(RGBUC UC)
-  endif(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
+  endif()
 
+  # RGBA
+  if(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
+    itk_wrap_image_filter_types(RGBAUS US)
+  endif()
+
+  if(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
+    itk_wrap_image_filter_types(RGBAUC UC)
+  endif()
+
+  # Vector
   if(ITK_WRAP_vector_double AND ITK_WRAP_double)
     itk_wrap_image_filter_types(VD D)
-  endif(ITK_WRAP_vector_double AND ITK_WRAP_double)
+  endif()
 
   if(ITK_WRAP_vector_float AND ITK_WRAP_float)
     itk_wrap_image_filter_types(VF F)
-  endif(ITK_WRAP_vector_float AND ITK_WRAP_float)
+  endif()
 
-  # Wrap RGBA image types
-  if(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
-    itk_wrap_image_filter_types(RGBAUS US)
-  endif(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
-  if(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
-    itk_wrap_image_filter_types(RGBAUC UC)
-  endif(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
+  # Covariant vector
+  if(ITK_WRAP_covariant_vector_double AND ITK_WRAP_double)
+    itk_wrap_image_filter_types(CVD D)
+  endif()
+
+  if(ITK_WRAP_covariant_vector_float AND ITK_WRAP_float)
+    itk_wrap_image_filter_types(CVF F)
+  endif()
 
 itk_end_wrap_class()
