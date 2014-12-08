@@ -33,7 +33,7 @@ namespace itk
  * faces could be subdivided depending on their surrounding (to maintain
  * surface genus).
  *
- * \ingroup ITKQuadEdgeMeshFiltering
+ * \ingroup itkSubdivisionQuadEdgeMeshFilter
  */
 template <typename TInputMesh, typename TOutputMesh>
 class TriangleCellSubdivisionQuadEdgeMeshFilter : public SubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>

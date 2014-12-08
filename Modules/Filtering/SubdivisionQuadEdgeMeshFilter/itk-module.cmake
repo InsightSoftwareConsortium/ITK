@@ -6,9 +6,10 @@ http://www.insight-journal.org/browse/publication/831
 )
 
 itk_module(
-  MinimalPathExtraction
+  itkSubdivisionQuadEdgeMeshFilter
   DEPENDS
     ITKQuadEdgeMesh
+    ITKQuadEdgeMeshFiltering
   TEST_DEPENDS
     ITKTestKernel
     ITKIOMesh

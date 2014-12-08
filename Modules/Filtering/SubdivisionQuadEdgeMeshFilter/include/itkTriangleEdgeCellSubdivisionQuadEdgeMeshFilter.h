@@ -27,7 +27,7 @@ namespace itk
  * \class TriangleEdgeCellSubdivisionQuadEdgeMeshFilter
  *
  * \brief FIXME
- * \ingroup ITKQuadEdgeMeshFiltering
+ * \ingroup itkSubdivisionQuadEdgeMeshFilter
  */
 template <typename TInputMesh, typename TOutputMesh>
 class TriangleEdgeCellSubdivisionQuadEdgeMeshFilter

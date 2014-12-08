@@ -30,7 +30,7 @@ namespace itk
  *
  * Each triangle is split into 4 new triangles.
  *
- * \ingroup ITKQuadEdgeMeshFiltering
+ * \ingroup itkSubdivisionQuadEdgeMeshFilter
  */
 template <typename TInputMesh, typename TOutputMesh>
 class LinearTriangleCellSubdivisionQuadEdgeMeshFilter

@@ -30,7 +30,7 @@ namespace itk
 /**
  *\class CellAreaTriangleCellSubdivisionCriterion
  *\brief
- *\ingroup ITKQuadEdgeMeshFiltering
+ *\ingroup itkSubdivisionQuadEdgeMeshFilter
  */
 template <typename TSubdivisionFilter>
 class CellAreaTriangleCellSubdivisionCriterion : public QuadEdgeMeshSubdivisionCriterion<TSubdivisionFilter>

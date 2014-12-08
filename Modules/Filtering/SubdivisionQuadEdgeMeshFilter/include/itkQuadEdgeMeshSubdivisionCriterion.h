@@ -26,7 +26,7 @@ namespace itk
 /**
  *\class QuadEdgeMeshSubdivisionCriterion
  *\brief
- *\ingroup ITKQuadEdgeMeshFiltering
+ *\ingroup itkSubdivisionQuadEdgeMeshFilter
  */
 template <typename TCellSubdivisionFilter>
 class ITK_EXPORT QuadEdgeMeshSubdivisionCriterion : public Object

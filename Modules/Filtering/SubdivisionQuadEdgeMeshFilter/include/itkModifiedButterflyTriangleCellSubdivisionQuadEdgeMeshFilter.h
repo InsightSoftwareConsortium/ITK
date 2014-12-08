@@ -33,7 +33,7 @@ namespace itk
  * NV_k = \frac{1}{2} \sum_{i=1}{2} U_k^i + \frac{1}{8} \sum_{i=1}^{2} V_k^i - \frac{1}{16} \sum_{i=1}{4} W_k^i
  * \f]
  *
- * \ingroup ITKQuadEdgeMeshFiltering
+ * \ingroup itkSubdivisionQuadEdgeMeshFilter
  */
 template <typename TInputMesh, typename TOutputMesh>
 class ModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter
