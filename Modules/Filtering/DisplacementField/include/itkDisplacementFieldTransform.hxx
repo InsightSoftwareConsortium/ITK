@@ -404,7 +404,7 @@ void DisplacementFieldTransform<TScalar, NDimensions>
      * to know when the displacement field object has changed, not just
      * its contents. */
     this->m_DisplacementFieldSetTime = this->GetMTime();
-    if( !this->m_Interpolator.IsNull() )
+    if( !this->m_Interpolator.IsNull() && !this->m_DisplacementField.IsNull() )
       {
       this->m_Interpolator->SetInputImage( this->m_DisplacementField );
       }
@@ -426,7 +426,7 @@ void DisplacementFieldTransform<TScalar, NDimensions>
       {
       this->VerifyFixedParametersInformation();
       }
-    if( !this->m_InverseInterpolator.IsNull() )
+    if( !this->m_InverseInterpolator.IsNull() && !this->m_InverseDisplacementField.IsNull() )
       {
       this->m_InverseInterpolator->SetInputImage( this->m_InverseDisplacementField );
       }
@@ -515,7 +515,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
     {
     this->m_Interpolator = interpolator;
     this->Modified();
-    if( !this->m_DisplacementField.IsNull() )
+    if( !this->m_DisplacementField.IsNull() && !this->m_Interpolator.IsNull() )
       {
       this->m_Interpolator->SetInputImage( this->m_DisplacementField );
       }
@@ -532,7 +532,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
     {
     this->m_InverseInterpolator = interpolator;
     this->Modified();
-    if( !this->m_InverseDisplacementField.IsNull() )
+    if( !this->m_InverseDisplacementField.IsNull() && !this->m_InverseInterpolator.IsNull() )
       {
       this->m_InverseInterpolator->SetInputImage( this->m_InverseDisplacementField );
       }
@@ -609,6 +609,12 @@ DisplacementFieldTransform<TScalar, NDimensions>
 ::SetFixedParametersFromDisplacementField() const
   {
   this->m_FixedParameters.SetSize( NDimensions * ( NDimensions + 3 ) );
+
+  if ( this->m_DisplacementField.IsNull() )
+    {
+    this->m_FixedParameters.Fill( 0.0 );
+    return;
+    }
 
   const typename DisplacementFieldType::RegionType & fieldRegion =
     this->m_DisplacementField->GetLargestPossibleRegion();
