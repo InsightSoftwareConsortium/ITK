@@ -51,7 +51,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// First we declare the types of the images.
+// First we declare the types of the images, the 3D and 4D readers.
 //
 // Software Guide : EndLatex
 
@@ -63,6 +63,7 @@ int main( int argc, char *argv[] )
 
   typedef itk::ImageFileReader< Image4DType > Reader4DType;
   typedef itk::ImageFileWriter< Image3DType > Writer3DType;
+// Software Guide : EndCodeSnippet
 
   Reader4DType::Pointer reader4D = Reader4DType::New();
   reader4D->SetFileName( argv[1] );
@@ -80,6 +81,13 @@ int main( int argc, char *argv[] )
 
   Image4DType::ConstPointer image4D = reader4D->GetOutput();
 
+// Software Guide : BeginLatex
+//
+// Next, define the necessary types for indices, points, spacings, and size.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   Image3DType::Pointer image3D = Image3DType::New();
   typedef Image3DType::IndexType    Index3DType;
   typedef Image3DType::SizeType     Size3DType;
@@ -91,6 +99,7 @@ int main( int argc, char *argv[] )
   typedef Image4DType::SizeType     Size4DType;
   typedef Image4DType::SpacingType  Spacing4DType;
   typedef Image4DType::PointType    Origin4DType;
+// Software Guide : EndCodeSnippet
 
   Index3DType       index3D;
   Size3DType        size3D;
@@ -104,6 +113,14 @@ int main( int argc, char *argv[] )
   Spacing4DType     spacing4D = image4D->GetSpacing();
   Origin4DType      origin4D  = image4D->GetOrigin();
 
+// Software Guide : BeginLatex
+//
+// Here we make sure that the values for our resultant 3D mean image
+// match up with the input 4D image.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   for( unsigned int i=0; i < 3; i++)
     {
     size3D[i]    = size4D[i];
@@ -121,7 +138,7 @@ int main( int argc, char *argv[] )
 
   image3D->SetRegions( region3D  );
   image3D->Allocate();
-
+// Software Guide : EndCodeSnippet
 
   typedef itk::NumericTraits< PixelType >::AccumulateType    SumType;
   typedef itk::NumericTraits< SumType   >::RealType          MeanType;
@@ -131,6 +148,14 @@ int main( int argc, char *argv[] )
   typedef itk::ImageLinearConstIteratorWithIndex<
                                   Image4DType > IteratorType;
 
+// Software Guide : BeginLatex
+//
+// Next we iterate over time in the input image series, compute the average,
+// and store that value in the corresponding pixel of the output 3D image.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   IteratorType it( image4D, region4D );
   it.SetDirection( 3 ); // Walk along time dimension
   it.GoToBegin();
@@ -154,9 +179,8 @@ int main( int argc, char *argv[] )
     image3D->SetPixel( index3D, static_cast< PixelType >( mean ) );
     it.NextLine();
     }
+// Software Guide : EndCodeSnippet
 
-
-  // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
@@ -164,10 +188,10 @@ int main( int argc, char *argv[] )
   // over the mean image. The reason is that there is no
   // guarantee that the 3D iterator will walk in the same
   // order as the 4D. Iterators just adhere to their contract
-  // of visiting all the pixel, but do not enforce any particular
-  // order for the visits.  The linear iterator guarantees to
+  // of visiting every pixel, but do not enforce any particular
+  // order for the visits.  The linear iterator guarantees it will
   // visit the pixels along a line of the image in the order
-  // in which they are placed in the line, but do not states
+  // in which they are placed in the line, but does not state
   // in what order one line will be visited with respect to
   // other lines.  Here we simply take advantage of knowing
   // the first three components of the 4D iterator index,
