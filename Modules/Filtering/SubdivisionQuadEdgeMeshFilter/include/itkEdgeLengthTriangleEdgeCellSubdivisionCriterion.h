@@ -29,7 +29,7 @@ namespace itk
 /**
  *\class EdgeLengthTriangleEdgeCellSubdivisionCriterion
  *\brief
- *\ingroup itkSubdivisionQuadEdgeMeshFilter
+ *\ingroup SubdivisionQuadEdgeMeshFilter
  */
 template <typename TSubdivisionFilter>
 class EdgeLengthTriangleEdgeCellSubdivisionCriterion : public QuadEdgeMeshSubdivisionCriterion<TSubdivisionFilter>

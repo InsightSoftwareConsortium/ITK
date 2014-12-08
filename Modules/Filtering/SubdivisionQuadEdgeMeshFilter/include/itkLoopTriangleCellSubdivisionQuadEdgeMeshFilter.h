@@ -49,7 +49,7 @@ namespace itk
  * \right)\right) \right)
  * \f]
  *
- * \ingroup itkSubdivisionQuadEdgeMeshFilter
+ * \ingroup SubdivisionQuadEdgeMeshFilter
  */
 template <typename TInputMesh, typename TOutputMesh>
 class LoopTriangleCellSubdivisionQuadEdgeMeshFilter

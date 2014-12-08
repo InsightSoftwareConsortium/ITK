@@ -6,7 +6,7 @@ http://www.insight-journal.org/browse/publication/831
 )
 
 itk_module(
-  itkSubdivisionQuadEdgeMeshFilter
+  SubdivisionQuadEdgeMeshFilter
   DEPENDS
     ITKQuadEdgeMesh
     ITKQuadEdgeMeshFiltering

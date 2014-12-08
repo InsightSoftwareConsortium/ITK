@@ -29,7 +29,7 @@ namespace itk
  * \class ConditionalSubdivisionQuadEdgeMeshFilter
  *
  * \brief FIXME
- * \ingroup itkSubdivisionQuadEdgeMeshFilter
+ * \ingroup SubdivisionQuadEdgeMeshFilter
  */
 template <typename TInputMesh, typename TSubdivisionFilter>
 class ConditionalSubdivisionQuadEdgeMeshFilter

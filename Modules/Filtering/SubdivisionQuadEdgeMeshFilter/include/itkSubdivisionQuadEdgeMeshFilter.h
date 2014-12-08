@@ -34,7 +34,7 @@ namespace itk
  * Wanlin Zhu, Triangle Mesh Subdivision
  * http://hdl.handle.net/10380/3307
  *
- * \ingroup itkSubdivisionQuadEdgeMeshFilter
+ * \ingroup SubdivisionQuadEdgeMeshFilter
  */
 template <typename TInputMesh, typename TOutputMesh>
 class SubdivisionQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
