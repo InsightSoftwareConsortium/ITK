@@ -62,6 +62,8 @@
 //  Software Guide : BeginLatex
 //
 //  The first step required to use this filter is to include its header file.
+//  As with other examples, the includes here are truncated to those specific
+//  for this example.\newline
 //
 //  \index{itk::DiscreteGaussianImageFilter!header}
 //

@@ -84,6 +84,13 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
+//  Software Guide : BeginLatex
+//
+//  First, we define the necessary types for the fixed and moving images
+//  and image readers.
+//
+//  Software Guide: EndLatex
+
 // Software Guide : BeginCodeSnippet
   const     unsigned int   ImageDimension = 2;
 
@@ -95,7 +102,7 @@ int main( int argc, char * argv[] )
   typedef   itk::ImageFileReader< MovingImageType >  MovingReaderType;
 
   typedef   itk::ImageFileWriter< MovingImageType >  MovingWriterType;
-
+// Software Guide : EndCodeSnippet
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[2] );
@@ -134,6 +141,14 @@ int main( int argc, char * argv[] )
 
   resampler->SetInterpolator( interpolator );
 
+//  Software Guide : BeginLatex
+//
+//  Use the values from the fixed image to set the corresponding values
+//  in the resampler.
+//
+//  Software Guide : EndLatex
+
+//  Software Guide : BeginCodeSnippet
   FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
   FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
   FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
@@ -168,7 +183,6 @@ int main( int argc, char * argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
@@ -179,11 +193,16 @@ int main( int argc, char * argv[] )
                             SplineOrder >     TransformType;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
-
 //  Software Guide : EndCodeSnippet
 
-// Software Guide : BeginCodeSnippet
+//  Software Guide : BeginLatex
+//
+//  Next, fill the parameters of the B-spline transform using values from
+//  the fixed image and mesh.
+//
+//  Software Guide : EndLatex
 
+// Software Guide : BeginCodeSnippet
   const unsigned int numberOfGridNodes = 7;
 
   TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
@@ -210,20 +229,19 @@ int main( int argc, char * argv[] )
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
   ParametersType parameters( numberOfParameters );
-
 //  Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
 //
-//  The B-spline grid should now be fed with coeficients at each node. Since
-//  this is a two dimensional grid, each node should receive two coefficients.
+//  The B-spline grid should now be fed with coefficients at each node. Since
+//  this is a two-dimensional grid, each node should receive two coefficients.
 //  Each coefficient pair is representing a displacement vector at this node.
 //  The coefficients can be passed to the B-spline in the form of an array where
 //  the first set of elements are the first component of the displacements for
-//  all the nodes, and the second set of elemets is formed by the second
+//  all the nodes, and the second set of elements is formed by the second
 //  component of the displacements for all the nodes.
 //
-//  In this example we read such displacements from a file, but for convinience
+//  In this example we read such displacements from a file, but for convenience
 //  we have written this file using the pairs of $(x,y)$ displacement for every
 //  node. The elements read from the file should therefore be reorganized when
 //  assigned to the elements of the array. We do this by storing all the odd
@@ -256,9 +274,7 @@ int main( int argc, char * argv[] )
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-
   bsplineTransform->SetParameters( parameters );
-
 //  Software Guide : EndCodeSnippet
 
    CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();

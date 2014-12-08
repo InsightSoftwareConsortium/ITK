@@ -23,6 +23,12 @@
 //
 // Software Guide : EndLatex
 
+// Software Guide : BeginLatex
+//
+// The first step is to include the relevant headers.
+//
+// Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
 #include "itkEuler3DTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
@@ -30,7 +36,7 @@
 #include "itkPointSetToPointSetRegistrationMethod.h"
 #include <iostream>
 #include <fstream>
-
+// Software Guide : EndCodeSnippet
 
 int main(int argc, char * argv[] )
 {
@@ -46,6 +52,13 @@ int main(int argc, char * argv[] )
 
   const unsigned int Dimension = 3;
 
+// Software Guide : BeginLatex
+//
+// First, define the necessary types for the moving and fixed point sets.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   typedef itk::PointSet< float, Dimension >   PointSetType;
 
   PointSetType::Pointer fixedPointSet  = PointSetType::New();
@@ -60,7 +73,7 @@ int main(int argc, char * argv[] )
 
   PointType fixedPoint;
   PointType movingPoint;
-
+// Software Guide : EndCodeSnippet
 
   // Read the file containing coordinates of fixed points.
   std::ifstream   fixedFile;
@@ -109,21 +122,29 @@ int main(int argc, char * argv[] )
     << movingPointSet->GetNumberOfPoints() << std::endl;
 
 
-//-----------------------------------------------------------
-// Set up  the Metric
-//-----------------------------------------------------------
+// Software Guide : BeginLatex
+//
+// After the points are read in from files, setup the metric to be used
+// later by the registration.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   typedef itk::EuclideanDistancePointMetric<
                                     PointSetType,
                                     PointSetType>
                                                     MetricType;
 
   MetricType::Pointer  metric = MetricType::New();
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Next, setup the tranform, optimizers, and registration.
+//
+// Software Guide : EndLatex
 
-//-----------------------------------------------------------
-// Set up a Transform
-//-----------------------------------------------------------
-
+// Software Guide : BeginCodeSnippet
   typedef itk::Euler3DTransform< double >      TransformType;
 
   TransformType::Pointer transform = TransformType::New();
@@ -143,10 +164,27 @@ int main(int argc, char * argv[] )
 
 
   RegistrationType::Pointer   registration  = RegistrationType::New();
+// Software Guide : EndCodeSnippet
 
-  // Scale the translation components of the Transform in the Optimizer
+// Software Guide : BeginLatex
+//
+// Scale the translation components of the Transform in the Optimizer
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Next, set the scales and ranges for translations and rotations in the
+// transform. Also, set the convergence criteria and number of iterations
+// to be used by the optimizer.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   const double translationScale = 1000.0;   // dynamic range of translations
   const double rotationScale    =    1.0;   // dynamic range of rotations
 
@@ -168,22 +206,34 @@ int main(int argc, char * argv[] )
   optimizer->SetValueTolerance( valueTolerance );
   optimizer->SetGradientTolerance( gradientTolerance );
   optimizer->SetEpsilonFunction( epsilonFunction );
+// Software Guide : EndCodeSnippet
 
-  // Start from an Identity transform (in a normal case, the user
-  // can probably provide a better guess than the identity...
+// Software Guide : BeginLatex
+//
+// Here we start with an identity transform, although the user will usually
+// be able to provide a better guess than this.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   transform->SetIdentity();
+// Software Guide : EndCodeSnippet
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-  //------------------------------------------------------
-  // Connect all the components required for Registration
-  //------------------------------------------------------
+// Software Guide : BeginLatex
+//
+// Connect all the components required for the registration.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetFixedPointSet( fixedPointSet );
   registration->SetMovingPointSet(   movingPointSet   );
-
+// Software Guide : EndCodeSnippet
 
   try
     {
@@ -196,10 +246,5 @@ int main(int argc, char * argv[] )
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
-
-// Software Guide : EndCodeSnippet
-
-
   return EXIT_SUCCESS;
-
 }
