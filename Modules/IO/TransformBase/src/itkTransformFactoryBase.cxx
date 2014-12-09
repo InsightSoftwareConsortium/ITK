@@ -18,6 +18,7 @@
 #include "itkTransformFactory.h"
 #include "itkVersion.h"
 
+#include "itkAzimuthElevationToCartesianTransform.h"
 #include "itkCenteredAffineTransform.h"
 #include "itkCenteredEuler3DTransform.h"
 #include "itkCenteredRigid2DTransform.h"
@@ -89,6 +90,8 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< AffineTransform< double, 7 > >::RegisterTransform ();
     TransformFactory< AffineTransform< double, 8 > >::RegisterTransform ();
     TransformFactory< AffineTransform< double, 9 > >::RegisterTransform ();
+
+    TransformFactory< AzimuthElevationToCartesianTransform< double, 3 > >::RegisterTransform ();
 
     TransformFactory< BSplineTransform< double, 2, 2 > >::RegisterTransform ();
     TransformFactory< BSplineTransform< double, 3, 3 > >::RegisterTransform ();
@@ -172,6 +175,8 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< AffineTransform< float, 7 > >::RegisterTransform ();
     TransformFactory< AffineTransform< float, 8 > >::RegisterTransform ();
     TransformFactory< AffineTransform< float, 9 > >::RegisterTransform ();
+
+    TransformFactory< AzimuthElevationToCartesianTransform< float, 3 > >::RegisterTransform ();
 
     TransformFactory< BSplineTransform< float, 2, 2 > >::RegisterTransform ();
     TransformFactory< BSplineTransform< float, 3, 3 > >::RegisterTransform ();
