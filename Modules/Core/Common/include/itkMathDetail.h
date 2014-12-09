@@ -49,7 +49,7 @@
 
 // For apple assume sse2 is on for all intel builds, check for 64 and 32
 // bit versions
-#if defined(__APPLE__) && defined( __SSE2__ )
+#if defined(__APPLE__) && defined( __SSE2__ ) && !defined( __GCCXML__ )
 
 #  if defined( __i386__ )
 #    undef  USE_SSE2_32IMPL
