@@ -21,11 +21,17 @@
 // This example illustrates how to perform Iterative Closest Point (ICP)
 // registration in ITK using a DistanceMap in order to increase the performance.
 // There is of course a trade-off between the time needed for computing the
-// DistanceMap and the time saving obtained by its repeated use during the
-// iterative computation of the point to point distances. It is then necessary
+// DistanceMap and the time saved by its repeated use during the
+// iterative computation of the point-to-point distances. It is then necessary
 // in practice to ponder both factors.
 //
 // \doxygen{EuclideanDistancePointMetric}.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginLatex
+//
+// The first step is to include the relevant headers.
 //
 // Software Guide : EndLatex
 
@@ -38,6 +44,7 @@
 #include "itkPointSetToImageFilter.h"
 #include <iostream>
 #include <fstream>
+// Software Guide : EndCodeSnippet
 
 int main(int argc, char * argv[] )
 {
@@ -53,6 +60,13 @@ int main(int argc, char * argv[] )
 
   const unsigned int Dimension = 2;
 
+// Software Guide : BeginLatex
+//
+// Next, define the necessary types for the fixed and moving point sets.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   typedef itk::PointSet< float, Dimension >   PointSetType;
 
   PointSetType::Pointer fixedPointSet  = PointSetType::New();
@@ -67,6 +81,7 @@ int main(int argc, char * argv[] )
 
   PointType fixedPoint;
   PointType movingPoint;
+// Software Guide : EndCodeSnippet
 
   // Read the file containing coordinates of fixed points.
   std::ifstream   fixedFile;
@@ -112,9 +127,13 @@ int main(int argc, char * argv[] )
   std::cout << "Number of moving Points = "
       << movingPointSet->GetNumberOfPoints() << std::endl;
 
-//-----------------------------------------------------------
-// Set up  the Metric
-//-----------------------------------------------------------
+// Software Guide : BeginLatex
+//
+// Setup the metric, transform, optimizers and registration in a manner
+// similar to the previous two examples.
+//
+// Software Guide : EndLatex
+
   typedef itk::EuclideanDistancePointMetric<
                                     PointSetType,
                                     PointSetType>
@@ -184,6 +203,14 @@ int main(int argc, char * argv[] )
   //  filter expects an image as input.
   //
   //-------------------------------------------------
+// Software Guide : BeginLatex
+//
+// In the preparation of the distance map, we first need to map the fixed
+// points into a binary image.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char,  Dimension >  BinaryImageType;
 
   typedef itk::PointSetToImageFilter<
@@ -200,7 +227,16 @@ int main(int argc, char * argv[] )
 
   BinaryImageType::PointType origin;
   origin.Fill( 0.0 );
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Continue to prepare the distance map, in order to accelerate the distance
+// computations.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   pointsToImageFilter->SetSpacing( spacing );
   pointsToImageFilter->SetOrigin( origin   );
   pointsToImageFilter->Update();
@@ -214,6 +250,8 @@ int main(int argc, char * argv[] )
   distanceFilter->SetInput( binaryImage );
   distanceFilter->Update();
   metric->SetDistanceMap( distanceFilter->GetOutput() );
+// Software Guide : EndCodeSnippet
+
   try
     {
     registration->Update();
@@ -225,8 +263,5 @@ int main(int argc, char * argv[] )
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
-
-// Software Guide : EndCodeSnippet
-
   return EXIT_SUCCESS;
 }

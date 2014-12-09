@@ -201,8 +201,9 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{OtsuThresholdImageFilterOutput}
-  // \itkcaption[OtsuThresholdImageFilter output]{Effect of the OtsuThresholdImageFilter on a slice from a MRI
-  // proton density image  of the brain.}
+  // \itkcaption[OtsuThresholdImageFilter output]{Effect of the
+  // OtsuThresholdImageFilter on a slice from a MRI proton density image  of
+  // the brain.}
   // \label{fig:OtsuThresholdImageFilterInputOutput}
   // \end{figure}
   //

@@ -538,7 +538,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations}
   // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations2}
-  // \includegraphics[width=0.6\textwidth]{ImageRegistration4TraceMetric}
+  // \includegraphics[width=0.6\textwidth,height=5cm]{ImageRegistration4TraceMetric}
   // \itkcaption[MattesMutualInformationImageToImageMetricv4 output plots]{Sequence
   // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration4TraceTranslations}

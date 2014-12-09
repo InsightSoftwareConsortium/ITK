@@ -93,7 +93,12 @@ int main( int argc, char * argv[] )
   InputImageType, OutputImageType >  FilterType;
   // Software Guide : EndCodeSnippet
 
-  //Create using static New() method
+  // Software Guide : BeginLatex
+  //
+  // Create a histogram generator and calculator using the standard
+  // \code{New()} method.
+  //
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ScalarImageToHistogramGeneratorType::Pointer scalarImageToHistogramGenerator
@@ -106,7 +111,12 @@ int main( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  //Set Properties
+  // Software Guide : BeginLatex
+  // Set the following properties for the histogram generator and the
+  // calculators, in this case grabbing the number of thresholds from
+  // the command line.
+  //
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   scalarImageToHistogramGenerator->SetNumberOfBins( 128 );
@@ -159,7 +169,7 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Thresholds are obtained using the \code{GetOutput} method
+  // Thresholds are obtained using the \code{GetOutput} method.
   // \index{itk::OtsuMultipleThresholdsCalculator!GetOutput()}
   //
   // Software Guide : EndLatex
@@ -171,7 +181,12 @@ int main( int argc, char * argv[] )
   CalculatorType::OutputType::const_iterator itNum = thresholdVector.begin();
   // Software Guide : EndCodeSnippet
 
-  //Threshold into separate segments and write out as binary images
+  // Software Guide : BeginLatex
+  //
+  // Threshold into separate segments and write out as binary images.
+  //
+  // Software Guide : EndLatex
+
   std::string outputFileBase = argv[2];
 
   InputPixelType lowerThreshold = 0;
@@ -212,11 +227,18 @@ int main( int argc, char * argv[] )
       }
     }
 
+  // Software Guide : BeginLatex
+  //
   // Also write out the image thresholded between the upper threshold and
   // the max intensity.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   upperThreshold = itk::NumericTraits<InputPixelType>::max();
   filter->SetLowerThreshold( lowerThreshold );
   filter->SetUpperThreshold( upperThreshold );
+  // Software Guide : EndCodeSnippet
 
   std::ostringstream outputFilename2;
   outputFilename2 << outputFileBase
