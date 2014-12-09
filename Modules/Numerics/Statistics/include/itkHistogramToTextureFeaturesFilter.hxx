@@ -22,6 +22,7 @@
 
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -114,7 +115,15 @@ HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
   MeasurementType haralickCorrelation = NumericTraits< MeasurementType >::ZeroValue();
 
   double pixelVarianceSquared = pixelVariance * pixelVariance;
-  double log2 = std::log(2.0);
+  // Variance is only used in correlation. If variance is 0, then
+  //   (index[0] - pixelMean) * (index[1] - pixelMean)
+  // should be zero as well. In this case, set the variance to 1. in
+  // order to avoid NaN correlation.
+  if( Math::FloatAlmostEqual( pixelVarianceSquared, 0.0, 4, 2*NumericTraits<double>::epsilon() ) )
+    {
+    pixelVarianceSquared = 1.;
+    }
+  const double log2 = std::log(2.0);
 
   typename RelativeFrequencyContainerType::const_iterator rFreqIterator =
     m_RelativeFrequencyContainer.begin();

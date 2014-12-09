@@ -22,6 +22,7 @@ itkMeanSampleFilterTest2.cxx
 itkMeanSampleFilterTest3.cxx
 itkHistogramTest.cxx
 itkHistogramToTextureFeaturesFilterTest.cxx
+itkHistogramToTextureFeaturesFilterNaNTest.cxx
 itkChiSquareDistributionTest.cxx
 itkCovarianceSampleFilterTest.cxx
 itkCovarianceSampleFilterTest2.cxx
@@ -230,6 +231,8 @@ itk_add_test(NAME itkHistogramTest
       COMMAND ITKStatisticsTestDriver itkHistogramTest)
 itk_add_test(NAME itkHistogramToTextureFeaturesFilterTest
       COMMAND ITKStatisticsTestDriver itkHistogramToTextureFeaturesFilterTest)
+itk_add_test(NAME itkHistogramToTextureFeaturesFilterNaNTest
+      COMMAND ITKStatisticsTestDriver itkHistogramToTextureFeaturesFilterNaNTest)
 itk_add_test(NAME itkChiSquareDistributionTest
       COMMAND ITKStatisticsTestDriver itkChiSquareDistributionTest)
 itk_add_test(NAME itkCovarianceSampleFilterTest
