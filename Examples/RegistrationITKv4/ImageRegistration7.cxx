@@ -468,7 +468,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceScale}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations}
   // \itkcaption[CenteredSimilarity2DTransform registration plots]{Plots of the Metric,
-  // rotation angle and translations during
+  // rotation angle, scale factor, and translations during
   // the registration using
   // Similarity2D transform.}
   // \label{fig:ImageRegistration7Plots}
@@ -476,9 +476,9 @@ int main( int argc, char *argv[] )
   //
   //  Figure \ref{fig:ImageRegistration7Plots} shows the plots of the main
   //  output parameters of the registration process. The metric values at every
-  //  iteration are shown on the top. The angle values are shown in the plot at
-  //  the left while the translation components of the registration are presented
-  //  in the plot on the right.
+  //  iteration are shown on the left. The rotation angle and scale factor values are
+  //  shown in the two center plots while the translation components of the registration
+  //  are presented in the plot on the right.
   //
   //  Software Guide : EndLatex
 

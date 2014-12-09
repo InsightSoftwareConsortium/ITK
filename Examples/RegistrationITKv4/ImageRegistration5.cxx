@@ -214,7 +214,7 @@ int main( int argc, char *argv[] )
   //  initial transform will be optimized directly. In this way the initial transform will be
   //  modified during the registration process, so it can be used as the final transform when
   //  the registration process is completed. This direct approach is conceptually close to
-  //  what was happening in the previous versions of ITK.
+  //  what was happening in ITKv3 registration.
   //
   //  Using this method is very simple and efficient when we have only one level of
   //  registration, which is the case in this example.

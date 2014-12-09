@@ -114,7 +114,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The types of each one of the components in the registration methods should
+  // The type of each registration component should
   // be instantiated first. We start by selecting the image
   // dimension and the types to be used for representing image pixels.
   //
@@ -237,12 +237,12 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::LinearInterpolateImageFunction<
-    FixedImageType,
-    double > FixedLinearInterpolatorType;
+                                        FixedImageType,
+                                        double > FixedLinearInterpolatorType;
 
   typedef itk::LinearInterpolateImageFunction<
-    MovingImageType,
-    double > MovingLinearInterpolatorType;
+                                        MovingImageType,
+                                        double > MovingLinearInterpolatorType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -293,7 +293,7 @@ int main( int argc, char *argv[] )
   //  Now the registration process should be initialized. ITKv4 registration
   //  framework provides initial transforms for both fixed and moving images.
   //  These transforms can be used to setup an initial known correction of the
-  //  misalignment.
+  //  misalignment between the virtual domain and fixed/moving image spaces.
   //  In this particular case, a translation transform is being used for
   //  initialization of the moving image space.
   //  The array of parameters for the initial moving transform is simply composed
@@ -338,11 +338,11 @@ int main( int argc, char *argv[] )
   //  domain. This domain defines the resolution at which the evaluation is performed,
   //  as well as the physical coordinate system.
   //
-  //  The virtual reference domain is taken from the "virtual image" buffered region, and
+  //  The virtual reference domain is taken from the ``virtual image'' buffered region, and
   //  the input images should be accessed from this reference space using the fixed and moving
   //  initial transforms.
   //
-  //  Note that the legacy intuitive registration framework can be considered as a special
+  //  The legacy intuitive registration framework can be considered as a special
   //  case where the virtual domain is the same as the fixed image domain. As this case
   //  practically happens in most of the real life applications, the virtual image is set
   //  to be the same as the fixed image by default. However, the user can define the virtual
@@ -350,15 +350,16 @@ int main( int argc, char *argv[] )
   //  or \code{SetVirtualDomainFromImage}.
   //
   //  In this example, like the most examples of this chapter, the virtual image is considered
-  //  the same as the fixed image. Hence, the registration process happens in the fixed image
-  //  physical domain, so the fixed initial transform would be only an identity transform (as
-  //  its default value) and can be skipped.
+  //  the same as the fixed image. Since the registration process happens in the fixed image
+  //  physical domain, the fixed initial transform maintains its default value of identity and
+  //  does not need to be set.
   //
-  //  However, since a ``Hello World!'' example should show all the basics, we have set
-  //  all the registration components explicity here.
+  //  However, a ``Hello World!'' example should show all the basics, so
+  //  all the registration components are explicity set here.
   //
-  //  In the next section of this chapter, you will get a better underestanding from behind
-  //  the scenes of the registration process.
+  //  In the next section of this chapter, you will get a better understanding
+  //  from behind the scenes of the registration process when the initial fixed
+  //  transform is not identity.
   //
   //  Software Guide : EndLatex
 
@@ -371,11 +372,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Also, notice that the above process shows only one way of initializing the registration
+  //  Note that the above process shows only one way of initializing the registration
   //  configuration. Another option is to initialize the output optimizable transform directly.
   //  In this approach, a transform object is created, initialized, and then passed to
-  //  the registration method via \code{SetTransform()}. This approach is shown in later examples
-  //  of this chapter.
+  //  the registration method via \code{SetInitialTransform()}. This approach is shown in
+  //  section~\ref{sec:RigidRegistrationIn2D}.
   //
   //  At this point the registration method is ready for execution. The
   //  optimizer is the component that drives the execution of the
@@ -471,12 +472,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  ITKv4 allows for a multistage registration framework whereby each stage is
+  //  ITKv4 facilitates a multi-level registration framework whereby each stage is
   //  different in the resolution of its virtual space and the smoothness of the
   //  fixed and moving images.
   //  These criteria need to be defined before registration starts. Otherwise,
   //  the default values will be used.
-  //  In this example, we run a simple registration in one stage with no
+  //  In this example, we run a simple registration in one level with no
   //  space shrinking or smoothing on the input data.
   //
   //  Software Guide : EndLatex
@@ -646,8 +647,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CompositeTransform<
-    double,
-    Dimension > CompositeTransformType;
+                                 double,
+                                 Dimension > CompositeTransformType;
   CompositeTransformType::Pointer outputCompositeTransform =
     CompositeTransformType::New();
   outputCompositeTransform->AddTransform( movingInitialTransform );
@@ -954,6 +955,20 @@ int main( int argc, char *argv[] )
   //  shows how the metric value decreases as the optimization advances. The
   //  log plot helps to highlight the normal oscillations of the optimizer
   //  around the extrema value.
+  //
+  //  In this section, we used a very simple example to introduce the basic components
+  //  of a registration process in ITKv4. However, studying this example alone is not
+  //  enough to start using the \doxygen{ImageRegistrationMethodv4}.
+  //  In order to choose the best registration practice for a specific application,
+  //  knowledge of other registration method instantiations and their capabilities are
+  //  required.
+  //  For example, direct initialization of the output optimizable transform is shown in
+  //  section~\ref{sec:RigidRegistrationIn2D}. This method can simplify the registration
+  //  process in many cases. Also, multi-resolution and multistage registration approaches
+  //  are illustrated in sections~\ref{sec:MultiResolutionRegistration} and
+  //  ~\ref{sec:MultiStageRegistration}.
+  //  These examples illustrate the flexibility in the usage of ITKv4 registration method
+  //  framework that can help to provide faster and more reliable registration processes.
   //
   //  Software Guide : EndLatex
 
