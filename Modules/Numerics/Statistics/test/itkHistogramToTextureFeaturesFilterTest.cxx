@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-// Insight classes
-
 #include "itkHistogramToTextureFeaturesFilter.h"
 
 int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
