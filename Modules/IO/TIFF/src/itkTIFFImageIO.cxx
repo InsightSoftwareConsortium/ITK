@@ -768,6 +768,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
 // was renamed and became an opaque type requiring function to
 // access. The follow are some macros for portable access.
 #ifdef ITK_TIFF_HAS_TIFFFieldReadCount
+#define itkTIFFFieldName( TIFFField )      TIFFFieldName( TIFFField )
 #define itkTIFFFieldReadCount( TIFFField ) TIFFFieldReadCount( TIFFField )
 #define itkTIFFFieldPassCount( TIFFField ) TIFFFieldPassCount( TIFFField )
 #define itkTIFFFieldDataType( TIFFField )  TIFFFieldDataType( TIFFField )
@@ -793,14 +794,16 @@ struct _TIFFField {
   TIFFFieldArray* field_subfields;        /* if field points to child ifds, child ifd field definition array */
 };
 namespace itk {
+#define itkTIFFFieldName( TIFFField )      ((TIFFField)->field_name)
 #define itkTIFFFieldReadCount( TIFFField ) ((TIFFField)->field_readcount)
 #define itkTIFFFieldPassCount( TIFFField ) ((TIFFField)->field_passcount)
-#define itkTIFFFieldDataType( TIFFField ) ((TIFFField)->field_type)
+#define itkTIFFFieldDataType( TIFFField )  ((TIFFField)->field_type)
 #define itkTIFFField TIFFField
 #else // libtiff version 3
+#define itkTIFFFieldName( TIFFField )          ((TIFFField)->field_name)
 #define itkTIFFFieldReadCount( TIFFFieldInfo ) ((TIFFFieldInfo)->field_readcount)
 #define itkTIFFFieldPassCount( TIFFFieldInfo ) ((TIFFFieldInfo)->field_passcount)
-#define itkTIFFFieldDataType( TIFFFieldInfo ) ((TIFFFieldInfo)->field_type)
+#define itkTIFFFieldDataType( TIFFFieldInfo )  ((TIFFFieldInfo)->field_type)
 #define itkTIFFField TIFFFieldInfo
 #endif
 
@@ -944,7 +947,7 @@ void TIFFImageIO::ReadTIFFTags()
       }
 
 
-    const char*         field_name = TIFFFieldName(field);
+    const char*         field_name = itkTIFFFieldName(field);
     unsigned int        value_count = 0;
 
 
