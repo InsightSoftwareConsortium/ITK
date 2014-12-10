@@ -107,25 +107,25 @@ public:
   CellIdentifier GetIdent();
 
   /** TCellInterface abstract methods definition. */
-  virtual void Accept(CellIdentifier cellId, MultiVisitor *mv);
+  virtual void Accept(CellIdentifier cellId, MultiVisitor *mv) ITK_OVERRIDE;
 
-  virtual CellGeometry GetType() const;
+  virtual CellGeometry GetType() const ITK_OVERRIDE;
 
   /** Topology related methods. */
   static int GetTopologyId();
 
-  virtual unsigned int GetDimension() const;
+  virtual unsigned int GetDimension() const ITK_OVERRIDE;
 
-  virtual unsigned int GetNumberOfPoints() const;
+  virtual unsigned int GetNumberOfPoints() const ITK_OVERRIDE;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
 
   virtual bool GetBoundaryFeature(int dimension,
                                   CellFeatureIdentifier cellId,
-                                  CellAutoPointer & cell);
+                                  CellAutoPointer & cell) ITK_OVERRIDE;
 
   /** Useless methods. */
-  virtual void MakeCopy(CellAutoPointer & cell) const
+  virtual void MakeCopy(CellAutoPointer & cell) const ITK_OVERRIDE
   {
     cell.TakeOwnership(new Self);
     cell->SetPointId( 0, this->GetQEGeom()->GetOrigin() );
