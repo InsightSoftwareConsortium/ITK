@@ -38,7 +38,7 @@ itkLightProcessObject.cxx
 itkRegion.cxx
 itkImageIORegion.cxx
 itkImageSource.cxx
-itkImageToImageFilter.cxx
+itkImageToImageFilterCommon.cxx
 itkImageRegionSplitterBase.cxx
 itkImageRegionSplitterSlowDimension.cxx
 itkImageRegionSplitterDirection.cxx
