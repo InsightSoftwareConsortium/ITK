@@ -40,6 +40,8 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("AffineTransform_double_8_8");
   defaultTransforms.push_back("AffineTransform_double_9_9");
 
+  defaultTransforms.push_back("AzimuthElevationToCartesianTransform_double_3_3");
+
   defaultTransforms.push_back("BSplineTransform_double_2_2");
   defaultTransforms.push_back("BSplineTransform_double_3_3");
 #ifdef ITKV3_COMPATIBILITY
@@ -115,6 +117,8 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("AffineTransform_float_7_7");
   defaultTransforms.push_back("AffineTransform_float_8_8");
   defaultTransforms.push_back("AffineTransform_float_9_9");
+
+  defaultTransforms.push_back("AzimuthElevationToCartesianTransform_float_3_3");
 
   defaultTransforms.push_back("BSplineTransform_float_2_2");
   defaultTransforms.push_back("BSplineTransform_float_3_3");
