@@ -37,7 +37,7 @@ itkStdStreamLogOutput.cxx
 itkLightProcessObject.cxx
 itkRegion.cxx
 itkImageIORegion.cxx
-itkImageSource.cxx
+itkImageSourceCommon.cxx
 itkImageToImageFilterCommon.cxx
 itkImageRegionSplitterBase.cxx
 itkImageRegionSplitterSlowDimension.cxx

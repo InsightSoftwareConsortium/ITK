@@ -15,35 +15,34 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkImageSourceCommon_h
+#define __itkImageSourceCommon_h
 
-#include "itkImageRegionSplitterSlowDimension.h"
-#include "itkImageSource.h"
-#include "itkSimpleFastMutexLock.h"
-#include "itkMutexLockHolder.h"
+#include "ITKCommonExport.h"
 
 namespace itk
 {
 
-namespace
+/** \class ImageSourceCommon
+ * \brief Secondary base class of ImageSource common between templates
+ *
+ * This class provides common non-templated code which can be compiled
+ * and used by all templated versions of ImageSource.
+ *
+ * This class must be inherited privately, and light-weight adapting
+ * of methods is required for virtual methods or non-private methods
+ * for the ImageSource interface.
+ *
+ * \ingroup ITKCommon
+ */
+struct ITKCommon_EXPORT ImageSourceCommon
 {
-SimpleFastMutexLock globalDefaultSplitterLock;
-ImageRegionSplitterBase::Pointer globalDefaultSplitter;
-}
+  /**
+   * Provide access to a common static object for image region splitting
+   */
+  static  const ImageRegionSplitterBase*  GetGlobalDefaultSplitter(void);
+};
 
-const ImageRegionSplitterBase*  ImageSourceCommon::GetGlobalDefaultSplitter(void)
-{
-  if ( globalDefaultSplitter.IsNull() )
-    {
-    // thread safe lazy initialization, prevent race condition on
-    // setting, with an atomic set if null.
-    MutexLockHolder< SimpleFastMutexLock > lock(globalDefaultSplitterLock);
-    if ( globalDefaultSplitter.IsNull() )
-      {
-      globalDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer();
-      }
-    }
-  return globalDefaultSplitter;
-}
+} // end namespace itk
 
-
-}
+#endif

@@ -1,7 +1,3 @@
-set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-itk_wrap_include("itkImageSource.h")
-itk_wrap_simple_class("itk::ImageSourceCommon")
-
 itk_wrap_class("itk::ImageSource" POINTER)
   # Force uchar and ulong image sources for saving in 8 bits and watershed filter
   UNIQUE(image_types "UC;RGBUC;RGBAUC;UL;${WRAP_ITK_ALL_TYPES}")
