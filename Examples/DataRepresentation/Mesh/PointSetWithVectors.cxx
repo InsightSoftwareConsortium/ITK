@@ -21,7 +21,7 @@
 //  This example illustrates how a point set can be parameterized to manage a
 //  particular pixel type. It is quite common to associate vector values with
 //  points for producing geometric representations.  The following code shows
-//  how vector values can be used as pixel type on the PointSet class.  The
+//  how vector values can be used as the pixel type on the PointSet class.  The
 //  \doxygen{Vector} class is used here as the pixel type. This class is
 //  appropriate for representing the relative position between two points. It
 //  could then be used to manage displacements, for example.
@@ -56,6 +56,7 @@ int main(int, char *[])
   //  sake of producing an interesting example, we will use vectors that
   //  represent displacements of the points in the PointSet. Those vectors
   //  are then selected to be of the same dimension as the PointSet.
+  //
   //
   //  \index{itk::Vector!itk::PointSet}
   //
@@ -187,7 +188,7 @@ int main(int, char *[])
   //
   //  Note that \doxygen{Vector} is not the appropriate class for
   //  representing normals to surfaces and gradients of functions. This is due
-  //  to the way in which vectors behave under affine transforms. ITK has a
+  //  to the way vectors behave under affine transforms. ITK has a
   //  specific class for representing normals and function gradients. This is
   //  the \doxygen{CovariantVector} class.
   //

@@ -48,6 +48,7 @@ int main( int , char *[] )
   SpatialObjectType::Pointer object2 = SpatialObjectType ::New();
   object2->GetProperty()->SetName("Second Object");
 // Software Guide : EndCodeSnippet
+
 // Software Guide : BeginLatex
 //
 // We then add the second object to the first one by using the
@@ -99,9 +100,12 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // Do NOT forget to delete the list of children since the \code{GetChildren()} function
 // creates an internal list.
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   delete childrenList;
 // Software Guide : EndCodeSnippet
@@ -116,6 +120,7 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   object1->RemoveSpatialObject(object2);
 // Software Guide : EndCodeSnippet
+
 // Software Guide : BeginLatex
 //
 // We can query the number of children an object has with the
@@ -127,6 +132,7 @@ int main( int , char *[] )
   std::cout << "Number of children for object1: ";
   std::cout << object1->GetNumberOfChildren() << std::endl;
 // Software Guide : EndCodeSnippet
+
 // Software Guide : BeginLatex
 //
 // The \code{Clear()} method erases all the information regarding the object

@@ -36,9 +36,11 @@
 int main(int, char * [] )
 {
 // Software Guide : BeginLatex
+//
 // We first create a test image using the \doxygen{RandomImageSource}
 //
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char, 2 >      ImageType;
   typedef itk::RandomImageSource< ImageType > RandomImageSourceType;
@@ -53,10 +55,13 @@ int main(int, char * [] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // Next we create an \doxygen{EllipseSpatialObject} with a radius of 2.
 // We also move the ellipse to the center of the image by increasing
 // the offset of the IndexToObjectTransform.
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   typedef itk::EllipseSpatialObject<2> EllipseType;
   EllipseType::Pointer ellipse = EllipseType::New();
@@ -68,8 +73,11 @@ int main(int, char * [] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// Then we can create the \doxygen{SpatialObjectToImageStatisticsCalculator}
+//
+// Then we can create the \doxygen{SpatialObjectToImageStatisticsCalculator}.
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   typedef itk::SpatialObjectToImageStatisticsCalculator<
     ImageType, EllipseType > CalculatorType;
@@ -77,25 +85,35 @@ int main(int, char * [] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We pass a pointer to the image to the calculator.
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   calculator->SetImage(image);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// And we also pass the SpatialObject. The statistics will be computed inside the SpatialObject
+//
+// We also pass the SpatialObject. The statistics will be computed inside the SpatialObject
 // (Internally the calculator is using the \code{IsInside()} function).
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   calculator->SetSpatialObject(ellipse);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // At the end we trigger the computation via the \code{Update()} function and we
-// can retrieve the mean and the covariance matrix using \code{GetMean()} and \code{GetCovarianceMatrix()}
+// can retrieve the mean and the covariance matrix using \code{GetMean()}
+// and \code{GetCovarianceMatrix()}
 // respectively.
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   calculator->Update();
   std::cout << "Sample mean = " << calculator->GetMean() << std::endl;

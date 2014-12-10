@@ -126,6 +126,7 @@ int main( int argc, char ** argv )
 // The variable \code{input} is the pointer to the distance transform image.
 // The local minimum algorithm is initialized with a seed point read from the
 // command line.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -135,7 +136,9 @@ int main( int argc, char ** argv )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // Next we create the neighborhood iterator and position it at the seed point.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet

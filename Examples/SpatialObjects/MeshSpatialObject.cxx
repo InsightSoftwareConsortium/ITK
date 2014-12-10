@@ -45,6 +45,7 @@ int main(int, char * [] )
   //
   // The MeshSpatialObject wraps an \doxygen{Mesh}, therefore we first
   // create a mesh.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -97,7 +98,9 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // ... and pass the Mesh pointer to the MeshSpatialObject
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -105,8 +108,10 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The actual pointer to the passed mesh can be retrieved using the
   // \code{GetMesh()} function, just like any other SpatialObjects.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -130,20 +135,25 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // Now that we have defined the MeshSpatialObject, we can save the actual mesh
   // using the \doxygen{SpatialObjectWriter}. In order to do so,
   // we need to specify the type of Mesh we are writing.
   //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::SpatialObjectWriter< 3, float, MeshTrait > WriterType;
   WriterType::Pointer writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // Then we set the mesh spatial object and the name of the file and call the
   // the \code{Update()} function.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   writer->SetInput(myMeshSpatialObject);
   writer->SetFileName("myMesh.meta");
@@ -151,9 +161,12 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // Reading the saved mesh is done using the \doxygen{SpatialObjectReader}.
   // Once again we need to specify the type of mesh we intend to read.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::SpatialObjectReader< 3, float, MeshTrait > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
@@ -164,6 +177,7 @@ int main(int, char * [] )
   // We set the name of the file we want to read and call update
   //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   reader->SetFileName("myMesh.meta");
   reader->Update();
@@ -177,6 +191,7 @@ int main(int, char * [] )
   // First we define and instantiate the SpatialObjectToImageFilter.
   //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char, 3 > ImageType;
   typedef itk::GroupSpatialObject< 3 >   GroupType;
@@ -215,6 +230,7 @@ int main(int, char * [] )
   //  Then we can get the resulting binary image using the \code{GetOutput()} function.
   //
   //  Software Guide : EndLatex
+
   //  Software Guide : BeginCodeSnippet
   ImageType::Pointer myBinaryMeshImage = imageFilter->GetOutput();
   //  Software Guide : EndCodeSnippet

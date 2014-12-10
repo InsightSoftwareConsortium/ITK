@@ -57,6 +57,7 @@
 // in calculations becomes large.
 //
 // The only new class necessary for this example is the Gaussian operator.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -113,9 +114,11 @@ int main( int argc, char ** argv )
 
 
 // Software Guide : BeginLatex
+//
 // The Gaussian operator, like the Sobel operator, is instantiated with a pixel
 // type and a dimensionality.  Additionally, we set the variance of the
 // Gaussian, which has been read from the command line as standard deviation.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
