@@ -34,34 +34,46 @@
 int main(int, char* [])
 {
   // Software Guide : BeginLatex
+  //
   // The \doxygen{GaussianSpatialObject} is templated
   // over the dimensionality of the object.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::GaussianSpatialObject<3>   GaussianType;
   GaussianType::Pointer myGaussian = GaussianType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The \code{SetMaximum()} function is used to set the maximum
   // value of the Gaussian.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   myGaussian->SetMaximum(2);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The radius of the Gaussian is defined by the \code{SetRadius()} method.
   // By default the radius is set to 1.0.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   myGaussian->SetRadius(3);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The standard \code{ValueAt()} function is used to determine the value
   // of the Gaussian at a particular point in physical space.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   itk::Point<double,3> pt;
   pt[0]=1;
@@ -73,5 +85,4 @@ int main(int, char* [])
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
-
 }

@@ -41,6 +41,7 @@
 // \index{Iterators!and image regions}
 // \index{itk::ImageRegionIterator!example of using|(}
 // We begin by including the appropriate header files.
+//
 // Software Guide : EndLatex
 
 #include "itkImage.h"

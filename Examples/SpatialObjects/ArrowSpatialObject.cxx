@@ -32,27 +32,36 @@
 int main( int , char *[] )
 {
 // Software Guide : BeginLatex
+//
 // The \doxygen{ArrowSpatialObject}, like many SpatialObjects, is templated
 // over the dimensionality of the object.
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   typedef itk::ArrowSpatialObject<3>   ArrowType;
   ArrowType::Pointer myArrow = ArrowType::New();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // The length of the arrow in the local coordinate frame is done using the
 // SetLength() function. By default the length is set to 1.
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   myArrow->SetLength(2);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // The direction of the arrow can be set using the SetDirection() function.
 // The SetDirection() function modifies the ObjectToParentTransform (not the IndexToObjectTransform).
 // By default the direction is set along the X axis (first direction).
+//
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   ArrowType::VectorType direction;
   direction.Fill(0);
@@ -61,5 +70,4 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
-
 }

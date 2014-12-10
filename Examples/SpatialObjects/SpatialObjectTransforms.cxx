@@ -101,6 +101,7 @@ int main( int , char *[] )
 // This is done by setting the Scale of the IndexToObjectTransform.
 //
 // Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   double scale[2];
   scale[0]=2;
@@ -220,7 +221,6 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-//
 // \begin{figure} \center
 // \includegraphics[width=0.5\textwidth]{SpatialObjectExampleTransforms}
 // \itkcaption[SpatialObject Transform Computations]{Physical positions of the
@@ -232,6 +232,7 @@ int main( int , char *[] )
 // Figure~\ref{fig:SpatialObjectExampleTransforms} shows our set of transformations.
 //
 // Finally, we display the resulting affine transformations.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -268,7 +269,8 @@ int main( int , char *[] )
 //object2 IndexToWorld Offset: 7  6
 // \end{verbatim}
 // \normalsize
-
+//
 // Software Guide : EndLatex
+
   return 0;
 }
