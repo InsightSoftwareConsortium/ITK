@@ -31,29 +31,10 @@
 #include "itkProcessObject.h"
 #include "itkImage.h"
 #include "itkImageRegionSplitterBase.h"
+#include "itkImageSourceCommon.h"
 
 namespace itk
 {
-
-/** \class ImageSourceCommon
- * \brief Secondary base class of ImageSource common between templates
- *
- * This class provides common non-templated code which can be compiled
- * and used by all templated versions of ImageSource.
- *
- * This class must be inherited privately, and light-weight adapting
- * of methods is required for virtual methods or non-private methods
- * for the ImageSource interface.
- *
- * \ingroup ITKCommon
- */
-struct ITKCommon_EXPORT ImageSourceCommon
-{
-  /**
-   * Provide access to a common static object for image region splitting
-   */
-  static  const ImageRegionSplitterBase*  GetGlobalDefaultSplitter(void);
-};
 
 /** \class ImageSource
  *  \brief Base class for all process objects that output image data.

@@ -31,31 +31,10 @@
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"
 #include "itkImageToImageFilterDetail.h"
+#include "itkImageToImageFilterCommon.h"
 
 namespace itk
 {
-
-/** \class ImageToImageFilterCommon
- * \brief Secondary base class of ImageToImageFilter common between templates
- *
- * This class provides common non-templated code which can be compiled
- * and used by all templated versions of ImageToImageFilter.
- *
- * This class must be inherited privately, and light-weight adapting
- * of methods is required for virtual methods or non-private methods
- * for the ImageToImageFilter interface.
- *
- * \ingroup ITKCommon
- */
-class ITKCommon_EXPORT ImageToImageFilterCommon
-{
-public:
-  static void SetGlobalDefaultCoordinateTolerance(double);
-  static double GetGlobalDefaultCoordinateTolerance();
-  static void SetGlobalDefaultDirectionTolerance(double);
-  static double GetGlobalDefaultDirectionTolerance();
-};
-
 
 /** \class ImageToImageFilter
  * \brief Base class for filters that take an image as input and produce an image as output.
