@@ -30,9 +30,6 @@
 //
 //  Software Guide : EndLatex
 
-//  Software Guide : BeginCodeSnippet
-//  Software Guide : EndCodeSnippet
-
 //  Software Guide : BeginLatex
 //
 //  Next we include headers for the component filters:
@@ -51,7 +48,7 @@
 //
 //  Now we can declare the filter itself.  It is within the ITK namespace,
 //  and we decide to make it use the same image type for both input and
-//  output, thus the template declaration needs only one parameter.
+//  output, so that the template declaration needs only one parameter.
 //  Deriving from \code{ImageToImageFilter} provides default behavior for
 //  several important aspects, notably allocating the output image (and
 //  making it the same dimensions as the input).
@@ -100,12 +97,10 @@ public:
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-
   typedef typename TImageType::PixelType PixelType;
 
   itkGetMacro( Threshold, PixelType);
   itkSetMacro( Threshold, PixelType);
-
 //  Software Guide : EndCodeSnippet
 
 protected:
@@ -120,7 +115,6 @@ protected:
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-
 protected:
 
   typedef ThresholdImageFilter< TImageType >                     ThresholdType;
@@ -143,7 +137,6 @@ private:
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-
   typename GradientType::Pointer     m_GradientFilter;
   typename ThresholdType::Pointer    m_ThresholdFilter;
   typename RescalerType::Pointer     m_RescaleFilter;
