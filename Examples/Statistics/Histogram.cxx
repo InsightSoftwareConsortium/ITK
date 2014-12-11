@@ -28,11 +28,11 @@
 // \subdoxygen{Statistics}{ListSample},
 // \subdoxygen{Statistics}{ImageToListSampleAdaptor}, or
 // \subdoxygen{Statistics}{PointSetToListSampleAdaptor} in significant ways.
-// Histogram can have a variable number of values (\code{float}
+// Histograms can have a variable number of values (\code{float}
 // type) for each measurement vector, while the three other classes
 // have a fixed value (one) for all measurement vectors. Also
 // those array-type containers can have multiple instances (data
-// elements) that have identical measurement vector values. However,
+// elements) with identical measurement vector values. However,
 // in a Histogram object, there is one unique instance for any
 // given measurement vector.
 //
@@ -54,7 +54,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // Here we create a histogram with dense frequency containers. In
-  // this example we will not have any zero frequency measurements,
+  // this example we will not have any zero-frequency measurements,
   // so the dense frequency container is the appropriate choice. If
   // the histogram is expected to have many empty (zero) bins, a sparse
   // frequency container would be the better option. Here we also set
@@ -74,6 +74,7 @@ int main()
   HistogramType::Pointer histogram = HistogramType::New();
   histogram->SetMeasurementVectorSize( numberOfComponents );
   // Software Guide : EndCodeSnippet
+
   // Software Guide : BeginLatex
   //
   // We initialize it as a $3\times3$ histogram with equal size intervals.
@@ -96,7 +97,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // Now the histogram is ready for storing frequency values. We will
-  // fill the each bin's frequency according to the Figure
+  // fill each bin's frequency according to the Figure
   // \ref{fig:StatHistogram}. There are three ways of accessing data
   // elements in the histogram:
   // \begin{itemize}
@@ -195,7 +196,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // If we want to check if an index is a valid one, we use the method
+  // If we want to check if an index is valid, we use the method
   // \code{IsIndexOutOfBounds(index)}. The following code snippet fills the
   // index variable with (100, 100). It is obviously not a valid index.
   //

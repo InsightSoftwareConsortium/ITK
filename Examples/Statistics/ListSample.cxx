@@ -53,7 +53,7 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // The following code snippet defines the measurement vector type as
+  // The following code snippet defines the measurement vector type as a
   // three component \code{float} \doxygen{Vector}. The
   // \code{MeasurementVectorType} is the measurement vector type in the
   // \code{SampleType}. An object is instantiated at the third line.
@@ -117,7 +117,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Now that we have seen how to create an ListSample object and store
+  // We have seen how to create an ListSample object and store
   // measurement vectors using the ListSample-specific interface. The
   // following code shows the common interface of the Sample class. The
   // \code{Size} method returns the number of measurement vectors in the

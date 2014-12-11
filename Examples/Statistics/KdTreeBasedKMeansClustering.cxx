@@ -36,7 +36,7 @@
 // criteria.}
 // \end{enumerate}
 //
-// The most common termination criteria is that if there is no
+// The most common termination criterion is that if there is no
 // measurement vector that changes its cluster membership from the
 // previous iteration, then the algorithm stops.
 //
@@ -52,7 +52,7 @@
 //
 // With such additional information and the k-d tree data structure,
 // we can reduce the computational cost of the distance calculation
-// and means. Instead of calculating each measurement vectors and k
+// and means. Instead of calculating each measurement vector and k
 // means, we can simply compare each node of the k-d tree and the k
 // means. This idea of utilizing a k-d tree can be found in multiple
 // articles \cite{Alsabti1998} \cite{Pelleg1999}

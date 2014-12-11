@@ -42,10 +42,10 @@
 // values. So, we need to include the header file for this class.  Another
 // convenient filter is the \doxygen{ComposeImageFilter} which
 // creates an image with pixels of array type from one or more input images
-// have pixels of scalar type.  Since an element of a
+// composed of pixels of scalar type.  Since an element of a
 // Sample object is a measurement \emph{vector}, you
-// cannot plug-in an image of scalar pixels. However, if we
-// want to use an image with scalar pixels without the help from the
+// cannot plug in an image of scalar pixels. However, if we
+// want to use an image of scalar pixels without the help from the
 // ComposeImageFilter, we can use the
 // \subdoxygen{Statistics}{ScalarImageToListSampleAdaptor} class that is derived
 // from the \subdoxygen{Statistics}{ImageToListSampleAdaptor}. The usage of the
@@ -69,7 +69,7 @@ int main()
   // The following code snippet will create a 2D image of float pixels
   // filled with random values.
   //
-  // Software Guide :EndLatex
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image<float,2> FloatImage2DType;
@@ -99,11 +99,11 @@ int main()
   // We now have an instance of Image and need to cast it to an
   // Image object with an array pixel type (anything derived from the
   // \doxygen{FixedArray} class such as \doxygen{Vector},
-  // \doxygen{Point}, \doxygen{RGBPixel}, and
+  // \doxygen{Point}, \doxygen{RGBPixel}, or
   // \doxygen{CovariantVector}).
   //
-  // Since in this example the image pixel type is \code{float},
-  // we will use single element a \code{float} FixedArray as
+  // Since the image pixel type is \code{float} in this example,
+  // we will use a single element \code{float} FixedArray as
   // our measurement vector type. And that will also be our pixel type
   // for the cast filter.
   //
@@ -150,7 +150,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // If we are interested only in pixel values, the
-  // ScalarImageToListSampleAdaptor (scalar pixels) and the
+  // ScalarImageToListSampleAdaptor (scalar pixels) or the
   // ImageToListSampleAdaptor (vector pixels) would be
   // sufficient. However, if we want to perform some statistical
   // analysis on spatial information (image index or pixel's physical
@@ -158,13 +158,13 @@ int main()
   // measurement vector that consists of a pixel's value and physical
   // position. In that case, we can use the
   // \subdoxygen{Statistics}{JointDomainImageToListSampleAdaptor}
-  // class. With that class, when we call the
+  // class. With this class, when we call the
   // \code{GetMeasurementVector()} method, the returned measurement
   // vector is composed of the physical coordinates and pixel
   // values. The usage is almost the same as with
   // ImageToListSampleAdaptor. One important difference between
   // JointDomainImageToListSampleAdaptor and the other two image
-  // adaptors is that the JointDomainImageToListSampleAdaptor is the
+  // adaptors is that the JointDomainImageToListSampleAdaptor has the
   // \code{SetNormalizationFactors()} method. Each component of a
   // measurement vector from the JointDomainImageToListSampleAdaptor
   // is divided by the corresponding component value from the supplied
