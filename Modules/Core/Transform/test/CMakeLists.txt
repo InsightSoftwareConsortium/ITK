@@ -37,6 +37,7 @@ itkSplineKernelTransformTest.cxx
 itkCompositeTransformTest.cxx
 itkTransformCloneTest.cxx
 itkMultiTransformTest.cxx
+itkTestTransformGetInverse.cxx
 )
 
 CreateTestDriver(ITKTransform  "${ITKTransform-Test_LIBRARIES}" "${ITKTransformTests}")
@@ -172,3 +173,5 @@ itk_add_test(NAME itkTransformCloneTest
       COMMAND ITKTransformTestDriver itkTransformCloneTest)
 itk_add_test(NAME itkMultiTransformTest
       COMMAND ITKTransformTestDriver itkMultiTransformTest)
+itk_add_test(NAME itkTestTransformGetInverse
+  COMMAND ITKTransformTestDriver itkTestTransformGetInverse)
