@@ -51,8 +51,7 @@ include("@ITK_CONFIG_MODULE_API_FILE@")
 if(ITK_FIND_COMPONENTS)
   # Specific modules requested by find_package(ITK).
   set(ITK_MODULES_REQUESTED "${ITK_FIND_COMPONENTS}")
-endif()
-if(NOT ITK_MODULES_REQUESTED)
+else()
   # No specific modules requested.  Use all of them.
   set(ITK_MODULES_REQUESTED "${ITK_MODULES_ENABLED}")
 endif()
