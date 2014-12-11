@@ -38,15 +38,15 @@
 // context of image registration provides a measure of how much uncertainty on
 // the value of a pixel in one image is reduced by measuring the homologous
 // pixel in the other image. Note that Mutual Information as used here does not
-// measures the amount of information that one image provides on the other
-// image, such measure would have required to take into account the spatial
+// measure the amount of information that one image provides on the other
+// image; this would require us to take into account the spatial
 // structures in the images as well as the semantics of the image context in
 // terms of an observer.
 //
 // This implies that there is still an enormous unexploited potential on the
-// use of the Mutual Information concept in the domain of medical images.
-// Probably the most interesting of which would be the semantic description of
-// image on terms of anatomical structures.
+// use of the Mutual Information concept in the domain of medical images,
+// among the most interesting of which is the semantic description of
+// image in terms of anatomical structures.
 //
 // \index{Mutual Information!Statistics}
 // \index{Statistics!Mutual Information}
@@ -169,7 +169,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // We prepare now the types to be used for the computation of the Joint
+  // We now prepare the types to be used for the computation of the joint
   // histogram. For this purpose, we take the type of the image resulting from
   // the JoinImageFilter and use it as template argument of the
   // \doxygen{ImageToHistogramFilter}. We then construct one by invoking the
@@ -189,7 +189,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // We pass the multiple components image as input to the histogram filter,
+  // We pass the multiple-component image as input to the histogram filter,
   // and setup the marginal scale value that will define the precision to be used
   // for classifying values into the histogram bins.
   //
@@ -270,7 +270,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginLatex
   //
   // We now walk over all the bins of the joint histogram and compute their
-  // contribution to the value of the joint Entropy. For this purpose we use
+  // contribution to the value of the joint entropy. For this purpose we use
   // histogram iterators, and the \code{Begin()} and \code{End()} methods.  Since
   // the values returned from the histogram are measuring frequency we must
   // convert them to an estimation of probability by dividing them over the total
@@ -293,8 +293,8 @@ int main( int argc, char * argv [] )
   // joint histogram. For every bin we compute their contribution to the reduction
   // of uncertainty. Note that in order to avoid logarithmic operations on zero
   // values, we skip over those bins that have less than one count. The entropy
-  // contribution must be computed using logarithms in base two in order to be
-  // able express entropy in \textbf{bits}.
+  // contribution must be computed using logarithms in base two in order to
+  // express entropy in \textbf{bits}.
   //
   // Software Guide : EndLatex
 
@@ -364,8 +364,8 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // The same process is used for computing the entropy of the other component.
-  // Simply by swapping the number of bins in the histogram.
+  // The same process is used for computing the entropy of the other component,
+  // simply by swapping the number of bins in the histogram.
   //
   // Software Guide : EndLatex
 
@@ -423,7 +423,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // or Normalized Mutual Information, where the value of Mutual Information gets
+  // or Normalized Mutual Information, where the value of Mutual Information is
   // divided by the mean entropy of the input images.
   //
   // Software Guide : EndLatex

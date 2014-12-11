@@ -38,9 +38,11 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We need another header for measurement vectors. We are going to use
 // the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
 // in this example.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -78,12 +80,13 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // To create a \code{MembershipSample} instance, we define the type of the
   // \code{MembershipSample} with the source sample type, in this case,
   // previously defined \code{SampleType}. As usual, after that, we call
-  // \code{New()} method to instantiate an instance. We must plug-in the
+  // \code{New()} method to instantiate an instance. We must plug in the
   // source sample, \code{sample} object using the
-  // \code{SetSample(source sample)} method. However, in regard of
+  // \code{SetSample(source sample)} method. However, in regard to
   // \textbf{class labels}, the \code{membershipSample} is empty. We
   // provide class labels for data instances in the \code{sample} object
   // using the \code{AddInstance(class label, instance identifier)}
@@ -92,12 +95,13 @@ int main()
   // \code{SetNumberOfClasses(number of classes)} method with the number
   // of classes. We must add all instances in the source sample with
   // their class labels. In the following code snippet, we set the first
-  // instance' class label to 0, the second to 0, the third (last) to
+  // instance class label to 0, the second to 0, the third (last) to
   // 1. After this, the \code{membershipSample} has two \code{Subclass}
   // objects. And the class labels for these two \code{Subclass} are 0
   // and 1. The \textbf{0} class \code{Subsample} object includes the
   // first and second instances, and the \textbf{1} class includes the
   // third instance.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -117,8 +121,10 @@ int main()
 
 
   // Software Guide : BeginLatex
-  // The \code{Size()} and \code{GetTotalFrequency()} returns the same
-  // values as the \code{sample} does.
+  //
+  // The \code{Size()} and \code{GetTotalFrequency()} methods return the same
+  // values as the \code{sample}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -128,10 +134,12 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The \code{membershipSample} is ready for use. The following code snippet
   // shows how to use \code{Iterator} interfaces. The
-  // \code{MembershipSample}' \code{Iterator} has an additional method
+  // \code{MembershipSample} \code{Iterator} has an additional method
   // that returns the class label (\code{GetClassLabel()}).
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -152,8 +160,10 @@ int main()
 
 
   // Software Guide : BeginLatex
+  //
   // To see the numbers of instances in each class subsample, we use
   // the \code{GetClassSampleSize(class label)} method.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -165,14 +175,15 @@ int main()
 
 
   // Software Guide : BeginLatex
+  //
   // We call the \code{GetClassSample(class label)} method to get the
   // class subsample in the \code{membershipSample}. The
   // \code{MembershipSampleType::ClassSampleType} is actually an
   // specialization of the \subdoxygen{Statistics}{Subsample}. We print
   // out the instance identifiers, measurement vectors, and frequency
   // values that are part of the class. The output will be two lines for
-  // the two instances that belongs to the class \textbf{0}.
-  // the \code{GetClassSampleSize(class label)} method.
+  // the two instances that belong to the class \textbf{0}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

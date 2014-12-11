@@ -30,7 +30,7 @@
 // extracting some part of interest in a Sample object. Another good use of
 // Subsample is sorting a Sample object. When we use an \doxygen{Image}
 // object as the data source, we do not want to change the order of data
-// element in the image. However, we sometimes want to sort or
+// elements in the image. However, we sometimes want to sort or
 // select data elements according to their order. Statistics algorithms for
 // this purpose accepts only Subsample objects as inputs. Changing the order
 // in a Subsample object does not change the order of the source sample.

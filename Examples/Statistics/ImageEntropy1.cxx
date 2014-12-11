@@ -26,7 +26,7 @@
 // values.
 //
 // In practice it is almost never possible to know the real statistical
-// distribution of intensities and we are force to estimate it from the
+// distribution of intensities and we are forced to estimate it from the
 // evaluation of the histogram from one or several images of similar nature.
 // We can use the counts in histogram bins in order to compute frequencies and
 // then consider those frequencies to be estimations of the probablility of a
@@ -43,7 +43,7 @@
 //
 // Since the first stage in estimating the entropy of an image is to compute
 // its histogram, we must start by including the headers of the classes that
-// will perform such computation. In this case, we are going to use a scalar
+// will perform such a computation. In this case, we are going to use a scalar
 // image as input, therefore we need the
 // \subdoxygen{Statistics}{ScalarImageToHistogramGenerator} class, as well as
 // the image class.
@@ -118,7 +118,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginLatex
   //
-  // The parameters of the desired histogram are defined. In particular, the
+  // The parameters of the desired histogram are defined, including the
   // number of bins and the marginal scale. For convenience in this example, we
   // read the number of bins from the command line arguments. In this way we can
   // easily experiment with different values for the number of bins and see how
@@ -178,7 +178,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginLatex
   //
   // We proceed now to compute the \emph{estimation} of entropy given the
-  // histogram. The first conceptual jump to be done here is that we assume that
+  // histogram. The first conceptual jump to be done here is to assume that
   // the histogram, which is the simple count of frequency of occurrence for the
   // gray scale values of the image pixels, can be normalized in order to estimate
   // the probability density function \textbf{PDF} of the actual statistical
@@ -212,8 +212,8 @@ int main( int argc, char * argv [] )
   // logarithms of zeros.
   //
   //  Note that the $\log{(2)}$ factor is used to convert the natural logarithm
-  //  in to a logarithm of base 2, and make possible to report the entropy in its
-  //  natural unit: the bit.
+  //  in to a logarithm of base 2, and makes it possible to report the entropy
+  //  in its natural unit: the bit.
   //
   // Software Guide : EndLatex
 
@@ -234,7 +234,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginLatex
   //
   // The result of this sum is considered to be our estimation of the image
-  // entropy. Note that the Entrpy value will change depending on the number of
+  // entropy. Note that the Entropy value will change depending on the number of
   // histogram bins that we use for computing the histogram. This is particularly
   // important when dealing with images whose pixel values have dynamic ranges so
   // large that our number of bins will always underestimate the variability of
