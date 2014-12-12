@@ -63,11 +63,7 @@ struct ThreadData
 };
 
 template <typename TTransform>
-#ifdef ITK_USE_PTHREADS
-void *
-#else
-void
-#endif
+ITK_THREAD_RETURN_TYPE
 TestGetInverseThreadFunction(void *perThreadData)
 {
   itk::MultiThreader::ThreadInfoStruct *ti =
@@ -77,9 +73,8 @@ TestGetInverseThreadFunction(void *perThreadData)
     {
     td->m_Transform->GetInverse(td->m_Inverse.GetPointer());
     }
-#ifdef ITK_USE_PTHREADS
-  return 0;
-#endif
+
+  return ITK_THREAD_RETURN_VALUE;
 }
 
 template <typename TTransform>
@@ -92,7 +87,8 @@ TransformTest()
   td.m_Transform  = TTransform::New();
   td.m_Inverse = TTransform::New();
   std::cout << "Testing " << td.m_Transform->GetNameOfClass() << std::endl;
-  threader->SetSingleMethod(reinterpret_cast< itk::ThreadFunctionType >( TestGetInverseThreadFunction<TTransform> ),reinterpret_cast<void *>(&td));
+  itk::ThreadFunctionType pFunc = TestGetInverseThreadFunction<TTransform>;
+  threader->SetSingleMethod( pFunc, &td);
   try
     {
     threader->SingleMethodExecute();
