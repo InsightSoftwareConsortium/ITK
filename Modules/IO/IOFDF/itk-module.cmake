@@ -5,7 +5,7 @@ FDF image format."
 )
 
 itk_module(
-  ITKIOFDF
+  IOFDF
   ENABLE_SHARED
   DEPENDS
     ITKNIFTI

@@ -16,7 +16,7 @@
  */
 #ifndef __itkFDFImageIOFactory_h
 #define __itkFDFImageIOFactory_h
-#include "ITKIOFDFExport.h"
+#include "IOFDFExport.h"
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
 
@@ -26,7 +26,7 @@ namespace itk
  *  \ingroup ITKIOFDF
  * \brief Create instances of FDFImageIO objects using an object factory.
  */
-class ITKIOFDF_EXPORT FDFImageIOFactory : public ObjectFactoryBase
+class IOFDF_EXPORT FDFImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

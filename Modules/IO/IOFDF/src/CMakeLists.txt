@@ -1,15 +1,15 @@
 set(
-  ITKIOFDF_SRC
+  IOFDF_SRC
   itkFDFImageIO.cxx
   itkFDFCommonImageIO.cxx
   itkFDFImageIOFactory.cxx
 )
 
-add_library(ITKIOFDF ${ITKIOFDF_SRC})
+add_library(IOFDF ${IOFDF_SRC})
 
 target_link_libraries(
-  ITKIOFDF
+  IOFDF
   ${ITKIOImageBase_LIBRARIES}
   ${ITKTransform_LIBRARIES}
 )
-itk_module_target(ITKIOFDF)
+itk_module_target(IOFDF)

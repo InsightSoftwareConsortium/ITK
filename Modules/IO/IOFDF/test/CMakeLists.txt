@@ -1,12 +1,12 @@
 itk_module_test()
-set(ITKIOFDFTests itkFDFImageIOTest.cxx)
+set(IOFDFTests itkFDFImageIOTest.cxx)
 
-createtestdriver(ITKIOFDF "${ITKIOFDF-Test_LIBRARIES}" "${ITKIOFDFTests}")
+createtestdriver(IOFDF "${IOFDF-Test_LIBRARIES}" "${IOFDFTests}")
 
 itk_add_test(
   NAME itkFDFImageIOTest
   COMMAND
-    ITKIOFDFTestDriver
+    IOFDFTestDriver
     itkFDFImageIOTest
     ${ITK_TEST_OUTPUT_DIR}
     ${CMAKE_CURRENT_LIST_DIR}/test.fdf
