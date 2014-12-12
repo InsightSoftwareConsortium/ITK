@@ -19,6 +19,7 @@
 #define __itkImageSourceCommon_h
 
 #include "ITKCommonExport.h"
+#include "itkImageRegionSplitterBase.h"
 
 namespace itk
 {
