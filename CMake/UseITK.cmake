@@ -57,6 +57,7 @@ set(GE5_factory_name GE5ImageIO)
 
 set(SCIFIO_module_name SCIFIO)
 set(SCIFIO_factory_name SCIFIOImageIO)
+set(FDF_module_name IOFDF)
 
 foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
   if (NOT ${ImageFormat}_module_name )
