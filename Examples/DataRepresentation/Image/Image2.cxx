@@ -45,7 +45,6 @@ int main( int , char * argv[])
   typedef itk::Image< PixelType, Dimension >   ImageType;
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
   // Using the image type, it is now possible to instantiate the image reader
@@ -68,7 +67,6 @@ int main( int , char * argv[])
   typedef itk::ImageFileReader< ImageType >  ReaderType;
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
   // The reader type can now be used to create one reader object.  A
@@ -85,14 +83,15 @@ int main( int , char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
-  // The minimum information required by the reader is the filename
+  // The minimal information required by the reader is the filename
   // of the image to be loaded in memory. This is provided through
   // the \code{SetFileName()} method. The file format here is inferred
-  // from the filename extension. The user may also explicitly specify the
-  // data format explicitly using the \doxygen{ImageIO}.
+  // from the filename extension. The user may also explicitly specify
+  // the data format using the \doxygen{ImageIOBase} class (a list
+  // of possibilities can be found in the inheritance diagram of this
+  // class.).
   //
   // \index{itk::ImageFileReader!SetFileName()}
   //
@@ -102,7 +101,6 @@ int main( int , char * argv[])
   const char * filename = argv[1];
   reader->SetFileName( filename );
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -124,7 +122,6 @@ int main( int , char * argv[])
   // Software Guide : BeginCodeSnippet
   reader->Update();
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -150,5 +147,5 @@ int main( int , char * argv[])
   //
   // Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }
