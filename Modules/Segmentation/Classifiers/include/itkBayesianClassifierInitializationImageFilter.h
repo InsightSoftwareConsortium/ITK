@@ -142,7 +142,7 @@ public:
   itkSetMacro(NumberOfClasses, unsigned int);
   itkGetConstMacro(NumberOfClasses, unsigned int);
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -162,7 +162,7 @@ public:
 protected:
   BayesianClassifierInitializationImageFilter();
   virtual ~BayesianClassifierInitializationImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the membership functions. This will be called only if the membership
    * function hasn't already been set. This method initializes membership functions
@@ -173,7 +173,7 @@ protected:
 
   /** Here is where the prior and membership probability vector images are
     created.*/
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   BayesianClassifierInitializationImageFilter(const Self &); //purposely not

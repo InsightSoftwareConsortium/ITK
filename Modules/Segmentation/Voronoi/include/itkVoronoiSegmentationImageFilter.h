@@ -105,7 +105,7 @@ public:
 
   /** Take a prior from other segmentation node, should be an
    * binary object. */
-  void TakeAPrior(const BinaryObjectImage *aprior);
+  void TakeAPrior(const BinaryObjectImage *aprior) ITK_OVERRIDE;
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -125,7 +125,7 @@ public:
 protected:
   VoronoiSegmentationImageFilter();
   ~VoronoiSegmentationImageFilter();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   double m_Mean;
@@ -135,7 +135,7 @@ private:
   double m_MeanPercentError;
   double m_STDPercentError;
 
-  virtual bool TestHomogeneity(IndexList & Plist);
+  virtual bool TestHomogeneity(IndexList & Plist) ITK_OVERRIDE;
 
 private:
   VoronoiSegmentationImageFilter(const Self &); //purposely not implemented

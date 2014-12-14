@@ -97,7 +97,7 @@ public:
   itkGetModifiableObjectMacro(LabelMap, LabelMapType );
 
   /** Graft data object as level set object */
-  virtual void Graft( const DataObject* data );
+  virtual void Graft( const DataObject* data ) ITK_OVERRIDE;
 
   /** Return the label object pointer with a given id */
   template< typename TLabel >
@@ -117,13 +117,13 @@ protected:
 
   virtual void InitializeInternalLabelList() = 0;
 
-  virtual bool IsInsideDomain( const InputType& inputIndex ) const;
+  virtual bool IsInsideDomain( const InputType& inputIndex ) const ITK_OVERRIDE;
 
   /** Initialize the label map point and the sparse-field layers */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   /** Copy level set information from data object */
-  virtual void CopyInformation( const DataObject* data );
+  virtual void CopyInformation( const DataObject* data ) ITK_OVERRIDE;
 
 private:
 

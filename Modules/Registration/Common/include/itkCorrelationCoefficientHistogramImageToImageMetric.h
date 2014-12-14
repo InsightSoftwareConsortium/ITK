@@ -84,7 +84,7 @@ protected:
   virtual ~CorrelationCoefficientHistogramImageToImageMetric(){}
 
   /** Evaluates the sum of squared differences from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
 private:
   /** Returns the mean in the x-direction. */

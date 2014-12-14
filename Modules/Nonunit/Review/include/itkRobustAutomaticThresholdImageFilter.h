@@ -151,7 +151,7 @@ public:
 protected:
   RobustAutomaticThresholdImageFilter();
   ~RobustAutomaticThresholdImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateInputRequestedRegion();
 

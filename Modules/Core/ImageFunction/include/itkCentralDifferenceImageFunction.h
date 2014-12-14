@@ -139,7 +139,7 @@ public:
   typedef typename InterpolatorType::Pointer                 InterpolatorPointer;
 
   /** Set the input image.  This must be set by the user. */
-  virtual void SetInputImage(const TInputImage *inputData);
+  virtual void SetInputImage(const TInputImage *inputData) ITK_OVERRIDE;
 
   /** Set interpolator. The interpolator is used in the methods
    * \c Evaluate and \c EvaluateAtContinuousIndex. */
@@ -158,7 +158,7 @@ public:
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const;
+  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evalulate the image derivative by central differencing at non-integer
    *  point.
@@ -173,7 +173,7 @@ public:
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType Evaluate(const PointType & point) const;
+  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** Evalulate the image derivative by central differencing at non-integer
    *  index.
@@ -186,7 +186,7 @@ public:
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & cindex) const;
+  virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & cindex) const ITK_OVERRIDE;
 
   /** The UseImageDirection flag determines whether image derivatives are
    * computed with respect to the image grid or with respect to the physical
@@ -209,7 +209,7 @@ public:
 protected:
   CentralDifferenceImageFunction();
   ~CentralDifferenceImageFunction(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   CentralDifferenceImageFunction(const Self &); //purposely not implemented

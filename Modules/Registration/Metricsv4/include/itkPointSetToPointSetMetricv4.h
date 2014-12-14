@@ -178,7 +178,7 @@ public:
   typedef typename Superclass::VirtualPointSetPointer VirtualPointSetPointer;
 
   /** Set fixed point set*/
-  virtual void SetFixedObject( const ObjectType *object )
+  virtual void SetFixedObject( const ObjectType *object ) ITK_OVERRIDE
     {
     FixedPointSetType *pointSet = dynamic_cast<FixedPointSetType *>( const_cast<ObjectType *>( object ) );
     if( pointSet != ITK_NULLPTR )
@@ -192,7 +192,7 @@ public:
     }
 
   /** Set moving point set*/
-  virtual void SetMovingObject( const ObjectType *object )
+  virtual void SetMovingObject( const ObjectType *object ) ITK_OVERRIDE
     {
     MovingPointSetType *pointSet = dynamic_cast<MovingPointSetType *>( const_cast<ObjectType *>( object ) );
     if( pointSet != ITK_NULLPTR )
@@ -234,7 +234,7 @@ public:
    * point set metrics.  For those cases, the developer will have to redefine
    * the GetValue() function.
    */
-  virtual MeasureType GetValue() const;
+  virtual MeasureType GetValue() const ITK_OVERRIDE;
 
   /**
    * This method returns the derivative based on the current
@@ -246,7 +246,7 @@ public:
    * those cases, the developer will have to redefine the GetDerivative()
    * function.
    */
-  virtual void GetDerivative( DerivativeType & ) const;
+  virtual void GetDerivative( DerivativeType & ) const ITK_OVERRIDE;
 
   /**
    * This method returns the derivative and value based on the current
@@ -258,7 +258,7 @@ public:
    * point set metrics.  For those cases, the developer will have to redefine
    * the GetValue() and GetDerivative() functions.
    */
-  virtual void GetValueAndDerivative( MeasureType &, DerivativeType & ) const;
+  virtual void GetValueAndDerivative( MeasureType &, DerivativeType & ) const ITK_OVERRIDE;
 
   /**
    * Function to be defined in the appropriate derived classes.  Calculates
@@ -290,9 +290,9 @@ public:
    * Initialize the metric by making sure that all the components
    *  are present and plugged together correctly.
    */
-  virtual void Initialize( void ) throw ( ExceptionObject );
+  virtual void Initialize( void ) throw ( ExceptionObject ) ITK_OVERRIDE;
 
-  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const
+  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const ITK_OVERRIDE
   {
     /* An arbitrary point in the virtual domain will not always
      * correspond to a point within either point set. */
@@ -302,7 +302,7 @@ public:
 protected:
   PointSetToPointSetMetricv4();
   virtual ~PointSetToPointSetMetricv4();
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   typename FixedPointSetType::ConstPointer                m_FixedPointSet;
   mutable typename FixedTransformedPointSetType::Pointer  m_FixedTransformedPointSet;
@@ -375,7 +375,7 @@ protected:
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  virtual MetricCategoryType GetMetricCategory() const
+  virtual MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
     {
     return Superclass::POINT_SET_METRIC;
     }

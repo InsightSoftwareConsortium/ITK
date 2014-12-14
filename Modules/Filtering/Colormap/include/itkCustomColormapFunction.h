@@ -61,7 +61,7 @@ public:
 
   typedef std::vector< RealType > ChannelType;
 
-  virtual RGBPixelType operator()(const TScalar &) const;
+  virtual RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
 
   void SetRedChannel(ChannelType red)
     {

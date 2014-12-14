@@ -93,14 +93,14 @@ public:
                       Superclass::ImageDimension);
 
   /** Compute speed image from feature image. */
-  virtual void CalculateSpeedImage();
+  virtual void CalculateSpeedImage() ITK_OVERRIDE;
 
   /** Compute the advection field from feature image. */
-  virtual void CalculateAdvectionImage();
+  virtual void CalculateAdvectionImage() ITK_OVERRIDE;
 
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const
+                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const ITK_OVERRIDE
   { return this->PropagationSpeed(neighborhood, offset, gd); }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient
@@ -110,7 +110,7 @@ public:
   double GetDerivativeSigma()
   { return m_DerivativeSigma; }
 
-  virtual void Initialize(const RadiusType & r);
+  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE;
 
 protected:
   CurvesLevelSetFunction() :
@@ -129,7 +129,7 @@ protected:
   CurvesLevelSetFunction(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;

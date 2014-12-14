@@ -105,7 +105,7 @@ public:
   /**  Create the Output */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx);
+  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -118,7 +118,7 @@ protected:
   EigenAnalysis2DImageFilter();
   virtual ~EigenAnalysis2DImageFilter() {}
 
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   EigenAnalysis2DImageFilter(const Self &); //purposely not implemented

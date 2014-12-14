@@ -65,9 +65,9 @@ protected:
   RegistrationParameterScalesFromPhysicalShift();
   ~RegistrationParameterScalesFromPhysicalShift(){};
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts);
+  virtual void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) ITK_OVERRIDE;
 
 private:
   RegistrationParameterScalesFromPhysicalShift(const Self&); //purposely not implemented

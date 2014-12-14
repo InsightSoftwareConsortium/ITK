@@ -87,9 +87,9 @@ protected:
   LabelMapToLabelImageFilter();
   ~LabelMapToLabelImageFilter() {}
 
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject);
+  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
 
 private:
   LabelMapToLabelImageFilter(const Self &); //purposely not implemented

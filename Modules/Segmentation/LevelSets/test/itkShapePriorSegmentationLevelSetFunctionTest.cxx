@@ -81,7 +81,7 @@ private:
   unsigned int                             m_NumberOfIterations;
   typename ShapePriorFunctionType::Pointer m_ShapePriorFunction;
 
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
     {
     if ( this->GetElapsedIterations() == m_NumberOfIterations ) return true;
     else return false;

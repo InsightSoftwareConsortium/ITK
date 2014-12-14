@@ -127,16 +127,16 @@ public:
 protected:
   HausdorffDistanceImageFilter();
   ~HausdorffDistanceImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GenerateData. */
-  void  GenerateData();
+  void  GenerateData() ITK_OVERRIDE;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data);
+  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
   HausdorffDistanceImageFilter(const Self &); //purposely not implemented

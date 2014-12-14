@@ -41,13 +41,13 @@ public:
 protected:
   SubsamplerTester() {}
   virtual ~SubsamplerTester() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
     {
     this->Superclass::PrintSelf(os,indent);
     os << "Superclass = " <<  this->Superclass::GetNameOfClass() << std::endl;
     }
 
-  void GenerateData()
+  void GenerateData() ITK_OVERRIDE
     {
     }
 

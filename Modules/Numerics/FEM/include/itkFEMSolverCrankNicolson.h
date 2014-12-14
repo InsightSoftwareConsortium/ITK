@@ -135,7 +135,7 @@ public:
   itkGetMacro(Rho, Float);
 
   /** Returns the time step used for dynamic problems. */
-  virtual Float GetTimeStep(void) const
+  virtual Float GetTimeStep(void) const ITK_OVERRIDE
   {
     return m_TimeStep;
   }
@@ -145,7 +145,7 @@ public:
    *
    * \param dt New time step.
    */
-  virtual void SetTimeStep(Float dt)
+  virtual void SetTimeStep(Float dt) ITK_OVERRIDE
   {
     m_TimeStep = dt;
   }
@@ -204,12 +204,12 @@ protected:
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData();
+  void  GenerateData() ITK_OVERRIDE;
 
   /**
    * Solve for the displacement vector u at a given time.  Update the total solution as well.
    */
-  virtual void RunSolver(void);
+  virtual void RunSolver(void) ITK_OVERRIDE;
 
   /**
    * helper initialization function before assembly but after generate GFN.

@@ -236,7 +236,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Back transform by an affine transformation
    *
@@ -297,7 +297,7 @@ protected:
   virtual ~AffineTransform();
 
   /** Print contents of an AffineTransform */
-  void PrintSelf(std::ostream & s, Indent indent) const;
+  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
 private:
 

@@ -230,7 +230,7 @@ public:
 protected:
   ExtractImageFilter();
   ~ExtractImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ExtractImageFilter can produce an image which is a different
    * resolution than its input image.  As such, ExtractImageFilter
@@ -240,7 +240,7 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This function calls the actual region copier to do the mapping from
    * output image space to input image space.  It uses a
@@ -253,7 +253,7 @@ protected:
    *
    * \sa ImageToImageFilter::CallCopyRegion() */
   virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
-                                                 const OutputImageRegionType & srcRegion);
+                                                 const OutputImageRegionType & srcRegion) ITK_OVERRIDE;
 
   /** ExtractImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -265,12 +265,12 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Overridden to check if there is no work to be done, before
    * calling superclass' implementation.
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   InputImageRegionType m_ExtractionRegion;
 

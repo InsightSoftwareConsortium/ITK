@@ -131,7 +131,7 @@ public:
   void SetNormalizeAcrossScale(bool normalizeInScaleSpace);
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
-  void SetNumberOfThreads(ThreadIdType nb);
+  void SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -143,10 +143,10 @@ public:
 protected:
   GradientMagnitudeRecursiveGaussianImageFilter();
   virtual ~GradientMagnitudeRecursiveGaussianImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   /** GradientMagnitudeRecursiveGaussianImageFilter needs all of the
    * input to produce an output. Therefore,
@@ -154,12 +154,12 @@ protected:
    * implementation for GenerateInputRequestedRegion in order to
    * inform the pipeline execution model.  \sa
    * ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** GradientMagnitudeRecursiveGaussianImageFilter produces all of
    * the output.  Therefore, it needs to provide an implementation of
    * EnlargeOutputRequestedRegion(). */
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
   GradientMagnitudeRecursiveGaussianImageFilter(const Self &); //purposely not

@@ -105,7 +105,7 @@ public:
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
       TMovingImage::ImageDimension);
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject );
+  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
 
   /** Accessors for the image intensity difference threshold use
    *  in derivative calculation */
@@ -128,7 +128,7 @@ protected:
   typedef DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
     DemonsSparseGetValueAndDerivativeThreaderType;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

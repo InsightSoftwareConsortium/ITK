@@ -116,7 +116,7 @@ public:
 protected:
   ShiftScaleInPlaceImageFilter();
   ~ShiftScaleInPlaceImageFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize some accumulators before the threads run. */
   void BeforeThreadedGenerateData();

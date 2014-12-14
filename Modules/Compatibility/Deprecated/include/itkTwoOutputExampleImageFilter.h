@@ -107,7 +107,7 @@ public:
 protected:
   TwoOutputExampleImageFilter();
   ~TwoOutputExampleImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** TwoOutputExampleImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine

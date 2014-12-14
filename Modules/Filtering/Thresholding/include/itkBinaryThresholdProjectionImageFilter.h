@@ -155,7 +155,7 @@ protected:
 
   virtual ~BinaryThresholdProjectionImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
 
@@ -178,7 +178,7 @@ protected:
        << std::endl;
   }
 
-  virtual AccumulatorType NewAccumulator(SizeValueType size) const
+  virtual AccumulatorType NewAccumulator(SizeValueType size) const ITK_OVERRIDE
   {
     AccumulatorType accumulator(size);
 

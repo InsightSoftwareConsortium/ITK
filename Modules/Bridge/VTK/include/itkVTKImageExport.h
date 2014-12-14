@@ -84,7 +84,7 @@ public:
 protected:
   VTKImageExport();
   ~VTKImageExport() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename InputImageType::Pointer    InputImagePointer;
   typedef typename InputImageType::RegionType InputRegionType;

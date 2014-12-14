@@ -100,7 +100,7 @@ public:
   void InstantiateLocalOptimizer(void);
 
   /** Begin the optimization */
-  virtual void StartOptimization( bool doOnlyInitialization = false );
+  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
@@ -136,7 +136,7 @@ protected:
   MultiStartOptimizerv4Template();
   virtual ~MultiStartOptimizerv4Template();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /* Common variables for optimization control and reporting */
   bool                          m_Stop;

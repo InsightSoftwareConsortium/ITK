@@ -53,7 +53,7 @@ public:
 
 protected:
   virtual void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId );
+                                  const ThreadIdType threadId ) ITK_OVERRIDE;
 
   QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() {}
   virtual ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() {}

@@ -55,7 +55,7 @@ public:
 
 protected:
   virtual void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId );
+                                  const ThreadIdType threadId ) ITK_OVERRIDE;
 
   GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}
   virtual ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}

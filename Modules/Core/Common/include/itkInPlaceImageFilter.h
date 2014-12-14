@@ -123,7 +123,7 @@ protected:
   InPlaceImageFilter();
   ~InPlaceImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** The GenerateData method normally allocates the buffers for all
    * of the outputs of a filter. Since InPlaceImageFilter's can use an
@@ -137,7 +137,7 @@ protected:
    * an InPlaceFilter is not threaded (i.e. it provides an
    * implementation of GenerateData()), then this method (or
    * equivalent) must be called in GenerateData(). */
-  virtual void AllocateOutputs()
+  virtual void AllocateOutputs() ITK_OVERRIDE
   {
     this->InternalAllocateOutputs(IsSame<TInputImage, TOutputImage>());
   }
@@ -151,7 +151,7 @@ protected:
    * releases the input that it has overwritten.
    *
    * \sa ProcessObject::ReleaseInputs() */
-  virtual void ReleaseInputs();
+  virtual void ReleaseInputs() ITK_OVERRIDE;
 
   /** This methods should only be called during the GenerateData phase
    *  of the pipeline. This method return true if the input image's

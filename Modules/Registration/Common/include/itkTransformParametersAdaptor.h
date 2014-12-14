@@ -77,7 +77,7 @@ public:
   /** Set the transform to be adapted */
   itkSetObjectMacro( Transform, TransformType );
 
-  virtual void SetTransform( TransformBaseType * _arg, void * )
+  virtual void SetTransform( TransformBaseType * _arg, void * ) ITK_OVERRIDE
     {
       TransformType *tx = dynamic_cast<TransformType *>(_arg);
       itkAssertOrThrowMacro( tx != ITK_NULLPTR, "Unable to convert Transform to require concrete transform!" );
@@ -94,13 +94,13 @@ public:
   itkGetConstReferenceMacro( RequiredFixedParameters, ParametersType );
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() {};
+  virtual void AdaptTransformParameters() ITK_OVERRIDE {};
 
 protected:
   TransformParametersAdaptor() {}
   ~TransformParametersAdaptor() {}
 
-  void PrintSelf( std::ostream & os, Indent indent ) const
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE
   {
     Superclass::PrintSelf( os, indent );
     itkPrintSelfObjectMacro( Transform );

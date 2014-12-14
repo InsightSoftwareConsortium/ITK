@@ -169,7 +169,7 @@ public:
 protected:
   DCMTKSeriesFileNames();
   ~DCMTKSeriesFileNames();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   DCMTKSeriesFileNames(const Self &); //purposely not implemented

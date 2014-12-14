@@ -211,7 +211,7 @@ public:
     return this->m_TransformsToOptimizeFlags;
   }
 
-  virtual void ClearTransformQueue()
+  virtual void ClearTransformQueue() ITK_OVERRIDE
   {
     Superclass::ClearTransformQueue();
     this->m_TransformsToOptimizeFlags.clear();
@@ -224,7 +224,7 @@ public:
    * of the forward transforms. */
   bool GetInverse( Self *inverse ) const;
 
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Compute the position of point in the new space.
   *
@@ -240,74 +240,74 @@ public:
   * image, the transforms are applied in reverse order of addition, i.e. from
   * the back of the queue, and thus, DF then Affine.
   */
-  virtual OutputPointType TransformPoint( const InputPointType & inputPoint ) const;
+  virtual OutputPointType TransformPoint( const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType &) const;
+  virtual OutputVectorType TransformVector(const InputVectorType &) const ITK_OVERRIDE;
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & inputVector) const;
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & inputVector) const ITK_OVERRIDE;
 
-  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType & inputVector ) const;
+  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType & inputVector ) const ITK_OVERRIDE;
 
   virtual OutputVectorType TransformVector(const InputVectorType & inputVector,
-                                           const InputPointType & inputPoint ) const;
+                                           const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & inputVector,
-                                              const InputPointType & inputPoint ) const;
+                                              const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   virtual OutputVectorPixelType TransformVector(const InputVectorPixelType & inputVector,
-                                                const InputPointType & inputPoint ) const;
+                                                const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const;
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE;
 
-  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType &) const;
+  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType &) const ITK_OVERRIDE;
 
   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & inputVector,
-                                                             const InputPointType & inputPoint ) const;
+                                                             const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType & inputVector,
-                                                         const InputPointType & inputPoint ) const;
+                                                         const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   /** Method to transform a DiffusionTensor3D */
   using Superclass::TransformDiffusionTensor3D;
   virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D(
-    const InputDiffusionTensor3DType & inputTensor) const;
+    const InputDiffusionTensor3DType & inputTensor) const ITK_OVERRIDE;
 
   virtual OutputVectorPixelType TransformDiffusionTensor3D(
-    const InputVectorPixelType & inputTensor) const;
+    const InputVectorPixelType & inputTensor) const ITK_OVERRIDE;
 
   virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D(
     const InputDiffusionTensor3DType & inputTensor,
-    const InputPointType & inputPoint ) const;
+    const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   virtual OutputVectorPixelType TransformDiffusionTensor3D(
     const InputVectorPixelType & inputTensor,
-    const InputPointType & inputPoint ) const;
+    const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   /** Method to transform a SymmetricSecondRankTensor */
   using Superclass::TransformSymmetricSecondRankTensor;
   virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
-    const InputSymmetricSecondRankTensorType & inputTensor) const;
+    const InputSymmetricSecondRankTensorType & inputTensor) const ITK_OVERRIDE;
 
   virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
-    const InputVectorPixelType & inputTensor) const;
+    const InputVectorPixelType & inputTensor) const ITK_OVERRIDE;
 
   virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
     const InputSymmetricSecondRankTensorType & inputTensor,
-    const InputPointType & inputPoint ) const;
+    const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
     const InputVectorPixelType & inputTensor,
-    const InputPointType & inputPoint ) const;
+    const InputPointType & inputPoint ) const ITK_OVERRIDE;
 
   /** Special handling for composite transform. If all transforms
    * are linear, then return category Linear. Otherwise if all
    * transforms set to optimize are DisplacementFields, then
    * return DisplacementField category. */
-  virtual TransformCategoryType GetTransformCategory() const;
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE;
 
   /** Get/Set Parameter functions work on the current list of transforms
       that are set to be optimized (active) using the
@@ -347,7 +347,7 @@ public:
 
   /** Update the transform's parameters by the values in \c update.
    * See GetParameters() for parameter ordering. */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /**
    * Flatten the transform queue such that there are no nested composite transforms.
@@ -377,29 +377,29 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */
-  virtual typename LightObject::Pointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
-  virtual void PushFrontTransform( TransformTypePointer t  )
+  virtual void PushFrontTransform( TransformTypePointer t  ) ITK_OVERRIDE
   {
     Superclass::PushFrontTransform( t );
     /* Add element to list of flags, and set true by default */
     this->m_TransformsToOptimizeFlags.push_front( true );
   }
 
-  virtual void PushBackTransform( TransformTypePointer t  )
+  virtual void PushBackTransform( TransformTypePointer t  ) ITK_OVERRIDE
   {
     Superclass::PushBackTransform( t );
     /* Add element to list of flags, and set true by default */
     this->m_TransformsToOptimizeFlags.push_back( true );
   }
 
-  virtual void PopFrontTransform()
+  virtual void PopFrontTransform() ITK_OVERRIDE
   {
     Superclass::PopFrontTransform();
     this->m_TransformsToOptimizeFlags.pop_front();
   }
 
-  virtual void PopBackTransform()
+  virtual void PopBackTransform() ITK_OVERRIDE
   {
     Superclass::PopBackTransform();
     this->m_TransformsToOptimizeFlags.pop_back();

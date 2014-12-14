@@ -153,7 +153,7 @@ protected:
   ~NarrowBandCurvesLevelSetImageFilter() {}
   NarrowBandCurvesLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   NarrowBandCurvesLevelSetImageFilter(const Self &); // purposely not
                                                      // implemented
@@ -161,7 +161,7 @@ protected:
 
   /** Overridden from Superclass to handle the case when Propagation
    *  Scaling is zero.*/
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   CurvesFunctionPointer m_CurvesFunction;

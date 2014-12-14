@@ -132,11 +132,11 @@ public:
 protected:
   OtsuMultipleThresholdsImageFilter();
   ~OtsuMultipleThresholdsImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   OtsuMultipleThresholdsImageFilter(const Self &); //purposely not implemented

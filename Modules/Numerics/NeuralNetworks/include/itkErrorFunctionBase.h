@@ -52,7 +52,7 @@ public:
 
   typedef Array<double> InternalVectorType;
 
-  virtual OutputType Evaluate(const ErrorVectorType&) const = 0;
+  virtual OutputType Evaluate(const ErrorVectorType&) const ITK_OVERRIDE = 0;
 
   virtual InternalVectorType EvaluateDerivative(const ErrorVectorType&) const = 0;
 

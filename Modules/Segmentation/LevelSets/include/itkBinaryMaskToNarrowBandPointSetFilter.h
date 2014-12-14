@@ -120,10 +120,10 @@ public:
                       TOutputMesh::PointDimension);
 
   /** Some typedefs associated with the output mesh. */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   /** Some typedefs associated with the output mesh. */
-  void GenerateOutputInformation(void);
+  void GenerateOutputInformation(void) ITK_OVERRIDE;
 
   /** accept the input image */
   using Superclass::SetInput;
@@ -139,7 +139,7 @@ public:
 protected:
   BinaryMaskToNarrowBandPointSetFilter();
   ~BinaryMaskToNarrowBandPointSetFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   //purposely not implemented purposely

@@ -174,12 +174,12 @@ public:
     }
 
   /** Execute method will print data at each iteration */
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object *, const itk::EventObject & event)
+  void Execute(const itk::Object *, const itk::EventObject & event) ITK_OVERRIDE
     {
     if( typeid( event ) == typeid( itk::StartEvent ) )
       {
@@ -266,7 +266,7 @@ public:
   itkStaticConstMacro( ParametricSpaceDimension, unsigned int, 3 );
 
   /** Specify the moving spatial object. */
-  void SetMovingSpatialObject( const MovingSpatialObjectType * object)
+  void SetMovingSpatialObject( const MovingSpatialObjectType * object) ITK_OVERRIDE
     {
       if(!this->m_FixedImage)
         {
@@ -295,10 +295,10 @@ public:
       std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
     }
 
-  unsigned int GetNumberOfParameters(void) const  {return ParametricSpaceDimension;}
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE {return ParametricSpaceDimension;}
 
   /** Get the Derivatives of the Match Measure */
-  void GetDerivative( const ParametersType &, DerivativeType & ) const
+  void GetDerivative( const ParametersType &, DerivativeType & ) const ITK_OVERRIDE
     {
       return;
     }
@@ -322,7 +322,7 @@ public:
 
   /** Get the value for SingleValue optimizers. */
   //  Software Guide : BeginCodeSnippet
-  MeasureType    GetValue( const ParametersType & parameters ) const
+  MeasureType    GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
     {
       double value;
       this->m_Transform->SetParameters( parameters );
@@ -343,7 +343,7 @@ public:
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void GetValueAndDerivative( const ParametersType & parameters,
-       MeasureType & Value, DerivativeType  & Derivative ) const
+       MeasureType & Value, DerivativeType  & Derivative ) const ITK_OVERRIDE
     {
       Value = this->GetValue(parameters);
       this->GetDerivative(parameters,Derivative);

@@ -157,9 +157,9 @@ protected:
   CollidingFrontsImageFilter();
   virtual ~CollidingFrontsImageFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream &, Indent) const;
+  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
 private:
   CollidingFrontsImageFilter(const Self &); //purposely not implemented

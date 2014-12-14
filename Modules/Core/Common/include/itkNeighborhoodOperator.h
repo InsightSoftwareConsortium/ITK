@@ -130,7 +130,7 @@ public:
   virtual void FlipAxes();
 
   /** Prints some debugging information. */
-  virtual void PrintSelf(std::ostream & os, Indent i) const
+  virtual void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
   {
     os << i << "NeighborhoodOperator { this=" << this
        << " Direction = " << m_Direction << " }" << std::endl;

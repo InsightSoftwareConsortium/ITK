@@ -85,18 +85,18 @@ public:
   /** Returns the value of the Gaussian at the given point.  */
   virtual bool ValueAt(const PointType & point, ScalarType & value,
                        unsigned int depth = 0,
-                       char *name = ITK_NULLPTR) const;
+                       char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Return true if the object provides a method to evaluate the value
    * at the specified point, false otherwise. */
   virtual bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0,
-                             char *name = ITK_NULLPTR) const;
+                             char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth,
-                        char *name) const;
+                        char *name) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -105,7 +105,7 @@ public:
 
   /** This function needs to be called every time one of the object's
    *  components is changed. */
-  virtual bool ComputeLocalBoundingBox() const;
+  virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an
    * EllipseSpatialObject.  */
@@ -123,7 +123,7 @@ protected:
   ScalarType m_Sigma;
 
   /** Print the object information in a stream. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 

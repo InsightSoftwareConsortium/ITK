@@ -54,13 +54,13 @@ public:
   itkTypeMacro(GaussianKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  inline TRealValueType Evaluate(const TRealValueType & u) const
+  inline TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
   { return ( std::exp( static_cast< TRealValueType >(-0.5) * vnl_math_sqr(u) ) * m_Factor ); }
 
 protected:
   GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::OneValue() / std::sqrt(static_cast< TRealValueType >(2.0 * vnl_math::pi )) ) {};
   virtual ~GaussianKernelFunction() {};
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 
 private:

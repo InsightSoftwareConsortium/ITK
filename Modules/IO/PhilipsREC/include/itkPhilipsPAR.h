@@ -295,7 +295,7 @@ public:
 protected:
   PhilipsPAR();
   ~PhilipsPAR();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PhilipsPAR(const Self &);     //purposely not implemented

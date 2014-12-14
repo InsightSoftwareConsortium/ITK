@@ -203,7 +203,7 @@ public:
   /** This is overloaded to create the VectorDistanceMap output image */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -217,10 +217,10 @@ public:
 protected:
   SignedDanielssonDistanceMapImageFilter();
   virtual ~SignedDanielssonDistanceMapImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute Danielsson distance map and Voronoi Map. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   SignedDanielssonDistanceMapImageFilter(const Self &); //purposely not

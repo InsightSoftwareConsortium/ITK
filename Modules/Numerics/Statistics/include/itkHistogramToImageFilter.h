@@ -117,13 +117,13 @@ protected:
   HistogramToImageFilter();
   ~HistogramToImageFilter();
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   FunctorType m_Functor;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   HistogramToImageFilter(const Self &); //purposely not implemented

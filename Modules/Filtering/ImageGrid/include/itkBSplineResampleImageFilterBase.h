@@ -159,7 +159,7 @@ protected:
 
   BSplineResampleImageFilterBase();
   virtual ~BSplineResampleImageFilterBase() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   int m_SplineOrder;                      // User specified spline order
   int m_GSize;                            // downsampling filter size

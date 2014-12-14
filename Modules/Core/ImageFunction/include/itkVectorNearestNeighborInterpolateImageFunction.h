@@ -88,7 +88,7 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const
+    const ContinuousIndexType & index) const ITK_OVERRIDE
   {
     IndexType nindex;
 
@@ -99,7 +99,7 @@ public:
 protected:
   VectorNearestNeighborInterpolateImageFunction(){}
   ~VectorNearestNeighborInterpolateImageFunction(){}
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 
 private:

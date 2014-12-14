@@ -115,10 +115,10 @@ public:
 protected:
   AnisotropicFourthOrderLevelSetImageFilter();
   ~AnisotropicFourthOrderLevelSetImageFilter() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This filter halts when the iteration count reaches the specified count. */
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
   {
     if ( this->GetElapsedIterations() == m_MaxFilterIteration )
       {

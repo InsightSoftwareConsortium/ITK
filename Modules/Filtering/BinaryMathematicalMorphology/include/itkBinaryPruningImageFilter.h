@@ -125,7 +125,7 @@ public:
 protected:
   BinaryPruningImageFilter();
   virtual ~BinaryPruningImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute thinning Image. */
   void GenerateData();

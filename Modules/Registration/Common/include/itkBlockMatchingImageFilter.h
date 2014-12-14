@@ -153,16 +153,16 @@ public:
 protected:
   /** MakeOutput is provided for handling multiple outputs */
   using Superclass::MakeOutput;
-  virtual DataObject::Pointer MakeOutput( ProcessObject::DataObjectPointerArraySizeType idx );
+  virtual DataObject::Pointer MakeOutput( ProcessObject::DataObjectPointerArraySizeType idx ) ITK_OVERRIDE;
 
   /** We need to create our own GenerateOutputInformation because the the
    * default version from ProcessObject result in a dynamic_cast of the input
    * pointer to the output pointer type in PointSet::CopyInformation.  This does
    * not work since they are different types. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** We cannot stream (see comments in GenerateOutputInformation). */
-  virtual void EnlargeOutputRequestedRegion(DataObject * output);
+  virtual void EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
 
   /** Generate temporary containers to be used by individual threads exclusively */
   virtual void BeforeThreadedGenerateData();
@@ -173,12 +173,12 @@ protected:
   virtual void AfterThreadedGenerateData();
 
   /** Start multithreader here since MeshToMesh filter does not provide multithreaded support */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   BlockMatchingImageFilter();
   ~BlockMatchingImageFilter();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the

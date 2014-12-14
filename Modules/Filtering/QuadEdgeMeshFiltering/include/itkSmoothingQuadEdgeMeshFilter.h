@@ -108,7 +108,7 @@ public:
 protected:
   SmoothingQuadEdgeMeshFilter();
   ~SmoothingQuadEdgeMeshFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   CoefficientsComputation *m_CoefficientsMethod;
 
@@ -128,7 +128,7 @@ protected:
 
   OutputCoordType m_RelaxationFactor;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   SmoothingQuadEdgeMeshFilter(const Self &);

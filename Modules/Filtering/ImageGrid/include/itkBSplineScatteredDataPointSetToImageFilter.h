@@ -324,17 +324,17 @@ protected:
   BSplineScatteredDataPointSetToImageFilter();
   virtual ~BSplineScatteredDataPointSetToImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void ThreadedGenerateData( const RegionType &, ThreadIdType );
+  void ThreadedGenerateData( const RegionType &, ThreadIdType ) ITK_OVERRIDE;
 
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
-  unsigned int SplitRequestedRegion( unsigned int, unsigned int, RegionType & );
+  unsigned int SplitRequestedRegion( unsigned int, unsigned int, RegionType & ) ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
 

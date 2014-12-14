@@ -80,11 +80,11 @@ public:
 protected:
   AnchorErodeDilateImageFilter();
   ~AnchorErodeDilateImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
   // should be set by the meta filter
   InputImagePixelType m_Boundary;

@@ -92,9 +92,9 @@ protected:
   ShiftScaleLabelMapFilter();
   ~ShiftScaleLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   double m_Shift;
   double m_Scale;

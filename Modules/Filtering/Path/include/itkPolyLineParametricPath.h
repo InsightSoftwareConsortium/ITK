@@ -83,7 +83,7 @@ public:
   typedef typename VertexListType::Pointer         VertexListPointer;
 
   /** Return the location of the parametric path at the specified location. */
-  virtual OutputType Evaluate(const InputType & input) const;
+  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
 
   ///** Evaluate the first derivative of the ND output with respect to the 1D
   //  * input.  This is an exact, algebraic function. */
@@ -102,7 +102,7 @@ public:
   /** Where does the path end?  This value is necessary for IncrementInput() to
    * know how to go to the end of a path.  Since each line segment covers one
    * unit of input, this is the number of verticies - 1. */
-  virtual inline InputType EndOfInput() const
+  virtual inline InputType EndOfInput() const ITK_OVERRIDE
   {
     return m_VertexList->Size() - 1;
   }
@@ -111,7 +111,7 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  virtual void Initialize(void)
+  virtual void Initialize(void) ITK_OVERRIDE
   {
     m_VertexList->Initialize();
   }
@@ -123,17 +123,17 @@ public:
    *  the next pixel along the path to visit by using the instantaneous
    *  partial derivatives to calculate the timestep needed to move along the
    *  path by one pixel */
-  virtual OffsetType IncrementInput(InputType & input) const;
+  virtual OffsetType IncrementInput(InputType & input) const ITK_OVERRIDE;
 
   /** This function overrides the superclass EvaluateDerivative and instead
    *  calculates the instantaneous derivative of input by taking the index
    *  of the previous and next integral timepoints and subtracting them */
-  virtual VectorType EvaluateDerivative(const InputType & input) const;
+  virtual VectorType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
 
 protected:
   PolyLineParametricPath();
   ~PolyLineParametricPath(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PolyLineParametricPath(const Self &); //purposely not implemented

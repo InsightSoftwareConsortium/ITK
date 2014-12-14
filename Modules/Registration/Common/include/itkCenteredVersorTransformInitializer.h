@@ -86,7 +86,7 @@ public:
   typedef typename Superclass::OutputVectorType OutputVectorType;
 
   /** Initialize the transform using data from the images */
-  void InitializeTransform();
+  void InitializeTransform() ITK_OVERRIDE;
 
   /** Enable the use of the principal axes of each image to compute an
    * initial rotation that will align them. */
@@ -98,7 +98,7 @@ protected:
   CenteredVersorTransformInitializer();
   ~CenteredVersorTransformInitializer(){}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   CenteredVersorTransformInitializer(const Self &); //purposely not implemented

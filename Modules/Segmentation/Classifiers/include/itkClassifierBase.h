@@ -154,7 +154,7 @@ protected:
 
   /** The real classification logic implementaion. All the subclasses
    * of this class should implement this method. */
-  virtual void GenerateData() = 0;
+  virtual void GenerateData() ITK_OVERRIDE = 0;
 
 private:
   ClassifierBase(const Self &); //purposely not implemented

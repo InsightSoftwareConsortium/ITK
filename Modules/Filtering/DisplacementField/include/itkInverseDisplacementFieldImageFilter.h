@@ -153,17 +153,17 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** InverseDisplacementFieldImageFilter needs a different input requested region than
    * the output requested region.  As such, InverseDisplacementFieldImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime(void) const;
+  ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -175,13 +175,13 @@ public:
 protected:
   InverseDisplacementFieldImageFilter();
   ~InverseDisplacementFieldImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * GenerateData() computes the internal KernelBase spline and resamples
    * the displacement field.
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Subsample the input displacement field and generate the
    *  landmarks for the kernel base spline

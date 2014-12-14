@@ -90,9 +90,9 @@ public:
    * This is typically used by optimizers.  There are 6 parameters. The first
    * three represent the angles to rotate around the coordinate axis, and the
    * last three represents the offset. */
-  void SetParameters(const ParametersType & parameters);
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  const ParametersType & GetParameters(void) const;
+  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   /** Set the rotational part of the transform. */
   void SetRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
@@ -105,13 +105,13 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Set/Get the order of the computation. Default ZXY */
   itkSetMacro(ComputeZYX, bool);
   itkGetConstMacro(ComputeZYX, bool);
 
-  virtual void SetIdentity(void);
+  virtual void SetIdentity(void) ITK_OVERRIDE;
 
 protected:
   Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
@@ -122,15 +122,15 @@ protected:
   {
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Set values of angles directly without recomputing other parameters. */
   void SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void);
+  void ComputeMatrix(void) ITK_OVERRIDE;
 
-  void ComputeMatrixParameters(void);
+  void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
 private:
   Euler3DTransform(const Self &); // purposely not implemented

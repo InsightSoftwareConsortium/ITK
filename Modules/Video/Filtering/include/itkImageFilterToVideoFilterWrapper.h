@@ -72,11 +72,11 @@ protected:
   virtual ~ImageFilterToVideoFilterWrapper() {}
 
   /** PrintSelf */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Since we just set up a mini image pipeline inside, we override
    * TemporalStreamingGenerateData*/
-  virtual void TemporalStreamingGenerateData();
+  virtual void TemporalStreamingGenerateData() ITK_OVERRIDE;
 
   /** Pointer to filter to use for internal filter */
   typename ImageFilterType::Pointer m_ImageFilter;

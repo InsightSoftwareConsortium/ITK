@@ -463,7 +463,7 @@ public:
 protected:
   MRIBiasFieldCorrectionFilter();
   virtual ~MRIBiasFieldCorrectionFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Checks if the mask image's dimensionality and size matches with
    * those of the input image */
@@ -518,7 +518,7 @@ protected:
   void AdjustSlabRegions(SlabRegionVectorType & slabs,
                          OutputImageRegionType requestedRegion);
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   MRIBiasFieldCorrectionFilter(const Self &); //purposely not implemented

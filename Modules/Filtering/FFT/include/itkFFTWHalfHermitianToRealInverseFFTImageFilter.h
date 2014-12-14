@@ -116,7 +116,7 @@ protected:
   void ThreadedGenerateData(const OutputRegionType& outputRegionForThread,
                             ThreadIdType threadId);
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FFTWHalfHermitianToRealInverseFFTImageFilter(const Self&); //purposely not implemented

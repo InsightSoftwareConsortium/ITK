@@ -123,15 +123,15 @@ public:
 protected:
   BSplineDecompositionImageFilter();
   virtual ~BSplineDecompositionImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** This filter requires all of the input image. */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This filter must produce all of its output at once. */
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   /** These are needed by the smoothing spline routine. */
   std::vector< CoeffType >           m_Scratch;   // temp storage for processing

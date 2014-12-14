@@ -132,7 +132,7 @@ public:
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const;
 

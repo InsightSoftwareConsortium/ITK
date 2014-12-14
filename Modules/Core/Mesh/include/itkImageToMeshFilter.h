@@ -48,7 +48,7 @@ public:
   /** Create a valid output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType idx);
+  DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
   /** Some Image related typedefs. */
   typedef   TInputImage                           InputImageType;
@@ -80,7 +80,7 @@ public:
   OutputMeshType * GetOutput(void);
 
   /** Prepare the output */
-  void GenerateOutputInformation(void);
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
 protected:
   ImageToMeshFilter();

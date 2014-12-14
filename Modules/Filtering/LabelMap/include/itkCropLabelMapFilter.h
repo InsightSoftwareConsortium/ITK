@@ -114,9 +114,9 @@ protected:
 
   ~CropLabelMapFilter() {}
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   CropLabelMapFilter(const Self &); //purposely not implemented

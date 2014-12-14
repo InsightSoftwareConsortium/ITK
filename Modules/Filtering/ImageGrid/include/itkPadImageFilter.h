@@ -106,7 +106,7 @@ public:
 protected:
   PadImageFilter();
   ~PadImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** PadImageFilter produces an image which is a different resolution
    * than its input image.  As such, PadImageFilter needs to
@@ -114,18 +114,18 @@ protected:
    * to inform the pipeline execution model.  The original
    * documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** PadImageFilter needs a smaller input requested region than
    * output requested region.  As such, PadImageFilter needs to
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This class can be multithreaded. */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Method for subclasses to set the boundary condition. */
   void InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition );

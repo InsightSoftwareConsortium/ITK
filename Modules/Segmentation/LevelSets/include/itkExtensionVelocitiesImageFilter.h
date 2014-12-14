@@ -115,13 +115,13 @@ protected:
   ExtensionVelocitiesImageFilter();
   ~ExtensionVelocitiesImageFilter(){}
 
-  virtual void GenerateDataFull();
+  virtual void GenerateDataFull() ITK_OVERRIDE;
 
-  virtual void GenerateDataNarrowBand();
+  virtual void GenerateDataNarrowBand() ITK_OVERRIDE;
 
-  virtual void AllocateOutput();
+  virtual void AllocateOutput() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *);
+  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
 private:
   ExtensionVelocitiesImageFilter(const Self &); //purposely not implemented

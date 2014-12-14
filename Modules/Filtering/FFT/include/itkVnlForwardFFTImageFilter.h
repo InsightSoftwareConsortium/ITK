@@ -85,7 +85,7 @@ protected:
   VnlForwardFFTImageFilter() {}
   ~VnlForwardFFTImageFilter() {}
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   VnlForwardFFTImageFilter(const Self &); //purposely not implemented

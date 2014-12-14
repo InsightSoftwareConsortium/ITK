@@ -174,43 +174,43 @@ protected:
   bool                m_OverrideOutputInformation;
 
   /** Generate the output image meta information. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   LabelImagePointer               m_LabelImage;
   ConnectedComponentImagePointer  m_ConnectedComponentImage;
 
-  IdentifierType GetTotalNumberOfNodes() const;
+  IdentifierType GetTotalNumberOfNodes() const ITK_OVERRIDE;
 
   void SetOutputValue( OutputImageType* oDomain,
                        const NodeType& iNode,
-                       const OutputPixelType& iValue );
+                       const OutputPixelType& iValue ) ITK_OVERRIDE;
 
   /** Returns the output value for a given node */
   const OutputPixelType GetOutputValue( OutputImageType* oImage,
-                                  const NodeType& iNode ) const;
+                                  const NodeType& iNode ) const ITK_OVERRIDE;
 
   /** Returns the label value for a given node */
   unsigned char
-  GetLabelValueForGivenNode( const NodeType& iNode ) const;
+  GetLabelValueForGivenNode( const NodeType& iNode ) const ITK_OVERRIDE;
 
   /** Set the label value for a given node */
   void SetLabelValueForGivenNode( const NodeType& iNode,
-                                 const LabelType& iLabel );
+                                 const LabelType& iLabel ) ITK_OVERRIDE;
 
   /** Update values for the neighbors of a given node */
   virtual void UpdateNeighbors( OutputImageType* oImage,
-                                const NodeType& iNode );
+                                const NodeType& iNode ) ITK_OVERRIDE;
 
   /** Update value for a given node */
   virtual void UpdateValue( OutputImageType* oImage,
-                            const NodeType& iValue );
+                            const NodeType& iValue ) ITK_OVERRIDE;
 
   /** Make sure the given node does not violate any topological constraint*/
   bool CheckTopology( OutputImageType* oImage,
-                      const NodeType& iNode );
-  void InitializeOutput( OutputImageType* oImage );
+                      const NodeType& iNode ) ITK_OVERRIDE;
+  void InitializeOutput( OutputImageType* oImage ) ITK_OVERRIDE;
 
   /** Find the nodes were the front will propagate given a node */
   void GetInternalNodesUsed( OutputImageType* oImage,

@@ -61,7 +61,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluates the function at a given position */
-  OutputType Evaluate(const InputType & position) const;
+  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
 
   /** Set/Get the origin of the torus (the point from which the major
    * radius is measured). */
@@ -79,7 +79,7 @@ public:
 protected:
   TorusInteriorExteriorSpatialFunction();
   virtual ~TorusInteriorExteriorSpatialFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   TorusInteriorExteriorSpatialFunction(const Self &); //purposely not

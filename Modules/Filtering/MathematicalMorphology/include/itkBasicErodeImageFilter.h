@@ -113,7 +113,7 @@ protected:
    * Evaluate is used for non-boundary pixels. */
   virtual PixelType Evaluate(const NeighborhoodIteratorType & nit,
                              const KernelIteratorType kernelBegin,
-                             const KernelIteratorType kernelEnd);
+                             const KernelIteratorType kernelEnd) ITK_OVERRIDE;
 
 private:
   BasicErodeImageFilter(const Self &); //purposely not implemented

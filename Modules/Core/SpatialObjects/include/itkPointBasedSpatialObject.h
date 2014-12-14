@@ -82,7 +82,7 @@ public:
   }
 
   /**  */
-  bool ComputeLocalBoundingBox() const
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE
   {
     itkWarningMacro(<< "PointBasedSpatialObject::ComputeLocalBoundingBox() is"
                     << " not implemented in the base class" << std::endl);
@@ -97,7 +97,7 @@ protected:
   virtual ~PointBasedSpatialObject();
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 

@@ -85,7 +85,7 @@ public:
 
   /** Evaluate the weights at specified ContinousIndex position.
    * Subclasses must provide this method. */
-  virtual WeightsType Evaluate(const ContinuousIndexType & index) const;
+  virtual WeightsType Evaluate(const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the weights at specified ContinousIndex position.
    * The weights are returned in the user specified container.
@@ -107,7 +107,7 @@ public:
 protected:
   BSplineInterpolationWeightFunction();
   ~BSplineInterpolationWeightFunction() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   BSplineInterpolationWeightFunction(const Self &); //purposely not implemented

@@ -117,12 +117,12 @@ protected:
   virtual ~BSplineSyNImageRegistrationMethod();
 
   /** Handle optimization internally */
-  virtual void StartOptimization();
+  virtual void StartOptimization() ITK_OVERRIDE;
 
-  virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
+  virtual void InitializeRegistrationAtEachLevel( const SizeValueType ) ITK_OVERRIDE;
 
   virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *,
-    const MovingImagesContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
+    const MovingImagesContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & ) ITK_OVERRIDE;
   virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType &, const WeightedMaskImageType * );
 
 private:

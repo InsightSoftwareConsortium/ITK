@@ -76,10 +76,10 @@ protected:
 
   virtual void Initialize(ProgressAccumulator * progress,
                           float progressWeight,
-                          float iterationProgressWeight);
+                          float iterationProgressWeight) ITK_OVERRIDE;
 
   virtual void Iteration(ProgressAccumulator * progress,
-                         float iterationProgressWeight);
+                         float iterationProgressWeight) ITK_OVERRIDE;
 
 private:
   ProjectedIterativeDeconvolutionImageFilter(const Self &); // purposely not implemented

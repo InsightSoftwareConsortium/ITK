@@ -195,7 +195,7 @@ public:
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  virtual TransformCategoryType GetTransformCategory() const
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Self::Linear;
   }
@@ -320,16 +320,16 @@ public:
    * The first (NOutputDimension x NInputDimension) parameters define the
    * matrix and the last NOutputDimension parameters the translation.
    * Offset is updated based on current center. */
-  void SetParameters(const ParametersType & parameters);
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters() const;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const ParametersType &);
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE;
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters() const;
+  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /** Compose with another MatrixOffsetTransformBase
    *
@@ -352,32 +352,32 @@ public:
    * an affine point, whereas the TransformVector method transforms
    * its argument as a vector. */
 
-  OutputPointType       TransformPoint(const InputPointType & point) const;
+  OutputPointType       TransformPoint(const InputPointType & point) const ITK_OVERRIDE;
 
   using Superclass::TransformVector;
 
-  OutputVectorType      TransformVector(const InputVectorType & vector) const;
+  OutputVectorType      TransformVector(const InputVectorType & vector) const ITK_OVERRIDE;
 
-  OutputVnlVectorType   TransformVector(const InputVnlVectorType & vector) const;
+  OutputVnlVectorType   TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE;
 
-  OutputVectorPixelType TransformVector(const InputVectorPixelType & vector) const;
+  OutputVectorPixelType TransformVector(const InputVectorPixelType & vector) const ITK_OVERRIDE;
 
   using Superclass::TransformCovariantVector;
 
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const;
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const ITK_OVERRIDE;
 
-  OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType & vector) const;
+  OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType & vector) const ITK_OVERRIDE;
 
   using Superclass::TransformDiffusionTensor3D;
 
-  OutputDiffusionTensor3DType TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor) const;
+  OutputDiffusionTensor3DType TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor) const ITK_OVERRIDE;
 
-  OutputVectorPixelType TransformDiffusionTensor3D(const InputVectorPixelType & tensor ) const;
+  OutputVectorPixelType TransformDiffusionTensor3D(const InputVectorPixelType & tensor ) const ITK_OVERRIDE;
 
   using Superclass::TransformSymmetricSecondRankTensor;
-  OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & tensor ) const;
+  OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & tensor ) const ITK_OVERRIDE;
 
-  OutputVectorPixelType TransformSymmetricSecondRankTensor( const InputVectorPixelType & tensor ) const;
+  OutputVectorPixelType TransformSymmetricSecondRankTensor( const InputVectorPixelType & tensor ) const ITK_OVERRIDE;
 
   /** Compute the Jacobian of the transformation
    *
@@ -388,17 +388,17 @@ public:
    * Get local Jacobian for the given point
    * \c j will sized properly as needed.
    */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const;
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const ITK_OVERRIDE;
 
   /** Get the jacobian with respect to position. This simply returns
    * the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Get the jacobian with respect to position. This simply returns
    * the inverse of the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
+  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Create inverse of an affine transformation
    *
@@ -421,14 +421,14 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
-  virtual bool IsLinear() const
+  virtual bool IsLinear() const ITK_OVERRIDE
   {
     return true;
   }

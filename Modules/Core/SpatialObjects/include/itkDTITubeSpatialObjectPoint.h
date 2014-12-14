@@ -107,7 +107,7 @@ protected:
   FieldListType m_Fields;
 
   /** Print the object */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Translate the enum to char */
   std::string TranslateEnumToChar(FieldEnumType name) const;

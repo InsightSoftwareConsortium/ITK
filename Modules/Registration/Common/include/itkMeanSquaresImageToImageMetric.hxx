@@ -71,7 +71,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
-::Initialize(void)
+::Initialize()
 throw ( ExceptionObject )
 {
   this->Superclass::Initialize();

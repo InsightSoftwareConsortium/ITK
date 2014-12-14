@@ -131,7 +131,7 @@ public:
 protected:
   RegionalMaximaImageFilter();
   ~RegionalMaximaImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** RegionalMaximaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

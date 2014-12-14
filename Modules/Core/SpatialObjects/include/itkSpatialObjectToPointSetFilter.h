@@ -91,12 +91,12 @@ protected:
   SpatialObjectToPointSetFilter();
   ~SpatialObjectToPointSetFilter();
 
-  virtual void GenerateOutputInformation(){}  // do nothing
-  virtual void GenerateData();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
+  virtual void GenerateData() ITK_OVERRIDE;
 
   unsigned int m_ChildrenDepth;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   SpatialObjectToPointSetFilter(const Self &); //purposely not implemented

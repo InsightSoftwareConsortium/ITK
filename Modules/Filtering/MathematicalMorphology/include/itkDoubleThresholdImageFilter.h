@@ -131,20 +131,20 @@ public:
 protected:
   DoubleThresholdImageFilter();
   virtual ~DoubleThresholdImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** DoubleThresholdImageFilter needs all of the input. So it must
    * provide an implementation of GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** DoubleThresholdImageFilter produces all of the output and must
    * provide an implementation of EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** Single threaded version of
    * GenerateData(). DoubleThresholdImageFilter delegates its
    * implementation to the GrayscaleGeodesicDilateImageFilter. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   DoubleThresholdImageFilter(const Self &); //purposely not implemented

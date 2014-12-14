@@ -168,14 +168,14 @@ public:
   /** DisplacementFieldTransform types for working with local-support transforms */
   typedef DisplacementFieldTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >  MovingDisplacementFieldTransformType;
 
-  virtual void Initialize(void) throw ( ExceptionObject );
+  virtual void Initialize(void) throw ( ExceptionObject ) ITK_OVERRIDE;
 
-  virtual NumberOfParametersType GetNumberOfParameters() const;
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const;
-  virtual void SetParameters( ParametersType & params );
-  virtual const ParametersType & GetParameters() const;
-  virtual bool HasLocalSupport() const;
-  virtual void UpdateTransformParameters( const DerivativeType & derivative, TInternalComputationValueType factor);
+  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
+  virtual NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE;
+  virtual void SetParameters( ParametersType & params ) ITK_OVERRIDE;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  virtual bool HasLocalSupport() const ITK_OVERRIDE;
+  virtual void UpdateTransformParameters( const DerivativeType & derivative, TInternalComputationValueType factor) ITK_OVERRIDE;
 
   /** Connect the fixed transform. */
   itkSetObjectMacro(FixedTransform, FixedTransformType);
@@ -287,7 +287,7 @@ public:
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  virtual MetricCategoryType GetMetricCategory() const
+  virtual MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
     {
     return Superclass::OBJECT_METRIC;
     }
@@ -296,7 +296,7 @@ protected:
   ObjectToObjectMetric();
   virtual ~ObjectToObjectMetric();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Verify that virtual domain and displacement field are the same size
    * and in the same physical space. */

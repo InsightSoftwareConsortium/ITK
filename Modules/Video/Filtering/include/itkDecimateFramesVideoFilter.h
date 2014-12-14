@@ -67,13 +67,13 @@ protected:
   virtual ~DecimateFramesVideoFilter() {}
 
   /** PrintSelf */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** DecimateFramesVideoFilter is implemented as a temporal streaming and
    * spatially multithreaded filter, so we override ThreadedGenerateData */
   virtual void ThreadedGenerateData(
                 const FrameSpatialRegionType& outputRegionForThread,
-                int threadId);
+                int threadId) ITK_OVERRIDE;
 
 private:
   DecimateFramesVideoFilter(const Self &); // purposely not implemented

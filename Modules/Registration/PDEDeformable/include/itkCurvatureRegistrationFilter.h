@@ -174,7 +174,7 @@ public:
 protected:
   CurvatureRegistrationFilter();
   ~CurvatureRegistrationFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter before starting first iteration. */
   virtual void Initialize();

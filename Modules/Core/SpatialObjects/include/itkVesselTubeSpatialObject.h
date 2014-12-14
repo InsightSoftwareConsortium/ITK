@@ -73,7 +73,7 @@ protected:
   virtual ~VesselTubeSpatialObject();
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   VesselTubeSpatialObject(const Self &); //purposely not implemented

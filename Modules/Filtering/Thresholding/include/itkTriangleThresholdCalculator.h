@@ -71,7 +71,7 @@ public:
 protected:
   TriangleThresholdCalculator() {};
   virtual ~TriangleThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   TriangleThresholdCalculator(const Self&); //purposely not implemented

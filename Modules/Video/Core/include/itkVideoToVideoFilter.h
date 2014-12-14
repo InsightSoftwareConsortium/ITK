@@ -95,7 +95,7 @@ public:
    * largest spatial region of each of the output frames. This will need to be
    * overwritten for filters that need different behavior (eg: need edge pixels
    * or different spatial regions for different frames) */
-  virtual void UpdateOutputInformation();
+  virtual void UpdateOutputInformation() ITK_OVERRIDE;
 
 protected:
 
@@ -110,24 +110,24 @@ protected:
    * requested spatial region has been set for the frames. By default, we set
    * the requested spatial region of each frame to be its largest possible
    * spatial region. */
-  virtual void GenerateOutputRequestedRegion(DataObject* output);
+  virtual void GenerateOutputRequestedRegion(DataObject* output) ITK_OVERRIDE;
 
   /** Extend the default implementation of GenerateInputRequestedRegion from
    * TemporalProcessObject to propagate spatial regions as well as temporal
    * regions. This default implementation takes the requested spatial region
    * from the first requested output frame and applies it to all of the
    * requested input frames. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Method that gets called before individual temporal requests are
    * dispatched by GenerateData. The default implementation makes sure that
    * the input's buffer can hold enough frames for a single input request. */
-  virtual void BeforeTemporalStreamingGenerateData();
+  virtual void BeforeTemporalStreamingGenerateData() ITK_OVERRIDE;
 
   VideoToVideoFilter();
   virtual ~VideoToVideoFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

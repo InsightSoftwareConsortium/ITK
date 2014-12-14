@@ -257,10 +257,10 @@ protected:
   virtual ~DisplacementFieldToBSplineImageFilter();
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** preprocessing function */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   DisplacementFieldToBSplineImageFilter( const Self& ); //purposely not implemented

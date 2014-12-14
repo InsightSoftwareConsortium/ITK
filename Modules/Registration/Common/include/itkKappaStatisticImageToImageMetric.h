@@ -88,23 +88,23 @@ public:
   typedef typename Superclass::FixedImageRegionType    FixedImageRegionType;
 
   /** Computes the gradient image and assigns it to m_GradientImage */
-  void ComputeGradient();
+  void ComputeGradient() ITK_OVERRIDE;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType &,
-                     DerivativeType & derivative) const;
+                     DerivativeType & derivative) const ITK_OVERRIDE;
 
   /** Get the value of the metric at a particular parameter
    *  setting.  The metric value is given by 2*|A&B|/(|A|+|B|), where A
    *  is the moving image, B is the fixed image, & is intersection,
    *  and |.| indicates the area of the enclosed set.  If ComplementOn has
    *  been set, the metric value is 1.0-2*|A&B|/(|A|+|B|). */
-  MeasureType GetValue(const TransformParametersType & parameters) const;
+  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
 
   /** Get both the value and derivative. This method internally calls the
     \c GetValue() and the \c GetDerivative() method. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const;
+                             MeasureType & Value, DerivativeType & Derivative) const ITK_OVERRIDE;
 
   /** This method allows the user to set the foreground value.  The default
    *  value is 255. */
@@ -122,7 +122,7 @@ public:
 protected:
   KappaStatisticImageToImageMetric();
   virtual ~KappaStatisticImageToImageMetric() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   KappaStatisticImageToImageMetric(const Self &); //purposely not implemented

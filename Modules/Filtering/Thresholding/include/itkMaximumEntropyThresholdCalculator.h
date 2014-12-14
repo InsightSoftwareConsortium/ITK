@@ -71,7 +71,7 @@ public:
 protected:
   MaximumEntropyThresholdCalculator() {};
   virtual ~MaximumEntropyThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   MaximumEntropyThresholdCalculator(const Self&); //purposely not implemented

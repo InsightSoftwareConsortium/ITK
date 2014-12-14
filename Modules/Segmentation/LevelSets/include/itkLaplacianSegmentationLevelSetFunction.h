@@ -59,9 +59,9 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
-  virtual void CalculateSpeedImage();
+  virtual void CalculateSpeedImage() ITK_OVERRIDE;
 
-  virtual void Initialize(const RadiusType & r)
+  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
   {
     Superclass::Initialize(r);
 
@@ -76,7 +76,7 @@ public:
    * otherwise. in fact, SegmentationLevelSetImageFilter tries to set
    * it when SetFeatureScaling is called.
    */
-  void SetAdvectionWeight(const ScalarValueType value)
+  void SetAdvectionWeight(const ScalarValueType value) ITK_OVERRIDE
   {
     if ( value == NumericTraits< ScalarValueType >::ZeroValue() )
       {

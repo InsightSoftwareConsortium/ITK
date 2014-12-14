@@ -116,16 +116,16 @@ public:
   }
 
   /** Get the fixed parameters */
-  virtual const ParametersType & GetFixedParameters(void) const;
+  virtual const ParametersType & GetFixedParameters(void) const ITK_OVERRIDE;
 
   /** Get the Jacobian matrix. */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const;
+  virtual void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const ITK_OVERRIDE;
 
   /** Get the jacobian with respect to position, which simply is the
    *  matrix because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const;
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Set the factors of an Scale Transform
    * This method sets the factors of an ScaleTransform to a
@@ -140,7 +140,7 @@ public:
     m_Scale = scale; this->ComputeMatrix(); this->Modified();
   }
 
-  virtual void ComputeMatrix(void);
+  virtual void ComputeMatrix(void) ITK_OVERRIDE;
 
   /** Compose with another ScaleTransform. */
   void Compose(const Self *other, bool pre = false);
@@ -154,15 +154,15 @@ public:
    * This method applies the scale transform given by self to a
    * given point or vector, returning the transformed point or
    * vector. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const;
+  OutputPointType     TransformPoint(const InputPointType  & point) const ITK_OVERRIDE;
 
   using Superclass::TransformVector;
-  OutputVectorType    TransformVector(const InputVectorType & vector) const;
+  OutputVectorType    TransformVector(const InputVectorType & vector) const ITK_OVERRIDE;
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const;
+  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE;
 
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const;
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const ITK_OVERRIDE;
 
   /** Back transform by a scale transformation
    * This method finds the point or vector that maps to a given
@@ -188,7 +188,7 @@ public:
   /** Set the transformation to an Identity
    *
    * This sets all the scales to 1.0 */
-  void SetIdentity()
+  void SetIdentity() ITK_OVERRIDE
   {
     m_Scale.Fill(1.0);
   }

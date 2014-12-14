@@ -125,7 +125,7 @@ public:
 protected:
   RegionGrowImageFilter();
   ~RegionGrowImageFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   RegionGrowImageFilter(const Self &); //purposely not implemented

@@ -64,7 +64,7 @@ public:
   itkTypeMacro(ScalarAnisotropicDiffusionFunction,
                AnisotropicDiffusionFunction);
 
-  virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
+  virtual void CalculateAverageGradientMagnitudeSquared(TImage *) ITK_OVERRIDE;
 
 protected:
   ScalarAnisotropicDiffusionFunction() {}

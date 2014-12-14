@@ -115,7 +115,7 @@ protected:
    * Evaluate is used for non-boundary pixels. */
   PixelType Evaluate(const NeighborhoodIteratorType & nit,
                      const KernelIteratorType kernelBegin,
-                     const KernelIteratorType kernelEnd);
+                     const KernelIteratorType kernelEnd) ITK_OVERRIDE;
 
 private:
   BasicDilateImageFilter(const Self &); //purposely not implemented

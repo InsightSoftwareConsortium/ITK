@@ -88,7 +88,7 @@ public:
 
   //Add the layers to the network.
   // 1 input, 1 hidden, 1 output
-  void Initialize();
+  void Initialize() ITK_OVERRIDE;
 
   itkSetMacro(NumOfInputNodes, unsigned int);
   itkGetConstReferenceMacro(NumOfInputNodes, unsigned int);
@@ -113,7 +113,7 @@ public:
   itkSetMacro(OutputLayerBias, ValueType);
   itkGetConstReferenceMacro(OutputLayerBias, ValueType);
 
-  virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector);
+  virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector) ITK_OVERRIDE;
 
   void SetInputFunction(InputFunctionInterfaceType* f);
   void SetInputTransferFunction(TransferFunctionInterfaceType* f);
@@ -130,7 +130,7 @@ protected:
   virtual ~RBFNetwork(){};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:
 

@@ -89,9 +89,9 @@ public:
 protected:
   OrthogonalSwath2DPathFilter();
   virtual ~OrthogonalSwath2DPathFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   OrthogonalSwath2DPathFilter(const Self &); //purposely not implemented

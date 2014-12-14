@@ -256,8 +256,7 @@ protected:
    * different thread).
    *
    * \sa GenerateData(), SplitRequestedRegion() */
-  virtual
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);
 
   /** The GenerateData method normally allocates the buffers for all of the

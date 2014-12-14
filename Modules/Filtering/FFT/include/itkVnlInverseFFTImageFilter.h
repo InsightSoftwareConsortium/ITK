@@ -89,7 +89,7 @@ protected:
   VnlInverseFFTImageFilter()  {}
   virtual ~VnlInverseFFTImageFilter(){}
 
-  virtual void GenerateData();  // generates output from input
+  virtual void GenerateData() ITK_OVERRIDE;  // generates output from input
 
 private:
   VnlInverseFFTImageFilter(const Self &); //purposely not implemented

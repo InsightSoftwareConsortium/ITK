@@ -73,7 +73,7 @@ public:
 protected:
   IsoDataThresholdCalculator() {}
   virtual ~IsoDataThresholdCalculator() {}
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   typedef typename HistogramType::SizeValueType               SizeValueType;
   typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;

@@ -156,7 +156,7 @@ public:
 protected:
   VTKImageImport();
   ~VTKImageImport() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void PropagateRequestedRegion(DataObject *);
 

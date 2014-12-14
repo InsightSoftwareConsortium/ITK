@@ -73,10 +73,10 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  OutputType Evaluate(const InputType & input) const;
+  OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
 
   /** Evaluate the derivative at the specified input position */
-  OutputType EvaluateDerivative(const InputType & input) const;
+  OutputType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
 
 protected:
   HeavisideStepFunction();

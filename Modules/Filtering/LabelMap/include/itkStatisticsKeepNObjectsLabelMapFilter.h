@@ -89,7 +89,7 @@ protected:
   StatisticsKeepNObjectsLabelMapFilter();
   ~StatisticsKeepNObjectsLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsKeepNObjectsLabelMapFilter(const Self &); //purposely not

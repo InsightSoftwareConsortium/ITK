@@ -148,7 +148,7 @@ public:
 protected:
   DeformationFieldSource();
   ~DeformationFieldSource() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * GenerateData() computes the internal KernelBase spline and resamples

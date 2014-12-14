@@ -140,7 +140,7 @@ protected:
 
   virtual ~BorderQuadEdgeMeshFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   BorderTransformType m_TransformType;
   BorderPickType      m_BorderPick;
@@ -151,7 +151,7 @@ protected:
 
   MapPointIdentifier m_BoundaryPtMap;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   void ComputeBoundary();
 

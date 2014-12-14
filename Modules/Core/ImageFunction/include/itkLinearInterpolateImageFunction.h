@@ -94,7 +94,7 @@ public:
    * calling the method. */
   virtual inline OutputType EvaluateAtContinuousIndex(const
                                                       ContinuousIndexType &
-                                                      index) const
+                                                      index) const ITK_OVERRIDE
   {
     return this->EvaluateOptimized(Dispatch< ImageDimension >(), index);
   }
@@ -102,7 +102,7 @@ public:
 protected:
   LinearInterpolateImageFunction();
   ~LinearInterpolateImageFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   LinearInterpolateImageFunction(const Self &); //purposely not implemented

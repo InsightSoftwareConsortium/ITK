@@ -102,7 +102,7 @@ public:
 
   /** Return Current Value */
   itkGetConstReferenceMacro(CurrentCost, MeasureType);
-  virtual const MeasureType & GetValue() const { return this->GetCurrentCost(); }
+  virtual const MeasureType & GetValue() const ITK_OVERRIDE { return this->GetCurrentCost(); }
 
   /** Get the current line search iteration */
   itkGetConstReferenceMacro(CurrentLineIteration, unsigned int);

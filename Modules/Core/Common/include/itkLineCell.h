@@ -59,30 +59,30 @@ public:
          CellDimension    = 1 };
 
   /** Implement the standard CellInterface. */
-  virtual CellGeometry GetType(void) const
+  virtual CellGeometry GetType(void) const ITK_OVERRIDE
   { return Superclass::LINE_CELL; }
-  virtual void MakeCopy(CellAutoPointer &) const;
+  virtual void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
 
-  virtual unsigned int GetDimension(void) const;
+  virtual unsigned int GetDimension(void) const ITK_OVERRIDE;
 
-  virtual unsigned int GetNumberOfPoints(void) const;
+  virtual unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
 
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &);
-  virtual void SetPointIds(PointIdConstIterator first);
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) ITK_OVERRIDE;
+  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
 
   virtual void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last);
+                           PointIdConstIterator last) ITK_OVERRIDE;
 
-  virtual void SetPointId(int localId, PointIdentifier);
-  virtual PointIdIterator      PointIdsBegin(void);
+  virtual void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
+  virtual PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
 
-  virtual PointIdConstIterator PointIdsBegin(void) const;
+  virtual PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
 
-  virtual PointIdIterator      PointIdsEnd(void);
+  virtual PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
 
-  virtual PointIdConstIterator PointIdsEnd(void) const;
+  virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
 
   /** Line-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices(void) const;

@@ -170,10 +170,10 @@ public:
 protected:
   TimeVaryingBSplineVelocityFieldImageRegistrationMethod();
   virtual ~TimeVaryingBSplineVelocityFieldImageRegistrationMethod();
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Perform the registration. */
-  virtual void  GenerateData();
+  virtual void  GenerateData() ITK_OVERRIDE;
 
   /** Handle optimization internally */
   virtual void StartOptimization();

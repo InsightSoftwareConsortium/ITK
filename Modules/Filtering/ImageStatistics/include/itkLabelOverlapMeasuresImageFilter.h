@@ -180,24 +180,24 @@ public:
 protected:
   LabelOverlapMeasuresImageFilter();
   ~LabelOverlapMeasuresImageFilter(){};
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /**
    * Pass the input through unmodified. Do this by setting the output to the
    * source this by setting the output to the source image in the
    * AllocateOutputs() method.
    */
-  void AllocateOutputs();
+  void AllocateOutputs() ITK_OVERRIDE;
 
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
-  void ThreadedGenerateData( const RegionType&, ThreadIdType );
+  void ThreadedGenerateData( const RegionType&, ThreadIdType ) ITK_OVERRIDE;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion( DataObject *data );
+  void EnlargeOutputRequestedRegion( DataObject *data ) ITK_OVERRIDE;
 
 private:
   LabelOverlapMeasuresImageFilter( const Self& ); //purposely not implemented

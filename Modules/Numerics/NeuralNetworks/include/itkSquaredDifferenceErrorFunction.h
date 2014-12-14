@@ -53,9 +53,9 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate at the specified Error position */
-  virtual ScalarType Evaluate(const TMeasurementVector& Errors) const;
+  virtual ScalarType Evaluate(const TMeasurementVector& Errors) const ITK_OVERRIDE;
 
-  virtual InternalVectorType EvaluateDerivative(const TMeasurementVector& Errors) const;
+  virtual InternalVectorType EvaluateDerivative(const TMeasurementVector& Errors) const ITK_OVERRIDE;
 
 protected:
 
@@ -63,7 +63,7 @@ protected:
   virtual ~SquaredDifferenceErrorFunction();
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 };
 
 } // end namespace Statistics

@@ -121,7 +121,7 @@ protected:
   bool m_Mark;
 
   /** Print the object */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 

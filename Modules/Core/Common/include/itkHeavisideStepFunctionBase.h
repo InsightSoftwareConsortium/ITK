@@ -67,7 +67,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const = 0;
+  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE = 0;
 
   /** Evaluate the derivative at the specified input position */
   virtual OutputType EvaluateDerivative(const InputType & input) const = 0;

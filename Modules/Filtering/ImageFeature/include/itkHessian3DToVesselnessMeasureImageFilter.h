@@ -131,10 +131,10 @@ public:
 protected:
   Hessian3DToVesselnessMeasureImageFilter();
   ~Hessian3DToVesselnessMeasureImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   Hessian3DToVesselnessMeasureImageFilter(const Self &); //purposely not

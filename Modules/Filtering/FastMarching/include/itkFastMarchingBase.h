@@ -296,10 +296,10 @@ protected:
   virtual void InitializeOutput( OutputDomainType* oDomain ) = 0;
 
   /**    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** \brief PrintSelf method  */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FastMarchingBase( const Self& );

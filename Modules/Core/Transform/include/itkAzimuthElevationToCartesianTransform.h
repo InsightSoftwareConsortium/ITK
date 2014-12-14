@@ -132,7 +132,7 @@ public:
                                                 const long maxElevation);
 
   /** Transform from azimuth-elevation to cartesian. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const;
+  OutputPointType     TransformPoint(const InputPointType  & point) const ITK_OVERRIDE;
 
   /** Back transform from cartesian to azimuth-elevation.  */
   inline InputPointType  BackTransform(const OutputPointType  & point) const
@@ -209,7 +209,7 @@ protected:
   virtual ~AzimuthElevationToCartesianTransform();
 
   /** Print contents of an AzimuthElevationTransform. */
-  void PrintSelf(std::ostream & s, Indent indent) const;
+  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
 private:
   AzimuthElevationToCartesianTransform(const Self &); // purposely not

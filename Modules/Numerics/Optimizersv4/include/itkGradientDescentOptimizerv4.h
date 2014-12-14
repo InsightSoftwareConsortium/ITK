@@ -213,7 +213,7 @@ protected:
   /** Destructor */
   virtual ~GradientDescentOptimizerv4Template();
 
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Minimum convergence value for convergence checking.
    *  The convergence checker calculates convergence value by fitting to
