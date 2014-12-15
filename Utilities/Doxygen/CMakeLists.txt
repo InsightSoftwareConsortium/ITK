@@ -28,6 +28,7 @@ foreach(itk-module ${DOX_MODULE_LIST})
 endforeach()
 
 list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}/Examples\" \\\n")
+list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}\" \\\n")
 list( APPEND DOXYGEN_TEST_DIRS " \"${ITK_SOURCE_DIR}/Modules/Remote\"\n")
 
 # By definition DOXYGEN_TEST_DIRS can not be empty. In the worst case if
