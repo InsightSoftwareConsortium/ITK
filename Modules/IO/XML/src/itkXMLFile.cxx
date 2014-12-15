@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkXMLFile_hxx
-#define __itkXMLFile_hxx
-
 #include "itkXMLFile.h"
 #include "itksys/SystemTools.hxx"
 #include <fstream>
@@ -131,4 +128,3 @@ XMLReaderBase::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 } // namespace itk
-#endif
