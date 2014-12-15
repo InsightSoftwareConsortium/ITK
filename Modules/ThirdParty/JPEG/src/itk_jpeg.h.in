@@ -26,8 +26,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_jpeg_h
-#define __itk_jpeg_h
+#ifndef itk_jpeg_h
+#define itk_jpeg_h
 
 /* Use the jpeg library configured for ITK.  */
 #cmakedefine  ITK_USE_SYSTEM_JPEG
