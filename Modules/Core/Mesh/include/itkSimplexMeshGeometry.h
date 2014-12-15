@@ -144,7 +144,7 @@ public:
   void ComputeGeometry();
 
 protected:
-}; // end of class __itkSimplexMeshGeometry
+}; // end of class SimplexMeshGeometry
 } //end of namespace itk
 
 #endif

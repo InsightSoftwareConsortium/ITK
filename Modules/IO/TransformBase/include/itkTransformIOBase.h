@@ -183,4 +183,4 @@ typedef itk::TransformIOBaseTemplate<double> TransformIOBase;
 #include "itkTransformIOBase.hxx"
 #endif
 
-#endif // __itkTransformIOBase.h
+#endif // itkTransformIOBase_h

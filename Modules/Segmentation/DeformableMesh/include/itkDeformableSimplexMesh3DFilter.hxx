@@ -639,4 +639,4 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 }
 } /* end namespace itk. */
 
-#endif //__itkDeformableSimplexMesh3DFilter_TXX
+#endif // itkDeformableSimplexMesh3DFilter_hxx

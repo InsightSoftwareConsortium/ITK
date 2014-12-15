@@ -218,4 +218,4 @@ RegistrationParameterScalesFromJacobian< TMetric >
 
 }  // namespace itk
 
-#endif /* __itkRegistrationParameterScalesFromJacobian_txx */
+#endif /* itkRegistrationParameterScalesFromJacobian_hxx */

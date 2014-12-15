@@ -83,4 +83,4 @@ private:
 
 #include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.hxx"
 
-#endif // __ITKQUADEDGEMESH__ITKQEEULEROPERATORCREATECENTERVERTEXFUNCTION__H__
+#endif // itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction_h

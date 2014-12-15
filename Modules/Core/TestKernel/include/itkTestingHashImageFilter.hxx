@@ -168,4 +168,4 @@ HashImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 } // end namespace Testing
 } // end namespace itk
 
-#endif // __itkTestingHashImageFilter_txx
+#endif // itkTestingHashImageFilter_hxx

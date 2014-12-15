@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkMacro_h
 #error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
-#else // __itkMacro.h
+#else // itkMacro_h
 
 #ifndef itkExceptionObject_h
 #define itkExceptionObject_h

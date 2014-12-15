@@ -232,4 +232,4 @@ RegistrationParameterScalesFromShiftBase< TMetric >
 
 }  // namespace itk
 
-#endif /* __itkRegistrationParameterScalesFromShiftBase_txx */
+#endif /* itkRegistrationParameterScalesFromShiftBase_hxx */

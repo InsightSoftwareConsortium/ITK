@@ -118,4 +118,4 @@ protected:
 #include "itkDeformableSimplexMesh3DBalloonForceFilter.hxx"
 #endif
 
-#endif //__itkDeformableSimplexMesh3DBalloonForceFilter_H
+#endif // itkDeformableSimplexMesh3DBalloonForceFilter_h
