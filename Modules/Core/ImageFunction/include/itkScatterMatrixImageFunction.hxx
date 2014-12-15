@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScatterMatrixImageFunction_hxx
-#define __itkScatterMatrixImageFunction_hxx
+#ifndef itkScatterMatrixImageFunction_hxx
+#define itkScatterMatrixImageFunction_hxx
 
 #include "itkScatterMatrixImageFunction.h"
 #include "itkConstNeighborhoodIterator.h"

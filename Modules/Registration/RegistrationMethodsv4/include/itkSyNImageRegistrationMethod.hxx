@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSyNImageRegistrationMethod_hxx
-#define __itkSyNImageRegistrationMethod_hxx
+#ifndef itkSyNImageRegistrationMethod_hxx
+#define itkSyNImageRegistrationMethod_hxx
 
 #include "itkSyNImageRegistrationMethod.h"
 

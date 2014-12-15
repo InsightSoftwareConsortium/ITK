@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaskFeaturePointSelectionFilter_hxx
-#define __itkMaskFeaturePointSelectionFilter_hxx
+#ifndef itkMaskFeaturePointSelectionFilter_hxx
+#define itkMaskFeaturePointSelectionFilter_hxx
 
 
 #include <map>

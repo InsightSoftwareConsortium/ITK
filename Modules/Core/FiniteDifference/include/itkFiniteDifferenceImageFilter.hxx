@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFiniteDifferenceImageFilter_hxx
-#define __itkFiniteDifferenceImageFilter_hxx
+#ifndef itkFiniteDifferenceImageFilter_hxx
+#define itkFiniteDifferenceImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkMacro.h"

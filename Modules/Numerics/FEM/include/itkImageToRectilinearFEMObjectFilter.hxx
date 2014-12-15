@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToRectilinearFEMObjectFilter_hxx
-#define __itkImageToRectilinearFEMObjectFilter_hxx
+#ifndef itkImageToRectilinearFEMObjectFilter_hxx
+#define itkImageToRectilinearFEMObjectFilter_hxx
 
 #include "itkImageToRectilinearFEMObjectFilter.h"
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
@@ -348,4 +348,4 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
 
 }
 }  // end namespace itk::fem
-#endif // __itkImageToRectilinearFEMObjectFilter_hxx
+#endif // itkImageToRectilinearFEMObjectFilter_hxx

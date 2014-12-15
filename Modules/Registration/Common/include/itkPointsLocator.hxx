@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointsLocator_hxx
-#define __itkPointsLocator_hxx
+#ifndef itkPointsLocator_hxx
+#define itkPointsLocator_hxx
 #include "itkPointsLocator.h"
 
 namespace itk

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentOptimizerBasev4_hxx
-#define __itkGradientDescentOptimizerBasev4_hxx
+#ifndef itkGradientDescentOptimizerBasev4_hxx
+#define itkGradientDescentOptimizerBasev4_hxx
 
 #include "itkGradientDescentOptimizerBasev4.h"
 #include "itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDerivativeOperator_hxx
-#define __itkDerivativeOperator_hxx
+#ifndef itkDerivativeOperator_hxx
+#define itkDerivativeOperator_hxx
 #include "itkDerivativeOperator.h"
 
 #include "itkNumericTraits.h"

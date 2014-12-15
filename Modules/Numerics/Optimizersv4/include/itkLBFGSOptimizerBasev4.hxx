@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLBFGSOptimizerBasev4_hxx
-#define __itkLBFGSOptimizerBasev4_hxx
+#ifndef itkLBFGSOptimizerBasev4_hxx
+#define itkLBFGSOptimizerBasev4_hxx
 
 #include "itkLBFGSOptimizerBasev4.h"
 

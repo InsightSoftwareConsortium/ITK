@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationCurvatureTerm_hxx
-#define __itkLevelSetEquationCurvatureTerm_hxx
+#ifndef itkLevelSetEquationCurvatureTerm_hxx
+#define itkLevelSetEquationCurvatureTerm_hxx
 
 #include "itkLevelSetEquationCurvatureTerm.h"
 

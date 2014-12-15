@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegistrationParameterScalesFromShiftBase_hxx
-#define __itkRegistrationParameterScalesFromShiftBase_hxx
+#ifndef itkRegistrationParameterScalesFromShiftBase_hxx
+#define itkRegistrationParameterScalesFromShiftBase_hxx
 
 #include "itkRegistrationParameterScalesFromShiftBase.h"
 

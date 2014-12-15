@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMesh_hxx
-#define __itkMesh_hxx
+#ifndef itkMesh_hxx
+#define itkMesh_hxx
 
 #include "itkMesh.h"
 #include "itkProcessObject.h"

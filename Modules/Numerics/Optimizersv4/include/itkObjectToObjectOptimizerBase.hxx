@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectToObjectOptimizerBase_hxx
-#define __itkObjectToObjectOptimizerBase_hxx
+#ifndef itkObjectToObjectOptimizerBase_hxx
+#define itkObjectToObjectOptimizerBase_hxx
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkMultiThreader.h"

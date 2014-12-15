@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkBinaryImageToLevelSetImageAdaptor_hxx
-#define __itkBinaryImageToLevelSetImageAdaptor_hxx
+#ifndef itkBinaryImageToLevelSetImageAdaptor_hxx
+#define itkBinaryImageToLevelSetImageAdaptor_hxx
 
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
@@ -797,4 +797,4 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
   }
 }
 
-#endif // __itkBinaryImageToLevelSetImageAdaptor_hxx
+#endif // itkBinaryImageToLevelSetImageAdaptor_hxx

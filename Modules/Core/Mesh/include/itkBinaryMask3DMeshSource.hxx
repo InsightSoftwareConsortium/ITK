@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMask3DMeshSource_hxx
-#define __itkBinaryMask3DMeshSource_hxx
+#ifndef itkBinaryMask3DMeshSource_hxx
+#define itkBinaryMask3DMeshSource_hxx
 
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkContinuousIndex.h"

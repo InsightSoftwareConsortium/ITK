@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryGrindPeakImageFilter_hxx
-#define __itkBinaryGrindPeakImageFilter_hxx
+#ifndef itkBinaryGrindPeakImageFilter_hxx
+#define itkBinaryGrindPeakImageFilter_hxx
 
 #include "itkBinaryGrindPeakImageFilter.h"
 #include "itkBinaryImageToShapeLabelMapFilter.h"

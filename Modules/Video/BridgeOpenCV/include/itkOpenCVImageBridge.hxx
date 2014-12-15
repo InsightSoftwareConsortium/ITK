@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOpenCVImageBridge_hxx
-#define __itkOpenCVImageBridge_hxx
+#ifndef itkOpenCVImageBridge_hxx
+#define itkOpenCVImageBridge_hxx
 
 #include "itkOpenCVImageBridge.h"
 #include "itkNumericTraits.h"

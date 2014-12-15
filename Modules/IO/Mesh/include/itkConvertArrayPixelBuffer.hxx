@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConvertArrayPixelBuffer_hxx
-#define __itkConvertArrayPixelBuffer_hxx
+#ifndef itkConvertArrayPixelBuffer_hxx
+#define itkConvertArrayPixelBuffer_hxx
 
 #include "itkConvertArrayPixelBuffer.h"
 

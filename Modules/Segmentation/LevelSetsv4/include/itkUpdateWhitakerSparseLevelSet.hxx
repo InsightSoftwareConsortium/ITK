@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateWhitakerSparseLevelSet_hxx
-#define __itkUpdateWhitakerSparseLevelSet_hxx
+#ifndef itkUpdateWhitakerSparseLevelSet_hxx
+#define itkUpdateWhitakerSparseLevelSet_hxx
 
 #include "itkUpdateWhitakerSparseLevelSet.h"
 
@@ -1131,4 +1131,4 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
     }
 }
 }
-#endif // __itkUpdateWhitakerSparseLevelSet_hxx
+#endif // itkUpdateWhitakerSparseLevelSet_hxx

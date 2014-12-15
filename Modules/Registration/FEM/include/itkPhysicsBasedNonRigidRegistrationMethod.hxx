@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPhysicsBasedNonRigidRegistrationMethod_hxx
-#define __itkPhysicsBasedNonRigidRegistrationMethod_hxx
+#ifndef itkPhysicsBasedNonRigidRegistrationMethod_hxx
+#define itkPhysicsBasedNonRigidRegistrationMethod_hxx
 
 #include <iostream>
 #include "itkTimeProbe.h"

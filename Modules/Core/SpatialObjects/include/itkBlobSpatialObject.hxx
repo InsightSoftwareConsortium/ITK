@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBlobSpatialObject_hxx
-#define __itkBlobSpatialObject_hxx
+#ifndef itkBlobSpatialObject_hxx
+#define itkBlobSpatialObject_hxx
 
 
 #include "itkBlobSpatialObject.h"

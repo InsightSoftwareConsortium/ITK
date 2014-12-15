@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryImageToStatisticsLabelMapFilter_hxx
-#define __itkBinaryImageToStatisticsLabelMapFilter_hxx
+#ifndef itkBinaryImageToStatisticsLabelMapFilter_hxx
+#define itkBinaryImageToStatisticsLabelMapFilter_hxx
 
 #include "itkBinaryImageToStatisticsLabelMapFilter.h"
 #include "itkProgressAccumulator.h"

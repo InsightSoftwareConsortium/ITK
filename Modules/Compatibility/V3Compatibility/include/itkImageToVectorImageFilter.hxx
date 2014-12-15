@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToVectorImageFilter_hxx
-#define __itkImageToVectorImageFilter_hxx
+#ifndef itkImageToVectorImageFilter_hxx
+#define itkImageToVectorImageFilter_hxx
 
 #include "itkImageToVectorImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVTKTetrahedralMeshReader_hxx
-#define __itkVTKTetrahedralMeshReader_hxx
+#ifndef itkVTKTetrahedralMeshReader_hxx
+#define itkVTKTetrahedralMeshReader_hxx
 
 #include "itkVTKTetrahedralMeshReader.h"
 #include <fstream>

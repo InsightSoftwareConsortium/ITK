@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectMorphologyImageFilter_hxx
-#define __itkObjectMorphologyImageFilter_hxx
+#ifndef itkObjectMorphologyImageFilter_hxx
+#define itkObjectMorphologyImageFilter_hxx
 
 #include <climits>
 

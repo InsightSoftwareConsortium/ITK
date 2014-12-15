@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkClampImageFilter_hxx
-#define __itkClampImageFilter_hxx
+#ifndef itkClampImageFilter_hxx
+#define itkClampImageFilter_hxx
 
 #include "itkClampImageFilter.h"
 #include "itkProgressReporter.h"

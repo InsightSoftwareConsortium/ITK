@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageToRunLengthMatrixFilter_hxx
-#define __itkScalarImageToRunLengthMatrixFilter_hxx
+#ifndef itkScalarImageToRunLengthMatrixFilter_hxx
+#define itkScalarImageToRunLengthMatrixFilter_hxx
 
 #include "itkScalarImageToRunLengthMatrixFilter.h"
 

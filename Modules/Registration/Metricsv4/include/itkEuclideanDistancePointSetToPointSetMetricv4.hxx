@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEuclideanDistancePointSetToPointSetMetricv4_hxx
-#define __itkEuclideanDistancePointSetToPointSetMetricv4_hxx
+#ifndef itkEuclideanDistancePointSetToPointSetMetricv4_hxx
+#define itkEuclideanDistancePointSetToPointSetMetricv4_hxx
 
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
 

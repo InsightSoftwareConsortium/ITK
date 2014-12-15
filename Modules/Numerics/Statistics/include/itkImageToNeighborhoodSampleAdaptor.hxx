@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToNeighborhoodSampleAdaptor_hxx
-#define __itkImageToNeighborhoodSampleAdaptor_hxx
+#ifndef itkImageToNeighborhoodSampleAdaptor_hxx
+#define itkImageToNeighborhoodSampleAdaptor_hxx
 
 #include "itkImageToNeighborhoodSampleAdaptor.h"
 

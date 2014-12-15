@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNarrowBandImageFilterBase_hxx
-#define __itkNarrowBandImageFilterBase_hxx
+#ifndef itkNarrowBandImageFilterBase_hxx
+#define itkNarrowBandImageFilterBase_hxx
 
 #include "itkNarrowBandImageFilterBase.h"
 #include "itkShiftScaleImageFilter.h"

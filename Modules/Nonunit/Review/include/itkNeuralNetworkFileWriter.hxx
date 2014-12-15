@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeuralNetworkFileWriter_hxx
-#define __itkNeuralNetworkFileWriter_hxx
+#ifndef itkNeuralNetworkFileWriter_hxx
+#define itkNeuralNetworkFileWriter_hxx
 
 #include "itksys/ios/sstream"
 #include "itkNeuralNetworkFileWriter.h"

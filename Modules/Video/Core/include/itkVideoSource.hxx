@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVideoSource_hxx
-#define __itkVideoSource_hxx
+#ifndef itkVideoSource_hxx
+#define itkVideoSource_hxx
 
 #include "itkVideoSource.h"
 

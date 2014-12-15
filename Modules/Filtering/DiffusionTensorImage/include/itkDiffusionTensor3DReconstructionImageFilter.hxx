@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiffusionTensor3DReconstructionImageFilter_hxx
-#define __itkDiffusionTensor3DReconstructionImageFilter_hxx
+#ifndef itkDiffusionTensor3DReconstructionImageFilter_hxx
+#define itkDiffusionTensor3DReconstructionImageFilter_hxx
 
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

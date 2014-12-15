@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScaleVersor3DTransform_hxx
-#define __itkScaleVersor3DTransform_hxx
+#ifndef itkScaleVersor3DTransform_hxx
+#define itkScaleVersor3DTransform_hxx
 
 #include "itkScaleVersor3DTransform.h"
 

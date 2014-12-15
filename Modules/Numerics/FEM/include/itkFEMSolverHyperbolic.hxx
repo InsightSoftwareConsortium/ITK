@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMSolverHyperbolic_hxx
-#define __itkFEMSolverHyperbolic_hxx
+#ifndef itkFEMSolverHyperbolic_hxx
+#define itkFEMSolverHyperbolic_hxx
 
 #include "itkFEMSolverHyperbolic.h"
 
@@ -255,4 +255,4 @@ SolverHyperbolic<VDimension>
 } // end namespace fem
 } // end namespace itk
 
-#endif // __itkFEMSolverHyperbolic_hxx
+#endif // itkFEMSolverHyperbolic_hxx

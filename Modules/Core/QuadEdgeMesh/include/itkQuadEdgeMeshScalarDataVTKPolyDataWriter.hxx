@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshScalarDataVTKPolyDataWriter_hxx
-#define __itkQuadEdgeMeshScalarDataVTKPolyDataWriter_hxx
+#ifndef itkQuadEdgeMeshScalarDataVTKPolyDataWriter_hxx
+#define itkQuadEdgeMeshScalarDataVTKPolyDataWriter_hxx
 
 #include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h"
 

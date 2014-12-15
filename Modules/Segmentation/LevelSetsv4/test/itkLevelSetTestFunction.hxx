@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetTestFunction_hxx
-#define __itkLevelSetTestFunction_hxx
+#ifndef itkLevelSetTestFunction_hxx
+#define itkLevelSetTestFunction_hxx
 
 #include "itkLevelSetTestFunction.h"
 

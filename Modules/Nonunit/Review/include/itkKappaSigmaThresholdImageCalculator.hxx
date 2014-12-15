@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKappaSigmaThresholdImageCalculator_hxx
-#define __itkKappaSigmaThresholdImageCalculator_hxx
+#ifndef itkKappaSigmaThresholdImageCalculator_hxx
+#define itkKappaSigmaThresholdImageCalculator_hxx
 #include "itkKappaSigmaThresholdImageCalculator.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"

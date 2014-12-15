@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestingHashImageFilter_hxx
-#define __itkTestingHashImageFilter_hxx
+#ifndef itkTestingHashImageFilter_hxx
+#define itkTestingHashImageFilter_hxx
 
 #include "itkTestingHashImageFilter.h"
 #include "itkByteSwapper.h"

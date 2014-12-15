@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDistanceMetric_hxx
-#define __itkDistanceMetric_hxx
+#ifndef itkDistanceMetric_hxx
+#define itkDistanceMetric_hxx
 
 #include "itkDistanceMetric.h"
 

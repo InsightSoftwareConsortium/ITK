@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeContainer_hxx
-#define __itkTreeContainer_hxx
+#ifndef itkTreeContainer_hxx
+#define itkTreeContainer_hxx
 
 #include "itkTreeContainer.h"
 

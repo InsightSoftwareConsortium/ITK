@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateMalcolmSparseLevelSet_hxx
-#define __itkUpdateMalcolmSparseLevelSet_hxx
+#ifndef itkUpdateMalcolmSparseLevelSet_hxx
+#define itkUpdateMalcolmSparseLevelSet_hxx
 
 #include "itkUpdateMalcolmSparseLevelSet.h"
 
@@ -483,4 +483,4 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 }
 
 }
-#endif // __itkUpdateMalcolmSparseLevelSet_hxx
+#endif // itkUpdateMalcolmSparseLevelSet_hxx

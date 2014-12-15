@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelGeometryImageFilter_hxx
-#define __itkLabelGeometryImageFilter_hxx
+#ifndef itkLabelGeometryImageFilter_hxx
+#define itkLabelGeometryImageFilter_hxx
 
 #include "itkLabelGeometryImageFilter.h"
 

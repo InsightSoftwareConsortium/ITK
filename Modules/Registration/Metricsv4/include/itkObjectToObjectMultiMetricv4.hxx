@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectToObjectMultiMetricv4_hxx
-#define __itkObjectToObjectMultiMetricv4_hxx
+#ifndef itkObjectToObjectMultiMetricv4_hxx
+#define itkObjectToObjectMultiMetricv4_hxx
 
 #include "itkObjectToObjectMultiMetricv4.h"
 #include "itkCompositeTransform.h"
@@ -366,4 +366,4 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 
 } // end namespace itk
 
-#endif //__itkObjectToObjectMultiMetricv4_hxx
+#endif //itkObjectToObjectMultiMetricv4_hxx

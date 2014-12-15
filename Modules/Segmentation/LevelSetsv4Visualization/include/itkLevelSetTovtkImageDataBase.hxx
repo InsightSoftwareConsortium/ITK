@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetTovtkImageDataBase_hxx
-#define __itkLevelSetTovtkImageDataBase_hxx
+#ifndef itkLevelSetTovtkImageDataBase_hxx
+#define itkLevelSetTovtkImageDataBase_hxx
 
 #include "itkLevelSetTovtkImageDataBase.h"
 
@@ -55,4 +55,4 @@ LevelSetTovtkImageDataBase< TLevelSet >
 
 }
 
-#endif // __itkLevelSetTovtkImageDataBase_h
+#endif // itkLevelSetTovtkImageDataBase_h

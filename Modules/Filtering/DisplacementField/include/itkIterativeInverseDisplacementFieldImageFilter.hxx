@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeInverseDisplacementFieldImageFilter_hxx
-#define __itkIterativeInverseDisplacementFieldImageFilter_hxx
+#ifndef itkIterativeInverseDisplacementFieldImageFilter_hxx
+#define itkIterativeInverseDisplacementFieldImageFilter_hxx
 
 #include "itkIterativeInverseDisplacementFieldImageFilter.h"
 #include "itkProgressReporter.h"

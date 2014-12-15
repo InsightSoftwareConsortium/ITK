@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTriangleMeshToSimplexMeshFilter_hxx
-#define __itkTriangleMeshToSimplexMeshFilter_hxx
+#ifndef itkTriangleMeshToSimplexMeshFilter_hxx
+#define itkTriangleMeshToSimplexMeshFilter_hxx
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 
 namespace itk

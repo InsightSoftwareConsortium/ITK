@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCoxDeBoorBSplineKernelFunction_hxx
-#define __itkCoxDeBoorBSplineKernelFunction_hxx
+#ifndef itkCoxDeBoorBSplineKernelFunction_hxx
+#define itkCoxDeBoorBSplineKernelFunction_hxx
 
 #include "itkCoxDeBoorBSplineKernelFunction.h"
 

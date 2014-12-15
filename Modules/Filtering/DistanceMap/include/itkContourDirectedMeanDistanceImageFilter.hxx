@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkContourDirectedMeanDistanceImageFilter_hxx
-#define __itkContourDirectedMeanDistanceImageFilter_hxx
+#ifndef itkContourDirectedMeanDistanceImageFilter_hxx
+#define itkContourDirectedMeanDistanceImageFilter_hxx
 
 #include "itkContourDirectedMeanDistanceImageFilter.h"
 

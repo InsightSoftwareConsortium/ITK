@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageShapeModelEstimatorBase_hxx
-#define __itkImageShapeModelEstimatorBase_hxx
+#ifndef itkImageShapeModelEstimatorBase_hxx
+#define itkImageShapeModelEstimatorBase_hxx
 
 #include "itkImageShapeModelEstimatorBase.h"
 #include "itkCommand.h"

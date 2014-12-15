@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetTovtkImageData_hxx
-#define __itkLevelSetTovtkImageData_hxx
+#ifndef itkLevelSetTovtkImageData_hxx
+#define itkLevelSetTovtkImageData_hxx
 
 #include "itkLevelSetTovtkImageData.h"
 
@@ -214,4 +214,4 @@ LevelSetTovtkImageData< MalcolmSparseLevelSetImage< VDimension > >
   }
 }
 
-#endif // __itkLevelSetTovtkImageData_h
+#endif // itkLevelSetTovtkImageData_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTorusInteriorExteriorSpatialFunction_hxx
-#define __itkTorusInteriorExteriorSpatialFunction_hxx
+#ifndef itkTorusInteriorExteriorSpatialFunction_hxx
+#define itkTorusInteriorExteriorSpatialFunction_hxx
 
 #include "itkTorusInteriorExteriorSpatialFunction.h"
 

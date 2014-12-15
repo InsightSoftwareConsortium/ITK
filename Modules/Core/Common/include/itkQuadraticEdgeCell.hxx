@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadraticEdgeCell_hxx
-#define __itkQuadraticEdgeCell_hxx
+#ifndef itkQuadraticEdgeCell_hxx
+#define itkQuadraticEdgeCell_hxx
 #include "itkQuadraticEdgeCell.h"
 
 namespace itk

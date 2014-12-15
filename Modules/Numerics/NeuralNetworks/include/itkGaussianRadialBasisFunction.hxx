@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianRadialBasisFunction_hxx
-#define __itkGaussianRadialBasisFunction_hxx
+#ifndef itkGaussianRadialBasisFunction_hxx
+#define itkGaussianRadialBasisFunction_hxx
 
 #include "itkGaussianRadialBasisFunction.h"
 

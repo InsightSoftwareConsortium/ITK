@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUBinaryThresholdImageFilter_hxx
-#define __itkGPUBinaryThresholdImageFilter_hxx
+#ifndef itkGPUBinaryThresholdImageFilter_hxx
+#define itkGPUBinaryThresholdImageFilter_hxx
 
 #include "itkGPUBinaryThresholdImageFilter.h"
 

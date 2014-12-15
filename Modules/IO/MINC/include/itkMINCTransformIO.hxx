@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMINCTransformIO_hxx
-#define __itkMINCTransformIO_hxx
+#ifndef itkMINCTransformIO_hxx
+#define itkMINCTransformIO_hxx
 
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"

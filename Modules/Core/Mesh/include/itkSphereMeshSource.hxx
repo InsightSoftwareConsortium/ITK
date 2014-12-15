@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSphereMeshSource_hxx
-#define __itkSphereMeshSource_hxx
+#ifndef itkSphereMeshSource_hxx
+#define itkSphereMeshSource_hxx
 
 #include "itkIntTypes.h"
 #include "itkSphereMeshSource.h"

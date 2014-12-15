@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationAdvectionTerm_hxx
-#define __itkLevelSetEquationAdvectionTerm_hxx
+#ifndef itkLevelSetEquationAdvectionTerm_hxx
+#define itkLevelSetEquationAdvectionTerm_hxx
 
 #include "itkLevelSetEquationAdvectionTerm.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"

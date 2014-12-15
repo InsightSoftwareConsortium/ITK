@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectToObjectMetricBase_hxx
-#define __itkObjectToObjectMetricBase_hxx
+#ifndef itkObjectToObjectMetricBase_hxx
+#define itkObjectToObjectMetricBase_hxx
 
 #include "itkObjectToObjectMetricBase.h"
 

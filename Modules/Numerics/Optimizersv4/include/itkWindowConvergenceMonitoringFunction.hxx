@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWindowConvergenceMonitoringFunction_hxx
-#define __itkWindowConvergenceMonitoringFunction_hxx
+#ifndef itkWindowConvergenceMonitoringFunction_hxx
+#define itkWindowConvergenceMonitoringFunction_hxx
 
 #include "itkWindowConvergenceMonitoringFunction.h"
 

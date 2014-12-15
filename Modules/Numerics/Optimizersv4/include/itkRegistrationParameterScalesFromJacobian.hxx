@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegistrationParameterScalesFromJacobian_hxx
-#define __itkRegistrationParameterScalesFromJacobian_hxx
+#ifndef itkRegistrationParameterScalesFromJacobian_hxx
+#define itkRegistrationParameterScalesFromJacobian_hxx
 
 #include "itkRegistrationParameterScalesFromJacobian.h"
 

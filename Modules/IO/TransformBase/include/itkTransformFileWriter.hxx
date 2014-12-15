@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformFileWriter_hxx
-#define __itkTransformFileWriter_hxx
+#ifndef itkTransformFileWriter_hxx
+#define itkTransformFileWriter_hxx
 
 #include "itkTransformFileWriter.h"
 #include "itkTransformFactoryBase.h"

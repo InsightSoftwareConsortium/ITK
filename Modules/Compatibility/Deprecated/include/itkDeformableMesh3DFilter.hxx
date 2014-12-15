@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformableMesh3DFilter_hxx
-#define __itkDeformableMesh3DFilter_hxx
+#ifndef itkDeformableMesh3DFilter_hxx
+#define itkDeformableMesh3DFilter_hxx
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkDeformableMesh3DFilter.h"

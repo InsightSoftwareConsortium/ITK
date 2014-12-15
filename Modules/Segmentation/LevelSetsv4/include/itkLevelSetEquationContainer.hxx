@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationContainer_hxx
-#define __itkLevelSetEquationContainer_hxx
+#ifndef itkLevelSetEquationContainer_hxx
+#define itkLevelSetEquationContainer_hxx
 
 #include "itkLevelSetEquationContainer.h"
 #include "itkNumericTraits.h"
@@ -173,4 +173,4 @@ LevelSetEquationContainer< TTermContainer >
 
 }
 
-#endif // __itkLevelSetEquationContainer_hxx
+#endif // itkLevelSetEquationContainer_hxx

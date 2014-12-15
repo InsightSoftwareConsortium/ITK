@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHConcaveImageFilter_hxx
-#define __itkHConcaveImageFilter_hxx
+#ifndef itkHConcaveImageFilter_hxx
+#define itkHConcaveImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkHConcaveImageFilter.h"

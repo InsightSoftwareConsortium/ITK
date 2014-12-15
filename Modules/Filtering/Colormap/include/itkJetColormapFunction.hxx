@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJetColormapFunction_hxx
-#define __itkJetColormapFunction_hxx
+#ifndef itkJetColormapFunction_hxx
+#define itkJetColormapFunction_hxx
 
 #include "itkJetColormapFunction.h"
 

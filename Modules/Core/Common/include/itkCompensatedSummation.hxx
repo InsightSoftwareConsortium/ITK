@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompensatedSummation_hxx
-#define __itkCompensatedSummation_hxx
+#ifndef itkCompensatedSummation_hxx
+#define itkCompensatedSummation_hxx
 
 #include "itkCompensatedSummation.h"
 

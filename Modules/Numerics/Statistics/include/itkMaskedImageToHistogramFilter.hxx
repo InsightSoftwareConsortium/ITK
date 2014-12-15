@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaskedImageToHistogramFilter_hxx
-#define __itkMaskedImageToHistogramFilter_hxx
+#ifndef itkMaskedImageToHistogramFilter_hxx
+#define itkMaskedImageToHistogramFilter_hxx
 
 #include "itkMaskedImageToHistogramFilter.h"
 #include "itkProgressReporter.h"

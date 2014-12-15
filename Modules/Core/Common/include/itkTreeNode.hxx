@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeNode_hxx
-#define __itkTreeNode_hxx
+#ifndef itkTreeNode_hxx
+#define itkTreeNode_hxx
 
 #include "itkMacro.h"
 #include "itkTreeNode.h"

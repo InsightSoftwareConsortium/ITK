@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUReduction_hxx
-#define __itkGPUReduction_hxx
+#ifndef itkGPUReduction_hxx
+#define itkGPUReduction_hxx
 
 #include "itkMacro.h"
 #include "itkGPUReduction.h"

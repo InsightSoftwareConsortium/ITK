@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVesselTubeSpatialObjectPoint_hxx
-#define __itkVesselTubeSpatialObjectPoint_hxx
+#ifndef itkVesselTubeSpatialObjectPoint_hxx
+#define itkVesselTubeSpatialObjectPoint_hxx
 
 #include "itkVesselTubeSpatialObjectPoint.h"
 

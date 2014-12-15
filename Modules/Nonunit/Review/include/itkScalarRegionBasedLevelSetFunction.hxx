@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarRegionBasedLevelSetFunction_hxx
-#define __itkScalarRegionBasedLevelSetFunction_hxx
+#ifndef itkScalarRegionBasedLevelSetFunction_hxx
+#define itkScalarRegionBasedLevelSetFunction_hxx
 
 #include "itkScalarRegionBasedLevelSetFunction.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVertexCell_hxx
-#define __itkVertexCell_hxx
+#ifndef itkVertexCell_hxx
+#define itkVertexCell_hxx
 #include "itkVertexCell.h"
 
 namespace itk

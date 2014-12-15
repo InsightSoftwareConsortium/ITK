@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSeriesWriter_hxx
-#define __itkImageSeriesWriter_hxx
+#ifndef itkImageSeriesWriter_hxx
+#define itkImageSeriesWriter_hxx
 
 #include "itkImageSeriesWriter.h"
 #include "itkDataObject.h"

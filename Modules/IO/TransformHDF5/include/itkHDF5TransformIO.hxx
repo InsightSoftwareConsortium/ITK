@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHDF5TransformIO_hxx
-#define __itkHDF5TransformIO_hxx
+#ifndef itkHDF5TransformIO_hxx
+#define itkHDF5TransformIO_hxx
 
 #include "itkHDF5TransformIO.h"
 #include "itksys/SystemTools.hxx"

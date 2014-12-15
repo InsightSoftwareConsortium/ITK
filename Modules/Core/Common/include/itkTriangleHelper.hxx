@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTriangleHelper_hxx
-#define __itkTriangleHelper_hxx
+#ifndef itkTriangleHelper_hxx
+#define itkTriangleHelper_hxx
 
 #include "itkTriangleHelper.h"
 

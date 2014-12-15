@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLandmarkBasedTransformInitializer_hxx
-#define __itkLandmarkBasedTransformInitializer_hxx
+#ifndef itkLandmarkBasedTransformInitializer_hxx
+#define itkLandmarkBasedTransformInitializer_hxx
 
 #include "itkLandmarkBasedTransformInitializer.h"
 #include "itkMatrix.h"
@@ -722,4 +722,4 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 }
 }  // namespace itk
 
-#endif /* __itkLandmarkBasedTransformInitializer_hxx */
+#endif /* itkLandmarkBasedTransformInitializer_hxx */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToListSampleFilter_hxx
-#define __itkImageToListSampleFilter_hxx
+#ifndef itkImageToListSampleFilter_hxx
+#define itkImageToListSampleFilter_hxx
 
 #include "itkImageToListSampleFilter.h"
 #include "itkImageRegionConstIterator.h"

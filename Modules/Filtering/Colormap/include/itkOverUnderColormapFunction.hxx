@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOverUnderColormapFunction_hxx
-#define __itkOverUnderColormapFunction_hxx
+#ifndef itkOverUnderColormapFunction_hxx
+#define itkOverUnderColormapFunction_hxx
 
 #include "itkOverUnderColormapFunction.h"
 

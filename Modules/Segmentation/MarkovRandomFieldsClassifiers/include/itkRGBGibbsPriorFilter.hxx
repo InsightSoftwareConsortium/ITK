@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRGBGibbsPriorFilter_hxx
-#define __itkRGBGibbsPriorFilter_hxx
+#ifndef itkRGBGibbsPriorFilter_hxx
+#define itkRGBGibbsPriorFilter_hxx
 
 #include "itkRGBGibbsPriorFilter.h"
 #include <cstdlib>

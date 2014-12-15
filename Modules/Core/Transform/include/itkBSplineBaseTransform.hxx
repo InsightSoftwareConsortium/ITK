@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineBaseTransform_hxx
-#define __itkBSplineBaseTransform_hxx
+#ifndef itkBSplineBaseTransform_hxx
+#define itkBSplineBaseTransform_hxx
 
 #include "itkBSplineBaseTransform.h"
 

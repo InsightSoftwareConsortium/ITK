@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTranslationTransform_hxx
-#define __itkTranslationTransform_hxx
+#ifndef itkTranslationTransform_hxx
+#define itkTranslationTransform_hxx
 
 #include "itkTranslationTransform.h"
 #include "itkMath.h"

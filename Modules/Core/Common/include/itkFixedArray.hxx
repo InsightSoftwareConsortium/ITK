@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFixedArray_hxx
-#define __itkFixedArray_hxx
+#ifndef itkFixedArray_hxx
+#define itkFixedArray_hxx
 
 #include "itkNumericTraitsFixedArrayPixel.h"
 

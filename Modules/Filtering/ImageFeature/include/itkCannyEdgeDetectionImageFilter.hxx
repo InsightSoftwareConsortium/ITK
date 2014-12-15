@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCannyEdgeDetectionImageFilter_hxx
-#define __itkCannyEdgeDetectionImageFilter_hxx
+#ifndef itkCannyEdgeDetectionImageFilter_hxx
+#define itkCannyEdgeDetectionImageFilter_hxx
 #include "itkCannyEdgeDetectionImageFilter.h"
 
 #include "itkZeroCrossingImageFilter.h"

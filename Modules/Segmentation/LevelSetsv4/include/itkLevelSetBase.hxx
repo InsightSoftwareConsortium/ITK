@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetBase_hxx
-#define __itkLevelSetBase_hxx
+#ifndef itkLevelSetBase_hxx
+#define itkLevelSetBase_hxx
 
 #include "itkLevelSetBase.h"
 
@@ -335,4 +335,4 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 
 } // end namespace itk
 
-#endif // __itkLevelSetBase_hxx
+#endif // itkLevelSetBase_hxx

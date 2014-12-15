@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 
-#ifndef __itkLevelSetEvolutionBase_hxx
-#define __itkLevelSetEvolutionBase_hxx
+#ifndef itkLevelSetEvolutionBase_hxx
+#define itkLevelSetEvolutionBase_hxx
 
 #include "itkLevelSetEvolutionBase.h"
 
@@ -269,4 +269,4 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 }
 
 }
-#endif // __itkLevelSetEvolutionBase_hxx
+#endif // itkLevelSetEvolutionBase_hxx

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkWhitakerSparseLevelSetImage_hxx
-#define __itkWhitakerSparseLevelSetImage_hxx
+#ifndef itkWhitakerSparseLevelSetImage_hxx
+#define itkWhitakerSparseLevelSetImage_hxx
 
 #include "itkWhitakerSparseLevelSetImage.h"
 
@@ -121,4 +121,4 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
 }
 }
 
-#endif // __itkWhitakerSparseLevelSetImage_hxx
+#endif // itkWhitakerSparseLevelSetImage_hxx

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMattesMutualInformationImageToImageMetricv4_hxx
-#define __itkMattesMutualInformationImageToImageMetricv4_hxx
+#ifndef itkMattesMutualInformationImageToImageMetricv4_hxx
+#define itkMattesMutualInformationImageToImageMetricv4_hxx
 
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkCompensatedSummation.h"

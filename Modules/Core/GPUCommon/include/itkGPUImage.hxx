@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUImage_hxx
-#define __itkGPUImage_hxx
+#ifndef itkGPUImage_hxx
+#define itkGPUImage_hxx
 
 #include "itkGPUImage.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMObject_hxx
-#define __itkFEMObject_hxx
+#ifndef itkFEMObject_hxx
+#define itkFEMObject_hxx
 
 #include "itkFEMObject.h"
 
@@ -693,4 +693,4 @@ FEMObject<VDimension>
 
 }
 } // end namespace itk::fem
-#endif // __itkFEMObject_hxx
+#endif // itkFEMObject_hxx

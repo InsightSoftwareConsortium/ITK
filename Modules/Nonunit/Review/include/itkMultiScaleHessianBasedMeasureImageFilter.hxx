@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiScaleHessianBasedMeasureImageFilter_hxx
-#define __itkMultiScaleHessianBasedMeasureImageFilter_hxx
+#ifndef itkMultiScaleHessianBasedMeasureImageFilter_hxx
+#define itkMultiScaleHessianBasedMeasureImageFilter_hxx
 
 #include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"

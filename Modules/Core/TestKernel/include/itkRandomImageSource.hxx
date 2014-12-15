@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkRandomImageSource_hxx
-#define __itkRandomImageSource_hxx
+#ifndef itkRandomImageSource_hxx
+#define itkRandomImageSource_hxx
 
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"

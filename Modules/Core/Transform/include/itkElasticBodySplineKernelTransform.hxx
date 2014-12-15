@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkElasticBodySplineKernelTransform_hxx
-#define __itkElasticBodySplineKernelTransform_hxx
+#ifndef itkElasticBodySplineKernelTransform_hxx
+#define itkElasticBodySplineKernelTransform_hxx
 #include "itkElasticBodySplineKernelTransform.h"
 
 namespace itk
