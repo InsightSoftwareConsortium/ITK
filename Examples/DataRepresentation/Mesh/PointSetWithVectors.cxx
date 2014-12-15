@@ -55,7 +55,7 @@ int main(int, char *[])
   //  dimension for the vectors to be used as pixel type. However, for the
   //  sake of producing an interesting example, we will use vectors that
   //  represent displacements of the points in the PointSet. Those vectors
-  //  are then selected to be of the same dimension as the PointSet.
+  //  are then selected to be of the same dimension as the PointSet.\newline
   //
   //
   //  \index{itk::Vector!itk::PointSet}
