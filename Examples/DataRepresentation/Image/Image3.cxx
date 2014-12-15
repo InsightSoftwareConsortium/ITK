@@ -58,15 +58,15 @@ int main(int, char *[])
   //
   // The individual position of a pixel inside the image is identified by a
   // unique index. An index is an array of integers that defines the position
-  // of the pixel along each coordinate dimension of the image. The IndexType
+  // of the pixel along each dimension of the image. The \code{IndexType}
   // is automatically defined by the image and can be accessed using the
-  // scope operator like \doxygen{Index}. The length of the array will match
+  // scope operator \doxygen{Index}. The length of the array will match
   // the dimensions of the associated image.
   //
   // The following code illustrates the declaration of an index variable and
-  // the assignment of values to each of its components.  Please note that
-  // \code{Index} does not use SmartPointers to access it. This is because
-  // \code{Index} is a light-weight object that is not intended to be shared
+  // the assignment of values to each of its components. Please note that
+  // no SmartPointer is used to access the \code{Index}. This is because
+  // \code{Index} is a lightweight object that is not intended to be shared
   // between objects. It is more efficient to produce multiple copies of
   // these small objects than to share them using the SmartPointer
   // mechanism.
@@ -84,7 +84,7 @@ int main(int, char *[])
   // Software Guide : BeginLatex
   //
   // Having defined a pixel position with an index, it is then possible to
-  // access the content of the pixel in the image.  The \code{GetPixel()}
+  // access the content of the pixel in the image. The \code{GetPixel()}
   // method allows us to get the value of the pixels.
   //
   // \index{itk::Image!GetPixel()}
@@ -93,9 +93,7 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   ImageType::PixelType   pixelValue = image->GetPixel( pixelIndex );
-
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -109,7 +107,6 @@ int main(int, char *[])
   image->SetPixel(   pixelIndex,   pixelValue+1  );
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
   // Please note that \code{GetPixel()} returns the pixel value using copy
@@ -122,7 +119,5 @@ int main(int, char *[])
   //
   // Software Guide : EndLatex
 
-
-  return 0;
-
+  return EXIT_SUCCESS;
 }

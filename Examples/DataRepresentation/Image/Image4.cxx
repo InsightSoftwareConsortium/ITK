@@ -20,7 +20,7 @@
 //
 // Even though \href{http://www.itk.org}{ITK} can be used to perform
 // general image processing tasks, the primary purpose of the toolkit is the
-// processing of medical image data.  In that respect, additional
+// processing of medical image data. In that respect, additional
 // information about the images is considered mandatory. In particular the
 // information associated with the physical spacing between pixels and the
 // position of the image in space with respect to some world coordinate
@@ -46,19 +46,19 @@
 // concepts associated with the \doxygen{Image}.
 // In this figure, circles are
 // used to represent the center of pixels. The value of the pixel is assumed
-// to exist as a Dirac Delta Function located at the pixel center. Pixel
+// to exist as a Dirac delta function located at the pixel center. Pixel
 // spacing is measured between the pixel centers and can be different along
 // each dimension. The image origin is associated with the coordinates of the
 // first pixel in the image.
 // For this simplified example, the voxel lattice is perfectly aligned with physical
-// space orientation, and the image direction is therefore an identity mapping.  If the
+// space orientation, and the image direction is therefore an identity mapping. If the
 // voxel lattice samples were rotated with respect to physical space, then the image direction
-// would contain a rotation matrix with respect.
+// would contain a rotation matrix.
 //
 // A \emph{pixel} is considered to be the
 // rectangular region surrounding the pixel center holding the data
 // value. This can be viewed as the Voronoi region of the image grid, as
-// illustrated in the right side of the figure.  Linear interpolation of
+// illustrated in the right side of the figure. Linear interpolation of
 // image values is performed inside the Delaunay region whose corners
 // are pixel centers.
 //
@@ -90,8 +90,7 @@ int main(int, char *[])
   region.SetIndex( start );
 
   image->SetRegions( region );
-  image->Allocate(true); // initialize buffer
-                                                // to zero
+  image->Allocate(true); // initialize buffer to zero
 
   // Software Guide : BeginLatex
   //
@@ -100,8 +99,8 @@ int main(int, char *[])
   // the spacing of the image, an array of the corresponding type must be
   // created.  The elements of the array should then be initialized with the
   // spacing between the centers of adjacent pixels. The following code
-  // illustrates the methods available in the Image class for dealing with
-  // spacing and origin.
+  // illustrates the methods available in the \doxygen{Image} class for dealing
+  // with spacing and origin.
   //
   // \index{itk::Image!Spacing}
   //
@@ -110,8 +109,7 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   ImageType::SpacingType spacing;
 
-  // Note: measurement units (e.g., mm, inches, etc.) are defined by the
-  // application.
+  // Units (e.g., mm, inches, etc.) are defined by the application.
   spacing[0] = 0.33; // spacing along X
   spacing[1] = 0.33; // spacing along Y
   spacing[2] = 1.20; // spacing along Z
@@ -149,7 +147,7 @@ int main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // The image origin is managed in a similar way to the spacing.  A
+  // The image origin is managed in a similar way to the spacing. A
   // \code{Point} of the appropriate dimension must first be
   // allocated.  The coordinates of the origin can then be assigned to
   // every component.  These coordinates correspond to the position of
@@ -194,20 +192,20 @@ int main(int, char *[])
 
   // Software Guide : EndCodeSnippet
 
-  //TODO: This example should really be writen for a more complicated direction cosine. i.e.
-  //     As the first index element increases, the 1st physcial space decreases.
+  //TODO: This example should really be written for a more complicated direction cosine. i.e.
+  //As the first index element increases, the 1st physical space decreases.
 
   //  Software Guide : BeginLatex
   //
   // The image direction matrix represents the orientation relationships between
-  // the image samples and physical space coordinate systems.  The image direction
-  // matrix is an orthonormal matrix that describes the possible permutation of image Index
+  // the image samples and physical space coordinate systems. The image direction
+  // matrix is an orthonormal matrix that describes the possible permutation of image index
   // values and the rotational aspects that are needed to properly reconcile image index
   // organization with physical space axis.
   // The image directions is a $N x N$ matrix where $N$ is the dimension of the image. An
-  // identity image direction indicates that increasing values of the 1st, 2nd, 3rd index element corresponds
-  // to increasing values the 1st, 2nd and 3rd physcial space axis respectively, and that the voxel
-  // samples are perfectly aligned with the physical space axis.
+  // identity image direction indicates that increasing values of the 1st, 2nd, 3rd index
+  // element corresponds to increasing values of the 1st, 2nd and 3rd physical space axis
+  // respectively, and that the voxel samples are perfectly aligned with the physical space axis.
   //
   // The following code illustrates the creation and assignment of a variable
   // suitable for initializing the image direction with an identity.
@@ -262,11 +260,10 @@ int main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // The Point class, like an \doxygen{Index}, is a relatively small and
-  // simple object.  For this reason, it is not reference-counted like the
-  // large data objects in ITK.  Consequently, it is also not manipulated
-  // with \doxygen{SmartPointer}s.  Point objects are simply declared as
-  // instances of any other C++ class.  Once the point is declared, its
+  // The \doxygen{Point} class, like an \doxygen{Index}, is a relatively
+  // small and simple object. This means that no \doxygen{SmartPointer}
+  // is used here and the objects are simply declared as instances,
+  // like any other C++ class. Once the point is declared, its
   // components can be accessed using traditional array notation. In
   // particular, the \code{[]} operator is available. For efficiency reasons,
   // no bounds checking is performed on the index used to access a particular
@@ -287,7 +284,7 @@ int main(int, char *[])
   // The image will map the point to an index using the values of the
   // current spacing and origin. An index object must be provided to
   // receive the results of the mapping. The index object can be
-  // instantiated by using the \code{IndexType} defined in the Image
+  // instantiated by using the \code{IndexType} defined in the image
   // type.
   //
   // Software Guide : EndLatex
@@ -336,7 +333,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The following example illustrates the mathematical relationships between
-  //  Image Index locations and it's corresponding Physical Point representation
+  //  image index locations and its corresponding physical point representation
   //  for a given Image.
   //
   // \index{itk::Image!PhysicalPoint}
@@ -346,13 +343,9 @@ int main(int, char *[])
   // where the end user manually selects the voxel index location
   // of the left eye in a volume with a mouse interface.  We need to
   // convert that index location to a physical location so that
-  // laser guided surgery can be accurately performed.
+  // laser guided surgery can be accurately performed. The
+  // \code{TransformIndexToPhysicalPoint} method can be used for this.
   //
-  // SoftwareGuide : EndLatex
-
-  // Software Guide : BeginLatex
-  //
-  // Use a predefined function: TransformIndexToPhysicalPoint
   // SoftwareGuide : EndLatex
 
   // Software Guide : BeginCodeSnippet

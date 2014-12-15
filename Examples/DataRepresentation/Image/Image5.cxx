@@ -23,22 +23,20 @@
 // systems. Many systems use a contiguous block of memory as a buffer
 // for image pixel data. The current example assumes this is the case and
 // feeds the buffer into an \doxygen{ImportImageFilter}, thereby producing an
-// Image as output.
-
+// image as output.
 //
-// For fun we create a synthetic image with a centered sphere in
+// Here we create a synthetic image with a centered sphere in
 // a locally allocated buffer and pass this block of memory to the
-// ImportImageFilter. This example is set up so that on execution, the
+// \code{ImportImageFilter}. This example is set up so that on execution, the
 // user must provide the name of an output file as a command-line argument.
 //
 // \index{itk::ImportImageFilter!Instantiation}
 // \index{itk::ImportImageFilter!Header}
 //
-// First, the header file of the ImportImageFilter class must be
+// First, the header file of the \doxygen{ImportImageFilter} class must be
 // included.
 //
 // Software Guide : EndLatex
-
 
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
@@ -58,39 +56,36 @@ int main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Next, we select the data type to use to represent the image pixels.  We
+  // Next, we select the data type used to represent the image pixels. We
   // assume that the external block of memory uses the same data type to
   // represent the pixels.
   //
   // Software Guide : EndLatex
-  //
+
   // Software Guide : BeginCodeSnippet
   typedef unsigned char   PixelType;
   const unsigned int Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension > ImageType;
-
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
-  // The type of the ImportImageFilter is instantiated in the
+  // The type of the \code{ImportImageFilter} is instantiated in the
   // following line.
   //
   // \index{itk::ImportImageFilter!Instantiation}
   //
-  //  Software Guide : EndLatex
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImportImageFilter< PixelType, Dimension >   ImportFilterType;
   // Software Guide : EndCodeSnippet
 
-
-  //  Software Guide : BeginLatex
+  // Software Guide : BeginLatex
   //
-  //  A filter object created using the \code{New()} method is then
-  //  assigned to a \code{SmartPointer}.
+  // A filter object created using the \code{New()} method is then
+  // assigned to a \code{SmartPointer}.
   //
   // \index{itk::ImportImageFilter!Pointer}
   // \index{itk::ImportImageFilter!New()}
@@ -100,7 +95,6 @@ int main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   ImportFilterType::Pointer importFilter = ImportFilterType::New();
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -132,24 +126,23 @@ int main(int argc, char * argv[])
   importFilter->SetRegion( region );
   // Software Guide : EndCodeSnippet
 
-
-  //  Software Guide : BeginLatex
+  // Software Guide : BeginLatex
   //
-  //  The origin of the output image is specified with the \code{SetOrigin()}
-  //  method.
+  // The origin of the output image is specified with the \code{SetOrigin()}
+  // method.
   //
-  //  Software Guide : EndLatex
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const itk::SpacePrecisionType origin[ Dimension ] = { 0.0, 0.0, 0.0 };
   importFilter->SetOrigin( origin );
   // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
+  // Software Guide : BeginLatex
   //
-  //  The spacing of the image is passed with the \code{SetSpacing()} method.
+  // The spacing of the image is passed with the \code{SetSpacing()} method.
   //
-  //  Software Guide : EndLatex
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   // spacing isotropic volumes to 1.0
@@ -157,15 +150,15 @@ int main(int argc, char * argv[])
   importFilter->SetSpacing( spacing );
   // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
+  // Software Guide : BeginLatex
   //
-  //  Next we allocate the memory block containing the pixel data to be
-  //  passed to the ImportImageFilter. Note that we use exactly the
-  //  same size that was specified with the \code{SetRegion()} method.  In a
-  //  practical application, you may get this buffer from some other library
-  //  using a different data structure to represent the images.
+  // Next we allocate the memory block containing the pixel data to be
+  // passed to the \code{ImportImageFilter}. Note that we use exactly the
+  // same size that was specified with the \code{SetRegion()} method. In a
+  // practical application, you may get this buffer from some other library
+  // using a different data structure to represent the images.
   //
-  //  Software Guide : EndLatex
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPixels =  size[0] * size[1] * size[2];
@@ -174,17 +167,17 @@ int main(int argc, char * argv[])
 
   const double radius = 80.0;
 
-  //  Software Guide : BeginLatex
+  // Software Guide : BeginLatex
   //
-  //  Here we fill up the buffer with a binary sphere. We use simple
-  //  \code{for()} loops here similar to those found in the C or FORTRAN
-  //  programming languages. Note that ITK
-  //  does not use \code{for()} loops in its internal code to access
-  //  pixels. All pixel access tasks are instead performed using
-  //  \doxygen{ImageIterator}s that support the management of
-  //  n-dimensional images.
+  // Here we fill up the buffer with a binary sphere. We use simple
+  // \code{for()} loops here, similar to those found in the C or FORTRAN
+  // programming languages. Note that ITK
+  // does not use \code{for()} loops in its internal code to access
+  // pixels. All pixel access tasks are instead performed using an
+  // \doxygen{ImageIterator} that supports the management of
+  // n-dimensional images.
   //
-  //  Software Guide : EndLatex
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const double radius2 = radius * radius;
@@ -209,26 +202,26 @@ int main(int argc, char * argv[])
     }
   // Software Guide : EndCodeSnippet
 
-
-  //  Software Guide : BeginLatex
+  // Software Guide : BeginLatex
   //
-  //  The buffer is passed to the ImportImageFilter with the
-  //  \code{SetImportPointer()}. Note that the last argument of this method
-  //  specifies who will be responsible for deleting the memory block once it
-  //  is no longer in use. A \code{false} value indicates that the
-  //  ImportImageFilter will not try to delete the buffer when its
-  //  destructor is called. A \code{true} value, on the other hand, will allow the
-  //  filter to delete the memory block upon destruction of the import filter.
+  // The buffer is passed to the \code{ImportImageFilter} with the
+  // \code{SetImportPointer()} method. Note that the last argument of this method
+  // specifies who will be responsible for deleting the memory block once it
+  // is no longer in use. A \code{false} value indicates that the
+  // \code{ImportImageFilter} will not try to delete the buffer when its
+  // destructor is called. A \code{true} value, on the other hand, will allow the
+  // filter to delete the memory block upon destruction of the import filter.
   //
-  //  For the ImportImageFilter to appropriately delete the
-  //  memory block, the memory must be allocated with the C++
-  //  \code{new()} operator.  Memory allocated with other memory
-  //  allocation mechanisms, such as C \code{malloc} or \code{calloc}, will not
-  //  be deleted properly by the ImportImageFilter.  In
-  //  other words, it is the application programmer's responsibility
-  //  to ensure that ImportImageFilter is only given
-  //  permission to delete the C++ \code{new} operator-allocated memory.
-  //  Software Guide : EndLatex
+  // For the \code{ImportImageFilter} to appropriately delete the
+  // memory block, the memory must be allocated with the C++
+  // \code{new()} operator. Memory allocated with other memory
+  // allocation mechanisms, such as C \code{malloc} or \code{calloc}, will not
+  // be deleted properly by the \code{ImportImageFilter}. In
+  // other words, it is the application programmer's responsibility
+  // to ensure that \code{ImportImageFilter} is only given
+  // permission to delete the C++ \code{new} operator-allocated memory.
+  //
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const bool importImageFilterWillOwnTheBuffer = true;
@@ -236,23 +229,20 @@ int main(int argc, char * argv[])
                                   importImageFilterWillOwnTheBuffer );
   // Software Guide : EndCodeSnippet
 
-
-  //  Software Guide : BeginLatex
+  // Software Guide : BeginLatex
   //
-  //  Finally, we can connect the output of this filter to a pipeline.
-  //  For simplicity we just use a writer here, but it could be any other filter.
+  // Finally, we can connect the output of this filter to a pipeline.
+  // For simplicity we just use a writer here, but it could be any other filter.
   //
-  //  Software Guide : EndLatex
+  // Software Guide : EndLatex
 
+  // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[1] );
-
-  // Software Guide : BeginCodeSnippet
   writer->SetInput(  importFilter->GetOutput()  );
   // Software Guide : EndCodeSnippet
-
 
   try
     {
@@ -264,14 +254,13 @@ int main(int argc, char * argv[])
     std::cerr << exp << std::endl;
     }
 
-
-  //  Software Guide : BeginLatex
+  // Software Guide : BeginLatex
   //
-  //  Note that we do not call \code{delete} on the buffer since we pass
-  //  \code{true} as the last argument of \code{SetImportPointer()}. Now the
-  //  buffer is owned by the ImportImageFilter.
+  // Note that we do not call \code{delete} on the buffer since we pass
+  // \code{true} as the last argument of \code{SetImportPointer()}. Now the
+  // buffer is owned by the \code{ImportImageFilter}.
   //
-  //  Software Guide : EndLatex
+  // Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }
