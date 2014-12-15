@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDivideImageFilter_h
-#define __itkDivideImageFilter_h
+#ifndef itkDivideImageFilter_h
+#define itkDivideImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"

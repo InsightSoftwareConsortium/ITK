@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingReachedTargetNodesStoppingCriterion_h
-#define __itkFastMarchingReachedTargetNodesStoppingCriterion_h
+#ifndef itkFastMarchingReachedTargetNodesStoppingCriterion_h
+#define itkFastMarchingReachedTargetNodesStoppingCriterion_h
 
 #include "itkFastMarchingStoppingCriterionBase.h"
 #include "itkObjectFactory.h"
@@ -206,4 +206,4 @@ private:
   void operator = ( const Self& );
 };
 }
-#endif // __itkFastMarchingThresholdStoppingCriterion_h
+#endif // itkFastMarchingThresholdStoppingCriterion_h

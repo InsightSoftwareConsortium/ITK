@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHeavisideStepFunctionBase_h
-#define __itkHeavisideStepFunctionBase_h
+#ifndef itkHeavisideStepFunctionBase_h
+#define itkHeavisideStepFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkConceptChecking.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleMorphologicalOpeningImageFilter_h
-#define __itkGrayscaleMorphologicalOpeningImageFilter_h
+#ifndef itkGrayscaleMorphologicalOpeningImageFilter_h
+#define itkGrayscaleMorphologicalOpeningImageFilter_h
 
 #include "itkKernelImageFilter.h"
 #include "itkMovingHistogramDilateImageFilter.h"

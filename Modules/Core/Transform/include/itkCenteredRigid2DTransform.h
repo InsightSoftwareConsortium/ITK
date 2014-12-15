@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredRigid2DTransform_h
-#define __itkCenteredRigid2DTransform_h
+#ifndef itkCenteredRigid2DTransform_h
+#define itkCenteredRigid2DTransform_h
 
 #include <iostream>
 #include "itkRigid2DTransform.h"
@@ -178,4 +178,4 @@ private:
 #include "itkCenteredRigid2DTransform.hxx"
 #endif
 
-#endif /* __itkCenteredRigid2DTransform_h */
+#endif /* itkCenteredRigid2DTransform_h */

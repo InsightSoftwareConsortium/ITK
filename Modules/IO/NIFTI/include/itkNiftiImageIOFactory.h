@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNiftiImageIOFactory_h
-#define __itkNiftiImageIOFactory_h
+#ifndef itkNiftiImageIOFactory_h
+#define itkNiftiImageIOFactory_h
 #include "ITKIONIFTIExport.h"
 
 

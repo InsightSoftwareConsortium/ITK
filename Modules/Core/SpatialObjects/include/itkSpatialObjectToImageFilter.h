@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectToImageFilter_h
-#define __itkSpatialObjectToImageFilter_h
+#ifndef itkSpatialObjectToImageFilter_h
+#define itkSpatialObjectToImageFilter_h
 
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"

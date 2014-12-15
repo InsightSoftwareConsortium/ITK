@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageIOBase_h
-#define __itkImageIOBase_h
+#ifndef itkImageIOBase_h
+#define itkImageIOBase_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkIOConfigure.h"
@@ -710,4 +710,4 @@ IMAGEIOBASE_TYPEMAP(double, DOUBLE);
 
 } // end namespace itk
 
-#endif // __itkImageIOBase_h
+#endif // itkImageIOBase_h

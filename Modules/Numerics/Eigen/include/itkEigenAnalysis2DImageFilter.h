@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEigenAnalysis2DImageFilter_h
-#define __itkEigenAnalysis2DImageFilter_h
+#ifndef itkEigenAnalysis2DImageFilter_h
+#define itkEigenAnalysis2DImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

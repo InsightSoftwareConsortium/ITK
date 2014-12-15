@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkPhysicsBasedNonRigidRegistrationMethod_h
-#define __itkPhysicsBasedNonRigidRegistrationMethod_h
+#ifndef itkPhysicsBasedNonRigidRegistrationMethod_h
+#define itkPhysicsBasedNonRigidRegistrationMethod_h
 
 
 #include "itkMaskFeaturePointSelectionFilter.h"

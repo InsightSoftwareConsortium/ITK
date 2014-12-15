@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmoothingQuadEdgeMeshFilter_h
-#define __itkSmoothingQuadEdgeMeshFilter_h
+#ifndef itkSmoothingQuadEdgeMeshFilter_h
+#define itkSmoothingQuadEdgeMeshFilter_h
 
 #include "itkDelaunayConformingQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"

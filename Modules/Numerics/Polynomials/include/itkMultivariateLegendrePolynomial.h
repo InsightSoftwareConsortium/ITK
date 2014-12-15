@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultivariateLegendrePolynomial_h
-#define __itkMultivariateLegendrePolynomial_h
+#ifndef itkMultivariateLegendrePolynomial_h
+#define itkMultivariateLegendrePolynomial_h
 
 #include "itkIntTypes.h"
 #include "itkIndent.h"

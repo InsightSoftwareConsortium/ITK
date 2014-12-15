@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkZeroCrossingImageFilter_h
-#define __itkZeroCrossingImageFilter_h
+#ifndef itkZeroCrossingImageFilter_h
+#define itkZeroCrossingImageFilter_h
 
 #include "itkImageToImageFilter.h"
 namespace itk

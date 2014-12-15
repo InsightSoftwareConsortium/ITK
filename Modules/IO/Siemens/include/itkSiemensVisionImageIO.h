@@ -30,8 +30,8 @@
  *        as a new method for reading in files from the GE4 scanner.
  */
 
-#ifndef __itkSiemensVisionImageIO_h
-#define __itkSiemensVisionImageIO_h
+#ifndef itkSiemensVisionImageIO_h
+#define itkSiemensVisionImageIO_h
 #include "ITKIOSiemensExport.h"
 
 
@@ -417,4 +417,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkSiemensVisionImageIO_h
+#endif // itkSiemensVisionImageIO_h

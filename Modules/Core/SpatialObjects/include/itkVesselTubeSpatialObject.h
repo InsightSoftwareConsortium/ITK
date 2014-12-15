@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVesselTubeSpatialObject_h
-#define __itkVesselTubeSpatialObject_h
+#ifndef itkVesselTubeSpatialObject_h
+#define itkVesselTubeSpatialObject_h
 
 #include <list>
 
@@ -85,4 +85,4 @@ private:
 #include "itkVesselTubeSpatialObject.hxx"
 #endif
 
-#endif // __itkVesselTubeSpatialObject_h
+#endif // itkVesselTubeSpatialObject_h

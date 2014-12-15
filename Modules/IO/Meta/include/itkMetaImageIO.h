@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaImageIO_h
-#define __itkMetaImageIO_h
+#ifndef itkMetaImageIO_h
+#define itkMetaImageIO_h
 #include "ITKIOMetaExport.h"
 
 
@@ -166,4 +166,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkMetaImageIO_h
+#endif // itkMetaImageIO_h

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMesh_h
-#define __itkMesh_h
+#ifndef itkMesh_h
+#define itkMesh_h
 
 
 #include "itkPointSet.h"

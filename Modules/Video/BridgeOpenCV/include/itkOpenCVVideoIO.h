@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOpenCVVideoIO_h
-#define __itkOpenCVVideoIO_h
+#ifndef itkOpenCVVideoIO_h
+#define itkOpenCVVideoIO_h
 
 #include "itkVideoIOBase.h"
 #include "cv.h"
@@ -157,4 +157,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkOpenCVVideoIO_h
+#endif // itkOpenCVVideoIO_h

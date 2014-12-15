@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatrixOffsetTransformBase_h
-#define __itkMatrixOffsetTransformBase_h
+#ifndef itkMatrixOffsetTransformBase_h
+#define itkMatrixOffsetTransformBase_h
 
 
 #include "itkMacro.h"
@@ -533,4 +533,4 @@ private:
 #include "itkMatrixOffsetTransformBase.hxx"
 #endif
 
-#endif /* __itkMatrixOffsetTransformBase_h */
+#endif /* itkMatrixOffsetTransformBase_h */

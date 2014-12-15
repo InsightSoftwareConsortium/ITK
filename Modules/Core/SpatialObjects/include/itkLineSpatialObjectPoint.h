@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLineSpatialObjectPoint_h
-#define __itkLineSpatialObjectPoint_h
+#ifndef itkLineSpatialObjectPoint_h
+#define itkLineSpatialObjectPoint_h
 
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
@@ -78,4 +78,4 @@ protected:
 #include "itkLineSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkLineSpatialObjectPoint_h
+#endif // itkLineSpatialObjectPoint_h

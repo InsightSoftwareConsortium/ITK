@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRigid2DTransform_h
-#define __itkRigid2DTransform_h
+#ifndef itkRigid2DTransform_h
+#define itkRigid2DTransform_h
 
 #include "itkMatrixOffsetTransformBase.h"
 
@@ -341,4 +341,4 @@ Rigid2DTransform<TScalar>::BackTransform(const OutputCovariantVectorType & vect)
 #include "itkRigid2DTransform.hxx"
 #endif
 
-#endif /* __itkRigid2DTransform_h */
+#endif /* itkRigid2DTransform_h */

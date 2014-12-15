@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDenseFrequencyContainer2_h
-#define __itkDenseFrequencyContainer2_h
+#ifndef itkDenseFrequencyContainer2_h
+#define itkDenseFrequencyContainer2_h
 
 #include <map>
 #include "itkValarrayImageContainer.h"

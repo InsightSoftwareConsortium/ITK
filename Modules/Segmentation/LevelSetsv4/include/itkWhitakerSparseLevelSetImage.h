@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkWhitakerSparseLevelSetImage_h
-#define __itkWhitakerSparseLevelSetImage_h
+#ifndef itkWhitakerSparseLevelSetImage_h
+#define itkWhitakerSparseLevelSetImage_h
 
 #include "itkLevelSetSparseImage.h"
 #include "itkLabelObject.h"
@@ -144,4 +144,4 @@ private:
 #include "itkWhitakerSparseLevelSetImage.hxx"
 #endif
 
-#endif // __itkWhitakerSparseLevelSetImage_h
+#endif // itkWhitakerSparseLevelSetImage_h

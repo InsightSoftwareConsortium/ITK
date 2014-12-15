@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFreeSurferBinaryMeshIO_h
-#define __itkFreeSurferBinaryMeshIO_h
+#ifndef itkFreeSurferBinaryMeshIO_h
+#define itkFreeSurferBinaryMeshIO_h
 #include "ITKIOMeshExport.h"
 
 #include "itkByteSwapper.h"

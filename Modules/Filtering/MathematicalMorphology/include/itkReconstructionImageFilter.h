@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReconstructionImageFilter_h
-#define __itkReconstructionImageFilter_h
+#ifndef itkReconstructionImageFilter_h
+#define itkReconstructionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkShapedNeighborhoodIterator.h"

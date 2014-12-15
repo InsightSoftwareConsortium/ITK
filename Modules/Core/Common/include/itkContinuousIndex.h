@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkContinuousIndex_h
-#define __itkContinuousIndex_h
+#ifndef itkContinuousIndex_h
+#define itkContinuousIndex_h
 
 #include "itkPoint.h"
 #include "itkIndex.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVertexCell_h
-#define __itkVertexCell_h
+#ifndef itkVertexCell_h
+#define itkVertexCell_h
 
 #include "itkCellInterface.h"
 #include "itkNumericTraits.h"

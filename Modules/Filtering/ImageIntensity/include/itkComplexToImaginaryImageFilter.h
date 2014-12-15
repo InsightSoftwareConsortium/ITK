@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComplexToImaginaryImageFilter_h
-#define __itkComplexToImaginaryImageFilter_h
+#ifndef itkComplexToImaginaryImageFilter_h
+#define itkComplexToImaginaryImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"

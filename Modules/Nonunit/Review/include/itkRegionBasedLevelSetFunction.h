@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionBasedLevelSetFunction_h
-#define __itkRegionBasedLevelSetFunction_h
+#ifndef itkRegionBasedLevelSetFunction_h
+#define itkRegionBasedLevelSetFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 #include "itkRegularizedHeavisideStepFunction.h"

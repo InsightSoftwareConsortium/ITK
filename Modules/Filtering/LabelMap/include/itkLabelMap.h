@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelMap_h
-#define __itkLabelMap_h
+#ifndef itkLabelMap_h
+#define itkLabelMap_h
 
 #include "itkImageBase.h"
 #include "itkWeakPointer.h"

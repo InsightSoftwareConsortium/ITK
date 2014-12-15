@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEventObject_h
-#define __itkEventObject_h
+#ifndef itkEventObject_h
+#define itkEventObject_h
 
 #include "itkIndent.h"
 

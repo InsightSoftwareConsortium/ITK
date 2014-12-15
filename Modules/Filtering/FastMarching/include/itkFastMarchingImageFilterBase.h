@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingImageFilterBase_h
-#define __itkFastMarchingImageFilterBase_h
+#ifndef itkFastMarchingImageFilterBase_h
+#define itkFastMarchingImageFilterBase_h
 
 #include "itkFastMarchingBase.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -263,4 +263,4 @@ private:
 }
 
 #include "itkFastMarchingImageFilterBase.hxx"
-#endif // __itkFastMarchingImageFilterBase_h
+#endif // itkFastMarchingImageFilterBase_h

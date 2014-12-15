@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRigid3DPerspectiveTransform_h
-#define __itkRigid3DPerspectiveTransform_h
+#ifndef itkRigid3DPerspectiveTransform_h
+#define itkRigid3DPerspectiveTransform_h
 
 #include "itkMacro.h"
 #include "vnl/vnl_quaternion.h"
@@ -258,4 +258,4 @@ private:
 #include "itkRigid3DPerspectiveTransform.hxx"
 #endif
 
-#endif /* __itkRigid3DPerspectiveTransform_h */
+#endif /* itkRigid3DPerspectiveTransform_h */

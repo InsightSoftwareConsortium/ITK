@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImportImageContainer_h
-#define __itkImportImageContainer_h
+#ifndef itkImportImageContainer_h
+#define itkImportImageContainer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

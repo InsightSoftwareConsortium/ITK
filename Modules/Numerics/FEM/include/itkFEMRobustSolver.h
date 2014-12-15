@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMRobustSolver_h
-#define __itkFEMRobustSolver_h
+#ifndef itkFEMRobustSolver_h
+#define itkFEMRobustSolver_h
 
 #include "itkFEMSolver.h"
 #include "itkFEMElementBase.h"

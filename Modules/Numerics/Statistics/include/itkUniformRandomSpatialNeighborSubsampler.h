@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkUniformRandomSpatialNeighborSubsampler_h
-#define __itkUniformRandomSpatialNeighborSubsampler_h
+#ifndef itkUniformRandomSpatialNeighborSubsampler_h
+#define itkUniformRandomSpatialNeighborSubsampler_h
 
 #include "itkSpatialNeighborSubsampler.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"

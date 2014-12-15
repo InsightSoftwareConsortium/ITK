@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIOTestHelper_h
-#define __itkIOTestHelper_h
+#ifndef itkIOTestHelper_h
+#define itkIOTestHelper_h
 #include "ITKIOImageBaseExport.h"
 #include <string>
 
@@ -165,4 +165,4 @@ public:
     }
 };
 }
-#endif // __itkIOTestHelper_h
+#endif // itkIOTestHelper_h

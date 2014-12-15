@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeDeconvolutionImageFilter_h
-#define __itkIterativeDeconvolutionImageFilter_h
+#ifndef itkIterativeDeconvolutionImageFilter_h
+#define itkIterativeDeconvolutionImageFilter_h
 
 #include "itkFFTConvolutionImageFilter.h"
 #include "itkProgressAccumulator.h"

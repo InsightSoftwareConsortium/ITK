@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHoughTransform2DCirclesImageFilter_h
-#define __itkHoughTransform2DCirclesImageFilter_h
+#ifndef itkHoughTransform2DCirclesImageFilter_h
+#define itkHoughTransform2DCirclesImageFilter_h
 
 
 #include "itkImageToImageFilter.h"

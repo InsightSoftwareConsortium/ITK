@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMirrorPadImageFilter_h
-#define __itkMirrorPadImageFilter_h
+#ifndef itkMirrorPadImageFilter_h
+#define itkMirrorPadImageFilter_h
 
 #include "itkPadImageFilter.h"
 #include <vector>

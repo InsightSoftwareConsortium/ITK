@@ -35,8 +35,8 @@
  * object pointers; and debug, warning, and error printout information.
  */
 
-#ifndef __itkMacro_h
-#define __itkMacro_h
+#ifndef itkMacro_h
+#define itkMacro_h
 
 #include "itkWin32Header.h"
 #include "itkConfigure.h"

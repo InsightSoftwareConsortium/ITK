@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageLinearConstIteratorWithIndex_h
-#define __itkImageLinearConstIteratorWithIndex_h
+#ifndef itkImageLinearConstIteratorWithIndex_h
+#define itkImageLinearConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
 

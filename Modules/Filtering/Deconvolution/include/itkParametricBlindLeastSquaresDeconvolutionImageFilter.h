@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParametricBlindLeastSquaresDeconvolutionImageFilter_h
-#define __itkParametricBlindLeastSquaresDeconvolutionImageFilter_h
+#ifndef itkParametricBlindLeastSquaresDeconvolutionImageFilter_h
+#define itkParametricBlindLeastSquaresDeconvolutionImageFilter_h
 
 #include "itkIterativeDeconvolutionImageFilter.h"
 

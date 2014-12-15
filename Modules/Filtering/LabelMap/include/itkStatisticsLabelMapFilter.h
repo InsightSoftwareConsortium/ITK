@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsLabelMapFilter_h
-#define __itkStatisticsLabelMapFilter_h
+#ifndef itkStatisticsLabelMapFilter_h
+#define itkStatisticsLabelMapFilter_h
 
 #include "itkShapeLabelMapFilter.h"
 

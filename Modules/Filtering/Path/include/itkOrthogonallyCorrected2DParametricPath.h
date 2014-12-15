@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOrthogonallyCorrected2DParametricPath_h
-#define __itkOrthogonallyCorrected2DParametricPath_h
+#ifndef itkOrthogonallyCorrected2DParametricPath_h
+#define itkOrthogonallyCorrected2DParametricPath_h
 
 #include "itkParametricPath.h"
 #include "itkVectorContainer.h"

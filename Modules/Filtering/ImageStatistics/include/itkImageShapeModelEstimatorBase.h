@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageShapeModelEstimatorBase_h
-#define __itkImageShapeModelEstimatorBase_h
+#ifndef itkImageShapeModelEstimatorBase_h
+#define itkImageShapeModelEstimatorBase_h
 
 #include "itkImageToImageFilter.h"
 

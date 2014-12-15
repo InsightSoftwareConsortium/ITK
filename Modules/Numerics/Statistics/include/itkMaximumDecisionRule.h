@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaximumDecisionRule_h
-#define __itkMaximumDecisionRule_h
+#ifndef itkMaximumDecisionRule_h
+#define itkMaximumDecisionRule_h
 
 #include "itkDecisionRule.h"
 

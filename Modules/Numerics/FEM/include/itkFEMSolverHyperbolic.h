@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMSolverHyperbolic_h
-#define __itkFEMSolverHyperbolic_h
+#ifndef itkFEMSolverHyperbolic_h
+#define itkFEMSolverHyperbolic_h
 
 #include "itkFEMSolver.h"
 
@@ -146,4 +146,4 @@ private:
 #endif
 
 
-#endif // #ifndef __itkFEMSolverHyperbolic_h
+#endif // #ifndef itkFEMSolverHyperbolic_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeasurementVectorTraits_h
-#define __itkMeasurementVectorTraits_h
+#ifndef itkMeasurementVectorTraits_h
+#define itkMeasurementVectorTraits_h
 
 #include "itkVariableLengthVector.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -530,4 +530,4 @@ public:
 } // namespace Statistics
 } // namespace itk
 
-#endif  // __itkMeasurementVectorTraits_h
+#endif  // itkMeasurementVectorTraits_h

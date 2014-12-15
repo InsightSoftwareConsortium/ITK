@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUScalarAnisotropicDiffusionFunction_h
-#define __itkGPUScalarAnisotropicDiffusionFunction_h
+#ifndef itkGPUScalarAnisotropicDiffusionFunction_h
+#define itkGPUScalarAnisotropicDiffusionFunction_h
 
 #include "itkGPUAnisotropicDiffusionFunction.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPhasedArray3DSpecialCoordinatesImage_h
-#define __itkPhasedArray3DSpecialCoordinatesImage_h
+#ifndef itkPhasedArray3DSpecialCoordinatesImage_h
+#define itkPhasedArray3DSpecialCoordinatesImage_h
 
 #include "itkSpecialCoordinatesImage.h"
 #include "itkPoint.h"

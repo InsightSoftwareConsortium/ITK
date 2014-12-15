@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFileListVideoIO_h
-#define __itkFileListVideoIO_h
+#ifndef itkFileListVideoIO_h
+#define itkFileListVideoIO_h
 
 #include "itkVideoIOBase.h"
 
@@ -154,4 +154,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkFileListVideoIO_h
+#endif // itkFileListVideoIO_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCosImageFilter_h
-#define __itkCosImageFilter_h
+#ifndef itkCosImageFilter_h
+#define itkCosImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"

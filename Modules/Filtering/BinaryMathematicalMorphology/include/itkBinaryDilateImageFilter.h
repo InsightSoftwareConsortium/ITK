@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryDilateImageFilter_h
-#define __itkBinaryDilateImageFilter_h
+#ifndef itkBinaryDilateImageFilter_h
+#define itkBinaryDilateImageFilter_h
 
 #include <vector>
 #include <queue>

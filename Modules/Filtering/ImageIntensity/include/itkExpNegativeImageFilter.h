@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExpNegativeImageFilter_h
-#define __itkExpNegativeImageFilter_h
+#ifndef itkExpNegativeImageFilter_h
+#define itkExpNegativeImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"

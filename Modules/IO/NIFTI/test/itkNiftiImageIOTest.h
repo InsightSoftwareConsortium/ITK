@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNiftiImageIOTest_h
-#define __itkNiftiImageIOTest_h
+#ifndef itkNiftiImageIOTest_h
+#define itkNiftiImageIOTest_h
 
 
 #include "itkImageFileReader.h"

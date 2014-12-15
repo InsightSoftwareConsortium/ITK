@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBioCellularAggregate_h
-#define __itkBioCellularAggregate_h
+#ifndef itkBioCellularAggregate_h
+#define itkBioCellularAggregate_h
 
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkMesh.h"

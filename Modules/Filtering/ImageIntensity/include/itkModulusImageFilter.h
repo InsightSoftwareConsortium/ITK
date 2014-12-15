@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkModulusImageFilter_h
-#define __itkModulusImageFilter_h
+#ifndef itkModulusImageFilter_h
+#define itkModulusImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 

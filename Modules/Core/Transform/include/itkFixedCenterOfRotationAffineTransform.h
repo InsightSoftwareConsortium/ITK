@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFixedCenterOfRotationAffineTransform_h
-#define __itkFixedCenterOfRotationAffineTransform_h
+#ifndef itkFixedCenterOfRotationAffineTransform_h
+#define itkFixedCenterOfRotationAffineTransform_h
 
 #include "itkScalableAffineTransform.h"
 
@@ -118,4 +118,4 @@ private:
 #include "itkFixedCenterOfRotationAffineTransform.hxx"
 #endif
 
-#endif /* __itkFixedCenterOfRotationAffineTransform_h */
+#endif /* itkFixedCenterOfRotationAffineTransform_h */

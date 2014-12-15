@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVarianceImageFunction_h
-#define __itkVarianceImageFunction_h
+#ifndef itkVarianceImageFunction_h
+#define itkVarianceImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"

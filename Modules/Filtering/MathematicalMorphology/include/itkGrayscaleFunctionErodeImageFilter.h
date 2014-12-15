@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleFunctionErodeImageFilter_h
-#define __itkGrayscaleFunctionErodeImageFilter_h
+#ifndef itkGrayscaleFunctionErodeImageFilter_h
+#define itkGrayscaleFunctionErodeImageFilter_h
 
 #include "itkMorphologyImageFilter.h"
 

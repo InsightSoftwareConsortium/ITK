@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEllipsoidInteriorExteriorSpatialFunction_h
-#define __itkEllipsoidInteriorExteriorSpatialFunction_h
+#ifndef itkEllipsoidInteriorExteriorSpatialFunction_h
+#define itkEllipsoidInteriorExteriorSpatialFunction_h
 
 #include "itkInteriorExteriorSpatialFunction.h"
 #include "vnl/vnl_matrix_fixed.h"

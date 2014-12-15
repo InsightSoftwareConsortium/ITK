@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldTransform_h
-#define __itkDisplacementFieldTransform_h
+#ifndef itkDisplacementFieldTransform_h
+#define itkDisplacementFieldTransform_h
 
 #include "itkTransform.h"
 
@@ -488,4 +488,4 @@ private:
 #include "itkDisplacementFieldTransform.hxx"
 #endif
 
-#endif // __itkDisplacementFieldTransform_h
+#endif // itkDisplacementFieldTransform_h

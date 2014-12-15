@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUUnaryFunctorImageFilter_h
-#define __itkGPUUnaryFunctorImageFilter_h
+#ifndef itkGPUUnaryFunctorImageFilter_h
+#define itkGPUUnaryFunctorImageFilter_h
 
 #include "itkGPUFunctorBase.h"
 #include "itkGPUInPlaceImageFilter.h"

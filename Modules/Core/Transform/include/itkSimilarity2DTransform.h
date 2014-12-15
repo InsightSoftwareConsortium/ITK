@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimilarity2DTransform_h
-#define __itkSimilarity2DTransform_h
+#ifndef itkSimilarity2DTransform_h
+#define itkSimilarity2DTransform_h
 
 #include <iostream>
 #include "itkRigid2DTransform.h"
@@ -243,4 +243,4 @@ private:
 #include "itkSimilarity2DTransform.hxx"
 #endif
 
-#endif /* __itkSimilarity2DTransform_h */
+#endif /* itkSimilarity2DTransform_h */

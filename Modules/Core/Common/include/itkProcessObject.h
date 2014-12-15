@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkProcessObject_h
-#define __itkProcessObject_h
+#ifndef itkProcessObject_h
+#define itkProcessObject_h
 
 #include "itkDataObject.h"
 #include "itkDomainThreader.h"

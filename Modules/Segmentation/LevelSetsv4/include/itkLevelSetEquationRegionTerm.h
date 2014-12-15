@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetEquationRegionTerm_h
-#define __itkLevelSetEquationRegionTerm_h
+#ifndef itkLevelSetEquationRegionTerm_h
+#define itkLevelSetEquationRegionTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 
@@ -54,4 +54,4 @@ private:
   void operator = ( const Self& );
 };
 }
-#endif // __itkLevelSetEquationRegionTerm_h
+#endif // itkLevelSetEquationRegionTerm_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineDeformableTransformInitializer_h
-#define __itkBSplineDeformableTransformInitializer_h
+#ifndef itkBSplineDeformableTransformInitializer_h
+#define itkBSplineDeformableTransformInitializer_h
 
 #include "itkConfigure.h" //Needed to determine value of ITKV3_COMPATIBILITY
 #ifdef ITKV3_COMPATIBILITY
@@ -135,4 +135,4 @@ private:
 #error "itkBSplineDeformableTransformInitializer.h should only be included for ITKv3 compatibility. Build with ITKV3_COMPATIBILITY=ON to use this"
 #endif // def ITKV3_COMPATIBILITY
 
-#endif /* __itkBSplineDeformableTransformInitializer_h */
+#endif /* itkBSplineDeformableTransformInitializer_h */

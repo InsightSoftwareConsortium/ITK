@@ -29,8 +29,8 @@
  *        as a new method for reading in files from the GE4 scanner.
  */
 
-#ifndef __itkGE5ImageIO_h
-#define __itkGE5ImageIO_h
+#ifndef itkGE5ImageIO_h
+#define itkGE5ImageIO_h
 #include "ITKIOGEExport.h"
 
 
@@ -129,4 +129,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkAnalyzeImageIO_h
+#endif // itkAnalyzeImageIO_h

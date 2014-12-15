@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectWriter_h
-#define __itkSpatialObjectWriter_h
+#ifndef itkSpatialObjectWriter_h
+#define itkSpatialObjectWriter_h
 
 #include "itkMetaSceneConverter.h"
 #include "itkMetaConverterBase.h"
@@ -114,4 +114,4 @@ private:
 #include "itkSpatialObjectWriter.hxx"
 #endif
 
-#endif // __itkSpatialObjectWriter_h
+#endif // itkSpatialObjectWriter_h

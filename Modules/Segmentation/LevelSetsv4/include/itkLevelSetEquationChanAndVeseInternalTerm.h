@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationChanAndVeseInternalTerm_h
-#define __itkLevelSetEquationChanAndVeseInternalTerm_h
+#ifndef itkLevelSetEquationChanAndVeseInternalTerm_h
+#define itkLevelSetEquationChanAndVeseInternalTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 

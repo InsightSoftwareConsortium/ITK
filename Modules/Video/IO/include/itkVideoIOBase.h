@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVideoIOBase_h
-#define __itkVideoIOBase_h
+#ifndef itkVideoIOBase_h
+#define itkVideoIOBase_h
 
 #include "itkImageIOBase.h"
 #include "itkExceptionObject.h"
@@ -136,4 +136,4 @@ private:
 
 } // end namespace itk
 
-#endif // __itkVideoIOBase_h
+#endif // itkVideoIOBase_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointBasedSpatialObject_h
-#define __itkPointBasedSpatialObject_h
+#ifndef itkPointBasedSpatialObject_h
+#define itkPointBasedSpatialObject_h
 
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
@@ -105,4 +105,4 @@ protected:
 #include "itkPointBasedSpatialObject.hxx"
 #endif
 
-#endif // __itkPointBasedSpatialObject_h
+#endif // itkPointBasedSpatialObject_h

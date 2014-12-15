@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresHistogramImageToImageMetric_h
-#define __itkMeanSquaresHistogramImageToImageMetric_h
+#ifndef itkMeanSquaresHistogramImageToImageMetric_h
+#define itkMeanSquaresHistogramImageToImageMetric_h
 
 #include "itkHistogramImageToImageMetric.h"
 
@@ -94,4 +94,4 @@ private:
 #include "itkMeanSquaresHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkMeanSquaresHistogramImageToImageMetric_h
+#endif // itkMeanSquaresHistogramImageToImageMetric_h

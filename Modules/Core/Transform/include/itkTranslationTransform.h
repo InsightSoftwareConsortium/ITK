@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTranslationTransform_h
-#define __itkTranslationTransform_h
+#ifndef itkTranslationTransform_h
+#define itkTranslationTransform_h
 
 #include "itkTransform.h"
 #include "itkMacro.h"
@@ -272,4 +272,4 @@ TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputCovariantV
 #include "itkTranslationTransform.hxx"
 #endif
 
-#endif /* __itkTranslationTransform_h */
+#endif /* itkTranslationTransform_h */

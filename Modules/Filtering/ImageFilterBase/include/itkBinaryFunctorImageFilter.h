@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryFunctorImageFilter_h
-#define __itkBinaryFunctorImageFilter_h
+#ifndef itkBinaryFunctorImageFilter_h
+#define itkBinaryFunctorImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"

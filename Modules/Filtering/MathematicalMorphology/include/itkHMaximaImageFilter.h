@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHMaximaImageFilter_h
-#define __itkHMaximaImageFilter_h
+#ifndef itkHMaximaImageFilter_h
+#define itkHMaximaImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

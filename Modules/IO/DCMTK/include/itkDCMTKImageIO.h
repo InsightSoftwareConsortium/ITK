@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKImageIO_h
-#define __itkDCMTKImageIO_h
+#ifndef itkDCMTKImageIO_h
+#define itkDCMTKImageIO_h
 #include "ITKIODCMTKExport.h"
 
 
@@ -127,4 +127,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkDCMTKImageIO_h
+#endif // itkDCMTKImageIO_h

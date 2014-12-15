@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingThresholdStoppingCriterion_h
-#define __itkFastMarchingThresholdStoppingCriterion_h
+#ifndef itkFastMarchingThresholdStoppingCriterion_h
+#define itkFastMarchingThresholdStoppingCriterion_h
 
 #include "itkFastMarchingStoppingCriterionBase.h"
 #include "itkObjectFactory.h"
@@ -84,4 +84,4 @@ private:
 };
 
 }
-#endif // __itkFastMarchingThresholdStoppingCriterion_h
+#endif // itkFastMarchingThresholdStoppingCriterion_h

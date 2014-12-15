@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImagePCAShapeModelEstimator_h
-#define __itkImagePCAShapeModelEstimator_h
+#ifndef itkImagePCAShapeModelEstimator_h
+#define itkImagePCAShapeModelEstimator_h
 
 #include <ctime>
 #include <cmath>

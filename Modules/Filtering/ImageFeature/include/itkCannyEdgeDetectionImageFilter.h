@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCannyEdgeDetectionImageFilter_h
-#define __itkCannyEdgeDetectionImageFilter_h
+#ifndef itkCannyEdgeDetectionImageFilter_h
+#define itkCannyEdgeDetectionImageFilter_h
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkDiscreteGaussianImageFilter.h"

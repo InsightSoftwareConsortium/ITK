@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElementBase_h
-#define __itkFEMElementBase_h
+#ifndef itkFEMElementBase_h
+#define itkFEMElementBase_h
 
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
@@ -721,4 +721,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElementBase_h
+#endif // #ifndef itkFEMElementBase_h

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMSolver_h
-#define __itkFEMSolver_h
+#ifndef itkFEMSolver_h
+#define itkFEMSolver_h
 
 #include "itkProcessObject.h"
 #include "itkFEMObject.h"
@@ -436,4 +436,4 @@ private:
 #include "itkFEMSolver.hxx"
 #endif
 
-#endif // #ifndef __itkFEMSolver_h
+#endif // #ifndef itkFEMSolver_h

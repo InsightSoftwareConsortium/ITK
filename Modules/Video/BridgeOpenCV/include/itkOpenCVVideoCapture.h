@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOpenCVVideoCapture_h
-#define __itkOpenCVVideoCapture_h
+#ifndef itkOpenCVVideoCapture_h
+#define itkOpenCVVideoCapture_h
 
 #include <string>
 

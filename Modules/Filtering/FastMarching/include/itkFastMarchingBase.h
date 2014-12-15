@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingBase_h
-#define __itkFastMarchingBase_h
+#ifndef itkFastMarchingBase_h
+#define itkFastMarchingBase_h
 
 #include "itkIntTypes.h"
 #include "itkFastMarchingStoppingCriterionBase.h"

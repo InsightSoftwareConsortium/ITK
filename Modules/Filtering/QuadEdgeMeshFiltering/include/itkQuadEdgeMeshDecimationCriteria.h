@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshDecimationCriteria_h
-#define __itkQuadEdgeMeshDecimationCriteria_h
+#ifndef itkQuadEdgeMeshDecimationCriteria_h
+#define itkQuadEdgeMeshDecimationCriteria_h
 
 #include "itkIntTypes.h"
 #include "itkPriorityQueueContainer.h"

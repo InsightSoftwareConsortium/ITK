@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstSliceIterator_h
-#define __itkConstSliceIterator_h
+#ifndef itkConstSliceIterator_h
+#define itkConstSliceIterator_h
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"

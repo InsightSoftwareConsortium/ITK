@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaGroupConverter_h
-#define __itkMetaGroupConverter_h
+#ifndef itkMetaGroupConverter_h
+#define itkMetaGroupConverter_h
 
 #include "itkGroupSpatialObject.h"
 #include "metaGroup.h"

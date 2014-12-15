@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingQuadEdgeMeshFilterBase_h
-#define __itkFastMarchingQuadEdgeMeshFilterBase_h
+#ifndef itkFastMarchingQuadEdgeMeshFilterBase_h
+#define itkFastMarchingQuadEdgeMeshFilterBase_h
 
 #include "itkFastMarchingBase.h"
 #include "itkFastMarchingTraits.h"
@@ -172,4 +172,4 @@ private:
 }
 
 #include "itkFastMarchingQuadEdgeMeshFilterBase.hxx"
-#endif // __itkFastMarchingQuadEdgeMeshFilterBase_h
+#endif // itkFastMarchingQuadEdgeMeshFilterBase_h

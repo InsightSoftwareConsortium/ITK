@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodAlgorithm_h
-#define __itkNeighborhoodAlgorithm_h
+#ifndef itkNeighborhoodAlgorithm_h
+#define itkNeighborhoodAlgorithm_h
 
 #include <list>
 #include "itkImage.h"

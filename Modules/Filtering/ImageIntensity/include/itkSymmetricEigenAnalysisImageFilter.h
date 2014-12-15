@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricEigenAnalysisImageFilter_h
-#define __itkSymmetricEigenAnalysisImageFilter_h
+#ifndef itkSymmetricEigenAnalysisImageFilter_h
+#define itkSymmetricEigenAnalysisImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkSymmetricEigenAnalysis.h"

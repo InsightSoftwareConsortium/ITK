@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectToObjectMetricBase_h
-#define __itkObjectToObjectMetricBase_h
+#ifndef itkObjectToObjectMetricBase_h
+#define itkObjectToObjectMetricBase_h
 
 #include "itkTransformBase.h"
 #include "itkSingleValuedCostFunctionv4.h"

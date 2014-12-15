@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoxBoCUBImageIO_h
-#define __itkVoxBoCUBImageIO_h
+#ifndef itkVoxBoCUBImageIO_h
+#define itkVoxBoCUBImageIO_h
 
 
 #include <fstream>
@@ -134,4 +134,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkVoxBoCUBImageIO_h
+#endif // itkVoxBoCUBImageIO_h

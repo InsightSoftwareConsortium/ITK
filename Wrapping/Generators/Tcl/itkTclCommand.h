@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkTclCommand_h
-#define __itkTclCommand_h
+#ifndef itkTclCommand_h
+#define itkTclCommand_h
 
 #include "itkCommand.h"
 

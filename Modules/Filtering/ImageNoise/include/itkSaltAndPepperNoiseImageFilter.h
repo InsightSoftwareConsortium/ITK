@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkSaltAndPepperNoiseImageFilter_h
-#define __itkSaltAndPepperNoiseImageFilter_h
+#ifndef itkSaltAndPepperNoiseImageFilter_h
+#define itkSaltAndPepperNoiseImageFilter_h
 
 #include "itkNoiseBaseImageFilter.h"
 

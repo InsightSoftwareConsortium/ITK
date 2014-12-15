@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquareRegistrationFunction_h
-#define __itkMeanSquareRegistrationFunction_h
+#ifndef itkMeanSquareRegistrationFunction_h
+#define itkMeanSquareRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"

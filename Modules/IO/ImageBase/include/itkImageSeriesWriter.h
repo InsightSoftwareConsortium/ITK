@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSeriesWriter_h
-#define __itkImageSeriesWriter_h
+#ifndef itkImageSeriesWriter_h
+#define itkImageSeriesWriter_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkImageRegion.h"
@@ -248,4 +248,4 @@ private:
 #include "itkImageSeriesWriter.hxx"
 #endif
 
-#endif // __itkImageSeriesWriter_h
+#endif // itkImageSeriesWriter_h

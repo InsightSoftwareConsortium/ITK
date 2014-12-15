@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMObject_h
-#define __itkFEMObject_h
+#ifndef itkFEMObject_h
+#define itkFEMObject_h
 
 #include "itkDataObject.h"
 
@@ -347,4 +347,4 @@ private:
 #include "itkFEMObject.hxx"
 #endif
 
-#endif // #ifndef __itkFEMObject_h
+#endif // #ifndef itkFEMObject_h

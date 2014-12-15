@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStdStreamStateSave_h
-#define __itkStdStreamStateSave_h
+#ifndef itkStdStreamStateSave_h
+#define itkStdStreamStateSave_h
 
 #include <iostream>
 #include <string>

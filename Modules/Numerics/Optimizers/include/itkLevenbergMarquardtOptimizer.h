@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevenbergMarquardtOptimizer_h
-#define __itkLevenbergMarquardtOptimizer_h
+#ifndef itkLevenbergMarquardtOptimizer_h
+#define itkLevenbergMarquardtOptimizer_h
 
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_levenberg_marquardt.h"

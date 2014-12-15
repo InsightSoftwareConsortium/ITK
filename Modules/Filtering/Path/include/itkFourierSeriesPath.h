@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFourierSeriesPath_h
-#define __itkFourierSeriesPath_h
+#ifndef itkFourierSeriesPath_h
+#define itkFourierSeriesPath_h
 
 #include "itkParametricPath.h"
 #include "itkVectorContainer.h"

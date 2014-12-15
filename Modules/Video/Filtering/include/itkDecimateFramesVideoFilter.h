@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDecimateFramesVideoFilter_h
-#define __itkDecimateFramesVideoFilter_h
+#ifndef itkDecimateFramesVideoFilter_h
+#define itkDecimateFramesVideoFilter_h
 
 #include "itkVideoToVideoFilter.h"
 

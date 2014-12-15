@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRealTimeInterval_h
-#define __itkRealTimeInterval_h
+#ifndef itkRealTimeInterval_h
+#define itkRealTimeInterval_h
 
 #include "itkIntTypes.h"
 #include "itkMacro.h"
@@ -110,4 +110,4 @@ private:
 
 } // end of namespace itk
 
-#endif  // __itkRealTimeInterval_h
+#endif  // itkRealTimeInterval_h

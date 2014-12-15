@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkNiftiImageIO_h
-#define __itkNiftiImageIO_h
+#ifndef itkNiftiImageIO_h
+#define itkNiftiImageIO_h
 #include "ITKIONIFTIExport.h"
 
 
@@ -135,4 +135,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkNiftiImageIO_h
+#endif // itkNiftiImageIO_h

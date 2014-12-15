@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGreenPixelAccessor_h
-#define __itkGreenPixelAccessor_h
+#ifndef itkGreenPixelAccessor_h
+#define itkGreenPixelAccessor_h
 
 #include "itkRGBPixel.h"
 

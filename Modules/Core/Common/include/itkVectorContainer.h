@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorContainer_h
-#define __itkVectorContainer_h
+#ifndef itkVectorContainer_h
+#define itkVectorContainer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

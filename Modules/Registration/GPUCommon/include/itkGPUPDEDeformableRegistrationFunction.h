@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUPDEDeformableRegistrationFunction_h
-#define __itkGPUPDEDeformableRegistrationFunction_h
+#ifndef itkGPUPDEDeformableRegistrationFunction_h
+#define itkGPUPDEDeformableRegistrationFunction_h
 
 #include "itkGPUFiniteDifferenceFunction.h"
 

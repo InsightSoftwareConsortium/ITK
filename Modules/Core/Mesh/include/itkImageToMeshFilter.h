@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToMeshFilter_h
-#define __itkImageToMeshFilter_h
+#ifndef itkImageToMeshFilter_h
+#define itkImageToMeshFilter_h
 
 #include "itkMeshSource.h"
 

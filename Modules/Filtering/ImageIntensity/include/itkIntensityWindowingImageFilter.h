@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIntensityWindowingImageFilter_h
-#define __itkIntensityWindowingImageFilter_h
+#ifndef itkIntensityWindowingImageFilter_h
+#define itkIntensityWindowingImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

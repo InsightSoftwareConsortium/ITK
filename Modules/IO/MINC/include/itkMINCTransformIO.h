@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMINCTransformIO_h
-#define __itkMINCTransformIO_h
+#ifndef itkMINCTransformIO_h
+#define itkMINCTransformIO_h
 
 #include "itkTransformIOBase.h"
 
@@ -99,4 +99,4 @@ typedef MINCTransformIOTemplate< double > MINCTransformIO;
 #include "itkMINCTransformIO.hxx"
 #endif
 
-#endif // __itkMINCTransformIO_h
+#endif // itkMINCTransformIO_h

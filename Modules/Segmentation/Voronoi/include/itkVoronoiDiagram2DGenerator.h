@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoronoiDiagram2DGenerator_h
-#define __itkVoronoiDiagram2DGenerator_h
+#ifndef itkVoronoiDiagram2DGenerator_h
+#define itkVoronoiDiagram2DGenerator_h
 
 #include "itkMeshSource.h"
 #include "itkVoronoiDiagram2D.h"

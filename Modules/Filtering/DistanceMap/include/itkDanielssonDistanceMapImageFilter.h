@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDanielssonDistanceMapImageFilter_h
-#define __itkDanielssonDistanceMapImageFilter_h
+#ifndef itkDanielssonDistanceMapImageFilter_h
+#define itkDanielssonDistanceMapImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

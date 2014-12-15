@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMSpatialObjectWriter_h
-#define __itkFEMSpatialObjectWriter_h
+#ifndef itkFEMSpatialObjectWriter_h
+#define itkFEMSpatialObjectWriter_h
 
 #include "itkSpatialObjectWriter.h"
 #include "itkMetaFEMObjectConverter.h"
@@ -69,4 +69,4 @@ FEMSpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
 
 }
 
-#endif // __itkFEMSpatialObjectWriter_h
+#endif // itkFEMSpatialObjectWriter_h

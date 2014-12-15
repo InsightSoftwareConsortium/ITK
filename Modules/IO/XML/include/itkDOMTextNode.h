@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMTextNode_h
-#define __itkDOMTextNode_h
+#ifndef itkDOMTextNode_h
+#define itkDOMTextNode_h
 
 #include "itkDOMNode.h"
 
@@ -72,4 +72,4 @@ private:
 
 } // namespace itk
 
-#endif // __itkDOMTextNode_h
+#endif // itkDOMTextNode_h

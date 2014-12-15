@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLBFGSOptimizerv4_h
-#define __itkLBFGSOptimizerv4_h
+#ifndef itkLBFGSOptimizerv4_h
+#define itkLBFGSOptimizerv4_h
 
 #include "itkLBFGSOptimizerBasev4.h"
 #include "vnl/algo/vnl_lbfgs.h"

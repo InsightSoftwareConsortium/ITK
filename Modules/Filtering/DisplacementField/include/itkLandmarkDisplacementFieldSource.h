@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLandmarkDisplacementFieldSource_h
-#define __itkLandmarkDisplacementFieldSource_h
+#ifndef itkLandmarkDisplacementFieldSource_h
+#define itkLandmarkDisplacementFieldSource_h
 
 #include "itkImageSource.h"
 #include "itkKernelTransform.h"

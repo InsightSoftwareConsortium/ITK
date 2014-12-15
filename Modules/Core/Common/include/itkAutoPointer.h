@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAutoPointer_h
-#define __itkAutoPointer_h
+#ifndef itkAutoPointer_h
+#define itkAutoPointer_h
 
 #include "itkMacro.h"
 #include <iostream>

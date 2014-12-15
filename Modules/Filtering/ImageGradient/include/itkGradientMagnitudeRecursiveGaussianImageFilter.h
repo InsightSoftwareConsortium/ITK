@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientMagnitudeRecursiveGaussianImageFilter_h
-#define __itkGradientMagnitudeRecursiveGaussianImageFilter_h
+#ifndef itkGradientMagnitudeRecursiveGaussianImageFilter_h
+#define itkGradientMagnitudeRecursiveGaussianImageFilter_h
 
 #include "itkNthElementImageAdaptor.h"
 #include "itkImage.h"

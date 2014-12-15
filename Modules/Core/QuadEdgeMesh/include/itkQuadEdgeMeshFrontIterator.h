@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshFrontIterator_h
-#define __itkQuadEdgeMeshFrontIterator_h
+#ifndef itkQuadEdgeMeshFrontIterator_h
+#define itkQuadEdgeMeshFrontIterator_h
 
 #include "itkMapContainer.h"
 

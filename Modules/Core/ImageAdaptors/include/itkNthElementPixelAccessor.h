@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNthElementPixelAccessor_h
-#define __itkNthElementPixelAccessor_h
+#ifndef itkNthElementPixelAccessor_h
+#define itkNthElementPixelAccessor_h
 
 #include "itkMacro.h"
 #include "itkDefaultConvertPixelTraits.h"

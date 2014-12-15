@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryBallStructuringElement_h
-#define __itkBinaryBallStructuringElement_h
+#ifndef itkBinaryBallStructuringElement_h
+#define itkBinaryBallStructuringElement_h
 
 #include "itkNeighborhood.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRASlabIdentifier_h
-#define __itkMRASlabIdentifier_h
+#ifndef itkMRASlabIdentifier_h
+#define itkMRASlabIdentifier_h
 
 #include "itkObject.h"
 #include "itkImage.h"
@@ -148,4 +148,4 @@ private:
 #include "itkMRASlabIdentifier.hxx"
 #endif
 
-#endif /* __itkMRASlabIdentifier_h */
+#endif /* itkMRASlabIdentifier_h */

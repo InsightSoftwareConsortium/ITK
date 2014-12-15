@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMINCTransformAdapter_h
-#define __itkMINCTransformAdapter_h
+#ifndef itkMINCTransformAdapter_h
+#define itkMINCTransformAdapter_h
 
 #include "itkObject.h"
 #include "itkPoint.h"
@@ -333,4 +333,4 @@ private:
 };
 
 }
-#endif //__itkMINCTransformAdapter_h
+#endif //itkMINCTransformAdapter_h

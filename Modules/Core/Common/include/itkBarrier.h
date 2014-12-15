@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBarrier_h
-#define __itkBarrier_h
+#ifndef itkBarrier_h
+#define itkBarrier_h
 
 #include "itkConditionVariable.h"
 

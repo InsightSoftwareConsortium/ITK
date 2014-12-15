@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaMeshConverter_h
-#define __itkMetaMeshConverter_h
+#ifndef itkMetaMeshConverter_h
+#define itkMetaMeshConverter_h
 
 #include "metaMesh.h"
 #include "itkMeshSpatialObject.h"

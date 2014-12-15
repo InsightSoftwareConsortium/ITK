@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectMorphologyImageFilter_h
-#define __itkObjectMorphologyImageFilter_h
+#ifndef itkObjectMorphologyImageFilter_h
+#define itkObjectMorphologyImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNeighborhoodIterator.h"

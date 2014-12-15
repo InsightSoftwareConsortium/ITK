@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRBFLayer_h
-#define __itkRBFLayer_h
+#ifndef itkRBFLayer_h
+#define itkRBFLayer_h
 
 #include "itkCompletelyConnectedWeightSet.h"
 #include "itkLayerBase.h"

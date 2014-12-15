@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkColorTable_h
-#define __itkColorTable_h
+#ifndef itkColorTable_h
+#define itkColorTable_h
 
 #include "itkObject.h"
 #include "itkRGBPixel.h"

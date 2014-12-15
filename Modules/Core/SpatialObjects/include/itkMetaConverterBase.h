@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaConverterBase_h
-#define __itkMetaConverterBase_h
+#ifndef itkMetaConverterBase_h
+#define itkMetaConverterBase_h
 
 #include "itkSpatialObject.h"
 #include "metaObject.h"
@@ -88,4 +88,4 @@ private:
   #include "itkMetaConverterBase.hxx"
 #endif
 
-#endif // __itkMetaConverterBase_h
+#endif // itkMetaConverterBase_h

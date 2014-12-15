@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTensorFractionalAnisotropyImageFilter_h
-#define __itkTensorFractionalAnisotropyImageFilter_h
+#ifndef itkTensorFractionalAnisotropyImageFilter_h
+#define itkTensorFractionalAnisotropyImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkImage.h"

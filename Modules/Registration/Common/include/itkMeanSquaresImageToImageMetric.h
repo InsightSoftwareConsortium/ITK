@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresImageToImageMetric_h
-#define __itkMeanSquaresImageToImageMetric_h
+#ifndef itkMeanSquaresImageToImageMetric_h
+#define itkMeanSquaresImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
 #include "itkPoint.h"

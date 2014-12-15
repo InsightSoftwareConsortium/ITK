@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogram_h
-#define __itkHistogram_h
+#ifndef itkHistogram_h
+#define itkHistogram_h
 
 #include <vector>
 

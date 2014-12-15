@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricEigenAnalysis_h
-#define __itkSymmetricEigenAnalysis_h
+#ifndef itkSymmetricEigenAnalysis_h
+#define itkSymmetricEigenAnalysis_h
 
 #include "itkMacro.h"
 

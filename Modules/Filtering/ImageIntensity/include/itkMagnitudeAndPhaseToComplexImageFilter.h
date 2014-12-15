@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMagnitudeAndPhaseToComplexImageFilter_h
-#define __itkMagnitudeAndPhaseToComplexImageFilter_h
+#ifndef itkMagnitudeAndPhaseToComplexImageFilter_h
+#define itkMagnitudeAndPhaseToComplexImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 

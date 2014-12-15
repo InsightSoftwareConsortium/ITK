@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatrix_h
-#define __itkMatrix_h
+#ifndef itkMatrix_h
+#define itkMatrix_h
 
 #include "itkPoint.h"
 #include "itkCovariantVector.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVolumeSplineKernelTransform_h
-#define __itkVolumeSplineKernelTransform_h
+#ifndef itkVolumeSplineKernelTransform_h
+#define itkVolumeSplineKernelTransform_h
 
 #include "itkKernelTransform.h"
 
@@ -106,4 +106,4 @@ private:
 #include "itkVolumeSplineKernelTransform.hxx"
 #endif
 
-#endif // __itkVolumeSplineKernelTransform_h
+#endif // itkVolumeSplineKernelTransform_h

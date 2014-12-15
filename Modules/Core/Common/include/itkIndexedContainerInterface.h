@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIndexedContainerInterface_h
-#define __itkIndexedContainerInterface_h
+#ifndef itkIndexedContainerInterface_h
+#define itkIndexedContainerInterface_h
 
 #include "itkObject.h"
 

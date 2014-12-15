@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMutualInformationHistogramImageToImageMetric_h
-#define __itkMutualInformationHistogramImageToImageMetric_h
+#ifndef itkMutualInformationHistogramImageToImageMetric_h
+#define itkMutualInformationHistogramImageToImageMetric_h
 
 #include "itkHistogramImageToImageMetric.h"
 
@@ -92,4 +92,4 @@ private:
 #include "itkMutualInformationHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkMutualInformationHistogramImageToImageMetric_h
+#endif // itkMutualInformationHistogramImageToImageMetric_h

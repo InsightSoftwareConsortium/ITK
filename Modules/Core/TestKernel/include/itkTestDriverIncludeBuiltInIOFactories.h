@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestDriverIncludeBuiltInIOFactories_h
-#define __itkTestDriverIncludeBuiltInIOFactories_h
+#ifndef itkTestDriverIncludeBuiltInIOFactories_h
+#define itkTestDriverIncludeBuiltInIOFactories_h
 #include "itkBioRadImageIOFactory.h"
 #include "itkBMPImageIOFactory.h"
 #include "itkGDCMImageIOFactory.h"

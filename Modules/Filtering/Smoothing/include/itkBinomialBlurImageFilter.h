@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinomialBlurImageFilter_h
-#define __itkBinomialBlurImageFilter_h
+#ifndef itkBinomialBlurImageFilter_h
+#define itkBinomialBlurImageFilter_h
 
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlComplexToComplexFFTImageFilter_h
-#define __itkVnlComplexToComplexFFTImageFilter_h
+#ifndef itkVnlComplexToComplexFFTImageFilter_h
+#define itkVnlComplexToComplexFFTImageFilter_h
 
 #include "itkComplexToComplexFFTImageFilter.h"
 
@@ -81,4 +81,4 @@ private:
 #include "itkVnlComplexToComplexFFTImageFilter.hxx"
 #endif
 
-#endif //__itkVnlComplexToComplexFFTImageFilter_h
+#endif //itkVnlComplexToComplexFFTImageFilter_h

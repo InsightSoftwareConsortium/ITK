@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiquadricRadialBasisFunction_h
-#define __itkMultiquadricRadialBasisFunction_h
+#ifndef itkMultiquadricRadialBasisFunction_h
+#define itkMultiquadricRadialBasisFunction_h
 
 #include "itkTransferFunctionBase.h"
 

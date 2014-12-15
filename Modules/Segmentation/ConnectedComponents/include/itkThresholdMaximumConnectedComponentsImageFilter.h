@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThresholdMaximumConnectedComponentsImageFilter_h
-#define __itkThresholdMaximumConnectedComponentsImageFilter_h
+#ifndef itkThresholdMaximumConnectedComponentsImageFilter_h
+#define itkThresholdMaximumConnectedComponentsImageFilter_h
 
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"

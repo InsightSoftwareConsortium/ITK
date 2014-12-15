@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFloodFilledSpatialFunctionConditionalConstIterator_h
-#define __itkFloodFilledSpatialFunctionConditionalConstIterator_h
+#ifndef itkFloodFilledSpatialFunctionConditionalConstIterator_h
+#define itkFloodFilledSpatialFunctionConditionalConstIterator_h
 
 #include "itkFloodFilledFunctionConditionalConstIterator.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTShiftImageFilter_h
-#define __itkFFTShiftImageFilter_h
+#ifndef itkFFTShiftImageFilter_h
+#define itkFFTShiftImageFilter_h
 
 #include "itkCyclicShiftImageFilter.h"
 

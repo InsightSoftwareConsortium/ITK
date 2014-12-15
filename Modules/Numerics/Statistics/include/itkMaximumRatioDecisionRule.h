@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaximumRatioDecisionRule_h
-#define __itkMaximumRatioDecisionRule_h
+#ifndef itkMaximumRatioDecisionRule_h
+#define itkMaximumRatioDecisionRule_h
 
 #include <vector>
 #include "vnl/vnl_matrix.h"

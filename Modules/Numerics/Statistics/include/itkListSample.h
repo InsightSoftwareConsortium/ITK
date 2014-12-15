@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkListSample_h
-#define __itkListSample_h
+#ifndef itkListSample_h
+#define itkListSample_h
 
 #include "itkObjectFactory.h"
 #include "itkFixedArray.h"

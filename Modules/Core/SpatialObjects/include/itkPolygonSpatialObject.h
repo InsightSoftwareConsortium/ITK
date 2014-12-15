@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPolygonSpatialObject_h
-#define __itkPolygonSpatialObject_h
+#ifndef itkPolygonSpatialObject_h
+#define itkPolygonSpatialObject_h
 #include "itkBlobSpatialObject.h"
 
 namespace itk
@@ -129,4 +129,4 @@ private:
 #include "itkPolygonSpatialObject.hxx"
 #endif
 
-#endif  // __itkPolygonSpatialObject_h
+#endif  // itkPolygonSpatialObject_h

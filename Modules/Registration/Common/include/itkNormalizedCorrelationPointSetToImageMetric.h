@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalizedCorrelationPointSetToImageMetric_h
-#define __itkNormalizedCorrelationPointSetToImageMetric_h
+#ifndef itkNormalizedCorrelationPointSetToImageMetric_h
+#define itkNormalizedCorrelationPointSetToImageMetric_h
 
 #include "itkPointSetToImageMetric.h"
 #include "itkCovariantVector.h"

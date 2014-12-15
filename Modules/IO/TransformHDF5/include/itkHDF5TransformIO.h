@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHDF5TransformIO_h
-#define __itkHDF5TransformIO_h
+#ifndef itkHDF5TransformIO_h
+#define itkHDF5TransformIO_h
 #include "itkTransformIOBase.h"
 #include "itkAutoPointer.h"
 #include <string>
@@ -143,4 +143,4 @@ typedef HDF5TransformIOTemplate< double > HDF5TransformIO;
 #include "itkHDF5TransformIO.hxx"
 #endif
 
-#endif // __itkHDF5TransformIO_h
+#endif // itkHDF5TransformIO_h

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMNodeXMLWriter_h
-#define __itkDOMNodeXMLWriter_h
+#ifndef itkDOMNodeXMLWriter_h
+#define itkDOMNodeXMLWriter_h
 
 #include "itkDOMNode.h"
 #include "itkObject.h"
@@ -124,4 +124,4 @@ inline std::ostream& operator<<( std::ostream& os, const itk::DOMNode& object )
   return os;
 }
 
-#endif // __itkDOMNodeXMLWriter_h
+#endif // itkDOMNodeXMLWriter_h

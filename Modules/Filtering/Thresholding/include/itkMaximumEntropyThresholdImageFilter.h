@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMaximumEntropyThresholdImageFilter_h
-#define __itkMaximumEntropyThresholdImageFilter_h
+#ifndef itkMaximumEntropyThresholdImageFilter_h
+#define itkMaximumEntropyThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkMaximumEntropyThresholdCalculator.h"

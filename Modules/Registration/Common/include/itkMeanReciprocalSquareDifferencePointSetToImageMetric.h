@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanReciprocalSquareDifferencePointSetToImageMetric_h
-#define __itkMeanReciprocalSquareDifferencePointSetToImageMetric_h
+#ifndef itkMeanReciprocalSquareDifferencePointSetToImageMetric_h
+#define itkMeanReciprocalSquareDifferencePointSetToImageMetric_h
 
 #include "itkPointSetToImageMetric.h"
 #include "itkCovariantVector.h"

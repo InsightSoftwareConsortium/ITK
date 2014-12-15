@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUFiniteDifferenceFunction_h
-#define __itkGPUFiniteDifferenceFunction_h
+#ifndef itkGPUFiniteDifferenceFunction_h
+#define itkGPUFiniteDifferenceFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 #include "itkLightObject.h"

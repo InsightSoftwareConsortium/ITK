@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConvertPixelBuffer_h
-#define __itkConvertPixelBuffer_h
+#ifndef itkConvertPixelBuffer_h
+#define itkConvertPixelBuffer_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkObject.h"
@@ -165,4 +165,4 @@ private:
 #include "itkConvertPixelBuffer.hxx"
 #endif
 
-#endif // __itkConvertPixelBuffer_h
+#endif // itkConvertPixelBuffer_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalVectorFunctionBase_h
-#define __itkNormalVectorFunctionBase_h
+#ifndef itkNormalVectorFunctionBase_h
+#define itkNormalVectorFunctionBase_h
 
 #include "itkFiniteDifferenceSparseImageFunction.h"
 

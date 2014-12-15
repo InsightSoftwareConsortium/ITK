@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkXMLFile_h
-#define __itkXMLFile_h
+#ifndef itkXMLFile_h
+#define itkXMLFile_h
 #include "itkLightProcessObject.h"
 #include <fstream>
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHessian3DToVesselnessMeasureImageFilter_h
-#define __itkHessian3DToVesselnessMeasureImageFilter_h
+#ifndef itkHessian3DToVesselnessMeasureImageFilter_h
+#define itkHessian3DToVesselnessMeasureImageFilter_h
 
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkSymmetricEigenAnalysisImageFilter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompositeTransform_h
-#define __itkCompositeTransform_h
+#ifndef itkCompositeTransform_h
+#define itkCompositeTransform_h
 
 #include "itkMultiTransform.h"
 
@@ -425,4 +425,4 @@ private:
 #include "itkCompositeTransform.hxx"
 #endif
 
-#endif // __itkCompositeTransform_h
+#endif // itkCompositeTransform_h

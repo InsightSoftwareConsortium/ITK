@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelStatisticsKeepNObjectsImageFilter_h
-#define __itkLabelStatisticsKeepNObjectsImageFilter_h
+#ifndef itkLabelStatisticsKeepNObjectsImageFilter_h
+#define itkLabelStatisticsKeepNObjectsImageFilter_h
 
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkStatisticsLabelMapFilter.h"

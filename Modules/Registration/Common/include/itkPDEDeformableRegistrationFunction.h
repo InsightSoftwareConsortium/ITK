@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPDEDeformableRegistrationFunction_h
-#define __itkPDEDeformableRegistrationFunction_h
+#ifndef itkPDEDeformableRegistrationFunction_h
+#define itkPDEDeformableRegistrationFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 

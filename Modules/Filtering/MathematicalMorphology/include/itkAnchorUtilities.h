@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorUtilities_h
-#define __itkAnchorUtilities_h
+#ifndef itkAnchorUtilities_h
+#define itkAnchorUtilities_h
 
 #include <list>
 

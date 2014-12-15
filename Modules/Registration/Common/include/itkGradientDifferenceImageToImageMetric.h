@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDifferenceImageToImageMetric_h
-#define __itkGradientDifferenceImageToImageMetric_h
+#ifndef itkGradientDifferenceImageToImageMetric_h
+#define itkGradientDifferenceImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
 

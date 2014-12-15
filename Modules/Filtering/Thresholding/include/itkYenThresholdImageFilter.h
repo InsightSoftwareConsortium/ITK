@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkYenThresholdImageFilter_h
-#define __itkYenThresholdImageFilter_h
+#ifndef itkYenThresholdImageFilter_h
+#define itkYenThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkYenThresholdCalculator.h"

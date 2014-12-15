@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkOtsuThresholdCalculator_h
-#define __itkOtsuThresholdCalculator_h
+#ifndef itkOtsuThresholdCalculator_h
+#define itkOtsuThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 #include "itkOtsuMultipleThresholdsCalculator.h"

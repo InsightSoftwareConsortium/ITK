@@ -15,8 +15,8 @@
    *  limitations under the License.
    *
    *=========================================================================*/
-  #ifndef __itkTestingStretchIntensityImageFilter_h
-  #define __itkTestingStretchIntensityImageFilter_h
+  #ifndef itkTestingStretchIntensityImageFilter_h
+  #define itkTestingStretchIntensityImageFilter_h
 
   #include "itkUnaryFunctorImageFilter.h"
 

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLoadNode_h
-#define __itkFEMLoadNode_h
+#ifndef itkFEMLoadNode_h
+#define itkFEMLoadNode_h
 
 #include "itkFEMLoadBase.h"
 #include "vnl/vnl_vector.h"
@@ -107,4 +107,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadDOF_h
+#endif // #ifndef itkFEMLoadDOF_h

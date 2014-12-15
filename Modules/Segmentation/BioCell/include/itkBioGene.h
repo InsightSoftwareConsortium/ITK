@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBioGene_h
-#define __itkBioGene_h
+#ifndef itkBioGene_h
+#define itkBioGene_h
 
 
 #include <string>

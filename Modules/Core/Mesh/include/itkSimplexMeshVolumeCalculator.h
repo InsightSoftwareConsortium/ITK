@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimplexMeshVolumeCalculator_h
-#define __itkSimplexMeshVolumeCalculator_h
+#ifndef itkSimplexMeshVolumeCalculator_h
+#define itkSimplexMeshVolumeCalculator_h
 
 #include "itkIntTypes.h"
 #include "itkPolygonCell.h"

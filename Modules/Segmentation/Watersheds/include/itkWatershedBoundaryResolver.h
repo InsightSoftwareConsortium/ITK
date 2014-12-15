@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedBoundaryResolver_h
-#define __itkWatershedBoundaryResolver_h
+#ifndef itkWatershedBoundaryResolver_h
+#define itkWatershedBoundaryResolver_h
 
 
 #include "itkWatershedSegmenter.h"

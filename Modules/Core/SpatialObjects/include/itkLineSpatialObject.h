@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLineSpatialObject_h
-#define __itkLineSpatialObject_h
+#ifndef itkLineSpatialObject_h
+#define itkLineSpatialObject_h
 
 #include <list>
 
@@ -127,4 +127,4 @@ protected:
 #include "itkLineSpatialObject.hxx"
 #endif
 
-#endif // __itkLineSpatialObject_h
+#endif // itkLineSpatialObject_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiResolutionPDEDeformableRegistration_h
-#define __itkMultiResolutionPDEDeformableRegistration_h
+#ifndef itkMultiResolutionPDEDeformableRegistration_h
+#define itkMultiResolutionPDEDeformableRegistration_h
 
 #include "itkImage.h"
 #include "itkDemonsRegistrationFilter.h"

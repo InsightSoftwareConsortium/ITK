@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJavaCommand_h
-#define __itkJavaCommand_h
+#ifndef itkJavaCommand_h
+#define itkJavaCommand_h
 #include "itkCommand.h"
 typedef itk::Command itkCommand;
 

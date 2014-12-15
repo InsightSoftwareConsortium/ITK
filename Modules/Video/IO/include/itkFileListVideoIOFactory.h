@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFileListVideoIOFactory_h
-#define __itkFileListVideoIOFactory_h
+#ifndef itkFileListVideoIOFactory_h
+#define itkFileListVideoIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkVideoIOBase.h"

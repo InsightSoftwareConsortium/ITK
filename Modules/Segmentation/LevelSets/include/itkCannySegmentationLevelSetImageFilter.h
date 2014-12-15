@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCannySegmentationLevelSetImageFilter_h
-#define __itkCannySegmentationLevelSetImageFilter_h
+#ifndef itkCannySegmentationLevelSetImageFilter_h
+#define itkCannySegmentationLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkCannySegmentationLevelSetFunction.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMScatteredDataPointSetToImageFilter_h
-#define __itkFEMScatteredDataPointSetToImageFilter_h
+#ifndef itkFEMScatteredDataPointSetToImageFilter_h
+#define itkFEMScatteredDataPointSetToImageFilter_h
 
 #include "itkPointSetToImageFilter.h"
 #include "itkVectorContainer.h"

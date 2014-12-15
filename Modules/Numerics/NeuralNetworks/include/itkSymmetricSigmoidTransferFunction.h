@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricSigmoidTransferFunction_h
-#define __itkSymmetricSigmoidTransferFunction_h
+#ifndef itkSymmetricSigmoidTransferFunction_h
+#define itkSymmetricSigmoidTransferFunction_h
 
 #include "itkTransferFunctionBase.h"
 

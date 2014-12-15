@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorImageToImageAdaptor_h
-#define __itkVectorImageToImageAdaptor_h
+#ifndef itkVectorImageToImageAdaptor_h
+#define itkVectorImageToImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 #include "itkVectorImage.h"

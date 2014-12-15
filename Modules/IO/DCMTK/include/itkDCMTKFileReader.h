@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKFileReader_h
+#ifndef itkDCMTKFileReader_h
 
-#define __itkDCMTKFileReader_h
+#define itkDCMTKFileReader_h
 #include "ITKIODCMTKExport.h"
 #include <stack>
 #include <vector>
@@ -483,4 +483,4 @@ private:
 extern bool CompareDCMTKFileReaders(DCMTKFileReader *a, DCMTKFileReader *b);
 }
 
-#endif // __itkDCMTKFileReader_h
+#endif // itkDCMTKFileReader_h

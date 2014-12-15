@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMorphologyImageFilter_h
-#define __itkBinaryMorphologyImageFilter_h
+#ifndef itkBinaryMorphologyImageFilter_h
+#define itkBinaryMorphologyImageFilter_h
 
 #include <vector>
 #include <queue>

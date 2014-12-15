@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOrthogonalSwath2DPathFilter_h
-#define __itkOrthogonalSwath2DPathFilter_h
+#ifndef itkOrthogonalSwath2DPathFilter_h
+#define itkOrthogonalSwath2DPathFilter_h
 
 #include "itkPathAndImageToPathFilter.h"
 #include "itkOrthogonallyCorrected2DParametricPath.h"

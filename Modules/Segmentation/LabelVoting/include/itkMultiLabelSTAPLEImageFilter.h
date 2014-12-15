@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiLabelSTAPLEImageFilter_h
-#define __itkMultiLabelSTAPLEImageFilter_h
+#ifndef itkMultiLabelSTAPLEImageFilter_h
+#define itkMultiLabelSTAPLEImageFilter_h
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"

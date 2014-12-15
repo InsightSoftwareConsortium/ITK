@@ -17,8 +17,8 @@
  *=========================================================================*/
 /** This file is used to create the smallest windows.h possible.
  * Also it removes a few annoying #define's in windows.h. */
-#ifndef __itkWindows_h
-#define __itkWindows_h
+#ifndef itkWindows_h
+#define itkWindows_h
 #if defined(_MSC_VER) || defined(__MINGW32__) // if on Windows
 #ifndef NOMINMAX
 #define NOMINMAX

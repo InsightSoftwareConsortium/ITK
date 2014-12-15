@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMeshRegion_h
-#define __itkMeshRegion_h
+#ifndef itkMeshRegion_h
+#define itkMeshRegion_h
 
 #include "itkRegion.h"
 #include "itkObjectFactory.h"

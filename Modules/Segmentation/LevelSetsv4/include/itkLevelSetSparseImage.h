@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetSparseImage_h
-#define __itkLevelSetSparseImage_h
+#ifndef itkLevelSetSparseImage_h
+#define itkLevelSetSparseImage_h
 
 #include "itkDiscreteLevelSetImage.h"
 #include "itkObjectFactory.h"
@@ -136,4 +136,4 @@ private:
 #include "itkLevelSetSparseImage.hxx"
 #endif
 
-#endif // __itkLevelSetSparseImage_h
+#endif // itkLevelSetSparseImage_h

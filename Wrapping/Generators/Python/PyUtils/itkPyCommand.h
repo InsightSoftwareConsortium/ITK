@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkPyCommand_h
-#define __itkPyCommand_h
+#ifndef itkPyCommand_h
+#define itkPyCommand_h
 
 #include "itkCommand.h"
 

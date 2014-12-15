@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkStringTools_h
-#define __itkStringTools_h
+#ifndef itkStringTools_h
+#define itkStringTools_h
 
 #include <vector>
 #include <map>
@@ -152,4 +152,4 @@ public:
 #include "itkStringTools.hxx"
 #endif
 
-#endif // __itkStringTools_h
+#endif // itkStringTools_h

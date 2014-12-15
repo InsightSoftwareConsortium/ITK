@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianBlurImageFunction_h
-#define __itkGaussianBlurImageFunction_h
+#ifndef itkGaussianBlurImageFunction_h
+#define itkGaussianBlurImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianOperator.h"

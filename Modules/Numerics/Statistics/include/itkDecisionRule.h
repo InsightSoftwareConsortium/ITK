@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDecisionRule_h
-#define __itkDecisionRule_h
+#ifndef itkDecisionRule_h
+#define itkDecisionRule_h
 
 #include <vector>
 #include "vnl/vnl_matrix.h"

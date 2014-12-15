@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageTransformer_h
-#define __itkImageTransformer_h
+#ifndef itkImageTransformer_h
+#define itkImageTransformer_h
 
 #include "itkProcessObject.h"
 #include "itkImage.h"

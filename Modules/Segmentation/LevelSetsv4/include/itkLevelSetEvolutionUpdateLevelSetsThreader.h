@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetEvolutionUpdateLevelSetsThreader_h
-#define __itkLevelSetEvolutionUpdateLevelSetsThreader_h
+#ifndef itkLevelSetEvolutionUpdateLevelSetsThreader_h
+#define itkLevelSetEvolutionUpdateLevelSetsThreader_h
 
 #include "itkCompensatedSummation.h"
 #include "itkDomainThreader.h"

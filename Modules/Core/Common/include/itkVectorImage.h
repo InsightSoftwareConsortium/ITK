@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorImage_h
-#define __itkVectorImage_h
+#ifndef itkVectorImage_h
+#define itkVectorImage_h
 
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"

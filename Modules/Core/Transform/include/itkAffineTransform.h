@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAffineTransform_h
-#define __itkAffineTransform_h
+#ifndef itkAffineTransform_h
+#define itkAffineTransform_h
 
 #include "itkMatrixOffsetTransformBase.h"
 #include <iostream>
@@ -401,4 +401,4 @@ AffineTransform< TScalar, NDimensions >::BackTransform(const OutputPointType & p
 #include "itkAffineTransform.hxx"
 #endif
 
-#endif /* __itkAffineTransform_h */
+#endif /* itkAffineTransform_h */

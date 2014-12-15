@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegionSplitterSlowDimension_h
-#define __itkImageRegionSplitterSlowDimension_h
+#ifndef itkImageRegionSplitterSlowDimension_h
+#define itkImageRegionSplitterSlowDimension_h
 
 #include "itkImageRegionSplitterBase.h"
 

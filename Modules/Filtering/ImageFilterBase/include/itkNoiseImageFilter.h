@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNoiseImageFilter_h
-#define __itkNoiseImageFilter_h
+#ifndef itkNoiseImageFilter_h
+#define itkNoiseImageFilter_h
 
 #include "itkBoxImageFilter.h"
 #include "itkImage.h"

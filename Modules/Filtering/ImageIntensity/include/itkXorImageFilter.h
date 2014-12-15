@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkXorImageFilter_h
-#define __itkXorImageFilter_h
+#ifndef itkXorImageFilter_h
+#define itkXorImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"

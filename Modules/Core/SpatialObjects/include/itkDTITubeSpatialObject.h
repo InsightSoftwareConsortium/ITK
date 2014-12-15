@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDTITubeSpatialObject_h
-#define __itkDTITubeSpatialObject_h
+#ifndef itkDTITubeSpatialObject_h
+#define itkDTITubeSpatialObject_h
 
 #include <list>
 
@@ -85,4 +85,4 @@ private:
 #include "itkDTITubeSpatialObject.hxx"
 #endif
 
-#endif // __itkDTITubeSpatialObject_h
+#endif // itkDTITubeSpatialObject_h

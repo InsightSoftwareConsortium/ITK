@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLinearSystemWrapper_h
-#define __itkFEMLinearSystemWrapper_h
+#ifndef itkFEMLinearSystemWrapper_h
+#define itkFEMLinearSystemWrapper_h
 
 #include "itkMacro.h"
 #include "itkFEMSolution.h"
@@ -549,4 +549,4 @@ public:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLinearSystemWrapper_h
+#endif // #ifndef itkFEMLinearSystemWrapper_h

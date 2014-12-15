@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshMacro_h
-#define __itkQuadEdgeMeshMacro_h
+#ifndef itkQuadEdgeMeshMacro_h
+#define itkQuadEdgeMeshMacro_h
 
 namespace itk
 {

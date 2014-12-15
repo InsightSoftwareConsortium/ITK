@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMWriter_h
-#define __itkDOMWriter_h
+#ifndef itkDOMWriter_h
+#define itkDOMWriter_h
 
 #include "itkDOMNodeXMLWriter.h"
 #include "itkObject.h"
@@ -150,4 +150,4 @@ private:
 #include "itkDOMWriter.hxx"
 #endif
 
-#endif // __itkDOMWriter_h
+#endif // itkDOMWriter_h

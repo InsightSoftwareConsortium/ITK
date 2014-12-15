@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialNeighborSubsampler_h
-#define __itkSpatialNeighborSubsampler_h
+#ifndef itkSpatialNeighborSubsampler_h
+#define itkSpatialNeighborSubsampler_h
 
 #include "itkRegionConstrainedSubsampler.h"
 #include "itkImageHelper.h"

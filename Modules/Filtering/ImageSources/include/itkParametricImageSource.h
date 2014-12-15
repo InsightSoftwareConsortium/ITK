@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParametricImageSource_h
-#define __itkParametricImageSource_h
+#ifndef itkParametricImageSource_h
+#define itkParametricImageSource_h
 
 #include "itkGenerateImageSource.h"
 

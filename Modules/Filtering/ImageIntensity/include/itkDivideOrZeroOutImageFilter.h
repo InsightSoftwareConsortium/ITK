@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDivideOrZeroOutImageFilter_h
-#define __itkDivideOrZeroOutImageFilter_h
+#ifndef itkDivideOrZeroOutImageFilter_h
+#define itkDivideOrZeroOutImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"

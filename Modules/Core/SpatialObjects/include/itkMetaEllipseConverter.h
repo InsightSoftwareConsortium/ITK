@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaEllipseConverter_h
-#define __itkMetaEllipseConverter_h
+#ifndef itkMetaEllipseConverter_h
+#define itkMetaEllipseConverter_h
 
 #include "itkMetaConverterBase.h"
 #include "itkEllipseSpatialObject.h"

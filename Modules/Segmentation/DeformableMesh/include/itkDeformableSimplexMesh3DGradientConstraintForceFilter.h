@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
-#define __itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
+#ifndef itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
+#define itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkMesh.h"

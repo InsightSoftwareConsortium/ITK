@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMMaterials_h
-#define __itkFEMMaterials_h
+#ifndef itkFEMMaterials_h
+#define itkFEMMaterials_h
 
 /**
  * \file itkFEMMaterials.h

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetContainer_h
-#define __itkLevelSetContainer_h
+#ifndef itkLevelSetContainer_h
+#define itkLevelSetContainer_h
 
 #include "itkLevelSetContainerBase.h"
 
@@ -191,4 +191,4 @@ private:
 
 }
 
-#endif // __itkLevelSetContainer_h
+#endif // itkLevelSetContainer_h

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBoundedReciprocalImageFilter_h
-#define __itkBoundedReciprocalImageFilter_h
+#ifndef itkBoundedReciprocalImageFilter_h
+#define itkBoundedReciprocalImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

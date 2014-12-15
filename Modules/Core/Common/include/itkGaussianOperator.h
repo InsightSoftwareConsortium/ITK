@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianOperator_h
-#define __itkGaussianOperator_h
+#ifndef itkGaussianOperator_h
+#define itkGaussianOperator_h
 
 #include "itkNeighborhoodOperator.h"
 #include <cmath>

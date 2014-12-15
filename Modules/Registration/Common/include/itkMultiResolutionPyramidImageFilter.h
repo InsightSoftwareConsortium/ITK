@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiResolutionPyramidImageFilter_h
-#define __itkMultiResolutionPyramidImageFilter_h
+#ifndef itkMultiResolutionPyramidImageFilter_h
+#define itkMultiResolutionPyramidImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkArray2D.h"

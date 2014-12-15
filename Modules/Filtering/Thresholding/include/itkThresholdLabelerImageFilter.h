@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThresholdLabelerImageFilter_h
-#define __itkThresholdLabelerImageFilter_h
+#ifndef itkThresholdLabelerImageFilter_h
+#define itkThresholdLabelerImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkShiSparseLevelSetImage_h
-#define __itkShiSparseLevelSetImage_h
+#ifndef itkShiSparseLevelSetImage_h
+#define itkShiSparseLevelSetImage_h
 
 #include "itkLevelSetSparseImage.h"
 
@@ -121,4 +121,4 @@ private:
 #include "itkShiSparseLevelSetImage.hxx"
 #endif
 
-#endif // __itkShiSparseLevelSetImage_h
+#endif // itkShiSparseLevelSetImage_h

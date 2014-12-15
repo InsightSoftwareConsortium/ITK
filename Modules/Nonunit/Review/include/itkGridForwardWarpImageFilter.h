@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGridForwardWarpImageFilter_h
-#define __itkGridForwardWarpImageFilter_h
+#ifndef itkGridForwardWarpImageFilter_h
+#define itkGridForwardWarpImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

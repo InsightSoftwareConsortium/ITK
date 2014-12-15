@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBoxImageFilter_h
-#define __itkBoxImageFilter_h
+#ifndef itkBoxImageFilter_h
+#define itkBoxImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkCastImageFilter.h"

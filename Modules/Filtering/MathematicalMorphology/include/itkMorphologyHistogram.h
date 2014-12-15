@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMorphologyHistogram_h
-#define __itkMorphologyHistogram_h
+#ifndef itkMorphologyHistogram_h
+#define itkMorphologyHistogram_h
 
 #include <map>
 #include <vector>

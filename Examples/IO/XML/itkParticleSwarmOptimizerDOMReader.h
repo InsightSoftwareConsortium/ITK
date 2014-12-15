@@ -26,8 +26,8 @@
  * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML format for the PSO object.
  */
 
-#ifndef __itkParticleSwarmOptimizerDOMReader_h
-#define __itkParticleSwarmOptimizerDOMReader_h
+#ifndef itkParticleSwarmOptimizerDOMReader_h
+#define itkParticleSwarmOptimizerDOMReader_h
 
 #include "itkDOMReader.h"
 #include "itkParticleSwarmOptimizer.h"
@@ -66,4 +66,4 @@ private:
 
 } // namespace itk
 
-#endif // __itkParticleSwarmOptimizerDOMReader_h
+#endif // itkParticleSwarmOptimizerDOMReader_h

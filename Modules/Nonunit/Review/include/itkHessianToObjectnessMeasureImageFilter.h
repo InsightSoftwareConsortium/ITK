@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHessianToObjectnessMeasureImageFilter_h
-#define __itkHessianToObjectnessMeasureImageFilter_h
+#ifndef itkHessianToObjectnessMeasureImageFilter_h
+#define itkHessianToObjectnessMeasureImageFilter_h
 
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkImageToImageFilter.h"

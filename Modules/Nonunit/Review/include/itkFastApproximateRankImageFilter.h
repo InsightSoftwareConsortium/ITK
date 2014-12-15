@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastApproximateRankImageFilter_h
-#define __itkFastApproximateRankImageFilter_h
+#ifndef itkFastApproximateRankImageFilter_h
+#define itkFastApproximateRankImageFilter_h
 
 #include "itkMiniPipelineSeparableImageFilter.h"
 #include "itkRankImageFilter.h"

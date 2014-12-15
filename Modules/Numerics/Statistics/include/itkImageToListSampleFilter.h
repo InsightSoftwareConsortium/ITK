@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToListSampleFilter_h
-#define __itkImageToListSampleFilter_h
+#ifndef itkImageToListSampleFilter_h
+#define itkImageToListSampleFilter_h
 
 #include "itkListSample.h"
 #include "itkPixelTraits.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorThresholdSegmentationLevelSetFunction_h
-#define __itkVectorThresholdSegmentationLevelSetFunction_h
+#ifndef itkVectorThresholdSegmentationLevelSetFunction_h
+#define itkVectorThresholdSegmentationLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 #include "itkNumericTraits.h"

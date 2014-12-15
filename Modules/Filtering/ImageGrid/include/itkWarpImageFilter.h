@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWarpImageFilter_h
-#define __itkWarpImageFilter_h
+#ifndef itkWarpImageFilter_h
+#define itkWarpImageFilter_h
 #include "itkImageBase.h"
 #include "itkImageToImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"

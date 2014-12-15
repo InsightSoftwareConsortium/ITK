@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetTestFunction_h
-#define __itkLevelSetTestFunction_h
+#ifndef itkLevelSetTestFunction_h
+#define itkLevelSetTestFunction_h
 
 #include "itkLightObject.h"
 #include "itkImage.h"

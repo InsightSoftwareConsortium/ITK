@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkInterpolateImagePointsFilter_h
-#define __itkInterpolateImagePointsFilter_h
+#ifndef itkInterpolateImagePointsFilter_h
+#define itkInterpolateImagePointsFilter_h
 
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkImageToImageFilter.h"

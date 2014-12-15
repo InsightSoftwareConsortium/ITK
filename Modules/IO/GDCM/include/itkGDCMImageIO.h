@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkGDCMImageIO_h
-#define __itkGDCMImageIO_h
+#ifndef itkGDCMImageIO_h
+#define itkGDCMImageIO_h
 
 #define ITKIO_DEPRECATED_GDCM1_API
 
@@ -317,4 +317,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkGDCMImageIO_h
+#endif // itkGDCMImageIO_h

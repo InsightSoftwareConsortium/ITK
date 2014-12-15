@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkImageToRGBVTKImageFilter_h
-#define __itkImageToRGBVTKImageFilter_h
+#ifndef itkImageToRGBVTKImageFilter_h
+#define itkImageToRGBVTKImageFilter_h
 
 #include "itkProcessObject.h"
 #include "vtkSmartPointer.h"

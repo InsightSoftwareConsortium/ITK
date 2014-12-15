@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKernelImageFilter_h
-#define __itkKernelImageFilter_h
+#ifndef itkKernelImageFilter_h
+#define itkKernelImageFilter_h
 
 #include "itkBoxImageFilter.h"
 #include "itkFlatStructuringElement.h"

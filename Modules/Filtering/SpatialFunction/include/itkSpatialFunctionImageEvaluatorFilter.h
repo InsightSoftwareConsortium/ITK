@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialFunctionImageEvaluatorFilter_h
-#define __itkSpatialFunctionImageEvaluatorFilter_h
+#ifndef itkSpatialFunctionImageEvaluatorFilter_h
+#define itkSpatialFunctionImageEvaluatorFilter_h
 
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"

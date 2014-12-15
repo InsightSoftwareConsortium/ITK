@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetFunction_h
-#define __itkLevelSetFunction_h
+#ifndef itkLevelSetFunction_h
+#define itkLevelSetFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 #include "vnl/vnl_matrix_fixed.h"

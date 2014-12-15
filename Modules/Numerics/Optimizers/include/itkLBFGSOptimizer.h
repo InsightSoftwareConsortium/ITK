@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLBFGSOptimizer_h
-#define __itkLBFGSOptimizer_h
+#ifndef itkLBFGSOptimizer_h
+#define itkLBFGSOptimizer_h
 
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_lbfgs.h"

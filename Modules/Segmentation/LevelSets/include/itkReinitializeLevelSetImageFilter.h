@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReinitializeLevelSetImageFilter_h
-#define __itkReinitializeLevelSetImageFilter_h
+#ifndef itkReinitializeLevelSetImageFilter_h
+#define itkReinitializeLevelSetImageFilter_h
 
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkFastMarchingImageFilter.h"

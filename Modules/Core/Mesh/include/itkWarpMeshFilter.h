@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWarpMeshFilter_h
-#define __itkWarpMeshFilter_h
+#ifndef itkWarpMeshFilter_h
+#define itkWarpMeshFilter_h
 
 #include "itkMeshToMeshFilter.h"
 

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkImageToRectilinearFEMObjectFilter_h
-#define __itkImageToRectilinearFEMObjectFilter_h
+#ifndef itkImageToRectilinearFEMObjectFilter_h
+#define itkImageToRectilinearFEMObjectFilter_h
 
 #include "vnl/vnl_vector.h"
 #include "itkFEMObject.h"
@@ -170,4 +170,4 @@ private:
 #include "itkImageToRectilinearFEMObjectFilter.hxx"
 #endif
 
-#endif // #ifndef __itkImageToRectilinearFEMObjectFilter_h
+#endif // #ifndef itkImageToRectilinearFEMObjectFilter_h

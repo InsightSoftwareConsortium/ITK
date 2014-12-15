@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVersor_h
-#define __itkVersor_h
+#ifndef itkVersor_h
+#define itkVersor_h
 
 #include "itkMatrix.h"
 #include "vnl/vnl_quaternion.h"

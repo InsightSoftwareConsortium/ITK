@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_h
-#define __itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_h
+#ifndef itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_h
+#define itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_h
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 #include "itkThreadedImageRegionPartitioner.h"

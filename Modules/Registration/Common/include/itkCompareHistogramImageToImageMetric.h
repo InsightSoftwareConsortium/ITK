@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompareHistogramImageToImageMetric_h
-#define __itkCompareHistogramImageToImageMetric_h
+#ifndef itkCompareHistogramImageToImageMetric_h
+#define itkCompareHistogramImageToImageMetric_h
 
 #include "itkHistogramImageToImageMetric.h"
 
@@ -165,4 +165,4 @@ private:
 #include "itkCompareHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkCompareHistogramImageToImageMetric_h
+#endif // itkCompareHistogramImageToImageMetric_h

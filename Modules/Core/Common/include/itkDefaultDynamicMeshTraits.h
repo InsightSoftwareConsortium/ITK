@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDefaultDynamicMeshTraits_h
-#define __itkDefaultDynamicMeshTraits_h
+#ifndef itkDefaultDynamicMeshTraits_h
+#define itkDefaultDynamicMeshTraits_h
 
 #include "itkCellInterface.h"
 #include "itkMapContainer.h"

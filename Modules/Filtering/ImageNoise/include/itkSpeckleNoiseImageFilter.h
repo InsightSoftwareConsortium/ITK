@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkSpeckleNoiseImageFilter_h
-#define __itkSpeckleNoiseImageFilter_h
+#ifndef itkSpeckleNoiseImageFilter_h
+#define itkSpeckleNoiseImageFilter_h
 
 #include "itkNoiseBaseImageFilter.h"
 

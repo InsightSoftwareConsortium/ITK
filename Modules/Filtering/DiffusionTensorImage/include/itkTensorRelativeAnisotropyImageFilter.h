@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTensorRelativeAnisotropyImageFilter_h
-#define __itkTensorRelativeAnisotropyImageFilter_h
+#ifndef itkTensorRelativeAnisotropyImageFilter_h
+#define itkTensorRelativeAnisotropyImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkImage.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeuralNetworkFileReader_h
-#define __itkNeuralNetworkFileReader_h
+#ifndef itkNeuralNetworkFileReader_h
+#define itkNeuralNetworkFileReader_h
 
 #include "metaTypes.h"
 #include "metaUtils.h"

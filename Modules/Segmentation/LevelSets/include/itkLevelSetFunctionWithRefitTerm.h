@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetFunctionWithRefitTerm_h
-#define __itkLevelSetFunctionWithRefitTerm_h
+#ifndef itkLevelSetFunctionWithRefitTerm_h
+#define itkLevelSetFunctionWithRefitTerm_h
 
 #include "itkLevelSetFunction.h"
 #include "itkSparseImage.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWeightedCentroidKdTreeGenerator_h
-#define __itkWeightedCentroidKdTreeGenerator_h
+#ifndef itkWeightedCentroidKdTreeGenerator_h
+#define itkWeightedCentroidKdTreeGenerator_h
 
 #include <vector>
 

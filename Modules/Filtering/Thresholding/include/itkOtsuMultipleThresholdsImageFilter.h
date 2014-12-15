@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOtsuMultipleThresholdsImageFilter_h
-#define __itkOtsuMultipleThresholdsImageFilter_h
+#ifndef itkOtsuMultipleThresholdsImageFilter_h
+#define itkOtsuMultipleThresholdsImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkFixedArray.h"

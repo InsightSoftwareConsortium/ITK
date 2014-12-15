@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineCenteredL2ResampleImageFilterBase_h
-#define __itkBSplineCenteredL2ResampleImageFilterBase_h
+#ifndef itkBSplineCenteredL2ResampleImageFilterBase_h
+#define itkBSplineCenteredL2ResampleImageFilterBase_h
 
 #include <vector>
 #include "itkBSplineCenteredResampleImageFilterBase.h"

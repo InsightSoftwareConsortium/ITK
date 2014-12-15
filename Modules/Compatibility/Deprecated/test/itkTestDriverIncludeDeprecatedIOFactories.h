@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestDriverIncludeDeprecatedIOFactories_h
-#define __itkTestDriverIncludeDeprecatedIOFactories_h
+#ifndef itkTestDriverIncludeDeprecatedIOFactories_h
+#define itkTestDriverIncludeDeprecatedIOFactories_h
 #include "itkBioRadImageIOFactory.h"
 #include "itkBMPImageIOFactory.h"
 #include "itkGDCMImageIOFactory.h"

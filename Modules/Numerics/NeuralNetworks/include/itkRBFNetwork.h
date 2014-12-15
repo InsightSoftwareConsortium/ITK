@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRBFNetwork_h
-#define __itkRBFNetwork_h
+#ifndef itkRBFNetwork_h
+#define itkRBFNetwork_h
 
 #include "itkMultilayerNeuralNetworkBase.h"
 #include "itkBackPropagationLayer.h"

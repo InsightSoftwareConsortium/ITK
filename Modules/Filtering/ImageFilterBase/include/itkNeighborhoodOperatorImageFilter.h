@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodOperatorImageFilter_h
-#define __itkNeighborhoodOperatorImageFilter_h
+#ifndef itkNeighborhoodOperatorImageFilter_h
+#define itkNeighborhoodOperatorImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNeighborhoodOperator.h"

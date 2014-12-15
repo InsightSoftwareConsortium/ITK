@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDiscreteLevelSetImage_h
-#define __itkDiscreteLevelSetImage_h
+#ifndef itkDiscreteLevelSetImage_h
+#define itkDiscreteLevelSetImage_h
 
 #include "itkLevelSetImage.h"
 
@@ -127,4 +127,4 @@ private:
 #include "itkDiscreteLevelSetImage.hxx"
 #endif
 
-#endif // __itkDiscreteLevelSetImage_h
+#endif // itkDiscreteLevelSetImage_h

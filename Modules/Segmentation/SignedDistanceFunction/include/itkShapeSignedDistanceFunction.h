@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeSignedDistanceFunction_h
-#define __itkShapeSignedDistanceFunction_h
+#ifndef itkShapeSignedDistanceFunction_h
+#define itkShapeSignedDistanceFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkOptimizerParameters.h"

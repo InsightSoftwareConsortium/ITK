@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetDenseImage_h
-#define __itkLevelSetDenseImage_h
+#ifndef itkLevelSetDenseImage_h
+#define itkLevelSetDenseImage_h
 
 #include "itkDiscreteLevelSetImage.h"
 
@@ -104,4 +104,4 @@ private:
 #include "itkLevelSetDenseImage.hxx"
 #endif
 
-#endif // __itkLevelSetDenseImage_h
+#endif // itkLevelSetDenseImage_h

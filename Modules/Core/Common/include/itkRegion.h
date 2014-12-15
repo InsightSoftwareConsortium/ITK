@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkRegion_h
-#define __itkRegion_h
+#ifndef itkRegion_h
+#define itkRegion_h
 
 #include "itkObject.h"
 

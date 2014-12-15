@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSummerColormapFunction_h
-#define __itkSummerColormapFunction_h
+#ifndef itkSummerColormapFunction_h
+#define itkSummerColormapFunction_h
 
 #include "itkColormapFunction.h"
 

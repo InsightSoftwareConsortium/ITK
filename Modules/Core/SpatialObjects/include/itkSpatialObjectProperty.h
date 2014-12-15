@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectProperty_h
-#define __itkSpatialObjectProperty_h
+#ifndef itkSpatialObjectProperty_h
+#define itkSpatialObjectProperty_h
 
 #include <string>
 

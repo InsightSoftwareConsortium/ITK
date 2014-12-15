@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageIORegion_h
-#define __itkImageIORegion_h
+#ifndef itkImageIORegion_h
+#define itkImageIORegion_h
 
 #include <algorithm>
 #include "itkIntTypes.h"

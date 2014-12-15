@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBioCell_h
-#define __itkBioCell_h
+#ifndef itkBioCell_h
+#define itkBioCell_h
 
 #include "itkBioCellBase.h"
 #include "itkBioCellularAggregateBase.h"

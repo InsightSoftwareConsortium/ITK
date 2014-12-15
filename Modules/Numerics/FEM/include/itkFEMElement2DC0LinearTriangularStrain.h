@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearTriangularStrain_h
-#define __itkFEMElement2DC0LinearTriangularStrain_h
+#ifndef itkFEMElement2DC0LinearTriangularStrain_h
+#define itkFEMElement2DC0LinearTriangularStrain_h
 
 #include "itkFEMElement2DC0LinearTriangular.h"
 #include "itkFEMElement2DStrain.h"
@@ -94,4 +94,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement2DC0LinearTriangularStrain_h
+#endif  // #ifndef itkFEMElement2DC0LinearTriangularStrain_h

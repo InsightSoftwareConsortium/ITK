@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCoxDeBoorBSplineKernelFunction_h
-#define __itkCoxDeBoorBSplineKernelFunction_h
+#ifndef itkCoxDeBoorBSplineKernelFunction_h
+#define itkCoxDeBoorBSplineKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
 #include "vnl/vnl_real_polynomial.h"

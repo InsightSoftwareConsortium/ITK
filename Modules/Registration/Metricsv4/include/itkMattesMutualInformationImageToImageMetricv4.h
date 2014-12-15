@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMattesMutualInformationImageToImageMetricv4_h
-#define __itkMattesMutualInformationImageToImageMetricv4_h
+#ifndef itkMattesMutualInformationImageToImageMetricv4_h
+#define itkMattesMutualInformationImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
 #include "itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader.h"

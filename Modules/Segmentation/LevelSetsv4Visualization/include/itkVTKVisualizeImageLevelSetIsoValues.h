@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKVisualizeImageLevelSetIsoValues_h
-#define __itkVTKVisualizeImageLevelSetIsoValues_h
+#ifndef itkVTKVisualizeImageLevelSetIsoValues_h
+#define itkVTKVisualizeImageLevelSetIsoValues_h
 
 #include "itkVTKVisualizeImageLevelSet.h"
 

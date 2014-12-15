@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkStimulateImageIO_h
-#define __itkStimulateImageIO_h
+#ifndef itkStimulateImageIO_h
+#define itkStimulateImageIO_h
 #include "ITKIOStimulateExport.h"
 
 
@@ -134,4 +134,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkStimulateImageIO_h
+#endif // itkStimulateImageIO_h

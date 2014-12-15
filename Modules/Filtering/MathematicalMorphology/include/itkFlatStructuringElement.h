@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFlatStructuringElement_h
-#define __itkFlatStructuringElement_h
+#ifndef itkFlatStructuringElement_h
+#define itkFlatStructuringElement_h
 
 #include "itkNeighborhood.h"
 #include <vector>

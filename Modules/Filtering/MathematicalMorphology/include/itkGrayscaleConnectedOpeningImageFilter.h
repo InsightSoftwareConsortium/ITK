@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleConnectedOpeningImageFilter_h
-#define __itkGrayscaleConnectedOpeningImageFilter_h
+#ifndef itkGrayscaleConnectedOpeningImageFilter_h
+#define itkGrayscaleConnectedOpeningImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

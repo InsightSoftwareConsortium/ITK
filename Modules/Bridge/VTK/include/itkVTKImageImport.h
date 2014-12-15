@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKImageImport_h
-#define __itkVTKImageImport_h
+#ifndef itkVTKImageImport_h
+#define itkVTKImageImport_h
 
 #include "itkImageSource.h"
 #include "itkImportImageContainer.h"
@@ -193,4 +193,4 @@ private:
 #include "itkVTKImageImport.hxx"
 #endif
 
-#endif // __itkVTKImageImport_h
+#endif // itkVTKImageImport_h

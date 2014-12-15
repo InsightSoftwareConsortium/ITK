@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGDCMImageIOFactory_h
-#define __itkGDCMImageIOFactory_h
+#ifndef itkGDCMImageIOFactory_h
+#define itkGDCMImageIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

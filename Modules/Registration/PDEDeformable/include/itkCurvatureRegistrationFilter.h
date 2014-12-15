@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureRegistrationFilter_h
-#define __itkCurvatureRegistrationFilter_h
+#ifndef itkCurvatureRegistrationFilter_h
+#define itkCurvatureRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkMeanSquareRegistrationFunction.h"

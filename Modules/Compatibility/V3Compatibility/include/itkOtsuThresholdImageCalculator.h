@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOtsuThresholdImageCalculator_h
-#define __itkOtsuThresholdImageCalculator_h
+#ifndef itkOtsuThresholdImageCalculator_h
+#define itkOtsuThresholdImageCalculator_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

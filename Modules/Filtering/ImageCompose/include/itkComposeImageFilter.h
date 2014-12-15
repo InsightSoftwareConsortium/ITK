@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComposeImageFilter_h
-#define __itkComposeImageFilter_h
+#ifndef itkComposeImageFilter_h
+#define itkComposeImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorImage.h"

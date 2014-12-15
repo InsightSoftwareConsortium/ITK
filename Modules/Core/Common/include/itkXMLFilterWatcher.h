@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkXMLFilterWatcher_h
-#define __itkXMLFilterWatcher_h
+#ifndef itkXMLFilterWatcher_h
+#define itkXMLFilterWatcher_h
 
 #include "itkSimpleFilterWatcher.h"
 

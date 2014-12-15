@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSegmentationRegion_h
-#define __itkSegmentationRegion_h
+#ifndef itkSegmentationRegion_h
+#define itkSegmentationRegion_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

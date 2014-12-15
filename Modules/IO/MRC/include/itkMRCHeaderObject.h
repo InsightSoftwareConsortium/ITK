@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRCHeaderObject_h
-#define __itkMRCHeaderObject_h
+#ifndef itkMRCHeaderObject_h
+#define itkMRCHeaderObject_h
 #include "ITKIOMRCExport.h"
 
 #include "itkObjectFactory.h"

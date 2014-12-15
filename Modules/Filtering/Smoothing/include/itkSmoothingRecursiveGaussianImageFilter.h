@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmoothingRecursiveGaussianImageFilter_h
-#define __itkSmoothingRecursiveGaussianImageFilter_h
+#ifndef itkSmoothingRecursiveGaussianImageFilter_h
+#define itkSmoothingRecursiveGaussianImageFilter_h
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkCastImageFilter.h"

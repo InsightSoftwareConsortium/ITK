@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCovariantVector_h
-#define __itkCovariantVector_h
+#ifndef itkCovariantVector_h
+#define itkCovariantVector_h
 
 #include "itkIndent.h"
 #include "itkVector.h"

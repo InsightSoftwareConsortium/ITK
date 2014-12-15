@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStreamingImageIOBase_h
-#define __itkStreamingImageIOBase_h
+#ifndef itkStreamingImageIOBase_h
+#define itkStreamingImageIOBase_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkImageIOBase.h"

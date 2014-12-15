@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
-#define __itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
+#ifndef itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
+#define itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
 
 #include "itkDiscreteCurvatureQuadEdgeMeshFilter.h"
 #include "vnl/vnl_math.h"

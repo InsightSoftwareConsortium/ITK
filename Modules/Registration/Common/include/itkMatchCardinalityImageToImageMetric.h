@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatchCardinalityImageToImageMetric_h
-#define __itkMatchCardinalityImageToImageMetric_h
+#ifndef itkMatchCardinalityImageToImageMetric_h
+#define itkMatchCardinalityImageToImageMetric_h
 
 /**
  *  TODO: This class needs to be more tightly integrated with the new

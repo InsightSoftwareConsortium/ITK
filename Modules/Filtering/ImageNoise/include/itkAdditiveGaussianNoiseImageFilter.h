@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAdditiveGaussianNoiseImageFilter_h
-#define __itkAdditiveGaussianNoiseImageFilter_h
+#ifndef itkAdditiveGaussianNoiseImageFilter_h
+#define itkAdditiveGaussianNoiseImageFilter_h
 
 #include "itkNoiseBaseImageFilter.h"
 

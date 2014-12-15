@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryPruningImageFilter_h
-#define __itkBinaryPruningImageFilter_h
+#ifndef itkBinaryPruningImageFilter_h
+#define itkBinaryPruningImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

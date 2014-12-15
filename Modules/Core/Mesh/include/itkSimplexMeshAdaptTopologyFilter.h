@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimplexMeshAdaptTopologyFilter_h
-#define __itkSimplexMeshAdaptTopologyFilter_h
+#ifndef itkSimplexMeshAdaptTopologyFilter_h
+#define itkSimplexMeshAdaptTopologyFilter_h
 
 #include "itkPolygonCell.h"
 #include "itkCellInterfaceVisitor.h"
@@ -319,4 +319,4 @@ protected:
 #include "itkSimplexMeshAdaptTopologyFilter.hxx"
 #endif
 
-#endif // __itkSimplexMeshAdaptTopologyFilter_h
+#endif // itkSimplexMeshAdaptTopologyFilter_h

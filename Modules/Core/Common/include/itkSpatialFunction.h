@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialFunction_h
-#define __itkSpatialFunction_h
+#ifndef itkSpatialFunction_h
+#define itkSpatialFunction_h
 
 #include "itkFunctionBase.h"
 #include "itkPoint.h"

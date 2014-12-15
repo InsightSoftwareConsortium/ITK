@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkFEMFactoryBase_h
-#define __itkFEMFactoryBase_h
+#ifndef itkFEMFactoryBase_h
+#define itkFEMFactoryBase_h
 
 #include "itkObjectFactoryBase.h"
 

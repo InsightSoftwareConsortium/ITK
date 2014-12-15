@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIsolatedWatershedImageFilter_h
-#define __itkIsolatedWatershedImageFilter_h
+#ifndef itkIsolatedWatershedImageFilter_h
+#define itkIsolatedWatershedImageFilter_h
 
 #include "itkWatershedImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"

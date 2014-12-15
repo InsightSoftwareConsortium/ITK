@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPatchBasedDenoisingImageFilter_h
-#define __itkPatchBasedDenoisingImageFilter_h
+#ifndef itkPatchBasedDenoisingImageFilter_h
+#define itkPatchBasedDenoisingImageFilter_h
 
 #include "itkPatchBasedDenoisingBaseImageFilter.h"
 #include "itkImageRegionIterator.h"

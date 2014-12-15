@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterationReporter_h
-#define __itkIterationReporter_h
+#ifndef itkIterationReporter_h
+#define itkIterationReporter_h
 
 #include "itkProcessObject.h"
 

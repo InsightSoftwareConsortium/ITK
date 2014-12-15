@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaredErrorFunction_h
-#define __itkMeanSquaredErrorFunction_h
+#ifndef itkMeanSquaredErrorFunction_h
+#define itkMeanSquaredErrorFunction_h
 
 #include "itkErrorFunctionBase.h"
 #include "vnl/vnl_matrix.h"

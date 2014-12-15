@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBasicDilateImageFilter_h
-#define __itkBasicDilateImageFilter_h
+#ifndef itkBasicDilateImageFilter_h
+#define itkBasicDilateImageFilter_h
 
 #include "itkMorphologyImageFilter.h"
 

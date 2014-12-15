@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationLaplacianTerm_h
-#define __itkLevelSetEquationLaplacianTerm_h
+#ifndef itkLevelSetEquationLaplacianTerm_h
+#define itkLevelSetEquationLaplacianTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"

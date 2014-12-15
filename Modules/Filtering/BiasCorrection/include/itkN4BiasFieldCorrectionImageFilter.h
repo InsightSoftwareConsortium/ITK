@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkN4BiasFieldCorrectionImageFilter_h
-#define __itkN4BiasFieldCorrectionImageFilter_h
+#ifndef itkN4BiasFieldCorrectionImageFilter_h
+#define itkN4BiasFieldCorrectionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

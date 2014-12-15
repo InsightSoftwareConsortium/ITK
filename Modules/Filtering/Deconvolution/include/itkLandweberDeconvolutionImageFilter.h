@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLandweberDeconvolutionImageFilter_h
-#define __itkLandweberDeconvolutionImageFilter_h
+#ifndef itkLandweberDeconvolutionImageFilter_h
+#define itkLandweberDeconvolutionImageFilter_h
 
 #include "itkIterativeDeconvolutionImageFilter.h"
 

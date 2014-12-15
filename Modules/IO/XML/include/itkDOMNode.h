@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMNode_h
-#define __itkDOMNode_h
+#ifndef itkDOMNode_h
+#define itkDOMNode_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -239,4 +239,4 @@ private:
 #include "itkStringTools.h"
 #include "itkFancyString.h"
 
-#endif // __itkDOMNode_h
+#endif // itkDOMNode_h

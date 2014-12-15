@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMLoadBCMFC_h
-#define __itkFEMLoadBCMFC_h
+#ifndef itkFEMLoadBCMFC_h
+#define itkFEMLoadBCMFC_h
 
 #include "itkFEMLoadBase.h"
 
@@ -182,4 +182,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadBCMFC_h
+#endif // #ifndef itkFEMLoadBCMFC_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeIteratorBase_h
-#define __itkTreeIteratorBase_h
+#ifndef itkTreeIteratorBase_h
+#define itkTreeIteratorBase_h
 
 #include "itkTreeNode.h"
 

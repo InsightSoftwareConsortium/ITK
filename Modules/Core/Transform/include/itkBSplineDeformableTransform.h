@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineDeformableTransform_h
-#define __itkBSplineDeformableTransform_h
+#ifndef itkBSplineDeformableTransform_h
+#define itkBSplineDeformableTransform_h
 
 #include "itkConfigure.h" // Needed to determine value of ITKV3_COMPATIBILITY
 #include "itkBSplineBaseTransform.h"
@@ -370,4 +370,4 @@ private:
 #include "itkBSplineDeformableTransform.hxx"
 #endif
 
-#endif /* __itkBSplineDeformableTransform_h */
+#endif /* itkBSplineDeformableTransform_h */

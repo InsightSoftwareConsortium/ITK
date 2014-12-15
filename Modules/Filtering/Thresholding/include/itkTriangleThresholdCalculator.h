@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkTriangleThresholdCalculator_h
-#define __itkTriangleThresholdCalculator_h
+#ifndef itkTriangleThresholdCalculator_h
+#define itkTriangleThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 

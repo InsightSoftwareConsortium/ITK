@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingVelocityFieldImageRegistrationMethodv4_h
-#define __itkTimeVaryingVelocityFieldImageRegistrationMethodv4_h
+#ifndef itkTimeVaryingVelocityFieldImageRegistrationMethodv4_h
+#define itkTimeVaryingVelocityFieldImageRegistrationMethodv4_h
 
 #include "itkImageRegistrationMethodv4.h"
 

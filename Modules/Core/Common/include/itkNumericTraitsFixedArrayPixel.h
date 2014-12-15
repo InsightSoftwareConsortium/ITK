@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumericTraitsFixedArrayPixel_h
-#define __itkNumericTraitsFixedArrayPixel_h
+#ifndef itkNumericTraitsFixedArrayPixel_h
+#define itkNumericTraitsFixedArrayPixel_h
 
 #include "itkNumericTraits.h"
 #include "itkFixedArray.h"
@@ -207,4 +207,4 @@ public:
   itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, 10);
 } // end namespace itk
 
-#endif // __itkNumericTraitsFixedArrayPixel_h
+#endif // itkNumericTraitsFixedArrayPixel_h

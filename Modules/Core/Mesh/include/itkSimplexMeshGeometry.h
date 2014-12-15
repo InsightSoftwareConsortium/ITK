@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimplexMeshGeometry_h
-#define __itkSimplexMeshGeometry_h
+#ifndef itkSimplexMeshGeometry_h
+#define itkSimplexMeshGeometry_h
 
 
 #include "itkIntTypes.h"

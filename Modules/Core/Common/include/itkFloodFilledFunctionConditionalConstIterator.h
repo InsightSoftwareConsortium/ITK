@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFloodFilledFunctionConditionalConstIterator_h
-#define __itkFloodFilledFunctionConditionalConstIterator_h
+#ifndef itkFloodFilledFunctionConditionalConstIterator_h
+#define itkFloodFilledFunctionConditionalConstIterator_h
 
 #include <queue>
 #include <vector>

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelVotingImageFilter_h
-#define __itkLabelVotingImageFilter_h
+#ifndef itkLabelVotingImageFilter_h
+#define itkLabelVotingImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

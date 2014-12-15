@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMinMaxCurvatureFlowImageFilter_h
-#define __itkBinaryMinMaxCurvatureFlowImageFilter_h
+#ifndef itkBinaryMinMaxCurvatureFlowImageFilter_h
+#define itkBinaryMinMaxCurvatureFlowImageFilter_h
 
 #include "itkMinMaxCurvatureFlowImageFilter.h"
 #include "itkBinaryMinMaxCurvatureFlowFunction.h"

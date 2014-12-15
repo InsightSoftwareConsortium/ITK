@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 
-#ifndef __itkLevelSetEvolution_h
-#define __itkLevelSetEvolution_h
+#ifndef itkLevelSetEvolution_h
+#define itkLevelSetEvolution_h
 
 #include "itkLevelSetEvolutionBase.h"
 #include "itkLevelSetDenseImage.h"
@@ -432,4 +432,4 @@ private:
 #include "itkLevelSetEvolution.hxx"
 #endif
 
-#endif // __itkLevelSetEvolution_h
+#endif // itkLevelSetEvolution_h

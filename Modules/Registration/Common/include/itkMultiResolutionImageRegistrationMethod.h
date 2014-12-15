@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiResolutionImageRegistrationMethod_h
-#define __itkMultiResolutionImageRegistrationMethod_h
+#ifndef itkMultiResolutionImageRegistrationMethod_h
+#define itkMultiResolutionImageRegistrationMethod_h
 
 #include "itkProcessObject.h"
 #include "itkImageToImageMetric.h"

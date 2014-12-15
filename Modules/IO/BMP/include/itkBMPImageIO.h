@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBMPImageIO_h
-#define __itkBMPImageIO_h
+#ifndef itkBMPImageIO_h
+#define itkBMPImageIO_h
 #include "ITKIOBMPExport.h"
 
 
@@ -112,4 +112,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkBMPImageIO_h
+#endif // itkBMPImageIO_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAntiAliasBinaryImageFilter_h
-#define __itkAntiAliasBinaryImageFilter_h
+#ifndef itkAntiAliasBinaryImageFilter_h
+#define itkAntiAliasBinaryImageFilter_h
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkCurvatureFlowFunction.h"
 

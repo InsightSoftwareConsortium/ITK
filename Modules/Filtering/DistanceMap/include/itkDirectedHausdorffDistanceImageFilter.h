@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDirectedHausdorffDistanceImageFilter_h
-#define __itkDirectedHausdorffDistanceImageFilter_h
+#ifndef itkDirectedHausdorffDistanceImageFilter_h
+#define itkDirectedHausdorffDistanceImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"

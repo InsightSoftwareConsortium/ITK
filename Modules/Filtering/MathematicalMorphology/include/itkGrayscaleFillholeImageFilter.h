@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleFillholeImageFilter_h
-#define __itkGrayscaleFillholeImageFilter_h
+#ifndef itkGrayscaleFillholeImageFilter_h
+#define itkGrayscaleFillholeImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

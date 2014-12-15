@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAtanRegularizedHeavisideStepFunction_h
-#define __itkAtanRegularizedHeavisideStepFunction_h
+#ifndef itkAtanRegularizedHeavisideStepFunction_h
+#define itkAtanRegularizedHeavisideStepFunction_h
 
 #include "itkRegularizedHeavisideStepFunction.h"
 

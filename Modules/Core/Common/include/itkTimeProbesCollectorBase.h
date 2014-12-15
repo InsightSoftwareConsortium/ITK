@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeProbesCollectorBase_h
-#define __itkTimeProbesCollectorBase_h
+#ifndef itkTimeProbesCollectorBase_h
+#define itkTimeProbesCollectorBase_h
 
 #include "itkMacro.h"
 #include "itkTimeProbe.h"
@@ -46,4 +46,4 @@ public:
 };
 }
 
-#endif //__itkTimeProbesCollectorBase_h
+#endif //itkTimeProbesCollectorBase_h

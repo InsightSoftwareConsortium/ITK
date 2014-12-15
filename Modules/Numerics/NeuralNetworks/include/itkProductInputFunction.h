@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkProductInputFunction_h
-#define __itkProductInputFunction_h
+#ifndef itkProductInputFunction_h
+#define itkProductInputFunction_h
 
 #include "itkInputFunctionBase.h"
 #include "vnl/vnl_matrix.h"

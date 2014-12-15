@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScatterMatrixImageFunction_h
-#define __itkScatterMatrixImageFunction_h
+#ifndef itkScatterMatrixImageFunction_h
+#define itkScatterMatrixImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"

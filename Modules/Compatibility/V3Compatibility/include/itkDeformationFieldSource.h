@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformationFieldSource_h
-#define __itkDeformationFieldSource_h
+#ifndef itkDeformationFieldSource_h
+#define itkDeformationFieldSource_h
 
 #include "itkImageSource.h"
 #include "itkKernelTransform.h"

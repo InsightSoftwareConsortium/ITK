@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnisotropicDiffusionFunction_h
-#define __itkAnisotropicDiffusionFunction_h
+#ifndef itkAnisotropicDiffusionFunction_h
+#define itkAnisotropicDiffusionFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 

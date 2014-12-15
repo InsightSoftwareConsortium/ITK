@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSphereMeshSource_h
-#define __itkSphereMeshSource_h
+#ifndef itkSphereMeshSource_h
+#define itkSphereMeshSource_h
 
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkMesh.h"

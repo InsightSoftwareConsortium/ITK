@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLoggerThreadWrapper_h
-#define __itkLoggerThreadWrapper_h
+#ifndef itkLoggerThreadWrapper_h
+#define itkLoggerThreadWrapper_h
 
 #include <string>
 #include <queue>
@@ -141,4 +141,4 @@ private:
 #include "itkLoggerThreadWrapper.hxx"
 #endif
 
-#endif  // __itkLoggerThreadWrapper_h
+#endif  // itkLoggerThreadWrapper_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTanHTransferFunction_h
-#define __itkTanHTransferFunction_h
+#ifndef itkTanHTransferFunction_h
+#define itkTanHTransferFunction_h
 
 #include "itkTransferFunctionBase.h"
 

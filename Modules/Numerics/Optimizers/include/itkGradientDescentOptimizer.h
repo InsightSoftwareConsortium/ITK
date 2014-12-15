@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentOptimizer_h
-#define __itkGradientDescentOptimizer_h
+#ifndef itkGradientDescentOptimizer_h
+#define itkGradientDescentOptimizer_h
 
 #include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearOptimizer.h"

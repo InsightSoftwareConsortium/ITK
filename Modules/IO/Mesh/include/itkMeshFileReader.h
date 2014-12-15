@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeshFileReader_h
-#define __itkMeshFileReader_h
+#ifndef itkMeshFileReader_h
+#define itkMeshFileReader_h
 #include "ITKIOMeshExport.h"
 
 #include "itkMacro.h"

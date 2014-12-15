@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFactoryTestLib_h
-#define __itkFactoryTestLib_h
+#ifndef itkFactoryTestLib_h
+#define itkFactoryTestLib_h
 
 #include "itkObjectFactoryBase.h"
 

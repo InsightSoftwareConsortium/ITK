@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetMotionRegistrationFilter_h
-#define __itkLevelSetMotionRegistrationFilter_h
+#ifndef itkLevelSetMotionRegistrationFilter_h
+#define itkLevelSetMotionRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkLevelSetMotionRegistrationFunction.h"

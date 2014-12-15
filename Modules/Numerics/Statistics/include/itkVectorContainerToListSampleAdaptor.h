@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorContainerToListSampleAdaptor_h
-#define __itkVectorContainerToListSampleAdaptor_h
+#ifndef itkVectorContainerToListSampleAdaptor_h
+#define itkVectorContainerToListSampleAdaptor_h
 
 #include <typeinfo>
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints_h
-#define __itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints_h
+#ifndef itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints_h
+#define itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints_h
 
 #include "itkLaplacianDeformationQuadEdgeMeshFilter.h"
 

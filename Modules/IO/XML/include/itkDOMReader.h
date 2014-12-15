@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMReader_h
-#define __itkDOMReader_h
+#ifndef itkDOMReader_h
+#define itkDOMReader_h
 
 #include "itkDOMNodeXMLReader.h"
 #include "itkObject.h"
@@ -155,4 +155,4 @@ private:
 #include "itkDOMReader.hxx"
 #endif
 
-#endif // __itkDOMReader_h
+#endif // itkDOMReader_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFrameAverageVideoFilter_h
-#define __itkFrameAverageVideoFilter_h
+#ifndef itkFrameAverageVideoFilter_h
+#define itkFrameAverageVideoFilter_h
 
 #include "itkVideoToVideoFilter.h"
 

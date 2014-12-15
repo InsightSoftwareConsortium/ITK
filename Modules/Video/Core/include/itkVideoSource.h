@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVideoSource_h
-#define __itkVideoSource_h
+#ifndef itkVideoSource_h
+#define itkVideoSource_h
 
 #include "itkTemporalProcessObject.h"
 #include "itkVideoStream.h"

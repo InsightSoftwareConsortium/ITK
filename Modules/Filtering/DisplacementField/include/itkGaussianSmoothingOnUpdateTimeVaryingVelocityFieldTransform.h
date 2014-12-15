@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
-#define __itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
+#ifndef itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
+#define itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
 
 #include "itkTimeVaryingVelocityFieldTransform.h"
 
@@ -144,4 +144,4 @@ private:
 # include "itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform.hxx"
 #endif
 
-#endif // __itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
+#endif // itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h

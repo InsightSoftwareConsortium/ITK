@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSiemensVisionImageIOFactory_h
-#define __itkSiemensVisionImageIOFactory_h
+#ifndef itkSiemensVisionImageIOFactory_h
+#define itkSiemensVisionImageIOFactory_h
 #include "ITKIOSiemensExport.h"
 
 

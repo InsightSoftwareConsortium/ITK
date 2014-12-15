@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMersenneTwisterRandomVariateGenerator_h
-#define __itkMersenneTwisterRandomVariateGenerator_h
+#ifndef itkMersenneTwisterRandomVariateGenerator_h
+#define itkMersenneTwisterRandomVariateGenerator_h
 
 #include "itkMacro.h"
 #include "itkObjectFactory.h"

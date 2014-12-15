@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarChanAndVeseLevelSetFunction_h
-#define __itkScalarChanAndVeseLevelSetFunction_h
+#ifndef itkScalarChanAndVeseLevelSetFunction_h
+#define itkScalarChanAndVeseLevelSetFunction_h
 
 #include "itkScalarRegionBasedLevelSetFunction.h"
 #include "itkScalarChanAndVeseLevelSetFunctionData.h"

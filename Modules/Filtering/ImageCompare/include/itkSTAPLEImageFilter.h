@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSTAPLEImageFilter_h
-#define __itkSTAPLEImageFilter_h
+#ifndef itkSTAPLEImageFilter_h
+#define itkSTAPLEImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include <vector>

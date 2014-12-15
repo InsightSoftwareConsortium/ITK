@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMaskToNarrowBandPointSetFilter_h
-#define __itkBinaryMaskToNarrowBandPointSetFilter_h
+#ifndef itkBinaryMaskToNarrowBandPointSetFilter_h
+#define itkBinaryMaskToNarrowBandPointSetFilter_h
 
 #include "itkImageToMeshFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

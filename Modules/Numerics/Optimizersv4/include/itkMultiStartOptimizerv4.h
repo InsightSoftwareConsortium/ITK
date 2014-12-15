@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiStartOptimizerv4_h
-#define __itkMultiStartOptimizerv4_h
+#ifndef itkMultiStartOptimizerv4_h
+#define itkMultiStartOptimizerv4_h
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkGradientDescentOptimizerv4.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMembershipFunctionBase_h
-#define __itkMembershipFunctionBase_h
+#ifndef itkMembershipFunctionBase_h
+#define itkMembershipFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"

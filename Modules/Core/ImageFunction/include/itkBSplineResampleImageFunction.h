@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineResampleImageFunction_h
-#define __itkBSplineResampleImageFunction_h
+#ifndef itkBSplineResampleImageFunction_h
+#define itkBSplineResampleImageFunction_h
 
 #include "itkBSplineInterpolateImageFunction.h"
 

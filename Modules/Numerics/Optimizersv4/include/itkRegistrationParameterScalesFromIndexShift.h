@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegistrationParameterScalesFromIndexShift_h
-#define __itkRegistrationParameterScalesFromIndexShift_h
+#ifndef itkRegistrationParameterScalesFromIndexShift_h
+#define itkRegistrationParameterScalesFromIndexShift_h
 
 #include "itkRegistrationParameterScalesFromShiftBase.h"
 
@@ -106,4 +106,4 @@ private:
 #include "itkRegistrationParameterScalesFromIndexShift.hxx"
 #endif
 
-#endif /* __itkRegistrationParameterScalesFromIndexShift_h */
+#endif /* itkRegistrationParameterScalesFromIndexShift_h */

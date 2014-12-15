@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformToDisplacementFieldFilter_h
-#define __itkTransformToDisplacementFieldFilter_h
+#ifndef itkTransformToDisplacementFieldFilter_h
+#define itkTransformToDisplacementFieldFilter_h
 
 #include "itkDataObjectDecorator.h"
 #include "itkTransform.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetImage_h
-#define __itkLevelSetImage_h
+#ifndef itkLevelSetImage_h
+#define itkLevelSetImage_h
 
 #include "itkLevelSetBase.h"
 #include "itkObjectFactory.h"
@@ -88,4 +88,4 @@ private:
 #include "itkLevelSetImage.hxx"
 #endif
 
-#endif // __itkLevelSetImage_h
+#endif // itkLevelSetImage_h

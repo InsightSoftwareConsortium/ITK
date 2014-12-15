@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryThresholdSpatialFunction_h
-#define __itkBinaryThresholdSpatialFunction_h
+#ifndef itkBinaryThresholdSpatialFunction_h
+#define itkBinaryThresholdSpatialFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkImageBase.h"

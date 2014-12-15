@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKPolyDataWriter_h
-#define __itkVTKPolyDataWriter_h
+#ifndef itkVTKPolyDataWriter_h
+#define itkVTKPolyDataWriter_h
 
 #include "itkIntTypes.h"
 #include "itkMesh.h"

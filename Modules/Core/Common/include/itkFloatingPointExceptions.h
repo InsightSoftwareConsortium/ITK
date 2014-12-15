@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFloatingPointExceptions_h
-#define __itkFloatingPointExceptions_h
+#ifndef itkFloatingPointExceptions_h
+#define itkFloatingPointExceptions_h
 
 #include "itkMacro.h" // for ITKCommon_EXPORT
 

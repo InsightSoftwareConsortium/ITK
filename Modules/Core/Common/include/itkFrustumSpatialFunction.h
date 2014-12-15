@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFrustumSpatialFunction_h
-#define __itkFrustumSpatialFunction_h
+#ifndef itkFrustumSpatialFunction_h
+#define itkFrustumSpatialFunction_h
 
 #include "itkInteriorExteriorSpatialFunction.h"
 

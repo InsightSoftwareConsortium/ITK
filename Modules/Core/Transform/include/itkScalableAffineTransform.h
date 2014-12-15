@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalableAffineTransform_h
-#define __itkScalableAffineTransform_h
+#ifndef itkScalableAffineTransform_h
+#define itkScalableAffineTransform_h
 
 #include "itkAffineTransform.h"
 
@@ -168,4 +168,4 @@ private:
 #include "itkScalableAffineTransform.hxx"
 #endif
 
-#endif /* __itkScalableAffineTransform_h */
+#endif /* itkScalableAffineTransform_h */

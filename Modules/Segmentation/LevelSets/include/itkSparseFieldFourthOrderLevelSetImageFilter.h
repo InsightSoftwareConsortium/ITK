@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_h
-#define __itkSparseFieldFourthOrderLevelSetImageFilter_h
+#ifndef itkSparseFieldFourthOrderLevelSetImageFilter_h
+#define itkSparseFieldFourthOrderLevelSetImageFilter_h
 
 #include "itkNormalVectorDiffusionFunction.h"
 #include "itkImplicitManifoldNormalVectorFilter.h"

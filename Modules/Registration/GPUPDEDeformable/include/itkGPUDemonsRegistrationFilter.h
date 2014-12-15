@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDemonsRegistrationFilter_h
-#define __itkGPUDemonsRegistrationFilter_h
+#ifndef itkGPUDemonsRegistrationFilter_h
+#define itkGPUDemonsRegistrationFilter_h
 
 #include "itkOpenCLUtil.h"
 #include "itkDemonsRegistrationFilter.h"

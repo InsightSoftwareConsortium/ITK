@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLinearInterpolateImageFunction_h
-#define __itkLinearInterpolateImageFunction_h
+#ifndef itkLinearInterpolateImageFunction_h
+#define itkLinearInterpolateImageFunction_h
 
 #include "itkInterpolateImageFunction.h"
 #include "itkVariableLengthVector.h"

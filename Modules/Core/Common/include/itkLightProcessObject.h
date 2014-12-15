@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLightProcessObject_h
-#define __itkLightProcessObject_h
+#ifndef itkLightProcessObject_h
+#define itkLightProcessObject_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

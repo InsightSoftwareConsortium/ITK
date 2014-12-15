@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThinPlateSplineKernelTransform_h
-#define __itkThinPlateSplineKernelTransform_h
+#ifndef itkThinPlateSplineKernelTransform_h
+#define itkThinPlateSplineKernelTransform_h
 
 #include "itkKernelTransform.h"
 
@@ -102,4 +102,4 @@ private:
 #include "itkThinPlateSplineKernelTransform.hxx"
 #endif
 
-#endif // __itkThinPlateSplineKernelTransform_h
+#endif // itkThinPlateSplineKernelTransform_h

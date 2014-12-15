@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformParametersAdaptor_h
-#define __itkTransformParametersAdaptor_h
+#ifndef itkTransformParametersAdaptor_h
+#define itkTransformParametersAdaptor_h
 
 #include "itkTransformParametersAdaptorBase.h"
 #include "itkTransform.h"
@@ -115,4 +115,4 @@ private:
 }; //class TransformParametersAdaptor
 }  // namespace itk
 
-#endif /* __itkTransformParametersAdaptor_h */
+#endif /* itkTransformParametersAdaptor_h */

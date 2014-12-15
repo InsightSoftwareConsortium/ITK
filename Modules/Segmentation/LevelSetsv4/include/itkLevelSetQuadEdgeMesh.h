@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetQuadEdgeMesh_h
-#define __itkLevelSetQuadEdgeMesh_h
+#ifndef itkLevelSetQuadEdgeMesh_h
+#define itkLevelSetQuadEdgeMesh_h
 
 #include "itkLevelSetBase.h"
 #include "itkObjectFactory.h"
@@ -117,4 +117,4 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLevelSetQuadEdgeMesh.hxx"
 #endif
-#endif // __itkLevelSetQuadEdgeMesh_h
+#endif // itkLevelSetQuadEdgeMesh_h

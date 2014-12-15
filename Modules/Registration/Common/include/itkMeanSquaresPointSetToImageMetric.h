@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresPointSetToImageMetric_h
-#define __itkMeanSquaresPointSetToImageMetric_h
+#ifndef itkMeanSquaresPointSetToImageMetric_h
+#define itkMeanSquaresPointSetToImageMetric_h
 
 #include "itkPointSetToImageMetric.h"
 #include "itkCovariantVector.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAbsImageFilter_h
-#define __itkAbsImageFilter_h
+#ifndef itkAbsImageFilter_h
+#define itkAbsImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"

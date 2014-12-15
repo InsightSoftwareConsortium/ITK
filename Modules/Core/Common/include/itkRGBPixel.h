@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRGBPixel_h
-#define __itkRGBPixel_h
+#ifndef itkRGBPixel_h
+#define itkRGBPixel_h
 
 // Undefine an eventual RGBPixel macro
 #ifdef RGBPixel

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumericTraitsDiffusionTensor3DPixel_h
-#define __itkNumericTraitsDiffusionTensor3DPixel_h
+#ifndef itkNumericTraitsDiffusionTensor3DPixel_h
+#define itkNumericTraitsDiffusionTensor3DPixel_h
 
 #include "itkNumericTraits.h"
 #include "itkDiffusionTensor3D.h"
@@ -184,4 +184,4 @@ public:
 };
 } // end namespace itk
 
-#endif // __itkNumericTraitsTensorPixel_h
+#endif // itkNumericTraitsTensorPixel_h

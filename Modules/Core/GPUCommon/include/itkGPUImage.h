@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef __itkGPUImage_h
-#define __itkGPUImage_h
+#ifndef itkGPUImage_h
+#define itkGPUImage_h
 
 #include "itkImage.h"
 #include "itkGPUImageDataManager.h"

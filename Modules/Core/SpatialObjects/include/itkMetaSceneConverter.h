@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaSceneConverter_h
-#define __itkMetaSceneConverter_h
+#ifndef itkMetaSceneConverter_h
+#define itkMetaSceneConverter_h
 
 #include "metaScene.h"
 #include "itkMetaEvent.h"

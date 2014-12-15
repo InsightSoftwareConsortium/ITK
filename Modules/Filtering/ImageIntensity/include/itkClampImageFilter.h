@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkClampImageFilter_h
-#define __itkClampImageFilter_h
+#ifndef itkClampImageFilter_h
+#define itkClampImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

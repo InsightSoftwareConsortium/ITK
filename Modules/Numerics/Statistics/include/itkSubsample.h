@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSubsample_h
-#define __itkSubsample_h
+#ifndef itkSubsample_h
+#define itkSubsample_h
 
 #include "itkSample.h"
 #include "itkMacro.h"

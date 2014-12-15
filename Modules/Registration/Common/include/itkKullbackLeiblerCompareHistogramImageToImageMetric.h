@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKullbackLeiblerCompareHistogramImageToImageMetric_h
-#define __itkKullbackLeiblerCompareHistogramImageToImageMetric_h
+#ifndef itkKullbackLeiblerCompareHistogramImageToImageMetric_h
+#define itkKullbackLeiblerCompareHistogramImageToImageMetric_h
 
 #include "itkCompareHistogramImageToImageMetric.h"
 
@@ -157,4 +157,4 @@ private:
 #include "itkKullbackLeiblerCompareHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkKullbackLeiblerCompareHistogramImageToImageMetric_h
+#endif // itkKullbackLeiblerCompareHistogramImageToImageMetric_h
