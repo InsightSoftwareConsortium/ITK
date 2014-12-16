@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 // Software Guide : BeginLatex
+//
 // \index{Statistics!k-means clustering (using k-d tree)}
 //
 // \index{itk::Statistics::KdTree\-Based\-Kmeans\-Estimator}
@@ -101,9 +102,10 @@
 
 // Software Guide : BeginLatex
 //
-// To generate the clusters, we must create k instances of
-// \subdoxygen{Statistics}{DistanceToCentroidMembershipFunction} function as the membership
-// functions for each cluster and plug that---along with a sample---into an
+// To generate the clusters, we must create k instances of\newline
+// \subdoxygen{Statistics}{DistanceToCentroidMembershipFunction} function as
+// the membership functions for each cluster and plug
+// that---along with a sample---into an
 // \subdoxygen{Statistics}{SampleClassifierFilter} object to get a
 // \subdoxygen{Statistics}{MembershipSample} that stores pairs of measurement
 // vectors and their associated class labels (k labels).
@@ -135,6 +137,7 @@ int main()
   // then, create a \code{ListSample} object for data inputs. Each
   // measurement vector is of length 1. We set this using the
   // \code{SetMeasurementVectorSize()} method.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

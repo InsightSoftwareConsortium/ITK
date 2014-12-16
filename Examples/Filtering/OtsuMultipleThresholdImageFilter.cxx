@@ -112,6 +112,7 @@ int main( int argc, char * argv[] )
   WriterType::Pointer writer = WriterType::New();
 
   // Software Guide : BeginLatex
+  //
   // Set the following properties for the histogram generator and the
   // calculators, in this case grabbing the number of thresholds from
   // the command line.

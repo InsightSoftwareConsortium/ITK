@@ -43,8 +43,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // Since, we are using an adaptor, we also include the header file for
 // the \doxygen{PointSet} class.
+//
 // Software Guide :EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -78,6 +80,7 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // We now have an \doxygen{PointSet} object and need to cast it to an
   // \doxygen{PointSet} object with array type (anything derived from
   // the \doxygen{FixedArray} class) pixels.
@@ -86,6 +89,7 @@ int main()
   // We will use single element \code{float} \doxygen{FixedArray}
   // as our measurement vector type. And that will also be our pixel
   // type for the cast filter.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -100,10 +104,12 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // Up to now, we spend most of time to prepare an \doxygen{PointSet} object
   // suitable for the adaptor. Actually, the hard part of this example is
   // done. Now, we must define an adaptor with the image type and
   // instantiate an object.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -113,9 +119,11 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The final thing we have to is to plug-in the image object to the adaptor.
   // After that, we can use the common methods and iterator interfaces
   // shown in \ref{sec:SampleInterface}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

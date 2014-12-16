@@ -173,6 +173,7 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The last method defined in the Sample class
   // is the \code{GetTotalFrequency()} method that returns the sum of
   // frequency values associated with every measurement vector in a

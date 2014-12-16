@@ -218,7 +218,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The types of other registration components are defined here.
+  //  The types of other registration components are defined here.\newline
   //  \doxygen{RegularStepGradientDescentOptimizerv4} is used as the
   //  optimizer of the first stage. Also, we use
   //  \doxygen{MattesMutualInformationImageToImageMetricv4} as the metric
