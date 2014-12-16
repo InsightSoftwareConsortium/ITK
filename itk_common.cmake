@@ -25,6 +25,7 @@
 # to configure it:
 #
 #   dashboard_model           = Nightly | Experimental | Continuous
+#   dashboard_track           = Optional track to submit dashboard to
 #   dashboard_loop            = Repeat until N seconds have elapsed
 #   dashboard_root_name       = Change name of "My Tests" directory
 #   dashboard_source_name     = Name of source directory (ITK)
@@ -392,7 +393,11 @@ while(NOT dashboard_done)
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
   endif()
-  ctest_start(${dashboard_model})
+  if(dashboard_track)
+    ctest_start(${dashboard_model} TRACK ${dashboard_track})
+  else()
+    ctest_start(${dashboard_model})
+  endif()
   if(COMMAND dashboard_hook_started)
     dashboard_hook_started()
   endif()
