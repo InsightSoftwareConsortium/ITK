@@ -52,9 +52,11 @@
 int main()
 {
   // Software Guide : BeginLatex
+  //
   // The following code snippet will create a \code{ListSample} object
   // with three-component float measurement vectors and put three
   // measurement vectors in the \code{ListSample} object.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

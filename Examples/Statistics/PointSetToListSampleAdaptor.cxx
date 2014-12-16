@@ -149,7 +149,6 @@ int main()
               << std::endl;
     ++iter;
     }
-
   // Software Guide : EndCodeSnippet
 
   return 0;

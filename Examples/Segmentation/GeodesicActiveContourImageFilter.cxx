@@ -79,7 +79,7 @@
 // ShapeDetectionLevelSetImageFilter in
 // section~\ref{sec:ShapeDetectionLevelSetFilter}.
 //
-// The pipeline involves a first stage of smoothing using the
+// The pipeline involves a first stage of smoothing using the\newline
 // \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
 // passed as the input to the
 // \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the

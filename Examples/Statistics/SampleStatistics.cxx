@@ -33,8 +33,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We will use the \subdoxygen{Statistics}{ListSample} as our sample
 // template. We include the header for the class too.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -42,7 +44,9 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // The following headers are for sample statistics algorithms.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
