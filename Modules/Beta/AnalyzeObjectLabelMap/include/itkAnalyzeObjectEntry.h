@@ -548,8 +548,6 @@ public:
 protected:
   /**
    * \brief AnalyzeObjectEntry( ) is the default constructor, initializes to 0 or NULL
-   * \param none
-   * \return none
    * Possible Causes of Failure:
    * - unknown
    */
@@ -558,8 +556,6 @@ protected:
   /**
    * \brief ~AnalyzeObjectEntry( void ) is the destructor, which does nothing explicitly due to
    * no use of dynamic allocation
-   * \param none
-   * \return none
    * Possible Causes of Failure:
    * - unknown
    * \sa AnalyzeObjectEntry
