@@ -332,7 +332,7 @@ int main( int argc, char * argv[] )
   //  This means that the gray value to be assigned to the output image pixel
   //  $I=(1,2)$ must be computed by interpolation of the input image values.
   //
-  //  In this particular code the interpolator used is simply a
+  //  In this particular code the interpolator used is simply a\newline
   //  \doxygen{NearestNeighborInterpolateImageFunction} which will assign the
   //  value of the closest pixel. This ends up being the pixel of index
   //  $I=(3,3)$ and can be seen from Figure
