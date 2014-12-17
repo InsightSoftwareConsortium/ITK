@@ -136,33 +136,7 @@ void
 VersorTransform<TScalar>
 ::ComputeMatrix(void)
 {
-  const TScalar vx = m_Versor.GetX();
-  const TScalar vy = m_Versor.GetY();
-  const TScalar vz = m_Versor.GetZ();
-  const TScalar vw = m_Versor.GetW();
-
-  const TScalar xx = vx * vx;
-  const TScalar yy = vy * vy;
-  const TScalar zz = vz * vz;
-  const TScalar xy = vx * vy;
-  const TScalar xz = vx * vz;
-  const TScalar xw = vx * vw;
-  const TScalar yz = vy * vz;
-  const TScalar yw = vy * vw;
-  const TScalar zw = vz * vw;
-
-  MatrixType newMatrix;
-
-  newMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
-  newMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
-  newMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
-  newMatrix[0][1] = 2.0 * ( xy - zw );
-  newMatrix[0][2] = 2.0 * ( xz + yw );
-  newMatrix[1][0] = 2.0 * ( xy + zw );
-  newMatrix[2][0] = 2.0 * ( xz - yw );
-  newMatrix[2][1] = 2.0 * ( yz + xw );
-  newMatrix[1][2] = 2.0 * ( yz - xw );
-  this->SetVarMatrix(newMatrix);
+  this->SetVarMatrix( m_Versor.GetMatrix() );
 }
 
 /** Compute the matrix */
