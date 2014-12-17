@@ -27,10 +27,14 @@ namespace itk
  * \brief This transform applies a Versor rotation, translation and
  * anisotropic scale to the space.
  *
- * This Transform provides the next set of degrees of freedom after a
- * Similarity transform. In a Similarity transform it is possible to do
- * rotation, translation and uniform scaling. In this current transform we can
- * do rotation, translation and anisotropic scaling.
+ * The transform can be described as:
+ * \f$ (\textbf{R}_v + \textbf{S})\textbf{x} \f$ where \f$\textbf{R}_v\f$ is the
+ * rotation matrix given the versor, and
+ * \f$S=\left( \begin{array}{ccc}s_0-1 & 0 & 0 \\ 0 & s_1-1 & 0 \\ 0 & 0 & s_2-1 \end{array} \right)\ \f$
+ *
+ *
+ * \note This transform's scale parameters are not related to the
+ * uniform scaling parameter of the Similarity3DTransform.
  *
  * \author Johnson H.J., Harris G., Williams K. University of Iowa Carver
  * College of Medicine, Department of Psychiatry NeuroImaging Center
