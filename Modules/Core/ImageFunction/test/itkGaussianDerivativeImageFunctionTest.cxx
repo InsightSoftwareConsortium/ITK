@@ -23,7 +23,6 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
   const unsigned int Dimension = 2;
   typedef float                                             PixelType;
   typedef itk::Image< PixelType, Dimension >                ImageType;
-  typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();
@@ -42,17 +41,18 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
   image->Allocate(true); // initialize buffer to zero
 
   // Fill the image with a straight line
-  for(unsigned int i=0;i<50;i++)
-  {
+  for( unsigned int i = 0; i < 50; ++i )
+    {
     ImageType::IndexType ind;
-    ind[0]=i;
-    ind[1]=25;
+    ind[0] = i;
+    ind[1] = 25;
     image->SetPixel(ind,1);
-    ind[1]=26;
+    ind[1] = 26;
     image->SetPixel(ind,1);
-  }
+    }
 
   // Test the derivative of Gaussian image function
+  typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
   DoGFunctionType::Pointer DoG = DoGFunctionType::New();
   DoG->SetInputImage( image );
 
@@ -61,13 +61,13 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
   DoG->SetSigma(2.0);
   const double* sigma = DoG->GetSigma();
   for(unsigned int i=0;i<Dimension;i++)
-  {
-    if( sigma[i] !=  2.0)
     {
-    std::cerr << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
+    if( sigma[i] !=  2.0)
+      {
+      std::cerr << "[FAILED]" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
-  }
   std::cout << "[PASSED] " << std::endl;
 
 
@@ -75,49 +75,46 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
 
   DoG->SetExtent(4.0);
   const double* ext = DoG->GetExtent();
-  for(unsigned int i=0;i<Dimension;i++)
-  {
-    if( ext[i] !=  4.0)
+  for( unsigned int i = 0; i < Dimension; ++i )
     {
-    std::cerr << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
+    if( ext[i] !=  4.0)
+      {
+      std::cerr << "[FAILED]" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
-  }
   std::cout << "[PASSED] " << std::endl;
 
   std::cout << "Testing consistency within Index/Point/ContinuousIndex: ";
   itk::Index<2>   index;
   index.Fill(25);
-  DoGFunctionType::OutputType  gradient_index;
-  gradient_index = DoG->EvaluateAtIndex( index );
+  DoGFunctionType::OutputType gradientIndex;
+  gradientIndex = DoG->EvaluateAtIndex( index );
 
   DoGFunctionType::PointType pt;
   pt[0]=25.0;
   pt[1]=25.0;
-  DoGFunctionType::OutputType  gradient_point;
-  gradient_point = DoG->Evaluate( pt );
+  DoGFunctionType::OutputType gradientPoint;
+  gradientPoint = DoG->Evaluate( pt );
 
 
   DoGFunctionType::ContinuousIndexType continuousIndex;
   continuousIndex.Fill(25);
-  DoGFunctionType::OutputType  gradient_continuousIndex;
-  gradient_continuousIndex = DoG->EvaluateAtContinuousIndex( continuousIndex );
+  DoGFunctionType::OutputType gradientContinuousIndex;
+  gradientContinuousIndex = DoG->EvaluateAtContinuousIndex( continuousIndex );
 
-  if( gradient_index !=  gradient_point
-     || gradient_index != gradient_continuousIndex)
+  if( gradientIndex != gradientPoint || gradientIndex != gradientContinuousIndex )
     {
-    std::cerr << "[FAILED] : " << gradient_index << " : "
-              << gradient_point << std::endl;
+    std::cerr << "[FAILED] : " << gradientIndex << " : " << gradientPoint << std::endl;
     return EXIT_FAILURE;
     }
 
   std::cout << "[PASSED] " << std::endl;
-  gradient_point.Normalize(); // normalize the vector;
+  gradientPoint.Normalize(); // normalize the vector;
 
   std::cout << "Testing Evaluate() : ";
 
-  if( (gradient_point[0] > 0.1)  ||
-      (std::fabs(gradient_point[1]+1.0)> 10e-4)
+  if( (gradientPoint[0] > 0.1)  || ( std::fabs(gradientPoint[1] + 1.0 ) > 10e-4 )
     )
     {
     std::cerr << "[FAILED]" << std::endl;
@@ -128,15 +125,13 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
 
   pt[0]=25.0;
   pt[1]=26.0;
-  gradient_point = DoG->Evaluate( pt );
+  gradientPoint = DoG->Evaluate( pt );
 
-  gradient_point.Normalize(); // normalize the vector;
+  gradientPoint.Normalize(); // normalize the vector;
 
   std::cout << "Testing Evaluate() : ";
 
-  if( (gradient_point[0] > 0.1)  ||
-      (std::fabs(gradient_point[1]-1.0)> 10e-4)
-    )
+  if( (gradientPoint[0] > 0.1)  || ( std::fabs(gradientPoint[1] - 1.0 ) > 10e-4 ))
     {
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
