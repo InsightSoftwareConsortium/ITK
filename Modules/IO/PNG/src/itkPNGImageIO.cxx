@@ -419,10 +419,21 @@ void PNGImageIO::ReadImageInformation()
     }
 
   // see if the PNG file stored spacing information,
-  // ignore the units (for now).
-  double px_width = 1.0, px_height = 1.0; // use default values if not in file
+  double px_width = 1.0;
+  double px_height = 1.0;
+
+#if defined(PNG_sCAL_SUPPORTED) && defined(PNG_FLOATING_POINT_SUPPORTED)
   int    units = PNG_SCALE_UNKNOWN;
-  png_get_sCAL(png_ptr, info_ptr, &units, &px_width, &px_height);
+
+  if( PNG_INFO_sCAL == png_get_sCAL(png_ptr, info_ptr, &units, &px_width, &px_height) &&
+      units == PNG_SCALE_UNKNOWN &&
+      (px_width != 1.0 || px_height != 1.0) )
+    {
+    // Only libpng <1.5 can read sCAL with SCALE_UNKNOWN, warn this is
+    // not going to be compatible with newer libpngs
+    itkWarningMacro( "PNG sCAL SCALE_UNKNOWN detected with non-unit spacing. This is no longer supported by libpng. Re-saving this file is recommended." );
+    }
+#endif
 
   m_Spacing[0] = px_width;
   m_Spacing[1] = px_height;
