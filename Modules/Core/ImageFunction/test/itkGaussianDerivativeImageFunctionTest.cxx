@@ -18,17 +18,18 @@
 
 #include "itkGaussianDerivativeImageFunction.h"
 
-int itkGaussianDerivativeImageFunctionTest(int, char* [] )
+template< typename TPixel >
+int TestGaussianDerivativeImageFunction()
 {
   const unsigned int Dimension = 2;
-  typedef float                                             PixelType;
-  typedef itk::Image< PixelType, Dimension >                ImageType;
+  typedef TPixel                             PixelType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
   // Create and allocate the image
-  ImageType::Pointer      image = ImageType::New();
-  ImageType::SizeType     size;
-  ImageType::IndexType    start;
-  ImageType::RegionType   region;
+  typename ImageType::Pointer      image = ImageType::New();
+  typename ImageType::SizeType     size;
+  typename ImageType::IndexType    start;
+  typename ImageType::RegionType   region;
 
   size[0] = 50;
   size[1] = 50;
@@ -43,7 +44,7 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
   // Fill the image with a straight line
   for( unsigned int i = 0; i < 50; ++i )
     {
-    ImageType::IndexType ind;
+    typename ImageType::IndexType ind;
     ind[0] = i;
     ind[1] = 25;
     image->SetPixel(ind,1);
@@ -53,7 +54,7 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
 
   // Test the derivative of Gaussian image function
   typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
-  DoGFunctionType::Pointer DoG = DoGFunctionType::New();
+  typename DoGFunctionType::Pointer DoG = DoGFunctionType::New();
   DoG->SetInputImage( image );
 
   std::cout << "Testing Set/GetSigma(): ";
@@ -88,19 +89,19 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
   std::cout << "Testing consistency within Index/Point/ContinuousIndex: ";
   itk::Index<2>   index;
   index.Fill(25);
-  DoGFunctionType::OutputType gradientIndex;
+  typename DoGFunctionType::OutputType gradientIndex;
   gradientIndex = DoG->EvaluateAtIndex( index );
 
-  DoGFunctionType::PointType pt;
+  typename DoGFunctionType::PointType pt;
   pt[0]=25.0;
   pt[1]=25.0;
-  DoGFunctionType::OutputType gradientPoint;
+  typename DoGFunctionType::OutputType gradientPoint;
   gradientPoint = DoG->Evaluate( pt );
 
 
-  DoGFunctionType::ContinuousIndexType continuousIndex;
+  typename DoGFunctionType::ContinuousIndexType continuousIndex;
   continuousIndex.Fill(25);
-  DoGFunctionType::OutputType gradientContinuousIndex;
+  typename DoGFunctionType::OutputType gradientContinuousIndex;
   gradientContinuousIndex = DoG->EvaluateAtContinuousIndex( continuousIndex );
 
   if( gradientIndex != gradientPoint || gradientIndex != gradientContinuousIndex )
@@ -138,8 +139,23 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
     }
 
   std::cout << "[PASSED] " << std::endl;
+  return EXIT_SUCCESS;
+}
 
-  std::cout << "Testing Gaussian Derivative Spatial Function:";
+int itkGaussianDerivativeImageFunctionTest(int, char* [] )
+{
+  std::cout << "\nTesting derivative of Gaussian image function for float" << std::endl;
+  if( TestGaussianDerivativeImageFunction< float >() == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+  std::cout << "\nTesting derivative of Gaussian image function for unsigned short" << std::endl;
+  if( TestGaussianDerivativeImageFunction< unsigned short >() == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "\nTesting Gaussian Derivative Spatial Function:";
 
   typedef itk::GaussianDerivativeSpatialFunction<double,1>  GaussianDerivativeFunctionType;
   GaussianDerivativeFunctionType::Pointer f = GaussianDerivativeFunctionType::New();
