@@ -84,6 +84,8 @@ else()
     vtkImagingSources
     ${_wrap_module}
     )
+
+  set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \"${ITKVtkGlue_VTK_DEFINITIONS}\")
 endif()
 ")
 set(ITKVtkGlue_EXPORT_CODE_BUILD "
@@ -114,6 +116,8 @@ if(NOT ITK_BINARY_DIR)
       vtkImagingSources
       ${_wrap_module}
       )
+
+    set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \"${ITKVtkGlue_VTK_DEFINITIONS}\")
   endif()
 endif()
 ")

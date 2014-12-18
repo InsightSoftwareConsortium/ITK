@@ -80,6 +80,8 @@ else()
     vtkIOImage
     vtkImagingSources
    )
+
+  set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \"${ITKLevelSetsv4Visualization_VTK_DEFINITIONS}\")
 endif()
 ")
 set(ITKLevelSetsv4Visualization_EXPORT_CODE_BUILD "
@@ -102,6 +104,8 @@ if(NOT ITK_BINARY_DIR)
       vtkIOImage
       vtkImagingSources
      )
+
+    set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \"${ITKLevelSetsv4Visualization_VTK_DEFINITIONS}\")
   endif()
 endif()
 ")
