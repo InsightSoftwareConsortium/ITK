@@ -62,23 +62,18 @@ set(VTK_DIR \"${VTK_DIR}\")
 
 find_package(VTK NO_MODULE REQUIRED COMPONENTS vtkCommonCore)
 
-vtk_module_config(ITKVtkGlue_VTK
-  vtkCommonCore
-  vtkRenderingCore
-  vtkRenderingOpenGL
-  vtkRenderingFreeType
-  vtkInteractionStyle
-  vtkIOImage
-  vtkImagingSources
-  ${_wrap_module}
-)
-")
-set(ITKVtkGlue_EXPORT_CODE_BUILD "
-if(NOT ITK_BINARY_DIR)
-  set(VTK_DIR \"${VTK_DIR}\")
+if(NOT VTK_VERSION)
+  set(VTK_VERSION \"${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}\")
+endif()
 
-  find_package(VTK NO_MODULE REQUIRED COMPONENTS vtkCommonCore)
-
+if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
+  set(ITKVtkGlue_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
+  set(ITKVtkGlue_VTK_LIBRARIES ${VTK_LIBRARIES})
+else()
+  set(_wrap_module)
+  if(ITK_WRAP_PYTHON)
+    set(_wrap_module vtkWrappingPythonCore)
+  endif()
   vtk_module_config(ITKVtkGlue_VTK
     vtkCommonCore
     vtkRenderingCore
@@ -88,7 +83,38 @@ if(NOT ITK_BINARY_DIR)
     vtkIOImage
     vtkImagingSources
     ${_wrap_module}
-  )
+    )
+endif()
+")
+set(ITKVtkGlue_EXPORT_CODE_BUILD "
+if(NOT ITK_BINARY_DIR)
+  set(VTK_DIR \"${VTK_DIR}\")
+
+  find_package(VTK NO_MODULE REQUIRED COMPONENTS vtkCommonCore)
+
+  if(NOT VTK_VERSION)
+    set(VTK_VERSION \"${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}\")
+  endif()
+
+  if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
+    set(ITKVtkGlue_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
+    set(ITKVtkGlue_VTK_LIBRARIES ${VTK_LIBRARIES})
+  else()
+    set(_wrap_module)
+    if(ITK_WRAP_PYTHON)
+      set(_wrap_module vtkWrappingPythonCore)
+    endif()
+    vtk_module_config(ITKVtkGlue_VTK
+      vtkCommonCore
+      vtkRenderingCore
+      vtkRenderingOpenGL
+      vtkRenderingFreeType
+      vtkInteractionStyle
+      vtkIOImage
+      vtkImagingSources
+      ${_wrap_module}
+      )
+  endif()
 endif()
 ")
 
