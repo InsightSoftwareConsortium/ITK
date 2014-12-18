@@ -66,23 +66,10 @@ set(VTK_DIR \"${VTK_DIR}\")
 
 find_package(VTK NO_MODULE REQUIRED COMPONENTS vtkCommonCore)
 
-vtk_module_config(ITKLevelSetsv4Visualization_VTK
-  vtkCommonCore
-  vtkRenderingAnnotation
-  vtkRenderingCore
-  vtkRenderingOpenGL
-  vtkRenderingFreeType
-  vtkInteractionStyle
-  vtkIOImage
-  vtkImagingSources
- )
-")
-set(ITKLevelSetsv4Visualization_EXPORT_CODE_BUILD "
-if(NOT ITK_BINARY_DIR)
-  set(VTK_DIR \"${VTK_DIR}\")
-
-  find_package(VTK NO_MODULE REQUIRED COMPONENTS vtkCommonCore)
-
+if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
+  set(ITKLevelSetsv4Visualization_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
+  set(ITKLevelSetsv4Visualization_VTK_LIBRARIES ${VTK_LIBRARIES})
+else()
   vtk_module_config(ITKLevelSetsv4Visualization_VTK
     vtkCommonCore
     vtkRenderingAnnotation
@@ -92,7 +79,30 @@ if(NOT ITK_BINARY_DIR)
     vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
-  )
+   )
+endif()
+")
+set(ITKLevelSetsv4Visualization_EXPORT_CODE_BUILD "
+if(NOT ITK_BINARY_DIR)
+  set(VTK_DIR \"${VTK_DIR}\")
+
+  find_package(VTK NO_MODULE REQUIRED COMPONENTS vtkCommonCore)
+
+  if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
+    set(ITKLevelSetsv4Visualization_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
+    set(ITKLevelSetsv4Visualization_VTK_LIBRARIES ${VTK_LIBRARIES})
+  else()
+    vtk_module_config(ITKLevelSetsv4Visualization_VTK
+      vtkCommonCore
+      vtkRenderingAnnotation
+      vtkRenderingCore
+      vtkRenderingOpenGL
+      vtkRenderingFreeType
+      vtkInteractionStyle
+      vtkIOImage
+      vtkImagingSources
+     )
+  endif()
 endif()
 ")
 
