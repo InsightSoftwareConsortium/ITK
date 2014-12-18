@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <string>
+#include "itkMacro.h"
 
 namespace itk
 {
@@ -48,7 +49,7 @@ class StdStreamStateSave
 public:
   explicit StdStreamStateSave(std::ios& stream) :
     m_Ios(stream),
-    m_State(NULL)
+    m_State(ITK_NULLPTR)
   {
     m_State.copyfmt(stream);
   }

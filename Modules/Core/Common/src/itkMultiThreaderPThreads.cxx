@@ -88,7 +88,7 @@ void MultiThreader::MultipleMethodExecute()
     }
   for( ThreadIdType thread_loop = 0; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
-    if( m_MultipleMethod[thread_loop] == (ThreadFunctionType)0 )
+    if( m_MultipleMethod[thread_loop] == (ThreadFunctionType)ITK_NULLPTR )
       {
       itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
       return;

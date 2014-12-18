@@ -39,7 +39,7 @@ void* execute(void *ptr)
       }
     }
   //std::cout << std::endl << "Thread fn DONE" << std::endl;
-  return 0;
+  return ITK_NULLPTR;
 }
 
 int itkThreadPoolTest(int argc, char* argv[])
