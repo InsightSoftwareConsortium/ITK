@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredTransformInitializer_h
-#define __itkCenteredTransformInitializer_h
+#ifndef itkCenteredTransformInitializer_h
+#define itkCenteredTransformInitializer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -160,4 +160,4 @@ private:
 #include "itkCenteredTransformInitializer.hxx"
 #endif
 
-#endif /* __itkCenteredTransformInitializer_h */
+#endif /* itkCenteredTransformInitializer_h */

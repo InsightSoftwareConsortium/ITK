@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFancyString_h
-#define __itkFancyString_h
+#ifndef itkFancyString_h
+#define itkFancyString_h
 
 #include <string>
 #include <vector>
@@ -243,4 +243,4 @@ FancyString& operator<<( FancyString& s, const T& data );
 #include "itkFancyString.hxx"
 #endif
 
-#endif // __itkFancyString_h
+#endif // itkFancyString_h

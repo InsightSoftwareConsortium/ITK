@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAdditiveGaussianNoiseImageFilter_hxx
-#define __itkAdditiveGaussianNoiseImageFilter_hxx
+#ifndef itkAdditiveGaussianNoiseImageFilter_hxx
+#define itkAdditiveGaussianNoiseImageFilter_hxx
 
 #include "itkAdditiveGaussianNoiseImageFilter.h"
 #include "itkImageScanlineIterator.h"
@@ -97,4 +97,4 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
 
 } /* namespace itk */
 
-#endif // __itkAdditiveGaussianNoiseImageFilter_hxx
+#endif // itkAdditiveGaussianNoiseImageFilter_hxx

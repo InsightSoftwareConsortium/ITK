@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOptimizerParametersHelper_h
-#define __itkOptimizerParametersHelper_h
+#ifndef itkOptimizerParametersHelper_h
+#define itkOptimizerParametersHelper_h
 
 #include "itkObject.h"
 #include "itkArray.h"

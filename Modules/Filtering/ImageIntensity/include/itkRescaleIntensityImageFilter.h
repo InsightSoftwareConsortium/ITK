@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRescaleIntensityImageFilter_h
-#define __itkRescaleIntensityImageFilter_h
+#ifndef itkRescaleIntensityImageFilter_h
+#define itkRescaleIntensityImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

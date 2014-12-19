@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMP_h
-#define __itkFEMP_h
+#ifndef itkFEMP_h
+#define itkFEMP_h
 
 #include <iostream>
 #include "itkMacro.h"
@@ -172,4 +172,4 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMP_h
+#endif // #ifndef itkFEMP_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectToPointSetFilter_h
-#define __itkSpatialObjectToPointSetFilter_h
+#ifndef itkSpatialObjectToPointSetFilter_h
+#define itkSpatialObjectToPointSetFilter_h
 
 #include "itkPointSet.h"
 #include "itkMeshSource.h"

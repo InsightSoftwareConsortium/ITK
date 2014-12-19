@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInternationalizationIOHelpers_h
-#define __itkInternationalizationIOHelpers_h
+#ifndef itkInternationalizationIOHelpers_h
+#define itkInternationalizationIOHelpers_h
 #include "ITKIOImageBaseExport.h"
 
 // This header provides some helper functions to deal with unicode filenames
@@ -259,4 +259,4 @@ typedef std::ifstream I18nIfstream;
 #undef LOCAL_USE_WIN32_WOPEN
 #undef LOCAL_USE_FDSTREAM
 
-#endif  /* __itkInternationalizationIOHelpers_h */
+#endif  /* itkInternationalizationIOHelpers_h */

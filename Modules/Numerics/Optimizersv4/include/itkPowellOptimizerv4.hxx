@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPowellOptimizerv4_hxx
-#define __itkPowellOptimizerv4_hxx
+#ifndef itkPowellOptimizerv4_hxx
+#define itkPowellOptimizerv4_hxx
 
 #include "itkPowellOptimizerv4.h"
 

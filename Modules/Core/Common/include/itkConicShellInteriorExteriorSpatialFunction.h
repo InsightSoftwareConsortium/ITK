@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConicShellInteriorExteriorSpatialFunction_h
-#define __itkConicShellInteriorExteriorSpatialFunction_h
+#ifndef itkConicShellInteriorExteriorSpatialFunction_h
+#define itkConicShellInteriorExteriorSpatialFunction_h
 
 #include "vnl/vnl_vector.h"
 #include "itkInteriorExteriorSpatialFunction.h"

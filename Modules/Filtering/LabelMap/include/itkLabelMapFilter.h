@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkLabelMapFilter_h
-#define __itkLabelMapFilter_h
+#ifndef itkLabelMapFilter_h
+#define itkLabelMapFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkFastMutexLock.h"

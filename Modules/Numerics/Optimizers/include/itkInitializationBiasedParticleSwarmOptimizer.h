@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkInitializationBiasedParticleSwarmOptimizer_h
-#define __itkInitializationBiasedParticleSwarmOptimizer_h
+#ifndef itkInitializationBiasedParticleSwarmOptimizer_h
+#define itkInitializationBiasedParticleSwarmOptimizer_h
 
 #include "itkParticleSwarmOptimizerBase.h"
 

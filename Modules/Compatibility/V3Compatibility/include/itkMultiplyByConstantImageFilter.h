@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiplyByConstantImageFilter_h
-#define __itkMultiplyByConstantImageFilter_h
+#ifndef itkMultiplyByConstantImageFilter_h
+#define itkMultiplyByConstantImageFilter_h
 #include "itkMultiplyImageFilter.h"
 
 #ifndef ITKV3_COMPATIBILITY

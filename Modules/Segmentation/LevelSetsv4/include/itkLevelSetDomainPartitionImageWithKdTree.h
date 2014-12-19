@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetDomainPartitionImageWithKdTree_h
-#define __itkLevelSetDomainPartitionImageWithKdTree_h
+#ifndef itkLevelSetDomainPartitionImageWithKdTree_h
+#define itkLevelSetDomainPartitionImageWithKdTree_h
 
 #include "itkLevelSetDomainPartitionImage.h"
 

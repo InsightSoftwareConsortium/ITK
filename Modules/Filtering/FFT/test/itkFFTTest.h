@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTTest_h
-#define __itkFFTTest_h
+#ifndef itkFFTTest_h
+#define itkFFTTest_h
 
 /* This test is build for testing forward and inverse Fast Fourier Transforms
  * using VNL and FFTW FFT libraries. */

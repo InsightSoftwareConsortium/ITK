@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryErodeImageFilter_h
-#define __itkBinaryErodeImageFilter_h
+#ifndef itkBinaryErodeImageFilter_h
+#define itkBinaryErodeImageFilter_h
 
 #include <vector>
 #include <queue>

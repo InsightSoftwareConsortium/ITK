@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDynamicLoader_h
-#define __itkDynamicLoader_h
+#ifndef itkDynamicLoader_h
+#define itkDynamicLoader_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

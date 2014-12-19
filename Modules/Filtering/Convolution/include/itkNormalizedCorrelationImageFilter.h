@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalizedCorrelationImageFilter_h
-#define __itkNormalizedCorrelationImageFilter_h
+#ifndef itkNormalizedCorrelationImageFilter_h
+#define itkNormalizedCorrelationImageFilter_h
 
 #include "itkNeighborhoodOperatorImageFilter.h"
 

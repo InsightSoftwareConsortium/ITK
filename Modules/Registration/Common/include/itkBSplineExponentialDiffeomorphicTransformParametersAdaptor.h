@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_h
-#define __itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_h
+#ifndef itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_h
+#define itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_h
 
 #include "itkConstantVelocityFieldTransformParametersAdaptor.h"
 
@@ -136,4 +136,4 @@ private:
 #include "itkBSplineExponentialDiffeomorphicTransformParametersAdaptor.hxx"
 #endif
 
-#endif /* __itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_h */
+#endif /* itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_h */

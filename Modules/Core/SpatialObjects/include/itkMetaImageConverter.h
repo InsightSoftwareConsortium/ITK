@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaImageConverter_h
-#define __itkMetaImageConverter_h
+#ifndef itkMetaImageConverter_h
+#define itkMetaImageConverter_h
 
 // to avoid an Internal Compiler Error in Visual Studio 6.0
 #include "metaImage.h"

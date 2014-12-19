@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMaximumEntropyThresholdCalculator_h
-#define __itkMaximumEntropyThresholdCalculator_h
+#ifndef itkMaximumEntropyThresholdCalculator_h
+#define itkMaximumEntropyThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 

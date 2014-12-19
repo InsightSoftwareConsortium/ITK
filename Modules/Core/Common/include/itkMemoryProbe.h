@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMemoryProbe_h
-#define __itkMemoryProbe_h
+#ifndef itkMemoryProbe_h
+#define itkMemoryProbe_h
 
 #include "itkResourceProbe.h"
 #include "itkMemoryUsageObserver.h"
@@ -58,4 +58,4 @@ private:
 };
 } // end namespace itk
 
-#endif //__itkMemoryProbe_h
+#endif //itkMemoryProbe_h

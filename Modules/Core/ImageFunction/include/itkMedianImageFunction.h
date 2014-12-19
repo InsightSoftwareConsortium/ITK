@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMedianImageFunction_h
-#define __itkMedianImageFunction_h
+#ifndef itkMedianImageFunction_h
+#define itkMedianImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"

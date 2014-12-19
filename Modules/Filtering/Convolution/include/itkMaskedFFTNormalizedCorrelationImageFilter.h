@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaskedFFTNormalizedCorrelationImageFilter_h
-#define __itkMaskedFFTNormalizedCorrelationImageFilter_h
+#ifndef itkMaskedFFTNormalizedCorrelationImageFilter_h
+#define itkMaskedFFTNormalizedCorrelationImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"

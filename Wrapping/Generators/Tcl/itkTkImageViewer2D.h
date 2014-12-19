@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTkImageViewer2D_h
-#define __itkTkImageViewer2D_h
+#ifndef itkTkImageViewer2D_h
+#define itkTkImageViewer2D_h
 
 #include "itkObject.h"
 #include "itkImage.h"

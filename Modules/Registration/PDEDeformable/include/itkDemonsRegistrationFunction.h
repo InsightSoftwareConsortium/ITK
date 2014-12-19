@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsRegistrationFunction_h
-#define __itkDemonsRegistrationFunction_h
+#ifndef itkDemonsRegistrationFunction_h
+#define itkDemonsRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"

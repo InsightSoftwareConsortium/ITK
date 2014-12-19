@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineInterpolateImageFunction_hxx
-#define __itkBSplineInterpolateImageFunction_hxx
+#ifndef itkBSplineInterpolateImageFunction_hxx
+#define itkBSplineInterpolateImageFunction_hxx
 
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkImageLinearIteratorWithIndex.h"

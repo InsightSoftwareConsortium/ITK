@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathAndImageToPathFilter_hxx
-#define __itkPathAndImageToPathFilter_hxx
+#ifndef itkPathAndImageToPathFilter_hxx
+#define itkPathAndImageToPathFilter_hxx
 
 #include "itkPathAndImageToPathFilter.h"
 

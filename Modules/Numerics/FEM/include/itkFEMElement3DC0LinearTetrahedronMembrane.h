@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement3DC0LinearTetrahedronMembrane_h
-#define __itkFEMElement3DC0LinearTetrahedronMembrane_h
+#ifndef itkFEMElement3DC0LinearTetrahedronMembrane_h
+#define itkFEMElement3DC0LinearTetrahedronMembrane_h
 
 #include "itkFEMElement3DC0LinearTetrahedron.h"
 #include "itkFEMElement3DMembrane.h"
@@ -80,4 +80,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement3DC0LinearTetrahedronMembrane_h
+#endif  // #ifndef itkFEMElement3DC0LinearTetrahedronMembrane_h

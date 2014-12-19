@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaArrowConverter_h
-#define __itkMetaArrowConverter_h
+#ifndef itkMetaArrowConverter_h
+#define itkMetaArrowConverter_h
 
 #include "itkMetaConverterBase.h"
 #include "itkArrowSpatialObject.h"

@@ -65,8 +65,8 @@
  */
 
 
-#ifndef __itkAnalyzeDbh_h
-#define __itkAnalyzeDbh_h
+#ifndef itkAnalyzeDbh_h
+#define itkAnalyzeDbh_h
 
 namespace itk
 {

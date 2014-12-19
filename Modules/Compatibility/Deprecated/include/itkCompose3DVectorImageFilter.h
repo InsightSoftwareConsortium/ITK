@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompose3DVectorImageFilter_h
-#define __itkCompose3DVectorImageFilter_h
+#ifndef itkCompose3DVectorImageFilter_h
+#define itkCompose3DVectorImageFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkTernaryFunctorImageFilter.h"

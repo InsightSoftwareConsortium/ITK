@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramToRunLengthFeaturesFilter_hxx
-#define __itkHistogramToRunLengthFeaturesFilter_hxx
+#ifndef itkHistogramToRunLengthFeaturesFilter_hxx
+#define itkHistogramToRunLengthFeaturesFilter_hxx
 
 #include "itkHistogramToRunLengthFeaturesFilter.h"
 

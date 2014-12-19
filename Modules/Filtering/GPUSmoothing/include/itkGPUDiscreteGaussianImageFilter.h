@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDiscreteGaussianImageFilter_h
-#define __itkGPUDiscreteGaussianImageFilter_h
+#ifndef itkGPUDiscreteGaussianImageFilter_h
+#define itkGPUDiscreteGaussianImageFilter_h
 
 #include "itkGPUImage.h"
 #include "itkGPUImageToImageFilter.h"

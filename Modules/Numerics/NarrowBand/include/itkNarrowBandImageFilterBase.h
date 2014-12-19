@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNarrowBandImageFilterBase_h
-#define __itkNarrowBandImageFilterBase_h
+#ifndef itkNarrowBandImageFilterBase_h
+#define itkNarrowBandImageFilterBase_h
 
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"

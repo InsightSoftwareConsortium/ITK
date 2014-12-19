@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiscreteMeanCurvatureQuadEdgeMeshFilter_h
-#define __itkDiscreteMeanCurvatureQuadEdgeMeshFilter_h
+#ifndef itkDiscreteMeanCurvatureQuadEdgeMeshFilter_h
+#define itkDiscreteMeanCurvatureQuadEdgeMeshFilter_h
 
 #include "itkDiscreteCurvatureQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"

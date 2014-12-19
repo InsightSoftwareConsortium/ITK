@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeChangeEvent_h
-#define __itkTreeChangeEvent_h
+#ifndef itkTreeChangeEvent_h
+#define itkTreeChangeEvent_h
 
 #include "itkMacro.h"
 #include "itkEventObject.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMMaterialBase_h
-#define __itkFEMMaterialBase_h
+#ifndef itkFEMMaterialBase_h
+#define itkFEMMaterialBase_h
 
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
@@ -68,4 +68,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMMaterialBase_h
+#endif // #ifndef itkFEMMaterialBase_h

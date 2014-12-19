@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarChanAndVeseSparseLevelSetImageFilter_hxx
-#define __itkScalarChanAndVeseSparseLevelSetImageFilter_hxx
+#ifndef itkScalarChanAndVeseSparseLevelSetImageFilter_hxx
+#define itkScalarChanAndVeseSparseLevelSetImageFilter_hxx
 
 #include "itkScalarChanAndVeseSparseLevelSetImageFilter.h"
 

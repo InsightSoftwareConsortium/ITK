@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToVectorImageFilter_h
-#define __itkImageToVectorImageFilter_h
+#ifndef itkImageToVectorImageFilter_h
+#define itkImageToVectorImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorContainer.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetVelocityNeighborhoodExtractor_h
-#define __itkLevelSetVelocityNeighborhoodExtractor_h
+#ifndef itkLevelSetVelocityNeighborhoodExtractor_h
+#define itkLevelSetVelocityNeighborhoodExtractor_h
 
 #include "itkLevelSetNeighborhoodExtractor.h"
 

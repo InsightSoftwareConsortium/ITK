@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBioCellBase_h
-#define __itkBioCellBase_h
+#ifndef itkBioCellBase_h
+#define itkBioCellBase_h
 
 #include "itkRGBPixel.h"
 #include "itkPoint.h"

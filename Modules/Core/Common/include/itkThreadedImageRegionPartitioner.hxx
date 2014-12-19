@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThreadedImageRegionPartitioner_hxx
-#define __itkThreadedImageRegionPartitioner_hxx
+#ifndef itkThreadedImageRegionPartitioner_hxx
+#define itkThreadedImageRegionPartitioner_hxx
 
 #include "itkThreadedImageRegionPartitioner.h"
 

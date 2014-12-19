@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
-#define __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
+#ifndef itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
+#define itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
 
 #include "itkDisplacementFieldTransform.h"
 
@@ -136,4 +136,4 @@ private:
 # include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.hxx"
 #endif
 
-#endif // __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
+#endif // itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h

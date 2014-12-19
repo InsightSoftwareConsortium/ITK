@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDirectory_h
-#define __itkDirectory_h
+#ifndef itkDirectory_h
+#define itkDirectory_h
 
 #include "itkObject.h"
 #include "itksys/Directory.hxx"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageFileReader_h
-#define __itkImageFileReader_h
+#ifndef itkImageFileReader_h
+#define itkImageFileReader_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkImageIOBase.h"
@@ -199,4 +199,4 @@ private:
 #include "itkImageIOFactoryRegisterManager.h"
 #endif
 
-#endif // __itkImageFileReader_h
+#endif // itkImageFileReader_h

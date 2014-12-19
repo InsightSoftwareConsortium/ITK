@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThreadedIteratorRangePartitioner_h
-#define __itkThreadedIteratorRangePartitioner_h
+#ifndef itkThreadedIteratorRangePartitioner_h
+#define itkThreadedIteratorRangePartitioner_h
 
 #include "itkThreadedDomainPartitioner.h"
 

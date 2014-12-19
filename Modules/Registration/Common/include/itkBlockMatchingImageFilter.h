@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBlockMatchingImageFilter_h
-#define __itkBlockMatchingImageFilter_h
+#ifndef itkBlockMatchingImageFilter_h
+#define itkBlockMatchingImageFilter_h
 
 #include "itkMeshToMeshFilter.h"
 #include "itkImage.h"

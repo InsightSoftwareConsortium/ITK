@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstNeighborhoodIterator_hxx
-#define __itkConstNeighborhoodIterator_hxx
+#ifndef itkConstNeighborhoodIterator_hxx
+#define itkConstNeighborhoodIterator_hxx
 #include "itkConstNeighborhoodIterator.h"
 namespace itk
 {

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaArrayReader_h
-#define __itkMetaArrayReader_h
+#ifndef itkMetaArrayReader_h
+#define itkMetaArrayReader_h
 #include "ITKIOMetaExport.h"
 
 #include "itkLightProcessObject.h"
@@ -256,4 +256,4 @@ private:
 };
 } // namespace itk
 
-#endif // __itkTransformFileReader_h
+#endif // itkTransformFileReader_h

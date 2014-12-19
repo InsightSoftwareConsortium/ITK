@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOFFMeshIOFactory_h
-#define __itkOFFMeshIOFactory_h
+#ifndef itkOFFMeshIOFactory_h
+#define itkOFFMeshIOFactory_h
 #include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"

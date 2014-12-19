@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatlabTransformIO_h
-#define __itkMatlabTransformIO_h
+#ifndef itkMatlabTransformIO_h
+#define itkMatlabTransformIO_h
 #include "itkTransformIOBase.h"
 
 namespace itk
@@ -74,4 +74,4 @@ typedef MatlabTransformIOTemplate<double> MatlabTransformIO;
 #include "itkMatlabTransformIO.hxx"
 #endif
 
-#endif // __itkMatlabTransformIO_h
+#endif // itkMatlabTransformIO_h

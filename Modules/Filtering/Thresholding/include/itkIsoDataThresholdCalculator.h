@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkIsoDataThresholdCalculator_h
-#define __itkIsoDataThresholdCalculator_h
+#ifndef itkIsoDataThresholdCalculator_h
+#define itkIsoDataThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 

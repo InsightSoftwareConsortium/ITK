@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformBase_h
-#define __itkTransformBase_h
+#ifndef itkTransformBase_h
+#define itkTransformBase_h
 
 #include "itkObject.h"
 #include "itkPoint.h"

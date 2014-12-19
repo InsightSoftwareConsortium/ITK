@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMElements_h
-#define __itkFEMElements_h
+#ifndef itkFEMElements_h
+#define itkFEMElements_h
 
 /**
  * \file itkFEMElements.h

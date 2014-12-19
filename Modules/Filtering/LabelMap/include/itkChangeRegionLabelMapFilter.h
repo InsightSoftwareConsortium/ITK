@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkChangeRegionLabelMapFilter_h
-#define __itkChangeRegionLabelMapFilter_h
+#ifndef itkChangeRegionLabelMapFilter_h
+#define itkChangeRegionLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 

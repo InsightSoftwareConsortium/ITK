@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScaleTransform_h
-#define __itkScaleTransform_h
+#ifndef itkScaleTransform_h
+#define itkScaleTransform_h
 
 #include "itkMatrixOffsetTransformBase.h"
 #include "itkMacro.h"
@@ -297,4 +297,4 @@ ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputCovariantVect
 #include "itkScaleTransform.hxx"
 #endif
 
-#endif /* __itkScaleTransform_h */
+#endif /* itkScaleTransform_h */

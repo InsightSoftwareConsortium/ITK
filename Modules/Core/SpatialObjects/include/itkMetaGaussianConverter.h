@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaGaussianConverter_h
-#define __itkMetaGaussianConverter_h
+#ifndef itkMetaGaussianConverter_h
+#define itkMetaGaussianConverter_h
 
 #include "itkMetaConverterBase.h"
 #include "itkGaussianSpatialObject.h"

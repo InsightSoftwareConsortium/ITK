@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThreadPool_h
-#define __itkThreadPool_h
+#ifndef itkThreadPool_h
+#define itkThreadPool_h
 
 #include "itkConfigure.h"
 #include "itkIntTypes.h"

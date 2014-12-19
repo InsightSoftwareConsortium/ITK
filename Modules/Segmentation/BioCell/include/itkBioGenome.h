@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBioGenome_h
-#define __itkBioGenome_h
+#ifndef itkBioGenome_h
+#define itkBioGenome_h
 
 
 #if defined( _WIN32 )

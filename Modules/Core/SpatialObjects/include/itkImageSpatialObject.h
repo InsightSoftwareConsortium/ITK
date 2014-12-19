@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSpatialObject_h
-#define __itkImageSpatialObject_h
+#ifndef itkImageSpatialObject_h
+#define itkImageSpatialObject_h
 
 #include "itkImage.h"
 #include "itkSpatialObject.h"
@@ -165,4 +165,4 @@ protected:
 #include "itkImageSpatialObject.hxx"
 #endif
 
-#endif //__itkImageSpatialObject_h
+#endif //itkImageSpatialObject_h

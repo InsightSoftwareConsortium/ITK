@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGiftiMeshIO_h
-#define __itkGiftiMeshIO_h
+#ifndef itkGiftiMeshIO_h
+#define itkGiftiMeshIO_h
 #include "ITKIOMeshExport.h"
 
 #include "itkMapContainer.h"

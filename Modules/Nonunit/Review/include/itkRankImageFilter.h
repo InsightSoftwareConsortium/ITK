@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRankImageFilter_h
-#define __itkRankImageFilter_h
+#ifndef itkRankImageFilter_h
+#define itkRankImageFilter_h
 
 #include "itkMovingHistogramImageFilter.h"
 #include <list>

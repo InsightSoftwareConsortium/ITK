@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorNeighborhoodInnerProduct_hxx
-#define __itkVectorNeighborhoodInnerProduct_hxx
+#ifndef itkVectorNeighborhoodInnerProduct_hxx
+#define itkVectorNeighborhoodInnerProduct_hxx
 #include "itkVectorNeighborhoodInnerProduct.h"
 
 namespace itk

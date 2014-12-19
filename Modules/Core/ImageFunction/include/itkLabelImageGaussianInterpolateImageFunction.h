@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkLabelImageGaussianInterpolateImageFunction_h
-#define __itkLabelImageGaussianInterpolateImageFunction_h
+#ifndef itkLabelImageGaussianInterpolateImageFunction_h
+#define itkLabelImageGaussianInterpolateImageFunction_h
 
 #include "itkGaussianInterpolateImageFunction.h"
 

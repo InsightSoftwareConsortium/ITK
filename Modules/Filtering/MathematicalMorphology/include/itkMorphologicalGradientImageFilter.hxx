@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMorphologicalGradientImageFilter_hxx
-#define __itkMorphologicalGradientImageFilter_hxx
+#ifndef itkMorphologicalGradientImageFilter_hxx
+#define itkMorphologicalGradientImageFilter_hxx
 
 #include "itkMorphologicalGradientImageFilter.h"
 #include "itkNumericTraits.h"

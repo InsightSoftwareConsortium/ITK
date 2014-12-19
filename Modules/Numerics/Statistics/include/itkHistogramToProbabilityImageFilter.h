@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramToProbabilityImageFilter_h
-#define __itkHistogramToProbabilityImageFilter_h
+#ifndef itkHistogramToProbabilityImageFilter_h
+#define itkHistogramToProbabilityImageFilter_h
 
 #include "itkHistogramToImageFilter.h"
 

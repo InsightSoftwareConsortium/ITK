@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLightObject_h
-#define __itkFEMLightObject_h
+#ifndef itkFEMLightObject_h
+#define itkFEMLightObject_h
 
 #include "itkMacro.h"
 #include "itkSmartPointer.h"
@@ -104,4 +104,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLightObject_h
+#endif // #ifndef itkFEMLightObject_h

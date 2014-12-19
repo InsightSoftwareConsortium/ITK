@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkPyImageFilter_hxx
-#define __itkPyImageFilter_hxx
+#ifndef itkPyImageFilter_hxx
+#define itkPyImageFilter_hxx
 
 #include "itkPyImageFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChainCodePath_h
-#define __itkChainCodePath_h
+#ifndef itkChainCodePath_h
+#define itkChainCodePath_h
 
 #include "itkPath.h"
 #include "itkOffset.h"

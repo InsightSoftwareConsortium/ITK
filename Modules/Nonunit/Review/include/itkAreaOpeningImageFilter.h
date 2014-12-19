@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAreaOpeningImageFilter_h
-#define __itkAreaOpeningImageFilter_h
+#ifndef itkAreaOpeningImageFilter_h
+#define itkAreaOpeningImageFilter_h
 
 #include "itkAttributeMorphologyBaseImageFilter.h"
 #include <functional>

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOptimizer_h
-#define __itkOptimizer_h
+#ifndef itkOptimizer_h
+#define itkOptimizer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

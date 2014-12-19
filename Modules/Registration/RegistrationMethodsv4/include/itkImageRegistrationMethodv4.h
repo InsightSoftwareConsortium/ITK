@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegistrationMethodv4_h
-#define __itkImageRegistrationMethodv4_h
+#ifndef itkImageRegistrationMethodv4_h
+#define itkImageRegistrationMethodv4_h
 
 #include "itkProcessObject.h"
 

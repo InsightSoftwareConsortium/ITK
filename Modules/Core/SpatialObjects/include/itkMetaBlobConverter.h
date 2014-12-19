@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaBlobConverter_h
-#define __itkMetaBlobConverter_h
+#ifndef itkMetaBlobConverter_h
+#define itkMetaBlobConverter_h
 
 #include "metaBlob.h"
 #include "itkBlobSpatialObject.h"

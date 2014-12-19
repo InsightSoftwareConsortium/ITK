@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkJointHistogramMutualInformationImageToImageMetricv4_h
-#define __itkJointHistogramMutualInformationImageToImageMetricv4_h
+#ifndef itkJointHistogramMutualInformationImageToImageMetricv4_h
+#define itkJointHistogramMutualInformationImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
 #include "itkImage.h"

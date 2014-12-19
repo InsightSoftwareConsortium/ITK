@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimilarity3DTransform_h
-#define __itkSimilarity3DTransform_h
+#ifndef itkSimilarity3DTransform_h
+#define itkSimilarity3DTransform_h
 
 #include <iostream>
 #include "itkVersorRigid3DTransform.h"
@@ -158,4 +158,4 @@ private:
 #include "itkSimilarity3DTransform.hxx"
 #endif
 
-#endif /* __itkSimilarity3DTransform_h */
+#endif /* itkSimilarity3DTransform_h */

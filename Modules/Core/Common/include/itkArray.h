@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArray_h
-#define __itkArray_h
+#ifndef itkArray_h
+#define itkArray_h
 
 #include "itkMacro.h"
 

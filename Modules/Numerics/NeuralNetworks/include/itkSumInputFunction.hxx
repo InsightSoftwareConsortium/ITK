@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSumInputFunction_hxx
-#define __itkSumInputFunction_hxx
+#ifndef itkSumInputFunction_hxx
+#define itkSumInputFunction_hxx
 
 #include "itkSumInputFunction.h"
 

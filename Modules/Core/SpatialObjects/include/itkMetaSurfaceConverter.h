@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaSurfaceConverter_h
-#define __itkMetaSurfaceConverter_h
+#ifndef itkMetaSurfaceConverter_h
+#define itkMetaSurfaceConverter_h
 
 #include "metaSurface.h"
 #include "itkSurfaceSpatialObject.h"

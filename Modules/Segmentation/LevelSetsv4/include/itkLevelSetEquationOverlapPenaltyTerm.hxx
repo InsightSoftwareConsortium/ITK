@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationOverlapPenaltyTerm_hxx
-#define __itkLevelSetEquationOverlapPenaltyTerm_hxx
+#ifndef itkLevelSetEquationOverlapPenaltyTerm_hxx
+#define itkLevelSetEquationOverlapPenaltyTerm_hxx
 
 #include "itkLevelSetEquationOverlapPenaltyTerm.h"
 

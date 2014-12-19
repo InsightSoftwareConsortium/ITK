@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_hxx
-#define __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_hxx
+#ifndef itkSymmetricEllipsoidInteriorExteriorSpatialFunction_hxx
+#define itkSymmetricEllipsoidInteriorExteriorSpatialFunction_hxx
 
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
 #include <cmath>

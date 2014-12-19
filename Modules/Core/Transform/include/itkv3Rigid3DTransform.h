@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkv3Rigid3DTransform_h
-#define __itkv3Rigid3DTransform_h
+#ifndef itkv3Rigid3DTransform_h
+#define itkv3Rigid3DTransform_h
 
 #include <iostream>
 #include "itkRigid3DTransform.h"
@@ -130,4 +130,4 @@ private:
   void operator=(const Self &);   //purposely not implemented
 };                                //class Rigid3DTransform
 }  // namespace itkv3
-#endif /* __itkv3Rigid3DTransform_h */
+#endif /* itkv3Rigid3DTransform_h */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestingExtractSliceImageFilter_h
-#define __itkTestingExtractSliceImageFilter_h
+#ifndef itkTestingExtractSliceImageFilter_h
+#define itkTestingExtractSliceImageFilter_h
 
 #include "itkSmartPointer.h"
 #include "itkImageSource.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianKernelFunction_h
-#define __itkGaussianKernelFunction_h
+#ifndef itkGaussianKernelFunction_h
+#define itkGaussianKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
 #include "vnl/vnl_math.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCollidingFrontsImageFilter_h
-#define __itkCollidingFrontsImageFilter_h
+#ifndef itkCollidingFrontsImageFilter_h
+#define itkCollidingFrontsImageFilter_h
 
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 #include "itkImageToImageFilter.h"

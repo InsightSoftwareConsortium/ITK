@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectReader_h
-#define __itkSpatialObjectReader_h
+#ifndef itkSpatialObjectReader_h
+#define itkSpatialObjectReader_h
 
 #include "itkMetaSceneConverter.h"
 #include "itkMetaConverterBase.h"
@@ -106,4 +106,4 @@ private:
 #include "itkSpatialObjectReader.hxx"
 #endif
 
-#endif // __itkSpatialObjectReader_h
+#endif // itkSpatialObjectReader_h

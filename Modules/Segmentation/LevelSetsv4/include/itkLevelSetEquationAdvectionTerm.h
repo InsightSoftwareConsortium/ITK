@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationAdvectionTerm_h
-#define __itkLevelSetEquationAdvectionTerm_h
+#ifndef itkLevelSetEquationAdvectionTerm_h
+#define itkLevelSetEquationAdvectionTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"

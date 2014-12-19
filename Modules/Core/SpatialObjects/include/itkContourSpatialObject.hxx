@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkContourSpatialObject_hxx
-#define __itkContourSpatialObject_hxx
+#ifndef itkContourSpatialObject_hxx
+#define itkContourSpatialObject_hxx
 
 
 #include "itkContourSpatialObject.h"

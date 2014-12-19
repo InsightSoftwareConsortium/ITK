@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMObjectSpatialObject_hxx
-#define __itkFEMObjectSpatialObject_hxx
+#ifndef itkFEMObjectSpatialObject_hxx
+#define itkFEMObjectSpatialObject_hxx
 
 
 #include "itkFEMObjectSpatialObject.h"

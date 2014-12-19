@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkThreadJob_h
-#define __itkThreadJob_h
+#ifndef itkThreadJob_h
+#define itkThreadJob_h
 
 #include "itkMacro.h"
 
@@ -79,4 +79,4 @@ public:
 
 } // end namespace itk
 
-#endif // __itkThreadJob_h
+#endif // itkThreadJob_h

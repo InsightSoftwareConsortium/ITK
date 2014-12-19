@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegularExpressionSeriesFileNames_h
-#define __itkRegularExpressionSeriesFileNames_h
+#ifndef itkRegularExpressionSeriesFileNames_h
+#define itkRegularExpressionSeriesFileNames_h
 #include "ITKIOImageBaseExport.h"
 
 
@@ -130,4 +130,4 @@ private:
 };
 } //namespace ITK
 
-#endif // __itkRegularExpressionSeriesFileNames_h
+#endif // itkRegularExpressionSeriesFileNames_h

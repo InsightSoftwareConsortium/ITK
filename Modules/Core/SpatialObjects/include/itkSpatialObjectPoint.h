@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectPoint_h
-#define __itkSpatialObjectPoint_h
+#ifndef itkSpatialObjectPoint_h
+#define itkSpatialObjectPoint_h
 
 #include "itkPoint.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -120,4 +120,4 @@ protected:
 #include "itkSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkSpatialObjectPoint_h
+#endif // itkSpatialObjectPoint_h

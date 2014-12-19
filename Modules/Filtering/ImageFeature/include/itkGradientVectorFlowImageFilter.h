@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientVectorFlowImageFilter_h
-#define __itkGradientVectorFlowImageFilter_h
+#ifndef itkGradientVectorFlowImageFilter_h
+#define itkGradientVectorFlowImageFilter_h
 
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_math.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTriangleMeshToBinaryImageFilter_h
-#define __itkTriangleMeshToBinaryImageFilter_h
+#ifndef itkTriangleMeshToBinaryImageFilter_h
+#define itkTriangleMeshToBinaryImageFilter_h
 
 #include "itkImageSource.h"
 

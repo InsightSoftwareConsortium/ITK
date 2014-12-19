@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimplexMesh_h
-#define __itkSimplexMesh_h
+#ifndef itkSimplexMesh_h
+#define itkSimplexMesh_h
 
 #include "itkMesh.h"
 #include "itkSimplexMeshGeometry.h"

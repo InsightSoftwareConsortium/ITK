@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageReverseIterator_hxx
-#define __itkImageReverseIterator_hxx
+#ifndef itkImageReverseIterator_hxx
+#define itkImageReverseIterator_hxx
 
 #include "itkImageReverseIterator.h"
 

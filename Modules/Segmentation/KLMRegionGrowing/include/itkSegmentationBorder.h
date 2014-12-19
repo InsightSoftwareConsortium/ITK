@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSegmentationBorder_h
-#define __itkSegmentationBorder_h
+#ifndef itkSegmentationBorder_h
+#define itkSegmentationBorder_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

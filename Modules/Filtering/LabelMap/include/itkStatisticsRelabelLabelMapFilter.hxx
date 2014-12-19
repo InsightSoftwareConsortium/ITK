@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsRelabelLabelMapFilter_hxx
-#define __itkStatisticsRelabelLabelMapFilter_hxx
+#ifndef itkStatisticsRelabelLabelMapFilter_hxx
+#define itkStatisticsRelabelLabelMapFilter_hxx
 
 #include "itkStatisticsRelabelLabelMapFilter.h"
 #include "itkProgressReporter.h"

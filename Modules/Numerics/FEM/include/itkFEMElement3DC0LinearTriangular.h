@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef __itkFEMElement3DC0LinearTriangular_h
-#define __itkFEMElement3DC0LinearTriangular_h
+#ifndef itkFEMElement3DC0LinearTriangular_h
+#define itkFEMElement3DC0LinearTriangular_h
 
 #include "itkFEMElementStd.h"
 
@@ -130,4 +130,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement3DC0LinearTriangular_h
+#endif  // #ifndef itkFEMElement3DC0LinearTriangular_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkContourSpatialObjectPoint_h
-#define __itkContourSpatialObjectPoint_h
+#ifndef itkContourSpatialObjectPoint_h
+#define itkContourSpatialObjectPoint_h
 
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
@@ -90,4 +90,4 @@ protected:
 #include "itkContourSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkContourSpatialObjectPoint_h
+#endif // itkContourSpatialObjectPoint_h

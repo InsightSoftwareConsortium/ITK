@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkZeroFluxNeumannPadImageFilter_hxx
-#define __itkZeroFluxNeumannPadImageFilter_hxx
+#ifndef itkZeroFluxNeumannPadImageFilter_hxx
+#define itkZeroFluxNeumannPadImageFilter_hxx
 
 #include "itkZeroFluxNeumannPadImageFilter.h"
 #include "itkObjectFactory.h"

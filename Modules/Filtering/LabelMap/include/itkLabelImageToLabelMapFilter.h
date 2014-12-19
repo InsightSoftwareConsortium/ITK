@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelImageToLabelMapFilter_h
-#define __itkLabelImageToLabelMapFilter_h
+#ifndef itkLabelImageToLabelMapFilter_h
+#define itkLabelImageToLabelMapFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkLabelMap.h"

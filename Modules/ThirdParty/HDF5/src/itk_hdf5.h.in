@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_hdf5_h
-#define __itk_hdf5_h
+#ifndef itk_hdf5_h
+#define itk_hdf5_h
 
 /* Use the hdf5 library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_HDF5

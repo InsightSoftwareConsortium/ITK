@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMembershipSample_h
-#define __itkMembershipSample_h
+#ifndef itkMembershipSample_h
+#define itkMembershipSample_h
 
 #include "itksys/hash_map.hxx"
 #include "itkSubsample.h"

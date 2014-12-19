@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKernelFunctionBase_h
-#define __itkKernelFunctionBase_h
+#ifndef itkKernelFunctionBase_h
+#define itkKernelFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkConceptChecking.h"
@@ -72,4 +72,4 @@ protected:
 };
 } // end namespace itk
 
-#endif // __itkKernelFunctionBase_h
+#endif // itkKernelFunctionBase_h

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMRegistrationFilter_h
-#define __itkFEMRegistrationFilter_h
+#ifndef itkFEMRegistrationFilter_h
+#define itkFEMRegistrationFilter_h
 
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"

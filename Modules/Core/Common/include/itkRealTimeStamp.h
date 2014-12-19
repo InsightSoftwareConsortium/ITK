@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRealTimeStamp_h
-#define __itkRealTimeStamp_h
+#ifndef itkRealTimeStamp_h
+#define itkRealTimeStamp_h
 
 #include "itkRealTimeInterval.h"
 #include "itkMacro.h"
@@ -104,4 +104,4 @@ private:
 
 } // end of namespace itk
 
-#endif  // __itkRealTimeStamp_h
+#endif  // itkRealTimeStamp_h

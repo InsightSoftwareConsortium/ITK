@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCentralDifferenceImageFunction_hxx
-#define __itkCentralDifferenceImageFunction_hxx
+#ifndef itkCentralDifferenceImageFunction_hxx
+#define itkCentralDifferenceImageFunction_hxx
 
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"

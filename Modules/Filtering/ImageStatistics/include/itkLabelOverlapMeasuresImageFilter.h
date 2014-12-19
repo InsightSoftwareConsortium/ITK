@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelOverlapMeasuresImageFilter_h
-#define __itkLabelOverlapMeasuresImageFilter_h
+#ifndef itkLabelOverlapMeasuresImageFilter_h
+#define itkLabelOverlapMeasuresImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateWhitakerSparseLevelSet_h
-#define __itkUpdateWhitakerSparseLevelSet_h
+#ifndef itkUpdateWhitakerSparseLevelSet_h
+#define itkUpdateWhitakerSparseLevelSet_h
 
 #include "itkImage.h"
 #include "itkDiscreteLevelSetImage.h"
@@ -190,4 +190,4 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkUpdateWhitakerSparseLevelSet.hxx"
 #endif
-#endif // __itkUpdateWhitakerSparseLevelSet_h
+#endif // itkUpdateWhitakerSparseLevelSet_h

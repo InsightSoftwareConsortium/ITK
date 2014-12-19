@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMesh_h
-#define __itkQuadEdgeMesh_h
+#ifndef itkQuadEdgeMesh_h
+#define itkQuadEdgeMesh_h
 
 #include "vcl_cstdarg.h"
 #include <queue>

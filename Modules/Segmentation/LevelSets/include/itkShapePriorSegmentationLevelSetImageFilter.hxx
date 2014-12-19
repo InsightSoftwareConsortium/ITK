@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapePriorSegmentationLevelSetImageFilter_hxx
-#define __itkShapePriorSegmentationLevelSetImageFilter_hxx
+#ifndef itkShapePriorSegmentationLevelSetImageFilter_hxx
+#define itkShapePriorSegmentationLevelSetImageFilter_hxx
 
 #include "itkShapePriorSegmentationLevelSetImageFilter.h"
 

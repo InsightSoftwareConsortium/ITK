@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpecialCoordinatesImage_h
-#define __itkSpecialCoordinatesImage_h
+#ifndef itkSpecialCoordinatesImage_h
+#define itkSpecialCoordinatesImage_h
 
 #include "itkImageBase.h"
 #include "itkImportImageContainer.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMTestObject_h
-#define __itkDOMTestObject_h
+#ifndef itkDOMTestObject_h
+#define itkDOMTestObject_h
 
 #include "itkObject.h"
 #include <string>
@@ -60,4 +60,4 @@ private:
 
 } // namespace itk
 
-#endif // __itkDOMTestObject_h
+#endif // itkDOMTestObject_h

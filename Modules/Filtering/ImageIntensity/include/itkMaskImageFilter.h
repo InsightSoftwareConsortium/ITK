@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaskImageFilter_h
-#define __itkMaskImageFilter_h
+#ifndef itkMaskImageFilter_h
+#define itkMaskImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"

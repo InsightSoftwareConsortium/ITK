@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMSolution_h
-#define __itkFEMSolution_h
+#ifndef itkFEMSolution_h
+#define itkFEMSolution_h
 
 namespace itk
 {
@@ -75,4 +75,4 @@ public:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMSolution_h
+#endif // #ifndef itkFEMSolution_h

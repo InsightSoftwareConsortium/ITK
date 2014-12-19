@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianImageFilter_h
-#define __itkLaplacianImageFilter_h
+#ifndef itkLaplacianImageFilter_h
+#define itkLaplacianImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

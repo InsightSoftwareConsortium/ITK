@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPasteImageFilter_hxx
-#define __itkPasteImageFilter_hxx
+#ifndef itkPasteImageFilter_hxx
+#define itkPasteImageFilter_hxx
 
 #include "itkPasteImageFilter.h"
 #include "itkObjectFactory.h"

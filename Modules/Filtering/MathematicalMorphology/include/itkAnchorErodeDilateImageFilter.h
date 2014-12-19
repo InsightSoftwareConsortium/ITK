@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorErodeDilateImageFilter_h
-#define __itkAnchorErodeDilateImageFilter_h
+#ifndef itkAnchorErodeDilateImageFilter_h
+#define itkAnchorErodeDilateImageFilter_h
 
 #include "itkKernelImageFilter.h"
 #include "itkProgressReporter.h"

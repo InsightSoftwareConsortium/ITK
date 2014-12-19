@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkErrorFunctionBase_h
-#define __itkErrorFunctionBase_h
+#ifndef itkErrorFunctionBase_h
+#define itkErrorFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkArray.h"

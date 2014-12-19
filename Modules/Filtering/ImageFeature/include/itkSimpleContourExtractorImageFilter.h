@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimpleContourExtractorImageFilter_h
-#define __itkSimpleContourExtractorImageFilter_h
+#ifndef itkSimpleContourExtractorImageFilter_h
+#define itkSimpleContourExtractorImageFilter_h
 
 #include "itkBoxImageFilter.h"
 #include "itkImage.h"

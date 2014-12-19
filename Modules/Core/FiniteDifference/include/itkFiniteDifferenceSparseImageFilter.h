@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFiniteDifferenceSparseImageFilter_h
-#define __itkFiniteDifferenceSparseImageFilter_h
+#ifndef itkFiniteDifferenceSparseImageFilter_h
+#define itkFiniteDifferenceSparseImageFilter_h
 
 #include "itkFiniteDifferenceSparseImageFunction.h"
 #include "itkFiniteDifferenceImageFilter.h"

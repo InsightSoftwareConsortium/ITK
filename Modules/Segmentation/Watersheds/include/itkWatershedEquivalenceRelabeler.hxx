@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedEquivalenceRelabeler_hxx
-#define __itkWatershedEquivalenceRelabeler_hxx
+#ifndef itkWatershedEquivalenceRelabeler_hxx
+#define itkWatershedEquivalenceRelabeler_hxx
 #include "itkWatershedEquivalenceRelabeler.h"
 #include "itkImageRegionIterator.h"
 namespace itk

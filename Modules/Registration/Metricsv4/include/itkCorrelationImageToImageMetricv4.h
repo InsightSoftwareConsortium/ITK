@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCorrelationImageToImageMetricv4_h
-#define __itkCorrelationImageToImageMetricv4_h
+#ifndef itkCorrelationImageToImageMetricv4_h
+#define itkCorrelationImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
 

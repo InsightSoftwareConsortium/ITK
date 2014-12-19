@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageToRunLengthFeaturesFilter_hxx
-#define __itkScalarImageToRunLengthFeaturesFilter_hxx
+#ifndef itkScalarImageToRunLengthFeaturesFilter_hxx
+#define itkScalarImageToRunLengthFeaturesFilter_hxx
 
 #include "itkScalarImageToRunLengthFeaturesFilter.h"
 #include "itkNeighborhood.h"

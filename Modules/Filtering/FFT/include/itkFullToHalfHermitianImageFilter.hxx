@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFullToHalfHermitianImageFilter_hxx
-#define __itkFullToHalfHermitianImageFilter_hxx
+#ifndef itkFullToHalfHermitianImageFilter_hxx
+#define itkFullToHalfHermitianImageFilter_hxx
 
 #include "itkFullToHalfHermitianImageFilter.h"
 
@@ -107,4 +107,4 @@ FullToHalfHermitianImageFilter< TInputImage >
 
 } // end namespace itk
 
-#endif // __itkFullToHalfHermitianImageFilter_hxx
+#endif // itkFullToHalfHermitianImageFilter_hxx

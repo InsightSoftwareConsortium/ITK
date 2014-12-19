@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBoxUtilities_h
-#define __itkBoxUtilities_h
+#ifndef itkBoxUtilities_h
+#define itkBoxUtilities_h
 #include "itkProgressReporter.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"

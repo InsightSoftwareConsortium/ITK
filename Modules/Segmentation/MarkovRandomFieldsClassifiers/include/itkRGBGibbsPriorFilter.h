@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRGBGibbsPriorFilter_h
-#define __itkRGBGibbsPriorFilter_h
+#ifndef itkRGBGibbsPriorFilter_h
+#define itkRGBGibbsPriorFilter_h
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"

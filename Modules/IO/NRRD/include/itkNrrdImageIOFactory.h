@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNrrdImageIOFactory_h
-#define __itkNrrdImageIOFactory_h
+#ifndef itkNrrdImageIOFactory_h
+#define itkNrrdImageIOFactory_h
 #include "ITKIONRRDExport.h"
 
 #include "itkObjectFactoryBase.h"

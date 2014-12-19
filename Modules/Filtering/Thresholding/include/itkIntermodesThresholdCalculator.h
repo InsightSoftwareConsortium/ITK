@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkIntermodesThresholdCalculator_h
-#define __itkIntermodesThresholdCalculator_h
+#ifndef itkIntermodesThresholdCalculator_h
+#define itkIntermodesThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 

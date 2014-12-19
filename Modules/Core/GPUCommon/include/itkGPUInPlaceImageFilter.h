@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkGPUInPlaceImageFilter_h
-#define __itkGPUInPlaceImageFilter_h
+#ifndef itkGPUInPlaceImageFilter_h
+#define itkGPUInPlaceImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkGPUImageToImageFilter.h"

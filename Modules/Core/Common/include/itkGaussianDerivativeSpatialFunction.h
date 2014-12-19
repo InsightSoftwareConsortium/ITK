@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianDerivativeSpatialFunction_h
-#define __itkGaussianDerivativeSpatialFunction_h
+#ifndef itkGaussianDerivativeSpatialFunction_h
+#define itkGaussianDerivativeSpatialFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkFixedArray.h"

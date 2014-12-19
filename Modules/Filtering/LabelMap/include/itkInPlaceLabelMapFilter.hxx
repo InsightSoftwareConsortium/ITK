@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkInPlaceLabelMapFilter_hxx
-#define __itkInPlaceLabelMapFilter_hxx
+#ifndef itkInPlaceLabelMapFilter_hxx
+#define itkInPlaceLabelMapFilter_hxx
 
 #include "itkInPlaceLabelMapFilter.h"
 

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDeconvolutionIterationCommand_h
-#define __itkDeconvolutionIterationCommand_h
+#ifndef itkDeconvolutionIterationCommand_h
+#define itkDeconvolutionIterationCommand_h
 
 #include "itkCommand.h"
 

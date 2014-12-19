@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvesLevelSetFunction_h
-#define __itkCurvesLevelSetFunction_h
+#ifndef itkCurvesLevelSetFunction_h
+#define itkCurvesLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 

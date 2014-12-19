@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianDistribution_h
-#define __itkGaussianDistribution_h
+#ifndef itkGaussianDistribution_h
+#define itkGaussianDistribution_h
 
 #include "itkProbabilityDistribution.h"
 

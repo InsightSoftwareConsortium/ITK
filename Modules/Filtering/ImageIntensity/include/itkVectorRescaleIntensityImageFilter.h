@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorRescaleIntensityImageFilter_h
-#define __itkVectorRescaleIntensityImageFilter_h
+#ifndef itkVectorRescaleIntensityImageFilter_h
+#define itkVectorRescaleIntensityImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

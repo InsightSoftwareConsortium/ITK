@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCorrelationCoefficientHistogramImageToImageMetric_h
-#define __itkCorrelationCoefficientHistogramImageToImageMetric_h
+#ifndef itkCorrelationCoefficientHistogramImageToImageMetric_h
+#define itkCorrelationCoefficientHistogramImageToImageMetric_h
 
 #include "itkHistogramImageToImageMetric.h"
 
@@ -112,4 +112,4 @@ private:
 #include "itkCorrelationCoefficientHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkCorrelationCoefficientHistogramImageToImageMetric_h
+#endif // itkCorrelationCoefficientHistogramImageToImageMetric_h

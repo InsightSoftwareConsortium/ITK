@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLogicTestSupport_h
-#define __itkLogicTestSupport_h
+#ifndef itkLogicTestSupport_h
+#define itkLogicTestSupport_h
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include <functional>

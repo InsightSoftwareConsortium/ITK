@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeLabelObject_h
-#define __itkShapeLabelObject_h
+#ifndef itkShapeLabelObject_h
+#define itkShapeLabelObject_h
 
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingVelocityFieldTransform_hxx
-#define __itkTimeVaryingVelocityFieldTransform_hxx
+#ifndef itkTimeVaryingVelocityFieldTransform_hxx
+#define itkTimeVaryingVelocityFieldTransform_hxx
 
 #include "itkTimeVaryingVelocityFieldTransform.h"
 

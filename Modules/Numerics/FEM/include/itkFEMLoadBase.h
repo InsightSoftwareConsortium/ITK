@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMLoadBase_h
-#define __itkFEMLoadBase_h
+#ifndef itkFEMLoadBase_h
+#define itkFEMLoadBase_h
 
 #include "itkFEMElementBase.h"
 #include "itkFEMSolution.h"
@@ -99,4 +99,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadBase_h
+#endif // #ifndef itkFEMLoadBase_h

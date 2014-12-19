@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldToBSplineImageFilter_h
-#define __itkDisplacementFieldToBSplineImageFilter_h
+#ifndef itkDisplacementFieldToBSplineImageFilter_h
+#define itkDisplacementFieldToBSplineImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionOfInterestImageFilter_h
-#define __itkRegionOfInterestImageFilter_h
+#ifndef itkRegionOfInterestImageFilter_h
+#define itkRegionOfInterestImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkSmartPointer.h"

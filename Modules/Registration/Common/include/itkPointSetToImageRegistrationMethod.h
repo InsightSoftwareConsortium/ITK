@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToImageRegistrationMethod_h
-#define __itkPointSetToImageRegistrationMethod_h
+#ifndef itkPointSetToImageRegistrationMethod_h
+#define itkPointSetToImageRegistrationMethod_h
 
 #include "itkProcessObject.h"
 #include "itkImage.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathSource_h
-#define __itkPathSource_h
+#ifndef itkPathSource_h
+#define itkPathSource_h
 
 #include "itkProcessObject.h"
 #include "itkPath.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRobustAutomaticThresholdCalculator_h
-#define __itkRobustAutomaticThresholdCalculator_h
+#ifndef itkRobustAutomaticThresholdCalculator_h
+#define itkRobustAutomaticThresholdCalculator_h
 
 #include "itkMacro.h"
 #include "itkImage.h"
@@ -125,4 +125,4 @@ private:
 #include "itkRobustAutomaticThresholdCalculator.hxx"
 #endif
 
-#endif /* __itkRobustAutomaticThresholdCalculator_h */
+#endif /* itkRobustAutomaticThresholdCalculator_h */

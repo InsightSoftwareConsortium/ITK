@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnnulusOperator_h
-#define __itkAnnulusOperator_h
+#ifndef itkAnnulusOperator_h
+#define itkAnnulusOperator_h
 
 #include "itkNeighborhoodOperator.h"
 #include "itkVector.h"

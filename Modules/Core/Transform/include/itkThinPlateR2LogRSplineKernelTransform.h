@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThinPlateR2LogRSplineKernelTransform_h
-#define __itkThinPlateR2LogRSplineKernelTransform_h
+#ifndef itkThinPlateR2LogRSplineKernelTransform_h
+#define itkThinPlateR2LogRSplineKernelTransform_h
 
 #include "itkKernelTransform.h"
 
@@ -103,4 +103,4 @@ private:
 #include "itkThinPlateR2LogRSplineKernelTransform.hxx"
 #endif
 
-#endif // __itkThinPlateR2LogRSplineKernelTransform_h
+#endif // itkThinPlateR2LogRSplineKernelTransform_h

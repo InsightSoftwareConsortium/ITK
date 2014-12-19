@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkHuangThresholdCalculator_hxx
-#define __itkHuangThresholdCalculator_hxx
+#ifndef itkHuangThresholdCalculator_hxx
+#define itkHuangThresholdCalculator_hxx
 
 #include "itkHuangThresholdCalculator.h"
 #include "itkMath.h"

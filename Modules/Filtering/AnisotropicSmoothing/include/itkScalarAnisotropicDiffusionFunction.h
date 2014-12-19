@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarAnisotropicDiffusionFunction_h
-#define __itkScalarAnisotropicDiffusionFunction_h
+#ifndef itkScalarAnisotropicDiffusionFunction_h
+#define itkScalarAnisotropicDiffusionFunction_h
 
 #include "itkAnisotropicDiffusionFunction.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformMeshFilter_h
-#define __itkTransformMeshFilter_h
+#ifndef itkTransformMeshFilter_h
+#define itkTransformMeshFilter_h
 
 #include "itkMeshToMeshFilter.h"
 #include "itkTransform.h"

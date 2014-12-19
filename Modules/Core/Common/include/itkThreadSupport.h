@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThreadSupport_h
-#define __itkThreadSupport_h
+#ifndef itkThreadSupport_h
+#define itkThreadSupport_h
 
 
 // This implementation uses a routine called SignalObjectAndWait()

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkLSMImageIO_h
-#define __itkLSMImageIO_h
+#ifndef itkLSMImageIO_h
+#define itkLSMImageIO_h
 #include "ITKIOLSMExport.h"
 
 #include "itkTIFFImageIO.h"
@@ -97,4 +97,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkLSMImageIO_h
+#endif // itkLSMImageIO_h

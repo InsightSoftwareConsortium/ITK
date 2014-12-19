@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObject_h
-#define __itkSpatialObject_h
+#ifndef itkSpatialObject_h
+#define itkSpatialObject_h
 
 // Disable warning for lengthy symbol names in this file only
 
@@ -618,4 +618,4 @@ private:
 #endif
 #endif
 
-#endif // __itkSpatialObject_h
+#endif // itkSpatialObject_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSeriesReader_h
-#define __itkImageSeriesReader_h
+#ifndef itkImageSeriesReader_h
+#define itkImageSeriesReader_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkSize.h"
@@ -210,4 +210,4 @@ private:
 #include "itkImageSeriesReader.hxx"
 #endif
 
-#endif // __itkImageSeriesReader_h
+#endif // itkImageSeriesReader_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstrainedValueAdditionImageFilter_h
-#define __itkConstrainedValueAdditionImageFilter_h
+#ifndef itkConstrainedValueAdditionImageFilter_h
+#define itkConstrainedValueAdditionImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"

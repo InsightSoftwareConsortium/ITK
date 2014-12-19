@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSaltAndPepperNoiseImageFilter_hxx
-#define  __itkSaltAndPepperNoiseImageFilter_hxx
+#ifndef itkSaltAndPepperNoiseImageFilter_hxx
+#define  itkSaltAndPepperNoiseImageFilter_hxx
 
 #include "itkSaltAndPepperNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -108,4 +108,4 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
 
 } /* namespace itk */
 
-#endif //  __itkSaltAndPepperNoiseImageFilter_hxx
+#endif //  itkSaltAndPepperNoiseImageFilter_hxx

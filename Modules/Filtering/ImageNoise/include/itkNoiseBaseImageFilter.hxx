@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNoiseBaseImageFilter_hxx
-#define __itkNoiseBaseImageFilter_hxx
+#ifndef itkNoiseBaseImageFilter_hxx
+#define itkNoiseBaseImageFilter_hxx
 
 #include "itkNoiseBaseImageFilter.h"
 #include <ctime>
@@ -86,4 +86,4 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>
 
 }
 
-#endif // __itkNoiseBaseImageFilter_hxx
+#endif // itkNoiseBaseImageFilter_hxx

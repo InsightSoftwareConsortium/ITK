@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkSpatialOrientation_h
-#define __itkSpatialOrientation_h
+#ifndef itkSpatialOrientation_h
+#define itkSpatialOrientation_h
 
 namespace itk
 {

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVector_h
-#define __itkVector_h
+#ifndef itkVector_h
+#define itkVector_h
 
 #include "itkFixedArray.h"
 

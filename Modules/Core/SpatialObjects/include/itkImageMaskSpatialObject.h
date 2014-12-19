@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageMaskSpatialObject_h
-#define __itkImageMaskSpatialObject_h
+#ifndef itkImageMaskSpatialObject_h
+#define itkImageMaskSpatialObject_h
 
 #include "itkImageSpatialObject.h"
 #include "itkImageSliceConstIteratorWithIndex.h"
@@ -104,4 +104,4 @@ protected:
 #include "itkImageMaskSpatialObject.hxx"
 #endif
 
-#endif //__itkImageMaskSpatialObject_h
+#endif //itkImageMaskSpatialObject_h

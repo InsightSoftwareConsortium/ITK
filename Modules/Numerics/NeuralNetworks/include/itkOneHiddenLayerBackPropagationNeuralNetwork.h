@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOneHiddenLayerBackPropagationNeuralNetwork_h
-#define __itkOneHiddenLayerBackPropagationNeuralNetwork_h
+#ifndef itkOneHiddenLayerBackPropagationNeuralNetwork_h
+#define itkOneHiddenLayerBackPropagationNeuralNetwork_h
 
 #include "itkMultilayerNeuralNetworkBase.h"
 #include "itkBackPropagationLayer.h"

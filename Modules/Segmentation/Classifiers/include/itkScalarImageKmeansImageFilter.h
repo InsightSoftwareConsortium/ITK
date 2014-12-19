@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageKmeansImageFilter_h
-#define __itkScalarImageKmeansImageFilter_h
+#ifndef itkScalarImageKmeansImageFilter_h
+#define itkScalarImageKmeansImageFilter_h
 
 
 #include "itkKdTree.h"

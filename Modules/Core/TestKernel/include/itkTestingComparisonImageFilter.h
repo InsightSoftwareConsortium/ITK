@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestingComparisonImageFilter_h
-#define __itkTestingComparisonImageFilter_h
+#ifndef itkTestingComparisonImageFilter_h
+#define itkTestingComparisonImageFilter_h
 
 #include "itkArray.h"
 #include "itkNumericTraits.h"

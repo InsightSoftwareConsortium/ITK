@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInvertIntensityImageFilter_h
-#define __itkInvertIntensityImageFilter_h
+#ifndef itkInvertIntensityImageFilter_h
+#define itkInvertIntensityImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

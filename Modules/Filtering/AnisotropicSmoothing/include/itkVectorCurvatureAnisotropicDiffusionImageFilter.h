@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorCurvatureAnisotropicDiffusionImageFilter_h
-#define __itkVectorCurvatureAnisotropicDiffusionImageFilter_h
+#ifndef itkVectorCurvatureAnisotropicDiffusionImageFilter_h
+#define itkVectorCurvatureAnisotropicDiffusionImageFilter_h
 
 #include "itkMacro.h"
 #include "itkAnisotropicDiffusionImageFilter.h"

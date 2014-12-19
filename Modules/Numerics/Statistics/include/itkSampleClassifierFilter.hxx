@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSampleClassifierFilter_hxx
-#define __itkSampleClassifierFilter_hxx
+#ifndef itkSampleClassifierFilter_hxx
+#define itkSampleClassifierFilter_hxx
 
 #include "itkSampleClassifierFilter.h"
 

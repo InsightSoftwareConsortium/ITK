@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUPDEDeformableRegistrationFilter_h
-#define __itkGPUPDEDeformableRegistrationFilter_h
+#ifndef itkGPUPDEDeformableRegistrationFilter_h
+#define itkGPUPDEDeformableRegistrationFilter_h
 
 #include "itkGPUDenseFiniteDifferenceImageFilter.h"
 #include "itkGPUPDEDeformableRegistrationFunction.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkBinaryImageToLevelSetImageAdaptor_h
-#define __itkBinaryImageToLevelSetImageAdaptor_h
+#ifndef itkBinaryImageToLevelSetImageAdaptor_h
+#define itkBinaryImageToLevelSetImageAdaptor_h
 
 #include "itkBinaryImageToLevelSetImageAdaptorBase.h"
 
@@ -437,4 +437,4 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBinaryImageToLevelSetImageAdaptor.hxx"
 #endif
-#endif // __itkBinaryImageToLevelSetImageAdaptorBase_h
+#endif // itkBinaryImageToLevelSetImageAdaptorBase_h

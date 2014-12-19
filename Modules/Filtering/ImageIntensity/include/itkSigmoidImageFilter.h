@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSigmoidImageFilter_h
-#define __itkSigmoidImageFilter_h
+#ifndef itkSigmoidImageFilter_h
+#define itkSigmoidImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

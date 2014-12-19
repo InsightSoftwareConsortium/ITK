@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlInverseFFTImageFilter_h
-#define __itkVnlInverseFFTImageFilter_h
+#ifndef itkVnlInverseFFTImageFilter_h
+#define itkVnlInverseFFTImageFilter_h
 
 #include "itkInverseFFTImageFilter.h"
 

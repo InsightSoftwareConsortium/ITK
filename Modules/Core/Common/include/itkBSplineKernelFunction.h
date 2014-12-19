@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineKernelFunction_h
-#define __itkBSplineKernelFunction_h
+#ifndef itkBSplineKernelFunction_h
+#define itkBSplineKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
 

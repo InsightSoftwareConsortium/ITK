@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaContourConverter_hxx
-#define __itkMetaContourConverter_hxx
+#ifndef itkMetaContourConverter_hxx
+#define itkMetaContourConverter_hxx
 
 #include "itkMetaContourConverter.h"
 

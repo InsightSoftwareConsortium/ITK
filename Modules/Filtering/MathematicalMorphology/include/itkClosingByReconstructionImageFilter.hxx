@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkClosingByReconstructionImageFilter_hxx
-#define __itkClosingByReconstructionImageFilter_hxx
+#ifndef itkClosingByReconstructionImageFilter_hxx
+#define itkClosingByReconstructionImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkClosingByReconstructionImageFilter.h"

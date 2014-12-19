@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDemonsRegistrationFunction_hxx
-#define __itkGPUDemonsRegistrationFunction_hxx
+#ifndef itkGPUDemonsRegistrationFunction_hxx
+#define itkGPUDemonsRegistrationFunction_hxx
 
 #include "itkGPUDemonsRegistrationFunction.h"
 #include "itkMacro.h"

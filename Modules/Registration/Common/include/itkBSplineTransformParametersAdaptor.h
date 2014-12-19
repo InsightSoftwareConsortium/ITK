@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineTransformParametersAdaptor_h
-#define __itkBSplineTransformParametersAdaptor_h
+#ifndef itkBSplineTransformParametersAdaptor_h
+#define itkBSplineTransformParametersAdaptor_h
 
 #include "itkTransformParametersAdaptor.h"
 
@@ -155,4 +155,4 @@ private:
 #include "itkBSplineTransformParametersAdaptor.hxx"
 #endif
 
-#endif /* __itkBSplineTransformParametersAdaptor_h */
+#endif /* itkBSplineTransformParametersAdaptor_h */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUImageToImageFilter_h
-#define __itkGPUImageToImageFilter_h
+#ifndef itkGPUImageToImageFilter_h
+#define itkGPUImageToImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkGPUKernelManager.h"

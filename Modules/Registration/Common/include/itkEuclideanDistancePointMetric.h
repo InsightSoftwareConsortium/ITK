@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEuclideanDistancePointMetric_h
-#define __itkEuclideanDistancePointMetric_h
+#ifndef itkEuclideanDistancePointMetric_h
+#define itkEuclideanDistancePointMetric_h
 
 #include "itkPointSetToPointSetMetric.h"
 #include "itkCovariantVector.h"

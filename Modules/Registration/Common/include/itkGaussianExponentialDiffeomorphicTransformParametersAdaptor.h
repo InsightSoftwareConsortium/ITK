@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
-#define __itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
+#ifndef itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
+#define itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
 
 #include "itkConstantVelocityFieldTransformParametersAdaptor.h"
 
@@ -87,4 +87,4 @@ private:
 #include "itkGaussianExponentialDiffeomorphicTransformParametersAdaptor.hxx"
 #endif
 
-#endif /* __itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h */
+#endif /* itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h */

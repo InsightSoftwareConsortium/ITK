@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRigid2DTransform_hxx
-#define __itkRigid2DTransform_hxx
+#ifndef itkRigid2DTransform_hxx
+#define itkRigid2DTransform_hxx
 
 #include "itkRigid2DTransform.h"
 #include "vnl/algo/vnl_svd.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryThinningImageFilter_h
-#define __itkBinaryThinningImageFilter_h
+#ifndef itkBinaryThinningImageFilter_h
+#define itkBinaryThinningImageFilter_h
 
 #include "itkNeighborhoodIterator.h"
 #include "itkImageToImageFilter.h"

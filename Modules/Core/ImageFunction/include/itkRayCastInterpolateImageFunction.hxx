@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRayCastInterpolateImageFunction_hxx
-#define __itkRayCastInterpolateImageFunction_hxx
+#ifndef itkRayCastInterpolateImageFunction_hxx
+#define itkRayCastInterpolateImageFunction_hxx
 
 #include "itkCompensatedSummation.h"
 #include "itkRayCastInterpolateImageFunction.h"

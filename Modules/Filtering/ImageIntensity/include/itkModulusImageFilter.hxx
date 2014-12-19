@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkModulusImageFilter_hxx
-#define __itkModulusImageFilter_hxx
+#ifndef itkModulusImageFilter_hxx
+#define itkModulusImageFilter_hxx
 
 #include "itkModulusImageFilter.h"
 

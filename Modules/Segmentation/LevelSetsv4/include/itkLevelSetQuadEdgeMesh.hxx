@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetQuadEdgeMesh_hxx
-#define __itkLevelSetQuadEdgeMesh_hxx
+#ifndef itkLevelSetQuadEdgeMesh_hxx
+#define itkLevelSetQuadEdgeMesh_hxx
 
 #include "itkLevelSetQuadEdgeMesh.h"
 
@@ -144,4 +144,4 @@ LevelSetQuadEdgeMesh< TMesh >::Graft( const DataObject* data )
 
 }
 
-#endif // __itkLevelSetQuadEdgeMesh_hxx
+#endif // itkLevelSetQuadEdgeMesh_hxx

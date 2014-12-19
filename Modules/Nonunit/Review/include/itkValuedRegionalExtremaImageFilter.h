@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkValuedRegionalExtremaImageFilter_h
-#define __itkValuedRegionalExtremaImageFilter_h
+#ifndef itkValuedRegionalExtremaImageFilter_h
+#define itkValuedRegionalExtremaImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkShapedNeighborhoodIterator.h"

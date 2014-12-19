@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageTransformHelper_h
-#define __itkImageTransformHelper_h
+#ifndef itkImageTransformHelper_h
+#define itkImageTransformHelper_h
 
 #include "itkConceptChecking.h"
 #include "itkImageBase.h"

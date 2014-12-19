@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingImageFilterBase_hxx
-#define __itkFastMarchingImageFilterBase_hxx
+#ifndef itkFastMarchingImageFilterBase_hxx
+#define itkFastMarchingImageFilterBase_hxx
 
 #include "itkFastMarchingImageFilterBase.h"
 
@@ -1149,4 +1149,4 @@ InitializeIndices3D()
 }
 // -----------------------------------------------------------------------------
 }
-#endif // __itkFastMarchingImageFilterBase_hxx
+#endif // itkFastMarchingImageFilterBase_hxx

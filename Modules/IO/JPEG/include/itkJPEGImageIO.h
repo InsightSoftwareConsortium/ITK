@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJPEGImageIO_h
-#define __itkJPEGImageIO_h
+#ifndef itkJPEGImageIO_h
+#define itkJPEGImageIO_h
 #include "ITKIOJPEGExport.h"
 
 
@@ -102,4 +102,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkJPEGImageIO_h
+#endif // itkJPEGImageIO_h

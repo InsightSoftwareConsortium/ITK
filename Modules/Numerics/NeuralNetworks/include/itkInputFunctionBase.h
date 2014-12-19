@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInputFunctionBase_h
-#define __itkInputFunctionBase_h
+#ifndef itkInputFunctionBase_h
+#define itkInputFunctionBase_h
 
 #include "itkFunctionBase.h"
 

@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef __itkPhilipsPAR_h
-#define __itkPhilipsPAR_h
+#ifndef itkPhilipsPAR_h
+#define itkPhilipsPAR_h
 #include "ITKIOPhilipsRECExport.h"
 
 #include <cstdio>
@@ -315,4 +315,4 @@ private:
 };
 } // end namespace itk
 
-#endif                           /* __itkPhilipsPAR_h */
+#endif                           /* itkPhilipsPAR_h */

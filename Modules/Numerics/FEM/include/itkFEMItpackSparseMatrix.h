@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMItpackSparseMatrix_h
-#define __itkFEMItpackSparseMatrix_h
+#ifndef itkFEMItpackSparseMatrix_h
+#define itkFEMItpackSparseMatrix_h
 
 #include "itkFEMException.h"
 

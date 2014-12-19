@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImage_h
-#define __itkImage_h
+#ifndef itkImage_h
+#define itkImage_h
 
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"

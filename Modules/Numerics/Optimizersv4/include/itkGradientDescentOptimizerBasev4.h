@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentOptimizerBasev4_h
-#define __itkGradientDescentOptimizerBasev4_h
+#ifndef itkGradientDescentOptimizerBasev4_h
+#define itkGradientDescentOptimizerBasev4_h
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkWindowConvergenceMonitoringFunction.h"

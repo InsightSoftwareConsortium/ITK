@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryReconstructionByDilationImageFilter_h
-#define __itkBinaryReconstructionByDilationImageFilter_h
+#ifndef itkBinaryReconstructionByDilationImageFilter_h
+#define itkBinaryReconstructionByDilationImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkAttributeLabelObject.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiffeomorphicDemonsRegistrationFilter_h
-#define __itkDiffeomorphicDemonsRegistrationFilter_h
+#ifndef itkDiffeomorphicDemonsRegistrationFilter_h
+#define itkDiffeomorphicDemonsRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkESMDemonsRegistrationFunction.h"

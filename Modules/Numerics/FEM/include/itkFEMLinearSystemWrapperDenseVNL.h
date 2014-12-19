@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLinearSystemWrapperDenseVNL_h
-#define __itkFEMLinearSystemWrapperDenseVNL_h
+#ifndef itkFEMLinearSystemWrapperDenseVNL_h
+#define itkFEMLinearSystemWrapperDenseVNL_h
 #include "itkFEMLinearSystemWrapper.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"

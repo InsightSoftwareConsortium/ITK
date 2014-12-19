@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConvolutionImageFilter_h
-#define __itkConvolutionImageFilter_h
+#ifndef itkConvolutionImageFilter_h
+#define itkConvolutionImageFilter_h
 
 #include "itkConvolutionImageFilterBase.h"
 

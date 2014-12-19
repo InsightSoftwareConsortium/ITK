@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIndex_h
-#define __itkIndex_h
+#ifndef itkIndex_h
+#define itkIndex_h
 
 #include "itkOffset.h"
 #include "itkFixedArray.h"

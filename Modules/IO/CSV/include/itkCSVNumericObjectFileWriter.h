@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkCSVNumericObjectFileWriter_h
-#define __itkCSVNumericObjectFileWriter_h
+#ifndef itkCSVNumericObjectFileWriter_h
+#define itkCSVNumericObjectFileWriter_h
 
 #include "itkLightProcessObject.h"
 #include "itkMacro.h"

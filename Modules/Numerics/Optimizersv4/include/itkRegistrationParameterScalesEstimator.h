@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegistrationParameterScalesEstimator_h
-#define __itkRegistrationParameterScalesEstimator_h
+#ifndef itkRegistrationParameterScalesEstimator_h
+#define itkRegistrationParameterScalesEstimator_h
 
 #include "itkTransform.h"
 #include "itkMatrixOffsetTransformBase.h"
@@ -283,4 +283,4 @@ private:
 #include "itkRegistrationParameterScalesEstimator.hxx"
 #endif
 
-#endif /* __itkRegistrationParameterScalesEstimator_h */
+#endif /* itkRegistrationParameterScalesEstimator_h */

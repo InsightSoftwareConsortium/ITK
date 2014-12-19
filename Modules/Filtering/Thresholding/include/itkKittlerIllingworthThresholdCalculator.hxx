@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKittlerIllingworthThresholdCalculator_hxx
-#define __itkKittlerIllingworthThresholdCalculator_hxx
+#ifndef itkKittlerIllingworthThresholdCalculator_hxx
+#define itkKittlerIllingworthThresholdCalculator_hxx
 
 #include "itkKittlerIllingworthThresholdCalculator.h"
 #include "itkProgressReporter.h"

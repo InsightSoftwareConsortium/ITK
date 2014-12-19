@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshLineCell_h
-#define __itkQuadEdgeMeshLineCell_h
+#ifndef itkQuadEdgeMeshLineCell_h
+#define itkQuadEdgeMeshLineCell_h
 
 #include "itkAutoPointer.h"
 #include "itkGeometricalQuadEdge.h"

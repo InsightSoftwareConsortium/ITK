@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKernelTransform_h
-#define __itkKernelTransform_h
+#ifndef itkKernelTransform_h
+#define itkKernelTransform_h
 
 #include "itkTransform.h"
 #include "itkMatrix.h"
@@ -362,4 +362,4 @@ private:
 #include "itkKernelTransform.hxx"
 #endif
 
-#endif // __itkKernelTransform_h
+#endif // itkKernelTransform_h

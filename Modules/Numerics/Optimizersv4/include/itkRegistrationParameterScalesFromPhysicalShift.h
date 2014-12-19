@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegistrationParameterScalesFromPhysicalShift_h
-#define __itkRegistrationParameterScalesFromPhysicalShift_h
+#ifndef itkRegistrationParameterScalesFromPhysicalShift_h
+#define itkRegistrationParameterScalesFromPhysicalShift_h
 
 #include "itkRegistrationParameterScalesFromShiftBase.h"
 
@@ -85,4 +85,4 @@ private:
 #include "itkRegistrationParameterScalesFromPhysicalShift.hxx"
 #endif
 
-#endif /* __itkRegistrationParameterScalesFromPhysicalShift_h */
+#endif /* itkRegistrationParameterScalesFromPhysicalShift_h */

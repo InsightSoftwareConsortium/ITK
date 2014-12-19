@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkPointSet_h
-#define __itkPointSet_h
+#ifndef itkPointSet_h
+#define itkPointSet_h
 
 #include "itkDataObject.h"
 #include "itkDefaultStaticMeshTraits.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement3DStrain_h
-#define __itkFEMElement3DStrain_h
+#ifndef itkFEMElement3DStrain_h
+#define itkFEMElement3DStrain_h
 
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
@@ -121,4 +121,4 @@ protected:
 #include "itkFEMElement3DStrain.hxx"
 #endif
 
-#endif  // #ifndef __itkFEMElement3DStrain_h
+#endif  // #ifndef itkFEMElement3DStrain_h

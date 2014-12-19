@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegionReverseConstIterator_h
-#define __itkImageRegionReverseConstIterator_h
+#ifndef itkImageRegionReverseConstIterator_h
+#define itkImageRegionReverseConstIterator_h
 
 #include "itkImageReverseConstIterator.h"
 #include "itkImageRegionIterator.h"

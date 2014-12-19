@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCrossHelper_h
-#define __itkCrossHelper_h
+#ifndef itkCrossHelper_h
+#define itkCrossHelper_h
 
 #include "itkNumericTraits.h"
 

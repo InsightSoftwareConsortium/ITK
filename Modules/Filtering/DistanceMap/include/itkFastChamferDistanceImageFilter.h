@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastChamferDistanceImageFilter_h
-#define __itkFastChamferDistanceImageFilter_h
+#ifndef itkFastChamferDistanceImageFilter_h
+#define itkFastChamferDistanceImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

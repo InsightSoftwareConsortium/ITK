@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetBase_h
-#define __itkLevelSetBase_h
+#ifndef itkLevelSetBase_h
+#define itkLevelSetBase_h
 
 #include "itkIntTypes.h"
 #include "itkCovariantVector.h"
@@ -240,4 +240,4 @@ private:
 #include "itkLevelSetBase.hxx"
 #endif
 
-#endif // __itkLevelSetBase_h
+#endif // itkLevelSetBase_h

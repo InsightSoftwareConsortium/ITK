@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReflectiveImageRegionConstIterator_h
-#define __itkReflectiveImageRegionConstIterator_h
+#ifndef itkReflectiveImageRegionConstIterator_h
+#define itkReflectiveImageRegionConstIterator_h
 
 #include "itkImageConstIteratorWithIndex.h"
 

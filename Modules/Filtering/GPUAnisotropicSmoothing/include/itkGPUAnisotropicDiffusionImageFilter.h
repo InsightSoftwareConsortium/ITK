@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUAnisotropicDiffusionImageFilter_h
-#define __itkGPUAnisotropicDiffusionImageFilter_h
+#ifndef itkGPUAnisotropicDiffusionImageFilter_h
+#define itkGPUAnisotropicDiffusionImageFilter_h
 
 #include "itkGPUDenseFiniteDifferenceImageFilter.h"
 #include "itkAnisotropicDiffusionImageFilter.h"

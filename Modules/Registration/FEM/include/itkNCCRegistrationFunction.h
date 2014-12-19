@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNCCRegistrationFunction_h
-#define __itkNCCRegistrationFunction_h
+#ifndef itkNCCRegistrationFunction_h
+#define itkNCCRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"

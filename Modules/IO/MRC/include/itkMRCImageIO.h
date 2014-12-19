@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRCImageIO_h
-#define __itkMRCImageIO_h
+#ifndef itkMRCImageIO_h
+#define itkMRCImageIO_h
 #include "ITKIOMRCExport.h"
 #include "itkStreamingImageIOBase.h"
 #include "itkMRCHeaderObject.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMinimumDecisionRule_h
-#define __itkMinimumDecisionRule_h
+#ifndef itkMinimumDecisionRule_h
+#define itkMinimumDecisionRule_h
 
 #include "itkDecisionRule.h"
 

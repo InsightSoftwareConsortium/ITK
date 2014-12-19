@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCylinderSpatialObject_h
-#define __itkCylinderSpatialObject_h
+#ifndef itkCylinderSpatialObject_h
+#define itkCylinderSpatialObject_h
 
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
@@ -102,4 +102,4 @@ protected:
 };
 } // end namespace itk
 
-#endif // __itkCylinderSpatialObject_h
+#endif // itkCylinderSpatialObject_h

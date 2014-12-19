@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeuralNetworkFileWriter_h
-#define __itkNeuralNetworkFileWriter_h
+#ifndef itkNeuralNetworkFileWriter_h
+#define itkNeuralNetworkFileWriter_h
 
 #include <metaTypes.h>
 #include <metaUtils.h>

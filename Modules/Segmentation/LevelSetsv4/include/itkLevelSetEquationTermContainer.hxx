@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationTermContainer_hxx
-#define __itkLevelSetEquationTermContainer_hxx
+#ifndef itkLevelSetEquationTermContainer_hxx
+#define itkLevelSetEquationTermContainer_hxx
 
 #include "itkLevelSetEquationTermContainer.h"
 #include "itkObject.h"
@@ -433,4 +433,4 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 }
-#endif // __itkLevelSetEquationTermContainer_hxx
+#endif // itkLevelSetEquationTermContainer_hxx

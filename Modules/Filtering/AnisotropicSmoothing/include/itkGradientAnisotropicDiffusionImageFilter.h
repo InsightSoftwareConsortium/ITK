@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientAnisotropicDiffusionImageFilter_h
-#define __itkGradientAnisotropicDiffusionImageFilter_h
+#ifndef itkGradientAnisotropicDiffusionImageFilter_h
+#define itkGradientAnisotropicDiffusionImageFilter_h
 
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkGradientNDAnisotropicDiffusionFunction.h"

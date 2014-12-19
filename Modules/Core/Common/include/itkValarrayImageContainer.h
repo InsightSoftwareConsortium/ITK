@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkValarrayImageContainer_h
-#define __itkValarrayImageContainer_h
+#ifndef itkValarrayImageContainer_h
+#define itkValarrayImageContainer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

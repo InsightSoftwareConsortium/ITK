@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkElasticBodyReciprocalSplineKernelTransform_h
-#define __itkElasticBodyReciprocalSplineKernelTransform_h
+#ifndef itkElasticBodyReciprocalSplineKernelTransform_h
+#define itkElasticBodyReciprocalSplineKernelTransform_h
 
 #include "itkKernelTransform.h"
 
@@ -117,4 +117,4 @@ private:
 #include "itkElasticBodyReciprocalSplineKernelTransform.hxx"
 #endif
 
-#endif // __itkElasticBodyReciprocalSplineKernelTransform_h
+#endif // itkElasticBodyReciprocalSplineKernelTransform_h

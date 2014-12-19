@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionConstrainedSubsampler_h
-#define __itkRegionConstrainedSubsampler_h
+#ifndef itkRegionConstrainedSubsampler_h
+#define itkRegionConstrainedSubsampler_h
 
 #include "itkSubsamplerBase.h"
 #include "itkImageRegion.h"

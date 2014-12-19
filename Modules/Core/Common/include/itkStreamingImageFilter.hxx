@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStreamingImageFilter_hxx
-#define __itkStreamingImageFilter_hxx
+#ifndef itkStreamingImageFilter_hxx
+#define itkStreamingImageFilter_hxx
 #include "itkStreamingImageFilter.h"
 #include "itkCommand.h"
 #include "itkImageAlgorithm.h"

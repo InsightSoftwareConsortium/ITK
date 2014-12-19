@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVersor_hxx
-#define __itkVersor_hxx
+#ifndef itkVersor_hxx
+#define itkVersor_hxx
 
 #include "itkVersor.h"
 #include "itkNumericTraits.h"

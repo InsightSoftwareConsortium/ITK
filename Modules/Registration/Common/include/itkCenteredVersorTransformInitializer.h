@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredVersorTransformInitializer_h
-#define __itkCenteredVersorTransformInitializer_h
+#ifndef itkCenteredVersorTransformInitializer_h
+#define itkCenteredVersorTransformInitializer_h
 
 #include "itkCenteredTransformInitializer.h"
 #include "itkVersorRigid3DTransform.h"
@@ -112,4 +112,4 @@ private:
 #include "itkCenteredVersorTransformInitializer.hxx"
 #endif
 
-#endif /* __itkCenteredVersorTransformInitializer_h */
+#endif /* itkCenteredVersorTransformInitializer_h */

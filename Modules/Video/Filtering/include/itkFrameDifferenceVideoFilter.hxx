@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFrameDifferenceVideoFilter_hxx
-#define __itkFrameDifferenceVideoFilter_hxx
+#ifndef itkFrameDifferenceVideoFilter_hxx
+#define itkFrameDifferenceVideoFilter_hxx
 
 #include "itkFrameDifferenceVideoFilter.h"
 

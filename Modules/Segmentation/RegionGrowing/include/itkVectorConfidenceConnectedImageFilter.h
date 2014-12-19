@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorConfidenceConnectedImageFilter_h
-#define __itkVectorConfidenceConnectedImageFilter_h
+#ifndef itkVectorConfidenceConnectedImageFilter_h
+#define itkVectorConfidenceConnectedImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkMahalanobisDistanceThresholdImageFunction.h"

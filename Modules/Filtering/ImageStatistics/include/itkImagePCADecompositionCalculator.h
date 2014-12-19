@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImagePCADecompositionCalculator_h
-#define __itkImagePCADecompositionCalculator_h
+#ifndef itkImagePCADecompositionCalculator_h
+#define itkImagePCADecompositionCalculator_h
 
 #include "itkObject.h"
 #include "itkImagePCAShapeModelEstimator.h"

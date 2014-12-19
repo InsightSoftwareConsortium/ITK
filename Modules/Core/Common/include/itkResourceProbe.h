@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkResourceProbe_h
-#define __itkResourceProbe_h
+#ifndef itkResourceProbe_h
+#define itkResourceProbe_h
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
@@ -107,4 +107,4 @@ private:
 #include "itkResourceProbe.hxx"
 #endif
 
-#endif //__itkResourceProbe_h
+#endif //itkResourceProbe_h

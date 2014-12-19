@@ -22,8 +22,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_openjpeg_h
-#define __itk_openjpeg_h
+#ifndef itk_openjpeg_h
+#define itk_openjpeg_h
 
 #include <itkopenjpeg/openjpeg.h>
 

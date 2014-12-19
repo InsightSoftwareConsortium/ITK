@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetNeighborhoodExtractor_hxx
-#define __itkLevelSetNeighborhoodExtractor_hxx
+#ifndef itkLevelSetNeighborhoodExtractor_hxx
+#define itkLevelSetNeighborhoodExtractor_hxx
 
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkImageRegionIterator.h"

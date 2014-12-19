@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDirectFourierReconstructionImageToImageFilter_hxx
-#define __itkDirectFourierReconstructionImageToImageFilter_hxx
+#ifndef itkDirectFourierReconstructionImageToImageFilter_hxx
+#define itkDirectFourierReconstructionImageToImageFilter_hxx
 
 #include "itkDirectFourierReconstructionImageToImageFilter.h"
 

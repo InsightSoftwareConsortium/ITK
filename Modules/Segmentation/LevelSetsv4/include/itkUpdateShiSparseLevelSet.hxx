@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateShiSparseLevelSet_hxx
-#define __itkUpdateShiSparseLevelSet_hxx
+#ifndef itkUpdateShiSparseLevelSet_hxx
+#define itkUpdateShiSparseLevelSet_hxx
 
 #include "itkUpdateShiSparseLevelSet.h"
 
@@ -475,4 +475,4 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
  return false;
 }
 }
-#endif // __itkUpdateShiSparseLevelSet_hxx
+#endif // itkUpdateShiSparseLevelSet_hxx

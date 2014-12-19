@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorIndexSelectionCastImageFilter_h
-#define __itkVectorIndexSelectionCastImageFilter_h
+#ifndef itkVectorIndexSelectionCastImageFilter_h
+#define itkVectorIndexSelectionCastImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

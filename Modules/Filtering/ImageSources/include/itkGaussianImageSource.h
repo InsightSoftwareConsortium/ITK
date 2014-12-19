@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianImageSource_h
-#define __itkGaussianImageSource_h
+#ifndef itkGaussianImageSource_h
+#define itkGaussianImageSource_h
 
 #include "itkParametricImageSource.h"
 #include "itkFixedArray.h"

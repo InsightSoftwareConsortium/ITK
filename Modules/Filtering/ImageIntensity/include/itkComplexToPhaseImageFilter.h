@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComplexToPhaseImageFilter_h
-#define __itkComplexToPhaseImageFilter_h
+#ifndef itkComplexToPhaseImageFilter_h
+#define itkComplexToPhaseImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"

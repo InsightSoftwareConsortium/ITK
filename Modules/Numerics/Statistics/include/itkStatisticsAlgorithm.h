@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsAlgorithm_h
-#define __itkStatisticsAlgorithm_h
+#ifndef itkStatisticsAlgorithm_h
+#define itkStatisticsAlgorithm_h
 
 #include "itkSubsample.h"
 
@@ -191,4 +191,4 @@ void IntrospectiveSort(TSubsample *sample,
 #include "itkStatisticsAlgorithm.hxx"
 #endif
 
-#endif // #ifndef __itkStatisticsAlgorithm_h
+#endif // #ifndef itkStatisticsAlgorithm_h

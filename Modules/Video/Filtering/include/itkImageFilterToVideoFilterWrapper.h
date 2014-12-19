@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageFilterToVideoFilterWrapper_h
-#define __itkImageFilterToVideoFilterWrapper_h
+#ifndef itkImageFilterToVideoFilterWrapper_h
+#define itkImageFilterToVideoFilterWrapper_h
 
 #include "itkVideoToVideoFilter.h"
 

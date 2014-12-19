@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElementStd_h
-#define __itkFEMElementStd_h
+#ifndef itkFEMElementStd_h
+#define itkFEMElementStd_h
 
 #include "itkFEMElementBase.h"
 
@@ -164,4 +164,4 @@ protected:
 #include "itkFEMElementStd.hxx"
 #endif
 
-#endif // #ifndef __itkFEMElementStd_h
+#endif // #ifndef itkFEMElementStd_h

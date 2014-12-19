@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConnectedComponentImageFilter_h
-#define __itkConnectedComponentImageFilter_h
+#ifndef itkConnectedComponentImageFilter_h
+#define itkConnectedComponentImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"

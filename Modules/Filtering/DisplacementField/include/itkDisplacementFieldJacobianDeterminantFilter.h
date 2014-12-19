@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldJacobianDeterminantFilter_h
-#define __itkDisplacementFieldJacobianDeterminantFilter_h
+#ifndef itkDisplacementFieldJacobianDeterminantFilter_h
+#define itkDisplacementFieldJacobianDeterminantFilter_h
 
 #include "itkNeighborhoodIterator.h"
 #include "itkImageToImageFilter.h"

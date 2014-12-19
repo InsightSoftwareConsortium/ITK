@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianDerivativeOperator_h
-#define __itkGaussianDerivativeOperator_h
+#ifndef itkGaussianDerivativeOperator_h
+#define itkGaussianDerivativeOperator_h
 
 #include "itkGaussianOperator.h"
 #include "itkDerivativeOperator.h"

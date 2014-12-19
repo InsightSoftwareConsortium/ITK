@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOpenCLUtil_h
-#define __itkOpenCLUtil_h
+#ifndef itkOpenCLUtil_h
+#define itkOpenCLUtil_h
 
 #include <cstring>
 #include <cstdlib>

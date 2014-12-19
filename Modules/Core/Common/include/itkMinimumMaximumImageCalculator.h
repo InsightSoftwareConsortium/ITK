@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMinimumMaximumImageCalculator_h
-#define __itkMinimumMaximumImageCalculator_h
+#ifndef itkMinimumMaximumImageCalculator_h
+#define itkMinimumMaximumImageCalculator_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -126,4 +126,4 @@ private:
 #include "itkMinimumMaximumImageCalculator.hxx"
 #endif
 
-#endif /* __itkMinimumMaximumImageCalculator_h */
+#endif /* itkMinimumMaximumImageCalculator_h */

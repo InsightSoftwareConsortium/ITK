@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOtsuMultipleThresholdsCalculator_h
-#define __itkOtsuMultipleThresholdsCalculator_h
+#ifndef itkOtsuMultipleThresholdsCalculator_h
+#define itkOtsuMultipleThresholdsCalculator_h
 
 #include "itkHistogramAlgorithmBase.h"
 #include "itkHistogram.h"

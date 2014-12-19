@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshPolygonCell_h
-#define __itkQuadEdgeMeshPolygonCell_h
+#ifndef itkQuadEdgeMeshPolygonCell_h
+#define itkQuadEdgeMeshPolygonCell_h
 
 #include "itkTriangleCell.h"
 #include "itkQuadEdgeMeshLineCell.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryReconstructionByErosionImageFilter_h
-#define __itkBinaryReconstructionByErosionImageFilter_h
+#ifndef itkBinaryReconstructionByErosionImageFilter_h
+#define itkBinaryReconstructionByErosionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkAttributeLabelObject.h"

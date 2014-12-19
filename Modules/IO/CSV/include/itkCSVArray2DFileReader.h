@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkCSVArray2DFileReader_h
-#define __itkCSVArray2DFileReader_h
+#ifndef itkCSVArray2DFileReader_h
+#define itkCSVArray2DFileReader_h
 
 #include "itkCSVFileReaderBase.h"
 #include "itkCSVArray2DDataObject.h"

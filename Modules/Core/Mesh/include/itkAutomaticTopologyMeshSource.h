@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAutomaticTopologyMeshSource_h
-#define __itkAutomaticTopologyMeshSource_h
+#ifndef itkAutomaticTopologyMeshSource_h
+#define itkAutomaticTopologyMeshSource_h
 
 #include "itkArray.h"
 #include "itkDefaultStaticMeshTraits.h"
@@ -407,4 +407,4 @@ private:
 #include "itkAutomaticTopologyMeshSource.hxx"
 #endif
 
-#endif // __itkAutomaticTopologyMeshSource_h
+#endif // itkAutomaticTopologyMeshSource_h

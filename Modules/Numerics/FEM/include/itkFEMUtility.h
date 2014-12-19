@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMUtility_h
-#define __itkFEMUtility_h
+#ifndef itkFEMUtility_h
+#define itkFEMUtility_h
 
 #include <string>
 #include <iostream>
@@ -58,4 +58,4 @@ public:
 }
 }  /* end namespace itk */
 
-#endif /* #ifndef __itkFEMUtility_h */
+#endif /* #ifndef itkFEMUtility_h */

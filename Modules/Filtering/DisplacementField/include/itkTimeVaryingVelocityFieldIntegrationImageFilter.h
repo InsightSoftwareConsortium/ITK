@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingVelocityFieldIntegrationImageFilter_h
-#define __itkTimeVaryingVelocityFieldIntegrationImageFilter_h
+#ifndef itkTimeVaryingVelocityFieldIntegrationImageFilter_h
+#define itkTimeVaryingVelocityFieldIntegrationImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReconstructionByDilationImageFilter_h
-#define __itkReconstructionByDilationImageFilter_h
+#ifndef itkReconstructionByDilationImageFilter_h
+#define itkReconstructionByDilationImageFilter_h
 
 #include "itkReconstructionImageFilter.h"
 

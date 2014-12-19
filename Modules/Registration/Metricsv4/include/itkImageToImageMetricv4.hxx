@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageMetricv4_hxx
-#define __itkImageToImageMetricv4_hxx
+#ifndef itkImageToImageMetricv4_hxx
+#define itkImageToImageMetricv4_hxx
 
 #include "itkImageToImageMetricv4.h"
 #include "itkPixelTraits.h"

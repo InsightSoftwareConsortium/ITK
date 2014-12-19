@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKLMSegmentationRegion_h
-#define __itkKLMSegmentationRegion_h
+#ifndef itkKLMSegmentationRegion_h
+#define itkKLMSegmentationRegion_h
 
 #include "itkKLMSegmentationBorder.h"
 #include "itkSegmentationRegion.h"

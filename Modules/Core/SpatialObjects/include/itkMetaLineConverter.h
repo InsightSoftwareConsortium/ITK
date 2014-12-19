@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaLineConverter_h
-#define __itkMetaLineConverter_h
+#ifndef itkMetaLineConverter_h
+#define itkMetaLineConverter_h
 
 #include "metaLine.h"
 #include "itkLineSpatialObject.h"

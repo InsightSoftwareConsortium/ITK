@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChiSquareDistribution_h
-#define __itkChiSquareDistribution_h
+#ifndef itkChiSquareDistribution_h
+#define itkChiSquareDistribution_h
 
 #include "itkProbabilityDistribution.h"
 #include "itkNumericTraits.h"

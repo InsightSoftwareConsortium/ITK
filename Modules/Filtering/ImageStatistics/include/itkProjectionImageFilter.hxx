@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkProjectionImageFilter_hxx
-#define __itkProjectionImageFilter_hxx
+#ifndef itkProjectionImageFilter_hxx
+#define itkProjectionImageFilter_hxx
 
 #include "itkProjectionImageFilter.h"
 #include "itkImageRegionIterator.h"

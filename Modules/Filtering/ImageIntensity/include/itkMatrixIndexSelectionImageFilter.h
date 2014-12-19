@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatrixIndexSelectionImageFilter_h
-#define __itkMatrixIndexSelectionImageFilter_h
+#ifndef itkMatrixIndexSelectionImageFilter_h
+#define itkMatrixIndexSelectionImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmapsFileParser_h
-#define __itkSmapsFileParser_h
+#ifndef itkSmapsFileParser_h
+#define itkSmapsFileParser_h
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
@@ -301,4 +301,4 @@ public:
 #include "itkSmapsFileParser.hxx"
 #endif
 
-#endif // __itkSmapsFileParser_h
+#endif // itkSmapsFileParser_h

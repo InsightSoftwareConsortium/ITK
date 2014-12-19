@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUAnisotropicDiffusionFunction_h
-#define __itkGPUAnisotropicDiffusionFunction_h
+#ifndef itkGPUAnisotropicDiffusionFunction_h
+#define itkGPUAnisotropicDiffusionFunction_h
 
 #include "itkGPUFiniteDifferenceFunction.h"
 

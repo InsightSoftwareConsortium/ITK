@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureFlowFunction_h
-#define __itkCurvatureFlowFunction_h
+#ifndef itkCurvatureFlowFunction_h
+#define itkCurvatureFlowFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 #include "itkMacro.h"

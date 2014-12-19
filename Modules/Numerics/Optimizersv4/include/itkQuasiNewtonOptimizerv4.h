@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuasiNewtonOptimizerv4_h
-#define __itkQuasiNewtonOptimizerv4_h
+#ifndef itkQuasiNewtonOptimizerv4_h
+#define itkQuasiNewtonOptimizerv4_h
 
 #include "itkArray2D.h"
 #include "itkGradientDescentOptimizerv4.h"

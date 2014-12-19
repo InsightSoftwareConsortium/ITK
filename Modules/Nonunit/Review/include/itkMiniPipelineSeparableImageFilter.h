@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMiniPipelineSeparableImageFilter_h
-#define __itkMiniPipelineSeparableImageFilter_h
+#ifndef itkMiniPipelineSeparableImageFilter_h
+#define itkMiniPipelineSeparableImageFilter_h
 
 #include "itkBoxImageFilter.h"
 

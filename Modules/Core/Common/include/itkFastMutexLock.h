@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkFastMutexLock_h
-#define __itkFastMutexLock_h
+#ifndef itkFastMutexLock_h
+#define itkFastMutexLock_h
 
 #include "itkObject.h"
 #include "itkSimpleFastMutexLock.h"

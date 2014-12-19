@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkErrorBackPropagationLearningWithMomentum_hxx
-#define __itkErrorBackPropagationLearningWithMomentum_hxx
+#ifndef itkErrorBackPropagationLearningWithMomentum_hxx
+#define itkErrorBackPropagationLearningWithMomentum_hxx
 
 #include "itkErrorBackPropagationLearningWithMomentum.h"
 #include "vnl/vnl_matrix.h"

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkVTKImageIO_h
-#define __itkVTKImageIO_h
+#ifndef itkVTKImageIO_h
+#define itkVTKImageIO_h
 #include "ITKIOVTKExport.h"
 
 
@@ -155,4 +155,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkVTKImageIO_h
+#endif // itkVTKImageIO_h

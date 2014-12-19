@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConfidenceConnectedImageFilter_h
-#define __itkConfidenceConnectedImageFilter_h
+#ifndef itkConfidenceConnectedImageFilter_h
+#define itkConfidenceConnectedImageFilter_h
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"

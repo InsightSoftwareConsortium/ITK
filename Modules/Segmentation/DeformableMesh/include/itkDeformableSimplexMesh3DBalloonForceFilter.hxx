@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DBalloonForceFilter_hxx
-#define __itkDeformableSimplexMesh3DBalloonForceFilter_hxx
+#ifndef itkDeformableSimplexMesh3DBalloonForceFilter_hxx
+#define itkDeformableSimplexMesh3DBalloonForceFilter_hxx
 
 #include "itkDeformableSimplexMesh3DBalloonForceFilter.h"
 #include "itkNumericTraits.h"
@@ -142,4 +142,4 @@ DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
 }
 } /* end namespace itk. */
 
-#endif //__itkDeformableSimplexMesh3DBalloonForceFilter_hxx
+#endif //itkDeformableSimplexMesh3DBalloonForceFilter_hxx

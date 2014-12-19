@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExponentialDisplacementFieldImageFilter_h
-#define __itkExponentialDisplacementFieldImageFilter_h
+#ifndef itkExponentialDisplacementFieldImageFilter_h
+#define itkExponentialDisplacementFieldImageFilter_h
 
 #include "itkDivideImageFilter.h"
 #include "itkCastImageFilter.h"

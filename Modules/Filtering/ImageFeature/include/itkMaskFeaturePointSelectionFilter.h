@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaskFeaturePointSelectionFilter_h
-#define __itkMaskFeaturePointSelectionFilter_h
+#ifndef itkMaskFeaturePointSelectionFilter_h
+#define itkMaskFeaturePointSelectionFilter_h
 
 #include "itkImageToMeshFilter.h"
 #include "itkDefaultDynamicMeshTraits.h"

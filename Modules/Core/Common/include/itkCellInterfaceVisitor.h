@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCellInterfaceVisitor_h
-#define __itkCellInterfaceVisitor_h
+#ifndef itkCellInterfaceVisitor_h
+#define itkCellInterfaceVisitor_h
 
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef  __itkConditionVariable_h
-#define  __itkConditionVariable_h
+#ifndef  itkConditionVariable_h
+#define  itkConditionVariable_h
 
 #include "itkConfigure.h"
 #include "itkMutexLock.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkUnaryFunctorImageFilter_hxx
-#define __itkUnaryFunctorImageFilter_hxx
+#ifndef itkUnaryFunctorImageFilter_hxx
+#define itkUnaryFunctorImageFilter_hxx
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkImageScanlineIterator.h"

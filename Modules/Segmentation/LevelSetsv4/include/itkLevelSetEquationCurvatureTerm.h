@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationCurvatureTerm_h
-#define __itkLevelSetEquationCurvatureTerm_h
+#ifndef itkLevelSetEquationCurvatureTerm_h
+#define itkLevelSetEquationCurvatureTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"

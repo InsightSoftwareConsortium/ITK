@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMPArray_h
-#define __itkFEMPArray_h
+#ifndef itkFEMPArray_h
+#define itkFEMPArray_h
 
 #include "itkFEMP.h"
 #include "itkFEMException.h"
@@ -181,4 +181,4 @@ int FEMPArray<T>::Renumber()
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMPArray_h
+#endif // #ifndef itkFEMPArray_h

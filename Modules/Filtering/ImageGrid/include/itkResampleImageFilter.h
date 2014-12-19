@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkResampleImageFilter_h
-#define __itkResampleImageFilter_h
+#ifndef itkResampleImageFilter_h
+#define itkResampleImageFilter_h
 
 #include "itkFixedArray.h"
 #include "itkTransform.h"

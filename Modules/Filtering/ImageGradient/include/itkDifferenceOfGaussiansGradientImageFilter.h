@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDifferenceOfGaussiansGradientImageFilter_h
-#define __itkDifferenceOfGaussiansGradientImageFilter_h
+#ifndef itkDifferenceOfGaussiansGradientImageFilter_h
+#define itkDifferenceOfGaussiansGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkCovariantVector.h"

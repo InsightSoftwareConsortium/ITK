@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMRobustSolver_hxx
-#define __itkFEMRobustSolver_hxx
+#ifndef itkFEMRobustSolver_hxx
+#define itkFEMRobustSolver_hxx
 
 #include "itkFEMRobustSolver.h"
 
@@ -1101,4 +1101,4 @@ RobustSolver<VDimension>
 
 }
 }  // end namespace itk::fem
-#endif // __itkFEMRobustSolver_hxx
+#endif // itkFEMRobustSolver_hxx

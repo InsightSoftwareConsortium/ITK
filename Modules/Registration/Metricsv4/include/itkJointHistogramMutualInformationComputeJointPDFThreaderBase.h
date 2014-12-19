@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJointHistogramMutualInformationComputeJointPDFThreaderBase_h
-#define __itkJointHistogramMutualInformationComputeJointPDFThreaderBase_h
+#ifndef itkJointHistogramMutualInformationComputeJointPDFThreaderBase_h
+#define itkJointHistogramMutualInformationComputeJointPDFThreaderBase_h
 
 #include "itkDomainThreader.h"
 #include "itkImage.h"

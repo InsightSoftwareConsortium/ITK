@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMRegistrationFilter_hxx
-#define __itkFEMRegistrationFilter_hxx
+#ifndef itkFEMRegistrationFilter_hxx
+#define itkFEMRegistrationFilter_hxx
 
 #include "itkFEMRegistrationFilter.h"
 

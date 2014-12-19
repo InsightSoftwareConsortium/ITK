@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetSparseImage_hxx
-#define __itkLevelSetSparseImage_hxx
+#ifndef itkLevelSetSparseImage_hxx
+#define itkLevelSetSparseImage_hxx
 
 #include "itkLevelSetSparseImage.h"
 
@@ -207,4 +207,4 @@ LevelSetSparseImage< TOutput, VDimension >
 } // end namespace itk
 
 
-#endif // __itkLevelSetSparseImage_h
+#endif // itkLevelSetSparseImage_h

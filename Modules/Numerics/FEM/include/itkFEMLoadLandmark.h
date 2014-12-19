@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLoadLandmark_h
-#define __itkFEMLoadLandmark_h
+#ifndef itkFEMLoadLandmark_h
+#define itkFEMLoadLandmark_h
 
 #include "itkFEMLoadElementBase.h"
 
@@ -262,4 +262,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadLandmark_h
+#endif // #ifndef itkFEMLoadLandmark_h

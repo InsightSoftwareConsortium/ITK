@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSceneSpatialObject_h
-#define __itkSceneSpatialObject_h
+#ifndef itkSceneSpatialObject_h
+#define itkSceneSpatialObject_h
 
 #include "itkSpatialObject.h"
 

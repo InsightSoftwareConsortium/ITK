@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianExponentialDiffeomorphicTransform_h
-#define __itkGaussianExponentialDiffeomorphicTransform_h
+#ifndef itkGaussianExponentialDiffeomorphicTransform_h
+#define itkGaussianExponentialDiffeomorphicTransform_h
 
 #include "itkConstantVelocityFieldTransform.h"
 
@@ -142,4 +142,4 @@ private:
 # include "itkGaussianExponentialDiffeomorphicTransform.hxx"
 #endif
 
-#endif // __itkGaussianExponentialDiffeomorphicTransform_h
+#endif // itkGaussianExponentialDiffeomorphicTransform_h

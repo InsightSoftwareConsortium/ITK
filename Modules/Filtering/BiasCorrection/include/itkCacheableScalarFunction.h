@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCacheableScalarFunction_h
-#define __itkCacheableScalarFunction_h
+#ifndef itkCacheableScalarFunction_h
+#define itkCacheableScalarFunction_h
 
 #include "itkArray.h"
 #include "itkIntTypes.h"

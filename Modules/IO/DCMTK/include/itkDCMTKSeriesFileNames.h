@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKSeriesFileNames_h
-#define __itkDCMTKSeriesFileNames_h
+#ifndef itkDCMTKSeriesFileNames_h
+#define itkDCMTKSeriesFileNames_h
 #include "ITKIODCMTKExport.h"
 
 #include "itkProcessObject.h"
@@ -199,4 +199,4 @@ private:
 };
 } //namespace ITK
 
-#endif // __itkDCMTKSeriesFileNames_h
+#endif // itkDCMTKSeriesFileNames_h

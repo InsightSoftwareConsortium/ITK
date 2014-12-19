@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageClassifierFilter_h
-#define __itkImageClassifierFilter_h
+#ifndef itkImageClassifierFilter_h
+#define itkImageClassifierFilter_h
 
 #include <vector>
 

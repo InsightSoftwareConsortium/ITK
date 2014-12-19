@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement1DStress_h
-#define __itkFEMElement1DStress_h
+#ifndef itkFEMElement1DStress_h
+#define itkFEMElement1DStress_h
 
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
@@ -129,4 +129,4 @@ protected:
 #include "itkFEMElement1DStress.hxx"
 #endif
 
-#endif  // #ifndef __itkFEMElement1DStress_h
+#endif  // #ifndef itkFEMElement1DStress_h

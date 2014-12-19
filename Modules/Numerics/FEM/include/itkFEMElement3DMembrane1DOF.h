@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef __itkFEMElement3DMembrane1DOF_h
-#define __itkFEMElement3DMembrane1DOF_h
+#ifndef itkFEMElement3DMembrane1DOF_h
+#define itkFEMElement3DMembrane1DOF_h
 
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
@@ -127,4 +127,4 @@ protected:
 #include "itkFEMElement3DMembrane1DOF.hxx"
 #endif
 
-#endif  // #ifndef __itkFEMElement3DMembrane1DOF_h
+#endif  // #ifndef itkFEMElement3DMembrane1DOF_h

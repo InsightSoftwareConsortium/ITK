@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeInverseDeformationFieldImageFilter_h
-#define __itkIterativeInverseDeformationFieldImageFilter_h
+#ifndef itkIterativeInverseDeformationFieldImageFilter_h
+#define itkIterativeInverseDeformationFieldImageFilter_h
 
 #include "itkWarpVectorImageFilter.h"
 #include "itkImageRegionIterator.h"

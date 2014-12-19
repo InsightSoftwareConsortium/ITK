@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGeodesicActiveContourLevelSetImageFilter_h
-#define __itkGeodesicActiveContourLevelSetImageFilter_h
+#ifndef itkGeodesicActiveContourLevelSetImageFilter_h
+#define itkGeodesicActiveContourLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkGeodesicActiveContourLevelSetFunction.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRelabelComponentImageFilter_h
-#define __itkRelabelComponentImageFilter_h
+#ifndef itkRelabelComponentImageFilter_h
+#define itkRelabelComponentImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkImage.h"

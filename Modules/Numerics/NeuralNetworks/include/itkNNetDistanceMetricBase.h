@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNNetDistanceMetricBase_h
-#define __itkNNetDistanceMetricBase_h
+#ifndef itkNNetDistanceMetricBase_h
+#define itkNNetDistanceMetricBase_h
 
 #include "itkFunctionBase.h"
 

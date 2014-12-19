@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiphaseFiniteDifferenceImageFilter_h
-#define __itkMultiphaseFiniteDifferenceImageFilter_h
+#ifndef itkMultiphaseFiniteDifferenceImageFilter_h
+#define itkMultiphaseFiniteDifferenceImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkFiniteDifferenceFunction.h"

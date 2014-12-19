@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVXLVideoIOFactory_h
-#define __itkVXLVideoIOFactory_h
+#ifndef itkVXLVideoIOFactory_h
+#define itkVXLVideoIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkVideoIOBase.h"

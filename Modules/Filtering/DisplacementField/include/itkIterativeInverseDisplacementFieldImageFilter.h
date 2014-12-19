@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeInverseDisplacementFieldImageFilter_h
-#define __itkIterativeInverseDisplacementFieldImageFilter_h
+#ifndef itkIterativeInverseDisplacementFieldImageFilter_h
+#define itkIterativeInverseDisplacementFieldImageFilter_h
 
 
 #include "itkWarpVectorImageFilter.h"

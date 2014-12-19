@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
-#define __itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
+#ifndef itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
+#define itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 

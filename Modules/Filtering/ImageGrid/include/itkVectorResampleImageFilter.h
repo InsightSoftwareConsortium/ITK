@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorResampleImageFilter_h
-#define __itkVectorResampleImageFilter_h
+#ifndef itkVectorResampleImageFilter_h
+#define itkVectorResampleImageFilter_h
 
 #include "itkTransform.h"
 #include "itkImageRegionIterator.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSemaphore_h
-#define __itkSemaphore_h
+#ifndef itkSemaphore_h
+#define itkSemaphore_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 # include "itkObjectFactory.h"

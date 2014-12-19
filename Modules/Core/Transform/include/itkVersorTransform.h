@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVersorTransform_h
-#define __itkVersorTransform_h
+#ifndef itkVersorTransform_h
+#define itkVersorTransform_h
 
 #include <iostream>
 #include "itkRigid3DTransform.h"
@@ -171,4 +171,4 @@ private:
 #include "itkVersorTransform.hxx"
 #endif
 
-#endif /* __itkVersorTransform_h */
+#endif /* itkVersorTransform_h */

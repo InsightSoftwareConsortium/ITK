@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorOpenCloseImageFilter_h
-#define __itkAnchorOpenCloseImageFilter_h
+#ifndef itkAnchorOpenCloseImageFilter_h
+#define itkAnchorOpenCloseImageFilter_h
 
 #include "itkKernelImageFilter.h"
 #include "itkProgressReporter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSignedMaurerDistanceMapImageFilter_h
-#define __itkSignedMaurerDistanceMapImageFilter_h
+#ifndef itkSignedMaurerDistanceMapImageFilter_h
+#define itkSignedMaurerDistanceMapImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

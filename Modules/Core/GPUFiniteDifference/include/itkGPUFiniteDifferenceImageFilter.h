@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUFiniteDifferenceImageFilter_h
-#define __itkGPUFiniteDifferenceImageFilter_h
+#ifndef itkGPUFiniteDifferenceImageFilter_h
+#define itkGPUFiniteDifferenceImageFilter_h
 
 #include "itkGPUInPlaceImageFilter.h"
 #include "itkGPUFiniteDifferenceFunction.h"

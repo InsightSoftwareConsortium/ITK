@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSphereSignedDistanceFunction_h
-#define __itkSphereSignedDistanceFunction_h
+#ifndef itkSphereSignedDistanceFunction_h
+#define itkSphereSignedDistanceFunction_h
 
 #include "itkShapeSignedDistanceFunction.h"
 #include "itkVector.h"

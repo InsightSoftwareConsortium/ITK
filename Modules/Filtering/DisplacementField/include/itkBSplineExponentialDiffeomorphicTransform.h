@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineExponentialDiffeomorphicTransform_h
-#define __itkBSplineExponentialDiffeomorphicTransform_h
+#ifndef itkBSplineExponentialDiffeomorphicTransform_h
+#define itkBSplineExponentialDiffeomorphicTransform_h
 
 #include "itkConstantVelocityFieldTransform.h"
 #include "itkDisplacementFieldToBSplineImageFilter.h"
@@ -174,4 +174,4 @@ private:
 # include "itkBSplineExponentialDiffeomorphicTransform.hxx"
 #endif
 
-#endif // __itkBSplineExponentialDiffeomorphicTransform_h
+#endif // itkBSplineExponentialDiffeomorphicTransform_h

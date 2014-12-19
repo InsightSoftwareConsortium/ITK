@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImportImageFilter_h
-#define __itkImportImageFilter_h
+#ifndef itkImportImageFilter_h
+#define itkImportImageFilter_h
 
 #include "itkImageSource.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPipelineMonitorImageFilter_h
-#define __itkPipelineMonitorImageFilter_h
+#ifndef itkPipelineMonitorImageFilter_h
+#define itkPipelineMonitorImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -208,4 +208,4 @@ namespace itk
 #include "itkPipelineMonitorImageFilter.hxx"
 #endif
 
-#endif //__itkPipelineMonitorImageFilter_hxx
+#endif //itkPipelineMonitorImageFilter_hxx

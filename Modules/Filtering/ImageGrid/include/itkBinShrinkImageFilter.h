@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinShrinkImageFilter_h
-#define __itkBinShrinkImageFilter_h
+#ifndef itkBinShrinkImageFilter_h
+#define itkBinShrinkImageFilter_h
 
 #include "itkShrinkImageFilter.h"
 #include "itkEnableIf.h"

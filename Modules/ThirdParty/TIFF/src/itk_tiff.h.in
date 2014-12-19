@@ -26,8 +26,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_tiff_h
-#define __itk_tiff_h
+#ifndef itk_tiff_h
+#define itk_tiff_h
 
 /* Use the tiff library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_TIFF

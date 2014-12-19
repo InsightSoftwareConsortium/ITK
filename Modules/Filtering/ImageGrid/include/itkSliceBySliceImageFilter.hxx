@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSliceBySliceImageFilter_hxx
-#define __itkSliceBySliceImageFilter_hxx
+#ifndef itkSliceBySliceImageFilter_hxx
+#define itkSliceBySliceImageFilter_hxx
 
 #include "itkSliceBySliceImageFilter.h"
 #include "itkProgressReporter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoronoiPartitioningImageFilter_h
-#define __itkVoronoiPartitioningImageFilter_h
+#ifndef itkVoronoiPartitioningImageFilter_h
+#define itkVoronoiPartitioningImageFilter_h
 
 #include "itkVoronoiSegmentationImageFilterBase.h"
 

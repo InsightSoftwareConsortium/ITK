@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToImageFilter_hxx
-#define __itkPointSetToImageFilter_hxx
+#ifndef itkPointSetToImageFilter_hxx
+#define itkPointSetToImageFilter_hxx
 
 #include "itkPointSetToImageFilter.h"
 

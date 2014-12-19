@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOctreeNode_h
-#define __itkOctreeNode_h
+#ifndef itkOctreeNode_h
+#define itkOctreeNode_h
 #include "itkMacro.h"
 namespace itk
 {
@@ -140,4 +140,4 @@ private:
   OctreeNode m_Leaves[8];
 };
 } //End of itk Namespace
-#endif                          /* __itkOctreeNode_h */
+#endif                          /* itkOctreeNode_h */

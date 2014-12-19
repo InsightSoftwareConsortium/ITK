@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompositeTransformIOHelper_hxx
-#define __itkCompositeTransformIOHelper_hxx
+#ifndef itkCompositeTransformIOHelper_hxx
+#define itkCompositeTransformIOHelper_hxx
 
 #include "itkCompositeTransformIOHelper.h"
 

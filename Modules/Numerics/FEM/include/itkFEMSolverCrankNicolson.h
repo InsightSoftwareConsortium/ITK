@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMSolverCrankNicolson_h
-#define __itkFEMSolverCrankNicolson_h
+#ifndef itkFEMSolverCrankNicolson_h
+#define itkFEMSolverCrankNicolson_h
 
 #include "itkFEMSolver.h"
 #include "itkFEMElementBase.h"
@@ -262,4 +262,4 @@ private:
 #include "itkFEMSolverCrankNicolson.hxx"
 #endif
 
-#endif // #ifndef __itkFEMSolverCrankNicolson_h
+#endif // #ifndef itkFEMSolverCrankNicolson_h

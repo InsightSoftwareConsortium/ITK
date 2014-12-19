@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNarrowBand_h
-#define __itkNarrowBand_h
+#ifndef itkNarrowBand_h
+#define itkNarrowBand_h
 
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"

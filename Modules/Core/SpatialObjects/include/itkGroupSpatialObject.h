@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGroupSpatialObject_h
-#define __itkGroupSpatialObject_h
+#ifndef itkGroupSpatialObject_h
+#define itkGroupSpatialObject_h
 
 #include <list>
 
@@ -74,4 +74,4 @@ protected:
 #include "itkGroupSpatialObject.hxx"
 #endif
 
-#endif // __itkGroupSpatialObject_h
+#endif // itkGroupSpatialObject_h

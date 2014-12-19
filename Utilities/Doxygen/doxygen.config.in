@@ -2019,7 +2019,7 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "ITK_USE_FFTWD" \
                          "ITK_USE_FFTWF" \
                          "ITK_USE_CONCEPT_CHECKING" \
-                         "__itkMacro_h" \
+                         "itkMacro_h" \
                          "ITK_LEGACY_REMOVE" \
                          "ITKCommon_EXPORT_EXPLICIT"
 

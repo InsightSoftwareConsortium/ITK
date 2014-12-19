@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVarianceImageFunction_hxx
-#define __itkVarianceImageFunction_hxx
+#ifndef itkVarianceImageFunction_hxx
+#define itkVarianceImageFunction_hxx
 
 #include "itkVarianceImageFunction.h"
 

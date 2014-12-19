@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageFileWriter_h
-#define __itkImageFileWriter_h
+#ifndef itkImageFileWriter_h
+#define itkImageFileWriter_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkProcessObject.h"
@@ -232,4 +232,4 @@ private:
 #include "itkImageIOFactoryRegisterManager.h"
 #endif
 
-#endif // __itkImageFileWriter_h
+#endif // itkImageFileWriter_h

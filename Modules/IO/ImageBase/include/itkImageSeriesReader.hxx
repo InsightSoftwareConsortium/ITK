@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSeriesReader_hxx
-#define __itkImageSeriesReader_hxx
+#ifndef itkImageSeriesReader_hxx
+#define itkImageSeriesReader_hxx
 
 #include "itkImageSeriesReader.h"
 

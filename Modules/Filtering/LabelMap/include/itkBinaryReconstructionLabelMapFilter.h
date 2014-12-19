@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryReconstructionLabelMapFilter_h
-#define __itkBinaryReconstructionLabelMapFilter_h
+#ifndef itkBinaryReconstructionLabelMapFilter_h
+#define itkBinaryReconstructionLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"

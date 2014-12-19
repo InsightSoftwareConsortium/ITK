@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTwoOutputExampleImageFilter_hxx
-#define __itkTwoOutputExampleImageFilter_hxx
+#ifndef itkTwoOutputExampleImageFilter_hxx
+#define itkTwoOutputExampleImageFilter_hxx
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkTwoOutputExampleImageFilter.h"

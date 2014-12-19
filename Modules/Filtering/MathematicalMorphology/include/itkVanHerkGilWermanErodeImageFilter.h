@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVanHerkGilWermanErodeImageFilter_h
-#define __itkVanHerkGilWermanErodeImageFilter_h
+#ifndef itkVanHerkGilWermanErodeImageFilter_h
+#define itkVanHerkGilWermanErodeImageFilter_h
 
 // Intentionally include the Dilate filter to get the base class to avoid issues
 // with itkFlatStructuringElement.hxx

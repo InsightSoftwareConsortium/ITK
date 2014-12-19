@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToSpatialObjectMetric_h
-#define __itkImageToSpatialObjectMetric_h
+#ifndef itkImageToSpatialObjectMetric_h
+#define itkImageToSpatialObjectMetric_h
 
 #include "itkSingleValuedCostFunction.h"
 #include "itkMinimumMaximumImageCalculator.h"

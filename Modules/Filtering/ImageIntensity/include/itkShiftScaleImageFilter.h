@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShiftScaleImageFilter_h
-#define __itkShiftScaleImageFilter_h
+#ifndef itkShiftScaleImageFilter_h
+#define itkShiftScaleImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkArray.h"

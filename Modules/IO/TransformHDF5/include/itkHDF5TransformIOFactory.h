@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHDF5TransformIOFactory_h
-#define __itkHDF5TransformIOFactory_h
+#ifndef itkHDF5TransformIOFactory_h
+#define itkHDF5TransformIOFactory_h
 
 
 #include "itkObjectFactoryBase.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetEvolutionUpdateLevelSetsThreader_hxx
-#define __itkLevelSetEvolutionUpdateLevelSetsThreader_hxx
+#ifndef itkLevelSetEvolutionUpdateLevelSetsThreader_hxx
+#define itkLevelSetEvolutionUpdateLevelSetsThreader_hxx
 
 #include "itkLevelSetEvolutionUpdateLevelSetsThreader.h"
 

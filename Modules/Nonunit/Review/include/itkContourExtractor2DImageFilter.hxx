@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkContourExtractor2DImageFilter_hxx
-#define __itkContourExtractor2DImageFilter_hxx
+#ifndef itkContourExtractor2DImageFilter_hxx
+#define itkContourExtractor2DImageFilter_hxx
 
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkProgressReporter.h"

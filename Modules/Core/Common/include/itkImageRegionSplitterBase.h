@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegionSplitterBase_h
-#define __itkImageRegionSplitterBase_h
+#ifndef itkImageRegionSplitterBase_h
+#define itkImageRegionSplitterBase_h
 
 #include "itkImageRegion.h"
 #include "itkObjectFactory.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThreadedIndexedContainerPartitioner_h
-#define __itkThreadedIndexedContainerPartitioner_h
+#ifndef itkThreadedIndexedContainerPartitioner_h
+#define itkThreadedIndexedContainerPartitioner_h
 
 #include "itkThreadedDomainPartitioner.h"
 #include "itkIndex.h"

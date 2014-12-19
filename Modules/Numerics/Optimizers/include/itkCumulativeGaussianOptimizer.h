@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCumulativeGaussianOptimizer_h
-#define __itkCumulativeGaussianOptimizer_h
+#ifndef itkCumulativeGaussianOptimizer_h
+#define itkCumulativeGaussianOptimizer_h
 
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkCumulativeGaussianCostFunction.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmapsFileParser_hxx
-#define __itkSmapsFileParser_hxx
+#ifndef itkSmapsFileParser_hxx
+#define itkSmapsFileParser_hxx
 
 #include "itkSmapsFileParser.h"
 
@@ -208,4 +208,4 @@ void VMMapFileParser< TVMMapDataType >::ReadFile(const std::string & mapFileLoca
 }
 } //end namespace itk
 
-#endif //__itkSmapsFileParser_hxx
+#endif //itkSmapsFileParser_hxx

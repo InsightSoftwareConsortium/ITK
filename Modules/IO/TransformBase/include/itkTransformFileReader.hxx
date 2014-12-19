@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformFileReader_hxx
-#define __itkTransformFileReader_hxx
+#ifndef itkTransformFileReader_hxx
+#define itkTransformFileReader_hxx
 
 #include "itkTransformFileReader.h"
 #include "itkTransformIOFactory.h"

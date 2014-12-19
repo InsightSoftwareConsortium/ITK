@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureFlowImageFilter_h
-#define __itkCurvatureFlowImageFilter_h
+#ifndef itkCurvatureFlowImageFilter_h
+#define itkCurvatureFlowImageFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkCurvatureFlowFunction.h"

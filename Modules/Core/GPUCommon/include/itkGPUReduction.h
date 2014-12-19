@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUReduction_h
-#define __itkGPUReduction_h
+#ifndef itkGPUReduction_h
+#define itkGPUReduction_h
 
 #include "itkObject.h"
 #include "itkGPUDataManager.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArrowSpatialObject_h
-#define __itkArrowSpatialObject_h
+#ifndef itkArrowSpatialObject_h
+#define itkArrowSpatialObject_h
 
 
 #include "itkSpatialObject.h"
@@ -147,4 +147,4 @@ private:
 #include "itkArrowSpatialObject.hxx"
 #endif
 
-#endif // __itkArrowSpatialObject_h
+#endif // itkArrowSpatialObject_h

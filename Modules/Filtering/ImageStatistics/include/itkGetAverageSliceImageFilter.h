@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGetAverageSliceImageFilter_h
-#define __itkGetAverageSliceImageFilter_h
+#ifndef itkGetAverageSliceImageFilter_h
+#define itkGetAverageSliceImageFilter_h
 
 #include "itkAccumulateImageFilter.h"
 

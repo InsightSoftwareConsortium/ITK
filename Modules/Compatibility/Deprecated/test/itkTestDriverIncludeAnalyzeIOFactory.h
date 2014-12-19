@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestDriverIncludeAnalyzeIOFactory_h
-#define __itkTestDriverIncludeAnalyzeIOFactory_h
+#ifndef itkTestDriverIncludeAnalyzeIOFactory_h
+#define itkTestDriverIncludeAnalyzeIOFactory_h
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkNiftiImageIOFactory.h"
 #include "itkTestDriverInclude.h"

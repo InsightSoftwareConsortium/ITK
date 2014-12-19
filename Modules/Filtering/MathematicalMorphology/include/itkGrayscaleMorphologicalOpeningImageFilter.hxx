@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleMorphologicalOpeningImageFilter_hxx
-#define __itkGrayscaleMorphologicalOpeningImageFilter_hxx
+#ifndef itkGrayscaleMorphologicalOpeningImageFilter_hxx
+#define itkGrayscaleMorphologicalOpeningImageFilter_hxx
 
 #include "itkGrayscaleMorphologicalOpeningImageFilter.h"
 #include "itkNumericTraits.h"

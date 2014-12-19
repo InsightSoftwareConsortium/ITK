@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIdentityTransform_h
-#define __itkIdentityTransform_h
+#ifndef itkIdentityTransform_h
+#define itkIdentityTransform_h
 
 #include "itkObject.h"
 #include "itkPoint.h"

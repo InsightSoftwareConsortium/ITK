@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodSampler_h
-#define __itkNeighborhoodSampler_h
+#ifndef itkNeighborhoodSampler_h
+#define itkNeighborhoodSampler_h
 
 #include "itkSampleToSubsampleFilter.h"
 #include "itkSimpleDataObjectDecorator.h"

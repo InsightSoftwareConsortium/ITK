@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDTITubeSpatialObject_hxx
-#define __itkDTITubeSpatialObject_hxx
+#ifndef itkDTITubeSpatialObject_hxx
+#define itkDTITubeSpatialObject_hxx
 
 
 #include "itkDTITubeSpatialObject.h"
@@ -50,4 +50,4 @@ DTITubeSpatialObject< TDimension >
 }
 } // end namespace itk
 
-#endif // end __itkDTITubeSpatialObject_hxx
+#endif // end itkDTITubeSpatialObject_hxx

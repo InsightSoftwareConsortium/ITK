@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAmoebaOptimizer_h
-#define __itkAmoebaOptimizer_h
+#ifndef itkAmoebaOptimizer_h
+#define itkAmoebaOptimizer_h
 
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_amoeba.h"

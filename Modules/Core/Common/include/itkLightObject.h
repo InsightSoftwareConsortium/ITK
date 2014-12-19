@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLightObject_h
-#define __itkLightObject_h
+#ifndef itkLightObject_h
+#define itkLightObject_h
 
 #include "itkMacro.h"
 #include "itkSmartPointer.h"

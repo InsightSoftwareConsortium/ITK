@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkIPLFileNameList_h
-#define __itkIPLFileNameList_h
+#ifndef itkIPLFileNameList_h
+#define itkIPLFileNameList_h
 #include "ITKIOIPLExport.h"
 
 #include "itkMacro.h"
@@ -286,4 +286,4 @@ private:
   int m_SortOrder;
 };
 }
-#endif                          /* __itkIPLFileNameList_h */
+#endif                          /* itkIPLFileNameList_h */

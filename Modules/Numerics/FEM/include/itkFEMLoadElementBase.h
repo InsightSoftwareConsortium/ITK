@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLoadElementBase_h
-#define __itkFEMLoadElementBase_h
+#ifndef itkFEMLoadElementBase_h
+#define itkFEMLoadElementBase_h
 
 #include "itkFEMLoadBase.h"
 
@@ -110,4 +110,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadElementBase_h
+#endif // #ifndef itkFEMLoadElementBase_h

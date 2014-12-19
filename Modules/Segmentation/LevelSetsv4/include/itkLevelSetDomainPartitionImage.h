@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetDomainPartitionImage_h
-#define __itkLevelSetDomainPartitionImage_h
+#ifndef itkLevelSetDomainPartitionImage_h
+#define itkLevelSetDomainPartitionImage_h
 
 #include "itkLevelSetDomainPartitionBase.h"
 #include "itkImageRegionIteratorWithIndex.h"

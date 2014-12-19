@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanReciprocalSquareDifferenceImageToImageMetric_hxx
-#define __itkMeanReciprocalSquareDifferenceImageToImageMetric_hxx
+#ifndef itkMeanReciprocalSquareDifferenceImageToImageMetric_hxx
+#define itkMeanReciprocalSquareDifferenceImageToImageMetric_hxx
 
 #include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

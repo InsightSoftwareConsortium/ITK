@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTemporalProcessObject_h
-#define __itkTemporalProcessObject_h
+#ifndef itkTemporalProcessObject_h
+#define itkTemporalProcessObject_h
 
 #include "itkProcessObject.h"
 #include "itkTemporalRegion.h"

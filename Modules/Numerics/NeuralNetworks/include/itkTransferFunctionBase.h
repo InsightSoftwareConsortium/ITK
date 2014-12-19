@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransferFunctionBase_h
-#define __itkTransferFunctionBase_h
+#ifndef itkTransferFunctionBase_h
+#define itkTransferFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkArray.h"

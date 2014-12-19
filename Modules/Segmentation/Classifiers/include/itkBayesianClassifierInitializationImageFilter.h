@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBayesianClassifierInitializationImageFilter_h
-#define __itkBayesianClassifierInitializationImageFilter_h
+#ifndef itkBayesianClassifierInitializationImageFilter_h
+#define itkBayesianClassifierInitializationImageFilter_h
 
 #include "itkVectorImage.h"
 #include "itkVectorContainer.h"

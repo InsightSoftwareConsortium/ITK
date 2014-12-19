@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestingHashImageFilter_hxx
-#define __itkTestingHashImageFilter_hxx
+#ifndef itkTestingHashImageFilter_hxx
+#define itkTestingHashImageFilter_hxx
 
 #include "itkTestingHashImageFilter.h"
 #include "itkByteSwapper.h"
@@ -168,4 +168,4 @@ HashImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 } // end namespace Testing
 } // end namespace itk
 
-#endif // __itkTestingHashImageFilter_txx
+#endif // itkTestingHashImageFilter_hxx

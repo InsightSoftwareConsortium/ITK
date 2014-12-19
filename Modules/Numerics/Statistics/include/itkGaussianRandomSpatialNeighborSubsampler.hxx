@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianRandomSpatialNeighborSubsampler_hxx
-#define __itkGaussianRandomSpatialNeighborSubsampler_hxx
+#ifndef itkGaussianRandomSpatialNeighborSubsampler_hxx
+#define itkGaussianRandomSpatialNeighborSubsampler_hxx
 #include "itkGaussianRandomSpatialNeighborSubsampler.h"
 
 namespace itk {

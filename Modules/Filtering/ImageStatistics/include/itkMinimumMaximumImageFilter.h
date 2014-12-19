@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMinimumMaximumImageFilter_h
-#define __itkMinimumMaximumImageFilter_h
+#ifndef itkMinimumMaximumImageFilter_h
+#define itkMinimumMaximumImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"

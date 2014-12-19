@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageMomentsCalculator_h
-#define __itkImageMomentsCalculator_h
+#ifndef itkImageMomentsCalculator_h
+#define itkImageMomentsCalculator_h
 
 #include "itkAffineTransform.h"
 #include "itkImage.h"
@@ -226,4 +226,4 @@ private:
 #include "itkImageMomentsCalculator.hxx"
 #endif
 
-#endif /* __itkImageMomentsCalculator_h */
+#endif /* itkImageMomentsCalculator_h */

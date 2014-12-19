@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIntermodesThresholdCalculator_hxx
-#define __itkIntermodesThresholdCalculator_hxx
+#ifndef itkIntermodesThresholdCalculator_hxx
+#define itkIntermodesThresholdCalculator_hxx
 
 #include "itkIntermodesThresholdCalculator.h"
 #include "itkProgressReporter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScaleSkewVersor3DTransform_h
-#define __itkScaleSkewVersor3DTransform_h
+#ifndef itkScaleSkewVersor3DTransform_h
+#define itkScaleSkewVersor3DTransform_h
 
 #include <iostream>
 #include "itkVersorRigid3DTransform.h"

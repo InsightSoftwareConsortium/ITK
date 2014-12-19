@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNonUniformBSpline_h
-#define __itkNonUniformBSpline_h
+#ifndef itkNonUniformBSpline_h
+#define itkNonUniformBSpline_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 
@@ -195,4 +195,4 @@ protected:
 #endif
 
 #endif //#if !defined( ITK_LEGACY_REMOVE )
-#endif // __itkNonUniformBSpline_h
+#endif // itkNonUniformBSpline_h

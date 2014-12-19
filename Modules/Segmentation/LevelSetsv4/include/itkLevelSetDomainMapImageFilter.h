@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetDomainMapImageFilter_h
-#define __itkLevelSetDomainMapImageFilter_h
+#ifndef itkLevelSetDomainMapImageFilter_h
+#define itkLevelSetDomainMapImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIterator.h"

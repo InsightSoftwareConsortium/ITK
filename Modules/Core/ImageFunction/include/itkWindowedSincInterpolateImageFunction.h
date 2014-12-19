@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWindowedSincInterpolateImageFunction_h
-#define __itkWindowedSincInterpolateImageFunction_h
+#ifndef itkWindowedSincInterpolateImageFunction_h
+#define itkWindowedSincInterpolateImageFunction_h
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"

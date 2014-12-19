@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTrainingFunctionBase_h
-#define __itkTrainingFunctionBase_h
+#ifndef itkTrainingFunctionBase_h
+#define itkTrainingFunctionBase_h
 
 #include <iostream>
 #include "itkLightProcessObject.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetEvolutionComputeIterationThreader_h
-#define __itkLevelSetEvolutionComputeIterationThreader_h
+#ifndef itkLevelSetEvolutionComputeIterationThreader_h
+#define itkLevelSetEvolutionComputeIterationThreader_h
 
 #include "itkDomainThreader.h"
 #include "itkThreadedImageRegionPartitioner.h"

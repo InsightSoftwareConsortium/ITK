@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToImageMetric_hxx
-#define __itkPointSetToImageMetric_hxx
+#ifndef itkPointSetToImageMetric_hxx
+#define itkPointSetToImageMetric_hxx
 
 #include "itkPointSetToImageMetric.h"
 

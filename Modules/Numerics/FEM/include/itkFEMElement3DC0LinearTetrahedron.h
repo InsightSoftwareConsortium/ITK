@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMElement3DC0LinearTetrahedron_h
-#define __itkFEMElement3DC0LinearTetrahedron_h
+#ifndef itkFEMElement3DC0LinearTetrahedron_h
+#define itkFEMElement3DC0LinearTetrahedron_h
 
 #include "itkFEMElementStd.h"
 // to make some checks in GetLocalFromGlobalCoordinates
@@ -107,4 +107,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement3DC0LinearTetrahedron_h
+#endif  // #ifndef itkFEMElement3DC0LinearTetrahedron_h

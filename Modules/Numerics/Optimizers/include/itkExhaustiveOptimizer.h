@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExhaustiveOptimizer_h
-#define __itkExhaustiveOptimizer_h
+#ifndef itkExhaustiveOptimizer_h
+#define itkExhaustiveOptimizer_h
 
 #include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearOptimizer.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMFiniteDifferenceFunctionLoad_h
-#define __itkFEMFiniteDifferenceFunctionLoad_h
+#ifndef itkFEMFiniteDifferenceFunctionLoad_h
+#define itkFEMFiniteDifferenceFunctionLoad_h
 
 #include "itkFEMLoadElementBase.h"
 

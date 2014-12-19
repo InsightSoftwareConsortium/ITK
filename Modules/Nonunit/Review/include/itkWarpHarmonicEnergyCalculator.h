@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWarpHarmonicEnergyCalculator_h
-#define __itkWarpHarmonicEnergyCalculator_h
+#ifndef itkWarpHarmonicEnergyCalculator_h
+#define itkWarpHarmonicEnergyCalculator_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -163,4 +163,4 @@ private:
 #include "itkWarpHarmonicEnergyCalculator.hxx"
 #endif
 
-#endif /* __itkWarpHarmonicEnergyCalculator_h */
+#endif /* itkWarpHarmonicEnergyCalculator_h */

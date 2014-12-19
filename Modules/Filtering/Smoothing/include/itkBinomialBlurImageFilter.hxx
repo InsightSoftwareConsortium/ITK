@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinomialBlurImageFilter_hxx
-#define __itkBinomialBlurImageFilter_hxx
+#ifndef itkBinomialBlurImageFilter_hxx
+#define itkBinomialBlurImageFilter_hxx
 
 #include "vnl/vnl_vector_fixed.h"
 #include "itkProgressReporter.h"

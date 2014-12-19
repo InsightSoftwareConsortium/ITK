@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRFImageFilter_h
-#define __itkMRFImageFilter_h
+#ifndef itkMRFImageFilter_h
+#define itkMRFImageFilter_h
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"

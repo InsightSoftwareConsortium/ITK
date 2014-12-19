@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParallelSparseFieldLevelSetImageFilter_h
-#define __itkParallelSparseFieldLevelSetImageFilter_h
+#ifndef itkParallelSparseFieldLevelSetImageFilter_h
+#define itkParallelSparseFieldLevelSetImageFilter_h
 
 #include <vector>
 #include "itkFiniteDifferenceImageFilter.h"

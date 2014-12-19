@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVXLVideoIO_h
-#define __itkVXLVideoIO_h
+#ifndef itkVXLVideoIO_h
+#define itkVXLVideoIO_h
 
 // Define support for VXLVideo
 #ifndef ITK_VIDEO_USE_VXL
@@ -169,4 +169,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkVXLVideoIO_h
+#endif // itkVXLVideoIO_h

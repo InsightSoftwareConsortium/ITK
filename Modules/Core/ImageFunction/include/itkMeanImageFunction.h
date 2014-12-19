@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanImageFunction_h
-#define __itkMeanImageFunction_h
+#ifndef itkMeanImageFunction_h
+#define itkMeanImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"

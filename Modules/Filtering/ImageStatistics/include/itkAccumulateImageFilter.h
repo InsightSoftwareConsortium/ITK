@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAccumulateImageFilter_h
-#define __itkAccumulateImageFilter_h
+#ifndef itkAccumulateImageFilter_h
+#define itkAccumulateImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

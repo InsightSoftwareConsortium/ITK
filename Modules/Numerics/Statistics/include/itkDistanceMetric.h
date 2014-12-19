@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDistanceMetric_h
-#define __itkDistanceMetric_h
+#ifndef itkDistanceMetric_h
+#define itkDistanceMetric_h
 
 #include "itkFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"

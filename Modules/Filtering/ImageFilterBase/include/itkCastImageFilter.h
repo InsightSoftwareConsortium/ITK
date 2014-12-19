@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCastImageFilter_h
-#define __itkCastImageFilter_h
+#ifndef itkCastImageFilter_h
+#define itkCastImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkProgressReporter.h"

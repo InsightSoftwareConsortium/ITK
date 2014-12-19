@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNonLinearOptimizer_h
-#define __itkNonLinearOptimizer_h
+#ifndef itkNonLinearOptimizer_h
+#define itkNonLinearOptimizer_h
 
 #include "itkOptimizer.h"
 

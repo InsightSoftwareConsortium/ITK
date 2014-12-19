@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkObjectToObjectMultiMetricv4_h
-#define __itkObjectToObjectMultiMetricv4_h
+#ifndef itkObjectToObjectMultiMetricv4_h
+#define itkObjectToObjectMultiMetricv4_h
 
 #include "itkObjectToObjectMetric.h"
 #include "itkArray.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEuler2DTransform_h
-#define __itkEuler2DTransform_h
+#ifndef itkEuler2DTransform_h
+#define itkEuler2DTransform_h
 
 #include <iostream>
 #include "itkRigid2DTransform.h"
@@ -132,4 +132,4 @@ private:
 #include "itkEuler2DTransform.hxx"
 #endif
 
-#endif /* __itkEuler2DTransform_h */
+#endif /* itkEuler2DTransform_h */

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineInterpolateImageFunction_h
-#define __itkBSplineInterpolateImageFunction_h
+#ifndef itkBSplineInterpolateImageFunction_h
+#define itkBSplineInterpolateImageFunction_h
 
 #include <vector>
 

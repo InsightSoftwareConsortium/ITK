@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMahalanobisDistanceMetric_h
-#define __itkMahalanobisDistanceMetric_h
+#ifndef itkMahalanobisDistanceMetric_h
+#define itkMahalanobisDistanceMetric_h
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_vector_ref.h"

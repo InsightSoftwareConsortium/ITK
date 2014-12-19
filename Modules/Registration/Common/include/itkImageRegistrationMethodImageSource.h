@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegistrationMethodImageSource_h
-#define __itkImageRegistrationMethodImageSource_h
+#ifndef itkImageRegistrationMethodImageSource_h
+#define itkImageRegistrationMethodImageSource_h
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkCommandIterationUpdate.h"

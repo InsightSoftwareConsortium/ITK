@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabeledPointSetToPointSetMetricv4_h
-#define __itkLabeledPointSetToPointSetMetricv4_h
+#ifndef itkLabeledPointSetToPointSetMetricv4_h
+#define itkLabeledPointSetToPointSetMetricv4_h
 
 #include "itkPointSetToPointSetMetricv4.h"
 

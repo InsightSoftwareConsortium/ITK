@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToListSampleAdaptor_h
-#define __itkPointSetToListSampleAdaptor_h
+#ifndef itkPointSetToListSampleAdaptor_h
+#define itkPointSetToListSampleAdaptor_h
 
 #include <typeinfo>
 

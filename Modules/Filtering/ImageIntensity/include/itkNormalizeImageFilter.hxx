@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalizeImageFilter_hxx
-#define __itkNormalizeImageFilter_hxx
+#ifndef itkNormalizeImageFilter_hxx
+#define itkNormalizeImageFilter_hxx
 
 #include "itkNormalizeImageFilter.h"
 #include "itkImageRegionIterator.h"

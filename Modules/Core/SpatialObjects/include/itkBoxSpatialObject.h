@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBoxSpatialObject_h
-#define __itkBoxSpatialObject_h
+#ifndef itkBoxSpatialObject_h
+#define itkBoxSpatialObject_h
 
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
@@ -102,4 +102,4 @@ protected:
 #include "itkBoxSpatialObject.hxx"
 #endif
 
-#endif // __itkBoxSpatialObject_h
+#endif // itkBoxSpatialObject_h

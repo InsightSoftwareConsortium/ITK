@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMesh_hxx
-#define __itkQuadEdgeMesh_hxx
+#ifndef itkQuadEdgeMesh_hxx
+#define itkQuadEdgeMesh_hxx
 #include "itkQuadEdgeMesh.h"
 #include "vcl_limits.h"
 #include <vector>

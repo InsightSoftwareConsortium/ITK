@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInverseFFTImageFilter_h
-#define __itkInverseFFTImageFilter_h
+#ifndef itkInverseFFTImageFilter_h
+#define itkInverseFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -84,10 +84,10 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef __itkVnlInverseFFTImageFilter_h
-#ifndef __itkVnlInverseFFTImageFilter_hxx
-#ifndef __itkFFTWInverseFFTImageFilter_h
-#ifndef __itkFFTWInverseFFTImageFilter_hxx
+#ifndef itkVnlInverseFFTImageFilter_h
+#ifndef itkVnlInverseFFTImageFilter_hxx
+#ifndef itkFFTWInverseFFTImageFilter_h
+#ifndef itkFFTWInverseFFTImageFilter_hxx
 #include "itkInverseFFTImageFilter.hxx"
 #endif
 #endif

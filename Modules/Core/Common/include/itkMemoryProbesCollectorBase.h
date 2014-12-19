@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMemoryProbesCollectorBase_h
-#define __itkMemoryProbesCollectorBase_h
+#ifndef itkMemoryProbesCollectorBase_h
+#define itkMemoryProbesCollectorBase_h
 
 #include "itkMacro.h"
 #include "itkMemoryProbe.h"
@@ -41,4 +41,4 @@ public:
 };
 } // end namespace itk
 
-#endif // __itkMemoryProbesCollectorBase_h
+#endif // itkMemoryProbesCollectorBase_h

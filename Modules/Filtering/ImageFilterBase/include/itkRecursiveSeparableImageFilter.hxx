@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRecursiveSeparableImageFilter_hxx
-#define __itkRecursiveSeparableImageFilter_hxx
+#ifndef itkRecursiveSeparableImageFilter_hxx
+#define itkRecursiveSeparableImageFilter_hxx
 
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"

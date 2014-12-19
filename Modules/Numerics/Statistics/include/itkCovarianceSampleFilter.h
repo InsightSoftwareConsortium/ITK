@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCovarianceSampleFilter_h
-#define __itkCovarianceSampleFilter_h
+#ifndef itkCovarianceSampleFilter_h
+#define itkCovarianceSampleFilter_h
 
 #include "itkProcessObject.h"
 

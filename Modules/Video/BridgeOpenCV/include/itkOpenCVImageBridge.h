@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOpenCVImageBridge_h
-#define __itkOpenCVImageBridge_h
+#ifndef itkOpenCVImageBridge_h
+#define itkOpenCVImageBridge_h
 
 #include <string>
 

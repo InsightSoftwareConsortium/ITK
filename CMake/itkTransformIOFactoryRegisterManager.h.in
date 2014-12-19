@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkTransformIOFactoryRegisterManager_h
-#define __itkTransformIOFactoryRegisterManager_h
+#ifndef itkTransformIOFactoryRegisterManager_h
+#define itkTransformIOFactoryRegisterManager_h
 
 namespace itk {
 

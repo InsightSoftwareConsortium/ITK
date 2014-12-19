@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConnectedThresholdImageFilter_h
-#define __itkConnectedThresholdImageFilter_h
+#ifndef itkConnectedThresholdImageFilter_h
+#define itkConnectedThresholdImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTextOutput_h
-#define __itkTextOutput_h
+#ifndef itkTextOutput_h
+#define itkTextOutput_h
 
 #include "itkOutputWindow.h"
 #include "itkObjectFactory.h"

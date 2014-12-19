@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageTransformer_hxx
-#define __itkImageTransformer_hxx
+#ifndef itkImageTransformer_hxx
+#define itkImageTransformer_hxx
 #include "itkImageTransformer.h"
 
 #include "vnl/vnl_math.h"

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleGrindPeakImageFilter_hxx
-#define __itkGrayscaleGrindPeakImageFilter_hxx
+#ifndef itkGrayscaleGrindPeakImageFilter_hxx
+#define itkGrayscaleGrindPeakImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkGrayscaleGrindPeakImageFilter.h"

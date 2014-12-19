@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkIndent_h
-#define __itkIndent_h
+#ifndef itkIndent_h
+#define itkIndent_h
 
 #include "itkMacro.h"
 #include <iostream>

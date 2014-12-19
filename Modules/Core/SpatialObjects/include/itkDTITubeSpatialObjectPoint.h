@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDTITubeSpatialObjectPoint_h
-#define __itkDTITubeSpatialObjectPoint_h
+#ifndef itkDTITubeSpatialObjectPoint_h
+#define itkDTITubeSpatialObjectPoint_h
 
 #include "itkTubeSpatialObjectPoint.h"
 #include "itkDiffusionTensor3D.h"
@@ -118,4 +118,4 @@ protected:
 #include "itkDTITubeSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkDTITubeSpatialObjectPoint_h
+#endif // itkDTITubeSpatialObjectPoint_h

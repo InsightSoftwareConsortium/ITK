@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineControlPointImageFilter_h
-#define __itkBSplineControlPointImageFilter_h
+#ifndef itkBSplineControlPointImageFilter_h
+#define itkBSplineControlPointImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkBSplineKernelFunction.h"

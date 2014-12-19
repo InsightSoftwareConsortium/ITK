@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInteriorExteriorMeshFilter_h
-#define __itkInteriorExteriorMeshFilter_h
+#ifndef itkInteriorExteriorMeshFilter_h
+#define itkInteriorExteriorMeshFilter_h
 
 #include "itkMeshToMeshFilter.h"
 #include "itkDataObjectDecorator.h"

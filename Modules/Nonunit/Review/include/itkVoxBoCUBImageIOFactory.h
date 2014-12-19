@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoxBoCUBImageIOFactory_h
-#define __itkVoxBoCUBImageIOFactory_h
+#ifndef itkVoxBoCUBImageIOFactory_h
+#define itkVoxBoCUBImageIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

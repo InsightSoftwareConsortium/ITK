@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramImageToImageMetric_hxx
-#define __itkHistogramImageToImageMetric_hxx
+#ifndef itkHistogramImageToImageMetric_hxx
+#define itkHistogramImageToImageMetric_hxx
 
 #include "itkArray.h"
 #include "itkHistogramImageToImageMetric.h"

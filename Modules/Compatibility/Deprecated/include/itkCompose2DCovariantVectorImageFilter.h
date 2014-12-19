@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompose2DCovariantVectorImageFilter_h
-#define __itkCompose2DCovariantVectorImageFilter_h
+#ifndef itkCompose2DCovariantVectorImageFilter_h
+#define itkCompose2DCovariantVectorImageFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkBinaryFunctorImageFilter.h"

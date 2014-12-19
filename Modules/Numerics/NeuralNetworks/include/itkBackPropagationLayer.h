@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBackPropagationLayer_h
-#define __itkBackPropagationLayer_h
+#ifndef itkBackPropagationLayer_h
+#define itkBackPropagationLayer_h
 
 #include "itkCompletelyConnectedWeightSet.h"
 #include "itkLayerBase.h"

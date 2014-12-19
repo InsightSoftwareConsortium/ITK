@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWForwardFFTImageFilter_h
-#define __itkFFTWForwardFFTImageFilter_h
+#ifndef itkFFTWForwardFFTImageFilter_h
+#define itkFFTWForwardFFTImageFilter_h
 
 #include "itkForwardFFTImageFilter.h"
 
@@ -129,4 +129,4 @@ private:
 #include "itkFFTWForwardFFTImageFilter.hxx"
 #endif
 
-#endif //__itkFFTWForwardFFTImageFilter_h
+#endif //itkFFTWForwardFFTImageFilter_h

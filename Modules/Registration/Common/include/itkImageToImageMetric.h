@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageMetric_h
-#define __itkImageToImageMetric_h
+#ifndef itkImageToImageMetric_h
+#define itkImageToImageMetric_h
 
 #include "itkBSplineBaseTransform.h"
 #include "itkBSplineInterpolateImageFunction.h"

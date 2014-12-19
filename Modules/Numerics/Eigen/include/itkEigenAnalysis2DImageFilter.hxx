@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEigenAnalysis2DImageFilter_hxx
-#define __itkEigenAnalysis2DImageFilter_hxx
+#ifndef itkEigenAnalysis2DImageFilter_hxx
+#define itkEigenAnalysis2DImageFilter_hxx
 
 #include "itkEigenAnalysis2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

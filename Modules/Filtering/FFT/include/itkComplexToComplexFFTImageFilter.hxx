@@ -28,8 +28,8 @@
  * http://hdl.handle.net/1926/326
  *
  */
-#ifndef __itkComplexToComplexFFTImageFilter_hxx
-#define __itkComplexToComplexFFTImageFilter_hxx
+#ifndef itkComplexToComplexFFTImageFilter_hxx
+#define itkComplexToComplexFFTImageFilter_hxx
 #include "itkMetaDataObject.h"
 
 #include "itkVnlComplexToComplexFFTImageFilter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParametricPath_hxx
-#define __itkParametricPath_hxx
+#ifndef itkParametricPath_hxx
+#define itkParametricPath_hxx
 
 #include "itkParametricPath.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComposeDisplacementFieldsImageFilter_h
-#define __itkComposeDisplacementFieldsImageFilter_h
+#ifndef itkComposeDisplacementFieldsImageFilter_h
+#define itkComposeDisplacementFieldsImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorInterpolateImageFunction.h"

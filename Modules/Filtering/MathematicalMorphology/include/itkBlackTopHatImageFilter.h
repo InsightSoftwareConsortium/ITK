@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBlackTopHatImageFilter_h
-#define __itkBlackTopHatImageFilter_h
+#ifndef itkBlackTopHatImageFilter_h
+#define itkBlackTopHatImageFilter_h
 
 #include "itkKernelImageFilter.h"
 

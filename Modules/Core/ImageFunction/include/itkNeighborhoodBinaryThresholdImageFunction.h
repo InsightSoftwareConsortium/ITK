@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodBinaryThresholdImageFunction_h
-#define __itkNeighborhoodBinaryThresholdImageFunction_h
+#ifndef itkNeighborhoodBinaryThresholdImageFunction_h
+#define itkNeighborhoodBinaryThresholdImageFunction_h
 
 #include "itkBinaryThresholdImageFunction.h"
 

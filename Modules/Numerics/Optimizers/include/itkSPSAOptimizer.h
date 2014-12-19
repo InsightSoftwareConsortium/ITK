@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSPSAOptimizer_h
-#define __itkSPSAOptimizer_h
+#ifndef itkSPSAOptimizer_h
+#define itkSPSAOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -265,4 +265,4 @@ private:
 }; // end class SPSAOptimizer
 } // end namespace itk
 
-#endif // end #ifndef __itkSPSAOptimizer_h
+#endif // end #ifndef itkSPSAOptimizer_h

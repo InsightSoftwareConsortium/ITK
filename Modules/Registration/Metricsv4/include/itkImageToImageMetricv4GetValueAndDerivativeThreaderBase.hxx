@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_hxx
-#define __itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_hxx
+#ifndef itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_hxx
+#define itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_hxx
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreaderBase.h"
 #include "itkNumericTraits.h"

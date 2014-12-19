@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkSpatialOrientationAdapter_h
-#define __itkSpatialOrientationAdapter_h
+#ifndef itkSpatialOrientationAdapter_h
+#define itkSpatialOrientationAdapter_h
 #include "itkOrientationAdapterBase.h"
 #include "itkSpatialOrientation.h"
 #include "itkConceptChecking.h"
@@ -102,4 +102,4 @@ public:
 };
 } // namespace itk
 
-#endif // __itkSpatialOrientationAdapter_h
+#endif // itkSpatialOrientationAdapter_h

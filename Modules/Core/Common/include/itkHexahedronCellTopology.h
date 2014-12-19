@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHexahedronCellTopology_h
-#define __itkHexahedronCellTopology_h
+#ifndef itkHexahedronCellTopology_h
+#define itkHexahedronCellTopology_h
 
 #include "itkMacro.h"
 

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMNodeXMLReader_h
-#define __itkDOMNodeXMLReader_h
+#ifndef itkDOMNodeXMLReader_h
+#define itkDOMNodeXMLReader_h
 
 #include "itkDOMNode.h"
 #include "itkObject.h"
@@ -142,4 +142,4 @@ inline std::istream& operator>>( std::istream& is, itk::DOMNode& object )
   return is;
 }
 
-#endif // __itkDOMNodeXMLReader_h
+#endif // itkDOMNodeXMLReader_h

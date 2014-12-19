@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMorphologicalWatershedImageFilter_h
-#define __itkMorphologicalWatershedImageFilter_h
+#ifndef itkMorphologicalWatershedImageFilter_h
+#define itkMorphologicalWatershedImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

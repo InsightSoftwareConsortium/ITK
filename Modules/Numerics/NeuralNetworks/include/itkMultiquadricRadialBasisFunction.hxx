@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiquadricRadialBasisFunction_hxx
-#define __itkMultiquadricRadialBasisFunction_hxx
+#ifndef itkMultiquadricRadialBasisFunction_hxx
+#define itkMultiquadricRadialBasisFunction_hxx
 
 #include "itkMultiquadricRadialBasisFunction.h"
 #include <cmath>

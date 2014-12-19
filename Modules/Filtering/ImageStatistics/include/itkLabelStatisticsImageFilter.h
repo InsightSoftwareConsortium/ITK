@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelStatisticsImageFilter_h
-#define __itkLabelStatisticsImageFilter_h
+#ifndef itkLabelStatisticsImageFilter_h
+#define itkLabelStatisticsImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"

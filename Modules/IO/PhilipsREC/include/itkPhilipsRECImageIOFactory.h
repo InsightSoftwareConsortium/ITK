@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPhilipsRECImageIOFactory_h
-#define __itkPhilipsRECImageIOFactory_h
+#ifndef itkPhilipsRECImageIOFactory_h
+#define itkPhilipsRECImageIOFactory_h
 #include "ITKIOPhilipsRECExport.h"
 
 #include "itkObjectFactoryBase.h"

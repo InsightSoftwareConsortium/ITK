@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNoiseBaseImageFilter_h
-#define __itkNoiseBaseImageFilter_h
+#ifndef itkNoiseBaseImageFilter_h
+#define itkNoiseBaseImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include <vcl_ctime.h>
@@ -88,4 +88,4 @@ private:
 #include "itkNoiseBaseImageFilter.hxx"
 #endif
 
-#endif //  __itkNoiseBaseImageFilter_h
+#endif //  itkNoiseBaseImageFilter_h

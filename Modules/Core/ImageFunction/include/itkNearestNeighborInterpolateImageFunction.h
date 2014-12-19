@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNearestNeighborInterpolateImageFunction_h
-#define __itkNearestNeighborInterpolateImageFunction_h
+#ifndef itkNearestNeighborInterpolateImageFunction_h
+#define itkNearestNeighborInterpolateImageFunction_h
 
 #include "itkInterpolateImageFunction.h"
 

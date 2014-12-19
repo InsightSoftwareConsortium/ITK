@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMemoryUsageObserver_h
-#define __itkMemoryUsageObserver_h
+#ifndef itkMemoryUsageObserver_h
+#define itkMemoryUsageObserver_h
 
 #include "itkConfigure.h"
 #include "itkMacro.h"
@@ -161,4 +161,4 @@ public:
 };
 } // end of namespace itk
 
-#endif  // __itkMemoryUsageObserver_h
+#endif  // itkMemoryUsageObserver_h

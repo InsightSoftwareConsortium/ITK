@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRandomConstIteratorWithOnlyIndex_h
-#define __itkImageRandomConstIteratorWithOnlyIndex_h
+#ifndef itkImageRandomConstIteratorWithOnlyIndex_h
+#define itkImageRandomConstIteratorWithOnlyIndex_h
 
 #include "itkImageConstIteratorWithOnlyIndex.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"

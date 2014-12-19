@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTubeSpatialObjectPoint_h
-#define __itkTubeSpatialObjectPoint_h
+#ifndef itkTubeSpatialObjectPoint_h
+#define itkTubeSpatialObjectPoint_h
 
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
@@ -116,4 +116,4 @@ protected:
 #include "itkTubeSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkTubeSpatialObjectPoint_h
+#endif // itkTubeSpatialObjectPoint_h

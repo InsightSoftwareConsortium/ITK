@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKPolyDataMeshIO_h
-#define __itkVTKPolyDataMeshIO_h
+#ifndef itkVTKPolyDataMeshIO_h
+#define itkVTKPolyDataMeshIO_h
 #include "ITKIOMeshExport.h"
 
 #include "itkByteSwapper.h"
@@ -1149,4 +1149,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkVTKPolyDataMeshIO_h
+#endif // itkVTKPolyDataMeshIO_h

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkNumericTraitsStdVector_h
-#define __itkNumericTraitsStdVector_h
+#ifndef itkNumericTraitsStdVector_h
+#define itkNumericTraitsStdVector_h
 
 #include "itkNumericTraits.h"
 #include <vector>
@@ -159,4 +159,4 @@ public:
 };
 } // end namespace itk
 
-#endif // __itkNumericTraitsStdVector_h
+#endif // itkNumericTraitsStdVector_h

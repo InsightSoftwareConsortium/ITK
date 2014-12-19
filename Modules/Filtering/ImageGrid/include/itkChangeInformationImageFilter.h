@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChangeInformationImageFilter_h
-#define __itkChangeInformationImageFilter_h
+#ifndef itkChangeInformationImageFilter_h
+#define itkChangeInformationImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkFixedArray.h"

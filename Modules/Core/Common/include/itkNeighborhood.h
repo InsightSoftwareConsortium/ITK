@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhood_h
-#define __itkNeighborhood_h
+#ifndef itkNeighborhood_h
+#define itkNeighborhood_h
 
 #include <iostream>
 #include "itkNeighborhoodAllocator.h"

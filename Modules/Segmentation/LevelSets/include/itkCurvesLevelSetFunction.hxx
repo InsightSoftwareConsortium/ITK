@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvesLevelSetFunction_hxx
-#define __itkCurvesLevelSetFunction_hxx
+#ifndef itkCurvesLevelSetFunction_hxx
+#define itkCurvesLevelSetFunction_hxx
 
 #include "itkCurvesLevelSetFunction.h"
 #include "itkImageRegionIterator.h"

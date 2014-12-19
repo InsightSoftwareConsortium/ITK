@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHilbertPath_hxx
-#define __itkHilbertPath_hxx
+#ifndef itkHilbertPath_hxx
+#define itkHilbertPath_hxx
 
 #include "itkHilbertPath.h"
 

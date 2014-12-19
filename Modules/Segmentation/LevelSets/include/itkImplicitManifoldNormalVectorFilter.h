@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImplicitManifoldNormalVectorFilter_h
-#define __itkImplicitManifoldNormalVectorFilter_h
+#ifndef itkImplicitManifoldNormalVectorFilter_h
+#define itkImplicitManifoldNormalVectorFilter_h
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNormalVectorFunctionBase.h"

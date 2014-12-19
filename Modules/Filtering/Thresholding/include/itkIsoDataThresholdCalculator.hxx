@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkIsoDataThresholdCalculator_hxx
-#define __itkIsoDataThresholdCalculator_hxx
+#ifndef itkIsoDataThresholdCalculator_hxx
+#define itkIsoDataThresholdCalculator_hxx
 
 #include "itkIsoDataThresholdCalculator.h"
 #include "vnl/vnl_math.h"

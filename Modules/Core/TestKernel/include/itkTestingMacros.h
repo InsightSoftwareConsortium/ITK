@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestingMacros_h
-#define __itkTestingMacros_h
+#ifndef itkTestingMacros_h
+#define itkTestingMacros_h
 
 
 // object's Class must be specified to build on sun studio

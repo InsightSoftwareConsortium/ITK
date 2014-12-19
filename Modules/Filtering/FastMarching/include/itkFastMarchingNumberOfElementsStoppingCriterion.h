@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingNumberOfElementsStoppingCriterion_h
-#define __itkFastMarchingNumberOfElementsStoppingCriterion_h
+#ifndef itkFastMarchingNumberOfElementsStoppingCriterion_h
+#define itkFastMarchingNumberOfElementsStoppingCriterion_h
 
 #include "itkFastMarchingStoppingCriterionBase.h"
 #include "itkObjectFactory.h"
@@ -98,4 +98,4 @@ private:
 };
 
 }
-#endif // __itkFastMarchingNumberOfElementsStoppingCriterion_h
+#endif // itkFastMarchingNumberOfElementsStoppingCriterion_h

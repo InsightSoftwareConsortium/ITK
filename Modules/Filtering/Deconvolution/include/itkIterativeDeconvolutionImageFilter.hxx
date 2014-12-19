@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeDeconvolutionImageFilter_hxx
-#define __itkIterativeDeconvolutionImageFilter_hxx
+#ifndef itkIterativeDeconvolutionImageFilter_hxx
+#define itkIterativeDeconvolutionImageFilter_hxx
 
 #include "itkCastImageFilter.h"
 #include "itkIterativeDeconvolutionImageFilter.h"

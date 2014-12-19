@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCopperColormapFunction_h
-#define __itkCopperColormapFunction_h
+#ifndef itkCopperColormapFunction_h
+#define itkCopperColormapFunction_h
 
 #include "itkColormapFunction.h"
 

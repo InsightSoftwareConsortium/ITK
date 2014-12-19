@@ -24,8 +24,8 @@
  *         Mouse Imaging Centre, Toronto, Canada 2005.
  */
 
-#ifndef __itkMINCImageIO_h
-#define __itkMINCImageIO_h
+#ifndef itkMINCImageIO_h
+#define itkMINCImageIO_h
 
 #include "itkImageIOBase.h"
 
@@ -156,4 +156,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkMINCImageIO_h
+#endif // itkMINCImageIO_h

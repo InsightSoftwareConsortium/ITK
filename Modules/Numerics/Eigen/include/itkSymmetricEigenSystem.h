@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricEigenSystem_h
-#define __itkSymmetricEigenSystem_h
+#ifndef itkSymmetricEigenSystem_h
+#define itkSymmetricEigenSystem_h
 
 #include "itkObject.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"

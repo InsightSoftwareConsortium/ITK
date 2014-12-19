@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineDecompositionImageFilter_h
-#define __itkBSplineDecompositionImageFilter_h
+#ifndef itkBSplineDecompositionImageFilter_h
+#define itkBSplineDecompositionImageFilter_h
 
 #include <vector>
 

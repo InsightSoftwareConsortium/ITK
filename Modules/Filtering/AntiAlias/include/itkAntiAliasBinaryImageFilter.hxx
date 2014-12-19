@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAntiAliasBinaryImageFilter_hxx
-#define __itkAntiAliasBinaryImageFilter_hxx
+#ifndef itkAntiAliasBinaryImageFilter_hxx
+#define itkAntiAliasBinaryImageFilter_hxx
 
 #include "itkAntiAliasBinaryImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"

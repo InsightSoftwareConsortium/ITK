@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearQuadrilateralStrain_h
-#define __itkFEMElement2DC0LinearQuadrilateralStrain_h
+#ifndef itkFEMElement2DC0LinearQuadrilateralStrain_h
+#define itkFEMElement2DC0LinearQuadrilateralStrain_h
 
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
 #include "itkFEMElement2DStrain.h"
@@ -96,4 +96,4 @@ private:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement2DC0LinearQuadrilateralStrain_h
+#endif  // #ifndef itkFEMElement2DC0LinearQuadrilateralStrain_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionGrowImageFilter_hxx
-#define __itkRegionGrowImageFilter_hxx
+#ifndef itkRegionGrowImageFilter_hxx
+#define itkRegionGrowImageFilter_hxx
 
 #include "itkRegionGrowImageFilter.h"
 

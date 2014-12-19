@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMINCTransformIOFactory_h
-#define __itkMINCTransformIOFactory_h
+#ifndef itkMINCTransformIOFactory_h
+#define itkMINCTransformIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
@@ -68,4 +68,4 @@ namespace itk
   };
 } // end namespace itk
 
-#endif //__itkMINCTransformIOFactory_h
+#endif //itkMINCTransformIOFactory_h

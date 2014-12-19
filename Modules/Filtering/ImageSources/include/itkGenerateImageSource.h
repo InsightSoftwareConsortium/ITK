@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkGenerateImageSource_h
-#define __itkGenerateImageSource_h
+#ifndef itkGenerateImageSource_h
+#define itkGenerateImageSource_h
 
 #include "itkImageSource.h"
 
@@ -117,4 +117,4 @@ private:
 #include "itkGenerateImageSource.hxx"
 #endif
 
-#endif //__itkGenerateImageSource_h
+#endif //itkGenerateImageSource_h

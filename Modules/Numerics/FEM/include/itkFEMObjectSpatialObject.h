@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMObjectSpatialObject_h
-#define __itkFEMObjectSpatialObject_h
+#ifndef itkFEMObjectSpatialObject_h
+#define itkFEMObjectSpatialObject_h
 
 #include "itkFEMObject.h"
 #include "itkExceptionObject.h"
@@ -93,4 +93,4 @@ protected:
 #include "itkFEMObjectSpatialObject.hxx"
 #endif
 
-#endif //__itkFEMObjectSpatialObject_h
+#endif //itkFEMObjectSpatialObject_h

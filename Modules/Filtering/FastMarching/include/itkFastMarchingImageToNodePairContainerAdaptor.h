@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingImageToNodePairContainerAdaptor_h
-#define __itkFastMarchingImageToNodePairContainerAdaptor_h
+#ifndef itkFastMarchingImageToNodePairContainerAdaptor_h
+#define itkFastMarchingImageToNodePairContainerAdaptor_h
 
 #include "itkObject.h"
 #include "itkFastMarchingTraits.h"
@@ -155,4 +155,4 @@ private:
 }
 
 #include "itkFastMarchingImageToNodePairContainerAdaptor.hxx"
-#endif // __itkFastMarchingImageToNodePairContainerAdaptor_h
+#endif // itkFastMarchingImageToNodePairContainerAdaptor_h

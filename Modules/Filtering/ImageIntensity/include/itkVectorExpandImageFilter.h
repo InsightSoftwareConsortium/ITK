@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorExpandImageFilter_h
-#define __itkVectorExpandImageFilter_h
+#ifndef itkVectorExpandImageFilter_h
+#define itkVectorExpandImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"

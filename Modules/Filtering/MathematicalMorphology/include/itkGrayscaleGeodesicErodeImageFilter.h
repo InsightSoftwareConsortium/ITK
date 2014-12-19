@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleGeodesicErodeImageFilter_h
-#define __itkGrayscaleGeodesicErodeImageFilter_h
+#ifndef itkGrayscaleGeodesicErodeImageFilter_h
+#define itkGrayscaleGeodesicErodeImageFilter_h
 
 #include "itkImageToImageFilter.h"
 

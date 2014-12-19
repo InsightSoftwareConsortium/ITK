@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 
-#ifndef __itkLevelSetEvolutionBase_h
-#define __itkLevelSetEvolutionBase_h
+#ifndef itkLevelSetEvolutionBase_h
+#define itkLevelSetEvolutionBase_h
 
 #include <list>
 
@@ -173,4 +173,4 @@ private:
 #include "itkLevelSetEvolutionBase.hxx"
 #endif
 
-#endif // __itkLevelSetEvolutionBase_h
+#endif // itkLevelSetEvolutionBase_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaborKernelFunction_h
-#define __itkGaborKernelFunction_h
+#ifndef itkGaborKernelFunction_h
+#define itkGaborKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
 #include <cmath>

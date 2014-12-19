@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_h
-#define __itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_h
+#ifndef itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_h
+#define itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_h
 
 #include "itkDomainThreader.h"
 #include "itkThreadedIndexedContainerPartitioner.h"

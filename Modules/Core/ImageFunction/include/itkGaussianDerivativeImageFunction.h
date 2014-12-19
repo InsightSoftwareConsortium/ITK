@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianDerivativeImageFunction_h
-#define __itkGaussianDerivativeImageFunction_h
+#ifndef itkGaussianDerivativeImageFunction_h
+#define itkGaussianDerivativeImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianDerivativeSpatialFunction.h"

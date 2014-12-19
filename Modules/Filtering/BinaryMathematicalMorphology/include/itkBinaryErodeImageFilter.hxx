@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryErodeImageFilter_hxx
-#define __itkBinaryErodeImageFilter_hxx
+#ifndef itkBinaryErodeImageFilter_hxx
+#define itkBinaryErodeImageFilter_hxx
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodInnerProduct.h"

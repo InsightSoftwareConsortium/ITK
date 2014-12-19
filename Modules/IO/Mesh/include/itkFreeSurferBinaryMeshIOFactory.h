@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFreeSurferBinaryMeshIOFactory_h
-#define __itkFreeSurferBinaryMeshIOFactory_h
+#ifndef itkFreeSurferBinaryMeshIOFactory_h
+#define itkFreeSurferBinaryMeshIOFactory_h
 #include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"

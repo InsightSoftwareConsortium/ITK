@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryShapeKeepNObjectsImageFilter_h
-#define __itkBinaryShapeKeepNObjectsImageFilter_h
+#ifndef itkBinaryShapeKeepNObjectsImageFilter_h
+#define itkBinaryShapeKeepNObjectsImageFilter_h
 
 #include "itkShapeLabelObject.h"
 #include "itkBinaryImageToLabelMapFilter.h"

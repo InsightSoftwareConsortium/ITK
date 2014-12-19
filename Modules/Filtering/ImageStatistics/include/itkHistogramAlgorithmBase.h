@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramAlgorithmBase_h
-#define __itkHistogramAlgorithmBase_h
+#ifndef itkHistogramAlgorithmBase_h
+#define itkHistogramAlgorithmBase_h
 
 #include "itkMacro.h"
 #include "itkObjectFactory.h"

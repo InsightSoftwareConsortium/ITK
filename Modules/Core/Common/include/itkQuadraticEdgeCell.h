@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadraticEdgeCell_h
-#define __itkQuadraticEdgeCell_h
+#ifndef itkQuadraticEdgeCell_h
+#define itkQuadraticEdgeCell_h
 
 #include "itkVertexCell.h"
 

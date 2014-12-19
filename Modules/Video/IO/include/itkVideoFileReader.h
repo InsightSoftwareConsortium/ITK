@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVideoFileReader_h
-#define __itkVideoFileReader_h
+#ifndef itkVideoFileReader_h
+#define itkVideoFileReader_h
 
 #include "itkVideoSource.h"
 #include "itkVideoIOFactory.h"

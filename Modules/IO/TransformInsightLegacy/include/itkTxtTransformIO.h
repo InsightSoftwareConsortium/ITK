@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTxtTransformIO_h
-#define __itkTxtTransformIO_h
+#ifndef itkTxtTransformIO_h
+#define itkTxtTransformIO_h
 #include "itkTransformIOBase.h"
 
 namespace itk
@@ -80,4 +80,4 @@ typedef TxtTransformIOTemplate<double> TxtTransformIO;
 #include "itkTxtTransformIO.hxx"
 #endif
 
-#endif // __itkTxtTransformIO_h
+#endif // itkTxtTransformIO_h

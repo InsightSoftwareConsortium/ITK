@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatrixOffsetTransformBase_hxx
-#define __itkMatrixOffsetTransformBase_hxx
+#ifndef itkMatrixOffsetTransformBase_hxx
+#define itkMatrixOffsetTransformBase_hxx
 
 #include "itkNumericTraits.h"
 #include "itkMatrixOffsetTransformBase.h"

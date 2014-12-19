@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRecursiveMultiResolutionPyramidImageFilter_h
-#define __itkRecursiveMultiResolutionPyramidImageFilter_h
+#ifndef itkRecursiveMultiResolutionPyramidImageFilter_h
+#define itkRecursiveMultiResolutionPyramidImageFilter_h
 
 #include "itkMultiResolutionPyramidImageFilter.h"
 #include "vnl/vnl_matrix.h"

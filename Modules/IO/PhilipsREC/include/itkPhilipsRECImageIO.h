@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef __itkPhilipsRECImageIO_h
-#define __itkPhilipsRECImageIO_h
+#ifndef itkPhilipsRECImageIO_h
+#define itkPhilipsRECImageIO_h
 #include "ITKIOPhilipsRECExport.h"
 
 
@@ -157,4 +157,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkPhilipsRECImageIO_h
+#endif // itkPhilipsRECImageIO_h

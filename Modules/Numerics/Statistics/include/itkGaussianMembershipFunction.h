@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianMembershipFunction_h
-#define __itkGaussianMembershipFunction_h
+#ifndef itkGaussianMembershipFunction_h
+#define itkGaussianMembershipFunction_h
 
 #include "itkMatrix.h"
 #include "itkMembershipFunctionBase.h"
