@@ -71,7 +71,7 @@ protected:
   /** Overload.
    *  Get pointer to metric object.
    */
-  virtual void BeforeThreadedExecution();
+  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -87,7 +87,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const;
+        const ThreadIdType                threadId ) const ITK_OVERRIDE;
 
 private:
   DemonsImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented

@@ -66,7 +66,7 @@ protected:
   virtual ~JointHistogramMutualInformationComputeJointPDFThreaderBase();
 
   /** Create the \c m_JointPDFPerThread's. */
-  virtual void BeforeThreadedExecution();
+  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
 
   /** Called by the \c ThreadedExecution of derived classes. */
   virtual void ProcessPoint( const VirtualIndexType & virtualIndex,
@@ -74,7 +74,7 @@ protected:
                              const ThreadIdType threadId );
 
   /** Collect the results per and normalize. */
-  virtual void AfterThreadedExecution();
+  virtual void AfterThreadedExecution() ITK_OVERRIDE;
 
   typedef Image< SizeValueType, 2 >                   JointHistogramType;
   //TODO: This needs updating

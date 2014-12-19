@@ -80,7 +80,7 @@ protected:
   virtual ~MeanSquaresHistogramImageToImageMetric(){}
 
   /** Evaluates the sum of squared differences from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
 private:
   MeanSquaresHistogramImageToImageMetric(Self const &); // Purposely not

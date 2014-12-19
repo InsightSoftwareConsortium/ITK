@@ -103,7 +103,7 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()   */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Set/Get the label value for zero-crossing pixels. */
   itkSetMacro(ForegroundValue, OutputImagePixelType);
@@ -134,7 +134,7 @@ protected:
   }
 
   ~ZeroCrossingImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;
@@ -151,7 +151,7 @@ protected:
    *     ImageToImageFilter::GenerateData()
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   ZeroCrossingImageFilter(const Self &); //purposely not implemented

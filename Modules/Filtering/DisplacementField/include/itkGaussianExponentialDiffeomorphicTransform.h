@@ -93,7 +93,7 @@ public:
    * base class implementation as we might want to smooth the update field before
    * adding it to the velocity field
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Smooth the velocity field in-place.
    * \warning Not thread safe. Does its own threading.
@@ -126,7 +126,7 @@ protected:
 
   GaussianSmoothingOperatorType                   m_GaussianSmoothingOperator;
 
-  void PrintSelf( std::ostream &, Indent ) const;
+  void PrintSelf( std::ostream &, Indent ) const ITK_OVERRIDE;
 
 private:
   GaussianExponentialDiffeomorphicTransform( const Self& ); //purposely not implemented

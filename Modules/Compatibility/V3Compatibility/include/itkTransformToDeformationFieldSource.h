@@ -180,7 +180,7 @@ protected:
   TransformToDeformationFieldSource(void);
   ~TransformToDeformationFieldSource(void) {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** TransformToDeformationFieldSource can be implemented as a multithreaded
    * filter.

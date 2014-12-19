@@ -134,12 +134,12 @@ protected:
   ExponentialDisplacementFieldImageFilter();
   virtual ~ExponentialDisplacementFieldImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * GenerateData()
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   typedef typename InputImageType::RegionType RegionType;
 

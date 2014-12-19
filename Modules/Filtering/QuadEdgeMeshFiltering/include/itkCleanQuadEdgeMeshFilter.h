@@ -113,13 +113,13 @@ protected:
 
   virtual ~CleanQuadEdgeMeshFilter() {}
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void MergePoints( const InputCoordRepType absoluteToleranceSquared );
 
   virtual void CleanPoints();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   CleanQuadEdgeMeshFilter(const Self &); // purposely not implemented

@@ -197,7 +197,7 @@ protected:
   }
 
   virtual ~DiscreteGaussianDerivativeImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** DiscreteGaussianDerivativeImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the

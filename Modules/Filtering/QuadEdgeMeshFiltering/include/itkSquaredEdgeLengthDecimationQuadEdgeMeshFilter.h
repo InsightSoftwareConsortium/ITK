@@ -80,7 +80,7 @@ protected:
    * \param[in] iEdge
    * \return measure value, here the squared edge length
    */
-  inline MeasureType MeasureEdge(OutputQEType *iEdge)
+  inline MeasureType MeasureEdge(OutputQEType *iEdge) ITK_OVERRIDE
     {
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
@@ -98,7 +98,7 @@ protected:
    * \param[in] iEdge
    * \return the optimal point location
    */
-  OutputPointType Relocate(OutputQEType *iEdge);
+  OutputPointType Relocate(OutputQEType *iEdge) ITK_OVERRIDE;
 
 private:
   SquaredEdgeLengthDecimationQuadEdgeMeshFilter(const Self &); // purposely not implemented

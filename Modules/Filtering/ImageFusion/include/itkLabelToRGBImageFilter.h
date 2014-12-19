@@ -102,12 +102,12 @@ protected:
   virtual ~LabelToRGBImageFilter() {}
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData(void);
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   LabelToRGBImageFilter(const Self &); //purposely not implemented

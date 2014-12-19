@@ -341,7 +341,7 @@ public:
     return this->GetNumberOfIterations();
   }
 
-  virtual void SetMaximumRMSError(const double)
+  virtual void SetMaximumRMSError(const double) ITK_OVERRIDE
   {
     itkWarningMacro(
       "The current implmentation of this solver does not compute maximum RMS change. The maximum RMS error value will not be set or used.");
@@ -359,12 +359,12 @@ protected:
   NarrowBandLevelSetImageFilter();
   NarrowBandLevelSetImageFilter(const Self &); //purposely not implemented
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void operator=(const Self &); //purposely not implemented
 
   /** Overrides parent implementation */
-  virtual void InitializeIteration()
+  virtual void InitializeIteration() ITK_OVERRIDE
   {
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
@@ -375,11 +375,11 @@ protected:
   /** Tells the solver how to reinitialize the narrowband when the reinitialization
     * criterion meets */
 
-  virtual void CreateNarrowBand();
+  virtual void CreateNarrowBand() ITK_OVERRIDE;
 
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Flag which sets the inward/outward direction of propagation speed. See
       SetReverseExpansionDirection for more information. */

@@ -122,10 +122,10 @@ protected:
    * pipeline execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Prepare the input images for operations in the Fourier
    * domain. This includes resizing the input and kernel images,

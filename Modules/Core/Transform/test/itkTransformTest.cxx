@@ -62,7 +62,7 @@ public:
   typedef typename Superclass::OutputSymmetricSecondRankTensorType
   OutputSymmetricSecondRankTensorType;
 
-  virtual OutputPointType TransformPoint(const InputPointType  & itkNotUsed(inputPoint) ) const
+  virtual OutputPointType TransformPoint(const InputPointType  & itkNotUsed(inputPoint) ) const ITK_OVERRIDE
   {
     OutputPointType outPoint;
     outPoint.Fill( 22.0 );
@@ -70,20 +70,20 @@ public:
   }
 
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType  & itkNotUsed(inputVector) ) const
+  virtual OutputVectorType TransformVector(const InputVectorType  & itkNotUsed(inputVector) ) const ITK_OVERRIDE
   {
     OutputVectorType outVector;
     outVector.Fill( 12.2 );
     return outVector;
   }
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType  & itkNotUsed(inputVector) ) const
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType  & itkNotUsed(inputVector) ) const ITK_OVERRIDE
   {
     OutputVnlVectorType outVector( 15.0 );
     return outVector;
   }
 
-  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType  & itkNotUsed(inputVector) ) const
+  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType  & itkNotUsed(inputVector) ) const ITK_OVERRIDE
   {
     OutputVectorPixelType outVector;
     outVector.Fill( 88.8 );
@@ -91,14 +91,14 @@ public:
   }
 
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & itkNotUsed(inputVector) ) const
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & itkNotUsed(inputVector) ) const ITK_OVERRIDE
   {
     OutputCovariantVectorType outVector;
     outVector.Fill( 8.9 );
     return outVector;
   }
 
-  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType  & itkNotUsed(inputVector) ) const
+  virtual OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType  & itkNotUsed(inputVector) ) const ITK_OVERRIDE
   {
     OutputVectorPixelType outVector;
     outVector.Fill( 6.9 );
@@ -106,14 +106,14 @@ public:
   }
 
   using Superclass::TransformDiffusionTensor3D;
-  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D( const InputDiffusionTensor3DType & itkNotUsed( tensor ) ) const
+  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D( const InputDiffusionTensor3DType & itkNotUsed( tensor ) ) const ITK_OVERRIDE
   {
     OutputDiffusionTensor3DType outTensor;
     outTensor.Fill( 2.1 );
     return outTensor;
   }
 
-  virtual OutputVectorPixelType TransformDiffusionTensor3D( const InputVectorPixelType & itkNotUsed( tensor ) ) const
+  virtual OutputVectorPixelType TransformDiffusionTensor3D( const InputVectorPixelType & itkNotUsed( tensor ) ) const ITK_OVERRIDE
   {
     OutputVectorPixelType outTensor;
     outTensor.Fill( 29.1 );
@@ -122,7 +122,7 @@ public:
 
   using Superclass::TransformSymmetricSecondRankTensor;
   virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
-    const InputSymmetricSecondRankTensorType & itkNotUsed( tensor ) ) const
+    const InputSymmetricSecondRankTensorType & itkNotUsed( tensor ) ) const ITK_OVERRIDE
   {
     OutputSymmetricSecondRankTensorType outTensor;
     outTensor.Fill( 10.0 );
@@ -130,23 +130,23 @@ public:
   }
 
   virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
-    const InputVectorPixelType & itkNotUsed( tensor ) ) const
+    const InputVectorPixelType & itkNotUsed( tensor ) ) const ITK_OVERRIDE
   {
     OutputVectorPixelType outTensor;
     outTensor.Fill( 55.9 );
     return outTensor;
   }
 
-  virtual void SetParameters(const ParametersType &)
+  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE
   {
   }
 
-  virtual void SetFixedParameters(const ParametersType &)
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
   {
   }
 
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType &,
-                                                      JacobianType & jacobian) const
+                                                      JacobianType & jacobian) const ITK_OVERRIDE
   {
     jacobian.SetSize(3, 6);
     jacobian.Fill(1);
@@ -154,7 +154,7 @@ public:
 
   inline virtual void ComputeJacobianWithRespectToPosition(
     const InputPointType &,
-    JacobianType & jacobian ) const
+    JacobianType & jacobian ) const ITK_OVERRIDE
   {
     jacobian.SetSize(NOutputDimensions, NInputDimensions);
     jacobian.Fill(1);

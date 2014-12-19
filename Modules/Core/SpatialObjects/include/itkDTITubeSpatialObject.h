@@ -73,7 +73,7 @@ protected:
   virtual ~DTITubeSpatialObject();
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   DTITubeSpatialObject(const Self &); //purposely not implemented

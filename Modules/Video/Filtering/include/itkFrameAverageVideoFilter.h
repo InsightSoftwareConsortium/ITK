@@ -70,13 +70,13 @@ protected:
   virtual ~FrameAverageVideoFilter() {}
 
   /** PrintSelf */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FrameAverageVideoFilter is implemented as a temporal streaming and
    * spatially multithreaded filter, so we override ThreadedGenerateData */
   virtual void ThreadedGenerateData(
                 const OutputFrameSpatialRegionType& outputRegionForThread,
-                int threadId);
+                int threadId) ITK_OVERRIDE;
 
 private:
   FrameAverageVideoFilter(const Self &);  // purposely not implemented

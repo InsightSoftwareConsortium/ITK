@@ -82,14 +82,14 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & Derivative) const;
+                     DerivativeType & Derivative) const ITK_OVERRIDE;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const;
+  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const;
+                             MeasureType & Value, DerivativeType & Derivative) const ITK_OVERRIDE;
 
   /**  Set/Get the lambda distance. (controls the capture radius of the metric).
      */
@@ -99,7 +99,7 @@ public:
 protected:
   MeanReciprocalSquareDifferencePointSetToImageMetric();
   virtual ~MeanReciprocalSquareDifferencePointSetToImageMetric() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MeanReciprocalSquareDifferencePointSetToImageMetric(const Self &); //purposely

@@ -108,7 +108,7 @@ protected:
   unsigned short int m_NumDimensions;
 
   /** Print the object */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 

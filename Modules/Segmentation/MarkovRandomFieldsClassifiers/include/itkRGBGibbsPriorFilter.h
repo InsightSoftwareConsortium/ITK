@@ -162,13 +162,13 @@ public:
 protected:
   RGBGibbsPriorFilter();
   ~RGBGibbsPriorFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void Allocate(); /** allocate memory space for the filter. */
 
-  virtual void MinimizeFunctional();
+  virtual void MinimizeFunctional() ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void ApplyGibbsLabeller();
 

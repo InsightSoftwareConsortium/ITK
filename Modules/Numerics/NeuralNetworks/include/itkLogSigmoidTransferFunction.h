@@ -51,10 +51,10 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate at the specified input position */
-  virtual TScalar Evaluate(const ScalarType& input) const;
+  virtual TScalar Evaluate(const ScalarType& input) const ITK_OVERRIDE;
 
   /** Evaluate the derivative at the specified input position */
-  virtual TScalar EvaluateDerivative(const ScalarType& input) const;
+  virtual TScalar EvaluateDerivative(const ScalarType& input) const ITK_OVERRIDE;
 
 protected:
 
@@ -62,7 +62,7 @@ protected:
   virtual ~LogSigmoidTransferFunction();
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 };
 
 } // end namespace Statistics

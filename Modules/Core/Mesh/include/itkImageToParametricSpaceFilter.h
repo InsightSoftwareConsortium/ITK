@@ -82,10 +82,10 @@ public:
                       TOutputMesh::PointDimension);
 
   /** Some typedefs associated with the output mesh. */
-  void GenerateData(void);
+  void GenerateData() ITK_OVERRIDE;
 
   /** Prepare the output. */
-  void GenerateOutputInformation(void);
+  void GenerateOutputInformation(void) ITK_OVERRIDE;
 
   /** Select if the indices of input image pixels will be
    * stored as data at each one of the mesh points.
@@ -97,7 +97,7 @@ public:
 protected:
   ImageToParametricSpaceFilter();
   ~ImageToParametricSpaceFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   //purposely not implemented

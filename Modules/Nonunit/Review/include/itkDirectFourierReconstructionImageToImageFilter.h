@@ -120,7 +120,7 @@ protected:
   ~DirectFourierReconstructionImageToImageFilter() {}
 
   /** Output class information */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate metadata for output image */
   void GenerateOutputInformation();

@@ -78,7 +78,7 @@ public:
   virtual void SetOrientation(const InputType _Orientation);
 
   /** Evaluates the function at a given position. */
-  OutputType Evaluate(const InputType & position) const;
+  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -94,7 +94,7 @@ protected:
   FiniteCylinderSpatialFunction();
   virtual ~FiniteCylinderSpatialFunction();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

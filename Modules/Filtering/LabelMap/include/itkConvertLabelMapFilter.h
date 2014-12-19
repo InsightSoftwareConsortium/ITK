@@ -80,7 +80,7 @@ protected:
   ConvertLabelMapFilter() {}
   ~ConvertLabelMapFilter() {}
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   ConvertLabelMapFilter(const Self &); //purposely not implemented

@@ -230,7 +230,7 @@ public:
 
   /** If all sub-transforms are of the same category, return that category.
    * Otherwise return UnknownTransformCategory. */
-  virtual TransformCategoryType GetTransformCategory() const;
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE;
 
   /** Get/Set Parameter functions work on all sub-transforms.
       The parameter data from each sub-transform is

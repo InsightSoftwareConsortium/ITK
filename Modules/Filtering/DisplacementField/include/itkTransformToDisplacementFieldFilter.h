@@ -160,12 +160,12 @@ protected:
   virtual ~TransformToDisplacementFieldFilter() {}
 
   /** Produces a Vector Image. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** TransformToDisplacementFieldFilter can be implemented as a multithreaded
    * filter.
    */
-  virtual void ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId );
+  virtual void ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
 
   /** Default implementation for resampling that works for any
    * transformation type.
@@ -177,7 +177,7 @@ protected:
    */
   void LinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId );
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   TransformToDisplacementFieldFilter( const Self & ); //purposely not implemented

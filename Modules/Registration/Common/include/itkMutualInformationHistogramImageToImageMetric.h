@@ -79,7 +79,7 @@ protected:
   virtual ~MutualInformationHistogramImageToImageMetric(){}
 
   /** Evaluates the mutual information from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
 private:
   // Purposely not implemented.

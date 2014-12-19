@@ -170,15 +170,15 @@ protected:
   virtual ~ShapePriorSegmentationLevelSetImageFilter() {}
   ShapePriorSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Overrides parent implementation. MAP estimates of the shape and pose parameters
    is computed in this method. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Extract node of active region into a NodeContainer */
   void ExtractActiveRegion(NodeContainerType *ptr);

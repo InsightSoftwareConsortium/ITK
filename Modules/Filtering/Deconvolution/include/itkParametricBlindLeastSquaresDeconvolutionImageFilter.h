@@ -110,14 +110,14 @@ protected:
 
   virtual void Initialize(ProgressAccumulator * progress,
                           float progressWeight,
-                          float iterationProgressWeight);
+                          float iterationProgressWeight) ITK_OVERRIDE;
 
   virtual void Iteration(ProgressAccumulator * progress,
-                         float iterationProgressWeight);
+                         float iterationProgressWeight) ITK_OVERRIDE;
 
-  virtual void Finish(ProgressAccumulator *progress, float progressWeight);
+  virtual void Finish(ProgressAccumulator *progress, float progressWeight) ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ParametricBlindLeastSquaresDeconvolutionImageFilter(const Self &); // purposely not implemented

@@ -96,10 +96,10 @@ protected:
   virtual ~StretchIntensityImageFilter() {}
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData(void);
+  void BeforeThreadedGenerateData(void) ITK_OVERRIDE;
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
   typedef typename TInputImage::RegionType              InputImageRegionType;
@@ -112,7 +112,7 @@ protected:
    * portion of the output image specified by the parameter
    * "outputRegionForThread"
    */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   StretchIntensityImageFilter(const Self &); //purposely not implemented

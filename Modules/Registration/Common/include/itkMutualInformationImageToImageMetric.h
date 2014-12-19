@@ -137,14 +137,14 @@ public:
   /** Get the derivatives of the match measure. */
   void GetDerivative(
     const ParametersType & parameters,
-    DerivativeType & Derivative) const;
+    DerivativeType & Derivative) const ITK_OVERRIDE;
 
   /**  Get the value. */
-  MeasureType GetValue(const ParametersType & parameters) const;
+  MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
 
   /**  Get the value and derivatives for single valued optimizers. */
   void GetValueAndDerivative(const ParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const;
+                             MeasureType & Value, DerivativeType & Derivative) const ITK_OVERRIDE;
 
   /** Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
@@ -194,7 +194,7 @@ public:
 protected:
   MutualInformationImageToImageMetric();
   virtual ~MutualInformationImageToImageMetric() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MutualInformationImageToImageMetric(const Self &); //purposely not implemented

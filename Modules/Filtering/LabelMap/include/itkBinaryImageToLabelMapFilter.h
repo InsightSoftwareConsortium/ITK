@@ -154,32 +154,32 @@ public:
 protected:
   BinaryImageToLabelMapFilter();
   virtual ~BinaryImageToLabelMapFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Standard pipeline method.
    */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
   /** BinaryImageToLabelMapFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** BinaryImageToLabelMapFilter will produce all of the output.
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** Provide an ImageRegionSplitter that does not split along the first
    * dimension -- we assume the data is complete along this dimension when
    * threading. */
-  virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const ITK_OVERRIDE;
 
 private:
   BinaryImageToLabelMapFilter(const Self &); //purposely not implemented

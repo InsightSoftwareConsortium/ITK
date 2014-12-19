@@ -92,20 +92,20 @@ public:
   /** LabelMapFilter requires the entire input to be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** LabelMapFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) ITK_OVERRIDE;
 
 protected:
   LabelMapFilter();
   ~LabelMapFilter();
 
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void AfterThreadedGenerateData();
+  virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
   virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject);
 

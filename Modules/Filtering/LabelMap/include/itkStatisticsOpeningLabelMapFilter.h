@@ -88,7 +88,7 @@ protected:
   StatisticsOpeningLabelMapFilter();
   ~StatisticsOpeningLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsOpeningLabelMapFilter(const Self &); //purposely not implemented

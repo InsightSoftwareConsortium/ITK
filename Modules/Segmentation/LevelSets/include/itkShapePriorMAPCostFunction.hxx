@@ -174,8 +174,7 @@ ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 template< typename TFeatureImage, typename TOutputPixel >
 void
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
-::Initialize(void)
-throw ( ExceptionObject )
+::Initialize() throw ( ExceptionObject )
 {
   this->Superclass::Initialize();
 

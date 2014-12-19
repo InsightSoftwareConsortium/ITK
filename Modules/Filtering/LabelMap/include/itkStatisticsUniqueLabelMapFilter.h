@@ -83,7 +83,7 @@ protected:
   StatisticsUniqueLabelMapFilter();
   ~StatisticsUniqueLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsUniqueLabelMapFilter(const Self &); //purposely not implemented

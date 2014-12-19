@@ -63,13 +63,13 @@ public:
   virtual void SetGaussianSmoothingVarianceForTheTotalField( const ScalarType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheTotalField, ScalarType );
 
-  virtual void AdaptTransformParameters();
+  virtual void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor();
   ~GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor( const Self & ); //purposely not implemented

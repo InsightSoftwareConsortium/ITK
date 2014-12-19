@@ -126,14 +126,14 @@ public:
    * This is typically used by optimizers.
    * There are 6 parameters. The first three represent the
    * versor and the last three represents the offset. */
-  void SetParameters(const ParametersType & parameters);
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  const ParametersType & GetParameters() const;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal
    * transformation. This transform has no fixed paramaters
    */
-  virtual void SetFixedParameters(const ParametersType &)
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
   {
   }
 
@@ -171,18 +171,18 @@ public:
   /** Transform by a Rigid3DPerspectiveTransform. This method
    *  applies the transform given by self to a
    *  given point, returning the transformed point. */
-  OutputPointType  TransformPoint(const InputPointType  & point) const;
+  OutputPointType  TransformPoint(const InputPointType  & point) const ITK_OVERRIDE;
 
   /** These vector transforms are not implemented for this transform */
   using Superclass::TransformVector;
 
-  virtual OutputVectorType TransformVector(const InputVectorType &) const
+  virtual OutputVectorType TransformVector(const InputVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(
       << "TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
   }
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(
       << "TransformVector(const InputVnlVectorType &) is not implemented for Rigid3DPerspectiveTransform");
@@ -190,7 +190,7 @@ public:
 
   using Superclass::TransformCovariantVector;
 
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(
       <<
@@ -208,10 +208,10 @@ public:
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const
+                                                    JacobianType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
@@ -228,7 +228,7 @@ public:
 protected:
   Rigid3DPerspectiveTransform();
   ~Rigid3DPerspectiveTransform();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   Rigid3DPerspectiveTransform(const Self &); // purposely not implemented

@@ -106,12 +106,12 @@ public:
   const TImage * GetImage() const;
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const;
+  InstanceIdentifier Size() const ITK_OVERRIDE;
 
   /** method to return measurement vector for a specified id */
-  virtual const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const;
+  virtual const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
 
-  virtual MeasurementVectorSizeType GetMeasurementVectorSize() const
+  virtual MeasurementVectorSizeType GetMeasurementVectorSize() const ITK_OVERRIDE
   {
     // some filter are expected that this method returns something even if the
     // input is not set. This won't be the right value for a variable length vector
@@ -127,10 +127,10 @@ public:
   }
 
   /** method to return frequency for a specified id */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** method to return the total frequency */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
 
   /** \class ConstIterator
    *  \brief Const Iterator
@@ -295,7 +295,7 @@ public:
 protected:
   ImageToListSampleAdaptor();
   virtual ~ImageToListSampleAdaptor() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ImageToListSampleAdaptor(const Self &); //purposely not implemented

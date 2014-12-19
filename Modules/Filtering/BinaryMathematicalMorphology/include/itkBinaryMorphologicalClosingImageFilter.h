@@ -98,11 +98,11 @@ public:
 protected:
   BinaryMorphologicalClosingImageFilter();
   ~BinaryMorphologicalClosingImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
-  void  GenerateData();
+  void  GenerateData() ITK_OVERRIDE;
 
 private:
   BinaryMorphologicalClosingImageFilter(const Self &); //purposely not

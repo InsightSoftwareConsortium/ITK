@@ -124,20 +124,19 @@ public:
   itkGetConstReferenceMacro(TrainingFixedImageRegion, FixedImageRegionType);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   { return this->GetTransform()->GetNumberOfParameters(); }
 
   /** Forms the histogram of the training images to prepare to evaluate the
    * metric. Must set all parameters first. */
-  void Initialize()
-  throw ( ExceptionObject );
+  void Initialize() throw ( ExceptionObject ) ITK_OVERRIDE;
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   CompareHistogramImageToImageMetric();
   virtual ~CompareHistogramImageToImageMetric(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Form the Histogram for the Training data */
   void FormTrainingHistogram()
@@ -145,7 +144,7 @@ protected:
 
   /** Evaluates the comparison histogram metric. All sub-classes must
       re-implement method. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const = 0;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE = 0;
 
 private:
   // Purposely not implemented.

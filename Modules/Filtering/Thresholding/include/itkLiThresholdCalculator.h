@@ -75,7 +75,7 @@ public:
 protected:
   LiThresholdCalculator() {};
   virtual ~LiThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   LiThresholdCalculator(const Self&); //purposely not implemented

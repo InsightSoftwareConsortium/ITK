@@ -119,7 +119,7 @@ public:
   virtual const DirectionType GetRequiredDirection() const;
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters();
+  virtual void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   TimeVaryingVelocityFieldTransformParametersAdaptor();

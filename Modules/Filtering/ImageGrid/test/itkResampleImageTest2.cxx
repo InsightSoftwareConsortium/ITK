@@ -56,7 +56,7 @@ public:
                        NDimensions *( NDimensions + 1 ) );
 
   /** Override this. See test below. */
-    virtual bool IsLinear() const { return false; }
+    virtual bool IsLinear() const ITK_OVERRIDE { return false; }
 };
 }
 

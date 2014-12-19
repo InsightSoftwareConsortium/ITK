@@ -136,38 +136,38 @@ public:
    *  The Set methods will work, not the Get.
    *  Hopefully never used ...
    */
-  virtual void SetPointIds(PointIdConstIterator first);
+  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
 
   virtual void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last);
+                           PointIdConstIterator last) ITK_OVERRIDE;
 
-  virtual void SetPointId(int localId, PointIdentifier pId);
+  virtual void SetPointId(int localId, PointIdentifier pId) ITK_OVERRIDE;
 
-  virtual PointIdIterator PointIdsBegin()
+  virtual PointIdIterator PointIdsBegin() ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  virtual PointIdIterator PointIdsEnd()
+  virtual PointIdIterator PointIdsEnd() ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return ( &m_PointIds[1] + 1 );
   }
 
-  virtual PointIdConstIterator GetPointIds() const
+  virtual PointIdConstIterator GetPointIds() const ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  virtual PointIdConstIterator PointIdsBegin() const
+  virtual PointIdConstIterator PointIdsBegin() const ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  virtual PointIdConstIterator PointIdsEnd() const
+  virtual PointIdConstIterator PointIdsEnd() const ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return ( &m_PointIds[1] + 1 );

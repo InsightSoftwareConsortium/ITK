@@ -68,9 +68,9 @@ public:
   itkTypeMacro(SpatialObjectTreeContainer, TreeContainer);
 
   /** Set the root */
-  bool SetRoot(const SpatialObjectPointer element);
+  bool SetRoot(const SpatialObjectPointer element) ITK_OVERRIDE;
 
-  bool SetRoot(typename Superclass::TreeNodeType *node)
+  bool SetRoot(typename Superclass::TreeNodeType *node) ITK_OVERRIDE
   { return Superclass::SetRoot(node); }
 
 protected:

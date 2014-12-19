@@ -79,12 +79,11 @@ public:
   typedef typename HistogramType::Pointer               HistogramPointer;
 
   /** Initializes the metric. */
-  void Initialize()
-  throw ( ExceptionObject );
+  void Initialize() throw ( ExceptionObject ) ITK_OVERRIDE;
 
   /** Define the transform and thereby the parameter space of the metric
    *   and the space of its derivatives */
-  void SetTransform(TransformType *transform);
+  void SetTransform(TransformType *transform) ITK_OVERRIDE;
 
   /** Sets the histogram size. Note this function must be called before
       \c Initialize(). */
@@ -131,16 +130,16 @@ public:
   itkGetConstReferenceMacro(DerivativeStepLengthScales, ScalesType);
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const;
+  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & derivative) const;
+                     DerivativeType & derivative) const ITK_OVERRIDE;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
                              MeasureType & Value,
-                             DerivativeType & Derivative) const;
+                             DerivativeType & Derivative) const ITK_OVERRIDE;
 
   /** Set the lower bounds of the intensities to be considered for computing
     * the histogram. This option allows to focus the computation of the Metric in
@@ -201,7 +200,7 @@ protected:
   virtual MeasureType EvaluateMeasure(HistogramType & histogram) const = 0;
 
   /** PrintSelf function */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   HistogramImageToImageMetric(const Self &); //purposely not implemented

@@ -67,7 +67,7 @@ public:
 protected:
   ShanbhagThresholdCalculator() {};
   virtual ~ShanbhagThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   ShanbhagThresholdCalculator(const Self&); //purposely not implemented

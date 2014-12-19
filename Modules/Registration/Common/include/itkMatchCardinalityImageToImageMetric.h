@@ -99,7 +99,7 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType &,
-                     DerivativeType & derivative) const
+                     DerivativeType & derivative) const ITK_OVERRIDE
   {
     itkWarningMacro(<< "This metric does not provide metric derivatives.");
     derivative.Fill(NumericTraits< typename DerivativeType::ValueType >::Zero);
@@ -111,7 +111,7 @@ public:
    *  of pixels under consideration (within the buffer and if
    *  specified within a mask). In other words, the metric measure the
    *  percentage of pixel matches or mismatches. */
-  MeasureType GetValue(const TransformParametersType & parameters) const;
+  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
 
   /** Set/Get whether this metric measures pixel matches or pixel
    * mismatches. Note the GetValue() returns the number of matches (or
@@ -130,7 +130,7 @@ public:
 protected:
   MatchCardinalityImageToImageMetric();
   virtual ~MatchCardinalityImageToImageMetric() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Non-const version of GetValue().  This is a hack around various

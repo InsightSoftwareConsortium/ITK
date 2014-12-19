@@ -86,26 +86,26 @@ public:
 
 protected:
 
-  virtual void InitializePyramidSplineFilter(int SplineOrder);
+  virtual void InitializePyramidSplineFilter(int SplineOrder) ITK_OVERRIDE;
 
   virtual void Reduce1DImage(
     const std::vector< double > & In,
     OutputImageIterator & Iter,
     unsigned int traverseSize,
     ProgressReporter & progress
-    );
+    ) ITK_OVERRIDE;
 
   virtual void Expand1DImage(
     const std::vector< double > & In,
     OutputImageIterator & Iter,
     unsigned int traverseSize,
     ProgressReporter & progress
-    );
+    ) ITK_OVERRIDE;
 
 protected:
   BSplineCenteredResampleImageFilterBase();
   virtual ~BSplineCenteredResampleImageFilterBase() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   BSplineCenteredResampleImageFilterBase(const Self &); //purposely not

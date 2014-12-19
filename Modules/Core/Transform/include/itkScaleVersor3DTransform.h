@@ -93,8 +93,8 @@ public:
    * Orthogonality testing is bypassed in this case.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix);
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
+  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance) ITK_OVERRIDE;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -103,9 +103,9 @@ public:
    *   3-5   translation
    *   6-8   Scale
    **  */
-  virtual void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  virtual const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   /** Set/Get the scale vector. These scale factors are associated to the axis
    * of coordinates. */
@@ -115,13 +115,13 @@ public:
 
   /** Set the internal parameters of the transform in order to represent an
    * Identity transform. */
-  void SetIdentity();
+  void SetIdentity() ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
 protected:
   ScaleVersor3DTransform();
@@ -129,7 +129,7 @@ protected:
   ScaleVersor3DTransform(unsigned int paramDims);
   ~ScaleVersor3DTransform();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void SetVarScale(const ScaleVectorType & scale)
   {
@@ -137,9 +137,9 @@ protected:
   }
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void);
+  void ComputeMatrix(void) ITK_OVERRIDE;
 
-  void ComputeMatrixParameters(void);
+  void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
 private:
   ScaleVersor3DTransform(const Self &); // purposely not implemented

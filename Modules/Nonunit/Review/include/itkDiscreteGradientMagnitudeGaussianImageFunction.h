@@ -189,7 +189,7 @@ protected:
   ~DiscreteGradientMagnitudeGaussianImageFunction(){}
 
   void operator=(const Self &){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void RecomputeGaussianKernel();
 

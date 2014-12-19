@@ -111,7 +111,7 @@ public:
 protected:
   ConstantPadImageFilter();
   ~ConstantPadImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ConstantPadImageFilter(const Self &); //purposely not implemented

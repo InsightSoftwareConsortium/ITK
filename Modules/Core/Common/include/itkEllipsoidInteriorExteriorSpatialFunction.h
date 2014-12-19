@@ -75,13 +75,13 @@ public:
   void SetOrientations(const OrientationType &);
 
   /** Evaluates the function at a given position. */
-  OutputType Evaluate(const InputType & position) const;
+  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
 
 protected:
   EllipsoidInteriorExteriorSpatialFunction();
   virtual ~EllipsoidInteriorExteriorSpatialFunction();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   EllipsoidInteriorExteriorSpatialFunction(const Self &); //purposely not

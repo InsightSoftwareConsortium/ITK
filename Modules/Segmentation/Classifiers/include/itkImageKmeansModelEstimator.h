@@ -211,10 +211,10 @@ public:
 protected:
   ImageKmeansModelEstimator();
   ~ImageKmeansModelEstimator();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Starts the image modelling process */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Allocate memory for the output model. */
   void Allocate();
@@ -232,7 +232,7 @@ private:
    * determine the cluster centers or the Kmeans model. This is the
    * the base function to call the K-means classifier. */
 
-  virtual void EstimateModels();
+  virtual void EstimateModels() ITK_OVERRIDE;
 
   void EstimateKmeansModelParameters();
 

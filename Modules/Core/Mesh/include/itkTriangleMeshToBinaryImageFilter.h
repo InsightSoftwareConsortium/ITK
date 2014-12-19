@@ -204,8 +204,8 @@ protected:
   TriangleMeshToBinaryImageFilter();
   ~TriangleMeshToBinaryImageFilter();
 
-  virtual void GenerateOutputInformation(){}  // do nothing
-  virtual void GenerateData();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
+  virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void RasterizeTriangles();
 
@@ -230,7 +230,7 @@ protected:
 
   StencilIndexVector m_StencilIndex;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   TriangleMeshToBinaryImageFilter(const Self &); //purposely not implemented

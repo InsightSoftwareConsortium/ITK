@@ -90,7 +90,7 @@ public:
   /**
    * Set input image
    */
-  virtual void SetInputImage( const TInputImage *image )
+  virtual void SetInputImage( const TInputImage *image ) ITK_OVERRIDE
     {
     Superclass::SetInputImage( image );
     this->ComputeBoundingBox();
@@ -148,7 +148,7 @@ public:
    * Evaluate at the given index
    */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex ) const
+    const ContinuousIndexType & cindex ) const ITK_OVERRIDE
     {
     return this->EvaluateAtContinuousIndex( cindex, ITK_NULLPTR );
     }
@@ -156,7 +156,7 @@ public:
 protected:
   GaussianInterpolateImageFunction();
   ~GaussianInterpolateImageFunction(){};
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   virtual void ComputeBoundingBox();
 

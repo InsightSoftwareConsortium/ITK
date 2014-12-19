@@ -74,7 +74,7 @@ protected:
   virtual ~CorrelationImageToImageMetricv4HelperThreader();
 
   /** Overload: Resize and initialize per thread objects. */
-  virtual void BeforeThreadedExecution();
+  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
 
   /** Overload:
    * Collects the results from each thread and sums them.  Results are stored
@@ -83,7 +83,7 @@ protected:
    * m_NumberOfValidPoints, to average the value sum, and to average
    * derivative sums for global transforms only (i.e. transforms without local
    * support).  */
-  virtual void AfterThreadedExecution();
+  virtual void AfterThreadedExecution() ITK_OVERRIDE;
 
 
   /* Overload: don't need to compute the image gradients and store derivatives
@@ -94,7 +94,7 @@ protected:
    */
   virtual bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
                                     const VirtualPointType & virtualPoint,
-                                    const ThreadIdType threadId );
+                                    const ThreadIdType threadId ) ITK_OVERRIDE;
 
 
   /**
@@ -111,7 +111,7 @@ protected:
         const MovingImageGradientType &   ,
         MeasureType &                     ,
         DerivativeType &                  ,
-        const ThreadIdType                 ) const
+        const ThreadIdType                 ) const ITK_OVERRIDE
   {
     return false;
   }

@@ -90,7 +90,7 @@ public:
    * axes (X,Y,Z), the next three parameters represent the coordinates of the
    * center of rotation and the last three parameters represent the
    * translation. */
-  void SetParameters(const ParametersType & parameters);
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers. There are nine parameters. The first
@@ -98,19 +98,19 @@ public:
    * axes (X,Y,Z), the next three parameters represent the coordinates of the
    * center of rotation and the last three parameters represent the
    * translation. */
-  const ParametersType & GetParameters(void) const;
+  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
 protected:
   CenteredEuler3DTransform();
@@ -121,7 +121,7 @@ protected:
   /**
    * Print contents of an CenteredEuler3DTransform
    */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   CenteredEuler3DTransform(const Self &); // purposely not implemented

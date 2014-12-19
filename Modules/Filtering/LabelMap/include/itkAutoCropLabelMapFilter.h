@@ -102,9 +102,9 @@ protected:
   AutoCropLabelMapFilter();
   ~AutoCropLabelMapFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   AutoCropLabelMapFilter(const Self &); //purposely not implemented

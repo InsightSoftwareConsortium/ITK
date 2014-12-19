@@ -128,7 +128,7 @@ public:
   // explicitly.
   // TODO: shouldn't it be done with the Clone() method?
   itkSimpleNewMacro(Self);
-  virtual ::itk::LightObject::Pointer CreateAnother(void) const
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE
     {
     ::itk::LightObject::Pointer smartPtr;
     Pointer copyPtr = Self::New().GetPointer();
@@ -195,7 +195,7 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  virtual void SetFixedParameters( const ParametersType & parameters );
+  virtual void SetFixedParameters( const ParametersType & parameters ) ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename Superclass::ParametersValueType   ParametersValueType;
@@ -214,7 +214,7 @@ public:
    * Warning: use either the SetParameters() or SetCoefficientImages()
    * API. Mixing the two modes may results in unexpected results.
    */
-  virtual void SetCoefficientImages( const CoefficientImageArray & images );
+  virtual void SetCoefficientImages( const CoefficientImageArray & images ) ITK_OVERRIDE;
 
 #ifdef ITKV3_COMPATIBILITY
   virtual void SetCoefficientImage( const CoefficientImageArray & images )
@@ -256,15 +256,15 @@ public:
    */
   using Superclass::TransformPoint;
   virtual void TransformPoint( const InputPointType & inputPoint, OutputPointType & outputPoint,
-    WeightsType & weights, ParameterIndexArrayType & indices, bool & inside ) const;
+    WeightsType & weights, ParameterIndexArrayType & indices, bool & inside ) const ITK_OVERRIDE;
 
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const ITK_OVERRIDE;
 
   /** Return the number of parameters that completely define the Transfom */
-  virtual NumberOfParametersType GetNumberOfParameters() const;
+  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
 
   /** Return the number of parameters per dimension */
-  NumberOfParametersType GetNumberOfParametersPerDimension() const;
+  NumberOfParametersType GetNumberOfParametersPerDimension() const ITK_OVERRIDE;
 
   typedef typename Superclass::SpacingType   PhysicalDimensionsType;
   typedef typename Superclass::PixelType     PixelType;
@@ -309,7 +309,7 @@ public:
 
 protected:
   /** Print contents of an BSplineDeformableTransform. */
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   BSplineDeformableTransform();
   virtual ~BSplineDeformableTransform();
@@ -317,25 +317,25 @@ protected:
 private:
 
   /** Construct control point grid size from transform domain information */
-  virtual void SetFixedParametersGridSizeFromTransformDomainInformation() const;
+  virtual void SetFixedParametersGridSizeFromTransformDomainInformation() const ITK_OVERRIDE;
 
   /** Construct control point grid origin from transform domain information */
-  virtual void SetFixedParametersGridOriginFromTransformDomainInformation() const;
+  virtual void SetFixedParametersGridOriginFromTransformDomainInformation() const ITK_OVERRIDE;
 
   /** Construct control point grid spacing from transform domain information */
-  virtual void SetFixedParametersGridSpacingFromTransformDomainInformation() const;
+  virtual void SetFixedParametersGridSpacingFromTransformDomainInformation() const ITK_OVERRIDE;
 
   /** Construct control point grid direction from transform domain information */
-  virtual void SetFixedParametersGridDirectionFromTransformDomainInformation() const;
+  virtual void SetFixedParametersGridDirectionFromTransformDomainInformation() const ITK_OVERRIDE;
 
   /** Construct control point grid size from transform domain information */
-  virtual void SetCoefficientImageInformationFromFixedParameters();
+  virtual void SetCoefficientImageInformationFromFixedParameters() ITK_OVERRIDE;
 
   BSplineDeformableTransform( const Self & ); // purposely not implemented
   void operator=( const Self & );   // purposely not implemented
 
   /** Check if a continuous index is inside the valid region. */
-  virtual bool InsideValidRegion( ContinuousIndexType & ) const;
+  virtual bool InsideValidRegion( ContinuousIndexType & ) const ITK_OVERRIDE;
 
   /** The variables defining the coefficient grid domain for the
    * InternalParametersBuffer are taken from the m_CoefficientImages[0]

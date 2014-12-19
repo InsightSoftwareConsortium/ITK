@@ -348,7 +348,7 @@ protected:
   }
 
   virtual ~PhasedArray3DSpecialCoordinatesImage() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PhasedArray3DSpecialCoordinatesImage(const Self &); //purposely not

@@ -109,11 +109,11 @@ public:
 protected:
   NormalizeToConstantImageFilter();
   virtual ~NormalizeToConstantImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   NormalizeToConstantImageFilter(const Self&); //purposely not implemented

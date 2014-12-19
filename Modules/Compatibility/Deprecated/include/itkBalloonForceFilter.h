@@ -187,7 +187,7 @@ public:
 protected:
   BalloonForceFilter();
   ~BalloonForceFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GenerateData();
 

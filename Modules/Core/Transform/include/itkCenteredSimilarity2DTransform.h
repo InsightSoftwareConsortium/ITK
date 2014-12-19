@@ -135,7 +135,7 @@ public:
   virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */

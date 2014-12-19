@@ -202,7 +202,7 @@ public:
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
@@ -303,7 +303,7 @@ public:
    * simply calls CopyInformation() and copies the region ivars.
    * The implementation here refers to the superclass' implementation
    * and then copies over the pixel container. */
-  virtual void Graft(const DataObject *data);
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
 
   /** Return the Pixel Accessor object */
   AccessorType GetPixelAccessor(void) { return AccessorType(m_VectorLength); }
@@ -328,13 +328,13 @@ public:
   itkGetConstReferenceMacro(VectorLength, VectorLengthType);
 
   /** Get/Set the number of components each pixel has, ie the VectorLength */
-  virtual unsigned int GetNumberOfComponentsPerPixel() const;
+  virtual unsigned int GetNumberOfComponentsPerPixel() const ITK_OVERRIDE;
 
-  virtual void SetNumberOfComponentsPerPixel(unsigned int n);
+  virtual void SetNumberOfComponentsPerPixel(unsigned int n) ITK_OVERRIDE;
 
 protected:
   VectorImage();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual ~VectorImage() {}
 

@@ -78,7 +78,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const;
+        const ThreadIdType                threadId ) const ITK_OVERRIDE;
 
 private:
   MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented

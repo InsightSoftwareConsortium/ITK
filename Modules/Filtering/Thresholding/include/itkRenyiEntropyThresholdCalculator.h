@@ -71,7 +71,7 @@ protected:
   RenyiEntropyThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
   virtual ~RenyiEntropyThresholdCalculator() {}
 
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
   typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;

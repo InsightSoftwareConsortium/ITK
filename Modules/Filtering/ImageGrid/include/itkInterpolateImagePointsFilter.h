@@ -142,10 +142,10 @@ public:
 
   /** Overloaded to ensure that output is sized the same as the coordinate inputs
     * and not the size of the input image. */
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /**  Overloaded to set the input image to the largest possible region */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -158,7 +158,7 @@ protected:
   InterpolateImagePointsFilter();
   // ~InterpolateImagePointsFilter(){} default implemnetation ok
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Main function for calculating interpolated values at each coordinate
     * set.  Access is through the update() call. */
@@ -166,16 +166,16 @@ protected:
   /** TODO:  This needs to be modified for a threaded implementation.
     */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() {}
+  virtual void VerifyInputInformation() ITK_OVERRIDE {}
 
 private:
 

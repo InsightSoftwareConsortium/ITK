@@ -60,9 +60,9 @@ public:
   typedef typename LevelSetContainerType::HeavisideType    HeavisideType;
   typedef typename LevelSetContainerType::HeavisideType    HeavisidePointer;
 
-  virtual bool IsSatisfied() const;
+  virtual bool IsSatisfied() const ITK_OVERRIDE;
 
-  virtual std::string GetDescription() const;
+  virtual std::string GetDescription() const ITK_OVERRIDE;
 
 protected:
   /** Constructor */

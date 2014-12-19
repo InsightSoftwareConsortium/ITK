@@ -77,12 +77,12 @@ public:
   itkStaticConstMacro(VectorDimension, unsigned int, PixelType::Dimension);
 
   /** Compute the average gradient magnitude squared. */
-  virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
+  virtual void CalculateAverageGradientMagnitudeSquared(TImage *) ITK_OVERRIDE;
 
 protected:
   VectorAnisotropicDiffusionFunction() {}
   ~VectorAnisotropicDiffusionFunction() {}
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 
 private:

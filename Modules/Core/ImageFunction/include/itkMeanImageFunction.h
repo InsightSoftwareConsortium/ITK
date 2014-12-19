@@ -87,10 +87,10 @@ public:
   RealType;
 
   /** Evalulate the function at specified index */
-  virtual RealType EvaluateAtIndex(const IndexType & index) const;
+  virtual RealType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at non-integer positions */
-  virtual RealType Evaluate(const PointType & point) const
+  virtual RealType Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -99,7 +99,7 @@ public:
   }
 
   virtual RealType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const
+    const ContinuousIndexType & cindex) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -115,7 +115,7 @@ public:
 protected:
   MeanImageFunction();
   ~MeanImageFunction(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MeanImageFunction(const Self &); //purposely not implemented

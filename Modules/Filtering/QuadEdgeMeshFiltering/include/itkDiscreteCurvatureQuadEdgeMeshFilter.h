@@ -93,7 +93,7 @@ protected:
     return static_cast< OutputCurvatureType >( TriangleType::ComputeMixedArea( p[0], p[1], p[2] ) );
   }
 
-  virtual void GenerateData()
+  virtual void GenerateData() ITK_OVERRIDE
   {
     this->CopyInputMeshToOutputMesh();
 

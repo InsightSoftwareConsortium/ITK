@@ -77,7 +77,7 @@ protected:
    *    moving transform jacobian
    *    cross-correlation specific variables
    *  */
-  virtual void BeforeThreadedExecution();
+  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
 
   /** Overload:
    * Collects the results from each thread and sums them.  Results are stored
@@ -86,7 +86,7 @@ protected:
    * m_NumberOfValidPoints, to average the value sum, and to average
    * derivative sums for global transforms only (i.e. transforms without local
    * support).  */
-  virtual void AfterThreadedExecution();
+  virtual void AfterThreadedExecution() ITK_OVERRIDE;
 
   /** Overload to avoid execution of adding entries to m_MeasurePerThread
    * StorePointDerivativeResult() after this function calls ProcessPoint().
@@ -95,7 +95,7 @@ protected:
    * TransformAndEvaluateMovingPoint, and \c ProcessPoint. */
   virtual bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
                                     const VirtualPointType & virtualPoint,
-                                    const ThreadIdType threadId );
+                                    const ThreadIdType threadId ) ITK_OVERRIDE;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -110,7 +110,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const;
+        const ThreadIdType                threadId ) const ITK_OVERRIDE;
 
 private:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented

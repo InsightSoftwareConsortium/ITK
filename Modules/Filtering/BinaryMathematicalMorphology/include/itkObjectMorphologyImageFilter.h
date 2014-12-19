@@ -140,7 +140,7 @@ public:
    * requested region is expanded by the radius of the structuring element.
    * If the request extends past the LargestPossibleRegion for the input,
    * the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Allows a user to override the internal boundary condition. Care should be
    * be taken to ensure that the overriding boundary condition is a persistent
@@ -193,12 +193,12 @@ public:
 protected:
   ObjectMorphologyImageFilter();
   ~ObjectMorphologyImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value. */
@@ -226,7 +226,7 @@ protected:
   /** Pixel value that indicates the object be operated upon */
   PixelType m_ObjectValue;
 
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
   ObjectMorphologyImageFilter(const Self &); //purposely not implemented

@@ -108,10 +108,10 @@ protected:
    * pipeline execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** The kernel needs padding if any of the sizes of its dimensions is
    * even. This method checks for this condition. */

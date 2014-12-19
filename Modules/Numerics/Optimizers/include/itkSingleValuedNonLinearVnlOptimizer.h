@@ -59,7 +59,7 @@ public:
    *  number of parameters is obtained at run-time from the itkCostFunction.
    *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  virtual void SetCostFunction(SingleValuedCostFunction *costFunction) = 0;
+  virtual void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE = 0;
 
   /** Methods to define whether the cost function will be maximized or
    * minimized. By default the VNL amoeba optimizer is only a minimizer.

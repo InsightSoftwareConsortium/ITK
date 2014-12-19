@@ -127,13 +127,13 @@ public:
 protected:
   RandomImageSource();
   ~RandomImageSource();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void
   ThreadedGenerateData(const OutputImageRegionType &
-                       outputRegionForThread, ThreadIdType threadId);
+                       outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   RandomImageSource(const RandomImageSource &); //purposely not implemented

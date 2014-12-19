@@ -88,7 +88,7 @@ protected:
   StatisticsRelabelLabelMapFilter();
   ~StatisticsRelabelLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsRelabelLabelMapFilter(const Self &); //purposely not implemented

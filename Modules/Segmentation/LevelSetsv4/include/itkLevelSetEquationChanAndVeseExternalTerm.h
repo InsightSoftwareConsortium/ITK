@@ -94,17 +94,17 @@ public:
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
   virtual void ComputeProduct( const LevelSetInputIndexType& iP,
-                               LevelSetOutputRealType& prod );
+                               LevelSetOutputRealType& prod ) ITK_OVERRIDE;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
   virtual void ComputeProductTerm( const LevelSetInputIndexType& iP,
-                                  LevelSetOutputRealType& prod );
+                                  LevelSetOutputRealType& prod ) ITK_OVERRIDE;
 
   /** Supply updates at pixels to keep the term parameters always updated */
   virtual void UpdatePixel( const LevelSetInputIndexType& iP,
                            const LevelSetOutputRealType & oldValue,
-                           const LevelSetOutputRealType & newValue );
+                           const LevelSetOutputRealType & newValue ) ITK_OVERRIDE;
 
 protected:
   LevelSetEquationChanAndVeseExternalTerm();

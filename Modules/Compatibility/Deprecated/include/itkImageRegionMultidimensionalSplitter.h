@@ -103,7 +103,7 @@ public:
 protected:
   ImageRegionMultidimensionalSplitter() {}
   ~ImageRegionMultidimensionalSplitter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ImageRegionMultidimensionalSplitter(const Self &); //purposely not implemented

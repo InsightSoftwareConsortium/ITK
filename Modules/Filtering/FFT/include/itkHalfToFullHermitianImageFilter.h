@@ -100,13 +100,13 @@ protected:
   ~HalfToFullHermitianImageFilter() {}
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   /** The output is a different size from the input. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This class requires the entire input. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   HalfToFullHermitianImageFilter(const Self &); // purposely not implemented

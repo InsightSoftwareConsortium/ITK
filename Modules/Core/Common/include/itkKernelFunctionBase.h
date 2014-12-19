@@ -55,7 +55,7 @@ public:
   itkTypeMacro(KernelFunctionBase, FunctionBase);
 
   /** Evaluate the function. Subclasses must implement this. */
-  virtual TRealValueType Evaluate(const TRealValueType & u) const = 0;
+  virtual TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE = 0;
 
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
     // Begin concept checking
@@ -67,7 +67,7 @@ public:
 protected:
   KernelFunctionBase() {};
   virtual ~KernelFunctionBase() {};
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 };
 } // end namespace itk

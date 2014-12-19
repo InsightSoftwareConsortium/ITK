@@ -134,15 +134,15 @@ public:
    * This method applies the affine transform given by self to a
    * given point or vector, returning the transformed point or
    * vector. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const;
+  OutputPointType     TransformPoint(const InputPointType  & point) const ITK_OVERRIDE;
 
   using Superclass::TransformVector;
-  OutputVectorType    TransformVector(const InputVectorType & vector) const;
+  OutputVectorType    TransformVector(const InputVectorType & vector) const ITK_OVERRIDE;
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const;
+  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE;
 
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const;
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const ITK_OVERRIDE;
 
   /** This method finds the point or vector that maps to a given
    * point or vector under the affine transformation defined by

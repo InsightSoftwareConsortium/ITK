@@ -228,7 +228,7 @@ public:
 protected:
   ExtractSliceImageFilter();
   ~ExtractSliceImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ExtractSliceImageFilter can produce an image which is a different
    * resolution than its input image.  As such, ExtractSliceImageFilter
@@ -238,7 +238,7 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This function calls the actual region copier to do the mapping from
    * output image space to input image space.  It uses a
@@ -261,7 +261,7 @@ protected:
    * parameter "outputRegionForThread"
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                           ThreadIdType threadId) ITK_OVERRIDE;
 
   InputImageRegionType m_ExtractionRegion;
 

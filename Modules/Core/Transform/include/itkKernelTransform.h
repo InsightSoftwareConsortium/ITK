@@ -153,7 +153,7 @@ public:
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
   }
@@ -162,10 +162,10 @@ public:
   typedef vnl_matrix_fixed<TScalar, NDimensions, NDimensions> IMatrixType;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const
+                                                    JacobianType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
@@ -188,15 +188,15 @@ public:
   virtual void UpdateParameters() const;
 
   /** Get the Transformation Parameters - Gets the Source Landmarks */
-  virtual const ParametersType & GetParameters() const;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Get Transform Fixed Parameters - Gets the Target Landmarks */
-  virtual const ParametersType & GetFixedParameters() const;
+  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /** This transform is not linear, because the transformation of a linear
    * combination of points is not equal to the linear combination of the
    * transformations of individual points */
-  virtual TransformCategoryType GetTransformCategory() const
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Self::Spline;
   }
@@ -217,7 +217,7 @@ public:
 protected:
   KernelTransform();
   virtual ~KernelTransform();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 public:
   /** 'G' matrix typedef. */

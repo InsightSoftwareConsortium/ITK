@@ -91,7 +91,7 @@ public:
 protected:
   GPUReduction();
   ~GPUReduction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */
   GPUKernelManager::Pointer m_GPUKernelManager;

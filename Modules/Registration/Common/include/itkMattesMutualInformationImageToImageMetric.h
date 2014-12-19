@@ -162,17 +162,16 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
-  virtual void Initialize(void)
-  throw ( ExceptionObject );
+  virtual void Initialize(void) throw ( ExceptionObject ) ITK_OVERRIDE;
 
   /**  Get the value. */
-  MeasureType GetValue(const ParametersType & parameters) const;
+  MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const ParametersType & parameters, DerivativeType & Derivative) const;
+  void GetDerivative(const ParametersType & parameters, DerivativeType & Derivative) const ITK_OVERRIDE;
 
   /**  Get the value and derivatives for single valued optimizers. */
-  void GetValueAndDerivative(const ParametersType & parameters, MeasureType & Value, DerivativeType & Derivative) const;
+  void GetValueAndDerivative(const ParametersType & parameters, MeasureType & Value, DerivativeType & Derivative) const ITK_OVERRIDE;
 
 /** Number of bins to used in the histogram.
   * According to Mattes et al the optimum value is 50.
@@ -251,7 +250,7 @@ protected:
 
   MattesMutualInformationImageToImageMetric();
   virtual ~MattesMutualInformationImageToImageMetric();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 
@@ -282,20 +281,20 @@ private:
                                      &  movingImageGradientValue,
                                      PDFValueType cubicBSplineDerivativeValue) const;
 
-  virtual void GetValueThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const;
-  virtual void GetValueThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const;
+  virtual void GetValueThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
+  virtual void GetValueThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
   //NOTE:  The signature in base class requires that movingImageValue is of type double
   virtual bool GetValueThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
                                                   const MovingImagePointType & mappedPoint,
-                                                  double movingImageValue) const;
+                                                  double movingImageValue) const ITK_OVERRIDE;
 
-  virtual void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadId, bool withinSampleThread) const;
-  virtual void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadId, bool withinSampleThread) const;
+  virtual void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
+  virtual void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
   //NOTE:  The signature in base class requires that movingImageValue is of type double
   virtual bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
                                                                const MovingImagePointType & mappedPoint,
                                                                double movingImageValue, const ImageDerivativesType &
-                                                               movingImageGradientValue) const;
+                                                               movingImageGradientValue) const ITK_OVERRIDE;
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins;

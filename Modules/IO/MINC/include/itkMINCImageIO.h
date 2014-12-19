@@ -113,7 +113,7 @@ public:
 protected:
   MINCImageIO();
   ~MINCImageIO();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void WriteSlice(std::string & fileName, const void *buffer);
 

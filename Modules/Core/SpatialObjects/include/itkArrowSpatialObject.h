@@ -111,11 +111,11 @@ public:
   itkGetConstReferenceMacro(Length, double);
 
   /** Compute the local bounding box */
-  bool ComputeLocalBoundingBox() const;
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
   /** Returns true if the point is inside the line, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const;
+                unsigned int depth, char *name) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -131,7 +131,7 @@ protected:
   void UpdateTransform();
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ArrowSpatialObject(const Self &); //purposely not implemented

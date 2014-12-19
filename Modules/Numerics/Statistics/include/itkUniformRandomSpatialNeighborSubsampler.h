@@ -86,7 +86,7 @@ public:
   /** typedefs related to random variate generator */
   typedef itk::Statistics::MersenneTwisterRandomVariateGenerator RandomGeneratorType;
 
-  virtual void SetSeed(const SeedType seed)
+  virtual void SetSeed(const SeedType seed) ITK_OVERRIDE
   {
     Superclass::SetSeed(seed);
     this->m_RandomNumberGenerator->SetSeed(this->m_Seed);
@@ -127,7 +127,7 @@ public:
    * specific.  And could mean spatial similarity or feature similarity
    * etc.  */
   virtual void Search(const InstanceIdentifier& query,
-                      SubsamplePointer& results);
+                      SubsamplePointer& results) ITK_OVERRIDE;
 
 protected:
   /**
@@ -135,12 +135,12 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  virtual typename LightObject::Pointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   UniformRandomSpatialNeighborSubsampler();
   virtual ~UniformRandomSpatialNeighborSubsampler() {};
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** method to randomly generate an integer in the closed range
    * [lowerBound, upperBound]

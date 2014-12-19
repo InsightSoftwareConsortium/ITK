@@ -205,10 +205,10 @@ protected:
   DeformableSimplexMesh3DFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                //purposely not implemented
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /**
    * Initializes the datastructures necessary for mesh

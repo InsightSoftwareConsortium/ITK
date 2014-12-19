@@ -142,7 +142,7 @@ protected:
    * region is expanded by the radius of the template.  If the request
    * extends past the LargestPossibleRegion for the input, the request
    * is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** NormalizedCorrelationImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
@@ -156,10 +156,10 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Standard PrintSelf method */
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {  Superclass::PrintSelf(os, indent); }
 
 private:

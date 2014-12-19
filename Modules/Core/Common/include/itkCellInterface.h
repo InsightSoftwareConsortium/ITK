@@ -33,7 +33,7 @@
     return TopologyId;                                                                               \
     }                                                                                                \
   virtual void Accept(CellIdentifier cellid, typename CellInterface< PixelType,                      \
-                                                                    CellTraits >::MultiVisitor * mv) \
+                      CellTraits >::MultiVisitor * mv) ITK_OVERRIDE                                  \
     {                                                                                                \
     typename CellInterfaceVisitor< PixelType, CellTraits >::Pointer v =                              \
       mv->GetVisitor(TopologyId);                                                                    \

@@ -164,7 +164,7 @@ protected:
   ~GeodesicActiveContourShapePriorLevelSetImageFilter() {}
   GeodesicActiveContourShapePriorLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   GeodesicActiveContourShapePriorLevelSetImageFilter(const Self &); // purposely
                                                                     // not
@@ -177,7 +177,7 @@ protected:
 
   /** Overridden from Superclass to handle the case when PropagationScaling is zero
    * and CurvatureScaling is non-zero.*/
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   GeodesicActiveContourFunctionPointer m_GeodesicActiveContourFunction;

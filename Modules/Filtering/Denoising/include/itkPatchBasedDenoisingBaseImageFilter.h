@@ -244,11 +244,11 @@ protected:
   PatchBasedDenoisingBaseImageFilter();
   ~PatchBasedDenoisingBaseImageFilter();
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void CopyInputToOutput() = 0;
 

@@ -112,7 +112,7 @@ protected:
   ShapeKeepNObjectsLabelMapFilter();
   ~ShapeKeepNObjectsLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor &)
@@ -171,7 +171,7 @@ protected:
       }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   bool m_ReverseOrdering;
 

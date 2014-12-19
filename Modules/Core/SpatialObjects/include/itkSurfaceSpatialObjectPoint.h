@@ -70,7 +70,7 @@ protected:
   VectorType m_Normal;
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 

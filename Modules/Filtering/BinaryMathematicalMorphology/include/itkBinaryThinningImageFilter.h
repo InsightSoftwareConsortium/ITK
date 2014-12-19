@@ -133,7 +133,7 @@ protected:
   virtual ~BinaryThinningImageFilter() {}
 
   /** Compute thinning Image. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Prepare data. */
   void PrepareData();

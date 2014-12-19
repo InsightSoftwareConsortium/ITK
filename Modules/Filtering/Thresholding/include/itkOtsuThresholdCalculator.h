@@ -72,8 +72,8 @@ protected:
     m_OtsuMultipleThresholdsCalculator = OtsuMultipleThresholdsCalculator<THistogram>::New();
   }
   virtual ~OtsuThresholdCalculator() {};
-  void PrintSelf(std::ostream & os, Indent indent) const;
-  void GenerateData(void);
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   OtsuThresholdCalculator(const Self&); //purposely not implemented

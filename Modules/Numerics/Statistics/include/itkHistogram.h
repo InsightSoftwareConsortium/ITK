@@ -176,7 +176,7 @@ public:
   InstanceIdentifier GetInstanceIdentifier(const IndexType & index) const;
 
   /** Returns the number of instances (bins or cells) in this container */
-  InstanceIdentifier Size() const;
+  InstanceIdentifier Size() const ITK_OVERRIDE;
 
   /** Get the size (N-dimensional) of the histogram  */
   const SizeType & GetSize() const;
@@ -229,7 +229,7 @@ public:
   const MeasurementVectorType & GetHistogramMaxFromIndex(const IndexType & index) const;
 
   /** Get the frequency of an instance identifier */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** Get the frequency of an index */
   AbsoluteFrequencyType GetFrequency(const IndexType & index) const;
@@ -294,7 +294,7 @@ public:
   /** Get the measurement of an instance identifier. This is the
    * centroid of the bin.
    */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** Get the measurement of an index. This is the centroid of the bin. */
   const MeasurementVectorType & GetMeasurementVector(const IndexType & index) const;
@@ -305,7 +305,7 @@ public:
                                  unsigned int dimension) const;
 
   /** Get the total frequency in the histogram */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
 
   /** Get the frequency of a dimension's nth element. */
   AbsoluteFrequencyType GetFrequency(InstanceIdentifier n,
@@ -332,10 +332,10 @@ public:
   double Mean(unsigned int dimension) const;
 
   /** Method to graft another histogram's output */
-  virtual void Graft(const DataObject *);
+  virtual void Graft(const DataObject *) ITK_OVERRIDE;
 
 protected:
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 public:
 
@@ -504,7 +504,7 @@ private:
 
   // This method is provided here just to avoid a "hidden" warning
   // related to the virtual method available in DataObject.
-  virtual void Initialize() {}
+  virtual void Initialize() ITK_OVERRIDE {}
 
   // lower bound of each bin
   std::vector< std::vector< MeasurementType > > m_Min;

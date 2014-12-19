@@ -131,12 +131,12 @@ protected:
 
 public:
 
-  void Execute(const itk::Object *, const itk::EventObject & )
+  void Execute(const itk::Object *, const itk::EventObject & ) ITK_OVERRIDE
     {
     std::cout << "Warning: The const Execute method shouldn't be called" << std::endl;
     }
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
        RegistrationFilterType * filter = static_cast<  RegistrationFilterType * >( caller );
 
@@ -172,11 +172,11 @@ protected:
   CommandResolutionLevelUpdate() {};
 
 public:
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *)caller, event);
     }
-  void Execute(const itk::Object *, const itk::EventObject & )
+  void Execute(const itk::Object *, const itk::EventObject & ) ITK_OVERRIDE
     {
     std::cout << "----------------------------------" << std::endl;
     RmsCounter = RmsCounter + 1;

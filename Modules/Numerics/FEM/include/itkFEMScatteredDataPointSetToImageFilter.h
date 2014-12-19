@@ -269,11 +269,11 @@ protected:
   void InitializeLoads(FEMObjectType * femObject);
 
   /** Run the solver and call ProduceDeformationField to produce deformation field */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   void ProduceDeformationField();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

@@ -147,14 +147,14 @@ protected:
   ~CurvesLevelSetImageFilter() {}
   CurvesLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   CurvesLevelSetImageFilter(const Self &); // purposely not implemented
   void operator=(const Self &);            //purposely not implemented
 
   /** Overridden from Superclass to handle the case when PropagationScaling is
     zero.*/
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   CurvesFunctionPointer m_CurvesFunction;

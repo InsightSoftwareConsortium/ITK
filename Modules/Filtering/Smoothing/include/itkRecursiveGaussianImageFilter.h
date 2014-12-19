@@ -156,17 +156,17 @@ public:
 protected:
   RecursiveGaussianImageFilter();
   virtual ~RecursiveGaussianImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
    * Here it is used to approximate a Gaussian or one of its
    * derivatives. Parameter is the spacing along the dimension to
    * filter. */
-  virtual void SetUp(ScalarRealType spacing);
+  virtual void SetUp(ScalarRealType spacing) ITK_OVERRIDE;
 
   /* See superclass for doxygen. This method adds the additional check
    * that sigma is greater than zero. */
-  virtual void VerifyPreconditions();
+  virtual void VerifyPreconditions() ITK_OVERRIDE;
 
 private:
   RecursiveGaussianImageFilter(const Self &); //purposely not implemented

@@ -83,7 +83,7 @@ public:
 protected:
   ReflectImageFilter();
   virtual ~ReflectImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method implements the actual reflection of the image.
    *

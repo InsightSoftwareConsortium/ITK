@@ -258,15 +258,15 @@ protected:
   /**
    * Standard pipeline method.
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** RelabelComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Standard printself method */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   struct RelabelComponentObjectType {
     LabelType m_ObjectNumber;

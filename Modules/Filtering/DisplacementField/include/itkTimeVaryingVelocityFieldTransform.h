@@ -118,7 +118,7 @@ public:
 
   /** Trigger the computation of the displacement field by integrating
    * the time-varying velocity field. */
-  virtual void IntegrateVelocityField();
+  virtual void IntegrateVelocityField() ITK_OVERRIDE;
 
 protected:
   TimeVaryingVelocityFieldTransform();

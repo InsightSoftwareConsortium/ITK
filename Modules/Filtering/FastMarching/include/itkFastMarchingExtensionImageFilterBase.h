@@ -128,16 +128,16 @@ public:
 protected:
   FastMarchingExtensionImageFilterBase();
   ~FastMarchingExtensionImageFilterBase(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void InitializeOutput(OutputImageType *);
+  virtual void InitializeOutput(OutputImageType *) ITK_OVERRIDE;
 
-  virtual void UpdateValue( OutputImageType* oImage, const NodeType& iValue );
+  virtual void UpdateValue( OutputImageType* oImage, const NodeType& iValue ) ITK_OVERRIDE;
 
   /** Generate the output image meta information */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   AuxValueContainerPointer m_AuxiliaryAliveValues;
   AuxValueContainerPointer m_AuxiliaryTrialValues;

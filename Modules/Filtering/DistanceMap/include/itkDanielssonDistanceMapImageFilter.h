@@ -183,7 +183,7 @@ public:
   /** Standard itk::ProcessObject subclass method. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx );
+  virtual DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -207,10 +207,10 @@ public:
 protected:
   DanielssonDistanceMapImageFilter();
   virtual ~DanielssonDistanceMapImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute Danielsson distance map and Voronoi Map. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Prepare data. */
   void PrepareData();

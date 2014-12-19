@@ -119,11 +119,11 @@ protected:
    * execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Generate the output image data. Uses a minipipeline, so
    * ThreadedGenerateData is not overridden. */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /** Discrete Fourier transform of the padded kernel. */
   InternalComplexImagePointerType m_TransferFunction;
@@ -134,7 +134,7 @@ protected:
   typedef typename Superclass::FFTFilterType  FFTFilterType;
   typedef typename Superclass::IFFTFilterType IFFTFilterType;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   IterativeDeconvolutionImageFilter(const Self &); // purposely not implemented

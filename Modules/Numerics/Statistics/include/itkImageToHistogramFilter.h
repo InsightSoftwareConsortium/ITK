@@ -120,16 +120,16 @@ public:
 protected:
   ImageToHistogramFilter();
   virtual ~ImageToHistogramFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void BeforeThreadedGenerateData(void);
-  void ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId);
-  void AfterThreadedGenerateData(void);
+  void BeforeThreadedGenerateData(void) ITK_OVERRIDE;
+  void ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void AfterThreadedGenerateData(void) ITK_OVERRIDE;
 
   /** Method that construct the outputs */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType);
+  DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE;
 
   virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );
   virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );

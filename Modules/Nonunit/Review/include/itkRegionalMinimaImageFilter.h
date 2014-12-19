@@ -130,7 +130,7 @@ public:
 protected:
   RegionalMinimaImageFilter();
   ~RegionalMinimaImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** RegionalMinimaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

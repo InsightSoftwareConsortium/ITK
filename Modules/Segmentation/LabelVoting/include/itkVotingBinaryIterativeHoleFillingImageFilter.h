@@ -141,12 +141,12 @@ public:
 protected:
   VotingBinaryIterativeHoleFillingImageFilter();
   virtual ~VotingBinaryIterativeHoleFillingImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   VotingBinaryIterativeHoleFillingImageFilter(const Self &); //purposely not

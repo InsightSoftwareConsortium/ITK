@@ -133,12 +133,12 @@ public:
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   /**  */
   virtual void Allocate(bool initialize = false) ITK_OVERRIDE;
 
-  virtual void Graft(const DataObject *data);
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
 
   /**
    * Return the LabelObject with the label given in parameter.
@@ -448,7 +448,7 @@ public:
 protected:
   LabelMap();
   virtual ~LabelMap() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   LabelMap(const Self &);       //purposely not implemented

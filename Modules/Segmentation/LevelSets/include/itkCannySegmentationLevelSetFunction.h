@@ -74,17 +74,17 @@ public:
 
   /** Compute the Speed Image. The Speed Image is the distance to the
       canny edges. */
-  virtual void CalculateSpeedImage();
+  virtual void CalculateSpeedImage() ITK_OVERRIDE;
 
   /** Compute the advection image. The Advection Image is the gradeint
       image attenuated with the distance to the canny edges. */
-  virtual void CalculateAdvectionImage();
+  virtual void CalculateAdvectionImage() ITK_OVERRIDE;
 
   /** Compute the distance image. This is the distance to the canny
    * edges. */
   virtual void CalculateDistanceImage();
 
-  virtual void Initialize(const RadiusType & r)
+  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
   {
     Superclass::Initialize(r);
 

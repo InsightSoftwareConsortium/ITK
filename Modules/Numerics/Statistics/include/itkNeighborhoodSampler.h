@@ -75,9 +75,9 @@ public:
 protected:
   NeighborhoodSampler();
   virtual ~NeighborhoodSampler();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   NeighborhoodSampler(const Self &); //purposely not implemented

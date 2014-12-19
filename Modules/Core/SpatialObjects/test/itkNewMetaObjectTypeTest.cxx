@@ -144,7 +144,7 @@ public:
   typedef MetaDummy                                     DummyMetaObjectType;
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo)
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE
   {
     const DummyMetaObjectType *dummyMO = dynamic_cast<const MetaDummy *>(mo);
     if(dummyMO == ITK_NULLPTR)
@@ -166,7 +166,7 @@ public:
   }
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject)
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE
   {
     DummySpatialObjectConstPointer dummySO =
       dynamic_cast<const DummySpatialObjectType *>(spatialObject);
@@ -188,7 +188,7 @@ public:
 
 protected:
   /** Create the specific MetaObject for this class */
-  virtual MetaObjectType *CreateMetaObject()
+  virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE
   {
     return dynamic_cast<MetaObjectType *>(new DummyMetaObjectType);
   }

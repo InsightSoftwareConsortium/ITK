@@ -368,9 +368,9 @@ public:
 protected:
   N4BiasFieldCorrectionImageFilter();
   ~N4BiasFieldCorrectionImageFilter() {}
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   N4BiasFieldCorrectionImageFilter( const Self& ); //purposely not

@@ -128,7 +128,7 @@ protected:
     }
   virtual ~BinaryNotImageFilter() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
     {
     Superclass::PrintSelf(os,indent);
 
@@ -144,7 +144,7 @@ protected:
                     << std::endl;
     }
 
-  void GenerateData()
+  void GenerateData() ITK_OVERRIDE
     {
     this->GetFunctor().m_ForegroundValue = m_ForegroundValue;
     this->GetFunctor().m_BackgroundValue = m_BackgroundValue;

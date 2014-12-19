@@ -167,11 +167,11 @@ namespace itk
    /** Standard pipeline methods are overloaded to call superclass's
     * implementation and record information.
     */
-   virtual void GenerateOutputInformation(void);
-   virtual void PropagateRequestedRegion(DataObject *output);
-   virtual void EnlargeOutputRequestedRegion( DataObject *output);
-   virtual void GenerateInputRequestedRegion(void);
-   virtual void GenerateData(void);
+   virtual void GenerateOutputInformation() ITK_OVERRIDE;
+   virtual void PropagateRequestedRegion(DataObject *output) ITK_OVERRIDE;
+   virtual void EnlargeOutputRequestedRegion( DataObject *output) ITK_OVERRIDE;
+   virtual void GenerateInputRequestedRegion(void) ITK_OVERRIDE;
+   virtual void GenerateData(void) ITK_OVERRIDE;
 
  protected:
 
@@ -179,7 +179,7 @@ namespace itk
 
    // ~PipelineMonitorImageFilter() { } default implementation OK
 
-   void PrintSelf(std::ostream &os, Indent indent) const;
+   void PrintSelf(std::ostream &os, Indent indent) const ITK_OVERRIDE;
  private:
 
    PipelineMonitorImageFilter(const PipelineMonitorImageFilter &); // not implemented

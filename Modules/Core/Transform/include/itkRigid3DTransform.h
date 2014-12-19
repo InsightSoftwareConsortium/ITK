@@ -114,14 +114,14 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  virtual void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Directly set the rotation matrix of the transform.
    * \warning The input matrix must be orthogonal to within a specified tolerance,
    * else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix);
+  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
 
   /** Directly set the rotation matrix of the transform.
    * \warning The input matrix must be orthogonal to within the specified tolerance,
@@ -211,7 +211,7 @@ protected:
   /**
    * Print contents of an Rigid3DTransform
    */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   Rigid3DTransform(const Self &); //purposely not implemented

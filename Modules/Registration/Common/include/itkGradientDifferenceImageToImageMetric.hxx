@@ -63,8 +63,7 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::Initialize(void)
-throw ( ExceptionObject )
+::Initialize(void) throw ( ExceptionObject )
 {
   unsigned int iFilter;  // Index of Sobel filters for each dimension
 

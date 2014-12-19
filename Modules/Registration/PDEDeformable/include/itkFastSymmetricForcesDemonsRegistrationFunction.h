@@ -182,7 +182,7 @@ public:
 protected:
   FastSymmetricForcesDemonsRegistrationFunction();
   ~FastSymmetricForcesDemonsRegistrationFunction() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FixedImage image neighborhood iterator type. */
   typedef ConstNeighborhoodIterator< FixedImageType > FixedImageNeighborhoodIteratorType;

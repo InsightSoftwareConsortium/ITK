@@ -67,7 +67,7 @@ public:
 protected:
   MomentsThresholdCalculator() {};
   virtual ~MomentsThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   MomentsThresholdCalculator(const Self&); //purposely not implemented

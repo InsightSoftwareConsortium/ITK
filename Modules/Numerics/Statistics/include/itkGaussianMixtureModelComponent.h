@@ -84,22 +84,22 @@ public:
   typedef typename CovarianceEstimatorType::OutputType CovarianceMatrixType;
 
   /** Sets the input sample */
-  void SetSample(const TSample *sample);
+  void SetSample(const TSample *sample) ITK_OVERRIDE;
 
   /** Sets the component's distribution parameters. */
-  void SetParameters(const ParametersType & parameters);
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
 protected:
   GaussianMixtureModelComponent();
   virtual ~GaussianMixtureModelComponent() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Returns the sum of squared changes in parameters between
    * iterations */
   double CalculateParametersChange();
 
   /** Computes the new distribution parameters */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   typename NativeMembershipFunctionType::Pointer m_GaussianMembershipFunction;

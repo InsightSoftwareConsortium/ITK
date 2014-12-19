@@ -113,7 +113,7 @@ public:
   //
 
   /** Request the largest possible region on all outputs. */
-  virtual void EnlargeOutputRequestedRegion(DataObject *output)
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE
   {
     output->SetRequestedRegionToLargestPossibleRegion();
   }
@@ -132,23 +132,23 @@ protected:
   }
 
   virtual ~ExtractOrthogonalSwath2DImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   //--------------------------------------------------------------------------
   //
 
   /** GenerateOutputInformation does not rely on input information */
-  virtual void GenerateOutputInformation(void);
+  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
 
   /** Request the largest possible region on all inputs. */
-  virtual void GenerateInputRequestedRegion()
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE
   {
     Superclass::GenerateInputRequestedRegion();
     this->GetNonConstImageInput()->SetRequestedRegionToLargestPossibleRegion();
     this->GetNonConstPathInput()->SetRequestedRegionToLargestPossibleRegion();
   }
 
-  virtual void GenerateData(void);
+  virtual void GenerateData(void) ITK_OVERRIDE;
 
   //
   //--------------------------------------------------------------------------

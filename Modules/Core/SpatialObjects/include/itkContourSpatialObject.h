@@ -135,18 +135,18 @@ public:
    * Note: For this class, this will always return false. -GH
    */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+                     unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Returns the value of the Contour at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy Contours. */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+               unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Returns true if the point is inside the Contour, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const;
+                unsigned int depth, char *name) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -154,7 +154,7 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the Contour. */
-  bool ComputeLocalBoundingBox(void) const;
+  bool ComputeLocalBoundingBox(void) const ITK_OVERRIDE;
 
 protected:
   ContourSpatialObject(const Self &); //purposely not implemented
@@ -171,7 +171,7 @@ protected:
   virtual ~ContourSpatialObject();
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 

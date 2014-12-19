@@ -151,9 +151,9 @@ public:
 protected:
   ThresholdMaximumConnectedComponentsImageFilter();
   ~ThresholdMaximumConnectedComponentsImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   /**
    * Runs a series of filters that thresholds the image,

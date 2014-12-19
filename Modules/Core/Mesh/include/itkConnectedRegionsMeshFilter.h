@@ -228,9 +228,9 @@ protected:
   ConnectedRegionsMeshFilter(void);
   virtual ~ConnectedRegionsMeshFilter(void) {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateData(void);
+  virtual void GenerateData() ITK_OVERRIDE;
 
   void PropagateConnectedWave(void);
 

@@ -83,8 +83,8 @@ protected:
   MaskedImageToHistogramFilter();
   virtual ~MaskedImageToHistogramFilter() {}
 
-  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );
-  virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );
+  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress ) ITK_OVERRIDE;
+  virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress ) ITK_OVERRIDE;
 
 private:
   MaskedImageToHistogramFilter(const Self &); //purposely not implemented

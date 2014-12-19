@@ -83,9 +83,9 @@ protected:
   BoxImageFilter();
   ~BoxImageFilter() {}
 
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   BoxImageFilter(const Self &); //purposely not implemented

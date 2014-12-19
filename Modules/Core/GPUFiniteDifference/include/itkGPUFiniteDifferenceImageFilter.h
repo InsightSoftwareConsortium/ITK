@@ -144,7 +144,7 @@ protected:
   GPUFiniteDifferenceImageFilter();
   ~GPUFiniteDifferenceImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method allocates a temporary update container in the subclass. */
   virtual void AllocateUpdateBuffer() = 0;

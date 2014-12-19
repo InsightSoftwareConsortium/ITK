@@ -114,8 +114,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
-::Initialize(void)
-throw ( ExceptionObject )
+::Initialize(void) throw ( ExceptionObject )
 {
   this->Superclass::Initialize();
   this->Superclass::MultiThreadingInitialize();

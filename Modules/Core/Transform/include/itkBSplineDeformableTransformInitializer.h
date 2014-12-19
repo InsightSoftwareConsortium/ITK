@@ -109,7 +109,7 @@ protected:
   BSplineDeformableTransformInitializer();
   ~BSplineDeformableTransformInitializer(){}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   BSplineDeformableTransformInitializer(const Self &); //purposely not

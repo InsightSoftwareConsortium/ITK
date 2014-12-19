@@ -88,7 +88,7 @@ public:
 protected:
   ElasticBodySplineKernelTransform();
   virtual ~ElasticBodySplineKernelTransform();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::GMatrixType GMatrixType;
   /** Compute G(x)
@@ -102,7 +102,7 @@ protected:
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix
    */
-  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const;
+  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const ITK_OVERRIDE;
 
   /** alpha,  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$

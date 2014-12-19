@@ -98,14 +98,14 @@ public:
 protected:
   VotingBinaryHoleFillingImageFilter();
   virtual ~VotingBinaryHoleFillingImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Make protected the methods SetBirthThreshold() and
    * SetSurvivalThreshold() so users of this filter do not have access to
    * them. */
-  void SetBirthThreshold(const unsigned int value)
+  void SetBirthThreshold(const unsigned int value) ITK_OVERRIDE
   { this->Superclass::SetBirthThreshold(value);  }
-  void SetSurvivalThreshold(const unsigned int value)
+  void SetSurvivalThreshold(const unsigned int value) ITK_OVERRIDE
   { this->Superclass::SetSurvivalThreshold(value);  }
 
   /** VotingBinaryHoleFillingImageFilter can be implemented as a multithreaded filter.
@@ -119,13 +119,13 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Methods to be called before and after the invokation of
    * ThreadedGenerateData(). */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
 private:
   VotingBinaryHoleFillingImageFilter(const Self &); //purposely not implemented
