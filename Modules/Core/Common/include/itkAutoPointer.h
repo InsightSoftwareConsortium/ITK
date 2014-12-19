@@ -175,7 +175,7 @@ public:
   /** Casting operator to boolean. This is used in conditional
       statments to check the content of the pointer against null */
   operator bool() const
-                { return ( m_Pointer != NULL ); }
+                { return ( m_Pointer != ITK_NULLPTR ); }
 
   /** Function to print object pointed to.  */
 /*  ObjectType *Print (std::ostream& os) const
