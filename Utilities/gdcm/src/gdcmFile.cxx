@@ -1861,7 +1861,7 @@ bool File::Write(std::string fileName, FileType writetype)
 {
    std::ofstream *fp = new std::ofstream(fileName.c_str(), 
                                          std::ios::out | std::ios::binary);
-   if (*fp == NULL)
+   if (fp == NULL)
    {
       gdcmWarningMacro("Failed to open (write) File: " << fileName.c_str());
       return false;

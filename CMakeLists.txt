@@ -2,8 +2,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 IF(COMMAND CMAKE_POLICY)
   CMAKE_POLICY(SET CMP0003 NEW)
+  CMAKE_POLICY(SET CMP0054 OLD)
 ENDIF(COMMAND CMAKE_POLICY)
-
 
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|v3p|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib|gdcm).*$")
@@ -34,6 +34,12 @@ IF(WIN32)
   ENDIF(NOT BORLAND)
 ENDIF(WIN32)
 
+# Visual Studio 2012 and later forbid macro-izing keywords (C4005 & C1189)
+IF (MSVC)
+  IF(NOT (MSVC_VERSION LESS 1700))
+    ADD_DEFINITIONS(-D_ALLOW_KEYWORD_MACROS)
+  ENDIF(NOT (MSVC_VERSION LESS 1700))
+ENDIF(MSVC)
 
 # If CMake is the version we're expecting, don't show the
 # CMAKE_BACKWARDS_COMPATIBILITY option. If the version is higher than the
