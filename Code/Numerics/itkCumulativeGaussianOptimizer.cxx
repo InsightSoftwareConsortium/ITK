@@ -396,7 +396,7 @@ CumulativeGaussianOptimizer
   os << indent << "Verbose = " << m_Verbose << std::endl;
   os << indent << "Fit Error = " << m_FitError << std::endl;
 
-  os << indent << "StopConditionDescription: " << m_StopConditionDescription << std::endl;
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
   if(m_FinalSampledArray)
     {
     os << indent << "Final Sampled Array = " << m_FinalSampledArray << std::endl;
