@@ -382,11 +382,11 @@ str = str
             return point;
         }
 
-        # TODO: also add that method. But with which types?
-        #  template<class TCoordRep>
-        #  void TransformLocalVectorToPhysicalVector(
-        #    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
-        #          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
+        // TODO: also add that method. But with which types?
+        //  template<class TCoordRep>
+        //  void TransformLocalVectorToPhysicalVector(
+        //    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
+        //          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
     }
 
 %enddef
