@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 // Software Guide : BeginLatex
+//
 // \index{itk::Statistics::MinimumDecisionRule}
 //
 // The \code{Evaluate()} method of the \doxygen{MinimumDecisionRule}
