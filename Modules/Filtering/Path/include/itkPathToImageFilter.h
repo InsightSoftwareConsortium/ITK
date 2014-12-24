@@ -68,7 +68,7 @@ public:
 
   virtual void SetInput(unsigned int, const TInputPath *path);
 
-  const InputPathType * GetInput(void);
+  const InputPathType * GetInput();
 
   const InputPathType * GetInput(unsigned int idx);
 

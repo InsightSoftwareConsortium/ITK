@@ -53,26 +53,26 @@ public:
   virtual ~ResourceProbe();
 
   /** Returns the type probed value */
-  std::string GetType(void) const;
+  std::string GetType() const;
 
   /** Returns the unit probed value */
-  std::string GetUnit(void) const;
+  std::string GetUnit() const;
 
   /** Start counting the change of value */
-  void        Start(void);
+  void        Start();
 
   /** Stop counting the change of value.
    *
    * If a matching Start() has not been called before, there is no
    * effect.
    **/
-  void        Stop(void);
+  void        Stop();
 
   /** Returns the number of times that the probe has been started */
-  CountType   GetNumberOfStarts(void) const;
+  CountType   GetNumberOfStarts() const;
 
   /** Returns the number of times that the probe has been stopped */
-  CountType   GetNumberOfStops(void) const;
+  CountType   GetNumberOfStops() const;
 
   /** Returns the instant value of the probed system.
    */
@@ -80,15 +80,15 @@ public:
 
   /** Returns the accumulated value changes between the starts and stops
    *  of the probe */
-  ValueType    GetTotal(void) const;
+  ValueType    GetTotal() const;
 
   /** Returns the average value changes between the starts and stops
    *  of the probe. Stop() has to be called at least once, returns 0 otherwise.
    */
-  MeanType    GetMean(void) const;
+  MeanType    GetMean() const;
 
   /** Reset the probe */
-  void        Reset(void);
+  void        Reset();
 
 private:
 

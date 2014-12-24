@@ -136,13 +136,13 @@ public:
   void SetFixedImage(const FixedImageType *ptr);
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void) const;
+  const FixedImageType * GetFixedImage() const;
 
   /** Set the moving image. */
   void SetMovingImage(const MovingImageType *ptr);
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void) const;
+  const MovingImageType * GetMovingImage() const;
 
   /** Set initial deformation field. */
   void SetInitialDisplacementField(const DisplacementFieldType *ptr)

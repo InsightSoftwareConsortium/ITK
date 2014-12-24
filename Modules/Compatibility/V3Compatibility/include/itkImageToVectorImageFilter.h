@@ -92,7 +92,7 @@ public:
 protected:
   ImageToVectorImageFilter();
 
-  virtual void GenerateOutputInformation(void);
+  virtual void GenerateOutputInformation();
 
   virtual void BeforeThreadedGenerateData();
 

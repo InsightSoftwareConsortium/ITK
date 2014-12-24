@@ -186,7 +186,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData();
 
 private:
   void UpdateMaximumResponse(double sigma);

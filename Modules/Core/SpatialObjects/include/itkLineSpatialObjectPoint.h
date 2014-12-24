@@ -51,10 +51,10 @@ public:
   typedef FixedArray< VectorType, TPointDimension - 1 > NormalArrayType;
 
   /** Constructor */
-  LineSpatialObjectPoint(void);
+  LineSpatialObjectPoint();
 
   /** Destructor */
-  virtual ~LineSpatialObjectPoint(void);
+  virtual ~LineSpatialObjectPoint();
 
   /** Get Normal */
   const VectorType & GetNormal(unsigned int index) const;

@@ -135,7 +135,7 @@ protected:
   ~HessianToObjectnessMeasureImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void BeforeThreadedGenerateData(void);
+  void BeforeThreadedGenerateData();
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 

@@ -96,10 +96,10 @@ public:
   void SetVnlVector(const vnl_vector< T > &);
 
   /** Get a vnl_vector_ref referencing the same memory block. */
-  vnl_vector_ref< T > GetVnlVector(void);
+  vnl_vector_ref< T > GetVnlVector();
 
   /** Get a vnl_vector with a copy of the internal memory block. */
-  vnl_vector< T > GetVnlVector(void) const;
+  vnl_vector< T > GetVnlVector() const;
 
   /** Set a vnl_vector_ref referencing the same memory block.
    * \deprecated Use SetVnlVector() instead. */
@@ -213,16 +213,16 @@ public:
   }
 
   /** Returns the Euclidean Norm of the vector  */
-  RealValueType GetNorm(void) const;
+  RealValueType GetNorm() const;
 
   /** Returns the number of components in this vector type */
   static unsigned int GetNumberOfComponents() { return NVectorDimension; }
 
   /** Divides the covariant vector componets by the norm */
-  void Normalize(void);
+  void Normalize();
 
   /** Returns vector's Squared Euclidean Norm  */
-  RealValueType GetSquaredNorm(void) const;
+  RealValueType GetSquaredNorm() const;
 
   /** Copy from another CovariantVector with a different representation type.
    *  Casting is done with C-Like rules  */

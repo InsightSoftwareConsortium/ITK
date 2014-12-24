@@ -198,7 +198,7 @@ private:
  * \author Hans J. Johnson
  * \return nothing
  */
-  void  DefineHeaderObjectDataType(void);
+  void  DefineHeaderObjectDataType();
 
 #if defined( REORIENT_IMAGES )
   void ReorientIfNecessary(char *p);

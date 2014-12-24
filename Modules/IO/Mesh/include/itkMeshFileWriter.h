@@ -101,7 +101,7 @@ public:
   using Superclass::SetInput;
   void  SetInput(const InputMeshType *input);
 
-  const InputMeshType * GetInput(void);
+  const InputMeshType * GetInput();
 
   const InputMeshType * GetInput(unsigned int idx);
 
@@ -136,7 +136,7 @@ public:
   /** A special version of the Update() method for writers.  It
   * invokes start and end events and handles releasing data. It
   * eventually calls GenerateData() which does the actual writing. */
-  virtual void Write(void);
+  virtual void Write();
 
   /** Aliased to the Write() method to be consistent with the rest of the
   * pipeline. */

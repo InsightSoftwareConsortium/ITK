@@ -90,10 +90,10 @@ public:
   void SetVnlVector(const vnl_vector< T > &);
 
   /** Get a vnl_vector_ref referencing the same memory block. */
-  vnl_vector_ref< T > GetVnlVector(void);
+  vnl_vector_ref< T > GetVnlVector();
 
   /** Get a vnl_vector with a copy of the internal memory block. */
-  vnl_vector< T > GetVnlVector(void) const;
+  vnl_vector< T > GetVnlVector() const;
 
   /** Set a vnl_vector_ref referencing the same memory block.
    * \deprecated Use SetVnlVector() instead. */
@@ -207,17 +207,17 @@ public:
   { return !operator==(v); }
 
   /** Returns the Euclidean Norm of the vector  */
-  RealValueType GetNorm(void) const;
+  RealValueType GetNorm() const;
 
   /** Returns vector's Squared Euclidean Norm  */
-  RealValueType GetSquaredNorm(void) const;
+  RealValueType GetSquaredNorm() const;
 
   /** Returns the number of components in this vector type */
   static unsigned int GetNumberOfComponents() { return NVectorDimension; }
 
   /** Divides the vector components by the vector norm (when the norm is not
     * null). The norm used is returned. */
-  RealValueType Normalize(void);
+  RealValueType Normalize();
 
   void SetNthComponent(int c, const ComponentType & v)
   {  this->operator[](c) = v; }

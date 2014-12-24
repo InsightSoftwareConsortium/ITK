@@ -230,7 +230,7 @@ public:
   static double InverseCDF(double p, double mean, double variance);
 
 protected:
-  GaussianDistribution(void);
+  GaussianDistribution();
   virtual ~GaussianDistribution(void) {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

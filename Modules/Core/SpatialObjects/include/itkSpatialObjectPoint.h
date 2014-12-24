@@ -40,10 +40,10 @@ public:
 
   /** Constructor. This one defines the number of dimensions in the
    * SpatialObjectPoint */
-  SpatialObjectPoint(void);
+  SpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~SpatialObjectPoint(void);
+  virtual ~SpatialObjectPoint();
 
   typedef SpatialObjectPoint               Self;
   typedef Point< double, TPointDimension > PointType;
@@ -52,13 +52,13 @@ public:
   typedef PixelType                        ColorType;
 
   /** Get the SpatialObjectPoint Id. */
-  int GetID(void) const;
+  int GetID() const;
 
   /** Set the SpatialObjectPoint Id. */
   void SetID(const int newID);
 
   /** Return a pointer to the point object. */
-  const PointType & GetPosition(void) const;
+  const PointType & GetPosition() const;
 
   /** Set the point object. Couldn't use macros for these methods. */
   void SetPosition(const PointType & newX);
@@ -71,7 +71,7 @@ public:
   Self & operator=(const SpatialObjectPoint & rhs);
 
   /** Set/Get color of the point */
-  const PixelType & GetColor(void) const;
+  const PixelType & GetColor() const;
 
   void SetColor(const PixelType & color);
 
@@ -80,22 +80,22 @@ public:
   /** Set/Get red color of the point */
   void SetRed(float r);
 
-  float GetRed(void) const;
+  float GetRed() const;
 
   /** Set/Get Green color of the point */
   void SetGreen(float g);
 
-  float GetGreen(void) const;
+  float GetGreen() const;
 
   /** Set/Get blue color of the point */
   void SetBlue(float b);
 
-  float GetBlue(void) const;
+  float GetBlue() const;
 
   /** Set/Get alpha value of the point */
   void SetAlpha(float a);
 
-  float GetAlpha(void) const;
+  float GetAlpha() const;
 
   /** PrintSelf method */
   void Print(std::ostream & os) const;

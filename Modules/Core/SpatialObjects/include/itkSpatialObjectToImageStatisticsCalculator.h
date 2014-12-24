@@ -106,7 +106,7 @@ public:
   itkGetConstMacro(NumberOfPixels, SizeValueType);
 
   /** Compute of the input image. */
-  void Update(void);
+  void Update();
 
 protected:
   SpatialObjectToImageStatisticsCalculator();

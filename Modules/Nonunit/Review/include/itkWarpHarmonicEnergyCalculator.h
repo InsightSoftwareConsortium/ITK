@@ -121,7 +121,7 @@ public:
   itkSetConstObjectMacro(Image, ImageType);
 
   /** Compute the minimum and maximum values of intensity of the input image. */
-  void Compute(void);
+  void Compute();
 
   /** Return the smoothness value. */
   itkGetConstMacro(HarmonicEnergy, double);

@@ -71,7 +71,7 @@ public:
 
   virtual void SetInput(unsigned int, const InputSpatialObjectType *object);
 
-  const InputSpatialObjectType * GetInput(void);
+  const InputSpatialObjectType * GetInput();
 
   const InputSpatialObjectType * GetInput(unsigned int idx);
 

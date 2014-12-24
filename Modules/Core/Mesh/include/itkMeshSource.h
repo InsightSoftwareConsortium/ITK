@@ -69,7 +69,7 @@ public:
   typedef Superclass::DataObjectIdentifierType DataObjectIdentifierType;
 
   /** Get the mesh output of this process object.  */
-  OutputMeshType * GetOutput(void);
+  OutputMeshType * GetOutput();
 
   OutputMeshType * GetOutput(unsigned int idx);
 

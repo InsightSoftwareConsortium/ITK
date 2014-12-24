@@ -93,14 +93,14 @@ public:
   void SetInput3(TInputImage *image3);
 
   /** Get the Output image with the greatest eigenvalue */
-  EigenValueImageType * GetMaxEigenValue(void);
+  EigenValueImageType * GetMaxEigenValue();
 
   /** Get the Output image with the smallest eigenvalue */
-  EigenValueImageType * GetMinEigenValue(void);
+  EigenValueImageType * GetMinEigenValue();
 
   /** Get the Output image with the eigen vector associated with
    * the greatest eigen value */
-  EigenVectorImageType * GetMaxEigenVector(void);
+  EigenVectorImageType * GetMaxEigenVector();
 
   /**  Create the Output */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;

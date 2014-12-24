@@ -111,7 +111,7 @@ public:
   const TNetwork * GetInput() const;
 
   /** Read NeuralNetwork */
-  void Update(void);
+  void Update();
 
 #ifdef IGNORE
 #undef IGNORE

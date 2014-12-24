@@ -147,7 +147,7 @@ public:
   throw ( CoefficientVectorSizeMismatch );
 
   /** \brief Gets Legendre polynomials' coefficients. */
-  const CoefficientArrayType & GetCoefficients(void) const;
+  const CoefficientArrayType & GetCoefficients() const;
 
   /** In the case which the bias field is 2D, it returns bias value at
    * the point which is specified by the index */

@@ -155,34 +155,34 @@ public:
 
   /** Go to the next line
    * \sa operator++ \sa EndOfLine \sa End \sa NextSlice */
-  void NextLine(void);
+  void NextLine();
 
   /** Go to the first pixel of the current slice */
-  void GoToBeginOfSlice(void);
+  void GoToBeginOfSlice();
 
   /** Go to the next slice
    * \sa operator++ \sa EndOfLine \sa End */
-  void NextSlice(void);
+  void NextSlice();
 
   /** Go to the next line
    * \sa operator-- \sa BeginOfLine \sa BeginOfSlice \sa Begin */
-  void PreviousLine(void);
+  void PreviousLine();
 
   /** Go to the next slice
    * \sa operator-- \sa BeginOfLine \sa BeginOfSlice \sa Begin */
-  void PreviousSlice(void);
+  void PreviousSlice();
 
   /** Test if the index is at the end of line */
-  bool IsAtEndOfLine(void);
+  bool IsAtEndOfLine();
 
   /** Test if the index is at the end of the slice */
-  bool IsAtEndOfSlice(void);
+  bool IsAtEndOfSlice();
 
   /** Test if the index is at the begin of line */
-  bool IsAtReverseEndOfLine(void);
+  bool IsAtReverseEndOfLine();
 
   /** Test if the index is at the begin of the slice */
-  bool IsAtReverseEndOfSlice(void);
+  bool IsAtReverseEndOfSlice();
 
   /** Set the fastest direction of movement */
   void SetFirstDirection(unsigned int direction);

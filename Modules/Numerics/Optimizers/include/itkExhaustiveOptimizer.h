@@ -98,11 +98,11 @@ public:
 
   virtual void    StartOptimization(void) ITK_OVERRIDE;
 
-  void StartWalking(void);
+  void StartWalking();
 
-  void ResumeWalking(void);
+  void ResumeWalking();
 
-  void StopWalking(void);
+  void StopWalking();
 
   itkSetMacro(StepLength, double);
   itkSetMacro(NumberOfSteps, StepsType);
@@ -125,7 +125,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Advance to the next grid position. */
-  void AdvanceOneStep(void);
+  void AdvanceOneStep();
 
   void IncrementIndex(ParametersType & param);
 

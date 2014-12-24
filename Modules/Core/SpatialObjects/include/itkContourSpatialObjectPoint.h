@@ -46,13 +46,13 @@ public:
 
   /** Constructor. This one defines the number of dimensions
    *  in the ContourSpatialObjectPoint */
-  ContourSpatialObjectPoint(void);
+  ContourSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~ContourSpatialObjectPoint(void);
+  virtual ~ContourSpatialObjectPoint();
 
   /** Get Picked Point */
-  const PointType & GetPickedPoint(void) const;
+  const PointType & GetPickedPoint() const;
 
   /** Set Picked Point */
   void SetPickedPoint(const PointType & point);
@@ -63,7 +63,7 @@ public:
                       const double pointy, const double pointz);
 
   /** Get Normal */
-  const VectorType & GetNormal(void) const;
+  const VectorType & GetNormal() const;
 
   /** Set Normal */
   void SetNormal(const VectorType & normal);

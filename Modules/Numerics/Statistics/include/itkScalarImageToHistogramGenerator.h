@@ -65,7 +65,7 @@ public:
 public:
 
   /** Triggers the Computation of the histogram */
-  void Compute(void);
+  void Compute();
 
   /** Connects the input image for which the histogram is going to be computed
     */

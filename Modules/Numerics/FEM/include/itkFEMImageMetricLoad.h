@@ -291,7 +291,7 @@ public:
 // define the copy constructor
 //  ImageMetricLoad(const ImageMetricLoad& LMS);
 
-  void InitializeMetric(void);
+  void InitializeMetric();
 
   ImageMetricLoad(); // cannot be private until we always use smart pointers
   Float EvaluateMetricGivenSolution(Element::ArrayType *el, Float step = 1.0);

@@ -120,7 +120,7 @@ public:
   virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
 protected:
-  MahalanobisDistanceMembershipFunction(void);
+  MahalanobisDistanceMembershipFunction();
   virtual ~MahalanobisDistanceMembershipFunction(void) {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

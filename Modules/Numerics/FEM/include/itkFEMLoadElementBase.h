@@ -85,7 +85,7 @@ public:
 
   Element::ConstPointer GetElement(int i);
 
-  unsigned int GetNumberOfElements(void);
+  unsigned int GetNumberOfElements();
 
   ElementPointersVectorType & GetElementArray()
     {

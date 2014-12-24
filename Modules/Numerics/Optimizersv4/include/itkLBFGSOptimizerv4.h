@@ -55,8 +55,8 @@ public:
   /** Plug in a Cost Function into the optimizer  */
   virtual void SetMetric(MetricType *metric) ITK_OVERRIDE;
 
-  void VerboseOn(void);
-  void VerboseOff(void);
+  void VerboseOn();
+  void VerboseOff();
 
   /** Set/Get the line search accuracy. This is a positive real number
    * with a default value of 0.9, which controls the accuracy of the line

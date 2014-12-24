@@ -73,7 +73,7 @@ public:
   void SetDisplacementField(const DisplacementFieldType *field);
 
   /** Get a pointer the deformation field. */
-  const DisplacementFieldType * GetDisplacementField(void) const;
+  const DisplacementFieldType * GetDisplacementField() const;
 
 protected:
   WarpMeshFilter();

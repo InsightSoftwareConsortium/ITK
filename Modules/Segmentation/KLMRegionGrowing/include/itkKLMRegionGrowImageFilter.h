@@ -276,13 +276,13 @@ public:
   itkGetConstReferenceMacro(NumberOfRegions, unsigned int);
 
   /** Generate labelled image. */
-  LabelImagePointer GetLabelledImage(void);
+  LabelImagePointer GetLabelledImage();
 
   /** Function that prints all the region information.  */
-  void PrintAlgorithmRegionStats(void);
+  void PrintAlgorithmRegionStats();
 
   /** Function that prints all the border information.  */
-  void PrintAlgorithmBorderStats(void);
+  void PrintAlgorithmBorderStats();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

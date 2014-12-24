@@ -174,7 +174,7 @@ public:
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity(void);
+  void SetIdentity();
 
   /** Return the number of parameters that completely define the Transfom  */
   virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE

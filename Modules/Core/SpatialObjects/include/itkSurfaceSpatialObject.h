@@ -63,8 +63,8 @@ public:
   itkTypeMacro(SurfaceSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the Surface points. */
-  PointListType & GetPoints(void);
-  const PointListType & GetPoints(void) const;
+  PointListType & GetPoints();
+  const PointListType & GetPoints() const;
 
   /** Return a point in the list given the index */
   const SpatialObjectPointType * GetPoint(IdentifierType id) const ITK_OVERRIDE

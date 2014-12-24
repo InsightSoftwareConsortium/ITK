@@ -48,30 +48,30 @@ public:
 
 public:
   virtual ~Cell();
-  virtual void ClearForce(void);
+  virtual void ClearForce();
 
   virtual void AddForce(const VectorType & force);
 
-  virtual void AdvanceTimeStep(void);
+  virtual void AdvanceTimeStep();
 
-  virtual void Mitosis(void);
+  virtual void Mitosis();
 
   virtual void Apoptosis(void) ITK_OVERRIDE;
 
-  virtual void ReceptorsReading(void);
+  virtual void ReceptorsReading();
 
   virtual void SetCellularAggregate(CellularAggregateBase *);
 
-  virtual CellularAggregateBase * GetCellularAggregate(void);
+  virtual CellularAggregateBase * GetCellularAggregate();
 
-  virtual const CellularAggregateBase * GetCellularAggregate(void) const;
+  virtual const CellularAggregateBase * GetCellularAggregate() const;
 
   static const char * GetSpeciesName(void)
   {
     return "Primitive Cell";
   }
 
-  static Cell * CreateEgg(void);
+  static Cell * CreateEgg();
 
   static unsigned int GetDimension()
   {
@@ -83,7 +83,7 @@ protected:
 
 public:
 
-  virtual const VectorType & GetForce(void) const;
+  virtual const VectorType & GetForce() const;
 
 protected:
   VectorType m_Force;

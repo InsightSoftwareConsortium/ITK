@@ -204,7 +204,7 @@ public:
   }
 
   /** Compute the matrix. */
-  void ComputeMatrix(void);
+  void ComputeMatrix();
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */

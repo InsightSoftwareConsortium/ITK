@@ -90,7 +90,7 @@ public:
   using Superclass::SetInput;
   virtual void SetInput(const HistogramType *histogram);
 
-  const HistogramType * GetInput(void);
+  const HistogramType * GetInput();
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a

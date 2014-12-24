@@ -62,7 +62,7 @@ public:
   itkGetModifiableObjectMacro(Output, SpatialObjectType);
 
   /** Compute of the input SpatialObject. */
-  void Update(void);
+  void Update();
 
 protected:
   SpatialObjectDuplicator();

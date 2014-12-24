@@ -127,7 +127,7 @@ public:
   itkGetConstMacro(AngleResolution, float);
 
   /** Simplify the accumulator */
-  void Simplify(void);
+  void Simplify();
 
   /** Get the Simplified accumulator */
   itkGetModifiableObjectMacro(SimplifyAccumulator, OutputImageType);

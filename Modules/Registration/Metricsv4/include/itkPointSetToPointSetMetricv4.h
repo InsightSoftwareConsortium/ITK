@@ -284,7 +284,7 @@ public:
    * Get the virtual point set, derived from the fixed point set.
    * If the virtual point set has not yet been derived, it will be
    * in this call. */
-  const VirtualPointSetType * GetVirtualTransformedPointSet( void ) const;
+  const VirtualPointSetType * GetVirtualTransformedPointSet() const;
 
   /**
    * Initialize the metric by making sure that all the components
@@ -325,20 +325,20 @@ protected:
 
   /**
    * Prepare point sets for use. */
-  virtual void InitializePointSets( void ) const;
+  virtual void InitializePointSets() const;
 
   /**
    * Initialize to prepare for a particular iteration, generally
    * an iteration of optimization. Distinct from Initialize()
    * which is a one-time initialization. */
-  virtual void InitializeForIteration( void ) const;
+  virtual void InitializeForIteration() const;
 
   /**
    * Determine the number of valid fixed points. A fixed point
    * is valid if, when transformed into the virtual domain using
    * the inverse of the FixedTransform, it is within the defined
    * virtual domain bounds. */
-  virtual SizeValueType CalculateNumberOfValidFixedPoints( void ) const;
+  virtual SizeValueType CalculateNumberOfValidFixedPoints() const;
 
   /** Helper method allows for code reuse while skipping the metric value
    * calculation when appropriate */

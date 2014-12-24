@@ -167,7 +167,7 @@ protected:
    * Combine a gradient step with a Newton step. The Newton step will be used
    * when it is valid. Otherwise the gradient step will be used.
    */
-  void CombineGradientNewtonStep(void);
+  void CombineGradientNewtonStep();
 
   /**
    *  Estimate and apply the learning rate(s) for a combined Newton step.

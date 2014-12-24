@@ -143,7 +143,7 @@ public:
   MeasureType GetValue() const;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_amoeba * GetOptimizer(void) const;
+  vnl_amoeba * GetOptimizer() const;
 
 protected:
   AmoebaOptimizer();

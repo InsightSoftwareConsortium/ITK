@@ -74,11 +74,11 @@ public:
 
   /** Resume previously stopped optimization with current parameters.
    * \sa StopOptimization */
-  void    ResumeOptimization(void);
+  void    ResumeOptimization();
 
   /** Stop optimization.
    * \sa ResumeOptimization */
-  void    StopOptimization(void);
+  void    StopOptimization();
 
   /** Set/Get parameters to control the optimization process. */
   itkSetMacro(MaximumStepLength, double);
@@ -108,7 +108,7 @@ protected:
   /** Advance one step following the gradient direction
    * This method verifies if a change in direction is required
    * and if a reduction in steplength is required. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep();
 
   /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.

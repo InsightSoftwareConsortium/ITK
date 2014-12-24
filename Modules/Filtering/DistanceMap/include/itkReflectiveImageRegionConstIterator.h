@@ -129,7 +129,7 @@ public:
   Self & operator++();
 
   /** Move an iterator to the beginning of the region. */
-  void GoToBegin(void);
+  void GoToBegin();
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const

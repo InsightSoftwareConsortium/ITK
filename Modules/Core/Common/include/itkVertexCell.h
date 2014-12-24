@@ -79,7 +79,7 @@ public:
 
   /** Vertex-specific interface. */
   virtual void SetPointId(PointIdentifier);
-  virtual PointIdentifier GetPointId(void);
+  virtual PointIdentifier GetPointId();
 
   /** Cell visitor interface */
   itkCellVisitMacro(Superclass::VERTEX_CELL);

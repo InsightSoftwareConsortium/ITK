@@ -135,7 +135,7 @@ public:
   itkGetMacro(Direction, InterpolationGridDirectionType);
 
   /** Returns the time step used for dynamic problems. */
-  virtual Float GetTimeStep(void) const;
+  virtual Float GetTimeStep() const;
 
   /**
    * Sets the time step used for dynamic problems.
@@ -154,7 +154,7 @@ public:
 
   virtual void SetInput( unsigned int, FEMObjectType * fem);
 
-  FEMObjectType * GetInput(void);
+  FEMObjectType * GetInput();
 
   FEMObjectType * GetInput(unsigned int idx);
 
@@ -272,7 +272,7 @@ public:
    * types. Derived classes should have names get methods for these
    * outputs.
    */
-  FEMObjectType * GetOutput(void);
+  FEMObjectType * GetOutput();
 
   FEMObjectType * GetOutput(unsigned int idx);
 
@@ -294,7 +294,7 @@ protected:
    * Assign a global freedom numbers to each DOF in a system.
    * This must be done before any other solve function can be called.
    */
-  // void GenerateGFN(void);
+  // void GenerateGFN();
 
   /**
    * Assemble the master stiffness matrix (also apply the MFCs to K)
@@ -364,29 +364,29 @@ protected:
   /**
    * Decompose matrix using svd, qr, whatever ... if needed
    */
-  void DecomposeK(void);
+  void DecomposeK();
 
   /**
    * Solve for the displacement vector u. May be overriden in derived classes.
    */
-  virtual void RunSolver(void);
+  virtual void RunSolver();
 
   /**
    * Copy solution vector u to the corresponding nodal values, which are
    * stored in node objects). This is standard post processing of the solution.
    */
-  void UpdateDisplacements(void);
+  void UpdateDisplacements();
 
   /**
    * Fill the interpolation grid based on the current deformed grid
    */
-  void FillInterpolationGrid(void);
+  void FillInterpolationGrid();
 
   /**
    * Performs any initialization needed for LinearSystemWrapper
    * object i.e. sets the maximum number of matrices and vectors.
    */
-  virtual void InitializeLinearSystemWrapper(void);
+  virtual void InitializeLinearSystemWrapper();
 
   /**
  * Number of global degrees of freedom in a system

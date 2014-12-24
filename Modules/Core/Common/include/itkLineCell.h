@@ -85,7 +85,7 @@ public:
   virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
 
   /** Line-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices(void) const;
+  virtual CellFeatureCount GetNumberOfVertices() const;
 
   virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
 

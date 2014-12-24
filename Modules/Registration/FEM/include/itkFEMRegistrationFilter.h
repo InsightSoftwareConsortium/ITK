@@ -226,7 +226,7 @@ public:
   FEMObjectType * GetInputFEMObject(unsigned int level = 0);
 
   /** Call this to register two images. */
-  void RunRegistration(void);
+  void RunRegistration();
 
   /** The solution loop */
   void IterativeSolve(SolverType *S);

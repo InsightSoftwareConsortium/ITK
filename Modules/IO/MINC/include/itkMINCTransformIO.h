@@ -81,7 +81,7 @@ protected:
   bool                  m_XFM_initialized;
 
 private:
-  void _cleanup(void);
+  void _cleanup();
   void WriteOneTransform(const int transformIndex,
                          const TransformType *transform,
                          std::vector<VIO_General_transform> &_xfm,

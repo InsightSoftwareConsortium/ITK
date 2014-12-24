@@ -41,7 +41,7 @@ struct ITKCommon_EXPORT ImageSourceCommon
   /**
    * Provide access to a common static object for image region splitting
    */
-  static  const ImageRegionSplitterBase*  GetGlobalDefaultSplitter(void);
+  static  const ImageRegionSplitterBase*  GetGlobalDefaultSplitter();
 };
 
 } // end namespace itk

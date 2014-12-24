@@ -105,7 +105,7 @@ public:
   typedef NeighborhoodIterator< TInputImage > NeighborhoodIteratorType;
 
   /** Get Skelenton by thinning image. */
-  OutputImageType * GetThinning(void);
+  OutputImageType * GetThinning();
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,

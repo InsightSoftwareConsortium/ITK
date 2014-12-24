@@ -64,7 +64,7 @@ public:
   virtual const char * GetNameOfClass() { return "itkSimpleMutexLock"; }
 
   /** Lock the MutexLock. */
-  void Lock(void);
+  void Lock();
 
   /** Non-blocking Lock access.
    \return bool - true if lock is captured, false if it was already heald by someone else.
@@ -72,7 +72,7 @@ public:
   bool TryLock();
 
   /** Unlock the MutexLock. */
-  void Unlock(void);
+  void Unlock();
 
   /** Access the MutexType member variable from outside this class */
   MutexType & GetMutexLock()
@@ -115,7 +115,7 @@ public:
   itkTypeMacro(MutexLock, Object);
 
   /** Lock the itkMutexLock. */
-  void Lock(void);
+  void Lock();
 
   /** Non-blocking Lock access.
    \return bool - true if lock is captured, false if it was already heald by someone else.
@@ -123,7 +123,7 @@ public:
   bool TryLock();
 
   /** Unlock the MutexLock. */
-  void Unlock(void);
+  void Unlock();
 
 protected:
   MutexLock() {}

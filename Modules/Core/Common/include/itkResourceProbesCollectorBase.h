@@ -56,7 +56,7 @@ public:
 
   /** Destroy the set of probes. New probes can be created after invoking this
     method. */
-  virtual void Clear(void);
+  virtual void Clear();
 
 protected:
   MapType m_Probes;

@@ -141,7 +141,7 @@ protected:
     m_Rotation = rotation;
   }
 
-  const InverseMatrixType & GetInverseMatrix(void) const;
+  const InverseMatrixType & GetInverseMatrix() const;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

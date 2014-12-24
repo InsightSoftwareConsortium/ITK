@@ -65,10 +65,10 @@ public:
   itkTypeMacro(ContourSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the control points. */
-  ControlPointListType & GetControlPoints(void);
+  ControlPointListType & GetControlPoints();
 
   /** Returns a reference to the list of the control points. */
-  const ControlPointListType & GetControlPoints(void) const;
+  const ControlPointListType & GetControlPoints() const;
 
   /** Set the list of control points. */
   void SetControlPoints(ControlPointListType & newPoints);
@@ -86,10 +86,10 @@ public:
   { return m_ControlPoints.size(); }
 
   /** Returns a reference to the list of the interpolated points. */
-  InterpolatedPointListType & GetInterpolatedPoints(void);
+  InterpolatedPointListType & GetInterpolatedPoints();
 
   /** Returns a reference to the list of the interpolated points. */
-  const InterpolatedPointListType & GetInterpolatedPoints(void) const;
+  const InterpolatedPointListType & GetInterpolatedPoints() const;
 
   /** Set the list of interpolated points. */
   void SetInterpolatedPoints(InterpolatedPointListType & newPoints);

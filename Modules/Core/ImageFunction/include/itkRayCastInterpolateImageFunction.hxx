@@ -95,10 +95,10 @@ public:
   bool IntegrateAboveThreshold(double & integral, double threshold);
 
   /// Reset the iterator to the start of the ray.
-  void Reset(void);
+  void Reset();
 
   /// Return the interpolated intensity of the current ray point.
-  double GetCurrentIntensity(void) const;
+  double GetCurrentIntensity() const;
 
   /// Return the ray point spacing in mm
   double GetRayPointSpacing(void) const
@@ -121,17 +121,17 @@ public:
   void ZeroState();
 
   /// Initialise the object
-  void Initialise(void);
+  void Initialise();
 
 protected:
   /// Calculate the endpoint coordinats of the ray in voxels.
-  void EndPointsInVoxels(void);
+  void EndPointsInVoxels();
 
   /**
    * Calculate the incremental direction vector in voxels, 'dVoxel',
    * required to traverse the ray.
    */
-  void CalcDirnVector(void);
+  void CalcDirnVector();
 
   /**
    * Reduce the length of the ray until both start and end
@@ -139,22 +139,22 @@ protected:
    *
    * \return True if a valid ray has been, false otherwise.
    */
-  bool AdjustRayLength(void);
+  bool AdjustRayLength();
 
   /**
    *   Obtain pointers to the four voxels surrounding the point where the ray
    *   enters the volume.
    */
-  void InitialiseVoxelPointers(void);
+  void InitialiseVoxelPointers();
 
   /// Increment the voxel pointers surrounding the current point on the ray.
-  void IncrementVoxelPointers(void);
+  void IncrementVoxelPointers();
 
   /// Record volume dimensions and resolution
-  void RecordVolumeDimensions(void);
+  void RecordVolumeDimensions();
 
   /// Define the corners of the volume
-  void DefineCorners(void);
+  void DefineCorners();
 
   /** \brief
    * Calculate the planes which define the volume.
@@ -167,7 +167,7 @@ protected:
    * in the world x,y,z dirn [3]) and finally also to return the length
    * of the sides of the lines in mm.
    */
-  void CalcPlanesAndCorners(void);
+  void CalcPlanesAndCorners();
 
   /** \brief
    *  Calculate the ray intercepts with the volume.
@@ -178,7 +178,7 @@ protected:
    *
    *  \return True if a valid ray has been specified, false otherwise.
    */
-  bool CalcRayIntercepts(void);
+  bool CalcRayIntercepts();
 
   /**
    *   The ray is traversed by stepping in the axial direction

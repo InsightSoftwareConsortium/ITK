@@ -46,13 +46,13 @@ public:
   typedef CovariantVector< double, TPointDimension > VectorType;
 
   /** Constructor */
-  SurfaceSpatialObjectPoint(void);
+  SurfaceSpatialObjectPoint();
 
   /** Destructor */
-  virtual ~SurfaceSpatialObjectPoint(void);
+  virtual ~SurfaceSpatialObjectPoint();
 
   /** Get Normal */
-  const VectorType & GetNormal(void) const;
+  const VectorType & GetNormal() const;
 
   /** Set Normal */
   void SetNormal(const VectorType & normal);

@@ -116,10 +116,10 @@ public:
 
   /** Compute the average values of miminum intensity pixels for each slice and
    * compare the average values with overall averages. */
-  void GenerateSlabRegions(void);
+  void GenerateSlabRegions();
 
   /** Get slab regions. */
-  SlabRegionVectorType GetSlabRegionVector(void);
+  SlabRegionVectorType GetSlabRegionVector();
 
 protected:
   MRASlabIdentifier();

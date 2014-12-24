@@ -114,7 +114,7 @@ public:
 
   void SetInput( unsigned int, InputImageType *image);
 
-  InputImageType * GetInput(void);
+  InputImageType * GetInput();
 
   InputImageType * GetInput(unsigned int idx);
 
@@ -137,7 +137,7 @@ public:
    * types. Derived classes should have names get methods for these
    * outputs.
    */
-  FEMObjectType * GetOutput(void);
+  FEMObjectType * GetOutput();
 
   FEMObjectType * GetOutput(unsigned int idx);
 
@@ -149,9 +149,9 @@ protected:
   /** Method invoked by the pipeline in order to trigger mesh generation */
   virtual void  GenerateData() ITK_OVERRIDE;
 
-  void Generate2DRectilinearMesh(void);
+  void Generate2DRectilinearMesh();
 
-  void Generate3DRectilinearMesh(void);
+  void Generate3DRectilinearMesh();
 
 private:
   ImageToRectilinearFEMObjectFilter(const Self &); // purposely not implemented

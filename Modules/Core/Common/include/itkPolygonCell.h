@@ -99,9 +99,9 @@ public:
   void RemovePointId(PointIdentifier);
   void SetPointIds(int dummy, int num, PointIdConstIterator first);
 
-  void BuildEdges(void);
+  void BuildEdges();
 
-  void ClearPoints(void);
+  void ClearPoints();
 
   virtual void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
   virtual PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
@@ -113,9 +113,9 @@ public:
   virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
 
   /** Polygon-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices(void) const;
+  virtual CellFeatureCount GetNumberOfVertices() const;
 
-  virtual CellFeatureCount GetNumberOfEdges(void) const;
+  virtual CellFeatureCount GetNumberOfEdges() const;
 
   virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);

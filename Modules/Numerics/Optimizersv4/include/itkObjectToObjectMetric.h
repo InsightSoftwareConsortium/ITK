@@ -235,23 +235,23 @@ public:
    * virtual domain image timestamp. This allows us to
    * capture if the virtual domain image is changed by the user
    * after being assigned to the metric. */
-  virtual const TimeStamp& GetVirtualDomainTimeStamp( void ) const;
+  virtual const TimeStamp& GetVirtualDomainTimeStamp() const;
 
   /** Accessors for the virtual domain spacing.
    *  Returns unit spacing if a virtual domain is undefined. */
-  VirtualSpacingType GetVirtualSpacing( void ) const;
+  VirtualSpacingType GetVirtualSpacing() const;
 
   /** Accessor for virtual domain origin.
    *  Returns zero origin if a virtual domain is undefined. */
-  VirtualOriginType  GetVirtualOrigin( void ) const;
+  VirtualOriginType  GetVirtualOrigin() const;
 
   /** Accessor for virtual domain direction.
    *  Returns unit direction if a virtual domain is undefined. */
-  VirtualDirectionType GetVirtualDirection( void ) const;
+  VirtualDirectionType GetVirtualDirection() const;
 
   /** Return the virtual domain region, which is retrieved from
    *  the m_VirtualImage buffered region. */
-  const VirtualRegionType   &  GetVirtualRegion( void ) const;
+  const VirtualRegionType   &  GetVirtualRegion() const;
 
   itkGetModifiableObjectMacro(VirtualImage, VirtualImageType );
 

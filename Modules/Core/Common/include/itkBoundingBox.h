@@ -111,13 +111,13 @@ public:
    * changed. */
   void SetPoints(const PointsContainer *);
 
-  const PointsContainer * GetPoints(void) const;
+  const PointsContainer * GetPoints() const;
 
   /** Compute and return the corners of the bounding box */
-  const PointsContainer * GetCorners(void);
+  const PointsContainer * GetCorners();
 
   /** Method that actually computes bounding box. */
-  bool ComputeBoundingBox(void) const;
+  bool ComputeBoundingBox() const;
 
   /** Get the bounding box.  This method should only be invoked after
  * ComputeBoundingBox(), otherwise the Bounds values will not be up to date.
@@ -128,11 +128,11 @@ public:
 
   /** Get the center of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
-  PointType GetCenter(void) const;
+  PointType GetCenter() const;
 
   /** Get the minimum point of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
-  PointType GetMinimum(void) const;
+  PointType GetMinimum() const;
 
   /** Set the minimum point of the bounding box. May not be valid for the given
    * set of points.   Will be preserved until this filter's (i.e., the point
@@ -141,7 +141,7 @@ public:
 
   /** Get the maximum point of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
-  PointType GetMaximum(void) const;
+  PointType GetMaximum() const;
 
   /** Set the maximum point of the bounding box. May not be valid for the given
    * set of points.   Will be preserved until this filter's (i.e., the point
@@ -158,7 +158,7 @@ public:
    * Returns zero if bounding box cannot be computed. Note that the
    * Accumulate type is used to represent the length. */
   typedef typename NumericTraits< CoordRepType >::AccumulateType AccumulateType;
-  AccumulateType GetDiagonalLength2(void) const;
+  AccumulateType GetDiagonalLength2() const;
 
   /** Method that checks if a point is inside the bounding box. */
   bool IsInside(const PointType &) const;

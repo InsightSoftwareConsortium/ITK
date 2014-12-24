@@ -91,8 +91,8 @@ protected:
   CylinderSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented
 
-  CylinderSpatialObject(void);
-  ~CylinderSpatialObject(void);
+  CylinderSpatialObject();
+  ~CylinderSpatialObject();
 
   double m_Radius;
   double m_Height;

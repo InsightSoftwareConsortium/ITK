@@ -307,14 +307,14 @@ protected:
     * This must be done before any other solve function can be called.
     * This is called internally by FinalizeMesh()
     */
-  void GenerateGFN(void);
+  void GenerateGFN();
 
   /**
    * Assign the number of multi freedom constraints on the system.
    * This must be done before any other solve function can be called.
    * This is called internally by FinalizeMesh()
    */
-  void GenerateMFC(void);
+  void GenerateMFC();
 
   void AddNextMaterialInternal(Material *mat);
   /**

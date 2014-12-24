@@ -140,8 +140,8 @@ public:
    * types. Derived classes should have names get methods for these
    * outputs.
    */
-  OutputImageType * GetOutput(void);
-  const OutputImageType * GetOutput(void) const;
+  OutputImageType * GetOutput();
+  const OutputImageType * GetOutput() const;
 
   OutputImageType * GetOutput(unsigned int idx);
 
@@ -310,7 +310,7 @@ protected:
    * desired this method should be overridden to return the
    * appropriate object.
    */
-  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const;
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
 
   /** Split the output's RequestedRegion into "pieces" pieces, returning
    * region "i" as "splitRegion". This method is called concurrently

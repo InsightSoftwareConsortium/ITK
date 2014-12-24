@@ -82,12 +82,12 @@ public:
   /** Set/Get the path input of this process object. */
   virtual void SetPathInput(const TInputPath *path);
 
-  const InputImageType * GetImageInput(void);
-  const InputPathType * GetPathInput(void);
+  const InputImageType * GetImageInput();
+  const InputPathType * GetPathInput();
 
 protected:
-  InputImageType * GetNonConstImageInput(void);
-  InputPathType * GetNonConstPathInput(void);
+  InputImageType * GetNonConstImageInput();
+  InputPathType * GetNonConstPathInput();
   ImageAndPathToImageFilter();
   virtual ~ImageAndPathToImageFilter() {}
 

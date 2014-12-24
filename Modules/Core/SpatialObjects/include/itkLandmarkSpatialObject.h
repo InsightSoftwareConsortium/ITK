@@ -61,10 +61,10 @@ public:
   itkTypeMacro(LandmarkSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the Landmark points. */
-  PointListType & GetPoints(void);
+  PointListType & GetPoints();
 
   /** Returns a reference to the list of the Landmark points. */
-  const PointListType & GetPoints(void) const;
+  const PointListType & GetPoints() const;
 
   /** Set the list of Landmark points. */
   void SetPoints(PointListType & newPoints);

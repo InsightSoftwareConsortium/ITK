@@ -97,7 +97,7 @@ public:
   double Evaluate(const MeasurementVectorType & measurement) const ITK_OVERRIDE;
 
 protected:
-  DistanceToCentroidMembershipFunction(void);
+  DistanceToCentroidMembershipFunction();
   virtual ~DistanceToCentroidMembershipFunction(void) {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

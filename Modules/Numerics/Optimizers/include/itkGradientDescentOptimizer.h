@@ -84,18 +84,18 @@ public:
   { this->MaximizeOn(); }
 
   /** Advance one step following the gradient direction. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep();
 
   /** Start optimization. */
   virtual void    StartOptimization(void) ITK_OVERRIDE;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
-  void    ResumeOptimization(void);
+  void    ResumeOptimization();
 
   /** Stop optimization.
    * \sa ResumeOptimization */
-  void    StopOptimization(void);
+  void    StopOptimization();
 
   /** Set the learning rate. */
   itkSetMacro(LearningRate, double);

@@ -89,7 +89,7 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void GenerateData(void);
+  void GenerateData();
 
 private:
   ReflectImageFilter(const Self &); //purposely not implemented

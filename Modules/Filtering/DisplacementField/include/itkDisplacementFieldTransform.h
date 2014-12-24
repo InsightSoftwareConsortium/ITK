@@ -389,7 +389,7 @@ public:
    * Note that the inverse displacement field must be set by the user. */
   virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
-  virtual void SetIdentity(void);
+  virtual void SetIdentity();
 
   /** This transform is not linear. */
   virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE

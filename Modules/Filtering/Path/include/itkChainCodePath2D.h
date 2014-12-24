@@ -134,7 +134,7 @@ public:
     this->Modified();
   }
 
-  std::string GetChainCodeAsString(void) const;
+  std::string GetChainCodeAsString() const;
 
 protected:
   ChainCodePath2D();

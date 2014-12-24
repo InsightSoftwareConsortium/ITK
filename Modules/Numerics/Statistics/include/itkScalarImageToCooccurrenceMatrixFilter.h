@@ -195,7 +195,7 @@ private:
 
   // implemented
 
-  void NormalizeHistogram(void);
+  void NormalizeHistogram();
 
   OffsetVectorConstPointer m_Offsets;
   PixelType                m_Min;

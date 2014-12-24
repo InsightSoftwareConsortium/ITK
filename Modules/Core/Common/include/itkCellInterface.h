@@ -246,7 +246,7 @@ protected:
   virtual unsigned int GetDimension(void) const = 0;
 
   /** Get the interpolation order of the cell.  Usually linear. */
-  virtual unsigned int GetInterpolationOrder(void) const;
+  virtual unsigned int GetInterpolationOrder() const;
 
   /** Get the number of points required to define the cell. */
   virtual unsigned int GetNumberOfPoints(void) const = 0;
@@ -261,7 +261,7 @@ protected:
   /** Get the point id list used by the cell in a form suitable to pass to
    * SetPointIds(first) on another cell.  This is equivalent to
    * PointIdsBegin() const. */
-  virtual PointIdConstIterator GetPointIds(void) const;
+  virtual PointIdConstIterator GetPointIds() const;
 
   /** Set the point id list used by the cell.  It is assumed that the given
    * iterator can be incremented and safely de-referenced enough times to
@@ -390,7 +390,7 @@ protected:
 
   /** Returns true if the cell has been explicitly assigned as a
    *  boundary, false otherwise. */
-  virtual bool IsExplicitBoundary(void);
+  virtual bool IsExplicitBoundary();
 
   /**
    * Register the fact that this cell is a part of the boundary of the
@@ -413,18 +413,18 @@ protected:
   /**
    * Get the number of cells in the UsingCellsContainer.
    */
-  virtual unsigned int GetNumberOfUsingCells(void);
+  virtual unsigned int GetNumberOfUsingCells();
 
 #if !defined( CABLE_CONFIGURATION )
   /**
    * Get a begin iterator for the UsingCellsContainer.
    */
-  virtual UsingCellsContainerIterator UsingCellsBegin(void);
+  virtual UsingCellsContainerIterator UsingCellsBegin();
 
   /**
    * Get an end iterator for the UsingCellsContainer.
    */
-  virtual UsingCellsContainerIterator UsingCellsEnd(void);
+  virtual UsingCellsContainerIterator UsingCellsEnd();
 
 #endif
 

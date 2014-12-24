@@ -156,15 +156,15 @@ public:
   virtual void TakeAPrior(const BinaryObjectImage *){}
 
   /** Perform the segmentation. */
-  void RunSegment(void);
+  void RunSegment();
 
   /** Perform the segmentation. */
-  void RunSegmentOneStep(void);
+  void RunSegmentOneStep();
 
   /** Create the output binary result for boundaries.  */
-  virtual void MakeSegmentBoundary(void);
+  virtual void MakeSegmentBoundary();
 
-  virtual void MakeSegmentObject(void);
+  virtual void MakeSegmentObject();
 
   /** Return the Voroni Diagram structure. */
   VoronoiPointer GetVoronoiDiagram(void)
@@ -201,7 +201,7 @@ public:
   void DrawDiagram(VDImagePointer result, unsigned char incolor,
                    unsigned char outcolor, unsigned char boundcolor);
 
-  void BeforeNextStep(void);
+  void BeforeNextStep();
 
   /** This filter does not stream and needs the entire image as input.
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
@@ -243,10 +243,10 @@ protected:
 
   // private methods:
   // Classify all the voronoi cells as interior , exterior or boundary.
-  virtual void ClassifyDiagram(void);
+  virtual void ClassifyDiagram();
 
   // Generate the seeds to be added by dividing the boundary cells.
-  virtual void GenerateAddingSeeds(void);
+  virtual void GenerateAddingSeeds();
 
   // Compute the statistics of the pixels inside the cell.
   void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);

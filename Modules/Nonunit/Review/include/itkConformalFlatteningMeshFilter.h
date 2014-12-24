@@ -103,11 +103,11 @@ public:
   void SetScale(double);
 
   /** Define that the input surface will be mapped to a sphere */
-  void MapToSphere(void);
+  void MapToSphere();
 
   /** Define that the input surface will be mapped to a plane.
    *  This skips the steps of the stereographic projection. */
-  void MapToPlane(void);
+  void MapToPlane();
 
 protected:
   ConformalFlatteningMeshFilter();
@@ -115,7 +115,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Requested Data */
-  virtual void GenerateData(void);
+  virtual void GenerateData();
 
 private:
   //purposely not implemented

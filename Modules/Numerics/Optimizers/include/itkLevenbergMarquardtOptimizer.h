@@ -52,7 +52,7 @@ public:
   typedef   vnl_levenberg_marquardt InternalOptimizerType;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_levenberg_marquardt * GetOptimizer(void) const;
+  vnl_levenberg_marquardt * GetOptimizer() const;
 
   /** Start optimization with an initial value. */
   virtual void StartOptimization(void) ITK_OVERRIDE;

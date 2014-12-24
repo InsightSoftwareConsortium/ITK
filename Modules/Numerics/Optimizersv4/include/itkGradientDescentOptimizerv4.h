@@ -196,7 +196,7 @@ protected:
 
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep();
 
   /** Modify the gradient over a given index range. */
   virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;

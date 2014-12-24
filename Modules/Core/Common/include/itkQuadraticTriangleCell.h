@@ -86,9 +86,9 @@ public:
   virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
 
   /** Triangle-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices(void) const;
+  virtual CellFeatureCount GetNumberOfVertices() const;
 
-  virtual CellFeatureCount GetNumberOfEdges(void) const;
+  virtual CellFeatureCount GetNumberOfEdges() const;
 
   virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);

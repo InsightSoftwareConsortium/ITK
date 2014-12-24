@@ -110,7 +110,7 @@ public:
   itkGetConstMacro(DoubleMax, double);
 
 protected:
-  MahalanobisDistanceMetric(void);
+  MahalanobisDistanceMetric();
   virtual ~MahalanobisDistanceMetric(void) {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

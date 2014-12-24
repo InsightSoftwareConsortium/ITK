@@ -112,7 +112,7 @@ public:
   using Superclass::SetInput;
   void SetInput(const InputImageType *input);
 
-  const InputImageType * GetInput(void);
+  const InputImageType * GetInput();
 
   const InputImageType * GetInput(unsigned int idx);
 
@@ -129,7 +129,7 @@ public:
    * invokes start and end events and handles releasing data. It
    * eventually calls GenerateData() which does the actual writing.
    * The whole image is written. */
-  virtual void Write(void);
+  virtual void Write();
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
@@ -207,7 +207,7 @@ protected:
 
   /** Transition method used for DEPRECATING old functionality.
    *  This method should be removed after release ITK 1.8 */
-  void GenerateNumericFileNamesAndWrite(void);
+  void GenerateNumericFileNamesAndWrite();
 
   ImageIOBase::Pointer m_ImageIO;
 
@@ -238,7 +238,7 @@ private:
   // These two methods provide now a common implementation for the
   // GenerateNumericFileNamesAndWrite() and avoid the duplication of code that
   // was leaving one of the code branches out of date.
-  void GenerateNumericFileNames(void);
+  void GenerateNumericFileNames();
 
   void WriteFiles();
 };

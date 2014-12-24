@@ -114,14 +114,14 @@ namespace itk
    /** Checks that the input filter didn't stream, and just updated
     * the largest possible region along with other correct behaviors.
     */
-   bool VerifyAllInputCanNotStream(void);
+   bool VerifyAllInputCanNotStream();
 
    /** This method verifies that propagation was executed yet no
     * updating was needed.
     */
-   bool VerifyAllNoUpdate(void);
+   bool VerifyAllNoUpdate();
 
-   bool VerifyDownStreamFilterExecutedPropagation(void);
+   bool VerifyDownStreamFilterExecutedPropagation();
 
    /** Verifies the the GenerateData executed the expected number of
     * times.
@@ -138,14 +138,14 @@ namespace itk
     * GenerateOutputInformation and the UpdateData phases of the
     * pipeline.
     */
-   bool VerifyInputFilterMatchedUpdateOutputInformation(void);
+   bool VerifyInputFilterMatchedUpdateOutputInformation();
 
    /** Verifies that the input filter buffered the requested region */
-   bool VerifyInputFilterBufferedRequestedRegions(void);
+   bool VerifyInputFilterBufferedRequestedRegions();
 
-   bool VerifyInputFilterMatchedRequestedRegions(void);
+   bool VerifyInputFilterMatchedRequestedRegions();
 
-   bool VerifyInputFilterRequestedLargestRegion(void);
+   bool VerifyInputFilterRequestedLargestRegion();
 
 
    unsigned int GetNumberOfUpdates(void) const { return m_NumberOfUpdates; }
@@ -161,7 +161,7 @@ namespace itk
 
    /** Clears all saved pipeline information, but increments
     * NumberOfClearPipeline. */
-   void ClearPipelineSavedInformation(void);
+   void ClearPipelineSavedInformation();
 
 
    /** Standard pipeline methods are overloaded to call superclass's
@@ -175,7 +175,7 @@ namespace itk
 
  protected:
 
-   PipelineMonitorImageFilter(void);
+   PipelineMonitorImageFilter();
 
    // ~PipelineMonitorImageFilter() { } default implementation OK
 

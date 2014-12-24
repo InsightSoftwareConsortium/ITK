@@ -223,7 +223,7 @@ protected:
   itkSetMacro(LastTransformParameters, ParametersType);
 
   /* Start the Optimization */
-  void StartOptimization(void);
+  void StartOptimization();
 
 private:
   ImageRegistrationMethod(const Self &); //purposely not implemented

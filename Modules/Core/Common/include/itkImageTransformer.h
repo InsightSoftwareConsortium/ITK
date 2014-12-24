@@ -85,8 +85,8 @@ public:
   using Superclass::SetInput;
   virtual void SetInput(const InputImageType *image);
   virtual void SetInput(unsigned int, const TInputImage *image);
-  const InputImageType * GetInput(void) const;
-  InputImageType * GetInput(void);
+  const InputImageType * GetInput() const;
+  InputImageType * GetInput();
   const InputImageType * GetInput(unsigned int idx) const;
 
   /** Push/Pop the input of this process object. These methods allow a

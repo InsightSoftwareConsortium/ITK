@@ -69,7 +69,7 @@ public:
 
   virtual void SetInput(unsigned int, const TInputImage *image);
 
-  const InputImageType * GetInput(void);
+  const InputImageType * GetInput();
 
   const InputImageType * GetInput(unsigned int idx);
 

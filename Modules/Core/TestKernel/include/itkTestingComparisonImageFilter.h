@@ -98,7 +98,7 @@ public:
   using Superclass::SetInput;
   virtual void SetInput(const TInputImage *image);
   virtual void SetInput(unsigned int, const TInputImage *image);
-  const TInputImage * GetInput(void) const;
+  const TInputImage * GetInput() const;
   const TInputImage * GetInput(unsigned int idx) const;
 
 protected:

@@ -107,7 +107,7 @@ public:
   { return this->GetInput(); }
 
   /** Get the secong input. */
-  const InputImage2Type * GetInput2(void);
+  const InputImage2Type * GetInput2();
 
   /** Return the computed similarity index. */
   itkGetConstMacro(SimilarityIndex, RealType);

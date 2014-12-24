@@ -195,7 +195,7 @@ public:
   static double InverseCDF(double p, SizeValueType degreesOfFreedom);
 
 protected:
-  ChiSquareDistribution(void);
+  ChiSquareDistribution();
   virtual ~ChiSquareDistribution(void) {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
