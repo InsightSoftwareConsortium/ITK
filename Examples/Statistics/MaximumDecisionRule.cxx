@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 // Software Guide : BeginLatex
+//
 // \index{itk::Statistics::Maximum\-Decision\-Rule}
 //
 // The \doxygen{MaximumDecisionRule} returns the index of the largest

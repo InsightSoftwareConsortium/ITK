@@ -125,9 +125,12 @@ int main( int argc, char * argv[] )
     }
 
   // Software Guide : BeginLatex
+  //
   // In order to read a transform file, we instantiate a TransformFileReader.
   // Like the writer, the reader is templated.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef float ReadScalarType;
 
@@ -137,9 +140,12 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // We then set the name of the file we want to read, and call the
   // Update() function.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   reader->SetFileName( transformFileName );
   // Software Guide : EndCodeSnippet
@@ -159,12 +165,15 @@ int main( int argc, char * argv[] )
     }
 
   // Software Guide : BeginLatex
+  //
   // The transform reader is templated and it returns a list
   // of \doxygen{Transform}'s. Even thought the reader instantiate the appropriate
   // transform class when reading the file, it is up to the user to
   // do the approriate cast.
   // To get the output list of transform we use the GetTransformList() function.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef TransformReaderType::TransformListType * TransformListType;
   TransformListType transforms = reader->GetTransformList();
@@ -172,9 +181,12 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // We then use an STL iterator to go through the list of transforms. We show here
   // how to do the proper casting of the resulting transform.
+  //
   // Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::CompositeTransform< ReadScalarType, Dimension >
     ReadCompositeTransformType;
