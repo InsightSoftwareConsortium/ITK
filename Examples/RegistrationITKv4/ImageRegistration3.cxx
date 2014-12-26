@@ -177,7 +177,8 @@ public:
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller,
+               const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *)caller, event);
     }
@@ -193,7 +194,8 @@ public:
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object,
+               const itk::EventObject & event) ITK_OVERRIDE
     {
     // Software Guide : EndCodeSnippet
 

@@ -174,12 +174,14 @@ public:
     }
 
   /** Execute method will print data at each iteration */
-  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller,
+               const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object *, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object *,
+               const itk::EventObject & event) ITK_OVERRIDE
     {
     if( typeid( event ) == typeid( itk::StartEvent ) )
       {
@@ -322,7 +324,7 @@ public:
 
   /** Get the value for SingleValue optimizers. */
   //  Software Guide : BeginCodeSnippet
-  MeasureType    GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
     {
       double value;
       this->m_Transform->SetParameters( parameters );

@@ -173,7 +173,8 @@ public:
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  void Execute( itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute( itk::Object * object,
+                const itk::EventObject & event) ITK_OVERRIDE
     {
     // Software Guide : EndCodeSnippet
 
