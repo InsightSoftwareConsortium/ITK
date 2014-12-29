@@ -71,7 +71,7 @@ protected:
    * m_Filename.  The parser will throw an exception in the case of XML
    * syntax errors, missing filenames, unreadable input file, etc.
    */
-  void parse(void);
+  void parse();
 
   std::string m_Filename;
 

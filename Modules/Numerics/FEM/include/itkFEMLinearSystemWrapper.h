@@ -83,7 +83,7 @@ public:
    * Clear all the data (matrices) inside the system, so that the system
    * is ready to solve another problem from scratch.
    */
-  virtual void Clean(void);
+  virtual void Clean();
 
   /**
    * Set the order of the system.  All matrices will be of size NxN and

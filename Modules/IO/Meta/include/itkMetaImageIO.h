@@ -73,7 +73,7 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void *buffer) ITK_OVERRIDE;
 
-  MetaImage * GetMetaImagePointer(void);
+  MetaImage * GetMetaImagePointer();
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 

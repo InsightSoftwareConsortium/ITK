@@ -77,7 +77,7 @@ public:
     }
 
   /** Get the output Mesh of this process object.  */
-  OutputMeshType * GetOutput(void);
+  OutputMeshType * GetOutput();
 
   /** Prepare the output */
   void GenerateOutputInformation() ITK_OVERRIDE;

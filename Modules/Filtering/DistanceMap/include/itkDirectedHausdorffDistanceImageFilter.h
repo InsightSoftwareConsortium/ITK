@@ -114,10 +114,10 @@ public:
   void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1(void);
+  const InputImage1Type * GetInput1();
 
   /** Get the second input. */
-  const InputImage2Type * GetInput2(void);
+  const InputImage2Type * GetInput2();
 
   /** Set if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);

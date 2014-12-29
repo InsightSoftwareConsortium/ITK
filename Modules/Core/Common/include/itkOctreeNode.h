@@ -50,12 +50,12 @@ public:
    * \post After construction, it is assumed all children of this node are colored
    * with values of 0.
    */
-  OctreeNode(void);
+  OctreeNode();
 
   /**
    * Default destructor
    */
-  virtual ~OctreeNode(void);
+  virtual ~OctreeNode();
 
   /**
    * Returns the value of the specified Child for this OctreeNode
@@ -76,7 +76,7 @@ public:
    * member function.  Behavior is undefined when the child is another Octree.
    * \return A value between 0 and 255 to indicate the color of the Desired child.
    */
-  long int GetColor(void) const;
+  long int GetColor() const;
 
   /**
    * Sets the color value of the specified Child for this OctreeNode
@@ -97,7 +97,7 @@ public:
    * Determines if the child is a leaf node (colored), or a branch node (uncolored)
    * \return true if it is colored, false if it is not
    */
-  bool IsNodeColored(void) const;
+  bool IsNodeColored() const;
 
   inline void SetParentOctree(OctreeBase *parent)
   {
@@ -111,7 +111,7 @@ private:
    * Removes all children from this node down, and sets the value
    * value of the children to background.
    */
-  void RemoveChildren(void);
+  void RemoveChildren();
 
   /**
    * Each element holds COLOR or pointer to another octree node

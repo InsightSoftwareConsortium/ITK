@@ -60,7 +60,7 @@ public:
   itkTypeMacro(SpatialObjectWriter, Object);
 
   /** Load a tube file. */
-  void Update(void);
+  void Update();
 
   /** Set the filename  */
   itkSetStringMacro(FileName);

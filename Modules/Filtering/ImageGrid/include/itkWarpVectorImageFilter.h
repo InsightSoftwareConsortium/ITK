@@ -160,7 +160,7 @@ public:
   void SetDisplacementField(DisplacementFieldType *field);
 
   /** Get a pointer the displacement field. */
-  DisplacementFieldType * GetDisplacementField(void);
+  DisplacementFieldType * GetDisplacementField();
 
 #ifdef ITKV3_COMPATIBILITY
   void SetDeformationField(const DeformationFieldType *field)

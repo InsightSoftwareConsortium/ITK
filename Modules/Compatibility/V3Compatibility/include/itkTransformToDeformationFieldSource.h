@@ -159,13 +159,13 @@ public:
   void SetOutputParametersFromImage(const ImageBaseType *image);
 
   /** DeformationFieldImageFilter produces a vector image. */
-  virtual void GenerateOutputInformation(void);
+  virtual void GenerateOutputInformation();
 
   /** Just checking if transform is set. */
-  virtual void BeforeThreadedGenerateData(void);
+  virtual void BeforeThreadedGenerateData();
 
   /** Compute the Modified Time based on changes to the components. */
-  unsigned long GetMTime(void) const;
+  unsigned long GetMTime() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -177,7 +177,7 @@ public:
 #endif
 
 protected:
-  TransformToDeformationFieldSource(void);
+  TransformToDeformationFieldSource();
   ~TransformToDeformationFieldSource(void) {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

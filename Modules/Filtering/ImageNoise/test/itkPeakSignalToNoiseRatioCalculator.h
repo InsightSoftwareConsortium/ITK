@@ -81,7 +81,7 @@ public:
       }
   }
 
-  void Compute( void );
+  void Compute();
 
   const double & GetOutput() const;
 

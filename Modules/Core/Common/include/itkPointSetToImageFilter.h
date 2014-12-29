@@ -75,7 +75,7 @@ public:
 
   virtual void SetInput(unsigned int, const InputPointSetType *pointset);
 
-  const InputPointSetType * GetInput(void);
+  const InputPointSetType * GetInput();
 
   const InputPointSetType * GetInput(unsigned int idx);
 

@@ -156,7 +156,7 @@ public:
 
   /** Get whether the scales have been set. Returns
    *  true if <tt> m_Scales.Size() > 0 </tt> */
-  bool GetScalesInitialized( void ) const;
+  bool GetScalesInitialized() const;
 
   /** Set the scales estimator.
    *

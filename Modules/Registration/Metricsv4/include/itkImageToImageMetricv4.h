@@ -629,8 +629,8 @@ protected:
 
   /** Initialize the default image gradient filters. This must only
    * be called once the fixed and moving images have been set. */
-  virtual void InitializeDefaultFixedImageGradientFilter(void);
-  virtual void InitializeDefaultMovingImageGradientFilter(void);
+  virtual void InitializeDefaultFixedImageGradientFilter();
+  virtual void InitializeDefaultMovingImageGradientFilter();
 
   /** Get accessor for flag to calculate derivative. */
   itkGetConstMacro( ComputeDerivative, bool );
@@ -701,7 +701,7 @@ protected:
 
 private:
   /** Map the fixed point set samples to the virtual domain */
-  void MapFixedSampledPointSetToVirtual( void );
+  void MapFixedSampledPointSetToVirtual();
 
   /** Transform a point. Avoid cast if possible */
   void LocalTransformPoint(const typename FixedTransformType::OutputPointType &virtualPoint,

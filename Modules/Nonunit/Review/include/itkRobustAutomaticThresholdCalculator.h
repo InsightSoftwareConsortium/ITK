@@ -98,7 +98,7 @@ public:
    * parameter and stores them in the object.  The values of these
    * moments and related parameters can then be retrieved by using
    * other methods of this object. */
-  void Compute(void);
+  void Compute();
 
   const InputPixelType & GetOutput() const;
 

@@ -278,7 +278,7 @@ public:
   /** This method computes the distance from self to the identity
    * transformation, using the same metric as the one-argument form
    * of the Metric() method. */
-  ScalarType Metric(void) const;
+  ScalarType Metric() const;
 
 protected:
   /** Construct an AffineTransform object

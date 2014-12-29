@@ -276,7 +276,7 @@ private:
   void operator = (const Self &); //purposely not implemented
 
   /** Perform the final step in computing results */
-  virtual void ComputeResults( void ) const;
+  virtual void ComputeResults() const;
 
   std::vector< MutexLock::Pointer >  m_JointPDFSubsectionLocks;
   std::vector< MutexLock::Pointer >  m_JointPDFDerivativeSubsectionLocks;

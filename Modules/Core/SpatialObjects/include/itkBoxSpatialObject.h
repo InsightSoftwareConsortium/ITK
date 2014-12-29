@@ -88,8 +88,8 @@ protected:
   BoxSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented
 
-  BoxSpatialObject(void);
-  ~BoxSpatialObject(void);
+  BoxSpatialObject();
+  ~BoxSpatialObject();
 
   SizeType m_Size;
 

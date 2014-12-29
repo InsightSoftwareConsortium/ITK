@@ -70,7 +70,7 @@ public:
   void SetInput(const InputMeshType *input);
 
   /** Get the mesh input of this process object.  */
-  const InputMeshType * GetInput(void) const;
+  const InputMeshType * GetInput() const;
 
   const InputMeshType * GetInput(unsigned int idx) const;
 

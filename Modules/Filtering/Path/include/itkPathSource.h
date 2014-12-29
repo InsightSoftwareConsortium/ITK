@@ -104,7 +104,7 @@ public:
    * Region, which can be set using ImageBase::SetRequestedRegion().
    * By default, the largest possible region is requested.
    */
-  OutputPathType * GetOutput(void);
+  OutputPathType * GetOutput();
 
   OutputPathType * GetOutput(unsigned int idx);
 

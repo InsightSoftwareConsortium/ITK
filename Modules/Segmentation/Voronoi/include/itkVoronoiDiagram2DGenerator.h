@@ -87,13 +87,13 @@ public:
   void AddOneSeed(PointType);
 
   /** Sort the seeds with their y, then x, coordinates. */
-  void SortSeeds(void);
+  void SortSeeds();
 
   /** Produce the output information. */
   virtual void GenerateOutputInformation() ITK_OVERRIDE {}
 
   /** Update the Voronoi Diagram after adding seed(s). */
-  void UpdateDiagram(void);
+  void UpdateDiagram();
 
   /** Set the rectangle that encloses the whole Voronoi Diagram. */
   void SetBoundary(PointType vorsize);
@@ -248,9 +248,9 @@ private:
 
   unsigned char Pointonbnd(int VertID);
 
-  void GenerateVDFortune(void);
+  void GenerateVDFortune();
 
-  void ConstructDiagram(void);
+  void ConstructDiagram();
 
   void createHalfEdge(FortuneHalfEdge *task, FortuneEdge *e, bool pm);
 
@@ -288,7 +288,7 @@ private:
 
   double dist(FortuneSite *s1, FortuneSite *s2);
 
-  FortuneHalfEdge * getPQmin(void);
+  FortuneHalfEdge * getPQmin();
 
   void makeEndPoint(FortuneEdge *task, bool lr, FortuneSite *ends);
 };

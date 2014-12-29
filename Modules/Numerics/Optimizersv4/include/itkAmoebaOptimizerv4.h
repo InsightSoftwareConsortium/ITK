@@ -131,7 +131,7 @@ public:
   virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_amoeba * GetOptimizer(void) const;
+  vnl_amoeba * GetOptimizer() const;
 
 protected:
   AmoebaOptimizerv4();

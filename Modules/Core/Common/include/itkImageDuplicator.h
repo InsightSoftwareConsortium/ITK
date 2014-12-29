@@ -81,7 +81,7 @@ public:
   itkGetModifiableObjectMacro(Output, ImageType);
 
   /** Compute of the input image. */
-  void Update(void);
+  void Update();
 
 protected:
   ImageDuplicator();

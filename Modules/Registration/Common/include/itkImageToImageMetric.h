@@ -200,7 +200,7 @@ public:
   itkBooleanMacro(ComputeGradient);
 
   /** Computes the gradient image and assigns it to m_GradientImage */
-  virtual void ComputeGradient(void);
+  virtual void ComputeGradient();
 
   /** Get Gradient Image. */
   itkGetModifiableObjectMacro(GradientImage, GradientImageType);
@@ -461,7 +461,7 @@ public:
   mutable BSplineTransformWeightsType    *m_ThreaderBSplineTransformWeights;
   mutable BSplineTransformIndexArrayType *m_ThreaderBSplineTransformIndices;
 
-  virtual void PreComputeTransformValues(void);
+  virtual void PreComputeTransformValues();
 
   /** Transform a point from FixedImage domain to MovingImage domain.
    * This function also checks if mapped point is within support region. */
@@ -505,11 +505,11 @@ public:
   bool                       m_WithinThreadPreProcess;
   bool                       m_WithinThreadPostProcess;
 
-  void                           GetValueMultiThreadedPreProcessInitiate(void) const;
+  void                           GetValueMultiThreadedPreProcessInitiate() const;
 
-  void                           GetValueMultiThreadedInitiate(void) const;
+  void                           GetValueMultiThreadedInitiate() const;
 
-  void                           GetValueMultiThreadedPostProcessInitiate(void) const;
+  void                           GetValueMultiThreadedPostProcessInitiate() const;
 
   static ITK_THREAD_RETURN_TYPE  GetValueMultiThreadedPreProcess(void *arg);
 
@@ -534,11 +534,11 @@ public:
     bool itkNotUsed(withinSampleThread) ) const
   {}
 
-  void                          GetValueAndDerivativeMultiThreadedPreProcessInitiate(void) const;
+  void                          GetValueAndDerivativeMultiThreadedPreProcessInitiate() const;
 
-  void                          GetValueAndDerivativeMultiThreadedInitiate(void) const;
+  void                          GetValueAndDerivativeMultiThreadedInitiate() const;
 
-  void                          GetValueAndDerivativeMultiThreadedPostProcessInitiate(void) const;
+  void                          GetValueAndDerivativeMultiThreadedPostProcessInitiate() const;
 
   static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreadedPreProcess(void *arg);
 

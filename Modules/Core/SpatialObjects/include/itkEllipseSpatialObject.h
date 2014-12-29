@@ -103,8 +103,8 @@ protected:
   EllipseSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented
 
-  EllipseSpatialObject(void);
-  ~EllipseSpatialObject(void);
+  EllipseSpatialObject();
+  ~EllipseSpatialObject();
 
   ArrayType m_Radius;
 

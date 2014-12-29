@@ -54,7 +54,7 @@ public:
   typedef   vnl_conjugate_gradient InternalOptimizerType;
 
   /** Method for getting access to the internal optimizer */
-  vnl_conjugate_gradient * GetOptimizer(void);
+  vnl_conjugate_gradient * GetOptimizer();
 
   /** Start optimization with an initial value. */
   virtual void StartOptimization(void) ITK_OVERRIDE;
@@ -63,9 +63,9 @@ public:
   virtual void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE;
 
   /** Return the number of iterations performed so far */
-  SizeValueType GetNumberOfIterations(void) const;
+  SizeValueType GetNumberOfIterations() const;
 
-  SizeValueType GetCurrentIteration(void) const;
+  SizeValueType GetCurrentIteration() const;
 
   /** Return Current Value */
   MeasureType GetValue() const;

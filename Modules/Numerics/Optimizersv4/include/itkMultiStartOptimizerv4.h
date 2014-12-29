@@ -97,14 +97,14 @@ public:
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
   /** Create an instance of the local optimizer */
-  void InstantiateLocalOptimizer(void);
+  void InstantiateLocalOptimizer();
 
   /** Begin the optimization */
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  virtual void StopOptimization(void);
+  virtual void StopOptimization();
 
   /** Resume the optimization. Can be called after StopOptimization to
    * resume. The bulk of the optimization work loop is here. */

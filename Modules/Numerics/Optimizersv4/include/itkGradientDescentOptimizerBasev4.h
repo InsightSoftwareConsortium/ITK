@@ -112,7 +112,7 @@ public:
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  virtual void StopOptimization(void);
+  virtual void StopOptimization();
 
   /** Get the reason for termination */
   virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;

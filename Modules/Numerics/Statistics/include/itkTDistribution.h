@@ -197,7 +197,7 @@ public:
   static double InverseCDF(double p, SizeValueType degreesOfFreedom);
 
 protected:
-  TDistribution(void);
+  TDistribution();
   virtual ~TDistribution(void) {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

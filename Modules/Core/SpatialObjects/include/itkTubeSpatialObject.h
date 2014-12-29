@@ -69,10 +69,10 @@ public:
   itkTypeMacro(TubeSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the tube points. */
-  virtual PointListType & GetPoints(void);
+  virtual PointListType & GetPoints();
 
   /** Returns a reference to the list of the tube points. */
-  virtual const PointListType & GetPoints(void) const;
+  virtual const PointListType & GetPoints() const;
 
   /** Set the list of tube points. */
   virtual void SetPoints(PointListType & newPoints);
@@ -105,7 +105,7 @@ public:
   void Clear(void) ITK_OVERRIDE;
 
   /** Calculate the normalized tangent */
-  bool ComputeTangentAndNormals(void);
+  bool ComputeTangentAndNormals();
 
   /** Remove duplicate points */
   unsigned int RemoveDuplicatePoints(unsigned int step = 1);

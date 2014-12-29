@@ -203,7 +203,7 @@ public:
   /** Set/Get number of random samples to get from the image region */
   void SetNumberOfSamples(SizeValueType number);
 
-  SizeValueType GetNumberOfSamples(void) const;
+  SizeValueType GetNumberOfSamples() const;
 
   /** Reinitialize the seed of the random number generator  */
   void ReinitializeSeed();

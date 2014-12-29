@@ -289,27 +289,27 @@ private:
   /**
    * Get a begin const iterator for the map.
    */
-  ConstIterator Begin(void) const;
+  ConstIterator Begin() const;
 
   /**
    * Get an end const iterator for the map.
    */
-  ConstIterator End(void) const;
+  ConstIterator End() const;
 
   /**
    * Get a begin const iterator for the map.
    */
-  Iterator Begin(void);
+  Iterator Begin();
 
   /**
    * Get an end const iterator for the map.
    */
-  Iterator End(void);
+  Iterator End();
 
   /**
    * Get the number of elements currently stored in the map.
    */
-  ElementIdentifier Size(void) const;
+  ElementIdentifier Size() const;
 
   /**
    * Tell the container to allocate enough memory to allow at least
@@ -324,13 +324,13 @@ private:
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage.
    */
-  void Squeeze(void);
+  void Squeeze();
 
   /**
    * Tell the container to release any memory it may have allocated and
    * return itself to its initial state.
    */
-  void Initialize(void);
+  void Initialize();
 };
 } // end namespace itk
 

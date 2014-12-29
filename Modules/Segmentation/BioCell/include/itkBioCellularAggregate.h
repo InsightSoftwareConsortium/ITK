@@ -110,7 +110,7 @@ public:
   typedef std::vector< SubstratePointer >          SubstratesVector;
 
 public:
-  unsigned int GetNumberOfCells(void) const;
+  unsigned int GetNumberOfCells() const;
 
   static unsigned int GetDimension() { return SpaceDimension; }
 
@@ -120,7 +120,7 @@ public:
 
   itkGetModifiableObjectMacro(Mesh, MeshType);
 
-  virtual void AdvanceTimeStep(void);
+  virtual void AdvanceTimeStep();
 
   virtual void SetEgg(BioCellType *cell, const PointType & position);
 
@@ -138,12 +138,12 @@ public:
 
   virtual void AddSubstrate(SubstrateType *substrate);
 
-  virtual SubstratesVector & GetSubstrates(void);
+  virtual SubstratesVector & GetSubstrates();
 
   virtual SubstrateValueType GetSubstrateValue(IdentifierType cellId,
                                                unsigned int substrateId) const ITK_OVERRIDE;
 
-  virtual void KillAll(void);
+  virtual void KillAll();
 
 protected:
   CellularAggregate();
@@ -153,13 +153,13 @@ protected:
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void ComputeForces(void);
+  virtual void ComputeForces();
 
-  virtual void UpdatePositions(void);
+  virtual void UpdatePositions();
 
-  virtual void ComputeClosestPoints(void);
+  virtual void ComputeClosestPoints();
 
-  virtual void ClearForces(void);
+  virtual void ClearForces();
 
 private:
 

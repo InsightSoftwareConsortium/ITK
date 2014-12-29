@@ -153,13 +153,13 @@ public:
   void SetOutputParametersFromImage(const ImageBaseType *image);
 
   /** DisplacementFieldImageFilter produces a vector image. */
-  virtual void GenerateOutputInformation(void);
+  virtual void GenerateOutputInformation();
 
   /** Just checking if transform is set. */
-  virtual void BeforeThreadedGenerateData(void);
+  virtual void BeforeThreadedGenerateData();
 
   /** Compute the Modified Time based on changes to the components. */
-  ModifiedTimeType GetMTime(void) const;
+  ModifiedTimeType GetMTime() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -171,7 +171,7 @@ public:
 #endif
 
 protected:
-  TransformToDisplacementFieldSource(void);
+  TransformToDisplacementFieldSource();
   ~TransformToDisplacementFieldSource(void) {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

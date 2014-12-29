@@ -70,7 +70,7 @@ public:
     * selection of FFT implementation.
     *
     * Default implementation is VnlFFT. */
-  static Pointer New(void);
+  static Pointer New();
 
 protected:
   ForwardFFTImageFilter() {}

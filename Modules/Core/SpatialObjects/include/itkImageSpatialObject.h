@@ -74,7 +74,7 @@ public:
   void SetImage(const ImageType *image);
 
   /** Get a pointer to the image currently attached to the object. */
-  const ImageType * GetImage(void) const;
+  const ImageType * GetImage() const;
 
   /** Return true if the object is evaluable at the requested point,
    *  and else otherwise. */

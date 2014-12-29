@@ -82,7 +82,7 @@ public:
 
   virtual void SetInput(unsigned int, const InputSpatialObjectType *object);
 
-  const InputSpatialObjectType * GetInput(void);
+  const InputSpatialObjectType * GetInput();
 
   const InputSpatialObjectType * GetInput(unsigned int idx);
 
@@ -96,13 +96,13 @@ public:
 
   virtual void SetSpacing(const float *spacing);
 
-  virtual const double * GetSpacing(void) const;
+  virtual const double * GetSpacing() const;
 
   /** Directions of the output image. The
    * direction is for oriented images. */
   virtual void SetDirection(const DirectionType & direction);
 
-  virtual const DirectionType & GetDirection(void) const;
+  virtual const DirectionType & GetDirection() const;
 
   /** Set/Get the value for pixels inside the spatial object.
   * By default, this filter will return an image
@@ -132,7 +132,7 @@ public:
 
   virtual void SetOrigin(const float *origin);
 
-  virtual const double * GetOrigin(void) const;
+  virtual const double * GetOrigin() const;
 
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the

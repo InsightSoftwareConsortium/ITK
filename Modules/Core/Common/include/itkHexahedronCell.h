@@ -96,11 +96,11 @@ public:
   virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
 
   /** Hexahedron-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices(void) const;
+  virtual CellFeatureCount GetNumberOfVertices() const;
 
-  virtual CellFeatureCount GetNumberOfEdges(void) const;
+  virtual CellFeatureCount GetNumberOfEdges() const;
 
-  virtual CellFeatureCount GetNumberOfFaces(void) const;
+  virtual CellFeatureCount GetNumberOfFaces() const;
 
   virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);

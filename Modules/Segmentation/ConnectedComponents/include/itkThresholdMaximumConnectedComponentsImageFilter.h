@@ -159,7 +159,7 @@ protected:
    * Runs a series of filters that thresholds the image,
    * dilates/erodes  for edge enhancement, and counts the number of
    * relabeled connected components */
-  SizeValueType ComputeConnectedComponents(void);
+  SizeValueType ComputeConnectedComponents();
 
 private:
 

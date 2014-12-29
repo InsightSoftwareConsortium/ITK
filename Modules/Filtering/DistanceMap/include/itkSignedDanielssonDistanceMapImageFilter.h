@@ -185,7 +185,7 @@ public:
    * Each object should be labeled by a number (larger than 0),
    * so the map has a value for each pixel corresponding to the label
    * of the closest object.  */
-  VoronoiImageType * GetVoronoiMap(void);
+  VoronoiImageType * GetVoronoiMap();
 
   /** Get Distance map image.  The distance map is shown as a gray
    * value image depending on the pixel type of the output image.
@@ -195,10 +195,10 @@ public:
    * output image gives for each pixel its minimal distance from the
    * object (if there is more than one object the closest object is
    * considered). */
-  OutputImageType * GetDistanceMap(void);
+  OutputImageType * GetDistanceMap();
 
   /** Get vector field of distances. */
-  VectorImageType * GetVectorDistanceMap(void);
+  VectorImageType * GetVectorDistanceMap();
 
   /** This is overloaded to create the VectorDistanceMap output image */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;

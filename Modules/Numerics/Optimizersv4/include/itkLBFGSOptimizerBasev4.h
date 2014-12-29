@@ -96,7 +96,7 @@ public:
   typedef LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>   InternalOptimizerType;
 
   /** Method for getting access to the internal optimizer. */
-  InternalOptimizerType * GetOptimizer(void);
+  InternalOptimizerType * GetOptimizer();
 
   /** Start optimization with an initial value. */
   virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;

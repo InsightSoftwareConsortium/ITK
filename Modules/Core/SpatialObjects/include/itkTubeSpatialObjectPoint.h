@@ -48,13 +48,13 @@ public:
 
   /** Constructor. This one defines the number of dimensions in the
    * TubeSpatialObjectPoint */
-  TubeSpatialObjectPoint(void);
+  TubeSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~TubeSpatialObjectPoint(void);
+  virtual ~TubeSpatialObjectPoint();
 
   /** Get the tangent */
-  const VectorType & GetTangent(void) const;
+  const VectorType & GetTangent() const;
 
   /** Set T. Couldn't use macros for these methods */
   void SetTangent(const VectorType & newT);
@@ -64,7 +64,7 @@ public:
   void SetTangent(const double t0, const double t1, const double t2);
 
   /** Get V1 */
-  const CovariantVectorType & GetNormal1(void) const;
+  const CovariantVectorType & GetNormal1() const;
 
   /** Set V1 */
   void SetNormal1(const CovariantVectorType & newV1);
@@ -74,7 +74,7 @@ public:
   void SetNormal1(const double v10, const double v11, const double v12);
 
   /** Get V2 */
-  const CovariantVectorType & GetNormal2(void) const;
+  const CovariantVectorType & GetNormal2() const;
 
   /** Set V2 */
   void SetNormal2(const CovariantVectorType & newV2);
@@ -84,13 +84,13 @@ public:
   void SetNormal2(const double v20, const double v21, const double v22);
 
   /** Get R */
-  float GetRadius(void) const;
+  float GetRadius() const;
 
   /** Set R */
   void SetRadius(const float newR);
 
   /** Get number of dimensions */
-  unsigned short int GetNumDimensions(void) const;
+  unsigned short int GetNumDimensions() const;
 
   /** Copy one TubeSpatialObjectPoint to another */
   Self & operator=(const TubeSpatialObjectPoint & rhs);

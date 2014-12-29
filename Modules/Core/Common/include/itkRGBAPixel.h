@@ -158,7 +158,7 @@ public:
   const ComponentType & GetAlpha(void) const { return this->operator[](3); }
 
   /** Get Luminance out of RGB */
-  LuminanceType GetLuminance(void) const;
+  LuminanceType GetLuminance() const;
 };
 
 template< typename TComponent  >

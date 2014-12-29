@@ -192,7 +192,7 @@ public:
   }
 
   /** Get the mesh input of this process object.  */
-  InputMeshType * GetInput(void);
+  InputMeshType * GetInput();
 
   InputMeshType * GetInput(unsigned int idx);
 

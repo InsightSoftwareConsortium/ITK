@@ -78,13 +78,13 @@ public:
   itkSetConstObjectMacro(Image, ImageType);
 
   /** Compute the minimum value of intensity of the input image. */
-  void ComputeMinimum(void);
+  void ComputeMinimum();
 
   /** Compute the maximum value of intensity of the input image. */
-  void ComputeMaximum(void);
+  void ComputeMaximum();
 
   /** Compute the minimum and maximum values of intensity of the input image. */
-  void Compute(void);
+  void Compute();
 
   /** Return the minimum intensity value. */
   itkGetConstMacro(Minimum, PixelType);

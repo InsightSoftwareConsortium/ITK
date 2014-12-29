@@ -77,12 +77,12 @@ public:
   /** Set/Get the path input of this process object. */
   virtual void SetPathInput(const TInputPath *path);
 
-  const InputPathType * GetPathInput(void);
+  const InputPathType * GetPathInput();
 
   /** Set/Get the image input of this process object. */
   virtual void SetImageInput(const TInputImage *image);
 
-  const InputImageType * GetImageInput(void);
+  const InputImageType * GetImageInput();
 
 protected:
   PathAndImageToPathFilter();

@@ -124,8 +124,8 @@ public:
    * \brief Support iteration operations through a container.
    * Dereferencing the iterator must provide an object with the following
    * methods:
-   *   ElementIdentifier Index(void) const;
-   *   Element&          Value(void);
+   *   ElementIdentifier Index() const;
+   *   Element&          Value();
    * \ingroup ITKCommon
    */
   class Iterator {};
@@ -134,8 +134,8 @@ public:
    * \brief Support const iteration operations through a container.
    * Dereferencing the iterator must provide an object with the following
    * methods:
-   *   ElementIdentifier Index(void) const;
-   *   const Element&    Value(void) const;
+   *   ElementIdentifier Index() const;
+   *   const Element&    Value() const;
    * \ingroup ITKCommon
    */
   class ConstIterator {};
@@ -153,7 +153,7 @@ public:
   ConstIterator End() const;
 
   /** Get the number of elements currently stored in the container. */
-  ElementIdentifier Size(void) const;
+  ElementIdentifier Size() const;
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT
@@ -164,11 +164,11 @@ public:
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
-  void Squeeze(void);
+  void Squeeze();
 
   /** Tell the container to release any memory it may have allocated and
    * return itself to its initial state. */
-  void Initialize(void);
+  void Initialize();
 };
 } // end namespace itk
 

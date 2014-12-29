@@ -296,7 +296,7 @@ protected:
     D (deformable), A (rotation part of affine)
     and B (translational part of affine ) components.
     \warning This method release the memory of the W Matrix  */
-  void ReorganizeW(void);
+  void ReorganizeW();
 
   /** Stiffness parameter */
   double m_Stiffness;

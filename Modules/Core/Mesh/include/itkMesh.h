@@ -293,7 +293,7 @@ public:
 
   /** Get the bounding box of the mesh. The methods return a pointer to
    * the user-supplied bounding box as a convenience. */
-  const BoundingBoxType * GetBoundingBox(void) const;
+  const BoundingBoxType * GetBoundingBox() const;
 
   /** Access m_CellsLinksContainer, which contains parent cell links
    * for each point.  Since a point can be used by multiple cells,

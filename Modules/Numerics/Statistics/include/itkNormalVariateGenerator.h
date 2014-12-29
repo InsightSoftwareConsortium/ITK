@@ -123,7 +123,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** get a variate */
-  double FastNorm(void);
+  double FastNorm();
 
 private:
   double m_Scale;

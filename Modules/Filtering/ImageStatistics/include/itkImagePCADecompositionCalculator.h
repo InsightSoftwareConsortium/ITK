@@ -121,7 +121,7 @@ public:
   void SetBasisFromModel(ModelPointerType model);
 
   /** Compute the PCA decomposition of the input image. */
-  void Compute(void);
+  void Compute();
 
   /** Return the projection of the image. */
   itkGetConstMacro(Projection, BasisVectorType);
@@ -131,9 +131,9 @@ protected:
   virtual ~ImagePCADecompositionCalculator() {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void CalculateBasisMatrix(void);
+  void CalculateBasisMatrix();
 
-  void CalculateRecenteredImageAsVector(void);
+  void CalculateRecenteredImageAsVector();
 
 private:
   typedef typename BasisImageType::SizeType BasisSizeType;

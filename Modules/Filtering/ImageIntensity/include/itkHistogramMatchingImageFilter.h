@@ -114,7 +114,7 @@ public:
   /** Set/Get the reference image. */
   void SetReferenceImage(const InputImageType *reference);
 
-  const InputImageType * GetReferenceImage(void);
+  const InputImageType * GetReferenceImage();
 
   /** Set/Get the number of histogram levels used. */
   itkSetMacro(NumberOfHistogramLevels, SizeValueType);

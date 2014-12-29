@@ -146,22 +146,22 @@ public:
 
   virtual void Initialize(void) ITK_OVERRIDE;
 
-  PointIdentifier GetNumberOfPoints(void) const;
+  PointIdentifier GetNumberOfPoints() const;
 
   /** Define Set/Get access routines for each internal container.
    * Methods also exist to add points, cells, etc. one at a time
    * rather than through an entire container. */
   void SetPoints(PointsContainer *);
 
-  PointsContainer * GetPoints(void);
+  PointsContainer * GetPoints();
 
-  const PointsContainer * GetPoints(void) const;
+  const PointsContainer * GetPoints() const;
 
   void SetPointData(PointDataContainer *);
 
-  PointDataContainer * GetPointData(void);
+  PointDataContainer * GetPointData();
 
-  const PointDataContainer * GetPointData(void) const;
+  const PointDataContainer * GetPointData() const;
 
   /** Access routines to fill the Points container, and get information
    * from it. */

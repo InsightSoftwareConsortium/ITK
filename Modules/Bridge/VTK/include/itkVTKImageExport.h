@@ -79,7 +79,7 @@ public:
   /** Set the input image of this image exporter. */
   using Superclass::SetInput;
   void SetInput(const InputImageType *);
-  InputImageType * GetInput(void);
+  InputImageType * GetInput();
 
 protected:
   VTKImageExport();

@@ -52,7 +52,7 @@ public:
   typedef   vnl_lbfgs InternalOptimizerType;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_lbfgs * GetOptimizer(void);
+  vnl_lbfgs * GetOptimizer();
 
   /** Start optimization with an initial value. */
   virtual void StartOptimization(void) ITK_OVERRIDE;

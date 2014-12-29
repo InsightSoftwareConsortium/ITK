@@ -67,8 +67,8 @@ public:
   void SetMesh(MeshType *Mesh);
 
   /** Get a pointer to the Mesh currently attached to the object. */
-  MeshType * GetMesh(void);
-  const MeshType *GetMesh(void) const;
+  MeshType * GetMesh();
+  const MeshType *GetMesh() const;
 
   /** Return true if the object is evaluable at the requested point,
    *  and else otherwise. */

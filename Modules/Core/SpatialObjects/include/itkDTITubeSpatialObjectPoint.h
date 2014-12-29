@@ -53,10 +53,10 @@ public:
 
   /** Constructor. This one defines the number of dimensions in the
    * DTITubeSpatialObjectPoint */
-  DTITubeSpatialObjectPoint(void);
+  DTITubeSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~DTITubeSpatialObjectPoint(void);
+  virtual ~DTITubeSpatialObjectPoint();
 
   /** Set/Get the tensor matrix */
   void SetTensorMatrix(const DiffusionTensor3D< double > & matrix)

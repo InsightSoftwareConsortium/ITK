@@ -76,7 +76,7 @@ public:
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
   virtual void SetInput(const TInputImage *image);
-  const TInputImage * GetInput(void) const;
+  const TInputImage * GetInput() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

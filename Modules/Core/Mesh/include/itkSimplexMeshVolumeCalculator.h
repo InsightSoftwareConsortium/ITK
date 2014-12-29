@@ -165,7 +165,7 @@ protected:
   itkSetObjectMacro(SimplexMesh, InputMeshType);
 
   /** Compute the volume of the entire simplex mesh. */
-  void Compute(void);
+  void Compute();
 
   /** Return the computed volume. */
   itkGetConstMacro(Volume, double);

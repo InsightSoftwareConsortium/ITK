@@ -56,9 +56,9 @@ public:
 
   /** Write the Input mesh to the Output file.
    * Use either Update() or Write(). */
-  void Update(void);
+  void Update();
 
-  void Write(void);
+  void Write();
 
   /** Hold on to the type information specified by the template parameters.
    */

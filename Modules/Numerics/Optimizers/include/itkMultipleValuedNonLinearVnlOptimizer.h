@@ -96,13 +96,13 @@ protected:
 
   void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 
-  const CostFunctionAdaptorType * GetCostFunctionAdaptor(void) const;
+  const CostFunctionAdaptorType * GetCostFunctionAdaptor() const;
 
-  CostFunctionAdaptorType * GetCostFunctionAdaptor(void);
+  CostFunctionAdaptorType * GetCostFunctionAdaptor();
 
   /** The purpose of this method is to get around the lack of const
    *  correctness in vnl cost_functions and optimizers */
-  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor(void) const;
+  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor() const;
 
   /** Command observer that will interact with the ITKVNL cost-function
    * adaptor in order to generate iteration events. This will allow to overcome

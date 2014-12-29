@@ -135,7 +135,7 @@ public:
   virtual void Initialize(void) throw ( ExceptionObject ) ITK_OVERRIDE;
 
   /** Write gradient images to a files for debugging purposes. */
-  void WriteGradientImagesToFiles(void) const;
+  void WriteGradientImagesToFiles() const;
 
   /** Set/Get the value of Delta used for computing derivatives by finite
    * differences in the GetDerivative() method */
@@ -148,10 +148,10 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute the range of the moved image gradients. */
-  void ComputeMovedGradientRange(void) const;
+  void ComputeMovedGradientRange() const;
 
   /** Compute the variance and range of the moving image gradients. */
-  void ComputeVariance(void) const;
+  void ComputeVariance() const;
 
   /** Compute the similarity measure using a specified subtraction factor. */
   MeasureType ComputeMeasure(const TransformParametersType & parameters,

@@ -705,7 +705,7 @@ protected:
    *  This method does not call Modify because Initialization is
    *  called by ReleaseData and can not modify the MTime
    * \sa  ReleaseData, Initialize, SetBufferedRegion */
-  virtual void InitializeBufferedRegion(void);
+  virtual void InitializeBufferedRegion();
 
 private:
   ImageBase(const Self &);      //purposely not implemented

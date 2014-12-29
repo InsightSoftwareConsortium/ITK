@@ -136,7 +136,7 @@ public:
   void AddMetric( MetricType* metric );
 
   /** Clear the metric queue */
-  void ClearMetricQueue( void );
+  void ClearMetricQueue();
 
   /** Get the number of metrics */
   SizeValueType GetNumberOfMetrics() const;

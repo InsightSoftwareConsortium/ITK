@@ -115,8 +115,8 @@ protected:
   GaussianSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented
 
-  GaussianSpatialObject(void);
-  ~GaussianSpatialObject(void);
+  GaussianSpatialObject();
+  ~GaussianSpatialObject();
 
   ScalarType m_Maximum;
   ScalarType m_Radius;

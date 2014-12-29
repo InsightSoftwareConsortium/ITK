@@ -93,7 +93,7 @@ public:
   void SetInputImage(const TInputImage *);
 
   /** Get Input Image. */
-  const TInputImage * GetInputImage(void);
+  const TInputImage * GetInputImage();
 
 protected:
   RecursiveSeparableImageFilter();

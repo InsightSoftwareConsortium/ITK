@@ -144,10 +144,10 @@ protected:
   void AllocateDimensions(int nDims);
 
   // cleanup internal buffers
-  void CleanupDimensions(void);
+  void CleanupDimensions();
 
   // close existing volume, cleanup internal structures
-  void CloseVolume(void);
+  void CloseVolume();
 
 private:
   MINCImageIO(const Self &);    //purposely not implemented

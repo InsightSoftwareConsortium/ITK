@@ -95,13 +95,13 @@ protected:
 
   void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 
-  const CostFunctionAdaptorType * GetCostFunctionAdaptor(void) const;
+  const CostFunctionAdaptorType * GetCostFunctionAdaptor() const;
 
-  CostFunctionAdaptorType * GetCostFunctionAdaptor(void);
+  CostFunctionAdaptorType * GetCostFunctionAdaptor();
 
   /** The purpose of this method is to get around the lack of
    *  const-correctness in VNL cost-functions and optimizers */
-  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor(void) const;
+  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor() const;
 
   /** Print out internal state */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

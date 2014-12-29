@@ -120,7 +120,7 @@ public:
 
   /** Return true if the object has a parent object. Basically, only
    *  the root object , or some isolated objects should return false. */
-  virtual bool HasParent(void) const;
+  virtual bool HasParent() const;
 
   /** Get the typename of the SpatialObject */
   virtual const char * GetTypeName(void) const { return m_TypeName.c_str(); }
@@ -153,16 +153,16 @@ public:
   /** Compute the World transform when the local transform is set
    *  This function should be called each time the local transform
    *  has been modified */
-  void ComputeObjectToWorldTransform(void);
+  void ComputeObjectToWorldTransform();
 
   /** Compute the Local transform when the global transform is set */
-  void ComputeObjectToParentTransform(void);
+  void ComputeObjectToParentTransform();
 
   /** Return the Modified time of the LocalToWorldTransform */
-  unsigned long GetTransformMTime(void);
+  unsigned long GetTransformMTime();
 
   /** Return the Modified time of the WorldToLocalTransform */
-  unsigned long GetWorldTransformMTime(void);
+  unsigned long GetWorldTransformMTime();
 
   /** Returns the value at a point */
   virtual bool ValueAt(const PointType & point, double & value,
@@ -353,7 +353,7 @@ public:
   virtual bool VerifyRequestedRegion() ITK_OVERRIDE;
 
   /** Returns a pointer to the property object applied to this class. */
-  PropertyType * GetProperty(void);
+  PropertyType * GetProperty();
 
   const PropertyType * GetProperty(void) const { return m_Property; }
 
@@ -395,7 +395,7 @@ public:
    * the object was defined) to "physical" space (which accounts
    * for the spacing, orientation, and offset of the indices)
    */
-  const TransformType * GetIndexToObjectTransform(void) const;
+  const TransformType * GetIndexToObjectTransform() const;
 
   TransformType * GetModifiableIndexToObjectTransform(void)
     {
@@ -412,16 +412,16 @@ public:
    */
   void SetObjectToParentTransform(TransformType *transform);
 
-  TransformType * GetObjectToParentTransform(void);
+  TransformType * GetObjectToParentTransform();
 
-  const TransformType * GetObjectToParentTransform(void) const;
+  const TransformType * GetObjectToParentTransform() const;
 
   /** Transforms points from the object-specific "physical" space
    * to the "physical" space of its parent object.
    */
-  TransformType * GetObjectToNodeTransform(void);
+  TransformType * GetObjectToNodeTransform();
 
-  const TransformType * GetObjectToNodeTransform(void) const;
+  const TransformType * GetObjectToNodeTransform() const;
 
   /** Theses functions are just calling the itkSpatialObjectTreeNode
    *  functions */
@@ -436,10 +436,10 @@ public:
   void RemoveSpatialObject(Self *object);
 
   /** Return a pointer to the parent object in the hierarchy tree */
-  virtual const Self * GetParent(void) const;
+  virtual const Self * GetParent() const;
 
   /** Return a pointer to the parent object in the hierarchy tree */
-  virtual Self * GetParent(void);
+  virtual Self * GetParent();
 
   /** Returns a list of pointer to the children affiliated to this object.
    * A depth of 0 returns the immediate childred. A depth of 1 returns the
@@ -458,7 +458,7 @@ public:
 
   /** Clear the spatial object by deleting all lists of children
    * and subchildren */
-  virtual void Clear(void);
+  virtual void Clear();
 
   /**
    * Compute an axis-aligned bounding box for an object and its selected
@@ -511,9 +511,9 @@ public:
   /** These function are just calling the node container transforms */
   void SetNodeToParentNodeTransform(TransformType *transform);
 
-  TransformType * GetNodeToParentNodeTransform(void);
+  TransformType * GetNodeToParentNodeTransform();
 
-  const TransformType * GetNodeToParentNodeTransform(void) const;
+  const TransformType * GetNodeToParentNodeTransform() const;
 
   /** Set/Get the default inside value (ValueAt()) of the object.
    *  Default is 1.0 */

@@ -91,8 +91,8 @@ protected:
   PlaneSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 
-  PlaneSpatialObject(void);
-  ~PlaneSpatialObject(void);
+  PlaneSpatialObject();
+  ~PlaneSpatialObject();
 
   PointType m_LowerPoint;
   PointType m_UpperPoint;

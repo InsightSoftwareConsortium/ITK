@@ -114,7 +114,7 @@ public:
   virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
 protected:
-  GaussianMembershipFunction(void);
+  GaussianMembershipFunction();
   virtual ~GaussianMembershipFunction(void) {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

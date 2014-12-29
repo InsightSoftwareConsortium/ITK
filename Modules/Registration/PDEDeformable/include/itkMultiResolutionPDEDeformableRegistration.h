@@ -144,13 +144,13 @@ public:
   virtual void SetFixedImage(const FixedImageType *ptr);
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void) const;
+  const FixedImageType * GetFixedImage() const;
 
   /** Set the moving image. */
   virtual void SetMovingImage(const MovingImageType *ptr);
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void) const;
+  const MovingImageType * GetMovingImage() const;
 
   /** Set initial deformation field to be used as is (no smoothing, no
    *  subsampling at the coarsest level of the pyramid. */
