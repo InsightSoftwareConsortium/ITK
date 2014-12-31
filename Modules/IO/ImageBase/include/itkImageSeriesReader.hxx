@@ -20,7 +20,6 @@
 
 #include "itkImageSeriesReader.h"
 
-#include "itkImageRegionIterator.h"
 #include "itkImageAlgorithm.h"
 #include "itkArray.h"
 #include "vnl/vnl_math.h"
