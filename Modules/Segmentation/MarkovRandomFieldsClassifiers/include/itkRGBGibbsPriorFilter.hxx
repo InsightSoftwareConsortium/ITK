@@ -569,7 +569,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   const unsigned int rowsize = m_ImageWidth;
 
   m_Temp = 0;
-  srand( static_cast< unsigned int >( time(NULL) ) );
+  srand( static_cast< unsigned int >( time(ITK_NULLPTR) ) );
 
   while ( m_Temp < 2 * size )
     {

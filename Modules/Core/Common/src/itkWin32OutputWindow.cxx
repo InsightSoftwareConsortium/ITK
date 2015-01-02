@@ -38,7 +38,7 @@ Win32OutputWindow
   if ( Win32OutputWindow::m_OutputWindow )
     {
     DestroyWindow(Win32OutputWindow::m_OutputWindow);
-    Win32OutputWindow::m_OutputWindow = NULL;
+    Win32OutputWindow::m_OutputWindow = ITK_NULLPTR;
     }
 }
 
@@ -64,14 +64,14 @@ Win32OutputWindow
       }
       break;
     case WM_DESTROY:
-      Win32OutputWindow::m_OutputWindow = NULL;
+      Win32OutputWindow::m_OutputWindow = ITK_NULLPTR;
       Object::GlobalWarningDisplayOff();
       break;
     case WM_CLOSE:
       if ( Win32OutputWindow::m_OutputWindow )
         {
         DestroyWindow(Win32OutputWindow::m_OutputWindow);
-        Win32OutputWindow::m_OutputWindow = NULL;
+        Win32OutputWindow::m_OutputWindow = ITK_NULLPTR;
         }
       break;
     case WM_CREATE:
@@ -159,16 +159,16 @@ Win32OutputWindow
 
   WNDCLASS wndClass;
   /** has the class been registered ? */
-  if ( !GetClassInfo(GetModuleHandle(NULL), "OutputWindow", &wndClass) )
+  if ( !GetClassInfo(GetModuleHandle(ITK_NULLPTR), "OutputWindow", &wndClass) )
     {
     wndClass.style = CS_HREDRAW | CS_VREDRAW;
     wndClass.lpfnWndProc = Win32OutputWindow::WndProc;
     wndClass.cbClsExtra = 0;
-    wndClass.hInstance = GetModuleHandle(NULL);
-    wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wndClass.hInstance = GetModuleHandle(ITK_NULLPTR);
+    wndClass.hIcon = LoadIcon(ITK_NULLPTR, IDI_APPLICATION);
+    wndClass.hCursor = LoadCursor(ITK_NULLPTR, IDC_ARROW);
     wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-    wndClass.lpszMenuName = NULL;
+    wndClass.lpszMenuName = ITK_NULLPTR;
     wndClass.lpszClassName = "OutputWindow";
     /** doesn't use these extra 4 bytes, but app writers may want them,
      *  so we provide them. */
@@ -181,12 +181,12 @@ Win32OutputWindow
     "OutputWindow", "OutputWindow",
     WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
     0, 0, 512, 512,
-    NULL, NULL, GetModuleHandle(NULL), NULL);
+    ITK_NULLPTR, ITK_NULLPTR, GetModuleHandle(ITK_NULLPTR), ITK_NULLPTR);
 
   /** Now create child window with text display box */
   CREATESTRUCT lpParam;
-  lpParam.hInstance = GetModuleHandle(NULL);
-  lpParam.hMenu = NULL;
+  lpParam.hInstance = GetModuleHandle(ITK_NULLPTR);
+  lpParam.hMenu = ITK_NULLPTR;
   lpParam.hwndParent = win;
   lpParam.cx = 512;
   lpParam.cy = 512;
@@ -210,7 +210,7 @@ Win32OutputWindow
     lpParam.cx,         // window width
     lpParam.cy,         // window height
     lpParam.hwndParent, // handle to parent or owner window
-    NULL,               // handle to menu or child-window identifier
+    ITK_NULLPTR,               // handle to menu or child-window identifier
     lpParam.hInstance,  // handle to application instance
     &lpParam            // pointer to window-creation data
     );
@@ -232,7 +232,7 @@ Win32OutputWindow
   std::ostringstream msg;
 
   msg << text << "\nPress Cancel to suppress any further messages.";
-  if ( MessageBox(NULL, msg.str().c_str(), "Error",
+  if ( MessageBox(ITK_NULLPTR, msg.str().c_str(), "Error",
                   MB_ICONERROR | MB_OKCANCEL) == IDCANCEL )
     {
     Object::GlobalWarningDisplayOff();

@@ -199,7 +199,7 @@ int TestMattesMetricWithAffineTransform(
 
   typename MetricType::Pointer metric = MetricType::New();
 
-  // Sanity check before metric is run, these should be NULL;
+  // Sanity check before metric is run, these should be ITK_NULLPTR;
   if( metric->GetJointPDFDerivatives().IsNotNull() )
     {
     return EXIT_FAILURE;

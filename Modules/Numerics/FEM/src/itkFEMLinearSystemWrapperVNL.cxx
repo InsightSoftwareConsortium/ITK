@@ -190,9 +190,9 @@ void LinearSystemWrapperVNL::Solve(void)
   /* use functions to make sure that zero based matrix, vector, & index store
     final system to solve */
   /*
-  if (m_PrimaryMatrixSetupFunction != NULL) (*m_PrimaryMatrixSetupFunction)(static_cast<SuperClass*>(this));
-  if (m_PrimaryVectorSetupFunction != NULL) (*m_PrimaryVectorSetupFunction)(static_cast<SuperClass*>(this));
-  if (m_PrimarySolutionSetupFunction != NULL) (*m_PrimarySolutionSetupFunction)(static_cast<SuperClass*>(this));
+  if (m_PrimaryMatrixSetupFunction != ITK_NULLPTR) (*m_PrimaryMatrixSetupFunction)(static_cast<SuperClass*>(this));
+  if (m_PrimaryVectorSetupFunction != ITK_NULLPTR) (*m_PrimaryVectorSetupFunction)(static_cast<SuperClass*>(this));
+  if (m_PrimarySolutionSetupFunction != ITK_NULLPTR) (*m_PrimarySolutionSetupFunction)(static_cast<SuperClass*>(this));
   */
 
   /*

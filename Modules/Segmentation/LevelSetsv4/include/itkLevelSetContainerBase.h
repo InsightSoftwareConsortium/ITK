@@ -236,7 +236,7 @@ public:
 
   /** \brief Get the level set function given its id
     \param[in] iId
-    \return the level set function if it is in the container, else NULL.
+    \return the level set function if it is in the container, else ITK_NULLPTR.
   */
   LevelSetPointer GetLevelSet( const LevelSetIdentifierType& iId ) const;
 

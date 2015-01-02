@@ -198,7 +198,7 @@ protected:
   virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *,
     const MovingImagesContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
-  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = NULL );
+  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = ITK_NULLPTR );
 
   RealType                                                        m_LearningRate;
 

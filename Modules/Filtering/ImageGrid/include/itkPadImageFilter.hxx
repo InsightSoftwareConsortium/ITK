@@ -84,7 +84,7 @@ PadImageFilter< TInputImage, TOutputImage >
     }
   else
     {
-    os << "NULL" << std::endl;
+    os << "ITK_NULLPTR" << std::endl;
     }
 }
 
@@ -119,7 +119,7 @@ PadImageFilter< TInputImage, TOutputImage >
   // Ask the boundary condition for the input requested region.
   if ( !m_BoundaryCondition )
     {
-    itkExceptionMacro( << "Boundary condition is NULL so no request region can be generated.");
+    itkExceptionMacro( << "Boundary condition is ITK_NULLPTR so no request region can be generated.");
     }
 
   InputImageRegionType inputRequestedRegion =

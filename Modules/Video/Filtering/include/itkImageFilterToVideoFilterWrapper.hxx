@@ -36,7 +36,7 @@ ImageFilterToVideoFilterWrapper()
   this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 0;
   this->TemporalProcessObject::m_FrameSkipPerOutput = 1;
 
-  // Initialize image filter to NULL
+  // Initialize image filter to ITK_NULLPTR
   m_ImageFilter = ITK_NULLPTR;
 }
 

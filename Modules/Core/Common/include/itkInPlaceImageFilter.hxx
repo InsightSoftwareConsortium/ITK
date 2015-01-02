@@ -76,7 +76,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
 {
   // Use ProcessObject's GetInput method to get a DataObject pointer,
   // then perform a dynamic_cast to the expected InputImageType. This
-  // may fail and that is an expected likely hood, if inputPtr is NULL
+  // may fail and that is an expected likely hood, if inputPtr is ITK_NULLPTR
   // then this filter will not run in-place.
   const InputImageType *inputPtr = dynamic_cast<const InputImageType *>( this->ProcessObject::GetInput(0) );
   OutputImageType      *outputPtr = this->GetOutput();

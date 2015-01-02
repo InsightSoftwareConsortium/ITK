@@ -155,7 +155,7 @@ public:
   bool IsAtBegin(void) const { return ( m_Position == m_Begin ); }
 
   /** Is the iterator at the end of the tree?. The iterator is at the
-   * end if it points to NULL */
+   * end if it points to ITK_NULLPTR */
   bool IsAtEnd(void) const { return ( m_Position == m_End ); }
 
   /** Clone the iterator */

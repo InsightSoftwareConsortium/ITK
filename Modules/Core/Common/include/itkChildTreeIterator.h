@@ -37,7 +37,7 @@ public:
   typedef typename Superclass::NodeType           NodeType;
 
   /** Constructor */
-  ChildTreeIterator(TreeType *tree, const TreeNodeType *start = NULL);
+  ChildTreeIterator(TreeType *tree, const TreeNodeType *start = ITK_NULLPTR);
 
   /** Constructor */
   ChildTreeIterator(const TreeIteratorBase< TTreeType > & iterator);

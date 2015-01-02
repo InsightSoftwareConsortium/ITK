@@ -703,7 +703,7 @@ SpatialObject< TDimension >
 {
   if ( !parent )
     {
-    m_TreeNode->SetParent(NULL);
+    m_TreeNode->SetParent(ITK_NULLPTR);
     }
   else
     {
@@ -944,7 +944,7 @@ SpatialObject< TDimension >
     return static_cast< TreeNodeType * >(
              m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 template< unsigned int TDimension >
@@ -957,7 +957,7 @@ SpatialObject< TDimension >
     return static_cast< TreeNodeType * >(
              m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /** Return the type of the spatial object as a string

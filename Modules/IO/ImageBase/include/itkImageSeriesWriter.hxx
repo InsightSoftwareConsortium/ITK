@@ -135,7 +135,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
   if ( !inputImage )
     {
-    itkExceptionMacro(<< "Input image is NULL");
+    itkExceptionMacro(<< "Input image is ITK_NULLPTR");
     }
 
   m_FileNames.clear();
@@ -188,7 +188,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
   if ( !inputImage )
     {
-    itkExceptionMacro(<< "Input image is NULL");
+    itkExceptionMacro(<< "Input image is ITK_NULLPTR");
     }
 
   // We need two regions. One for the input, one for the output.

@@ -145,8 +145,8 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
   const ImageType *input = this->GetInput();
 
-  // At this point input must be non-NULL because the ProcessObject
-  // checks the number of required input to be non-NULL pointers before
+  // At this point input must be non-ITK_NULLPTR because the ProcessObject
+  // checks the number of required input to be non-ITK_NULLPTR pointers before
   // calling this GenerateData() method.
 
   // First, create an appropriate histogram with the right number of bins

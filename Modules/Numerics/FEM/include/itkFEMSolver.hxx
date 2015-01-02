@@ -161,7 +161,7 @@ Solver<VDimension>
   FEMObjectType* out = dynamic_cast<FEMObjectType *>
     (this->ProcessObject::GetOutput(idx) );
 
-  if( out == NULL )
+  if( out == ITK_NULLPTR )
     {
     itkWarningMacro( << "dynamic_cast to output type failed" );
     }

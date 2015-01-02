@@ -113,7 +113,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
             }
           }
         }
-      else // cell->GetQEGEom( ) == NULL
+      else // cell->GetQEGEom( ) == ITK_NULLPTR
         {
         // supposely impossible, throw exception
         }

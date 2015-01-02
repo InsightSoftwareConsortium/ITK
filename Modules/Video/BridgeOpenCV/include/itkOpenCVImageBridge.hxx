@@ -38,7 +38,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
   //
   if (!in)
     {
-    itkGenericExceptionMacro("Input is NULL");
+    itkGenericExceptionMacro("Input is ITK_NULLPTR");
     }
 
   //
@@ -118,7 +118,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
   //
   if (!in)
     {
-    itkGenericExceptionMacro("Input is NULL");
+    itkGenericExceptionMacro("Input is ITK_NULLPTR");
     }
 
   typename ImageType::RegionType  region = in->GetLargestPossibleRegion();

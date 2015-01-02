@@ -68,7 +68,7 @@ namespace itk
  * then unit or zero values are returned for GetVirtualSpacing(),
  * GetVirtualDirection() and GetVirtualOrigin(), as appropriate. The virtual region is left
  * undefined and an attempt to retrieve it via GetVirtualRegion() will generate an exception.
- * The m_VirtualImage member will be NULL.
+ * The m_VirtualImage member will be ITK_NULLPTR.
  *
  * During evaluation, derived classes should verify that points are within the virtual domain
  * and thus valid, as appropriate for the needs of the metric. When points are deemed invalid
@@ -308,7 +308,7 @@ protected:
   /** If the moving transform is a DisplacementFieldTransform, return it.
    *  If the moving transform is a CompositeTransform, the routine will check if the
    *  first (last to be added) transform is a DisplacementFieldTransform, and if so return it.
-   *  Otherwise, return NULL. */
+   *  Otherwise, return ITK_NULLPTR. */
   const MovingDisplacementFieldTransformType * GetMovingDisplacementFieldTransform() const;
 
   /** Check that the number of valid points is above a default

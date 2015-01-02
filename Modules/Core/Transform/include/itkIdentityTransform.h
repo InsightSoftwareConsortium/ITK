@@ -137,7 +137,7 @@ public:
 
   /** Set the transformation to an Identity
    *
-   * This is a NULL operation in the case of this particular transform.
+   * This is a ITK_NULLPTR operation in the case of this particular transform.
      The method is provided only to comply with the interface of other transforms. */
   void SetIdentity(void)
   {

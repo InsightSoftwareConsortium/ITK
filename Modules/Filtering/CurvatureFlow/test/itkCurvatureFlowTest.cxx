@@ -110,7 +110,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
   bool passed = false;
   try
     {
-    std::cout << "Test when input is NULL." << std::endl;
+    std::cout << "Test when input is ITK_NULLPTR." << std::endl;
     filter->Update();
     }
   catch( itk::ExceptionObject& err )

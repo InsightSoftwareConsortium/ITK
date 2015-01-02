@@ -1386,7 +1386,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
 
     if ( !input || !output )
       {
-      itkExceptionMacro (<< "Either input and/or output is NULL.");
+      itkExceptionMacro (<< "Either input and/or output is ITK_NULLPTR.");
       }
 
     ImageRegionIterator< OutputImageType > outIt (output, region);

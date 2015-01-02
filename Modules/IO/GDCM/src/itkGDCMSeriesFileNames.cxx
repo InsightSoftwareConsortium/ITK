@@ -44,7 +44,7 @@ void GDCMSeriesFileNames::SetInputDirectory(const char *name)
 {
   if ( !name )
     {
-    itkExceptionMacro(<< "SetInputDirectory() received a NULL string");
+    itkExceptionMacro(<< "SetInputDirectory() received a ITK_NULLPTR string");
     }
   std::string fname = name;
   this->SetInputDirectory(fname);
@@ -153,7 +153,7 @@ const GDCMSeriesFileNames::FileNamesContainerType & GDCMSeriesFileNames::GetFile
       gdcm::File *header = *it;
       if ( !header )
         {
-        itkWarningMacro(<< "GDCMSeriesFileNames got NULL header, "
+        itkWarningMacro(<< "GDCMSeriesFileNames got ITK_NULLPTR header, "
                            "this is a serious bug");
         continue;
         }

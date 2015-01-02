@@ -312,7 +312,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
       this->m_NumberOfMetrics = 1;
       }
 
-    // The number of image pairs also includes NULL image pairs for the point set
+    // The number of image pairs also includes ITK_NULLPTR image pairs for the point set
     // metrics
     if( this->m_NumberOfFixedObjects != this->m_NumberOfMovingObjects )
       {

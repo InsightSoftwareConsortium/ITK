@@ -69,7 +69,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
     typename PointSetMetricType::Pointer metricPtr = dynamic_cast<PointSetMetricType *>( this->m_PointSetMetric->Clone().GetPointer() );
     if( metricPtr.IsNull() )
       {
-      itkExceptionMacro( "The metric pointer clone is NULL." );
+      itkExceptionMacro( "The metric pointer clone is ITK_NULLPTR." );
       }
 
     FixedPointSetPointer fixedPointSet = this->GetLabeledFixedPointSet( *it );

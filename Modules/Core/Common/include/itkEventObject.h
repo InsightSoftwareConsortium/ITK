@@ -121,7 +121,7 @@ public:                                                              \
     virtual ~classname() {}                                          \
     virtual const char *GetEventName() const { return #classname; } \
     virtual bool CheckEvent(const::itk::EventObject * e) const       \
-               { return ( dynamic_cast< const Self * >( e ) != NULL ); }         \
+               { return ( dynamic_cast< const Self * >( e ) != ITK_NULLPTR ); }         \
     virtual::itk::EventObject *MakeObject() const                    \
                { return new Self; }                                  \
     classname(const Self &s):super(s){};                             \

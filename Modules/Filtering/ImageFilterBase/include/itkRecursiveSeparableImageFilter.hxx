@@ -323,7 +323,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
     // is aborted.
 
     // release locally allocated memory, if memory allocation fails
-    // then we will delete a NULL pointer, which is a valid operation
+    // then we will delete a ITK_NULLPTR pointer, which is a valid operation
     delete[] outs;
     delete[] inps;
     delete[] scratch;

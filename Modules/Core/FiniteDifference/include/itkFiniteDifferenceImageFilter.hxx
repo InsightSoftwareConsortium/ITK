@@ -266,7 +266,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
     const TOutputImage *outputImage =  this->GetOutput();
     if ( outputImage == ITK_NULLPTR )
       {
-      itkExceptionMacro("Output image is NULL");
+      itkExceptionMacro("Output image is ITK_NULLPTR");
       }
 
     typedef typename TOutputImage::SpacingType SpacingType;

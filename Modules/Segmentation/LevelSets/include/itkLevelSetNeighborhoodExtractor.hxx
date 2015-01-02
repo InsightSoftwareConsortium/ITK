@@ -127,7 +127,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 {
   if ( !m_InputLevelSet )
     {
-    itkExceptionMacro(<< "Input level set is NULL");
+    itkExceptionMacro(<< "Input level set is ITK_NULLPTR");
     }
 
   this->Initialize();

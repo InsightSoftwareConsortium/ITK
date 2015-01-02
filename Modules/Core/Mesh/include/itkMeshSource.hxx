@@ -121,7 +121,7 @@ MeshSource< TOutputMesh >
 {
   if ( !graft )
     {
-    itkExceptionMacro(<< "Requested to graft output that is a NULL pointer");
+    itkExceptionMacro(<< "Requested to graft output that is a ITK_NULLPTR pointer");
     }
 
   // we use the process object method since all out output may not be

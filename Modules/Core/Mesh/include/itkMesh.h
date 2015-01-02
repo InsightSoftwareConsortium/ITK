@@ -257,7 +257,7 @@ protected:
   CellsContainerPointer m_CellsContainer;
 
   /** An object containing data associated with the mesh's cells.
-   *  Optionally, this can be NULL, indicating that no data are associated
+   *  Optionally, this can be ITK_NULLPTR, indicating that no data are associated
    *  with the cells.  The data for a cell can be accessed through its cell
    *  identifier.  */
   CellDataContainerPointer m_CellDataContainer;
@@ -314,7 +314,7 @@ public:
   const CellsContainer * GetCells() const;
 
   /** Access m_CellDataContainer, which contains data associated with
-   *  the mesh's cells.  Optionally, this can be NULL, indicating that
+   *  the mesh's cells.  Optionally, this can be ITK_NULLPTR, indicating that
    *  no data are associated with the cells.  The data for a cell can
    *  be accessed through its cell identifier.  */
   void SetCellData(CellDataContainer *);
@@ -394,7 +394,7 @@ public:
   bool GetCellBoundaryFeature(int dimension, CellIdentifier,
                               CellFeatureIdentifier, CellAutoPointer &) const;
   /** Get the set of cells neighboring the given cell across the given boundary
-   * feature.  Returns the number of neighbors found.  If cellSet is not NULL,
+   * feature.  Returns the number of neighbors found.  If cellSet is not ITK_NULLPTR,
    * the set of cell pointers is filled in with identifiers of the neighboring
    * cells. */
   CellIdentifier GetCellBoundaryFeatureNeighbors(
@@ -403,7 +403,7 @@ public:
 
   /** Get the set of cells having the given cell as part of their
    *  boundary.  Returns the number of neighbors found.  If cellSet is
-   *  not NULL, the set of cell pointers is filled in with identifiers
+   *  not ITK_NULLPTR, the set of cell pointers is filled in with identifiers
    *  of the neighboring cells. */
   CellIdentifier GetCellNeighbors(CellIdentifier cellId,
                                  std::set< CellIdentifier > *cellSet);
@@ -412,7 +412,7 @@ public:
    * Check if there is an explicitly assigned boundary feature for the
    * given dimension and cell- and cell-feature-identifiers.  If there
    * is, a pointer to it is given back through \a boundary (if \a
-   * boundary != NULL) and \c true is returned.  Otherwise, \c false is
+   * boundary != ITK_NULLPTR) and \c true is returned.  Otherwise, \c false is
    * returned.
    */
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,

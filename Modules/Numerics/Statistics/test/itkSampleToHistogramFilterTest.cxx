@@ -53,14 +53,14 @@ int itkSampleToHistogramFilterTest( int , char * [] )
   // Test GetInput() before setting the input
   if( filter->GetInput() != ITK_NULLPTR )
     {
-    std::cerr << "GetInput() should have returned NULL" << std::endl;
+    std::cerr << "GetInput() should have returned ITK_NULLPTR" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Test GetOutput() before creating the output
   if( filter->GetOutput() == ITK_NULLPTR )
     {
-    std::cerr << "GetOutput() should have returned NON-NULL" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-ITK_NULLPTR" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -262,7 +262,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   if( recoveredMarginalScaleObject == ITK_NULLPTR )
     {
-    std::cerr << "GetMarginalScaleInput() returned NULL object." << std::endl;
+    std::cerr << "GetMarginalScaleInput() returned ITK_NULLPTR object." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -278,7 +278,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   if( recoveredMarginalScaleObject == ITK_NULLPTR )
     {
-    std::cerr << "GetMarginalScaleInput() returned NULL object." << std::endl;
+    std::cerr << "GetMarginalScaleInput() returned ITK_NULLPTR object." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -603,7 +603,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   if( recoveredAutoMinimumMaximumObject == ITK_NULLPTR )
     {
-    std::cerr << "GetAutoMinimumMaximumInput() returned NULL object." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() returned ITK_NULLPTR object." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -619,7 +619,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   if( recoveredAutoMinimumMaximumObject == ITK_NULLPTR )
     {
-    std::cerr << "GetAutoMinimumMaximumInput() returned NULL object." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() returned ITK_NULLPTR object." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -700,7 +700,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
-    std::cerr << " due to NULL SetHistogramSizeInput()";
+    std::cerr << " due to ITK_NULLPTR SetHistogramSizeInput()";
     return EXIT_FAILURE;
     }
   catch( itk::MissingHistogramSizeInput &e )
@@ -727,7 +727,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
-    std::cerr << " due to NULL SetMarginalScaleInput()";
+    std::cerr << " due to ITK_NULLPTR SetMarginalScaleInput()";
     return EXIT_FAILURE;
     }
   catch( itk::MissingHistogramMarginalScaleInput &e )
@@ -760,7 +760,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
-    std::cerr << " due to NULL SetHistogramBinMinimumInput()";
+    std::cerr << " due to ITK_NULLPTR SetHistogramBinMinimumInput()";
     return EXIT_FAILURE;
     }
   catch( itk::MissingHistogramBinMinimumInput &e )
@@ -788,7 +788,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
-    std::cerr << " due to NULL SetHistogramBinMaximumInput()";
+    std::cerr << " due to ITK_NULLPTR SetHistogramBinMaximumInput()";
     return EXIT_FAILURE;
     }
   catch( itk::MissingHistogramBinMaximumInput &e )
@@ -820,7 +820,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
   // Test GetOutput() after creating the output
   if( filter->GetOutput() == ITK_NULLPTR )
     {
-    std::cerr << "GetOutput() should have returned NON-NULL" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-ITK_NULLPTR" << std::endl;
     return EXIT_FAILURE;
     }
 

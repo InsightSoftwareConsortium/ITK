@@ -301,13 +301,13 @@ protected:
   /** Given the parametric coordinates of a point in the cell
    * (pCoords[CellDimension]), get the closest cell boundary feature of
    * topological dimension CellDimension-1.  If the "inside" pointer is not
-   * NULL, the flag is set to indicate whether the point is inside the cell. */
+   * ITK_NULLPTR, the flag is set to indicate whether the point is inside the cell. */
   virtual bool GetClosestBoundary(CoordRepType[], bool *, CellAutoPointer &)
   { return false; }
 
   /** Given the geometric coordinates of a point (coord[PointDimension]),
    * return whether it is inside the cell.  Also perform the following
-   * calculations, if the corresponding result pointers are not NULL:
+   * calculations, if the corresponding result pointers are not ITK_NULLPTR:
    *
    *  - Find the closest point in or on the cell to the given point
    *     (Returns through pointer to array: closestPoint[PointDimension]).
@@ -339,7 +339,7 @@ protected:
   /** Intersect the cell with a line given by an origin (origin[PointDimension])
    * and direction (direction[PointDimension]).  The intersection point
    * found will be within the given tolerance of the real intersection.
-   * Get the following results if the corresponding pointers are not NULL:
+   * Get the following results if the corresponding pointers are not ITK_NULLPTR:
    *
    *  - The intersection point's geometric coordinates (returned through
    *     pointer to array: coords[PointDimension]).
@@ -362,7 +362,7 @@ protected:
    * Array is ordered (xmin, xmax,  ymin, ymax, ....).  A pointer to the
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);". */
-  CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return NULL; }
+  CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return ITK_NULLPTR; }
 
   /** Compute the square of the diagonal length of the bounding box. */
   CoordRepType GetBoundingBoxDiagonalLength2(void) { return 0; }
@@ -370,7 +370,7 @@ protected:
   /** Intersect the given bounding box (bounds[PointDimension*2]) with a line
    * given by an origin (origin[PointDimension]) and direction
    * (direction[PointDimension]). Get the following results if the
-   * corresponding pointers are not NULL:
+   * corresponding pointers are not ITK_NULLPTR:
    *
    *  - The intersection point's geometric coordinates (returned through
    *     pointer to array: coords[PointDimension]).

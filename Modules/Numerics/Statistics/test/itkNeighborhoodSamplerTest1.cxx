@@ -42,14 +42,14 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
   // Test GetInput() before setting the input
   if( filter->GetInput() != ITK_NULLPTR )
     {
-    std::cerr << "GetInput() should have returned NULL" << std::endl;
+    std::cerr << "GetInput() should have returned ITK_NULLPTR" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Test GetOutput() before creating the output
   if( filter->GetOutput() == ITK_NULLPTR )
     {
-    std::cerr << "GetOutput() should have returned NON-NULL" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-ITK_NULLPTR" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -73,7 +73,7 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
 
   if( recoveredRadiusObject == ITK_NULLPTR )
     {
-    std::cerr << "GetRadiusInput() returned NULL object." << std::endl;
+    std::cerr << "GetRadiusInput() returned ITK_NULLPTR object." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -89,7 +89,7 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
 
   if( recoveredRadiusObject == ITK_NULLPTR )
     {
-    std::cerr << "GetRadiusInput() returned NULL object." << std::endl;
+    std::cerr << "GetRadiusInput() returned ITK_NULLPTR object." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -153,7 +153,7 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
     {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
-    std::cerr << " due to NULL SetRadiusInput()";
+    std::cerr << " due to ITK_NULLPTR SetRadiusInput()";
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & )

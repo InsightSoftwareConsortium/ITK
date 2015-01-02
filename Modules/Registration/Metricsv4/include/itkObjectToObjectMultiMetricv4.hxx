@@ -31,7 +31,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 {
   this->m_MetricQueue.clear();
 
-  //We want the moving transform to be NULL by default
+  //We want the moving transform to be ITK_NULLPTR by default
   this->m_MovingTransform = ITK_NULLPTR;
 }
 

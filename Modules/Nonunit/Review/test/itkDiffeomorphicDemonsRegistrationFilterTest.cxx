@@ -374,7 +374,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   //--------------------------------------------------------------
   std::cout << "Test exception handling." << std::endl;
 
-  std::cout << "Test NULL moving image. " << std::endl;
+  std::cout << "Test ITK_NULLPTR moving image. " << std::endl;
   passed = false;
   try
     {
@@ -397,7 +397,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   registrator->SetMovingImage( moving );
   registrator->ResetPipeline();
 
-  std::cout << "Test NULL moving image interpolator. " << std::endl;
+  std::cout << "Test ITK_NULLPTR moving image interpolator. " << std::endl;
   passed = false;
   try
     {

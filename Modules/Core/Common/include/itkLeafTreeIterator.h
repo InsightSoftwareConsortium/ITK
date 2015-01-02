@@ -67,7 +67,7 @@ private:
 /** Constructor */
 template< typename TTreeType >
 LeafTreeIterator< TTreeType >::LeafTreeIterator(const TTreeType *tree):
-  TreeIteratorBase< TTreeType >(tree, NULL)
+  TreeIteratorBase< TTreeType >(tree, ITK_NULLPTR)
 {
   this->m_Begin = const_cast< TreeNodeType * >( this->FindNextNode() ); //
                                                                         //

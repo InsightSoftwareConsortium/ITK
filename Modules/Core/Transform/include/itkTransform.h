@@ -419,7 +419,7 @@ public:
   }
 
   /** Return an inverse of this transform. If the inverse has not been
-   *  implemented, return NULL. The type of the inverse transform
+   *  implemented, return ITK_NULLPTR. The type of the inverse transform
    *  does not necessarily need to match the type of the forward
    *  transform. This allows one to return a numeric inverse transform
    *  instead.

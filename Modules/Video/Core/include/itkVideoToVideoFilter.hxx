@@ -89,7 +89,7 @@ GetInput() const
 {
   if (this->GetNumberOfInputs() < 1)
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   return static_cast< const InputVideoStreamType* >(this->ProcessObject::GetInput(0));
 }

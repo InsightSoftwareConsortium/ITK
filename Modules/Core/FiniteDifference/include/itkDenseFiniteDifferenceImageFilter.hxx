@@ -36,7 +36,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 
   if ( !input || !output )
     {
-    itkExceptionMacro(<< "Either input and/or output is NULL.");
+    itkExceptionMacro(<< "Either input and/or output is ITK_NULLPTR.");
     }
 
   // Check if we are doing in-place filtering

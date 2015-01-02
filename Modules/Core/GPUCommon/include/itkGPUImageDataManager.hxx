@@ -76,15 +76,15 @@ void GPUImageDataManager< ImageType >::MakeCPUBufferUpToDate()
      * correctly managed. Therefore, we check the time stamp of
      * CPU and GPU data as well
      */
-    if( (m_IsCPUBufferDirty || (gpu_time > cpu_time) ) && m_GPUBuffer != NULL && m_CPUBuffer != NULL )
+    if( (m_IsCPUBufferDirty || (gpu_time > cpu_time) ) && m_GPUBuffer != ITK_NULLPTR && m_CPUBuffer != ITK_NULLPTR )
       {
       cl_int errid;
 #ifdef VERBOSE
       std::cout << "GPU->CPU data copy" << std::endl;
 #endif
       errid = clEnqueueReadBuffer(m_ContextManager->GetCommandQueue(
-                                    m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, NULL,
-                                  NULL);
+                                    m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR,
+                                  ITK_NULLPTR);
       OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
       m_Image->Modified();
@@ -115,15 +115,15 @@ void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
     * correctly managed. Therefore, we check the time stamp of
     * CPU and GPU data as well
     */
-    if( (m_IsGPUBufferDirty || (gpu_time < cpu_time) ) && m_CPUBuffer != NULL && m_GPUBuffer != NULL )
+    if( (m_IsGPUBufferDirty || (gpu_time < cpu_time) ) && m_CPUBuffer != ITK_NULLPTR && m_GPUBuffer != ITK_NULLPTR )
       {
       cl_int errid;
 #ifdef VERBOSE
       std::cout << "CPU->GPU data copy" << std::endl;
 #endif
       errid = clEnqueueWriteBuffer(m_ContextManager->GetCommandQueue(
-                                     m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, NULL,
-                                   NULL);
+                                     m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR,
+                                   ITK_NULLPTR);
       OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
       this->SetTimeStamp( cpu_time_stamp );
