@@ -568,6 +568,12 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   displacementTransform->SetDisplacementField(ITK_NULLPTR);
   displacementTransform->SetInverseDisplacementField(ITK_NULLPTR);
 
+  // Check setting all zero for fixed parameters
+  displacementTransform = DisplacementTransformType::New();
+  fixedParameters = displacementTransform->GetFixedParameters();
+  fixedParameters.Fill(0.0);
+  displacementTransform->SetFixedParameters( fixedParameters );
+
   std::cout << "PASSED" << std::endl;
   return EXIT_SUCCESS;
 }
