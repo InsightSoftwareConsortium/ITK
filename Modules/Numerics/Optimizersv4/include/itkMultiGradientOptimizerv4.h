@@ -90,7 +90,10 @@ public:
   typedef std::vector< MeasureType >                MetricValuesListType;
 
   /** Get stop condition enum */
-  itkGetConstReferenceMacro(StopCondition, StopConditionType);
+  virtual const StopConditionType &GetStopCondition() const ITK_OVERRIDE
+    {
+    return this->m_StopCondition;
+    }
 
   /** Begin the optimization */
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
