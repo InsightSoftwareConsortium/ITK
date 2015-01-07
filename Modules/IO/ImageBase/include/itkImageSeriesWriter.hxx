@@ -23,7 +23,7 @@
 #include "itkImageIOFactory.h"
 #include "itkIOCommon.h"
 #include "itkProgressReporter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageAlgorithm.h"
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
 #include "vnl/algo/vnl_determinant.h"
@@ -206,7 +206,6 @@ ImageSeriesWriter< TInputImage, TOutputImage >
   typename OutputImageType::Pointer outputImage = OutputImageType::New();
   outputImage->SetRegions(outRegion);
   outputImage->Allocate();
-  ImageRegionIterator< OutputImageType > ot(outputImage, outRegion);
 
   // Set the origin and spacing of the output
   double spacing[TOutputImage::ImageDimension];
@@ -281,17 +280,8 @@ ImageSeriesWriter< TInputImage, TOutputImage >
     inRegion.SetIndex(inIndex);
     inRegion.SetSize(inSize);
 
-    ImageRegionConstIterator< InputImageType > it (inputImage, inRegion);
-
     // Copy the selected "slice" into the output image.
-    it.GoToBegin();
-    ot.GoToBegin();
-    while ( !ot.IsAtEnd() )
-      {
-      ot.Set( it.Get() );
-      ++it;
-      ++ot;
-      }
+    ImageAlgorithm::Copy(inputImage, outputImage.GetPointer(), inRegion, outRegion);
 
     typename WriterType::Pointer writer = WriterType::New();
 
