@@ -28,6 +28,11 @@
 #include "itkArray.h"
 #include "vnl/algo/vnl_determinant.h"
 #include <cstdio>
+
+#if defined(_MSC_VER)
+#define snprintf _snprintf
+#endif // _MSC_VER
+
 namespace itk
 {
 //---------------------------------------------------------
@@ -155,7 +160,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
   for ( unsigned int slice = 0; slice < numberOfFiles; slice++ )
     {
-    sprintf (fileName, m_SeriesFormat.c_str(), fileNumber);
+    snprintf (fileName, IOCommon::ITK_MAXPATHLEN + 1, m_SeriesFormat.c_str(), fileNumber);
     m_FileNames.push_back(fileName);
     fileNumber += this->m_IncrementIndex;
     }
