@@ -680,7 +680,7 @@ protected:
    * the user-provided variable does not have to be passed around. It also enables
    * safely sharing a derivative object between metrics during multi-variate
    * analsys, for memory efficiency.
-   * Will be NULL if not set. */
+   * Will be ITK_NULLPTR if not set. */
   mutable DerivativeType *                m_DerivativeResult;
 
   /** Masks */

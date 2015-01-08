@@ -144,7 +144,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 {
   if ( !this->m_InputImage || !this->m_OutputImage )
     {
-    itkExceptionMacro(<< "Input or Output image is NULL.");
+    itkExceptionMacro(<< "Input or Output image is ITK_NULLPTR.");
     }
 
   InputImageRegionConstIteratorType inputIt(this->m_InputImage,  this->m_InputImage->GetRequestedRegion() );

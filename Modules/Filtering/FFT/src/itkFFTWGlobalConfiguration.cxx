@@ -330,7 +330,7 @@ FFTWGlobalConfiguration
   int  fd;
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
     {
-    if ( (f = _fdopen(fd, "r")) != NULL )
+    if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
       {// strange but seems ok under VC++ not so friendly with checking the return values of affectations
       ret = fftwf_import_wisdom_from_file( f );
       }
@@ -365,7 +365,7 @@ FFTWGlobalConfiguration
   int  fd;
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
     {
-    if ( (f = _fdopen(fd, "r")) != NULL )
+    if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
       {// strange but seems ok under VC++
       ret = fftwf_import_wisdom_from_file( f );
       }
@@ -407,7 +407,7 @@ FFTWGlobalConfiguration
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
     {
     FILE *f;
-    if ( (f = _fdopen(fd, "r")) != NULL )
+    if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
       {// strange but seems ok under VC++
       ret = fftwf_import_wisdom_from_file( f );
       }
@@ -442,7 +442,7 @@ FFTWGlobalConfiguration
   int  fd;
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
     {
-    if ( (f = _fdopen(fd, "r")) != NULL )
+    if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
       {// strange but seems ok under VC++
       ret = fftwf_import_wisdom_from_file( f );
       }

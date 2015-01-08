@@ -275,7 +275,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
     }
   else
     {
-    os << indent << "Colormap is NULL " << std::endl;
+    os << indent << "Colormap is ITK_NULLPTR " << std::endl;
     }
   os << indent << "Use Input Image Extrema for Scaling " << this->m_UseInputImageExtremaForScaling << std::endl;
 }

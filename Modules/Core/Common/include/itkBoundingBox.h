@@ -126,11 +126,11 @@ public:
  * Therefore it is safe to invoke GetBounds() after any of those methods. */
   itkGetConstReferenceMacro(Bounds, BoundsArrayType);
 
-  /** Get the center of the bounding box. Returns NULL if bounding box
+  /** Get the center of the bounding box. Returns ITK_NULLPTR if bounding box
    * cannot be computed. */
   PointType GetCenter() const;
 
-  /** Get the minimum point of the bounding box. Returns NULL if bounding box
+  /** Get the minimum point of the bounding box. Returns ITK_NULLPTR if bounding box
    * cannot be computed. */
   PointType GetMinimum() const;
 
@@ -139,7 +139,7 @@ public:
    * set's) modified time changes. */
   void      SetMinimum(const PointType &);
 
-  /** Get the maximum point of the bounding box. Returns NULL if bounding box
+  /** Get the maximum point of the bounding box. Returns ITK_NULLPTR if bounding box
    * cannot be computed. */
   PointType GetMaximum() const;
 

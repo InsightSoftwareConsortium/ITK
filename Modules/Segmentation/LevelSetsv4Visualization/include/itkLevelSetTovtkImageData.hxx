@@ -61,7 +61,7 @@ LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
   {
   if( !this->m_LevelSet->GetImage() )
     {
-    itkGenericExceptionMacro( <<"this->m_LevelSet->GetImage() is NULL" );
+    itkGenericExceptionMacro( <<"this->m_LevelSet->GetImage() is ITK_NULLPTR" );
     }
   this->m_Converter->SetInput( this->m_LevelSet->GetImage() );
   this->m_Converter->Update();
@@ -94,9 +94,9 @@ void
 LevelSetTovtkImageData< WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::GenerateData()
   {
-  if( this->m_LevelSet->GetLabelMap() == NULL )
+  if( this->m_LevelSet->GetLabelMap() == ITK_NULLPTR )
     {
-    itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is NULL" );
+    itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is ITK_NULLPTR" );
     }
 
   typename LevelSetType::LabelMapPointer labelmap = this->m_LevelSet->GetLabelMap();
@@ -154,9 +154,9 @@ void
 LevelSetTovtkImageData< ShiSparseLevelSetImage< VDimension > >
 ::GenerateData()
   {
-  if( this->m_LevelSet->GetLabelMap() == NULL )
+  if( this->m_LevelSet->GetLabelMap() == ITK_NULLPTR )
     {
-    itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is NULL" );
+    itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is ITK_NULLPTR" );
     }
 
   LabelMapPointer labelmap = this->m_LevelSet->GetLabelMap();
@@ -197,9 +197,9 @@ void
 LevelSetTovtkImageData< MalcolmSparseLevelSetImage< VDimension > >
 ::GenerateData()
   {
-  if( this->m_LevelSet->GetLabelMap() == NULL )
+  if( this->m_LevelSet->GetLabelMap() == ITK_NULLPTR )
     {
-    itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is NULL" );
+    itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is ITK_NULLPTR" );
     }
 
   LabelMapPointer labelmap = this->m_LevelSet->GetLabelMap();

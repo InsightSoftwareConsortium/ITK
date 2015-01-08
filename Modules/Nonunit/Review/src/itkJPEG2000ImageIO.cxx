@@ -202,7 +202,7 @@ void JPEG2000ImageIO::ReadImageInformation()
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
           << std::endl
-          << "Reason: opj_create_decompress(CODEC_J2K) returns NULL" );
+          << "Reason: opj_create_decompress(CODEC_J2K) returns ITK_NULLPTR" );
         }
       break;
       }
@@ -219,7 +219,7 @@ void JPEG2000ImageIO::ReadImageInformation()
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
           << std::endl
-          << "Reason: opj_create_decompress(CODEC_JP2) returns NULL" );
+          << "Reason: opj_create_decompress(CODEC_JP2) returns ITK_NULLPTR" );
         }
       break;
       }
@@ -236,7 +236,7 @@ void JPEG2000ImageIO::ReadImageInformation()
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
           << std::endl
-          << "Reason: opj_create_decompress(CODEC_JPT) returns NULL" );
+          << "Reason: opj_create_decompress(CODEC_JPT) returns ITK_NULLPTR" );
         }
       break;
       }
@@ -414,7 +414,7 @@ void JPEG2000ImageIO::Read(void *buffer)
       "JPEG2000ImageIO failed to read file: "
       << this->GetFileName()
       << std::endl
-      << "Reason: opj_stream_create_default_file_stream returns NULL" );
+      << "Reason: opj_stream_create_default_file_stream returns ITK_NULLPTR" );
     }
 
   this->m_Internal->m_Dinfo  = ITK_NULLPTR;  /* handle to a decompressor */
@@ -436,7 +436,7 @@ void JPEG2000ImageIO::Read(void *buffer)
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
           << std::endl
-          << "Reason: opj_create_decompress(CODEC_J2K) returns NULL" );
+          << "Reason: opj_create_decompress(CODEC_J2K) returns ITK_NULLPTR" );
         }
       break;
       }
@@ -451,7 +451,7 @@ void JPEG2000ImageIO::Read(void *buffer)
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
           << std::endl
-          << "Reason: opj_create_decompress(CODEC_JP2) returns NULL" );
+          << "Reason: opj_create_decompress(CODEC_JP2) returns ITK_NULLPTR" );
         }
       break;
       }
@@ -466,7 +466,7 @@ void JPEG2000ImageIO::Read(void *buffer)
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
           << std::endl
-          << "Reason: opj_create_decompress(CODEC_JPT) returns NULL" );
+          << "Reason: opj_create_decompress(CODEC_JPT) returns ITK_NULLPTR" );
         }
       break;
       }
@@ -1047,7 +1047,7 @@ JPEG2000ImageIO
         "JPEG2000ImageIO failed to write file: "
         << this->GetFileName()
         << std::endl
-        << "Reason: opj_create_compress(CODEC_J2K) returns NULL" );
+        << "Reason: opj_create_compress(CODEC_J2K) returns ITK_NULLPTR" );
       }
     }
   else if ( extension == ".jp2" )
@@ -1059,7 +1059,7 @@ JPEG2000ImageIO
         "JPEG2000ImageIO failed to write file: "
         << this->GetFileName()
         << std::endl
-        << "Reason: opj_create_compress(CODEC_JP2) returns NULL" );
+        << "Reason: opj_create_compress(CODEC_JP2) returns ITK_NULLPTR" );
       }
     }
   else if ( extension == ".jpt" )
@@ -1071,7 +1071,7 @@ JPEG2000ImageIO
         "JPEG2000ImageIO failed to write file: "
         << this->GetFileName()
         << std::endl
-        << "Reason: opj_create_compress(CODEC_JPT) returns NULL" );
+        << "Reason: opj_create_compress(CODEC_JPT) returns ITK_NULLPTR" );
       }
     }
   else

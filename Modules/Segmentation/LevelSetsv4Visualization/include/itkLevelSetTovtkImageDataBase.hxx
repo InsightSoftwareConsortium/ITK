@@ -40,7 +40,7 @@ LevelSetTovtkImageDataBase< TLevelSet >
 {
   if( !iLevelSet )
     {
-    itkGenericExceptionMacro( <<"iLevelSet is NULL" );
+    itkGenericExceptionMacro( <<"iLevelSet is ITK_NULLPTR" );
     }
   m_LevelSet = iLevelSet;
 }

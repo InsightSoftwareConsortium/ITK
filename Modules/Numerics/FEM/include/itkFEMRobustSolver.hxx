@@ -124,7 +124,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     const VectorType & globalPosition = landmark->GetSource();
 
@@ -416,7 +416,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     if(!landmark->IsOutlier())
       {
@@ -518,7 +518,7 @@ RobustSolver<VDimension>
   for(it = loadVector.begin(); it <= nth; it++)
     {
     LoadNoisyLandmark * landmark = dynamic_cast<LoadNoisyLandmark*>((*it).GetPointer());
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     landmark->SetOutlier(true);
     }
@@ -799,7 +799,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     if(landmark->IsOutlier())
       {
@@ -918,7 +918,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     if(!landmark->IsOutlier())
       {

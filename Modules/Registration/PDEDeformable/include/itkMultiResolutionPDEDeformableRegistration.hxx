@@ -212,7 +212,7 @@ void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateData()
 {
-  // Check for NULL images and pointers
+  // Check for ITK_NULLPTR images and pointers
   MovingImageConstPointer movingImage = this->GetMovingImage();
   FixedImageConstPointer  fixedImage = this->GetFixedImage();
 

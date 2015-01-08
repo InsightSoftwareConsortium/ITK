@@ -1058,7 +1058,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value
-    return NULL;
+    return ITK_NULLPTR;
     }
   else
     {

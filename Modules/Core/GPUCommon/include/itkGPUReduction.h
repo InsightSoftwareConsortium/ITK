@@ -68,7 +68,7 @@ public:
   void GetNumBlocksAndThreads(int whichKernel, int n, int maxBlocks, int maxThreads, int &blocks, int &threads);
   unsigned int GetReductionKernel(int whichKernel, int blockSize, int isPowOf2);
 
-  void AllocateGPUInputBuffer(TElement *h_idata = NULL);
+  void AllocateGPUInputBuffer(TElement *h_idata = ITK_NULLPTR);
   void ReleaseGPUInputBuffer();
   void InitializeKernel(unsigned int size);
 

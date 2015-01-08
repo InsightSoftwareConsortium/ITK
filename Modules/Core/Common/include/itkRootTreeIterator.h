@@ -35,7 +35,7 @@ public:
   typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor */
-  RootTreeIterator(TreeType *tree, const TreeNodeType *start = NULL);
+  RootTreeIterator(TreeType *tree, const TreeNodeType *start = ITK_NULLPTR);
 
   /** Return the type of the iterator */
   NodeType GetType() const;

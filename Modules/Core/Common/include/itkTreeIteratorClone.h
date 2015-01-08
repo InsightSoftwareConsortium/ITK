@@ -54,7 +54,7 @@ public:
   TreeIteratorClone (ObjectType *p)
   {
     m_Pointer = 0;
-    if ( p != NULL )
+    if ( p != ITK_NULLPTR )
       {
       m_Pointer = p->Clone();
       }

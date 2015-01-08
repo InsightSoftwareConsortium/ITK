@@ -28,7 +28,7 @@ template <class TInputImage, class TOutputImage>
 PyImageFilter<TInputImage,TOutputImage>
 ::PyImageFilter()
 {
-    this->m_Object = NULL;
+    this->m_Object = ITK_NULLPTR;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -39,7 +39,7 @@ PyImageFilter<TInputImage,TOutputImage>
     {
         Py_DECREF(this->m_Object);
     }
-    this->m_Object = NULL;
+    this->m_Object = ITK_NULLPTR;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -86,7 +86,7 @@ PyImageFilter<TInputImage,TOutputImage>
     {
         PyObject *result;
 
-        result = PyEval_CallObject(this->m_Object, (PyObject *)NULL);
+        result = PyEval_CallObject(this->m_Object, (PyObject *)ITK_NULLPTR);
 
         if (result)
         {

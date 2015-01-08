@@ -135,7 +135,7 @@ protected:
   PointsContainerPointer m_PointsContainer;
 
   /** An object containing data associated with the mesh's points.
-   * Optionally, this can be NULL, indicating that no data are associated with
+   * Optionally, this can be ITK_NULLPTR, indicating that no data are associated with
    * the points.  The data for a point can be accessed through its point
    * identifier. */
   PointDataContainerPointer m_PointDataContainer;

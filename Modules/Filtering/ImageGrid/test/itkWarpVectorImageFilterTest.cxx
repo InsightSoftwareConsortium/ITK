@@ -348,7 +348,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 
   try
     {
-    std::cout << "Setting interpolator to NULL" << std::endl;
+    std::cout << "Setting interpolator to ITK_NULLPTR" << std::endl;
     testPassed = false;
     warper->SetInterpolator( ITK_NULLPTR );
     warper->Update();

@@ -394,7 +394,7 @@ LabelMap< TLabelObject >
       }
     }
   itkExceptionMacro(<< "No label object at index " << idx << ".");
-//   return NULL;
+//   return ITK_NULLPTR;
 }
 
 template< typename TLabelObject >

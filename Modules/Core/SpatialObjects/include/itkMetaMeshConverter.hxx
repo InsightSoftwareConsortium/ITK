@@ -242,7 +242,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 
   if ( !mesh )
     {
-    std::cout << "MetaMeshConverter : GetMesh() returned a NULL Pointer"
+    std::cout << "MetaMeshConverter : GetMesh() returned a ITK_NULLPTR Pointer"
               << std::endl;
     return ITK_NULLPTR;
     }

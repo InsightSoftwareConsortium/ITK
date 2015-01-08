@@ -34,7 +34,7 @@ namespace itk
 template<typename TVideoStream>
 OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture()
 {
-  m_VideoStream = NULL;
+  m_VideoStream = ITK_NULLPTR;
 
   // Default to reporting 24fps. This may change once RealTime is implemented
   m_FpS = 24;
@@ -88,7 +88,7 @@ bool OpenCVVideoCapture<TVideoStream>::open(TVideoStream* videoStream)
 template<typename TVideoStream>
 void OpenCVVideoCapture<TVideoStream>::release()
 {
-  m_VideoStream = NULL;
+  m_VideoStream = ITK_NULLPTR;
 }
 
 

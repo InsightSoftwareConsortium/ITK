@@ -118,7 +118,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
       }
 
     ////////
-    // NOTE: THIS IS NOT A NULL TERMINATED STRING!!!
+    // NOTE: THIS IS NOT A ITK_NULLPTR TERMINATED STRING!!!
     ////////
     const size_t DigestSize = 32u;
     char Digest[DigestSize];

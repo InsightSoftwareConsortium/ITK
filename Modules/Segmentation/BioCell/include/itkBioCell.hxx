@@ -37,7 +37,7 @@ Cell< NSpaceDimension >
 {
   m_Force.Fill(0.0f);
 
-  // Genome pointers are set to NULL in the superclass.
+  // Genome pointers are set to ITK_NULLPTR in the superclass.
 }
 
 /**

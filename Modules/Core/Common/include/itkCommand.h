@@ -344,8 +344,8 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   SimpleConstMemberCommand() :
-    m_This( NULL ),
-    m_MemberFunction( NULL )
+    m_This( ITK_NULLPTR ),
+    m_MemberFunction( ITK_NULLPTR )
   {}
 
   virtual ~SimpleConstMemberCommand() {}

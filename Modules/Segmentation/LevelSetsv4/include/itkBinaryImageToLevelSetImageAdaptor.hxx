@@ -43,12 +43,12 @@ BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetIma
 {
   if( this->m_InputImage.IsNull() )
     {
-    itkGenericExceptionMacro( "m_InputImage is NULL" );
+    itkGenericExceptionMacro( "m_InputImage is ITK_NULLPTR" );
     }
 
   if( m_SignedDistanceTransformFilter.IsNull() )
     {
-    itkGenericExceptionMacro( "m_SignedDistanceTransformFilter is NULL" );
+    itkGenericExceptionMacro( "m_SignedDistanceTransformFilter is ITK_NULLPTR" );
     }
   m_SignedDistanceTransformFilter->SetInput( this->m_InputImage );
   m_SignedDistanceTransformFilter->Update();
@@ -85,7 +85,7 @@ BinaryImageToLevelSetImageAdaptor<
 {
   if( this->m_InputImage.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_InputImage is NULL" );
+    itkGenericExceptionMacro( << "m_InputImage is ITK_NULLPTR" );
     }
 
   this->m_LabelMap = LevelSetLabelMapType::New();
@@ -422,7 +422,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::
 {
   if( this->m_InputImage.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_InputImage is NULL" );
+    itkGenericExceptionMacro( << "m_InputImage is ITK_NULLPTR" );
     }
 
   this->m_LabelMap = LevelSetLabelMapType::New();
@@ -579,7 +579,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
 {
   if( this->m_InputImage.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_InputImage is NULL" );
+    itkGenericExceptionMacro( << "m_InputImage is ITK_NULLPTR" );
     }
 
   this->m_LabelMap = LevelSetLabelMapType::New();

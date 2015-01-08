@@ -268,7 +268,7 @@ int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   //--------------------------------------------------------------
   std::cout << "Test exception handling." << std::endl;
 
-  std::cout << "Test NULL moving image. " << std::endl;
+  std::cout << "Test ITK_NULLPTR moving image. " << std::endl;
   passed = false;
   try
     {
@@ -291,7 +291,7 @@ int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetMovingImage( moving );
   registrator->ResetPipeline();
 
-  std::cout << "Test NULL moving image interpolator. " << std::endl;
+  std::cout << "Test ITK_NULLPTR moving image interpolator. " << std::endl;
   passed = false;
   try
     {

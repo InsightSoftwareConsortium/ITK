@@ -72,7 +72,7 @@ SubsamplerBase<TSample>
   }
   else
   {
-    os << indent << "Sample is NULL" << std::endl;
+    os << indent << "Sample is ITK_NULLPTR" << std::endl;
   }
 
   os << std::endl;

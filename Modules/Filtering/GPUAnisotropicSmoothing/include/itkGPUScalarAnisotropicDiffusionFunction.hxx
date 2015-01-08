@@ -114,21 +114,21 @@ GPUScalarAnisotropicDiffusionFunction< TImage >
   // Set shared memory args
   if (ImageDim == 2)
   {
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[1], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[1], NULL);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[1], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[1], ITK_NULLPTR);
   }
   else if (ImageDim == 3)
   {
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1] * localSize[2], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[2], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[2], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[1] * localSize[2], NULL);
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[1] * localSize[2], NULL);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1] * localSize[2], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[2], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[2], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[1] * localSize[2], ITK_NULLPTR);
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[1] * localSize[2], ITK_NULLPTR);
   }
   else
   {

@@ -128,7 +128,7 @@ protected:
     ImageType *output = this->GetOutput();
     ImageType *output2 = this->GetOutput(1);
     itkAssertInDebugAndIgnoreInReleaseMacro(this->GetNumberOfIndexedOutputs() == 2);
-    itkAssertInDebugAndIgnoreInReleaseMacro(output2 != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(output2 != ITK_NULLPTR);
 
     // set the background value for the second output - this is not done in the
     // superclasses

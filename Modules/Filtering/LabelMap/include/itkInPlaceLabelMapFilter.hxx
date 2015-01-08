@@ -116,8 +116,8 @@ InPlaceLabelMapFilter< TInputImage >
     // copy the content of the input image to the output image
     const TInputImage *input = this->GetInput();
     TOutputImage *     output = this->GetOutput();
-    itkAssertInDebugAndIgnoreInReleaseMacro(input != NULL);
-    itkAssertInDebugAndIgnoreInReleaseMacro(output != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(input != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(output != ITK_NULLPTR);
 
     output->SetBackgroundValue( input->GetBackgroundValue() );
 
@@ -126,7 +126,7 @@ InPlaceLabelMapFilter< TInputImage >
       {
       const LabelObjectType *labeObject = it.GetLabelObject();
 
-      itkAssertInDebugAndIgnoreInReleaseMacro(labeObject != NULL);
+      itkAssertInDebugAndIgnoreInReleaseMacro(labeObject != ITK_NULLPTR);
       itkAssertInDebugAndIgnoreInReleaseMacro(labeObject->GetLabel() == it.GetLabel());
 
       typename LabelObjectType::Pointer newLabelObject = LabelObjectType::New();

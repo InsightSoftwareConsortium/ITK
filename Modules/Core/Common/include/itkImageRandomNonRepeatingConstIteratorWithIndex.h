@@ -263,7 +263,7 @@ public:
   {
     this->ImageConstIteratorWithIndex< TImage >::operator=(it);
 
-    m_Permutation = NULL;
+    m_Permutation = ITK_NULLPTR;
   }
 
   /** operator= is provided to deep copy m_Permutation. */

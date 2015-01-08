@@ -150,7 +150,7 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
 
     /**
      * Then clone the one on the right hand side
-     * of the expression (if not NULL).
+     * of the expression (if not ITK_NULLPTR).
      */
     if( rhs.m_Data )
       {

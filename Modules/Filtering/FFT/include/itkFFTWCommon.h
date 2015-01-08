@@ -154,7 +154,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -246,7 +246,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -340,7 +340,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -455,7 +455,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -546,7 +546,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -640,7 +640,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 

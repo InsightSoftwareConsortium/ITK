@@ -69,14 +69,14 @@ public:
   virtual bool open(VideoStreamType* videoStream);
 
   /** Close the stream. For our purposes, this just means set the VideoStream
-   * pointer to NULL */
-  virtual void close() { m_VideoStream = NULL; }
+   * pointer to ITK_NULLPTR */
+  virtual void close() { m_VideoStream = ITK_NULLPTR; }
 
 
   /**-STREAM INFORMATION-----------------------------------------------------*/
 
   /** Return whether or not the VideoStream is null */
-  virtual bool is_open() const { return m_VideoStream != NULL; }
+  virtual bool is_open() const { return m_VideoStream != ITK_NULLPTR; }
 
   /** Return true if the stream is in a valid state. To comply with vxl's
    * standard, this will return false until advance() has been called at least
