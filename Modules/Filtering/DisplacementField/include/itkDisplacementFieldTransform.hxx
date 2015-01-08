@@ -549,6 +549,18 @@ DisplacementFieldTransform<TScalar, NDimensions>
     itkExceptionMacro( "The fixed parameters are not the right size." );
     }
 
+  bool nullState = true;
+  for ( unsigned int i = 0; i < fixedParameters.Size() && nullState; ++i )
+    {
+    nullState = (fixedParameters[i] == 0.0);
+    }
+  if ( nullState )
+    {
+    this->SetDisplacementField( ITK_NULLPTR );
+    this->SetInverseDisplacementField( ITK_NULLPTR );
+    return;
+    }
+
   SizeType size;
   for( unsigned int d = 0; d < NDimensions; d++ )
     {
