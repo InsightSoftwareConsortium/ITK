@@ -82,9 +82,8 @@ static int oneTest(const std::string & outputDirectory, const char *goodname,con
 
   try
     {
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType *list;
-    list = reader->GetTransformList();
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType::iterator lit = list->begin();
+    const typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType * list = reader->GetTransformList();
+    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType::const_iterator lit = list->begin();
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );
@@ -196,9 +195,8 @@ secondTest( const std::string & outputDirectory )
     {
     reader->Update();
     std::cerr << "FAILED to throw expected exception" << std::endl;
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType *list;
-    list = reader->GetTransformList();
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType::iterator lit =
+    const typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType * list = reader->GetTransformList();
+    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType::const_iterator lit =
       list->begin();
     while ( lit != list->end() )
       {
