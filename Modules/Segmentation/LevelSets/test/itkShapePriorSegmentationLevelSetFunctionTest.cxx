@@ -53,7 +53,16 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   itkTypeMacro( SimpleTestFilter, DenseFiniteDifferenceImageFilter );
   itkNewMacro( Self );
-  itkSetMacro( NumberOfIterations, IdentifierType );
+  virtual void SetNumberOfIterations( const IdentifierType _arg) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting " NumberOfIterations " to " << _arg);
+    if ( this->m_NumberOfIterations != _arg )
+      {
+      this->m_NumberOfIterations = _arg;
+      this->Modified();
+      }
+    }
+
   typedef ShapePriorSegmentationLevelSetFunction<TImage,TImage> ShapePriorFunctionType;
   ShapePriorFunctionType * GetShapePriorFunction()
     { return m_ShapePriorFunction; }

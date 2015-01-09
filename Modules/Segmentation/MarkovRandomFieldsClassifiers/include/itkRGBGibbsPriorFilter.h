@@ -113,18 +113,40 @@ public:
   void SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
   /** Set the Number of classes. */
-  itkSetMacro(NumberOfClasses, unsigned int);
+  virtual void SetNumberOfClasses( const unsigned int _arg) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting " NumberOfClasses " to " << _arg);
+    if ( this->m_NumberOfClasses != _arg )
+      {
+      this->m_NumberOfClasses = _arg;
+      this->Modified();
+      }
+    }
 
   /** Get the Number of classes. */
-  itkGetConstMacro(NumberOfClasses, unsigned int);
+  virtual unsigned int GetNumberOfClasses() const ITK_OVERRIDE
+    {
+    return this->m_NumberOfClasses;
+    }
 
   /** Set/Get the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations. */
-  itkSetMacro(MaximumNumberOfIterations, unsigned int);
+  virtual void SetMaximumNumberOfIterations( const unsigned int _arg) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting " MaximumNumberOfIterations " to " << _arg);
+    if ( this->m_MaximumNumberOfIterations != _arg )
+      {
+      this->m_MaximumNumberOfIterations = _arg;
+      this->Modified();
+      }
+    }
 
   /** Get the number of iterations of the Iterated Conditional Mode
    * (ICM) algorithm. */
-  itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
+  virtual unsigned int GetMaximumNumberOfIterations() const ITK_OVERRIDE
+    {
+    return this->m_MaximumNumberOfIterations;
+    }
 
   /** Set the threshold for the object size. */
   itkSetMacro(ClusterSize, unsigned int);

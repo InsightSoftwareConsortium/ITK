@@ -292,10 +292,26 @@ public:
   }
 
   /** Allow the UnitIinputNumberOfFrames to be set */
-  itkSetMacro(UnitInputNumberOfFrames, SizeValueType);
+  virtual void SetUnitInputNumberOfFrames( const SizeValueType _arg ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting " UnitInputNumberOfFrames " to " << _arg);
+    if ( this->m_UnitInputNumberOfFrames != _arg )
+      {
+      this->m_UnitInputNumberOfFrames = _arg;
+      this->Modified();
+      }
+    }
 
   /** Allow the UnitOutputNumberOfFrames to be set */
-  itkSetMacro(UnitOutputNumberOfFrames, SizeValueType);
+  virtual void SetUnitOutputNumberOfFrames( const SizeValueType _arg ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting " UnitOutputNumberOfFrames " to " << _arg);
+    if ( this->m_UnitOutputNumberOfFrames != _arg )
+      {
+      this->m_UnitOutputNumberOfFrames = _arg;
+      this->Modified();
+      }
+    }
 
   /** GetOutput will return the output on port 0 */
   DummyTemporalDataObject::Pointer GetOutput()
@@ -321,12 +337,32 @@ public:
   itkGetMacro(IdNumber, SizeValueType);
 
   /** Provide access to m_FrameSkipPerOutput */
-  itkSetMacro(FrameSkipPerOutput, OffsetValueType);
+  virtual void SetFrameSkipPerOutput ( const OffsetValueType _arg ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting " FrameSkipPerOutput " to " << _arg);
+    if ( this->m_FrameSkipPerOutput != _arg )
+      {
+      this->m_FrameSkipPerOutput = _arg;
+      this->Modified();
+      }
+    }
+
   itkGetMacro(FrameSkipPerOutput, OffsetValueType);
 
   /** Provide access to m_InputStencilCurrentFrameIndex */
-  itkSetMacro(InputStencilCurrentFrameIndex, SizeValueType);
-  itkGetMacro(InputStencilCurrentFrameIndex, SizeValueType);
+  virtual void SetInputStencilCurrentFrameIndex ( const SizeValueType _arg ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting " InputStencilCurrentFrameIndex " to " << _arg);
+    if ( this->m_InputStencilCurrentFrameIndex != _arg )
+      {
+      this->m_InputStencilCurrentFrameIndex = _arg;
+      this->Modified();
+      }
+    }
+  virtual SizeValueType GetInputStencilCurrentFrameIndex() ITK_OVERRIDE
+    {
+    return this->m_InputStencilCurrentFrameIndex;
+    }
 
   /*-DEBUG OVERRIDES---------------------------------------------------------*/
 

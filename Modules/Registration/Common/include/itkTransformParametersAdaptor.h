@@ -88,10 +88,21 @@ public:
   itkNewMacro( Self );
 
   /** Set the fixed parameters */
-  itkSetMacro( RequiredFixedParameters, ParametersType );
+  virtual void SetRequiredFixedParameters( const ParametersType _arg) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting " RequiredFixedParameters " to " << _arg);
+    if ( this->m_RequiredFixedParameters != _arg )
+      {
+      this->m_RequiredFixedParameters = _arg;
+      this->Modified();
+      }
+    }
 
   /** Get the fixed parameters */
-  itkGetConstReferenceMacro( RequiredFixedParameters, ParametersType );
+  virtual const ParametersType &GetRequiredFixedParameters() const ITK_OVERRIDE
+    {
+    return this->m_RequiredFixedParameters;
+    }
 
   /** Initialize the transform using the specified fixed parameters */
   virtual void AdaptTransformParameters() ITK_OVERRIDE {};

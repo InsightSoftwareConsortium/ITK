@@ -485,7 +485,10 @@ public:
   itkGetModifiableObjectMacro(MovingImageGradientImage, MovingImageGradientImageType);
 
   /** Get number of valid points from most recent update */
-  itkGetConstMacro( NumberOfValidPoints, SizeValueType );
+  virtual SizeValueType GetNumberOfValidPoints() const ITK_OVERRIDE
+    {
+    return this->m_NumberOfValidPoints;
+    }
 
   /** Get the number of points in the domain used to evaluate
    * the metric. This will differ depending on whether a sampled

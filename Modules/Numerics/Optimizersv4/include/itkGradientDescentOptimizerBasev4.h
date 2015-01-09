@@ -94,13 +94,27 @@ public:
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
   /** Set the number of iterations. */
-  itkSetMacro(NumberOfIterations, SizeValueType);
+  virtual void SetNumberOfIterations( const SizeValueType _arg) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting" NumberOfIterations " to " << _arg);
+    if ( this->m_NumberOfIterations != _arg)
+      {
+      this->m_NumberOfIterations = _arg;
+      this->Modified();
+      }
+    }
 
   /** Get the number of iterations. */
-  itkGetConstMacro(NumberOfIterations, SizeValueType);
+  virtual SizeValueType GetNumberOfIterations() const ITK_OVERRIDE
+    {
+    return this->m_NumberOfIterations;
+    }
 
   /** Get the current iteration number. */
-  itkGetConstMacro(CurrentIteration, SizeValueType);
+  virtual SizeValueType GetCurrentIteration() const ITK_OVERRIDE
+    {
+    return this->m_CurrentIteration;
+    }
 
   /** Start and run the optimization */
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
