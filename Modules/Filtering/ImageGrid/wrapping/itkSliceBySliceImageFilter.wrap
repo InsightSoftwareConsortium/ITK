@@ -1,7 +1,7 @@
 # Check if we have the right dimensions before wrapping
 foreach(d ${ITK_WRAP_DIMS})
   math(EXPR d_1 "${d} - 1")
-endforeach(d)
+endforeach()
 itk_wrap_filter_dims(has_d_1 ${d_1})
 
 # Wrap if allowed
@@ -17,6 +17,6 @@ if(has_d_1)
         itk_wrap_image_filter("${WRAP_ITK_RGB}" 2 ${d})
         itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 2 ${d})
       endif(has_d_1)
-    endforeach(d)
+    endforeach()
   itk_end_wrap_class()
 endif(has_d_1)

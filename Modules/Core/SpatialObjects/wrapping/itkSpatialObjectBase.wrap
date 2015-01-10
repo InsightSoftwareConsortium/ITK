@@ -3,7 +3,7 @@ itk_wrap_simple_class("itk::MetaEvent")
 itk_wrap_class("itk::SpatialObject" POINTER_WITH_EXPLICIT_SPECIALIZATION)
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("${d}" "${d}")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()
 
 # the file must have a different name than the class name for java
@@ -34,7 +34,7 @@ itk_end_wrap_class()
 itk_wrap_class("itk::TreeNode" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("${ITKM_SO${d}}" "${ITKT_SO${d}}*")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()
 
 itk_wrap_class("itk::SpatialObjectTreeNode" POINTER)

@@ -1,5 +1,5 @@
 itk_wrap_class("itk::Path" POINTER_WITH_EXPLICIT_SPECIALIZATION)
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("${ITKM_D}${ITKM_CID${d}}${d}" "${ITKT_D}, ${ITKT_CID${d}}, ${d}")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()

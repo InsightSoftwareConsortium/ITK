@@ -1,5 +1,5 @@
 itk_wrap_class("itk::ThinPlateR2LogRSplineKernelTransform" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("${ITKM_D}${d}" "${ITKT_D},${d}")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()

@@ -5,8 +5,8 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
     foreach(t ${to_types})
       itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_I${t}${d}},${ITKT_VI${t}${d}}")
-    endforeach(t)
-  endforeach(d)
+    endforeach()
+  endforeach()
 
   # *Vector <-> scalar
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_SCALAR}")
@@ -26,9 +26,9 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
         foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
           itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}"
                         "${ITKT_I${t}${d}},${ITKT_I${t}${d2}}")
-        endforeach(t)
+        endforeach()
       endif(NOT "${d}" EQUAL "${d2}")
-    endforeach(d2)
-  endforeach(d)
+    endforeach()
+  endforeach()
 
 itk_end_wrap_class()

@@ -1,4 +1,4 @@
-IF(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
   itk_wrap_class("itk::FFTWComplexToComplexFFTImageFilter" POINTER)
     if(ITK_USE_FFTWF AND ITK_WRAP_complex_float)
       itk_wrap_image_filter(CF 1)

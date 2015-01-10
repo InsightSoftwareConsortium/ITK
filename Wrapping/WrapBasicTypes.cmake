@@ -48,7 +48,7 @@ foreach(d ${ITK_WRAP_DIMS})
   # For VelocityFieldTranform
   INCREMENT(d_inc ${d})
   list(APPEND ITK_WRAP_DIMS_INCREMENTED ${d} ${d_inc})
-endforeach(d)
+endforeach()
 list(REMOVE_DUPLICATES ITK_WRAP_DIMS_INCREMENTED)
 
 ###############################################################################
