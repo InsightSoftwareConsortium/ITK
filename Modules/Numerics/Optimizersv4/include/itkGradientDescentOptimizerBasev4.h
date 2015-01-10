@@ -94,12 +94,12 @@ public:
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
   /** Set the number of iterations. */
-  virtual void SetNumberOfIterations( const SizeValueType _arg) ITK_OVERRIDE
+  virtual void SetNumberOfIterations( const SizeValueType numberOfIterations ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting" NumberOfIterations " to " << _arg);
-    if ( this->m_NumberOfIterations != _arg)
+    itkDebugMacro("setting NumberOfIterations to " << numberOfIterations );
+    if ( this->m_NumberOfIterations != numberOfIterations)
       {
-      this->m_NumberOfIterations = _arg;
+      this->m_NumberOfIterations = numberOfIterations;
       this->Modified();
       }
     }

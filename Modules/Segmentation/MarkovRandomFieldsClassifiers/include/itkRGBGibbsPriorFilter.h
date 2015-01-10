@@ -113,12 +113,12 @@ public:
   void SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
   /** Set the Number of classes. */
-  virtual void SetNumberOfClasses( const unsigned int _arg) ITK_OVERRIDE
+  virtual void SetNumberOfClasses( const unsigned int numberOfClasses ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " NumberOfClasses " to " << _arg);
-    if ( this->m_NumberOfClasses != _arg )
+    itkDebugMacro("setting NumberOfClasses to " << numberOfClasses );
+    if ( this->m_NumberOfClasses != numberOfClasses )
       {
-      this->m_NumberOfClasses = _arg;
+      this->m_NumberOfClasses = numberOfClasses;
       this->Modified();
       }
     }
@@ -131,12 +131,12 @@ public:
 
   /** Set/Get the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations. */
-  virtual void SetMaximumNumberOfIterations( const unsigned int _arg) ITK_OVERRIDE
+  virtual void SetMaximumNumberOfIterations( const unsigned int numberOfIterations ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " MaximumNumberOfIterations " to " << _arg);
-    if ( this->m_MaximumNumberOfIterations != _arg )
+    itkDebugMacro("setting MaximumNumberOfIterations to " << numberOfIterations);
+    if ( this->m_MaximumNumberOfIterations != numberOfIterations )
       {
-      this->m_MaximumNumberOfIterations = _arg;
+      this->m_MaximumNumberOfIterations = numberOfIterations;
       this->Modified();
       }
     }

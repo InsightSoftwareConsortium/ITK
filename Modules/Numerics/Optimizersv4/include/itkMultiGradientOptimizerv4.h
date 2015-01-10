@@ -90,7 +90,7 @@ public:
   typedef std::vector< MeasureType >                MetricValuesListType;
 
   /** Get stop condition enum */
-  virtual const StopConditionType &GetStopCondition() const ITK_OVERRIDE
+  virtual const StopConditionType & GetStopCondition() const ITK_OVERRIDE
     {
     return this->m_StopCondition;
     }

@@ -132,12 +132,12 @@ public:
    * implementation since we don't want to optimize over the deformation
    * field for this class but rather the time-varying velocity field
    */
-  virtual void SetDisplacementField( DisplacementFieldType * _arg) ITK_OVERRIDE
+  virtual void SetDisplacementField( DisplacementFieldType * displacementField) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " << DisplacementField " to " << _arg);
-    if ( this->m_DisplacementField != _arg )
+    itkDebugMacro("setting DisplacementField to " << displacementField);
+    if ( this->m_DisplacementField != displacementField )
       {
-      this->m_DisplacementField = _arg;
+      this->m_DisplacementField = displacementField;
       this->Modified();
       }
     }
