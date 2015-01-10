@@ -1,7 +1,7 @@
 itk_wrap_class("itk::ImageBase" POINTER)
   foreach(d ${ITK_WRAP_DIMS_INCREMENTED})
     itk_wrap_template("${d}" "${d}")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()
 
 itk_wrap_class("itk::Image" POINTER)
@@ -12,5 +12,5 @@ itk_wrap_class("itk::Image" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("CVD${d}${d}"
       "itk::CovariantVector< double,${d}>, ${d}")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()

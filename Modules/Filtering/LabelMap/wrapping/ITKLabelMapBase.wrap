@@ -5,7 +5,7 @@ itk_end_wrap_class()
 itk_wrap_class("itk::ImageSource" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("${ITKM_LM${d}}" "${ITKT_LM${d}}")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()
 
 itk_wrap_class("itk::ImageToImageFilter" POINTER)
@@ -18,7 +18,7 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_LM${d}}" "${ITKT_I${t}${d}}, ${ITKT_LM${d}}")
       # label collection -> image
       itk_wrap_template("${ITKM_LM${d}}${ITKM_I${t}${d}}" "${ITKT_LM${d}}, ${ITKT_I${t}${d}}")
-    endforeach(t)
+    endforeach()
 
     # label map -> rgb image
     if(ITK_WRAP_rgb_unsigned_char)
@@ -29,5 +29,5 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
       itk_wrap_template("${ITKM_LM${d}}${ITKM_IRGBUS${d}}" "${ITKT_LM${d}}, ${ITKT_IRGBUS${d}}")
     endif(ITK_WRAP_rgb_unsigned_short)
 
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()

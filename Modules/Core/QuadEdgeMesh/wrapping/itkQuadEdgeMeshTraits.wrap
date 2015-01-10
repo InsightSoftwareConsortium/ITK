@@ -1,5 +1,5 @@
 itk_wrap_class("itk::QuadEdgeMeshTraits")
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("D${d}BBFF" "double, ${d}, bool, bool, float, float")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()

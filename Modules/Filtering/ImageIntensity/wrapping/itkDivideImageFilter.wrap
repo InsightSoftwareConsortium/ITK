@@ -10,6 +10,6 @@ itk_wrap_class("itk::DivideImageFilter" POINTER_WITH_SUPERCLASS)
     if(ITK_WRAP_complex_double AND ITK_WRAP_double)
       itk_wrap_template("${ITKM_ICD${d}}${ITKM_ID${d}}${ITKM_ICD${d}}" "${ITKT_ICD${d}},${ITKT_ID${d}},${ITKT_ICD${d}}")
     endif(ITK_WRAP_complex_double AND ITK_WRAP_double)
-  endforeach(d)
+  endforeach()
 
 itk_end_wrap_class()
