@@ -291,24 +291,24 @@ public:
 
   }
 
-  /** Allow the UnitIinputNumberOfFrames to be set */
-  virtual void SetUnitInputNumberOfFrames( const SizeValueType _arg ) ITK_OVERRIDE
+  /** Allow the UnitInputNumberOfFrames to be set */
+  virtual void SetUnitInputNumberOfFrames( const SizeValueType numberOfFrames ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " UnitInputNumberOfFrames " to " << _arg);
-    if ( this->m_UnitInputNumberOfFrames != _arg )
+    itkDebugMacro("setting UnitInputNumberOfFrames to " << numberOfFrames);
+    if ( this->m_UnitInputNumberOfFrames != numberOfFrames )
       {
-      this->m_UnitInputNumberOfFrames = _arg;
+      this->m_UnitInputNumberOfFrames = numberOfFrames;
       this->Modified();
       }
     }
 
   /** Allow the UnitOutputNumberOfFrames to be set */
-  virtual void SetUnitOutputNumberOfFrames( const SizeValueType _arg ) ITK_OVERRIDE
+  virtual void SetUnitOutputNumberOfFrames( const SizeValueType numberOfFrames ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " UnitOutputNumberOfFrames " to " << _arg);
-    if ( this->m_UnitOutputNumberOfFrames != _arg )
+    itkDebugMacro("setting UnitOutputNumberOfFrames to " << numberOfFrames);
+    if ( this->m_UnitOutputNumberOfFrames != numberOfFrames )
       {
-      this->m_UnitOutputNumberOfFrames = _arg;
+      this->m_UnitOutputNumberOfFrames = numberOfFrames;
       this->Modified();
       }
     }
@@ -337,12 +337,12 @@ public:
   itkGetMacro(IdNumber, SizeValueType);
 
   /** Provide access to m_FrameSkipPerOutput */
-  virtual void SetFrameSkipPerOutput ( const OffsetValueType _arg ) ITK_OVERRIDE
+  virtual void SetFrameSkipPerOutput ( const OffsetValueType frameSkip ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " FrameSkipPerOutput " to " << _arg);
-    if ( this->m_FrameSkipPerOutput != _arg )
+    itkDebugMacro("setting FrameSkipPerOutput to " << frameSkip);
+    if ( this->m_FrameSkipPerOutput != frameSkip )
       {
-      this->m_FrameSkipPerOutput = _arg;
+      this->m_FrameSkipPerOutput = frameSkip;
       this->Modified();
       }
     }
@@ -350,12 +350,12 @@ public:
   itkGetMacro(FrameSkipPerOutput, OffsetValueType);
 
   /** Provide access to m_InputStencilCurrentFrameIndex */
-  virtual void SetInputStencilCurrentFrameIndex ( const SizeValueType _arg ) ITK_OVERRIDE
+  virtual void SetInputStencilCurrentFrameIndex ( const SizeValueType inputStencil ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " InputStencilCurrentFrameIndex " to " << _arg);
-    if ( this->m_InputStencilCurrentFrameIndex != _arg )
+    itkDebugMacro("setting InputStencilCurrentFrameIndex to " << inputStencil);
+    if ( this->m_InputStencilCurrentFrameIndex != inputStencil )
       {
-      this->m_InputStencilCurrentFrameIndex = _arg;
+      this->m_InputStencilCurrentFrameIndex = inputStencil;
       this->Modified();
       }
     }

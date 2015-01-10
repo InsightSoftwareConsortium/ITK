@@ -88,18 +88,18 @@ public:
   itkNewMacro( Self );
 
   /** Set the fixed parameters */
-  virtual void SetRequiredFixedParameters( const ParametersType _arg) ITK_OVERRIDE
+  virtual void SetRequiredFixedParameters( const ParametersType fixedParameters ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " RequiredFixedParameters " to " << _arg);
-    if ( this->m_RequiredFixedParameters != _arg )
+    itkDebugMacro("setting RequiredFixedParameters to " << fixedParameters );
+    if ( this->m_RequiredFixedParameters != fixedParameters )
       {
-      this->m_RequiredFixedParameters = _arg;
+      this->m_RequiredFixedParameters = fixedParameters;
       this->Modified();
       }
     }
 
   /** Get the fixed parameters */
-  virtual const ParametersType &GetRequiredFixedParameters() const ITK_OVERRIDE
+  virtual const ParametersType & GetRequiredFixedParameters() const ITK_OVERRIDE
     {
     return this->m_RequiredFixedParameters;
     }

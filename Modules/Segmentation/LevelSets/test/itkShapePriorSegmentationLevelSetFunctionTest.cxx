@@ -53,12 +53,11 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   itkTypeMacro( SimpleTestFilter, DenseFiniteDifferenceImageFilter );
   itkNewMacro( Self );
-  virtual void SetNumberOfIterations( const IdentifierType _arg) ITK_OVERRIDE
+  virtual void SetNumberOfIterations( const IdentifierType numberOfIterations ) ITK_OVERRIDE
     {
-    itkDebugMacro("setting " NumberOfIterations " to " << _arg);
-    if ( this->m_NumberOfIterations != _arg )
+    if ( this->m_NumberOfIterations != numberOfIterations )
       {
-      this->m_NumberOfIterations = _arg;
+      this->m_NumberOfIterations = numberOfIterations;
       this->Modified();
       }
     }
