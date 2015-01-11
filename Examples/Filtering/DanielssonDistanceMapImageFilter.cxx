@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS:  {FivePoints.png}
+//    INPUTS:  {FivePointsDilated.png}
 //    OUTPUTS: {DanielssonDistanceMapImageFilterOutput1.png}
 //    OUTPUTS: {DanielssonDistanceMapImageFilterOutput2.png}
 //    ARGUMENTS: {DanielssonDistanceMapImageFilterOutput3.mhd}
@@ -31,9 +31,9 @@
 // Danielsson \cite{Danielsson1980}. As secondary outputs, a Voronoi
 // partition of the input elements is produced, as well as a vector image
 // with the components of the distance vector to the closest point. The input
-// to the map is assumed to be a set of points on the input image. Each
-// point/pixel is considered to be a separate entity even if they share the
-// same gray level value.
+// to the map is assumed to be a set of points on the input image. The label
+// of each group of pixels is assigned by the
+// \doxygen{ConnectedComponentImageFilter}.
 //
 // \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Instantiation}
 // \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Header}
@@ -49,6 +49,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkConnectedComponentImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
 
@@ -70,16 +71,18 @@ int main( int argc, char * argv[] )
   //  images. Since the output will contain distances measured in pixels, the
   //  pixel type should be able to represent at least the width of the image,
   //  or said in $N$-dimensional terms, the maximum extension along all the dimensions.
-  //  The input and output image types are now defined using their respective
-  //  pixel type and dimension.
+  //  The input, output (distance map), and voronoi partition image types are
+  //  now defined using their respective pixel type and dimension.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char                   InputPixelType;
-  typedef  unsigned short                  OutputPixelType;
-  typedef itk::Image< InputPixelType,  2 > InputImageType;
-  typedef itk::Image< OutputPixelType, 2 > OutputImageType;
+  typedef  unsigned char                    InputPixelType;
+  typedef  unsigned short                   OutputPixelType;
+  typedef  unsigned char                    VoronoiPixelType;
+  typedef itk::Image< InputPixelType,  2 >  InputImageType;
+  typedef itk::Image< OutputPixelType, 2 >  OutputImageType;
+  typedef itk::Image< VoronoiPixelType, 2 > VoronoiImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -95,9 +98,13 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
+  typedef itk::ConnectedComponentImageFilter<
+               InputImageType, InputImageType > LabelerType;
+  LabelerType::Pointer labeler = LabelerType::New();
+
   // Software Guide : BeginCodeSnippet
   typedef itk::DanielssonDistanceMapImageFilter<
-               InputImageType, OutputImageType, OutputImageType >  FilterType;
+               InputImageType, OutputImageType, VoronoiImageType >  FilterType;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -105,23 +112,33 @@ int main( int argc, char * argv[] )
                    OutputImageType, OutputImageType > RescalerType;
   RescalerType::Pointer scaler = RescalerType::New();
 
+  typedef itk::RescaleIntensityImageFilter<
+                   VoronoiImageType, VoronoiImageType > VoronoiRescalerType;
+  VoronoiRescalerType::Pointer voronoiScaler = VoronoiRescalerType::New();
+
   //
   // Reader and Writer types are instantiated.
   //
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  typedef itk::ImageFileWriter< VoronoiImageType > VoronoiWriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
+  VoronoiWriterType::Pointer voronoiWriter = VoronoiWriterType::New();
 
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
+  voronoiWriter->SetFileName( argv[3] );
 
 
   //  Software Guide : BeginLatex
   //
   //  The input to the filter is taken from a reader and its output is passed
-  //  to a \doxygen{RescaleIntensityImageFilter} and then to a writer.
+  //  to a \doxygen{RescaleIntensityImageFilter} and then to a writer. The
+  //  scaler and writer are both templated over the image type, so we
+  //  instantiate a separate pipeline for the voronoi partition map starting
+  //  at the scaler.
   //
   //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!SetInput()}
   //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!GetOutput()}
@@ -129,29 +146,31 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
+  labeler->SetInput(reader->GetOutput() );
+  filter->SetInput( labeler->GetOutput() );
   scaler->SetInput( filter->GetOutput() );
   writer->SetInput( scaler->GetOutput() );
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  The Voronoi map is obtained with the \code{GetVoronoiMap()} method. In
+  //  the lines below we connect this output to the intensity rescaler.
+  //
+  //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!GetVoronoiMap()}
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  voronoiScaler->SetInput( filter->GetVoronoiMap() );
+  voronoiWriter->SetInput( voronoiScaler->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
   scaler->SetOutputMaximum( 65535L );
   scaler->SetOutputMinimum(     0L );
-
-
-  //  Software Guide : BeginLatex
-  //
-  //  The type of input image has to be specified. In this case, a binary
-  //  image is selected.
-  //
-  //  \index{itk::Danielsson\-Distance\-MapImage\-Filter!InputIsBinaryOn()}
-  //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  filter->InputIsBinaryOn();
-  // Software Guide : EndCodeSnippet
-
+  voronoiScaler->SetOutputMaximum( 255 );
+  voronoiScaler->SetOutputMinimum( 0 );
 
   //  Software Guide : BeginLatex
   //
@@ -178,27 +197,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-
   writer->Update();
-  const char * voronoiMapFileName = argv[3];
-
-
-  //  Software Guide : BeginLatex
-  //
-  //  The Voronoi map is obtained with the \code{GetVoronoiMap()} method. In
-  //  the lines below we connect this output to the intensity rescaler and
-  //  save the result in a file.
-  //
-  //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!GetVoronoiMap()}
-  //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  scaler->SetInput( filter->GetVoronoiMap() );
-  writer->SetFileName( voronoiMapFileName );
-  writer->Update();
-  // Software Guide : EndCodeSnippet
-
+  voronoiWriter->Update();
 
   //  Software Guide : BeginLatex
   //
