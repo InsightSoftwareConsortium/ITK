@@ -270,7 +270,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
       }
 
     typedef typename TOutputImage::SpacingType SpacingType;
-    const SpacingType spacing = outputImage->GetSpacing();
+    const SpacingType & spacing = outputImage->GetSpacing();
 
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
