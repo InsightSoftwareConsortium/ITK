@@ -253,25 +253,25 @@ Similarity3DTransform<TScalar>::ComputeJacobianWithRespectToParameters(const Inp
   const double vzw = vz * vw;
 
   // compute Jacobian with respect to quaternion parameters
-  jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
+  jacobian[0][0] = m_Scale * 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
     / vw;
-  jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
+  jacobian[1][0] = m_Scale * 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
     / vw;
-  jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
-    / vw;
-
-  jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
-    / vw;
-  jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
-    / vw;
-  jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
+  jacobian[2][0] = m_Scale * 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
     / vw;
 
-  jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
+  jacobian[0][1] = m_Scale * 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
     / vw;
-  jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
+  jacobian[1][1] = m_Scale * 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
     / vw;
-  jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
+  jacobian[2][1] = m_Scale * 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
+    / vw;
+
+  jacobian[0][2] = m_Scale * 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
+    / vw;
+  jacobian[1][2] = m_Scale * 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
+    / vw;
+  jacobian[2][2] = m_Scale * 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
     / vw;
 
   // compute Jacobian with respect to the translation parameters

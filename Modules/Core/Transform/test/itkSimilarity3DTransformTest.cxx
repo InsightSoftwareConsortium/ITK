@@ -322,7 +322,7 @@ int itkSimilarity3DTransformTest(int, char * [] )
     parameters[3] = 8.0;             // Translation
     parameters[4] = 7.0;
     parameters[5] = 6.0;
-    parameters[6] = 1.0;             // Scale
+    parameters[6] = 10.0;             // Scale
 
     transform->SetParameters( parameters );
 
@@ -353,15 +353,15 @@ int itkSimilarity3DTransformTest(int, char * [] )
     JacobianType TheoreticalJacobian = jacobian;
 
     TheoreticalJacobian[0][0] =    0.0;
-    TheoreticalJacobian[1][0] =  206.0;
-    TheoreticalJacobian[2][0] =  -84.0;
+    TheoreticalJacobian[1][0] =  2060.0;
+    TheoreticalJacobian[2][0] =  -840.0;
 
-    TheoreticalJacobian[0][1] = -206.0;
+    TheoreticalJacobian[0][1] = -2060.0;
     TheoreticalJacobian[1][1] =    0.0;
-    TheoreticalJacobian[2][1] =   42.0;
+    TheoreticalJacobian[2][1] =   420.0;
 
-    TheoreticalJacobian[0][2] =   84.0;
-    TheoreticalJacobian[1][2] =  -42.0;
+    TheoreticalJacobian[0][2] =   840.0;
+    TheoreticalJacobian[1][2] =  -420.0;
     TheoreticalJacobian[2][2] =    0.0;
 
     TheoreticalJacobian[0][3] = 1.0;
