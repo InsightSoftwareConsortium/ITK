@@ -73,9 +73,6 @@ public:
   /** actual CPU->GPU memory copy takes place here */
   virtual void MakeGPUBufferUpToDate();
 
-  /** Grafting GPU Image Data */
-  virtual void Graft(const GPUDataManager* data);
-
 protected:
   GPUImageDataManager() {}
   virtual ~GPUImageDataManager() {}

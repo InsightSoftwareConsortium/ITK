@@ -167,9 +167,9 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);*/
 
-  void GPUGenerateData();
+  void GPUGenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     GPUSuperclass::PrintSelf(os, indent);
   }

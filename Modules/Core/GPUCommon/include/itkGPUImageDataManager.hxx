@@ -136,18 +136,6 @@ void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
     }
 }
 
-template < typename ImageType >
-void GPUImageDataManager< ImageType >::Graft(const GPUDataManager* data)
-{
-  //std::cout << "GPU timestamp : " << this->GetMTime() << ", CPU timestamp : "
-  // << m_Image->GetMTime() << std::endl;
-
-  Superclass::Graft( data );
-
-  //std::cout << "GPU timestamp : " << this->GetMTime() << ", CPU timestamp : "
-  // << m_Image->GetMTime() << std::endl;
-}
-
 } // namespace itk
 
 #endif

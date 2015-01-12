@@ -138,7 +138,7 @@ protected:
 
   /** Unlike CPU version, GPU version of binary threshold filter is not
     multi-threaded */
-  virtual void GPUGenerateData();
+  virtual void GPUGenerateData() ITK_OVERRIDE;
 
 private:
   GPUBinaryThresholdImageFilter(const Self &); //purposely not implemented
@@ -161,12 +161,14 @@ public:
   typedef SmartPointer<const Self>             ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const {
+  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE
+    {
     return ITK_SOURCE_VERSION;
-  }
-  const char* GetDescription() const {
+    }
+  const char* GetDescription() const ITK_OVERRIDE
+    {
     return "A Factory for GPUBinaryThresholdImageFilter";
-  }
+    }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

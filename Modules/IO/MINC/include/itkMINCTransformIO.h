@@ -62,16 +62,16 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
   * file specified. */
-  virtual bool CanReadFile( const char * fileName );
+  virtual bool CanReadFile( const char * fileName ) ITK_OVERRIDE;
 
   /** Determine the file type. Returns true if this ImageIO can write the
   * file specified. */
-  virtual bool CanWriteFile( const char * fileName );
+  virtual bool CanWriteFile( const char * fileName ) ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read();
+  virtual void Read() ITK_OVERRIDE;
 
-  virtual void Write();
+  virtual void Write() ITK_OVERRIDE;
 
 protected:
   MINCTransformIOTemplate();
