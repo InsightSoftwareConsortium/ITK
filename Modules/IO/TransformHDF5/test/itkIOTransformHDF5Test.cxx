@@ -158,8 +158,8 @@ static int oneTest(const char *const goodname,const char *const badname)
 
   try
     {
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType * list = reader->GetTransformList();
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType::iterator lit = list->begin();
+    const typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType * list = reader->GetTransformList();
+    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType::const_iterator lit = list->begin();
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );

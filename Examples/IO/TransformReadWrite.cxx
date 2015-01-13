@@ -175,8 +175,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef TransformReaderType::TransformListType * TransformListType;
-  TransformListType transforms = reader->GetTransformList();
+  const TransformReaderType::TransformListType * transforms =
+    reader->GetTransformList();
   std::cout << "Number of transforms = " << transforms->size() << std::endl;
   // Software Guide : EndCodeSnippet
 
