@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 // Software Guide : BeginLatex
+//
 // \index{itk::Statistics::EuclideanDistanceMetric}
 //
 // The Euclidean distance function (\subdoxygen{Statistics}{EuclideanDistanceMetric}
@@ -83,11 +84,13 @@ int main(int, char*[])
   //
   // Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
+  // Software Guide : BeginLatex
+  //
   // The Distance metric does not know about the length of the measurement
   // vectors.  We must set it explicitly using the
   // \code{SetMeasurementVectorSize()} method.
-  // Software Guide : EndCodeSnippet
+  //
+  // Software Guide : EndLatex
   distanceMetric->SetMeasurementVectorSize( 2 );
 
   // Software Guide : BeginCodeSnippet

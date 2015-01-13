@@ -32,7 +32,6 @@
 
 #include "itkBSplineTransform.h"
 #include "itkTransformFileWriter.h"
-
 //  Software Guide : EndCodeSnippet
 
 #include <fstream>
@@ -152,8 +151,10 @@ int main( int argc, char * argv[] )
   FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
 
   //  Software Guide : BeginLatex
+  //
   //  Set the resampler spacing, origin, and direction to that of the fixed
   //  input image.  Do the same with the size and output start index.
+  //
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
