@@ -257,7 +257,7 @@ public:
       return false;
       }
     IndexType endCorner;
-    SizeType  size = region.GetSize();
+    const SizeType & size = region.GetSize();
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       endCorner[i] = beginCorner[i] + static_cast< OffsetValueType >( size[i] ) - 1;
