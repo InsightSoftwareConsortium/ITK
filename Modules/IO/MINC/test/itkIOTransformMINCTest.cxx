@@ -454,9 +454,8 @@ static int secondTest()
 
   reader->Update();
 
-  itk::TransformFileReader::TransformListType *list;
-  list = reader->GetTransformList();
-  itk::TransformFileReader::TransformListType::iterator lit =  list->begin();
+  const itk::TransformFileReader::TransformListType * list = reader->GetTransformList();
+  itk::TransformFileReader::TransformListType::const_iterator lit =  list->begin();
   while ( lit != list->end() )
   {
     (*lit)->Print ( std::cout );

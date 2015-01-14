@@ -59,10 +59,12 @@ void TransformFileReaderTemplate<ScalarType>
       }
     }
 
+  typename TransformIOType::TransformListType & ioTransformList = m_TransformIO->GetTransformList();
+  // Clear old results.
+  ioTransformList.clear();
+
   m_TransformIO->SetFileName(m_FileName);
   m_TransformIO->Read();
-
-  typename TransformIOType::TransformListType & ioTransformList = m_TransformIO->GetTransformList();
 
   // Clear old results.
   this->m_TransformList.clear();

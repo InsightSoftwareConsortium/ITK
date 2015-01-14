@@ -59,11 +59,18 @@ public:
   /** Get the filename */
   itkGetStringMacro(FileName);
 
-  /** Read the transform */
+  /** Read the transforms */
   virtual void Update();
 
-  /** Get the list of transform */
+#if !defined( ITK_FUTURE_LEGACY_REMOVE )
+  /** Get the list of transforms.
+   * \warning The output is not intended to be modifiable.
+   * \deprecated */
   TransformListType * GetTransformList() { return &m_TransformList; }
+#else
+  /** Get the list of transforms. */
+  const TransformListType * GetTransformList() { return &m_TransformList; }
+#endif
 
   /** Set/Get the TransformIO class used internally to read to transform. */
   itkSetObjectMacro( TransformIO, TransformIOType );

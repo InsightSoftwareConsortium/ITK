@@ -166,8 +166,8 @@ int main( int argc, char * argv[] )
   // To get the output list of transform we use the GetTransformList() function.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef TransformReaderType::TransformListType * TransformListType;
-  TransformListType transforms = reader->GetTransformList();
+  const TransformReaderType::TransformListType * transforms =
+    reader->GetTransformList();
   std::cout << "Number of transforms = " << transforms->size() << std::endl;
   // Software Guide : EndCodeSnippet
 
