@@ -38,9 +38,11 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We need another header for measurement vectors. We are going to use
 // the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
 // in this example.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -50,9 +52,11 @@
 int main()
 {
   // Software Guide : BeginLatex
+  //
   // The following code snippet will create a \code{ListSample} object
   // with three-component float measurement vectors and put three
   // measurement vectors in the \code{ListSample} object.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -78,6 +82,7 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // To create a \code{MembershipSample} instance, we define the type of the
   // \code{MembershipSample} with the source sample type, in this case,
   // previously defined \code{SampleType}. As usual, after that, we call
@@ -98,6 +103,7 @@ int main()
   // and 1. The \textbf{0} class \code{Subsample} object includes the
   // first and second instances, and the \textbf{1} class includes the
   // third instance.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -117,8 +123,10 @@ int main()
 
 
   // Software Guide : BeginLatex
+  //
   // The \code{Size()} and \code{GetTotalFrequency()} returns the same
   // values as the \code{sample} does.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -128,10 +136,12 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The \code{membershipSample} is ready for use. The following code snippet
   // shows how to use \code{Iterator} interfaces. The
   // \code{MembershipSample}' \code{Iterator} has an additional method
   // that returns the class label (\code{GetClassLabel()}).
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -152,8 +162,10 @@ int main()
 
 
   // Software Guide : BeginLatex
+  //
   // To see the numbers of instances in each class subsample, we use
   // the \code{GetClassSampleSize(class label)} method.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -165,6 +177,7 @@ int main()
 
 
   // Software Guide : BeginLatex
+  //
   // We call the \code{GetClassSample(class label)} method to get the
   // class subsample in the \code{membershipSample}. The
   // \code{MembershipSampleType::ClassSampleType} is actually an
@@ -173,6 +186,7 @@ int main()
   // values that are part of the class. The output will be two lines for
   // the two instances that belongs to the class \textbf{0}.
   // the \code{GetClassSampleSize(class label)} method.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

@@ -36,7 +36,7 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
-
+// Software Guide : EndCodeSnippet
 
 //  The following section of code implements a Command observer
 //  used to monitor the evolution of the registration process.
@@ -194,6 +194,7 @@ int main( int argc, char *argv[] )
   //
   //  The AmoebaOptimizer moves a simplex around the cost surface.  Here we set
   //  the initial size of the simplex (5 units in each of the parameters)
+  //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -237,6 +238,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
+  //
   //  In the case where the optimizer never succeeds in reaching the desired
   //  precision tolerance, it is prudent to establish a limit on the number of
   //  iterations to be performed. This maximum number is defined with the
