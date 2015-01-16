@@ -10,6 +10,7 @@ itk_module(ITKIOHDF5
     ITKHDF5
   TEST_DEPENDS
     ITKTestKernel
+    ITKImageSources
   DESCRIPTION
     "${DOCUMENTATION}"
 )
