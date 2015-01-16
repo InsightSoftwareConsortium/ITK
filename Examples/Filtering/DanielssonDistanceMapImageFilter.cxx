@@ -176,7 +176,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{FivePoints}
+  // \includegraphics[width=0.32\textwidth]{FivePointsDilated}
   // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput1}
   // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput2}
   // \itkcaption[DanielssonDistanceMapImageFilter
