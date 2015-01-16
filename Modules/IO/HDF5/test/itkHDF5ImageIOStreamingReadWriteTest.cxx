@@ -19,6 +19,7 @@
 #include "itkIOTestHelper.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkImageDuplicator.h"
 
 template <typename TPixel>
 int HDF5ReadWriteTest2(const char *fileName)
@@ -52,10 +53,26 @@ int HDF5ReadWriteTest2(const char *fileName)
     itk::IOTestHelper::RandomPix(randgen,pix);
     it.Set(pix);
     }
+
+  // Duplicate im into clonedImage, because:
+  // - clonedImage will be lost, because PipelineMonitorImageFilter always run
+  //   in-place and will use im to store its output.
+  // - im is used latter to check values of the written-then-read image.
+  typedef typename itk::ImageDuplicator< ImageType > DuplicatorType;
+  typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
+  duplicator->SetInputImage(im);
+  duplicator->Update();
+  typename ImageType::Pointer clonedImage = duplicator->GetModifiableOutput();
+
   typedef typename itk::ImageFileWriter<ImageType> WriterType;
   typename WriterType::Pointer writer = WriterType::New();
+
+  typedef typename itk::PipelineMonitorImageFilter<ImageType> MonitorFilterType;
+  typename MonitorFilterType::Pointer writerMonitor = MonitorFilterType::New();
+  writerMonitor->SetInput(clonedImage);
+
   writer->SetFileName(fileName);
-  writer->SetInput(im);
+  writer->SetInput(writerMonitor->GetOutput());
   writer->SetNumberOfStreamDivisions(5);
   try
     {
@@ -68,23 +85,24 @@ int HDF5ReadWriteTest2(const char *fileName)
               << err << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Check streaming regions.
+  if (! writerMonitor->VerifyInputFilterExecutedStreaming(5))
+    success = EXIT_FAILURE;
   // force writer close
   writer = typename WriterType::Pointer();
 
+  // Read image with streaming.
   typedef typename itk::ImageFileReader<ImageType> ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(fileName);
   reader->SetUseStreaming(true);
-
-  typedef typename itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
-  typename MonitorFilter::Pointer monitor = MonitorFilter::New();
-  monitor->SetInput(reader->GetOutput());
-
+  typename MonitorFilterType::Pointer readerMonitor = MonitorFilterType::New();
+  readerMonitor->SetInput(reader->GetOutput());
   typedef typename itk::StreamingImageFilter<ImageType, ImageType> StreamingFilter;
   typename StreamingFilter::Pointer streamer = StreamingFilter::New();
-  streamer->SetInput(monitor->GetOutput());
+  streamer->SetInput(readerMonitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(5);
-
   typename ImageType::Pointer im2;
   try
     {
@@ -110,6 +128,10 @@ int HDF5ReadWriteTest2(const char *fileName)
       break;
       }
     }
+
+  // Check number of streaming regions.
+  if (! readerMonitor->VerifyInputFilterExecutedStreaming(5))
+    return EXIT_FAILURE;
   itk::IOTestHelper::Remove(fileName);
   return success;
 }
