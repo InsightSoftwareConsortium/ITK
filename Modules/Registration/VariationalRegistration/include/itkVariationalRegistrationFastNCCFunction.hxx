@@ -69,20 +69,27 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
   if (mask)
     if (mask->GetPixel(index) <= this->GetMaskBackgroundThreshold())
     {
+      globalData->bValuesAreValid = false;
       return update;
     }
+
+  // We assume that NeighborhoodAlgorithm::ImageBoundaryFacesCalculator was used
+  // to separate boundary regions from inside region
+  // We accelerate the algorithm in inside regions by assuming that each thread
+  // process the image line-by-line (dimension 0).
+  // Inside a line we can reuse the value from the previous pixel.
 
   // flag whether boundary conditions have to be processed here
   const bool bNeedToUseBoundaryCondition = it.GetNeedToUseBoundaryCondition();
 
-  // flag to show whether we can speed up computation
+  // flag to show if we can speed up computation
   bool bProcessFollowingPixel = false;
 
   // never speed up in boundary regions
   if (!bNeedToUseBoundaryCondition)
   {
     //
-    // Check if we have already processed the previous pixel
+    // Check if we have processed the previous pixel in the last call
     //
     if (index[0] == (globalData->m_LastIndex[0] + 1))
     {
@@ -92,7 +99,7 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
           bProcessFollowingPixel = false;
     }
   }
-  // save the last processed pixel index
+  // save the currently processed pixel index
   globalData->m_LastIndex = index;
 
   // We compute the CC on the fixed and warped moving image
@@ -125,13 +132,6 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
       //
       // Start a new line
       //
-
-      // reset values in global data struct
-      globalData->sfSliceValueList.clear();
-      globalData->smSliceValueList.clear();
-      globalData->sffSliceValueList.clear();
-      globalData->smmSliceValueList.clear();
-      globalData->sfmSliceValueList.clear();
 
       const unsigned int numNeighborhoodSlices = it.GetSize(0);
       const unsigned int neighborhoodSliceSize = it.Size() / numNeighborhoodSlices;
@@ -166,11 +166,11 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
           pixelCounter++;
         }
         // store the values for this slice in the lists
-        globalData->sfSliceValueList.push_back(sfTemp);
-        globalData->smSliceValueList.push_back(smTemp);
-        globalData->sffSliceValueList.push_back(sffTemp);
-        globalData->smmSliceValueList.push_back(smmTemp);
-        globalData->sfmSliceValueList.push_back(sfmTemp);
+        globalData->sfSliceValueList[slice] = sfTemp;
+        globalData->smSliceValueList[slice] = smTemp;
+        globalData->sffSliceValueList[slice] = sffTemp;
+        globalData->smmSliceValueList[slice] = smmTemp;
+        globalData->sfmSliceValueList[slice] = sfmTemp;
         // add slice-values to the sum
         sf += sfTemp;
         sm += smTemp;
@@ -183,6 +183,7 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
       globalData->sffLastValue = sff;
       globalData->smmLastValue = smm;
       globalData->sfmLastValue = sfm;
+      globalData->lastSliceIndex = 0;
       globalData->bValuesAreValid = true;
     }
     else
@@ -195,17 +196,12 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
       // to add the values of the slice entering the neighborhood
 
       // subtract neighborhood slice going out of the neighborhood region
-      sf = globalData->sfLastValue - globalData->sfSliceValueList.front();
-      sm = globalData->smLastValue - globalData->smSliceValueList.front();
-      sff = globalData->sffLastValue - globalData->sffSliceValueList.front();
-      smm = globalData->smmLastValue - globalData->smmSliceValueList.front();
-      sfm = globalData->sfmLastValue - globalData->sfmSliceValueList.front();
-      // remove values from list of the leaving slice
-      globalData->sfSliceValueList.pop_front();
-      globalData->smSliceValueList.pop_front();
-      globalData->sffSliceValueList.pop_front();
-      globalData->smmSliceValueList.pop_front();
-      globalData->sfmSliceValueList.pop_front();
+      const unsigned int lastSliceIndex = globalData->lastSliceIndex;
+      sf = globalData->sfLastValue - globalData->sfSliceValueList[lastSliceIndex];
+      sm = globalData->smLastValue - globalData->smSliceValueList[lastSliceIndex];
+      sff = globalData->sffLastValue - globalData->sffSliceValueList[lastSliceIndex];
+      smm = globalData->smmLastValue - globalData->smmSliceValueList[lastSliceIndex];
+      sfm = globalData->sfmLastValue - globalData->sfmSliceValueList[lastSliceIndex];
 
       const unsigned int numNeighborhoodSlices = it.GetSize(0);
       const unsigned int neighborhoodSliceSize = it.Size() / numNeighborhoodSlices;
@@ -242,11 +238,12 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
       smm += smmTemp;
       sfm += sfmTemp;
       // store the values for the last slice in the lists
-      globalData->sfSliceValueList.push_back(sfTemp);
-      globalData->smSliceValueList.push_back(smTemp);
-      globalData->sffSliceValueList.push_back(sffTemp);
-      globalData->smmSliceValueList.push_back(smmTemp);
-      globalData->sfmSliceValueList.push_back(sfmTemp);
+      globalData->sfSliceValueList[lastSliceIndex] = sfTemp;
+      globalData->smSliceValueList[lastSliceIndex] = smTemp;
+      globalData->sffSliceValueList[lastSliceIndex] = sffTemp;
+      globalData->smmSliceValueList[lastSliceIndex] = smmTemp;
+      globalData->sfmSliceValueList[lastSliceIndex] = sfmTemp;
+      globalData->lastSliceIndex = (lastSliceIndex + 1) % numNeighborhoodSlices;
       globalData->sfLastValue = sf;
       globalData->smLastValue = sm;
       globalData->sffLastValue = sff;
@@ -260,12 +257,13 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
   else
   {
     //
-    // We have to account for boundry conditions
+    // We have to account for boundary conditions
     //
+
     for (unsigned int indct = 0; indct < hoodSize; indct++)
     {
       const IndexType neighIndex = it.GetIndex(indct);
-      if (fixedImage->GetLargestPossibleRegion().IsInside(neighIndex))
+      if (fixedImage->GetBufferedRegion().IsInside(neighIndex))
       {
         const double fixedNeighValue = static_cast<double>(fixedImage->GetPixel(neighIndex));
         const double movingNeighValue = static_cast<double>(warpedImage->GetPixel(neighIndex));
@@ -380,11 +378,12 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
   globalData->m_NumberOfPixelsProcessed = 0L;
   globalData->m_SumOfSquaredChange = 0;
 
-  globalData->sfSliceValueList.clear();
-  globalData->smSliceValueList.clear();
-  globalData->sffSliceValueList.clear();
-  globalData->smmSliceValueList.clear();
-  globalData->sfmSliceValueList.clear();
+  unsigned int numSlices = this->GetRadius()[0] * 2 + 1;
+  globalData->sfSliceValueList.resize(numSlices);
+  globalData->smSliceValueList.resize(numSlices);
+  globalData->sffSliceValueList.resize(numSlices);
+  globalData->smmSliceValueList.resize(numSlices);
+  globalData->sfmSliceValueList.resize(numSlices);
   globalData->sfLastValue = 0;
   globalData->smLastValue = 0;
   globalData->sffLastValue = 0;
