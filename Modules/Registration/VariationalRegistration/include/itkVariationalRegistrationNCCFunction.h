@@ -174,11 +174,6 @@ protected:
     GRADIENT_TYPE_SYMMETRIC = 2
   };
 
-private:
-  VariationalRegistrationNCCFunction(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer m_FixedImageGradientCalculator;
 
@@ -190,6 +185,11 @@ private:
 
   /** Precalculated normalizer for spacing consideration. */
   double m_Normalizer;
+
+private:
+  VariationalRegistrationNCCFunction(const Self &); // purposely not implemented
+  void
+  operator=(const Self &); // purposely not implemented
 };
 
 

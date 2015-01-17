@@ -133,12 +133,9 @@ VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField
   const RadiusType radius = it.GetRadius(); // should be same as this->GetRadius()
 
   //
-  // Setup an NeighborhoodIterator to compute sums and mean in local neighborhood
+  // Compute sums and mean in local neighborhood
   // of current position index
-  ConstNeighborhoodIterator<FixedImageType> hoodIt(radius, fixedImage, fixedImage->GetRequestedRegion());
-  hoodIt.SetLocation(index);
-
-  // Iterate of current neighborhood to compute the following values:
+  // Iterate in current neighborhood to compute the following values:
   // mean of fixed (f) and warped moving (m) image
   // Sum f*f, Sum m*m, Sum m*f
   double             sf = 0.0;
@@ -147,10 +144,10 @@ VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField
   double             smm = 0.0;
   double             sfm = 0.0;
   unsigned int       pixelCounter = 0;
-  const unsigned int hoodSize = hoodIt.Size();
+  const unsigned int hoodSize = it.Size();
   for (unsigned int indct = 0; indct < hoodSize; indct++)
   {
-    const IndexType neighIndex = hoodIt.GetIndex(indct);
+    const IndexType neighIndex = it.GetIndex(indct);
     if (fixedImage->GetLargestPossibleRegion().IsInside(neighIndex))
     {
       const double fixedNeighValue = static_cast<double>(fixedImage->GetPixel(neighIndex));
