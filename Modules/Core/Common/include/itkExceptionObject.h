@@ -65,7 +65,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~ExceptionObject()
-  throw( );
+  ITK_NOEXCEPT;
 
   /** Assignment operator. */
   ExceptionObject & operator=(const ExceptionObject & orig);
@@ -104,7 +104,7 @@ public:
   virtual unsigned int GetLine() const;
 
   /** Provide std::exception::what() implementation. */
-  virtual const char * what() const throw( ) ITK_OVERRIDE;
+  virtual const char * what() const ITK_NOEXCEPT ITK_OVERRIDE;
 
 private:
   /** \class ReferenceCounterInterface
@@ -184,7 +184,7 @@ public:
                         const std::string & loc):ExceptionObject(file, lineNumber, desc, loc) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~MemoryAllocationError() throw( );
+  virtual ~MemoryAllocationError() ITK_NOEXCEPT;
 
   virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "MemoryAllocationError"; }
@@ -209,7 +209,7 @@ public:
   RangeError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~RangeError() throw( );
+  virtual ~RangeError() ITK_NOEXCEPT;
 
   virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "RangeError"; }
@@ -241,7 +241,7 @@ public:
   InvalidArgumentError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~InvalidArgumentError() throw( );
+  virtual ~InvalidArgumentError() ITK_NOEXCEPT;
 
   virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "InvalidArgumentError"; }
@@ -266,7 +266,7 @@ public:
   IncompatibleOperandsError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~IncompatibleOperandsError() throw( );
+  virtual ~IncompatibleOperandsError() ITK_NOEXCEPT;
 
   virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "IncompatibleOperandsError"; }
@@ -300,7 +300,7 @@ public:
   }
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~ProcessAborted()  throw( );
+  virtual ~ProcessAborted()  ITK_NOEXCEPT;
 
   virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "ProcessAborted"; }

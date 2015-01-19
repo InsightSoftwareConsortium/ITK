@@ -53,7 +53,7 @@ public:
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
   virtual ~DataObjectError()
-  throw( ) {}
+  ITK_NOEXCEPT {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const char *file, unsigned int lineNumber);
@@ -102,7 +102,7 @@ public:
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
   virtual ~InvalidRequestedRegionError()
-  throw( ) {}
+  ITK_NOEXCEPT {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const char *file, unsigned int lineNumber);
