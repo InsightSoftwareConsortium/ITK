@@ -131,7 +131,7 @@
 #cmakedefine HAVE_PTHREAD
 
 /* Define to 1 if you have the <search.h> header file. */
-#undef HAVE_SEARCH_H
+#cmakedefine HAVE_SEARCH_H
 
 /* Define to 1 if you have the `setmode' function. */
 #undef HAVE_SETMODE
