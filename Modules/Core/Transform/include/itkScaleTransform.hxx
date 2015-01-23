@@ -28,7 +28,6 @@ template <typename ScalarType, unsigned int NDimensions>
 ScaleTransform<ScalarType, NDimensions>::ScaleTransform() : Superclass(ParametersDimension)
 {
   m_Scale.Fill(NumericTraits<ScalarType>::One);
-  m_Center.Fill(NumericTraits<ScalarType>::Zero);
 }
 
 
@@ -55,6 +54,7 @@ ScaleTransform<ScalarType, NDimensions>
     }
 
   this->ComputeMatrix();
+  this->ComputeOffset();
 
   // Modified is always called since we just have a pointer to the
   // parameters and cannot know if the parameters have changed.
@@ -88,7 +88,6 @@ ScaleTransform<ScalarType, NDimensions>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Scale: " << m_Scale << std::endl;
-  os << indent << "Center: " << m_Center << std::endl;
 }
 
 
@@ -121,11 +120,12 @@ typename ScaleTransform<ScalarType, NDimensions>::OutputPointType
 ScaleTransform<ScalarType, NDimensions>
 ::TransformPoint(const InputPointType & point) const
 {
-  OutputPointType result;
+  OutputPointType       result;
+  const InputPointType &center = this->GetCenter();
 
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
-    result[i] = ( point[i] - m_Center[i] ) * m_Scale[i] + m_Center[i];
+    result[i] = ( point[i] - center[i] ) * m_Scale[i] + center[i];
     }
   return result;
 }
@@ -210,6 +210,17 @@ ScaleTransform<ScalarType, NDimensions>
   return ITK_NULLPTR;
 }
 
+template <typename ScalarType, unsigned int NDimensions>
+void
+ScaleTransform<ScalarType, NDimensions>
+::SetIdentity()
+{
+  Superclass::SetIdentity();
+  ScaleType i;
+  i.Fill(1.0);
+  this->SetScale(i);
+}
+
 
 template <typename ScalarType, unsigned int NDimensions>
 void
@@ -218,9 +229,10 @@ ScaleTransform<ScalarType, NDimensions>
 {
   j.SetSize( SpaceDimension, this->GetNumberOfLocalParameters() );
   j.Fill(0.0);
+  const InputPointType &center = this->GetCenter();
   for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
-    j(dim, dim) = p[dim] - m_Center[dim];
+    j(dim, dim) = p[dim] - center[dim];
     }
 }
 
@@ -240,13 +252,15 @@ ScaleTransform<ScalarType, NDimensions>
 }
 
 template <typename ScalarType, unsigned int NDimensions>
-const typename ScaleTransform<ScalarType, NDimensions>::ParametersType &
+void
 ScaleTransform<ScalarType, NDimensions>
-::GetFixedParameters() const
+::SetScale(const ScaleType & scale)
 {
-  return m_FixedParameters;
+  m_Scale = scale;
+  this->ComputeMatrix();
+  this->ComputeOffset();
+  this->Modified();
 }
-
 
 template <typename ScalarType, unsigned int NDimensions>
 void
@@ -264,6 +278,69 @@ ScaleTransform<ScalarType, NDimensions>
 
   this->SetVarMatrix(matrix);
 
+}
+
+
+// Back transform a point
+template <typename ScalarType, unsigned int NDimensions>
+inline
+typename ScaleTransform<ScalarType, NDimensions>::InputPointType
+ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputPointType & point) const
+{
+  InputPointType        result;
+  const InputPointType &center = this->GetCenter();
+
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    result[i] = ( point[i] + center[i] ) / m_Scale[i] - center[i];
+    }
+  return result;
+}
+
+// Back transform a vector
+template <typename ScalarType, unsigned int NDimensions>
+inline
+typename ScaleTransform<ScalarType, NDimensions>::InputVectorType
+ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputVectorType & vect) const
+{
+  InputVectorType result;
+
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    result[i] = vect[i] / m_Scale[i];
+    }
+  return result;
+}
+
+// Back transform a vnl_vector
+template <typename ScalarType, unsigned int NDimensions>
+inline
+typename ScaleTransform<ScalarType, NDimensions>::InputVnlVectorType
+ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
+{
+  InputVnlVectorType result;
+
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    result[i] = vect[i] / m_Scale[i];
+    }
+  return result;
+}
+
+// Back Transform a CovariantVector
+template <typename ScalarType, unsigned int NDimensions>
+inline
+typename ScaleTransform<ScalarType, NDimensions>::InputCovariantVectorType
+ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputCovariantVectorType & vect) const
+{
+  // Covariant Vectors are scaled by the inverse
+  InputCovariantVectorType result;
+
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    result[i] = vect[i] * m_Scale[i];
+    }
+  return result;
 }
 
 } // end namespace itk
