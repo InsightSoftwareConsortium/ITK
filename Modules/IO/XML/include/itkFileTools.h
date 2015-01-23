@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFileTools_h
-#define __itkFileTools_h
+#ifndef itkFileTools_h
+#define itkFileTools_h
 
 namespace itk
 {
@@ -109,4 +109,4 @@ FileTools::CreateFile( const char* fn )
 
 } // namespace itk
 
-#endif // __itkFileTools_h
+#endif // itkFileTools_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiphaseFiniteDifferenceImageFilter_h
-#define __itkMultiphaseFiniteDifferenceImageFilter_h
+#ifndef itkMultiphaseFiniteDifferenceImageFilter_h
+#define itkMultiphaseFiniteDifferenceImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkFiniteDifferenceFunction.h"
@@ -411,7 +411,7 @@ protected:
    * calculation. */
   bool m_UseImageSpacing;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method allocates a temporary update container in the subclass. */
   virtual void AllocateUpdateBuffer() = 0;

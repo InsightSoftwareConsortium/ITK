@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryOpeningByReconstructionImageFilter_h
-#define __itkBinaryOpeningByReconstructionImageFilter_h
+#ifndef itkBinaryOpeningByReconstructionImageFilter_h
+#define itkBinaryOpeningByReconstructionImageFilter_h
 
 #include "itkKernelImageFilter.h"
 
@@ -102,18 +102,18 @@ public:
 protected:
   BinaryOpeningByReconstructionImageFilter();
   ~BinaryOpeningByReconstructionImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryOpeningByReconstructionImageFilter need to make sure they request enough of an
    * input image to account for the structuring element size.  The input
    * requested region is expanded by the radius of the structuring element.
    * If the request extends past the LargestPossibleRegion for the input,
    * the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
-  void  GenerateData ();
+  void  GenerateData () ITK_OVERRIDE;
 
 private:
   BinaryOpeningByReconstructionImageFilter(const Self&); //purposely not implemented

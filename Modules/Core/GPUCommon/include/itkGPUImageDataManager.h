@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef __itkGPUImageDataManager_h
-#define __itkGPUImageDataManager_h
+#ifndef itkGPUImageDataManager_h
+#define itkGPUImageDataManager_h
 
 #include <itkObject.h>
 #include <itkTimeStamp.h>

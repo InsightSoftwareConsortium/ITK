@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVanHerkGilWermanDilateImageFilter_h
-#define __itkVanHerkGilWermanDilateImageFilter_h
+#ifndef itkVanHerkGilWermanDilateImageFilter_h
+#define itkVanHerkGilWermanDilateImageFilter_h
 
 #include "itkVanHerkGilWermanErodeDilateImageFilter.h"
 #include "vnl/vnl_math.h"

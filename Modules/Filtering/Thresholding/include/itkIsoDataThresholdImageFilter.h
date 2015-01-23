@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkIsoDataThresholdImageFilter_h
-#define __itkIsoDataThresholdImageFilter_h
+#ifndef itkIsoDataThresholdImageFilter_h
+#define itkIsoDataThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkIsoDataThresholdCalculator.h"

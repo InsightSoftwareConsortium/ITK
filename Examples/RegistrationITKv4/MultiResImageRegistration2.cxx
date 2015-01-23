@@ -85,12 +85,12 @@ public:
   typedef   itk::RegularStepGradientDescentOptimizer  OptimizerType;
   typedef   const OptimizerType *                     OptimizerPointer;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
     OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
@@ -128,7 +128,7 @@ public:
   typedef   RegistrationType *                         RegistrationPointer;
   typedef   itk::RegularStepGradientDescentOptimizer   OptimizerType;
   typedef   OptimizerType *                            OptimizerPointer;
-  void Execute(itk::Object * object, const itk::EventObject & event)
+  void Execute(itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
   {
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
@@ -154,7 +154,7 @@ public:
       optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() / 10.0 );
       }
   }
-  void Execute(const itk::Object * , const itk::EventObject & )
+  void Execute(const itk::Object * , const itk::EventObject & ) ITK_OVERRIDE
     { return; }
 };
 

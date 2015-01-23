@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorOpenCloseImageFilter_h
-#define __itkAnchorOpenCloseImageFilter_h
+#ifndef itkAnchorOpenCloseImageFilter_h
+#define itkAnchorOpenCloseImageFilter_h
 
 #include "itkKernelImageFilter.h"
 #include "itkProgressReporter.h"
@@ -86,11 +86,11 @@ public:
 protected:
   AnchorOpenCloseImageFilter();
   ~AnchorOpenCloseImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
   InputImagePixelType m_Boundary1;
   InputImagePixelType m_Boundary2;

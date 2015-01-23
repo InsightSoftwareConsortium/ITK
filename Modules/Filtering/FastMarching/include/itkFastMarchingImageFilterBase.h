@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingImageFilterBase_h
-#define __itkFastMarchingImageFilterBase_h
+#ifndef itkFastMarchingImageFilterBase_h
+#define itkFastMarchingImageFilterBase_h
 
 #include "itkFastMarchingBase.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -32,7 +32,7 @@ namespace itk
  *
  * The speed function can be specified as a speed image or a
  * speed constant. The speed image is set using the method
- * SetInput(). If the speed image is NULL, a constant speed function
+ * SetInput(). If the speed image is ITK_NULLPTR, a constant speed function
  * is used and is specified using method the SetSpeedConstant().
  *
  * If the speed function is constant and of value one, fast marching results
@@ -46,7 +46,7 @@ namespace itk
  *
  * The output information is computed as follows.
  *
- * If the speed image is NULL or if the OverrideOutputInformation is set to
+ * If the speed image is ITK_NULLPTR or if the OverrideOutputInformation is set to
  * true, the output information is set from user specified parameters. These
  * parameters can be specified using methods
  * \li FastMarchingImageFilterBase::SetOutputRegion(),
@@ -131,11 +131,11 @@ public:
   itkGetModifiableObjectMacro(LabelImage, LabelImageType );
 
   /** The output largeset possible, spacing and origin is computed as follows.
-   * If the speed image is NULL or if the OverrideOutputInformation is true,
+   * If the speed image is ITK_NULLPTR or if the OverrideOutputInformation is true,
    * the output information is set from user specified parameters. These
    * parameters can be specified using methods SetOutputRegion(),
    * SetOutputSpacing(), SetOutputDirection(), and SetOutputOrigin().
-   * Else if the speed image is not NULL, the output information
+   * Else if the speed image is not ITK_NULLPTR, the output information
    * is copied from the input speed image. */
   virtual void SetOutputSize(const OutputSizeType & size)
   { m_OutputRegion = size; }
@@ -174,43 +174,43 @@ protected:
   bool                m_OverrideOutputInformation;
 
   /** Generate the output image meta information. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   LabelImagePointer               m_LabelImage;
   ConnectedComponentImagePointer  m_ConnectedComponentImage;
 
-  IdentifierType GetTotalNumberOfNodes() const;
+  IdentifierType GetTotalNumberOfNodes() const ITK_OVERRIDE;
 
   void SetOutputValue( OutputImageType* oDomain,
                        const NodeType& iNode,
-                       const OutputPixelType& iValue );
+                       const OutputPixelType& iValue ) ITK_OVERRIDE;
 
   /** Returns the output value for a given node */
   const OutputPixelType GetOutputValue( OutputImageType* oImage,
-                                  const NodeType& iNode ) const;
+                                  const NodeType& iNode ) const ITK_OVERRIDE;
 
   /** Returns the label value for a given node */
   unsigned char
-  GetLabelValueForGivenNode( const NodeType& iNode ) const;
+  GetLabelValueForGivenNode( const NodeType& iNode ) const ITK_OVERRIDE;
 
   /** Set the label value for a given node */
   void SetLabelValueForGivenNode( const NodeType& iNode,
-                                 const LabelType& iLabel );
+                                 const LabelType& iLabel ) ITK_OVERRIDE;
 
   /** Update values for the neighbors of a given node */
   virtual void UpdateNeighbors( OutputImageType* oImage,
-                                const NodeType& iNode );
+                                const NodeType& iNode ) ITK_OVERRIDE;
 
   /** Update value for a given node */
   virtual void UpdateValue( OutputImageType* oImage,
-                            const NodeType& iValue );
+                            const NodeType& iValue ) ITK_OVERRIDE;
 
   /** Make sure the given node does not violate any topological constraint*/
   bool CheckTopology( OutputImageType* oImage,
-                      const NodeType& iNode );
-  void InitializeOutput( OutputImageType* oImage );
+                      const NodeType& iNode ) ITK_OVERRIDE;
+  void InitializeOutput( OutputImageType* oImage ) ITK_OVERRIDE;
 
   /** Find the nodes were the front will propagate given a node */
   void GetInternalNodesUsed( OutputImageType* oImage,
@@ -263,4 +263,4 @@ private:
 }
 
 #include "itkFastMarchingImageFilterBase.hxx"
-#endif // __itkFastMarchingImageFilterBase_h
+#endif // itkFastMarchingImageFilterBase_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnalyzeImageIOTest_h
-#define __itkAnalyzeImageIOTest_h
+#ifndef itkAnalyzeImageIOTest_h
+#define itkAnalyzeImageIOTest_h
 
 #include <fstream>
 

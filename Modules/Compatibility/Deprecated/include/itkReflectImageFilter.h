@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReflectImageFilter_h
-#define __itkReflectImageFilter_h
+#ifndef itkReflectImageFilter_h
+#define itkReflectImageFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkImageToImageFilter.h"
@@ -83,13 +83,13 @@ public:
 protected:
   ReflectImageFilter();
   virtual ~ReflectImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method implements the actual reflection of the image.
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void GenerateData(void);
+  void GenerateData();
 
 private:
   ReflectImageFilter(const Self &); //purposely not implemented

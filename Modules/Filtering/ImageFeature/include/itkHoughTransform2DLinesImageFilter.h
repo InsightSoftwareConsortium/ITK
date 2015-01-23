@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHoughTransform2DLinesImageFilter_h
-#define __itkHoughTransform2DLinesImageFilter_h
+#ifndef itkHoughTransform2DLinesImageFilter_h
+#define itkHoughTransform2DLinesImageFilter_h
 
 
 #include "itkImageToImageFilter.h"
@@ -109,7 +109,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for evaluating the implicit function over the image. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Set the threshold above which the filter should consider
       the point as a valid point */
@@ -127,7 +127,7 @@ public:
   itkGetConstMacro(AngleResolution, float);
 
   /** Simplify the accumulator */
-  void Simplify(void);
+  void Simplify();
 
   /** Get the Simplified accumulator */
   itkGetModifiableObjectMacro(SimplifyAccumulator, OutputImageType);
@@ -164,12 +164,12 @@ protected:
   HoughTransform2DLinesImageFilter();
   virtual ~HoughTransform2DLinesImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** HoughTransform2DLinesImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** HoughTransform2DLinesImageFilter's output is the accumulator
    * array.  The size of the output is a function of the size of the
@@ -177,10 +177,10 @@ protected:
    * size than the input, it must provide an implementation of
    * GenerateOutputInformation.
    * \sa ProcessObject::GenerateOutputRequestedRegion() */
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** HoughTransform2DLinesImageFilter must produce the entire output */
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
 

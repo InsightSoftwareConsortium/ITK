@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorOpenCloseLine_h
-#define __itkAnchorOpenCloseLine_h
+#ifndef itkAnchorOpenCloseLine_h
+#define itkAnchorOpenCloseLine_h
 
 #include "itkMorphologyHistogram.h"
 #include "itkIndent.h"

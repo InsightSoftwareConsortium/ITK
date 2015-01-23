@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMorphologicalWatershedImageFilter_h
-#define __itkMorphologicalWatershedImageFilter_h
+#ifndef itkMorphologicalWatershedImageFilter_h
+#define itkMorphologicalWatershedImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -113,7 +113,7 @@ public:
 protected:
   MorphologicalWatershedImageFilter();
   ~MorphologicalWatershedImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** MorphologicalWatershedImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

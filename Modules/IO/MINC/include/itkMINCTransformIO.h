@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMINCTransformIO_h
-#define __itkMINCTransformIO_h
+#ifndef itkMINCTransformIO_h
+#define itkMINCTransformIO_h
 
 #include "itkTransformIOBase.h"
 
@@ -81,7 +81,7 @@ protected:
   bool                  m_XFM_initialized;
 
 private:
-  void _cleanup(void);
+  void _cleanup();
   void WriteOneTransform(const int transformIndex,
                          const TransformType *transform,
                          std::vector<VIO_General_transform> &_xfm,
@@ -99,4 +99,4 @@ typedef MINCTransformIOTemplate< double > MINCTransformIO;
 #include "itkMINCTransformIO.hxx"
 #endif
 
-#endif // __itkMINCTransformIO_h
+#endif // itkMINCTransformIO_h

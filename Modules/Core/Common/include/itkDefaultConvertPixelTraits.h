@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDefaultConvertPixelTraits_h
-#define __itkDefaultConvertPixelTraits_h
+#ifndef itkDefaultConvertPixelTraits_h
+#define itkDefaultConvertPixelTraits_h
 
 #include "itkOffset.h"
 #include "itkVector.h"

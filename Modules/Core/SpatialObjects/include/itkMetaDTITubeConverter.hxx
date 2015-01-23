@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaDTITubeConverter_hxx
-#define __itkMetaDTITubeConverter_hxx
+#ifndef itkMetaDTITubeConverter_hxx
+#define itkMetaDTITubeConverter_hxx
 
 #include "itkMetaDTITubeConverter.h"
 

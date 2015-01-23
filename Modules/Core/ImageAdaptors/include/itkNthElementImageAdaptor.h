@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNthElementImageAdaptor_h
-#define __itkNthElementImageAdaptor_h
+#ifndef itkNthElementImageAdaptor_h
+#define itkNthElementImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 #include "itkNthElementPixelAccessor.h"

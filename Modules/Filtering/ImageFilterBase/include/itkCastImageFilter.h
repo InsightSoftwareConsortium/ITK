@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCastImageFilter_h
-#define __itkCastImageFilter_h
+#ifndef itkCastImageFilter_h
+#define itkCastImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkProgressReporter.h"
@@ -133,9 +133,9 @@ protected:
   CastImageFilter();
   // virtual ~CastImageFilter() {} default OK
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   CastImageFilter(const Self &); //purposely not implemented

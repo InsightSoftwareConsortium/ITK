@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkIntensityWindowingImageFilter_hxx
-#define __itkIntensityWindowingImageFilter_hxx
+#ifndef itkIntensityWindowingImageFilter_hxx
+#define itkIntensityWindowingImageFilter_hxx
 
 #include "itkIntensityWindowingImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"

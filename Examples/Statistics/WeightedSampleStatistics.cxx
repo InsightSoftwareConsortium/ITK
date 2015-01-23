@@ -77,7 +77,7 @@ public:
   typedef double OutputType;
 
   /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType& input ) const
+  OutputType Evaluate( const InputType& input ) const ITK_OVERRIDE
     {
       if ( input[0] < 3.0 )
         {

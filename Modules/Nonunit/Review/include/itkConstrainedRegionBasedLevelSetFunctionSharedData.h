@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstrainedRegionBasedLevelSetFunctionSharedData_h
-#define __itkConstrainedRegionBasedLevelSetFunctionSharedData_h
+#ifndef itkConstrainedRegionBasedLevelSetFunctionSharedData_h
+#define itkConstrainedRegionBasedLevelSetFunctionSharedData_h
 
 #include "itkRegionBasedLevelSetFunctionSharedData.h"
 

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkTransformFactory_h
-#define __itkTransformFactory_h
+#ifndef itkTransformFactory_h
+#define itkTransformFactory_h
 
 #include "itkTransformFactoryBase.h"
 

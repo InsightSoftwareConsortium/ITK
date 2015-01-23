@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimilarityIndexImageFilter_h
-#define __itkSimilarityIndexImageFilter_h
+#ifndef itkSimilarityIndexImageFilter_h
+#define itkSimilarityIndexImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
@@ -107,7 +107,7 @@ public:
   { return this->GetInput(); }
 
   /** Get the secong input. */
-  const InputImage2Type * GetInput2(void);
+  const InputImage2Type * GetInput2();
 
   /** Return the computed similarity index. */
   itkGetConstMacro(SimilarityIndex, RealType);
@@ -124,29 +124,29 @@ public:
 protected:
   SimilarityIndexImageFilter();
   ~SimilarityIndexImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Pass the input through unmodified. Do this by Grafting in the
    * AllocateOutputs method. */
-  void AllocateOutputs();
+  void AllocateOutputs() ITK_OVERRIDE;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Do final mean and variance computation from data accumulated in threads.
     */
-  void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const RegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data);
+  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
   SimilarityIndexImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFullToHalfHermitianImageFilter_h
-#define __itkFullToHalfHermitianImageFilter_h
+#ifndef itkFullToHalfHermitianImageFilter_h
+#define itkFullToHalfHermitianImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -82,13 +82,13 @@ protected:
   ~FullToHalfHermitianImageFilter() {}
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   /** The output is a different size from the input. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This class requires the entire input. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   FullToHalfHermitianImageFilter(const Self &); // purposely not implemented
@@ -100,4 +100,4 @@ private:
 #include "itkFullToHalfHermitianImageFilter.hxx"
 #endif
 
-#endif // __itkFullToHalfHermitianImageFilter_h
+#endif // itkFullToHalfHermitianImageFilter_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUNeighborhoodOperatorImageFilter_h
-#define __itkGPUNeighborhoodOperatorImageFilter_h
+#ifndef itkGPUNeighborhoodOperatorImageFilter_h
+#define itkGPUNeighborhoodOperatorImageFilter_h
 
 #include "itkGPUImage.h"
 #include "itkGPUImageToImageFilter.h"

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkTestingStretchIntensityImageFilter_hxx
-#define __itkTestingStretchIntensityImageFilter_hxx
+#ifndef itkTestingStretchIntensityImageFilter_hxx
+#define itkTestingStretchIntensityImageFilter_hxx
 
 #include "itkTestingStretchIntensityImageFilter.h"
 #include "itkImageRegionIterator.h"

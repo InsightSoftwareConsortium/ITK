@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWComplexToComplexFFTImageFilter_h
-#define __itkFFTWComplexToComplexFFTImageFilter_h
+#ifndef itkFFTWComplexToComplexFFTImageFilter_h
+#define itkFFTWComplexToComplexFFTImageFilter_h
 
 #include "itkComplexToComplexFFTImageFilter.h"
 #include "itkFFTWCommon.h"
@@ -125,7 +125,7 @@ protected:
   virtual void BeforeThreadedGenerateData();
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FFTWComplexToComplexFFTImageFilter(const Self&); //purposely not implemented
@@ -144,4 +144,4 @@ private:
 #include "itkFFTWComplexToComplexFFTImageFilter.hxx"
 #endif
 
-#endif //__itkFFTWComplexToComplexFFTImageFilter_h
+#endif //itkFFTWComplexToComplexFFTImageFilter_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIsoContourDistanceImageFilter_hxx
-#define __itkIsoContourDistanceImageFilter_hxx
+#ifndef itkIsoContourDistanceImageFilter_hxx
+#define itkIsoContourDistanceImageFilter_hxx
 
 #include "itkIsoContourDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaskImageFilter_h
-#define __itkMaskImageFilter_h
+#ifndef itkMaskImageFilter_h
+#define itkMaskImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
@@ -218,7 +218,7 @@ public:
     return this->GetFunctor().GetMaskingValue();
   }
 
-  void BeforeThreadedGenerateData()
+  void BeforeThreadedGenerateData() ITK_OVERRIDE
   {
     typedef typename TOutputImage::PixelType PixelType;
     this->CheckOutsideValue( static_cast<PixelType*>(ITK_NULLPTR) );
@@ -238,7 +238,7 @@ protected:
   MaskImageFilter() {}
   virtual ~MaskImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;

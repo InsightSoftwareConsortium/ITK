@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKdTree_h
-#define __itkKdTree_h
+#ifndef itkKdTree_h
+#define itkKdTree_h
 
 #include <queue>
 #include <vector>

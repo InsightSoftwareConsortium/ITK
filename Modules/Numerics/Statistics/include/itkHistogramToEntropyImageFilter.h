@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramToEntropyImageFilter_h
-#define __itkHistogramToEntropyImageFilter_h
+#ifndef itkHistogramToEntropyImageFilter_h
+#define itkHistogramToEntropyImageFilter_h
 
 #include "itkHistogramToImageFilter.h"
 

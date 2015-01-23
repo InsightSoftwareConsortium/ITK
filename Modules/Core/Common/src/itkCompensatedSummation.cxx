@@ -17,7 +17,7 @@
  *=========================================================================*/
 // To exclude the pragmas in itkCompensatedSummation.hxx since we use compiler
 // flags to prevent the undesirable optimization on this file.
-#define __itkCompensatedSummation_cxx
+#define itkCompensatedSummation_cxx
 
 #include "itkNumericTraits.h"
 #include "itkCompensatedSummation.hxx"

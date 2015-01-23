@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTShiftImageFilter_h
-#define __itkFFTShiftImageFilter_h
+#ifndef itkFFTShiftImageFilter_h
+#define itkFFTShiftImageFilter_h
 
 #include "itkCyclicShiftImageFilter.h"
 
@@ -89,11 +89,11 @@ public:
 protected:
   FFTShiftImageFilter();
   ~FFTShiftImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Override GenerateData method to set some parameters in the
    * superclass. */
-  void  GenerateData();
+  void  GenerateData() ITK_OVERRIDE;
 
 private:
   FFTShiftImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimpleMultiResolutionImageRegistrationUI_h
-#define __itkSimpleMultiResolutionImageRegistrationUI_h
+#ifndef itkSimpleMultiResolutionImageRegistrationUI_h
+#define itkSimpleMultiResolutionImageRegistrationUI_h
 
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkCommand.h"

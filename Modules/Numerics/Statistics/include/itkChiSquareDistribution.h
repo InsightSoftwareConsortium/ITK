@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChiSquareDistribution_h
-#define __itkChiSquareDistribution_h
+#ifndef itkChiSquareDistribution_h
+#define itkChiSquareDistribution_h
 
 #include "itkProbabilityDistribution.h"
 #include "itkNumericTraits.h"
@@ -195,7 +195,7 @@ public:
   static double InverseCDF(double p, SizeValueType degreesOfFreedom);
 
 protected:
-  ChiSquareDistribution(void);
+  ChiSquareDistribution();
   virtual ~ChiSquareDistribution(void) {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

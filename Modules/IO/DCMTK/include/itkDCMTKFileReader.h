@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKFileReader_h
+#ifndef itkDCMTKFileReader_h
 
-#define __itkDCMTKFileReader_h
+#define itkDCMTKFileReader_h
 #include "ITKIODCMTKExport.h"
 #include <stack>
 #include <vector>
@@ -62,7 +62,7 @@ class ITKIODCMTK_EXPORT DCMTKSequence;
 class ITKIODCMTK_EXPORT DCMTKItem
 {
 public:
-  DCMTKItem() : m_DcmItem(0)
+  DCMTKItem() : m_DcmItem(ITK_NULLPTR)
     {
     }
   void SetDcmItem(DcmItem *item);
@@ -78,7 +78,7 @@ private:
 class ITKIODCMTK_EXPORT DCMTKSequence
 {
 public:
-  DCMTKSequence() : m_DcmSequenceOfItems(0) {}
+  DCMTKSequence() : m_DcmSequenceOfItems(ITK_NULLPTR) {}
   void SetDcmSequenceOfItems(DcmSequenceOfItems *seq);
   int card();
   int GetSequence(unsigned long index,
@@ -187,7 +187,7 @@ public:
         }
       DcmDecimalString *dsItem =
         dynamic_cast<DcmDecimalString *>(resultStack.top());
-      if(dsItem == 0)
+      if(dsItem == ITK_NULLPTR)
         {
         DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Element at tag "
                        << std::hex << group << " "
@@ -237,12 +237,12 @@ class ITKIODCMTK_EXPORT DCMTKFileReader
 public:
   typedef DCMTKFileReader Self;
 
-  DCMTKFileReader() : m_DFile(0),
-                      m_Dataset(0),
+  DCMTKFileReader() : m_DFile(ITK_NULLPTR),
+                      m_Dataset(ITK_NULLPTR),
                       m_Xfer(EXS_Unknown),
                       m_FrameCount(0),
                       m_FileNumber(-1L),
-                      m_Origin(0)
+                      m_Origin(ITK_NULLPTR)
     {}
   ~DCMTKFileReader();
 
@@ -280,7 +280,7 @@ public:
                        << element << std::dec);
         }
       DcmDecimalString *dsItem = dynamic_cast<DcmDecimalString *>(el);
-      if(dsItem == 0)
+      if(dsItem == ITK_NULLPTR)
         {
         DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                        << group << " " << std::hex
@@ -483,4 +483,4 @@ private:
 extern bool CompareDCMTKFileReaders(DCMTKFileReader *a, DCMTKFileReader *b);
 }
 
-#endif // __itkDCMTKFileReader_h
+#endif // itkDCMTKFileReader_h

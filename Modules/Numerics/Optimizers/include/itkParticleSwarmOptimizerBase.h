@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkParticleSwarmOptimizerBase_h
-#define __itkParticleSwarmOptimizerBase_h
+#ifndef itkParticleSwarmOptimizerBase_h
+#define itkParticleSwarmOptimizerBase_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"

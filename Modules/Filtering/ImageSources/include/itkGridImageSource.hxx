@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGridImageSource_hxx
-#define __itkGridImageSource_hxx
+#ifndef itkGridImageSource_hxx
+#define itkGridImageSource_hxx
 
 #include "itkGaussianKernelFunction.h"
 #include "itkGridImageSource.h"

@@ -9,6 +9,6 @@ itk_wrap_class("itk::MeshToMeshFilter" POINTER)
         "itk::Mesh< ${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} > >, itk::Mesh< ${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} > >")
       itk_wrap_template("M${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}M${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
         "itk::Mesh< ${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} > >, itk::Mesh< ${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} > >")
-    endforeach(t)
-  endforeach(d)
+    endforeach()
+  endforeach()
 itk_end_wrap_class()

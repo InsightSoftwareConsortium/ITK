@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExhaustiveOptimizerv4_hxx
-#define __itkExhaustiveOptimizerv4_hxx
+#ifndef itkExhaustiveOptimizerv4_hxx
+#define itkExhaustiveOptimizerv4_hxx
 
 #include "itkExhaustiveOptimizerv4.h"
 

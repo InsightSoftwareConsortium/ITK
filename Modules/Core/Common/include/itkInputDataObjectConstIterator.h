@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInputDataObjectConstIterator_h
-#define __itkInputDataObjectConstIterator_h
+#ifndef itkInputDataObjectConstIterator_h
+#define itkInputDataObjectConstIterator_h
 
 #include "itkDataObjectConstIterator.h"
 

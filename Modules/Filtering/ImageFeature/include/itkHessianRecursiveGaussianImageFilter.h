@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHessianRecursiveGaussianImageFilter_h
-#define __itkHessianRecursiveGaussianImageFilter_h
+#ifndef itkHessianRecursiveGaussianImageFilter_h
+#define itkHessianRecursiveGaussianImageFilter_h
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkNthElementImageAdaptor.h"
@@ -140,7 +140,7 @@ public:
    * an implementation for GenerateInputRequestedRegion in order to inform
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -155,13 +155,13 @@ protected:
 
   HessianRecursiveGaussianImageFilter();
   virtual ~HessianRecursiveGaussianImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
 

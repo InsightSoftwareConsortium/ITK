@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConjugateGradientLineSearchOptimizerv4_hxx
-#define __itkConjugateGradientLineSearchOptimizerv4_hxx
+#ifndef itkConjugateGradientLineSearchOptimizerv4_hxx
+#define itkConjugateGradientLineSearchOptimizerv4_hxx
 
 #include "itkConjugateGradientLineSearchOptimizerv4.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCopperColormapFunction_h
-#define __itkCopperColormapFunction_h
+#ifndef itkCopperColormapFunction_h
+#define itkCopperColormapFunction_h
 
 #include "itkColormapFunction.h"
 
@@ -58,7 +58,7 @@ public:
   typedef typename Superclass::ScalarType   ScalarType;
   typedef typename Superclass::RealType     RealType;
 
-  virtual RGBPixelType operator()(const TScalar &) const;
+  virtual RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
 
 protected:
   CopperColormapFunction() {}

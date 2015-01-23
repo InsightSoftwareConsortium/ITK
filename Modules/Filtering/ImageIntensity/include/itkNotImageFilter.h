@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNotImageFilter_h
-#define __itkNotImageFilter_h
+#ifndef itkNotImageFilter_h
+#define itkNotImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"

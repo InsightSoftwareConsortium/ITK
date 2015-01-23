@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAffineTransform_h
-#define __itkAffineTransform_h
+#ifndef itkAffineTransform_h
+#define itkAffineTransform_h
 
 #include "itkMatrixOffsetTransformBase.h"
 #include <iostream>
@@ -236,7 +236,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Back transform by an affine transformation
    *
@@ -278,7 +278,7 @@ public:
   /** This method computes the distance from self to the identity
    * transformation, using the same metric as the one-argument form
    * of the Metric() method. */
-  ScalarType Metric(void) const;
+  ScalarType Metric() const;
 
 protected:
   /** Construct an AffineTransform object
@@ -297,7 +297,7 @@ protected:
   virtual ~AffineTransform();
 
   /** Print contents of an AffineTransform */
-  void PrintSelf(std::ostream & s, Indent indent) const;
+  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
 private:
 
@@ -401,4 +401,4 @@ AffineTransform< TScalar, NDimensions >::BackTransform(const OutputPointType & p
 #include "itkAffineTransform.hxx"
 #endif
 
-#endif /* __itkAffineTransform_h */
+#endif /* itkAffineTransform_h */

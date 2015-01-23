@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAttributeMorphologyBaseImageFilter_h
-#define __itkAttributeMorphologyBaseImageFilter_h
+#ifndef itkAttributeMorphologyBaseImageFilter_h
+#define itkAttributeMorphologyBaseImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include <vector>
@@ -145,7 +145,7 @@ protected:
 
   virtual ~AttributeMorphologyBaseImageFilter() {}
   AttributeMorphologyBaseImageFilter(const Self &) {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Standard pipeline method.

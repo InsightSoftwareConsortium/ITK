@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSourceCommon_h
-#define __itkImageSourceCommon_h
+#ifndef itkImageSourceCommon_h
+#define itkImageSourceCommon_h
 
 #include "ITKCommonExport.h"
 #include "itkImageRegionSplitterBase.h"
@@ -41,7 +41,7 @@ struct ITKCommon_EXPORT ImageSourceCommon
   /**
    * Provide access to a common static object for image region splitting
    */
-  static  const ImageRegionSplitterBase*  GetGlobalDefaultSplitter(void);
+  static  const ImageRegionSplitterBase*  GetGlobalDefaultSplitter();
 };
 
 } // end namespace itk

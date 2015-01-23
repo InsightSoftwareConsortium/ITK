@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMINCTransformIO_hxx
-#define __itkMINCTransformIO_hxx
+#ifndef itkMINCTransformIO_hxx
+#define itkMINCTransformIO_hxx
 
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
@@ -282,7 +282,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
       writer->Update();
 
       xfm.push_back( VIO_General_transform() );
-      create_grid_transform_no_copy( &xfm[xfm.size()-1], NULL, NULL ); //relying on volume_io using the same name
+      create_grid_transform_no_copy( &xfm[xfm.size()-1], ITK_NULLPTR, ITK_NULLPTR ); //relying on volume_io using the same name
       if(_inverse_grid)
         {
         xfm[xfm.size()-1].inverse_flag=TRUE;

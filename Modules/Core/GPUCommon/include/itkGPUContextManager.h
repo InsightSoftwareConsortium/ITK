@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUContextManager_h
-#define __itkGPUContextManager_h
+#ifndef itkGPUContextManager_h
+#define itkGPUContextManager_h
 
 #include "itkOpenCLUtil.h"
 #include <itkLightObject.h>

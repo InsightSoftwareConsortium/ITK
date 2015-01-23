@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformParametersAdaptor_h
-#define __itkTransformParametersAdaptor_h
+#ifndef itkTransformParametersAdaptor_h
+#define itkTransformParametersAdaptor_h
 
 #include "itkTransformParametersAdaptorBase.h"
 #include "itkTransform.h"
@@ -77,7 +77,7 @@ public:
   /** Set the transform to be adapted */
   itkSetObjectMacro( Transform, TransformType );
 
-  virtual void SetTransform( TransformBaseType * _arg, void * )
+  virtual void SetTransform( TransformBaseType * _arg, void * ) ITK_OVERRIDE
     {
       TransformType *tx = dynamic_cast<TransformType *>(_arg);
       itkAssertOrThrowMacro( tx != ITK_NULLPTR, "Unable to convert Transform to require concrete transform!" );
@@ -88,19 +88,30 @@ public:
   itkNewMacro( Self );
 
   /** Set the fixed parameters */
-  itkSetMacro( RequiredFixedParameters, ParametersType );
+  virtual void SetRequiredFixedParameters( const ParametersType fixedParameters ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting RequiredFixedParameters to " << fixedParameters );
+    if ( this->m_RequiredFixedParameters != fixedParameters )
+      {
+      this->m_RequiredFixedParameters = fixedParameters;
+      this->Modified();
+      }
+    }
 
   /** Get the fixed parameters */
-  itkGetConstReferenceMacro( RequiredFixedParameters, ParametersType );
+  virtual const ParametersType & GetRequiredFixedParameters() const ITK_OVERRIDE
+    {
+    return this->m_RequiredFixedParameters;
+    }
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() {};
+  virtual void AdaptTransformParameters() ITK_OVERRIDE {};
 
 protected:
   TransformParametersAdaptor() {}
   ~TransformParametersAdaptor() {}
 
-  void PrintSelf( std::ostream & os, Indent indent ) const
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE
   {
     Superclass::PrintSelf( os, indent );
     itkPrintSelfObjectMacro( Transform );
@@ -115,4 +126,4 @@ private:
 }; //class TransformParametersAdaptor
 }  // namespace itk
 
-#endif /* __itkTransformParametersAdaptor_h */
+#endif /* itkTransformParametersAdaptor_h */

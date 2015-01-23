@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPolygonSpatialObject_hxx
-#define __itkPolygonSpatialObject_hxx
+#ifndef itkPolygonSpatialObject_hxx
+#define itkPolygonSpatialObject_hxx
 
 #include "itkPolygonSpatialObject.h"
 #include "itkExceptionObject.h"

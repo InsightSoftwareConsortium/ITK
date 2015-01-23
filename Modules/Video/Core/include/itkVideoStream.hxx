@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVideoStream_hxx
-#define __itkVideoStream_hxx
+#ifndef itkVideoStream_hxx
+#define itkVideoStream_hxx
 
 #include "itkVideoStream.h"
 

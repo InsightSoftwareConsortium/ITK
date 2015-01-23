@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMeshConvertPixelTraits_h
-#define __itkMeshConvertPixelTraits_h
+#ifndef itkMeshConvertPixelTraits_h
+#define itkMeshConvertPixelTraits_h
 #include "ITKIOMeshExport.h"
 
 #include "itkArray.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMedianImageFunction_h
-#define __itkMedianImageFunction_h
+#ifndef itkMedianImageFunction_h
+#define itkMedianImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"
@@ -84,10 +84,10 @@ public:
                       InputImageType::ImageDimension);
 
   /** Evalulate the function at specified index */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const;
+  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at non-integer positions */
-  virtual OutputType Evaluate(const PointType & point) const
+  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -96,7 +96,7 @@ public:
   }
 
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const
+    const ContinuousIndexType & cindex) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -112,7 +112,7 @@ public:
 protected:
   MedianImageFunction();
   ~MedianImageFunction(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MedianImageFunction(const Self &); //purposely not implemented

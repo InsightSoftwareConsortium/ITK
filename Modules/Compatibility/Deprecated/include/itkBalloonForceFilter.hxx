@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBalloonForceFilter_hxx
-#define __itkBalloonForceFilter_hxx
+#ifndef itkBalloonForceFilter_hxx
+#define itkBalloonForceFilter_hxx
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkBalloonForceFilter.h"

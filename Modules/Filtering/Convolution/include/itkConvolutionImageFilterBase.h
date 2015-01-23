@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConvolutionImageFilterBase_h
-#define __itkConvolutionImageFilterBase_h
+#ifndef itkConvolutionImageFilterBase_h
+#define itkConvolutionImageFilterBase_h
 
 #include "itkImageToImageFilter.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
@@ -108,18 +108,18 @@ protected:
   ConvolutionImageFilterBase();
   ~ConvolutionImageFilterBase() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** The largest possible output region may differ from the largest
    * possible input region. */
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Get the valid region of the convolution. */
   OutputRegionType GetValidRegion() const;
 
   /** Default superclass implementation ensures that input images
    * occupy same physical space. This is not needed for this filter. */
-  virtual void VerifyInputInformation() {};
+  virtual void VerifyInputInformation() ITK_OVERRIDE {};
 
 private:
   ConvolutionImageFilterBase(const Self &); //purposely not implemented

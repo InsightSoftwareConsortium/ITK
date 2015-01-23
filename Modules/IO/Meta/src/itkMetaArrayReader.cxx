@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaArrayReader_cxx
-#define __itkMetaArrayReader_cxx
-
 #include "itkMetaArrayReader.h"
 
 namespace itk
@@ -65,5 +62,3 @@ MetaArrayReader::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 } // namespace itk
-
-#endif

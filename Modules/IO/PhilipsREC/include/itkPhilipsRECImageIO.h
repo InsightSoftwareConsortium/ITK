@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef __itkPhilipsRECImageIO_h
-#define __itkPhilipsRECImageIO_h
+#ifndef itkPhilipsRECImageIO_h
+#define itkPhilipsRECImageIO_h
 #include "ITKIOPhilipsRECExport.h"
 
 
@@ -141,7 +141,7 @@ public:
 protected:
   PhilipsRECImageIO();
   ~PhilipsRECImageIO();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 
@@ -157,4 +157,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkPhilipsRECImageIO_h
+#endif // itkPhilipsRECImageIO_h

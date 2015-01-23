@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPDEDeformableRegistrationFilter_h
-#define __itkPDEDeformableRegistrationFilter_h
+#ifndef itkPDEDeformableRegistrationFilter_h
+#define itkPDEDeformableRegistrationFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkPDEDeformableRegistrationFunction.h"
@@ -125,13 +125,13 @@ public:
   void SetFixedImage(const FixedImageType *ptr);
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void) const;
+  const FixedImageType * GetFixedImage() const;
 
   /** Set the moving image. */
   void SetMovingImage(const MovingImageType *ptr);
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void) const;
+  const MovingImageType * GetMovingImage() const;
 
   /** Set initial displacement field. */
   void SetInitialDisplacementField(const DisplacementFieldType *ptr)
@@ -159,7 +159,7 @@ public:
    * set. While PDEDeformableRegistration can take a third input as an
    * initial displacement field, this input is not a required input.
    */
-  virtual std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const;
+  virtual std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const ITK_OVERRIDE;
 
   /** Set/Get whether the displacement field is smoothed
    * (regularized). Smoothing the displacement yields a solution
@@ -236,11 +236,11 @@ public:
 protected:
   PDEDeformableRegistrationFilter();
   ~PDEDeformableRegistrationFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
   {
     if ( m_StopRegistrationFlag )
       {
@@ -252,11 +252,11 @@ protected:
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
-  virtual void CopyInputToOutput();
+  virtual void CopyInputToOutput() ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** Utility to smooth the displacement field (represented in the Output)
    * using a Guassian operator. The amount of smoothing can be specified
@@ -275,16 +275,16 @@ protected:
 
   /** This method is called after the solution has been generated. In this case,
    * the filter release the memory of the internal buffers. */
-  virtual void PostProcessOutput();
+  virtual void PostProcessOutput() ITK_OVERRIDE;
 
   /** This method is called before iterating the solution. */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   /** By default the output displacement field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial displacement field.  If
    * the initial displacement field is not set, the output information is
    * copied from the fixed image. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
@@ -292,7 +292,7 @@ protected:
    *
    * For the fixed image and displacement field, the input requested region
    * set to be the same as that of the output requested region. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   PDEDeformableRegistrationFilter(const Self &); //purposely not implemented

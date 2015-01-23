@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentOptimizerBasev4_h
-#define __itkGradientDescentOptimizerBasev4_h
+#ifndef itkGradientDescentOptimizerBasev4_h
+#define itkGradientDescentOptimizerBasev4_h
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkWindowConvergenceMonitoringFunction.h"
@@ -94,13 +94,27 @@ public:
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
   /** Set the number of iterations. */
-  itkSetMacro(NumberOfIterations, SizeValueType);
+  virtual void SetNumberOfIterations( const SizeValueType numberOfIterations ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting NumberOfIterations to " << numberOfIterations );
+    if ( this->m_NumberOfIterations != numberOfIterations)
+      {
+      this->m_NumberOfIterations = numberOfIterations;
+      this->Modified();
+      }
+    }
 
   /** Get the number of iterations. */
-  itkGetConstMacro(NumberOfIterations, SizeValueType);
+  virtual SizeValueType GetNumberOfIterations() const ITK_OVERRIDE
+    {
+    return this->m_NumberOfIterations;
+    }
 
   /** Get the current iteration number. */
-  itkGetConstMacro(CurrentIteration, SizeValueType);
+  virtual SizeValueType GetCurrentIteration() const ITK_OVERRIDE
+    {
+    return this->m_CurrentIteration;
+    }
 
   /** Start and run the optimization */
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
@@ -112,7 +126,7 @@ public:
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  virtual void StopOptimization(void);
+  virtual void StopOptimization();
 
   /** Get the reason for termination */
   virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
@@ -200,7 +214,7 @@ protected:
 
   /** Current gradient */
   DerivativeType     m_Gradient;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearLine_h
-#define __itkFEMElement2DC0LinearLine_h
+#ifndef itkFEMElement2DC0LinearLine_h
+#define itkFEMElement2DC0LinearLine_h
 
 #include "itkFEMElementStd.h"
 
@@ -108,4 +108,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement2DC0LinearLine_h
+#endif  // #ifndef itkFEMElement2DC0LinearLine_h

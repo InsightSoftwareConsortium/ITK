@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkProbabilityDistribution_h
-#define __itkProbabilityDistribution_h
+#ifndef itkProbabilityDistribution_h
+#define itkProbabilityDistribution_h
 
 #include "itkIntTypes.h"
 #include "itkObject.h"

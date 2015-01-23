@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkQuaternionOrientationAdapter_h
-#define __itkQuaternionOrientationAdapter_h
+#ifndef itkQuaternionOrientationAdapter_h
+#define itkQuaternionOrientationAdapter_h
 #if !defined( ITK_LEGACY_REMOVE )
 #include "itkOrientationAdapterBase.h"
 #include "itkQuaternionRigidTransform.h"
@@ -83,4 +83,4 @@ public:
 } // namespace itk
 
 #endif //#if !defined( ITK_LEGACY_REMOVE )
-#endif // __itkQuaternionOrientationAdapter_h
+#endif // itkQuaternionOrientationAdapter_h

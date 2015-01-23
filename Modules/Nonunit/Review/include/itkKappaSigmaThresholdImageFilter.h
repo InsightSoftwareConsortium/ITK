@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKappaSigmaThresholdImageFilter_h
-#define __itkKappaSigmaThresholdImageFilter_h
+#ifndef itkKappaSigmaThresholdImageFilter_h
+#define itkKappaSigmaThresholdImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkKappaSigmaThresholdImageCalculator.h"
@@ -143,7 +143,7 @@ public:
 protected:
   KappaSigmaThresholdImageFilter();
   ~KappaSigmaThresholdImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateInputRequestedRegion();
 

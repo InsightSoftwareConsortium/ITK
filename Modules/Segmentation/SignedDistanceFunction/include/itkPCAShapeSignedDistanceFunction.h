@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPCAShapeSignedDistanceFunction_h
-#define __itkPCAShapeSignedDistanceFunction_h
+#ifndef itkPCAShapeSignedDistanceFunction_h
+#define itkPCAShapeSignedDistanceFunction_h
 
 #include "itkShapeSignedDistanceFunction.h"
 #include "itkImage.h"
@@ -152,26 +152,26 @@ public:
   itkGetModifiableObjectMacro(Transform, TransformType);
 
   /** A PCAShape is defined by a set of shape and pose parameters. */
-  virtual void SetParameters(const ParametersType &);
+  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE;
 
-  virtual unsigned int GetNumberOfShapeParameters(void) const
+  virtual unsigned int GetNumberOfShapeParameters(void) const ITK_OVERRIDE
   { return m_NumberOfPrincipalComponents; }
-  virtual unsigned int GetNumberOfPoseParameters(void) const
+  virtual unsigned int GetNumberOfPoseParameters(void) const ITK_OVERRIDE
   { return m_Transform ? m_Transform->GetNumberOfParameters() : 0; }
 
   /** Evaluate the signed distance from a shape at a given position. */
-  virtual OutputType Evaluate(const PointType & point) const;
+  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** Initialize must be called before the first call of
    Evaluate() to allow the class to validate any inputs. */
   virtual void Initialize()
-  throw ( ExceptionObject );
+  throw ( ExceptionObject ) ITK_OVERRIDE;
 
 protected:
   PCAShapeSignedDistanceFunction();
   ~PCAShapeSignedDistanceFunction(){}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PCAShapeSignedDistanceFunction(const Self &); //purposely not implemented

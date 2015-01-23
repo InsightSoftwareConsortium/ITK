@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastMarchingExtensionImageFilter_hxx
-#define __itkFastMarchingExtensionImageFilter_hxx
+#ifndef itkFastMarchingExtensionImageFilter_hxx
+#define itkFastMarchingExtensionImageFilter_hxx
 
 #include "itkFastMarchingExtensionImageFilter.h"
 

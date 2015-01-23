@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkGenerateImageSource_hxx
-#define __itkGenerateImageSource_hxx
+#ifndef itkGenerateImageSource_hxx
+#define itkGenerateImageSource_hxx
 
 #include "itkGenerateImageSource.h"
 
@@ -72,4 +72,4 @@ GenerateImageSource< TOutputImage >
 
 } // end namespace itk
 
-#endif // __itkGenerateImageSour_hxx
+#endif // itkGenerateImageSour_hxx

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageTransformer_h
-#define __itkImageTransformer_h
+#ifndef itkImageTransformer_h
+#define itkImageTransformer_h
 
 #include "itkProcessObject.h"
 #include "itkImage.h"
@@ -85,8 +85,8 @@ public:
   using Superclass::SetInput;
   virtual void SetInput(const InputImageType *image);
   virtual void SetInput(unsigned int, const TInputImage *image);
-  const InputImageType * GetInput(void) const;
-  InputImageType * GetInput(void);
+  const InputImageType * GetInput() const;
+  InputImageType * GetInput();
   const InputImageType * GetInput(unsigned int idx) const;
 
   /** Push/Pop the input of this process object. These methods allow a

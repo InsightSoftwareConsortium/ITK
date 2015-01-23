@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOpenCVBasicTypeBridge_h
-#define __itkOpenCVBasicTypeBridge_h
+#ifndef itkOpenCVBasicTypeBridge_h
+#define itkOpenCVBasicTypeBridge_h
 
 #include "itkPoint.h"
 #include "itkSize.h"

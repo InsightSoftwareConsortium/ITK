@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestingMacros_h
-#define __itkTestingMacros_h
+#ifndef itkTestingMacros_h
+#define itkTestingMacros_h
 
 
 // object's Class must be specified to build on sun studio
@@ -105,11 +105,11 @@
     }
 
 #define TEST_SET_GET_NULL_VALUE( command ) \
-  if( NULL != command )   \
+  if( ITK_NULLPTR != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
-    std::cerr << "Expected " << "NULL" << std::endl;   \
+    std::cerr << "Expected " << "ITK_NULLPTR" << std::endl;   \
     std::cerr << "but got  " << command << std::endl; \
     return EXIT_FAILURE; \
     }

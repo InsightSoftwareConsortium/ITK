@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkContourExtractor2DImageFilter_h
-#define __itkContourExtractor2DImageFilter_h
+#ifndef itkContourExtractor2DImageFilter_h
+#define itkContourExtractor2DImageFilter_h
 
 #include "itkImageToPathFilter.h"
 #include "itkPolyLineParametricPath.h"
@@ -174,7 +174,7 @@ protected:
 
   ContourExtractor2DImageFilter();
   virtual ~ContourExtractor2DImageFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateData();
 

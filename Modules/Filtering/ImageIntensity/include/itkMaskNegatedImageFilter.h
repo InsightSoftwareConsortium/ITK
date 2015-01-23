@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaskNegatedImageFilter_h
-#define __itkMaskNegatedImageFilter_h
+#ifndef itkMaskNegatedImageFilter_h
+#define itkMaskNegatedImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
@@ -218,7 +218,7 @@ protected:
   MaskNegatedImageFilter() {}
   virtual ~MaskNegatedImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;

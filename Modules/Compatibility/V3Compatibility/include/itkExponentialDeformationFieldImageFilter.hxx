@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExponentialDeformationFieldImageFilter_hxx
-#define __itkExponentialDeformationFieldImageFilter_hxx
+#ifndef itkExponentialDeformationFieldImageFilter_hxx
+#define itkExponentialDeformationFieldImageFilter_hxx
 
 #include "itkExponentialDeformationFieldImageFilter.h"
 #include "itkProgressReporter.h"

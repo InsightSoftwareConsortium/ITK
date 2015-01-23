@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExponentialDisplacementFieldImageFilter_h
-#define __itkExponentialDisplacementFieldImageFilter_h
+#ifndef itkExponentialDisplacementFieldImageFilter_h
+#define itkExponentialDisplacementFieldImageFilter_h
 
 #include "itkDivideImageFilter.h"
 #include "itkCastImageFilter.h"
@@ -134,12 +134,12 @@ protected:
   ExponentialDisplacementFieldImageFilter();
   virtual ~ExponentialDisplacementFieldImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * GenerateData()
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   typedef typename InputImageType::RegionType RegionType;
 

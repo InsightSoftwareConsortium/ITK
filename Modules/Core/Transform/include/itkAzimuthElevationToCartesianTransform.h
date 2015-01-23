@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAzimuthElevationToCartesianTransform_h
-#define __itkAzimuthElevationToCartesianTransform_h
+#ifndef itkAzimuthElevationToCartesianTransform_h
+#define itkAzimuthElevationToCartesianTransform_h
 
 #include "itkAffineTransform.h"
 #include "vnl/vnl_math.h"
@@ -132,7 +132,7 @@ public:
                                                 const long maxElevation);
 
   /** Transform from azimuth-elevation to cartesian. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const;
+  OutputPointType     TransformPoint(const InputPointType  & point) const ITK_OVERRIDE;
 
   /** Back transform from cartesian to azimuth-elevation.  */
   inline InputPointType  BackTransform(const OutputPointType  & point) const
@@ -209,7 +209,7 @@ protected:
   virtual ~AzimuthElevationToCartesianTransform();
 
   /** Print contents of an AzimuthElevationTransform. */
-  void PrintSelf(std::ostream & s, Indent indent) const;
+  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
 private:
   AzimuthElevationToCartesianTransform(const Self &); // purposely not
@@ -232,4 +232,4 @@ private:
 #include "itkAzimuthElevationToCartesianTransform.hxx"
 #endif
 
-#endif /* __itkAzimuthElevationToCartesianTransform_h */
+#endif /* itkAzimuthElevationToCartesianTransform_h */

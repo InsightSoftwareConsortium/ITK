@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChangeLabelImageFilter_h
-#define __itkChangeLabelImageFilter_h
+#ifndef itkChangeLabelImageFilter_h
+#define itkChangeLabelImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"
@@ -161,7 +161,7 @@ public:
 protected:
   ChangeLabelImageFilter();
   virtual ~ChangeLabelImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ChangeLabelImageFilter(const Self &); //purposely not implemented

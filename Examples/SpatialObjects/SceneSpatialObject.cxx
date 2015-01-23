@@ -82,7 +82,7 @@ int main( int , char *[] )
 // \code{GetNumberOfObjects()} function. This function takes two optional
 // arguments: the depth at which we should count the number of objects
 // (default is set to infinity) and the name of the object to count (default
-// is set to NULL).  This allows the user to count, for example, only
+// is set to ITK_NULLPTR).  This allows the user to count, for example, only
 // ellipses.
 //
 // Software Guide : EndLatex

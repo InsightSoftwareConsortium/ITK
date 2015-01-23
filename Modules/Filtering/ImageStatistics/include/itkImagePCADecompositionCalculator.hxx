@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImagePCADecompositionCalculator_hxx
-#define __itkImagePCADecompositionCalculator_hxx
+#ifndef itkImagePCADecompositionCalculator_hxx
+#define itkImagePCADecompositionCalculator_hxx
 
 #include "itkImagePCADecompositionCalculator.h"
 #include "itkImageRegionConstIterator.h"

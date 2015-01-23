@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMObject_h
-#define __itkFEMObject_h
+#ifndef itkFEMObject_h
+#define itkFEMObject_h
 
 #include "itkDataObject.h"
 
@@ -307,14 +307,14 @@ protected:
     * This must be done before any other solve function can be called.
     * This is called internally by FinalizeMesh()
     */
-  void GenerateGFN(void);
+  void GenerateGFN();
 
   /**
    * Assign the number of multi freedom constraints on the system.
    * This must be done before any other solve function can be called.
    * This is called internally by FinalizeMesh()
    */
-  void GenerateMFC(void);
+  void GenerateMFC();
 
   void AddNextMaterialInternal(Material *mat);
   /**
@@ -347,4 +347,4 @@ private:
 #include "itkFEMObject.hxx"
 #endif
 
-#endif // #ifndef __itkFEMObject_h
+#endif // #ifndef itkFEMObject_h

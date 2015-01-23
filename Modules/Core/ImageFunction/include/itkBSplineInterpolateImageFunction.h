@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineInterpolateImageFunction_h
-#define __itkBSplineInterpolateImageFunction_h
+#ifndef itkBSplineInterpolateImageFunction_h
+#define itkBSplineInterpolateImageFunction_h
 
 #include <vector>
 
@@ -141,7 +141,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType Evaluate(const PointType & point) const
+  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     ContinuousIndexType index;
 
@@ -162,7 +162,7 @@ public:
   }
 
   virtual OutputType EvaluateAtContinuousIndex(const ContinuousIndexType &
-                                               index) const
+                                               index) const ITK_OVERRIDE
   {
     // Don't know thread information, make evaluateIndex, weights on the stack.
     // Slower, but safer.
@@ -296,7 +296,7 @@ public:
   itkGetConstMacro(NumberOfThreads, ThreadIdType);
 
   /** Set the input image.  This must be set by the user. */
-  virtual void SetInputImage(const TImageType *inputData);
+  virtual void SetInputImage(const TImageType *inputData) ITK_OVERRIDE;
 
   /** The UseImageDirection flag determines whether image derivatives are
    * computed with respect to the image grid or with respect to the physical
@@ -352,7 +352,7 @@ protected:
 
   BSplineInterpolateImageFunction();
   ~BSplineInterpolateImageFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   // These are needed by the smoothing spline routine.
   // temp storage for processing of Coefficients

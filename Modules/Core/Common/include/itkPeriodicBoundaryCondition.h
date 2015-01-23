@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPeriodicBoundaryCondition_h
-#define __itkPeriodicBoundaryCondition_h
+#ifndef itkPeriodicBoundaryCondition_h
+#define itkPeriodicBoundaryCondition_h
 #include "itkImageBoundaryCondition.h"
 
 namespace itk

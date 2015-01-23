@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredAffineTransform_h
-#define __itkCenteredAffineTransform_h
+#ifndef itkCenteredAffineTransform_h
+#define itkCenteredAffineTransform_h
 
 #include "itkAffineTransform.h"
 
@@ -90,9 +90,9 @@ public:
    * Note that the Offset of the superclass is no longer in the
    * parameters array since it is fully dependent on the rotation
    * center and the translation parameters. */
-  void SetParameters(const ParametersType & parameters);
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  const ParametersType & GetParameters(void) const;
+  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   /** Compute the Jacobian of the transformation
    *
@@ -100,13 +100,13 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
 protected:
   /** Construct an CenteredAffineTransform object */
@@ -126,4 +126,4 @@ private:
 #include "itkCenteredAffineTransform.hxx"
 #endif
 
-#endif /* __itkCenteredAffineTransform_h */
+#endif /* itkCenteredAffineTransform_h */

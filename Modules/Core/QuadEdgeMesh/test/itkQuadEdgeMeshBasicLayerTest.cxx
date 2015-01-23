@@ -101,7 +101,7 @@ int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
     {
     if ( ! e[i]->IsOriginSet() )
       {
-      std::cout << "IsOriginSet() NULL value failed for edge number "
+      std::cout << "IsOriginSet() ITK_NULLPTR value failed for edge number "
                 << i << ". Failed" << std::endl;
       return EXIT_FAILURE;
       } //fi

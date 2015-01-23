@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRelabelComponentImageFilter_h
-#define __itkRelabelComponentImageFilter_h
+#ifndef itkRelabelComponentImageFilter_h
+#define itkRelabelComponentImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkImage.h"
@@ -258,15 +258,15 @@ protected:
   /**
    * Standard pipeline method.
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** RelabelComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Standard printself method */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   struct RelabelComponentObjectType {
     LabelType m_ObjectNumber;

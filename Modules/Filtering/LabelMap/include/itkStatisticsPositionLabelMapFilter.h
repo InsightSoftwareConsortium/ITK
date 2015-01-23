@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsPositionLabelMapFilter_h
-#define __itkStatisticsPositionLabelMapFilter_h
+#ifndef itkStatisticsPositionLabelMapFilter_h
+#define itkStatisticsPositionLabelMapFilter_h
 
 #include "itkShapePositionLabelMapFilter.h"
 
@@ -85,7 +85,7 @@ protected:
   StatisticsPositionLabelMapFilter();
   ~StatisticsPositionLabelMapFilter() {};
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
+  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
 
 private:
   StatisticsPositionLabelMapFilter(const Self&); //purposely not implemented

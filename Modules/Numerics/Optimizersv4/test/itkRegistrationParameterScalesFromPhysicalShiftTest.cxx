@@ -46,28 +46,28 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  unsigned int GetNumberOfParameters() const { return 5; }
+  unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 5; }
 
-  MeasureType GetValue() const
+  MeasureType GetValue() const ITK_OVERRIDE
     {
     return 1.0;
     }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
     {
     value = 1.0;
     derivative.Fill(0.0);
     }
 
-  unsigned int GetNumberOfLocalParameters() const
+  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
   { return 0; }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) {}
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE {}
 
-  const ParametersType & GetParameters() const
+  const ParametersType & GetParameters() const ITK_OVERRIDE
   { return m_Parameters; }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) {}
+  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
 
   ParametersType  m_Parameters;
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNaryMaximumImageFilter_h
-#define __itkNaryMaximumImageFilter_h
+#ifndef itkNaryMaximumImageFilter_h
+#define itkNaryMaximumImageFilter_h
 
 #include "itkNaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"

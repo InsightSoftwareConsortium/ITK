@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChangeInformationImageFilter_hxx
-#define __itkChangeInformationImageFilter_hxx
+#ifndef itkChangeInformationImageFilter_hxx
+#define itkChangeInformationImageFilter_hxx
 
 #include "itkChangeInformationImageFilter.h"
 #include "itkImageRegionIterator.h"

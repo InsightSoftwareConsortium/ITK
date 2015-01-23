@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkListSample_h
-#define __itkListSample_h
+#ifndef itkListSample_h
+#define itkListSample_h
 
 #include "itkObjectFactory.h"
 #include "itkFixedArray.h"
@@ -94,11 +94,11 @@ public:
   void PushBack(const MeasurementVectorType & mv);
 
   /** Get the number of measurement vectors in the sample */
-  InstanceIdentifier Size() const;
+  InstanceIdentifier Size() const ITK_OVERRIDE;
 
   /** Get the measurement associated with the specified
    * InstanceIdentifier */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** Set a component a measurement to a particular value. */
   void SetMeasurement(InstanceIdentifier id,
@@ -111,14 +111,14 @@ public:
 
   /** Get the frequency of a measurement. Returns 1 if the measurement
    * exist. */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** Get the total frequency of the sample.  This is equivalent to
    * the size of the sample. */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
 
   /** Method to graft another sample */
-  virtual void Graft(const DataObject *thatObject);
+  virtual void Graft(const DataObject *thatObject) ITK_OVERRIDE;
 
   /** \class ConstIterator
    * \brief Const Iterator
@@ -274,7 +274,7 @@ protected:
 
   ListSample();
   virtual ~ListSample() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ListSample(const Self &);     //purposely not implemented

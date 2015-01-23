@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeshIOBase_h
-#define __itkMeshIOBase_h
+#ifndef itkMeshIOBase_h
+#define itkMeshIOBase_h
 #include "ITKIOMeshExport.h"
 
 #include "itkByteSwapper.h"

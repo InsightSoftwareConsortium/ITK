@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianRadialBasisFunction_h
-#define __itkGaussianRadialBasisFunction_h
+#ifndef itkGaussianRadialBasisFunction_h
+#define itkGaussianRadialBasisFunction_h
 
 #include "itkRadialBasisFunctionBase.h"
 #include "itkNNetDistanceMetricBase.h"
@@ -50,10 +50,10 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate at the specified input position */
-  virtual ScalarType Evaluate(const ScalarType& input) const;
+  virtual ScalarType Evaluate(const ScalarType& input) const ITK_OVERRIDE;
 
   virtual ScalarType EvaluateDerivative(const ScalarType& dist,const ArrayType& input,
-                                      char mode,int element_id=0) const;
+                                      char mode,int element_id=0) const ITK_OVERRIDE;
 
 protected:
 
@@ -61,7 +61,7 @@ protected:
   virtual ~GaussianRadialBasisFunction();
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 };
 

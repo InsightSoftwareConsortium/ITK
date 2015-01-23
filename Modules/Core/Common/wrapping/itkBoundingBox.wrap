@@ -9,6 +9,6 @@ itk_wrap_class("itk::BoundingBox" POINTER)
         "${ITKT_UL},${d},${ITKT_${t}}, itk::VectorContainer< ${ITKT_UL}, ${ITKT_P${t}${d}} >")
       itk_wrap_template("${ITKM_UL}${d}${ITKM_${t}}MC${ITKM_UL}${ITKM_P${t}${d}}"
         "${ITKT_UL},${d},${ITKT_${t}}, itk::MapContainer< ${ITKT_UL}, ${ITKT_P${t}${d}} >")
-    endforeach(t)
-  endforeach(d)
+    endforeach()
+  endforeach()
 itk_end_wrap_class()

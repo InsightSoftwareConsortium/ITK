@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComplexConjugateImageAdaptor_h
-#define __itkComplexConjugateImageAdaptor_h
+#ifndef itkComplexConjugateImageAdaptor_h
+#define itkComplexConjugateImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 #include <complex>

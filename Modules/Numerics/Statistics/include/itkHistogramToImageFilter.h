@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramToImageFilter_h
-#define __itkHistogramToImageFilter_h
+#ifndef itkHistogramToImageFilter_h
+#define itkHistogramToImageFilter_h
 
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"
@@ -90,7 +90,7 @@ public:
   using Superclass::SetInput;
   virtual void SetInput(const HistogramType *histogram);
 
-  const HistogramType * GetInput(void);
+  const HistogramType * GetInput();
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -117,13 +117,13 @@ protected:
   HistogramToImageFilter();
   ~HistogramToImageFilter();
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   FunctorType m_Functor;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   HistogramToImageFilter(const Self &); //purposely not implemented

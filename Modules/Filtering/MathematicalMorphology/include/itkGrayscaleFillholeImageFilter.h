@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleFillholeImageFilter_h
-#define __itkGrayscaleFillholeImageFilter_h
+#ifndef itkGrayscaleFillholeImageFilter_h
+#define itkGrayscaleFillholeImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -108,19 +108,19 @@ public:
 protected:
   GrayscaleFillholeImageFilter();
   ~GrayscaleFillholeImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GrayscaleFillholeImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** GrayscaleFillholeImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to ReconstructionByErosionImageFilter. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   GrayscaleFillholeImageFilter(const Self &); //purposely not implemented

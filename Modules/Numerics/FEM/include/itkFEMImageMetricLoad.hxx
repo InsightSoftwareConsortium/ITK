@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMImageMetricLoad_hxx
-#define __itkFEMImageMetricLoad_hxx
+#ifndef itkFEMImageMetricLoad_hxx
+#define itkFEMImageMetricLoad_hxx
 
 #include "itkFEMImageMetricLoad.h"
 
@@ -131,8 +131,8 @@ template <typename TMoving, typename TFixed>
 ImageMetricLoad<TMoving, TFixed>
 ::ImageMetricLoad()
 {
-  m_Metric = NULL;
-  m_Transform = NULL;
+  m_Metric = ITK_NULLPTR;
+  m_Transform = ITK_NULLPTR;
   m_SolutionIndex = 1;
   m_SolutionIndex2 = 0;
   m_Sign = 1.0;
@@ -140,7 +140,7 @@ ImageMetricLoad<TMoving, TFixed>
     {
     m_MetricRadius[i] = 1;
     }
-  m_MetricGradientImage = NULL;
+  m_MetricGradientImage = ITK_NULLPTR;
 }
 
 template <typename TMoving, typename TFixed>

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDefaultStaticMeshTraits_h
-#define __itkDefaultStaticMeshTraits_h
+#ifndef itkDefaultStaticMeshTraits_h
+#define itkDefaultStaticMeshTraits_h
 
 #include "itkCellInterface.h"
 #include "itkVectorContainer.h"

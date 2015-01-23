@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMRegistrationFilter_hxx
-#define __itkFEMRegistrationFilter_hxx
+#ifndef itkFEMRegistrationFilter_hxx
+#define itkFEMRegistrationFilter_hxx
 
 #include "itkFEMRegistrationFilter.h"
 
@@ -549,7 +549,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolv
 
     if( !m_Field )
       {
-      itkDebugMacro( << " Big Error -- Field is NULL ");
+      itkDebugMacro( << " Big Error -- Field is ITK_NULLPTR ");
       }
     mySolver->SetUseMassMatrix( m_UseMassMatrix );
 

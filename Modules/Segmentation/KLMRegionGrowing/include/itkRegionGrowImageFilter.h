@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionGrowImageFilter_h
-#define __itkRegionGrowImageFilter_h
+#ifndef itkRegionGrowImageFilter_h
+#define itkRegionGrowImageFilter_h
 
 #include "itkObject.h"
 #include "itkImageToImageFilter.h"
@@ -125,7 +125,7 @@ public:
 protected:
   RegionGrowImageFilter();
   ~RegionGrowImageFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   RegionGrowImageFilter(const Self &); //purposely not implemented

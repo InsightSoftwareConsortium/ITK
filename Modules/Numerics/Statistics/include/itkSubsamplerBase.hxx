@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSubsamplerBase_hxx
-#define __itkSubsamplerBase_hxx
+#ifndef itkSubsamplerBase_hxx
+#define itkSubsamplerBase_hxx
 #include "itkSubsamplerBase.h"
 
 namespace itk {
@@ -72,7 +72,7 @@ SubsamplerBase<TSample>
   }
   else
   {
-    os << indent << "Sample is NULL" << std::endl;
+    os << indent << "Sample is ITK_NULLPTR" << std::endl;
   }
 
   os << std::endl;

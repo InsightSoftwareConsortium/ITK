@@ -93,7 +93,7 @@ int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
 
   // exercise error handling
   bool passed;
-  std::cout << "Testing NULL inputs" << std::endl;
+  std::cout << "Testing ITK_NULLPTR inputs" << std::endl;
 
   try
     {

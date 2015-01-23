@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOrthogonalSwath2DPathFilter_h
-#define __itkOrthogonalSwath2DPathFilter_h
+#ifndef itkOrthogonalSwath2DPathFilter_h
+#define itkOrthogonalSwath2DPathFilter_h
 
 #include "itkPathAndImageToPathFilter.h"
 #include "itkOrthogonallyCorrected2DParametricPath.h"
@@ -89,9 +89,9 @@ public:
 protected:
   OrthogonalSwath2DPathFilter();
   virtual ~OrthogonalSwath2DPathFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   OrthogonalSwath2DPathFilter(const Self &); //purposely not implemented

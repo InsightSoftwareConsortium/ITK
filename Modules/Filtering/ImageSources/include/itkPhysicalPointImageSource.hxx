@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkPhysicalPointImageSource_hxx
-#define __itkPhysicalPointImageSource_hxx
+#ifndef itkPhysicalPointImageSource_hxx
+#define itkPhysicalPointImageSource_hxx
 
 #include "itkPhysicalPointImageSource.h"
 #include "itkProgressReporter.h"
@@ -77,4 +77,4 @@ PhysicalPointImageSource< TOutputImage >
 
 } // end namespace itk
 
-#endif //__itkPhysicalPointImageSource_hxx
+#endif //itkPhysicalPointImageSource_hxx

@@ -20,8 +20,8 @@
 // GPU Kernel Manager Class
 //
 
-#ifndef __itkGPUKernelManager_h
-#define __itkGPUKernelManager_h
+#ifndef itkGPUKernelManager_h
+#define itkGPUKernelManager_h
 
 #include <vector>
 #include <itkLightObject.h>

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpringColormapFunction_hxx
-#define __itkSpringColormapFunction_hxx
+#ifndef itkSpringColormapFunction_hxx
+#define itkSpringColormapFunction_hxx
 
 #include "itkSpringColormapFunction.h"
 

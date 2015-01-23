@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPipelineMonitorImageFilter_h
-#define __itkPipelineMonitorImageFilter_h
+#ifndef itkPipelineMonitorImageFilter_h
+#define itkPipelineMonitorImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -114,14 +114,14 @@ namespace itk
    /** Checks that the input filter didn't stream, and just updated
     * the largest possible region along with other correct behaviors.
     */
-   bool VerifyAllInputCanNotStream(void);
+   bool VerifyAllInputCanNotStream();
 
    /** This method verifies that propagation was executed yet no
     * updating was needed.
     */
-   bool VerifyAllNoUpdate(void);
+   bool VerifyAllNoUpdate();
 
-   bool VerifyDownStreamFilterExecutedPropagation(void);
+   bool VerifyDownStreamFilterExecutedPropagation();
 
    /** Verifies the the GenerateData executed the expected number of
     * times.
@@ -138,14 +138,14 @@ namespace itk
     * GenerateOutputInformation and the UpdateData phases of the
     * pipeline.
     */
-   bool VerifyInputFilterMatchedUpdateOutputInformation(void);
+   bool VerifyInputFilterMatchedUpdateOutputInformation();
 
    /** Verifies that the input filter buffered the requested region */
-   bool VerifyInputFilterBufferedRequestedRegions(void);
+   bool VerifyInputFilterBufferedRequestedRegions();
 
-   bool VerifyInputFilterMatchedRequestedRegions(void);
+   bool VerifyInputFilterMatchedRequestedRegions();
 
-   bool VerifyInputFilterRequestedLargestRegion(void);
+   bool VerifyInputFilterRequestedLargestRegion();
 
 
    unsigned int GetNumberOfUpdates(void) const { return m_NumberOfUpdates; }
@@ -161,25 +161,25 @@ namespace itk
 
    /** Clears all saved pipeline information, but increments
     * NumberOfClearPipeline. */
-   void ClearPipelineSavedInformation(void);
+   void ClearPipelineSavedInformation();
 
 
    /** Standard pipeline methods are overloaded to call superclass's
     * implementation and record information.
     */
-   virtual void GenerateOutputInformation(void);
-   virtual void PropagateRequestedRegion(DataObject *output);
-   virtual void EnlargeOutputRequestedRegion( DataObject *output);
-   virtual void GenerateInputRequestedRegion(void);
-   virtual void GenerateData(void);
+   virtual void GenerateOutputInformation() ITK_OVERRIDE;
+   virtual void PropagateRequestedRegion(DataObject *output) ITK_OVERRIDE;
+   virtual void EnlargeOutputRequestedRegion( DataObject *output) ITK_OVERRIDE;
+   virtual void GenerateInputRequestedRegion(void) ITK_OVERRIDE;
+   virtual void GenerateData(void) ITK_OVERRIDE;
 
  protected:
 
-   PipelineMonitorImageFilter(void);
+   PipelineMonitorImageFilter();
 
    // ~PipelineMonitorImageFilter() { } default implementation OK
 
-   void PrintSelf(std::ostream &os, Indent indent) const;
+   void PrintSelf(std::ostream &os, Indent indent) const ITK_OVERRIDE;
  private:
 
    PipelineMonitorImageFilter(const PipelineMonitorImageFilter &); // not implemented
@@ -208,4 +208,4 @@ namespace itk
 #include "itkPipelineMonitorImageFilter.hxx"
 #endif
 
-#endif //__itkPipelineMonitorImageFilter_hxx
+#endif //itkPipelineMonitorImageFilter_hxx

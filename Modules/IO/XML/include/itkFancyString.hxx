@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFancyString_hxx
-#define __itkFancyString_hxx
+#ifndef itkFancyString_hxx
+#define itkFancyString_hxx
 
 #include "itkFancyString.h"
 #include "itkStringTools.h"
@@ -223,4 +223,4 @@ FancyString& operator<<( FancyString& s, const T& data )
 
 } // namespace itk
 
-#endif // __itkFancyString_hxx
+#endif // itkFancyString_hxx

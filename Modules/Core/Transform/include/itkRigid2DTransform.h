@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRigid2DTransform_h
-#define __itkRigid2DTransform_h
+#ifndef itkRigid2DTransform_h
+#define itkRigid2DTransform_h
 
 #include "itkMatrixOffsetTransformBase.h"
 
@@ -129,7 +129,7 @@ public:
    *
    * \sa MatrixOffsetTransformBase::SetMatrix()
    */
-  virtual void SetMatrix(const MatrixType & matrix);
+  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
 
   /**
    * Set the rotation Matrix of a Rigid2D Transform
@@ -233,7 +233,7 @@ public:
   void CloneTo(Pointer & clone) const;
 
   /** Reset the parameters to create and identity transform. */
-  virtual void SetIdentity();
+  virtual void SetIdentity() ITK_OVERRIDE;
 
 #ifdef ITKV3_COMPATIBILITY
   /**
@@ -261,13 +261,13 @@ protected:
   /** Compute the matrix from angle. This is used in Set methods
    * to update the underlying matrix whenever a transform parameter
    * is changed. */
-  virtual void ComputeMatrix();
+  virtual void ComputeMatrix() ITK_OVERRIDE;
 
   /** Compute the angle from the matrix. This is used to compute
    * transform parameters from a given matrix. This is used in
    * MatrixOffsetTransformBase::Compose() and
    * MatrixOffsetTransformBase::GetInverse(). */
-  virtual void ComputeMatrixParameters();
+  virtual void ComputeMatrixParameters() ITK_OVERRIDE;
 
   /** Update angle without recomputation of other internal variables. */
   void SetVarAngle(TScalar angle)
@@ -341,4 +341,4 @@ Rigid2DTransform<TScalar>::BackTransform(const OutputCovariantVectorType & vect)
 #include "itkRigid2DTransform.hxx"
 #endif
 
-#endif /* __itkRigid2DTransform_h */
+#endif /* itkRigid2DTransform_h */

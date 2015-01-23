@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinShrinkImageFilter_h
-#define __itkBinShrinkImageFilter_h
+#ifndef itkBinShrinkImageFilter_h
+#define itkBinShrinkImageFilter_h
 
 #include "itkShrinkImageFilter.h"
 #include "itkEnableIf.h"
@@ -102,14 +102,14 @@ public:
   /** Get the shrink factors. */
   itkGetConstReferenceMacro(ShrinkFactors, ShrinkFactorsType);
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** BinShrinkImageFilter needs a larger input requested region than the output
    * requested region.  As such, BinShrinkImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -123,10 +123,10 @@ public:
 
 protected:
   BinShrinkImageFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            ThreadIdType threadId );
+                            ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
   BinShrinkImageFilter(const Self&); //purposely not implemented

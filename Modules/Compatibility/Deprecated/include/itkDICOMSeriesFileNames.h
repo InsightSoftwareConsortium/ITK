@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDICOMSeriesFileNames_h
-#define __itkDICOMSeriesFileNames_h
+#ifndef itkDICOMSeriesFileNames_h
+#define itkDICOMSeriesFileNames_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 
@@ -175,4 +175,4 @@ private:
 } //namespace ITK
 
 #endif //#if !defined( ITK_LEGACY_REMOVE )
-#endif // __itkDICOMSeriesFileNames_h
+#endif // itkDICOMSeriesFileNames_h

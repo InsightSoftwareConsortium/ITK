@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCSVNumericObjectFileWriter_hxx
-#define __itkCSVNumericObjectFileWriter_hxx
+#ifndef itkCSVNumericObjectFileWriter_hxx
+#define itkCSVNumericObjectFileWriter_hxx
 
 #include "itkCSVNumericObjectFileWriter.h"
 #include "itksys/SystemTools.hxx"

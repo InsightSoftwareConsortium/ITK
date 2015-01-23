@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOtsuThresholdCalculator_hxx
-#define __itkOtsuThresholdCalculator_hxx
+#ifndef itkOtsuThresholdCalculator_hxx
+#define itkOtsuThresholdCalculator_hxx
 
 #include "itkOtsuThresholdCalculator.h"
 #include "vnl/vnl_math.h"

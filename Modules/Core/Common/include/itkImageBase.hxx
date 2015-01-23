@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageBase_hxx
-#define __itkImageBase_hxx
+#ifndef itkImageBase_hxx
+#define itkImageBase_hxx
 
 #include "itkImageBase.h"
 

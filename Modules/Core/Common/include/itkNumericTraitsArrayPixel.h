@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumericTraitsArrayPixel_h
-#define __itkNumericTraitsArrayPixel_h
+#ifndef itkNumericTraitsArrayPixel_h
+#define itkNumericTraitsArrayPixel_h
 
 #include "itkNumericTraits.h"
 #include "itkArray.h"
@@ -161,4 +161,4 @@ public:
 };
 } // end namespace itk
 
-#endif // __itkNumericTraitsArrayPixel_h
+#endif // itkNumericTraitsArrayPixel_h

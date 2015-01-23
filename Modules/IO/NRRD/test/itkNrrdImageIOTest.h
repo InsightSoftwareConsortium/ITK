@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNrrdImageIOTest_h
-#define __itkNrrdImageIOTest_h
+#ifndef itkNrrdImageIOTest_h
+#define itkNrrdImageIOTest_h
 
 #include <fstream>
 #include "itkImageRegionIterator.h"
@@ -155,4 +155,4 @@ int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
   return EXIT_SUCCESS;
 }
 
-#endif // __itkNrrdImageIOTest_h_
+#endif // itkNrrdImageIOTest_h_

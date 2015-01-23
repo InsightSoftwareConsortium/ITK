@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleMorphologicalOpeningImageFilter_h
-#define __itkGrayscaleMorphologicalOpeningImageFilter_h
+#ifndef itkGrayscaleMorphologicalOpeningImageFilter_h
+#define itkGrayscaleMorphologicalOpeningImageFilter_h
 
 #include "itkKernelImageFilter.h"
 #include "itkMovingHistogramDilateImageFilter.h"
@@ -103,7 +103,7 @@ public:
 // KernelSuperClass;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel);
+  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
 
   /** Set/Get the backend filter class. */
   void SetAlgorithm(int algo);
@@ -112,7 +112,7 @@ public:
 
   /** GrayscaleMorphologicalOpeningImageFilter need to set its internal filters
     as modified */
-  virtual void Modified() const;
+  virtual void Modified() const ITK_OVERRIDE;
 
   /** define values used to determine which algorithm to use */
   enum AlgorithmType {
@@ -131,9 +131,9 @@ public:
 protected:
   GrayscaleMorphologicalOpeningImageFilter();
   ~GrayscaleMorphologicalOpeningImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   GrayscaleMorphologicalOpeningImageFilter(const Self &); //purposely not

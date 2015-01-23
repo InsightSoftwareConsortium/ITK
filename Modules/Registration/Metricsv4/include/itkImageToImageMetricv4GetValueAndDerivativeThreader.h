@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageMetricv4GetValueAndDerivativeThreader_h
-#define __itkImageToImageMetricv4GetValueAndDerivativeThreader_h
+#ifndef itkImageToImageMetricv4GetValueAndDerivativeThreader_h
+#define itkImageToImageMetricv4GetValueAndDerivativeThreader_h
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreaderBase.h"
 #include "itkNumericTraits.h"
@@ -99,7 +99,7 @@ protected:
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
   virtual void ThreadedExecution( const DomainType & subdomain,
-                                  const ThreadIdType threadId );
+                                  const ThreadIdType threadId ) ITK_OVERRIDE;
 
   /** Get cached values for efficiency. Only valid once threading has started.
    *  These methods should be used in tight loops (inlining helps measurably).
@@ -172,7 +172,7 @@ protected:
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
   virtual void ThreadedExecution( const DomainType & subdomain,
-                                  const ThreadIdType threadId );
+                                  const ThreadIdType threadId ) ITK_OVERRIDE;
 
   /** Get cached values for efficiency. Only valid once threading has started.
    *  These methods should be used in tight loops (inlining helps measurably).

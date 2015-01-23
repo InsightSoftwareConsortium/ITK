@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRichardsonLucyDeconvolutionImageFilter_hxx
-#define __itkRichardsonLucyDeconvolutionImageFilter_hxx
+#ifndef itkRichardsonLucyDeconvolutionImageFilter_hxx
+#define itkRichardsonLucyDeconvolutionImageFilter_hxx
 
 #include "itkRichardsonLucyDeconvolutionImageFilter.h"
 

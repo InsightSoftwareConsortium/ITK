@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstantPadImageFilter_hxx
-#define __itkConstantPadImageFilter_hxx
+#ifndef itkConstantPadImageFilter_hxx
+#define itkConstantPadImageFilter_hxx
 
 #include "itkConstantPadImageFilter.h"
 #include "itkObjectFactory.h"

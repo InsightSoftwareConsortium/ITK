@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKullbackLeiblerCompareHistogramImageToImageMetric_h
-#define __itkKullbackLeiblerCompareHistogramImageToImageMetric_h
+#ifndef itkKullbackLeiblerCompareHistogramImageToImageMetric_h
+#define itkKullbackLeiblerCompareHistogramImageToImageMetric_h
 
 #include "itkCompareHistogramImageToImageMetric.h"
 
@@ -122,27 +122,26 @@ public:
   itkGetConstReferenceMacro(Epsilon, double);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   { return this->GetTransform()->GetNumberOfParameters(); }
 
   /** Forms the histogram of the training images to prepare to evaluate the */
   /** metric. Must set all parameters first */
-  void Initialize()
-  throw ( ExceptionObject );
+  void Initialize() throw ( ExceptionObject ) ITK_OVERRIDE;
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   KullbackLeiblerCompareHistogramImageToImageMetric();
   virtual ~KullbackLeiblerCompareHistogramImageToImageMetric(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Form the Histogram for the Training data */
   void FormTrainingHistogram()
   throw ( ExceptionObject );
 
   /** Evaluates the mutual information from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
   double m_Epsilon;
 
@@ -157,4 +156,4 @@ private:
 #include "itkKullbackLeiblerCompareHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkKullbackLeiblerCompareHistogramImageToImageMetric_h
+#endif // itkKullbackLeiblerCompareHistogramImageToImageMetric_h

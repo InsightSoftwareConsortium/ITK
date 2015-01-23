@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVesselTubeSpatialObjectPoint_h
-#define __itkVesselTubeSpatialObjectPoint_h
+#ifndef itkVesselTubeSpatialObjectPoint_h
+#define itkVesselTubeSpatialObjectPoint_h
 
 #include "itkTubeSpatialObjectPoint.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -47,49 +47,49 @@ public:
 
   /** Constructor. This one defines the number of dimensions in the
    * VesselTubeSpatialObjectPoint */
-  VesselTubeSpatialObjectPoint(void);
+  VesselTubeSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~VesselTubeSpatialObjectPoint(void);
+  virtual ~VesselTubeSpatialObjectPoint();
 
   /** Get Medialness */
-  float GetMedialness(void) const;
+  float GetMedialness() const;
 
   /** Set Medialness */
   void SetMedialness(const float newMedialness);
 
   /** Get Ridgeness */
-  float GetRidgeness(void) const;
+  float GetRidgeness() const;
 
   /** Set Ridgeness */
   void SetRidgeness(const float newRidgeness);
 
   /** Get Branchness */
-  float GetBranchness(void) const;
+  float GetBranchness() const;
 
   /** Set Branchness */
   void SetBranchness(const float newBranchness);
 
   /** Get Mark */
-  bool GetMark(void) const;
+  bool GetMark() const;
 
   /** Set Mark */
   void SetMark(const bool newMark);
 
   /** Get Alpha1 */
-  float GetAlpha1(void) const;
+  float GetAlpha1() const;
 
   /** Set Alpha1 */
   void SetAlpha1(const float newAlpha);
 
   /** Get Alpha2 */
-  float GetAlpha2(void) const;
+  float GetAlpha2() const;
 
   /** Set Alpha2 */
   void SetAlpha2(const float newAlpha);
 
   /** Get Alpha3 */
-  float GetAlpha3(void) const;
+  float GetAlpha3() const;
 
   /** Set Alpha3 */
   void SetAlpha3(const float newAlpha);
@@ -121,7 +121,7 @@ protected:
   bool m_Mark;
 
   /** Print the object */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 
@@ -129,4 +129,4 @@ protected:
 #include "itkVesselTubeSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkVesselTubeSpatialObjectPoint_h
+#endif // itkVesselTubeSpatialObjectPoint_h

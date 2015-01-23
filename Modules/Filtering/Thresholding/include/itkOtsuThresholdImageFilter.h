@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkOtsuThresholdImageFilter_h
-#define __itkOtsuThresholdImageFilter_h
+#ifndef itkOtsuThresholdImageFilter_h
+#define itkOtsuThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkOtsuThresholdCalculator.h"

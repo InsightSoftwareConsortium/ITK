@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkScalarConnectedComponentImageFilter_h
-#define __itkScalarConnectedComponentImageFilter_h
+#ifndef itkScalarConnectedComponentImageFilter_h
+#define itkScalarConnectedComponentImageFilter_h
 
 #include "vnl/vnl_math.h"
 #include "itkNumericTraits.h"

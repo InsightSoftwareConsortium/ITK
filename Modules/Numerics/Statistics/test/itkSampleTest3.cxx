@@ -52,7 +52,7 @@ public:
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
 
   /** Get the size of the sample (number of measurements) */
-  virtual InstanceIdentifier Size() const
+  virtual InstanceIdentifier Size() const ITK_OVERRIDE
     {
     return m_Values.size();
     }
@@ -66,20 +66,20 @@ public:
 
   /** Get the measurement associated with a particular
    * InstanceIdentifier. */
-  virtual const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const
+  virtual const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE
     {
     return m_Values[id];
     }
 
   /** Get the frequency of a measurement specified by instance
    * identifier. */
-  virtual AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const
+  virtual AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE
     {
     return m_Frequencies[id];
     }
 
   /** Get the total frequency of the sample. */
-  virtual TotalAbsoluteFrequencyType GetTotalFrequency() const
+  virtual TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE
     {
     TotalAbsoluteFrequencyType sum = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
     typedef typename std::vector< AbsoluteFrequencyType >::const_iterator Iterator;
@@ -92,7 +92,7 @@ public:
     return sum;
     }
 
-  void PrintSelf(std::ostream& os, Indent indent) const
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
     {
     Superclass::PrintSelf(os,indent);
     os << indent << m_Values.size() << std::endl;

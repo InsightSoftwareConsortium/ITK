@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkApproximateSignedDistanceMapImageFilter_hxx
-#define __itkApproximateSignedDistanceMapImageFilter_hxx
+#ifndef itkApproximateSignedDistanceMapImageFilter_hxx
+#define itkApproximateSignedDistanceMapImageFilter_hxx
 
 #include "itkApproximateSignedDistanceMapImageFilter.h"
 

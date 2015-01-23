@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeshSpatialObject_hxx
-#define __itkMeshSpatialObject_hxx
+#ifndef itkMeshSpatialObject_hxx
+#define itkMeshSpatialObject_hxx
 
 #include "itkMeshSpatialObject.h"
 #include "itkSize.h"

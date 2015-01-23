@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkPath_hxx
-#define __itkPath_hxx
+#ifndef itkPath_hxx
+#define itkPath_hxx
 
 #include "itkPath.h"
 #include "itkProcessObject.h"

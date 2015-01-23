@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeDetectionLevelSetFunction_hxx
-#define __itkShapeDetectionLevelSetFunction_hxx
+#ifndef itkShapeDetectionLevelSetFunction_hxx
+#define itkShapeDetectionLevelSetFunction_hxx
 
 #include "itkShapeDetectionLevelSetFunction.h"
 #include "itkImageRegionIterator.h"

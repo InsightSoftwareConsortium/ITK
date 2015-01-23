@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkJointHistogramMutualInformationImageToImageMetricv4_h
-#define __itkJointHistogramMutualInformationImageToImageMetricv4_h
+#ifndef itkJointHistogramMutualInformationImageToImageMetricv4_h
+#define itkJointHistogramMutualInformationImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
 #include "itkImage.h"
@@ -143,9 +143,9 @@ public:
   itkGetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
 
   /** Initialize the metric. Make sure all essential inputs are plugged in. */
-  virtual void Initialize() throw (itk::ExceptionObject);
+  virtual void Initialize() throw (itk::ExceptionObject) ITK_OVERRIDE;
 
-  virtual MeasureType GetValue() const;
+  virtual MeasureType GetValue() const ITK_OVERRIDE;
 
 protected:
   JointHistogramMutualInformationImageToImageMetricv4();
@@ -154,7 +154,7 @@ protected:
   /** Update the histograms for use in GetValueAndDerivative
    *  Results are returned in \c value and \c derivative.
    */
-  virtual void InitializeForIteration() const;
+  virtual void InitializeForIteration() const ITK_OVERRIDE;
 
   /** Compute the metric value. For internal use. */
   MeasureType ComputeValue() const;
@@ -185,7 +185,7 @@ protected:
     JointHistogramMutualInformationSparseGetValueAndDerivativeThreaderType;
 
   /** Standard PrintSelf method. */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Count of the number of valid histogram points. */
   SizeValueType   m_JointHistogramTotalCount;

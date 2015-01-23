@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkSimpleDataObjectDecorator_hxx
-#define __itkSimpleDataObjectDecorator_hxx
+#ifndef itkSimpleDataObjectDecorator_hxx
+#define itkSimpleDataObjectDecorator_hxx
 
 #include "itkSimpleDataObjectDecorator.h"
 

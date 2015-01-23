@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDemonsRegistrationFunction_h
-#define __itkGPUDemonsRegistrationFunction_h
+#ifndef itkGPUDemonsRegistrationFunction_h
+#define itkGPUDemonsRegistrationFunction_h
 
 #include "itkGPUPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"
@@ -221,7 +221,7 @@ protected:
   GPUDemonsRegistrationFunction();
   ~GPUDemonsRegistrationFunction() {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FixedImage image neighborhood iterator type. */
   typedef ConstNeighborhoodIterator< FixedImageType >

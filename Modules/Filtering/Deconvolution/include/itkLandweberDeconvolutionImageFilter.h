@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLandweberDeconvolutionImageFilter_h
-#define __itkLandweberDeconvolutionImageFilter_h
+#ifndef itkLandweberDeconvolutionImageFilter_h
+#define itkLandweberDeconvolutionImageFilter_h
 
 #include "itkIterativeDeconvolutionImageFilter.h"
 
@@ -140,17 +140,17 @@ protected:
 
   virtual void Initialize(ProgressAccumulator * progress,
                           float progressWeight,
-                          float iterationProgressWeight);
+                          float iterationProgressWeight) ITK_OVERRIDE;
 
   virtual void Iteration(ProgressAccumulator * progress,
-                         float iterationProgressWeight);
+                         float iterationProgressWeight) ITK_OVERRIDE;
 
-  virtual void Finish(ProgressAccumulator *progress, float progressWeight);
+  virtual void Finish(ProgressAccumulator *progress, float progressWeight) ITK_OVERRIDE;
 
   typedef typename Superclass::FFTFilterType  FFTFilterType;
   typedef typename Superclass::IFFTFilterType IFFTFilterType;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   LandweberDeconvolutionImageFilter(const Self &); // purposely not implemented

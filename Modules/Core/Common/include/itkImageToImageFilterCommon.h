@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageFilterCommon_h
-#define __itkImageToImageFilterCommon_h
+#ifndef itkImageToImageFilterCommon_h
+#define itkImageToImageFilterCommon_h
 
 #include "ITKCommonExport.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEdgeDecimationQuadEdgeMeshFilter_h
-#define __itkEdgeDecimationQuadEdgeMeshFilter_h
+#ifndef itkEdgeDecimationQuadEdgeMeshFilter_h
+#define itkEdgeDecimationQuadEdgeMeshFilter_h
 
 #include <list>
 #include <map>
@@ -109,7 +109,7 @@ protected:
   /**
   * \brief Fill the priority queue
   */
-  void FillPriorityQueue();
+  void FillPriorityQueue() ITK_OVERRIDE;
 
   /**
   * \brief Push one edge in the priority queue
@@ -127,7 +127,7 @@ protected:
   /**
   * \brief Extract the edge to be processed
   */
-  void Extract();
+  void Extract() ITK_OVERRIDE;
 
   /**
   * \brief Delete a given edge in the priority queue
@@ -153,7 +153,7 @@ protected:
   /**
   * \brief
   */
-  virtual bool ProcessWithoutAnyTopologicalGuarantee();
+  virtual bool ProcessWithoutAnyTopologicalGuarantee() ITK_OVERRIDE;
 
   /**
   * \brief
@@ -165,7 +165,7 @@ protected:
   * \brief
   * \return
   */
-  virtual bool ProcessWithTopologicalGuarantee();
+  virtual bool ProcessWithTopologicalGuarantee() ITK_OVERRIDE;
 
   /**
   * \brief
@@ -296,7 +296,7 @@ protected:
    * \brief
    * \return
    */
-  bool IsCriterionSatisfied();
+  bool IsCriterionSatisfied() ITK_OVERRIDE;
 
 private:
   EdgeDecimationQuadEdgeMeshFilter(const Self &);

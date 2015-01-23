@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkIsoDataThresholdCalculator_h
-#define __itkIsoDataThresholdCalculator_h
+#ifndef itkIsoDataThresholdCalculator_h
+#define itkIsoDataThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 
@@ -73,7 +73,7 @@ public:
 protected:
   IsoDataThresholdCalculator() {}
   virtual ~IsoDataThresholdCalculator() {}
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   typedef typename HistogramType::SizeValueType               SizeValueType;
   typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;

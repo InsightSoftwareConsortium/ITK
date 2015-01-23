@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSparseFrequencyContainer2_h
-#define __itkSparseFrequencyContainer2_h
+#ifndef itkSparseFrequencyContainer2_h
+#define itkSparseFrequencyContainer2_h
 
 #include <map>
 #include "itkObjectFactory.h"

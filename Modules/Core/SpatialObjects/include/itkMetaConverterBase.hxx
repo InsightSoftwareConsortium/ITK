@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaConverterBase_hxx
-#define __itkMetaConverterBase_hxx
+#ifndef itkMetaConverterBase_hxx
+#define itkMetaConverterBase_hxx
 #include "itkMetaConverterBase.h"
 
 #include "metaObject.h"
@@ -67,4 +67,4 @@ MetaConverterBase<VDimension>
 
 }
 
-#endif // __itkMetaConverterBase_hxx
+#endif // itkMetaConverterBase_hxx

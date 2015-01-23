@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsImageToImageMetricv4_hxx
-#define __itkDemonsImageToImageMetricv4_hxx
+#ifndef itkDemonsImageToImageMetricv4_hxx
+#define itkDemonsImageToImageMetricv4_hxx
 
 #include "itkDemonsImageToImageMetricv4.h"
 

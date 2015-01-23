@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeOpeningLabelMapFilter_h
-#define __itkShapeOpeningLabelMapFilter_h
+#ifndef itkShapeOpeningLabelMapFilter_h
+#define itkShapeOpeningLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkShapeLabelObjectAccessors.h"
@@ -117,7 +117,7 @@ protected:
   ShapeOpeningLabelMapFilter();
   ~ShapeOpeningLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor & accessor)
@@ -128,7 +128,7 @@ protected:
     ImageType *output = this->GetOutput();
     ImageType *output2 = this->GetOutput(1);
     itkAssertInDebugAndIgnoreInReleaseMacro(this->GetNumberOfIndexedOutputs() == 2);
-    itkAssertInDebugAndIgnoreInReleaseMacro(output2 != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(output2 != ITK_NULLPTR);
 
     // set the background value for the second output - this is not done in the
     // superclasses
@@ -160,7 +160,7 @@ protected:
       }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   double m_Lambda;
 

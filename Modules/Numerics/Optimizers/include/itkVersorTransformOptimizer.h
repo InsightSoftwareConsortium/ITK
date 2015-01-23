@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVersorTransformOptimizer_h
-#define __itkVersorTransformOptimizer_h
+#ifndef itkVersorTransformOptimizer_h
+#define itkVersorTransformOptimizer_h
 
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkVersor.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWeightSetBase_h
-#define __itkWeightSetBase_h
+#ifndef itkWeightSetBase_h
+#define itkWeightSetBase_h
 
 #include "itkLightProcessObject.h"
 #include "vnl/vnl_matrix.h"

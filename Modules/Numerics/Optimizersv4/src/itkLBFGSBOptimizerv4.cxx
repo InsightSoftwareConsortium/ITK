@@ -38,7 +38,7 @@ public LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>
 
   protected:
   /** Handle new iteration event */
-  virtual bool report_iter();
+  virtual bool report_iter() ITK_OVERRIDE;
 };
 
 /** Create with a reference to the ITK object */

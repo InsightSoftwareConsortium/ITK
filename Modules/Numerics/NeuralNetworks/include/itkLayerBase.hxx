@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLayerBase_hxx
-#define __itkLayerBase_hxx
+#ifndef itkLayerBase_hxx
+#define itkLayerBase_hxx
 
 #include "itkLayerBase.h"
 

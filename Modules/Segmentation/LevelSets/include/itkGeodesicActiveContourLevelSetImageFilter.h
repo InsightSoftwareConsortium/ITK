@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGeodesicActiveContourLevelSetImageFilter_h
-#define __itkGeodesicActiveContourLevelSetImageFilter_h
+#ifndef itkGeodesicActiveContourLevelSetImageFilter_h
+#define itkGeodesicActiveContourLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkGeodesicActiveContourLevelSetFunction.h"
@@ -153,7 +153,7 @@ protected:
   ~GeodesicActiveContourLevelSetImageFilter() {}
   GeodesicActiveContourLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   GeodesicActiveContourLevelSetImageFilter(const Self &); // purposely not
                                                           // implemented
@@ -163,7 +163,7 @@ protected:
 
   /** Overridden from Superclass to handle the case when PropagationScaling is
     zero.*/
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   GeodesicActiveContourFunctionPointer m_GeodesicActiveContourFunction;

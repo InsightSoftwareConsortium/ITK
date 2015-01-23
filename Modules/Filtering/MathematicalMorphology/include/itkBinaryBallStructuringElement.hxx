@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryBallStructuringElement_hxx
-#define __itkBinaryBallStructuringElement_hxx
+#ifndef itkBinaryBallStructuringElement_hxx
+#define itkBinaryBallStructuringElement_hxx
 #include "itkBinaryBallStructuringElement.h"
 
 #include "itkFlatStructuringElement.h"

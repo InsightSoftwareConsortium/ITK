@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDTITubeSpatialObjectPoint_h
-#define __itkDTITubeSpatialObjectPoint_h
+#ifndef itkDTITubeSpatialObjectPoint_h
+#define itkDTITubeSpatialObjectPoint_h
 
 #include "itkTubeSpatialObjectPoint.h"
 #include "itkDiffusionTensor3D.h"
@@ -53,10 +53,10 @@ public:
 
   /** Constructor. This one defines the number of dimensions in the
    * DTITubeSpatialObjectPoint */
-  DTITubeSpatialObjectPoint(void);
+  DTITubeSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~DTITubeSpatialObjectPoint(void);
+  virtual ~DTITubeSpatialObjectPoint();
 
   /** Set/Get the tensor matrix */
   void SetTensorMatrix(const DiffusionTensor3D< double > & matrix)
@@ -107,7 +107,7 @@ protected:
   FieldListType m_Fields;
 
   /** Print the object */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Translate the enum to char */
   std::string TranslateEnumToChar(FieldEnumType name) const;
@@ -118,4 +118,4 @@ protected:
 #include "itkDTITubeSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkDTITubeSpatialObjectPoint_h
+#endif // itkDTITubeSpatialObjectPoint_h

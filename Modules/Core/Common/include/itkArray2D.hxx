@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArray2D_hxx
-#define __itkArray2D_hxx
+#ifndef itkArray2D_hxx
+#define itkArray2D_hxx
 
 #include "itkArray2D.h"
 

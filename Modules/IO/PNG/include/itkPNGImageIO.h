@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPNGImageIO_h
-#define __itkPNGImageIO_h
+#ifndef itkPNGImageIO_h
+#define itkPNGImageIO_h
 #include "ITKIOPNGExport.h"
 
 
@@ -97,4 +97,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkPNGImageIO_h
+#endif // itkPNGImageIO_h

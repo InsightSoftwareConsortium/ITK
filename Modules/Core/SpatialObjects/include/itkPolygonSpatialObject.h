@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPolygonSpatialObject_h
-#define __itkPolygonSpatialObject_h
+#ifndef itkPolygonSpatialObject_h
+#define itkPolygonSpatialObject_h
 #include "itkBlobSpatialObject.h"
 
 namespace itk
@@ -102,7 +102,7 @@ public:
   /** Test whether a point is inside or outside the object. */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth,
-                        char *name) const;
+                        char *name) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object For
    * computational speed purposes, it is faster if the method does not
@@ -110,7 +110,7 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
 protected:
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PolygonSpatialObject(const Self &); //purposely not implemented
@@ -129,4 +129,4 @@ private:
 #include "itkPolygonSpatialObject.hxx"
 #endif
 
-#endif  // __itkPolygonSpatialObject_h
+#endif  // itkPolygonSpatialObject_h

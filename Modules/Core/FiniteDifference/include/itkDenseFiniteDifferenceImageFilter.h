@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDenseFiniteDifferenceImageFilter_h
-#define __itkDenseFiniteDifferenceImageFilter_h
+#ifndef itkDenseFiniteDifferenceImageFilter_h
+#define itkDenseFiniteDifferenceImageFilter_h
 
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"
@@ -118,17 +118,17 @@ protected:
   DenseFiniteDifferenceImageFilter()
   { m_UpdateBuffer = UpdateBufferType::New(); }
   ~DenseFiniteDifferenceImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. )  */
-  virtual void CopyInputToOutput();
+  virtual void CopyInputToOutput() ITK_OVERRIDE;
 
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
-  virtual void ApplyUpdate(const TimeStepType& dt);
+  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
@@ -138,11 +138,11 @@ protected:
   /** This method populates an update buffer with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
    * mechanism. Returns value is a time step to be used for the update. */
-  virtual TimeStepType CalculateChange();
+  virtual TimeStepType CalculateChange() ITK_OVERRIDE;
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
-  virtual void AllocateUpdateBuffer();
+  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** The type of region used for multithreading */
   typedef typename UpdateBufferType::RegionType ThreadRegionType;

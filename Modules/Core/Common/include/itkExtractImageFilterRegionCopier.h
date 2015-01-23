@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkExtractImageFilterRegionCopier_h
-#define __itkExtractImageFilterRegionCopier_h
+#ifndef itkExtractImageFilterRegionCopier_h
+#define itkExtractImageFilterRegionCopier_h
 
 #include "itkImageToImageFilterDetail.h"
 

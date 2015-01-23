@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentOptimizerv4_h
-#define __itkGradientDescentOptimizerv4_h
+#ifndef itkGradientDescentOptimizerv4_h
+#define itkGradientDescentOptimizerv4_h
 
 #include "itkGradientDescentOptimizerBasev4.h"
 
@@ -196,7 +196,7 @@ protected:
 
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep();
 
   /** Modify the gradient over a given index range. */
   virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
@@ -213,7 +213,7 @@ protected:
   /** Destructor */
   virtual ~GradientDescentOptimizerv4Template();
 
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Minimum convergence value for convergence checking.
    *  The convergence checker calculates convergence value by fitting to

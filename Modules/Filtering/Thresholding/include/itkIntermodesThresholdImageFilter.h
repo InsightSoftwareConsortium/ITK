@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkIntermodesThresholdImageFilter_h
-#define __itkIntermodesThresholdImageFilter_h
+#ifndef itkIntermodesThresholdImageFilter_h
+#define itkIntermodesThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkIntermodesThresholdCalculator.h"
@@ -129,7 +129,7 @@ protected:
     }
   ~IntermodesThresholdImageFilter(){};
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
     {
     Superclass::PrintSelf(os, indent);
     os << indent << "MaximumSmoothingIterations: " << m_IntermodesCalculator->GetMaximumSmoothingIterations() << std::endl;

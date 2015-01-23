@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOneWayEquivalencyTable_h
-#define __itkOneWayEquivalencyTable_h
+#ifndef itkOneWayEquivalencyTable_h
+#define itkOneWayEquivalencyTable_h
 
 
 #include "itkProcessObject.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPixelAccessor_h
-#define __itkPixelAccessor_h
+#ifndef itkPixelAccessor_h
+#define itkPixelAccessor_h
 
 #include "itkMacro.h"
 namespace itk

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMetaDataObject_hxx
-#define __itkMetaDataObject_hxx
+#ifndef itkMetaDataObject_hxx
+#define itkMetaDataObject_hxx
 
 #include "itkMetaDataObject.h"
 

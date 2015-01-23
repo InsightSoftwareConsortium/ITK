@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMScatteredDataPointSetToImageFilter_hxx
-#define __itkFEMScatteredDataPointSetToImageFilter_hxx
+#ifndef itkFEMScatteredDataPointSetToImageFilter_hxx
+#define itkFEMScatteredDataPointSetToImageFilter_hxx
 
 #include "itkFEMScatteredDataPointSetToImageFilter.h"
 #include "itkImageRegionIterator.h"

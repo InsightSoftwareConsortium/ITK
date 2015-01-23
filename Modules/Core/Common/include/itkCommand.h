@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCommand_h
-#define __itkCommand_h
+#ifndef itkCommand_h
+#define itkCommand_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -344,8 +344,8 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   SimpleConstMemberCommand() :
-    m_This( NULL ),
-    m_MemberFunction( NULL )
+    m_This( ITK_NULLPTR ),
+    m_MemberFunction( ITK_NULLPTR )
   {}
 
   virtual ~SimpleConstMemberCommand() {}

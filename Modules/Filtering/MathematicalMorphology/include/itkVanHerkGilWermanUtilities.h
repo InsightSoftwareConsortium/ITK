@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVanHerkGilWermanUtilities_h
-#define __itkVanHerkGilWermanUtilities_h
+#ifndef itkVanHerkGilWermanUtilities_h
+#define itkVanHerkGilWermanUtilities_h
 
 #include <list>
 

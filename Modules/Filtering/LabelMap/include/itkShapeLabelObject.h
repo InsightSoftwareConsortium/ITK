@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeLabelObject_h
-#define __itkShapeLabelObject_h
+#ifndef itkShapeLabelObject_h
+#define itkShapeLabelObject_h
 
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
@@ -515,7 +515,7 @@ public:
     return inverse;
   }
 
-  virtual void CopyAttributesFrom(const LabelObjectType *lo)
+  virtual void CopyAttributesFrom(const LabelObjectType *lo) ITK_OVERRIDE
   {
     Superclass::CopyAttributesFrom(lo);
 
@@ -565,7 +565,7 @@ protected:
     m_PerimeterOnBorderRatio = 0;
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
 

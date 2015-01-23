@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPoint_h
-#define __itkPoint_h
+#ifndef itkPoint_h
+#define itkPoint_h
 
 
 #include "itkNumericTraits.h"
@@ -136,10 +136,10 @@ public:
   VectorType GetVectorFromOrigin() const;
 
   /** Get a vnl_vector_ref referencing the same memory block */
-  vnl_vector_ref< TCoordRep > GetVnlVector(void);
+  vnl_vector_ref< TCoordRep > GetVnlVector();
 
   /** Get a vnl_vector with a copy of the internal memory block. */
-  vnl_vector< TCoordRep > GetVnlVector(void) const;
+  vnl_vector< TCoordRep > GetVnlVector() const;
 
   /** Get a vnl_vector_ref referencing the same memory block
    * \deprecated Use GetVnlVector() instead. */

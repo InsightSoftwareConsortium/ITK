@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPostOrderTreeIterator_h
-#define __itkPostOrderTreeIterator_h
+#ifndef itkPostOrderTreeIterator_h
+#define itkPostOrderTreeIterator_h
 
 #include "itkTreeIteratorBase.h"
 

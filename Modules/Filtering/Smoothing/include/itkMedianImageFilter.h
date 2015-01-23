@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMedianImageFilter_h
-#define __itkMedianImageFilter_h
+#ifndef itkMedianImageFilter_h
+#define itkMedianImageFilter_h
 
 #include "itkBoxImageFilter.h"
 #include "itkImage.h"
@@ -110,7 +110,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   MedianImageFilter(const Self &); //purposely not implemented

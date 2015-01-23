@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryClosingByReconstructionImageFilter_hxx
-#define __itkBinaryClosingByReconstructionImageFilter_hxx
+#ifndef itkBinaryClosingByReconstructionImageFilter_hxx
+#define itkBinaryClosingByReconstructionImageFilter_hxx
 
 #include "itkBinaryClosingByReconstructionImageFilter.h"
 #include "itkBinaryReconstructionByErosionImageFilter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRealFFTTest_h
-#define __itkRealFFTTest_h
+#ifndef itkRealFFTTest_h
+#define itkRealFFTTest_h
 
 /* This test is built for filters specialized for real-to-complex
  * forward and complex-to-real inverse Fast Fourier Transforms using

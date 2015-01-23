@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryDilateImageFilter_h
-#define __itkBinaryDilateImageFilter_h
+#ifndef itkBinaryDilateImageFilter_h
+#define itkBinaryDilateImageFilter_h
 
 #include <vector>
 #include <queue>
@@ -125,9 +125,9 @@ public:
 protected:
   BinaryDilateImageFilter();
   virtual ~BinaryDilateImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;

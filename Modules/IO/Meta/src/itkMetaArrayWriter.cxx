@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaArrayWriter_cxx
-#define __itkMetaArrayWriter_cxx
-
 #include "itkMetaArrayWriter.h"
 
 namespace itk
@@ -75,5 +72,3 @@ MetaArrayWriter::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 } // namespace itk
-
-#endif

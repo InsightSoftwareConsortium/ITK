@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThresholdLabelerImageFilter_h
-#define __itkThresholdLabelerImageFilter_h
+#ifndef itkThresholdLabelerImageFilter_h
+#define itkThresholdLabelerImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"
@@ -196,11 +196,11 @@ public:
 protected:
   ThresholdLabelerImageFilter();
   virtual ~ThresholdLabelerImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
   ThresholdLabelerImageFilter(const Self &); //purposely not implemented

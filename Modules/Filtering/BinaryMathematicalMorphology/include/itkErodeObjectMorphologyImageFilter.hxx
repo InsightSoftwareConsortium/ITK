@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkErodeObjectMorphologyImageFilter_hxx
-#define __itkErodeObjectMorphologyImageFilter_hxx
+#ifndef itkErodeObjectMorphologyImageFilter_hxx
+#define itkErodeObjectMorphologyImageFilter_hxx
 
 #include "itkErodeObjectMorphologyImageFilter.h"
 

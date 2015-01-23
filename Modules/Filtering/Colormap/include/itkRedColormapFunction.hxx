@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRedColormapFunction_hxx
-#define __itkRedColormapFunction_hxx
+#ifndef itkRedColormapFunction_hxx
+#define itkRedColormapFunction_hxx
 
 #include "itkRedColormapFunction.h"
 

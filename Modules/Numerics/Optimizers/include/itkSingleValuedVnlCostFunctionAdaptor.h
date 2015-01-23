@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSingleValuedVnlCostFunctionAdaptor_h
-#define __itkSingleValuedVnlCostFunctionAdaptor_h
+#ifndef itkSingleValuedVnlCostFunctionAdaptor_h
+#define itkSingleValuedVnlCostFunctionAdaptor_h
 
 #include "itkSingleValuedCostFunction.h"
 #include "vnl/vnl_cost_function.h"

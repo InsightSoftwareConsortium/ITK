@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMovingHistogramMorphologyImageFilter_h
-#define __itkMovingHistogramMorphologyImageFilter_h
+#ifndef itkMovingHistogramMorphologyImageFilter_h
+#define itkMovingHistogramMorphologyImageFilter_h
 
 #include "itkMorphologyHistogram.h"
 #include "itkMovingHistogramImageFilter.h"
@@ -97,7 +97,7 @@ public:
 protected:
   MovingHistogramMorphologyImageFilter();
   ~MovingHistogramMorphologyImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
 //   void  ThreadedGenerateData (const OutputImageRegionType&
@@ -105,7 +105,7 @@ protected:
 //                               ThreadIdType threadId);
 
   /** needed to pass the boundary value to the histogram object */
-  virtual void ConfigureHistogram(THistogram & histogram);
+  virtual void ConfigureHistogram(THistogram & histogram) ITK_OVERRIDE;
 
   PixelType m_Boundary;
 

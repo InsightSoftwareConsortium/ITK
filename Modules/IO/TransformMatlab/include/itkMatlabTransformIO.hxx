@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatlabTransformIO_hxx
-#define __itkMatlabTransformIO_hxx
+#ifndef itkMatlabTransformIO_hxx
+#define itkMatlabTransformIO_hxx
 
 #include "itkMatlabTransformIO.h"
 #include "itksys/SystemTools.hxx"

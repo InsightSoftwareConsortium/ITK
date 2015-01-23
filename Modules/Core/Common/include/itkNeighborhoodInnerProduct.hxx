@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodInnerProduct_hxx
-#define __itkNeighborhoodInnerProduct_hxx
+#ifndef itkNeighborhoodInnerProduct_hxx
+#define itkNeighborhoodInnerProduct_hxx
 #include "itkNeighborhoodInnerProduct.h"
 
 #include "itkNumericTraits.h"

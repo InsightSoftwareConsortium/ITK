@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeContainer_h
-#define __itkTreeContainer_h
+#ifndef itkTreeContainer_h
+#define itkTreeContainer_h
 
 #include "itkTreeContainerBase.h"
 #include "itkPreOrderTreeIterator.h"
@@ -64,28 +64,28 @@ public:
   TreeContainer(TreeContainer< TValue > & tree);
 
   /** Set the root as an element */
-  virtual bool SetRoot(const TValue element);
+  virtual bool SetRoot(const TValue element) ITK_OVERRIDE;
 
   /** The the root as an iterator position */
   bool SetRoot(IteratorType & pos);
 
   /** Set the root as a tree node */
-  virtual bool SetRoot(TreeNode< TValue > *node);
+  virtual bool SetRoot(TreeNode< TValue > *node) ITK_OVERRIDE;
 
   /** Return true if the element is in the tree */
-  bool Contains(const TValue element);
+  bool Contains(const TValue element) ITK_OVERRIDE;
 
   /** Return the number of elements in the tree */
-  int Count() const;
+  int Count() const ITK_OVERRIDE;
 
   /** Return true if the element is a leaf */
-  bool IsLeaf(const TValue element);
+  bool IsLeaf(const TValue element) ITK_OVERRIDE;
 
   /** Return true if the element is a root */
-  bool IsRoot(const TValue element);
+  bool IsRoot(const TValue element) ITK_OVERRIDE;
 
   /** Clear the tree */
-  bool Clear();
+  bool Clear() ITK_OVERRIDE;
 
   /** operator equal */
   bool operator==(TreeContainer< TValue > & tree);
@@ -94,7 +94,7 @@ public:
   bool Swap(IteratorType & v, IteratorType & w);
 
   /** Get the root */
-  const TreeNodeType * GetRoot() const { return m_Root.GetPointer(); }
+  const TreeNodeType * GetRoot() const ITK_OVERRIDE { return m_Root.GetPointer(); }
 
   /** Add a child to a given parent using values */
   bool Add(const TValue child, const TValue parent);
@@ -111,7 +111,7 @@ protected:
 
   int m_DefaultChildrenCount;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // namespace itk
 

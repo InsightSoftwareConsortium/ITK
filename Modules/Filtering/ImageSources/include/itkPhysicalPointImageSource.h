@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkPhysicalPointImageSource_h
-#define __itkPhysicalPointImageSource_h
+#ifndef itkPhysicalPointImageSource_h
+#define itkPhysicalPointImageSource_h
 
 #include "itkGenerateImageSource.h"
 
@@ -80,4 +80,4 @@ private:
 #include "itkPhysicalPointImageSource.hxx"
 #endif
 
-#endif //__itkPhysicalPointImageSource_h
+#endif //itkPhysicalPointImageSource_h

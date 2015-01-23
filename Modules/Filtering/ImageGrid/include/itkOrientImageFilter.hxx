@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOrientImageFilter_hxx
-#define __itkOrientImageFilter_hxx
+#ifndef itkOrientImageFilter_hxx
+#define itkOrientImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkOrientImageFilter.h"

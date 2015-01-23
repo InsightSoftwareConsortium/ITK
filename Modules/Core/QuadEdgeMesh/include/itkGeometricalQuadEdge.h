@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGeometricalQuadEdge_h
-#define __itkGeometricalQuadEdge_h
+#ifndef itkGeometricalQuadEdge_h
+#define itkGeometricalQuadEdge_h
 
 #include "itkQuadEdge.h"
 

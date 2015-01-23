@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeuralNetworkFileReader_hxx
-#define __itkNeuralNetworkFileReader_hxx
+#ifndef itkNeuralNetworkFileReader_hxx
+#define itkNeuralNetworkFileReader_hxx
 
 #include "itksys/ios/sstream"
 #include "itkNeuralNetworkFileReader.h"
@@ -240,9 +240,9 @@ NeuralNetworkFileReader< TNetwork >
         typename tfType::Pointer tf = tfType::New();
         layerptr->SetTransferFunction(tf);
         }
-      else if ( !strcmp( (char *)mF->value, "NULL" ) )
+      else if ( !strcmp( (char *)mF->value, "ITK_NULLPTR" ) )
         {
-        std::cout << "NULL" << std::endl;
+        std::cout << "ITK_NULLPTR" << std::endl;
         layerptr->SetTransferFunction(ITK_NULLPTR);
         }
 
@@ -256,9 +256,9 @@ NeuralNetworkFileReader< TNetwork >
         typename  ifType::Pointer ifcn = ifType::New();
         layerptr->SetNodeInputFunction(ifcn);
         }
-      else if ( !strcmp( (char *)( mF->value ), "NULL" ) )
+      else if ( !strcmp( (char *)( mF->value ), "ITK_NULLPTR" ) )
         {
-        std::cout << "NULL" << std::endl;
+        std::cout << "ITK_NULLPTR" << std::endl;
         layerptr->SetNodeInputFunction(ITK_NULLPTR);
         }
       this->m_Network->AddLayer(layerptr);

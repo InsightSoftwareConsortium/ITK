@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkOptimizerParameters_hxx
-#define __itkOptimizerParameters_hxx
+#ifndef itkOptimizerParameters_hxx
+#define itkOptimizerParameters_hxx
 
 #include "itkOptimizerParameters.h"
 

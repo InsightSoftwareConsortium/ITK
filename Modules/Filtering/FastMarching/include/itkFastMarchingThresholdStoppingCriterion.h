@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingThresholdStoppingCriterion_h
-#define __itkFastMarchingThresholdStoppingCriterion_h
+#ifndef itkFastMarchingThresholdStoppingCriterion_h
+#define itkFastMarchingThresholdStoppingCriterion_h
 
 #include "itkFastMarchingStoppingCriterionBase.h"
 #include "itkObjectFactory.h"
@@ -55,12 +55,12 @@ public:
   itkSetMacro( Threshold, OutputPixelType );
   itkGetMacro( Threshold, OutputPixelType );
 
-  bool IsSatisfied() const
+  bool IsSatisfied() const ITK_OVERRIDE
   {
     return ( this->m_CurrentValue >= this->m_Threshold );
   }
 
-  std::string GetDescription() const
+  std::string GetDescription() const ITK_OVERRIDE
   {
     return "Current Value >= Threshold";
   }
@@ -74,9 +74,9 @@ protected:
 
   OutputPixelType m_Threshold;
 
-  void SetCurrentNode( const NodeType& ) {}
+  void SetCurrentNode( const NodeType& ) ITK_OVERRIDE {}
 
-  void Reset() {}
+  void Reset() ITK_OVERRIDE {}
 
 private:
   FastMarchingThresholdStoppingCriterion( const Self& );
@@ -84,4 +84,4 @@ private:
 };
 
 }
-#endif // __itkFastMarchingThresholdStoppingCriterion_h
+#endif // itkFastMarchingThresholdStoppingCriterion_h

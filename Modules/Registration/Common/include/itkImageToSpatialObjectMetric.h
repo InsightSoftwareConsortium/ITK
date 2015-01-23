@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToSpatialObjectMetric_h
-#define __itkImageToSpatialObjectMetric_h
+#ifndef itkImageToSpatialObjectMetric_h
+#define itkImageToSpatialObjectMetric_h
 
 #include "itkSingleValuedCostFunction.h"
 #include "itkMinimumMaximumImageCalculator.h"
@@ -149,7 +149,7 @@ public:
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   virtual void GetValueAndDerivative(const ParametersType & parameters,
                                      MeasureType & Value,
-                                     DerivativeType  & Derivative) const = 0;
+                                     DerivativeType  & Derivative) const ITK_OVERRIDE = 0;
 
   /** Initialize the metric */
   virtual void Initialize(void)

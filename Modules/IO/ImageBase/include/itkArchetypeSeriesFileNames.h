@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArchetypeSeriesFileNames_h
-#define __itkArchetypeSeriesFileNames_h
+#ifndef itkArchetypeSeriesFileNames_h
+#define itkArchetypeSeriesFileNames_h
 #include "ITKIOImageBaseExport.h"
 
 
@@ -125,4 +125,4 @@ private:
 };
 } //namespace ITK
 
-#endif // __itkArchetypeSeriesFileNames_h
+#endif // itkArchetypeSeriesFileNames_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMSpatialObjectReader_h
-#define __itkFEMSpatialObjectReader_h
+#ifndef itkFEMSpatialObjectReader_h
+#define itkFEMSpatialObjectReader_h
 
 #include "itkSpatialObjectReader.h"
 #include "itkMetaFEMObjectConverter.h"
@@ -69,4 +69,4 @@ FEMSpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 
 }
 
-#endif // __itkFEMSpatialObjectReader_h
+#endif // itkFEMSpatialObjectReader_h

@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLBFGSBOptimizer_hxx
-#define __itkLBFGSBOptimizer_hxx
-
 #include "itkLBFGSBOptimizer.h"
 #include "vnl/algo/vnl_lbfgsb.h"
 
@@ -495,5 +492,3 @@ LBFGSBOptimizer::GetStopConditionDescription() const
   return stopConditionDescription.str();
 }
 } // end namespace itk
-
-#endif

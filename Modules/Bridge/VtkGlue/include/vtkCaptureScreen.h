@@ -33,7 +33,7 @@ public:
   vtkCaptureScreen( vtkRenderWindow* iRenderer ) : m_Renderer ( iRenderer )
     {}
 
-  vtkCaptureScreen() : m_Renderer( NULL )
+  vtkCaptureScreen() : m_Renderer( ITK_NULLPTR )
     {}
 
   ~vtkCaptureScreen( )

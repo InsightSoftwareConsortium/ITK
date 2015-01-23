@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDataObjectConstIterator_h
-#define __itkDataObjectConstIterator_h
+#ifndef itkDataObjectConstIterator_h
+#define itkDataObjectConstIterator_h
 
 #include "itkProcessObject.h"
 

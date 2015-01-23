@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointsLocator_hxx
-#define __itkPointsLocator_hxx
+#ifndef itkPointsLocator_hxx
+#define itkPointsLocator_hxx
 #include "itkPointsLocator.h"
 
 namespace itk
@@ -43,7 +43,7 @@ PointsLocator<TPointsContainer>
 {
   if( !this->m_Points )
     {
-    itkExceptionMacro( "The points have not been set (m_Points == NULL)" );
+    itkExceptionMacro( "The points have not been set (m_Points == ITK_NULLPTR)" );
     }
   if( this->m_Points->Size() == 0 )
     {

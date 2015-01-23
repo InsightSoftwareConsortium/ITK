@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultilayerNeuralNetworkBase_h
-#define __itkMultilayerNeuralNetworkBase_h
+#ifndef itkMultilayerNeuralNetworkBase_h
+#define itkMultilayerNeuralNetworkBase_h
 
 #include "itkNeuralNetworkObject.h"
 
@@ -99,10 +99,10 @@ public:
 
   void SetLearningFunction(LearningFunctionInterfaceType* f);
 
-  virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector);
+  virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector) ITK_OVERRIDE;
 
-  virtual void BackwardPropagate(NetworkOutputType errors);
-  virtual void UpdateWeights(ValueType);
+  virtual void BackwardPropagate(NetworkOutputType errors) ITK_OVERRIDE;
+  virtual void UpdateWeights(ValueType) ITK_OVERRIDE;
 
   void SetLearningRule(LearningFunctionInterfaceType*);
 
@@ -126,7 +126,7 @@ protected:
   int                             m_NumOfWeightSets;
 #endif
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 };
 
 } // end namespace Statistics

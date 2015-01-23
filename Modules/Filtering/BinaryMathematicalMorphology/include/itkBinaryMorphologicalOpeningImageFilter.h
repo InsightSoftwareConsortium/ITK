@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMorphologicalOpeningImageFilter_h
-#define __itkBinaryMorphologicalOpeningImageFilter_h
+#ifndef itkBinaryMorphologicalOpeningImageFilter_h
+#define itkBinaryMorphologicalOpeningImageFilter_h
 
 #include "itkKernelImageFilter.h"
 
@@ -97,11 +97,11 @@ public:
 protected:
   BinaryMorphologicalOpeningImageFilter();
   ~BinaryMorphologicalOpeningImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
-  void  GenerateData();
+  void  GenerateData() ITK_OVERRIDE;
 
 private:
   BinaryMorphologicalOpeningImageFilter(const Self &); //purposely not

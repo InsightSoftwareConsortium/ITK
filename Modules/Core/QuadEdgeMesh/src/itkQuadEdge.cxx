@@ -44,21 +44,21 @@ QuadEdge
   return this->GetInvRot()->GetOnext()->GetRot();
 #else
   Self *p1 = this->GetInvRot();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p3 = p2->GetRot();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -74,21 +74,21 @@ QuadEdge
   return this->GetInvRot()->GetOnext()->GetRot();
 #else
   const Self *p1 = this->GetInvRot();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p3 = p2->GetRot();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -104,21 +104,21 @@ QuadEdge
   return this->GetRot()->GetOnext()->GetInvRot();
 #else
   Self *p1 = this->GetRot();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p3 = p2->GetInvRot();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -134,21 +134,21 @@ QuadEdge
   return this->GetRot()->GetOnext()->GetInvRot();
 #else
   const Self *p1 = this->GetRot();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p3 = p2->GetInvRot();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -164,21 +164,21 @@ QuadEdge
   return this->GetSym()->GetOnext()->GetSym();
 #else
   Self *p1 = this->GetSym();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p3 = p2->GetSym();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -194,21 +194,21 @@ QuadEdge
   return this->GetSym()->GetOnext()->GetSym();
 #else
   const Self *p1 = this->GetSym();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p3 = p2->GetSym();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -224,21 +224,21 @@ QuadEdge
   return this->GetRot()->GetOnext()->GetRot();
 #else
   Self *p1 = this->GetRot();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p3 = p2->GetRot();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -254,21 +254,21 @@ QuadEdge
   return this->GetRot()->GetOnext()->GetRot();
 #else
   const Self *p1 = this->GetRot();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p3 = p2->GetRot();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -284,15 +284,15 @@ QuadEdge
   return this->GetOnext()->GetSym();
 #else
   Self *p1 = this->GetOnext();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p2 = p1->GetSym();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p2;
@@ -308,15 +308,15 @@ QuadEdge
   return this->GetOnext()->GetSym();
 #else
   const Self *p1 = this->GetOnext();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p2 = p1->GetSym();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p2;
@@ -332,15 +332,15 @@ QuadEdge
   return this->GetSym()->GetOnext();
 #else
   Self *p1 = this->GetSym();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p2;
@@ -356,15 +356,15 @@ QuadEdge
   return this->GetSym()->GetOnext();
 #else
   const Self *p1 = this->GetSym();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p2;
@@ -380,21 +380,21 @@ QuadEdge
   return this->GetInvRot()->GetOnext()->GetInvRot();
 #else
   Self *p1 = this->GetInvRot();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   Self *p3 = p2->GetInvRot();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;
@@ -410,21 +410,21 @@ QuadEdge
   return this->GetInvRot()->GetOnext()->GetInvRot();
 #else
   const Self *p1 = this->GetInvRot();
-  if ( p1 == NULL )
+  if ( p1 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p2 = p1->GetOnext();
-  if ( p2 == NULL )
+  if ( p2 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const Self *p3 = p2->GetInvRot();
-  if ( p3 == NULL )
+  if ( p3 == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return p3;

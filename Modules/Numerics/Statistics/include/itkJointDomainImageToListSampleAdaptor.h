@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJointDomainImageToListSampleAdaptor_h
-#define __itkJointDomainImageToListSampleAdaptor_h
+#ifndef itkJointDomainImageToListSampleAdaptor_h
+#define itkJointDomainImageToListSampleAdaptor_h
 
 #include "itkPoint.h"
 #include "itkPixelTraits.h"
@@ -149,13 +149,13 @@ public:
   const TImage * GetImage() const;
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const;
+  InstanceIdentifier Size() const ITK_OVERRIDE;
 
   /** Get frequency */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** Get total frequency */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
 
   itkStaticConstMacro(RangeDomainDimension, unsigned int,
                       itk::PixelTraits< typename TImage::PixelType >::Dimension);
@@ -171,14 +171,14 @@ public:
 
   /** Gets the measurement vector specified by the instance
    * identifier. This method overrides superclass method. */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** Method to set UsePixelContainer flag */
   itkSetMacro(UsePixelContainer, bool);
   itkGetConstMacro(UsePixelContainer, bool);
   itkBooleanMacro(UsePixelContainer);
 
-  //  void PrintSelf(std::ostream& os, Indent indent) const;
+  //  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** \class ConstIterator
    * \brief Const Iterator
@@ -331,7 +331,7 @@ private:
 protected:
   JointDomainImageToListSampleAdaptor();
   virtual ~JointDomainImageToListSampleAdaptor() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   JointDomainImageToListSampleAdaptor(const Self &); //purposely not implemented

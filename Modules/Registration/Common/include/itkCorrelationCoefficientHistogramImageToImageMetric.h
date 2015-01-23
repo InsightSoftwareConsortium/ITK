@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCorrelationCoefficientHistogramImageToImageMetric_h
-#define __itkCorrelationCoefficientHistogramImageToImageMetric_h
+#ifndef itkCorrelationCoefficientHistogramImageToImageMetric_h
+#define itkCorrelationCoefficientHistogramImageToImageMetric_h
 
 #include "itkHistogramImageToImageMetric.h"
 
@@ -84,7 +84,7 @@ protected:
   virtual ~CorrelationCoefficientHistogramImageToImageMetric(){}
 
   /** Evaluates the sum of squared differences from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
 private:
   /** Returns the mean in the x-direction. */
@@ -112,4 +112,4 @@ private:
 #include "itkCorrelationCoefficientHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkCorrelationCoefficientHistogramImageToImageMetric_h
+#endif // itkCorrelationCoefficientHistogramImageToImageMetric_h

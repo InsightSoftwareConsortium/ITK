@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshEulerOperatorJoinVertexFunction_hxx
-#define __itkQuadEdgeMeshEulerOperatorJoinVertexFunction_hxx
+#ifndef itkQuadEdgeMeshEulerOperatorJoinVertexFunction_hxx
+#define itkQuadEdgeMeshEulerOperatorJoinVertexFunction_hxx
 
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
 #include "itkQuadEdgeMeshZipMeshFunction.h"
@@ -281,7 +281,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::ProcessIsolatedFa
     }
 
   // it now retuns one edge from NewDest or NewOrg if there are any
-  // else NULL
+  // else ITK_NULLPTR
   QEType *temp = this->m_Mesh->FindEdge(dest);
   if ( temp != ITK_NULLPTR )
     {

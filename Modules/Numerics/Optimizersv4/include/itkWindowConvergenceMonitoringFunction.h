@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWindowConvergenceMonitoringFunction_h
-#define __itkWindowConvergenceMonitoringFunction_h
+#ifndef itkWindowConvergenceMonitoringFunction_h
+#define itkWindowConvergenceMonitoringFunction_h
 
 #include "itkConvergenceMonitoringFunction.h"
 
@@ -62,24 +62,24 @@ public:
   typedef typename EnergyValueContainerType::const_iterator  EnergyValueConstIterator;
 
   /** Add energy value */
-  virtual void AddEnergyValue( const EnergyValueType );
+  virtual void AddEnergyValue( const EnergyValueType ) ITK_OVERRIDE;
 
   /* Clear energy values and set total energy to 0 */
-  virtual void ClearEnergyValues();
+  virtual void ClearEnergyValues() ITK_OVERRIDE;
 
   /** Set/Get window size over which the convergence value is calculated */
   itkSetMacro( WindowSize, EnergyValueContainerSizeType );
   itkGetConstMacro( WindowSize, EnergyValueContainerSizeType );
 
   /** Calculate convergence value by fitting to a window of the enrgy profile */
-  virtual RealType GetConvergenceValue() const;
+  virtual RealType GetConvergenceValue() const ITK_OVERRIDE;
 
 protected:
   WindowConvergenceMonitoringFunction();
 
   ~WindowConvergenceMonitoringFunction();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   WindowConvergenceMonitoringFunction( const Self & ); //purposely not implemented

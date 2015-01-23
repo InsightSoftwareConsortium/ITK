@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkForwardFFTImageFilter_h
-#define __itkForwardFFTImageFilter_h
+#ifndef itkForwardFFTImageFilter_h
+#define itkForwardFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -70,7 +70,7 @@ public:
     * selection of FFT implementation.
     *
     * Default implementation is VnlFFT. */
-  static Pointer New(void);
+  static Pointer New();
 
 protected:
   ForwardFFTImageFilter() {}
@@ -89,10 +89,10 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef __itkVnlForwardFFTImageFilter_h
-#ifndef __itkVnlForwardFFTImageFilter_hxx
-#ifndef __itkFFTWForwardFFTImageFilter_h
-#ifndef __itkFFTWForwardFFTImageFilter_hxx
+#ifndef itkVnlForwardFFTImageFilter_h
+#ifndef itkVnlForwardFFTImageFilter_hxx
+#ifndef itkFFTWForwardFFTImageFilter_h
+#ifndef itkFFTWForwardFFTImageFilter_hxx
 #include "itkForwardFFTImageFilter.hxx"
 #endif
 #endif

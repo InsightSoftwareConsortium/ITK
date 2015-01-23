@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiphaseSparseFiniteDifferenceImageFilter_h
-#define __itkMultiphaseSparseFiniteDifferenceImageFilter_h
+#ifndef itkMultiphaseSparseFiniteDifferenceImageFilter_h
+#define itkMultiphaseSparseFiniteDifferenceImageFilter_h
 
 #include "itkMultiphaseFiniteDifferenceImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
@@ -335,7 +335,7 @@ protected:
       }
   }
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   // This data structure is created for each phase
   struct SparseDataStruct {

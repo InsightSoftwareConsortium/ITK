@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiGradientOptimizerv4_hxx
-#define __itkMultiGradientOptimizerv4_hxx
+#ifndef itkMultiGradientOptimizerv4_hxx
+#define itkMultiGradientOptimizerv4_hxx
 
 #include "itkMultiGradientOptimizerv4.h"
 

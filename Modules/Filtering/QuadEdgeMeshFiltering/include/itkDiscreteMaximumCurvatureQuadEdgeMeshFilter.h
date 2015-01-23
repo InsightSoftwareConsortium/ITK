@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiscreteMaximumCurvatureQuadEdgeMeshFilter_h
-#define __itkDiscreteMaximumCurvatureQuadEdgeMeshFilter_h
+#ifndef itkDiscreteMaximumCurvatureQuadEdgeMeshFilter_h
+#define itkDiscreteMaximumCurvatureQuadEdgeMeshFilter_h
 
 #include "itkDiscretePrincipalCurvaturesQuadEdgeMeshFilter.h"
 
@@ -75,7 +75,7 @@ protected:
   DiscreteMaximumCurvatureQuadEdgeMeshFilter() {}
   ~DiscreteMaximumCurvatureQuadEdgeMeshFilter() {}
 
-  virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP)
+  virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
   {
     this->ComputeMeanAndGaussianCurvatures(iP);
     return this->m_Mean + std::sqrt( this->ComputeDelta() );

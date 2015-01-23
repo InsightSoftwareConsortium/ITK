@@ -546,7 +546,7 @@ ProcessObject
       for( DataObjectPointerArraySizeType i=std::max<DataObjectPointerArraySizeType>(num, 1);
            i<this->GetNumberOfIndexedOutputs(); ++i )
         {
-        // an output should never be NULL
+        // an output should never be ITK_NULLPTR
         itkAssertInDebugAndIgnoreInReleaseMacro( m_IndexedOutputs[i]->second );
 
         // let the output know we no longer want to associate with the

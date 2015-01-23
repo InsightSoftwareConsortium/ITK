@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsAlgorithm_hxx
-#define __itkStatisticsAlgorithm_hxx
+#ifndef itkStatisticsAlgorithm_hxx
+#define itkStatisticsAlgorithm_hxx
 
 #include "itkStatisticsAlgorithm.h"
 #include "itkNumericTraits.h"
@@ -701,4 +701,4 @@ inline void IntrospectiveSort(TSubsample *sample,
 } // end of namespace Statistics
 } // end of namespace itk
 
-#endif // #ifndef __itkStatisticsAlgorithm_hxx
+#endif // #ifndef itkStatisticsAlgorithm_hxx

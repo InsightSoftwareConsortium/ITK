@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTIFFImageIOFactory_h
-#define __itkTIFFImageIOFactory_h
+#ifndef itkTIFFImageIOFactory_h
+#define itkTIFFImageIOFactory_h
 #include "ITKIOTIFFExport.h"
 
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegistrationMethod_h
-#define __itkImageRegistrationMethod_h
+#ifndef itkImageRegistrationMethod_h
+#define itkImageRegistrationMethod_h
 
 #include "itkProcessObject.h"
 #include "itkImage.h"
@@ -223,7 +223,7 @@ protected:
   itkSetMacro(LastTransformParameters, ParametersType);
 
   /* Start the Optimization */
-  void StartOptimization(void);
+  void StartOptimization();
 
 private:
   ImageRegistrationMethod(const Self &); //purposely not implemented

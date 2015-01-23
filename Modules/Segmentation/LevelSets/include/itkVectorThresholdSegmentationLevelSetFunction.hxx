@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorThresholdSegmentationLevelSetFunction_hxx
-#define __itkVectorThresholdSegmentationLevelSetFunction_hxx
+#ifndef itkVectorThresholdSegmentationLevelSetFunction_hxx
+#define itkVectorThresholdSegmentationLevelSetFunction_hxx
 
 #include "itkVectorThresholdSegmentationLevelSetFunction.h"
 #include "itkImageRegionIterator.h"

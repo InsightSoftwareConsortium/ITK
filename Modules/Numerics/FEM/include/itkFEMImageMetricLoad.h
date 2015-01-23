@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMImageMetricLoad_h
-#define __itkFEMImageMetricLoad_h
+#ifndef itkFEMImageMetricLoad_h
+#define itkFEMImageMetricLoad_h
 
 #include "itkFEMLoadElementBase.h"
 
@@ -291,7 +291,7 @@ public:
 // define the copy constructor
 //  ImageMetricLoad(const ImageMetricLoad& LMS);
 
-  void InitializeMetric(void);
+  void InitializeMetric();
 
   ImageMetricLoad(); // cannot be private until we always use smart pointers
   Float EvaluateMetricGivenSolution(Element::ArrayType *el, Float step = 1.0);

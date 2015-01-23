@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaSurfaceConverter_h
-#define __itkMetaSurfaceConverter_h
+#ifndef itkMetaSurfaceConverter_h
+#define itkMetaSurfaceConverter_h
 
 #include "metaSurface.h"
 #include "itkSurfaceSpatialObject.h"
@@ -58,14 +58,14 @@ public:
   typedef MetaSurface                                     SurfaceMetaObjectType;
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE;
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE;
 
 protected:
   /** Create the specific MetaObject for this class */
-  virtual MetaObjectType *CreateMetaObject();
+  virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaSurfaceConverter();
   ~MetaSurfaceConverter() {}

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiffeomorphicDemonsRegistrationFilter_h
-#define __itkDiffeomorphicDemonsRegistrationFilter_h
+#ifndef itkDiffeomorphicDemonsRegistrationFilter_h
+#define itkDiffeomorphicDemonsRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkESMDemonsRegistrationFunction.h"
@@ -158,7 +158,7 @@ public:
 protected:
   DiffeomorphicDemonsRegistrationFilter();
   ~DiffeomorphicDemonsRegistrationFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();

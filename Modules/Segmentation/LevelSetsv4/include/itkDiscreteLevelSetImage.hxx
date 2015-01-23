@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDiscreteLevelSetImage_hxx
-#define __itkDiscreteLevelSetImage_hxx
+#ifndef itkDiscreteLevelSetImage_hxx
+#define itkDiscreteLevelSetImage_hxx
 
 #include "itkDiscreteLevelSetImage.h"
 
@@ -741,4 +741,4 @@ DiscreteLevelSetImage< TOutput, VDimension >
 }
 
 }
-#endif // __itkDiscreteLevelSetImage_hxx
+#endif // itkDiscreteLevelSetImage_hxx

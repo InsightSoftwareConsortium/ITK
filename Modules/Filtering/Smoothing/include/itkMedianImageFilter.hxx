@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMedianImageFilter_hxx
-#define __itkMedianImageFilter_hxx
+#ifndef itkMedianImageFilter_hxx
+#define itkMedianImageFilter_hxx
 #include "itkMedianImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"

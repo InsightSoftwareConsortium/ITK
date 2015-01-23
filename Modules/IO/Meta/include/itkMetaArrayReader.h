@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaArrayReader_h
-#define __itkMetaArrayReader_h
+#ifndef itkMetaArrayReader_h
+#define itkMetaArrayReader_h
 #include "ITKIOMetaExport.h"
 
 #include "itkLightProcessObject.h"
@@ -51,7 +51,7 @@ public:
 
   /** Get a pointer to the metaArray so that you can change
    *    metaArray options (e.g., add comments and user-defined fields */
-  MetaArray * GetMetaArrayPointer(void);
+  MetaArray * GetMetaArrayPointer();
 
   /** Specify the buffer (already allocated) into which data should be read */
   void SetBuffer(void *_buffer);
@@ -256,4 +256,4 @@ private:
 };
 } // namespace itk
 
-#endif // __itkTransformFileReader_h
+#endif // itkTransformFileReader_h

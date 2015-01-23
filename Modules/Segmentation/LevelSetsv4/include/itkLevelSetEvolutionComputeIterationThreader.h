@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetEvolutionComputeIterationThreader_h
-#define __itkLevelSetEvolutionComputeIterationThreader_h
+#ifndef itkLevelSetEvolutionComputeIterationThreader_h
+#define itkLevelSetEvolutionComputeIterationThreader_h
 
 #include "itkDomainThreader.h"
 #include "itkThreadedImageRegionPartitioner.h"
@@ -81,7 +81,7 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader();
 
-  virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId );
+  virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
   LevelSetEvolutionComputeIterationThreader( const Self & ); // purposely not implemented
@@ -133,7 +133,7 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader();
 
-  virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId );
+  virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
   LevelSetEvolutionComputeIterationThreader( const Self & ); // purposely not implemented
@@ -184,11 +184,11 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader();
 
-  virtual void BeforeThreadedExecution();
+  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
 
-  virtual void ThreadedExecution( const DomainType & iteratorSubRange, const ThreadIdType threadId );
+  virtual void ThreadedExecution( const DomainType & iteratorSubRange, const ThreadIdType threadId ) ITK_OVERRIDE;
 
-  virtual void AfterThreadedExecution();
+  virtual void AfterThreadedExecution() ITK_OVERRIDE;
 
   typedef std::vector< std::vector< NodePairType > > NodePairsPerThreadType;
   NodePairsPerThreadType m_NodePairsPerThread;

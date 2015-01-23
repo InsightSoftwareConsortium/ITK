@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkErodeObjectMorphologyImageFilter_h
-#define __itkErodeObjectMorphologyImageFilter_h
+#ifndef itkErodeObjectMorphologyImageFilter_h
+#define itkErodeObjectMorphologyImageFilter_h
 
 #include "itkObjectMorphologyImageFilter.h"
 
@@ -107,14 +107,14 @@ public:
 protected:
   ErodeObjectMorphologyImageFilter();
   ~ErodeObjectMorphologyImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Apply the kernel to the neighborhood given.
    *
    * All values in neighborhood covered by the kernel will be set to the
    * background value.  */
   void Evaluate(OutputNeighborhoodIteratorType & nit,
-                const KernelType & kernel);
+                const KernelType & kernel) ITK_OVERRIDE;
 
 private:
   ErodeObjectMorphologyImageFilter(const Self &); //purposely not implemented

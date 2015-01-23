@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionalMaximaImageFilter_h
-#define __itkRegionalMaximaImageFilter_h
+#ifndef itkRegionalMaximaImageFilter_h
+#define itkRegionalMaximaImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -131,7 +131,7 @@ public:
 protected:
   RegionalMaximaImageFilter();
   ~RegionalMaximaImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** RegionalMaximaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

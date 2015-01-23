@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldToBSplineImageFilter_h
-#define __itkDisplacementFieldToBSplineImageFilter_h
+#ifndef itkDisplacementFieldToBSplineImageFilter_h
+#define itkDisplacementFieldToBSplineImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -257,10 +257,10 @@ protected:
   virtual ~DisplacementFieldToBSplineImageFilter();
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** preprocessing function */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   DisplacementFieldToBSplineImageFilter( const Self& ); //purposely not implemented

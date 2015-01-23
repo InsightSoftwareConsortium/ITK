@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransferFunctionBase_h
-#define __itkTransferFunctionBase_h
+#ifndef itkTransferFunctionBase_h
+#define itkTransferFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkArray.h"
@@ -53,7 +53,7 @@ public:
   typedef Array<ScalarType> ArrayType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType& input) const = 0;
+  virtual OutputType Evaluate(const InputType& input) const ITK_OVERRIDE = 0;
 
   /** Evaluate the derivative at the specified input position */
   virtual OutputType EvaluateDerivative(const InputType& input) const = 0;
@@ -63,7 +63,7 @@ protected:
   ~TransferFunctionBase(){};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE
     {
     os << indent << "TransferFunctionBase(" << this << ")" << std::endl;
     Superclass::PrintSelf( os, indent );

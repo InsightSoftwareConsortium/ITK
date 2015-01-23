@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWarpMeshFilter_h
-#define __itkWarpMeshFilter_h
+#ifndef itkWarpMeshFilter_h
+#define itkWarpMeshFilter_h
 
 #include "itkMeshToMeshFilter.h"
 
@@ -73,15 +73,15 @@ public:
   void SetDisplacementField(const DisplacementFieldType *field);
 
   /** Get a pointer the deformation field. */
-  const DisplacementFieldType * GetDisplacementField(void) const;
+  const DisplacementFieldType * GetDisplacementField() const;
 
 protected:
   WarpMeshFilter();
   ~WarpMeshFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Requested Data */
-  virtual void GenerateData(void);
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   WarpMeshFilter(const WarpMeshFilter &); //purposely not implemented

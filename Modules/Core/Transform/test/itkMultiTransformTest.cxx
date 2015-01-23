@@ -129,7 +129,7 @@ public:
   typedef typename Superclass::InputPointType              InputPointType;
   typedef typename Superclass::JacobianType                JacobianType;
 
-  typename Superclass::OutputPointType TransformPoint( const InputPointType & point ) const
+  typename Superclass::OutputPointType TransformPoint( const InputPointType & point ) const ITK_OVERRIDE
   {
     return point;
   }

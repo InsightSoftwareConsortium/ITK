@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlInverseFFTImageFilter_h
-#define __itkVnlInverseFFTImageFilter_h
+#ifndef itkVnlInverseFFTImageFilter_h
+#define itkVnlInverseFFTImageFilter_h
 
 #include "itkInverseFFTImageFilter.h"
 
@@ -89,7 +89,7 @@ protected:
   VnlInverseFFTImageFilter()  {}
   virtual ~VnlInverseFFTImageFilter(){}
 
-  virtual void GenerateData();  // generates output from input
+  virtual void GenerateData() ITK_OVERRIDE;  // generates output from input
 
 private:
   VnlInverseFFTImageFilter(const Self &); //purposely not implemented

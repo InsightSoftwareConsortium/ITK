@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRBFNetwork_hxx
-#define __itkRBFNetwork_hxx
+#ifndef itkRBFNetwork_hxx
+#define itkRBFNetwork_hxx
 
 #include "itkRBFNetwork.h"
 

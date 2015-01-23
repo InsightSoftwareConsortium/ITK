@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInvertDisplacementFieldImageFilter_h
-#define __itkInvertDisplacementFieldImageFilter_h
+#ifndef itkInvertDisplacementFieldImageFilter_h
+#define itkInvertDisplacementFieldImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorInterpolateImageFunction.h"
@@ -142,13 +142,13 @@ protected:
   virtual ~InvertDisplacementFieldImageFilter();
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** preprocessing function */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Multithreaded function which generates the output field. */
-  void ThreadedGenerateData( const RegionType &, ThreadIdType );
+  void ThreadedGenerateData( const RegionType &, ThreadIdType ) ITK_OVERRIDE;
 
 private:
   InvertDisplacementFieldImageFilter( const Self& ); //purposely not implemented

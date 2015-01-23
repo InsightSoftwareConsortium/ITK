@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureNDAnisotropicDiffusionFunction_hxx
-#define __itkCurvatureNDAnisotropicDiffusionFunction_hxx
+#ifndef itkCurvatureNDAnisotropicDiffusionFunction_hxx
+#define itkCurvatureNDAnisotropicDiffusionFunction_hxx
 
 #include "itkCurvatureNDAnisotropicDiffusionFunction.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransform_hxx
-#define __itkTransform_hxx
+#ifndef itkTransform_hxx
+#define itkTransform_hxx
 
 #include "itkTransform.h"
 #include "itkCrossHelper.h"

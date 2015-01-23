@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsRegistrationFilter_h
-#define __itkDemonsRegistrationFilter_h
+#ifndef itkDemonsRegistrationFilter_h
+#define itkDemonsRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkDemonsRegistrationFunction.h"
@@ -130,20 +130,20 @@ public:
 protected:
   DemonsRegistrationFilter();
   // ~DemonsRegistrationFilter() {} default implementation ok
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt);
+  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() {}
+  virtual void VerifyInputInformation() ITK_OVERRIDE {}
 
 private:
   DemonsRegistrationFilter(const Self &); //purposely not implemented

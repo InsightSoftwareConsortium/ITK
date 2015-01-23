@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointBasedSpatialObject_h
-#define __itkPointBasedSpatialObject_h
+#ifndef itkPointBasedSpatialObject_h
+#define itkPointBasedSpatialObject_h
 
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
@@ -82,7 +82,7 @@ public:
   }
 
   /**  */
-  bool ComputeLocalBoundingBox() const
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE
   {
     itkWarningMacro(<< "PointBasedSpatialObject::ComputeLocalBoundingBox() is"
                     << " not implemented in the base class" << std::endl);
@@ -97,7 +97,7 @@ protected:
   virtual ~PointBasedSpatialObject();
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 
@@ -105,4 +105,4 @@ protected:
 #include "itkPointBasedSpatialObject.hxx"
 #endif
 
-#endif // __itkPointBasedSpatialObject_h
+#endif // itkPointBasedSpatialObject_h

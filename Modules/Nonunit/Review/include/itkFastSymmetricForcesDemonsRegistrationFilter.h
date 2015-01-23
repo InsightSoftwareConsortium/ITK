@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastSymmetricForcesDemonsRegistrationFilter_h
-#define __itkFastSymmetricForcesDemonsRegistrationFilter_h
+#ifndef itkFastSymmetricForcesDemonsRegistrationFilter_h
+#define itkFastSymmetricForcesDemonsRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkESMDemonsRegistrationFunction.h"
@@ -140,7 +140,7 @@ public:
 protected:
   FastSymmetricForcesDemonsRegistrationFilter();
   ~FastSymmetricForcesDemonsRegistrationFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();

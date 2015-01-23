@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSPSAOptimizer_cxx
-#define __itkSPSAOptimizer_cxx
-
 #include "itkSPSAOptimizer.h"
 
 #include "itkMath.h"
@@ -522,5 +519,3 @@ SPSAOptimizer::GetStopConditionDescription() const
   return reason.str();
 }
 } // end namespace itk
-
-#endif // end #ifndef __itkSPSAOptimizer_cxx

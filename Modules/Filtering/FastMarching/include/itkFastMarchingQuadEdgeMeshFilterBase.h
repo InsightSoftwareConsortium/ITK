@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingQuadEdgeMeshFilterBase_h
-#define __itkFastMarchingQuadEdgeMeshFilterBase_h
+#ifndef itkFastMarchingQuadEdgeMeshFilterBase_h
+#define itkFastMarchingQuadEdgeMeshFilterBase_h
 
 #include "itkFastMarchingBase.h"
 #include "itkFastMarchingTraits.h"
@@ -111,25 +111,25 @@ protected:
 
   NodeLabelMapType m_Label;
 
-  IdentifierType GetTotalNumberOfNodes() const;
+  IdentifierType GetTotalNumberOfNodes() const ITK_OVERRIDE;
 
   void SetOutputValue( OutputMeshType* oMesh,
                       const NodeType& iNode,
-                      const OutputPixelType& iValue );
+                      const OutputPixelType& iValue ) ITK_OVERRIDE;
 
   const OutputPixelType GetOutputValue( OutputMeshType* oMesh,
-                                  const NodeType& iNode ) const;
+                                  const NodeType& iNode ) const ITK_OVERRIDE;
 
-  unsigned char GetLabelValueForGivenNode( const NodeType& iNode ) const;
+  unsigned char GetLabelValueForGivenNode( const NodeType& iNode ) const ITK_OVERRIDE;
 
   void SetLabelValueForGivenNode( const NodeType& iNode,
-                                  const LabelType& iLabel );
+                                  const LabelType& iLabel ) ITK_OVERRIDE;
 
   void UpdateNeighbors( OutputMeshType* oMesh,
-                        const NodeType& iNode );
+                        const NodeType& iNode ) ITK_OVERRIDE;
 
   void UpdateValue( OutputMeshType* oMesh,
-                    const NodeType& iNode );
+                    const NodeType& iNode ) ITK_OVERRIDE;
 
   const OutputVectorRealType
   Solve( OutputMeshType* oMesh,
@@ -160,9 +160,9 @@ protected:
     OutputPointIdentifierType& oId ) const;
 
   bool CheckTopology( OutputMeshType* oMesh,
-                      const NodeType& iNode );
+                      const NodeType& iNode ) ITK_OVERRIDE;
 
-  void InitializeOutput( OutputMeshType* oMesh );
+  void InitializeOutput( OutputMeshType* oMesh ) ITK_OVERRIDE;
 
 private:
   FastMarchingQuadEdgeMeshFilterBase( const Self& );
@@ -172,4 +172,4 @@ private:
 }
 
 #include "itkFastMarchingQuadEdgeMeshFilterBase.hxx"
-#endif // __itkFastMarchingQuadEdgeMeshFilterBase_h
+#endif // itkFastMarchingQuadEdgeMeshFilterBase_h

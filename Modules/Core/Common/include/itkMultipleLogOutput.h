@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultipleLogOutput_h
-#define __itkMultipleLogOutput_h
+#ifndef itkMultipleLogOutput_h
+#define itkMultipleLogOutput_h
 
 #include "itkLogOutput.h"
 
@@ -87,4 +87,4 @@ private:
 };
 }
 
-#endif //__itkMultipleLogOutput_h
+#endif //itkMultipleLogOutput_h

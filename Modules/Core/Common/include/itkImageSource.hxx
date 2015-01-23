@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageSource_hxx
-#define __itkImageSource_hxx
+#ifndef itkImageSource_hxx
+#define itkImageSource_hxx
 #include "itkImageSource.h"
 
 #include "itkOutputDataObjectIterator.h"
@@ -143,7 +143,7 @@ ImageSource< TOutputImage >
 {
   if ( !graft )
     {
-    itkExceptionMacro(<< "Requested to graft output that is a NULL pointer");
+    itkExceptionMacro(<< "Requested to graft output that is a ITK_NULLPTR pointer");
     }
 
   // we use the process object method since all out output may not be

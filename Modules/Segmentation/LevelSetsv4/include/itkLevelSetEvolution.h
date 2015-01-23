@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 
-#ifndef __itkLevelSetEvolution_h
-#define __itkLevelSetEvolution_h
+#ifndef itkLevelSetEvolution_h
+#define itkLevelSetEvolution_h
 
 #include "itkLevelSetEvolutionBase.h"
 #include "itkLevelSetDenseImage.h"
@@ -128,19 +128,19 @@ protected:
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
-  virtual void AllocateUpdateBuffer();
+  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** Computer the update at each pixel and store in the update buffer */
-  virtual void ComputeIteration();
+  virtual void ComputeIteration() ITK_OVERRIDE;
 
   /** Compute the time-step for the next iteration */
-  virtual void ComputeTimeStepForNextIteration();
+  virtual void ComputeTimeStepForNextIteration() ITK_OVERRIDE;
 
   /** Update the levelset by 1 iteration from the computed updates */
-  virtual void UpdateLevelSets();
+  virtual void UpdateLevelSets() ITK_OVERRIDE;
 
   /** Update the equations at the end of 1 iteration */
-  virtual void UpdateEquations();
+  virtual void UpdateEquations() ITK_OVERRIDE;
 
   /** Reinitialize the level set functions to a signed distance function */
   void ReinitializeToSignedDistance();
@@ -244,19 +244,19 @@ protected:
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
-  virtual void AllocateUpdateBuffer();
+  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** Compute the update at each pixel and store in the update buffer */
-  virtual void ComputeIteration();
+  virtual void ComputeIteration() ITK_OVERRIDE;
 
   /** Compute the time-step for the next iteration */
-  virtual void ComputeTimeStepForNextIteration();
+  virtual void ComputeTimeStepForNextIteration() ITK_OVERRIDE;
 
   /** Update the levelset by 1 iteration from the computed updates */
-  virtual void UpdateLevelSets();
+  virtual void UpdateLevelSets() ITK_OVERRIDE;
 
   /** Update the equations at the end of 1 iteration */
-  virtual void UpdateEquations();
+  virtual void UpdateEquations() ITK_OVERRIDE;
 
   typedef ThreadedIteratorRangePartitioner< typename LevelSetType::LayerConstIterator > SplitLevelSetPartitionerType;
   friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, SplitLevelSetPartitionerType, Self >;
@@ -339,10 +339,10 @@ protected:
   ~LevelSetEvolution();
 
   /** Update the levelset by 1 iteration from the computed updates */
-  virtual void UpdateLevelSets();
+  virtual void UpdateLevelSets() ITK_OVERRIDE;
 
   /** Update the equations at the end of 1 iteration */
-  virtual void UpdateEquations();
+  virtual void UpdateEquations() ITK_OVERRIDE;
 
 private:
   LevelSetEvolution( const Self& );
@@ -418,9 +418,9 @@ protected:
   LevelSetEvolution();
   virtual ~LevelSetEvolution();
 
-  virtual void UpdateLevelSets();
+  virtual void UpdateLevelSets() ITK_OVERRIDE;
 
-  virtual void UpdateEquations();
+  virtual void UpdateEquations() ITK_OVERRIDE;
 
 private:
   LevelSetEvolution( const Self& ); // purposely not implemented
@@ -432,4 +432,4 @@ private:
 #include "itkLevelSetEvolution.hxx"
 #endif
 
-#endif // __itkLevelSetEvolution_h
+#endif // itkLevelSetEvolution_h

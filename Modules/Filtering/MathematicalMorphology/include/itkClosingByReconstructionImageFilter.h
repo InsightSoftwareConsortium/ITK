@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkClosingByReconstructionImageFilter_h
-#define __itkClosingByReconstructionImageFilter_h
+#ifndef itkClosingByReconstructionImageFilter_h
+#define itkClosingByReconstructionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -122,17 +122,17 @@ public:
 protected:
   ClosingByReconstructionImageFilter();
   ~ClosingByReconstructionImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ClosingByReconstructionImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** ClosingByReconstructionImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ClosingByReconstructionImageFilter(const Self &); //purposely not implemented

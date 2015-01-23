@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSampleToHistogramFilter_hxx
-#define __itkSampleToHistogramFilter_hxx
+#ifndef itkSampleToHistogramFilter_hxx
+#define itkSampleToHistogramFilter_hxx
 
 #include "itkSampleToHistogramFilter.h"
 #include "itkStatisticsAlgorithm.h"

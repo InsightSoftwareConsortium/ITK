@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectStore_h
-#define __itkObjectStore_h
+#ifndef itkObjectStore_h
+#define itkObjectStore_h
 
 #include "itkObjectFactory.h"
 #include "itkObject.h"

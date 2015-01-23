@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingTraits_h
-#define __itkFastMarchingTraits_h
+#ifndef itkFastMarchingTraits_h
+#define itkFastMarchingTraits_h
 
 #include "itkIntTypes.h"
 #include "itkVectorContainer.h"
@@ -146,4 +146,4 @@ public:
   };
 
 }
-#endif // __itkFastMarchingTraits_h
+#endif // itkFastMarchingTraits_h

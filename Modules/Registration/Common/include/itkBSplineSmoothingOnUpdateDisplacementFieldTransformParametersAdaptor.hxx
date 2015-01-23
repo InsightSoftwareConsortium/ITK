@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
-#define __itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
+#ifndef itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
+#define itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
 
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 

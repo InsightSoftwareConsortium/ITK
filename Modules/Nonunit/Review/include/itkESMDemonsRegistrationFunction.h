@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkESMDemonsRegistrationFunction_h
-#define __itkESMDemonsRegistrationFunction_h
+#ifndef itkESMDemonsRegistrationFunction_h
+#define itkESMDemonsRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
@@ -218,7 +218,7 @@ public:
 protected:
   ESMDemonsRegistrationFunction();
   ~ESMDemonsRegistrationFunction() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FixedImage image neighborhood iterator type. */
   typedef ConstNeighborhoodIterator< FixedImageType > FixedImageNeighborhoodIteratorType;

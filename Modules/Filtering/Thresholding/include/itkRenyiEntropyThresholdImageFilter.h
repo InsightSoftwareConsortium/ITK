@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkRenyiEntropyThresholdImageFilter_h
-#define __itkRenyiEntropyThresholdImageFilter_h
+#ifndef itkRenyiEntropyThresholdImageFilter_h
+#define itkRenyiEntropyThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkRenyiEntropyThresholdCalculator.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshEulerOperatorSplitFacetFunction_h
-#define __itkQuadEdgeMeshEulerOperatorSplitFacetFunction_h
+#ifndef itkQuadEdgeMeshEulerOperatorSplitFacetFunction_h
+#define itkQuadEdgeMeshEulerOperatorSplitFacetFunction_h
 
 #include "itkQuadEdgeMeshFunctionBase.h"
 

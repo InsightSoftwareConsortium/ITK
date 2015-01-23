@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientVectorFlowImageFilter_h
-#define __itkGradientVectorFlowImageFilter_h
+#ifndef itkGradientVectorFlowImageFilter_h
+#define itkGradientVectorFlowImageFilter_h
 
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_math.h"
@@ -122,9 +122,9 @@ public:
 protected:
   GradientVectorFlowImageFilter();
   ~GradientVectorFlowImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /** Precompute m_BImage and m_CImage[i] and allocate memory for all the various internal images */
   void InitInterImage();

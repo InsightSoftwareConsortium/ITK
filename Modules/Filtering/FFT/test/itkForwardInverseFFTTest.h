@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkForwardInverseFFTTest_h
-#define __itkForwardInverseFFTTest_h
+#ifndef itkForwardInverseFFTTest_h
+#define itkForwardInverseFFTTest_h
 
 #include "itkAbsoluteValueDifferenceImageFilter.h"
 #include "itkImageFileReader.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
-#define __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
+#ifndef itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
+#define itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
 
 #include "itkDisplacementFieldTransform.h"
 
@@ -94,7 +94,7 @@ public:
    * added to the field.
    * See base class for more details.
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Smooth the displacement field in-place.
    * Uses m_GaussSmoothSigma to change the variance for the GaussianOperator.
@@ -105,10 +105,10 @@ public:
 protected:
   GaussianSmoothingOnUpdateDisplacementFieldTransform();
   virtual ~GaussianSmoothingOnUpdateDisplacementFieldTransform();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */
-  virtual typename LightObject::Pointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   /** Used in GaussianSmoothDisplacementField as variance for the
    * GaussianOperator */
@@ -136,4 +136,4 @@ private:
 # include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.hxx"
 #endif
 
-#endif // __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
+#endif // itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h

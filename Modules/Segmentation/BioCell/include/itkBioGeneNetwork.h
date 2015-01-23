@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBioGeneNetwork_h
-#define __itkBioGeneNetwork_h
+#ifndef itkBioGeneNetwork_h
+#define itkBioGeneNetwork_h
 
 
 #include "itkMacro.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkResampleImageFilter_hxx
-#define __itkResampleImageFilter_hxx
+#ifndef itkResampleImageFilter_hxx
+#define itkResampleImageFilter_hxx
 
 #include "itkResampleImageFilter.h"
 #include "itkObjectFactory.h"

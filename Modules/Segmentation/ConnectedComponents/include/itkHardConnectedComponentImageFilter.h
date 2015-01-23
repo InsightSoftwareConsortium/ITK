@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHardConnectedComponentImageFilter_h
-#define __itkHardConnectedComponentImageFilter_h
+#ifndef itkHardConnectedComponentImageFilter_h
+#define itkHardConnectedComponentImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
@@ -122,9 +122,9 @@ protected:
   /**
    * Standard pipeline method.
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 
 private:

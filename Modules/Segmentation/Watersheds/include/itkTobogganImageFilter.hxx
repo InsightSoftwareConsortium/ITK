@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTobogganImageFilter_hxx
-#define __itkTobogganImageFilter_hxx
+#ifndef itkTobogganImageFilter_hxx
+#define itkTobogganImageFilter_hxx
 
 #include "itkTobogganImageFilter.h"
 #include "itkImageRegionConstIterator.h"

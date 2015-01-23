@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader_hxx
-#define __itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader_hxx
+#ifndef itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader_hxx
+#define itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader_hxx
 
 #include "itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.h"
 

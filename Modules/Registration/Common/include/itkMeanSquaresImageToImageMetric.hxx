@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresImageToImageMetric_hxx
-#define __itkMeanSquaresImageToImageMetric_hxx
+#ifndef itkMeanSquaresImageToImageMetric_hxx
+#define itkMeanSquaresImageToImageMetric_hxx
 
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkCovariantVector.h"
@@ -71,7 +71,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
-::Initialize(void)
+::Initialize()
 throw ( ExceptionObject )
 {
   this->Superclass::Initialize();

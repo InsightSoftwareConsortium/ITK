@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumericTraitsRGBAPixel_h
-#define __itkNumericTraitsRGBAPixel_h
+#ifndef itkNumericTraitsRGBAPixel_h
+#define itkNumericTraitsRGBAPixel_h
 
 #include "itkNumericTraits.h"
 #include "itkRGBAPixel.h"
@@ -181,4 +181,4 @@ public:
 };
 } // end namespace itk
 
-#endif // __itkNumericTraitsRGBAPixel_h
+#endif // itkNumericTraitsRGBAPixel_h

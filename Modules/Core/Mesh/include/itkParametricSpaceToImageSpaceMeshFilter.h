@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParametricSpaceToImageSpaceMeshFilter_h
-#define __itkParametricSpaceToImageSpaceMeshFilter_h
+#ifndef itkParametricSpaceToImageSpaceMeshFilter_h
+#define itkParametricSpaceToImageSpaceMeshFilter_h
 
 #include "itkMeshToMeshFilter.h"
 
@@ -72,13 +72,13 @@ public:
 protected:
   ParametricSpaceToImageSpaceMeshFilter();
   ~ParametricSpaceToImageSpaceMeshFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate requested data. */
-  virtual void GenerateData(void);
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /** Generate additional information in the output  */
-  virtual void GenerateOutputInformation(void);
+  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
 
 private:
   //purposely not implemented

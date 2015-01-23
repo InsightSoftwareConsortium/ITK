@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
-#define __itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
+#ifndef itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
+#define itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkMesh.h"
@@ -151,12 +151,12 @@ protected:
   ~DeformableSimplexMesh3DGradientConstraintForceFilter();
   DeformableSimplexMesh3DGradientConstraintForceFilter(const Self &) {}
   void operator=(const Self &){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Compute the external force component
    */
-  virtual void ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradientImage);
+  virtual void ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradientImage) ITK_OVERRIDE;
 
   /**
    * Range of search for Bresenham algorithm (normal line at each vertex)

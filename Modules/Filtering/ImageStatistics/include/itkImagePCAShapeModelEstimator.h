@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImagePCAShapeModelEstimator_h
-#define __itkImagePCAShapeModelEstimator_h
+#ifndef itkImagePCAShapeModelEstimator_h
+#define itkImagePCAShapeModelEstimator_h
 
 #include <ctime>
 #include <cmath>
@@ -141,21 +141,21 @@ public:
 protected:
   ImagePCAShapeModelEstimator();
   ~ImagePCAShapeModelEstimator();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This filter must produce all of the outputs at once, as such it
    * must override the EnlargeOutputRequestedRegion method to enlarge the
    * output request region. */
-  virtual void EnlargeOutputRequestedRegion(DataObject *);
+  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
   /** This filter requires all the input image at once, as such it
    * must override the GenerateInputRequestedRegion method. Additionally,
    * this filter assumes that the input images are at least the size as
    * the first input image. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Starts the image modelling process */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
 
@@ -179,7 +179,7 @@ private:
    * determine the cluster centers or the Shape model. This is the
    * the base function to call the K-means classifier. */
 
-  virtual void EstimateShapeModels();
+  virtual void EstimateShapeModels() ITK_OVERRIDE;
 
   void EstimatePCAShapeModelParameters();
 

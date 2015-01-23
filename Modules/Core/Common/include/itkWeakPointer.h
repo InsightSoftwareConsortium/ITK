@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWeakPointer_h
-#define __itkWeakPointer_h
+#ifndef itkWeakPointer_h
+#define itkWeakPointer_h
 
 #include "itkMacro.h"
 #include <iostream>

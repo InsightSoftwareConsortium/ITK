@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineDeformableTransform_hxx
-#define __itkBSplineDeformableTransform_hxx
+#ifndef itkBSplineDeformableTransform_hxx
+#define itkBSplineDeformableTransform_hxx
 
 #include "itkBSplineDeformableTransform.h"
 #include "itkContinuousIndex.h"

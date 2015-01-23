@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConnectedComponentAlgorithm_h
-#define __itkConnectedComponentAlgorithm_h
+#ifndef itkConnectedComponentAlgorithm_h
+#define itkConnectedComponentAlgorithm_h
 
 #include "itkImage.h"
 #include "itkShapedNeighborhoodIterator.h"

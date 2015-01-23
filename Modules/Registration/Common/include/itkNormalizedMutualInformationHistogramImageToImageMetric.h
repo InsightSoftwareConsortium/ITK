@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalizedMutualInformationHistogramImageToImageMetric_h
-#define __itkNormalizedMutualInformationHistogramImageToImageMetric_h
+#ifndef itkNormalizedMutualInformationHistogramImageToImageMetric_h
+#define itkNormalizedMutualInformationHistogramImageToImageMetric_h
 
 #include "itkHistogramImageToImageMetric.h"
 
@@ -93,7 +93,7 @@ protected:
   virtual ~NormalizedMutualInformationHistogramImageToImageMetric(){}
 
   /** Evaluates the normalized mutual information from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
 private:
   // Purposely not implemented.
@@ -106,4 +106,4 @@ private:
 #include "itkNormalizedMutualInformationHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkNormalizedMutualInformationHistogramImageToImageMetric_h
+#endif // itkNormalizedMutualInformationHistogramImageToImageMetric_h

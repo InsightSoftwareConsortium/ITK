@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExhaustiveOptimizer_h
-#define __itkExhaustiveOptimizer_h
+#ifndef itkExhaustiveOptimizer_h
+#define itkExhaustiveOptimizer_h
 
 #include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
@@ -98,11 +98,11 @@ public:
 
   virtual void    StartOptimization(void) ITK_OVERRIDE;
 
-  void StartWalking(void);
+  void StartWalking();
 
-  void ResumeWalking(void);
+  void ResumeWalking();
 
-  void StopWalking(void);
+  void StopWalking();
 
   itkSetMacro(StepLength, double);
   itkSetMacro(NumberOfSteps, StepsType);
@@ -125,7 +125,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Advance to the next grid position. */
-  void AdvanceOneStep(void);
+  void AdvanceOneStep();
 
   void IncrementIndex(ParametersType & param);
 

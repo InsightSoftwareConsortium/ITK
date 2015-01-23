@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionConstrainedSubsampler_hxx
-#define __itkRegionConstrainedSubsampler_hxx
+#ifndef itkRegionConstrainedSubsampler_hxx
+#define itkRegionConstrainedSubsampler_hxx
 #include "itkRegionConstrainedSubsampler.h"
 
 namespace itk {

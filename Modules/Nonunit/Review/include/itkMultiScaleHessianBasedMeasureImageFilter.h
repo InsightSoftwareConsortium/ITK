@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiScaleHessianBasedMeasureImageFilter_h
-#define __itkMultiScaleHessianBasedMeasureImageFilter_h
+#ifndef itkMultiScaleHessianBasedMeasureImageFilter_h
+#define itkMultiScaleHessianBasedMeasureImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
@@ -183,10 +183,10 @@ public:
 protected:
   MultiScaleHessianBasedMeasureImageFilter();
   ~MultiScaleHessianBasedMeasureImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData();
 
 private:
   void UpdateMaximumResponse(double sigma);

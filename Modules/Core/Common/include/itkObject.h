@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkObject_h
-#define __itkObject_h
+#ifndef itkObject_h
+#define itkObject_h
 
 #include "itkLightObject.h"
 #include "itkEventObject.h"
@@ -157,12 +157,12 @@ public:
    * \return A reference to this objects MetaDataDictionary.
    * \warning This reference may be changed.
    */
-  MetaDataDictionary & GetMetaDataDictionary(void);
+  MetaDataDictionary & GetMetaDataDictionary();
 
   /**
    * \return A constant reference to this objects MetaDataDictionary.
    */
-  const MetaDataDictionary & GetMetaDataDictionary(void) const;
+  const MetaDataDictionary & GetMetaDataDictionary() const;
 
   /**
    * \return Set the MetaDataDictionary

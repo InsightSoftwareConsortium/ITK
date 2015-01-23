@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWarpHarmonicEnergyCalculator_h
-#define __itkWarpHarmonicEnergyCalculator_h
+#ifndef itkWarpHarmonicEnergyCalculator_h
+#define itkWarpHarmonicEnergyCalculator_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -121,7 +121,7 @@ public:
   itkSetConstObjectMacro(Image, ImageType);
 
   /** Compute the minimum and maximum values of intensity of the input image. */
-  void Compute(void);
+  void Compute();
 
   /** Return the smoothness value. */
   itkGetConstMacro(HarmonicEnergy, double);
@@ -163,4 +163,4 @@ private:
 #include "itkWarpHarmonicEnergyCalculator.hxx"
 #endif
 
-#endif /* __itkWarpHarmonicEnergyCalculator_h */
+#endif /* itkWarpHarmonicEnergyCalculator_h */

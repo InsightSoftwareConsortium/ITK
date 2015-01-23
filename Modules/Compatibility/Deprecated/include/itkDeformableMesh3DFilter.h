@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformableMesh3DFilter_h
-#define __itkDeformableMesh3DFilter_h
+#ifndef itkDeformableMesh3DFilter_h
+#define itkDeformableMesh3DFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkMeshToMeshFilter.h"
@@ -160,7 +160,7 @@ protected:
   ~DeformableMesh3DFilter();
   DeformableMesh3DFilter(const Self &); // purposely not implemented
   void operator=(const Self &);         // purposely not implemented
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GenerateData();
 

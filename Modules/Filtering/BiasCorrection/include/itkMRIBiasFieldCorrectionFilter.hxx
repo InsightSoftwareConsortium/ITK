@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRIBiasFieldCorrectionFilter_hxx
-#define __itkMRIBiasFieldCorrectionFilter_hxx
+#ifndef itkMRIBiasFieldCorrectionFilter_hxx
+#define itkMRIBiasFieldCorrectionFilter_hxx
 
 #include "itkMRIBiasFieldCorrectionFilter.h"
 

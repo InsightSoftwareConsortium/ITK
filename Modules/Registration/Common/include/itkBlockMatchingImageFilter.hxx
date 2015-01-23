@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBlockMatchingImageFilter_hxx
-#define __itkBlockMatchingImageFilter_hxx
+#ifndef itkBlockMatchingImageFilter_hxx
+#define itkBlockMatchingImageFilter_hxx
 
 #include "itkBlockMatchingImageFilter.h"
 #include "itkImageRegionConstIterator.h"

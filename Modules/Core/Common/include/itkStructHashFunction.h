@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStructHashFunction_h
-#define __itkStructHashFunction_h
+#ifndef itkStructHashFunction_h
+#define itkStructHashFunction_h
 
 #include "itkIntTypes.h"
 #include "itkMacro.h"

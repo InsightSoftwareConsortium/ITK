@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBioCell_hxx
-#define __itkBioCell_hxx
+#ifndef itkBioCell_hxx
+#define itkBioCell_hxx
 
 #include "itkBioCell.h"
 #include "vnl/vnl_math.h"
@@ -37,7 +37,7 @@ Cell< NSpaceDimension >
 {
   m_Force.Fill(0.0f);
 
-  // Genome pointers are set to NULL in the superclass.
+  // Genome pointers are set to ITK_NULLPTR in the superclass.
 }
 
 /**

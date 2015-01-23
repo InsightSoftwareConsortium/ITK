@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSinImageFilter_h
-#define __itkSinImageFilter_h
+#ifndef itkSinImageFilter_h
+#define itkSinImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"

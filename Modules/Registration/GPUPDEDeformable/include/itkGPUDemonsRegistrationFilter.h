@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDemonsRegistrationFilter_h
-#define __itkGPUDemonsRegistrationFilter_h
+#ifndef itkGPUDemonsRegistrationFilter_h
+#define itkGPUDemonsRegistrationFilter_h
 
 #include "itkOpenCLUtil.h"
 #include "itkDemonsRegistrationFilter.h"
@@ -140,7 +140,7 @@ protected:
   GPUDemonsRegistrationFilter();
   ~GPUDemonsRegistrationFilter() {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();

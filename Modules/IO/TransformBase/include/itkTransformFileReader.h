@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformFileReader_h
-#define __itkTransformFileReader_h
+#ifndef itkTransformFileReader_h
+#define itkTransformFileReader_h
 
 #include "itkTransformIOBase.h"
 
@@ -105,4 +105,4 @@ typedef itk::TransformFileReaderTemplate<double> TransformFileReader;
 #include "itkTransformFileReader.hxx"
 #endif
 
-#endif // __itkTransformFileReade_h
+#endif // itkTransformFileReade_h

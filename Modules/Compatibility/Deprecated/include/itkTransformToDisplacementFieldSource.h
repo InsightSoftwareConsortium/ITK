@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformToDisplacementFieldSource_h
-#define __itkTransformToDisplacementFieldSource_h
+#ifndef itkTransformToDisplacementFieldSource_h
+#define itkTransformToDisplacementFieldSource_h
 
 #include "itkTransform.h"
 #include "itkImageSource.h"
@@ -153,13 +153,13 @@ public:
   void SetOutputParametersFromImage(const ImageBaseType *image);
 
   /** DisplacementFieldImageFilter produces a vector image. */
-  virtual void GenerateOutputInformation(void);
+  virtual void GenerateOutputInformation();
 
   /** Just checking if transform is set. */
-  virtual void BeforeThreadedGenerateData(void);
+  virtual void BeforeThreadedGenerateData();
 
   /** Compute the Modified Time based on changes to the components. */
-  ModifiedTimeType GetMTime(void) const;
+  ModifiedTimeType GetMTime() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -171,10 +171,10 @@ public:
 #endif
 
 protected:
-  TransformToDisplacementFieldSource(void);
+  TransformToDisplacementFieldSource();
   ~TransformToDisplacementFieldSource(void) {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** TransformToDisplacementFieldSource can be implemented as a multithreaded
    * filter.
@@ -216,4 +216,4 @@ private:
 #include "itkTransformToDisplacementFieldSource.hxx"
 #endif
 
-#endif // end #ifndef __itkTransformToDisplacementFieldSource_h
+#endif // end #ifndef itkTransformToDisplacementFieldSource_h

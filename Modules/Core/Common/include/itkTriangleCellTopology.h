@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTriangleCellTopology_h
-#define __itkTriangleCellTopology_h
+#ifndef itkTriangleCellTopology_h
+#define itkTriangleCellTopology_h
 
 #include "itkMacro.h"
 

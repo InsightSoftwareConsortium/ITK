@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSignedDanielssonDistanceMapImageFilter_h
-#define __itkSignedDanielssonDistanceMapImageFilter_h
+#ifndef itkSignedDanielssonDistanceMapImageFilter_h
+#define itkSignedDanielssonDistanceMapImageFilter_h
 
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkSubtractImageFilter.h"
@@ -185,7 +185,7 @@ public:
    * Each object should be labeled by a number (larger than 0),
    * so the map has a value for each pixel corresponding to the label
    * of the closest object.  */
-  VoronoiImageType * GetVoronoiMap(void);
+  VoronoiImageType * GetVoronoiMap();
 
   /** Get Distance map image.  The distance map is shown as a gray
    * value image depending on the pixel type of the output image.
@@ -195,15 +195,15 @@ public:
    * output image gives for each pixel its minimal distance from the
    * object (if there is more than one object the closest object is
    * considered). */
-  OutputImageType * GetDistanceMap(void);
+  OutputImageType * GetDistanceMap();
 
   /** Get vector field of distances. */
-  VectorImageType * GetVectorDistanceMap(void);
+  VectorImageType * GetVectorDistanceMap();
 
   /** This is overloaded to create the VectorDistanceMap output image */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -217,10 +217,10 @@ public:
 protected:
   SignedDanielssonDistanceMapImageFilter();
   virtual ~SignedDanielssonDistanceMapImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute Danielsson distance map and Voronoi Map. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   SignedDanielssonDistanceMapImageFilter(const Self &); //purposely not

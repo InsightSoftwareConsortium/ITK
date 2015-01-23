@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelVotingImageFilter_h
-#define __itkLabelVotingImageFilter_h
+#ifndef itkLabelVotingImageFilter_h
+#define itkLabelVotingImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -169,12 +169,12 @@ protected:
 
   /** Determine maximum label value in all input images and initialize
    * global data. */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   void ThreadedGenerateData
-    (const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+    (const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream &, Indent) const;
+  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
   /** Determine maximum value among all input images' pixels */
   InputPixelType ComputeMaximumInputValue();

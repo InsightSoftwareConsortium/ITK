@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMLinearSystemWrappers_h
-#define __itkFEMLinearSystemWrappers_h
+#ifndef itkFEMLinearSystemWrappers_h
+#define itkFEMLinearSystemWrappers_h
 
 /**
  * \file itkFEMLinearSystemWrappers.h

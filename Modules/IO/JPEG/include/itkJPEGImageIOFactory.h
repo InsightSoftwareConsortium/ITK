@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJPEGImageIOFactory_h
-#define __itkJPEGImageIOFactory_h
+#ifndef itkJPEGImageIOFactory_h
+#define itkJPEGImageIOFactory_h
 #include "ITKIOJPEGExport.h"
 
 

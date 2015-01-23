@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeshFileTestHelper_h
-#define __itkMeshFileTestHelper_h
+#ifndef itkMeshFileTestHelper_h
+#define itkMeshFileTestHelper_h
 
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"

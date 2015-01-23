@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedMiniPipelineProgressCommand_h
-#define __itkWatershedMiniPipelineProgressCommand_h
+#ifndef itkWatershedMiniPipelineProgressCommand_h
+#define itkWatershedMiniPipelineProgressCommand_h
 
 #include "itkProcessObject.h"
 #include "itkCommand.h"

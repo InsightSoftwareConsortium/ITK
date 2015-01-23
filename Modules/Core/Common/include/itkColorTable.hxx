@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkColorTable_hxx
-#define __itkColorTable_hxx
+#ifndef itkColorTable_hxx
+#define itkColorTable_hxx
 
 #include "itkColorTable.h"
 #include "itkNumericTraits.h"

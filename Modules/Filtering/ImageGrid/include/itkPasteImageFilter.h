@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPasteImageFilter_h
-#define __itkPasteImageFilter_h
+#ifndef itkPasteImageFilter_h
+#define itkPasteImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkSmartPointer.h"
@@ -128,7 +128,7 @@ public:
    * then the first input is copied to the output.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 
   /** Override VeriyInputInformation() since this filter's inputs do
@@ -136,12 +136,12 @@ public:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() {}
+  virtual void VerifyInputInformation() ITK_OVERRIDE {}
 
 protected:
   PasteImageFilter();
   ~PasteImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** PasteImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -153,7 +153,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   SourceImageRegionType m_SourceRegion;
 

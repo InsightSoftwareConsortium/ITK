@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationContainer_h
-#define __itkLevelSetEquationContainer_h
+#ifndef itkLevelSetEquationContainer_h
+#define itkLevelSetEquationContainer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -270,4 +270,4 @@ private:
 #include "itkLevelSetEquationContainer.hxx"
 #endif
 
-#endif // __itkLevelSetEquationContainer_h
+#endif // itkLevelSetEquationContainer_h

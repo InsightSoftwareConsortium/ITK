@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImportImageContainer_h
-#define __itkImportImageContainer_h
+#ifndef itkImportImageContainer_h
+#define itkImportImageContainer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -117,10 +117,10 @@ public:
    * The previous buffer is deleted if the original pointer was in
    * using "LetContainerManageMemory"=true.  The new buffer's memory
    * management will be handled by the container from that point on. */
-  void Squeeze(void);
+  void Squeeze();
 
   /** Tell the container to release any of its allocated memory. */
-  void Initialize(void);
+  void Initialize();
 
   /** These methods allow to define whether upon destruction of this class
    *  the memory buffer should be released or not.  Setting it to true

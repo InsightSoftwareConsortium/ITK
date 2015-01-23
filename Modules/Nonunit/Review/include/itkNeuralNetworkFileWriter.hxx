@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeuralNetworkFileWriter_hxx
-#define __itkNeuralNetworkFileWriter_hxx
+#ifndef itkNeuralNetworkFileWriter_hxx
+#define itkNeuralNetworkFileWriter_hxx
 
 #include "itksys/ios/sstream"
 #include "itkNeuralNetworkFileWriter.h"
@@ -161,7 +161,7 @@ NeuralNetworkFileWriter< TNetwork >
       else
         {
         MET_InitWriteField(mF, "TransferFunction", MET_STRING,
-                           strlen("NULL"), "NULL");
+                           strlen("ITK_NULLPTR"), "ITK_NULLPTR");
         }
       this->m_Fields.push_back(mF);
       }
@@ -179,7 +179,7 @@ NeuralNetworkFileWriter< TNetwork >
       else
         {
         MET_InitWriteField(mF, "InputFunction", MET_STRING,
-                           strlen("NULL"), "NULL");
+                           strlen("ITK_NULLPTR"), "ITK_NULLPTR");
         }
       mF->terminateRead = true;
       this->m_Fields.push_back(mF);

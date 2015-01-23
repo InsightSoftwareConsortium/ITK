@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageHelper_h
-#define __itkImageHelper_h
+#ifndef itkImageHelper_h
+#define itkImageHelper_h
 
 #include "itkConceptChecking.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUFiniteDifferenceImageFilter_h
-#define __itkGPUFiniteDifferenceImageFilter_h
+#ifndef itkGPUFiniteDifferenceImageFilter_h
+#define itkGPUFiniteDifferenceImageFilter_h
 
 #include "itkGPUInPlaceImageFilter.h"
 #include "itkGPUFiniteDifferenceFunction.h"
@@ -144,7 +144,7 @@ protected:
   GPUFiniteDifferenceImageFilter();
   ~GPUFiniteDifferenceImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method allocates a temporary update container in the subclass. */
   virtual void AllocateUpdateBuffer() = 0;

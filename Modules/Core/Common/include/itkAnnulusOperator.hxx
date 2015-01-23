@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnnulusOperator_hxx
-#define __itkAnnulusOperator_hxx
+#ifndef itkAnnulusOperator_hxx
+#define itkAnnulusOperator_hxx
 
 #include "itkAnnulusOperator.h"
 #include "itkMath.h"

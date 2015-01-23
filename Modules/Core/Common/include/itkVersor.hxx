@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVersor_hxx
-#define __itkVersor_hxx
+#ifndef itkVersor_hxx
+#define itkVersor_hxx
 
 #include "itkVersor.h"
 #include "itkNumericTraits.h"
@@ -661,15 +661,15 @@ Versor< T >
 {
   Matrix< T, 3, 3 > matrix;
 
-  const ValueType xx = m_X * m_X;
-  const ValueType yy = m_Y * m_Y;
-  const ValueType zz = m_Z * m_Z;
-  const ValueType xy = m_X * m_Y;
-  const ValueType xz = m_X * m_Z;
-  const ValueType xw = m_X * m_W;
-  const ValueType yz = m_Y * m_Z;
-  const ValueType yw = m_Y * m_W;
-  const ValueType zw = m_Z * m_W;
+  const RealType xx = m_X * m_X;
+  const RealType yy = m_Y * m_Y;
+  const RealType zz = m_Z * m_Z;
+  const RealType xy = m_X * m_Y;
+  const RealType xz = m_X * m_Z;
+  const RealType xw = m_X * m_W;
+  const RealType yz = m_Y * m_Z;
+  const RealType yw = m_Y * m_W;
+  const RealType zw = m_Z * m_W;
 
   matrix[0][0] = 1.0 - 2.0 * ( yy + zz );
   matrix[1][1] = 1.0 - 2.0 * ( xx + zz );

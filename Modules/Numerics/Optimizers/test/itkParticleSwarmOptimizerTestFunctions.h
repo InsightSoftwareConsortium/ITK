@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParticleSwarmOptimizerTestFunctions_h
-#define __itkParticleSwarmOptimizerTestFunctions_h
+#ifndef itkParticleSwarmOptimizerTestFunctions_h
+#define itkParticleSwarmOptimizerTestFunctions_h
 
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
@@ -245,4 +245,4 @@ private:
 };
 
 } // itk namespace
-#endif //__itkParticleSwarmOptimizerTestFunctions_h
+#endif //itkParticleSwarmOptimizerTestFunctions_h

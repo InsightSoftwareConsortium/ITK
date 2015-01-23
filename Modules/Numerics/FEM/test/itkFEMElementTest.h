@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMElementTest_h
-#define __itkFEMElementTest_h
+#ifndef itkFEMElementTest_h
+#define itkFEMElementTest_h
 #include "itkFEMSolver.h"
 
 #include "itkFEMLinearSystemWrappers.h"
@@ -49,4 +49,4 @@ void PrintNodalCoordinates( itk::fem::Solver &, int, char);
 
 void PrintU( itk::fem::Solver &, int, char);
 
-#endif // __itkFEMElementTest_h
+#endif // itkFEMElementTest_h

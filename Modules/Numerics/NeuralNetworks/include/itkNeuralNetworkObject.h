@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeuralNetworkObject_h
-#define __itkNeuralNetworkObject_h
+#ifndef itkNeuralNetworkObject_h
+#define itkNeuralNetworkObject_h
 
 #include "itkDataObject.h"
 #include "itkLayerBase.h"

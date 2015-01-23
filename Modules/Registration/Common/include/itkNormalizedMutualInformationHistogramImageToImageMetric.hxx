@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalizedMutualInformationHistogramImageToImageMetric_hxx
-#define __itkNormalizedMutualInformationHistogramImageToImageMetric_hxx
+#ifndef itkNormalizedMutualInformationHistogramImageToImageMetric_hxx
+#define itkNormalizedMutualInformationHistogramImageToImageMetric_hxx
 
 #include "itkNormalizedMutualInformationHistogramImageToImageMetric.h"
 #include "itkHistogram.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx
-#define __itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx
+#ifndef itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx
+#define itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx
 
 #include "itkKullbackLeiblerCompareHistogramImageToImageMetric.h"
 #include "itkHistogram.h"
@@ -37,8 +37,7 @@ KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage,
 template< typename TFixedImage, typename TMovingImage >
 void
 KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
-::Initialize()
-throw ( ExceptionObject )
+::Initialize() throw ( ExceptionObject )
 {
   Superclass::Initialize();
 }

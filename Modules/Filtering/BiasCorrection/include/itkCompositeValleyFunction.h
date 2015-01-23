@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompositeValleyFunction_h
-#define __itkCompositeValleyFunction_h
+#ifndef itkCompositeValleyFunction_h
+#define itkCompositeValleyFunction_h
 
 #include "itkCacheableScalarFunction.h"
 #include <vector>

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetMotionRegistrationFunction_h
-#define __itkLevelSetMotionRegistrationFunction_h
+#ifndef itkLevelSetMotionRegistrationFunction_h
+#define itkLevelSetMotionRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"
@@ -130,11 +130,11 @@ public:
 
   /** Compute the time step that can taken for this iterations.  In
    * this context, the timestep is a function of the maximum gradients. */
-  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
+  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const ITK_OVERRIDE;
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void * GetGlobalDataPointer() const
+  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
   {
     GlobalDataStruct *global = new GlobalDataStruct();
 
@@ -146,17 +146,17 @@ public:
   }
 
   /** Release memory for global data structure. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const;
+  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE;
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
   virtual PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
                                     void *globalData,
                                     const FloatOffsetType & offset =
-                                      FloatOffsetType(0.0) );
+                                      FloatOffsetType(0.0) ) ITK_OVERRIDE;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -208,7 +208,7 @@ public:
 protected:
   LevelSetMotionRegistrationFunction();
   ~LevelSetMotionRegistrationFunction() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FixedImage image neighborhood iterator type. */
   typedef ConstNeighborhoodIterator< FixedImageType >

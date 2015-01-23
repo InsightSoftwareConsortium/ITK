@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapePriorSegmentationLevelSetFunction_h
-#define __itkShapePriorSegmentationLevelSetFunction_h
+#ifndef itkShapePriorSegmentationLevelSetFunction_h
+#define itkShapePriorSegmentationLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 #include "itkShapeSignedDistanceFunction.h"
@@ -108,10 +108,10 @@ public:
   /** Compute the equation value with the additional shape prior term. */
   virtual PixelType ComputeUpdate( const NeighborhoodType & neighborhood,
                                    void *globalData,
-                                   const FloatOffsetType & = FloatOffsetType(0.0) );
+                                   const FloatOffsetType & = FloatOffsetType(0.0) ) ITK_OVERRIDE;
 
   /** Compute global time step from the global data structure. */
-  virtual TimeStepType ComputeGlobalTimeStep(void *globalData) const;
+  virtual TimeStepType ComputeGlobalTimeStep(void *globalData) const ITK_OVERRIDE;
 
   /** A global data type used to store values needed to compute the time step.
     */
@@ -121,7 +121,7 @@ public:
   };
 
   /** Returns a pointer to a global data structure for computing time step. */
-  virtual void * GetGlobalDataPointer() const
+  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
   {
     ShapePriorGlobalDataStruct *ans = new ShapePriorGlobalDataStruct();
 
@@ -133,7 +133,7 @@ public:
   }
 
   /** Release the global data structure. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const
+  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE
   { delete (ShapePriorGlobalDataStruct *)GlobalData; }
 
 protected:
@@ -145,7 +145,7 @@ protected:
   void operator=(const Self &);                         //purposely not
                                                         // implemented
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRGBToVectorPixelAccessor_h
-#define __itkRGBToVectorPixelAccessor_h
+#ifndef itkRGBToVectorPixelAccessor_h
+#define itkRGBToVectorPixelAccessor_h
 
 #include "itkRGBPixel.h"
 #include "itkVector.h"

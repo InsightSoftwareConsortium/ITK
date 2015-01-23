@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineControlPointImageFilter_h
-#define __itkBSplineControlPointImageFilter_h
+#ifndef itkBSplineControlPointImageFilter_h
+#define itkBSplineControlPointImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkBSplineKernelFunction.h"
@@ -217,12 +217,12 @@ public:
 protected:
   BSplineControlPointImageFilter();
   virtual ~BSplineControlPointImageFilter();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /**
    * Multi-threaded function which generates the output sampled B-spline object.
    */
-  void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType );
+  void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType ) ITK_OVERRIDE;
 
 private:
   BSplineControlPointImageFilter( const Self& ); //purposely not implemented
@@ -233,13 +233,13 @@ private:
    * Before splitting, we need to allocate memory for the output sampled
    * B-spline object based on the multi-threading functionality
    */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /**
    * Based on the way CollapsePhiLattice() is written, we want to split on the
    * the last dimension.
    */
-  unsigned int SplitRequestedRegion( unsigned int, unsigned int, OutputImageRegionType & );
+  virtual unsigned int SplitRequestedRegion( unsigned int, unsigned int, OutputImageRegionType & ) ITK_OVERRIDE;
 
   /**
    * Sub-function used by GenerateOutputImageFast() to generate the sampled

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWienerDeconvolutionImageFilter_hxx
-#define __itkWienerDeconvolutionImageFilter_hxx
+#ifndef itkWienerDeconvolutionImageFilter_hxx
+#define itkWienerDeconvolutionImageFilter_hxx
 
 #include "itkWienerDeconvolutionImageFilter.h"
 

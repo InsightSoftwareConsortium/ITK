@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRCImageIO_h
-#define __itkMRCImageIO_h
+#ifndef itkMRCImageIO_h
+#define itkMRCImageIO_h
 #include "ITKIOMRCExport.h"
 #include "itkStreamingImageIOBase.h"
 #include "itkMRCHeaderObject.h"
@@ -128,7 +128,7 @@ private:
 
   // internal methods to update the header object from the ImageIO's
   // set member variables
-  void UpdateHeaderFromImageIO(void);
+  void UpdateHeaderFromImageIO();
 
   // reimplemented
   void InternalReadImageInformation(std::ifstream & is);

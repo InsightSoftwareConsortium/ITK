@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageKmeansImageFilter_h
-#define __itkScalarImageKmeansImageFilter_h
+#ifndef itkScalarImageKmeansImageFilter_h
+#define itkScalarImageKmeansImageFilter_h
 
 
 #include "itkKdTree.h"
@@ -153,18 +153,18 @@ public:
 protected:
   ScalarImageKmeansImageFilter();
   virtual ~ScalarImageKmeansImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method runs the statistical methods that identify the means of the
    * classes and the use the distances to those means in order to label the
    * image pixels.
    * \sa ImageToImageFilter::GenerateData()
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /* See superclass for doxygen. This methods additionally checks that
    * the number of means is not 0. */
-  virtual void VerifyPreconditions();
+  virtual void VerifyPreconditions() ITK_OVERRIDE;
 
 private:
   ScalarImageKmeansImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExpectationBasedPointSetToPointSetMetricv4_h
-#define __itkExpectationBasedPointSetToPointSetMetricv4_h
+#ifndef itkExpectationBasedPointSetToPointSetMetricv4_h
+#define itkExpectationBasedPointSetToPointSetMetricv4_h
 
 #include "itkPointSetToPointSetMetricv4.h"
 #include "itkPointSet.h"
@@ -73,13 +73,13 @@ public:
   /**
    * Calculates the local metric value for a single point.
    */
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const;
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const ITK_OVERRIDE;
 
   /**
    * Calculates the local value and derivative for a single point.
    */
   virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const;
+    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const ITK_OVERRIDE;
 
   /**
    * Each point is associated with a Gaussian characterized by m_PointSetSigma
@@ -103,18 +103,18 @@ public:
    */
   itkGetConstMacro( EvaluationKNeighborhood, unsigned int );
 
-  void Initialize( void ) throw ( ExceptionObject );
+  void Initialize( void ) throw ( ExceptionObject ) ITK_OVERRIDE;
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
-  virtual typename LightObject::Pointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();
   virtual ~ExpectationBasedPointSetToPointSetMetricv4();
 
   /** PrintSelf function */
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   ExpectationBasedPointSetToPointSetMetricv4( const Self & ); //purposely not implemented

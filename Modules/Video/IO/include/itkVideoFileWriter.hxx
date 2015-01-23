@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkVideoFileWriter_hxx
-#define __itkVideoFileWriter_hxx
+#ifndef itkVideoFileWriter_hxx
+#define itkVideoFileWriter_hxx
 
 #include "itkVideoFileWriter.h"
 

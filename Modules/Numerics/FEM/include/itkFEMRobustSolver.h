@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMRobustSolver_h
-#define __itkFEMRobustSolver_h
+#ifndef itkFEMRobustSolver_h
+#define itkFEMRobustSolver_h
 
 #include "itkFEMSolver.h"
 #include "itkFEMElementBase.h"
@@ -172,12 +172,12 @@ protected:
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /**
    * Run the solver and produce a warped FEM object
    */
-  virtual void RunSolver(void);
+  virtual void RunSolver(void) ITK_OVERRIDE;
 
   /**
    * Initialize matrix, vector, solution, interpolation grid, and landmark.

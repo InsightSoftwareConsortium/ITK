@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToImageMetric_h
-#define __itkPointSetToImageMetric_h
+#ifndef itkPointSetToImageMetric_h
+#define itkPointSetToImageMetric_h
 
 #include "itkImageBase.h"
 #include "itkTransform.h"

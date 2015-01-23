@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVanHerkGilWermanErodeDilateImageFilter_hxx
-#define __itkVanHerkGilWermanErodeDilateImageFilter_hxx
+#ifndef itkVanHerkGilWermanErodeDilateImageFilter_hxx
+#define itkVanHerkGilWermanErodeDilateImageFilter_hxx
 
 #include "itkVanHerkGilWermanErodeDilateImageFilter.h"
 #include "itkImageRegionIterator.h"

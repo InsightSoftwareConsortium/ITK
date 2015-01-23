@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMembershipSample_hxx
-#define __itkMembershipSample_hxx
+#ifndef itkMembershipSample_hxx
+#define itkMembershipSample_hxx
 
 #include "itkMembershipSample.h"
 
@@ -101,7 +101,7 @@ MembershipSample< TSample >
   int classIndex = this->GetInternalClassLabel(classLabel);
   if (classIndex < 0)
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return m_ClassSamples[classIndex];

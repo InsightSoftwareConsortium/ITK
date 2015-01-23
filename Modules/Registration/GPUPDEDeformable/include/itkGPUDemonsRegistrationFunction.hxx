@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDemonsRegistrationFunction_hxx
-#define __itkGPUDemonsRegistrationFunction_hxx
+#ifndef itkGPUDemonsRegistrationFunction_hxx
+#define itkGPUDemonsRegistrationFunction_hxx
 
 #include "itkGPUDemonsRegistrationFunction.h"
 #include "itkMacro.h"
@@ -43,8 +43,8 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_TimeStep = 1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  this->SetMovingImage(NULL);
-  this->SetFixedImage(NULL);
+  this->SetMovingImage(ITK_NULLPTR);
+  this->SetFixedImage(ITK_NULLPTR);
   //m_FixedImageSpacing.Fill( 1.0 );
   //m_FixedImageOrigin.Fill( 0.0 );
   m_Normalizer = 1.0;
@@ -66,9 +66,9 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_UseMovingImageGradient = false;
 
   /*** Prepare GPU opencl program ***/
-  m_GPUPixelCounter       = NULL;
-  m_GPUSquaredChange      = NULL;
-  m_GPUSquaredDifference  = NULL;
+  m_GPUPixelCounter       = ITK_NULLPTR;
+  m_GPUSquaredChange      = ITK_NULLPTR;
+  m_GPUSquaredDifference  = ITK_NULLPTR;
 
   std::ostringstream defines;
 
@@ -203,7 +203,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GPUAllocateMetricData(unsigned int numPixels)
 {
   // allocate gpu buffers for statistics
-  // if (m_GPUPixelCounter == (GPUReduction<int>::Pointer)NULL)
+  // if (m_GPUPixelCounter == (GPUReduction<int>::Pointer)ITK_NULLPTR)
 
   m_GPUPixelCounter       = GPUReduction<int>::New();
   m_GPUSquaredChange      = GPUReduction<float>::New();

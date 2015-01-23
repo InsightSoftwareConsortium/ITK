@@ -24,8 +24,8 @@
  * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML format for the PSO object.
  */
 
-#ifndef __itkParticleSwarmOptimizerSAXReader_h
-#define __itkParticleSwarmOptimizerSAXReader_h
+#ifndef itkParticleSwarmOptimizerSAXReader_h
+#define itkParticleSwarmOptimizerSAXReader_h
 
 #include "itkXMLFile.h"
 #include "itkParticleSwarmOptimizer.h"
@@ -55,25 +55,25 @@ public:
    * Virtual method defined in itk::XMLReaderBase.
    * Check that whether the file with given name is readable.
    */
-  virtual int CanReadFile( const char* name );
+  virtual int CanReadFile( const char* name ) ITK_OVERRIDE;
 
   /**
    * Virtual method defined in itk::XMLReaderBase.
    * Called when a new xml tag start is encountered.
    */
-  virtual void StartElement( const char* name, const char** atts );
+  virtual void StartElement( const char* name, const char** atts ) ITK_OVERRIDE;
 
   /**
    * Virtual method defined in itk::XMLReaderBase.
    * Called when an xml tag end is encountered.
    */
-  virtual void EndElement( const char* name );
+  virtual void EndElement( const char* name ) ITK_OVERRIDE;
 
   /**
    * Virtual method defined in itk::XMLReaderBase.
    * Called when handling character data inside an xml tag.
    */
-  virtual void CharacterDataHandler( const char* inData, int inLength );
+  virtual void CharacterDataHandler( const char* inData, int inLength ) ITK_OVERRIDE;
 
   /**
    * Method for performing XML reading and output generation.
@@ -110,4 +110,4 @@ private:
 
 } // namespace itk
 
-#endif // __itkParticleSwarmOptimizerSAXReader_h
+#endif // itkParticleSwarmOptimizerSAXReader_h

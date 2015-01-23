@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScaleVersor3DTransform_h
-#define __itkScaleVersor3DTransform_h
+#ifndef itkScaleVersor3DTransform_h
+#define itkScaleVersor3DTransform_h
 
 #include "itkVersorRigid3DTransform.h"
 
@@ -27,10 +27,14 @@ namespace itk
  * \brief This transform applies a Versor rotation, translation and
  * anisotropic scale to the space.
  *
- * This Transform provides the next set of degrees of freedom after a
- * Similarity transform. In a Similarity transform it is possible to do
- * rotation, translation and uniform scaling. In this current transform we can
- * do rotation, translation and anisotropic scaling.
+ * The transform can be described as:
+ * \f$ (\textbf{R}_v + \textbf{S})\textbf{x} \f$ where \f$\textbf{R}_v\f$ is the
+ * rotation matrix given the versor, and
+ * \f$S=\left( \begin{array}{ccc}s_0-1 & 0 & 0 \\ 0 & s_1-1 & 0 \\ 0 & 0 & s_2-1 \end{array} \right)\ \f$
+ *
+ *
+ * \note This transform's scale parameters are not related to the
+ * uniform scaling parameter of the Similarity3DTransform.
  *
  * \author Johnson H.J., Harris G., Williams K. University of Iowa Carver
  * College of Medicine, Department of Psychiatry NeuroImaging Center
@@ -93,8 +97,8 @@ public:
    * Orthogonality testing is bypassed in this case.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix);
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
+  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance) ITK_OVERRIDE;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -103,9 +107,9 @@ public:
    *   3-5   translation
    *   6-8   Scale
    **  */
-  virtual void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  virtual const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   /** Set/Get the scale vector. These scale factors are associated to the axis
    * of coordinates. */
@@ -115,13 +119,13 @@ public:
 
   /** Set the internal parameters of the transform in order to represent an
    * Identity transform. */
-  void SetIdentity();
+  void SetIdentity() ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
 protected:
   ScaleVersor3DTransform();
@@ -129,7 +133,7 @@ protected:
   ScaleVersor3DTransform(unsigned int paramDims);
   ~ScaleVersor3DTransform();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void SetVarScale(const ScaleVectorType & scale)
   {
@@ -137,9 +141,9 @@ protected:
   }
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void);
+  void ComputeMatrix(void) ITK_OVERRIDE;
 
-  void ComputeMatrixParameters(void);
+  void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
 private:
   ScaleVersor3DTransform(const Self &); // purposely not implemented

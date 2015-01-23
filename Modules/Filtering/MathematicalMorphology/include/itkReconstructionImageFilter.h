@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReconstructionImageFilter_h
-#define __itkReconstructionImageFilter_h
+#ifndef itkReconstructionImageFilter_h
+#define itkReconstructionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkShapedNeighborhoodIterator.h"
@@ -139,17 +139,17 @@ public:
 protected:
   ReconstructionImageFilter();
   ~ReconstructionImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ValuedRegionalExtremaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** ValuedRegionalExtremaImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /**
    * the value of the border - used in boundary condition.

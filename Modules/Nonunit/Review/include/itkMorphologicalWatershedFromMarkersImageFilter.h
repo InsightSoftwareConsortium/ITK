@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMorphologicalWatershedFromMarkersImageFilter_h
-#define __itkMorphologicalWatershedFromMarkersImageFilter_h
+#ifndef itkMorphologicalWatershedFromMarkersImageFilter_h
+#define itkMorphologicalWatershedFromMarkersImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -160,7 +160,7 @@ public:
 protected:
   MorphologicalWatershedFromMarkersImageFilter();
   ~MorphologicalWatershedFromMarkersImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** MorphologicalWatershedFromMarkersImageFilter needs to request the
    * entire input images.

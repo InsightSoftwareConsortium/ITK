@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWCommon_h
-#define __itkFFTWCommon_h
+#ifndef itkFFTWCommon_h
+#define itkFFTWCommon_h
 
 #include "itkFFTWGlobalConfiguration.h"
 #if defined( ITK_USE_FFTWF ) || defined( ITK_USE_FFTWD )
@@ -154,7 +154,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -246,7 +246,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -340,7 +340,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -455,7 +455,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -546,7 +546,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 
@@ -640,7 +640,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != NULL );
+    assert( plan != ITK_NULLPTR );
     return plan;
   }
 

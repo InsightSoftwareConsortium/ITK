@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 // histogram from the moving histogram operations
-#ifndef __itkRankHistogram_h
-#define __itkRankHistogram_h
+#ifndef itkRankHistogram_h
+#define itkRankHistogram_h
 
 #include "itkIntTypes.h"
 #include "itkNumericTraits.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParametricSpaceToImageSpaceMeshFilter_hxx
-#define __itkParametricSpaceToImageSpaceMeshFilter_hxx
+#ifndef itkParametricSpaceToImageSpaceMeshFilter_hxx
+#define itkParametricSpaceToImageSpaceMeshFilter_hxx
 
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
 #include "itkMacro.h"

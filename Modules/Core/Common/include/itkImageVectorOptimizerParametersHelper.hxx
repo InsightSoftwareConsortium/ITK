@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkImageVectorOptimizerParametersHelper_hxx
-#define __itkImageVectorOptimizerParametersHelper_hxx
+#ifndef itkImageVectorOptimizerParametersHelper_hxx
+#define itkImageVectorOptimizerParametersHelper_hxx
 
 #include "itkImageVectorOptimizerParametersHelper.h"
 

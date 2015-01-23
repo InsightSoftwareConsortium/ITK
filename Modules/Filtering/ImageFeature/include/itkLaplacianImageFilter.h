@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianImageFilter_h
-#define __itkLaplacianImageFilter_h
+#ifndef itkLaplacianImageFilter_h
+#define itkLaplacianImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -100,7 +100,7 @@ public:
    * inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
  /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
@@ -136,9 +136,9 @@ protected:
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default.   */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream &, Indent) const;
+  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
 private:
   LaplacianImageFilter(const Self &); //purposely not implemented

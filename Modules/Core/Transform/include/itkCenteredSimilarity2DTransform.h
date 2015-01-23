@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredSimilarity2DTransform_h
-#define __itkCenteredSimilarity2DTransform_h
+#ifndef itkCenteredSimilarity2DTransform_h
+#define itkCenteredSimilarity2DTransform_h
 
 #include "itkSimilarity2DTransform.h"
 
@@ -135,7 +135,7 @@ public:
   virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
@@ -179,4 +179,4 @@ private:
 #include "itkCenteredSimilarity2DTransform.hxx"
 #endif
 
-#endif /* __itkCenteredSimilarity2DTransform_h */
+#endif /* itkCenteredSimilarity2DTransform_h */

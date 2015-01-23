@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBalloonForceFilter_h
-#define __itkBalloonForceFilter_h
+#ifndef itkBalloonForceFilter_h
+#define itkBalloonForceFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkMeshToMeshFilter.h"
@@ -187,7 +187,7 @@ public:
 protected:
   BalloonForceFilter();
   ~BalloonForceFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GenerateData();
 

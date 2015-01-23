@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorGradientNDAnisotropicDiffusionFunction_hxx
-#define __itkVectorGradientNDAnisotropicDiffusionFunction_hxx
+#ifndef itkVectorGradientNDAnisotropicDiffusionFunction_hxx
+#define itkVectorGradientNDAnisotropicDiffusionFunction_hxx
 
 #include "itkVectorGradientNDAnisotropicDiffusionFunction.h"
 

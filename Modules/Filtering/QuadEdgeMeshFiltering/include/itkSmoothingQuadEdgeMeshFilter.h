@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmoothingQuadEdgeMeshFilter_h
-#define __itkSmoothingQuadEdgeMeshFilter_h
+#ifndef itkSmoothingQuadEdgeMeshFilter_h
+#define itkSmoothingQuadEdgeMeshFilter_h
 
 #include "itkDelaunayConformingQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
@@ -108,7 +108,7 @@ public:
 protected:
   SmoothingQuadEdgeMeshFilter();
   ~SmoothingQuadEdgeMeshFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   CoefficientsComputation *m_CoefficientsMethod;
 
@@ -128,7 +128,7 @@ protected:
 
   OutputCoordType m_RelaxationFactor;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   SmoothingQuadEdgeMeshFilter(const Self &);

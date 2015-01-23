@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetContainerBase_hxx
-#define __itkLevelSetContainerBase_hxx
+#ifndef itkLevelSetContainerBase_hxx
+#define itkLevelSetContainerBase_hxx
 
 #include "itkLevelSetContainerBase.h"
 
@@ -178,4 +178,4 @@ LevelSetContainerBase< TIdentifier, TLevelSet >
 
 }
 
-#endif // __itkLevelSetContainerBase_hxx
+#endif // itkLevelSetContainerBase_hxx

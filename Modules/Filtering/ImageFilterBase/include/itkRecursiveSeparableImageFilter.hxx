@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRecursiveSeparableImageFilter_hxx
-#define __itkRecursiveSeparableImageFilter_hxx
+#ifndef itkRecursiveSeparableImageFilter_hxx
+#define itkRecursiveSeparableImageFilter_hxx
 
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
@@ -323,7 +323,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
     // is aborted.
 
     // release locally allocated memory, if memory allocation fails
-    // then we will delete a NULL pointer, which is a valid operation
+    // then we will delete a ITK_NULLPTR pointer, which is a valid operation
     delete[] outs;
     delete[] inps;
     delete[] scratch;

@@ -130,7 +130,7 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   IdentityTransformType::Pointer transformMId = IdentityTransformType::New();
   if(transformMId.IsNull())
     {
-    std::cerr << "transformMId == NULL" << std::endl;
+    std::cerr << "transformMId == ITK_NULLPTR" << std::endl;
     return EXIT_FAILURE;
     }
   DisplacementTransformType::Pointer transformMdisplacement = DisplacementTransformType::New();

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImage_h
-#define __itkImage_h
+#ifndef itkImage_h
+#define itkImage_h
 
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"
@@ -173,7 +173,7 @@ public:
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
@@ -252,7 +252,7 @@ public:
    * simply calls CopyInformation() and copies the region ivars.
    * The implementation here refers to the superclass' implementation
    * and then copies over the pixel container. */
-  virtual void Graft(const DataObject *data);
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
 
   /** Return the Pixel Accessor object */
   AccessorType GetPixelAccessor(void)
@@ -270,11 +270,11 @@ public:
   const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
   { return NeighborhoodAccessorFunctorType(); }
 
-  virtual unsigned int GetNumberOfComponentsPerPixel() const;
+  virtual unsigned int GetNumberOfComponentsPerPixel() const ITK_OVERRIDE;
 
 protected:
   Image();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual ~Image() {}
 
@@ -283,7 +283,7 @@ protected:
    * overloaded in derived classes in order to provide backward compatibility
    * behavior in classes that did not used to take image orientation into
    * account.  */
-  virtual void ComputeIndexToPhysicalPointMatrices();
+  virtual void ComputeIndexToPhysicalPointMatrices() ITK_OVERRIDE;
 
 private:
   Image(const Self &);          //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAcosImageFilter_h
-#define __itkAcosImageFilter_h
+#ifndef itkAcosImageFilter_h
+#define itkAcosImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"

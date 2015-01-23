@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParticleSwarmOptimizer_h
-#define __itkParticleSwarmOptimizer_h
+#ifndef itkParticleSwarmOptimizer_h
+#define itkParticleSwarmOptimizer_h
 
 #include "itkParticleSwarmOptimizerBase.h"
 

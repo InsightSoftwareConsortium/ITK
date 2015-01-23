@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUAnisotropicDiffusionImageFilter_h
-#define __itkGPUAnisotropicDiffusionImageFilter_h
+#ifndef itkGPUAnisotropicDiffusionImageFilter_h
+#define itkGPUAnisotropicDiffusionImageFilter_h
 
 #include "itkGPUDenseFiniteDifferenceImageFilter.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
@@ -67,7 +67,7 @@ protected:
   }
   ~GPUAnisotropicDiffusionImageFilter() {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Prepare for the iteration process. */
   virtual void InitializeIteration();

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetDomainMapImageFilter_h
-#define __itkLevelSetDomainMapImageFilter_h
+#ifndef itkLevelSetDomainMapImageFilter_h
+#define itkLevelSetDomainMapImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -119,10 +119,10 @@ class LevelSetDomainMapImageFilter : public ImageToImageFilter< TInputImage, TOu
 
     /** Identify image partitions where each partition has the same overlapping
      *  level set support */
-    virtual void GenerateData();
+    virtual void GenerateData() ITK_OVERRIDE;
 
     /** Display */
-    virtual void PrintSelf ( std::ostream& os, Indent indent ) const;
+    virtual void PrintSelf ( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   private:
     DomainMapType m_DomainMap;

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaborKernelFunction_h
-#define __itkGaborKernelFunction_h
+#ifndef itkGaborKernelFunction_h
+#define itkGaborKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
 #include <cmath>
@@ -62,7 +62,7 @@ public:
   itkTypeMacro(GaborKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  inline TRealValueType Evaluate(const TRealValueType & u) const
+  inline TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
   {
     TRealValueType parameter = vnl_math_sqr(u / this->m_Sigma);
     TRealValueType envelope = std::exp(static_cast< TRealValueType >(-0.5) * parameter);

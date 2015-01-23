@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTxtTransformIOFactory_h
-#define __itkTxtTransformIOFactory_h
+#ifndef itkTxtTransformIOFactory_h
+#define itkTxtTransformIOFactory_h
 
 
 #include "itkObjectFactoryBase.h"

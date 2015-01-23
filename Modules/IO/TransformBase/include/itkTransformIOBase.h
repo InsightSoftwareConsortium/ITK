@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformIOBase_h
-#define __itkTransformIOBase_h
+#ifndef itkTransformIOBase_h
+#define itkTransformIOBase_h
 
 #include "itkLightProcessObject.h"
 #include "itkTransformBase.h"
@@ -183,4 +183,4 @@ typedef itk::TransformIOBaseTemplate<double> TransformIOBase;
 #include "itkTransformIOBase.hxx"
 #endif
 
-#endif // __itkTransformIOBase.h
+#endif // itkTransformIOBase_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinomialBlurImageFilter_h
-#define __itkBinomialBlurImageFilter_h
+#ifndef itkBinomialBlurImageFilter_h
+#define itkBinomialBlurImageFilter_h
 
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
@@ -87,7 +87,7 @@ public:
    * If this filter runs "Repetitions" iterations, then it needs an input
    * that is 2*Repetitions larger than the output. In other words, this
    * filter needs a border of "Repetitions" pixels. */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -104,10 +104,10 @@ public:
 protected:
   BinomialBlurImageFilter();
   virtual ~BinomialBlurImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Method for evaluating the implicit function over the image. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   BinomialBlurImageFilter(const Self &); //purposely not implemented

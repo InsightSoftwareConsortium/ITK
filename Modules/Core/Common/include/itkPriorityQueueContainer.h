@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPriorityQueueContainer_h
-#define __itkPriorityQueueContainer_h
+#ifndef itkPriorityQueueContainer_h
+#define itkPriorityQueueContainer_h
 
 #include "itkVectorContainer.h"
 #include "itkIntTypes.h"

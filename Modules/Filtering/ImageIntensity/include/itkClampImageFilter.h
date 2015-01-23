@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkClampImageFilter_h
-#define __itkClampImageFilter_h
+#ifndef itkClampImageFilter_h
+#define itkClampImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 
@@ -173,9 +173,9 @@ protected:
   ClampImageFilter();
   virtual ~ClampImageFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ClampImageFilter(const Self&); //purposely not implemented

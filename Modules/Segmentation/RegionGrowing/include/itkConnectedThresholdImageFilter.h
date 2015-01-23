@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConnectedThresholdImageFilter_h
-#define __itkConnectedThresholdImageFilter_h
+#ifndef itkConnectedThresholdImageFilter_h
+#define itkConnectedThresholdImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
@@ -65,7 +65,7 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Set seed point. */
   void SetSeed(const IndexType & seed);
@@ -150,12 +150,12 @@ protected:
   OutputImagePixelType m_ReplaceValue;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   // Type of connectivity to use.
   ConnectivityEnumType m_Connectivity;

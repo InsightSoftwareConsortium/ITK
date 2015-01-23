@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkResourceProbesCollectorBase_h
-#define __itkResourceProbesCollectorBase_h
+#ifndef itkResourceProbesCollectorBase_h
+#define itkResourceProbesCollectorBase_h
 
 
 #include "itkResourceProbe.h"
@@ -56,7 +56,7 @@ public:
 
   /** Destroy the set of probes. New probes can be created after invoking this
     method. */
-  virtual void Clear(void);
+  virtual void Clear();
 
 protected:
   MapType m_Probes;
@@ -67,4 +67,4 @@ protected:
 #include "itkResourceProbesCollectorBase.hxx"
 #endif
 
-#endif //__itkResourceProbesCollectorBase_h
+#endif //itkResourceProbesCollectorBase_h

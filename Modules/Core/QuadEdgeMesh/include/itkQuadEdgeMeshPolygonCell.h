@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshPolygonCell_h
-#define __itkQuadEdgeMeshPolygonCell_h
+#ifndef itkQuadEdgeMeshPolygonCell_h
+#define itkQuadEdgeMeshPolygonCell_h
 
 #include "itkTriangleCell.h"
 #include "itkQuadEdgeMeshLineCell.h"
@@ -111,9 +111,9 @@ public:
   SelfAutoPointer New();
 
   /** TCellInterface abstract methods definition. */
-  virtual void Accept(CellIdentifier cellId, MultiVisitor *mv);
+  virtual void Accept(CellIdentifier cellId, MultiVisitor *mv) ITK_OVERRIDE;
 
-  virtual CellGeometry GetType() const { return ( Superclass::POLYGON_CELL ); }
+  virtual CellGeometry GetType() const ITK_OVERRIDE { return ( Superclass::POLYGON_CELL ); }
 
   /** itk topology related methods. */
   static int GetTopologyId()
@@ -121,21 +121,21 @@ public:
     return ( Superclass::POLYGON_CELL );
   }
 
-  virtual unsigned int GetDimension() const
+  virtual unsigned int GetDimension() const ITK_OVERRIDE
   {
     return ( Self::CellDimension );
   }
 
-  virtual unsigned int GetNumberOfPoints() const;
+  virtual unsigned int GetNumberOfPoints() const ITK_OVERRIDE;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
 
   virtual bool GetBoundaryFeature(int dimension,
                                   CellFeatureIdentifier cellId,
-                                  CellAutoPointer & cell);
+                                  CellAutoPointer & cell) ITK_OVERRIDE;
 
   /** Useless methods. */
-  virtual void MakeCopy(CellAutoPointer & cell) const
+  virtual void MakeCopy(CellAutoPointer & cell) const ITK_OVERRIDE
   {
     const PointIdentifier numberOfPoints = this->GetNumberOfPoints();
     Self *                newPolygonCell = new Self(numberOfPoints);
@@ -158,16 +158,16 @@ public:
   }
 
   /** ITK Cell API - Iterator-related methods. */
-  virtual void SetPointIds(PointIdConstIterator first);
+  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
 
   virtual void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last);
+                           PointIdConstIterator last) ITK_OVERRIDE;
 
-  virtual void SetPointId(int localId, PointIdentifier pId);
+  virtual void SetPointId(int localId, PointIdentifier pId) ITK_OVERRIDE;
 
   virtual PointIdentifier GetPointId(int localId) const;
 
-  virtual PointIdIterator PointIdsBegin()
+  virtual PointIdIterator PointIdsBegin() ITK_OVERRIDE
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     MakePointIds();
@@ -181,7 +181,7 @@ public:
       }
   }
 
-  virtual PointIdIterator PointIdsEnd()
+  virtual PointIdIterator PointIdsEnd() ITK_OVERRIDE
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     if ( m_PointIds.size() == 0 )
@@ -194,7 +194,7 @@ public:
       }
   }
 
-  virtual PointIdConstIterator PointIdsBegin() const
+  virtual PointIdConstIterator PointIdsBegin() const ITK_OVERRIDE
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     MakePointIds();
@@ -208,7 +208,7 @@ public:
       }
   }
 
-  virtual PointIdConstIterator PointIdsEnd() const
+  virtual PointIdConstIterator PointIdsEnd() const ITK_OVERRIDE
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     if ( m_PointIds.size() == 0 )

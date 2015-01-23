@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShiftScaleLabelMapFilter_h
-#define __itkShiftScaleLabelMapFilter_h
+#ifndef itkShiftScaleLabelMapFilter_h
+#define itkShiftScaleLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 
@@ -92,9 +92,9 @@ protected:
   ShiftScaleLabelMapFilter();
   ~ShiftScaleLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   double m_Shift;
   double m_Scale;

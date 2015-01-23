@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTIFFReaderInternal_h
-#define __itkTIFFReaderInternal_h
+#ifndef itkTIFFReaderInternal_h
+#define itkTIFFReaderInternal_h
 
 #include "ITKIOTIFFExport.h"
 #include "itkIntTypes.h"
@@ -66,4 +66,4 @@ public:
 
 }
 
-#endif // __itkTIFFReaderInternal_h
+#endif // itkTIFFReaderInternal_h

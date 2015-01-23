@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingBase_hxx
-#define __itkFastMarchingBase_hxx
+#ifndef itkFastMarchingBase_hxx
+#define itkFastMarchingBase_hxx
 
 #include "itkFastMarchingBase.h"
 

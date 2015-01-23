@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThreadedImageRegionPartitioner_h
-#define __itkThreadedImageRegionPartitioner_h
+#ifndef itkThreadedImageRegionPartitioner_h
+#define itkThreadedImageRegionPartitioner_h
 
 #include "itkThreadedDomainPartitioner.h"
 #include "itkImageRegion.h"
@@ -82,7 +82,7 @@ public:
   ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeRegion,
-                           DomainType& subRegion) const;
+                           DomainType& subRegion) const ITK_OVERRIDE;
 
 protected:
   ThreadedImageRegionPartitioner();

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelObjectAccessors_h
-#define __itkLabelObjectAccessors_h
+#ifndef itkLabelObjectAccessors_h
+#define itkLabelObjectAccessors_h
 
 #include "itkMacro.h"
 

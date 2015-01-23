@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryErodeImageFilter_h
-#define __itkBinaryErodeImageFilter_h
+#ifndef itkBinaryErodeImageFilter_h
+#define itkBinaryErodeImageFilter_h
 
 #include <vector>
 #include <queue>
@@ -126,9 +126,9 @@ public:
 protected:
   BinaryErodeImageFilter();
   virtual ~BinaryErodeImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;

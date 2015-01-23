@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToImageFilter_h
-#define __itkPointSetToImageFilter_h
+#ifndef itkPointSetToImageFilter_h
+#define itkPointSetToImageFilter_h
 
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"
@@ -75,7 +75,7 @@ public:
 
   virtual void SetInput(unsigned int, const InputPointSetType *pointset);
 
-  const InputPointSetType * GetInput(void);
+  const InputPointSetType * GetInput();
 
   const InputPointSetType * GetInput(unsigned int idx);
 
@@ -141,8 +141,8 @@ protected:
   PointSetToImageFilter();
   ~PointSetToImageFilter();
 
-  virtual void GenerateOutputInformation(){}  // do nothing
-  virtual void GenerateData();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
+  virtual void GenerateData() ITK_OVERRIDE;
 
   SizeType m_Size;
 
@@ -155,7 +155,7 @@ protected:
   ValueType m_InsideValue;
   ValueType m_OutsideValue;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PointSetToImageFilter(const Self &); //purposely not implemented

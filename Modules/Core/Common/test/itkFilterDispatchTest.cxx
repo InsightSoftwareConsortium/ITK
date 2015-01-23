@@ -69,7 +69,7 @@ public:
   typedef TOutputImage OutputImageType;
   enum { ImageDimension = InputImageType::ImageDimension };
 
-  void Update(void);
+  void Update(void) ITK_OVERRIDE;
 
   /**
    * Method for creation through the object factory.

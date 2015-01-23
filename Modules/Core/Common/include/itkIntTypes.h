@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIntTypes_h
-#define __itkIntTypes_h
+#ifndef itkIntTypes_h
+#define itkIntTypes_h
 
 #include "itkMacro.h"
 
@@ -165,4 +165,4 @@ typedef unsigned long ModifiedTimeType;
 
 }
 
-#endif  /* __itkIntTypes_h */
+#endif  /* itkIntTypes_h */

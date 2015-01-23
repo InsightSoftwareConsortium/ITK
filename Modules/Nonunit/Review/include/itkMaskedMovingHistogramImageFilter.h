@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaskedMovingHistogramImageFilter_h
-#define __itkMaskedMovingHistogramImageFilter_h
+#ifndef itkMaskedMovingHistogramImageFilter_h
+#define itkMaskedMovingHistogramImageFilter_h
 
 #include "itkMovingHistogramImageFilterBase.h"
 #include <list>
@@ -150,7 +150,7 @@ protected:
                              outputRegionForThread,
                              ThreadIdType threadId);
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void pushHistogram(HistogramType & histogram,
                      const OffsetListType *addedList,

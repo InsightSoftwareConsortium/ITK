@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkErrorFunctionBase_h
-#define __itkErrorFunctionBase_h
+#ifndef itkErrorFunctionBase_h
+#define itkErrorFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkArray.h"
@@ -52,7 +52,7 @@ public:
 
   typedef Array<double> InternalVectorType;
 
-  virtual OutputType Evaluate(const ErrorVectorType&) const = 0;
+  virtual OutputType Evaluate(const ErrorVectorType&) const ITK_OVERRIDE = 0;
 
   virtual InternalVectorType EvaluateDerivative(const ErrorVectorType&) const = 0;
 

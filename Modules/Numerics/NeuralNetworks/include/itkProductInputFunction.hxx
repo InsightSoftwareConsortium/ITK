@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkProductInputFunction_hxx
-#define __itkProductInputFunction_hxx
+#ifndef itkProductInputFunction_hxx
+#define itkProductInputFunction_hxx
 
 #include "itkProductInputFunction.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCreateObjectFunction_h
-#define __itkCreateObjectFunction_h
+#ifndef itkCreateObjectFunction_h
+#define itkCreateObjectFunction_h
 
 #include "itkObject.h"
 

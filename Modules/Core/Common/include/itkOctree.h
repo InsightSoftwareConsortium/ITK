@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOctree_h
-#define __itkOctree_h
+#ifndef itkOctree_h
+#define itkOctree_h
 
 #include "itkOctreeNode.h"
 #include "itkImage.h"
@@ -132,8 +132,8 @@ public:
 
   void BuildFromImage(Image< TPixel, 3 > *fromImage);
 
-  Octree(void);
-  ~Octree(void);
+  Octree();
+  ~Octree();
   void SetColor(unsigned int color) { m_Tree.SetColor(color); }
   void SetTree(OctreeNodeBranch *branch) { m_Tree.SetBranch(branch); }
   void SetTrueDims(const unsigned int Dim0, const unsigned int Dim1,
@@ -181,4 +181,4 @@ private:
 #include "itkOctree.hxx"
 #endif
 
-#endif                          /* __itkOctree_h */
+#endif                          /* itkOctree_h */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAttributeRelabelLabelMapFilter_h
-#define __itkAttributeRelabelLabelMapFilter_h
+#ifndef itkAttributeRelabelLabelMapFilter_h
+#define itkAttributeRelabelLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
@@ -97,9 +97,9 @@ protected:
   AttributeRelabelLabelMapFilter();
   ~AttributeRelabelLabelMapFilter() {};
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   class ReverseComparator
     {

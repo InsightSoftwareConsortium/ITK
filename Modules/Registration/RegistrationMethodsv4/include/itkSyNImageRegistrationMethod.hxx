@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSyNImageRegistrationMethod_hxx
-#define __itkSyNImageRegistrationMethod_hxx
+#ifndef itkSyNImageRegistrationMethod_hxx
+#define itkSyNImageRegistrationMethod_hxx
 
 #include "itkSyNImageRegistrationMethod.h"
 
@@ -50,8 +50,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   this->m_NumberOfIterationsPerLevel[2] = 40;
   this->m_DownsampleImagesForMetricDerivatives = true;
   this->m_AverageMidPointGradients = false;
-  this->m_FixedToMiddleTransform = NULL;
-  this->m_MovingToMiddleTransform = NULL;
+  this->m_FixedToMiddleTransform = ITK_NULLPTR;
+  this->m_MovingToMiddleTransform = ITK_NULLPTR;
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>

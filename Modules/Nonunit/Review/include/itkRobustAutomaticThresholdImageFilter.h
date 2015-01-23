@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRobustAutomaticThresholdImageFilter_h
-#define __itkRobustAutomaticThresholdImageFilter_h
+#ifndef itkRobustAutomaticThresholdImageFilter_h
+#define itkRobustAutomaticThresholdImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkRobustAutomaticThresholdCalculator.h"
@@ -151,7 +151,7 @@ public:
 protected:
   RobustAutomaticThresholdImageFilter();
   ~RobustAutomaticThresholdImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateInputRequestedRegion();
 

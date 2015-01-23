@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFileFreeImageIO_h
-#define __itkFileFreeImageIO_h
+#ifndef itkFileFreeImageIO_h
+#define itkFileFreeImageIO_h
 
 
 #include "itkImageIOBase.h"
@@ -85,4 +85,4 @@ private:
 };
 
 } // end namespace itk
-#endif // __itkFileFreeImageIO_h
+#endif // itkFileFreeImageIO_h

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageSource_h
-#define __itkImageSource_h
+#ifndef itkImageSource_h
+#define itkImageSource_h
 
 #include "itkProcessObject.h"
 #include "itkImage.h"
@@ -140,8 +140,8 @@ public:
    * types. Derived classes should have names get methods for these
    * outputs.
    */
-  OutputImageType * GetOutput(void);
-  const OutputImageType * GetOutput(void) const;
+  OutputImageType * GetOutput();
+  const OutputImageType * GetOutput() const;
 
   OutputImageType * GetOutput(unsigned int idx);
 
@@ -256,8 +256,7 @@ protected:
    * different thread).
    *
    * \sa GenerateData(), SplitRequestedRegion() */
-  virtual
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);
 
   /** The GenerateData method normally allocates the buffers for all of the
@@ -311,7 +310,7 @@ protected:
    * desired this method should be overridden to return the
    * appropriate object.
    */
-  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const;
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
 
   /** Split the output's RequestedRegion into "pieces" pieces, returning
    * region "i" as "splitRegion". This method is called concurrently

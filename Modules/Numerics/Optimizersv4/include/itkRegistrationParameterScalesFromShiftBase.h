@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegistrationParameterScalesFromShiftBase_h
-#define __itkRegistrationParameterScalesFromShiftBase_h
+#ifndef itkRegistrationParameterScalesFromShiftBase_h
+#define itkRegistrationParameterScalesFromShiftBase_h
 
 #include "itkRegistrationParameterScalesEstimator.h"
 
@@ -69,14 +69,14 @@ public:
   typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
   /** Estimate parameter scales */
-  virtual void EstimateScales(ScalesType &scales);
+  virtual void EstimateScales(ScalesType &scales) ITK_OVERRIDE;
 
   /** Estimate the scale of a step */
-  virtual FloatType EstimateStepScale(const ParametersType &step);
+  virtual FloatType EstimateStepScale(const ParametersType &step) ITK_OVERRIDE;
 
   /** Estimate the scales of local steps */
   virtual void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales);
+    ScalesType &localStepScales) ITK_OVERRIDE;
 
   /** Set/get small parameter variation */
   itkSetMacro( SmallParameterVariation, ParametersValueType );
@@ -86,7 +86,7 @@ protected:
   RegistrationParameterScalesFromShiftBase();
   ~RegistrationParameterScalesFromShiftBase(){};
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute the shift in voxels when deltaParameters is applied onto the
    * current parameters. */
@@ -113,4 +113,4 @@ private:
 #include "itkRegistrationParameterScalesFromShiftBase.hxx"
 #endif
 
-#endif /* __itkRegistrationParameterScalesFromShiftBase_h */
+#endif /* itkRegistrationParameterScalesFromShiftBase_h */

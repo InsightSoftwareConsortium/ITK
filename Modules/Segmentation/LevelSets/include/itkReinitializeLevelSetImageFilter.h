@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReinitializeLevelSetImageFilter_h
-#define __itkReinitializeLevelSetImageFilter_h
+#ifndef itkReinitializeLevelSetImageFilter_h
+#define itkReinitializeLevelSetImageFilter_h
 
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkFastMarchingImageFilter.h"
@@ -133,14 +133,14 @@ public:
 protected:
   ReinitializeLevelSetImageFilter();
   ~ReinitializeLevelSetImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Internal typedefs. */
   typedef Image< float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
   typedef LevelSetNeighborhoodExtractor< TLevelSet >           LocatorType;
   typedef FastMarchingImageFilter< TLevelSet, SpeedImageType > FastMarchingImageFilterType;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   virtual void GenerateDataFull();
 
@@ -148,9 +148,9 @@ protected:
 
   virtual void AllocateOutput();
 
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *);
+  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
   void SetOutputNarrowBand(NodeContainer *ptr)
   { m_OutputNarrowBand = ptr; }

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDivideOrZeroOutImageFilter_h
-#define __itkDivideOrZeroOutImageFilter_h
+#ifndef itkDivideOrZeroOutImageFilter_h
+#define itkDivideOrZeroOutImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
@@ -106,7 +106,7 @@ public:
   itkTypeMacro(DivideOrZeroOutImageFilter, BinaryFunctorImageFilter);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream& os, Indent indent) const
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Threshold: "  << GetThreshold() << std::endl;

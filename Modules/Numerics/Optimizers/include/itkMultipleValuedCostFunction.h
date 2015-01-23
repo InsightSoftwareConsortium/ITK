@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultipleValuedCostFunction_h
-#define __itkMultipleValuedCostFunction_h
+#ifndef itkMultipleValuedCostFunction_h
+#define itkMultipleValuedCostFunction_h
 
 #include "itkCostFunction.h"
 #include "itkArray2D.h"

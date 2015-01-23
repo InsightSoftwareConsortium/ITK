@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiResolutionPDEDeformableRegistration_hxx
-#define __itkMultiResolutionPDEDeformableRegistration_hxx
+#ifndef itkMultiResolutionPDEDeformableRegistration_hxx
+#define itkMultiResolutionPDEDeformableRegistration_hxx
 #include "itkMultiResolutionPDEDeformableRegistration.h"
 
 #include "itkRecursiveGaussianImageFilter.h"
@@ -212,7 +212,7 @@ void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateData()
 {
-  // Check for NULL images and pointers
+  // Check for ITK_NULLPTR images and pointers
   MovingImageConstPointer movingImage = this->GetMovingImage();
   FixedImageConstPointer  fixedImage = this->GetFixedImage();
 

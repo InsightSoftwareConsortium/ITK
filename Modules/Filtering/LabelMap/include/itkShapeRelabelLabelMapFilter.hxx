@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeRelabelLabelMapFilter_hxx
-#define __itkShapeRelabelLabelMapFilter_hxx
+#ifndef itkShapeRelabelLabelMapFilter_hxx
+#define itkShapeRelabelLabelMapFilter_hxx
 
 #include "itkShapeRelabelLabelMapFilter.h"
 #include "itkLabelMapUtilities.h"

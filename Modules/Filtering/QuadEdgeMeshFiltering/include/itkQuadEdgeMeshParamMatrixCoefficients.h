@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshParamMatrixCoefficients_h
-#define __itkQuadEdgeMeshParamMatrixCoefficients_h
+#ifndef itkQuadEdgeMeshParamMatrixCoefficients_h
+#define itkQuadEdgeMeshParamMatrixCoefficients_h
 
 #include "itkQuadEdgeMesh.h"
 #include "itkTriangleHelper.h"

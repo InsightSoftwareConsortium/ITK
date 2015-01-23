@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleErodeImageFilter_hxx
-#define __itkGrayscaleErodeImageFilter_hxx
+#ifndef itkGrayscaleErodeImageFilter_hxx
+#define itkGrayscaleErodeImageFilter_hxx
 
 #include "itkGrayscaleErodeImageFilter.h"
 #include "itkNumericTraits.h"

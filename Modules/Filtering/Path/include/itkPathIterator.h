@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathIterator_h
-#define __itkPathIterator_h
+#ifndef itkPathIterator_h
+#define itkPathIterator_h
 
 #include "itkPathConstIterator.h"
 

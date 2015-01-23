@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_h
-#define __itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_h
+#ifndef itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_h
+#define itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_h
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
@@ -78,7 +78,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const;
+        const ThreadIdType                threadId ) const ITK_OVERRIDE;
 
 private:
   MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented

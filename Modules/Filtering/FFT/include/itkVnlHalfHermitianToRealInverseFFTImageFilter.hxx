@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlHalfHermitianToRealInverseFFTImageFilter_hxx
-#define __itkVnlHalfHermitianToRealInverseFFTImageFilter_hxx
+#ifndef itkVnlHalfHermitianToRealInverseFFTImageFilter_hxx
+#define itkVnlHalfHermitianToRealInverseFFTImageFilter_hxx
 
 #include "itkHalfHermitianToRealInverseFFTImageFilter.hxx"
 #include "itkImageRegionIteratorWithIndex.h"

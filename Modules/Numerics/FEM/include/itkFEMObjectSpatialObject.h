@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMObjectSpatialObject_h
-#define __itkFEMObjectSpatialObject_h
+#ifndef itkFEMObjectSpatialObject_h
+#define itkFEMObjectSpatialObject_h
 
 #include "itkFEMObject.h"
 #include "itkExceptionObject.h"
@@ -72,7 +72,7 @@ public:
 
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime( void ) const;
+  ModifiedTimeType GetMTime( void ) const ITK_OVERRIDE;
 
 protected:
   FEMObjectSpatialObject(const Self&); //purposely not implemented
@@ -83,7 +83,7 @@ protected:
   FEMObjectSpatialObject();
   virtual ~FEMObjectSpatialObject();
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 };
 
@@ -93,4 +93,4 @@ protected:
 #include "itkFEMObjectSpatialObject.hxx"
 #endif
 
-#endif //__itkFEMObjectSpatialObject_h
+#endif //itkFEMObjectSpatialObject_h

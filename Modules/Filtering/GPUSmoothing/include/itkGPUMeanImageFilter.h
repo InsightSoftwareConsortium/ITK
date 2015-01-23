@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUMeanImageFilter_h
-#define __itkGPUMeanImageFilter_h
+#ifndef itkGPUMeanImageFilter_h
+#define itkGPUMeanImageFilter_h
 
 #include "itkMeanImageFilter.h"
 #include "itkGPUBoxImageFilter.h"
@@ -81,7 +81,7 @@ protected:
   GPUMeanImageFilter();
   ~GPUMeanImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GPUGenerateData();
 

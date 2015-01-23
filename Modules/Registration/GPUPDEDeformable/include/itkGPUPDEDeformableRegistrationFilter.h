@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUPDEDeformableRegistrationFilter_h
-#define __itkGPUPDEDeformableRegistrationFilter_h
+#ifndef itkGPUPDEDeformableRegistrationFilter_h
+#define itkGPUPDEDeformableRegistrationFilter_h
 
 #include "itkGPUDenseFiniteDifferenceImageFilter.h"
 #include "itkGPUPDEDeformableRegistrationFunction.h"
@@ -136,13 +136,13 @@ public:
   void SetFixedImage(const FixedImageType *ptr);
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void) const;
+  const FixedImageType * GetFixedImage() const;
 
   /** Set the moving image. */
   void SetMovingImage(const MovingImageType *ptr);
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void) const;
+  const MovingImageType * GetMovingImage() const;
 
   /** Set initial deformation field. */
   void SetInitialDisplacementField(const DisplacementFieldType *ptr)
@@ -169,7 +169,7 @@ protected:
   GPUPDEDeformableRegistrationFilter();
   ~GPUPDEDeformableRegistrationFilter() {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */

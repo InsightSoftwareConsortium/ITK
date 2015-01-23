@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarChanAndVeseDenseLevelSetImageFilter_h
-#define __itkScalarChanAndVeseDenseLevelSetImageFilter_h
+#ifndef itkScalarChanAndVeseDenseLevelSetImageFilter_h
+#define itkScalarChanAndVeseDenseLevelSetImageFilter_h
 
 #include "itkMultiphaseDenseFiniteDifferenceImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"

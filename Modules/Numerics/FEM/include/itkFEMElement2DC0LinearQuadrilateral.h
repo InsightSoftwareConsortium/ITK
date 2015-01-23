@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearQuadrilateral_h
-#define __itkFEMElement2DC0LinearQuadrilateral_h
+#ifndef itkFEMElement2DC0LinearQuadrilateral_h
+#define itkFEMElement2DC0LinearQuadrilateral_h
 
 #include "itkFEMElementStd.h"
 
@@ -113,4 +113,4 @@ private:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement2DC0LinearQuadrilateral_h
+#endif  // #ifndef itkFEMElement2DC0LinearQuadrilateral_h

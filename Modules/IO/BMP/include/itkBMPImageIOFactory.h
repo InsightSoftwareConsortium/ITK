@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBMPImageIOFactory_h
-#define __itkBMPImageIOFactory_h
+#ifndef itkBMPImageIOFactory_h
+#define itkBMPImageIOFactory_h
 #include "ITKIOBMPExport.h"
 
 #include "itkObjectFactoryBase.h"

@@ -24,8 +24,8 @@
  *         Mouse Imaging Centre, Toronto, Canada 2005.
  */
 
-#ifndef __itkMINCImageIO_h
-#define __itkMINCImageIO_h
+#ifndef itkMINCImageIO_h
+#define itkMINCImageIO_h
 
 #include "itkImageIOBase.h"
 
@@ -113,7 +113,7 @@ public:
 protected:
   MINCImageIO();
   ~MINCImageIO();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void WriteSlice(std::string & fileName, const void *buffer);
 
@@ -144,10 +144,10 @@ protected:
   void AllocateDimensions(int nDims);
 
   // cleanup internal buffers
-  void CleanupDimensions(void);
+  void CleanupDimensions();
 
   // close existing volume, cleanup internal structures
-  void CloseVolume(void);
+  void CloseVolume();
 
 private:
   MINCImageIO(const Self &);    //purposely not implemented
@@ -156,4 +156,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkMINCImageIO_h
+#endif // itkMINCImageIO_h

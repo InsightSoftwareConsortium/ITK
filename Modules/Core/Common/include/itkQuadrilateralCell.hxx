@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadrilateralCell_hxx
-#define __itkQuadrilateralCell_hxx
+#ifndef itkQuadrilateralCell_hxx
+#define itkQuadrilateralCell_hxx
 #include "itkQuadrilateralCell.h"
 #include "vnl/algo/vnl_determinant.h"
 

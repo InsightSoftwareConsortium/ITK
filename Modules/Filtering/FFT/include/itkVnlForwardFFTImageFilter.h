@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlForwardFFTImageFilter_h
-#define __itkVnlForwardFFTImageFilter_h
+#ifndef itkVnlForwardFFTImageFilter_h
+#define itkVnlForwardFFTImageFilter_h
 
 #include "itkForwardFFTImageFilter.h"
 #include "vnl/algo/vnl_fft_base.h"
@@ -85,7 +85,7 @@ protected:
   VnlForwardFFTImageFilter() {}
   ~VnlForwardFFTImageFilter() {}
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   VnlForwardFFTImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkUnsharpMaskLevelSetImageFilter_h
-#define __itkUnsharpMaskLevelSetImageFilter_h
+#ifndef itkUnsharpMaskLevelSetImageFilter_h
+#define itkUnsharpMaskLevelSetImageFilter_h
 
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 
@@ -97,7 +97,7 @@ public:
 protected:
   UnsharpMaskLevelSetImageFilter();
   ~UnsharpMaskLevelSetImageFilter() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** The LevelSetFunctionWithRefitTerm object. */
   typename FunctionType::Pointer m_Function;
@@ -106,7 +106,7 @@ protected:
   unsigned int m_MaxFilterIteration;
 
   /** This filter halts when the iteration count reaches the specified count. */
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
   {
     if ( this->GetElapsedIterations() == m_MaxFilterIteration )
       {

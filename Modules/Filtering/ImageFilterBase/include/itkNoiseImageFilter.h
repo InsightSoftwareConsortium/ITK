@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNoiseImageFilter_h
-#define __itkNoiseImageFilter_h
+#ifndef itkNoiseImageFilter_h
+#define itkNoiseImageFilter_h
 
 #include "itkBoxImageFilter.h"
 #include "itkImage.h"
@@ -106,7 +106,7 @@ protected:
    * \sa BoxImageFilter::ThreadedGenerateData(),
    *     BoxImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   NoiseImageFilter(const Self &); //purposely not implemented

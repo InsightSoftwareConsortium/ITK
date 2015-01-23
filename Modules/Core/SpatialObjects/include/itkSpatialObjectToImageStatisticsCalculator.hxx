@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectToImageStatisticsCalculator_hxx
-#define __itkSpatialObjectToImageStatisticsCalculator_hxx
+#ifndef itkSpatialObjectToImageStatisticsCalculator_hxx
+#define itkSpatialObjectToImageStatisticsCalculator_hxx
 
 #include "itkSpatialObjectToImageStatisticsCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

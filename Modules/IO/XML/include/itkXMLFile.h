@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkXMLFile_h
-#define __itkXMLFile_h
+#ifndef itkXMLFile_h
+#define itkXMLFile_h
 #include "itkLightProcessObject.h"
 #include <fstream>
 
@@ -71,7 +71,7 @@ protected:
    * m_Filename.  The parser will throw an exception in the case of XML
    * syntax errors, missing filenames, unreadable input file, etc.
    */
-  void parse(void);
+  void parse();
 
   std::string m_Filename;
 

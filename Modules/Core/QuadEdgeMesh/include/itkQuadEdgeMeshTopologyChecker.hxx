@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshTopologyChecker_hxx
-#define __itkQuadEdgeMeshTopologyChecker_hxx
+#ifndef itkQuadEdgeMeshTopologyChecker_hxx
+#define itkQuadEdgeMeshTopologyChecker_hxx
 
 #include "itkQuadEdgeMeshTopologyChecker.h"
 
@@ -113,7 +113,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
             }
           }
         }
-      else // cell->GetQEGEom( ) == NULL
+      else // cell->GetQEGEom( ) == ITK_NULLPTR
         {
         // supposely impossible, throw exception
         }

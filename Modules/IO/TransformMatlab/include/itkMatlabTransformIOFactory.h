@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatlabTransformIOFactory_h
-#define __itkMatlabTransformIOFactory_h
+#ifndef itkMatlabTransformIOFactory_h
+#define itkMatlabTransformIOFactory_h
 
 
 #include "itkObjectFactoryBase.h"

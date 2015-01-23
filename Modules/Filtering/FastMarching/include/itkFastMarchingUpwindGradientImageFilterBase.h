@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastMarchingUpwindGradientImageFilterBase_h
-#define __itkFastMarchingUpwindGradientImageFilterBase_h
+#ifndef itkFastMarchingUpwindGradientImageFilterBase_h
+#define itkFastMarchingUpwindGradientImageFilterBase_h
 
 #include "itkFastMarchingImageFilterBase.h"
 #include "itkImage.h"
@@ -92,12 +92,12 @@ protected:
   FastMarchingUpwindGradientImageFilterBase();
   ~FastMarchingUpwindGradientImageFilterBase(){}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void InitializeOutput( OutputImageType* oImage );
+  virtual void InitializeOutput( OutputImageType* oImage ) ITK_OVERRIDE;
 
   virtual void UpdateNeighbors( OutputImageType* oImage,
-                               const NodeType& iNode );
+                               const NodeType& iNode ) ITK_OVERRIDE;
 
   virtual void ComputeGradient(OutputImageType* oImage,
                                const NodeType& iNode );

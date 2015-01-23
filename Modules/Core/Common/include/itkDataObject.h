@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkDataObject_h
-#define __itkDataObject_h
+#ifndef itkDataObject_h
+#define itkDataObject_h
 
 #include "itkObject.h"
 #include "itkSmartPointerForwardReference.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRealTimeClock_h
-#define __itkRealTimeClock_h
+#ifndef itkRealTimeClock_h
+#define itkRealTimeClock_h
 
 #include "itkMacro.h"
 #include "itkObject.h"
@@ -88,4 +88,4 @@ private:
 };
 } // end of namespace itk
 
-#endif  // __itkRealTimeClock_h
+#endif  // itkRealTimeClock_h

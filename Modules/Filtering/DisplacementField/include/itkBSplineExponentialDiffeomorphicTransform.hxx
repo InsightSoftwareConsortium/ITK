@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineExponentialDiffeomorphicTransform_hxx
-#define __itkBSplineExponentialDiffeomorphicTransform_hxx
+#ifndef itkBSplineExponentialDiffeomorphicTransform_hxx
+#define itkBSplineExponentialDiffeomorphicTransform_hxx
 
 #include "itkBSplineExponentialDiffeomorphicTransform.h"
 

@@ -111,7 +111,7 @@ public:
     }
 
   /** Stop condition return string type */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE
     {
     return std::string("Placeholder test return string" );
     }

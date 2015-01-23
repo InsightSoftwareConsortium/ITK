@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVotingBinaryIterativeHoleFillingImageFilter_h
-#define __itkVotingBinaryIterativeHoleFillingImageFilter_h
+#ifndef itkVotingBinaryIterativeHoleFillingImageFilter_h
+#define itkVotingBinaryIterativeHoleFillingImageFilter_h
 
 #include "itkVotingBinaryHoleFillingImageFilter.h"
 
@@ -141,12 +141,12 @@ public:
 protected:
   VotingBinaryIterativeHoleFillingImageFilter();
   virtual ~VotingBinaryIterativeHoleFillingImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   VotingBinaryIterativeHoleFillingImageFilter(const Self &); //purposely not

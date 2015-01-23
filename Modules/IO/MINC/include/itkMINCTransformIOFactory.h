@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMINCTransformIOFactory_h
-#define __itkMINCTransformIOFactory_h
+#ifndef itkMINCTransformIOFactory_h
+#define itkMINCTransformIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
@@ -39,9 +39,9 @@ namespace itk
     typedef SmartPointer< const Self > ConstPointer;
 
     /** Class methods used to interface with the registered factories. */
-    virtual const char * GetITKSourceVersion(void) const;
+    virtual const char * GetITKSourceVersion() const;
 
-    virtual const char * GetDescription(void) const;
+    virtual const char * GetDescription() const;
 
     /** Method for class instantiation. */
     itkFactorylessNewMacro(Self);
@@ -60,7 +60,7 @@ namespace itk
   protected:
     MINCTransformIOFactory();
     ~MINCTransformIOFactory();
-    virtual void PrintSelf(std::ostream & os, Indent indent) const;
+    virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   private:
     MINCTransformIOFactory(const Self &); //purposely not implemented
@@ -68,4 +68,4 @@ namespace itk
   };
 } // end namespace itk
 
-#endif //__itkMINCTransformIOFactory_h
+#endif //itkMINCTransformIOFactory_h

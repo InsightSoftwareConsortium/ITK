@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationChanAndVeseInternalTerm_hxx
-#define __itkLevelSetEquationChanAndVeseInternalTerm_hxx
+#ifndef itkLevelSetEquationChanAndVeseInternalTerm_hxx
+#define itkLevelSetEquationChanAndVeseInternalTerm_hxx
 
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 
@@ -83,7 +83,7 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     }
   else
     {
-    itkWarningMacro( << "m_Heaviside is NULL" );
+    itkWarningMacro( << "m_Heaviside is ITK_NULLPTR" );
     }
 }
 
@@ -139,7 +139,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     }
   else
     {
-    itkWarningMacro( << "m_Heaviside is NULL" );
+    itkWarningMacro( << "m_Heaviside is ITK_NULLPTR" );
     }
   return NumericTraits< LevelSetOutputPixelType >::ZeroValue();
 }
@@ -168,7 +168,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     }
   else
     {
-    itkWarningMacro( << "m_Heaviside is NULL" );
+    itkWarningMacro( << "m_Heaviside is ITK_NULLPTR" );
     }
   return NumericTraits< LevelSetOutputPixelType >::ZeroValue();
 }

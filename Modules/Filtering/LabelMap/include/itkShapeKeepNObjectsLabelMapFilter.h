@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeKeepNObjectsLabelMapFilter_h
-#define __itkShapeKeepNObjectsLabelMapFilter_h
+#ifndef itkShapeKeepNObjectsLabelMapFilter_h
+#define itkShapeKeepNObjectsLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkShapeLabelObjectAccessors.h"
@@ -112,7 +112,7 @@ protected:
   ShapeKeepNObjectsLabelMapFilter();
   ~ShapeKeepNObjectsLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor &)
@@ -171,7 +171,7 @@ protected:
       }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   bool m_ReverseOrdering;
 

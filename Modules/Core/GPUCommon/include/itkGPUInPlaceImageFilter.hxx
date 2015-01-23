@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUInPlaceImageFilter_hxx
-#define __itkGPUInPlaceImageFilter_hxx
+#ifndef itkGPUInPlaceImageFilter_hxx
+#define itkGPUInPlaceImageFilter_hxx
 
 #include "itkGPUInPlaceImageFilter.h"
 

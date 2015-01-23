@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMP_h
-#define __itkFEMP_h
+#ifndef itkFEMP_h
+#define itkFEMP_h
 
 #include <iostream>
 #include "itkMacro.h"
@@ -150,7 +150,7 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
 
     /**
      * Then clone the one on the right hand side
-     * of the expression (if not NULL).
+     * of the expression (if not ITK_NULLPTR).
      */
     if( rhs.m_Data )
       {
@@ -172,4 +172,4 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMP_h
+#endif // #ifndef itkFEMP_h

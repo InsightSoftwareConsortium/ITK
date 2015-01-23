@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTileImageFilter_hxx
-#define __itkTileImageFilter_hxx
+#ifndef itkTileImageFilter_hxx
+#define itkTileImageFilter_hxx
 #include "itkTileImageFilter.h"
 
 #include "itkMacro.h"

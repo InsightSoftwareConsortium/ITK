@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DFilter_h
-#define __itkDeformableSimplexMesh3DFilter_h
+#ifndef itkDeformableSimplexMesh3DFilter_h
+#define itkDeformableSimplexMesh3DFilter_h
 
 #include "itkMeshToMeshFilter.h"
 #include "itkSimplexMesh.h"
@@ -205,10 +205,10 @@ protected:
   DeformableSimplexMesh3DFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                //purposely not implemented
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /**
    * Initializes the datastructures necessary for mesh
@@ -321,4 +321,4 @@ protected:
 #include "itkDeformableSimplexMesh3DFilter.hxx"
 #endif
 
-#endif //__itkDeformableSimplexMesh3DFilter_h
+#endif //itkDeformableSimplexMesh3DFilter_h

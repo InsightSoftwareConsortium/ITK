@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMinimumProjectionImageFilter_h
-#define __itkMinimumProjectionImageFilter_h
+#ifndef itkMinimumProjectionImageFilter_h
+#define itkMinimumProjectionImageFilter_h
 
 #include "itkProjectionImageFilter.h"
 #include "itkConceptChecking.h"

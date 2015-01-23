@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetQuadEdgeMesh_hxx
-#define __itkLevelSetQuadEdgeMesh_hxx
+#ifndef itkLevelSetQuadEdgeMesh_hxx
+#define itkLevelSetQuadEdgeMesh_hxx
 
 #include "itkLevelSetQuadEdgeMesh.h"
 
@@ -104,7 +104,7 @@ LevelSetQuadEdgeMesh< TMesh >::Initialize()
 {
   Superclass::Initialize();
 
-  this->m_Mesh = NULL;
+  this->m_Mesh = ITK_NULLPTR;
 }
 
 template< typename TMesh >
@@ -144,4 +144,4 @@ LevelSetQuadEdgeMesh< TMesh >::Graft( const DataObject* data )
 
 }
 
-#endif // __itkLevelSetQuadEdgeMesh_hxx
+#endif // itkLevelSetQuadEdgeMesh_hxx

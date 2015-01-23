@@ -327,7 +327,7 @@ ParticleSwarmOptimizerBase
                //we have to have a cost function
   if( GetCostFunction() == ITK_NULLPTR )
     {
-    itkExceptionMacro(<<"NULL cost function")
+    itkExceptionMacro(<<"ITK_NULLPTR cost function")
     }
         //if we got here it is safe to get the number of parameters the cost
         //function expects

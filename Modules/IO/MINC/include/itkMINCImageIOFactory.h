@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMINCImageIOFactory_h
-#define __itkMINCImageIOFactory_h
+#ifndef itkMINCImageIOFactory_h
+#define itkMINCImageIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

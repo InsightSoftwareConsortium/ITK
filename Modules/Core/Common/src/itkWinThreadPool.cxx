@@ -27,11 +27,11 @@ ThreadPool
 {
 
   m_Semaphore = CreateSemaphore(
-    NULL,     // default security attributes
+    ITK_NULLPTR,     // default security attributes
     0,        // initial count
     1000, // maximum count
-    NULL);    // unnamed semaphore
-  if (m_Semaphore == NULL)
+    ITK_NULLPTR);    // unnamed semaphore
+  if (m_Semaphore == ITK_NULLPTR)
     {
     itkGenericExceptionMacro(<< "CreateSemaphore error" << GetLastError());
     }
@@ -67,7 +67,7 @@ ThreadPool
   if(!ReleaseSemaphore(
        m_Semaphore,   // handle to semaphore
        1,               // increase count by one
-       NULL))
+       ITK_NULLPTR))
     {
     return -1;
     }
@@ -84,13 +84,13 @@ ThreadPool
   ThreadProcessIdentifiers::WinThreadIdType  dwThreadId;
 
   newlyAddedThreadHandle = CreateThread(
-    NULL,
+    ITK_NULLPTR,
     0,
     (LPTHREAD_START_ROUTINE) ThreadPool::ThreadExecute,     // thread function
     this,
     0,
     &dwThreadId);
-  if( newlyAddedThreadHandle == NULL )
+  if( newlyAddedThreadHandle == ITK_NULLPTR )
     {
     itkDebugMacro(<< "ERROR; adding thread to thread pool");
     itkExceptionMacro(<< "Cannot create thread.");

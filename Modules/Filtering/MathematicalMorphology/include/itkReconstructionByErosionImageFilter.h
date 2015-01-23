@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReconstructionByErosionImageFilter_h
-#define __itkReconstructionByErosionImageFilter_h
+#ifndef itkReconstructionByErosionImageFilter_h
+#define itkReconstructionByErosionImageFilter_h
 
 #include "itkReconstructionImageFilter.h"
 

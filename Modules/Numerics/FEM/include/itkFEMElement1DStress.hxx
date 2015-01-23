@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement1DStress_hxx
-#define __itkFEMElement1DStress_hxx
+#ifndef itkFEMElement1DStress_hxx
+#define itkFEMElement1DStress_hxx
 
 #include "itkFEMElement1DStress.h"
 #include "itkFEMMaterialLinearElasticity.h"
@@ -106,4 +106,4 @@ Element1DStress<TBaseClass>
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElement1DStress_hxx
+#endif // #ifndef itkFEMElement1DStress_hxx

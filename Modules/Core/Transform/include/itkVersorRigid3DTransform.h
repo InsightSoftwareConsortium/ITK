@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVersorRigid3DTransform_h
-#define __itkVersorRigid3DTransform_h
+#ifndef itkVersorRigid3DTransform_h
+#define itkVersorRigid3DTransform_h
 
 #include <iostream>
 #include "itkVersorTransform.h"
@@ -101,9 +101,9 @@ public:
    * This is typically used by optimizers.
    * There are 6 parameters. The first three represent the
    * versor, the last three represent the translation. */
-  void SetParameters(const ParametersType & parameters);
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  virtual const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   /** Update the transform's parameters by the values in \c update.
    * \param update must be of the same length as returned by
@@ -112,13 +112,13 @@ public:
    * SetParameters is called at the end of this method, to allow the transform
    * to perform any required operations on the updated parameters - typically
    * a conversion to member variables for use in TransformPoint. */
-  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 ) ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
 protected:
   VersorRigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
@@ -128,7 +128,7 @@ protected:
   {
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   VersorRigid3DTransform(const Self &); // purposely not implemented
@@ -141,4 +141,4 @@ private:
 #include "itkVersorRigid3DTransform.hxx"
 #endif
 
-#endif /* __itkVersorRigid3DTransform_h */
+#endif /* itkVersorRigid3DTransform_h */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDenseFiniteDifferenceImageFilter_h
-#define __itkGPUDenseFiniteDifferenceImageFilter_h
+#ifndef itkGPUDenseFiniteDifferenceImageFilter_h
+#define itkGPUDenseFiniteDifferenceImageFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkGPUFiniteDifferenceImageFilter.h"
@@ -102,7 +102,7 @@ protected:
   GPUDenseFiniteDifferenceImageFilter();
   ~GPUDenseFiniteDifferenceImageFilter() {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the GPU.  "dt" is the time step to use for the update of each pixel. */

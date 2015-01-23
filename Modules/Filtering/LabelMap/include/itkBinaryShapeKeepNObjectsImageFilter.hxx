@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryShapeKeepNObjectsImageFilter_hxx
-#define __itkBinaryShapeKeepNObjectsImageFilter_hxx
+#ifndef itkBinaryShapeKeepNObjectsImageFilter_hxx
+#define itkBinaryShapeKeepNObjectsImageFilter_hxx
 
 #include "itkBinaryShapeKeepNObjectsImageFilter.h"
 #include "itkProgressAccumulator.h"

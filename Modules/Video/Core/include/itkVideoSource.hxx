@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVideoSource_hxx
-#define __itkVideoSource_hxx
+#ifndef itkVideoSource_hxx
+#define itkVideoSource_hxx
 
 #include "itkVideoSource.h"
 
@@ -121,7 +121,7 @@ GraftNthOutput(unsigned int idx, TOutputVideoStream* graft)
     }
   if (!graft)
     {
-    itkExceptionMacro("Cannot graft from a NULL pointer");
+    itkExceptionMacro("Cannot graft from a ITK_NULLPTR pointer");
     }
 
   // we use the process object method since all our outputs may not be of the

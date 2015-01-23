@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExponentialDisplacementFieldImageFilter_hxx
-#define __itkExponentialDisplacementFieldImageFilter_hxx
+#ifndef itkExponentialDisplacementFieldImageFilter_hxx
+#define itkExponentialDisplacementFieldImageFilter_hxx
 
 #include "itkExponentialDisplacementFieldImageFilter.h"
 #include "itkProgressReporter.h"

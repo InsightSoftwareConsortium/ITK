@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiscreteHessianGaussianImageFunction_h
-#define __itkDiscreteHessianGaussianImageFunction_h
+#ifndef itkDiscreteHessianGaussianImageFunction_h
+#define itkDiscreteHessianGaussianImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianDerivativeOperator.h"
@@ -196,7 +196,7 @@ protected:
   ~DiscreteHessianGaussianImageFunction(){}
 
   void operator=(const Self &){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void RecomputeGaussianKernel();
 

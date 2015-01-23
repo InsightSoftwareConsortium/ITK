@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmoothingRecursiveGaussianImageFilter_h
-#define __itkSmoothingRecursiveGaussianImageFilter_h
+#ifndef itkSmoothingRecursiveGaussianImageFilter_h
+#define itkSmoothingRecursiveGaussianImageFilter_h
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkCastImageFilter.h"
@@ -136,11 +136,11 @@ public:
 
   // See super class for doxygen documentation
   //
-  void SetNumberOfThreads(ThreadIdType nb);
+  void SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
 
   // See super class for doxygen documentation
   //
-  virtual bool CanRunInPlace( void ) const;
+  virtual bool CanRunInPlace( void ) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -153,20 +153,20 @@ public:
 protected:
   SmoothingRecursiveGaussianImageFilter();
   virtual ~SmoothingRecursiveGaussianImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   /** SmoothingRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, SmoothingRecursiveGaussianImageFilter needs to provide
    * an implementation for GenerateInputRequestedRegion in order to inform
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
   SmoothingRecursiveGaussianImageFilter(const Self &); //purposely not

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSTLConstContainerAdaptor_h
-#define __itkSTLConstContainerAdaptor_h
+#ifndef itkSTLConstContainerAdaptor_h
+#define itkSTLConstContainerAdaptor_h
 
 namespace itk
 {

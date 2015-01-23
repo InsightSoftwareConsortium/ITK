@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLinearSystemWrapper_h
-#define __itkFEMLinearSystemWrapper_h
+#ifndef itkFEMLinearSystemWrapper_h
+#define itkFEMLinearSystemWrapper_h
 
 #include "itkMacro.h"
 #include "itkFEMSolution.h"
@@ -83,7 +83,7 @@ public:
    * Clear all the data (matrices) inside the system, so that the system
    * is ready to solve another problem from scratch.
    */
-  virtual void Clean(void);
+  virtual void Clean();
 
   /**
    * Set the order of the system.  All matrices will be of size NxN and
@@ -549,4 +549,4 @@ public:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLinearSystemWrapper_h
+#endif // #ifndef itkFEMLinearSystemWrapper_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryThinningImageFilter_h
-#define __itkBinaryThinningImageFilter_h
+#ifndef itkBinaryThinningImageFilter_h
+#define itkBinaryThinningImageFilter_h
 
 #include "itkNeighborhoodIterator.h"
 #include "itkImageToImageFilter.h"
@@ -105,7 +105,7 @@ public:
   typedef NeighborhoodIterator< TInputImage > NeighborhoodIteratorType;
 
   /** Get Skelenton by thinning image. */
-  OutputImageType * GetThinning(void);
+  OutputImageType * GetThinning();
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -133,7 +133,7 @@ protected:
   virtual ~BinaryThinningImageFilter() {}
 
   /** Compute thinning Image. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Prepare data. */
   void PrepareData();

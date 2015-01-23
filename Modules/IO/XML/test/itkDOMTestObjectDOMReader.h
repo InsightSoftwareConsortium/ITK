@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMTestObjectDOMReader_h
-#define __itkDOMTestObjectDOMReader_h
+#ifndef itkDOMTestObjectDOMReader_h
+#define itkDOMTestObjectDOMReader_h
 
 #include "itkDOMReader.h"
 #include "itkDOMTestObject.h"
@@ -95,4 +95,4 @@ DOMTestObjectDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
 
 } // namespace itk
 
-#endif // __itkDOMTestObjectDOMReader_h
+#endif // itkDOMTestObjectDOMReader_h

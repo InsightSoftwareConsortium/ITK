@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLiThresholdCalculator_h
-#define __itkLiThresholdCalculator_h
+#ifndef itkLiThresholdCalculator_h
+#define itkLiThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 
@@ -75,7 +75,7 @@ public:
 protected:
   LiThresholdCalculator() {};
   virtual ~LiThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   LiThresholdCalculator(const Self&); //purposely not implemented

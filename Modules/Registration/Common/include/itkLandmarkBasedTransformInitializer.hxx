@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLandmarkBasedTransformInitializer_hxx
-#define __itkLandmarkBasedTransformInitializer_hxx
+#ifndef itkLandmarkBasedTransformInitializer_hxx
+#define itkLandmarkBasedTransformInitializer_hxx
 
 #include "itkLandmarkBasedTransformInitializer.h"
 #include "itkMatrix.h"
@@ -30,8 +30,8 @@ namespace itk
 template< typename TTransform, typename TFixedImage, typename TMovingImage >
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::LandmarkBasedTransformInitializer():
-  m_ReferenceImage(NULL),
-  m_Transform(NULL),
+  m_ReferenceImage(ITK_NULLPTR),
+  m_Transform(ITK_NULLPTR),
   m_FixedLandmarks(0),
   m_MovingLandmarks(0),
   m_LandmarkWeight(0),
@@ -722,4 +722,4 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 }
 }  // namespace itk
 
-#endif /* __itkLandmarkBasedTransformInitializer_hxx */
+#endif /* itkLandmarkBasedTransformInitializer_hxx */

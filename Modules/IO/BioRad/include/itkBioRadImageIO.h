@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBioRadImageIO_h
-#define __itkBioRadImageIO_h
+#ifndef itkBioRadImageIO_h
+#define itkBioRadImageIO_h
 #include "ITKIOBioRadExport.h"
 
 #include "itkImageIOBase.h"
@@ -100,4 +100,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkBioRadImageIO_h
+#endif // itkBioRadImageIO_h
