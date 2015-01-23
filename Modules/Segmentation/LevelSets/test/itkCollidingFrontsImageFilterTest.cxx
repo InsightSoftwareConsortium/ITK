@@ -184,6 +184,11 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
     }
 
   std::cout << "Colliding Fronts test passed. " << std::endl;
+
+  typedef itk::Image<double,ImageDimension> DoubleImageType;
+  typedef itk::CollidingFrontsImageFilter<DoubleImageType,InternalImageType> CollidingFrontsFilterType2;
+  CollidingFrontsFilterType2::Pointer collidingFronts2 = CollidingFrontsFilterType2::New();
+
   return EXIT_SUCCESS;
 
 }
