@@ -38,8 +38,8 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   m_EnforceStationaryBoundary( true ),
   m_SplineOrder( 3 ),
   m_UsePointWeights( false ),
-  m_BSplineDomainIsDefined( false ),
-  m_UseInputFieldToDefineTheBSplineDomain( true )
+  m_BSplineDomainIsDefined( true ),
+  m_UseInputFieldToDefineTheBSplineDomain( false )
 {
   this->SetNumberOfRequiredInputs( 0 );
 
@@ -50,7 +50,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   this->m_BSplineDomainOrigin.Fill( 0.0 );
   this->m_BSplineDomainSpacing.Fill( 1.0 );
-  this->m_BSplineDomainSize.Fill( 100 );
+  this->m_BSplineDomainSize.Fill( 0 );
   this->m_BSplineDomainDirection.SetIdentity();
 }
 
@@ -170,6 +170,8 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   bsplineParametricDomainField->SetDirection( identity );
   bsplineParametricDomainField->Allocate();
 
+  typename OutputFieldType::IndexType startIndex = bsplineParametricDomainField->GetBufferedRegion().GetIndex();
+
   // Add the boundary points here if we have a b-spline domain not defined by the
   // input field.  This more general case doesn't take advantage of the speed up
   // within the B-spline scattered data fitting filter when consecutive points
@@ -177,8 +179,6 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   if( this->m_EnforceStationaryBoundary && ! this->m_UseInputFieldToDefineTheBSplineDomain )
     {
-    typename OutputFieldType::IndexType startIndex = bsplineParametricDomainField->GetBufferedRegion().GetIndex();
-
     ImageRegionConstIteratorWithIndex<OutputFieldType> ItB(
       bsplineParametricDomainField, bsplineParametricDomainField->GetBufferedRegion() );
 
@@ -213,8 +213,6 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   if( inputField )
     {
     itkDebugMacro( "Gathering information from the input displacement field. " );
-
-    const typename DisplacementFieldType::IndexType startIndex = bsplineParametricDomainField->GetRequestedRegion().GetIndex();
 
     ImageRegionConstIteratorWithIndex<InputFieldType> It( inputField, inputField->GetBufferedRegion() );
 
@@ -306,6 +304,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
     while( ItP != inputPointSet->GetPoints()->End() )
       {
+
       PointType parametricPoint;
 
       PointType physicalPoint = ItP.Value();
@@ -333,6 +332,22 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
       ContinuousIndexType cidx;
       isInside = bsplinePhysicalDomainField->TransformPhysicalPointToContinuousIndex( imagePoint, cidx );
+
+      if( isInside && this->m_EnforceStationaryBoundary )
+        {
+        // If we enforce the stationary and the point is on the boundary (or really close
+        // to the boundary), we can ignore it.
+        for( unsigned int d = 0; d < ImageDimension; d++ )
+          {
+          if( cidx[d] < static_cast<typename ContinuousIndexType::CoordRepType>( startIndex[d] ) + 0.5 ||
+              cidx[d] > static_cast<typename ContinuousIndexType::CoordRepType>( startIndex[d] + static_cast<int>( this->m_BSplineDomainSize[d] ) - 1 ) - 0.5 )
+            {
+            isInside = false;
+            break;
+            }
+          }
+        }
+
       if( isInside )
         {
         bsplineParametricDomainField->TransformContinuousIndexToPhysicalPoint( cidx, parametricPoint );

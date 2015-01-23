@@ -40,6 +40,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   this->m_FixedTransform  = FixedIdentityTransformType::New();
   this->m_MovingTransform = MovingIdentityTransformType::New();
 
+  this->m_VirtualImage = ITK_NULLPTR;
+
   this->m_UserHasSetVirtualDomain = false;
 }
 
