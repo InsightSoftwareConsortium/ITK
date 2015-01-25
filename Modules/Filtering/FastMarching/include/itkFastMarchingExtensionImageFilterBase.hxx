@@ -230,7 +230,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
   // "Level Set Methods and Fast Marching Methods", J.A. Sethian,
   // Cambridge Press, Second edition, 1999.
 
-  std::vector< InternalNodeStructure > NodesUsed( ImageDimension );
+  typename Superclass::InternalNodeStructureArray NodesUsed;
 
   this->GetInternalNodesUsed( oImage, iNode, NodesUsed );
 

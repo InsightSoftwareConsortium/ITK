@@ -23,6 +23,7 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkArray.h"
+#include <bitset>
 
 namespace itk
 {
@@ -105,18 +106,10 @@ public:
   typedef typename Traits::NodePairContainerConstIterator
     NodePairContainerConstIterator;
 
-  /*
-  typedef typename Superclass::ElementIdentifier ElementIdentifier;
-
-  typedef typename Superclass::PriorityQueueElementType PriorityQueueElementType;
-
-  typedef typename Superclass::PriorityQueueType PriorityQueueType;
-  typedef typename Superclass::PriorityQueuePointer PriorityQueuePointer;
-  */
-
   typedef typename Superclass::LabelType LabelType;
 
   itkStaticConstMacro( ImageDimension, unsigned int, Traits::ImageDimension );
+
 
   typedef Image< unsigned char, ImageDimension >  LabelImageType;
   typedef typename LabelImageType::Pointer        LabelImagePointer;
@@ -127,6 +120,11 @@ public:
 
   typedef NeighborhoodIterator<LabelImageType> NeighborhoodIteratorType;
   typedef typename NeighborhoodIteratorType::RadiusType NeighborhoodRadiusType;
+
+  class InternalNodeStructure;
+
+
+  typedef FixedArray< InternalNodeStructure, ImageDimension > InternalNodeStructureArray;
 
   itkGetModifiableObjectMacro(LabelImage, LabelImageType );
 
@@ -160,8 +158,6 @@ protected:
 
   /** Destructor */
   virtual ~FastMarchingImageFilterBase();
-
-  class InternalNodeStructure;
 
   OutputRegionType  m_BufferedRegion;
   NodeType          m_StartIndex;
@@ -214,13 +210,13 @@ protected:
 
   /** Find the nodes were the front will propagate given a node */
   void GetInternalNodesUsed( OutputImageType* oImage,
-                            const NodeType& iNode,
-                            std::vector< InternalNodeStructure >& ioNodesUsed );
+                             const NodeType& iNode,
+                             InternalNodeStructureArray& ioNodesUsed );
 
   /** Solve the quadratic equation */
   double Solve( OutputImageType* oImage,
                const NodeType& iNode,
-               std::vector< InternalNodeStructure >& ioNeighbors ) const;
+               InternalNodeStructureArray& ioNeighbors ) const;
 
   // --------------------------------------------------------------------------
   // --------------------------------------------------------------------------
@@ -232,18 +228,18 @@ protected:
   // Functions/data for the 2-D case
   void InitializeIndices2D();
   bool IsChangeWellComposed2D( const NodeType& ) const;
-  bool IsCriticalC1Configuration2D( const std::vector<bool>& ) const;
-  bool IsCriticalC2Configuration2D( const std::vector<bool>& ) const;
-  bool IsCriticalC3Configuration2D( const std::vector<bool>& ) const;
-  bool IsCriticalC4Configuration2D( const std::vector<bool>& ) const;
+  bool IsCriticalC1Configuration2D( const std::bitset<9>& ) const;
+  bool IsCriticalC2Configuration2D( const std::bitset<9>& ) const;
+  bool IsCriticalC3Configuration2D( const std::bitset<9>& ) const;
+  bool IsCriticalC4Configuration2D( const std::bitset<9>& ) const;
 
   Array<unsigned char>  m_RotationIndices[4];
   Array<unsigned char>  m_ReflectionIndices[2];
 
   // Functions/data for the 3-D case
   void InitializeIndices3D();
-  bool IsCriticalC1Configuration3D( const std::vector<bool>& ) const;
-  unsigned int IsCriticalC2Configuration3D( const std::vector<bool>& ) const;
+  bool IsCriticalC1Configuration3D( const std::bitset<8>& ) const;
+  unsigned int IsCriticalC2Configuration3D( const std::bitset<8>& ) const;
   bool IsChangeWellComposed3D( const NodeType& ) const;
 
   Array<unsigned char>                        m_C1Indices[12];

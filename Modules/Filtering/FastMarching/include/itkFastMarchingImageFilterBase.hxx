@@ -230,7 +230,7 @@ void
 FastMarchingImageFilterBase< TInput, TOutput >::
 UpdateValue( OutputImageType* oImage, const NodeType& iNode )
   {
-  std::vector< InternalNodeStructure > NodesUsed( ImageDimension );
+    InternalNodeStructureArray NodesUsed;
 
   GetInternalNodesUsed( oImage, iNode, NodesUsed );
 
@@ -255,7 +255,7 @@ void
 FastMarchingImageFilterBase< TInput, TOutput >::
 GetInternalNodesUsed( OutputImageType* oImage,
                       const NodeType& iNode,
-                      std::vector< InternalNodeStructure >& ioNodesUsed )
+                      InternalNodeStructureArray& ioNodesUsed )
   {
   NodeType neighbor_node = iNode;
 
@@ -321,12 +321,12 @@ double
 FastMarchingImageFilterBase< TInput, TOutput >::
 Solve( OutputImageType* oImage,
       const NodeType& iNode,
-      std::vector< InternalNodeStructure >& iNeighbors ) const
+      InternalNodeStructureArray& iNeighbors ) const
 {
   (void) oImage;
 
   // sort the local list
-  std::sort( iNeighbors.begin(), iNeighbors.end() );
+  std::sort( iNeighbors.Begin(), iNeighbors.End() );
 
   double oSolution = NumericTraits< double >::max();
 
@@ -346,10 +346,10 @@ Solve( OutputImageType* oImage,
   double spaceFactor = 0.;
   unsigned int axis = 0;
 
-  typename std::vector< InternalNodeStructure >::iterator
-      n_it = iNeighbors.begin();
+  typename InternalNodeStructureArray::Iterator
+      n_it = iNeighbors.Begin();
 
-  while( n_it != iNeighbors.end() )
+  while( n_it != iNeighbors.End() )
     {
     value = static_cast< double >( n_it->m_Value );
 
@@ -743,7 +743,7 @@ IsChangeWellComposed2D( const NodeType& idx ) const
     this->m_LabelImage->GetBufferedRegion() );
   It.SetLocation( idx );
 
-  std::vector<bool> neighborhoodPixels( 9 );
+  std::bitset<9> neighborhoodPixels;
 
   // Check for critical configurations: 4 90-degree rotations
 
@@ -755,7 +755,7 @@ IsChangeWellComposed2D( const NodeType& idx ) const
         ( It.GetPixel( this->m_RotationIndices[i][j] ) != Traits::Alive );
       if( this->m_RotationIndices[i][j] == 4 )
         {
-        neighborhoodPixels[j] = !neighborhoodPixels[j];
+        neighborhoodPixels.flip(j);
         }
       }
 
@@ -781,15 +781,9 @@ IsChangeWellComposed2D( const NodeType& idx ) const
         ( It.GetPixel( this->m_ReflectionIndices[i][j] ) != Traits::Alive );
       if( this->m_ReflectionIndices[i][j] == 4 )
         {
-        neighborhoodPixels[j] = !neighborhoodPixels[j];
+        neighborhoodPixels.flip(j);
         }
       }
-//    if( !this->m_FullInvariance
-//      && ( this->IsCriticalC1Configuration2D( neighborhoodPixels )
-//        || this->IsCriticalC2Configuration2D( neighborhoodPixels ) ) )
-//      {
-//      return false;
-//      }
     if( this->IsCriticalC3Configuration2D( neighborhoodPixels )
       || this->IsCriticalC4Configuration2D( neighborhoodPixels ) )
       {
@@ -804,7 +798,7 @@ IsChangeWellComposed2D( const NodeType& idx ) const
 template< typename TInput, typename TOutput >
 bool
 FastMarchingImageFilterBase< TInput, TOutput >::
-IsCriticalC1Configuration2D( const std::vector<bool>& neighborhood ) const
+IsCriticalC1Configuration2D( const std::bitset<9>& neighborhood ) const
 {
   return ( !neighborhood[0] &&  neighborhood[1] &&
             neighborhood[3] && !neighborhood[4] &&
@@ -816,7 +810,7 @@ IsCriticalC1Configuration2D( const std::vector<bool>& neighborhood ) const
 template< typename TInput, typename TOutput >
 bool
 FastMarchingImageFilterBase< TInput, TOutput >::
-IsCriticalC2Configuration2D( const std::vector<bool>& neighborhood ) const
+IsCriticalC2Configuration2D( const std::bitset<9>& neighborhood ) const
 {
   return ( !neighborhood[0] &&  neighborhood[1] &&
             neighborhood[3] && !neighborhood[4] &&
@@ -829,7 +823,7 @@ IsCriticalC2Configuration2D( const std::vector<bool>& neighborhood ) const
 template< typename TInput, typename TOutput >
 bool
 FastMarchingImageFilterBase< TInput, TOutput >::
-IsCriticalC3Configuration2D( const std::vector<bool>& neighborhood ) const
+IsCriticalC3Configuration2D( const std::bitset<9>& neighborhood ) const
 {
   return ( !neighborhood[0] &&  neighborhood[1] &&
             neighborhood[3] && !neighborhood[4] &&
@@ -842,7 +836,7 @@ IsCriticalC3Configuration2D( const std::vector<bool>& neighborhood ) const
 template< typename TInput, typename TOutput >
 bool
 FastMarchingImageFilterBase< TInput, TOutput >::
-IsCriticalC4Configuration2D( const std::vector<bool>& neighborhood ) const
+IsCriticalC4Configuration2D( const std::bitset<9>& neighborhood ) const
 {
   return ( !neighborhood[0] &&  neighborhood[1] &&
             neighborhood[3] && !neighborhood[4] &&
@@ -933,7 +927,7 @@ bool
 FastMarchingImageFilterBase< TInput, TOutput >::
 IsChangeWellComposed3D( const NodeType& idx ) const
 {
-  std::vector<bool> neighborhoodPixels( 8 );
+  std::bitset<8> neighborhoodPixels;
 
   NeighborhoodRadiusType radius;
   radius.Fill( 1 );
@@ -988,7 +982,7 @@ IsChangeWellComposed3D( const NodeType& idx ) const
 template< typename TInput, typename TOutput >
 bool
 FastMarchingImageFilterBase< TInput, TOutput >::
-IsCriticalC1Configuration3D( const std::vector<bool>& neighborhood ) const
+IsCriticalC1Configuration3D( const std::bitset<8>& neighborhood ) const
 {
   return ( (  neighborhood[0] &&  neighborhood[1] &&
              !neighborhood[2] && !neighborhood[3] ) ||
@@ -1001,7 +995,7 @@ IsCriticalC1Configuration3D( const std::vector<bool>& neighborhood ) const
 template< typename TInput, typename TOutput >
 unsigned int
 FastMarchingImageFilterBase< TInput, TOutput >::
-IsCriticalC2Configuration3D( const std::vector<bool>& neighborhood ) const
+IsCriticalC2Configuration3D( const std::bitset<8>& neighborhood ) const
 {
   // Check if Type 1 or Type 2
   for ( unsigned int i = 0; i < 4; i++ )
