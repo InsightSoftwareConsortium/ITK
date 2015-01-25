@@ -402,8 +402,8 @@ macro(itk_end_wrap_module_python)
   add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
   set_target_properties(${lib} PROPERTIES PREFIX "_")
   # gcc 4.4 complains a lot without this flag when building in release mode
-  if(CMAKE_COMPILER_IS_GNUCC)
-    set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -Wno-shadow")
+  if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -w")
   endif()
   # extension is not the same on windows
   if(WIN32)

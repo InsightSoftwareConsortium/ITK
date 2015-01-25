@@ -1,59 +1,84 @@
 ###############################################################################
-option(ITK_USE_SYSTEM_GCCXML "Use system gccxml. If OFF, gccxml is built as an external project." OFF)
-mark_as_advanced(ITK_USE_SYSTEM_GCCXML)
-
-set(gccxml_url http://itk.org/files/gccxml/gccxml-2014-08-06.tar.bz2)
-set(gccxml_md5 8c72fef316e7fa5deae970ca487c2816)
-
-set(gccxml_ep ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml)
+option(ITK_USE_SYSTEM_CASTXML "Use system castxml. If OFF, castxml is built as external project." OFF)
+mark_as_advanced(ITK_USE_SYSTEM_CASTXML)
 if(WIN32)
-  set(gccxml_ep "${gccxml_ep}.exe")
+  set(exe .exe)
 endif()
+set(castxml_ep ${CMAKE_CURRENT_BINARY_DIR}/llvm/bin/castxml${exe})
 
-if(ITK_USE_SYSTEM_GCCXML)
-  # the path set for the EP build prevents find_package to do its job
-  if("${GCCXML}" STREQUAL "${gccxml_ep}")
-    unset(GCCXML CACHE)
+if(ITK_USE_SYSTEM_CASTXML)
+  # the path set for the EP build prevents find_program to do its job
+  if("${CASTXML}" STREQUAL "${castxml_ep}")
+    unset(CASTXML CACHE)
   endif()
-  find_package(GCCXML REQUIRED)
-  set(GCCXML ${GCCXML} CACHE FILEPATH "gccxml executable." FORCE)
+  find_program(CASTXML castxml)
+  if(NOT CASTXML)
+    message(FATAL_ERROR "Could NOT find castxml. Turn ITK_USE_SYSTEM_CASTXML to OFF to build it with ITK.")
+  endif()
 else()
   include(ExternalProject)
-  # build gccxml as an external project
-  if(WIN32)
-    # windows build requires an extra step after the install. We use the test to run that step
-    set(test TEST_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml_vcconfig.bat)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_CRT_SECURE_NO_WARNINGS")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_CRT_SECURE_NO_WARNINGS")
+  # might be set to on by default when llvm/clang 3.6 are released
+  # option(ITK_USE_SYSTEM_LLVM "Use system llvm and clang. If OFF, llvm and clang are built as external projects." ON)
+  set(ITK_USE_SYSTEM_LLVM OFF)
+  if(ITK_USE_SYSTEM_LLVM)
+    find_package(LLVM REQUIRED)
+    set(castxml_deps)
   else()
-    set(test )
+    ExternalProject_Add(llvm
+      SVN_REPOSITORY http://llvm.org/svn/llvm-project/llvm/branches/release_36
+      SVN_REVISION -r 227646
+      UPDATE_COMMAND ""
+      CMAKE_ARGS -Wno-dev
+      CMAKE_CACHE_ARGS
+        -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
+        "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
+        -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
+        "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
+        -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+      INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
+      )
+    ExternalProject_Add(clang
+      DEPENDS llvm
+      SVN_REPOSITORY http://llvm.org/svn/llvm-project/cfe/branches/release_36
+      SVN_REVISION -r 227646
+      UPDATE_COMMAND ""
+      GIT_TAG 7c554b353eb4b7c99213b73db52b1d35d8213041
+      CMAKE_ARGS -Wno-dev
+      CMAKE_CACHE_ARGS
+        -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
+        "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
+        -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
+        "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
+        -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        -DLLVM_CONFIG:PATH=${CMAKE_CURRENT_BINARY_DIR}/llvm/bin/llvm-config${exe}
+      INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
+      )
+    set(LLVM_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm/share/llvm/cmake)
+    set(castxml_deps llvm clang)
   endif()
-  # If we are building ITK
-  if(ITK_BINARY_DIR)
-    itk_download_attempt_check(GCC_XML)
-  endif()
-  ExternalProject_Add(GCC_XML
-  URL ${gccxml_url}
-  URL_MD5 ${gccxml_md5}
-  PREFIX gccxml
-  CMAKE_ARGS
-    -DCMAKE_CXX_COMPILER:STRING=${CMAKE_CXX_COMPILER}
-    -DCMAKE_CXX_COMPILER_ARG1:STRING=${CMAKE_CXX_COMPILER_ARG1}
-    -DCMAKE_C_COMPILER:STRING=${CMAKE_C_COMPILER}
-    -DCMAKE_C_COMPILER_ARG1:STRING=${CMAKE_C_COMPILER_ARG1}
-    -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
-    -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-    -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR}/gccxml/
-    -DBUILD_TESTING:BOOL=OFF
-  ${test}
-  STEP_TARGETS install
-  )
-  set_property(TARGET GCC_XML PROPERTY _EP_TEST_AFTER_INSTALL 1)
-  set_property(TARGET GCC_XML PROPERTY _EP_TEST_BEFORE_INSTALL 0)
-  set(GCCXML ${gccxml_ep} CACHE FILEPATH "gccxml executable." FORCE)
+
+  ExternalProject_Add(castxml
+    GIT_REPOSITORY https://github.com/CastXML/CastXML.git
+    GIT_TAG 9c573f8c437f4ab83e7eefc76df2076345a667fa
+    UPDATE_COMMAND ""
+    DEPENDS ${castxml_deps}
+    CMAKE_ARGS -Wno-dev
+    CMAKE_CACHE_ARGS
+      -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
+      "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
+      -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
+      "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
+      -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+      -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+      -DLLVM_DIR:PATH=${LLVM_DIR}
+    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
+    )
+  set(CASTXML ${CMAKE_CURRENT_BINARY_DIR}/llvm/bin/castxml${exe})
+  set(CASTXML ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
 endif()
-mark_as_advanced(GCCXML)
+mark_as_advanced(CASTXML)
 
 ###############################################################################
 # install the files requires for gccxml
@@ -86,7 +111,7 @@ endmacro()
 
 macro(itk_wrap_simple_type_gccxml wrap_class swig_name)
   set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}    typedef ${wrap_class} ${swig_name};\n")
-  set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}    sizeof(${swig_name});\n")
+  set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}    (void)sizeof(${swig_name});\n")
 endmacro()
 
 
@@ -106,47 +131,31 @@ macro(itk_end_wrap_submodule_gccxml module)
   # Create the cxx file which will be given to gccxml.
   set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.cxx")
   configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
-  set(ADDITIONAL_GCC_XML_FLAGS "")
-  if(MSVC90)
-    set( ADDITIONAL_GCC_XML_FLAGS "-D\"_HAS_TR1=0\"" )
-  endif()
 
   # generate the xml file
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
   set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
 
-  set(_gccxml_depends)
-  if(NOT ITK_USE_SYSTEM_GCCXML)
+  set(_castxml_depends)
+  if(NOT ITK_USE_SYSTEM_CASTXML)
     # ExternalProject target for GCC_XML.
-    set(_gccxml_depends GCC_XML)
+    set(_castxml_depends castxml)
   endif()
+  set(ccache_cmd)
   if(ITK_USE_CCACHE)
-    add_custom_command(
-      OUTPUT ${xml_file}
-      COMMAND "${CCACHE_EXECUTABLE}" "${GCCXML}"
-            -c
-            -fxml-start=_cable_
-            -o ${xml_file}
-            ${CONFIG_GCCXML_INC_CONTENTS}
-            -DCABLE_CONFIGURATION
-            -DITK_MANUAL_INSTANTIATION
-            ${cxx_file}
-      DEPENDS ${_gccxml_depends} ${cxx_file}
-    )
-  else()
-    add_custom_command(
-      OUTPUT ${xml_file}
-      COMMAND ${GCCXML}
-            -fxml-start=_cable_
-            -fxml=${xml_file}
-            --gccxml-gcc-options ${gccxml_inc_file}
-            -DCABLE_CONFIGURATION
-            -DITK_MANUAL_INSTANTIATION
-            ${ADDITIONAL_GCC_XML_FLAGS}
-            ${cxx_file}
-      DEPENDS ${_gccxml_depends} ${cxx_file} ${gccxml_inc_file}
-    )
+    set(_ccache_cmd ${CCACHE_EXECUTABLE})
   endif()
+  add_custom_command(
+    OUTPUT ${xml_file}
+    COMMAND ${_ccache_cmd} ${CASTXML}
+          -w
+          -c # needed for ccache to think we are not calling for link
+          -o ${xml_file}
+          @${gccxml_inc_file}
+          ${cxx_file}
+          VERBATIM
+    DEPENDS ${_castxml_depends} ${cxx_file} ${gccxml_inc_file}
+  )
 
   set(GCC_XML_OUTPUT_FILES ${GCC_XML_OUTPUT_FILES} ${xml_file})
 
@@ -163,24 +172,31 @@ endmacro()
 macro(itk_wrap_module_gccxml library_name)
   # create the files used to pass the file to include to gccxml
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
-  set(CONFIG_GCCXML_INC_CONTENTS)
   get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
-  list( REMOVE_DUPLICATES include_dir_list )
+  list(REMOVE_DUPLICATES include_dir_list)
 
-  if(ITK_USE_CCACHE)
-    # it is used on the command line
-    foreach(dir ${include_dir_list})
-      set(CONFIG_GCCXML_INC_CONTENTS ${CONFIG_GCCXML_INC_CONTENTS} -I${dir})
-    endforeach()
+  set(c)
+  foreach(dir ${include_dir_list})
+    set(c "${c}-I${dir}\n")
+  endforeach()
+  if(MSVC)
+    set(c "${c}--castxml-cc-msvc cl\n")
+    if(MSVC90)
+      # needed for VS2008 64 bit
+      set(c "${c}-D\"_HAS_TR1=0\"\n")
+    endif()
   else()
-    # really create the content of the file
-    foreach(dir ${include_dir_list})
-      set(CONFIG_GCCXML_INC_CONTENTS "${CONFIG_GCCXML_INC_CONTENTS}-I${dir}\n")
-    endforeach()
-    # and the file.
-    configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/gcc_xml.inc.in" "${gccxml_inc_file}"
-      @ONLY)
+    set(c "${c}--castxml-cc-gnu ${CMAKE_CXX_COMPILER}\n")
   endif()
+  set(c "${c}--castxml-gccxml\n")
+  set(c "${c}--castxml-start _cable_\n")
+  set(c "${c}-Qunused-arguments\n")
+  set(c "${c}-DCABLE_CONFIGURATION\n")
+  set(c "${c}-DITK_MANUAL_INSTANTIATION\n")
+
+  set(CONFIG_GCCXML_INC_CONTENTS "${c}")
+  configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/gcc_xml.inc.in" "${gccxml_inc_file}" @ONLY)
+
   set(GCC_XML_OUTPUT_FILES )
 endmacro()
 

@@ -284,13 +284,14 @@ macro(itk_end_wrap_module_swig_interface)
         -w1 -w3 -w51 -w52 -w53 -w54
         -A protected -A private
         -p ${PYGCCXML_DIR}
-        -g ${GCCXML}
+        -g ${CASTXML}
         --typedef-input ${typedef_in_file}
         --typedef-output ${typedef_file}
         --include ${module}SwigInterface.h
         ${xml_file}
         ${interface_file}
       DEPENDS ${DEPS} ${idx_files} ${IGENERATOR} # ${SWIG_INTERFACE_IDX_FILES} ${SWIG_INTERFACE_FILES} ${typedef_in_file} # ${includes_file}
+      VERBATIM
     )
 
     set(SWIG_INTERFACE_FILES ${SWIG_INTERFACE_FILES} ${interface_file})
@@ -393,8 +394,9 @@ macro(itk_end_wrap_submodule_swig_interface module)
   add_custom_command(
     OUTPUT ${idx_file}
     COMMAND ${IDX_GENERATOR}
-      ${PYGCCXML_DIR} ${GCCXML} ${xml_file} ${idx_file}
+      ${PYGCCXML_DIR} ${CASTXML} ${xml_file} ${idx_file}
     DEPENDS ${IDX_GENERATOR} ${xml_file}
+    VERBATIM
   )
   WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${idx_file}")
 #   add_custom_target(${module}Idx DEPENDS ${idx_file})
