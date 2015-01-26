@@ -61,7 +61,7 @@ int itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetBackgroundValue( BackgroundValue );
   TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
 
-  //testing get and set macros for Lambda
+  //testing get and set macros for NumberOfObjects
   unsigned int numberOfObjects = atoi( argv[6] );
   KeepNObjects->SetNumberOfObjects( numberOfObjects );
   TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );

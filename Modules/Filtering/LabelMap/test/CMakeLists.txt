@@ -198,6 +198,11 @@ itk_add_test(NAME itkBinaryShapeOpeningImageFilterTest1
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1-binary-shape-opening.mha}
               ${ITK_TEST_OUTPUT_DIR}/cthead1-binary-shape-opening.mha
     itkBinaryShapeOpeningImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} ${ITK_TEST_OUTPUT_DIR}/cthead1-binary-shape-opening.mha 255 0 140 1 1 100)
+itk_add_test(NAME itkBinaryStatisticsKeepNObjectsImageFilterTest1
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/itkBinaryStatisticsKeepNObjectsImageFilterTest1.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBinaryStatisticsKeepNObjectsImageFilterTest1.png
+    itkBinaryStatisticsKeepNObjectsImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1-bin.png} DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryStatisticsKeepNObjectsImageFilterTest1.png 255 0 7 0 0 200)
 itk_add_test(NAME itkBinaryStatisticsOpeningImageFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/cthead1-statistics-object-removed-baseline.png}
