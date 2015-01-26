@@ -235,7 +235,7 @@ int RunTest(testImageType* fixed, testImageType* moving, FieldType* initField,
   // Test ApplyLoad() function
   FieldType::PixelType pixelVal;
   for (unsigned int d = 0; d < ImageDimension; d++)
-    pixelVal = 0.0;
+    pixelVal = FieldType::PixelType( 0.0 );
   outField->FillBuffer(pixelVal);
   const FieldType::RegionType& region = outField->GetLargestPossibleRegion();
 

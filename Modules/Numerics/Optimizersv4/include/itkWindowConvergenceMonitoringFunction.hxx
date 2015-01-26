@@ -104,7 +104,7 @@ WindowConvergenceMonitoringFunction<TScalar>
     windowPoint[0] = static_cast<typename ProfilePointType::CoordRepType>( n );
 
     energyProfileWindow->SetPoint( n, windowPoint );
-    energyProfileWindow->SetPointData( n, this->m_EnergyValues[n] / this->m_TotalEnergy );
+    energyProfileWindow->SetPointData( n, ProfilePointDataType(this->m_EnergyValues[n] / this->m_TotalEnergy) );
     }
 
   bspliner->SetInput( energyProfileWindow );
