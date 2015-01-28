@@ -100,7 +100,7 @@ public:
   typedef vnl_vector_fixed<TScalarType, NOutputDimensions> OutputVnlVectorType;
 
   /**  Method to transform a point. */
-  virtual OutputPointType TransformPoint(const InputPointType  &point ) const
+  virtual OutputPointType TransformPoint(const InputPointType  &point ) const ITK_OVERRIDE
   {
     if(!m_Initialized)
       {
@@ -146,44 +146,41 @@ public:
   }
 
   /**  Method to transform a vector. */
-  OutputVectorType TransformVector( const InputVectorType& vector, const InputPointType &  ) const
+  OutputVectorType TransformVector( const InputVectorType& vector, const InputPointType &  ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
   }
 
   /**  Method to transform a vector. */
-  OutputVnlVectorType TransformVector( const InputVnlVectorType& vector, const InputPointType & ) const
+  OutputVnlVectorType TransformVector( const InputVnlVectorType& vector, const InputPointType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
   }
 
   /**  Method to transform a vector. */
-  OutputVectorType TransformVector( const InputVectorType& vector) const
+  OutputVectorType TransformVector( const InputVectorType& vector) const ITK_OVERRIDE
   {
-    itkExceptionMacro( << "Not Implemented" );
-    return vector;
+    return Superclass::TransformVector(vector);
   }
 
   /**  Method to transform a vector. */
-  OutputVnlVectorType TransformVector( const InputVnlVectorType& vector) const
+  OutputVnlVectorType TransformVector( const InputVnlVectorType& vector) const ITK_OVERRIDE
   {
-    itkExceptionMacro( << "Not Implemented" );
-    return vector;
+    return Superclass::TransformVector(vector);
   }
 
   /**  Method to transform a vector. */
-  OutputVectorPixelType TransformVector( const InputVectorPixelType& vector) const
+  OutputVectorPixelType TransformVector( const InputVectorPixelType& vector) const ITK_OVERRIDE
   {
-    itkExceptionMacro( << "Not Implemented" );
-    return vector;
+    return Superclass::TransformVector(vector);
   }
 
   /**  Method to transform a vector. */
   OutputVectorPixelType TransformVector(
     const InputVectorPixelType& vector,
-    const InputPointType & ) const
+    const InputPointType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
@@ -192,31 +189,29 @@ public:
   /**  Method to transform a CovariantVector. */
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector
-  , const InputPointType & ) const
+  , const InputPointType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
   }
 
-  /**  Method to transform a CovariantVector. */
+/**  Method to transform a CovariantVector. */
   virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &vector) const
+    const InputCovariantVectorType &vector) const ITK_OVERRIDE
   {
-    itkExceptionMacro( << "Not Implemented" );
-    return vector;
+    return Superclass::TransformCovariantVector(vector);
+  }
+
+/**  Method to transform a CovariantVector. */
+  virtual OutputVectorPixelType TransformCovariantVector(
+    const InputVectorPixelType &vector) const ITK_OVERRIDE
+  {
+    return Superclass::TransformCovariantVector(vector);
   }
 
   /**  Method to transform a CovariantVector. */
   virtual OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType &vector) const
-  {
-    itkExceptionMacro( << "Not Implemented" );
-    return vector;
-  }
-
-  /**  Method to transform a CovariantVector. */
-  virtual OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType &vector, const InputPointType & ) const
+    const InputVectorPixelType &vector, const InputPointType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
@@ -229,26 +224,19 @@ public:
     cleanup();
   }
 
-  virtual void SetFixedParameters(const ParametersType &)
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
   virtual void ComputeJacobianWithRespectToParameters(
               const InputPointType &,
-              JacobianType &) const
+              JacobianType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  virtual void ComputeJacobianWithRespectToPosition(
-              const InputPointType & ,
-              JacobianType & ) const
-  {
-    itkExceptionMacro( << "Not Implemented" );
-  }
-
-  virtual NumberOfParametersType GetNumberOfParameters(void) const
+  virtual NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     //this transform is defined by XFM file
     itkExceptionMacro( << "Not Defined" );
@@ -257,12 +245,12 @@ public:
 
   /** Set the Transformation Parameters
     * and update the internal transformation. */
-  virtual void  SetParameters(const ParametersType &)
+  virtual void  SetParameters(const ParametersType &) ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  virtual const ParametersType & GetParameters(void) const
+  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
     return m_Parameters;

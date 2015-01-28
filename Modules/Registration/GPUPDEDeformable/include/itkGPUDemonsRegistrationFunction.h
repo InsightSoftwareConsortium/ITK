@@ -141,14 +141,14 @@ public:
 
   /** This class uses a constant timestep of 1. */
   virtual TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) )
-  const
+  const ITK_OVERRIDE
   {
     return m_TimeStep;
   }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void * GetGlobalDataPointer() const
+  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
   {
     GlobalDataStruct *global = new GlobalDataStruct();
 
@@ -159,18 +159,18 @@ public:
   }
 
   /** Release memory for global data structure. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const;
+  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE;
 
   /** Allocate GPU buffers for computing metric statitics
    * */
-  virtual void GPUAllocateMetricData(unsigned int numPixels);
+  virtual void GPUAllocateMetricData(unsigned int numPixels) ITK_OVERRIDE;
 
   /** Release GPU buffers for computing metric statitics
    * */
-  virtual void GPUReleaseMetricData();
+  virtual void GPUReleaseMetricData() ITK_OVERRIDE;
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
@@ -181,7 +181,7 @@ public:
 
   virtual void GPUComputeUpdate( const DisplacementFieldTypePointer output,
                                  DisplacementFieldTypePointer update,
-                                 void *gd);
+                                 void *gd) ITK_OVERRIDE;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image

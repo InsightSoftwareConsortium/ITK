@@ -83,13 +83,12 @@ public:
     * interpolation among grid values in a neighborhood. */
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
-  virtual void InitializeIteration() {}
-
 #if !defined( CABLE_CONFIGURATION )
   /** Empty implementation - this will not be used by GPU filters */
   virtual PixelType  ComputeUpdate( const NeighborhoodType & itkNotUsed(neighborhood),
                                     void *itkNotUsed(globalData),
                                     const FloatOffsetType & itkNotUsed(offset = FloatOffsetType(0.0)) )
+    ITK_OVERRIDE
   {
     PixelType pix = itk::NumericTraits<PixelType>::ZeroValue();
     return pix;
@@ -114,11 +113,6 @@ protected:
     m_GPUKernelManager = GPUKernelManager::New();
   }
   ~GPUFiniteDifferenceFunction() {
-  }
-
-  void PrintSelf(std::ostream & os, Indent indent) const
-  {
-    Superclass::PrintSelf(os, indent);
   }
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */

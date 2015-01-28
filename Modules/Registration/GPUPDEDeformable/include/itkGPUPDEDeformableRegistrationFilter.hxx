@@ -131,29 +131,6 @@ const typename GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDi
   }
 
 /*
- *
- */
-template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
-std::vector<SmartPointer<DataObject> >::size_type
-GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
-::GetNumberOfValidRequiredInputs() const
-{
-  typename std::vector<SmartPointer<DataObject> >::size_type num = 0;
-
-  if( this->GetFixedImage() )
-    {
-    num++;
-    }
-
-  if( this->GetMovingImage() )
-    {
-    num++;
-    }
-
-  return num;
-}
-
-/*
  * Standard PrintSelf method.
  */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>

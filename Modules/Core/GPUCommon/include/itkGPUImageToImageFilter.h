@@ -72,11 +72,11 @@ public:
   itkGetConstMacro(GPUEnabled, bool);
   itkBooleanMacro(GPUEnabled);
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  virtual void GraftOutput(DataObject *output);
+  virtual void GraftOutput(DataObject *output) ITK_OVERRIDE;
 
-  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output);
+  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output) ITK_OVERRIDE;
 
 protected:
   GPUImageToImageFilter();
