@@ -29,7 +29,7 @@ particular problems.
 
 
 
-\subsection RegistrationMetrics Similarity Metrics
+\subsection SimilarityMetrics Similarity Metrics
 Metrics are probably the most critical element of a registration problem. The metric defines what the goal of the process is, they measure how well the Target object is matched by the Reference object after the transform has been applied to it. The Metric should be selected in function of the types of objects to be registered and the expected kind of missalignment. Some metrics has a rather large capture region, which means that the optimizer will be able to find his way to a maximum even if the missalignment is high. Typicaly large capture regions are associated with low precision for the maximum. Other metrics can provide high precision for the final registration, but usually require to be initialized quite close to the optimal value.
 
 Unfortunately there are no clear rules about how to select a metric, other that trying some of them in different conditions. In some cases could be and advantage to use a particular metric to get an initial approximation of the transformation, and then switch to another more sensitive metric to achieve better precision in the final result.
