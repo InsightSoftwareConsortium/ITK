@@ -420,6 +420,9 @@
 /* Define if `timezone' is a global variable */
 #cmakedefine H5_HAVE_TIMEZONE @H5_HAVE_TIMEZONE@
 
+/* Define if `_timezone' is a global variable */
+#cmakedefine H5_HAVE__TIMEZONE @H5_HAVE__TIMEZONE@
+
 /* Define if the ioctl TIOCGETD is defined */
 #cmakedefine H5_HAVE_TIOCGETD @H5_HAVE_TIOCGETD@
 
