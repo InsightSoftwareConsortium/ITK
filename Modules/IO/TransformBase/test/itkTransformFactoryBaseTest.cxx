@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <string.h>
+#include <algorithm>
 #include "itkVersion.h"
 #include "itkTransformFactoryBase.h"
 
@@ -44,7 +45,7 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   defaultTransforms.push_back("BSplineTransform_double_2_2");
   defaultTransforms.push_back("BSplineTransform_double_3_3");
-#ifdef ITKV3_COMPATIBILITY
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   defaultTransforms.push_back("BSplineDeformableTransform_double_2_2");
   defaultTransforms.push_back("BSplineDeformableTransform_double_3_3");
 #endif
@@ -122,7 +123,7 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   defaultTransforms.push_back("BSplineTransform_float_2_2");
   defaultTransforms.push_back("BSplineTransform_float_3_3");
-#ifdef ITKV3_COMPATIBILITY
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   defaultTransforms.push_back("BSplineDeformableTransform_float_2_2");
   defaultTransforms.push_back("BSplineDeformableTransform_float_3_3");
 #endif
@@ -239,15 +240,14 @@ int itkTransformFactoryBaseTest (int, char*[])
   std::list<std::string> names = itk::TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
   names.sort();
     {
-    std::list<std::string>::iterator namesIt;
     std::list<std::string>::iterator defaultsIt;
-    for (namesIt = names.begin(), defaultsIt = defaultTransforms.begin();
-      namesIt != names.end() && defaultsIt != defaultTransforms.end();
-      ++namesIt, ++defaultsIt)
+    for (defaultsIt = defaultTransforms.begin();
+         defaultsIt != defaultTransforms.end();
+      ++defaultsIt)
       {
-      if (strcmp((*namesIt).c_str(), (*defaultsIt).c_str()) != 0)
+      if (std::find(names.begin(), names.end(), *defaultsIt) == names.end())
         {
-        std::cout << "[FAILED] " <<*namesIt<<"   "<< *defaultsIt << " not registered properly with defaults" << std::endl;
+        std::cout << "[FAILED] " << *defaultsIt << " not registered properly with defaults" << std::endl;
         testReturnStatus = EXIT_FAILURE;
         }
       else
