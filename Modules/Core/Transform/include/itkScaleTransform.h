@@ -192,7 +192,7 @@ public:
   /** Set the transformation to an Identity
    *
    * This sets all the scales to 1.0 */
-  void SetIdentity();
+  void SetIdentity() ITK_OVERRIDE;
 
   /** Get access to scale values */
   itkGetConstReferenceMacro(Scale, ScaleType);

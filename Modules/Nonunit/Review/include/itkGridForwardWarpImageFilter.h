@@ -123,7 +123,7 @@ protected:
   /**
    * GenerateData()
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   GridForwardWarpImageFilter(const Self &); //purposely not implemented

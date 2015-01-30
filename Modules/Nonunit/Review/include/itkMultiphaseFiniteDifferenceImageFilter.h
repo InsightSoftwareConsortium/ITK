@@ -436,7 +436,7 @@ protected:
   /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
    * to implement the major steps of the algorithm. */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /** FiniteDifferenceImageFilter2 needs a larger input requested region than
    * the output requested region.  As such, we need to provide

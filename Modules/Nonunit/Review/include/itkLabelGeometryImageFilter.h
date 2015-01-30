@@ -469,7 +469,7 @@ protected:
   ~LabelGeometryImageFilter(){}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   LabelGeometryImageFilter(const Self &); //purposely not implemented

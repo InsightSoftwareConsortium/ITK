@@ -165,15 +165,15 @@ protected:
   /** MorphologicalWatershedFromMarkersImageFilter needs to request the
    * entire input images.
    */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This filter will enlarge the output requested region to produce
    * all of the output.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** The filter is single threaded. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   //purposely not implemented

@@ -145,9 +145,9 @@ protected:
   ~KappaSigmaThresholdImageFilter(){}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   typedef typename TInputImage::SizeType    InputSizeType;
   typedef typename TInputImage::IndexType   InputIndexType;

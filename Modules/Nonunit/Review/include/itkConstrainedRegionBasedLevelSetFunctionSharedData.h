@@ -124,7 +124,7 @@ public:
   typedef typename Superclass::LevelSetDataPointerVector         LevelSetDataPointerVector;
   typedef typename Superclass::LevelSetDataPointerVectorIterator LevelSetDataPointerVectorIterator;
 
-  void PopulateListImage()
+  void PopulateListImage() ITK_OVERRIDE
   {
     ListSpacingType spacing = this->m_NearestNeighborListImage->GetSpacing();
 
