@@ -86,7 +86,7 @@ public:
   typedef typename InputImageType::PixelType  PixelType;
   typedef typename InputImageType::RegionType RegionType;
   typedef typename InputImageType::IndexType  IndexType;
-  typedef typename InputImageType::PointType  PointType;
+  typedef typename Superclass::PointType      PointType;
   typedef typename InputImageType::RegionType InputImageRegionType;
 
   typedef typename InputImageType::SpacingType   SpacingType;
