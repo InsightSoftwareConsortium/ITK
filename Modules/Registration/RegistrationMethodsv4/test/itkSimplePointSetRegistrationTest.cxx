@@ -153,12 +153,32 @@ int itkSimplePointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed
     count++;
     }
 
+  // virtual image domain is [-110,-110]  [110,110]
+
+  FixedImageType::SizeType fixedImageSize;
+  FixedImageType::PointType fixedImageOrigin;
+  FixedImageType::DirectionType fixedImageDirection;
+  FixedImageType::SpacingType fixedImageSpacing;
+
+  fixedImageSize.Fill( 221 );
+  fixedImageOrigin.Fill( -110 );
+  fixedImageDirection.SetIdentity();
+  fixedImageSpacing.Fill( 1 );
+
+  FixedImageType::Pointer fixedImage = FixedImageType::New();
+  fixedImage->SetRegions( fixedImageSize );
+  fixedImage->SetOrigin( fixedImageOrigin );
+  fixedImage->SetDirection( fixedImageDirection );
+  fixedImage->SetSpacing( fixedImageSpacing );
+  fixedImage->Allocate();
+
   typedef itk::AffineTransform<double, PointSetType::PointDimension> AffineTransformType;
   AffineTransformType::Pointer transform = AffineTransformType::New();
   transform->SetIdentity();
 
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );
+  metric->SetVirtualDomainFromImage( fixedImage );
   metric->SetMovingTransform( transform );
   metric->Initialize();
 
