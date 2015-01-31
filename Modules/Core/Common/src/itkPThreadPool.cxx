@@ -135,7 +135,11 @@ ThreadPool
     itkGenericExceptionMacro(<< "param can't be converted to ThreadPool type");
     }
   // TODO: What is proper action if pThreadPool is 0?
+#if !defined(__ANDROID__)
   const int s = pthread_setcancelstate(PTHREAD_CANCEL_ASYNCHRONOUS, ITK_NULLPTR);
+#else
+  const int s = 0;
+#endif
 
   if( s != 0 )
     {
