@@ -115,7 +115,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Requested Data */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   //purposely not implemented

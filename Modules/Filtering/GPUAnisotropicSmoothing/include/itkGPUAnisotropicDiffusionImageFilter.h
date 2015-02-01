@@ -70,7 +70,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Prepare for the iteration process. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
 private:
   GPUAnisotropicDiffusionImageFilter(const Self &); //purposely not implemented

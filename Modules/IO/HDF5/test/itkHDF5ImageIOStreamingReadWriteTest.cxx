@@ -63,7 +63,8 @@ class DemoImageSource:public GenerateImageSource< TOutputImage >
     ~DemoImageSource(){}
 
     /** Does the real work. */
-    virtual void GenerateData(){
+    virtual void GenerateData() ITK_OVERRIDE
+      {
       TOutputImage* out = this->GetOutput();
       out->SetBufferedRegion(out->GetRequestedRegion());
       out->Allocate();

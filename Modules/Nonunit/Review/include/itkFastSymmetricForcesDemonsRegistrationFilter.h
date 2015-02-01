@@ -143,11 +143,11 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * FiniteDifferenceFilter::GenerateData(). */
-  virtual void AllocateUpdateBuffer();
+  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** FiniteDifferenceFunction type. */
   typedef typename
@@ -158,7 +158,7 @@ protected:
   FiniteDifferenceFunctionType::TimeStepType TimeStepType;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt);
+  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
   /** other typedefs */
   typedef MultiplyImageFilter<

@@ -125,7 +125,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void ConfigureHistogram( HistogramType & histogram );
+  virtual void ConfigureHistogram( HistogramType & histogram ) ITK_OVERRIDE;
 
 private:
   RankImageFilter(const Self &); //purposely not implemented

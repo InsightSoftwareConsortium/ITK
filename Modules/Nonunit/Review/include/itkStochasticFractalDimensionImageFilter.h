@@ -99,7 +99,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StochasticFractalDimensionImageFilter(const Self &); //purposely not

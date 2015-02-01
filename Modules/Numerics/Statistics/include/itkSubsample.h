@@ -74,7 +74,7 @@ public:
   typedef std::vector< InstanceIdentifier > InstanceIdentifierHolder;
 
   /** Get the Id Holder */
-  virtual const InstanceIdentifierHolder & GetIdHolder() const
+  virtual const InstanceIdentifierHolder & GetIdHolder() const ITK_OVERRIDE
   {
     return this->m_IdHolder;
   }

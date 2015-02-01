@@ -129,7 +129,7 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** Actual filter computation */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   /** Const slice iterator type of the input image */

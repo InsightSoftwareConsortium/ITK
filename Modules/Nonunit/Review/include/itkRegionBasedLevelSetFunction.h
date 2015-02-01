@@ -180,16 +180,16 @@ public:
 
   void UpdateSharedData(bool forceUpdate);
 
-  void * GetGlobalDataPointer() const
+  void * GetGlobalDataPointer() const ITK_OVERRIDE
   {
     return new GlobalDataStruct;
   }
 
-  TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
+  TimeStepType ComputeGlobalTimeStep(void *GlobalData) const ITK_OVERRIDE;
 
   /** Compute the equation value. */
   virtual PixelType ComputeUpdate( const NeighborhoodType & neighborhood,
-                                   void *globalData, const FloatOffsetType & = FloatOffsetType(0.0) );
+                                   void *globalData, const FloatOffsetType & = FloatOffsetType(0.0) ) ITK_OVERRIDE;
 
   void SetInitialImage(InputImageType *f)
   {
@@ -271,7 +271,7 @@ public:
   void SetFunctionId(const unsigned int & iFid)
   { this->m_FunctionId = iFid; }
 
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const
+  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE
   { delete (GlobalDataStruct *)GlobalData; }
 
   virtual ScalarValueType ComputeCurvature(const NeighborhoodType &,
