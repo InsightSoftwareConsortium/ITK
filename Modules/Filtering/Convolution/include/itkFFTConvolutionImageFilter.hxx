@@ -283,9 +283,9 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   kernelInfoFilter->ChangeRegionOn();
 
   typedef typename InfoFilterType::OutputImageOffsetValueType InfoOffsetValueType;
-  InputSizeType inputLowerBound = this->GetPadLowerBound();
-  InputIndexType inputIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
-  KernelIndexType kernelIndex = kernel->GetLargestPossibleRegion().GetIndex();
+  const InputSizeType & inputLowerBound = this->GetPadLowerBound();
+  const InputIndexType & inputIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
+  const KernelIndexType & kernelIndex = kernel->GetLargestPossibleRegion().GetIndex();
   InfoOffsetValueType kernelOffset[ImageDimension];
   for (int i = 0; i < ImageDimension; ++i)
     {
