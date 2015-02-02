@@ -75,12 +75,23 @@ public:
 /** This method returns a pointer to a FiniteDifferenceFunction object that
   * will be used by the filter to calculate updates at image pixels.
   * \returns A FiniteDifferenceObject pointer. */
- itkGetConstReferenceObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType);
+  virtual const typename FiniteDifferenceFunctionType::Pointer &GetDifferenceFunction() const ITK_OVERRIDE
+    {
+    return this->m_DifferenceFunction;
+    }
 
  /** This method sets the pointer to a FiniteDifferenceFunction object that
   * will be used by the filter to calculate updates at image pixels.
   * \returns A FiniteDifferenceObject pointer. */
- itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType);
+  virtual void SetDifferenceFunction ( FiniteDifferenceFunctionType *differenceFunction ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting m_DifferenceFunction to " << differenceFunction);
+    if ( this->m_DifferenceFunction != differenceFunction )
+      {
+      this->m_DifferenceFunction = differenceFunction;
+      this->Modified();
+      }
+    }
 
   typedef enum { UNINITIALIZED = 0, INITIALIZED = 1 } FilterStateType;
 

@@ -140,9 +140,9 @@ protected:
 
   SharedDataPointer m_SharedData;
 
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
 private:
   ScalarChanAndVeseDenseLevelSetImageFilter(const Self &); //purposely not

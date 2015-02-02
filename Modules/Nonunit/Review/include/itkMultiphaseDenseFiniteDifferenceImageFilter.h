@@ -192,19 +192,19 @@ protected:
 
   ~MultiphaseDenseFiniteDifferenceImageFilter() {}
 
-  virtual void PrintSelf(std::ostream &, Indent indent) const;
+  virtual void PrintSelf(std::ostream &, Indent indent) const ITK_OVERRIDE;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. )  */
-  virtual void CopyInputToOutput();
+  virtual void CopyInputToOutput() ITK_OVERRIDE;
 
-  virtual void PostProcessOutput();
+  virtual void PostProcessOutput() ITK_OVERRIDE;
 
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
-  virtual void ApplyUpdate(TimeStepType dt);
+  virtual void ApplyUpdate(TimeStepType dt) ITK_OVERRIDE;
 
   unsigned int m_ReinitializeCounter;  // FIXME: Should this be a boolean ?
   // unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
@@ -215,7 +215,7 @@ private:
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
-  virtual void AllocateUpdateBuffer();
+  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** This method populates an update buffer with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
