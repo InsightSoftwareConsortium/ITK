@@ -236,10 +236,10 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
     if (!this->m_NewtonStepValidFlags[loc])
       {
         // Using the Gradient step
-      IndexValueType offset = loc * numLocalPara;
-      for (SizeValueType p=0; p<numLocalPara; p++)
+      const SizeValueType offset = loc * numLocalPara;
+      for (SizeValueType p = offset; p < (offset + numLocalPara); p++)
         {
-        this->m_NewtonStep[offset+p] = this->m_Gradient[offset+p] * ratio;
+        this->m_NewtonStep[p] = this->m_Gradient[p] * ratio;
         }
       }
     }
