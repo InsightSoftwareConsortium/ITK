@@ -102,8 +102,8 @@ HalfToFullHermitianImageFilter< TInputImage >
     }
 
   InputImageRegionType inputRegion = inputPtr->GetLargestPossibleRegion();
-  InputImageIndexType  inputRegionIndex = inputRegion.GetIndex();
-  InputImageSizeType   inputRegionSize = inputRegion.GetSize();
+  const InputImageIndexType & inputRegionIndex = inputRegion.GetIndex();
+  const InputImageSizeType &  inputRegionSize = inputRegion.GetSize();
   InputImageIndexType  inputRegionMaximumIndex = inputRegionIndex + inputRegionSize;
 
   // Copy the non-reflected region.

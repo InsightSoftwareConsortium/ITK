@@ -530,7 +530,7 @@ CellularAggregate< NSpaceDimension >
         continue;
         }
 
-      PointType position2 = point2It.Value();
+      const PointType & position2 = point2It.Value();
 
       typename BioCellType::VectorType relativePosition = position1 - position2;
 
