@@ -212,7 +212,7 @@ int itkSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed( a
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
   bool passed = true;
-  PointType::ValueType tolerance = 0.01;
+  PointType::ValueType tolerance = 0.1;
 
   float averageError = 0.0;
   for( unsigned int n=0; n < movingPoints->GetNumberOfPoints(); n++ )
