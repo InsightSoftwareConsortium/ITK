@@ -79,7 +79,7 @@ Allocate memory aligned to a 16 byte boundry
   #if defined(__sun)
     #define HAVE_MEMALIGN
   /* Linux x86_64 and OSX always align allocations to 16 bytes */
-  #elif !defined(__amd64__) && !defined(__APPLE__)
+  #elif !defined(__amd64__) && !defined(__APPLE__) && !defined(__ANDROID__)
     /* FIXME: Yes, this is a big assumption */
     #define HAVE_POSIX_MEMALIGN
   #endif
