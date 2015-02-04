@@ -60,8 +60,8 @@ int main(int, char *[])
   //  type of point container is an VectorContainer.  Both the map
   //  and vector container are templated over the type of the elements they
   //  contain. In this case they are templated over PointType.
-  //  Containers are reference counted object. They are then created with the
-  //  \code{New()} method and assigned to a \doxygen{SmartPointer} after
+  //  Containers are reference counted objects, and are therefore created with
+  //  the \code{New()} method and assigned to a \doxygen{SmartPointer} after
   //  creation.  The following line creates a point container compatible with
   //  the type of the PointSet from which the trait has been taken.
   //
