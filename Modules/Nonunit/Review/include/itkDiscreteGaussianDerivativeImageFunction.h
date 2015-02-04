@@ -106,14 +106,14 @@ public:
 public:
 
   /** Evaluate the function at specified point. */
-  virtual OutputType Evaluate(const PointType & point) const;
+  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified Index position */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const;
+  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified ContinousIndex position. */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const;
+    const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /** Set/Get the variance for the discrete Gaussian kernel.
    * Sets the variance for individual dimensions. The default is 0.0
@@ -188,7 +188,7 @@ public:
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
-  virtual void SetInputImage(const InputImageType *ptr);
+  virtual void SetInputImage(const InputImageType *ptr) ITK_OVERRIDE;
 
   /** Initialize the Gaussian kernel. Call this method before
    * evaluating the function. This method MUST be called after any

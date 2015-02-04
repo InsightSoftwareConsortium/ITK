@@ -140,7 +140,7 @@ protected:
   void UpdateSharedDataParameters() ITK_OVERRIDE;
 
   ScalarValueType ComputeInternalTerm(const FeaturePixelType & iValue,
-                                      const FeatureIndexType & iIdx);
+                                      const FeatureIndexType & iIdx) ITK_OVERRIDE;
 
   ScalarValueType ComputeExternalTerm(const FeaturePixelType & iValue,
                                       const FeatureIndexType & iIdx) ITK_OVERRIDE;

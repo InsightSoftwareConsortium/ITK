@@ -100,7 +100,7 @@ public:
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    *  calling the method. */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const;
+  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evalulate the image derivative by central differencing at non-integer
    *  positions.

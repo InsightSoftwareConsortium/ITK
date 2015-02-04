@@ -109,7 +109,7 @@ public:
    * This value is calculated for the current iteration */
   virtual double GetMetric() const;
 
-  virtual const double & GetRMSChange() const;
+  virtual const double & GetRMSChange() const ITK_OVERRIDE;
 
   /** DemonsRegistrationFilterFunction type.
    *

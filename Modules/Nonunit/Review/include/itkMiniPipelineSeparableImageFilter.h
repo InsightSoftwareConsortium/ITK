@@ -86,7 +86,7 @@ public:
 
   virtual void SetRadius(const RadiusType &) ITK_OVERRIDE;
 
-  virtual void SetRadius(const SizeValueType & radius)
+  virtual void SetRadius(const SizeValueType & radius) ITK_OVERRIDE
   {
     // needed because of the overloading of the method
     Superclass::SetRadius(radius);

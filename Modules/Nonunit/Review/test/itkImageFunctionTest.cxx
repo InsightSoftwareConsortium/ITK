@@ -85,7 +85,7 @@ public:
     }
 
   /** Evaluate the function at specified ContinuousIndex position. */
-  virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & itkNotUsed(index) ) const
+  virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & itkNotUsed(index) ) const ITK_OVERRIDE
     {
     OutputType result(0);
     return result;
