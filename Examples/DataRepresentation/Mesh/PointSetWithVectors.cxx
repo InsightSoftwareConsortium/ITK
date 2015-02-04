@@ -49,9 +49,9 @@ int main(int, char *[])
   //    \caption[PointSet with Vectors as PixelType]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
   //  \end{floatingfigure}
   //
-  //  The Vector class is templated over the type used to represent
+  //  The \code{Vector} class is templated over the type used to represent
   //  the spatial coordinates and over the space dimension.  Since the
-  //  PixelType is independent of the PointType, we are free to select any
+  //  \code{PixelType} is independent of the PointType, we are free to select any
   //  dimension for the vectors to be used as pixel type. However, for the
   //  sake of producing an interesting example, we will use vectors that
   //  represent displacements of the points in the PointSet. Those vectors
