@@ -51,6 +51,7 @@
 #else
 #define ITKSTATIC
 #endif
+#cmakedefine ITK_DYNAMIC_LOADING
 
 #cmakedefine ITKV3_COMPATIBILITY
 #cmakedefine ITK_LEGACY_REMOVE

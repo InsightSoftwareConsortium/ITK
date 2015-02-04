@@ -10,7 +10,6 @@ itkFileOutputWindow.cxx
 itkSimpleFilterWatcher.cxx
 itkNumericTraitsVectorPixel.cxx
 itkObject.cxx
-itkDynamicLoader.cxx
 itkQuadrilateralCellTopology.cxx
 itkIterationReporter.cxx
 itkMemoryProbe.cxx
@@ -91,6 +90,10 @@ else()
   list(APPEND ITKCommon_SRCS itkPThreadPool.cxx)
 endif()
 
+if(ITK_DYNAMIC_LOADING)
+  list(APPEND ITKCommon_SRCS itkDynamicLoader.cxx)
+endif()
+
 # Prevent optimization from affecting the floating point calculation.
 if( CMAKE_CXX_COMPILER MATCHES "^icc" )
   if( WIN32 )
@@ -126,7 +129,10 @@ target_link_libraries(ITKCommon
   ${ITKDoubleConversion_LIBRARIES})
 
 if(UNIX)
-  target_link_libraries(ITKCommon ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
+  target_link_libraries(ITKCommon ${CMAKE_THREAD_LIBS} -lm)
+  if(ITK_DYNAMIC_LOADING)
+    target_link_libraries(ITKCommon ${CMAKE_DL_LIBS})
+  endif()
 endif()
 
 itk_module_target(ITKCommon)
