@@ -65,7 +65,7 @@ int main(int, char *[])
   //
   // The following code illustrates the declaration of an index variable and
   // the assignment of values to each of its components. Please note that
-  // no SmartPointer is used to access the \code{Index}. This is because
+  // no \code{SmartPointer} is used to access the \code{Index}. This is because
   // \code{Index} is a lightweight object that is not intended to be shared
   // between objects. It is more efficient to produce multiple copies of
   // these small objects than to share them using the SmartPointer

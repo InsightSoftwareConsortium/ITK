@@ -18,14 +18,14 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{PointSet} class was designed to interact with the Image class.
+//  The \doxygen{PointSet} class was designed to interact with the \code{Image} class.
 //  For this reason it was found convenient to allow the points in the set to
 //  hold values that could be computed from images. The value associated with
 //  the point is referred as \code{PixelType} in order to make it consistent
 //  with image terminology. Users can define the type as they please thanks to
 //  the flexibility offered by the Generic Programming approach used in the
 //  toolkit.  The \code{PixelType} is the first template parameter of the
-//  PointSet.
+//  \code{PointSet}.
 //
 //  \index{itk::PointSet!PixelType}
 //

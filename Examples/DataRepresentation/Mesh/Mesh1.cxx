@@ -21,20 +21,19 @@
 //  The \doxygen{Mesh} class is intended to represent shapes in space.  It
 //  derives from the \doxygen{PointSet} class and hence inherits all the
 //  functionality related to points and access to the pixel-data associated
-//  with the points.  The mesh class is also n-dimensional which
-//  allows a great flexibility in its use.
+//  with the points.  The mesh class is also n-dimensional, allowing great
+//  flexibility in its use.
 //
-//  In practice a Mesh class can be seen as a PointSet to
+//  In practice, a \code{Mesh} class can be seen as a \class{PointSet} to
 //  which cells (also known as elements) of many different dimensions and
 //  shapes have been added. Cells in the mesh are defined in terms of the
 //  existing points using their point-identifiers.
 //
-//  In the same way as for the PointSet, two basic styles of
-//  Meshes are available in ITK. They are referred to as \emph{static}
-//  and \emph{dynamic}. The first one is used when the number of
-//  points in the set can be known in advance and it is not expected
+//  Analogous to the \code{PointSet}, \emph{static} and \emph{dynamic}
+//  Meshes are available in ITK.  A static Mesh is used when the number of
+//  points in the set is known in advance and is not expected
 //  to change as a consequence of the manipulations performed on the
-//  set. The dynamic style, on the other hand, is intended to support
+//  set.  A dynamic Mesh, on the other hand, is intended to support
 //  insertion and removal of points in an efficient manner. The reason
 //  for making the distinction between the two styles is to facilitate
 //  fine tuning its behavior with the aim of optimizing
@@ -73,8 +72,8 @@ int main(int, char *[])
   //
   //  The Mesh type extensively uses the capabilities provided by
   //  \href{http://www.boost.org/more/generic_programming.html}{Generic
-  //  Programming}. In particular the Mesh class is parameterized over the
-  //  PixelType and the dimension of the space. PixelType is the type of the
+  //  Programming}. In particular, the Mesh class is parameterized over
+  //  PixelType and spatial dimension. PixelType is the type of the
   //  value associated with every point just as is done with the
   //  PointSet. The following line illustrates a typical
   //  instantiation of the Mesh.
@@ -87,7 +86,6 @@ int main(int, char *[])
   const unsigned int Dimension = 3;
   typedef itk::Mesh< PixelType, Dimension >   MeshType;
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -106,11 +104,10 @@ int main(int, char *[])
   MeshType::Pointer  mesh = MeshType::New();
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //
   //  The management of points in the Mesh is exactly the same as in
-  //  the PointSet. The type point associated with the mesh can be
+  //  the PointSet. The type of point associated with the mesh can be
   //  obtained through the \code{PointType} trait. The following code shows the
   //  creation of points compatible with the mesh type defined above and the
   //  assignment of values to its coordinates.
@@ -168,7 +165,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The points can now be efficiently accessed using the Iterator to the
-  //  PointsContainer as it was done in the previous section for the
+  //  PointsContainer as was done in the previous section for the
   //  PointSet.  First, the point iterator type is extracted through
   //  the mesh traits.
   //
@@ -199,7 +196,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{++} operator on the iterator is now used to advance from one
+  //  The \code{++} operator is used to advance the iterator from one
   //  point to the next. The actual value of the Point to which the iterator is
   //  pointing can be obtained with the \code{Value()} method. The loop for
   //  walking through all the points is controlled by comparing the current
