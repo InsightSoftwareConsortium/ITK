@@ -20,12 +20,12 @@
 //
 // This example illustrates how to manually construct an \doxygen{Image}
 // class. The following is the minimal code needed to instantiate, declare
-// and create the image class.
+// and create the \code{Image} class.
 //
 // \index{itk::Image!Instantiation}
 // \index{itk::Image!Header}
 //
-// First, the header file of the Image class must be included.
+// First, the header file of the \code{Image} class must be included.
 //
 // Software Guide : EndLatex
 
@@ -39,7 +39,7 @@ int main(int, char *[])
   //
   // Then we must decide with what type to represent the pixels
   // and what the dimension of the image will be. With these two
-  // parameters we can instantiate the image class. Here we create
+  // parameters we can instantiate the \code{Image} class. Here we create
   // a 3D image with \code{unsigned short} pixel data.
   //
   // Software Guide : EndLatex
@@ -110,7 +110,7 @@ int main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // The region size is represented by an array of the same dimension of the
+  // The region size is represented by an array of the same dimension as the
   // image (using the \doxygen{Size} class). The components of the array are
   // unsigned integers indicating the extent in pixels of the image along
   // every dimension.
