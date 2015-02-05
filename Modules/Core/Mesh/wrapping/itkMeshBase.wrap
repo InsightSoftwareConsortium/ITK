@@ -10,6 +10,10 @@ itk_wrap_class("itk::Mesh" POINTER)
         "${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} >")
       itk_wrap_template("${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
         "${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} >")
+      itk_wrap_template("${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}"
+        "${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} >")
+      itk_wrap_template("${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}"
+        "${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} >")
     endforeach()
   endforeach()
   foreach(d ${ITK_WRAP_DIMS})
