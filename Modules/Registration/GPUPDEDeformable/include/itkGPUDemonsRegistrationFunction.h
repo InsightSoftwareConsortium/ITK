@@ -177,7 +177,7 @@ public:
   virtual PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
                                     void *globalData,
                                     const FloatOffsetType & offset =
-                                      FloatOffsetType(0.0) );
+                                      FloatOffsetType(0.0) ) ITK_OVERRIDE;
 
   virtual void GPUComputeUpdate( const DisplacementFieldTypePointer output,
                                  DisplacementFieldTypePointer update,
