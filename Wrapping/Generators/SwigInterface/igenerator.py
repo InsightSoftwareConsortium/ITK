@@ -182,6 +182,8 @@ def info(msg):
         print("info: %s" % msg, file=sys.stderr)
 
 notWrapped = [
+    "itk::MapContainer< unsigned long, itk::CellInterface<.+>",
+    "itk::VectorContainer< unsigned long, itk::CellInterface<.+>",
     "itk::SmartPointerForwardReference<.+>",
     "itk::LibHandle",
     "itk::NeighborhoodAllocator<.+>",
