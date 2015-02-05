@@ -14,6 +14,7 @@ set(WRAPPER_LIBRARY_GROUPS
   itkVector
   itkPoint
   itkContinuousIndex
+  itkMatrix
   itkVectorContainer
   itkMapContainer
   itkBoundingBox
@@ -22,7 +23,6 @@ set(WRAPPER_LIBRARY_GROUPS
   itkRGBAPixel
   itkVariableLengthVector
   itkImageRegion
-  itkMatrix
   itkSymmetricSecondRankTensor
   itkImage
   itkVectorImage
