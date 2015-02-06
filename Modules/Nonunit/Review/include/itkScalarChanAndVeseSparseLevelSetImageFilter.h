@@ -143,13 +143,13 @@ protected:
 
   SharedDataPointer m_SharedData;
 
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   virtual void UpdatePixel(unsigned int functionIndex,
                            unsigned int idx, NeighborhoodIterator< InputImageType > & iterator,
-                           ValueType & newValue, bool & status);
+                           ValueType & newValue, bool & status) ITK_OVERRIDE;
 };
 } //end namespace itk
 

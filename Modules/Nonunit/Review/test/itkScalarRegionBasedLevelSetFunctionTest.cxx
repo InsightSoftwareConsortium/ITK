@@ -63,9 +63,9 @@ public:
     return ScalarValueType( 0 );
     }
 
-  virtual void ComputeParameters() {}
+  virtual void ComputeParameters() ITK_OVERRIDE {}
 
-  virtual void UpdateSharedDataParameters() {}
+  virtual void UpdateSharedDataParameters() ITK_OVERRIDE {}
 
   virtual void UpdateSharedDataInsideParameters( const unsigned int& ,
     const FeaturePixelType&, const ScalarValueType& ) ITK_OVERRIDE {}

@@ -220,7 +220,7 @@ private:
   /** This method populates an update buffer with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
    * mechanism. Returns value is a time step to be used for the update. */
-  virtual TimeStepType CalculateChange();
+  virtual TimeStepType CalculateChange() ITK_OVERRIDE;
 
   /** The buffer that holds the updates for an iteration of the algorithm. */
   std::vector< InputImagePointer > m_UpdateBuffers;
