@@ -20,7 +20,7 @@
 //
 // \index{itk::ArrowSpatialObject}
 //
-// This example shows how to create a \doxygen{ArrowSpatialObject}.
+// This example shows how to create an \doxygen{ArrowSpatialObject}.
 // Let's begin by including the appropriate header file.
 //
 // Software Guide : EndLatex
@@ -46,7 +46,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // The length of the arrow in the local coordinate frame is done using the
-// SetLength() function. By default the length is set to 1.
+// \code{SetLength()} method. By default the length is set to 1.
 //
 // Software Guide : EndLatex
 
@@ -56,8 +56,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The direction of the arrow can be set using the SetDirection() function.
-// The SetDirection() function modifies the ObjectToParentTransform (not the IndexToObjectTransform).
+// The direction of the arrow can be set using the \code{SetDirection()} method.
+// Calling \code{SetDirection()} modifies the \code{ObjectToParentTransform}
+// (not the \code{IndexToObjectTransform}).
 // By default the direction is set along the X axis (first direction).
 //
 // Software Guide : EndLatex
