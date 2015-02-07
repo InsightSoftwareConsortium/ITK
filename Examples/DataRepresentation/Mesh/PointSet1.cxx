@@ -23,7 +23,7 @@
 //  class for the \code{itk::Mesh} providing the methods necessary to
 //  manipulate sets of point. Points can have values associated with
 //  them. The type of such values is defined by a template parameter of the
-//  \code{itk::PointSet} class (i.e., \code{TPixelType}. Two basic
+//  \code{itk::PointSet} class (i.e., \code{TPixelType}). Two basic
 //  interaction styles of PointSets are available in ITK. These styles are
 //  referred to as \emph{static} and \emph{dynamic}. The first style is used
 //  when the number of points in the set is known in advance and is not
@@ -92,12 +92,11 @@ int main(int, char *[])
   //
   //  Following the principles of Generic Programming, the \code{PointSet} class has a
   //  set of associated defined types to ensure that interacting objects can be
-  //  declared with compatible types. This set of type definitions is
-  //  commonly known as a set of \emph{traits}.  Among them we can find the
-  //  \code{PointType} type, for example.  This is the type used by the point set to
-  //  represent points in space.  The following declaration takes the point
-  //  type as defined in the \code{PointSet} traits and renames it to be conveniently
-  //  used in the global namespace.
+  //  declared with compatible types. This set of type definitions is commonly known
+  //  as a set of \emph{traits}.  Among the traits of the \code{PointSet} class is
+  //  \code{PointType}, which is used by the point set to represent points in space.
+  //  The following declaration takes the point type as defined in the \code{PointSet}
+  //  traits and renames it to be conveniently used in the global namespace.
   //
   //  \index{itk::PointSet!PointType}
   //
@@ -213,5 +212,5 @@ int main(int, char *[])
   //
   //  Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }
