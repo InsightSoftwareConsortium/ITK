@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSobelOperator_hxx
-#define __itkSobelOperator_hxx
+#ifndef itkSobelOperator_hxx
+#define itkSobelOperator_hxx
 
 #include "itkSobelOperator.h"
 #include "itkObject.h"

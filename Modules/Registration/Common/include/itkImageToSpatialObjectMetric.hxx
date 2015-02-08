@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToSpatialObjectMetric_hxx
-#define __itkImageToSpatialObjectMetric_hxx
+#ifndef itkImageToSpatialObjectMetric_hxx
+#define itkImageToSpatialObjectMetric_hxx
 
 #include "itkImageToSpatialObjectMetric.h"
 

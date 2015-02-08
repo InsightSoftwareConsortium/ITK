@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultipleValuedVnlCostFunctionAdaptor_h
-#define __itkMultipleValuedVnlCostFunctionAdaptor_h
+#ifndef itkMultipleValuedVnlCostFunctionAdaptor_h
+#define itkMultipleValuedVnlCostFunctionAdaptor_h
 
 #include "itkMultipleValuedCostFunction.h"
 #include "vnl/vnl_least_squares_function.h"

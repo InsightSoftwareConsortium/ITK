@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshExtendedTraits_h
-#define __itkQuadEdgeMeshExtendedTraits_h
+#ifndef itkQuadEdgeMeshExtendedTraits_h
+#define itkQuadEdgeMeshExtendedTraits_h
 
 #include "itkCellInterface.h"
 #include "itkQuadEdgeCellTraitsInfo.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSpatialObject_h
-#define __itkImageSpatialObject_h
+#ifndef itkImageSpatialObject_h
+#define itkImageSpatialObject_h
 
 #include "itkImage.h"
 #include "itkSpatialObject.h"
@@ -74,22 +74,22 @@ public:
   void SetImage(const ImageType *image);
 
   /** Get a pointer to the image currently attached to the object. */
-  const ImageType * GetImage(void) const;
+  const ImageType * GetImage() const;
 
   /** Return true if the object is evaluable at the requested point,
    *  and else otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+                     unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Returns the value of the image at the requested point.
    *  If the point is not inside the object, then an exception is thrown.
    * \sa ExceptionObject */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+               unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const;
+                unsigned int depth, char *name) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -97,10 +97,10 @@ public:
   bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeLocalBoundingBox() const;
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime(void) const;
+  ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
   /** Set the slice position */
   void SetSlicePosition(unsigned int dimension, int position);
@@ -127,7 +127,7 @@ protected:
   ImageSpatialObject();
   virtual ~ImageSpatialObject();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   int *       m_SlicePosition;
   std::string m_PixelType;
@@ -165,4 +165,4 @@ protected:
 #include "itkImageSpatialObject.hxx"
 #endif
 
-#endif //__itkImageSpatialObject_h
+#endif //itkImageSpatialObject_h

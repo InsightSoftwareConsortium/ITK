@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DStrain_h
-#define __itkFEMElement2DStrain_h
+#ifndef itkFEMElement2DStrain_h
+#define itkFEMElement2DStrain_h
 
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
@@ -78,22 +78,22 @@ public:
   /**
    * Compute the B matrix.
    */
-  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const;
+  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const ITK_OVERRIDE;
 
   /**
    * Compute the D matrix.
    */
-  virtual void GetMaterialMatrix(MatrixType & D) const;
+  virtual void GetMaterialMatrix(MatrixType & D) const ITK_OVERRIDE;
 
   /**
    * Compute the mass matrix specific for 2D strain problems.
    */
-  void GetMassMatrix(MatrixType & Me) const;
+  void GetMassMatrix(MatrixType & Me) const ITK_OVERRIDE;
 
   /**
    * 2D strain elements have 2 DOFs per node.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const ITK_OVERRIDE
   {
     return 2;
   }
@@ -101,12 +101,12 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  virtual Material::ConstPointer GetMaterial(void) const
+  virtual Material::ConstPointer GetMaterial(void) const ITK_OVERRIDE
   {
     return dynamic_cast<const Material *>(m_mat);
   }
 
-  virtual void SetMaterial(Material::ConstPointer mat_)
+  virtual void SetMaterial(Material::ConstPointer mat_) ITK_OVERRIDE
   {
     m_mat =
       dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
@@ -114,7 +114,7 @@ public:
 
 protected:
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Pointer to material properties of the element
@@ -129,4 +129,4 @@ protected:
 #include "itkFEMElement2DStrain.hxx"
 #endif
 
-#endif  // #ifndef __itkFEMElement2DStrain_h
+#endif  // #ifndef itkFEMElement2DStrain_h

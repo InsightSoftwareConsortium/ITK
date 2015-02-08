@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageVectorOptimizerParametersHelper_h
-#define __itkImageVectorOptimizerParametersHelper_h
+#ifndef itkImageVectorOptimizerParametersHelper_h
+#define itkImageVectorOptimizerParametersHelper_h
 
 #include "itkOptimizerParametersHelper.h"
 #include "itkImage.h"

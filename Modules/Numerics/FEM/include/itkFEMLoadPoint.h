@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLoadPoint_h
-#define __itkFEMLoadPoint_h
+#ifndef itkFEMLoadPoint_h
+#define itkFEMLoadPoint_h
 
 #include "itkFEMLoadElementBase.h"
 #include "vnl/vnl_vector.h"
@@ -102,4 +102,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadPoint_h
+#endif // #ifndef itkFEMLoadPoint_h

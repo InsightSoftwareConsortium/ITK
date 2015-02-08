@@ -294,14 +294,14 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 
   if( reinitializer->GetInputVelocityImage( 2 )  )
     {
-    std::cout << "GetInputVelocityImage(2) should have returned NULL" << std::endl;
+    std::cout << "GetInputVelocityImage(2) should have returned ITK_NULLPTR" << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
 
   if( reinitializer->GetOutputVelocityImage( 2 )  )
     {
-    std::cout << "GetOutputVelocityImage(2) should have returned NULL" << std::endl;
+    std::cout << "GetOutputVelocityImage(2) should have returned ITK_NULLPTR" << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }

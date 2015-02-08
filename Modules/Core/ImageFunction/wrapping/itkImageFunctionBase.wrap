@@ -5,7 +5,7 @@ itk_wrap_class("itk::ImageFunction" POINTER)
     foreach(t ${types})
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_D}${ITKM_F}"  "${ITKT_I${t}${d}},${ITKT_D},${ITKT_F}")
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_D}${ITKM_D}"  "${ITKT_I${t}${d}},${ITKT_D},${ITKT_D}")
-    endforeach(t)
+    endforeach()
 
     # Required by InterpolateImageFunction
     foreach(t ${WRAP_ITK_VECTOR})
@@ -23,5 +23,5 @@ itk_wrap_class("itk::ImageFunction" POINTER)
       itk_wrap_template("${ITKM_I${t}${d}}RGBAD${ITKM_D}" "${ITKT_I${t}${d}},itk::RGBAPixel< double >,${ITKT_D}")
     endforeach()
 
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()

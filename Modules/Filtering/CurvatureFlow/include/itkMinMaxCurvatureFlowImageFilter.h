@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMinMaxCurvatureFlowImageFilter_h
-#define __itkMinMaxCurvatureFlowImageFilter_h
+#ifndef itkMinMaxCurvatureFlowImageFilter_h
+#define itkMinMaxCurvatureFlowImageFilter_h
 
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkMinMaxCurvatureFlowFunction.h"
@@ -136,11 +136,11 @@ public:
 protected:
   MinMaxCurvatureFlowImageFilter();
   ~MinMaxCurvatureFlowImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
 private:
   MinMaxCurvatureFlowImageFilter(const Self &); //purposely not implemented

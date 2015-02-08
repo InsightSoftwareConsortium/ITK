@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSparseFieldLayer_hxx
-#define __itkSparseFieldLayer_hxx
+#ifndef itkSparseFieldLayer_hxx
+#define itkSparseFieldLayer_hxx
 #include "itkSparseFieldLayer.h"
 #include <cmath>
 

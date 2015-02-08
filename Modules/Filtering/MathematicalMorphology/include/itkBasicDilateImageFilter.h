@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBasicDilateImageFilter_h
-#define __itkBasicDilateImageFilter_h
+#ifndef itkBasicDilateImageFilter_h
+#define itkBasicDilateImageFilter_h
 
 #include "itkMorphologyImageFilter.h"
 
@@ -115,7 +115,7 @@ protected:
    * Evaluate is used for non-boundary pixels. */
   PixelType Evaluate(const NeighborhoodIteratorType & nit,
                      const KernelIteratorType kernelBegin,
-                     const KernelIteratorType kernelEnd);
+                     const KernelIteratorType kernelEnd) ITK_OVERRIDE;
 
 private:
   BasicDilateImageFilter(const Self &); //purposely not implemented

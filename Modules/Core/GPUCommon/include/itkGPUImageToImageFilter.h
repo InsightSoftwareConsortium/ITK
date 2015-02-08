@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUImageToImageFilter_h
-#define __itkGPUImageToImageFilter_h
+#ifndef itkGPUImageToImageFilter_h
+#define itkGPUImageToImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkGPUKernelManager.h"
@@ -72,17 +72,17 @@ public:
   itkGetConstMacro(GPUEnabled, bool);
   itkBooleanMacro(GPUEnabled);
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  virtual void GraftOutput(DataObject *output);
+  virtual void GraftOutput(DataObject *output) ITK_OVERRIDE;
 
-  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output);
+  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output) ITK_OVERRIDE;
 
 protected:
   GPUImageToImageFilter();
   ~GPUImageToImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GPUGenerateData() {
   }

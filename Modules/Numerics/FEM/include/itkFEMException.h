@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMException_h
-#define __itkFEMException_h
+#ifndef itkFEMException_h
+#define itkFEMException_h
 
 #include <typeinfo>
 #include <string>
@@ -181,4 +181,4 @@ public:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMException_h
+#endif // #ifndef itkFEMException_h

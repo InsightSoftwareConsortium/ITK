@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiphaseSparseFiniteDifferenceImageFilter_hxx
-#define __itkMultiphaseSparseFiniteDifferenceImageFilter_hxx
+#ifndef itkMultiphaseSparseFiniteDifferenceImageFilter_hxx
+#define itkMultiphaseSparseFiniteDifferenceImageFilter_hxx
 
 #include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
 
@@ -1386,7 +1386,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
 
     if ( !input || !output )
       {
-      itkExceptionMacro (<< "Either input and/or output is NULL.");
+      itkExceptionMacro (<< "Either input and/or output is ITK_NULLPTR.");
       }
 
     ImageRegionIterator< OutputImageType > outIt (output, region);

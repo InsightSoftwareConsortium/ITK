@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorContainer_h
-#define __itkVectorContainer_h
+#ifndef itkVectorContainer_h
+#define itkVectorContainer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -284,7 +284,7 @@ private:
 
   /**
    * Check if the given index is in range of the vector.  If it is not, return
-   * false.  Otherwise, set the element through the pointer (if it isn't NULL),
+   * false.  Otherwise, set the element through the pointer (if it isn't ITK_NULLPTR),
    * and return true.
    */
   bool GetElementIfIndexExists(ElementIdentifier, Element *) const;
@@ -306,27 +306,27 @@ private:
   /**
    * Get a begin const iterator for the vector.
    */
-  ConstIterator Begin(void) const;
+  ConstIterator Begin() const;
 
   /**
    * Get an end const iterator for the vector.
    */
-  ConstIterator End(void) const;
+  ConstIterator End() const;
 
   /**
    * Get a begin iterator for the vector.
    */
-  Iterator Begin(void);
+  Iterator Begin();
 
   /**
    * Get an end iterator for the vector.
    */
-  Iterator End(void);
+  Iterator End();
 
   /**
    * Get the number of elements currently stored in the vector.
    */
-  ElementIdentifier Size(void) const;
+  ElementIdentifier Size() const;
 
   /**
    * Tell the container to allocate enough memory to allow at least as many
@@ -345,12 +345,12 @@ private:
    * usage. This method is included here mainly for providing a unified API
    * with other containers in the toolkit.
    */
-  void Squeeze(void);
+  void Squeeze();
 
   /**
    * Clear the elements. The final size will be zero.
    */
-  void Initialize(void);
+  void Initialize();
 };
 } // end namespace itk
 

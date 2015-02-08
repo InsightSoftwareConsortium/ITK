@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVotingBinaryImageFilter_h
-#define __itkVotingBinaryImageFilter_h
+#ifndef itkVotingBinaryImageFilter_h
+#define itkVotingBinaryImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -103,7 +103,7 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -123,7 +123,7 @@ public:
 protected:
   VotingBinaryImageFilter();
   virtual ~VotingBinaryImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** VotingBinaryImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -136,7 +136,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   VotingBinaryImageFilter(const Self &); //purposely not implemented

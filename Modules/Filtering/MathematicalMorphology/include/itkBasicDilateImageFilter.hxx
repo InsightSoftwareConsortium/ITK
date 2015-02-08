@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBasicDilateImageFilter_hxx
-#define __itkBasicDilateImageFilter_hxx
+#ifndef itkBasicDilateImageFilter_hxx
+#define itkBasicDilateImageFilter_hxx
 
 #include "itkBasicDilateImageFilter.h"
 

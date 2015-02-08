@@ -33,8 +33,8 @@
  *
  */
 
-#ifndef __itkBruker2DSEQImageIO_h
-#define __itkBruker2DSEQImageIO_h
+#ifndef itkBruker2DSEQImageIO_h
+#define itkBruker2DSEQImageIO_h
 
 
 #include "itkImageIOBase.h"
@@ -208,4 +208,4 @@ extern const char *const ACQ_REPETITION_TIME;
 extern const char *const ACQ_INVERSION_TIME;
 } // end namespace itk
 
-#endif // __itkBruker2DSEQImageIO_h
+#endif // itkBruker2DSEQImageIO_h

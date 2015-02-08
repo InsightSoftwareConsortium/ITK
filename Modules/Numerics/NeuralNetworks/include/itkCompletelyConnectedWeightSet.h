@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompletelyConnectedWeightSet_h
-#define __itkCompletelyConnectedWeightSet_h
+#ifndef itkCompletelyConnectedWeightSet_h
+#define itkCompletelyConnectedWeightSet_h
 
 #include "itkWeightSetBase.h"
 
@@ -53,7 +53,7 @@ protected:
   virtual ~CompletelyConnectedWeightSet(){};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 };
 

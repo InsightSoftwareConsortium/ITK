@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMalcolmSparseLevelSetImage_hxx
-#define __itkMalcolmSparseLevelSetImage_hxx
+#ifndef itkMalcolmSparseLevelSetImage_hxx
+#define itkMalcolmSparseLevelSetImage_hxx
 
 #include "itkMalcolmSparseLevelSetImage.h"
 
@@ -204,4 +204,4 @@ MalcolmSparseLevelSetImage< VDimension >
 }
 
 }
-#endif // __itkMalcolmSparseLevelSetImage_hxx
+#endif // itkMalcolmSparseLevelSetImage_hxx

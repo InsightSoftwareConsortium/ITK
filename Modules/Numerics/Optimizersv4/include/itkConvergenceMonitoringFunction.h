@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConvergenceMonitoringFunction_h
-#define __itkConvergenceMonitoringFunction_h
+#ifndef itkConvergenceMonitoringFunction_h
+#define itkConvergenceMonitoringFunction_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

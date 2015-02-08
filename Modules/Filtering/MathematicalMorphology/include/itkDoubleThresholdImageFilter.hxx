@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDoubleThresholdImageFilter_hxx
-#define __itkDoubleThresholdImageFilter_hxx
+#ifndef itkDoubleThresholdImageFilter_hxx
+#define itkDoubleThresholdImageFilter_hxx
 
 #include "itkDoubleThresholdImageFilter.h"
 #include "itkReconstructionByDilationImageFilter.h"

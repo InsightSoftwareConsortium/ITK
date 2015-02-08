@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLoadTest_h
-#define __itkFEMLoadTest_h
+#ifndef itkFEMLoadTest_h
+#define itkFEMLoadTest_h
 
 #include "itkFEMLoadElementBase.h"
 
@@ -86,4 +86,4 @@ private:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadTest_h
+#endif // #ifndef itkFEMLoadTest_h

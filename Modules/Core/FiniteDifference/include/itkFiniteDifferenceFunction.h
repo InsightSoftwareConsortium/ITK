@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFiniteDifferenceFunction_h
-#define __itkFiniteDifferenceFunction_h
+#ifndef itkFiniteDifferenceFunction_h
+#define itkFiniteDifferenceFunction_h
 
 #include "itkLightObject.h"
 #include "itkConstNeighborhoodIterator.h"

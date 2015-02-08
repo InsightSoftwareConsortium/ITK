@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkChangeRegionLabelMapFilter_h
-#define __itkChangeRegionLabelMapFilter_h
+#ifndef itkChangeRegionLabelMapFilter_h
+#define itkChangeRegionLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 
@@ -103,17 +103,17 @@ protected:
   ChangeRegionLabelMapFilter() {}
   ~ChangeRegionLabelMapFilter() {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject);
+  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
 
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ChangeRegionLabelMapFilter(const Self &); //purposely not implemented

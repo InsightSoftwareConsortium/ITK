@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkObjectFactoryBase_h
-#define __itkObjectFactoryBase_h
+#ifndef itkObjectFactoryBase_h
+#define itkObjectFactoryBase_h
 
 #include "itkCreateObjectFunction.h"
 #include <list>

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPermuteAxesImageFilter_h
-#define __itkPermuteAxesImageFilter_h
+#ifndef itkPermuteAxesImageFilter_h
+#define itkPermuteAxesImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkFixedArray.h"
@@ -93,19 +93,19 @@ public:
    * the pipeline execution model.  The original documentation of this
    * method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** PermuteAxesImageFilter needs different input requested region than the output
    * requested region.  As such, PermuteAxesImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 protected:
   PermuteAxesImageFilter();
   ~PermuteAxesImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** PermuteAxesImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -118,7 +118,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   PermuteAxesImageFilter(const Self &); //purposely not implemented

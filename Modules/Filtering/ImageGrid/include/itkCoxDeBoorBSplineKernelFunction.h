@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCoxDeBoorBSplineKernelFunction_h
-#define __itkCoxDeBoorBSplineKernelFunction_h
+#ifndef itkCoxDeBoorBSplineKernelFunction_h
+#define itkCoxDeBoorBSplineKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
 #include "vnl/vnl_real_polynomial.h"
@@ -83,7 +83,7 @@ public:
   itkGetConstMacro( SplineOrder, unsigned int );
 
   /** Evaluate the function. */
-  TRealValueType Evaluate( const TRealValueType & ) const;
+  TRealValueType Evaluate( const TRealValueType & ) const ITK_OVERRIDE;
 
   /** Evaluate the first derivative. */
   TRealValueType EvaluateDerivative( const TRealValueType & ) const;
@@ -107,7 +107,7 @@ public:
 protected:
   CoxDeBoorBSplineKernelFunction();
   virtual ~CoxDeBoorBSplineKernelFunction();
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   CoxDeBoorBSplineKernelFunction( const Self & ); //purposely not implemented

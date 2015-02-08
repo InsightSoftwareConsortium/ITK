@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToSpatialObjectDemonsRegistration_hxx
-#define __itkPointSetToSpatialObjectDemonsRegistration_hxx
+#ifndef itkPointSetToSpatialObjectDemonsRegistration_hxx
+#define itkPointSetToSpatialObjectDemonsRegistration_hxx
 
 #include "itkPointSetToSpatialObjectDemonsRegistration.h"
 

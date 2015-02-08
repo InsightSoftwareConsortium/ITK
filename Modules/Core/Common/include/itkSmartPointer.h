@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmartPointer_h
-#define __itkSmartPointer_h
+#ifndef itkSmartPointer_h
+#define itkSmartPointer_h
 
 #include <iostream>
 

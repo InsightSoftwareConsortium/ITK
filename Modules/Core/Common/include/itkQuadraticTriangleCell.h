@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadraticTriangleCell_h
-#define __itkQuadraticTriangleCell_h
+#ifndef itkQuadraticTriangleCell_h
+#define itkQuadraticTriangleCell_h
 
 #include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCellTopology.h"
@@ -60,35 +60,35 @@ public:
   itkStaticConstMacro(CellDimension, unsigned int, 2);
 
   /** Implement the standard CellInterface. */
-  virtual CellGeometry GetType(void) const
+  virtual CellGeometry GetType(void) const ITK_OVERRIDE
   { return Superclass::QUADRATIC_TRIANGLE_CELL; }
-  virtual void MakeCopy(CellAutoPointer &) const;
+  virtual void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
 
-  virtual unsigned int GetDimension(void) const;
+  virtual unsigned int GetDimension(void) const ITK_OVERRIDE;
 
-  virtual unsigned int GetNumberOfPoints(void) const;
+  virtual unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
 
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &);
-  virtual void SetPointIds(PointIdConstIterator first);
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) ITK_OVERRIDE;
+  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
 
   virtual void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last);
+                           PointIdConstIterator last) ITK_OVERRIDE;
 
-  virtual void SetPointId(int localId, PointIdentifier);
-  virtual PointIdIterator      PointIdsBegin(void);
+  virtual void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
+  virtual PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
 
-  virtual PointIdConstIterator PointIdsBegin(void) const;
+  virtual PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
 
-  virtual PointIdIterator      PointIdsEnd(void);
+  virtual PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
 
-  virtual PointIdConstIterator PointIdsEnd(void) const;
+  virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
 
   /** Triangle-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices(void) const;
+  virtual CellFeatureCount GetNumberOfVertices() const;
 
-  virtual CellFeatureCount GetNumberOfEdges(void) const;
+  virtual CellFeatureCount GetNumberOfEdges() const;
 
   virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
@@ -101,7 +101,7 @@ public:
    *  returned through an itkArray<InterpolationWeightType>).  */
   virtual void EvaluateShapeFunctions(
     const ParametricCoordArrayType & parametricCoordinates,
-    ShapeFunctionsArrayType  & weights) const;
+    ShapeFunctionsArrayType  & weights) const ITK_OVERRIDE;
 
 public:
   QuadraticTriangleCell()

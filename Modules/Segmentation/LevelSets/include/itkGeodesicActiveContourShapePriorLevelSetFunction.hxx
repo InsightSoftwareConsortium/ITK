@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGeodesicActiveContourShapePriorLevelSetFunction_hxx
-#define __itkGeodesicActiveContourShapePriorLevelSetFunction_hxx
+#ifndef itkGeodesicActiveContourShapePriorLevelSetFunction_hxx
+#define itkGeodesicActiveContourShapePriorLevelSetFunction_hxx
 
 #include "itkGeodesicActiveContourShapePriorLevelSetFunction.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"

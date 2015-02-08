@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWarpVectorImageFilter_h
-#define __itkWarpVectorImageFilter_h
+#ifndef itkWarpVectorImageFilter_h
+#define itkWarpVectorImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
@@ -160,7 +160,7 @@ public:
   void SetDisplacementField(DisplacementFieldType *field);
 
   /** Get a pointer the displacement field. */
-  DisplacementFieldType * GetDisplacementField(void);
+  DisplacementFieldType * GetDisplacementField();
 
 #ifdef ITKV3_COMPATIBILITY
   void SetDeformationField(const DeformationFieldType *field)
@@ -212,7 +212,7 @@ public:
    * implemenation for GenerateOutputInformation() which set
    * the output information according the OutputSpacing, OutputOrigin
    * and the displacement field's LargestPossibleRegion. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** It is difficult to compute in advance the input image region
    * required to compute the requested output region. Thus the safest
@@ -220,11 +220,11 @@ public:
    *
    * For the displacement field, the input requested region
    * set to be the same as that of the output requested region. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -240,13 +240,13 @@ public:
 protected:
   WarpVectorImageFilter();
   ~WarpVectorImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** WarpVectorImageFilter is implemented as a multi-threaded filter.
    * As such, it needs to provide and implementation for
    * ThreadedGenerateData(). */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   WarpVectorImageFilter(const Self &); //purposely not implemented

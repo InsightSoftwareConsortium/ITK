@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialFunctionImageEvaluatorFilter_h
-#define __itkSpatialFunctionImageEvaluatorFilter_h
+#ifndef itkSpatialFunctionImageEvaluatorFilter_h
+#define itkSpatialFunctionImageEvaluatorFilter_h
 
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
@@ -90,7 +90,7 @@ protected:
   virtual ~SpatialFunctionImageEvaluatorFilter() {}
 
   /** Method for evaluating the implicit function over the image. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   SpatialFunctionImageEvaluatorFilter(const Self &); //purposely not implemented

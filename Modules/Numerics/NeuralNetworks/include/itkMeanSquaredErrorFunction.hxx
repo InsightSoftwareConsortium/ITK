@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaredErrorFunction_hxx
-#define __itkMeanSquaredErrorFunction_hxx
+#ifndef itkMeanSquaredErrorFunction_hxx
+#define itkMeanSquaredErrorFunction_hxx
 
 #include "itkMeanSquaredErrorFunction.h"
 

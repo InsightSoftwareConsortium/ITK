@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPolylineMaskImageFilter_hxx
-#define __itkPolylineMaskImageFilter_hxx
+#ifndef itkPolylineMaskImageFilter_hxx
+#define itkPolylineMaskImageFilter_hxx
 
 #include "itkPolylineMaskImageFilter.h"
 #include "itkRigid3DPerspectiveTransform.h"

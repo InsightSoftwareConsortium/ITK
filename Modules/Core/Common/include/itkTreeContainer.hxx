@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeContainer_hxx
-#define __itkTreeContainer_hxx
+#ifndef itkTreeContainer_hxx
+#define itkTreeContainer_hxx
 
 #include "itkTreeContainer.h"
 
@@ -35,7 +35,7 @@ TreeContainer< TValue >::TreeContainer()
 template< typename TValue >
 TreeContainer< TValue >::TreeContainer(int dcc)
 {
-  m_Root = NULL;
+  m_Root = ITK_NULLPTR;
   this->SetSubtree(false);
   m_DefaultChildrenCount = dcc;
 }
@@ -44,7 +44,7 @@ TreeContainer< TValue >::TreeContainer(int dcc)
 template< typename TValue >
 TreeContainer< TValue >::TreeContainer(TreeContainer< TValue > & )
 {
-  m_Root = NULL;
+  m_Root = ITK_NULLPTR;
   this->SetSubtree(false);
   m_DefaultChildrenCount = 3;
 }
@@ -102,23 +102,23 @@ TreeContainer< TValue >::Swap(IteratorType & v, IteratorType & w)
   TreeNode< TValue > *nv = v.GetNode();
   TreeNode< TValue > *nw = w.GetNode();
 
-  if ( nv == NULL || nw == NULL )
+  if ( nv == ITK_NULLPTR || nw == ITK_NULLPTR )
     {
     return false;
     }
   TreeNode< TValue > *pv = nv->GetParent();
   TreeNode< TValue > *pw = nw->GetParent();
 
-  if ( pv == NULL && pw == NULL )
+  if ( pv == ITK_NULLPTR && pw == ITK_NULLPTR )
     {
     return false;
     }
-  else if ( pv == NULL )
+  else if ( pv == ITK_NULLPTR )
     {
     pw->ReplaceChild(nw, nv);
     m_Root = nw;
     }
-  else if ( pw == NULL )
+  else if ( pw == ITK_NULLPTR )
     {
     pv->ReplaceChild(nv, nw);
     m_Root = nv;
@@ -263,15 +263,15 @@ TreeContainer< TValue >::SetRoot(IteratorType & pos)
     return false;
     }
   TreeNode< TValue > *node = pos.GetNode();
-  if ( node == NULL )
+  if ( node == ITK_NULLPTR )
     {
     return false;
     }
 
   TreeNode< TValue > *parent = node->GetParent();
-  TreeNode< TValue > *help = NULL;
+  TreeNode< TValue > *help = ITK_NULLPTR;
 
-  if ( parent == NULL )
+  if ( parent == ITK_NULLPTR )
     {
     return false;
     }
@@ -279,12 +279,12 @@ TreeContainer< TValue >::SetRoot(IteratorType & pos)
   m_Root = node;
   node->AddChild(parent);
   parent->Remove(node);
-  node->SetParent(NULL);
+  node->SetParent(ITK_NULLPTR);
   help = parent->GetParent();
   parent->SetParent(node);
   node = parent;
 
-  while ( help != NULL )
+  while ( help != ITK_NULLPTR )
     {
     parent = help;
     help = help->GetParent();

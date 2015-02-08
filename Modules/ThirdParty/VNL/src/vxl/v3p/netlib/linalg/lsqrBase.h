@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_lsqr_h
-#define __itk_lsqr_h
+#ifndef itk_lsqr_h
+#define itk_lsqr_h
 
 #include <iostream>
 

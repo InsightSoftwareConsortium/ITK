@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRGBToLuminanceImageAdaptor_h
-#define __itkRGBToLuminanceImageAdaptor_h
+#ifndef itkRGBToLuminanceImageAdaptor_h
+#define itkRGBToLuminanceImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 #include "vnl/vnl_math.h"

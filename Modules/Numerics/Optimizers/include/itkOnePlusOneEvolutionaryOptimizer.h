@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOnePlusOneEvolutionaryOptimizer_h
-#define __itkOnePlusOneEvolutionaryOptimizer_h
+#ifndef itkOnePlusOneEvolutionaryOptimizer_h
+#define itkOnePlusOneEvolutionaryOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkRandomVariateGeneratorBase.h"

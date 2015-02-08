@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWeightedCovarianceSampleFilter_hxx
-#define __itkWeightedCovarianceSampleFilter_hxx
+#ifndef itkWeightedCovarianceSampleFilter_hxx
+#define itkWeightedCovarianceSampleFilter_hxx
 
 #include "itkWeightedCovarianceSampleFilter.h"
 #include "itkWeightedMeanSampleFilter.h"

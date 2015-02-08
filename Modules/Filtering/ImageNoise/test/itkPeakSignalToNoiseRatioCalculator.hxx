@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPeakSignalToNoiseRatioCalculator_hxx
-#define __itkPeakSignalToNoiseRatioCalculator_hxx
+#ifndef itkPeakSignalToNoiseRatioCalculator_hxx
+#define itkPeakSignalToNoiseRatioCalculator_hxx
 
 #include "itkPeakSignalToNoiseRatioCalculator.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedImageFilter_hxx
-#define __itkWatershedImageFilter_hxx
+#ifndef itkWatershedImageFilter_hxx
+#define itkWatershedImageFilter_hxx
 #include "itkWatershedImageFilter.h"
 
 namespace itk

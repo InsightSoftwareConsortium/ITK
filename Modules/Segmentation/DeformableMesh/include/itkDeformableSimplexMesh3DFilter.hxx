@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DFilter_hxx
-#define __itkDeformableSimplexMesh3DFilter_hxx
+#ifndef itkDeformableSimplexMesh3DFilter_hxx
+#define itkDeformableSimplexMesh3DFilter_hxx
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkNumericTraits.h"
@@ -639,4 +639,4 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 }
 } /* end namespace itk. */
 
-#endif //__itkDeformableSimplexMesh3DFilter_TXX
+#endif // itkDeformableSimplexMesh3DFilter_hxx

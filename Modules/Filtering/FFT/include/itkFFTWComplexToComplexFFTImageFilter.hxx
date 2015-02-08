@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWComplexToComplexFFTImageFilter_hxx
-#define __itkFFTWComplexToComplexFFTImageFilter_hxx
+#ifndef itkFFTWComplexToComplexFFTImageFilter_hxx
+#define itkFFTWComplexToComplexFFTImageFilter_hxx
 
 #include "itkFFTWComplexToComplexFFTImageFilter.h"
 #include "itkIndent.h"

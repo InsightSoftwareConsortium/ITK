@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWInverseFFTImageFilter_h
-#define __itkFFTWInverseFFTImageFilter_h
+#ifndef itkFFTWInverseFFTImageFilter_h
+#define itkFFTWInverseFFTImageFilter_h
 
 #include "itkInverseFFTImageFilter.h"
 
@@ -113,7 +113,7 @@ protected:
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FFTWInverseFFTImageFilter(const Self&); //purposely not implemented
@@ -130,4 +130,4 @@ private:
 #include "itkFFTWInverseFFTImageFilter.hxx"
 #endif
 
-#endif //__itkFFTWInverseFFTImageFilter_h
+#endif //itkFFTWInverseFFTImageFilter_h

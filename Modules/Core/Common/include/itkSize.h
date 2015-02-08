@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSize_h
-#define __itkSize_h
+#ifndef itkSize_h
+#define itkSize_h
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"

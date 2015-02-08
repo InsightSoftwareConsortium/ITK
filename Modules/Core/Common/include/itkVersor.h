@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVersor_h
-#define __itkVersor_h
+#ifndef itkVersor_h
+#define itkVersor_h
 
 #include "itkMatrix.h"
 #include "vnl/vnl_quaternion.h"
@@ -79,7 +79,7 @@ public:
   typedef  Matrix< T, 3, 3 > MatrixType;
 
   /** Get a vnl_quaternion with a copy of the internal memory block. */
-  vnl_quaternion< T > GetVnlQuaternion(void) const;
+  vnl_quaternion< T > GetVnlQuaternion() const;
 
   /** Set the Versor from a Quaternion
    \warning After assignment, the corresponding quaternion will
@@ -129,22 +129,22 @@ public:
   /** Get Tensor part of the Versor.
    * Given that Versors are normalized quaternions this value
    * is expected to be 1.0 always  */
-  ValueType GetTensor(void) const;
+  ValueType GetTensor() const;
 
   /** Normalize the Versor.
    * Given that Versors are normalized quaternions this method
    * is provided only for convinience when it is suspected that
    * a versor could be out of the unit sphere.   */
-  void Normalize(void);
+  void Normalize();
 
   /** Get Conjugate versor.  Returns the versor that produce
    * a rotation by the same angle but in opposite direction. */
-  Self GetConjugate(void) const;
+  Self GetConjugate() const;
 
   /** Get Reciprocal versor.  Returns the versor that composed
    * with this one will result in a scalar operator equals to 1.
    * It is also equivalent to 1/this. */
-  Self GetReciprocal(void) const;
+  Self GetReciprocal() const;
 
   /** Versor operator*.  Performs the composition of two versors.
    * this operation is NOT commutative. */
@@ -162,7 +162,7 @@ public:
   bool operator!=(const Self & vec) const;
 
   /** Returns the Scalar part. */
-  ValueType GetScalar(void) const;
+  ValueType GetScalar() const;
 
   /** Returns the X component. */
   ValueType GetX(void) const { return m_X; }
@@ -177,17 +177,17 @@ public:
   ValueType GetW(void) const { return m_W; }
 
   /** Returns the rotation angle in radians.  */
-  ValueType GetAngle(void) const;
+  ValueType GetAngle() const;
 
   /** Returns the axis of the rotation.
    * It is a unit vector parallel to the axis. */
-  VectorType GetAxis(void) const;
+  VectorType GetAxis() const;
 
   /** Returns the Right part
    * It is a vector part of the Versor. It is
    * called Right because it is equivalent to
    * a right angle rotation. */
-  VectorType GetRight(void) const;
+  VectorType GetRight() const;
 
   /** Set the versor using a vector and angle
    * the unit vector parallel to the given vector
@@ -249,10 +249,10 @@ public:
   VnlVectorType Transform(const VnlVectorType & v) const;
 
   /** Get the matrix representation. */
-  MatrixType GetMatrix(void) const;
+  MatrixType GetMatrix() const;
 
   /** Get the Square root of the unit quaternion. */
-  Self SquareRoot(void) const;
+  Self SquareRoot() const;
 
   /** Compute the Exponential of the unit quaternion
    * Exponentiation by a factor is equivalent to

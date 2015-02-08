@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeDetectionLevelSetFunction_h
-#define __itkShapeDetectionLevelSetFunction_h
+#ifndef itkShapeDetectionLevelSetFunction_h
+#define itkShapeDetectionLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 
@@ -99,14 +99,14 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
-  virtual void CalculateSpeedImage();
+  virtual void CalculateSpeedImage() ITK_OVERRIDE;
 
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const
+                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const ITK_OVERRIDE
   { return this->PropagationSpeed(neighborhood, offset, gd); }
 
-  virtual void Initialize(const RadiusType & r)
+  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
   {
     Superclass::Initialize(r);
 

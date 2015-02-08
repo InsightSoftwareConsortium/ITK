@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodOperatorImageFilter_h
-#define __itkNeighborhoodOperatorImageFilter_h
+#ifndef itkNeighborhoodOperatorImageFilter_h
+#define itkNeighborhoodOperatorImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNeighborhoodOperator.h"
@@ -133,7 +133,7 @@ public:
    * execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -167,9 +167,9 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {  Superclass::PrintSelf(os, indent); }
 
 private:

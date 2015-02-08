@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCylinderSpatialObject_h
-#define __itkCylinderSpatialObject_h
+#ifndef itkCylinderSpatialObject_h
+#define itkCylinderSpatialObject_h
 
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
@@ -91,8 +91,8 @@ protected:
   CylinderSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented
 
-  CylinderSpatialObject(void);
-  ~CylinderSpatialObject(void);
+  CylinderSpatialObject();
+  ~CylinderSpatialObject();
 
   double m_Radius;
   double m_Height;
@@ -102,4 +102,4 @@ protected:
 };
 } // end namespace itk
 
-#endif // __itkCylinderSpatialObject_h
+#endif // itkCylinderSpatialObject_h

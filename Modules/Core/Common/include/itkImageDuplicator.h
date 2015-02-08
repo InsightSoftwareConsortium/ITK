@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageDuplicator_h
-#define __itkImageDuplicator_h
+#ifndef itkImageDuplicator_h
+#define itkImageDuplicator_h
 
 #include "itkObject.h"
 #include "itkImage.h"
@@ -81,7 +81,7 @@ public:
   itkGetModifiableObjectMacro(Output, ImageType);
 
   /** Compute of the input image. */
-  void Update(void);
+  void Update();
 
 protected:
   ImageDuplicator();
@@ -102,4 +102,4 @@ private:
 #include "itkImageDuplicator.hxx"
 #endif
 
-#endif /* __itkImageDuplicator_h */
+#endif /* itkImageDuplicator_h */

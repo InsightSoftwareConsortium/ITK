@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMath_h
-#define __itkMath_h
+#ifndef itkMath_h
+#define itkMath_h
 
 #include "itkIntTypes.h"
 #include "itkMathDetail.h"

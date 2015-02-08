@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFiniteDifferenceImageFilter_h
-#define __itkFiniteDifferenceImageFilter_h
+#ifndef itkFiniteDifferenceImageFilter_h
+#define itkFiniteDifferenceImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkFiniteDifferenceFunction.h"
@@ -228,7 +228,7 @@ protected:
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
   bool m_IsInitialized;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method allocates a temporary update container in the subclass. */
   virtual void AllocateUpdateBuffer() = 0;
@@ -253,7 +253,7 @@ protected:
   /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
    * to implement the major steps of the algorithm. */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /** FiniteDifferenceImageFilter needs a larger input requested region than
    * the output requested region.  As such, we need to provide
@@ -266,7 +266,7 @@ protected:
    * handled as described in the FiniteDifferenceFunction defined by the
    * subclass.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */

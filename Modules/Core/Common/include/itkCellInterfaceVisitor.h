@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCellInterfaceVisitor_h
-#define __itkCellInterfaceVisitor_h
+#ifndef itkCellInterfaceVisitor_h
+#define itkCellInterfaceVisitor_h
 
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
@@ -125,12 +125,12 @@ public:
 
   /** Call the static method GetTopologyId for the CellTopology type that
    * we are templated over. */
-  virtual int GetCellTopologyId() { return CellTopology::GetTopologyId(); }
+  virtual int GetCellTopologyId() ITK_OVERRIDE { return CellTopology::GetTopologyId(); }
 
   /** Call the method Visit from the UserVisitor template parameter that
    * this class inherits from.  I am my own gradpa... */
   void VisitFromCell(CellIdentifier cellId, CellInterface< TPixelType,
-                                                           TCellTraits > *c)
+                                                           TCellTraits > *c) ITK_OVERRIDE
   {
     this->UserVisitor::Visit(cellId, (CellTopology *)c);
   }

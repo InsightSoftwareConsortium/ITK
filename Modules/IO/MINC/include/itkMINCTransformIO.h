@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMINCTransformIO_h
-#define __itkMINCTransformIO_h
+#ifndef itkMINCTransformIO_h
+#define itkMINCTransformIO_h
 
 #include "itkTransformIOBase.h"
 
@@ -62,16 +62,16 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
   * file specified. */
-  virtual bool CanReadFile( const char * fileName );
+  virtual bool CanReadFile( const char * fileName ) ITK_OVERRIDE;
 
   /** Determine the file type. Returns true if this ImageIO can write the
   * file specified. */
-  virtual bool CanWriteFile( const char * fileName );
+  virtual bool CanWriteFile( const char * fileName ) ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read();
+  virtual void Read() ITK_OVERRIDE;
 
-  virtual void Write();
+  virtual void Write() ITK_OVERRIDE;
 
 protected:
   MINCTransformIOTemplate();
@@ -81,7 +81,7 @@ protected:
   bool                  m_XFM_initialized;
 
 private:
-  void _cleanup(void);
+  void _cleanup();
   void WriteOneTransform(const int transformIndex,
                          const TransformType *transform,
                          std::vector<VIO_General_transform> &_xfm,
@@ -99,4 +99,4 @@ typedef MINCTransformIOTemplate< double > MINCTransformIO;
 #include "itkMINCTransformIO.hxx"
 #endif
 
-#endif // __itkMINCTransformIO_h
+#endif // itkMINCTransformIO_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBruker2DSEQImageIOFactory_h
-#define __itkBruker2DSEQImageIOFactory_h
+#ifndef itkBruker2DSEQImageIOFactory_h
+#define itkBruker2DSEQImageIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSymmetricSecondRankTensor_h
-#define __itkSymmetricSecondRankTensor_h
+#ifndef itkSymmetricSecondRankTensor_h
+#define itkSymmetricSecondRankTensor_h
 
 // Undefine an eventual SymmetricSecondRankTensor macro
 #ifdef SymmetricSecondRankTensor

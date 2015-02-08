@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKVisualize2DLevelSetAsElevationMap_hxx
-#define __itkVTKVisualize2DLevelSetAsElevationMap_hxx
+#ifndef itkVTKVisualize2DLevelSetAsElevationMap_hxx
+#define itkVTKVisualize2DLevelSetAsElevationMap_hxx
 
 #include "itkVTKVisualize2DLevelSetAsElevationMap.h"
 

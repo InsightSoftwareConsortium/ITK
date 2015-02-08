@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMLoads_h
-#define __itkFEMLoads_h
+#ifndef itkFEMLoads_h
+#define itkFEMLoads_h
 
 /**
  * \file itkFEMLoads.h

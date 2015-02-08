@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegistrationMethodv4_h
-#define __itkImageRegistrationMethodv4_h
+#ifndef itkImageRegistrationMethodv4_h
+#define itkImageRegistrationMethodv4_h
 
 #include "itkProcessObject.h"
 
@@ -88,7 +88,7 @@ namespace itk
  */
 template<typename TFixedImage,
          typename TMovingImage,
-         typename TOutputTransform=Transform<double, TFixedImage::ImageDimension,  TFixedImage::ImageDimension >,
+         typename TOutputTransform = Transform<double, TFixedImage::ImageDimension, TFixedImage::ImageDimension>,
          typename TVirtualImage = TFixedImage>
 class ImageRegistrationMethodv4
 :public ProcessObject
@@ -133,9 +133,16 @@ public:
   typedef ObjectToObjectMetricBaseTemplate<RealType>                  MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
 
+  typedef Vector<RealType, ImageDimension>                            VectorType;
+
   typedef PointSet<unsigned int, ImageDimension>                      PointSetType;
+  typedef typename PointSetType::ConstPointer                         PointSetConstPointer;
+  typedef std::vector<PointSetConstPointer>                           PointSetsContainerType;
 
   typedef TVirtualImage                                               VirtualImageType;
+  typedef typename VirtualImageType::Pointer                          VirtualImagePointer;
+  typedef ImageBase<ImageDimension>                                   VirtualImageBaseType;
+  typedef typename VirtualImageBaseType::ConstPointer                 VirtualImageBaseConstPointer;
 
   typedef ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension, VirtualImageType, RealType>  MultiMetricType;
   typedef ImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>        ImageMetricType;
@@ -149,7 +156,6 @@ public:
   typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
   typedef DataObjectDecorator<InitialTransformType>                   DecoratedInitialTransformType;
   typedef typename DecoratedInitialTransformType::Pointer             DecoratedInitialTransformPointer;
-
 
   typedef ShrinkImageFilter<FixedImageType, VirtualImageType>         ShrinkFilterType;
   typedef typename ShrinkFilterType::ShrinkFactorsType                ShrinkFactorsPerDimensionContainerType;
@@ -441,6 +447,9 @@ protected:
   /** Initialize by setting the interconnects between the components. */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
+  /** Initialize by setting the interconnects between the components. */
+  virtual VirtualImageBaseConstPointer GetCurrentLevelVirtualDomainImage();
+
   /** Get metric samples. */
   virtual void SetMetricSamplePoints();
 
@@ -453,6 +462,9 @@ protected:
 
   FixedImagesContainerType                                        m_FixedSmoothImages;
   MovingImagesContainerType                                       m_MovingSmoothImages;
+  VirtualImagePointer                                             m_VirtualDomainImage;
+  PointSetsContainerType                                          m_FixedPointSets;
+  PointSetsContainerType                                          m_MovingPointSets;
   SizeValueType                                                   m_NumberOfFixedObjects;
   SizeValueType                                                   m_NumberOfMovingObjects;
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryImageToShapeLabelMapFilter_h
-#define __itkBinaryImageToShapeLabelMapFilter_h
+#ifndef itkBinaryImageToShapeLabelMapFilter_h
+#define itkBinaryImageToShapeLabelMapFilter_h
 
 #include "itkShapeLabelObject.h"
 #include "itkBinaryImageToLabelMapFilter.h"
@@ -152,18 +152,18 @@ public:
 protected:
   BinaryImageToShapeLabelMapFilter();
   ~BinaryImageToShapeLabelMapFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryImageToShapeLabelMapFilter needs the entire input be available.
    * Thus, it needs to provide an implementation of GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** BinaryImageToShapeLabelMapFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.
    * This filter delegates to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   BinaryImageToShapeLabelMapFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiscreteGaussianDerivativeImageFilter_h
-#define __itkDiscreteGaussianDerivativeImageFilter_h
+#ifndef itkDiscreteGaussianDerivativeImageFilter_h
+#define itkDiscreteGaussianDerivativeImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
@@ -197,7 +197,7 @@ protected:
   }
 
   virtual ~DiscreteGaussianDerivativeImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** DiscreteGaussianDerivativeImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the
@@ -205,14 +205,14 @@ protected:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
 

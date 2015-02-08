@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientImageFilter_h
-#define __itkGradientImageFilter_h
+#ifndef itkGradientImageFilter_h
+#define itkGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkCovariantVector.h"
@@ -103,7 +103,7 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
@@ -146,7 +146,7 @@ public:
 protected:
   GradientImageFilter();
   virtual ~GradientImageFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -159,13 +159,13 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   GradientImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   // An overloaded method which may transform the gradient to a
   // physical vector and converts to the correct output pixel type.

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegistrationParameterScalesFromJacobian_h
-#define __itkRegistrationParameterScalesFromJacobian_h
+#ifndef itkRegistrationParameterScalesFromJacobian_h
+#define itkRegistrationParameterScalesFromJacobian_h
 
 #include "itkRegistrationParameterScalesEstimator.h"
 
@@ -69,7 +69,7 @@ public:
   typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
   /** Estimate parameter scales. */
-  virtual void EstimateScales(ScalesType &scales);
+  virtual void EstimateScales(ScalesType &scales) ITK_OVERRIDE;
 
   /**
    *  Estimate the scale for \f$\Delta p\f$, the step of change on parameters.
@@ -88,17 +88,17 @@ public:
    *  For multiple voxels, we average the above formula to get the overall
    *  step scale.
    */
-  virtual FloatType EstimateStepScale(const ParametersType &step);
+  virtual FloatType EstimateStepScale(const ParametersType &step) ITK_OVERRIDE;
 
   /** Estimate the scales of local steps. */
   virtual void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales);
+    ScalesType &localStepScales) ITK_OVERRIDE;
 
 protected:
   RegistrationParameterScalesFromJacobian();
   ~RegistrationParameterScalesFromJacobian(){};
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    *  Compute the step scales for samples, i.e. the impacts on each sampled
@@ -120,4 +120,4 @@ private:
 #include "itkRegistrationParameterScalesFromJacobian.hxx"
 #endif
 
-#endif /* __itkRegistrationParameterScalesFromJacobian_h */
+#endif /* itkRegistrationParameterScalesFromJacobian_h */

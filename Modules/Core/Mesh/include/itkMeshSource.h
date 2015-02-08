@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMeshSource_h
-#define __itkMeshSource_h
+#ifndef itkMeshSource_h
+#define itkMeshSource_h
 
 
 #include "itkProcessObject.h"
@@ -69,7 +69,7 @@ public:
   typedef Superclass::DataObjectIdentifierType DataObjectIdentifierType;
 
   /** Get the mesh output of this process object.  */
-  OutputMeshType * GetOutput(void);
+  OutputMeshType * GetOutput();
 
   OutputMeshType * GetOutput(unsigned int idx);
 

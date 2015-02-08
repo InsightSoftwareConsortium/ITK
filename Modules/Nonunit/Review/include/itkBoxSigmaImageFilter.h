@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBoxSigmaImageFilter_h
-#define __itkBoxSigmaImageFilter_h
+#ifndef itkBoxSigmaImageFilter_h
+#define itkBoxSigmaImageFilter_h
 
 #include "itkBoxImageFilter.h"
 
@@ -87,7 +87,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   BoxSigmaImageFilter(const Self &); //purposely not implemented

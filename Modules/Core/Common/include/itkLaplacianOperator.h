@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianOperator_h
-#define __itkLaplacianOperator_h
+#ifndef itkLaplacianOperator_h
+#define itkLaplacianOperator_h
 
 #include "itkNeighborhoodOperator.h"
 

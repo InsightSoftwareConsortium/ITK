@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureRegistrationFilter_h
-#define __itkCurvatureRegistrationFilter_h
+#ifndef itkCurvatureRegistrationFilter_h
+#define itkCurvatureRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkMeanSquareRegistrationFunction.h"
@@ -174,7 +174,7 @@ public:
 protected:
   CurvatureRegistrationFilter();
   ~CurvatureRegistrationFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter before starting first iteration. */
   virtual void Initialize();

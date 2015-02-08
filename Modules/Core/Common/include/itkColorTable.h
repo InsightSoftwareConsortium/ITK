@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkColorTable_h
-#define __itkColorTable_h
+#ifndef itkColorTable_h
+#define itkColorTable_h
 
 #include "itkObject.h"
 #include "itkRGBPixel.h"
@@ -57,7 +57,7 @@ public:
     * pixel types, the color range is between NonpositiveMin() and max(). For
     * continuous types, the range is 0.0 to 1.0.
     */
-  void    UseDiscreteColors(void);
+  void    UseDiscreteColors();
 
   /** Generate a lookuptable of n grayscale values. For integral pixel
     * types, a ramp is generated from NonpositiveMin() to max() of the

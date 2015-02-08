@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMRCImageIOFactory_h
-#define __itkMRCImageIOFactory_h
+#ifndef itkMRCImageIOFactory_h
+#define itkMRCImageIOFactory_h
 #include "ITKIOMRCExport.h"
 
 #include "itkObjectFactoryBase.h"

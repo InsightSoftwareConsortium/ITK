@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkApproximateSignedDistanceMapImageFilter_h
-#define __itkApproximateSignedDistanceMapImageFilter_h
+#ifndef itkApproximateSignedDistanceMapImageFilter_h
+#define itkApproximateSignedDistanceMapImageFilter_h
 
 #include "itkFastChamferDistanceImageFilter.h"
 #include "itkIsoContourDistanceImageFilter.h"
@@ -131,9 +131,9 @@ public:
 protected:
   ApproximateSignedDistanceMapImageFilter();
   virtual ~ApproximateSignedDistanceMapImageFilter() {}
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ApproximateSignedDistanceMapImageFilter(const Self &); //purposely not

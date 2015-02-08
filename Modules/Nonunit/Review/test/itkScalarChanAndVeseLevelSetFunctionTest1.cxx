@@ -61,7 +61,7 @@ public:
   virtual void computeOverlapParameters( const FeatureIndexType,
     unsigned int &, unsigned int & ) {}
 
-  virtual void ComputeParameters() {}
+  virtual void ComputeParameters() ITK_OVERRIDE {}
 
 protected:
   ScalarChanAndVeseLevelSetFunctionTestHelper() {}

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTDistribution_h
-#define __itkTDistribution_h
+#ifndef itkTDistribution_h
+#define itkTDistribution_h
 
 #include "itkProbabilityDistribution.h"
 #include "itkNumericTraits.h"
@@ -197,7 +197,7 @@ public:
   static double InverseCDF(double p, SizeValueType degreesOfFreedom);
 
 protected:
-  TDistribution(void);
+  TDistribution();
   virtual ~TDistribution(void) {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

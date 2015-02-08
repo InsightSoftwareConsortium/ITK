@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaMeshConverter_h
-#define __itkMetaMeshConverter_h
+#ifndef itkMetaMeshConverter_h
+#define itkMetaMeshConverter_h
 
 #include "metaMesh.h"
 #include "itkMeshSpatialObject.h"
@@ -63,14 +63,14 @@ public:
   typedef MetaMesh                                         MeshMetaObjectType;
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE;
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE;
 
 protected:
   /** Create the specific MetaObject for this class */
-  virtual MetaObjectType *CreateMetaObject();
+  virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaMeshConverter();
   ~MetaMeshConverter() {}

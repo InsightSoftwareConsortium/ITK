@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelToRGBFunctor_h
-#define __itkLabelToRGBFunctor_h
+#ifndef itkLabelToRGBFunctor_h
+#define itkLabelToRGBFunctor_h
 
 #include <vector>
 #include "itkNumericTraits.h"

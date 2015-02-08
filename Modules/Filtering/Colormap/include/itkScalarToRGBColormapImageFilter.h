@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarToRGBColormapImageFilter_h
-#define __itkScalarToRGBColormapImageFilter_h
+#ifndef itkScalarToRGBColormapImageFilter_h
+#define itkScalarToRGBColormapImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -130,9 +130,9 @@ protected:
   ScalarToRGBColormapImageFilter();
   virtual ~ScalarToRGBColormapImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation()
+  virtual void GenerateOutputInformation() ITK_OVERRIDE
   {
     // this methods is overloaded so that if the output image is a
     // VectorImage then the correct number of components are set.
@@ -162,10 +162,10 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
   ScalarToRGBColormapImageFilter(const Self &); //purposely not implemented

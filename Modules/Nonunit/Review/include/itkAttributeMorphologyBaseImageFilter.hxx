@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAttributeMorphologyBaseImageFilter_hxx
-#define __itkAttributeMorphologyBaseImageFilter_hxx
+#ifndef itkAttributeMorphologyBaseImageFilter_hxx
+#define itkAttributeMorphologyBaseImageFilter_hxx
 
 #include "itkAttributeMorphologyBaseImageFilter.h"
 #include "itkImageRegionIterator.h"

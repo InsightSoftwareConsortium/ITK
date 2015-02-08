@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineL2ResampleImageFilterBase_h
-#define __itkBSplineL2ResampleImageFilterBase_h
+#ifndef itkBSplineL2ResampleImageFilterBase_h
+#define itkBSplineL2ResampleImageFilterBase_h
 
 #include <vector>
 #include "itkBSplineResampleImageFilterBase.h"
@@ -95,11 +95,11 @@ public:
 
 protected:
 
-  virtual void InitializePyramidSplineFilter(int SplineOrder);
+  virtual void InitializePyramidSplineFilter(int SplineOrder) ITK_OVERRIDE;
 
   BSplineL2ResampleImageFilterBase();
   virtual ~BSplineL2ResampleImageFilterBase() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   BSplineL2ResampleImageFilterBase(const Self &); //purposely not implemented

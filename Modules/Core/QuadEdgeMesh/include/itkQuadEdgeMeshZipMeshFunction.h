@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshZipMeshFunction_h
-#define __itkQuadEdgeMeshZipMeshFunction_h
+#ifndef itkQuadEdgeMeshZipMeshFunction_h
+#define itkQuadEdgeMeshZipMeshFunction_h
 
 #include "itkQuadEdgeMeshFunctionBase.h"
 

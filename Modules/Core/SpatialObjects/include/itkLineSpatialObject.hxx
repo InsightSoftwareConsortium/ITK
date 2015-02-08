@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLineSpatialObject_hxx
-#define __itkLineSpatialObject_hxx
+#ifndef itkLineSpatialObject_hxx
+#define itkLineSpatialObject_hxx
 
 
 #include "itkLineSpatialObject.h"

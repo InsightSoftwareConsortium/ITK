@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRecursiveMultiResolutionPyramidImageFilter_h
-#define __itkRecursiveMultiResolutionPyramidImageFilter_h
+#ifndef itkRecursiveMultiResolutionPyramidImageFilter_h
+#define itkRecursiveMultiResolutionPyramidImageFilter_h
 
 #include "itkMultiResolutionPyramidImageFilter.h"
 #include "vnl/vnl_matrix.h"
@@ -98,7 +98,7 @@ public:
    * output images.
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputRequestedRegion(); */
-  virtual void GenerateOutputRequestedRegion(DataObject *output);
+  virtual void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   /** RecursiveMultiResolutionPyramidImageFilter requires a larger input
    * requested region than the output requested regions to accommodate the
@@ -106,15 +106,15 @@ public:
    * MultiResolutionPyramidImageFilter needs to provide an implementation for
    * GenerateInputRequestedRegion().  The original documentation of this
    * method is below.  \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 protected:
   RecursiveMultiResolutionPyramidImageFilter();
   ~RecursiveMultiResolutionPyramidImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate the output data. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   RecursiveMultiResolutionPyramidImageFilter(const Self &); //purposely not

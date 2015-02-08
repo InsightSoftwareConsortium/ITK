@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBatchSupervisedTrainingFunction_hxx
-#define __itkBatchSupervisedTrainingFunction_hxx
+#ifndef itkBatchSupervisedTrainingFunction_hxx
+#define itkBatchSupervisedTrainingFunction_hxx
 
 #include "itkBatchSupervisedTrainingFunction.h"
 #include <fstream>

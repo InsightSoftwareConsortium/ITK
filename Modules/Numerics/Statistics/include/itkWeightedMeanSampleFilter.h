@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWeightedMeanSampleFilter_h
-#define __itkWeightedMeanSampleFilter_h
+#ifndef itkWeightedMeanSampleFilter_h
+#define itkWeightedMeanSampleFilter_h
 
 #include "itkMeanSampleFilter.h"
 #include "itkFunctionBase.h"
@@ -94,9 +94,9 @@ public:
 protected:
   WeightedMeanSampleFilter();
   virtual ~WeightedMeanSampleFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   // compute mean with weight array
   void ComputeMeanWithWeights();

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC1Beam_h
-#define __itkFEMElement2DC1Beam_h
+#ifndef itkFEMElement2DC1Beam_h
+#define itkFEMElement2DC1Beam_h
 
 #include "itkFEMElementStd.h"
 #include "itkFEMLoadElementBase.h"
@@ -157,4 +157,4 @@ private:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElement2DC1Beam_h
+#endif // #ifndef itkFEMElement2DC1Beam_h

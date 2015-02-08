@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageToCooccurrenceListSampleFilter_hxx
-#define __itkScalarImageToCooccurrenceListSampleFilter_hxx
+#ifndef itkScalarImageToCooccurrenceListSampleFilter_hxx
+#define itkScalarImageToCooccurrenceListSampleFilter_hxx
 
 #include "itkScalarImageToCooccurrenceListSampleFilter.h"
 

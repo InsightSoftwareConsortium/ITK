@@ -36,7 +36,7 @@ namespace itk
 /** Constructor */
 DCMTKImageIO::DCMTKImageIO()
 {
-  m_DImage = NULL;
+  m_DImage = ITK_NULLPTR;
 
   // standard ImageIOBase variables
   m_ByteOrder = BigEndian;
@@ -202,21 +202,21 @@ void
 DCMTKImageIO
 ::OpenDicomImage()
 {
-  if(this->m_DImage != 0)
+  if(this->m_DImage != ITK_NULLPTR)
     {
     if( !this->m_DicomImageSetByUser &&
         this->m_FileName != this->m_LastFileName)
       {
       delete m_DImage;
-      this->m_DImage = 0;
+      this->m_DImage = ITK_NULLPTR;
       }
     }
-  if( m_DImage == NULL )
+  if( m_DImage == ITK_NULLPTR )
     {
     m_DImage = new DicomImage( m_FileName.c_str() );
     this->m_LastFileName = this->m_FileName;
     }
-  if(this->m_DImage == 0)
+  if(this->m_DImage == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't create DicomImage for "
                       << this->m_FileName)
@@ -428,7 +428,7 @@ void DCMTKImageIO::ReadImageInformation()
   this->OpenDicomImage();
   const DiPixel *interData = this->m_DImage->getInterData();
 
-  if(interData == 0)
+  if(interData == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Missing Image Data in "
                       << this->m_FileName);

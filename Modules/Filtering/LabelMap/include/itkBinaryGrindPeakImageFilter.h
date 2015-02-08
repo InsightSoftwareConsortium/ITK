@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryGrindPeakImageFilter_h
-#define __itkBinaryGrindPeakImageFilter_h
+#ifndef itkBinaryGrindPeakImageFilter_h
+#define itkBinaryGrindPeakImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -111,19 +111,19 @@ public:
 protected:
   BinaryGrindPeakImageFilter();
   ~BinaryGrindPeakImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryGrindPeakImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** BinaryGrindPeakImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
+  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   BinaryGrindPeakImageFilter(const Self&); //purposely not implemented

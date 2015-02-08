@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarRegionBasedLevelSetFunction_h
-#define __itkScalarRegionBasedLevelSetFunction_h
+#ifndef itkScalarRegionBasedLevelSetFunction_h
+#define itkScalarRegionBasedLevelSetFunction_h
 
 #include "itkRegionBasedLevelSetFunction.h"
 #include "itkNeighborhoodIterator.h"
@@ -133,7 +133,7 @@ protected:
   ~ScalarRegionBasedLevelSetFunction(){}
 
   ScalarValueType ComputeOverlapParameters(const FeatureIndexType & featIndex,
-                                           ScalarValueType & product);
+                                           ScalarValueType & product) ITK_OVERRIDE;
 
   // update the background and foreground constants for pixel updates
   // Called only when sparse filters are used to prevent iteration through the

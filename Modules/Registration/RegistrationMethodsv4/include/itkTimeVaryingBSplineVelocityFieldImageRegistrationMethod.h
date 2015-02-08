@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_h
-#define __itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_h
+#ifndef itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_h
+#define itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_h
 
 #include "itkImageRegistrationMethodv4.h"
 
@@ -170,10 +170,10 @@ public:
 protected:
   TimeVaryingBSplineVelocityFieldImageRegistrationMethod();
   virtual ~TimeVaryingBSplineVelocityFieldImageRegistrationMethod();
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Perform the registration. */
-  virtual void  GenerateData();
+  virtual void  GenerateData() ITK_OVERRIDE;
 
   /** Handle optimization internally */
   virtual void StartOptimization();

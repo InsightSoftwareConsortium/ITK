@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshBaseIterator_h
-#define __itkQuadEdgeMeshBaseIterator_h
+#ifndef itkQuadEdgeMeshBaseIterator_h
+#define itkQuadEdgeMeshBaseIterator_h
 
 #include "itkMacro.h"
 

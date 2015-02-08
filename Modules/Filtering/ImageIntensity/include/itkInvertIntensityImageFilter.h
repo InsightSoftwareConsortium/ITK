@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInvertIntensityImageFilter_h
-#define __itkInvertIntensityImageFilter_h
+#ifndef itkInvertIntensityImageFilter_h
+#define itkInvertIntensityImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 
@@ -118,10 +118,10 @@ public:
   itkGetConstReferenceMacro(Maximum, InputPixelType);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData(void);
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

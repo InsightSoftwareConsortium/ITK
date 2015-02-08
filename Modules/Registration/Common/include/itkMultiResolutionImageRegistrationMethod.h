@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiResolutionImageRegistrationMethod_h
-#define __itkMultiResolutionImageRegistrationMethod_h
+#ifndef itkMultiResolutionImageRegistrationMethod_h
+#define itkMultiResolutionImageRegistrationMethod_h
 
 #include "itkProcessObject.h"
 #include "itkImageToImageMetric.h"
@@ -245,7 +245,7 @@ protected:
   throw ( ExceptionObject );
 
   /** Compute the size of the fixed region for each level of the pyramid. */
-  void PreparePyramids(void);
+  void PreparePyramids();
 
   /** Set the current level to be processed */
   itkSetMacro(CurrentLevel, SizeValueType);

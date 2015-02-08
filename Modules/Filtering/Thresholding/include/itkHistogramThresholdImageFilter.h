@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkHistogramThresholdImageFilter_h
-#define __itkHistogramThresholdImageFilter_h
+#ifndef itkHistogramThresholdImageFilter_h
+#define itkHistogramThresholdImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkHistogram.h"
@@ -202,10 +202,10 @@ public:
 protected:
   HistogramThresholdImageFilter();
   ~HistogramThresholdImageFilter(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateInputRequestedRegion();
-  void GenerateData ();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateData () ITK_OVERRIDE;
 
   OutputPixelType     m_InsideValue;
   OutputPixelType     m_OutsideValue;

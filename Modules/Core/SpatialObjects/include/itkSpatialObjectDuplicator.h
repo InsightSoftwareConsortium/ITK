@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectDuplicator_h
-#define __itkSpatialObjectDuplicator_h
+#ifndef itkSpatialObjectDuplicator_h
+#define itkSpatialObjectDuplicator_h
 
 #include "itkObject.h"
 #include "itkSpatialObject.h"
@@ -62,7 +62,7 @@ public:
   itkGetModifiableObjectMacro(Output, SpatialObjectType);
 
   /** Compute of the input SpatialObject. */
-  void Update(void);
+  void Update();
 
 protected:
   SpatialObjectDuplicator();
@@ -86,4 +86,4 @@ private:
 #include "itkSpatialObjectDuplicator.hxx"
 #endif
 
-#endif /* __itkSpatialObjectDuplicator_h */
+#endif /* itkSpatialObjectDuplicator_h */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
-#define __itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
+#ifndef itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
+#define itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
 
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 
@@ -116,7 +116,7 @@ protected:
   void ThreadedGenerateData(const OutputRegionType& outputRegionForThread,
                             ThreadIdType threadId);
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FFTWHalfHermitianToRealInverseFFTImageFilter(const Self&); //purposely not implemented
@@ -135,4 +135,4 @@ private:
 #include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.hxx"
 #endif
 
-#endif //__itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
+#endif //itkFFTWHalfHermitianToRealInverseFFTImageFilter_h

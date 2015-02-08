@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkProjectedIterativeDeconvolutionImageFilter_h
-#define __itkProjectedIterativeDeconvolutionImageFilter_h
+#ifndef itkProjectedIterativeDeconvolutionImageFilter_h
+#define itkProjectedIterativeDeconvolutionImageFilter_h
 
 #include "itkIterativeDeconvolutionImageFilter.h"
 
@@ -76,10 +76,10 @@ protected:
 
   virtual void Initialize(ProgressAccumulator * progress,
                           float progressWeight,
-                          float iterationProgressWeight);
+                          float iterationProgressWeight) ITK_OVERRIDE;
 
   virtual void Iteration(ProgressAccumulator * progress,
-                         float iterationProgressWeight);
+                         float iterationProgressWeight) ITK_OVERRIDE;
 
 private:
   ProjectedIterativeDeconvolutionImageFilter(const Self &); // purposely not implemented

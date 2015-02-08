@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelGeometryImageFilter_hxx
-#define __itkLabelGeometryImageFilter_hxx
+#ifndef itkLabelGeometryImageFilter_hxx
+#define itkLabelGeometryImageFilter_hxx
 
 #include "itkLabelGeometryImageFilter.h"
 
@@ -1058,7 +1058,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value
-    return NULL;
+    return ITK_NULLPTR;
     }
   else
     {

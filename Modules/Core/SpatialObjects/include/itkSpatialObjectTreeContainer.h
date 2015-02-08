@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectTreeContainer_h
-#define __itkSpatialObjectTreeContainer_h
+#ifndef itkSpatialObjectTreeContainer_h
+#define itkSpatialObjectTreeContainer_h
 
 #include "itkTreeContainer.h"
 #include "itkSpatialObjectTreeNode.h"
@@ -68,9 +68,9 @@ public:
   itkTypeMacro(SpatialObjectTreeContainer, TreeContainer);
 
   /** Set the root */
-  bool SetRoot(const SpatialObjectPointer element);
+  bool SetRoot(const SpatialObjectPointer element) ITK_OVERRIDE;
 
-  bool SetRoot(typename Superclass::TreeNodeType *node)
+  bool SetRoot(typename Superclass::TreeNodeType *node) ITK_OVERRIDE
   { return Superclass::SetRoot(node); }
 
 protected:

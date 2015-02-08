@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimpleFilterWatcher_h
-#define __itkSimpleFilterWatcher_h
+#ifndef itkSimpleFilterWatcher_h
+#define itkSimpleFilterWatcher_h
 
 #include "itkCommand.h"
 #include "itkProcessObject.h"

@@ -252,7 +252,7 @@ int itkMutualInformationMetricTest(int, char* [] )
   // reset standard deviation
   metric->SetFixedImageStandardDeviation( 5.0 );
 
-  std::cout << "Try causing a exception by making fixed image NULL";
+  std::cout << "Try causing a exception by making fixed image ITK_NULLPTR";
   std::cout << std::endl;
   metric->SetFixedImage( ITK_NULLPTR );
   try

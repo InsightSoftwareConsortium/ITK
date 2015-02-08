@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConvertVariableLengthVectorPixelBuffer_hxx
-#define __itkConvertVariableLengthVectorPixelBuffer_hxx
+#ifndef itkConvertVariableLengthVectorPixelBuffer_hxx
+#define itkConvertVariableLengthVectorPixelBuffer_hxx
 
 #include "itkConvertVariableLengthVectorPixelBuffer.h"
 

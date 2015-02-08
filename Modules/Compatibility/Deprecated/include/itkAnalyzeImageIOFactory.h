@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnalyzeImageIOFactory_h
-#define __itkAnalyzeImageIOFactory_h
+#ifndef itkAnalyzeImageIOFactory_h
+#define itkAnalyzeImageIOFactory_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 

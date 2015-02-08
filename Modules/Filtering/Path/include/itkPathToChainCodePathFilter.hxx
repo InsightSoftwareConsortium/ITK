@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathToChainCodePathFilter_hxx
-#define __itkPathToChainCodePathFilter_hxx
+#ifndef itkPathToChainCodePathFilter_hxx
+#define itkPathToChainCodePathFilter_hxx
 
 #include "itkPathToChainCodePathFilter.h"
 

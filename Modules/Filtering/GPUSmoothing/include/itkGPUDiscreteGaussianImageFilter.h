@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDiscreteGaussianImageFilter_h
-#define __itkGPUDiscreteGaussianImageFilter_h
+#ifndef itkGPUDiscreteGaussianImageFilter_h
+#define itkGPUDiscreteGaussianImageFilter_h
 
 #include "itkGPUImage.h"
 #include "itkGPUImageToImageFilter.h"
@@ -96,17 +96,17 @@ public:
   typedef GPUNeighborhoodOperatorImageFilter< InputImageType, OutputImageType,
                                               RealOutputPixelValueType > SingleFilterType;
 
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 protected:
   GPUDiscreteGaussianImageFilter();
 
   virtual ~GPUDiscreteGaussianImageFilter() {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Standard GPU pipeline method. */
-  void GPUGenerateData();
+  void GPUGenerateData() ITK_OVERRIDE;
 
 private:
   GPUDiscreteGaussianImageFilter(const Self &); //purposely not implemented

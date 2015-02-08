@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldTransformParametersAdaptor_hxx
-#define __itkDisplacementFieldTransformParametersAdaptor_hxx
+#ifndef itkDisplacementFieldTransformParametersAdaptor_hxx
+#define itkDisplacementFieldTransformParametersAdaptor_hxx
 
 #include "itkDisplacementFieldTransformParametersAdaptor.h"
 

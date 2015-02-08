@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArray2D_h
-#define __itkArray2D_h
+#ifndef itkArray2D_h
+#define itkArray2D_h
 
 #include "itkMacro.h"
 #include "vnl/vnl_matrix.h"

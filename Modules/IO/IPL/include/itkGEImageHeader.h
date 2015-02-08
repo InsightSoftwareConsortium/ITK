@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkGEImageHeader_h
-#define __itkGEImageHeader_h
+#ifndef itkGEImageHeader_h
+#define itkGEImageHeader_h
 #include "ITKIOIPLExport.h"
 
 #include "itkIOCommon.h"

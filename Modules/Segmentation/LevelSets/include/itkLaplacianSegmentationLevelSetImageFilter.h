@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianSegmentationLevelSetImageFilter_h
-#define __itkLaplacianSegmentationLevelSetImageFilter_h
+#ifndef itkLaplacianSegmentationLevelSetImageFilter_h
+#define itkLaplacianSegmentationLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkLaplacianSegmentationLevelSetFunction.h"
@@ -131,7 +131,7 @@ protected:
   ~LaplacianSegmentationLevelSetImageFilter() {}
   LaplacianSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   LaplacianSegmentationLevelSetImageFilter(const Self &); //purposely not

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDefaultVectorPixelAccessorFunctor_h
-#define __itkDefaultVectorPixelAccessorFunctor_h
+#ifndef itkDefaultVectorPixelAccessorFunctor_h
+#define itkDefaultVectorPixelAccessorFunctor_h
 
 #include "itkMacro.h"
 

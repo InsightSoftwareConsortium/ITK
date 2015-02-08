@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWeightSetBase_hxx
-#define __itkWeightSetBase_hxx
+#ifndef itkWeightSetBase_hxx
+#define itkWeightSetBase_hxx
 
 #include "itkWeightSetBase.h"
 #include <cstdlib>

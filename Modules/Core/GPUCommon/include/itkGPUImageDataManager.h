@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef __itkGPUImageDataManager_h
-#define __itkGPUImageDataManager_h
+#ifndef itkGPUImageDataManager_h
+#define itkGPUImageDataManager_h
 
 #include <itkObject.h>
 #include <itkTimeStamp.h>
@@ -72,9 +72,6 @@ public:
 
   /** actual CPU->GPU memory copy takes place here */
   virtual void MakeGPUBufferUpToDate();
-
-  /** Grafting GPU Image Data */
-  virtual void Graft(const GPUDataManager* data);
 
 protected:
   GPUImageDataManager() {}

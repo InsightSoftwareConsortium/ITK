@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSingleValuedNonLinearVnlOptimizer_h
-#define __itkSingleValuedNonLinearVnlOptimizer_h
+#ifndef itkSingleValuedNonLinearVnlOptimizer_h
+#define itkSingleValuedNonLinearVnlOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkSingleValuedVnlCostFunctionAdaptor.h"
@@ -59,7 +59,7 @@ public:
    *  number of parameters is obtained at run-time from the itkCostFunction.
    *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  virtual void SetCostFunction(SingleValuedCostFunction *costFunction) = 0;
+  virtual void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE = 0;
 
   /** Methods to define whether the cost function will be maximized or
    * minimized. By default the VNL amoeba optimizer is only a minimizer.
@@ -95,13 +95,13 @@ protected:
 
   void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 
-  const CostFunctionAdaptorType * GetCostFunctionAdaptor(void) const;
+  const CostFunctionAdaptorType * GetCostFunctionAdaptor() const;
 
-  CostFunctionAdaptorType * GetCostFunctionAdaptor(void);
+  CostFunctionAdaptorType * GetCostFunctionAdaptor();
 
   /** The purpose of this method is to get around the lack of
    *  const-correctness in VNL cost-functions and optimizers */
-  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor(void) const;
+  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor() const;
 
   /** Print out internal state */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

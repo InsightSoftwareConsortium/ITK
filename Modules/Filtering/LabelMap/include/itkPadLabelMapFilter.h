@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkPadLabelMapFilter_h
-#define __itkPadLabelMapFilter_h
+#ifndef itkPadLabelMapFilter_h
+#define itkPadLabelMapFilter_h
 
 #include "itkChangeRegionLabelMapFilter.h"
 
@@ -114,9 +114,9 @@ protected:
 
   ~PadLabelMapFilter() {}
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PadLabelMapFilter(const Self &); //purposely not implemented

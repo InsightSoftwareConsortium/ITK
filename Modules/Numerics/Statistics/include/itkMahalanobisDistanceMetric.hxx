@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMahalanobisDistanceMetric_hxx
-#define __itkMahalanobisDistanceMetric_hxx
+#ifndef itkMahalanobisDistanceMetric_hxx
+#define itkMahalanobisDistanceMetric_hxx
 
 #include "itkMahalanobisDistanceMetric.h"
 

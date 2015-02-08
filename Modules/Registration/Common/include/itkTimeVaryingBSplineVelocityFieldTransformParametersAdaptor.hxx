@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_hxx
-#define __itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_hxx
+#ifndef itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_hxx
+#define itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_hxx
 
 #include "itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor.h"
 

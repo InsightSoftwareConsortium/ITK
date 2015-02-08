@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelMapToRGBImageFilter_h
-#define __itkLabelMapToRGBImageFilter_h
+#ifndef itkLabelMapToRGBImageFilter_h
+#define itkLabelMapToRGBImageFilter_h
 
 #include "itkLabelMapFilter.h"
 #include "itkLabelToRGBFunctor.h"
@@ -84,11 +84,11 @@ protected:
   LabelMapToRGBImageFilter();
   ~LabelMapToRGBImageFilter() {};
 
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
+  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   LabelMapToRGBImageFilter(const Self&); //purposely not implemented

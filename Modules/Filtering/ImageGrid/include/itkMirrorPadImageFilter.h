@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMirrorPadImageFilter_h
-#define __itkMirrorPadImageFilter_h
+#ifndef itkMirrorPadImageFilter_h
+#define itkMirrorPadImageFilter_h
 
 #include "itkPadImageFilter.h"
 #include <vector>
@@ -120,7 +120,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Given an n dimensional list of input region breakpoints in indices
    * and size (where the current region and maximum region for each dimension
@@ -197,7 +197,7 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()
    * \sa PadImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   MirrorPadImageFilter(const Self &); //purposely not implemented

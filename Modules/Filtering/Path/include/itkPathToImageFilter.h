@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathToImageFilter_h
-#define __itkPathToImageFilter_h
+#ifndef itkPathToImageFilter_h
+#define itkPathToImageFilter_h
 
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"
@@ -68,7 +68,7 @@ public:
 
   virtual void SetInput(unsigned int, const TInputPath *path);
 
-  const InputPathType * GetInput(void);
+  const InputPathType * GetInput();
 
   const InputPathType * GetInput(unsigned int idx);
 
@@ -107,8 +107,8 @@ protected:
   PathToImageFilter();
   ~PathToImageFilter();
 
-  virtual void GenerateOutputInformation(){}  // do nothing
-  virtual void GenerateData();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
+  virtual void GenerateData() ITK_OVERRIDE;
 
   SizeType m_Size;
   double m_Spacing[OutputImageDimension];
@@ -116,7 +116,7 @@ protected:
   ValueType m_PathValue;
   ValueType m_BackgroundValue;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PathToImageFilter(const Self &); //purposely not implemented

@@ -51,10 +51,10 @@ public:
 
   itkNewMacro(Self);
 
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & ) const
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & ) const ITK_OVERRIDE
   { return 1.0; }
 
-  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType & measure, LocalDerivativeType & derivative, const PixelType & ) const
+  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType & measure, LocalDerivativeType & derivative, const PixelType & ) const ITK_OVERRIDE
   { measure = 1.0; derivative.Fill(0.0); }
 
 private:

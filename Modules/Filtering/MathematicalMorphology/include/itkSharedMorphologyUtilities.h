@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSharedMorphologyUtilities_h
-#define __itkSharedMorphologyUtilities_h
+#ifndef itkSharedMorphologyUtilities_h
+#define itkSharedMorphologyUtilities_h
 
 #include <list>
 #include <vector>

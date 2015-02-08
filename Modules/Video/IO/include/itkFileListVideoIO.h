@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFileListVideoIO_h
-#define __itkFileListVideoIO_h
+#ifndef itkFileListVideoIO_h
+#define itkFileListVideoIO_h
 
 #include "itkVideoIOBase.h"
 
@@ -83,13 +83,31 @@ public:
   virtual bool SetNextFrameToRead(FrameOffsetType frameNumber) ITK_OVERRIDE;
 
   /** Accessor functions for video specific information */
-  itkGetConstMacro(PositionInMSec,TemporalOffsetType);
-  itkGetConstMacro(Ratio,TemporalRatioType);
-  itkGetConstMacro(FrameTotal,FrameOffsetType);
-  itkGetConstMacro(FramesPerSecond,TemporalRatioType);
-  itkGetConstMacro(CurrentFrame,FrameOffsetType);
+  virtual TemporalOffsetType GetPositionInMSec() const ITK_OVERRIDE
+    {
+    return this->m_PositionInMSec;
+    }
+  virtual TemporalOffsetType GetRatio() const ITK_OVERRIDE
+    {
+    return this->m_Ratio;
+    }
+  virtual FrameOffsetType GetFrameTotal() const ITK_OVERRIDE
+    {
+    return this->m_FrameTotal;
+    }
+  virtual TemporalRatioType GetFramesPerSecond() const ITK_OVERRIDE
+    {
+    return this->m_FramesPerSecond;
+    }
+  virtual FrameOffsetType GetCurrentFrame() const ITK_OVERRIDE
+    {
+    return this->m_CurrentFrame;
+    }
   itkGetConstMacro(IFrameInterval,FrameOffsetType);
-  itkGetConstMacro(LastIFrame,FrameOffsetType);
+  virtual FrameOffsetType GetLastIFrame() const ITK_OVERRIDE
+    {
+    return this->m_LastIFrame;
+    }
 
   /** Override SetFileName to do parsing */
   virtual void SetFileName(const std::string& fileList) ITK_OVERRIDE;
@@ -154,4 +172,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkFileListVideoIO_h
+#endif // itkFileListVideoIO_h

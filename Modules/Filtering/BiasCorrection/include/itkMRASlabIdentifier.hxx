@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRASlabIdentifier_hxx
-#define __itkMRASlabIdentifier_hxx
+#ifndef itkMRASlabIdentifier_hxx
+#define itkMRASlabIdentifier_hxx
 
 #include <algorithm>
 #include <vector>
@@ -201,4 +201,4 @@ MRASlabIdentifier< TInputImage >
 }
 } // end namespace itk
 
-#endif /* __itkMRASlabIdentifier_hxx */
+#endif /* itkMRASlabIdentifier_hxx */

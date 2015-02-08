@@ -29,8 +29,8 @@
  *        as a new method for reading in files from the GE4 scanner.
  */
 
-#ifndef __itkIPLCommonImageIO_h
-#define __itkIPLCommonImageIO_h
+#ifndef itkIPLCommonImageIO_h
+#define itkIPLCommonImageIO_h
 #include "ITKIOIPLExport.h"
 
 #include "itkImageIOBase.h"
@@ -192,4 +192,4 @@ private:
     RAISE_EXCEPTION(); \
     }
 
-#endif // __itkAnalyzeImageIO_h
+#endif // itkAnalyzeImageIO_h

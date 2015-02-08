@@ -262,7 +262,7 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
 //-------------------------------------------------------
 // exercise misc member functions
 //-------------------------------------------------------
-  std::cout << "Check case when Target is NULL" << std::endl;
+  std::cout << "Check case when Target is ITK_NULLPTR" << std::endl;
   metric->SetFixedPointSet( ITK_NULLPTR );
   try
     {

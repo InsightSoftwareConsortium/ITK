@@ -309,7 +309,7 @@ DOMNode::RemoveAllAttributesAndChildren()
   this->RemoveAllChildren();
 }
 
-/** Retrieve a child by index (return NULL if out of range). */
+/** Retrieve a child by index (return ITK_NULLPTR if out of range). */
 DOMNode*
 DOMNode::GetChild( IdentifierType i )
 {
@@ -323,7 +323,7 @@ DOMNode::GetChild( IdentifierType i )
     }
 }
 
-/** Retrieve a child by index (return NULL if out of range). */
+/** Retrieve a child by index (return ITK_NULLPTR if out of range). */
 const DOMNode*
 DOMNode::GetChild( IdentifierType i ) const
 {
@@ -332,7 +332,7 @@ DOMNode::GetChild( IdentifierType i ) const
   return const_cast<Self*>(this)->GetChild( i );
 }
 
-/** Retrieve a child by tag name and an index (multiple children can have a same tag name, return NULL if no such child). */
+/** Retrieve a child by tag name and an index (multiple children can have a same tag name, return ITK_NULLPTR if no such child). */
 DOMNode*
 DOMNode::GetChild( const std::string& tag, IdentifierType i )
 {
@@ -351,7 +351,7 @@ DOMNode::GetChild( const std::string& tag, IdentifierType i )
   return ITK_NULLPTR;
 }
 
-/** Retrieve a child by tag name and an index (multiple children can have a same tag name, return NULL if no such child). */
+/** Retrieve a child by tag name and an index (multiple children can have a same tag name, return ITK_NULLPTR if no such child). */
 const DOMNode*
 DOMNode::GetChild( const std::string& tag, IdentifierType i ) const
 {
@@ -360,7 +360,7 @@ DOMNode::GetChild( const std::string& tag, IdentifierType i ) const
   return const_cast<Self*>(this)->GetChild( tag, i );
 }
 
-/** Retrieve a child by its unique "id" attribute value (return NULL if not found). */
+/** Retrieve a child by its unique "id" attribute value (return ITK_NULLPTR if not found). */
 DOMNode*
 DOMNode::GetChildByID( const std::string& value )
 {
@@ -375,7 +375,7 @@ DOMNode::GetChildByID( const std::string& value )
   return ITK_NULLPTR;
 }
 
-/** Retrieve a child by its unique "id" attribute value (return NULL if not found). */
+/** Retrieve a child by its unique "id" attribute value (return ITK_NULLPTR if not found). */
 const DOMNode*
 DOMNode::GetChildByID( const std::string& value ) const
 {
@@ -384,7 +384,7 @@ DOMNode::GetChildByID( const std::string& value ) const
   return const_cast<Self*>(this)->GetChildByID( value );
 }
 
-/** Retrieve an older or younger sibling by distance (return NULL if no such sibling). */
+/** Retrieve an older or younger sibling by distance (return ITK_NULLPTR if no such sibling). */
 DOMNode*
 DOMNode::GetSibling( OffsetType i )
 {
@@ -415,7 +415,7 @@ DOMNode::GetSibling( OffsetType i )
     }
 }
 
-/** Retrieve an older or younger sibling by distance (return NULL if no such sibling). */
+/** Retrieve an older or younger sibling by distance (return ITK_NULLPTR if no such sibling). */
 const DOMNode*
 DOMNode::GetSibling( OffsetType i ) const
 {
@@ -469,7 +469,7 @@ DOMNode::ShareRoot( const DOMNode* node ) const
  *     ..             : parent node;
  *     /<rpath>       : absolute path (denote apath), search from the root.
  *
- * The method returns NULL if queried node does not exist.
+ * The method returns ITK_NULLPTR if queried node does not exist.
  */
 DOMNode*
 DOMNode::Find( const std::string& path )
@@ -604,7 +604,7 @@ DOMNode::Find( const std::string& path )
 
 /**
  * The following function finds a child or sibling or relative using a query string or path.
- * The method returns NULL if queried node does not exist.
+ * The method returns ITK_NULLPTR if queried node does not exist.
  */
 const DOMNode*
 DOMNode::Find( const std::string& path ) const
@@ -644,7 +644,7 @@ DOMNode::GetPath() const
   return path;
 }
 
-/** Get a child and cast it to a text node (return NULL if out of range or not a text node). */
+/** Get a child and cast it to a text node (return ITK_NULLPTR if out of range or not a text node). */
 DOMTextNode*
 DOMNode::GetTextChild( IdentifierType i )
 {
@@ -652,7 +652,7 @@ DOMNode::GetTextChild( IdentifierType i )
   return dynamic_cast<DOMTextNode*>(node);
 }
 
-/** Get a child and cast it to a text node (return NULL if out of range or not a text node). */
+/** Get a child and cast it to a text node (return ITK_NULLPTR if out of range or not a text node). */
 const DOMTextNode*
 DOMNode::GetTextChild( IdentifierType i ) const
 {

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMomentsThresholdImageFilter_h
-#define __itkMomentsThresholdImageFilter_h
+#ifndef itkMomentsThresholdImageFilter_h
+#define itkMomentsThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkMomentsThresholdCalculator.h"

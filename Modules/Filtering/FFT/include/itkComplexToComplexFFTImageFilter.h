@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComplexToComplexFFTImageFilter_h
-#define __itkComplexToComplexFFTImageFilter_h
+#ifndef itkComplexToComplexFFTImageFilter_h
+#define itkComplexToComplexFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include <complex>
@@ -109,10 +109,10 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef __itkVnlComplexToComplexFFTImageFilter_h
-#ifndef __itkVnlComplexToComplexFFTImageFilter_hxx
-#ifndef __itkFFTWComplexToComplexFFTImageFilter_h
-#ifndef __itkFFTWComplexToComplexFFTImageFilter_hxx
+#ifndef itkVnlComplexToComplexFFTImageFilter_h
+#ifndef itkVnlComplexToComplexFFTImageFilter_hxx
+#ifndef itkFFTWComplexToComplexFFTImageFilter_h
+#ifndef itkFFTWComplexToComplexFFTImageFilter_hxx
 #include "itkComplexToComplexFFTImageFilter.hxx"
 #endif
 #endif

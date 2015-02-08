@@ -248,7 +248,7 @@ int itkQuadEdgeTest1( int , char* [] )
 
 #ifndef NDEBUG
     // testing second fail case
-    quadEdge4->SetOnext( NULL );
+    quadEdge4->SetOnext( ITK_NULLPTR );
     if( quadEdge1->GetLnext() || quadEdge1c->GetLnext() )
       {
       std::cerr << "Error in GetLnext()" << std::endl;
@@ -329,7 +329,7 @@ int itkQuadEdgeTest1( int , char* [] )
 
 
 #ifndef NDEBUG
-    quadEdge2->SetOnext( NULL );
+    quadEdge2->SetOnext( ITK_NULLPTR );
     if( quadEdge1->GetRnext() || quadEdge1c->GetRnext( ) )
       {
       std::cerr << "Error in GetRnext()" << std::endl;
@@ -428,7 +428,7 @@ int itkQuadEdgeTest1( int , char* [] )
     quadEdge4->SetRot( quadEdge1 );
 
 #ifndef NDEBUG
-    quadEdge3->SetOnext( NULL );
+    quadEdge3->SetOnext( ITK_NULLPTR );
     if( quadEdge1->GetDnext() || quadEdge1c->GetDnext( ) )
       {
       std::cerr << "Error 2 in GetDnext()" << std::endl;
@@ -517,7 +517,7 @@ int itkQuadEdgeTest1( int , char* [] )
     quadEdge4->SetRot( quadEdge1 );
 
 #ifndef NDEBUG
-    quadEdge2->SetOnext( NULL );
+    quadEdge2->SetOnext( ITK_NULLPTR );
     if( quadEdge1->GetOprev() || quadEdge1c->GetOprev( ) )
       {
       std::cerr << "Error in GetOprev()" << std::endl;
@@ -581,7 +581,7 @@ int itkQuadEdgeTest1( int , char* [] )
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
 #ifndef NDEBUG
-    quadEdge1->SetOnext( NULL );
+    quadEdge1->SetOnext( ITK_NULLPTR );
     if( quadEdge1->GetLprev() || quadEdge1c->GetLprev( ) )
       {
       std::cerr << "Error in GetLprev()" << std::endl;
@@ -685,7 +685,7 @@ int itkQuadEdgeTest1( int , char* [] )
     quadEdge4->SetRot( quadEdge1 );
 
 #ifndef NDEBUG
-    quadEdge3->SetOnext( NULL );
+    quadEdge3->SetOnext( ITK_NULLPTR );
     if( quadEdge1->GetRprev() || quadEdge1c->GetRprev( ) )
       {
       std::cerr << "Error in GetRprev()" << std::endl;
@@ -767,7 +767,7 @@ int itkQuadEdgeTest1( int , char* [] )
     quadEdge4->SetRot( quadEdge1 );
 
 #ifndef NDEBUG
-    quadEdge4->SetOnext( NULL );
+    quadEdge4->SetOnext( ITK_NULLPTR );
     if( quadEdge1->GetDprev() || quadEdge1c->GetDprev( ) )
       {
       std::cerr << "Error in GetDprev()" << std::endl;

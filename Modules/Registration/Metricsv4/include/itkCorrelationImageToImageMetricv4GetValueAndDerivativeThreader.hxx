@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
-#define __itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#ifndef itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#define itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
 #include "itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader.h"
 

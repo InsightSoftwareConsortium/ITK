@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMorphologicalWatershedFromMarkersImageFilter_h
-#define __itkMorphologicalWatershedFromMarkersImageFilter_h
+#ifndef itkMorphologicalWatershedFromMarkersImageFilter_h
+#define itkMorphologicalWatershedFromMarkersImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -160,20 +160,20 @@ public:
 protected:
   MorphologicalWatershedFromMarkersImageFilter();
   ~MorphologicalWatershedFromMarkersImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** MorphologicalWatershedFromMarkersImageFilter needs to request the
    * entire input images.
    */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This filter will enlarge the output requested region to produce
    * all of the output.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** The filter is single threaded. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   //purposely not implemented

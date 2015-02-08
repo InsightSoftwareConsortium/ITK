@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChainCodePath2D_h
-#define __itkChainCodePath2D_h
+#ifndef itkChainCodePath2D_h
+#define itkChainCodePath2D_h
 
 #include "itkChainCodePath.h"
 #include "itkIndex.h"
@@ -134,7 +134,7 @@ public:
     this->Modified();
   }
 
-  std::string GetChainCodeAsString(void) const;
+  std::string GetChainCodeAsString() const;
 
 protected:
   ChainCodePath2D();

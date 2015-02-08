@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCropImageFilter_h
-#define __itkCropImageFilter_h
+#ifndef itkCropImageFilter_h
+#define itkCropImageFilter_h
 
 #include "itkExtractImageFilter.h"
 
@@ -107,9 +107,9 @@ protected:
   }
 
   ~CropImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   CropImageFilter(const Self &); //purposely not implemented

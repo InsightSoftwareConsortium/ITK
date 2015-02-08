@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOutputDataObjectConstIterator_h
-#define __itkOutputDataObjectConstIterator_h
+#ifndef itkOutputDataObjectConstIterator_h
+#define itkOutputDataObjectConstIterator_h
 
 #include "itkDataObjectConstIterator.h"
 

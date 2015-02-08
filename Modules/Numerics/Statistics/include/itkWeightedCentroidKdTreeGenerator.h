@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWeightedCentroidKdTreeGenerator_h
-#define __itkWeightedCentroidKdTreeGenerator_h
+#ifndef itkWeightedCentroidKdTreeGenerator_h
+#define itkWeightedCentroidKdTreeGenerator_h
 
 #include <vector>
 
@@ -94,7 +94,7 @@ protected:
   /** Destructor */
   virtual ~WeightedCentroidKdTreeGenerator() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Nonterminal node generation routine */
   virtual KdTreeNodeType * GenerateNonterminalNode(unsigned int beginIndex,
@@ -103,7 +103,7 @@ protected:
                                                    & lowerBound,
                                                    MeasurementVectorType
                                                    & upperBound,
-                                                   unsigned int level);
+                                                   unsigned int level) ITK_OVERRIDE;
 
 private:
   WeightedCentroidKdTreeGenerator(const Self &); //purposely not implemented

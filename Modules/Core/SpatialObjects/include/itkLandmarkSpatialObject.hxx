@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLandmarkSpatialObject_hxx
-#define __itkLandmarkSpatialObject_hxx
+#ifndef itkLandmarkSpatialObject_hxx
+#define itkLandmarkSpatialObject_hxx
 
 
 #include "itkLandmarkSpatialObject.h"

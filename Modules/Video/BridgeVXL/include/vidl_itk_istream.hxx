@@ -30,7 +30,7 @@ namespace itk
 template< typename TVideoStream >
 vidl_itk_istream< TVideoStream >::vidl_itk_istream()
 {
-  m_VideoStream = NULL;
+  m_VideoStream = ITK_NULLPTR;
   m_AdvanceCalled = false;
 }
 
@@ -52,7 +52,7 @@ bool
 vidl_itk_istream< TVideoStream >::open(TVideoStream* videoStream)
 {
   m_VideoStream = videoStream;
-  return (m_VideoStream == NULL);
+  return (m_VideoStream == ITK_NULLPTR);
 }
 
 //
@@ -68,7 +68,7 @@ vidl_itk_istream< TVideoStream >::is_valid() const
     return false;
     }
 
-  return (m_VideoStream == NULL || m_AdvanceCalled);
+  return (m_VideoStream == ITK_NULLPTR || m_AdvanceCalled);
 }
 
 //
@@ -341,7 +341,7 @@ vidl_itk_istream< TVideoStream >::read_frame()
     }
   else
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 }
 
@@ -355,7 +355,7 @@ vidl_itk_istream< TVideoStream >::current_frame()
   // Return if not valid
   if (!this->is_valid())
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   // Make sure the VideoSource's data is up to date

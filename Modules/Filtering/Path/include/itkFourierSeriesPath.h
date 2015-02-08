@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFourierSeriesPath_h
-#define __itkFourierSeriesPath_h
+#ifndef itkFourierSeriesPath_h
+#define itkFourierSeriesPath_h
 
 #include "itkParametricPath.h"
 #include "itkVectorContainer.h"
@@ -83,11 +83,11 @@ public:
   typedef typename CoefficientsType::Pointer      CoefficientsPointer;
 
   /** Return the location of the parametric path at the specified location. */
-  virtual OutputType Evaluate(const InputType & input) const;
+  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
 
   /** Evaluate the first derivative of the ND output with respect to the 1D
     * input.  This is an exact, algebraic function. */
-  virtual VectorType EvaluateDerivative(const InputType & input) const;
+  virtual VectorType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
 
   /** Add another harmonic's frequency coefficients. */
   void AddHarmonic(const VectorType & CosCoefficients,
@@ -105,7 +105,7 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  virtual void Initialize(void)
+  virtual void Initialize(void) ITK_OVERRIDE
   {
     this->Clear();
   }
@@ -113,7 +113,7 @@ public:
 protected:
   FourierSeriesPath();
   ~FourierSeriesPath(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FourierSeriesPath(const Self &); //purposely not implemented

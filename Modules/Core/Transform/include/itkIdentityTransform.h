@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIdentityTransform_h
-#define __itkIdentityTransform_h
+#ifndef itkIdentityTransform_h
+#define itkIdentityTransform_h
 
 #include "itkObject.h"
 #include "itkPoint.h"
@@ -109,20 +109,20 @@ public:
   typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
 
   /**  Method to transform a point. */
-  virtual OutputPointType TransformPoint(const InputPointType  & point) const
+  virtual OutputPointType TransformPoint(const InputPointType  & point) const ITK_OVERRIDE
   {
     return point;
   }
 
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType & vector) const
+  virtual OutputVectorType TransformVector(const InputVectorType & vector) const ITK_OVERRIDE
   {
     return vector;
   }
 
   /**  Method to transform a vnl_vector. */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE
   {
     return vector;
   }
@@ -130,14 +130,14 @@ public:
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType & vector) const
+    const InputCovariantVectorType & vector) const ITK_OVERRIDE
   {
     return vector;
   }
 
   /** Set the transformation to an Identity
    *
-   * This is a NULL operation in the case of this particular transform.
+   * This is a ITK_NULLPTR operation in the case of this particular transform.
      The method is provided only to comply with the interface of other transforms. */
   void SetIdentity(void)
   {
@@ -172,7 +172,7 @@ public:
    * \f]
    */
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType &,
-                                                       JacobianType & jacobian) const
+                                                       JacobianType & jacobian) const ITK_OVERRIDE
   {
     jacobian = this->m_IdentityJacobian;
   }
@@ -182,7 +182,7 @@ public:
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType & jac) const
+                                                    JacobianType & jac) const ITK_OVERRIDE
   {
     jac.SetSize( NDimensions, NDimensions );
     jac.Fill(0.0);

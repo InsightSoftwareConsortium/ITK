@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkProgressAccumulator_h
-#define __itkProgressAccumulator_h
+#ifndef itkProgressAccumulator_h
+#define itkProgressAccumulator_h
 
 #include "itkCommand.h"
 #include "itkProcessObject.h"
@@ -160,4 +160,4 @@ private:
 };
 } // End namespace itk
 
-#endif // __itkProgressAccumulator_h_
+#endif // itkProgressAccumulator_h_

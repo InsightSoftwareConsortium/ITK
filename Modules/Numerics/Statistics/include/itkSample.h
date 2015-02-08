@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSample_h
-#define __itkSample_h
+#ifndef itkSample_h
+#define itkSample_h
 
 #include "itkPoint.h"
 #include "itkDataObject.h"

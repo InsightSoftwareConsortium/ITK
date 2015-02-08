@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSceneSpatialObject_h
-#define __itkSceneSpatialObject_h
+#ifndef itkSceneSpatialObject_h
+#define itkSceneSpatialObject_h
 
 #include "itkSpatialObject.h"
 
@@ -96,11 +96,11 @@ public:
   /** In practice, this is used to transform an imported MetaIO scene hierarchy
    * specified only by Ids into the SceneSpatialObject hierarchy specified by
    * Ids and Child/Parent lists. */
-  bool FixHierarchy(void);
+  bool FixHierarchy();
 
-  bool CheckIdValidity(void);
+  bool CheckIdValidity();
 
-  void FixIdValidity(void);
+  void FixIdValidity();
 
   int GetNextAvailableId();
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineDerivativeKernelFunction_h
-#define __itkBSplineDerivativeKernelFunction_h
+#ifndef itkBSplineDerivativeKernelFunction_h
+#define itkBSplineDerivativeKernelFunction_h
 
 #include "itkBSplineKernelFunction.h"
 
@@ -58,7 +58,7 @@ public:
   itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
-  inline TRealValueType Evaluate( const TRealValueType & u ) const
+  inline TRealValueType Evaluate( const TRealValueType & u ) const ITK_OVERRIDE
     {
     return this->Evaluate( Dispatch< VSplineOrder >(), u );
     }
@@ -67,7 +67,7 @@ protected:
   BSplineDerivativeKernelFunction() {}
   virtual ~BSplineDerivativeKernelFunction(){}
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
     {
     Superclass::PrintSelf(os, indent);
     os << indent  << "Spline Order: " << SplineOrder << std::endl;

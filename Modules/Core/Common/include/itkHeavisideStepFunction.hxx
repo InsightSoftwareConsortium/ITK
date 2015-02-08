@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHeavisideStepFunction_hxx
-#define __itkHeavisideStepFunction_hxx
+#ifndef itkHeavisideStepFunction_hxx
+#define itkHeavisideStepFunction_hxx
 
 #include "itkHeavisideStepFunction.h"
 
@@ -52,4 +52,4 @@ HeavisideStepFunction< TInput, TOutput >
 
 }
 
-#endif // __itkHeavisideStepFunction_hxx
+#endif // itkHeavisideStepFunction_hxx

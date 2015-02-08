@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlRealToHalfHermitianForwardFFTImageFilter_h
-#define __itkVnlRealToHalfHermitianForwardFFTImageFilter_h
+#ifndef itkVnlRealToHalfHermitianForwardFFTImageFilter_h
+#define itkVnlRealToHalfHermitianForwardFFTImageFilter_h
 
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkVnlFFTCommon.h"
@@ -83,7 +83,7 @@ protected:
   VnlRealToHalfHermitianForwardFFTImageFilter() {}
   ~VnlRealToHalfHermitianForwardFFTImageFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   VnlRealToHalfHermitianForwardFFTImageFilter(const Self &); // purposely not implemented

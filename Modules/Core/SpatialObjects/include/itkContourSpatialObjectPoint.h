@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkContourSpatialObjectPoint_h
-#define __itkContourSpatialObjectPoint_h
+#ifndef itkContourSpatialObjectPoint_h
+#define itkContourSpatialObjectPoint_h
 
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
@@ -46,13 +46,13 @@ public:
 
   /** Constructor. This one defines the number of dimensions
    *  in the ContourSpatialObjectPoint */
-  ContourSpatialObjectPoint(void);
+  ContourSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~ContourSpatialObjectPoint(void);
+  virtual ~ContourSpatialObjectPoint();
 
   /** Get Picked Point */
-  const PointType & GetPickedPoint(void) const;
+  const PointType & GetPickedPoint() const;
 
   /** Set Picked Point */
   void SetPickedPoint(const PointType & point);
@@ -63,7 +63,7 @@ public:
                       const double pointy, const double pointz);
 
   /** Get Normal */
-  const VectorType & GetNormal(void) const;
+  const VectorType & GetNormal() const;
 
   /** Set Normal */
   void SetNormal(const VectorType & normal);
@@ -82,7 +82,7 @@ protected:
   PointType  m_PickedPoint;
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 
@@ -90,4 +90,4 @@ protected:
 #include "itkContourSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkContourSpatialObjectPoint_h
+#endif // itkContourSpatialObjectPoint_h

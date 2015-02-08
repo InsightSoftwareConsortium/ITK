@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkXMLFileOutputWindow_h
-#define __itkXMLFileOutputWindow_h
+#ifndef itkXMLFileOutputWindow_h
+#define itkXMLFileOutputWindow_h
 
 #include "itkFileOutputWindow.h"
 

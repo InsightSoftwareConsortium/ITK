@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSurfaceSpatialObjectPoint_h
-#define __itkSurfaceSpatialObjectPoint_h
+#ifndef itkSurfaceSpatialObjectPoint_h
+#define itkSurfaceSpatialObjectPoint_h
 
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
@@ -46,13 +46,13 @@ public:
   typedef CovariantVector< double, TPointDimension > VectorType;
 
   /** Constructor */
-  SurfaceSpatialObjectPoint(void);
+  SurfaceSpatialObjectPoint();
 
   /** Destructor */
-  virtual ~SurfaceSpatialObjectPoint(void);
+  virtual ~SurfaceSpatialObjectPoint();
 
   /** Get Normal */
-  const VectorType & GetNormal(void) const;
+  const VectorType & GetNormal() const;
 
   /** Set Normal */
   void SetNormal(const VectorType & normal);
@@ -70,7 +70,7 @@ protected:
   VectorType m_Normal;
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 
@@ -78,4 +78,4 @@ protected:
 #include "itkSurfaceSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkSurfaceSpatialObjectPoint_h
+#endif // itkSurfaceSpatialObjectPoint_h

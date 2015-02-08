@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
-#define __itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
+#ifndef itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
+#define itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
 
 #include "itkTimeVaryingVelocityFieldTransform.h"
 
@@ -106,7 +106,7 @@ public:
    * added to the field.
    * See base class for more details.
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Smooth the displacement field in-place.
    * Uses m_GaussSmoothSigma to change the variance for the GaussianOperator.
@@ -117,7 +117,7 @@ public:
 protected:
   GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform();
   virtual ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Track when the temporary displacement field used during smoothing
    * was last modified/initialized. We only want to change it if the
@@ -144,4 +144,4 @@ private:
 # include "itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform.hxx"
 #endif
 
-#endif // __itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h
+#endif // itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_h

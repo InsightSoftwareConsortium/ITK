@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCumulativeGaussianCostFunction_h
-#define __itkCumulativeGaussianCostFunction_h
+#ifndef itkCumulativeGaussianCostFunction_h
+#define itkCumulativeGaussianCostFunction_h
 
 #include "itkMultipleValuedCostFunction.h"
 

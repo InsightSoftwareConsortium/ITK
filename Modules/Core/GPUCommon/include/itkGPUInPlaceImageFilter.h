@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkGPUInPlaceImageFilter_h
-#define __itkGPUInPlaceImageFilter_h
+#ifndef itkGPUInPlaceImageFilter_h
+#define itkGPUInPlaceImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkGPUImageToImageFilter.h"
@@ -69,7 +69,7 @@ protected:
   GPUInPlaceImageFilter();
   ~GPUInPlaceImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** The GenerateData method normally allocates the buffers for all
    * of the outputs of a filter. Since InPlaceImageFilter's can use an
@@ -83,7 +83,7 @@ protected:
    * an InPlaceFilter is not threaded (i.e. it provides an
    * implementation of GenerateData()), then this method (or
    * equivalent) must be called in GenerateData(). */
-  virtual void AllocateOutputs();
+  virtual void AllocateOutputs() ITK_OVERRIDE;
 
   /** InPlaceImageFilter may transfer ownership of the input bulk data
    * to the output object.  Once the output object owns the bulk data
@@ -94,7 +94,7 @@ protected:
    * releases the input that it has overwritten.
    *
    * \sa ProcessObject::ReleaseInputs() */
-  virtual void ReleaseInputs();
+  virtual void ReleaseInputs() ITK_OVERRIDE;
 
 private:
   GPUInPlaceImageFilter(const Self &); //purposely not implemented

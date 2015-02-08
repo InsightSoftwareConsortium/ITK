@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeSignedDistanceFunction_h
-#define __itkShapeSignedDistanceFunction_h
+#ifndef itkShapeSignedDistanceFunction_h
+#define itkShapeSignedDistanceFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkOptimizerParameters.h"
@@ -95,7 +95,7 @@ public:
   { return this->GetNumberOfShapeParameters() + this->GetNumberOfPoseParameters(); }
 
   /** Evaluate the signed distance from a shape at a given position. */
-  virtual OutputType Evaluate(const PointType & point) const = 0;
+  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE = 0;
 
   /** Initialize must be called before the first call of SetParameters() or
    Evaluate() to allow the class to validate any inputs. */
@@ -108,7 +108,7 @@ protected:
 
   ~ShapeSignedDistanceFunction(){}
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
 //FIX    os << indent << "Parameters: " << m_Parameters << std::endl;

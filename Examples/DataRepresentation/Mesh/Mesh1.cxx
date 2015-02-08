@@ -24,7 +24,7 @@
 //  with the points.  The mesh class is also n-dimensional which
 //  allows a great flexibility in its use.
 //
-//  In practice a Mesh class can be seen as a PointSet to
+//  In practice a \code{Mesh} class can be seen as a PointSet to
 //  which cells (also known as elements) of many different dimensions and
 //  shapes have been added. Cells in the mesh are defined in terms of the
 //  existing points using their point-identifiers.
@@ -73,7 +73,7 @@ int main(int, char *[])
   //
   //  The Mesh type extensively uses the capabilities provided by
   //  \href{http://www.boost.org/more/generic_programming.html}{Generic
-  //  Programming}. In particular the Mesh class is parameterized over the
+  //  Programming}. In particular, the \code{Mesh} class is parameterized over the
   //  PixelType and the dimension of the space. PixelType is the type of the
   //  value associated with every point just as is done with the
   //  PointSet. The following line illustrates a typical
@@ -110,7 +110,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The management of points in the Mesh is exactly the same as in
-  //  the PointSet. The type point associated with the mesh can be
+  //  the PointSet. The type of point associated with the mesh can be
   //  obtained through the \code{PointType} trait. The following code shows the
   //  creation of points compatible with the mesh type defined above and the
   //  assignment of values to its coordinates.
@@ -168,7 +168,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The points can now be efficiently accessed using the Iterator to the
-  //  PointsContainer as it was done in the previous section for the
+  //  PointsContainer as was done in the previous section for the
   //  PointSet.  First, the point iterator type is extracted through
   //  the mesh traits.
   //
@@ -199,7 +199,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{++} operator on the iterator is now used to advance from one
+  //  The \code{++} operator is used to advance the iterator from one
   //  point to the next. The actual value of the Point to which the iterator is
   //  pointing can be obtained with the \code{Value()} method. The loop for
   //  walking through all the points is controlled by comparing the current
@@ -222,5 +222,5 @@ int main(int, char *[])
     }
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

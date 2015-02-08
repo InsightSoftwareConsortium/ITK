@@ -1995,10 +1995,10 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "itkGetVectorMacro(name,type,count)=                   virtual type* Get##name () const;" \
                          "itkSetInputMacro(name,type)=         virtual void Set##name(const type *input);" \
                          "itkGetInputMacro(name,type)=         virtual const type * Get##name() const;" \
-                         "itkNewMacro(type)=                   static Pointer New();                                                                           virtual::itk::LightObject::Pointer CreateAnother(void) const;" \
+                         "itkNewMacro(type)=                   static Pointer New();                                                                           virtual::itk::LightObject::Pointer CreateAnother() const;" \
                          "itkSimpleNewMacro(type)=             static Pointer New();" \
-                         "itkCreateAnotherMacro(type)=         virtual::itk::LightObject::Pointer CreateAnother(void) const;" \
-                         "itkFactorylessNewMacro(x)=                   static Pointer New(void);                   virtual ::itk::LightObject::Pointer CreateAnother(void) const;" \
+                         "itkCreateAnotherMacro(type)=         virtual::itk::LightObject::Pointer CreateAnother() const;" \
+                         "itkFactorylessNewMacro(x)=                   static Pointer New();                   virtual ::itk::LightObject::Pointer CreateAnother() const;" \
                          "itkTypeMacro(thisClass,superclass)=                   virtual const char *GetNameOfClass() const;" \
                          "itkEventMacro(thisClass,superclass)=                   class thisClass : public superclass {};" \
                          "itkDeclareExceptionMacro(newexcp,parentexcp,whatmessage)=         namespace itk {         class newexcp : public parentexcp {        public:       newexcp( const char *file, unsigned int lineNumber ) :        parentexcp( file, lineNumber )          { this->SetDescription( whatmessage ); }          newexcp( const std::string & file, unsigned int lineNumber ) :          parentexcp( file, lineNumber )          { this->SetDescription( whatmessage ); }          itkTypeMacro( newexcp, , parentexcp);         };        }" \
@@ -2019,9 +2019,12 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "ITK_USE_FFTWD" \
                          "ITK_USE_FFTWF" \
                          "ITK_USE_CONCEPT_CHECKING" \
-                         "__itkMacro_h" \
+                         "itkMacro_h" \
                          "ITK_LEGACY_REMOVE" \
-                         "ITKCommon_EXPORT_EXPLICIT"
+                         "ITKCommon_EXPORT_EXPLICIT" \
+                         "ITK_OVERRIDE= override " \
+                         "ITK_NULLPTR=  nullptr " \
+                         "ITK_NOEXCEPT= noexcept "
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The

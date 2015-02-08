@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAmoebaOptimizerv4_h
-#define __itkAmoebaOptimizerv4_h
+#ifndef itkAmoebaOptimizerv4_h
+#define itkAmoebaOptimizerv4_h
 
 #include "itkSingleValuedNonLinearVnlOptimizerv4.h"
 #include "vnl/algo/vnl_amoeba.h"
@@ -131,7 +131,7 @@ public:
   virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_amoeba * GetOptimizer(void) const;
+  vnl_amoeba * GetOptimizer() const;
 
 protected:
   AmoebaOptimizerv4();

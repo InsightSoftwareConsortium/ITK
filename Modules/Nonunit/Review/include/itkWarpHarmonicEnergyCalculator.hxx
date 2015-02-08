@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWarpHarmonicEnergyCalculator_hxx
-#define __itkWarpHarmonicEnergyCalculator_hxx
+#ifndef itkWarpHarmonicEnergyCalculator_hxx
+#define itkWarpHarmonicEnergyCalculator_hxx
 
 #include "itkWarpHarmonicEnergyCalculator.h"
 #include "itkNeighborhoodAlgorithm.h"

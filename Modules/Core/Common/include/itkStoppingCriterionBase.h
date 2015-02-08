@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkStoppingCriterionBase_h
-#define __itkStoppingCriterionBase_h
+#ifndef itkStoppingCriterionBase_h
+#define itkStoppingCriterionBase_h
 
 #include "itkObject.h"
 #include "itkObjectFactoryBase.h"

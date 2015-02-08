@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInverseDeconvolutionImageFilter_h
-#define __itkInverseDeconvolutionImageFilter_h
+#ifndef itkInverseDeconvolutionImageFilter_h
+#define itkInverseDeconvolutionImageFilter_h
 
 #include "itkFFTConvolutionImageFilter.h"
 
@@ -108,9 +108,9 @@ protected:
   ~InverseDeconvolutionImageFilter() {}
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   InverseDeconvolutionImageFilter(const Self &); //purposely not implemented

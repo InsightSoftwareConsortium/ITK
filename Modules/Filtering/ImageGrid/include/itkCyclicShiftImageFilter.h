@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCyclicShiftImageFilter_h
-#define __itkCyclicShiftImageFilter_h
+#ifndef itkCyclicShiftImageFilter_h
+#define itkCyclicShiftImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -86,16 +86,16 @@ public:
 protected:
   CyclicShiftImageFilter();
   ~CyclicShiftImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This filter needs the entire input be available so it needs to
    * provide an implementation of GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This filter can be threaded. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Protected so that subclasses may set it without calling
   Modified(). */

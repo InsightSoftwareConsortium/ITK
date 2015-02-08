@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSobelEdgeDetectionImageFilter_hxx
-#define __itkSobelEdgeDetectionImageFilter_hxx
+#ifndef itkSobelEdgeDetectionImageFilter_hxx
+#define itkSobelEdgeDetectionImageFilter_hxx
 #include "itkSobelEdgeDetectionImageFilter.h"
 
 #include "itkNeighborhoodOperatorImageFilter.h"

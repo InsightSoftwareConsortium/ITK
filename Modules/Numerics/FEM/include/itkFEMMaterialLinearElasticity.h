@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMMaterialLinearElasticity_h
-#define __itkFEMMaterialLinearElasticity_h
+#ifndef itkFEMMaterialLinearElasticity_h
+#define itkFEMMaterialLinearElasticity_h
 
 #include "itkFEMMaterialBase.h"
 
@@ -162,4 +162,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMMaterialLinearElasticity_h
+#endif // #ifndef itkFEMMaterialLinearElasticity_h

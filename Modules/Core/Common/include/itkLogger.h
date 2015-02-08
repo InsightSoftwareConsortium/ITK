@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLogger_h
-#define __itkLogger_h
+#ifndef itkLogger_h
+#define itkLogger_h
 
 #include "itkLoggerBase.h"
 
@@ -61,4 +61,4 @@ private:
 };                              // class Logger
 } // namespace itk
 
-#endif  // __itkLogger_h
+#endif  // itkLogger_h

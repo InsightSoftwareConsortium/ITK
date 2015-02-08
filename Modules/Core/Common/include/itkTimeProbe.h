@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeProbe_h
-#define __itkTimeProbe_h
+#ifndef itkTimeProbe_h
+#define itkTimeProbe_h
 
 #include "itkConfigure.h"
 #include "itkResourceProbe.h"
@@ -83,4 +83,4 @@ private:
 };
 } // end namespace itk
 
-#endif //__itkTimeProbe_h
+#endif //itkTimeProbe_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBioCellularAggregate_hxx
-#define __itkBioCellularAggregate_hxx
+#ifndef itkBioCellularAggregate_hxx
+#define itkBioCellularAggregate_hxx
 
 #include "itkBioCellularAggregate.h"
 

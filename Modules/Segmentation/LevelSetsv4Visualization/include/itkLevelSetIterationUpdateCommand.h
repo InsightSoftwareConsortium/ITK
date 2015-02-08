@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetIterationUpdateCommand_h
-#define __itkLevelSetIterationUpdateCommand_h
+#ifndef itkLevelSetIterationUpdateCommand_h
+#define itkLevelSetIterationUpdateCommand_h
 
 #include "itkCommand.h"
 #include "itkWeakPointer.h"

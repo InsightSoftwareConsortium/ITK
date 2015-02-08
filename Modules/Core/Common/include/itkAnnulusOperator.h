@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnnulusOperator_h
-#define __itkAnnulusOperator_h
+#ifndef itkAnnulusOperator_h
+#define itkAnnulusOperator_h
 
 #include "itkNeighborhoodOperator.h"
 #include "itkVector.h"
@@ -191,7 +191,7 @@ public:
   }
 
   /** Prints some debugging information */
-  virtual void PrintSelf(std::ostream & os, Indent i) const
+  virtual void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
   {
     os << i << "AnnulusOperator { this=" << this
        << ", m_InnerRadius = " << m_InnerRadius
@@ -213,10 +213,10 @@ protected:
   typedef typename Superclass::PixelType         PixelType;
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients();
+  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & c);
+  void Fill(const CoefficientVector & c) ITK_OVERRIDE;
 
 private:
 

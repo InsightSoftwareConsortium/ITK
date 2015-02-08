@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstantVelocityFieldTransform_hxx
-#define __itkConstantVelocityFieldTransform_hxx
+#ifndef itkConstantVelocityFieldTransform_hxx
+#define itkConstantVelocityFieldTransform_hxx
 
 #include "itkConstantVelocityFieldTransform.h"
 

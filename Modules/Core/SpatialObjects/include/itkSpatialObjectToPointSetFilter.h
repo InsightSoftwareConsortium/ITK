@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectToPointSetFilter_h
-#define __itkSpatialObjectToPointSetFilter_h
+#ifndef itkSpatialObjectToPointSetFilter_h
+#define itkSpatialObjectToPointSetFilter_h
 
 #include "itkPointSet.h"
 #include "itkMeshSource.h"
@@ -71,7 +71,7 @@ public:
 
   virtual void SetInput(unsigned int, const InputSpatialObjectType *object);
 
-  const InputSpatialObjectType * GetInput(void);
+  const InputSpatialObjectType * GetInput();
 
   const InputSpatialObjectType * GetInput(unsigned int idx);
 
@@ -91,12 +91,12 @@ protected:
   SpatialObjectToPointSetFilter();
   ~SpatialObjectToPointSetFilter();
 
-  virtual void GenerateOutputInformation(){}  // do nothing
-  virtual void GenerateData();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
+  virtual void GenerateData() ITK_OVERRIDE;
 
   unsigned int m_ChildrenDepth;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   SpatialObjectToPointSetFilter(const Self &); //purposely not implemented

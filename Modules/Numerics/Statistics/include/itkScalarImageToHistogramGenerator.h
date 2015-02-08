@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageToHistogramGenerator_h
-#define __itkScalarImageToHistogramGenerator_h
+#ifndef itkScalarImageToHistogramGenerator_h
+#define itkScalarImageToHistogramGenerator_h
 
 #include "itkImageToListSampleAdaptor.h"
 #include "itkSampleToHistogramFilter.h"
@@ -65,7 +65,7 @@ public:
 public:
 
   /** Triggers the Computation of the histogram */
-  void Compute(void);
+  void Compute();
 
   /** Connects the input image for which the histogram is going to be computed
     */

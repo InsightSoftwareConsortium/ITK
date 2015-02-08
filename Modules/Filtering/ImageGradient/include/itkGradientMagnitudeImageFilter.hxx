@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientMagnitudeImageFilter_hxx
-#define __itkGradientMagnitudeImageFilter_hxx
+#ifndef itkGradientMagnitudeImageFilter_hxx
+#define itkGradientMagnitudeImageFilter_hxx
 #include "itkGradientMagnitudeImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRootTreeIterator_h
-#define __itkRootTreeIterator_h
+#ifndef itkRootTreeIterator_h
+#define itkRootTreeIterator_h
 
 #include "itkTreeIteratorBase.h"
 
@@ -35,7 +35,7 @@ public:
   typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor */
-  RootTreeIterator(TreeType *tree, const TreeNodeType *start = NULL);
+  RootTreeIterator(TreeType *tree, const TreeNodeType *start = ITK_NULLPTR);
 
   /** Return the type of the iterator */
   NodeType GetType() const;

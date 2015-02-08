@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectToImageStatisticsCalculator_h
-#define __itkSpatialObjectToImageStatisticsCalculator_h
+#ifndef itkSpatialObjectToImageStatisticsCalculator_h
+#define itkSpatialObjectToImageStatisticsCalculator_h
 
 #include "itkObject.h"
 #include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
@@ -106,7 +106,7 @@ public:
   itkGetConstMacro(NumberOfPixels, SizeValueType);
 
   /** Compute of the input image. */
-  void Update(void);
+  void Update();
 
 protected:
   SpatialObjectToImageStatisticsCalculator();
@@ -141,4 +141,4 @@ private:
 #include "itkSpatialObjectToImageStatisticsCalculator.hxx"
 #endif
 
-#endif /* __itkSpatialObjectToImageStatisticsCalculator_h */
+#endif /* itkSpatialObjectToImageStatisticsCalculator_h */

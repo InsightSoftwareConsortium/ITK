@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArrowSpatialObject_hxx
-#define __itkArrowSpatialObject_hxx
+#ifndef itkArrowSpatialObject_hxx
+#define itkArrowSpatialObject_hxx
 
 #include "itkArrowSpatialObject.h"
 #include "itkEuler3DTransform.h"
@@ -213,4 +213,4 @@ ArrowSpatialObject< TDimension >
 }
 } // end namespace itk
 
-#endif // end __itkArrowSpatialObject_hxx
+#endif // end itkArrowSpatialObject_hxx

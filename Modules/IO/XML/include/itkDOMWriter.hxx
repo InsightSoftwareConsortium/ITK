@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMWriter_hxx
-#define __itkDOMWriter_hxx
+#ifndef itkDOMWriter_hxx
+#define itkDOMWriter_hxx
 
 #include "itkDOMWriter.h"
 #include "itksys/SystemTools.hxx"
@@ -142,4 +142,4 @@ DOMWriter<TInput>::Update()
 
 } // namespace itk
 
-#endif // __itkDOMWriter_hxx
+#endif // itkDOMWriter_hxx

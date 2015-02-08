@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkBinaryImageToLevelSetImageAdaptor_h
-#define __itkBinaryImageToLevelSetImageAdaptor_h
+#ifndef itkBinaryImageToLevelSetImageAdaptor_h
+#define itkBinaryImageToLevelSetImageAdaptor_h
 
 #include "itkBinaryImageToLevelSetImageAdaptorBase.h"
 
@@ -89,7 +89,7 @@ public:
   /**
    * Input is a binary image m_InputImage
    * Output is a WhitakerSparseLevelSetImagePointer  */
-  void Initialize();
+  void Initialize() ITK_OVERRIDE;
 
 protected:
   /** Constructor */
@@ -239,7 +239,7 @@ public:
 
   typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
-  void Initialize();
+  void Initialize() ITK_OVERRIDE;
 
 protected:
   /** Constructor */
@@ -329,7 +329,7 @@ public:
 
   typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
-  void Initialize();
+  void Initialize() ITK_OVERRIDE;
 
 protected:
   /** Constructor */
@@ -411,7 +411,7 @@ public:
 
   typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
-  void Initialize();
+  void Initialize() ITK_OVERRIDE;
 
 protected:
   /** Constructor */
@@ -437,4 +437,4 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBinaryImageToLevelSetImageAdaptor.hxx"
 #endif
-#endif // __itkBinaryImageToLevelSetImageAdaptorBase_h
+#endif // itkBinaryImageToLevelSetImageAdaptorBase_h

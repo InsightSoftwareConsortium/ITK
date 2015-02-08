@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatchCardinalityImageToImageMetric_hxx
-#define __itkMatchCardinalityImageToImageMetric_hxx
+#ifndef itkMatchCardinalityImageToImageMetric_hxx
+#define itkMatchCardinalityImageToImageMetric_hxx
 
 #include "itkMatchCardinalityImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

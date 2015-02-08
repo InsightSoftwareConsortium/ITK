@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredRigid2DTransform_h
-#define __itkCenteredRigid2DTransform_h
+#ifndef itkCenteredRigid2DTransform_h
+#define itkCenteredRigid2DTransform_h
 
 #include <iostream>
 #include "itkRigid2DTransform.h"
@@ -131,7 +131,7 @@ public:
   /** This method computes the Jacobian matrix of the transformation
    * at a given input point.
    */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
@@ -178,4 +178,4 @@ private:
 #include "itkCenteredRigid2DTransform.hxx"
 #endif
 
-#endif /* __itkCenteredRigid2DTransform_h */
+#endif /* itkCenteredRigid2DTransform_h */

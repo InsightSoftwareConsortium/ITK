@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkPixelTraits_h
-#define __itkPixelTraits_h
+#ifndef itkPixelTraits_h
+#define itkPixelTraits_h
 
 #include "itkMacro.h"
 
@@ -1449,4 +1449,4 @@ public:
 
 } // end namespace itk
 
-#endif // __itkPixelTraits_h
+#endif // itkPixelTraits_h

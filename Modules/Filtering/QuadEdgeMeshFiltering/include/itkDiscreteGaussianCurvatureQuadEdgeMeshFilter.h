@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
-#define __itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
+#ifndef itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
+#define itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
 
 #include "itkDiscreteCurvatureQuadEdgeMeshFilter.h"
 #include "vnl/vnl_math.h"
@@ -79,7 +79,7 @@ protected:
   DiscreteGaussianCurvatureQuadEdgeMeshFilter() {}
   ~DiscreteGaussianCurvatureQuadEdgeMeshFilter() {}
 
-  virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP)
+  virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
   {
     OutputMeshPointer output = this->GetOutput();
 

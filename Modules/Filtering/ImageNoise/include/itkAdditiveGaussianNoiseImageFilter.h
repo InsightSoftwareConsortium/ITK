@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAdditiveGaussianNoiseImageFilter_h
-#define __itkAdditiveGaussianNoiseImageFilter_h
+#ifndef itkAdditiveGaussianNoiseImageFilter_h
+#define itkAdditiveGaussianNoiseImageFilter_h
 
 #include "itkNoiseBaseImageFilter.h"
 
@@ -83,9 +83,9 @@ protected:
   virtual ~AdditiveGaussianNoiseImageFilter() {
   }
 
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
   AdditiveGaussianNoiseImageFilter(const Self&); //purposely not implemented

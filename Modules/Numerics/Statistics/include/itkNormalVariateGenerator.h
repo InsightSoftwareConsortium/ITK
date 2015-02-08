@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalVariateGenerator_h
-#define __itkNormalVariateGenerator_h
+#ifndef itkNormalVariateGenerator_h
+#define itkNormalVariateGenerator_h
 
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"
@@ -123,7 +123,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** get a variate */
-  double FastNorm(void);
+  double FastNorm();
 
 private:
   double m_Scale;

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_hxx
-#define __itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#ifndef itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#define itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
 #include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.h"
 #include "itkDefaultConvertPixelTraits.h"

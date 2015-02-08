@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMTestObjectDOMWriter_h
-#define __itkDOMTestObjectDOMWriter_h
+#ifndef itkDOMTestObjectDOMWriter_h
+#define itkDOMTestObjectDOMWriter_h
 
 #include "itkDOMWriter.h"
 #include "itkDOMTestObject.h"
@@ -85,4 +85,4 @@ DOMTestObjectDOMWriter::GenerateData( DOMNodeType* outputdom, const void* ) cons
 
 } // namespace itk
 
-#endif // __itkDOMTestObjectDOMWriter_h
+#endif // itkDOMTestObjectDOMWriter_h

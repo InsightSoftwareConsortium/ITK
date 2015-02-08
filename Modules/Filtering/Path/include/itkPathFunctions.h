@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathFunctions_h
-#define __itkPathFunctions_h
+#ifndef itkPathFunctions_h
+#define itkPathFunctions_h
 
 #include "itkChainCodePath.h"
 #include "itkFourierSeriesPath.h"

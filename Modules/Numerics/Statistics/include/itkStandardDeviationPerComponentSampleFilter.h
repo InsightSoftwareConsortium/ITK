@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStandardDeviationPerComponentSampleFilter_h
-#define __itkStandardDeviationPerComponentSampleFilter_h
+#ifndef itkStandardDeviationPerComponentSampleFilter_h
+#define itkStandardDeviationPerComponentSampleFilter_h
 
 #include "itkProcessObject.h"
 

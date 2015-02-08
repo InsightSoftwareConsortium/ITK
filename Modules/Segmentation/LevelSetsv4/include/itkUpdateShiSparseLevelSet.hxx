@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateShiSparseLevelSet_hxx
-#define __itkUpdateShiSparseLevelSet_hxx
+#ifndef itkUpdateShiSparseLevelSet_hxx
+#define itkUpdateShiSparseLevelSet_hxx
 
 #include "itkUpdateShiSparseLevelSet.h"
 
@@ -46,7 +46,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 {
   if( this->m_InputLevelSet.IsNull() )
     {
-    itkGenericExceptionMacro( <<"m_InputLevelSet is NULL" );
+    itkGenericExceptionMacro( <<"m_InputLevelSet is ITK_NULLPTR" );
     }
 
   this->m_Offset = this->m_InputLevelSet->GetDomainOffset();
@@ -475,4 +475,4 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
  return false;
 }
 }
-#endif // __itkUpdateShiSparseLevelSet_hxx
+#endif // itkUpdateShiSparseLevelSet_hxx

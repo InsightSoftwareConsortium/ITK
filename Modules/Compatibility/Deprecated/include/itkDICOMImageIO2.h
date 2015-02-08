@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDICOMImageIO2_h
-#define __itkDICOMImageIO2_h
+#ifndef itkDICOMImageIO2_h
+#define itkDICOMImageIO2_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include <fstream>
@@ -134,4 +134,4 @@ private:
 } // end namespace itk
 
 #endif //#if !defined( ITK_LEGACY_REMOVE )
-#endif // __itkDICOMImageIO2_h
+#endif // itkDICOMImageIO2_h

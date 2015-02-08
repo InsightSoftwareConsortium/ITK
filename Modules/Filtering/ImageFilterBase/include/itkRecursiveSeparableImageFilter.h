@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRecursiveSeparableImageFilter_h
-#define __itkRecursiveSeparableImageFilter_h
+#ifndef itkRecursiveSeparableImageFilter_h
+#define itkRecursiveSeparableImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkNumericTraits.h"
@@ -93,20 +93,20 @@ public:
   void SetInputImage(const TInputImage *);
 
   /** Get Input Image. */
-  const TInputImage * GetInputImage(void);
+  const TInputImage * GetInputImage();
 
 protected:
   RecursiveSeparableImageFilter();
   virtual ~RecursiveSeparableImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GenerateData (apply) the filter. */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 
-  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const;
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const ITK_OVERRIDE;
 
   /** RecursiveSeparableImageFilter needs all of the input only in the
    *  "Direction" dimension. Therefore we enlarge the output's
@@ -116,7 +116,7 @@ protected:
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
    * Typically it can be used to approximate a Gaussian or one of its

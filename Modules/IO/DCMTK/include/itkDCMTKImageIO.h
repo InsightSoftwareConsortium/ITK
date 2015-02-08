@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKImageIO_h
-#define __itkDCMTKImageIO_h
+#ifndef itkDCMTKImageIO_h
+#define itkDCMTKImageIO_h
 #include "ITKIODCMTKExport.h"
 
 
@@ -104,7 +104,7 @@ public:
 
   DCMTKImageIO();
   ~DCMTKImageIO();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   DCMTKImageIO(const Self &);     //purposely not implemented
@@ -127,4 +127,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkDCMTKImageIO_h
+#endif // itkDCMTKImageIO_h

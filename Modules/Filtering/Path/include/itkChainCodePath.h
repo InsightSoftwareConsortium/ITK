@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChainCodePath_h
-#define __itkChainCodePath_h
+#ifndef itkChainCodePath_h
+#define itkChainCodePath_h
 
 #include "itkPath.h"
 #include "itkOffset.h"
@@ -78,22 +78,22 @@ public:
   // Functions inherited from Path
 
   /** Evaluate the chaincode for the offset at the specified path-position. */
-  virtual OutputType Evaluate(const InputType & input) const
+  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE
   {
     return m_Chain[input];
   }
 
   /** Like Evaluate(), but returns the index at the specified path-position. */
-  virtual IndexType EvaluateToIndex(const InputType & input) const;
+  virtual IndexType EvaluateToIndex(const InputType & input) const ITK_OVERRIDE;
 
   /** Increment the input variable passed by reference and then return the
    * offset stored at the new path-position.  If the chaincode is unable to be
    * incremented, input is not changed and an offset of zero is returned, which
    * may be used to check for the end of the chain code. */
-  virtual OffsetType IncrementInput(InputType & input) const;
+  virtual OffsetType IncrementInput(InputType & input) const ITK_OVERRIDE;
 
   /** Where does the path end (what is the last valid input value)? */
-  virtual inline InputType EndOfInput() const
+  virtual inline InputType EndOfInput() const ITK_OVERRIDE
   {
     return NumberOfSteps();  // 0 is before the first step, 1 is after it
   }
@@ -133,7 +133,7 @@ public:
   }
 
   /** Needed for Pipelining */
-  virtual void Initialize(void)
+  virtual void Initialize(void) ITK_OVERRIDE
   {
     m_Start = this->GetZeroIndex();
     this->Clear();
@@ -142,7 +142,7 @@ public:
 protected:
   ChainCodePath();
   ~ChainCodePath() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ChainCodePath(const Self &);  //purposely not implemented

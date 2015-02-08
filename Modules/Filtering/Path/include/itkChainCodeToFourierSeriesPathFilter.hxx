@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChainCodeToFourierSeriesPathFilter_hxx
-#define __itkChainCodeToFourierSeriesPathFilter_hxx
+#ifndef itkChainCodeToFourierSeriesPathFilter_hxx
+#define itkChainCodeToFourierSeriesPathFilter_hxx
 
 #include "itkChainCodeToFourierSeriesPathFilter.h"
 #include <cmath>

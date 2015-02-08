@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPolyLineParametricPath_hxx
-#define __itkPolyLineParametricPath_hxx
+#ifndef itkPolyLineParametricPath_hxx
+#define itkPolyLineParametricPath_hxx
 
 #include "itkPolyLineParametricPath.h"
 #include <cmath>

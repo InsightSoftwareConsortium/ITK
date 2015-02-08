@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPreOrderTreeIterator_h
-#define __itkPreOrderTreeIterator_h
+#ifndef itkPreOrderTreeIterator_h
+#define itkPreOrderTreeIterator_h
 
 #include "itkTreeIteratorBase.h"
 
@@ -38,7 +38,7 @@ public:
   typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor */
-  PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start = NULL);
+  PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start = ITK_NULLPTR);
 
   /** Get the type of the iterator */
   NodeType GetType() const;

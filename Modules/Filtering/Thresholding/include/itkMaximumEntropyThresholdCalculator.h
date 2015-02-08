@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMaximumEntropyThresholdCalculator_h
-#define __itkMaximumEntropyThresholdCalculator_h
+#ifndef itkMaximumEntropyThresholdCalculator_h
+#define itkMaximumEntropyThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 
@@ -71,7 +71,7 @@ public:
 protected:
   MaximumEntropyThresholdCalculator() {};
   virtual ~MaximumEntropyThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   MaximumEntropyThresholdCalculator(const Self&); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeIteratorClone_h
-#define __itkTreeIteratorClone_h
+#ifndef itkTreeIteratorClone_h
+#define itkTreeIteratorClone_h
 
 #include "itkMacro.h"
 #include <iostream>
@@ -54,7 +54,7 @@ public:
   TreeIteratorClone (ObjectType *p)
   {
     m_Pointer = 0;
-    if ( p != NULL )
+    if ( p != ITK_NULLPTR )
       {
       m_Pointer = p->Clone();
       }

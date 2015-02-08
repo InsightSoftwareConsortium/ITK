@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFiniteDifferenceImageFilter_hxx
-#define __itkFiniteDifferenceImageFilter_hxx
+#ifndef itkFiniteDifferenceImageFilter_hxx
+#define itkFiniteDifferenceImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkMacro.h"
@@ -266,7 +266,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
     const TOutputImage *outputImage =  this->GetOutput();
     if ( outputImage == ITK_NULLPTR )
       {
-      itkExceptionMacro("Output image is NULL");
+      itkExceptionMacro("Output image is ITK_NULLPTR");
       }
 
     typedef typename TOutputImage::SpacingType SpacingType;

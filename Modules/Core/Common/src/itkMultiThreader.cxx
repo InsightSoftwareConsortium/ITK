@@ -232,7 +232,7 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
   return m_GlobalDefaultNumberOfThreads;
 }
 
-// Constructor. Default all the methods to NULL. Since the
+// Constructor. Default all the methods to ITK_NULLPTR. Since the
 // ThreadInfoArray is static, the ThreadIDs can be initialized here
 // and will not change.
 

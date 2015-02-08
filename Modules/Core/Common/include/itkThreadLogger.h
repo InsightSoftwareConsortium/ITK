@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThreadLogger_h
-#define __itkThreadLogger_h
+#ifndef itkThreadLogger_h
+#define itkThreadLogger_h
 
 #include "itkMultiThreader.h"
 #include "itkLogger.h"
@@ -144,4 +144,4 @@ private:
 };  // class ThreadLogger
 } // namespace itk
 
-#endif  // __itkThreadLogger_h
+#endif  // itkThreadLogger_h

@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 
-#ifndef __itkLevelSetEvolutionBase_hxx
-#define __itkLevelSetEvolutionBase_hxx
+#ifndef itkLevelSetEvolutionBase_hxx
+#define itkLevelSetEvolutionBase_hxx
 
 #include "itkLevelSetEvolutionBase.h"
 
@@ -76,12 +76,12 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 {
   if( this->m_LevelSetContainer.IsNull() )
     {
-    itkGenericExceptionMacro( << "this->m_LevelSetContainer is NULL" );
+    itkGenericExceptionMacro( << "this->m_LevelSetContainer is ITK_NULLPTR" );
     }
 
   if( this->m_EquationContainer.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_EquationContainer is NULL" );
+    itkGenericExceptionMacro( << "m_EquationContainer is ITK_NULLPTR" );
     }
 
   typename EquationContainerType::Iterator eqIt = this->m_EquationContainer->Begin();
@@ -92,7 +92,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
     }
   if( !eqIt->GetEquation() )
     {
-    itkGenericExceptionMacro( << "m_EquationContainer->GetEquation( 0 ) is NULL" );
+    itkGenericExceptionMacro( << "m_EquationContainer->GetEquation( 0 ) is ITK_NULLPTR" );
     }
 
   if( this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer() )
@@ -108,7 +108,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 
   if( inputImage.IsNull() )
     {
-    itkGenericExceptionMacro( << "input Image is NULL" );
+    itkGenericExceptionMacro( << "input Image is ITK_NULLPTR" );
     }
 
   // Get the LevelSetContainer from the EquationContainer
@@ -134,7 +134,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 
   if( this->m_StoppingCriterion.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_StoppingCriterion is NULL" );
+    itkGenericExceptionMacro( << "m_StoppingCriterion is ITK_NULLPTR" );
     }
 
   this->m_NumberOfIterations = 0;
@@ -269,4 +269,4 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 }
 
 }
-#endif // __itkLevelSetEvolutionBase_hxx
+#endif // itkLevelSetEvolutionBase_hxx

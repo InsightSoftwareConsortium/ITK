@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompose2DVectorImageFilter_h
-#define __itkCompose2DVectorImageFilter_h
+#ifndef itkCompose2DVectorImageFilter_h
+#define itkCompose2DVectorImageFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkBinaryFunctorImageFilter.h"

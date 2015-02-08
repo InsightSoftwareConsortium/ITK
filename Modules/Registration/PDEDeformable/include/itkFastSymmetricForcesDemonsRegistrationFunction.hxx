@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastSymmetricForcesDemonsRegistrationFunction_hxx
-#define __itkFastSymmetricForcesDemonsRegistrationFunction_hxx
+#ifndef itkFastSymmetricForcesDemonsRegistrationFunction_hxx
+#define itkFastSymmetricForcesDemonsRegistrationFunction_hxx
 
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"
 #include "itkMacro.h"
@@ -43,8 +43,8 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
   m_TimeStep = 1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  this->SetMovingImage(NULL);
-  this->SetFixedImage(NULL);
+  this->SetMovingImage(ITK_NULLPTR);
+  this->SetFixedImage(ITK_NULLPTR);
   m_Normalizer = 0.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 

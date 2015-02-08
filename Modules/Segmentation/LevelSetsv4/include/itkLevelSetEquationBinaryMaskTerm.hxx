@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationBinaryMaskTerm_hxx
-#define __itkLevelSetEquationBinaryMaskTerm_hxx
+#ifndef itkLevelSetEquationBinaryMaskTerm_hxx
+#define itkLevelSetEquationBinaryMaskTerm_hxx
 
 #include "itkLevelSetEquationBinaryMaskTerm.h"
 

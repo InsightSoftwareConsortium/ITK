@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWindowedSincInterpolateImageFunction_hxx
-#define __itkWindowedSincInterpolateImageFunction_hxx
+#ifndef itkWindowedSincInterpolateImageFunction_hxx
+#define itkWindowedSincInterpolateImageFunction_hxx
 
 #include "itkWindowedSincInterpolateImageFunction.h"
 

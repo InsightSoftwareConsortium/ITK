@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimilarity2DTransform_h
-#define __itkSimilarity2DTransform_h
+#ifndef itkSimilarity2DTransform_h
+#define itkSimilarity2DTransform_h
 
 #include <iostream>
 #include "itkRigid2DTransform.h"
@@ -154,7 +154,7 @@ public:
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Set the transformation to an identity. */
-  virtual void SetIdentity();
+  virtual void SetIdentity() ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new Similarity2DTransform object
@@ -217,13 +217,13 @@ protected:
   /** Compute matrix from angle and scale. This is used in Set methods
    * to update the underlying matrix whenever a transform parameter
    * is changed. */
-  virtual void ComputeMatrix(void);
+  virtual void ComputeMatrix(void) ITK_OVERRIDE;
 
   /** Compute the angle and scale from the matrix. This is used to compute
    * transform parameters from a given matrix. This is used in
    * MatrixOffsetTransformBase::Compose() and
    * MatrixOffsetTransformBase::GetInverse(). */
-  virtual void ComputeMatrixParameters(void);
+  virtual void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
   /** Set the scale without updating underlying variables. */
   void SetVarScale(ScaleType scale)
@@ -243,4 +243,4 @@ private:
 #include "itkSimilarity2DTransform.hxx"
 #endif
 
-#endif /* __itkSimilarity2DTransform_h */
+#endif /* itkSimilarity2DTransform_h */

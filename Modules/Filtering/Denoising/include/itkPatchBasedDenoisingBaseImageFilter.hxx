@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPatchBasedDenoisingBaseImageFilter_hxx
-#define __itkPatchBasedDenoisingBaseImageFilter_hxx
+#ifndef itkPatchBasedDenoisingBaseImageFilter_hxx
+#define itkPatchBasedDenoisingBaseImageFilter_hxx
 
 #include "itkPatchBasedDenoisingBaseImageFilter.h"
 #include "itkExceptionObject.h"

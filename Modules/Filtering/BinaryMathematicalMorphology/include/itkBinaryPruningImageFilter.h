@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryPruningImageFilter_h
-#define __itkBinaryPruningImageFilter_h
+#ifndef itkBinaryPruningImageFilter_h
+#define itkBinaryPruningImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -95,7 +95,7 @@ public:
   typedef NeighborhoodIterator< TInputImage > NeighborhoodIteratorType;
 
   /** Get Skelenton by thinning image. */
-  OutputImageType * GetPruning(void);
+  OutputImageType * GetPruning();
 
   /** Set/Get the iteration value */
   itkSetMacro(Iteration, unsigned int);
@@ -125,7 +125,7 @@ public:
 protected:
   BinaryPruningImageFilter();
   virtual ~BinaryPruningImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute thinning Image. */
   void GenerateData();

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLBFGSOptimizerBasev4_h
-#define __itkLBFGSOptimizerBasev4_h
+#ifndef itkLBFGSOptimizerBasev4_h
+#define itkLBFGSOptimizerBasev4_h
 
 #include "itkSingleValuedNonLinearVnlOptimizerv4.h"
 #include "vnl/algo/vnl_lbfgs.h"
@@ -96,7 +96,7 @@ public:
   typedef LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>   InternalOptimizerType;
 
   /** Method for getting access to the internal optimizer. */
-  InternalOptimizerType * GetOptimizer(void);
+  InternalOptimizerType * GetOptimizer();
 
   /** Start optimization with an initial value. */
   virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;

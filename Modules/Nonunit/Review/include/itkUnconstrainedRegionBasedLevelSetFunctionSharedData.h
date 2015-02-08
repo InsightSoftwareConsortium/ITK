@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkUnconstrainedRegionBasedLevelSetFunctionSharedData_h
-#define __itkUnconstrainedRegionBasedLevelSetFunctionSharedData_h
+#ifndef itkUnconstrainedRegionBasedLevelSetFunctionSharedData_h
+#define itkUnconstrainedRegionBasedLevelSetFunctionSharedData_h
 
 #include "itkRegionBasedLevelSetFunctionSharedData.h"
 
@@ -124,7 +124,7 @@ public:
   typedef typename Superclass::LevelSetDataPointerVector         LevelSetDataPointerVector;
   typedef typename Superclass::LevelSetDataPointerVectorIterator LevelSetDataPointerVectorIterator;
 
-  void PopulateListImage()
+  void PopulateListImage() ITK_OVERRIDE
   {
     ListPixelType L;
 

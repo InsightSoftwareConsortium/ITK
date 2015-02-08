@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapePriorMAPCostFunction_hxx
-#define __itkShapePriorMAPCostFunction_hxx
+#ifndef itkShapePriorMAPCostFunction_hxx
+#define itkShapePriorMAPCostFunction_hxx
 
 #include "itkShapePriorMAPCostFunction.h"
 
@@ -174,8 +174,7 @@ ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 template< typename TFeatureImage, typename TOutputPixel >
 void
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
-::Initialize(void)
-throw ( ExceptionObject )
+::Initialize() throw ( ExceptionObject )
 {
   this->Superclass::Initialize();
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSyNImageRegistrationMethod_h
-#define __itkSyNImageRegistrationMethod_h
+#ifndef itkSyNImageRegistrationMethod_h
+#define itkSyNImageRegistrationMethod_h
 
 #include "itkImageRegistrationMethodv4.h"
 
@@ -92,14 +92,19 @@ public:
   typedef typename Superclass::MovingImagesContainerType              MovingImagesContainerType;
 
   typedef typename Superclass::PointSetType                           PointSetType;
+  typedef typename PointSetType::Pointer                              PointSetPointer;
+  typedef typename Superclass::PointSetsContainerType                 PointSetsContainerType;
 
   /** Metric and transform typedefs */
   typedef typename Superclass::ImageMetricType                        ImageMetricType;
   typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
-  typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
   typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
   typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
+
+  typedef typename Superclass::VirtualImageType                       VirtualImageType;
+  typedef typename Superclass::VirtualImageBaseType                   VirtualImageBaseType;
+  typedef typename Superclass::VirtualImageBaseConstPointer           VirtualImageBaseConstPointer;
 
   typedef typename Superclass::MultiMetricType                        MultiMetricType;
   typedef typename Superclass::MetricType                             MetricType;
@@ -181,10 +186,10 @@ public:
 protected:
   SyNImageRegistrationMethod();
   virtual ~SyNImageRegistrationMethod();
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Perform the registration. */
-  virtual void  GenerateData();
+  virtual void  GenerateData() ITK_OVERRIDE;
 
   /** Handle optimization internally */
   virtual void StartOptimization();
@@ -193,12 +198,20 @@ protected:
    * Initialize by setting the interconnects between the components. Need to override
    * in the SyN class since we need to "adapt" the \c m_InverseTransform
    */
-  virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
+  virtual void InitializeRegistrationAtEachLevel( const SizeValueType ) ITK_OVERRIDE;
 
-  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *,
-    const MovingImagesContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
+  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const PointSetsContainerType,
+    const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,
+    const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
+  virtual DisplacementFieldPointer ComputeMetricGradientField( const FixedImagesContainerType,
+    const PointSetsContainerType, const TransformBaseType *, const MovingImagesContainerType,
+    const PointSetsContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
+
+  virtual DisplacementFieldPointer ScaleUpdateField( const DisplacementFieldType * );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
-  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = NULL );
+  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = ITK_NULLPTR );
+
+  virtual PointSetPointer TransformPointSet( const PointSetType *, const TransformBaseType * );
 
   RealType                                                        m_LearningRate;
 

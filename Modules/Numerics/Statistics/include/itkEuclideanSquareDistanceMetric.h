@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEuclideanSquareDistanceMetric_h
-#define __itkEuclideanSquareDistanceMetric_h
+#ifndef itkEuclideanSquareDistanceMetric_h
+#define itkEuclideanSquareDistanceMetric_h
 
 #include "itkDistanceMetric.h"
 
@@ -53,10 +53,10 @@ public:
   itkNewMacro(Self);
 
   /** Gets the distance between the origin and x */
-  double Evaluate(const MeasurementVectorType & x) const;
+  double Evaluate(const MeasurementVectorType & x) const ITK_OVERRIDE;
 
   /** Gets the distance between x1 and x2 */
-  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const;
+  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const ITK_OVERRIDE;
 
 protected:
   EuclideanSquareDistanceMetric() {}

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOnePlusOneEvolutionaryOptimizerv4_hxx
-#define __itkOnePlusOneEvolutionaryOptimizerv4_hxx
+#ifndef itkOnePlusOneEvolutionaryOptimizerv4_hxx
+#define itkOnePlusOneEvolutionaryOptimizerv4_hxx
 
 #include "itkOnePlusOneEvolutionaryOptimizerv4.h"
 #include "vnl/vnl_matrix.h"

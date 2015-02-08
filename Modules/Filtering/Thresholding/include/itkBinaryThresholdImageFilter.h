@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryThresholdImageFilter_h
-#define __itkBinaryThresholdImageFilter_h
+#ifndef itkBinaryThresholdImageFilter_h
+#define itkBinaryThresholdImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"
@@ -206,11 +206,11 @@ public:
 protected:
   BinaryThresholdImageFilter();
   virtual ~BinaryThresholdImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
   BinaryThresholdImageFilter(const Self &); //purposely not implemented

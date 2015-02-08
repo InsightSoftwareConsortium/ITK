@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsLabelObject_h
-#define __itkStatisticsLabelObject_h
+#ifndef itkStatisticsLabelObject_h
+#define itkStatisticsLabelObject_h
 
 #include "itkShapeLabelObject.h"
 #include "itkHistogram.h"
@@ -242,7 +242,7 @@ public:
 
   typedef typename Superclass::CentroidType CentroidType;
 
-  virtual void CopyAttributesFrom(const LabelObjectType *lo)
+  virtual void CopyAttributesFrom(const LabelObjectType *lo) ITK_OVERRIDE
   {
     Superclass::CopyAttributesFrom(lo);
 
@@ -532,7 +532,7 @@ protected:
     m_WeightedFlatness = 0;
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
 

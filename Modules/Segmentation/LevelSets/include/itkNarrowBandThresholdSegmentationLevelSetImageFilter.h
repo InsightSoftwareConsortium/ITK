@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNarrowBandThresholdSegmentationLevelSetImageFilter_h
-#define __itkNarrowBandThresholdSegmentationLevelSetImageFilter_h
+#ifndef itkNarrowBandThresholdSegmentationLevelSetImageFilter_h
+#define itkNarrowBandThresholdSegmentationLevelSetImageFilter_h
 
 #include "itkNarrowBandLevelSetImageFilter.h"
 #include "itkThresholdSegmentationLevelSetFunction.h"
@@ -205,7 +205,7 @@ protected:
   ~NarrowBandThresholdSegmentationLevelSetImageFilter() {}
   NarrowBandThresholdSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   NarrowBandThresholdSegmentationLevelSetImageFilter(const Self &); // purposely
                                                                     // not impl.

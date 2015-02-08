@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCheckerBoardImageFilter_h
-#define __itkCheckerBoardImageFilter_h
+#ifndef itkCheckerBoardImageFilter_h
+#define itkCheckerBoardImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -85,7 +85,7 @@ public:
 protected:
   CheckerBoardImageFilter();
   ~CheckerBoardImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** CheckerBoardImageFilter can be implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -96,7 +96,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const ImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   CheckerBoardImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExtrapolateImageFunction_h
-#define __itkExtrapolateImageFunction_h
+#ifndef itkExtrapolateImageFunction_h
+#define itkExtrapolateImageFunction_h
 
 #include "itkImageFunction.h"
 
@@ -83,7 +83,7 @@ public:
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
-  virtual OutputType Evaluate(const PointType & point) const
+  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     ContinuousIndexType index;
 
@@ -97,7 +97,7 @@ public:
    * specified point position.
    */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const = 0;
+    const ContinuousIndexType & index) const ITK_OVERRIDE = 0;
 
   /** Extrapolate the image at an index position.
    *
@@ -105,12 +105,12 @@ public:
    * specified point position.
    */
   virtual OutputType EvaluateAtIndex(
-    const IndexType & index) const = 0;
+    const IndexType & index) const ITK_OVERRIDE = 0;
 
 protected:
   ExtrapolateImageFunction(){}
   ~ExtrapolateImageFunction(){}
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 
 private:

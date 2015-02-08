@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateMalcolmSparseLevelSet_hxx
-#define __itkUpdateMalcolmSparseLevelSet_hxx
+#ifndef itkUpdateMalcolmSparseLevelSet_hxx
+#define itkUpdateMalcolmSparseLevelSet_hxx
 
 #include "itkUpdateMalcolmSparseLevelSet.h"
 
@@ -47,7 +47,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 {
   if( this->m_InputLevelSet.IsNull() )
     {
-    itkGenericExceptionMacro( <<"m_InputLevelSet is NULL" );
+    itkGenericExceptionMacro( <<"m_InputLevelSet is ITK_NULLPTR" );
     }
 
   this->m_Offset = this->m_InputLevelSet->GetDomainOffset();
@@ -483,4 +483,4 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 }
 
 }
-#endif // __itkUpdateMalcolmSparseLevelSet_hxx
+#endif // itkUpdateMalcolmSparseLevelSet_hxx

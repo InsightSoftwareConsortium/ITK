@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOtsuMultipleThresholdsCalculator_hxx
-#define __itkOtsuMultipleThresholdsCalculator_hxx
+#ifndef itkOtsuMultipleThresholdsCalculator_hxx
+#define itkOtsuMultipleThresholdsCalculator_hxx
 
 #include "itkMath.h"
 #include "itkOtsuMultipleThresholdsCalculator.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUFiniteDifferenceImageFilter_h
-#define __itkGPUFiniteDifferenceImageFilter_h
+#ifndef itkGPUFiniteDifferenceImageFilter_h
+#define itkGPUFiniteDifferenceImageFilter_h
 
 #include "itkGPUInPlaceImageFilter.h"
 #include "itkGPUFiniteDifferenceFunction.h"
@@ -68,40 +68,32 @@ public:
    * because PixelType may often be a vector value, while the TimeStep is
    * a scalar value. */
   typedef typename GPUFiniteDifferenceFunction< TOutputImage >::DifferenceFunctionType FiniteDifferenceFunctionType;
-  //typedef typename GPUFiniteDifferenceFunction< TOutputImage >
-  // FiniteDifferenceFunctionType;
   typedef typename FiniteDifferenceFunctionType::TimeStepType           TimeStepType;
   typedef typename FiniteDifferenceFunctionType::RadiusType             RadiusType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodScalesType NeighborhoodScalesType;
 
-  /** This method returns a pointer to a FiniteDifferenceFunction object that
-   * will be used by the filter to calculate updates at image pixels.
-   * \returns A FiniteDifferenceObject pointer. */
-  itkGetConstReferenceObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType);
-  //itkGetMacro(DifferenceFunction, FiniteDifferenceFunctionType);
+/** This method returns a pointer to a FiniteDifferenceFunction object that
+  * will be used by the filter to calculate updates at image pixels.
+  * \returns A FiniteDifferenceObject pointer. */
+  virtual const typename FiniteDifferenceFunctionType::Pointer &GetDifferenceFunction() const ITK_OVERRIDE
+    {
+    return this->m_DifferenceFunction;
+    }
 
-  /** This method sets the pointer to a FiniteDifferenceFunction object that
-   * will be used by the filter to calculate updates at image pixels.
-   * \returns A FiniteDifferenceObject pointer. */
-  itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType);
+ /** This method sets the pointer to a FiniteDifferenceFunction object that
+  * will be used by the filter to calculate updates at image pixels.
+  * \returns A FiniteDifferenceObject pointer. */
+  virtual void SetDifferenceFunction ( FiniteDifferenceFunctionType *differenceFunction ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting m_DifferenceFunction to " << differenceFunction);
+    if ( this->m_DifferenceFunction != differenceFunction )
+      {
+      this->m_DifferenceFunction = differenceFunction;
+      this->Modified();
+      }
+    }
 
   typedef enum { UNINITIALIZED = 0, INITIALIZED = 1 } FilterStateType;
-
-  /** Use the image spacing information in calculations. Use this option if you
-   *  want derivatives in physical space. Default is UseImageSpacingOff. */
-  itkSetMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
-  itkGetConstReferenceMacro(UseImageSpacing, bool);
-
-  /** Set/Get the maximum error allowed in the solution.  This may not be
-      defined for all solvers and its meaning may change with the application. */
-  itkSetMacro(MaximumRMSError, double);
-  itkGetConstReferenceMacro(MaximumRMSError, double);
-
-  /** Set/Get the root mean squared change of the previous iteration. May not
-      be used by all solvers. */
-  itkSetMacro(RMSChange, double);
-  itkGetConstReferenceMacro(RMSChange, double);
 
   /** Set the state of the filter to INITIALIZED */
   void SetStateToInitialized()
@@ -121,12 +113,6 @@ public:
   itkGetConstReferenceMacro(State, FilterStateType);
 #endif
 
-  /** Require the filter to be manually reinitialized (by calling
-      SetStateToUninitialized() */
-  itkSetMacro(ManualReinitialization, bool);
-  itkGetConstReferenceMacro(ManualReinitialization, bool);
-  itkBooleanMacro(ManualReinitialization);
-
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( OutputPixelIsFloatingPointCheck,
@@ -144,10 +130,10 @@ protected:
   GPUFiniteDifferenceImageFilter();
   ~GPUFiniteDifferenceImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method allocates a temporary update container in the subclass. */
-  virtual void AllocateUpdateBuffer() = 0;
+  virtual void AllocateUpdateBuffer() ITK_OVERRIDE = 0;
 
   /** This method is defined by a subclass to apply changes to the output
    * from an update buffer and a time step value "dt".
@@ -164,12 +150,12 @@ protected:
   /** This method can be defined in subclasses as needed to copy the input
    * to the output. See DenseFiniteDifferenceImageFilter for an
    * implementation. */
-  virtual void CopyInputToOutput() = 0;
+  virtual void CopyInputToOutput() ITK_OVERRIDE = 0;
 
   /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
    * to implement the major steps of the algorithm. */
-  virtual void GPUGenerateData();
+  virtual void GPUGenerateData() ITK_OVERRIDE;
 
   /** FiniteDifferenceImageFilter needs a larger input requested region than
    * the output requested region.  As such, we need to provide
@@ -182,11 +168,11 @@ protected:
    * handled as described in the FiniteDifferenceFunction defined by the
    * subclass.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */
-  virtual bool Halt();
+  virtual bool Halt() ITK_OVERRIDE;
 
   /** This method is similar to Halt(), and its default implementation in this
    * class is simply to call Halt(). However, this method takes as a parameter
@@ -197,7 +183,7 @@ protected:
    * Notice that ThreadedHalt is only called by the multithreaded filters, so you
    * still should implement Halt, just in case a non-threaded filter is used.
    */
-  virtual bool ThreadedHalt( void *itkNotUsed(threadInfo) ) {
+  virtual bool ThreadedHalt( void *itkNotUsed(threadInfo) ) ITK_OVERRIDE {
     return this->Halt();
   }
 
@@ -205,8 +191,8 @@ protected:
    * the loop of iterations of calculate_change & upate. It does the global
    * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize
    * the list of layers.
-   * */
-  virtual void Initialize() {
+   */
+  virtual void Initialize() ITK_OVERRIDE {
   }
 
   /** This method is optionally defined by a subclass and is called immediately
@@ -214,8 +200,8 @@ protected:
    * used to set global variables needed for the next iteration (ie. average
    * gradient magnitude of the image in anisotropic diffusion functions), or
    * otherwise prepare for the next iteration.
-   * */
-  virtual void InitializeIteration()
+   */
+  virtual void InitializeIteration() ITK_OVERRIDE
   {
     m_DifferenceFunction->InitializeIteration();
   }
@@ -232,16 +218,13 @@ protected:
    *  valid
    *
    * The default is to return the minimum value in the list. */
-virtual TimeStepType ResolveTimeStep(const std::vector<TimeStepType >& timeStepList,
-                                     const std::vector< bool >& valid) const;
+  virtual TimeStepType ResolveTimeStep(const std::vector<TimeStepType >& timeStepList,
+                                     const std::vector< bool >& valid) const ITK_OVERRIDE;
 
   /** This method is called after the solution has been generated to allow
    * subclasses to apply some further processing to the output. */
-  virtual void PostProcessOutput() {
+  virtual void PostProcessOutput()  ITK_OVERRIDE {
   }
-
-  /** Set the number of elapsed iterations of the filter. */
-  itkSetMacro(ElapsedIterations, IdentifierType);
 
   /** The maximum number of iterations this filter will run */
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUGradientAnisotropicDiffusionImageFilter_h
-#define __itkGPUGradientAnisotropicDiffusionImageFilter_h
+#ifndef itkGPUGradientAnisotropicDiffusionImageFilter_h
+#define itkGPUGradientAnisotropicDiffusionImageFilter_h
 
 #include "itkOpenCLUtil.h"
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
@@ -110,10 +110,10 @@ public:
   typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const {
+  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE {
     return ITK_SOURCE_VERSION;
   }
-  const char* GetDescription() const {
+  const char* GetDescription() const ITK_OVERRIDE {
     return "A Factory for GPUGradientAnisotropicDiffusionImageFilter";
   }
 

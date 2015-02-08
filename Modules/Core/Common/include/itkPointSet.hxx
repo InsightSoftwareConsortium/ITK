@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkPointSet_hxx
-#define __itkPointSet_hxx
+#ifndef itkPointSet_hxx
+#define itkPointSet_hxx
 
 #include "itkPointSet.h"
 #include "itkProcessObject.h"
@@ -172,7 +172,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
  * Check if a point exists for a given point identifier.  If a spot for
  * the point identifier exists, "point" is set, and true is returned.
  * Otherwise, false is returned, and "point" is not modified.
- * If "point" is NULL, then it is never set, but the existence of the point
+ * If "point" is ITK_NULLPTR, then it is never set, but the existence of the point
  * is still returned.
  */
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
@@ -247,7 +247,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
  * Check if point data exists for a given point identifier.  If a spot for
  * the point identifier exists, "data" is set, and true is returned.
  * Otherwise, false is returned, and "data" is not modified.
- * If "data" is NULL, then it is never set, but the existence of the point
+ * If "data" is ITK_NULLPTR, then it is never set, but the existence of the point
  * data is still returned.
  */
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >

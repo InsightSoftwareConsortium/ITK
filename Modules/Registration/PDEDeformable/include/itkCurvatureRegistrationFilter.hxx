@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureRegistrationFilter_hxx
-#define __itkCurvatureRegistrationFilter_hxx
+#ifndef itkCurvatureRegistrationFilter_hxx
+#define itkCurvatureRegistrationFilter_hxx
 #if defined( ITK_USE_FFTWF ) || defined( ITK_USE_FFTWD )
 #include "itkCurvatureRegistrationFilter.h"
 
@@ -43,12 +43,12 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
   this->SetTimeStep(100.0);
   this->SetConstraintWeight(0.01);
 
-  m_PlanBackwardDCT = m_PlanForwardDCT = NULL;
-  m_DisplacementFieldComponentImage = m_DisplacementFieldComponentImageDCT = NULL;
+  m_PlanBackwardDCT = m_PlanForwardDCT = ITK_NULLPTR;
+  m_DisplacementFieldComponentImage = m_DisplacementFieldComponentImageDCT = ITK_NULLPTR;
 
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
-    m_DiagonalElements[dim] = NULL;
+    m_DiagonalElements[dim] = ITK_NULLPTR;
     }
 }
 

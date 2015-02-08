@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStdStreamLogOutput_h
-#define __itkStdStreamLogOutput_h
+#ifndef itkStdStreamLogOutput_h
+#define itkStdStreamLogOutput_h
 
 #include <iostream>
 #include <string>
@@ -90,4 +90,4 @@ private:
 };
 }
 
-#endif //__itkStdStreamLogOutput_h
+#endif //itkStdStreamLogOutput_h

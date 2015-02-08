@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSquaredDifferenceErrorFunction_hxx
-#define __itkSquaredDifferenceErrorFunction_hxx
+#ifndef itkSquaredDifferenceErrorFunction_hxx
+#define itkSquaredDifferenceErrorFunction_hxx
 
 #include "itkSquaredDifferenceErrorFunction.h"
 

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFFTConvolutionImageFilter_hxx
-#define __itkFFTConvolutionImageFilter_hxx
+#ifndef itkFFTConvolutionImageFilter_hxx
+#define itkFFTConvolutionImageFilter_hxx
 
 #include "itkFFTConvolutionImageFilter.h"
 

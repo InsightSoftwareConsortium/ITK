@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSphereMeshSource_h
-#define __itkSphereMeshSource_h
+#ifndef itkSphereMeshSource_h
+#define itkSphereMeshSource_h
 
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkMesh.h"
@@ -86,9 +86,9 @@ public:
 protected:
   SphereMeshSource();
   ~SphereMeshSource() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** model center */
   OPointType m_Center;

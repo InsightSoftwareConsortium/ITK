@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiffusionTensor3D_h
-#define __itkDiffusionTensor3D_h
+#ifndef itkDiffusionTensor3D_h
+#define itkDiffusionTensor3D_h
 
 // Undefine an eventual DiffusionTensor3D macro
 #ifdef DiffusionTensor3D

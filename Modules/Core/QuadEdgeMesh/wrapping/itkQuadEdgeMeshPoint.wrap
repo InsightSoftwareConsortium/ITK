@@ -1,5 +1,5 @@
 itk_wrap_class("itk::QuadEdgeMeshPoint")
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("F${d}" "float, ${d}")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()

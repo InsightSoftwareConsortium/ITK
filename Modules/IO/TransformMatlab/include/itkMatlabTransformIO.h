@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatlabTransformIO_h
-#define __itkMatlabTransformIO_h
+#ifndef itkMatlabTransformIO_h
+#define itkMatlabTransformIO_h
 #include "itkTransformIOBase.h"
 
 namespace itk
@@ -46,19 +46,19 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *);
+  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char *);
+  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read();
+  virtual void Read() ITK_OVERRIDE;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. The buffer is cast to a
    * pointer to the beginning of the image data. */
-  virtual void Write();
+  virtual void Write() ITK_OVERRIDE;
 
 protected:
   MatlabTransformIOTemplate();
@@ -74,4 +74,4 @@ typedef MatlabTransformIOTemplate<double> MatlabTransformIO;
 #include "itkMatlabTransformIO.hxx"
 #endif
 
-#endif // __itkMatlabTransformIO_h
+#endif // itkMatlabTransformIO_h

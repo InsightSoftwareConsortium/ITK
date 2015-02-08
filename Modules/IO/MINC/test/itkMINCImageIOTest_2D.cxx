@@ -127,7 +127,7 @@ int itkMINCImageIOTest_2D( int argc, char * argv [] )
 
       // save and restore cout's precision, to silence a Coverity warning
       std::cout.precision( 10 );
-      if( test_image_moments<itk::Image< double, 2 > >(input,NULL,total,mx,my,epsilon) != EXIT_SUCCESS )
+      if( test_image_moments<itk::Image< double, 2 > >(input,ITK_NULLPTR,total,mx,my,epsilon) != EXIT_SUCCESS )
         {
         ret=EXIT_FAILURE;
         }

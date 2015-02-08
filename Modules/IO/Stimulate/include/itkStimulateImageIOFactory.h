@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkStimulateImageIOFactory_h
-#define __itkStimulateImageIOFactory_h
+#ifndef itkStimulateImageIOFactory_h
+#define itkStimulateImageIOFactory_h
 #include "ITKIOStimulateExport.h"
 
 #include "itkObjectFactoryBase.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshDecimationQuadricElementHelper_h
-#define __itkQuadEdgeMeshDecimationQuadricElementHelper_h
+#ifndef itkQuadEdgeMeshDecimationQuadricElementHelper_h
+#define itkQuadEdgeMeshDecimationQuadricElementHelper_h
 
 #include "itkPoint.h"
 #include "vnl/vnl_vector_fixed.h"

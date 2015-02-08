@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlForwardFFTImageFilter_hxx
-#define __itkVnlForwardFFTImageFilter_hxx
+#ifndef itkVnlForwardFFTImageFilter_hxx
+#define itkVnlForwardFFTImageFilter_hxx
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkForwardFFTImageFilter.hxx"

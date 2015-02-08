@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMvtSunf_h
-#define __itkMvtSunf_h
+#ifndef itkMvtSunf_h
+#define itkMvtSunf_h
 #include "ITKIOGEExport.h"
 namespace itk
 {

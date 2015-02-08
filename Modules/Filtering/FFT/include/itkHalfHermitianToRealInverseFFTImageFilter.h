@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHalfHermitianToRealInverseFFTImageFilter_h
-#define __itkHalfHermitianToRealInverseFFTImageFilter_h
+#ifndef itkHalfHermitianToRealInverseFFTImageFilter_h
+#define itkHalfHermitianToRealInverseFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -73,7 +73,7 @@ public:
   * selection of FFT implementation.
   *
   * Default implementation is VnlFFT. */
-  static Pointer New(void);
+  static Pointer New();
 
   /** Was the original truncated dimension size odd? */
   void SetActualXDimensionIsOdd(bool isodd)
@@ -117,10 +117,10 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef __itkVnlHalfHermitianToRealInverseFFTImageFilter_h
-#ifndef __itkVnlHalfHermitianToRealInverseFFTImageFilter_hxx
-#ifndef __itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
-#ifndef __itkFFTWHalfHermitianToRealInverseFFTImageFilter_hxx
+#ifndef itkVnlHalfHermitianToRealInverseFFTImageFilter_h
+#ifndef itkVnlHalfHermitianToRealInverseFFTImageFilter_hxx
+#ifndef itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
+#ifndef itkFFTWHalfHermitianToRealInverseFFTImageFilter_hxx
 #include "itkHalfHermitianToRealInverseFFTImageFilter.hxx"
 #endif
 #endif

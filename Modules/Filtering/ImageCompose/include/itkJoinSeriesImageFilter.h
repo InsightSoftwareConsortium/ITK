@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJoinSeriesImageFilter_h
-#define __itkJoinSeriesImageFilter_h
+#ifndef itkJoinSeriesImageFilter_h
+#define itkJoinSeriesImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -96,31 +96,31 @@ public:
 protected:
   JoinSeriesImageFilter();
   ~JoinSeriesImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Override VeriyInputInformation() to add the additional check
    * that all inputs have the same number of components.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation();
+  virtual void VerifyInputInformation() ITK_OVERRIDE;
 
   /** Overrides GenerateOutputInformation() in order to produce
    * an image which has a different information than the first input.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Overrides GenerateInputRequestedRegion() in order to inform
    * the pipeline execution model of different input requested regions
    * than the output requested region.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** JoinSeriesImageFilter can be implemented as a multithreaded filter.
    * \sa ImageSource::ThreadedGenerateData(),
    *     ImageSource::GenerateData() */
   virtual void ThreadedGenerateData(const OutputImageRegionType &
-                                    outputRegionForThread, ThreadIdType threadId);
+                                    outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   JoinSeriesImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTernaryAddImageFilter_h
-#define __itkTernaryAddImageFilter_h
+#ifndef itkTernaryAddImageFilter_h
+#define itkTernaryAddImageFilter_h
 
 #include "itkTernaryFunctorImageFilter.h"
 

@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkOutputWindow_h
-#define __itkOutputWindow_h
+#ifndef itkOutputWindow_h
+#define itkOutputWindow_h
 
 #include "itkObject.h"
 

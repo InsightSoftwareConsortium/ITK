@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVotingBinaryHoleFillingImageFilter_hxx
-#define __itkVotingBinaryHoleFillingImageFilter_hxx
+#ifndef itkVotingBinaryHoleFillingImageFilter_hxx
+#define itkVotingBinaryHoleFillingImageFilter_hxx
 #include "itkVotingBinaryHoleFillingImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"

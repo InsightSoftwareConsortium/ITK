@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetImage_hxx
-#define __itkLevelSetImage_hxx
+#ifndef itkLevelSetImage_hxx
+#define itkLevelSetImage_hxx
 
 #include "itkLevelSetImage.h"
 
@@ -40,4 +40,4 @@ LevelSetImage< TInput, VDimension, TOutput >
 }
 
 }
-#endif // __itkLevelSetImage_hxx
+#endif // itkLevelSetImage_hxx

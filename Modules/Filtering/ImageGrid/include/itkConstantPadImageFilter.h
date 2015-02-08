@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstantPadImageFilter_h
-#define __itkConstantPadImageFilter_h
+#ifndef itkConstantPadImageFilter_h
+#define itkConstantPadImageFilter_h
 
 #include "itkPadImageFilter.h"
 
@@ -111,7 +111,7 @@ public:
 protected:
   ConstantPadImageFilter();
   ~ConstantPadImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ConstantPadImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkErrorBackPropagationLearningWithMomentum_h
-#define __itkErrorBackPropagationLearningWithMomentum_h
+#ifndef itkErrorBackPropagationLearningWithMomentum_h
+#define itkErrorBackPropagationLearningWithMomentum_h
 
 #include <iostream>
 #include "itkLearningFunctionBase.h"
@@ -57,14 +57,14 @@ public:
   typedef typename Superclass::ValueType           ValueType;
   typedef typename LayerType::LayerInterfaceType   LayerInterfaceType;
 
-  virtual void Learn( LayerInterfaceType * layer, ValueType learningrate );
-  virtual void Learn( LayerInterfaceType * layer, TTargetVector errors, ValueType learningrate );
+  virtual void Learn( LayerInterfaceType * layer, ValueType learningrate ) ITK_OVERRIDE;
+  virtual void Learn( LayerInterfaceType * layer, TTargetVector errors, ValueType learningrate ) ITK_OVERRIDE;
 
 protected:
   ErrorBackPropagationLearningWithMomentum();
   virtual ~ErrorBackPropagationLearningWithMomentum() {};
 
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   ValueType m_Momentum;
 };

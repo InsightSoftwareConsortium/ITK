@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineScatteredDataPointSetToImageFilter_hxx
-#define __itkBSplineScatteredDataPointSetToImageFilter_hxx
+#ifndef itkBSplineScatteredDataPointSetToImageFilter_hxx
+#define itkBSplineScatteredDataPointSetToImageFilter_hxx
 
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -473,7 +473,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       this->m_DeltaLatticePerThread[n] = PointDataImageType::New();
       this->m_DeltaLatticePerThread[n]->SetRegions( size );
       this->m_DeltaLatticePerThread[n]->Allocate();
-      this->m_DeltaLatticePerThread[n]->FillBuffer( 0.0 );
+      this->m_DeltaLatticePerThread[n]->FillBuffer( NumericTraits<PointDataType>::Zero );
       }
     }
 }
@@ -852,7 +852,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     this->m_PhiLattice = PointDataImageType::New();
     this->m_PhiLattice->SetRegions( size );
     this->m_PhiLattice->Allocate();
-    this->m_PhiLattice->FillBuffer( 0.0 );
+    this->m_PhiLattice->FillBuffer( NumericTraits<PointDataType>::Zero );
 
     ImageRegionIterator<PointDataImageType> ItP(
       this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion() );

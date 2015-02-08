@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 
-#ifndef __itkLevelSetEvolution_hxx
-#define __itkLevelSetEvolution_hxx
+#ifndef itkLevelSetEvolution_hxx
+#define itkLevelSetEvolution_hxx
 
 #include "itkLevelSetEvolution.h"
 
@@ -456,4 +456,4 @@ void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimensi
   this->m_EquationContainer->UpdateInternalEquationTerms();
 }
 }
-#endif // __itkLevelSetEvolution_hxx
+#endif // itkLevelSetEvolution_hxx

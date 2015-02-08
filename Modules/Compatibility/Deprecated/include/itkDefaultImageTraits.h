@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDefaultImageTraits_h
-#define __itkDefaultImageTraits_h
+#ifndef itkDefaultImageTraits_h
+#define itkDefaultImageTraits_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkImageRegion.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearQuadrilateralStress_h
-#define __itkFEMElement2DC0LinearQuadrilateralStress_h
+#ifndef itkFEMElement2DC0LinearQuadrilateralStress_h
+#define itkFEMElement2DC0LinearQuadrilateralStress_h
 
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
 #include "itkFEMElement2DStress.h"
@@ -96,4 +96,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement2DC0LinearQuadrilateralStress_h
+#endif  // #ifndef itkFEMElement2DC0LinearQuadrilateralStress_h

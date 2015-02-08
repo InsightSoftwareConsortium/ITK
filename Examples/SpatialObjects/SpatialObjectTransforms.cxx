@@ -112,7 +112,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we apply an offset on the ObjectToParentTransform of the child object
+// Next, we apply an offset on the \code{ObjectToParentTransform} of the child object.
 // Therefore, object2 is now translated by a vector [4,3] regarding to its
 // parent.
 //

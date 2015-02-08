@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMorphologicalGradientImageFilter_hxx
-#define __itkMorphologicalGradientImageFilter_hxx
+#ifndef itkMorphologicalGradientImageFilter_hxx
+#define itkMorphologicalGradientImageFilter_hxx
 
 #include "itkMorphologicalGradientImageFilter.h"
 #include "itkNumericTraits.h"
@@ -102,12 +102,12 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
       {
       m_HistogramFilter->SetKernel( this->GetKernel() );
       }
-    else if ( flatKernel != NULL && flatKernel->GetDecomposable() && algo == ANCHOR )
+    else if ( flatKernel != ITK_NULLPTR && flatKernel->GetDecomposable() && algo == ANCHOR )
       {
       m_AnchorDilateFilter->SetKernel(*flatKernel);
       m_AnchorErodeFilter->SetKernel(*flatKernel);
       }
-    else if ( flatKernel != NULL && flatKernel->GetDecomposable() && algo == VHGW )
+    else if ( flatKernel != ITK_NULLPTR && flatKernel->GetDecomposable() && algo == VHGW )
       {
       m_VanHerkGilWermanDilateFilter->SetKernel(*flatKernel);
       m_VanHerkGilWermanErodeFilter->SetKernel(*flatKernel);

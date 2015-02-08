@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkCSVFileReaderBase_h
-#define __itkCSVFileReaderBase_h
+#ifndef itkCSVFileReaderBase_h
+#define itkCSVFileReaderBase_h
 
 #include "itkLightProcessObject.h"
 #include <vcl_limits.h>

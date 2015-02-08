@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoronoiDiagram2D_h
-#define __itkVoronoiDiagram2D_h
+#ifndef itkVoronoiDiagram2D_h
+#define itkVoronoiDiagram2D_h
 
 
 #include "itkMesh.h"
@@ -310,7 +310,7 @@ public:
 protected:
   VoronoiDiagram2D();
   ~VoronoiDiagram2D();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   VoronoiDiagram2D(const Self &); //purposely not implemented

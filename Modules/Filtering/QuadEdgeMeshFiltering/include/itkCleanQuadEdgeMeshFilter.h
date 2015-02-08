@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCleanQuadEdgeMeshFilter_h
-#define __itkCleanQuadEdgeMeshFilter_h
+#ifndef itkCleanQuadEdgeMeshFilter_h
+#define itkCleanQuadEdgeMeshFilter_h
 
 #include "itkIntTypes.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
@@ -113,13 +113,13 @@ protected:
 
   virtual ~CleanQuadEdgeMeshFilter() {}
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void MergePoints( const InputCoordRepType absoluteToleranceSquared );
 
   virtual void CleanPoints();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   CleanQuadEdgeMeshFilter(const Self &); // purposely not implemented

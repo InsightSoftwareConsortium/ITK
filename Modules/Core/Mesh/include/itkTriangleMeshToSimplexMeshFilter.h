@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTriangleMeshToSimplexMeshFilter_h
-#define __itkTriangleMeshToSimplexMeshFilter_h
+#ifndef itkTriangleMeshToSimplexMeshFilter_h
+#define itkTriangleMeshToSimplexMeshFilter_h
 
 #include "itkMapContainer.h"
 #include "itkSimplexMesh.h"
@@ -119,12 +119,12 @@ protected:
 
   void operator=(const Self &) {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Override from ProcessObject
    */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /**
    * Initializes all necessary datastructures

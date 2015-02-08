@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGiplImageIO_h
-#define __itkGiplImageIO_h
+#ifndef itkGiplImageIO_h
+#define itkGiplImageIO_h
 #include "ITKIOGIPLExport.h"
 
 
@@ -95,4 +95,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkGiplImageIO_h
+#endif // itkGiplImageIO_h

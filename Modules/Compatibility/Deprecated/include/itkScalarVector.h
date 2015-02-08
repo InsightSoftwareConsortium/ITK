@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarVector_h
-#define __itkScalarVector_h
+#ifndef itkScalarVector_h
+#define itkScalarVector_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkMacro.h"

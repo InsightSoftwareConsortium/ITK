@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAbsImageAdaptor_h
-#define __itkAbsImageAdaptor_h
+#ifndef itkAbsImageAdaptor_h
+#define itkAbsImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 

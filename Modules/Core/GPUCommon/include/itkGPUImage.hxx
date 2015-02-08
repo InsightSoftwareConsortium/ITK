@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUImage_hxx
-#define __itkGPUImage_hxx
+#ifndef itkGPUImage_hxx
+#define itkGPUImage_hxx
 
 #include "itkGPUImage.h"
 
@@ -70,13 +70,6 @@ void GPUImage< TPixel, VImageDimension >::Initialize()
 
   /* prevent unnecessary copy from CPU to GPU at the beginning */
   m_DataManager->SetTimeStamp( this->GetTimeStamp() );
-}
-
-template <typename TPixel, unsigned int VImageDimension>
-void GPUImage< TPixel, VImageDimension >::Modified() const
-{
-  Superclass::Modified();
-  //m_DataManager->SetGPUBufferDirty();
 }
 
 template <typename TPixel, unsigned int VImageDimension>

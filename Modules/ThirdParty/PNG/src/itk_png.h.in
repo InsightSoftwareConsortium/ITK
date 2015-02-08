@@ -26,8 +26,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_png_h
-#define __itk_png_h
+#ifndef itk_png_h
+#define itk_png_h
 
 /* Use the png library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_PNG

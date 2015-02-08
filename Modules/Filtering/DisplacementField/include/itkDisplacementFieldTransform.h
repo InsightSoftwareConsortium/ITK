@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldTransform_h
-#define __itkDisplacementFieldTransform_h
+#ifndef itkDisplacementFieldTransform_h
+#define itkDisplacementFieldTransform_h
 
 #include "itkTransform.h"
 
@@ -208,25 +208,23 @@ public:
 
   /**  Method to transform a point. Out-of-bounds points will
    * be returned with zero displacemnt. */
-  virtual OutputPointType TransformPoint( const InputPointType& thisPoint )
-  const;
+  virtual OutputPointType TransformPoint( const InputPointType& thisPoint ) const ITK_OVERRIDE;
 
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType &) const
+  virtual OutputVectorType TransformVector(const InputVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
                        "TransformVector(Vector,Point)" );
   }
 
-  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType &)
-  const
+  virtual OutputVectorPixelType TransformVector(const InputVectorPixelType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
                        "TransformVector(Vector,Point)" );
   }
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
                        "TransformVector(Vector,Point)" );
@@ -251,14 +249,14 @@ public:
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &) const
+    const InputCovariantVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
                        "unimplemented, use TransformCovariantVector(CovariantVector,Point)" );
   }
 
   virtual OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType &) const
+    const InputVectorPixelType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
                        "unimplemented, use TransformCovariantVector(CovariantVector,Point)" );
@@ -266,7 +264,7 @@ public:
 
   /** Set the transformation parameters. This sets the displacement
    * field image directly. */
-  virtual void SetParameters(const ParametersType & params)
+  virtual void SetParameters(const ParametersType & params) ITK_OVERRIDE
   {
     if( &(this->m_Parameters) != &params )
       {
@@ -291,7 +289,7 @@ public:
    * creates a new one with zero displacement (identity transform).  If
    * an inverse displacement field exists, a new one is also created.
    */
-  virtual void SetFixedParameters( const ParametersType & );
+  virtual void SetFixedParameters( const ParametersType & ) ITK_OVERRIDE;
 
   /**
    * Compute the jacobian with respect to the parameters at a point.
@@ -315,7 +313,7 @@ public:
    * TODO: format the above for doxygen formula.
    */
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType &,
-                                                      JacobianType & j) const
+                                                      JacobianType & j) const ITK_OVERRIDE
   {
     j = this->m_IdentityJacobian;
   }
@@ -336,13 +334,13 @@ public:
    * Compute the jacobian with respect to the position, by point.
    * \c j will be resized as needed.
    */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const;
+  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const ITK_OVERRIDE;
 
   /**
    * Compute the jacobian with respect to the position, by point.
    * \c j will be resized as needed.
    */
-  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const;
+  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const ITK_OVERRIDE;
 
   /**
    * Compute the jacobian with respect to the position, by index.
@@ -381,7 +379,7 @@ public:
                                                                      bool useSVD = false )
   const;
 
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Return an inverse of this transform.
    * Note that the inverse displacement field must be set by the user. */
@@ -389,17 +387,17 @@ public:
 
   /** Return an inverse of this transform.
    * Note that the inverse displacement field must be set by the user. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
-  virtual void SetIdentity(void);
+  virtual void SetIdentity();
 
   /** This transform is not linear. */
-  virtual TransformCategoryType GetTransformCategory() const
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Self::DisplacementField;
   }
 
-  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const
+  virtual NumberOfParametersType GetNumberOfLocalParameters(void) const ITK_OVERRIDE
   {
     return Dimension;
   }
@@ -428,7 +426,7 @@ protected:
 
   DisplacementFieldTransform();
   virtual ~DisplacementFieldTransform();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** The displacement field and its inverse (if it exists). */
   typename DisplacementFieldType::Pointer      m_DisplacementField;
@@ -488,4 +486,4 @@ private:
 #include "itkDisplacementFieldTransform.hxx"
 #endif
 
-#endif // __itkDisplacementFieldTransform_h
+#endif // itkDisplacementFieldTransform_h

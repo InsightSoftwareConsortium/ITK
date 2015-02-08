@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWGlobalConfiguration_h
-#define __itkFFTWGlobalConfiguration_h
+#ifndef itkFFTWGlobalConfiguration_h
+#define itkFFTWGlobalConfiguration_h
 
 #include "itkObject.h"
 //NOTE:  Need to have at least one itk include before

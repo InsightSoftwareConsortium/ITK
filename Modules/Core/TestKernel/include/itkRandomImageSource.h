@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkRandomImageSource_h
-#define __itkRandomImageSource_h
+#ifndef itkRandomImageSource_h
+#define itkRandomImageSource_h
 
 #include "itkImageSource.h"
 #include "itkNumericTraits.h"
@@ -127,13 +127,13 @@ public:
 protected:
   RandomImageSource();
   ~RandomImageSource();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void
   ThreadedGenerateData(const OutputImageRegionType &
-                       outputRegionForThread, ThreadIdType threadId);
+                       outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   RandomImageSource(const RandomImageSource &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstantBoundaryCondition_h
-#define __itkConstantBoundaryCondition_h
+#ifndef itkConstantBoundaryCondition_h
+#define itkConstantBoundaryCondition_h
 
 #include "itkNumericTraits.h"
 #include "itkImageBoundaryCondition.h"

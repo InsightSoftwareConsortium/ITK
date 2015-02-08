@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFloatTypes_h
-#define __itkFloatTypes_h
+#ifndef itkFloatTypes_h
+#define itkFloatTypes_h
 
 #include "itkMacro.h"
 
@@ -32,4 +32,4 @@ namespace itk
 
 }
 
-#endif  /* __itkFloatTypes_h */
+#endif  /* itkFloatTypes_h */

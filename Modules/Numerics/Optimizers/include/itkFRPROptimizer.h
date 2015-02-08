@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFRPROptimizer_h
-#define __itkFRPROptimizer_h
+#ifndef itkFRPROptimizer_h
+#define itkFRPROptimizer_h
 
 #include "itkPowellOptimizer.h"
 

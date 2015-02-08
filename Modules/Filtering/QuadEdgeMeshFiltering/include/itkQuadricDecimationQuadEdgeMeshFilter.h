@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadricDecimationQuadEdgeMeshFilter_h
-#define __itkQuadricDecimationQuadEdgeMeshFilter_h
+#ifndef itkQuadricDecimationQuadEdgeMeshFilter_h
+#define itkQuadricDecimationQuadEdgeMeshFilter_h
 
 #include "itkEdgeDecimationQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshDecimationQuadricElementHelper.h"
@@ -117,7 +117,7 @@ protected:
    * \param[in] iEdge input edge
    * \return measure value, here the corresponding quadric error
    */
-  inline MeasureType MeasureEdge(OutputQEType *iEdge)
+  inline MeasureType MeasureEdge(OutputQEType *iEdge) ITK_OVERRIDE
   {
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
@@ -139,16 +139,16 @@ protected:
    * \param[in] iRemaining  id of the point to be kept
    */
   virtual void DeletePoint(const OutputPointIdentifier & iIdToBeDeleted,
-                           const OutputPointIdentifier & iRemaining);
+                           const OutputPointIdentifier & iRemaining) ITK_OVERRIDE;
 
   /** \brief Compute the optimal position for a given edge iEdge
   * \param[in] iEdge
   * \return the optimal point location
   */
-  OutputPointType Relocate(OutputQEType *iEdge);
+  OutputPointType Relocate(OutputQEType *iEdge) ITK_OVERRIDE;
 
   /** \brief Compute Quadric error for all edges */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
 private:
   QuadricDecimationQuadEdgeMeshFilter(const Self &); // purposely not implemented

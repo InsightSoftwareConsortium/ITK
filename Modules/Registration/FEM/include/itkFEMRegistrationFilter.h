@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMRegistrationFilter_h
-#define __itkFEMRegistrationFilter_h
+#ifndef itkFEMRegistrationFilter_h
+#define itkFEMRegistrationFilter_h
 
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
@@ -226,7 +226,7 @@ public:
   FEMObjectType * GetInputFEMObject(unsigned int level = 0);
 
   /** Call this to register two images. */
-  void RunRegistration(void);
+  void RunRegistration();
 
   /** The solution loop */
   void IterativeSolve(SolverType *S);
@@ -546,7 +546,7 @@ protected:
   FEMRegistrationFilter();
   ~FEMRegistrationFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This function generates a regular mesh of ElementsPerSide^D size */
   void CreateMesh(unsigned int ElementsPerSide, SolverType *solver);

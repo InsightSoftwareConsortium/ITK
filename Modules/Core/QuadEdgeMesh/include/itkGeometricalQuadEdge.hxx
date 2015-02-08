@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGeometricalQuadEdge_hxx
-#define __itkGeometricalQuadEdge_hxx
+#ifndef itkGeometricalQuadEdge_hxx
+#define itkGeometricalQuadEdge_hxx
 #include "itkGeometricalQuadEdge.h"
 #include "vcl_limits.h"
 #include <iostream>

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBoxSpatialObject_h
-#define __itkBoxSpatialObject_h
+#ifndef itkBoxSpatialObject_h
+#define itkBoxSpatialObject_h
 
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
@@ -61,18 +61,18 @@ public:
    *  That's useful for fuzzy objects. */
   virtual bool ValueAt(const PointType & point, double & value,
                        unsigned int depth = 0,
-                       char *name = ITK_NULLPTR) const;
+                       char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Return true if the object provides a method to evaluate the value
    * at the specified point, false otherwise. */
   virtual bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0,
-                             char *name = ITK_NULLPTR) const;
+                             char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth,
-                        char *) const;
+                        char *) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -82,19 +82,19 @@ public:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  virtual bool ComputeLocalBoundingBox() const;
+  virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
 protected:
   BoxSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented
 
-  BoxSpatialObject(void);
-  ~BoxSpatialObject(void);
+  BoxSpatialObject();
+  ~BoxSpatialObject();
 
   SizeType m_Size;
 
   /** Print the object informations in a stream. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 
@@ -102,4 +102,4 @@ protected:
 #include "itkBoxSpatialObject.hxx"
 #endif
 
-#endif // __itkBoxSpatialObject_h
+#endif // itkBoxSpatialObject_h

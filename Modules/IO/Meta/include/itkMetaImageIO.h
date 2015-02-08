@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaImageIO_h
-#define __itkMetaImageIO_h
+#ifndef itkMetaImageIO_h
+#define itkMetaImageIO_h
 #include "ITKIOMetaExport.h"
 
 
@@ -73,7 +73,7 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void *buffer) ITK_OVERRIDE;
 
-  MetaImage * GetMetaImagePointer(void);
+  MetaImage * GetMetaImagePointer();
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -166,4 +166,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkMetaImageIO_h
+#endif // itkMetaImageIO_h

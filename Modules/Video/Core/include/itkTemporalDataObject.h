@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTemporalDataObject_h
-#define __itkTemporalDataObject_h
+#ifndef itkTemporalDataObject_h
+#define itkTemporalDataObject_h
 
 #include "itkDataObject.h"
 #include "itkRingBuffer.h"

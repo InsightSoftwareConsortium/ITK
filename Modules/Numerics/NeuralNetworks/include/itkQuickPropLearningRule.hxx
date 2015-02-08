@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuickPropLearningRule_hxx
-#define __itkQuickPropLearningRule_hxx
+#ifndef itkQuickPropLearningRule_hxx
+#define itkQuickPropLearningRule_hxx
 
 #include "itkQuickPropLearningRule.h"
 #include "vnl/vnl_matrix.h"

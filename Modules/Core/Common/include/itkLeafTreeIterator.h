@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLeafTreeIterator_h
-#define __itkLeafTreeIterator_h
+#ifndef itkLeafTreeIterator_h
+#define itkLeafTreeIterator_h
 
 #include "itkPreOrderTreeIterator.h"
 
@@ -67,7 +67,7 @@ private:
 /** Constructor */
 template< typename TTreeType >
 LeafTreeIterator< TTreeType >::LeafTreeIterator(const TTreeType *tree):
-  TreeIteratorBase< TTreeType >(tree, NULL)
+  TreeIteratorBase< TTreeType >(tree, ITK_NULLPTR)
 {
   this->m_Begin = const_cast< TreeNodeType * >( this->FindNextNode() ); //
                                                                         //

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRingBuffer_hxx
-#define __itkRingBuffer_hxx
+#ifndef itkRingBuffer_hxx
+#define itkRingBuffer_hxx
 
 #include "itkRingBuffer.h"
 #include "vnl/vnl_math.h"

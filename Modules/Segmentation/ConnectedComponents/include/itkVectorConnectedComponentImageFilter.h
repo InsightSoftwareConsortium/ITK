@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkVectorConnectedComponentImageFilter_h
-#define __itkVectorConnectedComponentImageFilter_h
+#ifndef itkVectorConnectedComponentImageFilter_h
+#define itkVectorConnectedComponentImageFilter_h
 
 #include "vnl/vnl_math.h"
 #include "itkNumericTraits.h"

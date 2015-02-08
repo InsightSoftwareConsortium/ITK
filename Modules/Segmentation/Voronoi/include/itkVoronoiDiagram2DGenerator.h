@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoronoiDiagram2DGenerator_h
-#define __itkVoronoiDiagram2DGenerator_h
+#ifndef itkVoronoiDiagram2DGenerator_h
+#define itkVoronoiDiagram2DGenerator_h
 
 #include "itkMeshSource.h"
 #include "itkVoronoiDiagram2D.h"
@@ -87,13 +87,13 @@ public:
   void AddOneSeed(PointType);
 
   /** Sort the seeds with their y, then x, coordinates. */
-  void SortSeeds(void);
+  void SortSeeds();
 
   /** Produce the output information. */
-  virtual void GenerateOutputInformation() {}
+  virtual void GenerateOutputInformation() ITK_OVERRIDE {}
 
   /** Update the Voronoi Diagram after adding seed(s). */
-  void UpdateDiagram(void);
+  void UpdateDiagram();
 
   /** Set the rectangle that encloses the whole Voronoi Diagram. */
   void SetBoundary(PointType vorsize);
@@ -112,10 +112,10 @@ public:
 protected:
   VoronoiDiagram2DGenerator();
   ~VoronoiDiagram2DGenerator();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Voronoi Diagram based on the current list of seeds. */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   VoronoiDiagram2DGenerator(const Self &); //purposely not implemented
@@ -248,9 +248,9 @@ private:
 
   unsigned char Pointonbnd(int VertID);
 
-  void GenerateVDFortune(void);
+  void GenerateVDFortune();
 
-  void ConstructDiagram(void);
+  void ConstructDiagram();
 
   void createHalfEdge(FortuneHalfEdge *task, FortuneEdge *e, bool pm);
 
@@ -288,7 +288,7 @@ private:
 
   double dist(FortuneSite *s1, FortuneSite *s2);
 
-  FortuneHalfEdge * getPQmin(void);
+  FortuneHalfEdge * getPQmin();
 
   void makeEndPoint(FortuneEdge *task, bool lr, FortuneSite *ends);
 };

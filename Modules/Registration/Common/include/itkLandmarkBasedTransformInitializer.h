@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLandmarkBasedTransformInitializer_h
-#define __itkLandmarkBasedTransformInitializer_h
+#ifndef itkLandmarkBasedTransformInitializer_h
+#define itkLandmarkBasedTransformInitializer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -206,4 +206,4 @@ private:
 #include "itkLandmarkBasedTransformInitializer.hxx"
 #endif
 
-#endif /* __itkLandmarkBasedTransformInitializer_h */
+#endif /* itkLandmarkBasedTransformInitializer_h */

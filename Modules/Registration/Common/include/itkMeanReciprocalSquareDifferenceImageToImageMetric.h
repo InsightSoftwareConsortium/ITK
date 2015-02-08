@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanReciprocalSquareDifferenceImageToImageMetric_h
-#define __itkMeanReciprocalSquareDifferenceImageToImageMetric_h
+#ifndef itkMeanReciprocalSquareDifferenceImageToImageMetric_h
+#define itkMeanReciprocalSquareDifferenceImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
 #include "itkPoint.h"
@@ -77,14 +77,14 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType  & derivative) const;
+                     DerivativeType  & derivative) const ITK_OVERRIDE;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const;
+  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & derivative) const;
+                             MeasureType & Value, DerivativeType & derivative) const ITK_OVERRIDE;
 
   /** Set/Get Lambda value. This factor regulates the capture radius of
       this metric */
@@ -99,7 +99,7 @@ public:
 protected:
   MeanReciprocalSquareDifferenceImageToImageMetric();
   virtual ~MeanReciprocalSquareDifferenceImageToImageMetric() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MeanReciprocalSquareDifferenceImageToImageMetric(const Self &); //purposely

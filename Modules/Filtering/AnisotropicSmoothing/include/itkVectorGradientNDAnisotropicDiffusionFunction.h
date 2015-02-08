@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorGradientNDAnisotropicDiffusionFunction_h
-#define __itkVectorGradientNDAnisotropicDiffusionFunction_h
+#ifndef itkVectorGradientNDAnisotropicDiffusionFunction_h
+#define itkVectorGradientNDAnisotropicDiffusionFunction_h
 
 #include "itkVectorAnisotropicDiffusionFunction.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -79,10 +79,10 @@ public:
   virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  );
+                                  ) ITK_OVERRIDE;
 
   /** This method is called prior to each iteration of the solver. */
-  virtual void InitializeIteration()
+  virtual void InitializeIteration() ITK_OVERRIDE
   {
     m_K = this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter()
           * this->GetConductanceParameter() * -2.0f;

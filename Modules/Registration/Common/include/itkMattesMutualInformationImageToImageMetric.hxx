@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMattesMutualInformationImageToImageMetric_hxx
-#define __itkMattesMutualInformationImageToImageMetric_hxx
+#ifndef itkMattesMutualInformationImageToImageMetric_hxx
+#define itkMattesMutualInformationImageToImageMetric_hxx
 
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
@@ -114,8 +114,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
-::Initialize(void)
-throw ( ExceptionObject )
+::Initialize(void) throw ( ExceptionObject )
 {
   this->Superclass::Initialize();
   this->Superclass::MultiThreadingInitialize();

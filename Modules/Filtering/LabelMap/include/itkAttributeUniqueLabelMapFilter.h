@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAttributeUniqueLabelMapFilter_h
-#define __itkAttributeUniqueLabelMapFilter_h
+#ifndef itkAttributeUniqueLabelMapFilter_h
+#define itkAttributeUniqueLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
@@ -102,9 +102,9 @@ protected:
   AttributeUniqueLabelMapFilter();
   ~AttributeUniqueLabelMapFilter() {};
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   bool m_ReverseOrdering;
 

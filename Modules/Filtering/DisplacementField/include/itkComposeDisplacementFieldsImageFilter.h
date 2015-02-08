@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComposeDisplacementFieldsImageFilter_h
-#define __itkComposeDisplacementFieldsImageFilter_h
+#ifndef itkComposeDisplacementFieldsImageFilter_h
+#define itkComposeDisplacementFieldsImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorInterpolateImageFunction.h"
@@ -129,13 +129,13 @@ protected:
   virtual ~ComposeDisplacementFieldsImageFilter();
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** preprocessing function */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Multithreaded function which generates the output field. */
-  void ThreadedGenerateData( const RegionType &, ThreadIdType );
+  void ThreadedGenerateData( const RegionType &, ThreadIdType ) ITK_OVERRIDE;
 
 private:
   ComposeDisplacementFieldsImageFilter( const Self& ); //purposely not implemented

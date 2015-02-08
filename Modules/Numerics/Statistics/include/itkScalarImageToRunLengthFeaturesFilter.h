@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageToRunLengthFeaturesFilter_h
-#define __itkScalarImageToRunLengthFeaturesFilter_h
+#ifndef itkScalarImageToRunLengthFeaturesFilter_h
+#define itkScalarImageToRunLengthFeaturesFilter_h
 
 #include "itkDataObjectDecorator.h"
 

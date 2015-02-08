@@ -43,7 +43,7 @@
       dynamically casting it to the template boundary condition type;
       the casting didn&apos;t make sense when the boundary condition
       had been overridden to a different type of boundary condition,
-      as it would always return NULL in that case.
+      as it would always return ITK_NULLPTR in that case.
     </Description>
 
     <!--**

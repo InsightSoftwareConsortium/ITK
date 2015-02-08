@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAffineGeometryFrame_h
-#define __itkAffineGeometryFrame_h
+#ifndef itkAffineGeometryFrame_h
+#define itkAffineGeometryFrame_h
 
 #include "itkObject.h"
 #include "itkMacro.h"
@@ -124,4 +124,4 @@ private:
 #include "itkAffineGeometryFrame.hxx"
 #endif
 
-#endif /* __itkAffineGeometryFrame_h */
+#endif /* itkAffineGeometryFrame_h */

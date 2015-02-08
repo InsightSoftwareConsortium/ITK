@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCustomColormapFunction_hxx
-#define __itkCustomColormapFunction_hxx
+#ifndef itkCustomColormapFunction_hxx
+#define itkCustomColormapFunction_hxx
 
 #include "itkCustomColormapFunction.h"
 #include "itkMath.h"

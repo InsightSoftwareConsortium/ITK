@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWeightedMeanSampleFilter_hxx
-#define __itkWeightedMeanSampleFilter_hxx
+#ifndef itkWeightedMeanSampleFilter_hxx
+#define itkWeightedMeanSampleFilter_hxx
 
 #include "itkWeightedMeanSampleFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathSource_h
-#define __itkPathSource_h
+#ifndef itkPathSource_h
+#define itkPathSource_h
 
 #include "itkProcessObject.h"
 #include "itkPath.h"
@@ -104,7 +104,7 @@ public:
    * Region, which can be set using ImageBase::SetRequestedRegion().
    * By default, the largest possible region is requested.
    */
-  OutputPathType * GetOutput(void);
+  OutputPathType * GetOutput();
 
   OutputPathType * GetOutput(unsigned int idx);
 

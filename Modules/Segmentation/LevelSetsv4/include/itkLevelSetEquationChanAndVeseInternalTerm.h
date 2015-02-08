@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationChanAndVeseInternalTerm_h
-#define __itkLevelSetEquationChanAndVeseInternalTerm_h
+#ifndef itkLevelSetEquationChanAndVeseInternalTerm_h
+#define itkLevelSetEquationChanAndVeseInternalTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 
@@ -90,13 +90,13 @@ public:
   itkGetMacro( Mean, InputPixelRealType );
 
   /** Update the term parameter values at end of iteration */
-  virtual void Update();
+  virtual void Update() ITK_OVERRIDE;
 
   /** Initialize parameters in the terms prior to an iteration */
-  virtual void InitializeParameters();
+  virtual void InitializeParameters() ITK_OVERRIDE;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  virtual void Initialize( const LevelSetInputIndexType& inputIndex );
+  virtual void Initialize( const LevelSetInputIndexType& inputIndex ) ITK_OVERRIDE;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
   virtual void ComputeProduct( const LevelSetInputIndexType& inputPixel,
@@ -111,7 +111,7 @@ public:
   /** Supply updates at pixels to keep the term parameters always updated */
   virtual void UpdatePixel( const LevelSetInputIndexType& inputPixel,
                            const LevelSetOutputRealType & oldValue,
-                           const LevelSetOutputRealType & newValue );
+                           const LevelSetOutputRealType & newValue ) ITK_OVERRIDE;
 
 protected:
   LevelSetEquationChanAndVeseInternalTerm();
@@ -120,12 +120,12 @@ protected:
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel );
+  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel ) ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
   virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel,
-                                        const LevelSetDataType& data );
+                                        const LevelSetDataType& data ) ITK_OVERRIDE;
 
   /** Accumulate contribution to term parameters from a given pixel */
   void Accumulate( const InputPixelType& inputPixel,

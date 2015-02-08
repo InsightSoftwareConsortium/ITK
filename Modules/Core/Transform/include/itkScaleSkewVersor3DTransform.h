@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScaleSkewVersor3DTransform_h
-#define __itkScaleSkewVersor3DTransform_h
+#ifndef itkScaleSkewVersor3DTransform_h
+#define itkScaleSkewVersor3DTransform_h
 
 #include <iostream>
 #include "itkVersorRigid3DTransform.h"
@@ -41,6 +41,12 @@ namespace itk
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation.
  *
+ *The transform can be described as:
+ * \f$ (\textbf{R}_v + \textbf{S} + \textbf{K})\textbf{x}  \f$
+ * where \f$\textbf{R}_v\f$ is the rotation matrix given the versor,
+ * \f$S=\left( \begin{array}{ccc}s_0-1 & 0 & 0 \\ 0 & s_1-1 & 0 \\ 0 & 0 & s_2-1 \end{array} \right) \f$
+ * , and
+ * \f$K=\left( \begin{array}{ccc}0 & k_0 & k_1 \\ k_2 & 0 & k_3 \\ k_4 & k_5 & 0 \end{array} \right)\ \f$.
  *
  * \ingroup ITKTransform
  */
@@ -105,8 +111,8 @@ public:
    * Orthogonality testing is bypassed in this case.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix);
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
+  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
+  virtual void SetMatrix(const MatrixType & matrix, double tolerance) ITK_OVERRIDE;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -116,9 +122,9 @@ public:
    *   6-8   Scale
    *   9-14  Skew
    **  */
-  virtual void SetParameters(const ParametersType & parameters);
+  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  virtual const ParametersType & GetParameters(void) const;
+  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   void SetScale(const ScaleVectorType & scale);
 
@@ -128,13 +134,13 @@ public:
 
   itkGetConstReferenceMacro(Skew, SkewVectorType);
 
-  void SetIdentity();
+  void SetIdentity() ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
 protected:
   ScaleSkewVersor3DTransform();
@@ -144,7 +150,7 @@ protected:
   {
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void SetVarScale(const ScaleVectorType & scale)
   {
@@ -157,9 +163,9 @@ protected:
   }
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void);
+  void ComputeMatrix(void) ITK_OVERRIDE;
 
-  void ComputeMatrixParameters(void);
+  void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
 private:
   ScaleSkewVersor3DTransform(const Self &); // purposely not implemented

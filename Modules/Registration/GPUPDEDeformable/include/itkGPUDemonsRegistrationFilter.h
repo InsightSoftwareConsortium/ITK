@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUDemonsRegistrationFilter_h
-#define __itkGPUDemonsRegistrationFilter_h
+#ifndef itkGPUDemonsRegistrationFilter_h
+#define itkGPUDemonsRegistrationFilter_h
 
 #include "itkOpenCLUtil.h"
 #include "itkDemonsRegistrationFilter.h"
@@ -120,33 +120,27 @@ public:
    * computed over the the overlapping region between the two images.
    * This is value is only available for the previous iteration and
    * NOT the current iteration. */
-  virtual double GetMetric() const;
-
-  /** Switch between using the fixed image and moving image gradient
-   * for computing the deformation field updates. */
-  itkSetMacro(UseMovingImageGradient, bool);
-  itkGetConstMacro(UseMovingImageGradient, bool);
-  itkBooleanMacro(UseMovingImageGradient);
+  virtual double GetMetric() const ITK_OVERRIDE;
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
-  virtual void SetIntensityDifferenceThreshold(double);
+  virtual void SetIntensityDifferenceThreshold(double) ITK_OVERRIDE;
 
-  virtual double GetIntensityDifferenceThreshold() const;
+  virtual double GetIntensityDifferenceThreshold() const ITK_OVERRIDE;
 
 protected:
   GPUDemonsRegistrationFilter();
   ~GPUDemonsRegistrationFilter() {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt);
+  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
 private:
   GPUDemonsRegistrationFilter(const Self &); //purposely not implemented
@@ -169,12 +163,14 @@ public:
   typedef SmartPointer<const Self>           ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const {
+  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE
+    {
     return ITK_SOURCE_VERSION;
-  }
-  const char* GetDescription() const {
+    }
+  const char* GetDescription() const ITK_OVERRIDE
+    {
     return "A Factory for GPUDemonsRegistrationFilter";
-  }
+    }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

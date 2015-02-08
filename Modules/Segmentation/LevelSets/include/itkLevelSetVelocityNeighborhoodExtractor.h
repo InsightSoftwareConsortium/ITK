@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetVelocityNeighborhoodExtractor_h
-#define __itkLevelSetVelocityNeighborhoodExtractor_h
+#ifndef itkLevelSetVelocityNeighborhoodExtractor_h
+#define itkLevelSetVelocityNeighborhoodExtractor_h
 
 #include "itkLevelSetNeighborhoodExtractor.h"
 
@@ -126,11 +126,11 @@ public:
 protected:
   LevelSetVelocityNeighborhoodExtractor();
   ~LevelSetVelocityNeighborhoodExtractor(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
-  virtual double CalculateDistance(Index & index);
+  virtual double CalculateDistance(Index & index) ITK_OVERRIDE;
 
 private:
   LevelSetVelocityNeighborhoodExtractor(const Self &); //purposely not

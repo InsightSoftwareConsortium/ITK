@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEdgePotentialImageFilter_h
-#define __itkEdgePotentialImageFilter_h
+#ifndef itkEdgePotentialImageFilter_h
+#define itkEdgePotentialImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

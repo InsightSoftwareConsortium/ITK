@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodOperatorImageFunction_h
-#define __itkNeighborhoodOperatorImageFunction_h
+#ifndef itkNeighborhoodOperatorImageFunction_h
+#define itkNeighborhoodOperatorImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNeighborhood.h"
@@ -88,7 +88,7 @@ public:
 
   /** Evalutate the  in the given dimension at specified point
    *  Subclasses should override this method. */
-  virtual TOutput Evaluate(const PointType &) const
+  virtual TOutput Evaluate(const PointType &) const ITK_OVERRIDE
   {
     std::cout << "NeighborhoodOperatorImageFunction::Evaluate(): Not implemented!" << std::endl;
     TOutput out;
@@ -97,12 +97,12 @@ public:
   }
 
   /** Evaluate the function at specified Index position */
-  virtual TOutput EvaluateAtIndex(const IndexType & index) const;
+  virtual TOutput EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified ContinousIndex position.
    * Subclasses should override this method. */
   virtual TOutput EvaluateAtContinuousIndex(
-    const ContinuousIndexType &) const
+    const ContinuousIndexType &) const ITK_OVERRIDE
   {
     std::cout << "NeighborhoodOperatorImageFunction::EvaluateAtContinuousIndex():Not implemented!" << std::endl;
     TOutput out;
@@ -117,7 +117,7 @@ protected:
   ~NeighborhoodOperatorImageFunction(){}
 
   void operator=(const Self &){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

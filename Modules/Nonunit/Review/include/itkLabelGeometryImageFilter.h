@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelGeometryImageFilter_h
-#define __itkLabelGeometryImageFilter_h
+#ifndef itkLabelGeometryImageFilter_h
+#define itkLabelGeometryImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
@@ -467,9 +467,9 @@ public:
 protected:
   LabelGeometryImageFilter();
   ~LabelGeometryImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   LabelGeometryImageFilter(const Self &); //purposely not implemented

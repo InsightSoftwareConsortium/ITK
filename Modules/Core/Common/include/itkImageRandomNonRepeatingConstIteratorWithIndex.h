@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRandomNonRepeatingConstIteratorWithIndex_h
-#define __itkImageRandomNonRepeatingConstIteratorWithIndex_h
+#ifndef itkImageRandomNonRepeatingConstIteratorWithIndex_h
+#define itkImageRandomNonRepeatingConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
 #include <algorithm>
@@ -263,7 +263,7 @@ public:
   {
     this->ImageConstIteratorWithIndex< TImage >::operator=(it);
 
-    m_Permutation = NULL;
+    m_Permutation = ITK_NULLPTR;
   }
 
   /** operator= is provided to deep copy m_Permutation. */
@@ -329,7 +329,7 @@ public:
   /** Set/Get number of random samples to get from the image region */
   void SetNumberOfSamples(SizeValueType number);
 
-  SizeValueType GetNumberOfSamples(void) const;
+  SizeValueType GetNumberOfSamples() const;
 
   /** Reinitialize the seed of the random number generator  */
   void ReinitializeSeed();

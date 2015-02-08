@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSumInputFunction_h
-#define __itkSumInputFunction_h
+#ifndef itkSumInputFunction_h
+#define itkSumInputFunction_h
 
 #include "itkInputFunctionBase.h"
 #include "vnl/vnl_matrix.h"
@@ -50,9 +50,9 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate at the specified input position */
-  virtual ScalarType Evaluate(const TMeasurementVector& input) const;
+  virtual ScalarType Evaluate(const TMeasurementVector& input) const ITK_OVERRIDE;
 
-  virtual void SetSize(unsigned int n);
+  virtual void SetSize(unsigned int n) ITK_OVERRIDE;
 
 protected:
 
@@ -62,7 +62,7 @@ protected:
   unsigned int m_Size;
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 };
 
 } // end namespace Statistics

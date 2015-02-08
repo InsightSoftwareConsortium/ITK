@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGroupSpatialObject_h
-#define __itkGroupSpatialObject_h
+#ifndef itkGroupSpatialObject_h
+#define itkGroupSpatialObject_h
 
 #include <list>
 
@@ -56,7 +56,7 @@ public:
   itkTypeMacro(GroupSpatialObject, SpatialObject);
 
   /**  */
-  bool ComputeLocalBoundingBox() const { return false; }
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE { return false; }
 
 protected:
   GroupSpatialObject(const Self &); //purposely not implemented
@@ -66,7 +66,7 @@ protected:
   virtual ~GroupSpatialObject();
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 
@@ -74,4 +74,4 @@ protected:
 #include "itkGroupSpatialObject.hxx"
 #endif
 
-#endif // __itkGroupSpatialObject_h
+#endif // itkGroupSpatialObject_h

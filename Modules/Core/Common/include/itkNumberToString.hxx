@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumberToString_hxx
-#define __itkNumberToString_hxx
+#ifndef itkNumberToString_hxx
+#define itkNumberToString_hxx
 
 #include "itkNumberToString.h"
 #include "itkNumericTraits.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOtsuMultipleThresholdsCalculator_h
-#define __itkOtsuMultipleThresholdsCalculator_h
+#ifndef itkOtsuMultipleThresholdsCalculator_h
+#define itkOtsuMultipleThresholdsCalculator_h
 
 #include "itkHistogramAlgorithmBase.h"
 #include "itkHistogram.h"
@@ -85,7 +85,7 @@ public:
   itkGetConstMacro(NumberOfThresholds, SizeValueType);
 
   /** Calculates the thresholds and save them */
-  void Compute();
+  void Compute() ITK_OVERRIDE;
 
   /** Set/Get the use of valley emphasis. Default is false. */
   itkSetMacro(ValleyEmphasis, bool);
@@ -95,7 +95,7 @@ public:
 protected:
   OtsuMultipleThresholdsCalculator();
   virtual ~OtsuMultipleThresholdsCalculator() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Increment the thresholds of one position */
   bool IncrementThresholds(InstanceIdentifierVectorType & thresholdIds,

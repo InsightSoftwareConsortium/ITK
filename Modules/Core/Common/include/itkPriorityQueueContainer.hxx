@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkPriorityQueueContainer_hxx
-#define __itkPriorityQueueContainer_hxx
+#ifndef itkPriorityQueueContainer_hxx
+#define itkPriorityQueueContainer_hxx
 
 #include "itkNumericTraits.h"
 #include "itkPriorityQueueContainer.h"
@@ -586,4 +586,4 @@ UpdateDownTree(const ElementIdentifierType & identifier)
 // -----------------------------------------------------------------------------
 }
 
-#endif // __itkPriorityQueueContainer_hxx
+#endif // itkPriorityQueueContainer_hxx

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMRobustSolver_hxx
-#define __itkFEMRobustSolver_hxx
+#ifndef itkFEMRobustSolver_hxx
+#define itkFEMRobustSolver_hxx
 
 #include "itkFEMRobustSolver.h"
 
@@ -124,7 +124,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     const VectorType & globalPosition = landmark->GetSource();
 
@@ -416,7 +416,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     if(!landmark->IsOutlier())
       {
@@ -518,7 +518,7 @@ RobustSolver<VDimension>
   for(it = loadVector.begin(); it <= nth; it++)
     {
     LoadNoisyLandmark * landmark = dynamic_cast<LoadNoisyLandmark*>((*it).GetPointer());
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     landmark->SetOutlier(true);
     }
@@ -799,7 +799,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     if(landmark->IsOutlier())
       {
@@ -918,7 +918,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
 
     if(!landmark->IsOutlier())
       {
@@ -1101,4 +1101,4 @@ RobustSolver<VDimension>
 
 }
 }  // end namespace itk::fem
-#endif // __itkFEMRobustSolver_hxx
+#endif // itkFEMRobustSolver_hxx

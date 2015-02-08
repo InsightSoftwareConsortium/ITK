@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
-#define __itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
+#ifndef itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
+#define itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
 
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 
@@ -113,7 +113,7 @@ protected:
 
   virtual void UpdateOutputData(DataObject *output);
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FFTWRealToHalfHermitianForwardFFTImageFilter(const Self&); // purposely not implemented
@@ -129,4 +129,4 @@ private:
 #include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.hxx"
 #endif
 
-#endif //__itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
+#endif //itkFFTWRealToHalfHermitianForwardFFTImageFilter_h

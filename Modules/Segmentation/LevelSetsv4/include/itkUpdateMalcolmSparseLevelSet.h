@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateMalcolmSparseLevelSet_h
-#define __itkUpdateMalcolmSparseLevelSet_h
+#ifndef itkUpdateMalcolmSparseLevelSet_h
+#define itkUpdateMalcolmSparseLevelSet_h
 
 #include "itkImage.h"
 #include "itkDiscreteLevelSetImage.h"
@@ -160,4 +160,4 @@ private:
 #include "itkUpdateMalcolmSparseLevelSet.hxx"
 #endif
 
-#endif // __itkUpdateMalcolmSparseLevelSet_h
+#endif // itkUpdateMalcolmSparseLevelSet_h

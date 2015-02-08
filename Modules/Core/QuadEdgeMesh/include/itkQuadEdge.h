@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdge_h
-#define __itkQuadEdge_h
+#ifndef itkQuadEdge_h
+#define itkQuadEdge_h
 
 #include "itkQuadEdgeMeshBaseIterator.h"
 
@@ -369,11 +369,11 @@ public:
     return ( this->GetRot()->GetRot()->GetRot() );
 #else
     Self *p1 = this->GetRot();
-    if ( !p1 ) { return NULL; }
+    if ( !p1 ) { return ITK_NULLPTR; }
     Self *p2 = p1->GetRot();
-    if ( !p2 ) { return NULL; }
+    if ( !p2 ) { return ITK_NULLPTR; }
     Self *p3 = p2->GetRot();
-    if ( !p3 ) { return NULL; }
+    if ( !p3 ) { return ITK_NULLPTR; }
     return p3;
 #endif
   }
@@ -388,11 +388,11 @@ public:
     return ( this->GetRot()->GetRot()->GetRot() );
 #else
     const Self *p1 = this->GetRot();
-    if ( !p1 ) { return NULL; }
+    if ( !p1 ) { return ITK_NULLPTR; }
     const Self *p2 = p1->GetRot();
-    if ( !p2 ) { return NULL; }
+    if ( !p2 ) { return ITK_NULLPTR; }
     const Self *p3 = p2->GetRot();
-    if ( !p3 ) { return NULL; }
+    if ( !p3 ) { return ITK_NULLPTR; }
     return p3;
 #endif
   }

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelMapMaskImageFilter_hxx
-#define __itkLabelMapMaskImageFilter_hxx
+#ifndef itkLabelMapMaskImageFilter_hxx
+#define itkLabelMapMaskImageFilter_hxx
 
 #include "itkLabelMapMaskImageFilter.h"
 #include "itkNumericTraits.h"
@@ -83,7 +83,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
       ProcessObject * upstream = input->GetSource();
       if (upstream)
         {
-        // this->SetInput(NULL);
+        // this->SetInput(ITK_NULLPTR);
         // std::cout << "Update the input (again?)." << std::endl;
         upstream->Update();
         // this->SetInput(input);

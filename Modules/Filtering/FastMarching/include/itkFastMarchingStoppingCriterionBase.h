@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingStoppingCriterionBase_h
-#define __itkFastMarchingStoppingCriterionBase_h
+#ifndef itkFastMarchingStoppingCriterionBase_h
+#define itkFastMarchingStoppingCriterionBase_h
 
 #include "itkStoppingCriterionBase.h"
 #include "itkNumericTraits.h"

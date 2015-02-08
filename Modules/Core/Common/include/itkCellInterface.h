@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCellInterface_h
-#define __itkCellInterface_h
+#ifndef itkCellInterface_h
+#define itkCellInterface_h
 
 #include "itkObject.h"
 #include <map>
@@ -33,7 +33,7 @@
     return TopologyId;                                                                               \
     }                                                                                                \
   virtual void Accept(CellIdentifier cellid, typename CellInterface< PixelType,                      \
-                                                                    CellTraits >::MultiVisitor * mv) \
+                      CellTraits >::MultiVisitor * mv) ITK_OVERRIDE                                  \
     {                                                                                                \
     typename CellInterfaceVisitor< PixelType, CellTraits >::Pointer v =                              \
       mv->GetVisitor(TopologyId);                                                                    \
@@ -246,7 +246,7 @@ protected:
   virtual unsigned int GetDimension(void) const = 0;
 
   /** Get the interpolation order of the cell.  Usually linear. */
-  virtual unsigned int GetInterpolationOrder(void) const;
+  virtual unsigned int GetInterpolationOrder() const;
 
   /** Get the number of points required to define the cell. */
   virtual unsigned int GetNumberOfPoints(void) const = 0;
@@ -261,7 +261,7 @@ protected:
   /** Get the point id list used by the cell in a form suitable to pass to
    * SetPointIds(first) on another cell.  This is equivalent to
    * PointIdsBegin() const. */
-  virtual PointIdConstIterator GetPointIds(void) const;
+  virtual PointIdConstIterator GetPointIds() const;
 
   /** Set the point id list used by the cell.  It is assumed that the given
    * iterator can be incremented and safely de-referenced enough times to
@@ -301,13 +301,13 @@ protected:
   /** Given the parametric coordinates of a point in the cell
    * (pCoords[CellDimension]), get the closest cell boundary feature of
    * topological dimension CellDimension-1.  If the "inside" pointer is not
-   * NULL, the flag is set to indicate whether the point is inside the cell. */
+   * ITK_NULLPTR, the flag is set to indicate whether the point is inside the cell. */
   virtual bool GetClosestBoundary(CoordRepType[], bool *, CellAutoPointer &)
   { return false; }
 
   /** Given the geometric coordinates of a point (coord[PointDimension]),
    * return whether it is inside the cell.  Also perform the following
-   * calculations, if the corresponding result pointers are not NULL:
+   * calculations, if the corresponding result pointers are not ITK_NULLPTR:
    *
    *  - Find the closest point in or on the cell to the given point
    *     (Returns through pointer to array: closestPoint[PointDimension]).
@@ -339,7 +339,7 @@ protected:
   /** Intersect the cell with a line given by an origin (origin[PointDimension])
    * and direction (direction[PointDimension]).  The intersection point
    * found will be within the given tolerance of the real intersection.
-   * Get the following results if the corresponding pointers are not NULL:
+   * Get the following results if the corresponding pointers are not ITK_NULLPTR:
    *
    *  - The intersection point's geometric coordinates (returned through
    *     pointer to array: coords[PointDimension]).
@@ -362,7 +362,7 @@ protected:
    * Array is ordered (xmin, xmax,  ymin, ymax, ....).  A pointer to the
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);". */
-  CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return NULL; }
+  CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return ITK_NULLPTR; }
 
   /** Compute the square of the diagonal length of the bounding box. */
   CoordRepType GetBoundingBoxDiagonalLength2(void) { return 0; }
@@ -370,7 +370,7 @@ protected:
   /** Intersect the given bounding box (bounds[PointDimension*2]) with a line
    * given by an origin (origin[PointDimension]) and direction
    * (direction[PointDimension]). Get the following results if the
-   * corresponding pointers are not NULL:
+   * corresponding pointers are not ITK_NULLPTR:
    *
    *  - The intersection point's geometric coordinates (returned through
    *     pointer to array: coords[PointDimension]).
@@ -390,7 +390,7 @@ protected:
 
   /** Returns true if the cell has been explicitly assigned as a
    *  boundary, false otherwise. */
-  virtual bool IsExplicitBoundary(void);
+  virtual bool IsExplicitBoundary();
 
   /**
    * Register the fact that this cell is a part of the boundary of the
@@ -413,18 +413,18 @@ protected:
   /**
    * Get the number of cells in the UsingCellsContainer.
    */
-  virtual unsigned int GetNumberOfUsingCells(void);
+  virtual unsigned int GetNumberOfUsingCells();
 
 #if !defined( CABLE_CONFIGURATION )
   /**
    * Get a begin iterator for the UsingCellsContainer.
    */
-  virtual UsingCellsContainerIterator UsingCellsBegin(void);
+  virtual UsingCellsContainerIterator UsingCellsBegin();
 
   /**
    * Get an end iterator for the UsingCellsContainer.
    */
-  virtual UsingCellsContainerIterator UsingCellsEnd(void);
+  virtual UsingCellsContainerIterator UsingCellsEnd();
 
 #endif
 

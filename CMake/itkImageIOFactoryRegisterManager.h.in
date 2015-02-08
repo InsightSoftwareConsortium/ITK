@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkImageIOFactoryRegisterManager_h
-#define __itkImageIOFactoryRegisterManager_h
+#ifndef itkImageIOFactoryRegisterManager_h
+#define itkImageIOFactoryRegisterManager_h
 
 namespace itk {
 

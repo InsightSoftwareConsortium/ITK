@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUNeighborhoodOperatorImageFilter_h
-#define __itkGPUNeighborhoodOperatorImageFilter_h
+#ifndef itkGPUNeighborhoodOperatorImageFilter_h
+#define itkGPUNeighborhoodOperatorImageFilter_h
 
 #include "itkGPUImage.h"
 #include "itkGPUImageToImageFilter.h"
@@ -167,9 +167,9 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);*/
 
-  void GPUGenerateData();
+  void GPUGenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     GPUSuperclass::PrintSelf(os, indent);
   }

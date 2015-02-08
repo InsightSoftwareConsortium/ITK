@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegularSphereMeshSource_h
-#define __itkRegularSphereMeshSource_h
+#ifndef itkRegularSphereMeshSource_h
+#define itkRegularSphereMeshSource_h
 
 #include "itkIntTypes.h"
 #include "itkMesh.h"
@@ -93,9 +93,9 @@ public:
 protected:
   RegularSphereMeshSource();
   ~RegularSphereMeshSource() {}
-  void PrintSelf(std::ostream & os, itk::Indent indent) const;
+  void PrintSelf(std::ostream & os, itk::Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   PointType Divide(const PointType & p1, const PointType & p2) const;
 

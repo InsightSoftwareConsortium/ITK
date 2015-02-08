@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageAlgorithm_hxx
-#define __itkImageAlgorithm_hxx
+#ifndef itkImageAlgorithm_hxx
+#define itkImageAlgorithm_hxx
 
 #include "itkImageAlgorithm.h"
 

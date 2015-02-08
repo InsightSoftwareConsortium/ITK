@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMovingHistogramImageFilter_h
-#define __itkMovingHistogramImageFilter_h
+#ifndef itkMovingHistogramImageFilter_h
+#define itkMovingHistogramImageFilter_h
 
 #include "itkMovingHistogramImageFilterBase.h"
 
@@ -139,7 +139,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
   // declare the type used to store the histogram
   typedef THistogram HistogramType;

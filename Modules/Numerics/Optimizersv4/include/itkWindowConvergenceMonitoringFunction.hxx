@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWindowConvergenceMonitoringFunction_hxx
-#define __itkWindowConvergenceMonitoringFunction_hxx
+#ifndef itkWindowConvergenceMonitoringFunction_hxx
+#define itkWindowConvergenceMonitoringFunction_hxx
 
 #include "itkWindowConvergenceMonitoringFunction.h"
 
@@ -104,7 +104,7 @@ WindowConvergenceMonitoringFunction<TScalar>
     windowPoint[0] = static_cast<typename ProfilePointType::CoordRepType>( n );
 
     energyProfileWindow->SetPoint( n, windowPoint );
-    energyProfileWindow->SetPointData( n, this->m_EnergyValues[n] / this->m_TotalEnergy );
+    energyProfileWindow->SetPointData( n, ProfilePointDataType(this->m_EnergyValues[n] / this->m_TotalEnergy) );
     }
 
   bspliner->SetInput( energyProfileWindow );

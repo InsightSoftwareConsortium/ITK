@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShotNoiseImageFilter_hxx
-#define __itkShotNoiseImageFilter_hxx
+#ifndef itkShotNoiseImageFilter_hxx
+#define itkShotNoiseImageFilter_hxx
 
 #include "itkShotNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -120,4 +120,4 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
 
 } /* namespace itk */
 
-#endif // __itkShotNoiseImageFilter_hxx
+#endif // itkShotNoiseImageFilter_hxx

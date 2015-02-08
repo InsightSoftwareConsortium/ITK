@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationLaplacianTerm_h
-#define __itkLevelSetEquationLaplacianTerm_h
+#ifndef itkLevelSetEquationLaplacianTerm_h
+#define itkLevelSetEquationLaplacianTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
@@ -92,18 +92,18 @@ public:
   typedef Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) > NeighborhoodScalesType;
 
   /** Update the term parameter values at end of iteration */
-  virtual void Update();
+  virtual void Update() ITK_OVERRIDE;
 
   /** Initialize the parameters in the terms prior to an iteration */
-  virtual void InitializeParameters();
+  virtual void InitializeParameters() ITK_OVERRIDE;
 
   /** \todo to be documented. */
-  virtual void Initialize( const LevelSetInputIndexType& );
+  virtual void Initialize( const LevelSetInputIndexType& ) ITK_OVERRIDE;
 
   /** Supply updates at pixels to keep the term parameters always updated */
   virtual void UpdatePixel( const LevelSetInputIndexType& iP,
                             const LevelSetOutputRealType& oldValue,
-                            const LevelSetOutputRealType& newValue );
+                            const LevelSetOutputRealType& newValue ) ITK_OVERRIDE;
 
 protected:
   LevelSetEquationLaplacianTerm();
@@ -116,12 +116,12 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP );
+  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
   virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
-                                        const LevelSetDataType& iData );
+                                        const LevelSetDataType& iData ) ITK_OVERRIDE;
 
 private:
   LevelSetEquationLaplacianTerm( const Self& ); // purposely not implemented

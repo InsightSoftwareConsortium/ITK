@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCollidingFrontsImageFilter_h
-#define __itkCollidingFrontsImageFilter_h
+#ifndef itkCollidingFrontsImageFilter_h
+#define itkCollidingFrontsImageFilter_h
 
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 #include "itkImageToImageFilter.h"
@@ -159,9 +159,9 @@ protected:
   CollidingFrontsImageFilter();
   virtual ~CollidingFrontsImageFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream &, Indent) const;
+  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
 private:
   CollidingFrontsImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSingleValuedVnlCostFunctionAdaptorv4_h
-#define __itkSingleValuedVnlCostFunctionAdaptorv4_h
+#ifndef itkSingleValuedVnlCostFunctionAdaptorv4_h
+#define itkSingleValuedVnlCostFunctionAdaptorv4_h
 
 #include "itkOptimizerParameters.h"
 #include "itkObjectToObjectMetricBase.h"

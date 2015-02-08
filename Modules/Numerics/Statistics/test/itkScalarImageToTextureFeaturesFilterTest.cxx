@@ -112,7 +112,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
       {
       texFilter->Update();
       passed = false;
-      std::cerr << "Failed to throw expected exception due to NULL input: " << std::endl;
+      std::cerr << "Failed to throw expected exception due to ITK_NULLPTR input: " << std::endl;
       return EXIT_FAILURE;
       }
     catch ( itk::ExceptionObject & excp )
@@ -124,26 +124,26 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
 
     if ( texFilter->GetInput() != ITK_NULLPTR )
       {
-      std::cerr << "GetInput() should return NULL since the input is\
+      std::cerr << "GetInput() should return ITK_NULLPTR since the input is\
                     not set yet " << std::endl;
       passed = false;
       }
 
     if ( texFilter->GetMaskImage() != ITK_NULLPTR )
       {
-      std::cerr << "GetMaskImage() should return NULL since the mask image is\
+      std::cerr << "GetMaskImage() should return ITK_NULLPTR since the mask image is\
                     not set yet " << std::endl;
       passed = false;
       }
 
-    //Invoke update with a NULL input. An exception should be
+    //Invoke update with a ITK_NULLPTR input. An exception should be
     //thrown.
     texFilter->SetInput( ITK_NULLPTR );
     try
       {
       texFilter->Update();
       passed = false;
-      std::cerr << "Failed to throw expected exception due to NULL input: " << std::endl;
+      std::cerr << "Failed to throw expected exception due to ITK_NULLPTR input: " << std::endl;
       return EXIT_FAILURE;
       }
     catch ( itk::ExceptionObject & excp )

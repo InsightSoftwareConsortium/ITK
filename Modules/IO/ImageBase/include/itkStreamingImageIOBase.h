@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStreamingImageIOBase_h
-#define __itkStreamingImageIOBase_h
+#ifndef itkStreamingImageIOBase_h
+#define itkStreamingImageIOBase_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkImageIOBase.h"
@@ -96,7 +96,7 @@ protected:
    * file. With out regaurd to the dimensions of either, if the
    * images represent the same region then false is returned.
    */
-  virtual bool RequestedToStream(void) const;
+  virtual bool RequestedToStream() const;
 
   /** \brief Reimplemented from super class to get around 2GB
    * read/write limitation

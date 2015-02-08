@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJoinImageFilter_h
-#define __itkJoinImageFilter_h
+#ifndef itkJoinImageFilter_h
+#define itkJoinImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkPixelTraits.h"

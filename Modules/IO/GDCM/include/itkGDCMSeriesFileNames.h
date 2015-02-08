@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGDCMSeriesFileNames_h
-#define __itkGDCMSeriesFileNames_h
+#ifndef itkGDCMSeriesFileNames_h
+#define itkGDCMSeriesFileNames_h
 
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
@@ -210,4 +210,4 @@ private:
 };
 } //namespace ITK
 
-#endif // __itkGDCMSeriesFileNames_h
+#endif // itkGDCMSeriesFileNames_h

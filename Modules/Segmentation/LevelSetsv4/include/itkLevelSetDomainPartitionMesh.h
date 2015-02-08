@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetDomainPartitionMesh_h
-#define __itkLevelSetDomainPartitionMesh_h
+#ifndef itkLevelSetDomainPartitionMesh_h
+#define itkLevelSetDomainPartitionMesh_h
 
 #include "itkLevelSetDomainPartitionBase.h"
 #include <map>

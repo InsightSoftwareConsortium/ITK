@@ -15,8 +15,8 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
     foreach(d ${ITK_WRAP_DIMS})
       foreach(t ${to_types})
         itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_VI${t}${d}}")
-      endforeach(t)
-    endforeach(d)
+      endforeach()
+    endforeach()
 
 
   # Vector types

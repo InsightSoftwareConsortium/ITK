@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKdTreeBasedKmeansEstimator_h
-#define __itkKdTreeBasedKmeansEstimator_h
+#ifndef itkKdTreeBasedKmeansEstimator_h
+#define itkKdTreeBasedKmeansEstimator_h
 
 #include <vector>
 #include "itksys/hash_map.hxx"

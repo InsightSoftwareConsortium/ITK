@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConicShellInteriorExteriorSpatialFunction_hxx
-#define __itkConicShellInteriorExteriorSpatialFunction_hxx
+#ifndef itkConicShellInteriorExteriorSpatialFunction_hxx
+#define itkConicShellInteriorExteriorSpatialFunction_hxx
 
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 

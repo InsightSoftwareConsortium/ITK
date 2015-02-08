@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalableAffineTransform_hxx
-#define __itkScalableAffineTransform_hxx
+#ifndef itkScalableAffineTransform_hxx
+#define itkScalableAffineTransform_hxx
 
 #include "itkNumericTraits.h"
 #include "itkScalableAffineTransform.h"

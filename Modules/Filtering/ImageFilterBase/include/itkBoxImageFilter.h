@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBoxImageFilter_h
-#define __itkBoxImageFilter_h
+#ifndef itkBoxImageFilter_h
+#define itkBoxImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkCastImageFilter.h"
@@ -83,9 +83,9 @@ protected:
   BoxImageFilter();
   ~BoxImageFilter() {}
 
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   BoxImageFilter(const Self &); //purposely not implemented

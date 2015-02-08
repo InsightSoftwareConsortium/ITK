@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodAccessorFunctor_h
-#define __itkNeighborhoodAccessorFunctor_h
+#ifndef itkNeighborhoodAccessorFunctor_h
+#define itkNeighborhoodAccessorFunctor_h
 
 #include "itkImageBoundaryCondition.h"
 #include "itkImageBase.h"

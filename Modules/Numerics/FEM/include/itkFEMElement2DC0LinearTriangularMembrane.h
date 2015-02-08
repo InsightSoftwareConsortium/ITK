@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearTriangularMembrane_h
-#define __itkFEMElement2DC0LinearTriangularMembrane_h
+#ifndef itkFEMElement2DC0LinearTriangularMembrane_h
+#define itkFEMElement2DC0LinearTriangularMembrane_h
 
 #include "itkFEMElement2DC0LinearTriangular.h"
 #include "itkFEMElement2DMembrane.h"
@@ -96,4 +96,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement2DC0LinearTriangularMembrane_h
+#endif  // #ifndef itkFEMElement2DC0LinearTriangularMembrane_h

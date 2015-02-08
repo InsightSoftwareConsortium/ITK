@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInOrderTreeIterator_h
-#define __itkInOrderTreeIterator_h
+#ifndef itkInOrderTreeIterator_h
+#define itkInOrderTreeIterator_h
 
 #include "itkTreeIteratorBase.h"
 
@@ -37,7 +37,7 @@ public:
 
   /** Constructors */
   InOrderTreeIterator(TreeType & start);
-  InOrderTreeIterator(TreeType *tree, TreeNodeType *start = NULL);
+  InOrderTreeIterator(TreeType *tree, TreeNodeType *start = ITK_NULLPTR);
 
   /** Get the type of iterator */
   NodeType GetType() const;

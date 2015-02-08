@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVoronoiSegmentationImageFilterBase_h
-#define __itkVoronoiSegmentationImageFilterBase_h
+#ifndef itkVoronoiSegmentationImageFilterBase_h
+#define itkVoronoiSegmentationImageFilterBase_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVoronoiDiagram2DGenerator.h"
@@ -156,15 +156,15 @@ public:
   virtual void TakeAPrior(const BinaryObjectImage *){}
 
   /** Perform the segmentation. */
-  void RunSegment(void);
+  void RunSegment();
 
   /** Perform the segmentation. */
-  void RunSegmentOneStep(void);
+  void RunSegmentOneStep();
 
   /** Create the output binary result for boundaries.  */
-  virtual void MakeSegmentBoundary(void);
+  virtual void MakeSegmentBoundary();
 
-  virtual void MakeSegmentObject(void);
+  virtual void MakeSegmentObject();
 
   /** Return the Voroni Diagram structure. */
   VoronoiPointer GetVoronoiDiagram(void)
@@ -201,22 +201,22 @@ public:
   void DrawDiagram(VDImagePointer result, unsigned char incolor,
                    unsigned char outcolor, unsigned char boundcolor);
 
-  void BeforeNextStep(void);
+  void BeforeNextStep();
 
   /** This filter does not stream and needs the entire image as input.
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This filter does not stream and needs to produce the entire output.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 protected:
   VoronoiSegmentationImageFilterBase();
   ~VoronoiSegmentationImageFilterBase();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData(void); //general pipeline function.
+  void GenerateData() ITK_OVERRIDE; //general pipeline function.
 
   SizeType m_Size;
   int      m_NumberOfSeeds;
@@ -243,10 +243,10 @@ protected:
 
   // private methods:
   // Classify all the voronoi cells as interior , exterior or boundary.
-  virtual void ClassifyDiagram(void);
+  virtual void ClassifyDiagram();
 
   // Generate the seeds to be added by dividing the boundary cells.
-  virtual void GenerateAddingSeeds(void);
+  virtual void GenerateAddingSeeds();
 
   // Compute the statistics of the pixels inside the cell.
   void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);

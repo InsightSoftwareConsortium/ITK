@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMovingHistogramImageFilterBase_h
-#define __itkMovingHistogramImageFilterBase_h
+#ifndef itkMovingHistogramImageFilterBase_h
+#define itkMovingHistogramImageFilterBase_h
 
 #include "itkKernelImageFilter.h"
 #include <list>
@@ -133,7 +133,7 @@ public:
   typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare > OffsetMapType;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel);
+  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
 
   itkGetConstMacro(PixelsPerTranslation, SizeValueType);
 
@@ -141,7 +141,7 @@ protected:
   MovingHistogramImageFilterBase();
   ~MovingHistogramImageFilterBase() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GetDirAndOffset(const IndexType LineStart,
                        const IndexType PrevLineStart,

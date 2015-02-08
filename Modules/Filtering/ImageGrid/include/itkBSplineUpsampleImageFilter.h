@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineUpsampleImageFilter_h
-#define __itkBSplineUpsampleImageFilter_h
+#ifndef itkBSplineUpsampleImageFilter_h
+#define itkBSplineUpsampleImageFilter_h
 
 // include .h for each ResamplerType
 #include "itkBSplineL2ResampleImageFilterBase.h"
@@ -111,10 +111,10 @@ public:
 
   /** Creates an image twice the size of the input image with spacing half the
     * input image. */
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This filter requires all of the input image */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -125,13 +125,13 @@ public:
 
 protected:
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   BSplineUpsampleImageFilter();
   virtual ~BSplineUpsampleImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   BSplineUpsampleImageFilter(const Self &); //purposely not implemented

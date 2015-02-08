@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIOConfigure_h
-#define __itkIOConfigure_h
+#ifndef itkIOConfigure_h
+#define itkIOConfigure_h
 
 #cmakedefine ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO
 #cmakedefine ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS
@@ -40,4 +40,4 @@
 #cmakedefine ITKIO_SUPPORTS_TIFF_IMAGEIO
 #cmakedefine ITKIO_SUPPORTS_VTK_IMAGEIO
 
-#endif //__itkConfigure_h
+#endif //itkConfigure_h

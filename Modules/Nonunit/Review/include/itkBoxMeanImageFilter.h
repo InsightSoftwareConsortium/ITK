@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBoxMeanImageFilter_h
-#define __itkBoxMeanImageFilter_h
+#ifndef itkBoxMeanImageFilter_h
+#define itkBoxMeanImageFilter_h
 
 #include "itkBoxImageFilter.h"
 
@@ -88,7 +88,7 @@ protected:
   ~BoxMeanImageFilter() {}
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   BoxMeanImageFilter(const Self &); //purposely not implemented

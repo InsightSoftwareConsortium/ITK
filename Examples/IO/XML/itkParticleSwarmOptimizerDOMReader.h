@@ -26,8 +26,8 @@
  * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML format for the PSO object.
  */
 
-#ifndef __itkParticleSwarmOptimizerDOMReader_h
-#define __itkParticleSwarmOptimizerDOMReader_h
+#ifndef itkParticleSwarmOptimizerDOMReader_h
+#define itkParticleSwarmOptimizerDOMReader_h
 
 #include "itkDOMReader.h"
 #include "itkParticleSwarmOptimizer.h"
@@ -57,7 +57,7 @@ protected:
    * This function is called automatically when update functions are performed.
    * It should fill the contents of the output object by pulling information from the intermediate DOM object.
    */
-  virtual void GenerateData( const DOMNodeType* inputdom, const void* );
+  virtual void GenerateData( const DOMNodeType* inputdom, const void* ) ITK_OVERRIDE;
 
 private:
   ParticleSwarmOptimizerDOMReader(const Self &); //purposely not implemented
@@ -66,4 +66,4 @@ private:
 
 } // namespace itk
 
-#endif // __itkParticleSwarmOptimizerDOMReader_h
+#endif // itkParticleSwarmOptimizerDOMReader_h

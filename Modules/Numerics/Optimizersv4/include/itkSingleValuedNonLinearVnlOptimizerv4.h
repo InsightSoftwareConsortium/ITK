@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSingleValuedNonLinearVnlOptimizerv4_h
-#define __itkSingleValuedNonLinearVnlOptimizerv4_h
+#ifndef itkSingleValuedNonLinearVnlOptimizerv4_h
+#define itkSingleValuedNonLinearVnlOptimizerv4_h
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkSingleValuedVnlCostFunctionAdaptorv4.h"
@@ -70,7 +70,7 @@ public:
    *  number of parameters is obtained at run-time from the itkObjectToObjectMetric.
    *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  virtual void SetMetric(MetricType *metric) = 0;
+  virtual void SetMetric(MetricType *metric) ITK_OVERRIDE = 0;
 
   /** Return Cached Values. These method have the advantage of not triggering a
    * recomputation of the metric value, but it has the disadvantage of returning
@@ -81,7 +81,7 @@ public:
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
 
   /** Get the reason for termination */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const = 0;
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE = 0;
 
 protected:
   SingleValuedNonLinearVnlOptimizerv4();
@@ -91,13 +91,13 @@ protected:
 
   void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 
-  const CostFunctionAdaptorType * GetCostFunctionAdaptor(void) const;
+  const CostFunctionAdaptorType * GetCostFunctionAdaptor() const;
 
-  CostFunctionAdaptorType * GetCostFunctionAdaptor(void);
+  CostFunctionAdaptorType * GetCostFunctionAdaptor();
 
   /** The purpose of this method is to get around the lack of
    *  const-correctness in VNL cost-functions and optimizers */
-  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor(void) const;
+  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor() const;
 
   /** Print out internal state */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

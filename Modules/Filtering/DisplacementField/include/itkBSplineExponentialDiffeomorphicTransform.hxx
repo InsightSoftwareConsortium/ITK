@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineExponentialDiffeomorphicTransform_hxx
-#define __itkBSplineExponentialDiffeomorphicTransform_hxx
+#ifndef itkBSplineExponentialDiffeomorphicTransform_hxx
+#define itkBSplineExponentialDiffeomorphicTransform_hxx
 
 #include "itkBSplineExponentialDiffeomorphicTransform.h"
 
@@ -189,6 +189,7 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::BSplineSmoothConstantVelocityField( const ConstantVelocityFieldType * field, const ArrayType &numberOfControlPoints )
 {
   typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
+  bspliner->SetUseInputFieldToDefineTheBSplineDomain( true );
   bspliner->SetDisplacementField( field );
   bspliner->SetNumberOfControlPoints( numberOfControlPoints );
   bspliner->SetSplineOrder( this->m_SplineOrder );

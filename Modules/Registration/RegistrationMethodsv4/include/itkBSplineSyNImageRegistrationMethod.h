@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineSyNImageRegistrationMethod_h
-#define __itkBSplineSyNImageRegistrationMethod_h
+#ifndef itkBSplineSyNImageRegistrationMethod_h
+#define itkBSplineSyNImageRegistrationMethod_h
 
 #include "itkSyNImageRegistrationMethod.h"
 
@@ -73,14 +73,18 @@ public:
   typedef typename Superclass::MovingImagesContainerType              MovingImagesContainerType;
 
   typedef typename Superclass::PointSetType                           PointSetType;
+  typedef typename Superclass::PointSetsContainerType                 PointSetsContainerType;
 
   /** Metric and transform typedefs */
   typedef typename Superclass::ImageMetricType                        ImageMetricType;
   typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
-  typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
   typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
   typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
+
+  typedef typename Superclass::VirtualImageType                       VirtualImageType;
+  typedef typename Superclass::VirtualImageBaseType                   VirtualImageBaseType;
+  typedef typename Superclass::VirtualImageBaseConstPointer           VirtualImageBaseConstPointer;
 
   typedef typename Superclass::MultiMetricType                        MultiMetricType;
   typedef typename Superclass::MetricType                             MetricType;
@@ -117,13 +121,15 @@ protected:
   virtual ~BSplineSyNImageRegistrationMethod();
 
   /** Handle optimization internally */
-  virtual void StartOptimization();
+  virtual void StartOptimization() ITK_OVERRIDE;
 
-  virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
+  virtual void InitializeRegistrationAtEachLevel( const SizeValueType ) ITK_OVERRIDE;
 
-  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *,
-    const MovingImagesContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
-  virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType &, const WeightedMaskImageType * );
+  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const PointSetsContainerType,
+    const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,
+    const TransformBaseType *, const FixedImageMaskType *, MeasureType & ) ITK_OVERRIDE;
+  virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *,
+    const ArrayType &, const WeightedMaskImageType *, const PointSetType * );
 
 private:
   BSplineSyNImageRegistrationMethod( const Self & );   //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianDeformationQuadEdgeMeshFilter_h
-#define __itkLaplacianDeformationQuadEdgeMeshFilter_h
+#ifndef itkLaplacianDeformationQuadEdgeMeshFilter_h
+#define itkLaplacianDeformationQuadEdgeMeshFilter_h
 
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
@@ -213,7 +213,7 @@ protected:
   unsigned int              m_Order;
   AreaType                  m_AreaComputationType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   OutputCoordRepType ComputeMixedAreaForGivenVertex(OutputPointIdentifier vId);
   OutputCoordRepType ComputeMixedArea(OutputQEPrimal *iQE1, OutputQEPrimal *iQE2);

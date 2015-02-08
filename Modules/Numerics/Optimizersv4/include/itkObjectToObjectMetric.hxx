@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectToObjectMetric_hxx
-#define __itkObjectToObjectMetric_hxx
+#ifndef itkObjectToObjectMetric_hxx
+#define itkObjectToObjectMetric_hxx
 
 #include "itkObjectToObjectMetric.h"
 #include "itkTransform.h"
@@ -39,6 +39,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   typedef IdentityTransform<TInternalComputationValueType, itkGetStaticConstMacro( FixedDimension ) > FixedIdentityTransformType;
   this->m_FixedTransform  = FixedIdentityTransformType::New();
   this->m_MovingTransform = MovingIdentityTransformType::New();
+
+  this->m_VirtualImage = ITK_NULLPTR;
 
   this->m_UserHasSetVirtualDomain = false;
 }

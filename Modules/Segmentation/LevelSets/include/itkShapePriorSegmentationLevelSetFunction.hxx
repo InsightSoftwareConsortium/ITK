@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapePriorSegmentationLevelSetFunction_hxx
-#define __itkShapePriorSegmentationLevelSetFunction_hxx
+#ifndef itkShapePriorSegmentationLevelSetFunction_hxx
+#define itkShapePriorSegmentationLevelSetFunction_hxx
 
 #include "itkShapePriorSegmentationLevelSetFunction.h"
 

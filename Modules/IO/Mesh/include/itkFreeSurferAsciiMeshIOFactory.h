@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFreeSurferAsciiMeshIOFactory_h
-#define __itkFreeSurferAsciiMeshIOFactory_h
+#ifndef itkFreeSurferAsciiMeshIOFactory_h
+#define itkFreeSurferAsciiMeshIOFactory_h
 #include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"

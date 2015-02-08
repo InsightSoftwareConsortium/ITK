@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectByObjectLabelMapFilter_h
-#define __itkObjectByObjectLabelMapFilter_h
+#ifndef itkObjectByObjectLabelMapFilter_h
+#define itkObjectByObjectLabelMapFilter_h
 
 #include "itkLabelMapFilter.h"
 #include "itkLabelImageToLabelMapFilter.h"
@@ -204,9 +204,9 @@ public:
 protected:
   ObjectByObjectLabelMapFilter();
   ~ObjectByObjectLabelMapFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   ObjectByObjectLabelMapFilter(const Self&); //purposely not implemented

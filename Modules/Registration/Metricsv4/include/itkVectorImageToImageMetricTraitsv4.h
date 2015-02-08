@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorImageToImageMetricTraitsv4_h
-#define __itkVectorImageToImageMetricTraitsv4_h
+#ifndef itkVectorImageToImageMetricTraitsv4_h
+#define itkVectorImageToImageMetricTraitsv4_h
 
 #include "itkImage.h"
 #include "itkCovariantVector.h"

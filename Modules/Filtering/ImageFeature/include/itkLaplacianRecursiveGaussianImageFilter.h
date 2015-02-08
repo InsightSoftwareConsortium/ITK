@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianRecursiveGaussianImageFilter_h
-#define __itkLaplacianRecursiveGaussianImageFilter_h
+#ifndef itkLaplacianRecursiveGaussianImageFilter_h
+#define itkLaplacianRecursiveGaussianImageFilter_h
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkImage.h"
@@ -120,13 +120,13 @@ public:
 protected:
   LaplacianRecursiveGaussianImageFilter();
   virtual ~LaplacianRecursiveGaussianImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
   LaplacianRecursiveGaussianImageFilter(const Self &); //purposely not

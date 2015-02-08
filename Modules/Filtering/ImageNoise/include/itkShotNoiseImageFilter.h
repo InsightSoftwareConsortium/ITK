@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShotNoiseImageFilter_h
-#define __itkShotNoiseImageFilter_h
+#ifndef itkShotNoiseImageFilter_h
+#define itkShotNoiseImageFilter_h
 
 #include "itkNoiseBaseImageFilter.h"
 
@@ -88,9 +88,9 @@ protected:
   virtual ~ShotNoiseImageFilter() {
   }
 
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
   ShotNoiseImageFilter(const Self&); //purposely not implemented

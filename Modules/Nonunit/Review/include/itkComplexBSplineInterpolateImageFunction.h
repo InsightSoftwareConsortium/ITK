@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComplexBSplineInterpolateImageFunction_h
-#define __itkComplexBSplineInterpolateImageFunction_h
+#ifndef itkComplexBSplineInterpolateImageFunction_h
+#define itkComplexBSplineInterpolateImageFunction_h
 
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkComplexToRealImageFilter.h"
@@ -96,7 +96,7 @@ public:
   *
   * ImageFunction::IsInsideBuffer() can be used to check bounds before
   * calling the method. */
-  virtual OutputType EvaluateAtContinuousIndex(const ContinuousIndexType & index) const;
+  virtual OutputType EvaluateAtContinuousIndex(const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /** Derivative typedef support */
 /*  typedef CovariantVector< OutputType, itkGetStaticConstMacro( ImageDimension ) > CovariantVectorType;
@@ -119,14 +119,14 @@ public:
 
   /** Set the input image.  This must be set by the user, after setting the
     spline order! */
-  virtual void SetInputImage(const TImageType *inputData);
+  virtual void SetInputImage(const TImageType *inputData) ITK_OVERRIDE;
 
 protected:
   ComplexBSplineInterpolateImageFunction();
   virtual ~ComplexBSplineInterpolateImageFunction() {}
   void operator=(const Self &);  //purposely not implemented
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ComplexBSplineInterpolateImageFunction(const Self &);  //purposely not

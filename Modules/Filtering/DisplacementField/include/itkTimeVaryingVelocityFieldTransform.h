@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingVelocityFieldTransform_h
-#define __itkTimeVaryingVelocityFieldTransform_h
+#ifndef itkTimeVaryingVelocityFieldTransform_h
+#define itkTimeVaryingVelocityFieldTransform_h
 
 #include "itkVelocityFieldTransform.h"
 
@@ -118,7 +118,7 @@ public:
 
   /** Trigger the computation of the displacement field by integrating
    * the time-varying velocity field. */
-  virtual void IntegrateVelocityField();
+  virtual void IntegrateVelocityField() ITK_OVERRIDE;
 
 protected:
   TimeVaryingVelocityFieldTransform();
@@ -135,4 +135,4 @@ private:
 # include "itkTimeVaryingVelocityFieldTransform.hxx"
 #endif
 
-#endif // __itkTimeVaryingVelocityFieldTransform_h
+#endif // itkTimeVaryingVelocityFieldTransform_h

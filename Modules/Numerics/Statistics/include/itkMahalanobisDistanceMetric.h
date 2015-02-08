@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMahalanobisDistanceMetric_h
-#define __itkMahalanobisDistanceMetric_h
+#ifndef itkMahalanobisDistanceMetric_h
+#define itkMahalanobisDistanceMetric_h
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_vector_ref.h"
@@ -70,7 +70,7 @@ public:
   typedef vnl_matrix< double > CovarianceMatrixType;
 
   /**  Set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType);
+  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType) ITK_OVERRIDE;
 
   /** Method to set mean */
   void SetMean(const MeanVectorType & mean);
@@ -97,10 +97,10 @@ public:
   /**
    * Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
-  double Evaluate(const MeasurementVectorType & measurement) const;
+  double Evaluate(const MeasurementVectorType & measurement) const ITK_OVERRIDE;
 
   /** Gets the distance between x1 and x2. */
-  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const;
+  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const ITK_OVERRIDE;
 
   /** Set/Get tolerance values */
   itkSetMacro(Epsilon, double);
@@ -110,9 +110,9 @@ public:
   itkGetConstMacro(DoubleMax, double);
 
 protected:
-  MahalanobisDistanceMetric(void);
+  MahalanobisDistanceMetric();
   virtual ~MahalanobisDistanceMetric(void) {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MeanVectorType       m_Mean;               // mean

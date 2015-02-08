@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkConnectedRegionsMeshFilter_hxx
-#define __itkConnectedRegionsMeshFilter_hxx
+#ifndef itkConnectedRegionsMeshFilter_hxx
+#define itkConnectedRegionsMeshFilter_hxx
 
 #include "itkConnectedRegionsMeshFilter.h"
 #include "itkNumericTraits.h"

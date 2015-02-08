@@ -67,7 +67,7 @@ def terminal_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
-    print(clrLine + "%s: %f" % (name, p), file=sys.stderr)
+    print(clrLine + "%s: %f" % (name, p), file=sys.stderr, end="")
     if p == 1:
         print(clrLine, file=sys.stderr)
 
@@ -78,7 +78,7 @@ def terminal_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     import sys
-    print(clrLine + "Loading %s..." % name, file=sys.stderr)
+    print(clrLine + "Loading %s..." % name, file=sys.stderr, end="")
     if p == 1:
         print(clrLine, file=sys.stderr)
 
@@ -90,7 +90,7 @@ def simple_import_callback(name, p):
     """
     import sys
     if p == 0:
-        print("Loading %s..." % name, file=sys.stderr)
+        print("Loading %s..." % name, file=sys.stderr, end="")
     elif p == 1:
         print("done", file=sys.stderr)
 
@@ -102,7 +102,7 @@ def simple_progress_callback(name, p):
     """
     import sys
     if p == 0:
-        print("Running %s..." % name, file=sys.stderr)
+        print("Running %s..." % name, file=sys.stderr, end="")
     elif p == 1:
         print("done", file=sys.stderr)
 

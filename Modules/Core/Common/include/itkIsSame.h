@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIsSame_h
-#define __itkIsSame_h
+#ifndef itkIsSame_h
+#define itkIsSame_h
 
 namespace itk
 {
@@ -56,4 +56,4 @@ namespace itk
 
 } // end namespace itk
 
-#endif //__itkIsSame_h
+#endif //itkIsSame_h

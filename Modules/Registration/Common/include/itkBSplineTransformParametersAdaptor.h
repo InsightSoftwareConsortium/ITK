@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineTransformParametersAdaptor_h
-#define __itkBSplineTransformParametersAdaptor_h
+#ifndef itkBSplineTransformParametersAdaptor_h
+#define itkBSplineTransformParametersAdaptor_h
 
 #include "itkTransformParametersAdaptor.h"
 
@@ -125,16 +125,16 @@ public:
   /** Get the required direction. */
   itkGetConstReferenceMacro( RequiredTransformDomainDirection, DirectionType );
 
-  virtual void SetRequiredFixedParameters( const ParametersType );
+  virtual void SetRequiredFixedParameters( const ParametersType ) ITK_OVERRIDE;
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters();
+  virtual void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   BSplineTransformParametersAdaptor();
   ~BSplineTransformParametersAdaptor();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   BSplineTransformParametersAdaptor( const Self & ); //purposely not implemented
@@ -155,4 +155,4 @@ private:
 #include "itkBSplineTransformParametersAdaptor.hxx"
 #endif
 
-#endif /* __itkBSplineTransformParametersAdaptor_h */
+#endif /* itkBSplineTransformParametersAdaptor_h */

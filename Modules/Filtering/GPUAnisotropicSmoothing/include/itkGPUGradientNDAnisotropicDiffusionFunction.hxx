@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUGradientNDAnisotropicDiffusionFunction_hxx
-#define __itkGPUGradientNDAnisotropicDiffusionFunction_hxx
+#ifndef itkGPUGradientNDAnisotropicDiffusionFunction_hxx
+#define itkGPUGradientNDAnisotropicDiffusionFunction_hxx
 
 #include "itkNumericTraits.h"
 #include "itkGPUGradientNDAnisotropicDiffusionFunction.h"

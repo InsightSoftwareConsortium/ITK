@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationTermContainer_hxx
-#define __itkLevelSetEquationTermContainer_hxx
+#ifndef itkLevelSetEquationTermContainer_hxx
+#define itkLevelSetEquationTermContainer_hxx
 
 #include "itkLevelSetEquationTermContainer.h"
 #include "itkObject.h"
@@ -94,7 +94,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
         }
       else
         {
-        itkGenericExceptionMacro( <<"m_Input and iTerm->GetInput are NULL" );
+        itkGenericExceptionMacro( <<"m_Input and iTerm->GetInput are ITK_NULLPTR" );
         }
       }
     iTerm->SetCurrentLevelSetId( this->m_CurrentLevelSetId );
@@ -107,7 +107,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
       {
       if( ! iTerm->GetLevelSetContainer() )
         {
-        itkGenericExceptionMacro( <<"m_LevelSetContainer and iTerm->GetLevelSetContainer() are NULL" );
+        itkGenericExceptionMacro( <<"m_LevelSetContainer and iTerm->GetLevelSetContainer() are ITK_NULLPTR" );
         }
       }
 
@@ -150,7 +150,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
         }
       else
         {
-        itkGenericExceptionMacro( <<"m_Input and iTerm->GetInput are NULL" );
+        itkGenericExceptionMacro( <<"m_Input and iTerm->GetInput are ITK_NULLPTR" );
         }
       }
 
@@ -164,7 +164,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
       {
       if( ! iTerm->GetLevelSetContainer() )
         {
-        itkGenericExceptionMacro( <<"m_LevelSetContainer and iTerm->GetLevelSetContainer() are NULL" );
+        itkGenericExceptionMacro( <<"m_LevelSetContainer and iTerm->GetLevelSetContainer() are ITK_NULLPTR" );
         }
       }
 
@@ -433,4 +433,4 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 }
-#endif // __itkLevelSetEquationTermContainer_hxx
+#endif // itkLevelSetEquationTermContainer_hxx

@@ -198,7 +198,7 @@ int itkBSplineDeformableTransformTest1()
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
 
-  // set bulk transform to NULL
+  // set bulk transform to ITK_NULLPTR
   transform->SetBulkTransform( ITK_NULLPTR );
 
   // use the other version of TransformPoint

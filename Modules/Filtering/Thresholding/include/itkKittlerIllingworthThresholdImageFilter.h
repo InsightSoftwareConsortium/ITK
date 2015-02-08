@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkKittlerIllingworthThresholdImageFilter_h
-#define __itkKittlerIllingworthThresholdImageFilter_h
+#ifndef itkKittlerIllingworthThresholdImageFilter_h
+#define itkKittlerIllingworthThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkKittlerIllingworthThresholdCalculator.h"

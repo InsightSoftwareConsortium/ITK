@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
-#define __itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#ifndef itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
+#define itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"

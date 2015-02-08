@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComplexToRealImageAdaptor_h
-#define __itkComplexToRealImageAdaptor_h
+#ifndef itkComplexToRealImageAdaptor_h
+#define itkComplexToRealImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 #include <complex>

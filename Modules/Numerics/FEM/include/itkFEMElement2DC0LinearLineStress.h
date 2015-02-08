@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearLineStress_h
-#define __itkFEMElement2DC0LinearLineStress_h
+#ifndef itkFEMElement2DC0LinearLineStress_h
+#define itkFEMElement2DC0LinearLineStress_h
 
 #include "itkFEMElement2DC0LinearLine.h"
 #include "itkFEMElement1DStress.h"
@@ -75,4 +75,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement2DC0LinearLineStress_h
+#endif  // #ifndef itkFEMElement2DC0LinearLineStress_h

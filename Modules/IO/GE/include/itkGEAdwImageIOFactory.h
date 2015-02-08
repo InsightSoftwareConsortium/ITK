@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGEAdwImageIOFactory_h
-#define __itkGEAdwImageIOFactory_h
+#ifndef itkGEAdwImageIOFactory_h
+#define itkGEAdwImageIOFactory_h
 #include "ITKIOGEExport.h"
 
 

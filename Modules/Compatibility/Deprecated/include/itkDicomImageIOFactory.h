@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDicomImageIOFactory_h
-#define __itkDicomImageIOFactory_h
+#ifndef itkDicomImageIOFactory_h
+#define itkDicomImageIOFactory_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 

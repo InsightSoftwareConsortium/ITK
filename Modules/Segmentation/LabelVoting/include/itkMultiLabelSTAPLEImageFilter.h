@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiLabelSTAPLEImageFilter_h
-#define __itkMultiLabelSTAPLEImageFilter_h
+#ifndef itkMultiLabelSTAPLEImageFilter_h
+#define itkMultiLabelSTAPLEImageFilter_h
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
@@ -269,18 +269,18 @@ protected:
   }
   virtual ~MultiLabelSTAPLEImageFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream&, Indent) const;
+  void PrintSelf(std::ostream&, Indent) const ITK_OVERRIDE;
 
   /** Determine maximum value among all input images' pixels */
   typename TInputImage::PixelType ComputeMaximumInputValue();
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion( DataObject * );
+  void EnlargeOutputRequestedRegion( DataObject * ) ITK_OVERRIDE;
 
 private:
   MultiLabelSTAPLEImageFilter(const Self&); //purposely not implemented

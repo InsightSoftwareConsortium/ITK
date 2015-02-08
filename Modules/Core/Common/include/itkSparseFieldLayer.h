@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSparseFieldLayer_h
-#define __itkSparseFieldLayer_h
+#ifndef itkSparseFieldLayer_h
+#define itkSparseFieldLayer_h
 
 #include "itkObjectFactory.h"
 #include "itkObject.h"

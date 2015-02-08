@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUPDEDeformableRegistrationFilter_h
-#define __itkGPUPDEDeformableRegistrationFilter_h
+#ifndef itkGPUPDEDeformableRegistrationFilter_h
+#define itkGPUPDEDeformableRegistrationFilter_h
 
 #include "itkGPUDenseFiniteDifferenceImageFilter.h"
 #include "itkGPUPDEDeformableRegistrationFunction.h"
@@ -136,13 +136,13 @@ public:
   void SetFixedImage(const FixedImageType *ptr);
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void) const;
+  const FixedImageType * GetFixedImage() const;
 
   /** Set the moving image. */
   void SetMovingImage(const MovingImageType *ptr);
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void) const;
+  const MovingImageType * GetMovingImage() const;
 
   /** Set initial deformation field. */
   void SetInitialDisplacementField(const DisplacementFieldType *ptr)
@@ -156,33 +156,26 @@ public:
     return this->GetOutput();
   }
 
-  /** Get the number of valid inputs.  For PDEDeformableRegistration,
-   * this checks whether the fixed and moving images have been
-   * set. While PDEDeformableRegistration can take a third input as an
-   * initial deformation field, this input is not a required input.
-   */
-  virtual std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const;
-
   typedef FixedArray< double, ImageDimension > StandardDeviationsType;
 
 protected:
   GPUPDEDeformableRegistrationFilter();
   ~GPUPDEDeformableRegistrationFilter() {
   }
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
-  virtual void CopyInputToOutput();
+  virtual void CopyInputToOutput() ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** Utility to smooth the deformation field (represented in the Output)
    * using a Guassian operator. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
-  virtual void SmoothDisplacementField();
+  virtual void SmoothDisplacementField() ITK_OVERRIDE;
 
   /** Smooth a vector field, which may be m_DisplacementField or
    * m_UpdateBuffer. */
@@ -195,20 +188,20 @@ protected:
   /** Utility to smooth the UpdateBuffer using a Gaussian operator.
    * The amount of smoothing can be specified by setting the
    * UpdateFieldStandardDeviations. */
-  virtual void SmoothUpdateField();
+  virtual void SmoothUpdateField() ITK_OVERRIDE;
 
   /** This method is called after the solution has been generated. In this case,
    * the filter release the memory of the internal buffers. */
-  virtual void PostProcessOutput();
+  virtual void PostProcessOutput() ITK_OVERRIDE;
 
   /** This method is called before iterating the solution. */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If
    * the initial deformation field is not set, the output information is
    * copied from the fixed image. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
@@ -216,7 +209,7 @@ protected:
    *
    * For the fixed image and deformation field, the input requested region
    * set to be the same as that of the output requested region. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   GPUPDEDeformableRegistrationFilter(const Self &); //purposely not implemented

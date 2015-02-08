@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGridForwardWarpImageFilter_h
-#define __itkGridForwardWarpImageFilter_h
+#ifndef itkGridForwardWarpImageFilter_h
+#define itkGridForwardWarpImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -118,12 +118,12 @@ protected:
   GridForwardWarpImageFilter();
   ~GridForwardWarpImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * GenerateData()
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   GridForwardWarpImageFilter(const Self &); //purposely not implemented

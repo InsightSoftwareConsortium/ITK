@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKImageExport_h
-#define __itkVTKImageExport_h
+#ifndef itkVTKImageExport_h
+#define itkVTKImageExport_h
 
 #include "itkVTKImageExportBase.h"
 #include "itkConceptChecking.h"
@@ -79,12 +79,12 @@ public:
   /** Set the input image of this image exporter. */
   using Superclass::SetInput;
   void SetInput(const InputImageType *);
-  InputImageType * GetInput(void);
+  InputImageType * GetInput();
 
 protected:
   VTKImageExport();
   ~VTKImageExport() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename InputImageType::Pointer    InputImagePointer;
   typedef typename InputImageType::RegionType InputRegionType;

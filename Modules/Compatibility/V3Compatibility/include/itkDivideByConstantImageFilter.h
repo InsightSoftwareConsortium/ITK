@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDivideByConstantImageFilter_h
-#define __itkDivideByConstantImageFilter_h
+#ifndef itkDivideByConstantImageFilter_h
+#define itkDivideByConstantImageFilter_h
 
 #include "itkDivideImageFilter.h"
 

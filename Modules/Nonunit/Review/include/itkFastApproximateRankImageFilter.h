@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastApproximateRankImageFilter_h
-#define __itkFastApproximateRankImageFilter_h
+#ifndef itkFastApproximateRankImageFilter_h
+#define itkFastApproximateRankImageFilter_h
 
 #include "itkMiniPipelineSeparableImageFilter.h"
 #include "itkRankImageFilter.h"
@@ -103,7 +103,7 @@ protected:
 
   ~FastApproximateRankImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Rank: " << m_Rank << std::endl;

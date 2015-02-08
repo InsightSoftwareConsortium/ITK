@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThinPlateSplineKernelTransform_h
-#define __itkThinPlateSplineKernelTransform_h
+#ifndef itkThinPlateSplineKernelTransform_h
+#define itkThinPlateSplineKernelTransform_h
 
 #include "itkKernelTransform.h"
 
@@ -85,12 +85,12 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
-  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const;
+  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const ITK_OVERRIDE;
 
   /** Compute the contribution of the landmarks weighted by the kernel funcion
       to the global deformation of the space  */
   virtual void ComputeDeformationContribution(const InputPointType & inputPoint,
-                                              OutputPointType & result) const;
+                                              OutputPointType & result) const ITK_OVERRIDE;
 
 private:
   ThinPlateSplineKernelTransform(const Self &); //purposely not implemented
@@ -102,4 +102,4 @@ private:
 #include "itkThinPlateSplineKernelTransform.hxx"
 #endif
 
-#endif // __itkThinPlateSplineKernelTransform_h
+#endif // itkThinPlateSplineKernelTransform_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkESMDemonsRegistrationFunction_h
-#define __itkESMDemonsRegistrationFunction_h
+#ifndef itkESMDemonsRegistrationFunction_h
+#define itkESMDemonsRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
@@ -143,12 +143,12 @@ public:
   { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
-  virtual TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const
+  virtual TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const ITK_OVERRIDE
   { return m_TimeStep; }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void * GetGlobalDataPointer() const
+  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
   {
     GlobalDataStruct *global = new GlobalDataStruct();
 
@@ -159,16 +159,16 @@ public:
   }
 
   /** Release memory for global data structure. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const;
+  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE;
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
   virtual PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
                                     void *globalData,
-                                    const FloatOffsetType & offset = FloatOffsetType(0.0) );
+                                    const FloatOffsetType & offset = FloatOffsetType(0.0) ) ITK_OVERRIDE;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -218,7 +218,7 @@ public:
 protected:
   ESMDemonsRegistrationFunction();
   ~ESMDemonsRegistrationFunction() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FixedImage image neighborhood iterator type. */
   typedef ConstNeighborhoodIterator< FixedImageType > FixedImageNeighborhoodIteratorType;

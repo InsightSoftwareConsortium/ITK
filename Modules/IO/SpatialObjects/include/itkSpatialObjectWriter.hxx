@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectWriter_hxx
-#define __itkSpatialObjectWriter_hxx
+#ifndef itkSpatialObjectWriter_hxx
+#define itkSpatialObjectWriter_hxx
 
 #include "itkSpatialObjectWriter.h"
 

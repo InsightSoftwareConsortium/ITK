@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkManhattanDistanceMetric_hxx
-#define __itkManhattanDistanceMetric_hxx
+#ifndef itkManhattanDistanceMetric_hxx
+#define itkManhattanDistanceMetric_hxx
 
 #include "itkManhattanDistanceMetric.h"
 

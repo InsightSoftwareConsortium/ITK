@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkShiSparseLevelSetImage_hxx
-#define __itkShiSparseLevelSetImage_hxx
+#ifndef itkShiSparseLevelSetImage_hxx
+#define itkShiSparseLevelSetImage_hxx
 
 #include "itkShiSparseLevelSetImage.h"
 
@@ -196,4 +196,4 @@ ShiSparseLevelSetImage< VDimension >::InitializeInternalLabelList()
 }
 }
 
-#endif // __itkShiSparseLevelSetImage_h
+#endif // itkShiSparseLevelSetImage_h

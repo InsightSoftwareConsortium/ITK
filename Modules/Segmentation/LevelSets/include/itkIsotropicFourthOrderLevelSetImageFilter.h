@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIsotropicFourthOrderLevelSetImageFilter_h
-#define __itkIsotropicFourthOrderLevelSetImageFilter_h
+#ifndef itkIsotropicFourthOrderLevelSetImageFilter_h
+#define itkIsotropicFourthOrderLevelSetImageFilter_h
 
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 
@@ -105,7 +105,7 @@ public:
 protected:
   IsotropicFourthOrderLevelSetImageFilter();
   ~IsotropicFourthOrderLevelSetImageFilter() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** The LevelSetFunctionWithRefitTerm object. */
   typename FunctionType::Pointer m_Function;
@@ -114,7 +114,7 @@ protected:
   unsigned int m_MaxFilterIteration;
 
   /** This filter halts when the iteration count reaches the specified count. */
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
   {
     if ( this->GetElapsedIterations() == m_MaxFilterIteration ) { return true; }
     else { return false; }

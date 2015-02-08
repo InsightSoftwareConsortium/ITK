@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkOrientationAdapterBase_h
-#define __itkOrientationAdapterBase_h
+#ifndef itkOrientationAdapterBase_h
+#define itkOrientationAdapterBase_h
 #include "itkImageBase.h"
 
 namespace itk
@@ -62,4 +62,4 @@ protected:
   virtual ~OrientationAdapterBase() {}
 };
 } // namespace itk
-#endif // __itkOrientationAdapterBase_h
+#endif // itkOrientationAdapterBase_h

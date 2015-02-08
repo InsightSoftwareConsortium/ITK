@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVelocityFieldTransform_h
-#define __itkVelocityFieldTransform_h
+#ifndef itkVelocityFieldTransform_h
+#define itkVelocityFieldTransform_h
 
 #include "itkDisplacementFieldTransform.h"
 
@@ -117,7 +117,7 @@ public:
   virtual void SetVelocityField( VelocityFieldType * );
   itkGetModifiableObjectMacro(VelocityField, VelocityFieldType );
 
-  virtual void SetFixedParameters( const ParametersType & );
+  virtual void SetFixedParameters( const ParametersType & ) ITK_OVERRIDE;
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the velocity field */
@@ -132,15 +132,23 @@ public:
    * implementation since we don't want to optimize over the deformation
    * field for this class but rather the time-varying velocity field
    */
-  itkSetObjectMacro( DisplacementField, DisplacementFieldType );
+  virtual void SetDisplacementField( DisplacementFieldType * displacementField) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting DisplacementField to " << displacementField);
+    if ( this->m_DisplacementField != displacementField )
+      {
+      this->m_DisplacementField = displacementField;
+      this->Modified();
+      }
+    }
 
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Return an inverse of this transform. */
   bool GetInverse( Self *inverse ) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Trigger the computation of the displacement field by integrating the velocity field. */
   virtual void IntegrateVelocityField() {};
@@ -183,10 +191,10 @@ protected:
 
   VelocityFieldTransform();
   virtual ~VelocityFieldTransform();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */
-  virtual typename LightObject::Pointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   typename DisplacementFieldType::Pointer CopyDisplacementField( const DisplacementFieldType * ) const;
 
@@ -221,4 +229,4 @@ private:
 #include "itkVelocityFieldTransform.hxx"
 #endif
 
-#endif // __itkVelocityFieldTransform_h
+#endif // itkVelocityFieldTransform_h

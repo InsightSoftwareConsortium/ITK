@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConnectedComponentImageFilter_h
-#define __itkConnectedComponentImageFilter_h
+#ifndef itkConnectedComponentImageFilter_h
+#define itkConnectedComponentImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
@@ -169,27 +169,27 @@ protected:
   }
 
   virtual ~ConnectedComponentImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Standard pipeline methods.
    */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
   /** ConnectedComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** ConnectedComponentImageFilter will produce all of the output.
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) ITK_OVERRIDE;
 
   bool m_FullyConnected;
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimpleContourExtractorImageFilter_hxx
-#define __itkSimpleContourExtractorImageFilter_hxx
+#ifndef itkSimpleContourExtractorImageFilter_hxx
+#define itkSimpleContourExtractorImageFilter_hxx
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"

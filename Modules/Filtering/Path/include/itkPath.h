@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPath_h
-#define __itkPath_h
+#ifndef itkPath_h
+#define itkPath_h
 
 #include "itkDataObject.h"
 #include "itkIndex.h"

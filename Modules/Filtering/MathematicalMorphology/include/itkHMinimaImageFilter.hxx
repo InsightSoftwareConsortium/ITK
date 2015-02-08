@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHMinimaImageFilter_hxx
-#define __itkHMinimaImageFilter_hxx
+#ifndef itkHMinimaImageFilter_hxx
+#define itkHMinimaImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
 #include "itkHMinimaImageFilter.h"

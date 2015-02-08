@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianSpatialFunction_h
-#define __itkGaussianSpatialFunction_h
+#ifndef itkGaussianSpatialFunction_h
+#define itkGaussianSpatialFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkFixedArray.h"
@@ -67,7 +67,7 @@ public:
   typedef FixedArray< double, VImageDimension > ArrayType;
 
   /** Evaluate the function at a given position. */
-  OutputType Evaluate(const TInput & position) const;
+  OutputType Evaluate(const TInput & position) const ITK_OVERRIDE;
 
   /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
@@ -82,7 +82,7 @@ public:
 protected:
   GaussianSpatialFunction();
   virtual ~GaussianSpatialFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   GaussianSpatialFunction(const Self &); //purposely not implemented

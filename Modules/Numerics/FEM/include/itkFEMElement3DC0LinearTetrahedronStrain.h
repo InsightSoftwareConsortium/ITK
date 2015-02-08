@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement3DC0LinearTetrahedronStrain_h
-#define __itkFEMElement3DC0LinearTetrahedronStrain_h
+#ifndef itkFEMElement3DC0LinearTetrahedronStrain_h
+#define itkFEMElement3DC0LinearTetrahedronStrain_h
 
 #include "itkFEMElement3DC0LinearTetrahedron.h"
 #include "itkFEMElement3DStrain.h"
@@ -78,4 +78,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement3DC0LinearTetrahedronStrain_h
+#endif  // #ifndef itkFEMElement3DC0LinearTetrahedronStrain_h

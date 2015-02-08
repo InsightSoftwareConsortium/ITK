@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaBlobConverter_h
-#define __itkMetaBlobConverter_h
+#ifndef itkMetaBlobConverter_h
+#define itkMetaBlobConverter_h
 
 #include "metaBlob.h"
 #include "itkBlobSpatialObject.h"
@@ -59,14 +59,14 @@ public:
 
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE;
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE;
 
 protected:
   /** Create the specific MetaObject for this class */
-  virtual MetaObjectType *CreateMetaObject();
+  virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaBlobConverter();
   ~MetaBlobConverter() {}

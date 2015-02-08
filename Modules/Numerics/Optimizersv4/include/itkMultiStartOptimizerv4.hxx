@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiStartOptimizerv4_hxx
-#define __itkMultiStartOptimizerv4_hxx
+#ifndef itkMultiStartOptimizerv4_hxx
+#define itkMultiStartOptimizerv4_hxx
 
 #include "itkMultiStartOptimizerv4.h"
 

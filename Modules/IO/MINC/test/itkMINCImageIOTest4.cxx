@@ -136,7 +136,7 @@ int itkMINCImageIOTest4( int argc, char * argv [] )
       int ret=EXIT_SUCCESS;
 
       std::cout.precision( 10 );
-      if( test_image_moments<itk::Image< double, 3 > >(input,NULL,total,mx,my,mz,epsilon) != EXIT_SUCCESS )
+      if( test_image_moments<itk::Image< double, 3 > >(input,ITK_NULLPTR,total,mx,my,mz,epsilon) != EXIT_SUCCESS )
         {
           ret=EXIT_FAILURE;
         }

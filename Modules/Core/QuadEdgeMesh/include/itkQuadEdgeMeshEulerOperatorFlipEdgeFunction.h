@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_h
-#define __itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_h
+#ifndef itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_h
+#define itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_h
 
 #include "itkQuadEdgeMeshFunctionBase.h"
 
@@ -76,7 +76,7 @@ protected:
   QuadEdgeMeshEulerOperatorFlipEdgeFunction();
   ~QuadEdgeMeshEulerOperatorFlipEdgeFunction(){}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   EdgeStatusType m_EdgeStatus;
 

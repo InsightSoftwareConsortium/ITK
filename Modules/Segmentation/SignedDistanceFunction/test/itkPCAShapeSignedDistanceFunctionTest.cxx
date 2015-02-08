@@ -233,7 +233,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
     return EXIT_FAILURE; \
     }
 
-  // NULL MeanImage
+  // ITK_NULLPTR MeanImage
   TEST_INITIALIZATION_ERROR( MeanImage, ITK_NULLPTR, meanImage );
 
   // Wrong number of PC images
@@ -243,7 +243,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
 
   TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
 
-  // A NULL PC image
+  // A ITK_NULLPTR PC image
   badPCImages = pcImages;
   badPCImages[1] = ITK_NULLPTR;
 

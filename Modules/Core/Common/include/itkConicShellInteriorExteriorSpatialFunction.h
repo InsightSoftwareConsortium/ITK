@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConicShellInteriorExteriorSpatialFunction_h
-#define __itkConicShellInteriorExteriorSpatialFunction_h
+#ifndef itkConicShellInteriorExteriorSpatialFunction_h
+#define itkConicShellInteriorExteriorSpatialFunction_h
 
 #include "vnl/vnl_vector.h"
 #include "itkInteriorExteriorSpatialFunction.h"
@@ -85,7 +85,7 @@ public:
   typedef CovariantVector< double, VDimension > GradientType;
 
   /** Evaluates the function at a given position */
-  OutputType Evaluate(const InputType & position) const;
+  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
 
   /** Set/Get the origin of the function. */
   itkGetConstMacro(Origin, InputType);
@@ -114,7 +114,7 @@ public:
 protected:
   ConicShellInteriorExteriorSpatialFunction();
   virtual ~ConicShellInteriorExteriorSpatialFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ConicShellInteriorExteriorSpatialFunction(const Self &); //not implemented

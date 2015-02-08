@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationBinaryMaskTerm_h
-#define __itkLevelSetEquationBinaryMaskTerm_h
+#ifndef itkLevelSetEquationBinaryMaskTerm_h
+#define itkLevelSetEquationBinaryMaskTerm_h
 
 #include "itkLevelSetEquationTermBase.h"
 
@@ -85,18 +85,18 @@ public:
   itkSetObjectMacro( Mask, InputImageType );
 
   /** Update the term parameter values at end of iteration */
-  virtual void Update();
+  virtual void Update() ITK_OVERRIDE;
 
   /** Initialize parameters in the terms prior to an iteration */
-  virtual void InitializeParameters();
+  virtual void InitializeParameters() ITK_OVERRIDE;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  virtual void Initialize( const LevelSetInputIndexType& iP );
+  virtual void Initialize( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
 
   /** Supply updates at pixels to keep the term parameters always updated */
   virtual void UpdatePixel( const LevelSetInputIndexType& iP,
                            const LevelSetOutputRealType & oldValue,
-                           const LevelSetOutputRealType & newValue );
+                           const LevelSetOutputRealType & newValue ) ITK_OVERRIDE;
 
 protected:
   LevelSetEquationBinaryMaskTerm();
@@ -105,12 +105,12 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP );
+  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
   virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
-                                        const LevelSetDataType& iData );
+                                        const LevelSetDataType& iData ) ITK_OVERRIDE;
 
 
   InputImagePointer m_Mask;

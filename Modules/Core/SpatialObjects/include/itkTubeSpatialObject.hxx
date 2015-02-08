@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTubeSpatialObject_hxx
-#define __itkTubeSpatialObject_hxx
+#ifndef itkTubeSpatialObject_hxx
+#define itkTubeSpatialObject_hxx
 
 
 #include "itkTubeSpatialObject.h"
@@ -152,7 +152,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       {
       // First we compute the bounding box in the index space
       typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-      VectorType rad = ( *it ).GetRadius();
+      VectorType rad(( *it ).GetRadius());
       PointType ptMin = ( *it ).GetPosition() - rad;
       PointType ptMax = ( *it ).GetPosition() + rad;
       bb->SetMinimum(ptMin);
@@ -166,7 +166,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       it++;
       while ( it != end )
         {
-        rad = ( *it ).GetRadius();
+        rad = VectorType(( *it ).GetRadius());
         ptMin = ( *it ).GetPosition() - rad;
         ptMax = ( *it ).GetPosition() + rad;
         bb->ConsiderPoint(ptMin);
@@ -575,4 +575,4 @@ TubeSpatialObject< TDimension, TTubePointType >
 }
 } // end namespace itk
 
-#endif // end __itkTubeSpatialObject_hxx
+#endif // end itkTubeSpatialObject_hxx

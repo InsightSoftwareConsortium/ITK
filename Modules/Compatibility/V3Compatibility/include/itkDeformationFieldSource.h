@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDeformationFieldSource_h
-#define __itkDeformationFieldSource_h
+#ifndef itkDeformationFieldSource_h
+#define itkDeformationFieldSource_h
 
 #include "itkImageSource.h"
 #include "itkKernelTransform.h"
@@ -143,12 +143,12 @@ public:
   virtual void GenerateOutputInformation();
 
   /** Method Compute the Modified Time based on changed to the components. */
-  unsigned long GetMTime(void) const;
+  unsigned long GetMTime() const;
 
 protected:
   DeformationFieldSource();
   ~DeformationFieldSource() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * GenerateData() computes the internal KernelBase spline and resamples

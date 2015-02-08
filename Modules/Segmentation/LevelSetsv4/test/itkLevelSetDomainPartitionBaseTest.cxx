@@ -39,8 +39,8 @@ public:
   itkNewMacro( Self );
 
 protected:
-  void AllocateListDomain() {}
-  void PopulateListDomain() {}
+  void AllocateListDomain() ITK_OVERRIDE {}
+  void PopulateListDomain() ITK_OVERRIDE {}
 };
 
 }

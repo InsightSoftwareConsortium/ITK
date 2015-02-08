@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkANTSNeighborhoodCorrelationImageToImageMetricv4_h
-#define __itkANTSNeighborhoodCorrelationImageToImageMetricv4_h
+#ifndef itkANTSNeighborhoodCorrelationImageToImageMetricv4_h
+#define itkANTSNeighborhoodCorrelationImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader.h"
@@ -168,7 +168,7 @@ public:
   itkGetMacro(Radius, RadiusType);
   itkGetConstMacro(Radius, RadiusType);
 
-  void Initialize(void) throw ( itk::ExceptionObject );
+  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
 
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4();
@@ -182,7 +182,7 @@ protected:
   typedef ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
     ANTSNeighborhoodCorrelationImageToImageMetricv4SparseGetValueAndDerivativeThreaderType;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ANTSNeighborhoodCorrelationImageToImageMetricv4( const Self & ); //purposely not implemented

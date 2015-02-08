@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMorphologyImageFilter_hxx
-#define __itkBinaryMorphologyImageFilter_hxx
+#ifndef itkBinaryMorphologyImageFilter_hxx
+#define itkBinaryMorphologyImageFilter_hxx
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodInnerProduct.h"

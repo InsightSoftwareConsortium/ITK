@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSliceBySliceImageFilter_h
-#define __itkSliceBySliceImageFilter_h
+#ifndef itkSliceBySliceImageFilter_h
+#define itkSliceBySliceImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -161,13 +161,13 @@ protected:
   SliceBySliceImageFilter();
   ~SliceBySliceImageFilter() {}
 
-  void VerifyInputInformation();
+  void VerifyInputInformation() ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   SliceBySliceImageFilter(const Self &); //purposely not implemented

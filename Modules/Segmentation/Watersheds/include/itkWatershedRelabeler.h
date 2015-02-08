@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedRelabeler_h
-#define __itkWatershedRelabeler_h
+#ifndef itkWatershedRelabeler_h
+#define itkWatershedRelabeler_h
 
 #include "itkWatershedSegmentTree.h"
 #include "itkWatershedSegmenter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineSmoothingOnUpdateDisplacementFieldTransform_hxx
-#define __itkBSplineSmoothingOnUpdateDisplacementFieldTransform_hxx
+#ifndef itkBSplineSmoothingOnUpdateDisplacementFieldTransform_hxx
+#define itkBSplineSmoothingOnUpdateDisplacementFieldTransform_hxx
 
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
 
@@ -184,6 +184,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::BSplineSmoothDisplacementField( const DisplacementFieldType * field, const ArrayType &numberOfControlPoints )
 {
   typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
+  bspliner->SetUseInputFieldToDefineTheBSplineDomain( true );
   bspliner->SetDisplacementField( field );
   bspliner->SetNumberOfControlPoints( numberOfControlPoints );
   bspliner->SetSplineOrder( this->m_SplineOrder );

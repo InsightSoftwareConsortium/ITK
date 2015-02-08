@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMesh_hxx
-#define __itkQuadEdgeMesh_hxx
+#ifndef itkQuadEdgeMesh_hxx
+#define itkQuadEdgeMesh_hxx
 #include "itkQuadEdgeMesh.h"
 #include "vcl_limits.h"
 #include <vector>
@@ -953,7 +953,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     // Check if the Origin point's edge ring entry is the edge we are
     // trying to delete. When this is the case shift the Origin edge entry
     // to another edge and when no other edge is available leave it
-    // to NULL.
+    // to ITK_NULLPTR.
     PointType& pOrigin = points->ElementAt(orgPid);
 
     if ( pOrigin.GetEdge() == e )
@@ -1230,7 +1230,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     if ( count != 1 )
       {
       itkDebugMacro("Point " << i << " is duplicated");
-      return ( (QEPrimal *)NULL );
+      return ( (QEPrimal *)ITK_NULLPTR );
       }
     }
 
@@ -1242,7 +1242,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     if ( !pointsContainer->IndexExists(points[i]) )
       {
       itkDebugMacro("Point " << i << " is missing in the mesh");
-      return (QEPrimal *)NULL;
+      return (QEPrimal *)ITK_NULLPTR;
       }
     }
 #endif
@@ -1336,7 +1336,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   if ( !entry )
     {
     // FIXME throw exception here instead
-    itkDebugMacro("entry == NULL");
+    itkDebugMacro("entry == ITK_NULLPTR");
     return (QEPrimal *)ITK_NULLPTR;
     }
 

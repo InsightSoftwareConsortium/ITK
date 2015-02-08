@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToPointSetMetricv4_h
-#define __itkPointSetToPointSetMetricv4_h
+#ifndef itkPointSetToPointSetMetricv4_h
+#define itkPointSetToPointSetMetricv4_h
 
 #include "itkObjectToObjectMetric.h"
 
@@ -178,7 +178,7 @@ public:
   typedef typename Superclass::VirtualPointSetPointer VirtualPointSetPointer;
 
   /** Set fixed point set*/
-  virtual void SetFixedObject( const ObjectType *object )
+  virtual void SetFixedObject( const ObjectType *object ) ITK_OVERRIDE
     {
     FixedPointSetType *pointSet = dynamic_cast<FixedPointSetType *>( const_cast<ObjectType *>( object ) );
     if( pointSet != ITK_NULLPTR )
@@ -192,7 +192,7 @@ public:
     }
 
   /** Set moving point set*/
-  virtual void SetMovingObject( const ObjectType *object )
+  virtual void SetMovingObject( const ObjectType *object ) ITK_OVERRIDE
     {
     MovingPointSetType *pointSet = dynamic_cast<MovingPointSetType *>( const_cast<ObjectType *>( object ) );
     if( pointSet != ITK_NULLPTR )
@@ -234,7 +234,7 @@ public:
    * point set metrics.  For those cases, the developer will have to redefine
    * the GetValue() function.
    */
-  virtual MeasureType GetValue() const;
+  virtual MeasureType GetValue() const ITK_OVERRIDE;
 
   /**
    * This method returns the derivative based on the current
@@ -246,7 +246,7 @@ public:
    * those cases, the developer will have to redefine the GetDerivative()
    * function.
    */
-  virtual void GetDerivative( DerivativeType & ) const;
+  virtual void GetDerivative( DerivativeType & ) const ITK_OVERRIDE;
 
   /**
    * This method returns the derivative and value based on the current
@@ -258,7 +258,7 @@ public:
    * point set metrics.  For those cases, the developer will have to redefine
    * the GetValue() and GetDerivative() functions.
    */
-  virtual void GetValueAndDerivative( MeasureType &, DerivativeType & ) const;
+  virtual void GetValueAndDerivative( MeasureType &, DerivativeType & ) const ITK_OVERRIDE;
 
   /**
    * Function to be defined in the appropriate derived classes.  Calculates
@@ -284,15 +284,15 @@ public:
    * Get the virtual point set, derived from the fixed point set.
    * If the virtual point set has not yet been derived, it will be
    * in this call. */
-  const VirtualPointSetType * GetVirtualTransformedPointSet( void ) const;
+  const VirtualPointSetType * GetVirtualTransformedPointSet() const;
 
   /**
    * Initialize the metric by making sure that all the components
    *  are present and plugged together correctly.
    */
-  virtual void Initialize( void ) throw ( ExceptionObject );
+  virtual void Initialize( void ) throw ( ExceptionObject ) ITK_OVERRIDE;
 
-  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const
+  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const ITK_OVERRIDE
   {
     /* An arbitrary point in the virtual domain will not always
      * correspond to a point within either point set. */
@@ -302,7 +302,7 @@ public:
 protected:
   PointSetToPointSetMetricv4();
   virtual ~PointSetToPointSetMetricv4();
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   typename FixedPointSetType::ConstPointer                m_FixedPointSet;
   mutable typename FixedTransformedPointSetType::Pointer  m_FixedTransformedPointSet;
@@ -325,20 +325,20 @@ protected:
 
   /**
    * Prepare point sets for use. */
-  virtual void InitializePointSets( void ) const;
+  virtual void InitializePointSets() const;
 
   /**
    * Initialize to prepare for a particular iteration, generally
    * an iteration of optimization. Distinct from Initialize()
    * which is a one-time initialization. */
-  virtual void InitializeForIteration( void ) const;
+  virtual void InitializeForIteration() const;
 
   /**
    * Determine the number of valid fixed points. A fixed point
    * is valid if, when transformed into the virtual domain using
    * the inverse of the FixedTransform, it is within the defined
    * virtual domain bounds. */
-  virtual SizeValueType CalculateNumberOfValidFixedPoints( void ) const;
+  virtual SizeValueType CalculateNumberOfValidFixedPoints() const;
 
   /** Helper method allows for code reuse while skipping the metric value
    * calculation when appropriate */
@@ -375,7 +375,7 @@ protected:
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  virtual MetricCategoryType GetMetricCategory() const
+  virtual MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
     {
     return Superclass::POINT_SET_METRIC;
     }

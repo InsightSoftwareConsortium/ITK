@@ -94,7 +94,7 @@ void Semaphore::Initialize(unsigned int value)
   m_PThreadsSemaphoreRemoved = false;
 
 #if defined sun
-  if ( sema_init(&m_Sema, 0, value, NULL) != 0 )
+  if ( sema_init(&m_Sema, 0, value, ITK_NULLPTR) != 0 )
     {
     itkExceptionMacro(<< "sema_init call failed");
     }

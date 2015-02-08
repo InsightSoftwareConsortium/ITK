@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIOCommon_h
-#define __itkIOCommon_h
+#ifndef itkIOCommon_h
+#define itkIOCommon_h
 #include "ITKIOImageBaseExport.h"
 
 
@@ -93,4 +93,4 @@ extern ITKIOImageBase_EXPORT const char *const ROI_PLANE;
 extern ITKIOImageBase_EXPORT const char *const ROI_SCAN_ID;
 } // end namespace itk
 
-#endif // __itkIOCommon_h
+#endif // itkIOCommon_h

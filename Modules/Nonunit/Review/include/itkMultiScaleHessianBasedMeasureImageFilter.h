@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiScaleHessianBasedMeasureImageFilter_h
-#define __itkMultiScaleHessianBasedMeasureImageFilter_h
+#ifndef itkMultiScaleHessianBasedMeasureImageFilter_h
+#define itkMultiScaleHessianBasedMeasureImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
@@ -161,8 +161,6 @@ public:
    * best response */
   const ScalesImageType * GetScalesOutput() const;
 
-  void EnlargeOutputRequestedRegion(DataObject *);
-
   /** Methods to turn on/off flag to generate an image with scale values at
    *  each pixel for the best vesselness response */
   itkSetMacro(GenerateScalesOutput, bool);
@@ -177,16 +175,19 @@ public:
 
   /** This is overloaded to create the Scales and Hessian output images */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
-  using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 protected:
   MultiScaleHessianBasedMeasureImageFilter();
   ~MultiScaleHessianBasedMeasureImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData() ITK_OVERRIDE;
+
+  void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+
+  using Superclass::MakeOutput;
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 private:
   void UpdateMaximumResponse(double sigma);

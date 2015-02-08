@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompensatedSummation_h
-#define __itkCompensatedSummation_h
+#ifndef itkCompensatedSummation_h
+#define itkCompensatedSummation_h
 
 #include "itkNumericTraits.h"
 #include "itkConceptChecking.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaEvent_h
-#define __itkMetaEvent_h
+#ifndef itkMetaEvent_h
+#define itkMetaEvent_h
 
 #include "itkMacro.h"
 #include "metaEvent.h"

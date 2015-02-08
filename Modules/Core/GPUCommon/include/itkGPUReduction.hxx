@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUReduction_hxx
-#define __itkGPUReduction_hxx
+#ifndef itkGPUReduction_hxx
+#define itkGPUReduction_hxx
 
 #include "itkMacro.h"
 #include "itkGPUReduction.h"
@@ -34,7 +34,7 @@ GPUReduction< TElement >
 {
   /*** Prepare GPU opencl program ***/
   m_GPUKernelManager = GPUKernelManager::New();
-  m_GPUDataManager = NULL;
+  m_GPUDataManager = ITK_NULLPTR;
 
   m_ReduceGPUKernelHandle = 0;
   m_TestGPUKernelHandle = 0;
@@ -175,7 +175,7 @@ void
 GPUReduction< TElement >
 ::ReleaseGPUInputBuffer()
 {
-  if (m_GPUDataManager == (GPUDataPointer)NULL)
+  if (m_GPUDataManager == (GPUDataPointer)ITK_NULLPTR)
     {
     return;
     }
@@ -312,7 +312,7 @@ GPUReduction< TElement >
 
   this->m_GPUKernelManager->SetKernelArg(m_ReduceGPUKernelHandle, argidx++, sizeof(cl_int), &n);
   //shared memory below
-  this->m_GPUKernelManager->SetKernelArg(m_ReduceGPUKernelHandle, argidx++, sizeof(TElement) * numThreads, NULL);
+  this->m_GPUKernelManager->SetKernelArg(m_ReduceGPUKernelHandle, argidx++, sizeof(TElement) * numThreads, ITK_NULLPTR);
 
   size_t globalSize[1];
   size_t localSize[1];

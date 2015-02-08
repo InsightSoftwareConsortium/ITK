@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFrameDifferenceVideoFilter_h
-#define __itkFrameDifferenceVideoFilter_h
+#ifndef itkFrameDifferenceVideoFilter_h
+#define itkFrameDifferenceVideoFilter_h
 
 #include "itkVideoToVideoFilter.h"
 
@@ -71,13 +71,13 @@ protected:
   virtual ~FrameDifferenceVideoFilter() {}
 
   /** PrintSelf */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FrameDifferenceVideoFilter is implemented as a temporal streaming and
    * spatially multithreaded filter, so we override ThreadedGenerateData */
   virtual void ThreadedGenerateData(
                 const OutputFrameSpatialRegionType& outputRegionForThread,
-                int threadId);
+                int threadId) ITK_OVERRIDE;
 
 private:
   FrameDifferenceVideoFilter(const Self &); // purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComposeRGBImageFilter_h
-#define __itkComposeRGBImageFilter_h
+#ifndef itkComposeRGBImageFilter_h
+#define itkComposeRGBImageFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkTernaryFunctorImageFilter.h"

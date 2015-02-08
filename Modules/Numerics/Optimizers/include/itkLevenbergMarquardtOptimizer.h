@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevenbergMarquardtOptimizer_h
-#define __itkLevenbergMarquardtOptimizer_h
+#ifndef itkLevenbergMarquardtOptimizer_h
+#define itkLevenbergMarquardtOptimizer_h
 
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_levenberg_marquardt.h"
@@ -52,7 +52,7 @@ public:
   typedef   vnl_levenberg_marquardt InternalOptimizerType;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_levenberg_marquardt * GetOptimizer(void) const;
+  vnl_levenberg_marquardt * GetOptimizer() const;
 
   /** Start optimization with an initial value. */
   virtual void StartOptimization(void) ITK_OVERRIDE;

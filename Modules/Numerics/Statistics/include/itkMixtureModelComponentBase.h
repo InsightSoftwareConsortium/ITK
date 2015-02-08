@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMixtureModelComponentBase_h
-#define __itkMixtureModelComponentBase_h
+#ifndef itkMixtureModelComponentBase_h
+#define itkMixtureModelComponentBase_h
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSignedMaurerDistanceMapImageFilter_h
-#define __itkSignedMaurerDistanceMapImageFilter_h
+#ifndef itkSignedMaurerDistanceMapImageFilter_h
+#define itkSignedMaurerDistanceMapImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -160,15 +160,15 @@ protected:
 
   virtual ~SignedMaurerDistanceMapImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   unsigned int SplitRequestedRegion(unsigned int i, unsigned int num,
-    OutputImageRegionType & splitRegion);
+    OutputImageRegionType & splitRegion) ITK_OVERRIDE;
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
 

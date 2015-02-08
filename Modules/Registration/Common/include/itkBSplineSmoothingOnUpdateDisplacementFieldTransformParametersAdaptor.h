@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_h
-#define __itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_h
+#ifndef itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_h
+#define itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_h
 
 #include "itkDisplacementFieldTransformParametersAdaptor.h"
 
@@ -111,13 +111,13 @@ public:
   /**
    * Change the displacement field fixed parameters
    */
-  virtual void AdaptTransformParameters();
+  virtual void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor();
   ~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor( const Self & ); //purposely not implemented
@@ -136,4 +136,4 @@ private:
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.hxx"
 #endif
 
-#endif /* __itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_h */
+#endif /* itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_h */

@@ -44,7 +44,8 @@ else
   git config remote.stage.pushurl git@itk.org:stage/ITK.git
 fi
 
-read -ep "Do you want to test push access itk.org? [y/N]: " access
+echo -e "\nNote: push access is not required to get patches merged."
+read -ep "Do you want to test push access to itk.org? [y/N]: " access
 if [ "$access" == "y" ] || [ "$access" == "Y" ]; then
 
   echo "Configuring push urls..."

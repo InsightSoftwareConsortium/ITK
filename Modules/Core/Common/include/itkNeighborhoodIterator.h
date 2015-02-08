@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodIterator_h
-#define __itkNeighborhoodIterator_h
+#ifndef itkNeighborhoodIterator_h
+#define itkNeighborhoodIterator_h
 
 #include <vector>
 #include <cstring>

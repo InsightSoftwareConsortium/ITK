@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRandomVariateGeneratorBase_h
-#define __itkRandomVariateGeneratorBase_h
+#ifndef itkRandomVariateGeneratorBase_h
+#define itkRandomVariateGeneratorBase_h
 
 #include "itkObject.h"
 

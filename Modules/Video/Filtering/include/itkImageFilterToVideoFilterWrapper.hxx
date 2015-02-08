@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageFilterToVideoFilterWrapper_hxx
-#define __itkImageFilterToVideoFilterWrapper_hxx
+#ifndef itkImageFilterToVideoFilterWrapper_hxx
+#define itkImageFilterToVideoFilterWrapper_hxx
 
 #include "itkImageFilterToVideoFilterWrapper.h"
 
@@ -36,7 +36,7 @@ ImageFilterToVideoFilterWrapper()
   this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 0;
   this->TemporalProcessObject::m_FrameSkipPerOutput = 1;
 
-  // Initialize image filter to NULL
+  // Initialize image filter to ITK_NULLPTR
   m_ImageFilter = ITK_NULLPTR;
 }
 

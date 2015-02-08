@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkSpeckleNoiseImageFilter_hxx
-#define __itkSpeckleNoiseImageFilter_hxx
+#ifndef itkSpeckleNoiseImageFilter_hxx
+#define itkSpeckleNoiseImageFilter_hxx
 
 #include "itkSpeckleNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -131,4 +131,4 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
 
 } /* namespace itk */
 
-#endif // __itkSpeckleNoiseImageFilter_hxx
+#endif // itkSpeckleNoiseImageFilter_hxx

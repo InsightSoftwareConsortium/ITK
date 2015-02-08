@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSPSAOptimizer_h
-#define __itkSPSAOptimizer_h
+#ifndef itkSPSAOptimizer_h
+#define itkSPSAOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -66,21 +66,21 @@ public:
     } StopConditionType;
 
   /** Advance one step following the gradient direction. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep();
 
   /** Start optimization. */
   virtual void StartOptimization(void) ITK_OVERRIDE;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
-  void ResumeOptimization(void);
+  void ResumeOptimization();
 
   /** Stop optimization.
    * \sa ResumeOptimization */
-  void StopOptimization(void);
+  void StopOptimization();
 
   /** Get the cost function value at the current position. */
-  virtual MeasureType GetValue(void) const;
+  virtual MeasureType GetValue() const;
 
   /** Get the cost function value at any position */
   virtual MeasureType GetValue(const ParametersType & parameters) const;
@@ -265,4 +265,4 @@ private:
 }; // end class SPSAOptimizer
 } // end namespace itk
 
-#endif // end #ifndef __itkSPSAOptimizer_h
+#endif // end #ifndef itkSPSAOptimizer_h

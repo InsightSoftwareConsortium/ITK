@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldTransformParametersAdaptor_h
-#define __itkDisplacementFieldTransformParametersAdaptor_h
+#ifndef itkDisplacementFieldTransformParametersAdaptor_h
+#define itkDisplacementFieldTransformParametersAdaptor_h
 
 #include "itkTransformParametersAdaptor.h"
 
@@ -118,7 +118,7 @@ public:
   virtual const DirectionType GetRequiredDirection() const;
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters();
+  virtual void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   DisplacementFieldTransformParametersAdaptor();
@@ -135,4 +135,4 @@ private:
 #include "itkDisplacementFieldTransformParametersAdaptor.hxx"
 #endif
 
-#endif /* __itkDisplacementFieldTransformParametersAdaptor_h */
+#endif /* itkDisplacementFieldTransformParametersAdaptor_h */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOffset_h
-#define __itkOffset_h
+#ifndef itkOffset_h
+#define itkOffset_h
 
 #include "itkSize.h"
 

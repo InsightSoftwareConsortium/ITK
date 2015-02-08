@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorLinearInterpolateImageFunction_h
-#define __itkVectorLinearInterpolateImageFunction_h
+#ifndef itkVectorLinearInterpolateImageFunction_h
+#define itkVectorLinearInterpolateImageFunction_h
 
 #include "itkVectorInterpolateImageFunction.h"
 
@@ -89,12 +89,12 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const;
+    const ContinuousIndexType & index) const ITK_OVERRIDE;
 
 protected:
   VectorLinearInterpolateImageFunction();
   ~VectorLinearInterpolateImageFunction(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   VectorLinearInterpolateImageFunction(const Self &); //purposely not

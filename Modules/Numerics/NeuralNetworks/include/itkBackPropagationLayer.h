@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBackPropagationLayer_h
-#define __itkBackPropagationLayer_h
+#ifndef itkBackPropagationLayer_h
+#define itkBackPropagationLayer_h
 
 #include "itkCompletelyConnectedWeightSet.h"
 #include "itkLayerBase.h"
@@ -60,31 +60,31 @@ public:
   typedef typename Superclass::TransferFunctionInterfaceType
                                                       TransferFunctionInterfaceType;
   //Member Functions
-  virtual void SetNumberOfNodes(unsigned int numNodes);
-  virtual ValueType GetInputValue(unsigned int i) const;
+  virtual void SetNumberOfNodes(unsigned int numNodes) ITK_OVERRIDE;
+  virtual ValueType GetInputValue(unsigned int i) const ITK_OVERRIDE;
   virtual void SetInputValue(unsigned int i, ValueType value);
 
-  virtual ValueType GetOutputValue(unsigned int) const;
+  virtual ValueType GetOutputValue(unsigned int) const ITK_OVERRIDE;
   virtual void SetOutputValue(unsigned int, ValueType);
 
-  virtual ValueType * GetOutputVector();
+  virtual ValueType * GetOutputVector() ITK_OVERRIDE;
   void SetOutputVector(TMeasurementVector value);
 
-  virtual void ForwardPropagate();
-  virtual void ForwardPropagate(TMeasurementVector input);
+  virtual void ForwardPropagate() ITK_OVERRIDE;
+  virtual void ForwardPropagate(TMeasurementVector input) ITK_OVERRIDE;
 
-  virtual void BackwardPropagate();
-  virtual void BackwardPropagate(InternalVectorType errors);
+  virtual void BackwardPropagate() ITK_OVERRIDE;
+  virtual void BackwardPropagate(InternalVectorType errors) ITK_OVERRIDE;
 
-  virtual void SetOutputErrorValues(TTargetVector);
-  virtual ValueType GetOutputErrorValue(unsigned int node_id) const;
+  virtual void SetOutputErrorValues(TTargetVector) ITK_OVERRIDE;
+  virtual ValueType GetOutputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
 
-  virtual ValueType GetInputErrorValue(unsigned int node_id) const;
-  virtual ValueType * GetInputErrorVector();
-  virtual void SetInputErrorValue(ValueType, unsigned int node_id);
+  virtual ValueType GetInputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
+  virtual ValueType * GetInputErrorVector() ITK_OVERRIDE;
+  virtual void SetInputErrorValue(ValueType, unsigned int node_id) ITK_OVERRIDE;
 
-  virtual ValueType Activation(ValueType);
-  virtual ValueType DActivation(ValueType);
+  virtual ValueType Activation(ValueType) ITK_OVERRIDE;
+  virtual ValueType DActivation(ValueType) ITK_OVERRIDE;
 
   /** Set/Get the bias */
   itkSetMacro( Bias, ValueType );
@@ -96,7 +96,7 @@ protected:
   virtual ~BackPropagationLayer();
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInteriorExteriorMeshFilter_h
-#define __itkInteriorExteriorMeshFilter_h
+#ifndef itkInteriorExteriorMeshFilter_h
+#define itkInteriorExteriorMeshFilter_h
 
 #include "itkMeshToMeshFilter.h"
 #include "itkDataObjectDecorator.h"
@@ -84,10 +84,10 @@ public:
 protected:
   InteriorExteriorMeshFilter();
   ~InteriorExteriorMeshFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate requested data. */
-  virtual void GenerateData(void);
+  virtual void GenerateData(void) ITK_OVERRIDE;
 
   /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer m_SpatialFunction;

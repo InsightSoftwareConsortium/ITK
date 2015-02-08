@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastSymmetricForcesDemonsRegistrationFilter_h
-#define __itkFastSymmetricForcesDemonsRegistrationFilter_h
+#ifndef itkFastSymmetricForcesDemonsRegistrationFilter_h
+#define itkFastSymmetricForcesDemonsRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkESMDemonsRegistrationFunction.h"
@@ -109,7 +109,7 @@ public:
    * This value is calculated for the current iteration */
   virtual double GetMetric() const;
 
-  virtual const double & GetRMSChange() const;
+  virtual const double & GetRMSChange() const ITK_OVERRIDE;
 
   /** DemonsRegistrationFilterFunction type.
    *
@@ -140,14 +140,14 @@ public:
 protected:
   FastSymmetricForcesDemonsRegistrationFilter();
   ~FastSymmetricForcesDemonsRegistrationFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * FiniteDifferenceFilter::GenerateData(). */
-  virtual void AllocateUpdateBuffer();
+  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** FiniteDifferenceFunction type. */
   typedef typename
@@ -158,7 +158,7 @@ protected:
   FiniteDifferenceFunctionType::TimeStepType TimeStepType;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt);
+  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
   /** other typedefs */
   typedef MultiplyImageFilter<

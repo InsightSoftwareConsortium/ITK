@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetToListSampleAdaptor_h
-#define __itkPointSetToListSampleAdaptor_h
+#ifndef itkPointSetToListSampleAdaptor_h
+#define itkPointSetToListSampleAdaptor_h
 
 #include <typeinfo>
 
@@ -88,17 +88,17 @@ public:
   const TPointSet * GetPointSet();
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const;
+  InstanceIdentifier Size() const ITK_OVERRIDE;
 
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** returns 1 as other subclasses of ListSampleBase does */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** returns the size of this container */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
 
   /** \class ConstIterator
    * \ingroup ITKStatistics
@@ -256,7 +256,7 @@ protected:
   PointSetToListSampleAdaptor();
 
   virtual ~PointSetToListSampleAdaptor() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PointSetToListSampleAdaptor(const Self &); //purposely not implemented

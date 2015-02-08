@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkYenThresholdCalculator_h
-#define __itkYenThresholdCalculator_h
+#ifndef itkYenThresholdCalculator_h
+#define itkYenThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 
@@ -75,7 +75,7 @@ public:
 protected:
   YenThresholdCalculator() {};
   virtual ~YenThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   YenThresholdCalculator(const Self&); //purposely not implemented

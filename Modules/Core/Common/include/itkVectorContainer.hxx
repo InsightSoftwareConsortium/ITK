@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorContainer_hxx
-#define __itkVectorContainer_hxx
+#ifndef itkVectorContainer_hxx
+#define itkVectorContainer_hxx
 #include "itkVectorContainer.h"
 
 #include "itkNumericTraits.h"
@@ -135,7 +135,7 @@ VectorContainer< TElementIdentifier, TElement >
 /**
  * Check if the given index is in range of the STL vector.  If it is not,
  * return false.  Otherwise, set the element through the pointer (if it isn't
- * NULL), and return true.
+ * ITK_NULLPTR), and return true.
  */
 template< typename TElementIdentifier, typename TElement >
 bool

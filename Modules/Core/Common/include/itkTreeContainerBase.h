@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeContainerBase_h
-#define __itkTreeContainerBase_h
+#ifndef itkTreeContainerBase_h
+#define itkTreeContainerBase_h
 
 #include "itkMacro.h"
 #include <iostream>
