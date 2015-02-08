@@ -2,6 +2,7 @@ itk_wrap_include("itkDefaultStaticMeshTraits.h")
 itk_wrap_include("itkDefaultDynamicMeshTraits.h")
 
 UNIQUE(types "${WRAP_ITK_REAL};D")
+
 itk_wrap_class("itk::Mesh" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${types})
@@ -9,6 +10,10 @@ itk_wrap_class("itk::Mesh" POINTER)
         "${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} >")
       itk_wrap_template("${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
         "${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} >")
+      itk_wrap_template("${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}"
+        "${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} >")
+      itk_wrap_template("${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}"
+        "${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} >")
     endforeach()
   endforeach()
   foreach(d ${ITK_WRAP_DIMS})
@@ -20,37 +25,55 @@ itk_wrap_class("itk::Mesh" POINTER)
 itk_end_wrap_class()
 
 set( mangle_CellInterface "CI\${ITKM_\${t}}CTI\${d}\${ITKM_\${t}}\${ITKM_\${t}}ULULUL\${ITKM_P\${t}\${d}}MCUL\${ITKM_P\${t}\${d}}" )
-set( type_CellInterface   "itk::CellInterface< \${ITKT_\${t}}, itk::CellTraitsInfo< \${d},\${ITKT_\${t}},\${ITKT_\${t}},\${ITKT_UL},\${ITKT_UL},\${ITKT_UL},\${ITKT_P\${t}\${d}},itk::MapContainer< \${ITKT_UL},\${ITKT_P\${t}\${d}} >, std::set< \${ITKT_UL}, std::less< \${ITKT_UL} > > > >" )
+set( type_CellInterface   "itk::CellInterface< \${ITKT_\${t}}, itk::CellTraitsInfo< \${d},\${ITKT_\${t}},\${ITKT_\${t}},\${ITKT_UL},\${ITKT_UL},\${ITKT_UL},\${ITKT_P\${t}\${d}},itk::MapContainer< \${ITKT_UL},\${ITKT_P\${t}\${d}} >, std::set< \${ITKT_UL} > > >" )
 
-itk_wrap_class("itk::MapContainer" POINTER)
+#itk_wrap_class("itk::MapContainer" POINTER)
+  #foreach(d ${ITK_WRAP_DIMS})
+    #foreach(t ${types})
+      #itk_wrap_template("UL${mangle_CellInterface}"
+        #"unsigned long, ${type_CellInterface} *")
+    #endforeach()
+    #itk_wrap_template("ULCIDCTI${d}DFULULUL${ITKM_PD${d}}MCUL${ITKM_PD${d}}"
+      #"unsigned long, itk::CellInterface< ${ITKT_D}, itk::CellTraitsInfo< ${d}, ${ITKT_D}, ${ITKT_F}, ${ITKT_UL}, ${ITKT_UL}, ${ITKT_UL}, ${ITKT_PD${d}}, itk::MapContainer< ${ITKT_UL}, ${ITKT_PD${d}} >, std::set< ${ITKT_UL} > > > *")
+  #endforeach()
+#itk_end_wrap_class()
+
+#itk_wrap_class("itk::VectorContainer" POINTER)
+  #foreach(d ${ITK_WRAP_DIMS})
+    #foreach(t ${types})
+      #itk_wrap_template("UL${mangle_CellInterface}"
+        #"unsigned long, ${type_CellInterface} *")
+      #itk_wrap_template("ULCI\${ITKM_\${t}}CTI\${d}\${ITKM_\${t}}\${ITKM_\${t}}ULULUL\${ITKM_P\${t}\${d}}VCUL\${ITKM_P\${t}\${d}}"
+        #"unsigned long, itk::CellInterface< \${ITKT_\${t}}, itk::CellTraitsInfo< \${d},\${ITKT_\${t}},\${ITKT_\${t}},\${ITKT_UL},\${ITKT_UL},\${ITKT_UL},\${ITKT_P\${t}\${d}},itk::VectorContainer< \${ITKT_UL},\${ITKT_P\${t}\${d}} >, std::set< \${ITKT_UL} > > > *")
+    #endforeach()
+    #itk_wrap_template("ULCI${ITKM_D}CTI${d}${ITKM_D}${ITKM_F}ULULUL${ITKM_PD${d}}VCUL${ITKM_PD${d}}"
+      #"unsigned long, itk::CellInterface< ${ITKT_D}, itk::CellTraitsInfo< ${d}, ${ITKT_D}, ${ITKT_F}, ${ITKT_UL},${ITKT_UL},${ITKT_UL}, ${ITKT_PD${d}}, itk::VectorContainer< ${ITKT_UL}, ${ITKT_PD${d}} >, std::set< ${ITKT_UL} > > > *")
+  #endforeach()
+#itk_end_wrap_class()
+
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkCellInterface.h")
+itk_wrap_class("itk::CellTraitsInfo")
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${types})
-      itk_wrap_template("UL${mangle_CellInterface}"
-        "unsigned long, ${type_CellInterface} *")
+      itk_wrap_template("${d}${ITKM_${t}}${ITKM_${t}}${ITKM_UL}${ITKM_UL}${ITKM_UL}${ITKM_P${t}${d}}MC${ITKM_UL}${ITKM_P${t}${d}}"
+        "${d},${ITKT_${t}},${ITKT_${t}},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_P${t}${d}},itk::MapContainer< ${ITKT_UL},${ITKT_P${t}${d}} >, std::set< ${ITKT_UL} >")
+      itk_wrap_template("${d}${ITKM_${t}}${ITKM_${t}}${ITKM_UL}${ITKM_UL}${ITKM_UL}${ITKM_P${t}${d}}VC${ITKM_UL}${ITKM_P${t}${d}}"
+        "${d},${ITKT_${t}},${ITKT_${t}},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_P${t}${d}},itk::VectorContainer< ${ITKT_UL},${ITKT_P${t}${d}} >, std::set< ${ITKT_UL} >")
     endforeach()
-    itk_wrap_template("ULCIDCTI${d}DFULULUL${ITKM_PD${d}}MCUL${ITKM_PD${d}}"
-      "unsigned long, itk::CellInterface< ${ITKT_D}, itk::CellTraitsInfo< ${d}, ${ITKT_D}, ${ITKT_F}, ${ITKT_UL}, ${ITKT_UL}, ${ITKT_UL}, ${ITKT_PD${d}}, itk::MapContainer< ${ITKT_UL}, ${ITKT_PD${d}} >, std::set< ${ITKT_UL}, std::less< ${ITKT_UL} > > > > *")
+    itk_wrap_template("${d}${ITKM_D}${ITKM_F}${ITKM_UL}${ITKM_UL}${ITKM_UL}${ITKM_PD${d}}MC${ITKM_UL}${ITKM_PD${d}}"
+      "${d},${ITKT_D},${ITKT_F},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_PD${d}},itk::MapContainer< ${ITKT_UL},${ITKT_PD${d}} >, std::set< ${ITKT_UL} >")
+    itk_wrap_template("${d}${ITKM_D}${ITKM_F}${ITKM_UL}${ITKM_UL}${ITKM_UL}${ITKM_PD${d}}VC${ITKM_UL}${ITKM_PD${d}}"
+      "${d},${ITKT_D},${ITKT_F},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_PD${d}},itk::VectorContainer< ${ITKT_UL},${ITKT_PD${d}} >, std::set< ${ITKT_UL} >")
   endforeach()
 itk_end_wrap_class()
-
-itk_wrap_class("itk::VectorContainer" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
-    foreach(t ${types})
-      itk_wrap_template("UL${mangle_CellInterface}"
-        "unsigned long, ${type_CellInterface} *")
-      itk_wrap_template("ULCI\${ITKM_\${t}}CTI\${d}\${ITKM_\${t}}\${ITKM_\${t}}ULULUL\${ITKM_P\${t}\${d}}VCUL\${ITKM_P\${t}\${d}}"
-        "unsigned long, itk::CellInterface< \${ITKT_\${t}}, itk::CellTraitsInfo< \${d},\${ITKT_\${t}},\${ITKT_\${t}},\${ITKT_UL},\${ITKT_UL},\${ITKT_UL},\${ITKT_P\${t}\${d}},itk::VectorContainer< \${ITKT_UL},\${ITKT_P\${t}\${d}} >, std::set< \${ITKT_UL}, std::less< \${ITKT_UL} > > > > *")
-    endforeach()
-    itk_wrap_template("ULCI${ITKM_D}CTI${d}${ITKM_D}${ITKM_F}ULULUL${ITKM_PD${d}}VCUL${ITKM_PD${d}}"
-      "unsigned long, itk::CellInterface< ${ITKT_D}, itk::CellTraitsInfo< ${d}, ${ITKT_D}, ${ITKT_F}, ${ITKT_UL},${ITKT_UL},${ITKT_UL}, ${ITKT_PD${d}}, itk::VectorContainer< ${ITKT_UL}, ${ITKT_PD${d}} >, std::set< ${ITKT_UL}, std::less< ${ITKT_UL} > > > > *")
-  endforeach()
-itk_end_wrap_class()
+set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
 
 itk_wrap_class("itk::CellInterfaceVisitor" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${types})
       itk_wrap_template("${ITKM_${t}}CTI${d}${ITKM_${t}}${ITKM_${t}}ULULUL${ITKM_P${t}${d}}MCUL${ITKM_P${t}${d}}"
-        "${ITKT_${t}}, itk::CellTraitsInfo< ${d},${ITKT_${t}},${ITKT_${t}},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_P${t}${d}},itk::MapContainer< ${ITKT_UL},${ITKT_P${t}${d}} >, std::set< ${ITKT_UL}, std::less< ${ITKT_UL} > > > ")
+        "${ITKT_${t}}, itk::CellTraitsInfo< ${d},${ITKT_${t}},${ITKT_${t}},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_P${t}${d}},itk::MapContainer< ${ITKT_UL},${ITKT_P${t}${d}} >, std::set< ${ITKT_UL} > > ")
     endforeach()
   endforeach()
 itk_end_wrap_class()
@@ -59,14 +82,14 @@ itk_wrap_class("itk::CellInterface" AUTOPOINTER)
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${types})
       itk_wrap_template("${ITKM_${t}}CTI${d}${ITKM_${t}}${ITKM_${t}}ULULUL${ITKM_P${t}${d}}MCUL${ITKM_P${t}${d}}"
-        "${ITKT_${t}}, itk::CellTraitsInfo< ${d},${ITKT_${t}},${ITKT_${t}},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_P${t}${d}},itk::MapContainer< ${ITKT_UL},${ITKT_P${t}${d}} >, std::set< ${ITKT_UL}, std::less< ${ITKT_UL} > > > ")
+        "${ITKT_${t}}, itk::CellTraitsInfo< ${d},${ITKT_${t}},${ITKT_${t}},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_P${t}${d}},itk::MapContainer< ${ITKT_UL},${ITKT_P${t}${d}} >, std::set< ${ITKT_UL} > > ")
       itk_wrap_template("${ITKM_${t}}CTI${d}${ITKM_${t}}${ITKM_${t}}ULULUL${ITKM_P${t}${d}}VCUL${ITKM_P${t}${d}}"
-        "${ITKT_${t}}, itk::CellTraitsInfo< ${d},${ITKT_${t}},${ITKT_${t}},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_P${t}${d}},itk::VectorContainer< ${ITKT_UL},${ITKT_P${t}${d}} >, std::set< ${ITKT_UL}, std::less< ${ITKT_UL} > > > ")
+        "${ITKT_${t}}, itk::CellTraitsInfo< ${d},${ITKT_${t}},${ITKT_${t}},${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_P${t}${d}},itk::VectorContainer< ${ITKT_UL},${ITKT_P${t}${d}} >, std::set< ${ITKT_UL} > > ")
     endforeach()
     itk_wrap_template("DCTI${d}DFULULULPD${d}MCULPD${d}"
-      "double, itk::CellTraitsInfo< ${d}, double, float, ${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_PD${d}},itk::MapContainer< ${ITKT_UL},${ITKT_PD${d}} >, std::set< ${ITKT_UL}, std::less< ${ITKT_UL} > > > ")
+      "double, itk::CellTraitsInfo< ${d}, double, float, ${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_PD${d}},itk::MapContainer< ${ITKT_UL},${ITKT_PD${d}} >, std::set< ${ITKT_UL} > > ")
     itk_wrap_template("DCTI${d}DFULULULPD${d}VCULPD${d}"
-      "double, itk::CellTraitsInfo< ${d}, double, float, ${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_PD${d}},itk::VectorContainer< ${ITKT_UL},${ITKT_PD${d}} >, std::set< ${ITKT_UL}, std::less< ${ITKT_UL} > > > ")
+      "double, itk::CellTraitsInfo< ${d}, double, float, ${ITKT_UL},${ITKT_UL},${ITKT_UL},${ITKT_PD${d}},itk::VectorContainer< ${ITKT_UL},${ITKT_PD${d}} >, std::set< ${ITKT_UL} > > ")
 
   endforeach()
 itk_end_wrap_class()
