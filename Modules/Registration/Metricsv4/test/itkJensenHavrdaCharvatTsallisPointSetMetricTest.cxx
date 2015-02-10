@@ -27,6 +27,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   typedef itk::PointSet<unsigned char, Dimension> PointSetType;
 
   typedef typename PointSetType::PointType PointType;
+  typedef typename PointType::VectorType   VectorType;
 
   typename PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -37,12 +38,16 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   // Produce two simple point sets of 1) a circle and 2) the same circle with an offset
   PointType offset;
   float normOffset = 0;
+  VectorType normalizedOffset;
   for( unsigned int d=0; d < Dimension; d++ )
     {
     offset[d] = 2;
     normOffset += vnl_math_sqr( offset[d] );
+    normalizedOffset[d] = offset[d];
     }
   normOffset = std::sqrt( normOffset );
+  normalizedOffset /= normOffset;
+
   unsigned long count = 0;
   for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
     {
@@ -77,90 +82,113 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   typename TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
-  // Instantiate the metric
-  typedef itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
-  typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
-  metric->SetFixedPointSet( fixedPoints );
-  metric->SetMovingPointSet( movingPoints );
-  metric->SetMovingTransform( translationTransform );
-  metric->Initialize();
+  // check various alpha values between accepted values of [1.0, 2.0]
 
-  typename PointSetMetricType::MeasureType value = metric->GetValue(), value2;
-  typename PointSetMetricType::DerivativeType derivative, derivative2;
-  metric->GetDerivative( derivative );
-  metric->GetValueAndDerivative( value2, derivative2 );
+  unsigned int numberOfAlphaValues = 6;
+  float alphaValues[] = { 1.0, 1.2, 1.4, 1.6, 1.8, 2.0 };
+  float metricValues2D[] = { 0.143842, -0.0129571, -0.00105768, -0.000115118, -1.40956e-05, -1.84099e-06 };
+  float metricValues3D[] = { 0.175588, -0.0086854, -0.000475248, -3.46729e-05, -2.84585e-06, -2.49151e-07 };
 
-  derivative /= derivative.magnitude();
-  derivative2 /= derivative2.magnitude();
-
-  std::cout << "value: " << value << std::endl;
-  std::cout << "normalized derivative: " << derivative << std::endl;
-
-  // normalize offset
-  for( unsigned int d = 0; d < Dimension; d++ )
+  for( unsigned int i = 0; i < numberOfAlphaValues; i++ )
     {
-    offset[d] /= normOffset;
-    }
 
-  for( unsigned int d=0; d < metric->GetNumberOfParameters(); d++ )
-    {
-    if( std::fabs( derivative[d] - offset[d] ) / offset[d] > 0.01 )
-      {
-      std::cerr << "derivative does not match expected normalized offset of " << offset << std::endl;
-      return EXIT_FAILURE;
-      }
-    }
+    std::cout << "Alpha = " << alphaValues[i] << std::endl;
 
-  // Check for the same results from different methods
-  if( std::fabs( value - value2 ) > 0.01 )
-    {
-    std::cerr << "value does not match between calls to different methods: "
-              << "value: " << value << " value2: " << value2 << std::endl;
-    }
-  if( derivative != derivative2 )
-    {
-    std::cerr << "derivative does not match between calls to different methods: "
-              << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
-    }
+    // Instantiate the metric ( alpha = 1.0 )
+    typedef itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+    typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
+    metric->SetFixedPointSet( fixedPoints );
+    metric->SetMovingPointSet( movingPoints );
+    metric->SetMovingTransform( translationTransform );
+    metric->SetAlpha( alphaValues[i] );
+    metric->Initialize();
 
-  std::ofstream moving_str1( "sourceMoving.txt" );
-  std::ofstream moving_str2( "targetMoving.txt" );
+    typename PointSetMetricType::MeasureType value = metric->GetValue(), value2;
+    typename PointSetMetricType::DerivativeType derivative, derivative2;
+    metric->GetDerivative( derivative );
+    metric->GetValueAndDerivative( value2, derivative2 );
 
-  count = 0;
+    derivative /= derivative.magnitude();
+    derivative2 /= derivative2.magnitude();
 
-  moving_str1 << "0 0 0 0" << std::endl;
-  moving_str2 << "0 0 0 0" << std::endl;
-
-  typename PointType::VectorType vector;
-  for( unsigned int d = 0; d < metric->GetNumberOfParameters(); d++ )
-    {
-    vector[d] = derivative[count++];
-    }
-
-  typename PointSetType::PointsContainer::ConstIterator ItM = movingPoints->GetPoints()->Begin();
-  while( ItM != movingPoints->GetPoints()->End() )
-    {
-    PointType sourcePoint = ItM.Value();
-    PointType targetPoint = sourcePoint + vector;
+    std::cout << "value: " << value << std::endl;
+    std::cout << "normalized derivative: " << derivative << std::endl;
 
     for( unsigned int d = 0; d < metric->GetNumberOfParameters(); d++ )
       {
-      moving_str1 << sourcePoint[d] << " ";
-      moving_str2 << targetPoint[d] << " ";
+      if( std::fabs( derivative[d] - normalizedOffset[d] ) / normalizedOffset[d] > 0.01 )
+        {
+        std::cerr << "derivative does not match expected normalized offset of " << offset << std::endl;
+        return EXIT_FAILURE;
+        }
       }
-    if( Dimension < 3 )
+
+    if( Dimension == 2 )
       {
-      moving_str1 << "0 ";
-      moving_str2 << "0 ";
+      if( std::fabs( value - metricValues2D[i] ) > 0.01 )
+        {
+        std::cerr << "calculated value is different than expected." << std::endl;
+        }
       }
-    moving_str1 << ItM.Index() << std::endl;
-    moving_str2 << ItM.Index() << std::endl;
+    else if( Dimension == 3 )
+      {
+      if( std::fabs( value - metricValues3D[i] ) > 0.01 )
+        {
+        std::cerr << "calculated value is different than expected." << std::endl;
+        }
+      }
 
-    ++ItM;
+    // Check for the same results from different methods
+    if( std::fabs( value - value2 ) > 0.01 )
+      {
+      std::cerr << "value does not match between calls to different methods: "
+                << "value: " << value << " value2: " << value2 << std::endl;
+      }
+    if( derivative != derivative2 )
+      {
+      std::cerr << "derivative does not match between calls to different methods: "
+                << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
+      }
+
+    std::ofstream moving_str1( "sourceMoving.txt" );
+    std::ofstream moving_str2( "targetMoving.txt" );
+
+    count = 0;
+
+    moving_str1 << "0 0 0 0" << std::endl;
+    moving_str2 << "0 0 0 0" << std::endl;
+
+    typename PointType::VectorType vector;
+    for( unsigned int d = 0; d < metric->GetNumberOfParameters(); d++ )
+      {
+      vector[d] = derivative[count++];
+      }
+
+    typename PointSetType::PointsContainer::ConstIterator ItM = movingPoints->GetPoints()->Begin();
+    while( ItM != movingPoints->GetPoints()->End() )
+      {
+      PointType sourcePoint = ItM.Value();
+      PointType targetPoint = sourcePoint + vector;
+
+      for( unsigned int d = 0; d < metric->GetNumberOfParameters(); d++ )
+        {
+        moving_str1 << sourcePoint[d] << " ";
+        moving_str2 << targetPoint[d] << " ";
+        }
+      if( Dimension < 3 )
+        {
+        moving_str1 << "0 ";
+        moving_str2 << "0 ";
+        }
+      moving_str1 << ItM.Index() << std::endl;
+      moving_str2 << ItM.Index() << std::endl;
+
+      ++ItM;
+      }
+
+    moving_str1 << "0 0 0 0" << std::endl;
+    moving_str2 << "0 0 0 0" << std::endl;
     }
-
-  moving_str1 << "0 0 0 0" << std::endl;
-  moving_str2 << "0 0 0 0" << std::endl;
 
   return EXIT_SUCCESS;
 }
