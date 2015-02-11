@@ -34,9 +34,9 @@ GPUContextManager* GPUContextManager::GetInstance()
 
 void GPUContextManager::DestroyInstance()
 {
-std::cout << "Context is destroyed" << std::endl;
-  delete m_Instance;
+  m_Instance->Delete();
   m_Instance = ITK_NULLPTR;
+  itkDebugStatement(std::cout << "OpenCL context is destroyed." << std::endl);
 }
 
 GPUContextManager::GPUContextManager()
@@ -79,6 +79,19 @@ GPUContextManager::GPUContextManager()
 
 GPUContextManager::~GPUContextManager()
 {
+  cl_int errid;
+  for(unsigned int i=0; i<m_NumberOfDevices; i++)
+    {
+    errid = clReleaseCommandQueue(m_CommandQueue[i]);
+    OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
+    }
+  free(m_CommandQueue);
+  errid = clReleaseContext(m_Context);
+  OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
+  if(m_NumberOfDevices > 0)
+    {
+    free(m_Devices);
+    }
 }
 
 cl_command_queue GPUContextManager::GetCommandQueue(int i)

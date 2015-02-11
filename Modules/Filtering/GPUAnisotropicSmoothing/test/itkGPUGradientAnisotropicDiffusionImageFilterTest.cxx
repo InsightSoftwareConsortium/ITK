@@ -170,6 +170,8 @@ int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile,
 
   }
 
+  GPUFilter = ITK_NULLPTR; // explicit GPU object destruction test
+  itk::GPUContextManager::GetInstance()->DestroyInstance(); // GPUContextManager singleton destruction test
   return EXIT_SUCCESS;
 }
 

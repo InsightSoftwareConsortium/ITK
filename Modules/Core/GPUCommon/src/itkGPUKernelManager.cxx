@@ -22,11 +22,30 @@ namespace itk
 {
 GPUKernelManager::GPUKernelManager()
 {
+  m_Program = ITK_NULLPTR;
   m_Manager = GPUContextManager::GetInstance();
 
   if(m_Manager->GetNumberOfCommandQueues() > 0) m_CommandQueueId = 0;   // default
                                                                   // command
                                                                   // queue
+}
+
+GPUKernelManager::~GPUKernelManager()
+{
+  cl_int errid;
+
+  while(m_KernelContainer.size() > 0)
+    {
+    errid = clReleaseKernel(m_KernelContainer.back());
+    OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
+    m_KernelContainer.pop_back();
+    }
+
+  if(m_Program != ITK_NULLPTR)
+    {
+    errid = clReleaseProgram(m_Program);
+    OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
+    }
 }
 
 bool GPUKernelManager::LoadProgramFromFile(const char* filename, const char* cPreamble)
@@ -159,8 +178,7 @@ bool GPUKernelManager::LoadProgramFromString(const char* cSource, const char* cP
   m_Program = clCreateProgramWithSource(
       m_Manager->GetCurrentContext(), 1, (const char **)&cSourceString, &szFinalLength, &errid);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
-  // KMZ when is it safe to free the source string?  Seems like the program still keeps a reference to it, so deleting here is dangerous?
-//   free(cSourceString);
+  free(cSourceString);
 
   if(errid != CL_SUCCESS)
     {

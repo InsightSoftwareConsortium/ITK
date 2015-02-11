@@ -86,6 +86,14 @@ public:
   ObjectType * GetPointer() const
   { return m_Pointer; }
 
+  /** Test if the pointer is not NULL. */
+  bool IsNotNull() const
+  { return m_Pointer != ITK_NULLPTR; }
+
+  /** Test if the pointer is NULL. */
+  bool IsNull() const
+  { return m_Pointer == ITK_NULLPTR; }
+
   /** Comparison of pointers. Less than comparison.  */
   bool operator<(const WeakPointer & r) const
   { return (void *)m_Pointer < (void *)r.m_Pointer; }

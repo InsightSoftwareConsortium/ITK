@@ -27,7 +27,7 @@ namespace itk
 template < typename ImageType >
 void GPUImageDataManager< ImageType >::SetImagePointer( typename ImageType::Pointer img )
 {
-  m_Image = img;
+  m_Image = img.GetPointer();
 
   typedef typename ImageType::RegionType RegionType;
   typedef typename ImageType::IndexType  IndexType;
@@ -79,9 +79,7 @@ void GPUImageDataManager< ImageType >::MakeCPUBufferUpToDate()
     if( (m_IsCPUBufferDirty || (gpu_time > cpu_time) ) && m_GPUBuffer != ITK_NULLPTR && m_CPUBuffer != ITK_NULLPTR )
       {
       cl_int errid;
-#ifdef VERBOSE
-      std::cout << "GPU->CPU data copy" << std::endl;
-#endif
+      itkDebugMacro(<< "GPU->CPU data copy" );
       errid = clEnqueueReadBuffer(m_ContextManager->GetCommandQueue(
                                     m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR,
                                   ITK_NULLPTR);
@@ -118,9 +116,7 @@ void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
     if( (m_IsGPUBufferDirty || (gpu_time < cpu_time) ) && m_CPUBuffer != ITK_NULLPTR && m_GPUBuffer != ITK_NULLPTR )
       {
       cl_int errid;
-#ifdef VERBOSE
-      std::cout << "CPU->GPU data copy" << std::endl;
-#endif
+      itkDebugMacro(<< "CPU->GPU data copy");
       errid = clEnqueueWriteBuffer(m_ContextManager->GetCommandQueue(
                                      m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR,
                                    ITK_NULLPTR);

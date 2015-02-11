@@ -81,7 +81,8 @@ private:
   GPUImageDataManager(const Self&);   //purposely not implemented
   void operator=(const Self&);
 
-  typename ImageType::Pointer       m_Image;
+  WeakPointer<ImageType>            m_Image;   // WeakPointer has to be used here
+                                               // to avoid SmartPointer loop
   int                               m_BufferedRegionIndex[ImageType::ImageDimension];
   int                               m_BufferedRegionSize[ImageType::ImageDimension];
   typename GPUDataManager::Pointer  m_GPUBufferedRegionIndex;
