@@ -169,7 +169,7 @@ SWIG_JAVABODY_METHODS(public, public, SWIGTYPE)
                         smtPtr->Register();
                         return smtPtr.GetPointer();
                 };
-                ~itkClassWrapped() {
+                ~itkClass() {
                         self->UnRegister();
                 };
         }
