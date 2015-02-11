@@ -232,11 +232,10 @@ int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNot
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  bool passed = true;
   PointType::ValueType tolerance = 0.01;
 
   float averageError = 0.0;
-  for( unsigned int n=0; n < movingPoints->GetNumberOfPoints(); n++ )
+  for( unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); n++ )
     {
     // compare the points in virtual domain
     PointType transformedMovingPoint =
@@ -251,16 +250,21 @@ int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNot
 
     averageError += ( ( difference.GetVectorFromOrigin() ).GetSquaredNorm() );
     }
-  averageError /= static_cast<float>( movingPoints->GetNumberOfPoints() );
-  std::cout << "Average error: " << averageError << std::endl;
-  if( averageError > tolerance )
-    {
-    passed = false;
-    }
 
-  if( ! passed )
+  unsigned int numberOfPoints = movingPoints->GetNumberOfPoints();
+  if( numberOfPoints > 0 )
     {
-    std::cerr << "Results do not match truth within tolerance." << std::endl;
+    averageError /= static_cast<float>( numberOfPoints );
+    std::cout << "Average error: " << averageError << std::endl;
+    if( averageError > tolerance )
+      {
+      std::cerr << "Results do not match truth within tolerance." << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  else
+    {
+    std::cerr << "No points." << std::endl;
     return EXIT_FAILURE;
     }
 
