@@ -65,8 +65,11 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 #define DEFINED_PPC      (defined(__ppc__) || defined(__ppc64__))
 #define DEFINED_INTEL    (defined(__i386__) || defined(__x86_64__))
 
+#if defined(__sun) || defined(__EMSCRIPTEN__)
+
 #if defined(__sun)
 #include <ieeefp.h>
+#endif
 /*
  * Based on information suggested in Solaris documentation.
  * See http://download.oracle.com/docs/cd/E19963-01/html/821-1465/fpgetmask-3c.html
