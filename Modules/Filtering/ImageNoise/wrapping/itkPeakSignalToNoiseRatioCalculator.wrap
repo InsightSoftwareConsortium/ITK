@@ -1,3 +1,0 @@
-wrap_class("itk::PeakSignalToNoiseRatioCalculator" POINTER)
-  wrap_image_filter_scalar(1)
-end_wrap_class()
