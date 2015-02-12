@@ -55,10 +55,10 @@ if(BORLAND)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8004 -w-8057")
 endif(BORLAND)
 
-include(${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
-include(${CMAKE_ROOT}/Modules/CheckIncludeFiles.cmake)
-include(${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
-include(${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
+include(TestBigEndian)
+include(CheckIncludeFiles)
+include(CheckSymbolExists)
+include(CheckFunctionExists)
 
 # Check if header file exists and add it to the list.
 CHECK_INCLUDE_FILES("assert.h" HAVE_ASSERT_H)
