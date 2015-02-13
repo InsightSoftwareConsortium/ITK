@@ -89,7 +89,8 @@ namespace itk
 template<typename TFixedImage,
          typename TMovingImage,
          typename TOutputTransform = Transform<double, TFixedImage::ImageDimension, TFixedImage::ImageDimension>,
-         typename TVirtualImage = TFixedImage>
+         typename TVirtualImage = TFixedImage,
+         typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
 class ImageRegistrationMethodv4
 :public ProcessObject
 {
@@ -117,6 +118,10 @@ public:
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
   typedef std::vector<MovingImagePointer>                             MovingImagesContainerType;
 
+  typedef TPointSet                                                   PointSetType;
+  typedef typename PointSetType::ConstPointer                         PointSetConstPointer;
+  typedef std::vector<PointSetConstPointer>                           PointSetsContainerType;
+
   /** Metric and transform typedefs */
   typedef TOutputTransform                                            OutputTransformType;
   typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
@@ -134,10 +139,6 @@ public:
   typedef typename MetricType::Pointer                                MetricPointer;
 
   typedef Vector<RealType, ImageDimension>                            VectorType;
-
-  typedef PointSet<unsigned int, ImageDimension>                      PointSetType;
-  typedef typename PointSetType::ConstPointer                         PointSetConstPointer;
-  typedef std::vector<PointSetConstPointer>                           PointSetsContainerType;
 
   typedef TVirtualImage                                               VirtualImageType;
   typedef typename VirtualImageType::Pointer                          VirtualImagePointer;

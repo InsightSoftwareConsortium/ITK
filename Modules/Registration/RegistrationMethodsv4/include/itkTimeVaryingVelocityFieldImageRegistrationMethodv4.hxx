@@ -36,8 +36,8 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::TimeVaryingVelocityFieldImageRegistrationMethodv4() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-7 ),
@@ -49,8 +49,8 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
   this->m_NumberOfIterationsPerLevel[2] = 40;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::~TimeVaryingVelocityFieldImageRegistrationMethodv4()
 {
 }
@@ -58,9 +58,9 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::StartOptimization()
 {
   typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
@@ -394,9 +394,9 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 /*
  * Start the registration
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::GenerateData()
 {
 
@@ -423,9 +423,9 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 /*
  * PrintSelf
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
+TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

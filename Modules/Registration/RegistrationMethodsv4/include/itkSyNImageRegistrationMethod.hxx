@@ -35,8 +35,8 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::SyNImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-6 ),
@@ -54,15 +54,15 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   this->m_MovingToMiddleTransform = ITK_NULLPTR;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::~SyNImageRegistrationMethod()
 {
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::InitializeRegistrationAtEachLevel( const SizeValueType level )
 {
   Superclass::InitializeRegistrationAtEachLevel( level );
@@ -141,9 +141,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::StartOptimization()
 {
   VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
@@ -251,9 +251,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     }
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::ComputeUpdateField( const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
   const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
   const TransformBaseType * movingTransform, const FixedImageMaskType * mask, MeasureType & value )
@@ -269,9 +269,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   return scaledUpdateField;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::ComputeMetricGradientField( const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
   const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
   const TransformBaseType * movingTransform, const FixedImageMaskType * itkNotUsed( mask ), MeasureType & value )
@@ -485,9 +485,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   return gradientField;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::ScaleUpdateField( const DisplacementFieldType * updateField )
 {
   typename DisplacementFieldType::SpacingType spacing = updateField->GetSpacing();
@@ -527,9 +527,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   return scaledUpdateField;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::InvertDisplacementField( const DisplacementFieldType * field, const DisplacementFieldType * inverseFieldEstimate )
 {
   typedef InvertDisplacementFieldImageFilter<DisplacementFieldType> InverterType;
@@ -547,9 +547,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   return inverseField;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::GaussianSmoothDisplacementField( const DisplacementFieldType * field, const RealType variance )
 {
   typedef ImageDuplicator<DisplacementFieldType> DuplicatorType;
@@ -639,9 +639,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   return smoothField;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::PointSetPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::PointSetPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::TransformPointSet( const PointSetType * pointSet, const TransformBaseType * transform )
 {
   typename PointSetType::Pointer transformedPointSet = PointSetType::New();
@@ -668,9 +668,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 /*
  * Start the registration
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::GenerateData()
 {
   this->AllocateOutputs();
@@ -711,9 +711,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 /*
  * PrintSelf
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

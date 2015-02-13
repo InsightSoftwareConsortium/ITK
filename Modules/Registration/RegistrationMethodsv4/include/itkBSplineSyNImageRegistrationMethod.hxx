@@ -34,21 +34,21 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::BSplineSyNImageRegistrationMethod()
 {
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::~BSplineSyNImageRegistrationMethod()
 {
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::InitializeRegistrationAtEachLevel( const SizeValueType level )
 {
   Superclass::InitializeRegistrationAtEachLevel( level );
@@ -74,9 +74,9 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::StartOptimization()
 {
   VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
@@ -209,9 +209,9 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     }
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::ComputeUpdateField( const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
   const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
   const TransformBaseType * movingTransform, const FixedImageMaskType * mask, MeasureType & value )
@@ -263,9 +263,9 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   return scaledUpdateField;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::BSplineSmoothDisplacementField( const DisplacementFieldType * field,
   const ArrayType & numberOfControlPoints, const WeightedMaskImageType * mask,
   const PointSetType * pointSet )
