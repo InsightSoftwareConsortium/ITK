@@ -125,7 +125,7 @@ void
 LBFGSBOptimizerv4
 ::SetScales(const ScalesType &)
 {
-  std::cout << "WARNING: LBFGSB optimizer does not support scaling. All scales are set to one." << std::endl;
+  itkWarningMacro( << "LBFGSB optimizer does not support scaling. All scales are set to one." )
   m_Scales.SetSize( this->m_Metric->GetNumberOfLocalParameters() );
   m_Scales.Fill( NumericTraits<ScalesType::ValueType>::OneValue() );
   this->m_ScalesAreIdentity = true;
@@ -248,7 +248,6 @@ LBFGSBOptimizerv4
 
   if ( this->GetInitialPosition().Size() < numberOfParameters )
     {
-    std::cout << "Set the initial position of the optimizer:" << std::endl;
     this->SetInitialPosition( m_Metric->GetParameters() );
     }
 
