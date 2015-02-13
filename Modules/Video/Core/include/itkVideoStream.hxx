@@ -23,15 +23,10 @@
 namespace itk
 {
 
-//-PUBLIC METHODS--------------------------------------------------------------
-
-//
-// SetFrameLargestPossibleSpatialRegion
-//
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(
-  SizeValueType frameNumber, typename TFrameType::RegionType region)
+VideoStream<TFrameType>
+::SetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber, typename TFrameType::RegionType region)
 {
   m_LargestPossibleSpatialRegionCache[frameNumber] = region;
 
@@ -45,26 +40,22 @@ VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(
     }
 }
 
-//
-// GetFrameLargestPossibleSpatialRegion
-//
+
 template<typename TFrameType>
 const typename TFrameType::RegionType &
-VideoStream<TFrameType>::
-GetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber) const
+VideoStream<TFrameType>
+::GetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
   return const_cast<Self*>(this)->m_LargestPossibleSpatialRegionCache[frameNumber];
 }
 
-//
-// SetFrameRequestedSpatialRegion
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(
-  SizeValueType frameNumber, typename TFrameType::RegionType region)
+VideoStream<TFrameType>
+::SetFrameRequestedSpatialRegion(SizeValueType frameNumber, typename TFrameType::RegionType region)
 {
   m_RequestedSpatialRegionCache[frameNumber] = region;
 
@@ -78,26 +69,22 @@ VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(
     }
 }
 
-//
-// GetFrameRequestedSpatialRegion
-//
+
 template<typename TFrameType>
 const typename TFrameType::RegionType &
-VideoStream<TFrameType>::
-GetFrameRequestedSpatialRegion(SizeValueType frameNumber) const
+VideoStream<TFrameType>
+::GetFrameRequestedSpatialRegion(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
   return const_cast<Self*>(this)->m_RequestedSpatialRegionCache[frameNumber];
 }
 
-//
-// SetFrameBufferedSpatialRegion
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(
-  SizeValueType frameNumber, typename TFrameType::RegionType region)
+VideoStream<TFrameType>
+::SetFrameBufferedSpatialRegion(SizeValueType frameNumber, typename TFrameType::RegionType region)
 {
   m_BufferedSpatialRegionCache[frameNumber] = region;
 
@@ -111,26 +98,22 @@ VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(
     }
 }
 
-//
-// GetFrameBufferedSpatialRegion
-//
+
 template<typename TFrameType>
 const typename TFrameType::RegionType &
-VideoStream<TFrameType>::
-GetFrameBufferedSpatialRegion(SizeValueType frameNumber) const
+VideoStream<TFrameType>
+::GetFrameBufferedSpatialRegion(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
   return const_cast<Self*>(this)->m_BufferedSpatialRegionCache[frameNumber];
 }
 
-//
-// SetFrameSpacing
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameSpacing(
-  SizeValueType frameNumber, typename TFrameType::SpacingType spacing)
+VideoStream<TFrameType>
+::SetFrameSpacing(SizeValueType frameNumber, typename TFrameType::SpacingType spacing)
 {
   // Make sure spacing is non-zero
   for (unsigned int i = 0; i < FrameType::ImageDimension; ++i)
@@ -153,26 +136,22 @@ VideoStream<TFrameType>::SetFrameSpacing(
     }
 }
 
-//
-// GetFrameSpacing
-//
+
 template<typename TFrameType>
 const typename TFrameType::SpacingType &
-VideoStream<TFrameType>::
-GetFrameSpacing(SizeValueType frameNumber) const
+VideoStream<TFrameType>
+::GetFrameSpacing(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
   return const_cast<Self*>(this)->m_SpacingCache[frameNumber];
 }
 
-//
-// SetFrameOrigin
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameOrigin(
-  SizeValueType frameNumber, typename TFrameType::PointType origin)
+VideoStream<TFrameType>
+::SetFrameOrigin(SizeValueType frameNumber, typename TFrameType::PointType origin)
 {
   m_OriginCache[frameNumber] = origin;
 
@@ -186,26 +165,22 @@ VideoStream<TFrameType>::SetFrameOrigin(
     }
 }
 
-//
-// GetFrameOrigin
-//
+
 template<typename TFrameType>
 const typename TFrameType::PointType &
-VideoStream<TFrameType>::
-GetFrameOrigin(SizeValueType frameNumber) const
+VideoStream<TFrameType>
+::GetFrameOrigin(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
   return const_cast<Self*>(this)->m_OriginCache[frameNumber];
 }
 
-//
-// SetFrameDirection
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameDirection(
-  SizeValueType frameNumber, typename TFrameType::DirectionType direction)
+VideoStream<TFrameType>
+::SetFrameDirection(SizeValueType frameNumber, typename TFrameType::DirectionType direction)
 {
   // Determinant is non-zero
   if (vnl_math_abs(vnl_determinant(direction.GetVnlMatrix())) <= vnl_math::eps)
@@ -225,26 +200,22 @@ VideoStream<TFrameType>::SetFrameDirection(
     }
 }
 
-//
-// GetFrameOrigin
-//
+
 template<typename TFrameType>
 const typename TFrameType::DirectionType &
-VideoStream<TFrameType>::
-GetFrameDirection(SizeValueType frameNumber) const
+VideoStream<TFrameType>
+::GetFrameDirection(SizeValueType frameNumber) const
 {
   // It seems that std::map's [] operator isn't const correct, so we need to
   // access this member from an non-const version of ourselves
   return const_cast<Self*>(this)->m_DirectionCache[frameNumber];
 }
 
-//
-// SetFrameBuffer
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameBuffer(
-  typename VideoStream<TFrameType>::BufferType* buffer)
+VideoStream<TFrameType>
+::SetFrameBuffer(typename VideoStream<TFrameType>::BufferType* buffer)
 {
   // We reinterpret the buffer to match TemporalDataObject's buffer type. We
   // assume that any tampering with the internal buffer will use our BufferType
@@ -259,12 +230,11 @@ VideoStream<TFrameType>::SetFrameBuffer(
     }
 }
 
-//
-// SetMinimumBufferSize
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetMinimumBufferSize(SizeValueType minimumNumberOfFrames)
+VideoStream<TFrameType>
+::SetMinimumBufferSize(SizeValueType minimumNumberOfFrames)
 {
   // If we don't have enough buffer space to handle the number of requested
   // frames, we need to resize the ring buffer. Just resizing can cause data to
@@ -297,12 +267,11 @@ VideoStream<TFrameType>::SetMinimumBufferSize(SizeValueType minimumNumberOfFrame
     }
 }
 
-//
-// InitializeEmptyFrames
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::InitializeEmptyFrames()
+VideoStream<TFrameType>
+::InitializeEmptyFrames()
 {
   // If we don't have any frames requested, just return
   SizeValueType numFrames = m_RequestedTemporalRegion.GetFrameDuration();
@@ -359,13 +328,11 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
     }
 }
 
-//
-// SetFrame
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrame(SizeValueType frameNumber,
-                                  FramePointer frame)
+VideoStream<TFrameType>
+::SetFrame(SizeValueType frameNumber, FramePointer frame)
 {
   typename BufferType::ElementType* dataObjectRawPointer =
     dynamic_cast<typename BufferType::ElementType*>(frame.GetPointer());
@@ -381,12 +348,11 @@ VideoStream<TFrameType>::SetFrame(SizeValueType frameNumber,
   m_DirectionCache[frameNumber] = frame->GetDirection();
 }
 
-//
-// GetFrame
-//
+
 template<typename TFrameType>
 typename VideoStream<TFrameType>::FramePointer
-VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
+VideoStream<TFrameType>
+::GetFrame(SizeValueType frameNumber)
 {
 
   // Fetch the frame
@@ -396,12 +362,11 @@ VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
   return frame;
 }
 
-//
-// const GetFrame const
-//
+
 template<typename TFrameType>
 typename VideoStream<TFrameType>::FrameConstPointer
-VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const
+VideoStream<TFrameType>
+::GetFrame(SizeValueType frameNumber) const
 {
   typename BufferType::ElementPointer element =
     m_DataObjectBuffer->GetBufferContents(frameNumber);
@@ -409,12 +374,11 @@ VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const
   return frame;
 }
 
-//
-// Graft
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::Graft(const DataObject* data)
+VideoStream<TFrameType>
+::Graft(const DataObject* data)
 {
   // Call TemporalDataObject's Graft implementation
   Superclass::Graft(data);
@@ -446,13 +410,11 @@ VideoStream<TFrameType>::Graft(const DataObject* data)
     }
 }
 
-//
-// SetAllLargestPossibleSpatialRegions
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::
-SetAllLargestPossibleSpatialRegions(typename TFrameType::RegionType region)
+VideoStream<TFrameType>
+::SetAllLargestPossibleSpatialRegions(typename TFrameType::RegionType region)
 {
   SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
@@ -476,13 +438,11 @@ SetAllLargestPossibleSpatialRegions(typename TFrameType::RegionType region)
     }
 }
 
-//
-// SetAllRequestedSpatialRegions
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::
-SetAllRequestedSpatialRegions(typename TFrameType::RegionType region)
+VideoStream<TFrameType>
+::SetAllRequestedSpatialRegions(typename TFrameType::RegionType region)
 {
   SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
@@ -506,13 +466,11 @@ SetAllRequestedSpatialRegions(typename TFrameType::RegionType region)
     }
 }
 
-//
-// SetAllBufferedSpatialRegions
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::
-SetAllBufferedSpatialRegions(typename TFrameType::RegionType region)
+VideoStream<TFrameType>
+::SetAllBufferedSpatialRegions(typename TFrameType::RegionType region)
 {
   SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
@@ -536,13 +494,11 @@ SetAllBufferedSpatialRegions(typename TFrameType::RegionType region)
     }
 }
 
-//
-// SetAllFramesSpacing
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::
-SetAllFramesSpacing(typename TFrameType::SpacingType spacing)
+VideoStream<TFrameType>
+::SetAllFramesSpacing(typename TFrameType::SpacingType spacing)
 {
   SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
@@ -566,13 +522,11 @@ SetAllFramesSpacing(typename TFrameType::SpacingType spacing)
     }
 }
 
-//
-// SetAllFramesOrigin
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::
-SetAllFramesOrigin(typename TFrameType::PointType origin)
+VideoStream<TFrameType>
+::SetAllFramesOrigin(typename TFrameType::PointType origin)
 {
   SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
@@ -596,13 +550,11 @@ SetAllFramesOrigin(typename TFrameType::PointType origin)
     }
 }
 
-//
-// SetAllFramesDirection
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::
-SetAllFramesDirection(typename TFrameType::DirectionType direction)
+VideoStream<TFrameType>
+::SetAllFramesDirection(typename TFrameType::DirectionType direction)
 {
   SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
@@ -626,12 +578,11 @@ SetAllFramesDirection(typename TFrameType::DirectionType direction)
     }
 }
 
-//
-// Allocate
-//
+
 template<typename TFrameType>
 void
-VideoStream<TFrameType>::Allocate()
+VideoStream<TFrameType>
+::Allocate()
 {
   SizeValueType numFrames = m_BufferedTemporalRegion.GetFrameDuration();
   if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
