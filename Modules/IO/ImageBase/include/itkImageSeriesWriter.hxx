@@ -210,6 +210,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
   // Allocate an image for output and create an iterator for it
   typename OutputImageType::Pointer outputImage = OutputImageType::New();
   outputImage->SetRegions(outRegion);
+  outputImage->SetNumberOfComponentsPerPixel(inputImage->GetNumberOfComponentsPerPixel());
   outputImage->Allocate();
   ImageRegionIterator< OutputImageType > ot(outputImage, outRegion);
 
