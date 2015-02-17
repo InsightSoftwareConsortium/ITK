@@ -188,6 +188,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
       this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
       ITK_NULLPTR, movingMetricValue );
+
     DisplacementFieldPointer movingToMiddleSmoothUpdateField = this->ComputeUpdateField(
       this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
       this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
@@ -437,6 +438,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( identityDisplacementFieldTransform );
       }
     }
+
   this->m_Metric->Initialize();
 
   typedef typename ImageMetricType::DerivativeType MetricDerivativeType;
@@ -511,7 +513,11 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       }
     }
 
-  RealType scale = this->m_LearningRate / maxNorm;
+  RealType scale = this->m_LearningRate;
+  if( maxNorm > NumericTraits<RealType>::ZeroValue() )
+    {
+    scale /= maxNorm;
+    }
 
   typedef Image<RealType, ImageDimension> RealImageType;
 
