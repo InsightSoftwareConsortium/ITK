@@ -56,9 +56,6 @@ const char globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDEX_NAME
 }
 
 
-/**
- * Instantiate object with no start, end, or progress methods.
- */
 ProcessObject
 ::ProcessObject() :
   m_Inputs(),
@@ -66,6 +63,10 @@ ProcessObject
   m_CachedInputReleaseDataFlags(),
   m_RequiredInputNames()
 {
+/*
+ * Instantiate object with no start, end, or progress methods.
+ */
+
   m_NumberOfRequiredInputs = 0;
   m_NumberOfRequiredOutputs = 0;
 
@@ -84,16 +85,18 @@ ProcessObject
 
 }
 
-/**
+
+DataObject::Pointer
+ProcessObject
+::MakeOutput( const DataObjectIdentifierType & name )
+{
+/*
  * This is a default implementation to make sure we have something.
  * Once all the subclasses of ProcessObject provide an appopriate
  * MakeOutput(), then ProcessObject::MakeOutput() can be made pure
  * virtual.
  */
-DataObject::Pointer
-ProcessObject
-::MakeOutput( const DataObjectIdentifierType & name )
-{
+
   itkDebugMacro("MakeOutput(" << name << ")");
   if( this->IsIndexedOutputName(name) )
     {
@@ -101,6 +104,7 @@ ProcessObject
     }
   return static_cast<DataObject *>(DataObject::New().GetPointer());
 }
+
 
 DataObject::Pointer
 ProcessObject
@@ -110,13 +114,14 @@ ProcessObject
 }
 
 
-/**
- * Destructor for the ProcessObject class. We've got to
- * UnRegister() the use of any input classes.
- */
 ProcessObject
 ::~ProcessObject()
 {
+/*
+ * Destructor for the ProcessObject class. We've got to
+ * UnRegister() the use of any input classes.
+ */
+
   // Tell each output that we are going away.  If other objects have a
   // reference to one of these outputs, the data object will not be deleted
   // when the process object is deleted.  However, the data object's source
@@ -134,13 +139,15 @@ ProcessObject
     }
 }
 
-/**
- * Called by constructor to set up input array.
- */
+
 void
 ProcessObject
 ::SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num)
 {
+/*
+ * Called by constructor to set up input array.
+ */
+
   if( this->GetNumberOfIndexedInputs() != num )
     {
     if ( num < this->GetNumberOfIndexedInputs() )
@@ -176,13 +183,14 @@ ProcessObject
     }
 }
 
-/**
- * Get the number of specified inputs
- */
+
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::GetNumberOfValidRequiredInputs() const
 {
+/*
+ * Get the number of specified inputs
+ */
   DataObjectPointerArraySizeType count = 0;
   for( DataObjectPointerArraySizeType i = 0; i < m_NumberOfRequiredInputs; i++ )
     {
@@ -194,14 +202,15 @@ ProcessObject
   return count;
 }
 
-/**
- * Adds an input to the first null position in the input list.
- * Expands the list memory if necessary
- */
+
 void
 ProcessObject
 ::AddInput(DataObject *input)
 {
+/*
+ * Adds an input to the first null position in the input list.
+ * Expands the list memory if necessary
+ */
   for ( unsigned idx = 0; idx < this->GetNumberOfIndexedInputs(); ++idx )
     {
     if ( !this->GetInput( idx ) )
@@ -213,13 +222,14 @@ ProcessObject
   this->SetNthInput( this->GetNumberOfIndexedInputs(), input );
 }
 
-/**
- * Remove an input.
- */
+
 void
 ProcessObject
 ::RemoveInput(const DataObjectIdentifierType & key)
 {
+/*
+ * Remove an input.
+ */
 
   // if primary or required set to null
   if ( key ==  m_IndexedInputs[0]->first || this->IsRequiredInputName(key) )
@@ -253,10 +263,6 @@ ProcessObject
 }
 
 
-/**
- * Remove an input.
- *
- */
 void
 ProcessObject
 ::RemoveInput(DataObjectPointerArraySizeType idx)
@@ -271,9 +277,7 @@ ProcessObject
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::SetInput(const DataObjectIdentifierType & key, DataObject * input)
@@ -298,15 +302,16 @@ ProcessObject
   // the entry is already there - there is nothing to do
 }
 
-/** Set an Input of this filter. This method
- * does Register()/UnRegister() manually to
- * deal with the fact that smart pointers aren't
- * around to do the reference counting.
- */
+
 void
 ProcessObject
 ::SetNthInput(DataObjectPointerArraySizeType idx, DataObject *input)
 {
+/* Set an Input of this filter. This method
+ * does Register()/UnRegister() manually to
+ * deal with the fact that smart pointers aren't
+ * around to do the reference counting.
+ */
   if ( idx >= this->GetNumberOfIndexedInputs() )
     {
     this->SetNumberOfIndexedInputs(idx + 1);
@@ -318,32 +323,34 @@ ProcessObject
     }
 }
 
-/**
- * Model a queue on the input list by providing a push back
- */
+
 void
 ProcessObject
 ::PushBackInput(const DataObject *input)
 {
+/*
+ * Model a queue on the input list by providing a push back
+ */
+
   this->SetNthInput( this->GetNumberOfIndexedInputs(), const_cast< DataObject * >( input ) );
 }
 
-/**
- * Model a stack on the input list by providing a pop back
- */
+
 void
 ProcessObject
 ::PopBackInput()
 {
+/*
+ * Model a stack on the input list by providing a pop back
+ */
+
   if ( this->GetNumberOfIndexedInputs() > 0 )
     {
     this->SetNumberOfIndexedInputs( this->GetNumberOfIndexedInputs() - 1 );
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::PushFrontInput(const DataObject *input)
@@ -356,9 +363,7 @@ ProcessObject
   this->SetNthInput( 0, const_cast< DataObject * >( input ) );
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::PopFrontInput()
@@ -374,10 +379,7 @@ ProcessObject
     }
 }
 
-/**
- * Remove an output.
- *
- */
+
 void
 ProcessObject
 ::RemoveOutput(const DataObjectIdentifierType & key)
@@ -417,6 +419,7 @@ ProcessObject
     }
 }
 
+
 void
 ProcessObject
 ::RemoveOutput(DataObjectPointerArraySizeType idx)
@@ -432,16 +435,18 @@ ProcessObject
     }
 }
 
-/**
+
+void
+ProcessObject
+::SetOutput(const DataObjectIdentifierType & name, DataObject * output)
+{
+/*
   Set an Output of this filter. This method
  * does Register()/UnRegister() manually to
  * deal with the fact that smart pointers aren't
  * around to do the reference counting.
  */
-void
-ProcessObject
-::SetOutput(const DataObjectIdentifierType & name, DataObject * output)
-{
+
   // copy the key, because it might be destroyed in that method, so a reference
   // is not enough.
   DataObjectIdentifierType key = name;
@@ -495,9 +500,7 @@ ProcessObject
   this->Modified();
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::SetNthOutput(DataObjectPointerArraySizeType idx, DataObject *output)
@@ -509,14 +512,16 @@ ProcessObject
   this->SetOutput( m_IndexedOutputs[idx]->first, output );
 }
 
-/**
- * Adds an output to the first null position in the output list.
- * Expands the list memory if necessary
- */
+
 void
 ProcessObject
 ::AddOutput(DataObject *output)
 {
+/*
+ * Adds an output to the first null position in the output list.
+ * Expands the list memory if necessary
+ */
+
   for ( DataObjectPointerArraySizeType idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx )
     {
     if ( !this->GetOutput( idx ) )
@@ -528,13 +533,15 @@ ProcessObject
   this->SetNthOutput( this->GetNumberOfIndexedOutputs(), output );
 }
 
-/**
- * Called by constructor to set up output array.
- */
+
 void
 ProcessObject
 ::SetNumberOfIndexedOutputs(DataObjectPointerArraySizeType num)
 {
+/*
+ * Called by constructor to set up output array.
+ */
+
   if( this->GetNumberOfIndexedOutputs() != num )
     {
     if ( num < this->GetNumberOfIndexedOutputs() )
@@ -578,9 +585,7 @@ ProcessObject
 
 }
 
-/**
- *
- */
+
 DataObject *
 ProcessObject
 ::GetOutput(const DataObjectIdentifierType & key)
@@ -592,6 +597,7 @@ ProcessObject
     }
   return it->second.GetPointer();
 }
+
 
 const DataObject *
 ProcessObject
@@ -605,15 +611,14 @@ ProcessObject
   return it->second.GetPointer();
 }
 
-/**
- *
- */
+
 DataObject *
 ProcessObject
 ::GetOutput(DataObjectPointerArraySizeType i)
 {
   return m_IndexedOutputs[i]->second;
 }
+
 
 const DataObject *
 ProcessObject
@@ -622,12 +627,14 @@ ProcessObject
   return m_IndexedOutputs[i]->second;
 }
 
+
 void
 ProcessObject
 ::SetPrimaryOutput(DataObject * object)
 {
   this->SetOutput(m_IndexedOutputs[0]->first, object);
 }
+
 
 void
 ProcessObject
@@ -652,6 +659,7 @@ ProcessObject
     }
 }
 
+
 bool
 ProcessObject
 ::HasOutput( const DataObjectIdentifierType & key ) const
@@ -659,6 +667,7 @@ ProcessObject
   DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
   return it != m_Outputs.end();
 }
+
 
 ProcessObject::NameArray
 ProcessObject
@@ -710,6 +719,7 @@ ProcessObject
   return res;
 }
 
+
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::GetNumberOfOutputs() const
@@ -721,6 +731,7 @@ ProcessObject
     }
   return m_Outputs.size() - 1;
 }
+
 
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
@@ -761,9 +772,7 @@ ProcessObject
   return res;
 }
 
-/**
- *
- */
+
 DataObject *
 ProcessObject
 ::GetInput(const DataObjectIdentifierType & key)
@@ -775,6 +784,7 @@ ProcessObject
     }
   return it->second.GetPointer();
 }
+
 
 const DataObject *
 ProcessObject
@@ -788,6 +798,7 @@ ProcessObject
   return it->second.GetPointer();
 }
 
+
 void
 ProcessObject
 ::SetPrimaryInput(DataObject * object)
@@ -799,6 +810,7 @@ ProcessObject
     }
 }
 
+
 void
 ProcessObject
 ::SetPrimaryInputName(const DataObjectIdentifierType & key)
@@ -807,6 +819,7 @@ ProcessObject
   this->AddRequiredInputName( key, 0 );
 }
 
+
 bool
 ProcessObject
 ::HasInput( const DataObjectIdentifierType & key ) const
@@ -814,6 +827,7 @@ ProcessObject
   DataObjectPointerMap::const_iterator it = m_Inputs.find(key);
   return it != m_Inputs.end();
 }
+
 
 ProcessObject::NameArray
 ProcessObject
@@ -860,6 +874,7 @@ ProcessObject
   return true;
 }
 
+
 bool
 ProcessObject
 ::AddRequiredInputName( const DataObjectIdentifierType & name,
@@ -901,6 +916,7 @@ ProcessObject
   return true;
 }
 
+
 bool
 ProcessObject
 ::RemoveRequiredInputName( const DataObjectIdentifierType & name )
@@ -917,12 +933,14 @@ ProcessObject
   return false;
 }
 
+
 bool
 ProcessObject
 ::IsRequiredInputName( const DataObjectIdentifierType & name ) const
 {
   return m_RequiredInputNames.find( name ) != m_RequiredInputNames.end();
 }
+
 
 void
 ProcessObject
@@ -935,6 +953,7 @@ ProcessObject
     }
   this->Modified();
 }
+
 
 ProcessObject::NameArray
 ProcessObject
@@ -981,6 +1000,7 @@ ProcessObject
   return res;
 }
 
+
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::GetNumberOfInputs() const
@@ -993,6 +1013,7 @@ ProcessObject
     }
   return m_Inputs.size() - 1;
 }
+
 
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
@@ -1033,6 +1054,7 @@ ProcessObject
   return res;
 }
 
+
 ProcessObject::DataObjectIdentifierType
 ProcessObject
 ::MakeNameFromInputIndex(DataObjectPointerArraySizeType idx) const
@@ -1044,6 +1066,7 @@ ProcessObject
   return this->MakeNameFromIndex(idx);
 }
 
+
 ProcessObject::DataObjectIdentifierType
 ProcessObject
 ::MakeNameFromOutputIndex(DataObjectPointerArraySizeType idx) const
@@ -1054,6 +1077,7 @@ ProcessObject
     }
   return this->MakeNameFromIndex(idx);
 }
+
 
 ProcessObject::DataObjectIdentifierType
 ProcessObject
@@ -1071,6 +1095,7 @@ ProcessObject
     }
 }
 
+
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::MakeIndexFromInputName(const DataObjectIdentifierType & name) const
@@ -1083,6 +1108,7 @@ ProcessObject
   return this->MakeIndexFromName( name );
 }
 
+
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::MakeIndexFromOutputName(const DataObjectIdentifierType & name) const
@@ -1094,6 +1120,7 @@ ProcessObject
     }
   return this->MakeIndexFromName( name );
 }
+
 
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
@@ -1117,6 +1144,7 @@ ProcessObject
   return idx;
 }
 
+
 bool
 ProcessObject
 ::IsIndexedInputName(const DataObjectIdentifierType & name) const
@@ -1134,6 +1162,7 @@ ProcessObject
     }
   return false;
 }
+
 
 bool
 ProcessObject
@@ -1153,15 +1182,17 @@ ProcessObject
   return false;
 }
 
-/**
- * Update the progress of the process object. If a ProgressMethod exists,
- * execute it. Then set the Progress ivar to amount. The parameter amount
- * should range between (0,1).
- */
+
 void
 ProcessObject
 ::UpdateProgress(float progress)
 {
+/*
+ * Update the progress of the process object. If a ProgressMethod exists,
+ * execute it. Then set the Progress ivar to amount. The parameter amount
+ * should range between (0,1).
+ */
+
   // Clamp the value to be between 0 and 1.
   m_Progress = std::max(progress, 0.0f);
   m_Progress = std::min(m_Progress, 1.0f);
@@ -1169,9 +1200,7 @@ ProcessObject
   this->InvokeEvent( ProgressEvent() );
 }
 
-/**
- *
- */
+
 bool
 ProcessObject
 ::GetReleaseDataFlag() const
@@ -1184,9 +1213,7 @@ ProcessObject
   return false;
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::SetReleaseDataFlag(bool val)
@@ -1200,9 +1227,7 @@ ProcessObject
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -1297,14 +1322,7 @@ ProcessObject
   m_Threader->PrintSelf( os, indent.GetNextIndent() );
 }
 
-/**
- * The following methods are used to coordinate the execution of the
- * data processing pipeline.
- */
 
-/**
- *
- */
 void
 ProcessObject
 ::Update()
@@ -1314,6 +1332,7 @@ ProcessObject
     this->GetPrimaryOutput()->Update();
     }
 }
+
 
 void
 ProcessObject
@@ -1329,6 +1348,7 @@ ProcessObject
     this->PropagateResetPipeline();
     }
 }
+
 
 void
 ProcessObject
@@ -1352,14 +1372,11 @@ ProcessObject
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::VerifyPreconditions()
 {
-
   /**
    * Make sure that all the required named inputs are there and non null
    */
@@ -1402,9 +1419,6 @@ ProcessObject
 }
 
 
-/**
- *
- */
 void
 ProcessObject
 ::VerifyInputInformation()
@@ -1412,9 +1426,6 @@ ProcessObject
 }
 
 
-/**
- *
- */
 void
 ProcessObject
 ::UpdateOutputInformation()
@@ -1530,9 +1541,7 @@ ProcessObject
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::PropagateRequestedRegion(DataObject *output)
@@ -1588,15 +1597,16 @@ ProcessObject
   m_Updating = false;
 }
 
-/**
- * By default we require all the input to produce the output. This is
- * overridden in the subclasses since we can often produce the output with
- * just a portion of the input data.
- */
+
 void
 ProcessObject
 ::GenerateInputRequestedRegion()
 {
+/*
+ * By default we require all the input to produce the output. This is
+ * overridden in the subclasses since we can often produce the output with
+ * just a portion of the input data.
+ */
   for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     if ( it->second )
@@ -1606,13 +1616,15 @@ ProcessObject
     }
 }
 
-/**
- * By default we set all the output requested regions to be the same.
- */
+
 void
 ProcessObject
 ::GenerateOutputRequestedRegion(DataObject *output)
 {
+/**
+ * By default we set all the output requested regions to be the same.
+ */
+
   for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
     if ( it->second && it->second != output )
@@ -1622,9 +1634,7 @@ ProcessObject
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::PrepareOutputs()
@@ -1641,9 +1651,7 @@ ProcessObject
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::ReleaseInputs()
@@ -1660,9 +1668,7 @@ ProcessObject
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::UpdateOutputData( DataObject * itkNotUsed(output) )
@@ -1786,9 +1792,7 @@ ProcessObject
   m_Updating = false;
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::CacheInputReleaseDataFlags()
@@ -1808,9 +1812,7 @@ ProcessObject
     }
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::RestoreInputReleaseDataFlags()
@@ -1825,13 +1827,15 @@ ProcessObject
   m_CachedInputReleaseDataFlags.clear();
 }
 
-/**
- * Default implementation - copy information from first input to all outputs
- */
+
 void
 ProcessObject
 ::GenerateOutputInformation()
 {
+/*
+ * Default implementation - copy information from first input to all outputs
+ */
+
   DataObject * input = this->GetPrimaryInput();
 
   if ( input )
@@ -1846,6 +1850,7 @@ ProcessObject
     }
 }
 
+
 void
 ProcessObject
 ::UpdateLargestPossibleRegion()
@@ -1859,17 +1864,20 @@ ProcessObject
     }
 }
 
+
 template< typename TDomainPartitioner, typename TAssociate >
 ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
 ::ProcessObjectDomainThreader()
 {
 }
 
+
 template< typename TDomainPartitioner, typename TAssociate >
 ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
 ::~ProcessObjectDomainThreader()
 {
 }
+
 
 template< typename TDomainPartitioner, typename TAssociate >
 void
@@ -1883,9 +1891,7 @@ ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
   Superclass::DetermineNumberOfThreadsUsed();
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::SetNumberOfRequiredInputs( DataObjectPointerArraySizeType nb )
@@ -1904,19 +1910,17 @@ ProcessObject
       }
     }
 }
+
+
 #if !defined(ITK_LEGACY_REMOVE)
-/**
- *
- */
 void
 ProcessObject
 ::SetNumberOfInputs(DataObjectPointerArraySizeType num)
 {
   this->SetNumberOfIndexedInputs(num);
 }
-/**
- *
- */
+
+
 void
 ProcessObject
 ::SetNumberOfOutputs(DataObjectPointerArraySizeType num)
@@ -1924,9 +1928,7 @@ ProcessObject
   this->SetNumberOfIndexedOutputs(num);
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::RemoveInput(DataObject * input)
@@ -1947,9 +1949,7 @@ ProcessObject
   itkDebugMacro("tried to remove an input that was not in the list");
 }
 
-/**
- *
- */
+
 void
 ProcessObject
 ::RemoveOutput(DataObject * output)
@@ -1969,8 +1969,6 @@ ProcessObject
     }
   itkDebugMacro("tried to remove an output that was not in the list");
 }
-
-
 #endif
 
 } // end namespace itk

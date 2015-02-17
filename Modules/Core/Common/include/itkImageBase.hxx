@@ -37,9 +37,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< unsigned int VImageDimension >
 ImageBase< VImageDimension >
 ::ImageBase()
@@ -53,6 +51,7 @@ ImageBase< VImageDimension >
   m_PhysicalPointToIndex.SetIdentity();
 }
 
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -60,9 +59,7 @@ ImageBase< VImageDimension >
 {
 }
 
-/**
- *
- */
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -85,15 +82,13 @@ ImageBase< VImageDimension >
   this->InitializeBufferedRegion();
 }
 
-/**
- *
- */
+
 template< unsigned int VImageDimension >
 ImageBase< VImageDimension >
 ::~ImageBase()
 {}
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -108,7 +103,7 @@ ImageBase< VImageDimension >
     }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -117,7 +112,7 @@ ImageBase< VImageDimension >
   this->InternalSetSpacing(spacing);
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -126,7 +121,7 @@ ImageBase< VImageDimension >
   this->InternalSetSpacing(spacing);
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -137,7 +132,7 @@ ImageBase< VImageDimension >
   this->SetOrigin(p);
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -149,7 +144,7 @@ ImageBase< VImageDimension >
   this->SetOrigin(p);
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -176,7 +171,7 @@ ImageBase< VImageDimension >
     }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -204,7 +199,7 @@ ImageBase< VImageDimension >
   this->Modified();
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -230,7 +225,7 @@ ImageBase< VImageDimension >
   //   }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -265,6 +260,7 @@ ImageBase< VImageDimension >
     }
 }
 
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -288,7 +284,7 @@ ImageBase< VImageDimension >
     }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -297,7 +293,7 @@ ImageBase< VImageDimension >
   this->SetRequestedRegion( this->GetLargestPossibleRegion() );
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -331,7 +327,7 @@ ImageBase< VImageDimension >
     }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -355,7 +351,7 @@ ImageBase< VImageDimension >
   this->SetRequestedRegion( image->GetRequestedRegion() );
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 bool
 ImageBase< VImageDimension >
@@ -381,7 +377,7 @@ ImageBase< VImageDimension >
   return false;
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 bool
 ImageBase< VImageDimension >
@@ -414,7 +410,7 @@ ImageBase< VImageDimension >
   return retval;
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -428,7 +424,7 @@ ImageBase< VImageDimension >
     }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -444,7 +440,7 @@ ImageBase< VImageDimension >
   this->ComputeOffsetTable();
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -456,7 +452,7 @@ ImageBase< VImageDimension >
     }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -471,7 +467,7 @@ ImageBase< VImageDimension >
     }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -484,7 +480,7 @@ ImageBase< VImageDimension >
     }
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 unsigned int
 ImageBase< VImageDimension >
@@ -495,17 +491,16 @@ ImageBase< VImageDimension >
   return 1;
 }
 
-//----------------------------------------------------------------------------
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
 ::SetNumberOfComponentsPerPixel(unsigned int)
-{   // does nothing (always 1 )
+{
+  // does nothing (always 1)
 }
 
-/**
- *
- */
+
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
@@ -537,6 +532,7 @@ ImageBase< VImageDimension >
   os << indent << "Inverse Direction: " << std::endl;
   os << this->GetInverseDirection() << std::endl;
 }
+
 } // end namespace itk
 
 #endif
