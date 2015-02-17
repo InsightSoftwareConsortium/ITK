@@ -28,28 +28,33 @@ namespace itk
  * fastest axis.
  *
  * The itk::ImageScanlineConstIterator is optimized for iteration speed and is the
- * first choice for pixel-wise operations on an image. The following is sample usage:
+ * first choice for pixel-wise operations on an image.
+ * This iterator is preferred over the older ImageRegionConstIterator even when knowledge
+ * of the current line state is not desired because of its speed.
+ *
+ * The following is sample usage:
+ *
  * \code
- *
- *      it = ImageScanlineConstIterator()
- *      while ( !it.IsAtEnd() )
- *        {
- *        while ( !it.IsAtEndOfLine() )
- *          {
- *          *it += 100.0;
- *          ++it;
- *          }
- *        it.NextLine();
- *        }
- *
+
+it = ImageScanlineConstIterator()
+while ( !it.IsAtEnd() )
+  {
+  while ( !it.IsAtEndOfLine() )
+    {
+    *it += 100.0;
+    ++it;
+    }
+   it.NextLine();
+   }
+
  * \endcode
  *
- * Iterating beyond the and of a line results it undefined behavior.
+ * Iterating beyond the end of a line results it undefined behavior.
  *
  *
  * \sa ImageScanlineIterator
  * \sa ImageRegionConstIterator
- * \sa ImageConstIteartor
+ * \sa ImageConstIterator
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  *
