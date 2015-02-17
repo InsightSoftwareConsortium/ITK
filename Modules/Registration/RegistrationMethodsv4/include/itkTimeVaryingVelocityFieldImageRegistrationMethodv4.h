@@ -81,14 +81,17 @@ namespace itk
  * \ingroup ITKRegistrationMethodsv4
  */
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double, TFixedImage::ImageDimension> >
+  GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double, TFixedImage::ImageDimension>,
+  typename TVirtualImage = TFixedImage,
+  typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
 class TimeVaryingVelocityFieldImageRegistrationMethodv4
-: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
+: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
   /** Standard class typedefs. */
   typedef TimeVaryingVelocityFieldImageRegistrationMethodv4                       Self;
-  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>        Superclass;
+  typedef ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform,
+                                                       TVirtualImage, TPointSet>  Superclass;
   typedef SmartPointer<Self>                                                      Pointer;
   typedef SmartPointer<const Self>                                                ConstPointer;
 

@@ -44,14 +44,17 @@ namespace itk
  * \ingroup ITKRegistrationMethodsv4
  */
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  BSplineSmoothingOnUpdateDisplacementFieldTransform<double, TFixedImage::ImageDimension> >
+  BSplineSmoothingOnUpdateDisplacementFieldTransform<double, TFixedImage::ImageDimension>,
+  typename TVirtualImage = TFixedImage,
+  typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
 class BSplineSyNImageRegistrationMethod
-: public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+: public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
   /** Standard class typedefs. */
   typedef BSplineSyNImageRegistrationMethod                                           Self;
-  typedef SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>     Superclass;
+  typedef SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
+                                                       TVirtualImage, TPointSet>      Superclass;
   typedef SmartPointer<Self>                                                          Pointer;
   typedef SmartPointer<const Self>                                                    ConstPointer;
 
