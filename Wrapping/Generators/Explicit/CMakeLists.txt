@@ -43,7 +43,7 @@ macro(itk_end_wrap_submodule_explicit module)
   set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${file_name}")
   configure_file("${ITK_WRAP_EXPLICIT_SOURCE_DIR}/Explicit.cxx.in"
     "${cxx_file}" @ONLY)
-  set(EXPLICIT_EXPLICITS_FILES ${EXPLICIT_EXPLICITS_FILES} ${cxx_file})
+  list(APPEND EXPLICIT_EXPLICITS_FILES ${cxx_file})
 endmacro()
 
 

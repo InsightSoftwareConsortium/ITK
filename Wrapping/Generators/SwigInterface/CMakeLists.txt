@@ -224,7 +224,7 @@ macro(itk_end_wrap_module_swig_interface)
   # prepare dependencies
   set(DEPS )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-    set(DEPS ${DEPS} ${${dep}IdxFiles} ${${dep}SwigFiles})
+    list(APPEND DEPS ${${dep}IdxFiles} ${${dep}SwigFiles})
     set(SWIG_INTERFACE_MDX_CONTENT "${dep}.mdx\n${SWIG_INTERFACE_MDX_CONTENT}")
   endforeach()
 
@@ -232,7 +232,7 @@ macro(itk_end_wrap_module_swig_interface)
   set(swig_libs )
   foreach(swig_lib ${WRAPPER_SWIG_LIBRARY_FILES})
     get_filename_component(basename ${swig_lib} NAME)
-    set(swig_libs ${swig_libs} --swig-include ${basename})
+    list(APPEND swig_libs --swig-include ${basename})
     file(COPY "${swig_lib}"
       DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
@@ -256,19 +256,19 @@ macro(itk_end_wrap_module_swig_interface)
     # prepare the options
     set(opts )
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-      set(opts ${opts} --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
-#      set(opts ${opts} --include "${dep}.includes")
-#      set(opts ${opts} --import "${dep}.i")
+      list(APPEND opts --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
+#      list(APPEND opts --include "${dep}.includes")
+#      list(APPEND opts --import "${dep}.i")
     endforeach()
     # import the interface files previously defined instead of importing all the files defined
     # in the module to avoid many warnings when running swig
 #    foreach(i ${SWIG_INTERFACE_FILES})
 #      get_filename_component(bi "${i}" NAME)
-#      set(opts ${opts} --import "${bi}")
+#      list(APPEND opts --import "${bi}")
 #    endforeach()
 
     if(ITK_WRAP_EXPLICIT)
-      set(opts ${opts} --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
+      list(APPEND opts --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
     endif()
 
     add_custom_command(
@@ -294,7 +294,7 @@ macro(itk_end_wrap_module_swig_interface)
       VERBATIM
     )
 
-    set(SWIG_INTERFACE_FILES ${SWIG_INTERFACE_FILES} ${interface_file})
+    list(APPEND SWIG_INTERFACE_FILES ${interface_file})
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${interface_file}")
   endforeach()
 
@@ -403,11 +403,11 @@ macro(itk_end_wrap_submodule_swig_interface module)
 
   # store the path of the idx file to store it in the mdx file
   set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}${module}.idx\n")
-  set(SWIG_INTERFACE_IDX_FILES ${SWIG_INTERFACE_IDX_FILES} ${idx_file})
+  list(APPEND SWIG_INTERFACE_IDX_FILES ${idx_file})
 
   set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${module}.i\n")
 
-  set(SWIG_INTERFACE_MODULES ${SWIG_INTERFACE_MODULES} ${module})
+  list(APPEND SWIG_INTERFACE_MODULES ${module})
 
 #  set(interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}_ext.i")
 #  set(WRAP_ITK_FILE_CONTENT )

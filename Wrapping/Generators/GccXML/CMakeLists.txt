@@ -157,7 +157,7 @@ macro(itk_end_wrap_submodule_gccxml module)
     DEPENDS ${_castxml_depends} ${cxx_file} ${gccxml_inc_file}
   )
 
-  set(GCC_XML_OUTPUT_FILES ${GCC_XML_OUTPUT_FILES} ${xml_file})
+  list(APPEND GCC_XML_OUTPUT_FILES ${xml_file})
 
 endmacro()
 

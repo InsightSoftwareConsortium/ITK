@@ -244,7 +244,7 @@ macro(itk_end_wrap_module_java)
       endforeach()
     endif()
 
-    set(ITK_WRAP_JAVA_JAR_DEPS ${ITK_WRAP_JAVA_JAR_DEPS} ${lib_jar})
+    list(APPEND ITK_WRAP_JAVA_JAR_DEPS ${lib_jar})
   else()
     message("Warning: Unable to create java proxies for ${WRAPPER_LIBRARY_NAME}, nothing to get wrapped in this module.")
   endif()
@@ -283,7 +283,7 @@ macro(itk_end_wrap_submodule_java group_name)
   set(lib ${group_name}Java)
   set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${base_name}Java.cpp")
 
-  set(ITK_WRAP_JAVA_CXX_FILES ${ITK_WRAP_JAVA_CXX_FILES} ${cpp_file})
+  list(APPEND ITK_WRAP_JAVA_CXX_FILES ${cpp_file})
 
   # prepare dependencies
   set(DEPS )
@@ -295,11 +295,11 @@ macro(itk_end_wrap_submodule_java group_name)
     # create the import package commands
     string(TOLOWER ${dep} java_import_package_name)
     set(java_import_package_name ${ITK_WRAP_JAVA_CORE_PACKAGE_NAME}.${java_import_package_name})
-    set(ITK_WRAP_JAVA_TYPEMAP_JAVAIMPORTS ${ITK_WRAP_JAVA_TYPEMAP_JAVAIMPORTS} "import ${java_import_package_name}.*;")
+    list(APPEND ITK_WRAP_JAVA_TYPEMAP_JAVAIMPORTS "import ${java_import_package_name}.*;")
     foreach(ddep ${ITK_WRAP_JAVA_${dep}_DEPS})
       string(TOLOWER ${ddep} java_import_package_name)
       set(java_import_package_name ${ITK_WRAP_JAVA_CORE_PACKAGE_NAME}.${java_import_package_name})
-      set(ITK_WRAP_JAVA_TYPEMAP_JAVAIMPORTS ${ITK_WRAP_JAVA_TYPEMAP_JAVAIMPORTS} "import ${java_import_package_name}.*;")
+      list(APPEND ITK_WRAP_JAVA_TYPEMAP_JAVAIMPORTS "import ${java_import_package_name}.*;")
     endforeach()
   endforeach()
 
@@ -355,7 +355,7 @@ macro(itk_end_wrap_submodule_java group_name)
   WRAP_ITK_INSTALL("/Configuration/Typedefs/java"
    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${group_name}_ext.i")
 
-  set(ITK_WRAP_JAVA_LIBRARY_DEPS ${ITK_WRAP_JAVA_LIBRARY_DEPS} "${java_file}" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i")
+  list(APPEND ITK_WRAP_JAVA_LIBRARY_DEPS "${java_file}" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i")
 
 endmacro()
 
