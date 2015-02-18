@@ -38,7 +38,7 @@ int itkArray2DTest(int, char* [] )
     for( unsigned int c=0; c<cols; c++)
       {
       const double value = static_cast<double>( r + c );
-      a(r,c)  = value;
+      a.SetElement(r,c,value);
       vm(r,c) = value;
       }
     }
@@ -52,7 +52,7 @@ int itkArray2DTest(int, char* [] )
     {
     for( unsigned int c=0; c<cols; c++)
       {
-      double diff = a(r,c) - b(r,c);
+      double diff = a.GetElement(r,c) - b(r,c);
       diff = (diff > 0.0 ) ? diff : -diff; // take abs value
       if( diff > tolerance )
         {
@@ -73,7 +73,7 @@ int itkArray2DTest(int, char* [] )
       diff = (diff > 0.0 ) ? diff : -diff; // take abs value
       if(  diff  > tolerance )
         {
-        std::cerr << "Error in construction from vn_matrix" << std::endl;
+        std::cerr << "Error in construction from vnl_matrix" << std::endl;
         return EXIT_FAILURE;
         }
       }
@@ -109,7 +109,7 @@ int itkArray2DTest(int, char* [] )
       {
       double diff = f(r,c) - vm(r,c);
       diff = (diff > 0.0 ) ? diff : -diff; // take abs value
-      if(  diff > tolerance )
+      if( diff > tolerance )
         {
         std::cerr << "Error in assignment from  vn_matrix" << std::endl;
         return EXIT_FAILURE;
