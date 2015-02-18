@@ -101,7 +101,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExtractImageFilter, ImageToImageFilter);
+  itkTypeMacro(ExtractImageFilter, InPlaceImageFilter);
 
   /** Image type information. */
   typedef TInputImage  InputImageType;
