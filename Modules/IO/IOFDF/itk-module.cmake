@@ -14,4 +14,5 @@ itk_module(
     ITKTestKernel
     ITKTransform
   DESCRIPTION "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
 )
