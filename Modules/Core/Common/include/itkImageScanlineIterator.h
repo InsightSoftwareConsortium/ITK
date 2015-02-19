@@ -29,6 +29,8 @@ namespace itk
  *
  * The itk::ImageScanlineIterator is optimized for iteration speed and is the
  * first choice for pixel-wise operations on an image.
+ * This iterator is preferred over the older ImageRegionIterator even when knowledge
+ * of the current line state is not desired because of its speed.
  *
  * \sa ImageScanlineConstIterator
  * \sa ImageRegionIterator
