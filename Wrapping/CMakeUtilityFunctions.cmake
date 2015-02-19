@@ -9,13 +9,8 @@
 macro(UNIQUE var_name list)
   # Make the given list have only one instance of each unique element and
   # store it in var_name.
-  set(unique_tmp "")
-  foreach(l ${list})
-    if(NOT "${unique_tmp}" MATCHES "(^|;)${l}(;|$)")
-      set(unique_tmp ${unique_tmp} ${l})
-    endif()
-  endforeach()
-  set(${var_name} ${unique_tmp})
+  set(${var_name} ${list})
+  list(REMOVE_DUPLICATES ${var_name})
 endmacro()
 
 macro(INTERSECTION var_name list1 list2)
@@ -23,7 +18,7 @@ macro(INTERSECTION var_name list1 list2)
   set(intersect_tmp "")
   foreach(l ${list1})
     if("${list2}" MATCHES "(^|;)${l}(;|$)")
-      set(intersect_tmp ${intersect_tmp} ${l})
+      list(APPEND intersect_tmp ${l})
     endif()
   endforeach()
   set(${var_name} ${intersect_tmp})
@@ -31,13 +26,8 @@ endmacro()
 
 macro(REMOVE var_name list1 list2)
   # Remove elements in list2 from list1 and store the result in var_name.
-  if("${list1}" STREQUAL "")
-    # if list1 is empty, list(REMOVE_ITEM ...) send an error message
-    set(${var_name} "")
-  else()
-    set(${var_name} ${list1})
-    list(REMOVE_ITEM ${var_name} list1 ${list2})
-  endif()
+  set(${var_name} ${list1})
+  list(REMOVE_ITEM ${var_name} ${list2})
 endmacro()
 
 

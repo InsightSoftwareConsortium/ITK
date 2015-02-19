@@ -19,7 +19,7 @@ macro(WRAP_TYPE class prefix)
    # If the type is ITK class, add apropriate include file
    if("${class}" MATCHES "itk::")
      string(REGEX REPLACE "itk.*::(.*)" "itk\\1" includeFileName "${class}")
-     set(WRAPPER_DEFAULT_INCLUDE ${WRAPPER_DEFAULT_INCLUDE} "${includeFileName}.h")
+     list(APPEND WRAPPER_DEFAULT_INCLUDE "${includeFileName}.h")
    endif()
 endmacro()
 
@@ -49,7 +49,7 @@ macro(END_WRAP_TYPE)
 endmacro()
 
 macro(ADD_TEMPLATE name types)
-  set(WRAPPER_TEMPLATES ${WRAPPER_TEMPLATES} "${name} # ${types}")
+  list(APPEND WRAPPER_TEMPLATES "${name} # ${types}")
 endmacro()
 
 
@@ -110,7 +110,7 @@ WRAP_TYPE("itk::FixedArray" "FA")
     math(EXPR d2 "${d} * 2")
     # for itk::SymmetricSecondRankTensor
     math(EXPR d3 "${d} * (${d} + 1) / 2")
-    set(dims ${dims} ${d2} ${d3})
+    list(APPEND dims ${d2} ${d3})
   endforeach()
   UNIQUE(array_sizes "${dims};1;2;3;4;6")
   # make sure that 1-D FixedArrays are wrapped. Also wrap for each selected

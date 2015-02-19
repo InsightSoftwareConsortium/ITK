@@ -285,7 +285,7 @@ foreach(f ${local_files})
       # put those generators before the others
       set(generators ${lang} ${generators})
     else()
-      set(generators ${generators} ${lang})
+      list(APPEND generators ${lang})
     endif()
   endif()
 endforeach()
