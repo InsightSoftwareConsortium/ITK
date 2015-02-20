@@ -221,7 +221,6 @@ cl_platform_id OpenCLSelectPlatform(const char* name)
         if(ciErrNum == CL_SUCCESS)
           {
           clSelectedPlatformID = clPlatformIDs[0];         // default
-
   // debug
   ciErrNum = clGetPlatformInfo (clPlatformIDs[0], CL_PLATFORM_NAME, 1024, &chBuffer, ITK_NULLPTR);
   std::cout << "Platform " << " : " << chBuffer << std::endl;
@@ -356,7 +355,8 @@ bool IsGPUAvailable()
 
   // Get the devices
   cl_uint numDevices;
-  OpenCLGetAvailableDevices(platformId, devType, &numDevices);
+  cl_device_id* device_id = OpenCLGetAvailableDevices(platformId, devType, &numDevices);
+  free( device_id );
 
   if(numDevices < 1) return false;
 
