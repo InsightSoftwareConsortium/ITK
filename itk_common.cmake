@@ -35,7 +35,8 @@
 #   dashboard_do_coverage     = True to enable coverage (ex: gcov)
 #   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
 #   dashboard_no_clean        = True to skip build tree wipeout
-#   CTEST_UPDATE_COMMAND      = path to svn command-line client
+#   dashboard_no_update       = True to skip source tree update
+#   CTEST_UPDATE_COMMAND      = path to git command-line client
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
 #   CTEST_BUILD_TARGET        = A specific target to be built (instead of all)
 #   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
@@ -411,7 +412,9 @@ while(NOT dashboard_done)
   endif()
 
   # Look for updates.
-  ctest_update(RETURN_VALUE count)
+  if(NOT dashboard_no_update)
+    ctest_update(RETURN_VALUE count)
+  endif()
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
   safe_message("Found ${count} changed files")
 
