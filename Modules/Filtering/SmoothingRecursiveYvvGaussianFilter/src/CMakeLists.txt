@@ -23,6 +23,6 @@ if (ITK_USE_GPU)
     add_library(${itk-module} ${GPU_SRC})
     target_link_libraries(${itk-module} ${INRIA_ITK_LIBRARIES} ${OPENCL_LIBRARIES} )
 
-    #itk_module_target(${itk-module})
+    itk_module_target(${itk-module})
 
 endif()
