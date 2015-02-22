@@ -23,13 +23,18 @@ list(APPEND ExternalData_OBJECT_STORES
 
 set(ExternalData_BINARY_ROOT ${CMAKE_BINARY_DIR}/ExternalData)
 
+# Expands %(algo:lower)
+set(ExternalData_URL_ALGO_MD5_lower md5)
 set(ExternalData_URL_TEMPLATES "" CACHE STRING
   "Additional URL templates for the ExternalData CMake script to look for testing data. E.g.
 file:///var/bigharddrive/%(algo)/%(hash)")
 mark_as_advanced(ExternalData_URL_TEMPLATES)
 if(NOT ITK_FORBID_DOWNLOADS)
   list(APPEND ExternalData_URL_TEMPLATES
-    # Data published by MIDAS
+    # Data published on Azure
+    "http://itkexternaldata.blob.core.windows.net/%(algo:lower)/%(hash)"
+
+    # Data published on MIDAS
     "http://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=%(hash)&algorithm=%(algo)"
 
     # Data published by developers using git-gerrit-push.
