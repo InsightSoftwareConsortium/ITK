@@ -265,20 +265,20 @@ public:
    * the local metric value for a single point.  The \c PixelType may or
    * may not be used.  See class description for further explanation.
    */
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const = 0;
+  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel ) const = 0;
 
   /**
    * Calculates the local derivative for a single point. The \c PixelType may or
    * may not be used.  See class description for further explanation.
    */
-  virtual LocalDerivativeType GetLocalNeighborhoodDerivative( const PointType &, const PixelType & pixel = 0 ) const;
+  virtual LocalDerivativeType GetLocalNeighborhoodDerivative( const PointType &, const PixelType & pixel ) const;
 
   /**
    * Calculates the local value/derivative for a single point.  The \c PixelType may or
    * may not be used.  See class description for further explanation.
    */
   virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const = 0;
+    MeasureType &, LocalDerivativeType &, const PixelType & pixel ) const = 0;
 
   /**
    * Get the virtual point set, derived from the fixed point set.
