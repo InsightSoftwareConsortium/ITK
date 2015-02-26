@@ -34,11 +34,13 @@ exclude = ["ForwardFFTImageFilter",
            "InverseFFTImageFilter",
            "OutputWindow",
            "FFTComplexToComplexImageFilter",
+           "ComplexToComplexFFTImageFilter",
            "templated_class",
            "HalfHermitianToRealInverseFFTImageFilter",
            "RealToHalfHermitianForwardFFTImageFilter"]
 
-wrongName = False
+wrongName = 0
+totalName = 0
 
 for t in dir(itk):
     if t not in exclude:
@@ -58,23 +60,25 @@ for t in dir(itk):
                 # In that case, the one of the superclass is used.
                 if 'GetNameOfClass' in dir(I):
                     # print("Checking", t)
+                    totalName += 1
                     n = I.GetNameOfClass()
                     if n != t and itk.class_(I) == i:
-                        msg = "doesn't provide the right name."
-                        print(t, msg, file=sys.stderr)
-                        wrongName = True
+                        msg = "%s: wrong class name: %s" % (t, n)
+                        print(msg, file=sys.stderr)
+                        wrongName += 1
         else:
             if 'New' in dir(T):
                 I = T.New()
                 if 'GetNameOfClass' in dir(I):
                     # print("Checking", t)
+                    totalName += 1
                     n = I.GetNameOfClass()
                     if n != t and itk.class_(I) == T:
-                        msg = "doesn't provide the right name."
-                        print(t, msg, file=sys.stderr)
-                        wrongName = True
+                        msg = "%s: wrong class name: %s" % (t, n)
+                        print(msg, file=sys.stderr)
+                        wrongName += 1
 
-
+print("%s classes checked." % totalName)
 if wrongName:
-    print("Some classes are not providing the correct name.", file=sys.stderr)
+    print("%s classes are not providing the correct name." % wrongName, file=sys.stderr)
     sys.exit(1)
