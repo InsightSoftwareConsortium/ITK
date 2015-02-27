@@ -48,9 +48,10 @@ endforeach()
 
 # The "platform" and "compiler" variables should be set in the
 # *CTestConfig.cmake variables to set the CTEST_BUILD_NAME.
+# An optional "build_description" variable may be set.
 if(NOT CTEST_BUILD_NAME)
   if(platform AND compiler)
-    set(CTEST_BUILD_NAME "${platform}-${compiler}")
+    set(CTEST_BUILD_NAME "${platform}-${compiler}${build_description}")
   endif()
 endif()
 string(TIMESTAMP build_date "%Y-%m-%d")
