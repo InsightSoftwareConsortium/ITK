@@ -24,5 +24,6 @@ set(dashboard_track "Gerrit")
 set(dashboard_no_clean 1)
 
 message("CTEST_SITE = ${CTEST_SITE}")
-message("CTEST_BUILD_NAME = ${CTEST_BUILD_NAME}")
+string(TIMESTAMP build_date "%Y-%m-%d")
+message("CDash Build Identifier: ${build_date} ${CTEST_BUILD_NAME}")
 include(${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
