@@ -186,10 +186,15 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       continue;
       }
 
-    PixelType pixel = 0;
+    PixelType pixel;
+    NumericTraits<PixelType>::SetLength( pixel, 1 );
     if( this->m_UsePointSetData )
       {
-      this->m_FixedPointSet->GetPointData( It.Index(), &pixel );
+      bool doesPointDataExist = this->m_FixedPointSet->GetPointData( It.Index(), &pixel );
+      if( ! doesPointDataExist )
+        {
+        itkExceptionMacro( "The corresponding data for point " << It.Value() << "(pointId = " << It.Index() << ") does not exist." );
+        }
       }
 
     value += this->GetLocalNeighborhoodValue( It.Value(), pixel );
@@ -265,10 +270,15 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       continue;
       }
 
-    PixelType pixel = 0;
+    PixelType pixel;
+    NumericTraits<PixelType>::SetLength( pixel, 1 );
     if( this->m_UsePointSetData )
       {
-      this->m_FixedPointSet->GetPointData( It.Index(), &pixel );
+      bool doesPointDataExist = this->m_FixedPointSet->GetPointData( It.Index(), &pixel );
+      if( ! doesPointDataExist )
+        {
+        itkExceptionMacro( "The corresponding data for point " << It.Value() << "(pointId = " << It.Index() << ") does not exist." );
+        }
       }
 
     if( calculateValue )
