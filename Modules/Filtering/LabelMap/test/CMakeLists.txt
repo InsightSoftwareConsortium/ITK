@@ -406,6 +406,11 @@ itk_add_test(NAME itkLabelSelectionLabelMapFilterTest1
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkLabelSelectionLabelMapFilterTest1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest1.png
     itkLabelSelectionLabelMapFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest1.png 1 94)
+itk_add_test(NAME itkLabelShapeKeepNObjectsImageFilterTest1
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/itkLabelShapeKeepNObjectsImageFilterTest1.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkLabelShapeKeepNObjectsImageFilterTest1.png
+    itkLabelShapeKeepNObjectsImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelShapeKeepNObjectsImageFilterTest1.png 0 1 0 NumberOfPixels)
 itk_add_test(NAME itkLabelShapeOpeningImageFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/cthead1Label-shape-open-baseline.png}
