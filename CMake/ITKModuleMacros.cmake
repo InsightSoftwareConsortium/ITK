@@ -5,6 +5,7 @@ set(_ITKModuleMacros_DEFAULT_LABEL "ITKModular")
 include(${_ITKModuleMacros_DIR}/ITKModuleAPI.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleDoxygen.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleHeaderTest.cmake)
+include(${_ITKModuleMacros_DIR}/ITKModuleKWStyleTest.cmake)
 
 # With Apple's GGC <=4.2 and LLVM-GCC <=4.2 visibility of template
 # don't work. Set the option to off and hide it.
@@ -124,6 +125,9 @@ macro(itk_module_impl)
   if(${itk-module}_THIRD_PARTY)
     itk_module_warnings_disable(C CXX)
   else()
+    if(ITK_USE_KWSTYLE)
+      itk_module_kwstyle_test( ${itk-module} )
+    endif()
     if(ITK_CPPCHECK_TEST)
       itk_module_cppcheck_test( ${itk-module} )
     endif()

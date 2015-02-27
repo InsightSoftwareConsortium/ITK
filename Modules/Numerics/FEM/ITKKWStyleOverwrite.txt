@@ -1,0 +1,8 @@
+test/.*\.cxx Namespace Disable
+itkFEMElement.+\.h InternalVariables Disable
+itkFEMException\.h InternalVariables Disable
+itkFEMItpackSparseMatrix\.h Typedefs Disable
+itkFEMLinearSystemWrapperItpack\.h Typedefs Disable
+itkFEMLoadTest\.h InternalVariables Disable
+itkFEMSolver\.h InternalVariables Disable
+itkFEMUtility\.h InternalVariables Disable
