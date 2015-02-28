@@ -98,6 +98,10 @@ public:
 
   typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
 
+  /** Define the type for the sigma array **/
+  typedef FixedArray< ScalarRealType,
+                      itkGetStaticConstMacro(ImageDimension) > SigmaArrayType;
+
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
     RealImageType,
@@ -121,7 +125,7 @@ public:
 
   /** Type of the output Image */
   typedef TOutputImage                                         OutputImageType;
-  typedef typename          OutputImageType::PixelType         OutputPixelType;
+  typedef typename OutputImageType::PixelType                  OutputPixelType;
   typedef typename NumericTraits< OutputPixelType >::ValueType OutputComponentType;
   typedef CovariantVector< OutputComponentType, ImageDimension >
     CovariantVectorType;
@@ -133,9 +137,12 @@ public:
   itkTypeMacro(GradientRecursiveGaussianImageFilter,
                ImageToImageFilter);
 
-  /** Set Sigma value. Sigma is measured in the units of image spacing.  */
+  /** Set Sigma value. Sigma is measured in the units of image spacing. */
+  void SetSigmaArray(const SigmaArrayType & sigmas);
   void SetSigma(ScalarRealType sigma);
-  RealType GetSigma() const;
+
+  SigmaArrayType GetSigmaArray() const;
+  ScalarRealType GetSigma() const;
 
   /** Define which normalization factor will be used for the Gaussian
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
@@ -166,8 +173,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelType > ) );
+  // Does not seem to work with wrappings, disabled
+  // itkConceptMacro( InputHasNumericTraitsCheck,
+  //                 ( Concept::HasNumericTraits< PixelType > ) );
   // End concept checking
 #endif
 
@@ -247,6 +255,9 @@ private:
 
   /** Take into account image orientation when computing the Gradient */
   bool m_UseImageDirection;
+
+  /** Standard deviation of the gaussian */
+  SigmaArrayType m_Sigma;
 };
 } // end namespace itk
 

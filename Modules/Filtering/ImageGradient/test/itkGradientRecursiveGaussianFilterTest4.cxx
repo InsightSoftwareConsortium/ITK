@@ -39,27 +39,23 @@ int itkGradientRecursiveGaussianFilterTest4(int argc, char* argv[] )
   const unsigned int myDimension = 2;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>       myImageType;
+  typedef float                                      FloatType;
+  typedef double                                     DoubleType;
+  typedef itk::Image< FloatType, myDimension >       myImageType;
+  typedef itk::VectorImage< FloatType, myDimension > myGradientImageType;
 
   // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
+  myImageType::Pointer inputImage = myImageType::New();
 
-
-  typedef itk::ImageFileReader<myImageType> myReaderType;
+  typedef itk::ImageFileReader< myImageType > myReaderType;
   myReaderType::Pointer reader = myReaderType::New();
   reader->SetFileName( inFileName );
-
-
-  typedef itk::VectorImage< float, myDimension> myGradientImageType;
-
 
   // Declare the type for the
   typedef itk::GradientRecursiveGaussianImageFilter< myImageType, myGradientImageType >  myFilterType;
 
-
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
-
 
   // Connect the input images
   filter->SetInput( reader->GetOutput() );
@@ -67,12 +63,45 @@ int itkGradientRecursiveGaussianFilterTest4(int argc, char* argv[] )
   // Select the value of Sigma
   filter->SetSigma( 2.5 );
 
-
-  typedef itk::ImageFileWriter<myGradientImageType> myWriterType;
+  typedef itk::ImageFileWriter< myGradientImageType > myWriterType;
   myWriterType::Pointer writer = myWriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( outFileName );
   writer->Update();
+
+  // Test also that setting and getting sigma arrays is working
+  itk::FixedArray< DoubleType, 2 > sigmas;
+
+  if (filter->GetSigma() != 2.5)
+  {
+    std::cerr << "Exception detected: wrong sigma after SetSigma" << std::endl;
+    std::cerr <<
+      "Sigma is: " << filter->GetSigma() << ", expected 2.5"<< std::endl;
+    return EXIT_FAILURE;
+  }
+
+  sigmas = filter->GetSigmaArray();
+  if (sigmas[0] != 2.5 || sigmas[1] != 2.5)
+  {
+    std::cerr << "Exception detected: wrong sigma array after SetSigma" << std::endl;
+    std::cerr << "Sigma Array: " << sigmas[0] << ", " << sigmas[1] << std::endl;
+    std::cerr << "Expected: 2.5, 2.5" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Set new values
+  sigmas[0] = 1.8;
+  sigmas[1] = 1.8;
+  filter->SetSigmaArray(sigmas);
+
+  sigmas = filter->GetSigmaArray();
+  if (sigmas[0] != 1.8 || sigmas[1] != 1.8 || filter->GetSigma() != 1.8)
+  {
+    std::cerr << "Exception detected: wrong sigmas after SetSigmaArray" << std::endl;
+    std::cerr << "Sigma Array: " << sigmas[0] << ", " << sigmas[1] << std::endl;
+    std::cerr << "Sigma: " << filter->GetSigma() << std::endl;
+    return EXIT_FAILURE;
+  }
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
