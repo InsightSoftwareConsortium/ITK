@@ -1,3 +1,35 @@
 itk_wrap_class("itk::GradientRecursiveGaussianImageFilter" POINTER)
-  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_COV_VECTOR_REAL}" 2)
+
+  # Input can be a scalar image or a vector image
+  # The output is a covector image, with:
+  # number of components = 2 * number of components of the input
+
+  foreach(image_dim ${ITK_WRAP_DIMS})
+
+    # Input type: scalar image
+    foreach(t ${WRAP_ITK_SCALAR})
+      foreach(cv ${WRAP_ITK_COV_VECTOR_REAL})
+        itk_wrap_template(
+          "${ITKM_I${t}${image_dim}}${ITKM_I${cv}2${image_dim}}"
+          "${ITKT_I${t}${image_dim}},${ITKT_I${cv}2${image_dim}}")
+      endforeach()
+    endforeach()
+
+    # Input type: vectorial image
+    foreach(input_vector_dim ${ITK_WRAP_DIMS})
+      MATH(EXPR output_vector_dim ${input_vector_dim}*2)
+      list(FIND ITK_WRAP_DIMS "${output_vector_dim}" index)
+      if(index GREATER -1)
+        foreach(t ${WRAP_ITK_VECTOR_REAL})
+          foreach(cv ${WRAP_ITK_COV_VECTOR_REAL})
+            itk_wrap_template(
+              "${ITKM_I${t}${input_vector_dim}${image_dim}}${ITKM_I${cv}${output_vector_dim}${image_dim}}"
+              "${ITKT_I${t}${input_vector_dim}${image_dim}},${ITKT_I${cv}${output_vector_dim}${image_dim}}")
+          endforeach()
+        endforeach()
+      endif()
+    endforeach()
+
+  endforeach()
+
 itk_end_wrap_class()

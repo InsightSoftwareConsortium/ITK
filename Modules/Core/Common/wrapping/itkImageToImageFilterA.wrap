@@ -12,15 +12,32 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
   endif(NOT ITK_WRAP_unsigned_long)
 
   UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
-    foreach(d ${ITK_WRAP_DIMS})
-      foreach(t ${to_types})
-        itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_VI${t}${d}}")
-      endforeach()
+  foreach(d ${ITK_WRAP_DIMS})
+    foreach(t ${to_types})
+      itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_VI${t}${d}}")
     endforeach()
+  endforeach()
 
 
   # Vector types
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
+
+  # For GradientRecursiveGaussianImageFilter we need some specific combinations
+  foreach(image_dim ${ITK_WRAP_DIMS})
+    foreach(input_vector_dim ${ITK_WRAP_DIMS})
+      MATH(EXPR output_vector_dim ${input_vector_dim}*2)
+      list(FIND ITK_WRAP_DIMS "${output_vector_dim}" index)
+      if(index GREATER -1)
+        foreach(t ${WRAP_ITK_VECTOR_REAL})
+          foreach(cv ${WRAP_ITK_COV_VECTOR_REAL})
+            itk_wrap_template(
+              "${ITKM_I${t}${input_vector_dim}${image_dim}}${ITKM_I${cv}${output_vector_dim}${image_dim}}"
+              "${ITKT_I${t}${input_vector_dim}${image_dim}},${ITKT_I${cv}${output_vector_dim}${image_dim}}")
+          endforeach()
+        endforeach()
+      endif()
+    endforeach()
+  endforeach()
 
   # RGB types
   UNIQUE(rgb "RGBUC;${WRAP_ITK_RGB}")
