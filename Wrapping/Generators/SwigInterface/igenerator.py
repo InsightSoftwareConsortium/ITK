@@ -353,6 +353,11 @@ def typeAndDecorators(s):
     return (s, end)
 
 
+def fix_std_namespace(s):
+    # everything from stl in std::__1, with libstdc++?
+    return s.replace("std::__1::", "std::")
+
+
 def get_alias(decl_string, w=True):
     s = str(decl_string)
 
@@ -392,8 +397,7 @@ def get_alias(decl_string, w=True):
         usedTypes.add(alias)
         return alias + end
 
-    # everything fron stl in std::__1, with libstdc++?
-    s = s.replace("std::__1::", "std::")
+    s = fix_std_namespace(s)
 
     # replace the types defined in this type, to support
     # std::vector<itkDataObject> for example
@@ -718,7 +722,7 @@ def generate_method(typedef, method, indent, w):
         # arg.type is an instance, there is no clean API in pygccxml to get the
         # name of the type as a string. This functionnality needs to be added
         # to pygccxml. Meanwhile, we can use the __str__() method.
-        if arg.type.__str__() == "std::string &":
+        if fix_std_namespace(arg.type.__str__()) == "std::string &":
             applyFileNames.append(arg.name)
 
 # init the pygccxml stuff
