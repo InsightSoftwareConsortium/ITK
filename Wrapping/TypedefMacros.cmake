@@ -730,28 +730,38 @@ macro(itk_wrap_image_filter_types)
     set(dims ${ITK_WRAP_DIMS})
   endif()
 
-  foreach(d ${dims})
-    set(template_params "")
-    set(mangled_name "")
-    set(comma "") # Don't add a comma before the first template param!
-    foreach(num RANGE 0 ${last_arg_number})
-      set(type "${arg${num}}")
-      if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
-        # if the type is a vector type with no dimension specified, make the
-        # vector dimension match the image dimension.
-        set(type "${type}${d}")
-      endif()
-      set(image_type ${ITKT_I${type}${d}})
-      set(mangle_type ${ITKM_I${type}${d}})
-      if(NOT DEFINED image_type)
-        message(FATAL_ERROR "Wrapping ${WRAPPER_CLASS}: No image type for '${type}' pixels is known.")
-      endif()
+  # TODO: The vec_dims list should not be generated from
+  # ITK_WRAP_DIMS; but from a separate list for vector dimensions.
+  set(vec_dims 1)
+  foreach(num RANGE 0 ${last_arg_number})
+    set(type "${arg${num}}")
+    if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+      set(vec_dims ${ITK_WRAP_DIMS})
+    endif()
+  endforeach()
 
-      set(template_params "${template_params}${comma}${image_type}")
-      set(mangled_name "${mangled_name}${mangle_type}")
-      set(comma ", ") # now add commas after the subsequent template params
+  foreach(vec_dim ${vec_dims})
+    foreach(d ${dims})
+      set(template_params "")
+      set(mangled_name "")
+      set(comma "") # Don't add a comma before the first template param!
+      foreach(num RANGE 0 ${last_arg_number})
+        set(type "${arg${num}}")
+        if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+          set(type "${type}${vec_dim}")
+        endif()
+        set(image_type ${ITKT_I${type}${d}})
+        set(mangle_type ${ITKM_I${type}${d}})
+        if(NOT DEFINED image_type)
+          message(FATAL_ERROR "Wrapping ${WRAPPER_CLASS}: No image type for '${type}' pixels is known.")
+        endif()
+
+        set(template_params "${template_params}${comma}${image_type}")
+        set(mangled_name "${mangled_name}${mangle_type}")
+        set(comma ", ") # now add commas after the subsequent template params
+      endforeach()
+      itk_wrap_template("${mangled_name}" "${template_params}")
     endforeach()
-    itk_wrap_template("${mangled_name}" "${template_params}")
   endforeach()
 endmacro()
 
