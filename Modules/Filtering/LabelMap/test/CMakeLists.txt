@@ -515,6 +515,11 @@ itk_add_test(NAME itkStatisticsPositionLabelMapFilterTest1
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkShapePositionLabelMapFilterTest1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png
     itkStatisticsPositionLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png CenterOfGravity)
+itk_add_test(NAME itkShapeRelabelImageFilterTest1
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/cthead1Label-shape-relabel-baseline.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkShapeRelabelImageFilterTest1.png
+    itkShapeRelabelImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} ${ITK_TEST_OUTPUT_DIR}/itkShapeRelabelImageFilterTest1.png 255 0 FeretDiameter)
 itk_add_test(NAME itkStatisticsRelabelImageFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/cthead1-statistics-relabel_image-baseline.png}
