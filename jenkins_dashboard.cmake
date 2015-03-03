@@ -33,8 +33,8 @@ set(CTEST_DASHBOARD_ROOT "$ENV{WORKSPACE}")
 #       --> Additional Behaviors
 #           --> Checkout to a sub-directory
 # Set "Local subdirectory for repo" to ITK-src
-set(CTEST_SOURCE_DIRECTORY "ITK-src")
-set(CTEST_BINARY_DIRECTORY "ITK-bin")
+set(dashboard_source_name "ITK-src")
+set(dashboard_binary_name "ITK-bin")
 set(CTEST_SITE "$ENV{NODE_NAME}")
 
 file(GLOB config_files "${CTEST_SCRIPT_DIRECTORY}/../CTest-config/[0-9][0-9]-*CTestConfig.cmake")

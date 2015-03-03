@@ -171,6 +171,11 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
   message(FATAL_ERROR "No Git Found.")
 endif()
 
+# Explicitly specify the remote as "origin". This ensure we are pulling from
+# the correct remote and prevents command failures when the git tracking
+# branch has not been configured.
+set(CTEST_GIT_UPDATE_CUSTOM "${CTEST_GIT_COMMAND}" pull origin ${dashboard_git_branch})
+
 # Select a source directory name.
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
   if(DEFINED dashboard_source_name)
