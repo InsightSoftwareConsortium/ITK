@@ -216,20 +216,94 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
   const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
   const TransformBaseType * movingTransform, const FixedImageMaskType * mask, MeasureType & value )
 {
-  DisplacementFieldPointer metricGradientField = this->ComputeMetricGradientField(
-      fixedImages, fixedPointSets, fixedTransform, movingImages, movingPointSets, movingTransform, mask, value );
+  DisplacementFieldPointer metricGradientField = ITK_NULLPTR;
+  DisplacementFieldPointer updateField = ITK_NULLPTR;
 
   typename WeightedMaskImageType::Pointer weightedMask = ITK_NULLPTR;
 
-  DisplacementFieldPointer updateField = ITK_NULLPTR;
   if( this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC )
     {
+    const DisplacementVectorType zeroVector( 0.0 );
+
+    VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
+
+    metricGradientField = DisplacementFieldType::New();
+    metricGradientField->CopyInformation( virtualDomainImage );
+    metricGradientField->SetRegions( virtualDomainImage->GetLargestPossibleRegion() );
+    metricGradientField->Allocate();
+    metricGradientField->FillBuffer( zeroVector );
+
+    typename PointSetType::Pointer transformedPointSet = ITK_NULLPTR;
+
+    if( !this->m_DownsampleImagesForMetricDerivatives )
+      {
+      this->m_Metric->SetFixedObject( fixedPointSets[0] );
+      this->m_Metric->SetMovingObject( movingPointSets[0] );
+
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
+
+      this->m_Metric->SetFixedObject( fixedPointSets[0] );
+      this->m_Metric->SetMovingObject( movingPointSets[0] );
+
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
+      }
+    else
+      {
+      typename PointSetType::Pointer transformedFixedPointSet =
+        this->TransformPointSet( fixedPointSets[0], fixedTransform->GetInverseTransform() );
+
+      transformedPointSet = transformedFixedPointSet;
+
+      typename PointSetType::Pointer transformedMovingPointSet =
+        this->TransformPointSet( movingPointSets[0], movingTransform->GetInverseTransform() );
+
+      this->m_Metric->SetFixedObject( transformedFixedPointSet );
+      this->m_Metric->SetMovingObject( transformedMovingPointSet );
+
+      typename DisplacementFieldType::Pointer identityField = DisplacementFieldType::New();
+      identityField->CopyInformation( virtualDomainImage );
+      identityField->SetRegions( virtualDomainImage->GetLargestPossibleRegion() );
+      identityField->Allocate();
+      identityField->FillBuffer( zeroVector );
+
+      DisplacementFieldTransformPointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
+      identityDisplacementFieldTransform->SetDisplacementField( identityField );
+      identityDisplacementFieldTransform->SetInverseDisplacementField( identityField );
+
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( identityDisplacementFieldTransform );
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( identityDisplacementFieldTransform );
+      }
+
+    this->m_Metric->Initialize();
+    dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->
+      SetStoreDerivativeAsSparseFieldForLocalSupportTransforms( false );
+    typename ImageMetricType::DerivativeType metricDerivative;
+    this->m_Metric->GetValueAndDerivative( value, metricDerivative );
+
+    typename BSplinePointSetType::Pointer gradientPointSet = BSplinePointSetType::New();
+    gradientPointSet->Initialize();
+
     if( fixedPointSets[0]->GetNumberOfPoints() > 0 )
       {
-      typename PointSetType::Pointer transformedPointSet =
-        this->TransformPointSet( fixedPointSets[0], fixedTransform->GetInverseTransform() );
+      typename PointSetType::PointsContainerConstIterator It = transformedPointSet->GetPoints()->Begin();
+
+      SizeValueType count = 0;
+      while( It != transformedPointSet->GetPoints()->End() )
+        {
+        typename BSplinePointSetType::PixelType displacement;
+        for( unsigned int d = 0; d < ImageDimension; d++ )
+          {
+          displacement[d] = metricDerivative[count * ImageDimension + d];
+          }
+        gradientPointSet->SetPoint( count, It.Value() );
+        gradientPointSet->SetPointData( count++, displacement );
+
+        ++It;
+        }
       updateField = this->BSplineSmoothDisplacementField( metricGradientField,
-        this->m_FixedToMiddleTransform->GetNumberOfControlPointsForTheUpdateField(), weightedMask, transformedPointSet );
+        this->m_FixedToMiddleTransform->GetNumberOfControlPointsForTheUpdateField(), weightedMask, gradientPointSet );
       }
     else
       {
@@ -238,6 +312,9 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
     }
   else
     {
+    metricGradientField = this->ComputeMetricGradientField(
+        fixedImages, fixedPointSets, fixedTransform, movingImages, movingPointSets, movingTransform, mask, value );
+
     if( mask )
       {
       VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
@@ -268,7 +345,7 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
 BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::BSplineSmoothDisplacementField( const DisplacementFieldType * field,
   const ArrayType & numberOfControlPoints, const WeightedMaskImageType * mask,
-  const PointSetType * pointSet )
+  const BSplinePointSetType * gradientPointSet )
 {
   typedef ImageDuplicator<DisplacementFieldType> DuplicatorType;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
@@ -287,34 +364,9 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 
   typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
 
-  if( pointSet && pointSet->GetNumberOfPoints() > 0 )
+  if( gradientPointSet && gradientPointSet->GetNumberOfPoints() > 0 )
     {
-    typedef VectorLinearInterpolateImageFunction<DisplacementFieldType, RealType> InterpolatorType;
-    typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
-    interpolator->SetInputImage( field );
-
-    typedef typename BSplineFilterType::InputPointSetType BSplinePointSetType;
-    typename BSplinePointSetType::Pointer pointSetGradient = BSplinePointSetType::New();
-    pointSetGradient->Initialize();
-
-    typename PointSetType::PointsContainerConstIterator It = pointSet->GetPoints()->Begin();
-
-    SizeValueType count = 0;
-    while( It != pointSet->GetPoints()->End() )
-      {
-      ContinuousIndex<RealType, ImageDimension> cidx;
-      bool isInside = field->TransformPhysicalPointToContinuousIndex( It.Value(), cidx );
-
-      if( isInside )
-        {
-        typename BSplinePointSetType::PixelType displacement = interpolator->EvaluateAtContinuousIndex( cidx );
-
-        pointSetGradient->SetPoint( count, It.Value() );
-        pointSetGradient->SetPointData( count++, displacement );
-        }
-      ++It;
-      }
-    bspliner->SetPointSet( pointSetGradient );
+    bspliner->SetPointSet( gradientPointSet );
     bspliner->SetBSplineDomainFromImage( field );
     }
   else

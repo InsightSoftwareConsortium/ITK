@@ -299,6 +299,21 @@ public:
     return false;
   }
 
+  /**
+   * By default, the point set metric derivative for a displacement field transform
+   * is stored by saving the gradient for every voxel in the displacement field (see
+   * the function StorePointDerivative()).  Since the "fixed points" will typically
+   * constitute a sparse set, this means that the field will have zero gradient values
+   * at every voxel that doesn't have a corresponding point.  This might cause additional
+   * computation time for certain transforms (e.g. B-spline SyN). To avoid this, this
+   * option permits storing the point derivative only at the fixed point locations.
+   * If this variable is set to false, then the derivative array will be of length
+   * = PointDimension * m_FixedPointSet->GetNumberOfPoints().
+   */
+  itkSetMacro( StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool );
+  itkGetConstMacro( StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool );
+  itkBooleanMacro( StoreDerivativeAsSparseFieldForLocalSupportTransforms );
+
 protected:
   PointSetToPointSetMetricv4();
   virtual ~PointSetToPointSetMetricv4();
@@ -391,6 +406,10 @@ private:
   // Flag to keep track of whether a warning has already been issued
   // regarding the number of valid points.
   mutable bool m_HaveWarnedAboutNumberOfValidPoints;
+
+  // Flag to store derivatives at fixed point locations with the rest being zero gradient
+  // (default = true).
+  bool m_StoreDerivativeAsSparseFieldForLocalSupportTransforms;
 
   mutable ModifiedTimeType m_MovingTransformedPointSetTime;
   mutable ModifiedTimeType m_FixedTransformedPointSetTime;
