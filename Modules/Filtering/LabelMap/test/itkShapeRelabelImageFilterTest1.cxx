@@ -30,7 +30,7 @@ int itkShapeRelabelImageFilterTest1(int argc, char * argv[])
     {
     std::cerr << "Usage: " << argv[0] << " input output";
     std::cerr << " background";
-    std::cerr << "reverseOrdering attribute" << std::endl;
+    std::cerr << " reverseOrdering attribute" << std::endl;
     return EXIT_FAILURE;
     }
 
