@@ -30,7 +30,7 @@ int itkLabelStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
     {
     std::cerr << "Usage: " << argv[0] << " input feature output";
     std::cerr << " background numberOfObjectsToKeep";
-    std::cerr << "reverseOrdering attribute" << std::endl;
+    std::cerr << " reverseOrdering attribute" << std::endl;
     return EXIT_FAILURE;
     }
 
