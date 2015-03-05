@@ -109,11 +109,14 @@ public:
   typedef DisplacementFieldToBSplineImageFilter<DisplacementFieldType>  BSplineFilterType;
   typedef typename BSplineFilterType::ArrayType                         ArrayType;
   typedef typename BSplineFilterType::RealImageType                     WeightedMaskImageType;
+  typedef typename BSplineFilterType::InputPointSetType                 BSplinePointSetType;
 
   typedef ImageMaskSpatialObject<ImageDimension>                      ImageMaskSpatialObjectType;
   typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
 
   typedef typename Superclass::CompositeTransformType                 CompositeTransformType;
+  typedef typename Superclass::DisplacementFieldTransformType         DisplacementFieldTransformType;
+  typedef typename Superclass::DisplacementFieldTransformPointer      DisplacementFieldTransformPointer;
   typedef typename CompositeTransformType::TransformType              TransformBaseType;
 
   typedef typename Superclass::DecoratedOutputTransformType           DecoratedOutputTransformType;
@@ -132,7 +135,7 @@ protected:
     const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,
     const TransformBaseType *, const FixedImageMaskType *, MeasureType & ) ITK_OVERRIDE;
   virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *,
-    const ArrayType &, const WeightedMaskImageType *, const PointSetType * );
+    const ArrayType &, const WeightedMaskImageType *, const BSplinePointSetType * );
 
 private:
   BSplineSyNImageRegistrationMethod( const Self & );   //purposely not implemented

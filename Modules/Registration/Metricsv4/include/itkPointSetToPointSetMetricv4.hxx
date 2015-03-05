@@ -51,6 +51,8 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   this->m_HaveWarnedAboutNumberOfValidPoints = false;
 
   this->m_UsePointSetData = false;
+
+  this->m_StoreDerivativeAsSparseFieldForLocalSupportTransforms = true;
 }
 
 /** Destructor */
@@ -79,7 +81,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   // We don't know how to support gradient source of type moving
   if( this->GetGradientSourceIncludesMoving() )
     {
-    itkExceptionMacro("GradientSource includes GRADIENT_SOURCE_MOVING. Not supported.");
+    itkExceptionMacro( "GradientSource includes GRADIENT_SOURCE_MOVING. Not supported." );
     }
 
   // If the PointSet is provided by a source, update the source.
@@ -107,8 +109,8 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       const typename DisplacementFieldTransformType::ConstPointer displacementTransform = this->GetMovingDisplacementFieldTransform();
       if( displacementTransform.IsNull() )
         {
-        itkExceptionMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
-                          "or a CompositeTransform with DisplacementFieldTransform as the last to have been added." );
+        itkExceptionMacro( "Expected the moving transform to be of type DisplacementFieldTransform or derived, "
+                           "or a CompositeTransform with DisplacementFieldTransform as the last to have been added." );
         }
       typedef typename DisplacementFieldTransformType::DisplacementFieldType DisplacementFieldType;
       typename DisplacementFieldType::ConstPointer field = displacementTransform->GetDisplacementField();
@@ -193,7 +195,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       bool doesPointDataExist = this->m_FixedPointSet->GetPointData( It.Index(), &pixel );
       if( ! doesPointDataExist )
         {
-        itkExceptionMacro( "The corresponding data for point " << It.Value() << "(pointId = " << It.Index() << ") does not exist." );
+        itkExceptionMacro( "The corresponding data for point " << It.Value() << " (pointId = " << It.Index() << ") does not exist." );
         }
       }
 
@@ -235,7 +237,12 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 ::CalculateValueAndDerivative( MeasureType & value, DerivativeType & derivative, bool calculateValue ) const
 {
   this->InitializeForIteration();
+
   derivative.SetSize( this->GetNumberOfParameters() );
+  if( ! this->GetStoreDerivativeAsSparseFieldForLocalSupportTransforms() )
+    {
+    derivative.SetSize( PointDimension * this->m_FixedTransformedPointSet->GetNumberOfPoints() );
+    }
   derivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
 
   value = NumericTraits<MeasureType>::ZeroValue();
@@ -277,7 +284,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       bool doesPointDataExist = this->m_FixedPointSet->GetPointData( It.Index(), &pixel );
       if( ! doesPointDataExist )
         {
-        itkExceptionMacro( "The corresponding data for point " << It.Value() << "(pointId = " << It.Index() << ") does not exist." );
+        itkExceptionMacro( "The corresponding data for point " << It.Value() << " (pointId = " << It.Index() << ") does not exist." );
         }
       }
 
@@ -298,10 +305,10 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
       }
     this->GetMovingTransform()->
-      ComputeJacobianWithRespectToParametersCachedTemporaries(virtualIt.Value(),
-                                                              jacobian,
-                                                              jacobianPositional);
-    for ( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+      ComputeJacobianWithRespectToParametersCachedTemporaries( virtualIt.Value(),
+                                                               jacobian,
+                                                               jacobianPositional );
+    for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
       {
       for( DimensionType d = 0; d < PointDimension; ++d )
         {
@@ -312,7 +319,17 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     // For local-support transforms, store the per-point result
     if( this->HasLocalSupport() )
       {
-      this->StorePointDerivative( virtualIt.Value(), localTransformDerivative, derivative );
+      if( this->GetStoreDerivativeAsSparseFieldForLocalSupportTransforms() )
+        {
+        this->StorePointDerivative( virtualIt.Value(), localTransformDerivative, derivative );
+        }
+      else
+        {
+        for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+          {
+          derivative[this->GetNumberOfLocalParameters() * It.Index() + par] = localTransformDerivative[par];
+          }
+        }
       }
 
     ++It;
@@ -324,7 +341,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     // For global-support transforms, average the accumulated derivative result
     if( ! this->HasLocalSupport() )
       {
-      derivative = localTransformDerivative / static_cast<DerivativeValueType>(this->m_NumberOfValidPoints);
+      derivative = localTransformDerivative / static_cast<DerivativeValueType>( this->m_NumberOfValidPoints );
       }
     value /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
     }
