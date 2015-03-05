@@ -193,6 +193,11 @@ itk_add_test(NAME itkBinaryReconstructionLabelMapFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkBinaryReconstructionLabelMapFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionLabelMapFilterTest.png
     itkBinaryReconstructionLabelMapFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionLabelMapFilterTest.png 94)
+itk_add_test(NAME itkBinaryShapeKeepNObjectsImageFilterTest1
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/binary-image-various-shapes01-binary-shape-keep-n-objects.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBinaryShapeKeepNObjectsImageFilterTest1.png
+    itkBinaryShapeKeepNObjectsImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryShapeKeepNObjectsImageFilterTest1.png 255 0 2 0 1 EquivalentSphericalRadius)
 itk_add_test(NAME itkBinaryShapeOpeningImageFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1-binary-shape-opening.mha}
