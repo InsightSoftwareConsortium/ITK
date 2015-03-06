@@ -426,6 +426,11 @@ itk_add_test(NAME itkLabelStatisticsKeepNObjectsImageFilterTest1
     --compare DATA{Baseline/cthead1Label-statistics-keep-NObjects-baseline.png}
               ${ITK_TEST_OUTPUT_DIR}/itkLabelStatisticsKeepNObjectsImageFilterTest1.png
     itkLabelStatisticsKeepNObjectsImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelStatisticsKeepNObjectsImageFilterTest1.png 0 7 0 203)
+itk_add_test(NAME itkLabelStatisticsOpeningImageFilterTest1
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/cthead1Label-label-statistics-opening-baseline.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkLabelStatisticsOpeningImageFilterTest1.png
+    itkLabelStatisticsOpeningImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelStatisticsOpeningImageFilterTest1.png 0 98 0 PerimeterOnBorder)
 itk_add_test(NAME itkLabelUniqueLabelMapFilterTest0
       COMMAND ITKLabelMapTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkLabelUniqueLabelMapFilterTest0.png}
