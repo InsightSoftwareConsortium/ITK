@@ -424,18 +424,20 @@ while(NOT dashboard_done)
   safe_message("Found ${count} changed files")
 
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
-    ctest_configure()
+    ctest_configure(RETURN_VALUE configure_return)
     ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 
     if(COMMAND dashboard_hook_build)
       dashboard_hook_build()
     endif()
-    ctest_build()
+    ctest_build(RETURN_VALUE build_return
+                NUMBER_ERRORS build_errors
+                NUMBER_WARNINGS build_warnings)
 
     if(COMMAND dashboard_hook_test)
       dashboard_hook_test()
     endif()
-    ctest_test(${CTEST_TEST_ARGS})
+    ctest_test(${CTEST_TEST_ARGS} RETURN_VALUE test_return)
     set(safe_message_skip 1) # Block furhter messages
 
     if(dashboard_do_coverage)
@@ -472,3 +474,12 @@ while(NOT dashboard_done)
     set(dashboard_done 1)
   endif()
 endwhile()
+
+if(NOT ${configure_return} EQUAL 0 OR
+   NOT ${build_return} EQUAL 0 OR
+   NOT ${build_errors} EQUAL 0 OR
+   NOT ${build_warnings} EQUAL 0 OR
+   NOT ${test_return} EQUAL 0)
+  message(FATAL_ERROR
+    "Build did not complete without warnings, errors, or failures.")
+endif()
