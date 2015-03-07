@@ -51,8 +51,6 @@ void
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::Initialize( void ) throw ( ExceptionObject )
 {
-  Superclass::Initialize();
-
   if( !this->m_FixedPointSet->GetPointData() || this->m_FixedPointSet->GetPoints()->Size() != this->m_FixedPointSet->GetPointData()->Size() ||
     !this->m_MovingPointSet->GetPointData() || this->m_MovingPointSet->GetPoints()->Size() != this->m_MovingPointSet->GetPointData()->Size() )
     {
@@ -66,8 +64,8 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   typename LabelSetType::const_iterator it;
   for( it = this->m_CommonPointSetLabels.begin(); it != this->m_CommonPointSetLabels.end(); ++it )
     {
-    typename PointSetMetricType::Pointer metricPtr = dynamic_cast<PointSetMetricType *>( this->m_PointSetMetric->Clone().GetPointer() );
-    if( metricPtr.IsNull() )
+    typename PointSetMetricType::Pointer metric = dynamic_cast<PointSetMetricType *>( this->m_PointSetMetric->Clone().GetPointer() );
+    if( metric.IsNull() )
       {
       itkExceptionMacro( "The metric pointer clone is ITK_NULLPTR." );
       }
@@ -75,11 +73,20 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
     FixedPointSetPointer fixedPointSet = this->GetLabeledFixedPointSet( *it );
     MovingPointSetPointer movingPointSet = this->GetLabeledMovingPointSet( *it );
 
-    metricPtr->SetFixedPointSet( fixedPointSet );
-    metricPtr->SetMovingPointSet( movingPointSet );
-    metricPtr->Initialize();
+    metric->SetFixedPointSet( fixedPointSet );
+    metric->SetMovingPointSet( movingPointSet );
 
-    this->m_PointSetMetricClones.push_back( metricPtr );
+    metric->SetFixedTransform( this->GetModifiableFixedTransform() );
+    metric->SetMovingTransform( this->GetModifiableMovingTransform() );
+
+    metric->SetCalculateValueAndDerivativeInTangentSpace(
+      this->GetCalculateValueAndDerivativeInTangentSpace() );
+    metric->SetStoreDerivativeAsSparseFieldForLocalSupportTransforms(
+      this->GetStoreDerivativeAsSparseFieldForLocalSupportTransforms() );
+
+    metric->Initialize();
+
+    this->m_PointSetMetricClones.push_back( metric );
     }
 }
 

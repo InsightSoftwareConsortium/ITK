@@ -121,7 +121,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
   while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
     {
     typename CompositeTransformType::Pointer fixedComposite = CompositeTransformType::New();
-    if ( fixedInitialTransform != ITK_NULLPTR )
+    if( fixedInitialTransform != ITK_NULLPTR )
       {
       fixedComposite->AddTransform( fixedInitialTransform );
       }
@@ -233,48 +233,13 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
     metricGradientField->Allocate();
     metricGradientField->FillBuffer( zeroVector );
 
-    typename PointSetType::Pointer transformedPointSet = ITK_NULLPTR;
+    this->m_Metric->SetFixedObject( fixedPointSets[0] );
+    this->m_Metric->SetMovingObject( movingPointSets[0] );
 
-    if( !this->m_DownsampleImagesForMetricDerivatives )
-      {
-      this->m_Metric->SetFixedObject( fixedPointSets[0] );
-      this->m_Metric->SetMovingObject( movingPointSets[0] );
+    dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+    dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
 
-      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
-      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
-
-      this->m_Metric->SetFixedObject( fixedPointSets[0] );
-      this->m_Metric->SetMovingObject( movingPointSets[0] );
-
-      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
-      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
-      }
-    else
-      {
-      typename PointSetType::Pointer transformedFixedPointSet =
-        this->TransformPointSet( fixedPointSets[0], fixedTransform->GetInverseTransform() );
-
-      transformedPointSet = transformedFixedPointSet;
-
-      typename PointSetType::Pointer transformedMovingPointSet =
-        this->TransformPointSet( movingPointSets[0], movingTransform->GetInverseTransform() );
-
-      this->m_Metric->SetFixedObject( transformedFixedPointSet );
-      this->m_Metric->SetMovingObject( transformedMovingPointSet );
-
-      typename DisplacementFieldType::Pointer identityField = DisplacementFieldType::New();
-      identityField->CopyInformation( virtualDomainImage );
-      identityField->SetRegions( virtualDomainImage->GetLargestPossibleRegion() );
-      identityField->Allocate();
-      identityField->FillBuffer( zeroVector );
-
-      DisplacementFieldTransformPointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
-      identityDisplacementFieldTransform->SetDisplacementField( identityField );
-      identityDisplacementFieldTransform->SetInverseDisplacementField( identityField );
-
-      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( identityDisplacementFieldTransform );
-      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( identityDisplacementFieldTransform );
-      }
+    dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetCalculateValueAndDerivativeInTangentSpace( true );
 
     this->m_Metric->Initialize();
     dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->
@@ -287,6 +252,9 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 
     if( fixedPointSets[0]->GetNumberOfPoints() > 0 )
       {
+      typename PointSetType::Pointer transformedPointSet =
+        dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->GetModifiableFixedTransformedPointSet();
+
       typename PointSetType::PointsContainerConstIterator It = transformedPointSet->GetPoints()->Begin();
 
       SizeValueType count = 0;
