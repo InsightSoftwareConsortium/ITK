@@ -1,0 +1,2 @@
+test/.*\.cxx Namespace Disable
+itkLevelSetContainer\.h Comments Disable

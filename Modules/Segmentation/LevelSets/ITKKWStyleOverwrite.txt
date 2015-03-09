@@ -1,0 +1,6 @@
+test/.*\.cxx Namespace Disable
+itkParallelSparseFieldLevelSetImageFilter\.h InternalVariables Disable
+itkSparseFieldFourthOrderLevelSetImageFilter\.h InternalVariables Disable
+itkSparseFieldLevelSetImageFilter\.h InternalVariables Disable
+itkImplicitManifoldNormalVectorFilterTest\.cxx InternalVariables Disable
+itkLevelSetContainer\.h Comments Disable

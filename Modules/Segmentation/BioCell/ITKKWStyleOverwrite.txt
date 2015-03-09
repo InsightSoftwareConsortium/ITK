@@ -1,0 +1,2 @@
+test/.*\.cxx Namespace Disable
+itkBioCellBase\.h InternalVariables Disable

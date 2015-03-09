@@ -1,4 +1,5 @@
 project(ITKMetaIO)
+set(ITKMetaIO_THIRD_PARTY 1)
 
 set(ITKMetaIO_INCLUDE_DIRS
   ${ITKMetaIO_BINARY_DIR}/src/MetaIO

@@ -1,0 +1,2 @@
+test/.*\.cxx Namespace Disable
+itkCannyEdgeDetectionImageFilter\.h InternalVariables Disable
