@@ -25,18 +25,22 @@
 
 #include "itkTestingMacros.h"
 
+#include "itkFlatStructuringElement.h"
+#include "itkGrayscaleDilateImageFilter.h"
+#include "itkObjectByObjectLabelMapFilter.h"
+
 int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 {
   if( argc != 6 )
     {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " input feature output";
-    std::cerr << " reverseOrdering(0/1) attribute";
+    std::cerr << " reverseOrdering attribute";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 3;
+  const unsigned int dim = 2;
 
   typedef unsigned char PixelType;
 
@@ -52,18 +56,39 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::LabelImageToStatisticsLabelMapFilter< ImageType, ImageType, LabelMapType> I2LType;
+
+  // Dilate each label object to form overlapping label objects.
+  const unsigned int radiusValue = 5;
+
+  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType > LabelImageToLabelMapFilterType;
+  LabelImageToLabelMapFilterType::Pointer labelMapConverter = LabelImageToLabelMapFilterType::New();
+  labelMapConverter->SetInput( reader->GetOutput() );
+  labelMapConverter->SetBackgroundValue( itk::NumericTraits< PixelType >::Zero );
+
+  typedef itk::FlatStructuringElement< dim > StructuringElementType;
+  StructuringElementType::RadiusType radius;
+  radius.Fill( radiusValue );
+
+  StructuringElementType structuringElement = StructuringElementType::Ball( radius );
+
+  typedef itk::GrayscaleDilateImageFilter< ImageType, ImageType, StructuringElementType > MorphologicalFilterType;
+  MorphologicalFilterType::Pointer grayscaleDilateFilter = MorphologicalFilterType::New();
+  grayscaleDilateFilter->SetInput( reader->GetOutput() );
+  grayscaleDilateFilter->SetKernel( structuringElement );
+
+  typedef itk::ObjectByObjectLabelMapFilter< LabelMapType > ObjectByObjectLabelMapFilterType;
+  ObjectByObjectLabelMapFilterType::Pointer objectByObjectLabelMapFilter = ObjectByObjectLabelMapFilterType::New();
+  objectByObjectLabelMapFilter->SetInput( labelMapConverter->GetOutput() );
+  objectByObjectLabelMapFilter->SetBinaryInternalOutput( false );
+  objectByObjectLabelMapFilter->SetFilter( grayscaleDilateFilter );
+
+  typedef itk::StatisticsLabelMapFilter< LabelMapType, ImageType > I2LType;
   I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
+  i2l->SetInput1( objectByObjectLabelMapFilter->GetOutput()  );
   i2l->SetFeatureImage( reader2->GetOutput() );
 
   typedef itk::StatisticsUniqueLabelMapFilter< LabelMapType > LabelUniqueType;
   LabelUniqueType::Pointer Unique = LabelUniqueType::New();
-
-  //testing get and set macros for ReverseOrdering
-  bool reverseOrdering = atoi( argv[4] );
-  Unique->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , Unique->GetReverseOrdering() );
 
   //testing boolean macro for ReverseOrdering
   Unique->ReverseOrderingOn();
@@ -71,6 +96,12 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   Unique->ReverseOrderingOff();
   TEST_SET_GET_VALUE( false, Unique->GetReverseOrdering() );
+
+  //testing get and set macros for ReverseOrdering
+  bool reverseOrdering = atoi( argv[4] );
+  Unique->SetReverseOrdering( reverseOrdering );
+  TEST_SET_GET_VALUE( reverseOrdering , Unique->GetReverseOrdering() );
+
 
   //testing get and set macros for Attribute
   LabelUniqueType::AttributeType attribute = atoi( argv[5] );
