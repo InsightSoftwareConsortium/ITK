@@ -576,7 +576,7 @@ void MetaOutput::Write()
     FieldVector::const_iterator itEnd = m_FieldVector.end();
     while(it != itEnd)
       {
-      if(typeid(*(*itStream)) == typeid(MetaFileOutputStream))
+      if(dynamic_cast<MetaFileOutputStream*>(*itStream))
         {
         METAIO_STL::string filename = ((MetaFileOutputStream*)(*itStream))
                                       ->GetFileName().c_str();

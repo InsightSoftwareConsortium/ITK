@@ -24,8 +24,8 @@ git_url="https://github.com/Kitware/MetaIO.git"
 # EDIT THIS SCRIPT to change the hash tag at which to begin the
 # next update...
 #
-# This merge done July 17, 2014
-git branchMetaIO-upstream 23a51d63c519814a
+# This merge done March 11, 2015
+git branchMetaIO-upstream c77f0f51074bcf50
 
 #
 # Make a temp directory to handle the import of the upstream source
