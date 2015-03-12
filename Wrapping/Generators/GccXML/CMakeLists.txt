@@ -24,10 +24,16 @@ else()
     find_package(LLVM REQUIRED)
     set(castxml_deps)
   else()
+    # If we are building ITK
+    if(ITK_BINARY_DIR)
+      itk_download_attempt_check(LLVM)
+      itk_download_attempt_check(Clang)
+    endif()
+    set(llvm_version 3.6.0)
     ExternalProject_Add(llvm
-      SVN_REPOSITORY http://llvm.org/svn/llvm-project/llvm/branches/release_36
-      SVN_REVISION -r 227646
-      UPDATE_COMMAND ""
+      URL http://midas3.kitware.com/midas/download/bitstream/454187/llvm-${llvm_version}.src.tar.gz
+      URL_MD5 53dfa661317af324838b3c13c6e58770
+      SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-${llvm_version}
       CMAKE_ARGS -Wno-dev
       CMAKE_GENERATOR "${CMAKE_GENERATOR}"
       CMAKE_CACHE_ARGS
@@ -40,11 +46,10 @@ else()
       INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
       )
     ExternalProject_Add(clang
+      URL http://midas3.kitware.com/midas/download/bitstream/454186/cfe-${llvm_version}.src.tar.gz
+      URL_MD5 d5773b0d8f9c536976a34bccfb99080d
       DEPENDS llvm
-      SVN_REPOSITORY http://llvm.org/svn/llvm-project/cfe/branches/release_36
-      SVN_REVISION -r 227646
-      UPDATE_COMMAND ""
-      GIT_TAG 7c554b353eb4b7c99213b73db52b1d35d8213041
+      SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
       CMAKE_ARGS -Wno-dev
       CMAKE_GENERATOR "${CMAKE_GENERATOR}"
       CMAKE_CACHE_ARGS
@@ -61,6 +66,10 @@ else()
     set(castxml_deps llvm clang)
   endif()
 
+  # If we are building ITK
+  if(ITK_BINARY_DIR)
+    itk_download_attempt_check(CastXML)
+  endif()
   ExternalProject_Add(castxml
     GIT_REPOSITORY https://github.com/CastXML/CastXML.git
     GIT_TAG fe1bb977eef136daecec0d5717fbd7379f139e8a
