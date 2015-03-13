@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkQuadEdgeMeshSubdivisionCriterion_h
-#define __itkQuadEdgeMeshSubdivisionCriterion_h
+#ifndef itkQuadEdgeMeshSubdivisionCriterion_h
+#define itkQuadEdgeMeshSubdivisionCriterion_h
 
 #include "itkObject.h"
 

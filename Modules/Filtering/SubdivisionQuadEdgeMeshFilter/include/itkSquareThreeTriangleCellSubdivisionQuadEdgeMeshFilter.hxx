@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
-#define __itkSquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
+#ifndef itkSquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
+#define itkSquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 
 #include "itkSquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter.h"
 

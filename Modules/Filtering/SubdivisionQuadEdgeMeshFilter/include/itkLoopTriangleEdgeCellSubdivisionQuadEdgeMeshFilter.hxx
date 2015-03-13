@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter_hxx
-#define __itkLoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter_hxx
+#ifndef itkLoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter_hxx
+#define itkLoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter_hxx
 
 #include "itkLoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter.h"
 #include "vnl/vnl_math.h"

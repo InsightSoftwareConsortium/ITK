@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkSubdivisionQuadEdgeMeshFilter_h
-#define __itkSubdivisionQuadEdgeMeshFilter_h
+#ifndef itkSubdivisionQuadEdgeMeshFilter_h
+#define itkSubdivisionQuadEdgeMeshFilter_h
 
 #include "itkConceptChecking.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"

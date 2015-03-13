@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkCellAreaTriangleCellSubdivisionCriterion_hxx
-#define __itkCellAreaTriangleCellSubdivisionCriterion_hxx
+#ifndef itkCellAreaTriangleCellSubdivisionCriterion_hxx
+#define itkCellAreaTriangleCellSubdivisionCriterion_hxx
 
 #include "itkCellAreaTriangleCellSubdivisionCriterion.h"
 

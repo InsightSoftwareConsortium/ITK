@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
-#define __itkModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
+#ifndef itkModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
+#define itkModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 
 #include "itkModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter.h"
 #include "itkNumericTraits.h"

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
-#define __itkTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
+#ifndef itkTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
+#define itkTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 
 #include "itkTriangleCellSubdivisionQuadEdgeMeshFilter.h"
 

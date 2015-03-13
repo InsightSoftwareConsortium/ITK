@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkEdgeLengthTriangleEdgeCellSubdivisionCriterion_h
-#define __itkEdgeLengthTriangleEdgeCellSubdivisionCriterion_h
+#ifndef itkEdgeLengthTriangleEdgeCellSubdivisionCriterion_h
+#define itkEdgeLengthTriangleEdgeCellSubdivisionCriterion_h
 
 #include "itkQuadEdgeMeshSubdivisionCriterion.h"
 #include "itkObjectFactory.h"
