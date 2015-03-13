@@ -29,7 +29,6 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   m_CurrentValue(0),
   m_NumberOfSteps(0),
   m_Stop(false),
-  m_CurrentParameter(0),
   m_StepLength(1.0),
   m_CurrentIndex(0),
   m_MaximumMetricValue(0.0),
@@ -247,7 +246,6 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   os << indent << "CurrentValue = " << m_CurrentValue << std::endl;
   os << indent << "NumberOfSteps = " << m_NumberOfSteps << std::endl;
   os << indent << "Stop = " << m_Stop << std::endl;
-  os << indent << "CurrentParameter = " << m_CurrentParameter << std::endl;
   os << indent << "StepLength = " << m_StepLength << std::endl;
   os << indent << "CurrentIndex = " << m_CurrentIndex << std::endl;
   os << indent << "MaximumMetricValue = " << m_MaximumMetricValue << std::endl;
