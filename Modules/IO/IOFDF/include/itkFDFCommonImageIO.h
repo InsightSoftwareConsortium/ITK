@@ -15,8 +15,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _FDFCommonImageIO_H_
-#define _FDFCommonImageIO_H_
+#ifndef itkFDFCommonImageIO_h
+#define itkFDFCommonImageIO_h
 
 #include <itkFDFImageIO.h>
 #include <itkIndent.h>
@@ -27,6 +27,9 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+
+namespace itk
+{
 
 std::string
 RemoveCharacters(std::string, char);
@@ -91,5 +94,7 @@ PrintVector(std::ostream & os, std::string name, const std::vector<T> & vect)
 
   os << "}" << std::endl;
 }
+
+} // namespace itk
 
 #endif

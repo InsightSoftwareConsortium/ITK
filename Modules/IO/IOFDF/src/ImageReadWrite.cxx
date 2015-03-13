@@ -14,8 +14,9 @@
 int
 main(int argc, char ** argv)
 {
-  typedef float                                           PixelType;
-  const unsigned int                                      Dimension = 2;
+  typedef float      PixelType;
+  const unsigned int Dimension = 2;
+
   typedef itk::Image<PixelType, Dimension>                ImageType;
   typedef itk::ImageFileReader<ImageType>                 ReaderType;
   typedef itk::ImageToVTKImageFilter<ImageType>           ImageToVTKType;

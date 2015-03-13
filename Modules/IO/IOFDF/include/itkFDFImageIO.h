@@ -15,15 +15,16 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __itkFDFImageIO_h
-#define __itkFDFImageIO_h
+#ifndef itkFDFImageIO_h
+#define itkFDFImageIO_h
 #include "IOFDFExport.h"
 #include "itkImageIOBase.h"
 
 namespace itk
 {
 
-/* \brief ImageIO object for reading and writing FDF images
+/** \class FDFImageIO
+ * \brief ImageIO object for reading and writing FDF images
  *
  * \ingroup IOFilters
  *
