@@ -182,15 +182,28 @@ WRAP_TYPE("itk::Image" "I")
   # (for the watershed and relabel filters)
   UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL;RGBUC;RGBAUC;VD")
 
+  set(defined_vector_list )
   foreach(d ${ITK_WRAP_DIMS})
-    foreach(type ${wrap_image_types})
-      if("VF;VD;CVF;CVD" MATCHES "(^|;)${type}(;|$)")
-        # if the type is a vector type with no dimension specified, make the
-        # vector dimension match the image dimension.
-        set(type "${type}${d}")
-      endif()
 
-      ADD_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
+    foreach(type ${wrap_image_types})
+
+      if("VF;VD;CVF;CVD" MATCHES "(^|;)${type}(;|$)")
+
+        # Vectorial types
+        set(orig_type ${type})
+        # Note, vec_dim should be generated from a separate dimension list
+        # and not use the same dimensions as image dimension.
+        foreach(vec_dim ${ITK_WRAP_DIMS})
+          set(type "${orig_type}${vec_dim}")
+          ADD_TEMPLATE("${ITKM_${type}}${d}" "${ITKT_${type}},${d}")
+          # Make a list of all defined vector/covariantvector image types.
+          list(APPEND defined_vector_list ${ITKM_${type}}${d})
+        endforeach()
+
+      else()
+        # Scalar types
+        ADD_TEMPLATE("${ITKM_${type}}${d}" "${ITKT_${type}},${d}")
+      endif()
     endforeach()
 
     # FixedArray types required by level set filters
@@ -207,10 +220,30 @@ WRAP_TYPE("itk::Image" "I")
     # SymmetricSecondRankTensor types required by level set filters
     ADD_TEMPLATE("${ITKM_SSRT${ITKM_D}${d}}${d}"  "${ITKT_SSRT${ITKM_D}${d}}, ${d}")
 
-    # Vector types required by VelocityFieldTranform classes
-    INCREMENT(d_inc ${d})
-    ADD_TEMPLATE("${ITKM_VD${d}}${d_inc}" "${ITKT_VD${d}},${d_inc}")
   endforeach()
+
+  # The next templates need to be always present, but should not be
+  # defined two times; so we check if they are already defined or not
+  # using the defined_vector_list.
+
+  # Vector types required by VelocityFieldTranform classes.
+  foreach(d ${ITK_WRAP_DIMS})
+    INCREMENT(d_inc ${d})
+    list(FIND defined_vector_list "${ITKM_VD${d}}${d_inc}" index)
+    if(index EQUAL -1)
+      ADD_TEMPLATE("${ITKM_VD${d}}${d_inc}" "${ITKT_VD${d}},${d_inc}")
+    endif()
+  endforeach()
+
+  # CovariantVector types required by ImageToImageMetric class
+  # for the ITKRegistration module.
+  foreach(d ${ITK_WRAP_DIMS})
+    list(FIND defined_vector_list "${ITKM_CVD${d}}${d}" index)
+    if(index EQUAL -1)
+      ADD_TEMPLATE("${ITKM_CVD${d}}${d}" "${ITKT_CVD${d}},${d}")
+    endif()
+  endforeach()
+
 END_WRAP_TYPE()
 set(itk_Wrap_Image ${WRAPPER_TEMPLATES})
 
