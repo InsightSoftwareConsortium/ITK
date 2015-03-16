@@ -214,8 +214,6 @@ protected:
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
   virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = ITK_NULLPTR );
 
-  virtual PointSetPointer TransformPointSet( const PointSetType *, const TransformBaseType * );
-
   RealType                                                        m_LearningRate;
 
   OutputTransformPointer                                          m_MovingToMiddleTransform;

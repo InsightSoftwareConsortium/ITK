@@ -209,7 +209,7 @@ public:
   itkSetConstObjectMacro( FixedPointSet, FixedPointSetType );
   itkGetConstObjectMacro( FixedPointSet, FixedPointSetType );
 
-  /** Get the moving transformed point set.  */
+  /** Get the fixed transformed point set.  */
   itkGetModifiableObjectMacro( FixedTransformedPointSet, FixedTransformedPointSetType );
 
   /** Get/Set the moving point set.  */
@@ -217,7 +217,7 @@ public:
   itkGetConstObjectMacro( MovingPointSet, MovingPointSetType );
 
   /** Get the moving transformed point set.  */
-  itkGetModifiableObjectMacro(MovingTransformedPointSet, MovingTransformedPointSetType );
+  itkGetModifiableObjectMacro( MovingTransformedPointSet, MovingTransformedPointSetType );
 
   /**
    * For now return the number of points used in the value/derivative calculations.
@@ -314,6 +314,13 @@ public:
   itkGetConstMacro( StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool );
   itkBooleanMacro( StoreDerivativeAsSparseFieldForLocalSupportTransforms );
 
+  /**
+   *
+   */
+  itkSetMacro( CalculateValueAndDerivativeInTangentSpace, bool );
+  itkGetConstMacro( CalculateValueAndDerivativeInTangentSpace, bool );
+  itkBooleanMacro( CalculateValueAndDerivativeInTangentSpace );
+
 protected:
   PointSetToPointSetMetricv4();
   virtual ~PointSetToPointSetMetricv4();
@@ -337,6 +344,15 @@ protected:
    * should be used.  Default = false.
    */
   bool m_UsePointSetData;
+
+  /**
+   * Flag to calculate value and/or derivative at tangent space.  This is needed
+   * for the diffeomorphic registration methods.  The fixed and moving points are
+   * warped to the virtual domain where the metric is calculated.  Derived point
+   * set metrics might have associated gradient information which will need to be
+   * warped if this flag is true.  Default = false.
+   */
+  bool m_CalculateValueAndDerivativeInTangentSpace;
 
   /**
    * Prepare point sets for use. */

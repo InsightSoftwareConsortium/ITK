@@ -287,21 +287,12 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       {
       if( multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::POINT_SET_METRIC )
         {
-        if( !this->m_DownsampleImagesForMetricDerivatives )
-          {
-          multiMetric->GetMetricQueue()[n]->SetFixedObject( fixedPointSets[n] );
-          multiMetric->GetMetricQueue()[n]->SetMovingObject( movingPointSets[n] );
-          }
-        else
-          {
-          typename PointSetType::Pointer transformedFixedPointSet =
-            this->TransformPointSet( fixedPointSets[n], fixedTransform->GetInverseTransform() );
-          typename PointSetType::Pointer transformedMovingPointSet =
-            this->TransformPointSet( movingPointSets[n], movingTransform->GetInverseTransform() );
+        multiMetric->GetMetricQueue()[n]->SetFixedObject( fixedPointSets[n] );
+        multiMetric->GetMetricQueue()[n]->SetMovingObject( movingPointSets[n] );
+        multiMetric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+        multiMetric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
 
-          multiMetric->GetMetricQueue()[n]->SetFixedObject( transformedFixedPointSet );
-          multiMetric->GetMetricQueue()[n]->SetMovingObject( transformedMovingPointSet );
-          }
+        dynamic_cast<PointSetMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetCalculateValueAndDerivativeInTangentSpace( true );
         }
       else if( multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC )
         {
@@ -309,6 +300,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
           {
           multiMetric->GetMetricQueue()[n]->SetFixedObject( fixedImages[n] );
           multiMetric->GetMetricQueue()[n]->SetMovingObject( movingImages[n] );
+
+          multiMetric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+          multiMetric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
           }
         else
           {
@@ -339,35 +333,18 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
         itkExceptionMacro( "Invalid metric." );
         }
       }
-    if( this->m_DownsampleImagesForMetricDerivatives )
-      {
-      multiMetric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
-      multiMetric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
-      }
     }
   else
     {
     if( this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC )
       {
-      if( !this->m_DownsampleImagesForMetricDerivatives )
-        {
-        this->m_Metric->SetFixedObject( fixedPointSets[0] );
-        this->m_Metric->SetMovingObject( movingPointSets[0] );
+      this->m_Metric->SetFixedObject( fixedPointSets[0] );
+      this->m_Metric->SetMovingObject( movingPointSets[0] );
 
-        dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
-        dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
-        }
-      else
-        {
-        typename PointSetType::Pointer transformedFixedPointSet =
-          this->TransformPointSet( fixedPointSets[0], fixedTransform->GetInverseTransform() );
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
 
-        typename PointSetType::Pointer transformedMovingPointSet =
-          this->TransformPointSet( movingPointSets[0], movingTransform->GetInverseTransform() );
-
-        this->m_Metric->SetFixedObject( transformedFixedPointSet );
-        this->m_Metric->SetMovingObject( transformedMovingPointSet );
-        }
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetCalculateValueAndDerivativeInTangentSpace( true );
       }
     else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
       {
@@ -408,7 +385,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       }
     }
 
-  if( this->m_DownsampleImagesForMetricDerivatives )
+  if( this->m_DownsampleImagesForMetricDerivatives && this->m_Metric->GetMetricCategory() != MetricType::POINT_SET_METRIC )
     {
     const DisplacementVectorType zeroVector( 0.0 );
 
@@ -431,11 +408,6 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       {
       dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( identityDisplacementFieldTransform );
       dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( identityDisplacementFieldTransform );
-      }
-    else
-      {
-      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( identityDisplacementFieldTransform );
-      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( identityDisplacementFieldTransform );
       }
     }
 
@@ -643,32 +615,6 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     }
 
   return smoothField;
-}
-
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::PointSetPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
-::TransformPointSet( const PointSetType * pointSet, const TransformBaseType * transform )
-{
-  typename PointSetType::Pointer transformedPointSet = PointSetType::New();
-  transformedPointSet->Initialize();
-
-  typename PointSetType::PointsContainerConstIterator It = pointSet->GetPoints()->Begin();
-  while( It != pointSet->GetPoints()->End() )
-    {
-    typename PointSetType::PointType point = transform->TransformPoint( It.Value() );
-    transformedPointSet->SetPoint( It.Index(), point );
-    ++It;
-    }
-
-  typename PointSetType::PointDataContainerIterator ItD = pointSet->GetPointData()->Begin();
-  while( ItD != pointSet->GetPointData()->End() )
-    {
-    transformedPointSet->SetPointData( ItD.Index(), ItD.Value() );
-    ++ItD;
-    }
-
-  return transformedPointSet;
 }
 
 /*
