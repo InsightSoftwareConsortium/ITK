@@ -11,8 +11,8 @@
 ============================================================================*/
 #include "metaTypes.h"
 
-#ifndef __MetaOutput_H_
-#define __MetaOutput_H_
+#ifndef metaOutput_h
+#define metaOutput_h
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
