@@ -362,6 +362,13 @@ Versor< T >
 ::Set(const VectorType & axis, ValueType angle)
 {
   const RealType vectorNorm = axis.GetNorm();
+  if ( Math::FloatAlmostEqual<T>(vectorNorm, 0.0) )
+    {
+    ExceptionObject except;
+    except.SetDescription("Attempt to set rotation axis with zero norm");
+    except.SetLocation(__FILE__);
+    throw except;
+    }
 
   const RealType cosangle2 = std::cos(angle / 2.0);
   const RealType sinangle2 = std::sin(angle / 2.0);
