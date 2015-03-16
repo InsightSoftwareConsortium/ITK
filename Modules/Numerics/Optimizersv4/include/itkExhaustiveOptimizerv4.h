@@ -156,7 +156,6 @@ protected:
   MeasureType     m_CurrentValue;
   StepsType       m_NumberOfSteps;
   bool            m_Stop;
-  unsigned int    m_CurrentParameter;
   double          m_StepLength;
   ParametersType  m_CurrentIndex;
   MeasureType     m_MaximumMetricValue;
