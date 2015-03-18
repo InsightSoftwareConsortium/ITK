@@ -9,7 +9,7 @@ CreateTestDriver(ITKColormap  "${ITKColormap-Test_LIBRARIES}" "${ITKColormapTest
 itk_add_test(NAME itkCustomColormapFunctionTest
       COMMAND ITKColormapTestDriver
     itkCustomColormapFunctionTest
-              DATA{Input/bone.txt})
+              DATA{Input/bone.txt} 106)
 
 itk_add_test(NAME RGBColormapTest_red
       COMMAND ITKColormapTestDriver
