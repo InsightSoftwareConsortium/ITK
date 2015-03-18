@@ -36,14 +36,15 @@ CustomColormapFunction< TScalar, TRGBPixel >
   // Apply the color mapping.
   RealType red = 0.0;
 
-  if ( this->m_RedChannel.size() == 1 || value == 0.0 )
+  RealType     size = static_cast< RealType >( this->m_RedChannel.size() );
+  unsigned int index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
+
+  if ( size == 1 || index < 1 )
     {
     red = this->m_RedChannel[0];
     }
-  else if ( this->m_RedChannel.size() > 1 )
+  else if ( size > 1 )
     {
-    RealType     size = static_cast< RealType >( this->m_RedChannel.size() );
-    unsigned int index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
     RealType     p1 = this->m_RedChannel[index];
     RealType     m1 = this->m_RedChannel[index - 1u];
     RealType     d = p1 - m1;
@@ -52,14 +53,16 @@ CustomColormapFunction< TScalar, TRGBPixel >
     }
 
   RealType green = 0.0;
-  if ( this->m_GreenChannel.size() == 1 || value == 0.0 )
+
+  size = static_cast< RealType >( this->m_GreenChannel.size() );
+  index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
+
+  if ( size == 1 || index < 1 )
     {
     green = this->m_GreenChannel[0];
     }
-  else if ( this->m_GreenChannel.size() > 1 )
+  else if ( size > 1 )
     {
-    RealType     size = static_cast< RealType >( this->m_GreenChannel.size() );
-    unsigned int index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
     RealType     p1 = this->m_GreenChannel[index];
     RealType     m1 = this->m_GreenChannel[index - 1u];
     RealType     d = p1 - m1;
@@ -68,14 +71,16 @@ CustomColormapFunction< TScalar, TRGBPixel >
     }
 
   RealType blue = 0.0;
-  if ( this->m_BlueChannel.size() == 1 || value == 0.0 )
+
+  size = static_cast< RealType >( this->m_BlueChannel.size() );
+  index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
+
+  if ( size == 1 || index < 1 )
     {
     blue = this->m_BlueChannel[0];
     }
-  else if ( this->m_BlueChannel.size() > 1 )
+  else if ( size > 1 )
     {
-    RealType     size = static_cast< RealType >( this->m_BlueChannel.size() );
-    unsigned int index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
     RealType     p1 = this->m_BlueChannel[index];
     RealType     m1 = this->m_BlueChannel[index - 1u];
     RealType     d = p1 - m1;
@@ -83,7 +88,7 @@ CustomColormapFunction< TScalar, TRGBPixel >
            + m1;
     }
 
-  // Set the rgb components after rescaling the values.
+  // Set the RGB components after rescaling the values.
   RGBPixelType pixel;
   NumericTraits<TRGBPixel>::SetLength(pixel, 3);
 
