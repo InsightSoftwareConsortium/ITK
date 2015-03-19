@@ -39,7 +39,7 @@ void
 LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  OutputImageType *     output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType *input = this->GetInput();
 
   output->FillBuffer( input->GetBackgroundValue() );

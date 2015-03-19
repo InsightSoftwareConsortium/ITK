@@ -23,7 +23,7 @@
 
 namespace itk
 {
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 ShiSparseLevelSetImage< VDimension >
 ::ShiSparseLevelSetImage()
@@ -32,14 +32,14 @@ ShiSparseLevelSetImage< VDimension >
   this->InitializeInternalLabelList();
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 ShiSparseLevelSetImage< VDimension >
 ::~ShiSparseLevelSetImage()
 {
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::OutputType
 ShiSparseLevelSetImage< VDimension >
@@ -80,7 +80,7 @@ ShiSparseLevelSetImage< VDimension >
     }
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::HessianType
 ShiSparseLevelSetImage< VDimension >
@@ -91,12 +91,12 @@ ShiSparseLevelSetImage< VDimension >
                             <<" If it was required for regularization purpose, "
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
-  HessianType oHessian;
-  oHessian.Fill( NumericTraits< OutputRealType >::ZeroValue() );
-  return oHessian;
+  HessianType hessian;
+  hessian.Fill( NumericTraits< OutputRealType >::ZeroValue() );
+  return hessian;
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::OutputRealType
 ShiSparseLevelSetImage< VDimension >
@@ -108,12 +108,11 @@ ShiSparseLevelSetImage< VDimension >
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
 
-  OutputRealType oLaplacian = NumericTraits< OutputRealType >::ZeroValue();
-
-  return oLaplacian;
+  OutputRealType laplacian = NumericTraits< OutputRealType >::ZeroValue();
+  return laplacian;
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::OutputRealType
 ShiSparseLevelSetImage< VDimension >
@@ -125,11 +124,11 @@ ShiSparseLevelSetImage< VDimension >
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
 
-  OutputRealType oMeanCurvature = NumericTraits< OutputRealType >::ZeroValue();
-  return oMeanCurvature;
+  OutputRealType meanCurvature = NumericTraits< OutputRealType >::ZeroValue();
+  return meanCurvature;
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 void
 ShiSparseLevelSetImage< VDimension >
@@ -144,7 +143,7 @@ ShiSparseLevelSetImage< VDimension >
   data.Hessian.m_Computed = true;
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 void
 ShiSparseLevelSetImage< VDimension >
@@ -159,7 +158,7 @@ ShiSparseLevelSetImage< VDimension >
   data.Laplacian.m_Computed = true;
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 void
 ShiSparseLevelSetImage< VDimension >
@@ -175,7 +174,6 @@ ShiSparseLevelSetImage< VDimension >
 }
 
 
-// ----------------------------------------------------------------------------
 template< unsigned int VDimension >
 void
 ShiSparseLevelSetImage< VDimension >::InitializeLayers()
@@ -185,7 +183,7 @@ ShiSparseLevelSetImage< VDimension >::InitializeLayers()
   this->m_Layers[ PlusOneLayer()  ] = LayerType();
 }
 
-// ----------------------------------------------------------------------------
+
 template< unsigned int VDimension >
 void
 ShiSparseLevelSetImage< VDimension >::InitializeInternalLabelList()
@@ -194,6 +192,7 @@ ShiSparseLevelSetImage< VDimension >::InitializeInternalLabelList()
   this->m_InternalLabelList.push_back( MinusThreeLayer() );
   this->m_InternalLabelList.push_back( MinusOneLayer() );
 }
-}
+
+} // end namespace itk
 
 #endif // __itkShiSparseLevelSetImage_h

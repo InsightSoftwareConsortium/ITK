@@ -109,11 +109,11 @@ public:
     typedef LabelObject< TLabel, Dimension > OutputLabelObjectType;
     typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
 
-    for( LayerIdType status = this->MinusThreeLayer(); status < this->PlusOneLayer(); status++ )
+    for( LayerIdType status = this->MinusThreeLayer(); status < this->PlusOneLayer(); ++status )
       {
       LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject( status );
 
-      for( SizeValueType i = 0; i < labelObject->GetNumberOfLines(); i++ )
+      for( SizeValueType i = 0; i < labelObject->GetNumberOfLines(); ++i )
         {
         object->AddLine( labelObject->GetLine( i ) );
         }
@@ -124,7 +124,6 @@ public:
     }
 
 protected:
-
   WhitakerSparseLevelSetImage();
   virtual ~WhitakerSparseLevelSetImage();
 
@@ -134,9 +133,9 @@ protected:
   virtual void InitializeInternalLabelList();
 
 private:
-
   WhitakerSparseLevelSetImage( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
+
 };
 }
 

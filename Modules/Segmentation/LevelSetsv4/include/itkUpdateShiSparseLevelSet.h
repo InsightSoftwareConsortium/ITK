@@ -131,13 +131,13 @@ protected:
   void UpdateLayerMinusOne();
 
   /** Return true if there is a pixel from the opposite layer (+1 or -1) moving in the same direction */
-  bool Con( const LevelSetInputType& iIdx,
-            const LevelSetOutputType& iCurrentStatus,
-            const LevelSetOutputRealType& iCurrentUpdate ) const;
+  bool Con( const LevelSetInputType& idx,
+            const LevelSetOutputType& currentStatus,
+            const LevelSetOutputRealType& currentUpdate ) const;
 
 private:
   UpdateShiSparseLevelSet( const Self& ); // purposely not implemented
-  void operator = ( const Self& );  // purposely not implemented
+  void operator=( const Self& );  // purposely not implemented
 
   // input
   LevelSetPointer    m_InputLevelSet;

@@ -83,17 +83,17 @@ public:
   /** Returns the layer affiliation of a given location inputIndex */
   virtual LayerIdType Status( const InputType& inputIndex ) const;
 
-  /** Return the const pointer to a layer map with given id  */
+  /** Return the const reference to a layer map with given id  */
   const LayerType& GetLayer( LayerIdType value ) const;
 
   /** Return the pointer to a layer map with given id  */
   LayerType& GetLayer( LayerIdType value );
 
   /** Set a layer map with id to the given layer pointer */
-  void SetLayer( LayerIdType value, const LayerType& iLayer );
+  void SetLayer( LayerIdType value, const LayerType& layer );
 
   /** Set/Get the label map for computing the sparse representation */
-  virtual void SetLabelMap( LabelMapType* iLabelMap );
+  virtual void SetLabelMap( LabelMapType* labelMap );
   itkGetModifiableObjectMacro(LabelMap, LabelMapType );
 
   /** Graft data object as level set object */
@@ -105,7 +105,6 @@ public:
 
 protected:
   LevelSetSparseImage();
-
   virtual ~LevelSetSparseImage();
 
   LayerMapType      m_Layers;
@@ -126,10 +125,10 @@ protected:
   virtual void CopyInformation( const DataObject* data );
 
 private:
-
   LevelSetSparseImage( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
-  };
+};
+
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION

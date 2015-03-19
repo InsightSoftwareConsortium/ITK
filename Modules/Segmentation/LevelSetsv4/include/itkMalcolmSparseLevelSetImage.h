@@ -29,7 +29,7 @@ namespace itk
 {
 /**
  *  \class MalcolmSparseLevelSetImage
- *  \brief Derived class for the shi representation of level-set function
+ *  \brief Derived class for the Malcolm representation of level-set function
  *
  *  This representation is a "sparse" level-set function, where values could
  *  only be { -1, 0, +1 } and organized into 1 layer { 0 }.

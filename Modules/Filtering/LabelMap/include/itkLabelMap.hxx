@@ -35,9 +35,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TLabelObject >
 LabelMap< TLabelObject >
 ::LabelMap()
@@ -46,9 +44,7 @@ LabelMap< TLabelObject >
   this->Initialize();
 }
 
-/**
- *
- */
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -61,9 +57,7 @@ LabelMap< TLabelObject >
   os << indent << "LabelObjectContainer: " << &m_LabelObjectContainer << std::endl;
 }
 
-/**
- *
- */
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -72,9 +66,7 @@ LabelMap< TLabelObject >
   this->ClearLabels();
 }
 
-/**
- *
- */
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -82,6 +74,7 @@ LabelMap< TLabelObject >
 {
   this->Initialize();
 }
+
 
 template< typename TLabelObject >
 void
@@ -101,7 +94,7 @@ LabelMap< TLabelObject >
   if ( imgData == ITK_NULLPTR )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::Image::Graft() cannot cast "
+    itkExceptionMacro( << "itk::LabelMap::Graft() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( const Self * ).name() );
     }
@@ -115,6 +108,7 @@ LabelMap< TLabelObject >
     }
   m_BackgroundValue = imgData->m_BackgroundValue;
 }
+
 
 template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectType *
@@ -138,6 +132,7 @@ LabelMap< TLabelObject >
   return it->second;
 }
 
+
 template< typename TLabelObject >
 const typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
@@ -160,6 +155,7 @@ LabelMap< TLabelObject >
   return it->second;
 }
 
+
 template< typename TLabelObject >
 bool
 LabelMap< TLabelObject >
@@ -167,6 +163,7 @@ LabelMap< TLabelObject >
 {
   return m_LabelObjectContainer.find(label) != m_LabelObjectContainer.end();
 }
+
 
 template< typename TLabelObject >
 const typename LabelMap< TLabelObject >::LabelType &
@@ -186,6 +183,7 @@ LabelMap< TLabelObject >
     }
   return m_BackgroundValue;
 }
+
 
 template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectType *
@@ -211,6 +209,7 @@ LabelMap< TLabelObject >
                     << " label objects registered.");
 }
 
+
 template< typename TLabelObject >
 const typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
@@ -234,6 +233,7 @@ LabelMap< TLabelObject >
                     << this->GetNumberOfLabelObjects()
                     << " label objects registered.");
 }
+
 
 template< typename TLabelObject >
 void
@@ -269,6 +269,7 @@ LabelMap< TLabelObject >
     }
 }
 
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -284,6 +285,7 @@ LabelMap< TLabelObject >
 
   this->AddPixel( it, idx, label );
 }
+
 
 template< typename TLabelObject >
 void
@@ -315,6 +317,7 @@ LabelMap< TLabelObject >
     }
 }
 
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -339,6 +342,7 @@ LabelMap< TLabelObject >
     }
 }
 
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -355,6 +359,7 @@ LabelMap< TLabelObject >
   bool emitModifiedEvent = true;
   RemovePixel( it, idx, emitModifiedEvent );
 }
+
 
 template< typename TLabelObject >
 void
@@ -386,6 +391,7 @@ LabelMap< TLabelObject >
     }
 }
 
+
 template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
@@ -404,6 +410,7 @@ LabelMap< TLabelObject >
 //   return NULL;
 }
 
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -414,6 +421,7 @@ LabelMap< TLabelObject >
   m_LabelObjectContainer[labelObject->GetLabel()] = labelObject;
   this->Modified();
 }
+
 
 template< typename TLabelObject >
 void
@@ -480,6 +488,7 @@ LabelMap< TLabelObject >
   this->AddLabelObject(labelObject);
 }
 
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -489,6 +498,7 @@ LabelMap< TLabelObject >
   // modified is called in RemoveLabel()
   this->RemoveLabel( labelObject->GetLabel() );
 }
+
 
 template< typename TLabelObject >
 void
@@ -505,6 +515,7 @@ LabelMap< TLabelObject >
   this->Modified();
 }
 
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -517,6 +528,7 @@ LabelMap< TLabelObject >
     }
 }
 
+
 template< typename TLabelObject >
 typename LabelMap< TLabelObject >::SizeValueType
 LabelMap< TLabelObject >
@@ -524,6 +536,7 @@ LabelMap< TLabelObject >
 {
   return m_LabelObjectContainer.size();
 }
+
 
 template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelVectorType
@@ -542,6 +555,7 @@ LabelMap< TLabelObject >
   return res;
 }
 
+
 template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectVectorType
 LabelMap< TLabelObject >
@@ -559,6 +573,7 @@ LabelMap< TLabelObject >
   return res;
 }
 
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -574,6 +589,7 @@ LabelMap< TLabelObject >
     }
 }
 
+
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
@@ -588,6 +604,7 @@ LabelMap< TLabelObject >
     }
   this->Modified();
 }
+
 } // end namespace itk
 
 #endif
