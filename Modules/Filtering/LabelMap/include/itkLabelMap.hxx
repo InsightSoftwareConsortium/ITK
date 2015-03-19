@@ -31,6 +31,8 @@
 #include "itkLabelMap.h"
 #include "itkProcessObject.h"
 
+#include <algorithm>
+
 namespace itk
 {
 /**
@@ -105,7 +107,12 @@ LabelMap< TLabelObject >
     }
 
   // Now copy anything remaining that is needed
-  m_LabelObjectContainer = imgData->m_LabelObjectContainer;
+  if( &m_LabelObjectContainer != &(imgData->m_LabelObjectContainer) )
+    {
+    m_LabelObjectContainer.clear();
+    LabelObjectContainerType newLabelObjectContainer( imgData->m_LabelObjectContainer );
+    std::swap( m_LabelObjectContainer, newLabelObjectContainer );
+    }
   m_BackgroundValue = imgData->m_BackgroundValue;
 }
 

@@ -81,9 +81,9 @@ LevelSetSparseImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = dynamic_cast< const Self* >( data );
+  const Self *levelSet = dynamic_cast< const Self* >( data );
 
-  if ( !LevelSet )
+  if ( !levelSet )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast "
@@ -91,8 +91,13 @@ LevelSetSparseImage< TOutput, VDimension >
                        << typeid( Self * ).name() );
     }
 
-  this->m_LabelMap->Graft( LevelSet->m_LabelMap );
-  this->m_Layers = LevelSet->m_Layers;
+  this->m_LabelMap->Graft( levelSet->m_LabelMap );
+  if( &m_Layers != &(levelSet->m_Layers) )
+    {
+    m_Layers.clear();
+    LayerMapType newLayers( levelSet->m_Layers );
+    std::swap( m_Layers, newLayers );
+    }
 }
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
