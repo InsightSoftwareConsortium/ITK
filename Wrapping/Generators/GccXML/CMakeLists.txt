@@ -46,8 +46,11 @@ else()
       INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
       )
     ExternalProject_Add(clang
-      URL http://midas3.kitware.com/midas/download/bitstream/454186/cfe-${llvm_version}.src.tar.gz
-      URL_MD5 d5773b0d8f9c536976a34bccfb99080d
+      # This is the upstream source code repackages in a .tar.gz for
+      # compatibility with older CMake. Also the tests/ and doc/ directories
+      # are removed to remove symlink files and save space.
+      URL http://midas3.kitware.com/midas/download/bitstream/454206/cfe-${llvm_version}.src.tar.gz
+      URL_MD5 d6da7200e9ee9f956565a15242e5a5fe
       DEPENDS llvm
       SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
       CMAKE_ARGS -Wno-dev
@@ -59,6 +62,8 @@ else()
         "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
         -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
         -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        -DCLANG_INCLUDE_DOCS:BOOL=OFF
+        -DCLANG_INCLUDE_TESTS:BOOL=OFF
         -DLLVM_CONFIG:PATH=${CMAKE_CURRENT_BINARY_DIR}/llvm/bin/llvm-config${exe}
       INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
       )
