@@ -220,6 +220,25 @@ int itkVersorTest(int, char* [] )
     std::cout <<    ma       << std::endl;
   }
 
+  {
+    std::cout << "Test for setting Axis (0,0,0) and Angle...";
+    VersorType qa;
+    VectorType xa;
+    xa[0] = 0.0;
+    xa[1] = 0.0;
+    xa[2] = 0.0;
+    ValueType angle = 0;
+    try
+      {
+      qa.Set( xa, angle );
+      return EXIT_FAILURE;
+      }    //setting the axis to (0,0,0) should throw an exception
+    catch(itk::ExceptionObject &excp)
+      {
+      std::cout << "Caught expected exception: " << excp;
+      std::cout << " PASSED !" << std::endl;
+      }
+  }
 
   {
     std::cout << "Test for setting Axis and Angle...";
