@@ -26,7 +26,8 @@
 #  git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 #  ctest -S ITK-dashboard/jenkins_dashboard.cmake -VV
 
-set(CTEST_DASHBOARD_ROOT "$ENV{WORKSPACE}")
+file(TO_CMAKE_PATH "$ENV{WORKSPACE}" workspace)
+set(CTEST_DASHBOARD_ROOT "${workspace}")
 # In the Jenkins Item
 #   Source Code Management
 #   --> Git Repositories
