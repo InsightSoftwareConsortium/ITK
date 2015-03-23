@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSplitComponentsImageFilter_h
-#define __itkSplitComponentsImageFilter_h
+#ifndef itkSplitComponentsImageFilter_h
+#define itkSplitComponentsImageFilter_h
 
 #include "itkFixedArray.h"
 #include "itkImageToImageFilter.h"
