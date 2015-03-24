@@ -23,17 +23,19 @@
 
 namespace itk
 {
+
 template< typename TOutput, unsigned int VDimension >
 LevelSetSparseImage< TOutput, VDimension >
 ::LevelSetSparseImage()
 {}
+
 
 template< typename TOutput, unsigned int VDimension >
 LevelSetSparseImage< TOutput, VDimension >
 ::~LevelSetSparseImage()
 {}
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 typename LevelSetSparseImage< TOutput, VDimension >::LayerIdType
 LevelSetSparseImage< TOutput, VDimension >
@@ -47,21 +49,22 @@ LevelSetSparseImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 void
 LevelSetSparseImage< TOutput, VDimension >
-::SetLabelMap( LabelMapType* iLabelMap )
+::SetLabelMap( LabelMapType* labelMap )
 {
-  this->m_LabelMap = iLabelMap;
+  this->m_LabelMap = labelMap;
 
   typedef typename LabelMapType::SpacingType SpacingType;
 
   const SpacingType spacing = m_LabelMap->GetSpacing();
 
-  for( unsigned int dim = 0; dim < Dimension; dim++ )
+  for( unsigned int dim = 0; dim < Dimension; ++dim )
     {
     this->m_NeighborhoodScales[dim] =
-        NumericTraits< OutputRealType >::OneValue() / static_cast< OutputRealType >( spacing[dim ] );
+        NumericTraits< OutputRealType >::OneValue() / static_cast< OutputRealType >( spacing[dim] );
     }
   this->Modified();
 }
+
 
 template< typename TOutput, unsigned int VDimension >
 bool
@@ -75,26 +78,33 @@ LevelSetSparseImage< TOutput, VDimension >
   return largestRegion.IsInside( mapIndex );
 }
 
+
 template< typename TOutput, unsigned int VDimension >
 void
 LevelSetSparseImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = dynamic_cast< const Self* >( data );
+  const Self *levelSet = dynamic_cast< const Self* >( data );
 
-  if ( !LevelSet )
+  if ( !levelSet )
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast "
+    itkExceptionMacro( << "LevelSetSparseImage::Graft() cannot cast "
                        << typeid( data ).name() << " to "
                        << typeid( Self * ).name() );
     }
 
-  this->m_LabelMap->Graft( LevelSet->m_LabelMap );
-  this->m_Layers = LevelSet->m_Layers;
+  this->m_LabelMap->Graft( levelSet->m_LabelMap );
+  if( &m_Layers != &(levelSet->m_Layers) )
+    {
+    m_Layers.clear();
+    LayerMapType newLayers( levelSet->m_Layers );
+    std::swap( m_Layers, newLayers );
+    }
 }
-// ----------------------------------------------------------------------------
+
+
 template< typename TOutput, unsigned int VDimension >
 const typename LevelSetSparseImage< TOutput, VDimension >::LayerType&
 LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType value ) const
@@ -107,7 +117,7 @@ LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType value ) const
   return it->second;
 }
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 typename LevelSetSparseImage< TOutput, VDimension >::LayerType&
 LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType value )
@@ -120,24 +130,24 @@ LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType value )
   return it->second;
 }
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 void
 LevelSetSparseImage< TOutput, VDimension >
-::SetLayer( LayerIdType value, const LayerType& iLayer )
+::SetLayer( LayerIdType value, const LayerType& layer )
 {
-  LayerMapIterator it = m_Layers.find( value );
+  const LayerMapIterator it = m_Layers.find( value );
   if( it != m_Layers.end() )
     {
-    it->second = iLayer;
+    it->second = layer;
     }
   else
     {
-    itkGenericExceptionMacro( <<value << "is out of bounds" );
+    itkGenericExceptionMacro( << value << "is out of bounds" );
     }
 }
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 void
 LevelSetSparseImage< TOutput, VDimension >
@@ -150,7 +160,7 @@ LevelSetSparseImage< TOutput, VDimension >
   this->InitializeInternalLabelList();
 }
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 void
 LevelSetSparseImage< TOutput, VDimension >
@@ -168,6 +178,7 @@ LevelSetSparseImage< TOutput, VDimension >
                        << typeid( Self * ).name() );
     }
 }
+
 
 template< typename TOutput, unsigned int VDimension >
 template< typename TLabel >
@@ -205,6 +216,5 @@ LevelSetSparseImage< TOutput, VDimension >
 }
 
 } // end namespace itk
-
 
 #endif // itkLevelSetSparseImage_h

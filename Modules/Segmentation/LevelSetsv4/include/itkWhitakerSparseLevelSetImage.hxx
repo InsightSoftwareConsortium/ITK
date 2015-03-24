@@ -23,7 +23,7 @@
 
 namespace itk
 {
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 WhitakerSparseLevelSetImage< TOutput, VDimension >
 ::WhitakerSparseLevelSetImage()
@@ -32,14 +32,14 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
   this->InitializeInternalLabelList();
 }
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 WhitakerSparseLevelSetImage< TOutput, VDimension >
 ::~WhitakerSparseLevelSetImage()
 {
 }
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 typename WhitakerSparseLevelSetImage< TOutput, VDimension >::OutputType
 WhitakerSparseLevelSetImage< TOutput, VDimension >
@@ -93,7 +93,7 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
   return rval;
 }
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 void
 WhitakerSparseLevelSetImage< TOutput, VDimension >
@@ -107,7 +107,7 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
   this->m_Layers[ PlusTwoLayer()  ] = LayerType();
 }
 
-// ----------------------------------------------------------------------------
+
 template< typename TOutput, unsigned int VDimension >
 void
 WhitakerSparseLevelSetImage< TOutput, VDimension >

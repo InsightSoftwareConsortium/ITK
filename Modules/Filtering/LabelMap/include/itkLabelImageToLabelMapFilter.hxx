@@ -54,8 +54,7 @@ void
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -101,21 +100,22 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 
     while ( !it.IsAtEndOfLine() )
       {
-      const InputImagePixelType & v = it.Get();
+      /** todo: use .Value() here? */
+      const InputImagePixelType & value = it.Get();
 
-      if ( v != static_cast< InputImagePixelType >( m_BackgroundValue ) )
+      if ( value != static_cast< InputImagePixelType >( m_BackgroundValue ) )
         {
         // We've hit the start of a run
         IndexType idx = it.GetIndex();
         LengthType      length = 1;
         ++it;
-        while ( !it.IsAtEndOfLine() && it.Get() == v )
+        while ( !it.IsAtEndOfLine() && it.Get() == value )
           {
           ++length;
           ++it;
           }
         // create the run length object to go in the vector
-        m_TemporaryImages[threadId]->SetLine(idx, length, v);
+        m_TemporaryImages[threadId]->SetLine(idx, length, value);
         }
       else
         {

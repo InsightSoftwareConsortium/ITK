@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-
 #ifndef itkLevelSetEvolution_h
 #define itkLevelSetEvolution_h
 
