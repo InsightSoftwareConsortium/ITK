@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLogicOpsFunctors_h
-#define __itkLogicOpsFunctors_h
+#ifndef itkLogicOpsFunctors_h
+#define itkLogicOpsFunctors_h
 
 #include "itkNumericTraits.h"
 

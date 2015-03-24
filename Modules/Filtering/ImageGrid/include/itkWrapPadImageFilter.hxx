@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWrapPadImageFilter_hxx
-#define __itkWrapPadImageFilter_hxx
+#ifndef itkWrapPadImageFilter_hxx
+#define itkWrapPadImageFilter_hxx
 
 #include "itkWrapPadImageFilter.h"
 #include "itkProgressReporter.h"

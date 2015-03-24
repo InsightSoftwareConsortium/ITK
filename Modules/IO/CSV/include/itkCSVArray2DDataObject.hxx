@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCSVArray2DDataObject_hxx
-#define __itkCSVArray2DDataObject_hxx
+#ifndef itkCSVArray2DDataObject_hxx
+#define itkCSVArray2DDataObject_hxx
 
 #include "itkCSVArray2DDataObject.h"
 #include <fstream>

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalableAffineTransform_h
-#define __itkScalableAffineTransform_h
+#ifndef itkScalableAffineTransform_h
+#define itkScalableAffineTransform_h
 
 #include "itkAffineTransform.h"
 
@@ -85,7 +85,7 @@ public:
   /** Set the transformation to an Identity
    *
    * This sets the matrix to identity and the Offset to null. */
-  void SetIdentity(void);
+  void SetIdentity(void) ITK_OVERRIDE;
 
   /** Set the scale of the transform */
   virtual void SetScale(const InputVectorType & scale);
@@ -109,7 +109,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Set the matrix of the transform. The matrix should not include
    *  scale.
@@ -143,13 +143,13 @@ protected:
   ScalableAffineTransform(unsigned int parametersDimension);
   ScalableAffineTransform();
 
-  void ComputeMatrix();
+  void ComputeMatrix() ITK_OVERRIDE;
 
   /** Destroy an ScalableAffineTransform object   */
   virtual ~ScalableAffineTransform();
 
   /** Print contents of an ScalableAffineTransform */
-  void PrintSelf(std::ostream & s, Indent indent) const;
+  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
   void SetVarScale(const double *scale)
   { for ( int i = 0; i < InputSpaceDimension; i++ ) { m_Scale[i] = scale[i]; } }
@@ -168,4 +168,4 @@ private:
 #include "itkScalableAffineTransform.hxx"
 #endif
 
-#endif /* __itkScalableAffineTransform_h */
+#endif /* itkScalableAffineTransform_h */

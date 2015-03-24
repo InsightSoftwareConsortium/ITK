@@ -49,30 +49,30 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  unsigned int GetNumberOfParameters() const { return 5; }
+  unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 5; }
 
-  MeasureType GetValue() const
+  MeasureType GetValue() const ITK_OVERRIDE
     {
     return 1.0;
     }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
     {
     value = 1.0;
     derivative.Fill(0.0);
     }
 
-  unsigned int GetNumberOfLocalParameters() const
+  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
   { return 0; }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) {}
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE {}
 
-  const ParametersType & GetParameters() const
+  const ParametersType & GetParameters() const ITK_OVERRIDE
   { return m_Parameters; }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) {}
+  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
 
-  void PrintSelf(std::ostream& os, itk::Indent indent) const
+  void PrintSelf(std::ostream& os, itk::Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf( os, indent ); }
 
   ParametersType  m_Parameters;
@@ -136,7 +136,7 @@ public:
   typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
   /** Estimate parameter scales with maximum squared norms of Jacobians. */
-  virtual void EstimateScales(ScalesType &parameterScales)
+  virtual void EstimateScales(ScalesType &parameterScales) ITK_OVERRIDE
     {
     this->CheckAndSetInputs();
     this->SetSamplingStrategy( Superclass::RandomSampling );
@@ -179,7 +179,7 @@ public:
       }
     }
 
-  virtual double EstimateStepScale(const ParametersType &step)
+  virtual double EstimateStepScale(const ParametersType &step) ITK_OVERRIDE
     {
     double norm = step.two_norm();
     return norm;
@@ -187,7 +187,7 @@ public:
 
   /** Estimate the scales of local steps. */
   virtual void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales)
+    ScalesType &localStepScales) ITK_OVERRIDE
     {
     localStepScales.SetSize(step.size());
     }

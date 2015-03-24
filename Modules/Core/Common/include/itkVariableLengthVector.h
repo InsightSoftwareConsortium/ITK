@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariableLengthVector_h
-#define __itkVariableLengthVector_h
+#ifndef itkVariableLengthVector_h
+#define itkVariableLengthVector_h
 
 #include "itkNumericTraits.h"
 

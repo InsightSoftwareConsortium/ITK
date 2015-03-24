@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationPropagationTerm_hxx
-#define __itkLevelSetEquationPropagationTerm_hxx
+#ifndef itkLevelSetEquationPropagationTerm_hxx
+#define itkLevelSetEquationPropagationTerm_hxx
 
 #include "itkLevelSetEquationPropagationTerm.h"
 #include "itkCastImageFilter.h"

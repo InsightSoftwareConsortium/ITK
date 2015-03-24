@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkSaltAndPepperNoiseImageFilter_h
-#define __itkSaltAndPepperNoiseImageFilter_h
+#ifndef itkSaltAndPepperNoiseImageFilter_h
+#define itkSaltAndPepperNoiseImageFilter_h
 
 #include "itkNoiseBaseImageFilter.h"
 
@@ -84,10 +84,10 @@ protected:
   virtual ~SaltAndPepperNoiseImageFilter() {
   }
 
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            ThreadIdType threadId );
+                            ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
   SaltAndPepperNoiseImageFilter(const Self&); //purposely not implemented

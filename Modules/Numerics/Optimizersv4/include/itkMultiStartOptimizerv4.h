@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiStartOptimizerv4_h
-#define __itkMultiStartOptimizerv4_h
+#ifndef itkMultiStartOptimizerv4_h
+#define itkMultiStartOptimizerv4_h
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkGradientDescentOptimizerv4.h"
@@ -97,14 +97,14 @@ public:
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
   /** Create an instance of the local optimizer */
-  void InstantiateLocalOptimizer(void);
+  void InstantiateLocalOptimizer();
 
   /** Begin the optimization */
-  virtual void StartOptimization( bool doOnlyInitialization = false );
+  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  virtual void StopOptimization(void);
+  virtual void StopOptimization();
 
   /** Resume the optimization. Can be called after StopOptimization to
    * resume. The bulk of the optimization work loop is here. */
@@ -136,7 +136,7 @@ protected:
   MultiStartOptimizerv4Template();
   virtual ~MultiStartOptimizerv4Template();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /* Common variables for optimization control and reporting */
   bool                          m_Stop;

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAbsoluteValueDifferenceImageFilter_h
-#define __itkAbsoluteValueDifferenceImageFilter_h
+#ifndef itkAbsoluteValueDifferenceImageFilter_h
+#define itkAbsoluteValueDifferenceImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"

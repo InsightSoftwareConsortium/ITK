@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSimplexMeshToTriangleMeshFilter_h
-#define __itkSimplexMeshToTriangleMeshFilter_h
+#ifndef itkSimplexMeshToTriangleMeshFilter_h
+#define itkSimplexMeshToTriangleMeshFilter_h
 
 #include "itkPolygonCell.h"
 
@@ -165,9 +165,9 @@ protected:
   SimplexMeshToTriangleMeshFilter(const Self &) {}
   void operator=(const Self &) {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   void Initialize();
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEllipseSpatialObject_h
-#define __itkEllipseSpatialObject_h
+#ifndef itkEllipseSpatialObject_h
+#define itkEllipseSpatialObject_h
 
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
@@ -73,18 +73,18 @@ public:
    *  That's useful for fuzzy objects. */
   virtual bool ValueAt(const PointType & point, double & value,
                        unsigned int depth = 0,
-                       char *name = ITK_NULLPTR) const;
+                       char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Return true if the object provides a method to evaluate the value
    * at the specified point, false otherwise. */
   virtual bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0,
-                             char *name = ITK_NULLPTR) const;
+                             char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth,
-                        char *) const;
+                        char *) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -94,22 +94,22 @@ public:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  virtual bool ComputeLocalBoundingBox() const;
+  virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
   /** Copy the information from another SpatialObject */
-  void CopyInformation(const DataObject *data);
+  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
 
 protected:
   EllipseSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented
 
-  EllipseSpatialObject(void);
-  ~EllipseSpatialObject(void);
+  EllipseSpatialObject();
+  ~EllipseSpatialObject();
 
   ArrayType m_Radius;
 
   /** Print the object informations in a stream. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 
@@ -117,4 +117,4 @@ protected:
 #include "itkEllipseSpatialObject.hxx"
 #endif
 
-#endif // __itkEllipseSpatialObject_h
+#endif // itkEllipseSpatialObject_h

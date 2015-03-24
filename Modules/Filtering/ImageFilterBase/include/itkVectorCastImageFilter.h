@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorCastImageFilter_h
-#define __itkVectorCastImageFilter_h
+#ifndef itkVectorCastImageFilter_h
+#define itkVectorCastImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkNumericTraitsFixedArrayPixel.h"

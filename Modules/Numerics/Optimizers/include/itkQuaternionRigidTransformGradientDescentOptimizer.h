@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuaternionRigidTransformGradientDescentOptimizer_h
-#define __itkQuaternionRigidTransformGradientDescentOptimizer_h
+#ifndef itkQuaternionRigidTransformGradientDescentOptimizer_h
+#define itkQuaternionRigidTransformGradientDescentOptimizer_h
 
 #include "itkGradientDescentOptimizer.h"
 

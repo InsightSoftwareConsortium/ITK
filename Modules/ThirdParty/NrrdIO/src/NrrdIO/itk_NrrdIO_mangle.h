@@ -1,5 +1,5 @@
-#ifndef __itk_NrrdIO_mangle_h
-#define __itk_NrrdIO_mangle_h
+#ifndef itk_NrrdIO_mangle_h
+#define itk_NrrdIO_mangle_h
 
 /*
 This header file mangles all symbols exported from the
@@ -401,4 +401,4 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define _nrrdFormatVTK_read itk__nrrdFormatVTK_read
 #define _nrrdFormatVTK_write itk__nrrdFormatVTK_write
 #define nrrdFormatVTK itk_nrrdFormatVTK
-#endif  /* __itk_NrrdIO_mangle_h */ 
+#endif  /* itk_NrrdIO_mangle_h */

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkHistogramThresholdCalculator_h
-#define __itkHistogramThresholdCalculator_h
+#ifndef itkHistogramThresholdCalculator_h
+#define itkHistogramThresholdCalculator_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstantVelocityFieldTransform_h
-#define __itkConstantVelocityFieldTransform_h
+#ifndef itkConstantVelocityFieldTransform_h
+#define itkConstantVelocityFieldTransform_h
 
 #include "itkDisplacementFieldTransform.h"
 
@@ -121,7 +121,7 @@ public:
   virtual void SetConstantVelocityField( ConstantVelocityFieldType * );
   itkGetModifiableObjectMacro(ConstantVelocityField, ConstantVelocityFieldType );
 
-  virtual void SetFixedParameters( const ParametersType & );
+  virtual void SetFixedParameters( const ParametersType & ) ITK_OVERRIDE;
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the velocity field */
@@ -131,13 +131,13 @@ public:
   /** Get the modification time of velocity field */
   itkGetConstReferenceMacro( ConstantVelocityFieldSetTime, ModifiedTimeType );
 
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Return an inverse of this transform. */
   bool GetInverse( Self *inverse ) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Trigger the computation of the displacement field by integrating
    * the constant velocity field. */
@@ -186,10 +186,10 @@ protected:
 
   ConstantVelocityFieldTransform();
   virtual ~ConstantVelocityFieldTransform();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */
-  virtual typename LightObject::Pointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   typename DisplacementFieldType::Pointer CopyDisplacementField( const DisplacementFieldType * ) const;
 
@@ -227,4 +227,4 @@ private:
 #include "itkConstantVelocityFieldTransform.hxx"
 #endif
 
-#endif // __itkConstantVelocityFieldTransform_h
+#endif // itkConstantVelocityFieldTransform_h

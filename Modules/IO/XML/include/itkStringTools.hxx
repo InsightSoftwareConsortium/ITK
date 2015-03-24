@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkStringTools_hxx
-#define __itkStringTools_hxx
+#ifndef itkStringTools_hxx
+#define itkStringTools_hxx
 
 #include "itkStringTools.h"
 
@@ -256,4 +256,4 @@ StringTools::FromData( std::string& s, const T& data )
 
 } // namespace itk
 
-#endif // __itkStringTools_hxx
+#endif // itkStringTools_hxx

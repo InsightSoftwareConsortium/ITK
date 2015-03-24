@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDisplacementFieldTransform_hxx
-#define __itkDisplacementFieldTransform_hxx
+#ifndef itkDisplacementFieldTransform_hxx
+#define itkDisplacementFieldTransform_hxx
 
 #include "itkDisplacementFieldTransform.h"
 #include "itkVectorLinearInterpolateImageFunction.h"

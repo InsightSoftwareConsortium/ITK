@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKdTree_hxx
-#define __itkKdTree_hxx
+#ifndef itkKdTree_hxx
+#define itkKdTree_hxx
 
 #include "itkKdTree.h"
 

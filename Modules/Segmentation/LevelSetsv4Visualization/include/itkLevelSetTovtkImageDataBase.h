@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetTovtkImageDataBase_h
-#define __itkLevelSetTovtkImageDataBase_h
+#ifndef itkLevelSetTovtkImageDataBase_h
+#define itkLevelSetTovtkImageDataBase_h
 
 #include "itkProcessObject.h"
 
@@ -66,4 +66,4 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLevelSetTovtkImageDataBase.hxx"
 #endif
-#endif // __itkLevelSetTovtkImageDataBase_h
+#endif // itkLevelSetTovtkImageDataBase_h

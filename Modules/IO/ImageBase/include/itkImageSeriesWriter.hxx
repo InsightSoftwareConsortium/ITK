@@ -15,15 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSeriesWriter_hxx
-#define __itkImageSeriesWriter_hxx
+#ifndef itkImageSeriesWriter_hxx
+#define itkImageSeriesWriter_hxx
 
 #include "itkImageSeriesWriter.h"
 #include "itkDataObject.h"
 #include "itkImageIOFactory.h"
 #include "itkIOCommon.h"
 #include "itkProgressReporter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageAlgorithm.h"
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
 #include "vnl/algo/vnl_determinant.h"
@@ -140,7 +140,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
   if ( !inputImage )
     {
-    itkExceptionMacro(<< "Input image is NULL");
+    itkExceptionMacro(<< "Input image is ITK_NULLPTR");
     }
 
   m_FileNames.clear();
@@ -193,7 +193,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
   if ( !inputImage )
     {
-    itkExceptionMacro(<< "Input image is NULL");
+    itkExceptionMacro(<< "Input image is ITK_NULLPTR");
     }
 
   // We need two regions. One for the input, one for the output.
@@ -212,7 +212,6 @@ ImageSeriesWriter< TInputImage, TOutputImage >
   outputImage->SetRegions(outRegion);
   outputImage->SetNumberOfComponentsPerPixel(inputImage->GetNumberOfComponentsPerPixel());
   outputImage->Allocate();
-  ImageRegionIterator< OutputImageType > ot(outputImage, outRegion);
 
   // Set the origin and spacing of the output
   double spacing[TOutputImage::ImageDimension];
@@ -287,17 +286,8 @@ ImageSeriesWriter< TInputImage, TOutputImage >
     inRegion.SetIndex(inIndex);
     inRegion.SetSize(inSize);
 
-    ImageRegionConstIterator< InputImageType > it (inputImage, inRegion);
-
     // Copy the selected "slice" into the output image.
-    it.GoToBegin();
-    ot.GoToBegin();
-    while ( !ot.IsAtEnd() )
-      {
-      ot.Set( it.Get() );
-      ++it;
-      ++ot;
-      }
+    ImageAlgorithm::Copy(inputImage, outputImage.GetPointer(), inRegion, outRegion);
 
     typename WriterType::Pointer writer = WriterType::New();
 

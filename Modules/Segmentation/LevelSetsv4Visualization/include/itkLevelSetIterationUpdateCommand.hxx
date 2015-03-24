@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetIterationUpdateCommand_hxx
-#define __itkLevelSetIterationUpdateCommand_hxx
+#ifndef itkLevelSetIterationUpdateCommand_hxx
+#define itkLevelSetIterationUpdateCommand_hxx
 
 #include "itkLevelSetIterationUpdateCommand.h"
 
@@ -52,7 +52,7 @@ LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
   IteratingFilterType * filter = dynamic_cast< IteratingFilterType * >( caller );
 
   // Was filter->AddObserver() called correctly?
-  itkAssertInDebugAndIgnoreInReleaseMacro( filter != NULL );
+  itkAssertInDebugAndIgnoreInReleaseMacro( filter != ITK_NULLPTR );
 
   // If we have the right event.
   if( IterationEvent().CheckEvent( &event ) && filter->GetNumberOfIterations() % this->m_UpdatePeriod == 0 )

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAttributeOpeningLabelMapFilter_h
-#define __itkAttributeOpeningLabelMapFilter_h
+#ifndef itkAttributeOpeningLabelMapFilter_h
+#define itkAttributeOpeningLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
@@ -105,9 +105,9 @@ protected:
   AttributeOpeningLabelMapFilter();
   ~AttributeOpeningLabelMapFilter() {};
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   AttributeOpeningLabelMapFilter(const Self&); //purposely not implemented

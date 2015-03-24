@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef __itkPhilipsRECImageIO_h
-#define __itkPhilipsRECImageIO_h
+#ifndef itkPhilipsRECImageIO_h
+#define itkPhilipsRECImageIO_h
 #include "ITKIOPhilipsRECExport.h"
 
 
@@ -104,13 +104,13 @@ public:
        * \param FileNameToRead The name of the file to test for reading.
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char *FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation();
+  virtual void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer);
+  virtual void Read(void *buffer) ITK_OVERRIDE;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -120,20 +120,20 @@ public:
        * \post This function will always return false (Not implemented).
        * \return Returns true if this ImageIO can write the file specified.
        */
-  virtual bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) )
+  virtual bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) ) ITK_OVERRIDE
   {
     return false;
   }
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation()
+  virtual void WriteImageInformation() ITK_OVERRIDE
   {
     return;
   }
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write( const void *itkNotUsed(buffer) )
+  virtual void Write( const void *itkNotUsed(buffer) ) ITK_OVERRIDE
   {
     return;
   }
@@ -141,7 +141,7 @@ public:
 protected:
   PhilipsRECImageIO();
   ~PhilipsRECImageIO();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 
@@ -157,4 +157,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkPhilipsRECImageIO_h
+#endif // itkPhilipsRECImageIO_h

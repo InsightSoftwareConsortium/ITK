@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVideoIOFactory_h
-#define __itkVideoIOFactory_h
+#ifndef itkVideoIOFactory_h
+#define itkVideoIOFactory_h
 
 #include "itkObject.h"
 #include "itkVideoIOBase.h"

@@ -16,13 +16,14 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingImageFilterBase_h
-#define __itkFastMarchingImageFilterBase_h
+#ifndef itkFastMarchingImageFilterBase_h
+#define itkFastMarchingImageFilterBase_h
 
 #include "itkFastMarchingBase.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkArray.h"
+#include <bitset>
 
 namespace itk
 {
@@ -32,7 +33,7 @@ namespace itk
  *
  * The speed function can be specified as a speed image or a
  * speed constant. The speed image is set using the method
- * SetInput(). If the speed image is NULL, a constant speed function
+ * SetInput(). If the speed image is ITK_NULLPTR, a constant speed function
  * is used and is specified using method the SetSpeedConstant().
  *
  * If the speed function is constant and of value one, fast marching results
@@ -46,7 +47,7 @@ namespace itk
  *
  * The output information is computed as follows.
  *
- * If the speed image is NULL or if the OverrideOutputInformation is set to
+ * If the speed image is ITK_NULLPTR or if the OverrideOutputInformation is set to
  * true, the output information is set from user specified parameters. These
  * parameters can be specified using methods
  * \li FastMarchingImageFilterBase::SetOutputRegion(),
@@ -105,18 +106,10 @@ public:
   typedef typename Traits::NodePairContainerConstIterator
     NodePairContainerConstIterator;
 
-  /*
-  typedef typename Superclass::ElementIdentifier ElementIdentifier;
-
-  typedef typename Superclass::PriorityQueueElementType PriorityQueueElementType;
-
-  typedef typename Superclass::PriorityQueueType PriorityQueueType;
-  typedef typename Superclass::PriorityQueuePointer PriorityQueuePointer;
-  */
-
   typedef typename Superclass::LabelType LabelType;
 
   itkStaticConstMacro( ImageDimension, unsigned int, Traits::ImageDimension );
+
 
   typedef Image< unsigned char, ImageDimension >  LabelImageType;
   typedef typename LabelImageType::Pointer        LabelImagePointer;
@@ -128,14 +121,19 @@ public:
   typedef NeighborhoodIterator<LabelImageType> NeighborhoodIteratorType;
   typedef typename NeighborhoodIteratorType::RadiusType NeighborhoodRadiusType;
 
+  class InternalNodeStructure;
+
+
+  typedef FixedArray< InternalNodeStructure, ImageDimension > InternalNodeStructureArray;
+
   itkGetModifiableObjectMacro(LabelImage, LabelImageType );
 
   /** The output largeset possible, spacing and origin is computed as follows.
-   * If the speed image is NULL or if the OverrideOutputInformation is true,
+   * If the speed image is ITK_NULLPTR or if the OverrideOutputInformation is true,
    * the output information is set from user specified parameters. These
    * parameters can be specified using methods SetOutputRegion(),
    * SetOutputSpacing(), SetOutputDirection(), and SetOutputOrigin().
-   * Else if the speed image is not NULL, the output information
+   * Else if the speed image is not ITK_NULLPTR, the output information
    * is copied from the input speed image. */
   virtual void SetOutputSize(const OutputSizeType & size)
   { m_OutputRegion = size; }
@@ -161,8 +159,6 @@ protected:
   /** Destructor */
   virtual ~FastMarchingImageFilterBase();
 
-  class InternalNodeStructure;
-
   OutputRegionType  m_BufferedRegion;
   NodeType          m_StartIndex;
   NodeType          m_LastIndex;
@@ -174,53 +170,53 @@ protected:
   bool                m_OverrideOutputInformation;
 
   /** Generate the output image meta information. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   LabelImagePointer               m_LabelImage;
   ConnectedComponentImagePointer  m_ConnectedComponentImage;
 
-  IdentifierType GetTotalNumberOfNodes() const;
+  IdentifierType GetTotalNumberOfNodes() const ITK_OVERRIDE;
 
   void SetOutputValue( OutputImageType* oDomain,
                        const NodeType& iNode,
-                       const OutputPixelType& iValue );
+                       const OutputPixelType& iValue ) ITK_OVERRIDE;
 
   /** Returns the output value for a given node */
   const OutputPixelType GetOutputValue( OutputImageType* oImage,
-                                  const NodeType& iNode ) const;
+                                  const NodeType& iNode ) const ITK_OVERRIDE;
 
   /** Returns the label value for a given node */
   unsigned char
-  GetLabelValueForGivenNode( const NodeType& iNode ) const;
+  GetLabelValueForGivenNode( const NodeType& iNode ) const ITK_OVERRIDE;
 
   /** Set the label value for a given node */
   void SetLabelValueForGivenNode( const NodeType& iNode,
-                                 const LabelType& iLabel );
+                                 const LabelType& iLabel ) ITK_OVERRIDE;
 
   /** Update values for the neighbors of a given node */
   virtual void UpdateNeighbors( OutputImageType* oImage,
-                                const NodeType& iNode );
+                                const NodeType& iNode ) ITK_OVERRIDE;
 
   /** Update value for a given node */
   virtual void UpdateValue( OutputImageType* oImage,
-                            const NodeType& iValue );
+                            const NodeType& iValue ) ITK_OVERRIDE;
 
   /** Make sure the given node does not violate any topological constraint*/
   bool CheckTopology( OutputImageType* oImage,
-                      const NodeType& iNode );
-  void InitializeOutput( OutputImageType* oImage );
+                      const NodeType& iNode ) ITK_OVERRIDE;
+  void InitializeOutput( OutputImageType* oImage ) ITK_OVERRIDE;
 
   /** Find the nodes were the front will propagate given a node */
   void GetInternalNodesUsed( OutputImageType* oImage,
-                            const NodeType& iNode,
-                            std::vector< InternalNodeStructure >& ioNodesUsed );
+                             const NodeType& iNode,
+                             InternalNodeStructureArray& ioNodesUsed );
 
   /** Solve the quadratic equation */
   double Solve( OutputImageType* oImage,
                const NodeType& iNode,
-               std::vector< InternalNodeStructure >& ioNeighbors ) const;
+               InternalNodeStructureArray& ioNeighbors ) const;
 
   // --------------------------------------------------------------------------
   // --------------------------------------------------------------------------
@@ -232,18 +228,18 @@ protected:
   // Functions/data for the 2-D case
   void InitializeIndices2D();
   bool IsChangeWellComposed2D( const NodeType& ) const;
-  bool IsCriticalC1Configuration2D( const std::vector<bool>& ) const;
-  bool IsCriticalC2Configuration2D( const std::vector<bool>& ) const;
-  bool IsCriticalC3Configuration2D( const std::vector<bool>& ) const;
-  bool IsCriticalC4Configuration2D( const std::vector<bool>& ) const;
+  bool IsCriticalC1Configuration2D( const std::bitset<9>& ) const;
+  bool IsCriticalC2Configuration2D( const std::bitset<9>& ) const;
+  bool IsCriticalC3Configuration2D( const std::bitset<9>& ) const;
+  bool IsCriticalC4Configuration2D( const std::bitset<9>& ) const;
 
   Array<unsigned char>  m_RotationIndices[4];
   Array<unsigned char>  m_ReflectionIndices[2];
 
   // Functions/data for the 3-D case
   void InitializeIndices3D();
-  bool IsCriticalC1Configuration3D( const std::vector<bool>& ) const;
-  unsigned int IsCriticalC2Configuration3D( const std::vector<bool>& ) const;
+  bool IsCriticalC1Configuration3D( const std::bitset<8>& ) const;
+  unsigned int IsCriticalC2Configuration3D( const std::bitset<8>& ) const;
   bool IsChangeWellComposed3D( const NodeType& ) const;
 
   Array<unsigned char>                        m_C1Indices[12];
@@ -263,4 +259,4 @@ private:
 }
 
 #include "itkFastMarchingImageFilterBase.hxx"
-#endif // __itkFastMarchingImageFilterBase_h
+#endif // itkFastMarchingImageFilterBase_h

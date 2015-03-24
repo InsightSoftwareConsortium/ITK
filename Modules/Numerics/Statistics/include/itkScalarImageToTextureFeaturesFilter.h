@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageToTextureFeaturesFilter_h
-#define __itkScalarImageToTextureFeaturesFilter_h
+#ifndef itkScalarImageToTextureFeaturesFilter_h
+#define itkScalarImageToTextureFeaturesFilter_h
 
 #include "itkDataObjectDecorator.h"
 

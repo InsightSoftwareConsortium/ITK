@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLoggerThreadWrapper_hxx
-#define __itkLoggerThreadWrapper_hxx
+#ifndef itkLoggerThreadWrapper_hxx
+#define itkLoggerThreadWrapper_hxx
 
 #include <iostream>
 #include "itkLoggerThreadWrapper.h"
@@ -239,4 +239,4 @@ void LoggerThreadWrapper< SimpleLoggerType >::PrintSelf(std::ostream & os, Inden
 }
 } // namespace itk
 
-#endif // __itkLoggerThreadWrapper_hxx
+#endif // itkLoggerThreadWrapper_hxx

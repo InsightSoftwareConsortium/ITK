@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJPEG2000ImageIO_h
-#define __itkJPEG2000ImageIO_h
+#ifndef itkJPEG2000ImageIO_h
+#define itkJPEG2000ImageIO_h
 
 
 #include <fstream>
@@ -125,4 +125,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkJPEG2000ImageIO_h
+#endif // itkJPEG2000ImageIO_h

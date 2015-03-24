@@ -131,7 +131,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 
   for( Iterator inIter( input, region ); !inIter.IsAtEnd(); ++inIter )
     {
-    inIter.Set( pattern.Evaluate( inIter.GetIndex(), size, size, padValue ) );
+    inIter.Set( PixelType(pattern.Evaluate( inIter.GetIndex(), size, size, padValue )) );
     }
 
   //=============================================================
@@ -175,7 +175,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 
   warper->SetInput( input );
   warper->SetDisplacementField( field );
-  warper->SetEdgePaddingValue( padValue );
+  warper->SetEdgePaddingValue( PixelType(padValue) );
 
   ShowProgressObject progressWatch(warper);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -266,7 +266,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     if( validRegion.IsInside( index ) )
       {
 
-    PixelType trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, clampSize, padValue );
+      PixelType trueValue(pattern.Evaluate( outIter.GetIndex(), validSize, clampSize, padValue));
       for( unsigned int k=0; k<ImageDimension; k++ )
         {
         if( vnl_math_abs( trueValue[k] - value[k] ) > 1e-4 )
@@ -282,7 +282,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     else
       {
 
-      if( value != padValue )
+      if( value != PixelType(padValue) )
         {
         testPassed = false;
         std::cout << "Error at Index: " << index << " ";
@@ -348,7 +348,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 
   try
     {
-    std::cout << "Setting interpolator to NULL" << std::endl;
+    std::cout << "Setting interpolator to ITK_NULLPTR" << std::endl;
     testPassed = false;
     warper->SetInterpolator( ITK_NULLPTR );
     warper->Update();

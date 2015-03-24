@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
-#define __itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
+#ifndef itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
+#define itkJointHistogramMutualInformationGetValueAndDerivativeThreader_h
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
@@ -81,9 +81,9 @@ protected:
 
   typedef Image< SizeValueType, 2 > JointHistogramType;
 
-  virtual void BeforeThreadedExecution();
+  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
 
-  virtual void AfterThreadedExecution();
+  virtual void AfterThreadedExecution() ITK_OVERRIDE;
 
   virtual bool ProcessPoint(
         const VirtualIndexType &          virtualIndex,
@@ -96,7 +96,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const;
+        const ThreadIdType                threadId ) const ITK_OVERRIDE;
 
   inline InternalComputationValueType ComputeFixedImageMarginalPDFDerivative(
                                         const MarginalPDFPointType & margPDFpoint,

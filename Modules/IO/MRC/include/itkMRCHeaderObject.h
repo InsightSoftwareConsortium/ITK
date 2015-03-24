@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRCHeaderObject_h
-#define __itkMRCHeaderObject_h
+#ifndef itkMRCHeaderObject_h
+#define itkMRCHeaderObject_h
 #include "ITKIOMRCExport.h"
 
 #include "itkObjectFactory.h"
@@ -242,7 +242,7 @@ public:
   /** the expected number of bytes in the extended header, this is only
    * valid after a successful call to SetHeader.
    */
-  SizeValueType GetExtendedHeaderSize(void) const;
+  SizeValueType GetExtendedHeaderSize() const;
 
   /** the expected number of bytes in the header */
   SizeValueType GetHeaderSize(void) const
@@ -253,7 +253,7 @@ public:
   /** returns true if the original header from SetHeader was big
    * endian.
    */
-  bool IsOriginalHeaderBigEndian(void) const;
+  bool IsOriginalHeaderBigEndian() const;
 
   /** Public avaiable data : FIXME : NO MEMBER VARIABLES SHOULD BE PUBLIC. */
   Header m_Header;                    // FIXME : This should be private and
@@ -261,8 +261,8 @@ public:
 
 protected:
 
-  MRCHeaderObject(void);
-  ~MRCHeaderObject(void);
+  MRCHeaderObject();
+  ~MRCHeaderObject();
 
   /** Methods to fix the order of a set header */
   void swapHeader(bool bigEndian);

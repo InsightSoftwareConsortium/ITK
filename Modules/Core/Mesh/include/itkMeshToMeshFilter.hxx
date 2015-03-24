@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMeshToMeshFilter_hxx
-#define __itkMeshToMeshFilter_hxx
+#ifndef itkMeshToMeshFilter_hxx
+#define itkMeshToMeshFilter_hxx
 
 #include "itkMeshToMeshFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegionExclusionConstIteratorWithIndex_h
-#define __itkImageRegionExclusionConstIteratorWithIndex_h
+#ifndef itkImageRegionExclusionConstIteratorWithIndex_h
+#define itkImageRegionExclusionConstIteratorWithIndex_h
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 
@@ -198,10 +198,10 @@ public:
   void SetExclusionRegionToInsetRegion();
 
   /** Move an iterator to the beginning of the non-excluded region. */
-  void GoToBegin(void);
+  void GoToBegin();
 
   /** Move an iterator to the End of the region. */
-  void GoToReverseBegin(void);
+  void GoToReverseBegin();
 
 private:
 

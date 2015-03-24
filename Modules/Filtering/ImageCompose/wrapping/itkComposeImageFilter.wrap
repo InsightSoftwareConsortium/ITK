@@ -1,57 +1,49 @@
 itk_wrap_class("itk::ComposeImageFilter" POINTER)
+
   # VectorImage types
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_I${t}${d}}, ${ITKT_VI${t}${d}}")
-    endforeach(t)
-  endforeach(d)
+    endforeach()
+  endforeach()
 
-  IF(ITK_WRAP_float AND ITK_WRAP_covariant_vector_float)
+  # Note: we do not wrap more input types here, this filter should
+  # not be used to cast types, use the castimagefilter for this.
+  # This allows to reduce the number of wrapped classes.
+  if(ITK_WRAP_float AND ITK_WRAP_covariant_vector_float)
     itk_wrap_image_filter_types(F CVF 2)
-  ENDIF(ITK_WRAP_float AND ITK_WRAP_covariant_vector_float)
-
-  IF(ITK_WRAP_double AND ITK_WRAP_covariant_vector_double)
-    itk_wrap_image_filter_types(D CVD 2)
-  ENDIF(ITK_WRAP_double AND ITK_WRAP_covariant_vector_double)
-
-  IF(ITK_WRAP_float AND ITK_WRAP_vector_float)
-    itk_wrap_image_filter_types(F VF 2)
-  ENDIF(ITK_WRAP_float AND ITK_WRAP_vector_float)
-
-  IF(ITK_WRAP_double AND ITK_WRAP_vector_double)
-    itk_wrap_image_filter_types(D VD 2)
-  ENDIF(ITK_WRAP_double AND ITK_WRAP_vector_double)
-
-  IF(ITK_WRAP_float AND ITK_WRAP_covariant_vector_float)
     itk_wrap_image_filter_types(F CVF 3)
-  ENDIF(ITK_WRAP_float AND ITK_WRAP_covariant_vector_float)
+  endif()
 
-  IF(ITK_WRAP_double AND ITK_WRAP_covariant_vector_double)
+  if(ITK_WRAP_double AND ITK_WRAP_covariant_vector_double)
+    itk_wrap_image_filter_types(D CVD 2)
     itk_wrap_image_filter_types(D CVD 3)
-  ENDIF(ITK_WRAP_double AND ITK_WRAP_covariant_vector_double)
+  endif()
 
-  IF(ITK_WRAP_float AND ITK_WRAP_vector_float)
+  if(ITK_WRAP_float AND ITK_WRAP_vector_float)
+    itk_wrap_image_filter_types(F VF 2)
     itk_wrap_image_filter_types(F VF 3)
-  ENDIF(ITK_WRAP_float AND ITK_WRAP_vector_float)
+  endif()
 
-  IF(ITK_WRAP_double AND ITK_WRAP_vector_double)
+  if(ITK_WRAP_double AND ITK_WRAP_vector_double)
+    itk_wrap_image_filter_types(D VD 2)
     itk_wrap_image_filter_types(D VD 3)
-  ENDIF(ITK_WRAP_double AND ITK_WRAP_vector_double)
+  endif()
 
-  IF(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
+  if(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
     itk_wrap_image_filter_types(UC RGBAUC)
-  ENDIF(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
+  endif()
 
-  IF(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
+  if(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
     itk_wrap_image_filter_types(US RGBAUS)
-  ENDIF(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
+  endif()
 
-  IF(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
+  if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
     itk_wrap_image_filter_types(UC RGBUC)
-  ENDIF(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
+  endif()
 
-  IF(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
+  if(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
     itk_wrap_image_filter_types(US RGBUS)
-  ENDIF(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
+  endif()
 
 itk_end_wrap_class()

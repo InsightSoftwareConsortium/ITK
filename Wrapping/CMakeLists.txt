@@ -59,8 +59,36 @@ option(ITK_WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" OFF)
 option(ITK_WRAP_rgba_unsigned_char "Wrap RGBA< unsigned char > type" ON)
 option(ITK_WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" OFF)
 
-option(ITK_WRAP_complex_float "Wrap complex<float> type" ON)
-option(ITK_WRAP_complex_double "Wrap complex<double> type" OFF)
+option(ITK_WRAP_complex_float "Wrap complex< float > type" ON)
+option(ITK_WRAP_complex_double "Wrap complex< double > type" OFF)
+
+# Check for type conditions that need to be fullfilled.
+foreach(t float double)
+  # Vectors
+  if(ITK_WRAP_vector_${t} AND NOT ITK_WRAP_${t})
+    message(SEND_ERROR "To use 'ITK_WRAP_vector_${t}', please set 'ITK_WRAP_${t}' to ON")
+  endif()
+
+  # Covariant vectors
+  if(ITK_WRAP_covariant_vector_${t} AND NOT ITK_WRAP_${t})
+    message(SEND_ERROR "To use 'ITK_WRAP_covariant_vector_${t}', please set 'ITK_WRAP_${t}' to ON")
+  endif()
+
+  # Complex
+  if(ITK_WRAP_complex_${t} AND NOT ITK_WRAP_${t})
+    message(SEND_ERROR "To use 'ITK_WRAP_complex_${t}', please set 'ITK_WRAP_${t}' to ON")
+  endif()
+endforeach()
+
+foreach(t unsigned_char unsigned_short)
+  if(ITK_WRAP_rgb_${t} AND NOT ITK_WRAP_${t})
+    message(SEND_ERROR "To use 'ITK_WRAP_rgb_${t}', please set 'ITK_WRAP_${t}' to ON")
+  endif()
+
+  if(ITK_WRAP_rgba_${t} AND NOT ITK_WRAP_${t})
+    message(SEND_ERROR "To use 'ITK_WRAP_rgba_${t}', please set 'ITK_WRAP_${t}' to ON")
+  endif()
+endforeach()
 
 set(ITK_WRAP_DIMS "2;3" CACHE STRING "Dimensions available separated by semicolons (;)")
 

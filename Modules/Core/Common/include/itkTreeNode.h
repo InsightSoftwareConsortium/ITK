@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeNode_h
-#define __itkTreeNode_h
+#ifndef itkTreeNode_h
+#define itkTreeNode_h
 
 #include <vector>
 #include <algorithm>

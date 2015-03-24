@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBorderQuadEdgeMeshFilter_h
-#define __itkBorderQuadEdgeMeshFilter_h
+#ifndef itkBorderQuadEdgeMeshFilter_h
+#define itkBorderQuadEdgeMeshFilter_h
 
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
@@ -140,7 +140,7 @@ protected:
 
   virtual ~BorderQuadEdgeMeshFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   BorderTransformType m_TransformType;
   BorderPickType      m_BorderPick;
@@ -151,7 +151,7 @@ protected:
 
   MapPointIdentifier m_BoundaryPtMap;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   void ComputeBoundary();
 

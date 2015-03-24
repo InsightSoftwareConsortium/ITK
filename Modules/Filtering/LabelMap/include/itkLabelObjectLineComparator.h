@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelObjectLineComparator_h
-#define __itkLabelObjectLineComparator_h
+#ifndef itkLabelObjectLineComparator_h
+#define itkLabelObjectLineComparator_h
 
 namespace itk
 {

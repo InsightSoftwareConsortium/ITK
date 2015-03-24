@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGaussianInterpolateImageFunction_hxx
-#define __itkGaussianInterpolateImageFunction_hxx
+#ifndef itkGaussianInterpolateImageFunction_hxx
+#define itkGaussianInterpolateImageFunction_hxx
 
 #include "itkGaussianInterpolateImageFunction.h"
 

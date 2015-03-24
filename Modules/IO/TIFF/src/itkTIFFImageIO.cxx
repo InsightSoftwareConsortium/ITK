@@ -874,7 +874,7 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
 
   if ( fld == ITK_NULLPTR )
     {
-    itkExceptionMacro(<< "fld is NULL");
+    itkExceptionMacro(<< "fld is ITK_NULLPTR");
     }
 
   if ( !itkTIFFFieldPassCount( fld ) )

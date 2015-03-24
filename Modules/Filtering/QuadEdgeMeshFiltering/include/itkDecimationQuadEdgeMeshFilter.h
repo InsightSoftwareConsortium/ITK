@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDecimationQuadEdgeMeshFilter_h
-#define __itkDecimationQuadEdgeMeshFilter_h
+#ifndef itkDecimationQuadEdgeMeshFilter_h
+#define itkDecimationQuadEdgeMeshFilter_h
 
 #include "itkIntTypes.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
@@ -67,7 +67,7 @@ protected:
   CriterionPointer m_Criterion;
   SizeValueType    m_Iteration;
 
-  void GenerateData()
+  void GenerateData() ITK_OVERRIDE
   {
     this->CopyInputMeshToOutputMesh();
 
@@ -102,7 +102,7 @@ protected:
 
   virtual bool IsCriterionSatisfied() = 0;
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     this->Superclass::PrintSelf(os, indent);
     os << indent << "Criterion: " << m_Criterion << std::endl;

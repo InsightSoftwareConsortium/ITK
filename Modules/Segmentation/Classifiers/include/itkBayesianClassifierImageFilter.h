@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBayesianClassifierImageFilter_h
-#define __itkBayesianClassifierImageFilter_h
+#ifndef itkBayesianClassifierImageFilter_h
+#define itkBayesianClassifierImageFilter_h
 
 #include "itkVectorImage.h"
 #include "itkImageToImageFilter.h"
@@ -181,7 +181,7 @@ public:
   /** This is overloaded to create the Posteriors output image */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -207,12 +207,12 @@ protected:
 
   BayesianClassifierImageFilter();
   virtual ~BayesianClassifierImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Here is where the classification is computed. */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation(void);
+  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
 
   /** Methods for computing the labeled map for all combinations of conditions
     */

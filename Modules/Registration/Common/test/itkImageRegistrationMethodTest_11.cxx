@@ -120,7 +120,7 @@ int itkImageRegistrationMethodTest_11(int, char* [] )
 
 
   //
-  //  Now verify that they can be set to NULL
+  //  Now verify that they can be set to ITK_NULLPTR
   //
   MetricType::Pointer         metric3        = ITK_NULLPTR;
   TransformType::Pointer      transform3     = ITK_NULLPTR;

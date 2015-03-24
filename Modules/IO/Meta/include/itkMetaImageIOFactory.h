@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaImageIOFactory_h
-#define __itkMetaImageIOFactory_h
+#ifndef itkMetaImageIOFactory_h
+#define itkMetaImageIOFactory_h
 #include "ITKIOMetaExport.h"
 
 #include "itkObjectFactoryBase.h"

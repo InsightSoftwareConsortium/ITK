@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGrayscaleMorphologicalClosingImageFilter_h
-#define __itkGrayscaleMorphologicalClosingImageFilter_h
+#ifndef itkGrayscaleMorphologicalClosingImageFilter_h
+#define itkGrayscaleMorphologicalClosingImageFilter_h
 
 #include "itkKernelImageFilter.h"
 #include "itkMovingHistogramErodeImageFilter.h"
@@ -112,7 +112,7 @@ public:
 // KernelSuperClass;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel);
+  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
 
   /** Set/Get the backend filter class. */
   void SetAlgorithm(int algo);
@@ -120,7 +120,7 @@ public:
 
   /** GrayscaleMorphologicalClosingImageFilter need to set its internal filters
     as modified */
-  virtual void Modified() const;
+  virtual void Modified() const ITK_OVERRIDE;
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
@@ -131,9 +131,9 @@ public:
 protected:
   GrayscaleMorphologicalClosingImageFilter();
   ~GrayscaleMorphologicalClosingImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   GrayscaleMorphologicalClosingImageFilter(const Self &); //purposely not

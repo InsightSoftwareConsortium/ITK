@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkWhitakerSparseLevelSetImage_h
-#define __itkWhitakerSparseLevelSetImage_h
+#ifndef itkWhitakerSparseLevelSetImage_h
+#define itkWhitakerSparseLevelSetImage_h
 
 #include "itkLevelSetSparseImage.h"
 #include "itkLabelObject.h"
@@ -82,7 +82,7 @@ public:
 
   /** Returns the value of the level set function at a given location iP */
   using Superclass::Evaluate;
-  virtual OutputType Evaluate( const InputType& inputIndex ) const;
+  virtual OutputType Evaluate( const InputType& inputIndex ) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -128,9 +128,9 @@ protected:
   virtual ~WhitakerSparseLevelSetImage();
 
   /** Initialize the sparse field layers */
-  virtual void InitializeLayers();
+  virtual void InitializeLayers() ITK_OVERRIDE;
 
-  virtual void InitializeInternalLabelList();
+  virtual void InitializeInternalLabelList() ITK_OVERRIDE;
 
 private:
   WhitakerSparseLevelSetImage( const Self& ); // purposely not implemented
@@ -143,4 +143,4 @@ private:
 #include "itkWhitakerSparseLevelSetImage.hxx"
 #endif
 
-#endif // __itkWhitakerSparseLevelSetImage_h
+#endif // itkWhitakerSparseLevelSetImage_h

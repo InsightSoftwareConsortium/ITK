@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientRecursiveGaussianImageFilter_h
-#define __itkGradientRecursiveGaussianImageFilter_h
+#ifndef itkGradientRecursiveGaussianImageFilter_h
+#define itkGradientRecursiveGaussianImageFilter_h
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkNthElementImageAdaptor.h"
@@ -98,6 +98,10 @@ public:
 
   typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
 
+  /** Define the type for the sigma array **/
+  typedef FixedArray< ScalarRealType,
+                      itkGetStaticConstMacro(ImageDimension) > SigmaArrayType;
+
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
     RealImageType,
@@ -121,7 +125,7 @@ public:
 
   /** Type of the output Image */
   typedef TOutputImage                                         OutputImageType;
-  typedef typename          OutputImageType::PixelType         OutputPixelType;
+  typedef typename OutputImageType::PixelType                  OutputPixelType;
   typedef typename NumericTraits< OutputPixelType >::ValueType OutputComponentType;
   typedef CovariantVector< OutputComponentType, ImageDimension >
     CovariantVectorType;
@@ -133,9 +137,12 @@ public:
   itkTypeMacro(GradientRecursiveGaussianImageFilter,
                ImageToImageFilter);
 
-  /** Set Sigma value. Sigma is measured in the units of image spacing.  */
+  /** Set Sigma value. Sigma is measured in the units of image spacing. */
+  void SetSigmaArray(const SigmaArrayType & sigmas);
   void SetSigma(ScalarRealType sigma);
-  RealType GetSigma() const;
+
+  SigmaArrayType GetSigmaArray() const;
+  ScalarRealType GetSigma() const;
 
   /** Define which normalization factor will be used for the Gaussian
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
@@ -148,7 +155,7 @@ public:
    * an implementation for GenerateInputRequestedRegion in order to inform
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** The UseImageDirection flag determines whether the gradients are
    * computed with respect to the image grid or with respect to the physical
@@ -166,23 +173,24 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelType > ) );
+  // Does not seem to work with wrappings, disabled
+  // itkConceptMacro( InputHasNumericTraitsCheck,
+  //                 ( Concept::HasNumericTraits< PixelType > ) );
   // End concept checking
 #endif
 
 protected:
   GradientRecursiveGaussianImageFilter();
   virtual ~GradientRecursiveGaussianImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
 
@@ -247,6 +255,9 @@ private:
 
   /** Take into account image orientation when computing the Gradient */
   bool m_UseImageDirection;
+
+  /** Standard deviation of the gaussian */
+  SigmaArrayType m_Sigma;
 };
 } // end namespace itk
 

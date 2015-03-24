@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRandomNonRepeatingIteratorWithIndex_h
-#define __itkImageRandomNonRepeatingIteratorWithIndex_h
+#ifndef itkImageRandomNonRepeatingIteratorWithIndex_h
+#define itkImageRandomNonRepeatingIteratorWithIndex_h
 
 #include "itkImageRandomNonRepeatingConstIteratorWithIndex.h"
 #include "itkImageIteratorWithIndex.h"

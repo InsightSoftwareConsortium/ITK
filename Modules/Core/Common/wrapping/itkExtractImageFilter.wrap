@@ -8,15 +8,15 @@ itk_wrap_class("itk::ExtractImageFilter" POINTER)
         foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
           itk_wrap_template("${ITKM_I${t}${d1}}${ITKM_I${t}${d2}}"
                         "${ITKT_I${t}${d1}},${ITKT_I${t}${d2}}")
-        endforeach(t)
+        endforeach()
         # vector types requires to have the same dimension in the image and in the vector and so can't be
         # extracted in an image of lower dimension
         # foreach(t ${WRAP_ITK_VECTOR})
         #  itk_wrap_template("${ITKM_I${t}${d1}${d1}}${ITKM_I${t}${d2}${d2}}"
         #                "${ITKT_I${t}${d1}${d1}},${ITKT_I${t}${d2}${d2}}")
-        # endforeach(t)
+        # endforeach()
       endif("${d1}" GREATER "${d2}")
-    endforeach(d2)
-  endforeach(d1)
+    endforeach()
+  endforeach()
 
 itk_end_wrap_class()

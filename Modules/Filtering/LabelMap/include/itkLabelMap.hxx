@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkLabelMap_hxx
-#define __itkLabelMap_hxx
+#ifndef itkLabelMap_hxx
+#define itkLabelMap_hxx
 
 #include "itkLabelMap.h"
 #include "itkProcessObject.h"
@@ -407,7 +407,7 @@ LabelMap< TLabelObject >
       }
     }
   itkExceptionMacro(<< "No label object at index " << idx << ".");
-//   return NULL;
+//   return ITK_NULLPTR;
 }
 
 

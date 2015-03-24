@@ -319,9 +319,9 @@ ThreadPool
 ::AssignWork(ThreadJob threadJob)
 {
 #if defined(__APPLE__)
-  ThreadProcessIdType returnValue = NULL; // TODO:  This is being returned
+  ThreadProcessIdType returnValue = ITK_NULLPTR; // TODO:  This is being returned
 #elif defined(_WIN32) || defined(_WIN64)
-  ThreadProcessIdType returnValue = NULL; // TODO:  This is being returned
+  ThreadProcessIdType returnValue = ITK_NULLPTR; // TODO:  This is being returned
 #else
   ThreadProcessIdType returnValue = pthread_self();
 #endif

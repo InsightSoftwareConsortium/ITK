@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmartPointerForwardReference_h
-#define __itkSmartPointerForwardReference_h
+#ifndef itkSmartPointerForwardReference_h
+#define itkSmartPointerForwardReference_h
 
 #include "itkWeakPointer.h"
 

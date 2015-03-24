@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramThresholdImageFilter_hxx
-#define __itkHistogramThresholdImageFilter_hxx
+#ifndef itkHistogramThresholdImageFilter_hxx
+#define itkHistogramThresholdImageFilter_hxx
 #include "itkHistogramThresholdImageFilter.h"
 
 #include "itkImageToHistogramFilter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGiplImageIOFactory_h
-#define __itkGiplImageIOFactory_h
+#ifndef itkGiplImageIOFactory_h
+#define itkGiplImageIOFactory_h
 #include "ITKIOGIPLExport.h"
 
 #include "itkObjectFactoryBase.h"

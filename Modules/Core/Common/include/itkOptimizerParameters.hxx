@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkOptimizerParameters_hxx
-#define __itkOptimizerParameters_hxx
+#ifndef itkOptimizerParameters_hxx
+#define itkOptimizerParameters_hxx
 
 #include "itkOptimizerParameters.h"
 
@@ -26,7 +26,9 @@ namespace itk
 /** Default contstructor */
 template< typename TValue >
 OptimizerParameters< TValue >
-::OptimizerParameters() : Array< TValue >()
+::OptimizerParameters()
+  : Array< TValue >(),
+    m_Helper(ITK_NULLPTR)
 {
   this->Initialize();
 }
@@ -35,7 +37,8 @@ OptimizerParameters< TValue >
 template< typename TValue >
 OptimizerParameters< TValue >
 ::OptimizerParameters(const OptimizerParameters& rhs)
-  : Array< TValue >(rhs)
+  : Array< TValue >(rhs),
+    m_Helper(ITK_NULLPTR)
 {
   //Note: don't copy the OptimizerParametersHelper.
   //The Array copy constructor will allocate new memory
@@ -49,7 +52,8 @@ OptimizerParameters< TValue >
 template< typename TValue >
 OptimizerParameters< TValue >
 ::OptimizerParameters(SizeValueType dimension)
-  : Array< TValue >(dimension)
+  : Array< TValue >(dimension),
+    m_Helper(ITK_NULLPTR)
 {
   this->Initialize();
 }
@@ -58,7 +62,8 @@ OptimizerParameters< TValue >
 template< typename TValue >
 OptimizerParameters< TValue >
 ::OptimizerParameters(const ArrayType& array)
-  : Array< TValue >(array)
+  : Array< TValue >(array),
+    m_Helper(ITK_NULLPTR)
 {
   this->Initialize();
 }
@@ -68,7 +73,6 @@ void
 OptimizerParameters< TValue >
 ::Initialize()
 {
-  this->m_Helper = ITK_NULLPTR;
   // Set the default OptimizerParametersHelper
   OptimizerParametersHelperType* helper = new OptimizerParametersHelperType;
   // OptimizerParameters will manage this memory.

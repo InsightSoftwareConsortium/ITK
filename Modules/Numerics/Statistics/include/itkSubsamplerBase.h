@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSubsamplerBase_h
-#define __itkSubsamplerBase_h
+#ifndef itkSubsamplerBase_h
+#define itkSubsamplerBase_h
 
 #include "itkObject.h"
 #include "itkSample.h"

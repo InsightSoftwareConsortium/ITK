@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationTermBase_hxx
-#define __itkLevelSetEquationTermBase_hxx
+#ifndef itkLevelSetEquationTermBase_hxx
+#define itkLevelSetEquationTermBase_hxx
 
 #include "itkLevelSetEquationTermBase.h"
 
@@ -67,7 +67,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
     }
   else
     {
-    itkGenericExceptionMacro( << "iContainer is NULL" );
+    itkGenericExceptionMacro( << "iContainer is ITK_NULLPTR" );
     }
 }
 
@@ -122,7 +122,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
     {
     if( this->m_LevelSetContainer.IsNull() )
       {
-      itkGenericExceptionMacro( <<"m_LevelSetContainer is NULL" );
+      itkGenericExceptionMacro( <<"m_LevelSetContainer is ITK_NULLPTR" );
       }
     this->m_CurrentLevelSetPointer = this->m_LevelSetContainer->GetLevelSet( this->m_CurrentLevelSetId );
 
@@ -135,11 +135,11 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 
   if( !this->m_Heaviside.IsNotNull() )
     {
-    itkWarningMacro( << "m_Heaviside is NULL" );
+    itkWarningMacro( << "m_Heaviside is ITK_NULLPTR" );
     }
 }
 // ----------------------------------------------------------------------------
 
 }
 
-#endif // __itkLevelSetEquationTermBase_hxx
+#endif // itkLevelSetEquationTermBase_hxx

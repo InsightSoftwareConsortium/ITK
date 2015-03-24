@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
-#define __itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
+#ifndef itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
+#define itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
 
 #include "itkConstantVelocityFieldTransformParametersAdaptor.h"
 
@@ -63,13 +63,13 @@ public:
   virtual void SetGaussianSmoothingVarianceForTheUpdateField( ScalarType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheUpdateField, ScalarType );
 
-  virtual void AdaptTransformParameters();
+  virtual void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   GaussianExponentialDiffeomorphicTransformParametersAdaptor();
   ~GaussianExponentialDiffeomorphicTransformParametersAdaptor();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   GaussianExponentialDiffeomorphicTransformParametersAdaptor( const Self & ); //purposely not implemented
@@ -87,4 +87,4 @@ private:
 #include "itkGaussianExponentialDiffeomorphicTransformParametersAdaptor.hxx"
 #endif
 
-#endif /* __itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h */
+#endif /* itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h */

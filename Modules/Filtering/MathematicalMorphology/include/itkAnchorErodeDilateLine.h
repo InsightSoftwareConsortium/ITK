@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAnchorErodeDilateLine_h
-#define __itkAnchorErodeDilateLine_h
+#ifndef itkAnchorErodeDilateLine_h
+#define itkAnchorErodeDilateLine_h
 
 #include "itkMovingHistogramMorphologyImageFilter.h"
 

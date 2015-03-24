@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathAndImageToPathFilter_h
-#define __itkPathAndImageToPathFilter_h
+#ifndef itkPathAndImageToPathFilter_h
+#define itkPathAndImageToPathFilter_h
 
 #include "itkPathToPathFilter.h"
 
@@ -77,18 +77,18 @@ public:
   /** Set/Get the path input of this process object. */
   virtual void SetPathInput(const TInputPath *path);
 
-  const InputPathType * GetPathInput(void);
+  const InputPathType * GetPathInput();
 
   /** Set/Get the image input of this process object. */
   virtual void SetImageInput(const TInputImage *image);
 
-  const InputImageType * GetImageInput(void);
+  const InputImageType * GetImageInput();
 
 protected:
   PathAndImageToPathFilter();
   virtual ~PathAndImageToPathFilter() {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** What is the input requested region that is required to produce the output
    * requested region?  Up till and including now, the base assumption is that
@@ -97,7 +97,7 @@ protected:
    * its first step.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   PathAndImageToPathFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialFunction_h
-#define __itkSpatialFunction_h
+#ifndef itkSpatialFunction_h
+#define itkSpatialFunction_h
 
 #include "itkFunctionBase.h"
 #include "itkPoint.h"
@@ -67,12 +67,12 @@ public:
 
   /** Evaluate the function at a given position. Remember, position is
   * represented by an n-d itk::Point object with data type double. */
-  virtual OutputType Evaluate(const InputType & input) const = 0;
+  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE = 0;
 
 protected:
   SpatialFunction();
   virtual ~SpatialFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   SpatialFunction(const Self &); //purposely not implemented

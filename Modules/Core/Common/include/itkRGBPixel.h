@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRGBPixel_h
-#define __itkRGBPixel_h
+#ifndef itkRGBPixel_h
+#define itkRGBPixel_h
 
 // Undefine an eventual RGBPixel macro
 #ifdef RGBPixel
@@ -158,7 +158,7 @@ public:
   const ComponentType & GetBlue(void) const { return this->operator[](2); }
 
   /** Get Luminance out of RGB */
-  LuminanceType GetLuminance(void) const;
+  LuminanceType GetLuminance() const;
 };
 
 template< typename TComponent  >

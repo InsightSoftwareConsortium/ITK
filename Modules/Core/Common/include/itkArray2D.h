@@ -15,10 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkArray2D_h
-#define __itkArray2D_h
+#ifndef itkArray2D_h
+#define itkArray2D_h
 
 #include "itkMacro.h"
+#include "itkIntTypes.h"
 #include "vnl/vnl_matrix.h"
 
 namespace itk
@@ -60,6 +61,18 @@ public:
   const Self & operator=(const VnlMatrixType & matrix);
 
   void Fill(TValue const & v) { this->fill(v); }
+
+  /** Get one element */
+  const TValue & GetElement(SizeValueType row, SizeValueType col) const
+  {
+    return this->operator()(static_cast<unsigned int>(row), static_cast<unsigned int>(col));
+  }
+
+  /** Set one element */
+  void SetElement(SizeValueType row, SizeValueType col, const TValue & value)
+  {
+    this->operator()(static_cast<unsigned int>(row), static_cast<unsigned int>(col)) = value;
+  }
 
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(unsigned int m, unsigned int n);

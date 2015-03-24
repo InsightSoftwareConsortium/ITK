@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJPEG2000ImageIOFactory_h
-#define __itkJPEG2000ImageIOFactory_h
+#ifndef itkJPEG2000ImageIOFactory_h
+#define itkJPEG2000ImageIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"

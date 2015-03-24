@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRCImageIOPrivate_h
-#define __itkMRCImageIOPrivate_h
+#ifndef itkMRCImageIOPrivate_h
+#define itkMRCImageIOPrivate_h
 
 #include <utility>
 
@@ -103,4 +103,4 @@ std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter
 
 } // end itk namespace
 
-#endif //__itkMRCImageIOPrivate_h
+#endif //itkMRCImageIOPrivate_h

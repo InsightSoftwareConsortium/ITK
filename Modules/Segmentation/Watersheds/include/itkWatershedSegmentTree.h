@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWatershedSegmentTree_h
-#define __itkWatershedSegmentTree_h
+#ifndef itkWatershedSegmentTree_h
+#define itkWatershedSegmentTree_h
 
 #include "itkProcessObject.h"
 #include <deque>

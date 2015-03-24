@@ -25,8 +25,8 @@ namespace itk
 GPUDataManager::GPUDataManager()
 {
   m_ContextManager = GPUContextManager::GetInstance();
-  m_GPUBuffer = NULL;
-  m_CPUBuffer = NULL;
+  m_GPUBuffer = ITK_NULLPTR;
+  m_CPUBuffer = ITK_NULLPTR;
 
   this->Initialize();
 }
@@ -58,7 +58,7 @@ void GPUDataManager::Allocate()
 #ifdef VERBOSE
       std::cout << this << "::Allocate Create GPU buffer of size " << m_BufferSize << " Bytes" << std::endl;
 #endif
-    m_GPUBuffer = clCreateBuffer(m_ContextManager->GetCurrentContext(), m_MemFlags, m_BufferSize, NULL, &errid);
+    m_GPUBuffer = clCreateBuffer(m_ContextManager->GetCurrentContext(), m_MemFlags, m_BufferSize, ITK_NULLPTR, &errid);
     OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
     m_IsGPUBufferDirty = true;
     }
@@ -98,14 +98,14 @@ void GPUDataManager::UpdateCPUBuffer()
 {
   MutexHolderType holder(m_Mutex);
 
-  if( m_IsCPUBufferDirty && m_GPUBuffer != NULL && m_CPUBuffer != NULL )
+  if( m_IsCPUBufferDirty && m_GPUBuffer != ITK_NULLPTR && m_CPUBuffer != ITK_NULLPTR )
     {
     cl_int errid;
 #ifdef VERBOSE
     std::cout << this << "::UpdateCPUBuffer GPU->CPU data copy " << m_GPUBuffer << "->" << m_CPUBuffer << std::endl;
 #endif
     errid = clEnqueueReadBuffer(m_ContextManager->GetCommandQueue(
-                                  m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, NULL, NULL);
+                                  m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR, ITK_NULLPTR);
     OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
     m_IsCPUBufferDirty = false;
@@ -116,14 +116,14 @@ void GPUDataManager::UpdateGPUBuffer()
 {
   MutexHolderType mutexHolder(m_Mutex);
 
-  if( m_IsGPUBufferDirty && m_CPUBuffer != NULL && m_GPUBuffer != NULL )
+  if( m_IsGPUBufferDirty && m_CPUBuffer != ITK_NULLPTR && m_GPUBuffer != ITK_NULLPTR )
     {
     cl_int errid;
 #ifdef VERBOSE
     std::cout << this << "::UpdateGPUBuffer CPU->GPU data copy " << m_CPUBuffer << "->" << m_GPUBuffer << std::endl;
 #endif
     errid = clEnqueueWriteBuffer(m_ContextManager->GetCommandQueue(
-                                   m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, NULL, NULL);
+                                   m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR, ITK_NULLPTR);
     OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
     m_IsGPUBufferDirty = false;
@@ -223,8 +223,8 @@ void GPUDataManager::Initialize()
     }
 
   m_BufferSize = 0;
-  m_GPUBuffer = NULL;
-  m_CPUBuffer = NULL;
+  m_GPUBuffer = ITK_NULLPTR;
+  m_CPUBuffer = ITK_NULLPTR;
   m_MemFlags  = CL_MEM_READ_WRITE; // default flag
   m_IsGPUBufferDirty = false;
   m_IsCPUBufferDirty = false;

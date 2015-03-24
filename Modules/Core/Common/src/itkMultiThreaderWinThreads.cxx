@@ -214,7 +214,7 @@ MultiThreader
   HANDLE threadHandle =  (HANDLE)_beginthreadex(0, 0,
                                                 ( unsigned int (__stdcall *)(void *) ) this->SingleMethodProxy,
                                                 ( (void *)threadInfo ), 0, (unsigned int *)&threadId);
-  if ( threadHandle == NULL )
+  if ( threadHandle == ITK_NULLPTR )
     {
     itkExceptionMacro("Error in thread creation !!!");
     }

@@ -1,5 +1,5 @@
 itk_wrap_class("itk::RobustAutomaticThresholdImageFilter" POINTER)
   foreach(t ${WRAP_ITK_SCALAR})
     itk_wrap_image_filter_combinations("${t}" "${t}" "${WRAP_ITK_INT}")
-  endforeach(t)
+  endforeach()
 itk_end_wrap_class()

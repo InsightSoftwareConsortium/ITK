@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLoadNoisyLandmark_h
-#define __itkFEMLoadNoisyLandmark_h
+#ifndef itkFEMLoadNoisyLandmark_h
+#define itkFEMLoadNoisyLandmark_h
 
 #include "itkFEMLoadLandmark.h"
 

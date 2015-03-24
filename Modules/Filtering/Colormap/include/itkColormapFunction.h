@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkColormapFunction_h
-#define __itkColormapFunction_h
+#ifndef itkColormapFunction_h
+#define itkColormapFunction_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

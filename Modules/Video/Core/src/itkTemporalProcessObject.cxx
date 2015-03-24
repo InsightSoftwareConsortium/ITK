@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTemporalProcessObject_cxx
-#define __itkTemporalProcessObject_cxx
-
 #include "itkMath.h"
 #include "itkTemporalProcessObject.h"
 #include "itkTemporalDataObject.h"
@@ -592,5 +589,3 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
 }
 
 } // end namespace itk
-
-#endif

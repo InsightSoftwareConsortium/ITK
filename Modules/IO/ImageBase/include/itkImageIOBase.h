@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageIOBase_h
-#define __itkImageIOBase_h
+#ifndef itkImageIOBase_h
+#define itkImageIOBase_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkIOConfigure.h"
@@ -527,7 +527,7 @@ protected:
   ~ImageIOBase();
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const;
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
 
   /** Used internally to keep track of the type of the pixel. */
   IOPixelType m_PixelType;
@@ -710,4 +710,4 @@ IMAGEIOBASE_TYPEMAP(double, DOUBLE);
 
 } // end namespace itk
 
-#endif // __itkImageIOBase_h
+#endif // itkImageIOBase_h

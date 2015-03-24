@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkExtensionVelocitiesImageFilter_hxx
-#define __itkExtensionVelocitiesImageFilter_hxx
+#ifndef itkExtensionVelocitiesImageFilter_hxx
+#define itkExtensionVelocitiesImageFilter_hxx
 
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkImageRegionIterator.h"

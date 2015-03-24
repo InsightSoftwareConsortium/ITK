@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetDomainPartitionBase_h
-#define __itkLevelSetDomainPartitionBase_h
+#ifndef itkLevelSetDomainPartitionBase_h
+#define itkLevelSetDomainPartitionBase_h
 
 #include "itkObject.h"
 #include "itkIntTypes.h"

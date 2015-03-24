@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConnectedComponentFunctorImageFilter_h
-#define __itkConnectedComponentFunctorImageFilter_h
+#ifndef itkConnectedComponentFunctorImageFilter_h
+#define itkConnectedComponentFunctorImageFilter_h
 
 #include "itkConnectedComponentImageFilter.h"
 
@@ -161,7 +161,7 @@ protected:
   /**
    * Standard pipeline method.
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 };
 } // end namespace itk
 

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkVideoFileWriter_h
-#define __itkVideoFileWriter_h
+#ifndef itkVideoFileWriter_h
+#define itkVideoFileWriter_h
 
 #include "itkTemporalProcessObject.h"
 #include "itkVideoIOFactory.h"

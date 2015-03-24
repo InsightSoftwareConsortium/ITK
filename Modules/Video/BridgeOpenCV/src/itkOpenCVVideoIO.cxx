@@ -48,7 +48,7 @@ OpenCVVideoIO::~OpenCVVideoIO()
 void OpenCVVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  if (this->m_CVImage != NULL)
+  if (this->m_CVImage != ITK_NULLPTR)
     {
     os << indent << "Image dimensions : ["<<this->m_CVImage->width<<","
         <<this->m_CVImage->height<<"]"<<std::endl;
@@ -66,15 +66,15 @@ void OpenCVVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 //
 void OpenCVVideoIO::FinishReadingOrWriting()
 {
-  if (this->m_Writer != NULL)
+  if (this->m_Writer != ITK_NULLPTR)
     {
     cvReleaseVideoWriter(&(this->m_Writer));
     }
-  if (this->m_Capture != NULL)
+  if (this->m_Capture != ITK_NULLPTR)
     {
     cvReleaseCapture(&(this->m_Capture));
     }
-  if (this->m_CVImage != NULL)
+  if (this->m_CVImage != ITK_NULLPTR)
     {
     cvReleaseImage(&(this->m_CVImage));
     }
@@ -401,13 +401,13 @@ void OpenCVVideoIO::Read(void *buffer)
   //       skip to a different location. Be warned, though. SetNextFrameToRead can
   //       only skip to I-Frames, so there can be unexpected behavior
   IplImage* tempIm = cvQueryFrame(this->m_Capture);
-  if (tempIm == NULL)
+  if (tempIm == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Error reading frame " << this->m_CurrentFrame << ". May be out of bounds");
     }
 
   // Convert to RGB rather than BGR
-  if (this->m_CVImage == NULL)
+  if (this->m_CVImage == ITK_NULLPTR)
     {
     this->m_CVImage = cvCreateImage( cvSize(this->m_Dimensions[0],this->m_Dimensions[1]),
                                      IPL_DEPTH_8U, this->m_NumberOfComponents );
@@ -442,7 +442,7 @@ bool OpenCVVideoIO::SetNextFrameToRead(OpenCVVideoIO::FrameOffsetType frameNumbe
     return false;
     }
 
-  if (this->m_Capture != NULL)
+  if (this->m_Capture != ITK_NULLPTR)
     {
     cvSetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_FRAMES, frameNumber);
     this->UpdateReaderProperties();
@@ -585,13 +585,13 @@ void OpenCVVideoIO::Write(const void *buffer)
     }
 
   // Place the contents of the buffer into an OpenCV image
-  if (this->m_CVImage == NULL)
+  if (this->m_CVImage == ITK_NULLPTR)
     {
     // The output image always has to be 3 components for the OpenCV writer
     this->m_CVImage = cvCreateImage( cvSize(this->m_Dimensions[0],this->m_Dimensions[1]),
                                      IPL_DEPTH_8U, 3 );
     }
-  if (this->m_TempImage == NULL)
+  if (this->m_TempImage == ITK_NULLPTR)
     {
     this->m_TempImage = cvCreateImage( cvSize(this->m_Dimensions[0],this->m_Dimensions[1]),
                                        IPL_DEPTH_8U, this->m_NumberOfComponents );
@@ -661,7 +661,7 @@ void OpenCVVideoIO::OpenReader()
   if (this->m_ReadType == ReadFromFile)
     {
     this->m_Capture = cvCaptureFromFile( this->GetFileName() );
-    if (this->m_Capture != NULL)
+    if (this->m_Capture != ITK_NULLPTR)
       {
       this->m_ReaderOpen = true;
       }
@@ -673,7 +673,7 @@ void OpenCVVideoIO::OpenReader()
   else if (this->m_ReadType == ReadFromCamera)
     {
     this->m_Capture = cvCaptureFromCAM( this->m_CameraIndex );
-    if (this->m_Capture != NULL)
+    if (this->m_Capture != ITK_NULLPTR)
       {
       this->m_ReaderOpen = true;
       }

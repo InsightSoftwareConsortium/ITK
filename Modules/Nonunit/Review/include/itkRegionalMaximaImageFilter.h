@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegionalMaximaImageFilter_h
-#define __itkRegionalMaximaImageFilter_h
+#ifndef itkRegionalMaximaImageFilter_h
+#define itkRegionalMaximaImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -131,19 +131,19 @@ public:
 protected:
   RegionalMaximaImageFilter();
   ~RegionalMaximaImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** RegionalMaximaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** RegionalMaximaImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   RegionalMaximaImageFilter(const Self &); //purposely not implemented

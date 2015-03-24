@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConjugateGradientLineSearchOptimizerv4_h
-#define __itkConjugateGradientLineSearchOptimizerv4_h
+#ifndef itkConjugateGradientLineSearchOptimizerv4_h
+#define itkConjugateGradientLineSearchOptimizerv4_h
 
 #include "itkGradientDescentLineSearchOptimizerv4.h"
 #include "itkOptimizerParameterScalesEstimator.h"
@@ -72,13 +72,13 @@ public:
   /** Type for the convergence checker */
   typedef itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType> ConvergenceMonitoringType;
 
-  virtual void StartOptimization( bool doOnlyInitialization = false );
+  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
 protected:
 
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep(void) ITK_OVERRIDE;
 
   /** Default constructor */
   ConjugateGradientLineSearchOptimizerv4Template();
@@ -86,7 +86,7 @@ protected:
   /** Destructor */
   virtual ~ConjugateGradientLineSearchOptimizerv4Template();
 
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
 

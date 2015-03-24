@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTrainingFunctionBase_hxx
-#define __itkTrainingFunctionBase_hxx
+#ifndef itkTrainingFunctionBase_hxx
+#define itkTrainingFunctionBase_hxx
 
 #include "itkTrainingFunctionBase.h"
 

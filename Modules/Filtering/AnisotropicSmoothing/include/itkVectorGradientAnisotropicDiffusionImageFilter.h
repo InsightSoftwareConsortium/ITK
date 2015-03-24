@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorGradientAnisotropicDiffusionImageFilter_h
-#define __itkVectorGradientAnisotropicDiffusionImageFilter_h
+#ifndef itkVectorGradientAnisotropicDiffusionImageFilter_h
+#define itkVectorGradientAnisotropicDiffusionImageFilter_h
 
 #include "itkMacro.h"
 #include "itkAnisotropicDiffusionImageFilter.h"

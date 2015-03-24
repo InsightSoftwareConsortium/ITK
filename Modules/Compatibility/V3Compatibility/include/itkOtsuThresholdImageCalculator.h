@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOtsuThresholdImageCalculator_h
-#define __itkOtsuThresholdImageCalculator_h
+#ifndef itkOtsuThresholdImageCalculator_h
+#define itkOtsuThresholdImageCalculator_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -83,7 +83,7 @@ public:
   itkSetConstObjectMacro(Image, ImageType);
 
   /** Compute the Otsu's threshold for the input image. */
-  void Compute(void);
+  void Compute();
 
   /** Return the Otsu's threshold value. */
   itkGetConstMacro(Threshold, PixelType);

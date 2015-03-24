@@ -49,40 +49,40 @@ protected:
   FastMarchingBaseTestHelper() {}
   ~FastMarchingBaseTestHelper() {}
 
-  IdentifierType GetTotalNumberOfNodes() const
+  IdentifierType GetTotalNumberOfNodes() const ITK_OVERRIDE
     { return 1; }
 
   void SetOutputValue( OutputDomainType*,
                       const NodeType&,
-                      const OutputPixelType& )
+                      const OutputPixelType& ) ITK_OVERRIDE
     {
     }
 
   const OutputPixelType GetOutputValue( OutputDomainType* ,
-                                  const NodeType& ) const
+                                  const NodeType& ) const ITK_OVERRIDE
     {
     return NumericTraits< OutputPixelType >::ZeroValue();
     }
 
-  unsigned char GetLabelValueForGivenNode( const NodeType& ) const
+  unsigned char GetLabelValueForGivenNode( const NodeType& ) const ITK_OVERRIDE
     {
     return Traits::Far;
     }
 
   void SetLabelValueForGivenNode( const NodeType& ,
-                                 const LabelType& )
+                                 const LabelType& ) ITK_OVERRIDE
     {}
 
-  void UpdateNeighbors( OutputDomainType* , const NodeType& )
+  void UpdateNeighbors( OutputDomainType* , const NodeType& ) ITK_OVERRIDE
     {}
 
-  void UpdateValue( OutputDomainType* , const NodeType& )
+  void UpdateValue( OutputDomainType* , const NodeType& ) ITK_OVERRIDE
     {}
 
-  bool CheckTopology( OutputDomainType* , const NodeType&  )
+  bool CheckTopology( OutputDomainType* , const NodeType&  ) ITK_OVERRIDE
     { return true; }
 
-  void InitializeOutput( OutputDomainType* ) {}
+  void InitializeOutput( OutputDomainType* ) ITK_OVERRIDE {}
 
 private:
   FastMarchingBaseTestHelper( const Self& );

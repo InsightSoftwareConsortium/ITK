@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageFilterDetail_h
-#define __itkImageToImageFilterDetail_h
+#ifndef itkImageToImageFilterDetail_h
+#define itkImageToImageFilterDetail_h
 
 #include "itkImageRegion.h"
 #include "itkSmartPointer.h"

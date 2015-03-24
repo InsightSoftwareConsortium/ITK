@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUGradientNDAnisotropicDiffusionFunction_h
-#define __itkGPUGradientNDAnisotropicDiffusionFunction_h
+#ifndef itkGPUGradientNDAnisotropicDiffusionFunction_h
+#define itkGPUGradientNDAnisotropicDiffusionFunction_h
 
 #include "itkGPUScalarAnisotropicDiffusionFunction.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -92,10 +92,10 @@ public:
 
   /** Compute the equation value. */
   virtual void GPUComputeUpdate( const typename TImage::Pointer output, typename TImage::Pointer buffer,
-                                 void *globalData );
+                                 void *globalData ) ITK_OVERRIDE;
 
   /** This method is called prior to each iteration of the solver. */
-  virtual void InitializeIteration()
+  virtual void InitializeIteration() ITK_OVERRIDE
   {
     m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
                                     * this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f );

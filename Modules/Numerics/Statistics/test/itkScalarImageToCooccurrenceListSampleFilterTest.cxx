@@ -90,7 +90,7 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
   try
     {
     filter->Update();
-    std::cerr << "Failed to throw expected exception due to NULL input: " << std::endl;
+    std::cerr << "Failed to throw expected exception due to ITK_NULLPTR input: " << std::endl;
     return EXIT_FAILURE;
     }
   catch ( itk::ExceptionObject & excp )
@@ -102,7 +102,7 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
 
   if ( filter->GetInput() != ITK_NULLPTR )
     {
-    std::cerr << "GetInput() should return NULL since the input is\
+    std::cerr << "GetInput() should return ITK_NULLPTR since the input is\
                   not set yet " << std::endl;
     return EXIT_FAILURE;
     }

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPatchBasedDenoisingBaseImageFilter_h
-#define __itkPatchBasedDenoisingBaseImageFilter_h
+#ifndef itkPatchBasedDenoisingBaseImageFilter_h
+#define itkPatchBasedDenoisingBaseImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkArray.h"
@@ -244,11 +244,11 @@ protected:
   PatchBasedDenoisingBaseImageFilter();
   ~PatchBasedDenoisingBaseImageFilter();
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void CopyInputToOutput() = 0;
 

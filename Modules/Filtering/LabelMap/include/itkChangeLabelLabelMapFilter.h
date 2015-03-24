@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChangeLabelLabelMapFilter_h
-#define __itkChangeLabelLabelMapFilter_h
+#ifndef itkChangeLabelLabelMapFilter_h
+#define itkChangeLabelLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include <map>
@@ -96,9 +96,9 @@ protected:
   ChangeLabelLabelMapFilter();
   ~ChangeLabelLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   ChangeMapType m_MapOfLabelToBeReplaced;
 

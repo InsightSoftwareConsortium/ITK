@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestingExtractSliceImageFilter_h
-#define __itkTestingExtractSliceImageFilter_h
+#ifndef itkTestingExtractSliceImageFilter_h
+#define itkTestingExtractSliceImageFilter_h
 
 #include "itkSmartPointer.h"
 #include "itkImageSource.h"
@@ -216,7 +216,7 @@ public:
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
   virtual void SetInput(const TInputImage *image);
-  const TInputImage * GetInput(void) const;
+  const TInputImage * GetInput() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -228,7 +228,7 @@ public:
 protected:
   ExtractSliceImageFilter();
   ~ExtractSliceImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ExtractSliceImageFilter can produce an image which is a different
    * resolution than its input image.  As such, ExtractSliceImageFilter
@@ -238,7 +238,7 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This function calls the actual region copier to do the mapping from
    * output image space to input image space.  It uses a
@@ -261,7 +261,7 @@ protected:
    * parameter "outputRegionForThread"
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                           ThreadIdType threadId) ITK_OVERRIDE;
 
   InputImageRegionType m_ExtractionRegion;
 

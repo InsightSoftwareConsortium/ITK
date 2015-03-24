@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNonThreadedShrinkImageFilter_h
-#define __itkNonThreadedShrinkImageFilter_h
+#ifndef itkNonThreadedShrinkImageFilter_h
+#define itkNonThreadedShrinkImageFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkShrinkImageFilter.h"

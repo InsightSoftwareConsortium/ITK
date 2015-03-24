@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumericTraits_h
-#define __itkNumericTraits_h
+#ifndef itkNumericTraits_h
+#define itkNumericTraits_h
 
 #include "itkMacro.h"
 
@@ -1643,4 +1643,4 @@ public:
 
 #include "itkFixedArray.h"
 
-#endif // __itkNumericTraits_h
+#endif // itkNumericTraits_h

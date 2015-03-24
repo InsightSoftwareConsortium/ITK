@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRGBGibbsPriorFilter_h
-#define __itkRGBGibbsPriorFilter_h
+#ifndef itkRGBGibbsPriorFilter_h
+#define itkRGBGibbsPriorFilter_h
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
@@ -113,18 +113,40 @@ public:
   void SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
   /** Set the Number of classes. */
-  itkSetMacro(NumberOfClasses, unsigned int);
+  virtual void SetNumberOfClasses( const unsigned int numberOfClasses ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting NumberOfClasses to " << numberOfClasses );
+    if ( this->m_NumberOfClasses != numberOfClasses )
+      {
+      this->m_NumberOfClasses = numberOfClasses;
+      this->Modified();
+      }
+    }
 
   /** Get the Number of classes. */
-  itkGetConstMacro(NumberOfClasses, unsigned int);
+  virtual unsigned int GetNumberOfClasses() const ITK_OVERRIDE
+    {
+    return this->m_NumberOfClasses;
+    }
 
   /** Set/Get the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations. */
-  itkSetMacro(MaximumNumberOfIterations, unsigned int);
+  virtual void SetMaximumNumberOfIterations( const unsigned int numberOfIterations ) ITK_OVERRIDE
+    {
+    itkDebugMacro("setting MaximumNumberOfIterations to " << numberOfIterations);
+    if ( this->m_MaximumNumberOfIterations != numberOfIterations )
+      {
+      this->m_MaximumNumberOfIterations = numberOfIterations;
+      this->Modified();
+      }
+    }
 
   /** Get the number of iterations of the Iterated Conditional Mode
    * (ICM) algorithm. */
-  itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
+  virtual unsigned int GetMaximumNumberOfIterations() const ITK_OVERRIDE
+    {
+    return this->m_MaximumNumberOfIterations;
+    }
 
   /** Set the threshold for the object size. */
   itkSetMacro(ClusterSize, unsigned int);
@@ -162,13 +184,13 @@ public:
 protected:
   RGBGibbsPriorFilter();
   ~RGBGibbsPriorFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void Allocate(); /** allocate memory space for the filter. */
 
-  virtual void MinimizeFunctional();
+  virtual void MinimizeFunctional() ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void ApplyGibbsLabeller();
 

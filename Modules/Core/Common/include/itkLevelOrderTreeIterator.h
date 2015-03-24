@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelOrderTreeIterator_h
-#define __itkLevelOrderTreeIterator_h
+#ifndef itkLevelOrderTreeIterator_h
+#define itkLevelOrderTreeIterator_h
 
 #include <queue>
 #include <climits>
@@ -44,10 +44,10 @@ public:
   typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor with end level specification */
-  LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = NULL);
+  LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = ITK_NULLPTR);
 
   /** Constructor with end level specification */
-  LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = NULL);
+  LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = ITK_NULLPTR);
 
   virtual ~LevelOrderTreeIterator() {}
 

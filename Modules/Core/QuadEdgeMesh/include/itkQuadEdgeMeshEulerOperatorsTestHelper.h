@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshEulerOperatorsTestHelper_h
-#define __itkQuadEdgeMeshEulerOperatorsTestHelper_h
+#ifndef itkQuadEdgeMeshEulerOperatorsTestHelper_h
+#define itkQuadEdgeMeshEulerOperatorsTestHelper_h
 
 #include "itkQuadEdgeMeshTopologyChecker.h"
 #include "itkQuadEdgeMeshPolygonCell.h"

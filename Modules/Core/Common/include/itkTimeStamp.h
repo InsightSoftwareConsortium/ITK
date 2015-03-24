@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkTimeStamp_h
-#define __itkTimeStamp_h
+#ifndef itkTimeStamp_h
+#define itkTimeStamp_h
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLBFGSBOptimizer_h
-#define __itkLBFGSBOptimizer_h
+#ifndef itkLBFGSBOptimizer_h
+#define itkLBFGSBOptimizer_h
 
 #include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"

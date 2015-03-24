@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshPoint_hxx
-#define __itkQuadEdgeMeshPoint_hxx
+#ifndef itkQuadEdgeMeshPoint_hxx
+#define itkQuadEdgeMeshPoint_hxx
 
 #include "itkQuadEdgeMeshPoint.h"
 

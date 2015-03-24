@@ -10,9 +10,9 @@ option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an externa
 # Minimal swig version
 set(swig_version_min 3.0.0)
 
-set(ITK_SWIG_VERSION 3.0.2)
-set(swig_md5     62f9b0d010cef36a13a010dc530d0d41)
-set(swigwin_md5  3f18de4fc09ab9abb0d3be37c11fbc8f)
+set(ITK_SWIG_VERSION 3.0.5)
+set(swig_md5     dcb9638324461b9baba8e044fe59031d)
+set(swigwin_md5  fd2e050f29e2a00b2348f5f7d3476490)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
@@ -89,12 +89,12 @@ else()
     CONFIGURE_COMMAND
       env
         "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-        "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+        "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
         "LDFLAGS=$ENV{LDFLAGS}"
         "LIBS=$ENV{LIBS}"
         "CPPFLAGS=$ENV{CPPFLAGS}"
         "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
-        "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}"
+        "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
         "CPP=$ENV{CPP}"
         "CXXPP=$ENV{CXXPP}"
       ../PCRE/configure
@@ -139,12 +139,12 @@ else()
     CONFIGURE_COMMAND
       env
         "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-        "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+        "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
         "LDFLAGS=$ENV{LDFLAGS}"
         "LIBS=$ENV{LIBS}"
         "CPPFLAGS=$ENV{CPPFLAGS}"
         "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
-        "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}"
+        "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
         "CPP=$ENV{CPP}"
         "YACC=${BISON_EXECUTABLE}"
         "YFLAGS=${BISON_FLAGS}"
@@ -224,7 +224,7 @@ macro(itk_end_wrap_module_swig_interface)
   # prepare dependencies
   set(DEPS )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-    set(DEPS ${DEPS} ${${dep}IdxFiles} ${${dep}SwigFiles})
+    list(APPEND DEPS ${${dep}IdxFiles} ${${dep}SwigFiles})
     set(SWIG_INTERFACE_MDX_CONTENT "${dep}.mdx\n${SWIG_INTERFACE_MDX_CONTENT}")
   endforeach()
 
@@ -232,7 +232,7 @@ macro(itk_end_wrap_module_swig_interface)
   set(swig_libs )
   foreach(swig_lib ${WRAPPER_SWIG_LIBRARY_FILES})
     get_filename_component(basename ${swig_lib} NAME)
-    set(swig_libs ${swig_libs} --swig-include ${basename})
+    list(APPEND swig_libs --swig-include ${basename})
     file(COPY "${swig_lib}"
       DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
@@ -256,19 +256,19 @@ macro(itk_end_wrap_module_swig_interface)
     # prepare the options
     set(opts )
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-      set(opts ${opts} --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
-#      set(opts ${opts} --include "${dep}.includes")
-#      set(opts ${opts} --import "${dep}.i")
+      list(APPEND opts --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
+#      list(APPEND opts --include "${dep}.includes")
+#      list(APPEND opts --import "${dep}.i")
     endforeach()
     # import the interface files previously defined instead of importing all the files defined
     # in the module to avoid many warnings when running swig
 #    foreach(i ${SWIG_INTERFACE_FILES})
 #      get_filename_component(bi "${i}" NAME)
-#      set(opts ${opts} --import "${bi}")
+#      list(APPEND opts --import "${bi}")
 #    endforeach()
 
     if(ITK_WRAP_EXPLICIT)
-      set(opts ${opts} --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
+      list(APPEND opts --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
     endif()
 
     add_custom_command(
@@ -284,16 +284,17 @@ macro(itk_end_wrap_module_swig_interface)
         -w1 -w3 -w51 -w52 -w53 -w54
         -A protected -A private
         -p ${PYGCCXML_DIR}
-        -g ${GCCXML}
+        -g ${CASTXML}
         --typedef-input ${typedef_in_file}
         --typedef-output ${typedef_file}
         --include ${module}SwigInterface.h
         ${xml_file}
         ${interface_file}
       DEPENDS ${DEPS} ${idx_files} ${IGENERATOR} # ${SWIG_INTERFACE_IDX_FILES} ${SWIG_INTERFACE_FILES} ${typedef_in_file} # ${includes_file}
+      VERBATIM
     )
 
-    set(SWIG_INTERFACE_FILES ${SWIG_INTERFACE_FILES} ${interface_file})
+    list(APPEND SWIG_INTERFACE_FILES ${interface_file})
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${interface_file}")
   endforeach()
 
@@ -393,19 +394,20 @@ macro(itk_end_wrap_submodule_swig_interface module)
   add_custom_command(
     OUTPUT ${idx_file}
     COMMAND ${IDX_GENERATOR}
-      ${PYGCCXML_DIR} ${GCCXML} ${xml_file} ${idx_file}
+      ${PYGCCXML_DIR} ${CASTXML} ${xml_file} ${idx_file}
     DEPENDS ${IDX_GENERATOR} ${xml_file}
+    VERBATIM
   )
   WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${idx_file}")
 #   add_custom_target(${module}Idx DEPENDS ${idx_file})
 
   # store the path of the idx file to store it in the mdx file
   set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}${module}.idx\n")
-  set(SWIG_INTERFACE_IDX_FILES ${SWIG_INTERFACE_IDX_FILES} ${idx_file})
+  list(APPEND SWIG_INTERFACE_IDX_FILES ${idx_file})
 
   set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${module}.i\n")
 
-  set(SWIG_INTERFACE_MODULES ${SWIG_INTERFACE_MODULES} ${module})
+  list(APPEND SWIG_INTERFACE_MODULES ${module})
 
 #  set(interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}_ext.i")
 #  set(WRAP_ITK_FILE_CONTENT )

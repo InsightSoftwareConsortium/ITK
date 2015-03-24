@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVesselTubeSpatialObject_h
-#define __itkVesselTubeSpatialObject_h
+#ifndef itkVesselTubeSpatialObject_h
+#define itkVesselTubeSpatialObject_h
 
 #include <list>
 
@@ -73,7 +73,7 @@ protected:
   virtual ~VesselTubeSpatialObject();
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   VesselTubeSpatialObject(const Self &); //purposely not implemented
@@ -85,4 +85,4 @@ private:
 #include "itkVesselTubeSpatialObject.hxx"
 #endif
 
-#endif // __itkVesselTubeSpatialObject_h
+#endif // itkVesselTubeSpatialObject_h

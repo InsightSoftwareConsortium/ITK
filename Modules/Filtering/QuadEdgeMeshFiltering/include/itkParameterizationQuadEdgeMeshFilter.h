@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParameterizationQuadEdgeMeshFilter_h
-#define __itkParameterizationQuadEdgeMeshFilter_h
+#ifndef itkParameterizationQuadEdgeMeshFilter_h
+#define itkParameterizationQuadEdgeMeshFilter_h
 
 #include "itkBorderQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
@@ -117,7 +117,7 @@ protected:
 
   ParameterizationQuadEdgeMeshFilter();
   virtual ~ParameterizationQuadEdgeMeshFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   CoefficientsComputation *m_CoefficientsMethod;
 
@@ -171,7 +171,7 @@ protected:
                           VectorType & oX,
                           VectorType & oY);
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
 

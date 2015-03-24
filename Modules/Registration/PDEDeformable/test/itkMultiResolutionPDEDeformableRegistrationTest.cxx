@@ -366,7 +366,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   try
     {
     passed = false;
-    std::cout << "Set RegistrationFilter to NULL" << std::endl;
+    std::cout << "Set RegistrationFilter to ITK_NULLPTR" << std::endl;
     registrator->SetRegistrationFilter( ITK_NULLPTR );
     registrator->Update();
     }
@@ -389,7 +389,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   try
     {
     passed = false;
-    std::cout << "Set FixedImagePyramid to NULL" << std::endl;
+    std::cout << "Set FixedImagePyramid to ITK_NULLPTR" << std::endl;
     registrator->SetFixedImagePyramid( ITK_NULLPTR );
     registrator->Update();
     }
@@ -413,7 +413,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   try
     {
     passed = false;
-    std::cout << "Set MovingImagePyramid to NULL" << std::endl;
+    std::cout << "Set MovingImagePyramid to ITK_NULLPTR" << std::endl;
     registrator->SetMovingImagePyramid( ITK_NULLPTR );
     registrator->Update();
     }
@@ -435,7 +435,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   try
     {
     passed = false;
-    std::cout << "Set FixedImage to NULL" << std::endl;
+    std::cout << "Set FixedImage to ITK_NULLPTR" << std::endl;
     registrator->SetFixedImage( ITK_NULLPTR );
     registrator->Update();
     }

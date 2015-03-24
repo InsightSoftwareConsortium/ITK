@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkUnsharpMaskLevelSetImageFilter_hxx
-#define __itkUnsharpMaskLevelSetImageFilter_hxx
+#ifndef itkUnsharpMaskLevelSetImageFilter_hxx
+#define itkUnsharpMaskLevelSetImageFilter_hxx
 
 #include "itkUnsharpMaskLevelSetImageFilter.h"
 

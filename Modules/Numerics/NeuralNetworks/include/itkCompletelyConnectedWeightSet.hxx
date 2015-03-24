@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompletelyConnectedWeightSet_hxx
-#define __itkCompletelyConnectedWeightSet_hxx
+#ifndef itkCompletelyConnectedWeightSet_hxx
+#define itkCompletelyConnectedWeightSet_hxx
 
 #include "itkCompletelyConnectedWeightSet.h"
 

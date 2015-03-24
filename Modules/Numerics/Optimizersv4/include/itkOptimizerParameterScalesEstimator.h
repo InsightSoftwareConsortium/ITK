@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOptimizerParameterScalesEstimator_h
-#define __itkOptimizerParameterScalesEstimator_h
+#ifndef itkOptimizerParameterScalesEstimator_h
+#define itkOptimizerParameterScalesEstimator_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

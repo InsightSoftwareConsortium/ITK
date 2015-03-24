@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaDataDictionary_h
-#define __itkMetaDataDictionary_h
+#ifndef itkMetaDataDictionary_h
+#define itkMetaDataDictionary_h
 
 #include "itkMetaDataObjectBase.h"
 #include <vector>
@@ -116,4 +116,4 @@ private:
   MetaDataDictionaryMapType *m_Dictionary;
 };
 }
-#endif // __itkMetaDataDictionary_h
+#endif // itkMetaDataDictionary_h

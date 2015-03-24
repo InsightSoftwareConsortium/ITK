@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAtanRegularizedHeavisideStepFunction_h
-#define __itkAtanRegularizedHeavisideStepFunction_h
+#ifndef itkAtanRegularizedHeavisideStepFunction_h
+#define itkAtanRegularizedHeavisideStepFunction_h
 
 #include "itkRegularizedHeavisideStepFunction.h"
 
@@ -68,10 +68,10 @@ public:
   typedef typename Superclass::RealType   RealType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const;
+  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const;
+  virtual OutputType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
 
 protected:
 

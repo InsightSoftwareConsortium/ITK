@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTxtTransformIO_hxx
-#define __itkTxtTransformIO_hxx
+#ifndef itkTxtTransformIO_hxx
+#define itkTxtTransformIO_hxx
 
 #include "itkTxtTransformIO.h"
 #include "itksys/SystemTools.hxx"

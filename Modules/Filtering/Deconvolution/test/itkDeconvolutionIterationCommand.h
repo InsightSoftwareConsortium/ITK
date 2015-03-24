@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDeconvolutionIterationCommand_h
-#define __itkDeconvolutionIterationCommand_h
+#ifndef itkDeconvolutionIterationCommand_h
+#define itkDeconvolutionIterationCommand_h
 
 #include "itkCommand.h"
 
@@ -51,7 +51,7 @@ public:
     const TFilterType * filter = static_cast< const TFilterType * >( object );
     if ( filter->GetCurrentEstimate() == ITK_NULLPTR )
       {
-      itkExceptionMacro(<< "CurrentEstimate is NULL, but should not be.");
+      itkExceptionMacro(<< "CurrentEstimate is ITK_NULLPTR, but should not be.");
       }
   }
 

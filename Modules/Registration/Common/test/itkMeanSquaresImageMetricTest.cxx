@@ -313,7 +313,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   std::cout << "NumberOfPixelsCounted: " << metric->GetNumberOfPixelsCounted() << std::endl;
   std::cout << "FixedImageRegion: " << metric->GetFixedImageRegion() << std::endl;
 
-  std::cout << "Check case when Target is NULL" << std::endl;
+  std::cout << "Check case when Target is ITK_NULLPTR" << std::endl;
   metric->SetFixedImage( ITK_NULLPTR );
   try
     {

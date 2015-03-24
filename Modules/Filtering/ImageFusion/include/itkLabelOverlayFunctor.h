@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelOverlayFunctor_h
-#define __itkLabelOverlayFunctor_h
+#ifndef itkLabelOverlayFunctor_h
+#define itkLabelOverlayFunctor_h
 
 #include "itkLabelToRGBFunctor.h"
 

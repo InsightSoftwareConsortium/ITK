@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryCrossStructuringElement_h
-#define __itkBinaryCrossStructuringElement_h
+#ifndef itkBinaryCrossStructuringElement_h
+#define itkBinaryCrossStructuringElement_h
 
 #include "itkNeighborhood.h"
 

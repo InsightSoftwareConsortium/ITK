@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineExponentialDiffeomorphicTransform_h
-#define __itkBSplineExponentialDiffeomorphicTransform_h
+#ifndef itkBSplineExponentialDiffeomorphicTransform_h
+#define itkBSplineExponentialDiffeomorphicTransform_h
 
 #include "itkConstantVelocityFieldTransform.h"
 #include "itkDisplacementFieldToBSplineImageFilter.h"
@@ -103,7 +103,7 @@ public:
    * base class implementation as we might want to smooth the update field before
    * adding it to the velocity field
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /**
    * Smooth the constant velocity field in-place.
@@ -156,7 +156,7 @@ protected:
   BSplineExponentialDiffeomorphicTransform();
   virtual ~BSplineExponentialDiffeomorphicTransform();
 
-  void PrintSelf( std::ostream &, Indent ) const;
+  void PrintSelf( std::ostream &, Indent ) const ITK_OVERRIDE;
 
 private:
   BSplineExponentialDiffeomorphicTransform( const Self& ); //purposely not implemented
@@ -174,4 +174,4 @@ private:
 # include "itkBSplineExponentialDiffeomorphicTransform.hxx"
 #endif
 
-#endif // __itkBSplineExponentialDiffeomorphicTransform_h
+#endif // itkBSplineExponentialDiffeomorphicTransform_h

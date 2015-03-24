@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestingHashImageFilter_hxx
-#define __itkTestingHashImageFilter_hxx
+#ifndef itkTestingHashImageFilter_hxx
+#define itkTestingHashImageFilter_hxx
 
 #include "itkTestingHashImageFilter.h"
 #include "itkByteSwapper.h"
@@ -118,7 +118,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
       }
 
     ////////
-    // NOTE: THIS IS NOT A NULL TERMINATED STRING!!!
+    // NOTE: THIS IS NOT A ITK_NULLPTR TERMINATED STRING!!!
     ////////
     const size_t DigestSize = 32u;
     char Digest[DigestSize];
@@ -168,4 +168,4 @@ HashImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 } // end namespace Testing
 } // end namespace itk
 
-#endif // __itkTestingHashImageFilter_txx
+#endif // itkTestingHashImageFilter_hxx

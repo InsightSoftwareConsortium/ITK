@@ -22,6 +22,7 @@ namespace itk
 {
 GPUKernelManager::GPUKernelManager()
 {
+  m_Program = ITK_NULLPTR;
   m_Manager = GPUContextManager::GetInstance();
 
   if(m_Manager->GetNumberOfCommandQueues() > 0) m_CommandQueueId = 0;   // default
@@ -29,10 +30,28 @@ GPUKernelManager::GPUKernelManager()
                                                                   // queue
 }
 
+GPUKernelManager::~GPUKernelManager()
+{
+  cl_int errid;
+
+  while(m_KernelContainer.size() > 0)
+    {
+    errid = clReleaseKernel(m_KernelContainer.back());
+    OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
+    m_KernelContainer.pop_back();
+    }
+
+  if(m_Program != ITK_NULLPTR)
+    {
+    errid = clReleaseProgram(m_Program);
+    OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
+    }
+}
+
 bool GPUKernelManager::LoadProgramFromFile(const char* filename, const char* cPreamble)
 {
   // locals
-  FILE*  pFileStream = NULL;
+  FILE*  pFileStream = ITK_NULLPTR;
   size_t szSourceLength;
   size_t szFinalLength;
 
@@ -47,7 +66,7 @@ bool GPUKernelManager::LoadProgramFromFile(const char* filename, const char* cPr
   // printout OpenCL source Path
   std::cout << "Loading source file: " << filename << std::endl;
   pFileStream = fopen(filename, "rb");
-  if(pFileStream == 0)
+  if(pFileStream == ITK_NULLPTR)
     {
     itkWarningMacro("Cannot open OpenCL source file");
     return false;
@@ -95,7 +114,7 @@ bool GPUKernelManager::LoadProgramFromFile(const char* filename, const char* cPr
     }
 
   // build program
-  errid = clBuildProgram(m_Program, 0, NULL, NULL, NULL, NULL);
+  errid = clBuildProgram(m_Program, 0, ITK_NULLPTR, ITK_NULLPTR, ITK_NULLPTR, ITK_NULLPTR);
   if(errid != CL_SUCCESS)
     {
     //itkWarningMacro("OpenCL program build error");
@@ -104,13 +123,13 @@ bool GPUKernelManager::LoadProgramFromFile(const char* filename, const char* cPr
     size_t paramValueSize = 0;
 
     // get error message size
-    clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, 0, NULL, &paramValueSize);
+    clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, 0, ITK_NULLPTR, &paramValueSize);
 
     char *paramValue;
     paramValue = (char*)malloc(paramValueSize);
 
     // get error message
-    clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, paramValueSize, paramValue, NULL);
+    clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, paramValueSize, paramValue, ITK_NULLPTR);
 
     /*
     std::ostringstream itkmsg;
@@ -159,8 +178,7 @@ bool GPUKernelManager::LoadProgramFromString(const char* cSource, const char* cP
   m_Program = clCreateProgramWithSource(
       m_Manager->GetCurrentContext(), 1, (const char **)&cSourceString, &szFinalLength, &errid);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
-  // KMZ when is it safe to free the source string?  Seems like the program still keeps a reference to it, so deleting here is dangerous?
-//   free(cSourceString);
+  free(cSourceString);
 
   if(errid != CL_SUCCESS)
     {
@@ -169,7 +187,7 @@ bool GPUKernelManager::LoadProgramFromString(const char* cSource, const char* cP
     }
 
   // build program
-  errid = clBuildProgram(m_Program, 0, NULL, NULL, NULL, NULL);
+  errid = clBuildProgram(m_Program, 0, ITK_NULLPTR, ITK_NULLPTR, ITK_NULLPTR, ITK_NULLPTR);
   if(errid != CL_SUCCESS)
     {
     //itkWarningMacro("OpenCL program build error");
@@ -178,13 +196,13 @@ bool GPUKernelManager::LoadProgramFromString(const char* cSource, const char* cP
     size_t paramValueSize = 0;
 
     // get error message size
-    clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, 0, NULL, &paramValueSize);
+    clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, 0, ITK_NULLPTR, &paramValueSize);
 
     char *paramValue;
     paramValue = (char*)malloc(paramValueSize);
 
     // get error message
-    clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, paramValueSize, paramValue, NULL);
+    clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, paramValueSize, paramValue, ITK_NULLPTR);
 
     /*
     std::ostringstream itkmsg;
@@ -227,7 +245,7 @@ int GPUKernelManager::CreateKernel(const char* kernelName)
   // argument list
   m_KernelArgumentReady.push_back( std::vector< KernelArgumentList >() );
   cl_uint nArg;
-  errid = clGetKernelInfo( newKernel, CL_KERNEL_NUM_ARGS, sizeof(cl_uint), &nArg, NULL);
+  errid = clGetKernelInfo( newKernel, CL_KERNEL_NUM_ARGS, sizeof(cl_uint), &nArg, ITK_NULLPTR);
   (m_KernelArgumentReady.back() ).resize( nArg );
 
   ResetArguments( (int)m_KernelContainer.size()-1 );
@@ -274,7 +292,7 @@ cl_int GPUKernelManager::GetDeviceInfo(
     {
     case CL_DEVICE_MAX_WORK_ITEM_SIZES:
       errid = clGetDeviceInfo(m_Manager->GetDeviceId(0),
-        CL_DEVICE_MAX_WORK_ITEM_SIZES, argSize, argValue, NULL);
+        CL_DEVICE_MAX_WORK_ITEM_SIZES, argSize, argValue, ITK_NULLPTR);
       break;
     default:
       itkGenericExceptionMacro (<< "Unknown type of device info");
@@ -295,7 +313,7 @@ bool GPUKernelManager::SetKernelArg(int kernelIdx, cl_uint argIdx, size_t argSiz
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
-  m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = (GPUDataManager::Pointer)NULL;
+  m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = (GPUDataManager::Pointer)ITK_NULLPTR;
 
   return true;
 }
@@ -325,7 +343,7 @@ bool GPUKernelManager::CheckArgumentReady(int kernelIdx)
     if(!(m_KernelArgumentReady[kernelIdx][i].m_IsReady) ) return false;
 
     // automatic synchronization before kernel launch
-    if(m_KernelArgumentReady[kernelIdx][i].m_GPUDataManager != (GPUDataManager::Pointer)NULL)
+    if(m_KernelArgumentReady[kernelIdx][i].m_GPUDataManager != (GPUDataManager::Pointer)ITK_NULLPTR)
       {
       m_KernelArgumentReady[kernelIdx][i].m_GPUDataManager->SetCPUBufferDirty();
       }
@@ -340,7 +358,7 @@ void GPUKernelManager::ResetArguments(int kernelIdx)
   for(int i=0; i<nArg; i++)
     {
     m_KernelArgumentReady[kernelIdx][i].m_IsReady = false;
-    m_KernelArgumentReady[kernelIdx][i].m_GPUDataManager = (GPUDataManager::Pointer)NULL;
+    m_KernelArgumentReady[kernelIdx][i].m_GPUDataManager = (GPUDataManager::Pointer)ITK_NULLPTR;
     }
 }
 
@@ -357,11 +375,11 @@ bool GPUKernelManager::LaunchKernel1D(int kernelIdx, size_t globalWorkSize, size
   cl_int errid;
   // TODO should we allow the user to determine localWorkSize?
 //   errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(
-//                                    m_CommandQueueId), m_KernelContainer[kernelIdx], 1, NULL, &globalWorkSize,
-//                                  &localWorkSize, 0, NULL, NULL);
+//                                    m_CommandQueueId), m_KernelContainer[kernelIdx], 1, ITK_NULLPTR, &globalWorkSize,
+//                                  &localWorkSize, 0, ITK_NULLPTR, ITK_NULLPTR);
   errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(
-                                   m_CommandQueueId), m_KernelContainer[kernelIdx], 1, NULL, &globalWorkSize,
-                                 NULL, 0, NULL, NULL);
+                                   m_CommandQueueId), m_KernelContainer[kernelIdx], 1, ITK_NULLPTR, &globalWorkSize,
+                                 ITK_NULLPTR, 0, ITK_NULLPTR, ITK_NULLPTR);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   if(errid != CL_SUCCESS)
@@ -396,10 +414,10 @@ bool GPUKernelManager::LaunchKernel2D(int kernelIdx,
   cl_int errid;
   // TODO should we allow the user to determine localWorkSize?
 //   errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(
-//                                    m_CommandQueueId), m_KernelContainer[kernelIdx], 2, NULL, gws,
-//                                  lws, 0, NULL, NULL);
+//                                    m_CommandQueueId), m_KernelContainer[kernelIdx], 2, ITK_NULLPTR, gws,
+//                                  lws, 0, ITK_NULLPTR, ITK_NULLPTR);
   errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(
-                                   m_CommandQueueId), m_KernelContainer[kernelIdx], 2, NULL, gws, NULL, 0, NULL, NULL);
+                                   m_CommandQueueId), m_KernelContainer[kernelIdx], 2, ITK_NULLPTR, gws, ITK_NULLPTR, 0, ITK_NULLPTR, ITK_NULLPTR);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   if(errid != CL_SUCCESS)
@@ -436,9 +454,9 @@ bool GPUKernelManager::LaunchKernel3D(int kernelIdx,
   cl_int errid;
   // TODO should we allow the user to determine localWorkSize?
 //   errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(
-//                                    m_CommandQueueId), m_KernelContainer[kernelIdx], 3, NULL, gws, lws, 0, NULL, NULL);
+//                                    m_CommandQueueId), m_KernelContainer[kernelIdx], 3, ITK_NULLPTR, gws, lws, 0, ITK_NULLPTR, ITK_NULLPTR);
   errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(
-                                   m_CommandQueueId), m_KernelContainer[kernelIdx], 3, NULL, gws, NULL, 0, NULL, NULL);
+                                   m_CommandQueueId), m_KernelContainer[kernelIdx], 3, ITK_NULLPTR, gws, ITK_NULLPTR, 0, ITK_NULLPTR, ITK_NULLPTR);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   if(errid != CL_SUCCESS)
@@ -469,8 +487,8 @@ bool GPUKernelManager::LaunchKernel(int kernelIdx, int dim, size_t *globalWorkSi
 
   cl_int errid;
   errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(
-                                   m_CommandQueueId), m_KernelContainer[kernelIdx], (cl_uint)dim, NULL, globalWorkSize,
-                                    localWorkSize, 0, NULL, NULL);
+                                   m_CommandQueueId), m_KernelContainer[kernelIdx], (cl_uint)dim, ITK_NULLPTR, globalWorkSize,
+                                    localWorkSize, 0, ITK_NULLPTR, ITK_NULLPTR);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
 /*

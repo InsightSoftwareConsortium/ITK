@@ -67,7 +67,7 @@ def terminal_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
-    print(clrLine + "%s: %f" % (name, p), file=sys.stderr)
+    print(clrLine + "%s: %f" % (name, p), file=sys.stderr, end="")
     if p == 1:
         print(clrLine, file=sys.stderr)
 
@@ -78,7 +78,7 @@ def terminal_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     import sys
-    print(clrLine + "Loading %s..." % name, file=sys.stderr)
+    print(clrLine + "Loading %s..." % name, file=sys.stderr, end="")
     if p == 1:
         print(clrLine, file=sys.stderr)
 
@@ -90,7 +90,7 @@ def simple_import_callback(name, p):
     """
     import sys
     if p == 0:
-        print("Loading %s..." % name, file=sys.stderr)
+        print("Loading %s..." % name, file=sys.stderr, end="")
     elif p == 1:
         print("done", file=sys.stderr)
 
@@ -102,7 +102,7 @@ def simple_progress_callback(name, p):
     """
     import sys
     if p == 0:
-        print("Running %s..." % name, file=sys.stderr)
+        print("Running %s..." % name, file=sys.stderr, end="")
     elif p == 1:
         print("done", file=sys.stderr)
 
@@ -466,8 +466,8 @@ class show2D:
             else:
                 Title = img.__class__.__name__
             try:
-                import IPython.ipapi
-                ip = IPython.ipapi.get()
+                import IPython
+                ip = IPython.get_ipython()
                 if ip is not None:
                     names = []
                     ref = imageOrFilter
@@ -945,7 +945,7 @@ def number_of_objects(i):
 
 def ipython_kw_matches(text):
     """Match named ITK object's named parameters"""
-    import IPython.ipapi
+    import IPython
     import itk
     import re
     import inspect
@@ -956,14 +956,14 @@ def ipython_kw_matches(text):
                     \w+     |  # identifier
                     \S  # other characters
                     ''', re.VERBOSE | re.DOTALL)
-    ip = IPython.ipapi.get()
+    ip = IPython.get_ipython()
     if "." in text:  # a parameter cannot be dotted
         return []
     # 1. find the nearest identifier that comes before an unclosed
     # parenthesis e.g. for "foo (1+bar(x), pa", the candidate is "foo".
     # Use get_endidx() to find the indentifier at the cursor position
     tokens = regexp.findall(
-        ip.IP.Completer.get_line_buffer()[:ip.IP.Completer.get_endidx()])
+        ip.Completer.readline.get_line_buffer()[:ip.Completer.readline.get_endidx()])
     tokens.reverse()
     iterTokens = iter(tokens)
     openPar = 0
@@ -993,16 +993,16 @@ def ipython_kw_matches(text):
     # lookup the candidate callable matches either using global_matches
     # or attr_matches for dotted names
     if len(ids) == 1:
-        callableMatches = ip.IP.Completer.global_matches(ids[0])
+        callableMatches = ip.Completer.global_matches(ids[0])
     else:
-        callableMatches = ip.IP.Completer.attr_matches('.'.join(ids[::-1]))
+        callableMatches = ip.Completer.attr_matches('.'.join(ids[::-1]))
     argMatches = []
     for callableMatch in callableMatches:
         # drop the .New at this end, so we can search in the class members
         if callableMatch.endswith(".New"):
             callableMatch = callableMatch[:-4]
         try:
-            object = eval(callableMatch, ip.IP.Completer.namespace)
+            object = eval(callableMatch, ip.Completer.namespace)
             if isinstance(object, itkTemplate.itkTemplate):
                 # this is a template - lets grab the first entry to search for
                 # the methods
@@ -1024,9 +1024,9 @@ def ipython_kw_matches(text):
 # interpreter
 try:
     import itkConfig
-    import IPython.ipapi
-    if IPython.ipapi.get():
-        IPython.ipapi.get().IP.Completer.matchers.insert(0, ipython_kw_matches)
+    import IPython
+    if IPython.get_ipython():
+        IPython.get_ipython().Completer.matchers.insert(0, ipython_kw_matches)
         itkConfig.ProgressCallback = terminal_progress_callback
     # some cleanup
     del itkConfig, IPython

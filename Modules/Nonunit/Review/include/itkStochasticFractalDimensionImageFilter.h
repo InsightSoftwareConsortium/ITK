@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStochasticFractalDimensionImageFilter_h
-#define __itkStochasticFractalDimensionImageFilter_h
+#ifndef itkStochasticFractalDimensionImageFilter_h
+#define itkStochasticFractalDimensionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -97,9 +97,9 @@ protected:
   StochasticFractalDimensionImageFilter();
   ~StochasticFractalDimensionImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StochasticFractalDimensionImageFilter(const Self &); //purposely not

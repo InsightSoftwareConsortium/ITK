@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSampleFilter_h
-#define __itkMeanSampleFilter_h
+#ifndef itkMeanSampleFilter_h
+#define itkMeanSampleFilter_h
 
 #include "itkProcessObject.h"
 #include "itkArray.h"

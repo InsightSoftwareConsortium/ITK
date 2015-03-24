@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVolumeSplineKernelTransform_h
-#define __itkVolumeSplineKernelTransform_h
+#ifndef itkVolumeSplineKernelTransform_h
+#define itkVolumeSplineKernelTransform_h
 
 #include "itkKernelTransform.h"
 
@@ -88,13 +88,13 @@ protected:
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
   virtual void ComputeG(const InputVectorType & landmarkVector,
-                        GMatrixType & gmatrix) const;
+                        GMatrixType & gmatrix) const ITK_OVERRIDE;
 
   /** Compute the contribution of the landmarks weighted by the kernel
    *  funcion to the global deformation of the space  */
   virtual void ComputeDeformationContribution(
     const InputPointType & inputPoint,
-    OutputPointType & result) const;
+    OutputPointType & result) const ITK_OVERRIDE;
 
 private:
   VolumeSplineKernelTransform(const Self &); //purposely not implemented
@@ -106,4 +106,4 @@ private:
 #include "itkVolumeSplineKernelTransform.hxx"
 #endif
 
-#endif // __itkVolumeSplineKernelTransform_h
+#endif // itkVolumeSplineKernelTransform_h

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMomentsThresholdCalculator_h
-#define __itkMomentsThresholdCalculator_h
+#ifndef itkMomentsThresholdCalculator_h
+#define itkMomentsThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 
@@ -67,7 +67,7 @@ public:
 protected:
   MomentsThresholdCalculator() {};
   virtual ~MomentsThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   MomentsThresholdCalculator(const Self&); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransform_h
-#define __itkTransform_h
+#ifndef itkTransform_h
+#define itkTransform_h
 
 #include "itkTransformBase.h"
 #include "itkVector.h"
@@ -99,13 +99,13 @@ public:
   itkCloneMacro(Self);
 
   /** Get the size of the input space */
-  unsigned int GetInputSpaceDimension(void) const
+  unsigned int GetInputSpaceDimension(void) const ITK_OVERRIDE
   {
     return NInputDimensions;
   }
 
   /** Get the size of the output space */
-  unsigned int GetOutputSpaceDimension(void) const
+  unsigned int GetOutputSpaceDimension(void) const ITK_OVERRIDE
   {
     return NOutputDimensions;
   }
@@ -342,7 +342,7 @@ public:
    * SetParametersByValue.
    * \sa SetParametersByValue
    */
-  virtual void SetParameters(const ParametersType &) = 0;
+  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE = 0;
 
   /** Set the transformation parameters and update internal transformation.
    * This method forces the transform to copy the parameters.  The
@@ -351,22 +351,22 @@ public:
    * by keeping a reference to the parameters.
    * \sa SetParameters
    */
-  virtual void SetParametersByValue(const ParametersType & p)
+  virtual void SetParametersByValue(const ParametersType & p) ITK_OVERRIDE
   {
     this->SetParameters(p);
   }
 
   /** Get the Transformation Parameters. */
-  virtual const ParametersType & GetParameters(void) const
+  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE
   {
     return m_Parameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const ParametersType &) = 0;
+  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE = 0;
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters(void) const
+  virtual const ParametersType & GetFixedParameters(void) const ITK_OVERRIDE
   {
     return m_FixedParameters;
   }
@@ -394,7 +394,7 @@ public:
   }
 
   /** Return the number of parameters that completely define the Transfom  */
-  virtual NumberOfParametersType GetNumberOfParameters(void) const
+  virtual NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return this->m_Parameters.Size();
   }
@@ -419,7 +419,7 @@ public:
   }
 
   /** Return an inverse of this transform. If the inverse has not been
-   *  implemented, return NULL. The type of the inverse transform
+   *  implemented, return ITK_NULLPTR. The type of the inverse transform
    *  does not necessarily need to match the type of the forward
    *  transform. This allows one to return a numeric inverse transform
    *  instead.
@@ -430,14 +430,14 @@ public:
   }
 
   /** Generate a platform independent name */
-  virtual std::string GetTransformTypeAsString() const;
+  virtual std::string GetTransformTypeAsString() const ITK_OVERRIDE;
 
   typedef typename Superclass::TransformCategoryType    TransformCategoryType;
 
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  virtual TransformCategoryType GetTransformCategory() const
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Superclass::UnknownTransformCategory;
   }

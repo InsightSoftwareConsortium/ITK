@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeLabelObjectAccessors_h
-#define __itkShapeLabelObjectAccessors_h
+#ifndef itkShapeLabelObjectAccessors_h
+#define itkShapeLabelObjectAccessors_h
 
 #include "itkLabelObjectAccessors.h"
 #include "itkIntTypes.h"

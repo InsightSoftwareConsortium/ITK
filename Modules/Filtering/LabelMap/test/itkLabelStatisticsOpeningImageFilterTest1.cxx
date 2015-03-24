@@ -30,7 +30,7 @@ int itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
     {
     std::cerr << "Usage: " << argv[0] << " input feature output";
     std::cerr << " background lambda";
-    std::cerr << "reverseOrdering attribute" << std::endl;
+    std::cerr << " reverseOrdering attribute" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -48,7 +48,11 @@ int itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   typedef itk::LabelStatisticsOpeningImageFilter< IType, IType > LabelOpeningType;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
 
-  opening->SetInput( reader->GetOutput() );
+  // set the input image
+  opening->SetInput1( reader->GetOutput() );
+
+  // set the feature image
+  opening->SetInput2( reader2->GetOutput() );
 
   //testing get/set BackgroundValue macro
   int BackgroundValue = ( atoi(argv[4]) );

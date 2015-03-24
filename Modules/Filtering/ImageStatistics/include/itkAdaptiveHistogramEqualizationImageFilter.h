@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAdaptiveHistogramEqualizationImageFilter_h
-#define __itkAdaptiveHistogramEqualizationImageFilter_h
+#ifndef itkAdaptiveHistogramEqualizationImageFilter_h
+#define itkAdaptiveHistogramEqualizationImageFilter_h
 
 #include "itkBoxImageFilter.h"
 #include "itkImage.h"
@@ -117,12 +117,12 @@ protected:
   }
 
   virtual ~AdaptiveHistogramEqualizationImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Standard pipeline method
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   AdaptiveHistogramEqualizationImageFilter(const Self &); //purposely not

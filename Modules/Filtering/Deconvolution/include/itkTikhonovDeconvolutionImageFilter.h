@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTikhonovDeconvolutionImageFilter_h
-#define __itkTikhonovDeconvolutionImageFilter_h
+#ifndef itkTikhonovDeconvolutionImageFilter_h
+#define itkTikhonovDeconvolutionImageFilter_h
 
 #include "itkInverseDeconvolutionImageFilter.h"
 
@@ -105,9 +105,9 @@ protected:
   ~TikhonovDeconvolutionImageFilter() {}
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   TikhonovDeconvolutionImageFilter(const Self &); //purposely not implemented

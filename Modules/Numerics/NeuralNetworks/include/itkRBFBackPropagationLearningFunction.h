@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRBFBackPropagationLearningFunction_h
-#define __itkRBFBackPropagationLearningFunction_h
+#ifndef itkRBFBackPropagationLearningFunction_h
+#define itkRBFBackPropagationLearningFunction_h
 
 #include <iostream>
 #include "itkLearningFunctionBase.h"
@@ -51,8 +51,8 @@ public:
 
   typedef typename Superclass::ValueType ValueType;
 
-  virtual void Learn(LayerType* layer,ValueType learningrate);
-  virtual void Learn(LayerType* layer, TTargetVector error, ValueType learningrate);
+  virtual void Learn(LayerType* layer,ValueType learningrate) ITK_OVERRIDE;
+  virtual void Learn(LayerType* layer, TTargetVector error, ValueType learningrate) ITK_OVERRIDE;
 
   itkSetMacro(LearningRate1, ValueType);
   itkGetMacro(LearningRate1, ValueType);
@@ -67,7 +67,7 @@ protected:
   virtual ~RBFBackPropagationLearningFunction() {};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:
 

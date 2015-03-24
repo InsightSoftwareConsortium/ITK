@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsImageFilter_hxx
-#define __itkStatisticsImageFilter_hxx
+#ifndef itkStatisticsImageFilter_hxx
+#define itkStatisticsImageFilter_hxx
 #include "itkStatisticsImageFilter.h"
 
 

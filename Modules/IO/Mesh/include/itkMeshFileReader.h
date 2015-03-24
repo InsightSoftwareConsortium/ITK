@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeshFileReader_h
-#define __itkMeshFileReader_h
+#ifndef itkMeshFileReader_h
+#define itkMeshFileReader_h
 #include "ITKIOMeshExport.h"
 
 #include "itkMacro.h"
@@ -156,7 +156,7 @@ public:
 
   /** Prepare the allocation of the output mesh during the first back
    * propagation of the pipeline. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   template< typename T >
   void ReadPoints(T *buffer);
@@ -171,7 +171,7 @@ public:
 protected:
   MeshFileReader();
   ~MeshFileReader(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Convert a block of pixels from one type to another. */
   template< typename T >
@@ -188,7 +188,7 @@ protected:
   void TestFileExistanceAndReadability();
 
   /** Does the real work. */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   MeshIOBase::Pointer m_MeshIO;
   bool                m_UserSpecifiedMeshIO; // keep track whether the MeshIO is

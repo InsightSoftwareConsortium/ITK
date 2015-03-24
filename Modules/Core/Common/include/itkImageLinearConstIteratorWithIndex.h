@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageLinearConstIteratorWithIndex_h
-#define __itkImageLinearConstIteratorWithIndex_h
+#ifndef itkImageLinearConstIteratorWithIndex_h
+#define itkImageLinearConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
 
@@ -151,23 +151,23 @@ public:
 
   /** Go to the next line.
    * \sa operator++  \sa operator-- \sa IsAtEndOfLine \sa PreviousLine \sa End */
-  inline void NextLine(void);
+  inline void NextLine();
 
   /** Go to the previous line.
    * \sa operator++ \sa operator-- \sa IsAtEndOfLine \sa NextLine \sa End */
-  inline void PreviousLine(void);
+  inline void PreviousLine();
 
   /** Go to the beginning pixel of the current line.
    * \sa GoToReverseBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa IsAtEndOfLine */
-  void GoToBeginOfLine(void);
+  void GoToBeginOfLine();
 
   /** Go to the beginning pixel of the current line.
    * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa IsAtEndOfLine */
-  void GoToReverseBeginOfLine(void);
+  void GoToReverseBeginOfLine();
 
   /** Go to the past end pixel of the current line.
    * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa IsAtEndOfLine */
-  void GoToEndOfLine(void);
+  void GoToEndOfLine();
 
   /** Test if the index is at the end of line */
   inline bool IsAtEndOfLine(void)

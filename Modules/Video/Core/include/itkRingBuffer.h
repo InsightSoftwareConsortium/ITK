@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRingBuffer_h
-#define __itkRingBuffer_h
+#ifndef itkRingBuffer_h
+#define itkRingBuffer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

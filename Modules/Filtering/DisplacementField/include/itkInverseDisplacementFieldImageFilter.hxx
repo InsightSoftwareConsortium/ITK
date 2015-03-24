@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInverseDisplacementFieldImageFilter_hxx
-#define __itkInverseDisplacementFieldImageFilter_hxx
+#ifndef itkInverseDisplacementFieldImageFilter_hxx
+#define itkInverseDisplacementFieldImageFilter_hxx
 
 #include "itkInverseDisplacementFieldImageFilter.h"
 #include "itkObjectFactory.h"

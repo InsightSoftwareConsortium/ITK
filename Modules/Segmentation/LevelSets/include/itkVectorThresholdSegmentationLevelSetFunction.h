@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorThresholdSegmentationLevelSetFunction_h
-#define __itkVectorThresholdSegmentationLevelSetFunction_h
+#ifndef itkVectorThresholdSegmentationLevelSetFunction_h
+#define itkVectorThresholdSegmentationLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 #include "itkNumericTraits.h"
@@ -111,9 +111,9 @@ public:
     return m_Threshold;
   }
 
-  virtual void CalculateSpeedImage();
+  virtual void CalculateSpeedImage() ITK_OVERRIDE;
 
-  virtual void Initialize(const RadiusType & r)
+  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
   {
     Superclass::Initialize(r);
 
@@ -148,7 +148,7 @@ protected:
 
   // implemented
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "MahalanobisFunction: " << m_Mahalanobis << std::endl;

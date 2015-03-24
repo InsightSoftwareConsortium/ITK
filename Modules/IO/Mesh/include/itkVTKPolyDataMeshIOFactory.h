@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKPolyDataMeshIOFactory_h
-#define __itkVTKPolyDataMeshIOFactory_h
+#ifndef itkVTKPolyDataMeshIOFactory_h
+#define itkVTKPolyDataMeshIOFactory_h
 #include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"

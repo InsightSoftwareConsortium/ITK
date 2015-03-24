@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWindowedSincInterpolateImageFunction_h
-#define __itkWindowedSincInterpolateImageFunction_h
+#ifndef itkWindowedSincInterpolateImageFunction_h
+#define itkWindowedSincInterpolateImageFunction_h
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
@@ -295,7 +295,7 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  virtual void SetInputImage(const ImageType *image);
+  virtual void SetInputImage(const ImageType *image) ITK_OVERRIDE;
 
   /** Evaluate the function at a ContinuousIndex position
    *
@@ -304,12 +304,12 @@ public:
    * type of the TBoundaryCondition specified.
    */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const;
+    const ContinuousIndexType & index) const ITK_OVERRIDE;
 
 protected:
   WindowedSincInterpolateImageFunction();
   virtual ~WindowedSincInterpolateImageFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   WindowedSincInterpolateImageFunction(const Self &); //not implemented

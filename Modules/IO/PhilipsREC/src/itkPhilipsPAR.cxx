@@ -557,10 +557,10 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
 {
   std::istringstream inString;
 
-  if ( pPar == NULL )
+  if ( pPar == ITK_NULLPTR )
     {
     std::ostringstream message;
-    message << "ReadPAR: pPar == NULL";
+    message << "ReadPAR: pPar == ITK_NULLPTR";
     ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
                               ITK_LOCATION);

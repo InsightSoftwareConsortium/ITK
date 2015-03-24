@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodAllocator_h
-#define __itkNeighborhoodAllocator_h
+#ifndef itkNeighborhoodAllocator_h
+#define itkNeighborhoodAllocator_h
 #include <iostream>
 #include "itkMacro.h"
 

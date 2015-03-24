@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkByteSwapper_h
-#define __itkByteSwapper_h
+#ifndef itkByteSwapper_h
+#define itkByteSwapper_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

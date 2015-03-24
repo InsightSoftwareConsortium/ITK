@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationTermBase_h
-#define __itkLevelSetEquationTermBase_h
+#ifndef itkLevelSetEquationTermBase_h
+#define itkLevelSetEquationTermBase_h
 
 #include "itkObject.h"
 #include "itkHeavisideStepFunctionBase.h"

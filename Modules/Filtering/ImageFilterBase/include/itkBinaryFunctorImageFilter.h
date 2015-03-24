@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryFunctorImageFilter_h
-#define __itkBinaryFunctorImageFilter_h
+#ifndef itkBinaryFunctorImageFilter_h
+#define itkBinaryFunctorImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
@@ -183,11 +183,11 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
   // needed to take the image information from the 2nd input, if the first one is
   // a simple decorated object
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   BinaryFunctorImageFilter(const Self &); //purposely not implemented

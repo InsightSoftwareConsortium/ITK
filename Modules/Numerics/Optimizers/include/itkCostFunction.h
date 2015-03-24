@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCostFunction_h
-#define __itkCostFunction_h
+#ifndef itkCostFunction_h
+#define itkCostFunction_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

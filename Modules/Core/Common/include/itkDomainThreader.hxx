@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDomainThreader_hxx
-#define __itkDomainThreader_hxx
+#ifndef itkDomainThreader_hxx
+#define itkDomainThreader_hxx
 
 #include "itkDomainThreader.h"
 

@@ -24,8 +24,8 @@
  * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML format for the PSO object.
  */
 
-#ifndef __itkParticleSwarmOptimizerSAXWriter_h
-#define __itkParticleSwarmOptimizerSAXWriter_h
+#ifndef itkParticleSwarmOptimizerSAXWriter_h
+#define itkParticleSwarmOptimizerSAXWriter_h
 
 #include "itkXMLFile.h"
 #include "itkParticleSwarmOptimizer.h"
@@ -52,12 +52,12 @@ public:
    * Virtual method defined in itk::XMLWriterBase.
    * Check that whether the file with given name is writable.
    */
-  virtual int CanWriteFile( const char* name );
+  virtual int CanWriteFile( const char* name ) ITK_OVERRIDE;
 
   /**
    * Method for performing XML file generation from the input object.
    */
-  virtual int WriteFile();
+  virtual int WriteFile() ITK_OVERRIDE;
 
 protected:
   ParticleSwarmOptimizerSAXWriter() {}
@@ -69,4 +69,4 @@ private:
 
 } // namespace itk
 
-#endif // __itkParticleSwarmOptimizerSAXWriter_h
+#endif // itkParticleSwarmOptimizerSAXWriter_h

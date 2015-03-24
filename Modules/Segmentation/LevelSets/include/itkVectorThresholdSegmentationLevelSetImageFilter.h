@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorThresholdSegmentationLevelSetImageFilter_h
-#define __itkVectorThresholdSegmentationLevelSetImageFilter_h
+#ifndef itkVectorThresholdSegmentationLevelSetImageFilter_h
+#define itkVectorThresholdSegmentationLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkVectorThresholdSegmentationLevelSetFunction.h"
@@ -156,7 +156,7 @@ protected:
   ~VectorThresholdSegmentationLevelSetImageFilter() {}
   VectorThresholdSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   VectorThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not
                                                                 // impl.

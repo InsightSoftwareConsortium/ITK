@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkListSample_hxx
-#define __itkListSample_hxx
+#ifndef itkListSample_hxx
+#define itkListSample_hxx
 
 #include "itkListSample.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIterativeInverseDeformationFieldImageFilter_h
-#define __itkIterativeInverseDeformationFieldImageFilter_h
+#ifndef itkIterativeInverseDeformationFieldImageFilter_h
+#define itkIterativeInverseDeformationFieldImageFilter_h
 
 #include "itkWarpVectorImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -118,7 +118,7 @@ protected:
   IterativeInverseDeformationFieldImageFilter();
   ~IterativeInverseDeformationFieldImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateData();
 

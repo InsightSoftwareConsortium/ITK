@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsOpeningLabelMapFilter_h
-#define __itkStatisticsOpeningLabelMapFilter_h
+#ifndef itkStatisticsOpeningLabelMapFilter_h
+#define itkStatisticsOpeningLabelMapFilter_h
 
 #include "itkShapeOpeningLabelMapFilter.h"
 #include "itkStatisticsLabelObject.h"
@@ -88,7 +88,7 @@ protected:
   StatisticsOpeningLabelMapFilter();
   ~StatisticsOpeningLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsOpeningLabelMapFilter(const Self &); //purposely not implemented

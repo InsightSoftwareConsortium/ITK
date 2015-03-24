@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRegionConstIterator_h
-#define __itkImageRegionConstIterator_h
+#ifndef itkImageRegionConstIterator_h
+#define itkImageRegionConstIterator_h
 
 #include "itkImageIterator.h"
 
@@ -223,7 +223,7 @@ public:
   /** Set the index. No bounds checking is performed. This is overridden
    * from the parent because we have an extra ivar.
    * \sa GetIndex */
-  void SetIndex(const IndexType & ind)
+  void SetIndex(const IndexType & ind) ITK_OVERRIDE
   {
     Superclass::SetIndex(ind);
     m_SpanEndOffset = this->m_Offset + static_cast< OffsetValueType >( this->m_Region.GetSize()[0] )

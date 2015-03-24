@@ -26,8 +26,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_minc2_h
-#define __itk_minc2_h
+#ifndef itk_minc2_h
+#define itk_minc2_h
 
 /* Use the tiff library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_MINC

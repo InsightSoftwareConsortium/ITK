@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageRandomConstIteratorWithIndex_h
-#define __itkImageRandomConstIteratorWithIndex_h
+#ifndef itkImageRandomConstIteratorWithIndex_h
+#define itkImageRandomConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -201,7 +201,7 @@ public:
   /** Set/Get number of random samples to get from the image region */
   void SetNumberOfSamples(SizeValueType number);
 
-  SizeValueType GetNumberOfSamples(void) const;
+  SizeValueType GetNumberOfSamples() const;
 
   /** Reinitialize the seed of the random number generator  */
   void ReinitializeSeed();

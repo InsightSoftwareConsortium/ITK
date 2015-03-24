@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryReconstructionLabelMapFilter_h
-#define __itkBinaryReconstructionLabelMapFilter_h
+#ifndef itkBinaryReconstructionLabelMapFilter_h
+#define itkBinaryReconstructionLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
@@ -125,9 +125,9 @@ protected:
   BinaryReconstructionLabelMapFilter();
   ~BinaryReconstructionLabelMapFilter() {};
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
+  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   BinaryReconstructionLabelMapFilter(const Self&); //purposely not implemented

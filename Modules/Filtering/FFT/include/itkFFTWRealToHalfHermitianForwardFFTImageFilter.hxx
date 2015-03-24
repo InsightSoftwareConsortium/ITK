@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTWRealToHalfHermitianForwardFFTImageFilter_hxx
-#define __itkFFTWRealToHalfHermitianForwardFFTImageFilter_hxx
+#ifndef itkFFTWRealToHalfHermitianForwardFFTImageFilter_hxx
+#define itkFFTWRealToHalfHermitianForwardFFTImageFilter_hxx
 
 #include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkRealToHalfHermitianForwardFFTImageFilter.hxx"

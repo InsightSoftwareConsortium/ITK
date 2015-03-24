@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_hxx
-#define __itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_hxx
+#ifndef itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_hxx
+#define itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_hxx
 
 #include "itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod.h"
 
@@ -35,8 +35,8 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
-TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
 ::TimeVaryingBSplineVelocityFieldImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-7 ),
@@ -49,8 +49,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   this->m_NumberOfIterationsPerLevel[2] = 40;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
-TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
 ::~TimeVaryingBSplineVelocityFieldImageRegistrationMethod()
 {
 }
@@ -58,9 +58,9 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
-TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
 ::StartOptimization()
 {
   typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
@@ -641,9 +641,9 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 /*
  * Start the registration
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
-TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
 ::GenerateData()
 {
 
@@ -670,9 +670,9 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 /*
  * PrintSelf
  */
-template<typename TFixedImage, typename TMovingImage, typename TTransform>
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
-TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
+TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

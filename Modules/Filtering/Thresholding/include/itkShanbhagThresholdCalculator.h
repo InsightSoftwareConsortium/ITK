@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkShanbhagThresholdCalculator_h
-#define __itkShanbhagThresholdCalculator_h
+#ifndef itkShanbhagThresholdCalculator_h
+#define itkShanbhagThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
 
@@ -67,7 +67,7 @@ public:
 protected:
   ShanbhagThresholdCalculator() {};
   virtual ~ShanbhagThresholdCalculator() {};
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   ShanbhagThresholdCalculator(const Self&); //purposely not implemented

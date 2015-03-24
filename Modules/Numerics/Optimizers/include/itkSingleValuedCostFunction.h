@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSingleValuedCostFunction_h
-#define __itkSingleValuedCostFunction_h
+#ifndef itkSingleValuedCostFunction_h
+#define itkSingleValuedCostFunction_h
 
 #include "itkCostFunction.h"
 #include "itkNumericTraits.h"

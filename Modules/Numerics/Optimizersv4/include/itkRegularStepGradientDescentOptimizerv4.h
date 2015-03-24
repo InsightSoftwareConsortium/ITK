@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegularStepGradientDescentOptimizerv4_h
-#define __itkRegularStepGradientDescentOptimizerv4_h
+#ifndef itkRegularStepGradientDescentOptimizerv4_h
+#define itkRegularStepGradientDescentOptimizerv4_h
 
 #include "itkGradientDescentOptimizerv4.h"
 #include <itkCompensatedSummation.h>
@@ -100,7 +100,7 @@ public:
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
   /** Estimate the learning rate based on the current gradient. */
-  virtual void EstimateLearningRate();
+  virtual void EstimateLearningRate() ITK_OVERRIDE;
 
   /** Get current gradient step value */
   double GetCurrentStepLength() const;
@@ -128,7 +128,7 @@ protected:
   /** Destructor */
   virtual ~RegularStepGradientDescentOptimizerv4();
 
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Minimum gradient step value for convergence checking */
   TInternalComputationValueType  m_MinimumStepLength;

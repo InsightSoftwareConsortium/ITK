@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDirectFourierReconstructionImageToImageFilter_h
-#define __itkDirectFourierReconstructionImageToImageFilter_h
+#ifndef itkDirectFourierReconstructionImageToImageFilter_h
+#define itkDirectFourierReconstructionImageToImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
@@ -120,16 +120,16 @@ protected:
   ~DirectFourierReconstructionImageToImageFilter() {}
 
   /** Output class information */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate metadata for output image */
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Calculate the required input region */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Actual filter computation */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   /** Const slice iterator type of the input image */
@@ -189,4 +189,4 @@ private:
 #include "itkDirectFourierReconstructionImageToImageFilter.hxx"
 #endif
 
-#endif /* __itkDirectFourierReconstructionImageToImageFilter_h */
+#endif /* itkDirectFourierReconstructionImageToImageFilter_h */

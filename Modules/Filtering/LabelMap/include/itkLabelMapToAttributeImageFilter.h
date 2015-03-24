@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelMapToAttributeImageFilter_h
-#define __itkLabelMapToAttributeImageFilter_h
+#ifndef itkLabelMapToAttributeImageFilter_h
+#define itkLabelMapToAttributeImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkAttributeLabelObject.h"
@@ -91,19 +91,19 @@ public:
 protected:
   LabelMapToAttributeImageFilter();
   ~LabelMapToAttributeImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** LabelMapToAttributeImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** LabelMapToAttributeImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
+  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   LabelMapToAttributeImageFilter(const Self&); //purposely not implemented

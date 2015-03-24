@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBatchSupervisedTrainingFunction_h
-#define __itkBatchSupervisedTrainingFunction_h
+#ifndef itkBatchSupervisedTrainingFunction_h
+#define itkBatchSupervisedTrainingFunction_h
 
 #include "itkTrainingFunctionBase.h"
 
@@ -53,7 +53,7 @@ public:
   /** Set the number of iterations */
   void SetNumOfIterations(SizeValueType i);
 
-  virtual void Train(NetworkType* net, TSample* samples, TTargetVector* targets);
+  virtual void Train(NetworkType* net, TSample* samples, TTargetVector* targets) ITK_OVERRIDE;
 
   itkSetMacro(Threshold, ScalarType);
 
@@ -63,7 +63,7 @@ protected:
   virtual ~BatchSupervisedTrainingFunction(){};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   ScalarType  m_Threshold;
   bool        m_Stop; //stop condition

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEvolutionNumberOfIterationsStoppingCriterion_hxx
-#define __itkLevelSetEvolutionNumberOfIterationsStoppingCriterion_hxx
+#ifndef itkLevelSetEvolutionNumberOfIterationsStoppingCriterion_hxx
+#define itkLevelSetEvolutionNumberOfIterationsStoppingCriterion_hxx
 
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 

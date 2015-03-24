@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodInnerProduct_h
-#define __itkNeighborhoodInnerProduct_h
+#ifndef itkNeighborhoodInnerProduct_h
+#define itkNeighborhoodInnerProduct_h
 
 #include "itkNeighborhoodIterator.h"
 #include "itkConstSliceIterator.h"

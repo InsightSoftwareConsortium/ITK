@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader_h
-#define __itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader_h
+#ifndef itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader_h
+#define itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader_h
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
@@ -88,9 +88,9 @@ protected:
     m_MattesAssociate(ITK_NULLPTR)
   {}
 
-  virtual void BeforeThreadedExecution();
+  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
 
-  virtual void AfterThreadedExecution();
+  virtual void AfterThreadedExecution() ITK_OVERRIDE;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -106,7 +106,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const;
+        const ThreadIdType                threadId ) const ITK_OVERRIDE;
 
   /** Compute PDF derivative contribution for each parameter of a global support transform type. */
   virtual void ComputePDFDerivativesGlobalSupportTransform(const ThreadIdType &    threadId,

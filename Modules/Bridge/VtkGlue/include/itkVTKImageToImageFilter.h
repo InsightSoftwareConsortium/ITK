@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkVTKImageToImageFilter_h
-#define __itkVTKImageToImageFilter_h
+#ifndef itkVTKImageToImageFilter_h
+#define itkVTKImageToImageFilter_h
 
 #include "itkVTKImageImport.h"
 #include "vtkImageExport.h"

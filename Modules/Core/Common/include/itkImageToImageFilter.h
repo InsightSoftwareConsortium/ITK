@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageFilter_h
-#define __itkImageToImageFilter_h
+#ifndef itkImageToImageFilter_h
+#define itkImageToImageFilter_h
 
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"
@@ -140,7 +140,7 @@ public:
 
   virtual void SetInput(unsigned int, const TInputImage *image);
 
-  const InputImageType * GetInput(void) const;
+  const InputImageType * GetInput() const;
 
   const InputImageType * GetInput(unsigned int idx) const;
 
@@ -165,11 +165,11 @@ public:
    */
   virtual void PushBackInput(const InputImageType *image);
 
-  virtual void PopBackInput();
+  virtual void PopBackInput() ITK_OVERRIDE;
 
   virtual void PushFrontInput(const InputImageType *image);
 
-  virtual void PopFrontInput();
+  virtual void PopFrontInput() ITK_OVERRIDE;
 
   /** get/set the Coordinate tolerance
    *  This tolerance is used when comparing the space defined
@@ -211,7 +211,7 @@ protected:
   ImageToImageFilter();
   ~ImageToImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** \brief Verifies that the input images occupy the same physical
    * space and the each index is at the same physical location.
@@ -232,7 +232,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation();
+  virtual void VerifyInputInformation() ITK_OVERRIDE;
 
   /** What is the input requested region that is required to produce
    * the output requested region? The base assumption for image
@@ -258,7 +258,7 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion(),
    *     ImageSource::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Typedef for the region copier function object that converts an
    * input region to an output region. */
@@ -351,9 +351,9 @@ protected:
    * the versions from ProcessObject to avoid warnings about hiding
    * methods from the superclass.
    */
-  void PushBackInput(const DataObject *input)
+  void PushBackInput(const DataObject *input) ITK_OVERRIDE
   { Superclass::PushBackInput(input); }
-  void PushFrontInput(const DataObject *input)
+  void PushFrontInput(const DataObject *input) ITK_OVERRIDE
   { Superclass::PushFrontInput(input); }
 
 private:

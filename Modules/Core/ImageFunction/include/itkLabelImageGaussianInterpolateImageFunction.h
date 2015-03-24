@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkLabelImageGaussianInterpolateImageFunction_h
-#define __itkLabelImageGaussianInterpolateImageFunction_h
+#ifndef itkLabelImageGaussianInterpolateImageFunction_h
+#define itkLabelImageGaussianInterpolateImageFunction_h
 
 #include "itkGaussianInterpolateImageFunction.h"
 
@@ -102,7 +102,7 @@ public:
    * Evaluate at the given index
    */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex ) const
+    const ContinuousIndexType & cindex ) const ITK_OVERRIDE
     {
     return this->EvaluateAtContinuousIndex( cindex, ITK_NULLPTR );
     }
@@ -119,7 +119,7 @@ private:
    * Evaluate function value at the given index
    */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType &, OutputType * ) const;
+    const ContinuousIndexType &, OutputType * ) const ITK_OVERRIDE;
 };
 
 } // end namespace itk

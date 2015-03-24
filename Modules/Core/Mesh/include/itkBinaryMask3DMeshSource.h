@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMask3DMeshSource_h
-#define __itkBinaryMask3DMeshSource_h
+#ifndef itkBinaryMask3DMeshSource_h
+#define itkBinaryMask3DMeshSource_h
 
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkMesh.h"
@@ -147,15 +147,15 @@ public:
 protected:
   BinaryMask3DMeshSource();
   ~BinaryMask3DMeshSource();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 
   bool       m_RegionOfInterestProvidedByUser;
   RegionType m_RegionOfInterest;
 
-  virtual void GenerateOutputInformation(){}  // do nothing
+  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing ITK_OVERRIDE
 
 private:
   BinaryMask3DMeshSource(const Self &); //purposely not implemented

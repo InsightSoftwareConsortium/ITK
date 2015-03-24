@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraints_h
-#define __itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraints_h
+#ifndef itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraints_h
+#define itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraints_h
 
 #include "itkLaplacianDeformationQuadEdgeMeshFilter.h"
 
@@ -75,7 +75,7 @@ protected:
 
   LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints();
   virtual ~LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::OutputMapPointIdentifier               OutputMapPointIdentifier;
   typedef typename Superclass::OutputMapPointIdentifierIterator       OutputMapPointIdentifierIterator;
@@ -88,7 +88,7 @@ protected:
   typedef typename Superclass::RowConstIterator RowConstIterator;
   typedef typename Superclass::RowIterator      RowIterator;
 
-  virtual void ComputeVertexIdMapping();
+  virtual void ComputeVertexIdMapping() ITK_OVERRIDE;
 
   /**
    *  \brief Fill matrix iM and vectors Bx and m_By depending on if one

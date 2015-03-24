@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodConnectedImageFilter_h
-#define __itkNeighborhoodConnectedImageFilter_h
+#ifndef itkNeighborhoodConnectedImageFilter_h
+#define itkNeighborhoodConnectedImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -62,7 +62,7 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Clear the seeds */
   void ClearSeeds();
@@ -128,12 +128,12 @@ protected:
   InputImageSizeType m_Radius;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   NeighborhoodConnectedImageFilter(const Self &); //purposely not implemented

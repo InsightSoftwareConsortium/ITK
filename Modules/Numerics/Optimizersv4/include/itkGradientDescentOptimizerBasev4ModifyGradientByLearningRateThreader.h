@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader_h
-#define __itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader_h
+#ifndef itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader_h
+#define itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader_h
 
 #include "itkDomainThreader.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
@@ -55,7 +55,7 @@ public:
 
 protected:
   virtual void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId );
+                                  const ThreadIdType threadId ) ITK_OVERRIDE;
 
   GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}
   virtual ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}

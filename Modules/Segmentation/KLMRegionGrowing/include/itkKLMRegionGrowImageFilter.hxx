@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKLMRegionGrowImageFilter_hxx
-#define __itkKLMRegionGrowImageFilter_hxx
+#ifndef itkKLMRegionGrowImageFilter_hxx
+#define itkKLMRegionGrowImageFilter_hxx
 #include "itkKLMRegionGrowImageFilter.h"
 
 namespace itk
@@ -687,7 +687,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     }
 
   // If any duplicate borders are found during SpliceRegionBorders,
-  // lambda is set to -1.0, and pRegion1 and pRegion2 are set NULL
+  // lambda is set to -1.0, and pRegion1 and pRegion2 are set ITK_NULLPTR
   // so that after this sort, the duplicate border will be the last
   // entry in m_BordersDynamicPointer
 
@@ -702,7 +702,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
 
   // Remove any duplicate borders found during SpliceRegionBorders:
-  // lambda = -1.0,  pRegion1 and pRegion2 = NULL
+  // lambda = -1.0,  pRegion1 and pRegion2 = ITK_NULLPTR
   while ( m_BorderCandidate->m_Pointer->GetRegion1() == ITK_NULLPTR
           || m_BorderCandidate->m_Pointer->GetRegion2() == ITK_NULLPTR )
     {

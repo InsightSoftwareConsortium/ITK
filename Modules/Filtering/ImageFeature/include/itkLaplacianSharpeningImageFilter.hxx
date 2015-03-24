@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianSharpeningImageFilter_hxx
-#define __itkLaplacianSharpeningImageFilter_hxx
+#ifndef itkLaplacianSharpeningImageFilter_hxx
+#define itkLaplacianSharpeningImageFilter_hxx
 #include "itkLaplacianSharpeningImageFilter.h"
 
 #include "itkNeighborhoodOperatorImageFilter.h"

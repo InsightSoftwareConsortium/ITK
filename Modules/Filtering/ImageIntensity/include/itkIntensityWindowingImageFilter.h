@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkIntensityWindowingImageFilter_h
-#define __itkIntensityWindowingImageFilter_h
+#ifndef itkIntensityWindowingImageFilter_h
+#define itkIntensityWindowingImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 
@@ -180,10 +180,10 @@ public:
   itkGetConstReferenceMacro(Shift, RealType);
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData(void);
+  void BeforeThreadedGenerateData(void) ITK_OVERRIDE;
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

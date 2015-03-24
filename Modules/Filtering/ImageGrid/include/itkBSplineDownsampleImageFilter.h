@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBSplineDownsampleImageFilter_h
-#define __itkBSplineDownsampleImageFilter_h
+#ifndef itkBSplineDownsampleImageFilter_h
+#define itkBSplineDownsampleImageFilter_h
 
 // include .h for each ResamplerType
 #include "itkBSplineL2ResampleImageFilterBase.h"
@@ -116,10 +116,10 @@ public:
 
   /** Creates an image half the size of the input image with spacing twice the
     * input image. */
-  void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This filter requires all of the input image */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -130,9 +130,9 @@ public:
 
 protected:
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   BSplineDownsampleImageFilter();
   virtual ~BSplineDownsampleImageFilter() {}

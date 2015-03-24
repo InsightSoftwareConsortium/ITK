@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkWhitakerSparseLevelSetImage_hxx
-#define __itkWhitakerSparseLevelSetImage_hxx
+#ifndef itkWhitakerSparseLevelSetImage_hxx
+#define itkWhitakerSparseLevelSetImage_hxx
 
 #include "itkWhitakerSparseLevelSetImage.h"
 
@@ -87,7 +87,7 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
       }
     else
       {
-      itkGenericExceptionMacro( <<"Note: m_LabelMap is NULL"  );
+      itkGenericExceptionMacro( <<"Note: m_LabelMap is ITK_NULLPTR"  );
       }
     }
   return rval;
@@ -121,4 +121,4 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
 }
 }
 
-#endif // __itkWhitakerSparseLevelSetImage_hxx
+#endif // itkWhitakerSparseLevelSetImage_hxx

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateShiSparseLevelSet_h
-#define __itkUpdateShiSparseLevelSet_h
+#ifndef itkUpdateShiSparseLevelSet_h
+#define itkUpdateShiSparseLevelSet_h
 
 #include "itkImage.h"
 #include "itkDiscreteLevelSetImage.h"
@@ -151,4 +151,4 @@ private:
 #include "itkUpdateShiSparseLevelSet.hxx"
 #endif
 
-#endif // __itkUpdateShiSparseLevelSet_h
+#endif // itkUpdateShiSparseLevelSet_h

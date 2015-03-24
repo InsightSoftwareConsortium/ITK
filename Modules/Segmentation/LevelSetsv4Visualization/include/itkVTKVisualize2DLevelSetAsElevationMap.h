@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkVTKVisualize2DLevelSetAsElevationMap_h
-#define __itkVTKVisualize2DLevelSetAsElevationMap_h
+#ifndef itkVTKVisualize2DLevelSetAsElevationMap_h
+#define itkVTKVisualize2DLevelSetAsElevationMap_h
 
 #include "itkVTKVisualizeImageLevelSet.h"
 

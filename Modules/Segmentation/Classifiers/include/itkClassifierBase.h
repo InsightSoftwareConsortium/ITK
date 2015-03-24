@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkClassifierBase_h
-#define __itkClassifierBase_h
+#ifndef itkClassifierBase_h
+#define itkClassifierBase_h
 
 #include "itkLightProcessObject.h"
 #include "itkMembershipFunctionBase.h"
@@ -154,7 +154,7 @@ protected:
 
   /** The real classification logic implementaion. All the subclasses
    * of this class should implement this method. */
-  virtual void GenerateData() = 0;
+  virtual void GenerateData() ITK_OVERRIDE = 0;
 
 private:
   ClassifierBase(const Self &); //purposely not implemented

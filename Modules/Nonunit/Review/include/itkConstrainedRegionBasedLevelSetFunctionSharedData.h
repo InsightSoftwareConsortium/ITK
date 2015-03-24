@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConstrainedRegionBasedLevelSetFunctionSharedData_h
-#define __itkConstrainedRegionBasedLevelSetFunctionSharedData_h
+#ifndef itkConstrainedRegionBasedLevelSetFunctionSharedData_h
+#define itkConstrainedRegionBasedLevelSetFunctionSharedData_h
 
 #include "itkRegionBasedLevelSetFunctionSharedData.h"
 
@@ -124,7 +124,7 @@ public:
   typedef typename Superclass::LevelSetDataPointerVector         LevelSetDataPointerVector;
   typedef typename Superclass::LevelSetDataPointerVectorIterator LevelSetDataPointerVectorIterator;
 
-  void PopulateListImage()
+  void PopulateListImage() ITK_OVERRIDE
   {
     ListSpacingType spacing = this->m_NearestNeighborListImage->GetSpacing();
 

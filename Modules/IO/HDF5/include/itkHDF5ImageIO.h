@@ -22,8 +22,8 @@
  *         The University of Iowa 2002
  */
 
-#ifndef __itkHDF5ImageIO_h
-#define __itkHDF5ImageIO_h
+#ifndef itkHDF5ImageIO_h
+#define itkHDF5ImageIO_h
 #include "ITKIOHDF5Export.h"
 
 
@@ -193,4 +193,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkHDF5ImageIO_h
+#endif // itkHDF5ImageIO_h

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingQuadEdgeMeshFilterBase_hxx
-#define __itkFastMarchingQuadEdgeMeshFilterBase_hxx
+#ifndef itkFastMarchingQuadEdgeMeshFilterBase_hxx
+#define itkFastMarchingQuadEdgeMeshFilterBase_hxx
 
 #include "itkFastMarchingQuadEdgeMeshFilterBase.h"
 
@@ -128,7 +128,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
         }
       else
         {
-        itkGenericExceptionMacro( <<"qe_it is NULL" );
+        itkGenericExceptionMacro( <<"qe_it is ITK_NULLPTR" );
         }
       qe_it = qe_it->GetOnext();
       }
@@ -136,7 +136,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     }
   else
     {
-    itkGenericExceptionMacro( <<"qe is NULL" );
+    itkGenericExceptionMacro( <<"qe is ITK_NULLPTR" );
     }
 }
 
@@ -225,7 +225,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
       else
         {
         // throw one exception here
-        itkGenericExceptionMacro( << "qe_it2 is NULL" );
+        itkGenericExceptionMacro( << "qe_it2 is ITK_NULLPTR" );
         }
       }
     while( qe_it != qe );
@@ -242,7 +242,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   else
     {
     // throw one exception
-    itkGenericExceptionMacro( << "qe_it is NULL" );
+    itkGenericExceptionMacro( << "qe_it is ITK_NULLPTR" );
     }
   }
 
@@ -737,4 +737,4 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   }
 }
 
-#endif // __itkFastMarchingQuadEdgeMeshFilterBase_hxx
+#endif // itkFastMarchingQuadEdgeMeshFilterBase_hxx

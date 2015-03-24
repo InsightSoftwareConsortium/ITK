@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_h
-#define __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_h
+#ifndef itkQuadEdgeMeshEulerOperatorJoinFacetFunction_h
+#define itkQuadEdgeMeshEulerOperatorJoinFacetFunction_h
 
 #include "itkQuadEdgeMeshFunctionBase.h"
 

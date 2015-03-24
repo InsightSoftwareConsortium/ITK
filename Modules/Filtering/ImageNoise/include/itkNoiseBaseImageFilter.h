@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNoiseBaseImageFilter_h
-#define __itkNoiseBaseImageFilter_h
+#ifndef itkNoiseBaseImageFilter_h
+#define itkNoiseBaseImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include <vcl_ctime.h>
@@ -63,7 +63,7 @@ protected:
 
   virtual ~NoiseBaseImageFilter() = 0;
 
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   inline static uint32_t Hash(uint32_t a, uint32_t b)
   {
@@ -88,4 +88,4 @@ private:
 #include "itkNoiseBaseImageFilter.hxx"
 #endif
 
-#endif //  __itkNoiseBaseImageFilter_h
+#endif //  itkNoiseBaseImageFilter_h

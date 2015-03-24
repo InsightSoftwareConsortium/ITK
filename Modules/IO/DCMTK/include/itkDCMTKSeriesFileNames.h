@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKSeriesFileNames_h
-#define __itkDCMTKSeriesFileNames_h
+#ifndef itkDCMTKSeriesFileNames_h
+#define itkDCMTKSeriesFileNames_h
 #include "ITKIODCMTKExport.h"
 
 #include "itkProcessObject.h"
@@ -169,7 +169,7 @@ public:
 protected:
   DCMTKSeriesFileNames();
   ~DCMTKSeriesFileNames();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   DCMTKSeriesFileNames(const Self &); //purposely not implemented
@@ -199,4 +199,4 @@ private:
 };
 } //namespace ITK
 
-#endif // __itkDCMTKSeriesFileNames_h
+#endif // itkDCMTKSeriesFileNames_h

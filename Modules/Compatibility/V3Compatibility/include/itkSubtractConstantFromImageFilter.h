@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSubtractConstantFromImageFilter_h
-#define __itkSubtractConstantFromImageFilter_h
+#ifndef itkSubtractConstantFromImageFilter_h
+#define itkSubtractConstantFromImageFilter_h
 
 #include "itkSubtractImageFilter.h"
 

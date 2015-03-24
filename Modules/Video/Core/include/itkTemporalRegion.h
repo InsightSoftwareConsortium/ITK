@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTemporalRegion_h
-#define __itkTemporalRegion_h
+#ifndef itkTemporalRegion_h
+#define itkTemporalRegion_h
 
 #include "itkRegion.h"
 #include "itkRealTimeStamp.h"

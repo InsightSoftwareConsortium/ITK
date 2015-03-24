@@ -64,7 +64,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The following code is generating a sphere and assigning RGB values to
+  //  The following code generates a circle and assigns RGB values to
   //  the points. The components of the RGB values in this example are
   //  computed to represent the position of the points.
   //
@@ -160,6 +160,6 @@ int main(int, char *[])
   //
   //  Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }

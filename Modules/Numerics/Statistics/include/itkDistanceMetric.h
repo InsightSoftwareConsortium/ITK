@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDistanceMetric_h
-#define __itkDistanceMetric_h
+#ifndef itkDistanceMetric_h
+#define itkDistanceMetric_h
 
 #include "itkFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"
@@ -78,7 +78,7 @@ public:
 
   /** Gets the distance between the origin point and x. This function
    * work with SetOrigin() function. */
-  virtual double Evaluate(const MeasurementVectorType & x) const = 0;
+  virtual double Evaluate(const MeasurementVectorType & x) const ITK_OVERRIDE = 0;
 
   /** Gets the distance between x1 and x2. This method is used by
     * KdTreeKMeans estimators. When the estimator is refactored,
@@ -132,7 +132,7 @@ public:
 protected:
   DistanceMetric();
   virtual ~DistanceMetric() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

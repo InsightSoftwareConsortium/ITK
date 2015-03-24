@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMultiThreader_h
-#define __itkMultiThreader_h
+#ifndef itkMultiThreader_h
+#define itkMultiThreader_h
 
 #include "itkMutexLock.h"
 #include "itkThreadSupport.h"

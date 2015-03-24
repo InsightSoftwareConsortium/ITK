@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumericTraitsTensorPixel_h
-#define __itkNumericTraitsTensorPixel_h
+#ifndef itkNumericTraitsTensorPixel_h
+#define itkNumericTraitsTensorPixel_h
 
 #include "itkNumericTraits.h"
 #include "itkSymmetricSecondRankTensor.h"
@@ -184,4 +184,4 @@ public:
 };
 } // end namespace itk
 
-#endif // __itkNumericTraitsTensorPixel_h
+#endif // itkNumericTraitsTensorPixel_h

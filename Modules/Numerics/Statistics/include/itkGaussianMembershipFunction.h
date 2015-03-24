@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianMembershipFunction_h
-#define __itkGaussianMembershipFunction_h
+#ifndef itkGaussianMembershipFunction_h
+#define itkGaussianMembershipFunction_h
 
 #include "itkMatrix.h"
 #include "itkMembershipFunctionBase.h"
@@ -106,17 +106,17 @@ public:
   itkGetConstReferenceMacro(InverseCovariance, CovarianceMatrixType);
 
   /** Evaluate the probability density of a measurement vector. */
-  double Evaluate(const MeasurementVectorType & measurement) const;
+  double Evaluate(const MeasurementVectorType & measurement) const ITK_OVERRIDE;
 
   /** Method to clone a membership function, i.e. create a new instance of
    * the same type of membership function and configure its ivars to
    * match. */
-  virtual typename LightObject::Pointer InternalClone() const;
+  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
 protected:
-  GaussianMembershipFunction(void);
+  GaussianMembershipFunction();
   virtual ~GaussianMembershipFunction(void) {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   GaussianMembershipFunction(const Self &);   //purposely not implemented

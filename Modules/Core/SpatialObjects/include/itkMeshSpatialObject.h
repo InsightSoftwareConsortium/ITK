@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeshSpatialObject_h
-#define __itkMeshSpatialObject_h
+#ifndef itkMeshSpatialObject_h
+#define itkMeshSpatialObject_h
 
 #include "itkMesh.h"
 #include "itkSpatialObject.h"
@@ -67,23 +67,23 @@ public:
   void SetMesh(MeshType *Mesh);
 
   /** Get a pointer to the Mesh currently attached to the object. */
-  MeshType * GetMesh(void);
-  const MeshType *GetMesh(void) const;
+  MeshType * GetMesh();
+  const MeshType *GetMesh() const;
 
   /** Return true if the object is evaluable at the requested point,
    *  and else otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+                     unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Returns the value of the Mesh at the requested point.
    *  If the point is not inside the object, then an exception is thrown.
    * \sa ExceptionObject */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+               unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const;
+                unsigned int depth, char *name) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -91,10 +91,10 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeLocalBoundingBox() const;
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime(void) const;
+  ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
   /** Return the type of pixel used */
   const char * GetPixelType()
@@ -120,7 +120,7 @@ protected:
   MeshSpatialObject();
   virtual ~MeshSpatialObject();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 
@@ -128,4 +128,4 @@ protected:
 #include "itkMeshSpatialObject.hxx"
 #endif
 
-#endif //__itkMeshSpatialObject_h
+#endif //itkMeshSpatialObject_h

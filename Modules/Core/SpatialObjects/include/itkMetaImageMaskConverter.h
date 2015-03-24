@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaImageMaskConverter_h
-#define __itkMetaImageMaskConverter_h
+#ifndef itkMetaImageMaskConverter_h
+#define itkMetaImageMaskConverter_h
 
 //
 // to avoid an Internal Compiler Error in Visual Studio 6.0
@@ -51,7 +51,7 @@ public:
   itkTypeMacro(MetaImageMaskConverter, MetaImageConverter);
 
 protected:
-  virtual const char *GetMetaObjectSubType()
+  virtual const char *GetMetaObjectSubType() ITK_OVERRIDE
   {
     return "Mask";
   }

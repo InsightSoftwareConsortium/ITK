@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkUnaryFunctorImageFilter_h
-#define __itkUnaryFunctorImageFilter_h
+#ifndef itkUnaryFunctorImageFilter_h
+#define itkUnaryFunctorImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -107,7 +107,7 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** UnaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -120,7 +120,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   UnaryFunctorImageFilter(const Self &); //purposely not implemented

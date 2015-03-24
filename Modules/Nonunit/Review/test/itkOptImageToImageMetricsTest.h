@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOptImageToImageMetricsTest_h
-#define __itkOptImageToImageMetricsTest_h
+#ifndef itkOptImageToImageMetricsTest_h
+#define itkOptImageToImageMetricsTest_h
 
 #include "itkTimeProbe.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"

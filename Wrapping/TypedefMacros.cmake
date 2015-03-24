@@ -1,9 +1,9 @@
 ################################################################################
-# Macro definitions for creating proper Swig input files from wrap_*.cmake
+# Macro definitions for creating proper Swig input files from *.wrap
 # files.
 # This file includes definitions for the macros to call from a CMakeList file
-# to cause wrap_*.cmake files to be turned into CXX files, and definitions for
-# the macros to use in the wrap_*.cmake files themselves to declare that certain
+# to cause *.wrap files to be turned into CXX files, and definitions for
+# the macros to use in the *.wrap files themselves to declare that certain
 # classes and template instantiations be wrapped.
 # Note on convention: variable names in ALL_CAPS are global, and shared between
 # macros or between CMake and files that are configured. Variable names in
@@ -48,7 +48,7 @@ macro(itk_wrap_module library_name)
   # contain the desired header files.
   #set(WRAPPER_LIBRARY_INCLUDE_DIRECTORIES )
 
-  # WRAPPER_LIBRARY_SOURCE_DIR. Directory to be scanned for wrap_*.cmake files.
+  # WRAPPER_LIBRARY_SOURCE_DIR. Directory to be scanned for *.wrap files.
   set(WRAPPER_LIBRARY_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
   # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx
@@ -64,7 +64,7 @@ macro(itk_wrap_module library_name)
   # be linked to the wrapper library.
   set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
 
-  # WRAPPER_LIBRARY_GROUPS. List of wrap_*.cmake groups in the source dir
+  # WRAPPER_LIBRARY_GROUPS. List of *.wrap groups in the source dir
   # that should be included/wrapped before the rest. Just the group name is needed,
   # not the full path or file name.
   set(WRAPPER_LIBRARY_GROUPS )
@@ -129,7 +129,7 @@ macro(INCLUDE_LIBRARY library)
   itk_wrap_module("${library}")
   # change some default values
 
-  # WRAPPER_LIBRARY_SOURCE_DIR. Directory to be scanned for wrap_*.cmake files.
+  # WRAPPER_LIBRARY_SOURCE_DIR. Directory to be scanned for *.wrap files.
   set(WRAPPER_LIBRARY_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${library}")
 
   # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx
@@ -142,12 +142,12 @@ endmacro()
 
 
 ################################################################################
-# Macros for finding and processing wrap_*.cmake files.
+# Macros for finding and processing *.wrap files.
 ################################################################################
 
 macro(itk_auto_load_submodules)
 
-  # Include the wrap_*.cmake files in WRAPPER_LIBRARY_SOURCE_DIR. This causes
+  # Include the *.wrap files in WRAPPER_LIBRARY_SOURCE_DIR. This causes
   # corresponding wrap_*.cxx files to be generated WRAPPER_LIBRARY_OUTPUT_DIR,
   # and added to the WRAPPER_LIBRARY_SWIG_INPUTS list.
   # In addition, this causes the other required wrap_*.cxx files for the entire
@@ -184,13 +184,13 @@ macro(itk_auto_load_submodules)
     if(${will_include})
       # Add the module name to the list. WRITE_MODULE_FILES uses this list
       # to create the master library wrapper file.
-      set(WRAPPER_LIBRARY_GROUPS ${WRAPPER_LIBRARY_GROUPS} "${module}")
+      list(APPEND WRAPPER_LIBRARY_GROUPS "${module}")
       itk_load_submodule("${module}")
     endif()
   endforeach()
 
-  # Now search for other wrap_*.cmake files to include
-  file(GLOB wrap_cmake_files "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_*.cmake")
+  # Now search for other *.wrap files to include
+  file(GLOB wrap_cmake_files "${WRAPPER_LIBRARY_SOURCE_DIR}/*.wrap")
   # sort the list of files so we are sure to always get the same order on all system
   # and for all builds. That's important for several reasons:
   # - the order is important for the order of creation of python template
@@ -213,7 +213,7 @@ macro(itk_auto_load_submodules)
     if(${will_include})
       # Add the module name to the list. WRITE_MODULE_FILES uses this list
       # to create the master library wrapper file.
-      set(WRAPPER_LIBRARY_GROUPS ${WRAPPER_LIBRARY_GROUPS} "${module}")
+      list(APPEND WRAPPER_LIBRARY_GROUPS "${module}")
       itk_load_submodule("${module}")
     endif()
   endforeach()
@@ -224,7 +224,7 @@ endmacro()
 macro(itk_load_submodule module)
   # include a cmake module file and generate the associated wrap_*.cxx file.
   # This basically sets the global vars that will be added to or modified
-  # by the commands in the included wrap_*.cmake module.
+  # by the commands in the included *.wrap module.
   #
   # Global vars used: none
   # Global vars modified: WRAPPER_MODULE_NAME WRAPPER_TYPEDEFS
@@ -276,7 +276,7 @@ macro(itk_wrap_submodule module)
 endmacro()
 
 ################################################################################
-# Macros to be used in the wrap_*.cmake files themselves.
+# Macros to be used in the *.wrap files themselves.
 # These macros specify that a class is to be wrapped, that certain itk headers
 # are to be included, and what specific template instatiations are to be wrapped.
 ################################################################################
@@ -289,7 +289,7 @@ macro(itk_wrap_class class)
   # itk::Statistics::Sample -> itkSample.
   # If the top-level namespace is 'itk' and WRAPPER_AUTO_INCLUDE_HEADERS is ON
   # then the appropriate itk header for this class will be included. Otherwise
-  # itk_wrap_include should be manually called from the wrap_*.cmake file that calls
+  # itk_wrap_include should be manually called from the *.wrap file that calls
   # this macro.
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
   # POINTER POINTER_WITH_CONST_POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES
@@ -559,7 +559,7 @@ macro(itk_wrap_template name types)
   # Global vars used: WRAPPER_TEMPLATES
   # Global vars modified: WRAPPER_TEMPLATES
 
-#   set(WRAPPER_TEMPLATES ${WRAPPER_TEMPLATES} "${name} # ${types}")
+#   list(APPEND WRAPPER_TEMPLATES "${name} # ${types}")
   set(WRAPPER_WARN_ABOUT_NO_TEMPLATE OFF)
   itk_wrap_one_type("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}${name}" "${types}")
   itk_wrap_template_all_generators("${name}" "${types}")
@@ -608,7 +608,7 @@ macro(itk_wrap_image_filter param_types param_count)
   foreach(param_type ${param_types})
     set(param_list "")
     foreach(i RANGE 1 ${param_count})
-      set(param_list ${param_list} ${param_type})
+      list(APPEND param_list ${param_type})
     endforeach()
     if(have_dim_cond)
       itk_wrap_image_filter_types(${param_list} "${ARGN}")
@@ -675,7 +675,7 @@ macro(itk_wrap_image_filter_combinations)
       set(temp "")
       foreach(type_list ${template_combinations})
         foreach(type ${types})
-          set(temp ${temp} "${type_list}#${type}")
+          list(APPEND temp "${type_list}#${type}")
         endforeach()
       endforeach()
       set(template_combinations ${temp})
@@ -730,28 +730,38 @@ macro(itk_wrap_image_filter_types)
     set(dims ${ITK_WRAP_DIMS})
   endif()
 
-  foreach(d ${dims})
-    set(template_params "")
-    set(mangled_name "")
-    set(comma "") # Don't add a comma before the first template param!
-    foreach(num RANGE 0 ${last_arg_number})
-      set(type "${arg${num}}")
-      if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
-        # if the type is a vector type with no dimension specified, make the
-        # vector dimension match the image dimension.
-        set(type "${type}${d}")
-      endif()
-      set(image_type ${ITKT_I${type}${d}})
-      set(mangle_type ${ITKM_I${type}${d}})
-      if(NOT DEFINED image_type)
-        message(FATAL_ERROR "Wrapping ${WRAPPER_CLASS}: No image type for '${type}' pixels is known.")
-      endif()
+  # TODO: The vec_dims list should not be generated from
+  # ITK_WRAP_DIMS; but from a separate list for vector dimensions.
+  set(vec_dims 1)
+  foreach(num RANGE 0 ${last_arg_number})
+    set(type "${arg${num}}")
+    if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+      set(vec_dims ${ITK_WRAP_DIMS})
+    endif()
+  endforeach()
 
-      set(template_params "${template_params}${comma}${image_type}")
-      set(mangled_name "${mangled_name}${mangle_type}")
-      set(comma ", ") # now add commas after the subsequent template params
+  foreach(vec_dim ${vec_dims})
+    foreach(d ${dims})
+      set(template_params "")
+      set(mangled_name "")
+      set(comma "") # Don't add a comma before the first template param!
+      foreach(num RANGE 0 ${last_arg_number})
+        set(type "${arg${num}}")
+        if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+          set(type "${type}${vec_dim}")
+        endif()
+        set(image_type ${ITKT_I${type}${d}})
+        set(mangle_type ${ITKM_I${type}${d}})
+        if(NOT DEFINED image_type)
+          message(FATAL_ERROR "Wrapping ${WRAPPER_CLASS}: No image type for '${type}' pixels is known.")
+        endif()
+
+        set(template_params "${template_params}${comma}${image_type}")
+        set(mangled_name "${mangled_name}${mangle_type}")
+        set(comma ", ") # now add commas after the subsequent template params
+      endforeach()
+      itk_wrap_template("${mangled_name}" "${template_params}")
     endforeach()
-    itk_wrap_template("${mangled_name}" "${template_params}")
   endforeach()
 endmacro()
 

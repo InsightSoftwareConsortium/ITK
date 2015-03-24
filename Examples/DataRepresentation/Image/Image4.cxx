@@ -26,7 +26,7 @@
 // position of the image in space with respect to some world coordinate
 // system are extremely important.
 //
-// Image origin, image voxel directions (i.e. orientation) and spacing are fundamental to many
+// Image origin, voxel directions (i.e. orientation), and spacing are fundamental to many
 // applications. Registration, for example, is performed in physical
 // coordinates. Improperly defined spacing, direction, and origins will result in
 // inconsistent results in such processes. Medical images with no spatial

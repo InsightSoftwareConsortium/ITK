@@ -309,7 +309,7 @@ int itkGPUDemonsRegistrationFilterTest2(int argc, char* argv[] )
   bool passed = true;
   try
     {
-    registrator->SetInput( NULL );
+    registrator->SetInput( ITK_NULLPTR );
     registrator->SetNumberOfIterations( 2 );
     registrator->Update();
     }
@@ -329,12 +329,12 @@ int itkGPUDemonsRegistrationFilterTest2(int argc, char* argv[] )
   //--------------------------------------------------------------
   std::cout << "Test exception handling." << std::endl;
 
-  std::cout << "Test NULL moving image. " << std::endl;
+  std::cout << "Test ITK_NULLPTR moving image. " << std::endl;
   passed = false;
   try
     {
     registrator->SetInput( caster->GetOutput() );
-    registrator->SetMovingImage( NULL );
+    registrator->SetMovingImage( ITK_NULLPTR );
     registrator->Update();
     }
   catch( itk::ExceptionObject & err )
@@ -352,13 +352,13 @@ int itkGPUDemonsRegistrationFilterTest2(int argc, char* argv[] )
   registrator->SetMovingImage( moving );
   registrator->ResetPipeline();
 
-  std::cout << "Test NULL moving image interpolator. " << std::endl;
+  std::cout << "Test ITK_NULLPTR moving image interpolator. " << std::endl;
   passed = false;
   try
     {
     fptr = dynamic_cast<FunctionType *>(
       registrator->GetDifferenceFunction().GetPointer() );
-    fptr->SetMovingImageInterpolator( NULL );
+    fptr->SetMovingImageInterpolator( ITK_NULLPTR );
     registrator->SetInput( initField );
     registrator->Update();
     }

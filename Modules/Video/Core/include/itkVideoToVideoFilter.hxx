@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVideoToVideoFilter_hxx
-#define __itkVideoToVideoFilter_hxx
+#ifndef itkVideoToVideoFilter_hxx
+#define itkVideoToVideoFilter_hxx
 
 #include "itkImageToImageFilter.h"
 
@@ -89,7 +89,7 @@ GetInput() const
 {
   if (this->GetNumberOfInputs() < 1)
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   return static_cast< const InputVideoStreamType* >(this->ProcessObject::GetInput(0));
 }

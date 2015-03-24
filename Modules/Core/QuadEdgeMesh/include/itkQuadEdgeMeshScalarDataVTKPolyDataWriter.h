@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshScalarDataVTKPolyDataWriter_h
-#define __itkQuadEdgeMeshScalarDataVTKPolyDataWriter_h
+#ifndef itkQuadEdgeMeshScalarDataVTKPolyDataWriter_h
+#define itkQuadEdgeMeshScalarDataVTKPolyDataWriter_h
 
 #include "itkVTKPolyDataWriter.h"
 #include <fstream>
@@ -86,7 +86,7 @@ protected:
   std::string m_CellDataName;
   std::string m_PointDataName;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   void WriteCellData();
 

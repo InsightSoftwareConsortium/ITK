@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFastMarchingReachedTargetNodesStoppingCriterion_h
-#define __itkFastMarchingReachedTargetNodesStoppingCriterion_h
+#ifndef itkFastMarchingReachedTargetNodesStoppingCriterion_h
+#define itkFastMarchingReachedTargetNodesStoppingCriterion_h
 
 #include "itkFastMarchingStoppingCriterionBase.h"
 #include "itkObjectFactory.h"
@@ -91,7 +91,7 @@ public:
   }
 
   /** \brief Set the current node */
-  void SetCurrentNode( const NodeType& iNode )
+  void SetCurrentNode( const NodeType& iNode ) ITK_OVERRIDE
   {
     if( !m_Initialized )
       {
@@ -133,13 +133,13 @@ public:
   }
 
   /** \brief returns if the stopping condition is satisfied or not. */
-  bool IsSatisfied() const
+  bool IsSatisfied() const ITK_OVERRIDE
   {
     return m_Satisfied && ( this->m_CurrentValue >= m_StoppingValue );
   }
 
   /** \brief Get a short description of the stopping criterion. */
-  std::string GetDescription() const
+  std::string GetDescription() const ITK_OVERRIDE
   {
     return "Target Nodes Reached with possible overshoot";
   }
@@ -170,7 +170,7 @@ protected:
   bool                    m_Satisfied;
   bool                    m_Initialized;
 
-  void Reset()
+  void Reset() ITK_OVERRIDE
   {
     this->Initialize();
   }
@@ -206,4 +206,4 @@ private:
   void operator = ( const Self& );
 };
 }
-#endif // __itkFastMarchingThresholdStoppingCriterion_h
+#endif // itkFastMarchingThresholdStoppingCriterion_h

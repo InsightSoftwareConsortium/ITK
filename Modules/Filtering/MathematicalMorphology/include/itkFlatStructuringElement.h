@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFlatStructuringElement_h
-#define __itkFlatStructuringElement_h
+#ifndef itkFlatStructuringElement_h
+#define itkFlatStructuringElement_h
 
 #include "itkNeighborhood.h"
 #include <vector>
@@ -204,7 +204,7 @@ public:
 
 protected:
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   bool m_Decomposable;

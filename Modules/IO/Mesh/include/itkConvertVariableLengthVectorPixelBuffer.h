@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConvertVariableLengthVectorPixelBuffer_h
-#define __itkConvertVariableLengthVectorPixelBuffer_h
+#ifndef itkConvertVariableLengthVectorPixelBuffer_h
+#define itkConvertVariableLengthVectorPixelBuffer_h
 #include "ITKIOMeshExport.h"
 
 #include "itkConvertPixelBuffer.h"
@@ -55,4 +55,4 @@ private:
 #include "itkConvertVariableLengthVectorPixelBuffer.hxx"
 #endif
 
-#endif // __itkConvertVariableLengthVectorPixelBuffer_h
+#endif // itkConvertVariableLengthVectorPixelBuffer_h

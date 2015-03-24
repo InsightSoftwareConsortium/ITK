@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSliceBySliceImageFilter_hxx
-#define __itkSliceBySliceImageFilter_hxx
+#ifndef itkSliceBySliceImageFilter_hxx
+#define itkSliceBySliceImageFilter_hxx
 
 #include "itkSliceBySliceImageFilter.h"
 #include "itkProgressReporter.h"
@@ -132,7 +132,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 {
   if ( !filter )
     {
-    itkExceptionMacro("InputFilter cannot be NULL.");
+    itkExceptionMacro("InputFilter cannot be ITK_NULLPTR.");
     }
 
   if ( m_InputFilter.GetPointer() != filter )
@@ -153,7 +153,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 {
   if ( !filter )
     {
-    itkExceptionMacro("OutputFilter cannot be NULL.");
+    itkExceptionMacro("OutputFilter cannot be ITK_NULLPTR.");
     }
 
   if ( m_OutputFilter.GetPointer() != filter )

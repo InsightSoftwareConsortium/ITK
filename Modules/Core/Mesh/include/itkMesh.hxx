@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMesh_hxx
-#define __itkMesh_hxx
+#ifndef itkMesh_hxx
+#define itkMesh_hxx
 
 #include "itkMesh.h"
 #include "itkProcessObject.h"
@@ -260,7 +260,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
  * Check if a cell exists for a given cell identifier.  If a spot for
  * the cell identifier exists, "cell" is set, and true is returned.
  * Otherwise, false is returned, and "cell" is not modified.
- * If "cell" is NULL, then it is never set, but the existence of the cell
+ * If "cell" is ITK_NULLPTR, then it is never set, but the existence of the cell
  * is still returned.
  */
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
@@ -322,7 +322,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
  * Check if cell data exists for a given cell identifier.  If a spot for
  * the cell identifier exists, "data" is set, and true is returned.
  * Otherwise, false is returned, and "data" is not modified.
- * If "data" is NULL, then it is never set, but the existence of the cell
+ * If "data" is ITK_NULLPTR, then it is never set, but the existence of the cell
  * data is still returned.
  */
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
@@ -574,7 +574,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 /**
  * Get the set of cells neighboring the given cell across the given boundary
  * feature.  Returns the number of neighbors found.  If cellSet is not
- * NULL, the set of cell pointers is filled in with identifiers of the
+ * ITK_NULLPTR, the set of cell pointers is filled in with identifiers of the
  * neighboring cells.
  *
  * NOTE: We would like to change this to use an "output iterator"
@@ -739,7 +739,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 /**
  * Get the set of cells having the given cell as part of their
  * boundary.  Returns the number of neighbors found.  If cellSet is not
- * NULL, the set of cell pointers is filled in with identifiers of the
+ * ITK_NULLPTR, the set of cell pointers is filled in with identifiers of the
  * neighboring cells.
  *
  * NOTE: We would like to change this to use an "output iterator"

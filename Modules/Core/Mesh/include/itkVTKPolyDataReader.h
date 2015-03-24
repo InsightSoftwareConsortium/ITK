@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVTKPolyDataReader_h
-#define __itkVTKPolyDataReader_h
+#ifndef itkVTKPolyDataReader_h
+#define itkVTKPolyDataReader_h
 
 #include "itkIntTypes.h"
 #include "itkMesh.h"
@@ -100,10 +100,10 @@ public:
 protected:
   VTKPolyDataReader();
   ~VTKPolyDataReader() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Reads the file */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Filename to read */
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkValuedRegionalExtremaImageFilter_h
-#define __itkValuedRegionalExtremaImageFilter_h
+#ifndef itkValuedRegionalExtremaImageFilter_h
+#define itkValuedRegionalExtremaImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkShapedNeighborhoodIterator.h"
@@ -146,17 +146,17 @@ public:
 protected:
   ValuedRegionalExtremaImageFilter();
   ~ValuedRegionalExtremaImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ValuedRegionalExtremaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** ValuedRegionalExtremaImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ValuedRegionalExtremaImageFilter(const Self &); //purposely not implemented

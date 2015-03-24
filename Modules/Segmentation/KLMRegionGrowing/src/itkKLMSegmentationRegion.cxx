@@ -439,10 +439,10 @@ void
 KLMSegmentationRegion
 ::UpdateRegionBorderLambda()
 {
-  // Check if the number of borders for this region is NULL
+  // Check if the number of borders for this region is ITK_NULLPTR
   if ( m_RegionBorderVector.empty() )
     {
-    itkExceptionMacro(<< "The region border for computing Lambda is NULL");
+    itkExceptionMacro(<< "The region border for computing Lambda is ITK_NULLPTR");
     }
 
   // Set up the iterator to loop through the region border vector

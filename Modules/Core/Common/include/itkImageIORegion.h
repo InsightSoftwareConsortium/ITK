@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageIORegion_h
-#define __itkImageIORegion_h
+#ifndef itkImageIORegion_h
+#define itkImageIORegion_h
 
 #include <algorithm>
 #include "itkIntTypes.h"
@@ -145,7 +145,7 @@ public:
 
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
-  SizeValueType GetNumberOfPixels(void) const;
+  SizeValueType GetNumberOfPixels() const;
 
 protected:
   /** Methods invoked by Print() to print information about the object

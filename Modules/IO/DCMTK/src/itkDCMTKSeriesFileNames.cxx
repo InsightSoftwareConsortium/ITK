@@ -47,7 +47,7 @@ DCMTKSeriesFileNames
 {
   if ( !name )
     {
-    itkExceptionMacro(<< "SetInputDirectory() received a NULL string");
+    itkExceptionMacro(<< "SetInputDirectory() received a ITK_NULLPTR string");
     }
   std::string fname = name;
   this->SetInputDirectory(fname);

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkReflectImageFilter_hxx
-#define __itkReflectImageFilter_hxx
+#ifndef itkReflectImageFilter_hxx
+#define itkReflectImageFilter_hxx
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkReflectImageFilter.h"

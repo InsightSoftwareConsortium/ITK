@@ -15,12 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageSeriesReader_hxx
-#define __itkImageSeriesReader_hxx
+#ifndef itkImageSeriesReader_hxx
+#define itkImageSeriesReader_hxx
 
 #include "itkImageSeriesReader.h"
 
-#include "itkImageRegionIterator.h"
 #include "itkImageAlgorithm.h"
 #include "itkArray.h"
 #include "vnl/vnl_math.h"

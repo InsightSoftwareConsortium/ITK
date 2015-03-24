@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaArrowConverter_h
-#define __itkMetaArrowConverter_h
+#ifndef itkMetaArrowConverter_h
+#define itkMetaArrowConverter_h
 
 #include "itkMetaConverterBase.h"
 #include "itkArrowSpatialObject.h"
@@ -58,14 +58,14 @@ public:
   typedef MetaArrow                                     ArrowMetaObjectType;
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE;
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE;
 
 protected:
   /** Create the specific MetaObject for this class */
-  virtual MetaObjectType *CreateMetaObject();
+  virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaArrowConverter();
   ~MetaArrowConverter() {}

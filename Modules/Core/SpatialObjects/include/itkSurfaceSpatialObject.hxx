@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSurfaceSpatialObject_hxx
-#define __itkSurfaceSpatialObject_hxx
+#ifndef itkSurfaceSpatialObject_hxx
+#define itkSurfaceSpatialObject_hxx
 
 
 #include "itkSurfaceSpatialObject.h"

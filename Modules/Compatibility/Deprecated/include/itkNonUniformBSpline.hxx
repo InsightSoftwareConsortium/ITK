@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNonUniformBSpline_hxx
-#define __itkNonUniformBSpline_hxx
+#ifndef itkNonUniformBSpline_hxx
+#define itkNonUniformBSpline_hxx
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkNonUniformBSpline.h"

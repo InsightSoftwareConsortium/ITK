@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryThinningImageFilter_hxx
-#define __itkBinaryThinningImageFilter_hxx
+#ifndef itkBinaryThinningImageFilter_hxx
+#define itkBinaryThinningImageFilter_hxx
 
 #include <iostream>
 

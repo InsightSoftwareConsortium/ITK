@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRBFBackPropagationLearningFunction_hxx
-#define __itkRBFBackPropagationLearningFunction_hxx
+#ifndef itkRBFBackPropagationLearningFunction_hxx
+#define itkRBFBackPropagationLearningFunction_hxx
 
 #include "itkRBFBackPropagationLearningFunction.h"
 

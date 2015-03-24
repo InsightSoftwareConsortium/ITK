@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTanImageAdaptor_h
-#define __itkTanImageAdaptor_h
+#ifndef itkTanImageAdaptor_h
+#define itkTanImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 #include "vnl/vnl_math.h"

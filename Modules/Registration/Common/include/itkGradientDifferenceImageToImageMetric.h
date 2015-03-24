@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDifferenceImageToImageMetric_h
-#define __itkGradientDifferenceImageToImageMetric_h
+#ifndef itkGradientDifferenceImageToImageMetric_h
+#define itkGradientDifferenceImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
 
@@ -121,22 +121,21 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType  & derivative) const;
+                     DerivativeType  & derivative) const ITK_OVERRIDE;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const;
+  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & derivative) const;
+                             MeasureType & Value, DerivativeType & derivative) const ITK_OVERRIDE;
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void)
-  throw ( ExceptionObject );
+  virtual void Initialize(void) throw ( ExceptionObject ) ITK_OVERRIDE;
 
   /** Write gradient images to a files for debugging purposes. */
-  void WriteGradientImagesToFiles(void) const;
+  void WriteGradientImagesToFiles() const;
 
   /** Set/Get the value of Delta used for computing derivatives by finite
    * differences in the GetDerivative() method */
@@ -146,13 +145,13 @@ public:
 protected:
   GradientDifferenceImageToImageMetric();
   virtual ~GradientDifferenceImageToImageMetric() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute the range of the moved image gradients. */
-  void ComputeMovedGradientRange(void) const;
+  void ComputeMovedGradientRange() const;
 
   /** Compute the variance and range of the moving image gradients. */
-  void ComputeVariance(void) const;
+  void ComputeVariance() const;
 
   /** Compute the similarity measure using a specified subtraction factor. */
   MeasureType ComputeMeasure(const TransformParametersType & parameters,

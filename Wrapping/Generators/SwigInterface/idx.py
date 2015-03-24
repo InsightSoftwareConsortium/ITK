@@ -22,6 +22,16 @@ idxFilePath = sys.argv[4]
 
 sys.path.append(pygccxmlPath)
 import pygccxml
+import logging
+
+pygccxml.utils.loggers.cxx_parser.setLevel(logging.CRITICAL)
+
+def getType(v):
+    if hasattr(v, "type"):
+        return getType(v.type)
+    if hasattr(v, "declaration"):
+        return getType(v.declaration)
+    return v
 
 # the output file
 outputFile = StringIO()
@@ -44,7 +54,7 @@ module = os.path.splitext(os.path.basename(xmlFilePath))[0]
 # iterate over all the typedefs in the _cable_::wrappers namespace
 for typedef in wrappers_ns.typedefs():
     n = typedef.name
-    s = typedef.type.decl_string
+    s = getType(typedef).decl_string
     # drop the :: prefix - it make swig produce invalid code
     if s.startswith("::"):
         s = s[2:]

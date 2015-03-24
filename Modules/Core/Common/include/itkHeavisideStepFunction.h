@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHeavisideStepFunction_h
-#define __itkHeavisideStepFunction_h
+#ifndef itkHeavisideStepFunction_h
+#define itkHeavisideStepFunction_h
 
 #include "itkHeavisideStepFunctionBase.h"
 #include "itkNumericTraits.h"
@@ -73,10 +73,10 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  OutputType Evaluate(const InputType & input) const;
+  OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
 
   /** Evaluate the derivative at the specified input position */
-  OutputType EvaluateDerivative(const InputType & input) const;
+  OutputType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
 
 protected:
   HeavisideStepFunction();

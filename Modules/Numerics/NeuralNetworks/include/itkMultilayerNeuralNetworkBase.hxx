@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultilayerNeuralNetworkBase_hxx
-#define __itkMultilayerNeuralNetworkBase_hxx
+#ifndef itkMultilayerNeuralNetworkBase_hxx
+#define itkMultilayerNeuralNetworkBase_hxx
 
 #include "itkMultilayerNeuralNetworkBase.h"
 #include "itkErrorBackPropagationLearningFunctionBase.h"

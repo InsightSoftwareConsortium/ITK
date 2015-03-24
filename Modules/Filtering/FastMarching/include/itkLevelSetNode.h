@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetNode_h
-#define __itkLevelSetNode_h
+#ifndef itkLevelSetNode_h
+#define itkLevelSetNode_h
 
 #include "itkIndex.h"
 #include "itkImage.h"

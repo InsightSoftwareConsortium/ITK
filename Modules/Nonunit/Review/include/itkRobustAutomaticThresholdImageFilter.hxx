@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRobustAutomaticThresholdImageFilter_hxx
-#define __itkRobustAutomaticThresholdImageFilter_hxx
+#ifndef itkRobustAutomaticThresholdImageFilter_hxx
+#define itkRobustAutomaticThresholdImageFilter_hxx
 
 #include "itkRobustAutomaticThresholdImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"

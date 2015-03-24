@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLayerBase_h
-#define __itkLayerBase_h
+#ifndef itkLayerBase_h
+#define itkLayerBase_h
 
 #include <iostream>
 #include "itkTransferFunctionBase.h"

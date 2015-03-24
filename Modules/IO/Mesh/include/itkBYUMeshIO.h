@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkBYUMeshIO_h
-#define __itkBYUMeshIO_h
+#ifndef itkBYUMeshIO_h
+#define itkBYUMeshIO_h
 #include "ITKIOMeshExport.h"
 
 #include "itkMeshIOBase.h"

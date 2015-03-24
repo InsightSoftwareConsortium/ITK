@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodBinaryThresholdImageFunction_h
-#define __itkNeighborhoodBinaryThresholdImageFunction_h
+#ifndef itkNeighborhoodBinaryThresholdImageFunction_h
+#define itkNeighborhoodBinaryThresholdImageFunction_h
 
 #include "itkBinaryThresholdImageFunction.h"
 
@@ -87,10 +87,10 @@ public:
   itkGetConstReferenceMacro(Radius, InputSizeType);
 
   /** Evalulate the function at specified index */
-  virtual bool EvaluateAtIndex(const IndexType & index) const;
+  virtual bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at non-integer positions */
-  virtual bool Evaluate(const PointType & point) const
+  virtual bool Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -99,7 +99,7 @@ public:
   }
 
   virtual bool EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const
+    const ContinuousIndexType & cindex) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -110,7 +110,7 @@ public:
 protected:
   NeighborhoodBinaryThresholdImageFunction();
   ~NeighborhoodBinaryThresholdImageFunction(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   NeighborhoodBinaryThresholdImageFunction(const Self &); //purposely not

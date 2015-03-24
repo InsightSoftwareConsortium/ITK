@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlFFTCommon_hxx
-#define __itkVnlFFTCommon_hxx
+#ifndef itkVnlFFTCommon_hxx
+#define itkVnlFFTCommon_hxx
 
 #include "itkVnlFFTCommon.h"
 
@@ -53,4 +53,4 @@ VnlFFTCommon::VnlFFTTransform< TImage >
 
 } // end namespace itk
 
-#endif // __itkVnlFFTCommon_hxx
+#endif // itkVnlFFTCommon_hxx

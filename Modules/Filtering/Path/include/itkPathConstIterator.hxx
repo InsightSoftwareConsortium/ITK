@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPathConstIterator_hxx
-#define __itkPathConstIterator_hxx
+#ifndef itkPathConstIterator_hxx
+#define itkPathConstIterator_hxx
 
 #include "itkPathConstIterator.h"
 #include "itkOffset.h"        // for operator++

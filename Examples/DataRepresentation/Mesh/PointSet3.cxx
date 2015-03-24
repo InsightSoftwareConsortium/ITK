@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{PointSet} class was designed to interact with the Image class.
+//  The \doxygen{PointSet} class was designed to interact with the \code{Image} class.
 //  For this reason it was found convenient to allow the points in the set to
 //  hold values that could be computed from images. The value associated with
 //  the point is referred as \code{PixelType} in order to make it consistent
@@ -261,5 +261,5 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }

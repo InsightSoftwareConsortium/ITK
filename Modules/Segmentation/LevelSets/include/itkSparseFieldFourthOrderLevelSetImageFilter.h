@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_h
-#define __itkSparseFieldFourthOrderLevelSetImageFilter_h
+#ifndef itkSparseFieldFourthOrderLevelSetImageFilter_h
+#define itkSparseFieldFourthOrderLevelSetImageFilter_h
 
 #include "itkNormalVectorDiffusionFunction.h"
 #include "itkImplicitManifoldNormalVectorFilter.h"
@@ -239,7 +239,7 @@ public:
 
   /** This overrides SparseFieldLevelSetImageFilter's SetNumberOfLayers to make
       sure we have enough layers to do what we need. */
-  virtual void SetNumberOfLayers(const unsigned int n)
+  virtual void SetNumberOfLayers(const unsigned int n) ITK_OVERRIDE
   {
     unsigned int nm = vnl_math_max (this->GetMinimumNumberOfLayers (), n);
 
@@ -252,7 +252,7 @@ public:
 
   /** This method first calls the Superclass InitializeIteration method. Then
       it determines whether ProcessNormals should be called. */
-  virtual void InitializeIteration()
+  virtual void InitializeIteration() ITK_OVERRIDE
   {
     Superclass::InitializeIteration();
     ValueType rmschange = this->GetRMSChange();
@@ -286,7 +286,7 @@ public:
 protected:
   SparseFieldFourthOrderLevelSetImageFilter();
   ~SparseFieldFourthOrderLevelSetImageFilter() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method computes curvature from normal vectors stored in a sparse
       image neighborhood. */

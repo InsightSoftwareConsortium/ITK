@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkMetaDataObjectBase_h
-#define __itkMetaDataObjectBase_h
+#ifndef itkMetaDataObjectBase_h
+#define itkMetaDataObjectBase_h
 
 #include "itkLightObject.h"
 #include <typeinfo>
@@ -84,4 +84,4 @@ private:
 };
 }
 
-#endif //__itkMetaDataObjectBase_h
+#endif //itkMetaDataObjectBase_h

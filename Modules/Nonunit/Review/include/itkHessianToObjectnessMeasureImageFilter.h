@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHessianToObjectnessMeasureImageFilter_h
-#define __itkHessianToObjectnessMeasureImageFilter_h
+#ifndef itkHessianToObjectnessMeasureImageFilter_h
+#define itkHessianToObjectnessMeasureImageFilter_h
 
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkImageToImageFilter.h"
@@ -133,11 +133,11 @@ public:
 protected:
   HessianToObjectnessMeasureImageFilter();
   ~HessianToObjectnessMeasureImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void BeforeThreadedGenerateData(void);
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   HessianToObjectnessMeasureImageFilter(const Self &); //purposely not

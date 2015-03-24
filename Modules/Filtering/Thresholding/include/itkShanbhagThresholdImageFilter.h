@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkShanbhagThresholdImageFilter_h
-#define __itkShanbhagThresholdImageFilter_h
+#ifndef itkShanbhagThresholdImageFilter_h
+#define itkShanbhagThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkShanbhagThresholdCalculator.h"

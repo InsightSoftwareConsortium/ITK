@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectFactory_h
-#define __itkSpatialObjectFactory_h
+#ifndef itkSpatialObjectFactory_h
+#define itkSpatialObjectFactory_h
 
 #include "itkSpatialObjectFactoryBase.h"
 

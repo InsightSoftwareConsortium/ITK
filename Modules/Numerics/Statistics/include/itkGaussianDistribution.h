@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianDistribution_h
-#define __itkGaussianDistribution_h
+#ifndef itkGaussianDistribution_h
+#define itkGaussianDistribution_h
 
 #include "itkProbabilityDistribution.h"
 
@@ -230,7 +230,7 @@ public:
   static double InverseCDF(double p, double mean, double variance);
 
 protected:
-  GaussianDistribution(void);
+  GaussianDistribution();
   virtual ~GaussianDistribution(void) {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

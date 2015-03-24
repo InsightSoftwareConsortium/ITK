@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorIndexSelectionCastImageFilter_h
-#define __itkVectorIndexSelectionCastImageFilter_h
+#ifndef itkVectorIndexSelectionCastImageFilter_h
+#define itkVectorIndexSelectionCastImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 
@@ -132,7 +132,7 @@ protected:
   VectorIndexSelectionCastImageFilter() {}
   virtual ~VectorIndexSelectionCastImageFilter() {}
 
-  virtual void BeforeThreadedGenerateData()
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE
   {
     const unsigned int index = this->GetIndex();
     const TInputImage *image = this->GetInput();

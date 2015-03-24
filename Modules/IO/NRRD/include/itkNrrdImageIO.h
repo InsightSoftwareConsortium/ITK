@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNrrdImageIO_h
-#define __itkNrrdImageIO_h
+#ifndef itkNrrdImageIO_h
+#define itkNrrdImageIO_h
 #include "ITKIONRRDExport.h"
 
 
@@ -93,4 +93,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkNrrdImageIO_h
+#endif // itkNrrdImageIO_h

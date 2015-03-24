@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkSpecialCoordinatesImage_hxx
-#define __itkSpecialCoordinatesImage_hxx
+#ifndef itkSpecialCoordinatesImage_hxx
+#define itkSpecialCoordinatesImage_hxx
 #include "itkSpecialCoordinatesImage.h"
 #include "itkProcessObject.h"
 

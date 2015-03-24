@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmartPointer_h
-#define __itkSmartPointer_h
+#ifndef itkSmartPointer_h
+#define itkSmartPointer_h
 
 #include <iostream>
 
@@ -86,9 +86,11 @@ public:
   operator ObjectType *() const
         { return m_Pointer; }
 
-  /** Test if the pointer has been initialized */
+  /** Test if the pointer is not NULL. */
   bool IsNotNull() const
   { return m_Pointer != ITK_SP_NULLPTR; }
+
+  /** Test if the pointer is NULL. */
   bool IsNull() const
   { return m_Pointer == ITK_SP_NULLPTR; }
 

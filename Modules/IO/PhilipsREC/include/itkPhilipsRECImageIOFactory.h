@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPhilipsRECImageIOFactory_h
-#define __itkPhilipsRECImageIOFactory_h
+#ifndef itkPhilipsRECImageIOFactory_h
+#define itkPhilipsRECImageIOFactory_h
 #include "ITKIOPhilipsRECExport.h"
 
 #include "itkObjectFactoryBase.h"
@@ -45,9 +45,9 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion(void) const;
+  virtual const char * GetITKSourceVersion() const ITK_OVERRIDE;
 
-  virtual const char * GetDescription(void) const;
+  virtual const char * GetDescription() const ITK_OVERRIDE;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

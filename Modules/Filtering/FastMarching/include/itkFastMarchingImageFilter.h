@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFastMarchingImageFilter_h
-#define __itkFastMarchingImageFilter_h
+#ifndef itkFastMarchingImageFilter_h
+#define itkFastMarchingImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -59,7 +59,7 @@ namespace itk
 
  * The speed function can be specified as a speed image or a
  * speed constant. The speed image is set using the method
- * SetInput(). If the speed image is NULL, a constant speed function
+ * SetInput(). If the speed image is ITK_NULLPTR, a constant speed function
  * is used and is specified using method the SetSpeedConstant().
  *
  * If the speed function is constant and of value one, fast marching results
@@ -77,10 +77,10 @@ namespace itk
  * are used if the user does not specify all the information.
  *
  * The output information is computed as follows.
- * If the speed image is NULL or if the OverrideOutputInformation is set to
+ * If the speed image is ITK_NULLPTR or if the OverrideOutputInformation is set to
  * true, the output information is set from user specified parameters. These
  * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing(), SetOutputDirection(),
- * and SetOutputOrigin(). Else if the speed image is not NULL, the output information
+ * and SetOutputOrigin(). Else if the speed image is not ITK_NULLPTR, the output information
  * is copied from the input speed image.
  *
  * Possible Improvements:
@@ -248,7 +248,7 @@ private:
     return m_LabelImage;
   }
 
-  /** Set the Speed Constant. If the Speed Image is NULL,
+  /** Set the Speed Constant. If the Speed Image is ITK_NULLPTR,
    * the SpeedConstant value is used for the whole level set.
    * By default, the SpeedConstant is set to 1.0. */
   void SetSpeedConstant(double value)
@@ -296,10 +296,10 @@ private:
   }
 
   /** The output largeset possible, spacing and origin is computed as follows.
-   * If the speed image is NULL or if the OverrideOutputInformation is true,
+   * If the speed image is ITK_NULLPTR or if the OverrideOutputInformation is true,
    * the output information is set from user specified parameters. These
    * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing(), SetOutputDirection(),
-   * and SetOutputOrigin(). Else if the speed image is not NULL, the output information
+   * and SetOutputOrigin(). Else if the speed image is not ITK_NULLPTR, the output information
    * is copied from the input speed image. */
   virtual void SetOutputSize(const OutputSizeType & size)
   { m_OutputRegion = size; }
@@ -333,7 +333,7 @@ private:
 protected:
   FastMarchingImageFilter();
   ~FastMarchingImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void Initialize(LevelSetImageType *);
 
@@ -346,12 +346,12 @@ protected:
   const AxisNodeType & GetNodeUsedInCalculation(unsigned int idx) const
   { return m_NodesUsed[idx]; }
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Generate the output image meta information. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   /** Get Large Value. This value is used to
       represent the concept of infinity for the time assigned to pixels that

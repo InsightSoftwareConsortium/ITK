@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkLoggerOutput_h
-#define __itkLoggerOutput_h
+#ifndef itkLoggerOutput_h
+#define itkLoggerOutput_h
 
 #include "itkOutputWindow.h"
 #include "itkLogger.h"
@@ -105,4 +105,4 @@ private:
 };
 } // end namespace itk
 
-#endif  // __itkLoggerOutput_h
+#endif  // itkLoggerOutput_h

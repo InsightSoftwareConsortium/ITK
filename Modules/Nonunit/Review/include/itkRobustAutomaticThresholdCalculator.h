@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRobustAutomaticThresholdCalculator_h
-#define __itkRobustAutomaticThresholdCalculator_h
+#ifndef itkRobustAutomaticThresholdCalculator_h
+#define itkRobustAutomaticThresholdCalculator_h
 
 #include "itkMacro.h"
 #include "itkImage.h"
@@ -98,7 +98,7 @@ public:
    * parameter and stores them in the object.  The values of these
    * moments and related parameters can then be retrieved by using
    * other methods of this object. */
-  void Compute(void);
+  void Compute();
 
   const InputPixelType & GetOutput() const;
 
@@ -125,4 +125,4 @@ private:
 #include "itkRobustAutomaticThresholdCalculator.hxx"
 #endif
 
-#endif /* __itkRobustAutomaticThresholdCalculator_h */
+#endif /* itkRobustAutomaticThresholdCalculator_h */

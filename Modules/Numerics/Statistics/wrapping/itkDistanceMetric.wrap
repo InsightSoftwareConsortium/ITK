@@ -1,5 +1,5 @@
 itk_wrap_class("itk::Statistics::DistanceMetric" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("${ITKM_VF${d}}"  "${ITKT_VF${d}}")
-  endforeach(d)
+  endforeach()
 itk_end_wrap_class()

@@ -60,16 +60,16 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
 
   virtual PixelType ComputeUpdate( const NeighborhoodType &, void *,
-                                   const FloatOffsetType & )
+                                   const FloatOffsetType & ) ITK_OVERRIDE
     { return 0; }
 
-  virtual TimeStepType ComputeGlobalTimeStep( void * ) const
+  virtual TimeStepType ComputeGlobalTimeStep( void * ) const ITK_OVERRIDE
     { return 0; }
 
-  virtual void *GetGlobalDataPointer() const
+  virtual void *GetGlobalDataPointer() const ITK_OVERRIDE
     { return ITK_NULLPTR; }
 
-  virtual void ReleaseGlobalDataPointer(void *) const {}
+  virtual void ReleaseGlobalDataPointer(void *) const ITK_OVERRIDE {}
 
 protected:
   DummyFunction() {}
@@ -110,7 +110,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
   bool passed = false;
   try
     {
-    std::cout << "Test when input is NULL." << std::endl;
+    std::cout << "Test when input is ITK_NULLPTR." << std::endl;
     filter->Update();
     }
   catch( itk::ExceptionObject& err )

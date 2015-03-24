@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTestDriverIncludeRequiredIOFactories_h
-#define __itkTestDriverIncludeRequiredIOFactories_h
+#ifndef itkTestDriverIncludeRequiredIOFactories_h
+#define itkTestDriverIncludeRequiredIOFactories_h
 
 #include "itkGDCMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaFEMObjectConverter_h
-#define __itkMetaFEMObjectConverter_h
+#ifndef itkMetaFEMObjectConverter_h
+#define itkMetaFEMObjectConverter_h
 
 
 #include "metaFEMObject.h"
@@ -68,14 +68,14 @@ public:
   typedef MetaFEMObject                                     FEMObjectMetaObjectType;
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE;
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE;
 
 protected:
   /** Create the specific MetaObject for this class */
-  virtual MetaObjectType *CreateMetaObject();
+  virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaFEMObjectConverter();
   ~MetaFEMObjectConverter() {}

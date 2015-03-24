@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement3DC0LinearHexahedron_h
-#define __itkFEMElement3DC0LinearHexahedron_h
+#ifndef itkFEMElement3DC0LinearHexahedron_h
+#define itkFEMElement3DC0LinearHexahedron_h
 
 #include "itkFEMElementStd.h"
 
@@ -114,4 +114,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement3DC0LinearHexahedron_h
+#endif  // #ifndef itkFEMElement3DC0LinearHexahedron_h

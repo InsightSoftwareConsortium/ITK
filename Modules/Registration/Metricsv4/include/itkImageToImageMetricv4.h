@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageToImageMetricv4_h
-#define __itkImageToImageMetricv4_h
+#ifndef itkImageToImageMetricv4_h
+#define itkImageToImageMetricv4_h
 
 #include "itkCovariantVector.h"
 #include "itkImageFunction.h"
@@ -360,7 +360,7 @@ public:
   typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
 
   /** Set fixed image*/
-  virtual void SetFixedObject( const ObjectType *object )
+  virtual void SetFixedObject( const ObjectType *object ) ITK_OVERRIDE
     {
     FixedImageType *image = dynamic_cast<FixedImageType *>( const_cast<ObjectType *>( object ) );
     if( image != ITK_NULLPTR )
@@ -374,7 +374,7 @@ public:
     }
 
   /** Set moving image*/
-  virtual void SetMovingObject( const ObjectType *object )
+  virtual void SetMovingObject( const ObjectType *object ) ITK_OVERRIDE
     {
     MovingImageType *image = dynamic_cast<MovingImageType *>( const_cast<ObjectType *>( object ) );
     if( image != ITK_NULLPTR )
@@ -485,7 +485,10 @@ public:
   itkGetModifiableObjectMacro(MovingImageGradientImage, MovingImageGradientImageType);
 
   /** Get number of valid points from most recent update */
-  itkGetConstMacro( NumberOfValidPoints, SizeValueType );
+  virtual SizeValueType GetNumberOfValidPoints() const ITK_OVERRIDE
+    {
+    return this->m_NumberOfValidPoints;
+    }
 
   /** Get the number of points in the domain used to evaluate
    * the metric. This will differ depending on whether a sampled
@@ -525,25 +528,25 @@ public:
    * before entering the registration loop, during which GetValue or
    * GetDerivative will be called repeatedly. It must be called again if
    * metric settings are changed before beginning a new registration. */
-  virtual void Initialize(void) throw ( itk::ExceptionObject );
+  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
 
-  virtual MeasureType GetValue() const;
+  virtual MeasureType GetValue() const ITK_OVERRIDE;
 
-  virtual void GetDerivative( DerivativeType & ) const;
+  virtual void GetDerivative( DerivativeType & ) const ITK_OVERRIDE;
 
   /** Calculate and return both the value for the metric and its derivative.
    * This calls the SparseGetValueAndDerivativeThreader if \c UsedFixedSampledPointSet
    * is true, and DenseGetValueAndDerivativeThreader otherwise.  The threaders
    * in turn call \c ProcessPoint on each point in the
    * domain to be examined. */
-  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const;
+  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE;
 
   /** Get the number of sampled fixed sampled points that are
    * deemed invalid during conversion to virtual domain in Initialize().
    * For informational purposes. */
   itkGetConstReferenceMacro(NumberOfSkippedFixedSampledPoints, SizeValueType);
 
-  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const
+  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const ITK_OVERRIDE
   {
     return true;
   }
@@ -551,7 +554,7 @@ public:
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  virtual MetricCategoryType GetMetricCategory() const
+  virtual MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
     {
     return Superclass::IMAGE_METRIC;
     }
@@ -629,8 +632,8 @@ protected:
 
   /** Initialize the default image gradient filters. This must only
    * be called once the fixed and moving images have been set. */
-  virtual void InitializeDefaultFixedImageGradientFilter(void);
-  virtual void InitializeDefaultMovingImageGradientFilter(void);
+  virtual void InitializeDefaultFixedImageGradientFilter();
+  virtual void InitializeDefaultMovingImageGradientFilter();
 
   /** Get accessor for flag to calculate derivative. */
   itkGetConstMacro( ComputeDerivative, bool );
@@ -680,7 +683,7 @@ protected:
    * the user-provided variable does not have to be passed around. It also enables
    * safely sharing a derivative object between metrics during multi-variate
    * analsys, for memory efficiency.
-   * Will be NULL if not set. */
+   * Will be ITK_NULLPTR if not set. */
   mutable DerivativeType *                m_DerivativeResult;
 
   /** Masks */
@@ -697,11 +700,11 @@ protected:
   ImageToImageMetricv4();
   virtual ~ImageToImageMetricv4();
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   /** Map the fixed point set samples to the virtual domain */
-  void MapFixedSampledPointSetToVirtual( void );
+  void MapFixedSampledPointSetToVirtual();
 
   /** Transform a point. Avoid cast if possible */
   void LocalTransformPoint(const typename FixedTransformType::OutputPointType &virtualPoint,

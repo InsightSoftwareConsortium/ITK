@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKImageIOFactory_h
-#define __itkDCMTKImageIOFactory_h
+#ifndef itkDCMTKImageIOFactory_h
+#define itkDCMTKImageIOFactory_h
 #include "ITKIODCMTKExport.h"
 
 #include "itkObjectFactoryBase.h"
@@ -38,9 +38,9 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion(void) const;
+  virtual const char * GetITKSourceVersion() const;
 
-  virtual const char * GetDescription(void) const;
+  virtual const char * GetDescription() const;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTIFFImageIO_h
-#define __itkTIFFImageIO_h
+#ifndef itkTIFFImageIO_h
+#define itkTIFFImageIO_h
 #include "ITKIOTIFFExport.h"
 
 #include "itkImageIOBase.h"
@@ -207,4 +207,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkTIFFImageIO_h
+#endif // itkTIFFImageIO_h

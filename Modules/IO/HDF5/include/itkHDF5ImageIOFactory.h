@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHDF5ImageIOFactory_h
-#define __itkHDF5ImageIOFactory_h
+#ifndef itkHDF5ImageIOFactory_h
+#define itkHDF5ImageIOFactory_h
 #include "ITKIOHDF5Export.h"
 
 

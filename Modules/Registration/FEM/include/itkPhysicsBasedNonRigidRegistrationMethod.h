@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkPhysicsBasedNonRigidRegistrationMethod_h
-#define __itkPhysicsBasedNonRigidRegistrationMethod_h
+#ifndef itkPhysicsBasedNonRigidRegistrationMethod_h
+#define itkPhysicsBasedNonRigidRegistrationMethod_h
 
 
 #include "itkMaskFeaturePointSelectionFilter.h"
@@ -160,8 +160,8 @@ public:
 protected:
   PhysicsBasedNonRigidRegistrationMethod();
   virtual ~PhysicsBasedNonRigidRegistrationMethod();
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
-  virtual void GenerateData();
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   //purposely not implemented

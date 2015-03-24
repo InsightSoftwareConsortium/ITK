@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelMapUtilities_h
-#define __itkLabelMapUtilities_h
+#ifndef itkLabelMapUtilities_h
+#define itkLabelMapUtilities_h
 
 /*
  *

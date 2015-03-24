@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_h
-#define __itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_h
+#ifndef itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_h
+#define itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_h
 
 #include "itkTransformParametersAdaptor.h"
 
@@ -181,15 +181,15 @@ public:
     }
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters();
+  virtual void AdaptTransformParameters() ITK_OVERRIDE;
 
-  virtual void SetRequiredFixedParameters( const ParametersType );
+  virtual void SetRequiredFixedParameters( const ParametersType ) ITK_OVERRIDE;
 
 protected:
   TimeVaryingBSplineVelocityFieldTransformParametersAdaptor();
   ~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor();
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   TimeVaryingBSplineVelocityFieldTransformParametersAdaptor( const Self & ); //purposely not implemented
@@ -213,4 +213,4 @@ private:
 #include "itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor.hxx"
 #endif
 
-#endif /* __itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_h */
+#endif /* itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_h */

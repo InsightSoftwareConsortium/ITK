@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVectorContainerToListSampleAdaptor_h
-#define __itkVectorContainerToListSampleAdaptor_h
+#ifndef itkVectorContainerToListSampleAdaptor_h
+#define itkVectorContainerToListSampleAdaptor_h
 
 #include <typeinfo>
 
@@ -86,17 +86,17 @@ public:
   itkGetConstObjectMacro(VectorContainer, VectorContainerType );
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const;
+  InstanceIdentifier Size() const ITK_OVERRIDE;
 
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
-  const MeasurementVectorType & GetMeasurementVector( InstanceIdentifier ) const;
+  const MeasurementVectorType & GetMeasurementVector( InstanceIdentifier ) const ITK_OVERRIDE;
 
   /** returns 1 as other subclasses of ListSampleBase does */
-  AbsoluteFrequencyType GetFrequency( InstanceIdentifier ) const;
+  AbsoluteFrequencyType GetFrequency( InstanceIdentifier ) const ITK_OVERRIDE;
 
   /** returns the size of this container */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
 
   /** \class ConstIterator
    * \ingroup ITKStatistics
@@ -250,7 +250,7 @@ protected:
   VectorContainerToListSampleAdaptor();
 
   virtual ~VectorContainerToListSampleAdaptor() {}
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   VectorContainerToListSampleAdaptor( const Self &  ); //purposely not implemented

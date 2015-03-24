@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageScanlineIterator_h
-#define __itkImageScanlineIterator_h
+#ifndef itkImageScanlineIterator_h
+#define itkImageScanlineIterator_h
 
 #include "itkImageScanlineConstIterator.h"
 
@@ -29,6 +29,8 @@ namespace itk
  *
  * The itk::ImageScanlineIterator is optimized for iteration speed and is the
  * first choice for pixel-wise operations on an image.
+ * This iterator is preferred over the older ImageRegionIterator even when knowledge
+ * of the current line state is not desired because of its speed.
  *
  * \sa ImageScanlineConstIterator
  * \sa ImageRegionIterator

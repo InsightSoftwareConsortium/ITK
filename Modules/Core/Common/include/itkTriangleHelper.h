@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTriangleHelper_h
-#define __itkTriangleHelper_h
+#ifndef itkTriangleHelper_h
+#define itkTriangleHelper_h
 
 #include "itkCrossHelper.h"
 

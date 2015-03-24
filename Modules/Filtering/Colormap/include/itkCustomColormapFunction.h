@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCustomColormapFunction_h
-#define __itkCustomColormapFunction_h
+#ifndef itkCustomColormapFunction_h
+#define itkCustomColormapFunction_h
 
 #include "itkColormapFunction.h"
 
@@ -61,7 +61,7 @@ public:
 
   typedef std::vector< RealType > ChannelType;
 
-  virtual RGBPixelType operator()(const TScalar &) const;
+  virtual RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
 
   void SetRedChannel(ChannelType red)
     {

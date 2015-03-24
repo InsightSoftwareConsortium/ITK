@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUScalarAnisotropicDiffusionFunction_h
-#define __itkGPUScalarAnisotropicDiffusionFunction_h
+#ifndef itkGPUScalarAnisotropicDiffusionFunction_h
+#define itkGPUScalarAnisotropicDiffusionFunction_h
 
 #include "itkGPUAnisotropicDiffusionFunction.h"
 
@@ -63,7 +63,7 @@ public:
   itkGetOpenCLSourceFromKernelMacro(GPUScalarAnisotropicDiffusionFunctionKernel);
 
   /** Compute average squared gradient of magnitude using the GPU */
-  virtual void GPUCalculateAverageGradientMagnitudeSquared(TImage *);
+  virtual void GPUCalculateAverageGradientMagnitudeSquared(TImage *) ITK_OVERRIDE;
 
 protected:
   GPUScalarAnisotropicDiffusionFunction();

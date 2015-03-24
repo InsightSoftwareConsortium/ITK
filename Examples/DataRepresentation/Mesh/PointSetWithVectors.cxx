@@ -49,7 +49,7 @@ int main(int, char *[])
   //    \caption[PointSet with Vectors as PixelType]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
   //  \end{floatingfigure}
   //
-  //  The Vector class is templated over the type used to represent
+  //  The \code{Vector} class is templated over the type used to represent
   //  the spatial coordinates and over the space dimension.  Since the
   //  PixelType is independent of the PointType, we are free to select any
   //  dimension for the vectors to be used as pixel type. However, for the
@@ -194,5 +194,5 @@ int main(int, char *[])
   //
   //  Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }

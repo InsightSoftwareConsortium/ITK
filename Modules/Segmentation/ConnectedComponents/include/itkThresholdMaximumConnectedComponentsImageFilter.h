@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkThresholdMaximumConnectedComponentsImageFilter_h
-#define __itkThresholdMaximumConnectedComponentsImageFilter_h
+#ifndef itkThresholdMaximumConnectedComponentsImageFilter_h
+#define itkThresholdMaximumConnectedComponentsImageFilter_h
 
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"
@@ -151,15 +151,15 @@ public:
 protected:
   ThresholdMaximumConnectedComponentsImageFilter();
   ~ThresholdMaximumConnectedComponentsImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
   /**
    * Runs a series of filters that thresholds the image,
    * dilates/erodes  for edge enhancement, and counts the number of
    * relabeled connected components */
-  SizeValueType ComputeConnectedComponents(void);
+  SizeValueType ComputeConnectedComponents();
 
 private:
 

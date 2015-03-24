@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumberToString_h
-#define __itkNumberToString_h
+#ifndef itkNumberToString_h
+#define itkNumberToString_h
 
 #include "double-conversion.h"
 #include "itkMacro.h"

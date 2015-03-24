@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkRegionFromReferenceLabelMapFilter_hxx
-#define __itkRegionFromReferenceLabelMapFilter_hxx
+#ifndef itkRegionFromReferenceLabelMapFilter_hxx
+#define itkRegionFromReferenceLabelMapFilter_hxx
 #include "itkRegionFromReferenceLabelMapFilter.h"
 
 namespace itk

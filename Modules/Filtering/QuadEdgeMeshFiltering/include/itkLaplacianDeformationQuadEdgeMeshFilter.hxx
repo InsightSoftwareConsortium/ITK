@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLaplacianDeformationQuadEdgeMeshFilter_hxx
-#define __itkLaplacianDeformationQuadEdgeMeshFilter_hxx
+#ifndef itkLaplacianDeformationQuadEdgeMeshFilter_hxx
+#define itkLaplacianDeformationQuadEdgeMeshFilter_hxx
 
 #include "itkLaplacianDeformationQuadEdgeMeshFilter.h"
 
@@ -25,7 +25,7 @@ namespace itk
 template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
 LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 ::LaplacianDeformationQuadEdgeMeshFilter():
-  m_CoefficientsMethod( NULL ), m_Order(1), m_AreaComputationType( NONE )
+  m_CoefficientsMethod( ITK_NULLPTR ), m_Order(1), m_AreaComputationType( NONE )
 {}
 
 template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >

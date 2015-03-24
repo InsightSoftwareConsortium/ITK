@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVector_h
-#define __itkVector_h
+#ifndef itkVector_h
+#define itkVector_h
 
 #include "itkFixedArray.h"
 
@@ -90,10 +90,10 @@ public:
   void SetVnlVector(const vnl_vector< T > &);
 
   /** Get a vnl_vector_ref referencing the same memory block. */
-  vnl_vector_ref< T > GetVnlVector(void);
+  vnl_vector_ref< T > GetVnlVector();
 
   /** Get a vnl_vector with a copy of the internal memory block. */
-  vnl_vector< T > GetVnlVector(void) const;
+  vnl_vector< T > GetVnlVector() const;
 
   /** Set a vnl_vector_ref referencing the same memory block.
    * \deprecated Use SetVnlVector() instead. */
@@ -110,8 +110,17 @@ public:
   /** Default constructor and copy constructors. */
   Vector():BaseArray() {}
 
-  /** Constructor to initialize entire vector to one value. */
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+  /** Constructor to initialize entire vector to one value.
+   * \warning Not intended to convert a scalar value into
+   * a Vector filled with that value.
+   * \deprecated */
   Vector(const ValueType & r);
+#else
+  /** Constructor to initialize entire vector to one value,
+   * if explicitly invoked. */
+  explicit Vector(const ValueType & r);
+#endif
 
   /** Pass-through constructor for the Array base class. */
   template< typename TVectorValueType >
@@ -207,17 +216,17 @@ public:
   { return !operator==(v); }
 
   /** Returns the Euclidean Norm of the vector  */
-  RealValueType GetNorm(void) const;
+  RealValueType GetNorm() const;
 
   /** Returns vector's Squared Euclidean Norm  */
-  RealValueType GetSquaredNorm(void) const;
+  RealValueType GetSquaredNorm() const;
 
   /** Returns the number of components in this vector type */
   static unsigned int GetNumberOfComponents() { return NVectorDimension; }
 
   /** Divides the vector components by the vector norm (when the norm is not
     * null). The norm used is returned. */
-  RealValueType Normalize(void);
+  RealValueType Normalize();
 
   void SetNthComponent(int c, const ComponentType & v)
   {  this->operator[](c) = v; }

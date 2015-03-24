@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAttributeSelectionLabelMapFilter_h
-#define __itkAttributeSelectionLabelMapFilter_h
+#ifndef itkAttributeSelectionLabelMapFilter_h
+#define itkAttributeSelectionLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
@@ -142,9 +142,9 @@ protected:
   AttributeSelectionLabelMapFilter();
   ~AttributeSelectionLabelMapFilter() {};
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   AttributeSelectionLabelMapFilter(const Self&); //purposely not implemented

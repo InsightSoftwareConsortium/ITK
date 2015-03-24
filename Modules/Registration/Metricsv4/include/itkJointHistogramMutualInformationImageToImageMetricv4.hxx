@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJointHistogramMutualInformationImageToImageMetricv4_hxx
-#define __itkJointHistogramMutualInformationImageToImageMetricv4_hxx
+#ifndef itkJointHistogramMutualInformationImageToImageMetricv4_hxx
+#define itkJointHistogramMutualInformationImageToImageMetricv4_hxx
 
 #include "itkCompensatedSummation.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"

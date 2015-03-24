@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRoundImageFilter_h
-#define __itkRoundImageFilter_h
+#ifndef itkRoundImageFilter_h
+#define itkRoundImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkMath.h"

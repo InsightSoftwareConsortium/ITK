@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVideoFileReader_h
-#define __itkVideoFileReader_h
+#ifndef itkVideoFileReader_h
+#define itkVideoFileReader_h
 
 #include "itkVideoSource.h"
 #include "itkVideoIOFactory.h"
@@ -85,7 +85,7 @@ public:
   itkGetMacro(IFrameSafe, bool);
 
   /** Set up the output information */
-  virtual void UpdateOutputInformation();
+  virtual void UpdateOutputInformation() ITK_OVERRIDE;
 
   /** Set the internal VideoIOBase pointer. This will generally be called by
    * the object that creates the RingBuffer (e.g. itk::VideoFileReader) */
@@ -109,12 +109,12 @@ protected:
   /**-PROTECTED METHODS------------------------------------------------------*/
   VideoFileReader();
   virtual ~VideoFileReader();
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Override TemporalStreamingGenerateData to generate output a single frame.
    * We don't override ThreadedGenerateData because we read whole frames one at
    * a time. As such, we have to handle the allocation of the frames here. */
-  virtual void TemporalStreamingGenerateData();
+  virtual void TemporalStreamingGenerateData() ITK_OVERRIDE;
 
   /** Convert buffer for output */
   void DoConvertBuffer(void* inputData, FrameOffsetType frameNumber);

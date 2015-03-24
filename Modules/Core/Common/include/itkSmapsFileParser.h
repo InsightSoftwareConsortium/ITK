@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSmapsFileParser_h
-#define __itkSmapsFileParser_h
+#ifndef itkSmapsFileParser_h
+#define itkSmapsFileParser_h
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
@@ -42,7 +42,7 @@ public:
   virtual ~MapRecord();
   /** Reset the record
   */
-  void Reset(void);
+  void Reset();
 
   /** Optional record name
   */
@@ -147,7 +147,7 @@ public:
 
 protected:
   /** Clear the content of the container */
-  void Reset(void);
+  void Reset();
 
 protected:
   typedef std::vector< MapRecord * > MapRecordVectorType;
@@ -234,7 +234,7 @@ public:
   /** ReRead the last parsed file to refresh the memory usage.
    *  Returns true if read from the default location "".
   */
-  bool Update(void);
+  bool Update();
 
   /** Returns the heap usage in kB of the process.
    *  If no file has been loaded yet, load a default file.
@@ -301,4 +301,4 @@ public:
 #include "itkSmapsFileParser.hxx"
 #endif
 
-#endif // __itkSmapsFileParser_h
+#endif // itkSmapsFileParser_h

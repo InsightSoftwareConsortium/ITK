@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTwoOutputExampleImageFilter_h
-#define __itkTwoOutputExampleImageFilter_h
+#ifndef itkTwoOutputExampleImageFilter_h
+#define itkTwoOutputExampleImageFilter_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 #include "itkImageToImageFilter.h"
@@ -107,7 +107,7 @@ public:
 protected:
   TwoOutputExampleImageFilter();
   ~TwoOutputExampleImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** TwoOutputExampleImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine

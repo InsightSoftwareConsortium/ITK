@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSTAPLEImageFilter_h
-#define __itkSTAPLEImageFilter_h
+#ifndef itkSTAPLEImageFilter_h
+#define itkSTAPLEImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include <vector>
@@ -232,9 +232,9 @@ protected:
   }
 
   virtual ~STAPLEImageFilter() {}
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream &, Indent) const;
+  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
 private:
   STAPLEImageFilter(const Self &); //purposely not implemented

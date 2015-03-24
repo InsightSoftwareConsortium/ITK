@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEquationLaplacianTerm_hxx
-#define __itkLevelSetEquationLaplacianTerm_hxx
+#ifndef itkLevelSetEquationLaplacianTerm_hxx
+#define itkLevelSetEquationLaplacianTerm_hxx
 
 #include "itkLevelSetEquationLaplacianTerm.h"
 

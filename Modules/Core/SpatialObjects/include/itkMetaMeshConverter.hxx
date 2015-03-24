@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaMeshConverter_hxx
-#define __itkMetaMeshConverter_hxx
+#ifndef itkMetaMeshConverter_hxx
+#define itkMetaMeshConverter_hxx
 
 #include "itkMetaMeshConverter.h"
 #include "itkTetrahedronCell.h"
@@ -242,7 +242,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 
   if ( !mesh )
     {
-    std::cout << "MetaMeshConverter : GetMesh() returned a NULL Pointer"
+    std::cout << "MetaMeshConverter : GetMesh() returned a ITK_NULLPTR Pointer"
               << std::endl;
     return ITK_NULLPTR;
     }

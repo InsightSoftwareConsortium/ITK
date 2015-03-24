@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef __itkFEMElement3DMembrane1DOF_h
-#define __itkFEMElement3DMembrane1DOF_h
+#ifndef itkFEMElement3DMembrane1DOF_h
+#define itkFEMElement3DMembrane1DOF_h
 
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
@@ -72,38 +72,38 @@ public:
   /**
    * Compute the B matrix.
    */
-  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const;
+  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const ITK_OVERRIDE;
 
   /**
    * Compute the D matrix.
    */
-  virtual void GetMaterialMatrix(MatrixType & D) const;
+  virtual void GetMaterialMatrix(MatrixType & D) const ITK_OVERRIDE;
 
   /**
    * Compute the mass matrix specific for 3D membrane problems.
    */
-  void GetMassMatrix(MatrixType & Me) const;
+  void GetMassMatrix(MatrixType & Me) const ITK_OVERRIDE;
 
   /**
    * 3D membrane elements have 3 DOFs per node.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const ITK_OVERRIDE
   {
     return 3;
   }
 
   /** Get the Stiffness matrix */
-  virtual void GetStiffnessMatrix(MatrixType & Ke) const;
+  virtual void GetStiffnessMatrix(MatrixType & Ke) const ITK_OVERRIDE;
 
   /**
    * Get/Set the material properties for the element
    */
-  virtual Material::ConstPointer GetMaterial(void) const
+  virtual Material::ConstPointer GetMaterial(void) const ITK_OVERRIDE
   {
     return dynamic_cast<const Material *>(m_Mat.GetPointer());
   }
 
-  virtual void SetMaterial(Material::ConstPointer mat_)
+  virtual void SetMaterial(Material::ConstPointer mat_) ITK_OVERRIDE
   {
     m_Mat =
       dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
@@ -111,7 +111,7 @@ public:
 
 protected:
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Pointer to material properties of the element
@@ -127,4 +127,4 @@ protected:
 #include "itkFEMElement3DMembrane1DOF.hxx"
 #endif
 
-#endif  // #ifndef __itkFEMElement3DMembrane1DOF_h
+#endif  // #ifndef itkFEMElement3DMembrane1DOF_h

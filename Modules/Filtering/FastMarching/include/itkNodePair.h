@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkNodePair_h
-#define __itkNodePair_h
+#ifndef itkNodePair_h
+#define itkNodePair_h
 
 #include <utility>
 
@@ -97,4 +97,4 @@ public:
   };
 
 }
-#endif // __itkFastMarchingTraits_h
+#endif // itkFastMarchingTraits_h

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDifferenceImageFilter_h
-#define __itkDifferenceImageFilter_h
+#ifndef itkDifferenceImageFilter_h
+#define itkDifferenceImageFilter_h
 
 #include "itkConfigure.h" //Needed to determine value of ITKV3_COMPATIBILITY
 #ifdef ITKV3_COMPATIBILITY

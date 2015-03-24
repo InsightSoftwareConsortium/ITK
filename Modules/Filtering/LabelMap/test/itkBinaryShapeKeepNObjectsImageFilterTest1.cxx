@@ -30,7 +30,7 @@ int itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
     {
     std::cerr << "Usage: " << argv[0] << " input output";
     std::cerr << " foreground background numberOfObjectsToKeep";
-    std::cerr << "reverseOrdering connectivity attribute" << std::endl;
+    std::cerr << " reverseOrdering connectivity attribute" << std::endl;
     return EXIT_FAILURE;
     }
 

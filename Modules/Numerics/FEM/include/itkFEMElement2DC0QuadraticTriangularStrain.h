@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement2DC0QuadraticTriangularStrain_h
-#define __itkFEMElement2DC0QuadraticTriangularStrain_h
+#ifndef itkFEMElement2DC0QuadraticTriangularStrain_h
+#define itkFEMElement2DC0QuadraticTriangularStrain_h
 
 #include "itkFEMElement2DC0QuadraticTriangular.h"
 #include "itkFEMElement2DStrain.h"
@@ -102,4 +102,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif  // #ifndef __itkFEMElement2DC0QuadraticTriangularStrain_h
+#endif  // #ifndef itkFEMElement2DC0QuadraticTriangularStrain_h

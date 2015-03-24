@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointBasedSpatialObject_hxx
-#define __itkPointBasedSpatialObject_hxx
+#ifndef itkPointBasedSpatialObject_hxx
+#define itkPointBasedSpatialObject_hxx
 
 
 #include "itkPointBasedSpatialObject.h"
@@ -49,4 +49,4 @@ PointBasedSpatialObject< TDimension >
 }
 } // end namespace itk
 
-#endif // end __itkPointBasedSpatialObject_hxx
+#endif // end itkPointBasedSpatialObject_hxx

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTranslationTransform_h
-#define __itkTranslationTransform_h
+#ifndef itkTranslationTransform_h
+#define itkTranslationTransform_h
 
 #include "itkTransform.h"
 #include "itkMacro.h"
@@ -134,15 +134,15 @@ public:
    * This method applies the affine transform given by self to a
    * given point or vector, returning the transformed point or
    * vector. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const;
+  OutputPointType     TransformPoint(const InputPointType  & point) const ITK_OVERRIDE;
 
   using Superclass::TransformVector;
-  OutputVectorType    TransformVector(const InputVectorType & vector) const;
+  OutputVectorType    TransformVector(const InputVectorType & vector) const ITK_OVERRIDE;
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const;
+  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE;
 
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const;
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const ITK_OVERRIDE;
 
   /** This method finds the point or vector that maps to a given
    * point or vector under the affine transformation defined by
@@ -174,7 +174,7 @@ public:
   virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity(void);
+  void SetIdentity();
 
   /** Return the number of parameters that completely define the Transfom  */
   virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE
@@ -272,4 +272,4 @@ TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputCovariantV
 #include "itkTranslationTransform.hxx"
 #endif
 
-#endif /* __itkTranslationTransform_h */
+#endif /* itkTranslationTransform_h */

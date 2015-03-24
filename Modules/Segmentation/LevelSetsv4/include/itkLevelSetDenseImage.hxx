@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetDenseImage_hxx
-#define __itkLevelSetDenseImage_hxx
+#ifndef itkLevelSetDenseImage_hxx
+#define itkLevelSetDenseImage_hxx
 
 #include "itkLevelSetDenseImage.h"
 
@@ -132,4 +132,4 @@ LevelSetDenseImage< TImage >
 }
 
 }
-#endif // __itkLevelSetDenseImage_hxx
+#endif // itkLevelSetDenseImage_hxx

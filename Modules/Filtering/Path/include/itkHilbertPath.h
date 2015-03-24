@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHilbertPath_h
-#define __itkHilbertPath_h
+#ifndef itkHilbertPath_h
+#define itkHilbertPath_h
 
 #include "itkPath.h"
 
@@ -85,12 +85,12 @@ public:
   // Functions inherited from Path
 
   /** Evaluate the hilbert path for the index at the specified path-position. */
-  virtual OutputType Evaluate( const PathIndexType & input ) const
+  virtual OutputType Evaluate( const PathIndexType & input ) const ITK_OVERRIDE
     {
     return this->m_HilbertPath[input];
     }
 
-  virtual OutputType EvaluateToIndex( const PathIndexType & input ) const
+  virtual OutputType EvaluateToIndex( const PathIndexType & input ) const ITK_OVERRIDE
     {
     return this->m_HilbertPath[input];
     }
@@ -102,7 +102,7 @@ public:
     }
 
   /** Where does the path end (what is the last valid input value)? */
-  virtual inline InputType EndOfInput() const
+  virtual inline InputType EndOfInput() const ITK_OVERRIDE
     {
     return this->NumberOfSteps();  // 0 is before the first step, 1 is after it
     }
@@ -110,7 +110,7 @@ public:
   /** Increment the input variable passed by reference and then return the
    * index stored at the new path-position.
    */
-  virtual OffsetType IncrementInput( InputType & itkNotUsed( input ) ) const
+  virtual OffsetType IncrementInput( InputType & itkNotUsed( input ) ) const ITK_OVERRIDE
     {
     itkExceptionMacro( "Not implemented." );
     }
@@ -129,7 +129,7 @@ public:
     }
 
   /** Needed for Pipelining */
-  virtual void Initialize( void )
+  virtual void Initialize( void ) ITK_OVERRIDE
     {
     this->Clear();
     this->ConstructHilbertPath();
@@ -150,7 +150,7 @@ public:
 protected:
   HilbertPath();
   ~HilbertPath() {}
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   HilbertPath( const Self & );     //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFrustumSpatialFunction_h
-#define __itkFrustumSpatialFunction_h
+#ifndef itkFrustumSpatialFunction_h
+#define itkFrustumSpatialFunction_h
 
 #include "itkInteriorExteriorSpatialFunction.h"
 
@@ -66,7 +66,7 @@ public:
     } FrustumRotationPlaneType;
 
   /** Evaluates the function at a given position */
-  OutputType Evaluate(const InputType & position) const;
+  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
 
   /** Get and set the center of the sphere */
   itkGetConstMacro(Apex, InputType);
@@ -99,7 +99,7 @@ public:
 protected:
   FrustumSpatialFunction();
   virtual ~FrustumSpatialFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FrustumSpatialFunction(const Self &); //purposely not implemented

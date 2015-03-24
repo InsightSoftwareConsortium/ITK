@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageClassifierBase_h
-#define __itkImageClassifierBase_h
+#ifndef itkImageClassifierBase_h
+#define itkImageClassifierBase_h
 
 #include "itkClassifierBase.h"
 #include "itkMacro.h"
@@ -140,13 +140,13 @@ public:
 protected:
   ImageClassifierBase();
   ~ImageClassifierBase();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Allocate memory for the classified image. */
   void Allocate();
 
   /** Starts the classification process */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ImageClassifierBase(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkObjectToObjectOptimizerBase_h
-#define __itkObjectToObjectOptimizerBase_h
+#ifndef itkObjectToObjectOptimizerBase_h
+#define itkObjectToObjectOptimizerBase_h
 
 #include "itkOptimizerParameters.h"
 #include "itkOptimizerParameterScalesEstimator.h"
@@ -156,7 +156,7 @@ public:
 
   /** Get whether the scales have been set. Returns
    *  true if <tt> m_Scales.Size() > 0 </tt> */
-  bool GetScalesInitialized( void ) const;
+  bool GetScalesInitialized() const;
 
   /** Set the scales estimator.
    *

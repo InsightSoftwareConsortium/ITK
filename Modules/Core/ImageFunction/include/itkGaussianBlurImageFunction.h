@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGaussianBlurImageFunction_h
-#define __itkGaussianBlurImageFunction_h
+#ifndef itkGaussianBlurImageFunction_h
+#define itkGaussianBlurImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianOperator.h"
@@ -96,14 +96,14 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** Evalutate the  in the given dimension at specified point */
-  virtual TOutput Evaluate(const PointType & point) const;
+  virtual TOutput Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified Index position */
-  virtual TOutput EvaluateAtIndex(const IndexType & index) const;
+  virtual TOutput EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified ContinousIndex position. */
   virtual TOutput EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const;
+    const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /** The standard deviation for the discrete Gaussian kernel.  Sets the
    * standard deviation independently for each dimension.
@@ -124,7 +124,7 @@ public:
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
-  virtual void SetInputImage(const InputImageType *ptr);
+  virtual void SetInputImage(const InputImageType *ptr) ITK_OVERRIDE;
 
   /** Set/Get the Extent of the array holding the coefficients
    *  of the Gaussian kernel computed by the GaussianOperator.
@@ -165,7 +165,7 @@ protected:
 
   void operator=(const Self &);
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void RecomputeGaussianKernel();
 

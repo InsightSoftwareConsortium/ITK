@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPointSetFunction_hxx
-#define __itkPointSetFunction_hxx
+#ifndef itkPointSetFunction_hxx
+#define itkPointSetFunction_hxx
 
 #include "itkPointSetFunction.h"
 

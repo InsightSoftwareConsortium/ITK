@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUUnaryFunctorImageFilter_h
-#define __itkGPUUnaryFunctorImageFilter_h
+#ifndef itkGPUUnaryFunctorImageFilter_h
+#define itkGPUUnaryFunctorImageFilter_h
 
 #include "itkGPUFunctorBase.h"
 #include "itkGPUInPlaceImageFilter.h"
@@ -87,9 +87,9 @@ protected:
   virtual ~GPUUnaryFunctorImageFilter() {
   }
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void GPUGenerateData();
+  virtual void GPUGenerateData() ITK_OVERRIDE;
 
   /** GPU kernel handle is defined here instead of in the child class
    * because GPUGenerateData() in this base class is used. */

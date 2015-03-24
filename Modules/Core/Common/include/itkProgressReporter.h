@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkProgressReporter_h
-#define __itkProgressReporter_h
+#ifndef itkProgressReporter_h
+#define itkProgressReporter_h
 
 #include "itkIntTypes.h"
 #include "itkProcessObject.h"

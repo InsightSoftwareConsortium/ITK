@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumericSeriesFileNames_h
-#define __itkNumericSeriesFileNames_h
+#ifndef itkNumericSeriesFileNames_h
+#define itkNumericSeriesFileNames_h
 #include "ITKIOImageBaseExport.h"
 
 
@@ -113,4 +113,4 @@ private:
 };
 } //namespace ITK
 
-#endif // __itkNumericSeriesFileNames_h
+#endif // itkNumericSeriesFileNames_h

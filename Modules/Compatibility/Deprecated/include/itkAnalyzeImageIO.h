@@ -27,8 +27,8 @@
  *         The University of Iowa 2002
  */
 
-#ifndef __itkAnalyzeImageIO_h
-#define __itkAnalyzeImageIO_h
+#ifndef itkAnalyzeImageIO_h
+#define itkAnalyzeImageIO_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 
@@ -198,7 +198,7 @@ private:
  * \author Hans J. Johnson
  * \return nothing
  */
-  void  DefineHeaderObjectDataType(void);
+  void  DefineHeaderObjectDataType();
 
 #if defined( REORIENT_IMAGES )
   void ReorientIfNecessary(char *p);
@@ -251,4 +251,4 @@ extern const char *const ANALYZE_CALIBRATIONUNITS;
 } // end namespace itk
 
 #endif //#if !defined( ITK_LEGACY_REMOVE )
-#endif // __itkAnalyzeImageIO_h
+#endif // itkAnalyzeImageIO_h

@@ -91,7 +91,7 @@ AmoebaOptimizerv4
 {
   this->m_Metric = metric;
 
-  //if cost function is NULL this will throw an exception when the pointer is dereferenced
+  //if cost function is ITK_NULLPTR this will throw an exception when the pointer is dereferenced
   const unsigned int numberOfParameters = metric->GetNumberOfParameters();
 
   // assign to vnl cost-function adaptor

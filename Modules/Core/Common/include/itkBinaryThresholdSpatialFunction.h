@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryThresholdSpatialFunction_h
-#define __itkBinaryThresholdSpatialFunction_h
+#ifndef itkBinaryThresholdSpatialFunction_h
+#define itkBinaryThresholdSpatialFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkImageBase.h"
@@ -85,13 +85,13 @@ public:
   itkGetModifiableObjectMacro(Function, FunctionType);
 
   /** Evaluate the function at a given position. */
-  virtual OutputType Evaluate(const InputType & point) const;
+  virtual OutputType Evaluate(const InputType & point) const ITK_OVERRIDE;
 
 protected:
 
   BinaryThresholdSpatialFunction();
   ~BinaryThresholdSpatialFunction();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   FunctionOutputType m_LowerThreshold;
   FunctionOutputType m_UpperThreshold;

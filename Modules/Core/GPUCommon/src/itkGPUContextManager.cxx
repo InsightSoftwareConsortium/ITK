@@ -21,11 +21,11 @@
 namespace itk
 {
 // static variable initialization
-GPUContextManager* GPUContextManager::m_Instance = NULL;
+GPUContextManager* GPUContextManager::m_Instance = ITK_NULLPTR;
 
 GPUContextManager* GPUContextManager::GetInstance()
 {
-  if(m_Instance == NULL)
+  if(m_Instance == ITK_NULLPTR)
     {
     m_Instance = new GPUContextManager();
     }
@@ -34,9 +34,9 @@ GPUContextManager* GPUContextManager::GetInstance()
 
 void GPUContextManager::DestroyInstance()
 {
-std::cout << "Context is destroyed" << std::endl;
-  delete m_Instance;
-  m_Instance = NULL;
+  m_Instance->Delete();
+  m_Instance = ITK_NULLPTR;
+  itkDebugStatement(std::cout << "OpenCL context is destroyed." << std::endl);
 }
 
 GPUContextManager::GPUContextManager()
@@ -44,12 +44,12 @@ GPUContextManager::GPUContextManager()
   cl_int errid;
 
   // Get the platforms
-  errid = clGetPlatformIDs(0, NULL, &m_NumberOfPlatforms);
+  errid = clGetPlatformIDs(0, ITK_NULLPTR, &m_NumberOfPlatforms);
   OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
 
   // Get NVIDIA platform by default
   m_Platform = OpenCLSelectPlatform("NVIDIA");
-  assert(m_Platform != NULL);
+  assert(m_Platform != ITK_NULLPTR);
 
   cl_device_type devType = CL_DEVICE_TYPE_GPU;//CL_DEVICE_TYPE_CPU;//
 
@@ -57,8 +57,8 @@ GPUContextManager::GPUContextManager()
   m_Devices = OpenCLGetAvailableDevices(m_Platform, devType, &m_NumberOfDevices);
 
   // create context
-  m_Context = clCreateContext(0, m_NumberOfDevices, m_Devices, NULL, NULL, &errid);
-//   m_Context = clCreateContext(0, m_NumberOfDevices, m_Devices, clLogMessagesToStdoutAPPLE, NULL, &errid);
+  m_Context = clCreateContext(ITK_NULLPTR, m_NumberOfDevices, m_Devices, ITK_NULLPTR, ITK_NULLPTR, &errid);
+//   m_Context = clCreateContext(0, m_NumberOfDevices, m_Devices, clLogMessagesToStdoutAPPLE, ITK_NULLPTR, &errid);
 
   OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
 
@@ -79,6 +79,19 @@ GPUContextManager::GPUContextManager()
 
 GPUContextManager::~GPUContextManager()
 {
+  cl_int errid;
+  for(unsigned int i=0; i<m_NumberOfDevices; i++)
+    {
+    errid = clReleaseCommandQueue(m_CommandQueue[i]);
+    OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
+    }
+  free(m_CommandQueue);
+  errid = clReleaseContext(m_Context);
+  OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
+  if(m_NumberOfDevices > 0)
+    {
+    free(m_Devices);
+    }
 }
 
 cl_command_queue GPUContextManager::GetCommandQueue(int i)

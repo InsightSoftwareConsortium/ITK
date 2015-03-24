@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkChainCodeToFourierSeriesPathFilter_h
-#define __itkChainCodeToFourierSeriesPathFilter_h
+#ifndef itkChainCodeToFourierSeriesPathFilter_h
+#define itkChainCodeToFourierSeriesPathFilter_h
 
 #include "itkPathToPathFilter.h"
 #include "itkOffset.h"
@@ -79,9 +79,9 @@ public:
 protected:
   ChainCodeToFourierSeriesPathFilter();
   virtual ~ChainCodeToFourierSeriesPathFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   ChainCodeToFourierSeriesPathFilter(const Self &); //purposely not implemented

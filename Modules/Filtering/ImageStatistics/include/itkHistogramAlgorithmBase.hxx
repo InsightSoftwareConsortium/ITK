@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHistogramAlgorithmBase_hxx
-#define __itkHistogramAlgorithmBase_hxx
+#ifndef itkHistogramAlgorithmBase_hxx
+#define itkHistogramAlgorithmBase_hxx
 
 #include "itkHistogramAlgorithmBase.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMaskToNarrowBandPointSetFilter_hxx
-#define __itkBinaryMaskToNarrowBandPointSetFilter_hxx
+#ifndef itkBinaryMaskToNarrowBandPointSetFilter_hxx
+#define itkBinaryMaskToNarrowBandPointSetFilter_hxx
 
 #include "itkBinaryMaskToNarrowBandPointSetFilter.h"
 #include "itkNumericTraits.h"

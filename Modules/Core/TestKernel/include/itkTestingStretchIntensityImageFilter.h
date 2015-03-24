@@ -15,8 +15,8 @@
    *  limitations under the License.
    *
    *=========================================================================*/
-  #ifndef __itkTestingStretchIntensityImageFilter_h
-  #define __itkTestingStretchIntensityImageFilter_h
+  #ifndef itkTestingStretchIntensityImageFilter_h
+  #define itkTestingStretchIntensityImageFilter_h
 
   #include "itkUnaryFunctorImageFilter.h"
 
@@ -76,7 +76,7 @@ public:
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
   virtual void SetInput(const TInputImage *image);
-  const TInputImage * GetInput(void) const;
+  const TInputImage * GetInput() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -96,10 +96,10 @@ protected:
   virtual ~StretchIntensityImageFilter() {}
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData(void);
+  void BeforeThreadedGenerateData(void) ITK_OVERRIDE;
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
   typedef typename TInputImage::RegionType              InputImageRegionType;
@@ -112,7 +112,7 @@ protected:
    * portion of the output image specified by the parameter
    * "outputRegionForThread"
    */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   StretchIntensityImageFilter(const Self &); //purposely not implemented

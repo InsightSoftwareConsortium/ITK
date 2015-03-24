@@ -158,7 +158,7 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
 
   if ( filter->GetInput() != ITK_NULLPTR )
     {
-    std::cerr << "GetInput() should return NULL if the input \
+    std::cerr << "GetInput() should return ITK_NULLPTR if the input \
                      has not been set" << std::endl;
     return EXIT_FAILURE;
     }

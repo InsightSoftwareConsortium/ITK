@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHSVColormapFunction_h
-#define __itkHSVColormapFunction_h
+#ifndef itkHSVColormapFunction_h
+#define itkHSVColormapFunction_h
 
 #include "itkColormapFunction.h"
 
@@ -59,7 +59,7 @@ public:
   typedef typename Superclass::ScalarType   ScalarType;
   typedef typename Superclass::RealType     RealType;
 
-  virtual RGBPixelType operator()(const TScalar &) const;
+  virtual RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
 
 protected:
   HSVColormapFunction() {}

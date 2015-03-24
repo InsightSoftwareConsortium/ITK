@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAggregateLabelMapFilter_h
-#define __itkAggregateLabelMapFilter_h
+#ifndef itkAggregateLabelMapFilter_h
+#define itkAggregateLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 
@@ -83,9 +83,9 @@ protected:
   AggregateLabelMapFilter() {}
   ~AggregateLabelMapFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   AggregateLabelMapFilter(const Self &); //purposely not implemented

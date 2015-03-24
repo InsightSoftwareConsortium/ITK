@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMaximumProjectionImageFilter_h
-#define __itkMaximumProjectionImageFilter_h
+#ifndef itkMaximumProjectionImageFilter_h
+#define itkMaximumProjectionImageFilter_h
 
 #include "itkProjectionImageFilter.h"
 #include "itkConceptChecking.h"

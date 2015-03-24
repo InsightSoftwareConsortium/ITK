@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryPruningImageFilter_hxx
-#define __itkBinaryPruningImageFilter_hxx
+#ifndef itkBinaryPruningImageFilter_hxx
+#define itkBinaryPruningImageFilter_hxx
 
 #include <iostream>
 

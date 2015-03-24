@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHeavisideStepFunctionBase_h
-#define __itkHeavisideStepFunctionBase_h
+#ifndef itkHeavisideStepFunctionBase_h
+#define itkHeavisideStepFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkConceptChecking.h"
@@ -67,7 +67,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const = 0;
+  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE = 0;
 
   /** Evaluate the derivative at the specified input position */
   virtual OutputType EvaluateDerivative(const InputType & input) const = 0;

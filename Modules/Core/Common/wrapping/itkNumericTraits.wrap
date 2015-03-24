@@ -20,7 +20,7 @@ itk_wrap_class(std::numeric_limits EXPLICIT_SPECIALIZATION)
   # the basic types
   foreach(t UC US UI UL SC SS SI SL F D LD B)
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach(t)
+  endforeach()
 itk_end_wrap_class()
 
 
@@ -28,11 +28,11 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   # the basic types
   foreach(t UC US UI UL SC SS SI SL F D LD B)
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach(t)
+  endforeach()
 
 #  foreach(t ${WRAP_ITK_COMPLEX_REAL})
 #    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-#  endforeach(t)
+#  endforeach()
 
   # the ITK types
 
@@ -40,14 +40,14 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   UNIQUE(rgbs "RGBUC;RGBAUC;RGBAF;${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
   foreach(t ${WRAP_ITK_RGB} ${WRAP_ITK_RGBA})
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach(t)
+  endforeach()
 
   # covariant vector
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
       itk_wrap_template("${ITKM_${t}${d}}" "${ITKT_${t}${d}}")
-    endforeach(t)
-  endforeach(d)
+    endforeach()
+  endforeach()
 
   # vector, as in WrapITKTypes.cmake
   UNIQUE(vector_sizes "1;${ITK_WRAP_DIMS};6")
@@ -55,8 +55,8 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   foreach(d ${vector_sizes})
     foreach(t ${vector_types})
       ADD_TEMPLATE("${ITKM_V${t}${d}}" "${ITKT_V${t}${d}}")
-    endforeach(t)
-  endforeach(d)
+    endforeach()
+  endforeach()
 
   # fixed array, as in WrapITKTypes.cmake
   set(dims ${ITK_WRAP_DIMS})
@@ -64,8 +64,8 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
     math(EXPR d2 "${d} * 2")
     # for itk::SymmetricSecondRankTensor
     math(EXPR d3 "${d} * (${d} + 1) / 2")
-    set(dims ${dims} ${d2} ${d3})
-  endforeach(d)
+    list(APPEND dims ${d2} ${d3})
+  endforeach()
   UNIQUE(array_sizes "${dims};1;3;4;6")
   # make sure that 1-D FixedArrays are wrapped. Also wrap for each selected
   # image dimension.
@@ -84,7 +84,7 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
     ADD_TEMPLATE("${ITKM_FASC${d}}" "${ITKT_FASC${d}}")
     # this one is not defined in itkNumerictTraitsFixedArrayPixel.h
     # ADD_TEMPLATE("${ITKM_FAB${d}}"  "${ITKT_FAB${d}}")
-  endforeach(d)
+  endforeach()
 
   # variable length vector, as in WrapITKTypes.cmake
   UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC")

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLoadGrav_h
-#define __itkFEMLoadGrav_h
+#ifndef itkFEMLoadGrav_h
+#define itkFEMLoadGrav_h
 
 #include "itkFEMLoadElementBase.h"
 #include "vnl/vnl_vector.h"
@@ -113,4 +113,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadGrav_h
+#endif // #ifndef itkFEMLoadGrav_h

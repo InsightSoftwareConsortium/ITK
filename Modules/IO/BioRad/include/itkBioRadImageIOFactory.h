@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBioRadImageIOFactory_h
-#define __itkBioRadImageIOFactory_h
+#ifndef itkBioRadImageIOFactory_h
+#define itkBioRadImageIOFactory_h
 #include "ITKIOBioRadExport.h"
 
 #include "itkObjectFactoryBase.h"

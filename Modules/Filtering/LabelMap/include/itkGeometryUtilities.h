@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGeometryUtilities_h
-#define __itkGeometryUtilities_h
+#ifndef itkGeometryUtilities_h
+#define itkGeometryUtilities_h
 
 #include "itkObject.h"
 

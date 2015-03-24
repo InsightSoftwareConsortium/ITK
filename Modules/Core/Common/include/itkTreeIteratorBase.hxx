@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTreeIteratorBase_hxx
-#define __itkTreeIteratorBase_hxx
+#ifndef itkTreeIteratorBase_hxx
+#define itkTreeIteratorBase_hxx
 
 #include "itkTreeChangeEvent.h"
 
@@ -495,7 +495,7 @@ TreeIteratorBase< TTreeType >::Remove()
     {
     m_Root = ITK_NULLPTR;
     m_Tree->SetRoot( (TreeNodeType *)ITK_NULLPTR );
-    // this won't do anything if root is already != NULL  ==> root cannot be
+    // this won't do anything if root is already != ITK_NULLPTR  ==> root cannot be
     // removed
     }
 

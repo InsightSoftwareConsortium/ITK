@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMLoadEdge_h
-#define __itkFEMLoadEdge_h
+#ifndef itkFEMLoadEdge_h
+#define itkFEMLoadEdge_h
 
 #include "itkFEMLoadElementBase.h"
 #include "vnl/vnl_matrix.h"
@@ -110,4 +110,4 @@ protected:
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadEdge_h
+#endif // #ifndef itkFEMLoadEdge_h

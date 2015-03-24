@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkShapeUniqueLabelMapFilter_h
-#define __itkShapeUniqueLabelMapFilter_h
+#ifndef itkShapeUniqueLabelMapFilter_h
+#define itkShapeUniqueLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkShapeLabelObjectAccessors.h"
@@ -107,7 +107,7 @@ protected:
   ShapeUniqueLabelMapFilter();
   ~ShapeUniqueLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor & accessor)
@@ -313,7 +313,7 @@ protected:
       }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   AttributeType m_Attribute;
 

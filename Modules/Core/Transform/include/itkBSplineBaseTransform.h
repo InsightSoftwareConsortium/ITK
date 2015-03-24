@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineBaseTransform_h
-#define __itkBSplineBaseTransform_h
+#ifndef itkBSplineBaseTransform_h
+#define itkBSplineBaseTransform_h
 
 #include <iostream>
 #include "itkTransform.h"
@@ -104,7 +104,7 @@ public:
    * NOTE: The transform domain must be set first.
    *
    */
-  void SetParameters( const ParametersType & parameters );
+  void SetParameters( const ParametersType & parameters ) ITK_OVERRIDE;
 
   /** This method sets the fixed parameters of the transform.
    * For a BSpline deformation transform, the fixed parameters are the
@@ -128,7 +128,7 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  virtual void SetFixedParameters( const ParametersType & parameters ) = 0;
+  virtual void SetFixedParameters( const ParametersType & parameters ) ITK_OVERRIDE = 0;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
@@ -146,7 +146,7 @@ public:
    * fixed parameters.
    * NOTE: The fixed parameters must be set first.
    */
-  void SetParametersByValue( const ParametersType & parameters );
+  void SetParametersByValue( const ParametersType & parameters ) ITK_OVERRIDE;
 
   /** This method can ONLY be invoked AFTER calling SetParameters().
    *  This restriction is due to the fact that the BSplineBaseTransform
@@ -159,10 +159,10 @@ public:
   void SetIdentity();
 
   /** Get the Transformation Parameters. */
-  virtual const ParametersType & GetParameters() const;
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Get the Transformation Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters() const;
+  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType           ParametersValueType;
@@ -201,7 +201,7 @@ public:
    * a converion to member variables for use in TransformPoint.
    * Derived classes should override to provide specialized behavior.
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 ) ITK_OVERRIDE;
 
   /** Typedefs for specifying the extent of the grid. */
   typedef ImageRegion<itkGetStaticConstMacro( SpaceDimension )> RegionType;
@@ -213,7 +213,7 @@ public:
   typedef typename ImageType::PointType     OriginType;
 
   /** Transform points by a BSpline deformable transformation. */
-  OutputPointType  TransformPoint( const InputPointType & point ) const;
+  OutputPointType  TransformPoint( const InputPointType & point ) const ITK_OVERRIDE;
 
   /** Interpolation weights function type. */
   typedef BSplineInterpolationWeightFunction<ScalarType,
@@ -246,14 +246,14 @@ public:
   /** Method to transform a vector -
    *  not applicable for this type of transform. */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector( const InputVectorType & ) const
+  virtual OutputVectorType TransformVector( const InputVectorType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Method not applicable for deformable transform." );
   }
 
   /** Method to transform a vnl_vector -
    *  not applicable for this type of transform */
-  virtual OutputVnlVectorType TransformVector( const InputVnlVectorType & ) const
+  virtual OutputVnlVectorType TransformVector( const InputVnlVectorType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Method not applicable for deformable transform. " );
   }
@@ -262,7 +262,7 @@ public:
    *  not applicable for this type of transform */
   using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType & ) const
+    const InputCovariantVectorType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Method not applicable for deformable transfrom. " );
   }
@@ -271,21 +271,21 @@ public:
   void ComputeJacobianFromBSplineWeightsWithRespectToPosition(
     const InputPointType &, WeightsType &, ParameterIndexArrayType & ) const;
 
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const = 0;
+  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const ITK_OVERRIDE = 0;
 
-  virtual void ComputeJacobianWithRespectToPosition( const InputPointType &, JacobianType & ) const
+  virtual void ComputeJacobianWithRespectToPosition( const InputPointType &, JacobianType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
   }
 
   /** Return the number of parameters that completely define the Transfom */
-  virtual NumberOfParametersType GetNumberOfParameters() const = 0;
+  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE = 0;
 
   /** Return the number of parameters per dimension */
   virtual NumberOfParametersType GetNumberOfParametersPerDimension() const = 0;
 
-  virtual TransformCategoryType GetTransformCategory() const
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Self::BSpline;
   }
@@ -298,14 +298,14 @@ public:
   typedef SizeType MeshSizeType;
 
   /** Return the number of local parameters */
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const
+  virtual NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
   {
     return this->GetNumberOfParameters();
   }
 
 protected:
   /** Print contents of an BSplineBaseTransform. */
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   BSplineBaseTransform();
   virtual ~BSplineBaseTransform();
@@ -373,4 +373,4 @@ private:
 #include "itkBSplineBaseTransform.hxx"
 #endif
 
-#endif /* __itkBSplineBaseTransform_h */
+#endif /* itkBSplineBaseTransform_h */

@@ -119,7 +119,7 @@ public:
   enum { SpaceDimension = 3 };
 
   /** Connect the MovingSpatialObject */
-  void SetMovingSpatialObject( const MovingSpatialObjectType * object)
+  void SetMovingSpatialObject( const MovingSpatialObjectType * object) ITK_OVERRIDE
     {
       if(!this->m_FixedImage)
         {
@@ -152,16 +152,16 @@ public:
     }
 
 
-  unsigned int GetNumberOfParameters(void) const  {return SpaceDimension;};
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE {return SpaceDimension;};
 
   /** Get the Derivatives of the Match Measure */
-  void GetDerivative(const ParametersType&, DerivativeType&) const
+  void GetDerivative(const ParametersType&, DerivativeType&) const ITK_OVERRIDE
     {
       return;
     }
 
   /** Get the Value for SingleValue Optimizers */
-  MeasureType    GetValue( const ParametersType & parameters ) const
+  MeasureType    GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
     {
       double value;
       this->m_Transform->SetParameters(parameters);
@@ -188,7 +188,7 @@ public:
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void GetValueAndDerivative( const ParametersType & parameters,
-                              MeasureType & Value, DerivativeType  & Derivative ) const
+                              MeasureType & Value, DerivativeType  & Derivative ) const ITK_OVERRIDE
     {
       Value = this->GetValue(parameters);
       this->GetDerivative(parameters,Derivative);

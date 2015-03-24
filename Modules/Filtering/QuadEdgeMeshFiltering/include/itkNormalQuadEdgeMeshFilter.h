@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNormalQuadEdgeMeshFilter_h
-#define __itkNormalQuadEdgeMeshFilter_h
+#ifndef itkNormalQuadEdgeMeshFilter_h
+#define itkNormalQuadEdgeMeshFilter_h
 
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
@@ -128,7 +128,7 @@ public:
 protected:
   NormalQuadEdgeMeshFilter();
   ~NormalQuadEdgeMeshFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   WeightType m_Weight;
 
@@ -169,7 +169,7 @@ protected:
   * filter! Something must be done in the class
   * itkQuadEdgeMeshToQuadEdgeMeshFilter.
   */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   NormalQuadEdgeMeshFilter (const Self &);

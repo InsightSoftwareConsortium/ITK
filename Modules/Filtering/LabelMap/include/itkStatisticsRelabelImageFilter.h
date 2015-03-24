@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsRelabelImageFilter_h
-#define __itkStatisticsRelabelImageFilter_h
+#ifndef itkStatisticsRelabelImageFilter_h
+#define itkStatisticsRelabelImageFilter_h
 
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkStatisticsLabelMapFilter.h"
@@ -157,19 +157,19 @@ public:
 protected:
   StatisticsRelabelImageFilter();
   ~StatisticsRelabelImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** StatisticsRelabelImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** StatisticsRelabelImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsRelabelImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLineCell_hxx
-#define __itkLineCell_hxx
+#ifndef itkLineCell_hxx
+#define itkLineCell_hxx
 #include "itkLineCell.h"
 
 namespace itk

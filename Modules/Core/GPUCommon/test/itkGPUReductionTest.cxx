@@ -74,5 +74,7 @@ int itkGPUReductionTest(int argc, char *argv[])
     std::cout << "Expected CPU sum to be " << numPixels << ", GPUReduction computed " << CPUsum << " which is wrong." << std::endl;
     status = EXIT_FAILURE;
   }
+  summer = ITK_NULLPTR; // explicit GPU object destruction test
+  itk::GPUContextManager::GetInstance()->DestroyInstance(); // GPUContextManager singleton destruction test
   return status;
 }

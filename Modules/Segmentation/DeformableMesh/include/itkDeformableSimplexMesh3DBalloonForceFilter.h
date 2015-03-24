@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DBalloonForceFilter_h
-#define __itkDeformableSimplexMesh3DBalloonForceFilter_h
+#ifndef itkDeformableSimplexMesh3DBalloonForceFilter_h
+#define itkDeformableSimplexMesh3DBalloonForceFilter_h
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkMesh.h"
@@ -98,12 +98,12 @@ protected:
   void operator=(const Self &)
   {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Compute the external force component
    */
-  virtual void ComputeExternalForce(SimplexMeshGeometry *data,const GradientImageType *gradientImage);
+  virtual void ComputeExternalForce(SimplexMeshGeometry *data,const GradientImageType *gradientImage) ITK_OVERRIDE;
 
   /** Parameters definitions. */
 
@@ -118,4 +118,4 @@ protected:
 #include "itkDeformableSimplexMesh3DBalloonForceFilter.hxx"
 #endif
 
-#endif //__itkDeformableSimplexMesh3DBalloonForceFilter_H
+#endif // itkDeformableSimplexMesh3DBalloonForceFilter_h

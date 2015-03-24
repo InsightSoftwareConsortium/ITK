@@ -44,7 +44,7 @@ int main(int argc, char * argv [] )
     {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage: PolyLineParametricPath  inputImageFileName" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex
@@ -76,7 +76,7 @@ int main(int argc, char * argv [] )
     {
     std::cout << "Problem reading the input image " << std::endl;
     std::cout << excp << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginCodeSnippet
@@ -104,5 +104,5 @@ int main(int argc, char * argv [] )
   path->AddVertex( cindex );
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

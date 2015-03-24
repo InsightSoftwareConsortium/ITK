@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageModelEstimatorBase_h
-#define __itkImageModelEstimatorBase_h
+#ifndef itkImageModelEstimatorBase_h
+#define itkImageModelEstimatorBase_h
 
 #include "itkLightProcessObject.h"
 

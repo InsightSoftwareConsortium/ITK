@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEigenAnalysis2DImageFilter_h
-#define __itkEigenAnalysis2DImageFilter_h
+#ifndef itkEigenAnalysis2DImageFilter_h
+#define itkEigenAnalysis2DImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -93,19 +93,19 @@ public:
   void SetInput3(TInputImage *image3);
 
   /** Get the Output image with the greatest eigenvalue */
-  EigenValueImageType * GetMaxEigenValue(void);
+  EigenValueImageType * GetMaxEigenValue();
 
   /** Get the Output image with the smallest eigenvalue */
-  EigenValueImageType * GetMinEigenValue(void);
+  EigenValueImageType * GetMinEigenValue();
 
   /** Get the Output image with the eigen vector associated with
    * the greatest eigen value */
-  EigenVectorImageType * GetMaxEigenVector(void);
+  EigenVectorImageType * GetMaxEigenVector();
 
   /**  Create the Output */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx);
+  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -118,7 +118,7 @@ protected:
   EigenAnalysis2DImageFilter();
   virtual ~EigenAnalysis2DImageFilter() {}
 
-  void GenerateData(void);
+  void GenerateData(void) ITK_OVERRIDE;
 
 private:
   EigenAnalysis2DImageFilter(const Self &); //purposely not implemented

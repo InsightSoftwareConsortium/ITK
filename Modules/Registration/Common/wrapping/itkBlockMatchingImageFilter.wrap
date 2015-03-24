@@ -7,9 +7,9 @@ if(has_d_3)
 
   itk_wrap_class("itk::PointSet" POINTER)
     itk_wrap_template("VF33DTVF333FFVF3"
-      "itk::Vector< float, 3u >, 3u, itk::DefaultStaticMeshTraits< itk::Vector< float, 3u >, 3u, 3u, float, float, itk::Vector< float, 3u > >")
+      "itk::Vector< float, 3 >, 3, itk::DefaultStaticMeshTraits< itk::Vector< float, 3 >, 3, 3, float, float, itk::Vector< float, 3 > >")
     itk_wrap_template("D3DTD33FFD"
-      "double, 3u, itk::DefaultStaticMeshTraits< double, 3u, 3u, float, float, double >")
+      "double, 3, itk::DefaultStaticMeshTraits< double, 3, 3, float, float, double >")
   itk_end_wrap_class()
 
 endif(has_d_3)

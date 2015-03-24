@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkImageBase_h
-#define __itkImageBase_h
+#ifndef itkImageBase_h
+#define itkImageBase_h
 
 #include "itkDataObject.h"
 
@@ -705,7 +705,7 @@ protected:
    *  This method does not call Modify because Initialization is
    *  called by ReleaseData and can not modify the MTime
    * \sa  ReleaseData, Initialize, SetBufferedRegion */
-  virtual void InitializeBufferedRegion(void);
+  virtual void InitializeBufferedRegion();
 
 private:
   ImageBase(const Self &);      //purposely not implemented

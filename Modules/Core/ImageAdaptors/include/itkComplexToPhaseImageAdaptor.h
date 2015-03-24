@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkComplexToPhaseImageAdaptor_h
-#define __itkComplexToPhaseImageAdaptor_h
+#ifndef itkComplexToPhaseImageAdaptor_h
+#define itkComplexToPhaseImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 #include <complex>

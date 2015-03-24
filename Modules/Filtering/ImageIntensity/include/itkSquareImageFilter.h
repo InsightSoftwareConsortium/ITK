@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSquareImageFilter_h
-#define __itkSquareImageFilter_h
+#ifndef itkSquareImageFilter_h
+#define itkSquareImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

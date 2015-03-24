@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDirectedHausdorffDistanceImageFilter_h
-#define __itkDirectedHausdorffDistanceImageFilter_h
+#ifndef itkDirectedHausdorffDistanceImageFilter_h
+#define itkDirectedHausdorffDistanceImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
@@ -114,10 +114,10 @@ public:
   void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1(void);
+  const InputImage1Type * GetInput1();
 
   /** Get the second input. */
-  const InputImage2Type * GetInput2(void);
+  const InputImage2Type * GetInput2();
 
   /** Set if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);
@@ -137,29 +137,29 @@ public:
 protected:
   DirectedHausdorffDistanceImageFilter();
   ~DirectedHausdorffDistanceImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Pass the input through unmodified. Do this by Grafting in the
    * AllocateOutputs method. */
-  void AllocateOutputs();
+  void AllocateOutputs() ITK_OVERRIDE;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Do final mean and variance computation from data accumulated in threads.
     */
-  void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const RegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data);
+  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
   DirectedHausdorffDistanceImageFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVnlFFTCommon_h
-#define __itkVnlFFTCommon_h
+#ifndef itkVnlFFTCommon_h
+#define itkVnlFFTCommon_h
 
 #include "vnl/algo/vnl_fft_base.h"
 
@@ -55,4 +55,4 @@ struct VnlFFTCommon
 #include "itkVnlFFTCommon.hxx"
 #endif
 
-#endif // __itkVnlFFTCommon_h
+#endif // itkVnlFFTCommon_h

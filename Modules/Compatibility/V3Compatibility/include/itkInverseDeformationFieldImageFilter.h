@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInverseDeformationFieldImageFilter_h
-#define __itkInverseDeformationFieldImageFilter_h
+#ifndef itkInverseDeformationFieldImageFilter_h
+#define itkInverseDeformationFieldImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkKernelTransform.h"
@@ -168,7 +168,7 @@ public:
   virtual void GenerateInputRequestedRegion();
 
   /** Method Compute the Modified Time based on changed to the components. */
-  unsigned long GetMTime(void) const;
+  unsigned long GetMTime() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -180,7 +180,7 @@ public:
 protected:
   InverseDeformationFieldImageFilter();
   ~InverseDeformationFieldImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * GenerateData() computes the internal KernelBase spline and resamples

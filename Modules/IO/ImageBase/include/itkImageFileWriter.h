@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageFileWriter_h
-#define __itkImageFileWriter_h
+#ifndef itkImageFileWriter_h
+#define itkImageFileWriter_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkProcessObject.h"
@@ -107,7 +107,7 @@ public:
   using Superclass::SetInput;
   void SetInput(const InputImageType *input);
 
-  const InputImageType * GetInput(void);
+  const InputImageType * GetInput();
 
   const InputImageType * GetInput(unsigned int idx);
 
@@ -143,9 +143,9 @@ public:
    * IORegion. If not set, then then the whole image is written.  Note
    * that the region will be cropped to fit the input image's
    * LargestPossibleRegion. */
-  virtual void Write(void);
+  virtual void Write();
 
-  /** Specify the region to write. If left NULL, then the whole image
+  /** Specify the region to write. If left ITK_NULLPTR, then the whole image
    * is written. */
   void SetIORegion(const ImageIORegion & region);
 
@@ -232,4 +232,4 @@ private:
 #include "itkImageIOFactoryRegisterManager.h"
 #endif
 
-#endif // __itkImageFileWriter_h
+#endif // itkImageFileWriter_h

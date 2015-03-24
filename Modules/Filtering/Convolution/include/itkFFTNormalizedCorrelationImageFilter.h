@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFFTNormalizedCorrelationImageFilter_h
-#define __itkFFTNormalizedCorrelationImageFilter_h
+#ifndef itkFFTNormalizedCorrelationImageFilter_h
+#define itkFFTNormalizedCorrelationImageFilter_h
 
 #include "itkMaskedFFTNormalizedCorrelationImageFilter.h"
 
@@ -129,10 +129,10 @@ public:
 protected:
   FFTNormalizedCorrelationImageFilter() {}
   virtual ~FFTNormalizedCorrelationImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Standard pipeline method.*/
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   FFTNormalizedCorrelationImageFilter(const Self&); //purposely not implemented

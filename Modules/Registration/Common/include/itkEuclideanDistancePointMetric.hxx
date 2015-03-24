@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkEuclideanDistancePointMetric_hxx
-#define __itkEuclideanDistancePointMetric_hxx
+#ifndef itkEuclideanDistancePointMetric_hxx
+#define itkEuclideanDistancePointMetric_hxx
 
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

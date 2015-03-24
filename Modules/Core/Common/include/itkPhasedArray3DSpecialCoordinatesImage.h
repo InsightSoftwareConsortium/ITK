@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPhasedArray3DSpecialCoordinatesImage_h
-#define __itkPhasedArray3DSpecialCoordinatesImage_h
+#ifndef itkPhasedArray3DSpecialCoordinatesImage_h
+#define itkPhasedArray3DSpecialCoordinatesImage_h
 
 #include "itkSpecialCoordinatesImage.h"
 #include "itkPoint.h"
@@ -348,7 +348,7 @@ protected:
   }
 
   virtual ~PhasedArray3DSpecialCoordinatesImage() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PhasedArray3DSpecialCoordinatesImage(const Self &); //purposely not

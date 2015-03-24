@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkAutoCropLabelMapFilter_h
-#define __itkAutoCropLabelMapFilter_h
+#ifndef itkAutoCropLabelMapFilter_h
+#define itkAutoCropLabelMapFilter_h
 
 #include "itkChangeRegionLabelMapFilter.h"
 
@@ -102,9 +102,9 @@ protected:
   AutoCropLabelMapFilter();
   ~AutoCropLabelMapFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   AutoCropLabelMapFilter(const Self &); //purposely not implemented

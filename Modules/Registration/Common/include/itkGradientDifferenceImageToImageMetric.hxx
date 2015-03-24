@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDifferenceImageToImageMetric_hxx
-#define __itkGradientDifferenceImageToImageMetric_hxx
+#ifndef itkGradientDifferenceImageToImageMetric_hxx
+#define itkGradientDifferenceImageToImageMetric_hxx
 
 #include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -63,8 +63,7 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::Initialize(void)
-throw ( ExceptionObject )
+::Initialize(void) throw ( ExceptionObject )
 {
   unsigned int iFilter;  // Index of Sobel filters for each dimension
 

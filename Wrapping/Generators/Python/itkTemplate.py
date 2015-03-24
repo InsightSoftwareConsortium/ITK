@@ -63,14 +63,15 @@ def normalizeName(name):
 
 class itkTemplate(object):
 
-    """This class manage access to avaible template arguments of C++ class
+    """This class manages access to available template arguments of a C++ class.
 
-    There is 2 ways to access types:
-    - with a dict interface. The user can manipulate template parameters nearly
-    as it do in c++, excepted that the available parameters sets are choosed at
-    build time. It is also possible, with the dict interface, to explore the
-    available parameters sets.
-    - with object attributes. The user can easily find the available parameters
+    There are two ways to access types:
+
+    1. With a dict interface. The user can manipulate template parameters
+    similarly to C++, with the exception that the available parameters sets are
+    chosen at compile time. It is also possible, with the dict interface, to
+    explore the available parameters sets.
+    2. With object attributes. The user can easily find the available parameters
     sets by pressing tab in interperter like ipython
     """
     __templates__ = {}
@@ -90,10 +91,10 @@ class itkTemplate(object):
         return cls.__named_templates__[name]
 
     def __add__(self, paramSetString, cl):
-        """add a new argument set and the resulting class to the template
+        """Add a new argument set and the resulting class to the template.
 
-        paramSetString is the c++ string which define the parameters set
-        cl is the class which correspond to the couple template-argument set
+        paramSetString is the C++ string which defines the parameters set.
+        cl is the class which corresponds to the couple template-argument set.
         """
         # recreate the full name and normalize it to avoid ambiguity
         normFullName = normalizeName(
@@ -163,9 +164,9 @@ class itkTemplate(object):
         self.__dict__[attributeName] = cl
 
     def __find_param__(self, paramSetString):
-        """find the parameters of the template
+        """Find the parameters of the template.
 
-        paramSetString is the c++ string which define the parameters set
+        paramSetString is the C++ string which defines the parameters set.
 
         __find_param__ returns a list of itk classes, itkCType, and/or numbers
         which correspond to the parameters described in paramSetString.
@@ -174,7 +175,7 @@ class itkTemplate(object):
         will display a warning. Registration order is important.
 
         This method is not static only to be able to display the template name
-        in the warning
+        in the warning.
         """
         # split the string in a list of parameters
         paramStrings = []
@@ -229,11 +230,11 @@ class itkTemplate(object):
         return parameters
 
     def __getitem__(self, parameters):
-        """return the class which correspond to the given template parameters
+        """Return the class which corresponds to the given template parameters.
 
         parameters can be:
             - a single parameter (Ex: itk.Index[2])
-            - a list of element (Ex: itk.Image[itk.UC, 2])
+            - a list of elements (Ex: itk.Image[itk.UC, 2])
         """
 
         isin = isinstance(parameters, types.TupleType)
@@ -265,7 +266,7 @@ class itkTemplate(object):
         return '<itkTemplate %s>' % self.__name__
 
     def __getattribute__(self, attr):
-        """Support for reading doxygen man pages to produce __doc__ strings"""
+        """Support for reading doxygen man pages to produce __doc__ strings."""
         root = itkTemplate.__doxygen_root__
         indoc = (attr == '__doc__')
         if indoc and root != "" and self.__name__.startswith('itk'):

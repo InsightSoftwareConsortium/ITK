@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkBinaryThresholdImageFilter_hxx
-#define __itkBinaryThresholdImageFilter_hxx
+#ifndef itkBinaryThresholdImageFilter_hxx
+#define itkBinaryThresholdImageFilter_hxx
 
 #include "itkBinaryThresholdImageFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiffusionTensor3DReconstructionImageFilter_h
-#define __itkDiffusionTensor3DReconstructionImageFilter_h
+#ifndef itkDiffusionTensor3DReconstructionImageFilter_h
+#define itkDiffusionTensor3DReconstructionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkSpatialObject.h"
@@ -279,14 +279,14 @@ public:
 protected:
   DiffusionTensor3DReconstructionImageFilter();
   ~DiffusionTensor3DReconstructionImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void ComputeTensorBasis();
 
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   void ThreadedGenerateData(const
-                            OutputImageRegionType & outputRegionForThread, ThreadIdType);
+                            OutputImageRegionType & outputRegionForThread, ThreadIdType) ITK_OVERRIDE;
 
   /** enum to indicate if the gradient image is specified as a single multi-
    * component image or as several separate images */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4_hxx
-#define __itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4_hxx
+#ifndef itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4_hxx
+#define itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4_hxx
 
 #include "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
 
@@ -31,10 +31,10 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
   m_KernelSigma( static_cast<RealType>( 10.0 ) ),
   m_CovarianceKNeighborhood( static_cast<unsigned int>( 5 ) ),
   m_EvaluationKNeighborhood( static_cast<unsigned int>( 50 ) ),
-  m_Alpha( static_cast<RealType>(1.0) ),
-  m_TotalNumberOfPoints(0),
-  m_Prefactor0(0.0),
-  m_Prefactor1(0.0)
+  m_Alpha( static_cast<RealType>( 1.0 ) ),
+  m_TotalNumberOfPoints( 0 ),
+  m_Prefactor0( 0.0 ),
+  m_Prefactor1( 0.0 )
 {
 }
 
@@ -109,8 +109,6 @@ void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::ComputeValueAndDerivative( const PointType & samplePoint, MeasureType & value, LocalDerivativeType & derivativeReturn, bool calcValue, bool calcDerivative ) const
 {
-
-
   if( calcDerivative )
     {
     derivativeReturn.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
@@ -139,7 +137,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
       }
     else
       {
-      value = -realOne * ( std::pow( probabilityStar, static_cast<RealType>( this->m_Alpha - realOne ) ) );
+      value = realOne * ( std::pow( probabilityStar, static_cast<RealType>( this->m_Alpha - realOne ) ) );
       }
     value *= this->m_Prefactor0;
     }
@@ -175,7 +173,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
         }
       else
         {
-        diffMean /= this->m_FixedDensityFunction->GetGaussian( neighbors[n] )->GetCovariance()(0, 0);
+        diffMean /= this->m_MovingDensityFunction->GetGaussian( neighbors[n] )->GetCovariance()( 0, 0 );
         }
 
       DerivativeValueType factor = this->m_Prefactor1 * gaussian / probabilityStarFactor;

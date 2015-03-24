@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultipleValuedNonLinearVnlOptimizer_h
-#define __itkMultipleValuedNonLinearVnlOptimizer_h
+#ifndef itkMultipleValuedNonLinearVnlOptimizer_h
+#define itkMultipleValuedNonLinearVnlOptimizer_h
 
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkMultipleValuedVnlCostFunctionAdaptor.h"
@@ -57,7 +57,7 @@ public:
    *  number of parameters is obtained at run-time from the itkCostFunction.
    *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  virtual void SetCostFunction(MultipleValuedCostFunction *costFunction) = 0;
+  virtual void SetCostFunction(MultipleValuedCostFunction *costFunction) ITK_OVERRIDE = 0;
 
   /**  Define if the Cost function should provide a customized
        Gradient computation or the gradient can be computed internally
@@ -96,13 +96,13 @@ protected:
 
   void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 
-  const CostFunctionAdaptorType * GetCostFunctionAdaptor(void) const;
+  const CostFunctionAdaptorType * GetCostFunctionAdaptor() const;
 
-  CostFunctionAdaptorType * GetCostFunctionAdaptor(void);
+  CostFunctionAdaptorType * GetCostFunctionAdaptor();
 
   /** The purpose of this method is to get around the lack of const
    *  correctness in vnl cost_functions and optimizers */
-  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor(void) const;
+  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor() const;
 
   /** Command observer that will interact with the ITKVNL cost-function
    * adaptor in order to generate iteration events. This will allow to overcome

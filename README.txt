@@ -4,14 +4,14 @@ ITK: The Insight Toolkit for Segmentation and Registration
 Links
 -----
 
-* Homepage: http://www.itk.org
-* Download: http://www.itk.org/ITK/resources/software.html
-* Mailing List: http://www.itk.org/ITK/help/mailing.html
-* Book: http://www.itk.org/ITK/help/book.html
-* Help: http://www.itk.org/ITK/help/help.html
+* Homepage: http://itk.org
+* Download: http://itk.org/ITK/resources/software.html
+* Mailing List: http://itk.org/ITK/help/mailing.html
+* Book: http://itk.org/ITK/help/book.html
+* Help: http://itk.org/ITK/help/help.html
 * Examples: http://itk.org/ITKExamples/
 * Bugtracker: https://issues.itk.org/
-* Submit a patch: http://www.itk.org/Wiki/ITK/Git/Develop
+* Submit a patch: http://itk.org/Wiki/ITK/Git/Develop
 
 
 About
@@ -26,7 +26,7 @@ correspondences between data. For example, in the medical environment, a
 CT scan may be aligned with a MRI scan in order to combine the information
 contained in both.
 
-The toolkit may be built from source using CMake (http://www.cmake.org).
+The toolkit may be built from source using CMake (http://cmake.org).
 
 
 Copyright

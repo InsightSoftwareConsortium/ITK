@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOutputDataObjectIterator_h
-#define __itkOutputDataObjectIterator_h
+#ifndef itkOutputDataObjectIterator_h
+#define itkOutputDataObjectIterator_h
 
 #include "itkDataObjectIterator.h"
 

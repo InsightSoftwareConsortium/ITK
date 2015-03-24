@@ -15,8 +15,8 @@
 *  limitations under the License.
 *
 *=========================================================================*/
-#ifndef __itkGPUImageDataManager_hxx
-#define __itkGPUImageDataManager_hxx
+#ifndef itkGPUImageDataManager_hxx
+#define itkGPUImageDataManager_hxx
 
 #include "itkGPUImageDataManager.h"
 #include "itkOpenCLUtil.h"
@@ -27,7 +27,7 @@ namespace itk
 template < typename ImageType >
 void GPUImageDataManager< ImageType >::SetImagePointer( typename ImageType::Pointer img )
 {
-  m_Image = img;
+  m_Image = img.GetPointer();
 
   typedef typename ImageType::RegionType RegionType;
   typedef typename ImageType::IndexType  IndexType;
@@ -76,15 +76,13 @@ void GPUImageDataManager< ImageType >::MakeCPUBufferUpToDate()
      * correctly managed. Therefore, we check the time stamp of
      * CPU and GPU data as well
      */
-    if( (m_IsCPUBufferDirty || (gpu_time > cpu_time) ) && m_GPUBuffer != NULL && m_CPUBuffer != NULL )
+    if( (m_IsCPUBufferDirty || (gpu_time > cpu_time) ) && m_GPUBuffer != ITK_NULLPTR && m_CPUBuffer != ITK_NULLPTR )
       {
       cl_int errid;
-#ifdef VERBOSE
-      std::cout << "GPU->CPU data copy" << std::endl;
-#endif
+      itkDebugMacro(<< "GPU->CPU data copy" );
       errid = clEnqueueReadBuffer(m_ContextManager->GetCommandQueue(
-                                    m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, NULL,
-                                  NULL);
+                                    m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR,
+                                  ITK_NULLPTR);
       OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
       m_Image->Modified();
@@ -115,15 +113,13 @@ void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
     * correctly managed. Therefore, we check the time stamp of
     * CPU and GPU data as well
     */
-    if( (m_IsGPUBufferDirty || (gpu_time < cpu_time) ) && m_CPUBuffer != NULL && m_GPUBuffer != NULL )
+    if( (m_IsGPUBufferDirty || (gpu_time < cpu_time) ) && m_CPUBuffer != ITK_NULLPTR && m_GPUBuffer != ITK_NULLPTR )
       {
       cl_int errid;
-#ifdef VERBOSE
-      std::cout << "CPU->GPU data copy" << std::endl;
-#endif
+      itkDebugMacro(<< "CPU->GPU data copy");
       errid = clEnqueueWriteBuffer(m_ContextManager->GetCommandQueue(
-                                     m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, NULL,
-                                   NULL);
+                                     m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR,
+                                   ITK_NULLPTR);
       OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
       this->SetTimeStamp( cpu_time_stamp );
@@ -134,18 +130,6 @@ void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
 
     m_Mutex.Unlock();
     }
-}
-
-template < typename ImageType >
-void GPUImageDataManager< ImageType >::Graft(const GPUDataManager* data)
-{
-  //std::cout << "GPU timestamp : " << this->GetMTime() << ", CPU timestamp : "
-  // << m_Image->GetMTime() << std::endl;
-
-  Superclass::Graft( data );
-
-  //std::cout << "GPU timestamp : " << this->GetMTime() << ", CPU timestamp : "
-  // << m_Image->GetMTime() << std::endl;
 }
 
 } // namespace itk

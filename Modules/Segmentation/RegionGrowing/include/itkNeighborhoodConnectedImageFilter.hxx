@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodConnectedImageFilter_hxx
-#define __itkNeighborhoodConnectedImageFilter_hxx
+#ifndef itkNeighborhoodConnectedImageFilter_hxx
+#define itkNeighborhoodConnectedImageFilter_hxx
 
 #include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkNeighborhoodBinaryThresholdImageFunction.h"

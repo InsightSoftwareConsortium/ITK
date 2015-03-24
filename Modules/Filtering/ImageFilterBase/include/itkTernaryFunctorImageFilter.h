@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTernaryFunctorImageFilter_h
-#define __itkTernaryFunctorImageFilter_h
+#ifndef itkTernaryFunctorImageFilter_h
+#define itkTernaryFunctorImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -138,7 +138,7 @@ protected:
 
   /** Validate the presence of all three inputs. If one or more inputs
    * are missing, throw an exception. */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** TernaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -151,7 +151,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                            ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   TernaryFunctorImageFilter(const Self &); //purposely not implemented

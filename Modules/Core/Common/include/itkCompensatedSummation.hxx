@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCompensatedSummation_hxx
-#define __itkCompensatedSummation_hxx
+#ifndef itkCompensatedSummation_hxx
+#define itkCompensatedSummation_hxx
 
 #include "itkCompensatedSummation.h"
 
@@ -26,7 +26,7 @@ namespace itk
 void ITKCommon_EXPORT CompensatedSummationAddElement( float& compensation, float& sum, const float& element );
 void ITKCommon_EXPORT CompensatedSummationAddElement( double& compensation, double& sum, const double& element );
 
-#ifndef __itkCompensatedSummation_cxx
+#ifndef itkCompensatedSummation_cxx
 // We try the looser pragma guards if we don't have an explicit instantiation.
 #ifdef __INTEL_COMPILER
 #pragma optimize("", off)
@@ -35,7 +35,7 @@ void ITKCommon_EXPORT CompensatedSummationAddElement( double& compensation, doub
 #pragma float_control(push)
 #pragma float_control( precise, on )
 #endif // _MSC_VER i.e. Microsoft Visual Studio
-#endif // not __itkCompensatedSummation_cxx
+#endif // not itkCompensatedSummation_cxx
 template <typename TFloat>
 /** A helper for the CompensatedSummation class. */
 void CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TFloat& element, int=0)
@@ -47,14 +47,14 @@ void CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TF
   compensation = static_cast<TFloat>( (tempSum - sum) - compensatedInput);
   sum = static_cast<TFloat>( tempSum );
 }
-#ifndef __itkCompensatedSummation_cxx
+#ifndef itkCompensatedSummation_cxx
 #ifdef __INTEL_COMPILER
 #pragma optimize("", on)
 #endif // __INTEL_COMPILER
 #ifdef _MSC_VER
 #pragma float_control(pop)
 #endif // _MSC_VER
-#endif // not __itkCompensatedSummation_cxx
+#endif // not itkCompensatedSummation_cxx
 
 template < typename TFloat >
 CompensatedSummation< TFloat >

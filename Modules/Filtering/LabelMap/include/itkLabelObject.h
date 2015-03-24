@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLabelObject_h
-#define __itkLabelObject_h
+#ifndef itkLabelObject_h
+#define itkLabelObject_h
 
 #include <deque>
 #include "itkLightObject.h"

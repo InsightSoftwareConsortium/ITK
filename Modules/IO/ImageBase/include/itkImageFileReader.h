@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkImageFileReader_h
-#define __itkImageFileReader_h
+#ifndef itkImageFileReader_h
+#define itkImageFileReader_h
 #include "ITKIOImageBaseExport.h"
 
 #include "itkImageIOBase.h"
@@ -140,14 +140,14 @@ public:
 
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
-  virtual void GenerateOutputInformation(void);
+  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
 
   /** Give the reader a chance to indicate that it will produce more
    * output than it was requested to produce. ImageFileReader cannot
    * currently read a portion of an image (since the ImageIO objects
    * cannot read a portion of an image), so the ImageFileReader must
    * enlarge the RequestedRegion to the size of the image on disk. */
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   /** Set the stream On or Off */
   itkSetMacro(UseStreaming, bool);
@@ -157,7 +157,7 @@ public:
 protected:
   ImageFileReader();
   ~ImageFileReader();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Convert a block of pixels from one type to another. */
   void DoConvertBuffer(void *buffer, size_t numberOfPixels);
@@ -170,7 +170,7 @@ protected:
   void TestFileExistanceAndReadability();
 
   /** Does the real work. */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   ImageIOBase::Pointer m_ImageIO;
 
@@ -199,4 +199,4 @@ private:
 #include "itkImageIOFactoryRegisterManager.h"
 #endif
 
-#endif // __itkImageFileReader_h
+#endif // itkImageFileReader_h

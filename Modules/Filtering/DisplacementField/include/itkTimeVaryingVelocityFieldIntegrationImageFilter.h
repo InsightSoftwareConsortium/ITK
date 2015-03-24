@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingVelocityFieldIntegrationImageFilter_h
-#define __itkTimeVaryingVelocityFieldIntegrationImageFilter_h
+#ifndef itkTimeVaryingVelocityFieldIntegrationImageFilter_h
+#define itkTimeVaryingVelocityFieldIntegrationImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -151,13 +151,13 @@ protected:
   TimeVaryingVelocityFieldIntegrationImageFilter();
   ~TimeVaryingVelocityFieldIntegrationImageFilter();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void ThreadedGenerateData( const OutputRegionType &, ThreadIdType );
+  virtual void ThreadedGenerateData( const OutputRegionType &, ThreadIdType ) ITK_OVERRIDE;
 
   VectorType IntegrateVelocityAtPoint( const PointType &initialSpatialPoint, const TimeVaryingVelocityFieldType * inputField );
 

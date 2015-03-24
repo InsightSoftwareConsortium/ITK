@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAttributeLabelObject_h
-#define __itkAttributeLabelObject_h
+#ifndef itkAttributeLabelObject_h
+#define itkAttributeLabelObject_h
 
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
@@ -114,7 +114,7 @@ public:
     }
 
 
-  virtual void CopyAttributesFrom( const LabelObjectType * lo )
+  virtual void CopyAttributesFrom( const LabelObjectType * lo ) ITK_OVERRIDE
     {
     Superclass::CopyAttributesFrom( lo );
 
@@ -134,7 +134,7 @@ protected:
     }
 
 
-  void PrintSelf(std::ostream& os, Indent indent) const
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
     {
     Superclass::PrintSelf( os, indent );
 

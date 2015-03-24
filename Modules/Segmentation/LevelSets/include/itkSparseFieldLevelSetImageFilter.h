@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSparseFieldLevelSetImageFilter_h
-#define __itkSparseFieldLevelSetImageFilter_h
+#ifndef itkSparseFieldLevelSetImageFilter_h
+#define itkSparseFieldLevelSetImageFilter_h
 
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"
@@ -326,7 +326,7 @@ public:
 protected:
   SparseFieldLevelSetImageFilter();
   ~SparseFieldLevelSetImageFilter();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**This function allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
@@ -342,7 +342,7 @@ protected:
   /**This method packages the output(s) into a consistent format.  The default
    * implementation produces a volume with the final solution values in the
    * sparse field, and inside and outside values elsewhere as appropriate. */
-  virtual void PostProcessOutput();
+  virtual void PostProcessOutput() ITK_OVERRIDE;
 
   /**This method pre-processes pixels inside and outside the sparse field
    * layers.  The default is to set them to positive and negative values,
@@ -351,24 +351,24 @@ protected:
   virtual void InitializeBackgroundPixels();
 
   /** Constructs the sparse field layers and initializes their values. */
-  void Initialize();
+  void Initialize() ITK_OVERRIDE;
 
   /** Copies the input to the output image.  Processing occurs on the output
    * image, so the data type of the output image determines the precision of
    * the calculations (i.e. double or float).  This method overrides the
    * parent class method to do some additional processing. */
-  void CopyInputToOutput();
+  void CopyInputToOutput() ITK_OVERRIDE;
 
   /** Reserves memory in the update buffer. Called before each iteration. */
-  void AllocateUpdateBuffer();
+  void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** Applies the update buffer values to the active layer and reconstructs the
    *  sparse field layers for the next iteration. */
-  void ApplyUpdate(const TimeStepType& dt);
+  void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
   /** Traverses the active layer list and calculates the change at these
    *  indices to be applied in the current iteration. */
-  TimeStepType CalculateChange();
+  TimeStepType CalculateChange() ITK_OVERRIDE;
 
   /** Initializes a layer of the sparse field using a previously initialized
    * layer. Builds the list of nodes in m_Layer[to] using m_Layer[from].

@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetEvolutionStoppingCriterion_h
-#define __itkLevelSetEvolutionStoppingCriterion_h
+#ifndef itkLevelSetEvolutionStoppingCriterion_h
+#define itkLevelSetEvolutionStoppingCriterion_h
 
 #include "itkStoppingCriterionBase.h"
 #include "itkNumericTraits.h"

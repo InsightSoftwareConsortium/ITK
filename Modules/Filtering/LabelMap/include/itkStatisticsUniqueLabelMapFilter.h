@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsUniqueLabelMapFilter_h
-#define __itkStatisticsUniqueLabelMapFilter_h
+#ifndef itkStatisticsUniqueLabelMapFilter_h
+#define itkStatisticsUniqueLabelMapFilter_h
 
 #include "itkShapeUniqueLabelMapFilter.h"
 #include "itkStatisticsLabelObject.h"
@@ -24,7 +24,9 @@
 namespace itk
 {
 /** \class StatisticsUniqueLabelMapFilter
- * \brief Remove some pixels in the label object according to the value of their statistics attribute to ensure that a pixel is not in to objects
+ * \brief Remove some pixels in the label object according to the value of
+ * their statistics attribute to ensure that a pixel is not in multiple
+ * objects.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
@@ -83,7 +85,7 @@ protected:
   StatisticsUniqueLabelMapFilter();
   ~StatisticsUniqueLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsUniqueLabelMapFilter(const Self &); //purposely not implemented

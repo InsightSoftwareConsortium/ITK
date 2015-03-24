@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureFlowImageFilter_h
-#define __itkCurvatureFlowImageFilter_h
+#ifndef itkCurvatureFlowImageFilter_h
+#define itkCurvatureFlowImageFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkCurvatureFlowFunction.h"
@@ -158,11 +158,11 @@ public:
 protected:
   CurvatureFlowImageFilter();
   ~CurvatureFlowImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
   {
     if ( this->GetElapsedIterations() == this->GetNumberOfIterations() )
       {
@@ -176,17 +176,17 @@ protected:
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** To support streaming, this filter produces a output which is
    * larger than the original requested region. The output is padding
    * by m_NumberOfIterations pixels on edge. */
-  virtual void EnlargeOutputRequestedRegion(DataObject *);
+  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
   /** Edge effects are taken care of by padding the output requested
    * region. As such, the input requested region needs to at
    * minimum the same size as the output requested region. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   CurvatureFlowImageFilter(const Self &); //purposely not implemented

@@ -80,7 +80,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueResult,
         DerivativeType &                  localDerivativeReturn,
-        const itk::ThreadIdType           itkNotUsed(threadId) ) const
+        const itk::ThreadIdType           itkNotUsed(threadId) ) const ITK_OVERRIDE
     {
     /* Just return some test values that can verify proper mechanics */
     metricValueResult = mappedFixedPixelValue + mappedMovingPixelValue;
@@ -160,7 +160,7 @@ protected:
     }
   virtual ~ImageToImageMetricv4TestMetric() {}
 
-  void PrintSelf(std::ostream& stream, itk::Indent indent) const
+  void PrintSelf(std::ostream& stream, itk::Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf( stream, indent );
   }

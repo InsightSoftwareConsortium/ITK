@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLinearInterpolateImageFunction_hxx
-#define __itkLinearInterpolateImageFunction_hxx
+#ifndef itkLinearInterpolateImageFunction_hxx
+#define itkLinearInterpolateImageFunction_hxx
 
 #include "itkConceptChecking.h"
 #include "itkLinearInterpolateImageFunction.h"

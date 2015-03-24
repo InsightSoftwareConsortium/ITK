@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGPUMeanImageFilter_hxx
-#define __itkGPUMeanImageFilter_hxx
+#ifndef itkGPUMeanImageFilter_hxx
+#define itkGPUMeanImageFilter_hxx
 
 #include "itkGPUMeanImageFilter.h"
 

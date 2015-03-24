@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresHistogramImageToImageMetric_h
-#define __itkMeanSquaresHistogramImageToImageMetric_h
+#ifndef itkMeanSquaresHistogramImageToImageMetric_h
+#define itkMeanSquaresHistogramImageToImageMetric_h
 
 #include "itkHistogramImageToImageMetric.h"
 
@@ -80,7 +80,7 @@ protected:
   virtual ~MeanSquaresHistogramImageToImageMetric(){}
 
   /** Evaluates the sum of squared differences from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
 private:
   MeanSquaresHistogramImageToImageMetric(Self const &); // Purposely not
@@ -94,4 +94,4 @@ private:
 #include "itkMeanSquaresHistogramImageToImageMetric.hxx"
 #endif
 
-#endif // __itkMeanSquaresHistogramImageToImageMetric_h
+#endif // itkMeanSquaresHistogramImageToImageMetric_h

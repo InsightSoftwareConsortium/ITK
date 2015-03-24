@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMedianProjectionImageFilter_h
-#define __itkMedianProjectionImageFilter_h
+#ifndef itkMedianProjectionImageFilter_h
+#define itkMedianProjectionImageFilter_h
 
 #include "itkProjectionImageFilter.h"
 #include "itkConceptChecking.h"

@@ -10,7 +10,9 @@ itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
 itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
 itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
 itkSyNImageRegistrationTest.cxx
+itkSyNPointSetRegistrationTest.cxx
 itkBSplineSyNImageRegistrationTest.cxx
+itkBSplineSyNPointSetRegistrationTest.cxx
 itkQuasiNewtonOptimizerv4RegistrationTest.cxx
 itkBSplineImageRegistrationTest.cxx
 )
@@ -86,6 +88,21 @@ itk_add_test(NAME itkSimplePointSetRegistrationTest
       itkSimplePointSetRegistrationTest
       )
 set_property(TEST itkSimplePointSetRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
+
+itk_add_test(NAME itkSyNPointSetRegistrationTest
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+      itkSyNPointSetRegistrationTest
+      )
+set_property(TEST itkSyNPointSetRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
+
+itk_add_test(NAME itkBSplineSyNPointSetRegistrationTest
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+      itkBSplineSyNPointSetRegistrationTest
+      )
+set_property(TEST itkBSplineSyNPointSetRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
+
 
 itk_add_test(NAME itkExponentialImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver

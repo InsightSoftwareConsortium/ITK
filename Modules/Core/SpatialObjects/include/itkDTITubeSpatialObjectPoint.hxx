@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDTITubeSpatialObjectPoint_hxx
-#define __itkDTITubeSpatialObjectPoint_hxx
+#ifndef itkDTITubeSpatialObjectPoint_hxx
+#define itkDTITubeSpatialObjectPoint_hxx
 
 #include "itkDTITubeSpatialObjectPoint.h"
 #include "itksys/SystemTools.hxx"

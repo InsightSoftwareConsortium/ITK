@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkKalmanLinearEstimator_h
-#define __itkKalmanLinearEstimator_h
+#ifndef itkKalmanLinearEstimator_h
+#define itkKalmanLinearEstimator_h
 
 #include "itkMacro.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiphaseDenseFiniteDifferenceImageFilter_hxx
-#define __itkMultiphaseDenseFiniteDifferenceImageFilter_hxx
+#ifndef itkMultiphaseDenseFiniteDifferenceImageFilter_hxx
+#define itkMultiphaseDenseFiniteDifferenceImageFilter_hxx
 
 #include "itkMultiphaseDenseFiniteDifferenceImageFilter.h"
 
@@ -62,7 +62,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 
     if ( !input || !output )
       {
-      itkExceptionMacro (<< "Either input and/or output is NULL.");
+      itkExceptionMacro (<< "Either input and/or output is ITK_NULLPTR.");
       }
 
     ImageRegionConstIterator< InputImageType > in( input, input->GetBufferedRegion() );

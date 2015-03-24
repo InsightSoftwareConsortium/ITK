@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVTKTetrahedralMeshReader_h
-#define __itkVTKTetrahedralMeshReader_h
+#ifndef itkVTKTetrahedralMeshReader_h
+#define itkVTKTetrahedralMeshReader_h
 
 #include "itkIntTypes.h"
 #include "itkMesh.h"
@@ -95,10 +95,10 @@ public:
 protected:
   VTKTetrahedralMeshReader();
   ~VTKTetrahedralMeshReader();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Reads the file */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   VTKTetrahedralMeshReader(const Self&); // purposely not implemented

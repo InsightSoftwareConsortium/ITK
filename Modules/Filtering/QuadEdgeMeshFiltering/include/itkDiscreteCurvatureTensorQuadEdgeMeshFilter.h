@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDiscreteCurvatureTensorQuadEdgeMeshFilter_h
-#define __itkDiscreteCurvatureTensorQuadEdgeMeshFilter_h
+#ifndef itkDiscreteCurvatureTensorQuadEdgeMeshFilter_h
+#define itkDiscreteCurvatureTensorQuadEdgeMeshFilter_h
 
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 

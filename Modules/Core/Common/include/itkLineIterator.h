@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLineIterator_h
-#define __itkLineIterator_h
+#ifndef itkLineIterator_h
+#define itkLineIterator_h
 
 #include "itkLineConstIterator.h"
 

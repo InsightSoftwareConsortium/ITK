@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSyNImageRegistrationMethod_hxx
-#define __itkSyNImageRegistrationMethod_hxx
+#ifndef itkSyNImageRegistrationMethod_hxx
+#define itkSyNImageRegistrationMethod_hxx
 
 #include "itkSyNImageRegistrationMethod.h"
 
@@ -35,8 +35,8 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::SyNImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-6 ),
@@ -50,19 +50,19 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   this->m_NumberOfIterationsPerLevel[2] = 40;
   this->m_DownsampleImagesForMetricDerivatives = true;
   this->m_AverageMidPointGradients = false;
-  this->m_FixedToMiddleTransform = NULL;
-  this->m_MovingToMiddleTransform = NULL;
+  this->m_FixedToMiddleTransform = ITK_NULLPTR;
+  this->m_MovingToMiddleTransform = ITK_NULLPTR;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::~SyNImageRegistrationMethod()
 {
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::InitializeRegistrationAtEachLevel( const SizeValueType level )
 {
   Superclass::InitializeRegistrationAtEachLevel( level );
@@ -78,16 +78,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       this->m_FixedToMiddleTransform = OutputTransformType::New();
       this->m_MovingToMiddleTransform = OutputTransformType::New();
 
-      typename VirtualImageType::ConstPointer virtualDomainImage;
-      typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
-      if( multiMetric )
-        {
-        virtualDomainImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
-        }
-      else
-        {
-        virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
-        }
+      VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
 
       const DisplacementVectorType zeroVector( 0.0 );
 
@@ -134,7 +125,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
          }
       else
         {
-        itkExceptionMacro("ERROR: Invalid state restoration.");
+        itkExceptionMacro( "Invalid state restoration." );
         }
       }
     }
@@ -150,24 +141,19 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 /*
  * Start the optimization at each level.  We just do a basic gradient descent operation.
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::StartOptimization()
 {
-  const DisplacementVectorType zeroVector( 0.0 );
-  typename VirtualImageType::ConstPointer virtualDomainImage;
-  typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
-  if( multiMetric )
+  VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
+
+  if( virtualDomainImage.IsNull() )
     {
-    virtualDomainImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
-    }
-  else
-    {
-    virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
+    itkExceptionMacro( "The virtual domain image is not found." );
     }
 
-  InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>(this->GetFixedInitialTransform());
+  InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
 
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<RealType> ConvergenceMonitoringType;
@@ -199,9 +185,14 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     MeasureType movingMetricValue = 0.0;
 
     DisplacementFieldPointer fixedToMiddleSmoothUpdateField = this->ComputeUpdateField(
-      this->m_FixedSmoothImages, fixedComposite, this->m_MovingSmoothImages, movingComposite, ITK_NULLPTR, movingMetricValue );
+      this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
+      this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
+      ITK_NULLPTR, movingMetricValue );
+
     DisplacementFieldPointer movingToMiddleSmoothUpdateField = this->ComputeUpdateField(
-      this->m_MovingSmoothImages, movingComposite, this->m_FixedSmoothImages, fixedComposite, ITK_NULLPTR, fixedMetricValue );
+      this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
+      this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
+      ITK_NULLPTR, fixedMetricValue );
 
     if ( this->m_AverageMidPointGradients )
       {
@@ -222,14 +213,16 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     fixedComposer->SetWarpingField( this->m_FixedToMiddleTransform->GetDisplacementField() );
     fixedComposer->Update();
 
-    DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp = this->GaussianSmoothDisplacementField( fixedComposer->GetOutput(), this->m_GaussianSmoothingVarianceForTheTotalField );
+    DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp = this->GaussianSmoothDisplacementField(
+      fixedComposer->GetOutput(), this->m_GaussianSmoothingVarianceForTheTotalField );
 
     typename ComposerType::Pointer movingComposer = ComposerType::New();
     movingComposer->SetDisplacementField( movingToMiddleSmoothUpdateField );
     movingComposer->SetWarpingField( this->m_MovingToMiddleTransform->GetDisplacementField() );
     movingComposer->Update();
 
-    DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp = this->GaussianSmoothDisplacementField( movingComposer->GetOutput(), this->m_GaussianSmoothingVarianceForTheTotalField );
+    DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp = this->GaussianSmoothDisplacementField(
+      movingComposer->GetOutput(), this->m_GaussianSmoothingVarianceForTheTotalField );
 
     // Iteratively estimate the inverse fields.
 
@@ -259,121 +252,165 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     }
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
-::ComputeUpdateField( const FixedImagesContainerType fixedImages, const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages,
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
+::ComputeUpdateField( const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
+  const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
+  const TransformBaseType * movingTransform, const FixedImageMaskType * mask, MeasureType & value )
+{
+  DisplacementFieldPointer metricGradientField = this->ComputeMetricGradientField(
+      fixedImages, fixedPointSets, fixedTransform, movingImages, movingPointSets, movingTransform, mask, value );
+
+  DisplacementFieldPointer updateField = this->GaussianSmoothDisplacementField( metricGradientField,
+    this->m_GaussianSmoothingVarianceForTheUpdateField );
+
+  DisplacementFieldPointer scaledUpdateField = this->ScaleUpdateField( updateField );
+
+  return scaledUpdateField;
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
+::ComputeMetricGradientField( const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
+  const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
   const TransformBaseType * movingTransform, const FixedImageMaskType * itkNotUsed( mask ), MeasureType & value )
 {
-  // pre calculate the voxel distance to be used in properly scaling the gradient.
-
-  typename VirtualImageType::ConstPointer virtualDomainImage;
   typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
+
+  VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
+
   if( multiMetric )
     {
-    virtualDomainImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
-    }
-  else
-    {
-    virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
-    }
-
-  if( !this->m_DownsampleImagesForMetricDerivatives )
-    {
-    if( multiMetric )
+    for( SizeValueType n = 0; n < multiMetric->GetNumberOfMetrics(); n++ )
       {
-      for( unsigned int n = 0; n < multiMetric->GetNumberOfMetrics(); n++ )
+      if( multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::POINT_SET_METRIC )
         {
-        typename ImageMetricType::Pointer metricQueue = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() );
-        if( metricQueue.IsNotNull() )
+        multiMetric->GetMetricQueue()[n]->SetFixedObject( fixedPointSets[n] );
+        multiMetric->GetMetricQueue()[n]->SetMovingObject( movingPointSets[n] );
+        multiMetric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+        multiMetric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
+
+        dynamic_cast<PointSetMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetCalculateValueAndDerivativeInTangentSpace( true );
+        }
+      else if( multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC )
+        {
+        if( !this->m_DownsampleImagesForMetricDerivatives )
           {
-          metricQueue->SetFixedImage( fixedImages[n] );
-          metricQueue->SetMovingImage( movingImages[n] );
+          multiMetric->GetMetricQueue()[n]->SetFixedObject( fixedImages[n] );
+          multiMetric->GetMetricQueue()[n]->SetMovingObject( movingImages[n] );
+
+          multiMetric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+          multiMetric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
           }
         else
           {
-          itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+          typedef ResampleImageFilter<FixedImageType, FixedImageType, RealType> FixedResamplerType;
+          typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
+          fixedResampler->SetInput( fixedImages[n] );
+          fixedResampler->SetTransform( fixedTransform );
+          fixedResampler->UseReferenceImageOn();
+          fixedResampler->SetReferenceImage( virtualDomainImage );
+          fixedResampler->SetDefaultPixelValue( 0 );
+          fixedResampler->Update();
+
+          typedef ResampleImageFilter<MovingImageType, MovingImageType, RealType> MovingResamplerType;
+          typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
+          movingResampler->SetInput( movingImages[n] );
+          movingResampler->SetTransform( movingTransform );
+          movingResampler->UseReferenceImageOn();
+          movingResampler->SetReferenceImage( virtualDomainImage );
+          movingResampler->SetDefaultPixelValue( 0 );
+          movingResampler->Update();
+
+          multiMetric->GetMetricQueue()[n]->SetFixedObject( fixedResampler->GetOutput() );
+          multiMetric->GetMetricQueue()[n]->SetMovingObject( movingResampler->GetOutput() );
           }
-        }
-      multiMetric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
-      multiMetric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
-      }
-    else
-      {
-      typename ImageMetricType::Pointer metric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
-      if( metric.IsNotNull() )
-        {
-        metric->SetFixedImage( fixedImages[0] );
-        metric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
-        metric->SetMovingImage( movingImages[0] );
-        metric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
         }
       else
         {
-        itkExceptionMacro("ERROR: Invalid metric conversion.");
+        itkExceptionMacro( "Invalid metric." );
         }
       }
     }
   else
     {
-    for( unsigned int n = 0; n < this->m_MovingSmoothImages.size(); n++ )
+    if( this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC )
       {
-      typedef ResampleImageFilter<MovingImageType, MovingImageType, RealType> MovingResamplerType;
-      typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
-      movingResampler->SetTransform( movingTransform );
-      movingResampler->SetInput( movingImages[n] );
-      movingResampler->SetSize( virtualDomainImage->GetRequestedRegion().GetSize() );
-      movingResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
-      movingResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
-      movingResampler->SetOutputDirection( virtualDomainImage->GetDirection() );
-      movingResampler->SetDefaultPixelValue( 0 );
-      movingResampler->Update();
+      this->m_Metric->SetFixedObject( fixedPointSets[0] );
+      this->m_Metric->SetMovingObject( movingPointSets[0] );
 
-      typedef ResampleImageFilter<FixedImageType, FixedImageType, RealType> FixedResamplerType;
-      typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
-      fixedResampler->SetTransform( fixedTransform );
-      fixedResampler->SetInput( fixedImages[n] );
-      fixedResampler->SetSize( virtualDomainImage->GetRequestedRegion().GetSize() );
-      fixedResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
-      fixedResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
-      fixedResampler->SetOutputDirection( virtualDomainImage->GetDirection() );
-      fixedResampler->SetDefaultPixelValue( 0 );
-      fixedResampler->Update();
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
 
-      if( multiMetric )
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetCalculateValueAndDerivativeInTangentSpace( true );
+      }
+    else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
+      {
+      if( !this->m_DownsampleImagesForMetricDerivatives )
         {
-        dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedImage( fixedResampler->GetOutput() );
-        dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetMovingImage( movingResampler->GetOutput() );
+        this->m_Metric->SetFixedObject( fixedImages[0] );
+        this->m_Metric->SetMovingObject( movingImages[0] );
+        dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+        dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
         }
       else
         {
-        dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedImage( fixedResampler->GetOutput() );
-        dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingImage( movingResampler->GetOutput() );
+        typedef ResampleImageFilter<FixedImageType, FixedImageType, RealType> FixedResamplerType;
+        typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
+        fixedResampler->SetInput( fixedImages[0] );
+        fixedResampler->SetTransform( fixedTransform );
+        fixedResampler->UseReferenceImageOn();
+        fixedResampler->SetReferenceImage( virtualDomainImage );
+        fixedResampler->SetDefaultPixelValue( 0 );
+        fixedResampler->Update();
+
+        typedef ResampleImageFilter<MovingImageType, MovingImageType, RealType> MovingResamplerType;
+        typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
+        movingResampler->SetInput( movingImages[0] );
+        movingResampler->SetTransform( movingTransform );
+        movingResampler->UseReferenceImageOn();
+        movingResampler->SetReferenceImage( virtualDomainImage );
+        movingResampler->SetDefaultPixelValue( 0 );
+        movingResampler->Update();
+
+        this->m_Metric->SetFixedObject( fixedResampler->GetOutput() );
+        this->m_Metric->SetMovingObject( movingResampler->GetOutput() );
         }
       }
+    else
+      {
+      itkExceptionMacro( "Invalid metric." );
+      }
+    }
 
+  if( this->m_DownsampleImagesForMetricDerivatives && this->m_Metric->GetMetricCategory() != MetricType::POINT_SET_METRIC )
+    {
     const DisplacementVectorType zeroVector( 0.0 );
 
     typename DisplacementFieldType::Pointer identityField = DisplacementFieldType::New();
     identityField->CopyInformation( virtualDomainImage );
-    identityField->SetRegions( virtualDomainImage->GetRequestedRegion() );
+    identityField->SetRegions( virtualDomainImage->GetLargestPossibleRegion() );
     identityField->Allocate();
     identityField->FillBuffer( zeroVector );
 
     DisplacementFieldTransformPointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
     identityDisplacementFieldTransform->SetDisplacementField( identityField );
+    identityDisplacementFieldTransform->SetInverseDisplacementField( identityField );
 
-    if( multiMetric )
+    if( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC )
       {
       multiMetric->SetFixedTransform( identityDisplacementFieldTransform );
       multiMetric->SetMovingTransform( identityDisplacementFieldTransform );
       }
-    else
+    else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
       {
       dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( identityDisplacementFieldTransform );
       dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( identityDisplacementFieldTransform );
       }
     }
+
   this->m_Metric->Initialize();
 
   typedef typename ImageMetricType::DerivativeType MetricDerivativeType;
@@ -401,23 +438,32 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   // we first need to convert to a displacement field to look
   // at the max norm of the field.
 
-  const SizeValueType numberOfPixels = static_cast<SizeValueType>( metricDerivative.Size() / ImageDimension );
-  const bool importFilterWillReleaseMemory = false;
+  typename DisplacementFieldType::Pointer gradientField = DisplacementFieldType::New();
+  gradientField->CopyInformation( virtualDomainImage );
+  gradientField->SetRegions( virtualDomainImage->GetRequestedRegion() );
+  gradientField->Allocate();
 
-  // Brad L. says I should feel bad about using a reinterpret_cast.  I do feel bad.
+  ImageRegionIterator<DisplacementFieldType> ItG( gradientField, gradientField->GetRequestedRegion() );
 
-  DisplacementVectorType *metricDerivativeFieldPointer = reinterpret_cast<DisplacementVectorType *>( metricDerivative.data_block() );
+  SizeValueType count = 0;
+  for( ItG.GoToBegin(); !ItG.IsAtEnd(); ++ItG )
+    {
+    DisplacementVectorType displacement;
+    for( SizeValueType d = 0; d < ImageDimension; d++ )
+      {
+      displacement[d] = metricDerivative[count++];
+      }
+    ItG.Set( displacement );
+    }
 
-  typedef ImportImageFilter<DisplacementVectorType, ImageDimension> ImporterType;
-  typename ImporterType::Pointer importer = ImporterType::New();
-  importer->SetImportPointer( metricDerivativeFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
-  importer->SetRegion( virtualDomainImage->GetBufferedRegion() );
-  importer->SetOrigin( virtualDomainImage->GetOrigin() );
-  importer->SetSpacing( virtualDomainImage->GetSpacing() );
-  importer->SetDirection( virtualDomainImage->GetDirection() );
-  importer->Update();
-  DisplacementFieldPointer updateField = this->GaussianSmoothDisplacementField( importer->GetOutput(), this->m_GaussianSmoothingVarianceForTheUpdateField );
+  return gradientField;
+}
 
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
+::ScaleUpdateField( const DisplacementFieldType * updateField )
+{
   typename DisplacementFieldType::SpacingType spacing = updateField->GetSpacing();
   ImageRegionConstIterator<DisplacementFieldType> ItF( updateField, updateField->GetLargestPossibleRegion() );
 
@@ -427,7 +473,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     DisplacementVectorType vector = ItF.Get();
 
     RealType localNorm = 0;
-    for( unsigned int d = 0; d < ImageDimension; d++ )
+    for( SizeValueType d = 0; d < ImageDimension; d++ )
       {
       localNorm += vnl_math_sqr( vector[d] / spacing[d] );
       }
@@ -439,7 +485,11 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       }
     }
 
-  RealType scale = this->m_LearningRate / maxNorm;
+  RealType scale = this->m_LearningRate;
+  if( maxNorm > NumericTraits<RealType>::ZeroValue() )
+    {
+    scale /= maxNorm;
+    }
 
   typedef Image<RealType, ImageDimension> RealImageType;
 
@@ -455,9 +505,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   return scaledUpdateField;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::InvertDisplacementField( const DisplacementFieldType * field, const DisplacementFieldType * inverseFieldEstimate )
 {
   typedef InvertDisplacementFieldImageFilter<DisplacementFieldType> InverterType;
@@ -475,9 +525,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   return inverseField;
 }
 
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
+typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::GaussianSmoothDisplacementField( const DisplacementFieldType * field, const RealType variance )
 {
   typedef ImageDuplicator<DisplacementFieldType> DuplicatorType;
@@ -498,7 +548,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   typedef VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType> GaussianSmoothingSmootherType;
   typename GaussianSmoothingSmootherType::Pointer smoother = GaussianSmoothingSmootherType::New();
 
-  for( unsigned int d = 0; d < ImageDimension; d++ )
+  for( SizeValueType d = 0; d < ImageDimension; d++ )
     {
     // smooth along this dimension
     gaussianSmoothingOperator.SetDirection( d );
@@ -570,9 +620,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 /*
  * Start the registration
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::GenerateData()
 {
   this->AllocateOutputs();
@@ -613,14 +663,14 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 /*
  * PrintSelf
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void
-SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
+SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Number of this->m_CurrentIterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
+  os << indent << "Number of current iterations per level: " << this->m_NumberOfIterationsPerLevel << std::endl;
   os << indent << "Learning rate: " << this->m_LearningRate << std::endl;
   os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;
   os << indent << "Convergence window size: " << this->m_ConvergenceWindowSize << std::endl;

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPipelineMonitorImageFilter_hxx
-#define __itkPipelineMonitorImageFilter_hxx
+#ifndef itkPipelineMonitorImageFilter_hxx
+#define itkPipelineMonitorImageFilter_hxx
 
 #include "itkPipelineMonitorImageFilter.h"
 
@@ -353,4 +353,4 @@ PipelineMonitorImageFilter<TImageType>
 
 }
 
-#endif //  __itkPipelineMonitorImageFilter_hxx
+#endif //  itkPipelineMonitorImageFilter_hxx

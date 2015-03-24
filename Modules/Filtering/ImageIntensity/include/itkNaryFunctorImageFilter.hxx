@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNaryFunctorImageFilter_hxx
-#define __itkNaryFunctorImageFilter_hxx
+#ifndef itkNaryFunctorImageFilter_hxx
+#define itkNaryFunctorImageFilter_hxx
 
 #include "itkNaryFunctorImageFilter.h"
 #include "itkImageScanlineIterator.h"

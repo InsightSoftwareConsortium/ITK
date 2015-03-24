@@ -25,8 +25,8 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef __itkProcessObject_h
-#define __itkProcessObject_h
+#ifndef itkProcessObject_h
+#define itkProcessObject_h
 
 #include "itkDataObject.h"
 #include "itkDomainThreader.h"
@@ -164,7 +164,7 @@ public:
 
   /** Get the size of the input container. This is not the number of
    * inputs that have valid  DataObject's assigned. If the Primary
-   * input is NULL it is not counted. Use
+   * input is ITK_NULLPTR it is not counted. Use
    * GetNumberOfValidRequiredInputs() to determine how many inputs are
    * non-null.
    */
@@ -442,7 +442,7 @@ protected:
   // Input Methods
   //
 
-  /** Return an input, NULL is returned if out of bounds or not set. */
+  /** Return an input, ITK_NULLPTR is returned if out of bounds or not set. */
   DataObject * GetInput(const DataObjectIdentifierType & key);
   const DataObject * GetInput(const DataObjectIdentifierType & key) const;
 
@@ -460,7 +460,7 @@ protected:
    * Subclasses make use of them for setting input. */
   virtual void SetNthInput(DataObjectPointerArraySizeType num, DataObject *input);
 
-  /** Sets first NULL indexed input, appends to the end otherwise */
+  /** Sets first ITK_NULLPTR indexed input, appends to the end otherwise */
   virtual void AddInput(DataObject *input);
 
   /** Push/Pop an indexed input of this process object. These methods allow a
@@ -477,7 +477,7 @@ protected:
    *
    *  If the input is the last indexed input the number of indexed
    *  inputs will be reduced by one. Otherwise, if the input is
-   *  required or an index it will be set to NULL.
+   *  required or an index it will be set to ITK_NULLPTR.
    */
   virtual void RemoveInput(const DataObjectIdentifierType & key);
   virtual void RemoveInput(DataObjectPointerArraySizeType);
@@ -497,7 +497,7 @@ protected:
   virtual void SetPrimaryInput(DataObject *input);
 
   /** Define the number of indexed inputs defined for this
-   * process. The new indexed inputs are considered to be NULL. If the
+   * process. The new indexed inputs are considered to be ITK_NULLPTR. If the
    * size is a reduction then those elements are removed.
    */
   void SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpatialObjectPoint_hxx
-#define __itkSpatialObjectPoint_hxx
+#ifndef itkSpatialObjectPoint_hxx
+#define itkSpatialObjectPoint_hxx
 
 #include "itkSpatialObjectPoint.h"
 

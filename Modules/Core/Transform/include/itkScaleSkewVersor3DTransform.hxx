@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScaleSkewVersor3DTransform_hxx
-#define __itkScaleSkewVersor3DTransform_hxx
+#ifndef itkScaleSkewVersor3DTransform_hxx
+#define itkScaleSkewVersor3DTransform_hxx
 
 #include "itkScaleSkewVersor3DTransform.h"
 #include "itkMath.h"
@@ -218,34 +218,20 @@ void
 ScaleSkewVersor3DTransform<TScalar>
 ::ComputeMatrix(void)
 {
-  VersorType versor = Superclass::GetVersor();
+  this->Superclass::ComputeMatrix();
 
-  const TScalar vx = versor.GetX();
-  const TScalar vy = versor.GetY();
-  const TScalar vz = versor.GetZ();
-  const TScalar vw = versor.GetW();
+  MatrixType newMatrix = this->GetMatrix();
 
-  const TScalar xx = vx * vx;
-  const TScalar yy = vy * vy;
-  const TScalar zz = vz * vz;
-  const TScalar xy = vx * vy;
-  const TScalar xz = vx * vz;
-  const TScalar xw = vx * vw;
-  const TScalar yz = vy * vz;
-  const TScalar yw = vy * vw;
-  const TScalar zw = vz * vw;
+  newMatrix[0][0] += m_Scale[0] - 1.0;
+  newMatrix[1][1] += m_Scale[1] - 1.0;
+  newMatrix[2][2] += m_Scale[2] - 1.0;
+  newMatrix[0][1] += m_Skew[0];
+  newMatrix[0][2] += m_Skew[1];
+  newMatrix[1][0] += m_Skew[2];
+  newMatrix[1][2] += m_Skew[3];
+  newMatrix[2][0] += m_Skew[4];
+  newMatrix[2][1] += m_Skew[5];
 
-  MatrixType newMatrix;
-
-  newMatrix[0][0] = m_Scale[0] - 2.0 * ( yy + zz );
-  newMatrix[1][1] = m_Scale[1] - 2.0 * ( xx + zz );
-  newMatrix[2][2] = m_Scale[2] - 2.0 * ( xx + yy );
-  newMatrix[0][1] = 2.0 * ( xy - zw )  + ( m_Skew[0] );
-  newMatrix[0][2] = 2.0 * ( xz + yw )  + ( m_Skew[1] );
-  newMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[2] );
-  newMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
-  newMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
-  newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
   this->SetVarMatrix(newMatrix);
 }
 

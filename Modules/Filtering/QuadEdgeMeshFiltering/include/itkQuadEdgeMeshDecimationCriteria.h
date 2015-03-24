@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkQuadEdgeMeshDecimationCriteria_h
-#define __itkQuadEdgeMeshDecimationCriteria_h
+#ifndef itkQuadEdgeMeshDecimationCriteria_h
+#define itkQuadEdgeMeshDecimationCriteria_h
 
 #include "itkIntTypes.h"
 #include "itkPriorityQueueContainer.h"
@@ -196,7 +196,7 @@ public:
 
   inline bool is_satisfied( MeshType *iMesh,
                             const ElementType & itkNotUsed(iElement),
-                            const MeasureType & itkNotUsed(iValue) ) const
+                            const MeasureType & itkNotUsed(iValue) ) const ITK_OVERRIDE
   {
     return ( iMesh->GetNumberOfFaces() <= this->m_NumberOfElements );
   }
@@ -247,7 +247,7 @@ public:
 
   inline bool is_satisfied(MeshType *itkNotUsed(iMesh),
                            const ElementType & itkNotUsed(iElement),
-                           const MeasureType & iValue) const
+                           const MeasureType & iValue) const ITK_OVERRIDE
   {
     return ( iValue <= this->m_MeasureBound );
   }

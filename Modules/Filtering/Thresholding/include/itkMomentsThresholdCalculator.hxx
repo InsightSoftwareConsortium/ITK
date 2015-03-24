@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkMomentsThresholdCalculator_hxx
-#define __itkMomentsThresholdCalculator_hxx
+#ifndef itkMomentsThresholdCalculator_hxx
+#define itkMomentsThresholdCalculator_hxx
 
 #include "itkMomentsThresholdCalculator.h"
 #include "itkProgressReporter.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLineSpatialObjectPoint_h
-#define __itkLineSpatialObjectPoint_h
+#ifndef itkLineSpatialObjectPoint_h
+#define itkLineSpatialObjectPoint_h
 
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
@@ -51,10 +51,10 @@ public:
   typedef FixedArray< VectorType, TPointDimension - 1 > NormalArrayType;
 
   /** Constructor */
-  LineSpatialObjectPoint(void);
+  LineSpatialObjectPoint();
 
   /** Destructor */
-  virtual ~LineSpatialObjectPoint(void);
+  virtual ~LineSpatialObjectPoint();
 
   /** Get Normal */
   const VectorType & GetNormal(unsigned int index) const;
@@ -70,7 +70,7 @@ protected:
   NormalArrayType m_NormalArray;
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 
@@ -78,4 +78,4 @@ protected:
 #include "itkLineSpatialObjectPoint.hxx"
 #endif
 
-#endif // __itkLineSpatialObjectPoint_h
+#endif // itkLineSpatialObjectPoint_h

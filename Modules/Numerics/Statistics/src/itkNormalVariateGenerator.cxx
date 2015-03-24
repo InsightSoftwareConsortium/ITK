@@ -149,7 +149,7 @@ startpass:
   m_Gaussfaze = m_TLEN - 1; /* We will steal the last one   */
   /*    Update pseudo-random and use to choose type of rotation  */
   m_Lseed = 69069 * m_Lseed + 33331;
-  m_Irs = ( m_Irs <= 0 ) ? ( ( m_Irs << 1 ) ^ 333556017 ) : ( m_Irs << 1 );
+  m_Irs = SignedShiftXOR(m_Irs);
   t = m_Irs + m_Lseed;
   if ( t < 0 ) { t = ~t; }
   /*    This gives us 31 random bits in t       */
@@ -320,17 +320,17 @@ renormalize:
   p = 0;
 nextpair:
   m_Lseed = 69069 * m_Lseed + 33331;
-  m_Irs = ( m_Irs <= 0 ) ? ( ( m_Irs << 1 ) ^ 333556017 ) : ( m_Irs << 1 );
+  m_Irs = SignedShiftXOR(m_Irs);
   r = m_Irs + m_Lseed;
   tx = m_Rcons * r;
   m_Lseed = 69069 * m_Lseed + 33331;
-  m_Irs = ( m_Irs <= 0 ) ? ( ( m_Irs << 1 ) ^ 333556017 ) : ( m_Irs << 1 );
+  m_Irs = SignedShiftXOR(m_Irs);
   r = m_Irs + m_Lseed;
   ty = m_Rcons * r;
   tr = tx * tx + ty * ty;
   if ( ( tr > 1.0 ) || ( tr < 0.1 ) ) { goto nextpair; }
   m_Lseed = 69069 * m_Lseed + 33331;
-  m_Irs = ( m_Irs <= 0 ) ? ( ( m_Irs << 1 ) ^ 333556017 ) : ( m_Irs << 1 );
+  m_Irs = SignedShiftXOR(m_Irs);
   r = m_Irs + m_Lseed;
   if ( r < 0 ) { r = ~r; }
   tz = -2.0 * std::log( ( r + 0.5 ) * m_Rcons );   /* Sum of squares */

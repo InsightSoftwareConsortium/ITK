@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeanSquaresImageToImageMetricv4_h
-#define __itkMeanSquaresImageToImageMetricv4_h
+#ifndef itkMeanSquaresImageToImageMetricv4_h
+#define itkMeanSquaresImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
 #include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.h"
@@ -90,7 +90,7 @@ protected:
   typedef MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
     MeanSquaresSparseGetValueAndDerivativeThreaderType;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MeanSquaresImageToImageMetricv4(const Self &); //purposely not implemented

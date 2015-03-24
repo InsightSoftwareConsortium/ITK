@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRGBToLuminanceImageFilter_h
-#define __itkRGBToLuminanceImageFilter_h
+#ifndef itkRGBToLuminanceImageFilter_h
+#define itkRGBToLuminanceImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

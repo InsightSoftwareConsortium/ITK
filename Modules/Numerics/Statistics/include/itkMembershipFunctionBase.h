@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMembershipFunctionBase_h
-#define __itkMembershipFunctionBase_h
+#ifndef itkMembershipFunctionBase_h
+#define itkMembershipFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"
@@ -76,7 +76,7 @@ public:
   /** Method to get membership score (discriminant score) of an entity
    * or measurement. Evaluate() maps from a vector measurement type
    * to a real number. */
-  virtual double Evaluate(const MeasurementVectorType & x) const = 0;
+  virtual double Evaluate(const MeasurementVectorType & x) const ITK_OVERRIDE = 0;
 
   /** Set the length of the measurement vector. If this membership
    * function is templated over a vector type that can be resized,
@@ -133,7 +133,7 @@ protected:
 
   virtual ~MembershipFunctionBase(void) {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Length of measurement vectors: "

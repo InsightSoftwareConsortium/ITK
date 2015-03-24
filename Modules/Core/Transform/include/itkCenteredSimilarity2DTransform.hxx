@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCenteredSimilarity2DTransform_hxx
-#define __itkCenteredSimilarity2DTransform_hxx
+#ifndef itkCenteredSimilarity2DTransform_hxx
+#define itkCenteredSimilarity2DTransform_hxx
 
 #include "itkCenteredSimilarity2DTransform.h"
 

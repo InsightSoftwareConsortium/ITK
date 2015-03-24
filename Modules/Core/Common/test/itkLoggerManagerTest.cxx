@@ -110,7 +110,7 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     pLogger->Write(itk::LoggerBase::INFO, "This is the message from the logger got from a LoggerManager");
     if( manager->GetLogger("abc") != ITK_NULLPTR )
     {
-      throw "LoggerManager::GetLogger() must return NULL";
+      throw "LoggerManager::GetLogger() must return ITK_NULLPTR";
     }
     manager->Flush();
     }

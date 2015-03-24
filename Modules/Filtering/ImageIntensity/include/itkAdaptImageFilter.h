@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAdaptImageFilter_h
-#define __itkAdaptImageFilter_h
+#ifndef itkAdaptImageFilter_h
+#define itkAdaptImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGridImageSource_h
-#define __itkGridImageSource_h
+#ifndef itkGridImageSource_h
+#define itkGridImageSource_h
 
 #include "itkGenerateImageSource.h"
 #include "itkFixedArray.h"

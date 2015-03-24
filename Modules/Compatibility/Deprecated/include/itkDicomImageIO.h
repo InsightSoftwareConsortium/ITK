@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDicomImageIO_h
-#define __itkDicomImageIO_h
+#ifndef itkDicomImageIO_h
+#define itkDicomImageIO_h
 #if !defined( ITK_LEGACY_REMOVE )
 
 
@@ -62,4 +62,4 @@ private:
 } // end namespace itk
 
 #endif //#if !defined( ITK_LEGACY_REMOVE )
-#endif // __itkDicomImageIO_h
+#endif // itkDicomImageIO_h

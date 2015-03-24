@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMElement3DMembrane_hxx
-#define __itkFEMElement3DMembrane_hxx
+#ifndef itkFEMElement3DMembrane_hxx
+#define itkFEMElement3DMembrane_hxx
 
 #include "itkFEMElement3DMembrane.h"
 
@@ -138,4 +138,4 @@ Element3DMembrane<TBaseClass>
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElement3DMembrane_hxx
+#endif // #ifndef itkFEMElement3DMembrane_hxx

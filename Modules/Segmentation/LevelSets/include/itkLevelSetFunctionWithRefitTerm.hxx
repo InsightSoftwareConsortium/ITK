@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkLevelSetFunctionWithRefitTerm_hxx
-#define __itkLevelSetFunctionWithRefitTerm_hxx
+#ifndef itkLevelSetFunctionWithRefitTerm_hxx
+#define itkLevelSetFunctionWithRefitTerm_hxx
 
 #include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkVector.h"

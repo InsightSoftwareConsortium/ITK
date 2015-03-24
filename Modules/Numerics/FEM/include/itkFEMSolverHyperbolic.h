@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMSolverHyperbolic_h
-#define __itkFEMSolverHyperbolic_h
+#ifndef itkFEMSolverHyperbolic_h
+#define itkFEMSolverHyperbolic_h
 
 #include "itkFEMSolver.h"
 
@@ -61,7 +61,7 @@ public:
   itkGetMacro(NumberOfIterations, unsigned int);
 
   /** Returns the time step used for dynamic problems. */
-  virtual Float GetTimeStep(void) const
+  virtual Float GetTimeStep(void) const ITK_OVERRIDE
   {
     return this->m_TimeStep;
   }
@@ -71,7 +71,7 @@ public:
    *
    * \param dt New time step.
    */
-  virtual void SetTimeStep(Float dt)
+  virtual void SetTimeStep(Float dt) ITK_OVERRIDE
   {
     this->m_TimeStep = dt;
   }
@@ -79,38 +79,38 @@ public:
 protected:
   SolverHyperbolic();
   virtual ~SolverHyperbolic() { }
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Initialize the linear system wrapper.
    */
-  virtual void InitializeLinearSystemWrapper(void);
+  virtual void InitializeLinearSystemWrapper(void) ITK_OVERRIDE;
 
   /**
    * When assembling the element matrix into master matrix, we
    * need to assemble the mass matrix too.
    */
-  virtual void AssembleElementMatrix(Element::Pointer e);
+  virtual void AssembleElementMatrix(Element::Pointer e) ITK_OVERRIDE;
 
   /**
    * Initializes the storasge for all master matrices.
    */
-  virtual void InitializeMatrixForAssembly(unsigned int N);
+  virtual void InitializeMatrixForAssembly(unsigned int N) ITK_OVERRIDE;
 
   /**
    * Combines the M, C and K matrices into one big system of linear
    * equations.
    */
-  virtual void FinalizeMatrixAfterAssembly( void );
+  virtual void FinalizeMatrixAfterAssembly( void ) ITK_OVERRIDE;
 
 
   /** Method invoked by the pipeline in order to trigger the computation. */
-  void  GenerateData();
+  void  GenerateData() ITK_OVERRIDE;
 
   /**
    * Solve for the displacement vector u at a given time.  Update the total solution as well.
    */
-  virtual void RunSolver(void);
+  virtual void RunSolver(void) ITK_OVERRIDE;
 
   /**
    * Solve for the displacement vector u for one iteration
@@ -146,4 +146,4 @@ private:
 #endif
 
 
-#endif // #ifndef __itkFEMSolverHyperbolic_h
+#endif // #ifndef itkFEMSolverHyperbolic_h

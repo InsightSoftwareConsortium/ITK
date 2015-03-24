@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGradientDescentLineSearchOptimizerv4_hxx
-#define __itkGradientDescentLineSearchOptimizerv4_hxx
+#ifndef itkGradientDescentLineSearchOptimizerv4_hxx
+#define itkGradientDescentLineSearchOptimizerv4_hxx
 
 #include "itkGradientDescentLineSearchOptimizerv4.h"
 

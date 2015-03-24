@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSinImageAdaptor_h
-#define __itkSinImageAdaptor_h
+#ifndef itkSinImageAdaptor_h
+#define itkSinImageAdaptor_h
 
 #include "itkImageAdaptor.h"
 #include "vnl/vnl_math.h"

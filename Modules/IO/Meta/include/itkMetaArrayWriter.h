@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMetaArrayWriter_h
-#define __itkMetaArrayWriter_h
+#ifndef itkMetaArrayWriter_h
+#define itkMetaArrayWriter_h
 #include "ITKIOMetaExport.h"
 
 #include "itkLightProcessObject.h"
@@ -176,4 +176,4 @@ private:
 };
 } // namespace itk
 
-#endif // __itkMetaArrayWriter_h
+#endif // itkMetaArrayWriter_h

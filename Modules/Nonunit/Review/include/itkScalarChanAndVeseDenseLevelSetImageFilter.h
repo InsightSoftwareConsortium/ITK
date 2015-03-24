@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarChanAndVeseDenseLevelSetImageFilter_h
-#define __itkScalarChanAndVeseDenseLevelSetImageFilter_h
+#ifndef itkScalarChanAndVeseDenseLevelSetImageFilter_h
+#define itkScalarChanAndVeseDenseLevelSetImageFilter_h
 
 #include "itkMultiphaseDenseFiniteDifferenceImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"
@@ -140,9 +140,9 @@ protected:
 
   SharedDataPointer m_SharedData;
 
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
 private:
   ScalarChanAndVeseDenseLevelSetImageFilter(const Self &); //purposely not

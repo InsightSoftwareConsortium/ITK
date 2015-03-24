@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAntiAliasBinaryImageFilter_h
-#define __itkAntiAliasBinaryImageFilter_h
+#ifndef itkAntiAliasBinaryImageFilter_h
+#define itkAntiAliasBinaryImageFilter_h
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkCurvatureFlowFunction.h"
 
@@ -163,18 +163,18 @@ public:
 protected:
   AntiAliasBinaryImageFilter();
   ~AntiAliasBinaryImageFilter() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Overridden from the parent class to indroduce a constraint on
    *  surface flow under certain conditions. */
   inline virtual ValueType CalculateUpdateValue(const IndexType & idx,
                                                 const TimeStepType & dt,
                                                 const ValueType & value,
-                                                const ValueType & change);
+                                                const ValueType & change) ITK_OVERRIDE;
 
   /** Overridden from ProcessObject to set certain values before starting the
     * finite difference solver and then create an appropriate output */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   AntiAliasBinaryImageFilter(const Self &); //purposely not implemented

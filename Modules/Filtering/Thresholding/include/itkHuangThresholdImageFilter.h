@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkHuangThresholdImageFilter_h
-#define __itkHuangThresholdImageFilter_h
+#ifndef itkHuangThresholdImageFilter_h
+#define itkHuangThresholdImageFilter_h
 
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkHuangThresholdCalculator.h"

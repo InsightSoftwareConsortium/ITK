@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCurvatureAnisotropicDiffusionImageFilter_h
-#define __itkCurvatureAnisotropicDiffusionImageFilter_h
+#ifndef itkCurvatureAnisotropicDiffusionImageFilter_h
+#define itkCurvatureAnisotropicDiffusionImageFilter_h
 
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkCurvatureNDAnisotropicDiffusionFunction.h"
@@ -97,7 +97,7 @@ protected:
 
   ~CurvatureAnisotropicDiffusionImageFilter() {}
 
-  virtual void InitializeIteration()
+  virtual void InitializeIteration() ITK_OVERRIDE
   {
     Superclass::InitializeIteration();
     if ( this->GetTimeStep() >  0.5 / std::pow( 2.0, static_cast< double >( ImageDimension ) ) )

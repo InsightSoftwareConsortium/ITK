@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkVideoFileReader_hxx
-#define __itkVideoFileReader_hxx
+#ifndef itkVideoFileReader_hxx
+#define itkVideoFileReader_hxx
 
 #include "itkConvertPixelBuffer.h"
 

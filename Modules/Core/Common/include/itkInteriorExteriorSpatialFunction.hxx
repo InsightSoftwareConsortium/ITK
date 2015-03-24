@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkInteriorExteriorSpatialFunction_hxx
-#define __itkInteriorExteriorSpatialFunction_hxx
+#ifndef itkInteriorExteriorSpatialFunction_hxx
+#define itkInteriorExteriorSpatialFunction_hxx
 
 #include "itkInteriorExteriorSpatialFunction.h"
 

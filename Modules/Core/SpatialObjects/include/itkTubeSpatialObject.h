@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTubeSpatialObject_h
-#define __itkTubeSpatialObject_h
+#ifndef itkTubeSpatialObject_h
+#define itkTubeSpatialObject_h
 
 #include <list>
 
@@ -69,20 +69,20 @@ public:
   itkTypeMacro(TubeSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the tube points. */
-  virtual PointListType & GetPoints(void);
+  virtual PointListType & GetPoints();
 
   /** Returns a reference to the list of the tube points. */
-  virtual const PointListType & GetPoints(void) const;
+  virtual const PointListType & GetPoints() const;
 
   /** Set the list of tube points. */
   virtual void SetPoints(PointListType & newPoints);
 
   /** Return a point in the list given the index. */
-  virtual const SpatialObjectPointType * GetPoint(IdentifierType ind) const
+  virtual const SpatialObjectPointType * GetPoint(IdentifierType ind) const ITK_OVERRIDE
   { return &( m_Points[ind] ); }
 
   /** Return a point in the list given the index */
-  virtual SpatialObjectPointType * GetPoint(IdentifierType ind)
+  virtual SpatialObjectPointType * GetPoint(IdentifierType ind) ITK_OVERRIDE
   { return &( m_Points[ind] ); }
 
   /** Set a point in the list at the specified index */
@@ -94,7 +94,7 @@ public:
   { m_Points.erase(m_Points.begin() + ind); }
 
   /** Return the number of points in the list */
-  virtual SizeValueType GetNumberOfPoints(void) const
+  virtual SizeValueType GetNumberOfPoints(void) const ITK_OVERRIDE
   { return m_Points.size(); }
 
   /** Set the type of tube end-type: 0 = flat, 1 = rounded */
@@ -102,10 +102,10 @@ public:
   itkGetConstMacro(EndType, unsigned int);
 
   /** Remove the list of tube points */
-  void Clear(void);
+  void Clear(void) ITK_OVERRIDE;
 
   /** Calculate the normalized tangent */
-  bool ComputeTangentAndNormals(void);
+  bool ComputeTangentAndNormals();
 
   /** Remove duplicate points */
   unsigned int RemoveDuplicatePoints(unsigned int step = 1);
@@ -113,18 +113,18 @@ public:
   /** Returns true if the tube is evaluable at the requested point,
    *  false otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+                     unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Returns the value of the tube at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy tubes. */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+               unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const;
+                unsigned int depth, char *name) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -132,7 +132,7 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the tube. */
-  bool ComputeLocalBoundingBox() const;
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
   /** Set/Get the parent point which corresponds to the
    *  position of the point in the parent's points list */
@@ -149,7 +149,7 @@ public:
   itkGetConstMacro(Artery, bool);
 
   /** Copy the information from another SpatialObject */
-  void CopyInformation(const DataObject *data);
+  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
 
 protected:
   PointListType m_Points;
@@ -165,7 +165,7 @@ protected:
   virtual ~TubeSpatialObject();
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** TimeStamps */
   mutable ModifiedTimeType m_OldMTime;
@@ -181,4 +181,4 @@ private:
 #include "itkTubeSpatialObject.hxx"
 #endif
 
-#endif // __itkTubeSpatialObject_h
+#endif // itkTubeSpatialObject_h

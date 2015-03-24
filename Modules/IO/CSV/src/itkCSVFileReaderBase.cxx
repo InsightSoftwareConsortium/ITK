@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCSVFileReaderBase_cxx
-#define __itkCSVFileReaderBase_cxx
-
 #include "itkCSVFileReaderBase.h"
 
 #include <fstream>
@@ -306,5 +303,3 @@ CSVFileReaderBase
 }
 
 } // end namespace itk
-
-#endif

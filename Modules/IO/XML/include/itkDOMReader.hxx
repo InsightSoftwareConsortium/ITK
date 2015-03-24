@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkDOMReader_hxx
-#define __itkDOMReader_hxx
+#ifndef itkDOMReader_hxx
+#define itkDOMReader_hxx
 
 #include "itkDOMReader.h"
 #include "itksys/SystemTools.hxx"
@@ -149,4 +149,4 @@ DOMReader<TOutput>::Update()
 
 } // namespace itk
 
-#endif // __itkDOMReader_hxx
+#endif // itkDOMReader_hxx

@@ -150,14 +150,14 @@ int itkImageToListSampleFilterTest(int, char* [] )
   if ( filter->GetInput() != ITK_NULLPTR )
     {
     pass = false;
-    failureMeassage = "GetInput() should return NULL if the input \
+    failureMeassage = "GetInput() should return ITK_NULLPTR if the input \
                      has not been set";
     }
 
   if ( filter->GetMaskImage() != ITK_NULLPTR )
     {
     pass = false;
-    failureMeassage = "GetMaskImage() should return NULL if mask image \
+    failureMeassage = "GetMaskImage() should return ITK_NULLPTR if mask image \
                      has not been set";
     }
 

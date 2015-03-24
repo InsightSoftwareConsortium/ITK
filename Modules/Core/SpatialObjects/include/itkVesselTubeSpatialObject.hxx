@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVesselTubeSpatialObject_hxx
-#define __itkVesselTubeSpatialObject_hxx
+#ifndef itkVesselTubeSpatialObject_hxx
+#define itkVesselTubeSpatialObject_hxx
 
 
 #include "itkVesselTubeSpatialObject.h"
@@ -50,4 +50,4 @@ VesselTubeSpatialObject< TDimension >
 }
 } // end namespace itk
 
-#endif // end __itkVesselTubeSpatialObject_hxx
+#endif // end itkVesselTubeSpatialObject_hxx

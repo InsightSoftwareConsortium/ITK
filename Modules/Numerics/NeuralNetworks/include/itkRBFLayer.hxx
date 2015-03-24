@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRBFLayer_hxx
-#define __itkRBFLayer_hxx
+#ifndef itkRBFLayer_hxx
+#define itkRBFLayer_hxx
 
 #include "itkRBFLayer.h"
 #include "itkGaussianRadialBasisFunction.h"

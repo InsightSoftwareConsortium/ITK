@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGroupSpatialObject_hxx
-#define __itkGroupSpatialObject_hxx
+#ifndef itkGroupSpatialObject_hxx
+#define itkGroupSpatialObject_hxx
 
 
 #include "itkGroupSpatialObject.h"
@@ -54,4 +54,4 @@ GroupSpatialObject< TDimension >
 }
 } // end namespace itk
 
-#endif // end __itkGroupSpatialObject_hxx
+#endif // end itkGroupSpatialObject_hxx

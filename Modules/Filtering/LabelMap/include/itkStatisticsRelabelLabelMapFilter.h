@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStatisticsRelabelLabelMapFilter_h
-#define __itkStatisticsRelabelLabelMapFilter_h
+#ifndef itkStatisticsRelabelLabelMapFilter_h
+#define itkStatisticsRelabelLabelMapFilter_h
 
 #include "itkShapeRelabelLabelMapFilter.h"
 #include "itkStatisticsLabelObject.h"
@@ -88,7 +88,7 @@ protected:
   StatisticsRelabelLabelMapFilter();
   ~StatisticsRelabelLabelMapFilter() {}
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsRelabelLabelMapFilter(const Self &); //purposely not implemented

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRawImageIO_h
-#define __itkRawImageIO_h
+#ifndef itkRawImageIO_h
+#define itkRawImageIO_h
 
 #include "itkImageIOBase.h"
 #include "itkImageRegion.h"

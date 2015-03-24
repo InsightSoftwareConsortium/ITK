@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkUpdateWhitakerSparseLevelSet_hxx
-#define __itkUpdateWhitakerSparseLevelSet_hxx
+#ifndef itkUpdateWhitakerSparseLevelSet_hxx
+#define itkUpdateWhitakerSparseLevelSet_hxx
 
 #include "itkUpdateWhitakerSparseLevelSet.h"
 
@@ -62,7 +62,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 {
   if( this->m_InputLevelSet.IsNull() )
     {
-    itkGenericExceptionMacro( <<"m_InputLevelSet is NULL" );
+    itkGenericExceptionMacro( <<"m_InputLevelSet is ITK_NULLPTR" );
     }
   if( this->m_Update.empty() )
     {
@@ -1110,4 +1110,4 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
     }
 }
 }
-#endif // __itkUpdateWhitakerSparseLevelSet_hxx
+#endif // itkUpdateWhitakerSparseLevelSet_hxx

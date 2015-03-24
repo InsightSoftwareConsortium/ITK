@@ -71,21 +71,21 @@ public:
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /** Evaluate the function at specified Point position.*/
-  virtual OutputType Evaluate(const PointType & itkNotUsed(point) ) const
+  virtual OutputType Evaluate(const PointType & itkNotUsed(point) ) const ITK_OVERRIDE
     {
     OutputType result(0);
     return result;
     }
 
   /** Evaluate the function at specified Index position. */
-  virtual OutputType EvaluateAtIndex(const IndexType & itkNotUsed(index) ) const
+  virtual OutputType EvaluateAtIndex(const IndexType & itkNotUsed(index) ) const ITK_OVERRIDE
     {
     OutputType result(0);
     return result;
     }
 
   /** Evaluate the function at specified ContinuousIndex position. */
-  virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & itkNotUsed(index) ) const
+  virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & itkNotUsed(index) ) const ITK_OVERRIDE
     {
     OutputType result(0);
     return result;
@@ -94,10 +94,6 @@ public:
 protected:
   TestImageFunction(){};
   ~TestImageFunction(){};
-  void PrintSelf(std::ostream & os, Indent indent) const
-   {
-   this->Superclass::PrintSelf(os, indent);
-   }
 
 private:
   TestImageFunction(const Self &); //purposely not implemented

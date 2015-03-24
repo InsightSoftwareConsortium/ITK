@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMRASlabIdentifier_h
-#define __itkMRASlabIdentifier_h
+#ifndef itkMRASlabIdentifier_h
+#define itkMRASlabIdentifier_h
 
 #include "itkObject.h"
 #include "itkImage.h"
@@ -116,10 +116,10 @@ public:
 
   /** Compute the average values of miminum intensity pixels for each slice and
    * compare the average values with overall averages. */
-  void GenerateSlabRegions(void);
+  void GenerateSlabRegions();
 
   /** Get slab regions. */
-  SlabRegionVectorType GetSlabRegionVector(void);
+  SlabRegionVectorType GetSlabRegionVector();
 
 protected:
   MRASlabIdentifier();
@@ -148,4 +148,4 @@ private:
 #include "itkMRASlabIdentifier.hxx"
 #endif
 
-#endif /* __itkMRASlabIdentifier_h */
+#endif /* itkMRASlabIdentifier_h */

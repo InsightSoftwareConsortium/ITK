@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkPatchBasedDenoisingImageFilter_h
-#define __itkPatchBasedDenoisingImageFilter_h
+#ifndef itkPatchBasedDenoisingImageFilter_h
+#define itkPatchBasedDenoisingImageFilter_h
 
 #include "itkPatchBasedDenoisingBaseImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -209,17 +209,17 @@ public:
 protected:
   PatchBasedDenoisingImageFilter();
   ~PatchBasedDenoisingImageFilter();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Clean up Eigensystem caches */
   virtual void EmptyCaches();
 
   /** Allocate memory for a temporary update container in the subclass*/
-  virtual void AllocateUpdateBuffer();
+  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
 
-  virtual void CopyInputToOutput();
+  virtual void CopyInputToOutput() ITK_OVERRIDE;
 
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** \brief A method to generically get a component.
    *
@@ -382,17 +382,17 @@ protected:
 
   virtual void EnforceConstraints();
 
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   virtual void InitializeKernelSigma();
 
-  virtual void InitializePatchWeights();
+  virtual void InitializePatchWeights() ITK_OVERRIDE;
 
   virtual void InitializePatchWeightsSmoothDisc();
 
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
-  virtual void ComputeKernelBandwidthUpdate(); // derived from base class;
+  virtual void ComputeKernelBandwidthUpdate() ITK_OVERRIDE; // derived from base class;
 
   // define here
 
@@ -402,7 +402,7 @@ protected:
 
   virtual RealArrayType ResolveSigmaUpdate();
 
-  virtual void ComputeImageUpdate();
+  virtual void ComputeImageUpdate() ITK_OVERRIDE;
 
   virtual ThreadDataStruct ThreadedComputeImageUpdate(const InputImageRegionType& regionToProcess,
                                                       const int threadId,
@@ -413,12 +413,12 @@ protected:
                                                BaseSamplerPointer& sampler,
                                                ThreadDataStruct& threadData);
 
-  virtual void ApplyUpdate();
+  virtual void ApplyUpdate() ITK_OVERRIDE;
 
   virtual void ThreadedApplyUpdate(const InputImageRegionType& regionToProcess,
                                    const int itkNotUsed(threadId) );
 
-  virtual void PostProcessOutput();
+  virtual void PostProcessOutput() ITK_OVERRIDE;
 
   virtual void SetThreadData(int threadId, const ThreadDataStruct& data);
 

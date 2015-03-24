@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMattesMutualInformationImageToImageMetricv4_h
-#define __itkMattesMutualInformationImageToImageMetricv4_h
+#ifndef itkMattesMutualInformationImageToImageMetricv4_h
+#define itkMattesMutualInformationImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
 #include "itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader.h"
@@ -152,7 +152,7 @@ public:
   itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max() );
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject );
+  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
 
   /** The marginal PDFs are stored as std::vector. */
   //NOTE:  floating point precision is not as stable.
@@ -195,8 +195,8 @@ public:
     * some threads require initialzation of temporary buffers
     * per thread before processing each thread.
     */
-  virtual void InitializeThread( const ThreadIdType threadId );
-  virtual void FinalizeThread( const ThreadIdType threadId );
+  virtual void InitializeThread( const ThreadIdType threadId ) ITK_OVERRIDE;
+  virtual void FinalizeThread( const ThreadIdType threadId ) ITK_OVERRIDE;
 
 protected:
   MattesMutualInformationImageToImageMetricv4();
@@ -209,7 +209,7 @@ protected:
   typedef MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
     MattesMutualInformationSparseGetValueAndDerivativeThreaderType;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename JointPDFType::IndexType             JointPDFIndexType;
   typedef typename JointPDFType::PixelType             JointPDFValueType;
@@ -276,7 +276,7 @@ private:
   void operator = (const Self &); //purposely not implemented
 
   /** Perform the final step in computing results */
-  virtual void ComputeResults( void ) const;
+  virtual void ComputeResults() const;
 
   std::vector< MutexLock::Pointer >  m_JointPDFSubsectionLocks;
   std::vector< MutexLock::Pointer >  m_JointPDFDerivativeSubsectionLocks;

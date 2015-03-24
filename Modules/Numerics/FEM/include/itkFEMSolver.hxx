@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkFEMSolver_hxx
-#define __itkFEMSolver_hxx
+#ifndef itkFEMSolver_hxx
+#define itkFEMSolver_hxx
 
 #include "itkFEMSolver.h"
 
@@ -161,7 +161,7 @@ Solver<VDimension>
   FEMObjectType* out = dynamic_cast<FEMObjectType *>
     (this->ProcessObject::GetOutput(idx) );
 
-  if( out == NULL )
+  if( out == ITK_NULLPTR )
     {
     itkWarningMacro( << "dynamic_cast to output type failed" );
     }
@@ -1014,4 +1014,4 @@ Solver<VDimension>
 
 } // end namespace itk
 } // end namespace fem
-#endif // __itkFEMSolver_hxx
+#endif // itkFEMSolver_hxx

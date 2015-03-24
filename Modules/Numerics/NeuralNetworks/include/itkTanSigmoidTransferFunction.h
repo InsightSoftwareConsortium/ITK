@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTanSigmoidTransferFunction_h
-#define __itkTanSigmoidTransferFunction_h
+#ifndef itkTanSigmoidTransferFunction_h
+#define itkTanSigmoidTransferFunction_h
 
 #include "itkTransferFunctionBase.h"
 
@@ -48,10 +48,10 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate at the specified input position */
-  virtual ScalarType Evaluate(const ScalarType& input) const;
+  virtual ScalarType Evaluate(const ScalarType& input) const ITK_OVERRIDE;
 
   /** Evaluate the derivative at the specified input position */
-  virtual ScalarType EvaluateDerivative(const ScalarType& input) const;
+  virtual ScalarType EvaluateDerivative(const ScalarType& input) const ITK_OVERRIDE;
 
 protected:
 
@@ -59,7 +59,7 @@ protected:
   virtual ~TanSigmoidTransferFunction();
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 };
 
 } // end namespace Statistics

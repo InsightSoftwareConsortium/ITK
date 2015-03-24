@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkScalarImageToCooccurrenceMatrixFilter_h
-#define __itkScalarImageToCooccurrenceMatrixFilter_h
+#ifndef itkScalarImageToCooccurrenceMatrixFilter_h
+#define itkScalarImageToCooccurrenceMatrixFilter_h
 
 #include "itkImage.h"
 #include "itkHistogram.h"
@@ -195,7 +195,7 @@ private:
 
   // implemented
 
-  void NormalizeHistogram(void);
+  void NormalizeHistogram();
 
   OffsetVectorConstPointer m_Offsets;
   PixelType                m_Min;

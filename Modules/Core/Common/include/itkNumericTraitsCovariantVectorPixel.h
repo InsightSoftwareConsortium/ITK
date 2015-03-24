@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNumericTraitsCovariantVectorPixel_h
-#define __itkNumericTraitsCovariantVectorPixel_h
+#ifndef itkNumericTraitsCovariantVectorPixel_h
+#define itkNumericTraitsCovariantVectorPixel_h
 
 #include "itkNumericTraits.h"
 #include "itkCovariantVector.h"
@@ -182,4 +182,4 @@ public:
 };
 } // end namespace itk
 
-#endif // __itkNumericTraitsCovariantVectorPixel_h
+#endif // itkNumericTraitsCovariantVectorPixel_h

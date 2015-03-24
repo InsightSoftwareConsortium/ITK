@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAutumnColormapFunction_h
-#define __itkAutumnColormapFunction_h
+#ifndef itkAutumnColormapFunction_h
+#define itkAutumnColormapFunction_h
 
 #include "itkColormapFunction.h"
 
@@ -58,7 +58,7 @@ public:
   typedef typename Superclass::ScalarType   ScalarType;
   typedef typename Superclass::RealType     RealType;
 
-  virtual RGBPixelType operator()(const TScalar &) const;
+  virtual RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
 
 protected:
   AutumnColormapFunction() {}

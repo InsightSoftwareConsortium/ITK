@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itkLevelSetDenseImage_h
-#define __itkLevelSetDenseImage_h
+#ifndef itkLevelSetDenseImage_h
+#define itkLevelSetDenseImage_h
 
 #include "itkDiscreteLevelSetImage.h"
 
@@ -72,8 +72,8 @@ public:
   itkGetModifiableObjectMacro(Image, ImageType );
 
   /** Returns the value of the level set function at a given location inputIndex */
-  virtual OutputType Evaluate( const InputType& inputIndex ) const;
-  virtual void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const;
+  virtual OutputType Evaluate( const InputType& inputIndex ) const ITK_OVERRIDE;
+  virtual void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
 
 protected:
   LevelSetDenseImage();
@@ -82,16 +82,16 @@ protected:
 
   ImagePointer m_Image;
 
-  virtual bool IsInsideDomain( const InputType& inputIndex ) const;
+  virtual bool IsInsideDomain( const InputType& inputIndex ) const ITK_OVERRIDE;
 
   /** Initial the level set pointer */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   /** Copy level set information from data object */
-  virtual void CopyInformation(const DataObject *data);
+  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
 
   /** Graft data object as level set object */
-  virtual void Graft( const DataObject* data );
+  virtual void Graft( const DataObject* data ) ITK_OVERRIDE;
 
 private:
 
@@ -104,4 +104,4 @@ private:
 #include "itkLevelSetDenseImage.hxx"
 #endif
 
-#endif // __itkLevelSetDenseImage_h
+#endif // itkLevelSetDenseImage_h

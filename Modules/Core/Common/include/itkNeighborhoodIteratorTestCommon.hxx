@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNeighborhoodIteratorTestCommon_hxx
-#define __itkNeighborhoodIteratorTestCommon_hxx
+#ifndef itkNeighborhoodIteratorTestCommon_hxx
+#define itkNeighborhoodIteratorTestCommon_hxx
 
 #include "itkImage.h"
 #include "itkIndex.h"

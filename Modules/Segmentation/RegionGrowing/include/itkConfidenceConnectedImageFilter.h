@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConfidenceConnectedImageFilter_h
-#define __itkConfidenceConnectedImageFilter_h
+#ifndef itkConfidenceConnectedImageFilter_h
+#define itkConfidenceConnectedImageFilter_h
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
@@ -94,7 +94,7 @@ public:
   typedef typename NumericTraits<
     InputImagePixelType >::RealType InputRealType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Set seed point. This method is deprecated, please use AddSeed() */
   void SetSeed(const IndexType & seed);
@@ -150,12 +150,12 @@ protected:
   ~ConfidenceConnectedImageFilter(){}
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ConfidenceConnectedImageFilter(const Self &); //purposely not implemented
