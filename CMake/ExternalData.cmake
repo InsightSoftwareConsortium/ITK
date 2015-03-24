@@ -385,8 +385,8 @@ function(ExternalData_add_target target)
         string(REPLACE "|" ";" _algos "${_ExternalData_REGEX_ALGO}")
         foreach(algo ${_algos})
           if(DEFINED ExternalData_URL_ALGO_${algo}_${key})
-            string(CONCAT _ExternalData_CONFIG_CODE "${_ExternalData_CONFIG_CODE}\n"
-              "set(ExternalData_URL_ALGO_${algo}_${key} \"${ExternalData_URL_ALGO_${algo}_${key}}\")")
+            set(_ExternalData_CONFIG_CODE
+              "${_ExternalData_CONFIG_CODE}\nset(ExternalData_URL_ALGO_${algo}_${key} \"${ExternalData_URL_ALGO_${algo}_${key}}\")")
           endif()
         endforeach()
       else()
