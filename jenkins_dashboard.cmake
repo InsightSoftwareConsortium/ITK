@@ -37,6 +37,7 @@ set(CTEST_DASHBOARD_ROOT "${workspace}")
 set(dashboard_source_name "ITK-src")
 set(dashboard_binary_name "ITK-bin")
 set(CTEST_SITE "$ENV{NODE_NAME}")
+set(dashboard_do_cache 1)
 
 file(GLOB config_files "${CTEST_SCRIPT_DIRECTORY}/../CTest-config/[0-9][0-9]-*CTestConfig.cmake")
 list(SORT config_files)

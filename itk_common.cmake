@@ -32,6 +32,7 @@
 #   dashboard_binary_name     = Name of binary directory (ITK-build)
 #   dashboard_data_name       = Name of ExternalData store (ExternalData)
 #   dashboard_cache           = Initial CMakeCache.txt file content
+#   dashboard_do_cache        = Always write CMakeCache.txt
 #   dashboard_do_coverage     = True to enable coverage (ex: gcov)
 #   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
 #   dashboard_no_clean        = True to skip build tree wipeout
@@ -355,7 +356,7 @@ ${cache_build_type}
 ${cache_make_program}
 ${dashboard_cache}
 ")
-endmacro(write_cache)
+endmacro()
 
 # Start with a fresh build tree.
 if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}")
@@ -411,9 +412,10 @@ while(NOT dashboard_done)
 
   # Always build if the tree is fresh.
   set(dashboard_fresh 0)
-  if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
+  if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
+     OR ${dashboard_do_cache})
     set(dashboard_fresh 1)
-    safe_message("Starting fresh build...")
+    safe_message("Writing initial dashboard cache...")
     write_cache()
   endif()
 
