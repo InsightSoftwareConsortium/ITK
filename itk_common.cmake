@@ -413,7 +413,7 @@ while(NOT dashboard_done)
   # Always build if the tree is fresh.
   set(dashboard_fresh 0)
   if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
-     OR ${dashboard_do_cache})
+     OR "${dashboard_do_cache}")
     set(dashboard_fresh 1)
     safe_message("Writing initial dashboard cache...")
     write_cache()
