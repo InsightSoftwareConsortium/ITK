@@ -42,20 +42,34 @@ typename MetaGaussianConverter< NDimensions >::SpatialObjectPointer
 MetaGaussianConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const GaussianMetaObjectType *gaussian =
+  const GaussianMetaObjectType *metaGaussian =
     dynamic_cast<const GaussianMetaObjectType *>(mo);
-  if(gaussian == ITK_NULLPTR)
+  if(metaGaussian == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaGaussian" );
     }
 
   GaussianSpatialObjectPointer gaussianSO = GaussianSpatialObjectType::New();
 
-  gaussianSO->SetMaximum( gaussian->Maximum() );
-  gaussianSO->SetRadius( gaussian->Radius() );
-  gaussianSO->GetProperty()->SetName( gaussian->Name() );
-  gaussianSO->SetId( gaussian->ID() );
-  gaussianSO->SetParentId( gaussian->ParentID() );
+  double spacing[NDimensions];
+
+  for ( unsigned int i = 0; i < NDimensions; i++ )
+    {
+    spacing[i] = metaGaussian->ElementSpacing()[i];
+    }
+
+  gaussianSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  gaussianSO->SetMaximum(metaGaussian->Maximum());
+  gaussianSO->SetRadius(metaGaussian->Radius());
+  gaussianSO->SetSigma(metaGaussian->Sigma());
+  gaussianSO->GetProperty()->SetName( metaGaussian->Name());
+  gaussianSO->SetId(metaGaussian->ID());
+  gaussianSO->SetParentId( metaGaussian->ParentID() );
+  gaussianSO->GetProperty()->SetRed(metaGaussian->Color()[0]);
+  gaussianSO->GetProperty()->SetGreen(metaGaussian->Color()[1]);
+  gaussianSO->GetProperty()->SetBlue(metaGaussian->Color()[2]);
+  gaussianSO->GetProperty()->SetAlpha(metaGaussian->Color()[3]);
+
   return gaussianSO.GetPointer();
 }
 
@@ -67,7 +81,7 @@ MetaGaussianConverter< NDimensions >
 {
   GaussianSpatialObjectConstPointer gaussianSO =
     dynamic_cast<const GaussianSpatialObjectType *>(so);
-  GaussianMetaObjectType *gaussian = new GaussianMetaObjectType;
+  GaussianMetaObjectType *metaGaussian = new GaussianMetaObjectType;
   if(gaussianSO.IsNull())
     {
     itkExceptionMacro(<< "Can't downcast SpatialObject to GaussianSpatialObject");
@@ -75,13 +89,25 @@ MetaGaussianConverter< NDimensions >
 
   if ( gaussianSO->GetParent() )
     {
-    gaussian->ParentID( gaussianSO->GetParent()->GetId() );
+    metaGaussian->ParentID( gaussianSO->GetParent()->GetId() );
     }
-  gaussian->Maximum( gaussianSO->GetMaximum() );
-  gaussian->Radius( gaussianSO->GetRadius() );
-  gaussian->ID( gaussianSO->GetId() );
-  gaussian->BinaryData(true);
-  return gaussian;
+  metaGaussian->Maximum(gaussianSO->GetMaximum());
+  metaGaussian->Radius(gaussianSO->GetRadius());
+  metaGaussian->Sigma(gaussianSO->GetSigma());
+  metaGaussian->ID(gaussianSO->GetId());
+  metaGaussian->BinaryData(true);
+  metaGaussian->Color(gaussianSO->GetProperty()->GetRed(),
+    gaussianSO->GetProperty()->GetGreen(),
+    gaussianSO->GetProperty()->GetBlue(),
+    gaussianSO->GetProperty()->GetAlpha());
+
+  for ( unsigned int i = 0; i < NDimensions; i++ )
+    {
+    metaGaussian->ElementSpacing(i,
+      gaussianSO->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+    }
+
+  return metaGaussian;
 }
 
 } // end namespace itk
