@@ -727,16 +727,16 @@ macro(itk_wrap_image_filter_types)
     itk_wrap_filter_dims(dims "${last_arg}")
     DECREMENT(last_arg_number ${last_arg_number})
   else()
-    set(dims ${ITK_WRAP_DIMS})
+    set(dims ${ITK_WRAP_IMAGE_DIMS})
   endif()
 
   # TODO: The vec_dims list should not be generated from
-  # ITK_WRAP_DIMS; but from a separate list for vector dimensions.
+  # ITK_WRAP_IMAGE_DIMS; but from a separate list for vector dimensions.
   set(vec_dims 1)
   foreach(num RANGE 0 ${last_arg_number})
     set(type "${arg${num}}")
     if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
-      set(vec_dims ${ITK_WRAP_DIMS})
+      set(vec_dims ${ITK_WRAP_IMAGE_DIMS})
     endif()
   endforeach()
 
@@ -778,7 +778,7 @@ macro(itk_wrap_filter_dims var_name dimension_condition)
     string(REGEX REPLACE "^([0-9]+)\\+$" "\\1" min_dim "${dimension_condition}")
     DECREMENT(max_disallowed ${min_dim})
     set(${var_name} "")
-    foreach(d ${ITK_WRAP_DIMS})
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
       if("${d}" GREATER "${max_disallowed}")
         set(${var_name} ${${var_name}} ${d})
       endif()
@@ -786,6 +786,6 @@ macro(itk_wrap_filter_dims var_name dimension_condition)
   else()
     # The condition is just a list of dims. Return the intersection of these
     # dims with the selected ones.
-    INTERSECTION(${var_name} "${dimension_condition}" "${ITK_WRAP_DIMS}")
+    INTERSECTION(${var_name} "${dimension_condition}" "${ITK_WRAP_IMAGE_DIMS}")
   endif()
 endmacro()

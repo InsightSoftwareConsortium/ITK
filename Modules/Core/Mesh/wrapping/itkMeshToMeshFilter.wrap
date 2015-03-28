@@ -3,7 +3,7 @@ itk_wrap_include("itkDefaultStaticMeshTraits.h")
 itk_wrap_include("itkDefaultDynamicMeshTraits.h")
 
 itk_wrap_class("itk::MeshToMeshFilter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_REAL})
       itk_wrap_template("M${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}M${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
         "itk::Mesh< ${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} > >, itk::Mesh< ${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} > >")

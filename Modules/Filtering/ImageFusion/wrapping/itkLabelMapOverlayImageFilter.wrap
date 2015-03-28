@@ -1,6 +1,6 @@
 itk_wrap_class("itk::LabelMapOverlayImageFilter" POINTER)
 
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
 
     if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
       itk_wrap_template("${ITKM_LM${d}}${ITKM_IUC${d}}${ITKM_IRGBUC${d}}" "${ITKT_LM${d}}, ${ITKT_IUC${d}}, ${ITKT_IRGBUC${d}}")

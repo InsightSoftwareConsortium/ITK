@@ -2,8 +2,8 @@ itk_wrap_class("itk::ExtractImageFilter" POINTER)
 
   itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 2)
 
-  foreach(d1 ${ITK_WRAP_DIMS})
-    foreach(d2 ${ITK_WRAP_DIMS})
+  foreach(d1 ${ITK_WRAP_IMAGE_DIMS})
+    foreach(d2 ${ITK_WRAP_IMAGE_DIMS})
       if("${d1}" GREATER "${d2}")
         foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
           itk_wrap_template("${ITKM_I${t}${d1}}${ITKM_I${t}${d2}}"

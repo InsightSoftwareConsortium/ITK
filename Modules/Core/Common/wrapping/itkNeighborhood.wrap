@@ -3,7 +3,7 @@ itk_wrap_class("itk::Neighborhood")
   # force bool, for structuring element
   UNIQUE(scalar_types "${WRAP_ITK_SCALAR};${WRAP_ITK_RGB};B")
 
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${scalar_types})
       itk_wrap_template("${ITKM_${t}}${d}" "${ITKT_${t}},${d}")
     endforeach()

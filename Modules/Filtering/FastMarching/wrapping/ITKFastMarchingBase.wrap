@@ -1,7 +1,7 @@
 itk_wrap_include("itkNodePair.h")
 
 itk_wrap_class("itk::VectorContainer" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
       itk_wrap_template("${ITKM_UI}${ITKM_LSN${t}${d}}"  "${ITKT_UI},${ITKT_LSN${t}${d}}")
       itk_wrap_template("${ITKM_UL}NPI${d}${ITKM_${t}}"  "${ITKT_UL}, itk::NodePair< itk::Index<${d}>, ${ITKT_${t}} >")

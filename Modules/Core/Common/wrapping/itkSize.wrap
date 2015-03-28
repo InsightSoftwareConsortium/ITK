@@ -1,5 +1,5 @@
 itk_wrap_class("itk::Size")
-  UNIQUE(dims "${ITK_WRAP_DIMS_INCREMENTED};1;2")
+  UNIQUE(dims "${ITK_WRAP_IMAGE_DIMS_INCREMENTED};1;2")
   foreach(d ${dims})
     itk_wrap_template(${d} ${d})
   endforeach()

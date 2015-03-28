@@ -120,7 +120,7 @@ endmacro()
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
 # signed char can't be used to store an image with values up to 255
 list(REMOVE_ITEM types SC)
-foreach(d ${ITK_WRAP_DIMS})
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
 
     set(test_base_name simplePipeline${t}${d})
@@ -145,7 +145,7 @@ foreach(d ${ITK_WRAP_DIMS})
 endforeach()
 
 #----------------
-foreach(d ${ITK_WRAP_DIMS})
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
   if(d EQUAL 2)
     build_java_test(MedianImageFilter class_path ITKIOImageBase ITKSmoothing)
     add_java_test(JavaMedianImageFilter

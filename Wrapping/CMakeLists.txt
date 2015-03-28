@@ -90,7 +90,14 @@ foreach(t unsigned_char unsigned_short)
   endif()
 endforeach()
 
-set(ITK_WRAP_DIMS "2;3" CACHE STRING "Dimensions available separated by semicolons (;)")
+if(DEFINED ITK_WRAP_DIMS)
+  # Keep ITK_WRAP_DIMS for backward compatibility.
+  set(ITK_WRAP_IMAGE_DIMS "${ITK_WRAP_DIMS}" CACHE STRING "Dimensions available separated by semicolons (;)")
+else()
+  set(ITK_WRAP_IMAGE_DIMS "2;3" CACHE STRING "Dimensions available separated by semicolons (;)")
+  # Keep ITK_WRAP_DIMS for extra modules developed outside of ITK.
+  set(ITK_WRAP_DIMS "${ITK_WRAP_IMAGE_DIMS}")
+endif()
 
 option(INSTALL_WRAP_ITK_COMPATIBILITY "Install FindWrapITK.cmake and WrapITK.pth (so cmake and python can find WrapITK) as part of the standard installation process. This requires admin privileges. These files can be separately installed by making the install_wrapitk_compatibility target. " ON)
 

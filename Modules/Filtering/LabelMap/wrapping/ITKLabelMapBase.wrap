@@ -3,13 +3,13 @@ itk_wrap_class("itk::LabelMap" POINTER)
 itk_end_wrap_class()
 
 itk_wrap_class("itk::ImageSource" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     itk_wrap_template("${ITKM_LM${d}}" "${ITKT_LM${d}}")
   endforeach()
 itk_end_wrap_class()
 
 itk_wrap_class("itk::ImageToImageFilter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     # label collection -> label collection
     itk_wrap_template("${ITKM_LM${d}}${ITKM_LM${d}}" "${ITKT_LM${d}}, ${ITKT_LM${d}}")
 

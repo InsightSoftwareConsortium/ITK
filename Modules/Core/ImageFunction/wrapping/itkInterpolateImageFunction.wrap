@@ -1,6 +1,6 @@
 itk_wrap_class("itk::InterpolateImageFunction" POINTER)
   UNIQUE(types "${WRAP_ITK_SCALAR};UC")
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_D}" "${ITKT_I${t}${d}},${ITKT_D}")
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_F}" "${ITKT_I${t}${d}},${ITKT_F}")

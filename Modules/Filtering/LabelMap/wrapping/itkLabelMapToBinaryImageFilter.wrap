@@ -1,6 +1,6 @@
 itk_wrap_class("itk::LabelMapToBinaryImageFilter" POINTER)
   foreach(t ${WRAP_ITK_USIGN_INT})
-    foreach(d ${ITK_WRAP_DIMS})
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
       itk_wrap_template("${ITKM_LM${d}}${ITKM_I${t}${d}}" "${ITKT_LM${d}}, ${ITKT_I${t}${d}}")
     endforeach()
   endforeach()

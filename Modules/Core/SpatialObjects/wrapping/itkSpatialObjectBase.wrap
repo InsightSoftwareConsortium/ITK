@@ -1,7 +1,7 @@
 itk_wrap_simple_class("itk::MetaEvent")
 
 itk_wrap_class("itk::SpatialObject" POINTER_WITH_EXPLICIT_SPECIALIZATION)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     itk_wrap_template("${d}" "${d}")
   endforeach()
 itk_end_wrap_class()
@@ -32,7 +32,7 @@ itk_end_wrap_class()
 # must be in the same file than SpatialObject for java wrappers
 
 itk_wrap_class("itk::TreeNode" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     itk_wrap_template("${ITKM_SO${d}}" "${ITKT_SO${d}}*")
   endforeach()
 itk_end_wrap_class()

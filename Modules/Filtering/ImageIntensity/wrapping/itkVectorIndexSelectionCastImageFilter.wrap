@@ -2,7 +2,7 @@ itk_wrap_class("itk::VectorIndexSelectionCastImageFilter" POINTER_WITH_SUPERCLAS
 
   # Begin with VectorImages
   UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${to_types})
       itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
     endforeach()

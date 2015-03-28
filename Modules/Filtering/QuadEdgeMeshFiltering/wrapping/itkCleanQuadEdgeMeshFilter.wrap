@@ -1,7 +1,7 @@
 itk_wrap_include("itkQuadEdgeMesh.h")
 
 itk_wrap_class("itk::CleanQuadEdgeMeshFilter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     itk_wrap_template("QEM${ITKM_D}${d}" "itk::QuadEdgeMesh< ${ITKT_D},${d} >")
   endforeach()
 itk_end_wrap_class()

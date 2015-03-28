@@ -43,14 +43,14 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   endforeach()
 
   # covariant vector
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
       itk_wrap_template("${ITKM_${t}${d}}" "${ITKT_${t}${d}}")
     endforeach()
   endforeach()
 
   # vector, as in WrapITKTypes.cmake
-  UNIQUE(vector_sizes "1;${ITK_WRAP_DIMS};6")
+  UNIQUE(vector_sizes "1;${ITK_WRAP_IMAGE_DIMS};6")
   UNIQUE(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
   foreach(d ${vector_sizes})
     foreach(t ${vector_types})
@@ -59,8 +59,8 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   endforeach()
 
   # fixed array, as in WrapITKTypes.cmake
-  set(dims ${ITK_WRAP_DIMS})
-  foreach(d ${ITK_WRAP_DIMS})
+  set(dims ${ITK_WRAP_IMAGE_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     math(EXPR d2 "${d} * 2")
     # for itk::SymmetricSecondRankTensor
     math(EXPR d3 "${d} * (${d} + 1) / 2")

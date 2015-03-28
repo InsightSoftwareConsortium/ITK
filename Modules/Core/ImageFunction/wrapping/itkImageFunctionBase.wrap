@@ -1,5 +1,5 @@
 itk_wrap_class("itk::ImageFunction" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     # UC is required for InterpolateImageFunction
     UNIQUE(types "${WRAP_ITK_SCALAR};UC")
     foreach(t ${types})

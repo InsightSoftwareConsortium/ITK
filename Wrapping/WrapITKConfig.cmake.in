@@ -39,7 +39,7 @@ set(ITK_WRAP_rgb_unsigned_char @ITK_WRAP_rgb_unsigned_char@ CACHE BOOL "Wrap RGB
 set(ITK_WRAP_rgb_unsigned_short @ITK_WRAP_rgb_unsigned_short@ CACHE BOOL "Wrap RGB< unsigned short > type")
 set(ITK_WRAP_complex_float @ITK_WRAP_complex_float@ CACHE BOOL "Wrap complex<float> type")
 set(ITK_WRAP_complex_double @ITK_WRAP_complex_double@ CACHE BOOL "Wrap complex<double> type")
-set(ITK_WRAP_DIMS "@ITK_WRAP_DIMS@" CACHE STRING "dimensions available separated by semicolons (;)")
+set(ITK_WRAP_IMAGE_DIMS "@ITK_WRAP_IMAGE_DIMS@" CACHE STRING "dimensions available separated by semicolons (;)")
 
 @CONFIG_WRAP_ITK_MORE_OPTIONS@
 
@@ -49,7 +49,7 @@ foreach(var ITK_DIR GCCXML
     ITK_WRAP_vector_double ITK_WRAP_covariant_vector_float ITK_WRAP_covariant_vector_double
     ITK_WRAP_rgb_unsigned_char ITK_WRAP_rgb_unsigned_short ITK_WRAP_complex_float ITK_WRAP_complex_double
     ITK_WRAP_rgba_unsigned_char ITK_WRAP_rgba_unsigned_short
-    ITK_WRAP_DIMS)
+    ITK_WRAP_IMAGE_DIMS)
   mark_as_advanced(${var})
 endforeach()
 

@@ -3,7 +3,7 @@ itk_wrap_include("itkDefaultDynamicMeshTraits.h")
 
 itk_wrap_class("itk::PointSet" POINTER)
   UNIQUE(types "${WRAP_ITK_REAL};D")
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})
       itk_wrap_template("${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
         "${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} >")
@@ -11,19 +11,19 @@ itk_wrap_class("itk::PointSet" POINTER)
         "${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} >")
     endforeach()
   endforeach()
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     # Also wrap the point set type needed for the kernel transforms,
     # which may be a bug in ITK but they're needed currently.
     itk_wrap_template("${ITKM_PD${d}}${d}ST${ITKM_D}${d}${d}${ITKM_D}${ITKM_D}"
       "${ITKT_PD${d}},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_D},${ITKT_D} >")
   endforeach()
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     # Also wrap the point set type needed for the kernel transforms,
     # which may be a bug in ITK but they're needed currently.
     itk_wrap_template("M${ITKM_D}${d}${d}STM${ITKM_D}${d}${d}${d}${d}${ITKM_F}${ITKM_F}M${ITKM_D}${d}${d}"
       "itk::Matrix <${ITKT_D},${d},${d}>,${d},itk::DefaultStaticMeshTraits< itk::Matrix <${ITKT_D},${d},${d}>,${d},${d},${ITKT_F},${ITKT_F},itk::Matrix <${ITKT_D},${d},${d}> >")
   endforeach()
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     # Also wrap the point set type needed for MeshBase
     itk_wrap_template("D${d}STD${d}${d}DFD"
       "double,${d},itk::DefaultStaticMeshTraits< double,${d},${d},double,float,double >")

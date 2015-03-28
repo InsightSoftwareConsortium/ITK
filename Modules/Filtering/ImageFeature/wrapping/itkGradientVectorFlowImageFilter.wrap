@@ -1,5 +1,5 @@
 itk_wrap_class("itk::GradientVectorFlowImageFilter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_VECTOR_REAL})
       string(REGEX REPLACE "V" "" t2 "${t}")
       itk_wrap_template("${ITKM_I${t}${d}${d}}${ITKM_I${t}${d}${d}}${ITKM_${t2}}" "${ITKT_I${t}${d}${d}}, ${ITKT_I${t}${d}${d}}, ${ITKT_${t2}}")

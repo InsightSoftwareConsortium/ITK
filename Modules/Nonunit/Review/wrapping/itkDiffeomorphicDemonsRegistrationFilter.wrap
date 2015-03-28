@@ -1,6 +1,6 @@
 itk_wrap_class("itk::DiffeomorphicDemonsRegistrationFilter" POINTER)
   # This filter needs to have image dimension == vector dimension
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
       foreach(v ${WRAP_ITK_VECTOR_REAL})
         itk_wrap_template(

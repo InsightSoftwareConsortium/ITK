@@ -48,7 +48,7 @@ add_python_test(PythonTiming ${CMAKE_CURRENT_SOURCE_DIR}/timing.py)
 
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
-INTERSECTION(WRAP_2 2 "${ITK_WRAP_DIMS}")
+INTERSECTION(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")
 if(ITK_WRAP_unsigned_char AND WRAP_2)
   add_python_test(PythonTypemaps ${CMAKE_CURRENT_SOURCE_DIR}/typemaps.py)
 
@@ -431,7 +431,7 @@ if(ITK_WRAP_float AND WRAP_2)
 endif()
 
 
-INTERSECTION(WRAP_3 3 "${ITK_WRAP_DIMS}")
+INTERSECTION(WRAP_3 3 "${ITK_WRAP_IMAGE_DIMS}")
 if(ITK_WRAP_float AND WRAP_3)
   add_python_test(PythonAntiAliasBinaryImageFilterTest
     --compare AntiAliasBinaryImageFilter.png
@@ -447,7 +447,7 @@ endif()
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
 # signed char can't be used to store an image with values up to 255
 list(REMOVE_ITEM types SC)
-foreach(d ${ITK_WRAP_DIMS})
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
     add_python_test(PythonSimplePipeline${t}${d}
       ${CMAKE_CURRENT_SOURCE_DIR}/simple_pipeline.py
