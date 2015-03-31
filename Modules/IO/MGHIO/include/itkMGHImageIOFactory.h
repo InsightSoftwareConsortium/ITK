@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMGHImageIOFactory_h
-#define __itkMGHImageIOFactory_h
+#ifndef itkMGHImageIOFactory_h
+#define itkMGHImageIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -66,4 +66,4 @@ private:
 };
 } // end namespace itk
 
-#endif /// __itkMGHImageIOFactory_h
+#endif /// itkMGHImageIOFactory_h
