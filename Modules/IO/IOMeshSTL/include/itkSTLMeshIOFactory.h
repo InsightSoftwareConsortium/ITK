@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSTLMeshIOFactory_h
-#define __itkSTLMeshIOFactory_h
+#ifndef itkSTLMeshIOFactory_h
+#define itkSTLMeshIOFactory_h
 
 #include "IOSTLExport.h"
 

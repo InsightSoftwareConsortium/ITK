@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSTLMeshIO_h
-#define __itkSTLMeshIO_h
+#ifndef itkSTLMeshIO_h
+#define itkSTLMeshIO_h
 
 #include "IOSTLExport.h"
 
@@ -295,4 +295,4 @@ private:
 };
 } // end namespace itk
 
-#endif // __itkSTLMeshIO_h
+#endif // itkSTLMeshIO_h
