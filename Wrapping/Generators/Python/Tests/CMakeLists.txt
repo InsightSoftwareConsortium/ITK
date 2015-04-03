@@ -16,8 +16,9 @@ macro(add_python_test name)
     --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
     --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
-    --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+    --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
     --add-before-libpath "${ITK_DIR}"
     ${command}
     ${ARGN}
