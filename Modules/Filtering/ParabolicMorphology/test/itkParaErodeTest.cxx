@@ -62,7 +62,15 @@ itkParaErodeTest(int argc, char * argv[])
   WriterType::Pointer                 writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
 
   filter->SetScale(scale);
   filter->SetUseImageSpacing(true);
