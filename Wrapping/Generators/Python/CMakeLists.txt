@@ -408,6 +408,10 @@ macro(itk_end_wrap_module_python)
   # extension is not the same on windows
   if(WIN32)
     set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
+    if(MSVC)
+      # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
+      set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
+    endif()
   endif()
   target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
