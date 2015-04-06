@@ -12,7 +12,7 @@
 // sanity check of the image spacing option
 
 int
-main(int argc, char * argv[])
+itkParaErodeTest(int argc, char * argv[])
 {
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
   const int dim = 2;
@@ -29,7 +29,15 @@ main(int argc, char * argv[])
   typedef itk::ImageFileReader<IType> ReaderType;
   ReaderType::Pointer                 reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  reader->Update();
+  try
+  {
+    reader->Update();
+  }
+  catch (itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
 
   typedef itk::ParabolicErodeImageFilter<IType, IType> FilterType;
 
@@ -40,7 +48,15 @@ main(int argc, char * argv[])
   filter->SetScale(scale);
   filter->SetUseImageSpacing(true);
   filter->SetParabolicAlgorithm(FilterType::INTERSECTION);
-  filter->Update();
+  try
+  {
+    filter->Update();
+  }
+  catch (itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
 
   typedef itk::ImageFileWriter<IType> WriterType;
   WriterType::Pointer                 writer = WriterType::New();
@@ -55,7 +71,15 @@ main(int argc, char * argv[])
 
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
-  writer->Update();
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
