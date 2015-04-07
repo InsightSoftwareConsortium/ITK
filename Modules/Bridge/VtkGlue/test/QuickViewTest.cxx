@@ -23,6 +23,7 @@
 template<typename T> void View(const char *name, T,
                             std::string fileName,
                             bool sharedCamera=false,
+                            bool interpolate=true,
                             const std::string & snapshotPath = "",
                             const std::string & ext = "png")
 {
@@ -40,6 +41,14 @@ template<typename T> void View(const char *name, T,
   else
     {
     viewer1.ShareCameraOff();
+    }
+  if (interpolate)
+    {
+    viewer1.InterpolateOn();
+    }
+  else
+    {
+    viewer1.InterpolateOff();
     }
   viewer1.AddImage(source->GetOutput(),
                   true,
@@ -63,6 +72,7 @@ template<typename T> void ViewRGB(const char *name,
                                T,
                                std::string fileName,
                                bool sharedCamera=false,
+                               bool interpolate=true,
                                const std::string & snapshotPath = "",
                                const std::string & ext = "png")
 {
@@ -83,6 +93,15 @@ template<typename T> void ViewRGB(const char *name,
     {
     viewer1.ShareCameraOff();
     }
+  if (interpolate)
+    {
+    viewer1.InterpolateOn();
+    }
+  else
+    {
+    viewer1.InterpolateOff();
+    }
+
 
   viewer1.AddRGBImage(source->GetOutput(),
                   true,
@@ -104,7 +123,7 @@ template<typename T> void ViewRGB(const char *name,
 
 int QuickViewTest (int argc, char *argv[])
 {
-  View("unsigned char", static_cast<unsigned char>(0), argv[1], true);
+  View("unsigned char", static_cast<unsigned char>(0), argv[1], true, true);
   View("unsigned char", static_cast<unsigned char>(0), argv[1]);
   View("char", char(0), argv[1]);
   View("unsigned short", static_cast<unsigned short>(0), argv[1]);
@@ -116,7 +135,7 @@ int QuickViewTest (int argc, char *argv[])
   View("float", float(0), argv[1]);
   View("double", double(0), argv[1]);
 
-  ViewRGB("RGB-float", float(0), argv[1], true);
+  ViewRGB("RGB-float", float(0), argv[1], true, false);
   ViewRGB("RGB-float", float(0), argv[1]);
 
   if (argc > 2)
@@ -124,20 +143,24 @@ int QuickViewTest (int argc, char *argv[])
     View("unsigned char", static_cast<unsigned char>(0),
          argv[1],
          false,
+         true,
          argv[2]);
     View("unsigned char", static_cast<unsigned char>(0),
          argv[1],
          false,
+         true,
          argv[2],
          std::string("tif"));
     View("unsigned char", static_cast<unsigned char>(0),
          argv[1],
          false,
+         true,
          argv[2],
          std::string("jpg"));
     View("unsigned char", static_cast<unsigned char>(0),
          argv[1],
          false,
+         true,
          argv[2],
          std::string("bmp"));
     }

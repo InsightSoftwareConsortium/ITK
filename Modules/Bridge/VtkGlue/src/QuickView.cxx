@@ -310,6 +310,14 @@ void QuickView::Visualize(bool interact)
       renderer->AddActor(textActor);
       }
 
+    if (m_Interpolate)
+      {
+      actor->InterpolateOn();
+      }
+    else
+      {
+      actor->InterpolateOff();
+      }
     renderer->AddActor(actor);
     renderer->ResetCamera();
     }
@@ -374,6 +382,14 @@ void QuickView::Visualize(bool interact)
       renderer->AddActor(textActor);
       }
 
+    if (m_Interpolate)
+      {
+      actor->InterpolateOn();
+      }
+    else
+      {
+      actor->InterpolateOff();
+      }
     renderer->AddActor(actor);
     renderer->ResetCamera();
     }
