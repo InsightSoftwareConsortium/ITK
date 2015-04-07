@@ -10,7 +10,7 @@ namespace itk
  */
 
 
-namespace Function
+namespace Functor
 {
 
 template <class TInput, class TOutput>
@@ -44,14 +44,13 @@ public:
 private:
   TInput m_Val;
 };
-} // namespace Function
+} // namespace Functor
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT GreaterEqualValImageFilter
-  : public itk::UnaryFunctorImageFilter<
-      TInputImage,
-      TOutputImage,
-      Function::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
+  : public UnaryFunctorImageFilter<TInputImage,
+                                   TOutputImage,
+                                   Function::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   /** Standard class typedefs. */
