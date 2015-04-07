@@ -8,6 +8,7 @@ itk_module(
   ParabolicMorphology
   DEPENDS
     ITKIOImageBase
+    ITKThresholding
   TEST_DEPENDS
     ITKImageGrid
     ITKTestKernel
