@@ -1,6 +1,6 @@
 #ifndef __itkGreaterEqualValImageFilter_h
 #define __itkGreaterEqualValImageFilter_h
-
+#include <itkUnaryFunctorImageFilter.h>
 namespace itk
 {
 
@@ -48,9 +48,10 @@ private:
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT GreaterEqualValImageFilter
-  : public UnaryFunctorImageFilter<TInputImage,
-                                   TOutputImage,
-                                   Function::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
+  : public itk::UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Function::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   /** Standard class typedefs. */
