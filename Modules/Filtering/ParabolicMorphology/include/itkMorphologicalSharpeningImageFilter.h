@@ -3,7 +3,6 @@
 
 #include "itkImageToImageFilter.h"
 // #include "itkProgressReporter.h"
-#include "itkWatershedMiniPipelineProgressCommand.h"
 #include "itkCastImageFilter.h"
 #include "itkParabolicErodeImageFilter.h"
 #include "itkParabolicDilateImageFilter.h"
