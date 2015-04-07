@@ -133,7 +133,7 @@ itk_add_test(
     --compare
     openInt.png
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/openInt.png
-    itkParaDOpenTest
+    itkParaOpenTest
     ${INPUT_IMAGE}
     openInt.png
     openCP.png
