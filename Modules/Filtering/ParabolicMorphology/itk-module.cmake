@@ -9,7 +9,7 @@ itk_module(
   DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
-    ITKGroupFiltering
+    ITKImageGrid
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
