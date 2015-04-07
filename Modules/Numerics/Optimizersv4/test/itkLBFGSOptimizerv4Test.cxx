@@ -231,6 +231,7 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
   std::cout << "GradientConvergenceTolerance   = " << itkOptimizer->GetGradientConvergenceTolerance() << std::endl;
   std::cout << "DefaultStepLength   = " << itkOptimizer->GetDefaultStepLength() << std::endl;
   std::cout << "MaximumNumberOfFunctionEvaluations   = " << itkOptimizer->GetMaximumNumberOfFunctionEvaluations() << std::endl;
+  std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 
   //
   // check results to see if it is within range
@@ -265,6 +266,34 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
     }
 
   //
+  // Test stopping when number of iterations reached
+  //
+  itkOptimizer->SetNumberOfIterations( 5 );
+  metric->SetParameters( initialValue );
+
+   try
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << "Exception thrown ! " << std::endl;
+    std::cerr << "An error occurred during Optimization" << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+    }
+
+   std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
+
+  if ( itkOptimizer->GetCurrentIteration() != 5 )
+     {
+     std::cout << "Not expected number of iterations!" << std::endl;
+     std::cout << "[FAILURE]" << std::endl;
+     return EXIT_FAILURE;
+     }
+
+
   // Test with non-indentity scales
   //
   std::cout << std::endl << "Test with non-identiy scales." << std::endl;

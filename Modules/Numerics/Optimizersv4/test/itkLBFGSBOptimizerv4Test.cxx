@@ -167,7 +167,7 @@ public:
     Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute( const itk::Object *, const itk::EventObject & event) ITK_OVERRIDE
+  virtual void Execute( const itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     if( itk::StartEvent().CheckEvent( &event ))
       {
@@ -177,6 +177,12 @@ public:
     if( itk::IterationEvent().CheckEvent( &event ))
       {
       std::cout << "Received IterationEvent." << std::endl;
+      const itk::ObjectToObjectOptimizerBaseTemplate<double> *opt =
+        dynamic_cast<const itk::ObjectToObjectOptimizerBaseTemplate<double> *>(caller);
+      if (opt)
+        {
+        std::cout << " iteration  = " << opt->GetCurrentIteration() << std::endl;
+        }
       m_HadIterationEvent = true;
       }
     if( itk::EndEvent().CheckEvent( &event ))
@@ -218,12 +224,12 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
 
   const double F_Convergence_Factor  = 1e+7;      // Function value tolerance
   const double Projected_G_Tolerance = 1e-5;      // Proj gradient tolerance
-  const int    Max_Iterations   =   100; // Maximum number of iterations
+  const int    Max_Iterations   =   25; // Maximum number of iterations
 
   itkOptimizer->SetCostFunctionConvergenceFactor( F_Convergence_Factor );
   itkOptimizer->SetGradientConvergenceTolerance( Projected_G_Tolerance );
   itkOptimizer->SetNumberOfIterations( Max_Iterations );
-  itkOptimizer->SetMaximumNumberOfFunctionEvaluations( Max_Iterations );
+  itkOptimizer->SetMaximumNumberOfFunctionEvaluations( 100 );
 
   const unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
@@ -301,6 +307,7 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
     << itkOptimizer->GetMaximumNumberOfFunctionEvaluations() << std::endl;
   std::cout << "MaximumNumberOfCorrections   = "
     << itkOptimizer->GetMaximumNumberOfCorrections() << std::endl;
+  std::cout << "CurrentOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 
   if( !eventChecker->GetHadStartEvent() )
     {
@@ -354,6 +361,38 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
     std::cerr << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+  //
+  // Test stopping when number of iterations reached
+  //
+  std::cout << "-------------------------------" << std::endl;
+
+  // Testing number of iterations for stopping
+  metric->SetParameters( initialValue );
+  itkOptimizer->SetNumberOfIterations( 1 );
+
+   try
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << "Exception thrown ! " << std::endl;
+    std::cerr << "An error occurred during Optimization" << std::endl;
+    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+   std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
+
+  if ( itkOptimizer->GetCurrentIteration() != 1 )
+     {
+     std::cout << "[FAILURE]" << std::endl;
+     return EXIT_FAILURE;
+     }
+
 
   //
   // Test with local-support transform. Should FAIL.
