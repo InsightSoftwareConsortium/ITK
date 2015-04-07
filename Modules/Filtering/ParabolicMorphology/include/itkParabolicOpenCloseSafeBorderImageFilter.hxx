@@ -1,5 +1,5 @@
-#ifndef __itkParabolicOpenCloseSafeBorderImageFilter_txx
-#define __itkParabolicOpenCloseSafeBorderImageFilter_txx
+#ifndef __itkParabolicOpenCloseSafeBorderImageFilter_hxx
+#define __itkParabolicOpenCloseSafeBorderImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 

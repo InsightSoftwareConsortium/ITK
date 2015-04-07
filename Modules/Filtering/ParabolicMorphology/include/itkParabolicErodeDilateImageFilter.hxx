@@ -1,5 +1,5 @@
-#ifndef __itkParabolicErodeDilateImageFilter_txx
-#define __itkParabolicErodeDilateImageFilter_txx
+#ifndef __itkParabolicErodeDilateImageFilter_hxx
+#define __itkParabolicErodeDilateImageFilter_hxx
 
 #include "itkParabolicErodeDilateImageFilter.h"
 #include "itkImageRegionConstIterator.h"

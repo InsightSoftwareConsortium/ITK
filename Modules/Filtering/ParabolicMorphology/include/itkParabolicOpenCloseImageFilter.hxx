@@ -1,5 +1,5 @@
-#ifndef __itkParabolicOpenCloseImageFilter_txx
-#define __itkParabolicOpenCloseImageFilter_txx
+#ifndef __itkParabolicOpenCloseImageFilter_hxx
+#define __itkParabolicOpenCloseImageFilter_hxx
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"

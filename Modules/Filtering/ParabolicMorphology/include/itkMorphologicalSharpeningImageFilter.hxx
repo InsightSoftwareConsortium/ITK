@@ -1,8 +1,8 @@
-#ifndef __itkMorphologicalSharpeningImageFilter_txx
-#define __itkMorphologicalSharpeningImageFilter_txx
+#ifndef __itkMorphologicalSharpeningImageFilter_hxx
+#define __itkMorphologicalSharpeningImageFilter_hxx
 
-#include "itkMorphologicalSharpeningImageFilter.h"
-// #include "itkProgressAccumulator.h"
+// #include "itkMorphologicalSharpeningImageFilter.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk
 
@@ -28,8 +28,8 @@ void
 MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 {
 
-  //   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
-  //   progress->SetMiniPipelineFilter(this);
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
   this->AllocateOutputs();
@@ -44,14 +44,20 @@ MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData(void
   m_SharpenOp->SetInput2(m_Cast->GetOutput());
   m_SharpenOp->SetInput3(m_Erode->GetOutput());
 
-  // set up the progrss monitor
-  WatershedMiniPipelineProgressCommand::Pointer c = WatershedMiniPipelineProgressCommand::New();
-  c->SetFilter(this);
-  c->SetNumberOfFilters(3 * m_Iterations);
+  progress->RegisterInternalFilter(m_Erode, 1.0f);
+  progress->RegisterInternalFilter(m_Dilate, 1.0f);
+  progress->RegisterInternalFilter(m_SharpenOp, 1.0f);
 
-  m_Erode->AddObserver(ProgressEvent(), c);
-  m_Dilate->AddObserver(ProgressEvent(), c);
-  m_SharpenOp->AddObserver(ProgressEvent(), c);
+
+  // set up the progrss monitor
+  // WatershedMiniPipelineProgressCommand::Pointer c =
+  //   WatershedMiniPipelineProgressCommand::New();
+  // c->SetFilter(this);
+  // c->SetNumberOfFilters(3 * m_Iterations);
+
+  // m_Erode->AddObserver(ProgressEvent(), c);
+  // m_Dilate->AddObserver(ProgressEvent(), c);
+  // m_SharpenOp->AddObserver(ProgressEvent(), c);
 
 
   for (int i = 0; i < m_Iterations; i++)

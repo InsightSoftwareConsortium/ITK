@@ -1,5 +1,5 @@
-#ifndef __itkMorphologicalSignedDistanceTransformImageFilter_txx
-#define __itkMorphologicalSignedDistanceTransformImageFilter_txx
+#ifndef __itkMorphologicalSignedDistanceTransformImageFilter_hxx
+#define __itkMorphologicalSignedDistanceTransformImageFilter_hxx
 
 #include "itkMorphologicalSignedDistanceTransformImageFilter.h"
 #include "itkProgressAccumulator.h"

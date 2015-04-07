@@ -1,5 +1,5 @@
-#ifndef __itkBinaryCloseParabolicImageFilter_txx
-#define __itkBinaryCloseParabolicImageFilter_txx
+#ifndef __itkBinaryCloseParabolicImageFilter_hxx
+#define __itkBinaryCloseParabolicImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkBinaryCloseParaImageFilter.h"
