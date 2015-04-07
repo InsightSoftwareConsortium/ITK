@@ -25,7 +25,7 @@ itk_add_test(
     outECPa.png
     --compare
     outEInta.png
-    baseline/outECPa.png
+    ${CMAKGE_CURRENT_SOURCE_DIR}/baseline/outECPa.png
     itkParaErodeTest
     ${INPUT_IMAGE}
     outEInta.png
