@@ -50,7 +50,7 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT GreaterEqualValImageFilter
   : public UnaryFunctorImageFilter<TInputImage,
                                    TOutputImage,
-                                   Function::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
+                                   Functor::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   /** Standard class typedefs. */
