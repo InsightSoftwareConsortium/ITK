@@ -88,7 +88,7 @@ itk_add_test(
 
 ## small scale
 itk_add_test(
-  NAME itkParaErodeTest2D_2
+  NAME itkParaDilateTest2D_2
   COMMAND
     ParabolicMorphologyTestDriver
     --compare
@@ -106,7 +106,7 @@ itk_add_test(
 
 ## large scale
 itk_add_test(
-  NAME itkParaErodeTest2D_3
+  NAME itkParaDilateTest2D_3
   COMMAND
     ParabolicMorphologyTestDriver
     --compare
