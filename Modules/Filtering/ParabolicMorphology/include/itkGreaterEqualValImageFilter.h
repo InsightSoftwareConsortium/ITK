@@ -57,7 +57,7 @@ public:
   typedef GreaterEqualValImageFilter Self;
   typedef UnaryFunctorImageFilter<TInputImage,
                                   TOutputImage,
-                                  Function::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
+                                  Functor::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
                                    Superclass;
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
