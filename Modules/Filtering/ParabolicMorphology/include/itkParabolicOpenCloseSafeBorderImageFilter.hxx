@@ -2,6 +2,7 @@
 #define __itkParabolicOpenCloseSafeBorderImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
+#include "itkParabolicOpenCloseSafeBorderImageFilter.h"
 
 namespace itk
 {

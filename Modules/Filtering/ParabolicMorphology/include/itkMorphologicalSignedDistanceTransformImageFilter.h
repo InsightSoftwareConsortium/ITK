@@ -131,7 +131,7 @@ public:
   itkGetConstReferenceMacro(ParabolicAlgorithm, int);
 
 
-  const bool
+  const bool &
   GetUseImageSpacing()
   {
     return m_Erode->GetUseImageSpacing();
