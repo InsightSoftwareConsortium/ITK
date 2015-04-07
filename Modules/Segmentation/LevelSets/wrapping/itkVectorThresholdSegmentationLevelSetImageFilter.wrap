@@ -1,12 +1,15 @@
-
 itk_wrap_include("itkShapeDetectionLevelSetImageFilter.h")
 
 itk_wrap_class("itk::VectorThresholdSegmentationLevelSetImageFilter" POINTER)
 
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
+
+    set(vector_dim ${d}) # Wrap only vector dimensions which are the same as image dimensions
     foreach(t ${WRAP_ITK_REAL})
       foreach(t2 ${WRAP_ITK_VECTOR_REAL})
-        itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t2}${d}${d}}${ITKM_${t}}" "${ITKT_I${t}${d}},${ITKT_I${t2}${d}${d}},${ITKT_${t}}")
+        itk_wrap_template(
+          "${ITKM_I${t}${d}}${ITKM_I${t2}${vector_dim}${d}}${ITKM_${t}}"
+          "${ITKT_I${t}${d}},${ITKT_I${t2}${vector_dim}${d}},${ITKT_${t}}")
       endforeach()
     endforeach()
   endforeach()

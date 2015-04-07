@@ -51,6 +51,14 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
 endforeach()
 list(REMOVE_DUPLICATES ITK_WRAP_IMAGE_DIMS_INCREMENTED)
 
+# Needed for itkMatrix, itkPoint, ...
+set(ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED "")
+foreach(d ${ITK_WRAP_VECTOR_COMPONENTS})
+  INCREMENT(d_inc ${d})
+  list(APPEND ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED ${d} ${d_inc})
+endforeach()
+list(REMOVE_DUPLICATES ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED)
+
 ###############################################################################
 # Create some variable which can be used later
 ###############################################################################

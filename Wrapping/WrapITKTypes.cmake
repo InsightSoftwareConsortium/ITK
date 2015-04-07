@@ -70,20 +70,26 @@ set(itk_Wrap_Offset ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::Vector" "V")
   # dim 6 is used by ScaleSkewVersor3DTransform
-  UNIQUE(vector_sizes "1;${ITK_WRAP_IMAGE_DIMS_INCREMENTED};6")
+  UNIQUE(vector_dims "1;${ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED};6")
   UNIQUE(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
-  foreach(d ${vector_sizes})
+  foreach(vector_dim ${vector_dims})
     foreach(t ${vector_types})
-      ADD_TEMPLATE("${ITKM_${t}}${d}"  "${ITKT_${t}},${d}")
+      ADD_TEMPLATE(
+        "${ITKM_${t}}${vector_dim}"
+        "${ITKT_${t}},${vector_dim}")
     endforeach()
   endforeach()
 END_WRAP_TYPE()
 set(itk_Wrap_Vector ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::CovariantVector" "CV")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
-    ADD_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
-    ADD_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
+  foreach(vector_dim ${ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED})
+    ADD_TEMPLATE(
+      "${ITKM_F}${vector_dim}"
+      "${ITKT_F},${vector_dim}")
+    ADD_TEMPLATE(
+      "${ITKM_D}${vector_dim}"
+      "${ITKT_D},${vector_dim}")
   endforeach()
 END_WRAP_TYPE()
 set(itk_Wrap_CovariantVector ${WRAPPER_TEMPLATES})
@@ -191,9 +197,7 @@ WRAP_TYPE("itk::Image" "I")
 
         # Vectorial types
         set(orig_type ${type})
-        # Note, vec_dim should be generated from a separate dimension list
-        # and not use the same dimensions as image dimension.
-        foreach(vec_dim ${ITK_WRAP_IMAGE_DIMS})
+        foreach(vec_dim ${ITK_WRAP_VECTOR_COMPONENTS})
           set(type "${orig_type}${vec_dim}")
           ADD_TEMPLATE("${ITKM_${type}}${d}" "${ITKT_${type}},${d}")
           # Make a list of all defined vector/covariantvector image types.
@@ -229,19 +233,23 @@ WRAP_TYPE("itk::Image" "I")
   # Vector types required by VelocityFieldTranform classes.
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     INCREMENT(d_inc ${d})
-    list(FIND defined_vector_list "${ITKM_VD${d}}${d_inc}" index)
-    if(index EQUAL -1)
-      ADD_TEMPLATE("${ITKM_VD${d}}${d_inc}" "${ITKT_VD${d}},${d_inc}")
-    endif()
+    foreach(vector_dim ${ITK_WRAP_VECTOR_COMPONENTS})
+      list(FIND defined_vector_list "${ITKM_VD${vector_dim}}${d_inc}" index)
+      if(index EQUAL -1)
+        ADD_TEMPLATE("${ITKM_VD${vector_dim}}${d_inc}" "${ITKT_VD${vector_dim}},${d_inc}")
+      endif()
+    endforeach()
   endforeach()
 
   # CovariantVector types required by ImageToImageMetric class
   # for the ITKRegistration module.
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    list(FIND defined_vector_list "${ITKM_CVD${d}}${d}" index)
-    if(index EQUAL -1)
-      ADD_TEMPLATE("${ITKM_CVD${d}}${d}" "${ITKT_CVD${d}},${d}")
-    endif()
+    foreach(vector_dim ${ITK_WRAP_VECTOR_COMPONENTS})
+      list(FIND defined_vector_list "${ITKM_CVD${vector_dim}}${d}" index)
+      if(index EQUAL -1)
+        ADD_TEMPLATE("${ITKM_CVD${vector_dim}}${d}" "${ITKT_CVD${vector_dim}},${d}")
+      endif()
+    endforeach()
   endforeach()
 
 END_WRAP_TYPE()

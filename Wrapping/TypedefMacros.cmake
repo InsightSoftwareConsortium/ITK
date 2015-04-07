@@ -730,13 +730,11 @@ macro(itk_wrap_image_filter_types)
     set(dims ${ITK_WRAP_IMAGE_DIMS})
   endif()
 
-  # TODO: The vec_dims list should not be generated from
-  # ITK_WRAP_IMAGE_DIMS; but from a separate list for vector dimensions.
   set(vec_dims 1)
   foreach(num RANGE 0 ${last_arg_number})
     set(type "${arg${num}}")
     if("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
-      set(vec_dims ${ITK_WRAP_IMAGE_DIMS})
+      set(vec_dims ${ITK_WRAP_VECTOR_COMPONENTS})
     endif()
   endforeach()
 

@@ -98,6 +98,7 @@ else()
   # Keep ITK_WRAP_DIMS for extra modules developed outside of ITK.
   set(ITK_WRAP_DIMS "${ITK_WRAP_IMAGE_DIMS}")
 endif()
+set(ITK_WRAP_VECTOR_COMPONENTS "${ITK_WRAP_IMAGE_DIMS}" CACHE STRING "Number of vector components available separated by semicolons (;)")
 
 option(INSTALL_WRAP_ITK_COMPATIBILITY "Install FindWrapITK.cmake and WrapITK.pth (so cmake and python can find WrapITK) as part of the standard installation process. This requires admin privileges. These files can be separately installed by making the install_wrapitk_compatibility target. " ON)
 

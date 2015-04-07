@@ -43,16 +43,16 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   endforeach()
 
   # covariant vector
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(d ${ITK_WRAP_VECTOR_COMPONENTS})
     foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
       itk_wrap_template("${ITKM_${t}${d}}" "${ITKT_${t}${d}}")
     endforeach()
   endforeach()
 
   # vector, as in WrapITKTypes.cmake
-  UNIQUE(vector_sizes "1;${ITK_WRAP_IMAGE_DIMS};6")
+  UNIQUE(vector_dims "1;${ITK_WRAP_VECTOR_COMPONENTS};6")
   UNIQUE(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
-  foreach(d ${vector_sizes})
+  foreach(d ${vector_dims})
     foreach(t ${vector_types})
       ADD_TEMPLATE("${ITKM_V${t}${d}}" "${ITKT_V${t}${d}}")
     endforeach()
