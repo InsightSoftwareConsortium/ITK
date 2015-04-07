@@ -23,7 +23,9 @@ itk_add_test(
     --compare
     outEInta.png
     outECPa.png
-    #  --compare outEInta.png baseline/outEInta.png
+    --compare
+    outEInta.png
+    baseline/outECPa.png
     itkParaErodeTest
     ${INPUT_IMAGE}
     outEInta.png
