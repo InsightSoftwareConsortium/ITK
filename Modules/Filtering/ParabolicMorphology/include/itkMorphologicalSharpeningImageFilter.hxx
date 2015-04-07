@@ -1,7 +1,7 @@
 #ifndef __itkMorphologicalSharpeningImageFilter_hxx
 #define __itkMorphologicalSharpeningImageFilter_hxx
 
-// #include "itkMorphologicalSharpeningImageFilter.h"
+#include "itkMorphologicalSharpeningImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk
