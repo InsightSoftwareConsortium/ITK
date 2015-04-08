@@ -221,7 +221,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     MapBegin = m_LineMap.begin();
     MapEnd = m_LineMap.end();
     LineIt = MapBegin;
-    LabelType label = 1;
+    InternalLabelType label = 1;
     for ( LineIt = MapBegin; LineIt != MapEnd; ++LineIt )
       {
       typename lineEncoding::iterator cIt;
@@ -345,11 +345,10 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   const SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   const SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
   const SizeValueType linecount = pixelcount / xsize;
-  LabelType totalLabs = CreateConsecutive();
+  SizeValueType totalLabs = CreateConsecutive();
   ProgressReporter  progress(this, 0, linecount, 25, 0.75f, 0.25f);
   // check for overflow exception here
-  if ( totalLabs > static_cast< LabelType >(
-         NumericTraits< OutputPixelType >::max() ) )
+  if ( totalLabs > static_cast< SizeValueType >( NumericTraits< OutputPixelType >::max() ) )
     {
     itkExceptionMacro(
       << "Number of objects (" << totalLabs << ") greater than maximum of output pixel type ("
@@ -363,10 +362,12 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     typedef typename lineEncoding::const_iterator LineIterator;
 
     LineIterator cIt = m_LineMap[thisIdx].begin();
-    while ( cIt != m_LineMap[thisIdx].end() )
+    const LineIterator cEnd = m_LineMap[thisIdx].end();
+
+    while ( cIt != cEnd )
       {
-      SizeValueType   Ilab = LookupSet(cIt->label);
-      OutputPixelType lab = m_Consecutive[Ilab];
+      const InternalLabelType Ilab = LookupSet(cIt->label);
+      const OutputPixelType lab = m_Consecutive[Ilab];
       output->SetLine(cIt->where, cIt->length, lab);
       ++cIt;
       }
@@ -447,16 +448,14 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // this checks whether the line encodings are really neighbors. The
   // first dimension gets ignored because the encodings are along that
   // axis
-  OutputOffsetType Off = A - B;
-
   for ( unsigned i = 1; i < OutputImageDimension; i++ )
     {
-    if ( vnl_math_abs(Off[i]) > 1 )
+    if ( vnl_math_abs(A[i] - B[i]) > 1 )
       {
-      return ( false );
+      return false;
       }
     }
-  return ( true );
+  return true;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -547,31 +546,35 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
-::InsertSet(const LabelType label)
+::InsertSet(const InternalLabelType label)
 {
   m_UnionFind[label] = label;
 }
 
 template< typename TInputImage, typename TOutputImage >
-typename BinaryImageToLabelMapFilter< TInputImage, TOutputImage >::LabelType
+typename BinaryImageToLabelMapFilter< TInputImage, TOutputImage >::SizeValueType
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::CreateConsecutive()
 {
-  m_Consecutive = UnionFindType( m_UnionFind.size() );
-  m_Consecutive[this->m_OutputBackgroundValue] = this->m_OutputBackgroundValue;
-  LabelType CLab = 0;
+  const size_t N = m_UnionFind.size();
+
+  m_Consecutive = ConsecutiveVectorType( N );
+  m_Consecutive[ this->m_OutputBackgroundValue ] = this->m_OutputBackgroundValue;
+
+  OutputPixelType consecutiveLabel = 0;
   SizeValueType count = 0;
-  for ( SizeValueType I = 1; I < m_UnionFind.size(); I++ )
+
+  for ( size_t i = 1; i < N; i++ )
     {
-    SizeValueType L = m_UnionFind[I];
-    if ( L == I )
+    const size_t label = static_cast< size_t >( m_UnionFind[i] );
+    if ( label == i )
       {
-      if ( CLab == this->m_OutputBackgroundValue )
+      if ( consecutiveLabel == this->m_OutputBackgroundValue )
         {
-        ++CLab;
+        ++consecutiveLabel;
         }
-      m_Consecutive[L] = CLab;
-      ++CLab;
+      m_Consecutive[label] = consecutiveLabel;
+      ++consecutiveLabel;
       ++count;
       }
     }
@@ -579,9 +582,9 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-typename BinaryImageToLabelMapFilter< TInputImage, TOutputImage >::LabelType
+typename BinaryImageToLabelMapFilter< TInputImage, TOutputImage >::InternalLabelType
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
-::LookupSet(const LabelType label)
+::LookupSet(const InternalLabelType label)
 {
   // recursively set the equivalence if necessary
   if ( label != m_UnionFind[label] )
@@ -594,10 +597,10 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
-::LinkLabels(const LabelType lab1, const LabelType lab2)
+::LinkLabels(const InternalLabelType lab1, const InternalLabelType lab2)
 {
-  LabelType E1 = this->LookupSet(lab1);
-  LabelType E2 = this->LookupSet(lab2);
+  InternalLabelType E1 = this->LookupSet(lab1);
+  InternalLabelType E2 = this->LookupSet(lab2);
 
   if ( E1 < E2 )
     {
