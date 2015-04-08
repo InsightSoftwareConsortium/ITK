@@ -5,7 +5,7 @@ set(
   itkParaDilateTest.cxx
   itkParaOpenTest.cxx
   itkParaSpacingTest.cxx
-  #itkParaSharpenTest.cxx
+  itkParaSharpenTest.cxx
   #itkParaDTTest.cxx
 )
 
@@ -146,8 +146,56 @@ itk_add_test(
     --compare
     osp1.png
     osp2.png
-    itkParaOpenTest
+    itkParaSpacingTest
     ${INPUT_IMAGE}
     osp1.png
     osp2.png
+)
+
+itk_add_test(
+  NAME itkParaSharpenTest2D_1
+  COMMAND
+    ParabolicMorphologyTestDriver
+    --compare
+    sharp1.mha
+    ${CMAKE_CURRENT_SOURCE_DIR}/baseline/sharp1.mha
+    itkParaSharpenTest
+    1
+    sharp1.mha
+)
+
+itk_add_test(
+  NAME itkParaSharpenTest2D_3
+  COMMAND
+    ParabolicMorphologyTestDriver
+    --compare
+    sharp3.mha
+    ${CMAKE_CURRENT_SOURCE_DIR}/baseline/sharp3.mha
+    itkParaSharpenTest
+    3
+    sharp3.mha
+)
+
+itk_add_test(
+  NAME itkParaSharpenTest2D_10
+  COMMAND
+    ParabolicMorphologyTestDriver
+    --compare
+    sharp10.mha
+    ${CMAKE_CURRENT_SOURCE_DIR}/baseline/sharp10.mha
+    itkParaSharpenTest
+    10
+    sharp10.mha
+)
+
+itk_add_test(
+  NAME itkParaSharpenTest2D_100
+  COMMAND
+    ParabolicMorphologyTestDriver
+    --compare
+    sharp100.mha
+    ${CMAKE_CURRENT_SOURCE_DIR}/baseline/sharp100.mha
+    itkParaSharpenTest
+    100
+    sharp100.mha
 )
