@@ -4,7 +4,7 @@ set(
   itkParaErodeTest.cxx
   itkParaDilateTest.cxx
   itkParaOpenTest.cxx
-  #itkParaSpacingTest.cxx
+  itkParaSpacingTest.cxx
   #itkParaSharpenTest.cxx
   #itkParaDTTest.cxx
 )
@@ -137,4 +137,17 @@ itk_add_test(
     ${INPUT_IMAGE}
     openInt.png
     openCP.png
+)
+
+itk_add_test(
+  NAME itkParaSpacingTest2D_1
+  COMMAND
+    ParabolicMorphologyTestDriver
+    --compare
+    osp1.png
+    osp2.png
+    itkParaOpenTest
+    ${INPUT_IMAGE}
+    osp1.png
+    osp2.png
 )
