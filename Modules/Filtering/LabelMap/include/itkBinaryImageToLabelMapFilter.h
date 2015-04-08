@@ -156,6 +156,8 @@ protected:
 
   typedef SizeValueType InternalLabelType;
 
+  typedef SizeValueType InternalLabelType;
+
   /**
    * Standard pipeline method.
    */
