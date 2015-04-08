@@ -16,7 +16,7 @@ itkParaDTTest(int argc, char * argv[])
 
   // int iterations = 1;
 
-  if (argc != 5)
+  if (argc != 4)
   {
     std::cerr << "Usage: " << argv[0] << " inputimage threshold outsideval outim1 outim2" << std::endl;
     return (EXIT_FAILURE);
