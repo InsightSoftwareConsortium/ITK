@@ -12,6 +12,7 @@ itk_module(
   TEST_DEPENDS
     ITKImageGrid
     ITKTestKernel
+    ITKMathematicalMorphology
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
