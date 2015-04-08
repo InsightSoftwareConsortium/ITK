@@ -210,6 +210,7 @@ itk_add_test(
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/dist1.mha
     itkParaDTTest
     ${INPUT_IMAGE}
+    100
     0
     dist1.mha
 )
@@ -223,6 +224,7 @@ itk_add_test(
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/dist255.mha
     itkParaDTTest
     ${INPUT_IMAGE}
+    100
     255
     dist255.mha
 )
