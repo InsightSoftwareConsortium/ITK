@@ -147,7 +147,6 @@ protected:
   unsigned int m_MaximumNumberOfFunctionEvaluations;
   double       m_GradientConvergenceTolerance;
   double       m_InfinityNormOfProjectedGradient;
-  unsigned int m_MaximumNumberOfIterations;
   double       m_CostFunctionConvergenceFactor;
 
   // give the helper access to member variables, to update iteration

@@ -53,21 +53,9 @@ bool
 LBFGSBOptimizerHelperv4
 ::report_iter()
 {
-  Superclass::report_iter();
-
+  const bool ret = Superclass::report_iter();
   m_ItkObj->m_InfinityNormOfProjectedGradient = this->get_inf_norm_projected_gradient();
-  m_ItkObj->InvokeEvent( IterationEvent() );
-  m_ItkObj->m_CurrentIteration = this->num_iterations_;
-
-    // Return true to terminate the optimization loop.
-  if ( this->num_iterations_ > m_ItkObj->m_MaximumNumberOfIterations )
-    {
-    return true;
-    }
-  else
-    {
-    return false;
-    }
+  return ret;
 }
 //-------------------------------------------------------------------------
 
