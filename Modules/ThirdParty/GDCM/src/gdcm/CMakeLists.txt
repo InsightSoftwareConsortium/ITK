@@ -191,7 +191,7 @@ ENDIF(UNIX)
 # Build the main lib...
 IF( NOT GDCM_HAVE_STDINT_H )
   IF( WIN32 )
-    IF( MSVC OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Intel" )
+    IF( MSVC OR "x${CMAKE_CXX_COMPILER_ID}x" MATCHES "Intel" )
       INCLUDE_DIRECTORIES(
         "${GDCM_SOURCE_DIR}/Utilities/C99"
         )

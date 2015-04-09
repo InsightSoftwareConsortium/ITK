@@ -35,7 +35,7 @@ else()
   check_include_file("stdint.h"       GDCM_HAVE_STDINT_H)
   if(NOT GDCM_HAVE_STDINT_H)
     if( WIN32 )
-      if(MSVC OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Intel")
+      if(MSVC OR "x${CMAKE_CXX_COMPILER_ID}x" MATCHES "Intel")
         list(APPEND ITKGDCM_INCLUDE_DIRS
           ${ITKGDCM_SOURCE_DIR}/src/gdcm/Utilities/C99)
       endif()
