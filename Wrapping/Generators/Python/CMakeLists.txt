@@ -175,8 +175,9 @@ if(CMAKE_CONFIGURATION_TYPES)
   foreach(config ${CMAKE_CONFIGURATION_TYPES})
     set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}")
     set(CONFIG_ITK_WRAP_LIBRARY_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_LIBRARY_DIR}/${config}")
+    set(CONFIG_ITK_WRAP_SWIG_PYTHON_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_LIBRARY_DIR}")
 
-    # SWIG-generated libs and *.py files are sent to ${config} subdir
+    # SWIG-generated libs files are sent to ${config} subdir, SWIG-generated *.py are not
     # This assumes that CMAKE_LIBRARY_OUTPUT_DIRECTORY is WrapITK_BINARY_DIR/bin (bad!)
     # TODO: We need a better way to do this.
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"

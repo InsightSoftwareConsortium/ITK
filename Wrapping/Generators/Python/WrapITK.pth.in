@@ -1,3 +1,4 @@
 # Python pth file to add WrapITK's path to sys.path.
 @CONFIG_ITK_WRAP_PYTHON_DIR@
 @CONFIG_ITK_WRAP_LIBRARY_DIR@
+@CONFIG_ITK_WRAP_SWIG_PYTHON_DIR@
