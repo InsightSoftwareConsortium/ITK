@@ -94,8 +94,32 @@ AmoebaOptimizerv4
   //if cost function is ITK_NULLPTR this will throw an exception when the pointer is dereferenced
   const unsigned int numberOfParameters = metric->GetNumberOfParameters();
 
+  class AmoebaCostFunctionAdaptorv4:
+    public  SingleValuedVnlCostFunctionAdaptorv4
+    {
+    public:
+      typedef SingleValuedVnlCostFunctionAdaptorv4 Superclass;
+      typedef AmoebaOptimizerv4                    ITKOptimizerType;
+
+      AmoebaCostFunctionAdaptorv4(unsigned int spaceDimension, ITKOptimizerType *itkObj)
+        : SingleValuedVnlCostFunctionAdaptorv4(spaceDimension),
+          m_ItkObj(itkObj)
+        {
+        }
+
+      Superclass::InternalMeasureType f(const Superclass::InternalParametersType & inparameters)
+        {
+          const  Superclass::InternalMeasureType &ret = Superclass::f( inparameters );
+          ++m_ItkObj->m_CurrentIteration;
+          return ret;
+        }
+    protected:
+      Self *m_ItkObj;
+
+  };
+
   // assign to vnl cost-function adaptor
-  CostFunctionAdaptorType *adaptor = new CostFunctionAdaptorType( numberOfParameters );
+  CostFunctionAdaptorType *adaptor = new AmoebaCostFunctionAdaptorv4( numberOfParameters, this );
   adaptor->SetCostFunction( metric );
   this->SetCostFunctionAdaptor( adaptor );
   this->Modified();
@@ -182,7 +206,6 @@ AmoebaOptimizerv4
   //multiple restart heuristic
   if( this->m_OptimizeWithRestarts )
     {
-    this->m_CurrentIteration = static_cast<unsigned int>( m_VnlOptimizer->get_num_evaluations() );
     bool converged = false;
     unsigned int i=1;
     while( !converged && ( this->m_CurrentIteration < m_NumberOfIterations ) )
@@ -193,8 +216,6 @@ AmoebaOptimizerv4
       delta = delta*( 1.0/pow( 2.0, static_cast<double>(i) ) *
                      (rand() > RAND_MAX/2 ? 1 : -1) );
       m_VnlOptimizer->minimize( parameters, delta );
-      this->m_CurrentIteration += static_cast<unsigned int>
-                          (m_VnlOptimizer->get_num_evaluations());
       double currentValue = adaptor->f( parameters );
       // be consistent with the underlying vnl amoeba implementation
       double maxAbs = 0.0;
