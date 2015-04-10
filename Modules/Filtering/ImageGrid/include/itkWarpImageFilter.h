@@ -283,7 +283,7 @@ private:
   InterpolatorPointer m_Interpolator;
   SizeType            m_OutputSize;               // Size of the output image
   IndexType           m_OutputStartIndex;         // output image start index
-  bool                m_DefFieldSizeSame;
+  bool                m_DefFieldSameInformation;
   // variables for deffield interpoator
   IndexType m_StartIndex, m_EndIndex;
 };
