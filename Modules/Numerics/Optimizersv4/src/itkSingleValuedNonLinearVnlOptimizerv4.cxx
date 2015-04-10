@@ -42,10 +42,12 @@ SingleValuedNonLinearVnlOptimizerv4
 
 void
 SingleValuedNonLinearVnlOptimizerv4
-::StartOptimization(bool /* doOnlyInitialization */ )
+::StartOptimization(bool doOnlyInitialization )
 {
   // Perform some verification, check scales.
-  Superclass::StartOptimization();
+  Superclass::StartOptimization( doOnlyInitialization );
+
+  this->m_CurrentIteration = 0;
 
   // Verify adaptor
   if( this->m_CostFunctionAdaptor == ITK_NULLPTR )
