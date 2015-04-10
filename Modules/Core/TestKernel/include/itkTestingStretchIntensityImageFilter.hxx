@@ -106,7 +106,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
     ++it;
     }
 
-  if ( m_InputMinimum != m_InputMaximum )
+  if ( vcl_abs( m_InputMaximum - m_InputMinimum ) > NumericTraits< InputPixelType >::epsilon() )
     {
     m_Scale =
       ( static_cast< RealType >( m_OutputMaximum )
@@ -114,7 +114,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
       / ( static_cast< RealType >( m_InputMaximum )
           - static_cast< RealType >( m_InputMinimum ) );
     }
-  else if ( m_InputMaximum != NumericTraits< InputPixelType >::ZeroValue() )
+  else if ( m_InputMaximum > NumericTraits< InputPixelType >::epsilon() )
     {
     m_Scale =
       ( static_cast< RealType >( m_OutputMaximum )
