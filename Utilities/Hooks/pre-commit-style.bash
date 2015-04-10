@@ -87,7 +87,7 @@ Please install KWStyle or set the executable location with
 
   git config hooks.KWStyle.path /path/to/KWStyle
 
-See http://public.kitware.com/KWStyle/
+See https://kitware.github.io/KWStyle/
 " >&2
     return 1
   fi
