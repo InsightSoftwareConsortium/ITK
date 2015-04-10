@@ -97,10 +97,13 @@ FixedArray< TValue, VLength >
 
   while ( i != this->End() )
     {
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
     if ( *i != *j )
       {
       return false;
       }
+CLANG_PRAGMA_POP
     ++j;
     ++i;
     }

@@ -118,6 +118,9 @@ namespace Detail
 ////////////////////////////////////////
 // Base versions
 
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
+
 template< typename TReturn, typename TInput >
 inline TReturn RoundHalfIntegerToEven_base(TInput x)
 {
@@ -163,6 +166,8 @@ inline TReturn Ceil_base(TInput x)
          r :
          ( x == static_cast< TInput >( r ) ? r : r + static_cast< TReturn >( 1 ) );
 }
+
+CLANG_PRAGMA_POP
 
 ////////////////////////////////////////
 // 32 bits versions
