@@ -14,7 +14,7 @@ static
 void test_static_const_definition()
 {
   // The Intel compiler has problems resolving static consts with this test
-  // as it stands 
+  // as it stands
 #if !defined(__INTEL_COMPILER)
   check_pointer( &vnl_math::e );
   check_pointer( &vnl_math::log2e );
@@ -299,6 +299,7 @@ void test_math()
   TEST("!isnan(ninf_q)   ", vnl_math_isnan(ninf_q), false);
   TEST("!isfinite(qnan_q)", vnl_math_isfinite(qnan_q), false);
   TEST("!isinf(qnan_q)   ", vnl_math_isinf(qnan_q), false);
+
 #if 0 // even more nonstandard ...
   TEST(" isnan(qnan_q)   ",  vnl_math_isnan(qnan_q));
 #endif // 0
@@ -306,6 +307,21 @@ void test_math()
 
   TEST("!isfinite(huge_val(double))", vnl_math_isfinite(vnl_huge_val(double())), false);
   TEST("!isfinite(huge_val(float))",  vnl_math_isfinite(vnl_huge_val(float())),  false);
+
+  //Test for math_sgn
+  TEST("vnl_math_sgn(+7)  ", vnl_math_sgn(+7),  1);
+  TEST("vnl_math_sgn(-7)  ", vnl_math_sgn(-7), -1);
+  TEST("vnl_math_sgn( 0)  ", vnl_math_sgn( 0),  0);
+
+  TEST("vnl_math_sgn(+7.0)  ", vnl_math_sgn(+7.0),  1);
+  TEST("vnl_math_sgn(-7.0)  ", vnl_math_sgn(-7.0), -1);
+  TEST("vnl_math_sgn(-0.0)  ", vnl_math_sgn(-0.0),  0);
+  TEST("vnl_math_sgn(+0.0)  ", vnl_math_sgn(-0.0),  0);
+
+  TEST("vnl_math_sgn(+7.0F)  ", vnl_math_sgn(+7.0F),  1);
+  TEST("vnl_math_sgn(-7.0F)  ", vnl_math_sgn(-7.0F), -1);
+  TEST("vnl_math_sgn(-0.0F)  ", vnl_math_sgn(-0.0F),  0);
+  TEST("vnl_math_sgn(+0.0F)  ", vnl_math_sgn(-0.0F),  0);
 }
 
 TESTMAIN(test_math);

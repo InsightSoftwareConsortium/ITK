@@ -595,11 +595,11 @@ inline float              vnl_math_cube(float x)              { return x*x*x; }
 inline double             vnl_math_cube(double x)             { return x*x*x; }
 
 // sgn (sign in -1, 0, +1)
-inline int vnl_math_sgn(int x)       { return x?((x>0)?1:-1):0; }
-inline int vnl_math_sgn(long x)      { return x?((x>0)?1:-1):0; }
-inline int vnl_math_sgn(long long x) { return x?((x>0)?1:-1):0; }
-inline int vnl_math_sgn(float x)     { return (x != 0)?((x>0)?1:-1):0; }
-inline int vnl_math_sgn(double x)    { return (x != 0)?((x>0)?1:-1):0; }
+inline int vnl_math_sgn(int x)       { return (x > 0) - (x < 0); }
+inline int vnl_math_sgn(long x)      { return (x > 0) - (x < 0); }
+inline int vnl_math_sgn(long long x) { return (x > 0) - (x < 0); }
+inline int vnl_math_sgn(float x)     { return (x > 0) - (x < 0); }
+inline int vnl_math_sgn(double x)    { return (x > 0) - (x < 0); }
 
 // sgn0 (sign in -1, +1 only, useful for reals)
 inline int vnl_math_sgn0(int x)         { return (x>=0)?1:-1; }
