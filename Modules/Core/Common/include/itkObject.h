@@ -165,7 +165,7 @@ public:
   const MetaDataDictionary & GetMetaDataDictionary() const;
 
   /**
-   * \return Set the MetaDataDictionary
+   * Set the MetaDataDictionary
    */
   void SetMetaDataDictionary(const MetaDataDictionary & rhs);
 
