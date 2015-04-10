@@ -43,7 +43,32 @@ class LBFGSOptimizerBaseHelperv4: public TInternalVnlOptimizerType
 
   protected:
   LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * m_ItkObj;
+
+  /** Handle new iteration event */
+  virtual bool report_iter();
 };
+
+
+template< typename TInternalVnlOptimizerType >
+bool
+LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>
+::report_iter()
+{
+  Superclass::report_iter();
+
+  m_ItkObj->InvokeEvent( IterationEvent() );
+  m_ItkObj->m_CurrentIteration = this->num_iterations_;
+
+  // Return true to terminate the optimization loop.
+  if ( this->num_iterations_ >= m_ItkObj->m_NumberOfIterations )
+    {
+    return true;
+    }
+  else
+    {
+    return false;
+    }
+}
 
 template<typename TInternalVnlOptimizerType>
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
@@ -53,9 +78,9 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
   m_MaximumNumberOfFunctionEvaluations(2000),
   m_GradientConvergenceTolerance(1e-5),
   m_InfinityNormOfProjectedGradient(0.0),
-  m_MaximumNumberOfIterations(500),
   m_CostFunctionConvergenceFactor(1e+7)
 {
+  Superclass::SetNumberOfIterations(500);
 }
 
 template<typename TInternalVnlOptimizerType>
