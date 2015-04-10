@@ -111,6 +111,7 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*/swig/.*"
   ".*parser.py.*"
   ".*/GCC_XML/.*"
+  "checking maximum warning verbosity option.*"
   )
 
 if(APPLE)
