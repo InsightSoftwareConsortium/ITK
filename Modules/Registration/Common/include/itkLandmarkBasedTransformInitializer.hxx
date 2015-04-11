@@ -150,9 +150,9 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   //Set the BSpline transform
   //
-  typedef typename TransformType::ImageType CoefficientImageType;
+  typedef typename BSplineTransformType::ImageType CoefficientImageType;
 
-  typename TransformType::CoefficientImageArray coefficientImages;
+  typename BSplineTransformType::CoefficientImageArray coefficientImages;
   for( unsigned int j = 0; j < ImageDimension; ++j )
     {
     typedef VectorIndexSelectionCastImageFilter<VectorImageType, CoefficientImageType> SelectorType;
