@@ -235,9 +235,11 @@ void NrrdImageIO::ReadImageInformation()
 
   try
     {
+#ifndef __MINGW32__
     // nrrd causes exceptions on purpose, so mask them
     bool saveFPEState(FloatingPointExceptions::GetExceptionAction() );
     FloatingPointExceptions::Disable();
+#endif
 
     // this is the mechanism by which we tell nrrdLoad to read
     // just the header, and none of the data
@@ -255,8 +257,11 @@ void NrrdImageIO::ReadImageInformation()
       throw e_;
       }
 
+#ifndef __MINGW32__
     // restore state
     FloatingPointExceptions::SetEnabled(saveFPEState);
+#endif
+
 
     if ( nrrdTypeBlock == nrrd->type )
       {
@@ -736,9 +741,11 @@ void NrrdImageIO::Read(void *buffer)
       }
     }
 
+#ifndef __MINGW32__
   // nrrd causes exceptions on purpose, so mask them
   bool saveFPEState(FloatingPointExceptions::GetExceptionAction() );
   FloatingPointExceptions::Disable();
+#endif
 
   // Read in the nrrd.  Yes, this means that the header is being read
   // twice: once by NrrdImageIO::ReadImageInformation, and once here
@@ -749,8 +756,10 @@ void NrrdImageIO::Read(void *buffer)
                       << this->GetFileName() << ":\n" << err);
     }
 
+#ifndef __MINGW32__
   // restore state
   FloatingPointExceptions::SetEnabled(saveFPEState);
+#endif
 
   unsigned int rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
   rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);

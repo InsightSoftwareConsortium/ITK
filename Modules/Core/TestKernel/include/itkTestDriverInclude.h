@@ -55,7 +55,7 @@
 #include "itkTestingHashImageFilter.h"
 #include "itksys/SystemTools.hxx"
 #include "itkIntTypes.h"
-#ifdef LINUX
+#if defined(LINUX) && !defined(__MINGW32__)
 #include "itkFloatingPointExceptions.h"
 #endif
 #include "vnl/vnl_sample.h"
@@ -195,7 +195,7 @@ static char my_to_lower(const char c)
 
 int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = ITK_NULLPTR )
 {
-#ifdef LINUX
+#if defined(LINUX) && !defined(__MINGW32__)
   itk::FloatingPointExceptions::Enable();
 #endif
   regressionTestParameters.intensityTolerance  = 2.0;
