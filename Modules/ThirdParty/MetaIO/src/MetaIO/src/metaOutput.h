@@ -34,7 +34,7 @@ class MetaOutputStream
   public:
 
     MetaOutputStream();
-    virtual ~MetaOutputStream() {};
+    virtual ~MetaOutputStream() {}
 
     void                     SetName(const char* name);
     METAIO_STL::string       GetName() const;
@@ -70,7 +70,7 @@ class MetaFileOutputStream : public MetaOutputStream
   public:
 
     MetaFileOutputStream(const char* name);
-    virtual ~MetaFileOutputStream() {};
+    virtual ~MetaFileOutputStream() {}
 
     bool Open();
     bool Close();
