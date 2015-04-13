@@ -51,7 +51,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_Interpolator =
     static_cast< InterpolatorType * >( interp.GetPointer() );
 
-  m_DefFieldSizeSame = false;
+  m_DefFieldSameInformation = false;
 }
 
 /**
@@ -180,12 +180,8 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
-  typename DisplacementFieldType::RegionType defRegion =
-    fieldPtr->GetLargestPossibleRegion();
-  typename OutputImageType::RegionType outRegion =
-    this->GetOutput()->GetLargestPossibleRegion();
-  m_DefFieldSizeSame = outRegion == defRegion;
-  if ( !m_DefFieldSizeSame )
+
+  if ( !m_DefFieldSameInformation )
     {
     m_StartIndex = fieldPtr->GetBufferedRegion().GetIndex();
     for ( unsigned i = 0; i < ImageDimension; i++ )
@@ -325,7 +321,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   PointType        point;
   DisplacementType displacement;
   NumericTraits<DisplacementType>::SetLength(displacement,ImageDimension);
-  if ( this->m_DefFieldSizeSame )
+  if ( this->m_DefFieldSameInformation )
     {
     // iterator for the deformation field
     ImageRegionIterator< DisplacementFieldType >
@@ -411,13 +407,33 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     inputPtr->SetRequestedRegionToLargestPossibleRegion();
     }
 
-  // just propagate up the output requested region for the
-  // deformation field.
+  // If the output and the deformation field have the same
+  // information, just propagate up the output requested region for the
+  // deformation field. Otherwise, it is non-trivial to determine
+  // the smallest region of the deformation field that fully
+  // contains the physical space covered by the output's requested
+  // region, se we do the easy thing and request the largest possible region
   DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
   OutputImagePointer      outputPtr = this->GetOutput();
   if ( fieldPtr.IsNotNull() )
     {
-    fieldPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+    // tolerance for origin and spacing depends on the size of pixel
+    // tolerance for direction is a fraction of the unit cube.
+    const SpacePrecisionType coordinateTol = this->GetCoordinateTolerance() * outputPtr->GetSpacing()[0]; // use first dimension spacing
+
+    this->m_DefFieldSameInformation =
+       (outputPtr->GetOrigin().GetVnlVector().is_equal(fieldPtr->GetOrigin().GetVnlVector(), coordinateTol))
+    && (outputPtr->GetSpacing().GetVnlVector().is_equal(fieldPtr->GetSpacing().GetVnlVector(), coordinateTol))
+    && (outputPtr->GetDirection().GetVnlMatrix().as_ref().is_equal(fieldPtr->GetDirection().GetVnlMatrix(), this->GetDirectionTolerance()));
+
+    if (this->m_DefFieldSameInformation)
+      {
+      fieldPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+      }
+    else
+      {
+      fieldPtr->SetRequestedRegion( fieldPtr->GetLargestPossibleRegion() );
+      }
     if ( !fieldPtr->VerifyRequestedRegion() )
       {
       fieldPtr->SetRequestedRegion( fieldPtr->GetLargestPossibleRegion() );
