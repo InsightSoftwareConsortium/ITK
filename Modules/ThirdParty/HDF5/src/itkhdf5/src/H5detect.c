@@ -1196,7 +1196,7 @@ bit.\n";
     /*
      * The real name is the first item from the passwd gecos field.
      */
-#ifdef H5_HAVE_GETPWUID
+#if defined(H5_HAVE_GETPWUID) && !defined(__ANDROID__)
     {
 	size_t n;
 	char *comma;
