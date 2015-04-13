@@ -87,8 +87,13 @@ fi
 ## Old snapshot commit ##
 local regex_date='20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
 local snapshot_old_regex="$thirdparty_module_name $regex_date ([0-9a-f]*)"
-local snapshot_old_sha=$(git rev-list --author="$snapshot_author_email" --grep="$snapshot_regex" -n 1 HEAD)
-
+local snapshot_old_sha=$(git rev-list --author="$snapshot_author_email" --grep="$snapshot_old_regex" -n 1 HEAD)
+if [[ -z "$snapshot_old_sha" ]]; then
+  read -ep "Create a new snapshot branch? [N/y]: " create_new
+  if [[ "$create_new" != "y" && "$create_new" != "Y" ]]; then
+    die "Could not find previous snapshot."
+  fi
+fi
 
 ## New upstream commit ##
 git fetch --quiet "$upstream_git_url" "$upstream_git_branch" 2> >(sed '/warning: no common commits/d' >&2)
@@ -102,12 +107,16 @@ local upstream_new_date=$(echo "$upstream_new_datetime" | grep -o "$regex_date")
 
 
 ## Old upstream commit ##
-local upstream_old_sha_short=$(
-  git cat-file commit $snapshot_old_sha |
-  sed -n '/'"$snapshot_old_regex"'/ {s/.*(//;s/)//;p}' |
-  egrep '^[0-9a-f]+$'
-)
-local upstream_old_sha=$(git rev-parse --verify -q "$upstream_old_sha_short")
+if [[ -z "$snapshot_old_sha" ]]; then
+  local upstream_old_sha=$(git log --format=%H | tail -1)
+else
+  local upstream_old_sha_short=$(
+    git cat-file commit $snapshot_old_sha |
+    sed -n '/'"$snapshot_old_regex"'/ {s/.*(//;s/)//;p}' |
+    egrep '^[0-9a-f]+$'
+  )
+  local upstream_old_sha=$(git rev-parse --verify -q "$upstream_old_sha_short")
+fi
 if [[ "$upstream_old_sha" == "$upstream_new_sha" ]]; then
   echo 'Upstream has no updates'
   exit 0
@@ -137,25 +146,42 @@ rm -rf "$snapshot_temp_path" "$snapshot_temp_index"
 
 
 ## New shapshot commit ##
-local snapshot_new_shortlog=$(git shortlog --no-merges --abbrev=8 --format='%h %s' $upstream_old_sha..$upstream_new_sha)
-local snapshot_new_change_id=$(git commit-tree $snapshot_new_tree -p $snapshot_old_sha </dev/null)
+if [[ -z "$snapshot_old_sha" ]]; then
+  local snapshot_new_shortlog="Initial import of $upstream_old_sha..$upstream_new_sha"
+  local snapshot_new_change_id=$(git commit-tree $snapshot_new_tree </dev/null)
+  local snapshot_log_command=""
+else
+  local snapshot_new_shortlog=$(git shortlog --no-merges --abbrev=8 --format='%h %s' $upstream_old_sha..$upstream_new_sha)
+  local snapshot_new_change_id=$(git commit-tree $snapshot_new_tree -p $snapshot_old_sha </dev/null)
+  local snapshot_log_command="\$ git shortlog --no-merges --abbrev=8 --format='%h %s' $upstream_old_sha_short..$upstream_new_sha_short"
+fi
 local snapshot_new_commit_msg="$thirdparty_module_name $upstream_new_date ($upstream_new_sha_short)
 
 Extract upstream $thirdparty_module_name using the following shell commands.
 
 \$ git archive --prefix=$snapshot_branch_name/ $upstream_new_sha_short -- $snapshot_paths | tar x
-\$ git shortlog --no-merges --abbrev=8 --format='%h %s' $upstream_old_sha_short..$upstream_new_sha_short
+$snapshot_log_command
 
 $snapshot_new_shortlog
 
 Change-Id: I$snapshot_new_change_id"
-local snapshot_new_sha=$(
-  echo "$snapshot_new_commit_msg" |
-  GIT_AUTHOR_NAME="$snapshot_author_name" \
-  GIT_AUTHOR_EMAIL="$snapshot_author_email" \
-  GIT_AUTHOR_DATE="$upstream_new_datetime" \
-  git commit-tree $snapshot_new_tree -p $snapshot_old_sha
-)
+if [[ -z "$snapshot_old_sha" ]]; then
+  local snapshot_new_sha=$(
+    echo "$snapshot_new_commit_msg" |
+    GIT_AUTHOR_NAME="$snapshot_author_name" \
+    GIT_AUTHOR_EMAIL="$snapshot_author_email" \
+    GIT_AUTHOR_DATE="$upstream_new_datetime" \
+    git commit-tree $snapshot_new_tree
+  )
+else
+  local snapshot_new_sha=$(
+    echo "$snapshot_new_commit_msg" |
+    GIT_AUTHOR_NAME="$snapshot_author_name" \
+    GIT_AUTHOR_EMAIL="$snapshot_author_email" \
+    GIT_AUTHOR_DATE="$upstream_new_datetime" \
+    git commit-tree $snapshot_new_tree -p $snapshot_old_sha
+  )
+fi
 
 
 ## New shapshot branch ##
