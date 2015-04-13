@@ -119,20 +119,21 @@ if(NOT UNIX)
       endif(NOT MINGW)
     endif(NOT BORLAND)
   endif(BUILD_SHARED_LIBS)
-else(NOT UNIX)
+else()
   set(TIFF_RIGHT_VERSION 1)
 
   set(common_SRCS ${common_SRCS} tif_unix.c tif_fax3sm.c)
-  set_source_files_properties(tif_fax3sm.c GENERATED)
-  add_executable(itkmkg3states mkg3states.c)
-  set_property(TARGET itkmkg3states PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-  add_custom_command(
-    OUTPUT ${ITK3P_TIFF_BINARY_DIR}/tif_fax3sm.c
-    COMMAND itkmkg3states
-    ARGS -c const ${ITK3P_TIFF_BINARY_DIR}/tif_fax3sm.c
-    DEPENDS itkmkg3states
-    )
-endif(NOT UNIX)
+  if(NOT CMAKE_CROSSCOMPILING)
+    set_source_files_properties(tif_fax3sm.c GENERATED)
+    add_executable(itkmkg3states mkg3states.c)
+    set_property(TARGET itkmkg3states PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(
+      COMMAND itkmkg3states -c const ${ITK3P_TIFF_BINARY_DIR}/tif_fax3sm.c
+      OUTPUT ${ITK3P_TIFF_BINARY_DIR}/tif_fax3sm.c
+      DEPENDS itkmkg3states
+      )
+  endif()
+endif()
 
 add_library(itktiff ${common_SRCS})
 target_link_libraries(itktiff ${ITKZLIB_LIBRARIES} ${ITKJPEG_LIBRARIES})
