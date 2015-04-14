@@ -42,10 +42,12 @@ void* execute(void *ptr)
   return ITK_NULLPTR;
 }
 
+#if defined(_WIN32) || defined(_WIN64)
+int itkThreadPoolTest(int, char* [])
+{
+#else
 int itkThreadPoolTest(int argc, char* argv[])
 {
-#if defined(_WIN32) || defined(_WIN64)
-#else
   int count = 1000000;
   if( argc > 1 )
     {
