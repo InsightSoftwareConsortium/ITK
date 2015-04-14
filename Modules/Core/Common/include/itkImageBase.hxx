@@ -95,12 +95,15 @@ ImageBase< VImageDimension >
 ::SetSpacing(const SpacingType & spacing)
 {
   itkDebugMacro("setting Spacing to " << spacing);
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
   if ( this->m_Spacing != spacing )
     {
     this->m_Spacing = spacing;
     this->ComputeIndexToPhysicalPointMatrices();
     this->Modified();
     }
+CLANG_PRAGMA_POP
 }
 
 
@@ -156,11 +159,14 @@ ImageBase< VImageDimension >
     {
     for ( unsigned int c = 0; c < VImageDimension; c++ )
       {
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
       if ( m_Direction[r][c] != direction[r][c] )
         {
         m_Direction[r][c] = direction[r][c];
         modified = true;
         }
+CLANG_PRAGMA_POP
       }
     }
 

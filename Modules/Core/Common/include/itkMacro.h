@@ -65,6 +65,24 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
+
+// The clang compiler has many useful non-default compiler warnings
+// that tend to have a high false positive rate.
+// The following set of defines allows us to suppress false positives
+// and still track down suspicious code
+#if defined(__clang__) && defined(__has_warning)
+#define CLANG_PRAGMA_PUSH _Pragma("clang diagnostic push")
+#define CLANG_PRAGMA_POP  _Pragma("clang diagnostic pop")
+# if __has_warning("-Wfloat-equal")
+#define CLANG_SUPPRESS_Wfloat_equal _Pragma("clang diagnostic ignored \"-Wfloat-equal\"" )
+# endif
+#else
+#define CLANG_PRAGMA_PUSH
+#define CLANG_PRAGMA_POP
+#define CLANG_SUPPRESS_Wfloat_equal
+#endif
+
+
 /*
  * ITK only supports MSVC++ 7.1 and greater
  * MSVC++ 11.0 _MSC_VER = 1700
@@ -820,15 +838,18 @@ TTarget itkDynamicCastInDebugMode(TSource x)
   itkGetDecoratedObjectInputMacro(name, type)
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
-#define itkSetMacro(name, type)                      \
-  virtual void Set##name (const type _arg)         \
-    {                                                \
+#define itkSetMacro(name, type)                     \
+  virtual void Set##name (const type _arg)          \
+    {                                               \
     itkDebugMacro("setting " #name " to " << _arg); \
-    if ( this->m_##name != _arg )                  \
-      {                                              \
-      this->m_##name = _arg;                       \
-      this->Modified();                              \
-      }                                              \
+CLANG_PRAGMA_PUSH                                   \
+CLANG_SUPPRESS_Wfloat_equal                         \
+    if ( this->m_##name != _arg )                   \
+      {                                             \
+      this->m_##name = _arg;                        \
+      this->Modified();                             \
+      }                                             \
+CLANG_PRAGMA_POP                                    \
     }
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */
@@ -917,30 +938,38 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 /** Set built-in type where value is constrained between min/max limits.
  * Create member Set"name"() (e.q., SetRadius()). \#defines are
  * convienience for clamping open-ended values. */
-#define itkSetClampMacro(name, type, min, max)                                    \
-  virtual void Set##name (type _arg)                                            \
-    {                                                                             \
-    itkDebugMacro("setting " << #name " to " << _arg);                           \
-    if ( this->m_##name != ( _arg < min ? min : ( _arg > max ? max : _arg ) ) ) \
-      {                                                                           \
-      this->m_##name = ( _arg < min ? min : ( _arg > max ? max : _arg ) );      \
-      this->Modified();                                                           \
-      }                                                                           \
+#define itkSetClampMacro(name, type, min, max)                                 \
+  virtual void Set##name (type _arg)                                     \
+    {                                                                          \
+    const type temp_extrema=( _arg < min ? min : ( _arg > max ? max : _arg ) ) \
+    itkDebugMacro("setting " << #name " to " << _arg);                         \
+CLANG_PRAGMA_PUSH                                                              \
+CLANG_SUPPRESS_Wfloat_equal                                                    \
+    if ( this->m_##name != temp_extrema )                                      \
+      {                                                                        \
+      this->m_##name = temp_extrema;                                           \
+      this->Modified();                                                        \
+      }                                                                        \
+CLANG_PRAGMA_POP                                                               \
     }
 
+//NOTE: warning: comparing floating point with == or != is unsafe [-Wfloat-equal]
 /** Set pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
  * smart pointers requires using real pointers when setting input,
  * but returning smart pointers on output. */
-#define itkSetObjectMacro(name, type)                   \
-  virtual void Set##name (type * _arg)                \
-    {                                                   \
+#define itkSetObjectMacro(name, type)                  \
+  virtual void Set##name (type * _arg)                 \
+    {                                                  \
     itkDebugMacro("setting " << #name " to " << _arg); \
-    if ( this->m_##name != _arg )                     \
-      {                                                 \
-      this->m_##name = _arg;                          \
-      this->Modified();                                 \
-      }                                                 \
+CLANG_PRAGMA_PUSH                                      \
+CLANG_SUPPRESS_Wfloat_equal                            \
+    if ( this->m_##name != _arg )                      \
+      {                                                \
+      this->m_##name = _arg;                           \
+      this->Modified();                                \
+      }                                                \
+CLANG_PRAGMA_POP                                       \
     }
 
 /** Get a smart pointer to an object.  Creates the member

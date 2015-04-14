@@ -417,8 +417,9 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
     /*     .......... look for small sub-diagonal element .......... */
     for ( m = l; m < m_Order - 1; ++m )
       {
-      tst2 = tst1 + vnl_math_abs(e[m]);
-      if ( tst2 == tst1 )
+      const double abs_e_m = vnl_math_abs(e[m]);
+      tst2 = tst1 + abs_e_m;
+      if ( ! ( abs_e_m  > 0 ) )
         {
         break;
         }
@@ -567,8 +568,9 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
     /*     .......... look for small sub-diagonal element .......... */
     for ( m = l; m < m_Order - 1; ++m )
       {
-      tst2 = tst1 + vnl_math_abs(e[m]);
-      if ( tst2 == tst1 )
+      const double abs_e_m = vnl_math_abs(e[m]);
+      tst2 = tst1 + abs_e_m;
+      if ( ! (abs_e_m > 0 ) )
         {
         break;
         }

@@ -1212,6 +1212,8 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
       {
       for ( unsigned int i = 0; i < this->GetNumberOfDimensions(); ++i )
         {
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
         // 4)size/origin/spacing
         if ( headerImageIOReader->GetDimensions(i) != this->GetDimensions(i)
              || headerImageIOReader->GetSpacing(i) != this->GetSpacing(i)
@@ -1227,6 +1229,7 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
           break;
           }
         }
+CLANG_PRAGMA_POP
       }
 
     if ( errorMessage.size() )

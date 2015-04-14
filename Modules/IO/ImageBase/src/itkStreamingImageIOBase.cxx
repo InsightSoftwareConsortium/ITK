@@ -321,6 +321,8 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfReq
       for ( unsigned int i = 0; i < this->GetNumberOfDimensions(); ++i )
         {
         // 4)size/origin/spacing
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
         if ( headerImageIOReader->GetDimensions(i) != this->GetDimensions(i)
              || headerImageIOReader->GetSpacing(i) != this->GetSpacing(i)
              || headerImageIOReader->GetOrigin(i) != this->GetOrigin(i) )
@@ -334,6 +336,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfReq
           errorMessage = "Direction cosines does not match in file: " + m_FileName;
           break;
           }
+CLANG_PRAGMA_PUSH
         }
       }
 
