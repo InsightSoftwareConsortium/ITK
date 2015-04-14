@@ -98,8 +98,6 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef SizeValueType   LabelType;
-
   /**
    * Image typedef support
    */
@@ -156,6 +154,8 @@ protected:
   virtual ~BinaryImageToLabelMapFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
+  typedef SizeValueType InternalLabelType;
+
   /**
    * Standard pipeline method.
    */
@@ -195,7 +195,7 @@ private:
     // run length information - may be a more type safe way of doing this
     SizeValueType length;
     typename InputImageType::IndexType where; // Index of the start of the run
-    LabelType label;                  // the initial label of the run
+    InternalLabelType label;                  // the initial label of the run
   };
 
   typedef std::vector< runLength > lineEncoding;
@@ -206,22 +206,24 @@ private:
   typedef std::vector< OffsetValueType > OffsetVectorType;
 
   // the types to support union-find operations
-  typedef std::vector< LabelType > UnionFindType;
+  typedef std::vector< InternalLabelType > UnionFindType;
   UnionFindType m_UnionFind;
-  UnionFindType m_Consecutive;
+
+  typedef std::vector< OutputPixelType > ConsecutiveVectorType;
+  ConsecutiveVectorType m_Consecutive;
   // functions to support union-find operations
-  void InitUnion(const LabelType size)
+  void InitUnion(const InternalLabelType size)
   {
     m_UnionFind = UnionFindType(size + 1);
   }
 
-  void InsertSet(const LabelType label);
+  void InsertSet(const InternalLabelType label);
 
-  LabelType LookupSet(const LabelType label);
+  InternalLabelType LookupSet(const InternalLabelType label);
 
-  void LinkLabels(const LabelType lab1, const LabelType lab2);
+  void LinkLabels(const InternalLabelType lab1, const InternalLabelType lab2);
 
-  LabelType CreateConsecutive();
+  SizeValueType CreateConsecutive();
 
   //////////////////
   bool CheckNeighbors(const OutputIndexType & A,
