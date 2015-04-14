@@ -45,7 +45,7 @@ LandmarkPnt::
 ~LandmarkPnt()
 {
   delete []m_X;
-};
+}
 
 //
 // MedImage Constructors

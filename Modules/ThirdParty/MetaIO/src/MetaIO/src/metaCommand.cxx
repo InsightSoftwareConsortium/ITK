@@ -2172,6 +2172,7 @@ METAIO_STL::string MetaCommand::TypeToString(TypeEnumType type)
       return "file";
     case ENUM:
       return "enum";
+    case CHAR:
     default:
       return "not defined";
     }

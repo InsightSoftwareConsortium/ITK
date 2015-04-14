@@ -386,6 +386,7 @@ METAIO_STL::string MetaOutput::TypeToString(TypeEnumType type)
       return "flag";
     case BOOL:
       return "boolean";
+    case CHAR:
     default:
       return "not defined";
     }
@@ -494,7 +495,7 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
       if((*itOutput).value.size()>1)
         {
         char* val = new char[10];
-        sprintf(val,"%d",index);
+        sprintf(val,"%u",index);
         buffer += val;
         delete [] val;
         }
