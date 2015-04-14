@@ -275,7 +275,7 @@ macro(check_compiler_platform_flags)
   # Set the compiler-specific flag for disabling optimization.
   if(MSVC)
     set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "/Od")
-  elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(GNU|Intel)$")
+  elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(GNU|Intel)$" AND NOT MINGW)
     set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "-O0")
   endif()
   if(DEFINED ITK_CXX_DISABLE_OPTIMIZATION_FLAG)
