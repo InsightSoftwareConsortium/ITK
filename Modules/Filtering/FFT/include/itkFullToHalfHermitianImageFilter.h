@@ -19,6 +19,7 @@
 #define itkFullToHalfHermitianImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkSimpleDataObjectDecorator.h"
 
 namespace itk
 {
@@ -77,8 +78,12 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
+  /** Get whether the actual X dimension of the image is odd or not in the full
+   * representation */
+  itkGetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
+
 protected:
-  FullToHalfHermitianImageFilter() {}
+  FullToHalfHermitianImageFilter();
   ~FullToHalfHermitianImageFilter() {}
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -89,6 +94,8 @@ protected:
 
   /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+
+  itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool)
 
 private:
   FullToHalfHermitianImageFilter(const Self &); // purposely not implemented

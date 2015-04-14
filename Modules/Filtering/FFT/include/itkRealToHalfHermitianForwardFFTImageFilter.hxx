@@ -79,6 +79,13 @@ RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
+RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
+::RealToHalfHermitianForwardFFTImageFilter(void)
+{
+  this->SetActualXDimensionIsOdd(false);
+}
+
+template< typename TInputImage, typename TOutputImage >
 void
 RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -121,6 +128,7 @@ RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
 
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
+  this->SetActualXDimensionIsOdd(inputSize[0] % 2 != 0);
 }
 
 template< typename TInputImage, typename TOutputImage >

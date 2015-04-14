@@ -67,8 +67,7 @@ int itkHalfToFullHermitianImageFilterTest(int argc, char *argv[])
   // Expand the non-redundant half to the full complex image.
   typedef itk::HalfToFullHermitianImageFilter< ComplexImageType > HalfToFullFilterType;
   HalfToFullFilterType::Pointer halfToFullFilter = HalfToFullFilterType::New();
-  bool xDimensionIsOdd = size[0] % 2 == 1;
-  halfToFullFilter->SetActualXDimensionIsOdd( xDimensionIsOdd  );
+  halfToFullFilter->SetActualXDimensionIsOdd( fft->GetActualXDimensionIsOddOutput() );
   halfToFullFilter->SetInput( fft->GetOutput() );
   halfToFullFilter->Update();
   halfToFullFilter->Print(std::cout);
