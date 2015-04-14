@@ -941,7 +941,7 @@ CLANG_PRAGMA_POP                                    \
 #define itkSetClampMacro(name, type, min, max)                                 \
   virtual void Set##name (type _arg)                                     \
     {                                                                          \
-    const type temp_extrema=( _arg < min ? min : ( _arg > max ? max : _arg ) ) \
+    const type temp_extrema=( _arg < min ? min : ( _arg > max ? max : _arg ) );\
     itkDebugMacro("setting " << #name " to " << _arg);                         \
 CLANG_PRAGMA_PUSH                                                              \
 CLANG_SUPPRESS_Wfloat_equal                                                    \
