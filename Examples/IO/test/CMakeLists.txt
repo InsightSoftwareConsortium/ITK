@@ -79,4 +79,4 @@ if(ITK_VISIBLEHUMAN_DATA_ROOT)
 endif()
 
 itk_add_test(NAME TransformReadWriteTest
-  COMMAND $<TARGET_FILE:TransformReadWrite> ${TEMP}/TransformReadWrite.h5 )
+  COMMAND TransformReadWrite ${TEMP}/TransformReadWrite.h5 )
