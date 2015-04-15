@@ -581,9 +581,6 @@ protected:
   itkGetConstReferenceMacro(NumberOfRequiredInputs, DataObjectPointerArraySizeType);
 
 
-  /** \brief Define a named input and mark as required.  */
-  bool AddRequiredInputName( const DataObjectIdentifierType & );
-
   /** \brief Remove the named input from the required inputs
    *
    * The named input remains defined or set afterwards.
@@ -599,9 +596,14 @@ protected:
    */
   void SetRequiredInputNames( const NameArray & );
 
-
-  /** \brief Define a required name input and associate with an indexed input.  */
+  /** \brief Define a required named input and optionally associate it with an indexed.  */
+  bool AddRequiredInputName( const DataObjectIdentifierType & );
   bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
+
+  /** \brief Define a named input that is not required  and optionally associate with an indexed. */
+  void AddOptionalInputName( const DataObjectIdentifierType & );
+  void AddOptionalInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
+
 
   //
   // Output Methods

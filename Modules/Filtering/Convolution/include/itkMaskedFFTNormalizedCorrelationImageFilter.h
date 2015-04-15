@@ -184,44 +184,20 @@ public:
   typedef typename FFTImageType::Pointer                        FFTImagePointer;
 
   /** Set and get the fixed image */
-  void SetFixedImage(const InputImageType *input)
-    {
-      this->SetNthInput(0, const_cast<InputImageType *>(input) );
-    }
-  InputImageType * GetFixedImage()
-    {
-      return itkDynamicCastInDebugMode<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(0)));
-    }
+  itkSetInputMacro(FixedImage, InputImageType);
+  itkGetInputMacro(FixedImage, InputImageType);
 
   /** Set and get the moving image */
-  void SetMovingImage(const InputImageType *input)
-    {
-      this->SetNthInput(1, const_cast<InputImageType *>(input) );
-    }
-  InputImageType * GetMovingImage()
-    {
-      return itkDynamicCastInDebugMode<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
-    }
+  itkSetInputMacro(MovingImage, InputImageType);
+  itkGetInputMacro(MovingImage, InputImageType);
 
   /** Set and get the fixed mask */
-  void SetFixedImageMask(const MaskImageType *input)
-    {
-      this->SetNthInput(2, const_cast<MaskImageType *>(input) );
-    }
-  MaskImageType * GetFixedImageMask()
-    {
-      return itkDynamicCastInDebugMode<MaskImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(2)));
-    }
+  itkSetInputMacro(FixedImageMask, MaskImageType);
+  itkGetInputMacro(FixedImageMask, MaskImageType);
 
   /** Set and get the moving mask */
-  void SetMovingImageMask(const MaskImageType *input)
-    {
-      this->SetNthInput(3, const_cast<MaskImageType *>(input) );
-    }
-  MaskImageType * GetMovingImageMask()
-    {
-      return itkDynamicCastInDebugMode<MaskImageType * >(const_cast<DataObject *>(this->ProcessObject::GetInput(3)));
-    }
+  itkSetInputMacro(MovingImageMask, MaskImageType);
+  itkGetInputMacro(MovingImageMask, MaskImageType);
 
   /** Set and get the required number of overlapping pixels */
   itkSetMacro(RequiredNumberOfOverlappingPixels,SizeValueType);
@@ -244,7 +220,18 @@ public:
 protected:
   MaskedFFTNormalizedCorrelationImageFilter():m_TotalForwardAndInverseFFTs(12)
   {
-    this->SetNumberOfRequiredInputs(2);
+    // #0 "FixedImage" required
+    Self::SetPrimaryInputName("FixedImage");
+
+    // #1 "MaskImage" required
+    Self::AddRequiredInputName("MovingImage", 1);
+
+    // #2 "FixedImageMask" optional
+    Self::AddOptionalInputName("FixedImageMask", 2);
+
+    // #3 "MaskImageMask" optional
+    Self::AddOptionalInputName("MovingImageMask", 3);
+
     m_RequiredNumberOfOverlappingPixels = 0;
     m_RequiredFractionOfOverlappingPixels = 0;
     m_MaximumNumberOfOverlappingPixels = 0;

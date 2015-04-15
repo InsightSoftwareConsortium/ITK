@@ -127,7 +127,11 @@ public:
    typedef typename OutputImageType::PixelType       OutputPixelType;
 
 protected:
-  FFTNormalizedCorrelationImageFilter() {}
+  FFTNormalizedCorrelationImageFilter()
+    {
+      Self::RemoveInput("MovingImageMask");
+      Self::RemoveInput("FixedImageMask");
+    }
   virtual ~FFTNormalizedCorrelationImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 

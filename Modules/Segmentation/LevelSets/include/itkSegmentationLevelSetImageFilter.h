@@ -198,20 +198,21 @@ public:
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
   virtual void SetFeatureImage(const FeatureImageType *f)
-  {
-    this->ProcessObject::SetNthInput( 1, const_cast< FeatureImageType * >( f ) );
-    m_SegmentationFunction->SetFeatureImage(f);
-  }
-
-  virtual FeatureImageType * GetFeatureImage()
-  { return ( static_cast< FeatureImageType * >( this->ProcessObject::GetInput(1) ) ); }
+    {
+      itkDebugMacro("setting input FeatureImage to " << f );
+      if ( f != itkDynamicCastInDebugMode< FeatureImageType * >( this->ProcessObject::GetInput("FeatureImage") ) )
+        {
+        this->ProcessObject::SetInput( "FeatureImage", const_cast< FeatureImageType * >( f ) );
+        m_SegmentationFunction->SetFeatureImage(f);
+        this->Modified();
+        }
+    }
+  itkGetInputMacro(FeatureImage, FeatureImageType);
 
   /** Set/Get the initial level set model.  Equivalent to calling SetInput(..)
    */
-  virtual void SetInitialImage(InputImageType *f)
-  {
-    this->SetInput(f);
-  }
+  itkSetInputMacro(InitialImage, InputImageType);
+  itkGetInputMacro(InitialImage, InputImageType);
 
   /** Set the feature image */
   void SetInput2(const FeatureImageType *input)
