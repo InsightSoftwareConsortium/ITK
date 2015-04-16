@@ -155,5 +155,13 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
      << " (" << m_PlanRigor << ")" << std::endl;
 }
 
+template< typename TInputImage, typename TOutputImage >
+SizeValueType
+FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
+::GetSizeGreatestPrimeFactor() const
+{
+  return FFTWProxyType::GREATEST_PRIME_FACTOR;
+}
+
 } // namespace itk
 #endif // _itkFFTWHalfHermitianToRealInverseFFTImageFilter_hxx

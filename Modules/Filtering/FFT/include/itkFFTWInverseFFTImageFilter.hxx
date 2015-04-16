@@ -126,5 +126,13 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
      << " (" << m_PlanRigor << ")" << std::endl;
 }
 
+template< typename TInputImage, typename TOutputImage >
+SizeValueType
+FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
+::GetSizeGreatestPrimeFactor() const
+{
+  return FFTWProxyType::GREATEST_PRIME_FACTOR;
+}
+
 } // namespace itk
 #endif // _itkFFTWInverseFFTImageFilter_hxx

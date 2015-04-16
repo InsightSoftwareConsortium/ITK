@@ -68,6 +68,9 @@ public:
   typedef fftwf_plan    PlanType;
   typedef Proxy<float>  Self;
 
+  // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
+  static const SizeValueType GREATEST_PRIME_FACTOR = 13;
+
   static PlanType Plan_dft_c2r_1d(int n,
                                   ComplexType *in,
                                   PixelType *out,
@@ -368,6 +371,9 @@ public:
   typedef fftw_complex  ComplexType;
   typedef fftw_plan     PlanType;
   typedef Proxy<double> Self;
+
+  // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
+  static const SizeValueType GREATEST_PRIME_FACTOR = 13;
 
   static PlanType Plan_dft_c2r_1d(int n,
                                   ComplexType *in,

@@ -107,5 +107,14 @@ ForwardFFTImageFilter< TInputImage, TOutputImage >
   Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
+
+template< typename TInputImage, typename TOutputImage >
+SizeValueType
+ForwardFFTImageFilter< TInputImage, TOutputImage >
+::GetSizeGreatestPrimeFactor() const
+{
+  return 2;
+}
+
 }
 #endif

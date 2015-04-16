@@ -88,5 +88,14 @@ VnlInverseFFTImageFilter< TInputImage, TOutputImage >
     out[i] = signal[i].real() / vectorSize;
     }
 }
+
+template< typename TInputImage, typename TOutputImage >
+SizeValueType
+VnlInverseFFTImageFilter< TInputImage, TOutputImage >
+::GetSizeGreatestPrimeFactor() const
+{
+  return VnlFFTCommon::GREATEST_PRIME_FACTOR;
+}
+
 }
 #endif

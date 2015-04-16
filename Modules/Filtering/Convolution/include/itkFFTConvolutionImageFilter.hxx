@@ -29,7 +29,7 @@
 #include "itkImageBase.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkNormalizeToConstantImageFilter.h"
-#include "itkVnlFFTCommon.h"
+#include "itkFFTCommon.h"
 
 namespace itk
 {
@@ -38,6 +38,7 @@ template< typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::FFTConvolutionImageFilter()
 {
+  m_SizeGreatestPrimeFactor = FFTFilterType::New()->GetSizeGreatestPrimeFactor();
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
@@ -396,11 +397,12 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   for (unsigned int i = 0; i < ImageDimension; ++i)
     {
     padSize[i] = inputSize[i] + kernelSize[i];
-    // Use the valid sizes for VNL because they are fast sizes for
-    // both VNL and FFTW.
-    while ( !VnlFFTCommon::IsDimensionSizeLegal( padSize[i] ) )
+    if( m_SizeGreatestPrimeFactor > 1 )
       {
-      padSize[i]++;
+      while ( GreatestPrimeFactor( padSize[i] ) > m_SizeGreatestPrimeFactor )
+        {
+        padSize[i]++;
+        }
       }
     }
 

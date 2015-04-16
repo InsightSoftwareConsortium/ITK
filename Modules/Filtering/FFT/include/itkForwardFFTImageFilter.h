@@ -72,6 +72,12 @@ public:
     * Default implementation is VnlFFT. */
   static Pointer New();
 
+  /* Return the prefered greatest prime factor supported for the input image
+   * size. Defaults to 2 as many implementations work only for sizes that are
+   * power of 2.
+   */
+  virtual SizeValueType GetSizeGreatestPrimeFactor() const;
+
 protected:
   ForwardFFTImageFilter() {}
   virtual ~ForwardFFTImageFilter() {}

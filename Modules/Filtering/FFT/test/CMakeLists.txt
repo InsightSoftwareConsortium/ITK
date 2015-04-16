@@ -8,6 +8,7 @@ itkVnlRealFFTTest.cxx
 itkForwardInverseFFTImageFilterTest.cxx
 itkComplexToComplexFFTImageFilterTest.cxx
 itkVnlComplexToComplexFFTImageFilterTest.cxx
+itkFFTCommonTest.cxx
 )
 
 if(ITK_USE_FFTWF)
@@ -94,6 +95,7 @@ itk_add_test(NAME itkFFTShiftImageFilterTestEven1
     --compare DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven1.png
     itkFFTShiftImageFilterTest DATA{Baseline/itkFFTShiftImageFilterTestEven0.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven1.png 1)
+itk_add_test(NAME itkFFTCommon COMMAND ITKFFTTestDriver itkFFTCommonTest)
 itk_add_test(NAME itkHalfToFullHermitianImageFilterTestEvenEven
   COMMAND ITKFFTTestDriver
   itkHalfToFullHermitianImageFilterTest 10 10)
