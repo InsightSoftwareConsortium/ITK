@@ -50,21 +50,19 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 template< typename TImage, typename TBoundaryCondition >
 bool
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
-::IndexInBounds(NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const
+::IndexInBounds(const NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const
 {
   if ( !m_NeedToUseBoundaryCondition )
     {
     return true;
     }
-
-  // Is this whole neighborhood in bounds?
-  if ( this->InBounds() )
+  else if ( this->InBounds() ) // Is this whole neighborhood in bounds?
     {
     return true;
     }
   else
     {
-    bool              flag = true;
+    bool flag = true;
     internalIndex = this->ComputeInternalIndex(n);
 
     // Is this pixel in bounds?
@@ -77,7 +75,7 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
       else  // part of this dimension spills out of bounds
         {
         // Calculate overlap for this dimension
-        OffsetValueType   OverlapLow = m_InnerBoundsLow[i] - m_Loop[i];
+        const OffsetValueType   OverlapLow ( m_InnerBoundsLow[i] - m_Loop[i] );
         if ( internalIndex[i] < OverlapLow )
           {
           flag = false;
@@ -85,8 +83,7 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
           }
         else
           {
-          OffsetValueType OverlapHigh;
-          OverlapHigh = static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) );
+          const OffsetValueType OverlapHigh ( static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) ) );
           if ( OverlapHigh < internalIndex[i] )
             {
             flag = false;
@@ -99,7 +96,48 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
           }
         }
       }
+    return flag;
+    }
+}
 
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::IndexInBounds(const NeighborIndexType n ) const
+{
+  if ( !m_NeedToUseBoundaryCondition )
+    {
+    return true;
+    }
+  else if ( this->InBounds() ) // Is this whole neighborhood in bounds?
+    {
+    return true;
+    }
+  else
+    {
+    bool flag = true;
+    const OffsetType & internalIndex = this->ComputeInternalIndex(n);
+    // Is this pixel in bounds?
+    for ( DimensionValueType i = 0; i < Dimension; ++i )
+      {
+      if ( ! m_InBounds[i] )
+        {
+        // Calculate overlap for this dimension
+        const OffsetValueType OverlapLow ( m_InnerBoundsLow[i] - m_Loop[i] );
+        if ( internalIndex[i] < OverlapLow )
+          {
+          flag = false;
+          }
+        else
+          {
+          const OffsetValueType OverlapHigh ( static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) ) );
+          if ( OverlapHigh < internalIndex[i] )
+            {
+            flag = false;
+            }
+          }
+        }
+      }
     return flag;
     }
 }
@@ -148,11 +186,9 @@ typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::OffsetType
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 ::ComputeInternalIndex(const NeighborIndexType n) const
 {
-  OffsetType    ans;
-  long          D = (long)Dimension;
-  unsigned long r;
-
-  r = (unsigned long)n;
+  OffsetType ans;
+  const long D = (long)Dimension;
+  unsigned long r = (unsigned long)n;
   for ( long i = D - 1; i >= 0; --i )
     {
     ans[i] = static_cast< OffsetValueType >( r / this->GetStride(i) );
@@ -243,8 +279,9 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
     this->ResetBoundaryCondition();
     }
   else
-                  { m_BoundaryCondition = orig.m_BoundaryCondition; }
-
+    {
+    m_BoundaryCondition = orig.m_BoundaryCondition;
+    }
   m_NeighborhoodAccessorFunctor = orig.m_NeighborhoodAccessorFunctor;
 }
 
