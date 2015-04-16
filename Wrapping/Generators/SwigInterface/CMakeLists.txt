@@ -151,6 +151,7 @@ else()
       ../swig/configure
         --prefix=${CMAKE_CURRENT_BINARY_DIR}/swig
         --with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
+    LOG_CONFIGURE 0
     DEPENDS PCRE
 
     )
