@@ -156,6 +156,9 @@ inline int I18nOpenForWriting(const std::string & str, const bool append = false
 #if LOCAL_USE_WIN32_WOPEN
   if ( !append ) { return I18nOpen(str, _O_WRONLY | _O_CREAT | _O_BINARY, _S_IREAD | _S_IWRITE); }
   else { return I18nOpen(str, _O_WRONLY | _O_CREAT | _O_APPEND | _O_BINARY, _S_IREAD | _S_IWRITE); }
+#elif S_IRUSR
+  if ( !append ) { return I18nOpen(str, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR); }
+  else { return I18nOpen(str, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR); }
 #else
   if ( !append ) { return I18nOpen(str, O_WRONLY | O_CREAT, S_IREAD | S_IWRITE); }
   else { return I18nOpen(str, O_WRONLY | O_CREAT | O_APPEND, S_IREAD | S_IWRITE); }
