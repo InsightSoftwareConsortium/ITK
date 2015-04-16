@@ -122,14 +122,6 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  // filter types used internally
-  typedef itk::LabelSelectionLabelMapFilter< LabelMapType >                        SelectType;
-  typedef itk::AutoCropLabelMapFilter< LabelMapType >                              CropType;
-  typedef itk::PadLabelMapFilter< LabelMapType >                                   PadType;
-  typedef itk::LabelMapToBinaryImageFilter< LabelMapType, InternalInputImageType>  LM2BIType;
-  typedef itk::LabelImageToLabelMapFilter< InternalOutputImageType, LabelMapType>  LI2LMType;
-  typedef itk::BinaryImageToLabelMapFilter< InternalOutputImageType, LabelMapType> BI2LMType;
-
   /** Standard New method. */
   itkNewMacro(Self);
 
@@ -220,16 +212,27 @@ private:
 
   InternalOutputPixelType m_InternalForegroundValue;
 
+  typedef itk::LabelSelectionLabelMapFilter< LabelMapType >                        SelectType;
+  typename SelectType::Pointer m_Select;
+
+  typedef itk::AutoCropLabelMapFilter< LabelMapType >                              CropType;
+  typename CropType::Pointer   m_Crop;
+
+  typedef itk::PadLabelMapFilter< LabelMapType >                                   PadType;
+  typename PadType::Pointer    m_Pad;
+
+  typedef itk::LabelMapToBinaryImageFilter< LabelMapType, InternalInputImageType>  LM2BIType;
+  typename LM2BIType::Pointer  m_LM2BI;
+
+  typedef itk::LabelImageToLabelMapFilter< InternalOutputImageType, LabelMapType>  LI2LMType;
+  typename LI2LMType::Pointer  m_LI2LM;
+
+  typedef itk::BinaryImageToLabelMapFilter< InternalOutputImageType, LabelMapType> BI2LMType;
+  typename BI2LMType::Pointer  m_BI2LM;
 
   typename InputFilterType::Pointer       m_InputFilter;
   typename OutputFilterType::Pointer      m_OutputFilter;
 
-  typename SelectType::Pointer m_Select;
-  typename CropType::Pointer   m_Crop;
-  typename PadType::Pointer    m_Pad;
-  typename LM2BIType::Pointer  m_LM2BI;
-  typename LI2LMType::Pointer  m_LI2LM;
-  typename BI2LMType::Pointer  m_BI2LM;
 
   InputImagePixelType          m_Label;
 
