@@ -292,8 +292,8 @@ public:
   static bool IsNegative(char val) { return val < Zero; }
   static bool IsNonnegative(char val) { return val >= Zero; }
 #else
-  static bool IsNegative(Self) { return false; }
-  static bool IsNonnegative(Self) { return true; }
+  static bool IsNegative(char) { return false; }
+  static bool IsNonnegative(char) { return true; }
 #endif
   static char ZeroValue() { return Zero; }
   static char OneValue() { return One; }
