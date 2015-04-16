@@ -108,51 +108,62 @@ inline std::ostream & operator<<(std::ostream & os, EventObject & e)
 #define ITKEvent_EXPORT ITKCommon_EXPORT
 
 /**
- *  Macro for creating new Events
+ *  Macros for creating new Events
  */
-#define itkEventMacro(classname, super)                              \
+
+#define itkEventMacroDeclaration(classname, super)                   \
   /** \class classname */                                            \
   class ITKEvent_EXPORT classname:public super                       \
   {                                                                  \
 public:                                                              \
     typedef classname Self;                                          \
     typedef super     Superclass;                                    \
-    classname() {}                                                   \
-    virtual ~classname() {}                                          \
-    virtual const char *GetEventName() const { return #classname; } \
-    virtual bool CheckEvent(const::itk::EventObject * e) const       \
-               { return ( dynamic_cast< const Self * >( e ) != ITK_NULLPTR ); }         \
-    virtual::itk::EventObject *MakeObject() const                    \
-               { return new Self; }                                  \
-    classname(const Self &s):super(s){};                             \
+    classname();                                                     \
+    classname(const Self &s);                                        \
+    virtual ~classname();                                            \
+    virtual const char *GetEventName() const;                        \
+    virtual bool CheckEvent(const::itk::EventObject * e) const;      \
+    virtual ::itk::EventObject *MakeObject() const;                   \
 private:                                                             \
     void operator=(const Self &);                                    \
   };
 
-/**
- *      Define some common ITK events
- */
-itkEventMacro(NoEvent, EventObject)
-itkEventMacro(AnyEvent, EventObject)
-itkEventMacro(DeleteEvent, AnyEvent)
-itkEventMacro(StartEvent, AnyEvent)
-itkEventMacro(EndEvent, AnyEvent)
-itkEventMacro(ProgressEvent, AnyEvent)
-itkEventMacro(ExitEvent, AnyEvent)
-itkEventMacro(AbortEvent, AnyEvent)
-itkEventMacro(ModifiedEvent, AnyEvent)
-itkEventMacro(InitializeEvent, AnyEvent)
-itkEventMacro(IterationEvent, AnyEvent)
-itkEventMacro(MultiResolutionIterationEvent,IterationEvent)
-itkEventMacro(PickEvent, AnyEvent)
-itkEventMacro(StartPickEvent, PickEvent)
-itkEventMacro(EndPickEvent, PickEvent)
-itkEventMacro(AbortCheckEvent, PickEvent)
-itkEventMacro(FunctionEvaluationIterationEvent, IterationEvent)
-itkEventMacro(GradientEvaluationIterationEvent, IterationEvent)
-itkEventMacro(FunctionAndGradientEvaluationIterationEvent, IterationEvent)
+#define itkEventMacroDefinition(classname, super)                           \
+classname::classname() {}                                                   \
+classname::classname(const classname &s):super(s){};                        \
+classname::~classname() {}                                                  \
+const char * classname::GetEventName() const { return #classname; }          \
+bool classname::CheckEvent(const::itk::EventObject * e) const               \
+      { return ( dynamic_cast< const classname * >( e ) != ITK_NULLPTR ); } \
+::itk::EventObject *classname::MakeObject() const { return new classname; } \
 
-itkEventMacro(UserEvent, AnyEvent)
+#define itkEventMacro(classname, super)      \
+   itkEventMacroDeclaration(classname,super) \
+   itkEventMacroDefinition(classname,super)
+
+/**
+ *      Delclare some common ITK events
+ */
+itkEventMacroDeclaration(NoEvent, EventObject)
+itkEventMacroDeclaration(AnyEvent, EventObject)
+itkEventMacroDeclaration(DeleteEvent, AnyEvent)
+itkEventMacroDeclaration(StartEvent, AnyEvent)
+itkEventMacroDeclaration(EndEvent, AnyEvent)
+itkEventMacroDeclaration(ProgressEvent, AnyEvent)
+itkEventMacroDeclaration(ExitEvent, AnyEvent)
+itkEventMacroDeclaration(AbortEvent, AnyEvent)
+itkEventMacroDeclaration(ModifiedEvent, AnyEvent)
+itkEventMacroDeclaration(InitializeEvent, AnyEvent)
+itkEventMacroDeclaration(IterationEvent, AnyEvent)
+itkEventMacroDeclaration(MultiResolutionIterationEvent,IterationEvent)
+itkEventMacroDeclaration(PickEvent, AnyEvent)
+itkEventMacroDeclaration(StartPickEvent, PickEvent)
+itkEventMacroDeclaration(EndPickEvent, PickEvent)
+itkEventMacroDeclaration(AbortCheckEvent, PickEvent)
+itkEventMacroDeclaration(FunctionEvaluationIterationEvent, IterationEvent)
+itkEventMacroDeclaration(GradientEvaluationIterationEvent, IterationEvent)
+itkEventMacroDeclaration(FunctionAndGradientEvaluationIterationEvent, IterationEvent)
+itkEventMacroDeclaration(UserEvent, AnyEvent)
 
 #undef ITKEvent_EXPORT
 #define ITKEvent_EXPORT ITK_ABI_EXPORT

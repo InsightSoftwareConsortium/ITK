@@ -55,4 +55,29 @@ void
 EventObject
 ::PrintSelf(std::ostream &, Indent) const
 {}
+
+/**
+ * Define some common ITK events
+ */
+itkEventMacroDefinition(NoEvent, EventObject)
+itkEventMacroDefinition(AnyEvent, EventObject)
+itkEventMacroDefinition(DeleteEvent, AnyEvent)
+itkEventMacroDefinition(StartEvent, AnyEvent)
+itkEventMacroDefinition(EndEvent, AnyEvent)
+itkEventMacroDefinition(ProgressEvent, AnyEvent)
+itkEventMacroDefinition(ExitEvent, AnyEvent)
+itkEventMacroDefinition(AbortEvent, AnyEvent)
+itkEventMacroDefinition(ModifiedEvent, AnyEvent)
+itkEventMacroDefinition(InitializeEvent, AnyEvent)
+itkEventMacroDefinition(IterationEvent, AnyEvent)
+itkEventMacroDefinition(MultiResolutionIterationEvent,IterationEvent)
+itkEventMacroDefinition(PickEvent, AnyEvent)
+itkEventMacroDefinition(StartPickEvent, PickEvent)
+itkEventMacroDefinition(EndPickEvent, PickEvent)
+itkEventMacroDefinition(AbortCheckEvent, PickEvent)
+itkEventMacroDefinition(FunctionEvaluationIterationEvent, IterationEvent)
+itkEventMacroDefinition(GradientEvaluationIterationEvent, IterationEvent)
+itkEventMacroDefinition(FunctionAndGradientEvaluationIterationEvent, IterationEvent)
+itkEventMacroDefinition(UserEvent, AnyEvent)
+
 } // end namespace itk
