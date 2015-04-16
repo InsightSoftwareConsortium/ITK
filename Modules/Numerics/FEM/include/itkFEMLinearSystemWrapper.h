@@ -75,9 +75,7 @@ public:
    * Virtual destructor should properly destroy the object and clean up any
    * memory allocated for matrix and vector storage.
    */
-  virtual ~LinearSystemWrapper()
-  {
-  }
+  virtual ~LinearSystemWrapper();
 
   /**
    * Clear all the data (matrices) inside the system, so that the system
@@ -509,9 +507,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionLinearSystem()
-  throw ( )
-  {
-  }
+  throw ( );
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem, FEMException);
@@ -539,9 +535,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionLinearSystemBounds()
-  throw ( )
-  {
-  }
+  throw ( );
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem, FEMException);

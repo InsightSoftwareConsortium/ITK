@@ -30,9 +30,8 @@ namespace itk
 class MetaEvent : public :: MetaEvent
 {
 public:
-
-  MetaEvent(){}
-  virtual ~MetaEvent(){}
+  MetaEvent();
+  virtual ~MetaEvent();
 };
 } // end namespace itk
 

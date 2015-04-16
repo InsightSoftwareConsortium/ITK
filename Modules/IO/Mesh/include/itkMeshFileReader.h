@@ -42,11 +42,11 @@ namespace itk
  * \brief Base exception class for IO conflicts.
  * \ingroup ITKIOMesh
  */
-class ITKIOMesh_HIDDEN MeshFileReaderException:public ExceptionObject
+class ITKIOMesh_EXPORT MeshFileReaderException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
-  virtual ~MeshFileReaderException() throw() {};
+  virtual ~MeshFileReaderException() throw();
 
   /** Run-time information. */
   itkTypeMacro(MeshFileReaderException, ExceptionObject);

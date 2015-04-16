@@ -30,7 +30,7 @@ namespace itk
  * \class ImageFileWriterException
  * \ingroup ITKIOImageBase
  */
-class ITK_ABI_EXPORT ImageFileWriterException:public ExceptionObject
+class ITKIOImageBase_EXPORT ImageFileWriterException:public ExceptionObject
 {
 public:
   /** Run-time information. */
@@ -51,8 +51,7 @@ public:
   {}
 
   /** Has to have empty throw(). */
-  virtual ~ImageFileWriterException() throw( )
-  {}
+  virtual ~ImageFileWriterException() throw( );
 };
 
 /** \class ImageFileWriter

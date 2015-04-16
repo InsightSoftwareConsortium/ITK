@@ -44,12 +44,13 @@ public:
     m_Event(event),
     m_Tag(tag)
   {}
-  virtual ~Observer()
-  { delete m_Event; }
+  virtual ~Observer();
   Command::Pointer   m_Command;
   const EventObject *m_Event;
   unsigned long      m_Tag;
 };
+/* Create Out-of-line Definition */
+Observer::~Observer() { delete m_Event; }
 
 class ITKCommon_HIDDEN SubjectImplementation
 {

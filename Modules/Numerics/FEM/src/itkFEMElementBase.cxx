@@ -434,5 +434,57 @@ void Element::PrintSelf(std::ostream& os, Indent indent) const
     }
 }
 
+::itk::LightObject::Pointer Element::Node::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New();
+
+  copyPtr->m_coordinates = this->m_coordinates;
+  copyPtr->m_dof = this->m_dof;
+  copyPtr->m_elements = this->m_elements;
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+
+  smartPtr = static_cast<Pointer>(copyPtr);
+
+  return smartPtr;
+}
+
+void Element::Node::ClearDegreesOfFreedom(void) const
+{
+  m_dof.clear();
+}
+
+void Element::Node::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  // os << indent << "DOF: " << this->m_dof << std::endl;
+  // os << indent << "Coordinates: " << this->m_coordinates << std::endl;
+  // os << indent << "Elements: " << this->m_elements << std::endl;
+}
+
+Material::ConstPointer Element::GetMaterial(void) const
+{
+  return ITK_NULLPTR;
+}
+
+void Element::SetMaterial(Material::ConstPointer)
+{
+}
+
+void Element::SetNode(unsigned int n, Node::Pointer node)
+{
+  this->SetNode(n,NodeIDType(node.GetPointer()));
+}
+
+unsigned int Element::GetNumberOfDegreesOfFreedom(void) const
+{
+  return this->GetNumberOfNodes() * this->GetNumberOfDegreesOfFreedomPerNode();
+}
+
+std::vector<std::vector<int> > Element::GetEdgeIds(void) const
+{
+  return this->m_EdgeIds;
+}
+
 }
 }  // end namespace itk::fem

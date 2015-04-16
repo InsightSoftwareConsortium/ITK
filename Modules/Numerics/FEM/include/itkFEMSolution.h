@@ -68,9 +68,7 @@ public:
    * Virtual destructor should properly destroy the object and clean up any
    * memory allocated for matrix and vector storage.
    */
-  virtual ~Solution()
-  {
-  }
+  virtual ~Solution();
 };
 }
 }  // end namespace itk::fem

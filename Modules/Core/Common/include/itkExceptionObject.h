@@ -139,8 +139,8 @@ public:
 
     virtual void UnRegister() const = 0;
 
-    ReferenceCounterInterface() {}
-    virtual ~ReferenceCounterInterface() {}
+    ReferenceCounterInterface();
+    virtual ~ReferenceCounterInterface();
   };
   class ExceptionData;
   class ReferenceCountedExceptionData;

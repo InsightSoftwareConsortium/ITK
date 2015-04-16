@@ -1,4 +1,7 @@
 set(ITKIOImageBase_SRC
+itkImageSeriesWriter.cxx
+itkImageFileReaderException.cxx
+itkImageFileWriter.cxx
 itkArchetypeSeriesFileNames.cxx
 itkImageIOFactory.cxx
 itkIOCommon.cxx

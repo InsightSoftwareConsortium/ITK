@@ -1,4 +1,5 @@
 set(ITKIOMesh_SRC
+  itkMeshFileReader.cxx
   itkBYUMeshIO.cxx
   itkBYUMeshIOFactory.cxx
   itkFreeSurferAsciiMeshIO.cxx

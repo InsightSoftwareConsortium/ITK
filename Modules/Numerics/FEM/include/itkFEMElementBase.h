@@ -171,20 +171,7 @@ public:
 
     /** CreateAnother method will clone the existing instance of this type,
      * including its internal member variables. */
-    virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE
-      {
-        ::itk::LightObject::Pointer smartPtr;
-        Pointer copyPtr = Self::New();
-
-        copyPtr->m_coordinates = this->m_coordinates;
-        copyPtr->m_dof = this->m_dof;
-        copyPtr->m_elements = this->m_elements;
-        copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
-
-        smartPtr = static_cast<Pointer>(copyPtr);
-
-        return smartPtr;
-      }
+    virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
     /**
      * Floating point precision type.
@@ -252,10 +239,7 @@ public:
         m_dof[i] = dof;
       }
 
-    virtual void ClearDegreesOfFreedom(void) const
-      {
-        m_dof.clear();
-      }
+    virtual void ClearDegreesOfFreedom(void) const;
 
   public:
     /**
@@ -265,14 +249,7 @@ public:
     typedef std::set<Element *> SetOfElements;
     mutable SetOfElements m_elements;
   protected:
-    virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
-      {
-        Superclass::PrintSelf(os, indent);
-        // os << indent << "DOF: " << this->m_dof << std::endl;
-        // os << indent << "Coordinates: " << this->m_coordinates << std::endl;
-        // os << indent << "Elements: " << this->m_elements << std::endl;
-      }
-
+    virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
   private:
     /**
      * Vector object that holds node coordinates.
@@ -435,10 +412,7 @@ public:
    *
    * \sa SetMaterial
    */
-  virtual Material::ConstPointer GetMaterial(void) const
-    {
-      return ITK_NULLPTR;
-    }
+  virtual Material::ConstPointer GetMaterial(void) const;
 
   /**
    * Set the pointer to the Material object used by the element.
@@ -448,9 +422,7 @@ public:
    *
    * \sa GetMaterial
    */
-  virtual void SetMaterial(Material::ConstPointer)
-    {
-    }
+  virtual void SetMaterial(Material::ConstPointer);
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -551,10 +523,7 @@ public:
    * Sets the pointe of n-th node in an element to node.
    */
   virtual void SetNode(unsigned int n, NodeIDType node) = 0;
-  virtual void SetNode(unsigned int n, Node::Pointer node)
-    {
-      this->SetNode(n,NodeIDType(node.GetPointer()));
-    }
+  virtual void SetNode(unsigned int n, Node::Pointer node);
   /**
    * Return a vector of global coordinates of n-th node in an element.
    *
@@ -684,18 +653,12 @@ public:
    * element class. By default this is equal to number of points in a cell
    * multiplied by number of degrees of freedom at each point.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedom(void) const
-    {
-      return this->GetNumberOfNodes() * this->GetNumberOfDegreesOfFreedomPerNode();
-    }
+  virtual unsigned int GetNumberOfDegreesOfFreedom(void) const;
 
   /**
    * Access the edge ids vector. The vector in turn contains a list of edge ids.
    */
-  virtual std::vector<std::vector<int> > GetEdgeIds(void) const
-    {
-      return this->m_EdgeIds;
-    }
+  virtual std::vector<std::vector<int> > GetEdgeIds(void) const;
 
   /**
    * Return the number of degrees of freedom at each node. This is also

@@ -30,6 +30,8 @@ CacheableScalarFunction
 {
 }
 
+CacheableScalarFunction::~CacheableScalarFunction() {}
+
 void
 CacheableScalarFunction
 ::CreateCache(double lowerBound, double upperBound, SizeValueType sampleSize)
@@ -56,4 +58,7 @@ CacheableScalarFunction
 
   m_CacheAvailable = true;
 }
+
+CacheableScalarFunction::MeasureType CacheableScalarFunction::Evaluate(MeasureType x)
+{ return x; }
 } // end of namespace itk

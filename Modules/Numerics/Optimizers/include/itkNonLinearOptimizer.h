@@ -53,7 +53,7 @@ public:
 
 protected:
   NonLinearOptimizer() {}
-  virtual ~NonLinearOptimizer() {}
+  virtual ~NonLinearOptimizer();
 
 private:
   NonLinearOptimizer(const Self &); //purposely not implemented

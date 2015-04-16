@@ -69,15 +69,11 @@ public:
     * to the specified parameters    */
   virtual void GetValueAndDerivative(const ParametersType & parameters,
                                      MeasureType & value,
-                                     DerivativeType & derivative) const
-  {
-    value = this->GetValue(parameters);
-    this->GetDerivative(parameters, derivative);
-  }
+                                     DerivativeType & derivative) const;
 
 protected:
   SingleValuedCostFunction() {}
-  virtual ~SingleValuedCostFunction() {}
+  virtual ~SingleValuedCostFunction();
 
 private:
   SingleValuedCostFunction(const Self &); //purposely not implemented

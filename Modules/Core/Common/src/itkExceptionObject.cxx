@@ -368,5 +368,7 @@ ProcessAborted::~ProcessAborted() throw( )
 {
 }
 
+ExceptionObject::ReferenceCounterInterface::ReferenceCounterInterface() {}
+ExceptionObject::ReferenceCounterInterface::~ReferenceCounterInterface() {}
 
 } // end namespace itk

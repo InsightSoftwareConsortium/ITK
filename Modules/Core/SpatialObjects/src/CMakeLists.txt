@@ -1,4 +1,5 @@
 set(ITKSpatialObjects_SRC
+itkMetaEvent.cxx
 itkCylinderSpatialObject.cxx
 itkSpatialObjectFactoryBase.cxx
 itkArrowSpatialObject.cxx

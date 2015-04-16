@@ -62,7 +62,7 @@ public:
   CacheableScalarFunction();
 
   /** Destructor. */
-  virtual ~CacheableScalarFunction() {}
+  virtual ~CacheableScalarFunction();
 
   /** Function's input and output value type. */
   typedef double               MeasureType;
@@ -84,8 +84,7 @@ public:
   /** y = f(x)
    * Subclasses of this class should override this member function
    * to provide their own functional operation . */
-  virtual MeasureType Evaluate(MeasureType x)
-  { return x; }
+  virtual MeasureType Evaluate(MeasureType x);
 
   /** Gets the interval of each cell between the upper and lower bound */
   double GetInterval()
