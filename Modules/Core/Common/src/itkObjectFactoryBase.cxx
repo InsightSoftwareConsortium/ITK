@@ -26,7 +26,10 @@
  *
  *=========================================================================*/
 
+#include "itkConfigure.h"
+#ifdef ITK_DYNAMIC_LOADING
 #include "itkDynamicLoader.h"
+#endif
 #include "itkDirectory.h"
 #include "itkVersion.h"
 #include <string.h>
@@ -210,7 +213,9 @@ ObjectFactoryBase
     ObjectFactoryBasePrivate::m_Initialized = true;
     ObjectFactoryBase::InitializeFactoryList();
     ObjectFactoryBase::RegisterInternal();
+#ifdef ITK_DYNAMIC_LOADING
     ObjectFactoryBase::LoadDynamicFactories();
+#endif
     }
 }
 
@@ -243,6 +248,7 @@ void
 ObjectFactoryBase
 ::LoadDynamicFactories()
 {
+#ifdef ITK_DYNAMIC_LOADING
   /**
    * follow PATH conventions
    */
@@ -300,8 +306,12 @@ ObjectFactoryBase
       EndSeparatorPosition++; // Skip the separator
       }
     }
+#else // ITK_DYNAMIC_LOADING
+  itkGenericExceptionMacro("ITK was not built with support for dynamic loading.");
+#endif
 }
 
+#ifdef ITK_DYNAMIC_LOADING
 /**
  * A file scope helper function to concat path and file into
  * a full path
@@ -327,6 +337,7 @@ CreateFullPath(const char *path, const char *file)
   ret += file;
   return ret;
 }
+#endif // ITK_DYNAMIC_LOADING
 
 /**
  * A file scope typedef to make the cast code to the load
@@ -343,6 +354,7 @@ typedef ObjectFactoryBase * ( *ITK_LOAD_FUNCTION )();
 inline bool
 NameIsSharedLibrary(const char *name)
 {
+#ifdef ITK_DYNAMIC_LOADING
   std::string extension = itksys::DynamicLoader::LibExtension();
 
   std::string sname = name;
@@ -361,6 +373,10 @@ NameIsSharedLibrary(const char *name)
     {
     return true;
     }
+#else // ITK_DYNAMIC_LOADING
+  (void) name;
+  itkGenericExceptionMacro("ITK was not built with support for dynamic loading.");
+#endif
   return false;
 }
 
@@ -377,6 +393,7 @@ ObjectFactoryBase
     {
     return;
     }
+#ifdef ITK_DYNAMIC_LOADING
 
   /**
    * Attempt to load each file in the directory as a shared library
@@ -437,6 +454,9 @@ ObjectFactoryBase
         }
       }
     }
+#else // ITK_DYNAMIC_LOADING
+  itkGenericExceptionMacro("ITK was not built with support for dynamic loading.");
+#endif
 }
 
 /**
@@ -690,6 +710,7 @@ ObjectFactoryBase
       {
       DeleteNonInternalFactory(*f);
       }
+#ifdef ITK_DYNAMIC_LOADING
     // And delete the library handles all at once
     for ( std::list< void * >::iterator lib = libs.begin();
           lib != libs.end();
@@ -700,6 +721,7 @@ ObjectFactoryBase
         DynamicLoader::CloseLibrary( static_cast< LibHandle >( *lib ) );
         }
       }
+#endif
     delete ObjectFactoryBasePrivate::m_RegisteredFactories;
     ObjectFactoryBasePrivate::m_RegisteredFactories = ITK_NULLPTR;
     ObjectFactoryBasePrivate::m_Initialized = false;

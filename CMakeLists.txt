@@ -196,6 +196,8 @@ else()
 endif()
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
+option(ITK_DYNAMIC_LOADING "Support loading of dynamic libraries" ON)
+
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
 # run try compiles and tests for ITK
