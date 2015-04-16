@@ -9,9 +9,9 @@
 #include <vcl_cmath.h>
 #include <vxl_config.h>
 
-#if VXL_STDLIB_HAS_DRAND48
-# include <stdlib.h> // dont_vxl_filter
-#else
+#include <stdlib.h> // dont_vxl_filter
+
+#if !VXL_STDLIB_HAS_DRAND48
 // rand() is not always a good random number generator,
 // so use a simple congruential random number generator when drand48 not available - PVr
 static unsigned long vnl_sample_seed = 12345;
