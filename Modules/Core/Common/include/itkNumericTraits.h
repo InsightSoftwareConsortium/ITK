@@ -287,8 +287,14 @@ public:
   static char NonpositiveMin() { return min(); }
   static bool IsPositive(char val) { return val > Zero; }
   static bool IsNonpositive(char val) { return val <= Zero; }
+// char on PowerPC, for example, is not signed
+#if VCL_CHAR_IS_SIGNED
   static bool IsNegative(char val) { return val < Zero; }
   static bool IsNonnegative(char val) { return val >= Zero; }
+#else
+  static bool IsNegative(Self) { return false; }
+  static bool IsNonnegative(Self) { return true; }
+#endif
   static char ZeroValue() { return Zero; }
   static char OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -910,8 +916,14 @@ public:
 
   static bool IsPositive(Self val) { return val.real() > 0; }
   static bool IsNonpositive(Self val) { return val.real() <= 0; }
+// char on PowerPC, for example, is not signed
+#if VCL_CHAR_IS_SIGNED
   static bool IsNegative(Self val) { return val.real() < 0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0; }
+#else
+  static bool IsNegative(Self) { return false; }
+  static bool IsNonnegative(Self) { return true; }
+#endif
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
