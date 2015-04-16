@@ -315,7 +315,7 @@ int TestMattesMetricWithAffineTransform(
       metricValueOnly << "\tderivative[4]: " << derivative[4];
     // Make sure the metric value calculation is
     // consistent
-    if( ! itk::Math::FloatAlmostEqual( metricValueWithDerivative, metricValueOnly ) )
+    if( ! itk::Math::FloatAlmostEqual( metricValueWithDerivative, metricValueOnly, 8 ) )
       {
       std::cout << "\t[FAILED]: metricValueWithDerivative values do not match: ("
                 << metricValueWithDerivative << " - " << metricValueOnly <<  ") = "
