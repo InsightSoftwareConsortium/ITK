@@ -39,9 +39,9 @@ ENDIF( ${VXL_CONFIG_SERIAL_CURRENT} MATCHES "^${VXL_CONFIG_SERIAL_LAST}$" )
 # Include necessary modules
 #
 
-INCLUDE (${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
-INCLUDE (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
-INCLUDE (${CMAKE_ROOT}/Modules/CheckTypeSize.cmake)
+INCLUDE (CheckSymbolExists)
+INCLUDE (TestBigEndian)
+INCLUDE (CheckTypeSize)
 
 INCLUDE (${vxl_SOURCE_DIR}/config/cmake/config/vxl_config_macros.cmake)
 #
