@@ -98,18 +98,17 @@ endif()
 mark_as_advanced(CASTXML)
 
 ###############################################################################
-# install the files requires for gccxml
+# install the files required for castxml
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/GccXML CMakeLists.txt)
-  WRAP_ITK_INSTALL(/Configuration/Generators/GccXML gcc_xml.inc.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/GccXML wrap_.cxx.in)
+  WRAP_ITK_INSTALL(/Configuration/Generators/CastXML CMakeLists.txt)
+  WRAP_ITK_INSTALL(/Configuration/Generators/CastXML cast_xml.inc.in)
+  WRAP_ITK_INSTALL(/Configuration/Generators/CastXML wrap_.cxx.in)
 endif()
 
 
 ###############################################################################
 # store the current dir, so it can be reused later
-set(ITK_WRAP_GCCXML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "gccxml source dir")
-set(ITK_WRAP_GCCXML_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "gccxml binary dir")
+set(ITK_WRAP_CASTXML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "castxml source dir")
 
 
 set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs")
@@ -117,29 +116,29 @@ set(WRAPPER_SWIG_LIBRARY_OUTPUT_DIR "${PROJECT_BINARY_DIR}/SWIG")
 
 
 
-macro(itk_wrap_include_gccxml include_file)
+macro(itk_wrap_include_castxml include_file)
   if("${include_file}" MATCHES "<.*>")
-    set(GCC_XML_INCLUDES "${GCC_XML_INCLUDES}#include ${include_file}\n")
+    set(CASTXML_INCLUDES "${CASTXML_INCLUDES}#include ${include_file}\n")
   else()
-    set(GCC_XML_INCLUDES "${GCC_XML_INCLUDES}#include \"${include_file}\"\n")
+    set(CASTXML_INCLUDES "${CASTXML_INCLUDES}#include \"${include_file}\"\n")
   endif()
 endmacro()
 
 
-macro(itk_wrap_simple_type_gccxml wrap_class swig_name)
-  set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}    typedef ${wrap_class} ${swig_name};\n")
-  set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}    (void)sizeof(${swig_name});\n")
+macro(itk_wrap_simple_type_castxml wrap_class swig_name)
+  set(CASTXML_TYPEDEFS "${CASTXML_TYPEDEFS}    typedef ${wrap_class} ${swig_name};\n")
+  set(CASTXML_FORCE_INSTANTIATE "${CASTXML_FORCE_INSTANTIATE}    (void)sizeof(${swig_name});\n")
 endmacro()
 
 
-macro(itk_wrap_submodule_gccxml module)
+macro(itk_wrap_submodule_castxml module)
   # clear the typedefs and the includes
-  set(GCC_XML_TYPEDEFS )
-  set(GCC_XML_INCLUDES )
-  set(GCC_XML_FORCE_INSTANTIATE )
+  set(CASTXML_TYPEDEFS )
+  set(CASTXML_INCLUDES )
+  set(CASTXML_FORCE_INSTANTIATE )
 endmacro()
 
-macro(itk_end_wrap_submodule_gccxml module)
+macro(itk_end_wrap_submodule_castxml module)
   # write the wrap_*.cxx file
   #
   # Global vars used: WRAPPER_INCLUDE_FILES WRAPPER_MODULE_NAME and WRAPPER_TYPEDEFS
@@ -147,7 +146,7 @@ macro(itk_end_wrap_submodule_gccxml module)
 
   # Create the cxx file which will be given to gccxml.
   set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.cxx")
-  configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
+  configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
 
   # generate the xml file
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
@@ -155,7 +154,7 @@ macro(itk_end_wrap_submodule_gccxml module)
 
   set(_castxml_depends)
   if(NOT ITK_USE_SYSTEM_CASTXML)
-    # ExternalProject target for GCC_XML.
+    # ExternalProject target for CastXML.
     set(_castxml_depends castxml)
   endif()
   set(ccache_cmd)
@@ -179,14 +178,14 @@ macro(itk_end_wrap_submodule_gccxml module)
 endmacro()
 
 
-macro(itk_wrap_one_type_gccxml  wrap_method wrap_class swig_name template_params)
+macro(itk_wrap_one_type_castxml  wrap_method wrap_class swig_name template_params)
   # insert a blank line to separate the classes
-  set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}\n")
+  set(CASTXML_TYPEDEFS "${CASTXML_TYPEDEFS}\n")
   # add a piece of code for type instantiation
-  set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}\n")
+  set(CASTXML_FORCE_INSTANTIATE "${CASTXML_FORCE_INSTANTIATE}\n")
 endmacro()
 
-macro(itk_wrap_module_gccxml library_name)
+macro(itk_wrap_module_castxml library_name)
   # create the files used to pass the file to include to gccxml
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
   get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
@@ -211,13 +210,13 @@ macro(itk_wrap_module_gccxml library_name)
   set(c "${c}-DCABLE_CONFIGURATION\n")
   set(c "${c}-DITK_MANUAL_INSTANTIATION\n")
 
-  set(CONFIG_GCCXML_INC_CONTENTS "${c}")
-  configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/gcc_xml.inc.in" "${gccxml_inc_file}" @ONLY)
+  set(CONFIG_CASTXML_INC_CONTENTS "${c}")
+  configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in" "${gccxml_inc_file}" @ONLY)
 
   set(GCC_XML_OUTPUT_FILES )
 endmacro()
 
-macro(itk_end_wrap_module_gccxml)
-  add_custom_target(${WRAPPER_LIBRARY_NAME}GccXML DEPENDS ${GCC_XML_OUTPUT_FILES})
+macro(itk_end_wrap_module_castxml)
+  add_custom_target(${WRAPPER_LIBRARY_NAME}CastXML DEPENDS ${GCC_XML_OUTPUT_FILES})
   set(${WRAPPER_LIBRARY_NAME}XmlFiles ${GCC_XML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
 endmacro()
