@@ -23,7 +23,9 @@
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
+#ifndef __EMSCRIPTEN__
 #define GCC_USEDEMANGLE
+#endif
 #endif
 
 #ifdef GCC_USEDEMANGLE
