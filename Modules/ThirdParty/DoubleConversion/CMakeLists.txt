@@ -14,7 +14,8 @@ if(ITK_USE_SYSTEM_DOUBLECONVERSION)
     "${double-conversion_LIBRARIES}")
 else()
   set(ITKDoubleConversion_INCLUDE_DIRS
-    ${ITKDoubleConversion_SOURCE_DIR}/src/double-conversion)
+    ${ITKDoubleConversion_SOURCE_DIR}/src/double-conversion
+    ${ITKDoubleConversion_BINARY_DIR}/src/double-conversion)
   set(ITKDoubleConversion_LIBRARIES itkdouble-conversion)
 endif()
 
