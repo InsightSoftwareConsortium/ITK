@@ -29,6 +29,7 @@ else()
     vtkRenderingCore
     vtkRenderingOpenGL
     vtkRenderingFreeType
+    vtkRenderingFreeTypeOpenGL
     vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
@@ -76,6 +77,7 @@ else()
     vtkRenderingCore
     vtkRenderingOpenGL
     vtkRenderingFreeType
+    vtkRenderingFreeTypeOpenGL
     vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
@@ -100,6 +102,7 @@ if(NOT ITK_BINARY_DIR)
       vtkRenderingCore
       vtkRenderingOpenGL
       vtkRenderingFreeType
+      vtkRenderingFreeTypeOpenGL
       vtkInteractionStyle
       vtkIOImage
       vtkImagingSources
