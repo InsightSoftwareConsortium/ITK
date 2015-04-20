@@ -150,10 +150,8 @@ else()
         "YFLAGS=${BISON_FLAGS}"
       ../swig/configure
         --prefix=${CMAKE_CURRENT_BINARY_DIR}/swig
-        --with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
-    LOG_CONFIGURE 0
+        --with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE > /dev/null
     DEPENDS PCRE
-
     )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
   endif()
