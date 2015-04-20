@@ -1027,7 +1027,7 @@ ProcessObject
     {
     return m_IndexedInputs.size();
     }
-  return this->GetPrimaryInput() != ITK_NULLPTR;
+  return static_cast<ProcessObject::DataObjectPointerArraySizeType>(this->GetPrimaryInput() != ITK_NULLPTR);
 }
 
 // ProcessObject::ConstDataObjectPointerArray
