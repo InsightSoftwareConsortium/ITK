@@ -542,6 +542,26 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     }
 }
 
+template< typename TInputImage, typename TOutputImage >
+void
+BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
+::InitUnion(const InternalLabelType size)
+{
+  m_UnionFind = UnionFindType(size + 1);
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
+::Wait()
+{
+  // use m_NumberOfLabels.size() to get the number of thread used
+  if ( m_NumberOfLabels.size() > 1 )
+    {
+    m_Barrier->Wait();
+    }
+}
+
 // union find related functions
 template< typename TInputImage, typename TOutputImage >
 void
@@ -559,7 +579,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   const size_t N = m_UnionFind.size();
 
   m_Consecutive = ConsecutiveVectorType( N );
-  m_Consecutive[ this->m_OutputBackgroundValue ] = this->m_OutputBackgroundValue;
+  m_Consecutive[ 0 ] = this->m_OutputBackgroundValue;
 
   OutputPixelType consecutiveLabel = 0;
   SizeValueType count = 0;

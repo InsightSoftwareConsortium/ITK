@@ -19,8 +19,9 @@
 #define __itkBinaryImageToLabelMapFilter_h
 
 #include "itkImageToImageFilter.h"
-#include <vector>
+#include <list>
 #include <map>
+#include <vector>
 #include "itkProgressReporter.h"
 #include "itkBarrier.h"
 #include "itkLabelMap.h"
@@ -156,8 +157,6 @@ protected:
 
   typedef SizeValueType InternalLabelType;
 
-  typedef SizeValueType InternalLabelType;
-
   /**
    * Standard pipeline method.
    */
@@ -213,11 +212,9 @@ private:
 
   typedef std::vector< OutputPixelType > ConsecutiveVectorType;
   ConsecutiveVectorType m_Consecutive;
+
   // functions to support union-find operations
-  void InitUnion(const InternalLabelType size)
-  {
-    m_UnionFind = UnionFindType(size + 1);
-  }
+  void InitUnion(const InternalLabelType size);
 
   void InsertSet(const InternalLabelType label);
 
@@ -238,14 +235,7 @@ private:
 
   void SetupLineOffsets(OffsetVectorType & LineOffsets);
 
-  void Wait()
-  {
-    // use m_NumberOfLabels.size() to get the number of thread used
-    if ( m_NumberOfLabels.size() > 1 )
-      {
-      m_Barrier->Wait();
-      }
-  }
+  void Wait();
 
   OutputPixelType m_OutputBackgroundValue;
   InputPixelType  m_InputForegroundValue;
@@ -254,8 +244,8 @@ private:
 
   bool m_FullyConnected;
 
-  typename std::vector< SizeValueType >   m_NumberOfLabels;
-  typename std::vector< SizeValueType >   m_FirstLineIdToJoin;
+  std::vector< SizeValueType >   m_NumberOfLabels;
+  std::vector< SizeValueType >   m_FirstLineIdToJoin;
 
   typename Barrier::Pointer m_Barrier;
 
