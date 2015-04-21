@@ -155,6 +155,8 @@ protected:
   virtual ~BinaryImageToLabelMapFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
+  typedef SizeValueType InternalLabelType;
+
   /**
    * Standard pipeline method.
    */
