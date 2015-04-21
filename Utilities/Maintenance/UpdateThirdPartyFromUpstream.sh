@@ -157,7 +157,8 @@ else
 fi
 local snapshot_new_commit_msg="$thirdparty_module_name $upstream_new_date ($upstream_new_sha_short)
 
-Extract upstream $thirdparty_module_name using the following shell commands.
+Run the UpdateFromUpstream.sh script to extract upstream $thirdparty_module_name
+using the following shell commands.
 
 \$ git archive --prefix=$snapshot_branch_name/ $upstream_new_sha_short -- $snapshot_paths | tar x
 $snapshot_log_command
