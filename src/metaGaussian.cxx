@@ -146,10 +146,10 @@ M_SetupWriteFields(void)
 
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "Radius", MET_FLOAT, m_Radius);
-
+  m_Fields.push_back(mF);
+  
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "Sigma", MET_FLOAT, m_Sigma);
-
   m_Fields.push_back(mF);
 
 }
