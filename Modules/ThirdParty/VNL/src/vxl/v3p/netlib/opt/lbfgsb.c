@@ -1089,7 +1089,7 @@ L777:
 /*     Test for termination. */
     if (sbgnrm <= *pgtol) {
 /*                                terminate the algorithm. */
-        s_copy(task, "CONVERGENCE:_NORM_OF_PROJECTED_GRADIENT_<=_PGTOL", (
+        s_copy(task, "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL", (
                 ftnlen)60, (ftnlen)(48+1));
         goto L999;
     }
