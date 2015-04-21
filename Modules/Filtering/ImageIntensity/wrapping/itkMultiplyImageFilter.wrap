@@ -2,7 +2,7 @@ itk_wrap_class("itk::MultiplyImageFilter" POINTER_WITH_SUPERCLASS)
   itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 3)
   itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 3)
 
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     if(ITK_WRAP_complex_float AND ITK_WRAP_float)
       itk_wrap_template("${ITKM_ICF${d}}${ITKM_IF${d}}${ITKM_ICF${d}}" "${ITKT_ICF${d}},${ITKT_IF${d}},${ITKT_ICF${d}}")
     endif(ITK_WRAP_complex_float AND ITK_WRAP_float)

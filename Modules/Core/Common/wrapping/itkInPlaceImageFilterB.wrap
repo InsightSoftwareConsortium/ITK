@@ -1,7 +1,7 @@
 itk_wrap_class("itk::InPlaceImageFilter" POINTER)
   # VectorImage <-> scalar
   UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${to_types})
       itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_I${t}${d}},${ITKT_VI${t}${d}}")
@@ -20,8 +20,8 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
   itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_REAL}")
 
   # Wrap dim=3 -> dim=2, dim=3 -> dim=2, etc.
-  foreach(d ${ITK_WRAP_DIMS})
-    foreach(d2 ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(d2 ${ITK_WRAP_IMAGE_DIMS})
       if(NOT "${d}" EQUAL "${d2}") # this was already taken care of elsewhere
         foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
           itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}"

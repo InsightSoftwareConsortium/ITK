@@ -1,5 +1,5 @@
 itk_wrap_class("itk::SpatialObjectToImageFilter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
       itk_wrap_template("${ITKM_SO${d}}${ITKM_I${t}${d}}" "${ITKT_SO${d}},${ITKT_I${t}${d}}")
     endforeach()

@@ -1,7 +1,7 @@
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 if(ITK_WRAP_PYTHON)
-  INTERSECTION(WRAP_2 2 "${ITK_WRAP_DIMS}")
+  INTERSECTION(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")
 
   if(ITK_WRAP_signed_short AND ITK_WRAP_unsigned_char AND WRAP_2)
     add_python_test(DicomSliceReadPythonTest

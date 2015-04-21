@@ -3,7 +3,7 @@ itk_wrap_class("itk::MeanProjectionImageFilter" POINTER_WITH_SUPERCLASS)
 
   # reduce the output dimension by 1, if possible
   foreach(t ${WRAP_ITK_SCALAR})
-    foreach(d ${ITK_WRAP_DIMS})
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
       DECREMENT(d1 ${d})
       itk_wrap_filter_dims(d2 "${d1}")
       if(d2)

@@ -13,7 +13,7 @@ itk_wrap_class("itk::SimpleDataObjectDecorator" POINTER)
   itk_wrap_template("${ITKM_AUL}" "${ITKT_AUL}")
   # non scalar types
   foreach(t ${WRAP_ITK_VECTOR})
-    foreach(d ${ITK_WRAP_DIMS})
+    foreach(d ${ITK_WRAP_VECTOR_COMPONENTS})
       itk_wrap_template("${ITKM_${t}${d}}" "${ITKT_${t}${d}}")
     endforeach()
   endforeach()

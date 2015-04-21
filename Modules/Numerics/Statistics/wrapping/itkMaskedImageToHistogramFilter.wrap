@@ -2,7 +2,7 @@ itk_wrap_class("itk::Statistics::MaskedImageToHistogramFilter" POINTER)
   itk_wrap_image_filter_combinations("${WRAP_ITK_ALL_TYPES}" "${WRAP_ITK_INT}")
 
   # VectorImage types
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
       foreach(t2 ${WRAP_ITK_SCALAR})
         itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t2}${d}}" "${ITKT_VI${t}${d}}, ${ITKT_I${t2}${d}}")

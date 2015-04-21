@@ -1,6 +1,6 @@
 depends = ('ITKCommon',)
 templates = (
-    ('DIMS', 'ITK_WRAP_DIMS', 'DIMS'),
+    ('DIMS', 'ITK_WRAP_IMAGE_DIMS', 'DIMS'),
     ('USIGN_INTS', 'WRAP_ITK_USIGN_INT', 'USIGN_INTS'),
     ('SIGN_INTS', 'WRAP_ITK_SIGN_INT', 'SIGN_INTS'),
     ('REALS', 'WRAP_ITK_REAL', 'REALS'),

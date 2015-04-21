@@ -1,5 +1,5 @@
 itk_wrap_class("itk::VnlInverseFFTImageFilter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     if(d GREATER 0 AND d LESS 5)
       if(ITK_WRAP_complex_float AND ITK_WRAP_float)
         itk_wrap_template("${ITKM_ICF${d}}${ITKM_IF${d}}" "${ITKT_ICF${d}}, ${ITKT_IF${d}}")

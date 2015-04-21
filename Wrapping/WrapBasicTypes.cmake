@@ -40,16 +40,24 @@ set(ITKT_B  "bool")           # Type
 set(ITKM_B  "B")              # Mangle
 
 ###############################################################################
-# A list of the union of ${ITK_WRAP_DIMS} and incremented ITK_WRAP_DIMS.  This
+# A list of the union of ${ITK_WRAP_IMAGE_DIMS} and incremented ITK_WRAP_IMAGE_DIMS.  This
 # is needed for the VelocityFieldTransform related classes
 ###############################################################################
-set(ITK_WRAP_DIMS_INCREMENTED "")
-foreach(d ${ITK_WRAP_DIMS})
+set(ITK_WRAP_IMAGE_DIMS_INCREMENTED "")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
   # For VelocityFieldTranform
   INCREMENT(d_inc ${d})
-  list(APPEND ITK_WRAP_DIMS_INCREMENTED ${d} ${d_inc})
+  list(APPEND ITK_WRAP_IMAGE_DIMS_INCREMENTED ${d} ${d_inc})
 endforeach()
-list(REMOVE_DUPLICATES ITK_WRAP_DIMS_INCREMENTED)
+list(REMOVE_DUPLICATES ITK_WRAP_IMAGE_DIMS_INCREMENTED)
+
+# Needed for itkMatrix, itkPoint, ...
+set(ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED "")
+foreach(d ${ITK_WRAP_VECTOR_COMPONENTS})
+  INCREMENT(d_inc ${d})
+  list(APPEND ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED ${d} ${d_inc})
+endforeach()
+list(REMOVE_DUPLICATES ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED)
 
 ###############################################################################
 # Create some variable which can be used later

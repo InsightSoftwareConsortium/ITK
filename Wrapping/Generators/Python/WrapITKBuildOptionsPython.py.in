@@ -2,7 +2,7 @@
 import itkTemplate
 import itkTypes
 
-DIMS = [int(s) for s in "@ITK_WRAP_DIMS@".split(";") if s]
+DIMS = [int(s) for s in "@ITK_WRAP_IMAGE_DIMS@".split(";") if s]
 USIGN_INTS = [getattr(itkTypes, s) for s in "@WRAP_ITK_USIGN_INT@".split(";") if s]
 SIGN_INTS = [getattr(itkTypes, s) for s in "@WRAP_ITK_SIGN_INT@".split(";") if s]
 REALS = [getattr(itkTypes, s) for s in "@WRAP_ITK_REAL@".split(";") if s]

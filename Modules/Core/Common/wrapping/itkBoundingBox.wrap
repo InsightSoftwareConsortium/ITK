@@ -3,7 +3,7 @@ itk_wrap_include("itkMapContainer.h")
 
 itk_wrap_class("itk::BoundingBox" POINTER)
   UNIQUE(types "${WRAP_ITK_REAL};D")
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})
       itk_wrap_template("${ITKM_UL}${d}${ITKM_${t}}VC${ITKM_UL}${ITKM_P${t}${d}}"
         "${ITKT_UL},${d},${ITKT_${t}}, itk::VectorContainer< ${ITKT_UL}, ${ITKT_P${t}${d}} >")

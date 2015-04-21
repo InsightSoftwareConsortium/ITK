@@ -3,7 +3,7 @@ itk_wrap_include("itkQuadEdgeCellTraitsInfo.h")
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 
 itk_wrap_class("itk::QuadEdgeMeshCellTraitsInfo")
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     itk_wrap_template("${d}" "${d}")
   endforeach()
 itk_end_wrap_class()

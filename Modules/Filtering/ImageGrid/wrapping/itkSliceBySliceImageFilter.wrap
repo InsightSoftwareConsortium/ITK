@@ -1,5 +1,5 @@
 # Check if we have the right dimensions before wrapping
-foreach(d ${ITK_WRAP_DIMS})
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
   math(EXPR d_1 "${d} - 1")
 endforeach()
 itk_wrap_filter_dims(has_d_1 ${d_1})
@@ -7,7 +7,7 @@ itk_wrap_filter_dims(has_d_1 ${d_1})
 # Wrap if allowed
 if(has_d_1)
   itk_wrap_class("itk::SliceBySliceImageFilter" POINTER)
-    foreach(d ${ITK_WRAP_DIMS})
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
       math(EXPR d_1 "${d} - 1")
       itk_wrap_filter_dims(has_d_1 ${d_1})
       if(has_d_1)

@@ -28,7 +28,7 @@ add_tcl_test(TclListAll ${CMAKE_CURRENT_SOURCE_DIR}/ListAll.tcl)
 # TODO: run this test, once the bug is fixed
 # add_tcl_test(TclPrintAll ${CMAKE_CURRENT_SOURCE_DIR}/PrintAll.tcl)
 
-INTERSECTION(WRAP_2 2 "${ITK_WRAP_DIMS}")
+INTERSECTION(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")
 if(ITK_WRAP_unsigned_char AND WRAP_2)
 #  add_tcl_test(TclBinaryDilateImageFilter
 #    ${CMAKE_CURRENT_SOURCE_DIR}/BinaryDilateImageFilter.tcl
@@ -138,7 +138,7 @@ endif()
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
 # signed char can't be used to store an image with values up to 255
 list(REMOVE_ITEM types SC)
-foreach(TCL_TEST_IMAGE_DIMENSION ${ITK_WRAP_DIMS})
+foreach(TCL_TEST_IMAGE_DIMENSION ${ITK_WRAP_IMAGE_DIMS})
   foreach(TCL_TEST_PIXEL_TYPE ${types})
 
     set(TEST_FILE_NAME simplePipeline${TCL_TEST_PIXEL_TYPE}${TCL_TEST_IMAGE_DIMENSION})

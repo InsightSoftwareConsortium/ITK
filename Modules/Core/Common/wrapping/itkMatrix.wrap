@@ -1,6 +1,6 @@
 itk_wrap_class("itk::Matrix")
-  foreach(d1 ${ITK_WRAP_DIMS_INCREMENTED})
-    foreach(d2 ${ITK_WRAP_DIMS_INCREMENTED})
+  foreach(d1 ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
+    foreach(d2 ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
       itk_wrap_template("${ITKM_F}${d1}${d2}" "${ITKT_F},${d1},${d2}")
       itk_wrap_template("${ITKM_D}${d1}${d2}" "${ITKT_D},${d1},${d2}")
     endforeach()

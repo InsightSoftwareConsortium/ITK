@@ -1,10 +1,13 @@
 itk_wrap_class("itk::LinearInterpolateImageFunction" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_D}" "${ITKT_I${t}${d}},${ITKT_D}")
     endforeach()
+    set(vector_dim ${d}) # Wrap only vector dimensions which are the same as image dimensions
     foreach(v ${WRAP_ITK_VECTOR})
-      itk_wrap_template("${ITKM_I${v}${d}${d}}${ITKM_D}" "${ITKT_I${v}${d}${d}},${ITKT_D}")
+      itk_wrap_template(
+        "${ITKM_I${v}${vector_dim}${d}}${ITKM_D}"
+        "${ITKT_I${v}${vector_dim}${d}},${ITKT_D}")
     endforeach()
     foreach(v ${WRAP_ITK_COLOR})
       itk_wrap_template("${ITKM_I${v}${d}}${ITKM_D}" "${ITKT_I${v}${d}},${ITKT_D}")
