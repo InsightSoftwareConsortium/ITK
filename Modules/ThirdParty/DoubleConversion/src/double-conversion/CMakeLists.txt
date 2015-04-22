@@ -31,7 +31,7 @@ set(headers
   ieee.h
   strtod.h
   utils.h
-  double-conversion-configure.h
+  ${CMAKE_CURRENT_BINARY_DIR}/double-conversion-configure.h
   )
 
 add_library(itkdouble-conversion
