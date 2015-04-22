@@ -56,6 +56,11 @@ namespace itk {
  * for the algorithm with a different behavior on the border of the image.
  * By default, the image is padded by 1 pixel and constrained to the image region.
  *
+ * \note: When applying a single filter, input and output filters are the same; while applying a pipeline,
+ * input and output filters are different, may not even be of the same type. It is the responsibility of the
+ * user to connect the pipeline properly outside of this filter.
+ *
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
