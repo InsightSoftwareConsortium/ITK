@@ -197,7 +197,8 @@ else()
 endif()
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
-option(ITK_DYNAMIC_LOADING "Support loading of dynamic libraries" ON)
+option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
+mark_as_advanced(ITK_DYNAMIC_LOADING)
 
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
