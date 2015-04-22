@@ -309,6 +309,11 @@ void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::EstimateNewtonStep()
 {
+  if ( this->m_Gradient.GetSize() == 0 )
+    {
+    return;
+    }
+
   IndexRangeType fullrange;
   fullrange[0] = 0;
   fullrange[1] = this->m_Gradient.GetSize()-1; //range is inclusive
