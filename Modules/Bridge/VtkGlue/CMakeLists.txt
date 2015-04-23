@@ -20,10 +20,6 @@ endif()
 if(NOT VTK_RENDERING_BACKEND)
   set(VTK_RENDERING_BACKEND OpenGL)
 endif()
-set(_target_freetypeopengl)
-if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-endif()
 
 if (${VTK_VERSION} VERSION_LESS ${VERSION_MIN})
   message(ERROR " VtkGlue requires VTK version ${VERSION_MIN} or newer but the current version is ${VTK_VERSION}")
@@ -36,14 +32,10 @@ else()
     set(_wrap_module vtkWrappingPythonCore)
   endif()
   vtk_module_config(ITKVtkGlue_VTK
-    vtkCommonCore
-    vtkRenderingCore
-    vtkRendering${VTK_RENDERING_BACKEND}
-    vtkRenderingFreeType
-    ${_target_freetypeopengl}
-    vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
+    vtkInteractionStyle
+    vtkRendering${VTK_RENDERING_BACKEND}
     ${_wrap_module}
     )
 endif()
@@ -76,10 +68,6 @@ endif()
 if(NOT VTK_RENDERING_BACKEND)
   set(VTK_RENDERING_BACKEND OpenGL)
 endif()
-set(_target_freetypeopengl)
-if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-endif()
 
 if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
   set(ITKVtkGlue_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
@@ -90,14 +78,10 @@ else()
     set(_wrap_module vtkWrappingPythonCore)
   endif()
   vtk_module_config(ITKVtkGlue_VTK
-    vtkCommonCore
-    vtkRenderingCore
-    vtkRendering${VTK_RENDERING_BACKEND}
-    vtkRenderingFreeType
-    ${_target_freetypeopengl}
-    vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
+    vtkInteractionStyle
+    vtkRendering${VTK_RENDERING_BACKEND}
     ${_wrap_module}
     )
 
@@ -116,9 +100,6 @@ if(NOT ITK_BINARY_DIR)
   if(NOT VTK_RENDERING_BACKEND)
     set(VTK_RENDERING_BACKEND OpenGL)
   endif()
-  if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-    set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  endif()
 
   if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
     set(ITKVtkGlue_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
@@ -130,13 +111,9 @@ if(NOT ITK_BINARY_DIR)
     endif()
     vtk_module_config(ITKVtkGlue_VTK
       vtkCommonCore
-      vtkRenderingCore
       vtkRendering${VTK_RENDERING_BACKEND}
-      vtkRenderingFreeType
-      ${_target_freetypeopengl}
       vtkInteractionStyle
       vtkIOImage
-      vtkImagingSources
       ${_wrap_module}
       )
 
