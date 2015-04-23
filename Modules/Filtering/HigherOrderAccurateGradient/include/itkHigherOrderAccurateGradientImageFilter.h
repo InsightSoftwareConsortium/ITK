@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHigherOrderAccurateGradientImageFilter_h
-#define __itkHigherOrderAccurateGradientImageFilter_h
+#ifndef itkHigherOrderAccurateGradientImageFilter_h
+#define itkHigherOrderAccurateGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkCovariantVector.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHigherOrderAccurateDerivativeOperator_hxx
-#define __itkHigherOrderAccurateDerivativeOperator_hxx
+#ifndef itkHigherOrderAccurateDerivativeOperator_hxx
+#define itkHigherOrderAccurateDerivativeOperator_hxx
 #include "itkHigherOrderAccurateDerivativeOperator.h"
 
 #include "itkNumericTraits.h"

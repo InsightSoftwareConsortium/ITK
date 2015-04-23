@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHigherOrderAccurateDerivativeImageFilter_h
-#define __itkHigherOrderAccurateDerivativeImageFilter_h
+#ifndef itkHigherOrderAccurateDerivativeImageFilter_h
+#define itkHigherOrderAccurateDerivativeImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
