@@ -167,6 +167,91 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage,
     }
 }
 
+template<typename InputImageType, typename OutputImageType>
+void
+ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
+                                           typename OutputImageType::RegionType & outputRegion,
+                                           const InputImageType* inputImage,
+                                           const OutputImageType* outputImage)
+{
+  // Get the index of the corners of the input region,
+  // map them to physical space, and convert them
+  // to index for this image.
+  // The region has 2^ImageDimension corners, each
+  // of them either on the inferior or superior edge
+  // along each dimension.
+  unsigned int numberOfCorners = 1;
+  for (unsigned int dim=0; dim < OutputImageType::ImageDimension; ++dim)
+    {
+    numberOfCorners *= 2;
+    }
+  typedef ContinuousIndex<double, OutputImageType::ImageDimension> ContinuousIndexType;
+  ContinuousIndexType* corners = new ContinuousIndexType[numberOfCorners];
+
+  for (unsigned int count=0; count < numberOfCorners; ++count)
+    {
+    ContinuousIndexType currentCornerIndex;
+    currentCornerIndex.Fill(0);
+    unsigned int localCount = count;
+
+    // For each dimension, set the current index to either
+    // the highest or lowest index along this dimension.
+    // Since we need all the space covered by the input image to
+    // be taken into account, including the half-pixel border,
+    // we start half a pixel before index 0 and stop half a pixel
+    // after size
+    for (unsigned int dim=0; dim < OutputImageType::ImageDimension; ++dim)
+      {
+      if (localCount % 2)
+        {
+        currentCornerIndex[dim] = inputRegion.GetIndex(dim) + inputRegion.GetSize(dim) + 0.5;
+        }
+      else
+        {
+        currentCornerIndex[dim] = inputRegion.GetIndex(dim) - 0.5;
+        }
+
+      localCount /= 2;
+      }
+
+    typedef Point< SpacePrecisionType, OutputImageType::ImageDimension > PointType;
+    PointType point;
+    inputImage->TransformContinuousIndexToPhysicalPoint(currentCornerIndex, point);
+    outputImage->TransformPhysicalPointToContinuousIndex(point, corners[count]);
+    }
+
+  // Compute a rectangular region from the vector of corner indexes
+  for (unsigned int dim=0; dim < OutputImageType::ImageDimension; ++dim)
+    {
+    // Initialize index to the highest possible value
+    outputRegion.SetIndex(dim, NumericTraits< IndexValueType >::max() );
+
+    // For each dimension, set the output index to the minimum
+    // of the corners' indexes, and the output size to their maximum
+    for (unsigned int count=0; count < numberOfCorners; ++count)
+      {
+      IndexValueType continuousIndexFloor = Math::Floor<IndexValueType>( corners[count][dim] );
+      if (continuousIndexFloor < outputRegion.GetIndex(dim))
+        {
+        outputRegion.SetIndex(dim, continuousIndexFloor);
+        }
+      IndexValueType continuousIndexCeil = Math::Ceil<IndexValueType>( corners[count][dim] );
+      if (continuousIndexCeil > static_cast<IndexValueType>(outputRegion.GetSize(dim)))
+        {
+        outputRegion.SetSize(dim, continuousIndexCeil);
+        }
+      }
+
+    // The size is actually the difference between maximum and minimum index,
+    // so subtract the index
+    outputRegion.SetSize(dim, outputRegion.GetSize(dim) - outputRegion.GetIndex(dim) );
+    }
+
+  // Make sure this region remains contained in the LargestPossibleRegion
+  outputRegion.Crop(outputImage->GetLargestPossibleRegion());
+
+  delete[] corners;
+}
 
 } // end namespace itk
 

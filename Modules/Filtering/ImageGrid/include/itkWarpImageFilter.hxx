@@ -21,6 +21,7 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageAlgorithm.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkContinuousIndex.h"
@@ -432,7 +433,9 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       }
     else
       {
-      fieldPtr->SetRequestedRegion( fieldPtr->GetLargestPossibleRegion() );
+      typename TDisplacementField::RegionType fieldRequestedRegion;
+      ImageAlgorithm::EnlargeRegionOverBox<TOutputImage, TDisplacementField>(outputPtr->GetRequestedRegion(), fieldRequestedRegion, outputPtr.GetPointer(), fieldPtr.GetPointer());
+      fieldPtr->SetRequestedRegion( fieldRequestedRegion );
       }
     if ( !fieldPtr->VerifyRequestedRegion() )
       {

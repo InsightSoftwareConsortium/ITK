@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkImage.h"
 #include "itkFixedArray.h"
+#include "itkImageAlgorithm.h"
 
 int itkImageTest(int, char* [] )
 {
@@ -86,6 +87,49 @@ int itkImageTest(int, char* [] )
     std::cerr << "Transform to/from PhysicalVector test failed: "
               << "truthGradient: " << truthGradient << std::endl
               << "testGradient:  " << testGradient << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test GetSmallestRegionContainingRegion." << std::endl;
+  image->SetSpacing(spacing);
+  origin.Fill(1.2);
+  image->SetOrigin(origin);
+  direction.SetIdentity();
+  image->SetDirection(direction);
+  Image::RegionType region;
+  Image::IndexType index;
+  index.Fill(0);
+  Image::SizeType size;
+  size.Fill(4);
+  region.SetIndex(index);
+  region.SetSize(size);
+  image->SetRegions(region);
+
+  Image::Pointer imageRef = Image::New();
+  Image::SpacingType spacingRef; spacingRef.Fill(2);
+  Image::PointType originRef; originRef.Fill(0);
+  Image::DirectionType directionRef; directionRef.SetIdentity();
+  imageRef->SetSpacing(spacingRef);
+  imageRef->SetOrigin(originRef);
+  imageRef->SetDirection(directionRef);
+  Image::RegionType regionRef;
+  Image::IndexType indexRef;
+  Image::SizeType sizeRef;
+  indexRef.Fill(0);
+  sizeRef.Fill(5);
+  regionRef.SetIndex(indexRef);
+  regionRef.SetSize(sizeRef);
+  imageRef->SetRegions(regionRef);
+
+  Image::RegionType boxRegion;
+  itk::ImageAlgorithm::EnlargeRegionOverBox<Image, Image>(image->GetLargestPossibleRegion(), boxRegion, image.GetPointer(), imageRef.GetPointer());
+  Image::IndexType correctIndex; correctIndex.Fill(0);
+  Image::SizeType correctSize; correctSize.Fill(3);
+  if( !(boxRegion.GetIndex() == correctIndex) ||
+      !(boxRegion.GetSize() == correctSize))
+    {
+    std::cerr << "EnlargeRegionOverBox test failed: "
+              << "boxRegion: " << boxRegion << std::endl;
     return EXIT_FAILURE;
     }
 
