@@ -1,4 +1,4 @@
-@GCC_XML_INCLUDES@
+@CASTXML_INCLUDES@
 
 #ifdef CABLE_CONFIGURATION
 namespace _cable_
@@ -6,13 +6,13 @@ namespace _cable_
   const char* const group = "@WRAPPER_MODULE_NAME@";
   namespace wrappers
   {
-    @GCC_XML_TYPEDEFS@
+    @CASTXML_TYPEDEFS@
   }
 
   void force_instantiate()
   {
     using namespace _cable_::wrappers;
-    @GCC_XML_FORCE_INSTANTIATE@
+    @CASTXML_FORCE_INSTANTIATE@
   }
 }
 #endif
