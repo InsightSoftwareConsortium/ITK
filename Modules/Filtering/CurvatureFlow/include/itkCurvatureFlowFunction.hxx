@@ -65,7 +65,7 @@ CurvatureFlowFunction< TImage >
 {
   PixelRealType firstderiv[ImageDimension];
   PixelRealType secderiv[ImageDimension];
-  PixelRealType crossderiv[ImageDimension][ImageDimension];
+  PixelRealType crossderiv[ImageDimension][ImageDimension] = {};
   IdentifierType center;
   IdentifierType stride[ImageDimension];
   unsigned int  i, j;
