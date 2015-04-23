@@ -98,7 +98,8 @@ void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::ModifyGradientByScales()
 {
-  if ( this->GetScalesAreIdentity() && this->GetWeightsAreIdentity() )
+  if ( (this->GetScalesAreIdentity() && this->GetWeightsAreIdentity())
+       || this->m_Gradient.GetSize() == 0 )
     {
     return;
     }
@@ -170,9 +171,15 @@ void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::ModifyGradientByLearningRate()
 {
+  if ( this->m_Gradient.GetSize() == 0 )
+    {
+    return;
+    }
+
   IndexRangeType fullrange;
   fullrange[0] = 0;
   fullrange[1] = this->m_Gradient.GetSize()-1; //range is inclusive
+
   /* Perform the modification either with or without threading */
   if( this->m_Metric->HasLocalSupport() )
     {
