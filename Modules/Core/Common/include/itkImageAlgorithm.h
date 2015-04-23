@@ -139,11 +139,10 @@ struct ImageAlgorithm
    * region of the input image
    */
   template<typename InputImageType, typename OutputImageType>
-  static void
+  static typename OutputImageType::RegionType
   EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
-                             typename OutputImageType::RegionType & outputRegion,
-                                              const InputImageType* inputImage,
-                                              const OutputImageType* outputImage);
+                       const InputImageType* inputImage,
+                       const OutputImageType* outputImage);
 
 private:
 

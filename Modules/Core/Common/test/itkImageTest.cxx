@@ -121,8 +121,9 @@ int itkImageTest(int, char* [] )
   regionRef.SetSize(sizeRef);
   imageRef->SetRegions(regionRef);
 
-  Image::RegionType boxRegion;
-  itk::ImageAlgorithm::EnlargeRegionOverBox<Image, Image>(image->GetLargestPossibleRegion(), boxRegion, image.GetPointer(), imageRef.GetPointer());
+  Image::RegionType boxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(image->GetLargestPossibleRegion(),
+                                                                          image.GetPointer(),
+                                                                          imageRef.GetPointer());
   Image::IndexType correctIndex; correctIndex.Fill(0);
   Image::SizeType correctSize; correctSize.Fill(3);
   if( !(boxRegion.GetIndex() == correctIndex) ||
