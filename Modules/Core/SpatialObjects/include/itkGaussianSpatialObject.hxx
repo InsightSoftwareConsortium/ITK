@@ -42,7 +42,7 @@ GaussianSpatialObject< TDimension >
 {}
 
 /** The z-score is the root mean square of the z-scores along
- *  each principal axis.   */
+ *  each principal axis. */
 template< unsigned int TDimension >
 typename GaussianSpatialObject< TDimension >::ScalarType
 GaussianSpatialObject< TDimension >
@@ -64,9 +64,9 @@ GaussianSpatialObject< TDimension >
   return r / ( m_Sigma * m_Sigma );
 }
 
-/** Test whether a point is inside or outside the object
+/** Test whether a point is inside or outside the object.
  *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
+ *  check the name of the class and the current depth. */
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
@@ -108,7 +108,7 @@ GaussianSpatialObject< TDimension >
 }
 
 /** Test if the given point is inside the boundary of the spatial
- * object */
+ * object. */
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
@@ -136,7 +136,7 @@ GaussianSpatialObject< TDimension >
 }
 
 /** Compute the bounds of the Gaussian (as determined by the
- *  specified radius).  */
+ *  specified radius). */
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
@@ -185,7 +185,7 @@ GaussianSpatialObject< TDimension >
   return true;
 }
 
-/** Returns if the ellipse os evaluable at one point */
+/** Returns if the ellipse is evaluable at one point. */
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
@@ -196,7 +196,7 @@ GaussianSpatialObject< TDimension >
   return IsInside(point, depth, name);
 }
 
-/** Returns the value at one point */
+/** Returns the value at one point. */
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
@@ -220,7 +220,7 @@ GaussianSpatialObject< TDimension >
 }
 
 /** Returns the sigma=m_Radius level set of the Gaussian function, as an
- * EllipseSpatialObject.  */
+ * EllipseSpatialObject. */
 template< unsigned int TDimension >
 typename EllipseSpatialObject< TDimension >::Pointer
 GaussianSpatialObject< TDimension >
@@ -255,7 +255,7 @@ GaussianSpatialObject< TDimension >
   return ellipse;
 }
 
-/** Print Self function */
+/** Print Self function. */
 template< unsigned int TDimension >
 void
 GaussianSpatialObject< TDimension >

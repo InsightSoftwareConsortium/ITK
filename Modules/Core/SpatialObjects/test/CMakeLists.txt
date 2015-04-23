@@ -14,6 +14,7 @@ itkContourSpatialObjectTest.cxx
 itkSceneSpatialObjectTest.cxx
 itkSurfaceSpatialObjectTest.cxx
 itkMetaArrowConverterTest.cxx
+itkMetaGaussianConverterTest.cxx
 itkTubeSpatialObjectTest.cxx
 itkSpatialObjectToPointSetFilterTest.cxx
 itkSpatialObjectDuplicatorTest.cxx
@@ -63,6 +64,9 @@ itk_add_test(NAME itkSurfaceSpatialObjectTest
 itk_add_test(NAME itkMetaArrowConverterTest
       COMMAND ITKSpatialObjectsTestDriver itkMetaArrowConverterTest
               ${ITK_TEST_OUTPUT_DIR}/MetaArrowConverterTestFile.mha)
+itk_add_test(NAME itkMetaGaussianConverterTest
+      COMMAND ITKSpatialObjectsTestDriver itkMetaGaussianConverterTest
+              ${ITK_TEST_OUTPUT_DIR}/MetaGaussianConverterTest.mha)
 itk_add_test(NAME itkTubeSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkTubeSpatialObjectTest)
 itk_add_test(NAME itkSpatialObjectToPointSetFilterTest

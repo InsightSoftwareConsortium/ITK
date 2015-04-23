@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class MetaGaussianConverter
- *  \brief converts between MetaObject<->SpatialObject.
+ *  \brief Converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
