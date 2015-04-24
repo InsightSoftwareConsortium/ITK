@@ -19,7 +19,7 @@
 #define itkImageAlgorithm_hxx
 
 #include "itkImageAlgorithm.h"
-
+#include "itkArray.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageScanlineIterator.h"
 
@@ -168,12 +168,13 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage,
 }
 
 template<typename InputImageType, typename OutputImageType>
-void
+typename OutputImageType::RegionType
 ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
-                                           typename OutputImageType::RegionType & outputRegion,
-                                           const InputImageType* inputImage,
-                                           const OutputImageType* outputImage)
+                                     const InputImageType* inputImage,
+                                     const OutputImageType* outputImage)
 {
+  typename OutputImageType::RegionType outputRegion;
+
   // Get the index of the corners of the input region,
   // map them to physical space, and convert them
   // to index for this image.
@@ -186,7 +187,7 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
     numberOfCorners *= 2;
     }
   typedef ContinuousIndex<double, OutputImageType::ImageDimension> ContinuousIndexType;
-  ContinuousIndexType* corners = new ContinuousIndexType[numberOfCorners];
+  std::vector<ContinuousIndexType> corners(numberOfCorners);
 
   for (unsigned int count=0; count < numberOfCorners; ++count)
     {
@@ -249,8 +250,7 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
 
   // Make sure this region remains contained in the LargestPossibleRegion
   outputRegion.Crop(outputImage->GetLargestPossibleRegion());
-
-  delete[] corners;
+  return outputRegion;
 }
 
 } // end namespace itk

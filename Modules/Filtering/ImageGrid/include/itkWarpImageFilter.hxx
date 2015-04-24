@@ -433,8 +433,11 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       }
     else
       {
-      typename TDisplacementField::RegionType fieldRequestedRegion;
-      ImageAlgorithm::EnlargeRegionOverBox<TOutputImage, TDisplacementField>(outputPtr->GetRequestedRegion(), fieldRequestedRegion, outputPtr.GetPointer(), fieldPtr.GetPointer());
+      typedef typename TDisplacementField::RegionType DisplacementRegionType;
+
+      DisplacementRegionType fieldRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(outputPtr->GetRequestedRegion(),
+                                                                                         outputPtr.GetPointer(),
+                                                                                         fieldPtr.GetPointer());
       fieldPtr->SetRequestedRegion( fieldRequestedRegion );
       }
     if ( !fieldPtr->VerifyRequestedRegion() )
