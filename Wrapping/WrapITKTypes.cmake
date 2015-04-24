@@ -111,6 +111,7 @@ END_WRAP_TYPE()
 set(itk_Wrap_Array ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::FixedArray" "FA")
+
   set(dims ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     math(EXPR d2 "${d} * 2")
@@ -118,9 +119,16 @@ WRAP_TYPE("itk::FixedArray" "FA")
     math(EXPR d3 "${d} * (${d} + 1) / 2")
     list(APPEND dims ${d2} ${d3})
   endforeach()
-  UNIQUE(array_sizes "${dims};1;2;3;4;6")
-  # make sure that 1-D FixedArrays are wrapped. Also wrap for each selected
-  # image dimension.
+
+  # FixedArray can be used with dimensions describing
+  # image dimensions or vector components. Therefore it
+  # needs to have defined sizes for:
+  # - ITK_WRAP_IMAGE_DIMS_INCREMENTED
+  # - ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED
+  # Dimensions 1;2;3;4;6 should always be wrapped.
+
+  UNIQUE(array_sizes "${dims};1;2;3;4;6;${ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED}")
+
   # 3-D FixedArrays are required as superclass of rgb pixels
   # TODO: Do we need fixed arrays for all of these types? For just the selected
   # pixel types plus some few basic cases? Or just for a basic set of types?
