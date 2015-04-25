@@ -786,7 +786,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
 {
   typedef typename ImageMetricType::VirtualImageType    VirtualDomainImageType;
   typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
-  const VirtualDomainImageType * virtualImage;
+  const VirtualDomainImageType * virtualImage = ITK_NULLPTR;
+
+  typedef typename ImageMetricType::FixedImageMaskType  FixedImageMaskType;
+  const FixedImageMaskType * fixedMaskImage = ITK_NULLPTR;
 
   SizeValueType numberOfLocalMetrics = 1;
 
@@ -800,10 +803,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
       }
     else
       {
-      typename ImageMetricType::Pointer firstmetric = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() );
-      if( firstmetric.IsNotNull() )
+      typename ImageMetricType::Pointer firstMetric = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() );
+      if( firstMetric.IsNotNull() )
         {
-        virtualImage = firstmetric->GetVirtualImage();
+        virtualImage = firstMetric->GetVirtualImage();
+        fixedMaskImage = firstMetric->GetFixedImageMask();
         }
       else
         {
@@ -813,10 +817,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     }
   else
     {
-    typename ImageMetricType::Pointer singlemetric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
-    if( singlemetric.IsNotNull() )
+    typename ImageMetricType::Pointer singleMetric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
+    if( singleMetric.IsNotNull() )
       {
-      virtualImage = singlemetric->GetVirtualImage();
+      virtualImage = singleMetric->GetVirtualImage();
+      fixedMaskImage = singleMetric->GetFixedImageMask();
       }
     else
       {
@@ -860,8 +865,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
               {
               point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
               }
-            samplePointSet->SetPoint( index, point );
-            ++index;
+            if( !fixedMaskImage || fixedMaskImage->IsInside( point ) )
+              {
+              samplePointSet->SetPoint( index, point );
+              ++index;
+              }
             }
           ++count;
           }
@@ -883,8 +891,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
             {
             point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
             }
-          samplePointSet->SetPoint( index, point );
-          ++index;
+          if( !fixedMaskImage || fixedMaskImage->IsInside( point ) )
+            {
+            samplePointSet->SetPoint( index, point );
+            ++index;
+            }
           }
         break;
         }
