@@ -8,6 +8,7 @@ itkVnlRealFFTTest.cxx
 itkForwardInverseFFTImageFilterTest.cxx
 itkComplexToComplexFFTImageFilterTest.cxx
 itkVnlComplexToComplexFFTImageFilterTest.cxx
+itkFFTPadImageFilterTest.cxx
 )
 
 if(ITK_USE_FFTWF)
@@ -239,3 +240,14 @@ if(ITK_USE_FFTWD)
         ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter3DDoubleTest.mha
         double)
 endif()
+
+foreach(padMethod ZeroFluxNeumann Zero Wrap) # Mirror
+  foreach(gpf 5 13)
+    itk_add_test(NAME itkFFTPadImageFilterTest${padMethod}${gpf}
+          COMMAND ITKFFTTestDriver
+        --compare DATA{Baseline/itkFFTPadImageFilterTest${padMethod}${gpf}.png}
+                  ${ITK_TEST_OUTPUT_DIR}/itkFFTPadImageFilterTest${padMethod}${gpf}.png
+        itkFFTPadImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1-257.png}
+        ${ITK_TEST_OUTPUT_DIR}/itkFFTPadImageFilterTest${padMethod}${gpf}.png ${gpf} ${padMethod})
+  endforeach()
+endforeach()
