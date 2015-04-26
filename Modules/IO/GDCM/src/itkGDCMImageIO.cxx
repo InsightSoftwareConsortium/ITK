@@ -476,10 +476,15 @@ void GDCMImageIO::InternalReadImageInformation()
             assert(0);
             break;
           }
-        }
         spacing[0] = sp[0];
         spacing[1] = sp[1];
-        spacing[2] = 1.0; // punt?
+        }
+      else
+        {
+        spacing[0] = 1.0;
+        spacing[1] = 1.0;
+        }
+      spacing[2] = 1.0; // punt?
       }
       break;
     default:
