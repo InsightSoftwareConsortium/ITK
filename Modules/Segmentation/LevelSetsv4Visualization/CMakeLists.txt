@@ -19,6 +19,11 @@ endif()
 if(NOT VTK_RENDERING_BACKEND)
   set(VTK_RENDERING_BACKEND OpenGL)
 endif()
+if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+  set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+else()
+  set(_target_freetype vtkRenderingFreeType)
+endif()
 
 if (${VTK_VERSION} VERSION_LESS ${VERSION_MIN})
   message(ERROR " LevelSetsv4Visualization requires VTK version ${VERSION_MIN} or newer but the current version is ${VTK_VERSION}")
@@ -27,13 +32,12 @@ elseif( ${VTK_VERSION} VERSION_LESS 6.0.0 )
   set(ITKLevelSetsv4Visualization_VTK_LIBRARIES ${VTK_LIBRARIES})
 else()
   vtk_module_config(ITKLevelSetsv4Visualization_VTK
-    vtkCommonCore
-    vtkFiltersCore
-    vtkIOImage
-    vtkImagingCore
-    vtkInteractionStyle
     vtkRenderingAnnotation
     vtkRendering${VTK_RENDERING_BACKEND}
+    ${_target_freetype}
+    vtkInteractionStyle
+    vtkIOImage
+    vtkImagingSources
     )
 endif()
 
@@ -74,19 +78,23 @@ endif()
 if(NOT VTK_RENDERING_BACKEND)
   set(VTK_RENDERING_BACKEND OpenGL)
 endif()
+if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+  set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+else()
+  set(_target_freetype vtkRenderingFreeType)
+endif()
 
 if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
   set(ITKLevelSetsv4Visualization_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
   set(ITKLevelSetsv4Visualization_VTK_LIBRARIES ${VTK_LIBRARIES})
 else()
   vtk_module_config(ITKLevelSetsv4Visualization_VTK
-    vtkCommonCore
-    vtkFiltersCore
-    vtkIOImage
-    vtkImagingCore
-    vtkInteractionStyle
     vtkRenderingAnnotation
     vtkRendering${VTK_RENDERING_BACKEND}
+    ${_target_freetype}
+    vtkInteractionStyle
+    vtkIOImage
+    vtkImagingSources
    )
 
   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \"${ITKLevelSetsv4Visualization_VTK_DEFINITIONS}\")
@@ -103,19 +111,23 @@ if(NOT ITK_BINARY_DIR)
   if(NOT VTK_RENDERING_BACKEND)
     set(VTK_RENDERING_BACKEND OpenGL)
   endif()
+  if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+    set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+  else()
+    set(_target_freetype vtkRenderingFreeType)
+  endif()
 
   if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
     set(ITKLevelSetsv4Visualization_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
     set(ITKLevelSetsv4Visualization_VTK_LIBRARIES ${VTK_LIBRARIES})
   else()
     vtk_module_config(ITKLevelSetsv4Visualization_VTK
-      vtkCommonCore
-      vtkFiltersCore
-      vtkIOImage
-      vtkImagingCore
-      vtkInteractionStyle
       vtkRenderingAnnotation
       vtkRendering${VTK_RENDERING_BACKEND}
+      ${_target_freetype}
+      vtkInteractionStyle
+      vtkIOImage
+      vtkImagingSources
      )
 
     set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \"${ITKLevelSetsv4Visualization_VTK_DEFINITIONS}\")
