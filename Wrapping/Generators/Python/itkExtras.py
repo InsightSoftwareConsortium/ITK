@@ -69,7 +69,7 @@ def terminal_progress_callback(name, p):
     import sys
     print(clrLine + "%s: %f" % (name, p), file=sys.stderr, end="")
     if p == 1:
-        print(clrLine, file=sys.stderr)
+        print(clrLine, file=sys.stderr, end="")
 
 
 def terminal_import_callback(name, p):
@@ -80,7 +80,7 @@ def terminal_import_callback(name, p):
     import sys
     print(clrLine + "Loading %s..." % name, file=sys.stderr, end="")
     if p == 1:
-        print(clrLine, file=sys.stderr)
+        print(clrLine, file=sys.stderr, end="")
 
 
 def simple_import_callback(name, p):
