@@ -351,6 +351,8 @@ template< typename TOutputImage, typename ConvertPixelTraits >
 void ImageFileReader< TOutputImage, ConvertPixelTraits >
 ::GenerateData()
 {
+  this->UpdateProgress( 0.0f );
+
   typename TOutputImage::Pointer output = this->GetOutput();
 
   itkDebugMacro (<< "ImageFileReader::GenerateData() \n"
@@ -457,6 +459,8 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
     // then rethrow
     throw;
     }
+
+  this->UpdateProgress( 1.0f );
 
   // clean up
   delete[] loadBuffer;
