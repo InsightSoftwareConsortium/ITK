@@ -20,11 +20,9 @@ endif()
 if(NOT VTK_RENDERING_BACKEND)
   set(VTK_RENDERING_BACKEND OpenGL)
 endif()
-set(_target_freetype)
+set(_target_freetypeopengl)
 if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-else()
-  set(_target_freetype vtkRenderingFreeType)
+  set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
 endif()
 
 if (${VTK_VERSION} VERSION_LESS ${VERSION_MIN})
@@ -39,7 +37,8 @@ else()
   endif()
   vtk_module_config(ITKVtkGlue_VTK
     vtkRendering${VTK_RENDERING_BACKEND}
-    ${_target_freetype}
+    vtkRenderingFreeType
+    ${_target_freetypeopengl}
     vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
@@ -75,11 +74,9 @@ endif()
 if(NOT VTK_RENDERING_BACKEND)
   set(VTK_RENDERING_BACKEND OpenGL)
 endif()
-set(_target_freetype)
+set(_target_freetypeopengl)
 if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-else()
-  set(_target_freetype vtkRenderingFreeType)
+  set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
 endif()
 
 if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
@@ -93,7 +90,7 @@ else()
   vtk_module_config(ITKVtkGlue_VTK
     vtkRendering${VTK_RENDERING_BACKEND}
     vtkRenderingFreeType
-    ${_target_freetype}
+    ${_target_freetypeopengl}
     vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
@@ -116,9 +113,7 @@ if(NOT ITK_BINARY_DIR)
     set(VTK_RENDERING_BACKEND OpenGL)
   endif()
   if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-    set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  else()
-    set(_target_freetype vtkRenderingFreeType)
+    set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
   endif()
 
   if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
@@ -131,7 +126,8 @@ if(NOT ITK_BINARY_DIR)
     endif()
     vtk_module_config(ITKVtkGlue_VTK
       vtkRendering${VTK_RENDERING_BACKEND}
-      ${_target_freetype}
+      vtkRenderingFreeType
+      ${_target_freetypeopengl}
       vtkInteractionStyle
       vtkIOImage
       vtkImagingSources
