@@ -105,7 +105,7 @@ public:
     this->SetPlanRigor( FFTWGlobalConfiguration::GetPlanRigorValue( name ) );
   }
 
-  SizeValueType GetSizeGreatestPrimeFactor() const;
+  SizeValueType GetSizeGreatestPrimeFactor() const ITK_OVERRIDE;
 
 protected:
   FFTWInverseFFTImageFilter();

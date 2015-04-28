@@ -276,6 +276,47 @@ FloatAlmostEqual( T x1, T x2,
   return ulps <= maxUlps;
 }
 
+/** Return whether the number in a prime number or not */
+template <typename T>
+inline bool
+IsPrime( T n )
+{
+  if( n <= 1 )
+  {
+    return false;
+  }
+  const T last = (T)vcl_sqrt( (double)n );
+  for( T x=2; x<=last; ++x )
+    {
+    if( n%x == 0 )
+      {
+      return false;
+      }
+    }
+  return true;
+}
+
+
+/** Return the greatest factor of the decomposition in prime numbers */
+template <typename T>
+inline T
+GreatestPrimeFactor( T n )
+{
+  T v = 2;
+  while( v <= n )
+    {
+    if( n % v == 0 && IsPrime( v ) )
+      {
+      n /= v;
+      }
+    else
+      {
+      v += 1;
+      }
+    }
+  return v;
+}
+
 } // end namespace Math
 } // end namespace itk
 #endif // end of itkMath.h

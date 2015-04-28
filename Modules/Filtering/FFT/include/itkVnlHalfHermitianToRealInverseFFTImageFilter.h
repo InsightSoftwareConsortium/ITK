@@ -77,7 +77,7 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  SizeValueType GetSizeGreatestPrimeFactor() const;
+  SizeValueType GetSizeGreatestPrimeFactor() const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
