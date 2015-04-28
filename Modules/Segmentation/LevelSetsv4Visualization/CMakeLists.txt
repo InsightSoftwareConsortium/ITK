@@ -20,9 +20,7 @@ if(NOT VTK_RENDERING_BACKEND)
   set(VTK_RENDERING_BACKEND OpenGL)
 endif()
 if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-else()
-  set(_target_freetype vtkRenderingFreeType)
+  set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
 endif()
 
 if (${VTK_VERSION} VERSION_LESS ${VERSION_MIN})
@@ -34,7 +32,8 @@ else()
   vtk_module_config(ITKLevelSetsv4Visualization_VTK
     vtkRenderingAnnotation
     vtkRendering${VTK_RENDERING_BACKEND}
-    ${_target_freetype}
+    vtkRenderingFreeType
+    ${_target_freetypeopengl}
     vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
@@ -79,9 +78,7 @@ if(NOT VTK_RENDERING_BACKEND)
   set(VTK_RENDERING_BACKEND OpenGL)
 endif()
 if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-else()
-  set(_target_freetype vtkRenderingFreeType)
+  set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
 endif()
 
 if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
@@ -91,7 +88,8 @@ else()
   vtk_module_config(ITKLevelSetsv4Visualization_VTK
     vtkRenderingAnnotation
     vtkRendering${VTK_RENDERING_BACKEND}
-    ${_target_freetype}
+    vtkRenderingFreeType
+    ${_target_freetypeopengl}
     vtkInteractionStyle
     vtkIOImage
     vtkImagingSources
@@ -112,9 +110,7 @@ if(NOT ITK_BINARY_DIR)
     set(VTK_RENDERING_BACKEND OpenGL)
   endif()
   if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-    set(_target_freetype vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  else()
-    set(_target_freetype vtkRenderingFreeType)
+    set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
   endif()
 
   if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
@@ -124,7 +120,8 @@ if(NOT ITK_BINARY_DIR)
     vtk_module_config(ITKLevelSetsv4Visualization_VTK
       vtkRenderingAnnotation
       vtkRendering${VTK_RENDERING_BACKEND}
-      ${_target_freetype}
+      vtkRenderingFreeType
+      ${_target_freetypeopengl}
       vtkInteractionStyle
       vtkIOImage
       vtkImagingSources
