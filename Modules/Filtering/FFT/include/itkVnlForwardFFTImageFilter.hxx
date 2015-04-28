@@ -84,6 +84,15 @@ VnlForwardFFTImageFilter< TInputImage, TOutputImage >
     oIt.Set( signal[offset] );
     }
 }
+
+template< typename TInputImage, typename TOutputImage >
+SizeValueType
+VnlForwardFFTImageFilter< TInputImage, TOutputImage >
+::GetSizeGreatestPrimeFactor() const
+{
+  return VnlFFTCommon::GREATEST_PRIME_FACTOR;
+}
+
 }
 
 #endif

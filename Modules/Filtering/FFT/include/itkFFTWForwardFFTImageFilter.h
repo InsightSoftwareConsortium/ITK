@@ -105,6 +105,8 @@ public:
   }
   itkGetConstReferenceMacro( PlanRigor, int );
 
+  SizeValueType GetSizeGreatestPrimeFactor() const;
+
 protected:
   FFTWForwardFFTImageFilter();
   ~FFTWForwardFFTImageFilter() {}

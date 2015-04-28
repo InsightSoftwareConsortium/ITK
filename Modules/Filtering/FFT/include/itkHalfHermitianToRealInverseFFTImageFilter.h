@@ -93,6 +93,12 @@ public:
     return m_ActualXDimensionIsOdd;
   }
 
+  /* Return the prefered greatest prime factor supported for the input image
+   * size. Defaults to 2 as many implementations work only for sizes that are
+   * power of 2.
+   */
+  virtual SizeValueType GetSizeGreatestPrimeFactor() const;
+
 protected:
   HalfHermitianToRealInverseFFTImageFilter():m_ActualXDimensionIsOdd(false) {}
   virtual ~HalfHermitianToRealInverseFFTImageFilter(){}

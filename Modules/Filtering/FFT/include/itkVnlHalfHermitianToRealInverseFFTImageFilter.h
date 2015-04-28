@@ -77,6 +77,8 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
+  SizeValueType GetSizeGreatestPrimeFactor() const;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( PixelUnsignedIntDivisionOperatorsCheck,

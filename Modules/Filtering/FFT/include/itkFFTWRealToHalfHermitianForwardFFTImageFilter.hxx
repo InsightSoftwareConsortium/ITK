@@ -122,6 +122,14 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
   os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")" << std::endl;
 }
 
+template< typename TInputImage, typename TOutputImage >
+SizeValueType
+FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
+::GetSizeGreatestPrimeFactor() const
+{
+  return FFTWProxyType::GREATEST_PRIME_FACTOR;
+}
+
 } // namespace itk
 
 #endif //_itkFFTWRealToHalfHermitianForwardFFTImageFilter_hxx

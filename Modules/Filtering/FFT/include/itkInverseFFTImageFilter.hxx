@@ -101,5 +101,14 @@ InverseFFTImageFilter< TInputImage, TOutputImage >
   this->GetOutput()
     ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
+
+template< typename TInputImage, typename TOutputImage >
+SizeValueType
+InverseFFTImageFilter< TInputImage, TOutputImage >
+::GetSizeGreatestPrimeFactor() const
+{
+  return 2;
+}
+
 }
 #endif

@@ -102,6 +102,9 @@ public:
   typedef typename Superclass::BoundaryConditionType        BoundaryConditionType;
   typedef typename Superclass::BoundaryConditionPointerType BoundaryConditionPointerType;
 
+  itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
+  itkGetMacro(SizeGreatestPrimeFactor, SizeValueType);
+
 protected:
   FFTConvolutionImageFilter();
   ~FFTConvolutionImageFilter() {}
@@ -187,6 +190,8 @@ protected:
 private:
   FFTConvolutionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
+
+  SizeValueType m_SizeGreatestPrimeFactor;
 };
 }
 
