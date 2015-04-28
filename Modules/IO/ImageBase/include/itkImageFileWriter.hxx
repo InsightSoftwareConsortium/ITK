@@ -333,6 +333,14 @@ ImageFileWriter< TInputImage >
     nonConstInput->PropagateRequestedRegion();
     nonConstInput->UpdateOutputData();
 
+    if( piece == 0 )
+      {
+      // initialize the progress here to mimic the progress behavior of the non
+      // streaming filters, where the progress changes only when the other filters
+      // are done.
+      this->UpdateProgress( 0.0f );
+      }
+
     // check to see if we tried to stream but got the largest possible region
     if ( piece == 0 && streamRegion != largestRegion )
       {
