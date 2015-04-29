@@ -140,10 +140,6 @@ AmoebaOptimizerv4
 
   ParametersType parameters = this->m_Metric->GetParameters();
   unsigned int n = parameters.GetSize();
-  if( n == 0 )
-    {
-    itkExceptionMacro(<<"Optimizer parameters are not initialized.");
-    }
 
   InternalParametersType delta( m_InitialSimplexDelta );
 
