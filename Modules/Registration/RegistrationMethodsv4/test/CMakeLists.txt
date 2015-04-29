@@ -3,6 +3,7 @@ set(ITKRegistrationMethodsv4Tests
 itkSimpleImageRegistrationTest.cxx
 itkSimpleImageRegistrationTest2.cxx
 itkSimpleImageRegistrationTest3.cxx
+itkSimpleImageRegistrationTestWithMaskAndSampling.cxx
 itkSimplePointSetRegistrationTest.cxx
 itkExponentialImageRegistrationTest.cxx
 itkBSplineExponentialImageRegistrationTest.cxx
@@ -58,6 +59,34 @@ itk_add_test(NAME itkSimpleImageRegistrationTestFloat
               10 # number of deformable iterations
               )
 set_property(TEST itkSimpleImageRegistrationTestFloat APPEND PROPERTY LABELS RUNS_LONG)
+
+itk_add_test(NAME itkSimpleImageRegistrationTestWithMaskAndSamplingDouble
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+              itkSimpleImageRegistrationTestWithMaskAndSampling
+              double
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkSimpleImageRegistrationTestWithMaskAndSamplingDouble.nii.gz
+              100 # number of affine iterations
+              10 # number of deformable iterations
+              )
+set_property(TEST itkSimpleImageRegistrationTestWithMaskAndSamplingDouble APPEND PROPERTY LABELS RUNS_LONG)
+
+itk_add_test(NAME itkSimpleImageRegistrationTestWithMaskAndSamplingFloat
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+              itkSimpleImageRegistrationTestWithMaskAndSampling
+              float
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkSimpleImageRegistrationTestWithMaskAndSamplingFloat.nii.gz
+              100 # number of affine iterations
+              10 # number of deformable iterations
+              )
+set_property(TEST itkSimpleImageRegistrationTestWithMaskAndSamplingFloat APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkSimpleImageRegistrationTest2
       COMMAND ITKRegistrationMethodsv4TestDriver
