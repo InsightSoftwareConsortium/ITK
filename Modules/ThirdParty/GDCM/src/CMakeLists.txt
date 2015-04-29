@@ -1,10 +1,3 @@
-if(ITK_USE_SYSTEM_GDCM)
-  add_library(ITKGDCM ITK-GDCM.cxx)
-  target_link_libraries(ITKGDCM gdcmDICT gdcmMSFF)
-  itk_module_target(ITKGDCM)
-  return()
-endif()
-
 if(CMAKE_COMPILER_IS_GNUCC)
   ITK_CHECK_C_COMPILER_FLAG("-fno-ipa-cp-clone" _HAS_fno-ipa-cp-clone)
   if(_HAS_fno-ipa-cp-clone)
