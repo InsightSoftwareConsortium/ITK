@@ -266,14 +266,18 @@ protected:
    */
   virtual void VerifyInputInformation() ITK_OVERRIDE;
 
-private:
-  WarpImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
-
   /** This function should be in an interpolator but none of the ITK
    * interpolators at this point handle edge conditions properly
    */
   void EvaluateDisplacementAtPhysicalPoint(const PointType & p, DisplacementType &output);
+
+  bool                m_DefFieldSameInformation;
+  // variables for deffield interpoator
+  IndexType m_StartIndex, m_EndIndex;
+
+private:
+  WarpImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
 
   PixelType     m_EdgePaddingValue;
   SpacingType   m_OutputSpacing;
@@ -283,9 +287,7 @@ private:
   InterpolatorPointer m_Interpolator;
   SizeType            m_OutputSize;               // Size of the output image
   IndexType           m_OutputStartIndex;         // output image start index
-  bool                m_DefFieldSameInformation;
-  // variables for deffield interpoator
-  IndexType m_StartIndex, m_EndIndex;
+
 };
 } // end namespace itk
 
