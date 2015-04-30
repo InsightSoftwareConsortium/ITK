@@ -136,7 +136,7 @@ int PerformSimpleImageRegistrationWithMaskAndSampling( int argc, char *argv[] )
   maskImage->CopyInformation( fixedImage );
   maskImage->SetRegions( fixedImage->GetRequestedRegion() );
   maskImage->Allocate();
-  maskImage->FillBuffer( itk::NumericTraits<PixelType>::OneValue() );
+  maskImage->FillBuffer( itk::NumericTraits<typename MaskImageType::PixelType>::OneValue() );
 
   typename ImageMaskSpatialObjectType::Pointer maskSpatialObject = ImageMaskSpatialObjectType::New();
   maskSpatialObject->SetImage( maskImage );
