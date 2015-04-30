@@ -109,7 +109,6 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # The PCRE, SWIG, and GCCXML third party builds for wrapping.
   ".*/PCRE/.*"
   ".*/swig/.*"
-  "swig-prefix/src"
   ".*parser.py.*"
   ".*/GCC_XML/.*"
   "checking maximum warning verbosity option.*"

@@ -133,25 +133,48 @@ else()
     if(ITK_BINARY_DIR)
       itk_download_attempt_check(SWIG)
     endif()
+    # Swig configure step
+    # Run in a CMake script because it will be flagged as a false-positive
+    # warning when executed with CTEST_USE_LAUNCHERS
+    set(_swig_configure_script ${CMAKE_CURRENT_BINARY_DIR}/swig_configure_step.cmake)
+    file(WRITE ${_swig_configure_script} "
+set(ENV{CC} \"${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}\")
+set(ENV{CFLAGS} \"${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w\")
+set(ENV{LDFLAGS} \"$ENV{LDFLAGS}\")
+set(ENV{LIBS} \"$ENV{LIBS}\")
+set(ENV{CPPFLAGS} \"$ENV{CPPFLAGS}\")
+set(ENV{CXX} \"${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}\")
+set(ENV{CXXFLAGS} \"${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w\")
+set(ENV{CPP} \"$ENV{CPP}\")
+set(ENV{YACC} \"${BISON_EXECUTABLE}\")
+set(ENV{YFLAGS} \"${BISON_FLAGS}\")
+execute_process(COMMAND ../swig/configure
+        \"--prefix=${CMAKE_CURRENT_BINARY_DIR}/swig\"
+        \"--with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE\"
+  WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build\"
+  RESULT_VARIABLE result
+  OUTPUT_VARIABLE output
+  ERROR_VARIABLE error
+  )
+
+set(output_file \"${CMAKE_CURRENT_BINARY_DIR}/swig_configure_output.txt\")
+file(WRITE \${output_file} \${output})
+
+set(error_file \"${CMAKE_CURRENT_BINARY_DIR}/swig_configure_error.txt\")
+file(WRITE \${error_file} \${error})
+
+if(NOT \${result} EQUAL 0)
+  message(STATUS \"Swig configure errors detected - See below.\n\${output}\n\${error}\")
+  message(FATAL_ERROR \"Swig configure error. See \${output_file} and \${error_file}\")
+endif()
+
+message(STATUS \"Swig configure successfully completed.\")
+")
     ExternalProject_Add(swig
     URL http://prdownloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz
     URL_MD5 ${swig_md5}
     CONFIGURE_COMMAND
-      env
-        "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-        "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
-        "LDFLAGS=$ENV{LDFLAGS}"
-        "LIBS=$ENV{LIBS}"
-        "CPPFLAGS=$ENV{CPPFLAGS}"
-        "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
-        "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
-        "CPP=$ENV{CPP}"
-        "YACC=${BISON_EXECUTABLE}"
-        "YFLAGS=${BISON_FLAGS}"
-      ../swig/configure
-        --quiet
-        --prefix=${CMAKE_CURRENT_BINARY_DIR}/swig
-        --with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
+      ${CMAKE_COMMAND} -P "${_swig_configure_script}"
     DEPENDS PCRE
     )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
