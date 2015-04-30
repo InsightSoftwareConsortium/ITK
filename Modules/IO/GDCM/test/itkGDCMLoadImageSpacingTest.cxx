@@ -21,9 +21,6 @@
 #include "itkImageFileReader.h"
 #include "gdcmImageHelper.h"
 
-typedef itk::Image<unsigned short, 2>   ImageType;
-typedef itk::ImageFileReader<ImageType> ReaderType;
-
 //
 // This test is specifically for a problem detected in GDCMImageIO
 // by Andriy Fedorov, who noticed that the DCMTK reader
@@ -37,37 +34,42 @@ typedef itk::ImageFileReader<ImageType> ReaderType;
 // The patch that this test is part of has a fallback for the case of
 // the MediaStorageTypes for which gdcm has trouble with the spacing tag.
 
-template <typename TIO, typename TSeriesNames>
-int
-ReadFile(const char *fname)
+int itkGDCMLoadImageSpacingTest(int argc, char *argv[])
 {
-  typename TIO::Pointer imageIO = TIO::New();
-  typename ReaderType::Pointer reader = ReaderType::New();
+  if(argc < 4)
+    {
+    std::cerr << "Usage: " << argv[0] << " Image Spacing0 Spacing1" << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  reader->SetImageIO(imageIO);
-  reader->SetFileName(fname);
+  const char * imageFilename = argv[1];
+  const double spacing0 = atof( argv[2] );
+  const double spacing1 = atof( argv[3] );
 
-  reader->Update();
-  typename ImageType::Pointer image = reader->GetOutput();
+  typedef itk::Image<unsigned short, 2>   ImageType;
+  typedef itk::ImageFileReader<ImageType> ReaderType;
+
+  itk::GDCMImageIO::Pointer imageIO = itk::GDCMImageIO::New();
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetImageIO( imageIO );
+  reader->SetFileName( imageFilename );
+  try
+    {
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & error )
+    {
+    std::cerr << "Error when reading input: " << error << std::endl;
+    }
+
+  ImageType::Pointer image = reader->GetOutput();
   std::cout << image << std::endl;
-  typename ImageType::SpacingType spacing = image->GetSpacing();
-  if(vcl_abs(spacing[0]-0.178038) >= 0.000001 ||
-     vcl_abs(spacing[1]-0.174924) >= 0.000001)
+  ImageType::SpacingType spacing = image->GetSpacing();
+  if(vcl_abs( spacing[0]- spacing0 ) >= 0.000001 ||
+     vcl_abs( spacing[1]- spacing1 ) >= 0.000001 )
     {
     return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;
-}
-
-int itkGDCMLoadImageSpacingTest(int argc, char *argv[])
-{
-  if(argc < 2)
-    {
-    std::cerr << "Missing image filename argument" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  const char *fname = argv[1];
-  return ReadFile<itk::GDCMImageIO,itk::GDCMSeriesFileNames>(fname);
 }
