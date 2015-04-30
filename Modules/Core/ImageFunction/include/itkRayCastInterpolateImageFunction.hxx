@@ -457,53 +457,46 @@ bool
 RayCastHelper< TInputImage, TCoordRep >
 ::CalcRayIntercepts()
 {
-  double maxInterDist, interDist;
-  double cornerVect[4][3];
-  int    cross[4][3];
-  bool   noInterFlag[6];
-  int    nSidesCrossed, crossFlag, c[4];
-  double ax, ay, az, bx, by, bz;
-  double cubeInter[6][3];
-  double denom;
+  bool   noInterceptFlag[6];
+  double cubeIntercepts[6][3];
 
-  int i, j, k;
-  int NoSides = 6;  // =6 to allow truncation: =4 to remove truncated rays
+  const unsigned int numSides = 6;  // =6 to allow truncation: =4 to remove truncated rays
 
   // Calculate intercept of ray with planes
-
-  double interceptx[6], intercepty[6], interceptz[6];
-  double d[6];
-
-  for ( j = 0; j < NoSides; j++ )
+  double interceptx[6];
+  double intercepty[6];
+  double interceptz[6];
+  for ( unsigned int j = 0; j < numSides; ++j )
     {
-    denom = (  m_BoundingPlane[j][0] * m_RayDirectionInMM[0]
+    const double denom = (  m_BoundingPlane[j][0] * m_RayDirectionInMM[0]
                + m_BoundingPlane[j][1] * m_RayDirectionInMM[1]
                + m_BoundingPlane[j][2] * m_RayDirectionInMM[2] );
 
     if ( (long)( denom * 100 ) != 0 )
       {
-      d[j] = -(   m_BoundingPlane[j][3]
+      const double d = -(   m_BoundingPlane[j][3]
                   + m_BoundingPlane[j][0] * m_CurrentRayPositionInMM[0]
                   + m_BoundingPlane[j][1] * m_CurrentRayPositionInMM[1]
                   + m_BoundingPlane[j][2] * m_CurrentRayPositionInMM[2] ) / denom;
 
-      interceptx[j] = m_CurrentRayPositionInMM[0] + d[j] * m_RayDirectionInMM[0];
-      intercepty[j] = m_CurrentRayPositionInMM[1] + d[j] * m_RayDirectionInMM[1];
-      interceptz[j] = m_CurrentRayPositionInMM[2] + d[j] * m_RayDirectionInMM[2];
+      interceptx[j] = m_CurrentRayPositionInMM[0] + d * m_RayDirectionInMM[0];
+      intercepty[j] = m_CurrentRayPositionInMM[1] + d * m_RayDirectionInMM[1];
+      interceptz[j] = m_CurrentRayPositionInMM[2] + d * m_RayDirectionInMM[2];
 
-      noInterFlag[j] = true;  //OK
+      noInterceptFlag[j] = true;  //OK
       }
     else
       {
-      noInterFlag[j] = false;  //NOT OK
+      noInterceptFlag[j] = false;  //NOT OK
       }
     }
 
-  nSidesCrossed = 0;
-  for ( j = 0; j < NoSides; j++ )
+  unsigned int nSidesCrossed = 0;
+  for ( unsigned int j = 0; j < numSides; ++j )
     {
     // Work out which corners to use
 
+    int c[4];
     if ( j == 0 )
       {
       c[0] = 0; c[1] = 1; c[2] = 3; c[3] = 2;
@@ -530,9 +523,10 @@ RayCastHelper< TInputImage, TCoordRep >
       }
 
     // Calculate vectors from corner of ct volume to intercept.
-    for ( i = 0; i < 4; i++ )
+    double cornerVect[4][3];
+    for ( unsigned int i = 0; i < 4; ++i )
       {
-      if ( noInterFlag[j] )
+      if ( noInterceptFlag[j] )
         {
         cornerVect[i][0] = m_BoundingCorner[c[i]][0] - interceptx[j];
         cornerVect[i][1] = m_BoundingCorner[c[i]][1] - intercepty[j];
@@ -547,7 +541,9 @@ RayCastHelper< TInputImage, TCoordRep >
       }
 
     // Do cross product with these vectors
-    for ( i = 0; i < 4; i++ )
+    int cross[4][3];
+    unsigned int k = 0;
+    for ( unsigned int i = 0; i < 4; ++i )
       {
       if ( i == 3 )
         {
@@ -557,12 +553,12 @@ RayCastHelper< TInputImage, TCoordRep >
         {
         k = i + 1;
         }
-      ax = cornerVect[i][0];
-      ay = cornerVect[i][1];
-      az = cornerVect[i][2];
-      bx = cornerVect[k][0];
-      by = cornerVect[k][1];
-      bz = cornerVect[k][2];
+      const double ax = cornerVect[i][0];
+      const double ay = cornerVect[i][1];
+      const double az = cornerVect[i][2];
+      const double bx = cornerVect[k][0];
+      const double by = cornerVect[k][1];
+      const double bz = cornerVect[k][2];
 
       // The int and divide by 100 are to avoid rounding errors.  If
       // these are not included then you get values fluctuating around
@@ -570,16 +566,16 @@ RayCastHelper< TInputImage, TCoordRep >
       // above or below zero.  NB. If you "INT" by too much here though
       // you can get problems in the corners of your volume when rays
       // are allowed to go through more than one plane.
-      cross[i][0] = (int)( ( ay * bz - az * by ) / 100 );
-      cross[i][1] = (int)( ( az * bx - ax * bz ) / 100 );
-      cross[i][2] = (int)( ( ax * by - ay * bx ) / 100 );
+      cross[i][0] = static_cast< int >( ( ay * bz - az * by ) / 100 );
+      cross[i][1] = static_cast< int >( ( az * bx - ax * bz ) / 100 );
+      cross[i][2] = static_cast< int >( ( ax * by - ay * bx ) / 100 );
       }
 
     // See if a sign change occurred between all these cross products
     // if not, then the ray went through this plane
 
-    crossFlag = 0;
-    for ( i = 0; i < 3; i++ )
+    unsigned int crossFlag = 0;
+    for ( unsigned int i = 0; i < 3; ++i )
       {
       if ( (   cross[0][i] <= 0
                && cross[1][i] <= 0
@@ -591,30 +587,30 @@ RayCastHelper< TInputImage, TCoordRep >
                   && cross[2][i] >= 0
                   && cross[3][i] >= 0 ) )
         {
-        crossFlag++;
+        ++crossFlag;
         }
       }
 
-    if ( crossFlag == 3 && noInterFlag[j] == 1 )
+    if ( crossFlag == 3 && noInterceptFlag[j] == 1 )
       {
-      cubeInter[nSidesCrossed][0] = interceptx[j];
-      cubeInter[nSidesCrossed][1] = intercepty[j];
-      cubeInter[nSidesCrossed][2] = interceptz[j];
-      nSidesCrossed++;
+      cubeIntercepts[nSidesCrossed][0] = interceptx[j];
+      cubeIntercepts[nSidesCrossed][1] = intercepty[j];
+      cubeIntercepts[nSidesCrossed][2] = interceptz[j];
+      ++nSidesCrossed;
       }
     } // End of loop over all four planes
 
-  m_RayStartCoordInMM[0] = cubeInter[0][0];
-  m_RayStartCoordInMM[1] = cubeInter[0][1];
-  m_RayStartCoordInMM[2] = cubeInter[0][2];
+  m_RayStartCoordInMM[0] = cubeIntercepts[0][0];
+  m_RayStartCoordInMM[1] = cubeIntercepts[0][1];
+  m_RayStartCoordInMM[2] = cubeIntercepts[0][2];
 
-  m_RayEndCoordInMM[0] = cubeInter[1][0];
-  m_RayEndCoordInMM[1] = cubeInter[1][1];
-  m_RayEndCoordInMM[2] = cubeInter[1][2];
+  m_RayEndCoordInMM[0] = cubeIntercepts[1][0];
+  m_RayEndCoordInMM[1] = cubeIntercepts[1][1];
+  m_RayEndCoordInMM[2] = cubeIntercepts[1][2];
 
   if ( nSidesCrossed >= 5 )
     {
-    std::cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << std::endl;
+    itkDebugStatement(std::cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << std::endl;);
     }
 
   // If 'nSidesCrossed' is larger than 2, this means that the ray goes through
@@ -625,28 +621,28 @@ RayCastHelper< TInputImage, TCoordRep >
 
   if ( nSidesCrossed >= 3 )
     {
-    maxInterDist = 0;
-    for ( j = 0; j < nSidesCrossed - 1; j++ )
+    double maxInterDist = 0.0;
+    for ( unsigned int j = 0; j < nSidesCrossed - 1; ++j )
       {
-      for ( k = j + 1; k < nSidesCrossed; k++ )
+      for ( unsigned int k = j + 1; k < nSidesCrossed; ++k )
         {
-        interDist = 0;
-        for ( i = 0; i < 3; i++ )
+        double interDist = 0.0;
+        for ( unsigned int i = 0; i < 3; ++i )
           {
-          interDist += ( cubeInter[j][i] - cubeInter[k][i] )
-                       * ( cubeInter[j][i] - cubeInter[k][i] );
+          interDist += ( cubeIntercepts[j][i] - cubeIntercepts[k][i] )
+                       * ( cubeIntercepts[j][i] - cubeIntercepts[k][i] );
           }
         if ( interDist > maxInterDist )
           {
           maxInterDist = interDist;
 
-          m_RayStartCoordInMM[0] = cubeInter[j][0];
-          m_RayStartCoordInMM[1] = cubeInter[j][1];
-          m_RayStartCoordInMM[2] = cubeInter[j][2];
+          m_RayStartCoordInMM[0] = cubeIntercepts[j][0];
+          m_RayStartCoordInMM[1] = cubeIntercepts[j][1];
+          m_RayStartCoordInMM[2] = cubeIntercepts[j][2];
 
-          m_RayEndCoordInMM[0] = cubeInter[k][0];
-          m_RayEndCoordInMM[1] = cubeInter[k][1];
-          m_RayEndCoordInMM[2] = cubeInter[k][2];
+          m_RayEndCoordInMM[0] = cubeIntercepts[k][0];
+          m_RayEndCoordInMM[1] = cubeIntercepts[k][1];
+          m_RayEndCoordInMM[2] = cubeIntercepts[k][2];
           }
         }
       }
