@@ -18,6 +18,8 @@
 #ifndef itkVnlFFTCommon_h
 #define itkVnlFFTCommon_h
 
+#include "itkIntTypes.h"
+
 #include "vnl/algo/vnl_fft_base.h"
 
 namespace itk
