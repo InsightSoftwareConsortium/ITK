@@ -58,14 +58,8 @@ StreamingImageFilter< TInputImage, TOutputImage >
 
   os << indent << "Number of stream divisions: " << m_NumberOfStreamDivisions
      << std::endl;
-  if ( m_RegionSplitter )
-    {
-    os << indent << "Region splitter:" << m_RegionSplitter << std::endl;
-    }
-  else
-    {
-    os << indent << "Region splitter: (none)" << std::endl;
-    }
+
+  itkPrintSelfObjectMacro( RegionSplitter );
 }
 
 /**
