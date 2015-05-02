@@ -19,7 +19,7 @@
 #ifndef itkFFTPadImageFilter_h
 #define itkFFTPadImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkPadImageFilterBase.h"
 #include "itkConceptChecking.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
@@ -49,12 +49,12 @@ namespace itk
  */
 template<typename TInputImage, typename TOutputImage=TInputImage>
 class FFTPadImageFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+    public PadImageFilterBase<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef FFTPadImageFilter                             Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef PadImageFilterBase<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 
@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(FFTPadImageFilter, ImageToImageFilter);
+  itkTypeMacro(FFTPadImageFilter, PadImageFilterBase);
 
   /**
    * Set/Get the greatest prime factor allowed on the size of the padded image.
@@ -99,22 +99,12 @@ public:
   typedef BoundaryConditionType *                         BoundaryConditionPointerType;
   typedef ZeroFluxNeumannBoundaryCondition< TInputImage > DefaultBoundaryConditionType;
 
-  /** Set/get the boundary condition. */
-  itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
-  itkGetConstMacro(BoundaryCondition, BoundaryConditionPointerType);
-
-
 protected:
   FFTPadImageFilter();
   ~FFTPadImageFilter() {};
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
-
-  /** Single-threaded version of GenerateData.  This filter delegates
-   * to other filters. */
-  virtual void GenerateData() ITK_OVERRIDE;
 
 
 private:
@@ -124,7 +114,6 @@ private:
   SizeValueType m_SizeGreatestPrimeFactor;
 
   DefaultBoundaryConditionType m_DefaultBoundaryCondition;
-  BoundaryConditionPointerType m_BoundaryCondition;
 
 }; // end of class
 

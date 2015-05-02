@@ -37,36 +37,7 @@ FFTPadImageFilter<TInputImage, TOutputImage>
   typedef Image< float, TInputImage::ImageDimension > RealImageType;
   typedef ForwardFFTImageFilter< RealImageType >      FFTFilterType;
   m_SizeGreatestPrimeFactor = FFTFilterType::New()->GetSizeGreatestPrimeFactor();
-  m_BoundaryCondition = &m_DefaultBoundaryCondition;
-}
-
-
-template <class TInputImage, class TOutputImage>
-void
-FFTPadImageFilter<TInputImage, TOutputImage>
-::GenerateInputRequestedRegion()
-{
-  // Get pointers to the input and output.
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
-
-  const RegionType & inputLargestPossibleRegion =
-    inputPtr->GetLargestPossibleRegion();
-  const RegionType & outputRequestedRegion =
-    outputPtr->GetRequestedRegion();
-
-  // Ask the boundary condition for the input requested region.
-  if ( !m_BoundaryCondition )
-    {
-    itkExceptionMacro( << "Boundary condition is ITK_NULLPTR so no request region can be generated.");
-    }
-
-  RegionType const & inputRequestedRegion =
-    m_BoundaryCondition->GetInputRequestedRegion( inputLargestPossibleRegion,
-                                                  outputRequestedRegion );
-
-  inputPtr->SetRequestedRegion( inputRequestedRegion );
+  Self::InternalSetBoundaryCondition( &m_DefaultBoundaryCondition );
 }
 
 
@@ -79,11 +50,6 @@ FFTPadImageFilter<TInputImage, TOutputImage>
   Superclass::GenerateOutputInformation();
 
   const InputImageType * input0 = this->GetInput();
-  if ( !input0 )
-    {
-    return;
-    }
-
   OutputImageType * output0 = this->GetOutput();
 
   RegionType region0 = input0->GetLargestPossibleRegion();
@@ -115,52 +81,11 @@ FFTPadImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 FFTPadImageFilter<TInputImage, TOutputImage>
-::GenerateData()
-{
-  this->AllocateOutputs();
-  typename InputImageType::Pointer input0 = InputImageType::New();
-  input0->Graft( this->GetInput() );
-  OutputImageType * output0 = this->GetOutput();
-  RegionType ir0 = input0->GetLargestPossibleRegion();
-  RegionType or0 = output0->GetLargestPossibleRegion();
-
-  // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
-  progress->SetMiniPipelineFilter(this);
-
-  typedef PadImageFilter< InputImageType, OutputImageType > PadType;
-  SizeType size;
-
-  typename PadType::Pointer pad0 = PadType::New();
-  pad0->SetInput( input0 );
-  pad0->SetBoundaryCondition( m_BoundaryCondition );
-  pad0->SetNumberOfThreads( this->GetNumberOfThreads() );
-  for( int i=0; i<ImageDimension; i++ )
-    {
-    size[i] = ir0.GetIndex()[i] - or0.GetIndex()[i];
-    }
-  pad0->SetPadLowerBound( size );
-  for( int i=0; i<ImageDimension; i++ )
-    {
-    size[i] = or0.GetSize()[i] - ( ir0.GetIndex()[i] - or0.GetIndex()[i] + ir0.GetSize()[i]);
-    }
-  pad0->SetPadUpperBound( size );
-  progress->RegisterInternalFilter( pad0, 1.0f );
-  pad0->GraftOutput( output0 );
-  pad0->Update();
-  this->GraftOutput( pad0->GetOutput() );
-}
-
-
-template<class TInputImage, class TOutputImage>
-void
-FFTPadImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "SizeGreatestPrimeFactor: "  << m_SizeGreatestPrimeFactor << std::endl;
-  os << indent << "BoundaryCondition: " << m_BoundaryCondition->GetNameOfClass() << std::endl;
 }
 
 }// end namespace itk
