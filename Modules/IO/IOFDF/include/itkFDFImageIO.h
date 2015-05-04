@@ -24,6 +24,7 @@ namespace itk
 {
 
 /** \class FDFImageIO
+ *
  * \brief ImageIO object for reading and writing FDF images
  *
  * \ingroup IOIOFDF
@@ -44,7 +45,7 @@ public:
   itkTypeMacro(FDFImageIO, ImageIOBase);
 
   virtual bool
-  SupportsDimension(unsigned long dim)
+  SupportsDimension(unsigned long dim) ITK_OVERRIDE
   {
     if (dim == 2 || dim == 3)
     {
@@ -62,18 +63,18 @@ public:
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
   virtual bool
-  CanReadFile(const char *);
+  CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Set the spacing and diemention information for the set filename. */
   virtual void
-  ReadImageInformation();
+  ReadImageInformation() ITK_OVERRIDE;
 
   /** Get the type of the pixel.  */
   //   virtual const std::type_info& GetPixelType() const;
 
   /** Reads the data from disk into the memory buffer provided. */
   virtual void
-  Read(void * buffer);
+  Read(void * buffer) ITK_OVERRIDE;
 
   /** Reads 3D data from multiple files assuming one slice per file. */
   virtual void
@@ -89,23 +90,23 @@ public:
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
   virtual bool
-  CanWriteFile(const char *);
+  CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Writes the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void
-  WriteImageInformation();
+  WriteImageInformation() ITK_OVERRIDE;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
   virtual void
-  Write(const void * buffer);
+  Write(const void * buffer) ITK_OVERRIDE;
 
 protected:
   FDFImageIO();
   ~FDFImageIO();
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void
   WriteSlice(std::string & fileName, const void * buffer);
