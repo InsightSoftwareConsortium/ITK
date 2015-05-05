@@ -35,6 +35,54 @@
 namespace itk
 {
 
+WisdomFilenameGeneratorBase
+::WisdomFilenameGeneratorBase()
+{
+}
+
+
+WisdomFilenameGeneratorBase
+::~WisdomFilenameGeneratorBase()
+{
+}
+
+ManualWisdomFilenameGenerator
+::ManualWisdomFilenameGenerator(const std::string &wfn)
+  : m_WisdomFilename(wfn)
+{
+}
+
+void
+ManualWisdomFilenameGenerator
+::SetWisdomFilename(const std::string &wfn)
+{
+  this->m_WisdomFilename=wfn;
+}
+
+std::string
+ManualWisdomFilenameGenerator
+::GenerateWisdomFilename(const std::string & ) const
+{
+  return this->m_WisdomFilename;
+}
+
+std::string
+SimpleWisdomFilenameGenerator
+::GenerateWisdomFilename(const std::string &baseCacheDirectory) const
+{
+  return baseCacheDirectory+FFTWPathSep+".itksimple.wisdom";
+}
+
+std::string
+HostnameWisdomFilenameGenerator
+::GenerateWisdomFilename(const std::string &baseCacheDirectory) const
+{
+
+  itksys::SystemInformation hostInfo;
+  hostInfo.RunOSCheck();
+  return baseCacheDirectory+FFTWPathSep + ".itkwisdomfftw"+FFTWPathSep+".itk_"+hostInfo.GetHostname()+".wisdom";
+}
+
 int
 FFTWGlobalConfiguration
 ::GetPlanRigorValue( const std::string & name )
@@ -116,6 +164,246 @@ FFTWGlobalConfiguration
     }
   return FFTWGlobalConfiguration::m_Instance;
 }
+
+HardwareWisdomFilenameGenerator
+::HardwareWisdomFilenameGenerator():
+  m_UseOSName(true),
+  m_UseOSRelease(false),
+  m_UseOSVersion(false),
+  m_UseOSPlatform(true),
+  m_UseOSBitSize(true),
+  m_UseNumberOfProcessors(true),
+  m_UseVendorString(true),
+  m_UseVendorID(false),
+  m_UseTypeID(true),
+  m_UseFamilyID(true),
+  m_UseModelID(true),
+  m_UseSteppingCode(true)
+{
+}
+
+std::string
+HardwareWisdomFilenameGenerator
+::GenerateWisdomFilename(const std::string &baseCacheDirectory) const
+{
+  //Now build the hardware string by system interogation
+  itksys::SystemInformation hardwareInfo;
+  hardwareInfo.RunCPUCheck();
+  hardwareInfo.RunOSCheck();
+  hardwareInfo.RunMemoryCheck();
+  std::stringstream OSD("");
+
+  if( this->m_UseOSName )
+    {
+    OSD << hardwareInfo.GetOSName() << "_";
+    }
+  if( this->m_UseOSRelease )
+    {
+    OSD << hardwareInfo.GetOSRelease() << "_";
+    }
+  if( this->m_UseOSVersion )
+    {
+    OSD << hardwareInfo.GetOSVersion() << "_";
+    }
+  if( this->m_UseOSPlatform )
+    {
+    OSD << hardwareInfo.GetOSPlatform() << "_";
+    }
+  if( this->m_UseOSBitSize )
+    {
+    const char * const bitsizeString=( hardwareInfo.Is64Bits() ) ? "64_":"32_";
+    OSD << bitsizeString;
+    }
+  if( this->m_UseNumberOfProcessors )
+    {
+    OSD << hardwareInfo.GetNumberOfLogicalCPU() <<"x"<< hardwareInfo.GetNumberOfPhysicalCPU() << "_";
+    }
+  if( this->m_UseVendorString )
+    {
+    OSD << hardwareInfo.GetVendorString() << "_";
+    }
+  if( this->m_UseVendorID )
+    {
+    OSD << hardwareInfo.GetVendorID() << "_";
+    }
+  if( this->m_UseTypeID )
+    {
+    OSD << hardwareInfo.GetTypeID() << "_";
+    }
+  if( this->m_UseFamilyID )
+    {
+    OSD << hardwareInfo.GetFamilyID() << "_";
+    }
+  if( this->m_UseModelID )
+    {
+    OSD << hardwareInfo.GetModelID() << "_";
+    }
+  if( this->m_UseSteppingCode )
+    {
+    OSD << hardwareInfo.GetSteppingCode();
+    }
+  OSD << ".wisdom";
+  std::string noSpaceStr=OSD.str();
+  //Now remove spaces
+  noSpaceStr.erase(std::remove_if(noSpaceStr.begin(), noSpaceStr.end(),::isspace), noSpaceStr.end());
+  return baseCacheDirectory + FFTWPathSep + ".itkwisdomfftw" + FFTWPathSep + noSpaceStr;
+}
+
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseOSName(const bool flag)
+{
+  this->m_UseOSName=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseOSRelease(const bool flag)
+{
+  this->m_UseOSRelease=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseOSVersion(const bool flag)
+{
+  this->m_UseOSVersion=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseOSPlatform(const bool flag)
+{
+  this->m_UseOSPlatform=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseOSBitSize(const bool flag)
+{
+  this->m_UseOSBitSize=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseNumberOfProcessors(const bool flag)
+{
+  this->m_UseNumberOfProcessors=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseVendorString(const bool flag)
+{
+  this->m_UseVendorString=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseTypeID(const bool flag)
+{
+  this->m_UseTypeID=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseFamilyID(const bool flag)
+{
+  this->m_UseFamilyID=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseModelID(const bool flag)
+{
+  this->m_UseModelID=flag;
+}
+
+void
+HardwareWisdomFilenameGenerator
+::SetUseSteppingCode(const bool flag)
+{
+  this->m_UseSteppingCode=flag;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseOSName() const
+{
+  return this->m_UseOSName;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseOSRelease() const
+{
+  return this->m_UseOSRelease;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseOSVersion() const
+{
+  return this->m_UseOSVersion;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseOSPlatform() const
+{
+  return this->m_UseOSPlatform;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseOSBitSize() const
+{
+  return this->m_UseOSBitSize;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseNumberOfProcessors() const
+{
+  return this->m_UseNumberOfProcessors;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseVendorString() const
+{
+  return this->m_UseVendorString;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseTypeID() const
+{
+  return this->m_UseTypeID;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseFamilyID() const
+{
+  return this->m_UseFamilyID;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseModelID() const
+{
+  return this->m_UseModelID;
+}
+
+bool
+HardwareWisdomFilenameGenerator
+::GetUseSteppingCode() const
+{
+  return this->m_UseSteppingCode;
+}
+
 
 FFTWGlobalConfiguration
 ::FFTWGlobalConfiguration():m_NewWisdomAvailable(false),
@@ -460,6 +748,93 @@ FFTWGlobalConfiguration
 #endif
 #endif
   return ret;
+}
+
+SimpleFastMutexLock &
+FFTWGlobalConfiguration
+::GetLockMutex()
+{
+  return GetInstance()->m_Lock;
+}
+
+void
+FFTWGlobalConfiguration
+::SetNewWisdomAvailable( const bool & v )
+{
+  GetInstance()->m_NewWisdomAvailable = v;
+}
+
+bool
+FFTWGlobalConfiguration
+::GetNewWisdomAvailable()
+{
+  return GetInstance()->m_NewWisdomAvailable;
+}
+
+void
+FFTWGlobalConfiguration
+::SetPlanRigor( const int & v )
+{
+  // use that method to check the value
+  GetPlanRigorName( v );
+  GetInstance()->m_PlanRigor = v;
+}
+
+int
+FFTWGlobalConfiguration
+::GetPlanRigor()
+{
+  return GetInstance()->m_PlanRigor;
+}
+
+void
+FFTWGlobalConfiguration
+::SetPlanRigor( const std::string & name )
+{
+  SetPlanRigor( GetPlanRigorValue( name ) );
+}
+
+void
+FFTWGlobalConfiguration
+::SetReadWisdomCache( const bool & v )
+{
+  GetInstance()->m_ReadWisdomCache = v;
+}
+
+bool
+FFTWGlobalConfiguration
+::GetReadWisdomCache()
+{
+  return GetInstance()->m_ReadWisdomCache;
+}
+
+void
+FFTWGlobalConfiguration
+::SetWriteWisdomCache( const bool & v )
+{
+  GetInstance()->m_WriteWisdomCache = v;
+}
+
+bool
+FFTWGlobalConfiguration
+::GetWriteWisdomCache()
+{
+  return GetInstance()->m_WriteWisdomCache;
+}
+
+
+void
+FFTWGlobalConfiguration
+::SetWisdomCacheBase( const std::string & v )
+{
+  GetInstance()->m_WisdomCacheBase = v;
+}
+
+std::string
+FFTWGlobalConfiguration
+::GetWisdomCacheBase()
+{
+  return GetInstance()->m_WisdomCacheBase;
 }
 
 }//end namespace itk
