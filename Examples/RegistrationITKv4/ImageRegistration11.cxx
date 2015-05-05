@@ -168,8 +168,8 @@ int main( int argc, char *argv[] )
   //  The number of spatial samples to be used depends on the content of the image, and
   //  the user can define the sampling percentage and the way that sampling operation
   //  is managed by the registration framework as follows. Sampling startegy can
-  //  can be defined as \emph{REGULAR} or \emph{RANDOM}, while the default value
-  //  is \emph{NONE}.
+  //  can be defined as \code{REGULAR} or \code{RANDOM}, while the default value
+  //  is \code{NONE}.
   //
   //  Software Guide : EndLatex
 

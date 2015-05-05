@@ -51,11 +51,11 @@
 
 
 //  Software Guide : BeginCodeSnippet
-typedef itk::Image<unsigned char, 2>                       DiskImageType;
-typedef itk::Image<float, 2>                               ImageType;
-typedef itk::fem::Element2DC0LinearQuadrilateralMembrane   ElementType;
-typedef itk::fem::Element2DC0LinearTriangularMembrane      ElementType2;
-typedef itk::fem::FEMObject<2>                             FEMObjectType;
+typedef itk::Image<unsigned char, 2>                     DiskImageType;
+typedef itk::Image<float, 2>                             ImageType;
+typedef itk::fem::Element2DC0LinearQuadrilateralMembrane ElementType;
+typedef itk::fem::Element2DC0LinearTriangularMembrane    ElementType2;
+typedef itk::fem::FEMObject<2>                           FEMObjectType;
 //  Software Guide : EndCodeSnippet
 
 
@@ -70,7 +70,7 @@ typedef itk::fem::FEMObject<2>                             FEMObjectType;
 
 
 //  SoftwareGuide : BeginCodeSnippet
-typedef itk::Image<unsigned char, 3>                    fileImage3DType;
+typedef itk::Image<unsigned char, 3>                    FileImage3DType;
 typedef itk::Image<float, 3>                            Image3DType;
 typedef itk::fem::Element3DC0LinearHexahedronMembrane   Element3DType;
 typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 //  Software Guide : BeginLatex
 //
 //  In order to begin the registration, we declare an instance of the
-//  FEMRegistrationFilter and set its parameters.  For simplicity, we will call
+//  \code{FEMRegistrationFilter} and set its parameters.  For simplicity, we will call
 //  it \code{registrationFilter}.
 //
 //  Software Guide : EndLatex

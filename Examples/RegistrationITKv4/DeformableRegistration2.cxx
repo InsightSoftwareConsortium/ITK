@@ -297,7 +297,7 @@ int main( int argc, char *argv[] )
   //
   // The \doxygen{WarpImageFilter} can be used to warp the moving image with
   // the output deformation field. Like the \doxygen{ResampleImageFilter},
-  // the WarpImageFilter requires the specification of the input image to be
+  // the \code{WarpImageFilter} requires the specification of the input image to be
   // resampled, an input image interpolator, and the output image spacing and
   // origin.
   //
@@ -331,8 +331,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Unlike the ResampleImageFilter, the WarpImageFilter
-  // warps or transform the input image with respect to the deformation field
+  // Unlike \code{ResampleImageFilter}, \code{WarpImageFilter}
+  // warps or transforms the input image with respect to the deformation field
   // represented by an image of vectors.  The resulting warped or resampled
   // image is written to file as per previous examples.
   //
