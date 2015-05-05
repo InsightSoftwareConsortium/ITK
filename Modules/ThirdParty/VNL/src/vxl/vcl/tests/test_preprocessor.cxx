@@ -101,6 +101,15 @@ int test_preprocessor_main(int /*argc*/,char* /*argv*/[])
   ++minor_count;
 #endif
 
+#ifdef VCL_GCC_5
+  ++major_count;
+#endif
+#ifdef VCL_GCC_50
+  ++minor_count;
+#endif
+#ifdef VCL_GCC_51
+  ++minor_count;
+#endif
 
 #ifdef VCL_VC
   ++compiler_count;
