@@ -132,5 +132,14 @@ itk_add_test(NAME itkGDCMImageIONoCrashTest
 
 itk_add_test(NAME itkGDCMLoadImageSpacingTest
   COMMAND ITKIOGDCMTestDriver itkGDCMLoadImageSpacingTest
-  DATA{Input/gdcmSpacingTest.dcm}
+    DATA{Input/gdcmSpacingTest.dcm}
+    0.178038
+    0.174924
+  )
+
+itk_add_test(NAME itkGDCMLoadImageNoSpacingTest
+  COMMAND ITKIOGDCMTestDriver itkGDCMLoadImageSpacingTest
+  DATA{Input/gdcmNoSpacingTest.dcm}
+    1.0
+    1.0
   )
