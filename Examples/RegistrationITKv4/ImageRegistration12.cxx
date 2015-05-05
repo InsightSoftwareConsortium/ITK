@@ -18,10 +18,10 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use SpatialObjects as masks for selecting the
+// This example illustrates the use of \code{SpatialObject}s as masks for selecting the
 // pixels that should contribute to the computation of Image Metrics. This
 // example is almost identical to ImageRegistration6 with the exception that
-// the SpatialObject masks are created and passed to the image metric.
+// the \code{SpatialObject} masks are created and passed to the image metric.
 //
 //
 // Software Guide : EndLatex

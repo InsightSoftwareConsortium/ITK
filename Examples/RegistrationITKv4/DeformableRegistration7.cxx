@@ -259,9 +259,8 @@ int main( int argc, char *argv[] )
   //  this optimizer does not support scales estimator and sets all
   //  the parameters scales to one.
   //  Also, we should set the boundary condition for each variable, where
-  //  \code{boundSelect[i]} can be set as:
-  //
-  //  UNBOUNDED, LOWERBOUNDED, BOTHBOUNDED, UPPERBOUNDED
+  //  \code{boundSelect[i]} can be set as: \code{UNBOUNDED},
+  //  \code{LOWERBOUNDED}, \code{BOTHBOUNDED}, \code{UPPERBOUNDED}.
   //
   //  Software Guide : EndLatex
 

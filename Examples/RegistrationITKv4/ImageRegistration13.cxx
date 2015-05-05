@@ -158,7 +158,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{CenteredRigid2DTransform} is initialized by 5 parameters,
+  // The \doxygen{CenteredRigid2DTransform} is initialized with 5 parameters,
   // indicating the angle of rotation, the center coordinates and the
   // translation to be applied after rotation. The initialization is done
   // by the \doxygen{CenteredTransformInitializer}.
@@ -220,7 +220,7 @@ int main( int argc, char *argv[] )
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetLearningRate( 0.5   );
+  optimizer->SetLearningRate( 0.5 );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 400 );
   // Software Guide : EndCodeSnippet

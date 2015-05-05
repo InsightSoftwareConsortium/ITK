@@ -247,7 +247,7 @@ int main( int argc, char * argv[] )
 //  assigned to the elements of the array. We do this by storing all the odd
 //  elements from the file in the first block of the array, and all the even
 //  elements from the file in the second block of the array. Finally the array
-//  is passed to the B-spline transform using the \code{SetParameters()}.
+//  is passed to the B-spline transform using the \code{SetParameters()} method.
 //
 //  Software Guide : EndLatex
 
@@ -257,10 +257,10 @@ int main( int argc, char * argv[] )
 
   infile.open( argv[1] );
 
-  for( unsigned int n=0; n < numberOfNodes; n++ )
+  for( unsigned int n=0; n < numberOfNodes; ++n )
     {
-    infile >>  parameters[n];
-    infile >>  parameters[n+numberOfNodes];
+    infile >> parameters[n];
+    infile >> parameters[n+numberOfNodes];
     }
 
   infile.close();
