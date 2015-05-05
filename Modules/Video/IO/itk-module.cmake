@@ -3,6 +3,7 @@ well as the FileListIO mechanism that does not depend on any outside
 libraries.")
 
 itk_module(ITKVideoIO
+  ENABLE_SHARED
   DEPENDS
     ITKIOImageBase
     ITKVideoCore

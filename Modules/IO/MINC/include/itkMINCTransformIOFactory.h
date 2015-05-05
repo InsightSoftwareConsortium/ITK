@@ -21,6 +21,7 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
+#include "itkIOMINCExport.h"
 
 namespace itk
 {
@@ -29,7 +30,7 @@ namespace itk
    *
    * \ingroup ITKIOMINC
    */
-  class MINCTransformIOFactory:public ObjectFactoryBase
+  class ITKIOMINC_EXPORT MINCTransformIOFactory:public ObjectFactoryBase
   {
   public:
     /** Standard class typedefs. */

@@ -6,6 +6,7 @@ operations. They are commonly used for representing the output of image
 segmentation algorithms.")
 
 itk_module(ITKQuadEdgeMesh
+  ENABLE_SHARED
   DEPENDS
     ITKMesh
   TEST_DEPENDS

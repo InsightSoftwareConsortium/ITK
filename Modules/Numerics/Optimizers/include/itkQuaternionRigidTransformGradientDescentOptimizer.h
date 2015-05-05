@@ -19,6 +19,7 @@
 #define itkQuaternionRigidTransformGradientDescentOptimizer_h
 
 #include "itkGradientDescentOptimizer.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -48,7 +49,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class QuaternionRigidTransformGradientDescentOptimizer:
+class ITKOptimizers_EXPORT QuaternionRigidTransformGradientDescentOptimizer:
   public GradientDescentOptimizer
 {
 public:

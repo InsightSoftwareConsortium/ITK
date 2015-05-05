@@ -20,6 +20,7 @@
 #define itkFEMElement3DC0LinearHexahedron_h
 
 #include "itkFEMElementStd.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -60,7 +61,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class Element3DC0LinearHexahedron : public ElementStd<8, 3>
+class ITKFEM_EXPORT Element3DC0LinearHexahedron : public ElementStd<8, 3>
 {
 public:
   /** Standard class typedefs. */

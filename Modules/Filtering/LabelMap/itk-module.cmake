@@ -7,6 +7,7 @@ the objects based on these values.")
 
 
 itk_module(ITKLabelMap
+  ENABLE_SHARED
   DEPENDS
     ITKImageLabel
     ITKMathematicalMorphology

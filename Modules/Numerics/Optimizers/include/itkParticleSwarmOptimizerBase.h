@@ -21,6 +21,7 @@
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -52,7 +53,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ParticleSwarmOptimizerBase :
+class ITKOptimizers_EXPORT ParticleSwarmOptimizerBase :
   public SingleValuedNonLinearOptimizer
 {
 public:

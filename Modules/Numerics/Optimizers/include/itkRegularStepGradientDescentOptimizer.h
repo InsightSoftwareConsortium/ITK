@@ -19,6 +19,7 @@
 #define itkRegularStepGradientDescentOptimizer_h
 
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -29,7 +30,7 @@ namespace itk
  *
  * \ingroup ITKOptimizers
  */
-class RegularStepGradientDescentOptimizer:
+class ITKOptimizers_EXPORT RegularStepGradientDescentOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:

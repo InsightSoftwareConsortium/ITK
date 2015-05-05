@@ -21,6 +21,7 @@
 #include "itkIntTypes.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "ITKBioCellExport.h"
 
 namespace itk
 {
@@ -35,7 +36,7 @@ class CellBase;
  *
  * \ingroup ITKBioCell
  */
-class CellularAggregateBase:public Object
+class ITKBioCell_EXPORT CellularAggregateBase:public Object
 {
 public:
   /** Standard class typedefs. */

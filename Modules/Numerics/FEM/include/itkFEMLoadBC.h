@@ -19,6 +19,7 @@
 #define itkFEMLoadBC_h
 
 #include "itkFEMLoadBase.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace fem
  * Objects of this class specify, which DOFs in a system are fixed.
  * \ingroup ITKFEM
  */
-class LoadBC : public Load
+class ITKFEM_EXPORT LoadBC : public Load
 {
 public:
   /** Standard class typedefs. */

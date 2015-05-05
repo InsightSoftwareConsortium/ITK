@@ -33,6 +33,8 @@
 
 #include <itk_minc2.h>
 
+#include "itkIOMINCExport.h"
+
 namespace itk
 {
 /** \class MINCImageIO
@@ -59,7 +61,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class MINCImageIO : public ImageIOBase
+class ITKIOMINC_EXPORT MINCImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

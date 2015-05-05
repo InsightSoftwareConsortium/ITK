@@ -19,6 +19,7 @@
 #define itkCompositeValleyFunction_h
 
 #include "itkCacheableScalarFunction.h"
+#include "ITKBiasCorrectionExport.h"
 #include <vector>
 
 namespace itk
@@ -92,7 +93,7 @@ private:
   double m_Sigma;
 }; // end of class
 
-class CompositeValleyFunction:public CacheableScalarFunction
+class ITKBiasCorrection_EXPORT CompositeValleyFunction:public CacheableScalarFunction
 {
 public:
 

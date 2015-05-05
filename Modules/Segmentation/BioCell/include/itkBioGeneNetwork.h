@@ -20,6 +20,7 @@
 
 
 #include "itkMacro.h"
+#include "ITKBioCellExport.h"
 
 #include <vector>
 
@@ -35,7 +36,7 @@ namespace bio
  *
  * \ingroup ITKBioCell
  */
-class GeneNetwork
+class ITKBioCell_EXPORT GeneNetwork
 {
 public:
   typedef   std::vector< float > ProteomeType;

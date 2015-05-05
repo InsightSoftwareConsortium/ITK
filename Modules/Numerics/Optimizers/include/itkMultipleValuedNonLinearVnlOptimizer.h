@@ -21,6 +21,7 @@
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkMultipleValuedVnlCostFunctionAdaptor.h"
 #include "itkCommand.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -33,7 +34,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class MultipleValuedNonLinearVnlOptimizer:
+class ITKOptimizers_EXPORT MultipleValuedNonLinearVnlOptimizer:
   public MultipleValuedNonLinearOptimizer
 {
 public:

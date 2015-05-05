@@ -20,6 +20,7 @@
 
 #include "itkArray.h"
 #include "itkIntTypes.h"
+#include "ITKBiasCorrectionExport.h"
 
 namespace itk
 {
@@ -55,7 +56,7 @@ namespace itk
  * energy values again and again for each iteration.
  * \ingroup ITKBiasCorrection
  */
-class CacheableScalarFunction
+class ITKBiasCorrection_EXPORT CacheableScalarFunction
 {
 public:
   /** Constructor. */

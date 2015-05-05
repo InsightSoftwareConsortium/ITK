@@ -20,6 +20,7 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
+#include "itkIOMINCExport.h"
 
 namespace itk
 {
@@ -37,7 +38,7 @@ namespace itk
  * And Modified by Vladimir S. FONOV during ITK-MINC Hackathon
  *
  */
-class MINCImageIOFactory : public ObjectFactoryBase
+class ITKIOMINC_EXPORT MINCImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

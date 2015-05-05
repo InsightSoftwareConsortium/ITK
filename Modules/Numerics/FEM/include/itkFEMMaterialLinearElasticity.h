@@ -20,6 +20,7 @@
 #define itkFEMMaterialLinearElasticity_h
 
 #include "itkFEMMaterialBase.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -34,7 +35,7 @@ namespace fem
  * elasticity problems in FEM toolkit.
  * \ingroup ITKFEM
  */
-class MaterialLinearElasticity : public Material
+class ITKFEM_EXPORT MaterialLinearElasticity : public Material
 {
 public:
   /** Standard class typedefs. */

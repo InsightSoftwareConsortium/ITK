@@ -22,6 +22,7 @@
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/algo/vnl_svd.h"
+#include "ITKFEMExport.h"
 #include <vector>
 
 namespace itk
@@ -35,7 +36,7 @@ namespace fem
  * \sa LinearSystemWrapper
  * \ingroup ITKFEM
  */
-class LinearSystemWrapperDenseVNL : public LinearSystemWrapper
+class ITKFEM_EXPORT LinearSystemWrapperDenseVNL : public LinearSystemWrapper
 {
 public:
 

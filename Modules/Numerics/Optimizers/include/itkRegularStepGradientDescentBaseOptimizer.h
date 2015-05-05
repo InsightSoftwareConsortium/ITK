@@ -20,6 +20,7 @@
 
 #include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -29,7 +30,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class RegularStepGradientDescentBaseOptimizer:
+class ITKOptimizers_EXPORT RegularStepGradientDescentBaseOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

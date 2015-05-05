@@ -21,6 +21,7 @@
 #include "itkVector.h"
 #include "itkMatrix.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -58,7 +59,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class PowellOptimizer:
+class ITKOptimizers_EXPORT PowellOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

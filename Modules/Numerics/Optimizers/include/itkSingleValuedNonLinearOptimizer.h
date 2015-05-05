@@ -20,6 +20,7 @@
 
 #include "itkNonLinearOptimizer.h"
 #include "itkSingleValuedCostFunction.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKOptimizers
  */
-class SingleValuedNonLinearOptimizer:
+class ITKOptimizers_EXPORT SingleValuedNonLinearOptimizer:
   public NonLinearOptimizer
 {
 public:

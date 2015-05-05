@@ -20,6 +20,7 @@
 #define itkFEMLoadLandmark_h
 
 #include "itkFEMLoadElementBase.h"
+#include "ITKFEMExport.h"
 
 #include "vnl/vnl_vector.h"
 
@@ -35,7 +36,7 @@ namespace fem
  * configuration to a deformed configuration.
  * \ingroup ITKFEM
  */
-class LoadLandmark : public LoadElement
+class ITKFEM_EXPORT LoadLandmark : public LoadElement
 {
 public:
   /** Standard class typedefs. */

@@ -21,6 +21,7 @@
 
 #include "itkDOMNode.h"
 #include "itkObject.h"
+#include "ITKIOXMLExport.h"
 
 #include <istream>
 
@@ -57,7 +58,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-class DOMNodeXMLReader : public Object
+class ITKIOXML_EXPORT DOMNodeXMLReader : public Object
 {
 public:
   /** Standard class typedefs. */

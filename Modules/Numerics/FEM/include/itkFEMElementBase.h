@@ -26,6 +26,7 @@
 #include "itkVectorContainer.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
+#include "ITKFEMExport.h"
 
 #include <set>
 #include <vector>
@@ -69,7 +70,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 
-class Element : public FEMLightObject
+class ITKFEM_EXPORT Element : public FEMLightObject
 {
 public:
   /** Standard class typedefs. */
@@ -143,7 +144,7 @@ public:
  * \note Possibly move this class to its own file
  * \ingroup ITKFEM
  */
-  class Node : public FEMLightObject
+  class ITKFEM_EXPORT Node : public FEMLightObject
   {
   public:
     /** Standard class typedefs. */

@@ -22,6 +22,7 @@
 #include "itkMacro.h"
 #include "itkFEMSolution.h"
 #include "itkFEMException.h"
+#include "ITKFEMExport.h"
 
 #include <vector>
 #include <typeinfo>
@@ -50,7 +51,7 @@ namespace fem
  * \sa Solver::SetLinearSystemWrapper
  * \ingroup ITKFEM
  */
-class LinearSystemWrapper : public Solution
+class ITKFEM_EXPORT LinearSystemWrapper : public Solution
 {
 public:
   typedef LinearSystemWrapper Self;

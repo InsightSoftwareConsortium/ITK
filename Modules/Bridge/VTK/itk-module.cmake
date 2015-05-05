@@ -11,6 +11,7 @@ and to convert a
 into an itk::Image, all without having to duplicate their buffers.")
 
 itk_module(ITKVTK
+  ENABLE_SHARED
   DEPENDS
     ITKCommon
   DESCRIPTION

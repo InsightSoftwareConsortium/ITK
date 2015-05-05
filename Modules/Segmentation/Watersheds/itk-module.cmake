@@ -9,6 +9,7 @@ maximum saliency values.  Finally, a label images are generated from the merge
 tree.")
 
 itk_module(ITKWatersheds
+  ENABLE_SHARED
   DEPENDS
     ITKImageIntensity
     ITKThresholding

@@ -22,6 +22,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkArray.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -68,7 +69,7 @@ namespace Statistics
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  * \ingroup ITKStatistics
  */
-class ProbabilityDistribution:
+class ITKStatistics_EXPORT ProbabilityDistribution:
   public Object
 {
 public:

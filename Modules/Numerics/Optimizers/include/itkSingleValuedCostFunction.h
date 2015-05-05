@@ -20,6 +20,7 @@
 
 #include "itkCostFunction.h"
 #include "itkNumericTraits.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -30,7 +31,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class SingleValuedCostFunction:
+class ITKOptimizers_EXPORT SingleValuedCostFunction:
   public CostFunction
 {
 public:

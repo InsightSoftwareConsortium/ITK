@@ -21,6 +21,7 @@
 #include <map>
 #include "itkValarrayImageContainer.h"
 #include "itkMeasurementVectorTraits.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -38,7 +39,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class DenseFrequencyContainer2:
+class ITKStatistics_EXPORT DenseFrequencyContainer2:
   public Object
 {
 public:

@@ -23,6 +23,7 @@
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 #include <set>
+#include "ITKMeshExport.h"
 
 namespace itk
 {
@@ -40,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKMesh
  */
-class SimplexMeshGeometry
+class ITKMesh_EXPORT SimplexMeshGeometry
 {
 public:
 

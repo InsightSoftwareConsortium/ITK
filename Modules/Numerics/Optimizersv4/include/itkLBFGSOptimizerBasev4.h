@@ -22,6 +22,7 @@
 #include "vnl/algo/vnl_lbfgs.h"
 #include "vnl/algo/vnl_lbfgsb.h"
 #include "itkAutoPointer.h"
+#include "ITKOptimizersv4Export.h"
 
 namespace itk
 {
@@ -35,7 +36,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template< typename TInternalVnlOptimizerType >
-class LBFGSOptimizerBaseHelperv4;
+class ITKOptimizersv4_EXPORT LBFGSOptimizerBaseHelperv4;
 
 /** \class LBFGSOptimizerBasev4
  * \brief Abstract base for vnl lbfgs algorithm optimizers in ITKv4 registration framework.
@@ -69,7 +70,7 @@ class LBFGSOptimizerBaseHelperv4;
  * \ingroup ITKOptimizersv4
  */
 template< typename TInternalVnlOptimizerType >
-class LBFGSOptimizerBasev4:
+class ITKOptimizersv4_EXPORT LBFGSOptimizerBasev4:
     public SingleValuedNonLinearVnlOptimizerv4
 {
 public:

@@ -29,6 +29,7 @@
 #define itkFEMFactoryBase_h
 
 #include "itkObjectFactoryBase.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -38,7 +39,7 @@ namespace itk
  * \ingroup ITKFEM
  */
 
-class FEMFactoryBase : public ObjectFactoryBase
+class ITKFEM_EXPORT FEMFactoryBase : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

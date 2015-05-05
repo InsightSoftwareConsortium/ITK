@@ -20,6 +20,7 @@
 #define itkFEMLoadEdge_h
 
 #include "itkFEMLoadElementBase.h"
+#include "ITKFEMExport.h"
 #include "vnl/vnl_matrix.h"
 
 namespace itk
@@ -36,7 +37,7 @@ namespace fem
  * prescribed values of the BC.
  * \ingroup ITKFEM
  */
-class LoadEdge : public LoadElement
+class ITKFEM_EXPORT LoadEdge : public LoadElement
 {
 public:
   /** Standard class typedefs. */

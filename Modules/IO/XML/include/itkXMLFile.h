@@ -18,6 +18,7 @@
 #ifndef itkXMLFile_h
 #define itkXMLFile_h
 #include "itkLightProcessObject.h"
+#include "ITKIOXMLExport.h"
 #include <fstream>
 
 namespace itk
@@ -30,7 +31,7 @@ namespace itk
  * are implemented here.
  * \ingroup ITKIOXML
  */
-class XMLReaderBase:public LightProcessObject
+class ITKIOXML_EXPORT XMLReaderBase:public LightProcessObject
 {
 public:
   typedef XMLReaderBase Self;

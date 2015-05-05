@@ -22,6 +22,7 @@
 #include "itkPoint.h"
 #include "itkIntTypes.h"
 #include "itkBioGenome.h"
+#include "ITKBioCellExport.h"
 
 namespace itk
 {
@@ -33,7 +34,7 @@ namespace bio
  * Derived classes are instantiated for a specific space dimension.
  * \ingroup ITKBioCell
  */
-class CellBase
+class ITKBioCell_EXPORT CellBase
 {
 public:
   typedef   itk::RGBPixel< float > ColorType;

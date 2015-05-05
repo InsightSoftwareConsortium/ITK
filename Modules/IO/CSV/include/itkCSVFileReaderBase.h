@@ -24,6 +24,7 @@
 #include "itkMacro.h"
 #include "itkSize.h"
 #include <fstream>
+#include "ITKIOCSVExport.h"
 
 namespace itk
 {
@@ -60,7 +61,7 @@ namespace itk
  * \ingroup ITKIOCSV
  */
 
-class CSVFileReaderBase:public LightProcessObject
+class ITKIOCSV_EXPORT CSVFileReaderBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs */

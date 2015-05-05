@@ -20,6 +20,7 @@
 
 #include "itkProcessObject.h"
 #include "itkCommand.h"
+#include "ITKWatershedsExport.h"
 
 namespace itk
 {
@@ -30,7 +31,7 @@ namespace itk
  * implementing the mini-pipeline).
  * \ingroup ITKWatersheds
  */
-class WatershedMiniPipelineProgressCommand:public Command
+class ITKWatersheds_EXPORT WatershedMiniPipelineProgressCommand:public Command
 {
 public:
   /** Smart pointer declaration methods */

@@ -24,6 +24,7 @@
 #include <vnl/vnl_sparse_matrix_linear_system.h>
 #include <vnl/algo/vnl_lsqr.h>
 #include <vector>
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -36,7 +37,7 @@ namespace fem
  * \sa LinearSystemWrapper
  * \ingroup ITKFEM
  */
-class LinearSystemWrapperVNL : public LinearSystemWrapper
+class ITKFEM_EXPORT LinearSystemWrapperVNL : public LinearSystemWrapper
 {
 public:
 

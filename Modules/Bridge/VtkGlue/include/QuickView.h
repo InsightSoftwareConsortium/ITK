@@ -26,6 +26,8 @@
 #include <itkRGBPixel.h>
 #include <itkIntTypes.h>
 
+#include "ITKVtkGlueExport.h"
+
 /** \class ImageInfo
  * \brief A container for an image and its descriptiom
  * \ingroup ITKVtkGlue
@@ -102,7 +104,7 @@ public:
  *
  * \ingroup ITKVtkGlue
  */
-class QuickView
+class ITKVtkGlue_EXPORT QuickView
 {
 public:
   QuickView()

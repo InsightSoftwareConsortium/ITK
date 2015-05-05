@@ -9,7 +9,7 @@
 #include "vtkImageImport.h"
 #include "vtkImageExport.h"
 #include "itkImageToImageFilter.h"
-#include "itkVTKImageExport.h"
+#include "ITKVTKImageExport.h"
 #include "itkVTKImageImport.h"
 #include "vtkImageData.h"
 %}

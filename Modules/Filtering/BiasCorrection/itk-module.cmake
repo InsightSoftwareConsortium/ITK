@@ -5,6 +5,7 @@ image. The same need is common in microscopy images when the illumination is not
 uniform across the field of view.")
 
 itk_module(ITKBiasCorrection
+  ENABLE_SHARED
   DEPENDS
     ITKImageFilterBase
     ITKImageGrid

@@ -6,6 +6,7 @@ format.")
 
 
 itk_module(ITKIOSpatialObjects
+  ENABLE_SHARED
   DEPENDS
     ITKSpatialObjects
     ITKIOXML

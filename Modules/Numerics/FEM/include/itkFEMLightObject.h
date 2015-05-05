@@ -23,6 +23,7 @@
 #include "itkSmartPointer.h"
 #include "itkObjectFactory.h"
 #include "itkLightObject.h"
+#include "ITKFEMExport.h"
 
 #include "itkFEMException.h"
 #include <iostream>
@@ -42,7 +43,7 @@ namespace fem
  * FEMLightObject class.
  * \ingroup ITKFEM
  */
-class FEMLightObject : public itk::LightObject
+class ITKFEM_EXPORT FEMLightObject : public itk::LightObject
 {
 public:
   /** Standard class typedefs. */

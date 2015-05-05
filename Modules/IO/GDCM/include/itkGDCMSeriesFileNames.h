@@ -23,6 +23,7 @@
 #include "itkMacro.h"
 #include <vector>
 #include "gdcmSerieHelper.h"
+#include "ITKIOGDCMExport.h"
 
 namespace itk
 {
@@ -52,7 +53,7 @@ namespace itk
 typedef std::vector< std::string > FilenamesContainer;
 typedef std::vector< std::string > SerieUIDContainer;
 
-class GDCMSeriesFileNames:public ProcessObject
+class ITKIOGDCM_EXPORT GDCMSeriesFileNames:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
