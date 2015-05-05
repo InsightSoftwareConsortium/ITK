@@ -45,7 +45,7 @@ def setGroup( fname, group ):
     # we don't care about doxygen fields not about a class
     if r"\class" in dcontent and dcontent != " \class classname ":
       # do we have a line with the expected content?
-      if re.search(r"\ingroup .*"+group+"( |$)", dcontent, re.MULTILINE):
+      if re.search(r"\ingroup .*"+group+"(\s|$)", dcontent, re.MULTILINE):
         # yes - just keep the content unchanged
         out.write(dcontent)
       else:
@@ -81,7 +81,7 @@ def checkGroup( fname, group ):
     # we don't care about doxygen fields not about a class
     if r"\class" in dcontent and dcontent != " \class classname ":
       # do we have a line with the expected content?
-      if not re.search(r"\ingroup .*"+group+"( |$)", dcontent, re.MULTILINE):
+      if not re.search(r"\ingroup .*"+group+"(\s|$)", dcontent, re.MULTILINE):
         # get class name and the line for debug output
         cname = re.search(r"\class +([^ ]*)", dcontent).group(1).strip()
         line = len(fcontent[:m.start(1)].splitlines())
