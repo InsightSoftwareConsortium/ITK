@@ -187,6 +187,8 @@ def info(msg):
 notWrapped = [
     "itk::MapContainer< unsigned long, itk::CellInterface<.+>",
     "itk::VectorContainer< unsigned long, itk::CellInterface<.+>",
+    "itk::CellInterface< double, itk::QuadEdgeMeshCellTraitsInfo<.+>",
+    "itk::QuadEdgeMeshLineCell< itk::CellInterface<.+>",
     "itk::SmartPointerForwardReference<.+>",
     "itk::LibHandle",
     "itk::NeighborhoodAllocator<.+>",
