@@ -25,9 +25,13 @@ namespace itk
 {
 /** \class MetaEvent
  * \brief Event abstract class
+ *
+ * The itk::MetaEvent inherits from the
+ * global namespace ::MetaEvent that is provided
+ * by the MetaIO/src/metaEvent.h class.
  * \ingroup ITKSpatialObjects
  */
-class MetaEvent : public :: MetaEvent
+class MetaEvent : public ::MetaEvent
 {
 public:
   MetaEvent();
