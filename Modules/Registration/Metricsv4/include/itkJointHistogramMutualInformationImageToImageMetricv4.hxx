@@ -71,13 +71,13 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   /** Get the fixed and moving image true max's and mins.
    *  Initialize them to the PixelType min and max. */
   this->m_FixedImageTrueMin =
-                    std::numeric_limits<typename TFixedImage::PixelType>::max();
+                    NumericTraits<typename TFixedImage::PixelType>::max();
   this->m_FixedImageTrueMax =
-                    std::numeric_limits<typename TFixedImage::PixelType>::min();
+                    NumericTraits<typename TFixedImage::PixelType>::NonpositiveMin();
   this->m_MovingImageTrueMin =
-                    std::numeric_limits<typename TMovingImage::PixelType>::max();
+                    NumericTraits<typename TMovingImage::PixelType>::max();
   this->m_MovingImageTrueMax =
-                    std::numeric_limits<typename TMovingImage::PixelType>::min();
+                    NumericTraits<typename TMovingImage::PixelType>::NonpositiveMin();
 
   /** Iterate through the fixed image and set the true
    *  max and min for the fixed image. */

@@ -126,10 +126,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
      * in computing the range of intensity values.
      */
 
-    this->m_FixedImageTrueMin = std::numeric_limits<typename TFixedImage::PixelType>::max();
-    this->m_FixedImageTrueMax = std::numeric_limits<typename TFixedImage::PixelType>::min();
-    this->m_MovingImageTrueMin = std::numeric_limits<typename TMovingImage::PixelType>::max();
-    this->m_MovingImageTrueMax = std::numeric_limits<typename TMovingImage::PixelType>::min();
+    this->m_FixedImageTrueMin = NumericTraits<typename TFixedImage::PixelType>::max();
+    this->m_FixedImageTrueMax = NumericTraits<typename TFixedImage::PixelType>::NonpositiveMin();
+    this->m_MovingImageTrueMin = NumericTraits<typename TMovingImage::PixelType>::max();
+    this->m_MovingImageTrueMax = NumericTraits<typename TMovingImage::PixelType>::NonpositiveMin();
 
     // We need to make robust measures only over the requested mask region
     itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion() );
