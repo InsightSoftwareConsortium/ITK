@@ -88,9 +88,9 @@ public:
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(-1.0 * NumericTraits< ScalarValueType >::One);
-    this->SetPropagationWeight(-1.0 * NumericTraits< ScalarValueType >::One);
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
+    this->SetAdvectionWeight(-1.0 * NumericTraits< ScalarValueType >::OneValue());
+    this->SetPropagationWeight(-1.0 * NumericTraits< ScalarValueType >::OneValue());
+    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
   ImageType * GetCannyImage()

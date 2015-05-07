@@ -115,7 +115,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   // Initialize the temporaries
   m_ThreadMinimumDifference.Fill(NumericTraits< OutputPixelType >::max());
   m_ThreadMaximumDifference.Fill(NumericTraits< OutputPixelType >::NonpositiveMin());
-  m_ThreadDifferenceSum.Fill(NumericTraits< AccumulateType >::Zero);
+  m_ThreadDifferenceSum.Fill(NumericTraits< AccumulateType >::ZeroValue());
   m_ThreadNumberOfPixels.Fill(0);
 }
 
@@ -238,7 +238,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
         else
           {
           // Difference is below threshold.
-          out.Set(NumericTraits< OutputPixelType >::Zero);
+          out.Set(NumericTraits< OutputPixelType >::ZeroValue());
           }
 
         // Update progress.
@@ -249,7 +249,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
       {
       for ( out.GoToBegin(); !out.IsAtEnd(); ++out )
         {
-        out.Set(NumericTraits< OutputPixelType >::Zero);
+        out.Set(NumericTraits< OutputPixelType >::ZeroValue());
         progress.CompletedPixel();
         }
       }

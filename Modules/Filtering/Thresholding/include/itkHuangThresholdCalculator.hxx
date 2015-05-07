@@ -73,7 +73,7 @@ HuangThresholdCalculator<THistogram, TOutput>
 
   S[0] = histogram->GetFrequency(0, 0);
 
-  for( InstanceIdentifier i = vnl_math_max( NumericTraits< InstanceIdentifier >::One, m_FirstBin );
+  for( InstanceIdentifier i = vnl_math_max( NumericTraits< InstanceIdentifier >::OneValue(), m_FirstBin );
        i <= m_LastBin; i++ )
     {
     S[i] = S[i - 1] + histogram->GetFrequency(i, 0);

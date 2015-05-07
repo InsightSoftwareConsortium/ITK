@@ -68,7 +68,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< TInputMesh, TOutputMe
     const unsigned int internalId1 = static_cast< unsigned int >( it->second );
 
     RowType row;
-    this->FillMatrixRow(vId1, this->m_Order, NumericTraits< OutputCoordRepType >::One, row);
+    this->FillMatrixRow(vId1, this->m_Order, NumericTraits< OutputCoordRepType >::OneValue(), row);
 
     RowConstIterator rIt = row.begin();
     const RowConstIterator rEnd = row.end();

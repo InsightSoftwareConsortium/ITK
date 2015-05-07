@@ -88,9 +88,9 @@ public:
     m_Thickness( 1.0 ),
     m_Normalize(false),
     m_BrightCenter(false),
-    m_InteriorValue(NumericTraits< PixelType >::Zero),
-    m_AnnulusValue(NumericTraits< PixelType >::One),
-    m_ExteriorValue(NumericTraits< PixelType >::Zero),
+    m_InteriorValue(NumericTraits< PixelType >::ZeroValue()),
+    m_AnnulusValue(NumericTraits< PixelType >::OneValue()),
+    m_ExteriorValue(NumericTraits< PixelType >::ZeroValue()),
     m_Spacing( 1.0 )
   {}
 

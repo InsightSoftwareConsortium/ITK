@@ -194,7 +194,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   cumulativeImage->SetRegions( outputImage->GetRequestedRegion() );
   cumulativeImage->CopyInformation( inputImage );
   cumulativeImage->Allocate();
-  cumulativeImage->FillBuffer(NumericTraits< InternalRealType >::Zero);
+  cumulativeImage->FillBuffer(NumericTraits< InternalRealType >::ZeroValue());
 
   m_DerivativeFilter->SetInput(inputImage);
 

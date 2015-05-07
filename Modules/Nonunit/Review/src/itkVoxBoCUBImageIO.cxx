@@ -233,7 +233,7 @@ public:
       }
 
     const SizeValueType numberOfBytesToRead =  Math::CastWithRangeCheck< SizeValueType, SizeType >(bytes);
-    SizeType     bread = fread(data, NumericTraits< SizeValueType >::One, numberOfBytesToRead, m_File);
+    SizeType     bread = fread(data, NumericTraits< SizeValueType >::OneValue(), numberOfBytesToRead, m_File);
     if ( bread != bytes )
       {
       itksys_ios::ostringstream oss;
@@ -257,7 +257,7 @@ public:
       }
 
     const SizeValueType numberOfBytesToWrite =  Math::CastWithRangeCheck< SizeValueType, SizeType >(bytes);
-    SizeType     bwritten = fwrite(data, NumericTraits< SizeValueType >::One, numberOfBytesToWrite, m_File);
+    SizeType     bwritten = fwrite(data, NumericTraits< SizeValueType >::OneValue(), numberOfBytesToWrite, m_File);
     if ( bwritten != bytes )
       {
       ExceptionObject exception;

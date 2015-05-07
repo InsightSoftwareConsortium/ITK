@@ -40,7 +40,7 @@ void
 DenseFrequencyContainer2
 ::SetToZero()
 {
-  m_FrequencyContainer->Fill(NumericTraits< AbsoluteFrequencyType >::Zero);
+  m_FrequencyContainer->Fill(NumericTraits< AbsoluteFrequencyType >::ZeroValue());
   m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
 }
 

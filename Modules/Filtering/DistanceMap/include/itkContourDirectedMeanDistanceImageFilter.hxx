@@ -136,7 +136,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   m_Count.SetSize(numberOfThreads);
 
   // Initialize the temporaries
-  m_MeanDistance.Fill(NumericTraits< RealType >::Zero);
+  m_MeanDistance.Fill(NumericTraits< RealType >::ZeroValue());
   m_Count.Fill(0);
 
   // Compute Signed distance from non-zero pixels in the second image

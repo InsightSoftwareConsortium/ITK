@@ -237,15 +237,15 @@ SampleToHistogramFilter< TSample, THistogram >
           }
         else
           {
-          // h_upper[i] = SafeAssign(upper[i] + NumericTraits<MeasurementType>::One);
+          // h_upper[i] = SafeAssign(upper[i] + NumericTraits<MeasurementType>::OneValue());
           // if ( h_upper[i] <= upper[i] )
           if(upper[i] <
              (static_cast<MeasurementType>
               (NumericTraits<HistogramMeasurementType>::max()) -
-              NumericTraits<MeasurementType>::One))
+              NumericTraits<MeasurementType>::OneValue()))
             {
             h_upper[i] = static_cast<HistogramMeasurementType>
-              (upper[i] + NumericTraits<MeasurementType>::One);
+              (upper[i] + NumericTraits<MeasurementType>::OneValue());
             }
           else
             {

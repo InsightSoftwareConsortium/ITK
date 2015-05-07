@@ -587,7 +587,7 @@ SpatialObject< TDimension >
 
   typename BoundingBoxType::PointType pnt;
   pnt.Fill(NumericTraits< typename
-                               BoundingBoxType::PointType::ValueType >::Zero);
+                               BoundingBoxType::PointType::ValueType >::ZeroValue());
   m_Bounds->SetMinimum(pnt);
   m_Bounds->SetMaximum(pnt);
   m_BoundsMTime = this->GetMTime();

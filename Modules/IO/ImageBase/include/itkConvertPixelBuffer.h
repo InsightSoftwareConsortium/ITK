@@ -155,8 +155,8 @@ private:
    */
   template <typename PixelType>
   static double MaxAlpha(PixelType &) { return static_cast<double>(NumericTraits<PixelType>::max()); }
-  static double MaxAlpha(double &) {  return static_cast<double>(NumericTraits<double>::One); }
-  static double MaxAlpha(float &) {  return static_cast<double>(NumericTraits<float>::One); }
+  static double MaxAlpha(double &) {  return static_cast<double>(NumericTraits<double>::OneValue()); }
+  static double MaxAlpha(float &) {  return static_cast<double>(NumericTraits<float>::OneValue()); }
 
 };
 } //namespace ITK

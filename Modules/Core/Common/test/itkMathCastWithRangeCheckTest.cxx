@@ -88,7 +88,7 @@ bool DoCastWithRangeCheckTest( const T1* = 0, const T2* = 0 )
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::max() );
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::ZeroValue() );
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::OneValue() );
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( static_cast<T2>(itk::NumericTraits<T2>::One*minus_one) );
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( static_cast<T2>(itk::NumericTraits<T2>::OneValue()*minus_one) );
 
   return pass;
 }

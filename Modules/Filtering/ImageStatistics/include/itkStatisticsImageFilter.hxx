@@ -54,7 +54,7 @@ StatisticsImageFilter< TInputImage >
   this->GetMeanOutput()->Set( NumericTraits< RealType >::max() );
   this->GetSigmaOutput()->Set( NumericTraits< RealType >::max() );
   this->GetVarianceOutput()->Set( NumericTraits< RealType >::max() );
-  this->GetSumOutput()->Set(NumericTraits< RealType >::Zero);
+  this->GetSumOutput()->Set(NumericTraits< RealType >::ZeroValue());
 }
 
 template< typename TInputImage >
@@ -234,9 +234,9 @@ StatisticsImageFilter< TInputImage >
   m_ThreadMax.SetSize(numberOfThreads);
 
   // Initialize the temporaries
-  m_Count.Fill(NumericTraits< SizeValueType >::Zero);
-  m_ThreadSum.Fill(NumericTraits< RealType >::Zero);
-  m_SumOfSquares.Fill(NumericTraits< RealType >::Zero);
+  m_Count.Fill(NumericTraits< SizeValueType >::ZeroValue());
+  m_ThreadSum.Fill(NumericTraits< RealType >::ZeroValue());
+  m_SumOfSquares.Fill(NumericTraits< RealType >::ZeroValue());
   m_ThreadMin.Fill( NumericTraits< PixelType >::max() );
   m_ThreadMax.Fill( NumericTraits< PixelType >::NonpositiveMin() );
 }

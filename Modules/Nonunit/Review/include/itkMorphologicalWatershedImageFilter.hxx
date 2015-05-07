@@ -91,7 +91,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   typename RMinType::Pointer rmin = RMinType::New();
   rmin->SetInput( this->GetInput() );
   rmin->SetFullyConnected(m_FullyConnected);
-  rmin->SetBackgroundValue(NumericTraits< OutputImagePixelType >::Zero);
+  rmin->SetBackgroundValue(NumericTraits< OutputImagePixelType >::ZeroValue());
   rmin->SetForegroundValue( NumericTraits< OutputImagePixelType >::max() );
 
   // label the components

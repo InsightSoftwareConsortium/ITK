@@ -70,9 +70,9 @@ GaussianMixtureModelComponent< TSample >
   NumericTraits<MeasurementVectorType>::SetLength(m_Mean, measurementVectorLength);
   m_Covariance.SetSize(measurementVectorLength, measurementVectorLength);
 
-  m_Mean.Fill(NumericTraits< double >::Zero);
+  m_Mean.Fill(NumericTraits< double >::ZeroValue());
 
-  m_Covariance.Fill(NumericTraits< double >::Zero);
+  m_Covariance.Fill(NumericTraits< double >::ZeroValue());
 
   typename NativeMembershipFunctionType::MeanVectorType mean;
 

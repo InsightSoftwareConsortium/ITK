@@ -71,7 +71,7 @@ WeightedCentroidKdTreeGenerator< TSample >
   NumericTraits<typename KdTreeNodeType::CentroidType>::SetLength( weightedCentroid,
     this->GetMeasurementVectorSize() );
   MeasurementVectorType tempVector;
-  weightedCentroid.Fill(NumericTraits< MeasurementType >::Zero);
+  weightedCentroid.Fill(NumericTraits< MeasurementType >::ZeroValue());
 
   for ( i = beginIndex; i < endIndex; i++ )
     {

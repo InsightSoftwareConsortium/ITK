@@ -28,7 +28,7 @@ ThinPlateR2LogRSplineKernelTransform< TScalar, NDimensions >::ComputeG(const Inp
 {
   const TScalar r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits< TScalar >::Zero);
+  gmatrix.fill(NumericTraits< TScalar >::ZeroValue());
   const TScalar      R2logR =
     ( r > 1e-8 ) ? r *r *std::log(r):NumericTraits< TScalar >::ZeroValue();
 

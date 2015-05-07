@@ -350,7 +350,7 @@ ImageToHistogramFilter< TImage >
       }
     else
       {
-      // max[i] = SafeAssign(max[i] + NumericTraits<MeasurementType>::One);
+      // max[i] = SafeAssign(max[i] + NumericTraits<MeasurementType>::OneValue());
       // if ( max[i] <= max[i] )
       if(max[i] <
           (static_cast<ValueType>

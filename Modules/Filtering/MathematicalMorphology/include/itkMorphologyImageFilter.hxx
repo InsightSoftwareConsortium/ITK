@@ -31,7 +31,7 @@ template< typename TInputImage, typename TOutputImage, typename TKernel >
 MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::MorphologyImageFilter()
 {
-  m_DefaultBoundaryCondition.SetConstant(NumericTraits< PixelType >::Zero);
+  m_DefaultBoundaryCondition.SetConstant(NumericTraits< PixelType >::ZeroValue());
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 }
 

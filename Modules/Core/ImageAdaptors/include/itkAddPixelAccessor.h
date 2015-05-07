@@ -79,7 +79,7 @@ public:
   }
 
   /** Constructors */
-  AddPixelAccessor():m_Value(NumericTraits< TPixel >::Zero) {}
+  AddPixelAccessor():m_Value(NumericTraits< TPixel >::ZeroValue()) {}
   AddPixelAccessor(const Self & apa):m_Value(apa.m_Value) {}
 
 private:

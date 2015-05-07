@@ -150,7 +150,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
       for (it.GoToBegin(); !it.IsAtEnd(); ++it)
         {
         // Test if index value is greater than zero, if so add the node
-        if (it.Get() != NumericTraits< ImagePixelType >::Zero)
+        if (it.Get() != NumericTraits< ImagePixelType >::ZeroValue())
           {
           nodes->push_back( NodePairType( it.GetIndex(), iValue ) );
           } //end if image iterator > zero
@@ -161,7 +161,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
       for (it.GoToBegin(); !it.IsAtEnd(); ++it)
         {
         // Test if index value is greater than zero, if so add the node
-        if (it.Get() == NumericTraits< ImagePixelType >::Zero)
+        if (it.Get() == NumericTraits< ImagePixelType >::ZeroValue())
           {
           nodes->push_back( NodePairType( it.GetIndex(), iValue ) );
           } //end if image iterator > zero

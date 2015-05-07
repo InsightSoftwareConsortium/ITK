@@ -31,7 +31,7 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
 ::GrayscaleConnectedOpeningImageFilter():
   m_NumberOfIterationsUsed(1)
 {
-  m_Seed.Fill(NumericTraits< typename InputImageIndexType::OffsetValueType >::Zero);
+  m_Seed.Fill(NumericTraits< typename InputImageIndexType::OffsetValueType >::ZeroValue());
   m_FullyConnected = false;
 }
 

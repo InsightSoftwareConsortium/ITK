@@ -90,7 +90,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 
     GradientPixelType zeroGradient;
     typedef typename GradientPixelType::ValueType GradientPixelValueType;
-    zeroGradient.Fill(NumericTraits< GradientPixelValueType >::Zero);
+    zeroGradient.Fill(NumericTraits< GradientPixelValueType >::ZeroValue());
     for ( gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++gradientIt )
       {
       gradientIt.Set(zeroGradient);

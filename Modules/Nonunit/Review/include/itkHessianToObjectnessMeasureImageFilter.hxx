@@ -106,7 +106,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
 
     if ( !signConstraintsSatisfied )
       {
-      oit.Set(NumericTraits< OutputPixelType >::Zero);
+      oit.Set(NumericTraits< OutputPixelType >::ZeroValue());
       ++it;
       ++oit;
       progress.CompletedPixel();

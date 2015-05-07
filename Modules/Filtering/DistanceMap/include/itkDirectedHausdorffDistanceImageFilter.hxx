@@ -133,7 +133,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_Sum.resize(numberOfThreads);
 
   // Initialize the temporaries
-  m_MaxDistance.Fill(NumericTraits< RealType >::Zero);
+  m_MaxDistance.Fill(NumericTraits< RealType >::ZeroValue());
   m_PixelCount.Fill(0);
 
   // Compute distance from non-zero pixels in the second image

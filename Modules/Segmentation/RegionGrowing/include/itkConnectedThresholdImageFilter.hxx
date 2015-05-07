@@ -283,7 +283,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   OutputImageRegionType region =  outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
   typedef BinaryThresholdImageFunction< InputImageType, double > FunctionType;
 

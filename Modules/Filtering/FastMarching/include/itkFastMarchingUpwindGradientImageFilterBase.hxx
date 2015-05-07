@@ -80,7 +80,7 @@ InitializeOutput(OutputImageType *output)
 
   GradientPixelType zeroGradient;
   typedef typename GradientPixelType::ValueType GradientPixelValueType;
-  zeroGradient.Fill(NumericTraits< GradientPixelValueType >::Zero);
+  zeroGradient.Fill(NumericTraits< GradientPixelValueType >::ZeroValue());
 
   gradientIt.GoToBegin();
 

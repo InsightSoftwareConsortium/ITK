@@ -119,9 +119,9 @@ protected:
   {
     //Curvature term is the minimal curvature.
     this->UseMinimalCurvatureOn();
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::One);
-    this->SetPropagationWeight(NumericTraits< ScalarValueType >::One);
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
+    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
   virtual ~CurvesLevelSetFunction() {}

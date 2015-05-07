@@ -1353,7 +1353,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   // Get the output pointer and clear its contents
   OutputImagePointer output = this->GetOutput();
 
-  output->FillBuffer(NumericTraits< OutputPixelType >::Zero);
+  output->FillBuffer(NumericTraits< OutputPixelType >::ZeroValue());
 
   // Set the values in the levelset image for the active layer.
   this->InitializeActiveLayerValues();

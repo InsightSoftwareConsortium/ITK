@@ -60,7 +60,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad() :
   m_NumberOfIntegrationPoints(0),
   m_SolutionIndex(1),
   m_SolutionIndex2(0),
-  m_Gamma(NumericTraits< Float >::Zero),
+  m_Gamma(NumericTraits< Float >::ZeroValue()),
   m_Solution(ITK_NULLPTR),
   m_GradSigma(0.0f),
   m_Sign(1.0f),

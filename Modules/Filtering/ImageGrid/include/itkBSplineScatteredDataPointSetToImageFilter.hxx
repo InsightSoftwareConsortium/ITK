@@ -473,7 +473,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       this->m_DeltaLatticePerThread[n] = PointDataImageType::New();
       this->m_DeltaLatticePerThread[n]->SetRegions( size );
       this->m_DeltaLatticePerThread[n]->Allocate();
-      this->m_DeltaLatticePerThread[n]->FillBuffer( NumericTraits<PointDataType>::Zero );
+      this->m_DeltaLatticePerThread[n]->FillBuffer( NumericTraits<PointDataType>::ZeroValue() );
       }
     }
 }
@@ -852,7 +852,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     this->m_PhiLattice = PointDataImageType::New();
     this->m_PhiLattice->SetRegions( size );
     this->m_PhiLattice->Allocate();
-    this->m_PhiLattice->FillBuffer( NumericTraits<PointDataType>::Zero );
+    this->m_PhiLattice->FillBuffer( NumericTraits<PointDataType>::ZeroValue() );
 
     ImageRegionIterator<PointDataImageType> ItP(
       this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion() );

@@ -76,7 +76,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
     {
     // For local support, we need to refill deltaParameters with zeros at each loop
     // since smoothing may change the values around the local voxel.
-    deltaParameters.Fill(NumericTraits< typename ParametersType::ValueType >::Zero);
+    deltaParameters.Fill(NumericTraits< typename ParametersType::ValueType >::ZeroValue());
     deltaParameters[offset + i] = this->m_SmallParameterVariation;
 
     maxShift = this->ComputeMaximumVoxelShift(deltaParameters);
@@ -91,7 +91,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   if (minNonZeroShift == NumericTraits<FloatType>::max())
     {
     itkWarningMacro(  << "Variation in any parameter won't change a voxel position. The default scales (1.0) are used to avoid division-by-zero." );
-    parameterScales.Fill(NumericTraits< typename ScalesType::ValueType >::One);
+    parameterScales.Fill(NumericTraits< typename ScalesType::ValueType >::OneValue());
     }
   else
     {
@@ -186,7 +186,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   const SizeValueType numLocals = numAllPara / numPara;
 
   localStepScales.SetSize(numLocals);
-  localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::Zero);
+  localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::ZeroValue());
 
   const SizeValueType numSamples = this->m_SamplePoints.size();
   for (SizeValueType c=0; c<numSamples; c++)

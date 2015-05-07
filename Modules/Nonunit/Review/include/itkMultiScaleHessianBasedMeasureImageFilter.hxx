@@ -126,7 +126,7 @@ MultiScaleHessianBasedMeasureImageFilter
   // just to be sure. Thanks to Hauke Heibel.
   if ( m_NonNegativeHessianBasedMeasure )
     {
-    m_UpdateBuffer->FillBuffer(itk::NumericTraits< BufferValueType >::Zero);
+    m_UpdateBuffer->FillBuffer(itk::NumericTraits< BufferValueType >::ZeroValue());
     }
   else
     {

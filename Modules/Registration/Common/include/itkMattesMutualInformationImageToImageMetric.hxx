@@ -354,7 +354,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     for( ThreadIdType threadId = 0; threadId < this->m_NumberOfThreads; threadId++ )
       {
       this->m_MMIMetricPerThreadVariables[threadId].MetricDerivative.SetSize( this->GetNumberOfParameters() );
-      this->m_MMIMetricPerThreadVariables[threadId].MetricDerivative.Fill(NumericTraits<MeasureType>::Zero);
+      this->m_MMIMetricPerThreadVariables[threadId].MetricDerivative.Fill(NumericTraits<MeasureType>::ZeroValue());
       }
     }
   /**
@@ -840,7 +840,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     this->m_PRatioArray.Fill(0.0);
     for( ThreadIdType threadId = 0; threadId < this->m_NumberOfThreads; threadId++ )
       {
-      this->m_MMIMetricPerThreadVariables[threadId].MetricDerivative.Fill(NumericTraits<MeasureType>::Zero);
+      this->m_MMIMetricPerThreadVariables[threadId].MetricDerivative.Fill(NumericTraits<MeasureType>::ZeroValue());
       }
     this->m_ImplicitDerivativesSecondPass = false;
     }

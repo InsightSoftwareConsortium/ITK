@@ -130,13 +130,13 @@ RegistrationParameterScalesFromJacobian< TMetric >
   const SizeValueType numLocals = numAllPara / numPara;
 
   localStepScales.SetSize(numLocals);
-  localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::Zero);
+  localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::ZeroValue());
 
   // checking each sample point
   for (SizeValueType c=0; c<numSamples; c++)
     {
     VirtualPointType &point = this->m_SamplePoints[c];
-    IndexValueType localId = this->m_Metric->ComputeParameterOffsetFromVirtualPoint( point, NumericTraits<SizeValueType>::One);
+    IndexValueType localId = this->m_Metric->ComputeParameterOffsetFromVirtualPoint( point, NumericTraits<SizeValueType>::OneValue());
     localStepScales[localId] = sampleScales[c];
     }
 

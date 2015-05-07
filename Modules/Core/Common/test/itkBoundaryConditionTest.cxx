@@ -164,7 +164,7 @@ int itkBoundaryConditionTest(int, char* [] )
    SmartIteratorType it2d(sz2, image2D, image2D->GetRequestedRegion());
 
    itk::ConstantBoundaryCondition<ImageType2D> cbc;
-   cbc.SetConstant(itk::NumericTraits<float>::Zero);
+   cbc.SetConstant(itk::NumericTraits<float>::ZeroValue());
    it2d.OverrideBoundaryCondition(&cbc);
 
    SmartIteratorType::NeighborhoodType tempN;

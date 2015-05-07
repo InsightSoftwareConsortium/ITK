@@ -213,7 +213,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
   // Calculate gradient.
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(NumericTraits< typename
-                                 DerivativeType::ValueType >::Zero);
+                                 DerivativeType::ValueType >::ZeroValue());
 
   typename HistogramType::Pointer pHistogram = HistogramType::New();
   pHistogram->SetMeasurementVectorSize(2);

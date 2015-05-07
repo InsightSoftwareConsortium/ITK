@@ -259,7 +259,7 @@ public:
   }
 
   /** Default constructor. */
-  Matrix():m_Matrix(NumericTraits< T >::Zero) {}
+  Matrix():m_Matrix(NumericTraits< T >::ZeroValue()) {}
 
   /** Copy constructor. */
   Matrix(const Self & matrix):m_Matrix(matrix.m_Matrix) {}

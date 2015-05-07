@@ -271,7 +271,7 @@ int HDF5ReadWriteTest(const char *fileName)
     }
 
   itk::Array<char> metaDataCharArray2;
-  metaDataCharArray2.Fill(itk::NumericTraits<char>::Zero);
+  metaDataCharArray2.Fill(itk::NumericTraits<char>::ZeroValue());
   if(!itk::ExposeMetaData<itk::Array<char> >(metaDict2,"TestCharArray",
                                              metaDataCharArray2) ||
      metaDataCharArray2 != metaDataCharArray)
@@ -283,7 +283,7 @@ int HDF5ReadWriteTest(const char *fileName)
     }
 
   itk::Array<double> metaDataDoubleArray2;
-  metaDataDoubleArray2.Fill(itk::NumericTraits<double>::Zero);
+  metaDataDoubleArray2.Fill(itk::NumericTraits<double>::ZeroValue());
   if(!itk::ExposeMetaData<itk::Array<double> >(metaDict2,"TestDoubleArray",
                                              metaDataDoubleArray2) ||
      metaDataDoubleArray2 != metaDataDoubleArray)

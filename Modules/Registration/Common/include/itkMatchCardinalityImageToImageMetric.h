@@ -102,7 +102,7 @@ public:
                      DerivativeType & derivative) const ITK_OVERRIDE
   {
     itkWarningMacro(<< "This metric does not provide metric derivatives.");
-    derivative.Fill(NumericTraits< typename DerivativeType::ValueType >::Zero);
+    derivative.Fill(NumericTraits< typename DerivativeType::ValueType >::ZeroValue());
   }
 
   /**  Get the value of the metric at a particular parameter

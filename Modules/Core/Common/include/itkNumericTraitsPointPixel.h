@@ -132,7 +132,7 @@ public:
       itkGenericExceptionMacro(<< "Cannot set the size of a Point of length "
                                << D << " to " << s);
       }
-    m.Fill(NumericTraits< T >::Zero);
+    m.Fill(NumericTraits< T >::ZeroValue());
   }
 
   /** Return the dimensionality of the point. */

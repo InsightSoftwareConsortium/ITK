@@ -111,12 +111,12 @@ public:
 
   static const Self ZeroValue()
   {
-    return Self(NumericTraits< T >::Zero);
+    return Self(NumericTraits< T >::ZeroValue());
   }
 
   static const Self OneValue()
   {
-    return Self(NumericTraits< T >::One);
+    return Self(NumericTraits< T >::OneValue());
   }
 
   static const Self NonpositiveMin(const Self &)
@@ -144,7 +144,7 @@ public:
       itkGenericExceptionMacro(<< "Cannot set the size of a RGBAPixel to anything other "
                                "than 4.");
       }
-    m.Fill(NumericTraits< T >::Zero);
+    m.Fill(NumericTraits< T >::ZeroValue());
   }
 
   /** Return the dimensionality of the pixel. Always returns 4. */

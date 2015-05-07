@@ -40,7 +40,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
 {
   m_SparseTargetImage = SparseImageType::New();
 
-  this->SetPropagationWeight (NumericTraits< ScalarValueType >::One);
+  this->SetPropagationWeight (NumericTraits< ScalarValueType >::OneValue());
   m_RefitWeight = NumericTraits< ScalarValueType >::OneValue();
   m_OtherPropagationWeight = NumericTraits< ScalarValueType >::ZeroValue();
   m_MinVectorNorm = static_cast< ScalarValueType >( 1.0e-6 );
