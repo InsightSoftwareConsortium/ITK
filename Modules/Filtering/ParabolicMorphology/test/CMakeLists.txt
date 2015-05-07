@@ -152,6 +152,7 @@ itk_add_test(
     osp2.png
 )
 
+## sharpening
 itk_add_test(
   NAME itkParaSharpenTest2D_1
   COMMAND
@@ -227,4 +228,19 @@ itk_add_test(
     100
     255
     dist255.mha
+)
+
+## Binary morphology
+itk_add_test(
+  NAME itkBinaryDilatePara2D_10
+  COMMAND
+    ParabolicMorphologyTestDriver
+    --compare
+    dist255.mha
+    ${CMAKE_CURRENT_SOURCE_DIR}/baseline/dist255.mha
+    itkBinaryDilateParaTest
+    ${INPUT_IMAGE}
+    100
+    10
+    dilatebinary10.mha
 )
