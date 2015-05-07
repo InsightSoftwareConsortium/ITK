@@ -1,0 +1,8 @@
+itk_wrap_class("itk::Function::CustomColormapFunction" POINTER)
+  foreach(d ${WRAP_ITK_RGB_PIXEL_TYPES})
+    itk_wrap_template("${ITKM_${d}}RGBP${ITKM_${d}}" "${ITKT_${d}}, itk::RGBPixel< ${ITKT_${d}} >")
+  endforeach()
+  foreach(d ${WRAP_ITK_RGBA_PIXEL_TYPES})
+    itk_wrap_template("${ITKM_${d}}RGBAP${ITKM_${d}}" "${ITKT_${d}}, itk::RGBAPixel< ${ITKT_${d}} >")
+  endforeach()
+itk_end_wrap_class()

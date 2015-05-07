@@ -138,6 +138,24 @@ set(WRAP_ITK_VECTOR ${WRAP_ITK_VECTOR_REAL} ${WRAP_ITK_COV_VECTOR_REAL})
 set(WRAP_ITK_COLOR ${WRAP_ITK_RGB} ${WRAP_ITK_RGBA})
 set(WRAP_ITK_ALL_TYPES ${WRAP_ITK_RGB} ${WRAP_ITK_RGBA} ${WRAP_ITK_VECTOR} ${WRAP_ITK_SCALAR} ${WRAP_ITK_COMPLEX_REAL})
 
+# Make a list of all the RGB Pixel types which are wrapped.
+set(WRAP_ITK_RGB_PIXEL_TYPES "D;F")
+if(ITK_WRAP_rgb_unsigned_char)
+  list(APPEND WRAP_ITK_RGB_PIXEL_TYPES UC)
+endif()
+if(ITK_WRAP_rgb_unsigned_short)
+  list(APPEND WRAP_ITK_RGB_PIXEL_TYPES US)
+endif()
+
+# Make a list of all the RGBA Pixel types which are wrapped.
+set(WRAP_ITK_RGBA_PIXEL_TYPES "D;F")
+if(ITK_WRAP_rgba_unsigned_char)
+  list(APPEND WRAP_ITK_RGBA_PIXEL_TYPES UC)
+endif()
+if(ITK_WRAP_rgba_unsigned_short)
+  list(APPEND WRAP_ITK_RGBA_PIXEL_TYPES US)
+endif()
+
 # Make a list of all selected types "smaller than" a given type
 INTERSECTION(SMALLER_THAN_D  "F;UL;US;UC;SL;SS;SC" "${WRAP_ITK_SCALAR}")
 INTERSECTION(SMALLER_THAN_F  "UL;US;UC;SL;SS;SC" "${WRAP_ITK_SCALAR}")

@@ -148,27 +148,39 @@ END_WRAP_TYPE()
 set(itk_Wrap_FixedArray ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::RGBPixel" "RGB")
-  ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
+
   # Required by InterpolateImageFunction
   ADD_TEMPLATE("${ITKM_D}" "${ITKT_D}")
+
+  ADD_TEMPLATE("${ITKM_F}" "${ITKT_F}")
+
+  if(ITK_WRAP_rgb_unsigned_char)
+    ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
+  endif()
 
   if(ITK_WRAP_rgb_unsigned_short)
     ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
   endif()
+
 END_WRAP_TYPE()
 set(itk_Wrap_RGBPixel ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::RGBAPixel" "RGBA")
-  ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
+
   # Required by InterpolateImageFunction
   ADD_TEMPLATE("${ITKM_D}" "${ITKT_D}")
 
-  if(ITK_WRAP_rgba_unsigned_short)
-     ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
+  # Required by spatial objects
+  ADD_TEMPLATE("${ITKM_F}" "${ITKT_F}")
+
+  if(ITK_WRAP_rgba_unsigned_char)
+    ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
   endif()
 
-  # required by spatial objects
-  ADD_TEMPLATE("${ITKM_F}" "${ITKT_F}")
+  if(ITK_WRAP_rgba_unsigned_short)
+    ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
+  endif()
+
 END_WRAP_TYPE()
 set(itk_Wrap_RGBAPixel ${WRAPPER_TEMPLATES})
 
