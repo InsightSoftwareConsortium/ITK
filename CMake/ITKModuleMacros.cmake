@@ -170,9 +170,20 @@ macro(itk_module_impl)
     if (BUILD_SHARED_LIBS)
       # export flags are only added when building shared libs, they cause
       # mismatched visibility warnings when building statically.
-      add_compiler_export_flags(my_abi_flags)
-      set_property(TARGET ${itk-module} APPEND
-        PROPERTY COMPILE_FLAGS "${my_abi_flags}")
+      if(CMAKE_VERSION VERSION_LESS 2.8.12)
+        # future DEPRECATION notice from cmake:
+        #      "The add_compiler_export_flags function is obsolete.
+        #       Use the CXX_VISIBILITY_PRESET and VISIBILITY_INLINES_HIDDEN
+        #       target properties instead."
+        add_compiler_export_flags(my_abi_flags)
+        set_property(TARGET ${itk-module} APPEND
+          PROPERTY COMPILE_FLAGS "${my_abi_flags}")
+      else()
+        # Prefer to use target properties supported by newer cmake
+        set_target_properties(${itk-module} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+        set_target_properties(${itk-module} PROPERTIES C_VISIBILITY_PRESET hidden)
+        set_target_properties(${itk-module} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+      endif()
     endif()
   endif()
 
