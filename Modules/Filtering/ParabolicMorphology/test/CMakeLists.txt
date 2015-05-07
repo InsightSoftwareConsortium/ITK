@@ -271,7 +271,7 @@ itk_add_test(
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/openbinary10.mha
     itkBinaryOpenParaTest
     ${INPUT_IMAGE}
-    150
+    130
     10
     openbinary10.mha
 )
