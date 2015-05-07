@@ -10,7 +10,7 @@
 #include "itkBinaryErodeParaImageFilter.h"
 
 int
-itkBinaryDilateParaTest(int argc, char * argv[])
+itkBinaryErodeParaTest(int argc, char * argv[])
 {
 
 
