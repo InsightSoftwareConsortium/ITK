@@ -1,6 +1,7 @@
 itk_module_test()
 
 set(ITKDeprecatedTests
+itkSymmetricEigenSystemTest.cxx
 itk2DDeformableTest.cxx
 itkDeformableTest.cxx
 itkNonThreadedShrinkImageTest.cxx
@@ -152,6 +153,8 @@ itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection002Test
        COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd}
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection002)
+itk_add_test(NAME itkSymmetricEigenSystemTest
+      COMMAND ITKDeprecatedTests itkSymmetricEigenSystemTest)
 
 ## The following an expample of how to write a program that uses the deprecated AnalyzeIO class.
 add_executable(ConvertAnalyzeFile ConvertAnalyzeFile.cxx)
