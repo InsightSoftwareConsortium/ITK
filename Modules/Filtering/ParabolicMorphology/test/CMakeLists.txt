@@ -253,10 +253,10 @@ itk_add_test(
     ParabolicMorphologyTestDriver
     --compare
     erodebinary10.mha
-    ${CMAKE_CURRENT_SOURCE_DIR}/baseline/erodebinary1010.mha
+    ${CMAKE_CURRENT_SOURCE_DIR}/baseline/erodebinary10.mha
     itkBinaryErodeParaTest
     ${INPUT_IMAGE}
-    100
+    120
     10
     erodebinary10.mha
 )
