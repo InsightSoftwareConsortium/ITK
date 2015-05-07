@@ -80,8 +80,7 @@ public:
   /** Return the name of this class as a string. Used by the object factory
    * (implemented in New()) to instantiate objects of a named type. Also
    * used for debugging and other output information.  */
-  virtual const char * GetNameOfClass() const
-  { return "LightObject"; }
+  virtual const char * GetNameOfClass() const;
 
 #ifdef _WIN32
   /** Used to avoid dll boundary problems.  */
@@ -117,7 +116,7 @@ public:
   virtual void SetReferenceCount(int);
 
 protected:
-  LightObject():m_ReferenceCount(1) {}
+  LightObject();
   virtual ~LightObject();
 
   /** Methods invoked by Print() to print information about the object

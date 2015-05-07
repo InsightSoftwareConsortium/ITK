@@ -50,10 +50,10 @@ public:
 protected:
 
   /** Constructor */
-  Logger() {}
+  Logger();
 
   /** Destructor */
-  virtual ~Logger() {}
+  virtual ~Logger();
 
 private:
   Logger(const Self &);         //purposely not implemented

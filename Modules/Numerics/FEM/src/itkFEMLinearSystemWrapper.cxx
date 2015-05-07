@@ -22,6 +22,9 @@ namespace itk
 {
 namespace fem
 {
+
+LinearSystemWrapper::~LinearSystemWrapper() {}
+
 void LinearSystemWrapper::Clean(void)
 {
   unsigned int i;
@@ -418,6 +421,11 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
     }
 }
 
+FEMExceptionLinearSystem::~FEMExceptionLinearSystem()
+throw( )
+{
+}
+
 FEMExceptionLinearSystem::FEMExceptionLinearSystem(const char *file, unsigned int lineNumber, std::string location,
                                                    std::string moreDescription) :
   FEMException(file, lineNumber)
@@ -446,6 +454,11 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file,
 
   buf << "Index out of bounds (" << index1 << "," << index2 << ")";
   SetDescription( buf.str().c_str() );
+}
+
+FEMExceptionLinearSystemBounds::~FEMExceptionLinearSystemBounds()
+throw ( )
+{
 }
 
 }

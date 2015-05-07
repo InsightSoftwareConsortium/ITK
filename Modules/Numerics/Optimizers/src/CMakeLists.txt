@@ -1,4 +1,7 @@
 set(ITKOptimizers_SRC
+itkNonLinearOptimizer.cxx
+itkMultipleValuedCostFunction.cxx
+itkSingleValuedCostFunction.cxx
 itkConjugateGradientOptimizer.cxx
 itkRegularStepGradientDescentOptimizer.cxx
 itkLBFGSOptimizer.cxx

@@ -60,10 +60,10 @@ public:
 protected:
 
   /** Destructor */
-  LogOutput() {}
+  LogOutput();
 
   /** Destructor */
-  virtual ~LogOutput() {}
+  virtual ~LogOutput();
 };
 }
 

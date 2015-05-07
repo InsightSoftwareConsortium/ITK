@@ -37,53 +37,13 @@ public:
 protected:
 
   /** Callback method to show the ProgressEvent */
-  virtual void ShowProgress()
-  {
-    if ( this->GetProcess() )
-      {
-      int steps = this->GetSteps();
-      steps++;
-      this->SetSteps(steps);
-      if ( !this->GetQuiet() )
-        {
-        std::cout << "<filter-progress>"
-                  << this->GetProcess()->GetProgress()
-                  << "</filter-progress>"
-                  << std::endl;
-        std::cout << std::flush;
-        }
-      }
-  }
+  virtual void ShowProgress();
 
   /** Callback method to show the StartEvent */
-  virtual void StartFilter()
-  {
-    this->SetSteps(0);
-    this->SetIterations(0);
-    this->GetTimeProbe().Start();
-    if ( !this->GetQuiet() )
-      {
-      std::cout << "<filter-start>"
-                << std::endl;
-      std::cout << "<filter-name>"
-                << ( this->GetProcess()
-           ? this->GetProcess()->GetNameOfClass() : "None" )
-                << "</filter-name>"
-                << std::endl;
-      std::cout << "<filter-comment>"
-                << " \"" << this->GetComment() << "\" "
-                << "</filter-comment>"
-                << std::endl;
-      std::cout << "</filter-start>"
-                << std::endl;
-      std::cout << std::flush;
-      }
-  }
+  virtual void StartFilter();
 
   /** Callback method to show the EndEvent */
-  virtual void EndFilter()
-  {
-  }
+  virtual void EndFilter();
 };
 } // end namespace itk
 

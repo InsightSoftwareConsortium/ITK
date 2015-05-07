@@ -97,15 +97,7 @@ public:
   /** Set the parameters of the distribution. See concrete subclasses
    * for the order of the parameters. Subclasses may provide convenience
    * methods for setting parameters, i.e. SetDegreesOfFreedom(), etc. */
-  virtual void SetParameters(const ParametersType & params)
-  {
-    if ( ( params.GetSize() != m_Parameters.GetSize() )
-         || ( params != m_Parameters ) )
-      {
-      m_Parameters = params;
-      this->Modified();
-      }
-  }
+  virtual void SetParameters(const ParametersType & params);
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
@@ -153,13 +145,9 @@ public:
   virtual double GetVariance() const = 0;
 
 protected:
-  ProbabilityDistribution(void) {}
-  virtual ~ProbabilityDistribution(void) {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
-  {
-    Superclass::PrintSelf(os, indent);
-    os << indent << "Parameters: " << m_Parameters << std::endl;
-  }
+  ProbabilityDistribution(void);
+  virtual ~ProbabilityDistribution(void);
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   ParametersType m_Parameters;
 

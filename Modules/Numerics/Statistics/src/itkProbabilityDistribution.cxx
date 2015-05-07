@@ -15,30 +15,30 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMemoryProbesCollectorBase_h
-#define itkMemoryProbesCollectorBase_h
-
-#include "itkMacro.h"
-#include "itkMemoryProbe.h"
-#include "itkResourceProbesCollectorBase.h"
+#include "itkProbabilityDistribution.h"
 
 namespace itk
 {
-/** \class MemoryProbesCollectorBase
- *  \brief Aggregates a set of memory probes.
- *
- *  This class defines a set of MemoryProbes and assign names to them.
- *  The user can start and stop each one of the probes by addressing them by name.
- *
- *  \sa MemoryProbe
- *
- * \ingroup ITKCommon
- */
-class ITKCommon_EXPORT MemoryProbesCollectorBase:public ResourceProbesCollectorBase< MemoryProbe >
+namespace Statistics
 {
-public:
-  virtual ~MemoryProbesCollectorBase();
-};
-} // end namespace itk
+void ProbabilityDistribution::SetParameters(const ParametersType & params)
+{
+    if ( ( params.GetSize() != m_Parameters.GetSize() )
+        || ( params != m_Parameters ) )
+    {
+        m_Parameters = params;
+        this->Modified();
+    }
+}
 
-#endif // itkMemoryProbesCollectorBase_h
+ProbabilityDistribution::ProbabilityDistribution(void) {}
+
+ProbabilityDistribution::~ProbabilityDistribution(void) {}
+
+void ProbabilityDistribution::PrintSelf(std::ostream & os, Indent indent) const
+{
+    Superclass::PrintSelf(os, indent);
+    os << indent << "Parameters: " << m_Parameters << std::endl;
+}
+}
+}

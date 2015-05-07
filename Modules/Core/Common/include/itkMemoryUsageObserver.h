@@ -157,7 +157,7 @@ class ITKCommon_EXPORT MemoryUsageObserver:
 {
 public:
   /** destructor */
-  virtual ~MemoryUsageObserver(){}
+  virtual ~MemoryUsageObserver();
 };
 } // end of namespace itk
 

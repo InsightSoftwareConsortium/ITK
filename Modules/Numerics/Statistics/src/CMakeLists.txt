@@ -1,4 +1,5 @@
 set(ITKStatistics_SRC
+itkProbabilityDistribution.cxx
 itkDenseFrequencyContainer2.cxx
 itkSparseFrequencyContainer2.cxx
 itkChiSquareDistribution.cxx

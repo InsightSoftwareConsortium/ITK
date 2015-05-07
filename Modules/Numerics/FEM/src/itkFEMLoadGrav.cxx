@@ -22,6 +22,12 @@ namespace itk
 {
 namespace fem
 {
+
+void LoadGrav::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 // Overload the CreateAnother() method.
 ::itk::LightObject::Pointer LoadGravConst::CreateAnother(void) const
 {
@@ -39,6 +45,11 @@ namespace fem
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
+}
+
+vnl_vector<Element::Float> LoadGravConst::GetGravitationalForceAtPoint(vnl_vector<Element::Float> )
+{
+  return m_GravityForce;
 }
 
 void LoadGravConst::SetForce(const vnl_vector<itk::fem::Element::Float> force)

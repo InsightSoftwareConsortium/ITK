@@ -126,6 +126,33 @@ public:
   }
 };
 
+IPLFileSortInfo::~IPLFileSortInfo() {}
+
+IPLSetMacroDefinition(IPLFileSortInfo, ImageFileName, std::string);
+IPLGetMacroDefinition(IPLFileSortInfo, ImageFileName, std::string);
+IPLSetMacroDefinition(IPLFileSortInfo, SliceLocation, float);
+IPLGetMacroDefinition(IPLFileSortInfo, SliceLocation, float);
+IPLSetMacroDefinition(IPLFileSortInfo, SliceOffset, int);
+IPLGetMacroDefinition(IPLFileSortInfo, SliceOffset, int);
+IPLSetMacroDefinition(IPLFileSortInfo, EchoNumber, int);
+IPLGetMacroDefinition(IPLFileSortInfo, EchoNumber, int);
+IPLSetMacroDefinition(IPLFileSortInfo, ImageNumber, int);
+IPLGetMacroDefinition(IPLFileSortInfo, ImageNumber, int);
+IPLSetMacroDefinition(IPLFileSortInfo, Data, void *);
+IPLGetMacroDefinition(IPLFileSortInfo, Data, const void *);
+
+IPLFileNameList::~IPLFileNameList()
+{
+  IteratorType it = begin();
+  IteratorType itend = end();
+
+  while ( it != itend )
+  {
+    delete ( *it );
+    it++;
+  }
+}
+
 void
 IPLFileNameList::sortImageListAscend()
 {
@@ -161,4 +188,18 @@ IPLFileNameList::sortImageList()
     std::sort( m_List.begin(), m_List.end(), IPLFileSortInfo_ascend_compare() );
     }
 }
+
+    IPLSetMacroDefinition(IPLFileNameList, XDim, int);
+    IPLGetMacroDefinition(IPLFileNameList, XDim, int);
+    IPLSetMacroDefinition(IPLFileNameList, YDim, int);
+    IPLGetMacroDefinition(IPLFileNameList, YDim, int);
+    IPLSetMacroDefinition(IPLFileNameList, XRes, float);
+    IPLGetMacroDefinition(IPLFileNameList, XRes, float);
+    IPLSetMacroDefinition(IPLFileNameList, YRes, float);
+    IPLGetMacroDefinition(IPLFileNameList, YRes, float);
+    IPLSetMacroDefinition(IPLFileNameList, Key1, int);
+    IPLGetMacroDefinition(IPLFileNameList, Key1, int);
+    IPLSetMacroDefinition(IPLFileNameList, Key2, int);
+    IPLGetMacroDefinition(IPLFileNameList, Key2, int);
+    IPLSetMacroDefinition(IPLFileNameList, SortOrder, int);
 }

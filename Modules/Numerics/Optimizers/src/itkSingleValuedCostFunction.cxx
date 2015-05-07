@@ -15,30 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMemoryProbesCollectorBase_h
-#define itkMemoryProbesCollectorBase_h
-
-#include "itkMacro.h"
-#include "itkMemoryProbe.h"
-#include "itkResourceProbesCollectorBase.h"
+#include "itkSingleValuedCostFunction.h"
 
 namespace itk
 {
-/** \class MemoryProbesCollectorBase
- *  \brief Aggregates a set of memory probes.
- *
- *  This class defines a set of MemoryProbes and assign names to them.
- *  The user can start and stop each one of the probes by addressing them by name.
- *
- *  \sa MemoryProbe
- *
- * \ingroup ITKCommon
- */
-class ITKCommon_EXPORT MemoryProbesCollectorBase:public ResourceProbesCollectorBase< MemoryProbe >
+void SingleValuedCostFunction::GetValueAndDerivative(const ParametersType & parameters,
+                                   MeasureType & value,
+                                   DerivativeType & derivative) const
 {
-public:
-  virtual ~MemoryProbesCollectorBase();
-};
-} // end namespace itk
+    value = this->GetValue(parameters);
+    this->GetDerivative(parameters, derivative);
+}
 
-#endif // itkMemoryProbesCollectorBase_h
+SingleValuedCostFunction::~SingleValuedCostFunction() {}
+}

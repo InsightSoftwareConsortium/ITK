@@ -28,7 +28,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class CreateObjectFunctionBase:public Object
+class ITKCommon_EXPORT CreateObjectFunctionBase:public Object
 {
 public:
   /** Standard typedefs. */
@@ -42,8 +42,8 @@ public:
   virtual SmartPointer< LightObject > CreateObject() = 0;
 
 protected:
-  CreateObjectFunctionBase() {}
-  ~CreateObjectFunctionBase() {}
+  CreateObjectFunctionBase();
+  ~CreateObjectFunctionBase();
 
 private:
   CreateObjectFunctionBase(const Self &); //purposely not implemented

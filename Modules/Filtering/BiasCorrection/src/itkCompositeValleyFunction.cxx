@@ -49,6 +49,8 @@ CompositeValleyFunction
   this->Initialize();
 }
 
+CompositeValleyFunction::~CompositeValleyFunction() {}
+
 void CompositeValleyFunction
 ::Initialize()
 {
@@ -78,5 +80,18 @@ void CompositeValleyFunction
   m_UpperBound = m_Targets[high].GetMean() + 9.0 * m_Targets[high].GetSigma();
 
   CreateCache(m_LowerBound, m_UpperBound, 1000000);
+}
+
+CompositeValleyFunction::MeasureType CompositeValleyFunction::Evaluate(MeasureType x)
+{
+  MeasureType res = 1;
+
+  for ( unsigned int k = 0; k < m_Targets.size(); k++ )
+  {
+    res *= valley( ( x - m_Targets[k].GetMean() )
+                   / m_Targets[k].GetSigma() );
+  }
+
+  return res;
 }
 } // end of namespace itk

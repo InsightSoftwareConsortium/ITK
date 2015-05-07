@@ -475,4 +475,8 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
        // !defined(__FreeBSD__) && !defined(__OpenBSD__)
 
 #endif // Unix and Mac Platforms !defined(WIN32) && !defined(_WIN32)
+
+
+//Destructor for MemoryUsageObserver
+MemoryUsageObserver::~MemoryUsageObserver(){}
 } //end namespace itk

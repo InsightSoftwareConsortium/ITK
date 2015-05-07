@@ -6,7 +6,7 @@ computations of Fast Fourier Transforms based on
 implementation you must comply with the GPL license.")
 
 if( ITK_USE_FFTWF OR ITK_USE_FFTWD )
-  set(FFT_ENABLED_SHARED "ENABLED_SHARED")
+  set(FFT_ENABLE_SHARED "ENABLE_SHARED")
 endif()
 
 itk_module(ITKFFT

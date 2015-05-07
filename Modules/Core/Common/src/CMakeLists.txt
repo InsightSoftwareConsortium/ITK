@@ -1,4 +1,8 @@
 set(ITKCommon_SRCS
+itkMemoryProbesCollectorBase.cxx
+itkCreateObjectFunction.cxx
+itkLogger.cxx
+itkLogOutput.cxx
 itkLoggerOutput.cxx
 itkProgressAccumulator.cxx
 itkNumericTraits.cxx
@@ -75,12 +79,14 @@ itkSimpleFastMutexLock.cxx
 itkNumericTraitsDiffusionTensor3DPixel.cxx
 itkEquivalencyTable.cxx
 itkXMLFileOutputWindow.cxx
+itkXMLFilterWatcher.cxx
 itkStoppingCriterionBase.cxx
 itkCompensatedSummation.cxx
 itkArrayOutputSpecialization.cxx
 itkNumberToString.cxx
 itkSmartPointerForwardReferenceProcessObject.cxx
 itkThreadPool.cxx
+itkRandomVariateGeneratorBase.cxx
 )
 
 if(WIN32)

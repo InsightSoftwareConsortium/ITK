@@ -74,7 +74,7 @@ public:
 
 protected:
   MultipleValuedCostFunction() {}
-  virtual ~MultipleValuedCostFunction() {}
+  virtual ~MultipleValuedCostFunction();
 
 private:
   MultipleValuedCostFunction(const Self &); //purposely not implemented

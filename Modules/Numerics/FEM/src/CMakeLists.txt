@@ -1,4 +1,5 @@
 set(ITKFEM_SRC
+itkFEMSolution.cxx
 itkFEMElement2DC0LinearLine.cxx
 itkFEMElement2DC0LinearLineStress.cxx
 itkFEMElement2DC0LinearQuadrilateral.cxx
