@@ -237,7 +237,7 @@ itk_add_test(
   COMMAND
     ParabolicMorphologyTestDriver
     --compare
-    dist255.mha
+    dilatebinary10.mha
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/dilatebinary10.mha
     itkBinaryDilateParaTest
     ${INPUT_IMAGE}
