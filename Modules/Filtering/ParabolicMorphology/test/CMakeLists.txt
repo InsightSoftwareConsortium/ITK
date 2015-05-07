@@ -7,6 +7,7 @@ set(
   itkParaSpacingTest.cxx
   itkParaSharpenTest.cxx
   itkParaDTTest.cxx
+  itkBinaryDilateParaTest.cxx
 )
 
 set(INPUT_IMAGE ${CMAKE_CURRENT_SOURCE_DIR}/images/cthead1.png)
