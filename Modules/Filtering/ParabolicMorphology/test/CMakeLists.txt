@@ -241,7 +241,7 @@ itk_add_test(
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/dist255.mha
     itkBinaryDilateParaTest
     ${INPUT_IMAGE}
-    100
+    150
     10
     dilatebinary10.mha
 )
