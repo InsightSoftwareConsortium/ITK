@@ -19,5 +19,5 @@
 
 namespace itk
 {
-MeshFileReaderException::~MeshFileReaderException() throw() {}
+MeshFileReaderException::~MeshFileReaderException() ITK_NOEXCEPT {}
 }

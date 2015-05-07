@@ -453,7 +453,7 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
   SetLocation(location);
 }
 
-FEMExceptionItpackSparseMatrixSbagn::~FEMExceptionItpackSparseMatrixSbagn() throw ( )
+FEMExceptionItpackSparseMatrixSbagn::~FEMExceptionItpackSparseMatrixSbagn() ITK_NOEXCEPT
 {
 }
 
@@ -484,7 +484,7 @@ FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const c
   SetLocation(location);
 }
 
-FEMExceptionItpackSparseMatrixSbsij::~FEMExceptionItpackSparseMatrixSbsij() throw ( )
+FEMExceptionItpackSparseMatrixSbsij::~FEMExceptionItpackSparseMatrixSbsij() ITK_NOEXCEPT
 {
 }
 

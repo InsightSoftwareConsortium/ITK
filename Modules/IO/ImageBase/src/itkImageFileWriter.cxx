@@ -19,6 +19,6 @@
 
 namespace itk
 {
-ImageFileWriterException::~ImageFileWriterException() throw( )
+ImageFileWriterException::~ImageFileWriterException() ITK_NOEXCEPT
 {}
 }
