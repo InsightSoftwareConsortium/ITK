@@ -119,28 +119,16 @@ function(add_cppcheck_dir _name _dir _include_dirs)
 
     set( _cppcheck_compile_args ${_cppcheck_include} )
 
-    if("${CMAKE_VERSION}" VERSION_LESS "2.8.0")
-      # Older than CMake 2.8.0
-      itk_add_test(${_name}_cppcheck_test
+    itk_add_test(
+      NAME
+        ${_name}_cppcheck_test
+      COMMAND
         "${CPPCHECK_EXECUTABLE}"
         ${CPPCHECK_TEMPLATE_ARG}
         ${_cppcheck_args}
         ${_cppcheck_compile_args}
         ${_dir}
         )
-    else()
-      # CMake 2.8.0 and newer
-      itk_add_test(
-        NAME
-          ${_name}_cppcheck_test
-        COMMAND
-          "${CPPCHECK_EXECUTABLE}"
-          ${CPPCHECK_TEMPLATE_ARG}
-          ${_cppcheck_args}
-          ${_cppcheck_compile_args}
-          ${_dir}
-          )
-    endif()
 
   set_tests_properties(${_name}_cppcheck_test
     PROPERTIES
@@ -223,26 +211,15 @@ function(add_cppcheck_sources _targetname)
     # --------------------------------------------------------------
     set( _cppcheck_compile_args ${_cppcheck_include} ${_cppcheck_def} )
 
-    if("${CMAKE_VERSION}" VERSION_LESS "2.8.0")
-      # Older than CMake 2.8.0
-      itk_add_test(${_targetname}_cppcheck_test
+    itk_add_test(
+      NAME
+        ${_targetname}_cppcheck_test
+      COMMAND
         "${CPPCHECK_EXECUTABLE}"
         ${CPPCHECK_TEMPLATE_ARG}
         ${_cppcheck_args}
         ${_cppcheck_compile_args}
         ${_files})
-    else()
-      # CMake 2.8.0 and newer
-      itk_add_test(
-        NAME
-          ${_targetname}_cppcheck_test
-        COMMAND
-          "${CPPCHECK_EXECUTABLE}"
-          ${CPPCHECK_TEMPLATE_ARG}
-          ${_cppcheck_args}
-          ${_cppcheck_compile_args}
-          ${_files})
-    endif()
 
   set_tests_properties(${_targetname}_cppcheck_test
     PROPERTIES
@@ -312,26 +289,15 @@ function(add_cppcheck _name)
     # --------------------------------------------------------------
     set( _cppcheck_compile_args --check-config ${_cppcheck_include} ${_cppcheck_def} )
 
-    if("${CMAKE_VERSION}" VERSION_LESS "2.8.0")
-       # Older than CMake 2.8.0
-      itk_add_test(${_name}_cppcheck_test
+     itk_add_test(
+       NAME
+         ${_name}_cppcheck_test
+       COMMAND
          "${CPPCHECK_EXECUTABLE}"
          ${CPPCHECK_TEMPLATE_ARG}
          ${_cppcheck_args}
          ${_cppcheck_compile_args}
          ${_files})
-      else()
-        # CMake 2.8.0 and newer
-        itk_add_test(
-          NAME
-            ${_name}_cppcheck_test
-          COMMAND
-            "${CPPCHECK_EXECUTABLE}"
-            ${CPPCHECK_TEMPLATE_ARG}
-            ${_cppcheck_args}
-            ${_cppcheck_compile_args}
-            ${_files})
-      endif()
 
       set_tests_properties(${_name}_cppcheck_test
         PROPERTIES
