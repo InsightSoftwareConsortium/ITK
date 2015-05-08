@@ -28,7 +28,8 @@ namespace itk
  * with xml.
  * \ingroup ITKCommon
  */
-class XMLFilterWatcher:public SimpleFilterWatcher
+class  ITKCommon_EXPORT XMLFilterWatcher
+  : public SimpleFilterWatcher
 {
 public:
   XMLFilterWatcher(ProcessObject *o, const char *comment = ""):
