@@ -207,21 +207,21 @@ public:
   static std::string GetPlanRigorName( const int & value );
 
   /**
-   * \brief Set the behavior of wisdom file caching
+   * \brief Set/Get the behavior of wisdom file caching
    *
    * If the environmental variable "ITK_FFTW_WRITE_WISDOM_CACHE", is set,
    * then the environmental setting overides default settings.
-   * \param v true will create a wisdom file in the location
+   * If true, will create a wisdom file in the location
    */
   static void SetReadWisdomCache( const bool & v );
   static bool GetReadWisdomCache();
 
   /**
-   * \brief Set the behavior of wisdom file caching
+   * \brief Set/Get the behavior of wisdom file caching
    *
    * If the environmental variable "ITK_FFTW_WRITE_WISDOM_CACHE", is set,
    * then the environmental setting overides default settings.
-   * \param v true will create a wisdom file in the location
+   * If true, will create a wisdom file in the location
    */
   static void SetWriteWisdomCache( const bool & v );
   static bool GetWriteWisdomCache();
@@ -231,7 +231,6 @@ public:
    * the wisdom cache will be placed.
    * The environmental variable ITK_FFTW_WISDOM_CACHE_BASE
    * will override the default behavior.
-   * \param v the path to the base directory name
    */
   static void SetWisdomCacheBase( const std::string & v );
   static std::string GetWisdomCacheBase();
