@@ -35,9 +35,9 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The type is defined by the \emph{traits} of the PointSet
-  //  class. The following line conveniently takes the PointsContainer type
-  //  from the PointSet traits and declare it in the global namespace.
+  //  The type is defined by the \emph{traits} of the \code{PointSet}
+  //  class. The following line conveniently takes the \code{PointsContainer} type
+  //  from the \code{PointSet} traits and declares it in the global namespace.
   //
   //  \index{itk::PointSet!PointsContainer}
   //
@@ -49,21 +49,21 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The actual type of the PointsContainer depends on what style of
-  //  PointSet is being used. The dynamic PointSet use the
-  //  \doxygen{MapContainer} while the static PointSet uses the
+  //  The actual type of \code{PointsContainer} depends on what style of
+  //  \code{PointSet} is being used. The dynamic \code{PointSet} uses
+  //  \doxygen{MapContainer} while the static \code{PointSet} uses
   //  \doxygen{VectorContainer}. The vector and map containers are basically
   //  ITK wrappers around the \href{http://www.sgi.com/tech/stl/}{STL}
   //  classes \href{http://www.sgi.com/tech/stl/Map.html}{\code{std::map}}
   //  and \href{http://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}}.
-  //  By default, the PointSet uses a static style, hence the default
-  //  type of point container is an VectorContainer.  Both the map
-  //  and vector container are templated over the type of the elements they
-  //  contain. In this case they are templated over PointType.
-  //  Containers are reference counted object. They are then created with the
-  //  \code{New()} method and assigned to a \doxygen{SmartPointer} after
-  //  creation.  The following line creates a point container compatible with
-  //  the type of the PointSet from which the trait has been taken.
+  //  By default, \code{PointSet} uses a static style, and therefore the default
+  //  type of point container is \code{VectorContainer}.  Both map
+  //  and vector containers are templated over the type of element they
+  //  contain. In this case they are templated over \code{PointType}.
+  //  Containers are reference counted objects, created with the
+  //  \code{New()} method and assigned to a \doxygen{SmartPointer}.
+  //  The following line creates a point container compatible with
+  //  the type of the \code{PointSet} from which the trait has been taken.
   //
   //  \index{PointsContainer!New()}
   //  \index{PointsContainer!Pointer}
@@ -78,8 +78,8 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Points can now be defined using the \code{PointType} trait from the
-  //  PointSet.
+  //  \code{Point}s can now be defined using the \code{PointType} trait from the
+  //  \code{PointSet}.
   //
   //  Software Guide : EndLatex
 
@@ -94,7 +94,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The created points can be inserted in the PointsContainer using the
+  //  The created points can be inserted in the \code{PointsContainer} using the
   //  generic method \code{InsertElement()} which requires an identifier to
   //  be provided for each point.
   //
@@ -113,11 +113,10 @@ int main(int, char *[])
 
   PointSetType::Pointer  pointSet = PointSetType::New();
 
-
   //  Software Guide : BeginLatex
   //
-  //  Finally the PointsContainer can be assigned to the PointSet. This will
-  //  substitute any previously existing PointsContainer on the PointSet. The
+  //  Finally, the \code{PointsContainer} can be assigned to the \code{PointSet}. This will
+  //  substitute any previously existing \code{PointsContainer} assigned to the \code{PointSet}. The
   //  assignment is done using the \code{SetPoints()} method.
   //
   //  \index{itk::PointSet!SetPoints()}
@@ -131,10 +130,10 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The PointsContainer object can be obtained from the PointSet using the
+  //  The \code{PointsContainer} object can be obtained from the \code{PointSet} using the
   //  \code{GetPoints()} method.  This method returns a pointer
   //  to the actual container owned by the PointSet which is then assigned to
-  //  a SmartPointer.
+  //  a \code{SmartPointer}.
   //
   //  \index{itk::PointSet!GetPoints()}
   //  \index{PointsContainer!Pointer}

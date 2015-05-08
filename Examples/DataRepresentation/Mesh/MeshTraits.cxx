@@ -43,14 +43,14 @@
 //  Mesh class instantiation.
 //
 //  There are two ways of achieving this. The first is to use the existing
-//  DefaultStaticMeshTraits class. This class is itself templated
+//  \doxygen{DefaultStaticMeshTraits} class. This class is itself templated
 //  over six parameters.  Customizing those parameters could provide enough
 //  flexibility to define a very specific kind of mesh. The second way is to
 //  write a traits class from scratch, in which case the easiest way to proceed
-//  is to copy the DefaultStaticMeshTraits into another file and edit
+//  is to copy the \code{DefaultStaticMeshTraits} into another file and edit
 //  its content. Only the first approach is illustrated here. The second is
 //  discouraged unless you are familiar with Generic Programming, feel
-//  comfortable with C++ templates and have access to an abundant supply of
+//  comfortable with C++ templates, and have access to an abundant supply of
 //  (Columbian) coffee.
 //
 //  The first step in customizing the mesh is to include the header file of the
@@ -78,23 +78,23 @@ int main(int, char *[])
   //  one of its six template arguments. They are in order
   //
   //  \begin{description}
-  //  \item[PixelType.] The type associated with every point.
+  //  \item[PixelType.] The value type associated with every point.
   //  \item[PointDimension.] The dimension of the space in which the mesh is embedded.
   //  \item[MaxTopologicalDimension.] The highest dimension of the mesh cells.
-  //  \item[CoordRepType.] The type used to represent space coordinates.
+  //  \item[CoordRepType.] The type used to represent spacial coordinates.
   //  \item[InterpolationWeightType.]  The type used to represent interpolation weights.
-  //  \item[CellPixelType.] The type associated with every cell.
+  //  \item[CellPixelType.] The value type associated with every cell.
   //  \end{description}
   //
-  //  Let's define types and values for each one of those elements. For example
-  //  the following code will use points in 3D space as nodes of the
-  //  Mesh. The maximum dimension of the cells will be two which means
+  //  Let's define types and values for each one of those elements. For example,
+  //  the following code uses points in 3D space as nodes of the
+  //  Mesh. The maximum dimension of the cells will be two, meaning
   //  that this is a 2D manifold better know as a \emph{surface}. The data type
   //  associated with points is defined to be a four-dimensional vector. This
-  //  type could represent values of membership for a four-classes segmentation
-  //  method.  The value selected for the cells are $4\times3$ matrices which could
+  //  type could represent values of membership for a four-class segmentation
+  //  method.  The value selected for the cells are $4\times3$ matrices, which could
   //  have for example the derivative of the membership values with respect to
-  //  coordinates in space. Finally a \code{double} type is selected for
+  //  coordinates in space. Finally, a \code{double} type is selected for
   //  representing space coordinates on the mesh points and also for the weight
   //  used for interpolating values.
   //
@@ -203,7 +203,7 @@ int main(int, char *[])
   //  Data associated with cells is inserted in the Mesh by using the
   //  \code{SetCellData()} method.  It requires the user to provide an
   //  identifier and the value to be inserted. The identifier should match one
-  //  of the inserted cells. In this example, we simply store a CellDataType
+  //  of the inserted cells. In this example, we simply store a \code{CellDataType}
   //  dummy variable named \code{value}.
   //
   //  Software Guide : EndLatex
@@ -231,7 +231,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
+  for(unsigned int cellId=0; cellId<numberOfCells; ++cellId)
     {
     CellDataType value;
     mesh->GetCellData( cellId, &value );
@@ -244,7 +244,7 @@ int main(int, char *[])
   //
   //  Neither \code{SetCellData()} or \code{GetCellData()} are efficient ways
   //  to access cell data. Efficient access to cell data can be achieved
-  //  by using the Iterators built into the CellDataContainer.
+  //  by using the \code{Iterator}s built into the \code{CellDataContainer}.
   //
   //  Software Guide : EndLatex
 
@@ -256,10 +256,10 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Note that the \code{ConstIterator} is used here because the data is only
-  //  going to be read.  This approach is exactly the same already illustrated
-  //  for getting access to point data. The iterator to the first cell data
+  //  going to be read.  This approach is identical to that already illustrated
+  //  for accessing point data. The iterator to the first cell data
   //  item can be obtained with the \code{Begin()} method of the
-  //  CellDataContainer. The past-end iterator is returned by the \code{End()}
+  //  \code{CellDataContainer}. The past-end iterator is returned by the \code{End()}
   //  method. The cell data container itself can be obtained from the mesh with
   //  the method \code{GetCellData()}.
   //
@@ -273,8 +273,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CellDataIterator cellDataIterator  = mesh->GetCellData()->Begin();
-  CellDataIterator end               = mesh->GetCellData()->End();
+  CellDataIterator cellDataIterator = mesh->GetCellData()->Begin();
+  CellDataIterator end              = mesh->GetCellData()->End();
   // Software Guide : EndCodeSnippet
 
 

@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  In the same way that custom data can be associated with points in the mesh,
+//  Just as custom data can be associated with points in the mesh,
 //  it is also possible to associate custom data with cells. The type of the
 //  data associated with the cells can be different from the data type
 //  associated with points. By default, however, these two types are the same.
@@ -49,7 +49,8 @@ int main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //
-  //  Then the PixelType is defined and the mesh type is instantiated with it.
+  //  Then the \code{PixelType} is defined and the mesh type is
+  //  instantiated with it.
   //
   //  \index{itk::Mesh!Instantiation}
   //  \index{itk::Mesh!PixelType}
@@ -82,7 +83,7 @@ int main(int, char *[])
   //  Let's now create a Mesh and insert some points into it. Note that the
   //  dimension of the points matches the dimension of the Mesh. Here we insert
   //  a sequence of points that look like a plot of the $\log()$ function.  We
-  //  add the \code{vnl\_math::eps} value in oder to avoid numerical errors when
+  //  add the \code{vnl\_math::eps} value in order to avoid numerical errors when
   //  the point id is zero. The value of \code{vnl\_math::eps} is the difference
   //  between 1.0 and the least value greater than 1.0 that is representable in
   //  this computer.
@@ -174,7 +175,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
+  for(unsigned int cellId=0; cellId<numberOfCells; ++cellId)
     {
     PixelType value = static_cast<PixelType>(0.0);
     mesh->GetCellData( cellId, &value );
@@ -202,7 +203,7 @@ int main(int, char *[])
   //  going to be read.  This approach is exactly the same already illustrated
   //  for getting access to point data. The iterator to the first cell data
   //  item can be obtained with the \code{Begin()} method of the
-  //  CellDataContainer. The past-end iterator is returned by the \code{End()}
+  //  \code{CellDataContainer}. The past-end iterator is returned by the \code{End()}
   //  method. The cell data container itself can be obtained from the mesh with
   //  the method \code{GetCellData()}.
   //
@@ -223,9 +224,9 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Finally a standard loop is used to iterate over all the cell data
-  //  entries. Note the use of the \code{Value()} method used to get the actual
-  //  value of the data entry. \code{PixelType} elements are copied into the
+  //  Finally, a standard loop is used to iterate over all the cell data
+  //  entries. Note the use of the \code{Value()} method to get the
+  //  value associated with the data entry. \code{PixelType} elements are copied into the
   //  local variable \code{cellValue}.
   //
   //  \index{CellDataIterator!Value()}

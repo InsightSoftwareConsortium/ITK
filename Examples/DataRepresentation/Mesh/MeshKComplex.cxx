@@ -22,8 +22,8 @@
 //  topologies. In particular the concept of \emph{K-Complex} can be
 //  correctly represented in the Mesh. An informal definition of K-Complex
 //  may be as follows: a K-Complex is a topological structure in which for
-//  every cell of dimension $N$, its boundary faces which are cells of
-//  dimension $N-1$ also belong to the structure.
+//  every cell of dimension $N$, its boundary faces (which are cells of
+//  dimension $N-1$) also belong to the structure.
 //
 //  This section illustrates how to instantiate a K-Complex structure using the
 //  mesh. The example structure is composed of one tetrahedron, its
