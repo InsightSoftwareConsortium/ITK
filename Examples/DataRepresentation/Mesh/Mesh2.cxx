@@ -19,14 +19,14 @@
 //  Software Guide : BeginLatex
 //
 //  A \doxygen{Mesh} can contain a variety of cell types. Typical cells are
-//  the \doxygen{LineCell}, \doxygen{TriangleCell},
-//  \doxygen{QuadrilateralCell} and \doxygen{TetrahedronCell}. Additional
+//  the \doxygen{LineCell}, \doxygen{TriangleCell}, \doxygen{QuadrilateralCell},
+//  \doxygen{TetrahedronCell}, and \doxygen{PolygonCell}. Additional
 //  flexibility is provided for managing cells at the price of a bit more of
 //  complexity than in the case of point management.
 //
 //  The following code creates a polygonal line in order to illustrate the
-//  simplest case of cell management in a Mesh. The only cell type used here is
-//  the LineCell. The header file of this class has to be included.
+//  simplest case of cell management in a mesh. The only cell type used here is
+//  the \code{LineCell}. The header file of this class must be included.
 //
 //  \index{itk::LineCell!Header}
 //
@@ -47,7 +47,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  In order to be consistent with the Mesh, cell types have to be configured
+  //  For consistency with \code{Mesh}, cell types have to be configured
   //  with a number of custom types taken from the mesh traits. The set of
   //  traits relevant to cells are packaged by the Mesh class into the
   //  \code{CellType} trait. This trait needs to be passed to the actual cell
@@ -60,13 +60,13 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellType                CellType;
+  typedef MeshType::CellType CellType;
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  The LineCell type can now be instantiated using the traits
+  //  The \code{LineCell} type can now be instantiated using the traits
   //  taken from the Mesh.
   //
   //  \index{itk::LineCell!Instantiation}
@@ -82,9 +82,9 @@ int main(int, char *[])
   //
   //  The main difference in the way cells and points are managed by
   //  the Mesh is that points are stored by copy on the
-  //  PointsContainer while cells are stored in the CellsContainer
-  //  using pointers. The reason for using pointers is that cells use
-  //  C++ polymorphism on the mesh. This means that the mesh is only
+  //  \code{PointsContainer} while cells are stored as pointers in the
+  //  \code{CellsContainer}.  The reason for using pointers is that cells
+  //  use C++ polymorphism on the mesh. This means that the mesh is only
   //  aware of having pointers to a generic cell which is the base
   //  class of all the specific cell types. This architecture makes it
   //  possible to combine different cell types in the same
@@ -97,35 +97,35 @@ int main(int, char *[])
   //  \index{CellAutoPointer}
   //  \index{itk::AutoPointer}
   //
-  //  Managing cells by pointers add another level of complexity to the Mesh
+  //  Managing cells by pointers adds another level of complexity to the Mesh
   //  since it is now necessary to establish a protocol to make clear who is
   //  responsible for allocating and releasing the cells' memory. This protocol
   //  is implemented in the form of a specific type of pointer called the
   //  \code{CellAutoPointer}. This pointer, based on the \doxygen{AutoPointer},
-  //  differs in many respects from the SmartPointer. The CellAutoPointer has an
-  //  internal pointer to the actual object and a boolean flag that indicates
-  //  if the CellAutoPointer is responsible for releasing the cell memory
-  //  whenever the time comes for its own destruction. It is said that a
+  //  differs in many respects from the \code{SmartPointer}. The \code{CellAutoPointer}
+  //  has an internal pointer to the actual object and a boolean flag that indicates
+  //  whether the \code{CellAutoPointer} is responsible for releasing the cell memory
+  //  when the time comes for its own destruction. It is said that a
   //  \code{CellAutoPointer} \emph{owns} the cell when it is responsible for
-  //  its destruction. Many CellAutoPointer can point to the same cell but at
-  //  any given time, only \textbf{one} CellAutoPointer can own the cell.
+  //  its destruction. At any given time many \code{CellAutoPointer}s can point to
+  //  the same cell, but only \textbf{one} \code{CellAutoPointer} can own the cell.
   //
-  //  The \code{CellAutoPointer} trait is defined in the MeshType and can be
-  //  extracted as illustrated in the following line.
+  //  The \code{CellAutoPointer} trait is defined in the \code{MeshType} and can be
+  //  extracted as follows.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef CellType::CellAutoPointer         CellAutoPointer;
+  typedef CellType::CellAutoPointer CellAutoPointer;
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Note that the CellAutoPointer is pointing to a generic cell type. It is
-  //  not aware of the actual type of the cell, which can be for example
-  //  LineCell, TriangleCell or TetrahedronCell. This fact will influence the
-  //  way in which we access cells later on.
+  //  Note that the \code{CellAutoPointer} points to a generic cell type. It is
+  //  not aware of the actual type of the cell, which could be (for example) a
+  //  \code{LineCell}, \code{TriangleCell} or \code{TetrahedronCell}. This fact
+  //  will influence the way in which we access cells later on.
   //
   //  At this point we can actually create a mesh and insert some points on it.
   //
@@ -154,15 +154,15 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The following code creates two CellAutoPointers and initializes
+  //  The following code creates two \code{CellAutoPointers} and initializes
   //  them with newly created cell objects. The actual cell type
-  //  created in this case is LineCell. Note that cells are
+  //  created in this case is \code{LineType}. Note that cells are
   //  created with the normal \code{new} C++ operator. The
   //  CellAutoPointer takes ownership of the received pointer by using
   //  the method \code{TakeOwnership()}. Even though this may seem
-  //  verbose, it is necessary in order to make it explicit from the
-  //  code that the responsibility of memory release is assumed by the
-  //  AutoPointer.
+  //  verbose, it is necessary in order to make it explicit
+  //  that the responsibility of memory release is assumed by the
+  //  \code{AutoPointer}.
   //
   //  \index{itk::AutoPointer!TakeOwnership()}
   //  \index{CellAutoPointer!TakeOwnership()}
@@ -174,8 +174,8 @@ int main(int, char *[])
   CellAutoPointer line0;
   CellAutoPointer line1;
 
-  line0.TakeOwnership(  new LineType  );
-  line1.TakeOwnership(  new LineType  );
+  line0.TakeOwnership( new LineType );
+  line1.TakeOwnership( new LineType );
   // Software Guide : EndCodeSnippet
 
 
@@ -185,15 +185,15 @@ int main(int, char *[])
   //  done using the identifiers assigned to points when they were inserted
   //  in the mesh. Every cell type has a specific number of points that must
   //  be associated with it.\footnote{Some cell types like polygons have a
-  //  variable number of points associated with them.} For example a
-  //  LineCell requires two points, a TriangleCell
-  //  requires three and a TetrahedronCell requires four. Cells use
+  //  variable number of points associated with them.} For example, a
+  //  \code{LineCell} requires two points, a \code{TriangleCell}
+  //  requires three, and a \code{TetrahedronCell} requires four. Cells use
   //  an internal numbering system for points. It is simply an index in the
   //  range $\{0,NumberOfPoints-1\}$. The association of points and cells is
-  //  done by the \code{SetPointId()} method which requires the user to
+  //  done by the \code{SetPointId()} method, which requires the user to
   //  provide the internal index of the point in the cell and the
-  //  corresponding PointIdentifier in the Mesh. The internal cell index is
-  //  the first parameter of \code{SetPointId()} while the mesh
+  //  corresponding \code{PointIdentifier} in the \code{Mesh}. The internal
+  //  cell index is the first parameter of \code{SetPointId()} while the mesh
   //  point-identifier is the second.
   //
   //  Software Guide : EndLatex
@@ -212,10 +212,10 @@ int main(int, char *[])
   //
   //  Cells are inserted in the mesh using the \code{SetCell()} method. It
   //  requires an identifier and the AutoPointer to the cell. The Mesh will
-  //  take ownership of the cell to which the AutoPointer is pointing. This is
-  //  done internally by the \code{SetCell()} method. In this way, the
-  //  destruction of the CellAutoPointer will not induce the destruction of the
-  //  associated cell.
+  //  take ownership of the cell to which the \code{CellAutoPointer} is
+  //  pointing. This is done internally by the \code{SetCell()} method. In
+  //  this way, the destruction of the \code{CellAutoPointer} will not
+  //  induce the destruction of the associated cell.
   //
   //  \index{itk::Mesh!SetCell()}
   //  \index{SetCell()!itk::Mesh}
@@ -231,9 +231,10 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  After serving as an argument of the \code{SetCell()} method, a
-  //  CellAutoPointer no longer holds ownership of the cell. It is important
-  //  not to use this same CellAutoPointer again as argument to
-  //  \code{SetCell()} without first securing ownership of another cell.
+  //  \code{CellAutoPointer} no longer holds ownership of the cell. It is
+  //  important not to use this same \code{CellAutoPointer} again as
+  //  argument to \code{SetCell()} without first securing ownership of
+  //  another cell.
   //
   //  Software Guide : EndLatex
 
@@ -256,8 +257,8 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  In a way analogous to points, cells can be accessed using Iterators to
-  //  the CellsContainer in the mesh. The trait for the cell iterator can be
-  //  extracted from the mesh and used to define a local type.
+  //  the \code{CellsContainer} in the mesh. The trait for the cell iterator
+  //  can be extracted from the mesh and used to define a local type.
   //
   //  Software Guide : EndLatex
 
@@ -269,9 +270,9 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Then the iterators to the first and past-end cell in the mesh can be
-  //  obtained respectively with the \code{Begin()} and \code{End()} methods of
-  //  the CellsContainer. The CellsContainer of the mesh is returned by the
-  //  \code{GetCells()} method.
+  //  obtained respectively with the \code{Begin()} and \code{End()}
+  //  methods of the \code{CellsContainer}. The \code{CellsContainer} of
+  //  the mesh is returned by the \code{GetCells()} method.
   //
   //  \index{itk::Mesh!Iterating cells}
   //  \index{itk::Mesh!GetCells()}
@@ -288,12 +289,12 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Finally a standard loop is used to iterate over all the cells. Note the
+  //  Finally, a standard loop is used to iterate over all the cells. Note the
   //  use of the \code{Value()} method used to get the actual pointer to the
-  //  cell from the CellIterator. Note also that the values returned are
-  //  pointers to the generic CellType. These pointers have to be down-casted
+  //  cell from the CellIterator. Note also that the value returned is
+  //  a pointer to the generic CellType. This pointer must be downcast
   //  in order to be used as actual LineCell types. Safe down-casting is
-  //  performed with the \code{dynamic\_cast} operator which will throw an
+  //  performed with the \code{dynamic\_cast} operator, which will throw an
   //  exception if the conversion cannot be safely performed.
   //
   //  \index{down casting}
