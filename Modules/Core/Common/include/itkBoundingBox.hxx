@@ -120,7 +120,7 @@ template< typename TPointIdentifier, int VPointDimension,
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::BoundingBox():m_PointsContainer(ITK_NULLPTR)
 {
-  m_Bounds.Fill(NumericTraits< CoordRepType >::Zero);
+  m_Bounds.Fill(NumericTraits< CoordRepType >::ZeroValue());
   m_CornersContainer = PointsContainer::New();
 }
 
@@ -140,7 +140,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
     {
     if ( this->GetMTime() > m_BoundsMTime )
       {
-      m_Bounds.Fill(NumericTraits< CoordRepType >::Zero);
+      m_Bounds.Fill(NumericTraits< CoordRepType >::ZeroValue());
       m_BoundsMTime.Modified();
       }
     return false;
@@ -152,7 +152,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
     //start by initializing the values
     if ( m_PointsContainer->Size() < 1 )
       {
-      m_Bounds.Fill(NumericTraits< CoordRepType >::Zero);
+      m_Bounds.Fill(NumericTraits< CoordRepType >::ZeroValue());
       m_BoundsMTime.Modified();
       return false;
       }

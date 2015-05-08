@@ -43,8 +43,8 @@ template< typename TInputMesh, typename TOutputMesh >
 ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
 ::ConnectedRegionsMeshFilter() :
   m_ExtractionMode(Self::LargestRegion),
-  m_NumberOfCellsInRegion(NumericTraits< SizeValueType >::Zero),
-  m_RegionNumber(NumericTraits< IdentifierType >::Zero),
+  m_NumberOfCellsInRegion(NumericTraits< SizeValueType >::ZeroValue()),
+  m_RegionNumber(NumericTraits< IdentifierType >::ZeroValue()),
   m_Wave(ITK_NULLPTR),
   m_Wave2(ITK_NULLPTR)
 {

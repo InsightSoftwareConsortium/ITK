@@ -268,7 +268,7 @@ void Segmenter< TInputImage >::GenerateData()
     {
     this->InitializeBoundary();
     this->AnalyzeBoundaryFlow(thresholdImage, flatRegions, maximum
-                              + NumericTraits< InputPixelType >::One);
+                              + NumericTraits< InputPixelType >::OneValue());
     }
 
   this->UpdateProgress(0.2);
@@ -282,7 +282,7 @@ void Segmenter< TInputImage >::GenerateData()
   //
   this->BuildRetainingWall(thresholdImage,
                            thresholdImage->GetBufferedRegion(),
-                           maximum + NumericTraits< InputPixelType >::One);
+                           maximum + NumericTraits< InputPixelType >::OneValue());
 
   //
   // Label all the local minima pixels in the image.  This function also
@@ -290,7 +290,7 @@ void Segmenter< TInputImage >::GenerateData()
   // the same value.
   //
   this->LabelMinima(thresholdImage, thresholdImage->GetRequestedRegion(),
-                    flatRegions, maximum + NumericTraits< InputPixelType >::One);
+                    flatRegions, maximum + NumericTraits< InputPixelType >::OneValue());
   this->UpdateProgress(0.3);
 
   this->GradientDescent( thresholdImage, thresholdImage->GetRequestedRegion() );
@@ -1200,7 +1200,7 @@ void Segmenter< TInputImage >::Threshold(InputImageTypePointer destination,
         }
       else if ( tmp == NumericTraits< InputPixelType >::max() )
         {
-        dIt.Set(tmp - NumericTraits< InputPixelType >::One);
+        dIt.Set(tmp - NumericTraits< InputPixelType >::OneValue());
         }
       else
         {

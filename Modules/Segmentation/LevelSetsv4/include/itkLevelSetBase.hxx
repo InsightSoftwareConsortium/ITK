@@ -21,7 +21,7 @@
 
 #include "itkLevelSetBase.h"
 
-#define UNDEFINED_REGION NumericTraits< RegionType >::One
+#define UNDEFINED_REGION NumericTraits< RegionType >::OneValue()
 
 namespace itk
 {

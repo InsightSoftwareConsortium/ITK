@@ -438,11 +438,11 @@ MinMaxCurvatureFlowFunction< TImage >
 
   if ( avgValue < threshold )
     {
-    return ( vnl_math_max(update, NumericTraits< PixelType >::Zero) );
+    return ( vnl_math_max(update, NumericTraits< PixelType >::ZeroValue()) );
     }
   else
     {
-    return ( vnl_math_min(update, NumericTraits< PixelType >::Zero) );
+    return ( vnl_math_min(update, NumericTraits< PixelType >::ZeroValue()) );
     }
 }
 } // end namespace itk

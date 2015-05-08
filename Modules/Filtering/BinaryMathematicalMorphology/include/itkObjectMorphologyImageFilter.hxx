@@ -33,7 +33,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::ObjectMorphologyImageFilter():
   m_Kernel()
 {
-  m_DefaultBoundaryCondition.SetConstant(NumericTraits< PixelType >::Zero);
+  m_DefaultBoundaryCondition.SetConstant(NumericTraits< PixelType >::ZeroValue());
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 
   m_UseBoundaryCondition = false;

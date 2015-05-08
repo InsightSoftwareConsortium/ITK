@@ -104,7 +104,7 @@ public:
     // LabelToRGBImageFilter)
     // Inside LabelToRGBImageFilter, the values are always initialized
     NumericTraits<TRGBPixel>::SetLength( m_BackgroundColor, 3);
-    m_BackgroundColor.Fill(NumericTraits< ValueType >::Zero);
+    m_BackgroundColor.Fill(NumericTraits< ValueType >::ZeroValue());
     m_BackgroundValue = NumericTraits< TLabel >::ZeroValue();
   }
 

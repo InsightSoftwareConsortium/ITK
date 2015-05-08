@@ -28,7 +28,7 @@ VolumeSplineKernelTransform< TScalar, NDimensions >::ComputeG(const InputVectorT
 {
   const TScalar r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits< TScalar >::Zero);
+  gmatrix.fill(NumericTraits< TScalar >::ZeroValue());
   const TScalar r3 = r * r * r;
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {

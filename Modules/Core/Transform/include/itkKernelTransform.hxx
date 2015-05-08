@@ -89,7 +89,7 @@ template <typename TScalar, unsigned int NDimensions>
 const typename KernelTransform<TScalar, NDimensions>::GMatrixType &
 KernelTransform<TScalar, NDimensions>::ComputeReflexiveG(PointsIterator) const
 {
-  m_GMatrix.fill(NumericTraits<TScalar>::Zero);
+  m_GMatrix.fill(NumericTraits<TScalar>::ZeroValue());
   m_GMatrix.fill_diagonal(m_Stiffness);
 
   return m_GMatrix;
@@ -347,7 +347,7 @@ KernelTransform<TScalar, NDimensions>
 
   typedef typename OutputPointType::ValueType ValueType;
 
-  result.Fill(NumericTraits<ValueType>::Zero);
+  result.Fill(NumericTraits<ValueType>::ZeroValue());
 
   //TODO:  It is unclear if the following line is needed.
   this->ComputeDeformationContribution(thisPoint, result);

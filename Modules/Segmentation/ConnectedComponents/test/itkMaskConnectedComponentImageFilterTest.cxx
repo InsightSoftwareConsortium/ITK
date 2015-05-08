@@ -70,8 +70,8 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
   threshold_hi = atoi( argv[4]);
 
   threshold->SetInput (reader->GetOutput());
-  threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::One);
-  threshold->SetOutsideValue(itk::NumericTraits<InternalPixelType>::Zero);
+  threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());
+  threshold->SetOutsideValue(itk::NumericTraits<InternalPixelType>::ZeroValue());
   threshold->SetLowerThreshold(threshold_low);
   threshold->SetUpperThreshold(threshold_hi);
   threshold->Update();
@@ -82,7 +82,7 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
   mask->SetRegions(threshold->GetOutput()->GetLargestPossibleRegion());
   mask->CopyInformation(threshold->GetOutput());
   mask->Allocate();
-  mask->FillBuffer(itk::NumericTraits<MaskPixelType>::Zero);
+  mask->FillBuffer(itk::NumericTraits<MaskPixelType>::ZeroValue());
 
   MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
   MaskImageType::SizeType maskSize = maskRegion.GetSize();

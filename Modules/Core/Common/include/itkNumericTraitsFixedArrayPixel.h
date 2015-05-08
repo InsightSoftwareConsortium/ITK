@@ -145,7 +145,7 @@ public:
       itkGenericExceptionMacro(<< "Cannot set the size of a FixedArray of length "
                                << D << " to " << s);
       }
-    m.Fill(NumericTraits< T >::Zero);
+    m.Fill(NumericTraits< T >::ZeroValue());
   }
 
   /** Return the length of the array. */

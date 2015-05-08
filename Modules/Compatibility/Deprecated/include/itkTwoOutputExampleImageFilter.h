@@ -64,7 +64,7 @@ public:
   itkTypeMacro(TwoOutputExampleImageFilter, ImageToImageFilter);
 
   /** Set the "outside" pixel value. The default value
-   * NumericTraits<PixelType>::Zero. */
+   * NumericTraits<PixelType>::ZeroValue(). */
   itkSetMacro(OutsideValue, PixelType);
 
   /** Get the "outside" pixel value. */

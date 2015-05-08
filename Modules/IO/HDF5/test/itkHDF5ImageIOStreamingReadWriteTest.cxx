@@ -58,7 +58,7 @@ class DemoImageSource:public GenerateImageSource< TOutputImage >
   protected:
     DemoImageSource()
     {
-      m_Value = NumericTraits< typename TOutputImage::PixelType >::Zero;
+      m_Value = NumericTraits< typename TOutputImage::PixelType >::ZeroValue();
     }
     ~DemoImageSource(){}
 

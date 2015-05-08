@@ -259,7 +259,7 @@ public:
 protected:
   MultiLabelSTAPLEImageFilter() :
     m_TotalLabelCount(0),
-    m_LabelForUndecidedPixels(NumericTraits<OutputPixelType>::Zero),
+    m_LabelForUndecidedPixels(NumericTraits<OutputPixelType>::ZeroValue()),
     m_HasLabelForUndecidedPixels(false),
     m_HasPriorProbabilities(false),
     m_HasMaximumNumberOfIterations(false),

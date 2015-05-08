@@ -114,7 +114,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
       {
       if ( this->m_MaskImage && !this->m_MaskImage->GetPixel( It.GetIndex() ) )
         {
-        ItO.SetCenterPixel(NumericTraits< OutputPixelType >::Zero);
+        ItO.SetCenterPixel(NumericTraits< OutputPixelType >::ZeroValue());
         progress.CompletedPixel();
         continue;
         }

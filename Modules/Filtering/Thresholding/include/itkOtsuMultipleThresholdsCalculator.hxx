@@ -30,7 +30,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
   m_NumberOfThresholds = 1;
   m_Output.resize(m_NumberOfThresholds);
   m_ValleyEmphasis = false;
-  std::fill(m_Output.begin(), m_Output.end(), NumericTraits< MeasurementType >::Zero);
+  std::fill(m_Output.begin(), m_Output.end(), NumericTraits< MeasurementType >::ZeroValue());
 }
 
 template< typename TInputHistogram >

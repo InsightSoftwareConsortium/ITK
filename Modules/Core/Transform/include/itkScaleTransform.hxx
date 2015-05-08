@@ -27,7 +27,7 @@ namespace itk
 template <typename ScalarType, unsigned int NDimensions>
 ScaleTransform<ScalarType, NDimensions>::ScaleTransform() : Superclass(ParametersDimension)
 {
-  m_Scale.Fill(NumericTraits<ScalarType>::One);
+  m_Scale.Fill(NumericTraits<ScalarType>::OneValue());
 }
 
 

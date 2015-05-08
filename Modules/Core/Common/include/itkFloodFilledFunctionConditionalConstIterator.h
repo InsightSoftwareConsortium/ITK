@@ -186,7 +186,7 @@ public:
     this->m_IsAtEnd = true;
     // Initialize the temporary image
     m_TemporaryPointer->FillBuffer(
-      NumericTraits< typename TTempImage::PixelType >::Zero
+      NumericTraits< typename TTempImage::PixelType >::ZeroValue()
       );
 
     for ( unsigned int i = 0; i < m_Seeds.size(); i++ )

@@ -52,7 +52,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   m_LastVoxelIndex(0),
   m_LastFrameIndex(0),
   m_PointFound(0),
-  m_ObjectValue(NumericTraits< InputPixelType >::One),
+  m_ObjectValue(NumericTraits< InputPixelType >::OneValue()),
   m_OutputMesh(ITK_NULLPTR),
   m_InputImage(ITK_NULLPTR)
 {

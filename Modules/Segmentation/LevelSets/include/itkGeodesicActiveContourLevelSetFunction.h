@@ -130,17 +130,17 @@ public:
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::One);
-    this->SetPropagationWeight(NumericTraits< ScalarValueType >::One);
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
+    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
 protected:
   GeodesicActiveContourLevelSetFunction()
   {
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::One);
-    this->SetPropagationWeight(NumericTraits< ScalarValueType >::One);
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
+    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
 
     m_DerivativeSigma = 1.0;
   }

@@ -102,7 +102,7 @@ public:
   { m_Index = input; }
 
   /** Default constructor */
-  LevelSetNode():m_Value(NumericTraits< PixelType >::Zero)
+  LevelSetNode():m_Value(NumericTraits< PixelType >::ZeroValue())
   {
     m_Index.Fill(0);
   }

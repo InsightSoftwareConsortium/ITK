@@ -98,7 +98,7 @@ public:
 protected:
   /** Write points to output stream */
   template< typename T >
-  void WritePoints(T *buffer, std::ofstream & outputFile, T label = itk::NumericTraits< T >::Zero)
+  void WritePoints(T *buffer, std::ofstream & outputFile, T label = itk::NumericTraits< T >::ZeroValue())
   {
     outputFile.precision(6);
     SizeValueType index = 0;
@@ -113,7 +113,7 @@ protected:
   }
 
   template< typename T >
-  void WriteCells(T *buffer, std::ofstream & outputFile, T label = itk::NumericTraits< T >::Zero)
+  void WriteCells(T *buffer, std::ofstream & outputFile, T label = itk::NumericTraits< T >::ZeroValue())
   {
     const unsigned int numberOfCellPoints = 3;
     SizeValueType      index = 0;

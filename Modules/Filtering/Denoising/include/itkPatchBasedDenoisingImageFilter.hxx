@@ -447,7 +447,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     {
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
       {
-      if (m_ImageMin[ic] < NumericTraits<PixelValueType>::Zero)
+      if (m_ImageMin[ic] < NumericTraits<PixelValueType>::ZeroValue())
         {
         itkExceptionMacro( << "When using POISSON or RICIAN noise models, "
                            << "all components of all pixels in the image must "
@@ -778,7 +778,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     identityTensor(ii,ii) = NumericTraits<PixelValueType>::OneValue();
     }
   RealArrayType identityWeight(m_NumIndependentComponents);
-  identityWeight.Fill(NumericTraits<RealValueType>::One);
+  identityWeight.Fill(NumericTraits<RealValueType>::OneValue());
   RealType      tmpDiff;
   RealArrayType tmpNorm(m_NumIndependentComponents);
   RealArrayType minNorm(m_NumIndependentComponents);
@@ -960,9 +960,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // These basically enforce that the spdMatrix is in fact
   // symmetric positive definite.
   if ( (I3 < NumericTraits<RealTensorValueT>::epsilon() ) ||
-       (D0 < NumericTraits<RealTensorValueT>::Zero) ||
-       (D3 < NumericTraits<RealTensorValueT>::Zero) ||
-       (D5 < NumericTraits<RealTensorValueT>::Zero) ||
+       (D0 < NumericTraits<RealTensorValueT>::ZeroValue()) ||
+       (D3 < NumericTraits<RealTensorValueT>::ZeroValue()) ||
+       (D5 < NumericTraits<RealTensorValueT>::ZeroValue()) ||
        (D0 * D3 < DSq1) ||
        (D0 * D5 < DSq2) ||
        (D3 * D5 < DSq4) ||
@@ -1975,7 +1975,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
     // if second derivative is zero or negative, compute update using gradient
     // descent
-    if ( (vnl_math_abs(secondDerivative) == NumericTraits<RealValueType>::Zero) ||
+    if ( (vnl_math_abs(secondDerivative) == NumericTraits<RealValueType>::ZeroValue()) ||
          (secondDerivative < 0) )
       {
       itkDebugMacro( << "** Second derivative NOT POSITIVE" );

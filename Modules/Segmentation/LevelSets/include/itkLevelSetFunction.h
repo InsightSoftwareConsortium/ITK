@@ -294,10 +294,10 @@ protected:
     m_Center(0),
     m_UseMinimalCurvature(false),
     m_EpsilonMagnitude(static_cast< ScalarValueType >( 1.0e-5 )),
-    m_AdvectionWeight(NumericTraits< ScalarValueType >::Zero),
-    m_PropagationWeight(NumericTraits< ScalarValueType >::Zero),
-    m_CurvatureWeight(NumericTraits< ScalarValueType >::Zero),
-    m_LaplacianSmoothingWeight(NumericTraits< ScalarValueType >::Zero)
+    m_AdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue()),
+    m_PropagationWeight(NumericTraits< ScalarValueType >::ZeroValue()),
+    m_CurvatureWeight(NumericTraits< ScalarValueType >::ZeroValue()),
+    m_LaplacianSmoothingWeight(NumericTraits< ScalarValueType >::ZeroValue())
   {
   }
 

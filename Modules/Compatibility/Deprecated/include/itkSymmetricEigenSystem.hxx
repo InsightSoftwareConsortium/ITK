@@ -31,9 +31,9 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 {
   m_Matrix = ITK_NULLPTR;
   m_UseAbsoluteOrder = true;
-  m_EigenValues.Fill(NumericTraits< TMatrixElement >::Zero);
+  m_EigenValues.Fill(NumericTraits< TMatrixElement >::ZeroValue());
   ArrayType temp;
-  temp.Fill(NumericTraits< TMatrixElement >::Zero);
+  temp.Fill(NumericTraits< TMatrixElement >::ZeroValue());
   m_EigenVectors.Fill(temp);
 }
 

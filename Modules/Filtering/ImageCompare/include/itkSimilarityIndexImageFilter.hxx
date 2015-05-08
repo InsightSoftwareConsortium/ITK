@@ -112,9 +112,9 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
   m_CountOfIntersection.SetSize(numberOfThreads);
 
   // Initialize the temporaries
-  m_CountOfImage1.Fill(NumericTraits< SizeValueType >::Zero);
-  m_CountOfImage2.Fill(NumericTraits< SizeValueType >::Zero);
-  m_CountOfIntersection.Fill(NumericTraits< SizeValueType >::Zero);
+  m_CountOfImage1.Fill(NumericTraits< SizeValueType >::ZeroValue());
+  m_CountOfImage2.Fill(NumericTraits< SizeValueType >::ZeroValue());
+  m_CountOfIntersection.Fill(NumericTraits< SizeValueType >::ZeroValue());
 }
 
 template< typename TInputImage1, typename TInputImage2 >

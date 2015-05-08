@@ -76,8 +76,8 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
     m_CorrelationMetricValueDerivativePerThreadVariables[i].f = NumericTraits<InternalComputationValueType>::ZeroValue();
     m_CorrelationMetricValueDerivativePerThreadVariables[i].m = NumericTraits<InternalComputationValueType>::ZeroValue();
 
-    this->m_CorrelationMetricValueDerivativePerThreadVariables[i].mdm.Fill(NumericTraits<DerivativeValueType>::Zero);
-    this->m_CorrelationMetricValueDerivativePerThreadVariables[i].fdm.Fill(NumericTraits<DerivativeValueType>::Zero);
+    this->m_CorrelationMetricValueDerivativePerThreadVariables[i].mdm.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+    this->m_CorrelationMetricValueDerivativePerThreadVariables[i].fdm.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
     }
 
 }
@@ -137,8 +137,8 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     fdm.SetSize(globalDerivativeSize);
     mdm.SetSize(globalDerivativeSize);
 
-    fdm.Fill(NumericTraits<DerivativeValueType>::Zero);
-    mdm.Fill(NumericTraits<DerivativeValueType>::Zero);
+    fdm.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+    mdm.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
 
     const InternalComputationValueType fc = static_cast<InternalComputationValueType>( 2.0 );
 

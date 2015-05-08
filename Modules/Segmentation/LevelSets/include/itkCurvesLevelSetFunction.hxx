@@ -34,9 +34,9 @@ CurvesLevelSetFunction< TImageType, TFeatureImageType >
 {
   Superclass::Initialize(r);
 
-  this->SetAdvectionWeight(NumericTraits< ScalarValueType >::One);
-  this->SetPropagationWeight(NumericTraits< ScalarValueType >::One);
-  this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
+  this->SetAdvectionWeight(NumericTraits< ScalarValueType >::OneValue());
+  this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
+  this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
 }
 
 template< typename TImageType, typename TFeatureImageType >

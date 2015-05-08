@@ -152,7 +152,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
   // Compute the statistics of the seed point
   typedef MeanImageFunction< InputImageType,
@@ -404,7 +404,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     // upper] bounds prescribed, the pixel is added to the output
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
-    outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+    outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
     IteratorType thirdIt = IteratorType (outputImage, function, m_Seeds);
     thirdIt.GoToBegin();
     try

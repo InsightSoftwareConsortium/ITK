@@ -215,7 +215,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
   typedef BinaryThresholdImageFunction< InputImageType >                               FunctionType;
   typedef FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType > IteratorType;
@@ -249,7 +249,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
       {
       ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight);
       cumulatedProgress += progressWeight;
-      outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+      outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
       function->ThresholdBetween ( m_Lower, static_cast< InputImagePixelType >( guess ) );
       it.GoToBegin();
       while ( !it.IsAtEnd() )
@@ -316,7 +316,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
       {
       ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight);
       cumulatedProgress += progressWeight;
-      outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+      outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
       function->ThresholdBetween (static_cast< InputImagePixelType >( guess ), m_Upper);
       it.GoToBegin();
       while ( !it.IsAtEnd() )
@@ -367,7 +367,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   // now rerun the algorithm with the thresholds that separate the seeds.
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight);
 
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
   if ( m_FindUpperThreshold )
     {
     function->ThresholdBetween (m_Lower, m_IsolatedValue);

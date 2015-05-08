@@ -147,7 +147,7 @@ public:
       itkGenericExceptionMacro(<< "Cannot set the size of a DiffusionTensor3D "
                                "to anything other than 6.");
       }
-    m.Fill(NumericTraits< T >::Zero);
+    m.Fill(NumericTraits< T >::ZeroValue());
   }
 
   /** Return the size of the tensor. Always returns 6. */

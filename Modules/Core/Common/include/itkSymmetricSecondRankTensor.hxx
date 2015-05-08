@@ -237,7 +237,7 @@ void
 SymmetricSecondRankTensor< T, NDimension >
 ::SetIdentity()
 {
-  this->Fill(NumericTraits< T >::Zero);
+  this->Fill(NumericTraits< T >::ZeroValue());
   for ( unsigned int i = 0; i < Dimension; i++ )
     {
     ( *this )( i, i ) = NumericTraits< T >::OneValue();

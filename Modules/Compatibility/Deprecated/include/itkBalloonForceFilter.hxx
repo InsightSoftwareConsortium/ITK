@@ -604,8 +604,8 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   IPixelType vf[3];
   for (unsigned int ip = 0; ip < 3; ip++)
     {
-    vf[ip].Fill(NumericTraits<typename IPixelType::ValueType>::Zero);
-    vd[ip].Fill(NumericTraits<typename IPixelType::ValueType>::Zero);
+    vf[ip].Fill(NumericTraits<typename IPixelType::ValueType>::ZeroValue());
+    vd[ip].Fill(NumericTraits<typename IPixelType::ValueType>::ZeroValue());
     }
   typename IPixelType::VectorType u[3];
 

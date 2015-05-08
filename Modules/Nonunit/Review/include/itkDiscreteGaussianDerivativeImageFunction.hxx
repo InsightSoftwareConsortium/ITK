@@ -122,13 +122,13 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 
   kernelImage->SetRegions(region);
   kernelImage->Allocate();
-  kernelImage->FillBuffer(itk::NumericTraits< TOutput >::Zero);
+  kernelImage->FillBuffer(itk::NumericTraits< TOutput >::ZeroValue());
 
   // Initially the kernel image will be an impulse at the center
   typename KernelImageType::IndexType centerIndex;
   centerIndex.Fill(2 * m_OperatorArray[0].GetRadius()[0]);   // include also
                                                              // boundaries
-  kernelImage->SetPixel(centerIndex, itk::NumericTraits< TOutput >::One);
+  kernelImage->SetPixel(centerIndex, itk::NumericTraits< TOutput >::OneValue());
 
   // Create an image region to be used later that does not include boundaries
   RegionType kernelRegion;

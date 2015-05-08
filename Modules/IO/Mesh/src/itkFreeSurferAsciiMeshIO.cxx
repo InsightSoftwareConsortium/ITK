@@ -254,48 +254,48 @@ FreeSurferAsciiMeshIO
     {
     case UCHAR:
       {
-      WritePoints(static_cast< unsigned char * >( buffer ), outputFile, itk::NumericTraits< unsigned char >::Zero);
+      WritePoints(static_cast< unsigned char * >( buffer ), outputFile, itk::NumericTraits< unsigned char >::ZeroValue());
       break;
       }
     case CHAR:
       {
-      WritePoints(static_cast< char * >( buffer ), outputFile, itk::NumericTraits< char >::Zero);
+      WritePoints(static_cast< char * >( buffer ), outputFile, itk::NumericTraits< char >::ZeroValue());
 
       break;
       }
     case USHORT:
       {
-      WritePoints(static_cast< unsigned short * >( buffer ), outputFile, itk::NumericTraits< unsigned short >::Zero);
+      WritePoints(static_cast< unsigned short * >( buffer ), outputFile, itk::NumericTraits< unsigned short >::ZeroValue());
 
       break;
       }
     case SHORT:
       {
-      WritePoints(static_cast< short * >( buffer ), outputFile, itk::NumericTraits< short >::Zero);
+      WritePoints(static_cast< short * >( buffer ), outputFile, itk::NumericTraits< short >::ZeroValue());
 
       break;
       }
     case UINT:
       {
-      WritePoints(static_cast< unsigned int * >( buffer ), outputFile, itk::NumericTraits< unsigned int >::Zero);
+      WritePoints(static_cast< unsigned int * >( buffer ), outputFile, itk::NumericTraits< unsigned int >::ZeroValue());
 
       break;
       }
     case INT:
       {
-      WritePoints(static_cast< int * >( buffer ), outputFile, itk::NumericTraits< int >::Zero);
+      WritePoints(static_cast< int * >( buffer ), outputFile, itk::NumericTraits< int >::ZeroValue());
 
       break;
       }
     case ULONG:
       {
-      WritePoints(static_cast< unsigned long * >( buffer ), outputFile, itk::NumericTraits< unsigned long >::Zero);
+      WritePoints(static_cast< unsigned long * >( buffer ), outputFile, itk::NumericTraits< unsigned long >::ZeroValue());
 
       break;
       }
     case LONG:
       {
-      WritePoints(static_cast< long * >( buffer ), outputFile, itk::NumericTraits< long >::Zero);
+      WritePoints(static_cast< long * >( buffer ), outputFile, itk::NumericTraits< long >::ZeroValue());
 
       break;
       }
@@ -314,19 +314,19 @@ FreeSurferAsciiMeshIO
       }
     case FLOAT:
       {
-      WritePoints(static_cast< float * >( buffer ), outputFile, itk::NumericTraits< float >::Zero);
+      WritePoints(static_cast< float * >( buffer ), outputFile, itk::NumericTraits< float >::ZeroValue());
 
       break;
       }
     case DOUBLE:
       {
-      WritePoints(static_cast< double * >( buffer ), outputFile, itk::NumericTraits< double >::Zero);
+      WritePoints(static_cast< double * >( buffer ), outputFile, itk::NumericTraits< double >::ZeroValue());
 
       break;
       }
     case LDOUBLE:
       {
-      WritePoints(static_cast< long double * >( buffer ), outputFile, itk::NumericTraits< long double >::Zero);
+      WritePoints(static_cast< long double * >( buffer ), outputFile, itk::NumericTraits< long double >::ZeroValue());
 
       break;
       }

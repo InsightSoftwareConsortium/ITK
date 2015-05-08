@@ -266,14 +266,14 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   else
     {
     this->m_LearningRate = this->m_MaximumNewtonStepSizeInPhysicalUnits / stepScale;
-    if (this->m_LearningRate > NumericTraits<TInternalComputationValueType>::One)
+    if (this->m_LearningRate > NumericTraits<TInternalComputationValueType>::OneValue())
       {
         // learning rate is at most 1 for a newton step
       this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
       }
     }
 
-  if (std::abs(this->m_LearningRate - NumericTraits<TInternalComputationValueType>::One)
+  if (std::abs(this->m_LearningRate - NumericTraits<TInternalComputationValueType>::OneValue())
       > 0.01)
     {
     this->m_NewtonStep *= this->m_LearningRate;
@@ -288,7 +288,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
 
     // Initialize Hessian to identity matrix
-  m_HessianArray[loc].Fill(NumericTraits<TInternalComputationValueType>::Zero);
+  m_HessianArray[loc].Fill(NumericTraits<TInternalComputationValueType>::ZeroValue());
 
   for (unsigned int i=0; i<numLocalPara; i++)
     {

@@ -28,7 +28,7 @@ ThinPlateSplineKernelTransform< TScalar, NDimensions >::ComputeG(const InputVect
 {
   const TScalar r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits< TScalar >::Zero);
+  gmatrix.fill(NumericTraits< TScalar >::ZeroValue());
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     gmatrix[i][i] = r;

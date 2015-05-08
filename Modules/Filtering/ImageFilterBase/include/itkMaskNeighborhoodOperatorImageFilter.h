@@ -151,7 +151,7 @@ public:
 #endif
 
 protected:
-  MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::Zero),
+  MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::ZeroValue()),
     m_UseDefaultValue(true) {}
   virtual ~MaskNeighborhoodOperatorImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

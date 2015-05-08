@@ -113,7 +113,7 @@ public:
   {
     Self b( a.Size() );
 
-    b.Fill(NumericTraits< T >::Zero);
+    b.Fill(NumericTraits< T >::ZeroValue());
     return b;
   }
 
@@ -121,7 +121,7 @@ public:
   {
     Self b( a.Size() );
 
-    b.Fill(NumericTraits< T >::One);
+    b.Fill(NumericTraits< T >::OneValue());
     return b;
   }
 
@@ -189,7 +189,7 @@ public:
   static void SetLength(VariableLengthVector< T > & m, const unsigned int s)
   {
     m.SetSize(s);
-    m.Fill(NumericTraits< T >::Zero);
+    m.Fill(NumericTraits< T >::ZeroValue());
   }
 
   /** Return the size of the vector. */
@@ -222,7 +222,7 @@ public:
   {
     Self b( a.Size() );
 
-    b.Fill(NumericTraits< T >::Zero);
+    b.Fill(NumericTraits< T >::ZeroValue());
     return b;
   }
   /** \deprecated use OneValue() instead */
@@ -230,7 +230,7 @@ public:
   {
     Self b( a.Size() );
 
-    b.Fill(NumericTraits< T >::One);
+    b.Fill(NumericTraits< T >::OneValue());
     return b;
   }
 #endif

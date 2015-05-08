@@ -151,8 +151,8 @@ protected:
     Superclass(),
     m_TargetCondition(AllTargets),
     m_NumberOfTargetsToBeReached(0),
-    m_TargetOffset(NumericTraits< OutputPixelType >::Zero),
-    m_StoppingValue(NumericTraits< OutputPixelType >::Zero),
+    m_TargetOffset(NumericTraits< OutputPixelType >::ZeroValue()),
+    m_StoppingValue(NumericTraits< OutputPixelType >::ZeroValue()),
     m_Satisfied(false),
     m_Initialized(false)
   {

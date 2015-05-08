@@ -181,7 +181,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
       }
     else
       {
-      outIt.Set(NumericTraits< PixelType >::Zero);
+      outIt.Set(NumericTraits< PixelType >::ZeroValue());
       }
     ++inIt;
     ++outIt;

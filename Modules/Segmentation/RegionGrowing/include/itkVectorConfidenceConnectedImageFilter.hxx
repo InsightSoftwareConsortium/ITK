@@ -141,7 +141,7 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
   // Compute the statistics of the seed point
   typedef VectorMeanImageFunction< InputImageType > VectorMeanImageFunctionType;
@@ -170,8 +170,8 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   covariance = CovarianceMatrixType(dimension, dimension);
   mean       = MeanVectorType(dimension);
 
-  covariance.fill(NumericTraits< ComponentRealType >::Zero);
-  mean.fill(NumericTraits< ComponentRealType >::Zero);
+  covariance.fill(NumericTraits< ComponentRealType >::ZeroValue());
+  mean.fill(NumericTraits< ComponentRealType >::ZeroValue());
 
   typedef typename VectorMeanImageFunctionType::OutputType MeanFunctionVectorType;
   typedef typename CovarianceImageFunctionType::OutputType CovarianceFunctionMatrixType;
@@ -282,8 +282,8 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     covariance = CovarianceMatrixType(dimension, dimension);
     mean       = MeanVectorType(dimension);
 
-    covariance.fill(NumericTraits< ComponentRealType >::Zero);
-    mean.fill(NumericTraits< ComponentRealType >::Zero);
+    covariance.fill(NumericTraits< ComponentRealType >::ZeroValue());
+    mean.fill(NumericTraits< ComponentRealType >::ZeroValue());
 
     SizeValueType num = NumericTraits< SizeValueType >::ZeroValue();
 
@@ -336,7 +336,7 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     // upper] bounds prescribed, the pixel is added to the output
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
-    outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+    outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
     IteratorType thirdIt = IteratorType (outputImage, m_ThresholdFunction, m_Seeds);
     thirdIt.GoToBegin();
     try

@@ -126,7 +126,7 @@ SpatialNeighborSubsampler<TSample, TRegion>
     {
     if (queryIndex[dim] < static_cast<IndexValueType>(m_Radius[dim]))
       {
-        searchIndex[dim] = vnl_math_max(NumericTraits<IndexValueType>::Zero, constraintIndex[dim]);
+        searchIndex[dim] = vnl_math_max(NumericTraits<IndexValueType>::ZeroValue(), constraintIndex[dim]);
       }
     else
       {

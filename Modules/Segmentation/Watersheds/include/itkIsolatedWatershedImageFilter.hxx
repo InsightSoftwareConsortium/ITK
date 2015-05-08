@@ -187,7 +187,7 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
       }
     else
       {
-      ot.Set(NumericTraits< OutputImagePixelType >::Zero);
+      ot.Set(NumericTraits< OutputImagePixelType >::ZeroValue());
       }
     ++it;
     ++ot;

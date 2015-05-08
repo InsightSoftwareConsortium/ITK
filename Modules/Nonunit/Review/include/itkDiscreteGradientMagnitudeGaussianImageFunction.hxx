@@ -134,7 +134,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 
   kernelImage->SetRegions(region);
   kernelImage->Allocate();
-  kernelImage->FillBuffer(itk::NumericTraits< TOutput >::Zero);
+  kernelImage->FillBuffer(itk::NumericTraits< TOutput >::ZeroValue());
 
   // Initially the kernel image will be an impulse at the center
   typename KernelImageType::IndexType centerIndex;
@@ -158,8 +158,8 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
   for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension2); ++i )
     {
     // Reset kernel image
-    kernelImage->FillBuffer(itk::NumericTraits< TOutput >::Zero);
-    kernelImage->SetPixel(centerIndex, itk::NumericTraits< TOutput >::One);
+    kernelImage->FillBuffer(itk::NumericTraits< TOutput >::ZeroValue());
+    kernelImage->SetPixel(centerIndex, itk::NumericTraits< TOutput >::OneValue());
 
     for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension2); ++direction )
       {

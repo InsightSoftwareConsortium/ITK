@@ -171,13 +171,13 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::Zero);
+  derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   DerivativeType derivativeF = DerivativeType(ParametersDimension);
-  derivativeF.Fill(NumericTraits<typename DerivativeType::ValueType>::Zero);
+  derivativeF.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   DerivativeType derivativeM = DerivativeType(ParametersDimension);
-  derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::Zero);
+  derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   ti.GoToBegin();
   // First compute the sums
@@ -361,16 +361,16 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::Zero);
+  derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   DerivativeType derivativeF = DerivativeType(ParametersDimension);
-  derivativeF.Fill(NumericTraits<typename DerivativeType::ValueType>::Zero);
+  derivativeF.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   DerivativeType derivativeM = DerivativeType(ParametersDimension);
-  derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::Zero);
+  derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   DerivativeType derivativeM1 = DerivativeType(ParametersDimension);
-  derivativeM1.Fill(NumericTraits<typename DerivativeType::ValueType>::Zero);
+  derivativeM1.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   ti.GoToBegin();
   // First compute the sums

@@ -87,11 +87,11 @@ BinaryThinningImageFilter< TInputImage, TOutputImage >
     {
     if ( it.Get() )
       {
-      ot.Set(NumericTraits< OutputImagePixelType >::One);
+      ot.Set(NumericTraits< OutputImagePixelType >::OneValue());
       }
     else
       {
-      ot.Set(NumericTraits< OutputImagePixelType >::Zero);
+      ot.Set(NumericTraits< OutputImagePixelType >::ZeroValue());
       }
     ++it;
     ++ot;

@@ -76,7 +76,7 @@ public:
   typedef typename TOutputImage::PixelType OutputPixelType;
 
   /** Set the "outside" pixel value. The default value
-   * NumericTraits<OutputPixelType>::Zero. */
+   * NumericTraits<OutputPixelType>::ZeroValue(). */
   itkSetMacro(OutsideValue, OutputPixelType);
 
   /** Get the "outside" pixel value. */

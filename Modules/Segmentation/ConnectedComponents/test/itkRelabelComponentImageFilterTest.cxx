@@ -93,8 +93,8 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   threshold_hi = atoi( argv[4]);
 
   threshold->SetInput (change->GetOutput());
-  threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::One);
-  threshold->SetOutsideValue(itk::NumericTraits<InternalPixelType>::Zero);
+  threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());
+  threshold->SetOutsideValue(itk::NumericTraits<InternalPixelType>::ZeroValue());
   threshold->SetLowerThreshold(threshold_low);
   threshold->SetUpperThreshold(threshold_hi);
   threshold->Update();
@@ -114,7 +114,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   finalThreshold->SetLowerThreshold( 1 ); // object #1
   finalThreshold->SetUpperThreshold( 1 ); // object #1
   finalThreshold->SetInsideValue(255);
-  finalThreshold->SetOutsideValue(itk::NumericTraits<WritePixelType>::Zero);
+  finalThreshold->SetOutsideValue(itk::NumericTraits<WritePixelType>::ZeroValue());
 
   try
     {

@@ -123,7 +123,7 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
   // Zero the output
   outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
   outputImage->Allocate();
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
   typedef NeighborhoodBinaryThresholdImageFunction< InputImageType >                   FunctionType;
   typedef FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType > IteratorType;

@@ -147,7 +147,7 @@ public:
                                "of dimension " << D << " ( = size of "
                                << D *( D + 1 ) / 2 << ") to " << s);
       }
-    m.Fill(NumericTraits< T >::Zero);
+    m.Fill(NumericTraits< T >::ZeroValue());
   }
 
   /** Return the size of the underlying FixedArray. */

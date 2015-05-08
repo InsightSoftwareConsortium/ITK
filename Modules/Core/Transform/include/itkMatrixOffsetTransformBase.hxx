@@ -138,9 +138,9 @@ MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 {
   m_Matrix.SetIdentity();
   m_MatrixMTime.Modified();
-  m_Offset.Fill(NumericTraits<OutputVectorValueType>::Zero);
-  m_Translation.Fill(NumericTraits<OutputVectorValueType>::Zero);
-  m_Center.Fill(NumericTraits<InputPointValueType>::Zero);
+  m_Offset.Fill(NumericTraits<OutputVectorValueType>::ZeroValue());
+  m_Translation.Fill(NumericTraits<OutputVectorValueType>::ZeroValue());
+  m_Center.Fill(NumericTraits<InputPointValueType>::ZeroValue());
   m_Singular = false;
   m_InverseMatrix.SetIdentity();
   m_InverseMatrixMTime = m_MatrixMTime;
