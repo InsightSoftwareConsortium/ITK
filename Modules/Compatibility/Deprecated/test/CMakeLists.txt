@@ -59,6 +59,7 @@ itk_add_test(NAME itkTransformToDisplacementFieldSourceTest03
               ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii
   --compareNumberOfPixelsTolerance 20
    itkTransformToDisplacementFieldSourceTest1 ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii)
+itk_add_test(NAME itkSymmetricEigenSystemTest COMMAND ITKDeprecatedTestDriver itkSymmetricEigenSystemTest)
 
 create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
         itkDICOMImageIO2Test.cxx
@@ -153,8 +154,6 @@ itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection002Test
        COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd}
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection002)
-itk_add_test(NAME itkSymmetricEigenSystemTest
-      COMMAND ITKDeprecatedTests itkSymmetricEigenSystemTest)
 
 ## The following an expample of how to write a program that uses the deprecated AnalyzeIO class.
 add_executable(ConvertAnalyzeFile ConvertAnalyzeFile.cxx)
