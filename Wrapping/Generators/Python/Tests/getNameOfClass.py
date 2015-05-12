@@ -37,7 +37,8 @@ exclude = ["ForwardFFTImageFilter",
            "ComplexToComplexFFTImageFilter",
            "templated_class",
            "HalfHermitianToRealInverseFFTImageFilter",
-           "RealToHalfHermitianForwardFFTImageFilter"]
+           "RealToHalfHermitianForwardFFTImageFilter",
+           "CustomColormapFunction"]
 
 wrongName = 0
 totalName = 0
@@ -80,5 +81,7 @@ for t in dir(itk):
 
 print("%s classes checked." % totalName)
 if wrongName:
-    print("%s classes are not providing the correct name." % wrongName, file=sys.stderr)
+    print(
+        "%s classes are not providing the correct name." % wrongName,
+        file=sys.stderr)
     sys.exit(1)
