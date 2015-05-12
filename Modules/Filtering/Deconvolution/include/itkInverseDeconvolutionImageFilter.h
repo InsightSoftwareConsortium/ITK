@@ -108,7 +108,7 @@ protected:
   ~InverseDeconvolutionImageFilter() {}
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData() ITK_OVERRIDE;
+  virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -138,7 +138,7 @@ public:
   }
   inline TOutput operator()(const TInput1 & I, const TInput2 & H) const
   {
-    double absH = std::abs( H );
+    const double absH = std::abs( H );
     TOutput value = NumericTraits< TOutput >::ZeroValue();
     if ( absH >= m_KernelZeroMagnitudeThreshold )
       {
