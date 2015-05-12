@@ -56,6 +56,10 @@ int itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
   convolutionFilter->SetKernelImage( reader2->GetOutput() );
   convolutionFilter->SetBoundaryCondition( &cbc );
 
+  // Use the same SizeGreatestPrimeFactor across FFT backends to get
+  // consistent results.
+  convolutionFilter->SetSizeGreatestPrimeFactor( 5 );
+
   bool normalize = false;
   if( argc >= 5 )
     {
@@ -71,6 +75,7 @@ int itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
   deconvolutionFilter->SetKernelImage( reader2->GetOutput() );
   deconvolutionFilter->SetNormalize( normalize );
   deconvolutionFilter->SetBoundaryCondition( &cbc );
+  deconvolutionFilter->SetSizeGreatestPrimeFactor( 5 );
 
   // Check default KernelZeroMagnitudeThreshold value
   TEST_SET_GET_VALUE( 1.0e-4, deconvolutionFilter->GetKernelZeroMagnitudeThreshold() );

@@ -56,6 +56,11 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
   convolutionFilter->SetInput( reader1->GetOutput() );
   convolutionFilter->SetKernelImage( reader2->GetOutput() );
 
+  // Use the same SizeGreatestPrimeFactor across FFT backends to get
+  // consistent results.
+  convolutionFilter->SetSizeGreatestPrimeFactor( 5 );
+
+
   bool normalize = false;
   if( argc >= 5 )
     {
@@ -71,6 +76,7 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
   deconvolutionFilter->SetKernelImage( reader2->GetOutput() );
   deconvolutionFilter->SetNormalize( normalize );
   deconvolutionFilter->SetBoundaryCondition( &cbc );
+  deconvolutionFilter->SetSizeGreatestPrimeFactor( 5 );
 
   // Check default RegularizationConstant value
   TEST_SET_GET_VALUE( 0.0, deconvolutionFilter->GetRegularizationConstant() );
