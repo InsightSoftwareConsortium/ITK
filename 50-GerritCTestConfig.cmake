@@ -4,3 +4,19 @@ set(dashboard_no_update 1)
 set(dashboard_model "Experimental")
 set(dashboard_track "Gerrit")
 set(dashboard_no_clean 1)
+
+find_package(Git)
+if(GIT_EXECUTABLE)
+  execute_process(COMMAND ${GIT_EXECUTABLE} diff-tree --no-commit-id --name-only -r HEAD
+    WORKING_DIRECTORY "${CTEST_DASHBOARD_ROOT}/${dashboard_source_name}"
+    RESULT_VARIABLE result
+    OUTPUT_VARIABLE output)
+  if(${result} EQUAL 0 AND "${output}" MATCHES "Modules/Remote")
+    string(REGEX MATCHALL "^Modules/Remote/.*[.]remote[.]cmake" remote_paths "${output}")
+    foreach(remote ${remote_paths})
+      string(REGEX REPLACE "Modules/Remote/(.*)[.]remote[.]cmake" "Module_\\1:BOOL=ON" module_enable "${remote}")
+      message(STATUS "Remote module change detected. Adding: ${module_enable}")
+      set(dashboard_cache "${dashboard_cache} ${module_enable}")
+    endforeach()
+  endif()
+endif()
