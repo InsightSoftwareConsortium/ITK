@@ -524,11 +524,11 @@ int itkImageToImageMetricv4Test(int, char ** const)
                                                             numberOfThreads++ )
     {
     metric->SetMaximumNumberOfThreads( numberOfThreads );
-    for( char useMovingFilter = 1;
-            useMovingFilter >= 0; useMovingFilter-- )
+    for( signed char useMovingFilter = 1;
+            useMovingFilter >= 0; --useMovingFilter )
       {
-        for( char useFixedFilter = 1;
-                useFixedFilter >= 0; useFixedFilter-- )
+        for( signed char useFixedFilter = 1;
+                useFixedFilter >= 0; --useFixedFilter )
         {
         //Have to recompute new truth values for each permutation of
         // image gradient calculation options.
