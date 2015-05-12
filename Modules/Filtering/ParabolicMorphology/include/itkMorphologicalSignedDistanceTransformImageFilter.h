@@ -38,7 +38,7 @@ namespace itk
  * DistanceTransforms filters.
  *
  * \author Richard Beare, Monash University, Department of Medicine,
- * Melbourne, Australia. <Richard.Beare@med.monash.edu.au>
+ * Melbourne, Australia. <Richard.Beare@monash.edu>
  *
  **/
 

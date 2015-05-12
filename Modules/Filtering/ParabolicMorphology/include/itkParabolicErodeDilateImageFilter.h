@@ -50,7 +50,7 @@ namespace itk
  * SignedMaurerDistanceMap extensions by Gaetan Lehman
  *
  * \author Richard Beare, Department of Medicine, Monash University,
- * Australia.  <Richard.Beare@med.monash.edu.au>
+ * Australia.  <Richard.Beare@monash.edu>
  *
  **/
 

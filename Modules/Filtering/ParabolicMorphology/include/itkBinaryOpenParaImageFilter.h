@@ -34,10 +34,12 @@ namespace itk
  * This filter was developed as a result of discussions with
  * M.Starring on the ITK mailing list.
  *
+ * Also note that the inputs must be 0/1 not 0/max for pixel type.
+ *
  * \sa itkParabolicErodeImageFilter
  *
  * \author Richard Beare, Department of Medicine, Monash University,
- * Australia.  <Richard.Beare@med.monash.edu.au>
+ * Australia.  <Richard.Beare@monash.edu>
  **/
 
 

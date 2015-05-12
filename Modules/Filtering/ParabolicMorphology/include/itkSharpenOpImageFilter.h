@@ -19,7 +19,7 @@ namespace itk
  * to be the same.
  *
  * \author Richard Beare, Department of Medicine, Monash University,
- * Australia.  <Richard.Beare@med.monash.edu.au>
+ * Australia.  <Richard.Beare@monash.edu>
  *
  */
 namespace Function

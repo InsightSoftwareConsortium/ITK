@@ -27,7 +27,7 @@ namespace itk
  * safe.
  *
  * \author Richard Beare, Monash University, Department of Medicine,
- * Melbourne, Australia. <Richard.Beare@med.monash.edu.au>
+ * Melbourne, Australia. <Richard.Beare@monash.edu>
  *
  **/
 

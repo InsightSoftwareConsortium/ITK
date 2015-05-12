@@ -18,7 +18,7 @@ namespace itk
  * \sa itkParabolicOpenCloseImageFilter
  *
  * \author Richard Beare, Department of Medicine, Monash University,
- * Australia.  <Richard.Beare@med.monash.edu.au>
+ * Australia.  <Richard.Beare@monash.edu>
  **/
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
