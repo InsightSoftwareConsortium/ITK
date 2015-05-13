@@ -56,7 +56,7 @@ macro(install_library library)
 endmacro()
 
 macro (install_pdb library)
-  if (MSVC)
+  if (MSVC AND FALSE) # Disabled for ITK
     if(CMAKE_CONFIGURATION_TYPES)
       # Visual Studio
       # The following does not work with LOCATION keyword. See:

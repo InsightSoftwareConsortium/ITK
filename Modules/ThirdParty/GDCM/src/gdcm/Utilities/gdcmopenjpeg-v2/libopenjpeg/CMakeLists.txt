@@ -77,14 +77,3 @@ if(NOT OPENJPEG_INSTALL_NO_LIBRARIES)
     ARCHIVE DESTINATION ${OPENJPEG_INSTALL_LIB_DIR} COMPONENT DebugDevel
     )
 endif()
-
-# Install includes files
-if(NOT OPENJPEG_INSTALL_NO_DEVELOPMENT)
-  file(GLOB header_files "*.h")
-  install(FILES ${header_files}
-    DESTINATION ${OPENJPEG_INSTALL_INCLUDE_DIR} COMPONENT Headers
-    )
-endif()
-#install(FILES openjpeg.h
-#	DESTINATION ${OPENJPEG_INSTALL_INCLUDE_DIR} COMPONENT Headers
-#)

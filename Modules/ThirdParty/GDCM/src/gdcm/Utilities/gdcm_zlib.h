@@ -19,7 +19,7 @@
 #ifdef GDCM_USE_SYSTEM_ZLIB
 // $ dpkg -S /usr/include/zlib.h
 // zlib1g-dev: /usr/include/zlib.h
-# include <zlib.h>
+# include "itk_zlib.h"
 #else
 # include <gdcmzlib/zlib.h>
 #endif
