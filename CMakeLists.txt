@@ -1,8 +1,4 @@
-if(WIN32)
-  cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
-else()
-  cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
-endif()
+cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 
 foreach(p
     CMP0025 # CMake 3.0
