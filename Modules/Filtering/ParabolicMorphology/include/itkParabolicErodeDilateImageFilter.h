@@ -54,6 +54,9 @@ namespace itk
  *
  * http://hdl.handle.net/1926/1370
  *
+ *
+ * \ingroup ParabolicMorphology
+ *
  * \author Richard Beare, Department of Medicine, Monash University,
  * Australia.  <Richard.Beare@monash.edu>
  *

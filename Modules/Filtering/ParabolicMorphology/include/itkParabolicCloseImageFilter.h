@@ -22,6 +22,9 @@ namespace itk
  *
  * \sa itkParabolicOpenCloseImageFilter
  *
+ *
+ * \ingroup ParabolicMorphology
+ *
  * \author Richard Beare, Department of Medicine, Monash University,
  * Australia.  <Richard.Beare@monash.edu>
  **/

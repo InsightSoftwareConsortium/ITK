@@ -43,6 +43,7 @@ namespace itk
  *
  * \sa itkParabolicErodeImageFilter
  *
+ *
  * \author Richard Beare, Department of Medicine, Monash University,
  * Australia.  <Richard.Beare@monash.edu>
  **/
