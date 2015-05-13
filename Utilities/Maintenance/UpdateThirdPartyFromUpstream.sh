@@ -107,9 +107,7 @@ local upstream_new_date=$(echo "$upstream_new_datetime" | grep -o "$regex_date")
 
 
 ## Old upstream commit ##
-if [[ -z "$snapshot_old_sha" ]]; then
-  local upstream_old_sha=$(git log --format=%H | tail -1)
-else
+if [[ -n "$snapshot_old_sha" ]]; then
   local upstream_old_sha_short=$(
     git cat-file commit $snapshot_old_sha |
     sed -n '/'"$snapshot_old_regex"'/ {s/.*(//;s/)//;p}' |
@@ -147,7 +145,7 @@ rm -rf "$snapshot_temp_path" "$snapshot_temp_index"
 
 ## New shapshot commit ##
 if [[ -z "$snapshot_old_sha" ]]; then
-  local snapshot_new_shortlog="Initial import of $upstream_old_sha..$upstream_new_sha"
+  local snapshot_new_shortlog="Initial import of $upstream_new_sha"
   local snapshot_new_change_id=$(git commit-tree $snapshot_new_tree </dev/null)
   local snapshot_log_command=""
 else
@@ -188,10 +186,21 @@ fi
 ## New shapshot branch ##
 git update-ref refs/heads/$snapshot_branch_name $snapshot_new_sha
 local module_relative_path=${module_path#"$toplevel_path/"}
-echo "Created upstream snapshot branch '$snapshot_branch_name'.  Merge with command:
+echo "Created upstream snapshot branch '$snapshot_branch_name'."
+if [[ -z "$snapshot_old_sha" ]]; then
+    echo "Perform initial merge with commands:
+
+    cd \"$toplevel_path\" &&
+    git merge -s ours --no-commit $snapshot_branch_name &&
+    git read-tree -u --prefix=$module_relative_path/$snapshot_relative_path/ $snapshot_branch_name &&
+    git commit
+"
+else
+    echo "Merge with commands:
 
     cd \"$toplevel_path\" &&
     git merge -X subtree=$module_relative_path/$snapshot_relative_path $snapshot_branch_name
 "
+fi
 
 }
