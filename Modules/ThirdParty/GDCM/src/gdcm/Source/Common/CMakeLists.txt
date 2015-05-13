@@ -183,7 +183,7 @@ endif()
 if(APPLE)
   target_link_libraries(gdcmCommon ${COREFOUNDATION_LIBRARY})
 endif()
-if(UNIX)
+if(UNIX AND ITK_DYNAMIC_LOADING)
   target_link_libraries(gdcmCommon ${CMAKE_DL_LIBS})
 endif()
 
