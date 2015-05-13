@@ -12,6 +12,8 @@ namespace itk
  *
  * Numeric conversions (castings) are done by the C++ defaults.
  *
+ * \ingroup ParabolicMorphology
+ *
  * \ingroup IntensityImageFilters  Multithreaded
  */
 namespace Function

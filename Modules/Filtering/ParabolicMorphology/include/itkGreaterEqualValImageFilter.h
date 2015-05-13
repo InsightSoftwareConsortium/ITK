@@ -7,6 +7,9 @@ namespace itk
 /** \class GreaterEqualValImageFilter
  * \brief Computes the absolute difference between an image and a
  * constant. Can be done with ShiftScale and AbsIamgeFilters.
+ *
+ * \ingroup ParabolicMorphology
+ *
  */
 
 
