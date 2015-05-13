@@ -21,6 +21,7 @@
 #include <vector>
 #include <iterator>
 #include <iomanip>
+#include <algorithm>
 
 namespace gdcm_ns
 {
