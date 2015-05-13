@@ -26,6 +26,13 @@ namespace itk
  * square of the largest value of the distance - just use float to be
  * safe.
  *
+ * Core methods described in the InsightJournal article:
+ * "Morphology with parabolic structuring elements"
+ *
+ * http://hdl.handle.net/1926/1370
+ *
+ * \ingroup ParabolicMorphology
+ *
  * \author Richard Beare, Monash University, Department of Medicine,
  * Melbourne, Australia. <Richard.Beare@monash.edu>
  *

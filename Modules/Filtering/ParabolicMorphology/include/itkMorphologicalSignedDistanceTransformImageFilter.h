@@ -37,6 +37,14 @@ namespace itk
  * Otherwise it is meant to have an interface to the other
  * DistanceTransforms filters.
  *
+ * Core methods described in the InsightJournal article:
+ * "Morphology with parabolic structuring elements"
+ *
+ * http://hdl.handle.net/1926/1370
+ *
+ *
+ * \ingroup ParabolicMorphology
+ *
  * \author Richard Beare, Monash University, Department of Medicine,
  * Melbourne, Australia. <Richard.Beare@monash.edu>
  *
