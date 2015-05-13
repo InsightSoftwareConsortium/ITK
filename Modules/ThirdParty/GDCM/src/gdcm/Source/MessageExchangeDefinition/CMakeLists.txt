@@ -98,9 +98,12 @@ if(GDCM_USE_SYSTEM_SOCKETXX)
 else()
   target_link_libraries(gdcmMEXD gdcmsocketxx)
 endif()
-set_target_properties(gdcmMEXD PROPERTIES ${GDCM_LIBRARY_PROPERTIES} LINK_INTERFACE_LIBRARIES "")
 if(WIN32)
   target_link_libraries(gdcmMEXD ws2_32)
+endif()
+set_target_properties(gdcmMEXD PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
+if(BUILD_SHARED_LIBS)
+  set_target_properties(gdcmMEXD PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
 endif()
 
 # libs
