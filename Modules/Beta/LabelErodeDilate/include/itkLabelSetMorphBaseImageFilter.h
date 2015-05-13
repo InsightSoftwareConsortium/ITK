@@ -127,7 +127,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelSetMorphBaseImageFilter.txx"
+#include "itkLabelSetMorphBaseImageFilter.hxx"
 #endif
 
 #endif

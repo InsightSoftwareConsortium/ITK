@@ -1,5 +1,5 @@
-#ifndef __itkLabelSetMorphBaseImageFilter_txx
-#define __itkLabelSetMorphBaseImageFilter_txx
+#ifndef __itkLabelSetMorphBaseImageFilter_hxx
+#define __itkLabelSetMorphBaseImageFilter_hxx
 
 #include "itkLabelSetMorphBaseImageFilter.h"
 #include "itkImageRegionConstIterator.h"
