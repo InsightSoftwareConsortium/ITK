@@ -13,6 +13,11 @@ namespace itk
  *
  * This filter is threaded.
  *
+ * Core methods described in the InsightJournal article:
+ * "Morphology with parabolic structuring elements"
+ *
+ * http://hdl.handle.net/1926/1370
+ *
  * \sa itkParabolicOpenCloseImageFilter
  *
  * \author Richard Beare, Department of Medicine, Monash University,

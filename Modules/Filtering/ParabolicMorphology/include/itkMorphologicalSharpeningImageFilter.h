@@ -33,6 +33,11 @@ namespace itk
  * bibsource = {DBLP, http://dblp.uni-trier.de}
 }
 
+ * Core methods described in the InsightJournal article:
+ * "Morphology with parabolic structuring elements"
+ *
+ * http://hdl.handle.net/1926/1370
+ *
  * \author Richard Beare, Monash University, Department of Medicine,
  * Melbourne, Australia. <Richard.Beare@monash.edu>
  *

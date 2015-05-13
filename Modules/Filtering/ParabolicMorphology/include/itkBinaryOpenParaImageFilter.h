@@ -36,6 +36,10 @@ namespace itk
  *
  * Also note that the inputs must be 0/1 not 0/max for pixel type.
  *
+ * Core methods described in the InsightJournal article:
+ * "Morphology with parabolic structuring elements"
+ *
+ * http://hdl.handle.net/1926/1370
  * \sa itkParabolicErodeImageFilter
  *
  * \author Richard Beare, Department of Medicine, Monash University,

@@ -15,6 +15,10 @@ namespace itk
  * that multiple image copies aren't necessary.
  *
  * This filter is threaded.
+ * Core methods described in the InsightJournal article:
+ * "Morphology with parabolic structuring elements"
+ *
+ * http://hdl.handle.net/1926/1370
  *
  * \sa itkParabolicErodeDilateImageFilter
  *
