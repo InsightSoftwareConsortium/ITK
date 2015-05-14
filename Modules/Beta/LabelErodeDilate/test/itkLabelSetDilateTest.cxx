@@ -11,8 +11,8 @@ int doDilate(char *In, char *Out, int radius)
   typedef typename itk::Image<MaskPixType, dim> MaskImType;
 
   // load
-  typedef itk::ImageFileReader< MaskImType > ReaderType;
-  ReaderType::Pointer reader = ReaderType::New();
+  typedef typename itk::ImageFileReader< MaskImType > ReaderType;
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( In );
   try 
     {
@@ -25,13 +25,14 @@ int doDilate(char *In, char *Out, int radius)
     }
 
   // Label dilation
-  itk::Instance< itk::LabelSetDilateImageFilter<MaskImType, MaskImType> > Dilate;
-  Dilate->SetInput(reader->GetOutput());
-  Dilate->SetRadius(radius);
-  Dilate->SetUseImageSpacing(true);
-  typedef itk::ImageFileWriter< MaskImType > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( Dilate->GetOutput() );
+  typedef typename itk::LabelSetDilateImageFilter<MaskImType, MaskImType> FilterType;
+  typename FilterType::pointer filter = FilterType::New();
+  filter->SetInput(reader->GetOutput());
+  filter->SetRadius(radius);
+  filter->SetUseImageSpacing(true);
+  typedef typename itk::ImageFileWriter< MaskImType > WriterType;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( filter->GetOutput() );
   writer->SetFileName( Out );
   try
     {
