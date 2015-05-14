@@ -45,7 +45,9 @@ void
 LabelSetMorphBaseImageFilter<TInputImage, doDilate,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId)
 {
-
+  // stop warnings
+  (void)outputRegionForThread;
+  (void)threadId;
 }
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
