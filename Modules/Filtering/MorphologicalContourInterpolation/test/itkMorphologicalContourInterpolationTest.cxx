@@ -18,41 +18,48 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMorphologicalContourInterpolator.h"
 
 int
 itkMorphologicalContourInterpolationTest(int argc, char * argv[])
 {
-  // if( argc < 3 )
-  //{
-  // std::cerr << "Usage: " << argv[0];
-  // std::cerr << " inputImage outputImage";
-  // std::cerr << std::endl;
-  // return EXIT_FAILURE;
-  // }
-  // const char * inputImageFileName = argv[1];
-  // const char * outputImageFileName = argv[2];
+  if (argc < 3)
+  {
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " inputImage outputImage";
+    std::cerr << std::endl;
+    return EXIT_FAILURE;
+  }
+  const char * inputImageFileName = argv[1];
+  const char * outputImageFileName = argv[2];
 
-  // typedef signed short PixelType;
-  // const unsigned int Dimension = 3;
-  // typedef itk::Image< PixelType, Dimension > ImageType;
+  typedef signed short                     PixelType;
+  const unsigned int                       Dimension = 3;
+  typedef itk::Image<PixelType, Dimension> ImageType;
 
-  // typedef itk::ImageFileReader < ImageType > ReaderType;
-  // ReaderType::Pointer reader     = ReaderType::New();
-  // reader->SetFileName( inputImageFileName );
+  typedef itk::ImageFileReader<ImageType> ReaderType;
+  ReaderType::Pointer                     reader = ReaderType::New();
+  reader->SetFileName(inputImageFileName);
 
-  // typedef itk::ImageFileWriter< ImageType > WriterType;
-  // WriterType::Pointer writer = WriterType::New();
-  // writer->SetFileName( outputImageFileName );
-  // writer->SetInput( reader->GetOutput() );
-  // try
-  //{
-  // writer->Update();
-  // }
-  // catch( itk::ExceptionObject & error )
-  //{
-  // std::cerr << "Error: " << error << std::endl;
-  // return EXIT_FAILURE;
-  // }
+  typedef itk::MorphologicalContourInterpolator<ImageType> mciType;
+  mciType::Pointer                                         mci = mciType::New();
+  mci->SetInput(reader->GetOutput());
+  mci->SetLabel(0);
+
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer                     writer = WriterType::New();
+  writer->SetFileName(outputImageFileName);
+  writer->SetInput(mci->GetOutput());
+
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & error)
+  {
+    std::cerr << "Error: " << error << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
