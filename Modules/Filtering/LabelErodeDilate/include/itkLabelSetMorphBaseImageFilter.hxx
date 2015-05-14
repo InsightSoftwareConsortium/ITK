@@ -10,7 +10,7 @@
 #include "itkImageLinearConstIteratorWithIndex.h"
 
 #include "itkLabelSetUtils.h"
-
+#include "itkImageFileWriter.h"
 
 namespace itk
 {
