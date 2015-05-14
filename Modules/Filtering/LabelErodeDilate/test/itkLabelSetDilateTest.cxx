@@ -11,8 +11,8 @@ int doDilate(char *In, char *Out, int radius)
   typedef typename itk::Image<MaskPixType, dim> MaskImType;
 
   // load
-  typedef itk::ImageFileReader< MaskImType > ReaderType;
-  ReaderType::Pointer reader = ReaderType::New();
+  typedef typename itk::ImageFileReader< MaskImType > ReaderType;
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( In );
   try 
     {
@@ -25,13 +25,14 @@ int doDilate(char *In, char *Out, int radius)
     }
 
   // Label dilation
-  itk::Instance< itk::LabelSetDilateImageFilter<MaskImType, MaskImType> > Dilate;
-  Dilate->SetInput(reader->GetOutput());
-  Dilate->SetRadius(radius);
-  Dilate->SetUseImageSpacing(true);
-  typedef itk::ImageFileWriter< MaskImType > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( Dilate->GetOutput() );
+  typedef typename itk::LabelSetDilateImageFilter<MaskImType, MaskImType> FilterType;
+  typename FilterType::Pointer filter = FilterType::New();
+  filter->SetInput(reader->GetOutput());
+  filter->SetRadius(radius);
+  filter->SetUseImageSpacing(true);
+  typedef typename itk::ImageFileWriter< MaskImType > WriterType;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( filter->GetOutput() );
   writer->SetFileName( Out );
   try
     {
@@ -48,6 +49,20 @@ int doDilate(char *In, char *Out, int radius)
 }
 
 /////////////////////////////////
+int readImageInfo(std::string filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim)
+{
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(filename.c_str(), itk::ImageIOFactory::ReadMode);
+  if (imageIO.IsNull())
+    return 0;
+
+
+  imageIO->SetFileName(filename.c_str());
+  imageIO->ReadImageInformation();
+
+  *ComponentType = imageIO->GetComponentType();
+  *dim = imageIO->GetNumberOfDimensions();
+  return(1);
+}
 
 int itkLabelSetDilateTest(int argc, char * argv[])
 {
@@ -64,7 +79,7 @@ int itkLabelSetDilateTest(int argc, char * argv[])
 
   if (!readImageInfo(argv[1], &ComponentType, &dim1))
     {
-    std::cerr << "Failed to open " << CmdLineObj.InputIm << std::endl;
+    std::cerr << "Failed to open " << argv[1] << std::endl;
     return(EXIT_FAILURE);
     }
 
