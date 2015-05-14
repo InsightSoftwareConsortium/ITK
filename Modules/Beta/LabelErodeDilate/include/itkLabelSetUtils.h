@@ -349,7 +349,7 @@ void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputI
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
-  const RealType dd=m_Extreme; // stop warnings
+  (void)m_Extreme; // stop warnings
   typedef typename itk::Array<RealType> LineBufferType;
   typedef typename itk::Array<typename TInIter::PixelType> LabelBufferType;
   RealType iscale = 1.0;
