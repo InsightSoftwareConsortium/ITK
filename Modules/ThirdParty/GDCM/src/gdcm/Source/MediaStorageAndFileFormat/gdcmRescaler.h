@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -23,25 +22,32 @@ namespace gdcm
 
 /**
  * \brief Rescale class
- * This class is meant to apply the linear tranform of Stored Pixel Value to Real World Value.
- * This is mostly found in CT or PET dataset, where the value are stored using one type, but
- * need to be converted to another scale using a linear transform.
+ * This class is meant to apply the linear transform of Stored Pixel Value to
+ * Real World Value.
+ * This is mostly found in CT or PET dataset, where the value are stored using
+ * one type, but need to be converted to another scale using a linear
+ * transform.
  * There are basically two cases:
- * In CT: the linear transform is generally integer based. E.g. the Stored Pixel Type is unsigned
- * short 12bits, but to get Hounsfield unit, one need to apply the linear transform:
+ * In CT: the linear transform is generally integer based. E.g. the Stored
+ * Pixel Type is unsigned short 12bits, but to get Hounsfield unit, one need to
+ * apply the linear transform:
  *  \f[
  *   RWV = 1. * SV - 1024
  *  \f]
- * So the best scalar to store the Real World Value will be 16 bits signed type.
- * In PET: the linear transform is generally floating point based.
- * Since the dynamic range can be quite high, the Rescale Slope / Rescale Intercept can be
- * changing thoughout the Series. So it is important to read all linear transform and deduce
- * the best Pixel Type only at the end (when all the images to be read have been parsed).
+ * So the best scalar to store the Real World Value will be 16 bits signed
+ * type.
  *
- * \warning Internally any time a floating point value is found either in the Rescale Slope
- * or the Rescale Intercept it is assumed that the best matching output pixel type is FLOAT64
- * (in previous implementation it was FLOAT32). Because VR:DS is closer to a 64bits floating point type
- * FLOAT64 is thus a best matching pixel type for the floating point transformation.
+ * In PET: the linear transform is generally floating point based.
+ * Since the dynamic range can be quite high, the Rescale Slope / Rescale
+ * Intercept can be changing throughout the Series. So it is important to read
+ * all linear transform and deduce the best Pixel Type only at the end (when
+ * all the images to be read have been parsed).
+ *
+ * \warning Internally any time a floating point value is found either in the
+ * Rescale Slope or the Rescale Intercept it is assumed that the best matching
+ * output pixel type is FLOAT64 (in previous implementation it was FLOAT32).
+ * Because VR:DS is closer to a 64bits floating point type FLOAT64 is thus a
+ * best matching pixel type for the floating point transformation.
  *
  * Example: Let say input is FLOAT64, and we want UINT16 as ouput, we would do:
  *
@@ -54,7 +60,8 @@ namespace gdcm
  *  ir.InverseRescale(output,input,numberofbytes );
  *\endcode
  *
- * \note handle floating point transformation back and forth to integer properly (no loss)
+ * \note handle floating point transformation back and forth to integer
+ * properly (no loss)
  *
  * \see Unpacker12Bits
  */
@@ -72,9 +79,11 @@ public:
 
   /// Set Intercept: used for both direct&inverse transformation
   void SetIntercept(double i) { Intercept = i; }
+  double GetIntercept() const { return Intercept; }
 
   /// Set Slope: user for both direct&inverse transformation
   void SetSlope(double s) { Slope = s; }
+  double GetSlope() const { return Slope; }
 
   /// By default (when UseTargetPixelType is false), a best
   /// matching Target Pixel Type is computed. However user can override

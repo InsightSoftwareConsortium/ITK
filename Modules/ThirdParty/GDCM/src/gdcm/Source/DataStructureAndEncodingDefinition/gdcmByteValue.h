@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -24,10 +23,11 @@
 #include <iomanip>
 #include <algorithm>
 
-//#include <stdlib.h> // abort
-
-namespace gdcm
+namespace gdcm_ns
 {
+#if !defined(SWIGPYTHON) && !defined(SWIGCSHARP) && !defined(SWIGJAVA) && !defined(SWIGPHP)
+using namespace gdcm;
+#endif
 /**
  * \brief Class to represent binary value (array of bytes)
  * \note
@@ -68,44 +68,18 @@ public:
   }
 
   bool IsEmpty() const {
+#if 0
     if( Internal.empty() ) assert( Length == 0 );
     return Internal.empty();
+#else
+  return Length == 0;
+#endif
   }
   VL GetLength() const { return Length; }
+
+  VL ComputeLength() const { return Length + Length % 2; }
   // Does a reallocation
-  void SetLength(VL vl) {
-    VL l(vl);
-#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
-    // CompressedLossy.dcm
-    if( l.IsUndefined() ) throw Exception( "Impossible" );
-    if ( l.IsOdd() ) {
-      gdcmDebugMacro(
-        "BUGGY HEADER: Your dicom contain odd length value field." );
-      ++l;
-      }
-#else
-    assert( !l.IsUndefined() && !l.IsOdd() );
-#endif
-    // I cannot use reserve for now. I need to implement:
-    // STL - vector<> and istream
-    // http://groups.google.com/group/comp.lang.c++/msg/37ec052ed8283e74
-//#define SHORT_READ_HACK
-    try
-      {
-#ifdef SHORT_READ_HACK
-    if( l <= 0xff )
-#endif
-      Internal.resize(l);
-      //Internal.reserve(l);
-      }
-    catch(...)
-      {
-      //throw Exception("Impossible to allocate: " << l << " bytes." );
-      throw Exception("Impossible to allocate" );
-      }
-    // Keep the exact length
-    Length = vl;
-  }
+  void SetLength(VL vl);
 
   operator const std::vector<char>& () const { return Internal; }
 
@@ -128,6 +102,7 @@ public:
     return Length == bv.Length && Internal == bv.Internal;
     }
 
+  void Append(ByteValue const & bv);
 
   void Clear() {
     Internal.clear();
@@ -142,17 +117,7 @@ public:
     std::vector<char>::iterator it = Internal.begin();
     for(; it != Internal.end(); ++it) *it = c;
   }
-  bool GetBuffer(char *buffer, unsigned long length) const {
-    // SIEMENS_GBS_III-16-ACR_NEMA_1.acr has a weird pixel length
-    // so we need an inequality
-    if( length <= Internal.size() )
-      {
-      memcpy(buffer, &Internal[0], length);
-      return true;
-      }
-    gdcmDebugMacro( "Could not handle length= " << length );
-    return false;
-    }
+  bool GetBuffer(char *buffer, unsigned long length) const;
   bool WriteBuffer(std::ostream &os) const {
     if( Length ) {
       //assert( Internal.size() <= Length );
@@ -163,16 +128,23 @@ public:
   }
 
   template <typename TSwap, typename TType>
-  std::istream &Read(std::istream &is) {
+  std::istream &Read(std::istream &is, bool readvalues = true) {
     // If Length is odd we have detected that in SetLength
     // and calling std::vector::resize make sure to allocate *AND*
     // initialize values to 0 so we are sure to have a \0 at the end
     // even in this case
     if(Length)
       {
-      is.read(&Internal[0], Length);
-      assert( Internal.size() == Length || Internal.size() == Length + 1 );
-      TSwap::SwapArray((TType*)&Internal[0], Internal.size() / sizeof(TType) );
+      if( readvalues )
+        {
+        is.read(&Internal[0], Length);
+        assert( Internal.size() == Length || Internal.size() == Length + 1 );
+        TSwap::SwapArray((TType*)&Internal[0], Internal.size() / sizeof(TType) );
+        }
+      else
+        {
+        is.seekg(Length, std::ios::cur);
+        }
       }
     return is;
   }
@@ -203,7 +175,7 @@ public:
   /**
    * \brief  Checks whether a 'ByteValue' is printable or not (in order
    *         to avoid corrupting the terminal of invocation when printing)
-   *         I dont think this function is working since it does not handle
+   *         I don't think this function is working since it does not handle
    *         UNICODE or character set...
    */
   bool IsPrintable(VL length) const {
@@ -220,6 +192,10 @@ public:
     return true;
     }
 
+  /**To Print Values in Native DICOM format **/
+  void PrintPNXML(std::ostream &os) const;
+  void PrintASCIIXML(std::ostream &os) const;
+  void PrintHexXML(std::ostream &os) const;
 protected:
   void Print(std::ostream &os) const {
   // This is perfectly valid to have a Length = 0 , so we cannot check
@@ -243,7 +219,14 @@ protected:
     os << "(no value available)";
     }
   }
+/*
+//Introduce check for invalid XML characters
+friend std::ostream& operator<<(std::ostream &os,const char c);
+*/
 
+  void SetLengthOnly(VL vl) {
+    Length = vl;
+  }
 
 private:
   std::vector<char> Internal;
@@ -254,6 +237,6 @@ private:
   VL Length;
 };
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #endif //GDCMBYTEVALUE_H

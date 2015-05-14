@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -18,7 +17,7 @@
 
 #include "gdcmFragment.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 /**
  * \brief Class to represent a BasicOffsetTable
@@ -55,6 +54,7 @@ public:
     if( TagField != itemStart )
       {
       // Bug_Siemens_PrivateIconNoItem.dcm
+      gdcmDebugMacro( "Could be Bug_Siemens_PrivateIconNoItem.dcm" );
       throw "SIEMENS Icon thingy";
       }
     if( !ValueLengthField.Read<TSwap>(is) )
@@ -121,6 +121,6 @@ inline std::ostream &operator<<(std::ostream &os, const BasicOffsetTable &val)
 }
 
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #endif //GDCMBASICOFFSETTABLE_H

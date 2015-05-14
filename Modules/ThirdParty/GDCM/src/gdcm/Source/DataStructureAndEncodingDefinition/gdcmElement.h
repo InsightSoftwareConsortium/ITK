@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -28,8 +27,9 @@
 #include <sstream>
 #include <limits>
 #include <cmath>
+#include <cstring>
 
-namespace gdcm
+namespace gdcm_ns
 {
 
 // Forward declaration
@@ -73,6 +73,9 @@ public:
   typename VRToType<TVR>::Type Internal[VMToLength<TVM>::Length];
   typedef typename VRToType<TVR>::Type Type;
 
+  static VR  GetVR()  { return (VR::VRType)TVR; }
+  static VM  GetVM()  { return (VM::VMType)TVM; }
+
   unsigned long GetLength() const {
     return VMToLength<TVM>::Length;
   }
@@ -107,7 +110,11 @@ public:
   void SetFromDataElement(DataElement const &de) {
     const ByteValue *bv = de.GetByteValue();
     if( !bv ) return;
+#ifdef GDCM_WORDS_BIGENDIAN
+    if( de.GetVR() == VR::UN /*|| de.GetVR() == VR::INVALID*/ )
+#else
     if( de.GetVR() == VR::UN || de.GetVR() == VR::INVALID )
+#endif
       {
       Set(de.GetValue());
       }
@@ -115,6 +122,29 @@ public:
       {
       SetNoSwap(de.GetValue());
       }
+  }
+
+  DataElement GetAsDataElement() const {
+    DataElement ret;
+    std::ostringstream os;
+    EncodingImplementation<VRToEncoding<TVR>::Mode>::Write(Internal,
+      GetLength(),os);
+    ret.SetVR( (VR::VRType)TVR );
+    assert( ret.GetVR() != VR::SQ );
+    if( (VR::VRType)VRToEncoding<TVR>::Mode == VR::VRASCII )
+      {
+      if( GetVR() != VR::UI )
+        {
+        if( os.str().size() % 2 )
+          {
+          os << " ";
+          }
+        }
+      }
+    VL::Type osStrSize = (VL::Type)os.str().size();
+    ret.SetByteValue( os.str().c_str(), osStrSize );
+
+    return ret;
   }
 
   void Read(std::istream &_is) {
@@ -130,13 +160,14 @@ public:
   // this is only used in gdcm::SplitMosaicFilter / to pass value of a CSAElement
   void Set(Value const &v) {
     const ByteValue *bv = dynamic_cast<const ByteValue*>(&v);
-    assert( bv ); // That would be bad...
-    //memcpy(Internal, bv->GetPointer(), bv->GetLength());
-    std::stringstream ss;
-    std::string s = std::string( bv->GetPointer(), bv->GetLength() );
-    ss.str( s );
-    EncodingImplementation<VRToEncoding<TVR>::Mode>::Read(Internal,
-      GetLength(),ss);
+    if( bv ) {
+      //memcpy(Internal, bv->GetPointer(), bv->GetLength());
+      std::stringstream ss;
+      std::string s = std::string( bv->GetPointer(), bv->GetLength() );
+      ss.str( s );
+      EncodingImplementation<VRToEncoding<TVR>::Mode>::Read(Internal,
+        GetLength(),ss);
+    }
   }
 protected:
   void SetNoSwap(Value const &v) {
@@ -347,7 +378,7 @@ public:
 };
 
 // For particular case for ASCII string
-// WARNING: This template explicitely instanciates a particular
+// WARNING: This template explicitly instanciates a particular
 // EncodingImplementation THEREFORE it is required to be declared after the
 // EncodingImplementation is needs (doh!)
 #if 0
@@ -416,6 +447,9 @@ public:
     Internal = 0;
   }
 
+  static VR  GetVR()  { return (VR::VRType)TVR; }
+  static VM  GetVM()  { return VM::VM1_n; }
+
   // Length manipulation
   // SetLength should really be protected anyway...all operation
   // should go through SetArray
@@ -474,7 +508,7 @@ public:
     return Internal[idx];
   }
   typename VRToType<TVR>::Type &GetValue(unsigned int idx = 0) {
-    assert( idx < Length );
+    //assert( idx < Length );
     return Internal[idx];
   }
   typename VRToType<TVR>::Type operator[] (unsigned int idx) const {
@@ -500,6 +534,23 @@ public:
         GetLength(),ss);
       }
   }
+  void SetFromDataElement(DataElement const &de) {
+    const ByteValue *bv = de.GetByteValue();
+    if( !bv ) return;
+#ifdef GDCM_WORDS_BIGENDIAN
+    if( de.GetVR() == VR::UN /*|| de.GetVR() == VR::INVALID*/ )
+#else
+    if( de.GetVR() == VR::UN || de.GetVR() == VR::INVALID )
+#endif
+      {
+      Set(de.GetValue());
+      }
+    else
+      {
+      SetNoSwap(de.GetValue());
+      }
+  }
+
 
   // Need to be placed after definition of EncodingImplementation<VR::VRASCII>
   void WriteASCII(std::ostream &os) const {
@@ -533,12 +584,24 @@ public:
   DataElement GetAsDataElement() const {
     DataElement ret;
     ret.SetVR( (VR::VRType)TVR );
+    assert( ret.GetVR() != VR::SQ );
     if( Internal )
       {
       std::ostringstream os;
       EncodingImplementation<VRToEncoding<TVR>::Mode>::Write(Internal,
         GetLength(),os);
-      ret.SetByteValue( os.str().c_str(), os.str().size() );
+      if( (VR::VRType)VRToEncoding<TVR>::Mode == VR::VRASCII )
+        {
+        if( GetVR() != VR::UI )
+          {
+          if( os.str().size() % 2 )
+            {
+            os << " ";
+            }
+          }
+        }
+      VL::Type osStrSize = (VL::Type)os.str().size();
+      ret.SetByteValue( os.str().c_str(), osStrSize );
       }
     return ret;
   }
@@ -555,6 +618,27 @@ public:
     SetArray(_val.Internal, _val.Length, true);
     return *this;
     }
+protected:
+  void SetNoSwap(Value const &v) {
+    const ByteValue *bv = dynamic_cast<const ByteValue*>(&v);
+    assert( bv ); // That would be bad...
+    if( (VR::VRType)(VRToEncoding<TVR>::Mode) == VR::VRBINARY )
+      {
+      const Type* array = (Type*)bv->GetPointer();
+      if( array ) {
+        assert( array ); // That would be bad...
+        assert( Internal == 0 );
+        SetArray(array, bv->GetLength() ); }
+      }
+    else
+      {
+      std::stringstream ss;
+      std::string s = std::string( bv->GetPointer(), bv->GetLength() );
+      ss.str( s );
+      EncodingImplementation<VRToEncoding<TVR>::Mode>::ReadNoSwap(Internal,
+        GetLength(),ss);
+      }
+  }
 
 private:
   typename VRToType<TVR>::Type *Internal;
@@ -566,6 +650,16 @@ private:
 //class Element<VR::OB, TVM > : public Element<VR::OB, VM::VM1_n> {};
 
 // Partial specialization for derivatives of 1-n : 2-n, 3-n ...
+template<int TVR>
+class Element<TVR, VM::VM1_2> : public Element<TVR, VM::VM1_n>
+{
+public:
+  typedef Element<TVR, VM::VM1_n> Parent;
+  void SetLength(int len) {
+    if( len != 1 || len != 2 ) return;
+    Parent::SetLength(len);
+  }
+};
 template<int TVR>
 class Element<TVR, VM::VM2_n> : public Element<TVR, VM::VM1_n>
 {
@@ -618,13 +712,13 @@ public:
 //template<>
 //class Element<VR::AS> : public Element<VR::AS, VRToLength<VR::AS>::Length >
 
-// only 0010 1010 AS 1 Patient’s Age
+// only 0010 1010 AS 1 Patient's Age
 template<>
 class Element<VR::AS, VM::VM5>
 {
   enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<VR::AS, VM::VM5> ) };
 public:
-  char Internal[VMToLength<VM::VM5>::Length];
+  char Internal[VMToLength<VM::VM5>::Length * sizeof( VRToType<VR::AS>::Type )];
   void Print(std::ostream &_os) const {
     _os << Internal;
     }
@@ -642,6 +736,6 @@ template <>
 class Element<VR::OW, VM::VM1> : public Element<VR::OW, VM::VM1_n> {};
 
 
-} // namespace gdcm
+} // namespace gdcm_ns
 
 #endif //GDCMELEMENT_H

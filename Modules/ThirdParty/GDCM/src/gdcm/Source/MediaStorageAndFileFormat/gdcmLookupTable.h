@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -50,7 +49,7 @@ public:
     unsigned short subscript, unsigned short bitsize);
   unsigned int GetLUTLength(LookupTableType type) const;
   virtual void SetLUT(LookupTableType type, const unsigned char *array,
-    uint32_t length);
+    unsigned int length);
   void GetLUT(LookupTableType type, unsigned char *array, unsigned int &length) const;
   void GetLUTDescriptor(LookupTableType type, unsigned short &length,
     unsigned short &subscript, unsigned short &bitsize) const;
@@ -71,6 +70,11 @@ public:
 
   /// Decode the LUT
   void Decode(std::istream &is, std::ostream &os) const;
+
+  /// Decode the LUT
+  /// outputbuffer will contains the RGB decoded PALETTE COLOR input image of size inlen
+  /// the outputbuffer should be at least 3 times the size of inlen
+  bool Decode(char *outputbuffer, size_t outlen, const char *inputbuffer, size_t inlen) const;
 
   LookupTable(LookupTable const &lut):Object(lut)
     {
@@ -93,6 +97,9 @@ public:
   bool Initialized() const;
 
 private:
+  /// Unfinished work
+  void Encode(std::istream &is, std::ostream &os);
+
 protected:
   LookupTableInternal *Internal;
   unsigned short BitSample; // refer to the pixel type (not the bit size of LUT)

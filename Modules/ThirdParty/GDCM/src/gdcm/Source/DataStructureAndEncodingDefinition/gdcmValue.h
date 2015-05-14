@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -17,10 +16,12 @@
 
 #include "gdcmObject.h"
 
-namespace gdcm
+namespace gdcm { class VL; }
+namespace gdcm_ns
 {
-
-class VL;
+#if !defined(SWIGPYTHON) && !defined(SWIGCSHARP) && !defined(SWIGJAVA) && !defined(SWIGPHP)
+using namespace gdcm;
+#endif
 /**
  * \brief Class to represent the value of a Data Element.
  * \note
@@ -40,10 +41,12 @@ public:
 
   virtual bool operator==(const Value &val) const = 0;
 
+protected:
+  friend class DataElement;
+  virtual void SetLengthOnly(VL l);
 };
 
-
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #include "gdcmValue.txx"
 

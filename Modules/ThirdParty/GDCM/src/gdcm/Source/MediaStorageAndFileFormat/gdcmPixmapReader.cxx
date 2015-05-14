@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -26,6 +25,7 @@
 #include "gdcmIconImage.h"
 #include "gdcmPrivateTag.h"
 #include "gdcmJPEGCodec.h"
+#include "gdcmImageHelper.h"
 
 namespace gdcm
 {
@@ -51,16 +51,6 @@ Pixmap& PixmapReader::GetPixmap()
 //  PixelData = img;
 //}
 
-const ByteValue* PixmapReader::GetPointerFromElement(Tag const &tag) const
-{
-  const DataSet &ds = F->GetDataSet();
-  if( ds.FindDataElement( tag ) )
-    {
-    const DataElement &de = ds.GetDataElement( tag );
-    return de.GetByteValue();
-    }
-  return 0;
-}
 
 bool PixmapReader::Read()
 {
@@ -95,7 +85,6 @@ bool PixmapReader::Read()
     //assert( ds.FindDataElement( Tag(0x7fe0,0x0010 ) ) );
     assert( ts != TransferSyntax::TS_END && ms != MediaStorage::MS_END );
     // Good it's the easy case. It's declared as an Image:
-    gdcmDebugMacro( "Sweet ! Finally a good DICOM file !" );
     //PixelData->SetCompressionFromTransferSyntax( ts );
     res = ReadImage(ms);
     }
@@ -105,8 +94,15 @@ bool PixmapReader::Read()
   //  }
   else
     {
+    MediaStorage ms2 = ds.GetMediaStorage();
     //assert( !ds.FindDataElement( Tag(0x7fe0,0x0010 ) ) );
-    if( ms != MediaStorage::MS_END )
+    if( ms == MediaStorage::MediaStorageDirectoryStorage && ms2 == MediaStorage::MS_END )
+      {
+      gdcmDebugMacro( "DICOM file is not an Image file but a : " <<
+        MediaStorage::GetMSString(ms) << " SOP Class UID" );
+      res = false;
+      }
+    else if( ms == ms2 && ms != MediaStorage::MS_END )
       {
       gdcmDebugMacro( "DICOM file is not an Image file but a : " <<
         MediaStorage::GetMSString(ms) << " SOP Class UID" );
@@ -114,27 +110,15 @@ bool PixmapReader::Read()
       }
     else
       {
-      // Too bad the media storage type was not recognized...
-      // what should we do ?
-      // Let's check 0008,0016:
-      // D 0008|0016 [UI] [SOP Class UID] [1.2.840.10008.5.1.4.1.1.7 ]
-      // ==> [Secondary Capture Image Storage]
-      const Tag tsopclassuid(0x0008, 0x0016);
-      if( ds.FindDataElement( tsopclassuid) && !ds.GetDataElement( tsopclassuid).IsEmpty() )
+      if( ms2 != MediaStorage::MS_END )
         {
-        const ByteValue *sopclassuid
-          = GetPointerFromElement( tsopclassuid );
-        std::string sopclassuid_str(
-          sopclassuid->GetPointer(),
-          sopclassuid->GetLength() );
-        MediaStorage ms2 = MediaStorage::GetMSType(sopclassuid_str.c_str());
         bool isImage2 = MediaStorage::IsImage( ms2 );
         if( isImage2 )
           {
           gdcmDebugMacro( "After all it might be a DICOM file "
             "(Mallinckrodt-like)" );
 
-    //PixelData->SetCompressionFromTransferSyntax( ts );
+          //PixelData->SetCompressionFromTransferSyntax( ts );
           //PixelData->SetCompressionType( Compression::RAW );
           res = ReadImage(ms2);
           }
@@ -190,14 +174,6 @@ bool PixmapReader::Read()
 void DoIconImage(const DataSet& rootds, Pixmap& image)
 {
   const Tag ticonimage(0x0088,0x0200);
-  const PrivateTag tgeiconimage(0x0009,0x0010,"GEIIS");
-  // AFAIK this icon SQ is undocumented , but I found it in:
-  // gdcmDataExtra/gdcmBreakers/2929J888_8b_YBR_RLE_PlanConf0_breaker.dcm
-  // aka 'SmallPreview'
-  // The SQ contains a DataElement:
-  // (0002,0010) UI [1.2.840.10008.1.2.1]                          # 20,1 Transfer Syntax UID
-  // sigh...
-  const PrivateTag tgeiconimage2(0x6003,0x0010,"GEMS_Ultrasound_ImageGroup_001");
   IconImage &pixeldata = image.GetIconImage();
   if( rootds.FindDataElement( ticonimage ) )
     {
@@ -268,14 +244,16 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
     pixeldata.SetPixelFormat( pf );
     // D 0028|0004 [CS] [Photometric Interpretation] [MONOCHROME2 ]
     const Tag tphotometricinterpretation(0x0028, 0x0004);
-    assert( ds.FindDataElement( tphotometricinterpretation ) );
-    const ByteValue *photometricinterpretation = ds.GetDataElement( tphotometricinterpretation ).GetByteValue();
-    std::string photometricinterpretation_str(
-      photometricinterpretation->GetPointer(),
-      photometricinterpretation->GetLength() );
-    PhotometricInterpretation pi(
-      PhotometricInterpretation::GetPIType(
-        photometricinterpretation_str.c_str()));
+    PhotometricInterpretation pi = PhotometricInterpretation::MONOCHROME2;
+    if( ds.FindDataElement( tphotometricinterpretation ) )
+      {
+      const ByteValue *photometricinterpretation = ds.GetDataElement( tphotometricinterpretation ).GetByteValue();
+      std::string photometricinterpretation_str(
+        photometricinterpretation->GetPointer(),
+        photometricinterpretation->GetLength() );
+      pi = PhotometricInterpretation::GetPIType(
+        photometricinterpretation_str.c_str());
+      }
     assert( pi != PhotometricInterpretation::UNKNOW);
     pixeldata.SetPhotometricInterpretation( pi );
 
@@ -298,7 +276,7 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
         // (0028,1101) US 0\0\16
         // (0028,1102) US 0\0\16
         // (0028,1103) US 0\0\16
-        const Tag tdescriptor(0x0028, uint16_t(0x1101 + i));
+        const Tag tdescriptor(0x0028, (uint16_t)(0x1101 + i));
         //const Tag tdescriptor(0x0028, 0x3002);
         Element<VR::US,VM::VM3> el_us3;
         // Now pass the byte array to a DICOMizer:
@@ -309,14 +287,14 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
         // (0028,1201) OW
         // (0028,1202) OW
         // (0028,1203) OW
-        const Tag tlut(0x0028, uint16_t(0x1201 + i));
+        const Tag tlut(0x0028, (uint16_t)(0x1201 + i));
         //const Tag tlut(0x0028, 0x3006);
 
         // Segmented LUT
         // (0028,1221) OW
         // (0028,1222) OW
         // (0028,1223) OW
-        const Tag seglut(0x0028, uint16_t(0x1221 + i));
+        const Tag seglut(0x0028, (uint16_t)(0x1221 + i));
         if( ds.FindDataElement( tlut ) )
           {
           const ByteValue *lut_raw = ds.GetDataElement( tlut ).GetByteValue();
@@ -329,7 +307,8 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
           unsigned long check =
             (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
             * el_us3.GetValue(2) / 8;
-          assert( check == lut_raw->GetLength() ); (void)check;
+          assert( check == lut_raw->GetLength()
+            || check + 1 == lut_raw->GetLength() ); (void)check;
           }
         else if( ds.FindDataElement( seglut ) )
           {
@@ -365,203 +344,13 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
     pixeldata.SetDataElement( de );
 
     // Pass TransferSyntax:
-    pixeldata.SetTransferSyntax( image.GetTransferSyntax() );
-    }
-  else if( false && rootds.FindDataElement( tgeiconimage ) )
-    {
-    const DataElement &iconimagesq = rootds.GetDataElement( tgeiconimage );
-    //const SequenceOfItems* sq = iconimagesq.GetSequenceOfItems();
-    SmartPointer<SequenceOfItems> sq = iconimagesq.GetValueAsSQ();
-    // Is SQ empty ?
-    if( !sq ) return;
-    SequenceOfItems::ConstIterator it = sq->Begin();
-    const DataSet &ds = it->GetNestedDataSet();
-
-    // D 0028|0011 [US] [Columns] [512]
-      {
-      //const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0011) );
-      Attribute<0x0028,0x0011> at = { 0 };
-      at.SetFromDataSet( ds );
-      pixeldata.SetDimension(0, at.GetValue() );
-      }
-
-    // D 0028|0010 [US] [Rows] [512]
-      {
-      //const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0010) );
-      Attribute<0x0028,0x0010> at = { 0 };
-      at.SetFromDataSet( ds );
-      pixeldata.SetDimension(1, at.GetValue() );
-      }
-
-    PixelFormat pf;
-    // D 0028|0100 [US] [Bits Allocated] [16]
-      {
-      //const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0100) );
-      Attribute<0x0028,0x0100> at = { 0 };
-      at.SetFromDataSet( ds );
-      pf.SetBitsAllocated( at.GetValue() );
-      }
-    // D 0028|0101 [US] [Bits Stored] [12]
-      {
-      //const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0101) );
-      Attribute<0x0028,0x0101> at = { 0 };
-      at.SetFromDataSet( ds );
-      pf.SetBitsStored( at.GetValue() );
-      }
-    // D 0028|0102 [US] [High Bit] [11]
-      {
-      //const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0102) );
-      Attribute<0x0028,0x0102> at = { 0 };
-      at.SetFromDataSet( ds );
-      pf.SetHighBit( at.GetValue() );
-      }
-    // D 0028|0103 [US] [Pixel Representation] [0]
-      {
-      //const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0103) );
-      Attribute<0x0028,0x0103> at = { 0 };
-      at.SetFromDataSet( ds );
-      pf.SetPixelRepresentation( at.GetValue() );
-      }
-    // (0028,0002) US 1                                        #   2, 1 SamplesPerPixel
-      {
-      //const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0002) );
-      Attribute<0x0028,0x0002> at = { 1 };
-      at.SetFromDataSet( ds );
-      pf.SetSamplesPerPixel( at.GetValue() );
-      }
-    pixeldata.SetPixelFormat( pf );
-    // D 0028|0004 [CS] [Photometric Interpretation] [MONOCHROME2 ]
-    const Tag tphotometricinterpretation(0x0028, 0x0004);
-    assert( ds.FindDataElement( tphotometricinterpretation ) );
-    const ByteValue *photometricinterpretation = ds.GetDataElement( tphotometricinterpretation ).GetByteValue();
-    std::string photometricinterpretation_str(
-      photometricinterpretation->GetPointer(),
-      photometricinterpretation->GetLength() );
-    PhotometricInterpretation pi(
-      PhotometricInterpretation::GetPIType(
-        photometricinterpretation_str.c_str()));
-    assert( pi != PhotometricInterpretation::UNKNOW);
-    pixeldata.SetPhotometricInterpretation( pi );
-    const Tag tpixeldata = Tag(0x7fe0, 0x0010);
-    assert( ds.FindDataElement( tpixeldata ) );
-      {
-      const DataElement& de = ds.GetDataElement( tpixeldata );
-      JPEGCodec jpeg;
-      jpeg.SetPhotometricInterpretation( pixeldata.GetPhotometricInterpretation() );
-      jpeg.SetPlanarConfiguration( 0 );
-      PixelFormat pFormat = pixeldata.GetPixelFormat();
-      // Apparently bits stored can only be 8 or 12:
-      if( pFormat.GetBitsStored() == 16 )
-        {
-        pFormat.SetBitsStored( 12 );
-        }
-      jpeg.SetPixelFormat( pFormat );
-      DataElement de2;
-      jpeg.Decode( de, de2);
-      pixeldata.SetDataElement( de2 );
-      }
-    }
-  else if( false && rootds.FindDataElement( tgeiconimage2 ) )
-    {
-    const DataElement &iconimagesq = rootds.GetDataElement( tgeiconimage2 );
-    //const SequenceOfItems* sq = iconimagesq.GetSequenceOfItems();
-    SmartPointer<SequenceOfItems> sq = iconimagesq.GetValueAsSQ();
-    // Is SQ empty ?
-    if( !sq ) return;
-    SequenceOfItems::ConstIterator it = sq->Begin();
-    const DataSet &ds = it->GetNestedDataSet();
-
-    // D 0028|0011 [US] [Columns] [512]
-      {
-      const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0011) );
-      Attribute<0x0028,0x0011> at;
-      at.SetFromDataElement( de );
-      pixeldata.SetDimension(0, at.GetValue() );
-      }
-
-    // D 0028|0010 [US] [Rows] [512]
-      {
-      const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0010) );
-      Attribute<0x0028,0x0010> at;
-      at.SetFromDataElement( de );
-      pixeldata.SetDimension(1, at.GetValue() );
-      }
-
-    PixelFormat pf;
-    // D 0028|0100 [US] [Bits Allocated] [16]
-      {
-      const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0100) );
-      Attribute<0x0028,0x0100> at;
-      at.SetFromDataElement( de );
-      pf.SetBitsAllocated( at.GetValue() );
-      }
-    // D 0028|0101 [US] [Bits Stored] [12]
-      {
-      const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0101) );
-      Attribute<0x0028,0x0101> at;
-      at.SetFromDataElement( de );
-      pf.SetBitsStored( at.GetValue() );
-      }
-    // D 0028|0102 [US] [High Bit] [11]
-      {
-      const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0102) );
-      Attribute<0x0028,0x0102> at;
-      at.SetFromDataElement( de );
-      pf.SetHighBit( at.GetValue() );
-      }
-    // D 0028|0103 [US] [Pixel Representation] [0]
-      {
-      const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0103) );
-      Attribute<0x0028,0x0103> at;
-      at.SetFromDataElement( de );
-      pf.SetPixelRepresentation( at.GetValue() );
-      }
-    // (0028,0002) US 1                                        #   2, 1 SamplesPerPixel
-      {
-      const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0002) );
-      Attribute<0x0028,0x0002> at;
-      at.SetFromDataElement( de );
-      pf.SetSamplesPerPixel( at.GetValue() );
-      }
-    pixeldata.SetPixelFormat( pf );
-    // D 0028|0004 [CS] [Photometric Interpretation] [MONOCHROME2 ]
-    const Tag tphotometricinterpretation(0x0028, 0x0004);
-    assert( ds.FindDataElement( tphotometricinterpretation ) );
-    const ByteValue *photometricinterpretation = ds.GetDataElement( tphotometricinterpretation ).GetByteValue();
-    std::string photometricinterpretation_str(
-      photometricinterpretation->GetPointer(),
-      photometricinterpretation->GetLength() );
-    PhotometricInterpretation pi(
-      PhotometricInterpretation::GetPIType(
-        photometricinterpretation_str.c_str()));
-    assert( pi != PhotometricInterpretation::UNKNOW);
-    pixeldata.SetPhotometricInterpretation( pi );
-    //const Tag tpixeldata = Tag(0x7fe0, 0x0010);
-    const PrivateTag tpixeldata(0x6003,0x0011,"GEMS_Ultrasound_ImageGroup_001");
-    assert( ds.FindDataElement( tpixeldata ) );
-      {
-      const DataElement& de = ds.GetDataElement( tpixeldata );
-      pixeldata.SetDataElement( de );
-      /*
-      JPEGCodec jpeg;
-      jpeg.SetPhotometricInterpretation( pixeldata.GetPhotometricInterpretation() );
-      jpeg.SetPlanarConfiguration( 0 );
-      PixelFormat pf = pixeldata.GetPixelFormat();
-      // Apparently bits stored can only be 8 or 12:
-      if( pf.GetBitsStored() == 16 )
-      {
-      pf.SetBitsStored( 12 );
-      }
-      jpeg.SetPixelFormat( pf );
-      DataElement de2;
-      jpeg.Decode( de, de2);
-      pixeldata.SetDataElement( de2 );
-       */
-      }
-    }
-  else
-    {
-    //gdcmDebugMacro( "No icon found" );
+    // Warning This is legal for the Icon to be uncompress in a compressed image
+    // We need to set the appropriate TS here:
+    const ByteValue *bv = de.GetByteValue();
+    if( bv )
+      pixeldata.SetTransferSyntax( TransferSyntax::ImplicitVRLittleEndian );
+    else
+      pixeldata.SetTransferSyntax( image.GetTransferSyntax() );
     }
 }
 
@@ -618,87 +407,204 @@ void DoCurves(const DataSet& ds, Pixmap& pixeldata)
     }
 }
 
-void DoOverlays(const DataSet& ds, Pixmap& pixeldata)
+unsigned int GetNumberOfOverlaysInternal(DataSet const & ds, std::vector<uint16_t> & overlaylist)
 {
+  Tag overlay(0x6000,0x0000); // First possible overlay
+  bool finished = false;
+  unsigned int numoverlays = 0;
+  while( !finished )
+    {
+    const DataElement &de = ds.FindNextDataElement( overlay );
+    if( de.GetTag().GetGroup() > 0x60FF ) // last possible curve
+      {
+      finished = true;
+      }
+    else if( de.GetTag().IsPrivate() )
+      {
+      // Move on to the next public one:
+      overlay.SetGroup( (uint16_t)(de.GetTag().GetGroup() + 1) );
+      overlay.SetElement( 0 ); // reset just in case...
+      }
+    else
+      {
+      // Yeah this is a potential overlay element, let's check this is not a broken LEADTOOL image,
+      // or prova0001.dcm:
+      // (5000,0000) UL 0                                        #   4, 1 GenericGroupLength
+      // (6000,0000) UL 0                                        #   4, 1 GenericGroupLength
+      // (6001,0000) UL 28                                       #   4, 1 PrivateGroupLength
+      // (6001,0010) LT [PAPYRUS 3.0]                            #  12, 1 PrivateCreator
+      // (6001,1001) LT (no value available)                     #   0, 0 Unknown Tag & Data
+/*
+ * FIXME:
+ * In order to support : gdcmData/SIEMENS_GBS_III-16-ACR_NEMA_1.acr
+ *                       gdcmDataExtra/gdcmSampleData/images_of_interest/XA_GE_JPEG_02_with_Overlays.dcm
+ * I cannot simply check for overlay_group,3000 this would not work
+ * I would need a strong euristick
+ */
+      // Store found tag in overlay:
+      overlay = de.GetTag();
+      // heuristic based on either the Overlay Data or the Col/Row info
+      Tag toverlaydata(overlay.GetGroup(),0x3000 );
+      Tag toverlayrows(overlay.GetGroup(),0x0010 );
+      Tag toverlaycols(overlay.GetGroup(),0x0011 );
+      Tag toverlaybitpos(overlay.GetGroup(),0x0102 );
+      if( ds.FindDataElement( toverlaydata ) )
+        {
+        // ok so far so good...
+        const DataElement& overlaydata = ds.GetDataElement( toverlaydata );
+        //const DataElement& overlaydata = ds.GetDataElement(Tag(overlay.GetGroup(),0x0010));
+        if( !overlaydata.IsEmpty() )
+          {
+          ++numoverlays;
+          overlaylist.push_back( overlay.GetGroup() );
+          }
+        }
+      else if( ds.FindDataElement( toverlayrows ) && ds.FindDataElement( toverlaycols )
+        && ds.FindDataElement( toverlaybitpos ) )
+        {
+        // Overlay Pixel are in Unused Pixel
+        assert( !ds.FindDataElement( toverlaydata ) );
+        const DataElement& overlayrows = ds.GetDataElement( toverlayrows );
+        const DataElement& overlaycols = ds.GetDataElement( toverlaycols );
+        assert( ds.FindDataElement( toverlaybitpos ) );
+        const DataElement& overlaybitpos = ds.GetDataElement( toverlaybitpos );
+        if( !overlayrows.IsEmpty() && !overlaycols.IsEmpty() && !overlaybitpos.IsEmpty() )
+          {
+          ++numoverlays;
+          overlaylist.push_back( overlay.GetGroup() );
+          }
+        }
+        // Move on to the next possible one:
+        overlay.SetGroup( (uint16_t)(overlay.GetGroup() + 2) );
+        // reset to element 0x0 just in case...
+        overlay.SetElement( 0 );
+      }
+    }
+
+  // at most one out of two :
+  assert( numoverlays < 0x00ff / 2 );
+  // PS 3.3 - 2004:
+  // C.9.2 Overlay plane module
+  // Each Overlay Plane is one bit deep. Sixteen separate Overlay Planes may be associated with an
+  // Image or exist as Standalone Overlays in a Series
+  assert( numoverlays <= 16 );
+  assert( numoverlays == overlaylist.size() );
+  return numoverlays;
+}
+
+bool DoOverlays(const DataSet& ds, Pixmap& pixeldata)
+{
+  bool updateoverlayinfo = false;
   unsigned int numoverlays;
-  if( (numoverlays = Overlay::GetNumberOfOverlays( ds )) )
+  std::vector<uint16_t> overlaylist;
+  if( (numoverlays = GetNumberOfOverlaysInternal( ds, overlaylist )) )
     {
     pixeldata.SetNumberOfOverlays( numoverlays );
 
-    Tag overlay(0x6000,0x0000);
-    bool finished = false;
-    unsigned int idxoverlays = 0;
-    while( !finished )
+    for( unsigned int idxoverlays = 0; idxoverlays < numoverlays; ++idxoverlays )
       {
+      Overlay &ov = pixeldata.GetOverlay(idxoverlays);
+      uint16_t currentoverlay = overlaylist[idxoverlays];
+      Tag overlay(0x6000,0x0000);
+      overlay.SetGroup( currentoverlay );
       const DataElement &de = ds.FindNextDataElement( overlay );
-      // Are we done:
-      if( de.GetTag().GetGroup() > 0x60FF ) // last possible overlay curve
+      assert( !(currentoverlay % 2) ); // 0x6001 is not an overlay...
+      // Now loop on all element from this current group:
+      DataElement de2 = de;
+      while( de2.GetTag().GetGroup() == currentoverlay )
         {
-        finished = true;
+        ov.Update(de2);
+        overlay.SetElement( (uint16_t)(de2.GetTag().GetElement() + 1) );
+        de2 = ds.FindNextDataElement( overlay );
         }
-      else if( de.GetTag().IsPrivate() ) // GEMS owns some 0x6003
+
+      // Let's decode it:
+      std::ostringstream unpack;
+      ov.Decompress( unpack );
+      std::string s = unpack.str();
+      //size_t l = s.size();
+      // The following line will fail with images like XA_GE_JPEG_02_with_Overlays.dcm
+      // since the overlays are stored in the unused bit of the PixelData
+      if( !ov.IsEmpty() )
         {
-        // Move on to the next public one:
-        overlay.SetGroup( uint16_t(de.GetTag().GetGroup() + 1) );
-        overlay.SetElement( 0 );
+        //assert( unpack.str().size() / 8 == ((ov.GetRows() * ov.GetColumns()) + 7 ) / 8 );
+        assert( ov.IsInPixelData( ) == false );
         }
       else
         {
-        // Yay! this is an overlay element
-        Overlay &ov = pixeldata.GetOverlay(idxoverlays);
-        ++idxoverlays; // move on to the next one
-        overlay = de.GetTag();
-        uint16_t currentoverlay = overlay.GetGroup();
-        assert( !(currentoverlay % 2) ); // 0x6001 is not an overlay...
-        // Now loop on all element from this current group:
-        DataElement de2 = de;
-        while( de2.GetTag().GetGroup() == currentoverlay )
+        gdcmDebugMacro( "This image does not contains Overlay in the 0x60xx tags. "
+          << "Instead the overlay is stored in the unused bit of the Pixel Data. "
+          << "This is not supported right now"
+          << std::endl );
+        ov.IsInPixelData( true );
+        // make sure Overlay is valid
+        if( ov.GetBitsAllocated() != pixeldata.GetPixelFormat().GetBitsAllocated() )
           {
-          ov.Update(de2);
-          overlay.SetElement( uint16_t(de2.GetTag().GetElement() + 1) );
-          de2 = ds.FindNextDataElement( overlay );
-          // Next element:
-          //overlay.SetElement( overlay.GetElement() + 1 );
+          gdcmWarningMacro( "Bits Allocated are wrong. Correcting." );
+          ov.SetBitsAllocated( pixeldata.GetPixelFormat().GetBitsAllocated() );
           }
-        // If we exit the loop we have pass the current overlay and potentially point to the next one:
-        //overlay.SetElement( overlay.GetElement() + 1 );
-        //ov.Print( std::cout );
 
-        // Let's decode it:
-        std::ostringstream unpack;
-        ov.Decompress( unpack );
-        std::string s = unpack.str();
-        //size_t l = s.size();
-        // The following line will fail with images like XA_GE_JPEG_02_with_Overlays.dcm
-        // since the overlays are stored in the unused bit of the PixelData
-        if( !ov.IsEmpty() )
+        if( !ov.GrabOverlayFromPixelData(ds) )
           {
-          //assert( unpack.str().size() / 8 == ((ov.GetRows() * ov.GetColumns()) + 7 ) / 8 );
-          assert( ov.IsInPixelData( ) == false );
+          gdcmErrorMacro( "Could not extract Overlay from Pixel Data" );
+          //throw Exception("TODO: Could not extract Overlay Data");
           }
-        else
-          {
-          gdcmDebugMacro( "This image does not contains Overlay in the 0x60xx tags. "
-            << "Instead the overlay is stored in the unused bit of the Pixel Data. "
-            << "This is not supported right now"
-            << std::endl );
-          ov.IsInPixelData( true );
-          if( !ov.GrabOverlayFromPixelData(ds) )
-            {
-            gdcmErrorMacro( "Could not extract Overlay from Pixel Data" );
-            }
-          }
+        updateoverlayinfo = true;
         }
       }
     //std::cout << "Num of Overlays: " << numoverlays << std::endl;
-    assert( idxoverlays == numoverlays );
     }
+
+  // Now is good time to do some cleanup (eg. DX_GE_FALCON_SNOWY-VOI.dcm).
+  const PixelFormat &pf = pixeldata.GetPixelFormat();
+  // Yes I am using a call in the for() loop, because I internally modify the
+  // number of overlays:
+  for( size_t ov_idx = pixeldata.GetNumberOfOverlays(); ov_idx != 0; --ov_idx )
+    {
+    size_t ov = ov_idx - 1;
+    const Overlay& o = pixeldata.GetOverlay(ov);
+    if( o.IsInPixelData() )
+      {
+      unsigned short obp = o.GetBitPosition();
+      if( obp < pf.GetBitsStored() )
+        {
+        pixeldata.RemoveOverlay( ov );
+        gdcmWarningMacro( "Invalid BitPosition: " << obp << " for overlay #" <<
+          ov << " removing it." );
+        }
+      }
+    }
+
+  if( updateoverlayinfo )
+    {
+    for( size_t ov = 0; ov < pixeldata.GetNumberOfOverlays(); ++ov )
+      {
+      Overlay& o = pixeldata.GetOverlay(ov);
+      // We need to update information
+      if( o.GetBitsAllocated() == 16 )
+        {
+        o.SetBitsAllocated( 1 );
+        o.SetBitPosition( 0 );
+        }
+      else
+        {
+        gdcmErrorMacro( "Overlay is not supported" );
+        return false;
+        }
+      }
+    }
+
+  return true;
 }
 
 bool PixmapReader::ReadImage(MediaStorage const &ms)
 {
+  return ReadImageInternal(ms);
+}
+
+bool PixmapReader::ReadImageInternal(MediaStorage const &ms, bool handlepixeldata )
+{
   const DataSet &ds = F->GetDataSet();
-  std::stringstream ss;
   std::string conversion;
 
   bool isacrnema = false;
@@ -715,98 +621,28 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
     (void)str;//warning removal
     }
 
-  // Ok we have the dataset let's feed the Image (PixelData)
-  // 1. First find how many dimensions there is:
-  // D 0028|0008 [IS] [Number of Frames] [8 ]
-  const Tag tnumberofframes = Tag(0x0028, 0x0008);
-  //if( ds.FindDataElement( tnumberofframes ) /*&& ms != MediaStorage::SecondaryCaptureImageStorage*/ )
+  std::vector<unsigned int> vdims = ImageHelper::GetDimensionsValue(*F);
+  unsigned int numberofframes = vdims[2];
+  // What should I do when numberofframes == 0 ?
+  if( numberofframes > 1 )
     {
-    //const DataElement& de = ds.GetDataElement( tnumberofframes );
-    Attribute<0x0028,0x0008> at = { 0 };
-    at.SetFromDataSet( ds );
-    int numberofframes = at.GetValue();
-    // What should I do when numberofframes == 0 ?
-    if( numberofframes > 1 )
-      {
-      PixelData->SetNumberOfDimensions(3);
-      PixelData->SetDimension(2, numberofframes );
-      }
-    else
-      {
-      gdcmDebugMacro( "NumberOfFrames was specified with a value of: "
-        << numberofframes );
-      PixelData->SetNumberOfDimensions(2);
-      }
+    PixelData->SetNumberOfDimensions(3);
+    PixelData->SetDimension(2, numberofframes );
     }
-  //else
-  //  {
-  //  gdcmDebugMacro( "Attempting a guess for the number of dimensions" ); // FIXME
-  //  PixelData->SetNumberOfDimensions(2);
-  //  }
-
+  else
+    {
+    gdcmDebugMacro( "NumberOfFrames was specified with a value of: "
+      << numberofframes );
+    PixelData->SetNumberOfDimensions(2);
+    }
 
   // 2. What are the col & rows:
-  // D 0028|0011 [US] [Columns] [512]
-  //const Tag tcolumns(0x0028, 0x0011);
-  //if( ds.FindDataElement( tcolumns ) )
-    {
-    //PixelData->SetDimension(0,
-    //  ReadUSFromTag( tcolumns, ss, conversion ) );
-    //const DataElement& de = ds.GetDataElement( tcolumns );
-    Attribute<0x0028,0x0011> at = { 0 };
-    at.SetFromDataSet( ds );
-    PixelData->SetDimension(0, at.GetValue() );
-    }
-  //else
-  //  {
-  //  const TransferSyntax &ts = PixelData->GetTransferSyntax();
-  //  gdcmWarningMacro( "This should not happen: No Columns found." );
-  //  if( !ts.IsEncapsulated() || ts == TransferSyntax::RLELossless )
-  //    {
-  //    // Pretty bad we really need this information. Should not
-  //    // happen in theory. Maybe papyrus files ??
-  //    return false;
-  //    }
-  //  }
-
-  // D 0028|0010 [US] [Rows] [512]
-  //PixelData->SetDimension(1,
-  //  ReadUSFromTag( Tag(0x0028, 0x0010), ss, conversion ) );
-    {
-    Attribute<0x0028,0x0010> at = { 0 };
-    //if( ds.FindDataElement( at.GetTag() ) )
-      {
-      //const DataElement& de = ds.GetDataElement( at.GetTag() );
-      at.SetFromDataSet( ds );
-      PixelData->SetDimension(1, at.GetValue() );
-      //assert( at.GetValue() == ReadUSFromTag( Tag(0x0028, 0x0010), ss, conversion ) );
-      }
-    //else
-    //  {
-    //  const TransferSyntax &ts = PixelData->GetTransferSyntax();
-    //  gdcmWarningMacro( "This should not happen: No Rows found." );
-    //  if( !ts.IsEncapsulated() || ts == TransferSyntax::RLELossless )
-    //    {
-    //    // Pretty bad we really need this information. Should not
-    //    // happen in theory. Maybe papyrus files ??
-    //    return false;
-    //    }
-    //  }
-    }
-
-  // Dummy check
-  //const unsigned int *dims = PixelData->GetDimensions();
-  //if( dims[0] == 0 || dims[1] == 0 )
-  //  {
-  //  // PhilipsLosslessRice.dcm
-  //  gdcmWarningMacro( "Image is empty" );
-  //  return false;
-  //  }
+  PixelData->SetDimension(0, vdims[0] );
+  PixelData->SetDimension(1, vdims[1] );
 
   // 3. Pixel Format ?
   PixelFormat pf;
   // D 0028|0002 [US] [Samples per Pixel] [1]
-  const Tag samplesperpixel = Tag(0x0028, 0x0002);
     {
     Attribute<0x0028,0x0002> at = { 1 }; // By default assume 1 Samples Per Pixel
     at.SetFromDataSet( ds );
@@ -877,7 +713,7 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
   // D 0028|0004 [CS] [Photometric Interpretation] [MONOCHROME2 ]
   const Tag tphotometricinterpretation(0x0028, 0x0004);
   const ByteValue *photometricinterpretation
-    = GetPointerFromElement( tphotometricinterpretation );
+    = ImageHelper::GetPointerFromElement( tphotometricinterpretation, *F );
   PhotometricInterpretation pi = PhotometricInterpretation::UNKNOW;
   if( photometricinterpretation )
     {
@@ -885,8 +721,16 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
       photometricinterpretation->GetPointer(),
       photometricinterpretation->GetLength() );
     pi = PhotometricInterpretation::GetPIType( photometricinterpretation_str.c_str() );
+    // http://www.dominator.com/assets/003/5278.pdf
+    // JPEG 2000 lossless YUV_RCT
+    if( pi == PhotometricInterpretation::PI_END )
+      {
+      gdcmWarningMacro( "Discarding suspicious PhotometricInterpretation found: "
+        << photometricinterpretation_str );
+      }
     }
-  else
+  // try again harder:
+  if( !photometricinterpretation || pi == PhotometricInterpretation::PI_END )
     {
     if( pf.GetSamplesPerPixel() == 1 )
       {
@@ -900,11 +744,16 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
       }
     else if( pf.GetSamplesPerPixel() == 4 )
       {
-      gdcmWarningMacro( "No PhotometricInterpretation found, default to RGB" );
+      gdcmWarningMacro( "No PhotometricInterpretation found, default to ARGB" );
       pi = PhotometricInterpretation::ARGB;
       }
+    else
+      {
+      gdcmWarningMacro( "Impossible value for Samples Per Pixel: " << pf.GetSamplesPerPixel() );
+      return false;
+      }
     }
-
+  assert( pi != PhotometricInterpretation::PI_END );
   if( !pf.GetSamplesPerPixel() || (pi.GetSamplesPerPixel() != pf.GetSamplesPerPixel()) )
     {
     if( pi != PhotometricInterpretation::UNKNOW )
@@ -920,7 +769,9 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
       }
     else
       {
-      gdcmWarningMacro( "Cannot recognize image type. Does not looks like ACR-NEMA and is missing both Sample Per Pixel AND PhotometricInterpretation. Please report" );
+      gdcmWarningMacro( "Cannot recognize image type. Does not looks like"
+        "ACR-NEMA and is missing both Sample Per Pixel AND PhotometricInterpretation."
+        "Please report" );
       return false;
       }
     }
@@ -1031,7 +882,7 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
       // (0028,1101) US 0\0\16
       // (0028,1102) US 0\0\16
       // (0028,1103) US 0\0\16
-      const Tag tdescriptor(0x0028, uint16_t(0x1101 + i));
+      const Tag tdescriptor(0x0028, (uint16_t)(0x1101 + i));
       //const Tag tdescriptor(0x0028, 0x3002);
       Element<VR::US,VM::VM3> el_us3 = {{ 0, 0, 0}};
       // Now pass the byte array to a DICOMizer:
@@ -1042,14 +893,14 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
       // (0028,1201) OW
       // (0028,1202) OW
       // (0028,1203) OW
-      const Tag tlut(0x0028, uint16_t(0x1201 + i));
+      const Tag tlut(0x0028, (uint16_t)(0x1201 + i));
       //const Tag tlut(0x0028, 0x3006);
 
       // Segmented LUT
       // (0028,1221) OW
       // (0028,1222) OW
       // (0028,1223) OW
-      const Tag seglut(0x0028, uint16_t(0x1221 + i));
+      const Tag seglut(0x0028, (uint16_t)(0x1221 + i));
       if( ds.FindDataElement( tlut ) )
         {
         const ByteValue *lut_raw = ds.GetDataElement( tlut ).GetByteValue();
@@ -1108,73 +959,90 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
   DoCurves(ds, *PixelData);
 
   // 7. Do the Overlays if any
-  DoOverlays(ds, *PixelData);
+  if( !DoOverlays(ds, *PixelData) )
+    {
+    return false;
+    }
 
   // 8. Do the PixelData
-  if( ms == MediaStorage::MRSpectroscopyStorage )
+  if( handlepixeldata )
     {
-    const Tag spectdata = Tag(0x5600, 0x0020);
-    if( !ds.FindDataElement( spectdata ) )
+    if( ms == MediaStorage::MRSpectroscopyStorage )
       {
-      gdcmWarningMacro( "No Spectroscopy Data Found" );
-      return false;
-      }
-    const DataElement& xde = ds.GetDataElement( spectdata );
-    //bool need = PixelData->GetTransferSyntax() == TransferSyntax::ImplicitVRBigEndianPrivateGE;
-    //PixelData->SetNeedByteSwap( need );
-    PixelData->SetDataElement( xde );
-    }
-  else
-    {
-    const Tag pixeldata = Tag(0x7fe0, 0x0010);
-    if( !ds.FindDataElement( pixeldata ) )
-      {
-      gdcmWarningMacro( "No Pixel Data Found" );
-      return false;
-      }
-    const DataElement& xde = ds.GetDataElement( pixeldata );
-    bool need = PixelData->GetTransferSyntax() == TransferSyntax::ImplicitVRBigEndianPrivateGE;
-    PixelData->SetNeedByteSwap( need );
-    PixelData->SetDataElement( xde );
-
-    // FIXME:
-    // We should check that when PixelData is RAW that Col * Dim == PixelData->GetLength()
-    //PixelFormat guesspf = PixelFormat->GuessPixelFormat();
-
-    }
-
-  const unsigned int *dims = PixelData->GetDimensions();
-  if( dims[0] == 0 || dims[1] == 0 )
-    {
-    // Pseudo-declared JPEG SC image storage. Let's fix col/row/pf/pi
-    gdcm::JPEGCodec jpeg;
-    if( jpeg.CanDecode( PixelData->GetTransferSyntax() ) )
-      {
-      std::stringstream sstream;
-      const DataElement &de = PixelData->GetDataElement();
-      //const ByteValue *bv = de.GetByteValue();
-      const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
-      sqf->WriteBuffer( sstream );
-      //std::string s( bv->GetPointer(), bv->GetLength() );
-      //is.str( s );
-      gdcm::PixelFormat pFormat ( gdcm::PixelFormat::UINT8 ); // usual guess...
-      jpeg.SetPixelFormat( pFormat );
-      gdcm::TransferSyntax ts;
-      const bool b = jpeg.GetHeaderInfo( sstream, ts );
-      if( b )
+      const Tag spectdata = Tag(0x5600, 0x0020);
+      if( !ds.FindDataElement( spectdata ) )
         {
-        std::vector<unsigned int> v(3);
-        v[0] = PixelData->GetDimensions()[0];
-        v[1] = PixelData->GetDimensions()[1];
-        v[2] = PixelData->GetDimensions()[2];
-        assert( jpeg.GetDimensions()[0] );
-        assert( jpeg.GetDimensions()[1] );
-        v[0] = jpeg.GetDimensions()[0];
-        v[1] = jpeg.GetDimensions()[1];
-        PixelData->SetDimensions( &v[0] );
-        //PixelData->SetPixelFormat( jpeg.GetPixelFormat() );
-        //PixelData->SetPhotometricInterpretation( jpeg.GetPhotometricInterpretation() );
-        assert( PixelData->IsTransferSyntaxCompatible( ts ) );
+        gdcmWarningMacro( "No Spectroscopy Data Found" );
+        return false;
+        }
+      const DataElement& xde = ds.GetDataElement( spectdata );
+      //bool need = PixelData->GetTransferSyntax() == TransferSyntax::ImplicitVRBigEndianPrivateGE;
+      //PixelData->SetNeedByteSwap( need );
+      PixelData->SetDataElement( xde );
+      }
+    else
+      {
+      const Tag pixeldata = Tag(0x7fe0, 0x0010);
+      if( !ds.FindDataElement( pixeldata ) )
+        {
+        gdcmWarningMacro( "No Pixel Data Found" );
+        return false;
+        }
+      const DataElement& xde = ds.GetDataElement( pixeldata );
+      bool need = PixelData->GetTransferSyntax() == TransferSyntax::ImplicitVRBigEndianPrivateGE;
+      PixelData->SetNeedByteSwap( need );
+      PixelData->SetDataElement( xde );
+
+      // FIXME:
+      // We should check that when PixelData is RAW that Col * Dim == PixelData->GetLength()
+      //PixelFormat guesspf = PixelFormat->GuessPixelFormat();
+
+      }
+
+    const unsigned int *dims = PixelData->GetDimensions();
+    if( dims[0] == 0 || dims[1] == 0 )
+      {
+      // Pseudo-declared JPEG SC image storage. Let's fix col/row/pf/pi
+      JPEGCodec jpeg;
+      if( jpeg.CanDecode( PixelData->GetTransferSyntax() ) )
+        {
+        std::stringstream ss;
+        const DataElement &de = PixelData->GetDataElement();
+        //const ByteValue *bv = de.GetByteValue();
+        const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
+        if( !sqf )
+          {
+          // TODO: It would be nice to recognize file such as JPEGDefinedLengthSequenceOfFragments.dcm
+          gdcmDebugMacro( "File is declared as JPEG compressed but does not contains Fragmens explicitly." );
+          return false;
+          }
+        sqf->WriteBuffer( ss );
+        //std::string s( bv->GetPointer(), bv->GetLength() );
+        //is.str( s );
+        PixelFormat jpegpf ( PixelFormat::UINT8 ); // usual guess...
+        jpeg.SetPixelFormat( jpegpf );
+        TransferSyntax ts;
+        bool b = jpeg.GetHeaderInfo( ss, ts );
+        if( b )
+          {
+          std::vector<unsigned int> v(3);
+          v[0] = PixelData->GetDimensions()[0];
+          v[1] = PixelData->GetDimensions()[1];
+          v[2] = PixelData->GetDimensions()[2];
+          assert( jpeg.GetDimensions()[0] );
+          assert( jpeg.GetDimensions()[1] );
+          v[0] = jpeg.GetDimensions()[0];
+          v[1] = jpeg.GetDimensions()[1];
+          PixelData->SetDimensions( &v[0] );
+          //PixelData->SetPixelFormat( jpeg.GetPixelFormat() );
+          //PixelData->SetPhotometricInterpretation( jpeg.GetPhotometricInterpretation() );
+          assert( PixelData->IsTransferSyntaxCompatible( ts ) );
+          }
+        else
+          {
+          gdcmDebugMacro( "Columns or Row was found to be 0. Cannot compute dimension." );
+          return false;
+          }
         }
       else
         {
@@ -1182,14 +1050,34 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
         return false;
         }
       }
-    else
-      {
-      gdcmDebugMacro( "Columns or Row was found to be 0. Cannot compute dimension." );
-      return false;
-      }
     }
 
-  PixelData->ComputeLossyFlag();
+  // Let's be smart when computing the lossyflag (0028,2110) 
+  // LossyImageCompression
+  Attribute<0x0028,0x2110> licat;
+  bool lossyflag = false;
+  bool haslossyflag = false;
+  if( ds.FindDataElement( licat.GetTag() ) )
+    {
+    haslossyflag = true;
+    licat.SetFromDataSet( ds ); // could be empty
+    const CSComp & v = licat.GetValue();
+    lossyflag = atoi( v.c_str() ) == 1;
+    PixelData->SetLossyFlag(lossyflag);
+    }
+
+  // Two cases:
+  // - DataSet did not specify the lossyflag
+  // - DataSet specify it to be 0, but there is still a change it could be wrong:
+  if( !haslossyflag || !lossyflag )
+    {
+    PixelData->ComputeLossyFlag();
+    if( PixelData->IsLossy() && (!lossyflag && haslossyflag ) )
+      {
+      // We always prefer the setting from the stream...
+      gdcmWarningMacro( "DataSet set LossyFlag to 0, while Codec made the stream lossy" );
+      }
+    }
 
   return true;
 }
@@ -1206,22 +1094,22 @@ bool PixmapReader::ReadACRNEMAImage()
   const Tag timagedimensions = Tag(0x0028, 0x0005);
   if( ds.FindDataElement( timagedimensions ) )
     {
-    const DataElement& de = ds.GetDataElement( timagedimensions );
-    Attribute<0x0028,0x0005> at = { 0 };
-    at.SetFromDataElement( de );
-    assert( at.GetNumberOfValues() == 1 );
-    unsigned short imagedimensions = at.GetValue();
+    const DataElement& de0 = ds.GetDataElement( timagedimensions );
+    Attribute<0x0028,0x0005> at0 = { 0 };
+    at0.SetFromDataElement( de0 );
+    assert( at0.GetNumberOfValues() == 1 );
+    unsigned short imagedimensions = at0.GetValue();
     //assert( imagedimensions == ReadSSFromTag( timagedimensions, ss, conversion ) );
     if ( imagedimensions == 3 )
       {
       PixelData->SetNumberOfDimensions(3);
       // D 0028|0012 [US] [Planes] [262]
-      const DataElement& dattribaElement = ds.GetDataElement( Tag(0x0028, 0x0012) );
-      Attribute<0x0028,0x0012> attrib = { 0 };
-      attrib.SetFromDataElement( dattribaElement );
-      assert( attrib.GetNumberOfValues() == 1 );
-      PixelData->SetDimension(2, attrib.GetValue() );
-      //assert( attrib.GetValue() == ReadUSFromTag( Tag(0x0028, 0x0012), ss, conversion ) );
+      const DataElement& de1 = ds.GetDataElement( Tag(0x0028, 0x0012) );
+      Attribute<0x0028,0x0012> at1 = { 0 };
+      at1.SetFromDataElement( de1 );
+      assert( at1.GetNumberOfValues() == 1 );
+      PixelData->SetDimension(2, at1.GetValue() );
+      //assert( at.GetValue() == ReadUSFromTag( Tag(0x0028, 0x0012), ss, conversion ) );
       }
     else if ( imagedimensions == 2 )
       {
@@ -1386,6 +1274,7 @@ bool PixmapReader::ReadACRNEMAImage()
     PhotometricInterpretation pi(
       PhotometricInterpretation::GetPIType(
         photometricinterpretation_str.c_str()));
+    PixelData->SetPhotometricInterpretation( pi );
     }
   else
     {

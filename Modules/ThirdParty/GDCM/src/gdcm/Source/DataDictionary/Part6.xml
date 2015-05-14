@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/Part6.xml $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -12,34 +11,23 @@
      PURPOSE.  See the above copyright notice for more information.
 -->
 <!--
-This file was automatically created from a docbook version of PS 3.6, which was then process by Part67.xsl
+This file was automatically created from a docbook version of PS 3.6-2011, which was then process by Part67.xsl
 
 Manual changes:
 
-1. Adding yet another tag:
-
-(0040,A125) Ordinal Value IS 1
-  http://medical.nema.org/dicom/cp/cp261_03.pdf
-
-or
-
-(0040,A125) VERS="3STR" VR="CS"   VM="2"        Keyword="ReportStatusID"                Name="Report Status ID"
-  http://svn.sourceforge.jp/svnroot/pgctn/pgctn/trunk/main_tree/dicomviewer/univiewer/dcmdict.txt
-
-Picking the second one since this is the one I found in dicomdir_Acusson_WithPrivate_WithSR
-
+1. DateTime -> Date Time (0008,002a)
 -->
 <!DOCTYPE doc [
 	 <!ENTITY part7 SYSTEM "Part7.xml">
 	 ]>
-<dicts edition="2009">
+<dicts edition="2011">
   &part7;
   <dict ref="6" name="Registry of DICOM data elements">
     <entry group="0008" element="0001" keyword="LengthToEnd" vr="UL" vm="1" retired="true" name="Length to End"/>
     <entry group="0008" element="0005" keyword="SpecificCharacterSet" vr="CS" vm="1-n" name="Specific Character Set"/>
     <entry group="0008" element="0006" keyword="LanguageCodeSequence" vr="SQ" vm="1" name="Language Code Sequence"/>
     <entry group="0008" element="0008" keyword="ImageType" vr="CS" vm="2-n" name="Image Type"/>
-    <entry group="0008" element="0010" keyword="RecognitionCode" vr="CS" vm="1" retired="true" name="Recognition Code"/>
+    <entry group="0008" element="0010" keyword="RecognitionCode" vr="SH" vm="1" retired="true" name="Recognition Code"/>
     <entry group="0008" element="0012" keyword="InstanceCreationDate" vr="DA" vm="1" name="Instance Creation Date"/>
     <entry group="0008" element="0013" keyword="InstanceCreationTime" vr="TM" vm="1" name="Instance Creation Time"/>
     <entry group="0008" element="0014" keyword="InstanceCreatorUID" vr="UI" vm="1" name="Instance Creator UID"/>
@@ -53,7 +41,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0008" element="0023" keyword="ContentDate" vr="DA" vm="1" name="Content Date"/>
     <entry group="0008" element="0024" keyword="OverlayDate" vr="DA" vm="1" retired="true" name="Overlay Date"/>
     <entry group="0008" element="0025" keyword="CurveDate" vr="DA" vm="1" retired="true" name="Curve Date"/>
-    <entry group="0008" element="002a" keyword="AcquisitionDateTime" vr="DT" vm="1" name="Acquisition DateTime"/>
+    <entry group="0008" element="002a" keyword="AcquisitionDateTime" vr="DT" vm="1" name="Acquisition Date Time"/>
     <entry group="0008" element="0030" keyword="StudyTime" vr="TM" vm="1" name="Study Time"/>
     <entry group="0008" element="0031" keyword="SeriesTime" vr="TM" vm="1" name="Series Time"/>
     <entry group="0008" element="0032" keyword="AcquisitionTime" vr="TM" vm="1" name="Acquisition Time"/>
@@ -222,6 +210,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0010" element="1005" keyword="PatientBirthName" vr="PN" vm="1" name="Patient's Birth Name"/>
     <entry group="0010" element="1010" keyword="PatientAge" vr="AS" vm="1" name="Patient's Age"/>
     <entry group="0010" element="1020" keyword="PatientSize" vr="DS" vm="1" name="Patient's Size"/>
+    <entry group="0010" element="1021" keyword="PatientSizeCodeSequence" vr="SQ" vm="1" name="Patient's Size Code Sequence"/>
     <entry group="0010" element="1030" keyword="PatientWeight" vr="DS" vm="1" name="Patient's Weight"/>
     <entry group="0010" element="1040" keyword="PatientAddress" vr="LO" vm="1" name="Patient's Address"/>
     <entry group="0010" element="1050" keyword="InsurancePlanIdentification" vr="LO" vm="1-n" retired="true" name="Insurance Plan Identification"/>
@@ -275,6 +264,132 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0012" element="0083" keyword="ConsentForClinicalTrialUseSequence" vr="SQ" vm="1" name="Consent for Clinical Trial Use Sequence"/>
     <entry group="0012" element="0084" keyword="DistributionType" vr="CS" vm="1" name="Distribution Type"/>
     <entry group="0012" element="0085" keyword="ConsentForDistributionFlag" vr="CS" vm="1" name="Consent for Distribution Flag"/>
+    <entry group="0014" element="0023" keyword="CADFileFormat" vr="ST" vm="1-n" name="CAD File Format"/>
+    <entry group="0014" element="0024" keyword="ComponentReferenceSystem" vr="ST" vm="1-n" name="Component Reference System"/>
+    <entry group="0014" element="0025" keyword="ComponentManufacturingProcedure" vr="ST" vm="1-n" name="Component Manufacturing Procedure"/>
+    <entry group="0014" element="0028" keyword="ComponentManufacturer" vr="ST" vm="1-n" name="Component Manufacturer"/>
+    <entry group="0014" element="0030" keyword="MaterialThickness" vr="DS" vm="1-n" name="Material Thickness"/>
+    <entry group="0014" element="0032" keyword="MaterialPipeDiameter" vr="DS" vm="1-n" name="Material Pipe Diameter"/>
+    <entry group="0014" element="0034" keyword="MaterialIsolationDiameter" vr="DS" vm="1-n" name="Material Isolation Diameter"/>
+    <entry group="0014" element="0042" keyword="MaterialGrade" vr="ST" vm="1-n" name="Material Grade"/>
+    <entry group="0014" element="0044" keyword="MaterialPropertiesFileID" vr="ST" vm="1-n" name="Material Properties File ID"/>
+    <entry group="0014" element="0045" keyword="MaterialPropertiesFileFormat" vr="ST" vm="1-n" name="Material Properties File Format"/>
+    <entry group="0014" element="0046" keyword="MaterialNotes" vr="LT" vm="1" name="Material Notes"/>
+    <entry group="0014" element="0050" keyword="ComponentShape" vr="CS" vm="1" name="Component Shape"/>
+    <entry group="0014" element="0052" keyword="CurvatureType" vr="CS" vm="1" name="Curvature Type"/>
+    <entry group="0014" element="0054" keyword="OuterDiameter" vr="DS" vm="1" name="Outer Diameter"/>
+    <entry group="0014" element="0056" keyword="InnerDiameter" vr="DS" vm="1" name="Inner Diameter"/>
+    <entry group="0014" element="1010" keyword="ActualEnvironmentalConditions" vr="ST" vm="1" name="Actual Environmental Conditions"/>
+    <entry group="0014" element="1020" keyword="ExpiryDate" vr="DA" vm="1" name="Expiry Date"/>
+    <entry group="0014" element="1040" keyword="EnvironmentalConditions" vr="ST" vm="1" name="Environmental Conditions"/>
+    <entry group="0014" element="2002" keyword="EvaluatorSequence" vr="SQ" vm="1" name="Evaluator Sequence"/>
+    <entry group="0014" element="2004" keyword="EvaluatorNumber" vr="IS" vm="1" name="Evaluator Number"/>
+    <entry group="0014" element="2006" keyword="EvaluatorName" vr="PN" vm="1" name="Evaluator Name"/>
+    <entry group="0014" element="2008" keyword="EvaluationAttempt" vr="IS" vm="1" name="Evaluation Attempt"/>
+    <entry group="0014" element="2012" keyword="IndicationSequence" vr="SQ" vm="1" name="Indication Sequence"/>
+    <entry group="0014" element="2014" keyword="IndicationNumber" vr="IS" vm="1" name="Indication Number"/>
+    <entry group="0014" element="2016" keyword="IndicationLabel" vr="SH" vm="1" name="Indication Label"/>
+    <entry group="0014" element="2018" keyword="IndicationDescription" vr="ST" vm="1" name="Indication Description"/>
+    <entry group="0014" element="201a" keyword="IndicationType" vr="CS" vm="1-n" name="Indication Type"/>
+    <entry group="0014" element="201c" keyword="IndicationDisposition" vr="CS" vm="1" name="Indication Disposition"/>
+    <entry group="0014" element="201e" keyword="IndicationROISequence" vr="SQ" vm="1" name="Indication ROI Sequence"/>
+    <entry group="0014" element="2030" keyword="IndicationPhysicalPropertySequence" vr="SQ" vm="1" name="Indication Physical Property Sequence"/>
+    <entry group="0014" element="2032" keyword="PropertyLabel" vr="SH" vm="1" name="Property Label"/>
+    <entry group="0014" element="2202" keyword="CoordinateSystemNumberOfAxes" vr="IS" vm="1" name="Coordinate System Number of Axes"/>
+    <entry group="0014" element="2204" keyword="CoordinateSystemAxesSequence" vr="SQ" vm="1" name="Coordinate System Axes Sequence"/>
+    <entry group="0014" element="2206" keyword="CoordinateSystemAxisDescription" vr="ST" vm="1" name="Coordinate System Axis Description"/>
+    <entry group="0014" element="2208" keyword="CoordinateSystemDataSetMapping" vr="CS" vm="1" name="Coordinate System Data Set Mapping"/>
+    <entry group="0014" element="220a" keyword="CoordinateSystemAxisNumber" vr="IS" vm="1" name="Coordinate System Axis Number"/>
+    <entry group="0014" element="220c" keyword="CoordinateSystemAxisType" vr="CS" vm="1" name="Coordinate System Axis Type"/>
+    <entry group="0014" element="220e" keyword="CoordinateSystemAxisUnits" vr="CS" vm="1" name="Coordinate System Axis Units"/>
+    <entry group="0014" element="2210" keyword="CoordinateSystemAxisValues" vr="OB" vm="1" name="Coordinate System Axis Values"/>
+    <entry group="0014" element="2220" keyword="CoordinateSystemTransformSequence" vr="SQ" vm="1" name="Coordinate System Transform Sequence"/>
+    <entry group="0014" element="2222" keyword="TransformDescription" vr="ST" vm="1" name="Transform Description"/>
+    <entry group="0014" element="2224" keyword="TransformNumberOfAxes" vr="IS" vm="1" name="Transform Number of Axes"/>
+    <entry group="0014" element="2226" keyword="TransformOrderOfAxes" vr="IS" vm="1-n" name="Transform Order of Axes"/>
+    <entry group="0014" element="2228" keyword="TransformedAxisUnits" vr="CS" vm="1" name="Transformed Axis Units"/>
+    <entry group="0014" element="222a" keyword="CoordinateSystemTransformRotationAndScaleMatrix" vr="DS" vm="1-n" name="Coordinate System Transform Rotation and Scale Matrix"/>
+    <entry group="0014" element="222c" keyword="CoordinateSystemTransformTranslationMatrix" vr="DS" vm="1-n" name="Coordinate System Transform Translation Matrix"/>
+    <entry group="0014" element="3011" keyword="InternalDetectorFrameTime" vr="DS" vm="1" name="Internal Detector Frame Time"/>
+    <entry group="0014" element="3012" keyword="NumberOfFramesIntegrated" vr="DS" vm="1" name="Number of Frames Integrated"/>
+    <entry group="0014" element="3020" keyword="DetectorTemperatureSequence" vr="SQ" vm="1" name="Detector Temperature Sequence"/>
+    <entry group="0014" element="3022" keyword="SensorName" vr="ST" vm="1" name="Sensor Name"/>
+    <entry group="0014" element="3024" keyword="HorizontalOffsetOfSensor" vr="DS" vm="1" name="Horizontal Offset of Sensor"/>
+    <entry group="0014" element="3026" keyword="VerticalOffsetOfSensor" vr="DS" vm="1" name="Vertical Offset of Sensor"/>
+    <entry group="0014" element="3028" keyword="SensorTemperature" vr="DS" vm="1" name="Sensor Temperature"/>
+    <entry group="0014" element="3040" keyword="DarkCurrentSequence" vr="SQ" vm="1" name="Dark Current Sequence"/>
+    <entry group="0014" element="3050" keyword="DarkCurrentCounts" vr="OB_OW" vm="1" name="Dark Current Counts"/>
+    <entry group="0014" element="3060" keyword="GainCorrectionReferenceSequence" vr="SQ" vm="1" name="Gain Correction Reference Sequence"/>
+    <entry group="0014" element="3070" keyword="AirCounts" vr="OB_OW" vm="1" name="Air Counts"/>
+    <entry group="0014" element="3071" keyword="KVUsedInGainCalibration" vr="DS" vm="1" name="KV Used in Gain Calibration"/>
+    <entry group="0014" element="3072" keyword="MAUsedInGainCalibration" vr="DS" vm="1" name="MA Used in Gain Calibration"/>
+    <entry group="0014" element="3073" keyword="NumberOfFramesUsedForIntegration" vr="DS" vm="1" name="Number of Frames Used for Integration"/>
+    <entry group="0014" element="3074" keyword="FilterMaterialUsedInGainCalibration" vr="LO" vm="1" name="Filter Material Used in Gain Calibration"/>
+    <entry group="0014" element="3075" keyword="FilterThicknessUsedInGainCalibration" vr="DS" vm="1" name="Filter Thickness Used in Gain Calibration"/>
+    <entry group="0014" element="3076" keyword="DateOfGainCalibration" vr="DA" vm="1" name="Date of Gain Calibration"/>
+    <entry group="0014" element="3077" keyword="TimeOfGainCalibration" vr="TM" vm="1" name="Time of Gain Calibration"/>
+    <entry group="0014" element="3080" keyword="BadPixelImage" vr="OB" vm="1" name="Bad Pixel Image"/>
+    <entry group="0014" element="3099" keyword="CalibrationNotes" vr="LT" vm="1" name="Calibration Notes"/>
+    <entry group="0014" element="4002" keyword="PulserEquipmentSequence" vr="SQ" vm="1" name="Pulser Equipment Sequence"/>
+    <entry group="0014" element="4004" keyword="PulserType" vr="CS" vm="1" name="Pulser Type"/>
+    <entry group="0014" element="4006" keyword="PulserNotes" vr="LT" vm="1" name="Pulser Notes"/>
+    <entry group="0014" element="4008" keyword="ReceiverEquipmentSequence" vr="SQ" vm="1" name="Receiver Equipment Sequence"/>
+    <entry group="0014" element="400a" keyword="AmplifierType" vr="CS" vm="1" name="Amplifier Type"/>
+    <entry group="0014" element="400c" keyword="ReceiverNotes" vr="LT" vm="1" name="Receiver Notes"/>
+    <entry group="0014" element="400e" keyword="PreAmplifierEquipmentSequence" vr="SQ" vm="1" name="Pre-Amplifier Equipment Sequence"/>
+    <entry group="0014" element="400f" keyword="PreAmplifierNotes" vr="LT" vm="1" name="Pre-Amplifier Notes"/>
+    <entry group="0014" element="4010" keyword="TransmitTransducerSequence" vr="SQ" vm="1" name="Transmit Transducer Sequence"/>
+    <entry group="0014" element="4011" keyword="ReceiveTransducerSequence" vr="SQ" vm="1" name="Receive Transducer Sequence"/>
+    <entry group="0014" element="4012" keyword="NumberOfElements" vr="US" vm="1" name="Number of Elements"/>
+    <entry group="0014" element="4013" keyword="ElementShape" vr="CS" vm="1" name="Element Shape"/>
+    <entry group="0014" element="4014" keyword="ElementDimensionA" vr="DS" vm="1" name="Element Dimension A"/>
+    <entry group="0014" element="4015" keyword="ElementDimensionB" vr="DS" vm="1" name="Element Dimension B"/>
+    <entry group="0014" element="4016" keyword="ElementPitch" vr="DS" vm="1" name="Element Pitch"/>
+    <entry group="0014" element="4017" keyword="MeasuredBeamDimensionA" vr="DS" vm="1" name="Measured Beam Dimension A"/>
+    <entry group="0014" element="4018" keyword="MeasuredBeamDimensionB" vr="DS" vm="1" name="Measured Beam Dimension B"/>
+    <entry group="0014" element="4019" keyword="LocationOfMeasuredBeamDiameter" vr="DS" vm="1" name="Location of Measured Beam Diameter"/>
+    <entry group="0014" element="401a" keyword="NominalFrequency" vr="DS" vm="1" name="Nominal Frequency"/>
+    <entry group="0014" element="401b" keyword="MeasuredCenterFrequency" vr="DS" vm="1" name="Measured Center Frequency"/>
+    <entry group="0014" element="401c" keyword="MeasuredBandwidth" vr="DS" vm="1" name="Measured Bandwidth"/>
+    <entry group="0014" element="4020" keyword="PulserSettingsSequence" vr="SQ" vm="1" name="Pulser Settings Sequence"/>
+    <entry group="0014" element="4022" keyword="PulseWidth" vr="DS" vm="1" name="Pulse Width"/>
+    <entry group="0014" element="4024" keyword="ExcitationFrequency" vr="DS" vm="1" name="Excitation Frequency"/>
+    <entry group="0014" element="4026" keyword="ModulationType" vr="CS" vm="1" name="Modulation Type"/>
+    <entry group="0014" element="4028" keyword="Damping" vr="DS" vm="1" name="Damping"/>
+    <entry group="0014" element="4030" keyword="ReceiverSettingsSequence" vr="SQ" vm="1" name="Receiver Settings Sequence"/>
+    <entry group="0014" element="4031" keyword="AcquiredSoundpathLength" vr="DS" vm="1" name="Acquired Soundpath Length"/>
+    <entry group="0014" element="4032" keyword="AcquisitionCompressionType" vr="CS" vm="1" name="Acquisition Compression Type"/>
+    <entry group="0014" element="4033" keyword="AcquisitionSampleSize" vr="IS" vm="1" name="Acquisition Sample Size"/>
+    <entry group="0014" element="4034" keyword="RectifierSmoothing" vr="DS" vm="1" name="Rectifier Smoothing"/>
+    <entry group="0014" element="4035" keyword="DACSequence" vr="SQ" vm="1" name="DAC Sequence"/>
+    <entry group="0014" element="4036" keyword="DACType" vr="CS" vm="1" name="DAC Type"/>
+    <entry group="0014" element="4038" keyword="DACGainPoints" vr="DS" vm="1-n" name="DAC Gain Points"/>
+    <entry group="0014" element="403a" keyword="DACTimePoints" vr="DS" vm="1-n" name="DAC Time Points"/>
+    <entry group="0014" element="403c" keyword="DACAmplitude" vr="DS" vm="1-n" name="DAC Amplitude"/>
+    <entry group="0014" element="4040" keyword="PreAmplifierSettingsSequence" vr="SQ" vm="1" name="Pre-Amplifier Settings Sequence"/>
+    <entry group="0014" element="4050" keyword="TransmitTransducerSettingsSequence" vr="SQ" vm="1" name="Transmit Transducer Settings Sequence"/>
+    <entry group="0014" element="4051" keyword="ReceiveTransducerSettingsSequence" vr="SQ" vm="1" name="Receive Transducer Settings Sequence"/>
+    <entry group="0014" element="4052" keyword="IncidentAngle" vr="DS" vm="1" name="Incident Angle"/>
+    <entry group="0014" element="4054" keyword="CouplingTechnique" vr="ST" vm="1" name="Coupling Technique"/>
+    <entry group="0014" element="4056" keyword="CouplingMedium" vr="ST" vm="1" name="Coupling Medium"/>
+    <entry group="0014" element="4057" keyword="CouplingVelocity" vr="DS" vm="1" name="Coupling Velocity"/>
+    <entry group="0014" element="4058" keyword="CrystalCenterLocationX" vr="DS" vm="1" name="Crystal Center Location X"/>
+    <entry group="0014" element="4059" keyword="CrystalCenterLocationZ" vr="DS" vm="1" name="Crystal Center Location Z"/>
+    <entry group="0014" element="405a" keyword="SoundPathLength" vr="DS" vm="1" name="Sound Path Length"/>
+    <entry group="0014" element="405c" keyword="DelayLawIdentifier" vr="ST" vm="1" name="Delay Law Identifier"/>
+    <entry group="0014" element="4060" keyword="GateSettingsSequence" vr="SQ" vm="1" name="Gate Settings Sequence"/>
+    <entry group="0014" element="4062" keyword="GateThreshold" vr="DS" vm="1" name="Gate Threshold"/>
+    <entry group="0014" element="4064" keyword="VelocityOfSound" vr="DS" vm="1" name="Velocity of Sound"/>
+    <entry group="0014" element="4070" keyword="CalibrationSettingsSequence" vr="SQ" vm="1" name="Calibration Settings Sequence"/>
+    <entry group="0014" element="4072" keyword="CalibrationProcedure" vr="ST" vm="1" name="Calibration Procedure"/>
+    <entry group="0014" element="4074" keyword="ProcedureVersion" vr="SH" vm="1" name="Procedure Version"/>
+    <entry group="0014" element="4076" keyword="ProcedureCreationDate" vr="DA" vm="1" name="Procedure Creation Date"/>
+    <entry group="0014" element="4078" keyword="ProcedureExpirationDate" vr="DA" vm="1" name="Procedure Expiration Date"/>
+    <entry group="0014" element="407a" keyword="ProcedureLastModifiedDate" vr="DA" vm="1" name="Procedure Last Modified Date"/>
+    <entry group="0014" element="407c" keyword="CalibrationTime" vr="TM" vm="1-n" name="Calibration Time"/>
+    <entry group="0014" element="407e" keyword="CalibrationDate" vr="DA" vm="1-n" name="Calibration Date"/>
+    <entry group="0014" element="5002" keyword="LINACEnergy" vr="IS" vm="1" name="LINAC Energy"/>
+    <entry group="0014" element="5004" keyword="LINACOutput" vr="IS" vm="1" name="LINAC Output"/>
     <entry group="0018" element="0010" keyword="ContrastBolusAgent" vr="LO" vm="1" name="Contrast/Bolus Agent"/>
     <entry group="0018" element="0012" keyword="ContrastBolusAgentSequence" vr="SQ" vm="1" name="Contrast/Bolus Agent Sequence"/>
     <entry group="0018" element="0014" keyword="ContrastBolusAdministrationRouteSequence" vr="SQ" vm="1" name="Contrast/Bolus Administration Route Sequence"/>
@@ -467,6 +582,9 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0018" element="1403" keyword="CassetteSize" vr="CS" vm="1" name="Cassette Size"/>
     <entry group="0018" element="1404" keyword="ExposuresOnPlate" vr="US" vm="1" name="Exposures on Plate"/>
     <entry group="0018" element="1405" keyword="RelativeXRayExposure" vr="IS" vm="1" name="Relative X-Ray Exposure"/>
+    <entry group="0018" element="1411" keyword="ExposureIndex" vr="DS" vm="1" name="Exposure Index"/>
+    <entry group="0018" element="1412" keyword="TargetExposureIndex" vr="DS" vm="1" name="Target Exposure Index"/>
+    <entry group="0018" element="1413" keyword="DeviationIndex" vr="DS" vm="1" name="Deviation Index"/>
     <entry group="0018" element="1450" keyword="ColumnAngulation" vr="DS" vm="1" name="Column Angulation"/>
     <entry group="0018" element="1460" keyword="TomoLayerHeight" vr="DS" vm="1" name="Tomo Layer Height"/>
     <entry group="0018" element="1470" keyword="TomoAngle" vr="DS" vm="1" name="Tomo Angle"/>
@@ -566,7 +684,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0018" element="6039" keyword="DopplerSampleVolumeXPosition" vr="SL" vm="1" name="Doppler Sample Volume X Position"/>
     <entry group="0018" element="603a" keyword="DopplerSampleVolumeYPositionRetired" vr="UL" vm="1" retired="true" name="Doppler Sample Volume Y Position (Retired)"/>
     <entry group="0018" element="603b" keyword="DopplerSampleVolumeYPosition" vr="SL" vm="1" name="Doppler Sample Volume Y Position"/>
-    <entry group="0018" element="603c" keyword="TMLinePositionX0Retired" vr="UL" vm="1" retired="true" name="TMLine Position X0 (Retired)"/>
+    <entry group="0018" element="603c" keyword="TMLinePositionX0Retired" vr="UL" vm="1" retired="true" name="TM-Line Position X0 (Retired)"/>
     <entry group="0018" element="603d" keyword="TMLinePositionX0" vr="SL" vm="1" name="TM-Line Position X0"/>
     <entry group="0018" element="603e" keyword="TMLinePositionY0Retired" vr="UL" vm="1" retired="true" name="TM-Line Position Y0 (Retired)"/>
     <entry group="0018" element="603f" keyword="TMLinePositionY0" vr="SL" vm="1" name="TM-Line Position Y0"/>
@@ -612,6 +730,8 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0018" element="7030" keyword="FieldOfViewOrigin" vr="DS" vm="2" name="Field of View Origin"/>
     <entry group="0018" element="7032" keyword="FieldOfViewRotation" vr="DS" vm="1" name="Field of View Rotation"/>
     <entry group="0018" element="7034" keyword="FieldOfViewHorizontalFlip" vr="CS" vm="1" name="Field of View Horizontal Flip"/>
+    <entry group="0018" element="7036" keyword="PixelDataAreaOriginRelativeToFOV" vr="FL" vm="2" name="Pixel Data Area Origin Relative To FOV"/>
+    <entry group="0018" element="7038" keyword="PixelDataAreaRotationAngleRelativeToFOV" vr="FL" vm="1" name="Pixel Data Area Rotation Angle Relative To FOV"/>
     <entry group="0018" element="7040" keyword="GridAbsorbingMaterial" vr="LT" vm="1" name="Grid Absorbing Material"/>
     <entry group="0018" element="7041" keyword="GridSpacingMaterial" vr="LT" vm="1" name="Grid Spacing Material"/>
     <entry group="0018" element="7042" keyword="GridThickness" vr="DS" vm="1" name="Grid Thickness"/>
@@ -682,7 +802,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0018" element="9063" keyword="DecouplingChemicalShiftReference" vr="FD" vm="1-2" name="De-coupling Chemical Shift Reference"/>
     <entry group="0018" element="9064" keyword="KSpaceFiltering" vr="CS" vm="1" name="k-space Filtering"/>
     <entry group="0018" element="9065" keyword="TimeDomainFiltering" vr="CS" vm="1-2" name="Time Domain Filtering"/>
-    <entry group="0018" element="9066" keyword="NumberOfZeroFills" vr="US" vm="1-2" name="Number of Zero fills"/>
+    <entry group="0018" element="9066" keyword="NumberOfZeroFills" vr="US" vm="1-2" name="Number of Zero Fills"/>
     <entry group="0018" element="9067" keyword="BaselineCorrection" vr="CS" vm="1" name="Baseline Correction"/>
     <entry group="0018" element="9069" keyword="ParallelReductionFactorInPlane" vr="FD" vm="1" name="Parallel Reduction Factor In-plane"/>
     <entry group="0018" element="9070" keyword="CardiacRRIntervalSpecified" vr="FD" vm="1" name="Cardiac R-R Interval Specified"/>
@@ -703,6 +823,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0018" element="9089" keyword="DiffusionGradientOrientation" vr="FD" vm="3" name="Diffusion Gradient Orientation"/>
     <entry group="0018" element="9090" keyword="VelocityEncodingDirection" vr="FD" vm="3" name="Velocity Encoding Direction"/>
     <entry group="0018" element="9091" keyword="VelocityEncodingMinimumValue" vr="FD" vm="1" name="Velocity Encoding Minimum Value"/>
+    <entry group="0018" element="9092" keyword="VelocityEncodingAcquisitionSequence" vr="SQ" vm="1" name="Velocity Encoding Acquisition Sequence"/>
     <entry group="0018" element="9093" keyword="NumberOfKSpaceTrajectories" vr="US" vm="1" name="Number of k-Space Trajectories"/>
     <entry group="0018" element="9094" keyword="CoverageOfKSpace" vr="CS" vm="1" name="Coverage of k-Space"/>
     <entry group="0018" element="9095" keyword="SpectroscopyAcquisitionPhaseRows" vr="UL" vm="1" name="Spectroscopy Acquisition Phase Rows"/>
@@ -769,6 +890,23 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0018" element="9239" keyword="SpecificAbsorptionRateSequence" vr="SQ" vm="1" name="Specific Absorption Rate Sequence"/>
     <entry group="0018" element="9240" keyword="RFEchoTrainLength" vr="US" vm="1" name="RF Echo Train Length"/>
     <entry group="0018" element="9241" keyword="GradientEchoTrainLength" vr="US" vm="1" name="Gradient Echo Train Length"/>
+    <entry group="0018" element="9250" keyword="ArterialSpinLabelingContrast" vr="CS" vm="1" name="Arterial Spin Labeling Contrast"/>
+    <entry group="0018" element="9251" keyword="MRArterialSpinLabelingSequence" vr="SQ" vm="1" name="MR Arterial Spin Labeling Sequence"/>
+    <entry group="0018" element="9252" keyword="ASLTechniqueDescription" vr="LO" vm="1" name="ASL Technique Description"/>
+    <entry group="0018" element="9253" keyword="ASLSlabNumber" vr="US" vm="1" name="ASL Slab Number"/>
+    <entry group="0018" element="9254" keyword="ASLSlabThickness" vr="FD" vm="1" name="ASL Slab Thickness"/>
+    <entry group="0018" element="9255" keyword="ASLSlabOrientation" vr="FD" vm="3" name="ASL Slab Orientation"/>
+    <entry group="0018" element="9256" keyword="ASLMidSlabPosition" vr="FD" vm="3" name="ASL Mid Slab Position"/>
+    <entry group="0018" element="9257" keyword="ASLContext" vr="CS" vm="1" name="ASL Context"/>
+    <entry group="0018" element="9258" keyword="ASLPulseTrainDuration" vr="UL" vm="1" name="ASL Pulse Train Duration"/>
+    <entry group="0018" element="9259" keyword="ASLCrusherFlag" vr="CS" vm="1" name="ASL Crusher Flag"/>
+    <entry group="0018" element="925a" keyword="ASLCrusherFlow" vr="FD" vm="1" name="ASL Crusher Flow"/>
+    <entry group="0018" element="925b" keyword="ASLCrusherDescription" vr="LO" vm="1" name="ASL Crusher Description"/>
+    <entry group="0018" element="925c" keyword="ASLBolusCutoffFlag" vr="CS" vm="1" name="ASL Bolus Cut-off Flag"/>
+    <entry group="0018" element="925d" keyword="ASLBolusCutoffTimingSequence" vr="SQ" vm="1" name="ASL Bolus Cut-off Timing Sequence"/>
+    <entry group="0018" element="925e" keyword="ASLBolusCutoffTechnique" vr="LO" vm="1" name="ASL Bolus Cut-off Technique"/>
+    <entry group="0018" element="925f" keyword="ASLBolusCutoffDelayTime" vr="UL" vm="1" name="ASL Bolus Cut-off Delay Time"/>
+    <entry group="0018" element="9260" keyword="ASLSlabSequence" vr="SQ" vm="1" name="ASL Slab Sequence"/>
     <entry group="0018" element="9295" keyword="ChemicalShiftMinimumIntegrationLimitInppm" vr="FD" vm="1" name="Chemical Shift Minimum Integration Limit in ppm"/>
     <entry group="0018" element="9296" keyword="ChemicalShiftMaximumIntegrationLimitInppm" vr="FD" vm="1" name="Chemical Shift Maximum Integration Limit in ppm"/>
     <entry group="0018" element="9301" keyword="CTAcquisitionTypeSequence" vr="SQ" vm="1" name="CT Acquisition Type Sequence"/>
@@ -825,6 +963,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0018" element="9405" keyword="PositionerPositionSequence" vr="SQ" vm="1" name="Positioner Position Sequence"/>
     <entry group="0018" element="9406" keyword="TablePositionSequence" vr="SQ" vm="1" name="Table Position Sequence"/>
     <entry group="0018" element="9407" keyword="CollimatorShapeSequence" vr="SQ" vm="1" name="Collimator Shape Sequence"/>
+    <entry group="0018" element="9410" keyword="PlanesInAcquisition" vr="CS" vm="1" name="Planes in Acquisition"/>
     <entry group="0018" element="9412" keyword="XAXRFFrameCharacteristicsSequence" vr="SQ" vm="1" name="XA/XRF Frame Characteristics Sequence"/>
     <entry group="0018" element="9417" keyword="FrameAcquisitionSequence" vr="SQ" vm="1" name="Frame Acquisition Sequence"/>
     <entry group="0018" element="9420" keyword="XRayReceptorType" vr="CS" vm="1" name="X-Ray Receptor Type"/>
@@ -835,7 +974,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0018" element="9427" keyword="IntensifierActiveShape" vr="CS" vm="1" name="Intensifier Active Shape"/>
     <entry group="0018" element="9428" keyword="IntensifierActiveDimensions" vr="FL" vm="1-2" name="Intensifier Active Dimension(s)"/>
     <entry group="0018" element="9429" keyword="PhysicalDetectorSize" vr="FL" vm="2" name="Physical Detector Size"/>
-    <entry group="0018" element="9430" keyword="PositionOfIsocenterProjection" vr="US" vm="2" name="Position of Isocenter Projection"/>
+    <entry group="0018" element="9430" keyword="PositionOfIsocenterProjection" vr="FL" vm="2" name="Position of Isocenter Projection"/>
     <entry group="0018" element="9432" keyword="FieldOfViewSequence" vr="SQ" vm="1" name="Field of View Sequence"/>
     <entry group="0018" element="9433" keyword="FieldOfViewDescription" vr="LO" vm="1" name="Field of View Description"/>
     <entry group="0018" element="9434" keyword="ExposureControlSensingRegionsSequence" vr="SQ" vm="1" name="Exposure Control Sensing Regions Sequence"/>
@@ -984,6 +1123,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0020" element="0062" keyword="ImageLaterality" vr="CS" vm="1" name="Image Laterality"/>
     <entry group="0020" element="0070" keyword="ImageGeometryType" vr="LO" vm="1" retired="true" name="Image Geometry Type"/>
     <entry group="0020" element="0080" keyword="MaskingImage" vr="CS" vm="1-n" retired="true" name="Masking Image"/>
+    <entry group="0020" element="00aa" keyword="ReportNumber" vr="IS" vm="1" retired="true" name="Report Number"/>
     <entry group="0020" element="0100" keyword="TemporalPositionIdentifier" vr="IS" vm="1" name="Temporal Position Identifier"/>
     <entry group="0020" element="0105" keyword="NumberOfTemporalPositions" vr="IS" vm="1" name="Number of Temporal Positions"/>
     <entry group="0020" element="0110" keyword="TemporalResolution" vr="DS" vm="1" name="Temporal Resolution"/>
@@ -995,7 +1135,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0020" element="1003" keyword="ImagesInSeries" vr="IS" vm="1" retired="true" name="Images in Series"/>
     <entry group="0020" element="1004" keyword="AcquisitionsInStudy" vr="IS" vm="1" retired="true" name="Acquisitions in Study"/>
     <entry group="0020" element="1005" keyword="ImagesInStudy" vr="IS" vm="1" retired="true" name="Images in Study"/>
-    <entry group="0020" element="1020" keyword="Reference" vr="CS" vm="1-n" retired="true" name="Reference"/>
+    <entry group="0020" element="1020" keyword="Reference" vr="LO" vm="1-n" retired="true" name="Reference"/>
     <entry group="0020" element="1040" keyword="PositionReferenceIndicator" vr="LO" vm="1" name="Position Reference Indicator"/>
     <entry group="0020" element="1041" keyword="SliceLocation" vr="DS" vm="1" name="Slice Location"/>
     <entry group="0020" element="1070" keyword="OtherStudyNumbers" vr="IS" vm="1-n" retired="true" name="Other Study Numbers"/>
@@ -1014,7 +1154,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0020" element="3406" keyword="ModifiedImageDescription" vr="LO" vm="1" retired="true" name="Modified Image Description"/>
     <entry group="0020" element="4000" keyword="ImageComments" vr="LT" vm="1" name="Image Comments"/>
     <entry group="0020" element="5000" keyword="OriginalImageIdentification" vr="AT" vm="1-n" retired="true" name="Original Image Identification"/>
-    <entry group="0020" element="5002" keyword="OriginalImageIdentificationNomenclature" vr="CS" vm="1-n" retired="true" name="Original Image Identification Nomenclature"/>
+    <entry group="0020" element="5002" keyword="OriginalImageIdentificationNomenclature" vr="LO" vm="1-n" retired="true" name="Original Image Identification Nomenclature"/>
     <entry group="0020" element="9056" keyword="StackID" vr="SH" vm="1" name="Stack ID"/>
     <entry group="0020" element="9057" keyword="InStackPositionNumber" vr="UL" vm="1" name="In-Stack Position Number"/>
     <entry group="0020" element="9071" keyword="FrameAnatomySequence" vr="SQ" vm="1" name="Frame Anatomy Sequence"/>
@@ -1024,6 +1164,8 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0020" element="9116" keyword="PlaneOrientationSequence" vr="SQ" vm="1" name="Plane Orientation Sequence"/>
     <entry group="0020" element="9128" keyword="TemporalPositionIndex" vr="UL" vm="1" name="Temporal Position Index"/>
     <entry group="0020" element="9153" keyword="NominalCardiacTriggerDelayTime" vr="FD" vm="1" name="Nominal Cardiac Trigger Delay Time"/>
+    <entry group="0020" element="9154" keyword="NominalCardiacTriggerTimePriorToRPeak" vr="FL" vm="1" name="Nominal Cardiac Trigger Time Prior To R-Peak"/>
+    <entry group="0020" element="9155" keyword="ActualCardiacTriggerTimePriorToRPeak" vr="FL" vm="1" name="Actual Cardiac Trigger Time Prior To R-Peak"/>
     <entry group="0020" element="9156" keyword="FrameAcquisitionNumber" vr="US" vm="1" name="Frame Acquisition Number"/>
     <entry group="0020" element="9157" keyword="DimensionIndexValues" vr="UL" vm="1-n" name="Dimension Index Values"/>
     <entry group="0020" element="9158" keyword="FrameComments" vr="LT" vm="1" name="Frame Comments"/>
@@ -1045,7 +1187,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0020" element="9248" keyword="EndingRespiratoryAmplitude" vr="FL" vm="1" name="Ending Respiratory Amplitude"/>
     <entry group="0020" element="9249" keyword="EndingRespiratoryPhase" vr="CS" vm="1" name="Ending Respiratory Phase"/>
     <entry group="0020" element="9250" keyword="RespiratoryTriggerType" vr="CS" vm="1" name="Respiratory Trigger Type"/>
-    <entry group="0020" element="9251" keyword="RRIntervalTimeNominal" vr="FD" vm="1" name="R - R Interval Time Nominal"/>
+    <entry group="0020" element="9251" keyword="RRIntervalTimeNominal" vr="FD" vm="1" name="R-R Interval Time Nominal"/>
     <entry group="0020" element="9252" keyword="ActualCardiacTriggerDelayTime" vr="FD" vm="1" name="Actual Cardiac Trigger Delay Time"/>
     <entry group="0020" element="9253" keyword="RespiratorySynchronizationSequence" vr="SQ" vm="1" name="Respiratory Synchronization Sequence"/>
     <entry group="0020" element="9254" keyword="RespiratoryIntervalTime" vr="FD" vm="1" name="Respiratory Interval Time"/>
@@ -1100,6 +1242,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0022" element="001b" keyword="RefractiveStateSequence" vr="SQ" vm="1" name="Refractive State Sequence"/>
     <entry group="0022" element="001c" keyword="MydriaticAgentCodeSequence" vr="SQ" vm="1" name="Mydriatic Agent Code Sequence"/>
     <entry group="0022" element="001d" keyword="RelativeImagePositionCodeSequence" vr="SQ" vm="1" name="Relative Image Position Code Sequence"/>
+    <entry group="0022" element="001e" keyword="CameraAngleOfView" vr="FL" vm="1" name="Camera Angle of View"/>
     <entry group="0022" element="0020" keyword="StereoPairsSequence" vr="SQ" vm="1" name="Stereo Pairs Sequence"/>
     <entry group="0022" element="0021" keyword="LeftImageSequence" vr="SQ" vm="1" name="Left Image Sequence"/>
     <entry group="0022" element="0022" keyword="RightImageSequence" vr="SQ" vm="1" name="Right Image Sequence"/>
@@ -1120,6 +1263,170 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0022" element="0056" keyword="IlluminationPower" vr="FL" vm="1" name="Illumination Power"/>
     <entry group="0022" element="0057" keyword="IlluminationBandwidth" vr="FL" vm="1" name="Illumination Bandwidth"/>
     <entry group="0022" element="0058" keyword="MydriaticAgentSequence" vr="SQ" vm="1" name="Mydriatic Agent Sequence"/>
+    <entry group="0022" element="1007" keyword="OphthalmicAxialMeasurementsRightEyeSequence" vr="SQ" vm="1" name="Ophthalmic Axial Measurements Right Eye Sequence"/>
+    <entry group="0022" element="1008" keyword="OphthalmicAxialMeasurementsLeftEyeSequence" vr="SQ" vm="1" name="Ophthalmic Axial Measurements Left Eye Sequence"/>
+    <entry group="0022" element="1009" keyword="OphthalmicAxialMeasurementsDeviceType" vr="CS" vm="1" name="Ophthalmic Axial Measurements Device Type"/>
+    <entry group="0022" element="1010" keyword="OphthalmicAxialLengthMeasurementsType" vr="CS" vm="1" name="Ophthalmic Axial Length Measurements Type"/>
+    <entry group="0022" element="1012" keyword="OphthalmicAxialLengthSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Sequence"/>
+    <entry group="0022" element="1019" keyword="OphthalmicAxialLength" vr="FL" vm="1" name="Ophthalmic Axial Length"/>
+    <entry group="0022" element="1024" keyword="LensStatusCodeSequence" vr="SQ" vm="1" name="Lens Status Code Sequence"/>
+    <entry group="0022" element="1025" keyword="VitreousStatusCodeSequence" vr="SQ" vm="1" name="Vitreous Status Code Sequence"/>
+    <entry group="0022" element="1028" keyword="IOLFormulaCodeSequence" vr="SQ" vm="1" name="IOL Formula Code Sequence"/>
+    <entry group="0022" element="1029" keyword="IOLFormulaDetail" vr="LO" vm="1" name="IOL Formula Detail"/>
+    <entry group="0022" element="1033" keyword="KeratometerIndex" vr="FL" vm="1" name="Keratometer Index"/>
+    <entry group="0022" element="1035" keyword="SourceOfOphthalmicAxialLengthCodeSequence" vr="SQ" vm="1" name="Source of Ophthalmic Axial Length Code Sequence"/>
+    <entry group="0022" element="1037" keyword="TargetRefraction" vr="FL" vm="1" name="Target Refraction"/>
+    <entry group="0022" element="1039" keyword="RefractiveProcedureOccurred" vr="CS" vm="1" name="Refractive Procedure Occurred"/>
+    <entry group="0022" element="1040" keyword="RefractiveSurgeryTypeCodeSequence" vr="SQ" vm="1" name="Refractive Surgery Type Code Sequence"/>
+    <entry group="0022" element="1044" keyword="OphthalmicUltrasoundMethodCodeSequence" vr="SQ" vm="1" name="Ophthalmic Ultrasound Method Code Sequence"/>
+    <entry group="0022" element="1050" keyword="OphthalmicAxialLengthMeasurementsSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Measurements Sequence"/>
+    <entry group="0022" element="1053" keyword="IOLPower" vr="FL" vm="1" name="IOL Power"/>
+    <entry group="0022" element="1054" keyword="PredictedRefractiveError" vr="FL" vm="1" name="Predicted Refractive Error"/>
+    <entry group="0022" element="1059" keyword="OphthalmicAxialLengthVelocity" vr="FL" vm="1" name="Ophthalmic Axial Length Velocity"/>
+    <entry group="0022" element="1065" keyword="LensStatusDescription" vr="LO" vm="1" name="Lens Status Description"/>
+    <entry group="0022" element="1066" keyword="VitreousStatusDescription" vr="LO" vm="1" name="Vitreous Status Description"/>
+    <entry group="0022" element="1090" keyword="IOLPowerSequence" vr="SQ" vm="1" name="IOL Power Sequence"/>
+    <entry group="0022" element="1092" keyword="LensConstantSequence" vr="SQ" vm="1" name="Lens Constant Sequence"/>
+    <entry group="0022" element="1093" keyword="IOLManufacturer" vr="LO" vm="1" name="IOL Manufacturer"/>
+    <entry group="0022" element="1094" keyword="LensConstantDescription" vr="LO" vm="1" name="Lens Constant Description"/>
+    <entry group="0022" element="1095" keyword="ImplantName" vr="LO" vm="1" name="Implant Name"/>
+    <entry group="0022" element="1096" keyword="KeratometryMeasurementTypeCodeSequence" vr="SQ" vm="1" name="Keratometry Measurement Type Code Sequence"/>
+    <entry group="0022" element="1097" keyword="ImplantPartNumber" vr="LO" vm="1" name="Implant Part Number"/>
+    <entry group="0022" element="1100" keyword="ReferencedOphthalmicAxialMeasurementsSequence" vr="SQ" vm="1" name="Referenced Ophthalmic Axial Measurements Sequence"/>
+    <entry group="0022" element="1101" keyword="OphthalmicAxialLengthMeasurementsSegmentNameCodeSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Measurements Segment Name Code Sequence"/>
+    <entry group="0022" element="1103" keyword="RefractiveErrorBeforeRefractiveSurgeryCodeSequence" vr="SQ" vm="1" name="Refractive Error Before Refractive Surgery Code Sequence"/>
+    <entry group="0022" element="1121" keyword="IOLPowerForExactEmmetropia" vr="FL" vm="1" name="IOL Power For Exact Emmetropia"/>
+    <entry group="0022" element="1122" keyword="IOLPowerForExactTargetRefraction" vr="FL" vm="1" name="IOL Power For Exact Target Refraction"/>
+    <entry group="0022" element="1125" keyword="AnteriorChamberDepthDefinitionCodeSequence" vr="SQ" vm="1" name="Anterior Chamber Depth Definition Code Sequence"/>
+    <entry group="0022" element="1127" keyword="LensThicknessSequence" vr="SQ" vm="1" name="Lens Thickness Sequence"/>
+    <entry group="0022" element="1128" keyword="AnteriorChamberDepthSequence" vr="SQ" vm="1" name="Anterior Chamber Depth Sequence"/>
+    <entry group="0022" element="1130" keyword="LensThickness" vr="FL" vm="1" name="Lens Thickness"/>
+    <entry group="0022" element="1131" keyword="AnteriorChamberDepth" vr="FL" vm="1" name="Anterior Chamber Depth"/>
+    <entry group="0022" element="1132" keyword="SourceOfLensThicknessDataCodeSequence" vr="SQ" vm="1" name="Source of Lens Thickness Data Code Sequence"/>
+    <entry group="0022" element="1133" keyword="SourceOfAnteriorChamberDepthDataCodeSequence" vr="SQ" vm="1" name="Source of Anterior Chamber Depth Data Code Sequence"/>
+    <entry group="0022" element="1134" keyword="SourceOfRefractiveMeasurementsSequence" vr="SQ" vm="1" name="Source of Refractive Measurements Sequence"/>
+    <entry group="0022" element="1135" keyword="SourceOfRefractiveMeasurementsCodeSequence" vr="SQ" vm="1" name="Source of Refractive Measurements Code Sequence"/>
+    <entry group="0022" element="1140" keyword="OphthalmicAxialLengthMeasurementModified" vr="CS" vm="1" name="Ophthalmic Axial Length Measurement Modified"/>
+    <entry group="0022" element="1150" keyword="OphthalmicAxialLengthDataSourceCodeSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Data Source Code Sequence"/>
+    <entry group="0022" element="1153" keyword="OphthalmicAxialLengthAcquisitionMethodCodeSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Acquisition Method Code Sequence"/>
+    <entry group="0022" element="1155" keyword="SignalToNoiseRatio" vr="FL" vm="1" name="Signal to Noise Ratio"/>
+    <entry group="0022" element="1159" keyword="OphthalmicAxialLengthDataSourceDescription" vr="LO" vm="1" name="Ophthalmic Axial Length Data Source Description"/>
+    <entry group="0022" element="1210" keyword="OphthalmicAxialLengthMeasurementsTotalLengthSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Measurements Total Length Sequence"/>
+    <entry group="0022" element="1211" keyword="OphthalmicAxialLengthMeasurementsSegmentalLengthSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Measurements Segmental Length Sequence"/>
+    <entry group="0022" element="1212" keyword="OphthalmicAxialLengthMeasurementsLengthSummationSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Measurements Length Summation Sequence"/>
+    <entry group="0022" element="1220" keyword="UltrasoundOphthalmicAxialLengthMeasurementsSequence" vr="SQ" vm="1" name="Ultrasound Ophthalmic Axial Length Measurements Sequence"/>
+    <entry group="0022" element="1225" keyword="OpticalOphthalmicAxialLengthMeasurementsSequence" vr="SQ" vm="1" name="Optical Ophthalmic Axial Length Measurements Sequence"/>
+    <entry group="0022" element="1230" keyword="UltrasoundSelectedOphthalmicAxialLengthSequence" vr="SQ" vm="1" name="Ultrasound Selected Ophthalmic Axial Length Sequence"/>
+    <entry group="0022" element="1250" keyword="OphthalmicAxialLengthSelectionMethodCodeSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Selection Method Code Sequence"/>
+    <entry group="0022" element="1255" keyword="OpticalSelectedOphthalmicAxialLengthSequence" vr="SQ" vm="1" name="Optical Selected Ophthalmic Axial Length Sequence"/>
+    <entry group="0022" element="1257" keyword="SelectedSegmentalOphthalmicAxialLengthSequence" vr="SQ" vm="1" name="Selected Segmental Ophthalmic Axial Length Sequence"/>
+    <entry group="0022" element="1260" keyword="SelectedTotalOphthalmicAxialLengthSequence" vr="SQ" vm="1" name="Selected Total Ophthalmic Axial Length Sequence"/>
+    <entry group="0022" element="1262" keyword="OphthalmicAxialLengthQualityMetricSequence" vr="SQ" vm="1" name="Ophthalmic Axial Length Quality Metric Sequence"/>
+    <entry group="0022" element="1273" keyword="OphthalmicAxialLengthQualityMetricTypeDescription" vr="LO" vm="1" name="Ophthalmic Axial Length Quality Metric Type Description"/>
+    <entry group="0022" element="1300" keyword="IntraocularLensCalculationsRightEyeSequence" vr="SQ" vm="1" name="Intraocular Lens Calculations Right Eye Sequence"/>
+    <entry group="0022" element="1310" keyword="IntraocularLensCalculationsLeftEyeSequence" vr="SQ" vm="1" name="Intraocular Lens Calculations Left Eye Sequence"/>
+    <entry group="0022" element="1330" keyword="ReferencedOphthalmicAxialLengthMeasurementQCImageSequence" vr="SQ" vm="1" name="Referenced Ophthalmic Axial Length Measurement QC Image Sequence"/>
+    <entry group="0024" element="0010" keyword="VisualFieldHorizontalExtent" vr="FL" vm="1" name="Visual Field Horizontal Extent"/>
+    <entry group="0024" element="0011" keyword="VisualFieldVerticalExtent" vr="FL" vm="1" name="Visual Field Vertical Extent"/>
+    <entry group="0024" element="0012" keyword="VisualFieldShape" vr="CS" vm="1" name="Visual Field Shape"/>
+    <entry group="0024" element="0016" keyword="ScreeningTestModeCodeSequence" vr="SQ" vm="1" name="Screening Test Mode Code Sequence"/>
+    <entry group="0024" element="0018" keyword="MaximumStimulusLuminance" vr="FL" vm="1" name="Maximum Stimulus Luminance"/>
+    <entry group="0024" element="0020" keyword="BackgroundLuminance" vr="FL" vm="1" name="Background Luminance"/>
+    <entry group="0024" element="0021" keyword="StimulusColorCodeSequence" vr="SQ" vm="1" name="Stimulus Color Code Sequence"/>
+    <entry group="0024" element="0024" keyword="BackgroundIlluminationColorCodeSequence" vr="SQ" vm="1" name="Background Illumination Color Code Sequence"/>
+    <entry group="0024" element="0025" keyword="StimulusArea" vr="FL" vm="1" name="Stimulus Area"/>
+    <entry group="0024" element="0028" keyword="StimulusPresentationTime" vr="FL" vm="1" name="Stimulus Presentation Time"/>
+    <entry group="0024" element="0032" keyword="FixationSequence" vr="SQ" vm="1" name="Fixation Sequence"/>
+    <entry group="0024" element="0033" keyword="FixationMonitoringCodeSequence" vr="SQ" vm="1" name="Fixation Monitoring Code Sequence"/>
+    <entry group="0024" element="0034" keyword="VisualFieldCatchTrialSequence" vr="SQ" vm="1" name="Visual Field Catch Trial Sequence"/>
+    <entry group="0024" element="0035" keyword="FixationCheckedQuantity" vr="US" vm="1" name="Fixation Checked Quantity"/>
+    <entry group="0024" element="0036" keyword="PatientNotProperlyFixatedQuantity" vr="US" vm="1" name="Patient Not Properly Fixated Quantity"/>
+    <entry group="0024" element="0037" keyword="PresentedVisualStimuliDataFlag" vr="CS" vm="1" name="Presented Visual Stimuli Data Flag"/>
+    <entry group="0024" element="0038" keyword="NumberOfVisualStimuli" vr="US" vm="1" name="Number of Visual Stimuli"/>
+    <entry group="0024" element="0039" keyword="ExcessiveFixationLossesDataFlag" vr="CS" vm="1" name="Excessive Fixation Losses Data Flag"/>
+    <entry group="0024" element="0040" keyword="ExcessiveFixationLosses" vr="CS" vm="1" name="Excessive Fixation Losses"/>
+    <entry group="0024" element="0042" keyword="StimuliRetestingQuantity" vr="US" vm="1" name="Stimuli Retesting Quantity"/>
+    <entry group="0024" element="0044" keyword="CommentsOnPatientPerformanceOfVisualField" vr="LT" vm="1" name="Comments on Patient's Performance of Visual Field"/>
+    <entry group="0024" element="0045" keyword="FalseNegativesEstimateFlag" vr="CS" vm="1" name="False Negatives Estimate Flag"/>
+    <entry group="0024" element="0046" keyword="FalseNegativesEstimate" vr="FL" vm="1" name="False Negatives Estimate"/>
+    <entry group="0024" element="0048" keyword="NegativeCatchTrialsQuantity" vr="US" vm="1" name="Negative Catch Trials Quantity"/>
+    <entry group="0024" element="0050" keyword="FalseNegativesQuantity" vr="US" vm="1" name="False Negatives Quantity"/>
+    <entry group="0024" element="0051" keyword="ExcessiveFalseNegativesDataFlag" vr="CS" vm="1" name="Excessive False Negatives Data Flag"/>
+    <entry group="0024" element="0052" keyword="ExcessiveFalseNegatives" vr="CS" vm="1" name="Excessive False Negatives"/>
+    <entry group="0024" element="0053" keyword="FalsePositivesEstimateFlag" vr="CS" vm="1" name="False Positives Estimate Flag"/>
+    <entry group="0024" element="0054" keyword="FalsePositivesEstimate" vr="FL" vm="1" name="False Positives Estimate"/>
+    <entry group="0024" element="0055" keyword="CatchTrialsDataFlag" vr="CS" vm="1" name="Catch Trials Data Flag"/>
+    <entry group="0024" element="0056" keyword="PositiveCatchTrialsQuantity" vr="US" vm="1" name="Positive Catch Trials Quantity"/>
+    <entry group="0024" element="0057" keyword="TestPointNormalsDataFlag" vr="CS" vm="1" name="Test Point Normals Data Flag"/>
+    <entry group="0024" element="0058" keyword="TestPointNormalsSequence" vr="SQ" vm="1" name="Test Point Normals Sequence"/>
+    <entry group="0024" element="0059" keyword="GlobalDeviationProbabilityNormalsFlag" vr="CS" vm="1" name="Global Deviation Probability Normals Flag"/>
+    <entry group="0024" element="0060" keyword="FalsePositivesQuantity" vr="US" vm="1" name="False Positives Quantity"/>
+    <entry group="0024" element="0061" keyword="ExcessiveFalsePositivesDataFlag" vr="CS" vm="1" name="Excessive False Positives Data Flag"/>
+    <entry group="0024" element="0062" keyword="ExcessiveFalsePositives" vr="CS" vm="1" name="Excessive False Positives"/>
+    <entry group="0024" element="0063" keyword="VisualFieldTestNormalsFlag" vr="CS" vm="1" name="Visual Field Test Normals Flag"/>
+    <entry group="0024" element="0064" keyword="ResultsNormalsSequence" vr="SQ" vm="1" name="Results Normals Sequence"/>
+    <entry group="0024" element="0065" keyword="AgeCorrectedSensitivityDeviationAlgorithmSequence" vr="SQ" vm="1" name="Age Corrected Sensitivity Deviation Algorithm Sequence"/>
+    <entry group="0024" element="0066" keyword="GlobalDeviationFromNormal" vr="FL" vm="1" name="Global Deviation From Normal"/>
+    <entry group="0024" element="0067" keyword="GeneralizedDefectSensitivityDeviationAlgorithmSequence" vr="SQ" vm="1" name="Generalized Defect Sensitivity Deviation Algorithm Sequence"/>
+    <entry group="0024" element="0068" keyword="LocalizedDeviationfromNormal" vr="FL" vm="1" name="Localized Deviation from Normal"/>
+    <entry group="0024" element="0069" keyword="PatientReliabilityIndicator" vr="LO" vm="1" name="Patient Reliability Indicator"/>
+    <entry group="0024" element="0070" keyword="VisualFieldMeanSensitivity" vr="FL" vm="1" name="Visual Field Mean Sensitivity"/>
+    <entry group="0024" element="0071" keyword="GlobalDeviationProbability" vr="FL" vm="1" name="Global Deviation Probability"/>
+    <entry group="0024" element="0072" keyword="LocalDeviationProbabilityNormalsFlag" vr="CS" vm="1" name="Local Deviation Probability Normals Flag"/>
+    <entry group="0024" element="0073" keyword="LocalizedDeviationProbability" vr="FL" vm="1" name="Localized Deviation Probability"/>
+    <entry group="0024" element="0074" keyword="ShortTermFluctuationCalculated" vr="CS" vm="1" name="Short Term Fluctuation Calculated"/>
+    <entry group="0024" element="0075" keyword="ShortTermFluctuation" vr="FL" vm="1" name="Short Term Fluctuation"/>
+    <entry group="0024" element="0076" keyword="ShortTermFluctuationProbabilityCalculated" vr="CS" vm="1" name="Short Term Fluctuation Probability Calculated"/>
+    <entry group="0024" element="0077" keyword="ShortTermFluctuationProbability" vr="FL" vm="1" name="Short Term Fluctuation Probability"/>
+    <entry group="0024" element="0078" keyword="CorrectedLocalizedDeviationFromNormalCalculated" vr="CS" vm="1" name="Corrected Localized Deviation From Normal Calculated"/>
+    <entry group="0024" element="0079" keyword="CorrectedLocalizedDeviationFromNormal" vr="FL" vm="1" name="Corrected Localized Deviation From Normal"/>
+    <entry group="0024" element="0080" keyword="CorrectedLocalizedDeviationFromNormalProbabilityCalculated" vr="CS" vm="1" name="Corrected Localized Deviation From Normal Probability Calculated"/>
+    <entry group="0024" element="0081" keyword="CorrectedLocalizedDeviationFromNormalProbability" vr="FL" vm="1" name="Corrected Localized Deviation From Normal Probability"/>
+    <entry group="0024" element="0083" keyword="GlobalDeviationProbabilitySequence" vr="SQ" vm="1" name="Global Deviation Probability Sequence"/>
+    <entry group="0024" element="0085" keyword="LocalizedDeviationProbabilitySequence" vr="SQ" vm="1" name="Localized Deviation Probability Sequence"/>
+    <entry group="0024" element="0086" keyword="FovealSensitivityMeasured" vr="CS" vm="1" name="Foveal Sensitivity Measured"/>
+    <entry group="0024" element="0087" keyword="FovealSensitivity" vr="FL" vm="1" name="Foveal Sensitivity"/>
+    <entry group="0024" element="0088" keyword="VisualFieldTestDuration" vr="FL" vm="1" name="Visual Field Test Duration"/>
+    <entry group="0024" element="0089" keyword="VisualFieldTestPointSequence" vr="SQ" vm="1" name="Visual Field Test Point Sequence"/>
+    <entry group="0024" element="0090" keyword="VisualFieldTestPointXCoordinate" vr="FL" vm="1" name="Visual Field Test Point X-Coordinate"/>
+    <entry group="0024" element="0091" keyword="VisualFieldTestPointYCoordinate" vr="FL" vm="1" name="Visual Field Test Point Y-Coordinate"/>
+    <entry group="0024" element="0092" keyword="AgeCorrectedSensitivityDeviationValue" vr="FL" vm="1" name="Age Corrected Sensitivity Deviation Value"/>
+    <entry group="0024" element="0093" keyword="StimulusResults" vr="CS" vm="1" name="Stimulus Results"/>
+    <entry group="0024" element="0094" keyword="SensitivityValue" vr="FL" vm="1" name="Sensitivity Value"/>
+    <entry group="0024" element="0095" keyword="RetestStimulusSeen" vr="CS" vm="1" name="Retest Stimulus Seen"/>
+    <entry group="0024" element="0096" keyword="RetestSensitivityValue" vr="FL" vm="1" name="Retest Sensitivity Value"/>
+    <entry group="0024" element="0097" keyword="VisualFieldTestPointNormalsSequence" vr="SQ" vm="1" name="Visual Field Test Point Normals Sequence"/>
+    <entry group="0024" element="0098" keyword="QuantifiedDefect" vr="FL" vm="1" name="Quantified Defect"/>
+    <entry group="0024" element="0100" keyword="AgeCorrectedSensitivityDeviationProbabilityValue" vr="FL" vm="1" name="Age Corrected Sensitivity Deviation Probability Value"/>
+    <entry group="0024" element="0102" keyword="GeneralizedDefectCorrectedSensitivityDeviationFlag" vr="CS" vm="1" name="Generalized Defect Corrected Sensitivity Deviation Flag"/>
+    <entry group="0024" element="0103" keyword="GeneralizedDefectCorrectedSensitivityDeviationValue" vr="FL" vm="1" name="Generalized Defect Corrected Sensitivity Deviation Value"/>
+    <entry group="0024" element="0104" keyword="GeneralizedDefectCorrectedSensitivityDeviationProbabilityValue" vr="FL" vm="1" name="Generalized Defect Corrected Sensitivity Deviation Probability Value"/>
+    <entry group="0024" element="0105" keyword="MinimumSensitivityValue" vr="FL" vm="1" name="Minimum Sensitivity Value"/>
+    <entry group="0024" element="0106" keyword="BlindSpotLocalized" vr="CS" vm="1" name="Blind Spot Localized"/>
+    <entry group="0024" element="0107" keyword="BlindSpotXCoordinate" vr="FL" vm="1" name="Blind Spot X-Coordinate"/>
+    <entry group="0024" element="0108" keyword="BlindSpotYCoordinate" vr="FL" vm="1" name="Blind Spot Y-Coordinate"/>
+    <entry group="0024" element="0110" keyword="VisualAcuityMeasurementSequence" vr="SQ" vm="1" name="Visual Acuity Measurement Sequence"/>
+    <entry group="0024" element="0112" keyword="RefractiveParametersUsedOnPatientSequence" vr="SQ" vm="1" name="Refractive Parameters Used on Patient Sequence"/>
+    <entry group="0024" element="0113" keyword="MeasurementLaterality" vr="CS" vm="1" name="Measurement Laterality"/>
+    <entry group="0024" element="0114" keyword="OphthalmicPatientClinicalInformationLeftEyeSequence" vr="SQ" vm="1" name="Ophthalmic Patient Clinical Information Left Eye Sequence"/>
+    <entry group="0024" element="0115" keyword="OphthalmicPatientClinicalInformationRightEyeSequence" vr="SQ" vm="1" name="Ophthalmic Patient Clinical Information Right Eye Sequence"/>
+    <entry group="0024" element="0117" keyword="FovealPointNormativeDataFlag" vr="CS" vm="1" name="Foveal Point Normative Data Flag"/>
+    <entry group="0024" element="0118" keyword="FovealPointProbabilityValue" vr="FL" vm="1" name="Foveal Point Probability Value"/>
+    <entry group="0024" element="0120" keyword="ScreeningBaselineMeasured" vr="CS" vm="1" name="Screening Baseline Measured"/>
+    <entry group="0024" element="0122" keyword="ScreeningBaselineMeasuredSequence" vr="SQ" vm="1" name="Screening Baseline Measured Sequence"/>
+    <entry group="0024" element="0124" keyword="ScreeningBaselineType" vr="CS" vm="1" name="Screening Baseline Type"/>
+    <entry group="0024" element="0126" keyword="ScreeningBaselineValue" vr="FL" vm="1" name="Screening Baseline Value"/>
+    <entry group="0024" element="0202" keyword="AlgorithmSource" vr="LO" vm="1" name="Algorithm Source"/>
+    <entry group="0024" element="0306" keyword="DataSetName" vr="LO" vm="1" name="Data Set Name"/>
+    <entry group="0024" element="0307" keyword="DataSetVersion" vr="LO" vm="1" name="Data Set Version"/>
+    <entry group="0024" element="0308" keyword="DataSetSource" vr="LO" vm="1" name="Data Set Source"/>
+    <entry group="0024" element="0309" keyword="DataSetDescription" vr="LO" vm="1" name="Data Set Description"/>
+    <entry group="0024" element="0317" keyword="VisualFieldTestReliabilityGlobalIndexSequence" vr="SQ" vm="1" name="Visual Field Test Reliability Global Index Sequence"/>
+    <entry group="0024" element="0320" keyword="VisualFieldGlobalResultsIndexSequence" vr="SQ" vm="1" name="Visual Field Global Results Index Sequence"/>
+    <entry group="0024" element="0325" keyword="DataObservationSequence" vr="SQ" vm="1" name="Data Observation Sequence"/>
+    <entry group="0024" element="0338" keyword="IndexNormalsFlag" vr="CS" vm="1" name="Index Normals Flag"/>
+    <entry group="0024" element="0341" keyword="IndexProbability" vr="FL" vm="1" name="Index Probability"/>
+    <entry group="0024" element="0344" keyword="IndexProbabilitySequence" vr="SQ" vm="1" name="Index Probability Sequence"/>
     <entry group="0028" element="0002" keyword="SamplesPerPixel" vr="US" vm="1" name="Samples per Pixel"/>
     <entry group="0028" element="0003" keyword="SamplesPerPixelUsed" vr="US" vm="1" name="Samples per Pixel Used"/>
     <entry group="0028" element="0004" keyword="PhotometricInterpretation" vr="CS" vm="1" name="Photometric Interpretation"/>
@@ -1178,6 +1485,9 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0028" element="0200" keyword="ImageLocation" vr="US" vm="1" retired="true" name="Image Location"/>
     <entry group="0028" element="0300" keyword="QualityControlImage" vr="CS" vm="1" name="Quality Control Image"/>
     <entry group="0028" element="0301" keyword="BurnedInAnnotation" vr="CS" vm="1" name="Burned In Annotation"/>
+    <entry group="0028" element="0302" keyword="RecognizableVisualFeatures" vr="CS" vm="1" name="Recognizable Visual Features"/>
+    <entry group="0028" element="0303" keyword="LongitudinalTemporalInformationModified" vr="CS" vm="1" name="Longitudinal Temporal Information Modified"/>
+    <entry group="0028" element="0304" keyword="ReferencedColorPaletteInstanceUID" vr="UI" vm="1" name="Referenced Color Palette Instance UID"/>
     <entry group="0028" element="0400" keyword="TransformLabel" vr="LO" vm="1" retired="true" name="Transform Label"/>
     <entry group="0028" element="0401" keyword="TransformVersionNumber" vr="LO" vm="1" retired="true" name="Transform Version Number"/>
     <entry group="0028" element="0402" keyword="NumberOfTransformSteps" vr="US" vm="1" retired="true" name="Number of Transform Steps"/>
@@ -1480,8 +1790,8 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0040" element="0520" keyword="ContainerComponentSequence" vr="SQ" vm="1" name="Container Component Sequence"/>
     <entry group="0040" element="0550" keyword="SpecimenSequence" vr="SQ" vm="1" retired="true" name="Specimen Sequence"/>
     <entry group="0040" element="0551" keyword="SpecimenIdentifier" vr="LO" vm="1" name="Specimen Identifier"/>
-    <entry group="0040" element="0552" keyword="SpecimenDescriptionSequenceTrial" vr="SQ" vm="1" retired="true" name="Specimen Description Sequence - Trial"/>
-    <entry group="0040" element="0553" keyword="SpecimenDescriptionTrial" vr="ST" vm="1" retired="true" name="Specimen Description - Trial"/>
+    <entry group="0040" element="0552" keyword="SpecimenDescriptionSequenceTrial" vr="SQ" vm="1" retired="true" name="Specimen Description Sequence (Trial)"/>
+    <entry group="0040" element="0553" keyword="SpecimenDescriptionTrial" vr="ST" vm="1" retired="true" name="Specimen Description (Trial)"/>
     <entry group="0040" element="0554" keyword="SpecimenUID" vr="UI" vm="1" name="Specimen UID"/>
     <entry group="0040" element="0555" keyword="AcquisitionContextSequence" vr="SQ" vm="1" name="Acquisition Context Sequence"/>
     <entry group="0040" element="0556" keyword="AcquisitionContextDescription" vr="ST" vm="1" name="Acquisition Context Description"/>
@@ -1495,13 +1805,13 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0040" element="0620" keyword="SpecimenLocalizationContentItemSequence" vr="SQ" vm="1" name="Specimen Localization Content Item Sequence"/>
     <entry group="0040" element="06fa" keyword="SlideIdentifier" vr="LO" vm="1" retired="true" name="Slide Identifier"/>
     <entry group="0040" element="071a" keyword="ImageCenterPointCoordinatesSequence" vr="SQ" vm="1" name="Image Center Point Coordinates Sequence"/>
-    <entry group="0040" element="072a" keyword="XOffsetInSlideCoordinateSystem" vr="DS" vm="1" name="X offset in Slide Coordinate System"/>
-    <entry group="0040" element="073a" keyword="YOffsetInSlideCoordinateSystem" vr="DS" vm="1" name="Y offset in Slide Coordinate System"/>
-    <entry group="0040" element="074a" keyword="ZOffsetInSlideCoordinateSystem" vr="DS" vm="1" name="Z offset in Slide Coordinate System"/>
-    <entry group="0040" element="08d8" keyword="PixelSpacingSequence" vr="SQ" vm="1" name="Pixel Spacing Sequence"/>
-    <entry group="0040" element="08da" keyword="CoordinateSystemAxisCodeSequence" vr="SQ" vm="1" name="Coordinate System Axis Code Sequence"/>
+    <entry group="0040" element="072a" keyword="XOffsetInSlideCoordinateSystem" vr="DS" vm="1" name="X Offset in Slide Coordinate System"/>
+    <entry group="0040" element="073a" keyword="YOffsetInSlideCoordinateSystem" vr="DS" vm="1" name="Y Offset in Slide Coordinate System"/>
+    <entry group="0040" element="074a" keyword="ZOffsetInSlideCoordinateSystem" vr="DS" vm="1" name="Z Offset in Slide Coordinate System"/>
+    <entry group="0040" element="08d8" keyword="PixelSpacingSequence" vr="SQ" vm="1" retired="true" name="Pixel Spacing Sequence"/>
+    <entry group="0040" element="08da" keyword="CoordinateSystemAxisCodeSequence" vr="SQ" vm="1" retired="true" name="Coordinate System Axis Code Sequence"/>
     <entry group="0040" element="08ea" keyword="MeasurementUnitsCodeSequence" vr="SQ" vm="1" name="Measurement Units Code Sequence"/>
-    <entry group="0040" element="09f8" keyword="VitalStainCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Vital Stain Code Sequence - Trial"/>
+    <entry group="0040" element="09f8" keyword="VitalStainCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Vital Stain Code Sequence (Trial)"/>
     <entry group="0040" element="1001" keyword="RequestedProcedureID" vr="SH" vm="1" name="Requested Procedure ID"/>
     <entry group="0040" element="1002" keyword="ReasonForTheRequestedProcedure" vr="LO" vm="1" name="Reason for the Requested Procedure"/>
     <entry group="0040" element="1003" keyword="RequestedProcedurePriority" vr="SH" vm="1" name="Requested Procedure Priority"/>
@@ -1515,6 +1825,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0040" element="1010" keyword="NamesOfIntendedRecipientsOfResults" vr="PN" vm="1-n" name="Names of Intended Recipients of Results"/>
     <entry group="0040" element="1011" keyword="IntendedRecipientsOfResultsIdentificationSequence" vr="SQ" vm="1" name="Intended Recipients of Results Identification Sequence"/>
     <entry group="0040" element="1012" keyword="ReasonForPerformedProcedureCodeSequence" vr="SQ" vm="1" name="Reason For Performed Procedure Code Sequence"/>
+    <entry group="0040" element="1060" keyword="RequestedProcedureDescriptionTrial" vr="LO" vm="1" retired="true" name="Requested Procedure Description (Trial)"/>
     <entry group="0040" element="1101" keyword="PersonIdentificationCodeSequence" vr="SQ" vm="1" name="Person Identification Code Sequence"/>
     <entry group="0040" element="1102" keyword="PersonAddress" vr="ST" vm="1" name="Person's Address"/>
     <entry group="0040" element="1103" keyword="PersonTelephoneNumbers" vr="LO" vm="1-n" name="Person's Telephone Numbers"/>
@@ -1563,6 +1874,10 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0040" element="4036" keyword="HumanPerformerOrganization" vr="LO" vm="1" name="Human Performer's Organization"/>
     <entry group="0040" element="4037" keyword="HumanPerformerName" vr="PN" vm="1" name="Human Performer's Name"/>
     <entry group="0040" element="4040" keyword="RawDataHandling" vr="CS" vm="1" name="Raw Data Handling"/>
+    <entry group="0040" element="4041" keyword="InputReadinessState" vr="CS" vm="1" name="Input Readiness State"/>
+    <entry group="0040" element="4050" keyword="PerformedProcedureStepStartDateTime" vr="DT" vm="1" name="Performed Procedure Step Start DateTime"/>
+    <entry group="0040" element="4051" keyword="PerformedProcedureStepEndDateTime" vr="DT" vm="1" name="Performed Procedure Step End DateTime"/>
+    <entry group="0040" element="4052" keyword="ProcedureStepCancellationDateTime" vr="DT" vm="1" name="Procedure Step Cancellation DateTime"/>
     <entry group="0040" element="8302" keyword="EntranceDoseInmGy" vr="DS" vm="1" name="Entrance Dose in mGy"/>
     <entry group="0040" element="9094" keyword="ReferencedImageRealWorldValueMappingSequence" vr="SQ" vm="1" name="Referenced Image Real World Value Mapping Sequence"/>
     <entry group="0040" element="9096" keyword="RealWorldValueMappingSequence" vr="SQ" vm="1" name="Real World Value Mapping Sequence"/>
@@ -1573,51 +1888,96 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0040" element="9216" keyword="RealWorldValueFirstValueMapped" vr="US_SS" vm="1" name="Real World Value First Value Mapped"/>
     <entry group="0040" element="9224" keyword="RealWorldValueIntercept" vr="FD" vm="1" name="Real World Value Intercept"/>
     <entry group="0040" element="9225" keyword="RealWorldValueSlope" vr="FD" vm="1" name="Real World Value Slope"/>
+    <entry group="0040" element="a007" keyword="FindingsFlagTrial" vr="CS" vm="1" retired="true" name="Findings Flag (Trial)"/>
     <entry group="0040" element="a010" keyword="RelationshipType" vr="CS" vm="1" name="Relationship Type"/>
+    <entry group="0040" element="a020" keyword="FindingsSequenceTrial" vr="SQ" vm="1" retired="true" name="Findings Sequence (Trial)"/>
+    <entry group="0040" element="a021" keyword="FindingsGroupUIDTrial" vr="UI" vm="1" retired="true" name="Findings Group UID (Trial)"/>
+    <entry group="0040" element="a022" keyword="ReferencedFindingsGroupUIDTrial" vr="UI" vm="1" retired="true" name="Referenced Findings Group UID (Trial)"/>
+    <entry group="0040" element="a023" keyword="FindingsGroupRecordingDateTrial" vr="DA" vm="1" retired="true" name="Findings Group Recording Date (Trial)"/>
+    <entry group="0040" element="a024" keyword="FindingsGroupRecordingTimeTrial" vr="TM" vm="1" retired="true" name="Findings Group Recording Time (Trial)"/>
+    <entry group="0040" element="a026" keyword="FindingsSourceCategoryCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Findings Source Category Code Sequence (Trial)"/>
     <entry group="0040" element="a027" keyword="VerifyingOrganization" vr="LO" vm="1" name="Verifying Organization"/>
+    <entry group="0040" element="a028" keyword="DocumentingOrganizationIdentifierCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Documenting Organization Identifier Code Sequence (Trial)"/>
     <entry group="0040" element="a030" keyword="VerificationDateTime" vr="DT" vm="1" name="Verification Date Time"/>
     <entry group="0040" element="a032" keyword="ObservationDateTime" vr="DT" vm="1" name="Observation Date Time"/>
     <entry group="0040" element="a040" keyword="ValueType" vr="CS" vm="1" name="Value Type"/>
     <entry group="0040" element="a043" keyword="ConceptNameCodeSequence" vr="SQ" vm="1" name="Concept Name Code Sequence"/>
+    <entry group="0040" element="a047" keyword="MeasurementPrecisionDescriptionTrial" vr="LO" vm="1" retired="true" name="Measurement Precision Description (Trial)"/>
     <entry group="0040" element="a050" keyword="ContinuityOfContent" vr="CS" vm="1" name="Continuity Of Content"/>
+    <entry group="0040" element="a057" keyword="UrgencyOrPriorityAlertsTrial" vr="CS" vm="1-n" retired="true" name="Urgency or Priority Alerts (Trial)"/>
+    <entry group="0040" element="a060" keyword="SequencingIndicatorTrial" vr="LO" vm="1" retired="true" name="Sequencing Indicator (Trial)"/>
+    <entry group="0040" element="a066" keyword="DocumentIdentifierCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Document Identifier Code Sequence (Trial)"/>
+    <entry group="0040" element="a067" keyword="DocumentAuthorTrial" vr="PN" vm="1" retired="true" name="Document Author (Trial)"/>
+    <entry group="0040" element="a068" keyword="DocumentAuthorIdentifierCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Document Author Identifier Code Sequence (Trial)"/>
+    <entry group="0040" element="a070" keyword="IdentifierCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Identifier Code Sequence (Trial)"/>
     <entry group="0040" element="a073" keyword="VerifyingObserverSequence" vr="SQ" vm="1" name="Verifying Observer Sequence"/>
+    <entry group="0040" element="a074" keyword="ObjectBinaryIdentifierTrial" vr="OB" vm="1" retired="true" name="Object Binary Identifier (Trial)"/>
     <entry group="0040" element="a075" keyword="VerifyingObserverName" vr="PN" vm="1" name="Verifying Observer Name"/>
+    <entry group="0040" element="a076" keyword="DocumentingObserverIdentifierCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Documenting Observer Identifier Code Sequence (Trial)"/>
     <entry group="0040" element="a078" keyword="AuthorObserverSequence" vr="SQ" vm="1" name="Author Observer Sequence"/>
     <entry group="0040" element="a07a" keyword="ParticipantSequence" vr="SQ" vm="1" name="Participant Sequence"/>
     <entry group="0040" element="a07c" keyword="CustodialOrganizationSequence" vr="SQ" vm="1" name="Custodial Organization Sequence"/>
     <entry group="0040" element="a080" keyword="ParticipationType" vr="CS" vm="1" name="Participation Type"/>
     <entry group="0040" element="a082" keyword="ParticipationDateTime" vr="DT" vm="1" name="Participation DateTime"/>
     <entry group="0040" element="a084" keyword="ObserverType" vr="CS" vm="1" name="Observer Type"/>
+    <entry group="0040" element="a085" keyword="ProcedureIdentifierCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Procedure Identifier Code Sequence (Trial)"/>
     <entry group="0040" element="a088" keyword="VerifyingObserverIdentificationCodeSequence" vr="SQ" vm="1" name="Verifying Observer Identification Code Sequence"/>
+    <entry group="0040" element="a089" keyword="ObjectDirectoryBinaryIdentifierTrial" vr="OB" vm="1" retired="true" name="Object Directory Binary Identifier (Trial)"/>
     <entry group="0040" element="a090" keyword="EquivalentCDADocumentSequence" vr="SQ" vm="1" retired="true" name="Equivalent CDA Document Sequence"/>
     <entry group="0040" element="a0b0" keyword="ReferencedWaveformChannels" vr="US" vm="2-2n" name="Referenced Waveform Channels"/>
+    <entry group="0040" element="a110" keyword="DateOfDocumentOrVerbalTransactionTrial" vr="DA" vm="1" retired="true" name="Date of Document or Verbal Transaction (Trial)"/>
+    <entry group="0040" element="a112" keyword="TimeOfDocumentCreationOrVerbalTransactionTrial" vr="TM" vm="1" retired="true" name="Time of Document Creation or Verbal Transaction (Trial)"/>
     <entry group="0040" element="a120" keyword="DateTime" vr="DT" vm="1" name="DateTime"/>
     <entry group="0040" element="a121" keyword="Date" vr="DA" vm="1" name="Date"/>
     <entry group="0040" element="a122" keyword="Time" vr="TM" vm="1" name="Time"/>
     <entry group="0040" element="a123" keyword="PersonName" vr="PN" vm="1" name="Person Name"/>
     <entry group="0040" element="a124" keyword="UID" vr="UI" vm="1" name="UID"/>
-    <entry group="0040" element="a125" keyword="ReportStatusID" vr="CS" vm="2" retired="true" name="Report Status ID"/>
+    <entry group="0040" element="a125" keyword="ReportStatusIDTrial" vr="CS" vm="2" retired="true" name="Report Status ID (Trial)"/>
     <entry group="0040" element="a130" keyword="TemporalRangeType" vr="CS" vm="1" name="Temporal Range Type"/>
     <entry group="0040" element="a132" keyword="ReferencedSamplePositions" vr="UL" vm="1-n" name="Referenced Sample Positions"/>
     <entry group="0040" element="a136" keyword="ReferencedFrameNumbers" vr="US" vm="1-n" name="Referenced Frame Numbers"/>
     <entry group="0040" element="a138" keyword="ReferencedTimeOffsets" vr="DS" vm="1-n" name="Referenced Time Offsets"/>
     <entry group="0040" element="a13a" keyword="ReferencedDateTime" vr="DT" vm="1-n" name="Referenced DateTime"/>
     <entry group="0040" element="a160" keyword="TextValue" vr="UT" vm="1" name="Text Value"/>
+    <entry group="0040" element="a167" keyword="ObservationCategoryCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Observation Category Code Sequence (Trial)"/>
     <entry group="0040" element="a168" keyword="ConceptCodeSequence" vr="SQ" vm="1" name="Concept Code Sequence"/>
+    <entry group="0040" element="a16a" keyword="BibliographicCitationTrial" vr="ST" vm="1" retired="true" name="Bibliographic Citation (Trial)"/>
     <entry group="0040" element="a170" keyword="PurposeOfReferenceCodeSequence" vr="SQ" vm="1" name="Purpose of Reference Code Sequence"/>
+    <entry group="0040" element="a171" keyword="ObservationUIDTrial" vr="UI" vm="1" retired="true" name="Observation UID (Trial)"/>
+    <entry group="0040" element="a172" keyword="ReferencedObservationUIDTrial" vr="UI" vm="1" retired="true" name="Referenced Observation UID (Trial)"/>
+    <entry group="0040" element="a173" keyword="ReferencedObservationClassTrial" vr="CS" vm="1" retired="true" name="Referenced Observation Class (Trial)"/>
+    <entry group="0040" element="a174" keyword="ReferencedObjectObservationClassTrial" vr="CS" vm="1" retired="true" name="Referenced Object Observation Class (Trial)"/>
     <entry group="0040" element="a180" keyword="AnnotationGroupNumber" vr="US" vm="1" name="Annotation Group Number"/>
+    <entry group="0040" element="a192" keyword="ObservationDateTrial" vr="DA" vm="1" retired="true" name="Observation Date (Trial)"/>
+    <entry group="0040" element="a193" keyword="ObservationTimeTrial" vr="TM" vm="1" retired="true" name="Observation Time (Trial)"/>
+    <entry group="0040" element="a194" keyword="MeasurementAutomationTrial" vr="CS" vm="1" retired="true" name="Measurement Automation (Trial)"/>
     <entry group="0040" element="a195" keyword="ModifierCodeSequence" vr="SQ" vm="1" name="Modifier Code Sequence"/>
+    <entry group="0040" element="a224" keyword="IdentificationDescriptionTrial" vr="ST" vm="1" retired="true" name="Identification Description (Trial)"/>
+    <entry group="0040" element="a290" keyword="CoordinatesSetGeometricTypeTrial" vr="CS" vm="1" retired="true" name="Coordinates Set Geometric Type (Trial)"/>
+    <entry group="0040" element="a296" keyword="AlgorithmCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Algorithm Code Sequence (Trial)"/>
+    <entry group="0040" element="a297" keyword="AlgorithmDescriptionTrial" vr="ST" vm="1" retired="true" name="Algorithm Description (Trial)"/>
+    <entry group="0040" element="a29a" keyword="PixelCoordinatesSetTrial" vr="SL" vm="2-2n" retired="true" name="Pixel Coordinates Set (Trial)"/>
     <entry group="0040" element="a300" keyword="MeasuredValueSequence" vr="SQ" vm="1" name="Measured Value Sequence"/>
     <entry group="0040" element="a301" keyword="NumericValueQualifierCodeSequence" vr="SQ" vm="1" name="Numeric Value Qualifier Code Sequence"/>
+    <entry group="0040" element="a307" keyword="CurrentObserverTrial" vr="PN" vm="1" retired="true" name="Current Observer (Trial)"/>
     <entry group="0040" element="a30a" keyword="NumericValue" vr="DS" vm="1-n" name="Numeric Value"/>
-    <entry group="0040" element="a353" keyword="AddressTrial" vr="ST" vm="1" retired="true" name="Address - Trial"/>
-    <entry group="0040" element="a354" keyword="TelephoneNumberTrial" vr="LO" vm="1" retired="true" name="Telephone Number - Trial"/>
+    <entry group="0040" element="a313" keyword="ReferencedAccessionSequenceTrial" vr="SQ" vm="1" retired="true" name="Referenced Accession Sequence (Trial)"/>
+    <entry group="0040" element="a33a" keyword="ReportStatusCommentTrial" vr="ST" vm="1" retired="true" name="Report Status Comment (Trial)"/>
+    <entry group="0040" element="a340" keyword="ProcedureContextSequenceTrial" vr="SQ" vm="1" retired="true" name="Procedure Context Sequence (Trial)"/>
+    <entry group="0040" element="a352" keyword="VerbalSourceTrial" vr="PN" vm="1" retired="true" name="Verbal Source (Trial)"/>
+    <entry group="0040" element="a353" keyword="AddressTrial" vr="ST" vm="1" retired="true" name="Address (Trial)"/>
+    <entry group="0040" element="a354" keyword="TelephoneNumberTrial" vr="LO" vm="1" retired="true" name="Telephone Number (Trial)"/>
+    <entry group="0040" element="a358" keyword="VerbalSourceIdentifierCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Verbal Source Identifier Code Sequence (Trial)"/>
     <entry group="0040" element="a360" keyword="PredecessorDocumentsSequence" vr="SQ" vm="1" name="Predecessor Documents Sequence"/>
     <entry group="0040" element="a370" keyword="ReferencedRequestSequence" vr="SQ" vm="1" name="Referenced Request Sequence"/>
     <entry group="0040" element="a372" keyword="PerformedProcedureCodeSequence" vr="SQ" vm="1" name="Performed Procedure Code Sequence"/>
     <entry group="0040" element="a375" keyword="CurrentRequestedProcedureEvidenceSequence" vr="SQ" vm="1" name="Current Requested Procedure Evidence Sequence"/>
+    <entry group="0040" element="a380" keyword="ReportDetailSequenceTrial" vr="SQ" vm="1" retired="true" name="Report Detail Sequence (Trial)"/>
     <entry group="0040" element="a385" keyword="PertinentOtherEvidenceSequence" vr="SQ" vm="1" name="Pertinent Other Evidence Sequence"/>
     <entry group="0040" element="a390" keyword="HL7StructuredDocumentReferenceSequence" vr="SQ" vm="1" name="HL7 Structured Document Reference Sequence"/>
+    <entry group="0040" element="a402" keyword="ObservationSubjectUIDTrial" vr="UI" vm="1" retired="true" name="Observation Subject UID (Trial)"/>
+    <entry group="0040" element="a403" keyword="ObservationSubjectClassTrial" vr="CS" vm="1" retired="true" name="Observation Subject Class (Trial)"/>
+    <entry group="0040" element="a404" keyword="ObservationSubjectTypeCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Observation Subject Type Code Sequence (Trial)"/>
     <entry group="0040" element="a491" keyword="CompletionFlag" vr="CS" vm="1" name="Completion Flag"/>
     <entry group="0040" element="a492" keyword="CompletionFlagDescription" vr="LO" vm="1" name="Completion Flag Description"/>
     <entry group="0040" element="a493" keyword="VerificationFlag" vr="CS" vm="1" name="Verification Flag"/>
@@ -1625,7 +1985,14 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0040" element="a496" keyword="PreliminaryFlag" vr="CS" vm="1" name="Preliminary Flag"/>
     <entry group="0040" element="a504" keyword="ContentTemplateSequence" vr="SQ" vm="1" name="Content Template Sequence"/>
     <entry group="0040" element="a525" keyword="IdenticalDocumentsSequence" vr="SQ" vm="1" name="Identical Documents Sequence"/>
+    <entry group="0040" element="a600" keyword="ObservationSubjectContextFlagTrial" vr="CS" vm="1" retired="true" name="Observation Subject Context Flag (Trial)"/>
+    <entry group="0040" element="a601" keyword="ObserverContextFlagTrial" vr="CS" vm="1" retired="true" name="Observer Context Flag (Trial)"/>
+    <entry group="0040" element="a603" keyword="ProcedureContextFlagTrial" vr="CS" vm="1" retired="true" name="Procedure Context Flag (Trial)"/>
     <entry group="0040" element="a730" keyword="ContentSequence" vr="SQ" vm="1" name="Content Sequence"/>
+    <entry group="0040" element="a731" keyword="RelationshipSequenceTrial" vr="SQ" vm="1" retired="true" name="Relationship Sequence (Trial)"/>
+    <entry group="0040" element="a732" keyword="RelationshipTypeCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Relationship Type Code Sequence (Trial)"/>
+    <entry group="0040" element="a744" keyword="LanguageCodeSequenceTrial" vr="SQ" vm="1" retired="true" name="Language Code Sequence (Trial)"/>
+    <entry group="0040" element="a992" keyword="UniformResourceLocatorTrial" vr="ST" vm="1" retired="true" name="Uniform Resource Locator (Trial)"/>
     <entry group="0040" element="b020" keyword="WaveformAnnotationSequence" vr="SQ" vm="1" name="Waveform Annotation Sequence"/>
     <entry group="0040" element="db00" keyword="TemplateIdentifier" vr="CS" vm="1" name="Template Identifier"/>
     <entry group="0040" element="db06" keyword="TemplateVersion" vr="DT" vm="1" retired="true" name="Template Version"/>
@@ -1637,8 +2004,16 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0040" element="e001" keyword="HL7InstanceIdentifier" vr="ST" vm="1" name="HL7 Instance Identifier"/>
     <entry group="0040" element="e004" keyword="HL7DocumentEffectiveTime" vr="DT" vm="1" name="HL7 Document Effective Time"/>
     <entry group="0040" element="e006" keyword="HL7DocumentTypeCodeSequence" vr="SQ" vm="1" name="HL7 Document Type Code Sequence"/>
+    <entry group="0040" element="e008" keyword="DocumentClassCodeSequence" vr="SQ" vm="1" name="Document Class Code Sequence"/>
     <entry group="0040" element="e010" keyword="RetrieveURI" vr="UT" vm="1" name="Retrieve URI"/>
     <entry group="0040" element="e011" keyword="RetrieveLocationUID" vr="UI" vm="1" name="Retrieve Location UID"/>
+    <entry group="0040" element="e020" keyword="TypeOfInstances" vr="CS" vm="1" name="Type of Instances"/>
+    <entry group="0040" element="e021" keyword="DICOMRetrievalSequence" vr="SQ" vm="1" name="DICOM Retrieval Sequence"/>
+    <entry group="0040" element="e022" keyword="DICOMMediaRetrievalSequence" vr="SQ" vm="1" name="DICOM Media Retrieval Sequence"/>
+    <entry group="0040" element="e023" keyword="WADORetrievalSequence" vr="SQ" vm="1" name="WADO Retrieval Sequence"/>
+    <entry group="0040" element="e024" keyword="XDSRetrievalSequence" vr="SQ" vm="1" name="XDS Retrieval Sequence"/>
+    <entry group="0040" element="e030" keyword="RepositoryUniqueID" vr="UI" vm="1" name="Repository Unique ID"/>
+    <entry group="0040" element="e031" keyword="HomeCommunityID" vr="UI" vm="1" name="Home Community ID"/>
     <entry group="0042" element="0010" keyword="DocumentTitle" vr="ST" vm="1" name="Document Title"/>
     <entry group="0042" element="0011" keyword="EncapsulatedDocument" vr="OB" vm="1" name="Encapsulated Document"/>
     <entry group="0042" element="0012" keyword="MIMETypeOfEncapsulatedDocument" vr="LO" vm="1" name="MIME Type of Encapsulated Document"/>
@@ -1707,6 +2082,37 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0046" element="0145" keyword="ReferencedRefractiveMeasurementsSequence" vr="SQ" vm="1" name="Referenced Refractive Measurements Sequence"/>
     <entry group="0046" element="0146" keyword="SpherePower" vr="FD" vm="1" name="Sphere Power"/>
     <entry group="0046" element="0147" keyword="CylinderPower" vr="FD" vm="1" name="Cylinder Power"/>
+    <entry group="0048" element="0001" keyword="ImagedVolumeWidth" vr="FL" vm="1" name="Imaged Volume Width"/>
+    <entry group="0048" element="0002" keyword="ImagedVolumeHeight" vr="FL" vm="1" name="Imaged Volume Height"/>
+    <entry group="0048" element="0003" keyword="ImagedVolumeDepth" vr="FL" vm="1" name="Imaged Volume Depth"/>
+    <entry group="0048" element="0006" keyword="TotalPixelMatrixColumns" vr="UL" vm="1" name="Total Pixel Matrix Columns"/>
+    <entry group="0048" element="0007" keyword="TotalPixelMatrixRows" vr="UL" vm="1" name="Total Pixel Matrix Rows"/>
+    <entry group="0048" element="0008" keyword="TotalPixelMatrixOriginSequence" vr="SQ" vm="1" name="Total Pixel Matrix Origin Sequence"/>
+    <entry group="0048" element="0010" keyword="SpecimenLabelInImage" vr="CS" vm="1" name="Specimen Label in Image"/>
+    <entry group="0048" element="0011" keyword="FocusMethod" vr="CS" vm="1" name="Focus Method"/>
+    <entry group="0048" element="0012" keyword="ExtendedDepthOfField" vr="CS" vm="1" name="Extended Depth of Field"/>
+    <entry group="0048" element="0013" keyword="NumberOfFocalPlanes" vr="US" vm="1" name="Number of Focal Planes"/>
+    <entry group="0048" element="0014" keyword="DistanceBetweenFocalPlanes" vr="FL" vm="1" name="Distance Between Focal Planes"/>
+    <entry group="0048" element="0015" keyword="RecommendedAbsentPixelCIELabValue" vr="US" vm="3" name="Recommended Absent Pixel CIELab Value"/>
+    <entry group="0048" element="0100" keyword="IlluminatorTypeCodeSequence" vr="SQ" vm="1" name="Illuminator Type Code Sequence"/>
+    <entry group="0048" element="0102" keyword="ImageOrientationSlide" vr="DS" vm="6" name="Image Orientation (Slide)"/>
+    <entry group="0048" element="0105" keyword="OpticalPathSequence" vr="SQ" vm="1" name="Optical Path Sequence"/>
+    <entry group="0048" element="0106" keyword="OpticalPathIdentifier" vr="SH" vm="1" name="Optical Path Identifier"/>
+    <entry group="0048" element="0107" keyword="OpticalPathDescription" vr="ST" vm="1" name="Optical Path Description"/>
+    <entry group="0048" element="0108" keyword="IlluminationColorCodeSequence" vr="SQ" vm="1" name="Illumination Color Code Sequence"/>
+    <entry group="0048" element="0110" keyword="SpecimenReferenceSequence" vr="SQ" vm="1" name="Specimen Reference Sequence"/>
+    <entry group="0048" element="0111" keyword="CondenserLensPower" vr="DS" vm="1" name="Condenser Lens Power"/>
+    <entry group="0048" element="0112" keyword="ObjectiveLensPower" vr="DS" vm="1" name="Objective Lens Power"/>
+    <entry group="0048" element="0113" keyword="ObjectiveLensNumericalAperture" vr="DS" vm="1" name="Objective Lens Numerical Aperture"/>
+    <entry group="0048" element="0120" keyword="PaletteColorLookupTableSequence" vr="SQ" vm="1" name="Palette Color Lookup Table Sequence"/>
+    <entry group="0048" element="0200" keyword="ReferencedImageNavigationSequence" vr="SQ" vm="1" name="Referenced Image Navigation Sequence"/>
+    <entry group="0048" element="0201" keyword="TopLeftHandCornerOfLocalizerArea" vr="US" vm="2" name="Top Left Hand Corner of Localizer Area"/>
+    <entry group="0048" element="0202" keyword="BottomRightHandCornerOfLocalizerArea" vr="US" vm="2" name="Bottom Right Hand Corner of Localizer Area"/>
+    <entry group="0048" element="0207" keyword="OpticalPathIdentificationSequence" vr="SQ" vm="1" name="Optical Path Identification Sequence"/>
+    <entry group="0048" element="021a" keyword="PlanePositionSlideSequence" vr="SQ" vm="1" name="Plane Position (Slide) Sequence"/>
+    <entry group="0048" element="021e" keyword="ColumnPositionInTotalImagePixelMatrix" vr="SL" vm="1" name="Column Position In Total Image Pixel Matrix"/>
+    <entry group="0048" element="021f" keyword="RowPositionInTotalImagePixelMatrix" vr="SL" vm="1" name="Row Position In Total Image Pixel Matrix"/>
+    <entry group="0048" element="0301" keyword="PixelOriginInterpretation" vr="CS" vm="1" name="Pixel Origin Interpretation"/>
     <entry group="0050" element="0004" keyword="CalibrationImage" vr="CS" vm="1" name="Calibration Image"/>
     <entry group="0050" element="0010" keyword="DeviceSequence" vr="SQ" vm="1" name="Device Sequence"/>
     <entry group="0050" element="0012" keyword="ContainerComponentTypeCodeSequence" vr="SQ" vm="1" name="Container Component Type Code Sequence"/>
@@ -1723,6 +2129,32 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0050" element="001d" keyword="ContainerComponentDiameter" vr="FD" vm="1" name="Container Component Diameter"/>
     <entry group="0050" element="001e" keyword="ContainerComponentDescription" vr="LO" vm="1" name="Container Component Description"/>
     <entry group="0050" element="0020" keyword="DeviceDescription" vr="LO" vm="1" name="Device Description"/>
+    <entry group="0052" element="0001" keyword="ContrastBolusIngredientPercentByVolume" vr="FL" vm="1" name="Contrast/Bolus Ingredient Percent by Volume"/>
+    <entry group="0052" element="0002" keyword="OCTFocalDistance" vr="FD" vm="1" name="OCT Focal Distance"/>
+    <entry group="0052" element="0003" keyword="BeamSpotSize" vr="FD" vm="1" name="Beam Spot Size"/>
+    <entry group="0052" element="0004" keyword="EffectiveRefractiveIndex" vr="FD" vm="1" name="Effective Refractive Index"/>
+    <entry group="0052" element="0006" keyword="OCTAcquisitionDomain" vr="CS" vm="1" name="OCT Acquisition Domain"/>
+    <entry group="0052" element="0007" keyword="OCTOpticalCenterWavelength" vr="FD" vm="1" name="OCT Optical Center Wavelength"/>
+    <entry group="0052" element="0008" keyword="AxialResolution" vr="FD" vm="1" name="Axial Resolution"/>
+    <entry group="0052" element="0009" keyword="RangingDepth" vr="FD" vm="1" name="Ranging Depth"/>
+    <entry group="0052" element="0011" keyword="ALineRate" vr="FD" vm="1" name="A-line Rate"/>
+    <entry group="0052" element="0012" keyword="ALinesPerFrame" vr="US" vm="1" name="A-lines Per Frame"/>
+    <entry group="0052" element="0013" keyword="CatheterRotationalRate" vr="FD" vm="1" name="Catheter Rotational Rate"/>
+    <entry group="0052" element="0014" keyword="ALinePixelSpacing" vr="FD" vm="1" name="A-line Pixel Spacing"/>
+    <entry group="0052" element="0016" keyword="ModeOfPercutaneousAccessSequence" vr="SQ" vm="1" name="Mode of Percutaneous Access Sequence"/>
+    <entry group="0052" element="0025" keyword="IntravascularOCTFrameTypeSequence" vr="SQ" vm="1" name="Intravascular OCT Frame Type Sequence"/>
+    <entry group="0052" element="0026" keyword="OCTZOffsetApplied" vr="CS" vm="1" name="OCT Z Offset Applied"/>
+    <entry group="0052" element="0027" keyword="IntravascularFrameContentSequence" vr="SQ" vm="1" name="Intravascular Frame Content Sequence"/>
+    <entry group="0052" element="0028" keyword="IntravascularLongitudinalDistance" vr="FD" vm="1" name="Intravascular Longitudinal Distance"/>
+    <entry group="0052" element="0029" keyword="IntravascularOCTFrameContentSequence" vr="SQ" vm="1" name="Intravascular OCT Frame Content Sequence"/>
+    <entry group="0052" element="0030" keyword="OCTZOffsetCorrection" vr="SS" vm="1" name="OCT Z Offset Correction"/>
+    <entry group="0052" element="0031" keyword="CatheterDirectionOfRotation" vr="CS" vm="1" name="Catheter Direction of Rotation"/>
+    <entry group="0052" element="0033" keyword="SeamLineLocation" vr="FD" vm="1" name="Seam Line Location"/>
+    <entry group="0052" element="0034" keyword="FirstALineLocation" vr="FD" vm="1" name="First A-line Location"/>
+    <entry group="0052" element="0036" keyword="SeamLineIndex" vr="US" vm="1" name="Seam Line Index"/>
+    <entry group="0052" element="0038" keyword="NumberOfPaddedAlines" vr="US" vm="1" name="Number of Padded A-lines"/>
+    <entry group="0052" element="0039" keyword="InterpolationType" vr="CS" vm="1" name="Interpolation Type"/>
+    <entry group="0052" element="003a" keyword="RefractiveIndexApplied" vr="CS" vm="1" name="Refractive Index Applied"/>
     <entry group="0054" element="0010" keyword="EnergyWindowVector" vr="US" vm="1-n" name="Energy Window Vector"/>
     <entry group="0054" element="0011" keyword="NumberOfEnergyWindows" vr="US" vm="1" name="Number of Energy Windows"/>
     <entry group="0054" element="0012" keyword="EnergyWindowInformationSequence" vr="SQ" vm="1" name="Energy Window Information Sequence"/>
@@ -1779,6 +2211,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0054" element="1001" keyword="Units" vr="CS" vm="1" name="Units"/>
     <entry group="0054" element="1002" keyword="CountsSource" vr="CS" vm="1" name="Counts Source"/>
     <entry group="0054" element="1004" keyword="ReprojectionMethod" vr="CS" vm="1" name="Reprojection Method"/>
+    <entry group="0054" element="1006" keyword="SUVType" vr="CS" vm="1" name="SUV Type"/>
     <entry group="0054" element="1100" keyword="RandomsCorrectionMethod" vr="CS" vm="1" name="Randoms Correction Method"/>
     <entry group="0054" element="1101" keyword="AttenuationCorrectionMethod" vr="LO" vm="1" name="Attenuation Correction Method"/>
     <entry group="0054" element="1102" keyword="DecayCorrection" vr="CS" vm="1" name="Decay Correction"/>
@@ -1877,6 +2310,76 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0066" element="0034" keyword="FacetSequence" vr="SQ" vm="1" name="Facet Sequence"/>
     <entry group="0066" element="0035" keyword="SurfaceProcessingAlgorithmIdentificationSequence" vr="SQ" vm="1" name="Surface Processing Algorithm Identification Sequence"/>
     <entry group="0066" element="0036" keyword="AlgorithmName" vr="LO" vm="1" name="Algorithm Name"/>
+    <entry group="0068" element="6210" keyword="ImplantSize" vr="LO" vm="1" name="Implant Size"/>
+    <entry group="0068" element="6221" keyword="ImplantTemplateVersion" vr="LO" vm="1" name="Implant Template Version"/>
+    <entry group="0068" element="6222" keyword="ReplacedImplantTemplateSequence" vr="SQ" vm="1" name="Replaced Implant Template Sequence"/>
+    <entry group="0068" element="6223" keyword="ImplantType" vr="CS" vm="1" name="Implant Type"/>
+    <entry group="0068" element="6224" keyword="DerivationImplantTemplateSequence" vr="SQ" vm="1" name="Derivation Implant Template Sequence"/>
+    <entry group="0068" element="6225" keyword="OriginalImplantTemplateSequence" vr="SQ" vm="1" name="Original Implant Template Sequence"/>
+    <entry group="0068" element="6226" keyword="EffectiveDateTime" vr="DT" vm="1" name="Effective DateTime"/>
+    <entry group="0068" element="6230" keyword="ImplantTargetAnatomySequence" vr="SQ" vm="1" name="Implant Target Anatomy Sequence"/>
+    <entry group="0068" element="6260" keyword="InformationFromManufacturerSequence" vr="SQ" vm="1" name="Information From Manufacturer Sequence"/>
+    <entry group="0068" element="6265" keyword="NotificationFromManufacturerSequence" vr="SQ" vm="1" name="Notification From Manufacturer Sequence"/>
+    <entry group="0068" element="6270" keyword="InformationIssueDateTime" vr="DT" vm="1" name="Information Issue DateTime"/>
+    <entry group="0068" element="6280" keyword="InformationSummary" vr="ST" vm="1" name="Information Summary"/>
+    <entry group="0068" element="62a0" keyword="ImplantRegulatoryDisapprovalCodeSequence" vr="SQ" vm="1" name="Implant Regulatory Disapproval Code Sequence"/>
+    <entry group="0068" element="62a5" keyword="OverallTemplateSpatialTolerance" vr="FD" vm="1" name="Overall Template Spatial Tolerance"/>
+    <entry group="0068" element="62c0" keyword="HPGLDocumentSequence" vr="SQ" vm="1" name="HPGL Document Sequence"/>
+    <entry group="0068" element="62d0" keyword="HPGLDocumentID" vr="US" vm="1" name="HPGL Document ID"/>
+    <entry group="0068" element="62d5" keyword="HPGLDocumentLabel" vr="LO" vm="1" name="HPGL Document Label"/>
+    <entry group="0068" element="62e0" keyword="ViewOrientationCodeSequence" vr="SQ" vm="1" name="View Orientation Code Sequence"/>
+    <entry group="0068" element="62f0" keyword="ViewOrientationModifier" vr="FD" vm="9" name="View Orientation Modifier"/>
+    <entry group="0068" element="62f2" keyword="HPGLDocumentScaling" vr="FD" vm="1" name="HPGL Document Scaling"/>
+    <entry group="0068" element="6300" keyword="HPGLDocument" vr="OB" vm="1" name="HPGL Document"/>
+    <entry group="0068" element="6310" keyword="HPGLContourPenNumber" vr="US" vm="1" name="HPGL Contour Pen Number"/>
+    <entry group="0068" element="6320" keyword="HPGLPenSequence" vr="SQ" vm="1" name="HPGL Pen Sequence"/>
+    <entry group="0068" element="6330" keyword="HPGLPenNumber" vr="US" vm="1" name="HPGL Pen Number"/>
+    <entry group="0068" element="6340" keyword="HPGLPenLabel" vr="LO" vm="1" name="HPGL Pen Label"/>
+    <entry group="0068" element="6345" keyword="HPGLPenDescription" vr="ST" vm="1" name="HPGL Pen Description"/>
+    <entry group="0068" element="6346" keyword="RecommendedRotationPoint" vr="FD" vm="2" name="Recommended Rotation Point"/>
+    <entry group="0068" element="6347" keyword="BoundingRectangle" vr="FD" vm="4" name="Bounding Rectangle"/>
+    <entry group="0068" element="6350" keyword="ImplantTemplate3DModelSurfaceNumber" vr="US" vm="1-n" name="Implant Template 3D Model Surface Number"/>
+    <entry group="0068" element="6360" keyword="SurfaceModelDescriptionSequence" vr="SQ" vm="1" name="Surface Model Description Sequence"/>
+    <entry group="0068" element="6380" keyword="SurfaceModelLabel" vr="LO" vm="1" name="Surface Model Label"/>
+    <entry group="0068" element="6390" keyword="SurfaceModelScalingFactor" vr="FD" vm="1" name="Surface Model Scaling Factor"/>
+    <entry group="0068" element="63a0" keyword="MaterialsCodeSequence" vr="SQ" vm="1" name="Materials Code Sequence"/>
+    <entry group="0068" element="63a4" keyword="CoatingMaterialsCodeSequence" vr="SQ" vm="1" name="Coating Materials Code Sequence"/>
+    <entry group="0068" element="63a8" keyword="ImplantTypeCodeSequence" vr="SQ" vm="1" name="Implant Type Code Sequence"/>
+    <entry group="0068" element="63ac" keyword="FixationMethodCodeSequence" vr="SQ" vm="1" name="Fixation Method Code Sequence"/>
+    <entry group="0068" element="63b0" keyword="MatingFeatureSetsSequence" vr="SQ" vm="1" name="Mating Feature Sets Sequence"/>
+    <entry group="0068" element="63c0" keyword="MatingFeatureSetID" vr="US" vm="1" name="Mating Feature Set ID"/>
+    <entry group="0068" element="63d0" keyword="MatingFeatureSetLabel" vr="LO" vm="1" name="Mating Feature Set Label"/>
+    <entry group="0068" element="63e0" keyword="MatingFeatureSequence" vr="SQ" vm="1" name="Mating Feature Sequence"/>
+    <entry group="0068" element="63f0" keyword="MatingFeatureID" vr="US" vm="1" name="Mating Feature ID"/>
+    <entry group="0068" element="6400" keyword="MatingFeatureDegreeOfFreedomSequence" vr="SQ" vm="1" name="Mating Feature Degree of Freedom Sequence"/>
+    <entry group="0068" element="6410" keyword="DegreeOfFreedomID" vr="US" vm="1" name="Degree of Freedom ID"/>
+    <entry group="0068" element="6420" keyword="DegreeOfFreedomType" vr="CS" vm="1" name="Degree of Freedom Type"/>
+    <entry group="0068" element="6430" keyword="TwoDMatingFeatureCoordinatesSequence" vr="SQ" vm="1" name="2D Mating Feature Coordinates Sequence"/>
+    <entry group="0068" element="6440" keyword="ReferencedHPGLDocumentID" vr="US" vm="1" name="Referenced HPGL Document ID"/>
+    <entry group="0068" element="6450" keyword="TwoDMatingPoint" vr="FD" vm="2" name="2D Mating Point"/>
+    <entry group="0068" element="6460" keyword="TwoDMatingAxes" vr="FD" vm="4" name="2D Mating Axes"/>
+    <entry group="0068" element="6470" keyword="TwoDDegreeOfFreedomSequence" vr="SQ" vm="1" name="2D Degree of Freedom Sequence"/>
+    <entry group="0068" element="6490" keyword="ThreeDDegreeOfFreedomAxis" vr="FD" vm="3" name="3D Degree of Freedom Axis"/>
+    <entry group="0068" element="64a0" keyword="RangeOfFreedom" vr="FD" vm="2" name="Range of Freedom"/>
+    <entry group="0068" element="64c0" keyword="ThreeDMatingPoint" vr="FD" vm="3" name="3D Mating Point"/>
+    <entry group="0068" element="64d0" keyword="ThreeDMatingAxes" vr="FD" vm="9" name="3D Mating Axes"/>
+    <entry group="0068" element="64f0" keyword="TwoDDegreeOfFreedomAxis" vr="FD" vm="3" name="2D Degree of Freedom Axis"/>
+    <entry group="0068" element="6500" keyword="PlanningLandmarkPointSequence" vr="SQ" vm="1" name="Planning Landmark Point Sequence"/>
+    <entry group="0068" element="6510" keyword="PlanningLandmarkLineSequence" vr="SQ" vm="1" name="Planning Landmark Line Sequence"/>
+    <entry group="0068" element="6520" keyword="PlanningLandmarkPlaneSequence" vr="SQ" vm="1" name="Planning Landmark Plane Sequence"/>
+    <entry group="0068" element="6530" keyword="PlanningLandmarkID" vr="US" vm="1" name="Planning Landmark ID"/>
+    <entry group="0068" element="6540" keyword="PlanningLandmarkDescription" vr="LO" vm="1" name="Planning Landmark Description"/>
+    <entry group="0068" element="6545" keyword="PlanningLandmarkIdentificationCodeSequence" vr="SQ" vm="1" name="Planning Landmark Identification Code Sequence"/>
+    <entry group="0068" element="6550" keyword="TwoDPointCoordinatesSequence" vr="SQ" vm="1" name="2D Point Coordinates Sequence"/>
+    <entry group="0068" element="6560" keyword="TwoDPointCoordinates" vr="FD" vm="2" name="2D Point Coordinates"/>
+    <entry group="0068" element="6590" keyword="ThreeDPointCoordinates" vr="FD" vm="3" name="3D Point Coordinates"/>
+    <entry group="0068" element="65a0" keyword="TwoDLineCoordinatesSequence" vr="SQ" vm="1" name="2D Line Coordinates Sequence"/>
+    <entry group="0068" element="65b0" keyword="TwoDLineCoordinates" vr="FD" vm="4" name="2D Line Coordinates"/>
+    <entry group="0068" element="65d0" keyword="ThreeDLineCoordinates" vr="FD" vm="6" name="3D Line Coordinates"/>
+    <entry group="0068" element="65e0" keyword="TwoDPlaneCoordinatesSequence" vr="SQ" vm="1" name="2D Plane Coordinates Sequence"/>
+    <entry group="0068" element="65f0" keyword="TwoDPlaneIntersection" vr="FD" vm="4" name="2D Plane Intersection"/>
+    <entry group="0068" element="6610" keyword="ThreeDPlaneOrigin" vr="FD" vm="3" name="3D Plane Origin"/>
+    <entry group="0068" element="6620" keyword="ThreeDPlaneNormal" vr="FD" vm="3" name="3D Plane Normal"/>
     <entry group="0070" element="0001" keyword="GraphicAnnotationSequence" vr="SQ" vm="1" name="Graphic Annotation Sequence"/>
     <entry group="0070" element="0002" keyword="GraphicLayer" vr="CS" vm="1" name="Graphic Layer"/>
     <entry group="0070" element="0003" keyword="BoundingBoxAnnotationUnits" vr="CS" vm="1" name="Bounding Box Annotation Units"/>
@@ -1919,6 +2422,50 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0070" element="0101" keyword="PresentationPixelSpacing" vr="DS" vm="2" name="Presentation Pixel Spacing"/>
     <entry group="0070" element="0102" keyword="PresentationPixelAspectRatio" vr="IS" vm="2" name="Presentation Pixel Aspect Ratio"/>
     <entry group="0070" element="0103" keyword="PresentationPixelMagnificationRatio" vr="FL" vm="1" name="Presentation Pixel Magnification Ratio"/>
+    <entry group="0070" element="0207" keyword="GraphicGroupLabel" vr="LO" vm="1" name="Graphic Group Label"/>
+    <entry group="0070" element="0208" keyword="GraphicGroupDescription" vr="ST" vm="1" name="Graphic Group Description"/>
+    <entry group="0070" element="0209" keyword="CompoundGraphicSequence" vr="SQ" vm="1" name="Compound Graphic Sequence"/>
+    <entry group="0070" element="0226" keyword="CompoundGraphicInstanceID" vr="UL" vm="1" name="Compound Graphic Instance ID"/>
+    <entry group="0070" element="0227" keyword="FontName" vr="LO" vm="1" name="Font Name"/>
+    <entry group="0070" element="0228" keyword="FontNameType" vr="CS" vm="1" name="Font Name Type"/>
+    <entry group="0070" element="0229" keyword="CSSFontName" vr="LO" vm="1" name="CSS Font Name"/>
+    <entry group="0070" element="0230" keyword="RotationAngle" vr="FD" vm="1" name="Rotation Angle"/>
+    <entry group="0070" element="0231" keyword="TextStyleSequence" vr="SQ" vm="1" name="Text Style Sequence"/>
+    <entry group="0070" element="0232" keyword="LineStyleSequence" vr="SQ" vm="1" name="Line Style Sequence"/>
+    <entry group="0070" element="0233" keyword="FillStyleSequence" vr="SQ" vm="1" name="Fill Style Sequence"/>
+    <entry group="0070" element="0234" keyword="GraphicGroupSequence" vr="SQ" vm="1" name="Graphic Group Sequence"/>
+    <entry group="0070" element="0241" keyword="TextColorCIELabValue" vr="US" vm="3" name="Text Color CIELab Value"/>
+    <entry group="0070" element="0242" keyword="HorizontalAlignment" vr="CS" vm="1" name="Horizontal Alignment"/>
+    <entry group="0070" element="0243" keyword="VerticalAlignment" vr="CS" vm="1" name="Vertical Alignment"/>
+    <entry group="0070" element="0244" keyword="ShadowStyle" vr="CS" vm="1" name="Shadow Style"/>
+    <entry group="0070" element="0245" keyword="ShadowOffsetX" vr="FL" vm="1" name="Shadow Offset X"/>
+    <entry group="0070" element="0246" keyword="ShadowOffsetY" vr="FL" vm="1" name="Shadow Offset Y"/>
+    <entry group="0070" element="0247" keyword="ShadowColorCIELabValue" vr="US" vm="3" name="Shadow Color CIELab Value"/>
+    <entry group="0070" element="0248" keyword="Underlined" vr="CS" vm="1" name="Underlined"/>
+    <entry group="0070" element="0249" keyword="Bold" vr="CS" vm="1" name="Bold"/>
+    <entry group="0070" element="0250" keyword="Italic" vr="CS" vm="1" name="Italic"/>
+    <entry group="0070" element="0251" keyword="PatternOnColorCIELabValue" vr="US" vm="3" name="Pattern On Color CIELab Value"/>
+    <entry group="0070" element="0252" keyword="PatternOffColorCIELabValue" vr="US" vm="3" name="Pattern Off Color CIELab Value"/>
+    <entry group="0070" element="0253" keyword="LineThickness" vr="FL" vm="1" name="Line Thickness"/>
+    <entry group="0070" element="0254" keyword="LineDashingStyle" vr="CS" vm="1" name="Line Dashing Style"/>
+    <entry group="0070" element="0255" keyword="LinePattern" vr="UL" vm="1" name="Line Pattern"/>
+    <entry group="0070" element="0256" keyword="FillPattern" vr="OB" vm="1" name="Fill Pattern"/>
+    <entry group="0070" element="0257" keyword="FillMode" vr="CS" vm="1" name="Fill Mode"/>
+    <entry group="0070" element="0258" keyword="ShadowOpacity" vr="FL" vm="1" name="Shadow Opacity"/>
+    <entry group="0070" element="0261" keyword="GapLength" vr="FL" vm="1" name="Gap Length"/>
+    <entry group="0070" element="0262" keyword="DiameterOfVisibility" vr="FL" vm="1" name="Diameter of Visibility"/>
+    <entry group="0070" element="0273" keyword="RotationPoint" vr="FL" vm="2" name="Rotation Point"/>
+    <entry group="0070" element="0274" keyword="TickAlignment" vr="CS" vm="1" name="Tick Alignment"/>
+    <entry group="0070" element="0278" keyword="ShowTickLabel" vr="CS" vm="1" name="Show Tick Label"/>
+    <entry group="0070" element="0279" keyword="TickLabelAlignment" vr="CS" vm="1" name="Tick Label Alignment"/>
+    <entry group="0070" element="0282" keyword="CompoundGraphicUnits" vr="CS" vm="1" name="Compound Graphic Units"/>
+    <entry group="0070" element="0284" keyword="PatternOnOpacity" vr="FL" vm="1" name="Pattern On Opacity"/>
+    <entry group="0070" element="0285" keyword="PatternOffOpacity" vr="FL" vm="1" name="Pattern Off Opacity"/>
+    <entry group="0070" element="0287" keyword="MajorTicksSequence" vr="SQ" vm="1" name="Major Ticks Sequence"/>
+    <entry group="0070" element="0288" keyword="TickPosition" vr="FL" vm="1" name="Tick Position"/>
+    <entry group="0070" element="0289" keyword="TickLabel" vr="SH" vm="1" name="Tick Label"/>
+    <entry group="0070" element="0294" keyword="CompoundGraphicType" vr="CS" vm="1" name="Compound Graphic Type"/>
+    <entry group="0070" element="0295" keyword="GraphicGroupID" vr="UL" vm="1" name="Graphic Group ID"/>
     <entry group="0070" element="0306" keyword="ShapeType" vr="CS" vm="1" name="Shape Type"/>
     <entry group="0070" element="0308" keyword="RegistrationSequence" vr="SQ" vm="1" name="Registration Sequence"/>
     <entry group="0070" element="0309" keyword="MatrixRegistrationSequence" vr="SQ" vm="1" name="Matrix Registration Sequence"/>
@@ -1963,8 +2510,8 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0072" element="003e" keyword="AbstractPriorCodeSequence" vr="SQ" vm="1" name="Abstract Prior Code Sequence"/>
     <entry group="0072" element="0040" keyword="ImageSetLabel" vr="LO" vm="1" name="Image Set Label"/>
     <entry group="0072" element="0050" keyword="SelectorAttributeVR" vr="CS" vm="1" name="Selector Attribute VR"/>
-    <entry group="0072" element="0052" keyword="SelectorSequencePointer" vr="AT" vm="1" name="Selector Sequence Pointer"/>
-    <entry group="0072" element="0054" keyword="SelectorSequencePointerPrivateCreator" vr="LO" vm="1" name="Selector Sequence Pointer Private Creator"/>
+    <entry group="0072" element="0052" keyword="SelectorSequencePointer" vr="AT" vm="1-n" name="Selector Sequence Pointer"/>
+    <entry group="0072" element="0054" keyword="SelectorSequencePointerPrivateCreator" vr="LO" vm="1-n" name="Selector Sequence Pointer Private Creator"/>
     <entry group="0072" element="0056" keyword="SelectorAttributePrivateCreator" vr="LO" vm="1" name="Selector Attribute Private Creator"/>
     <entry group="0072" element="0060" keyword="SelectorATValue" vr="AT" vm="1-n" name="Selector AT Value"/>
     <entry group="0072" element="0062" keyword="SelectorCSValue" vr="CS" vm="1-n" name="Selector CS Value"/>
@@ -2038,6 +2585,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0072" element="0700" keyword="DisplaySetPatientOrientation" vr="CS" vm="2" name="Display Set Patient Orientation"/>
     <entry group="0072" element="0702" keyword="VOIType" vr="CS" vm="1" name="VOI Type"/>
     <entry group="0072" element="0704" keyword="PseudoColorType" vr="CS" vm="1" name="Pseudo-Color Type"/>
+    <entry group="0072" element="0705" keyword="PseudoColorPaletteInstanceReferenceSequence" vr="SQ" vm="1" name="Pseudo-Color Palette Instance Reference Sequence"/>
     <entry group="0072" element="0706" keyword="ShowGrayscaleInverted" vr="CS" vm="1" name="Show Grayscale Inverted"/>
     <entry group="0072" element="0710" keyword="ShowImageTrueSizeFlag" vr="CS" vm="1" name="Show Image True Size Flag"/>
     <entry group="0072" element="0712" keyword="ShowGraphicAnnotationFlag" vr="CS" vm="1" name="Show Graphic Annotation Flag"/>
@@ -2045,23 +2593,32 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0072" element="0716" keyword="ShowAcquisitionTechniquesFlag" vr="CS" vm="1" name="Show Acquisition Techniques Flag"/>
     <entry group="0072" element="0717" keyword="DisplaySetHorizontalJustification" vr="CS" vm="1" name="Display Set Horizontal Justification"/>
     <entry group="0072" element="0718" keyword="DisplaySetVerticalJustification" vr="CS" vm="1" name="Display Set Vertical Justification"/>
-    <entry group="0074" element="1000" keyword="UnifiedProcedureStepState" vr="CS" vm="1" name="Unified Procedure Step State"/>
-    <entry group="0074" element="1002" keyword="UnifiedProcedureStepProgressInformationSequence" vr="SQ" vm="1" name="Unified Procedure Step Progress Information Sequence"/>
-    <entry group="0074" element="1004" keyword="UnifiedProcedureStepProgress" vr="DS" vm="1" name="Unified Procedure Step Progress"/>
-    <entry group="0074" element="1006" keyword="UnifiedProcedureStepProgressDescription" vr="ST" vm="1" name="Unified Procedure Step Progress Description"/>
-    <entry group="0074" element="1008" keyword="UnifiedProcedureStepCommunicationsURISequence" vr="SQ" vm="1" name="Unified Procedure Step Communications URI Sequence"/>
+    <entry group="0074" element="0120" keyword="ContinuationStartMeterset" vr="FD" vm="1" name="Continuation Start Meterset"/>
+    <entry group="0074" element="0121" keyword="ContinuationEndMeterset" vr="FD" vm="1" name="Continuation End Meterset"/>
+    <entry group="0074" element="1000" keyword="ProcedureStepState" vr="CS" vm="1" name="Procedure Step State"/>
+    <entry group="0074" element="1002" keyword="ProcedureStepProgressInformationSequence" vr="SQ" vm="1" name="Procedure Step Progress Information Sequence"/>
+    <entry group="0074" element="1004" keyword="ProcedureStepProgress" vr="DS" vm="1" name="Procedure Step Progress"/>
+    <entry group="0074" element="1006" keyword="ProcedureStepProgressDescription" vr="ST" vm="1" name="Procedure Step Progress Description"/>
+    <entry group="0074" element="1008" keyword="ProcedureStepCommunicationsURISequence" vr="SQ" vm="1" name="Procedure Step Communications URI Sequence"/>
     <entry group="0074" element="100a" keyword="ContactURI" vr="ST" vm="1" name="Contact URI"/>
     <entry group="0074" element="100c" keyword="ContactDisplayName" vr="LO" vm="1" name="Contact Display Name"/>
-    <entry group="0074" element="100e" keyword="UnifiedProcedureStepDiscontinuationReasonCodeSequence" vr="SQ" vm="1" name="Unified Procedure Step Discontinuation Reason Code Sequence"/>
+    <entry group="0074" element="100e" keyword="ProcedureStepDiscontinuationReasonCodeSequence" vr="SQ" vm="1" name="Procedure Step Discontinuation Reason Code Sequence"/>
     <entry group="0074" element="1020" keyword="BeamTaskSequence" vr="SQ" vm="1" name="Beam Task Sequence"/>
     <entry group="0074" element="1022" keyword="BeamTaskType" vr="CS" vm="1" name="Beam Task Type"/>
-    <entry group="0074" element="1024" keyword="BeamOrderIndex" vr="IS" vm="1" name="Beam Order Index"/>
+    <entry group="0074" element="1024" keyword="BeamOrderIndexTrial" vr="IS" vm="1" retired="true" name="Beam Order Index (Trial)"/>
+    <entry group="0074" element="1026" keyword="TableTopVerticalAdjustedPosition" vr="FD" vm="1" name="Table Top Vertical Adjusted Position"/>
+    <entry group="0074" element="1027" keyword="TableTopLongitudinalAdjustedPosition" vr="FD" vm="1" name="Table Top Longitudinal Adjusted Position"/>
+    <entry group="0074" element="1028" keyword="TableTopLateralAdjustedPosition" vr="FD" vm="1" name="Table Top Lateral Adjusted Position"/>
+    <entry group="0074" element="102a" keyword="PatientSupportAdjustedAngle" vr="FD" vm="1" name="Patient Support Adjusted Angle"/>
+    <entry group="0074" element="102b" keyword="TableTopEccentricAdjustedAngle" vr="FD" vm="1" name="Table Top Eccentric Adjusted Angle"/>
+    <entry group="0074" element="102c" keyword="TableTopPitchAdjustedAngle" vr="FD" vm="1" name="Table Top Pitch Adjusted Angle"/>
+    <entry group="0074" element="102d" keyword="TableTopRollAdjustedAngle" vr="FD" vm="1" name="Table Top Roll Adjusted Angle"/>
     <entry group="0074" element="1030" keyword="DeliveryVerificationImageSequence" vr="SQ" vm="1" name="Delivery Verification Image Sequence"/>
     <entry group="0074" element="1032" keyword="VerificationImageTiming" vr="CS" vm="1" name="Verification Image Timing"/>
     <entry group="0074" element="1034" keyword="DoubleExposureFlag" vr="CS" vm="1" name="Double Exposure Flag"/>
     <entry group="0074" element="1036" keyword="DoubleExposureOrdering" vr="CS" vm="1" name="Double Exposure Ordering"/>
-    <entry group="0074" element="1038" keyword="DoubleExposureMeterset" vr="DS" vm="1" name="Double Exposure Meterset"/>
-    <entry group="0074" element="103a" keyword="DoubleExposureFieldDelta" vr="DS" vm="4" name="Double Exposure Field Delta"/>
+    <entry group="0074" element="1038" keyword="DoubleExposureMetersetTrial" vr="DS" vm="1" retired="true" name="Double Exposure Meterset (Trial)"/>
+    <entry group="0074" element="103a" keyword="DoubleExposureFieldDeltaTrial" vr="DS" vm="4" retired="true" name="Double Exposure Field Delta (Trial)"/>
     <entry group="0074" element="1040" keyword="RelatedReferenceRTImageSequence" vr="SQ" vm="1" name="Related Reference RT Image Sequence"/>
     <entry group="0074" element="1042" keyword="GeneralMachineVerificationSequence" vr="SQ" vm="1" name="General Machine Verification Sequence"/>
     <entry group="0074" element="1044" keyword="ConventionalMachineVerificationSequence" vr="SQ" vm="1" name="Conventional Machine Verification Sequence"/>
@@ -2074,14 +2631,16 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0074" element="1052" keyword="AttributeOccurrencePointer" vr="AT" vm="1" name="Attribute Occurrence Pointer"/>
     <entry group="0074" element="1054" keyword="AttributeItemSelector" vr="UL" vm="1" name="Attribute Item Selector"/>
     <entry group="0074" element="1056" keyword="AttributeOccurrencePrivateCreator" vr="LO" vm="1" name="Attribute Occurrence Private Creator"/>
+    <entry group="0074" element="1057" keyword="SelectorSequencePointerItems" vr="IS" vm="1-n" name="Selector Sequence Pointer Items"/>
     <entry group="0074" element="1200" keyword="ScheduledProcedureStepPriority" vr="CS" vm="1" name="Scheduled Procedure Step Priority"/>
     <entry group="0074" element="1202" keyword="WorklistLabel" vr="LO" vm="1" name="Worklist Label"/>
     <entry group="0074" element="1204" keyword="ProcedureStepLabel" vr="LO" vm="1" name="Procedure Step Label"/>
     <entry group="0074" element="1210" keyword="ScheduledProcessingParametersSequence" vr="SQ" vm="1" name="Scheduled Processing Parameters Sequence"/>
     <entry group="0074" element="1212" keyword="PerformedProcessingParametersSequence" vr="SQ" vm="1" name="Performed Processing Parameters Sequence"/>
     <entry group="0074" element="1216" keyword="UnifiedProcedureStepPerformedProcedureSequence" vr="SQ" vm="1" name="Unified Procedure Step Performed Procedure Sequence"/>
-    <entry group="0074" element="1220" keyword="RelatedProcedureStepSequence" vr="SQ" vm="1" name="Related Procedure Step Sequence"/>
-    <entry group="0074" element="1222" keyword="ProcedureStepRelationshipType" vr="LO" vm="1" name="Procedure Step Relationship Type"/>
+    <entry group="0074" element="1220" keyword="RelatedProcedureStepSequence" vr="SQ" vm="1" retired="true" name="Related Procedure Step Sequence"/>
+    <entry group="0074" element="1222" keyword="ProcedureStepRelationshipType" vr="LO" vm="1" retired="true" name="Procedure Step Relationship Type"/>
+    <entry group="0074" element="1224" keyword="ReplacedProcedureStepSequence" vr="SQ" vm="1" name="Replaced Procedure Step Sequence"/>
     <entry group="0074" element="1230" keyword="DeletionLock" vr="LO" vm="1" name="Deletion Lock"/>
     <entry group="0074" element="1234" keyword="ReceivingAE" vr="AE" vm="1" name="Receiving AE"/>
     <entry group="0074" element="1236" keyword="RequestingAE" vr="AE" vm="1" name="Requesting AE"/>
@@ -2089,6 +2648,50 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="0074" element="1242" keyword="SCPStatus" vr="CS" vm="1" name="SCP Status"/>
     <entry group="0074" element="1244" keyword="SubscriptionListStatus" vr="CS" vm="1" name="Subscription List Status"/>
     <entry group="0074" element="1246" keyword="UnifiedProcedureStepListStatus" vr="CS" vm="1" name="Unified Procedure Step List Status"/>
+    <entry group="0074" element="1324" keyword="BeamOrderIndex" vr="UL" vm="1" name="Beam Order Index"/>
+    <entry group="0074" element="1338" keyword="DoubleExposureMeterset" vr="FD" vm="1" name="Double Exposure Meterset"/>
+    <entry group="0074" element="133a" keyword="DoubleExposureFieldDelta" vr="FD" vm="4" name="Double Exposure Field Delta"/>
+    <entry group="0076" element="0001" keyword="ImplantAssemblyTemplateName" vr="LO" vm="1" name="Implant Assembly Template Name"/>
+    <entry group="0076" element="0003" keyword="ImplantAssemblyTemplateIssuer" vr="LO" vm="1" name="Implant Assembly Template Issuer"/>
+    <entry group="0076" element="0006" keyword="ImplantAssemblyTemplateVersion" vr="LO" vm="1" name="Implant Assembly Template Version"/>
+    <entry group="0076" element="0008" keyword="ReplacedImplantAssemblyTemplateSequence" vr="SQ" vm="1" name="Replaced Implant Assembly Template Sequence"/>
+    <entry group="0076" element="000a" keyword="ImplantAssemblyTemplateType" vr="CS" vm="1" name="Implant Assembly Template Type"/>
+    <entry group="0076" element="000c" keyword="OriginalImplantAssemblyTemplateSequence" vr="SQ" vm="1" name="Original Implant Assembly Template Sequence"/>
+    <entry group="0076" element="000e" keyword="DerivationImplantAssemblyTemplateSequence" vr="SQ" vm="1" name="Derivation Implant Assembly Template Sequence"/>
+    <entry group="0076" element="0010" keyword="ImplantAssemblyTemplateTargetAnatomySequence" vr="SQ" vm="1" name="Implant Assembly Template Target Anatomy Sequence"/>
+    <entry group="0076" element="0020" keyword="ProcedureTypeCodeSequence" vr="SQ" vm="1" name="Procedure Type Code Sequence"/>
+    <entry group="0076" element="0030" keyword="SurgicalTechnique" vr="LO" vm="1" name="Surgical Technique"/>
+    <entry group="0076" element="0032" keyword="ComponentTypesSequence" vr="SQ" vm="1" name="Component Types Sequence"/>
+    <entry group="0076" element="0034" keyword="ComponentTypeCodeSequence" vr="CS" vm="1" name="Component Type Code Sequence"/>
+    <entry group="0076" element="0036" keyword="ExclusiveComponentType" vr="CS" vm="1" name="Exclusive Component Type"/>
+    <entry group="0076" element="0038" keyword="MandatoryComponentType" vr="CS" vm="1" name="Mandatory Component Type"/>
+    <entry group="0076" element="0040" keyword="ComponentSequence" vr="SQ" vm="1" name="Component Sequence"/>
+    <entry group="0076" element="0055" keyword="ComponentID" vr="US" vm="1" name="Component ID"/>
+    <entry group="0076" element="0060" keyword="ComponentAssemblySequence" vr="SQ" vm="1" name="Component Assembly Sequence"/>
+    <entry group="0076" element="0070" keyword="Component1ReferencedID" vr="US" vm="1" name="Component 1 Referenced ID"/>
+    <entry group="0076" element="0080" keyword="Component1ReferencedMatingFeatureSetID" vr="US" vm="1" name="Component 1 Referenced Mating Feature Set ID"/>
+    <entry group="0076" element="0090" keyword="Component1ReferencedMatingFeatureID" vr="US" vm="1" name="Component 1 Referenced Mating Feature ID"/>
+    <entry group="0076" element="00a0" keyword="Component2ReferencedID" vr="US" vm="1" name="Component 2 Referenced ID"/>
+    <entry group="0076" element="00b0" keyword="Component2ReferencedMatingFeatureSetID" vr="US" vm="1" name="Component 2 Referenced Mating Feature Set ID"/>
+    <entry group="0076" element="00c0" keyword="Component2ReferencedMatingFeatureID" vr="US" vm="1" name="Component 2 Referenced Mating Feature ID"/>
+    <entry group="0078" element="0001" keyword="ImplantTemplateGroupName" vr="LO" vm="1" name="Implant Template Group Name"/>
+    <entry group="0078" element="0010" keyword="ImplantTemplateGroupDescription" vr="ST" vm="1" name="Implant Template Group Description"/>
+    <entry group="0078" element="0020" keyword="ImplantTemplateGroupIssuer" vr="LO" vm="1" name="Implant Template Group Issuer"/>
+    <entry group="0078" element="0024" keyword="ImplantTemplateGroupVersion" vr="LO" vm="1" name="Implant Template Group Version"/>
+    <entry group="0078" element="0026" keyword="ReplacedImplantTemplateGroupSequence" vr="SQ" vm="1" name="Replaced Implant Template Group Sequence"/>
+    <entry group="0078" element="0028" keyword="ImplantTemplateGroupTargetAnatomySequence" vr="SQ" vm="1" name="Implant Template Group Target Anatomy Sequence"/>
+    <entry group="0078" element="002a" keyword="ImplantTemplateGroupMembersSequence" vr="SQ" vm="1" name="Implant Template Group Members Sequence"/>
+    <entry group="0078" element="002e" keyword="ImplantTemplateGroupMemberID" vr="US" vm="1" name="Implant Template Group Member ID"/>
+    <entry group="0078" element="0050" keyword="ThreeDImplantTemplateGroupMemberMatchingPoint" vr="FD" vm="3" name="3D Implant Template Group Member Matching Point"/>
+    <entry group="0078" element="0060" keyword="ThreeDImplantTemplateGroupMemberMatchingAxes" vr="FD" vm="9" name="3D Implant Template Group Member Matching Axes"/>
+    <entry group="0078" element="0070" keyword="ImplantTemplateGroupMemberMatching2DCoordinatesSequence" vr="SQ" vm="1" name="Implant Template Group Member Matching 2D Coordinates Sequence"/>
+    <entry group="0078" element="0090" keyword="TwoDImplantTemplateGroupMemberMatchingPoint" vr="FD" vm="2" name="2D Implant Template Group Member Matching Point"/>
+    <entry group="0078" element="00a0" keyword="TwoDImplantTemplateGroupMemberMatchingAxes" vr="FD" vm="4" name="2D Implant Template Group Member Matching Axes"/>
+    <entry group="0078" element="00b0" keyword="ImplantTemplateGroupVariationDimensionSequence" vr="SQ" vm="1" name="Implant Template Group Variation Dimension Sequence"/>
+    <entry group="0078" element="00b2" keyword="ImplantTemplateGroupVariationDimensionName" vr="LO" vm="1" name="Implant Template Group Variation Dimension Name"/>
+    <entry group="0078" element="00b4" keyword="ImplantTemplateGroupVariationDimensionRankSequence" vr="SQ" vm="1" name="Implant Template Group Variation Dimension Rank Sequence"/>
+    <entry group="0078" element="00b6" keyword="ReferencedImplantTemplateGroupMemberID" vr="US" vm="1" name="Referenced Implant Template Group Member ID"/>
+    <entry group="0078" element="00b8" keyword="ImplantTemplateGroupVariationDimensionRank" vr="US" vm="1" name="Implant Template Group Variation Dimension Rank"/>
     <entry group="0088" element="0130" keyword="StorageMediaFileSetID" vr="SH" vm="1" name="Storage Media File-set ID"/>
     <entry group="0088" element="0140" keyword="StorageMediaFileSetUID" vr="UI" vm="1" name="Storage Media File-set UID"/>
     <entry group="0088" element="0200" keyword="IconImageSequence" vr="SQ" vm="1" name="Icon Image Sequence"/>
@@ -2774,6 +3377,12 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="300a" element="0422" keyword="GeneralAccessoryDescription" vr="ST" vm="1" name="General Accessory Description"/>
     <entry group="300a" element="0423" keyword="GeneralAccessoryType" vr="CS" vm="1" name="General Accessory Type"/>
     <entry group="300a" element="0424" keyword="GeneralAccessoryNumber" vr="IS" vm="1" name="General Accessory Number"/>
+    <entry group="300a" element="0431" keyword="ApplicatorGeometrySequence" vr="SQ" vm="1" name="Applicator Geometry Sequence"/>
+    <entry group="300a" element="0432" keyword="ApplicatorApertureShape" vr="CS" vm="1" name="Applicator Aperture Shape"/>
+    <entry group="300a" element="0433" keyword="ApplicatorOpening" vr="FL" vm="1" name="Applicator Opening"/>
+    <entry group="300a" element="0434" keyword="ApplicatorOpeningX" vr="FL" vm="1" name="Applicator Opening X"/>
+    <entry group="300a" element="0435" keyword="ApplicatorOpeningY" vr="FL" vm="1" name="Applicator Opening Y"/>
+    <entry group="300a" element="0436" keyword="SourceToApplicatorMountingPositionDistance" vr="FL" vm="1" name="Source to Applicator Mounting Position Distance"/>
     <entry group="300c" element="0002" keyword="ReferencedRTPlanSequence" vr="SQ" vm="1" name="Referenced RT Plan Sequence"/>
     <entry group="300c" element="0004" keyword="ReferencedBeamSequence" vr="SQ" vm="1" name="Referenced Beam Sequence"/>
     <entry group="300c" element="0006" keyword="ReferencedBeamNumber" vr="IS" vm="1" name="Referenced Beam Number"/>
@@ -2814,6 +3423,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="4008" element="0040" keyword="ResultsID" vr="SH" vm="1" retired="true" name="Results ID"/>
     <entry group="4008" element="0042" keyword="ResultsIDIssuer" vr="LO" vm="1" retired="true" name="Results ID Issuer"/>
     <entry group="4008" element="0050" keyword="ReferencedInterpretationSequence" vr="SQ" vm="1" retired="true" name="Referenced Interpretation Sequence"/>
+    <entry group="4008" element="00ff" keyword="ReportProductionStatusTrial" vr="CS" vm="1" retired="true" name="Report Production Status (Trial)"/>
     <entry group="4008" element="0100" keyword="InterpretationRecordedDate" vr="DA" vm="1" retired="true" name="Interpretation Recorded Date"/>
     <entry group="4008" element="0101" keyword="InterpretationRecordedTime" vr="TM" vm="1" retired="true" name="Interpretation Recorded Time"/>
     <entry group="4008" element="0102" keyword="InterpretationRecorder" vr="PN" vm="1" retired="true" name="Interpretation Recorder"/>
@@ -2838,6 +3448,75 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <entry group="4008" element="0212" keyword="InterpretationStatusID" vr="CS" vm="1" retired="true" name="Interpretation Status ID"/>
     <entry group="4008" element="0300" keyword="Impressions" vr="ST" vm="1" retired="true" name="Impressions"/>
     <entry group="4008" element="4000" keyword="ResultsComments" vr="ST" vm="1" retired="true" name="Results Comments"/>
+    <entry group="4010" element="0001" keyword="LowEnergyDetectors" vr="CS" vm="1" name="Low Energy Detectors"/>
+    <entry group="4010" element="0002" keyword="HighEnergyDetectors" vr="CS" vm="1" name="High Energy Detectors"/>
+    <entry group="4010" element="0004" keyword="DetectorGeometrySequence" vr="SQ" vm="1" name="Detector Geometry Sequence"/>
+    <entry group="4010" element="1001" keyword="ThreatROIVoxelSequence" vr="SQ" vm="1" name="Threat ROI Voxel Sequence"/>
+    <entry group="4010" element="1004" keyword="ThreatROIBase" vr="FL" vm="3" name="Threat ROI Base"/>
+    <entry group="4010" element="1005" keyword="ThreatROIExtents" vr="FL" vm="3" name="Threat ROI Extents"/>
+    <entry group="4010" element="1006" keyword="ThreatROIBitmap" vr="OB" vm="1" name="Threat ROI Bitmap"/>
+    <entry group="4010" element="1007" keyword="RouteSegmentID" vr="SH" vm="1" name="Route Segment ID"/>
+    <entry group="4010" element="1008" keyword="GantryType" vr="CS" vm="1" name="Gantry Type"/>
+    <entry group="4010" element="1009" keyword="OOIOwnerType" vr="CS" vm="1" name="OOI Owner Type"/>
+    <entry group="4010" element="100a" keyword="RouteSegmentSequence" vr="SQ" vm="1" name="Route Segment Sequence"/>
+    <entry group="4010" element="1010" keyword="PotentialThreatObjectID" vr="US" vm="1" name="Potential Threat Object ID"/>
+    <entry group="4010" element="1011" keyword="ThreatSequence" vr="SQ" vm="1" name="Threat Sequence"/>
+    <entry group="4010" element="1012" keyword="ThreatCategory" vr="CS" vm="1" name="Threat Category"/>
+    <entry group="4010" element="1013" keyword="ThreatCategoryDescription" vr="LT" vm="1" name="Threat Category Description"/>
+    <entry group="4010" element="1014" keyword="ATDAbilityAssessment" vr="CS" vm="1" name="ATD Ability Assessment"/>
+    <entry group="4010" element="1015" keyword="ATDAssessmentFlag" vr="CS" vm="1" name="ATD Assessment Flag"/>
+    <entry group="4010" element="1016" keyword="ATDAssessmentProbability" vr="FL" vm="1" name="ATD Assessment Probability"/>
+    <entry group="4010" element="1017" keyword="Mass" vr="FL" vm="1" name="Mass"/>
+    <entry group="4010" element="1018" keyword="Density" vr="FL" vm="1" name="Density"/>
+    <entry group="4010" element="1019" keyword="ZEffective" vr="FL" vm="1" name="Z Effective"/>
+    <entry group="4010" element="101a" keyword="BoardingPassID" vr="SH" vm="1" name="Boarding Pass ID"/>
+    <entry group="4010" element="101b" keyword="CenterOfMass" vr="FL" vm="3" name="Center of Mass"/>
+    <entry group="4010" element="101c" keyword="CenterOfPTO" vr="FL" vm="3" name="Center of PTO"/>
+    <entry group="4010" element="101d" keyword="BoundingPolygon" vr="FL" vm="6-6n" name="Bounding Polygon"/>
+    <entry group="4010" element="101e" keyword="RouteSegmentStartLocationID" vr="SH" vm="1" name="Route Segment Start Location ID"/>
+    <entry group="4010" element="101f" keyword="RouteSegmentEndLocationID" vr="SH" vm="1" name="Route Segment End Location ID"/>
+    <entry group="4010" element="1020" keyword="RouteSegmentLocationIDType" vr="CS" vm="1" name="Route Segment Location ID Type"/>
+    <entry group="4010" element="1021" keyword="AbortReason" vr="CS" vm="1-n" name="Abort Reason"/>
+    <entry group="4010" element="1023" keyword="VolumeOfPTO" vr="FL" vm="1" name="Volume of PTO"/>
+    <entry group="4010" element="1024" keyword="AbortFlag" vr="CS" vm="1" name="Abort Flag"/>
+    <entry group="4010" element="1025" keyword="RouteSegmentStartTime" vr="DT" vm="1" name="Route Segment Start Time"/>
+    <entry group="4010" element="1026" keyword="RouteSegmentEndTime" vr="DT" vm="1" name="Route Segment End Time"/>
+    <entry group="4010" element="1027" keyword="TDRType" vr="CS" vm="1" name="TDR Type"/>
+    <entry group="4010" element="1028" keyword="InternationalRouteSegment" vr="CS" vm="1" name="International Route Segment"/>
+    <entry group="4010" element="1029" keyword="ThreatDetectionAlgorithmandVersion" vr="LO" vm="1-n" name="Threat Detection Algorithm and Version"/>
+    <entry group="4010" element="102a" keyword="AssignedLocation" vr="SH" vm="1" name="Assigned Location"/>
+    <entry group="4010" element="102b" keyword="AlarmDecisionTime" vr="DT" vm="1" name="Alarm Decision Time"/>
+    <entry group="4010" element="1031" keyword="AlarmDecision" vr="CS" vm="1" name="Alarm Decision"/>
+    <entry group="4010" element="1033" keyword="NumberOfTotalObjects" vr="US" vm="1" name="Number of Total Objects"/>
+    <entry group="4010" element="1034" keyword="NumberOfAlarmObjects" vr="US" vm="1" name="Number of Alarm Objects"/>
+    <entry group="4010" element="1037" keyword="PTORepresentationSequence" vr="SQ" vm="1" name="PTO Representation Sequence"/>
+    <entry group="4010" element="1038" keyword="ATDAssessmentSequence" vr="SQ" vm="1" name="ATD Assessment Sequence"/>
+    <entry group="4010" element="1039" keyword="TIPType" vr="CS" vm="1" name="TIP Type"/>
+    <entry group="4010" element="103a" keyword="DICOSVersion" vr="CS" vm="1" name="DICOS Version"/>
+    <entry group="4010" element="1041" keyword="OOIOwnerCreationTime" vr="DT" vm="1" name="OOI Owner Creation Time"/>
+    <entry group="4010" element="1042" keyword="OOIType" vr="CS" vm="1" name="OOI Type"/>
+    <entry group="4010" element="1043" keyword="OOISize" vr="FL" vm="3" name="OOI Size"/>
+    <entry group="4010" element="1044" keyword="AcquisitionStatus" vr="CS" vm="1" name="Acquisition Status"/>
+    <entry group="4010" element="1045" keyword="BasisMaterialsCodeSequence" vr="SQ" vm="1" name="Basis Materials Code Sequence"/>
+    <entry group="4010" element="1046" keyword="PhantomType" vr="CS" vm="1" name="Phantom Type"/>
+    <entry group="4010" element="1047" keyword="OOIOwnerSequence" vr="SQ" vm="1" name="OOI Owner Sequence"/>
+    <entry group="4010" element="1048" keyword="ScanType" vr="CS" vm="1" name="Scan Type"/>
+    <entry group="4010" element="1051" keyword="ItineraryID" vr="LO" vm="1" name="Itinerary ID"/>
+    <entry group="4010" element="1052" keyword="ItineraryIDType" vr="SH" vm="1" name="Itinerary ID Type"/>
+    <entry group="4010" element="1053" keyword="ItineraryIDAssigningAuthority" vr="LO" vm="1" name="Itinerary ID Assigning Authority"/>
+    <entry group="4010" element="1054" keyword="RouteID" vr="SH" vm="1" name="Route ID"/>
+    <entry group="4010" element="1055" keyword="RouteIDAssigningAuthority" vr="SH" vm="1" name="Route ID Assigning Authority"/>
+    <entry group="4010" element="1056" keyword="InboundArrivalType" vr="CS" vm="1" name="Inbound Arrival Type"/>
+    <entry group="4010" element="1058" keyword="CarrierID" vr="SH" vm="1" name="Carrier ID"/>
+    <entry group="4010" element="1059" keyword="CarrierIDAssigningAuthority" vr="CS" vm="1" name="Carrier ID Assigning Authority"/>
+    <entry group="4010" element="1060" keyword="SourceOrientation" vr="FL" vm="3" name="Source Orientation"/>
+    <entry group="4010" element="1061" keyword="SourcePosition" vr="FL" vm="3" name="Source Position"/>
+    <entry group="4010" element="1062" keyword="BeltHeight" vr="FL" vm="1" name="Belt Height"/>
+    <entry group="4010" element="1064" keyword="AlgorithmRoutingCodeSequence" vr="SQ" vm="1" name="Algorithm Routing Code Sequence"/>
+    <entry group="4010" element="1067" keyword="TransportClassification" vr="CS" vm="1" name="Transport Classification"/>
+    <entry group="4010" element="1068" keyword="OOITypeDescriptor" vr="LT" vm="1" name="OOI Type Descriptor"/>
+    <entry group="4010" element="1069" keyword="TotalProcessingTime" vr="FL" vm="1" name="Total Processing Time"/>
+    <entry group="4010" element="106c" keyword="DetectorCalibrationData" vr="OB" vm="1" name="Detector Calibration Data"/>
     <entry group="4ffe" element="0001" keyword="MACParametersSequence" vr="SQ" vm="1" name="MAC Parameters Sequence"/>
     <entry group="50xx" element="0005" keyword="CurveDimensions" vr="US" vm="1" retired="true" name="Curve Dimensions"/>
     <entry group="50xx" element="0010" keyword="NumberOfPoints" vr="US" vm="1" retired="true" name="Number of Points"/>
@@ -2998,6 +3677,8 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <uid value="1.2.840.10008.1.2.4.95" name="JPIP Referenced Deflate" type="Transfer Syntax" part="PS 3.5" retired="false"/>
     <uid value="1.2.840.10008.1.2.4.100" name="MPEG2 Main Profile @ Main Level" type="Transfer Syntax" part="PS 3.5" retired="false"/>
     <uid value="1.2.840.10008.1.2.4.101" name="MPEG2 Main Profile @ High Level" type="Transfer Syntax" part="PS 3.5" retired="false"/>
+    <uid value="1.2.840.10008.1.2.4.102" name="MPEG-4 AVC/H.264 High Profile / Level 4.1" type="Transfer Syntax" part="PS 3.5" retired="false"/>
+    <uid value="1.2.840.10008.1.2.4.103" name="MPEG-4 AVC/H.264 BD-compatible High Profile / Level 4.1" type="Transfer Syntax" part="PS 3.5" retired="false"/>
     <uid value="1.2.840.10008.1.2.5" name="RLE Lossless" type="Transfer Syntax" part="PS 3.5" retired="false"/>
     <uid value="1.2.840.10008.1.2.6.1" name="RFC 2557 MIME encapsulation" type="Transfer Syntax" part="PS 3.10" retired="false"/>
     <uid value="1.2.840.10008.1.2.6.2" name="XML Encoding" type="Transfer Syntax" part="PS 3.10" retired="false"/>
@@ -3125,10 +3806,12 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <uid value="1.2.840.10008.5.1.4.1.1.12.1.1" name="Enhanced XA Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.12.2" name="X-Ray Radiofluoroscopic Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.12.2.1" name="Enhanced XRF Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.12.3" name="X-Ray Angiographic Bi-Plane Image Storage" type="SOP Class" part="PS 3.4" retired="true"/>
     <uid value="1.2.840.10008.5.1.4.1.1.13.1.1" name="X-Ray 3D Angiographic Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.13.1.2" name="X-Ray 3D Craniofacial Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.13.1.3" name="Breast Tomosynthesis Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.1.1.12.3" name="X-Ray Angiographic Bi-Plane Image Storage" type="SOP Class" part="PS 3.4" retired="true"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.14.1" name="Intravascular Optical Coherence Tomography Image Storage - For Presentation" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.14.2" name="Intravascular Optical Coherence Tomography Image Storage - For Processing" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.20" name="Nuclear Medicine Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.66" name="Raw Data Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.66.1" name="Spatial Registration Storage" type="SOP Class" part="PS 3.4" retired="false"/>
@@ -3150,13 +3833,17 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <uid value="1.2.840.10008.5.1.4.1.1.77.1.5.2" name="Ophthalmic Photography 16 Bit Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.77.1.5.3" name="Stereometric Relationship Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.77.1.5.4" name="Ophthalmic Tomography Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.77.1.6" name="VL Whole Slide Microscopy Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.78.1" name="Lensometry Measurements Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.78.2" name="Autorefraction Measurements Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.78.3" name="Keratometry Measurements Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.78.4" name="Subjective Refraction Measurements Storage" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.1.1.78.5" name="Visual Acuity Measurements" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.1.1.78.6" name="Spectacle Prescription Reports Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.78.5" name="Visual Acuity Measurements Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.78.6" name="Spectacle Prescription Report Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.78.7" name="Ophthalmic Axial Measurements Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.78.8" name="Intraocular Lens Calculations Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.79.1" name="Macular Grid Thickness and Volume Report Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.80.1" name="Ophthalmic Visual Field Static Perimetry Measurements Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.88.1" name="Text SR Storage - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
     <uid value="1.2.840.10008.5.1.4.1.1.88.2" name="Audio SR Storage - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
     <uid value="1.2.840.10008.5.1.4.1.1.88.3" name="Detail SR Storage - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
@@ -3170,6 +3857,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <uid value="1.2.840.10008.5.1.4.1.1.88.65" name="Chest CAD SR Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.88.67" name="X-Ray Radiation Dose SR Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.88.69" name="Colon CAD SR Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.88.70" name="Implantation Plan SR Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.104.1" name="Encapsulated PDF Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.104.2" name="Encapsulated CDA Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.128" name="Positron Emission Tomography Image Storage" type="SOP Class" part="PS 3.4" retired="false"/>
@@ -3185,6 +3873,12 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <uid value="1.2.840.10008.5.1.4.1.1.481.7" name="RT Treatment Summary Record Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.481.8" name="RT Ion Plan Storage" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.1.481.9" name="RT Ion Beams Treatment Record Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.501.1" name="DICOS CT Image Storage" type="SOP Class" part="DICOS" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.501.2.1" name="DICOS Digital X-Ray Image Storage - For Presentation" type="SOP Class" part="DICOS" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.501.2.2" name="DICOS Digital X-Ray Image Storage - For Processing" type="SOP Class" part="DICOS" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.501.3" name="DICOS Threat Detection Report Storage" type="SOP Class" part="DICOS" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.601.1" name="Eddy Current Image Storage" type="SOP Class" part="DICONDE ASTM Exxxx" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.1.1.601.2" name="Eddy Current Multi-frame Image Storage" type="SOP Class" part="DICONDE ASTM Exxxx" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.2.1.1" name="Patient Root Query/Retrieve Information Model - FIND" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.2.1.2" name="Patient Root Query/Retrieve Information Model - MOVE" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.1.2.1.3" name="Patient Root Query/Retrieve Information Model - GET" type="SOP Class" part="PS 3.4" retired="false"/>
@@ -3203,15 +3897,23 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <uid value="1.2.840.10008.5.1.4.32.3" name="General Purpose Performed Procedure Step SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.32" name="General Purpose Worklist Management Meta SOP Class" type="Meta SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.33" name="Instance Availability Notification SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.34.1" name="RT Beams Delivery Instruction Storage (Supplement 74 Frozen Draft)" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.34.2" name="RT Conventional Machine Verification (Supplement 74 Frozen Draft)" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.34.3" name="RT Ion Machine Verification (Supplement 74 Frozen Draft)" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.34.4" name="Unified Worklist and Procedure Step Service Class" type="Service Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.34.4.1" name="Unified Procedure Step - Push SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.34.4.2" name="Unified Procedure Step - Watch SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.34.4.3" name="Unified Procedure Step - Pull SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.2.840.10008.5.1.4.34.4.4" name="Unified Procedure Step - Event SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.1" name="RT Beams Delivery Instruction Storage - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
+    <uid value="1.2.840.10008.5.1.4.34.2" name="RT Conventional Machine Verification - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
+    <uid value="1.2.840.10008.5.1.4.34.3" name="RT Ion Machine Verification - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
+    <uid value="1.2.840.10008.5.1.4.34.4" name="Unified Worklist and Procedure Step Service Class - Trial" type="Service Class" part="PS 3.4" retired="true"/>
+    <uid value="1.2.840.10008.5.1.4.34.4.1" name="Unified Procedure Step - Push SOP Class - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
+    <uid value="1.2.840.10008.5.1.4.34.4.2" name="Unified Procedure Step - Watch SOP Class - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
+    <uid value="1.2.840.10008.5.1.4.34.4.3" name="Unified Procedure Step - Pull SOP Class - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
+    <uid value="1.2.840.10008.5.1.4.34.4.4" name="Unified Procedure Step - Event SOP Class - Trial" type="SOP Class" part="PS 3.4" retired="true"/>
     <uid value="1.2.840.10008.5.1.4.34.5" name="Unified Worklist and Procedure Step SOP Instance" type="Well-known SOP Instance" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.6" name="Unified Worklist and Procedure Step Service Class" type="Service Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.6.1" name="Unified Procedure Step - Push SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.6.2" name="Unified Procedure Step - Watch SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.6.3" name="Unified Procedure Step - Pull SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.6.4" name="Unified Procedure Step - Event SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.7" name="RT Beams Delivery Instruction Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.8" name="RT Conventional Machine Verification" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.34.9" name="RT Ion Machine Verification" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.37.1" name="General Relevant Patient Information Query" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.37.2" name="Breast Imaging Relevant Patient Information Query" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.37.3" name="Cardiac Relevant Patient Information Query" type="SOP Class" part="PS 3.4" retired="false"/>
@@ -3225,6 +3927,20 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <uid value="1.2.840.10008.5.1.4.39.4" name="Color Palette Information Model - GET" type="Query/Retrieve" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.41" name="Product Characteristics Query SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.5.1.4.42" name="Substance Approval Query SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.43.1" name="Generic Implant Template Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.43.2" name="Generic Implant Template Information Model - FIND" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.43.3" name="Generic Implant Template Information Model - MOVE" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.43.4" name="Generic Implant Template Information Model - GET" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.44.1" name="Implant Assembly Template Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.44.2" name="Implant Assembly Template Information Model - FIND" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.44.3" name="Implant Assembly Template Information Model - MOVE" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.44.4" name="Implant Assembly Template Information Model - GET" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.45.1" name="Implant Template Group Storage" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.45.2" name="Implant Template Group Information Model - FIND" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.45.3" name="Implant Template Group Information Model - MOVE" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.5.1.4.45.4" name="Implant Template Group Information Model - GET" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.7.1.1" name="Native DICOM Model" type="Application Hosting Model" part="PS 3.19" retired="false"/>
+    <uid value="1.2.840.10008.7.1.2" name="Abstract Multi-Dimensional Image Model" type="Application Hosting Model" part="PS 3.19" retired="false"/>
     <uid value="1.2.840.10008.15.0.3.1" name="dicomDeviceName" type="LDAP OID" part="PS 3.15" retired="false"/>
     <uid value="1.2.840.10008.15.0.3.2" name="dicomDescription" type="LDAP OID" part="PS 3.15" retired="false"/>
     <uid value="1.2.840.10008.15.0.3.3" name="dicomManufacturer" type="LDAP OID" part="PS 3.15" retired="false"/>
@@ -3264,6 +3980,7 @@ Picking the second one since this is the one I found in dicomdir_Acusson_WithPri
     <uid value="1.2.840.10008.15.0.4.6" name="dicomNetworkConnection" type="LDAP OID" part="PS 3.15" retired="false"/>
     <uid value="1.2.840.10008.15.0.4.7" name="dicomUniqueAETitle" type="LDAP OID" part="PS 3.15" retired="false"/>
     <uid value="1.2.840.10008.15.0.4.8" name="dicomTransferCapability" type="LDAP OID" part="PS 3.15" retired="false"/>
+    <uid value="1.2.840.10008.15.1.1" name="Universal Coordinated Time" type="Synchronization Frame of Reference" part="PS 3.3" retired="false"/>
   </table>
   <table ref="Table A-2" name="Well-known Frames of Reference">
     <uid value="1.2.840.10008.1.4.1.1" name="Talairach Brain Atlas Frame of Reference" normative-reference="Talairach J. and Tournoux P. Co-Planar stereotactic atlas of the human brain. Stutgart: Georg Thieme Verlag, 1988."/>

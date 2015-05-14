@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -34,7 +33,7 @@ namespace gdcm
 (fffe,e0dd) na (SequenceDelimitationItem)               #   0, 0 SequenceDelimitationItem
 */
 
-Pixmap::Pixmap():Overlays(),Curves(),Icon() {}
+Pixmap::Pixmap():Overlays(),Curves(),Icon(new IconImage) {}
 
 Pixmap::~Pixmap() {}
 
@@ -50,6 +49,19 @@ bool Pixmap::AreOverlaysInPixelData() const
   return total != 0;
 }
 
-
+void Pixmap::Print(std::ostream &os) const
+{
+  Bitmap::Print(os);
+  for( std::vector<Overlay>::const_iterator it = Overlays.begin();
+    it != Overlays.end(); ++it)
+    {
+    it->Print( os );
+    }
+  for( std::vector<Curve>::const_iterator it = Curves.begin();
+    it != Curves.end(); ++it)
+    {
+    it->Print( os );
+    }
+}
 
 }

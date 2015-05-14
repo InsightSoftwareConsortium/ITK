@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -12,6 +11,463 @@
      PURPOSE.  See the above copyright notice for more information.
 -->
 <dict>
+<entry group="0009" element="0002" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0011" element="0003" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0011" element="0004" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0011" element="0005" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0011" element="0006" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0011" element="0007" vr="US" vm="1-n" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0011" element="0008" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0000" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0001" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0001" vr="UL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0002" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0002" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0002" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0003" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0003" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0003" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0004" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0004" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0004" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0005" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0005" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0006" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0006" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0007" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0007" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0007" vr="UL" vm="2" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0008" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0008" vr="UL" vm="2" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0008" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0009" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0009" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0009" vr="SL" vm="2" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="000a" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="000a" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="000a" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="000b" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="000b" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="000b" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="000c" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="000c" vr="UL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="000c" vr="US" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="000d" vr="SL" vm="6" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="000d" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="000e" vr="SL" vm="6" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="000e" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="000f" vr="SL" vm="6" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0010" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0010" vr="US" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0011" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0011" vr="SL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0012" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0012" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0013" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0013" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0014" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0014" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0015" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0016" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0017" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0018" vr="UL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0018" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0019" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0019" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="001a" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="001b" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="001c" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="001d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="001e" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0024" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0025" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0026" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0027" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0028" vr="DS" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0028" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0028" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0029" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0029" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<!--
+    (0019,0010) LO [PMTF INFORMATION DATA^12]             # 24,1 Private Creator
+    (0019,102a) DS (TM) [0\0\0 ]                         # 6,1 (3)  ?
+-->
+<entry group="0019" element="002a" vr="DS" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/> <!-- MM FIX -->
+<entry group="0019" element="002a" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="002a" vr="TM" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="002b" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="002b" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="002b" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="002c" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="002c" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="002d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="002d" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="002e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="002e" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="002f" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0030" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0030" vr="UL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0031" vr="OF" vm="1-n" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0031" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0032" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0032" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0032" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0033" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0034" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0034" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0034" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0035" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0035" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0036" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0036" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0037" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0038" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0038" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0039" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="003a" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="003a" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="003b" vr="SL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="003c" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="003c" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="003d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="003e" vr="FL" vm="9" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="003e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="003f" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="003f" vr="UI" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0040" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0041" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0042" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0042" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0043" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0043" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0044" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0044" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0045" vr="SS" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0046" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0046" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0047" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0048" vr="LT" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0048" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0049" vr="LT" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0049" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="004b" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="004c" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="004c" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="004d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="004d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="004e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="004e" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="004f" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0050" vr="SL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0051" vr="SL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0052" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0054" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0055" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0055" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0057" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0057" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0058" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0058" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0059" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0059" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="005a" vr="FL" vm="1-n" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="005c" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="005d" vr="FL" vm="1-n" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="005d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="005e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="005f" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0060" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0060" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0061" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0062" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0063" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0063" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0064" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0065" vr="SL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0067" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0068" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0069" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="006a" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="006b" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="006c" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="006d" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="006d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="006e" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="006e" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="006f" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="006f" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0070" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0071" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0073" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0075" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0076" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0076" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0078" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0078" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0079" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="007a" vr="SL" vm="2" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="007b" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="007c" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="007c" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="007d" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="007d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="007e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="007e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="007f" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="007f" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0080" vr="FD" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0080" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0084" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0085" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0085" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0086" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0086" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0087" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0087" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0087" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0088" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0088" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0089" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="008a" vr="SL" vm="1-n" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="008a" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="008a" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="008b" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="008c" vr="UL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="008d" vr="TM" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="008e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="008f" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="008f" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0090" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0091" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0092" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0092" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0093" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0093" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0094" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="0094" vr="UI" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0095" vr="UI" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0096" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="0098" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="0099" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="009a" vr="DS" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="009a" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="009b" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="009b" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="009c" vr="DS" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="009c" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="009c" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="009d" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="009d" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="009e" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="009e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="009f" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="009f" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00a0" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a0" vr="SL" vm="4" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00a1" vr="DS" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00a1" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a2" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a2" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00a3" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a3" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00a4" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a4" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00a5" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00a5" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a5" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00a6" vr="FL" vm="8" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a6" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00a6" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00a7" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a8" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00a8" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00a8" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00a9" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00aa" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00ab" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00ab" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00ac" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00ac" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00ad" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00ad" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00ae" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00ae" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00ae" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00af" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00af" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00b0" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00b1" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00b1" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00b2" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00b3" vr="FD" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00b3" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00b4" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00b4" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00b4" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00b5" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00b6" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00b6" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00b7" vr="FL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00b7" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00b9" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00ba" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00bb" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00bc" vr="FL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00bd" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00be" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00c0" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00c1" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00c1" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00c2" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00c3" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00c3" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00c3" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00c4" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00c4" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00c5" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00c6" vr="FL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00c6" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00c7" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00c9" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00ca" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00cb" vr="UL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00cc" vr="SS" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00cc" vr="UL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00cd" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00cd" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00ce" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00cf" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d0" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00d1" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d1" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00d2" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00d2" vr="US" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d3" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00d3" vr="SS" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d4" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00d4" vr="US" vm="2" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d5" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d6" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d7" vr="US" vm="2" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d8" vr="FL" vm="5" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00d8" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00d9" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00da" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00db" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00dc" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00de" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00df" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00e0" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00e0" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00e1" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00e1" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00e1" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00e2" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00e3" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00e3" vr="TM" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00e4" vr="DS" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00e4" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00e4" vr="US" vm="2" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00e5" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00e5" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00e6" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00e6" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00e9" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00ea" vr="UI" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00eb" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00eb" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00ec" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00ec" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^12"/>
+<entry group="0019" element="00ee" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00ef" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f0" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f0" vr="SL" vm="1-n" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f1" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f1" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f2" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f2" vr="FL" vm="3" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f3" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f3" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f4" vr="FD" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f4" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f5" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f5" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f6" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f6" vr="UI" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f7" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f8" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00f8" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f9" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00f9" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00fa" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00fa" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00fb" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00fb" vr="UL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00fc" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00fc" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00fd" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00fd" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00fe" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0019" element="00fe" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00ff" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^11"/>
+<entry group="0019" element="00ff" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0002" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0003" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0004" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0008" vr="DS" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0009" vr="DS" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="000a" vr="DS" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="000b" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="000c" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="000d" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="000f" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0012" vr="DS" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0014" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0015" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0016" vr="FL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="0018" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="001a" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="001d" vr="IS" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0021" element="001f" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0001" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0005" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0006" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0007" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="001c" vr="FL" vm="2" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0021" vr="SL" vm="3" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="004e" vr="SL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0050" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0051" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0052" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0054" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0067" vr="FD" vm="4" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0068" vr="SS" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="0029" element="0089" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA"/>
+<entry group="e201" element="0002" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e301" element="0000" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0000" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0001" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0002" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0003" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0004" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0005" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0008" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0012" vr="FL" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0013" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0020" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0021" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0022" vr="LO" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0023" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e401" element="0024" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e403" element="0000" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^13"/>
+<entry group="e403" element="0000" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="e403" element="0001" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^13"/>
+<entry group="e403" element="0002" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^13"/>
+<entry group="e403" element="0003" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^13"/>
+<entry group="ee01" element="0000" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="ee01" element="0001" vr="OB" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+<entry group="ee01" element="0002" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
+  <entry group="0009" element="0001" vr="SQ" vm="1" name="DICOMUTILS_PROCESSING_METHODS" owner="DicomUtils 20100512"/>
   <entry owner="1.2.840.113663.1" group="0029" element="xx00" vr="US" vm="1" name="?"/>
   <entry owner="1.2.840.113663.1" group="0029" element="xx01" vr="US" vm="1" name="?"/>
   <entry owner="1.2.840.113681" group="0019" element="xx10" vr="ST" vm="1" name="CR Image Params Common"/>
@@ -1152,13 +1608,15 @@
   <entry owner="GE ??? From Adantage Review CS" group="0019" element="xx80" vr="LO" vm="1" name="CR Bar Code Number"/>
   <entry owner="GE ??? From Adantage Review CS" group="0019" element="xx90" vr="LO" vm="1" name="CR Film Output Exposures"/>
   <entry owner="GE LUT Asymmetry Parameter" group="0045" element="xx67" vr="DS" vm="1" name="LUT Assymetry"/>
-  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx20" vr="IS" vm="1" name="?"/>
-  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx40" vr="SH" vm="1" name="?"/>
-  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx41" vr="SH" vm="1" name="?"/>
-  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx42" vr="LO" vm="1" name="?"/>
-  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx43" vr="SH" vm="1" name="?"/>
-  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx60" vr="SH" vm="1" name="?"/>
-  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx62" vr="SH" vm="1" name="?"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx20" vr="IS" vm="1" name="ShuttleFlag"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx21" vr="IS" vm="1" name="TableSpeedNotReachesTargetFlag"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx40" vr="SH" vm="1" name="IterativeReconAnnotation"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx41" vr="SH" vm="1" name="IterativeReconMode"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx42" vr="LO" vm="1" name="IterativeReconConfiguration"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx43" vr="SH" vm="1" name="IterativeReconLevel"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx60" vr="SH" vm="1" name="reconFlipRotateAnno"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx61" vr="SH" vm="1" name="highResolutionFlag"/>
+  <entry owner="GEHC_CT_ADVAPP_001" group="0053" element="xx62" vr="SH" vm="1" name="RespiratoryFlag"/>
   <entry owner="GEIIS" group="0009" element="xx10" vr="SQ" vm="1" name="GE IIS Thumbnail Sequence"/>
   <entry owner="GEIIS" group="0009" element="xx12" vr="IS" vm="1" name="?"/>
   <entry owner="GEIIS" group="0029" element="xx10" vr="UL" vm="1" name="Shift Count"/>
@@ -1873,6 +2331,7 @@
   <entry owner="GEMS_FUNCTOOL_01" group="0051" element="xx09" vr="SL" vm="1" name="Store Width of Functional Image"/>
   <entry owner="GEMS_FUNCTOOL_01" group="0051" element="xx0a" vr="SL" vm="1" name="Store level of Functional Image"/>
   <entry owner="GEMS_FUNCTOOL_01" group="0051" element="xx0b" vr="FL" vm="1" name="Store B-Value with Functional Image"/>
+  <entry owner="GEMS_FUNCTOOL_01" group="0051" element="xx0c" vr="LO" vm="1" name="Analysis Package"/>
   <entry owner="GEMS_GDXE_ATHENAV2_INTERNAL_USE" group="7fdf" element="xx10" vr="LT" vm="1" name="PPS Stream"/>
   <entry owner="GEMS_GDXE_ATHENAV2_INTERNAL_USE" group="7fdf" element="xx11" vr="LT" vm="1" name="Pixel Data References (temporary)"/>
   <entry owner="GEMS_GDXE_ATHENAV2_INTERNAL_USE" group="7fdf" element="xx20" vr="SS" vm="1" name="Auto Push Tag"/>
@@ -2477,6 +2936,17 @@
   <entry owner="GEMS_PARM_01" group="0043" element="xx98" vr="UI" vm="1" name="ASSET Acquisition Calibration Series UID"/>
   <entry owner="GEMS_PARM_01" group="0043" element="xx99" vr="LO" vm="1-n" name="Extended Options"/>
   <entry owner="GEMS_PARM_01" group="0043" element="xx9a" vr="IS" vm="1" name="Rx Stack Identification"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xx9b" vr="DS" vm="1" name="NPW factor"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xx9c" vr="OB" vm="1" name="Research Tag 1"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xx9d" vr="OB" vm="1" name="Research Tag 2"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xx9e" vr="OB" vm="1" name="Research Tag 3"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xx9f" vr="OB" vm="1" name="Research Tag 4"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xxa0" vr="SQ" vm="1" name="Spectroscopy Pixel Sequence"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xxa1" vr="SQ" vm="1" name="Spectroscopy Default Display Sequence"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xxa2" vr="DS" vm="1-n" name="MEG Data"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xxa3" vr="CS" vm="1" name="ASL Contrast technique"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xxa4" vr="LO" vm="1" name="Detailed text for ASL labeling technique"/>
+  <entry owner="GEMS_PARM_01" group="0043" element="xxa5" vr="IS" vm="1" name="Duration of the label or control pulse"/>
   <entry owner="GEMS_PARM_01" group="0051" element="xx0a" vr="SL" vm="1" name="Store level of Functional Image"/>
   <entry owner="GEMS_PARM_01" group="0051" element="xx0b" vr="FL" vm="1" name="Store B-Value with Functional Image"/>
   <entry owner="GEMS_PARM_01" group="2001" element="xx10" vr="UI" vm="1" name="DICOM Implementation UID"/>
@@ -2499,6 +2969,12 @@
   <entry owner="GEMS_PARM_01" group="2001" element="xx86" vr="US" vm="1" name="Number of Degrees of Freedom"/>
   <entry owner="GEMS_PARM_01" group="2001" element="xx8a" vr="FL" vm="1" name="Z Threshold"/>
   <entry owner="GEMS_PARM_01" group="2001" element="xx8b" vr="FL" vm="1" name="p Threshold"/>
+  <entry owner="GEMS_PARM_01" group="2001" element="xx90" vr="OB" vm="1" name="Processing parameters"/>
+  <entry owner="GEMS_PARM_01" group="2001" element="xx91" vr="OB" vm="1" name="Motion Plot"/>
+  <entry owner="GEMS_PARM_01" group="2001" element="xx92" vr="OB" vm="1" name="ROIs"/>
+  <entry owner="GEMS_PARM_01" group="2001" element="xx93" vr="OB" vm="1" name="Tracts"/>
+  <entry owner="GEMS_PARM_01" group="2001" element="xx94" vr="OB" vm="1" name="Report"/>
+  <entry owner="GEMS_PARM_01" group="2001" element="xx95" vr="OB" vm="1" name="Response Data"/>
   <entry owner="GEMS_PARM_01" group="2001" element="xxa0" vr="FL" vm="1-n" name="Motion Parameters"/>
   <entry owner="GEMS_PARM_01" group="2001" element="xxa1" vr="FL" vm="1-n" name="Registration Parameters"/>
   <entry owner="GEMS_PARM_01" group="2001" element="xxa2" vr="FL" vm="1-n" name="Subject Data"/>
@@ -3400,6 +3876,7 @@
   <entry owner="INTELERAD MEDICAL SYSTEMS" group="3f01" element="xx03" vr="LO" vm="1" name="Source AE"/>
   <entry owner="INTELERAD MEDICAL SYSTEMS" group="3f01" element="xx04" vr="LO" vm="1" name="Deferred Validation"/>
   <entry owner="INTELERAD MEDICAL SYSTEMS" group="3f01" element="xx05" vr="LO" vm="1" name="Series Owner"/>
+  <entry owner="ISG Image" group="0065" element="xx11" vr="UL" vm="1" name="?"/>
   <entry owner="ISG shadow" group="0029" element="xx70" vr="IS" vm="1" name="?"/>
   <entry owner="ISG shadow" group="0029" element="xx80" vr="IS" vm="1" name="?"/>
   <entry owner="ISG shadow" group="0029" element="xx90" vr="IS" vm="1" name="?"/>
@@ -3708,7 +4185,7 @@
   <entry owner="PAPYRUS 3.0" group="60xx" element="xxc0" vr="SQ" vm="1" name="UIN Overlay Sequence"/>
   <entry owner="PHILIPS MR" group="0009" element="xx10" vr="LO" vm="1" name="SPI Release"/>
   <entry owner="PHILIPS MR" group="0009" element="xx12" vr="LO" vm="1" name="?"/>
-  <entry owner="PHILIPS MR R5.5/PART" group="0019" element="xx00" vr="DS" vm="1" name="Field of View"/>
+  <entry owner="PHILIPS MR R5.5/PART" group="0019" element="xx00" vr="DS" vm="2" name="Field of View"/>
   <entry owner="PHILIPS MR R5.6/PART" group="0019" element="xx00" vr="DS" vm="1" name="Field of View"/>
   <entry owner="PHILIPS MR SPECTRO;1" group="0019" element="xx01" vr="US" vm="1" name="?"/>
   <entry owner="PHILIPS MR SPECTRO;1" group="0019" element="xx02" vr="US" vm="1" name="?"/>
@@ -3932,7 +4409,7 @@
   <entry owner="PHILIPS MR/PART" group="0019" element="xxfa" vr="CS" vm="1" name="?"/>
   <entry owner="PHILIPS MR/PART" group="0019" element="xxfb" vr="CS" vm="1" name="?"/>
   <entry owner="PHILIPS MR/PART" group="0019" element="xxfc" vr="IS" vm="1" name="Resonance Frequency"/>
-  <entry owner="PHILIPS MR/PART" group="0021" element="xx00" vr="DA" vm="1" name="Scan Date"/>
+  <entry owner="PHILIPS MR/PART" group="0021" element="xx00" vr="IS" vm="1" name="Scan Date"/>
   <entry owner="PHILIPS MR/PART" group="0021" element="xx06" vr="LO" vm="1" name="?"/>
   <entry owner="PHILIPS MR/PART" group="0021" element="xx07" vr="DT" vm="1" name="?"/>
   <entry owner="PHILIPS MR/PART" group="0021" element="xx08" vr="LO" vm="1" name="?"/>
@@ -4641,6 +5118,104 @@
   <entry owner="Philips RAD Imaging DD 097" group="200b" element="xxa0" vr="LT" vm="1" name="?"/>
   <entry owner="Philips US Imaging 60" group="0031" element="xx30" vr="UL" vm="1" name="Private data"/>
   <entry owner="Philips US Imaging 60" group="0031" element="xx31" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Philips US Imaging DD 017" group="200d" element="xx05" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 023" group="200d" element="xx37" vr="DA" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 023" group="200d" element="xx38" vr="TM" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx01" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx02" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx03" vr="LO" vm="6" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx04" vr="LO" vm="6" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx05" vr="LO" vm="1-n" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx06" vr="LO" vm="6" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx07" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx08" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx09" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx0a" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx0b" vr="OB" vm="1" name="Raw Data US"/>
+  <entry owner="Philips US Imaging DD 033" group="200d" element="xx14" vr="IS" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx01" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx02" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx03" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx04" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx05" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx06" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx07" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx08" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx09" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx0a" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx0b" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx0c" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx0d" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx0e" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx0f" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx10" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx21" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx22" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx23" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 034" group="200d" element="xx24" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx01" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx02" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx03" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx04" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx05" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx07" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx08" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx09" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx0a" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx0b" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx0c" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 035" group="200d" element="xx0d" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 036" group="200d" element="xx01" vr="LO" vm="3" name="Cols/Rows/Frames"/>
+  <entry owner="Philips US Imaging DD 036" group="200d" element="xx02" vr="LO" vm="3" name="Cols/Rows/Frames"/>
+  <entry owner="Philips US Imaging DD 036" group="200d" element="xx03" vr="LO" vm="3" name="Voxel Spacing"/>
+  <entry owner="Philips US Imaging DD 036" group="200d" element="xx04" vr="LO" vm="3" name="?"/>
+  <entry owner="Philips US Imaging DD 038" group="200d" element="xx01" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx01" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx04" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx05" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx06" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx07" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx08" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx09" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx0a" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx0b" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx0c" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 039" group="200d" element="xx0d" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 040" group="200d" element="xx01" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 040" group="200d" element="xx02" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 040" group="200d" element="xx03" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 040" group="200d" element="xx04" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 040" group="200d" element="xx05" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 040" group="200d" element="xx06" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 040" group="200d" element="xx07" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 040" group="200d" element="xx20" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 041" group="200d" element="xx1e" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx50" vr="LO" vm="3" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx51" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx52" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx53" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx54" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx55" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx56" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx57" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx58" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx59" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx5a" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx5b" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx5c" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx5d" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx5e" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx5f" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx60" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx70" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx71" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx72" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx73" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx74" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx75" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx76" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 042" group="200d" element="xx77" vr="LO" vm="1" name="?"/>
+  <entry owner="Philips US Imaging DD 043" group="200d" element="xx05" vr="SH" vm="1" name="?"/>
   <entry owner="Philips US Imaging DD 109" group="200d" element="xx00" vr="US" vm="1" name="?"/>
   <entry owner="Philips US Imaging DD 109" group="200d" element="xx01" vr="SQ" vm="1" name="?"/>
   <entry owner="Philips US Imaging DD 109" group="200d" element="xx02" vr="ST" vm="1" name="?"/>
@@ -4944,6 +5519,8 @@
   <entry owner="SECTRA_ImageInfo_01" group="0029" element="xx04" vr="OB" vm="1" name="Image Info new"/>
   <entry owner="SECTRA_OverlayInfo_01" group="6001" element="xx01" vr="LO" vm="1" name="Sectra Overlay"/>
   <entry owner="SEGAMI MIML" group="0031" element="xx98" vr="OW" vm="1" name="?"/>
+  <entry owner="SEGAMI__MEMO" group="0035" element="xx97" vr="SH" vm="1" name="?"/>
+  <entry owner="SEGAMI__MEMO" group="0035" element="xx98" vr="LT" vm="1" name="?"/>
   <entry owner="SET WINDOW" group="0019" element="xx00" vr="UN" vm="1" name="Set Window Image Filter"/>
   <entry owner="SET WINDOW" group="0019" element="xx01" vr="UN" vm="1" name="Set Window Magnification Power"/>
   <entry owner="SHS MagicView 300" group="0029" element="xx01" vr="FD" vm="1-n" name="Zoom Factor"/>
@@ -6219,9 +6796,9 @@
   <entry owner="SIEMENS MED OCS TABLE OFFSET" group="0039" element="xx78" vr="DS" vm="3" name="Offset"/>
   <entry owner="SIEMENS MED OCS TABLE VERTICAL POSITION" group="0039" element="xx75" vr="DS" vm="1" name="vertical Table Position"/>
   <entry owner="SIEMENS MED OCS TRANS MATRIX" group="0039" element="xx80" vr="DS" vm="5" name="Transformation Matrix"/>
-  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx00" vr="UN" vm="1" name="Private Creator Version"/>
+  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx00" vr="SH" vm="1" name="Private Creator Version"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx03" vr="UN" vm="1" name="Frame Rate"/>
-  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx0c" vr="UN" vm="1" name="Burned in Graphics"/>
+  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx0c" vr="US" vm="1" name="Burned in Graphics"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx0d" vr="UN" vm="1" name="SieClear Index"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx20" vr="UN" vm="1" name="B-Mode Submode"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx21" vr="UN" vm="1" name="B-Mode Dynamic Range"/>
@@ -6230,10 +6807,10 @@
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx24" vr="UN" vm="1" name="B-Mode Edge Enhance Index"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx25" vr="UN" vm="1" name="B-Mode Persistence Index"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx26" vr="UN" vm="1" name="B-Mode Map Index"/>
-  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx27" vr="US" vm="1" name="?"/>
-  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx28" vr="US" vm="1" name="?"/>
-  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx29" vr="US" vm="1" name="?"/>
-  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx2a" vr="UN" vm="1" name="B-Mode Tint Type"/>
+  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx27" vr="US" vm="1" name="???"/>
+  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx28" vr="US" vm="1" name="???"/>
+  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx29" vr="US" vm="1" name="???"/>
+  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx2a" vr="US" vm="1" name="B-Mode Tint Type"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx2d" vr="UN" vm="1" name="B-Mode Tint Index"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx2e" vr="UN" vm="1" name="ClarifyVE Index"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx31" vr="US" vm="1" name="?"/>
@@ -6257,8 +6834,8 @@
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx66" vr="UN" vm="1" name="Doppler Submode"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx67" vr="US" vm="1" name="?"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx69" vr="UN" vm="1" name="Doppler Time/Freq Res Index"/>
-  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx6a" vr="UN" vm="1" name="Doppler Trace Inverted"/>
-  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx6c" vr="UN" vm="1" name="Doppler Tint Type"/>
+  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx6a" vr="US" vm="1" name="Doppler Trace Inverted"/>
+  <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx6c" vr="US" vm="1" name="Doppler Tint Type"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx72" vr="UN" vm="1" name="Doppler Tint Index"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx80" vr="UN" vm="1" name="M-Mode Dynamic Range"/>
   <entry owner="SIEMENS MED SMS USG ANTARES" group="0019" element="xx81" vr="UN" vm="1" name="M-Mode Overall Gain"/>
@@ -6396,20 +6973,25 @@
   <entry owner="SIEMENS MED SMS USG ANTARES 3D VOLUME" group="0039" element="xxe8" vr="UN" vm="1" name="DICOMAttrNameVoiPivotZ"/>
   <entry owner="SIEMENS MED SMS USG ANTARES 3D VOLUME" group="0039" element="xxe9" vr="UN" vm="1" name="DICOMAttrNameCTopVoiQuad"/>
   <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx00" vr="UN" vm="1" name="Private Creator Version"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx03" vr="UN" vm="1" name="Frame Rate"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx0c" vr="UN" vm="1" name="Burned in Graphics"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx0d" vr="UN" vm="1" name="SieClear Index"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx20" vr="UN" vm="1" name="B-Mode Submode"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx21" vr="UN" vm="1" name="B-Mode Dynamic Range"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx22" vr="UN" vm="1" name="B-Mode Overall Gain"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx23" vr="UN" vm="1" name="B-Mode Res/Speed Index"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx24" vr="UN" vm="1" name="B-Mode Edge Enhance Index"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx25" vr="UN" vm="1" name="B-Mode Persistence Index"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx26" vr="UN" vm="1" name="B-Mode Map Index"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx2a" vr="UN" vm="1" name="B-Mode Tint Type"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx2d" vr="UN" vm="1" name="B-Mode Tint Index"/>
-  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx2e" vr="UN" vm="1" name="ClarifyVE Index"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx03" vr="FD" vm="1" name="Frame Rate"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx0c" vr="US" vm="1" name="Burned in Graphics"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx0d" vr="SH" vm="1" name="SieClear Index"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx20" vr="SH" vm="1" name="B-Mode Submode"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx21" vr="FD" vm="1" name="B-Mode Dynamic Range"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx22" vr="FD" vm="1" name="B-Mode Overall Gain"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx23" vr="US" vm="1" name="B-Mode Res/Speed Index"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx24" vr="US" vm="1" name="B-Mode Edge Enhance Index"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx25" vr="US" vm="1" name="B-Mode Persistence Index"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx26" vr="US" vm="1" name="B-Mode Map Index"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx27" vr="US" vm="1" name="??"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx28" vr="US" vm="1" name="??"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx29" vr="US" vm="1" name="??"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx2a" vr="US" vm="1" name="B-Mode Tint Type"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx2d" vr="US" vm="1" name="B-Mode Tint Index"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx2e" vr="SH" vm="1" name="ClarifyVE Index"/>
   <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx3a" vr="UN" vm="1" name="Image Flag"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx3b" vr="LT" vm="1" name="IPDA/MDA Data"/>
+  <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx3c" vr="UT" vm="1" name="Thumbnail Data"/>
   <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx40" vr="UN" vm="1" name="Color Flow state"/>
   <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx41" vr="UN" vm="1" name="Color Flow Wall Filter Index"/>
   <entry owner="SIEMENS MED SMS USG S2000" group="0019" element="xx42" vr="UN" vm="1" name="Color Flow Submode"/>
@@ -7135,12 +7717,15 @@
   <entry owner="SPI-P Release 1" group="0009" element="xx16" vr="LO" vm="1" name="?"/>
   <entry owner="SPI-P Release 1" group="0009" element="xx18" vr="LO" vm="1" name="?"/>
   <entry owner="SPI-P Release 1" group="0009" element="xx21" vr="LT" vm="1" name="?"/>
-  <entry owner="SPI-P Release 1" group="0009" element="xx31" vr="LT" vm="1" name="PACS Unique Identifier"/>
-  <entry owner="SPI-P Release 1" group="0009" element="xx34" vr="LT" vm="1" name="Cluster Unique Identifier"/>
-  <entry owner="SPI-P Release 1" group="0009" element="xx38" vr="LT" vm="1" name="System Unique Identifier"/>
-  <entry owner="SPI-P Release 1" group="0009" element="xx39" vr="LT" vm="1" name="?"/>
-  <entry owner="SPI-P Release 1" group="0009" element="xx51" vr="LT" vm="1" name="Study Unique Identifier"/>
-  <entry owner="SPI-P Release 1" group="0009" element="xx61" vr="LT" vm="1" name="Series Unique Identifier"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx22" vr="LO" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx31" vr="LO" vm="1" name="PACS Unique Identifier"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx34" vr="LO" vm="1" name="Cluster Unique Identifier"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx38" vr="LO" vm="1" name="System Unique Identifier"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx39" vr="LO" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx40" vr="LO" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx41" vr="LO" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx51" vr="LO" vm="1" name="Study Unique Identifier"/>
+  <entry owner="SPI-P Release 1" group="0009" element="xx61" vr="LO" vm="1" name="Series Unique Identifier"/>
   <entry owner="SPI-P Release 1" group="0009" element="xx91" vr="LT" vm="1" name="?"/>
   <entry owner="SPI-P Release 1" group="0009" element="xxa0" vr="UN" vm="1" name="?"/>
   <entry owner="SPI-P Release 1" group="0009" element="xxf2" vr="LT" vm="1" name="?"/>
@@ -7241,6 +7826,23 @@
   <entry owner="SPI-P Release 1;1" group="0019" element="xx18" vr="UN" vm="1" name="Number Of Samples 2"/>
   <entry owner="SPI-P Release 1;1" group="0019" element="xx19" vr="UN" vm="1" name="Sample Data 2"/>
   <entry owner="SPI-P Release 1;1" group="0019" element="xx1a" vr="UN" vm="1" name="Sample Rate 2"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx41" vr="LO" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx42" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx43" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx44" vr="DS" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx45" vr="LO" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx50" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx51" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx52" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx60" vr="IS" vm="1-n" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx61" vr="IS" vm="1-n" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx67" vr="LO" vm="1-n" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx6a" vr="DS" vm="1-n" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx6b" vr="DS" vm="1-n" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx6c" vr="US" vm="1-n" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx6d" vr="DS" vm="1-n" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx6e" vr="US" vm="1-n" name="?"/>
+  <entry owner="SPI-P Release 1;1" group="0021" element="xx6f" vr="DS" vm="1-n" name="?"/>
   <entry owner="SPI-P Release 1;1" group="0029" element="xx00" vr="LT" vm="1" name="Zoom ID"/>
   <entry owner="SPI-P Release 1;1" group="0029" element="xx01" vr="DS" vm="1-n" name="Zoom Rectangle"/>
   <entry owner="SPI-P Release 1;1" group="0029" element="xx03" vr="DS" vm="1" name="Zoom Factor"/>
@@ -7407,13 +8009,18 @@
   <entry owner="SPI-P-Private_CDS Release 1" group="0029" element="xx10" vr="OB" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0019" element="xx30" vr="DS" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0019" element="xx31" vr="LO" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx07" vr="SQ" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx08" vr="SQ" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx0c" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx0d" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx0e" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx0f" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx10" vr="SQ" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx18" vr="FD" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx1b" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx1c" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx1d" vr="SQ" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx1e" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx20" vr="UN" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx21" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx4c" vr="SQ" vm="1" name="?"/>
@@ -7422,19 +8029,30 @@
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx4f" vr="UN" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx50" vr="UN" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx51" vr="UN" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx66" vr="DS" vm="4" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx67" vr="LO" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx68" vr="US" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx6a" vr="LO" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx6b" vr="US" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx72" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx91" vr="IS" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx93" vr="LO" vm="1-n" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1" group="0029" element="xx94" vr="LO" vm="1-n" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx00" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx05" vr="FL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx06" vr="FL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx20" vr="FL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx21" vr="FL" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx22" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx23" vr="FD" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx24" vr="FD" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx25" vr="FD" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx26" vr="FD" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx30" vr="ST" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xx6b" vr="FD" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xxc1" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xxcb" vr="FD" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xxcc" vr="FD" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xxcd" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xxd4" vr="FL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;1" group="0029" element="xxd5" vr="FL" vm="1" name="?"/>
@@ -7445,13 +8063,13 @@
   <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xx03" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xx04" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xx05" vr="SL" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xx30" vr="LO" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa0" vr="UN" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa1" vr="UN" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa2" vr="UN" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa3" vr="UN" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xx30" vr="LT" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa0" vr="SL" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa1" vr="FD" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa2" vr="SL" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa3" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa5" vr="SQ" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa6" vr="UN" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxa6" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;2" group="0029" element="xxd9" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;3" group="0029" element="xx00" vr="ST" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;3" group="0029" element="xx01" vr="ST" vm="1" name="?"/>
@@ -7477,22 +8095,29 @@
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx0a" vr="FL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx0b" vr="FL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx0c" vr="FL" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx0e" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx0f" vr="US" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx10" vr="SL" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx90" vr="SL" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx9a" vr="SQ" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xx9c" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxa0" vr="US" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxa1" vr="US" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxb1" vr="US" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxb2" vr="US" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxb3" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxb5" vr="FL" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxb6" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxbc" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxbd" vr="SL" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxbe" vr="US" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxd6" vr="UN" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxd7" vr="UN" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxd6" vr="FD" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxd7" vr="FD" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxd8" vr="UN" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxd9" vr="UN" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxda" vr="UN" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxdc" vr="UN" vm="1" name="?"/>
-  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxdd" vr="UN" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxdc" vr="FD" vm="1" name="?"/>
+  <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxdd" vr="FD" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;4" group="0029" element="xxe0" vr="SQ" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;5" group="0029" element="xx50" vr="CS" vm="1" name="?"/>
   <entry owner="SPI-P-Private_ICS Release 1;5" group="0029" element="xx55" vr="CS" vm="1" name="?"/>
@@ -7860,21 +8485,21 @@
   <entry owner="Silhouette V1.0" group="0029" element="xx55" vr="LT" vm="1" name="?"/>
   <entry owner="Silhouette V1.0" group="0029" element="xx56" vr="LT" vm="1" name="?"/>
   <entry owner="Silhouette V1.0" group="0029" element="xx57" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx13" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx14" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx17" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx18" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx19" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1a" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1b" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1c" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1d" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1e" vr="UN" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx13" vr="UL" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx14" vr="UL" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx17" vr="FD" vm="2" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx18" vr="FD" vm="2" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx19" vr="UL" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1a" vr="FD" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1b" vr="UL" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1c" vr="UL" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1d" vr="UL" vm="3" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx1e" vr="UL" vm="3" name="?"/>
   <entry owner="Silhouette VRS 3.0" group="0029" element="xx27" vr="US" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx28" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx30" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx32" vr="UN" vm="1" name="?"/>
-  <entry owner="Silhouette VRS 3.0" group="0029" element="xx34" vr="UN" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx28" vr="OB" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx30" vr="US" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx32" vr="US" vm="1" name="?"/>
+  <entry owner="Silhouette VRS 3.0" group="0029" element="xx34" vr="LO" vm="1" name="?"/>
   <entry owner="Silhouette VRS 3.0" group="0029" element="xx35" vr="CS" vm="1" name="?"/>
   <entry owner="Silhouette VRS 3.0" group="0029" element="xx36" vr="US" vm="1" name="?"/>
   <entry owner="Sound Technologies" group="f001" element="xx00" vr="CS" vm="1" name="Patient Species"/>
@@ -7886,7 +8511,7 @@
   <entry owner="Sound Technologies" group="f001" element="xx06" vr="CS" vm="1" name="Image enhancements"/>
   <entry owner="Sound Technologies" group="f001" element="xx07" vr="CS" vm="1" name="Detector Settings"/>
   <entry owner="Sound Technologies" group="f001" element="xx08" vr="CS" vm="1" name="Application Version"/>
-  <entry owner="Sound Technologies" group="f001" element="xx09" vr="LO" vm="1" name="Image Laterality 3Extended"/>
+  <entry owner="Sound Technologies" group="f001" element="xx09" vr="LO" vm="1" name="Image Laterality Extended"/>
   <entry owner="Sound Technologies" group="f001" element="xx0a" vr="PN" vm="1" name="Client Name"/>
   <entry owner="Sound Technologies" group="f001" element="xx0b" vr="UI" vm="1" name="Reference Study Instance Uid"/>
   <entry owner="Sound Technologies" group="f001" element="xx0c" vr="UI" vm="1" name="Reference Series Instance Uid"/>
@@ -8192,6 +8817,31 @@
   <entry owner="V1" group="0011" element="xx02" vr="DS" vm="1" name="Normalization Coefficient"/>
   <entry owner="V1" group="0011" element="xx03" vr="DS" vm="1-n" name="Receiving Gain"/>
   <entry owner="V1" group="0011" element="xx04" vr="DS" vm="1" name="Mean Image Noise"/>
+  <entry owner="VEPRO VIM 5.0 DATA" group="0055" element="xx10" vr="OB" vm="1" name="VIFHEADER2"/>
+  <entry owner="VEPRO VIM 5.0 DATA" group="0055" element="xx20" vr="OB" vm="1" name="VIMDATA2"/>
+  <entry owner="VEPRO VIM 5.0 DATA" group="0055" element="xx30" vr="OB" vm="1" name="ICONDATA2"/>
+  <entry owner="VEPRO VIM 5.0 DATA" group="0055" element="xx51" vr="UI" vm="1" name="VEPRO UID ??"/>
+  <entry owner="VEPRO VIM 5.0 DATA" group="0055" element="xx65" vr="OB" vm="1" name="??"/>
+  <entry owner="VEPRO BROKER 1.0" group="0057" element="xx10" vr="SQ" vm="1" name="VEPRO Data replace sequence"/>
+  <entry owner="VEPRO BROKER 1.0 DATA REPLACE" group="0057" element="xx20" vr="SQ" vm="1" name="Original data sequence"/>
+  <entry owner="VEPRO BROKER 1.0 DATA REPLACE" group="0057" element="xx30" vr="SQ" vm="1" name="Replaced data sequence"/>
+  <entry owner="VEPRO BROKER 1.0 DATA REPLACE" group="0057" element="xx40" vr="DA" vm="1" name="Date of data replacement"/>
+  <entry owner="VEPRO BROKER 1.0 DATA REPLACE" group="0057" element="xx41" vr="TM" vm="1" name="Time of data replacement"/>
+  <entry owner="VEPRO BROKER 1.0 DATA REPLACE" group="0057" element="xx42" vr="LO" vm="1" name="Dicom receive node"/>
+  <entry owner="VEPRO BROKER 1.0 DATA REPLACE" group="0057" element="xx43" vr="LO" vm="1" name="Application name"/>
+  <entry owner="VEPRO BROKER 1.0 DATA REPLACE" group="0057" element="xx44" vr="LO" vm="1" name="Computer name"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx40" vr="DA" vm="1" name="Receive date"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx41" vr="TM" vm="1" name="Receive time"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx42" vr="ST" vm="1" name="Receive node"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx43" vr="ST" vm="1" name="Receive application"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx50" vr="ST" vm="1" name="Receive local computer"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx51" vr="ST" vm="1" name="Receive local ae title"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx60" vr="ST" vm="1" name="Receive remote computer"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx61" vr="ST" vm="1" name="Receive remote ae title"/>
+  <entry owner="VEPRO DICOM RECEIVE DATA 1.0" group="0059" element="xx70" vr="UI" vm="1" name="Receive original transfer syntax"/>
+  <entry owner="VEPRO DICOM TRANSFER 1.0" group="0059" element="xx10" vr="SQ" vm="1" name="Dicom Transfer Info"/>
+  <entry owner="VEPRO VIF 3.0 DATA" group="0055" element="xx30" vr="OB" vm="1" name="Icon data"/>
+  <entry owner="VEPRO VIF 3.0 DATA" group="0055" element="xx65" vr="OB" vm="1" name="Image hash value"/>
   <entry owner="Varian Medical Systems VISION 3253" group="3253" element="xx00" vr="UN" vm="1" name="XML stream."/>
   <entry owner="Varian Medical Systems VISION 3253" group="3253" element="xx01" vr="UN" vm="1" name="Data length of the XML stream"/>
   <entry owner="Varian Medical Systems VISION 3253" group="3253" element="xx02" vr="UN" vm="1" name="Extended Interface Format tag"/>

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -14,8 +13,9 @@
 =========================================================================*/
 #include "gdcmSequenceOfFragments.h"
 #include "gdcmImplicitDataElement.h"
+#include "gdcmByteValue.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 
 void SequenceOfFragments::Clear()
@@ -24,7 +24,7 @@ void SequenceOfFragments::Clear()
   Fragments.clear();
 }
 
-size_t SequenceOfFragments::GetNumberOfFragments() const
+SequenceOfFragments::SizeType SequenceOfFragments::GetNumberOfFragments() const
 {
   // Do not count the last fragment
   //assert( SequenceLengthField.IsUndefined() );
@@ -45,7 +45,9 @@ VL SequenceOfFragments::ComputeLength() const
   FragmentVector::const_iterator it = Fragments.begin();
   for(;it != Fragments.end(); ++it)
     {
-    length += it->GetLength();
+    const VL fraglen = it->ComputeLength();
+    assert( fraglen % 2 == 0 );
+    length += fraglen;
     }
   assert( SequenceLengthField.IsUndefined() );
   length += 8; // seq end delimitor (tag + vl)
@@ -58,6 +60,7 @@ unsigned long SequenceOfFragments::ComputeByteLength() const
   FragmentVector::const_iterator it = Fragments.begin();
   for(;it != Fragments.end(); ++it)
     {
+    assert( !it->GetVL().IsUndefined() );
     r += it->GetVL();
     }
   return r;
@@ -76,7 +79,7 @@ bool SequenceOfFragments::GetFragBuffer(unsigned int fragNb, char *buffer, unsig
   return true;
 }
 
-const Fragment& SequenceOfFragments::GetFragment(size_t num) const
+const Fragment& SequenceOfFragments::GetFragment(SizeType num) const
 {
   assert( num < Fragments.size() );
   FragmentVector::const_iterator it = Fragments.begin();
@@ -128,4 +131,19 @@ bool SequenceOfFragments::WriteBuffer(std::ostream &os) const
   return true;
 }
 
-} // end namespace gdcm
+bool SequenceOfFragments::FillFragmentWithJPEG( Fragment & frag, std::istream & is )
+{
+  std::vector<unsigned char> jfif;
+  unsigned char byte;
+  // begin /simple/ JPEG parser:
+  while( is.read( (char*)&byte, 1 ) )
+    {
+    jfif.push_back( byte );
+    if( byte == 0xd9 && jfif[ jfif.size() - 2 ] == 0xff ) break;
+    }
+  const uint32_t len = static_cast<uint32_t>(jfif.size());
+  frag.SetByteValue( (char*)&jfif[0], len );
+  return true;
+}
+
+} // end namespace gdcm_ns

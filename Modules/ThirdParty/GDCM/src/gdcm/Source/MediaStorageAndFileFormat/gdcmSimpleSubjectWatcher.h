@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -19,6 +18,7 @@
 #include "gdcmCommand.h"
 #include "gdcmSmartPointer.h"
 #include "gdcmAnonymizeEvent.h"
+#include "gdcmDataEvent.h"
 
 namespace gdcm
 {
@@ -38,8 +38,11 @@ protected:
   virtual void StartFilter();
   virtual void EndFilter();
   virtual void ShowProgress(Subject *caller, const Event &evt);
+  virtual void ShowFileName(Subject *caller, const Event &evt);
   virtual void ShowIteration();
   virtual void ShowAnonymization(Subject *caller, const Event &evt);
+  virtual void ShowDataSet(Subject *caller, const Event &evt);
+  virtual void ShowData(Subject *caller, const Event &evt);
   virtual void ShowAbort();
 
 protected:
@@ -48,7 +51,7 @@ protected:
   void TestAbortOff();
 
 private:
-  SmartPointer<gdcm::Subject> m_Subject;
+  SmartPointer<Subject> m_Subject;
   std::string m_Comment;
 
   typedef SimpleMemberCommand<SimpleSubjectWatcher> SimpleCommandType;
@@ -57,16 +60,22 @@ private:
   SmartPointer<SimpleCommandType> m_StartFilterCommand;
   SmartPointer<SimpleCommandType> m_EndFilterCommand;
   SmartPointer<CommandType> m_ProgressFilterCommand;
+  SmartPointer<CommandType> m_FileNameFilterCommand;
   SmartPointer<SimpleCommandType> m_IterationFilterCommand;
   SmartPointer<SimpleCommandType> m_AbortFilterCommand;
   SmartPointer<CommandType> m_AnonymizeFilterCommand;
+  SmartPointer<CommandType> m_DataFilterCommand;
+  SmartPointer<CommandType> m_DataSetFilterCommand;
 
   unsigned long m_StartTag;
   unsigned long m_EndTag;
   unsigned long m_ProgressTag;
+  unsigned long m_FileNameTag;
   unsigned long m_IterationTag;
   unsigned long m_AbortTag;
   unsigned long m_AnonymizeTag;
+  unsigned long m_DataTag;
+  unsigned long m_DataSetTag;
 
   bool m_TestAbort;
 

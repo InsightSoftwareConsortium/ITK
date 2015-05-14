@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -29,30 +28,28 @@ namespace gdcm
  * This algorithm does NOT support duplicate and will FAIL in case of duplicate
  * IPP.
  * \warning See special note for SetZSpacingTolerance when computing the
- * ZSpacing from the IPP of each DICOM files (default tolerance for consistant
+ * ZSpacing from the IPP of each DICOM files (default tolerance for consistent
  * spacing is: 1e-6mm)
  *
  * For more information on Spacing, and how it is defined in DICOM, advanced
  * users may refers to:
  *
- * http://sourceforge.net/apps/mediawiki/gdcm/index.php?title=Imager_Pixel_Spacing
+ * http://gdcm.sourceforge.net/wiki/index.php/Imager_Pixel_Spacing
  *
- * \bug There currently a couple of bug in this implementation:
- * \li Frame Of Reference UID is not taken into account
+ * \bug There are currently a couple of bugs in this implementation:
  * \li Gantry Tilt is not considered
  */
 class GDCM_EXPORT IPPSorter : public Sorter
 {
 public:
   IPPSorter();
-  ~IPPSorter();
 
   // FIXME: I do not like public virtual function...
   /// Main entry point to the sorter.
   /// It will execute the filter, option should be set before
   /// running this function (SetZSpacingTolerance, ...)
   /// Return value indicate if sorting could be achived. Warning this does *NOT* imply
-  /// that spacing is consistant, it only means the file are sorted according to IPP
+  /// that spacing is consistent, it only means the file are sorted according to IPP
   /// You should check if ZSpacing is 0 or not to deduce if file are actually a 3D volume
   virtual bool Sort(std::vector<std::string> const & filenames);
 
@@ -70,6 +67,23 @@ public:
   void SetZSpacingTolerance(double tol) { ZTolerance = tol; }
   double GetZSpacingTolerance() const { return ZTolerance; }
 
+  /// Sometimes IOP along a series is slightly changing for example:
+  /// "0.999081\\0.0426953\\0.00369272\\-0.0419025\\0.955059\\0.293439",
+  /// "0.999081\\0.0426953\\0.00369275\\-0.0419025\\0.955059\\0.293439",
+  /// "0.999081\\0.0426952\\0.00369272\\-0.0419025\\0.955059\\0.293439",
+  /// We need an API to define the tolerance which is allowed. Internally
+  /// the cross vector of each direction cosines is computed. The tolerance
+  /// then define the the distance in between 1. to the dot product of those
+  /// cross vectors. In a perfect world this dot product is of course 1.0 which
+  /// imply a DirectionCosines tolerance of exactly 0.0 (default).
+  void SetDirectionCosinesTolerance(double tol) { DirCosTolerance = tol; }
+  double GetDirectionCosinesTolerance() const { return DirCosTolerance; }
+
+  /// Makes the IPPSorter ignore multiple images located at the same position.
+  /// Only the first occurence will be kept.
+  /// DropDuplicatePositions defaults to false.
+  void SetDropDuplicatePositions(bool b) { DropDuplicatePositions = b; }
+
   /// Read-only function to provide access to the computed value for the Z-Spacing
   /// The ComputeZSpacing must have been set to true before execution of
   /// sort algorithm. Call this function *after* calling Sort();
@@ -80,8 +94,10 @@ public:
 
 protected:
   bool ComputeZSpacing;
+  bool DropDuplicatePositions;
   double ZSpacing;
   double ZTolerance;
+  double DirCosTolerance;
 
 private:
   bool ComputeSpacing(std::vector<std::string> const & filenames);

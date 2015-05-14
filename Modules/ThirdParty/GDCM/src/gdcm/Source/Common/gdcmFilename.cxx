@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -16,7 +15,7 @@
 #include <limits.h>
 #include <stdlib.h> // realpath
 #include <assert.h>
-
+#include <string.h>
 
 namespace gdcm
 {
@@ -170,6 +169,19 @@ const char *Filename::Join(const char *path, const char *filename)
   s += '/';
   s += filename;
   return s.c_str();
+}
+
+bool Filename::EndWith(const char ending[]) const
+{
+  if( !ending ) return false;
+  const char *str = FileName.c_str();
+  size_t str_len = FileName.size();
+  size_t ending_len = strlen(ending);
+
+  if(ending_len > str_len)
+    return false;
+
+  return 0 == strncmp( str + str_len - ending_len, ending, ending_len );
 }
 
 } // end namespace gdcm

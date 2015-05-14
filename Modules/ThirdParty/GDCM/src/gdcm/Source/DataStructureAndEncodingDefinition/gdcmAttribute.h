@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -28,7 +27,7 @@
 #include <vector>
 #include <sstream>
 
-namespace gdcm
+namespace gdcm_ns
 {
 
 struct void_;
@@ -211,7 +210,11 @@ public:
     assert( GetVR().Compatible( de.GetVR() ) || de.GetVR() == VR::INVALID ); // In case of VR::INVALID cannot use the & operator
     if( de.IsEmpty() ) return;
     const ByteValue *bv = de.GetByteValue();
+#ifdef GDCM_WORDS_BIGENDIAN
+    if( de.GetVR() == VR::UN /*|| de.GetVR() == VR::INVALID*/ )
+#else
     if( de.GetVR() == VR::UN || de.GetVR() == VR::INVALID )
+#endif
       {
       SetByteValue(bv);
       }
@@ -366,17 +369,17 @@ public:
 
   bool operator==(const Attribute &att) const
     {
-    return std::equal(Internal, Internal+GetNumberOfValues(),
+    return std::equal(&Internal, &Internal+GetNumberOfValues(),
       att.GetValues());
     }
   bool operator!=(const Attribute &att) const
     {
-    return !std::equal(Internal, Internal+GetNumberOfValues(),
+    return !std::equal(&Internal, &Internal+GetNumberOfValues(),
       att.GetValues());
     }
   bool operator<(const Attribute &att) const
     {
-    return std::lexicographical_compare(Internal, Internal+GetNumberOfValues(),
+    return std::lexicographical_compare(&Internal, &Internal+GetNumberOfValues(),
       att.GetValues(), att.GetValues() + att.GetNumberOfValues() );
     }
 
@@ -404,9 +407,12 @@ public:
     // std::copy is smarted than a memcpy, and will call memcpy when POD type
     std::copy(array, array+numel, Internal);
   }
+*/
+
+  // FIXME Should we remove this function ?
   const ArrayType* GetValues() const {
-    return Internal;
-  }*/
+    return &Internal;
+  }
 
   // API to talk to the run-time layer: gdcm::DataElement
   DataElement GetAsDataElement() const {
@@ -439,7 +445,11 @@ public:
     assert( GetVR().Compatible( de.GetVR() ) || de.GetVR() == VR::INVALID ); // In case of VR::INVALID cannot use the & operator
     if( de.IsEmpty() ) return;
     const ByteValue *bv = de.GetByteValue();
+#ifdef GDCM_WORDS_BIGENDIAN
+    if( de.GetVR() == VR::UN /*|| de.GetVR() == VR::INVALID*/ )
+#else
     if( de.GetVR() == VR::UN || de.GetVR() == VR::INVALID )
+#endif
       {
       SetByteValue(bv);
       }
@@ -660,11 +670,22 @@ public:
   }
   void SetFromDataElement(DataElement const &de) {
     // This is kind of hackish but since I do not generate other element than the first one: 0x6000 I should be ok:
-    assert( GetTag() == de.GetTag() || GetTag().GetGroup() == 0x6000 );
+    assert( GetTag() == de.GetTag() || GetTag().GetGroup() == 0x6000
+      || GetTag().GetGroup() == 0x5000 );
     assert( GetVR().Compatible( de.GetVR() ) ); // In case of VR::INVALID cannot use the & operator
     assert( !de.IsEmpty() );
     const ByteValue *bv = de.GetByteValue();
     SetByteValue(bv);
+  }
+  void Set(DataSet const &ds) {
+    SetFromDataElement( ds.GetDataElement( GetTag() ) );
+  }
+  void SetFromDataSet(DataSet const &ds) {
+    if( ds.FindDataElement( GetTag() ) &&
+      !ds.GetDataElement( GetTag() ).IsEmpty() )
+      {
+      SetFromDataElement( ds.GetDataElement( GetTag() ) );
+      }
   }
 protected:
   void SetByteValue(const ByteValue *bv) {
@@ -697,6 +718,13 @@ private:
   ArrayType *Internal;
   unsigned int Length;
   bool Own : 1;
+};
+
+template<uint16_t Group, uint16_t Element, int TVR>
+class Attribute<Group,Element,TVR,VM::VM1_3> : public Attribute<Group,Element,TVR,VM::VM1_n>
+{
+public:
+  VM  GetVM() const { return VM::VM1_3; }
 };
 
 template<uint16_t Group, uint16_t Element, int TVR>
@@ -736,7 +764,7 @@ public:
 
 
 // For particular case for ASCII string
-// WARNING: This template explicitely instanciates a particular
+// WARNING: This template explicitly instanciates a particular
 // EncodingImplementation THEREFORE it is required to be declared after the
 // EncodingImplementation is needs (doh!)
 #if 0
@@ -926,7 +954,7 @@ public:
 //template<>
 //class Attribute<VR::AS> : public Attribute<VR::AS, VRToLength<VR::AS>::Length >
 
-// only 0010 1010 AS 1 Patient’s Age
+// only 0010 1010 AS 1 Patient's Age
 template<>
 class Attribute<VR::AS, VM::VM5>
 {
@@ -1017,6 +1045,6 @@ public:
  * This is a C++ example on how to use gdcm::Attribute
  */
 
-} // namespace gdcm
+} // namespace gdcm_ns
 
 #endif //GDCMATTRIBUTE_H

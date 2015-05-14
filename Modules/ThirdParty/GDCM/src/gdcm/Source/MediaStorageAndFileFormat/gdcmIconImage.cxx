@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -91,7 +90,7 @@ bool IconImage::GetBuffer(char *buffer) const
     // contains a compressed Icon Sequence, one has to guess this is lossless jpeg...
 #ifdef MDEBUG
     const SequenceOfFragments *sqf = PixelData.GetSequenceOfFragments();
-    std::ofstream os( "/tmp/kodak.ljpeg");
+    std::ofstream os( "/tmp/kodak.ljpeg", std::ios::binary );
     sqf->WriteBuffer( os );
 #endif
     gdcmWarningMacro( "Compressed Icon are not support for now" );

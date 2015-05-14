@@ -5,9 +5,8 @@
 -->
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/DefaultDicts.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -26,9 +25,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/DefaultDicts.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -38,8 +36,8 @@
 
 =========================================================================*/
 
-#ifndef __gdcmDefaultDicts_cxx
-#define __gdcmDefaultDicts_cxx
+#ifndef GDCMDEFAULTDICTS_CXX
+#define GDCMDEFAULTDICTS_CXX
 
 #include "gdcmDicts.h"
 #include "gdcmVR.h"
@@ -70,7 +68,7 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
             <xsl:with-param name="do-element" select="1"/>
             <xsl:with-param name="group" select="@group"/>
             <xsl:with-param name="element" select="$element"/>
-            <!--xsl:with-param name="owner" select="@owner"/-->
+            <xsl:with-param name="owner" select="@owner"/>
             <xsl:with-param name="vr" select="@vr"/>
             <xsl:with-param name="vm" select="@vm"/>
             <xsl:with-param name="retired" select="@retired"/>
@@ -83,7 +81,7 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
             <xsl:with-param name="do-group" select="1"/>
             <xsl:with-param name="group" select="$group"/>
             <xsl:with-param name="element" select="@element"/>
-            <!--xsl:with-param name="owner" select="@owner"/-->
+            <xsl:with-param name="owner" select="@owner"/>
             <xsl:with-param name="vr" select="@vr"/>
             <xsl:with-param name="vm" select="@vm"/>
             <xsl:with-param name="retired" select="@retired"/>
@@ -95,7 +93,7 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
             <xsl:with-param name="count" select="255"/>
             <xsl:with-param name="group" select="@group"/>
             <xsl:with-param name="element" select="@element"/>
-            <!--xsl:with-param name="owner" select="@owner"/-->
+            <xsl:with-param name="owner" select="@owner"/>
             <xsl:with-param name="vr" select="@vr"/>
             <xsl:with-param name="vm" select="@vm"/>
             <xsl:with-param name="retired" select="@retired"/>
@@ -193,7 +191,7 @@ void PrivateDict::LoadDefault()
 }
 
 } // end namespace gdcm
-#endif // __gdcmDefaultDicts_cxx
+#endif // GDCMDEFAULTDICTS_CXX
 </xsl:text>
   </xsl:template>
   <xsl:template name="do-group-length">

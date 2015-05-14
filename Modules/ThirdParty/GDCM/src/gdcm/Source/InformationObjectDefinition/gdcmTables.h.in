@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -12,9 +11,9 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-#ifndef __gdcmTables_h
-#define __gdcmTables_h
+#ifndef GDCMTABLES_H
+#define GDCMTABLES_H
 const char * const gdcmTables[] = {
   @GDCM_XML_TABLES@
   0 };
-#endif __gdcmTables_h
+#endif // GDCMTABLES_H

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -25,7 +24,7 @@
 
 #include "gdcmTag.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 
 const char FileMetaInformation::GDCM_FILE_META_INFORMATION_VERSION[] = "\0\1";
@@ -55,33 +54,50 @@ const char * FileMetaInformation::GetGDCMSourceApplicationEntityTitle()
   return GDCM_SOURCE_APPLICATION_ENTITY_TITLE;
 }
 
+// Keep cstor and dstor here to keep API minimal (see dllexport issue with gdcmstrict::)
+FileMetaInformation::FileMetaInformation():DataSetTS(TransferSyntax::TS_END),MetaInformationTS(TransferSyntax::Unknown),DataSetMS(MediaStorage::MS_END) {}
+FileMetaInformation::~FileMetaInformation() {}
+
 void FileMetaInformation::SetImplementationClassUID(const char * imp)
 {
-  assert(0);
-  (void)imp;
+  // TODO: it would be nice to make sure imp is actually a valid UID
+  if( imp )
+    {
+    ImplementationClassUID = imp;
+    }
 }
 
 void FileMetaInformation::AppendImplementationClassUID(const char * imp)
 {
-  ImplementationClassUID = GetGDCMImplementationClassUID();
-  ImplementationClassUID += ".";
-  ImplementationClassUID += imp;
+  if( imp )
+    {
+    ImplementationClassUID = GetGDCMImplementationClassUID();
+    ImplementationClassUID += ".";
+    ImplementationClassUID += imp;
+    }
 }
+
 void FileMetaInformation::SetImplementationVersionName(const char * version)
 {
-  // Simply override the value since we cannot have more than 16bytes...
-  assert( strlen(version) <= 16 );
-  //ImplementationVersionName = GetGDCMImplementationVersionName();
-  //ImplementationVersionName += "-";
-  //ImplementationVersionName += version;
-  ImplementationVersionName = version;
+  if( version )
+    {
+    // Simply override the value since we cannot have more than 16bytes...
+    assert( strlen(version) <= 16 );
+    //ImplementationVersionName = GetGDCMImplementationVersionName();
+    //ImplementationVersionName += "-";
+    //ImplementationVersionName += version;
+    ImplementationVersionName = version;
+    }
 }
 void FileMetaInformation::SetSourceApplicationEntityTitle(const char * title)
 {
-  //SourceApplicationEntityTitle = GetGDCMSourceApplicationEntityTitle();
-  //SourceApplicationEntityTitle += "/";
-  AEComp ae( title );
-  SourceApplicationEntityTitle = ae.Truncate();
+  if( title )
+    {
+    //SourceApplicationEntityTitle = GetGDCMSourceApplicationEntityTitle();
+    //SourceApplicationEntityTitle += "/";
+    AEComp ae( title );
+    SourceApplicationEntityTitle = ae.Truncate();
+    }
 }
 const char *FileMetaInformation::GetImplementationClassUID()
 {
@@ -128,7 +144,7 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
     {
     if( !ds.FindDataElement( Tag(0x0008, 0x0016) ) || ds.GetDataElement( Tag(0x0008,0x0016) ).IsEmpty()  )
       {
-      gdcm::MediaStorage ms;
+      MediaStorage ms;
       ms.SetFromModality(ds);
       const char *msstr = ms.GetString();
       if( msstr )
@@ -175,8 +191,14 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
         DataElement mssopclass = GetDataElement( Tag(0x0002, 0x0002) );
         assert( !mssopclass.IsEmpty() );
         const ByteValue *bv = sopclass.GetByteValue();
-        assert( bv );
-        mssopclass.SetByteValue( bv->GetPointer(), bv->GetLength() );
+        if( bv )
+          {
+          mssopclass.SetByteValue( bv->GetPointer(), bv->GetLength() );
+          }
+        else
+          {
+          throw gdcm::Exception( "SOP Class is empty sorry" );
+          }
         Replace( mssopclass );
         }
       }
@@ -241,7 +263,7 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
   // Transfer Syntax UID (0002,0010) -> ??? (computed at write time at most)
   if( FindDataElement( Tag(0x0002, 0x0010) ) && !GetDataElement( Tag(0x0002,0x0010) ).IsEmpty() )
     {
-    const DataElement& tsuid = GetDataElement( Tag(0x0002, 0x0010) );
+    DataElement tsuid = GetDataElement( Tag(0x0002, 0x0010) );
     const char * datasetts = DataSetTS.GetString();
     const ByteValue * bv = tsuid.GetByteValue();
     assert( bv );
@@ -355,7 +377,7 @@ bool ReadExplicitDataElement(std::istream &is, ExplicitDataElement &de)
   //std::cout << "Tag: " << t << std::endl;
   if( t.GetGroup() != 0x0002 )
     {
-    gdcmDebugMacro( "Done reading File Meta Information" );
+    //gdcmDebugMacro( "Done reading File Meta Information" );
     std::streampos currentpos = is.tellg();
     // old code was fseeking from the beginning of file
     // which seems to be quite different than fseeking in reverse from
@@ -537,6 +559,8 @@ std::istream &FileMetaInformation::Read(std::istream &is)
 
 std::istream &FileMetaInformation::ReadCompat(std::istream &is)
 {
+  // \precondition
+  assert( is.good() );
   // First off save position in case we fail (no File Meta Information)
   // See PS 3.5, Data Element Structure With Explicit VR
   if( !IsEmpty() )
@@ -547,7 +571,6 @@ std::istream &FileMetaInformation::ReadCompat(std::istream &is)
   if( !t.Read<SwapperNoOp>(is) )
     {
     throw Exception( "Cannot read very first tag" );
-    return is;
     }
   if( t.GetGroup() == 0x0002 )
     {
@@ -574,13 +597,37 @@ std::istream &FileMetaInformation::ReadCompat(std::istream &is)
     }
   else if( t.GetGroup() == 0x0800 ) // Good ol' ACR NEMA
     {
-    is.seekg(-4, std::ios::cur); // Seek back
-    DataSetTS = TransferSyntax::ImplicitVRBigEndianACRNEMA;
+    char vr_str[3];
+    is.read(vr_str, 2);
+    vr_str[2] = '\0';
+    VR::VRType vr = VR::GetVRType(vr_str);
+    if( vr != VR::VR_END )
+      {
+      // File start with a 0x0008 element but no FileMetaInfo and is Explicit
+      DataSetTS = TransferSyntax::ExplicitVRBigEndian;
+      }
+    else
+      {
+      // File start with a 0x0008 element but no FileMetaInfo and is Implicit
+      DataSetTS = TransferSyntax::ImplicitVRBigEndianACRNEMA;
+      }
+    is.seekg(-6, std::ios::cur); // Seek back
     }
   else if( t.GetElement() == 0x0010 ) // Hum, is it a private creator ?
     {
-    is.seekg(-4, std::ios::cur); // Seek back
-    DataSetTS = TransferSyntax::ImplicitVRLittleEndian;
+    char vr_str[3];
+    is.read(vr_str, 2);
+    vr_str[2] = '\0';
+    VR::VRType vr = VR::GetVRType(vr_str);
+    if( vr != VR::VR_END )
+      {
+      DataSetTS = TransferSyntax::ExplicitVRLittleEndian;
+      }
+    else
+      {
+      DataSetTS = TransferSyntax::ImplicitVRLittleEndian;
+      }
+    is.seekg(-6, std::ios::cur); // Seek back
     }
   else
     {
@@ -600,19 +647,28 @@ std::istream &FileMetaInformation::ReadCompat(std::istream &is)
     if( vr != VR::VR_END )
       {
       // Ok we found a VR, this is 99% likely to be our safe bet
-      DataSetTS = TransferSyntax::ExplicitVRLittleEndian;
+      if( t.GetGroup() > 0xff || t.GetElement() > 0xff )
+        DataSetTS = TransferSyntax::ExplicitVRBigEndian;
+      else
+        DataSetTS = TransferSyntax::ExplicitVRLittleEndian;
       }
     else
       {
-    throw Exception( "Cannot find DICOM type. Giving up." );
-    //  std::streampos start = is.tellg();
-    //  ImplicitDataElement ide;
-    //  ide.Read<SwapperNoOp>(is); // might throw an expection which will NOT be caught
-    //  std::streampos cur = is.tellg();
-    //  std::cout << "s-c" << start - cur << std::endl;
-    //  is.seekg( start - cur, std::ios::cur );
-    //  // ok we could read at least one implicit element
-    //  DataSetTS = TransferSyntax::ImplicitVRLittleEndian;
+      DataElement null( Tag(0x0,0x0), 0);
+      ImplicitDataElement ide;
+      ide.ReadPreValue<SwapperNoOp>(is);
+      if( ide.GetTag() == null.GetTag() && ide.GetVL() == 4 )
+        {
+        // This is insane, we are actually reading an attribute with tag (0,0) !
+        // something like IM-0001-0066.CommandTag00.dcm was crafted
+        ide.ReadValue<SwapperNoOp>(is);
+        ReadCompat(is); // this will read the next element
+        assert( DataSetTS == TransferSyntax::ImplicitVRLittleEndian );
+        is.seekg(-12, std::ios::cur); // Seek back
+        return is;
+        }
+      // else
+      throw Exception( "Cannot find DICOM type. Giving up." );
       }
     }
   return is;
@@ -659,7 +715,7 @@ std::istream &FileMetaInformation::ReadCompatInternal(std::istream &is)
       // Looks like an Explicit File Meta Information Header.
       is.seekg(-6, std::ios::cur); // Seek back
       //is.seekg(start, std::ios::beg); // Seek back
-      std::streampos dpos = is.tellg();
+      //std::streampos dpos = is.tellg();
       ExplicitDataElement xde;
       while( ReadExplicitDataElement<SwapperNoOp>(is, xde ) )
         {
@@ -678,7 +734,7 @@ std::istream &FileMetaInformation::ReadCompatInternal(std::istream &is)
     else
       {
       MetaInformationTS = TransferSyntax::Implicit;
-      gdcmWarningMacro( "File Meta Information is implicit. VR will be explicitely added" );
+      gdcmWarningMacro( "File Meta Information is implicit. VR will be explicitly added" );
       // Ok this might be an implicit encoded Meta File Information header...
       // GE_DLX-8-MONO2-PrivateSyntax.dcm
       is.seekg(-6, std::ios::cur); // Seek back
@@ -728,7 +784,6 @@ void FileMetaInformation::ComputeDataSetTransferSyntax()
     }
   // Pad string with a \0
   ts = std::string(bv->GetPointer(), bv->GetLength());
-  gdcmDebugMacro( "TS: " << ts );
   TransferSyntax tst(TransferSyntax::GetTSType(ts.c_str()));
   if( tst == TransferSyntax::TS_END )
     {
@@ -745,7 +800,7 @@ void FileMetaInformation::SetDataSetTransferSyntax(const TransferSyntax &ts)
   DataSetTS = ts;
 }
 
-MediaStorage FileMetaInformation::GetMediaStorage() const
+std::string FileMetaInformation::GetMediaStorageAsString() const
 {
   // D 0002|0002 [UI] [Media Storage SOP Class UID]
   // [1.2.840.10008.5.1.4.1.1.12.1]
@@ -755,7 +810,7 @@ MediaStorage FileMetaInformation::GetMediaStorage() const
     {
     gdcmDebugMacro( "File Meta information is present but does not"
       " contains " << t );
-    return MediaStorage::MS_END;
+    return "";
     }
   const DataElement &de = GetDataElement(t);
   std::string ts;
@@ -778,7 +833,14 @@ MediaStorage FileMetaInformation::GetMediaStorage() const
       last = '\0';
       }
     }
-  gdcmDebugMacro( "TS: " << ts );
+  return ts;
+}
+
+MediaStorage FileMetaInformation::GetMediaStorage() const
+{
+  const std::string &ts = GetMediaStorageAsString();
+  if( ts.empty() ) return MediaStorage::MS_END;
+
   MediaStorage ms = MediaStorage::GetMSType(ts.c_str());
   if( ms == MediaStorage::MS_END )
     {
@@ -842,4 +904,4 @@ std::ostream &FileMetaInformation::Write(std::ostream &os) const
   return os;
 }
 
-} // end namespace gdcm
+} // end namespace gdcm_ns

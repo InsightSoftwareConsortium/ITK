@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -44,10 +43,6 @@ public:
   /// Print
   void Print(std::ostream &) const;
 
-  /// Will traverse the dataset in search for overlay elements
-  /// this is an hybrid method I don't like having it attach to an Overlay object
-  static unsigned int GetNumberOfOverlays(DataSet const & ds);
-
   /// Update overlay from data element de:
   void Update(const DataElement & de);
 
@@ -69,12 +64,20 @@ public:
   void SetDescription(const char* description);
   /// get description
   const char *GetDescription() const;
+  typedef enum {
+    Invalid  = 0,
+    Graphics = 1,
+    ROI      = 2
+  } OverlayType;
   /// set type
   void SetType(const char* type);
   /// get type
   const char *GetType() const;
+  OverlayType GetTypeAsEnum() const;
+  static const char *GetOverlayTypeAsString(OverlayType ot);
+  static OverlayType GetOverlayTypeFromString(const char *);
   /// set origin
-  void SetOrigin(const signed short *origin);
+  void SetOrigin(const signed short origin[2]);
   /// get origin
   const signed short * GetOrigin() const;
   /// set frame origin
@@ -87,30 +90,41 @@ public:
   void SetBitPosition(unsigned short bitposition);
   /// return bit position
   unsigned short GetBitPosition() const;
+
   /// set overlay from byte array + length
-  void SetOverlay(const char *array, unsigned int length);
+  void SetOverlay(const char *array, size_t length);
   ///
   bool GrabOverlayFromPixelData(DataSet const &ds);
 
+  /// Return the Overlay Data as ByteValue:
+  /// Not thread safe
   const ByteValue &GetOverlayData() const;
 
+  /// Return whether or not the Overlay is empty:
   bool IsEmpty() const;
 
   /// return true if all bits are set to 0
   bool IsZero() const;
 
-  // return if the Overlay is stored in the pixel data or not
+  /// return if the Overlay is stored in the pixel data or not
   bool IsInPixelData() const;
+
+  /// Set wether or no the OverlayData is in the Pixel Data:
   void IsInPixelData(bool b);
 
-  void Decode(std::istream &is, std::ostream &os);
-
+  /// Decode the internal OverlayData (packed bits) into unpacked representation
   void Decompress(std::ostream &os) const;
 
-  bool GetBuffer(char *buffer) const;
-  bool GetUnpackBuffer(unsigned char *buffer) const;
+  /// Retrieve the size of the buffer needed to hold the Overlay
+  /// as specified by Col & Row parameters
+  size_t GetUnpackBufferLength() const;
+
+  /// Retrieve the unpack buffer for Overlay. This is an error if
+  /// the size if below GetUnpackBufferLength()
+  bool GetUnpackBuffer(char *buffer, size_t len) const;
 
   Overlay(Overlay const &ov);
+  Overlay &operator=(Overlay const &ov);
 
 private:
   OverlayInternal *Internal;

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -19,6 +18,7 @@
 #include "gdcmSwapper.h"
 
 #include "gdcmDeflateStream.h"
+#include "gdcmSystem.h"
 
 #include "gdcmExplicitDataElement.h"
 #include "gdcmImplicitDataElement.h"
@@ -32,15 +32,24 @@
 #endif
 
 
-namespace gdcm
+namespace gdcm_ns
 {
+
+Reader::Reader():F(new File)
+{
+  Stream = NULL;
+  Ifstream = NULL;
+}
 
 Reader::~Reader()
 {
-  if (Ifstream) {
+  if (Ifstream)
+    {
     Ifstream->close();
     delete Ifstream;
-  }
+    Ifstream = NULL;
+    Stream = NULL;
+    }
 }
 
 /// \brief tells us if "DICM" is found as position 128
@@ -195,18 +204,24 @@ namespace details
   class DefaultCaller
   {
   private:
-    gdcm::DataSet & m_dataSet;
+    DataSet & m_dataSet;
+	std::streampos & m_posDataSet ;
   public:
-    DefaultCaller(gdcm::DataSet &ds): m_dataSet(ds){}
+    DefaultCaller(DataSet &ds, std::streampos & posDataSet): m_dataSet(ds),m_posDataSet(posDataSet){}
     template<class T1, class T2>
       void ReadCommon(std::istream & is) const
         {
+		m_posDataSet = is.tellg();
         m_dataSet.template Read<T1,T2>(is);
         }
     template<class T1, class T2>
       void ReadCommonWithLength(std::istream & is, VL & length) const
         {
+		m_posDataSet = is.tellg();
         m_dataSet.template ReadWithLength<T1,T2>(is,length);
+        // manually set eofbit:
+        // https://groups.google.com/forum/?fromgroups#!topic/comp.lang.c++/yTW4ESh1IL8
+        is.setstate( std::ios::eofbit );
         }
     static void Check(bool b, std::istream &stream)
       {
@@ -218,25 +233,28 @@ namespace details
   class ReadUpToTagCaller
   {
   private:
-    gdcm::DataSet & m_dataSet;
-    const gdcm::Tag & m_tag;
-    std::set<gdcm::Tag> const & m_skipTags;
+    DataSet & m_dataSet;
+    const Tag & m_tag;
+    std::set<Tag> const & m_skipTags;
+	std::streampos & m_posDataSet ;
   public:
-    ReadUpToTagCaller(gdcm::DataSet &ds,const gdcm::Tag & tag, std::set<gdcm::Tag> const & skiptags)
+    ReadUpToTagCaller(DataSet &ds,const Tag & tag, std::set<Tag> const & skiptags, std::streampos & posDataSet)
     :
-    m_dataSet(ds),m_tag(tag),m_skipTags(skiptags)
+    m_dataSet(ds),m_tag(tag),m_skipTags(skiptags),m_posDataSet(posDataSet)
     {
     }
 
     template<class T1, class T2>
       void ReadCommon(std::istream & is) const
         {
+		m_posDataSet = is.tellg();
         m_dataSet.template ReadUpToTag<T1,T2>(is,m_tag,m_skipTags);
         }
     template<class T1, class T2>
       void ReadCommonWithLength(std::istream & is, VL & length) const
         {
-        m_dataSet.template ReadUpToTagWithLength<T1,T2>(is,m_tag,length);
+		m_posDataSet = is.tellg();
+        m_dataSet.template ReadUpToTagWithLength<T1,T2>(is,m_tag,m_skipTags,length);
         }
     static void Check(bool , std::istream &)  {}
   };
@@ -246,22 +264,52 @@ namespace details
   private:
     DataSet & m_dataSet;
     std::set<Tag> const & m_tags;
+    bool m_readvalues;
+	std::streampos & m_posDataSet ;
   public:
-    ReadSelectedTagsCaller(DataSet &ds, std::set<Tag> const & tags)
+    ReadSelectedTagsCaller(DataSet &ds, std::set<Tag> const & tags, const bool readvalues, std::streampos & posDataSet)
       :
-    m_dataSet(ds),m_tags(tags)
+    m_dataSet(ds),m_tags(tags),m_readvalues(readvalues),m_posDataSet(posDataSet)
     {
     }
 
     template<class T1, class T2>
     void ReadCommon(std::istream & is) const
     {
-      m_dataSet.template ReadSelectedTags<T1,T2>(is,m_tags);
+	  m_posDataSet = is.tellg();
+      m_dataSet.template ReadSelectedTags<T1,T2>(is,m_tags,m_readvalues);
     }
     template<class T1, class T2>
     void ReadCommonWithLength(std::istream & is, VL & length) const
     {
-      m_dataSet.template ReadSelectedTagsWithLength<T1,T2>(is,m_tags,length);
+	  m_posDataSet = is.tellg();
+      m_dataSet.template ReadSelectedTagsWithLength<T1,T2>(is,m_tags,length,m_readvalues);
+    }
+    static void Check(bool , std::istream &)  {}
+  };
+
+  class ReadSelectedPrivateTagsCaller
+  {
+  private:
+    DataSet & m_dataSet;
+    std::set<PrivateTag> const & m_groups;
+    bool m_readvalues;
+  public:
+    ReadSelectedPrivateTagsCaller(DataSet &ds, std::set<PrivateTag> const & groups, const bool readvalues)
+      :
+    m_dataSet(ds),m_groups(groups),m_readvalues(readvalues)
+    {
+    }
+
+    template<class T1, class T2>
+    void ReadCommon(std::istream & is) const
+    {
+      m_dataSet.template ReadSelectedPrivateTags<T1,T2>(is,m_groups,m_readvalues);
+    }
+    template<class T1, class T2>
+    void ReadCommonWithLength(std::istream & is, VL & length) const
+    {
+      m_dataSet.template ReadSelectedPrivateTagsWithLength<T1,T2>(is,m_groups,length,m_readvalues);
     }
     static void Check(bool , std::istream &)  {}
   };
@@ -269,109 +317,117 @@ namespace details
 
 bool Reader::Read()
 {
-  details::DefaultCaller caller(F->GetDataSet());
+  details::DefaultCaller caller(F->GetDataSet(), m_posDataSet);
   return InternalReadCommon(caller);
 }
 
 bool Reader::ReadUpToTag(const Tag & tag, std::set<Tag> const & skiptags)
 {
-  details::ReadUpToTagCaller caller(F->GetDataSet(),tag,skiptags);
+  details::ReadUpToTagCaller caller(F->GetDataSet(),tag,skiptags, m_posDataSet);
   return InternalReadCommon(caller);
 }
 
-bool Reader::ReadSelectedTags( std::set<Tag> const & selectedTags )
+bool Reader::ReadSelectedTags( std::set<Tag> const & selectedTags, bool readvalues )
 {
-  details::ReadSelectedTagsCaller caller(F->GetDataSet(), selectedTags);
+  details::ReadSelectedTagsCaller caller(F->GetDataSet(), selectedTags, readvalues, m_posDataSet);
+  return InternalReadCommon(caller);
+}
+
+bool Reader::ReadSelectedPrivateTags( std::set<PrivateTag> const & selectedPTags, bool readvalues )
+{
+  details::ReadSelectedPrivateTagsCaller caller(F->GetDataSet(), selectedPTags,readvalues);
   return InternalReadCommon(caller);
 }
 
 template <typename T_Caller>
 bool Reader::InternalReadCommon(const T_Caller &caller)
 {
-  if( !Stream )
+  if( !Stream || !*Stream )
     {
     gdcmErrorMacro( "No File" );
     return false;
     }
   bool success = true;
 
-try
-    {
-std::istream &is = *Stream;
-
-  bool haspreamble = true;
   try
     {
-    F->GetHeader().GetPreamble().Read( is );
-    }
-  catch( std::exception &ex )
-    {
-    (void)ex;
-    // return to beginning of file, hopefully this file is simply missing preamble
-    is.seekg(0, std::ios::beg);
-    haspreamble = false;
-    }
-  catch( ... )
-    {
-    assert(0);
-    }
+    std::istream &is = *Stream;
 
-  bool hasmetaheader = false;
-  try
-    {
-    if( haspreamble )
+    bool haspreamble = true;
+    try
       {
-      try
+      F->GetHeader().GetPreamble().Read( is );
+      }
+    catch( std::exception & )
+      {
+      // return to beginning of file, hopefully this file is simply missing preamble
+      is.clear();
+      is.seekg(0, std::ios::beg);
+      haspreamble = false;
+      }
+    catch( ... )
+      {
+      assert(0);
+      }
+
+    bool hasmetaheader = false;
+    try
+      {
+      if( haspreamble )
         {
-        F->GetHeader().Read( is );
-        hasmetaheader = true;
-        assert( !F->GetHeader().IsEmpty() );
-        }
-      catch( std::exception &ex )
-        {
-        (void)ex;
-        // Weird implicit meta header:
-        is.seekg(128+4, std::ios::beg );
         try
           {
-          F->GetHeader().ReadCompat(is);
+          F->GetHeader().Read( is );
+          hasmetaheader = true;
+          assert( !F->GetHeader().IsEmpty() );
           }
-        catch( std::exception &ex2 )
+        catch( std::exception &ex )
           {
-          // Ok I get it now... there is absolutely no meta header, giving up
-          //hasmetaheader = false;
-          (void)ex2;
+          (void)ex;  //to avoid unreferenced variable warning on release
+          gdcmWarningMacro(ex.what());
+          // Weird implicit meta header:
+          is.seekg(128+4, std::ios::beg );
+          assert( is.good() );
+          try
+            {
+            F->GetHeader().ReadCompat(is);
+            }
+          catch( std::exception &ex2 )
+            {
+            (void)ex2;  //to avoid unreferenced variable warning on release
+            // Ok I get it now... there is absolutely no meta header, giving up
+            //hasmetaheader = false;
+            gdcmErrorMacro(ex2.what());
+            }
           }
         }
+      else
+        {
+        F->GetHeader().ReadCompat(is);
+        }
       }
-    else
+    catch( std::exception & )
       {
-      F->GetHeader().ReadCompat(is);
+      // Same player play again:
+      is.seekg(0, std::ios::beg );
+      hasmetaheader = false;
       }
-    }
-  catch( std::exception &ex )
-    {
-    (void)ex;
-    // Same player play again:
-    is.seekg(0, std::ios::beg );
-    hasmetaheader = false;
-    }
-  catch( ... )
-    {
-    // Ooops..
-    assert(0);
-    }
-  if( F->GetHeader().IsEmpty() )
-    {
-    hasmetaheader = false;
-    gdcmDebugMacro( "no file meta info found" );
-    }
+    catch( ... )
+      {
+      // Ooops..
+      assert(0);
+      }
+    if( F->GetHeader().IsEmpty() )
+      {
+      hasmetaheader = false;
+      gdcmDebugMacro( "no file meta info found" );
+      }
 
-  const TransferSyntax &ts = F->GetHeader().GetDataSetTransferSyntax();
-  if( !ts.IsValid() )
-    {
-    throw Exception( "Meta Header issue" );
-    }
+    const TransferSyntax &ts = F->GetHeader().GetDataSetTransferSyntax();
+    if( !ts.IsValid() )
+      {
+      throw Exception( "Meta Header issue" );
+      }
 
   //std::cerr << ts.GetNegociatedType() << std::endl;
   //std::cerr << TransferSyntax::GetTSString(ts) << std::endl;
@@ -380,7 +436,7 @@ std::istream &is = *Stream;
   if( ts == TransferSyntax::DeflatedExplicitVRLittleEndian )
     {
 #if 0
-  std::ofstream out( "/tmp/deflate.raw");
+  std::ofstream out( "/tmp/deflate.raw", std::ios::binary );
   out << is.rdbuf();
   out.close();
 #endif
@@ -406,6 +462,8 @@ std::istream &is = *Stream;
         // There is no such thing as Implicit Big Endian... oh well
         // LIBIDO-16-ACR_NEMA-Volume.dcm
         //F->GetDataSet().ReadUpToTag<ImplicitDataElement,SwapperDoOp>(is,tag, skiptags);
+        //caller.template ReadCommon<ImplicitDataElement,SwapperDoOp>(is);
+        gdcmErrorMacro( "VirtualBigEndianNotHandled" );
         throw "Virtual Big Endian Implicit is not defined by DICOM";
         }
       else
@@ -428,16 +486,19 @@ std::istream &is = *Stream;
           std::streampos start = is.tellg();
           is.seekg( 0, std::ios::end);
           std::streampos end = is.tellg();
-          VL l = (VL)(end - start);
+          assert( !is.eof() );
+          assert( is.good() );
+          std::streamoff theOffset = end-start;
+          assert (theOffset > 0 || (uint32_t)theOffset < std::numeric_limits<uint32_t>::max());
+          VL l = (uint32_t)(theOffset);
           is.seekg( start, std::ios::beg );
-          //F->GetDataSet().ReadUpToTagWithLength<ImplicitDataElement,SwapperNoOp>(is, tag, l);
+          assert( is.good() );
+          assert( !is.eof() );
           caller.template ReadCommonWithLength<ImplicitDataElement,SwapperNoOp>(is,l);
-          is.peek();
           }
         }
       else
         {
-        //F->GetDataSet().ReadUpToTag<ExplicitDataElement,SwapperNoOp>(is,tag, skiptags);
         caller.template ReadCommon<ExplicitDataElement,SwapperNoOp>(is);
         }
       }
@@ -545,9 +606,8 @@ std::istream &is = *Stream;
           caller.template ReadCommon<VR16ExplicitDataElement,SwapperNoOp>(is);
           // This file can only be rewritten as implicit...
           }
-        catch ( Exception &ex1 )
+        catch ( Exception & )
           {
-          (void)ex1;
           try
             {
             // Ouch ! the file is neither:
@@ -582,6 +642,13 @@ std::istream &is = *Stream;
           catch ( Exception &ex2 )
             {
             (void)ex2;
+            // Mon Jan 24 10:59:25 CET 2011
+            // MM: UNExplicitImplicitDataElement does not seems to be used anymore to read
+            // gdcmData/TheralysGDCM120Bug.dcm, instead the code path goes into
+            // ExplicitImplicitDataElement class instead.
+            // Simply rethrow the exception for now.
+            throw;
+#if 0
             is.clear();
             if( haspreamble )
               {
@@ -604,13 +671,14 @@ std::istream &is = *Stream;
             F->GetDataSet().Clear(); // remove garbage from 1st attempt...
             //F->GetDataSet().template Read<UNExplicitImplicitDataElement,SwapperNoOp>(is);
             caller.template ReadCommon<UNExplicitImplicitDataElement,SwapperNoOp>(is);
+#endif
             }
           }
         }
       }
     else
       {
-        gdcmWarningMacro( "Attempt to read the file as mixture of explicit/implicit");
+      gdcmWarningMacro( "Attempt to read the file as mixture of explicit/implicit");
       // Let's try again with an ExplicitImplicitDataElement:
       if( ts.GetSwapCode() == SwapCode::LittleEndian &&
         ts.GetNegociatedType() == TransferSyntax::Explicit )
@@ -638,6 +706,11 @@ std::istream &is = *Stream;
         caller.template ReadCommon<ExplicitImplicitDataElement,SwapperNoOp>(is);
         // This file can only be rewritten as implicit...
         }
+      else
+        {
+        gdcmDebugMacro( "No way this is DICOM" );
+        success = false;
+        }
       }
 #else
     gdcmDebugMacro( ex.what() );
@@ -646,7 +719,7 @@ std::istream &is = *Stream;
     }
   catch( Exception &ex )
     {
-    (void)ex;
+    (void)ex;  //to avoid unreferenced variable warning on release
     gdcmDebugMacro( ex.what() );
     success = false;
     }
@@ -656,12 +729,12 @@ std::istream &is = *Stream;
     success = false;
     }
 
-    //if( success ) assert( Stream->eof() );
-    caller.Check(success, *Stream );
+  //if( success ) assert( Stream->eof() );
+  caller.Check(success, *Stream );
     }
   catch( Exception &ex )
     {
-    (void)ex;
+    (void)ex;  //to avoid unreferenced variable warning on release
     gdcmDebugMacro( ex.what() );
     success = false;
     }
@@ -670,22 +743,291 @@ std::istream &is = *Stream;
     gdcmWarningMacro( "Unknown exception" );
     success = false;
     }
-//  if( !success )
-//    {
-//    F->GetHeader().Clear();
-//    F->GetDataSet().Clear();
-//    }
+  //  if( !success )
+  //    {
+  //    F->GetHeader().Clear();
+  //    F->GetDataSet().Clear();
+  //    }
 
   // FIXME : call this function twice...
   if (Ifstream && Ifstream->is_open())
     {
-    Ifstream->close();
-    delete Ifstream;
-    Ifstream = NULL;
-    Stream = NULL;
+    //Ifstream->close();
+    //delete Ifstream;
+    //Ifstream = NULL;
+    //Stream = NULL;
     }
 
   return success;
 }
 
-} // end namespace gdcm
+// This function re-implements code from:
+// http://www.dclunie.com/medical-image-faq/html/part2.html#DICOMTransferSyntaxDetermination
+// The above code does not work well for random file. It implicitly assumes we
+// are trying to read a DICOM file in the first place, while our goal is indeed
+// to detect whether or not the file can be assimilated as DICOM. So we
+// extended it.  Of course this function only returns a 'maybe DICOM', since we
+// are not guaranteed that the stream is not truncated, but this is outside the
+// scope of this function.
+bool Reader::CanRead() const
+{
+  // fastpath
+  std::istream &is = *Stream;
+  assert( is.good() );
+  assert( is.tellg() == std::streampos(0) );
+    {
+    is.seekg( 128, std::ios::beg ); // we ignore return value as we test is.good()
+    char b[4];
+    if (is.good() && is.read(b,4) && strncmp(b,"DICM",4) == 0)
+      {
+      is.seekg(0, std::ios::beg);
+      return true;
+      }
+    }
+
+  // Start overhead for backward compatibility
+  bool bigendian = false;
+  bool explicitvr = false;
+  is.clear();
+  //is.seekg(0, std::ios::end);
+  //std::streampos filelen = is.tellg();
+  is.seekg(0, std::ios::beg);
+
+  char b[8];
+  if (is.good() && is.read(b,8))
+    {
+    // examine probable group number ... assume <= 0x00ff
+    if (b[0] < b[1]) bigendian=true;
+    else if (b[0] == 0 && b[1] == 0)
+      {
+      // blech ... group number is zero
+      // no point in looking at element number
+      // as it will probably be zero too (group length)
+      // try the 32 bit value length of implicit vr
+      if (b[4] < b[7]) bigendian=true;
+      }
+    // else littleendian
+    if (isupper(b[4]) && isupper(b[5])) explicitvr=true;
+    }
+  SwapCode sc = SwapCode::Unknown;
+  TransferSyntax::NegociatedType nts = TransferSyntax::Unknown;
+
+  std::stringstream ss( std::string(b, 8) );
+
+  Tag t;
+  if (bigendian)
+    {
+    t.Read<SwapperDoOp>(ss);
+    //assert( t.GetGroup() != 0x2 );
+    if( t.GetGroup() <= 0xff )
+      sc = SwapCode::BigEndian;
+    }
+  else
+    {
+    t.Read<SwapperNoOp>(ss);
+    //assert( t.GetGroup() != 0x2 );
+    if( t.GetGroup() <= 0xff )
+      sc = SwapCode::LittleEndian;
+    }
+
+  VL vl;
+  VR::VRType vr = VR::VR_END;
+  if (explicitvr)
+    {
+    char vr_str[3];
+    vr_str[0] = b[4];
+    vr_str[1] = b[5];
+    vr_str[2] = '\0';
+    vr = VR::GetVRType(vr_str);
+    if( vr != VR::VR_END )
+      nts = TransferSyntax::Explicit;
+    }
+  else
+    {
+    if( bigendian )
+      vl.Read<SwapperDoOp>( ss );
+    else
+      vl.Read<SwapperNoOp>( ss );
+    if( vl < 0xff )
+      nts = TransferSyntax::Implicit;
+    }
+
+#if 0
+  is.clear();
+  is.seekg(0, std::ios::end);
+  std::streampos filelen = is.tellg();
+  is.seekg(0, std::ios::beg);
+  Tag t;
+  VL gl; // group length
+  if( bigendian )
+    {
+    if( !t.Read<SwapperDoOp>(is) )
+      {
+      is.clear();
+      is.seekg(0, std::ios::beg);
+      return false;
+      }
+    }
+  else
+    {
+    if( !t.Read<SwapperNoOp>(is) )
+      {
+      is.clear();
+      is.seekg(0, std::ios::beg);
+      return false;
+      }
+    }
+  if( t.GetGroup() % 2 == 0 )
+    {
+    switch( t.GetGroup() )
+      {
+    case 0x0002:
+    //case 0x0004: // DICOMDIR is for media, thus FMI is compulsory
+    case 0x0008:
+      sc = SwapCode::LittleEndian;
+      break;
+    //case 0x0200: // FMI is Explicit VR Little Endian...
+    case 0x0800:
+      sc = SwapCode::BigEndian;
+      break;
+    default:
+      ;
+      }
+    if( sc != SwapCode::Unknown )
+      {
+      // Purposely not Re-use ReadVR since we can read VR_END
+      char vr_str[3];
+      is.read(vr_str, 2);
+      vr_str[2] = '\0';
+      // Cannot use GetVRTypeFromFile since is assert ...
+      VR::VRType vr = VR::GetVRType(vr_str);
+      if( vr != VR::VR_END )
+        {
+        nts = TransferSyntax::Explicit;
+        }
+      else
+        {
+        assert( !(VR::IsSwap(vr_str)));
+        is.seekg(-2, std::ios::cur); // Seek back
+        gl.Read<SwapperNoOp>(is);
+
+        if( t.GetElement() == 0x0000 )
+          {
+          switch(gl)
+            {
+          case 0x00000004 :
+            assert( sc == SwapCode::LittleEndian);    // 1234
+            sc = SwapCode::LittleEndian;    // 1234
+            break;
+          case 0x04000000 :
+            assert( sc == SwapCode::BigEndian);    // 1234
+            sc = SwapCode::BigEndian;       // 4321
+            break;
+          case 0x00040000 :
+            sc = SwapCode::BadLittleEndian; // 3412
+            gdcmWarningMacro( "Bad Little Endian" );
+            break;
+          case 0x00000400 :
+            sc = SwapCode::BadBigEndian;    // 2143
+            gdcmWarningMacro( "Bad Big Endian" );
+            break;
+          default:
+            ;
+            }
+          }
+        if( gl && gl < filelen )
+          nts = TransferSyntax::Implicit;
+        }
+      }
+    }
+  else
+    {
+    // US-IRAD-NoPreambleStartWith0003.dcm
+    gdcmDebugMacro( "Start with a private tag creator" );
+    if( t.GetGroup() > 0x0002 && t.GetGroup() < 0x8 )
+      {
+      switch( t.GetElement() )
+        {
+      case 0x0010:
+        sc = SwapCode::LittleEndian;
+        break;
+      default:
+        ;
+        }
+      }
+    if( sc != SwapCode::Unknown )
+      {
+      // Purposely not Re-use ReadVR since we can read VR_END
+      char vr_str[3];
+      is.read(vr_str, 2);
+      vr_str[2] = '\0';
+      // Cannot use GetVRTypeFromFile since is assert ...
+      VR::VRType vr = VR::GetVRType(vr_str);
+      if( vr != VR::VR_END )
+        {
+        nts = TransferSyntax::Explicit;
+        }
+      else
+        {
+        assert( !(VR::IsSwap(vr_str)));
+        is.seekg(-2, std::ios::cur); // Seek back
+        gl.Read<SwapperNoOp>(is);
+        if( t.GetElement() == 0x0000 )
+          {
+          assert( gl == 0x4 || gl == 0x04000000 );
+          }
+        if( gl && gl < filelen )
+          nts = TransferSyntax::Implicit;
+        }
+      }
+    }
+
+#endif
+  // reset in all other cases:
+  is.clear();
+  is.seekg(0, std::ios::beg);
+
+  // Implicit Little Endian
+  if( nts == TransferSyntax::Implicit && sc == SwapCode::LittleEndian ) return true;
+  if( nts == TransferSyntax::Implicit && sc == SwapCode::BigEndian ) return false;
+  if( nts == TransferSyntax::Explicit && sc == SwapCode::LittleEndian ) return true;
+  if( nts == TransferSyntax::Explicit && sc == SwapCode::BigEndian ) return true;
+
+//  assert( nts == TransferSyntax::Unknown );
+//  if( sc != SwapCode::Unknown )
+//    {
+//    gdcm::Reader r;
+//    r.SetStream( is );
+//    is.clear();
+//    is.seekg(0, std::ios::beg);
+//    return r.Read();
+//    }
+
+  return false;
+}
+
+void Reader::SetFileName(const char *filename)
+{
+  if(Ifstream) delete Ifstream;
+  Ifstream = new std::ifstream();
+  Ifstream->open(filename, std::ios::binary);
+  if( Ifstream->is_open() )
+    {
+    Stream = Ifstream;
+    assert( Stream && *Stream );
+    }
+  else
+    {
+    delete Ifstream;
+    Ifstream = NULL;
+    Stream = NULL;
+    }
+}
+
+size_t Reader::GetStreamCurrentPosition() const
+{
+  return GetStreamPtr()->tellg();
+}
+
+
+} // end namespace gdcm_ns

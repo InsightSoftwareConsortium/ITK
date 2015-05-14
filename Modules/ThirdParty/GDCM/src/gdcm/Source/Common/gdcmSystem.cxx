@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -15,6 +14,7 @@
 #include "gdcmSystem.h"
 #include "gdcmTrace.h"
 #include "gdcmFilename.h"
+#include "gdcmDirectory.h"
 #include "gdcmException.h"
 
 #include <iostream>
@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string.h> // strspn
 #include <assert.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -53,12 +53,16 @@
 #include <direct.h>
 #define _unlink unlink
 #else
-//#include <features.h>	// we want GNU extensions
+//#include <features.h> // we want GNU extensions
 #include <dlfcn.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h> /* gethostname */
 #include <strings.h> // strncasecmp
+#endif
+
+#if defined(GDCM_HAVE_LANGINFO_H)
+#include <langinfo.h> // nl_langinfo
 #endif
 
 // TODO: WIN32 replacement for C99 stuff:
@@ -220,6 +224,20 @@ bool System::FileIsDirectory(const char* name)
     }
 }
 
+bool System::FileIsSymlink(const char* name)
+{
+#if defined( _WIN32 )
+  (void)name;
+#else
+  struct stat fs;
+  if(lstat(name, &fs) == 0)
+    {
+    return S_ISLNK(fs.st_mode);
+    }
+#endif
+  return false;
+}
+
 // TODO st_mtimensec
 time_t System::FileTime(const char* filename)
 {
@@ -261,7 +279,7 @@ bool System::GetPermissions(const char* file, unsigned short& mode)
     {
     return false;
     }
-  mode = st.st_mode;
+  mode = (short)st.st_mode;
   return true;
 }
 
@@ -302,6 +320,47 @@ bool System::RemoveFile(const char* source)
     }
 #endif
   return res;
+}
+
+// RemoveDirectory is a WIN32 function, use different name
+bool System::DeleteDirectory(const char *source)
+{
+  unsigned short mode;
+  if(System::GetPermissions(source, mode))
+    {
+#if defined(_WIN32) && !defined(__CYGWIN__)
+    mode |= S_IWRITE;
+#else
+    mode |= S_IWUSR;
+#endif
+    System::SetPermissions(source, mode);
+    }
+
+  Directory dir;
+  unsigned int numfiles = dir.Load(source, false);
+  (void)numfiles;
+  Directory::FilenamesType const & files = dir.GetFilenames();
+  for ( Directory::FilenamesType::const_iterator it = files.begin();
+    it != files.end(); ++it )
+    {
+    const char *filename = it->c_str();
+    if( System::FileIsDirectory(filename) &&
+      !System::FileIsSymlink(filename) )
+      {
+      if (!System::DeleteDirectory(filename))
+        {
+        return false;
+        }
+      }
+    else
+      {
+      if(!System::RemoveFile(filename))
+        {
+        return false;
+        }
+      }
+    }
+  return Rmdir(source) == 0;
 }
 
 // return size of file; also returns zero if no file exists
@@ -405,6 +464,7 @@ const char *System::GetCurrentProcessFileName()
     return buf;
     }
 #elif defined(__APPLE__)
+  //  _NSGetExecutablePath()
   static char buf[PATH_MAX];
   Boolean success = false;
   CFURLRef pathURL = CFBundleCopyExecutableURL(CFBundleGetMainBundle());
@@ -417,13 +477,31 @@ const char *System::GetCurrentProcessFileName()
     {
     return buf;
     }
-#else
+#elif defined (__SVR4) && defined (__sun)
+  // solaris
+  const char *ret = getexecname();
+  if( ret ) return ret;
+//#elif defined(__NetBSD__)
+//  static char path[PATH_MAX];
+//  if ( readlink ("/proc/curproc/exe", path, sizeof(path)) > 0)
+//    {
+//    return path;
+//    }
+#elif defined(__DragonFly__) || defined(__OpenBSD__) || defined(__FreeBSD__)
+  static char path[PATH_MAX];
+  if ( readlink ("/proc/curproc/file", path, sizeof(path)) > 0)
+    {
+    return path;
+    }
+#elif defined(__linux__)
   static char path[PATH_MAX];
   if ( readlink ("/proc/self/exe", path, sizeof(path)) > 0) // Technically 0 is not an error, but that would mean
                                                             // 0 byte were copied ... thus considered it as an error
     {
     return path;
     }
+#else
+  gdcmErrorMacro( "missing implementation" );
 #endif
    return 0;
 }
@@ -484,9 +562,10 @@ inline int getlastdigit(unsigned char *data, unsigned long size)
   for(unsigned int i=0;i<size;i++)
     {
     extended = (carry << 8) + data[i];
-    data[i] = extended / 10;
+    data[i] = (unsigned char)(extended / 10);
     carry = extended % 10;
     }
+  assert( carry >= 0 && carry < 10 );
   return carry;
 }
 
@@ -501,7 +580,8 @@ size_t System::EncodeBytes(char *out, const unsigned char *data, int size)
   while(!zero)
     {
     res = getlastdigit(addr, size);
-    sres.insert(sres.begin(), '0' + res);
+    const char v = (char)('0' + res);
+    sres.insert(sres.begin(), v);
     zero = true;
     for(int i = 0; i < size; ++i)
       {
@@ -512,28 +592,6 @@ size_t System::EncodeBytes(char *out, const unsigned char *data, int size)
   //return sres;
   strcpy(out, sres.c_str()); //, sres.size() );
   return sres.size();
-}
-
-bool System::GetHardwareAddress(unsigned char addr[6])
-{
-  int stat = 0; //uuid_get_node_id(addr);
-  memset(addr,0,6);
-  /*
-  // For debugging you need to consider the worse case where hardware addres is max number:
-  addr[0] = 255;
-  addr[1] = 255;
-  addr[2] = 255;
-  addr[3] = 255;
-  addr[4] = 255;
-  addr[5] = 255;
-  */
-  if (stat == 1) // success
-    {
-    return true;
-    }
-  // else
-  //gdcmWarningMacro("Problem in finding the MAC Address");
-  return false;
 }
 
 #if defined(_WIN32) && !defined(GDCM_HAVE_GETTIMEOFDAY)
@@ -638,13 +696,20 @@ bool System::ParseDateTime(time_t &timep, const char date[22])
 bool System::ParseDateTime(time_t &timep, long &milliseconds, const char date[22])
 {
   if(!date) return false;
-  assert( strlen(date) <= 22 );
   size_t len = strlen(date);
   if( len < 4 ) return false; // need at least the full year
+  if( len > 21 ) return false;
 
   struct tm ptm;
   // No such thing as strptime on some st*$^% platform
-  //char *ptr = strptime(date, "%Y%m%d%H%M%S", &ptm);
+#if defined(GDCM_HAVE_STRPTIME) && 0
+  char *ptr1 = strptime(date, "%Y%m%d%H%M%S", &ptm);
+  if( ptr1 != date + 14 )
+    {
+    // We stopped parsing the string at some point, assume this is an error
+    return false;
+    }
+#else
   // instead write our own:
   int year, mon, day, hour, min, sec, n;
   if ((n = sscanf(date, "%4d%2d%2d%2d%2d%2d",
@@ -659,10 +724,15 @@ bool System::ParseDateTime(time_t &timep, long &milliseconds, const char date[22
     case 5: sec = 0;
       }
     ptm.tm_year = year - 1900;
+    if( mon < 1 || mon > 12 ) return false;
     ptm.tm_mon = mon - 1;
+    if( day < 1 || day > 31 ) return false;
     ptm.tm_mday = day;
+    if( hour > 24 ) return false;
     ptm.tm_hour = hour;
+    if( min > 60 ) return false;
     ptm.tm_min = min;
+    if( sec > 60 ) return false;
     ptm.tm_sec = sec;
     ptm.tm_wday = -1;
     ptm.tm_yday = -1;
@@ -672,6 +742,7 @@ bool System::ParseDateTime(time_t &timep, long &milliseconds, const char date[22
     {
     return false;
     }
+#endif
   timep = mktime(&ptm);
   if( timep == (time_t)-1) return false;
 
@@ -692,18 +763,39 @@ bool System::ParseDateTime(time_t &timep, long &milliseconds, const char date[22
   return true;
 }
 
+const char *System::GetTimezoneOffsetFromUTC()
+{
+  static std::string buffer;
+  char outstr[10];
+  time_t t = time(NULL);
+  struct tm *tmp = localtime(&t);
+  size_t l = strftime(outstr, sizeof(outstr), "%z", tmp);
+  assert( l == 5 ); (void)l;
+  buffer = outstr;
+  return buffer.c_str();
+}
+
 bool System::FormatDateTime(char date[22], time_t timep, long milliseconds)
 {
   // \precondition
-  assert( milliseconds >= 0 && milliseconds < 1000000 );
+  if( !(milliseconds >= 0 && milliseconds < 1000000) )
+    {
+    return false;
+    }
 
   // YYYYMMDDHHMMSS.FFFFFF&ZZXX
-  if(!date) return false;
+  if(!date)
+    {
+    return false;
+    }
   const size_t maxsize = 40;
   char tmp[maxsize];
   // Obtain the time of day, and convert it to a tm struct.
   struct tm *ptm = localtime (&timep);
-  if(!ptm) return false;
+  if(!ptm)
+    {
+    return false;
+    }
   // Format the date and time, down to a single second.
   size_t ret = strftime (tmp, sizeof (tmp), "%Y%m%d%H%M%S", ptm);
   assert( ret == 14 );
@@ -714,10 +806,9 @@ bool System::FormatDateTime(char date[22], time_t timep, long milliseconds)
 
   // Add milliseconds
   const size_t maxsizall = 22;
-  //char tmpAll[maxsizall];
-  int ret2 = snprintf(date,maxsizall,"%s.%06ld",tmp,milliseconds);
-  assert( ret2 >= 0 );
-  if( (unsigned int)ret2 >= maxsizall )
+  const int ret2 = snprintf(date,maxsizall,"%s.%06ld",tmp,milliseconds);
+  if( ret2 < 0 ) return false;
+  if( (size_t)ret2 >= maxsizall )
     {
     return false;
     }
@@ -765,18 +856,13 @@ bool System::GetCurrentDateTime(char date[22])
   struct timeval tv;
   gettimeofday (&tv, NULL);
   timep = tv.tv_sec;
-  // A concatenated date-time character string in
-  // the format:
+  // A concatenated date-time character string in the format:
   // YYYYMMDDHHMMSS.FFFFFF&ZZXX
-  // The components of this string, from left to
-  // right, are YYYY = Year, MM = Month, DD =
-  // Day, HH = Hour (range "00" - "23"), MM =
-  // Minute (range "00" - "59"), SS = Second
-  // (range "00" - "60").
-  // FFFFFF = Fractional Second contains a
-  // fractional part of a second as small as 1
-  // millionth of a second (range ¿000000¿ -
-  // ¿999999¿).
+  // The components of this string, from left to right, are YYYY = Year, MM =
+  // Month, DD = Day, HH = Hour (range "00" - "23"), MM = Minute (range "00" -
+  // "59"), SS = Second (range "00" - "60").
+  // FFFFFF = Fractional Second contains a fractional part of a second as small
+  // as 1 millionth of a second (range 000000 - 999999).
   assert( tv.tv_usec >= 0 && tv.tv_usec < 1000000 );
   milliseconds = tv.tv_usec;
 
@@ -853,6 +939,131 @@ bool System::GetHostName(char name[255])
   // If reach here gethostname failed, uninit name just in case
   *name = 0;
   return false;
+}
+
+char *System::StrTokR(char *str, const char *delim, char **nextp)
+{
+#if 1
+  // http://groups.google.com/group/comp.lang.c/msg/2ab1ecbb86646684
+  // PD -> http://groups.google.com/group/comp.lang.c/msg/7c7b39328fefab9c
+  char *ret;
+
+  if (str == NULL)
+    {
+    str = *nextp;
+    }
+
+  str += strspn(str, delim);
+
+  if (*str == '\0')
+    {
+    return NULL;
+    }
+
+  ret = str;
+
+  str += strcspn(str, delim);
+
+  if (*str)
+    {
+    *str++ = '\0';
+    }
+
+  *nextp = str;
+
+  return ret;
+#else
+  return strtok_r(str,delim,nextp);
+#endif
+}
+
+char *System::StrSep(char **sp, const char *sep)
+{
+  // http://unixpapa.com/incnote/string.html
+  // http://stackoverflow.com/questions/8512958/is-there-a-windows-variant-of-strsep
+#if 1
+  char *p, *s;
+  if (sp == NULL || *sp == NULL || **sp == '\0') return NULL;
+  s = *sp;
+  p = s + strcspn(s, sep);
+  if (*p != '\0') *p++ = '\0';
+  *sp = p;
+  return s;
+#else
+  return strsep(sp, sep);
+#endif
+}
+
+struct CharsetAliasType
+{
+  const char *alias;
+  const char *name;
+};
+
+#if defined(_WIN32)
+static const char *CharsetAliasToName(const char *alias)
+{
+  assert( alias );
+  //gdcmDebugMacro( alias );
+  // http://msdn.microsoft.com/en-us/library/windows/desktop/dd317756(v=vs.85).aspx
+  // 1252 windows-1252  ANSI Latin 1; Western European (Windows)
+  static CharsetAliasType aliases[] = {
+      { "CP1252", "ISO-8859-1" }, // mingw + debian/6.0
+      { NULL, NULL },
+  };
+  for( CharsetAliasType *a = aliases; a->alias; a++)
+    {
+    if (strcmp (a->alias, alias) == 0)
+      {
+      return a->name;
+      }
+    }
+  // We need to tell the user...
+  return NULL;
+}
+#endif //_WIN32
+
+const char *System::GetLocaleCharset()
+{
+  const char *codeset = NULL;
+#if defined(GDCM_HAVE_NL_LANGINFO)
+  //setlocale (LC_CTYPE, NULL);
+  /* According to documentation nl_langinfo needs :
+     setlocale(3) needs to be executed with proper arguments before.
+     However even if CODESET only required LC_TYPE only setting LC_TYPE is not
+     enough to get it working on a debian/6.0 system within c++
+     so instead call setlocale on LC_ALL to fix it.
+   */
+  char *oldlocale = strdup(setlocale(LC_ALL, ""));
+  // TODO: what if setlocale return NULL ?
+  codeset = nl_langinfo (CODESET);
+  setlocale(LC_ALL, oldlocale);
+  free(oldlocale);
+#endif // GDCM_HAVE_NL_LANGINFO
+
+#if defined(_WIN32)
+#if 0
+  char buf1[128];
+  char buf2[128];
+  const char *codeset1;
+  const char *codeset2;
+  codeset1 = buf1;
+  codeset2 = buf2;
+  sprintf(buf1, "CP%d", GetConsoleCP());
+  sprintf(buf2, "CP%d", GetConsoleOutputCP());
+
+  // BUG: both returns 'CP437' on debian + mingw32...
+  // instead prefer GetACP() call:
+#endif
+  static char buf[2+10+1]; // 2 char, 10 bytes + 0
+  // GetACP: Retrieves the current Windows ANSI code page identifier for the
+  // operating system.
+  sprintf (buf, "CP%u", GetACP ());
+  codeset = CharsetAliasToName(buf);
+#endif
+
+  // warning ANSI_X3.4-1968 means ASCII
+  return codeset;
 }
 
 } // end namespace gdcm

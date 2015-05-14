@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -17,6 +16,7 @@
 #include "gdcmSystem.h"
 
 #include <bitset>
+#include <cstring>
 
 // FIXME...
 #if defined(_WIN32) || defined(__CYGWIN__)
@@ -90,111 +90,6 @@ struct fnv_hash
     return nHashVal;
     }
 };
-
-const char* UIDGenerator::Generate2()
-{
-#ifndef _WIN32
-  Unique = GetRoot();
-  if( Unique.empty() )
-    {
-    // Seriously...
-    return NULL;
-    }
-  // We need to convert a 6 digit number from base 256 to base 10, using integer
-  // would requires a 48bits one. To avoid this we have to reimplement the div + modulo
-  // with string only
-  if( EncodedHardwareAddress.empty() )
-    {
-    unsigned char node[6];
-    int res = System::GetHardwareAddress(node);
-    assert( res );
-    (void)res;//warning removal
-    char buffer[15]; // 15 is max possible when all node[i] == 255
-    size_t len = System::EncodeBytes(buffer, node, sizeof(node)); (void)len;
-    assert( strlen(buffer) < 15 );
-    EncodedHardwareAddress = buffer;
-    if( EncodedHardwareAddress.empty() )
-      {
-      // ethernet cable is not plugged, do not allow creating UIDs
-      return NULL;
-      }
-    }
-  assert( !EncodedHardwareAddress.empty() ); // programmer error
-  Unique += ".";
-  Unique += EncodedHardwareAddress;
-  Unique += ".";
-  char datetime[22];
-  int res = System::GetCurrentDateTime(datetime);
-  if( !res )
-    {
-    // Not sure how this is supposed to happen...
-    return NULL;
-    }
-  assert( strlen(datetime) < 22 );
-  Unique += datetime;
-  // Also add a mini random number just in case:
-  // FIXME: I choose 2 bytes for the random number, since GDCM Root UID is so long, and harware address can take up
-  // to 15 bytes, case 255.255.255.255.255.255 <-> 281474976710655
-  // But a better approach to dynamically calculate the max size for random bits...
-#undef uuid_t
-  uuid_t out;
-  uuid_generate(out);
-  char randbytesbuf[40];
-  System::EncodeBytes(randbytesbuf, out, sizeof(out));
-  assert( strlen(randbytesbuf) < 40 );
-  std::string randbytes = randbytesbuf;
-
-  Unique += ".";
-  std::string::size_type len = Unique.size();
-  std::string::size_type rb_len = randbytes.size();
-  if( randbytes.empty() )
-    {
-    // That's bad...
-    return NULL;
-    }
-  assert( len < 64 );
-  // randbytes might be a little too long, let's check
-  // if too long: take the lower bits
-  randbytes = randbytes.substr( rb_len - (64 - len) , 64 - len );
-
-  std::string::size_type zeropos = randbytes.find_first_not_of('0');
-#define RAND_VERSION
-#ifdef RAND_VERSION
-  if( zeropos == std::string::npos )
-    {
-    // All 0 ...
-    Unique += "0";
-    }
-  else
-    {
-    // Takes everything after the 0
-    Unique += randbytes.c_str() + zeropos;
-    }
-#else
-  pid_t processid = getpid();
-  std::ostringstream os;
-  os << processid;
-  Unique += os.str();
-  Unique += ".";
-  os.str("");
-  pthread_t threadid = pthread_self();
-  os << threadid;
-  Unique += os.str();
-  static unsigned int c = 0;
-  os.str("");
-  os << c;
-  c++;
-  Unique += ".";
-  Unique += os.str();
-#endif
-
-  assert( IsValid( Unique.c_str() ) );
-
-  return Unique.c_str();
-#else
-  return 0;
-#endif
-}
 
 /*
 Implementation note: You cannot set a root of more than 26 bytes (which should already

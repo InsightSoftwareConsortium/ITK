@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -388,7 +387,7 @@ bool VR::IsValid(const char *vr1, VRType vr2)
 {
   assert( strlen(vr1) == 2 );
   VR::VRType vr = GetVRType(vr1);
-  return (vr & vr2) != VR::INVALID;
+  return ((vr & vr2) != 0 ? true : false);
 }
 
 bool VR::IsSwap(const char *vr)
@@ -530,7 +529,7 @@ bool VR::Compatible(VR const &vr) const
   //if( VRField == VR::INVALID && vr.VRField == VR::INVALID ) return true;
   if( vr.VRField == VR::INVALID ) return true;
   else if( vr.VRField == VR::UN ) return true;
-  else return (VRField & vr.VRField) != VR::INVALID;
+  else return ((VRField & vr.VRField) > 0 ? true : false);
 }
 
 bool VR::IsDual() const

@@ -5,9 +5,8 @@
 -->
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/DefaultDicts.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -26,9 +25,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/DefaultDicts.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -38,8 +36,8 @@
 
 =========================================================================*/
 
-#ifndef __gdcmCSAHeaderDict_cxx
-#define __gdcmCSAHeaderDict_cxx
+#ifndef GDCMCSAHEADERDICT_CXX
+#define GDCMCSAHEADERDICT_CXX
 
 #include "gdcmCSAHeaderDict.h"
 #include "gdcmCSAHeaderDictEntry.h"
@@ -184,7 +182,7 @@ void CSAHeaderDict::LoadDefault()
 }
 
 } // end namespace gdcm
-#endif // __gdcmCSAHeaderDict_cxx
+#endif // GDCMCSAHEADERDICT_CXX
 </xsl:text>
   </xsl:template>
   <xsl:template name="do-group-length">

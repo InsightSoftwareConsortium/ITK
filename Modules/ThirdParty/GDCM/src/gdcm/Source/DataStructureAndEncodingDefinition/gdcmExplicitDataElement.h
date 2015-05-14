@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -17,7 +16,7 @@
 
 #include "gdcmDataElement.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 /**
  * \brief Class to read/write a DataElement as Explicit Data Element
@@ -32,13 +31,19 @@ public:
   std::istream &Read(std::istream &is);
 
   template <typename TSwap>
+  std::istream &ReadPreValue(std::istream &is);
+
+  template <typename TSwap>
+  std::istream &ReadValue(std::istream &is, bool readvalues = true);
+
+  template <typename TSwap>
   std::istream &ReadWithLength(std::istream &is, VL & length);
 
   template <typename TSwap>
   const std::ostream &Write(std::ostream &os) const;
 };
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #include "gdcmExplicitDataElement.txx"
 

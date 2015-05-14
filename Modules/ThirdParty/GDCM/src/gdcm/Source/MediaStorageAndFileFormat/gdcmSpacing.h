@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -81,7 +80,7 @@ All pixel spacing related attributes shall have non-zero values, except when the
 column or pixel of data present, in which case the corresponding value may be zero.
 
 Ref:
-http://apps.sourceforge.net/mediawiki/gdcm/index.php?title=Imager_Pixel_Spacing
+http://gdcm.sourceforge.net/wiki/index.php/Imager_Pixel_Spacing
  */
 class GDCM_EXPORT Spacing
 {

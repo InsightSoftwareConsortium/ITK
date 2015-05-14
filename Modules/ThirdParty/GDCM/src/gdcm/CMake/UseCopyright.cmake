@@ -1,27 +1,25 @@
 # Handy macro to gather all copyright in a single file (to pass to cpack)
 #
-#  Copyright (c) 2006-2010 Mathieu Malaterre <mathieu.malaterre@gmail.com>
+#  Copyright (c) 2006-2011 Mathieu Malaterre <mathieu.malaterre@gmail.com>
 #
 #  Redistribution and use is allowed according to the terms of the New
 #  BSD license.
 #  For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
 
-MACRO(CREATE_COPYRIGHT_FILE name)
+macro(CREATE_COPYRIGHT_FILE name)
   # Always cleanup the file:
-  FILE(WRITE ${name} "")
-  SET(COPYRIGHT_MODULE_FILENAME ${name})
-ENDMACRO(CREATE_COPYRIGHT_FILE)
+  file(WRITE ${name} "")
+  set(COPYRIGHT_MODULE_FILENAME ${name})
+endmacro()
 
 # Append copyright file
-MACRO(APPEND_COPYRIGHT)
+macro(APPEND_COPYRIGHT)
   # need to raise an error if COPYRIGHT_MODULE_FILENAME is not set...
-  IF(EXISTS ${COPYRIGHT_MODULE_FILENAME} )
-    FOREACH(filename ${ARGN})
-      IF(EXISTS ${filename} )
-      FILE(READ ${filename} content)
-      FILE(APPEND ${COPYRIGHT_MODULE_FILENAME} ${content})
-      ENDIF()
-    ENDFOREACH(filename)
-  ENDIF(EXISTS ${COPYRIGHT_MODULE_FILENAME} )
-ENDMACRO(APPEND_COPYRIGHT)
+  if(EXISTS ${COPYRIGHT_MODULE_FILENAME} )
+    foreach(filename ${ARGN})
+      file(READ ${filename} content)
+      file(APPEND ${COPYRIGHT_MODULE_FILENAME} ${content})
+    endforeach()
+  endif()
+endmacro()

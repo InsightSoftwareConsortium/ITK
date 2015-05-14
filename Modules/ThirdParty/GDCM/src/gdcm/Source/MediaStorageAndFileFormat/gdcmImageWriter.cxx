@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -218,6 +217,10 @@ bool ImageWriter::Write()
     {
     assert( pf.GetSamplesPerPixel() == 1 );
     ImageHelper::SetRescaleInterceptSlopeValue(GetFile(), pixeldata);
+    if( ms == MediaStorage::RTDoseStorage && pixeldata.GetIntercept() != 0 )
+      {
+      return false;
+      }
     }
   else
     {
@@ -244,8 +247,8 @@ bool ImageWriter::Write()
       {
       const LookupTable &lut = PixelData->GetLUT();
       assert( lut.Initialized() );
-      assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
-           || (pf.GetBitsAllocated() == 16 && pf.GetPixelRepresentation() == 0) );
+//      assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
+//           || (pf.GetBitsAllocated() == 16 && pf.GetPixelRepresentation() == 0) );
       // lut descriptor:
       // (0028,1101) US 256\0\16                                 #   6, 3 RedPaletteColorLookupTableDescriptor
       // (0028,1102) US 256\0\16                                 #   6, 3 GreenPaletteColorLookupTableDescriptor
@@ -322,7 +325,7 @@ bool ImageWriter::Write()
     ds.Remove( Tag(0x0028, 0x1202) );
     ds.Remove( Tag(0x0028, 0x1203) );
 
-    // Dont' forget the segmented one:
+    // Don't forget the segmented one:
     ds.Remove( Tag(0x0028, 0x1221) );
     ds.Remove( Tag(0x0028, 0x1222) );
     ds.Remove( Tag(0x0028, 0x1223) );

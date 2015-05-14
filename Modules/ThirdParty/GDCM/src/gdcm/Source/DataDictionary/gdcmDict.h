@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -94,6 +93,53 @@ public:
         }
 #endif
       it = DictInternal.find( Tag(0xffff,0xffff) );
+      return it->second;
+      }
+    assert( DictInternal.count(tag) == 1 );
+    return it->second;
+    }
+
+  /// Function to return the Keyword from a Tag
+  const char *GetKeywordFromTag(Tag const & tag) const
+    {
+    MapDictEntry::const_iterator it =
+      DictInternal.find(tag);
+    if (it == DictInternal.end())
+      {
+      return NULL;
+      }
+    assert( DictInternal.count(tag) == 1 );
+    return it->second.GetKeyword();
+    }
+
+  /// Lookup DictEntry by keyword. Even if DICOM standard defines keyword
+  /// as being unique. The lookup table is built on Tag. Therefore
+  /// looking up a DictEntry by Keyword is more inefficient than looking up
+  /// by Tag.
+  const DictEntry &GetDictEntryByKeyword(const char *keyword, Tag & tag) const
+    {
+    MapDictEntry::const_iterator it =
+      DictInternal.begin();
+    if( keyword )
+      {
+      for(; it != DictInternal.end(); ++it)
+        {
+        if( strcmp( keyword, it->second.GetKeyword() ) == 0 )
+          {
+          // Found a match !
+          tag = it->first;
+          break;
+          }
+        }
+      }
+    else
+      {
+      it = DictInternal.end();
+      }
+    if (it == DictInternal.end())
+      {
+      tag = Tag(0xffff,0xffff);
+      it = DictInternal.find( tag );
       return it->second;
       }
     assert( DictInternal.count(tag) == 1 );
@@ -205,6 +251,25 @@ public:
       }
 #endif
     assert( s < DictInternal.size() /*&& std::cout << tag << "," << de << std::endl*/ );
+    }
+  /// Remove entry 'tag'. Return true on success (element was found
+  /// and remove). return false if element was not found.
+  bool RemoveDictEntry(const PrivateTag &tag)
+    {
+    MapDictEntry::size_type s =
+      DictInternal.erase(tag);
+    assert( s == 1 || s == 0 );
+    return s == 1;
+    }
+  bool FindDictEntry(const PrivateTag &tag) const
+    {
+    MapDictEntry::const_iterator it =
+      DictInternal.find(tag);
+    if (it == DictInternal.end())
+      {
+      return false;
+      }
+    return true;
     }
   const DictEntry &GetDictEntry(const PrivateTag &tag) const
     {

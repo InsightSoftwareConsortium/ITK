@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--We need the DICOM Tag (group,element) but the Attribute is not necessary I don't see
 why we should repeat it. Type is compulsary and Description is not necessary either.-->
-<!-- Maybe we should doudble check that Attribute are consistant with the data dict -->
+<!-- Maybe we should double check that Attribute are consistent with the data dict -->
 <!-- Description would be awsome for help bubbles -->
 <!-- Sample XML file to test XML parser -->
 

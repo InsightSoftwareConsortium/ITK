@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -42,6 +41,8 @@ public:
   bool GetLossyFlag() const;
 
   virtual bool GetHeaderInfo(std::istream &is_, TransferSyntax &ts);
+
+  virtual ImageCodec * Clone() const = 0;
 
 protected:
   bool DecodeByStreams(std::istream &is_, std::ostream &os);
@@ -94,15 +95,28 @@ public:
     return *LUT;
     }
 
-  void SetDimensions(const unsigned int *d)
-    {
-    Dimensions[0] = d[0];
-    Dimensions[1] = d[1];
-    Dimensions[2] = d[2];
-    }
+  void SetDimensions(const unsigned int d[3]);
+  void SetDimensions(const std::vector<unsigned int> & d);
   const unsigned int *GetDimensions() const { return Dimensions; }
   void SetNumberOfDimensions(unsigned int dim);
   unsigned int GetNumberOfDimensions() const;
+
+
+protected:
+  // Streaming (write) API:
+  /// This is a high level API to encode in a streaming fashion. Each plugin
+  /// will handle differently the caching mecanism so that a limited memory is
+  /// used when compressing dataset.
+  /// Codec will fall into two categories:
+  /// - Full row encoder: only a single scanline (row) of data is needed to be loaded at a time;
+  /// - Full frame encoder (default): a complete frame (row x col) is needed to be loaded at a time
+  friend class FileChangeTransferSyntax;
+  virtual bool StartEncode( std::ostream & os );
+  virtual bool IsRowEncoder();
+  virtual bool IsFrameEncoder();
+  virtual bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen );
+  virtual bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen );
+  virtual bool StopEncode( std::ostream & os);
 
 protected:
   bool RequestPlanarConfiguration;

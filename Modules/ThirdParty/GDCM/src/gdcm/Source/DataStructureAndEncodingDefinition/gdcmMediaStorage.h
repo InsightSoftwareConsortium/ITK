@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -17,11 +16,13 @@
 
 #include "gdcmTransferSyntax.h"
 
-namespace gdcm
+namespace gdcm { class Tag; }
+namespace gdcm_ns
 {
-
+#if !defined(SWIGPYTHON) && !defined(SWIGCSHARP) && !defined(SWIGJAVA) && !defined(SWIGPHP)
+using namespace gdcm;
+#endif
 class DataSet;
-class Tag;
 class FileMetaInformation;
 class File;
 
@@ -97,6 +98,7 @@ public:
     ComprehensiveSR,
     DetachedStudyManagementSOPClass,
     EncapsulatedPDFStorage,
+    EncapsulatedCDAStorage,
     StudyComponentManagementSOPClass,
     DetachedVisitManagementSOPClass,
     DetachedPatientManagementSOPClass,
@@ -114,6 +116,20 @@ public:
     RTIonPlanStorage, // 1.2.840.10008.5.1.4.1.1.481.8
     XRay3DAngiographicImageStorage, // 1.2.840.10008.5.1.4.1.1.13.1.1
     EnhancedXAImageStorage,
+    RTIonBeamsTreatmentRecordStorage, // 1.2.840.10008.5.1.4.1.1.481.9
+    SurfaceSegmentationStorage, // "1.2.840.10008.5.1.4.1.1.66.5"
+    VLWholeSlideMicroscopyImageStorage, // 1.2.840.10008.5.1.4.1.1.77.1.6
+    RTTreatmentSummaryRecordStorage, // 1.2.840.10008.5.1.4.1.1.481.7
+    EnhancedUSVolumeStorage, // 1.2.840.10008.5.1.4.1.1.6.2
+    XRayRadiationDoseSR, // 1.2.840.10008.5.1.4.1.1.88.67
+    VLEndoscopicImageStorage, // 1.2.840.10008.5.1.4.1.1.77.1.1
+    BreastTomosynthesisImageStorage, // 1.2.840.10008.5.1.4.1.1.13.1.3
+    FujiPrivateCRImageStorage, // 1.2.392.200036.9125.1.1.2
+    OphthalmicPhotography8BitImageStorage, // 1.2.840.10008.5.1.4.1.1.77.1.5.1
+    OphthalmicTomographyImageStorage, // 1.2.840.10008.5.1.4.1.1.77.1.5.4
+    VLMicroscopicImageStorage,
+    EnhancedPETImageStorage,
+    VideoPhotographicImageStorage,
     MS_END
   } MSType; // Media Storage Type
 
@@ -144,6 +160,7 @@ typedef enum {
   operator MSType () const { return MSField; }
 
   const char *GetModality() const;
+  unsigned int GetModalityDimension() const;
 
   static unsigned int GetNumberOfMSType();
   static unsigned int GetNumberOfMSString();
@@ -191,6 +208,6 @@ inline std::ostream &operator<<(std::ostream &_os, const MediaStorage &ms)
 
 }
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #endif // GDCMMEDIASTORAGE_H

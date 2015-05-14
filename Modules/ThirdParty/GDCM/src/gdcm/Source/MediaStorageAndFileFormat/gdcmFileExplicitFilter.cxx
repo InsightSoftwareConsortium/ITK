@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -41,18 +40,18 @@ void FileExplicitFilter::SetRecomputeSequenceLength(bool b)
 bool FileExplicitFilter::ChangeFMI()
 {
 /*
-    gdcm::FileMetaInformation &fmi = F->GetHeader();
-    gdcm::TransferSyntax ts = gdcm::TransferSyntax::ImplicitVRLittleEndian;
+    FileMetaInformation &fmi = F->GetHeader();
+    TransferSyntax ts = TransferSyntax::ImplicitVRLittleEndian;
       {
-      ts = gdcm::TransferSyntax::ExplicitVRLittleEndian;
+      ts = TransferSyntax::ExplicitVRLittleEndian;
       }
-    const char *tsuid = gdcm::TransferSyntax::GetTSString( ts );
-    gdcm::DataElement de( gdcm::Tag(0x0002,0x0010) );
+    const char *tsuid = TransferSyntax::GetTSString( ts );
+    DataElement de( Tag(0x0002,0x0010) );
     de.SetByteValue( tsuid, strlen(tsuid) );
-    de.SetVR( gdcm::Attribute<0x0002, 0x0010>::GetVR() );
+    de.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
     fmi.Replace( de );
-    //fmi.Remove( gdcm::Tag(0x0002,0x0012) ); // will be regenerated
-    //fmi.Remove( gdcm::Tag(0x0002,0x0013) ); //  '   '    '
+    //fmi.Remove( Tag(0x0002,0x0012) ); // will be regenerated
+    //fmi.Remove( Tag(0x0002,0x0013) ); //  '   '    '
     fmi.SetDataSetTransferSyntax(ts);
 */
 
@@ -73,7 +72,13 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
     std::string strowner;
     const char *owner = 0;
     const Tag& t = de.GetTag();
-    if( t.IsPrivate() && !ChangePrivateTags )
+    if( t.IsPrivate() && !ChangePrivateTags
+    // As a special exception we convert to proper VR :
+    // - Private Group Length
+    // - Private Creator
+    // This makes the output more readable (and this should be relative safe)
+      && !t.IsGroupLength() && !t.IsPrivateCreator()
+    )
       {
       // nothing to do ! just skip
       ++it;

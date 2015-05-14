@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -14,6 +13,8 @@
 =========================================================================*/
 #include "gdcmPixelFormat.h"
 #include "gdcmTrace.h"
+#include "gdcmTransferSyntax.h"
+
 #include <stdlib.h>
 
 namespace gdcm
@@ -27,10 +28,13 @@ static const char *ScalarTypeStrings[] = {
   "INT16",
   "UINT32",
   "INT32",
+  "UINT64",
+  "INT64",
   "FLOAT16",
   "FLOAT32",
   "FLOAT64",
   "SINGLEBIT",
+  "UNKNOWN",
   NULL,
 };
 
@@ -84,6 +88,14 @@ void PixelFormat::SetScalarType(ScalarType st)
     BitsAllocated = 32;
     PixelRepresentation = 1;
     break;
+  case PixelFormat::UINT64:
+    BitsAllocated = 64;
+    PixelRepresentation = 0;
+    break;
+  case PixelFormat::INT64:
+    BitsAllocated = 64;
+    PixelRepresentation = 1;
+    break;
   case PixelFormat::FLOAT16:
     BitsAllocated = 16;
     // secret code:
@@ -112,7 +124,7 @@ void PixelFormat::SetScalarType(ScalarType st)
     break;
     }
   BitsStored = BitsAllocated;
-  HighBit = BitsStored - 1;
+  HighBit = (uint16_t)(BitsStored - 1);
 }
 
 PixelFormat::ScalarType PixelFormat::GetScalarType() const
@@ -139,18 +151,16 @@ PixelFormat::ScalarType PixelFormat::GetScalarType() const
     type = PixelFormat::UINT32;
     break;
   case 64:
-    type = PixelFormat::UINT32; // why not ?
+    type = PixelFormat::UINT64;
     break;
   case 24:
-    gdcmWarningMacro( "This is illegal in DICOM, assuming a RGB image" );
+    gdcmDebugMacro( "This is illegal in DICOM, assuming a RGB image" );
     type = PixelFormat::UINT8;
-    assert(0);
     break;
   default:
     gdcmErrorMacro( "I have never seen this before BitsAllocated "
       << BitsAllocated );
     type = PixelFormat::UNKNOWN;
-    //assert(0);
     }
   if( type != PixelFormat::UNKNOWN )
     {
@@ -160,7 +170,7 @@ PixelFormat::ScalarType PixelFormat::GetScalarType() const
       }
     else if( PixelRepresentation == 1 )
       {
-      assert( type <= INT32 );
+      assert( type <= INT64 );
       // That's why you need to order properly type in ScalarType
       type = ScalarType(int(type)+1);
       }
@@ -194,13 +204,15 @@ const char *PixelFormat::GetScalarTypeAsString() const
 
 uint8_t PixelFormat::GetPixelSize() const
 {
-  uint8_t pixelsize = BitsAllocated / 8;
+  uint8_t pixelsize = (uint8_t)(BitsAllocated / 8);
   if( BitsAllocated == 12 )
     {
     pixelsize = 2; // fake a short value
     }
   else
+    {
     assert( !(BitsAllocated % 8) );
+    }
   pixelsize *= SamplesPerPixel;
 
   return pixelsize;
@@ -208,60 +220,51 @@ uint8_t PixelFormat::GetPixelSize() const
 
 int64_t PixelFormat::GetMin() const
 {
-  assert( BitsStored <= 32 );
-  if( PixelRepresentation == 1 )
+  assert( BitsAllocated ); // cannot be unknown
+  if( BitsStored <= 32 )
     {
-    return (int64_t)(~(((1ull << BitsStored) - 1) >> 1));
+    if( PixelRepresentation == 1 )
+      {
+      return (int64_t)(~(((1ull << BitsStored) - 1) >> 1));
+      }
+    else if( PixelRepresentation == 0 )
+      {
+      return 0;
+      }
     }
-  else if( PixelRepresentation == 0 )
-    {
-    return 0;
-    }
-  //else if( PixelRepresentation == 3 ) // 32bits float
-  //  {
-  //  return (float) -1.0e+38f;
-  //  }
-  //else if( PixelRepresentation == 4 ) // 64bits float
-  //  {
-  //  return (double) -1.0e+299;
-  //  }
-  else
-    {
-    assert(0);
-    }
+  // else
+  throw "PixelFormat bad representation";
   return 0;
 }
 
 int64_t PixelFormat::GetMax() const
 {
-  assert( BitsStored <= 32 );
-  if( PixelRepresentation == 1 )
+  assert( BitsAllocated ); // cannot be unknown
+  if( BitsStored <= 32 )
     {
-    return (int64_t)(((1ull << BitsStored) - 1) >> 1);
+    if( PixelRepresentation == 1 )
+      {
+      return (int64_t)(((1ull << BitsStored) - 1) >> 1);
+      }
+    else if( PixelRepresentation == 0 )
+      {
+      return (int64_t)((1ull << BitsStored) - 1);
+      }
     }
-  else if( PixelRepresentation == 0 )
-    {
-    return (int64_t)((1ull << BitsStored) - 1);
-    }
-  //else if( PixelRepresentation == 3 ) // 32bits float
-  //  {
-  //  return (float)  1.0e+38f;
-  //  }
-  //else if( PixelRepresentation == 4 ) // 64bits float
-  //  {
-  //  return (double)  1.0e+299;
-  //  }
-  else
-    {
-    assert(0);
-    }
+  // else
+  throw "PixelFormat bad representation";
   return 0;
 }
 
-bool PixelFormat::IsValid()
+bool PixelFormat::IsValid() const
 {
+  if( PixelRepresentation != 0 && PixelRepresentation != 1 )
+    {
+    return false;
+    }
   if( BitsAllocated < BitsStored ) return false;
   if( BitsAllocated < HighBit ) return false;
+  if( BitsStored > 32 ) return false;
   return true;
 }
 
@@ -279,11 +282,16 @@ bool PixelFormat::Validate()
   if ( BitsAllocated == 24 )
     {
     gdcmDebugMacro( "ACR-NEMA way of storing RGB data. Updating" );
-    assert( BitsStored == 24 && HighBit == 23 && SamplesPerPixel == 1 );
-    BitsAllocated = 8;
-    BitsStored = 8;
-    HighBit = 7;
-    SamplesPerPixel = 3;
+    if( BitsStored == 24 && HighBit == 23 && SamplesPerPixel == 1 )
+      {
+      BitsAllocated = 8;
+      BitsStored = 8;
+      HighBit = 7;
+      SamplesPerPixel = 3;
+      return true;
+      }
+    // all other case, simply give up
+    return false;
     }
   return true;
 }
@@ -296,6 +304,13 @@ void PixelFormat::Print(std::ostream &os) const
   os << "HighBit            :" << HighBit             << "\n";
   os << "PixelRepresentation:" << PixelRepresentation << "\n";
   os << "ScalarType found   :" << GetScalarTypeAsString() << "\n";
+}
+
+bool PixelFormat::IsCompatible(const TransferSyntax & ts ) const
+{
+  if( ts == TransferSyntax::JPEGBaselineProcess1 && BitsAllocated != 8 ) return false;
+  // FIXME are we missing any ?
+  return true;
 }
 
 } // end namespace gdcm

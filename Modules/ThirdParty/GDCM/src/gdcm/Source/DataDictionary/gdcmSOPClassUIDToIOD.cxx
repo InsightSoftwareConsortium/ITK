@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -13,6 +12,8 @@
 
 =========================================================================*/
 #include "gdcmSOPClassUIDToIOD.h"
+
+#include <cstring>
 
 namespace gdcm
 {
@@ -68,7 +69,7 @@ namespace gdcm
 {"1.2.840.10008.5.1.4.1.1.66.4" , "Segmentation IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.66.5" , "Surface Segmentation"},
 {"1.2.840.10008.5.1.4.1.1.67" , "Real World Value Mapping"},
-{"1.2.840.10008.5.1.4.1.1.77.1.1" , "VL Endoscopic Image"},
+{"1.2.840.10008.5.1.4.1.1.77.1.1" , "VL Endoscopic Image IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.77.1.1.1" , "Video Endoscopic Image IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.77.1.2" , "VL Microscopic Image"},
 {"1.2.840.10008.5.1.4.1.1.77.1.2.1" , "Video Microscopic Image"},
@@ -93,10 +94,10 @@ namespace gdcm
 {"1.2.840.10008.5.1.4.1.1.88.50" , "Mammography CAD SR IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.88.59" , "Key Object Selection Document IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.88.65" , "Chest CAD SR IOD"},
-{"1.2.840.10008.5.1.4.1.1.88.67" , "X-Ray Radiation Dose SR"},
+{"1.2.840.10008.5.1.4.1.1.88.67" , "X Ray Radiation Dose SR IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.88.69" , "Colon CAD SR IOD"},
 {"1.2.840.10008.5.1.4.1.1.104.1" , "Encapsulated PDF IOD Modules"},
-{"1.2.840.10008.5.1.4.1.1.104.2" , "Encapsulated CDA IOD"},
+{"1.2.840.10008.5.1.4.1.1.104.2" , "Encapsulated CDA IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.128" , "PET Image IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.130" , "IOD defined in PS 3.3"},
 {"1.2.840.10008.5.1.4.1.1.131" , "Basic Structured Display IOD"},
@@ -116,7 +117,9 @@ namespace gdcm
 {"1.2.840.10008.5.1.4.1.1.5" , "NM Image IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.6" , "US Image IOD Modules"},
 {"1.2.840.10008.5.1.4.1.1.3" , "US Multi Frame Image IOD Modules"},
-{"1.2.840.10008.5.1.4.1.1.12.3" , ""},
+{"1.2.840.10008.5.1.4.1.1.12.3" , ""}, // XRayAngiographicBiplaneImageStorage
+// private:
+{ "1.3.12.2.1107.5.9.1" , "Siemens Non-image IOD Modules"}, // CSA Non-Image Storage
 
 { 0, 0 }
 };

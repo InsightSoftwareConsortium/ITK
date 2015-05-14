@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -41,7 +40,7 @@ class GDCM_EXPORT Bitmap : public Object
 public:
   Bitmap();
   ~Bitmap();
-  void Print(std::ostream &) const {}
+  void Print(std::ostream &) const;
 
   virtual bool AreOverlaysInPixelData() const { return false; }
 
@@ -92,7 +91,6 @@ public:
     return *LUT;
     }
 
-
   /// Return the dimension of the pixel data, first dimension (x), then 2nd (y), then 3rd (z)...
   const unsigned int *GetDimensions() const;
   unsigned int GetDimension(unsigned int idx) const;
@@ -128,7 +126,7 @@ public:
   /// Return the length of the image after decompression
   /// WARNING for palette color: It will NOT take into account the Palette Color
   /// thus you need to multiply this length by 3 if computing the size of equivalent RGB image
-  uint32_t GetBufferLength() const;
+  unsigned long GetBufferLength() const;
 
   /// Acces the raw data
   bool GetBuffer(char *buffer) const;
@@ -155,6 +153,8 @@ protected:
 
   friend class PixmapReader;
   friend class ImageChangeTransferSyntax;
+  // Function to compute the lossy flag based only on the image buffer.
+  // Watch out that image can be lossy but in implicit little endian format...
   bool ComputeLossyFlag();
 
 //private:

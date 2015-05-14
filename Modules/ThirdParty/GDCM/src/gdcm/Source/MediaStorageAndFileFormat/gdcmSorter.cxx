@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -79,9 +78,9 @@ bool Sorter::StableSort(std::vector<std::string> const & filenames)
 
   std::vector< SmartPointer<FileWithName> >::iterator it2 = filelist.begin();
   for( Directory::FilenamesType::const_iterator it = filenames.begin();
-    it != filenames.end(), it2 != filelist.end(); ++it, ++it2)
+    it != filenames.end() && it2 != filelist.end(); ++it, ++it2)
     {
-    gdcm::Reader reader;
+    Reader reader;
     reader.SetFileName( it->c_str() );
     SmartPointer<FileWithName> &f = *it2;
     if( reader.Read() )
@@ -91,7 +90,8 @@ bool Sorter::StableSort(std::vector<std::string> const & filenames)
       }
     else
       {
-      f = NULL;
+      gdcmErrorMacro( "File could not be read: " << it->c_str() );
+      return false;
       }
     }
   SortFunctor sf;
@@ -120,9 +120,9 @@ bool Sorter::Sort(std::vector<std::string> const & filenames)
 
   std::vector< SmartPointer<FileWithName> >::iterator it2 = filelist.begin();
   for( Directory::FilenamesType::const_iterator it = filenames.begin();
-    it != filenames.end(), it2 != filelist.end(); ++it, ++it2)
+    it != filenames.end() && it2 != filelist.end(); ++it, ++it2)
     {
-    gdcm::Reader reader;
+    Reader reader;
     reader.SetFileName( it->c_str() );
     SmartPointer<FileWithName> &f = *it2;
     if( reader.Read() )
@@ -132,7 +132,8 @@ bool Sorter::Sort(std::vector<std::string> const & filenames)
       }
     else
       {
-      f = NULL;
+      gdcmErrorMacro( "File could not be read: " << it->c_str() );
+      return false;
       }
     }
   //std::sort( filelist.begin(), filelist.end(), Sorter::SortFunc);

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -14,13 +13,15 @@
 =========================================================================*/
 #include "gdcmImageApplyLookupTable.h"
 
+#include <limits>
+
 namespace gdcm
 {
 
 bool ImageApplyLookupTable::Apply()
 {
   Output = Input;
-  const Pixmap &image = *Input;
+  const Bitmap &image = *Input;
 
   PhotometricInterpretation pi = image.GetPhotometricInterpretation();
   if( pi != PhotometricInterpretation::PALETTE_COLOR )
@@ -28,35 +29,41 @@ bool ImageApplyLookupTable::Apply()
     gdcmDebugMacro( "Image is not palettized" );
     return false;
     }
-  const gdcm::LookupTable &lut = image.GetLUT();
+  const LookupTable &lut = image.GetLUT();
   int bitsample = lut.GetBitSample();
-  assert( bitsample );
-  (void)bitsample;//warning removal
+  if( !bitsample ) return false;
 
-  //const DataElement& pixeldata = image.GetDataElement();
-  //const ByteValue *bv = pixeldata.GetByteValue();
-  //const char *p = bv->GetPointer();
-  //std::istringstream is;
-  //is.str( std::string( p, p + bv->GetLength() ) );
-  unsigned long len = image.GetBufferLength();
-  char *p = new char[len];
+  const unsigned long len = image.GetBufferLength();
+  std::vector<char> v;
+  v.resize( len );
+  char *p = &v[0];
   image.GetBuffer( p );
   std::stringstream is;
-  is.write( p, len );
-  delete[] p;
-
-  std::ostringstream os;
-  lut.Decode(is, os);
+  if( !is.write( p, len ) )
+    {
+    gdcmErrorMacro( "Could not write to stringstream" );
+    return false;
+    }
 
   DataElement &de = Output->GetDataElement();
-  std::string str = os.str();
+#if 0
+  std::ostringstream os;
+  lut.Decode(is, os);
+  const std::string str = os.str();
   VL::Type strSize = (VL::Type)str.size();
   de.SetByteValue( str.c_str(), strSize);
+#else
+  std::vector<char> v2;
+  v2.resize( len * 3 );
+  lut.Decode(&v2[0], v2.size(), &v[0], v.size());
+  assert( v2.size() < (size_t)std::numeric_limits<uint32_t>::max );
+  de.SetByteValue( &v2[0], (uint32_t)v2.size());
+#endif
   Output->GetLUT().Clear();
   Output->SetPhotometricInterpretation( PhotometricInterpretation::RGB );
   Output->GetPixelFormat().SetSamplesPerPixel( 3 );
   Output->SetPlanarConfiguration( 0 ); // FIXME OT-PAL-8-face.dcm has a PlanarConfiguration while being PALETTE COLOR...
-  const gdcm::TransferSyntax &ts = image.GetTransferSyntax();
+  const TransferSyntax &ts = image.GetTransferSyntax();
   //assert( ts == TransferSyntax::RLELossless );
   if( ts.IsExplicit() )
     {

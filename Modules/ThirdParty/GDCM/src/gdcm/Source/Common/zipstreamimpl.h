@@ -325,23 +325,23 @@ inline bool isGZip(std::istream &is)
 {
     const int gz_magic[2] = {0x1f, 0x8b};
 
-    int c1 = (int) is.get();
+    int c1 = is.get();
     if(c1 != gz_magic[0])
     {
-        is.putback(c1);
+        is.putback((char)c1);
         return false;
     }
 
-    int c2 = (int) is.get();
+    int c2 = is.get();
     if(c2 != gz_magic[1])
     {
-        is.putback(c2);
-        is.putback(c1);
+        is.putback((char)c2);
+        is.putback((char)c1);
         return false;
     }
 
-    is.putback(c2);
-    is.putback(c1);
+    is.putback((char)c2);
+    is.putback((char)c1);
     return true;
 }
 

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -75,7 +74,7 @@ public:
   }
 
   /// WARNING: Trailing \0 might be lost in this operation:
-  operator const char *() { return this->c_str(); }
+  operator const char *() const { return this->c_str(); }
 
   /// return if string is valid
   bool IsValid() const {
@@ -103,6 +102,16 @@ public:
     return str;
   }
 
+  static std::string Trim(const char *input) {
+    if( !input ) return "";
+    std::string str = input;
+    std::string::size_type pos1 = str.find_first_not_of(' ');
+    std::string::size_type pos2 = str.find_last_not_of(' ');
+    str = str.substr( (pos1 == std::string::npos) ? 0 : pos1,
+      (pos2 == std::string::npos) ? (str.size() - 1) : (pos2 - pos1 + 1));
+    return str;
+  }
+
 };
 template <char TDelimiter, unsigned int TMaxLength, char TPadChar>
 inline std::istream& operator>>(std::istream &is, String<TDelimiter,TMaxLength,TPadChar> &ms)
@@ -112,7 +121,7 @@ inline std::istream& operator>>(std::istream &is, String<TDelimiter,TMaxLength,T
     std::getline(is, ms, TDelimiter);
     // no such thing as std::get where the delim char would be left, so I need to manually add it back...
     // hopefully this is the right thing to do (no overhead)
-    is.putback( TDelimiter );
+    if( !is.eof() ) is.putback( TDelimiter );
     }
   return is;
 }

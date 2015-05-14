@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -16,7 +15,6 @@
 #define GDCMIMAGE_H
 
 #include "gdcmPixmap.h"
-#include "gdcmSwapCode.h"
 
 #include <vector>
 
@@ -25,7 +23,6 @@ namespace gdcm
 
 /**
  * \brief Image
- * \note
  * This is the container for an Image in the general sense.
  * From this container you should be able to request information like:
  * - Origin
@@ -35,9 +32,9 @@ namespace gdcm
  * But also to retrieve the image as a raw buffer (char *)
  * Since we have to deal with both RAW data and JPEG stream (which
  * internally encode all the above information) this API might seems
- * redundant. One way to solve that would be to subclass gdcm::Image
- * with gdcm::JPEGImage which would from the stream extract the header info
- * and fill it to please gdcm::Image...well except origin for instance
+ * redundant. One way to solve that would be to subclass Image
+ * with JPEGImage which would from the stream extract the header info
+ * and fill it to please Image...well except origin for instance
  *
  * Basically you can see it as a storage for the Pixel Data element (7fe0,0010).
  *
@@ -87,19 +84,6 @@ public:
   /// print
   void Print(std::ostream &os) const;
 
-  /// DEPRECATED DO NOT USE
-  SwapCode GetSwapCode() const
-    {
-    return SC;
-    }
-  void SetSwapCode(SwapCode sc)
-    {
-    SC = sc;
-    }
-
-//  Image(Image const&);
-//  Image &operator= (Image const&);
-
   /// intercept
   void SetIntercept(double intercept) { Intercept = intercept; }
   double GetIntercept() const { return Intercept; }
@@ -121,7 +105,7 @@ private:
 
 /**
  * \example DecompressImage.cs
- * This is a C# example on how to use gdcm::Image
+ * This is a C# example on how to use Image
  */
 
 } // end namespace gdcm

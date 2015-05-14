@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -24,16 +23,23 @@
 #include "gdcmValueIO.h"
 #include "gdcmSwapper.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
-
 //-----------------------------------------------------------------------------
 template <typename TSwap>
 std::istream &ExplicitDataElement::Read(std::istream &is)
 {
+  ReadPreValue<TSwap>(is);
+  return ReadValue<TSwap>(is);
+}
+
+template <typename TSwap>
+std::istream &ExplicitDataElement::ReadPreValue(std::istream &is)
+{
+  TagField.Read<TSwap>(is);
   // See PS 3.5, Data Element Structure With Explicit VR
   // Read Tag
-  if( !TagField.Read<TSwap>(is) )
+  if( !is )
     {
     if( !is.eof() ) // FIXME This should not be needed
       {
@@ -61,6 +67,8 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
       gdcmDebugMacro(
         "Item Delimitation Item has a length different from 0 and is: " << ValueLengthField );
       }
+    // Reset ValueLengthField to avoid user error
+    ValueLengthField = 0;
     // Set pointer to NULL to avoid user error
     ValueField = 0;
     VRField = VR::INVALID;
@@ -82,8 +90,8 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
     is.seekg( s, std::ios::beg );
     ValueField->SetLength( (int32_t)(e - s) );
     ValueLengthField = ValueField->GetLength();
-    bool failed = !ValueIO<ExplicitDataElement,TSwap,uint16_t>::Read(is,*ValueField);
-    (void)failed;
+    bool failed = !ValueIO<ExplicitDataElement,TSwap,uint16_t>::Read(is,*ValueField,true);
+    gdcmAssertAlwaysMacro( !failed );
     return is;
     //throw Exception( "Unhandled" );
     }
@@ -165,7 +173,13 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
     ValueLengthField = ValueLengthField - 7;
     }
 #endif
+  return is;
+}
 
+template <typename TSwap>
+std::istream &ExplicitDataElement::ReadValue(std::istream &is, bool readvalues)
+{
+  if( is.eof() ) return is;
   if( ValueLengthField == 0 )
     {
     // Simple fast path
@@ -202,7 +216,7 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
       try
         {
         //if( !ValueIO<ExplicitDataElement,TSwap>::Read(is,*ValueField) ) // non cp246
-        if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField) ) // cp246 compliant
+        if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) ) // cp246 compliant
           {
           assert(0);
           }
@@ -225,7 +239,7 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
     ValueField = new ByteValue;
     }
   // We have the length we should be able to read the value
-  ValueField->SetLength(ValueLengthField); // perform realloc
+  this->SetValueFieldLength( ValueLengthField, readvalues );
 #if defined(GDCM_SUPPORT_BROKEN_IMPLEMENTATION) && 0
   // PHILIPS_Intera-16-MONO2-Uncompress.dcm
   if( TagField == Tag(0x2001,0xe05f)
@@ -244,7 +258,7 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
     assert( TagField.IsPrivate() );
     try
       {
-      if( !ValueIO<ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField) )
+      if( !ValueIO<ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues) )
         {
         assert(0 && "Should not happen");
         }
@@ -273,7 +287,7 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
   if( VRField & VR::VRASCII )
     {
     //assert( VRField.GetSize() == 1 );
-    failed = !ValueIO<ExplicitDataElement,TSwap>::Read(is,*ValueField);
+    failed = !ValueIO<ExplicitDataElement,TSwap>::Read(is,*ValueField,readvalues);
     }
   else
     {
@@ -284,19 +298,19 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
     switch(vrsize)
       {
     case 1:
-      failed = !ValueIO<ExplicitDataElement,TSwap,uint8_t>::Read(is,*ValueField);
+      failed = !ValueIO<ExplicitDataElement,TSwap,uint8_t>::Read(is,*ValueField,readvalues);
       break;
     case 2:
-      failed = !ValueIO<ExplicitDataElement,TSwap,uint16_t>::Read(is,*ValueField);
+      failed = !ValueIO<ExplicitDataElement,TSwap,uint16_t>::Read(is,*ValueField,readvalues);
       break;
     case 4:
-      failed = !ValueIO<ExplicitDataElement,TSwap,uint32_t>::Read(is,*ValueField);
+      failed = !ValueIO<ExplicitDataElement,TSwap,uint32_t>::Read(is,*ValueField,readvalues);
       break;
     case 8:
-      failed = !ValueIO<ExplicitDataElement,TSwap,uint64_t>::Read(is,*ValueField);
+      failed = !ValueIO<ExplicitDataElement,TSwap,uint64_t>::Read(is,*ValueField,readvalues);
       break;
     default:
-    failed = true;
+      failed = true;
       assert(0);
       }
     }
@@ -305,9 +319,9 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
     if( TagField == Tag(0x7fe0,0x0010) )
       {
-      // BUG this should be moved to the ImageReader class, only this class knows
-      // what 7fe0 actually is, and should tolerate partial Pixel Data element...
-      // PMS-IncompletePixelData.dcm
+      // BUG this should be moved to the ImageReader class, only this class
+      // knows what 7fe0 actually is, and should tolerate partial Pixel Data
+      // element...  PMS-IncompletePixelData.dcm
       gdcmWarningMacro( "Incomplete Pixel Data found, use file at own risk" );
       is.clear();
       }
@@ -321,6 +335,30 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
       }
     return is;
     }
+
+#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
+  if( SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(&GetValue()) )
+    {
+    assert( ValueField->GetLength() == ValueLengthField );
+    // Recompute the total length:
+    if( !ValueLengthField.IsUndefined() )
+      {
+      // PhilipsInteraSeqTermInvLen.dcm
+      // contains an extra seq del item marker, which we are not loading. Therefore the
+      // total length needs to be recomputed when sqi is expressed in defined length
+      VL dummy = sqi->template ComputeLength<ExplicitDataElement>();
+      ValueLengthField = dummy;
+      sqi->SetLength( dummy );
+      gdcmAssertAlwaysMacro( dummy == ValueLengthField );
+      }
+    }
+  else if( SequenceOfFragments *sqf = dynamic_cast<SequenceOfFragments*>(&GetValue()) )
+    {
+    assert( ValueField->GetLength() == ValueLengthField );
+    assert( sqf->GetLength() == ValueLengthField ); (void)sqf;
+    assert( ValueLengthField.IsUndefined() );
+    }
+#endif
 
   return is;
 }
@@ -366,25 +404,38 @@ const std::ostream &ExplicitDataElement::Write(std::ostream &os) const
       }
     return os;
     }
-#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
-  bool vr16bitsimpossible = (VRField & VR::VL16) && (ValueLengthField > VL::GetVL16Max());
+  bool vr16bitsimpossible = (VRField & VR::VL16) && (ValueLengthField > (uint32_t)VL::GetVL16Max());
   if( VRField == VR::INVALID || vr16bitsimpossible )
     {
-    VR un = VR::UN;
-    un.Write(os);
-    Value* v = &*ValueField;
-    if( dynamic_cast<const SequenceOfItems*>(v) )
+    if ( TagField.IsPrivateCreator() )
       {
-      VL vl = 0xFFFFFFFF;
-      assert( vl.IsUndefined() );
-      vl.Write<TSwap>(os);
+      gdcmAssertAlwaysMacro( !vr16bitsimpossible );
+      VR lo = VR::LO;
+      if( TagField.IsGroupLength() )
+        {
+        lo = VR::UL;
+        }
+      lo.Write(os);
+      ValueLengthField.Write16<TSwap>(os);
       }
     else
-      ValueLengthField.Write<TSwap>(os);
+      {
+      const VR un = VR::UN;
+      un.Write(os);
+      Value* v = &*ValueField;
+      if( dynamic_cast<const SequenceOfItems*>(v) )
+        {
+        VL vl = 0xFFFFFFFF;
+        assert( vl.IsUndefined() );
+        vl.Write<TSwap>(os);
+        }
+      else
+        ValueLengthField.Write<TSwap>(os);
+      }
     }
   else
-#endif
     {
+    assert( VRField.IsVRFile() && VRField != VR::INVALID );
     if( !VRField.Write(os) )
       {
       assert( 0 && "Should not happen" );
@@ -490,6 +541,7 @@ const std::ostream &ExplicitDataElement::Write(std::ostream &os) const
           failed = !ValueIO<ExplicitDataElement,TSwap,uint64_t>::Write(os,*ValueField);
           break;
         default:
+          failed = true;
           assert(0);
           }
         }
@@ -505,6 +557,6 @@ const std::ostream &ExplicitDataElement::Write(std::ostream &os) const
 
 
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #endif // GDCMEXPLICITDATAELEMENT_TXX

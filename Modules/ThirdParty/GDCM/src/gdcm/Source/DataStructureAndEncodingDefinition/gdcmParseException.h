@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -18,7 +17,17 @@
 #include "gdcmException.h"
 #include "gdcmDataElement.h"
 
-namespace gdcm
+// Disable clang warning "dynamic exception specifications are deprecated".
+// We need to be C++03 and C++11 compatible, and if we remove the 'throw()'
+// specifier we'll get an error in C++03 by not matching the superclass.
+#if defined(__clang__) && defined(__has_warning)
+# if __has_warning("-Wdeprecated")
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdeprecated"
+# endif
+#endif
+
+namespace gdcm_ns
 {
 /**
  * \brief ParseException Standard exception handling object.
@@ -69,6 +78,13 @@ private:
   DataElement LastElement;
 };
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
+
+// Undo warning suppression.
+#if defined(__clang__) && defined(__has_warning)
+# if __has_warning("-Wdeprecated")
+#  pragma clang diagnostic pop
+# endif
+#endif
 
 #endif

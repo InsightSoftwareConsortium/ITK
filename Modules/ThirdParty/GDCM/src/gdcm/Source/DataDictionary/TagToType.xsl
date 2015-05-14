@@ -6,9 +6,8 @@
 -->
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/TagToType.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -21,14 +20,13 @@
   <xsl:template match="/">
     <xsl:text>
 // GENERATED FILE DO NOT EDIT
-// $ xsltproc TagToType.xsl DICOMV3.xml &gt; gdcmTagToType.h
+// $ xsltproc TagToType.xsl Part6.xml &gt; gdcmTagToType.h
 
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/TagToType.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -61,7 +59,9 @@ enum { VMType = VM::VM1 };
 static const char* GetVMString() { return "1"; }
 };
 </xsl:text>
-    <xsl:for-each select="dict/entry">
+    <xsl:for-each select="dicts/dict/entry">
+      <xsl:sort select="@group" data-type="text" order="ascending"/>
+      <xsl:sort select="@element" data-type="text" order="ascending"/>
       <xsl:variable name="group" select="translate(@group,'x','0')"/>
       <xsl:variable name="element" select="translate(@element,'x','0')"/>
       <xsl:if test="contains(@element,'x') = true and contains(@element,'xx') = false and @vr != '' and @vr != 'US_SS' and @vr != 'US_SS_OW' and @vr != 'OB_OW'">

@@ -39,8 +39,8 @@ simple_upscale(j_decompress_ptr cinfo,
          JDIMENSION width)
 {
   j_lossless_d_ptr losslsd = (j_lossless_d_ptr) cinfo->codec;
-  scaler_ptr scalerval = (scaler_ptr) losslsd->scaler_private;
-  int scale_factor = scalerval->scale_factor;
+  scaler_ptr scaler = (scaler_ptr) losslsd->scaler_private;
+  int scale_factor = scaler->scale_factor;
   unsigned int xindex;
 
   for (xindex = 0; xindex < width; xindex++)
@@ -53,8 +53,8 @@ simple_downscale(j_decompress_ptr cinfo,
      JDIMENSION width)
 {
   j_lossless_d_ptr losslsd = (j_lossless_d_ptr) cinfo->codec;
-  scaler_ptr scalerval = (scaler_ptr) losslsd->scaler_private;
-  int scale_factor = scalerval->scale_factor;
+  scaler_ptr scaler = (scaler_ptr) losslsd->scaler_private;
+  int scale_factor = scaler->scale_factor;
   unsigned int xindex;
   SHIFT_TEMPS
 
@@ -79,7 +79,7 @@ METHODDEF(void)
 scaler_start_pass (j_decompress_ptr cinfo)
 {
   j_lossless_d_ptr losslsd = (j_lossless_d_ptr) cinfo->codec;
-  scaler_ptr scalerval = (scaler_ptr) losslsd->scaler_private;
+  scaler_ptr scaler = (scaler_ptr) losslsd->scaler_private;
   int downscale;
 
   /*
@@ -89,13 +89,13 @@ scaler_start_pass (j_decompress_ptr cinfo)
   downscale = BITS_IN_JSAMPLE < cinfo->data_precision ?
     cinfo->data_precision - BITS_IN_JSAMPLE : 0;
 
-  scalerval->scale_factor = cinfo->Al - downscale;
+  scaler->scale_factor = cinfo->Al - downscale;
 
   /* Set scaler functions based on scale_factor (positive = left shift) */
-  if (scalerval->scale_factor > 0)
+  if (scaler->scale_factor > 0)
     losslsd->scaler_scale = simple_upscale;
-  else if (scalerval->scale_factor < 0) {
-    scalerval->scale_factor = -scalerval->scale_factor;
+  else if (scaler->scale_factor < 0) {
+    scaler->scale_factor = -scaler->scale_factor;
     losslsd->scaler_scale = simple_downscale;
   }
   else
@@ -107,12 +107,12 @@ GLOBAL(void)
 jinit_d_scaler (j_decompress_ptr cinfo)
 {
   j_lossless_d_ptr losslsd = (j_lossless_d_ptr) cinfo->codec;
-  scaler_ptr scalerval;
+  scaler_ptr scaler;
 
-  scalerval = (scaler_ptr)
+  scaler = (scaler_ptr)
     (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-        SIZEOF(scalerval));
-  losslsd->scaler_private = (void *) scalerval;
+        SIZEOF(scaler));
+  losslsd->scaler_private = (void *) scaler;
   losslsd->scaler_start_pass = scaler_start_pass;
 }
 

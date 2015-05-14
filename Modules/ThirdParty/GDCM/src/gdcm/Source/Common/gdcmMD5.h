@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -37,7 +36,7 @@ public :
   MD5();
   ~MD5();
 
-  static bool Compute(const char *buffer, size_t buf_len, char digest_str[33]);
+  static bool Compute(const char *buffer, unsigned long buf_len, char digest_str[33]);
 
   static bool ComputeFile(const char *filename, char digest_str[33]);
 

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -17,6 +16,8 @@
 
 #include "gdcmTypes.h"
 #include "gdcmObject.h"
+
+#include <vector>
 
 namespace gdcm
 {
@@ -44,7 +45,6 @@ public:
 
   void GetAsPoints(float *array) const;
 
-
   static unsigned int GetNumberOfCurves(DataSet const & ds);
 
   // Update curve data from dataelmenet de:
@@ -63,6 +63,11 @@ public:
   void SetCurveDescription(const char *curvedescription);
   void SetDataValueRepresentation(unsigned short datavaluerepresentation);
   unsigned short GetDataValueRepresentation() const;
+  void SetCurveDataDescriptor(const uint16_t * values, size_t num);
+  std::vector<unsigned short> const &GetCurveDataDescriptor() const;
+  void SetCoordinateStartValue( unsigned short v );
+  void SetCoordinateStepValue( unsigned short v );
+
   void SetCurve(const char *array, unsigned int length);
 
   bool IsEmpty() const;
@@ -71,6 +76,7 @@ public:
 
   Curve(Curve const &ov);
 private:
+  double ComputeValueFromStartAndStep(unsigned int idx) const;
   CurveInternal *Internal;
 };
 

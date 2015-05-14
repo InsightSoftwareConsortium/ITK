@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -32,13 +31,15 @@ std::istream &Preamble::Read(std::istream &is)
 {
   // \precondition: we are at beg of Preamble
   assert ( !IsEmpty() /*&& is.tellg() == 0*/ );
-  is.read(Internal, 128+4);
-  if( Internal[128+0] == 'D'
-   && Internal[128+1] == 'I'
-   && Internal[128+2] == 'C'
-   && Internal[128+3] == 'M')
+  if( is.read(Internal, 128+4) )
     {
-    return is;
+    if( Internal[128+0] == 'D'
+      && Internal[128+1] == 'I'
+      && Internal[128+2] == 'C'
+      && Internal[128+3] == 'M')
+      {
+      return is;
+      }
     }
 
   // else reset everything !
@@ -47,7 +48,6 @@ std::istream &Preamble::Read(std::istream &is)
   throw Exception( "Not a DICOM V3 file (No Preamble)" );
 
   // \postcondition we are after the Preamble (or at beg of file if none)
-  return is;
 }
 
 void Preamble::Valid()

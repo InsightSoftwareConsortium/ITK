@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -19,6 +18,8 @@
 #include "gdcmSubject.h"
 #include "gdcmEvent.h"
 #include "gdcmSmartPointer.h"
+
+#include <map>
 
 namespace gdcm
 {
@@ -45,19 +46,23 @@ class CryptographicMessageSyntax;
  * - Remove all private attributes
  * - Remove all retired attributes
  *
- * All function calls actually execute the user specified request. Previous implementation were calling
- * a general Anonymize function but traversing a std::set is O(n) operation, while a simple user specified
- * request is O(log(n)) operation. So 'm' user interaction is O(m*log(n)) which is < O(n) complexity.
+ * All function calls actually execute the user specified request. Previous
+ * implementation were calling a general Anonymize function but traversing a
+ * std::set is O(n) operation, while a simple user specified request is
+ * O(log(n)) operation. So 'm' user interaction is O(m*log(n)) which is < O(n)
+ * complexity.
  *
  * 2. smart mode
- * this mode implements the Basic Application Level Confidentiality Profile (DICOM PS 3.15-2008)
- * In this case it is extremely important to use the same gdcm::Anonymizer class when anonymizing
- * a FileSet. Once the gdcm::Anonymizer is destroyed its memory of known (already processed) UIDs
- * will be lost. which will make the anonymizer behaves incorrectly for attributes such as Series UID
- * Study UID where user want some consistancy.
- * When attribute is Type 1 / Type 1C, a dummy generator will take in the existing value and produce
- * a dummy value (a sha1 representation). sha1 algorithm is considered to be cryptograpgically strong
- * (compared to md5sum) so that we meet the following two conditions:
+ * this mode implements the Basic Application Level Confidentiality Profile
+ * (DICOM PS 3.15-2008) In this case, it is extremely important to use the same
+ * Anonymizer class when anonymizing a FileSet. Once the Anonymizer
+ * is destroyed its memory of known (already processed) UIDs will be lost.
+ * which will make the anonymizer behaves incorrectly for attributes such as
+ * Series UID Study UID where user want some consistency.  When attribute is
+ * Type 1 / Type 1C, a dummy generator will take in the existing value and
+ * produce a dummy value (a sha1 representation). sha1 algorithm is considered
+ * to be cryptographically strong (compared to md5sum) so that we meet the
+ * following two conditions:
  *  - Produce the same dummy value for the same input value
  *  - do not provide an easy way to retrieve the original value from the sha1 generated value
  *
@@ -82,6 +87,7 @@ public:
   //bool Empty( TagPath const &t );
 
   /// remove a tag (even a SQ can be removed)
+  /// Return code is false when tag t cannot be found
   bool Remove( Tag const &t );
   //bool Remove( PrivateTag const &t );
   //bool Remove( TagPath const &t );
@@ -123,11 +129,15 @@ public:
   void SetCryptographicMessageSyntax( CryptographicMessageSyntax *cms );
   const CryptographicMessageSyntax *GetCryptographicMessageSyntax() const;
 
-  /// for wrapped language: instanciate a reference counted object
+  /// for wrapped language: instantiate a reference counted object
   static SmartPointer<Anonymizer> New() { return new Anonymizer; }
 
   /// Return the list of Tag that will be considered when anonymizing a DICOM file.
   static std::vector<Tag> GetBasicApplicationLevelConfidentialityProfileAttributes();
+
+  /// Clear the internal mapping of real UIDs to generated UIDs
+  /// \warning the mapping is definitely lost
+  static void ClearInternalUIDs();
 
 protected:
   // Internal function used to either empty a tag or set it's value to a dummy value (Type 1 vs Type 2)
@@ -144,12 +154,18 @@ private:
   // I would prefer to have a smart pointer to DataSet but DataSet does not derive from Object...
   SmartPointer<File> F;
   CryptographicMessageSyntax *CMS;
+
+  typedef std::pair< Tag, std::string > TagValueKey;
+  typedef std::map< TagValueKey, std::string > DummyMapNonUIDTags;
+  typedef std::map< std::string, std::string > DummyMapUIDTags;
+  static DummyMapNonUIDTags dummyMapNonUIDTags;
+  static DummyMapUIDTags dummyMapUIDTags;
 };
 
 /**
  * \example ManipulateFile.cs
  * \example ClinicalTrialIdentificationWorkflow.cs
- * This is a C# example on how to use gdcm::Anonymizer
+ * This is a C# example on how to use Anonymizer
  */
 
 } // end namespace gdcm

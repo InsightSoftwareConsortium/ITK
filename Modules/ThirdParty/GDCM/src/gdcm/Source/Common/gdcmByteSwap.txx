@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -107,7 +106,7 @@ void Swap4(T &a, SwapCode const &swapcode)
 {
 #ifndef GDCM_WORDS_BIGENDIAN
   if ( swapcode == 4321 || swapcode == 2143 )
-    a = ( a << 8 ) | ( a >> 8 );
+    a = (T)(( a << 8 ) | ( a >> 8 ));
 #else
   if ( swapcode == 1234 || swapcode == 3412 )
     a = ( a << 8 ) | ( a >> 8 );
@@ -118,8 +117,10 @@ void Swap4(T &a, SwapCode const &swapcode)
 #endif
 }
 
+//note: according to http://www.parashift.com/c++-faq-lite/templates.html#faq-35.8
+//the inlining of the template class means that the specialization doesn't cause linker errors
 template<class T>
-void Swap8(T &a, SwapCode const &swapcode)
+inline void Swap8(T &a, SwapCode const &swapcode)
 {
   switch (swapcode)
     {
@@ -143,6 +144,38 @@ void Swap8(T &a, SwapCode const &swapcode)
     break;
   case 2143 :
     a= (((a<< 8) & 0xff00ff00) | ((a>>8) & 0x00ff00ff) );
+    break;
+  default :
+    std::cerr << "Unexpected swap code:" << swapcode;
+    }
+}
+
+template <>
+inline void Swap8<uint16_t>(uint16_t &a, SwapCode const &swapcode)
+{
+  switch (swapcode)
+    {
+  case SwapCode::Unknown:
+#ifdef GDCM_WORDS_BIGENDIAN
+    a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
+#endif
+    break;
+  case 1234 :
+#ifdef GDCM_WORDS_BIGENDIAN
+    a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
+#endif
+    break;
+  case 4321 :
+#ifndef GDCM_WORDS_BIGENDIAN
+//    probably not really useful since the lowest 0x0000 are what's used in unsigned shorts
+//    a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
+#endif
+    break;
+  case 3412 :
+    //a= ((a<<16) | (a>>16)  );//do nothing, a = a
+    break;
+  case 2143 :
+    a= (uint16_t)(((a<< 8) & 0xff00) | ((a>>8) & 0x00ff) );
     break;
   default :
     std::cerr << "Unexpected swap code:" << swapcode;

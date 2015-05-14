@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -12,7 +11,6 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-
 #ifndef GDCMCONFIGURE_H
 #define GDCMCONFIGURE_H
 
@@ -51,17 +49,26 @@
 #cmakedefine GDCM_USE_SYSTEM_ZLIB
 #cmakedefine GDCM_USE_SYSTEM_UUID
 #cmakedefine GDCM_USE_SYSTEM_POPPLER
-#cmakedefine GDCM_USE_SYSTEM_PODOFO
+#cmakedefine GDCM_USE_SYSTEM_LIBXML2
 #cmakedefine GDCM_USE_SYSTEM_OPENSSL
 #cmakedefine GDCM_USE_SYSTEM_MD5
 #cmakedefine GDCM_USE_SYSTEM_EXPAT
+#cmakedefine GDCM_USE_SYSTEM_JSON
 #cmakedefine GDCM_USE_SYSTEM_LJPEG
 #cmakedefine GDCM_USE_SYSTEM_OPENJPEG
+#cmakedefine GDCM_USE_OPENJPEG_V2
+#cmakedefine GDCM_USE_SYSTEM_CHARLS
 #cmakedefine GDCM_USE_SYSTEM_KAKADU
 #cmakedefine GDCM_USE_SYSTEM_PVRG
+#cmakedefine GDCMV2_0_COMPATIBILITY
+#cmakedefine GDCM_USE_SYSTEM_PAPYRUS3
 
 #ifndef GDCM_USE_SYSTEM_OPENJPEG
+#ifdef GDCM_USE_OPENJPEG_V2
+#define OPENJPEG_MAJOR_VERSION 2
+#else // GDCM_USE_OPENJPEG_V2
 #define OPENJPEG_MAJOR_VERSION 1
+#endif // GDCM_USE_OPENJPEG_V2
 #else
 #define OPENJPEG_MAJOR_VERSION @OPENJPEG_MAJOR_VERSION@
 #endif //GDCM_USE_SYSTEM_OPENJPEG
@@ -74,8 +81,7 @@
 #cmakedefine GDCM_USE_KAKADU
 #cmakedefine GDCM_USE_JPEGLS
 
-/* For older gcc / broken plateform */
-#cmakedefine GDCM_NO_ANSI_STRING_STREAM
+#cmakedefine GDCM_AUTOLOAD_GDCMJNI
 
 /* I guess something important */
 #cmakedefine GDCM_HAVE_STDINT_H
@@ -97,8 +103,6 @@
 /* GDCM uses __FUNCTION__ which is not ANSI C, but C99 */
 #cmakedefine GDCM_CXX_HAS_FUNCTION
 
-#define GDCM_SIZEOF_LONG @GDCM_SIZEOF_LONG@
-
 /* Special time structure support */
 #cmakedefine GDCM_HAVE_SYS_TIME_H
 #cmakedefine GDCM_HAVE_WINSOCK_H
@@ -106,10 +110,13 @@
 #cmakedefine GDCM_HAVE_RPC_H
 // CMS with PBE (added in OpenSSL 1.0.0 ~ Fri Nov 27 15:33:25 CET 2009)
 #cmakedefine GDCM_HAVE_CMS_RECIPIENT_PASSWORD
+#cmakedefine GDCM_HAVE_LANGINFO_H
+#cmakedefine GDCM_HAVE_NL_LANGINFO
 
 #cmakedefine GDCM_HAVE_STRCASECMP
 #cmakedefine GDCM_HAVE_STRNCASECMP
 #cmakedefine GDCM_HAVE_SNPRINTF
+#cmakedefine GDCM_HAVE_STRPTIME
 #cmakedefine GDCM_HAVE__STRICMP
 #cmakedefine GDCM_HAVE__STRNICMP
 #cmakedefine GDCM_HAVE__SNPRINTF
@@ -123,19 +130,18 @@
 
 #cmakedefine GDCM_FORCE_BIGENDIAN_EMULATION
 
+#ifndef GDCM_OVERRIDE_BROKEN_IMPLEMENTATION
 /* To Remove code that support broken DICOM implementation and therefore
  * add some over head. Turn Off at your own risk
  */
 #cmakedefine GDCM_SUPPORT_BROKEN_IMPLEMENTATION
+#endif
+#ifndef gdcm_ns
+#define gdcm_ns gdcm
+#endif
 
 #define GDCM_PVRG_JPEG_EXECUTABLE "@PVRGJPEG_EXECUTABLE@"
 #define GDCM_KAKADU_EXPAND_EXECUTABLE "@KDU_EXPAND_EXECUTABLE@"
-
-/* Undocumented on purpose :-P */
-#cmakedefine GDCM_WRITE_ODD_LENGTH
-#ifdef GDCM_WRITE_ODD_LENGTH
-#error do not use !
-#endif
 
 /*--------------------------------------------------------------------------*/
 /* GDCM Versioning                                                          */
@@ -145,6 +151,7 @@
 #define GDCM_MINOR_VERSION @GDCM_MINOR_VERSION@
 #define GDCM_BUILD_VERSION @GDCM_BUILD_VERSION@
 #define GDCM_VERSION "@GDCM_VERSION@"
+#define GDCM_API_VERSION "@GDCM_API_VERSION@"
 
 /*
 #define GDCM_FILE_META_INFORMATION_VERSION "\0\1"
@@ -160,5 +167,6 @@
 #cmakedefine GDCM_LEGACY_REMOVE
 #cmakedefine GDCM_LEGACY_SILENT
 
+#cmakedefine GDCM_ALWAYS_TRACE_MACRO
 
 #endif

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -62,7 +61,7 @@ public:
   // http://www.parashift.com/c++-faq-lite/freestore-mgmt.html#faq-16.24
   // Set the ref count to 0
   // Do NOT copy the reference count !
-  /// Special requirement for copy/cstor, assigment operator
+  /// Special requirement for copy/cstor, assignment operator
   Object(const Object&):ReferenceCount(0){}
   void operator=(const Object&){}
 

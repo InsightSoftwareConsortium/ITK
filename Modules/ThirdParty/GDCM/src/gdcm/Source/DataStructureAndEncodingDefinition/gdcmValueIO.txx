@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -23,23 +22,23 @@
 #include "gdcmSequenceOfItems.h"
 #include "gdcmByteValue.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 
   template <typename TDE, typename TSwap, typename TType>
-  std::istream &ValueIO<TDE,TSwap,TType>::Read(std::istream &is, Value& _v) {
+  std::istream &ValueIO<TDE,TSwap,TType>::Read(std::istream &is, Value& _v, bool readvalues) {
     Value* v = &_v;
     if( ByteValue *bv = dynamic_cast<ByteValue*>(v) )
       {
-      bv->template Read<TSwap,TType>(is);
+      bv->template Read<TSwap,TType>(is,readvalues);
       }
     else if( SequenceOfItems *si = dynamic_cast<SequenceOfItems*>(v) )
       {
-      si->template Read<TDE,TSwap>(is);
+      si->template Read<TDE,TSwap>(is,readvalues);
       }
     else if( SequenceOfFragments *sf = dynamic_cast<SequenceOfFragments*>(v) )
       {
-      sf->template Read<TSwap>(is);
+      sf->template Read<TSwap>(is,readvalues);
       }
     else
       {
@@ -72,6 +71,6 @@ namespace gdcm
     return os;
   }
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
-#endif // __gdcmValue_txx
+#endif // GDCMVALUEIO_TXX

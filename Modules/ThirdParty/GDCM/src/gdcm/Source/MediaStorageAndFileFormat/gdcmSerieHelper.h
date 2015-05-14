@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -60,11 +59,11 @@ typedef bool (*BOOL_FUNCTION_PFILE_PFILE_POINTER)(File *, File *);
 class Scanner;
 
 /**
- * \class SerieHelper
+ * \brief SerieHelper
  * DO NOT USE this class, it is only a temporary solution for ITK migration from GDCM 1.x to GDCM 2.x
  * It will disapear soon, you've been warned.
  *
- * Instead see gdcm::ImageHelper or gdcm::IPPSorter
+ * Instead see ImageHelper or IPPSorter
  */
 class GDCM_EXPORT SerieHelper
 {

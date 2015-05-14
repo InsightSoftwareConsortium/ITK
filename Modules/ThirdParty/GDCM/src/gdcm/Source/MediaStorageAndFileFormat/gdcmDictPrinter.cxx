@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -440,20 +439,19 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
 
   std::string strowner;
   const char *owner = 0;
-  const Tag& tag = de.GetTag();
-  if( tag.IsPrivate() && !tag.IsPrivateCreator() )
+  const Tag& t = de.GetTag();
+  if( t.IsPrivate() && !t.IsPrivateCreator() )
     {
-    strowner = ds.GetPrivateCreator(tag);
+    strowner = ds.GetPrivateCreator(t);
     owner = strowner.c_str();
     }
-  const DictEntry &entry = dicts.GetDictEntry(tag,owner);
+  const DictEntry &entry = dicts.GetDictEntry(t,owner);
 
   if( de.GetTag().IsPrivate() && de.GetTag().GetElement() >= 0x0100 )
     {
     //owner = GetOwner(ds,de);
     //version = GetVersion(owner);
 
-    const Tag &t = de.GetTag();
     const VR &vr = de.GetVR();
     VR pvr = vr;
     if( vr == VR::INVALID ) pvr = VR::UN;
@@ -492,21 +490,20 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
     //os << "</entry>\n";
     }
 
-  if( entry.GetVR() == VR::SQ )
-{
-  SmartPointer<SequenceOfItems> sqi = de.GetValueAsSQ();
-  if( sqi )
+  if( entry.GetVR() == VR::SQ || true )
     {
-    SequenceOfItems::ItemVector::const_iterator it = sqi->Items.begin();
-    for(; it != sqi->Items.end(); ++it)
+    SmartPointer<SequenceOfItems> sqi = de.GetValueAsSQ();
+    if( sqi )
       {
-      const Item &item = *it;
-      const DataSet &ds1 = item.GetNestedDataSet();
-      //const DataElement &deitem = item;
-      PrintDataSet2(os, ds1);
+      SequenceOfItems::ItemVector::const_iterator it = sqi->Items.begin();
+      for(; it != sqi->Items.end(); ++it)
+        {
+        const Item &item = *it;
+        const DataSet &nestedds = item.GetNestedDataSet();
+        PrintDataSet2(os, nestedds);
+        }
       }
     }
-}
 }
 
 //-----------------------------------------------------------------------------

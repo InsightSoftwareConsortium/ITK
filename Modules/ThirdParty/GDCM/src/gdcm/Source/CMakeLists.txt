@@ -1,5 +1,5 @@
 # ...
-SUBDIRS(
+subdirs(
   Common
   Attribute
   DataDictionary

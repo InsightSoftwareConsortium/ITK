@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -29,6 +28,7 @@ namespace gdcm
     template <typename EntryType>
     class Segment {
     public:
+        virtual ~Segment() {}
         typedef std::map<const EntryType*, const Segment*> SegmentMap;
         virtual bool Expand(const SegmentMap& instances,
             std::vector<EntryType>& expanded) const = 0;
@@ -42,8 +42,6 @@ namespace gdcm
                 operator()(const Segment* segment) const
             { return std::make_pair(segment->First(), segment); }
         };
-        virtual ~Segment() {}
-
     protected:
         Segment(const EntryType* first, const EntryType* last) {
             _first = first; _last = last;
@@ -65,7 +63,6 @@ namespace gdcm
             std::copy(this->_first + 2, this->_last, std::back_inserter(expanded));
             return true;
         }
-        virtual ~DiscreteSegment() {}
     };
 
     // linear segment (opcode = 1)
@@ -95,7 +92,6 @@ namespace gdcm
             }
             return true;
         }
-        virtual ~LinearSegment() {}
     };
 
     // indirect segment (opcode = 2)
@@ -133,7 +129,6 @@ namespace gdcm
             }
             return true;
         }
-        virtual ~IndirectSegment() {}
     };
 
     template <typename EntryType>
@@ -198,15 +193,9 @@ void SegmentedPaletteColorLookupTable::SetLUT(LookupTableType type, const unsign
     palette.reserve(num_entries);
     assert( length % 2 == 0 );
     // FIXME: inplace byteswapping (BAD!)
-    SwapperNoOp::SwapArray(const_cast<uint16_t*>(segment_values),length/2);
+    SwapperNoOp::SwapArray((uint16_t*)segment_values,length/2);
     ExpandPalette(segment_values, length, palette);
-
-    if (palette.size() * 2 > std::numeric_limits<uint32_t>::max())
-      {
-      gdcmErrorMacro("Palette size exceeds 32 bit integer range, something is very wrong.");
-      }
-    uint32_t theSize = (uint32_t)palette.size() * 2;
-    LookupTable::SetLUT(type, (unsigned char*)&palette[0], theSize);
+    LookupTable::SetLUT(type, (unsigned char*)&palette[0], (unsigned int)(palette.size() * 2));
     }
 }
 

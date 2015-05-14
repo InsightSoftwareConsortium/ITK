@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -52,7 +51,7 @@ ASN1::~ASN1()
 bool ASN1::ParseDumpFile(const char *filename)
 {
   if(!filename) return false;
-  std::ifstream is(filename);
+  std::ifstream is(filename, std::ios::binary);
   if( !is.good() ) return false;
   size_t length = System::FileSize(filename);
   char * str = new char[length];
@@ -120,12 +119,14 @@ int ASN1::TestPBKDF2()
   unsigned char buf[1024];
 
   ic = 1;
-  PKCS5_PBKDF2_HMAC_SHA1(pass, strlen(pass), (unsigned char*)salt, strlen(salt), ic, 32+16, buf);
+  PKCS5_PBKDF2_HMAC_SHA1(pass, (int)strlen(pass), (unsigned char*)salt,
+    (int)strlen(salt), ic, 32+16, buf);
   printf("PKCS5_PBKDF2_HMAC_SHA1(\"%s\", \"%s\", %d)=\n", pass, salt, ic);
   print_hex(buf, 32+16);
 
   ic = 1;
-  EVP_BytesToKey(EVP_aes_256_cbc(), EVP_sha1(), (unsigned char*)salt, (unsigned char*)pass, strlen(pass), ic, buf, buf+32);
+  EVP_BytesToKey(EVP_aes_256_cbc(), EVP_sha1(), (unsigned char*)salt,
+    (unsigned char*)pass, (int)strlen(pass), ic, buf, buf+32);
   printf("EVP_BytesToKey(\"%s\", \"%s\", %d)=\n", pass, salt, ic);
   print_hex(buf, 32+16);
 

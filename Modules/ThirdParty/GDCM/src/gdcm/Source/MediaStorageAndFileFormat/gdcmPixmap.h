@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -35,17 +34,17 @@ class GDCM_EXPORT Pixmap : public Bitmap
 public:
   Pixmap();
   ~Pixmap();
-  void Print(std::ostream &) const {}
+  void Print(std::ostream &) const;
 
   /// returns if Overlays are stored in the unused bit of the pixel data:
   bool AreOverlaysInPixelData() const;
 
   /// Curve: group 50xx
-  Curve& GetCurve(unsigned int i = 0) {
+  Curve& GetCurve(size_t i = 0) {
     assert( i < Curves.size() );
     return Curves[i];
   }
-  const Curve& GetCurve(unsigned int i = 0) const {
+  const Curve& GetCurve(size_t i = 0) const {
     assert( i < Curves.size() );
     return Curves[i];
   }
@@ -63,16 +62,21 @@ public:
   }
   size_t GetNumberOfOverlays() const { return Overlays.size(); }
   void SetNumberOfOverlays(size_t n) { Overlays.resize(n); }
+  void RemoveOverlay(size_t i) {
+    assert( i < Overlays.size() );
+    Overlays.erase( Overlays.begin() + i );
+  }
 
   /// Set/Get Icon Image
-  const IconImage &GetIconImage() const { return Icon; }
-  IconImage &GetIconImage() { return Icon; }
+  const IconImage &GetIconImage() const { return *Icon; }
+  IconImage &GetIconImage() { return *Icon; }
+  void SetIconImage(IconImage const &ii) { Icon = ii; }
 
 //private:
 protected:
   std::vector<Overlay>  Overlays;
   std::vector<Curve>  Curves;
-  IconImage Icon;
+  SmartPointer<IconImage> Icon;
 };
 
 } // end namespace gdcm

@@ -1,7 +1,13 @@
 # Define the srcs for Media Storage And FileFormat
 # MSFF
-SET(MSFF_SRCS
+set(MSFF_SRCS
+  gdcmFileStreamer.cxx
+  gdcmJSON.cxx
+  gdcmFileChangeTransferSyntax.cxx
   gdcmAnonymizer.cxx
+  gdcmFileAnonymizer.cxx
+  gdcmIconImageFilter.cxx
+  gdcmIconImageGenerator.cxx
   gdcmDICOMDIRGenerator.cxx
   gdcmSpacing.cxx
   gdcmFileExplicitFilter.cxx
@@ -14,6 +20,7 @@ SET(MSFF_SRCS
   gdcmBitmap.cxx
   gdcmRescaler.cxx
   gdcmImageToImageFilter.cxx
+  gdcmBitmapToBitmapFilter.cxx
   gdcmPixmapToPixmapFilter.cxx
   gdcmImageChangeTransferSyntax.cxx
   gdcmImageApplyLookupTable.cxx
@@ -35,9 +42,12 @@ SET(MSFF_SRCS
   gdcmPersonName.cxx
   gdcmIconImage.cxx
   gdcmUIDGenerator.cxx
+  gdcmUUIDGenerator.cxx
   gdcmPrinter.cxx
   gdcmDictPrinter.cxx
+  gdcmXMLPrinter.cxx
   gdcmScanner.cxx
+  gdcmStrictScanner.cxx
   gdcmPixmapReader.cxx
   gdcmImageReader.cxx
   gdcmPixmapWriter.cxx
@@ -60,6 +70,7 @@ SET(MSFF_SRCS
   gdcmPVRGCodec.cxx
   gdcmKAKADUCodec.cxx
   gdcmPNMCodec.cxx
+  gdcmPGXCodec.cxx
   gdcmRAWCodec.cxx
   gdcmLookupTable.cxx
   gdcmOverlay.cxx
@@ -67,6 +78,19 @@ SET(MSFF_SRCS
   gdcmPhotometricInterpretation.cxx
   gdcmPixelFormat.cxx
   gdcmSegmentedPaletteColorLookupTable.cxx
+  gdcmStreamImageReader.cxx
+  gdcmImageRegionReader.cxx
+  #gdcmStreamImageWriter.cxx
+  gdcmDirectoryHelper.cxx
+  gdcmSegment.cxx
+  gdcmSurface.cxx
+  gdcmMeshPrimitive.cxx
+  gdcmSegmentWriter.cxx
+  gdcmSurfaceWriter.cxx
+  gdcmSegmentReader.cxx
+  gdcmSurfaceReader.cxx
+  gdcmSurfaceHelper.cxx
+  gdcmSegmentHelper.cxx
   )
 if(OPENJPEG_VERSION VERSION_LESS 2.0)
   list(APPEND MSFF_SRCS
@@ -78,18 +102,29 @@ else ()
   )
 endif()
 
+  list(APPEND MSFF_SRCS
+    ${GDCM_SOURCE_DIR}/Utilities/gdcmrle/rle.cxx
+    ${GDCM_SOURCE_DIR}/Utilities/gdcmrle/info.cxx
+    ${GDCM_SOURCE_DIR}/Utilities/gdcmrle/io.cxx
+  )
+
 # Do the proper thing when building static...if only there was configured
 # headers or def files instead
-IF(NOT BUILD_SHARED_LIBS)
-  SET_SOURCE_FILES_PROPERTIES(gdcmJPEG2000Codec.cxx
+if(NOT BUILD_SHARED_LIBS)
+  set_source_files_properties(gdcmJPEG2000Codec.cxx
                               PROPERTIES
                               COMPILE_FLAGS -DOPJ_STATIC
                               )
-ENDIF(NOT BUILD_SHARED_LIBS)
+else()
+  set_source_files_properties(gdcmJPEGLSCodec.cxx
+                              PROPERTIES
+                              COMPILE_FLAGS -DCHARLS_SHARED
+                              )
+endif()
 
 
 # Add the include paths
-INCLUDE_DIRECTORIES(
+include_directories(
   "${GDCM_SOURCE_DIR}/Source/Common"
   "${GDCM_BINARY_DIR}/Source/Common"
   "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition"
@@ -103,86 +138,100 @@ INCLUDE_DIRECTORIES(
   )
 
 # CharLS
-IF(GDCM_USE_JPEGLS)
-  #INCLUDE_DIRECTORIES("${GDCM_BINARY_DIR}/Utilities/gdcmcharls")
-ENDIF(GDCM_USE_JPEGLS)
+if(GDCM_USE_JPEGLS)
+  #include_directories("${GDCM_BINARY_DIR}/Utilities/gdcmcharls")
+endif()
 
-IF(GDCM_USE_SYSTEM_OPENJPEG)
-  INCLUDE_DIRECTORIES(${OPENJPEG_INCLUDE_DIRS} )
-ELSE(GDCM_USE_SYSTEM_OPENJPEG)
-  INCLUDE_DIRECTORIES(
+if(GDCM_USE_SYSTEM_CHARLS)
+  include_directories(${CHARLS_INCLUDE_DIRS} )
+else()
+  include_directories(
+  "${GDCM_BINARY_DIR}/Utilities/gdcmcharls"
+    )
+endif()
+if(GDCM_USE_SYSTEM_OPENJPEG)
+  include_directories(${OPENJPEG_INCLUDE_DIRS} )
+else()
+  include_directories(
   "${GDCM_BINARY_DIR}/Utilities/gdcmopenjpeg"
     )
-ENDIF(GDCM_USE_SYSTEM_OPENJPEG)
-IF(GDCM_USE_SYSTEM_LJPEG)
-  #MESSAGE(${LJPEG_INCLUDE_DIRS} )
-  INCLUDE_DIRECTORIES(${LJPEG_INCLUDE_DIRS} )
-ENDIF(GDCM_USE_SYSTEM_LJPEG)
-IF(NOT GDCM_USE_SYSTEM_ZLIB)
+if(GDCM_USE_OPENJPEG_V2)
   INCLUDE_DIRECTORIES(
+  "${GDCM_BINARY_DIR}/Utilities/gdcmopenjpeg-v2"
+    )
+endif()
+endif()
+if(GDCM_USE_SYSTEM_LJPEG)
+  #message(${LJPEG_INCLUDE_DIRS} )
+  include_directories(${LJPEG_INCLUDE_DIRS} )
+endif()
+if(NOT GDCM_USE_SYSTEM_ZLIB)
+  include_directories(
     "${GDCM_BINARY_DIR}/Utilities/gdcmzlib"
   )
-ENDIF(NOT GDCM_USE_SYSTEM_ZLIB)
-IF(GDCM_USE_SYSTEM_UUID)
-  INCLUDE_DIRECTORIES(
+endif()
+if(GDCM_USE_SYSTEM_UUID)
+  include_directories(
     ${UUID_INCLUDE_DIR}
   )
-  SET(GDCMUUID ${UUID_LIBRARIES})
-ELSE(GDCM_USE_SYSTEM_UUID)
-  INCLUDE_DIRECTORIES(
+  set(GDCMUUID ${UUID_LIBRARIES})
+else()
+  include_directories(
     "${GDCM_BINARY_DIR}/Utilities/gdcmuuid" # uuid_mangle.h
   )
-  SET(GDCMUUID gdcmuuid)
-ENDIF(GDCM_USE_SYSTEM_UUID)
+  set(GDCMUUID gdcmuuid)
+endif()
+if(GDCM_USE_SYSTEM_JSON)
+  include_directories(
+    ${JSON_INCLUDE_DIRS}
+  )
+endif()
 
-ADD_LIBRARY(gdcmMSFF ${MSFF_SRCS})
+add_library(gdcmMSFF ${MSFF_SRCS})
+# gdcmPVRGCodec calls gdcmjpeg
+if(GDCM_USE_PVRG)
+  if(NOT GDCM_USE_SYSTEM_PVRG)
+    add_dependencies(gdcmMSFF gdcmjpeg)
+  endif()
+endif()
 
 # main libs:
-TARGET_LINK_LIBRARIES(gdcmMSFF gdcmIOD gdcmDSED gdcmDICT ${GDCM_LJPEG_LIBRARIES} ${GDCM_OPENJPEG_LIBRARIES})
-IF(GDCM_USE_JPEGLS)
-  TARGET_LINK_LIBRARIES(gdcmMSFF gdcmcharls)
-ENDIF(GDCM_USE_JPEGLS)
+target_link_libraries(gdcmMSFF gdcmIOD gdcmDSED gdcmDICT ${GDCM_LJPEG_LIBRARIES} ${GDCM_OPENJPEG_LIBRARIES})
+if(GDCM_USE_JPEGLS)
+  target_link_libraries(gdcmMSFF ${GDCM_CHARLS_LIBRARIES})
+endif()
 
-IF(CMAKE_COMPILER_IS_GNUCXX AND MINGW)
+if(CMAKE_COMPILER_IS_GNUCXX AND MINGW)
   # I am getting:
 # CMakeFiles/gdcmMSFF.dir/gdcmScanner.obj(.text$_ZN4gdcm6ReaderC1Ev[gdcm::Reader::Reader()]+0x3a):gdcmScanner.cxx: variable 'vtable for gdcm::Reader' can't be auto-imported. Please read the documentation for ld's --enable-auto-import for details.
 # CMakeFiles/gdcmMSFF.dir/gdcmImageReader.obj(.text$_ZN4gdcm6ReaderC2Ev[gdcm::Reader::Reader()]+0x3a):gdcmImageReader.cxx: variable 'vtable for gdcm::Reader' can't be auto-imported. Please read the documentation for ld's --enable-auto-import for details.
 # CMakeFiles/gdcmMSFF.dir/gdcmImageWriter.obj(.text$_ZN4gdcm6WriterC2Ev[gdcm::Writer::Writer()]+0x3a):gdcmImageWriter.cxx: variable 'vtable for gdcm::Writer' can't be auto-imported. Please read the documentation for ld's --enable-auto-import for details.
 
-  SET_TARGET_PROPERTIES(gdcmMSFF PROPERTIES LINK_FLAGS "-Wl,--enable-runtime-pseudo-reloc")
-ENDIF(CMAKE_COMPILER_IS_GNUCXX AND MINGW)
-#IF(HAVE_UUIDCREATE)
-IF(WIN32)
+  set_target_properties(gdcmMSFF PROPERTIES LINK_FLAGS "-Wl,--enable-runtime-pseudo-reloc")
+endif()
+#if(HAVE_UUIDCREATE)
+if(WIN32)
   # For UuidCreate
   # http://msdn.microsoft.com/en-us/library/aa379205(VS.85).aspx
-  TARGET_LINK_LIBRARIES(gdcmMSFF rpcrt4)
-#ENDIF(HAVE_UUIDCREATE)
-ELSE(WIN32)
-TARGET_LINK_LIBRARIES(gdcmMSFF ${GDCMUUID})
-ENDIF(WIN32)
-SET_TARGET_PROPERTIES(gdcmMSFF PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
-IF(BUILD_SHARED_LIBS)
-  SET(_ill "gdcmDSED;gdcmDICT;gdcmIOD")
-  SET_TARGET_PROPERTIES(gdcmMSFF PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
-ENDIF()
-IF(NOT GDCM_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS gdcmMSFF
-    EXPORT ${GDCM_TARGETS_NAME}
-    RUNTIME DESTINATION ${GDCM_INSTALL_BIN_DIR} COMPONENT Applications
-    LIBRARY DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Libraries ${NAMELINK_SKIP}
-    ARCHIVE DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Development
-  )
-  if(NAMELINK_ONLY)
-    INSTALL(TARGETS gdcmMSFF
-    EXPORT ${GDCM_TARGETS_NAME}
-      LIBRARY DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Development ${NAMELINK_ONLY}
-      )
-  endif(NAMELINK_ONLY)
-ENDIF(NOT GDCM_INSTALL_NO_LIBRARIES)
+  target_link_libraries(gdcmMSFF rpcrt4)
+#endif()
+else()
+target_link_libraries(gdcmMSFF ${GDCMUUID})
+endif()
+if(GDCM_USE_SYSTEM_JSON)
+target_link_libraries(gdcmMSFF ${JSON_LIBRARIES})
+endif()
+# handling of static lib within shared is a mess:
+#target_link_libraries(gdcmMSFF gdcmrle)
+set_target_properties(gdcmMSFF PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
+if(BUILD_SHARED_LIBS)
+  set(_ill "gdcmDSED;gdcmDICT;gdcmIOD")
+  set_target_properties(gdcmMSFF PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
+endif()
 
-IF(NOT GDCM_INSTALL_NO_DEVELOPMENT)
-  FILE(GLOB header_files "*.h" "*.txx")
-  INSTALL(FILES ${header_files}
-    DESTINATION ${GDCM_INSTALL_INCLUDE_DIR} COMPONENT Headers
-  )
-ENDIF(NOT GDCM_INSTALL_NO_DEVELOPMENT)
+# libs
+install_library(gdcmMSFF)
+# PDB
+install_pdb(gdcmMSFF)
+# include files
+install_includes("*.h" "*.txx")

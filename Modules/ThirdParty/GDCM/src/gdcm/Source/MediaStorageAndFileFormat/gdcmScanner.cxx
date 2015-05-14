@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -20,6 +19,7 @@
 #include "gdcmDictEntry.h"
 #include "gdcmStringFilter.h"
 #include "gdcmProgressEvent.h"
+#include "gdcmFileNameEvent.h"
 
 #include <algorithm> // std::find
 
@@ -156,10 +156,14 @@ bool Scanner::Scan( Directory::FilenamesType const & filenames )
         Scanner::ProcessPublicTag(sf, filename);
         //Scanner::ProcessPrivateTag(sf, filename);
         }
+      // Update progress
       Progress += progresstick;
       ProgressEvent pe;
       pe.SetProgress( Progress );
       this->InvokeEvent( pe );
+      // For outside application tell which file is being processed:
+      FileNameEvent fe( filename );
+      this->InvokeEvent( fe );
       }
     }
 
@@ -170,8 +174,8 @@ bool Scanner::Scan( Directory::FilenamesType const & filenames )
 void Scanner::Print( std::ostream & os ) const
 {
   os << "Values:\n";
-  for(ValuesType::const_iterator it = Values.begin() ;
-    it != Values.end(); ++it)
+  for(ValuesType::const_iterator it = Values.begin() ; it != Values.end();
+    ++it)
     {
     os << *it << "\n";
     }
@@ -188,7 +192,8 @@ void Scanner::Print( std::ostream & os ) const
     if( Mappings.find(filename) != Mappings.end() )
       {
       const TagToValue &mapping = GetMapping(filename);
-      for(TagToValue::const_iterator it = mapping.begin() ; it != mapping.end(); ++it)
+      TagToValue::const_iterator it = mapping.begin();
+      for( ; it != mapping.end(); ++it)
         {
         const Tag & tag = it->first;
         const char *value = it->second;
@@ -279,6 +284,32 @@ const char *Scanner::GetFilenameFromTagToValue(Tag const &t, const char *valuere
   return filenameref;
 }
 
+
+/// Will loop over all files and return a vector of std::strings of filenames
+/// where value match the reference value 'valueref'
+Directory::FilenamesType
+Scanner::GetAllFilenamesFromTagToValue(Tag const &t, const char *valueref) const
+{
+  Directory::FilenamesType theReturn;
+  if( valueref )
+    {
+    const std::string valueref_str = String<>::Trim( valueref );
+    Directory::FilenamesType::const_iterator file = Filenames.begin();
+    for(; file != Filenames.end(); ++file)
+      {
+      const char *filename = file->c_str();
+      const char * value = GetValue(filename, t);
+      const std::string value_str = String<>::Trim( value );
+      if( value_str == valueref_str )
+        {
+        theReturn.push_back( filename );
+        }
+      }
+    }
+  return theReturn;
+
+}
+
 Scanner::TagToValue const & Scanner::GetMappingFromTagToValue(Tag const &t, const char *valueref) const
 {
   return GetMapping( GetFilenameFromTagToValue(t, valueref) );
@@ -298,6 +329,26 @@ Scanner::ValuesType Scanner::GetValues(Tag const &t) const
       }
     }
   return vt;
+}
+
+
+Directory::FilenamesType Scanner::GetOrderedValues(Tag const &t) const
+{
+  Directory::FilenamesType theReturn;
+  Directory::FilenamesType::const_iterator file = Filenames.begin();
+  for(; file != Filenames.end(); ++file)
+    {
+    const char *filename = file->c_str();
+    TagToValue const &ttv = GetMapping(filename);
+    if( ttv.find(t) != ttv.end() )
+      {
+        std::string theVal = std::string(ttv.find(t)->second);
+        if (std::find(theReturn.begin(), theReturn.end(), theVal) == theReturn.end()){
+          theReturn.push_back( theVal );//only add new tags to the list
+        }
+      }
+    }
+  return theReturn;
 }
 
 void Scanner::ProcessPublicTag(StringFilter &sf, const char *filename)

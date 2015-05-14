@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -36,9 +35,9 @@ public:
   virtual bool CanDecode(TransferSyntax const &) const = 0;
 
   /// Decode
-  virtual bool Decode(DataElement const &is_, DataElement &os) { (void)is_;(void)os;return false; }
+  virtual bool Decode(DataElement const &, DataElement &) { return false; }
 protected:
-  virtual bool DecodeByStreams(std::istream &is_, std::ostream &os) { (void)is_; (void)os;return false; }
+  virtual bool DecodeByStreams(std::istream &, std::ostream &) { return false; }
 };
 
 } // end namespace gdcm

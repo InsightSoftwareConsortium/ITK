@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -43,7 +42,7 @@ public:
   Sorter();
   virtual ~Sorter();
 
-  /// Typically the output of gdcm::Directory::GetFilenames()
+  /// Typically the output of Directory::GetFilenames()
   virtual bool Sort(std::vector<std::string> const & filenames);
 
   /// Return the list of filenames as sorted by the specific algorithm used.

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -18,17 +17,28 @@
 #include "gdcmSequenceOfItems.h"
 #include "gdcmValueIO.h"
 #include "gdcmSwapper.h"
+#ifdef GDCM_WORDS_BIGENDIAN
+#include "gdcmTagToVR.h"
+#endif
 
-namespace gdcm
+namespace gdcm_ns
 {
 
 //-----------------------------------------------------------------------------
 template <typename TSwap>
 std::istream &ImplicitDataElement::Read(std::istream &is)
 {
+  ReadPreValue<TSwap>(is);
+  return ReadValue<TSwap>(is);
+}
+
+template <typename TSwap>
+std::istream &ImplicitDataElement::ReadPreValue(std::istream& is)
+{
+  TagField.Read<TSwap>(is);
   // See PS 3.5, 7.1.3 Data Element Structure With Implicit VR
   // Read Tag
-  if( !TagField.Read<TSwap>(is) )
+  if( !is )
     {
     if( !is.eof() ) // FIXME This should not be needed
       assert(0 && "Should not happen");
@@ -42,9 +52,18 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
   if( !ValueLengthField.Read<TSwap>(is) )
     {
     //assert(0 && "Should not happen");
-    throw Exception("Impossible");
+    throw Exception("Impossible ValueLengthField");
     return is;
     }
+  return is;
+}
+
+template <typename TSwap>
+std::istream &ImplicitDataElement::ReadValue(std::istream &is, bool readvalues)
+{
+  if( is.eof() ) return is;
+  const Tag itemStartItem(0xfffe,0xe000);
+  assert( TagField != itemStartItem );
 
   /*
    * technically this should not be needed, but what if an implementor, forgot
@@ -129,7 +148,7 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
         std::streampos start = is.tellg();
         try
           {
-          if( !ValueIO<ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField) )
+          if( !ValueIO<ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues) )
             {
             assert(0 && "Should not happen");
             }
@@ -143,7 +162,7 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
           std::streamoff diff = start - current;
           is.seekg( diff, std::ios::cur );
           assert( diff == -14 );
-          ValueIO<ImplicitDataElement,SwapperDoOp>::Read(is,*ValueField);
+          ValueIO<ImplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues);
           }
         catch( std::exception & )
           {
@@ -157,7 +176,7 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
           << " instead of " << itemStart << " for tag: " << TagField );
         ValueField = new SequenceOfItems;
         ValueField->SetLength(ValueLengthField); // perform realloc
-        if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField) )
+        if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) )
           {
           assert(0 && "Should not happen");
           }
@@ -191,14 +210,50 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
   if( ValueLengthField == 0x31f031c && TagField == Tag(0x031e,0x0324) )
     {
     // TestImages/elbow.pap
-    gdcmWarningMacro( "Replacing a VL. To be able to read a supposively"
+    gdcmWarningMacro( "Replacing a VL. To be able to read a supposively "
       "broken Payrus file." );
     ValueLengthField = 202; // 0xca
     }
 #endif
   // We have the length we should be able to read the value
-  ValueField->SetLength(ValueLengthField); // perform realloc
-  if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField) )
+  this->SetValueFieldLength( ValueLengthField, readvalues );
+  bool failed;
+#ifdef GDCM_WORDS_BIGENDIAN
+  VR vrfield = GetVRFromTag( TagField );
+  if( vrfield & VR::VRASCII || vrfield == VR::INVALID )
+    {
+    //assert( VRField.GetSize() == 1 );
+    failed = !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues);
+    }
+  else
+    {
+    assert( vrfield & VR::VRBINARY );
+    unsigned int vrsize = vrfield.GetSize();
+    assert( vrsize == 1 || vrsize == 2 || vrsize == 4 || vrsize == 8 );
+    if(vrfield==VR::AT) vrsize = 2;
+    switch(vrsize)
+      {
+    case 1:
+      failed = !ValueIO<ImplicitDataElement,TSwap,uint8_t>::Read(is,*ValueField,readvalues);
+      break;
+    case 2:
+      failed = !ValueIO<ImplicitDataElement,TSwap,uint16_t>::Read(is,*ValueField,readvalues);
+      break;
+    case 4:
+      failed = !ValueIO<ImplicitDataElement,TSwap,uint32_t>::Read(is,*ValueField,readvalues);
+      break;
+    case 8:
+      failed = !ValueIO<ImplicitDataElement,TSwap,uint64_t>::Read(is,*ValueField,readvalues);
+      break;
+    default:
+    failed = true;
+      assert(0);
+      }
+    }
+#else
+  failed = !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues);
+#endif
+  if( failed )
     {
     // Special handling for PixelData tag:
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
@@ -216,8 +271,8 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
     }
 
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
-  // dcmtk 3.5.4 is resilient to broken explicit SQ length and will properly recompute it
-  // as long as each of the Item lengths are correct
+  // dcmtk 3.5.4 is resilient to broken explicit SQ length and will properly
+  // recompute it as long as each of the Item lengths are correct
   VL dummy = ValueField->GetLength();
   if( ValueLengthField != dummy )
     {
@@ -234,27 +289,18 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
 
 //-----------------------------------------------------------------------------
 template <typename TSwap>
-std::istream &ImplicitDataElement::ReadWithLength(std::istream &is, VL & length)
+std::istream &ImplicitDataElement::ReadWithLength(std::istream &is, VL & length, bool readvalues)
 {
-  // See PS 3.5, 7.1.3 Data Element Structure With Implicit VR
-  // Read Tag
-  if( !TagField.Read<TSwap>(is) )
-    {
-    if( !is.eof() ) // FIXME This should not be needed
-      assert(0 && "Should not happen");
-    return is;
-    }
+  ReadPreValue<TSwap>(is);
+  return ReadValueWithLength<TSwap>(is, length, readvalues);
+}
+
+template <typename TSwap>
+std::istream &ImplicitDataElement::ReadValueWithLength(std::istream& is, VL & length, bool readvalues)
+{
+  if( is.eof() ) return is;
   const Tag itemStartItem(0xfffe,0xe000);
   if( TagField == itemStartItem ) return is;
-
-  //assert( TagField != Tag(0xfffe,0xe0dd) );
-  // Read Value Length
-  if( !ValueLengthField.Read<TSwap>(is) )
-    {
-    //assert(0 && "Should not happen");
-    throw Exception("Impossible");
-    return is;
-    }
 
   /*
    * technically this should not be needed, but what if an implementor, forgot
@@ -274,7 +320,7 @@ std::istream &ImplicitDataElement::ReadWithLength(std::istream &is, VL & length)
   if( ValueLengthField > length && !ValueLengthField.IsUndefined() )
     {
     gdcmWarningMacro( "Cannot read more length than what is remaining in the file" );
-    throw Exception( "Impossible" );
+    throw Exception( "Impossible (more)" );
     }
   if( ValueLengthField == 0 )
     {
@@ -339,7 +385,7 @@ std::istream &ImplicitDataElement::ReadWithLength(std::istream &is, VL & length)
         std::streampos start = is.tellg();
         try
           {
-          if( !ValueIO<ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField) )
+          if( !ValueIO<ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues) )
             {
             assert(0 && "Should not happen");
             }
@@ -353,7 +399,7 @@ std::istream &ImplicitDataElement::ReadWithLength(std::istream &is, VL & length)
           std::streamoff diff = start - current;//could be bad, if the specific implementation does not support negative streamoff values.
           is.seekg( diff, std::ios::cur );
           assert( diff == -14 );
-          ValueIO<ImplicitDataElement,SwapperDoOp>::Read(is,*ValueField);
+          ValueIO<ImplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues);
           }
         catch( std::exception & )
           {
@@ -368,7 +414,7 @@ std::istream &ImplicitDataElement::ReadWithLength(std::istream &is, VL & length)
           << " instead of " << itemStart << " for tag: " << TagField );
         ValueField = new SequenceOfItems;
         ValueField->SetLength(ValueLengthField); // perform realloc
-        if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField) )
+        if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) )
           {
           assert(0 && "Should not happen");
           }
@@ -409,7 +455,44 @@ std::istream &ImplicitDataElement::ReadWithLength(std::istream &is, VL & length)
 #endif
   // We have the length we should be able to read the value
   ValueField->SetLength(ValueLengthField); // perform realloc
-  if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField) )
+  bool failed;
+#ifdef GDCM_WORDS_BIGENDIAN
+  VR vrfield = GetVRFromTag( TagField );
+  if( vrfield & VR::VRASCII || vrfield == VR::INVALID )
+    {
+    //assert( VRField.GetSize() == 1 );
+    failed = !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues);
+    }
+  else
+    {
+    assert( vrfield & VR::VRBINARY );
+    unsigned int vrsize = vrfield.GetSize();
+    assert( vrsize == 1 || vrsize == 2 || vrsize == 4 || vrsize == 8 );
+    if(vrfield==VR::AT) vrsize = 2;
+    switch(vrsize)
+      {
+    case 1:
+      failed = !ValueIO<ImplicitDataElement,TSwap,uint8_t>::Read(is,*ValueField,readvalues);
+      break;
+    case 2:
+      failed = !ValueIO<ImplicitDataElement,TSwap,uint16_t>::Read(is,*ValueField,readvalues);
+      break;
+    case 4:
+      failed = !ValueIO<ImplicitDataElement,TSwap,uint32_t>::Read(is,*ValueField,readvalues);
+      break;
+    case 8:
+      failed = !ValueIO<ImplicitDataElement,TSwap,uint64_t>::Read(is,*ValueField,readvalues);
+      break;
+    default:
+    failed = true;
+      assert(0);
+      }
+    }
+#else
+  failed = !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues);
+#endif
+  if( failed )
+  //if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField) )
     {
     // Special handling for PixelData tag:
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
@@ -495,7 +578,7 @@ const std::ostream &ImplicitDataElement::Write(std::ostream &os) const
 }
 
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 
 #endif // GDCMIMPLICITDATAELEMENT_TXX

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -33,6 +32,12 @@ public:
 
   template <typename TSwap>
   std::istream &Read(std::istream &is);
+
+  template <typename TSwap>
+  std::istream &ReadPreValue(std::istream &is);
+
+  template <typename TSwap>
+  std::istream &ReadValue(std::istream &is, bool readvalues = true);
 
   template <typename TSwap>
   std::istream &ReadWithLength(std::istream &is, VL & length);

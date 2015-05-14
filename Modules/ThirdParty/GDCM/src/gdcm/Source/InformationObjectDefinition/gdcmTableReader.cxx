@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -24,7 +23,7 @@
 
 namespace gdcm
 {
-#if 0
+#if 1
 #ifdef XML_LARGE_SIZE
 #if defined(XML_USE_MSC_EXTENSIONS) && _MSC_VER < 1400
 #define XML_FMT_INT_MOD "I64"
@@ -115,7 +114,7 @@ void TableReader::HandleMacroEntry(const char **atts)
       assert( r == 1 );
       assert( v <= 0xFFFF );
       (void)r; //removing warning
-      tag.SetGroup( v );
+      tag.SetGroup( (uint16_t)v );
       }
     else if( strelt == *current )
       {
@@ -125,7 +124,7 @@ void TableReader::HandleMacroEntry(const char **atts)
       assert( r == 1 );
       assert( v <= 0xFFFF );
       (void)r; //removing warning
-      tag.SetElement( v );
+      tag.SetElement( (uint16_t)v );
       }
     else if( strname == *current )
       {
@@ -165,7 +164,7 @@ void TableReader::HandleModuleEntry(const char **atts)
       assert( r == 1 );
       assert( v <= 0xFFFF );
       (void)r; //removing warning
-      tag.SetGroup( v );
+      tag.SetGroup( (uint16_t)v );
       }
     else if( strelt == *current )
       {
@@ -175,7 +174,7 @@ void TableReader::HandleModuleEntry(const char **atts)
       assert( r == 1 );
       assert( v <= 0xFFFF );
       (void)r; //removing warning
-      tag.SetElement( v );
+      tag.SetElement( (uint16_t)v );
       }
     else if( strname == *current )
       {
@@ -551,7 +550,7 @@ void TableReader::CharacterDataHandler(const char *data, int length)
 
 int TableReader::Read()
 {
-  std::ifstream is( Filename.c_str() );
+  std::ifstream is( Filename.c_str(), std::ios::binary );
 
   char buf[BUFSIZ];
   XML_Parser parser = XML_ParserCreate(NULL);
@@ -563,9 +562,9 @@ int TableReader::Read()
   int ret = 0;
   do {
     is.read(buf, sizeof(buf));
-    size_t len = is.gcount();
-    done = len < sizeof(buf);
-    if (XML_Parse(parser, buf, len, done) == XML_STATUS_ERROR) {
+	  std::streamsize len = is.gcount();
+    done = (unsigned int)len < sizeof(buf);
+    if (XML_Parse(parser, buf, (int)len, done) == XML_STATUS_ERROR) {
       fprintf(stderr,
         "%s at line %" XML_FMT_INT_MOD "u\n",
         XML_ErrorString(XML_GetErrorCode(parser)),

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -62,7 +61,7 @@ Problem with: 3DRenderingType vs ThreeDRenderingType
     found_mu = str.find( "µ" );
     }
 
-  str.erase(std::remove_if(str.begin(), str.end(), IsToBeRemoved), str.end());
+  str.erase(remove_if(str.begin(), str.end(), IsToBeRemoved), str.end());
 
   if( System::StrCaseCmp(str.c_str(), keyword) == 0 ) return true;
 

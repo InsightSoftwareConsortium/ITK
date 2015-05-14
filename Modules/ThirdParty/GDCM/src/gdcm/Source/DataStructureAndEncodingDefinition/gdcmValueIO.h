@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -17,7 +16,7 @@
 
 #include "gdcmTypes.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 /**
  * \brief Class to dispatch template calls
@@ -26,12 +25,12 @@ template <typename TDE, typename TSwap, typename TType=uint8_t>
 class /*GDCM_EXPORT*/ ValueIO
 {
 public:
-  static std::istream &Read(std::istream &is, Value& v);
+  static std::istream &Read(std::istream &is, Value& v, bool readvalues);
 
   static const std::ostream &Write(std::ostream &os, const Value& v);
 };
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #include "gdcmValueIO.txx"
 

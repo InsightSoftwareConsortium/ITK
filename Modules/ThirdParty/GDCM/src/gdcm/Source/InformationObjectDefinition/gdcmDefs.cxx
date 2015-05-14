@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -121,6 +120,9 @@ const char *Defs::GetIODNameFromMediaStorage(MediaStorage const &ms)
     case MediaStorage::EncapsulatedPDFStorage:
       iodname = "Encapsulated PDF IOD Modules";
       break;
+    case MediaStorage::EncapsulatedCDAStorage:
+      iodname = "Encapsulated CDA IOD Modules";
+      break;
     case MediaStorage::VLPhotographicImageStorage:
       iodname = "VL Photographic Image IOD Modules";
       break;
@@ -217,6 +219,24 @@ const char *Defs::GetIODNameFromMediaStorage(MediaStorage const &ms)
     case MediaStorage::EnhancedXAImageStorage:
       iodname = "Enhanced X Ray Angiographic Image IOD Modules";
       break;
+    case MediaStorage::RTIonBeamsTreatmentRecordStorage:
+      iodname = "RT Ion Beams Treatment Record IOD Modules";
+      break;
+    case MediaStorage::RTTreatmentSummaryRecordStorage:
+      iodname = "RT Treatment Summary Record IOD Modules";
+      break;
+    case MediaStorage::VLEndoscopicImageStorage:
+      iodname = "VL Endoscopic Image IOD Modules";
+      break;
+    case MediaStorage::XRayRadiationDoseSR:
+      iodname = "X Ray Radiation Dose SR IOD Modules";
+      break;
+    case MediaStorage::CSANonImageStorage:
+      iodname = "Siemens Non-image IOD Modules";
+      break;
+    case MediaStorage::VLMicroscopicImageStorage:
+      iodname = "VL Microscopic Image IOD Modules";
+      break;
     default:
       iodname = 0;
     }
@@ -256,9 +276,9 @@ Type Defs::GetTypeFromTag(const File& file, const Tag& tag) const
   const IOD &iod = iods.GetIOD( iodname );
   const Macros &macros = GetMacros();
 
-  size_t niods = iod.GetNumberOfIODs();
+  IOD::SizeType niods = iod.GetNumberOfIODs();
   // Iterate over each iod entry in order:
-  for(size_t idx = 0; idx < niods; ++idx)
+  for(unsigned int idx = 0; idx < niods; ++idx)
     {
     const IODEntry &iodentry = iod.GetIODEntry(idx);
     const char *ref = iodentry.GetRef();
@@ -292,10 +312,10 @@ bool Defs::Verify(const File& file) const
 
   //std::cout << iod << std::endl;
   //std::cout << iod.GetIODEntry(14) << std::endl;
-  size_t niods = iod.GetNumberOfIODs();
+  IOD::SizeType niods = iod.GetNumberOfIODs();
   bool v = true;
   // Iterate over each iod entry in order:
-  for(size_t idx = 0; idx < niods; ++idx)
+  for(unsigned int idx = 0; idx < niods; ++idx)
     {
     const IODEntry &iodentry = iod.GetIODEntry(idx);
     const char *ref = iodentry.GetRef();
@@ -327,10 +347,10 @@ bool Defs::Verify(const DataSet& ds) const
 
   //std::cout << iod << std::endl;
   //std::cout << iod.GetIODEntry(14) << std::endl;
-  size_t niods = iod.GetNumberOfIODs();
+  IOD::SizeType niods = iod.GetNumberOfIODs();
   bool v = true;
   // Iterate over each iod entry in order:
-  for(size_t idx = 0; idx < niods; ++idx)
+  for(unsigned int idx = 0; idx < niods; ++idx)
     {
     const IODEntry &iodentry = iod.GetIODEntry(idx);
     const char *ref = iodentry.GetRef();

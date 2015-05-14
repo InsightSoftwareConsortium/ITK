@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -49,7 +48,7 @@ void PixmapWriter::DoIconImage(DataSet & rootds, Pixmap const & image)
     //DataElement iconimagesq = rootds.GetDataElement( ticonimage );
     //iconimagesq.SetTag( ticonimage );
     DataElement iconimagesq;
-    iconimagesq.SetTag( Tag(0x0088,0x0200) );
+    iconimagesq.SetTag( Attribute<0x0088,0x0200>::GetTag() );
     iconimagesq.SetVR( VR::SQ );
     SmartPointer<SequenceOfItems> sq = new SequenceOfItems;
     sq->SetLengthToUndefined();
@@ -63,11 +62,11 @@ void PixmapWriter::DoIconImage(DataSet & rootds, Pixmap const & image)
 
     // col & rows:
     Attribute<0x0028, 0x0011> columns;
-    columns.SetValue( icon.GetDimension(0) );
+    columns.SetValue( (uint16_t)icon.GetDimension(0) );
     ds.Insert( columns.GetAsDataElement() );
 
     Attribute<0x0028, 0x0010> rows;
-    rows.SetValue( icon.GetDimension(1) );
+    rows.SetValue( (uint16_t)icon.GetDimension(1) );
     ds.Insert( rows.GetAsDataElement() );
 
   PixelFormat pf = icon.GetPixelFormat();
@@ -94,17 +93,19 @@ void PixmapWriter::DoIconImage(DataSet & rootds, Pixmap const & image)
   if( pf.GetSamplesPerPixel() != 1 )
     {
     Attribute<0x0028, 0x0006> planarconf;
-    planarconf.SetValue( icon.GetPlanarConfiguration() );
+    planarconf.SetValue( (uint16_t)icon.GetPlanarConfiguration() );
     ds.Replace( planarconf.GetAsDataElement() );
     }
   PhotometricInterpretation pi = icon.GetPhotometricInterpretation();
 Attribute<0x0028,0x0004> piat;
     const char *pistr = PhotometricInterpretation::GetPIString(pi);
+{
     DataElement de( Tag(0x0028, 0x0004 ) );
     VL::Type strlenPistr = (VL::Type)strlen(pistr);
     de.SetByteValue( pistr, strlenPistr );
     de.SetVR( piat.GetVR() );
     ds.Replace( de );
+}
 
     if ( pi == PhotometricInterpretation::PALETTE_COLOR )
       {
@@ -180,10 +181,10 @@ Attribute<0x0028,0x0004> piat;
 
  {
   // Pixel Data
-  DataElement dataElement( Tag(0x7fe0,0x0010) );
+  DataElement de( Tag(0x7fe0,0x0010) );
   const Value &v = icon.GetDataElement().GetValue();
-  dataElement.SetValue( v );
-  const ByteValue *bv = dataElement.GetByteValue();
+  de.SetValue( v );
+  const ByteValue *bv = de.GetByteValue();
   const TransferSyntax &ts = icon.GetTransferSyntax();
   assert( ts.IsExplicit() || ts.IsImplicit() );
   VL vl;
@@ -202,12 +203,12 @@ Attribute<0x0028,0x0004> piat;
     switch ( pf.GetBitsAllocated() )
       {
       case 8:
-        dataElement.SetVR( VR::OB );
+        de.SetVR( VR::OB );
         break;
       //case 12:
       case 16:
       case 32:
-        dataElement.SetVR( VR::OW );
+        de.SetVR( VR::OW );
         break;
       default:
         assert( 0 && "should not happen" );
@@ -216,10 +217,10 @@ Attribute<0x0028,0x0004> piat;
     }
   else
     {
-    dataElement.SetVR( VR::OB );
+    de.SetVR( VR::OB );
     }
-  dataElement.SetVL( vl );
-  ds.Replace( dataElement );
+  de.SetVL( vl );
+  ds.Replace( de );
 }
 
     Item item;
@@ -242,11 +243,11 @@ bool PixmapWriter::PrepareWrite()
 
   // col & rows:
   Attribute<0x0028, 0x0011> columns;
-  columns.SetValue( PixelData->GetDimension(0) );
+  columns.SetValue( (uint16_t)PixelData->GetDimension(0) );
   ds.Replace( columns.GetAsDataElement() );
 
   Attribute<0x0028, 0x0010> rows;
-  rows.SetValue( PixelData->GetDimension(1) );
+  rows.SetValue( (uint16_t)PixelData->GetDimension(1) );
   ds.Replace( rows.GetAsDataElement() );
 
   // (0028,0008) IS [12]                                     #   2, 1 NumberOfFrames
@@ -254,7 +255,7 @@ bool PixmapWriter::PrepareWrite()
   if( PixelData->GetNumberOfDimensions() == 3  )
     {
     Attribute<0x0028, 0x0008> numberofframes;
-    assert( PixelData->GetDimension(2) > 1 );
+    assert( PixelData->GetDimension(2) >= 1 );
     numberofframes.SetValue( PixelData->GetDimension(2) );
     ds.Replace( numberofframes.GetAsDataElement() );
     }
@@ -266,6 +267,11 @@ bool PixmapWriter::PrepareWrite()
     }
 
   PixelFormat pf = PixelData->GetPixelFormat();
+  if ( !pf.IsValid() )
+    {
+    gdcmWarningMacro( "Pixel format is not valid: " << pf );
+    return false;
+    }
   PhotometricInterpretation pi = PixelData->GetPhotometricInterpretation();
   if( pi.GetSamplesPerPixel() != pf.GetSamplesPerPixel() )
     {
@@ -312,13 +318,13 @@ bool PixmapWriter::PrepareWrite()
   if( pf.GetSamplesPerPixel() != 1 )
     {
     Attribute<0x0028, 0x0006> planarconf;
-    planarconf.SetValue( PixelData->GetPlanarConfiguration() );
+    planarconf.SetValue( (uint16_t)PixelData->GetPlanarConfiguration() );
     ds.Replace( planarconf.GetAsDataElement() );
     }
 
   // Overlay Data 60xx
-  gdcm::SequenceOfItems::SizeType nOv = PixelData->GetNumberOfOverlays();
-  for(gdcm::SequenceOfItems::SizeType ovidx = 0; ovidx < nOv; ++ovidx )
+  SequenceOfItems::SizeType nOv = PixelData->GetNumberOfOverlays();
+  for(SequenceOfItems::SizeType ovidx = 0; ovidx < nOv; ++ovidx )
     {
     // (6000,0010) US 484                                      #   2, 1 OverlayRows
     // (6000,0011) US 484                                      #   2, 1 OverlayColumns
@@ -336,85 +342,102 @@ bool PixmapWriter::PrepareWrite()
     overlayrows.SetValue( ov.GetRows() );
     de = overlayrows.GetAsDataElement();
     de.GetTag().SetGroup( ov.GetGroup() );
-    ds.Insert( de );
+    ds.Replace( de );
     Attribute<0x6000,0x0011> overlaycolumns;
     overlaycolumns.SetValue( ov.GetColumns() );
     de = overlaycolumns.GetAsDataElement();
     de.GetTag().SetGroup( ov.GetGroup() );
-    ds.Insert( de );
+    ds.Replace( de );
     if( ov.GetDescription() ) // Type 3
       {
       Attribute<0x6000,0x0022> overlaydescription;
       overlaydescription.SetValue( ov.GetDescription() );
       de = overlaydescription.GetAsDataElement();
       de.GetTag().SetGroup( ov.GetGroup() );
-      ds.Insert( de );
+      ds.Replace( de );
       }
     Attribute<0x6000,0x0040> overlaytype; // 'G' or 'R'
     overlaytype.SetValue( ov.GetType() );
     de = overlaytype.GetAsDataElement();
     de.GetTag().SetGroup( ov.GetGroup() );
-    ds.Insert( de );
+    ds.Replace( de );
     Attribute<0x6000,0x0050> overlayorigin;
     overlayorigin.SetValues( ov.GetOrigin() );
     de = overlayorigin.GetAsDataElement();
     de.GetTag().SetGroup( ov.GetGroup() );
-    ds.Insert( de );
+    ds.Replace( de );
     Attribute<0x6000,0x0100> overlaybitsallocated;
     overlaybitsallocated.SetValue( ov.GetBitsAllocated() );
     de = overlaybitsallocated.GetAsDataElement();
     de.GetTag().SetGroup( ov.GetGroup() );
-    ds.Insert( de );
+    ds.Replace( de );
     Attribute<0x6000,0x0102> overlaybitposition;
     overlaybitposition.SetValue( ov.GetBitPosition() );
     de = overlaybitposition.GetAsDataElement();
     de.GetTag().SetGroup( ov.GetGroup() );
-    ds.Insert( de );
+    ds.Replace( de );
 
     // FIXME: for now rewrite 'Overlay in pixel data' still in the pixel data element...
-    if( !ov.IsInPixelData() )
+    //if( !ov.IsInPixelData() )
       {
       const ByteValue & overlaydatabv = ov.GetOverlayData();
       DataElement overlaydata( Tag(0x6000,0x3000) );
       overlaydata.SetByteValue( overlaydatabv.GetPointer(), overlaydatabv.GetLength() );
       overlaydata.SetVR( VR::OW ); // FIXME
       overlaydata.GetTag().SetGroup( ov.GetGroup() );
-      ds.Insert( overlaydata );
+      ds.Replace( overlaydata );
       }
     }
 
   // Pixel Data
-  DataElement de( Tag(0x7fe0,0x0010) );
+  DataElement depixdata( Tag(0x7fe0,0x0010) );
   const Value &v = PixelData->GetDataElement().GetValue();
-  de.SetValue( v );
-  const ByteValue *bv1 = de.GetByteValue();
+  depixdata.SetValue( v );
+  const ByteValue *bvpixdata = depixdata.GetByteValue();
   const TransferSyntax &ts = PixelData->GetTransferSyntax();
   assert( ts.IsExplicit() || ts.IsImplicit() );
 
-//  if( !ts.IsLossy() && PixelData->IsLossy() )
-//    {
-//    gdcmWarningMacro( "Sorry Pixel Data in encapsulated stream was found to be lossy while Transfer Syntax does not authorized that" );
-//    return false;
-//    }
+  // It is perfectly ok to store a lossy image using a J2K (this is odd, but valid).
+  // as long as your mark LossyImageCompression with value 1
+#if 0
+  // if ts_orig is undefined we need to check ts of Pixel Data comply with itself
+  if( ts_orig == TransferSyntax::TS_END )
+    {
+    if( !ts.CanStoreLossy() && PixelData->IsLossy() )
+      {
+      gdcmWarningMacro( "Sorry Pixel Data in encapsulated stream was found to be "
+        "lossy while Transfer Syntax does not authorized that" );
+      return false;
+      }
+    // Obviously we could also be checking the contrary: trying to store a
+    // lossless compressed JPEG file using a lossy JPEG (compatible) one. But I
+    // do not believe this is an error in this case.
+    }
+#endif
 
   if( /*ts.IsLossy() &&*/ PixelData->IsLossy() )
     {
-    // Add the Lossy stuff:
     Attribute<0x0028,0x2110> at1;
-    at1.SetValue( "01" );
-    ds.Replace( at1.GetAsDataElement() );
-    /*
-    The Defined Terms for Lossy Image Compression Method (0028,2114) ar e :
-    ISO_10918_1 = JPEG Lossy Compression
-    ISO_14495_1 = JPEG-LS Near-lossless Compression
-    ISO_15444_1 = JPEG 2000 Irreversible Compression
-    ISO_13818_2 = MPEG2 Compression
-     */
-
-    if( ts_orig != TransferSyntax::TS_END )
+    Attribute<0x0028,0x2114> at3;
+    if( ts_orig == TransferSyntax::TS_END )
       {
-      assert( ts_orig.IsLossy() );
-      Attribute<0x0028,0x2114> at3;
+      // Add the Lossy stuff:
+      at1.SetValue( "01" );
+      ds.Replace( at1.GetAsDataElement() );
+      }
+    else if( ts_orig.IsLossy() )
+      {
+      // Add the Lossy stuff:
+      at1.SetValue( "01" );
+      ds.Replace( at1.GetAsDataElement() );
+      /*
+      The Defined Terms for Lossy Image Compression Method (0028,2114) are :
+      ISO_10918_1 = JPEG Lossy Compression
+      ISO_14495_1 = JPEG-LS Near-lossless Compression
+      ISO_15444_1 = JPEG 2000 Irreversible Compression
+      ISO_13818_2 = MPEG2 Compression
+       */
+
       if( ts_orig == TransferSyntax::JPEG2000 )
         {
         static const CSComp newvalues2[] = {"ISO_15444_1"};
@@ -437,18 +460,26 @@ bool PixmapWriter::PrepareWrite()
         }
       else
         {
-        gdcmErrorMacro( "Pixel Data is lossy but I cannot find the original transfer syntax" );
+        gdcmErrorMacro(
+          "Pixel Data is lossy but I cannot find the original transfer syntax" );
         return false;
         }
       ds.Replace( at3.GetAsDataElement() );
       }
+    else
+      {
+      assert( ds.FindDataElement( at1.GetTag() ) );
+      //assert( ds.FindDataElement( at3.GetTag() ) );
+      at1.Set( ds );
+      assert( atoi(at1.GetValue().c_str()) == 1 );
+      }
     }
 
   VL vl;
-  if( bv1 )
+  if( bvpixdata )
     {
     // if ts is explicit -> set VR
-    vl = bv1->GetLength();
+    vl = bvpixdata->GetLength();
     }
   else
     {
@@ -461,12 +492,12 @@ bool PixmapWriter::PrepareWrite()
       {
       case 1:
       case 8:
-        de.SetVR( VR::OB );
+        depixdata.SetVR( VR::OB );
         break;
       case 12:
       case 16:
       case 32:
-        de.SetVR( VR::OW );
+        depixdata.SetVR( VR::OW );
         break;
       default:
         assert( 0 && "should not happen" );
@@ -475,10 +506,10 @@ bool PixmapWriter::PrepareWrite()
     }
   else
     {
-    de.SetVR( VR::OB );
+    depixdata.SetVR( VR::OB );
     }
-  de.SetVL( vl );
-  ds.Replace( de );
+  depixdata.SetVL( vl );
+  ds.Replace( depixdata );
 
   // Do Icon Image
   DoIconImage(ds, GetPixmap());
@@ -487,24 +518,41 @@ bool PixmapWriter::PrepareWrite()
   ms.SetFromFile( GetFile() );
   assert( ms != MediaStorage::MS_END );
 
+  // Most SOP Class support 2D, but let's make sure that 3D is ok:
+  if( PixelData->GetNumberOfDimensions() > 2 )
+    {
+    if( ms.GetModalityDimension() < PixelData->GetNumberOfDimensions() )
+      {
+      gdcmErrorMacro( "Problem with NumberOfDimensions and MediaStorage" );
+#if 0
+      return false;
+#endif
+      }
+    }
+
   const char* msstr = MediaStorage::GetMSString(ms);
   if( !ds.FindDataElement( Tag(0x0008, 0x0016) ) )
     {
-    DataElement dataElement( Tag(0x0008, 0x0016 ) );
+    DataElement de( Tag(0x0008, 0x0016 ) );
     VL::Type strlenMsstr = (VL::Type)strlen(msstr);
-    dataElement.SetByteValue( msstr, strlenMsstr);
-    dataElement.SetVR( Attribute<0x0008, 0x0016>::GetVR() );
-    ds.Insert( dataElement );
+    de.SetByteValue( msstr, strlenMsstr);
+    de.SetVR( Attribute<0x0008, 0x0016>::GetVR() );
+    ds.Insert( de );
     }
   else
     {
     const ByteValue *bv = ds.GetDataElement( Tag(0x0008,0x0016) ).GetByteValue();
+    if( !bv )
+      {
+      gdcmErrorMacro( "Cant be empty" );
+      return false;
+      }
     if( strncmp( bv->GetPointer(), msstr, bv->GetLength() ) != 0 )
       {
-      DataElement dataElement = ds.GetDataElement( Tag(0x0008,0x0016) );
+      DataElement de = ds.GetDataElement( Tag(0x0008,0x0016) );
       VL::Type strlenMsstr = (VL::Type) strlen(msstr);
-      dataElement.SetByteValue( msstr, strlenMsstr );
-      ds.Replace( dataElement );
+      de.SetByteValue( msstr, strlenMsstr );
+      ds.Replace( de );
       }
     else
       {
@@ -522,21 +570,18 @@ bool PixmapWriter::PrepareWrite()
   if( ds.FindDataElement( Tag(0x0008, 0x0018) ) && false )
     {
     // We are coming from a real DICOM image, we need to reference it...
-    //assert( 0 && "TODO FIXME" );
     const Tag tsourceImageSequence(0x0008,0x2112);
-    //assert( ds.FindDataElement( tsourceImageSequence ) == false );
     SmartPointer<SequenceOfItems> sq;
     if( ds.FindDataElement( tsourceImageSequence ) )
       {
-      DataElement &de1 = const_cast<DataElement&>(ds.GetDataElement( tsourceImageSequence) );
-      //assert( de1.IsUndefinedLength() );
-      de1.SetVLToUndefined(); // For now
-      if( de1.IsEmpty() )
+      DataElement &de = (DataElement&)ds.GetDataElement( tsourceImageSequence );
+      de.SetVLToUndefined(); // For now
+      if( de.IsEmpty() )
         {
         sq = new SequenceOfItems;
-        de1.SetValue( *sq );
+        de.SetValue( *sq );
         }
-      sq = de1.GetValueAsSQ();
+      sq = de.GetValueAsSQ();
       }
     else
       {
@@ -544,7 +589,6 @@ bool PixmapWriter::PrepareWrite()
       }
     sq->SetLengthToUndefined();
     Item item; //( /*Tag(0xfffe,0xe000)*/ );
-    de.SetVLToUndefined();
     //DataSet sourceimageds;
     // (0008,1150) UI =MRImageStorage                          #  26, 1 ReferencedSOPClassUID
     // (0008,1155) UI [1.3.6.1.4.17434.1.1.5.2.1160650698.1160650698.0] #  48, 1 ReferencedSOPInstanceUID
@@ -559,43 +603,43 @@ bool PixmapWriter::PrepareWrite()
     sq->AddItem( item );
     if( !ds.FindDataElement( tsourceImageSequence ) )
       {
-      DataElement dataElement( tsourceImageSequence );
-      dataElement.SetVR( VR::SQ );
-      dataElement.SetValue( *sq );
-      dataElement.SetVLToUndefined();
-      //std::cout << dataElement << std::endl;
-      ds.Insert( dataElement );
+      DataElement de( tsourceImageSequence );
+      de.SetVR( VR::SQ );
+      de.SetValue( *sq );
+      de.SetVLToUndefined();
+      //std::cout << de << std::endl;
+      ds.Insert( de );
       }
     }
     {
     const char *sop = uid.Generate();
-    DataElement dataElement( Tag(0x0008,0x0018) );
+    DataElement de( Tag(0x0008,0x0018) );
     VL::Type strlenSOP = (VL::Type) strlen(sop);
-    dataElement.SetByteValue( sop, strlenSOP );
-    dataElement.SetVR( Attribute<0x0008, 0x0018>::GetVR() );
-    ds.ReplaceEmpty( dataElement );
+    de.SetByteValue( sop, strlenSOP );
+    de.SetVR( Attribute<0x0008, 0x0018>::GetVR() );
+    ds.ReplaceEmpty( de );
     }
 
   // Are we on a particular Study ? If not create a new UID
   if( !ds.FindDataElement( Tag(0x0020, 0x000d) ) )
     {
     const char *study = uid.Generate();
-    DataElement dataElement( Tag(0x0020,0x000d) );
+    DataElement de( Tag(0x0020,0x000d) );
     VL::Type strlenStudy= (VL::Type)strlen(study);
-    dataElement.SetByteValue( study, strlenStudy );
-    dataElement.SetVR( Attribute<0x0020, 0x000d>::GetVR() );
-    ds.ReplaceEmpty( dataElement );
+    de.SetByteValue( study, strlenStudy );
+    de.SetVR( Attribute<0x0020, 0x000d>::GetVR() );
+    ds.ReplaceEmpty( de );
     }
 
   // Are we on a particular Series ? If not create a new UID
   if( !ds.FindDataElement( Tag(0x0020, 0x000e) ) )
     {
     const char *series = uid.Generate();
-    DataElement dataElement( Tag(0x0020,0x000e) );
+    DataElement de( Tag(0x0020,0x000e) );
     VL::Type strlenSeries= (VL::Type)strlen(series);
-    dataElement.SetByteValue( series, strlenSeries );
-    dataElement.SetVR( Attribute<0x0020, 0x000e>::GetVR() );
-    ds.ReplaceEmpty( dataElement );
+    de.SetByteValue( series, strlenSeries );
+    de.SetVR( Attribute<0x0020, 0x000e>::GetVR() );
+    ds.ReplaceEmpty( de );
     }
 
   FileMetaInformation &fmi = file.GetHeader();
@@ -603,11 +647,11 @@ bool PixmapWriter::PrepareWrite()
   //assert( ts == TransferSyntax::ImplicitVRLittleEndian );
     {
     const char *tsuid = TransferSyntax::GetTSString( ts );
-    DataElement dataElement( Tag(0x0002,0x0010) );
+    DataElement de( Tag(0x0002,0x0010) );
     VL::Type strlenTSUID = (VL::Type)strlen(tsuid);
-    dataElement.SetByteValue( tsuid, strlenTSUID );
-    dataElement.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
-    fmi.Replace( dataElement );
+    de.SetByteValue( tsuid, strlenTSUID );
+    de.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
+    fmi.Replace( de );
     fmi.SetDataSetTransferSyntax(ts);
     }
   fmi.FillFromDataSet( ds );

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -35,8 +34,8 @@ public:
   bool Split();
 
   /// FragmentSizeMax needs to be an even number
-  void SetFragmentSizeMax(uint32_t fragsize);
-  uint32_t GetFragmentSizeMax() const { return FragmentSizeMax; }
+  void SetFragmentSizeMax(unsigned int fragsize);
+  unsigned int GetFragmentSizeMax() const { return FragmentSizeMax; }
 
   /// When file already has all it's segment < FragmentSizeMax there is not need to run the filter.
   /// Unless the user explicitly say 'force' recomputation !
@@ -45,7 +44,7 @@ public:
 protected:
 
 private:
-  uint32_t FragmentSizeMax;
+  unsigned int FragmentSizeMax;
   bool Force;
 };
 

@@ -1,205 +1,205 @@
-//
-// (C) Jan de Vaan 2007-2009, all rights reserved. See the accompanying "License.txt" for licensed use.
-//
+// 
+// (C) Jan de Vaan 2007-2010, all rights reserved. See the accompanying "License.txt" for licensed use. 
+// 
 
-#include "stdafx.h"
+
+//implement correct linkage for win32 dlls
+//#if defined(_WIN32)
+//#define CHARLS_IMEXPORT(returntype) __declspec(dllexport) returntype __stdcall
+//#endif
+
+#include "config.h"
+#include "util.h"
 #include "interface.h"
 #include "header.h"
-#include <limits>
 
-#define gdcmNotUsed(x)
 
-JLS_ERROR CheckInput(const void* pdataCompressed, size_t cbyteCompressed, const void* pdataUncompressed, size_t cbyteUncompressed, const JlsParamaters* pparams)
+JLS_ERROR CheckInput(const void* compressedData, size_t compressedLength, const void* uncompressedData, size_t uncompressedLength, const JlsParameters* pparams)
 {
-  if (pparams == NULL)
-    return InvalidJlsParameters;
+	if (pparams == NULL)
+		return InvalidJlsParameters;
 
-  if (cbyteCompressed == 0)
-    return InvalidJlsParameters;
+	if (compressedLength == 0)
+		return InvalidJlsParameters;
 
-  if (pdataCompressed == NULL)
-    return InvalidJlsParameters;
+	if (compressedData == NULL)
+		return InvalidJlsParameters;
 
-  if (pdataUncompressed == NULL)
-    return InvalidJlsParameters;
+	if (uncompressedData == NULL)
+		return InvalidJlsParameters;
 
-  if (pparams->bitspersample < 6 || pparams->bitspersample > 16)
-    return ParameterValueNotSupported;
+	if (pparams->width < 1 || pparams->width > 65535)
+		return ParameterValueNotSupported;
 
-  if (pparams->width < 1 || pparams->width > 65535)
-    return ParameterValueNotSupported;
+	if (pparams->height < 1 || pparams->height > 65535)
+		return ParameterValueNotSupported;
 
-  if (pparams->height < 1 || pparams->height > 65535)
-    return ParameterValueNotSupported;
+	int bytesperline = pparams->bytesperline < 0 ? -pparams->bytesperline : pparams->bytesperline;
 
-  int bytesperline = pparams->bytesperline < 0 ? -pparams->bytesperline : pparams->bytesperline;
+	if (uncompressedLength < size_t(bytesperline * pparams->height))
+		return InvalidJlsParameters;
 
-  if (cbyteUncompressed < size_t(bytesperline * pparams->height))
-    return InvalidJlsParameters;
-
-  switch (pparams->components)
-  {
-    case 4: return pparams->ilv == ILV_SAMPLE ? ParameterValueNotSupported : OK;
-    case 3: return OK;
-    case 1: return pparams->ilv != ILV_NONE ? ParameterValueNotSupported : OK;
-    case 0: return InvalidJlsParameters;
-
-    default: return pparams->ilv != ILV_NONE ? ParameterValueNotSupported : OK;
-  }
+	return CheckParameterCoherent(pparams);
 }
+
 
 
 extern "C"
 {
 
-CHARLS_IMEXPORT JLS_ERROR JpegLsEncode(void* pdataCompressed, size_t cbyteBuffer, size_t* pcbyteWritten, const void* pdataUncompressed, size_t cbyteUncompressed, const JlsParamaters* pparams)
+CHARLS_IMEXPORT(JLS_ERROR) JpegLsEncode(void* compressedData, size_t compressedLength, size_t* pcbyteWritten, const void* uncompressedData, size_t uncompressedLength, struct JlsParameters* pparams)
 {
-  JlsParamaters info = *pparams;
-  if(info.bytesperline == 0)
-  {
-    info.bytesperline = info.width * ((info.bitspersample + 7)/8);
-    if (info.ilv != ILV_NONE)
-    {
-      info.bytesperline *= info.components;
-    }
-  }
+	JlsParameters info = *pparams;
+	if(info.bytesperline == 0)
+	{
+		info.bytesperline = info.width * ((info.bitspersample + 7)/8);
+		if (info.ilv != ILV_NONE)
+		{
+			info.bytesperline *= info.components;
+		}
+	}
+	
+	JLS_ERROR parameterError = CheckInput(compressedData, compressedLength, uncompressedData, uncompressedLength, &info);
 
-  JLS_ERROR parameterError = CheckInput(pdataCompressed, cbyteBuffer, pdataUncompressed, cbyteUncompressed, &info);
+	if (parameterError != OK)
+		return parameterError;
 
-  if (parameterError != OK)
-    return parameterError;
+	if (pcbyteWritten == NULL)
+		return InvalidJlsParameters;
 
-  if (pcbyteWritten == NULL)
-    return InvalidJlsParameters;
+	Size size = Size(info.width, info.height);
+	JLSOutputStream stream;
+	
+	stream.Init(size, info.bitspersample, info.components);
+	
+	if (info.colorTransform != 0)
+	{
+		stream.AddColorTransform(info.colorTransform);
+	}
 
-  Size size = Size(info.width, info.height);
-  LONG cbit = info.bitspersample;
-  JLSOutputStream stream;
+	if (info.ilv == ILV_NONE)
+	{
+		LONG cbyteComp = size.cx*size.cy*((info.bitspersample +7)/8);
+		for (LONG component = 0; component < info.components; ++component)
+		{
+			const BYTE* compareData = static_cast<const BYTE*>(uncompressedData) + component*cbyteComp;
+			stream.AddScan(compareData, &info);
+		}
+	}
+	else 
+	{
+		stream.AddScan(uncompressedData, &info);
+	}
 
-  stream.Init(size, info.bitspersample, info.components);
-
-  if (info.colorTransform != 0)
-  {
-    stream.AddColorTransform(info.colorTransform);
-  }
-
-  if (info.ilv == ILV_NONE)
-  {
-    LONG cbyteComp = size.cx*size.cy*((cbit +7)/8);
-    for (LONG icomp = 0; icomp < info.components; ++icomp)
-    {
-      const BYTE* pbyteComp = static_cast<const BYTE*>(pdataUncompressed) + icomp*cbyteComp;
-      stream.AddScan(pbyteComp, &info);
-    }
-  }
-  else
-  {
-    stream.AddScan(pdataUncompressed, &info);
-  }
-
-
-  stream.Write((BYTE*)pdataCompressed, cbyteBuffer);
-
-  *pcbyteWritten = stream.GetBytesWritten();
-  return OK;
+	
+	stream.Write((BYTE*)compressedData, compressedLength);
+	
+	*pcbyteWritten = stream.GetBytesWritten();	
+	return OK;
 }
 
-CHARLS_IMEXPORT JLS_ERROR JpegLsDecode(void* pdataUncompressed, size_t gdcmNotUsed(cbyteUncompressed), const void* pdataCompressed, size_t cbyteCompressed, JlsParamaters* info)
+CHARLS_IMEXPORT(JLS_ERROR) JpegLsDecode(void* uncompressedData, size_t uncompressedLength, const void* compressedData, size_t compressedLength, JlsParameters* info)
 {
-  LONG cbyteCompressed32Bits = (LONG)cbyteCompressed;
-  if (static_cast<LONG>(cbyteCompressed) >= std::numeric_limits<LONG>::max()){
-    return InvalidCompressedData;//have to return some kind of error code
-  }
+	JLSInputStream reader((BYTE*)compressedData, compressedLength);
 
-  JLSInputStream reader((BYTE*)pdataCompressed, cbyteCompressed32Bits);
+	if(info != NULL)
+	{
+	 	reader.SetInfo(info);
+	}
 
-  if(info != NULL)
-  {
-     reader.SetInfo(info);
-  }
-
-  try
-  {
-    reader.Read(pdataUncompressed, cbyteCompressed32Bits);
-    return OK;
-  }
-  catch (JlsException& e)
-  {
-    return e._error;
-  }
+	try
+	{
+		reader.Read(uncompressedData, uncompressedLength);
+		return OK;
+	}
+	catch (JlsException& e)
+	{
+		return e._error;
+	}
 }
 
 
-CHARLS_IMEXPORT JLS_ERROR JpegLsVerifyEncode(const void* pdataUncompressed, size_t cbyteUncompressed, const void* pdataCompressed, size_t cbyteBuffer)
+CHARLS_IMEXPORT(JLS_ERROR) JpegLsDecodeRect(void* uncompressedData, size_t uncompressedLength, const void* compressedData, size_t compressedLength, JlsRect roi, JlsParameters* info)
 {
-  LONG cbyteunCompressed32Bits = (LONG)cbyteUncompressed;
-  if (static_cast<LONG>(cbyteUncompressed) >= std::numeric_limits<LONG>::max()){
-    return InvalidCompressedData;//have to return some kind of error code
-  }
+	JLSInputStream reader((BYTE*)compressedData, compressedLength);
 
-  JlsParamaters params = JlsParamaters();
+	if(info != NULL)
+	{
+	 	reader.SetInfo(info);
+	}
 
-  JLS_ERROR error = JpegLsReadHeader(pdataCompressed, cbyteBuffer, &params);
-  if (error != OK)
-    return error;
+	reader.SetRect(roi);
 
-  error = CheckInput(pdataCompressed, cbyteBuffer, pdataUncompressed, cbyteunCompressed32Bits, &params);
-
-  if (error != OK)
-    return error;
-
-  Size size = Size(params.width, params.height);
-  LONG cbit = params.bitspersample;
-
-  JLSOutputStream stream;
-
-  stream.Init(size, params.bitspersample, params.components);
-
-  if (params.ilv == ILV_NONE)
-  {
-    LONG cbyteComp = size.cx*size.cy*((cbit +7)/8);
-    for (LONG icomp = 0; icomp < params.components; ++icomp)
-    {
-    const BYTE* pbyteComp = static_cast<const BYTE*>(pdataUncompressed) + icomp*cbyteComp;
-      stream.AddScan(pbyteComp, &params);
-    }
-  }
-  else
-  {
-    stream.AddScan(pdataUncompressed, &params);
-  }
-
-  std::vector<BYTE> rgbyteCompressed;
-  rgbyteCompressed.resize(cbyteBuffer + 16);
-  memcpy(&rgbyteCompressed[0], pdataCompressed, cbyteBuffer);
-
-
-  stream.EnableCompare(true);
-  stream.Write(&rgbyteCompressed[0], cbyteBuffer);
-
-  return OK;
+	try
+	{
+		reader.Read(uncompressedData, uncompressedLength);
+		return OK;
+	}
+	catch (JlsException& e)
+	{
+		return e._error;
+	}
 }
 
 
-CHARLS_IMEXPORT JLS_ERROR JpegLsReadHeader(const void* pdataCompressed, size_t cbyteCompressed, JlsParamaters* pparams)
+CHARLS_IMEXPORT(JLS_ERROR) JpegLsVerifyEncode(const void* uncompressedData, size_t uncompressedLength, const void* compressedData, size_t compressedLength)
 {
-  LONG cbyteCompressed32Bits = (LONG)cbyteCompressed;
-  if (static_cast<LONG>(cbyteCompressed) >= std::numeric_limits<LONG>::max()){
-    return InvalidCompressedData;//have to return some kind of error code
-    //would throw here, but it's extern C and that throws a different warning in windows x64
-  }
-  try
-  {
-    JLSInputStream reader((BYTE*)pdataCompressed, cbyteCompressed32Bits);
-    reader.ReadHeader();
-    JlsParamaters info = reader.GetMetadata();
-    *pparams = info;
-    return OK;
-  }
-  catch (JlsException& e)
-  {
-    return e._error;
-  }
+	JlsParameters info = JlsParameters();
+
+	JLS_ERROR error = JpegLsReadHeader(compressedData, compressedLength, &info);
+	if (error != OK)
+		return error;
+
+	error = CheckInput(compressedData, compressedLength, uncompressedData, uncompressedLength, &info);
+
+	if (error != OK)
+		return error;
+	
+	Size size = Size(info.width, info.height);
+	
+	JLSOutputStream stream;
+	
+	stream.Init(size, info.bitspersample, info.components);
+
+	if (info.ilv == ILV_NONE)
+	{
+		LONG cbyteComp = size.cx*size.cy*((info.bitspersample +7)/8);
+		for (LONG component = 0; component < info.components; ++component)
+		{
+			const BYTE* compareData = static_cast<const BYTE*>(uncompressedData) + component*cbyteComp;
+			stream.AddScan(compareData, &info);
+		}
+	}
+	else 
+	{
+		stream.AddScan(uncompressedData, &info);
+	}
+
+	std::vector<BYTE> rgbyteCompressed(compressedLength + 16);
+	
+	memcpy(&rgbyteCompressed[0], compressedData, compressedLength);
+	
+	stream.EnableCompare(true);
+	stream.Write(&rgbyteCompressed[0], compressedLength);
+	
+	return OK;
+}
+
+ 
+CHARLS_IMEXPORT(JLS_ERROR) JpegLsReadHeader(const void* compressedData, size_t compressedLength, JlsParameters* pparams)
+{
+	try
+	{
+		JLSInputStream reader((BYTE*)compressedData, compressedLength);
+		reader.ReadHeader();	
+		JlsParameters info = reader.GetMetadata();
+		*pparams = info;	
+		return OK;
+	}
+	catch (JlsException& e)
+	{
+		return e._error;
+	}
 
 }
 

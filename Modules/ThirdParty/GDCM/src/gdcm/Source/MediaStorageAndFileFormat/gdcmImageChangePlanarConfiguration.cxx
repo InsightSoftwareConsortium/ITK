@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -45,15 +44,16 @@ bool ImageChangePlanarConfiguration::Change()
     return true;
     }
 
-  const Pixmap &image = *Input;
+  const Bitmap &image = *Input;
 
   const unsigned int *dims = image.GetDimensions();
-  uint32_t len = image.GetBufferLength();
+  unsigned long len = image.GetBufferLength();
   char *p = new char[len];
   image.GetBuffer( p );
 
   assert( len % 3 == 0 );
-  size_t framesize = dims[0] * dims[1] * 3;
+  const size_t ps = Input->GetPixelFormat().GetPixelSize();
+  const size_t framesize = dims[0] * dims[1] * ps;
   assert( framesize * dims[2] == len );
 
   char *copy = new char[len];
@@ -88,7 +88,7 @@ bool ImageChangePlanarConfiguration::Change()
   delete[] p;
 
   DataElement &de = Output->GetDataElement();
-  de.SetByteValue( copy, len );
+  de.SetByteValue( copy, (uint32_t)len );
   delete[] copy;
 
   Output->SetPlanarConfiguration( PlanarConfiguration );

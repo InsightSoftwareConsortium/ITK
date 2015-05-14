@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -20,14 +19,25 @@
 #error you need to include gdcmTypes.h instead
 #endif
 //-----------------------------------------------------------------------------
+// http://gcc.gnu.org/wiki/Visibility
 #if defined(WIN32) && defined(GDCM_BUILD_SHARED_LIBS)
-  #if (defined(gdcmCommon_EXPORTS) || defined(gdcmDICT_EXPORTS) || defined(gdcmDSED_EXPORTS) || defined(gdcmIOD_EXPORTS) || defined(gdcmMSFF_EXPORTS) || defined(_gdcmswig_EXPORTS)) || defined(vtkgdcm_EXPORTS)
+  #if (defined(gdcmCommon_EXPORTS) || defined(gdcmDICT_EXPORTS) || defined(gdcmDSED_EXPORTS) || defined(gdcmIOD_EXPORTS) || defined(gdcmMSFF_EXPORTS) || defined(gdcmMEXD_EXPORTS)|| defined(_gdcmswig_EXPORTS)) || defined(vtkgdcm_EXPORTS)
     #define GDCM_EXPORT __declspec( dllexport )
   #else
     #define GDCM_EXPORT __declspec( dllimport )
   #endif
 #else
-  #define GDCM_EXPORT
+  #if __GNUC__ >= 4
+    #define GDCM_EXPORT __attribute__ ((visibility ("default")))
+    #define GDCM_LOCAL  __attribute__ ((visibility ("hidden")))
+  #else
+    #define GDCM_EXPORT
+  #endif
+#endif
+
+#if defined(GDCM_OVERRIDE_BROKEN_IMPLEMENTATION) && !defined(GDCM_FORCE_EXPORT)
+#undef GDCM_EXPORT
+#define GDCM_EXPORT
 #endif
 
 // In VTK 4.2 vtkWrapPython does not like anything other than VTK_*EXPORT
@@ -46,6 +56,11 @@
 //-----------------------------------------------------------------------------
 //This is needed when compiling in debug mode
 #ifdef _MSC_VER
+// to allow construct such as: std::numeric_limits<int>::max() we need the following:
+// warning C4003: not enough actual parameters for macro 'max'
+#ifndef NOMINMAX
+  #define NOMINMAX
+#endif
 # pragma warning ( default : 4263 ) /* no override, call convention differs */
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'

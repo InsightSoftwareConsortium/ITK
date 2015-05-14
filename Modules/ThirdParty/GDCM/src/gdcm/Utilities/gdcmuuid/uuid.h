@@ -45,7 +45,11 @@
     #define UUID_EXPORT __declspec( dllimport )
   #endif
 #else
+#if __GNUC__ >= 4
+#define UUID_EXPORT    __attribute__ ((visibility ("default")))
+#else
   #define UUID_EXPORT
+#endif
 #endif /*defined(WIN32)*/
 
 
@@ -100,17 +104,16 @@ UUID_EXPORT void uuid_generate(uuid_t out);
 void uuid_generate_random(uuid_t out);
 UUID_EXPORT int uuid_get_node_id(unsigned char *node_id);
 void uuid_generate_time(uuid_t out);
-UUID_EXPORT int uuid_gettimeofday(struct timeval *tv, struct timezone *tz);
 
 /* isnull.c */
 /*int uuid_is_null(const uuid_t uu);*/
 #define uuid_is_null(uu) (!memcmp(uu, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(uu)))
 
 /* parse.c */
-int uuid_parse(const char *in, uuid_t uu);
+UUID_EXPORT int uuid_parse(const char *in, uuid_t uu);
 
 /* unparse.c */
-void uuid_unparse(const uuid_t uu, char *out);
+UUID_EXPORT void uuid_unparse(const uuid_t uu, char *out);
 void uuid_unparse_lower(const uuid_t uu, char *out);
 void uuid_unparse_upper(const uuid_t uu, char *out);
 

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -19,11 +18,12 @@
 #include "gdcmTag.h"
 #include "gdcmVR.h"
 #include "gdcmElement.h"
+#include "gdcmMediaStorage.h"
 
 #include <set>
 #include <iterator>
 
-namespace gdcm
+namespace gdcm_ns
 {
 class GDCM_EXPORT DataElementException : public std::exception {};
 
@@ -149,14 +149,14 @@ public:
   /// Replace a dataelement with another one
   void Replace(const DataElement& de) {
     if( DES.find(de) != DES.end() ) DES.erase(de);
-    Insert(de);
+    DES.insert(de);
   }
   /// Only replace a DICOM attribute when it is missing or empty
   void ReplaceEmpty(const DataElement& de) {
     ConstIterator it = DES.find(de);
     if( it != DES.end() && it->IsEmpty() )
       DES.erase(de);
-    Insert(de);
+    DES.insert(de);
   }
   /// Completely remove a dataelement from the dataset
   SizeType Remove(const Tag& tag) {
@@ -246,18 +246,25 @@ public:
   std::istream &ReadUpToTag(std::istream &is, const Tag &t, std::set<Tag> const & skiptags);
 
   template <typename TDE, typename TSwap>
-  std::istream &ReadUpToTagWithLength(std::istream &is, const Tag &t, VL & length);
+  std::istream &ReadUpToTagWithLength(std::istream &is, const Tag &t, std::set<Tag> const & skiptags, VL & length);
 
   template <typename TDE, typename TSwap>
-  std::istream &ReadSelectedTags(std::istream &is, const std::set<Tag> & tags);
+  std::istream &ReadSelectedTags(std::istream &is, const std::set<Tag> & tags, bool readvalues = true);
   template <typename TDE, typename TSwap>
-  std::istream &ReadSelectedTagsWithLength(std::istream &is, const std::set<Tag> & tags, VL & length);
+  std::istream &ReadSelectedTagsWithLength(std::istream &is, const std::set<Tag> & tags, VL & length, bool readvalues = true);
+
+  template <typename TDE, typename TSwap>
+  std::istream &ReadSelectedPrivateTags(std::istream &is, const std::set<PrivateTag> & tags, bool readvalues = true);
+  template <typename TDE, typename TSwap>
+  std::istream &ReadSelectedPrivateTagsWithLength(std::istream &is, const std::set<PrivateTag> & tags, VL & length, bool readvalues = true);
 
   template <typename TDE, typename TSwap>
   std::ostream const &Write(std::ostream &os) const;
 
   template <typename TDE, typename TSwap>
   std::istream &ReadWithLength(std::istream &is, VL &length);
+
+  MediaStorage GetMediaStorage() const;
 
 protected:
   /* GetDEEnd is a Win32 only issue, one cannot use a dllexported
@@ -302,7 +309,7 @@ inline std::ostream& operator<<(std::ostream &os, const DataSet &val)
   return os;
 }
 
-#if defined(SWIGPYTHON) || defined(SWIGCSHARP) || defined(SWIGJAVA)
+#if defined(SWIGPYTHON) || defined(SWIGCSHARP) || defined(SWIGJAVA) || defined(SWIGPHP)
 /*
  * HACK: I need this temp class to be able to manipulate a std::set from python,
  * swig does not support wrapping of simple class like std::set...
@@ -326,7 +333,7 @@ private:
  * This is a C# example on how to use gdcm::SWIGDataSet
  */
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #include "gdcmDataSet.txx"
 

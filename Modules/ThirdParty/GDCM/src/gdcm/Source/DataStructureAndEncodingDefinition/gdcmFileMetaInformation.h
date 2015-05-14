@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -22,7 +21,7 @@
 #include "gdcmTransferSyntax.h"
 #include "gdcmExplicitDataElement.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 /**
  * \brief Class to represent a File Meta Information
@@ -42,8 +41,8 @@ class GDCM_EXPORT FileMetaInformation : public DataSet
 {
 public:
   // FIXME: TransferSyntax::TS_END -> TransferSyntax::ImplicitDataElement
-  FileMetaInformation():DataSetTS(TransferSyntax::TS_END),MetaInformationTS(TransferSyntax::Unknown),DataSetMS(MediaStorage::MS_END) {}
- ~FileMetaInformation() { };
+  FileMetaInformation();
+  ~FileMetaInformation();
 
   friend std::ostream &operator<<(std::ostream &_os, const FileMetaInformation &_val);
 
@@ -53,6 +52,7 @@ public:
   void SetDataSetTransferSyntax(const TransferSyntax &ts);
   const TransferSyntax &GetDataSetTransferSyntax() const { return DataSetTS; }
   MediaStorage GetMediaStorage() const;
+  std::string GetMediaStorageAsString() const;
 
   // FIXME: no virtual function means: duplicate code...
   void Insert(const DataElement& de) {
@@ -144,6 +144,6 @@ inline std::ostream& operator<<(std::ostream &os, const FileMetaInformation &val
   return os;
 }
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #endif //GDCMFILEMETAINFORMATION_H

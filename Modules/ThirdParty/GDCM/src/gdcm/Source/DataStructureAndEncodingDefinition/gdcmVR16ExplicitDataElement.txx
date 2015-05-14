@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -30,9 +29,17 @@ namespace gdcm
 template <typename TSwap>
 std::istream &VR16ExplicitDataElement::Read(std::istream &is)
 {
+  ReadPreValue<TSwap>(is);
+  return ReadValue<TSwap>(is);
+}
+
+template <typename TSwap>
+std::istream &VR16ExplicitDataElement::ReadPreValue(std::istream &is)
+{
+  TagField.Read<TSwap>(is);
   // See PS 3.5, Data Element Structure With Explicit VR
   // Read Tag
-  if( !TagField.Read<TSwap>(is) )
+  if( !is )
     {
     if( !is.eof() ) // FIXME This should not be needed
       {
@@ -84,9 +91,8 @@ std::istream &VR16ExplicitDataElement::Read(std::istream &is)
       return is;
       }
     }
-  catch( Exception &ex )
+  catch( Exception & )
     {
-    (void)ex;
     VRField = VR::INVALID;
     // gdcm-MR-PHILIPS-16-Multi-Seq.dcm
     if( TagField == Tag(0xfffe, 0xe000) )
@@ -158,10 +164,18 @@ std::istream &VR16ExplicitDataElement::Read(std::istream &is)
   // chances is that 99% of times there is now way we can reach here, so safely throw an exception
   if( TagField == Tag(0x0000,0x0000) && ValueLengthField == 0 && VRField == VR::INVALID )
     {
+    // This handles DMCPACS_ExplicitImplicit_BogusIOP.dcm
     ParseException pe;
     pe.SetLastElement( *this );
     throw pe;
     }
+  return is;
+}
+
+template <typename TSwap>
+std::istream &VR16ExplicitDataElement::ReadValue(std::istream &is, bool readvalues )
+{
+  if( is.eof() ) return is;
 
   if( ValueLengthField == 0 )
     {
@@ -192,14 +206,13 @@ std::istream &VR16ExplicitDataElement::Read(std::istream &is)
       try
         {
         //if( !ValueIO<VR16ExplicitDataElement,TSwap>::Read(is,*ValueField) ) // non cp246
-        if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField) ) // cp246 compliant
+        if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) ) // cp246 compliant
           {
           assert(0);
           }
         }
-      catch( std::exception &ex)
+      catch( std::exception &)
         {
-        (void)ex;
         // Must be one of those non-cp246 file...
         // but for some reason seekg back to previous offset + Read
         // as Explicit does not work...
@@ -211,6 +224,13 @@ std::istream &VR16ExplicitDataElement::Read(std::istream &is)
       }
     else
       {
+      if( TagField != Tag(0x7fe0,0x0010) )
+        {
+        // gdcmSampleData/ForSeriesTesting/Perfusion/DICOMDIR
+        ParseException pe;
+        pe.SetLastElement(*this);
+        throw pe;
+        }
       // Ok this is Pixel Data fragmented...
       assert( TagField == Tag(0x7fe0,0x0010) );
       assert( VRField & VR::OB_OW );
@@ -242,7 +262,7 @@ std::istream &VR16ExplicitDataElement::Read(std::istream &is)
     assert( TagField.IsPrivate() );
     try
       {
-      if( !ValueIO<VR16ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField) )
+      if( !ValueIO<VR16ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues) )
         {
         assert(0 && "Should not happen");
         }
@@ -266,7 +286,7 @@ std::istream &VR16ExplicitDataElement::Read(std::istream &is)
     }
 #endif
 
-  if( !ValueIO<VR16ExplicitDataElement,TSwap>::Read(is,*ValueField) )
+  if( !ValueIO<VR16ExplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) )
     {
     // Might be the famous UN 16bits
     ParseException pe;

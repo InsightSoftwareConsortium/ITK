@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -12,7 +11,6 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-
 #ifndef GDCMREADER_H
 #define GDCMREADER_H
 
@@ -20,8 +18,9 @@
 
 #include <fstream>
 
-namespace gdcm
+namespace gdcm_ns
 {
+  class StreamImageReader;
 /**
  * \brief Reader ala DOM (Document Object Model)
  *
@@ -54,10 +53,7 @@ namespace gdcm
 class GDCM_EXPORT Reader
 {
 public:
-  Reader():F(new File){
-    Stream = NULL;
-    Ifstream = NULL;
-  }
+  Reader();
   virtual ~Reader();
 
   /// Main function to read a file
@@ -65,12 +61,7 @@ public:
 
   /// Set the filename to open. This will create a std::ifstream internally
   /// See SetStream if you are dealing with different std::istream object
-  void SetFileName(const char *filename) {
-    if(Ifstream) delete Ifstream;
-    Ifstream = new std::ifstream();
-    Ifstream->open(filename, std::ios::binary);
-    Stream = Ifstream;
-  }
+  void SetFileName(const char *filename_native);
 
   /// Set the open-ed stream directly
   void SetStream(std::istream &input_stream) {
@@ -86,11 +77,26 @@ public:
   /// Set/Get File
   void SetFile(File& file) { F = &file; }
 
-  /// Will read only up to Tag 'tag'
-  bool ReadUpToTag(const Tag & tag, std::set<Tag> const & skiptags);
+  /// Will read only up to Tag \param tag and skipping any tag specified in
+  /// \param skiptags
+  bool ReadUpToTag(const Tag & tag, std::set<Tag> const & skiptags = std::set<Tag>() );
 
   /// Will only read the specified selected tags.
-  bool ReadSelectedTags(std::set<Tag> const & tags);
+  bool ReadSelectedTags(std::set<Tag> const & tags, bool readvalues = true);
+
+  /// Will only read the specified selected private tags.
+  bool ReadSelectedPrivateTags(std::set<PrivateTag> const & ptags, bool readvalues = true);
+
+  /// Test whether this is a DICOM file
+  /// \warning need to call either SetFileName or SetStream first
+  bool CanRead() const;
+
+  /// Set/Get DataSet StreamPosition ;
+  std::streampos GetDSStreamPosition() { return m_posDataSet ; }
+
+  /// For wrapped language. return type is compatible with System::FileSize return type
+  /// Use native std::streampos / std::streamoff directly from the stream from C++
+  size_t GetStreamCurrentPosition() const;
 
 protected:
   bool ReadPreamble();
@@ -99,12 +105,25 @@ protected:
 
   SmartPointer<File> F;
 
-private:
+  friend class StreamImageReader; //need to be friended to be able to grab the GetStreamPtr
+
+  //this function is added for the StreamImageReader, which needs to read
+  //up to the pixel data and then stops right before reading the pixel data.
+  //it's used to get that position, so that reading can continue
+  //apace once the read function is called.
+  //so, this function gets the stream directly, and then allows for position information
+  //from the tellg function, and allows for stream/pointer manip in order
+  //to read the pixel data.  Note, of course, that reading pixel elements
+  //will still have to be subject to endianness swaps, if necessary.
+  std::istream* GetStreamPtr() const { return Stream; }
+
+protected:
   template <typename T_Caller>
   bool InternalReadCommon(const T_Caller &caller);
   TransferSyntax GuessTransferSyntax();
   std::istream *Stream;
   std::ifstream *Ifstream;
+  std::streampos m_posDataSet ;
 };
 
 /**
@@ -113,7 +132,7 @@ private:
  * This is a C++ example on how to use gdcm::Reader
  */
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 
 #endif //GDCMREADER_H

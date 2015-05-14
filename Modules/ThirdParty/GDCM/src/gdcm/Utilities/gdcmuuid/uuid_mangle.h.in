@@ -19,7 +19,6 @@
 #define uuid_generate_random @MANGLE_PREFIX@_uuid_generate_random
 #define uuid_generate_time   @MANGLE_PREFIX@_uuid_generate_time
 #define uuid_get_node_id     @MANGLE_PREFIX@_uuid_get_node_id
-#define uuid_gettimeofday    @MANGLE_PREFIX@_uuid_gettimeofday
 #define uuid_pack            @MANGLE_PREFIX@_uuid_pack
 #define uuid_parse           @MANGLE_PREFIX@_uuid_parse
 #define uuid_time            @MANGLE_PREFIX@_uuid_time

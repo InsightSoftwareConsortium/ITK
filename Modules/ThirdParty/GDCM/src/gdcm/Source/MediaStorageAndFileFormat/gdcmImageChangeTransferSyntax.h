@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -27,12 +26,13 @@ class ImageCodec;
  * \brief ImageChangeTransferSyntax class
  * Class to change the transfer syntax of an input DICOM
  *
- * If only Force param is set but no input TransferSyntax is set, it is assumed that user only wants
- * to inspect encapsulated stream (advanced dev. option).
+ * If only Force param is set but no input TransferSyntax is set, it is assumed
+ * that user only wants to inspect encapsulated stream (advanced dev. option).
  *
- * When using UserCodec it is very important that the TransferSyntax (as set in SetTransferSyntax)
- * is actually understood by UserCodec (ie. UserCodec->CanCode( TransferSyntax ) ). Otherwise
- * the behavior is to use a default codec.
+ * When using UserCodec it is very important that the TransferSyntax (as set in
+ * SetTransferSyntax) is actually understood by UserCodec (ie.
+ * UserCodec->CanCode( TransferSyntax ) ). Otherwise the behavior is to use a
+ * default codec.
  *
  * \sa JPEGCodec JPEGLSCodec JPEG2000Codec
  */
@@ -50,20 +50,21 @@ public:
   /// Change
   bool Change();
 
-  /// Decide whether or not to also compress the Icon Image using the same Transfer Syntax
-  /// Default is to simply decompress icon image
+  /// Decide whether or not to also compress the Icon Image using the same
+  /// Transfer Syntax.  Default is to simply decompress icon image
   void SetCompressIconImage(bool b) { CompressIconImage = b; }
 
-  /// When target Transfer Syntax is identical to input target syntax, no operation
-  /// is actually done
-  /// This is an issue when someone wants to recompress using GDCM internal implementation
-  /// a JPEG (for example) image
+  /// When target Transfer Syntax is identical to input target syntax, no
+  /// operation is actually done.
+  /// This is an issue when someone wants to re-compress using GDCM internal
+  /// implementation a JPEG (for example) image
   void SetForce( bool f ) { Force = f; }
 
-  /// Allow user to specify exactly which codec to use. this is needed to specify special qualities
-  /// or compression option.
-  /// \warning is the codec 'ic' is not compatible with the TransferSyntax requested, it will
-  /// not be used. It is the user responsability to check that UserCodec->CanCode( TransferSyntax )
+  /// Allow user to specify exactly which codec to use. this is needed to
+  /// specify special qualities or compression option.
+  /// \warning if the codec 'ic' is not compatible with the TransferSyntax
+  /// requested, it will not be used. It is the user responsibility to check
+  /// that UserCodec->CanCode( TransferSyntax )
   void SetUserCodec(ImageCodec *ic) { UserCodec = ic; }
 
 protected:
@@ -83,7 +84,7 @@ private:
 
 /**
  * \example StandardizeFiles.cs
- * This is a C++ example on how to use gdcm::ImageChangeTransferSyntax
+ * This is a C++ example on how to use ImageChangeTransferSyntax
  */
 
 } // end namespace gdcm

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -71,13 +70,13 @@ bool SHA1::Compute(const char *buffer, unsigned long buf_len, char digest[])
 #else
   (void)buffer;
   (void)buf_len;
-  digest = 0;
+  (void)digest;
   return false;
 #endif
 }
 
 #ifdef GDCM_USE_SYSTEM_OPENSSL
-inline bool process_file(const char *filename, unsigned char *digest)
+static bool process_file(const char *filename, unsigned char *digest)
 {
   if( !filename || !digest ) return false;
 
@@ -98,9 +97,12 @@ inline bool process_file(const char *filename, unsigned char *digest)
   if( read != file_size ) return false;
 
   SHA_CTX ctx;
-  SHA1_Init(&ctx);
-  SHA1_Update(&ctx, buffer, file_size);
-  SHA1_Final(digest, &ctx);
+  int ret = SHA1_Init(&ctx);
+  if( !ret ) return false;
+  ret = SHA1_Update(&ctx, buffer, file_size);
+  if( !ret ) return false;
+  ret = SHA1_Final(digest, &ctx);
+  if( !ret ) return false;
 
   /*printf("MD5 (\"%s\") = ", test[i]); */
   /*for (int di = 0; di < 16; ++di)
@@ -135,7 +137,7 @@ bool SHA1::ComputeFile(const char *filename, char digest_str[20*2+1])
   return true;
 #else
   (void)filename;
-  digest_str = 0;
+  (void)digest_str;
   return false;
 #endif
 }

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -161,6 +160,7 @@ int PDBHeader::readprotocoldatablock(const char *input, size_t inputlen, bool ve
   (void)verbose;
   // First 4 bytes are the length (again)
   uint32_t len = *(uint32_t*)input;
+  SwapperNoOp::SwapArray(&len,1);
   //if( verbose )
   //  std::cout << len << "," << inputlen << std::endl;
   if( len + 4 + 1 == inputlen )

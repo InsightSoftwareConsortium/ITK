@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -86,6 +85,7 @@ public:
 
 private:
   //
+  friend class Dict;
   static bool CheckKeywordAgainstName(const char *name, const char *keyword);
 
 private:
@@ -124,6 +124,14 @@ inline std::ostream& operator<<(std::ostream& os, const DictEntry &val)
   else
     {
     os << val.Name;
+    }
+  if( val.Keyword.empty() )
+    {
+    os << "[No keyword]";
+    }
+  else
+    {
+    os << val.Keyword;
     }
   os << "\t" << val.ValueRepresentation << "\t" << val.ValueMultiplicity;
   if( val.Retired )

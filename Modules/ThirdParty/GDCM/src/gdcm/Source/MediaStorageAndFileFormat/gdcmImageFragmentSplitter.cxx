@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -21,7 +20,7 @@ namespace gdcm
 bool ImageFragmentSplitter::Split()
 {
   Output = Input;
-  const Pixmap &image = *Input;
+  const Bitmap &image = *Input;
 
   const unsigned int *dims = image.GetDimensions();
   if( dims[2] != 1 )
@@ -50,7 +49,7 @@ bool ImageFragmentSplitter::Split()
   const Fragment& frag = sqf->GetFragment(0);
   const ByteValue *bv = frag.GetByteValue();
   const char *p = bv->GetPointer();
-  size_t len = bv->GetLength();
+  unsigned long len = bv->GetLength();
   if( FragmentSizeMax > len && !Force )
     {
     // I think it is ok
@@ -62,12 +61,12 @@ bool ImageFragmentSplitter::Split()
     gdcmDebugMacro( "Need to set a real value for fragment size" );
     return false; // seriously...
     }
-  size_t nfrags = len / FragmentSizeMax;
-  size_t lastfrag = len % FragmentSizeMax;
+  unsigned long nfrags = len / FragmentSizeMax;
+  unsigned long lastfrag = len % FragmentSizeMax;
 
   SmartPointer<SequenceOfFragments> sq = new SequenceOfFragments;
   // Let's do all complete frag:
-  for(size_t i = 0; i < nfrags; ++i)
+  for(unsigned long i = 0; i < nfrags; ++i)
     {
     Fragment splitfrag;
     splitfrag.SetByteValue( p + i * FragmentSizeMax, FragmentSizeMax);

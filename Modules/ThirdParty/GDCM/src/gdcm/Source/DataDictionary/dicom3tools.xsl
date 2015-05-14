@@ -4,19 +4,12 @@
 <!-- XSL to convert XML GDCM2 data dictionay into
      David Clunie's dicom3tools data dictionary
 Checked against:
-     dicom3tools_1.00.snapshot.20071112/libsrc/standard/elmdict/dicom3.tpl
-
-TODO:
-* vr should be reformat
-* group length should be added
-* need to add a xsl:sort
-
+     dicom3tools_1.00.snapshot.20120808/libsrc/standard/elmdict/dicom3.tpl
 -->
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/dicom3tools.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -24,65 +17,55 @@ TODO:
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notice for more information.
 -->
-
-<!--life saver xsl script found at:
-http://www.thescripts.com/forum/thread86881.html
--->
-  <xsl:template name="upperCase">
-    <xsl:param name="textToTransform"/>
-    <xsl:variable name="head">
-      <xsl:choose>
-        <xsl:when test="contains($textToTransform, ' ')">
-          <xsl:value-of select="substring-before($textToTransform, ' ')"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="$textToTransform"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="tail" select="substring-after($textToTransform, ' ')"/>
-    <xsl:variable name="firstTransform" select="concat(translate(substring($head, 1, 1), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), substring($head, 2))"/>
-    <xsl:choose>
-      <xsl:when test="$tail">
-        <xsl:value-of select="$firstTransform"/>
-        <xsl:call-template name="upperCase">
-          <xsl:with-param name="textToTransform" select="$tail"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$firstTransform"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
+<xsl:include href="uppercase.xsl"/>
 <!-- The main template that loop over all dict/entry -->
   <xsl:template match="/">
-    <xsl:for-each select="dict/entry">
+    <xsl:for-each select="dicts/dict/entry">
+    <xsl:sort select="@group"/>
+    <xsl:sort select="@element"/>
       <xsl:text>(</xsl:text>
       <xsl:value-of select="translate(@group,'abcdef','ABCDEF')"/>
       <xsl:text>,</xsl:text>
+      <xsl:choose>
+        <xsl:when test="starts-with(@element,'xx') and @element != 'xxxx'">
+      <xsl:value-of select="'00'"/>
+      <xsl:value-of select="translate(substring(@element,3,2),'abcdef','ABCDEF')"/>
+        </xsl:when>
+      <xsl:otherwise>
       <xsl:value-of select="translate(@element,'abcdef','ABCDEF')"/>
+      </xsl:otherwise>
+      </xsl:choose>
       <xsl:text>) VERS="</xsl:text>
       <xsl:choose>
-        <xsl:when test="@version = 2">
-          <xsl:text>2</xsl:text>
-        </xsl:when>
-        <xsl:when test="@version = 3">
-          <xsl:text>3</xsl:text>
+        <xsl:when test="@retired = 'true'">
         </xsl:when>
         <xsl:otherwise>
-          <!--message-->
-          <xsl:text>1</xsl:text>
+          <xsl:text>3</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:if test="@retired != &quot;false&quot;">
+      <xsl:if test="@retired != 'false'">
         <xsl:text>RET</xsl:text>
       </xsl:if>
       <xsl:text>" VR="</xsl:text>
+      <xsl:choose>
+        <xsl:when test="not(@vr)">
+        <xsl:value-of select="'NONE'"/>
+        </xsl:when>
+        <xsl:when test="@vr = 'OB_OW'">
+        <xsl:value-of select="'OW/OB'"/>
+      </xsl:when>
+        <xsl:when test="@vr = 'US_SS_OW'">
+        <xsl:value-of select="'US or OW'"/>
+      </xsl:when>
+        <xsl:when test="@vr = 'US_SS'">
+        <xsl:value-of select="'US or SS'"/>
+      </xsl:when>
+      <xsl:otherwise>
         <xsl:value-of select="@vr"/>
+      </xsl:otherwise>
+      </xsl:choose>
       <xsl:text>" VM="</xsl:text>
         <xsl:value-of select="@vm"/>
-      <!--/xsl:for-each-->
       <xsl:text>" Keyword="</xsl:text>
       <xsl:variable name="apos">'</xsl:variable>
       <!--translating an apostrophe is a pain ... better solution ? -->
@@ -90,7 +73,7 @@ http://www.thescripts.com/forum/thread86881.html
         <xsl:value-of select="translate(@name, $apos, '')"/>
       </xsl:variable>
       <xsl:variable name="description_dash">
-        <!-- the dicom3tools is not always consistant with capitalization.
+        <!-- the dicom3tools is not always consistent with capitalization.
              Assume that every time there is a - we want capitalization -->
         <xsl:value-of select="translate($description_apos,'-',' ')"/>
       </xsl:variable>
@@ -100,7 +83,7 @@ http://www.thescripts.com/forum/thread86881.html
         </xsl:call-template>
       </xsl:variable>
       <!-- remove remaining extra character -->
-      <xsl:value-of select="translate($description_cap,'/(),','')"/>
+      <xsl:value-of select="translate(@keyword,'/(),','')"/>
       <xsl:text>" Name="</xsl:text>
       <xsl:value-of select="@name"/>
       <xsl:text>"</xsl:text>

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -14,9 +13,12 @@
 =========================================================================*/
 #include "gdcmFile.h"
 
-
-namespace gdcm
+namespace gdcm_ns
 {
+
+// Keep cstor and dstor here to keep API minimal (see dllexport issue with gdcmstrict::)
+File::File() {}
+File::~File() {}
 
 std::istream &File::Read(std::istream &is)
 {
@@ -30,4 +32,4 @@ std::ostream const &File::Write(std::ostream &os) const
   return os;
 }
 
-} // end namespace gdcm
+} // end namespace gdcm_ns

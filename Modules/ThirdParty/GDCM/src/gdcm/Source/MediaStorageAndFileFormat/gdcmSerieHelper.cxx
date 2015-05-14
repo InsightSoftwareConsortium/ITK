@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -26,7 +25,7 @@ namespace gdcm
 
 SerieHelper::SerieHelper()
 {
-  gdcm::Trace::WarningOff();
+  Trace::WarningOff();
   UseSeriesDetails = false;
   Clear();
   UserLessThanFunction = 0;
@@ -104,8 +103,8 @@ void SerieHelper::Clear()
   FileList *l = GetFirstSingleSerieUIDFileSet();
   while (l)
     {
-    // For all the gdcm::File of a File set
-    for (gdcm::FileList::iterator it  = l->begin();
+    // For all the File of a File set
+    for (FileList::iterator it  = l->begin();
       it != l->end();
       ++it)
       {
@@ -135,7 +134,7 @@ void SerieHelper::SetDirectory(std::string const &dir, bool recursive)
 void SerieHelper::AddFileName(std::string const &filename)
 {
   // Only accept DICOM file containing Image (Pixel Data element):
-  gdcm::ImageReader reader;
+  ImageReader reader;
   reader.SetFileName( filename.c_str() );
   if( !reader.Read() )
     {
@@ -437,7 +436,7 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )
         const Rule &r = *it2;
         //std::string s = inFile->GetEntryValue( r.group, r.elem );
         std::string s = sf.ToString( Tag(r.group, r.elem) );
-        //if( s == gdcm::GDCM_UNFOUND )
+        //if( s == GDCM_UNFOUND )
         //  {
         //  s = "";
         //  }
@@ -466,7 +465,7 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )
   else // Could not open inFile
     {
     gdcmWarningMacro("Could not parse series info.");
-    std::string id = "GDCM_UNFOUND"; //gdcm::GDCM_UNFOUND;
+    std::string id = "GDCM_UNFOUND"; //GDCM_UNFOUND;
     return id;
     }
 }

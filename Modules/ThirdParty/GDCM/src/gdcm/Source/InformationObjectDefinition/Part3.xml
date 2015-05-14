@@ -6,9 +6,8 @@ $ xsltproc ma2html.xsl ModuleAttributes.xml
     -->
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/InformationObjectDefinition/Part3.xml $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -2093,6 +2092,24 @@ Note:  This allows the specification of clinical, acquisition, or procedural qua
   <iod table="B.25.2-1" name="Media Creation Management IOD Modules">
     <entry name="SOP Common" ref="C.12.1" description="Contains SOP common information"/>
     <entry name="Media Creation Management" ref="C.22.1" description="Contains references to the SOP instances to be used for this media creation request, and the information about its status."/>
+  </iod>
+<!--
+http://www.medical.siemens.com/siemens/en_GLOBAL/rg_marcom_FBAs/files/brochures/DICOM/multimod_worpl/aMMWP_2006B/VSim_DicomConformanceStatement.pdf
+-->
+  <iod table="CSA.1" name="Siemens Non-image IOD Modules">
+    <entry ie="Patient" name="Patient" ref="C.7.1.1" usage="M"/>
+    <entry ie="Study" name="General Study" ref="C.7.2.1" usage="M"/>
+    <entry ie="Study" name="Patient Study" ref="C.7.2.2" usage="U"/>
+    <entry ie="Series" name="General Series" ref="C.7.3.1" usage="M"/>
+    <entry ie="Equipment" name="General Equipment" ref="C.7.5.1" usage="U"/>
+<!--
+    <entry ie="CSA" name="CSA Image Header" ref="CSA.A.2.1" usage="U"/>
+    <entry ie="CSA" name="CSA Series Header" ref="CSA.A.2.2" usage="U"/>
+    <entry ie="CSA" name="MEDCOM Header" ref="CSA.A.2.3" usage="U"/>
+    <entry ie="CSA" name="CSA Non-Image" ref="CSA.A.1.3.1" usage="M"/>
+    <entry ie="CSA" name="SOP Common" ref="C.12.1" usage="M"/>
+-->
+    <entry ie="Image" name="SOP Common" ref="C.12.1" usage="M"/>
   </iod>
   <module ref="C.2.1" table="C.2-1" name="Patient Relationship Module Attributes">
     <entry group="0008" element="1110" name="Referenced Study Sequence">

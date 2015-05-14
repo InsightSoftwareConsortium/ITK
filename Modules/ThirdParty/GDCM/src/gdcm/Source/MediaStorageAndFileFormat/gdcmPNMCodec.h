@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -39,6 +38,7 @@ public:
   void SetBufferLength(unsigned long l) { BufferLength = l; }
 
   bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
+  virtual ImageCodec * Clone() const;
 
   bool Read(const char *filename, DataElement &out) const;
   bool Write(const char *filename, const DataElement &out) const;

@@ -5,9 +5,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/DefaultDicts.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -17,8 +16,8 @@
 
 =========================================================================*/
 
-#ifndef __gdcmCSAHeaderDict_cxx
-#define __gdcmCSAHeaderDict_cxx
+#ifndef GDCMCSAHEADERDEFAULTDICT_CXX
+#define GDCMCSAHEADERDEFAULTDICT_CXX
 
 #include "gdcmCSAHeaderDict.h"
 #include "gdcmCSAHeaderDictEntry.h"
@@ -303,6 +302,39 @@ static const CSA_DICT_ENTRY CSAHeaderDataDict [] = {
 
 /* Manually added */
   {"sKSpace.ucSlicePartialFourier","1",VR::US,VM::VM1,"Partial Fourier Information 0x1,0x2,0x4,0x8,0x10 resp. 4/8,5/8,6/8,7/8,8/8"},
+// http://www.nmr.mgh.harvard.edu/~greve/dicom-unpack
+// http://web.archiveorange.com/archive/v/AW2a1uSBsvpLmfFd9xvy
+/*
+ASCCONV does contain most of the good info. In particular the slice
+ordering is encoded thus:
+
+    sSliceArray.ucMode -- should be in (1, 2, 4)
+    enum SeriesMode
+    {
+      ASCENDING   = 0x01,
+      DESCENDING  = 0x02,
+      INTERLEAVED = 0x04
+    };
+
+And when interleaved, the slice ordering depends on whether the number
+of slices is even or odd. I have it coded (counting from zero) as:
+
+if ODD:
+  slice_order = {0, 2, 4, ..., N-1, 1, 3, 5, ..., N-2}
+else:
+  slice_order = {1, 3, 5, ..., N-1, 0, 2, 4, ..., N-2}
+
+which I can't immediately confirm, but I'm reasonably confident about it.
+
+It's all a bit of a mess, but there is some code available on the CIRL
+repo in bic/trunk/recon-tools/root/scanner/siemens.py
+
+check out parse_siemens_hdr() in that module, where I also documented
+various useful fields. And there are the helper functions (
+strip_ascconv(), condense_array() ) in siemens_utils.py. No
+docstrings, so ping me if you need clarification.
+*/
+  {"sSliceArray.ucMode","1",VR::US,VM::VM1,"slice ordering 0x1,0x2,0x4 resp. asc,desc,inter"},
 
   {0,0,VR::INVALID,VM::VM0,0 } // Gard
 };
@@ -320,4 +352,4 @@ void CSAHeaderDict::LoadDefault()
 }
 
 } // end namespace gdcm
-#endif // __gdcmCSAHeaderDict_cxx
+#endif // GDCMCSAHEADERDEFAULTDICT_CXX

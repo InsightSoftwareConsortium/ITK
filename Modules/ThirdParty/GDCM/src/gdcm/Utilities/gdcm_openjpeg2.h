@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -33,9 +32,9 @@ extern "C" {
 
 #else
 extern "C" {
-#include <gdcmopenjpeg/libopenjpeg/openjpeg.h>
-#include <gdcmopenjpeg/libopenjpeg/j2k.h>
-#include <gdcmopenjpeg/libopenjpeg/jp2.h>
+#include <gdcmopenjpeg-v2/libopenjpeg/openjpeg.h>
+#include <gdcmopenjpeg-v2/libopenjpeg/j2k.h>
+#include <gdcmopenjpeg-v2/libopenjpeg/jp2.h>
 }
 #endif
 

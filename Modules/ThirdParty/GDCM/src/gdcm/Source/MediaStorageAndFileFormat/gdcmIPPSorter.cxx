@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -26,14 +25,12 @@ namespace gdcm
 IPPSorter::IPPSorter()
 {
   ComputeZSpacing = true;
+  DropDuplicatePositions = false;
   ZSpacing = 0;
   ZTolerance = 1e-6;
+  DirCosTolerance = 0.;
 }
 
-
-IPPSorter::~IPPSorter()
-{
-}
 
 inline double spacing_round(double n, int d) /* pow is defined as pow( double, double) or pow(double int) on M$ comp */
 {
@@ -52,26 +49,30 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
     }
 
   Scanner scanner;
-  const Tag ipp(0x0020,0x0032); // Image Position (Patient)
-  const Tag iop(0x0020,0x0037); // Image Orientation (Patient)
-  const Tag frame(0x0020,0x0052); // Frame of Reference UID
+  const Tag tipp(0x0020,0x0032); // Image Position (Patient)
+  const Tag tiop(0x0020,0x0037); // Image Orientation (Patient)
+  const Tag tframe(0x0020,0x0052); // Frame of Reference UID
   // Temporal Position Identifier (0020,0100) 3 Temporal order of a dynamic or functional set of Images.
   //const Tag tpi(0x0020,0x0100);
-  scanner.AddTag( ipp );
-  scanner.AddTag( iop );
+  scanner.AddTag( tipp );
+  scanner.AddTag( tiop );
+  scanner.AddTag( tframe );
   bool b = scanner.Scan( filenames );
   if( !b )
     {
     gdcmDebugMacro( "Scanner failed" );
     return false;
     }
-  Scanner::ValuesType iops = scanner.GetValues(iop);
-  Scanner::ValuesType frames = scanner.GetValues(frame);
-  if( iops.size() != 1 )
+  Scanner::ValuesType iops = scanner.GetValues(tiop);
+  Scanner::ValuesType frames = scanner.GetValues(tframe);
+  if( DirCosTolerance == 0. )
     {
-    gdcmDebugMacro( "More than one IOP (or no IOP): " << iops.size() );
-    //std::copy(iops.begin(), iops.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
-    return false;
+    if( iops.size() != 1 )
+      {
+      gdcmDebugMacro( "More than one IOP (or no IOP): " << iops.size() );
+      //std::copy(iops.begin(), iops.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
+      return false;
+      }
     }
   if( frames.size() > 1 ) // Should I really tolerate no Frame of Reference UID ?
     {
@@ -80,8 +81,19 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
     }
 
   const char *reference = filenames[0].c_str();
+  // we cannot simply consider the first file, what if this is not DICOM ?
+  for(std::vector<std::string>::const_iterator it1 = filenames.begin();
+    it1 != filenames.end(); ++it1)
+    {
+    const char *filename = it1->c_str();
+    bool iskey = scanner.IsKey(filename);
+    if( iskey )
+      {
+      reference = filename;
+      }
+    }
   Scanner::TagToValue const &t2v = scanner.GetMapping(reference);
-  Scanner::TagToValue::const_iterator it = t2v.find( iop );
+  Scanner::TagToValue::const_iterator it = t2v.find( tiop );
   // Take the first file in the list of filenames, if not IOP is found, simply gives up:
   if( it == t2v.end() )
     {
@@ -89,35 +101,30 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
     gdcmDebugMacro( "No iop in: " << reference );
     return false;
     }
-  if( it->first != iop )
+  if( it->first != tiop )
     {
     // first file does not contains Image Orientation (Patient), let's give up
     gdcmDebugMacro( "No iop in first file ");
     return false;
     }
   const char *dircos = it->second;
-  std::stringstream ss;
-  ss.str( dircos );
-  Element<VR::DS,VM::VM6> cosines;
-  cosines.Read( ss );
+  if( !dircos )
+    {
+    // first file does contains Image Orientation (Patient), but it is empty
+    gdcmDebugMacro( "Empty iop in first file ");
+    return false;
+    }
 
   // http://www.itk.org/pipermail/insight-users/2003-September/004762.html
   // Compute normal:
   // The steps I take when reconstructing a volume are these: First,
   // calculate the slice normal from IOP:
   double normal[3];
-  normal[0] = cosines[1]*cosines[5] - cosines[2]*cosines[4];
-  normal[1] = cosines[2]*cosines[3] - cosines[0]*cosines[5];
-  normal[2] = cosines[0]*cosines[4] - cosines[1]*cosines[3];
 
-  gdcm::DirectionCosines dc;
+  DirectionCosines dc;
   dc.SetFromString( dircos );
   if( !dc.IsValid() ) return false;
-  double normal2[3];
-  dc.Cross( normal2 );
-  assert( normal2[0] == normal[0] &&
-          normal2[1] == normal[1] &&
-          normal2[2] == normal[2] );
+  dc.Cross( normal );
   // You only have to do this once for all slices in the volume. Next, for
   // each slice, calculate the distance along the slice normal using the IPP
   // tag ("dist" is initialized to zero before reading the first slice) :
@@ -126,34 +133,61 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
   SortedFilenames sorted;
 {
   std::vector<std::string>::const_iterator it1 = filenames.begin();
+  DirectionCosines dc2;
   for(; it1 != filenames.end(); ++it1)
     {
     const char *filename = it1->c_str();
     bool iskey = scanner.IsKey(filename);
     if( iskey )
       {
-      const char *value =  scanner.GetValue(filename, ipp);
+      const char *value =  scanner.GetValue(filename, tipp);
       if( value )
         {
-        //gdcmDebugMacro( filename << " has " << ipp<< " = " << value );
-        Element<VR::DS,VM::VM3> ippElement;
-        std::stringstream sstream;
-        sstream.str( value );
-        ippElement.Read( sstream );
+        if( DirCosTolerance != 0. )
+          {
+          const char *value2 =  scanner.GetValue(filename, tiop);
+          if( !dc2.SetFromString( value2 ) )
+            {
+            if( value2 )
+              gdcmWarningMacro( filename << " cant read IOP: " << value2 );
+            return false;
+            }
+          double cd = dc2.CrossDot( dc );
+          // result should be as close to 1 as possible:
+          if( fabs(1 - cd) > DirCosTolerance )
+            {
+            gdcmWarningMacro( filename << " Problem with DirCosTolerance: " );
+            // Cant print cd since 0.9999 is printed as 1... may confuse user
+            return false;
+            }
+          //dc2.Normalize();
+          //dc2.Print( std::cout << std::endl );
+          }
+        //gdcmDebugMacro( filename << " has " << ipp << " = " << value );
+        Element<VR::DS,VM::VM3> ipp;
+        std::stringstream ss;
+        ss.str( value );
+        ipp.Read( ss );
         double dist = 0;
-        for (int i = 0; i < 3; ++i) dist += normal[i]*ippElement[i];
+        for (int i = 0; i < 3; ++i) dist += normal[i]*ipp[i];
         // FIXME: This test is weak, since implicitely we are doing a != on floating point value
         if( sorted.find(dist) != sorted.end() )
           {
-          gdcmDebugMacro( "dist: " << dist << " already found" );
-          return false;
+            if( this->DropDuplicatePositions )
+            {
+              gdcmWarningMacro( "dropping file " << filename << " since Z position: " << dist << " already found" );
+              continue;
+            }
+            gdcmWarningMacro( "dist: " << dist << " for " << filename <<
+              " already found in " << sorted.find(dist)->second );
+            return false;
           }
         sorted.insert(
           SortedFilenames::value_type(dist,filename) );
         }
       else
         {
-        gdcmDebugMacro( "File: " << filename << " has no Tag" << ipp << ". Skipping." );
+        gdcmDebugMacro( "File: " << filename << " has no Tag" << tipp << ". Skipping." );
         }
       }
     else
@@ -194,7 +228,27 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
       const int l = (int)( -log10(ZTolerance) );
       ZSpacing = spacing_round(zspacing, l);
       }
-    assert( spacingisgood == false ||  (ZSpacing > ZTolerance && ZTolerance > 0) );
+    if( !spacingisgood )
+      {
+      std::ostringstream os;
+      os << "Filenames and 'z' positions" << std::endl;
+      double prev1 = 0.;
+      for(SortedFilenames::const_iterator it1 = sorted.begin(); it1 != sorted.end(); ++it1)
+        {
+        std::string f = it1->second;
+        if( f.length() > 32 )
+          {
+          f = f.substr(0,10) + " ... " + f.substr(f.length()-17);
+          }
+        double d = it1->first - prev1;
+        if( it1 != sorted.begin() && fabs(d - zspacing) > ZTolerance) os << "* ";
+        else os << "  ";
+        os << it1->first << "\t" << f << std::endl;
+        prev1 = it1->first;
+        }
+      gdcmDebugMacro( os.str() );
+      }
+    assert( spacingisgood == false ||  (ComputeZSpacing ? (ZSpacing > ZTolerance && ZTolerance > 0) : ZTolerance > 0) );
     }
 }
 

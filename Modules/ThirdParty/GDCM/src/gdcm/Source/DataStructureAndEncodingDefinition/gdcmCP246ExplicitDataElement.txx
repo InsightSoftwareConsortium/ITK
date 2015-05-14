@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -31,9 +30,17 @@ namespace gdcm
 template <typename TSwap>
 std::istream &CP246ExplicitDataElement::Read(std::istream &is)
 {
+  ReadPreValue<TSwap>(is);
+  return ReadValue<TSwap>(is);
+}
+//-----------------------------------------------------------------------------
+template <typename TSwap>
+std::istream &CP246ExplicitDataElement::ReadPreValue(std::istream &is)
+{
+  TagField.Read<TSwap>(is);
   // See PS 3.5, Data Element Structure With CP246Explicit VR
   // Read Tag
-  if( !TagField.Read<TSwap>(is) )
+  if( !is )
     {
     if( !is.eof() ) // FIXME This should not be needed
       {
@@ -69,9 +76,8 @@ std::istream &CP246ExplicitDataElement::Read(std::istream &is)
       return is;
       }
     }
-  catch( std::exception &ex )
+  catch( std::exception & )
     {
-    (void)ex;
     // gdcm-MR-PHILIPS-16-Multi-Seq.dcm
     // assert( TagField == Tag(0xfffe, 0xe000) );
     // -> For some reason VR is written as {44,0} well I guess this is a VR...
@@ -98,11 +104,21 @@ std::istream &CP246ExplicitDataElement::Read(std::istream &is)
     // 16bits only
     if( !ValueLengthField.template Read16<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      //gdcmAssertAlwaysMacro(0 && "Should not happen");
+      // The following is occurs with gdcm 2.0.17 when two
+      // seq del item marker are found
+      // See UnexpectedSequenceDelimiterInFixedLengthSequence.dcm
+      throw Exception("Should not happen CP246");
       return is;
       }
     }
-
+  return is;
+}
+//-----------------------------------------------------------------------------
+template <typename TSwap>
+std::istream &CP246ExplicitDataElement::ReadValue(std::istream &is, bool readvalues)
+{
+  if( is.eof() ) return is;
   if( ValueLengthField == 0 )
     {
     // Simple fast path
@@ -132,14 +148,13 @@ std::istream &CP246ExplicitDataElement::Read(std::istream &is)
       ValueField->SetLength(ValueLengthField); // perform realloc
       try
         {
-        if( !ValueIO<CP246ExplicitDataElement,TSwap>::Read(is,*ValueField) ) // non cp246
+        if( !ValueIO<CP246ExplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) ) // non cp246
           {
           assert(0);
           }
         }
-      catch( std::exception &ex)
+      catch( std::exception &)
         {
-        (void)ex;
         // Must be one of those non-cp246 file...
         // but for some reason seekg back to previous offset + Read
         // as CP246Explicit does not work...
@@ -179,21 +194,20 @@ std::istream &CP246ExplicitDataElement::Read(std::istream &is)
     assert( VRField == VR::SQ );
     try
       {
-      if( !ValueIO<CP246ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField) )
+      if( !ValueIO<CP246ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues) )
         {
         assert(0 && "Should not happen");
         }
       }
-    catch( std::exception &ex )
+    catch( std::exception & )
       {
-      (void)ex;
       ValueLengthField = ValueField->GetLength();
       }
     return is;
     }
 #endif
   //if( !ValueField->Read<TSwap>(is) )
-  if( !ValueIO<CP246ExplicitDataElement,TSwap>::Read(is,*ValueField) )
+  if( !ValueIO<CP246ExplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) )
     {
     // Might be the famous UN 16bits
     ParseException pe;

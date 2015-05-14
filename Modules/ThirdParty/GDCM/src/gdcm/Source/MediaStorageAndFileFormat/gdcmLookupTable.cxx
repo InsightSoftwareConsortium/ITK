@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -14,6 +13,8 @@
 =========================================================================*/
 #include "gdcmLookupTable.h"
 #include <vector>
+#include <set>
+
 #include <string.h>
 
 namespace gdcm
@@ -114,7 +115,7 @@ unsigned int LookupTable::GetLUTLength(LookupTableType type) const
 }
 
 void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
-  uint32_t length)
+  unsigned int length)
 {
   (void)length;
   //if( !Initialized() ) return;
@@ -134,7 +135,8 @@ void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
   if( BitSample == 8 )
     {
     const unsigned int mult = Internal->BitSize[type]/8;
-    assert( Internal->Length[type]*mult == length );
+    assert( Internal->Length[type]*mult == length
+      || Internal->Length[type]*mult + 1 == length );
     unsigned int offset = 0;
     if( mult == 2 )
       {
@@ -203,7 +205,7 @@ void LookupTable::GetLUTDescriptor(LookupTableType type, unsigned short &length,
     }
   else
     {
-    length = Internal->Length[type];
+    length = (unsigned short)Internal->Length[type];
     }
   subscript = Internal->Subscript[type];
   bitsize = Internal->BitSize[type];
@@ -247,21 +249,199 @@ void LookupTable::SetBlueLUT(const unsigned char *blue, unsigned int length)
   SetLUT(BLUE, blue, length);
 }
 
+namespace {
+  typedef union {
+    uint8_t rgb[4]; // 3rd value = 0
+    uint32_t I;
+  } U8;
+
+  typedef union {
+    uint16_t rgb[4]; // 3rd value = 0
+    uint64_t I;
+  } U16;
+
+  struct ltstr8
+    {
+    bool operator()(U8 u1, U8 u2) const
+      {
+      return u1.I < u2.I;
+      }
+    };
+  struct ltstr16
+    {
+    bool operator()(U16 u1, U16 u2) const
+      {
+      return u1.I < u2.I;
+      }
+    };
+} // end namespace
+
+inline void printrgb( const unsigned char *rgb )
+{
+  std::cout << int(rgb[0]) << "," << int(rgb[1]) << "," << int(rgb[2]);
+}
+
+void LookupTable::Encode(std::istream &is, std::ostream &os)
+{
+  if ( BitSample == 8 )
+    {
+#if 0
+    // FIXME:
+    // There is a very subbtle issue here. We are trying to compress a 8bits RGB image
+    // into an 8bits allocated indexed Pixel Data with 8bits LUT... this is just not
+    // possible in the general case
+    typedef std::set< U8, ltstr8 > RGBColorIndexer;
+    RGBColorIndexer s;
+
+    int count = 0;
+    while( !is.eof() )
+      {
+      U8 u;
+      u.rgb[3] = 0;
+      is.read( (char*)u.rgb, 3);
+      assert( u.rgb[3] == 0 );
+      //assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
+      std::pair<RGBColorIndexer::iterator,bool> it = s.insert( u );
+      if( it.second ) ++count;
+      int d = std::distance(s.begin(), it.first);
+      //std::cout << count << " Index: " << d << " -> "; printrgb( u.rgb ); std::cout << "\n";
+      //assert( s.size() < 256 );
+      assert( d < s.size() );
+      //assert( d < 256 && d >= 0 );
+      }
+
+    // now generate output image
+    // this has two been done in two passes as std::set always re-balance
+    is.clear();
+    is.seekg( 0 );
+    while( !is.eof() )
+      {
+      U8 u;
+      u.rgb[3] = 0;
+      is.read( (char*)u.rgb, 3);
+      assert( u.rgb[3] == 0 );
+      //assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
+      std::pair<RGBColorIndexer::iterator,bool> it = s.insert( u );
+      int d = std::distance(s.begin(), it.first);
+      //std::cout << "Index: " << d << " -> "; printrgb( u.rgb ); std::cout << "\n";
+      assert( d < s.size() );
+      //assert( d < 256 && d >= 0 );
+      os.put( d );
+      }
+
+    // now setup the LUT itself:
+    unsigned short ncolor = s.size();
+    // FIXME: shop'off any RGB that is not at the beginning.
+    if( ncolor > 256 ) ncolor = 256;
+    InitializeRedLUT(ncolor, 0, 8);
+    InitializeGreenLUT(ncolor, 0, 8);
+    InitializeBlueLUT(ncolor, 0, 8);
+    //int i = Internal->RGB.size();
+    //assert( Internal->RGB.size() == 5 );
+    int idx = 0;
+    for( RGBColorIndexer::const_iterator it = s.begin(); it != s.end() && idx < 256; ++it, ++idx )
+      {
+      assert( idx == std::distance( s.begin(), it ) );
+      //std::cout << "Index: " << idx << " -> "; printrgb( it->rgb ); std::cout << "\n";
+      Internal->RGB[3*idx+RED]   = it->rgb[RED];
+      Internal->RGB[3*idx+GREEN] = it->rgb[GREEN];
+      Internal->RGB[3*idx+BLUE]  = it->rgb[BLUE];
+      }
+#else
+    while( !is.eof() )
+      {
+      U8 u;
+      u.rgb[3] = 0;
+      is.read( (char*)u.rgb, 3);
+      assert( u.rgb[3] == 0 );
+      int d = 0;
+      assert( d < 256 && d >= 0 );
+      os.put( (char)d );
+      }
+#endif
+    }
+  else if ( BitSample == 16 )
+    {
+#if 0
+    typedef std::set< U16, ltstr16 > RGBColorIndexer;
+    RGBColorIndexer s;
+
+    while( !is.eof() )
+      {
+      U16 u;
+      u.rgb[3] = 0;
+      is.read( (char*)u.rgb, 3*2);
+      assert( u.rgb[3] == 0 );
+      //assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
+      std::pair<RGBColorIndexer::iterator,bool> it = s.insert( u );
+      int d = std::distance(s.begin(), it.first);
+      //std::cout << "Index: " << d << " -> "; printrgb( u.rgb ); std::cout << "\n";
+      assert( d < s.size() );
+      assert( d < 65536 && d >= 0 );
+      }
+
+    // now generate output image
+    // this has two been done in two passes as std::set always re-balance
+    is.clear();
+    is.seekg( 0 );
+    while( !is.eof() )
+      {
+      U16 u;
+      u.rgb[3] = 0;
+      is.read( (char*)u.rgb, 3*2);
+      assert( u.rgb[3] == 0 );
+      //assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
+      std::pair<RGBColorIndexer::iterator,bool> it = s.insert( u );
+      unsigned short d = std::distance(s.begin(), it.first);
+      //std::cout << "Index: " << d << " -> "; printrgb( u.rgb ); std::cout << "\n";
+      assert( d < s.size() );
+      assert( d < 65536 && d >= 0 );
+      os.write( (char*)&d , 2 );
+      }
+
+    // now setup the LUT itself:
+    unsigned short ncolor = s.size();
+    InitializeRedLUT(ncolor, 0, 16);
+    InitializeGreenLUT(ncolor, 0, 16);
+    InitializeBlueLUT(ncolor, 0, 16);
+    //int i = Internal->RGB.size();
+    //assert( Internal->RGB.size() == 5 );
+    int idx = 0;
+    uint16_t *rgb16 = (uint16_t*)&Internal->RGB[0];
+    for( RGBColorIndexer::const_iterator it = s.begin(); it != s.end(); ++it, ++idx )
+      {
+      assert( idx == std::distance( s.begin(), it ) );
+      //std::cout << "Index: " << idx << " -> "; printrgb( it->rgb ); std::cout << "\n";
+      rgb16[3*idx+RED]   = it->rgb[RED];
+      rgb16[3*idx+GREEN] = it->rgb[GREEN];
+      rgb16[3*idx+BLUE]  = it->rgb[BLUE];
+      }
+#else
+    while( !is.eof() )
+      {
+      U16 u;
+      u.rgb[3] = 0;
+      is.read( (char*)u.rgb, 3*2);
+      assert( u.rgb[3] == 0 );
+      int d = 0;
+      assert( d < 65536 && d >= 0 );
+      os.write( (char*)&d , 2 );
+      }
+#endif
+  }
+}
+
 void LookupTable::Decode(std::istream &is, std::ostream &os) const
 {
+  assert( Initialized() );
   if ( BitSample == 8 )
     {
     unsigned char idx;
     unsigned char rgb[3];
     while( !is.eof() )
       {
-      //is.Get(c);
       is.read( (char*)(&idx), 1);
-      // FIXME
-      if( is.eof() )
-        {
-        break;
-        }
+      if( is.eof() || !is.good() ) break;
       if( IncompleteLUT )
         {
         assert( idx < Internal->Length[RED] );
@@ -276,15 +456,14 @@ void LookupTable::Decode(std::istream &is, std::ostream &os) const
     }
   else if ( BitSample == 16 )
     {
+    // gdcmData/NM-PAL-16-PixRep1.dcm
     const uint16_t *rgb16 = (uint16_t*)&Internal->RGB[0];
     while( !is.eof() )
       {
       unsigned short idx;
       unsigned short rgb[3];
       is.read( (char*)(&idx), 2);
-      //is.Get(c);
-      // FIXME
-      if( is.eof() ) break;
+      if( is.eof() || !is.good() ) break;
       if( IncompleteLUT )
         {
         assert( idx < Internal->Length[RED] );
@@ -297,6 +476,62 @@ void LookupTable::Decode(std::istream &is, std::ostream &os) const
       os.write((char*)rgb, 3*2);
       }
     }
+}
+
+bool LookupTable::Decode(char *output, size_t outlen, const char *input, size_t inlen ) const
+{
+  bool success = false;
+  if( outlen < 3 * inlen )
+    {
+    gdcmDebugMacro( "Out buffer too small" );
+    return false;
+    }
+  if( !Initialized() )
+    {
+    gdcmDebugMacro( "Not Initialized" );
+    return false;
+    }
+  if ( BitSample == 8 )
+    {
+    const unsigned char * end = (unsigned char*)input + inlen;
+    unsigned char * rgb = (unsigned char*)output;
+    for( unsigned char * idx = (unsigned char*)input; idx != end; ++idx )
+      {
+      if( IncompleteLUT )
+        {
+        assert( *idx < Internal->Length[RED] );
+        assert( *idx < Internal->Length[GREEN] );
+        assert( *idx < Internal->Length[BLUE] );
+        }
+      rgb[RED]   = Internal->RGB[3 * *idx+RED];
+      rgb[GREEN] = Internal->RGB[3 * *idx+GREEN];
+      rgb[BLUE]  = Internal->RGB[3 * *idx+BLUE];
+      rgb += 3;
+      }
+    success = true;
+    }
+  else if ( BitSample == 16 )
+    {
+    const uint16_t *rgb16 = (uint16_t*)&Internal->RGB[0];
+    assert( inlen % 2 == 0 );
+    const uint16_t * end = (uint16_t*)(input + inlen);
+    uint16_t * rgb = (uint16_t*)output;
+    for( uint16_t * idx = (uint16_t*)input; idx != end; ++idx )
+      {
+      if( IncompleteLUT )
+        {
+        assert( *idx < Internal->Length[RED] );
+        assert( *idx < Internal->Length[GREEN] );
+        assert( *idx < Internal->Length[BLUE] );
+        }
+      rgb[RED]   = rgb16[3 * *idx+RED];
+      rgb[GREEN] = rgb16[3 * *idx+GREEN];
+      rgb[BLUE]  = rgb16[3 * *idx+BLUE];
+      rgb += 3;
+      }
+    success = true;
+    }
+  return success;
 }
 
 const unsigned char *LookupTable::GetPointer() const

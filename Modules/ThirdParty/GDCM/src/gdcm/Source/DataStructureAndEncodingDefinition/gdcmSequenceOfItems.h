@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -20,8 +19,9 @@
 #include "gdcmItem.h"
 
 #include <vector>
+#include <cstring> // strcmp
 
-namespace gdcm
+namespace gdcm_ns
 {
 
 /**
@@ -59,9 +59,8 @@ public:
   void SetLength(VL length) {
     SequenceLengthField = length;
   }
-  void SetLengthToUndefined() {
-    SequenceLengthField = 0xFFFFFFFF;
-  }
+  /// \brief Properly set the Sequence of Item to be undefined length
+  void SetLengthToUndefined();
   /// return if Value Length if of undefined length
   bool IsUndefinedLength() const {
     return SequenceLengthField.IsUndefined();
@@ -69,10 +68,19 @@ public:
 
   template <typename TDE>
   VL ComputeLength() const;
-  void Clear() {}
+
+  /// remove all items within the sequence
+  void Clear();
 
   /// \brief Appends an Item to the already added ones
   void AddItem(Item const &item);
+    
+  /// \brief Appends an Item to the already added ones
+  Item & AddNewUndefinedLengthItem();
+
+  /// Remove an Item as specified by its index, if index > size, false is returned
+  /// Index starts at 1 not 0
+  bool RemoveItemByIndex( const SizeType index );
 
   SizeType GetNumberOfItems() const {  return Items.size(); }
   void SetNumberOfItems(SizeType n) {  Items.resize(n); }
@@ -92,8 +100,9 @@ public:
     }
 
   template <typename TDE, typename TSwap>
-  std::istream &Read(std::istream &is)
+  std::istream &Read(std::istream &is, bool readvalues = true)
     {
+    (void)readvalues;
     const Tag seqDelItem(0xfffe,0xe0dd);
     if( SequenceLengthField.IsUndefined() )
       {
@@ -135,15 +144,32 @@ public:
             throw ex;
             }
           }
+#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
         if( item.GetTag() == seqDelItem )
           {
-          gdcmWarningMacro( "SegDelItem found in defined length Sequence" );
+          gdcmWarningMacro( "SegDelItem found in defined length Sequence. Skipping" );
+          assert( item.GetVL() == 0 );
+          assert( item.GetNestedDataSet().Size() == 0 );
+          // we need to pay attention that the length of the Sequence of Items will be wrong
+          // this way. Indeed by not adding this item we are changing the size of this sqi
           }
-        //assert( item.GetTag() == Tag(0xfffe,0xe000) );
-        Items.push_back( item );
+        else // Not a seq del item marker
+#endif
+          {
+          // By design we never load them. If we were to load those attribute
+          // as normal item it would become very complex to convert a sequence
+          // from defined length to undefined length with the risk to write two
+          // seq del marker
+          Items.push_back( item );
+          }
         l += item.template GetLength<TDE>();
-        if( l > SequenceLengthField ) throw "Length of Item larger than expected";
+        if( l > SequenceLengthField )
+          {
+          gdcmDebugMacro( "Found: Length of Item larger than expected" )
+          throw "Length of Item larger than expected";
+          }
         assert( l <= SequenceLengthField );
+        //std::cerr << "sqi debug len: " << is.tellg() << " " <<  l << " " <<  SequenceLengthField << std::endl;
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
         // MR_Philips_Intera_No_PrivateSequenceImplicitVR.dcm
         // (0x2005, 0x1080): for some reason computation of length fails...
@@ -229,7 +255,7 @@ public:
   ItemVector Items;
 };
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #include "gdcmSequenceOfItems.txx"
 

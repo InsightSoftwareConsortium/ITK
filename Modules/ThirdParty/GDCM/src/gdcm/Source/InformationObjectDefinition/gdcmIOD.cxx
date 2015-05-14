@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -32,7 +31,7 @@ Type IOD::GetTypeFromTag(const Defs &defs, const Tag& tag) const
   const size_t niods = iod.GetNumberOfIODs();
   // Iterate over each iod entry in order:
   bool found = false;
-  for(size_t idx = 0; !found && idx < niods; ++idx)
+  for(unsigned int idx = 0; !found && idx < niods; ++idx)
     {
     const IODEntry &iodentry = iod.GetIODEntry(idx);
     const char *ref = iodentry.GetRef();

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -66,7 +65,7 @@ public:
   unsigned short BitsAllocated;  // (6000,0100) US 1                                        #   2, 1 OverlayBitsAllocated
   unsigned short BitPosition;    // (6000,0102) US 0                                        #   2, 1 OverlayBitPosition
   //std::vector<bool> Data;
-  std::vector<char> Data;
+  std::vector<char> Data; // hold the Overlay data, but not the trailing DICOM padding (\0)
   void Print(std::ostream &os) const {
     os << "Group           0x" <<  std::hex << Group << std::dec << std::endl;
     os << "Rows            " <<  Rows << std::endl;
@@ -100,74 +99,30 @@ Overlay::Overlay(Overlay const &ov):Object(ov)
   *Internal = *ov.Internal;
 }
 
-unsigned int Overlay::GetNumberOfOverlays(DataSet const & ds)
+Overlay & Overlay::operator=(Overlay const &ov)
 {
-  Tag overlay(0x6000,0x0000); // First possible overlay
-  bool finished = false;
-  unsigned int numoverlays = 0;
-  while( !finished )
-    {
-    const DataElement &de = ds.FindNextDataElement( overlay );
-    if( de.GetTag().GetGroup() > 0x60FF ) // last possible curve
-      {
-      finished = true;
-      }
-    else if( de.GetTag().IsPrivate() )
-      {
-      // Move on to the next public one:
-      overlay.SetGroup( de.GetTag().GetGroup() + 1 );
-      overlay.SetElement( 0 ); // reset just in case...
-      }
-    else
-      {
-      // Yeah this is a potential overlay element, let's check this is not a broken LEADTOOL image,
-      // or prova0001.dcm:
-      // (5000,0000) UL 0                                        #   4, 1 GenericGroupLength
-      // (6000,0000) UL 0                                        #   4, 1 GenericGroupLength
-      // (6001,0000) UL 28                                       #   4, 1 PrivateGroupLength
-      // (6001,0010) LT [PAPYRUS 3.0]                            #  12, 1 PrivateCreator
-      // (6001,1001) LT (no value available)                     #   0, 0 Unknown Tag & Data
-/*
- * FIXME:
- * In order to support : gdcmData/SIEMENS_GBS_III-16-ACR_NEMA_1.acr
- *                       gdcmDataExtra/gdcmSampleData/images_of_interest/XA_GE_JPEG_02_with_Overlays.dcm
- * I cannot simply check for overlay_group,3000 this would not work
- * I would need a strong euristick
- */
-      if( ds.FindDataElement( Tag(overlay.GetGroup(),0x3000 ) ) )
-      //if( ds.FindDataElement( Tag(overlay.GetGroup(),0x0010 ) ) )
-        {
-        // ok so far so good...
-        const DataElement& overlaydata = ds.GetDataElement(Tag(overlay.GetGroup(),0x3000));
-        //const DataElement& overlaydata = ds.GetDataElement(Tag(overlay.GetGroup(),0x0010));
-        if( !overlaydata.IsEmpty() )
-          {
-          ++numoverlays;
-          }
-        }
-        // Store found tag in overlay:
-        overlay = de.GetTag();
-        // Move on to the next possible one:
-        overlay.SetGroup( overlay.GetGroup() + 2 );
-        // reset to element 0x0 just in case...
-        overlay.SetElement( 0 );
-      }
-    }
-
-  // at most one out of two :
-  assert( numoverlays < 0x00ff / 2 );
-  return numoverlays;
+  assert( Internal );
+  *Internal = *ov.Internal;
+  return *this;
 }
 
 void Overlay::Update(const DataElement & de)
 {
 /*
   8.1.2 Overlay data encoding of related data elements
-    Encoded Overlay Planes always have a bit depth of 1, and are encoded separately from the Pixel Data in Overlay Data (60xx,3000). The following two Data Elements shall define the Overlay Plane structure:
-    ¿ Overlay Bits Allocated (60xx,0100)
-    ¿ Overlay Bit Position (60xx,0102)
-    Notes: 1. There is no Data Element analogous to Bits Stored (0028,0101) since Overlay Planes always have a bit depth of 1.
-    2. Restrictions on the allowed values for these Data Elements are defined in PS 3.3. Formerly overlay data stored in unused bits of Pixel Data (7FE0,0010) was described, and these attributes had meaningful values but this usage has been retired. See PS 3.5 2004. For overlays encoded in Overlay Data Element (60xx,3000), Overlay Bits Allocated (60xx,0100) is always 1 and Overlay Bit Position (60xx,0102) is always 0.
+    Encoded Overlay Planes always have a bit depth of 1, and are encoded
+    separately from the Pixel Data in Overlay Data (60xx,3000). The following two
+    Data Elements shall define the Overlay Plane structure:
+    - Overlay Bits Allocated (60xx,0100)
+    - Overlay Bit Position (60xx,0102)
+    Notes: 1. There is no Data Element analogous to Bits Stored (0028,0101)
+    since Overlay Planes always have a bit depth of 1.
+    2. Restrictions on the allowed values for these Data Elements are defined
+    in PS 3.3. Formerly overlay data stored in unused bits of Pixel Data
+    (7FE0,0010) was described, and these attributes had meaningful values but this
+    usage has been retired. See PS 3.5 2004. For overlays encoded in Overlay Data
+    Element (60xx,3000), Overlay Bits Allocated (60xx,0100) is always 1 and Overlay
+    Bit Position (60xx,0102) is always 0.
 */
 
   assert( de.GetTag().IsPublic() );
@@ -243,6 +198,8 @@ void Overlay::Update(const DataElement & de)
     {
     Attribute<0x6000,0x0100> at;
     at.SetFromDataElement( de );
+    // if OverlayBitsAllocated is 1 it imply OverlayData element
+    // if OverlayBitsAllocated is 16 it imply Overlay in unused pixel bits
     if( at.GetValue() != 1 )
       {
       gdcmWarningMacro( "Unsuported OverlayBitsAllocated: " << at.GetValue() );
@@ -255,7 +212,7 @@ void Overlay::Update(const DataElement & de)
     at.SetFromDataElement( de );
     if( at.GetValue() != 0 ) // For old ACR when using unused bits...
       {
-      gdcmWarningMacro( "Unsuported OverlayBitPosition: " << at.GetValue() );
+      gdcmDebugMacro( "Unsuported OverlayBitPosition: " << at.GetValue() );
       }
     SetBitPosition( at.GetValue() );
     }
@@ -303,9 +260,18 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
   if( Internal->BitsAllocated == 16 )
     {
     //assert( Internal->BitPosition >= 12 );
-    assert( ds.FindDataElement( Tag(0x7fe0,0x0010) ) );
+    if( ds.FindDataElement( Tag(0x7fe0,0x0010) ) )
+      {
+      gdcmErrorMacro("Could not find Pixel Data. Cannot extract Overlay." );
+      return false;
+      }
     const DataElement &pixeldata = ds.GetDataElement( Tag(0x7fe0,0x0010) );
     const ByteValue *bv = pixeldata.GetByteValue();
+    if( !bv )
+      {
+      // XA_GE_JPEG_02_with_Overlays.dcm
+      return false;
+      }
     assert( bv );
     const char *array = bv->GetPointer();
     // SIEMENS_GBS_III-16-ACR_NEMA_1.acr is pain to support,
@@ -315,9 +281,13 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     const uint16_t *end = (uint16_t*)(array + length);
     //const unsigned int ovlength = length / (8*2);
     assert( 8 * ovlength == (unsigned int)Internal->Rows * Internal->Columns );
+    if( Internal->Data.empty() )
+      {
+      return false;
+      }
     unsigned char * overlay = (unsigned char*)&Internal->Data[0];
     int c = 0;
-    uint16_t pmask = 1 << Internal->BitPosition;
+    uint16_t pmask = (uint16_t)(1 << Internal->BitPosition);
     assert( length / 2 == ovlength * 8 );
     while( p != end )
       {
@@ -326,7 +296,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
       // 128 -> 0x80
       if( val )
         {
-        overlay[ c / 8 ] |= (0x1 << c%8);
+        overlay[ c / 8 ] |= (unsigned char)(0x1 << c%8);
         }
       else
         {
@@ -353,14 +323,58 @@ unsigned short Overlay::GetRows() const { return Internal->Rows; }
 void Overlay::SetColumns(unsigned short columns) { Internal->Columns = columns; }
 unsigned short Overlay::GetColumns() const { return Internal->Columns; }
 void Overlay::SetNumberOfFrames(unsigned int numberofframes) { Internal->NumberOfFrames = numberofframes; }
-void Overlay::SetDescription(const char* description) { Internal->Description = description; }
+void Overlay::SetDescription(const char* description) { if( description ) Internal->Description = description; }
 const char *Overlay::GetDescription() const { return Internal->Description.c_str(); }
-void Overlay::SetType(const char* type) { Internal->Type = type; }
+void Overlay::SetType(const char* type) { if( type ) Internal->Type = type; }
 const char *Overlay::GetType() const { return Internal->Type.c_str(); }
-void Overlay::SetOrigin(const signed short *origin)
+static const char *OverlayTypeStrings[] = {
+  "INVALID",
+  "G ",
+  "R ",
+};
+const char *Overlay::GetOverlayTypeAsString(OverlayType ot)
 {
-  Internal->Origin[0] = origin[0];
-  Internal->Origin[1] = origin[1];
+  return OverlayTypeStrings[ (int) ot ];
+}
+Overlay::OverlayType Overlay::GetOverlayTypeFromString(const char *s)
+{
+  static const int n = sizeof( OverlayTypeStrings ) / sizeof ( *OverlayTypeStrings );
+  if( s )
+    {
+    for( int i = 0; i < n; ++i )
+      {
+      if( strcmp(s, OverlayTypeStrings[i] ) == 0 )
+        {
+        return (OverlayType)i;
+        }
+      }
+    }
+  // could not find the proper type, maybe padded with \0 ?
+  if( strlen(s) == 1 )
+    {
+    for( int i = 0; i < n; ++i )
+      {
+      if( strncmp(s, OverlayTypeStrings[i], 1 ) == 0 )
+        {
+        gdcmDebugMacro( "Invalid Padding for OVerlay Type" );
+        return (OverlayType)i;
+        }
+      }
+    }
+  return Overlay::Invalid;
+}
+Overlay::OverlayType Overlay::GetTypeAsEnum() const
+{
+  return GetOverlayTypeFromString( GetType() );
+}
+
+void Overlay::SetOrigin(const signed short origin[2])
+{
+  if( origin )
+    {
+    Internal->Origin[0] = origin[0];
+    Internal->Origin[1] = origin[1];
+    }
 }
 const signed short * Overlay::GetOrigin() const
 {
@@ -401,11 +415,10 @@ inline unsigned int compute_bit_and_dicom_padding(unsigned short rows, unsigned 
   return word_padding + word_padding%2; // Cannot have odd length
 }
 
-void Overlay::SetOverlay(const char *array, unsigned int length)
+void Overlay::SetOverlay(const char *array, size_t length)
 {
-  if( !array || length == 0 ) return;
-  //char * p = (char*)&Internal->Data[0];
-  unsigned int computed_length = (Internal->Rows * Internal->Columns + 7) / 8;
+  if( !array || !length ) return;
+  const size_t computed_length = (Internal->Rows * Internal->Columns + 7) / 8;
   Internal->Data.resize( computed_length ); // filled with 0 if length < computed_length
   if( length < computed_length )
     {
@@ -414,11 +427,8 @@ void Overlay::SetOverlay(const char *array, unsigned int length)
     }
   else
     {
-    if( length > computed_length )
-      {
-      gdcmWarningMacro( "Too much data found in Overlay. Discarding extra data: " << (length - computed_length) << " bytes." );
-      }
     // do not try to copy more than allocated:
+    // technically we may be missing the trailing DICOM padding (\0), but we have all the data needed anyway:
     std::copy(array, array+computed_length, Internal->Data.begin());
     }
   /* warning need to take into account padding to the next word (8bits) */
@@ -433,46 +443,26 @@ const ByteValue &Overlay::GetOverlayData() const
   return bv;
 }
 
-void Overlay::Decode(std::istream &is, std::ostream &os)
+size_t Overlay::GetUnpackBufferLength() const
 {
-  unsigned char packedbytes;
-  unsigned char unpackedbytes[8];
-  while( is.read((char*)&packedbytes,1) )
-    {
-    unsigned char mask = 1;
-    for (unsigned int i = 0; i < 8; ++i)
-      {
-      if ( (packedbytes & mask) == 0)
-        {
-        unpackedbytes[i] = 0;
-        }
-      else
-        {
-        unpackedbytes[i] = 1;
-        }
-      mask <<= 1;
-      }
-    os.write(reinterpret_cast<char*>(unpackedbytes), 8);
-    }
+  const size_t unpacklen = Internal->Rows * Internal->Columns;
+  return unpacklen;
 }
 
-bool Overlay::GetBuffer(char *buffer) const
+bool Overlay::GetUnpackBuffer(char *buffer, size_t len) const
 {
-  size_t length = Internal->Data.size();
-  std::copy(buffer, buffer+length, Internal->Data.begin());
-  return true;
-}
-
-bool Overlay::GetUnpackBuffer(unsigned char *buffer) const
-{
-  unsigned char *unpackedbytes = buffer;
+  const size_t unpacklen = GetUnpackBufferLength();
+  if( len < unpacklen ) return false;
+  unsigned char *unpackedbytes = (unsigned char*)buffer;
+  const unsigned char *begin = unpackedbytes;
   for( std::vector<char>::const_iterator it = Internal->Data.begin(); it != Internal->Data.end(); ++it )
     {
+    assert( unpackedbytes <= begin + len ); // We never store more than actually required
     // const unsigned char &packedbytes = *it;
     // weird bug with gcc 3.3 (prerelease on SuSE) apparently:
     unsigned char packedbytes = static_cast<unsigned char>(*it);
     unsigned char mask = 1;
-    for (unsigned int i = 0; i < 8; ++i)
+    for (unsigned int i = 0; i < 8 && unpackedbytes < begin + len; ++i)
       {
       if ( (packedbytes & mask) == 0)
         {
@@ -486,17 +476,22 @@ bool Overlay::GetUnpackBuffer(unsigned char *buffer) const
       mask <<= 1;
       }
     }
+  assert(unpackedbytes <= begin + len);
   return true;
 }
 
 void Overlay::Decompress(std::ostream &os) const
 {
+  const size_t unpacklen = GetUnpackBufferLength();
   unsigned char unpackedbytes[8];
+  //std::vector<char>::const_iterator beg = Internal->Data.begin();
+  size_t curlen = 0;
   for( std::vector<char>::const_iterator it = Internal->Data.begin(); it != Internal->Data.end(); ++it )
     {
     unsigned char packedbytes = *it;
     unsigned char mask = 1;
-    for (unsigned int i = 0; i < 8; ++i)
+    unsigned int i = 0;
+    for (; i < 8 && curlen < unpacklen; ++i)
       {
       if ( (packedbytes & mask) == 0)
         {
@@ -507,8 +502,9 @@ void Overlay::Decompress(std::ostream &os) const
         unpackedbytes[i] = 255;
         }
       mask <<= 1;
+      ++curlen;
       }
-    os.write(reinterpret_cast<char*>(unpackedbytes), 8);
+    os.write(reinterpret_cast<char*>(unpackedbytes), i);
     }
 }
 

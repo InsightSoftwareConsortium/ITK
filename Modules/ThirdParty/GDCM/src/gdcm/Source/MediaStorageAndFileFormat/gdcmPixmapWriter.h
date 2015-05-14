@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -21,6 +20,7 @@
 namespace gdcm
 {
 
+class StreamImageWriter;
 class Pixmap;
 /**
  * \brief PixmapWriter
@@ -62,7 +62,7 @@ protected:
 
 /**
  * \example StandardizeFiles.cs
- * This is a C++ example on how to use gdcm::PixmapWriter
+ * This is a C++ example on how to use PixmapWriter
  */
 
 } // end namespace gdcm

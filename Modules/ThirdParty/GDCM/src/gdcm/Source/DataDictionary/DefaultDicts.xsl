@@ -5,9 +5,8 @@
 -->
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/DefaultDicts.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -21,14 +20,13 @@
   <xsl:template match="/">
     <xsl:text>
 // GENERATED FILE DO NOT EDIT
-// $ xsltproc DefaultDicts.xsl DICOMV3.xml &gt; gdcmDefaultDicts.cxx
+// $ xsltproc DefaultDicts.xsl Part6.xml &gt; gdcmDefaultDicts.cxx
 
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/DefaultDicts.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -38,8 +36,8 @@
 
 =========================================================================*/
 
-#ifndef __gdcmDefaultDicts_cxx
-#define __gdcmDefaultDicts_cxx
+#ifndef GDCMDEFAULTDICTS_CXX
+#define GDCMDEFAULTDICTS_CXX
 
 #include "gdcmDicts.h"
 #include "gdcmVR.h"
@@ -60,7 +58,10 @@ typedef struct
 
 static const DICT_ENTRY DICOMV3DataDict [] = {
 </xsl:text>
-    <xsl:for-each select="dict/entry">
+    <xsl:for-each select="dicts/dict/entry">
+      <!-- need to sort based on text, since hex are not 'number' -->
+      <xsl:sort select="@group" data-type="text" order="ascending"/>
+      <xsl:sort select="@element" data-type="text" order="ascending"/>
       <xsl:variable name="group" select="translate(@group,'x','0')"/>
       <xsl:variable name="element" select="translate(@element,'x','0')"/>
       <xsl:choose>
@@ -186,7 +187,7 @@ void PrivateDict::LoadDefault()
 */
 
 } // end namespace gdcm
-#endif // __gdcmDefaultDicts_cxx
+#endif // GDCMDEFAULTDICTS_CXX
 </xsl:text>
   </xsl:template>
   <xsl:template name="do-group-length">

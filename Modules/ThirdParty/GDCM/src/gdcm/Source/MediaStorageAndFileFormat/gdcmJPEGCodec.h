@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -25,8 +24,8 @@ class TransferSyntax;
 /**
  * \brief JPEG codec
  * Class to do JPEG (8bits, 12bits, 16bits lossy & lossless).
- * It redispatch in between the different codec implementation: gdcm::JPEG8Codec,
- * gdcm::JPEG12Codec & gdcm::JPEG16Codec
+ * It redispatch in between the different codec implementation: JPEG8Codec,
+ * JPEG12Codec & JPEG16Codec
  * It also support inconsistency in between DICOM header and JPEG compressed stream
  * ImageCodec implementation for the JPEG case
  *
@@ -40,6 +39,7 @@ class TransferSyntax;
  */
 class GDCM_EXPORT JPEGCodec : public ImageCodec
 {
+friend class ImageRegionReader;
 public:
   JPEGCodec();
   ~JPEGCodec();
@@ -55,6 +55,7 @@ public:
   bool Code(DataElement const &in, DataElement &out);
 
   virtual bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
+  virtual ImageCodec * Clone() const;
 
   //void SetReversible(bool res);
 
@@ -64,18 +65,38 @@ public:
   void SetLossless(bool l);
   bool GetLossless() const;
 
+  virtual bool EncodeBuffer( std::ostream & out,
+    const char *inbuffer, size_t inlen);
+
 protected:
+  bool DecodeExtent(
+    char *buffer,
+    unsigned int xmin, unsigned int xmax,
+    unsigned int ymin, unsigned int ymax,
+    unsigned int zmin, unsigned int zmax,
+    std::istream & is
+  );
+
   bool DecodeByStreams(std::istream &is, std::ostream &os);
   bool IsValid(PhotometricInterpretation const &pi);
+
+  bool StartEncode( std::ostream & );
+  bool IsRowEncoder();
+  bool IsFrameEncoder();
+  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen );
+  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen );
+  bool StopEncode( std::ostream & );
 
 protected:
   // Internal method called by SetPixelFormat
   // Instantiate the right jpeg codec (8, 12 or 16)
   void SetBitSample(int bit);
 
+  virtual bool IsStateSuspension() const;
+
 protected:
   int BitSample;
-  bool Lossless;
+  //bool Lossless;
   int Quality;
 
 private:

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -25,7 +24,7 @@
 #include "gdcmByteSwapFilter.h"
 #endif
 
-namespace gdcm
+namespace gdcm_ns
 {
 
 class DataSet;
@@ -50,6 +49,7 @@ public:
   friend std::ostream& operator<< (std::ostream &os, const Item &val);
 
   void Clear() {
+    this->DataElement::Clear();
     NestedDataSet.Clear();
     }
 
@@ -112,7 +112,7 @@ public:
       || TagField == Tag(0xfeff, 0xdde0) )
       {
       gdcmWarningMacro( "ByteSwaping Private SQ: " << TagField );
-      // Invert previously read TagField since wrong endianess:
+      // Invert previously read TagField since wrong endianness:
       TagField = Tag( SwapperDoOp::Swap( TagField.GetGroup() ), SwapperDoOp::Swap( TagField.GetElement() ) );
       assert ( TagField == Tag(0xfffe, 0xe000)
         || TagField == Tag(0xfffe, 0xe0dd) );
@@ -271,7 +271,8 @@ public:
       }
     else
       {
-      VL dummy = NestedDataSet.GetLength<TDE>();
+      const VL dummy = NestedDataSet.GetLength<TDE>();
+      assert( dummy % 2 == 0 );
       //assert( ValueLengthField == dummy );
       if( !dummy.Write<TSwap>(os) )
         {
@@ -321,7 +322,7 @@ inline std::ostream& operator<<(std::ostream& os, const Item &val)
 }
 
 
-} // end namespace gdcm
+} // end namespace gdcm_ns
 
 #include "gdcmItem.txx"
 

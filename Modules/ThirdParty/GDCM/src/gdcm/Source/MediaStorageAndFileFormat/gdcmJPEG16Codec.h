@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -36,6 +35,10 @@ public:
   bool InternalCode(const char *input, unsigned long len, std::ostream &os);
 
   bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
+
+protected:
+  bool IsStateSuspension() const;
+  virtual bool EncodeBuffer(std::ostream &os, const char *data, size_t datalen);
 
 private:
   JPEGInternals *Internals;

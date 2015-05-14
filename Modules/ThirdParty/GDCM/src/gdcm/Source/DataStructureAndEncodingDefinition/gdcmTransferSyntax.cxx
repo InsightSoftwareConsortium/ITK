@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -49,7 +48,7 @@ static const char *TSStrings[] = {
   "1.2.840.10008.1.2.4.55",
   // JPEG Lossless, Non-Hierarchical (Process 14)
   "1.2.840.10008.1.2.4.57",
-  // JPEG Lossless, Hierarchical, First-Order Prediction (Process 14,
+  // JPEG Lossless, Non-Hierarchical, First-Order Prediction (Process 14,
   //                                                       [Selection Value 1])
   "1.2.840.10008.1.2.4.70",
   // JPEG-LS Lossless Image Compression
@@ -60,6 +59,10 @@ static const char *TSStrings[] = {
   "1.2.840.10008.1.2.4.90",
   // JPEG 2000
   "1.2.840.10008.1.2.4.91",
+  // JPEG 2000 Part 2 Lossless
+  "1.2.840.10008.1.2.4.92",
+  // JPEG 2000 Part 2
+  "1.2.840.10008.1.2.4.93",
   // RLE Lossless
   "1.2.840.10008.1.2.5",
   // MPEG2 Main Profile @ Main Level
@@ -70,6 +73,15 @@ static const char *TSStrings[] = {
   // Weird Papyrus
   "1.2.840.10008.1.20",
 #endif
+  "1.3.46.670589.33.1.4.1",
+  // JPIP Referenced
+  "1.2.840.10008.1.2.4.94",
+  // MPEG2 Main Profile @ High Level
+  "1.2.840.10008.1.2.4.101",
+  // MPEG-4 AVC/H.264 High Profile / Level 4.1
+  "1.2.840.10008.1.2.4.102",
+  // MPEG-4 AVC/H.264 BD-compatible High Profile / Level 4.1
+  "1.2.840.10008.1.2.4.103",
   // Unknown
   "Unknown Transfer Syntax", // Pretty sure we never use this case...
   0 // Compilers have no obligation to finish by NULL, do it ourself
@@ -146,13 +158,43 @@ bool TransferSyntax::IsLossy() const
     TSField == JPEGFullProgressionProcess10_12 ||
     TSField == JPEGLSNearLossless ||
     TSField == JPEG2000 ||
-    TSField == MPEG2MainProfile
+    TSField == JPEG2000Part2 ||
+    TSField == JPIPReferenced ||
+    TSField == MPEG2MainProfile ||
+    TSField == MPEG2MainProfileHighLevel ||
+    TSField == MPEG4AVCH264HighProfileLevel4_1 ||
+    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1
   )
     {
     return true;
     }
   return false;
 
+}
+
+// This function really test the kind of compression algorithm and the matching
+// transfer syntax.  If you use the JPEG compression algorithm (ITU-T T.81,
+// ISO/IEC IS 10918-1), You will not be able to declare a lossy compress pixel
+// data using JPEGLosslessProcess14_1 For the same reason using J2K (ITU-T
+// T.800, ISO/IEC IS 15444-1), you shoult not be allowed to stored an
+// irreversible wavelet compressed pixel data in a file declared with transfer
+// syntax JPEG2000Lossless.
+// Same goes for JPEG-LS (ITU-T T.87, ISO/IEC IS 14495-1), and to some extent
+// RLE which does not even allow lossy compression...
+bool TransferSyntax::CanStoreLossy() const
+{
+  if (
+    TSField == JPEGLosslessProcess14 ||
+    TSField == JPEGLosslessProcess14_1 ||
+    TSField == JPEGLSLossless ||
+    TSField == JPEG2000Lossless ||
+    TSField == JPEG2000Part2Lossless ||
+    TSField == RLELossless
+  )
+    {
+    return false;
+    }
+  return true;
 }
 
 bool TransferSyntax::IsLossless() const
@@ -165,7 +207,12 @@ bool TransferSyntax::IsLossless() const
     TSField == JPEGFullProgressionProcess10_12 ||
     // TSField == JPEGLSNearLossless || -> can be lossy & lossless
     // TSField == JPEG2000 || -> can be lossy & lossless
-    TSField == MPEG2MainProfile
+    // TSField == JPEG2000Part2 || -> can be lossy & lossless
+    // TSField == JPIPReferenced || -> can be lossy & lossless
+    TSField == MPEG2MainProfile ||
+    TSField == MPEG2MainProfileHighLevel ||
+    TSField == MPEG4AVCH264HighProfileLevel4_1 ||
+    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1
   )
     {
     return false;
@@ -244,8 +291,14 @@ bool TransferSyntax::IsEncapsulated() const
   case JPEGLSNearLossless:
   case JPEG2000Lossless:
   case JPEG2000:
+  case JPEG2000Part2Lossless:
+  case JPEG2000Part2:
+  case JPIPReferenced:
   case RLELossless:
   case MPEG2MainProfile:
+  case MPEG2MainProfileHighLevel:
+  case MPEG4AVCH264HighProfileLevel4_1:
+  case MPEG4AVCH264BDcompatibleHighProfileLevel4_1:
   //case ImplicitVRBigEndianACRNEMA:
   //case WeirdPapryus:
     ret = true;

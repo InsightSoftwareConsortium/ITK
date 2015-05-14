@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -37,6 +36,7 @@ public:
   /// owner is null for public dict
   /// \warning owner need to be set to appropriate owner for call to work. see
   // DataSet::GetPrivateCreator
+  /// NOT THREAD SAFE
   const DictEntry &GetDictEntry(const Tag& tag, const char *owner = NULL) const;
 
   const DictEntry &GetDictEntry(const PrivateTag& tag) const;
@@ -49,6 +49,7 @@ public:
   const Dict &GetPublicDict() const;
 
   const PrivateDict &GetPrivateDict() const;
+  PrivateDict &GetPrivateDict();
 
   const CSAHeaderDict &GetCSAHeaderDict() const;
 

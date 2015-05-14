@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -45,7 +44,7 @@ MD5::~MD5()
   delete Internals;
 }
 
-bool MD5::Compute(const char *buffer, size_t buf_len, char digest_str[33])
+bool MD5::Compute(const char *buffer, unsigned long buf_len, char digest_str[33])
 {
   if( !buffer || !buf_len )
     {
@@ -61,7 +60,7 @@ bool MD5::Compute(const char *buffer, size_t buf_len, char digest_str[33])
   md5_byte_t digest[16];
   md5_state_t state;
   md5_init(&state);
-  md5_append(&state, (const md5_byte_t *)buffer, buf_len);
+  md5_append(&state, (const md5_byte_t *)buffer, (int)buf_len);
   md5_finish(&state, digest);
 #else
   unsigned char digest[16] = {};
@@ -76,7 +75,7 @@ bool MD5::Compute(const char *buffer, size_t buf_len, char digest_str[33])
 }
 
 #ifdef GDCM_USE_SYSTEM_OPENSSL
-inline bool process_file(const char *filename, unsigned char *digest)
+static bool process_file(const char *filename, unsigned char *digest)
 {
   if( !filename || !digest ) return false;
 
@@ -134,7 +133,7 @@ inline bool process_file(const char *filename, md5_byte_t *digest)
 
   md5_state_t state;
   md5_init(&state);
-  md5_append(&state, (const md5_byte_t *)buffer, file_size);
+  md5_append(&state, (const md5_byte_t *)buffer, (int)file_size);
   md5_finish(&state, digest);
   /*printf("MD5 (\"%s\") = ", test[i]); */
   /*for (int di = 0; di < 16; ++di)

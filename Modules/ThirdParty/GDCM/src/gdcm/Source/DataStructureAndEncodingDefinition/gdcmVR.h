@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -71,6 +70,7 @@ public:
     LO = 1024,
     LT = 2048,
     OB = 4096,
+    OD = 134217728, // 2^27
     OF = 8192,
     OW = 16384,
     PN = 32768,
@@ -90,13 +90,13 @@ public:
     US_SS_OW = US | SS | OW,
     // The following do not have a VRString equivalent (ie cannot be found in PS 3.6)
     VL16 = AE | AS | AT | CS | DA | DS | DT | FD | FL | IS | LO | LT | PN | SH | SL | SS | ST | TM | UI | UL | US, // if( VR & VL16 ) => VR has its VL coded over 16bits
-    VL32 = OB | OW | OF | SQ | UN | UT, // if( VR & VL32 ) => VR has its VL coded over 32bits
+    VL32 = OB | OW | OD | OF | SQ | UN | UT, // if( VR & VL32 ) => VR has its VL coded over 32bits
     VRASCII = AE | AS | CS | DA | DS | DT | IS | LO | LT | PN | SH | ST | TM | UI | UT,
-    VRBINARY = AT | FL | FD | OB | OF | OW | SL | SQ | SS | UL | UN | US, // FIXME: UN ?
+    VRBINARY = AT | FL | FD | OB | OD | OF | OW | SL | SQ | SS | UL | UN | US, // FIXME: UN ?
     // PS 3.5:
-    // Data Elements with a VR of SQ, OF, OW, OB or UN shall always have a Value Multiplicity of one.
+    // Data Elements with a VR of SQ, OD, OF, OW, OB or UN shall always have a Value Multiplicity of one.
     // GDCM is adding a couple more: AS, LT, ST, UT
-    VR_VM1 = AS | LT | ST | UT | SQ | OF | OW | OB | UN, // All those VR have a VM1
+    VR_VM1 = AS | LT | ST | UT | SQ | OF | OD | OW | OB | UN, // All those VR have a VM1
     VRALL = VRASCII | VRBINARY,
     VR_END = UT+1  // Invalid VR, need to be max(VRType)+1
   } VRType;
@@ -251,7 +251,7 @@ typedef String<'\\',64> LTComp;
 typedef String<'\\',64> PNComp;
 typedef String<'\\',64> SHComp;
 typedef String<'\\',64> STComp;
-typedef String<'\\',64> TMComp;
+typedef String<'\\',16> TMComp;
 typedef String<'\\',64,0> UIComp;
 typedef String<'\\',64> UTComp;
 

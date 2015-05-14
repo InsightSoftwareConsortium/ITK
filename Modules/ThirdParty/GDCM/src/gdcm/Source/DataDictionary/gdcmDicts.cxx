@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -52,6 +51,7 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
     else
       {
       Dummy.SetName( "Generic Group Length" );
+      Dummy.SetKeyword( "GenericGroupLength" );
       bool retired = true; // Since DICOM 2008, all (but 0002,0004) group length are retired
       Dummy.SetVR( VR::UL );
       Dummy.SetVM( VM::VM1 );
@@ -81,6 +81,8 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
         {
         std::string pc ( "Illegal Element" );
         Dummy.SetName( pc.c_str() );
+        std::string kw ( "IllegalElement" );
+        Dummy.SetKeyword( kw.c_str() );
         Dummy.SetVR( VR::INVALID );
         Dummy.SetVM( VM::VM0 );
         Dummy.SetRetired( false ); // ??
@@ -90,10 +92,14 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
         {
         assert( !tag.IsIllegal() );
         assert( tag.GetElement() ); // Not a group length !
-        //assert( owner );
         assert( tag.IsPrivate() );
-        std::string pc ( "Private Creator" );
-        Dummy.SetName( pc.c_str() );
+        assert( owner == 0x0 );
+          {
+          static const char pc[] = "Private Creator";
+          static const char kw[] = "PrivateCreator";
+          Dummy.SetName( pc );
+          Dummy.SetKeyword( kw );
+          }
         Dummy.SetVR( VR::LO );
         Dummy.SetVM( VM::VM1 );
         Dummy.SetRetired( false );
@@ -101,7 +107,20 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
         }
       else
         {
-        Dummy.SetName( "Private Element without Private Creator" );
+        if( owner && *owner )
+          {
+          static const char pc[] = "Private Element Without Private Creator";
+          static const char kw[] = "PrivateElementWithoutPrivateCreator";
+          Dummy.SetName( pc );
+          Dummy.SetKeyword( kw );
+          }
+        else
+          {
+          static const char pc[] = "Private Element With Empty Private Creator";
+          static const char kw[] = "PrivateElementWithEmptyPrivateCreator";
+          Dummy.SetName( pc );
+          Dummy.SetKeyword( kw );
+          }
         Dummy.SetVR( VR::INVALID );
         Dummy.SetVM( VM::VM0 );
         return Dummy;
@@ -129,6 +148,10 @@ const Dict &Dicts::GetPublicDict() const
 }
 
 const PrivateDict &Dicts::GetPrivateDict() const
+{
+  return ShadowDict;
+}
+PrivateDict &Dicts::GetPrivateDict()
 {
   return ShadowDict;
 }

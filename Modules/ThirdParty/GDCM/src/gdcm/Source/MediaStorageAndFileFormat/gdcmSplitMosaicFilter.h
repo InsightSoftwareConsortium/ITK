@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -31,7 +30,8 @@ namespace gdcm
 /**
  * \brief SplitMosaicFilter class
  * Class to reshuffle bytes for a SIEMENS Mosaic image
- *
+ * Siemens CSA Image Header
+ * CSA:= Common Siemens Architecture, sometimes also known as Common syngo Architecture
  *
  */
 class GDCM_EXPORT SplitMosaicFilter
@@ -42,6 +42,10 @@ public:
 
   /// Split the SIEMENS MOSAIC image
   bool Split();
+
+  /// Compute the new dimensions according to private information
+  /// stored in the MOSAIC header.
+  bool ComputeMOSAICDimensions(unsigned int dims[3]);
 
   void SetImage(const Image& image);
   const Image &GetImage() const { return *I; }

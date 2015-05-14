@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -31,8 +30,8 @@ bool Unpacker12Bits::Unpack(char *out, const char *in, size_t n)
     b0 = *p++;
     b1 = *p++;
     b2 = *p++;
-    *q++ = ((b1 & 0xf) << 8) + b0;
-    *q++ = (b1>>4) + (b2<<4);
+    *q++ = (short)(((b1 & 0xf) << 8) + b0);
+    *q++ = (short)((b1>>4) + (b2<<4));
     }
   return true;
 }
@@ -50,11 +49,11 @@ bool Unpacker12Bits::Pack(char *out, const char *in, size_t n)
     b0 = *p++;
     b1 = *p++;
 
-    *q++ = (b0 & 0xff);
-    *q++ = (b0 >> 8) + ((b1 & 0xf) << 4);
-    *q++ = b1 >> 4;
+    *q++ = (unsigned char)(b0 & 0xff);
+    *q++ = (unsigned char)((b0 >> 8) + ((b1 & 0xf) << 4));
+    *q++ = (unsigned char)(b1 >> 4);
     }
-  return false;
+  return true;
 }
 
 } // end namespace gdcm

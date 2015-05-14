@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -23,6 +22,8 @@
 namespace gdcm
 {
 
+class TransferSyntax;
+
 /**
  * \brief PixelFormat
  * \note
@@ -33,6 +34,13 @@ namespace gdcm
  * - BitsStored : 8
  * - HighBit : 7
  * - PixelRepresentation : 0
+ *
+ * Fundamentally PixelFormat is very close to what DICOM allows. It will be
+ * very hard to extend this class for the upcoming DICOM standard where
+ * Floating 32 and 64bits will be allowed.
+ *
+ * It is also very hard for this class to fully support 64bits integer type
+ * (see GetMin / GetMax signature restricted to 64bits signed).
  */
 class GDCM_EXPORT PixelFormat
 {
@@ -49,6 +57,8 @@ public:
     INT16,
     UINT32,  // For some DICOM files (RT or SC)
     INT32,   //                        "   "
+    UINT64,  // Needed when input is 32bits + intercept/slope (incomplete support)
+    INT64,   //                        "   "
     FLOAT16, // sure why not...
     FLOAT32, // good ol' 'float'
     FLOAT64, // aka 'double'
@@ -70,7 +80,6 @@ public:
   PixelRepresentation(pixelrepresentation) {}
   // helper, for the common case
   PixelFormat(ScalarType st);
-  ~PixelFormat() {}
 
   // For transparency of use
   operator ScalarType() const { return GetScalarType(); }
@@ -92,27 +101,44 @@ public:
     }
   void SetBitsAllocated(unsigned short ba)
     {
-    BitsAllocated = ba;
+    if( ba )
+      {
+      BitsAllocated = ba;
+      BitsStored = ba;
+      HighBit = (unsigned short)(ba - 1);
+      }
+    else // Make the PixelFormat as UNKNOWN
+      {
+      BitsAllocated = 0;
+      PixelRepresentation = 0;
+      }
     }
 
   /// BitsStored see Tag (0028,0101) US Bits Stored
   unsigned short GetBitsStored() const
     {
+    assert( BitsStored <= BitsAllocated );
     return BitsStored;
     }
   void SetBitsStored(unsigned short bs)
     {
-    BitsStored = bs;
+    if( bs <= BitsAllocated && bs )
+      {
+      BitsStored = bs;
+      SetHighBit( (unsigned short) (bs - 1) );
+      }
     }
 
   /// HighBit see Tag (0028,0102) US High Bit
   unsigned short GetHighBit() const
     {
+    assert( HighBit < BitsStored );
     return HighBit;
     }
   void SetHighBit(unsigned short hb)
     {
-    HighBit = hb;
+    if( hb < BitsStored )
+      HighBit = hb;
     }
 
   /// PixelRepresentation: 0 or 1, see Tag (0028,0103) US Pixel Representation
@@ -150,7 +176,7 @@ public:
   int64_t GetMax() const;
 
   /// return IsValid
-  bool IsValid();
+  bool IsValid() const;
 
   bool operator==(ScalarType st) const
     {
@@ -179,6 +205,7 @@ public:
       PixelRepresentation != pf.PixelRepresentation;
     }
 
+  bool IsCompatible(const TransferSyntax & ts ) const;
 protected:
   /// When image with 24/24/23 was read, need to validate
   bool Validate();

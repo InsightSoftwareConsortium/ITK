@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -19,16 +18,14 @@
 #include "gdcmSequenceOfFragments.h"
 #include "gdcmSequenceOfItems.h"
 #include "gdcmImplicitDataElement.h"
+#include "gdcmTrace.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
   void DataElement::SetVLToUndefined() {
     assert( VRField == VR::SQ || VRField == VR::INVALID
-      || (VRField == VR::UN && IsUndefinedLength() ) );
-    //SequenceOfItems *sqi = GetSequenceOfItems();
+      || (VRField == VR::UN /*&& IsUndefinedLength()*/ ) );
     SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(ValueField.GetPointer());
-    //SmartPointer<SequenceOfItems> sqi2 = GetValueAsSQ();
-    //SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(&GetValue());
     if( sqi )
       {
       sqi->SetLengthToUndefined();
@@ -37,32 +34,12 @@ namespace gdcm
     ValueLengthField.SetToUndefined();
   }
 
-#if !defined(GDCM_LEGACY_REMOVE)
-  SequenceOfItems* DataElement::GetSequenceOfItems() {
-    GDCM_LEGACY_REPLACED_BODY(DataElement::GetSequenceOfItems, "GDCM 2.2",
-                              DataElement::GetValueAsSQ);
-    SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(ValueField.GetPointer());
-    if(!sqi)
-      {
-      // Was the element loaded as a byte value ? Let's check:
-      assert( IsEmpty() );
-      }
-    return sqi;
-  }
-  const SequenceOfItems* DataElement::GetSequenceOfItems() const {
-    GDCM_LEGACY_REPLACED_BODY(DataElement::GetSequenceOfItems, "GDCM 2.2",
-                              DataElement::GetValueAsSQ);
-    const SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(ValueField.GetPointer());
-    if(!sqi)
-      {
-      // Was the element loaded as a byte value ? Let's check:
-      assert( IsEmpty() );
-      }
-    return sqi;
-  }
-#endif
   const SequenceOfFragments* DataElement::GetSequenceOfFragments() const {
     const SequenceOfFragments *sqf = dynamic_cast<SequenceOfFragments*>(ValueField.GetPointer());
+    return sqf;
+  }
+  SequenceOfFragments* DataElement::GetSequenceOfFragments() {
+    SequenceOfFragments *sqf = dynamic_cast<SequenceOfFragments*>(ValueField.GetPointer());
     return sqf;
   }
 
@@ -103,7 +80,7 @@ namespace gdcm
             {
             std::stringstream ss;
             ss.str( s );
-            sqi->Read<ImplicitDataElement,SwapperNoOp>( ss );
+            sqi->Read<ImplicitDataElement,SwapperNoOp>( ss, true );
             }
           catch(Exception &ex)
             {
@@ -117,10 +94,18 @@ namespace gdcm
             ss.str(s);
             Tag item;
             item.Read<SwapperNoOp>(ss);
-            assert( item == itemPMSStart );
-            ss.seekg(-4,std::ios::cur);
-            sqi->Read<ExplicitDataElement,SwapperDoOp>( ss );
-            (void)ex;//cast to avoid the warning message
+            if( item == itemPMSStart )
+              {
+              ss.seekg(-4,std::ios::cur);
+              sqi->Read<ExplicitDataElement,SwapperDoOp>( ss, true );
+              gdcmWarningMacro(ex.what());
+              (void)ex;  //to avoid unreferenced variable warning on release
+              }
+            else
+              {
+              delete sqi;
+              sqi = NULL;
+              }
             }
           return sqi;
           }
@@ -131,9 +116,47 @@ namespace gdcm
           assert( bv );
           SequenceOfItems *sqi = new SequenceOfItems;
           sqi->SetLength( bv->GetLength() );
-          std::stringstream ss;
-          ss.str( std::string( bv->GetPointer(), bv->GetLength() ) );
-          sqi->Read<ImplicitDataElement,SwapperNoOp>( ss );
+          std::string s( bv->GetPointer(), bv->GetLength() );
+          try
+            {
+            std::stringstream ss;
+            ss.str( s );
+            sqi->Read<ImplicitDataElement,SwapperNoOp>( ss, true );
+            }
+          catch ( Exception &ex0 )
+            {
+            // Some people like to skew things up and write invalid SQ in VR:UN field
+            // if conversion fails, simply keep the binary VR:UN stuff as-is
+            // eg. AMIInvalidPrivateDefinedLengthSQasUN.dcm
+            //const char *s = e.what();
+            // s -> gdcm::ImplicitDataElement -> Impossible (more)
+            try
+              {
+              std::stringstream ss;
+              ss.str(s);
+              sqi->Read<ExplicitDataElement,SwapperDoOp>( ss, true );
+              gdcmWarningMacro(ex0.what()); (void)ex0;
+              }
+            catch ( Exception &ex1 )
+              {
+              // Let's try again this time but without the byte swapping option:
+              // eg. MEDILABInvalidCP246_EVRLESQasUN.dcm
+              try
+                {
+                std::stringstream ss;
+                ss.str(s);
+                sqi->Read<ExplicitDataElement,SwapperNoOp>( ss, true );
+                gdcmWarningMacro(ex1.what()); (void)ex1;
+                }
+              catch ( Exception &ex2 )
+                {
+                gdcmErrorMacro( "Could not read SQ. Giving up" );
+                gdcmErrorMacro(ex2.what()); (void)ex2;
+                delete sqi;
+                return NULL;
+                }
+              }
+            }
           return sqi;
           }
         else
@@ -156,8 +179,14 @@ namespace gdcm
     //      {
     //      gdcmWarningMacro( "Unknown exception" );
     //      }
-
-    return 0;
     }
 
-} // end namespace gdcm
+void DataElement::SetValueFieldLength( VL vl, bool readvalues )
+{
+  if( readvalues )
+    ValueField->SetLength(vl); // perform realloc
+  else
+    ValueField->SetLengthOnly(vl); // do not perform realloc
+}
+
+} // end namespace gdcm_ns

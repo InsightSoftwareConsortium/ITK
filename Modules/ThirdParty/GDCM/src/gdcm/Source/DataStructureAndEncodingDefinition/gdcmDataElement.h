@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -23,7 +22,7 @@
 
 #include <set>
 
-namespace gdcm
+namespace gdcm_ns
 {
 // Data Element
 // Contains multiple fields:
@@ -31,7 +30,7 @@ namespace gdcm
 // -> Optional VR (Explicit Transfer Syntax)
 // -> ValueLength
 // -> Value
-// TODO: This class SHOULD be pure virtual. I dont want a user
+// TODO: This class SHOULD be pure virtual. I don't want a user
 // to shoot himself in the foot.
 
 class SequenceOfItems;
@@ -87,14 +86,14 @@ public:
   /// Use with cautious (need to match Part 6), advanced user only
   /// \pre vr is a VR::VRALL (not a dual one such as OB_OW)
   void SetVR(VR const &vr) {
-    // assert( vr.IsVRFile() );
-    VRField = vr;
+    if( vr.IsVRFile() )
+      VRField = vr;
   }
 
   /// Set/Get Value (bytes array, SQ of items, SQ of fragments):
   Value const &GetValue() const { return *ValueField; }
   Value &GetValue() { return *ValueField; }
-  /// \warning you need to set the ValueLengthField explicitely
+  /// \warning you need to set the ValueLengthField explicitly
   void SetValue(Value const & vl) {
     //assert( ValueField == 0 );
     ValueField = vl;
@@ -133,22 +132,6 @@ public:
     const ByteValue *bv = dynamic_cast<const ByteValue*>(ValueField.GetPointer());
     return bv; // Will return NULL if not ByteValue
   }
-  ByteValue* GetByteValue() {
-    // Get the raw pointer from the gdcm::SmartPointer
-    ByteValue *bv = dynamic_cast<ByteValue*>(ValueField.GetPointer());
-    return bv; // Will return NULL if not ByteValue
-  }
-
-  /// Return the Value of DataElement as a Sequence Of Items (if possible)
-  /// \warning: You need to check for NULL return value
-  /// \warning: In some case a Value could not have been recognized as a SequenceOfItems
-  /// in those case the return of the function will be NULL, while the Value would be
-  /// a valid SequenceOfItems, in those case prefer GetValueAsSQ. In which case
-  /// the code internally trigger an assert to warn developper.
-  /// When in doubt do not use this function and prefer GetValueAsSQ()
-  /// @deprecated Replaced by DataElement::GetValueAsSQ() as of GDCM 2.2.
-  GDCM_LEGACY(const SequenceOfItems* GetSequenceOfItems() const)
-  GDCM_LEGACY(SequenceOfItems* GetSequenceOfItems())
 
   /// Interpret the Value stored in the DataElement. This is more robust (but also more
   /// expensive) to call this function rather than the simpliest form: GetSequenceOfItems()
@@ -161,6 +144,7 @@ public:
   /// Return the Value of DataElement as a Sequence Of Fragments (if possible)
   /// \warning: You need to check for NULL return value
   const SequenceOfFragments* GetSequenceOfFragments() const;
+  SequenceOfFragments* GetSequenceOfFragments();
 
   /// return if Value Length if of undefined length
   bool IsUndefinedLength() const {
@@ -233,6 +217,22 @@ public:
   }
 
   template <typename TDE, typename TSwap>
+  std::istream &ReadPreValue(std::istream &is, std::set<Tag> const &skiptags) {
+    (void)skiptags;
+    return static_cast<TDE*>(this)->template ReadPreValue<TSwap>(is);
+  }
+  template <typename TDE, typename TSwap>
+  std::istream &ReadValue(std::istream &is, std::set<Tag> const &skiptags) {
+    (void)skiptags;
+    return static_cast<TDE*>(this)->template ReadValue<TSwap>(is);
+  }
+  template <typename TDE, typename TSwap>
+  std::istream &ReadValueWithLength(std::istream &is, VL & length, std::set<Tag> const &skiptags) {
+    (void)skiptags;
+    return static_cast<TDE*>(this)->template ReadValueWithLength<TSwap>(is, length);
+  }
+
+  template <typename TDE, typename TSwap>
   std::istream &ReadWithLength(std::istream &is, VL &length) {
     return static_cast<TDE*>(this)->template ReadWithLength<TSwap>(is,length);
   }
@@ -251,6 +251,8 @@ protected:
   VR VRField;
   typedef SmartPointer<Value> ValuePtr;
   ValuePtr ValueField;
+
+  void SetValueFieldLength( VL vl, bool readvalues );
 };
 //-----------------------------------------------------------------------------
 inline std::ostream& operator<<(std::ostream &os, const DataElement &val)
@@ -265,6 +267,11 @@ inline std::ostream& operator<<(std::ostream &os, const DataElement &val)
   return os;
 }
 
-} // end namespace gdcm
+inline bool operator!=(const DataElement& lhs, const DataElement& rhs)
+{
+  return ! ( lhs == rhs );
+}
+
+} // end namespace gdcm_ns
 
 #endif //GDCMDATAELEMENT_H

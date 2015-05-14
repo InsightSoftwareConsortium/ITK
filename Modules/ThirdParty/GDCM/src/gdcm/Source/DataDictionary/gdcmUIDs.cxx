@@ -5,9 +5,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL: https://gdcm.svn.sourceforge.net/svnroot/gdcm/trunk/Source/DataDictionary/TagToType.xsl $
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -18,8 +17,6 @@
 =========================================================================*/
 #include "gdcmUIDs.h"
 #include <string.h> // strcmp
-
-//#ifdef __gdcmUIDs_cxx
 
 namespace gdcm
 {
@@ -183,7 +180,6 @@ namespace gdcm
 {"1.2.840.10008.5.1.4.1.1.66.2","Spatial Fiducials Storage"},
 {"1.2.840.10008.5.1.4.1.1.66.3","Deformable Spatial Registration Storage"},
 {"1.2.840.10008.5.1.4.1.1.66.4","Segmentation Storage"},
-{"1.2.840.10008.5.1.4.1.1.66.5","Surface Segmentation Storage"}, // Sup 132
 {"1.2.840.10008.5.1.4.1.1.67","Real World Value Mapping Storage"},
 {"1.2.840.10008.5.1.4.1.1.77.1","VL Image Storage - Trial"},
 {"1.2.840.10008.5.1.4.1.1.77.2","VL Multi-frame Image Storage - Trial"},
@@ -294,6 +290,10 @@ namespace gdcm
 {"1.2.840.10008.15.0.4.6","dicomNetworkConnection"},
 {"1.2.840.10008.15.0.4.7","dicomUniqueAETitle"},
 {"1.2.840.10008.15.0.4.8","dicomTransferCapability"},
+{"1.2.840.10008.5.1.4.1.1.77.1.6","VL Whole Slide Microscopy Image Storage"},
+{"1.2.840.10008.5.1.4.1.1.6.2", "Enhanced US Volume Storage" },
+{"1.2.840.10008.5.1.4.1.1.66.5","Surface Segmentation Storage"}, // Sup 132
+{"1.2.840.10008.5.1.4.1.1.13.1.3","Breast Tomosynthesis Image Storage"},
 //{"1.2.840.10008.1.4.1.1","Talairach Brain Atlas Frame of Reference"},
 //{"1.2.840.10008.1.4.1.2","SPM2 T1 Frame of Reference"},
 //{"1.2.840.10008.1.4.1.3","SPM2 T2 Frame of Reference"},
@@ -357,6 +357,11 @@ DICOM_Conformance_Statement_MR_R2.6.pdf
 {"1.2.752.24.3.7.6","Sectra Compression (Private Syntax)"},
 {"1.2.752.24.3.7.7","Sectra Compression LS (Private Syntax)"},
 {"1.2.840.113619.5.2", "Implicit VR Big Endian DLX (G.E Private)"},
+/*DICOM_Conformance_Statement_GEMINI_R3.5_R3.6.pdf */
+{"1.3.46.670589.33.1.4.1","CT-private-ELE"},
+{"1.2.840.10008.1.2.4.101","MPEG2 Main Profile @ High Level"},
+{"1.2.840.10008.1.2.4.102","MPEG-4 AVC/H.264 High Profile / Level 4.1"},
+{"1.2.840.10008.1.2.4.103","MPEG-4 AVC/H.264 BD-compatible High Profile / Level 4.1"},
 { 0, 0 }
 };
 
@@ -432,5 +437,3 @@ const char *UIDs::GetName() const
 }
 
 } // end namespace gdcm
-
-//#endif //__gdcmUIDs_cxx

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -44,7 +43,7 @@ typedef  unsigned __int64    uint64_t;
 #elif defined(_MSC_VER)
 #include "stdint.h"
 #else
-#error "Sorry your plateform is not supported"
+#error "Sorry, your platform is not supported"
 #endif // defined(_MSC_VER) || defined(__BORLANDC__) && (__BORLANDC__ < 0x0560)  || defined(__MINGW32__)
 #endif // GDCM_HAVE_INTTYPES_H
 #endif // GDCM_HAVE_STDINT_H

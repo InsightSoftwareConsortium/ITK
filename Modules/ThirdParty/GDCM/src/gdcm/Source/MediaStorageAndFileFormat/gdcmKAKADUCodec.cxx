@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -63,7 +62,7 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
   return false;
 #else
   // First thing creates a j2k file from the fragment:
-  const gdcm::SequenceOfFragments *sf = in.GetSequenceOfFragments();
+  const SequenceOfFragments *sf = in.GetSequenceOfFragments();
   if(!sf) return false;
 
   if( NumberOfDimensions == 2 )
@@ -87,7 +86,7 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
     sf->WriteBuffer(outfile);
     outfile.close(); // flush !
 
-    //gdcm::Filename fn( System::GetCurrentProcessFileName() );
+    //Filename fn( System::GetCurrentProcessFileName() );
     //std::string executable_path = fn.GetPath();
 #ifdef GDCM_USE_SYSTEM_KAKADU
     std::string kakadu_command = GDCM_KAKADU_EXPAND_EXECUTABLE;
@@ -106,13 +105,13 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
     int ret = system(kakadu_command.c_str());
     //std::cerr << "system: " << ret << std::endl;
 
-    size_t len = gdcm::System::FileSize(output.c_str());
+    size_t len = System::FileSize(output.c_str());
     if(!len) return false;
 
-    std::ifstream is(output.c_str());
+    std::ifstream is(output.c_str(), std::ios::binary);
     char * buf = new char[len];
     is.read(buf, len);
-    out.SetTag( gdcm::Tag(0x7fe0,0x0010) );
+    out.SetTag( Tag(0x7fe0,0x0010) );
     out.SetByteValue( buf, len );
     delete[] buf;
 
@@ -164,7 +163,7 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
       bv->WriteBuffer( outfile );
       outfile.close(); // flush !
 
-      //gdcm::Filename fn( System::GetCurrentProcessFileName() );
+      //Filename fn( System::GetCurrentProcessFileName() );
       //std::string executable_path = fn.GetPath();
 #ifdef GDCM_USE_SYSTEM_KAKADU
       std::string kakadu_command = GDCM_KAKADU_EXPAND_EXECUTABLE;
@@ -183,10 +182,10 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
       int ret = system(kakadu_command.c_str());
       //std::cerr << "system: " << ret << std::endl;
 
-      size_t len = gdcm::System::FileSize(output.c_str());
+      size_t len = System::FileSize(output.c_str());
       if(!len) return false;
 
-      std::ifstream is(output.c_str());
+      std::ifstream is(output.c_str(), std::ios::binary);
       char * buf = new char[len];
       is.read(buf, len);
       os.write(buf, len);
@@ -206,7 +205,7 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
       }
     std::string str = os.str();
     assert( str.size() );
-    out.SetTag( gdcm::Tag(0x7fe0,0x0010) );
+    out.SetTag( Tag(0x7fe0,0x0010) );
     out.SetByteValue( &str[0], str.size() );
     }
   else
@@ -234,6 +233,11 @@ bool KAKADUCodec::Code(DataElement const &in, DataElement &out)
   // That would be neat, please contribute :)
   return false;
 #endif
+}
+
+ImageCodec * KAKADUCodec::Clone() const
+{
+  return NULL;
 }
 
 } // end namespace gdcm

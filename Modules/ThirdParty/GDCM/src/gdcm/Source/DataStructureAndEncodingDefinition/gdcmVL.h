@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -100,12 +99,10 @@ public:
   const std::ostream &Write(std::ostream &os) const
     {
     uint32_t copy = ValueLength;
-#ifndef GDCM_WRITE_ODD_LENGTH
     if( IsOdd() )
       {
       ++copy;
       }
-#endif
     TSwap::SwapArray(&copy,1);
     return os.write((char*)(&copy), sizeof(uint32_t));
     }
@@ -115,12 +112,10 @@ public:
     {
     assert( ValueLength <=   65535 /*UINT16_MAX*/ );
     uint16_t copy = (uint16_t)ValueLength;
-#ifndef GDCM_WRITE_ODD_LENGTH
     if( IsOdd() )
       {
       ++copy;
       }
-#endif
     TSwap::SwapArray(&copy,1);
     return os.write((char*)(&copy), sizeof(uint16_t));
     }

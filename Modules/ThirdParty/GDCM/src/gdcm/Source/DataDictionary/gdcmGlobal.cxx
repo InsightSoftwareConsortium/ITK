@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -48,12 +47,14 @@ public:
     assert( RessourcePaths.empty() );
     const char filename2[] = GDCM_CMAKE_INSTALL_PREFIX "/" GDCM_INSTALL_DATA_DIR "/XML/";
     RessourcePaths.push_back( filename2 );
+    const char filename3[] = GDCM_CMAKE_INSTALL_PREFIX " " GDCM_API_VERSION "/" GDCM_INSTALL_DATA_DIR "/XML/";
+    RessourcePaths.push_back( filename3 );
     const char *curprocfn = System::GetCurrentProcessFileName();
     if( curprocfn )
       {
       Filename fn( curprocfn );
       std::string str = fn.GetPath();
-      str += "/../" GDCM_INSTALL_DATA_DIR;
+      str += "/../" GDCM_INSTALL_DATA_DIR "/XML/";
       RessourcePaths.push_back( str );
       }
     const char *respath = System::GetCurrentResourcesDirectory();
@@ -164,6 +165,12 @@ const char *Global::Locate(const char *resfile) const
 }
 
 Dicts const &Global::GetDicts() const
+{
+  assert( !Internals->GlobalDicts.IsEmpty() );
+  return Internals->GlobalDicts;
+}
+
+Dicts &Global::GetDicts()
 {
   assert( !Internals->GlobalDicts.IsEmpty() );
   return Internals->GlobalDicts;

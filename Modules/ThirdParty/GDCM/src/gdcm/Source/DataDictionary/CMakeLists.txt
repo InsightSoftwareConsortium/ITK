@@ -2,7 +2,7 @@
 # DICT
 
 # Add the include paths
-INCLUDE_DIRECTORIES(
+include_directories(
   "${GDCM_SOURCE_DIR}/Source/Common"
   "${GDCM_BINARY_DIR}/Source/Common"
   "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition"
@@ -13,42 +13,42 @@ INCLUDE_DIRECTORIES(
 
 #-----------------------------------------------------------------------------
 # DICOM dictionary stuff
-#SET(PREP_DICT_SRCS
+#set(PREP_DICT_SRCS
 #  ${GDCM_SOURCE_DIR}/Source/DataDictionary/gdcmDictConverter.cxx
 #  ${GDCM_SOURCE_DIR}/Source/DataDictionary/gdcmPrepDict.cxx
 #  )
 #
-#ADD_EXECUTABLE(PrepDict ${PREP_DICT_SRCS}
+#add_executable(PrepDict ${PREP_DICT_SRCS}
 #  "${GDCM_SOURCE_DIR}/Source/Common/gdcmSwapCode.cxx"
 #  "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition/gdcmVR.cxx"
 #  "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition/gdcmVM.cxx"
 #  )
 #
-#ADD_EXECUTABLE(PrepGroupName
+#add_executable(PrepGroupName
 #  ${GDCM_SOURCE_DIR}/Source/DataDictionary/gdcmPrepGroupName.cxx
 #  )
 #
-#  GET_TARGET_PROPERTY( PREP_DICT
+#  get_target_property( PREP_DICT
 #    PrepDict
 #    LOCATION
 #    )
-#  GET_TARGET_PROPERTY( PREP_GROUPNAME
+#  get_target_property( PREP_GROUPNAME
 #    PrepGroupName
 #    LOCATION
 #    )
-#SET(DICT_LIST
+#set(DICT_LIST
 #  DICOMV3
 #  NIH
 #  SPI
 #  )
 #
 ## List of file needed to get all dict into c++ code
-#SET(DICT_SRCS)
-#SET(DEFAULT_DICTS)
-#FOREACH(dict ${DICT_LIST})
-#  SET(CXX_DICT ${GDCM_BINARY_DIR}/Source/DataDictionary/gdcm${dict}.cxx)
-#  SET(DICT_SRCS ${DICT_SRCS} ${CXX_DICT})
-#  ADD_CUSTOM_COMMAND(
+#set(DICT_SRCS)
+#set(DEFAULT_DICTS)
+#foreach(dict ${DICT_LIST})
+#  set(CXX_DICT ${GDCM_BINARY_DIR}/Source/DataDictionary/gdcm${dict}.cxx)
+#  set(DICT_SRCS ${DICT_SRCS} ${CXX_DICT})
+#  add_custom_command(
 #    OUTPUT    ${CXX_DICT}
 #    COMMAND   ${PREP_DICT}
 #    ARGS      ${GDCM_SOURCE_DIR}/Source/DataDictionary/${dict}.dic
@@ -58,9 +58,9 @@ INCLUDE_DIRECTORIES(
 #              ${PREP_DICT}
 #    COMMENT   "Generating gdcm${dict}.cxx based on ${dict}.dic"
 #    )
-#ENDFOREACH(dict)
+#endforeach()
 #
-#ADD_CUSTOM_COMMAND(
+#add_custom_command(
 #  OUTPUT    ${GDCM_BINARY_DIR}/Source/DataDictionary/gdcmDefaultGroupNames.cxx
 #  COMMAND   ${PREP_GROUPNAME}
 #  ARGS      ${GDCM_SOURCE_DIR}/Source/DataDictionary/GroupName.dic
@@ -72,16 +72,16 @@ INCLUDE_DIRECTORIES(
 #
 
 # Since the file gdcmDefaultDicts.cxx does not exist, mark it as GENERATED:
-#SET_SOURCE_FILES_PROPERTIES(
+#set_source_files_properties(
 #  "${GDCM_BINARY_DIR}/Source/gdcmDefaultDicts.cxx" GENERATED)
 
-#CONFIGURE_FILE(
+#configure_file(
 #  ${GDCM_SOURCE_DIR}/Source/DataDictionary/gdcmDefaultDicts.cxx
 #  ${GDCM_BINARY_DIR}/Source/DataDictionary/gdcmDefaultDicts.cxx
 #  @ONLY
 #  )
 
-SET(DICT_SRCS
+set(DICT_SRCS
   #${DICT_SRCS} # All the dicts cxx resources
   gdcmDicts.cxx
   gdcmDictEntry.cxx
@@ -95,48 +95,29 @@ SET(DICT_SRCS
   gdcmCSAHeaderDefaultDicts.cxx
   )
 
-#MESSAGE( ${DICT_SRCS} )
-ADD_LIBRARY(gdcmDICT ${DICT_SRCS})
-TARGET_LINK_LIBRARIES(gdcmDICT gdcmDSED gdcmIOD)
-SET_TARGET_PROPERTIES(gdcmDICT PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
-IF(BUILD_SHARED_LIBS)
-  SET(_ill "") # "gdcmDICT;gdcmIOD"
-  SET_TARGET_PROPERTIES(gdcmDICT PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
-ENDIF()
-IF(NOT GDCM_INSTALL_NO_LIBRARIES)
-  # Runtime
-  INSTALL(TARGETS gdcmDICT
-    EXPORT ${GDCM_TARGETS_NAME}
-    RUNTIME DESTINATION ${GDCM_INSTALL_BIN_DIR} COMPONENT Applications
-    LIBRARY DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Libraries ${NAMELINK_SKIP}
-    ARCHIVE DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Development
-  )
-  #Development
-  if(NAMELINK_ONLY)
-    INSTALL(TARGETS gdcmDICT
-    EXPORT ${GDCM_TARGETS_NAME}
-      LIBRARY DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Development ${NAMELINK_ONLY}
-    )
-  endif(NAMELINK_ONLY)
-ENDIF(NOT GDCM_INSTALL_NO_LIBRARIES)
+add_library(gdcmDICT ${DICT_SRCS})
+target_link_libraries(gdcmDICT gdcmDSED gdcmIOD)
+set_target_properties(gdcmDICT PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
+if(BUILD_SHARED_LIBS)
+  set_target_properties(gdcmDICT PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
+endif()
 
-IF(NOT GDCM_INSTALL_NO_DEVELOPMENT)
-  FILE(GLOB header_files "*.h")
-  INSTALL(FILES ${header_files}
-    DESTINATION ${GDCM_INSTALL_INCLUDE_DIR} COMPONENT Headers
-  )
-ENDIF(NOT GDCM_INSTALL_NO_DEVELOPMENT)
+# libs
+install_library(gdcmDICT)
+# PDB
+install_pdb(gdcmDICT)
+# include files
+install_includes("*.h")
 
-SET(XML_FILES
+set(XML_FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/CSAHeader.xml
-  ${CMAKE_CURRENT_SOURCE_DIR}/DICOMV3.xml
   ${CMAKE_CURRENT_SOURCE_DIR}/Part6.xml
   ${CMAKE_CURRENT_SOURCE_DIR}/Part7.xml
   ${CMAKE_CURRENT_SOURCE_DIR}/UIDs.xml
   ${CMAKE_CURRENT_SOURCE_DIR}/cp699.xml
   )
 
-SET_SOURCE_FILES_PROPERTIES(
+set_source_files_properties(
   ${XML_FILES}
   PROPERTIES
   MACOSX_PACKAGE_LOCATION Resources
@@ -144,7 +125,7 @@ SET_SOURCE_FILES_PROPERTIES(
 
 #-----------------------------------------------------------------------------
 # Install Part6.xml
-INSTALL(FILES
+install(FILES
   ${XML_FILES}
   DESTINATION ${GDCM_INSTALL_DATA_DIR}/XML COMPONENT Libraries
 )

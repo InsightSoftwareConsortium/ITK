@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -73,15 +72,8 @@ public:
     return Internal;
   }
 
-  /// \deprecated Remove extra leading and ending spaces.
-  GDCM_LEGACY(std::string Trim() const)
-
   /// Return the size of the string
   size_type Size() const { return Internal.size(); }
-
-  /// \deprecated
-  /// Return the size of the string
-  GDCM_LEGACY(size_type size() const)
 
 protected:
   std::string TrimInternal() const {

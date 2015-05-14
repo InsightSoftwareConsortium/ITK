@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -21,7 +20,7 @@
 #include "gdcmSequenceOfItems.h"
 #include "gdcmCodeString.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 
 static const char *MSStrings[] = {
@@ -93,6 +92,8 @@ static const char *MSStrings[] = {
   "1.2.840.10008.3.1.2.3.1",
   // EncapsulatedPDFStorage
   "1.2.840.10008.5.1.4.1.1.104.1",
+  // EncapsulatedCDAStorage
+  "1.2.840.10008.5.1.4.1.1.104.2",
   // StudyComponentManagementSOPClass
   "1.2.840.10008.3.1.2.3.2",
   // DetachedVisitManagementSOPClass
@@ -122,6 +123,20 @@ static const char *MSStrings[] = {
   "1.2.840.10008.5.1.4.1.1.481.8", // RT Ion Plan Storage
   "1.2.840.10008.5.1.4.1.1.13.1.1", // XRay3DAngiographicImageStorage,
   "1.2.840.10008.5.1.4.1.1.12.1.1", // Enhanced XA Image Storage
+  "1.2.840.10008.5.1.4.1.1.481.9", //  RTIonBeamsTreatmentRecordStorage
+  "1.2.840.10008.5.1.4.1.1.66.5", // Surface Segmentation Storage
+  "1.2.840.10008.5.1.4.1.1.77.1.6", // VLWholeSlideMicroscopyImageStorage
+  "1.2.840.10008.5.1.4.1.1.481.7", // RTTreatmentSummaryRecordStorage
+  "1.2.840.10008.5.1.4.1.1.6.2", // EnhancedUSVolumeStorage
+  "1.2.840.10008.5.1.4.1.1.88.67", // XRayRadiationDoseSR
+  "1.2.840.10008.5.1.4.1.1.77.1.1", // VLEndoscopicImageStorage
+  "1.2.840.10008.5.1.4.1.1.13.1.3", // BreastTomosynthesisImageStorage
+  "1.2.392.200036.9125.1.1.2",  // FujiPrivateCRImageStorage
+  "1.2.840.10008.5.1.4.1.1.77.1.5.1", // OphthalmicPhotography8BitImageStorage
+  "1.2.840.10008.5.1.4.1.1.77.1.5.4", // OphthalmicTomographyImageStorage
+  "1.2.840.10008.5.1.4.1.1.77.1.2",   // VL Microscopic Image Storage
+  "1.2.840.10008.5.1.4.1.1.130", // Enhanced PET Image Storage
+  "1.2.840.10008.5.1.4.1.1.77.1.4.1", // Video Photographic Image Storage
   0
 };
 
@@ -187,6 +202,8 @@ bool MediaStorage::IsImage(MSType ms)
     || ms == DetachedVisitManagementSOPClass
     || ms == DetachedStudyManagementSOPClass
     || ms == EncapsulatedPDFStorage
+    || ms == EncapsulatedCDAStorage
+    || ms == XRayRadiationDoseSR
     || ms == KeyObjectSelectionDocument
     || ms == HangingProtocolStorage
     || ms == MRSpectroscopyStorage
@@ -195,7 +212,10 @@ bool MediaStorage::IsImage(MSType ms)
     || ms == RTIonPlanStorage
     || ms == LeadECGWaveformStorage
     || ms == GeneralECGWaveformStorage
-    || ms == RTStructureSetStorage )
+    || ms == RTIonBeamsTreatmentRecordStorage
+    || ms == RTStructureSetStorage
+    || ms == MammographyCADSR
+    || ms == SurfaceSegmentationStorage )
     {
     return false;
     }
@@ -205,83 +225,99 @@ bool MediaStorage::IsImage(MSType ms)
 struct MSModalityType
 {
   const char *Modality;
-  const unsigned int Dimension;
+  const unsigned char Dimension;
+  const bool Retired;
 };
 
-static MSModalityType MSModalityTypes[] = {
-  {"  ", 0},//MediaStorageDirectoryStorage,
-  {"CR", 2},//ComputedRadiographyImageStorage,
-  {"  ", 2},//DigitalXRayImageStorageForPresentation,
-  {"DX", 2},//DigitalXRayImageStorageForProcessing,
-  {"  ", 2},//DigitalMammographyImageStorageForPresentation,
-  {"MG", 2},//DigitalMammographyImageStorageForProcessing,
-  {"  ", 2},//DigitalIntraoralXrayImageStorageForPresentation,
-  {"  ", 2},//DigitalIntraoralXRayImageStorageForProcessing,
-  {"CT", 2},//CTImageStorage,
-  {"CT", 3},//EnhancedCTImageStorage,
-  {"  ", 2},//UltrasoundImageStorageRetired,
-  {"US", 2},//UltrasoundImageStorage,
-  {"  ", 3},//UltrasoundMultiFrameImageStorageRetired,
-  {"US", 3},//UltrasoundMultiFrameImageStorage,
-  {"MR", 2},//MRImageStorage,
-  {"MR", 3},//EnhancedMRImageStorage,
-  {"  ", 2},//MRSpectroscopyStorage,
-  {"  ", 2},//NuclearMedicineImageStorageRetired,
-  {"OT", 2},//SecondaryCaptureImageStorage,
-  {"OT", 3},//MultiframeSingleBitSecondaryCaptureImageStorage,
-  {"OT", 3},//MultiframeGrayscaleByteSecondaryCaptureImageStorage,
-  {"OT", 3},//MultiframeGrayscaleWordSecondaryCaptureImageStorage,
-  {"OT", 3},//MultiframeTrueColorSecondaryCaptureImageStorage,
-  {"  ", 2},//StandaloneOverlayStorage,
-  {"  ", 2},//StandaloneCurveStorage,
-  {"  ", 2},//LeadECGWaveformStorage, // 12-
-  {"  ", 2},//GeneralECGWaveformStorage,
-  {"  ", 2},//AmbulatoryECGWaveformStorage,
-  {"  ", 2},//HemodynamicWaveformStorage,
-  {"  ", 2},//CardiacElectrophysiologyWaveformStorage,
-  {"  ", 2},//BasicVoiceAudioWaveformStorage,
-  {"  ", 2},//StandaloneModalityLUTStorage,
-  {"  ", 2},//StandaloneVOILUTStorage,
-  {"  ", 2},//GrayscaleSoftcopyPresentationStateStorageSOPClass,
-  {"XA", 3},//XRayAngiographicImageStorage,
-  {"RF", 2},//XRayRadiofluoroscopingImageStorage,
-  {"  ", 2},//XRayAngiographicBiPlaneImageStorageRetired,
-  {"NM", 3},//NuclearMedicineImageStorage,
-  {"  ", 2},//RawDataStorage,
-  {"  ", 2},//SpacialRegistrationStorage,
-  {"  ", 2},//SpacialFiducialsStorage,
-  {"PT", 2},//PETImageStorage,
-  {"RTIMAGE ", 2},//RTImageStorage, // FIXME
-  {"RTDOSE", 3},//RTDoseStorage,
-  {"  ", 2},//RTStructureSetStorage,
-  {"  ", 2},//RTPlanStorage,
-  {"  ", 2},//CSANonImageStorage,
-  {"  ", 2},//Philips3D,
-  {"  ", 2},//EnhancedSR
-  {"  ", 2},//BasicTextSR
-  {"  ", 2},//HardcopyGrayscaleImageStorage
-  {"  ", 2},//ComprehensiveSR
-  {"  ", 2},//DetachedStudyManagementSOPClass
-  {"  ", 2},//EncapsulatedPDFStorage
-  {"  ", 2},//StudyComponentManagementSOPClass
-  {"  ", 2},//DetachedVisitManagementSOPClass
-  {"  ", 2},//DetachedPatientManagementSOPClass
-  {"  ", 2},//VideoEndoscopicImageStorage
-  {"  ", 2},//GeneralElectricMagneticResonanceImageStorage
-  {"  ", 2},//GEPrivate3DModelStorage
-  {"  ", 2},//ToshibaPrivateDataStorage
-  {"  ", 2},//MammographyCADSR
-  {"  ", 2},//KeyObjectSelectionDocument
-  {"  ", 2},//HangingProtocolStorage
-  {"  ", 2},//ModalityPerformedProcedureStepSOPClass
-  {"  ", 2},//PhilipsPrivateMRSyntheticImageStorage
-  {"XC", 2},//VLPhotographicImageStorage
-  {"SEG ", 3},// Segmentation Storage
-  {"  ", 2},// RT Ion Plan Storage
-  {"XA", 3},// XRay3DAngiographicImageStorage,
-  {"XA", 3},// Enhanced XA Image Storage
+static const MSModalityType MSModalityTypes[] = {
+  {"00", 0, 0},//MediaStorageDirectoryStorage,
+  {"CR", 2, 0},//ComputedRadiographyImageStorage,
+  {"DX", 2, 0},//DigitalXRayImageStorageForPresentation,
+  {"DX", 2, 0},//DigitalXRayImageStorageForProcessing,
+  {"  ", 2, 0},//DigitalMammographyImageStorageForPresentation,
+  {"MG", 2, 0},//DigitalMammographyImageStorageForProcessing,
+  {"  ", 2, 0},//DigitalIntraoralXrayImageStorageForPresentation,
+  {"  ", 2, 0},//DigitalIntraoralXRayImageStorageForProcessing,
+  {"CT", 2, 0},//CTImageStorage,
+  {"CT", 3, 0},//EnhancedCTImageStorage,
+  {"US", 2, 1},//UltrasoundImageStorageRetired,
+  {"US", 2, 0},//UltrasoundImageStorage,
+  {"US", 3, 1},//UltrasoundMultiFrameImageStorageRetired,
+  {"US", 3, 0},//UltrasoundMultiFrameImageStorage,
+  {"MR", 2, 0},//MRImageStorage,
+  {"MR", 3, 0},//EnhancedMRImageStorage,
+  {"MR", 2, 0},//MRSpectroscopyStorage,
+  {"  ", 2, 1},//NuclearMedicineImageStorageRetired,
+  {"OT", 2, 0},//SecondaryCaptureImageStorage,
+  {"OT", 3, 0},//MultiframeSingleBitSecondaryCaptureImageStorage,
+  {"OT", 3, 0},//MultiframeGrayscaleByteSecondaryCaptureImageStorage,
+  {"OT", 3, 0},//MultiframeGrayscaleWordSecondaryCaptureImageStorage,
+  {"OT", 3, 0},//MultiframeTrueColorSecondaryCaptureImageStorage,
+  {"  ", 2, 0},//StandaloneOverlayStorage,
+  {"  ", 2, 0},//StandaloneCurveStorage,
+  {"  ", 2, 0},//LeadECGWaveformStorage, // 12-
+  {"  ", 2, 0},//GeneralECGWaveformStorage,
+  {"  ", 2, 0},//AmbulatoryECGWaveformStorage,
+  {"  ", 2, 0},//HemodynamicWaveformStorage,
+  {"  ", 2, 0},//CardiacElectrophysiologyWaveformStorage,
+  {"  ", 2, 0},//BasicVoiceAudioWaveformStorage,
+  {"  ", 2, 0},//StandaloneModalityLUTStorage,
+  {"  ", 2, 0},//StandaloneVOILUTStorage,
+  {"  ", 2, 0},//GrayscaleSoftcopyPresentationStateStorageSOPClass,
+  {"XA", 3, 0},//XRayAngiographicImageStorage,
+  {"RF", 2, 0},//XRayRadiofluoroscopingImageStorage,
+  {"  ", 2, 0},//XRayAngiographicBiPlaneImageStorageRetired,
+  {"NM", 3, 0},//NuclearMedicineImageStorage,
+  {"  ", 2, 0},//RawDataStorage,
+  {"  ", 2, 0},//SpacialRegistrationStorage,
+  {"  ", 2, 0},//SpacialFiducialsStorage,
+  {"PT", 2, 0},//PETImageStorage,
+  {"RTIMAGE ", 2, 0},//RTImageStorage, // FIXME
+  {"RTDOSE", 3, 0},//RTDoseStorage,
+  {"  ", 2, 0},//RTStructureSetStorage,
+  {"  ", 2, 0},//RTPlanStorage,
+  {"  ", 2, 0},//CSANonImageStorage,
+  {"  ", 2, 0},//Philips3D,
+  {"  ", 2, 0},//EnhancedSR
+  {"  ", 2, 0},//BasicTextSR
+  {"  ", 2, 0},//HardcopyGrayscaleImageStorage
+  {"  ", 2, 0},//ComprehensiveSR
+  {"  ", 2, 0},//DetachedStudyManagementSOPClass
+  {"  ", 2, 0},//EncapsulatedPDFStorage
+  {"  ", 2, 0},//EncapsulatedCDAStorage
+  {"  ", 2, 0},//StudyComponentManagementSOPClass
+  {"  ", 2, 0},//DetachedVisitManagementSOPClass
+  {"  ", 2, 0},//DetachedPatientManagementSOPClass
+  {"ES", 3, 0},//VideoEndoscopicImageStorage
+  {"  ", 2, 0},//GeneralElectricMagneticResonanceImageStorage
+  {"  ", 2, 0},//GEPrivate3DModelStorage
+  {"  ", 2, 0},//ToshibaPrivateDataStorage
+  {"  ", 2, 0},//MammographyCADSR
+  {"  ", 2, 0},//KeyObjectSelectionDocument
+  {"  ", 2, 0},//HangingProtocolStorage
+  {"  ", 2, 0},//ModalityPerformedProcedureStepSOPClass
+  {"  ", 2, 0},//PhilipsPrivateMRSyntheticImageStorage
+  {"XC", 2, 0},//VLPhotographicImageStorage
+  {"SEG ", 3, 0},// Segmentation Storage
+  {"  ", 2, 0},// RT Ion Plan Storage
+  {"XA", 3, 0},// XRay3DAngiographicImageStorage,
+  {"XA", 3, 0},// Enhanced XA Image Storage
+  {"  ", 2, 0},// RTIonBeamsTreatmentRecordStorage
+  {"SEG", 3, 0},// Surface Segmentation Storage
+  {"SM", 2, 0},// VLWholeSlideMicroscopyImageStorage
+  {"RTRECORD", 2, 0},//RTTreatmentSummaryRecordStorage
+  {"US", 3, 0},// EnhancedUSVolumeStorage
+  {"  ", 2, 0},// XRayRadiationDoseSR
+  {"ES", 2, 0},// VLEndoscopicImageStorage
+  {"MG", 3, 0},// BreastTomosynthesisImageStorage
+  {"CR", 2, 0},// FujiPrivateCRImageStorage
+  {"OP", 2, 0},// OphthalmicPhotography8BitImageStorage
+  {"OPT", 3, 0},// OphthalmicTomographyImageStorage
+  {"GM", 3, 0},// VLMicroscopicImageStorage
+  {"PT", 3, 0},//PETImageStorage,
+  {"XC", 3, 0},// VideoPhotographicImageStorage
 
-  {NULL, 0} //MS_END
+  {NULL, 0, 0} //MS_END
 };
 
 unsigned int MediaStorage::GetNumberOfMSType()
@@ -313,14 +349,24 @@ const char *MediaStorage::GetModality() const
   return MSModalityTypes[MSField].Modality;
 }
 
-void MediaStorage::GuessFromModality(const char *modality, unsigned int dim)
+unsigned int MediaStorage::GetModalityDimension() const
+{
+  if (!MSModalityTypes[MSField].Modality)
+    return 0;
+  assert( MSModalityTypes[MSField].Dimension );
+  return MSModalityTypes[MSField].Dimension;
+}
+
+void MediaStorage::GuessFromModality(const char *modality, unsigned int dim )
 {
   // no default value is set, it is up to the user to decide initial value
   if( !modality || !dim ) return;
   //if( strlen(modality) != 2 ) return;
   int i = 0;
   while( MSModalityTypes[i].Modality &&
-    (strcmp(modality, MSModalityTypes[i].Modality) != 0 || MSModalityTypes[i].Dimension < dim ))
+    (strcmp(modality, MSModalityTypes[i].Modality) != 0
+     || MSModalityTypes[i].Retired
+     || MSModalityTypes[i].Dimension < dim ))
     {
     ++i;
     }
@@ -473,7 +519,7 @@ bool MediaStorage::SetFromFile(File const &file)
   /*
    * DICOMDIR usually have group 0002 present, but no 0008,0016 (doh!)
    * So we first check in header, if found, assumed it is ok (we should
-   * check that consistant with 0008,0016 ...)
+   * check that consistent with 0008,0016 ...)
    * A lot of DICOM image file are still missing the group header
    * this is why we check 0008,0016, and to preserve compat with ACR-NEMA
    * we also check Modality element to guess a fake Media Storage UID
@@ -559,4 +605,4 @@ bool MediaStorage::SetFromFile(File const &file)
   return true;
 }
 
-} // end namespace gdcm
+} // end namespace gdcm_ns

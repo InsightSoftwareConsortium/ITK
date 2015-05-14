@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -63,8 +62,10 @@ public:
   Printer();
   ~Printer();
 
+  /// Set file
   void SetFile(File const &f) { F = &f; }
 
+  /// Set color mode or not
   void SetColor(bool c);
 
   typedef enum {
@@ -74,19 +75,22 @@ public:
     XML // sure why not
   } PrintStyles;
 
+  /// Set PrintStyle value
   void SetStyle(PrintStyles ps) {
     PrintStyle = ps;
   }
+  /// Get PrintStyle value
   PrintStyles GetPrintStyle() const {
     return PrintStyle;
     }
 
+  /// Print
   void Print(std::ostream& os);
 
-protected:
-  void PrintDataSetOld(std::ostream &os, const DataSet &ds);
-  void PrintElement(std::ostream& os, const DataElement &xde, const DictEntry &entry);
+  /// Print an individual dataset
   void PrintDataSet(const DataSet &ds, std::ostream& os, const std::string &s = "");
+
+protected:
   VR PrintDataElement(std::ostringstream & os, const Dicts &dicts, const DataSet & ds, const DataElement &de, std::ostream &out, std::string const & indent );
 void PrintSQ(const SequenceOfItems *sqi, std::ostream & os, std::string const & indent);
 

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -76,12 +75,19 @@ public:
     JPEGLSNearLossless,
     JPEG2000Lossless,
     JPEG2000,
+    JPEG2000Part2Lossless,
+    JPEG2000Part2,
     RLELossless,
     MPEG2MainProfile,
     ImplicitVRBigEndianACRNEMA,
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
     WeirdPapryus,
 #endif
+    CT_private_ELE,
+    JPIPReferenced,
+    MPEG2MainProfileHighLevel,
+    MPEG4AVCH264HighProfileLevel4_1,
+    MPEG4AVCH264BDcompatibleHighProfileLevel4_1,
     TS_END
   } TSType;
 
@@ -113,11 +119,12 @@ public:
 
   bool IsEncapsulated() const;
 
-  /// Return whether the Transfer Syntax contains a lossy or lossless Encapsulated stream
-  /// \warning IsLossy is NOT !IsLossless since JPEG 2000 Transfer Syntax is dual
-  /// the stream can be either lossy or lossless compressed.
+  /** Return true if the transfer syntax algorithm is a lossy algorithm */
   bool IsLossy() const;
+  /** Return true if the transfer syntax algorithm is a lossless algorithm */
   bool IsLossless() const;
+  /** return true if TransFer Syntax Allow storing of Lossy Pixel Data */
+  bool CanStoreLossy() const;
 
   const char *GetString() const { return TransferSyntax::GetTSString(TSField); }
 

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -21,9 +20,12 @@
 #include "gdcmSmartPointer.h"
 #include "gdcmSwapper.h"
 
-#include <limits>
 #include <vector>
-#include <stddef.h>
+#include <algorithm> // req C++11
+#include <stddef.h> // ptrdiff_t fix
+#include <cstring>
+
+#include <gdcmrle/rle.h>
 
 namespace gdcm
 {
@@ -54,8 +56,6 @@ public:
     is.read((char*)(&Header), sizeof(uint32_t)*16);
     assert( sizeof(uint32_t)*16 == 64 );
     assert( sizeof(RLEHeader) == 64 );
-    //ByteSwap<unsigned long>::SwapRangeFromSwapCodeIntoSystem(
-    //  (unsigned long*)&Header, is.GetSwapCode(), 16);
     SwapperNoOp::SwapArray((uint32_t*)&Header,16);
     uint32_t numSegments = Header.NumSegments;
     if( numSegments >= 1 )
@@ -63,7 +63,6 @@ public:
       assert( Header.Offset[0] == 64 );
       }
     // We just check that we are indeed at the proper position start+64
-    //char bytes[256*256];
     }
   void Print(std::ostream &os)
     {
@@ -123,7 +122,7 @@ a Literal Run, in which case it's best to merge the three runs into a Literal Ru
 Three-byte repeats shall be encoded as Replicate Runs. Each row of the image shall be encoded
 separately and not cross a row boundary.
 */
-inline int count_identical_bytes(const char *start, unsigned int len)
+inline int count_identical_bytes(const char *start, size_t len)
 {
   assert( len );
 #if 0
@@ -138,7 +137,7 @@ inline int count_identical_bytes(const char *start, unsigned int len)
 #else
   const char ref = start[0];
   unsigned int count = 1; // start at one; make unsigned for comparison
-  const unsigned int cmin = std::min(128u,len);
+  const size_t cmin = std::min((size_t)128,len);
   while( count < cmin && start[count] == ref )
     {
   //std::cerr << "count/len:" << count << "," << len << std::endl;
@@ -150,7 +149,7 @@ inline int count_identical_bytes(const char *start, unsigned int len)
 #endif
 }
 
-inline int count_nonrepetitive_bytes(const char *start, unsigned int len)
+inline int count_nonrepetitive_bytes(const char *start, size_t len)
 {
 /*
  * TODO:
@@ -172,7 +171,7 @@ a Literal Run, in which case it's best to merge the three runs into a Literal Ru
   return p - start;
 #else
   unsigned int count = 1;
-  const unsigned int cmin = std::min(128u,len);
+  const size_t cmin = std::min((size_t)128,len);
 #if 0
   // TODO: this version that handles the note still does not work...
   while( count < cmin )
@@ -217,11 +216,11 @@ a Literal Run, in which case it's best to merge the three runs into a Literal Ru
 }
 
 /* return output length */
-ptrdiff_t rle_encode(char *output, unsigned int outputlength, const char *input, unsigned int inputlength)
+ptrdiff_t rle_encode(char *output, size_t outputlength, const char *input, size_t inputlength)
 {
   char *pout = output;
   const char *pin = input;
-  unsigned int length = inputlength;
+  size_t length = inputlength;
   while( pin != input + inputlength )
     {
     assert( length <= inputlength );
@@ -233,7 +232,7 @@ ptrdiff_t rle_encode(char *output, unsigned int outputlength, const char *input,
       //
       // Test first we are allowed to write two bytes:
       if( pout + 1 + 1 > output + outputlength ) return -1;
-      *pout = -count + 1;
+      *pout = (char)(-count + 1);
       assert( /**pout != -128 &&*/ 1 - *pout == count );
       assert( *pout <= -1 && *pout >= -127 );
       ++pout;
@@ -247,7 +246,7 @@ ptrdiff_t rle_encode(char *output, unsigned int outputlength, const char *input,
       count = count_nonrepetitive_bytes(pin, length);
       // first test we are allowed to write 1 + count bytes in the output buffer:
       if( pout + count + 1 > output + outputlength ) return -1;
-      *pout = count - 1;
+      *pout = (char)(count - 1);
       assert( *pout != -128 && *pout+1 == count );
       assert( *pout >= 0 );
       ++pout;
@@ -257,7 +256,7 @@ ptrdiff_t rle_encode(char *output, unsigned int outputlength, const char *input,
     // count byte where read, move pin to new position:
     pin += count;
     // compute remaining length:
-    assert( (unsigned int)count <= length );
+    assert( count <= (int)length );
     length -= count;
     }
   return pout - output;
@@ -359,6 +358,8 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
     }
   else
     {
+    delete[] buffer;
+    delete[] bufferrgb;
     return false;
     }
 
@@ -377,7 +378,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
     assert( MaxNumSegments % 3 == 0 );
     }
 
-  RLEHeader header = { MaxNumSegments, { 64 } };
+  RLEHeader header = { static_cast<uint32_t> ( MaxNumSegments ), { 64 } };
   // there cannot be any space in between the end of the RLE header and the start
   // of the first RLE segment
   //
@@ -392,13 +393,13 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
       {
       if( GetPixelFormat().GetBitsAllocated() == 8 )
         {
-        DoInvertPlanarConfiguration<char>(bufferrgb, ptr_img, image_len / sizeof(char));
+        DoInvertPlanarConfiguration<char>(bufferrgb, ptr_img, (uint32_t)(image_len / sizeof(char)));
         }
       else /* ( GetPixelFormat().GetBitsAllocated() == 16 ) */
         {
         assert( GetPixelFormat().GetBitsAllocated() == 16 );
         // should not happen right ?
-        DoInvertPlanarConfiguration<short>((short*)bufferrgb, (short*)ptr_img, image_len / sizeof(short));
+        DoInvertPlanarConfiguration<short>((short*)bufferrgb, (short*)ptr_img, (uint32_t)(image_len / sizeof(short)));
         }
       ptr_img = bufferrgb;
       }
@@ -479,17 +480,17 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
       ptr_img = buffer;
       }
     assert( image_len % MaxNumSegments == 0 );
-    const unsigned int input_seg_length = image_len / MaxNumSegments;
+    const size_t input_seg_length = image_len / MaxNumSegments;
     std::string datastr;
     for(unsigned int seg = 0; seg < MaxNumSegments; ++seg )
       {
-      unsigned int partition = input_seg_length;
+      size_t partition = input_seg_length;
       const char *ptr = ptr_img + seg * input_seg_length;
       assert( ptr < ptr_img + image_len );
       if( seg == MaxNumSegments - 1 )
         {
         partition += image_len % MaxNumSegments;
-        assert( (MaxNumSegments-1) * input_seg_length + partition == image_len );
+        assert( (MaxNumSegments-1) * input_seg_length + partition == (size_t)image_len );
         }
       assert( partition == input_seg_length );
 
@@ -510,12 +511,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
         length += llength;
         }
       // update header
-      if (header.Offset[seg] + length >= std::numeric_limits<uint32_t>::max())
-        {
-        gdcmErrorMacro("Length exceeds 32 bits, DICOM is a pure 32 bit standard.");
-        }
-      uint32_t theOffset = (uint32_t)(header.Offset[seg] + length);
-      header.Offset[1+seg] = theOffset;
+      header.Offset[1+seg] = (uint32_t)(header.Offset[seg] + length);
 
       assert( data.str().size() == length );
       datastr += data.str();
@@ -561,6 +557,49 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
 // Endif
 // Endloop
 
+size_t RLECodec::DecodeFragment(Fragment const & frag, char *buffer, unsigned long llen)
+{
+
+  std::stringstream is;
+  const ByteValue &bv = dynamic_cast<const ByteValue&>(frag.GetValue());
+  size_t bv_len = bv.GetLength();
+  char *mybuffer = new char[bv_len];
+  bv.GetBuffer(mybuffer, bv.GetLength());
+  is.write(mybuffer, bv.GetLength());
+  delete[] mybuffer;
+  std::stringstream os;
+  SetLength( llen );
+#if !defined(NDEBUG)
+  const unsigned int * const dimensions = this->GetDimensions();
+  const PixelFormat & pf = this->GetPixelFormat();
+  assert( llen == dimensions[0] * dimensions[1] * pf.GetPixelSize() );
+#endif
+  bool r = DecodeByStreams(is, os);
+  assert( r == true );
+  (void)r; //warning removal
+  std::streampos p = is.tellg();
+  // http://groups.google.com/group/microsoft.public.vc.stl/browse_thread/thread/96740930d0e4e6b8
+  if( !!is )
+    {
+    // Indeed the length of the RLE stream has been padded with a \0
+    // which is discarded
+    std::streamoff check = bv.GetLength() - p;
+    // check == 2 for gdcmDataExtra/gdcmSampleData/US_DataSet/GE_US/2929J686-breaker
+    assert( check == 0 || check == 1 || check == 2 );
+    if( check ) gdcmWarningMacro( "tiny offset detected in between RLE segments" );
+    }
+  else
+    {
+    // ALOKA_SSD-8-MONO2-RLE-SQ.dcm
+    gdcmWarningMacro( "Bad RLE stream" );
+    }
+  std::string::size_type check = os.str().size();
+  // If the following assert fail expect big troubles:
+  memcpy(buffer, os.str().c_str(), check);
+//  pos += check;
+  return check;
+}
+
 bool RLECodec::Decode(DataElement const &in, DataElement &out)
 {
   if( NumberOfDimensions == 2 )
@@ -569,14 +608,12 @@ bool RLECodec::Decode(DataElement const &in, DataElement &out)
     const SequenceOfFragments *sf = in.GetSequenceOfFragments();
     if( !sf ) return false;
     unsigned long len = GetBufferLength();
-    //char *buffer = new char[len];
     std::stringstream is;
     sf->WriteBuffer( is );
     SetLength( len );
-      std::stringstream os;
-      bool r = Decode(is, os);
-      assert( r == true );
-      (void)r; //warning removal
+    std::stringstream os;
+    bool r = DecodeByStreams(is, os);
+    assert( r ); (void)r; //warning removal
     std::string str = os.str();
     std::string::size_type check = str.size();
     assert( check == len );
@@ -589,89 +626,134 @@ bool RLECodec::Decode(DataElement const &in, DataElement &out)
     out = in;
     const SequenceOfFragments *sf = in.GetSequenceOfFragments();
     if( !sf ) return false;
-    uint32_t len = GetBufferLength();
+    unsigned long len = GetBufferLength();
     char *buffer = new char[len];
-    uint32_t pos = 0;
+    unsigned long pos = 0;
     // Each RLE Frame store a 2D frame. len is the 3d length
-    if (sf->GetNumberOfFragments() > std::numeric_limits<uint32_t>::max())
-      {
-      gdcmErrorMacro("More fragments than are allowed by DICOM in this file.");
-      }
-    uint32_t llen = len / (uint32_t)(sf->GetNumberOfFragments());
+    unsigned long llen = len / sf->GetNumberOfFragments();
     // assert( GetNumberOfDimensions() == 2
     //      || GetDimension(2) == sf->GetNumberOfFragments() );
-    for(uint32_t i = 0; i < sf->GetNumberOfFragments(); ++i)
+    for(unsigned int i = 0; i < sf->GetNumberOfFragments(); ++i)
       {
-      std::stringstream is;
       const Fragment &frag = sf->GetFragment(i);
-      const ByteValue &bv = dynamic_cast<const ByteValue&>(frag.GetValue());
-      char *mybuffer = new char[bv.GetLength()];
-      bv.GetBuffer(mybuffer, bv.GetLength());
-      is.write(mybuffer, bv.GetLength());
-      delete[] mybuffer;
-      std::stringstream os;
-      SetLength( llen );
-      bool r = Decode(is, os);
-      assert( r == true );
-      (void)r; //warning removal
-      std::streampos p = is.tellg();
-      // http://groups.google.com/group/microsoft.public.vc.stl/browse_thread/thread/96740930d0e4e6b8
-      if( !!is )
-        {
-        // Indeed the length of the RLE stream has been padded with a \0
-        // which is discarded
-          std::streamoff check = bv.GetLength() - p;
-        // check == 2 for gdcmDataExtra/gdcmSampleData/US_DataSet/GE_US/2929J686-breaker
-        assert( check == 0 || check == 1 || check == 2 );
-        if( check ) gdcmWarningMacro( "tiny offset detected in between RLE segments" );
-        }
-      else
-        {
-        // ALOKA_SSD-8-MONO2-RLE-SQ.dcm
-        gdcmWarningMacro( "Bad RLE stream" );
-        }
-      std::string::size_type check = os.str().size();
-      // If the following assert fail expect big troubles:
+      const size_t check = DecodeFragment(frag, buffer + pos, llen); (void)check;
       assert( check == llen );
-      if (check != llen)
-        {
-        gdcmErrorMacro("The length did not equal the check.");
-        }
-      if (check >= std::numeric_limits<uint32_t>::max())
-        {
-        gdcmErrorMacro("Check length exceeds 32 bits, DICOM is a pure 32 bit standard.");
-        }
-      uint32_t theCheck = (uint32_t)check;
-      memcpy(buffer+pos, os.str().c_str(), theCheck);
-      pos += theCheck;
+      pos += llen;
       }
     assert( pos == len );
-    out.SetByteValue( buffer, len );
+    out.SetByteValue( buffer, (uint32_t)len );
     delete[] buffer;
     return true;
     }
   return false;
 }
 
-bool RLECodec::Decode(std::istream &is, std::ostream &os)
+bool RLECodec::DecodeExtent(
+  char *buffer,
+  unsigned int xmin, unsigned int xmax,
+  unsigned int ymin, unsigned int ymax,
+  unsigned int zmin, unsigned int zmax,
+  std::istream & is
+)
 {
+  std::stringstream tmpos;
+  BasicOffsetTable bot;
+  bot.Read<SwapperNoOp>( is );
+  //std::cout << bot << std::endl;
+
+  const unsigned int * dimensions = this->GetDimensions();
+  const PixelFormat & pf = this->GetPixelFormat();
+  assert( pf.GetBitsAllocated() % 8 == 0 );
+  assert( pf != PixelFormat::SINGLEBIT );
+  assert( pf != PixelFormat::UINT12 && pf != PixelFormat::INT12 );
+
+  // skip
+  std::stringstream os;
+  Fragment frag;
+  for( unsigned int z = 0; z < zmin; ++z )
+    {
+    frag.ReadPreValue<SwapperNoOp>(is);
+    std::streamoff off = frag.GetVL();
+    is.seekg( off, std::ios::cur );
+    }
+  for( unsigned int z = zmin; z <= zmax; ++z )
+    {
+    frag.ReadPreValue<SwapperNoOp>(is);
+    std::streampos start = is.tellg();
+
+    SetLength( dimensions[0] * dimensions[1] * pf.GetPixelSize() );
+    const bool r = DecodeByStreams(is, os); (void)r;
+    assert( r );
+
+    // handle DICOM padding
+    std::streampos end = is.tellg();
+    size_t numberOfReadBytes = end - start;
+    if( numberOfReadBytes > frag.GetVL() )
+      {
+      // Special handling for ALOKA_SSD-8-MONO2-RLE-SQ.dcm
+      size_t diff = numberOfReadBytes - frag.GetVL();
+      assert( diff == 1 );
+      os.seekp( -diff, std::ios::cur );
+      os.put( 0 );
+      end = (size_t)end - 1;
+      }
+    assert( end - start == frag.GetVL() || (size_t)(end - start) + 1 == frag.GetVL() );
+    // sync is (rle16loo.dcm)
+    if( (end - start) % 2 == 1 )
+      {
+      is.get();
+      }
+    } // for each z
+
+  os.seekg(0, std::ios::beg );
+  assert( os.good() );
+  std::istream *theStream = &os;
+
+  unsigned int rowsize = xmax - xmin + 1;
+  unsigned int colsize = ymax - ymin + 1;
+  unsigned int bytesPerPixel = pf.GetPixelSize();
+
+  std::vector<char> buffer1;
+  buffer1.resize( rowsize*bytesPerPixel );
+  char *tmpBuffer1 = &buffer1[0];
+  unsigned int y, z;
+  std::streamoff theOffset;
+  for (z = zmin; z <= zmax; ++z)
+    {
+    for (y = ymin; y <= ymax; ++y)
+      {
+      theStream->seekg(std::ios::beg);
+      theOffset = 0 + ((z-zmin)*dimensions[1]*dimensions[0] + y*dimensions[0] + xmin)*bytesPerPixel;
+      theStream->seekg(theOffset);
+      theStream->read(tmpBuffer1, rowsize*bytesPerPixel);
+      memcpy(&(buffer[((z-zmin)*rowsize*colsize +
+            (y-ymin)*rowsize)*bytesPerPixel]),
+        tmpBuffer1, rowsize*bytesPerPixel);
+      }
+    }
+  return true;
+}
+
+bool RLECodec::DecodeByStreamsCommon(std::istream &, std::ostream &)
+{
+  return false;
+}
+
+bool RLECodec::DecodeByStreams(std::istream &is, std::ostream &os)
+{
+  std::streampos start = is.tellg();
   // FIXME: Do some stupid work:
   char dummy_buffer[256];
   std::stringstream tmpos;
-  // DEBUG
-  is.seekg( 0, std::ios::end);
-  std::streampos buf_size = is.tellg();
-  is.seekg(0, std::ios::beg);
-  // END DEBUG
 
   RLEFrame &frame = Internals->Frame;
   frame.Read(is);
-  //frame.Print(std::cout);
   unsigned long numSegments = frame.Header.NumSegments;
 
   unsigned long numberOfReadBytes = 0;
 
   unsigned long length = Length;
+  assert( length );
   // Special case:
   assert( GetPixelFormat().GetBitsAllocated() == 32 ||
           GetPixelFormat().GetBitsAllocated() == 16 ||
@@ -683,12 +765,14 @@ bool RLECodec::Decode(std::istream &is, std::ostream &os)
 
   assert( GetPixelFormat().GetSamplesPerPixel() == 3 || GetPixelFormat().GetSamplesPerPixel() == 1 );
   // A footnote:
-  // RLE *by definition* with more than one component will have applied the Planar Configuration
-  // because it simply does not make sense to do it otherwise. So implicitely
-  // RLE is indeed PlanarConfiguration == 1. However when the image says: "hey I am PlanarConfiguration = 0
-  // AND RLE", then apply the PlanarConfiguration internally so that people don't get lost
-  // Because GDCM internally set PlanarConfiguration == 0 by default, even if the Attribute is not
-  // sent, it will still default to 0 and we will be consistant with ourselves...
+  // RLE *by definition* with more than one component will have applied the
+  // Planar Configuration because it simply does not make sense to do it
+  // otherwise. So implicitely RLE is indeed PlanarConfiguration == 1. However
+  // when the image says: "hey I am PlanarConfiguration = 0 AND RLE", then
+  // apply the PlanarConfiguration internally so that people don't get lost
+  // Because GDCM internally set PlanarConfiguration == 0 by default, even if
+  // the Attribute is not sent, it will still default to 0 and we will be
+  // consistent with ourselves...
   if( GetPixelFormat().GetSamplesPerPixel() == 3 && GetPlanarConfiguration() == 0 )
     {
     RequestPlanarConfiguration = true;
@@ -697,7 +781,7 @@ bool RLECodec::Decode(std::istream &is, std::ostream &os)
   for(unsigned long i = 0; i<numSegments; ++i)
     {
     numberOfReadBytes = 0;
-    std::streampos pos = is.tellg();
+    std::streampos pos = is.tellg() - start;
     if ( frame.Header.Offset[i] - pos != 0 )
       {
       // ACUSON-24-YBR_FULL-RLE.dcm
@@ -705,28 +789,18 @@ bool RLECodec::Decode(std::istream &is, std::ostream &os)
       // This should be at most the \0 padding
       //gdcmWarningMacro( "RLE Header says: " << frame.Header.Offset[i] <<
       //   " when it should says: " << pos << std::endl );
-
-      if (frame.Header.Offset[i] - pos >= std::numeric_limits<uint32_t>::max() ||
-        frame.Header.Offset[i] - pos < 0)
-        {
-        gdcmErrorMacro("Offset is either negative or exceeds 32 bits, DICOM is a pure 32 bit standard.");
-        }
-
-      uint32_t check = (uint32_t)(frame.Header.Offset[i] - pos);//should it be a streampos or a uint32? mmr
+      std::streamoff check = frame.Header.Offset[i] - pos;//should it be a streampos or a uint32? mmr
       // check == 2 for gdcmDataExtra/gdcmSampleData/US_DataSet/GE_US/2929J686-breaker
       assert( check == 1 || check == 2);
       (void)check; //warning removal
-      is.seekg( frame.Header.Offset[i], std::ios::beg );
+      is.seekg( frame.Header.Offset[i] + start, std::ios::beg );
       }
 
     unsigned long numOutBytes = 0;
     signed char byte;
-    //std::cerr << "Length: " << Length << "\n";
-    //assert( (uint32_t)is.Tellg() == frame.Header.Offset[i] );
 
-    // FIXME: ALOKA_SSD-8-MONO2-RLE-SQ.dcm
-    // I think the RLE decoder is off by one, we are reading in 128001 byte, while only 128000
-    // are present
+    // FIXME: ALOKA_SSD-8-MONO2-RLE-SQ.dcm I think the RLE decoder is off by
+    // one, we are reading in 128001 byte, while only 128000 are present
     while( numOutBytes < length )
       {
       is.read((char*)&byte, 1);
@@ -735,6 +809,7 @@ bool RLECodec::Decode(std::istream &is, std::ostream &os)
       if( byte >= 0 /*&& byte <= 127*/ ) /* 2nd is always true */
         {
         is.read( dummy_buffer, byte+1 );
+        //assert( is.good() ); // impossible because ALOKA_SSD-8-MONO2-RLE-SQ.dc
         numberOfReadBytes += byte+1;
         numOutBytes += byte+ 1;
         tmpos.write( dummy_buffer, byte+1 );
@@ -745,10 +820,6 @@ bool RLECodec::Decode(std::istream &is, std::ostream &os)
         is.read( &nextByte, 1);
         numberOfReadBytes += 1;
         memset(dummy_buffer, nextByte, -byte + 1);
-        //for( int c = 0; c < -byte + 1; ++c )
-        //  {
-        //  dummy_buffer[c] = nextByte;
-        //  }
         numOutBytes += -byte + 1;
         tmpos.write( dummy_buffer, -byte+1 );
         }
@@ -756,10 +827,7 @@ bool RLECodec::Decode(std::istream &is, std::ostream &os)
         {
         assert( byte == -128 );
         }
-        assert( is.eof()
-        || numberOfReadBytes + frame.Header.Offset[i] - is.tellg() == 0);
-      //std::cerr << "numOutBytes: " << numOutBytes << " / " << length << "\n";
-      //std::cerr << "numberOfReadBytes: " << numberOfReadBytes << "\n";
+      //assert( numberOfReadBytes + frame.Header.Offset[i] - is.tellg() + start == 0);
       }
     assert( numOutBytes == length );
     }
@@ -771,6 +839,131 @@ bool RLECodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
 {
   (void)is;
   ts = TransferSyntax::RLELossless;
+  return true;
+}
+
+ImageCodec * RLECodec::Clone() const
+{
+  return new RLECodec;
+}
+
+bool RLECodec::StartEncode( std::ostream & )
+{
+  return true;
+}
+bool RLECodec::IsRowEncoder()
+{
+  return false;
+}
+
+bool RLECodec::IsFrameEncoder()
+{
+  return true;
+}
+
+class memsrc : public ::rle::source
+{
+public:
+  memsrc( const char * data, size_t datalen ):ptr(data),cur(data),len(datalen)
+    {
+    }
+  int read( char * out, int l )
+    {
+    memcpy( out, cur, l );
+    cur += l;
+    assert( cur <= ptr + len );
+    return l;
+    }
+  streampos_t tell()
+    {
+    assert( cur <= ptr + len );
+    return (streampos_t)(cur - ptr);
+    }
+  bool seek(streampos_t pos)
+    {
+    cur = ptr + pos;
+    assert( cur <= ptr + len && cur >= ptr );
+    return true;
+    }
+  bool eof()
+    {
+    assert( cur <= ptr + len );
+    return cur == ptr + len;
+    }
+  memsrc * clone()
+    {
+    memsrc * ret = new memsrc( ptr, len );
+    return ret;
+    }
+private:
+  const char * ptr;
+  const char * cur;
+  size_t len;
+};
+
+bool RLECodec::AppendRowEncode( std::ostream & os, const char * data, size_t datalen)
+{
+  assert(0);
+  return false;
+}
+
+class streamdest : public rle::dest
+{
+public:
+  streamdest( std::ostream & os ):stream(os)
+  {
+  start = os.tellp();
+  }
+  int write( const char * in, int len )
+    {
+    stream.write(in, len );
+    return len;
+    }
+  bool seek( streampos_t abs_pos )
+    {
+    stream.seekp( abs_pos + start );
+    return true;
+    }
+private:
+  std::ostream & stream;
+  std::streampos start;
+};
+
+bool RLECodec::AppendFrameEncode( std::ostream & out, const char * data, size_t datalen )
+{
+  const PixelFormat & pf = this->GetPixelFormat();
+  rle::pixel_info pi((unsigned char)pf.GetSamplesPerPixel(), (unsigned char)(pf.GetBitsAllocated()));
+
+  const unsigned int * dimensions = this->GetDimensions();
+  rle::image_info ii(dimensions[0], dimensions[1], pi);
+  const int h = dimensions[1];
+
+  memsrc src( data, datalen );
+  rle::rle_encoder re(src, ii);
+
+  streamdest fd( out );
+
+  if( !re.write_header( fd ) )
+    {
+    gdcmErrorMacro( "could not write header" );
+    return false;
+    }
+
+  for( int y = 0; y < h; ++y )
+    {
+    const int ret = re.encode_row( fd );
+    if( ret < 0 )
+      {
+      gdcmErrorMacro( "problem at row: " << y );
+      return false;
+      }
+    }
+
+  return true;
+}
+
+bool RLECodec::StopEncode( std::ostream & )
+{
   return true;
 }
 

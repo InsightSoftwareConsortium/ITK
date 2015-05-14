@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -24,7 +23,6 @@
 #include "gdcmGlobal.h"
 #include "gdcmAttribute.h"
 #include "gdcmDataSetHelper.h"
-#include <limits.h>
 
 #include "gdcmDataSet.h"
 
@@ -82,6 +80,7 @@ Printer::Printer():PrintStyle(Printer::VERBOSE_STYLE),F(0)
   MaxPrintLength = 0x100; // Need to be %2
 
 }
+
 //-----------------------------------------------------------------------------
 Printer::~Printer()
 {
@@ -142,148 +141,7 @@ void Printer::SetColor(bool c)
 
 void PrintValue(VR::VRType const &vr, VM const &vm, const Value &v);
 
-//-----------------------------------------------------------------------------
-void Printer::PrintElement(std::ostream& os, const DataElement &xde, const DictEntry& entry)
-{
-  assert(0);
-  const Tag &t = xde.GetTag();
-  const VR &vr = xde.GetVR();
-  const VL &vl = xde.GetVL();
-  const Value& value = xde.GetValue();
-  VR lvr = vr;
-
-  // FIXME:
-  if( xde.IsEmpty() // 0xfffe item thingy
-    || entry.GetVR() == VR::INVALID ) // private element with no known VR
-    {
-    os << xde;
-    return;
-    }
-  // first of' do the VR:
-  if( lvr == VR::UN )
-    {
-    if( t.GetElement() == 0x0 || t.GetElement() == 0x1 ) // is 0x1 actually UN ?
-      {
-      lvr = VR::UL;
-      }
-    else
-      {
-      //assert( t.IsPublic() );
-      lvr = entry.GetVR();
-      }
-    // Data Element (7FE0,0010) Pixel Data has the Value Representation
-    // OW and shall be encoded in Little Endian.
-    if( t == Tag(0x7fe0,0x0010) )
-      {
-      assert( lvr == VR::OB_OW );
-      lvr = VR::OW;
-      }
-    //if( lvr == VR::UN ) lvr = VR::LO; // why not ?
-    }
-
-  VM vm = entry.GetVM();
-  if( vm == VM::VM0 )
-    {
-    assert( lvr != VR::UN );
-    //assert( lvr != VR::INVALID );
-    assert( t.IsPrivate() || t.GetElement() == 0x0 );
-    if ( lvr & VR::OB_OW )
-      {
-      vm = VM::VM1;
-      }
-    else
-      {
-      vm = VM::GetVMTypeFromLength( value.GetLength(), lvr.GetSize() );
-      //gdcmWarningMacro( "VM for " << vm );
-      if( t.GetElement() == 0x0 )
-        {
-        //gdcmWarningMacro( "Lgt= " << value.GetLength() << " size= " << vr.GetSize() );
-        //assert( vm == VM::VM1 && lvr == VR::UL );
-        if( vm != VM::VM1 )  gdcmWarningMacro( "Problem with " << t << " VM would be " << vm );
-        }
-      }
-    }
-  // Print Tag and VR:
-  os << t << " " << lvr;
-  if( lvr == VR::INVALID )
-    {
-    os << "(" << entry.GetVR() << ")";
-    }
-  //os << " " << VM::GetVMString( vm ) ;
-  //  if( dictVR != VR::INVALID && !(vr & dictVR) )
-  //    {
-  //    gdcmErrorMacro( "Wrong VR should be " << dictVR );
-  //    // LEADTOOLS_FLOWERS-8-PAL-RLE.dcm has (0040,0253) : CS instead of SH
-  //    //assert(0);
-  //    }
-  //  if( pstyle == Printer::CONDENSED_STYLE )
-  //    {
-  //    (void)vl;
-  //    _os /*<< "\t " << std::dec << vl  */
-  //      << " [" << value << "]";
-  //    }
-
-  if( !entry.GetVR().Compatible( lvr ) )
-    {
-    gdcmErrorMacro( "Wrong VR should be " << entry.GetVR() );
-    }
-  if( VR::IsASCII(lvr) )
-    {
-    // TODO FIXME (value is a null object)
-    if( vl ) os << " [" << value << "] ";
-    }
-  else if ( lvr == VR::SQ || vl.IsUndefined() )
-    {
-    //      os << "DEBUG";
-    //      value.Print( _os );
-    }
-  else if ( VR::IsBinary(lvr) )
-    {
-    //os << "\t ValueField=[";
-    os << " ";
-    if( vl ) PrintValue(lvr, vm, value );
-    //os << "]";
-    os << " ";
-    }
-  else
-    {
-    std::cerr << "Should not happen: " << lvr << std::endl;
-    }
-  //
-  os << "\t\t# " << std::dec << vl;
-  os << ", 1";
-
-  if( vl.IsUndefined() ) { assert ( t == Tag(0x7fe0, 0x0010) || lvr == VR::SQ ) ; }
-  if ( lvr == VR::SQ )
-    {
-    os << std::endl;
-    const SequenceOfItems &sqi = static_cast<const SequenceOfItems&>(value);
-    SequenceOfItems::ItemVector::const_iterator it = sqi.Items.begin();
-    for(; it != sqi.Items.end(); ++it)
-      {
-      const Item &item = *it;
-      const DataSet &ds = item.GetNestedDataSet();
-      //const DataSet &exds = ds.GetInternal();
-      PrintDataSetOld(os << "  ", ds);
-      }
-    }
-  else if ( vl.IsUndefined() )
-    {
-    os << std::endl;
-    const SequenceOfFragments &sqf = static_cast<const SequenceOfFragments&>(value);
-    os << sqf.GetTable() << std::endl;
-    SequenceOfFragments::FragmentVector::const_iterator it = sqf.Fragments.begin();
-    for(; it != sqf.Fragments.end(); ++it)
-      {
-      const Fragment &frag = *it;
-      const Value &val = frag.GetValue(); (void)val;
-      //PrintValue(lvr, vm, val );
-      os << "  " << frag << std::endl;
-      }
-    }
-}
-
-  template <typename T>
+template <typename T>
 inline char *bswap(char *out, const char *in, size_t length)
 {
   assert( !(length % sizeof(T)) );
@@ -588,19 +446,20 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
       el.Set( de.GetValue() ); \
       if( el.GetLength() ) { \
       os << "" << el.GetValue(); \
-      for(unsigned long i = 1; i < el.GetLength(); ++i) os << "\\" << el.GetValue(i); \
+      long l = std::min( (long) el.GetLength(), (long) (MaxPrintLength / VR::GetLength(VR::type)) ); \
+      for(long i = 1; i < l; ++i) os << "\\" << el.GetValue((unsigned int)i); \
       os << ""; } \
       else { if( de.IsEmpty() ) os << GDCM_TERMINAL_VT100_INVERSE << "(no value)" << GDCM_TERMINAL_VT100_NORMAL; \
                  else os << GDCM_TERMINAL_VT100_INVERSE << GDCM_TERMINAL_VT100_FOREGROUND_RED << "(VR=" << refvr << " is incompatible with length)" << GDCM_TERMINAL_VT100_NORMAL; } } \
       else { assert( de.IsEmpty()); os << GDCM_TERMINAL_VT100_INVERSE << "(no value)" << GDCM_TERMINAL_VT100_NORMAL; } \
     } break
 
-
 VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const DataSet & ds,
   const DataElement &de, std::ostream &out, std::string const & indent )
 {
   const ByteValue *bv = de.GetByteValue();
   const SequenceOfItems *sqi = 0; //de.GetSequenceOfItems();
+  const Value &value = de.GetValue();
   const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
 
   std::string strowner;
@@ -647,6 +506,30 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   assert( refvr != VR::US_SS );
   assert( refvr != VR::OB_OW );
 
+  if( dynamic_cast<const SequenceOfItems*>( &value ) )
+    {
+    sqi = de.GetValueAsSQ();
+    refvr = VR::SQ;
+    assert( refvr == VR::SQ );
+    }
+#if 0
+  else if( vr == VR::SQ && vr_read != VR::SQ )
+    {
+    sqi = de.GetValueAsSQ();
+    refvr = VR::SQ;
+    assert( refvr == VR::SQ );
+    }
+#endif
+
+  if( (vr_read == VR::INVALID || vr_read == VR::UN ) && vl_read.IsUndefined() )
+    {
+    assert( refvr == VR::SQ );
+    }
+
+//  if( vr_read == VR::SQ || vr_read == VR::UN )
+//    {
+//    sqi = de.GetValueAsSQ();
+//    }
   if( vr != VR::INVALID && (!vr.Compatible( vr_read ) || vr_read == VR::INVALID || vr_read == VR::UN ) )
     {
     assert( vr != VR::INVALID );
@@ -673,6 +556,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     assert( refvr == VR::INVALID );
     refvr = VR::SQ;
     }
+
   // Print Value now:
   if( refvr & VR::VRASCII )
     {
@@ -946,7 +830,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
       // What ? A public element that we do not know about !!!
       os << GDCM_TERMINAL_VT100_BLINK;
       }
-    os << " UNKNOWN";
+    os << " GDCM:UNKNOWN"; // Special keyword
     os << GDCM_TERMINAL_VT100_NORMAL;
     }
   os << "\n";
@@ -1042,12 +926,8 @@ void Printer::PrintDataSet(const DataSet &ds, std::ostream &out, std::string con
       const BasicOffsetTable & table = sqf->GetTable();
       //os << nextindent  << table.GetTag() << "\n";
       PrintDataElement(os,dicts,ds,table,out,nextindent);
-      size_t numFragUncast = sqf->GetNumberOfFragments();
-      if (numFragUncast > std::numeric_limits<uint32_t>::max()){
-        gdcmErrorMacro("Number of fragments exceeds 32 bits.  That is not DICOM compliant.");
-      }
-      uint32_t numfrag = (uint32_t)numFragUncast;
-      for(uint32_t i = 0; i < numfrag; ++i)
+      size_t numfrag = sqf->GetNumberOfFragments();
+      for(size_t i = 0; i < numfrag; ++i)
         {
         const Fragment& frag = sqf->GetFragment(i);
         //os << nextindent<< frag << "\n";
@@ -1064,172 +944,6 @@ void Printer::PrintDataSet(const DataSet &ds, std::ostream &out, std::string con
       }
     out << os.str();
     }
-}
-
-//-----------------------------------------------------------------------------
-void Printer::PrintDataSetOld(std::ostream &os, const DataSet &ds)
-{
-  const Global& g = GlobalInstance;
-  const Dicts &dicts = g.GetDicts();
-  const Dict &d = dicts.GetPublicDict(); (void)d;
-
-  static const GroupDict gd; // FIXME
-//  try
-    {
-    DataSet::ConstIterator it = ds.Begin();
-    for( ; it != ds.End(); ++it )
-      {
-      const DataElement &dataElement1 = *it;
-      //const DictEntry &entry = d.GetDictEntry(dataElement.GetTag());
-      std::string owner;
-      const char *strowner = 0;
-      if( dataElement1.GetTag().IsPrivate() /*&& dataElement.GetTag().GetElement()*/ )
-        {
-        Tag t = dataElement1.GetTag().GetPrivateCreator();
-        const ByteValue * bv = dataElement1.GetByteValue();
-        if( t.GetElement() )
-          {
-          const DataElement & dataElement2 = ds.GetDataElement( t );
-          bv = dataElement2.GetByteValue();
-          }
-        else
-          {
-          //assert( vr == VR::LO );
-          //assert( vm == VM::VM1 );
-          }
-        assert( bv );
-        owner = std::string(bv->GetPointer(),bv->GetLength());
-        assert(  owner.size() );
-        if( owner[owner.size()-1] == ' ' )
-          {
-          owner.erase(owner.size()-1,1);
-          }
-        assert( owner[owner.size()-1] != ' ' );
-        strowner = owner.c_str();
-        }
-      const DictEntry &entry = dicts.GetDictEntry(dataElement1.GetTag(),strowner);
-      // Use VR from dictionary
-      VR vr = entry.GetVR();
-      VM vm1 = entry.GetVM();
-      // TODO: FIXME FIXME FIXME
-      const Tag& t = dataElement1.GetTag();
-      //std::cerr << t << std::endl;
-      const VR::VRType vr_read = dataElement1.GetVR();
-      if( t == Tag(0x7fe0,0x0010) )
-        {
-        assert( vr & VR::OB_OW );
-        //vr = VR::OW;
-        //vm = VM::VM1_n;
-        }
-      if ( dataElement1.GetTag().GetElement() == 0x0 )
-        {
-        assert( vm1 == VM::VM0 || vm1 == VM::VM1 ); // not found
-        vm1 = VM::VM1; // this is a group length (VR=UL,VM=1)
-        assert( vr == VR::INVALID || vr == VR::UL ); // not found
-        vr = VR::UL;  // this is a group length (VR=UL,VM=1)
-        }
-      else if( dataElement1.GetTag().IsPrivate() )
-        {
-        //assert( !dataElement.GetTag().GetElement() || vr == VR::INVALID );
-        //assert( !dataElement.GetTag().GetElement() || vm == VM::VM0 );
-        if ( vr == VR::INVALID )
-          {
-          vr = vr_read; // we have no choice for now but trust it
-          assert( vm1 == VM::VM0 );
-          if( vr & VR::OB_OW )
-            {
-            vm1 = VM::VM1;
-            }
-          else
-            {
-            vm1 = VM::VM1_n; // FIXME: Is this always correct ?
-            }
-          }
-        }
-      assert( vm1 != VM::VM0 );
-      //assert( vr != VR::INVALID );
-      /*if( vr == VR::INVALID )
-        {
-        const VM vm = entry.GetVM();
-        const Value& val = dataElement.GetValue();
-        os << dataElement.GetTag();
-        }
-      else */
-      if( VR::IsASCII(vr_read) || VR::IsBinary(vr_read) )
-        {
-  //  _os << dataElement << std::endl;
-        PrintElement(os, dataElement1, entry);
-        }
-      else // INVALID case
-        {
-        const VM& vm2 = entry.GetVM(); (void)vm2;
-        const Value& val = dataElement1.GetValue(); (void)val;
-        os << dataElement1.GetTag();
-        //if( pstyle == Printer::CONDENSED_STYLE )
-        //  {
-        //  os << " " << vr_read;
-        //  }
-          {
-          //os << " VR=" << VR::GetVRString(vr_read);
-          os << " " << VR::GetVRString(vr_read);
-          os << "(" << vr << ")";
-          }
-        if( !vr.Compatible( vr_read ) )
-          {
-          gdcmErrorMacro( "Wrong VR should be " << vr );
-          // PHILIPS_Gyroscan-12-Jpeg_Extended_Process_2_4.dcm
-          // 0008,0040 VR=SS VR(?)=US
-          // After posting to dicom newsgroup there were reasons for doing SS
-          // but in this case user should really do US...
-          }
-        //if( pstyle == Printer::CONDENSED_STYLE )
-        //  {
-        //  os << /*"\t " << std::dec << dataElement.GetVL() << */
-        //    " ";
-        //  }
-          {
-          //_os << "\tVL=" << std::dec << dataElement.GetVL() << "\tValueField=[";
-          os << " " << std::dec << dataElement1.GetVL() << " ";
-          }
-
-        // Use super class of the template stuff
-        //Attribute af;
-        //af.SetVR(vr_read);
-        //af.SetVM(vm);
-        //af.SetLength( val.GetLength() );
-        //std::istringstream iss;
-        //iss.str( std::string( val.GetPointer(), val.GetLength() ) );
-        //af.Read( iss );
-        //af.Print( _os );
-        //if( pstyle == Printer::CONDENSED_STYLE )
-        //  {
-        //  os << "]";
-        //  }
-        }
-      if( dataElement1.GetTag().GetElement() == 0x0 )
-        {
-        os << " (" << gd.GetName(dataElement1.GetTag().GetGroup() )
-          << ") " << entry.GetName() << std::endl;
-        }
-      else
-        {
-        const char *name = entry.GetName();
-        if( name && *name )
-          {
-          os << " " << name << std::endl;
-          }
-        else
-          {
-          //assert( strowner );
-          os << " FIXME: " << owner << std::endl;
-          }
-        }
-      }
-    }
-  //catch(std::exception &e)
-  //  {
-  //  std::cerr << "Exception:" << typeid(e).name() << std::endl;
-  //  }
 }
 
 //-----------------------------------------------------------------------------

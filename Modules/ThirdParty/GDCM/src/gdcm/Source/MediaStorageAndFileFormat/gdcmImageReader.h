@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -24,7 +23,7 @@ namespace gdcm
 class MediaStorage;
 /**
  * \brief ImageReader
- * \note its role is to convert the DICOM DataSet into a gdcm::Image
+ * \note its role is to convert the DICOM DataSet into a Image
  * representation
  * Image is different from Pixmap has it has a position and a direction in
  * Space.
@@ -35,13 +34,13 @@ class GDCM_EXPORT ImageReader : public PixmapReader
 {
 public:
   ImageReader();
-  ~ImageReader();
+  virtual ~ImageReader();//needs to be virtual to ensure lack of memory leaks
 
   /// Read the DICOM image. There are two reason for failure:
   /// 1. The input filename is not DICOM
   /// 2. The input DICOM file does not contains an Image.
 
-  bool Read();
+  virtual bool Read();
 
   // Following methods are valid only after a call to 'Read'
 

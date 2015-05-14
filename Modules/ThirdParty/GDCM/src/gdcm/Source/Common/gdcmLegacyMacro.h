@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -20,7 +19,6 @@
 #endif
 
 #include "gdcmException.h"
-#include "gdcmTrace.h"
 
 //----------------------------------------------------------------------------
 // Setup legacy code policy.
@@ -74,5 +72,6 @@
   gdcmWarningMacro(#method " was deprecated for " version " and will be removed in a future version.  Use " #replace " instead.")
 #endif
 
+#include "gdcmTrace.h"
 
 #endif // GDCMLEGACYMACRO_H

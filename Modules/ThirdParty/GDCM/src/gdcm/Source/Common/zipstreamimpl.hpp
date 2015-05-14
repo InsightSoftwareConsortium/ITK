@@ -121,7 +121,7 @@ basic_zip_streambuf<charT, traits>::overflow(int_type c)
     int w = static_cast<int>(this->pptr() - this->pbase());
     if (c != EOF)
     {
-        *this->pptr() = c;
+        *this->pptr() = (char)c;
         ++w;
     }
     if (zip_to_stream(this->pbase(), w))
@@ -166,8 +166,11 @@ std::streamsize basic_zip_streambuf<charT, traits>::flush(void)
             if((remainder = written_byte_size%sizeof(char_type)) != 0)
             {
                 // copy to the beginning of the stream
+				std::streamsize theDiff = written_byte_size-remainder;
+				//assert (theDiff > 0 && theDiff < std::numeric_limits<unsigned int>::max());
+
                 memcpy(&(_output_buffer[0]),
-                       &(_output_buffer[written_byte_size-remainder]), remainder);
+                       &(_output_buffer[(unsigned int)theDiff]), remainder);
 
             }
 
@@ -269,8 +272,10 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
             if((remainder = written_byte_size % sizeof(char_type)) != 0)
             {
                 // copy to the beginning of the stream
+				std::streamsize theDiff = written_byte_size-remainder;
+				//assert(theDiff > 0 && theDiff < std::numeric_limits<unsigned int>::max());
                 memcpy(&_output_buffer[0],
-                       &_output_buffer[written_byte_size-remainder],
+                       &_output_buffer[(unsigned int)theDiff],
                        remainder);
             }
 
@@ -353,7 +358,7 @@ basic_unzip_streambuf<charT, traits>::underflow(void)
            this->gptr() - n_putback,
            n_putback * sizeof(char_type));
 
-    int num =
+    std::streamsize num =
         unzip_from_stream(&_buffer[0] + 4,
                           static_cast<std::streamsize>((_buffer.size() - 4) *
                                                        sizeof(char_type)));
@@ -470,9 +475,11 @@ basic_unzip_streambuf<charT, traits>::unzip_from_stream(char_type* buffer,
     }
     while(_err==Z_OK && _zip_stream.avail_out != 0 && count != 0);
 
+	std::streamsize theSize = buffer_size - ((std::streamsize)_zip_stream.avail_out) / sizeof(char_type);
+//	assert (theSize >= 0 && theSize < std::numeric_limits<uInt>::max());
+
     // updating crc
-    _crc = crc32(_crc, (byte_buffer_type) buffer,
-                 (uInt)(buffer_size - _zip_stream.avail_out / sizeof(char_type)));
+    _crc = crc32(_crc, (byte_buffer_type) buffer,(uInt)theSize);
 
     std::streamsize n_read =
         buffer_size - _zip_stream.avail_out / sizeof(char_type);
@@ -495,16 +502,16 @@ basic_unzip_streambuf<charT, traits>::fill_input_buffer(void)
     _istream.read((char_type*) &_input_buffer[0],
                   static_cast<std::streamsize>(_input_buffer.size() /
                                                sizeof(char_type)));
-    size_t nbytesread = _istream.gcount()*sizeof(char_type);
+    std::streamsize nbytesread = _istream.gcount()*sizeof(char_type);
     if( !_istream )
       {
       if( _istream.eof() )
         {
         // Ok so we reached the end of file, since we did not read no header
-        // we have to explicitely tell zlib the compress stream ends, therefore
+        // we have to explicitly tell zlib the compress stream ends, therefore
         // we add an extra \0 character...it may not always be needed...
-        assert( nbytesread < _input_buffer.size() / sizeof(char_type) );
-        _input_buffer[ nbytesread ] = 0;
+        assert( nbytesread < (std::streamsize)(_input_buffer.size() / sizeof(char_type)) );
+        _input_buffer[ (unsigned int)nbytesread ] = 0;
         ++nbytesread;
         }
       }
@@ -624,14 +631,14 @@ basic_zip_ostream<charT,traits>& basic_zip_ostream<charT, traits>::add_footer(vo
     unsigned long crc = this->get_crc();
     for(int n=0;n<4;++n)
     {
-        this->get_ostream().put((int)(crc & 0xff));
+        this->get_ostream().put((char)(crc & 0xff));
         crc >>= 8;
     }
 
     unsigned long length = this->get_in_size();
     for(int m=0;m<4;++m)
     {
-        this->get_ostream().put((int)(length & 0xff));
+        this->get_ostream().put((char)(length & 0xff));
         length >>= 8;
     }
 

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -39,7 +38,7 @@ class StringFilter;
  * DICOM Attribute.
  *
  * This filter is dealing with both VRASCII and VRBINARY element, thanks to the
- * help of gdcm::StringFilter
+ * help of StringFilter
  *
  * \warning IMPORTANT In case of file where tags are not ordered (illegal as
  * per DICOM specification), the output will be missing information
@@ -108,6 +107,11 @@ public:
   /// Get all the values found (in lexicographic order) associated with Tag 't'
   ValuesType GetValues(Tag const &t) const;
 
+  /// Get all the values found (in a vector) associated with Tag 't'
+  /// This function is identical to GetValues, but is accessible from the wrapped
+  /// layer (python, C#, java)
+  Directory::FilenamesType GetOrderedValues(Tag const &t) const;
+
   /* ltstr is CRITICAL, otherwise pointers value are used to do the key comparison */
   struct ltstr
     {
@@ -131,6 +135,10 @@ public:
   /// Will loop over all files and return the first file where value match the reference value
   /// 'valueref'
   const char *GetFilenameFromTagToValue(Tag const &t, const char *valueref) const;
+
+  /// Will loop over all files and return a vector of std::strings of filenames
+  /// where value match the reference value 'valueref'
+  Directory::FilenamesType GetAllFilenamesFromTagToValue(Tag const &t, const char *valueref) const;
 
   /// See GetFilenameFromTagToValue(). This is simply GetFilenameFromTagToValue followed
   // by a call to GetMapping()
@@ -170,7 +178,7 @@ inline std::ostream& operator<<(std::ostream &os, const Scanner &s)
   return os;
 }
 
-#if defined(SWIGPYTHON) || defined(SWIGCSHARP) || defined(SWIGJAVA)
+#if defined(SWIGPYTHON) || defined(SWIGCSHARP) || defined(SWIGJAVA) || defined(SWIGPHP)
 /*
  * HACK: I need this temp class to be able to manipulate a std::map from python,
  * swig does not support wrapping of simple class like std::map...
@@ -193,7 +201,7 @@ private:
 
 /**
  * \example ScanDirectory.cs
- * This is a C# example on how to use gdcm::Scanner
+ * This is a C# example on how to use Scanner
  */
 
 } // end namespace gdcm

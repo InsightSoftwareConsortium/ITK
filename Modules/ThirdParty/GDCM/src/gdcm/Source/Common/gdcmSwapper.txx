@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -15,11 +14,65 @@
 #ifndef GDCMSWAPPER_TXX
 #define GDCMSWAPPER_TXX
 
-#ifdef GDCM_HAVE_BYTESWAP_H
-// TODO: not cross platform...
-#include <byteswap.h>
-#endif
+#if defined(_MSC_VER)
+
+// http://msdn.microsoft.com/en-us/library/a3140177
 #include <stdlib.h>
+#define bswap_16(X) _byteswap_ushort(X)
+#define bswap_32(X) _byteswap_ulong(X)
+#define bswap_64(X) _byteswap_uint64(X)
+
+#elif defined(__GLIBC__) || defined(__CYGWIN__) // linux and al
+
+#include <endian.h>
+#include <byteswap.h>
+
+#elif defined(__APPLE__)
+
+#include <machine/endian.h>
+#include <libkern/OSByteOrder.h>
+#define bswap_16(X) OSSwapInt16(X)
+#define bswap_32(X) OSSwapInt32(X)
+#define bswap_64(X) OSSwapInt64(X)
+
+#elif defined(__FreeBSD__) || defined(__DragonFly__) || defined(__NetBSD__)
+
+#include <sys/endian.h>
+#define bswap_16(X) bswap16(X)
+#define bswap_32(X) bswap32(X)
+#define bswap_64(X) bswap64(X)
+
+#elif defined(__OpenBSD__)
+
+#include <machine/endian.h>
+#define bswap_16(X) swap16(X)
+#define bswap_32(X) swap32(X)
+#define bswap_64(X) swap64(X)
+
+#elif defined(__MINGW32__)
+
+// https://www.gnu.org/software/gnulib/manual/html_node/bswap_005f16.html
+// -> This function is missing on some platforms: Mac OS X 10.5, FreeBSD 6.0,
+// NetBSD 5.0, OpenBSD 3.8, Minix 3.1.8, AIX 5.1, HP-UX 11, IRIX 6.5, OSF/1
+// 5.1, Solaris 11 2011-11, Cygwin, mingw, MSVC 9, Interix 3.5, BeOS.
+//#pragma message ("Fallback on defaults functions for bswap_*")
+
+# define bswap_16(x) ((((x) & 0x00FF) << 8) | \
+                      (((x) & 0xFF00) >> 8))
+# define bswap_32(x) ((((x) & 0x000000FF) << 24) | \
+                      (((x) & 0x0000FF00) << 8) | \
+                      (((x) & 0x00FF0000) << 8) | \
+                      (((x) & 0xFF000000) >> 24))
+# define bswap_64(x) ((((x) & 0x00000000000000FFULL) << 56) | \
+                      (((x) & 0x000000000000FF00ULL) << 40) | \
+                      (((x) & 0x0000000000FF0000ULL) << 24) | \
+                      (((x) & 0x00000000FF000000ULL) << 8) | \
+                      (((x) & 0x000000FF00000000ULL) >> 8) | \
+                      (((x) & 0x0000FF0000000000ULL) >> 24) | \
+                      (((x) & 0x00FF000000000000ULL) >> 40) | \
+                      (((x) & 0xFF00000000000000ULL) >> 56))
+
+#endif
 
 #include "gdcmTag.h"
 
@@ -30,11 +83,7 @@ namespace gdcm
 #ifdef GDCM_WORDS_BIGENDIAN
   template <> inline uint16_t SwapperNoOp::Swap<uint16_t>(uint16_t val)
     {
-#ifdef GDCM_HAVE_BYTESWAP_H
     return bswap_16(val);
-#else
-    return (val>>8) | (val<<8);
-#endif
     }
   template <> inline int16_t SwapperNoOp::Swap<int16_t>(int16_t val)
     {
@@ -43,13 +92,7 @@ namespace gdcm
 
   template <> inline uint32_t SwapperNoOp::Swap<uint32_t>(uint32_t val)
     {
-#ifdef GDCM_HAVE_BYTESWAP_H
     return bswap_32(val);
-#else
-    val= ((val<<8)&0xFF00FF00) | ((val>>8)&0x00FF00FF);
-    val= (val>>16) | (val<<16);
-    return val;
-#endif
     }
   template <> inline int32_t SwapperNoOp::Swap<int32_t>(int32_t val)
     {
@@ -61,13 +104,7 @@ namespace gdcm
     }
   template <> inline uint64_t SwapperNoOp::Swap<uint64_t>(uint64_t val)
     {
-#ifdef GDCM_HAVE_BYTESWAP_H
     return bswap_64(val);
-#else
-    val= ((val<< 8)&0xFF00FF00FF00FF00ULL) | ((val>> 8)&0x00FF00FF00FF00FFULL);
-    val= ((val<<16)&0xFFFF0000FFFF0000ULL) | ((val>>16)&0x0000FFFF0000FFFFULL);
-    return (val>>32) | (val<<32);
-#endif
     }
   template <> inline int64_t SwapperNoOp::Swap<int64_t>(int64_t val)
     {
@@ -112,11 +149,7 @@ namespace gdcm
 #else
   template <> inline uint16_t SwapperDoOp::Swap<uint16_t>(uint16_t val)
     {
-#ifdef GDCM_HAVE_BYTESWAP_H
     return bswap_16(val);
-#else
-    return (val>>8) | (val<<8);
-#endif
     }
   template <> inline int16_t SwapperDoOp::Swap<int16_t>(int16_t val)
     {
@@ -125,13 +158,7 @@ namespace gdcm
 
   template <> inline uint32_t SwapperDoOp::Swap<uint32_t>(uint32_t val)
     {
-#ifdef GDCM_HAVE_BYTESWAP_H
     return bswap_32(val);
-#else
-    val= ((val<<8)&0xFF00FF00) | ((val>>8)&0x00FF00FF);
-    val= (val>>16) | (val<<16);
-    return val;
-#endif
     }
   template <> inline int32_t SwapperDoOp::Swap<int32_t>(int32_t val)
     {
@@ -143,13 +170,7 @@ namespace gdcm
     }
   template <> inline uint64_t SwapperDoOp::Swap<uint64_t>(uint64_t val)
     {
-#ifdef GDCM_HAVE_BYTESWAP_H
     return bswap_64(val);
-#else
-    val= ((val<< 8)&0xFF00FF00FF00FF00ULL) | ((val>> 8)&0x00FF00FF00FF00FFULL);
-    val= ((val<<16)&0xFFFF0000FFFF0000ULL) | ((val>>16)&0x0000FFFF0000FFFFULL);
-    return (val>>32) | (val<<32);
-#endif
     }
   template <> inline int64_t SwapperDoOp::Swap<int64_t>(int64_t val)
     {

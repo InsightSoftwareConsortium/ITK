@@ -1,30 +1,40 @@
 #-----------------------------------------------------------------------------
 # Rebuild gdcm whenever a file starting with gdcm* is modified
-INCLUDE_REGULAR_EXPRESSION("^gdcm.*$")
+include_regular_expression("^gdcm.*$")
 
 # configure the .h file
-OPTION(GDCM_SUPPORT_BROKEN_IMPLEMENTATION "Handle broken DICOM" ON)
-OPTION(GDCM_WRITE_ODD_LENGTH "Do not change" OFF)
-MARK_AS_ADVANCED(
+option(GDCM_ALWAYS_TRACE_MACRO "When set to ON, gdcm::Trace macros will dumps message (override NDEBUG settings)" OFF)
+option(GDCM_SUPPORT_BROKEN_IMPLEMENTATION "Handle broken DICOM" ON)
+mark_as_advanced(
+  GDCM_ALWAYS_TRACE_MACRO
   GDCM_SUPPORT_BROKEN_IMPLEMENTATION
-  GDCM_WRITE_ODD_LENGTH
+  GDCM_AUTOLOAD_GDCMJNI
   )
 
-#IF(WIN32)
-#  IF (BUILD_SHARED_LIBS)
-#    ADD_DEFINITIONS(-DPOLARSSL_DLL)
-#  ENDIF (BUILD_SHARED_LIBS)
-#ENDIF(WIN32)
+#if(WIN32)
+#  if (BUILD_SHARED_LIBS)
+#    add_definitions(-DPOLARSSL_DLL)
+#  endif ()
+#endif()
 
 
 CHECK_INCLUDE_FILE_CONCAT("sys/time.h"     GDCM_HAVE_SYS_TIME_H)
 CHECK_INCLUDE_FILE_CONCAT("winsock.h"       GDCM_HAVE_WINSOCK_H)
-CHECK_INCLUDE_FILE_CONCAT("byteswap.h"       GDCM_HAVE_BYTESWAP_H)
+CHECK_INCLUDE_FILE_CONCAT("byteswap.h"       GDCM_HAVE_BYTESWAP_FILE_H)
+# see bug #324
+if(GDCM_HAVE_BYTESWAP_FILE_H)
+  include(CheckCXXSourceCompiles)
+  CHECK_CXX_SOURCE_COMPILES(
+    "\#include <byteswap.h>\nint main() { return bswap_32( 42 ); }"
+    GDCM_HAVE_BYTESWAP_H)
+endif()
 CHECK_INCLUDE_FILE("rpc.h"       GDCM_HAVE_RPC_H)
+CHECK_INCLUDE_FILE("langinfo.h"       GDCM_HAVE_LANGINFO_H)
 
-INCLUDE(CheckFunctionExists)
+include(CheckFunctionExists)
 # See http://public.kitware.com/Bug/view.php?id=8246
-INCLUDE(CheckSymbolExists)
+include(CheckSymbolExists)
+CHECK_SYMBOL_EXISTS(nl_langinfo "langinfo.h" GDCM_HAVE_NL_LANGINFO)
 #C99
 #CHECK_FUNCTION_EXISTS(strcasecmp  GDCM_HAVE_STRCASECMP)
 CHECK_SYMBOL_EXISTS(strcasecmp "strings.h" GDCM_HAVE_STRCASECMP)
@@ -32,21 +42,26 @@ CHECK_SYMBOL_EXISTS(strcasecmp "strings.h" GDCM_HAVE_STRCASECMP)
 CHECK_SYMBOL_EXISTS(strncasecmp "strings.h" GDCM_HAVE_STRNCASECMP)
 #CHECK_FUNCTION_EXISTS(snprintf    GDCM_HAVE_SNPRINTF)
 CHECK_SYMBOL_EXISTS(snprintf "stdio.h"    GDCM_HAVE_SNPRINTF)
+#CHECK_SYMBOL_EXISTS(strptime "time.h"    GDCM_HAVE_STRPTIME)
+CHECK_FUNCTION_EXISTS(strptime    GDCM_HAVE_STRPTIME)
 #M$ extension:
 CHECK_FUNCTION_EXISTS(_stricmp    GDCM_HAVE__STRICMP)
 CHECK_FUNCTION_EXISTS(_strnicmp   GDCM_HAVE__STRNICMP)
 CHECK_FUNCTION_EXISTS(_snprintf   GDCM_HAVE__SNPRINTF)
 
-#INCLUDE(CheckSymbolExists)
+#include(CheckSymbolExists)
 CHECK_FUNCTION_EXISTS(gettimeofday GDCM_HAVE_GETTIMEOFDAY)
 
-INCLUDE(CheckCXXSourceCompiles)
+include(CheckCXXSourceCompiles)
+CHECK_CXX_SOURCE_COMPILES(
+  "int main() { const char *f = __FUNCTION__; return 0;}"
+  GDCM_CXX_HAS_FUNCTION)
 CHECK_CXX_SOURCE_COMPILES(
   "\#include <fstream>\nint main() { const wchar_t fn[10] = {}; std::ifstream is( fn ); return 0;}"
   GDCM_HAVE_WCHAR_IFSTREAM)
-IF(GDCM_USE_SYSTEM_OPENSSL)
-SET(CMAKE_REQUIRED_INCLUDES ${OPENSSL_INCLUDE_DIR})
-SET(CMAKE_REQUIRED_LIBRARIES ${OPENSSL_LIBRARIES}
+if(GDCM_USE_SYSTEM_OPENSSL)
+set(CMAKE_REQUIRED_INCLUDES ${OPENSSL_INCLUDE_DIR})
+set(CMAKE_REQUIRED_LIBRARIES ${OPENSSL_LIBRARIES}
   ${CMAKE_DL_LIBS} # FIXME ??
   )
 CHECK_CXX_SOURCE_COMPILES(
@@ -54,22 +69,22 @@ CHECK_CXX_SOURCE_COMPILES(
   #HAVE_CMS_RECIPIENT_KEY)
     "\#include <openssl/cms.h>\nint main() { CMS_add0_recipient_password(0,0,0,0,0,0,0); return 0;}"
   GDCM_HAVE_CMS_RECIPIENT_PASSWORD)
-ENDIF(GDCM_USE_SYSTEM_OPENSSL)
+endif()
 
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
-OPTION(GDCM_LEGACY_REMOVE "Remove all legacy code completely." OFF)
-OPTION(GDCM_LEGACY_SILENT "Silence all legacy code messages." OFF)
-MARK_AS_ADVANCED(GDCM_LEGACY_REMOVE GDCM_LEGACY_SILENT)
+option(GDCM_LEGACY_REMOVE "Remove all legacy code completely." OFF)
+option(GDCM_LEGACY_SILENT "Silence all legacy code messages." OFF)
+mark_as_advanced(GDCM_LEGACY_REMOVE GDCM_LEGACY_SILENT)
 
 
-CONFIGURE_FILE(
+configure_file(
   "${GDCM_SOURCE_DIR}/Source/Common/gdcmConfigure.h.in"
   "${GDCM_BINARY_DIR}/Source/Common/gdcmConfigure.h"
   )
 
 # Add the include paths
-INCLUDE_DIRECTORIES(
+include_directories(
   "${GDCM_BINARY_DIR}/Source/Common"
   "${GDCM_SOURCE_DIR}/Source/Common"
   "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition"
@@ -80,33 +95,41 @@ INCLUDE_DIRECTORIES(
   "${GDCM_SOURCE_DIR}/Utilities"
   )
 
-IF(GDCM_BUILD_TESTING)
-INCLUDE_DIRECTORIES(
+if(GDCM_BUILD_TESTING)
+include_directories(
   "${GDCM_BINARY_DIR}/Utilities/gdcmmd5"
 )
-ENDIF(GDCM_BUILD_TESTING)
+endif()
 
-IF(NOT GDCM_USE_SYSTEM_ZLIB)
-INCLUDE_DIRECTORIES(
+if(NOT GDCM_USE_SYSTEM_ZLIB)
+include_directories(
   "${GDCM_BINARY_DIR}/Utilities/gdcmzlib"
 )
-ENDIF(NOT GDCM_USE_SYSTEM_ZLIB)
-#IF(NOT GDCM_USE_SYSTEM_POLARSSL)
-#INCLUDE_DIRECTORIES(
+endif()
+#if(NOT GDCM_USE_SYSTEM_POLARSSL)
+#include_directories(
 #  "${GDCM_SOURCE_DIR}/Utilities/gdcmpolarssl/include"
 #)
-#ENDIF(NOT GDCM_USE_SYSTEM_POLARSSL)
+#endif()
 
-SET(Common_SRCS
+set(Common_SRCS
   gdcmVersion.cxx
+  gdcmRegion.cxx
+  gdcmBoxRegion.cxx
   gdcmEvent.cxx
+  gdcmDataEvent.cxx
   gdcmProgressEvent.cxx
+  gdcmFileNameEvent.cxx
   gdcmCommand.cxx
   gdcmMD5.cxx
   gdcmBase64.cxx
   gdcmSHA1.cxx
   gdcmDummyValueGenerator.cxx
+  #gdcmCryptographicMessageSyntax.cxx
+
   gdcmCryptographicMessageSyntax.cxx
+  gdcmCryptoFactory.cxx
+
   gdcmASN1.cxx
   gdcmObject.cxx
   gdcmSubject.cxx
@@ -124,60 +147,71 @@ SET(Common_SRCS
   gdcmUnpacker12Bits.cxx
   )
 
-IF(GDCM_BUILD_TESTING)
-SET(Common_SRCS ${Common_SRCS}
+if(WIN32)
+set(Common_SRCS ${Common_SRCS}
+  gdcmCAPICryptographicMessageSyntax.cxx
+  gdcmCAPICryptoFactory.cxx
+)
+endif()
+
+if(GDCM_USE_SYSTEM_OPENSSL)
+set(Common_SRCS ${Common_SRCS}
+  gdcmOpenSSLP7CryptoFactory.cxx
+  gdcmOpenSSLP7CryptographicMessageSyntax.cxx
+)
+endif()
+
+if(GDCM_USE_SYSTEM_OPENSSL AND GDCM_HAVE_CMS_RECIPIENT_PASSWORD)
+set(Common_SRCS ${Common_SRCS}
+  gdcmOpenSSLCryptoFactory.cxx
+  gdcmOpenSSLCryptographicMessageSyntax.cxx
+)
+endif()
+
+if(GDCM_BUILD_TESTING)
+set(Common_SRCS ${Common_SRCS}
   gdcmTesting.cxx
 )
-ENDIF(GDCM_BUILD_TESTING)
+endif()
 
-ADD_LIBRARY(gdcmCommon ${Common_SRCS})
+add_library(gdcmCommon ${Common_SRCS})
 
-#TARGET_LINK_LIBRARIES(gdcmCommon ${GDCM_ZLIB_LIBRARIES}) # ${GDCM_POLARSSL_LIBRARIES})
-IF(GDCM_BUILD_TESTING)
-TARGET_LINK_LIBRARIES(gdcmCommon gdcmmd5 )
-ENDIF(GDCM_BUILD_TESTING)
-IF(APPLE)
-  TARGET_LINK_LIBRARIES(gdcmCommon ${COREFOUNDATION_LIBRARY})
-ENDIF(APPLE)
-IF(UNIX AND ITK_DYNAMIC_LOADING)
-  TARGET_LINK_LIBRARIES(gdcmCommon ${CMAKE_DL_LIBS})
-ENDIF()
+#target_link_libraries(gdcmCommon ${GDCM_ZLIB_LIBRARIES}) # ${GDCM_POLARSSL_LIBRARIES})
+if(GDCM_BUILD_TESTING)
+target_link_libraries(gdcmCommon gdcmmd5 )
+endif()
+if(APPLE)
+  target_link_libraries(gdcmCommon ${COREFOUNDATION_LIBRARY})
+endif()
+if(UNIX AND ITK_DYNAMIC_LOADING)
+  target_link_libraries(gdcmCommon ${CMAKE_DL_LIBS})
+endif()
 
-IF(WIN32)
-  TARGET_LINK_LIBRARIES(gdcmCommon ws2_32)
-ENDIF(WIN32)
+if(WIN32)
+  target_link_libraries(gdcmCommon ws2_32)
+  target_link_libraries(gdcmCommon crypt32)
+endif()
 
-IF(GDCM_USE_SYSTEM_OPENSSL)
-  INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
-  TARGET_LINK_LIBRARIES(gdcmCommon ${OPENSSL_LIBRARIES})
-ENDIF(GDCM_USE_SYSTEM_OPENSSL)
+if(GDCM_USE_SYSTEM_OPENSSL)
+  include_directories(${OPENSSL_INCLUDE_DIR})
+  target_link_libraries(gdcmCommon ${OPENSSL_LIBRARIES})
+endif()
+set_target_properties(gdcmCommon PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
+if(BUILD_SHARED_LIBS)
+  set_target_properties(gdcmCommon PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
+endif()
 
-SET_TARGET_PROPERTIES(gdcmCommon PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
-IF(BUILD_SHARED_LIBS)
-  SET_TARGET_PROPERTIES(gdcmCommon PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
-ENDIF()
+# libs
+install_library(gdcmCommon)
+# PDB
+install_pdb(gdcmCommon)
+# include files
+install_includes("*.h" "*.txx")
 
-IF(NOT GDCM_INSTALL_NO_LIBRARIES)
-  # Runtime
-  INSTALL(TARGETS gdcmCommon
-    EXPORT ${GDCM_TARGETS_NAME}
-    RUNTIME DESTINATION ${GDCM_INSTALL_BIN_DIR} COMPONENT Applications
-    LIBRARY DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Libraries ${NAMELINK_SKIP}
-    ARCHIVE DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Development
-  )
-  #Development
-  if(NAMELINK_ONLY)
-    INSTALL(TARGETS gdcmCommon
-      EXPORT ${GDCM_TARGETS_NAME}
-      LIBRARY DESTINATION ${GDCM_INSTALL_LIB_DIR} COMPONENT Development ${NAMELINK_ONLY}
-    )
-  endif(NAMELINK_ONLY)
-ENDIF(NOT GDCM_INSTALL_NO_LIBRARIES)
-
-IF(NOT GDCM_INSTALL_NO_DEVELOPMENT)
-  FILE(GLOB header_files "*.h" "*.txx")
-  INSTALL(FILES ${header_files}
+# Install generated files
+if(NOT GDCM_INSTALL_NO_DEVELOPMENT)
+  install(FILES ${header_files}
     "${GDCM_BINARY_DIR}/Source/Common/gdcmConfigure.h"
     DESTINATION ${GDCM_INSTALL_INCLUDE_DIR} COMPONENT Headers
-  )
-ENDIF(NOT GDCM_INSTALL_NO_DEVELOPMENT)
+    )
+endif()

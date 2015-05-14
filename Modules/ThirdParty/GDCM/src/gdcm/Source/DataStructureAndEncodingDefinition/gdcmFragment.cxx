@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -14,7 +13,25 @@
 =========================================================================*/
 #include "gdcmFragment.h"
 
-namespace gdcm
+namespace gdcm_ns
 {
 
-} // end namespace gdcm
+VL Fragment::GetLength() const
+{
+  assert( !ValueLengthField.IsUndefined() );
+  assert( !ValueField || ValueField->GetLength() == ValueLengthField );
+  return TagField.GetLength() + ValueLengthField.GetLength()
+    + ValueLengthField;
+}
+
+VL Fragment::ComputeLength() const
+{
+  const ByteValue *bv = GetByteValue();
+  assert( bv );
+  assert( !ValueLengthField.IsUndefined() );
+  //assert( !ValueField || ValueField->GetLength() == ValueLengthField );
+  return TagField.GetLength() + ValueLengthField.GetLength()
+    + bv->ComputeLength() /*ValueLengthField*/;
+}
+
+} // end namespace gdcm_ns

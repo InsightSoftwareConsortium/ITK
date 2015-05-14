@@ -37,7 +37,7 @@
  * Force inclusion of SVID stuff since we need it if we're compiling in
  * gcc-wall wall mode
  */
-/*#define _SVID_SOURCE*/
+#define _SVID_SOURCE
 
 #include <stdio.h>
 #ifdef HAVE_UNISTD_H
@@ -133,11 +133,6 @@ ssize_t read(int fd, void *buf, size_t count)
   return -1;
 }
 #endif
-
-int uuid_gettimeofday(struct timeval *tv, struct timezone *tz)
-{
-  return gettimeofday(tv,tz);
-}
 
 static int get_random_fd(void)
 {

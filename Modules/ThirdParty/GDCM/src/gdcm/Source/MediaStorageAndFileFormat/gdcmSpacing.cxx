@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -13,7 +12,6 @@
 
 =========================================================================*/
 #include "gdcmSpacing.h"
-#include <math.h>
 
 namespace gdcm
 {
@@ -83,13 +81,12 @@ double frap(double frac[2], double startx, double maxden = 10 )
   /* first try zero */
   //printf("%ld/%ld, error = %e\n", m[0][0], m[1][0],
   //  startx - ((double) m[0][0] / (double) m[1][0]));
-  frac[0] = m[0][0];
-  frac[1] = m[1][0];
+  frac[0] = (double)m[0][0];
+  frac[1] = (double)m[1][0];
   const double error = startx - ((double) m[0][0] / (double) m[1][0]);
 
   /* now try other possibility */
-  //!!! Is this supposed to be truncated to a long integer from a double?
-  ai = (long)((maxden - (double)m[1][1]) / (double)m[1][0]);
+  ai = ((long)maxden - m[1][1]) / m[1][0];
   m[0][0] = m[0][0] * ai + m[0][1];
   m[1][0] = m[1][0] * ai + m[1][1];
   //printf("%ld/%ld, error = %e\n", m[0][0], m[1][0],

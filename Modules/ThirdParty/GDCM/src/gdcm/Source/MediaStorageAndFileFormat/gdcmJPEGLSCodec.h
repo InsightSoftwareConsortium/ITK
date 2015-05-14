@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -30,6 +29,7 @@ class JPEGLSInternals;
  */
 class GDCM_EXPORT JPEGLSCodec : public ImageCodec
 {
+friend class ImageRegionReader;
 public:
   JPEGLSCodec();
   ~JPEGLSCodec();
@@ -40,9 +40,13 @@ public:
   void SetBufferLength(unsigned long l) { BufferLength = l; }
 
   bool Decode(DataElement const &is, DataElement &os);
+  bool Decode(DataElement const &in, char* outBuffer, size_t inBufferLength,
+              uint32_t inXMin, uint32_t inXMax, uint32_t inYMin,
+              uint32_t inYMax, uint32_t inZMin, uint32_t inZMax);
   bool Code(DataElement const &in, DataElement &out);
 
   bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
+  virtual ImageCodec * Clone() const;
 
   void SetLossless(bool l);
   bool GetLossless() const;
@@ -60,9 +64,27 @@ public:
   /// [0-3] generally
   void SetLossyError(int error);
 
+protected:
+  bool DecodeExtent(
+    char *buffer,
+    unsigned int xmin, unsigned int xmax,
+    unsigned int ymin, unsigned int ymax,
+    unsigned int zmin, unsigned int zmax,
+    std::istream & is
+  );
+
+  bool StartEncode( std::ostream & );
+  bool IsRowEncoder();
+  bool IsFrameEncoder();
+  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen );
+  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen );
+  bool StopEncode( std::ostream & );
+
 private:
+  bool DecodeByStreamsCommon(char *buffer, size_t totalLen, std::vector<unsigned char> &rgbyteOut);
+  bool CodeFrameIntoBuffer(char * outdata, size_t outlen, size_t & complen, const char * indata, size_t inlen );
+
   unsigned long BufferLength;
-  bool Lossless;
   int LossyError;
 };
 

@@ -1,9 +1,8 @@
 /*=========================================================================
 
   Program: GDCM (Grassroots DICOM). A DICOM library
-  Module:  $URL$
 
-  Copyright (c) 2006-2010 Mathieu Malaterre
+  Copyright (c) 2006-2011 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -35,6 +34,12 @@ public:
   bool Code(DataElement const &in, DataElement &out);
 
   bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
+  virtual ImageCodec * Clone() const;
+
+  /// Used by the ImageStreamReader-- converts a read in 
+  /// buffer into one with the proper encodings.
+  bool DecodeBytes(const char* inBytes, size_t inBufferLength,
+    char* outBytes, size_t inOutBufferLength);
 
 protected:
   bool DecodeByStreams(std::istream &is, std::ostream &os);
@@ -45,4 +50,4 @@ private:
 
 } // end namespace gdcm
 
-#endif //__gdcmRAWcodec_h
+#endif // GDCMRAWCODEC_H
