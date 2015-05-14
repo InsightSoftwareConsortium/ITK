@@ -2,6 +2,7 @@
 #define __itkLabelSetMorphBaseImageFilter_h
 
 #include "itkNumericTraits.h"
+#include "itkImageToImageFilter.h"
 
 namespace itk
 {
