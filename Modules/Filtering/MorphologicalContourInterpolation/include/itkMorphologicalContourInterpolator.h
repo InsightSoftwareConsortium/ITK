@@ -2,6 +2,8 @@
 #define __itkMorphologicalContourInterpolator_h
 
 #include "itkImageToImageFilter.h"
+#include <map>
+#include <array>
 
 namespace itk
 {
@@ -38,6 +40,15 @@ protected:
   /** Does the real work. */
   virtual void
   GenerateData();
+
+  void
+  DetermineSliceOrientations();
+
+  typedef unsigned long long                            CountType;
+  typedef std::array<CountType, TImage::ImageDimension> OrientationType;
+  // add bounding box
+  typedef std::map<typename TImage::PixelType, OrientationType> OrientationsType;
+  OrientationsType                                              m_Orientations;
 
 private:
   MorphologicalContourInterpolator(const Self &); // purposely not implemented
