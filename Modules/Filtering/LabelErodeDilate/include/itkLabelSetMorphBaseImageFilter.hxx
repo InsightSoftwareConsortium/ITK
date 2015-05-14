@@ -11,7 +11,6 @@
 
 #include "itkLabelSetUtils.h"
 
-#include "ioutils.h"
 
 namespace itk
 {
@@ -240,7 +239,11 @@ void
 LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
 ::writeDist(std::string fname)
 {
-  writeIm<DistanceImageType>(m_DistanceImage, fname);
+  typedef typename itk::ImageFileWriter<DistanceImageType> WriterType;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(m_DistanceImage);
+  writer->SetFileName(fname.c_str());
+  writer->Update();
 }
 
 } // namespace itk
