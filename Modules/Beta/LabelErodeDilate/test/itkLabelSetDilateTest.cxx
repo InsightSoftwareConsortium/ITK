@@ -26,7 +26,7 @@ int doDilate(char *In, char *Out, int radius)
 
   // Label dilation
   typedef typename itk::LabelSetDilateImageFilter<MaskImType, MaskImType> FilterType;
-  typename FilterType::pointer filter = FilterType::New();
+  typename FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetRadius(radius);
   filter->SetUseImageSpacing(true);
