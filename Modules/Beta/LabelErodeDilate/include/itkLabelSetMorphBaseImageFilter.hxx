@@ -10,8 +10,7 @@
 #include "itkImageLinearConstIteratorWithIndex.h"
 
 #include "itkLabelSetUtils.h"
-
-#include "ioutils.h"
+#include "itkImageFileWriter.h"
 
 namespace itk
 {
@@ -46,7 +45,9 @@ void
 LabelSetMorphBaseImageFilter<TInputImage, doDilate,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId)
 {
-
+  // stop warnings
+  (void)outputRegionForThread;
+  (void)threadId;
 }
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
@@ -240,7 +241,11 @@ void
 LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
 ::writeDist(std::string fname)
 {
-  writeIm<DistanceImageType>(m_DistanceImage, fname);
+  typedef typename  itk::ImageFileWriter<DistanceImageType> WriterType;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(m_DistanceImage);
+  writer->SetFileName(fname.c_str());
+  writer->Update();
 }
 
 } // namespace itk

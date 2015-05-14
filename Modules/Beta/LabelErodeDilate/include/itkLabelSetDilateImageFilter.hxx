@@ -28,7 +28,8 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>
   // line copy.
   // Similarly, the thresholding on output needs to be integrated
   // with the last processing stage.
-
+  // stop warnings about unused argument
+  (void)threadId;
   // compute the number of rows first, so we can setup a progress reporter
   typename std::vector< unsigned int > NumberOfRows;
   InputSizeType   size   = outputRegionForThread.GetSize();
@@ -56,7 +57,7 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>
   typedef ImageLinearIteratorWithIndex<DistanceImageType> OutputDistIteratorType;
 
   // for stages after the first
-  typedef ImageLinearConstIteratorWithIndex< TOutputImage  >  OutputConstIteratorType;
+  //typedef ImageLinearConstIteratorWithIndex< TOutputImage  >  OutputConstIteratorType;
 
 
   typedef ImageRegion< TInputImage::ImageDimension > RegionType;
