@@ -65,7 +65,7 @@ int itkLabelSetDilateTest(int argc, char * argv[])
 
   if (!readImageInfo(argv[1], &ComponentType, &dim1))
     {
-    std::cerr << "Failed to open " << CmdLineObj.InputIm << std::endl;
+    std::cerr << "Failed to open " << argv[1] << std::endl;
     return(EXIT_FAILURE);
     }
 
