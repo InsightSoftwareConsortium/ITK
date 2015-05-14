@@ -11,6 +11,21 @@ namespace itk
 {
 template <class TImage>
 void
+MorphologicalContourInterpolator<TImage>::ExpandRegion(typename TImage::RegionType & region,
+                                                       typename TImage::IndexType    index)
+{
+  for (int a = 0; a < TImage::ImageDimension; a++)
+  {
+    if (region.GetIndex(a) > index[a])
+      region.SetIndex(a, index[a]);
+    else if (region.GetIndex(a) + region.GetSize(a) < index[a])
+      region.SetSize(a, index[a] - region.GetIndex(a) + 1);
+    // else it is already within
+  }
+}
+
+template <class TImage>
+void
 MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 {
   typename TImage::ConstPointer input = this->GetInput();
@@ -25,9 +40,17 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   {
     typename TImage::IndexType indPrev, indNext, ind = it.GetIndex();
     typename TImage::PixelType val = input->GetPixel(ind);
-    if (val != 0)
+    if (val != 0 || (m_Label != 0 && val == m_Label))
     {
-      std::pair<OrientationsType::iterator, bool> res = m_Orientations.insert(make_pair(val, zeros));
+      typename TImage::RegionType bb1;
+      bb1.SetIndex(ind);
+      for (int a = 0; a < TImage::ImageDimension; a++)
+        bb1.SetSize(a, 1);
+      std::pair<BoundingBoxesType::iterator, bool> resBB = m_BoundingBoxes.insert(std::make_pair(val, bb1));
+      if (!resBB.second) // include this index in existing BB
+        ExpandRegion(resBB.first->second, ind);
+
+      std::pair<OrientationsType::iterator, bool> res = m_Orientations.insert(std::make_pair(val, zeros));
       OrientationsType::iterator                  oRef = res.first;
 
       for (int a = 0; a < TImage::ImageDimension; a++)
@@ -36,7 +59,7 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
         indPrev[a]--;
         indNext = ind;
         indNext[a]++;
-        if (region.IsInside(indPrev) && region.IsInside(indNext))
+        if (input->GetLargestPossibleRegion().IsInside(indPrev) && input->GetLargestPossibleRegion().IsInside(indNext))
         {
           if (input->GetPixel(indPrev) == 0 && input->GetPixel(indNext) == 0)
             oRef->second[a]++;
@@ -49,21 +72,25 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 
 template <class TImage>
 void
+MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, typename TImage::Pointer out)
+{}
+
+template <class TImage>
+void
 MorphologicalContourInterpolator<TImage>::GenerateData()
 {
   typename TImage::ConstPointer input = this->GetInput();
   typename TImage::Pointer      output = this->GetOutput();
   this->AllocateOutputs();
 
-  this->DetermineSliceOrientations();
-
-  ImageAlgorithm::Copy(
-    input.GetPointer(), output.GetPointer(), output->GetRequestedRegion(), output->GetRequestedRegion());
-
-  itk::Index<3>              cornerPixel = input->GetLargestPossibleRegion().GetIndex();
-  typename TImage::PixelType newValue = 3;
-
-  output->SetPixel(cornerPixel, newValue);
+  if (m_Axis == -1)
+  {
+    this->DetermineSliceOrientations();
+    // do more computation
+    // invoke interpolation along all axes then do median voting
+  }
+  else
+    InterpolateAlong(m_Axis, output);
 }
 } // namespace itk
 

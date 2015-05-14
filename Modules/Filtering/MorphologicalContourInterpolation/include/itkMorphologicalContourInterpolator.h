@@ -28,14 +28,28 @@ public:
   /** Which label is interpolated. 0 means all labels (default). */
   itkGetConstMacro(Label, typename TImage::PixelType);
 
+  /** Interpolate only along this axis. Interpolates along all axes if set to -1 (default). */
+  itkSetMacro(Axis, int);
+
+  /** Axis of interpolation. -1 means interpolation along all axes (default). */
+  itkGetMacro(Axis, int);
+
+  /** Axis of interpolation. -1 means interpolation along all axes (default). */
+  itkGetConstMacro(Axis, int);
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MorphologicalContourInterpolator, ImageToImageFilter);
 
 protected:
-  MorphologicalContourInterpolator() { this->m_Label = 0; }
+  MorphologicalContourInterpolator()
+  {
+    this->m_Label = 0;
+    this->m_Axis = -1;
+  }
   ~MorphologicalContourInterpolator() {}
 
   typename TImage::PixelType m_Label;
+  int                        m_Axis;
 
   /** Does the real work. */
   virtual void
@@ -43,12 +57,20 @@ protected:
 
   void
   DetermineSliceOrientations();
+  void
+  InterpolateAlong(int axis, typename TImage::Pointer out);
 
-  typedef unsigned long long                            CountType;
-  typedef std::array<CountType, TImage::ImageDimension> OrientationType;
-  // add bounding box
+  typedef unsigned long long                                    CountType;
+  typedef std::array<CountType, TImage::ImageDimension>         OrientationType;
   typedef std::map<typename TImage::PixelType, OrientationType> OrientationsType;
-  OrientationsType                                              m_Orientations;
+
+  typedef std::map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
+  OrientationsType                                                          m_Orientations;
+  BoundingBoxesType                                                         m_BoundingBoxes;
+
+  // assumes both valid region and valid index
+  void
+  ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
 
 private:
   MorphologicalContourInterpolator(const Self &); // purposely not implemented
