@@ -4,6 +4,9 @@
 
 #include "itkLabelSetDilateImageFilter.h"
 
+int readImageInfo(std::string filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim);
+
+#include "read_info.h"
 
 template <class MaskPixType, int dim>
 int doDilate(char *In, char *Out, int radius)
