@@ -7,10 +7,10 @@
 namespace itk
 {
 #if     ITK_VERSION_MAJOR < 4
-        typedef int ThreadIdType;
-        typedef int RegionIndexType;
+typedef int ThreadIdType;
+typedef int RegionIndexType;
 #else
-        typedef unsigned int RegionIndexType;
+typedef unsigned int RegionIndexType;
 #endif
 /**
  * \class LabelSetMorphBaseImageFilter
@@ -23,18 +23,17 @@ namespace itk
  * \author Richard Beare, Department of Medicine, Monash University,
  * Australia.  <Richard.Beare@monash.edu>
 **/
-template <typename TInputImage, bool doDilate,
-          typename TOutputImage= TInputImage >
+template< typename TInputImage, bool doDilate,
+          typename TOutputImage = TInputImage >
 class ITK_EXPORT LabelSetMorphBaseImageFilter:
-    public ImageToImageFilter<TInputImage, TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
-
 public:
   /** Standard class typedefs. */
-  typedef LabelSetMorphBaseImageFilter  Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef LabelSetMorphBaseImageFilter                    Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -42,32 +41,32 @@ public:
   /** Runtime information support. */
   itkTypeMacro(LabelSetMorphBaseImageFilter, ImageToImageFilter);
 
-
   /** Pixel Type of the input image */
-  typedef TInputImage                                    InputImageType;
-  typedef TOutputImage                                   OutputImageType;
-  typedef typename TInputImage::PixelType                PixelType;
-  typedef typename NumericTraits<PixelType>::FloatType    RealType;
-  typedef typename TOutputImage::PixelType  OutputPixelType;
-  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
+  typedef TInputImage                                         InputImageType;
+  typedef TOutputImage                                        OutputImageType;
+  typedef typename TInputImage::PixelType                     PixelType;
+  typedef typename NumericTraits< PixelType >::FloatType      RealType;
+  typedef typename TOutputImage::PixelType                    OutputPixelType;
+  typedef typename NumericTraits< PixelType >::ScalarRealType ScalarRealType;
 
-  typedef typename OutputImageType::IndexType       OutputIndexType;
-  typedef typename OutputImageType::IndexValueType  OutputIndexValueType;
+  typedef typename OutputImageType::IndexType      OutputIndexType;
+  typedef typename OutputImageType::IndexValueType OutputIndexValueType;
 
   /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer  InputImagePointer;
-  typedef typename TInputImage::ConstPointer  InputImageConstPointer;
-  typedef typename TInputImage::SizeType    InputSizeType;
-  typedef typename TOutputImage::SizeType   OutputSizeType;
+  typedef typename TInputImage::Pointer      InputImagePointer;
+  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  typedef typename TInputImage::SizeType     InputSizeType;
+  typedef typename TOutputImage::SizeType    OutputSizeType;
 
   /** a type to represent the "kernel radius" */
-  typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
+  typedef typename itk::FixedArray< ScalarRealType, TInputImage::ImageDimension > RadiusType;
   /** Image dimension. */
 
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   // set all of the scales the same
   void SetRadius(ScalarRealType scale);
+
   itkSetMacro(Radius, RadiusType);
   itkGetConstReferenceMacro(Radius, RadiusType);
 
@@ -78,7 +77,6 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -96,35 +94,38 @@ public:
 
 protected:
   LabelSetMorphBaseImageFilter();
-  virtual ~LabelSetMorphBaseImageFilter() {};
+  virtual ~LabelSetMorphBaseImageFilter() {}
 
-  RegionIndexType SplitRequestedRegion(RegionIndexType i, RegionIndexType num, OutputImageRegionType& splitRegion) override;
-  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId) override;
-  void GenerateData( void ) override;
+  RegionIndexType SplitRequestedRegion(RegionIndexType i, RegionIndexType num,
+                                       OutputImageRegionType & splitRegion) override;
+
+  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                                    ThreadIdType threadId) override;
+
+  void GenerateData(void) override;
 
   // Override since the filter produces the entire dataset.
   void EnlargeOutputRequestedRegion(DataObject *output) override;
+
   bool m_UseImageSpacing;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   RadiusType m_Radius;
   RadiusType m_Scale;
-  typedef typename itk::Image<RealType, TInputImage::ImageDimension> DistanceImageType;
+  typedef typename itk::Image< RealType, TInputImage::ImageDimension > DistanceImageType;
   typename TInputImage::PixelType m_Extreme;
 
   typename DistanceImageType::Pointer m_DistanceImage;
-  int m_MagnitudeSign;
-  int m_CurrentDimension;
+  int  m_MagnitudeSign;
+  int  m_CurrentDimension;
   bool m_FirstPassDone;
   // this is the first non-zero entry in the radius. Needed to
   // support elliptical operations
   RealType m_BaseSigma;
 private:
-  LabelSetMorphBaseImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  LabelSetMorphBaseImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
