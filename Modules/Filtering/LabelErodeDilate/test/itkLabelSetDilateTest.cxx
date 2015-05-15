@@ -3,7 +3,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkLabelSetDilateImageFilter.h"
-#include "read_info.h"
+#include "read_info.cxx"
 
 template <class MaskPixType, int dim>
 int doDilate(char *In, char *Out, int radius)

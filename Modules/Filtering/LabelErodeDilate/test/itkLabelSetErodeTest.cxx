@@ -4,7 +4,7 @@
 
 #include "itkLabelSetErodeImageFilter.h"
 
-#include "read_info.h"
+#include "read_info.cxx"
 
 template <class MaskPixType, int dim>
 int doErode(char *In, char *Out, int radius)
