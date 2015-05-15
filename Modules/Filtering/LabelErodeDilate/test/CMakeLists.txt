@@ -12,10 +12,10 @@ CreateTestDriver(LabelErodeDilate "${LabelErodeDilate-Test_LIBRARIES}" "${LabelE
 
 itk_add_test(NAME itkLabelDilateTest2D_5 
   COMMAND LabelErodeDilateTestDriver 
-  --compare axialdilate5.png ${CMAKE_CURRENT_SOURCE_DIR}/baseline/axialdilate5.png
+  --compare axialdilate5.png ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/axialdilate5.png
 itkLabelSetDilateTest ${INPUT_IMAGE2D} 5 axialdilate5.png )
 
 itk_add_test(NAME itkLabelDilateTest3D_5 
   COMMAND LabelErodeDilateTestDriver 
-  --compare cortdilate_5.nii.gz ${CMAKE_CURRENT_SOURCE_DIR}/baseline/cortdilate_5.nii.gz
+  --compare cortdilate_5.nii.gz ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/cortdilate_5.nii.gz
 itkLabelSetDilateTest ${INPUT_IMAGE3D} 5 cortdilate_5.nii.gz )
