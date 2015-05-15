@@ -1,6 +1,5 @@
 #ifndef _read_info_cxx
 #define _read_info_cxx
-#include "read_info.h"
 
 /////////////////////////////////
 static int readImageInfo(char * filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim)
