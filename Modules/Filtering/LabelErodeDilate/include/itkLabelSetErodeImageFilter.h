@@ -56,7 +56,6 @@ public:
   typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
   /** Image dimension. */
 
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
