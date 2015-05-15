@@ -1616,7 +1616,7 @@ bool JPEG2000Codec::DecodeExtent(
 
     for( unsigned int z = zmin; z <= zmax; ++z )
       {
-      size_t curoffset = std::accumulate( offsets.begin(), offsets.begin() + z, 0 );
+      size_t curoffset = std::accumulate( offsets.begin(), offsets.begin() + z, size_t(0) );
       is.seekg( thestart + curoffset + 8 * z, std::ios::beg );
       is.seekg( 8, std::ios::cur );
 
