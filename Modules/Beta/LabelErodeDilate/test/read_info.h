@@ -3,6 +3,6 @@
 /////////////////////////////////
 #include "itkImageFileReader.h"
 
-int readImageInfo(std::string filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim);
+int readImageInfo(char* filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim);
 /////////////////////////////////
 #endif

@@ -3,14 +3,14 @@
 #include "read_info.h"
 
 /////////////////////////////////
-int readImageInfo(std::string filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim)
+int readImageInfo(char * filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim)
 {
   itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(filename.c_str(), itk::ImageIOFactory::ReadMode);
   if (imageIO.IsNull())
     return 0;
 
 
-  imageIO->SetFileName(filename.c_str());
+  imageIO->SetFileName(filename);
   imageIO->ReadImageInformation();
 
   *ComponentType = imageIO->GetComponentType();
