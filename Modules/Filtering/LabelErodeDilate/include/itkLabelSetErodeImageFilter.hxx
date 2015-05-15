@@ -55,10 +55,6 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>
   typedef ImageLinearConstIteratorWithIndex<DistanceImageType> InputDistIteratorType;
   typedef ImageLinearIteratorWithIndex<DistanceImageType> OutputDistIteratorType;
 
-  // for stages after the first
-  typedef ImageLinearConstIteratorWithIndex< TOutputImage  >  OutputConstIteratorType;
-
-
   typedef ImageRegion< TInputImage::ImageDimension > RegionType;
 
   typename TInputImage::ConstPointer   inputImage(    this->GetInput ()   );
