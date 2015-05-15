@@ -1,5 +1,5 @@
-#ifndef __itkLabelSetMorphBaseImageFilter_h
-#define __itkLabelSetMorphBaseImageFilter_h
+#ifndef itkLabelSetMorphBaseImageFilter_h
+#define itkLabelSetMorphBaseImageFilter_h
 
 #include "itkNumericTraits.h"
 #include "itkImageToImageFilter.h"

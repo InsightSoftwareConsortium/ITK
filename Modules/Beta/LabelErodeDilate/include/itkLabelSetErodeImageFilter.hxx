@@ -1,5 +1,5 @@
-#ifndef __itkLabelSetErodeImageFilter_hxx
-#define __itkLabelSetErodeImageFilter_hxx
+#ifndef itkLabelSetErodeImageFilter_hxx
+#define itkLabelSetErodeImageFilter_hxx
 
 #include "itkLabelSetErodeImageFilter.h"
 #include "itkImageRegionConstIterator.h"

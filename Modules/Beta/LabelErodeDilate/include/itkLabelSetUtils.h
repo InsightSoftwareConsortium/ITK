@@ -1,5 +1,5 @@
-#ifndef __itkLabelSetUtils_h
-#define __itkLabelSetUtils_h
+#ifndef itkLabelSetUtils_h
+#define itkLabelSetUtils_h
 
 #include <itkArray.h>
 
