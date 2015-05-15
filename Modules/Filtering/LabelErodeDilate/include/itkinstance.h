@@ -4,11 +4,12 @@
 #include <itkSmartPointer.h>
 namespace itk
 {
-    template <typename T>
-    class Instance : public T::Pointer {
-    public:
-        Instance() : SmartPointer<T>( T::New() ) {}
-    };
+template< typename T >
+class Instance:public T::Pointer
+{
+public:
+  Instance():SmartPointer< T >( T::New() ) {}
+};
 }
 
 #endif
