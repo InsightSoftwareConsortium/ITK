@@ -60,8 +60,7 @@ protected:
   void
   InterpolateAlong(int axis, typename TImage::Pointer out);
 
-  typedef unsigned long long                                    CountType;
-  typedef std::array<CountType, TImage::ImageDimension>         OrientationType;
+  typedef std::array<bool, TImage::ImageDimension>              OrientationType;
   typedef std::map<typename TImage::PixelType, OrientationType> OrientationsType;
 
   typedef std::map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;

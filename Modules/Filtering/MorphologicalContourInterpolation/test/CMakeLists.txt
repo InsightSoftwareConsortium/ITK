@@ -13,4 +13,5 @@ itk_add_test(
     MorphologicalContourInterpolationTestDriver
     itkMorphologicalContourInterpolationTest
     DATA{Input/105769moving_resliced_to_fixedhz2_segmentation.nii.gz}
+    ${ITK_TEST_OUTPUT_DIR}/105769moving_resliced_to_fixedhz2_segmentation_interpolated.nii.gz
 )
