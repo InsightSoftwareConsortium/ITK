@@ -24,7 +24,7 @@ itkLabelSetDilateTest ${INPUT_IMAGE3D} 5 cortdilate_5.nii.gz )
 itk_add_test(NAME itkLabelErodeTest2D_3 
   COMMAND LabelErodeDilateTestDriver
   --compare axialerode3.png ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/axialerode3.png
-itkLabelSetErodeTest ${INPUT_IMAGE2D} 3 axialerode5.png )
+itkLabelSetErodeTest ${INPUT_IMAGE2D} 3 axialerode3.png )
 
 itk_add_test(NAME itkLabelErodeTest3D_3 
   COMMAND LabelErodeDilateTestDriver
