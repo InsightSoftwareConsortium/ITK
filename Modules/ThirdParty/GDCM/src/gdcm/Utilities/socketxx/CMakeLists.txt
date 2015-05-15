@@ -1,7 +1,3 @@
-cmake_minimum_required(VERSION 2.8.9)
-if(POLICY CMP0022)
-  cmake_policy(SET CMP0022 OLD)
-endif()
 
 # http://www.linuxhacker.at/socketxx
 if(NOT SOCKETXX_NAMESPACE)
