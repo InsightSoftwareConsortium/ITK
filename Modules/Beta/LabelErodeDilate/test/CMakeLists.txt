@@ -2,6 +2,7 @@ itk_module_test()
 set(LabelErodeDilateTests
 itkLabelSetDilateTest.cxx
 itkLabelSetErodeTest.cxx
+read_info.cxx
 )
 
 SET(INPUT_IMAGE2D ${CMAKE_CURRENT_SOURCE_DIR}/images/axial.png)
