@@ -56,6 +56,7 @@ itkSpatialObjectToImageRegistrationTest.cxx
 itkBlockMatchingImageFilterTest.cxx
 itkLandmarkBasedTransformInitializerTest.cxx
 itkImageRegistrationMethodTest_17.cxx
+itkEuclideanDistancePointMetricTest.cxx
 )
 
 CreateTestDriver(ITKRegistrationCommon  "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationCommonTests}")
@@ -220,3 +221,5 @@ DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkBlockMat
 
 itk_add_test(NAME itkImageRegistrationMethodTest_17
       COMMAND ITKRegistrationCommonTestDriver itkImageRegistrationMethodTest_17)
+itk_add_test(NAME itkEuclideanDistancePointMetricTest
+      COMMAND ITKRegistrationCommonTestDriver itkEuclideanDistancePointMetricTest)

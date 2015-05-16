@@ -75,8 +75,11 @@ public:
   typedef typename Superclass::FixedPointSetConstPointer  FixedPointSetConstPointer;
   typedef typename Superclass::MovingPointSetConstPointer MovingPointSetConstPointer;
 
-  typedef typename Superclass::PointIterator     PointIterator;
-  typedef typename Superclass::PointDataIterator PointDataIterator;
+  typedef typename Superclass::FixedPointIterator     FixedPointIterator;
+  typedef typename Superclass::FixedPointDataIterator FixedPointDataIterator;
+
+  typedef typename Superclass::MovingPointIterator     MovingPointIterator;
+  typedef typename Superclass::MovingPointDataIterator MovingPointDataIterator;
 
   typedef TDistanceMap                           DistanceMapType;
   typedef typename DistanceMapType::ConstPointer DistanceMapPointer;
