@@ -31,7 +31,8 @@ for syntax and missing #include's.
 """
 
 # Headers to not test because of dependecy issues, etc.
-BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check so people use itkMacro.h instead.
+BANNED_HEADERS = set(('itkDynamicLoader.h', # This cannot be included when ITK_DYNAMIC_LOADING is OFF
+    'itkExceptionObject.h', # There is a pre-processor check so people use itkMacro.h instead.
     'itkFFTWForwardFFTImageFilter.h',
     'itkFFTWInverseFFTImageFilter.h',
     'itkFFTWRealToHalfHermitianForwardFFTImageFilter.h',
