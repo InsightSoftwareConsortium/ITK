@@ -37,7 +37,7 @@ EXTERN_C_BEGIN
 #ifdef HAVE_SYS_WAIT
 #  include <sys/wait.h>
 #endif
-#include <sys/signal.h>
+#include <signal.h>
 #include <netinet/in.h>
 
 #ifndef SA_RESTART
