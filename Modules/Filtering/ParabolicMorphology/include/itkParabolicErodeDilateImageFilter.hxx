@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkParabolicErodeDilateImageFilter_hxx
-#define __itkParabolicErodeDilateImageFilter_hxx
+#ifndef itkParabolicErodeDilateImageFilter_hxx
+#define itkParabolicErodeDilateImageFilter_hxx
 
 #include "itkParabolicErodeDilateImageFilter.h"
 #include "itkImageRegionConstIterator.h"
