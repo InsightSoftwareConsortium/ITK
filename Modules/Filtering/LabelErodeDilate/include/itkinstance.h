@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef _itkinstance_h
-#define _itkinstance_h
+#ifndef itkinstance_h
+#define itkinstance_h
 // Aidan's trick
 #include <itkSmartPointer.h>
 namespace itk
