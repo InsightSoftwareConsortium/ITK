@@ -1,9 +1,25 @@
-#ifndef __itkMorphologicalContourInterpolator_h
-#define __itkMorphologicalContourInterpolator_h
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkMorphologicalContourInterpolator_h
+#define itkMorphologicalContourInterpolator_h
 
 #include "itkImageToImageFilter.h"
-#include <map>
-#include <array>
+#include "itksys/hash_map.hxx"
 
 namespace itk
 {
@@ -42,10 +58,9 @@ public:
 
 protected:
   MorphologicalContourInterpolator()
-  {
-    this->m_Label = 0;
-    this->m_Axis = -1;
-  }
+    : m_Label(0)
+    , m_Axis(-1)
+  {}
   ~MorphologicalContourInterpolator() {}
 
   typename TImage::PixelType m_Label;
@@ -53,15 +68,25 @@ protected:
 
   /** Does the real work. */
   virtual void
-  GenerateData();
+  GenerateData() ITK_OVERRIDE;
 
+  /** If there is a pixel whose all 4-way neighbors belong the the same label
+  except along one axis, and along that axis its neighbors are 0 (background),
+  then that axis should be interpolated along. Interpolation is possible
+  along more than one axis. */
   void
   DetermineSliceOrientations();
-  void
-  InterpolateAlong(int axis, typename TImage::Pointer out);
 
-  typedef std::array<bool, TImage::ImageDimension>              OrientationType;
-  typedef std::map<typename TImage::PixelType, OrientationType> OrientationsType;
+  /** If interpolation is done along more than one axis,
+  the interpolations are merged using a modified "or" rule:
+  -if all interpolated images have 0 for a given pixel, the output is 0
+  -if just one image has a non-zero label, then that label is chosen
+  -if more than one image has a non-zero label, median label is chosen */
+  void
+  InterpolateAlong(int axis, typename TImage * out);
+
+  typedef itk::FixedArray<bool, TImage::ImageDimension>                 OrientationType;
+  typedef itksys::hash_map<typename TImage::PixelType, OrientationType> OrientationsType;
 
   typedef std::map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
   OrientationsType                                                          m_Orientations;
@@ -84,4 +109,4 @@ private:
 #endif
 
 
-#endif // __itkMorphologicalContourInterpolator_h
+#endif // itkMorphologicalContourInterpolator_h

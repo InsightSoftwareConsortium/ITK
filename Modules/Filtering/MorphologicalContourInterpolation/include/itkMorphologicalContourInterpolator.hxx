@@ -1,5 +1,22 @@
-#ifndef __itkMorphologicalContourInterpolator_hxx
-#define __itkMorphologicalContourInterpolator_hxx
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkMorphologicalContourInterpolator_hxx
+#define itkMorphologicalContourInterpolator_hxx
 
 #include "itkMorphologicalContourInterpolator.h"
 #include "itkObjectFactory.h"
@@ -15,12 +32,16 @@ void
 MorphologicalContourInterpolator<TImage>::ExpandRegion(typename TImage::RegionType & region,
                                                        typename TImage::IndexType    index)
 {
-  for (int a = 0; a < TImage::ImageDimension; a++)
+  for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
   {
     if (region.GetIndex(a) > index[a])
+    {
       region.SetIndex(a, index[a]);
+    }
     else if (region.GetIndex(a) + region.GetSize(a) <= index[a])
+    {
       region.SetSize(a, index[a] - region.GetIndex(a) + 1);
+    }
     // else it is already within
   }
 }
@@ -29,41 +50,47 @@ template <class TImage>
 void
 MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 {
-  typename TImage::ConstPointer input = this->GetInput();
-  typename TImage::Pointer      output = this->GetOutput();
+  typename const TImage * input = this->GetInput();
+  typename TImage *       output = this->GetOutput();
   m_Orientations.clear();
 
   typename TImage::RegionType region = output->GetRequestedRegion();
-  typename TImage::RegionType lpr = input->GetLargestPossibleRegion();
-  for (int a = 0; a < TImage::ImageDimension; a++)
+  typename TImage::RegionType largestPossibleRegion = input->GetLargestPossibleRegion();
+  for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
   {
-    if (region.GetIndex(a) < lpr.GetIndex(a) + 1)
-      region.SetIndex(a, lpr.GetIndex(a) + 1);
-    if (region.GetIndex(a) + region.GetSize(a) > lpr.GetIndex(a) + lpr.GetSize(a) - 1)
-      region.SetSize(a, lpr.GetIndex(a) + lpr.GetSize(a) - 1 - region.GetIndex(a));
+    if (region.GetIndex(a) < largestPossibleRegion.GetIndex(a) + 1)
+    {
+      region.SetIndex(a, largestPossibleRegion.GetIndex(a) + 1);
+    }
+    if (region.GetIndex(a) + region.GetSize(a) >
+        largestPossibleRegion.GetIndex(a) + largestPossibleRegion.GetSize(a) - 1)
+    {
+      region.SetSize(a, largestPossibleRegion.GetIndex(a) + largestPossibleRegion.GetSize(a) - 1 - region.GetIndex(a));
+    }
   }
   ImageRegionConstIteratorWithIndex<TImage> it(input, region);
 
-  OrientationType ors = OrientationType();
+  OrientationType orientations = OrientationType();
 
   while (!it.IsAtEnd())
   {
-    typename TImage::IndexType indPrev, indNext, ind = it.GetIndex();
-    typename TImage::PixelType val = input->GetPixel(ind);
+    typename TImage::IndexType       indPrev, indNext;
+    typename const TImage::IndexType ind = it.GetIndex();
+    typename const TImage::PixelType val = input->GetPixel(ind);
     if (val != 0 || (m_Label != 0 && val == m_Label))
     {
-      typename TImage::RegionType bb1;
-      bb1.SetIndex(ind);
-      for (int a = 0; a < TImage::ImageDimension; a++)
-        bb1.SetSize(a, 1);
-      std::pair<BoundingBoxesType::iterator, bool> resBB = m_BoundingBoxes.insert(std::make_pair(val, bb1));
+      typename TImage::RegionType boundingBox1;
+      boundingBox1.SetIndex(ind);
+      for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
+        boundingBox1.SetSize(a, 1);
+      std::pair<BoundingBoxesType::iterator, bool> resBB = m_BoundingBoxes.insert(std::make_pair(val, boundingBox1));
       if (!resBB.second) // include this index in existing BB
         ExpandRegion(resBB.first->second, ind);
 
-      std::pair<OrientationsType::iterator, bool> res = m_Orientations.insert(std::make_pair(val, ors));
+      std::pair<OrientationsType::iterator, bool> res = m_Orientations.insert(std::make_pair(val, orientations));
       OrientationsType::iterator                  oRef = res.first;
       int                                         cTrue = 0;
-      for (int a = 0; a < TImage::ImageDimension; a++)
+      for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
       {
         indPrev = ind;
         indPrev[a]--;
@@ -72,15 +99,15 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
         {
           if (input->GetPixel(indPrev) == 0 && input->GetPixel(indNext) == 0)
           {
-            ors[a] = true;
+            orientations[a] = true;
             cTrue++;
           }
         }
       }
       if (cTrue == 1) // slice has empty adjacent space only along one axis
       {
-        for (int a = 0; a < TImage::ImageDimension; a++)
-          oRef->second[a] = oRef->second[a] || ors[a]; // add this dimension for this label
+        for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
+          oRef->second[a] = oRef->second[a] || orientations[a]; // add this dimension for this label
       }
     }
     ++it;
@@ -90,7 +117,7 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   region = output->GetRequestedRegion();
   for (BoundingBoxesType::iterator it = m_BoundingBoxes.begin(); it != m_BoundingBoxes.end(); ++it)
   {
-    for (int a = 0; a < TImage::ImageDimension; a++)
+    for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
     {
       if (it->second.GetIndex(a) - 1 <= region.GetIndex(a))
         it->second.SetIndex(a, it->second.GetIndex(a) - 1);
@@ -102,8 +129,10 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 
 template <class TImage>
 void
-MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, typename TImage::Pointer out)
-{}
+MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, typename TImage * out)
+{
+  throw "todo";
+}
 
 template <class TImage>
 void
@@ -121,14 +150,14 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     if (this->m_Label == 0)
     {
       for (OrientationsType::iterator it = m_Orientations.begin(); it != m_Orientations.end(); ++it)
-        for (int a = 0; a < TImage::ImageDimension; a++)
+        for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
           aggregate[a] = aggregate[a] || it->second[a]; // any label needs interpolation along this axis
     }
     else
       aggregate = m_Orientations[m_Label]; // we only care about this label
 
     std::vector<TImage::Pointer> perAxisInterpolates;
-    for (int a = 0; a < TImage::ImageDimension; a++)
+    for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
       if (aggregate[a])
       {
         TImage::Pointer imageA = TImage::New();
@@ -171,7 +200,7 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
         it.Set(0); // all were zero
       else if (values.size() == 1)
         it.Set(values[0]); // the only non-zero
-      else                 // median, gives preference to higher-numbered axis
+      else                 // median
       {
         std::nth_element(values.begin(), values.begin() + values.size() / 2, values.end());
         it.Set(values[values.size() / 2]);
@@ -189,4 +218,4 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
 } // namespace itk
 
 
-#endif //__itkMorphologicalContourInterpolator_hxx
+#endif // itkMorphologicalContourInterpolator_hxx
