@@ -20,7 +20,6 @@ itkParaSpacingTest(int, char * argv[])
   typedef unsigned char          PType;
   typedef itk::Image<PType, dim> IType;
 
-
   typedef itk::ImageFileReader<IType> ReaderType;
   ReaderType::Pointer                 reader = ReaderType::New();
   reader->SetFileName(argv[1]);
@@ -79,7 +78,6 @@ itkParaSpacingTest(int, char * argv[])
 
   newspacing[0] = 1 / sqrt((float)1);
   newspacing[1] = 1 / sqrt((float)0.5);
-
 
   changer->SetOutputSpacing(newspacing);
   changer->ChangeSpacingOn();

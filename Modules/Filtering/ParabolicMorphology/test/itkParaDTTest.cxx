@@ -9,11 +9,9 @@
 #include "itkTimeProbe.h"
 #include "itkMultiThreader.h"
 
-
 int
 itkParaDTTest(int argc, char * argv[])
 {
-
   // int iterations = 1;
 
   if (argc != 5)

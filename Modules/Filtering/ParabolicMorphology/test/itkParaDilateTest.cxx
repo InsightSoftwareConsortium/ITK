@@ -43,7 +43,6 @@ itkParaDilateTest(int argc, char * argv[])
 
   FilterType::Pointer filter = FilterType::New();
 
-
   filter->SetInput(reader->GetOutput());
 
   filter->SetScale(scale);

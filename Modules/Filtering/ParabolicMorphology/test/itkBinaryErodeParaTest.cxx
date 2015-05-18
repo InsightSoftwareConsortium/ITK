@@ -12,14 +12,11 @@
 int
 itkBinaryErodeParaTest(int argc, char * argv[])
 {
-
-
   if (argc != 5)
   {
     std::cerr << "Usage: " << argv[0] << " inputimage threshold size outim " << std::endl;
     return (EXIT_FAILURE);
   }
-
 
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
   const int dim = 2;
