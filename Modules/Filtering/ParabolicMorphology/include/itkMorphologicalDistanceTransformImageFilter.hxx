@@ -1,5 +1,5 @@
-#ifndef __itkMorphologicalDistanceTransformImageFilter_hxx
-#define __itkMorphologicalDistanceTransformImageFilter_hxx
+#ifndef itkMorphologicalDistanceTransformImageFilter_hxx
+#define itkMorphologicalDistanceTransformImageFilter_hxx
 
 #include "itkMorphologicalDistanceTransformImageFilter.h"
 #include "itkProgressAccumulator.h"
@@ -35,8 +35,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 MorphologicalDistanceTransformImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 {
-
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+
   progress->SetMiniPipelineFilter(this);
   // these values are guesses at present - need to profile to get a
   // real idea
@@ -106,6 +106,7 @@ MorphologicalDistanceTransformImageFilter<TInputImage, TOutputImage>::GenerateDa
     this->GraftOutput(m_Sqrt->GetOutput());
   }
 }
+
 template <typename TInputImage, typename TOutputImage>
 void
 MorphologicalDistanceTransformImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -114,7 +115,6 @@ MorphologicalDistanceTransformImageFilter<TInputImage, TOutputImage>::PrintSelf(
   os << "Outside Value = " << (OutputPixelType)m_OutsideValue << std::endl;
   os << "ImageScale = " << m_Erode->GetUseImageSpacing() << std::endl;
 }
-
 } // namespace itk
 
 #endif

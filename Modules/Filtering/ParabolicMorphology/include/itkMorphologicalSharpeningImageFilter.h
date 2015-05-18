@@ -1,5 +1,5 @@
-#ifndef __itkMorphologicalSharpeningImageFilter_h
-#define __itkMorphologicalSharpeningImageFilter_h
+#ifndef itkMorphologicalSharpeningImageFilter_h
+#define itkMorphologicalSharpeningImageFilter_h
 
 #include "itkImageToImageFilter.h"
 // #include "itkProgressReporter.h"
@@ -46,7 +46,6 @@ namespace itk
  *
 **/
 
-
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT MorphologicalSharpeningImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -62,7 +61,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(MorphologicalSharpeningImageFilter, ImageToImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                            InputImageType;
@@ -121,7 +119,6 @@ public:
     return m_Erode->GetUseImageSpacing();
   }
 
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(SameDimension,
@@ -132,11 +129,9 @@ public:
 
   /** End concept checking */
 #endif
-
-
 protected:
   MorphologicalSharpeningImageFilter();
-  virtual ~MorphologicalSharpeningImageFilter() {};
+  virtual ~MorphologicalSharpeningImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -157,17 +152,16 @@ private:
   void
   operator=(const Self &); // purposely not implemented
 
-  int                             m_Iterations;
+  int m_Iterations;
+
   typename ErodeType::Pointer     m_Erode;
   typename DilateType::Pointer    m_Dilate;
   typename CastType::Pointer      m_Cast;
   typename SharpenOpType::Pointer m_SharpenOp;
 };
-
 } // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMorphologicalSharpeningImageFilter.hxx"
 #endif
-
 
 #endif

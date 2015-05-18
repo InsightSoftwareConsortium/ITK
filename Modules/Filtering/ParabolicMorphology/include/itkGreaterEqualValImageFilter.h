@@ -1,9 +1,8 @@
-#ifndef __itkGreaterEqualValImageFilter_h
-#define __itkGreaterEqualValImageFilter_h
+#ifndef itkGreaterEqualValImageFilter_h
+#define itkGreaterEqualValImageFilter_h
 #include <itkUnaryFunctorImageFilter.h>
 namespace itk
 {
-
 /** \class GreaterEqualValImageFilter
  * \brief Computes the absolute difference between an image and a
  * constant. Can be done with ShiftScale and AbsIamgeFilters.
@@ -12,10 +11,8 @@ namespace itk
  *
  */
 
-
 namespace Functor
 {
-
 template <class TInput, class TOutput>
 class GEConst
 {
@@ -33,11 +30,13 @@ public:
   {
     return false;
   }
+
   bool
   operator==(const GEConst & other) const
   {
     return !(*this != other);
   }
+
   inline TOutput
   operator()(const TInput & A)
   {
@@ -75,14 +74,12 @@ public:
     this->Modified();
   }
 
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   /** End concept checking */
 #endif
-
 protected:
   GreaterEqualValImageFilter() {}
   virtual ~GreaterEqualValImageFilter() {}
@@ -92,8 +89,6 @@ private:
   void
   operator=(const Self &); // purposely not implemented
 };
-
 } // end namespace itk
-
 
 #endif

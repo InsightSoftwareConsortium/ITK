@@ -1,5 +1,5 @@
-#ifndef __itkParabolicErodeDilateImageFilter_h
-#define __itkParabolicErodeDilateImageFilter_h
+#ifndef itkParabolicErodeDilateImageFilter_h
+#define itkParabolicErodeDilateImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
@@ -62,11 +62,9 @@ namespace itk
  *
  **/
 
-
 template <typename TInputImage, bool doDilate, typename TOutputImage = TInputImage>
 class ITK_EXPORT ParabolicErodeDilateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
-
 public:
   /** Standard class typedefs. */
   typedef ParabolicErodeDilateImageFilter               Self;
@@ -104,18 +102,19 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
 
-
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 
   typedef typename NumericTraits<PixelType>::FloatType InternalRealType;
-  // typedef typename Image<InternalRealType, itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+  // typedef typename Image<InternalRealType,
+  //  itkGetStaticConstMacro(ImageDimension) >   RealImageType;
 
   // set all of the scales the same
   void
   SetScale(ScalarRealType scale);
+
   itkSetMacro(Scale, RadiusType);
   itkGetConstReferenceMacro(Scale, RadiusType);
 
@@ -153,16 +152,16 @@ public:
 
   /** End concept checking */
 #endif
-
 protected:
   ParabolicErodeDilateImageFilter();
-  virtual ~ParabolicErodeDilateImageFilter() {};
+  virtual ~ParabolicErodeDilateImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Generate Data */
   void
   GenerateData(void);
+
   unsigned int
   SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
 
@@ -171,6 +170,7 @@ protected:
 
   void
   GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+
   // Override since the filter produces the entire dataset.
   void
   EnlargeOutputRequestedRegion(DataObject * output);
@@ -181,19 +181,18 @@ protected:
 private:
   ParabolicErodeDilateImageFilter(const Self &); // purposely not implemented
   void
-                                  operator=(const Self &); // purposely not implemented
+  operator=(const Self &); // purposely not implemented
+
   RadiusType                      m_Scale;
   typename TInputImage::PixelType m_Extreme;
 
   int m_MagnitudeSign;
   int m_CurrentDimension;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkParabolicErodeDilateImageFilter.hxx"
 #endif
-
 
 #endif

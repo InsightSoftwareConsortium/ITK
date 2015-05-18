@@ -1,5 +1,5 @@
-#ifndef __itkBinaryDilateParabolicImageFilter_hxx
-#define __itkBinaryDilateParabolicImageFilter_hxx
+#ifndef itkBinaryDilateParaImageFilter_hxx
+#define itkBinaryDilateParaImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkBinaryDilateParaImageFilter.h"
@@ -8,7 +8,6 @@
 
 namespace itk
 {
-
 template <typename TInputImage, typename TOutputImage>
 BinaryDilateParaImageFilter<TInputImage, TOutputImage>::BinaryDilateParaImageFilter()
 {
@@ -24,12 +23,12 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::BinaryDilateParaImageFil
   this->SetUseImageSpacing(false);
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 BinaryDilateParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
+
   s.Fill(radius);
   this->SetRadius(s);
 }
@@ -66,7 +65,6 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     m_RectPara->SetScale(R);
     m_CircPara->SetScale(R);
   }
-
 
   if (m_Circular)
   {
@@ -138,7 +136,5 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
     os << "Radius in voxels: " << this->GetRadius() << std::endl;
   }
 }
-
-
 } // namespace itk
 #endif

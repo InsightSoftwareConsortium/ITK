@@ -1,12 +1,11 @@
-#ifndef __itkMorphSDTHelperImageFilter_h
-#define __itkMorphSDTHelperImageFilter_h
+#ifndef itkMorphSDTHelperImageFilter_h
+#define itkMorphSDTHelperImageFilter_h
 
 #include "itkTernaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
 {
-
 /** \class MorphSDTHelperImageFilter
  * \brief Implements a pixel-wise operator to form a signed distance transform.
  *
@@ -18,7 +17,6 @@ namespace itk
  */
 namespace Function
 {
-
 template <class TInput1, class TInput2 = TInput1, class TInput3 = TInput1, class TOutput = TInput1>
 class MorphSDTHelper
 {
@@ -35,11 +33,13 @@ public:
   {
     return false;
   }
+
   bool
   operator==(const MorphSDTHelper & other) const
   {
     return !(*this != other);
   }
+
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C)
   {
@@ -86,7 +86,8 @@ public:
                                                              typename TInputImage2::PixelType,
                                                              typename TInputImage3::PixelType,
                                                              typename TOutputImage::PixelType>>
-                                   Superclass;
+    Superclass;
+
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -113,7 +114,6 @@ public:
                   (Concept::GreaterThanComparable<typename TInputImage3::PixelType, typename TInputImage3::PixelType>));
   /** End concept checking */
 #endif
-
 protected:
   MorphSDTHelperImageFilter() {}
   virtual ~MorphSDTHelperImageFilter() {}
@@ -123,8 +123,6 @@ private:
   void
   operator=(const Self &); // purposely not implemented
 };
-
 } // end namespace itk
-
 
 #endif

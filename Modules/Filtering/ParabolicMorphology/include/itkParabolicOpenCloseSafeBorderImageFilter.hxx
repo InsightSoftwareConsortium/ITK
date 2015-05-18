@@ -1,18 +1,17 @@
-#ifndef __itkParabolicOpenCloseSafeBorderImageFilter_hxx
-#define __itkParabolicOpenCloseSafeBorderImageFilter_hxx
+#ifndef itkParabolicOpenCloseSafeBorderImageFilter_hxx
+#define itkParabolicOpenCloseSafeBorderImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkParabolicOpenCloseSafeBorderImageFilter.h"
 
 namespace itk
 {
-
 template <typename TInputImage, bool doOpen, typename TOutputImage>
 void
 ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData(void)
 {
-
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
@@ -91,7 +90,6 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Gene
   }
 }
 
-
 template <typename TInputImage, bool doOpen, typename TOutputImage>
 void
 ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Modified() const
@@ -102,7 +100,6 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Modi
   m_CropFilt->Modified();
   m_StatsFilt->Modified();
 }
-
 
 ///////////////////////////////////
 template <typename TInputImage, bool doOpen, typename TOutputImage>

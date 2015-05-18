@@ -1,5 +1,5 @@
-#ifndef __itkBinaryOpenParaImageFilter_h
-#define __itkBinaryOpenParaImageFilter_h
+#ifndef itkBinaryOpenParaImageFilter_h
+#define itkBinaryOpenParaImageFilter_h
 
 #include "itkParabolicErodeImageFilter.h"
 #include "itkParabolicDilateImageFilter.h"
@@ -8,7 +8,6 @@
 
 namespace itk
 {
-
 /**
  * \class BinaryOpenParaImageFilter
  * \brief Class for binary morphological opening operation.
@@ -49,12 +48,10 @@ namespace itk
  * Australia.  <Richard.Beare@monash.edu>
  **/
 
-
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT BinaryOpenParaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 
 {
-
 public:
   /** Standard class typedefs. */
   typedef BinaryOpenParaImageFilter                     Self;
@@ -67,7 +64,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(BinaryOpenParaImageFilter, ImageToImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                       InputImageType;
@@ -93,6 +89,7 @@ public:
 
   void
   SetRadius(ScalarRealType radius);
+
   itkSetMacro(Radius, RadiusType);
   itkGetConstReferenceMacro(Radius, RadiusType);
 
@@ -104,6 +101,7 @@ public:
     m_CircErode->SetUseImageSpacing(g);
     m_CircDilate->SetUseImageSpacing(g);
   }
+
   /**
    * Set/Get whether the erosion is circular/rectangular -
    * default is true (circular)
@@ -121,13 +119,12 @@ public:
   /** Image related typedefs. */
 
   /* add in the traits here */
-
 protected:
   void
   GenerateData(void);
 
   BinaryOpenParaImageFilter();
-  virtual ~BinaryOpenParaImageFilter() {};
+  virtual ~BinaryOpenParaImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -147,27 +144,28 @@ protected:
 private:
   BinaryOpenParaImageFilter(const Self &); // purposely not implemented
   void
-             operator=(const Self &); // purposely not implemented
+  operator=(const Self &); // purposely not implemented
+
   RadiusType m_Radius;
   bool       m_Circular;
   bool       m_SafeBorder;
 
   typename CircErodeType::Pointer  m_CircErode;
   typename CircDilateType::Pointer m_CircDilate;
-  typename CCastTypeA::Pointer     m_CircCastA;
-  typename CCastTypeB::Pointer     m_CircCastB;
+
+  typename CCastTypeA::Pointer m_CircCastA;
+  typename CCastTypeB::Pointer m_CircCastB;
 
   typename RectErodeType::Pointer  m_RectErode;
   typename RectDilateType::Pointer m_RectDilate;
-  typename RCastTypeA::Pointer     m_RectCastA;
-  typename RCastTypeB::Pointer     m_RectCastB;
-};
 
+  typename RCastTypeA::Pointer m_RectCastA;
+  typename RCastTypeB::Pointer m_RectCastB;
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkBinaryOpenParaImageFilter.hxx"
 #endif
-
 
 #endif //__itkBinaryOpenParaImageFilter_h

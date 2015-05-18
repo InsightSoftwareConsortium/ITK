@@ -1,5 +1,5 @@
-#ifndef __itkBinaryCloseParabolicImageFilter_hxx
-#define __itkBinaryCloseParabolicImageFilter_hxx
+#ifndef itkBinaryCloseParaImageFilter_hxx
+#define itkBinaryCloseParaImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkBinaryCloseParaImageFilter.h"
@@ -11,7 +11,6 @@
 
 namespace itk
 {
-
 template <typename TInputImage, typename TOutputImage>
 BinaryCloseParaImageFilter<TInputImage, TOutputImage>::BinaryCloseParaImageFilter()
 {
@@ -32,12 +31,12 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::BinaryCloseParaImageFilte
   this->SetSafeBorder(true);
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 BinaryCloseParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
+
   s.Fill(radius);
   this->SetRadius(s);
 }
@@ -52,7 +51,8 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
   typename TInputImage::SizeType Pad;
   //  ScalarRealType margin = 0.0;
 
-  // ScalarRealType mxRad = (ScalarRealType)(*std::max_element(m_Radius.Begin(), m_Radius.End()));
+  // ScalarRealType mxRad = (ScalarRealType)(*std::max_element(m_Radius.Begin(),
+  // m_Radius.End()));
   // this needs to be examined more closely
   // margin = 1.0/(pow(mxRad, TInputImage::ImageDimension) * 10);
   // margin = std::min(margin, 0.00001);
@@ -90,7 +90,6 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     m_CircDilate->SetScale(R);
   }
 
-
   // std::cout << "Padding " << Pad << std::endl;
 
   if (m_Circular)
@@ -110,7 +109,6 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     m_CircCastB->SetUpperThreshold(0);
     m_CircCastB->SetOutsideValue(1);
     m_CircCastB->SetInsideValue(0);
-
 
     m_CircErode->SetInput(m_CircCastB->GetOutput());
     m_CircCastA->SetInput(m_CircErode->GetOutput());
@@ -144,8 +142,6 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     }
     else
     {
-
-
       m_CircDilate->SetInput(inputImage);
       m_CircCastA->GraftOutput(this->GetOutput());
       m_CircCastA->Update();
@@ -205,7 +201,6 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
   }
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 BinaryCloseParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -221,7 +216,5 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
   }
   os << "Safe border: " << this->GetSafeBorder() << std::endl;
 }
-
-
 } // namespace itk
 #endif

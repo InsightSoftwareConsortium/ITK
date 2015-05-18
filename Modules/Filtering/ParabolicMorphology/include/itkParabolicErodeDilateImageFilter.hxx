@@ -17,7 +17,6 @@
 
 namespace itk
 {
-
 template <typename TInputImage, bool doDilate, typename TOutputImage>
 ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ParabolicErodeDilateImageFilter()
 {
@@ -99,12 +98,12 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::SplitReque
   return maxThreadIdUsed + 1;
 }
 
-
 template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
 ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::SetScale(ScalarRealType scale)
 {
   RadiusType s;
+
   s.Fill(scale);
   this->SetScale(s);
 }
@@ -126,6 +125,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::GenerateIn
     image->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());
   }
 }
+
 #endif
 #if 1
 template <typename TInputImage, bool doDilate, typename TOutputImage>
@@ -139,6 +139,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::EnlargeOut
     out->SetRequestedRegion(out->GetLargestPossibleRegion());
   }
 }
+
 #endif
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
@@ -200,19 +201,16 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
                                                      m_CurrentDimension * progressPerDimension,
                                                      progressPerDimension);
 
-
   typedef ImageLinearConstIteratorWithIndex<TInputImage> InputConstIteratorType;
   typedef ImageLinearIteratorWithIndex<TOutputImage>     OutputIteratorType;
 
   // for stages after the first
   typedef ImageLinearConstIteratorWithIndex<TOutputImage> OutputConstIteratorType;
 
-
   typedef ImageRegion<TInputImage::ImageDimension> RegionType;
 
   typename TInputImage::ConstPointer inputImage(this->GetInput());
   typename TOutputImage::Pointer     outputImage(this->GetOutput());
-
 
   // outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
   // outputImage->Allocate();
@@ -297,7 +295,6 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
   }
 }
 
-
 template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
 ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -312,7 +309,5 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::PrintSelf(
     os << "Scale in voxels: " << m_Scale << std::endl;
   }
 }
-
-
 } // namespace itk
 #endif

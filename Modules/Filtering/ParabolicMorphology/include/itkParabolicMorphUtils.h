@@ -1,12 +1,11 @@
-#ifndef __itkParabolicUtils_h
-#define __itkParabolicUtils_h
+#ifndef itkParabolicMorphUtils_h
+#define itkParabolicMorphUtils_h
 
 #include <itkArray.h>
 
 #include "itkProgressReporter.h"
 namespace itk
 {
-
 // contact point algorithm
 template <class LineBufferType, class RealType, bool doDilate>
 void
@@ -16,6 +15,7 @@ DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType m
   long koffset = 0, newcontact = 0; // how far away the search starts.
 
   const long LineLength = LineBuf.size();
+
   // negative half of the parabola
   for (long pos = 0; pos < LineLength; pos++)
   {
@@ -78,6 +78,7 @@ DoLineIntAlg(LineBufferType &  LineBuf,
   // have strange behaviour when I didn't do this. Also managed to get
   // rid of all the warnings by sticking to size_t and equivalents.
   RealType s;
+
   /* holds precomputed scale*f(q) + q^2 for speedup */
   //  LineBufferType F(LineBuf.size());
 
@@ -125,7 +126,6 @@ DoLineIntAlg(LineBufferType &  LineBuf,
     z[k] = s;
     itkAssertInDebugAndIgnoreInReleaseMacro((size_t)(k + 1) <= N);
     z[k + 1] = NumericTraits<int>::max();
-
   } /* for q */
   /* now reconstruct output */
   if (doDilate)
@@ -134,7 +134,9 @@ DoLineIntAlg(LineBufferType &  LineBuf,
     for (size_t q = 0; q < N; q++)
     {
       while (z[k + 1] < static_cast<typename IndexBufferType::ValueType>(q))
+      {
         k++;
+      }
       itkAssertInDebugAndIgnoreInReleaseMacro(static_cast<size_t>(v[k]) < N);
       itkAssertInDebugAndIgnoreInReleaseMacro(static_cast<size_t>(v[k]) >= 0);
       LineBuf[q] = static_cast<RealType>(
@@ -147,7 +149,9 @@ DoLineIntAlg(LineBufferType &  LineBuf,
     for (size_t q = 0; q < N; q++)
     {
       while (z[k + 1] < static_cast<typename IndexBufferType::ValueType>(q))
+      {
         k++;
+      }
       itkAssertInDebugAndIgnoreInReleaseMacro(static_cast<size_t>(v[k]) < N);
       itkAssertInDebugAndIgnoreInReleaseMacro(static_cast<size_t>(v[k]) >= 0);
       LineBuf[q] = ((static_cast<RealType>(q) * (static_cast<RealType>(q) - 2 * v[k]) + F[v[k]]) * magnitude);
@@ -198,7 +202,6 @@ doOneDimension(TInIter &          inputIterator,
       ParabolicAlgorithmChoice = INTERSECTION;
     }
   }
-
 
   if (ParabolicAlgorithmChoice == CONTACTPOINT)
   {
@@ -293,7 +296,5 @@ doOneDimension(TInIter &          inputIterator,
     }
   }
 }
-
-
 } // namespace itk
 #endif

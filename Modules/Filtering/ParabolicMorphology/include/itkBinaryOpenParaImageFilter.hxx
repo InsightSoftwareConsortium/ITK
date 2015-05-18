@@ -1,5 +1,5 @@
-#ifndef __itkBinaryOpenParaImageFilter_hxx
-#define __itkBinaryOpenParaImageFilter_hxx
+#ifndef itkBinaryOpenParaImageFilter_hxx
+#define itkBinaryOpenParaImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkBinaryOpenParaImageFilter.h"
@@ -11,7 +11,6 @@
 
 namespace itk
 {
-
 template <typename TInputImage, typename TOutputImage>
 BinaryOpenParaImageFilter<TInputImage, TOutputImage>::BinaryOpenParaImageFilter()
 {
@@ -32,12 +31,12 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::BinaryOpenParaImageFilter(
   this->SetSafeBorder(true);
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 BinaryOpenParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
+
   s.Fill(radius);
   this->SetRadius(s);
 }
@@ -54,7 +53,8 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
   // thresholding steps.
   // ScalarRealType margin = 0.0;
 
-  // ScalarRealType mxRad = (ScalarRealType)(*std::max_element(m_Radius.Begin(), m_Radius.End()));
+  // ScalarRealType mxRad = (ScalarRealType)(*std::max_element(m_Radius.Begin(),
+  // m_Radius.End()));
   // // this needs to be examined more closely
   // margin = 1.0/(pow(mxRad, TInputImage::ImageDimension) * 10);
   // margin = std::min(margin, 0.00001);
@@ -99,7 +99,6 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     m_RectDilate->SetScale(R);
     m_CircDilate->SetScale(R);
   }
-
 
   if (m_Circular)
   {
@@ -205,7 +204,6 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
   }
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 BinaryOpenParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -222,7 +220,6 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & o
 
   if (this->m_SafeBorder)
   {
-
     os << "safe border" << std::endl;
   }
   else
@@ -239,7 +236,5 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & o
     os << "Radius in voxels: " << this->GetRadius() << std::endl;
   }
 }
-
-
 } // namespace itk
 #endif

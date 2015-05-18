@@ -1,5 +1,5 @@
-#ifndef __itkParabolicOpenCloseSafeBorderImageFilter_h
-#define __itkParabolicOpenCloseSafeBorderImageFilter_h
+#ifndef itkParabolicOpenCloseSafeBorderImageFilter_h
+#define itkParabolicOpenCloseSafeBorderImageFilter_h
 
 #include "itkParabolicOpenCloseImageFilter.h"
 #include "itkCropImageFilter.h"
@@ -15,7 +15,6 @@ namespace itk
 template <typename TInputImage, bool doOpen, typename TOutputImage = TInputImage>
 class ITK_EXPORT ParabolicOpenCloseSafeBorderImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
-
 public:
   /** Standard class typedefs. */
   typedef ParabolicOpenCloseSafeBorderImageFilter       Self;
@@ -28,7 +27,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(ParabolicOpenCloseSafeBorderImageFilter, ImageToImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                            InputImageType;
@@ -56,12 +54,14 @@ public:
   SetScale(ScalarRealType scale)
   {
     RadiusType s = this->GetScale();
+
     this->m_MorphFilt->SetScale(scale);
     if (s != this->GetScale())
     {
       this->Modified();
     }
   }
+
   // different scale for each direction
   void
   SetScale(RadiusType scale)
@@ -72,13 +72,13 @@ public:
       this->Modified();
     }
   }
+
   //
   const RadiusType &
   GetScale() const
   {
     return (this->m_MorphFilt->GetScale());
   }
-
 
   void
   SetUseImageSpacing(bool B)
@@ -89,13 +89,14 @@ public:
       this->Modified();
     }
   }
+
   bool
   GetUseImageSpacing() const
   {
     return (this->m_MorphFilt->GetUseImageSpacing());
   }
-  itkBooleanMacro(UseImageSpacing);
 
+  itkBooleanMacro(UseImageSpacing);
 
   itkSetMacro(SafeBorder, bool);
   itkGetConstReferenceMacro(SafeBorder, bool);
@@ -117,13 +118,15 @@ public:
   itkSetMacro(ParabolicAlgorithm, int);
   itkGetConstReferenceMacro(ParabolicAlgorithm, int);
 
-  /** ParabolicOpenCloseImageFilter must forward the Modified() call to its internal filters */
+  /** ParabolicOpenCloseImageFilter must forward the Modified() call to its
+    internal filters */
   virtual void
   Modified() const;
 
 protected:
   void
   GenerateData();
+
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -141,24 +144,26 @@ protected:
     m_SafeBorder = true;
     m_ParabolicAlgorithm = INTERSECTION;
   }
-  virtual ~ParabolicOpenCloseSafeBorderImageFilter() {};
+
+  virtual ~ParabolicOpenCloseSafeBorderImageFilter() {}
   int m_ParabolicAlgorithm;
 
-
 private:
-  ParabolicOpenCloseSafeBorderImageFilter(const Self &); // purposely not implemented
+  ParabolicOpenCloseSafeBorderImageFilter(const Self &); // purposely not
+                                                         //  implemented
   void
-  operator=(const Self &); // purposely not implemented
+  operator=(const Self &); // purposely not
+                           //  implemented
 
   typename MorphFilterType::Pointer m_MorphFilt;
   typename PadFilterType::Pointer   m_PadFilt;
   typename CropFilterType::Pointer  m_CropFilt;
   typename StatsFilterType::Pointer m_StatsFilt;
-  bool                              m_SafeBorder;
-  bool                              m_UseContactPoint;
-  bool                              m_UseIntersection;
-};
 
+  bool m_SafeBorder;
+  bool m_UseContactPoint;
+  bool m_UseIntersection;
+};
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkParabolicOpenCloseSafeBorderImageFilter.hxx"

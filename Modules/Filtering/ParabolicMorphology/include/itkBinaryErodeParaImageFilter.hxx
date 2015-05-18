@@ -1,5 +1,5 @@
-#ifndef __itkBinaryErodeParaImageFilter_hxx
-#define __itkBinaryErodeParaImageFilter_hxx
+#ifndef itkBinaryErodeParaImageFilter_hxx
+#define itkBinaryErodeParaImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkBinaryErodeParaImageFilter.h"
@@ -8,7 +8,6 @@
 
 namespace itk
 {
-
 template <typename TInputImage, typename TOutputImage>
 BinaryErodeParaImageFilter<TInputImage, TOutputImage>::BinaryErodeParaImageFilter()
 {
@@ -24,12 +23,12 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::BinaryErodeParaImageFilte
   this->SetUseImageSpacing(false);
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 BinaryErodeParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
+
   s.Fill(radius);
   this->SetRadius(s);
 }
@@ -67,7 +66,6 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     m_CircPara->SetScale(R);
   }
 
-
   if (m_Circular)
   {
     ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -86,7 +84,8 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     //  setting the correct threshold value is a little tricky - needs would
     //  to produce a result matching a bresenham circle, but these
     //  circles are such that the voxel centres need to be less than radius
-    // m_CircCast->SetUpperThreshold(1 - itk::NumericTraits<InternalRealType>::min());
+    // m_CircCast->SetUpperThreshold(1 -
+    //  itk::NumericTraits<InternalRealType>::min());
     // m_CircCast->SetUpperThreshold(0.99);
 
     m_CircCast->GraftOutput(this->GetOutput());
@@ -111,7 +110,6 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     this->GraftOutput(m_RectCast->GetOutput());
   }
 }
-
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -138,6 +136,5 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::Modified() const
   m_RectPara->Modified();
   m_RectCast->Modified();
 }
-
 } // namespace itk
 #endif

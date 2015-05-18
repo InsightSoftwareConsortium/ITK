@@ -1,12 +1,10 @@
-
-#ifndef __itkSharpenOpImageFilter_h
-#define __itkSharpenOpImageFilter_h
+#ifndef itkSharpenOpImageFilter_h
+#define itkSharpenOpImageFilter_h
 
 #include "itkTernaryFunctorImageFilter.h"
 
 namespace itk
 {
-
 /** \class SharpenOpImageFilter
  * \brief Implements the sharpening operation. The inputs are the
  * dilated, eroded and original images.
@@ -30,7 +28,6 @@ namespace itk
  */
 namespace Function
 {
-
 template <class TInput1, class TInput2, class TInput3, class TOutput>
 class SharpM
 {
@@ -42,11 +39,13 @@ public:
   {
     return false;
   }
+
   bool
   operator==(const SharpM & other) const
   {
     return !(*this != other);
   }
+
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C)
   {
@@ -56,9 +55,13 @@ public:
     TInput2 diff2 = B - C;
 
     if (diff1 < diff2)
+    {
       return (TOutput)A;
+    }
     if (diff2 < diff1)
+    {
       return (TOutput)C;
+    }
     return ((TOutput)B);
   }
 };
@@ -105,8 +108,6 @@ private:
   void
   operator=(const Self &); // purposely not implemented
 };
-
 } // end namespace itk
-
 
 #endif

@@ -1,12 +1,11 @@
-#ifndef __itkBinaryErodeParaImageFilter_h
-#define __itkBinaryErodeParaImageFilter_h
+#ifndef itkBinaryErodeParaImageFilter_h
+#define itkBinaryErodeParaImageFilter_h
 
 #include "itkParabolicErodeImageFilter.h"
 #include "itkGreaterEqualValImageFilter.h"
 
 namespace itk
 {
-
 /**
  * \class BinaryErodeParaImageFilter
  * \brief Class for binary morphological erosion operation.
@@ -48,12 +47,10 @@ namespace itk
  * Australia.  <Richard.Beare@monash.edu>
  **/
 
-
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT BinaryErodeParaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 
 {
-
 public:
   /** Standard class typedefs. */
   typedef BinaryErodeParaImageFilter                    Self;
@@ -66,7 +63,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(BinaryErodeParaImageFilter, ImageToImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                       InputImageType;
@@ -92,6 +88,7 @@ public:
 
   void
   SetRadius(ScalarRealType radius);
+
   itkSetMacro(Radius, RadiusType);
   itkGetConstReferenceMacro(Radius, RadiusType);
 
@@ -101,6 +98,7 @@ public:
     m_RectPara->SetUseImageSpacing(g);
     m_CircPara->SetUseImageSpacing(g);
   }
+
   /**
    * Set/Get whether the erosion is circular/rectangular -
    * default is true (circular)
@@ -119,7 +117,7 @@ protected:
   GenerateData(void);
 
   BinaryErodeParaImageFilter();
-  virtual ~BinaryErodeParaImageFilter() {};
+  virtual ~BinaryErodeParaImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -133,21 +131,21 @@ protected:
 private:
   BinaryErodeParaImageFilter(const Self &); // purposely not implemented
   void
-                                      operator=(const Self &); // purposely not implemented
-  RadiusType                          m_Radius;
-  bool                                m_Circular;
+  operator=(const Self &); // purposely not implemented
+
+  RadiusType m_Radius;
+  bool       m_Circular;
+
   typename CircParabolicType::Pointer m_CircPara;
   typename CCastType::Pointer         m_CircCast;
 
   typename RectParabolicType::Pointer m_RectPara;
   typename RCastType::Pointer         m_RectCast;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkBinaryErodeParaImageFilter.hxx"
 #endif
-
 
 #endif //__itkBinaryErodeParaImageFilter_h

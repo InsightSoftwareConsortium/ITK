@@ -1,5 +1,5 @@
-#ifndef __itkMorphologicalSignedDistanceTransformImageFilter_hxx
-#define __itkMorphologicalSignedDistanceTransformImageFilter_hxx
+#ifndef itkMorphologicalSignedDistanceTransformImageFilter_hxx
+#define itkMorphologicalSignedDistanceTransformImageFilter_hxx
 
 #include "itkMorphologicalSignedDistanceTransformImageFilter.h"
 #include "itkProgressAccumulator.h"
@@ -24,6 +24,7 @@ MorphologicalSignedDistanceTransformImageFilter<TInputImage,
   m_OutsideValue = 0;
   m_ParabolicAlgorithm = INTERSECTION;
 }
+
 template <typename TInputImage, typename TOutputImage>
 void
 MorphologicalSignedDistanceTransformImageFilter<TInputImage, TOutputImage>::Modified() const
@@ -39,8 +40,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 MorphologicalSignedDistanceTransformImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 {
-
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+
   progress->SetMiniPipelineFilter(this);
   // these values are guesses at present - need to profile to get a
   // real idea
@@ -106,6 +107,7 @@ MorphologicalSignedDistanceTransformImageFilter<TInputImage, TOutputImage>::Gene
   this->GraftOutput(m_Dilate->GetOutput());
 #endif
 }
+
 template <typename TInputImage, typename TOutputImage>
 void
 MorphologicalSignedDistanceTransformImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
@@ -115,7 +117,6 @@ MorphologicalSignedDistanceTransformImageFilter<TInputImage, TOutputImage>::Prin
   os << "Outside Value = " << (OutputPixelType)m_OutsideValue << std::endl;
   os << "ImageScale = " << m_Erode->GetUseImageSpacing() << std::endl;
 }
-
 } // namespace itk
 
 #endif

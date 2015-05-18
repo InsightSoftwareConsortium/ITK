@@ -1,5 +1,5 @@
-#ifndef __itkParabolicOpenCloseImageFilter_h
-#define __itkParabolicOpenCloseImageFilter_h
+#ifndef itkParabolicOpenCloseImageFilter_h
+#define itkParabolicOpenCloseImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
@@ -35,7 +35,6 @@ namespace itk
 template <typename TInputImage, bool doOpen, typename TOutputImage = TInputImage>
 class ITK_EXPORT ParabolicOpenCloseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
-
 public:
   /** Standard class typedefs. */
   typedef ParabolicOpenCloseImageFilter                 Self;
@@ -48,7 +47,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(ParabolicOpenCloseImageFilter, ImageToImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                       InputImageType;
@@ -72,21 +70,21 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-
   /** a type to represent the "kernel radius" */
   typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
-
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 
   typedef typename NumericTraits<PixelType>::FloatType InternalRealType;
-  // typedef typename Image<InternalRealType, itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+  // typedef typename Image<InternalRealType,
+  //  itkGetStaticConstMacro(ImageDimension) >   RealImageType;
 
   // set all of the scales the same
   void
   SetScale(ScalarRealType scale);
+
   itkSetMacro(Scale, RadiusType);
   itkGetConstReferenceMacro(Scale, RadiusType);
   /**
@@ -122,23 +120,25 @@ public:
 
   /** End concept checking */
 #endif
-
 protected:
   ParabolicOpenCloseImageFilter();
-  virtual ~ParabolicOpenCloseImageFilter() {};
+  virtual ~ParabolicOpenCloseImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Generate Data */
   void
   GenerateData(void);
+
   unsigned int
   SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
 
   void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+
   virtual void
   GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+
   // Override since the filter produces the entire dataset.
   void
   EnlargeOutputRequestedRegion(DataObject * output);
@@ -148,21 +148,25 @@ protected:
 private:
   ParabolicOpenCloseImageFilter(const Self &); // purposely not implemented
   void
-                                  operator=(const Self &); // purposely not implemented
-  RadiusType                      m_Scale;
-  typename TInputImage::PixelType m_Extreme, m_Extreme1, m_Extreme2;
+  operator=(const Self &); // purposely not implemented
 
-  int  m_MagnitudeSign, m_MagnitudeSign1, m_MagnitudeSign2;
+  RadiusType m_Scale;
+
+  typename TInputImage::PixelType m_Extreme;
+  typename TInputImage::PixelType m_Extreme1;
+  typename TInputImage::PixelType m_Extreme2;
+
+  int  m_MagnitudeSign;
+  int  m_MagnitudeSign1;
+  int  m_MagnitudeSign2;
   int  m_CurrentDimension;
   int  m_Stage;
   bool m_UseImageSpacing;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkParabolicOpenCloseImageFilter.hxx"
 #endif
-
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef __itkParabolicDilateImageFilter_h
-#define __itkParabolicDilateImageFilter_h
+#ifndef itkParabolicDilateImageFilter_h
+#define itkParabolicDilateImageFilter_h
 
 #include "itkParabolicErodeDilateImageFilter.h"
 #include "itkNumericTraits.h"
@@ -31,7 +31,6 @@ namespace itk
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT ParabolicDilateImageFilter : public ParabolicErodeDilateImageFilter<TInputImage, true, TOutputImage>
 {
-
 public:
   /** Standard class typedefs. */
   typedef ParabolicDilateImageFilter                                       Self;
@@ -44,7 +43,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(ParabolicDilateImageFilter, ParabolicErodeDilateImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                       InputImageType;
@@ -65,16 +63,14 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
 protected:
-  ParabolicDilateImageFilter() {};
-  virtual ~ParabolicDilateImageFilter() {};
+  ParabolicDilateImageFilter() {}
+  virtual ~ParabolicDilateImageFilter() {}
   //   void PrintSelf(std::ostream& os, Indent indent) const;
-
 private:
   ParabolicDilateImageFilter(const Self &); // purposely not implemented
   void
   operator=(const Self &); // purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

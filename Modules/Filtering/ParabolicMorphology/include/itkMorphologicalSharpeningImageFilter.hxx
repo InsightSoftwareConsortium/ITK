@@ -1,5 +1,5 @@
-#ifndef __itkMorphologicalSharpeningImageFilter_hxx
-#define __itkMorphologicalSharpeningImageFilter_hxx
+#ifndef itkMorphologicalSharpeningImageFilter_hxx
+#define itkMorphologicalSharpeningImageFilter_hxx
 
 #include "itkMorphologicalSharpeningImageFilter.h"
 #include "itkProgressAccumulator.h"
@@ -22,13 +22,12 @@ MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::MorphologicalShar
   this->SetUseImageSpacing(false);
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 {
-
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
@@ -48,7 +47,6 @@ MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData(void
   progress->RegisterInternalFilter(m_Dilate, 1.0f);
   progress->RegisterInternalFilter(m_SharpenOp, 1.0f);
 
-
   // set up the progrss monitor
   // WatershedMiniPipelineProgressCommand::Pointer c =
   //   WatershedMiniPipelineProgressCommand::New();
@@ -58,7 +56,6 @@ MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData(void
   // m_Erode->AddObserver(ProgressEvent(), c);
   // m_Dilate->AddObserver(ProgressEvent(), c);
   // m_SharpenOp->AddObserver(ProgressEvent(), c);
-
 
   for (int i = 0; i < m_Iterations; i++)
   {
@@ -84,9 +81,6 @@ MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
   Superclass::PrintSelf(os, indent);
   os << "Iterations = " << m_Iterations << std::endl;
 }
-
-
 } // end namespace itk
-
 
 #endif

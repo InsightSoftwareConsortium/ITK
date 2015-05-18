@@ -1,5 +1,5 @@
-#ifndef __itkMorphologicalSignedDistanceTransformImageFilter_h
-#define __itkMorphologicalSignedDistanceTransformImageFilter_h
+#ifndef itkMorphologicalSignedDistanceTransformImageFilter_h
+#define itkMorphologicalSignedDistanceTransformImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkProgressReporter.h"
@@ -50,7 +50,6 @@ namespace itk
  *
  **/
 
-
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT MorphologicalSignedDistanceTransformImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -66,7 +65,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(MorphologicalSignedDistanceTransformImageFilter, ImageToImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                            InputImageType;
@@ -138,13 +136,11 @@ public:
   itkSetMacro(ParabolicAlgorithm, int);
   itkGetConstReferenceMacro(ParabolicAlgorithm, int);
 
-
   const bool &
   GetUseImageSpacing()
   {
     return m_Erode->GetUseImageSpacing();
   }
-
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -156,17 +152,16 @@ public:
 
   /** End concept checking */
 #endif
-
-
 protected:
   MorphologicalSignedDistanceTransformImageFilter();
-  virtual ~MorphologicalSignedDistanceTransformImageFilter() {};
+  virtual ~MorphologicalSignedDistanceTransformImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Generate Data */
   void
-      GenerateData(void);
+  GenerateData(void);
+
   int m_ParabolicAlgorithm;
 
   // do everything in the output image type, which should have high precision
@@ -176,9 +171,11 @@ protected:
   typedef typename itk::MorphSDTHelperImageFilter<OutputImageType, OutputImageType>  HelperType;
 
 private:
-  MorphologicalSignedDistanceTransformImageFilter(const Self &); // purposely not implemented
+  MorphologicalSignedDistanceTransformImageFilter(const Self &); // purposely not
+                                                                 //  implemented
   void
-  operator=(const Self &); // purposely not implemented
+  operator=(const Self &); // purposely not
+                           //  implemented
 
   InputPixelType               m_OutsideValue;
   bool                         m_InsideIsPositive;
@@ -187,11 +184,9 @@ private:
   typename ThreshType::Pointer m_Thresh;
   typename HelperType::Pointer m_Helper;
 };
-
 } // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMorphologicalSignedDistanceTransformImageFilter.hxx"
 #endif
-
 
 #endif

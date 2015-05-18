@@ -1,5 +1,5 @@
-#ifndef __itkMorphologicalDistanceTransformImageFilter_h
-#define __itkMorphologicalDistanceTransformImageFilter_h
+#ifndef itkMorphologicalDistanceTransformImageFilter_h
+#define itkMorphologicalDistanceTransformImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkProgressReporter.h"
@@ -38,7 +38,6 @@ namespace itk
  *
  **/
 
-
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT MorphologicalDistanceTransformImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -54,7 +53,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(MorphologicalDistanceTransformImageFilter, ImageToImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                            InputImageType;
@@ -84,14 +82,12 @@ public:
   itkSetMacro(OutsideValue, InputPixelType);
   itkGetConstReferenceMacro(OutsideValue, InputPixelType);
 
-
   /** Is the transform in world or voxel units - default is world */
   void
   SetUseImageSpacing(bool uis)
   {
     m_Erode->SetUseImageSpacing(uis);
   }
-
 
   const bool &
   GetUseImageSpacing()
@@ -103,7 +99,6 @@ public:
   itkGetConstReferenceMacro(SqrDist, bool);
   itkBooleanMacro(SqrDist);
 
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(SameDimension,
@@ -114,11 +109,9 @@ public:
 
   /** End concept checking */
 #endif
-
-
 protected:
   MorphologicalDistanceTransformImageFilter();
-  virtual ~MorphologicalDistanceTransformImageFilter() {};
+  virtual ~MorphologicalDistanceTransformImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -132,9 +125,11 @@ protected:
   typedef typename itk::SqrtImageFilter<OutputImageType, OutputImageType>           SqrtType;
 
 private:
-  MorphologicalDistanceTransformImageFilter(const Self &); // purposely not implemented
+  MorphologicalDistanceTransformImageFilter(const Self &); // purposely not
+                                                           //  implemented
   void
-  operator=(const Self &); // purposely not implemented
+  operator=(const Self &); // purposely not
+                           //  implemented
 
   InputPixelType               m_OutsideValue;
   typename ErodeType::Pointer  m_Erode;
@@ -142,11 +137,9 @@ private:
   typename SqrtType::Pointer   m_Sqrt;
   bool                         m_SqrDist;
 };
-
 } // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMorphologicalDistanceTransformImageFilter.hxx"
 #endif
-
 
 #endif

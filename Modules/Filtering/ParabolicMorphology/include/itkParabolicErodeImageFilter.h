@@ -1,5 +1,5 @@
-#ifndef __itkParabolicErodeImageFilter_h
-#define __itkParabolicErodeImageFilter_h
+#ifndef itkParabolicErodeImageFilter_h
+#define itkParabolicErodeImageFilter_h
 
 #include "itkParabolicErodeDilateImageFilter.h"
 #include "itkNumericTraits.h"
@@ -31,7 +31,6 @@ namespace itk
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT ParabolicErodeImageFilter : public ParabolicErodeDilateImageFilter<TInputImage, false, TOutputImage>
 {
-
 public:
   /** Standard class typedefs. */
   typedef ParabolicErodeImageFilter                                         Self;
@@ -44,7 +43,6 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(ParabolicErodeImageFilter, ParabolicErodeDilateImageFilter);
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                                       InputImageType;
@@ -66,19 +64,15 @@ public:
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
-
-
 protected:
-  ParabolicErodeImageFilter() {};
-  virtual ~ParabolicErodeImageFilter() {};
+  ParabolicErodeImageFilter() {}
+  virtual ~ParabolicErodeImageFilter() {}
   //   void PrintSelf(std::ostream& os, Indent indent) const;
-
 private:
   ParabolicErodeImageFilter(const Self &); // purposely not implemented
   void
   operator=(const Self &); // purposely not implemented
 };
-
 } // end namespace itk
 
 #endif
