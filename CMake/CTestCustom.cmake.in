@@ -112,6 +112,8 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*parser.py.*"
   ".*/GCC_XML/.*"
   "checking maximum warning verbosity option.*"
+
+  "warning: Using 'getpwnam' in statically linked applications requires at runtime the shared libraries"
   )
 
 if(APPLE)
