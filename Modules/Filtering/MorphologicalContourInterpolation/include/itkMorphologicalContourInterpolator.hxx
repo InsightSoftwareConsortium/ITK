@@ -90,25 +90,28 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 
       std::pair<OrientationsType::iterator, bool> res = m_Orientations.insert(std::make_pair(val, orientations));
       OrientationsType::iterator                  oRef = res.first;
-      int                                         cTrue = 0;
+      unsigned int                                cTrue = 0, cAdjacent = 0, axis;
       for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
       {
         indPrev = ind;
         indPrev[a]--;
         indNext = ind;
         indNext[a]++;
+        const typename TImage::PixelType prev = input->GetPixel(indPrev);
+        const typename TImage::PixelType next = input->GetPixel(indNext);
+        if (prev == 0 && next == 0)
         {
-          if (input->GetPixel(indPrev) == 0 && input->GetPixel(indNext) == 0)
-          {
-            orientations[a] = true;
-            cTrue++;
-          }
+          axis = a;
+          cTrue++;
+        }
+        else if (prev == val && next == val)
+        {
+          cAdjacent++;
         }
       }
-      if (cTrue == 1) // slice has empty adjacent space only along one axis
+      if (cTrue == 1 && cAdjacent == TImage::ImageDimension - 1) // slice has empty adjacent space only along one axis
       {
-        for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
-          oRef->second[a] = oRef->second[a] || orientations[a]; // add this dimension for this label
+        oRef->second[axis] = true; // add this dimension for this label
       }
     }
     ++it;

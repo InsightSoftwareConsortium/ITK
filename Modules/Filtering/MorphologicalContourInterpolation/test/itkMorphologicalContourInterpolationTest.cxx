@@ -50,6 +50,7 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
   WriterType::Pointer                     writer = WriterType::New();
   writer->SetFileName(outputImageFileName);
   writer->SetInput(mci->GetOutput());
+  writer->SetUseCompression(true);
 
   try
   {
