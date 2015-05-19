@@ -57,12 +57,29 @@ namespace itk
  * not use inputs (the source) or outputs (mappers). In this case, the
  * inputs or outputs is just ignored.
  *
- * The inputs and outputs are referenced by name. The \b Primary input and
- * the \b Primary output play a special role: they drive the pipeline.
+ * VOCABULARY:
+ *   - named entry - an entry indexed by a DataObjectIdentifierType or string.
+ *   - index entry - an entry indexed by an integer, which also always has a
+ *      string identifier.
+ *   - define an input/output - adds a named entry or a indexed entry.
+ *   - required input - a precondition that the inputs is set before updating.
+ *   - set the value - set the value of an input or output, and
+ *       automatically define the entry if it does not exist.
+ *
+ * \note
+ *  - The Primary Input is always defined internally, and is handled as
+ *    a special case for many methods.
+ *  - Some inputs can be defined as required. Either explicitly by
+ *   name or the older ITKv3 style where a certain number of index
+ *   inputs are required.
+ *
+ * The inputs and outputs are referenced by name and optionally by an
+ * integer index. The \b Primary input and the \b Primary output play
+ * a special role: they drive the pipeline.
  *
  * In addition to the reference by name, it is possible to access the
  * inputs and outputs with an index. The index by default is mapped
- * internally to the name of a '_' followed by the index number. This
+ * internally to a name with  '_' followed by the index number. This
  * default name can be changed with the AddRequiredInputName
  * method. The indexed input or output 0 is mapped to the Primary
  * input or output. The name of the  Primary input or output defaults
@@ -141,79 +158,98 @@ public:
   /** STL array of data object names */
   typedef std::vector< DataObjectIdentifierType >  NameArray;
 
-  /** Return a array with the names of the inputs of this process object.
+  /** \brief Return an array with the names of the inputs defined.
+   *
    * The names are ordered lexicographically, and match the order of the
-   * data object produced by GetInputs()
+   * data object produced by GetInputs().
    */
   NameArray GetInputNames() const;
 
-  /** Return an array with the names of the required inputs */
+  /** Return an array with the names of the required inputs. */
   NameArray GetRequiredInputNames() const;
 
-  /** Return a array with the named inputs of this process object.
-   * The order of the inputs match the order of the input names produced
-   * by GetInputNames()
+  /** \brief Return an array of DataObjects with the defined named inputs.
+   *
+   * The order of the inputs matches the order of the input names produced
+   * by GetInputNames().
    */
   DataObjectPointerArray GetInputs();
-  // ConstDataObjectPointerArray GetInputs() const;
 
-  /** Return true if the input with this name exists */
+  /** Return true if the input with this name is defined */
   bool HasInput( const DataObjectIdentifierType & key ) const;
 
   typedef DataObjectPointerArray::size_type DataObjectPointerArraySizeType;
 
-  /** Get the size of the input container. This is not the number of
-   * inputs that have valid  DataObject's assigned. If the Primary
-   * input is ITK_NULLPTR it is not counted. Use
-   * GetNumberOfValidRequiredInputs() to determine how many inputs are
-   * non-null.
+  /** \brief Get the size of the input container.
+   *
+   * If the Primary input is ITK_NULLPTR it is not counted. This is
+   * not the number of inputs that have valid DataObject's
+   * assigned. Use GetNumberOfValidRequiredInputs() to determine how
+   * many inputs are non-null.
+   *
+   * \sa GetNumberOfValidRequiredInputs
+   * \sa GetNumberOfIndexedInputs
    */
   DataObjectPointerArraySizeType GetNumberOfInputs() const;
 
+  /** \brief Get the size of the output container. */
   DataObjectPointerArraySizeType GetNumberOfOutputs() const;
 
-  /** Return a array with the names of the outputs of this process object.
+  /** \brief Return an array with the defined names of the outputs.
+   *
    * The names are ordered lexicographically, and match the order of the
    * data object produced by GetOutputs()
    */
   NameArray GetOutputNames() const;
 
-  /** Return a array with the named outputs of this process object.
+  /** \brief Return an array with the defined named outputs.
+   *
    * The order of the outputs match the order of the input names produced
-   * by GetOutputNames()
+   * by GetOutputNames().
    */
   DataObjectPointerArray GetOutputs();
-  // ConstDataObjectPointerArray GetOutputs() const;
 
-  /** Return true if the output with this name exists */
+  /** \brief Return true if the output with this name is defined. */
   bool HasOutput( const DataObjectIdentifierType & key ) const;
 
-  /** Return an array with all the inputs of this process object.
-   * This is useful for tracing back in the pipeline to construct
-   * graphs etc.  */
+  /** \brief Return an array with all the indexed inputs. */
   DataObjectPointerArray GetIndexedInputs();
-  // ConstDataObjectPointerArray GetIndexedInputs() const;
 
-  /** Get the size of the input vector.  This is merely the size of
-   * the input vector, not the number of inputs that have valid
-   * DataObject's assigned. Use GetNumberOfValidRequiredInputs() to
-   * determine how many indexed inputs are non-null. */
+  /** \brief Get the number of defined Indexed inputs.
+   *
+   * This is merely the size of the index input vector, not the number
+   * of inputs that have valid DataObject's assigned. The \b Primary
+   * inputs is handled as a special case. Use
+   * GetNumberOfValidRequiredInputs() to determine how many indexed
+   * inputs are non-null.
+   *
+   * All indexed inputs up to this value are defined.
+   *
+   * \sa GetNumberOfInputs
+   * \sa GetNumberOfValidRequiredInputs
+   */
   DataObjectPointerArraySizeType GetNumberOfIndexedInputs() const;
 
-  /** Get the number of valid \b indexed inputs. This method is used to
-   * determine whether the necessary required inputs have been set.
+  /** \brief Get the number of valid \b indexed inputs.
+   *
+   * Returns the number of non-null indexed inputs. This method is
+   * used to determine whether the correct number of inputs are set to
+   * valid values.
+   *
+   * \sa GetNumberOfInputs
+   * \sa GetNumberOfIndexedInputs
    */
   virtual DataObjectPointerArraySizeType GetNumberOfValidRequiredInputs() const;
 
-  /** Return an array with all the outputs of this process object.
-   * This is useful for tracing forward in the pipeline to contruct
-   * graphs etc. */
+  /** \brief Return an array with the indexed outputs. */
   DataObjectPointerArray GetIndexedOutputs();
-  // ConstDataObjectPointerArray GetIndexedOutputs() const;
+
+  /** \brief The number of defined Indexed outputs. */
   DataObjectPointerArraySizeType GetNumberOfIndexedOutputs() const;
 
-  /** Make a DataObject of the correct type to used as the specified
-   * output.  Every ProcessObject subclass must be able to create a
+  /** \brief Make a DataObject of the correct type to used as the specified output.
+   *
+   * Every ProcessObject subclass must be able to create a
    * DataObject that can be used as a specified output. This method
    * is automatically called when DataObject::DisconnectPipeline() is
    * called.  DataObject::DisconnectPipeline, disconnects a data object
@@ -228,15 +264,17 @@ public:
    * filter must provide an implementation of MakeOutput(). */
   virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
-  /** Set the AbortGenerateData flag for the process object. Process objects
-   *  may handle premature termination of execution in different ways.  */
+  /** \brief Set the AbortGenerateData flag for the process object.
+   *
+   * Process objects may handle premature termination of execution in
+   * different ways.
+   */
   itkSetMacro(AbortGenerateData, bool);
 
-  /** Get the AbortGenerateData flag for the process object. Process objects
-   *  may handle premature termination of execution in different ways.  */
+  /** \brief Get the AbortGenerateData flag for the process object. */
   itkGetConstReferenceMacro(AbortGenerateData, bool);
 
-  /** Turn on and off the AbortGenerateData flag. */
+  /** \brief Turn on and off the AbortGenerateData flag. */
   itkBooleanMacro(AbortGenerateData);
 
   /** \deprecated
@@ -260,19 +298,24 @@ public:
   }
 #endif
 
-  /** Get the execution progress of a process object. The progress is
-   * a floating number in [0,1] with 0 meaning no progress and 1 meaning
-   * the filter has completed execution. */
+  /** \brief Get the execution progress of a process object.
+   *
+   * The progress is a floating number in [0,1] with 0 meaning no
+   * progress and 1 meaning the filter has completed execution.
+   */
   itkGetConstReferenceMacro(Progress, float);
 
-  /** Update the progress of the process object.
+  /** \brief Update the progress of the process object.
    *
    * Sets the Progress ivar to amount and invokes any observers for
    * the ProgressEvent. The parameter amount should be in [0,1] and is
-   * the cumulative (not incremental) progress. */
+   * the cumulative (not incremental) progress.
+    */
   void UpdateProgress(float progress);
 
-  /** Bring this filter up-to-date. Update() checks modified times against
+  /** \brief Bring this filter up-to-date.
+   *
+   * Update() checks modified times against
    * last execution times, and re-executes objects if necessary. A side
    * effect of this method is that the whole pipeline may execute
    * in order to bring this filter up-to-date. This method updates the
@@ -289,18 +332,24 @@ public:
    * reset to the new largest possible region.  Instead, the output requested
    * region will be the same as the last time Update() was called. To have
    * a filter always to produce its largest possible region, users should
-   * call UpdateLargestPossibleRegion() instead. */
+   * call UpdateLargestPossibleRegion() instead.
+   */
   virtual void Update();
 
-  /** Like Update(), but sets the output requested region to the
-   * largest possible region for the output.  This is the method users
+  /** \brief Sets the output requested region to the largest possible
+   * region and updates.
+   *
+   * This is the method users
    * should call if they want the entire dataset to be processed.  If
    * a user wants to update the same output region as a previous call
    * to Update() or a previous call to UpdateLargestPossibleRegion(),
-   * then they should call the method Update(). */
+   * then they should call the method Update().
+    */
   virtual void UpdateLargestPossibleRegion();
 
-  /** Update the information describing the output data. This method
+  /** \brief Update the information describing the output data.
+   *
+   * This method
    * transverses up the pipeline gathering modified time information.
    * On the way back down the pipeline, this method calls
    * GenerateOutputInformation() to set any necessary information
@@ -311,7 +360,8 @@ public:
    * of GenerateOutputInformation prior to changing the information
    * values they need (i.e. GenerateOutputInformation() should call
    * Superclass::GenerateOutputInformation() prior to changing the
-   * information. */
+   * information.
+   */
   virtual void UpdateOutputInformation();
 
   /** Send the requested region information back up the pipeline (to the
@@ -327,16 +377,22 @@ public:
    * in complete slices. Such filters cannot handle smaller requested regions.
    * These filters must provide an implementation of this method, setting
    * the output requested region to the size they will produce.  By default,
-   * a process object does not modify the size of the output requested region. */
+   * a process object does not modify the size of the output requested
+   * region.
+    */
   virtual void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ){}
 
-  /** Reset the pipeline. If an exception is thrown during an Update(),
+  /** \brief Reset the pipeline.
+   *
+   * If an exception is thrown during an Update(),
    * the pipeline may be in an inconsistent state.  This method clears
-   * the internal state of the pipeline so Update() can be called. */
+   * the internal state of the pipeline so Update() can be called.
+    */
   virtual void ResetPipeline();
 
-  /** Make a DataObject of the correct type to used as the specified
-   * output.  Every ProcessObject subclass must be able to create a
+  /** \brief Make a DataObject of the correct type to used as the specified output.
+   *
+   *  Every ProcessObject subclass must be able to create a
    * DataObject that can be used as a specified output. This method
    * is automatically called when DataObject::DisconnectPipeline() is
    * called.  DataObject::DisconnectPipeline, disconnects a data object
@@ -348,7 +404,8 @@ public:
    * itkSmartPointer to a DataObject. ImageSource and MeshSource override
    * this method to create the correct type of image and mesh respectively.
    * If a filter has multiple outputs of different types, then that
-   * filter must provide an implementation of MakeOutput(). */
+   * filter must provide an implementation of MakeOutput().
+   */
   virtual DataObjectPointer MakeOutput( const DataObjectIdentifierType & );
 
   /** Turn on/off the flags to control whether the bulk data belonging
@@ -442,7 +499,10 @@ protected:
   // Input Methods
   //
 
-  /** Return an input, ITK_NULLPTR is returned if out of bounds or not set. */
+  /** \brief Return an input.
+   *
+   * ITK_NULLPTR is returned if the name or indexed input is undefined.
+   */
   DataObject * GetInput(const DataObjectIdentifierType & key);
   const DataObject * GetInput(const DataObjectIdentifierType & key) const;
 
@@ -453,21 +513,26 @@ protected:
   const DataObject * GetInput(DataObjectPointerArraySizeType idx) const
   { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : ITK_NULLPTR; }
 
-  /** Set an input */
+  /** \brief Protected method for setting indexed and named inputs.
+   *
+   * Subclasses make use of them for setting input. As this method
+   * only used the base DataObject pointer, derived classes should
+   * expose a type check methods.
+    */
   virtual void SetInput(const DataObjectIdentifierType & key, DataObject *input);
-
-  /** Protected methods for setting indexed inputs.
-   * Subclasses make use of them for setting input. */
   virtual void SetNthInput(DataObjectPointerArraySizeType num, DataObject *input);
 
   /** Sets first ITK_NULLPTR indexed input, appends to the end otherwise */
   virtual void AddInput(DataObject *input);
 
-  /** Push/Pop an indexed input of this process object. These methods allow a
+  /** \brief Push/Pop an indexed input of this process object.
+   *
+   * These methods allow a
    * filter to model its input vector as a queue or stack.  These
    * routines may not be appropriate for all filters, especially
    * filters with different types of inputs.  These routines follow
-   * the semantics of STL. */
+   * the semantics of STL.
+   */
   virtual void PushBackInput(const DataObject *input);
   virtual void PopBackInput();
   virtual void PushFrontInput(const DataObject *input);
@@ -477,7 +542,7 @@ protected:
    *
    *  If the input is the last indexed input the number of indexed
    *  inputs will be reduced by one. Otherwise, if the input is
-   *  required or an index it will be set to ITK_NULLPTR.
+   *  required or indexed it will be set to ITK_NULLPTR.
    */
   virtual void RemoveInput(const DataObjectIdentifierType & key);
   virtual void RemoveInput(DataObjectPointerArraySizeType);
@@ -496,28 +561,48 @@ protected:
   /** Set the main input */
   virtual void SetPrimaryInput(DataObject *input);
 
-  /** Define the number of indexed inputs defined for this
-   * process. The new indexed inputs are considered to be ITK_NULLPTR. If the
-   * size is a reduction then those elements are removed.
+  /** \brief Define the number of indexed inputs defined.
+   *
+   * The new indexed inputs' values are set to
+   * ITK_NULLPTR. If the size is reduced then the input definition is
+   * removed entirely from the named input entries and index inputs.
    */
   void SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);
 
-  /** Set the number of required \b indexed inputs. If an input is
-   * index by name only as is not associated with an index it is not
-   * considered this count. In this class' VerifyPreconditions(), the
-   * is check that GetNumberOfValidRequiredInputs() is at least this
-   * value.
+  /** \brief Set the number of required \b indexed inputs.
+   *
+   * If an input is not associated with an index and only a named
+   * entry, it is not considered in this count. In the method
+   * VerifyPreconditions(), GetNumberOfValidRequiredInputs() is
+   * checked to be at least this value.
+   *
+   * \note SetNumberOfRequiredIndexInputs maybe a better name.
    */
   virtual void SetNumberOfRequiredInputs(DataObjectPointerArraySizeType);
   itkGetConstReferenceMacro(NumberOfRequiredInputs, DataObjectPointerArraySizeType);
 
-  /** Methods to add/remove and query the set of required inputs by name.
-   */
+
+  /** \brief Define a named input and mark as required.  */
   bool AddRequiredInputName( const DataObjectIdentifierType & );
-  bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
+
+  /** \brief Remove the named input from the required inputs
+   *
+   * The named input remains defined or set afterwards.
+   */
   bool RemoveRequiredInputName( const DataObjectIdentifierType & );
+
+  /** \brief Query if the named input is required by name. */
   bool IsRequiredInputName( const DataObjectIdentifierType & ) const;
+
+  /** \brief Set all required named inputs.
+   *
+   * All named inputs remain defined or set.
+   */
   void SetRequiredInputNames( const NameArray & );
+
+
+  /** \brief Define a required name input and associate with an indexed input.  */
+  bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
 
   //
   // Output Methods
