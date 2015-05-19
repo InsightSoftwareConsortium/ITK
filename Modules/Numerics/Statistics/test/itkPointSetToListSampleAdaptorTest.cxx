@@ -152,7 +152,7 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
   for( unsigned int i=0; i < numberOfPoints; i++ )
     {
     PointSetToListSampleAdaptorType::InstanceIdentifier id = i;
-    PointSetType::PointType   tempPointSet;
+    PointSetType::PointType   tempPointSet( 0.0 );
     pointSet->GetPoint( i, &tempPointSet );
 
     if ( listSample->GetMeasurementVector( id ) != tempPointSet )
