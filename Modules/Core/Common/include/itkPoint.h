@@ -101,7 +101,7 @@ public:
   {
     bool same = true;
 
-    for ( unsigned int i = 0; i < NPointDimension && same; i++ )
+    for ( unsigned int i = 0; i < NPointDimension && same; ++i )
           { same = ( ( *this )[i] == pt[i] ); }
     return same;
   }
@@ -114,7 +114,7 @@ public:
 
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wfloat_equal
-    for ( unsigned int i = 0; i < NPointDimension && same; i++ )
+    for ( unsigned int i = 0; i < NPointDimension && same; ++i )
           { same = ( ( *this )[i] == pt[i] ); }
 CLANG_PRAGMA_POP
     return !same;
