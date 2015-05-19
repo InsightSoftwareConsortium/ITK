@@ -124,11 +124,13 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
 
-  typedef DisplacementSourceType::LandmarkContainer          LandmarkContainerType;
-  typedef DisplacementSourceType::LandmarkPointType          LandmarkPointType;
+  typedef DisplacementSourceType::LandmarkContainer LandmarkContainerType;
+  typedef DisplacementSourceType::LandmarkPointType LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
+  LandmarkContainerType::Pointer sourceLandmarks =
+    LandmarkContainerType::New();
+  LandmarkContainerType::Pointer targetLandmarks =
+    LandmarkContainerType::New();
 
   LandmarkPointType sourcePoint;
   LandmarkPointType targetPoint;
