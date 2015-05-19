@@ -45,6 +45,16 @@ check_include_files("sys/types.h" HAVE_SYS_TYPES_H)
 include(CheckSupportForSSERounding)
 
 
+# Test for atomics and other compiler intrinsics
+include(itkCheckBuiltins)
+
+
+# Check for atomic functions
+include(CheckSymbolExists)
+if (WIN32)
+  check_symbol_exists(InterlockedAdd "windows.h" ITK_HAS_INTERLOCKEDADD)
+endif()
+
 
 # Check for the new C++11 alignas type specifier for future portable alignment
 try_compile( ITK_HAS_CPP11_ALIGNAS
