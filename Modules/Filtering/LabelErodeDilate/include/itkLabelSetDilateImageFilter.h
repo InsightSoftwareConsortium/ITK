@@ -81,7 +81,7 @@ protected:
   LabelSetDilateImageFilter(){}
   virtual ~LabelSetDilateImageFilter() {}
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   LabelSetDilateImageFilter(const Self &); //purposely not implemented

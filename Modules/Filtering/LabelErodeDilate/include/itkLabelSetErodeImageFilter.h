@@ -86,7 +86,7 @@ protected:
   LabelSetErodeImageFilter(){}
   virtual ~LabelSetErodeImageFilter() {}
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset.
 private:
