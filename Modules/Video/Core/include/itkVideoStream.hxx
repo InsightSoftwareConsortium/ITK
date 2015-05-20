@@ -248,12 +248,12 @@ VideoStream<TFrameType>
   if (m_DataObjectBuffer->GetNumberOfBuffers() < minimumNumberOfFrames)
     {
     // Save the indices of all frames in the currently buffered region
-    SizeValueType bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
-    SizeValueType bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
-    std::map<SizeValueType, DataObject*> frameNumPtrMap;
+    const SizeValueType bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
+    const SizeValueType bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
+    std::vector< DataObject * > frames( bufferedDuration - bufferedStart, ITK_NULLPTR );
     for (SizeValueType i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
       {
-      frameNumPtrMap[i] = m_DataObjectBuffer->GetBufferContents(i);
+      frames[i - bufferedStart] = m_DataObjectBuffer->GetBufferContents(i);
       }
 
     // Resize the ring buffer
@@ -262,7 +262,7 @@ VideoStream<TFrameType>
     // Move previously buffered data to the locations where their frame numbers now map
     for (SizeValueType i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
       {
-      m_DataObjectBuffer->SetBufferContents(i, frameNumPtrMap[i]);
+      m_DataObjectBuffer->SetBufferContents(i, frames[i - bufferedStart]);
       }
     }
 }
