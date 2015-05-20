@@ -29,7 +29,7 @@
 #include "itkImageBase.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkNormalizeToConstantImageFilter.h"
-#include "itkFFTCommon.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -399,7 +399,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     padSize[i] = inputSize[i] + kernelSize[i];
     if( m_SizeGreatestPrimeFactor > 1 )
       {
-      while ( GreatestPrimeFactor( padSize[i] ) > m_SizeGreatestPrimeFactor )
+      while ( Math::GreatestPrimeFactor( padSize[i] ) > m_SizeGreatestPrimeFactor )
         {
         padSize[i]++;
         }
@@ -417,5 +417,15 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   InputSizeType padSize = this->GetPadSize();
   return (padSize[0] % 2 != 0);
 }
+
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
+void
+FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "SizeGreatestPrimeFactor: " << m_SizeGreatestPrimeFactor << std::endl;
+}
+
 }
 #endif

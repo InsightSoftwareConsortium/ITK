@@ -78,6 +78,13 @@ HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
+HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
+::HalfHermitianToRealInverseFFTImageFilter()
+{
+  this->ActualXDimensionIsOddOff();
+}
+
+template< typename TInputImage, typename TOutputImage >
 void
 HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()

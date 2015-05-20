@@ -187,6 +187,8 @@ protected:
   /** Get whether the X dimension has an odd size. */
   bool GetXDimensionIsOdd() const;
 
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+
 private:
   FFTConvolutionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

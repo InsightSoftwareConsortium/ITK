@@ -28,6 +28,13 @@ namespace itk
 {
 
 template< typename TInputImage >
+HalfToFullHermitianImageFilter< TInputImage >
+::HalfToFullHermitianImageFilter()
+{
+  this->ActualXDimensionIsOddOff();
+}
+
+template< typename TInputImage >
 void
 HalfToFullHermitianImageFilter< TInputImage >
 ::GenerateOutputInformation()

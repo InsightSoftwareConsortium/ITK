@@ -166,8 +166,7 @@ test_fft(unsigned int *SizeOfDimensions)
 
   // Inform the filter that there's an odd # of pixels in the x
   // dimension.
-  const bool dimensionIsOdd = SizeOfDimensions[0] & 1;
-  C2R->SetActualXDimensionIsOdd( dimensionIsOdd );
+  C2R->SetActualXDimensionIsOddInput( R2C->GetActualXDimensionIsOddOutput() );
   C2R->Print( std::cout );
   C2R->Update();
   std::cerr << "C2R region: " << C2R->GetOutput()->GetLargestPossibleRegion() << std::endl;

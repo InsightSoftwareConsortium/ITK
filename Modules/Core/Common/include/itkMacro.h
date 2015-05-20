@@ -734,6 +734,10 @@ TTarget itkDynamicCastInDebugMode(TSource x)
       this->Modified();                                                                                       \
       }                                                                                                       \
     }                                                                                                         \
+  virtual void Set##name(const SimpleDataObjectDecorator< type > *_arg)                                \
+    {                                                                                                         \
+    this->Set##name##Input(_arg);                                                                                                  \
+    }                                                                                                         \
   virtual void Set##name(const type &_arg)                           \
     {                                                                \
     typedef SimpleDataObjectDecorator< type > DecoratorType;         \
@@ -1144,5 +1148,64 @@ class kernel                  \
     os << indent << #name << ": " << std::endl;                       \
     this->m_##name->Print(os,indent.GetNextIndent());                 \
     }
+
+
+/** Set a decorated output. This defines the Set"name"() and a Set"name"Output() method */
+#define itkSetDecoratedOutputMacro(name, type)                                                                 \
+  virtual void Set##name##Output(const SimpleDataObjectDecorator< type > *_arg)                                \
+    {                                                                                                         \
+    itkDebugMacro("setting output " #name " to " << _arg);                                                     \
+    if ( _arg != itkDynamicCastInDebugMode< SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetOutput(#name) ) ) \
+      {                                                                                                       \
+      this->ProcessObject::SetOutput( #name, const_cast< SimpleDataObjectDecorator< type > * >( _arg ) );      \
+      this->Modified();                                                                                       \
+      }                                                                                                       \
+    }                                                                                                         \
+  virtual void Set##name(const type &_arg)                                \
+    {                                                                     \
+    typedef SimpleDataObjectDecorator< type > DecoratorType;              \
+    itkDebugMacro("setting output " #name " to " << _arg);                \
+    DecoratorType *output = itkDynamicCastInDebugMode< DecoratorType * >( \
+        this->ProcessObject::GetOutput(#name) );                          \
+    if ( output )                                                         \
+      {                                                                   \
+      if ( output->Get() == _arg )                                        \
+        {                                                                 \
+        return;                                                           \
+        }                                                                 \
+      else                                                                \
+        {                                                                 \
+        output->Set(_arg);                                                \
+        }                                                                 \
+      }                                                                   \
+    else                                                                  \
+      {                                                                   \
+      typename DecoratorType::Pointer newOutput = DecoratorType::New();   \
+      newOutput->Set(_arg);                                               \
+      this->Set##name##Output(newOutput);                                 \
+      }                                                                   \
+    }
+
+/** Set a decorated output. This defines the Get"name"() and Get"name"Output() method */
+#define itkGetDecoratedOutputMacro(name, type)                                                                                \
+  virtual const SimpleDataObjectDecorator< type > * Get##name##Output() const                                                 \
+    {                                                                                                                         \
+    itkDebugMacro( "returning output " << #name " of " << this->ProcessObject::GetOutput(#name) );                            \
+    return itkDynamicCastInDebugMode< const SimpleDataObjectDecorator< type > * >( this->ProcessObject::GetOutput(#name) );   \
+    }                                                                \
+  virtual const type & Get##name() const                             \
+    {                                                                \
+    itkDebugMacro("Getting output " #name);                          \
+    typedef SimpleDataObjectDecorator< type > DecoratorType;         \
+    const DecoratorType *output =                                    \
+      itkDynamicCastInDebugMode< const DecoratorType * >(            \
+        this->ProcessObject::GetOutput(#name) );                     \
+    if( output == ITK_NULLPTR )                                      \
+      {                                                              \
+      itkExceptionMacro(<<"output" #name " is not set");             \
+      }                                                              \
+    return output->Get();                                            \
+    }
+
 
 #endif //end of itkMacro.h

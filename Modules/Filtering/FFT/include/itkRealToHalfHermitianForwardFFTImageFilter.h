@@ -19,6 +19,7 @@
 #define itkRealToHalfHermitianForwardFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkSimpleDataObjectDecorator.h"
 
 namespace itk
 {
@@ -81,8 +82,12 @@ public:
    */
   virtual SizeValueType GetSizeGreatestPrimeFactor() const;
 
+  /** Get whether the actual X dimension of the image is odd or not in the full
+   * representation */
+  itkGetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
+
 protected:
-  RealToHalfHermitianForwardFFTImageFilter() {}
+  RealToHalfHermitianForwardFFTImageFilter();
   virtual ~RealToHalfHermitianForwardFFTImageFilter() {}
 
   /** The output is a different size from the input because of
@@ -94,6 +99,8 @@ protected:
 
   /** This class produces the entire output. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
+
+  itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool)
 
 private:
   RealToHalfHermitianForwardFFTImageFilter(const Self &); // purposely not implemented

@@ -64,15 +64,11 @@ int itkFullToHalfHermitianImageFilterTest(int argc, char *argv[])
   typedef itk::RealToHalfHermitianForwardFFTImageFilter< ImageType, ComplexImageType > FFTFilterType;
   FFTFilterType::Pointer fft = FFTFilterType::New();
   fft->SetInput( changer->GetOutput() );
-  fft->Update();
-
-  ComplexImageType::RegionType fftRegion = fft->GetOutput()->GetLargestPossibleRegion();
 
   // Expand the non-redundant half to the full complex image.
   typedef itk::HalfToFullHermitianImageFilter< ComplexImageType > HalfToFullFilterType;
   HalfToFullFilterType::Pointer halfToFullFilter = HalfToFullFilterType::New();
-  bool xDimensionIsOdd = size[0] % 2 == 1;
-  halfToFullFilter->SetActualXDimensionIsOdd( xDimensionIsOdd  );
+  halfToFullFilter->SetActualXDimensionIsOddInput( fft->GetActualXDimensionIsOddOutput() );
   halfToFullFilter->SetInput( fft->GetOutput() );
 
   typedef itk::FullToHalfHermitianImageFilter< ComplexImageType > FullToHalfFilterType;
@@ -83,6 +79,7 @@ int itkFullToHalfHermitianImageFilterTest(int argc, char *argv[])
 
   // Check that the output of the full-to-half filter has the same
   // size as the output of the FFT filter.
+  ComplexImageType::RegionType fftRegion = fft->GetOutput()->GetLargestPossibleRegion();
   if ( fullToHalfFilter->GetOutput()->GetLargestPossibleRegion() != fftRegion )
     {
     std::cerr << "Output size of full-to-half filter is not the same as the output size "
