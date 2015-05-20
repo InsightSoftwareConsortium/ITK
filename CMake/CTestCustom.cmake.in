@@ -117,9 +117,14 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   )
 
 if(APPLE)
-set(CTEST_CUSTOM_WARNING_EXCEPTION
-  ${CTEST_CUSTOM_WARNING_EXCEPTION}
-  "warning -.: directory name .* does not exist"
-  "ld.*warning.*duplicate dylib.*"
-  )
+  set(CTEST_CUSTOM_WARNING_EXCEPTION
+    ${CTEST_CUSTOM_WARNING_EXCEPTION}
+    "warning -.: directory name .* does not exist"
+    "ld.*warning.*duplicate dylib.*"
+    )
 endif()
+
+set(CTEST_CUSTOM_ERROR_EXCEPTION
+  # Emscripten
+  ".*WARNING  root: emcc: cannot find library.*"
+  )
