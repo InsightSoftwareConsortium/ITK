@@ -310,9 +310,8 @@ ENDIF (HDF5_ENABLE_DEPRECATED_SYMBOLS)
 # Certain systems may add /Debug or /Release to output paths
 # and we need to call the executable from inside the CMake configuration
 #-----------------------------------------------------------------------------
-SET (EXE_EXT "")
+SET (EXE_EXT "${CMAKE_EXECUTABLE_SUFFIX}")
 IF (WIN32)
-  SET (EXE_EXT ".exe")
   IF (NOT CYGWIN)
     ADD_DEFINITIONS (-DBIND_TO_CURRENT_VCLIBS_VERSION=1)
     ADD_DEFINITIONS (-D_CRT_SECURE_NO_WARNINGS)
