@@ -116,11 +116,6 @@ public:
   /** Get the expand factors. */
   itkGetConstReferenceMacro(ExpandFactors, ExpandFactorsType);
 
-//TEST_RMV20100728   /** Set the edge padding value. The default is zero. */
-//TEST_RMV20100728   itkSetMacro( EdgePaddingValue, OutputPixelType );
-//TEST_RMV20100728
-//TEST_RMV20100728   /** Get the edge padding value */
-//TEST_RMV20100728   itkGetConstMacro( EdgePaddingValue, OutputPixelType );
 
   /** ExpandImageFilter produces an image which is a different resolution and
    * with a different pixel spacing than its input image.  As such,
@@ -174,13 +169,6 @@ private:
 
   ExpandFactorsType   m_ExpandFactors;
   InterpolatorPointer m_Interpolator;
-//TEST_RMV20100728 * \warning: The following is valid only when the flag
-//TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
-//TEST_RMV20100728 * The output image will not contain any padding, and
-// therefore the
-//TEST_RMV20100728 * EdgePaddingValue will not be used.
-//TEST_RMV20100728 *
-//TEST_RMV20100728  OutputPixelType        m_EdgePaddingValue;
 };
 } // end namespace itk
 

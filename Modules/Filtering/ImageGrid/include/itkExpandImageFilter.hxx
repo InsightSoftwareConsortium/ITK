@@ -19,7 +19,7 @@
 #define itkExpandImageFilter_hxx
 
 #include "itkExpandImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageScanlineIterator.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
@@ -46,8 +46,6 @@ ExpandImageFilter< TInputImage, TOutputImage >
   m_Interpolator = static_cast< InterpolatorType * >(
     interp.GetPointer() );
 
-//TEST_RMV20100728   // Set default padding value to zero
-//TEST_RMV20100728   m_EdgePaddingValue = NumericTraits<OutputPixelType>::ZeroValue();
 }
 
 /**
@@ -71,12 +69,6 @@ ExpandImageFilter< TInputImage, TOutputImage >
   os << indent << "Interpolator: ";
   os << m_Interpolator.GetPointer() << std::endl;
 
-//TEST_RMV20100728   os << indent << "EdgePaddingValue: "
-//TEST_RMV20100728      << static_cast<typename
-// NumericTraits<OutputPixelType>::PrintType>(m_EdgePaddingValue)
-//TEST_RMV20100728      << std::endl;
-//TEST_RMV20100728   os << indent << "EdgePaddingValue: ";
-//TEST_RMV20100728   os << m_EdgePaddingValue << std::endl;
 }
 
 /**
@@ -131,54 +123,59 @@ ExpandImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  int i;
-
   // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Iterator for walking the output
-  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIterator;
+  typedef ImageScanlineIterator< TOutputImage > OutputIterator;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
-  // Define a few indices that will be used to translate from an input
-  // pixel to and output pixel
-  typename TOutputImage::IndexType outputIndex;
-  typename InterpolatorType::ContinuousIndexType inputIndex;
+  // Report progress on a per scanline basis
+  const SizeValueType size0 = outputRegionForThread.GetSize(0);
+  if( size0 == 0)
+    {
+    return;
+    }
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
+  ProgressReporter progress( this, threadId, numberOfLinesToProcess  );
 
-  // Support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  const size_t ln =  outputRegionForThread.GetSize(0);
 
   // Walk the output region, and interpolate the input image
-  for ( i = 0; !outIt.IsAtEnd(); ++outIt, i++ )
+  while ( !outIt.IsAtEnd() )
     {
-    // Determine the index of the output pixel
-    outputIndex = outIt.GetIndex();
+    const typename OutputImageType::IndexType outputIndex = outIt.GetIndex();
 
-    // Determine the input pixel location associated with this output pixel.
+
+    // Determine the input pixel location associated with this output
+    // pixel at the start of the scanline.
+    //
     // Don't need to check for division by zero because the factors are
     // clamped to be minimum for 1.
+    typename InterpolatorType::ContinuousIndexType inputIndex;
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
       inputIndex[j] = ( (double)outputIndex[j] + 0.5 ) / (double)m_ExpandFactors[j] - 0.5;
       }
 
-    // interpolate value and write to output
-    if ( m_Interpolator->IsInsideBuffer(inputIndex) )
+    const double lineDelta = (double)1.0 / (double)m_ExpandFactors[0];
+
+    for( size_t i = 0; i < ln; ++i )
       {
-      outIt.Set( static_cast< OutputPixelType >(
-                   m_Interpolator->EvaluateAtContinuousIndex(inputIndex) ) );
+
+
+      itkAssertInDebugAndIgnoreInReleaseMacro(m_Interpolator->IsInsideBuffer(inputIndex));
+
+      outIt.Set( static_cast< OutputPixelType >( m_Interpolator->EvaluateAtContinuousIndex(inputIndex) ) );
+      ++outIt;
+
+      // Only increment the x-index as the rest is constant per
+      // scanline.
+      inputIndex[0] += lineDelta;
       }
-    else
-      {
-      itkExceptionMacro(<< "Interpolator outside buffer should never occur ");
-//TEST_RMV20100728 * \warning: The following is valid only when the flag
-//TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
-//TEST_RMV20100728 * The output image will not contain any padding, and
-// therefore the
-//TEST_RMV20100728 * EdgePaddingValue will not be used.
-//TEST_RMV20100728       outIt.Set( m_EdgePaddingValue );
-      }
+
+    outIt.NextLine();
     progress.CompletedPixel();
     }
 }
