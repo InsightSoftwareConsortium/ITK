@@ -276,11 +276,9 @@ public:
   virtual void Graft(const DataObject* data) ITK_OVERRIDE;
 
 protected:
+  VideoStream() {}
+  virtual ~VideoStream() {}
 
-  VideoStream() {
-  }
-  virtual ~VideoStream() {
-  }
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::Print(os, indent);
@@ -300,11 +298,10 @@ protected:
   PointMapType         m_OriginCache;
 
 private:
-
   VideoStream(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
-};  // end class VideoStream
+}; // end class VideoStream
 
 } // end namespace itk
 
