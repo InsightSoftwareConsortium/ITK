@@ -272,7 +272,7 @@ bool sockerr::op () const
   case EHOSTDOWN:
   case EHOSTUNREACH:
   case ENOTEMPTY:
-#   if !defined(__linux__) && !defined(__sun) && !defined(__hpux)// LN
+#   if !defined(__linux__) && !defined(__sun) && !defined(__hpux) && !defined(__EMSCRIPTEN__) // LN
   case EPROCLIM:
 #   endif
   case EUSERS:
