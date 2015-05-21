@@ -78,7 +78,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >::CannyEdgeDetectionIm
   m_NodeStore = ListNodeStorageType::New();
   m_NodeList = ListType::New();
 
-  m_InputImage = ITK_NULLPTR;
   m_OutputImage = ITK_NULLPTR;
 }
 
@@ -262,12 +261,16 @@ void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  this->m_InputImage = this->GetInput();
-  this->m_OutputImage = this->GetOutput();
+  // Use grafting of the input and output of this filter to isolate
+  // the mini-pipeline and other modifications from the pipeline.
+  typename InputImageType::Pointer input = InputImageType::New();
+  input->Graft( const_cast< InputImageType* >(this->GetInput()) );
 
-  // Allocate the output
-  this->m_OutputImage->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
-  this->m_OutputImage->Allocate();
+  // Allocate the output, and graft
+  Superclass::AllocateOutputs();
+  typename OutputImageType::Pointer output = OutputImageType::New();
+  output->Graft( this->GetOutput() );
+  this->m_OutputImage = output;
 
   typename ZeroCrossingImageFilter< TOutputImage, TOutputImage >::Pointer
   zeroCrossFilter = ZeroCrossingImageFilter< TOutputImage, TOutputImage >::New();
@@ -277,7 +280,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   // 1.Apply the Gaussian Filter to the input image.-------
   m_GaussianFilter->SetVariance(m_Variance);
   m_GaussianFilter->SetMaximumError(m_MaximumError);
-  m_GaussianFilter->SetInput(this->m_InputImage);
+  m_GaussianFilter->SetInput(input);
   // modify to force excution, due to grafting complications
   m_GaussianFilter->Modified();
   m_GaussianFilter->Update();
@@ -310,6 +313,9 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   //Then do the double threshoulding upon the edge responses
   this->HysteresisThresholding();
+
+  this->GraftOutput( output );
+  this->m_OutputImage = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TOutputImage >
