@@ -77,6 +77,12 @@ protected:
   void
   DetermineSliceOrientations();
 
+  void
+  InterpolateBetweenTwo(int                             axis,
+                        typename TImage *               out,
+                        typename TImage::IndexValueType i,
+                        typename TImage::IndexValueType j);
+
   /** If interpolation is done along more than one axis,
   the interpolations are merged using a modified "or" rule:
   -if all interpolated images have 0 for a given pixel, the output is 0
@@ -87,10 +93,16 @@ protected:
 
   typedef itk::FixedArray<bool, TImage::ImageDimension>                 OrientationType;
   typedef itksys::hash_map<typename TImage::PixelType, OrientationType> OrientationsType;
+  OrientationsType                                                      m_Orientations;
 
-  typedef std::map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
-  OrientationsType                                                          m_Orientations;
-  BoundingBoxesType                                                         m_BoundingBoxes;
+  typedef itksys::hash_map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
+  BoundingBoxesType                                                                 m_BoundingBoxes;
+
+  // each label gets a set of slices in which it is present
+  typedef std::set<typename TImage::IndexValueType>                  SliceSetType;
+  typedef itksys::hash_map<typename TImage::PixelType, SliceSetType> LabeledSlicesType;
+  std::vector<LabeledSlicesType>                                     m_LabeledSlices; // one for each axis
+
 
   // assumes both valid region and valid index
   void

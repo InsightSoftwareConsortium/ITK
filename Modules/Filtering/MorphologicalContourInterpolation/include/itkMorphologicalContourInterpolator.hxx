@@ -52,7 +52,11 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 {
   typename const TImage * input = this->GetInput();
   typename TImage *       output = this->GetOutput();
-  m_Orientations.clear();
+  m_LabeledSlices.resize(TImage::ImageDimension);
+  // for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
+  //{
+  //   m_LabeledSlices[a] = LabeledSlicesType();
+  // }
 
   typename TImage::RegionType region = output->GetRequestedRegion();
   typename TImage::RegionType largestPossibleRegion = input->GetLargestPossibleRegion();
@@ -112,6 +116,10 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
       if (cTrue == 1 && cAdjacent == TImage::ImageDimension - 1) // slice has empty adjacent space only along one axis
       {
         oRef->second[axis] = true; // add this dimension for this label
+        if (m_Axis == -1 || m_Axis == axis)
+        {
+          m_LabeledSlices[axis][val].insert(ind[axis]);
+        }
       }
     }
     ++it;
@@ -133,9 +141,43 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 
 template <class TImage>
 void
+MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int                             axis,
+                                                                typename TImage *               out,
+                                                                typename TImage::IndexValueType i,
+                                                                typename TImage::IndexValueType j)
+{
+  // determine inter-slice region correspondences
+  // then do one of the three cases
+  // throw "todo";
+}
+
+template <class TImage>
+void
 MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, typename TImage * out)
 {
-  throw "todo";
+  SliceSetType aggregate;
+  for (unsigned int i = 0; i < m_LabeledSlices[axis].size(); i++)
+  {
+    aggregate.insert(m_LabeledSlices[axis][i].begin(), m_LabeledSlices[axis][i].end());
+  }
+  typename SliceSetType::iterator prev = aggregate.begin();
+  if (prev == aggregate.end())
+  {
+    return; // nothing to do
+  }
+
+#pragma omp parallel
+  {
+    typename SliceSetType::iterator it = aggregate.begin();
+    for (++it; it != aggregate.end(); ++it)
+    {
+#pragma omp single nowait
+      {
+        InterpolateBetweenTwo(axis, out, *prev, *it);
+      }
+      prev = it;
+    }
+  }
 }
 
 template <class TImage>
@@ -145,11 +187,12 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
   typename TImage::ConstPointer input = this->GetInput();
   typename TImage::Pointer      output = this->GetOutput();
   this->AllocateOutputs();
+  output->FillBuffer(0); // clear the image now, because interpolation is optimized using bounding boxes
+
+  this->DetermineSliceOrientations();
 
   if (m_Axis == -1)
   {
-    this->DetermineSliceOrientations();
-
     OrientationType aggregate = OrientationType();
     aggregate.Fill(false);
 
@@ -163,16 +206,19 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
       aggregate = m_Orientations[m_Label]; // we only care about this label
 
     std::vector<TImage::Pointer> perAxisInterpolates;
+#pragma omp parallel for
     for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
+    {
       if (aggregate[a])
       {
         TImage::Pointer imageA = TImage::New();
         imageA->CopyInformation(output);
         imageA->SetRegions(output->GetRequestedRegion());
         imageA->Allocate();
-        InterpolateAlong(a, imageA);
+        this->InterpolateAlong(a, imageA);
         perAxisInterpolates.push_back(imageA);
       }
+    }
 
     if (perAxisInterpolates.size() == 1)
     {
@@ -219,7 +265,9 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     }
   }
   else
-    InterpolateAlong(m_Axis, output);
+  {
+    this->InterpolateAlong(m_Axis, output);
+  }
 }
 } // namespace itk
 
