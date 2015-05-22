@@ -100,7 +100,7 @@ protected:
   /** This class produces the entire output. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
-  itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool)
+  itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
 
 private:
   RealToHalfHermitianForwardFFTImageFilter(const Self &); // purposely not implemented
