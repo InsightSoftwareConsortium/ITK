@@ -17,6 +17,15 @@ if(ITK_USE_SYSTEM_CASTXML)
   endif()
 else()
   include(ExternalProject)
+  set(compiler_information)
+  if(NOT CMAKE_CROSSCOMPILING)
+    set(compiler_information
+          -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
+          "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
+          -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
+          "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
+        )
+  endif()
   # might be set to on by default when llvm/clang 3.6 are released
   # option(ITK_USE_SYSTEM_LLVM "Use system llvm and clang. If OFF, llvm and clang are built as external projects." ON)
   set(ITK_USE_SYSTEM_LLVM OFF)
@@ -37,10 +46,7 @@ else()
       CMAKE_ARGS -Wno-dev
       CMAKE_GENERATOR "${CMAKE_GENERATOR}"
       CMAKE_CACHE_ARGS
-        -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
-        "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
-        -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
-        "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
+        ${compiler_information}
         -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
         -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
       INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
@@ -56,10 +62,7 @@ else()
       CMAKE_ARGS -Wno-dev
       CMAKE_GENERATOR "${CMAKE_GENERATOR}"
       CMAKE_CACHE_ARGS
-        -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
-        "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
-        -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
-        "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
+        ${compiler_information}
         -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
         -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
         -DCLANG_INCLUDE_DOCS:BOOL=OFF
@@ -83,10 +86,7 @@ else()
     CMAKE_ARGS -Wno-dev
     CMAKE_GENERATOR "${CMAKE_GENERATOR}"
     CMAKE_CACHE_ARGS
-      -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
-      "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
-      -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
-      "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
+      ${compiler_information}
       -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
       -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
       -DLLVM_DIR:PATH=${LLVM_DIR}
@@ -206,6 +206,9 @@ macro(itk_wrap_module_castxml library_name)
   endif()
   set(c "${c}--castxml-gccxml\n")
   set(c "${c}--castxml-start _cable_\n")
+  if(CMAKE_CROSSCOMPILING)
+    set(c "${c}--target=${CMAKE_CXX_COMPILER_TARGET}\n")
+  endif()
   set(c "${c}-Qunused-arguments\n")
   set(c "${c}-DCABLE_CONFIGURATION\n")
   set(c "${c}-DITK_MANUAL_INSTANTIATION\n")

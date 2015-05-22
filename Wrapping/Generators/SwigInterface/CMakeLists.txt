@@ -83,20 +83,26 @@ else()
     if(ITK_BINARY_DIR)
       itk_download_attempt_check(PCRE)
     endif()
+    set(pcre_env)
+    if(NOT CMAKE_CROSSCOMPILING)
+      set(pcre_env
+        env
+          "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+          "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
+          "LDFLAGS=$ENV{LDFLAGS}"
+          "LIBS=$ENV{LIBS}"
+          "CPPFLAGS=$ENV{CPPFLAGS}"
+          "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
+          "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
+          "CPP=$ENV{CPP}"
+          "CXXPP=$ENV{CXXPP}"
+        )
+    endif()
     ExternalProject_Add(PCRE
     URL http://downloads.sourceforge.net/project/pcre/pcre/8.36/pcre-8.36.tar.gz
     URL_MD5 ff7b4bb14e355f04885cf18ff4125c98
     CONFIGURE_COMMAND
-      env
-        "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-        "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
-        "LDFLAGS=$ENV{LDFLAGS}"
-        "LIBS=$ENV{LIBS}"
-        "CPPFLAGS=$ENV{CPPFLAGS}"
-        "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
-        "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
-        "CPP=$ENV{CPP}"
-        "CXXPP=$ENV{CXXPP}"
+      ${pcre_env}
       ../PCRE/configure
       --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
       --enable-shared=no
@@ -136,8 +142,10 @@ else()
     # Swig configure step
     # Run in a CMake script because it will be flagged as a false-positive
     # warning when executed with CTEST_USE_LAUNCHERS
-    set(_swig_configure_script ${CMAKE_CURRENT_BINARY_DIR}/swig_configure_step.cmake)
-    file(WRITE ${_swig_configure_script} "
+    set(swig_env)
+    if(NOT CMAKE_CROSSCOMPILING)
+      set(swig_env
+"
 set(ENV{CC} \"${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}\")
 set(ENV{CFLAGS} \"${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w\")
 set(ENV{LDFLAGS} \"$ENV{LDFLAGS}\")
@@ -148,6 +156,12 @@ set(ENV{CXXFLAGS} \"${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w\")
 set(ENV{CPP} \"$ENV{CPP}\")
 set(ENV{YACC} \"${BISON_EXECUTABLE}\")
 set(ENV{YFLAGS} \"${BISON_FLAGS}\")
+"
+        )
+    endif()
+    set(_swig_configure_script ${CMAKE_CURRENT_BINARY_DIR}/swig_configure_step.cmake)
+    file(WRITE ${_swig_configure_script} "
+    ${swig_env}
 execute_process(COMMAND ../swig/configure
         \"--prefix=${CMAKE_CURRENT_BINARY_DIR}/swig\"
         \"--with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE\"
