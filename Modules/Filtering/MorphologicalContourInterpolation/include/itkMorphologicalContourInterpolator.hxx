@@ -28,6 +28,28 @@
 namespace itk
 {
 template <class TImage>
+typename MorphologicalContourInterpolator<TImage>::SliceSetType
+MorphologicalContourInterpolator<TImage>::GetLabeledSliceIndices(unsigned int axis)
+{
+  return m_LabeledSlices[axis];
+}
+
+template <class TImage>
+void
+MorphologicalContourInterpolator<TImage>::SetLabeledSliceIndices(unsigned int axis, SliceSetType indices)
+{
+  m_LabeledSlices[axis] = indices;
+}
+
+template <class TImage>
+void
+MorphologicalContourInterpolator<TImage>::SetLabeledSliceIndices(unsigned int                                 axis,
+                                                                 std::vector<typename TImage::IndexValueType> indices)
+{
+  m_LabeledSlices[axis] = SliceSetType().insert(indices.begin(), indices.end());
+}
+
+template <class TImage>
 void
 MorphologicalContourInterpolator<TImage>::ExpandRegion(typename TImage::RegionType & region,
                                                        typename TImage::IndexType    index)
@@ -52,11 +74,10 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 {
   typename const TImage * input = this->GetInput();
   typename TImage *       output = this->GetOutput();
-  m_LabeledSlices.resize(TImage::ImageDimension);
-  // for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
-  //{
-  //   m_LabeledSlices[a] = LabeledSlicesType();
-  // }
+  m_LabeledSlices.clear();
+  m_LabeledSlices.resize(TImage::ImageDimension); // initialize with empty sets
+  m_BoundingBoxes.clear();
+  m_Orientations.clear();
 
   typename TImage::RegionType region = output->GetRequestedRegion();
   typename TImage::RegionType largestPossibleRegion = input->GetLargestPossibleRegion();
@@ -148,6 +169,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
 {
   // determine inter-slice region correspondences
   // then do one of the three cases
+  ; // for breakpoint
   // throw "todo";
 }
 
@@ -156,9 +178,17 @@ void
 MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, typename TImage * out)
 {
   SliceSetType aggregate;
-  for (unsigned int i = 0; i < m_LabeledSlices[axis].size(); i++)
+  if (m_Label == 0) // all labels
   {
-    aggregate.insert(m_LabeledSlices[axis][i].begin(), m_LabeledSlices[axis][i].end());
+    for (typename LabeledSlicesType::iterator it = m_LabeledSlices[axis].begin(); it != m_LabeledSlices[axis].end();
+         ++it)
+    {
+      aggregate.insert(it->second.begin(), it->second.end());
+    }
+  }
+  else // we only care about m_Label
+  {
+    aggregate = m_LabeledSlices[axis][m_Label];
   }
   typename SliceSetType::iterator prev = aggregate.begin();
   if (prev == aggregate.end())
