@@ -95,7 +95,7 @@ protected:
   /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool)
+  itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
 
 private:
   FullToHalfHermitianImageFilter(const Self &); // purposely not implemented
