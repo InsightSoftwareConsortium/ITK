@@ -33,6 +33,10 @@
 #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 void ProcessArgumentsAndRegisterBuiltInFactories(int *ac, ArgumentStringType *av)
 {
   itk::ObjectFactoryBase::RegisterFactory( itk::BioRadImageIOFactory::New() );
