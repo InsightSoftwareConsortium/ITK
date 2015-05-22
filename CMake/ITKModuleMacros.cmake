@@ -179,10 +179,12 @@ macro(itk_module_impl)
         set_property(TARGET ${itk-module} APPEND
           PROPERTY COMPILE_FLAGS "${my_abi_flags}")
       else()
-        # Prefer to use target properties supported by newer cmake
-        set_target_properties(${itk-module} PROPERTIES CXX_VISIBILITY_PRESET hidden)
-        set_target_properties(${itk-module} PROPERTIES C_VISIBILITY_PRESET hidden)
-        set_target_properties(${itk-module} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+        if (USE_COMPILER_HIDDEN_VISIBILITY)
+          # Prefer to use target properties supported by newer cmake
+          set_target_properties(${itk-module} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+          set_target_properties(${itk-module} PROPERTIES C_VISIBILITY_PRESET hidden)
+          set_target_properties(${itk-module} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+          endif()
       endif()
     endif()
   endif()
