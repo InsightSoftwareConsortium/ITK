@@ -49,6 +49,11 @@ endif()
 # TODO: Condition this feature on presence of our pre-commit hook.
 set(ExternalData_LINK_CONTENT MD5)
 
+# Emscripten currently has difficulty reading symlinks.
+if(EMSCRIPTEN)
+  set(ExternalData_NO_SYMLINKS 1)
+endif()
+
 # Match series of the form <base>.<ext>, <base>.<n>.<ext> such that <base> may
 # end in a (test) number that is not part of any series numbering.
 set(ExternalData_SERIES_PARSE "()(\\.[^./]*)$")
