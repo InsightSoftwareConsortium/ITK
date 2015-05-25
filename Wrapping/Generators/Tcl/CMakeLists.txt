@@ -124,7 +124,7 @@ macro(itk_end_wrap_module_tcl)
     target_link_libraries(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
   endif()
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  install(TARGETS "${lib}" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
+  install(TARGETS "${lib}" DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
@@ -343,7 +343,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     endif()
 
     # configure pkgIndex.tcl for the installed tree
-    set(ITK_WRAP_TCL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
+    set(ITK_WRAP_TCL_PACKAGE_DIR "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
     configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
                    "${ITK_WRAP_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl"
                   @ONLY)
@@ -354,7 +354,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
                   ${ITK_WRAP_TCL_SOURCE_DIR}/itktesting.tcl
                   ${ITK_WRAP_TCL_SOURCE_DIR}/itkdata.tcl
                   ${ITK_WRAP_TCL_SOURCE_DIR}/itkutils.tcl
-            DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl"
+                  DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl"
            )
 
   endmacro()
