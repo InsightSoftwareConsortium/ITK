@@ -137,9 +137,33 @@ bool classname::CheckEvent(const::itk::EventObject * e) const               \
       { return ( dynamic_cast< const classname * >( e ) != ITK_NULLPTR ); } \
 ::itk::EventObject *classname::MakeObject() const { return new classname; } \
 
-#define itkEventMacro(classname, super)      \
-   itkEventMacroDeclaration(classname,super) \
-   itkEventMacroDefinition(classname,super)
+//
+// This macro duplicates some of the declaration and definition
+// macro code. The purpose is to provide a backward compatibility API
+// for ITK applications.
+// NOTE: New applications should use itkEventMacroDeclaration (in a
+// .h file) and itkEventMacroDefinition (in a compiled .cxx
+// file). This new approach guarantees that only one copy of the
+// implementation will be present.
+//
+#define itkEventMacro(classname, super)                              \
+  /** \class classname */                                            \
+  class ITKEvent_EXPORT classname:public super                       \
+  {                                                                  \
+public:                                                              \
+    typedef classname Self;                                          \
+    typedef super     Superclass;                                    \
+    classname() {}                                                   \
+    virtual ~classname() {}                                          \
+    virtual const char *GetEventName() const { return #classname; } \
+    virtual bool CheckEvent(const::itk::EventObject * e) const       \
+               { return ( dynamic_cast< const Self * >( e ) != ITK_NULLPTR ); }         \
+    virtual::itk::EventObject *MakeObject() const                    \
+               { return new Self; }                                  \
+    classname(const Self &s):super(s){};                             \
+private:                                                             \
+    void operator=(const Self &);                                    \
+  };
 
 /**
  *      Delclare some common ITK events
