@@ -201,12 +201,21 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
             @ONLY)
 
 if(PYTHON_EXECUTABLE)
-  set(python_check "from __future__ import print_function\ntry:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(1))\nexcept:\n    pass")
+  set(python_check "from __future__ import print_function\ntry:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(plat_specific=1, prefix=''))\nexcept:\n    pass")
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/det_spp.py ${python_check})
   execute_process(COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/det_spp.py"
     OUTPUT_VARIABLE py_spp
     ERROR_VARIABLE py_spp
   )
+
+  execute_process(COMMAND "${PYTHON_EXECUTABLE}" -c "from __future__ import print_function\nimport sys\nprint(sys.prefix)"
+    OUTPUT_VARIABLE py_prefix
+    ERROR_VARIABLE py_prefix
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+  if(NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "${py_prefix}")
+    install(CODE "message(WARNING \"CMAKE_INSTALL_PREFIX, ${CMAKE_INSTALL_PREFIX}, does not match Python's prefix, ${py_prefix}\")")
+  endif()
 endif()
 
 string(REGEX REPLACE "\n" "" py_spp_no_newline "${py_spp}")
@@ -214,7 +223,9 @@ string(REGEX REPLACE "\\\\" "/" py_spp_nobackslashes "${py_spp_no_newline}")
 set(PY_SITE_PACKAGES_PATH "${py_spp_nobackslashes}" CACHE PATH "Python site-packages directory to install a .pth file pointing at WrapITK Python modules.")
 mark_as_advanced(PY_SITE_PACKAGES_PATH)
 if(PY_SITE_PACKAGES_PATH)
-  INSTALL_AT_ABSOLUTE_PATH(install_wrapitk_compatibility "${PY_SITE_PACKAGES_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth")
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth"
+    DESTINATION "${PY_SITE_PACKAGES_PATH}"
+    )
 endif()
 
 ###############################################################################
@@ -423,7 +434,7 @@ macro(itk_end_wrap_module_python)
     target_link_libraries(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
   endif()
-  install(TARGETS "${lib}" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Python")
+  install(TARGETS "${lib}" DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Python")
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})

@@ -100,8 +100,6 @@ else()
 endif()
 set(ITK_WRAP_VECTOR_COMPONENTS "${ITK_WRAP_IMAGE_DIMS}" CACHE STRING "Number of vector components available separated by semicolons (;)")
 
-option(INSTALL_WRAP_ITK_COMPATIBILITY "Install FindWrapITK.cmake and WrapITK.pth (so cmake and python can find WrapITK) as part of the standard installation process. This requires admin privileges. These files can be separately installed by making the install_wrapitk_compatibility target. " ON)
-
 if(ITK_INSTALL_PACKAGE_DIR)
   string(REGEX REPLACE "^/" "" path "${ITK_INSTALL_PACKAGE_DIR}/WrapITK/")
 else()
@@ -143,21 +141,6 @@ install(FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
   DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/"
 )
 
-# Add a custom target to drive installation of the WrapITK-compatibility files
-if(INSTALL_WRAP_ITK_COMPATIBILITY)
-  # if we should by default install the files, make a custom target that will
-  # always be built.
-  CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET(install_wrapitk_compatibility DEFAULT
-    "Installing WrapITK compatibility files. Requires admin priviliges: turn off INSTALL_WRAP_ITK_COMPATIBILITY in cmake to disable.")
-else()
-  # otherwise, add a target that will install the files only when that target is
-  # manually built.
-  CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET(install_wrapitk_compatibility ON_DEMAND
-    "Installing WrapITK compatibility files. Requires admin priviliges.")
-endif()
-
-INSTALL_AT_ABSOLUTE_PATH(install_wrapitk_compatibility "${CMAKE_ROOT}/Modules" "${WrapITK_BINARY_DIR}/InstallOnly/FindWrapITK.cmake")
-
 set(WRAP_ITK_TYPEDEFS_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Typedefs")
 set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
@@ -195,7 +178,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Modules" "${CMAKE_CURRENT_BINARY_D
 itk_end_wrap_modules()
 
 ###############################################################################
-# Configure WrapITKConfig.cmake and FindWrapITK.cmake for external projects
+# Configure WrapITKConfig.cmake for external projects
 ###############################################################################
 # First, configure for use directly from the build dir.
 # we must add the options for the generators for the build dir case, so the
@@ -210,18 +193,13 @@ endforeach()
 set(CONFIG_CONFIG_DIR "${WrapITK_SOURCE_DIR}/ConfigurationInputs")
 set(CONFIG_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
 set(CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Typedefs")
-set(CONFIG_WRAP_ITK_INSTALL_LOCATION "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}")
+set(CONFIG_WRAP_ITK_INSTALL_LOCATION "${WRAP_ITK_INSTALL_PREFIX}")
 set(CONFIG_WRAP_ITK_MODULES "${WRAP_ITK_MODULES}")
 set(CONFIG_ITK_WRAP_PYTHON_MODULE "${WrapITK_BINARY_DIR}/Python/\\\${CTEST_CONFIGURATION_TYPE}")
 set(CONFIG_ITK_WRAP_PYTHON_LIBS "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/\\\${CTEST_CONFIGURATION_TYPE}")
 set(CONFIG_WRAP_ITK_LIB_DIR  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
                "${WrapITK_BINARY_DIR}/WrapITKConfig.cmake"
-               @ONLY)
-
-set(CONFIG_WRAP_ITK_DIR "${WrapITK_BINARY_DIR}")
-configure_file("${WRAP_ITK_CONFIG_DIR}/FindWrapITK.cmake.in"
-               "${WrapITK_BINARY_DIR}/FindWrapITK.cmake"
                @ONLY)
 
 # Second, configure for installed use. Ensure that no absolute paths
@@ -236,9 +214,4 @@ set(CONFIG_ITK_WRAP_PYTHON_LIBS "\${WrapITK_DIR}/lib")
 set(CONFIG_WRAP_ITK_LIB_DIR  "\${WrapITK_DIR}/lib")
 configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
                "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
-               @ONLY)
-
-set(CONFIG_WRAP_ITK_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}")
-configure_file("${WRAP_ITK_CONFIG_DIR}/FindWrapITK.cmake.in"
-               "${WrapITK_BINARY_DIR}/InstallOnly/FindWrapITK.cmake"
                @ONLY)
