@@ -22,6 +22,8 @@
 #include "itkObjectFactory.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkConnectedComponentImageFilter.h"
+#include "itkBinaryThresholdImageFilter.h"
 #include <utility>
 #include <algorithm>
 
@@ -161,16 +163,110 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 }
 
 template <class TImage>
+typename TImage::Pointer
+MorphologicalContourInterpolator<TImage>::RegionedConnectedComponents(typename TImage::RegionType region,
+                                                                      typename TImage::PixelType  label,
+                                                                      itk::IdentifierType &       objectCount)
+{
+  typedef BinaryThresholdImageFilter<typename TImage, BoolImageType> BinarizerType;
+  BinarizerType::Pointer                                             bin = BinarizerType::New();
+  bin->SetLowerThreshold(label);
+  bin->SetUpperThreshold(label);
+  bin->SetInput(this->GetInput());
+  bin->GetOutput()->SetRequestedRegion(region);
+  typedef ConnectedComponentImageFilter<BoolImageType, typename TImage> ConnComponentsType;
+  ConnComponentsType::Pointer                                           conn = ConnComponentsType::New();
+  conn->SetInput(bin->GetOutput());
+  conn->SetFullyConnected(true);
+  conn->Update();
+  return conn->GetOutput();
+}
+
+template <class TImage>
 void
 MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int                             axis,
                                                                 typename TImage *               out,
                                                                 typename TImage::IndexValueType i,
                                                                 typename TImage::IndexValueType j)
 {
-  // determine inter-slice region correspondences
-  // then do one of the three cases
-  ; // for breakpoint
-  // throw "todo";
+  if (i > j)
+    std::swap(i, j);
+  if (i == j || i + 1 == j)
+    return; // nothing to do
+
+  // compare slices i and j
+  typename TImage::ConstPointer input = this->GetInput();
+  typename TImage::RegionType   ri = m_TotalBoundingBox; // smaller than or equal to requested region
+  ri.SetIndex(axis, i);
+  ri.SetSize(axis, 1); // 1 slice
+  typename TImage::RegionType rj = ri;
+  rj.SetIndex(axis, j);
+
+  BoolImageType::Pointer      eqResult = BoolImageType::New();
+  typename TImage::RegionType rr = rj;
+  rr.SetIndex(axis, 0);
+  eqResult->CopyInformation(input);
+  eqResult->SetRegions(rr);
+  eqResult->Allocate();
+
+  typedef std::set<typename TImage::PixelType> LabelSetType;
+  LabelSetType                                 overlaps; // which labels have overlaps from slice i to slice j
+
+  ImageRegionConstIterator<TImage>   iti(input, ri);
+  ImageRegionConstIterator<TImage>   itj(input, rj);
+  ImageRegionIterator<BoolImageType> itr(eqResult, rr);
+  while (!itr.IsAtEnd())
+  {
+    bool eq = (iti.Value() == itj.Value()); // are the pixels equal?
+    itr.Set(eq);
+    if (eq)
+      overlaps.insert(iti.Value());
+    ++iti;
+    ++itj;
+    ++itr; // next pixel
+  }
+
+  // for each label with overlaps determine inter-slice region correspondences
+  for (LabelSetType::iterator it = overlaps.begin(); it != overlaps.end(); ++it)
+  {
+    if (m_Label != 0 && *it != m_Label)
+      continue; // label was specified, and it was not this one, so skip
+
+    // first determine disjoint regions
+    ri = m_BoundingBoxes[*it]; // even smaller than m_TotalBoundingBox
+    ri.SetSize(axis, 1);
+    ri.SetIndex(axis, i);
+    rj = ri;
+    rj.SetIndex(axis, j);
+    rr = rj;
+    rr.SetIndex(axis, 0);
+
+    // execute connected components
+    itk::IdentifierType      iCount, jCount;
+    typename TImage::Pointer iconn = this->RegionedConnectedComponents(ri, *it, iCount);
+    typename TImage::Pointer jconn = this->RegionedConnectedComponents(rj, *it, jCount);
+
+    // go through comparison image and create correspondence pairs
+    std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>> pairs;
+    itr.GoToBegin();
+    ImageRegionConstIterator<TImage> iti(iconn, ri);
+    ImageRegionConstIterator<TImage> itj(jconn, rj);
+    while (!itr.IsAtEnd())
+    {
+      if (itr.Value())
+      {
+        pairs.insert(std::make_pair(iti.Value(), itj.Value()));
+      }
+      ++iti;
+      ++itj;
+      ++itr; // next pixel
+    }
+
+    // for labeled regions without overlaps, do extrapolation
+
+    // now do one of the three cases
+    throw "todo";
+  }
 }
 
 template <class TImage>
@@ -196,17 +292,11 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, typename TI
     return; // nothing to do
   }
 
-#pragma omp parallel
+  typename SliceSetType::iterator it = aggregate.begin();
+  for (++it; it != aggregate.end(); ++it)
   {
-    typename SliceSetType::iterator it = aggregate.begin();
-    for (++it; it != aggregate.end(); ++it)
-    {
-#pragma omp single nowait
-      {
-        InterpolateBetweenTwo(axis, out, *prev, *it);
-      }
-      prev = it;
-    }
+    InterpolateBetweenTwo(axis, out, *prev, *it);
+    prev = it;
   }
 }
 
@@ -221,7 +311,22 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
 
   this->DetermineSliceOrientations();
 
-  if (m_Axis == -1)
+  // merge all bounding boxes
+  if (m_BoundingBoxes.size() == 0)
+  {
+    return; // nothing to process
+  }
+  else
+  {
+    m_TotalBoundingBox = m_BoundingBoxes.begin()->second;
+  }
+  for (BoundingBoxesType::iterator it = m_BoundingBoxes.begin(); it != m_BoundingBoxes.end(); ++it)
+  {
+    ExpandRegion(m_TotalBoundingBox, it->second.GetIndex());
+    ExpandRegion(m_TotalBoundingBox, it->second.GetIndex() + it->second.GetSize());
+  }
+
+  if (m_Axis == -1) // interpolate along all axes
   {
     OrientationType aggregate = OrientationType();
     aggregate.Fill(false);
@@ -236,7 +341,6 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
       aggregate = m_Orientations[m_Label]; // we only care about this label
 
     std::vector<TImage::Pointer> perAxisInterpolates;
-#pragma omp parallel for
     for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
     {
       if (aggregate[a])
@@ -293,8 +397,8 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
       for (int i = 0; i < perAxisInterpolates.size(); i++)
         ++(iterators[i]);
     }
-  }
-  else
+  } // interpolate along all axes
+  else // interpolate along the specified axis
   {
     this->InterpolateAlong(m_Axis, output);
   }

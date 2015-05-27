@@ -114,7 +114,14 @@ protected:
 
   // assumes both valid region and valid index
   void
-  ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
+                              ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
+  typename TImage::RegionType m_TotalBoundingBox;
+
+  typedef Image<bool, TImage::ImageDimension> BoolImageType;
+  typename TImage::Pointer
+  RegionedConnectedComponents(typename TImage::RegionType region,
+                              typename TImage::PixelType  label,
+                              itk::IdentifierType &       objectCount);
 
 private:
   MorphologicalContourInterpolator(const Self &); // purposely not implemented
