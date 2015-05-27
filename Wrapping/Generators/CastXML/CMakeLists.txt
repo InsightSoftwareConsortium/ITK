@@ -161,12 +161,29 @@ macro(itk_end_wrap_submodule_castxml module)
   if(ITK_USE_CCACHE)
     set(_ccache_cmd ${CCACHE_EXECUTABLE})
   endif()
+  if(MSVC)
+    set(_castxml_cc --castxml-cc-msvc cl)
+    if(MSVC90)
+      # needed for VS2008 64 bit
+      set(_castxml_cc ${_castxml_cc} -D"_HAS_TR1=0")
+    endif()
+  else()
+    set(_castxml_cc --castxml-cc-gnu "${CMAKE_CXX_COMPILER}")
+  endif()
+  set(_target)
+  if(CMAKE_CROSSCOMPILING)
+    set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
+  endif()
   add_custom_command(
     OUTPUT ${xml_file}
     COMMAND ${_ccache_cmd} ${CASTXML}
+          -o ${xml_file}
+          --castxml-gccxml
+          ${_target}
+          --castxml-start _cable_
+          ${_castxml_cc}
           -w
           -c # needed for ccache to think we are not calling for link
-          -o ${xml_file}
           @${gccxml_inc_file}
           ${cxx_file}
           VERBATIM
@@ -195,20 +212,6 @@ macro(itk_wrap_module_castxml library_name)
   foreach(dir ${include_dir_list})
     set(c "${c}-I${dir}\n")
   endforeach()
-  if(MSVC)
-    set(c "${c}--castxml-cc-msvc cl\n")
-    if(MSVC90)
-      # needed for VS2008 64 bit
-      set(c "${c}-D\"_HAS_TR1=0\"\n")
-    endif()
-  else()
-    set(c "${c}--castxml-cc-gnu ${CMAKE_CXX_COMPILER}\n")
-  endif()
-  set(c "${c}--castxml-gccxml\n")
-  set(c "${c}--castxml-start _cable_\n")
-  if(CMAKE_CROSSCOMPILING)
-    set(c "${c}--target=${CMAKE_CXX_COMPILER_TARGET}\n")
-  endif()
   set(c "${c}-Qunused-arguments\n")
   set(c "${c}-DCABLE_CONFIGURATION\n")
   set(c "${c}-DITK_MANUAL_INSTANTIATION\n")
