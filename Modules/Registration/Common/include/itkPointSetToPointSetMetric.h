@@ -73,8 +73,11 @@ public:
   itkStaticConstMacro(FixedPointSetDimension, unsigned int,
                       TFixedPointSet::PointDimension);
 
-  typedef typename FixedPointSetType::PointsContainer::ConstIterator    PointIterator;
-  typedef typename FixedPointSetType::PointDataContainer::ConstIterator PointDataIterator;
+  typedef typename FixedPointSetType::PointsContainer::ConstIterator     FixedPointIterator;
+  typedef typename FixedPointSetType::PointDataContainer::ConstIterator  FixedPointDataIterator;
+
+  typedef typename MovingPointSetType::PointsContainer::ConstIterator    MovingPointIterator;
+  typedef typename MovingPointSetType::PointDataContainer::ConstIterator MovingPointDataIterator;
 
   /**  Type of the Transform Base class */
   typedef Transform< CoordinateRepresentationType,

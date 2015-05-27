@@ -71,8 +71,8 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
     itkExceptionMacro(<< "Moving point set has not been assigned");
     }
 
-  PointIterator pointItr = movingPointSet->GetPoints()->Begin();
-  PointIterator pointEnd = movingPointSet->GetPoints()->End();
+  MovingPointIterator pointItr = movingPointSet->GetPoints()->Begin();
+  MovingPointIterator pointEnd = movingPointSet->GetPoints()->End();
 
   MeasureType measure;
   measure.set_size( movingPointSet->GetPoints()->Size() );
@@ -112,8 +112,8 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
     if ( !closestPoint )
       {
       // Go trough the list of fixed point and find the closest distance
-      PointIterator pointItr2 = fixedPointSet->GetPoints()->Begin();
-      PointIterator pointEnd2 = fixedPointSet->GetPoints()->End();
+      FixedPointIterator pointItr2 = fixedPointSet->GetPoints()->Begin();
+      FixedPointIterator pointEnd2 = fixedPointSet->GetPoints()->End();
 
       while ( pointItr2 != pointEnd2 )
         {

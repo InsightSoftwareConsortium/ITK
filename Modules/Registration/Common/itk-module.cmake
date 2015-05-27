@@ -28,6 +28,7 @@ itk_module(ITKRegistrationCommon
     ITKDistanceMap
     ITKImageSources
     ITKColormap
+    ITKQuadEdgeMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )
