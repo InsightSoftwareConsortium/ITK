@@ -502,8 +502,8 @@ macro(itk_wrap_one_type wrap_method wrap_class swig_name)
 
   # Add a typedef for the class. We have this funny looking full_name::base_name
   # thing (it expands to, for example "typedef itk::Foo<baz, 2>::Foo"), to
-  # trick gcc_xml into creating code for the class. If we left off the trailing
-  # base_name, then gcc_xml wouldn't see the typedef as a class instantiation,
+  # trick castxml into creating code for the class. If we left off the trailing
+  # base_name, then castxml wouldn't see the typedef as a class instantiation,
   # and thus wouldn't create XML for any of the methods, etc.
 
   if("${wrap_method}" MATCHES "2_SUPERCLASSES")

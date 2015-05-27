@@ -106,11 +106,10 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # other warning expression:
   "[0-9,]+ warnings? generated."
 
-  # The PCRE, SWIG, and GCCXML third party builds for wrapping.
+  # The PCRE, SWIG, and third party builds for wrapping.
   ".*/PCRE/.*"
   ".*/swig/.*"
   ".*parser.py.*"
-  ".*/GCC_XML/.*"
   "checking maximum warning verbosity option.*"
 
   "warning: Using 'getpwnam' in statically linked applications requires at runtime the shared libraries"
