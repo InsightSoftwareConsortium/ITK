@@ -22,3 +22,4 @@
 hooks_chain_pre_commit="Utilities/Hooks/pre-commit"
 hooks_chain_commit_msg="Utilities/Hooks/commit-msg"
 hooks_chain_prepare_commit_msg="Utilities/Hooks/prepare-commit-msg"
+hooks_chain_post_commit="Utilities/Hooks/post-commit"
