@@ -242,12 +242,13 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     rr.SetIndex(axis, 0);
 
     // execute connected components
-    itk::IdentifierType      iCount, jCount;
+    IdentifierType           iCount, jCount;
     typename TImage::Pointer iconn = this->RegionedConnectedComponents(ri, *it, iCount);
     typename TImage::Pointer jconn = this->RegionedConnectedComponents(rj, *it, jCount);
 
     // go through comparison image and create correspondence pairs
-    std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>> pairs;
+    typedef std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>> PairSet;
+    PairSet                                                                             pairs;
     itr.GoToBegin();
     ImageRegionConstIterator<TImage> iti(iconn, ri);
     ImageRegionConstIterator<TImage> itj(jconn, rj);
@@ -262,12 +263,132 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       ++itr; // next pixel
     }
 
-    // for labeled regions without overlaps, do extrapolation
+    typedef std::map<typename TImage::PixelType, IdentifierType> CountMap;
+    CountMap                                                     iCounts, jCounts;
+    for (PairSet::iterator p = pairs.begin(); p != pairs.end(); ++p)
+    {
+      iCounts[p->first]++;
+      jCounts[p->second]++;
+    }
 
-    // now do one of the three cases
-    throw "todo";
-  }
-}
+    // first do extrapolation for components without overlaps
+    CountMap::iterator iMapIt = iCounts.begin();
+    for (IdentifierType ic = 1; ic <= iCount; ++ic) // component labels
+    {
+      if (iMapIt == iCounts.end() || ic < iMapIt->first)
+      {
+        extrapolate(); // TODO: pass correct parameters and implement
+      }
+      else // ic==iMapIt->first
+      {
+        ++iMapIt;
+      }
+    }
+    CountMap::iterator jMapIt = jCounts.begin();
+    for (IdentifierType jc = 1; jc <= jCount; ++jc) // component labels
+    {
+      if (jMapIt == jCounts.end() || jc < jMapIt->first)
+      {
+        extrapolate(); // TODO: pass correct parameters and implement
+      }
+      else // jc==jMapIt->first
+      {
+        ++jMapIt;
+      }
+    }
+
+    // now handle 1 to 1 correspondences
+    PairSet::iterator p = pairs.begin();
+    while (p != pairs.end())
+    {
+      if (iCounts[p->first] == 1 && jCounts[p->second] == 1)
+      {
+        interpolate1to1(); // TODO: pass correct parameters and implement
+        iCounts.erase(p->first);
+        jCounts.erase(p->second);
+        pairs.erase(p++);
+      }
+      else
+      {
+        ++p;
+      }
+    }
+
+    // now do 1-to-N and M-to-1 cases
+    p = pairs.begin();
+    while (p != pairs.end())
+    {
+      if (iCounts[p->first] == 1) // 1-to-N
+      {
+        interpolate1toN(); // TODO: pass correct parameters and implement
+        PairSet::iterator rest = p;
+        ++rest;
+        while (rest != pairs.end())
+        {
+          if (rest->second == p->second)
+          {
+            pairs.erase(rest++);
+          }
+          else
+          {
+            ++rest;
+          }
+        }
+        iCounts.erase(p->first);
+        jCounts.erase(p->second);
+        pairs.erase(p++);
+      }
+      else if (jCounts[p->second] == 1) // M-to-1
+      {
+        interpolate1toN(); // TODO: pass correct parameters and implement
+        PairSet::iterator rest = p;
+        ++rest;
+        while (rest != pairs.end())
+        {
+          if (rest->first == p->first)
+          {
+            pairs.erase(rest++);
+          }
+          else
+          {
+            ++rest;
+          }
+        }
+        iCounts.erase(p->first);
+        jCounts.erase(p->second);
+        pairs.erase(p++);
+      }
+      else
+      {
+        ++p;
+      }
+    }
+
+    // only M-to-N correspondences remain
+    // we turn each M-to-N case into m 1-to-N cases
+    p = pairs.begin();
+    while (p != pairs.end())
+    {
+      // TODO: enumerate the labels which correspond to p->first and make it 1-to-N
+      interpolate1toN(); // TODO: pass correct parameters and implement
+      PairSet::iterator rest = p;
+      ++rest;
+      while (rest != pairs.end())
+      {
+        if (rest->first == p->first)
+        {
+          pairs.erase(rest++);
+        }
+        else
+        {
+          ++rest;
+        }
+      }
+      // counts no longer matter, do not waste time deleting them
+      pairs.erase(p++);
+    } // M-to-N
+  } // for each label with overlaps
+} // void MorphologicalContourInterpolator::InterpolateBetweenTwo()
 
 template <class TImage>
 void
