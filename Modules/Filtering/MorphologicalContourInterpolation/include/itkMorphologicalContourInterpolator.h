@@ -19,6 +19,8 @@
 #define itkMorphologicalContourInterpolator_h
 
 #include "itkImageToImageFilter.h"
+#include "itkConnectedComponentImageFilter.h"
+#include "itkBinaryThresholdImageFilter.h"
 #include "itksys/hash_map.hxx"
 
 namespace itk
@@ -57,16 +59,15 @@ public:
   itkTypeMacro(MorphologicalContourInterpolator, ImageToImageFilter);
 
 protected:
-  MorphologicalContourInterpolator()
-    : m_Label(0)
-    , m_Axis(-1)
-  {
-    m_LabeledSlices.resize(TImage::ImageDimension); // initialize with empty sets
-  }
+  MorphologicalContourInterpolator();
   ~MorphologicalContourInterpolator() {}
 
   typename TImage::PixelType m_Label;
   int                        m_Axis;
+
+  // grafted input and output to prevent unnecessary pipeline modification checks
+  typename TImage::Pointer m_Input;
+  typename TImage::Pointer m_Output;
 
   /** Does the real work. */
   virtual void
@@ -119,9 +120,15 @@ protected:
 
   typedef Image<bool, TImage::ImageDimension> BoolImageType;
   typename TImage::Pointer
-  RegionedConnectedComponents(typename TImage::RegionType region,
-                              typename TImage::PixelType  label,
-                              itk::IdentifierType &       objectCount);
+  RegionedConnectedComponents(const typename TImage::RegionType region,
+                              typename TImage::PixelType        label,
+                              IdentifierType &                  objectCount);
+
+  typedef BinaryThresholdImageFilter<typename TImage, BoolImageType> BinarizerType;
+  typename BinarizerType::Pointer                                    m_Binarizer;
+
+  typedef ConnectedComponentImageFilter<BoolImageType, typename TImage> ConnectedComponentsType;
+  typename ConnectedComponentsType::Pointer                             m_ConnectedComponents;
 
 private:
   MorphologicalContourInterpolator(const Self &); // purposely not implemented

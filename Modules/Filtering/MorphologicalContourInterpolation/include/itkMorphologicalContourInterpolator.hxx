@@ -22,13 +22,22 @@
 #include "itkObjectFactory.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkConnectedComponentImageFilter.h"
-#include "itkBinaryThresholdImageFilter.h"
 #include <utility>
 #include <algorithm>
 
 namespace itk
 {
+template <class TImage>
+MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
+  : m_Label(0)
+  , m_Axis(-1)
+  , m_LabeledSlices(TImage::ImageDimension) // initialize with empty sets
+{
+  m_Binarizer = BinarizerType::New();
+  m_ConnectedComponents = ConnectedComponentsType::New();
+  m_ConnectedComponents->SetInput(m_Binarizer->GetOutput());
+}
+
 template <class TImage>
 typename MorphologicalContourInterpolator<TImage>::SliceSetType
 MorphologicalContourInterpolator<TImage>::GetLabeledSliceIndices(unsigned int axis)
@@ -41,6 +50,7 @@ void
 MorphologicalContourInterpolator<TImage>::SetLabeledSliceIndices(unsigned int axis, SliceSetType indices)
 {
   m_LabeledSlices[axis] = indices;
+  this->Modified();
 }
 
 template <class TImage>
@@ -49,6 +59,7 @@ MorphologicalContourInterpolator<TImage>::SetLabeledSliceIndices(unsigned int   
                                                                  std::vector<typename TImage::IndexValueType> indices)
 {
   m_LabeledSlices[axis] = SliceSetType().insert(indices.begin(), indices.end());
+  this->Modified();
 }
 
 template <class TImage>
@@ -74,15 +85,13 @@ template <class TImage>
 void
 MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 {
-  typename const TImage * input = this->GetInput();
-  typename TImage *       output = this->GetOutput();
   m_LabeledSlices.clear();
   m_LabeledSlices.resize(TImage::ImageDimension); // initialize with empty sets
   m_BoundingBoxes.clear();
   m_Orientations.clear();
 
-  typename TImage::RegionType region = output->GetRequestedRegion();
-  typename TImage::RegionType largestPossibleRegion = input->GetLargestPossibleRegion();
+  typename TImage::RegionType region = m_Output->GetRequestedRegion();
+  typename TImage::RegionType largestPossibleRegion = m_Input->GetLargestPossibleRegion();
   for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
   {
     if (region.GetIndex(a) < largestPossibleRegion.GetIndex(a) + 1)
@@ -95,7 +104,7 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
       region.SetSize(a, largestPossibleRegion.GetIndex(a) + largestPossibleRegion.GetSize(a) - 1 - region.GetIndex(a));
     }
   }
-  ImageRegionConstIteratorWithIndex<TImage> it(input, region);
+  ImageRegionConstIteratorWithIndex<TImage> it(m_Input, region);
 
   OrientationType orientations = OrientationType();
   orientations.Fill(false);
@@ -104,16 +113,20 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   {
     typename TImage::IndexType       indPrev, indNext;
     typename const TImage::IndexType ind = it.GetIndex();
-    typename const TImage::PixelType val = input->GetPixel(ind);
+    typename const TImage::PixelType val = m_Input->GetPixel(ind);
     if (val != 0 || (m_Label != 0 && val == m_Label))
     {
       typename TImage::RegionType boundingBox1;
       boundingBox1.SetIndex(ind);
       for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
+      {
         boundingBox1.SetSize(a, 1);
+      }
       std::pair<BoundingBoxesType::iterator, bool> resBB = m_BoundingBoxes.insert(std::make_pair(val, boundingBox1));
       if (!resBB.second) // include this index in existing BB
+      {
         ExpandRegion(resBB.first->second, ind);
+      }
 
       std::pair<OrientationsType::iterator, bool> res = m_Orientations.insert(std::make_pair(val, orientations));
       OrientationsType::iterator                  oRef = res.first;
@@ -124,16 +137,16 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
         indPrev[a]--;
         indNext = ind;
         indNext[a]++;
-        const typename TImage::PixelType prev = input->GetPixel(indPrev);
-        const typename TImage::PixelType next = input->GetPixel(indNext);
+        const typename TImage::PixelType prev = m_Input->GetPixel(indPrev);
+        const typename TImage::PixelType next = m_Input->GetPixel(indNext);
         if (prev == 0 && next == 0)
         {
           axis = a;
-          cTrue++;
+          ++cTrue;
         }
         else if (prev == val && next == val)
         {
-          cAdjacent++;
+          ++cAdjacent;
         }
       }
       if (cTrue == 1 && cAdjacent == TImage::ImageDimension - 1) // slice has empty adjacent space only along one axis
@@ -149,7 +162,7 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   }
 
   // widen bounding boxes by 1
-  region = output->GetRequestedRegion();
+  region = m_Output->GetRequestedRegion();
   for (BoundingBoxesType::iterator it = m_BoundingBoxes.begin(); it != m_BoundingBoxes.end(); ++it)
   {
     for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
@@ -164,22 +177,18 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 
 template <class TImage>
 typename TImage::Pointer
-MorphologicalContourInterpolator<TImage>::RegionedConnectedComponents(typename TImage::RegionType region,
-                                                                      typename TImage::PixelType  label,
-                                                                      itk::IdentifierType &       objectCount)
+MorphologicalContourInterpolator<TImage>::RegionedConnectedComponents(const typename TImage::RegionType region,
+                                                                      typename TImage::PixelType        label,
+                                                                      IdentifierType &                  objectCount)
 {
-  typedef BinaryThresholdImageFilter<typename TImage, BoolImageType> BinarizerType;
-  BinarizerType::Pointer                                             bin = BinarizerType::New();
-  bin->SetLowerThreshold(label);
-  bin->SetUpperThreshold(label);
-  bin->SetInput(this->GetInput());
-  bin->GetOutput()->SetRequestedRegion(region);
-  typedef ConnectedComponentImageFilter<BoolImageType, typename TImage> ConnComponentsType;
-  ConnComponentsType::Pointer                                           conn = ConnComponentsType::New();
-  conn->SetInput(bin->GetOutput());
-  conn->SetFullyConnected(true);
-  conn->Update();
-  return conn->GetOutput();
+  m_Binarizer->SetLowerThreshold(label);
+  m_Binarizer->SetUpperThreshold(label);
+  m_Binarizer->SetInput(m_Input);
+  m_Binarizer->GetOutput()->SetRequestedRegion(region);
+  m_ConnectedComponents->SetInput(bin->GetOutput());
+  m_ConnectedComponents->SetFullyConnected(true);
+  m_ConnectedComponents->Update();
+  return m_ConnectedComponents->GetOutput();
 }
 
 template <class TImage>
@@ -190,13 +199,16 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
                                                                 typename TImage::IndexValueType j)
 {
   if (i > j)
+  {
     std::swap(i, j);
+  }
   if (i == j || i + 1 == j)
+  {
     return; // nothing to do
+  }
 
   // compare slices i and j
-  typename TImage::ConstPointer input = this->GetInput();
-  typename TImage::RegionType   ri = m_TotalBoundingBox; // smaller than or equal to requested region
+  typename TImage::RegionType ri = m_TotalBoundingBox; // smaller than or equal to requested region
   ri.SetIndex(axis, i);
   ri.SetSize(axis, 1); // 1 slice
   typename TImage::RegionType rj = ri;
@@ -205,25 +217,28 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
   BoolImageType::Pointer      eqResult = BoolImageType::New();
   typename TImage::RegionType rr = rj;
   rr.SetIndex(axis, 0);
-  eqResult->CopyInformation(input);
+  eqResult->CopyInformation(m_Input);
   eqResult->SetRegions(rr);
   eqResult->Allocate();
 
   typedef std::set<typename TImage::PixelType> LabelSetType;
   LabelSetType                                 overlaps; // which labels have overlaps from slice i to slice j
 
-  ImageRegionConstIterator<TImage>   iti(input, ri);
-  ImageRegionConstIterator<TImage>   itj(input, rj);
+  ImageRegionConstIterator<TImage>   iti(m_Input, ri);
+  ImageRegionConstIterator<TImage>   itj(m_Input, rj);
   ImageRegionIterator<BoolImageType> itr(eqResult, rr);
   while (!itr.IsAtEnd())
   {
     bool eq = (iti.Value() == itj.Value()); // are the pixels equal?
     itr.Set(eq);
     if (eq)
+    {
       overlaps.insert(iti.Value());
+    }
+    // next pixel
     ++iti;
     ++itj;
-    ++itr; // next pixel
+    ++itr;
   }
 
   // for each label with overlaps determine inter-slice region correspondences
@@ -425,16 +440,21 @@ template <class TImage>
 void
 MorphologicalContourInterpolator<TImage>::GenerateData()
 {
-  typename TImage::ConstPointer input = this->GetInput();
-  typename TImage::Pointer      output = this->GetOutput();
+  m_Input = TImage::New();
+  m_Input->Graft(const_cast<TImage *>(this->GetInput()));
   this->AllocateOutputs();
-  output->FillBuffer(0); // clear the image now, because interpolation is optimized using bounding boxes
+  m_Output = TImage::New();
+  m_Output->Graft(this->GetOutput());
+  m_Output->FillBuffer(0); // clear the image now, because interpolation is optimized using bounding boxes
+  // alternatively, we could have copied the input image into output
 
   this->DetermineSliceOrientations();
 
   // merge all bounding boxes
   if (m_BoundingBoxes.size() == 0)
   {
+    this->GraftOutput(m_Output);
+    this->m_Output = ITK_NULLPTR;
     return; // nothing to process
   }
   else
@@ -467,8 +487,8 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
       if (aggregate[a])
       {
         TImage::Pointer imageA = TImage::New();
-        imageA->CopyInformation(output);
-        imageA->SetRegions(output->GetRequestedRegion());
+        imageA->CopyInformation(m_Output);
+        imageA->SetRegions(m_Output->GetRequestedRegion());
         imageA->Allocate();
         this->InterpolateAlong(a, imageA);
         perAxisInterpolates.push_back(imageA);
@@ -477,26 +497,28 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
 
     if (perAxisInterpolates.size() == 1)
     {
-      output = perAxisInterpolates[0];
+      m_Output = perAxisInterpolates[0];
+      this->GraftOutput(m_Output);
+      this->m_Output = ITK_NULLPTR;
       return;
     }
     // else
     std::vector<ImageRegionConstIterator<TImage>> iterators;
 
-    for (int i = 0; i < perAxisInterpolates.size(); i++)
+    for (int i = 0; i < perAxisInterpolates.size(); ++i)
     {
-      ImageRegionConstIterator<TImage> it(perAxisInterpolates[i], output->GetRequestedRegion());
+      ImageRegionConstIterator<TImage> it(perAxisInterpolates[i], m_Output->GetRequestedRegion());
       iterators.push_back(it);
     }
 
     std::vector<TImage::PixelType> values;
     values.reserve(perAxisInterpolates.size());
 
-    ImageRegionIterator<TImage> it(output, output->GetRequestedRegion());
+    ImageRegionIterator<TImage> it(m_Output, m_Output->GetRequestedRegion());
     while (!it.IsAtEnd())
     {
       values.clear();
-      for (int i = 0; i < perAxisInterpolates.size(); i++)
+      for (int i = 0; i < perAxisInterpolates.size(); ++i)
       {
         TImage::PixelType val = iterators[i].Value();
         if (val != 0)
@@ -515,14 +537,18 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
 
       // next pixel
       ++it;
-      for (int i = 0; i < perAxisInterpolates.size(); i++)
+      for (int i = 0; i < perAxisInterpolates.size(); ++i)
         ++(iterators[i]);
     }
   } // interpolate along all axes
   else // interpolate along the specified axis
   {
-    this->InterpolateAlong(m_Axis, output);
+    this->InterpolateAlong(m_Axis, m_Output);
   }
+
+  // put the output data back into the regular pipeline
+  this->GraftOutput(m_Output);
+  this->m_Output = ITK_NULLPTR;
 }
 } // namespace itk
 
