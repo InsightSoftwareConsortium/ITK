@@ -95,6 +95,11 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+#-----------------------------------------------------------------------------
+# Do we try to use system libraries by default?
+option(ITK_USE_SYSTEM_LIBRARIES "Use the system's libraries by default.
+If this is not set during the initial configuration, it will have no effect." OFF)
+mark_as_advanced(ITK_USE_SYSTEM_LIBRARIES)
 
 #-----------------------------------------------------------------------------
 # Enable running cppcheck for each module on its source and test directories.
@@ -296,7 +301,7 @@ mark_as_advanced(ITK_USE_FFTWF)
 if(DEFINED USE_SYSTEM_FFTW)
   set(ITK_USE_SYSTEM_FFTW_DEFAULT ${USE_SYSTEM_FFTW})
 else()
-  set(ITK_USE_SYSTEM_FFTW_DEFAULT OFF)
+  set(ITK_USE_SYSTEM_FFTW_DEFAULT ${ITK_USE_SYSTEM_LIBRARIES})
 endif()
 option(ITK_USE_SYSTEM_FFTW "Use an installed version of fftw" ${ITK_USE_SYSTEM_FFTW_DEFAULT})
 mark_as_advanced(ITK_USE_SYSTEM_FFTW)

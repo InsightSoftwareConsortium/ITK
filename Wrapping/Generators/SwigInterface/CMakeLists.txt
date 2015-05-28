@@ -5,7 +5,7 @@ find_package(PythonInterp REQUIRED)
 ###############################################################################
 # Build swig
 
-option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." OFF)
+option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." ${ITK_USE_SYSTEM_LIBRARIES})
 
 # Minimal swig version
 set(swig_version_min 3.0.0)

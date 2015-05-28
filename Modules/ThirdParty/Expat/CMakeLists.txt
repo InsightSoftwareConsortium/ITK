@@ -1,7 +1,7 @@
 project(ITKExpat)
 set(ITKExpat_THIRD_PARTY 1)
 
-option(ITK_USE_SYSTEM_EXPAT "Use system-installed expat" OFF)
+option(ITK_USE_SYSTEM_EXPAT "Use system-installed expat" ${ITK_USE_SYSTEM_LIBRARIES})
 mark_as_advanced(ITK_USE_SYSTEM_EXPAT)
 
 if(ITK_USE_SYSTEM_EXPAT)

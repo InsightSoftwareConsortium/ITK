@@ -1,7 +1,7 @@
 project(ITKZLIB)
 set(ITKZLIB_THIRD_PARTY 1)
 
-option(ITK_USE_SYSTEM_ZLIB "Use system-installed zlib" OFF)
+option(ITK_USE_SYSTEM_ZLIB "Use system-installed zlib" ${ITK_USE_SYSTEM_LIBRARIES})
 mark_as_advanced(ITK_USE_SYSTEM_ZLIB)
 
 if(ITK_USE_SYSTEM_ZLIB)
