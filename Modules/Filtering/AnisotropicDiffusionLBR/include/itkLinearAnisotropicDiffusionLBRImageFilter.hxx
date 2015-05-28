@@ -442,4 +442,4 @@ Coefficients[Dimension+2] = Weights(1,2);
 
 } // end namespace itk
 
-#ndif
+#endif
