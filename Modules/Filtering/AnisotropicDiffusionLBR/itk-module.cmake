@@ -12,7 +12,7 @@ http://hdl.handle.net/10380/3505
 # The testing module in ITKExternalTemplate depends on ITKTestKernel,
 # and ITKMetaIO for image IO (besides ITKAnisotropicDiffusionLBR itself)
 
-itk_module(ITKAnisotropicDiffusionLBR
+itk_module(AnisotropicDiffusionLBR
   DEPENDS
     ITKCommon
     ITKIOImageBase
