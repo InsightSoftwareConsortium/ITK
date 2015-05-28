@@ -80,7 +80,7 @@ else()
   endif()
   ExternalProject_Add(castxml
     GIT_REPOSITORY https://github.com/CastXML/CastXML.git
-    GIT_TAG d741c9e4e56ff43dc35603327f1a8d30c8bb167c
+    GIT_TAG c113a2b0a0c931f0a83a3cc27f13fd34687a92c0
     UPDATE_COMMAND ""
     DEPENDS ${castxml_deps}
     CMAKE_ARGS -Wno-dev
