@@ -6,14 +6,15 @@
 //
 //
 
-#ifndef itkDiffusion_LinearAnisotropicDiffusionCommandLine_h
-#define itkDiffusion_LinearAnisotropicDiffusionCommandLine_h
+#ifndef itkLinearAnisotropicDiffusionCommandLine_h
+#define itkLinearAnisotropicDiffusionCommandLine_h
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "CoherenceEnhancingDiffusionFilter.h"
+#include "itkCoherenceEnhancingDiffusionFilter.h"
 
-namespace LinearAnisotropicDiffusionCommandLine {
+namespace LinearAnisotropicDiffusionCommandLine
+{
 
 void Usage(){
     std::cerr <<
@@ -46,7 +47,7 @@ struct ReportProgressToCErrType : public itk::Command
     void Execute(itk::Object *caller, const itk::EventObject & event){
         Execute( (const itk::Object *)caller, event);
     }
-    
+
     void Execute(const itk::Object * object, const itk::EventObject &){
         std::cout << object->GetNameOfClass() << " has completed: "
         << int(100*dynamic_cast<const itk::ProcessObject*>(object)->GetProgress())
@@ -60,21 +61,21 @@ int Execute(int argc, char * argv[])
     using std::cerr;
     using std::endl;
     using namespace itk;
-    
+
     if(argc<4+1) {Usage(); return EXIT_SUCCESS ;}
-    
+
     const char *imageFileName =argv[0+1];
     typedef ImageFileReader<Image<unsigned char,3> > ReaderType;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(imageFileName);
-    
+
     reader->UpdateOutputInformation();
-    
+
     const ImageIOBase * io = reader->GetImageIO();
     const int ImageDimension = io->GetNumberOfDimensions();
     const itk::ImageIOBase::IOComponentType componentType = io->GetComponentType();
     const int nComponents = io->GetNumberOfComponents();
-    
+
     {
         const char *tensorFileName = argv[1+1];
         ReaderType::Pointer reader2 = ReaderType::New();
@@ -91,7 +92,7 @@ int Execute(int argc, char * argv[])
         if(io2->GetPixelType() == itk::ImageIOBase::SYMMETRICSECONDRANKTENSOR)
             std::cerr << "Warning: tensor image pixel type not marked as Symmetric Second Rank Tensor.\n";
     }
-    
+
     switch (ImageDimension) {
         case 2: return Execute<2>(argc,argv,componentType,nComponents);
 //        case 3: return Execute<3>(argc,argv,componentType,nComponents);
@@ -121,7 +122,7 @@ int Execute(int argc, char * argv[], int nComponents){
 
 template<int Dimension, typename ScalarType, typename PixelType, typename ExportPixelType>
 int Execute(int argc, char * argv[]){
-    
+
     // Import image
     typedef Image<PixelType,Dimension> ImageType;
     typedef ImageFileReader<ImageType> ReaderType;
@@ -136,14 +137,14 @@ int Execute(int argc, char * argv[]){
     typename TensorReaderType::Pointer tensorReader = TensorReaderType::New();
     const char * tensorImageFileName = argv[1+1];
     tensorReader->SetFileName(tensorImageFileName);
-    
+
     // Import diffusion time
     const double diffusionTime = atof(argv[2+1]);
     if(diffusionTime==0) itkGenericExceptionMacro("Error: Unrecognized diffusion time (third argument).\n");
-    
+
     // Import output image filename
     const char *outputFileName = argv[3+1];
-    
+
     // Setup diffusion filter
     typedef LinearAnisotropicDiffusionLBRImageFilter<ImageType,ScalarType> DiffusionFilterType;
     typename DiffusionFilterType::Pointer diffusionFilter = DiffusionFilterType::New();
@@ -164,22 +165,22 @@ int Execute(int argc, char * argv[]){
         diffusionFilter->SetMaxNumberOfTimeSteps(maxNumberOfTimeSteps);
     } else
         diffusionFilter->SetMaxNumberOfTimeSteps(200);
-    
+
     ReportProgressToCErrType::Pointer reportDiffusionProgress = ReportProgressToCErrType::New();
     diffusionFilter->AddObserver(ProgressEvent(), reportDiffusionProgress);
-    
+
     typedef Image<ExportPixelType,Dimension> ExportImageType;
     typedef CastImageFilter<ImageType, ExportImageType> CasterType;
     typename CasterType::Pointer caster = CasterType::New();
     caster->SetInput(diffusionFilter->GetOutput());
-    
+
     //typedef typename DiffusionFilterType::ScalarImageType ScalarImageType;
     typedef ImageFileWriter<ExportImageType> WriterType;
     typename WriterType::Pointer writer = WriterType::New();
     writer->SetInput(caster->GetOutput());
     writer->SetFileName(outputFileName);
     writer->Update();
-    
+
     const ScalarType effectiveDiffusionTime=diffusionFilter->GetEffectiveDiffusionTime();
     if(effectiveDiffusionTime < 0.99 * diffusionTime){
         std::cerr <<
@@ -187,10 +188,10 @@ int Execute(int argc, char * argv[]){
         ", you may want to increase the max number of time steps: " << diffusionFilter->GetMaxNumberOfTimeSteps() << "\n";
         Usage();
     }
-    
-    return EXIT_SUCCESS;
 
+    return EXIT_SUCCESS;
 }
-}
+
+} // end namespace LinearAnisotropicDiffusionCommandLine
 
 #endif

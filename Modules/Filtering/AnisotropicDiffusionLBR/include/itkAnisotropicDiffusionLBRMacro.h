@@ -6,16 +6,16 @@
 //
 //
 
-#ifndef itkDiffusion_Macro_h
-#define itkDiffusion_Macro_h
+#ifndef itkAnisotropicDiffusionLBRMacro_h
+#define itkAnisotropicDiffusionLBRMacro_h
 
 /**
  Getters and setters for functor types, inspired by UnaryFunctorImageFilter.
  No equality test performed for the setter.
  */
-
 #define GetSetFunctorMacro(name, type) \
     virtual type &          Get##name()         {return this->m_##name;} \
     virtual const type &    Get##name() const   {return this->m_##name;} \
     virtual void Set##name(const type & _arg) {m_##name = _arg; this->Modified();}
+
 #endif
