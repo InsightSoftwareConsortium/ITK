@@ -144,12 +144,12 @@ macro(itk_end_wrap_submodule_castxml module)
   # Global vars used: WRAPPER_INCLUDE_FILES WRAPPER_MODULE_NAME and WRAPPER_TYPEDEFS
   # Global vars modified: none
 
-  # Create the cxx file which will be given to gccxml.
+  # Create the cxx file which will be given to castxml.
   set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.cxx")
   configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
 
   # generate the xml file
-  set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
+  set(castxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml.inc")
   set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
 
   set(_castxml_depends)
@@ -161,19 +161,36 @@ macro(itk_end_wrap_submodule_castxml module)
   if(ITK_USE_CCACHE)
     set(_ccache_cmd ${CCACHE_EXECUTABLE})
   endif()
+  if(MSVC)
+    set(_castxml_cc --castxml-cc-msvc cl)
+    if(MSVC90)
+      # needed for VS2008 64 bit
+      set(_castxml_cc ${_castxml_cc} -D"_HAS_TR1=0")
+    endif()
+  else()
+    set(_castxml_cc --castxml-cc-gnu "${CMAKE_CXX_COMPILER}")
+  endif()
+  set(_target)
+  if(CMAKE_CROSSCOMPILING)
+    set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
+  endif()
   add_custom_command(
     OUTPUT ${xml_file}
     COMMAND ${_ccache_cmd} ${CASTXML}
+          -o ${xml_file}
+          --castxml-gccxml
+          ${_target}
+          --castxml-start _cable_
+          ${_castxml_cc}
           -w
           -c # needed for ccache to think we are not calling for link
-          -o ${xml_file}
-          @${gccxml_inc_file}
+          @${castxml_inc_file}
           ${cxx_file}
           VERBATIM
-    DEPENDS ${_castxml_depends} ${cxx_file} ${gccxml_inc_file}
+    DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file}
   )
 
-  list(APPEND GCC_XML_OUTPUT_FILES ${xml_file})
+  list(APPEND CastXML_OUTPUT_FILES ${xml_file})
 
 endmacro()
 
@@ -186,8 +203,8 @@ macro(itk_wrap_one_type_castxml  wrap_method wrap_class swig_name template_param
 endmacro()
 
 macro(itk_wrap_module_castxml library_name)
-  # create the files used to pass the file to include to gccxml
-  set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
+  # create the files used to pass the file to include to castxml
+  set(castxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml.inc")
   get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
   list(REMOVE_DUPLICATES include_dir_list)
 
@@ -195,31 +212,17 @@ macro(itk_wrap_module_castxml library_name)
   foreach(dir ${include_dir_list})
     set(c "${c}-I${dir}\n")
   endforeach()
-  if(MSVC)
-    set(c "${c}--castxml-cc-msvc cl\n")
-    if(MSVC90)
-      # needed for VS2008 64 bit
-      set(c "${c}-D\"_HAS_TR1=0\"\n")
-    endif()
-  else()
-    set(c "${c}--castxml-cc-gnu ${CMAKE_CXX_COMPILER}\n")
-  endif()
-  set(c "${c}--castxml-gccxml\n")
-  set(c "${c}--castxml-start _cable_\n")
-  if(CMAKE_CROSSCOMPILING)
-    set(c "${c}--target=${CMAKE_CXX_COMPILER_TARGET}\n")
-  endif()
   set(c "${c}-Qunused-arguments\n")
   set(c "${c}-DCABLE_CONFIGURATION\n")
   set(c "${c}-DITK_MANUAL_INSTANTIATION\n")
 
   set(CONFIG_CASTXML_INC_CONTENTS "${c}")
-  configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in" "${gccxml_inc_file}" @ONLY)
+  configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in" "${castxml_inc_file}" @ONLY)
 
-  set(GCC_XML_OUTPUT_FILES )
+  set(CastXML_OUTPUT_FILES )
 endmacro()
 
 macro(itk_end_wrap_module_castxml)
-  add_custom_target(${WRAPPER_LIBRARY_NAME}CastXML DEPENDS ${GCC_XML_OUTPUT_FILES})
-  set(${WRAPPER_LIBRARY_NAME}XmlFiles ${GCC_XML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
+  add_custom_target(${WRAPPER_LIBRARY_NAME}CastXML DEPENDS ${CastXML_OUTPUT_FILES})
+  set(${WRAPPER_LIBRARY_NAME}XmlFiles ${CastXML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
 endmacro()
