@@ -1,5 +1,3 @@
-add_subdirectory("Headers")
-
 include_directories(${PROJECT_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(${itk-module}_SRC
