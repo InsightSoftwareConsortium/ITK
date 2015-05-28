@@ -172,6 +172,10 @@ macro(itk_end_wrap_submodule_castxml module)
   endif()
   set(_target)
   if(CMAKE_CROSSCOMPILING)
+    if(NOT CMAKE_CXX_COMPILER_TARGET)
+      message(FATAL_ERROR "Set the target triple in CMAKE_CXX_COMPILER_TARGET "
+      " as described in http://clang.llvm.org/docs/CrossCompilation.html")
+    endif()
     set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
   endif()
   add_custom_command(
