@@ -450,24 +450,24 @@ int main( int, char *[] )
     std::cout << "Got the expected FloatDifferenceULP sign.\n" << std::endl;
     }
 
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(0) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(1) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(2));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(3));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(4) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(5));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(6) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(7));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(8) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(9) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(10) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(11));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(12) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(13));
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(0u) == false);
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(1u) == false);
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(2u));
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(3u));
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(4u) == false);
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(5u));
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(6u) == false);
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(7u));
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(8u) == false);
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(9u) == false);
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(10u) == false);
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(11u));
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(12u) == false);
+  TEST_EXPECT_TRUE(itk::Math::IsPrime(13u));
 
-  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(12), 3);
-  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(75), 5);
-  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(1024), 2);
+  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(12u), 3);
+  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(75u), 5);
+  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(1024u), 2);
 
   return EXIT_SUCCESS;
 }
