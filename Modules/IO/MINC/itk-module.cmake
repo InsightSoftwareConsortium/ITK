@@ -7,6 +7,7 @@ itk_module(ITKIOMINC
     ITKMINC
     ITKIOImageBase
     ITKIOTransformBase
+  COMPILE_DEPENDS
     ITKTransform
   TEST_DEPENDS
     ITKTestKernel

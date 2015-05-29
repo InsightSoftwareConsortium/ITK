@@ -9,8 +9,9 @@ itk_module(ITKGPUAnisotropicSmoothing
   DEPENDS
     ITKCommon
     ITKGPUCommon
-    ITKAnisotropicSmoothing
     ITKGPUFiniteDifference
+  COMPILE_DEPENDS
+    ITKAnisotropicSmoothing
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

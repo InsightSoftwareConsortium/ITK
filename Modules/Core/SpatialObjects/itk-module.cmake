@@ -10,6 +10,7 @@ itk_module(ITKSpatialObjects
     ITKImageFunction
     ITKMesh
     ITKIOImageBase
+  COMPILE_DEPENDS
     ITKMetaIO
   TEST_DEPENDS
     ITKTestKernel

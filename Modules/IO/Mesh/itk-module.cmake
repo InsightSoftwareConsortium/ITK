@@ -4,9 +4,10 @@ itk_module(ITKIOMesh
   ENABLE_SHARED
   DEPENDS
     ITKCommon
-    ITKMesh
     ITKGIFTI
     ITKIOImageBase
+  COMPILE_DEPENDS
+    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
     ITKQuadEdgeMesh

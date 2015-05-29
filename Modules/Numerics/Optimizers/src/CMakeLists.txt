@@ -33,5 +33,6 @@ itkInitializationBiasedParticleSwarmOptimizer.cxx
 )
 
 add_library(ITKOptimizers ${ITKOptimizers_SRC})
-target_link_libraries(ITKOptimizers  ${ITKStatistics_LIBRARIES} ${ITKTransform_LIBRARIES})
+itk_module_link_dependencies()
+target_link_libraries(ITKOptimizers LINK_PUBLIC ${ITKTransform_LIBRARIES})
 itk_module_target(ITKOptimizers)

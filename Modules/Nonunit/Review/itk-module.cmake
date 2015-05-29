@@ -47,7 +47,6 @@ itk_module(ITKReview
     ITKIOPNG
     ITKIORAW
     ITKIOSiemens
-    ITKIOTransformBase
     ITKIOTransformMatlab
     ITKIOTransformHDF5
     ITKIOTransformInsightLegacy
@@ -64,7 +63,6 @@ itk_module(ITKReview
     ITKMesh
     ITKNarrowBand
     ITKNeuralNetworks
-    ITKOpenJPEG
     ITKOptimizers
     ITKPath
     ITKPDEDeformableRegistration
@@ -82,6 +80,9 @@ itk_module(ITKReview
     ITKVoronoi
     ITKVTK
     ITKWatersheds
+  COMPILE_DEPENDS
+    ITKIOTransformBase
+    ITKOpenJPEG
     ITKLabelMap
     ITKBinaryMathematicalMorphology
     ITKImageFusion
