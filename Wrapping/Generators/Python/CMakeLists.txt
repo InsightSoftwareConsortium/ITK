@@ -220,7 +220,7 @@ endif()
 
 string(REGEX REPLACE "\n" "" py_spp_no_newline "${py_spp}")
 string(REGEX REPLACE "\\\\" "/" py_spp_nobackslashes "${py_spp_no_newline}")
-set(PY_SITE_PACKAGES_PATH "${py_spp_nobackslashes}" CACHE PATH "Python site-packages directory to install a .pth file pointing at WrapITK Python modules.")
+set(PY_SITE_PACKAGES_PATH "${py_spp_nobackslashes}" CACHE STRING "Python site-packages directory to install a .pth file pointing at WrapITK Python modules.")
 mark_as_advanced(PY_SITE_PACKAGES_PATH)
 if(PY_SITE_PACKAGES_PATH)
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth"
