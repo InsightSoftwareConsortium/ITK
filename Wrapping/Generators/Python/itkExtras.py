@@ -1030,6 +1030,6 @@ try:
         itkConfig.ProgressCallback = terminal_progress_callback
     # some cleanup
     del itkConfig, IPython
-except ImportError:
+except (ImportError, AttributeError):
     # fail silently
     pass
