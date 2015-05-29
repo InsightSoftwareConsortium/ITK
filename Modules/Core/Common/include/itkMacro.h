@@ -532,7 +532,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
   typedef oldtype newtype __attribute__((aligned(alignment)))
 #elif defined ( _MSC_VER )
 # define itkAlignedTypedef( alignment, oldtype, newtype )   \
-  typedef __declspec(align( alignment )) struct oldtype newtype
+  typedef __declspec(align( alignment )) oldtype newtype
 #else
 # define itkAlignedTypedef( alignment, oldtype, newtype )        \
   typedef oldtype newtype

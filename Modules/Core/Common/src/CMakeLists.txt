@@ -87,6 +87,7 @@ itkNumberToString.cxx
 itkSmartPointerForwardReferenceProcessObject.cxx
 itkThreadPool.cxx
 itkRandomVariateGeneratorBase.cxx
+itkAtomicInt.cxx
 )
 
 if(WIN32)

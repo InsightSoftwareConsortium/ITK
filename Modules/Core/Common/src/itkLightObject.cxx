@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkFastMutexLock.h"
 
-
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
 #ifndef __EMSCRIPTEN__
@@ -30,29 +29,9 @@
 #include <cxxabi.h>
 #endif
 
-#if defined( __APPLE__ )
-// OSAtomic.h optimizations only used in 10.5 and later
-  #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
-    #include <libkern/OSAtomic.h>
-  #endif
-
-#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
-  #if ( __GNUC__ > 4 ) || ( ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ >= 2 ) )
-  #include <ext/atomicity.h>
-  #else
-  #include <bits/atomicity.h>
-  #endif
-
-#endif
 
 namespace itk
 {
-#if defined( __GLIBCXX__ ) // g++ 3.4+
-
-using __gnu_cxx::__atomic_add;
-using __gnu_cxx::__exchange_and_add;
-
-#endif
 
 LightObject::LightObject():m_ReferenceCount(1)
 {
@@ -168,28 +147,7 @@ void
 LightObject
 ::Register() const
 {
-  // Windows optimization
-#if ( defined( WIN32 ) || defined( _WIN32 ) )
-  InterlockedIncrement(&m_ReferenceCount);
-
-  // Mac optimization
-#elif defined( __APPLE__ ) && ( MAC_OS_X_VERSION_MIN_REQUIRED >= 1050 )
- #if defined ( __LP64__ ) && __LP64__
-  OSAtomicIncrement64Barrier(&m_ReferenceCount);
- #else
-  OSAtomicIncrement32Barrier(&m_ReferenceCount);
- #endif
-
-  // gcc optimization
-#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
-  __atomic_add(&m_ReferenceCount, 1);
-
-  // General case
-#else
-  m_ReferenceCountLock.Lock();
-  m_ReferenceCount++;
-  m_ReferenceCountLock.Unlock();
-#endif
+  ++m_ReferenceCount;
 }
 
 /**
@@ -202,45 +160,10 @@ LightObject
   // As ReferenceCount gets unlocked, we may have a race condition
   // to delete the object.
 
-  // Windows optimization
-#if ( defined( WIN32 ) || defined( _WIN32 ) )
-  if ( InterlockedDecrement(&m_ReferenceCount) <= 0 )
+  if (  --m_ReferenceCount <= 0 )
     {
     delete this;
     }
-
-// Mac optimization
-#elif defined( __APPLE__ ) && ( MAC_OS_X_VERSION_MIN_REQUIRED >= 1050 )
- #if defined ( __LP64__ ) && __LP64__
-  if ( OSAtomicDecrement64Barrier(&m_ReferenceCount) <= 0 )
-    {
-    delete this;
-    }
- #else
-  if ( OSAtomicDecrement32Barrier(&m_ReferenceCount) <= 0 )
-    {
-    delete this;
-    }
- #endif
-
-// gcc optimization
-#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
-  if ( __exchange_and_add(&m_ReferenceCount, -1) <= 1 )
-    {
-    delete this;
-    }
-
-// General case
-#else
-  m_ReferenceCountLock.Lock();
-  InternalReferenceCountType tmpReferenceCount = --m_ReferenceCount;
-  m_ReferenceCountLock.Unlock();
-
-  if ( tmpReferenceCount <= 0 )
-    {
-    delete this;
-    }
-#endif
 }
 
 /**
@@ -250,9 +173,7 @@ void
 LightObject
 ::SetReferenceCount(int ref)
 {
-  m_ReferenceCountLock.Lock();
-  m_ReferenceCount = static_cast< InternalReferenceCountType >( ref );
-  m_ReferenceCountLock.Unlock();
+  m_ReferenceCount = ref;
 
   if ( ref <= 0 )
     {

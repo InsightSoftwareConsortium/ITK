@@ -25,34 +25,11 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkFastMutexLock.h"
-
-#if defined( _WIN32 )
-  #include "itkWindows.h"
-
-#elif defined( __APPLE__ )
-// OSAtomic.h optimizations only used in 10.5 and later
-  #include <AvailabilityMacros.h>
-  #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
-    #include <libkern/OSAtomic.h>
-  #endif
-
-#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
-  #if ( __GNUC__ > 4 ) || ( ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ >= 2 ) )
-  #include <ext/atomicity.h>
-  #else
-  #include <bits/atomicity.h>
-  #endif
-
-#endif
+#include "itkTimeStamp.h"
+#include "itkAtomicInt.h"
 
 namespace itk
 {
-#if defined( __GLIBCXX__ ) // g++ 3.4+
-
-using __gnu_cxx::__exchange_and_add;
-
-#endif
 
 /**
  * Instance creation.
@@ -81,46 +58,8 @@ void
 TimeStamp
 ::Modified()
 {
-  // Windows optimization
-#if defined( WIN32 ) || defined( _WIN32 )
-  static LONG itkTimeStampTime = 0;
-  m_ModifiedTime = (ModifiedTimeType)InterlockedIncrement(&itkTimeStampTime);
+  static AtomicInt<ModifiedTimeType> GlobalTimeStamp(0);
 
-  // Mac optimization
-#elif defined( __APPLE__ ) && ( MAC_OS_X_VERSION_MIN_REQUIRED >= 1050 )
- #if __LP64__
-  // "m_ModifiedTime" is "unsigned long", a type that changess sizes
-  // depending on architecture.  The atomic increment is safe, since it
-  // operates on a variable of the exact type needed.  The cast does not
-  // change the size, but does change signedness, which is not ideal.
-  static volatile int64_t itkTimeStampTime = 0;
-  m_ModifiedTime = (ModifiedTimeType)OSAtomicIncrement64Barrier(&itkTimeStampTime);
- #else
-  static volatile int32_t itkTimeStampTime = 0;
-  m_ModifiedTime = (ModifiedTimeType)OSAtomicIncrement32Barrier(&itkTimeStampTime);
- #endif
-
-// gcc optimization
-#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
-  // We start from 1 since __exchange_and_add returns the old (non-incremented)
-  // value. This is not really necessary but will make the absolute value of the
-  // timestamp more consistent across platforms.
-  static volatile _Atomic_word itkTimeStampTime = 1;
-  m_ModifiedTime = (ModifiedTimeType)__exchange_and_add(&itkTimeStampTime, 1);
-
-// General case
-#else
-  /**
-   * Initialize static member
-   */
-  static ModifiedTimeType itkTimeStampTime = 0;
-
-  /** Used for mutex locking */
-  static SimpleFastMutexLock TimeStampMutex;
-
-  TimeStampMutex.Lock();
-  m_ModifiedTime = ++itkTimeStampTime;
-  TimeStampMutex.Unlock();
-#endif
+  this->m_ModifiedTime = ++GlobalTimeStamp;
 }
 } // end namespace itk

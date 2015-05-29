@@ -22,7 +22,7 @@
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
-#include "itkSimpleFastMutexLock.h"
+#include "itkAtomicInt.h"
 
 #include <iostream>
 #include <typeinfo>
@@ -109,7 +109,7 @@ public:
 
   /** Gets the reference count on this object. */
   virtual int GetReferenceCount() const
-  { return static_cast< int >( m_ReferenceCount ); }
+  { return m_ReferenceCount; }
 
   /** Sets the reference count on this object. This is a dangerous
    * method, use it with care. */
@@ -135,27 +135,9 @@ protected:
    */
   virtual LightObject::Pointer InternalClone() const;
 
-  /** Define the type of the reference count according to the
-      target. This allows the use of atomic operations */
-#if ( defined( WIN32 ) || defined( _WIN32 ) )
-  typedef LONG InternalReferenceCountType;
-#elif defined( __APPLE__ ) && ( MAC_OS_X_VERSION_MIN_REQUIRED >= 1050 )
- #if defined ( __LP64__ ) && __LP64__
-  typedef volatile int64_t InternalReferenceCountType;
- #else
-  typedef volatile int32_t InternalReferenceCountType;
- #endif
-#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
-  typedef _Atomic_word InternalReferenceCountType;
-#else
-  typedef int InternalReferenceCountType;
-#endif
-
   /** Number of uses of this object by other objects. */
-  mutable InternalReferenceCountType m_ReferenceCount;
+  mutable AtomicInt<int> m_ReferenceCount;
 
-  /** Mutex lock to protect modification to the reference count */
-  mutable SimpleFastMutexLock m_ReferenceCountLock;
 
 private:
   LightObject(const Self &);    //purposely not implemented
