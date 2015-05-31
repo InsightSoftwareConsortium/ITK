@@ -196,34 +196,33 @@ macro(check_compiler_platform_flags)
       set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-array-bounds")
     endif()
 
-   if(APPLE)
-     option(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING "Turn on warnings on 64bits to 32bits truncations." OFF)
-     mark_as_advanced(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING)
+    if(APPLE)
+      option(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING "Turn on warnings on 64bits to 32bits truncations." OFF)
+      mark_as_advanced(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING)
 
-     execute_process(COMMAND "${CMAKE_C_COMPILER}" --version
-       OUTPUT_VARIABLE _version ERROR_VARIABLE _version)
+      execute_process(COMMAND "${CMAKE_C_COMPILER}" --version
+        OUTPUT_VARIABLE _version ERROR_VARIABLE _version)
 
-     # -fopenmp breaks compiling the HDF5 library in shared library mode
-     # on the OS X platform -- at least with gcc 4.2 from Xcode.
-     set(compile_flag_lists CMAKE_C_FLAGS CMAKE_CXX_FLAGS
-       CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_MINSIZEREL
-       CMAKE_C_FLAGS_RELEASE CMAKE_C_FLAGS_RELWITHDEBINFO
-       CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_MINSIZEREL
-       CMAKE_CXX_FLAGS_RELEASE CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-     foreach(listname ${compile_flag_lists})
-       if("${${listname}}" MATCHES ".*-fopenmp.*")
-         string(REPLACE "-fopenmp" "" tmpFlags "${${listname}}")
-         set(${listname} "${tmpFlags}")
-         message("-fopenmp causes incorrect compliation of HDF, removing from ${listname}")
-       endif()
-     endforeach()
-   endif()
+      # -fopenmp breaks compiling the HDF5 library in shared library mode
+      # on the OS X platform -- at least with gcc 4.2 from Xcode.
+      set(compile_flag_lists CMAKE_C_FLAGS CMAKE_CXX_FLAGS
+          CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_MINSIZEREL
+          CMAKE_C_FLAGS_RELEASE CMAKE_C_FLAGS_RELWITHDEBINFO
+          CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_MINSIZEREL
+          CMAKE_CXX_FLAGS_RELEASE CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+      foreach(listname ${compile_flag_lists})
+        if("${${listname}}" MATCHES ".*-fopenmp.*")
+          string(REPLACE "-fopenmp" "" tmpFlags "${${listname}}")
+          set(${listname} "${tmpFlags}")
+          message("-fopenmp causes incorrect compliation of HDF, removing from ${listname}")
+        endif()
+      endforeach()
+    endif()
 
-   # gcc must have -msse2 option to enable sse2 support
-   if(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
-     set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -msse2")
-   endif()
-
+    # gcc must have -msse2 option to enable sse2 support
+    if(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
+      set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -msse2")
+    endif()
   endif()
 
   #-----------------------------------------------------------------------------
