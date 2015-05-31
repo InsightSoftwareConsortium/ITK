@@ -222,26 +222,21 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 ::SetVirtualDomain( const VirtualSpacingType & spacing, const VirtualOriginType & origin,
                     const VirtualDirectionType & direction, const VirtualRegionType & region )
 {
-  this->m_VirtualImage = VirtualImageType::New();
-  this->m_VirtualImage->SetSpacing( spacing );
-  this->m_VirtualImage->SetOrigin( origin );
-  this->m_VirtualImage->SetDirection( direction );
-  this->m_VirtualImage->SetRegions( region );
-  this->m_UserHasSetVirtualDomain = true;
-  this->Modified();
-}
-
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
-void
-ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
-::SetVirtualDomainFromImage( VirtualImageType * virtualImage )
-{
-  itkDebugMacro("setting VirtualDomainImage to " << virtualImage);
-  if ( this->m_VirtualImage != virtualImage )
+  if ( this->m_VirtualImage.IsNull()
+    || ( this->m_VirtualImage->GetSpacing() != spacing )
+    || ( this->m_VirtualImage->GetOrigin() != origin )
+    || ( this->m_VirtualImage->GetDirection() != direction )
+    || ( this->m_VirtualImage->GetLargestPossibleRegion() != region )
+    || ( this->m_VirtualImage->GetBufferedRegion() != region )
+  )
     {
-    this->m_VirtualImage = virtualImage;
+    this->m_VirtualImage = VirtualImageType::New();
+    this->m_VirtualImage->SetSpacing( spacing );
+    this->m_VirtualImage->SetOrigin( origin );
+    this->m_VirtualImage->SetDirection( direction );
+    this->m_VirtualImage->SetRegions( region );
+    this->m_UserHasSetVirtualDomain = true;
     this->Modified();
-    this->m_UserHasSetVirtualDomain = virtualImage != ITK_NULLPTR;
     }
 }
 
@@ -250,7 +245,7 @@ void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::SetVirtualDomainFromImage( const VirtualImageType * virtualImage )
 {
-  this->SetVirtualDomainFromImage( const_cast<VirtualImageType*>( virtualImage ) );
+  this->SetVirtualDomain(  virtualImage->GetSpacing(), virtualImage->GetOrigin(), virtualImage->GetDirection(), virtualImage->GetLargestPossibleRegion() );
 }
 
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
