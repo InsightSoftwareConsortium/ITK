@@ -115,7 +115,7 @@ Image< TPixel, VImageDimension >
     // Attempt to cast data to an Image
     const Self * const imgData = dynamic_cast< const Self * >( data );
 
-    if ( imgData )
+    if ( imgData != ITK_NULLPTR )
       {
       // Now copy anything remaining that is needed
       this->SetPixelContainer( const_cast< PixelContainer * >

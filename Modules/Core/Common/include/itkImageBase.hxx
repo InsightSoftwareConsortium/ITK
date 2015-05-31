@@ -313,7 +313,7 @@ ImageBase< VImageDimension >
     // Attempt to cast data to an ImageBase
     const ImageBase< VImageDimension > * const imgData = dynamic_cast< const ImageBase< VImageDimension > * >( data );
 
-    if ( imgData )
+    if ( imgData != ITK_NULLPTR )
       {
       // Copy the meta data for this data type
       this->SetLargestPossibleRegion( imgData->GetLargestPossibleRegion() );
@@ -464,9 +464,9 @@ void
 ImageBase< VImageDimension >
 ::SetRequestedRegion( const DataObject *data )
 {
-  const ImageBase *imgData = dynamic_cast< const ImageBase * >( data );
+  const ImageBase * const imgData = dynamic_cast< const ImageBase * >( data );
 
-  if ( imgData )
+  if ( imgData != ITK_NULLPTR )
     {
     // only copy the RequestedRegion if the parameter object is an image
     this->SetRequestedRegion( imgData->GetRequestedRegion() );
