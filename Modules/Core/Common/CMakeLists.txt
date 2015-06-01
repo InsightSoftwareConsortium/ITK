@@ -51,7 +51,7 @@ include(itkCheckBuiltins)
 
 # Check for atomic functions
 include(CheckSymbolExists)
-if (WIN32)
+if(WIN32 AND NOT MINGW)
   check_symbol_exists(InterlockedAdd "windows.h" ITK_HAS_INTERLOCKEDADD)
 endif()
 
