@@ -1,5 +1,5 @@
 # check for gcc/clang atomic builtins like __sync_add_and_fetch
-if(NOT WIN32)
+if(NOT WIN32 OR MINGW)
   if(NOT DEFINED ITK_HAVE_SYNC_BUILTINS)
   message(STATUS "Checking for builtin __sync_add_and_fetch")
   try_compile(ITK_TEST_SYNC_BUILTINS_COMPILED
