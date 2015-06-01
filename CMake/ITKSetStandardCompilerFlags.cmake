@@ -196,6 +196,18 @@ macro(check_compiler_platform_flags)
       set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-array-bounds")
     endif()
 
+    if("${CMAKE_CXX_COMPILER_VERSION}" VERSION_GREATER "4.7" AND
+       "${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+      option(ITK_USE_GOLD_LINKER "Use the gold linker instead of ld." ON)
+      mark_as_advanced(ITK_USE_GOLD_LINKER)
+      # The gold linker is approximately 3X faster.
+      if(ITK_USE_GOLD_LINKER)
+        set(CMAKE_EXE_LINKER_FLAGS "-fuse-ld=gold ${CMAKE_EXE_LINKER_FLAGS}")
+        set(CMAKE_MODULE_LINKER_FLAGS "-fuse-ld=gold ${CMAKE_MODULE_LINKER_FLAGS}")
+        set(CMAKE_SHARED_LINKER_FLAGS "-fuse-ld=gold ${CMAKE_SHARED_LINKER_FLAGS}")
+      endif()
+    endif()
+
     if(APPLE)
       option(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING "Turn on warnings on 64bits to 32bits truncations." OFF)
       mark_as_advanced(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING)
