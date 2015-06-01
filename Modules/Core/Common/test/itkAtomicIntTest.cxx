@@ -179,12 +179,12 @@ int itkAtomicIntTest(int, char*[])
 
   std::cout << "MTime: " << AnObject->GetMTime() << std::endl;
 
-  if (TotalAtomic.load() != Target)
+  if (TotalAtomic.load() != static_cast<itk::uint32_t>(Target) )
     {
     return 1;
     }
 
-  if (TotalAtomic64.load() != Target)
+  if (TotalAtomic64.load() != static_cast<itk::uint64_t>(Target) )
     {
     return 1;
     }
@@ -194,7 +194,7 @@ int itkAtomicIntTest(int, char*[])
     return 1;
     }
 
-  if ((int)AnObject->GetMTime() != Target + beforeMTime + 2)
+  if ((int)AnObject->GetMTime() != Target + beforeMTime + 2 )
     {
     return 1;
     }
