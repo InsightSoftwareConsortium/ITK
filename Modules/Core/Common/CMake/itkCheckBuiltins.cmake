@@ -1,5 +1,5 @@
 # check for gcc/clang atomic builtins like __sync_add_and_fetch
-if(NOT WIN32)
+if(NOT WIN32 OR MINGW)
   if(EMSCRIPTEN)
     set(ITK_HAVE_SYNC_BUILTINS 0 CACHE INTERNAL "For __sync atomic builtins.")
   elseif(NOT DEFINED ITK_HAVE_SYNC_BUILTINS)
