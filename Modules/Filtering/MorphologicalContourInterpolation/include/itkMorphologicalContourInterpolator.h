@@ -94,6 +94,38 @@ protected:
   void
   InterpolateAlong(int axis, typename TImage * out);
 
+  /** Slice i has a region, slice j does not */
+  void
+  Extrapolate(int                             axis,
+              typename TImage *               out,
+              typename TImage::PixelType      label,
+              typename TImage::IndexValueType i,
+              typename TImage::IndexValueType j,
+              typename TImage::Pointer        iConn,
+              typename TImage::PixelType      iRegion);
+
+  void
+  Interpolate1to1(int                             axis,
+                  typename TImage *               out,
+                  typename TImage::PixelType      label,
+                  typename TImage::IndexValueType i,
+                  typename TImage::IndexValueType j,
+                  typename TImage::Pointer        iConn,
+                  typename TImage::PixelType      iRegion,
+                  typename TImage::Pointer        jConn,
+                  typename TImage::PixelType      jRegion);
+
+  void
+  Interpolate1toN(int                                     axis,
+                  typename TImage *                       out,
+                  typename TImage::PixelType              label,
+                  typename TImage::IndexValueType         i,
+                  typename TImage::IndexValueType         j,
+                  typename TImage::Pointer                iConn,
+                  typename TImage::PixelType              iRegion,
+                  typename TImage::Pointer                jConn,
+                  std::vector<typename TImage::PixelType> jRegions);
+
   typedef itk::FixedArray<bool, TImage::ImageDimension>                 OrientationType;
   typedef itksys::hash_map<typename TImage::PixelType, OrientationType> OrientationsType;
   OrientationsType                                                      m_Orientations;

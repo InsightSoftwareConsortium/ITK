@@ -176,6 +176,43 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
 }
 
 template <class TImage>
+void
+MorphologicalContourInterpolator<TImage>::Extrapolate(int                             axis,
+                                                      typename TImage *               out,
+                                                      typename TImage::PixelType      label,
+                                                      typename TImage::IndexValueType i,
+                                                      typename TImage::IndexValueType j,
+                                                      typename TImage::Pointer        iConn,
+                                                      typename TImage::PixelType      iRegion)
+{}
+
+template <class TImage>
+void
+MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                             axis,
+                                                          typename TImage *               out,
+                                                          typename TImage::PixelType      label,
+                                                          typename TImage::IndexValueType i,
+                                                          typename TImage::IndexValueType j,
+                                                          typename TImage::Pointer        iConn,
+                                                          typename TImage::PixelType      iRegion,
+                                                          typename TImage::Pointer        jConn,
+                                                          typename TImage::PixelType      jRegion)
+{}
+
+template <class TImage>
+void
+MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                                     axis,
+                                                          typename TImage *                       out,
+                                                          typename TImage::PixelType              label,
+                                                          typename TImage::IndexValueType         i,
+                                                          typename TImage::IndexValueType         j,
+                                                          typename TImage::Pointer                iConn,
+                                                          typename TImage::PixelType              iRegion,
+                                                          typename TImage::Pointer                jConn,
+                                                          std::vector<typename TImage::PixelType> jRegions)
+{}
+
+template <class TImage>
 typename TImage::Pointer
 MorphologicalContourInterpolator<TImage>::RegionedConnectedComponents(const typename TImage::RegionType region,
                                                                       typename TImage::PixelType        label,
@@ -185,7 +222,7 @@ MorphologicalContourInterpolator<TImage>::RegionedConnectedComponents(const type
   m_Binarizer->SetUpperThreshold(label);
   m_Binarizer->SetInput(m_Input);
   m_Binarizer->GetOutput()->SetRequestedRegion(region);
-  m_ConnectedComponents->SetInput(bin->GetOutput());
+  m_ConnectedComponents->SetInput(m_Binarizer->GetOutput());
   m_ConnectedComponents->SetFullyConnected(true);
   m_ConnectedComponents->Update();
   return m_ConnectedComponents->GetOutput();
@@ -280,7 +317,8 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
 
     typedef std::map<typename TImage::PixelType, IdentifierType> CountMap;
     CountMap                                                     iCounts, jCounts;
-    for (PairSet::iterator p = pairs.begin(); p != pairs.end(); ++p)
+    PairSet::iterator                                            p;
+    for (p = pairs.begin(); p != pairs.end(); ++p)
     {
       iCounts[p->first]++;
       jCounts[p->second]++;
@@ -292,7 +330,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     {
       if (iMapIt == iCounts.end() || ic < iMapIt->first)
       {
-        extrapolate(); // TODO: pass correct parameters and implement
+        Extrapolate(axis, out, *it, i, j, iconn, ic);
       }
       else // ic==iMapIt->first
       {
@@ -304,7 +342,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     {
       if (jMapIt == jCounts.end() || jc < jMapIt->first)
       {
-        extrapolate(); // TODO: pass correct parameters and implement
+        Extrapolate(axis, out, *it, j, i, jconn, jc);
       }
       else // jc==jMapIt->first
       {
@@ -313,12 +351,12 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     }
 
     // now handle 1 to 1 correspondences
-    PairSet::iterator p = pairs.begin();
+    p = pairs.begin();
     while (p != pairs.end())
     {
       if (iCounts[p->first] == 1 && jCounts[p->second] == 1)
       {
-        interpolate1to1(); // TODO: pass correct parameters and implement
+        Interpolate1to1(axis, out, *it, i, j, iconn, p->first, jconn, p->second);
         iCounts.erase(p->first);
         jCounts.erase(p->second);
         pairs.erase(p++);
@@ -329,39 +367,32 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       }
     }
 
+    std::vector<typename TImage::PixelType> regionIDs(pairs.size()); // preallocate
     // now do 1-to-N and M-to-1 cases
     p = pairs.begin();
     while (p != pairs.end())
     {
+      regionIDs.clear();
+
       if (iCounts[p->first] == 1) // 1-to-N
       {
-        interpolate1toN(); // TODO: pass correct parameters and implement
-        PairSet::iterator rest = p;
-        ++rest;
-        while (rest != pairs.end())
+        for (PairSet::iterator rest = p; p != pairs.end(); ++p)
         {
-          if (rest->second == p->second)
+          if (rest->first == p->first)
           {
-            pairs.erase(rest++);
-          }
-          else
-          {
-            ++rest;
+            regionIDs.push_back(rest->second);
           }
         }
-        iCounts.erase(p->first);
-        jCounts.erase(p->second);
-        pairs.erase(p++);
-      }
-      else if (jCounts[p->second] == 1) // M-to-1
-      {
-        interpolate1toN(); // TODO: pass correct parameters and implement
+
+        Interpolate1toN(axis, out, *it, i, j, iconn, p->first, jconn, regionIDs);
+
         PairSet::iterator rest = p;
         ++rest;
         while (rest != pairs.end())
         {
           if (rest->first == p->first)
           {
+            --jCounts[rest->second];
             pairs.erase(rest++);
           }
           else
@@ -369,23 +400,62 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
             ++rest;
           }
         }
+        --jCounts[p->second];
         iCounts.erase(p->first);
+        pairs.erase(p++);
+      } // 1-to-N
+      else if (jCounts[p->second] == 1) // M-to-1
+      {
+        for (PairSet::iterator rest = p; p != pairs.end(); ++p)
+        {
+          if (rest->second == p->second)
+          {
+            regionIDs.push_back(rest->first);
+          }
+        }
+
+        Interpolate1toN(axis, out, *it, j, i, jconn, p->second, iconn, regionIDs);
+
+        PairSet::iterator rest = p;
+        ++rest;
+        while (rest != pairs.end())
+        {
+          if (rest->second == p->second)
+          {
+            --iCounts[rest->first];
+            pairs.erase(rest++);
+          }
+          else
+          {
+            ++rest;
+          }
+        }
+        --iCounts[rest->first];
         jCounts.erase(p->second);
         pairs.erase(p++);
-      }
+      } // M-to-1
       else
       {
         ++p;
       }
-    }
+    } // 1-to-N and M-to-1
 
     // only M-to-N correspondences remain
     // we turn each M-to-N case into m 1-to-N cases
     p = pairs.begin();
     while (p != pairs.end())
     {
-      // TODO: enumerate the labels which correspond to p->first and make it 1-to-N
-      interpolate1toN(); // TODO: pass correct parameters and implement
+      regionIDs.clear();
+      for (PairSet::iterator rest = p; p != pairs.end(); ++p)
+      {
+        if (rest->first == p->first)
+        {
+          regionIDs.push_back(rest->second);
+        }
+      }
+
+      Interpolate1toN(axis, out, *it, i, j, iconn, p->first, jconn, regionIDs);
+
       PairSet::iterator rest = p;
       ++rest;
       while (rest != pairs.end())
