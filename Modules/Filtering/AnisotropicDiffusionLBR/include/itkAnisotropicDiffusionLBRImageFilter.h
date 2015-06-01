@@ -46,35 +46,36 @@ template<typename TImage, typename TScalar = typename TImage::PixelType>
 class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter< TImage, TImage>
 {
 public:
-  typedef  AnisotropicDiffusionLBRImageFilter Self;
-  typedef ImageToImageFilter< TImage, TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef AnisotropicDiffusionLBRImageFilter   Self;
+  typedef ImageToImageFilter< TImage, TImage > Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
   /// Method for creation through the object factory.
   itkNewMacro(Self);
   /// Run-time type information (and related methods).
   itkTypeMacro(AnisotropicDiffusionLBRImageFilter, Superclass);
 
-  typedef TImage ImageType;
+  typedef TImage                        ImageType;
+  typedef typename ImageType::PixelType PixelType;
+  typedef TScalar                       ScalarType;
+
   static const unsigned int Dimension = ImageType::ImageDimension;
 
-  typedef typename ImageType::PixelType PixelType;
-  typedef TScalar ScalarType;
+  typedef SymmetricSecondRankTensor< ScalarType, Dimension > TensorType;
+  typedef Image< TensorType, Dimension >                     TensorImageType;
 
-  typedef SymmetricSecondRankTensor<ScalarType,Dimension> TensorType;
-  typedef Image<TensorType,Dimension> TensorImageType;
-
-  typedef StructureTensorImageFilter<ImageType, TensorImageType> StructureTensorFilterType;
+  typedef StructureTensorImageFilter<ImageType, TensorImageType>          StructureTensorFilterType;
   typedef LinearAnisotropicDiffusionLBRImageFilter<ImageType, ScalarType> LinearDiffusionFilterType;
 
-
-  itkSetMacro(NoiseScale, ScalarType); /// Passed to a StructureTensorImageFilter.
+  /** Passed to a StructureTensorImageFilter. */
+  itkSetMacro(NoiseScale, ScalarType);
   itkGetConstMacro(NoiseScale, ScalarType);
-  itkSetMacro(FeatureScale, ScalarType); /// Passed to a StructureTensorImageFilter.
+  itkSetMacro(FeatureScale, ScalarType);
   itkGetConstMacro(FeatureScale, ScalarType);
 
-  itkSetMacro(RatioToMaxStableTimeStep, ScalarType); /// Passed to a LinearAnisotropicDiffusion Filter.
+  /** Passed to a LinearAnisotropicDiffusion Filter. */
+  itkSetMacro(RatioToMaxStableTimeStep, ScalarType);
   itkGetConstMacro(RatioToMaxStableTimeStep, ScalarType);
   itkSetMacro(MaxTimeStepsBetweenTensorUpdates, int);
   itkGetConstMacro(MaxTimeStepsBetweenTensorUpdates, int);
@@ -82,52 +83,52 @@ public:
   itkSetMacro(DiffusionTime, ScalarType);
   itkGetConstMacro(DiffusionTime, ScalarType);
 
-  ///If true, uses unit pixel spacing, and rescales structure tensors for uni maximum trace..
+  /** If true, uses unit pixel spacing, and rescales structure
+   * tensors for uni maximum trace. */
   itkSetMacro(Adimensionize, bool);
   itkGetConstMacro(Adimensionize, bool);
 
-
   typedef typename TensorType::EigenValuesArrayType EigenValuesArrayType;
-  /// Transformation of the Structure tensor eigenvalues into the diffusion tensor eigenvalues. Needs to be overloaded in a subclass. (Structure tensor eigenvalues are sorted by increasing order for convenience).
+  /** Transformation of the Structure tensor eigenvalues into the diffusion
+   * tensor eigenvalues. Needs to be overloaded in a subclass.
+   * (Structure tensor eigenvalues are sorted by increasing order for convenience). */
   virtual EigenValuesArrayType EigenValuesTransform(const EigenValuesArrayType &) const
-  {itkExceptionMacro("Undefined tensor eigenvalues transform");};
+  {
+    itkExceptionMacro("Undefined tensor eigenvalues transform");
+  }
 
-  virtual typename TensorImageType::Pointer GetLastTensorImage(){return tensorImage;}
+  virtual typename TensorImageType::Pointer GetLastTensorImage()
+  {
+    return m_TensorImage;
+  }
   typedef std::vector< std::pair<ScalarType, int> > EffectiveTimesAndIterationsType;
   itkGetConstReferenceMacro(LinearFilterEffectiveTimesAndIterations, EffectiveTimesAndIterationsType);
 
 protected:
-  ScalarType m_NoiseScale, m_FeatureScale;
+  ScalarType m_NoiseScale;
+  ScalarType m_FeatureScale;
 
   ScalarType m_RatioToMaxStableTimeStep;
-  int m_MaxTimeStepsBetweenTensorUpdates;
+  int        m_MaxTimeStepsBetweenTensorUpdates;
 
-  AnisotropicDiffusionLBRImageFilter(){
-      m_DiffusionTime=1;
-      m_Adimensionize=true;
+  AnisotropicDiffusionLBRImageFilter();
+  virtual ~AnisotropicDiffusionLBRImageFilter(){}
 
-      m_NoiseScale=0.5;
-      m_FeatureScale=2;
+  typename TensorImageType::Pointer m_TensorImage;
 
-      m_RatioToMaxStableTimeStep=0.7;
-      m_MaxTimeStepsBetweenTensorUpdates=5;
-  };
-  ~AnisotropicDiffusionLBRImageFilter(){};
-
-  typename TensorImageType::Pointer tensorImage;
   virtual void ComputeDiffusionTensors(ImageType*);
 
-
   ScalarType m_DiffusionTime;
-  bool m_Adimensionize;
+  bool       m_Adimensionize;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   EffectiveTimesAndIterationsType m_LinearFilterEffectiveTimesAndIterations;
 
   struct DiffusionTensorFunctor;
 };
-}
+
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkAnisotropicDiffusionLBRImageFilter.hxx"

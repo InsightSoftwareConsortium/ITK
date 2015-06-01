@@ -31,50 +31,60 @@
 
 namespace itk
 {
+
 template<typename TInputImage, typename TOutputImage, typename TFunctor>
-class UnaryFunctorWithIndexImageFilter : public ImageToImageFilter<TInputImage, TOutputImage> {
+class UnaryFunctorWithIndexImageFilter:
+  public ImageToImageFilter<TInputImage, TOutputImage>
+{
 public:
-    typedef UnaryFunctorWithIndexImageFilter Self;
-    typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-    typedef SmartPointer<Self> Pointer;
-    typedef SmartPointer<const Self> ConstPointer;
+  typedef UnaryFunctorWithIndexImageFilter                Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
-    /// Method for creation through the object factory.
-    itkNewMacro(Self);
-    /// Run-time type information (and related methods).
-    itkTypeMacro(UnaryFunctorWithIndexImageFilter, Superclass);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-    typedef TInputImage     InputImageType;
-    typedef TOutputImage    OutputImageType;
-    typedef TFunctor FunctorType;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(UnaryFunctorWithIndexImageFilter, Superclass);
 
-    GetSetFunctorMacro(Functor, FunctorType);
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
+  typedef TFunctor     FunctorType;
+
+  GetSetFunctorMacro(Functor, FunctorType);
 
 protected:
-    UnaryFunctorWithIndexImageFilter(){};
+  UnaryFunctorWithIndexImageFilter(){}
 
-    FunctorType m_Functor;
+  FunctorType m_Functor;
 
-    typedef typename InputImageType::RegionType     InputRegionType;
-    typedef typename OutputImageType::RegionType    OutputRegionType;
+  typedef typename InputImageType::RegionType  InputRegionType;
+  typedef typename OutputImageType::RegionType OutputRegionType;
 
-    virtual void ThreadedGenerateData(const OutputRegionType & region, ThreadIdType){
-        if(region.GetSize()[0]==0) return;
+  virtual void ThreadedGenerateData(const OutputRegionType & region, ThreadIdType) ITK_OVERRIDE
+  {
+    if( region.GetSize()[0] == 0 )
+      {
+      return;
+      }
 
-        ImageRegionConstIteratorWithIndex<InputImageType>   inputIt(    this->GetInput(),   region);
-        ImageScanlineIterator< OutputImageType >            outputIt(   this->GetOutput(),  region);
+    ImageRegionConstIteratorWithIndex< InputImageType > inputIt( this->GetInput(), region);
+    ImageScanlineIterator< OutputImageType > outputIt( this->GetOutput(), region);
 
-        for(inputIt.GoToBegin(), outputIt.GoToBegin();
-            !outputIt.IsAtEnd();
-            ){
-            while(!outputIt.IsAtEndOfLine()){
-                outputIt.Set(m_Functor(inputIt.Value(), inputIt.GetIndex()));
-                ++inputIt;
-                ++outputIt;
-            }
-            outputIt.NextLine();
+    for( inputIt.GoToBegin(), outputIt.GoToBegin();
+         !outputIt.IsAtEnd();
+         )
+      {
+      while(!outputIt.IsAtEndOfLine())
+        {
+        outputIt.Set(m_Functor(inputIt.Value(), inputIt.GetIndex()));
+        ++inputIt;
+        ++outputIt;
         }
-    }
+        outputIt.NextLine();
+      }
+  }
 };
 
 } // end namespace itk

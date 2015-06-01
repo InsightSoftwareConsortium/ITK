@@ -57,7 +57,7 @@ struct StructureTensorImageFilter< TImage, TTensorImage >
     outerFilter->SetInput(gradientFilter->GetOutput());
 
     outerFilter->Update();
-    self->intermediateResult = outerFilter->GetOutput();
+    self->m_IntermediateResult = outerFilter->GetOutput();
   }
 };
 
@@ -120,7 +120,7 @@ struct StructureTensorImageFilter< TImage, TTensorImage >
 
     self->UpdateProgress(index/float( Self::PixelType::Dimension+1 ));
     }
-    self->intermediateResult = output;
+    self->m_IntermediateResult = output;
   }
 };
 
@@ -134,15 +134,16 @@ StructureTensorImageFilter< TImage, TTensorImage >
 
   typedef RecursiveGaussianImageFilter<TensorImageType> GaussianFilterType;
   typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
-  gaussianFilter->SetInput(intermediateResult);
-  gaussianFilter->SetSigma(m_FeatureScale);
+  gaussianFilter->SetInput( m_IntermediateResult );
+  gaussianFilter->SetSigma( m_FeatureScale );
 
-  if(!m_RescaleForUnitMaximumTrace){
-      m_PostRescaling=1.;
-      gaussianFilter->Update();
-      this->GraftOutput(gaussianFilter->GetOutput());
-      return;
-  }
+  if( !m_RescaleForUnitMaximumTrace )
+    {
+    m_PostRescaling = 1.;
+    gaussianFilter->Update();
+    this->GraftOutput(gaussianFilter->GetOutput());
+    return;
+    }
 
   // *** Rescaling for normalization of largest trace ***
 

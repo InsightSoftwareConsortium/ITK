@@ -87,16 +87,16 @@ protected:
 
   ScalarType m_FeatureScale;
   ScalarType m_NoiseScale;
-  bool m_RescaleForUnitMaximumTrace;
+  bool       m_RescaleForUnitMaximumTrace;
   ScalarType m_PostRescaling;
-  bool m_UseGradientRecursiveGaussianImageFilter;
+  bool       m_UseGradientRecursiveGaussianImageFilter;
 
   template< typename Dummy=void, bool b=std::numeric_limits<PixelType>::is_specialized >
   struct IntermediateFilter;
-  typename TensorImageType::Pointer intermediateResult;
+  typename TensorImageType::Pointer m_IntermediateResult;
 
   typedef CovariantVector<ScalarType,Dimension> CovariantVectorType;
-  typedef Image<CovariantVectorType,Dimension> CovariantImageType;
+  typedef Image<CovariantVectorType,Dimension>  CovariantImageType;
 
   struct OuterFunctor
   {
