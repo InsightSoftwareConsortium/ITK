@@ -182,17 +182,17 @@ public:
    *
    * \sa Image::Rebind
    */
-  template <typename UPixelType, unsigned int UImageDimension = VImageDimension>
+  template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
   struct Rebind
   {
-    typedef itk::VectorImage<UPixelType, UImageDimension>  Type;
+    typedef itk::VectorImage<UPixelType, NUImageDimension>  Type;
   };
 
   /** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
-  template <typename UElementType, unsigned int UImageDimension>
-  struct Rebind< VariableLengthVector< UElementType >, UImageDimension>
+  template <typename UElementType, unsigned int NUImageDimension>
+  struct Rebind< VariableLengthVector< UElementType >, NUImageDimension>
   {
-    typedef itk::VectorImage<UElementType, UImageDimension>  Type;
+    typedef itk::VectorImage<UElementType, NUImageDimension>  Type;
   };
   /** \endcond */
 
@@ -215,7 +215,7 @@ public:
    * allocated yet. */
   void SetPixel(const IndexType & index, const PixelType & value)
   {
-    OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
+    OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
 
     for ( VectorLengthType i = 0; i < m_VectorLength; i++ )
       {
@@ -230,7 +230,7 @@ public:
    * pixel on the stack. */
   const PixelType GetPixel(const IndexType & index) const
   {
-    OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
+    OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
 
     // Do not create a local for this method, to use return value
     // optimization.
@@ -248,7 +248,7 @@ public:
    * image has actually been allocated yet. */
   PixelType  GetPixel(const IndexType & index)
   {
-    OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
+    OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
 
     // Correctness of this method relies of return value optimization, do
     // not create a local for the value.
