@@ -131,7 +131,7 @@ namespace itk
  * 2) D. Padfield. "Masked FFT registration". In Proc. Computer
  * Vision and Pattern Recognition, 2010.
  *
- * \author: Dirk Padfield, GE Global Research, padfield@research.ge.com
+ * \author: Dirk Padfield, GE Global Research, padfield\@research.ge.com
  * \ingroup ITKConvolution
  */
 

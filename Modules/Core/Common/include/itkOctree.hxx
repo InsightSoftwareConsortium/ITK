@@ -57,12 +57,9 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::SetTrueDims(const unsigne
  *   6   110
  *   7   111 Contains extents
  *   ....^^^
- *   ....|| \This value is 1 if requested X voxel is greater than X
- *   ....    centerline of subcube
- *   ....| \This value is 1 if requested Y voxel is greater than Y
- *   .......centerline of subcube
- *   ....   \This value is 1 if requested Z voxel is greater than Z centerline
- *   .......of subcube
+ *   ....|| The LSB is 1 if requested X voxel is greater than X centerline of subcube
+ *   ....|  The middle bit is 1 if requested Y voxel is greater than Y centerline of subcube
+ *   ....   The MSB is 1 if requested Z voxel is greater than Z centerline of subcube
  *   \author Hans J. Johnson, adapted from Vincent A. Magnotta
  *   \param VoxX The desired voxel
  *   \param VoxY The desired voxel
