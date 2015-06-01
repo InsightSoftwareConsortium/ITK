@@ -34,17 +34,20 @@ namespace itk
 /**
  * \class StructureTensorImageFilter
  *
+ * \brief Computes the structure tensor.
+ *
  * Implementation of the structure tensor, defined by
  *
  * \f[K_\rho (\nabla u_\sigma \otimes \nabla u_\sigma),\f]
  *
  * where \f$K_\rho\f$ denotes the gaussian kernel of standard deviation \f$\rho\f$,
  * and \f$u_\sigma := K_\sigma * u\f$.
+ *
+ * \ingroup AnisotropicDiffusionLBR
  */
 template< typename TImage,
           typename TTensorImage =
-            Image< SymmetricSecondRankTensor< typename TImage::PixelType,TImage::ImageDimension >, TImage::ImageDimension >
->
+            Image< SymmetricSecondRankTensor< typename TImage::PixelType,TImage::ImageDimension >, TImage::ImageDimension > >
 class StructureTensorImageFilter:
   public ImageToImageFilter< TImage, TTensorImage >
 {

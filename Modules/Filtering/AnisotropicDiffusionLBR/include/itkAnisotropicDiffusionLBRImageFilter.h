@@ -29,9 +29,19 @@
 namespace itk
 {
 
-/** Implementation of Non-linear Anisotropic Diffusion.
- This class repeatedly calls the LinearAnisotropicDiffusionLBRImageFilter, with non-linear diffusion tensors built on the fly. These tensors are obtained by computing the image structure tensors, and appropriately modifying their eigenvalues with the method EigenValuesTransform. The latter method is not implemented, and needs to be provided in a subclass, such as CoherenceEnhancingDiffusionFilter.h
-*/
+/** \class AnisotropicDiffusionLBRImageFilter
+ *
+ * \brief Non-linear anisotropic diffusion using lattice basis reduction.
+ *
+ * This class repeatedly calls the LinearAnisotropicDiffusionLBRImageFilter,
+ * with non-linear diffusion tensors built on the fly. These tensors are
+ * obtained by computing the image structure tensors, and appropriately
+ * modifying their eigenvalues with the method EigenValuesTransform. The
+ * latter method is not implemented, and needs to be provided in a subclass,
+ * such as CoherenceEnhancingDiffusionFilter.
+ *
+ * \ingroup AnisotropicDiffusionLBR
+ */
 template<typename TImage, typename TScalar = typename TImage::PixelType>
 class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter< TImage, TImage>
 {
