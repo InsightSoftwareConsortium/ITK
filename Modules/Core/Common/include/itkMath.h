@@ -276,46 +276,21 @@ FloatAlmostEqual( T x1, T x2,
   return ulps <= maxUlps;
 }
 
-/** Return whether the number in a prime number or not */
-template <typename T>
-inline bool
-IsPrime( T n )
-{
-  if( n <= 1 )
-  {
-    return false;
-  }
-  const T last = (T)vcl_sqrt( (double)n );
-  for( T x=2; x<=last; ++x )
-    {
-    if( n%x == 0 )
-      {
-      return false;
-      }
-    }
-  return true;
-}
+/** Return whether the number in a prime number or not.
+ *
+ * \note Negative numbers can not be prime.
+ */
+ITKCommon_EXPORT bool IsPrime( unsigned short n );
+ITKCommon_EXPORT bool IsPrime( unsigned int n );
+ITKCommon_EXPORT bool IsPrime( unsigned long n );
+ITKCommon_EXPORT bool IsPrime( unsigned long long n );
 
 
 /** Return the greatest factor of the decomposition in prime numbers */
-template <typename T>
-inline T
-GreatestPrimeFactor( T n )
-{
-  T v = 2;
-  while( v <= n )
-    {
-    if( n % v == 0 && IsPrime( v ) )
-      {
-      n /= v;
-      }
-    else
-      {
-      v += 1;
-      }
-    }
-  return v;
-}
+ITKCommon_EXPORT unsigned short     GreatestPrimeFactor( unsigned short n );
+ITKCommon_EXPORT unsigned int       GreatestPrimeFactor( unsigned int n );
+ITKCommon_EXPORT unsigned long      GreatestPrimeFactor( unsigned long n );
+ITKCommon_EXPORT unsigned long long GreatestPrimeFactor( unsigned long long n );
 
 } // end namespace Math
 } // end namespace itk
