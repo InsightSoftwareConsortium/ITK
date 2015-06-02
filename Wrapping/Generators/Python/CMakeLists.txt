@@ -279,8 +279,11 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
   set(dependencies
     "${DEPS}"
     "${interface_file}"
-    "${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i"
     "${_swig_depend}")
+
+  if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+    list(APPEND dependencies "${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i")
+  endif()
 
   if("${type}" STREQUAL "Module")
     # Module
@@ -853,7 +856,7 @@ endmacro()
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
   # Add the Python tests
-  if(BUILD_TESTING)
+  if(BUILD_TESTING AND ITK_SOURCE_DIR)
     add_subdirectory(Tests)
   endif()
 

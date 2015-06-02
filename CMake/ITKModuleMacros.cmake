@@ -6,6 +6,8 @@ include(${_ITKModuleMacros_DIR}/ITKModuleAPI.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleDoxygen.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleHeaderTest.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleKWStyleTest.cmake)
+include(${_ITKModuleMacros_DIR}/CppcheckTargets.cmake)
+include(${_ITKModuleMacros_DIR}/ITKModuleCPPCheckTest.cmake)
 
 # With Apple's GGC <=4.2 and LLVM-GCC <=4.2 visibility of template
 # don't work. Set the option to off and hide it.
@@ -13,10 +15,6 @@ if(APPLE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION  VERSION_LE
   set( USE_COMPILER_HIDDEN_VISIBILITY OFF CACHE INTERNAL "" )
 endif()
 include(GenerateExportHeader)
-
-if(ITK_CPPCHECK_TEST)
-  include(${_ITKModuleMacros_DIR}/ITKModuleCPPCheckTest.cmake)
-endif()
 
 # itk_module(<name>)
 #
@@ -160,6 +158,11 @@ macro(itk_module_impl)
     list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_SOURCE_DIR}/include)
     install(DIRECTORY include/ DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR} COMPONENT Development)
   endif()
+  if(NOT ITK_SOURCE_DIR)
+    # When building a module outside the ITK source tree, find the export
+    # header.
+    list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_BINARY_DIR}/include)
+  endif()
 
   if(${itk-module}_INCLUDE_DIRS)
     include_directories(${${itk-module}_INCLUDE_DIRS})
@@ -199,11 +202,11 @@ macro(itk_module_impl)
 
 
   if( ITK_MODULE_${itk-module}_ENABLE_SHARED )
-
-    # Need to use relative path to work around CMake ISSUE 12645 fixed
-    # in CMake 2.8.8, to support older versions
-    set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
-    file(RELATIVE_PATH _export_header_file ${CMAKE_CURRENT_BINARY_DIR} ${_export_header_file} )
+    if(ITK_SOURCE_DIR)
+      set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
+    else()
+      set(_export_header_file "${${itk-module}_BINARY_DIR}/include/${itk-module}Export.h")
+    endif()
 
     # Generate the export macro header for symbol visibility/Windows DLL declspec
     generate_export_header(${itk-module}
@@ -212,7 +215,7 @@ macro(itk_module_impl)
       NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
       STATIC_DEFINE ITK_STATIC )
     install(FILES
-      ${ITKCommon_BINARY_DIR}/${itk-module}Export.h
+      ${_export_header_file}
       DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
       COMPONENT Development
       )
@@ -262,7 +265,7 @@ macro(itk_module_impl)
     DESTINATION ${ITK_INSTALL_PACKAGE_DIR}/Modules
     COMPONENT Development
     )
-  itk_module_doxygen( ${itk-module} )   # module name
+  itk_module_doxygen(${itk-module})   # module name
 endmacro()
 
 # itk_module_link_dependencies()

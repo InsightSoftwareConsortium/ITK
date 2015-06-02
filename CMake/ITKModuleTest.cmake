@@ -1,3 +1,6 @@
+# This file contains CMake functions and macros used when testing ITK modules.
+
+#-----------------------------------------------------------------------------
 # Create source code, compile and link a test driver
 # Two variables must be defined before including this file.
 #   KIT should define a unique name for the test driver.
@@ -114,3 +117,43 @@ EM_ASM(
   target_link_libraries(${KIT}TestDriver LINK_PUBLIC ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
   itk_module_target_label(${KIT}TestDriver)
 endmacro()
+
+#-----------------------------------------------------------------------------
+# ITK wrapper for add_test that automatically sets the test's LABELS property
+# to the value of its containing module.
+#
+function(itk_add_test)
+  # Add tests with data in the ITKData group.
+  ExternalData_add_test(ITKData ${ARGN})
+
+  if("NAME" STREQUAL "${ARGV0}")
+    set(_iat_testname ${ARGV1})
+  else()
+    set(_iat_testname ${ARGV0})
+  endif()
+
+  if(itk-module)
+    set(_label ${itk-module})
+    if(TARGET ${itk-module}-all AND "${ARGN}" MATCHES "DATA{")
+      add_dependencies(${itk-module}-all ITKData)
+    endif()
+  else()
+    set(_label ${main_project_name})
+  endif()
+
+  set_property(TEST ${_iat_testname} PROPERTY LABELS ${_label})
+endfunction()
+
+#-----------------------------------------------------------------------------
+# ITK function to ignore a test
+#
+function(itk_tests_ignore)
+  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_TESTS_IGNORE ${ARGN})
+endfunction()
+
+#-----------------------------------------------------------------------------
+# ITK function to ignore a test during MemCheck
+#
+function(itk_memcheck_ignore)
+  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_MEMCHECK_IGNORE ${ARGN})
+endfunction()

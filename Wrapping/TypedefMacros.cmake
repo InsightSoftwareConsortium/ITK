@@ -459,9 +459,9 @@ macro(itk_end_wrap_class)
       itk_wrap_one_type("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}${mangled_suffix}" "${template_params}")
     endforeach()
   else()
-    if(WRAPPER_WARN_ABOUT_NO_TEMPLATE)
+    if(WRAPPER_WARN_ABOUT_NO_TEMPLATE AND NOT EXTERNAL_WRAP_ITK_PROJECT)
       # display a warning if the class is empty
-      message("Warning: No template declared for ${WRAPPER_CLASS}. Perhaps should you turn on more WRAP_* options?")
+      message("Warning: No template declared for ${WRAPPER_CLASS}. Perhaps you should turn on more WRAP_* options?")
     endif()
   endif()
 
