@@ -36,7 +36,7 @@ namespace itk
  * NeighborhoodOperator and a NeighborhoodIterator, which is swept
  * across every pixel in an image region.
  *
- * \author Won-Ki Jeong (wkjeong@seas.harvard.edu)
+ * \author Won-Ki Jeong (wkjeong\@seas.harvard.edu)
  * \ingroup ITKGPUImageFilterBase
  */
 
