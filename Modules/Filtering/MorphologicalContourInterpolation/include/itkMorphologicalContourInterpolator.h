@@ -21,6 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
+#include "itkExtractImageFilter.h"
 #include "itksys/hash_map.hxx"
 
 namespace itk
@@ -155,6 +156,9 @@ protected:
   RegionedConnectedComponents(const typename TImage::RegionType region,
                               typename TImage::PixelType        label,
                               IdentifierType &                  objectCount);
+
+  typedef ExtractImageFilter<typename TImage, typename TImage> RoiType;
+  typename RoiType::Pointer                                    m_RoI;
 
   typedef BinaryThresholdImageFilter<typename TImage, BoolImageType> BinarizerType;
   typename BinarizerType::Pointer                                    m_Binarizer;
