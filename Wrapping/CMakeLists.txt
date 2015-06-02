@@ -98,7 +98,8 @@ else()
   # Keep ITK_WRAP_DIMS for extra modules developed outside of ITK.
   set(ITK_WRAP_DIMS "${ITK_WRAP_IMAGE_DIMS}")
 endif()
-set(ITK_WRAP_VECTOR_COMPONENTS "${ITK_WRAP_IMAGE_DIMS}" CACHE STRING "Number of vector components available separated by semicolons (;)")
+UNIQUE(vector_components "${ITK_WRAP_IMAGE_DIMS};4")
+set(ITK_WRAP_VECTOR_COMPONENTS "${vector_components}" CACHE STRING "Number of vector components available separated by semicolons (;)")
 
 if(ITK_INSTALL_PACKAGE_DIR)
   string(REGEX REPLACE "^/" "" path "${ITK_INSTALL_PACKAGE_DIR}/WrapITK/")
