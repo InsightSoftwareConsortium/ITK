@@ -26,65 +26,6 @@
 namespace itk
 {
 
-namespace
-{
-
-/*
- This helper is used to:
- Create and set a new type transform that have requested output precision type.
- */
-template<typename TOutputScalar, typename TInputScalar>
-struct TransformIOHelper
-{
-  typedef TransformBaseTemplate<TInputScalar>     InputTransformType;
-  typedef TransformBaseTemplate<TOutputScalar>    OutputTransformType;
-  typedef typename OutputTransformType::Pointer   OutputTransformPointer;
-
-  /*
-   This function gets the type name of the input transform and creates
-   a new transform object based on the requested precision type.
-   */
-  static OutputTransformPointer
-  CreateNewTypeTransform(std::string transformName)
-  {
-    // Transform name is modified to have the output precision type.
-    TransformIOBaseTemplate<TOutputScalar>::CorrectTransformPrecisionType( transformName );
-
-    OutputTransformPointer convertedTransform;
-    // Instantiate the transform
-    LightObject::Pointer i = ObjectFactoryBase::CreateInstance ( transformName.c_str() );
-    convertedTransform = dynamic_cast< OutputTransformType * >( i.GetPointer() );
-    if( convertedTransform.IsNull() )
-      {
-      itkGenericExceptionMacro ( << "Could not create an instance of " << transformName );
-      }
-    convertedTransform->UnRegister();
-    return convertedTransform;
-  }
-
-  /* Converts the value type of transform parameters to the output precision type */
-  static OptimizerParameters< TOutputScalar >
-  ConvertParametersType(const OptimizerParameters< TInputScalar >  &sourceParams)
-  {
-    OptimizerParameters< TOutputScalar > outputParams;
-    outputParams.SetSize( sourceParams.GetSize() );
-    for( SizeValueType i = 0; i < sourceParams.GetSize(); ++i )
-      {
-      outputParams[i] = static_cast<TOutputScalar>( sourceParams[i] );
-      }
-    return outputParams;
-  }
-
-  /* Set fixed parameters and parameters of the new type created transform */
-  static void SetAllParameters(const InputTransformType *transform, OutputTransformPointer& convertedTransform)
-  {
-    // The precision type of the input transform parameters should be converted to the requested output precision
-    convertedTransform->SetFixedParameters( ConvertParametersType( transform->GetFixedParameters() ) );
-    convertedTransform->SetParameters( ConvertParametersType( transform->GetParameters() ) );
-  }
-};
-
-} // end TransformFileWriterHelper namespace
 
 template<typename ScalarType>
 TransformFileWriterTemplate<ScalarType>
