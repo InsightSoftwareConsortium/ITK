@@ -56,6 +56,19 @@ public:
   /** Axis of interpolation. -1 means interpolation along all axes (default). */
   itkGetConstMacro(Axis, int);
 
+  /** Heuristic alignment of regions for interpolation is faster than optimal alignment.
+   *   Default is heuristic. */
+  itkSetMacro(HeuristicAlignment, bool);
+
+  /** Heuristic alignment of regions for interpolation is faster than optimal alignment.
+   *   Default is heuristic. */
+  itkGetMacro(HeuristicAlignment, bool);
+
+  /** Heuristic alignment of regions for interpolation is faster than optimal alignment.
+   *   Default is heuristic. */
+  itkGetConstMacro(HeuristicAlignment, bool);
+
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MorphologicalContourInterpolator, ImageToImageFilter);
 
@@ -65,6 +78,7 @@ protected:
 
   typename TImage::PixelType m_Label;
   int                        m_Axis;
+  bool                       m_HeuristicAlignment;
 
   // grafted input and output to prevent unnecessary pipeline modification checks
   typename TImage::Pointer m_Input;
@@ -103,7 +117,7 @@ protected:
               typename TImage::IndexValueType i,
               typename TImage::IndexValueType j,
               typename TImage::Pointer        iConn,
-              typename TImage::PixelType      iRegion);
+              typename TImage::PixelType      iRegionId);
 
   void
   Interpolate1to1(int                             axis,
@@ -112,27 +126,46 @@ protected:
                   typename TImage::IndexValueType i,
                   typename TImage::IndexValueType j,
                   typename TImage::Pointer        iConn,
-                  typename TImage::PixelType      iRegion,
+                  typename TImage::PixelType      iRegionId,
                   typename TImage::Pointer        jConn,
-                  typename TImage::PixelType      jRegion);
+                  typename TImage::PixelType      jRegionId);
+
+  typedef std::vector<typename TImage::PixelType> PixelList;
 
   void
-  Interpolate1toN(int                                     axis,
-                  typename TImage *                       out,
-                  typename TImage::PixelType              label,
-                  typename TImage::IndexValueType         i,
-                  typename TImage::IndexValueType         j,
-                  typename TImage::Pointer                iConn,
-                  typename TImage::PixelType              iRegion,
-                  typename TImage::Pointer                jConn,
-                  std::vector<typename TImage::PixelType> jRegions);
+  Interpolate1toN(int                             axis,
+                  typename TImage *               out,
+                  typename TImage::PixelType      label,
+                  typename TImage::IndexValueType i,
+                  typename TImage::IndexValueType j,
+                  typename TImage::Pointer        iConn,
+                  typename TImage::PixelType      iRegionId,
+                  typename TImage::Pointer        jConn,
+                  PixelList                       jRegionIds);
+
+  /** How much j needs to be translated to best align with i */
+  typename TImage::IndexType
+  Align(int                             axis,
+        typename TImage::IndexValueType i,
+        typename TImage::IndexValueType j,
+        typename TImage::Pointer        iConn,
+        typename TImage::PixelType      iRegionId,
+        typename TImage::Pointer        jConn,
+        PixelList                       jRegionIds);
 
   typedef itk::FixedArray<bool, TImage::ImageDimension>                 OrientationType;
   typedef itksys::hash_map<typename TImage::PixelType, OrientationType> OrientationsType;
   OrientationsType                                                      m_Orientations;
 
   typedef itksys::hash_map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
-  BoundingBoxesType                                                                 m_BoundingBoxes;
+  BoundingBoxesType m_BoundingBoxes; // bounding box for each label
+
+  // calculate bounding box for each region (connected component)
+  BoundingBoxesType &
+  CalculateBoundingBoxes(typename TImage::Pointer image, const PixelList & regions);
+
+  typename TImage::RegionType
+  MergeBoundingBoxes(const BoundingBoxesType & boundingBoxes);
 
   // each label gets a set of slices in which it is present
   typedef std::set<typename TImage::IndexValueType>                  SliceSetType;

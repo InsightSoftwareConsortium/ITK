@@ -36,6 +36,7 @@ template <class TImage>
 MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   : m_Label(0)
   , m_Axis(-1)
+  , m_HeuristicAlignment(true)
   , m_LabeledSlices(TImage::ImageDimension) // initialize with empty sets
 {
   m_RoI = RoiType::New();
@@ -173,7 +174,7 @@ MorphologicalContourInterpolator<TImage>::Extrapolate(int                       
                                                       typename TImage::IndexValueType i,
                                                       typename TImage::IndexValueType j,
                                                       typename TImage::Pointer        iConn,
-                                                      typename TImage::PixelType      iRegion)
+                                                      typename TImage::PixelType      iRegionId)
 {}
 
 template <class TImage>
@@ -184,23 +185,96 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
                                                           typename TImage::IndexValueType i,
                                                           typename TImage::IndexValueType j,
                                                           typename TImage::Pointer        iConn,
-                                                          typename TImage::PixelType      iRegion,
+                                                          typename TImage::PixelType      iRegionId,
                                                           typename TImage::Pointer        jConn,
-                                                          typename TImage::PixelType      jRegion)
+                                                          typename TImage::PixelType      jRegionId)
 {}
 
 template <class TImage>
 void
-MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                                     axis,
-                                                          typename TImage *                       out,
-                                                          typename TImage::PixelType              label,
-                                                          typename TImage::IndexValueType         i,
-                                                          typename TImage::IndexValueType         j,
-                                                          typename TImage::Pointer                iConn,
-                                                          typename TImage::PixelType              iRegion,
-                                                          typename TImage::Pointer                jConn,
-                                                          std::vector<typename TImage::PixelType> jRegions)
+MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                             axis,
+                                                          typename TImage *               out,
+                                                          typename TImage::PixelType      label,
+                                                          typename TImage::IndexValueType i,
+                                                          typename TImage::IndexValueType j,
+                                                          typename TImage::Pointer        iConn,
+                                                          typename TImage::PixelType      iRegionId,
+                                                          typename TImage::Pointer        jConn,
+                                                          PixelList                       jRegionIds)
 {}
+
+template <class TImage>
+typename MorphologicalContourInterpolator<TImage>::BoundingBoxesType &
+MorphologicalContourInterpolator<TImage>::CalculateBoundingBoxes(typename TImage::Pointer image,
+                                                                 const PixelList &        regions)
+{
+  BoundingBoxesType           bb; // result
+  typename TImage::RegionType zeroRegion;
+  zeroRegion.GetIndex().Fill(0);
+  zeroRegion.GetSize().Fill(0);
+  for (int i = 0; i < regions.size(); i++)
+  {
+    bb[regions[i]] = zeroRegion;
+  }
+
+  ImageRegionConstIteratorWithIndex<TImage> it(image, image->GetLargestPossibleRegion());
+  for (; !it.IsAtEnd(); ++it)
+  {
+    typename const TImage::IndexType ind = it.GetIndex();
+    typename const TImage::PixelType val = it.Value();
+    if (val == 0)
+    {
+      continue; // next pixel
+    }
+    BoundingBoxesType::iterator bbi = bb.find(val);
+    if (bbi == bb.end() || bbi->second == zeroRegion)
+    {
+      continue; // next pixel
+    }
+    ExpandRegion(bbi->second, ind);
+  }
+  return bb;
+}
+
+template <class TImage>
+typename TImage::RegionType
+MorphologicalContourInterpolator<TImage>::MergeBoundingBoxes(const BoundingBoxesType & boundingBoxes)
+{
+  BoundingBoxesType::iterator it = m_BoundingBoxes.begin();
+  typename TImage::RegionType result = it->second;
+  typename TImage::SizeType   minusOne;
+  minusOne.Fill(-1);
+  for (++it; it != m_BoundingBoxes.end(); ++it)
+  {
+    ExpandRegion(result, it->second.GetIndex());
+    ExpandRegion(result, it->second.GetIndex() + it->second.GetSize() + minusOne);
+  }
+  return result;
+}
+
+template <class TImage>
+typename TImage::IndexType
+MorphologicalContourInterpolator<TImage>::Align(int                             axis,
+                                                typename TImage::IndexValueType i,
+                                                typename TImage::IndexValueType j,
+                                                typename TImage::Pointer        iConn,
+                                                typename TImage::PixelType      iRegionId,
+                                                typename TImage::Pointer        jConn,
+                                                PixelList                       jRegionIds)
+{
+  PixelList iId(1);
+  iId[0] = iRegionId;
+  BoundingBoxesType iBB = CalculateBoundingBoxes(iConn, iId).begin()->second;
+  BoundingBoxesType jBB = MergeBoundingBoxes(CalculateBoundingBoxes(iConn, jRegionIds));
+  if (m_HeuristicAlignment)
+  {
+    // TODO: implement
+  }
+  else // optimal alignment
+  {
+    // maximum bounding box intersection
+  }
+}
 
 template <class TImage>
 typename TImage::Pointer
@@ -384,7 +458,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       }
     }
 
-    std::vector<typename TImage::PixelType> regionIDs(pairs.size()); // preallocate
+    PixelList regionIDs(pairs.size()); // preallocate
     // now do 1-to-N and M-to-1 cases
     p = pairs.begin();
     while (p != pairs.end())
@@ -547,14 +621,7 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
   }
   else
   {
-    m_TotalBoundingBox = m_BoundingBoxes.begin()->second;
-  }
-  typename TImage::SizeType minusOne;
-  minusOne.Fill(-1);
-  for (BoundingBoxesType::iterator it = m_BoundingBoxes.begin(); it != m_BoundingBoxes.end(); ++it)
-  {
-    ExpandRegion(m_TotalBoundingBox, it->second.GetIndex());
-    ExpandRegion(m_TotalBoundingBox, it->second.GetIndex() + it->second.GetSize() + minusOne);
+    m_TotalBoundingBox = MergeBoundingBoxes(m_BoundingBoxes);
   }
 
   if (m_Axis == -1) // interpolate along all axes
