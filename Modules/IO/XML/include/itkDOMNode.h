@@ -21,6 +21,7 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "ITKIOXMLExport.h"
 
 #include <string>
 #include <vector>
@@ -49,7 +50,7 @@ class DOMTextNode; // forward declaration
  *
  * \ingroup ITKIOXML
  */
-class DOMNode : public Object
+class ITKIOXML_EXPORT DOMNode : public Object
 {
 public:
   /** Standard class typedefs. */

@@ -20,6 +20,7 @@
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -40,7 +41,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class SPSAOptimizer:
+class ITKOptimizers_EXPORT SPSAOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

@@ -20,6 +20,7 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkVideoIOBase.h"
+#include "ITKVideoIOExport.h"
 
 namespace itk
 {
@@ -28,7 +29,7 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-class FileListVideoIOFactory : public ObjectFactoryBase
+class ITKVideoIO_EXPORT FileListVideoIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

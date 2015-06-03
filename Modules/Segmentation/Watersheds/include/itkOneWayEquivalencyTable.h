@@ -21,6 +21,7 @@
 
 #include "itkProcessObject.h"
 #include "itksys/hash_map.hxx"
+#include "ITKWatershedsExport.h"
 
 namespace itk
 {
@@ -42,7 +43,7 @@ namespace itk
  * \sa EquivalencyTable
  * \ingroup ITKWatersheds
  */
-class OneWayEquivalencyTable:public DataObject
+class ITKWatersheds_EXPORT OneWayEquivalencyTable:public DataObject
 {
 public:
   /**  Standard typedefs and smart pointer declarations.   */

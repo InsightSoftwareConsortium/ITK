@@ -21,6 +21,7 @@
 
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -42,7 +43,7 @@ namespace fem
  * them via this base class.
  * \ingroup ITKFEM
  */
-class Material : public FEMLightObject
+class ITKFEM_EXPORT Material : public FEMLightObject
 {
 public:
   /** Standard class typedefs. */

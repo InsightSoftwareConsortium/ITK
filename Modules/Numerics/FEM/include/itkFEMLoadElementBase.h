@@ -20,6 +20,7 @@
 #define itkFEMLoadElementBase_h
 
 #include "itkFEMLoadBase.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -41,7 +42,7 @@ namespace fem
  * load class, which it can handle and return the element's force vector.
  * \ingroup ITKFEM
  */
-class LoadElement : public Load
+class ITKFEM_EXPORT LoadElement : public Load
 {
 public:
   /** Standard class typedefs. */

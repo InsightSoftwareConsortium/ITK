@@ -24,6 +24,7 @@
 #include "itkObjectFactory.h"
 #include "itkArray.h"
 #include "itkVariableLengthVector.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -44,7 +45,7 @@ namespace Statistics
  *  \ingroup ITKStatistics
  */
 
-class DecisionRule : public Object
+class ITKStatistics_EXPORT DecisionRule : public Object
 {
 public:
   /** Standard class typedefs */

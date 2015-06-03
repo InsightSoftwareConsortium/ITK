@@ -19,6 +19,7 @@
 #define itkCumulativeGaussianCostFunction_h
 
 #include "itkMultipleValuedCostFunction.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -47,7 +48,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class CumulativeGaussianCostFunction:public MultipleValuedCostFunction
+class ITKOptimizers_EXPORT CumulativeGaussianCostFunction:public MultipleValuedCostFunction
 {
 public:
 

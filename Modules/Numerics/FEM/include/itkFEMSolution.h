@@ -19,6 +19,8 @@
 #ifndef itkFEMSolution_h
 #define itkFEMSolution_h
 
+#include "ITKFEMExport.h"
+
 namespace itk
 {
 namespace fem
@@ -33,7 +35,7 @@ namespace fem
  * \sa LinearSystemWrapper
  * \ingroup ITKFEM
  */
-class Solution
+class ITKFEM_EXPORT Solution
 {
 public:
 

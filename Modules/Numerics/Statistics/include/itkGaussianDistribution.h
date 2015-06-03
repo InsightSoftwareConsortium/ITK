@@ -19,6 +19,7 @@
 #define itkGaussianDistribution_h
 
 #include "itkProbabilityDistribution.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -57,7 +58,7 @@ namespace Statistics
  * \wikiexample{Statistics/GaussianDistribution,Create a Gaussian distribution}
  * \endwiki
  */
-class GaussianDistribution:
+class ITKStatistics_EXPORT GaussianDistribution:
   public ProbabilityDistribution
 {
 public:

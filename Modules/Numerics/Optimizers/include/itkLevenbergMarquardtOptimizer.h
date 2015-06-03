@@ -20,6 +20,7 @@
 
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_levenberg_marquardt.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -29,7 +30,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class LevenbergMarquardtOptimizer:
+class ITKOptimizers_EXPORT LevenbergMarquardtOptimizer:
   public MultipleValuedNonLinearVnlOptimizer
 {
 public:

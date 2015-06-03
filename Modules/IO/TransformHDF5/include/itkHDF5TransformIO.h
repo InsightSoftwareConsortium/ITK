@@ -20,6 +20,7 @@
 #include "itkTransformIOBase.h"
 #include "itkAutoPointer.h"
 #include <string>
+#include "ITKIOTransformHDF5Export.h"
 
 // Avoids KWStyle error from forward declaration below.
 namespace itk
@@ -49,7 +50,7 @@ namespace itk
  * \ingroup ITKIOTransformHDF5
  *
  */
-struct HDF5CommonPathNames
+struct ITKIOTransformHDF5_EXPORT HDF5CommonPathNames
   {
   //
   // HDF uses hierarchical paths to find particular data
@@ -76,7 +77,7 @@ struct HDF5CommonPathNames
  * \ingroup ITKIOTransformHDF5
  */
 template< typename TInternalComputationValueType >
-class HDF5TransformIOTemplate:public TransformIOBaseTemplate< TInternalComputationValueType >,
+class ITKIOTransformHDF5_EXPORT HDF5TransformIOTemplate:public TransformIOBaseTemplate< TInternalComputationValueType >,
 private HDF5CommonPathNames
 {
 public:
@@ -132,7 +133,7 @@ private:
 
   AutoPointer<H5::H5File> m_H5File;
 };
-extern const std::string  GetTransformName(int);
+extern const std::string ITKIOTransformHDF5_EXPORT GetTransformName(int);
 
 /** This helps to meet backward compatibility */
 typedef HDF5TransformIOTemplate< double > HDF5TransformIO;

@@ -20,6 +20,7 @@
 #define itkFEMElement2DC0LinearQuadrilateral_h
 
 #include "itkFEMElementStd.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -53,7 +54,7 @@ namespace fem
  * \sa Element2DC0LinearQuadrilateralStress
  */
 
-class Element2DC0LinearQuadrilateral : public ElementStd<4, 2>
+class ITKFEM_EXPORT Element2DC0LinearQuadrilateral : public ElementStd<4, 2>
 {
 public:
   /** Standard class typedefs. */

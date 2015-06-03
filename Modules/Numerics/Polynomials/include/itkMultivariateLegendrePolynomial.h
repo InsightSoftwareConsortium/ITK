@@ -22,6 +22,7 @@
 #include "itkIndent.h"
 #include <vector>
 #include "itkArray.h"
+#include "ITKPolynomialsExport.h"
 
 namespace itk
 {
@@ -71,7 +72,7 @@ namespace itk
  * \ingroup ITKPolynomials
  */
 
-class MultivariateLegendrePolynomial
+class ITKPolynomials_EXPORT MultivariateLegendrePolynomial
 {
 public:
   typedef MultivariateLegendrePolynomial Self;
@@ -300,7 +301,7 @@ private:
   IndexValueType  m_PrevZ;
 }; // end of class
 
- std::ostream & operator<<(std::ostream & os,
+ ITKPolynomials_EXPORT std::ostream & operator<<(std::ostream & os,
                           MultivariateLegendrePolynomial & poly);
 } // end of namespace itk
 #endif

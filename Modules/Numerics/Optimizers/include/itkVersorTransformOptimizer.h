@@ -20,6 +20,7 @@
 
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkVersor.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -48,7 +49,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class VersorTransformOptimizer:
+class ITKOptimizers_EXPORT VersorTransformOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:

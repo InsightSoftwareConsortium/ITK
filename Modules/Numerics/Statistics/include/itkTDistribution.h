@@ -20,6 +20,7 @@
 
 #include "itkProbabilityDistribution.h"
 #include "itkNumericTraits.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -54,7 +55,7 @@ namespace Statistics
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  * \ingroup ITKStatistics
  */
-class TDistribution:
+class ITKStatistics_EXPORT TDistribution:
   public ProbabilityDistribution
 {
 public:

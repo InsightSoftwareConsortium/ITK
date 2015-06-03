@@ -15,9 +15,21 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMeshFileReader.h"
+#include "itkMeshFileReaderException.h"
 
 namespace itk
 {
 MeshFileReaderException::~MeshFileReaderException() ITK_NOEXCEPT {}
+
+MeshFileReaderException::MeshFileReaderException(const char *file, unsigned int line,
+                          const char *message,
+                          const char *loc):
+    ExceptionObject(file, line, message, loc)
+  {}
+
+MeshFileReaderException::MeshFileReaderException(const std::string & file, unsigned int line,
+                          const char *message,
+                          const char *loc):
+    ExceptionObject(file, line, message, loc)
+  {}
 }

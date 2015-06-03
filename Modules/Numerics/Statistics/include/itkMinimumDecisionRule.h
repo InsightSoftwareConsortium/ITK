@@ -19,6 +19,7 @@
 #define itkMinimumDecisionRule_h
 
 #include "itkDecisionRule.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -34,7 +35,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class MinimumDecisionRule:public DecisionRule
+class ITKStatistics_EXPORT MinimumDecisionRule:public DecisionRule
 {
 public:
   /** Standard class typedefs */

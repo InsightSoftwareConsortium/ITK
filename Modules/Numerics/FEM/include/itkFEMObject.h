@@ -33,6 +33,7 @@
 #include "itkFEMMaterialBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 #include "itkVectorContainer.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -71,7 +72,7 @@ namespace fem
  */
 
 template <unsigned int VDimension = 3>
-class FEMObject : public DataObject
+class ITKFEM_EXPORT FEMObject : public DataObject
 {
 public:
   /** Standard class typedefs. */

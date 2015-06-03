@@ -19,6 +19,7 @@
 #define itkFEMLoadBCMFC_h
 
 #include "itkFEMLoadBase.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -51,7 +52,7 @@ namespace fem
 // forward declaratons...
 // class Solver;
 
-class LoadBCMFC : public Load
+class ITKFEM_EXPORT LoadBCMFC : public Load
 {
 public:
   /** Standard class typedefs. */

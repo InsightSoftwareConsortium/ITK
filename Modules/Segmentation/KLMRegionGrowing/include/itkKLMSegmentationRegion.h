@@ -20,6 +20,7 @@
 
 #include "itkKLMSegmentationBorder.h"
 #include "itkSegmentationRegion.h"
+#include "ITKKLMRegionGrowingExport.h"
 
 #include "vnl/vnl_vector.h"
 
@@ -86,7 +87,7 @@ namespace itk
  */
 class KLMSegmentationBorder;
 
-class KLMSegmentationRegion:public SegmentationRegion
+class ITKKLMRegionGrowing_EXPORT KLMSegmentationRegion:public SegmentationRegion
 {
 public:
   /** Standard class typedefs. */

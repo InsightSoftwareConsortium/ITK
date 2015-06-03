@@ -23,6 +23,7 @@
 #include "itkObject.h"
 #include "itkNumericTraits.h"
 #include "itkMeasurementVectorTraits.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -37,7 +38,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class SparseFrequencyContainer2:public Object
+class ITKStatistics_EXPORT SparseFrequencyContainer2:public Object
 {
 public:
   /** Standard class typedefs. */

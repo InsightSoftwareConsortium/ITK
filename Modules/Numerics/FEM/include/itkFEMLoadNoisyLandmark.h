@@ -20,6 +20,7 @@
 #define itkFEMLoadNoisyLandmark_h
 
 #include "itkFEMLoadLandmark.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -34,7 +35,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class LoadNoisyLandmark : public LoadLandmark
+class ITKFEM_EXPORT LoadNoisyLandmark : public LoadLandmark
 {
 public:
   /** Standard class typedefs. */

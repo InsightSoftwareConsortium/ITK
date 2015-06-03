@@ -20,6 +20,7 @@
 
 #include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -75,7 +76,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ExhaustiveOptimizer:
+class ITKOptimizers_EXPORT ExhaustiveOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

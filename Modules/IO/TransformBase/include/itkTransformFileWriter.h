@@ -21,6 +21,7 @@
 #include "itkTransformIOBase.h"
 #include <iostream>
 #include <fstream>
+#include "ITKIOTransformBaseExport.h"
 
 namespace itk
 {
@@ -34,7 +35,7 @@ namespace itk
    * \endwiki
    */
 template<typename ScalarType>
-class TransformFileWriterTemplate:public LightProcessObject
+class ITKIOTransformBase_EXPORT TransformFileWriterTemplate:public LightProcessObject
 {
 public:
 

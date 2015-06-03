@@ -3,6 +3,7 @@ analysis.  A structural mechanics finite element model can, for instance, be
 used for image registration.")
 
 itk_module(ITKFEM
+  ENABLE_SHARED
   DEPENDS
     ITKImageFunction
     ITKRegistrationCommon

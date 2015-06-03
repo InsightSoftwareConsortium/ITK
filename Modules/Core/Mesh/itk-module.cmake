@@ -6,6 +6,7 @@ to the components of the Mesh. These classes are typically used for
 representing the outcome of image segmentation.")
 
 itk_module(ITKMesh
+  ENABLE_SHARED
   DEPENDS
     ITKTransform
   TEST_DEPENDS

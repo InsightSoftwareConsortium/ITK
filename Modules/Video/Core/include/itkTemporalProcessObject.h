@@ -20,6 +20,7 @@
 
 #include "itkProcessObject.h"
 #include "itkTemporalRegion.h"
+#include "ITKVideoCoreExport.h"
 
 namespace itk
 {
@@ -62,7 +63,7 @@ class TemporalDataObject;
  *
  * \ingroup ITKVideoCore
  */
-class TemporalProcessObject : public ProcessObject
+class ITKVideoCore_EXPORT TemporalProcessObject : public ProcessObject
 {
 public:
 

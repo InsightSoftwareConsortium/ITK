@@ -20,6 +20,7 @@
 
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -94,7 +95,7 @@ namespace Statistics
  * \ingroup Statistics
  * \ingroup ITKStatistics
  */
-class NormalVariateGenerator:
+class ITKStatistics_EXPORT NormalVariateGenerator:
   public RandomVariateGeneratorBase
 {
 public:

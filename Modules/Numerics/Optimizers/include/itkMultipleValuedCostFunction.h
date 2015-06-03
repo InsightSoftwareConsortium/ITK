@@ -21,6 +21,7 @@
 #include "itkCostFunction.h"
 #include "itkArray2D.h"
 #include "itkNumericTraits.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class MultipleValuedCostFunction:
+class ITKOptimizers_EXPORT MultipleValuedCostFunction:
   public CostFunction
 {
 public:

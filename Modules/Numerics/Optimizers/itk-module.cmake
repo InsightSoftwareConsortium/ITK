@@ -4,6 +4,7 @@ optimizer is capable of operating on, and the concrete classes provide
 implementations of specific algorithms.")
 
 itk_module(ITKOptimizers
+  ENABLE_SHARED
   DEPENDS
     ITKStatistics
   TEST_DEPENDS

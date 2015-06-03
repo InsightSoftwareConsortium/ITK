@@ -23,6 +23,7 @@
 #include "itkRealTimeInterval.h"
 #include "itkNumericTraits.h"
 #include <climits>
+#include "ITKVideoCoreExport.h"
 
 /** Define representations of infinite duration for frames and real time */
 #define ITK_INFINITE_FRAME_DURATION itk::NumericTraits<itk::SizeValueType>::max()
@@ -38,7 +39,7 @@ namespace itk
  *
  * \ingroup ITKVideoCore
  */
-class TemporalRegion : public Region
+class ITKVideoCore_EXPORT TemporalRegion : public Region
 {
 public:
 
@@ -100,7 +101,7 @@ protected:
 };  // end class TemporalRegion
 
 /** ostream operator */
-std::ostream & operator<<(std::ostream & os, const TemporalRegion & region);
+ITKVideoCore_EXPORT std::ostream & operator<<(std::ostream & os, const TemporalRegion & region);
 
 } // end namespace itk
 

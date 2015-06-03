@@ -20,6 +20,7 @@
 
 #include "itkSingleValuedCostFunction.h"
 #include "vnl/vnl_cost_function.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -33,7 +34,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class SingleValuedVnlCostFunctionAdaptor:
+class ITKOptimizers_EXPORT SingleValuedVnlCostFunctionAdaptor:
   public vnl_cost_function
 {
 public:

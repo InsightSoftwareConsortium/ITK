@@ -22,6 +22,7 @@
 #include "itkObjectFactory.h"
 #include "itkArray.h"
 #include "itkOptimizerParameters.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -34,7 +35,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class Optimizer:public Object
+class ITKOptimizers_EXPORT Optimizer:public Object
 {
 public:
   /** Standard class typedefs. */

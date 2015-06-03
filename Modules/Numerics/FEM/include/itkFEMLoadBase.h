@@ -21,6 +21,7 @@
 #include "itkFEMElementBase.h"
 #include "itkFEMSolution.h"
 #include "itkFEMPArray.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -36,7 +37,7 @@ namespace fem
  * which defines the base for all loads that act on a specific element in a system.
  * \ingroup ITKFEM
  */
-class Load : public FEMLightObject
+class ITKFEM_EXPORT Load : public FEMLightObject
 {
 public:
   /** Standard class typedefs. */

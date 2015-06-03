@@ -20,6 +20,7 @@
 #define itkFEMLoadGrav_h
 
 #include "itkFEMLoadElementBase.h"
+#include "ITKFEMExport.h"
 #include "vnl/vnl_vector.h"
 
 namespace itk
@@ -36,7 +37,7 @@ namespace fem
  * defined at the point. Derived LoadClasses must define this function.
  * \ingroup ITKFEM
  */
-class LoadGrav : public LoadElement
+class ITKFEM_EXPORT LoadGrav : public LoadElement
 {
 public:
   /** Standard class typedefs. */
@@ -63,7 +64,7 @@ protected:
  * every point in space.
  * \ingroup ITKFEM
  */
-class LoadGravConst : public LoadGrav
+class ITKFEM_EXPORT LoadGravConst : public LoadGrav
 {
 public:
   /** Standard class typedefs. */

@@ -19,6 +19,7 @@
 #define itkFRPROptimizer_h
 
 #include "itkPowellOptimizer.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -46,7 +47,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class FRPROptimizer:
+class ITKOptimizers_EXPORT FRPROptimizer:
   public PowellOptimizer
 {
 public:

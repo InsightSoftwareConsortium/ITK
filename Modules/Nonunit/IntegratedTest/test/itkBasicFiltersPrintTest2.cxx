@@ -81,7 +81,7 @@
 #include "itkTobogganImageFilter.h"
 #include "itkTransformMeshFilter.h"
 #include "itkTwoOutputExampleImageFilter.h"
-#include "itkVTKImageExport.h"
+#include "ITKVTKImageExport.h"
 #include "itkVTKImageImport.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkVectorCurvatureAnisotropicDiffusionImageFilter.h"

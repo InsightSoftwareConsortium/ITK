@@ -19,6 +19,7 @@
 #define itkFileListVideoIO_h
 
 #include "itkVideoIOBase.h"
+#include "ITKVideoIOExport.h"
 
 namespace itk
 {
@@ -35,7 +36,7 @@ namespace itk
  * \ingroup ITKVideoIO
  *
  */
-class FileListVideoIO : public VideoIOBase
+class ITKVideoIO_EXPORT FileListVideoIO : public VideoIOBase
 {
 public:
   /** Standard class typedefs. */

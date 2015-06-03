@@ -5,6 +5,7 @@ contain convenience classes for passing temporal regions and dealing with ITK
 images over time in the form of VideoStreams and VideoToVideoFilters.")
 
 itk_module(ITKVideoCore
+  ENABLE_SHARED
   DEPENDS
     ITKCommon
   TEST_DEPENDS

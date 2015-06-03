@@ -20,6 +20,7 @@
 #define itkFEMLoadNode_h
 
 #include "itkFEMLoadBase.h"
+#include "ITKFEMExport.h"
 #include "vnl/vnl_vector.h"
 
 namespace itk
@@ -37,7 +38,7 @@ namespace fem
  * element->GetNumberOfDegreesOfFreedomPerNode() dimensions.
  * \ingroup ITKFEM
  */
-class LoadNode : public Load
+class ITKFEM_EXPORT LoadNode : public Load
 {
 public:
   /** Standard class typedefs. */

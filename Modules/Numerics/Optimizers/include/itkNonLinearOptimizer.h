@@ -19,6 +19,7 @@
 #define itkNonLinearOptimizer_h
 
 #include "itkOptimizer.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class NonLinearOptimizer:public Optimizer
+class ITKOptimizers_EXPORT NonLinearOptimizer:public Optimizer
 
 {
 public:

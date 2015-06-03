@@ -20,6 +20,7 @@
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkRandomVariateGeneratorBase.h"
+#include "ITKOptimizersExport.h"
 #include <string>
 
 namespace itk
@@ -67,7 +68,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class OnePlusOneEvolutionaryOptimizer:
+class ITKOptimizers_EXPORT OnePlusOneEvolutionaryOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

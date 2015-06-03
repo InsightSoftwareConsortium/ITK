@@ -18,7 +18,6 @@
 #ifndef itkArrowSpatialObject_h
 #define itkArrowSpatialObject_h
 
-
 #include "itkSpatialObject.h"
 
 namespace itk

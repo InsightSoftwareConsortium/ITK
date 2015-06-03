@@ -23,6 +23,7 @@
 
 #include "itkNumericTraits.h"
 #include "itkDecisionRule.h"
+#include "ITKStatisticsExport.h"
 
 namespace itk
 {
@@ -54,7 +55,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class MaximumRatioDecisionRule : public DecisionRule
+class ITKStatistics_EXPORT MaximumRatioDecisionRule : public DecisionRule
 {
 public:
   /** Standard class typedefs */

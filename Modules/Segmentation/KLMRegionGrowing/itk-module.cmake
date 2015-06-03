@@ -4,6 +4,7 @@ J. M. Morel's work, the acronym KLM is added to quality the region growing
 method.  See also \\\\ref ITKRegionGrowing.")
 
 itk_module(ITKKLMRegionGrowing
+  ENABLE_SHARED
   DEPENDS
     ITKCommon
   TEST_DEPENDS
