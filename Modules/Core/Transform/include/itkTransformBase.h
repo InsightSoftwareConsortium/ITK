@@ -87,6 +87,20 @@ public:
   /** Set the fixed parameters. */
   virtual void SetFixedParameters(const ParametersType &) = 0;
 
+  /** This function allow copying a range of values into the Parameters
+    * The range of values must conform to std::copy(begin, end, m_Parameters)
+    * requirements.
+    */
+  virtual void CopyInParameters(const ParametersValueType * const begin,
+                                const ParametersValueType * const end) = 0;
+
+  /** This function allow copying a range of values into the FixedParameters
+    * The range of values must conform to std::copy(begin, end, m_FixedParameters)
+    * requirements.
+    */
+  virtual void CopyInFixedParameters(const ParametersValueType * const begin,
+                                     const ParametersValueType * const end) = 0;
+
   /** Get the fixed parameters. */
   virtual const ParametersType & GetFixedParameters() const = 0;
 

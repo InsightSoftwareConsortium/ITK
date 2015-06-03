@@ -642,7 +642,6 @@ MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
   this->Modified();
 }
 
-
 template <typename TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void

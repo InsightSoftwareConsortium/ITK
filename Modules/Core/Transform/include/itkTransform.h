@@ -356,6 +356,20 @@ public:
     this->SetParameters(p);
   }
 
+  /** This function allow copying a range of values into the Parameters
+    * The range of values must conform to std::copy(begin, end, m_Parameters)
+    * requirements.
+    */
+  virtual void CopyInParameters(const ParametersValueType * const begin,
+                                const ParametersValueType * const end) ITK_OVERRIDE;
+
+  /** This function allow copying a range of values into the FixedParameters
+    * The range of values must conform to std::copy(begin, end, m_FixedParameters)
+    * requirements.
+    */
+  virtual void CopyInFixedParameters(const ParametersValueType * const begin,
+                                     const ParametersValueType * const end) ITK_OVERRIDE;
+
   /** Get the Transformation Parameters. */
   virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE
   {
@@ -558,6 +572,7 @@ protected:
 #endif
 
   mutable DirectionChangeMatrix m_DirectionChange;
+
 
 private:
   Transform(const Self &);      // purposely not implemented
