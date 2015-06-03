@@ -39,7 +39,7 @@ namespace itk
  * http://hdl.handle.net/1926/326
  * http://www.insight-journal.org/browse/publication/128
  *
- * \author Simon K. Warfield simon.warfield@childrens.harvard.edu
+ * \author Simon K. Warfield simon.warfield\@childrens.harvard.edu
  *
  * \note Attribution Notice. This research work was made possible by
  * Grant Number R01 RR021885 (PI Simon K. Warfield, Ph.D.) from

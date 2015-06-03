@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup FourierTransform
  *
- * \author Simon K. Warfield simon.warfield@childrens.harvard.edu
+ * \author Simon K. Warfield simon.warfield\@childrens.harvard.edu
  *
  * \note Attribution Notice. This research work was made possible by
  * Grant Number R01 RR021885 (PI Simon K. Warfield, Ph.D.) from
