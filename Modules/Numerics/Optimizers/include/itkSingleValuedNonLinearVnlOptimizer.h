@@ -21,6 +21,7 @@
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkSingleValuedVnlCostFunctionAdaptor.h"
 #include "itkCommand.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -33,7 +34,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class SingleValuedNonLinearVnlOptimizer:
+class ITKOptimizers_EXPORT SingleValuedNonLinearVnlOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
