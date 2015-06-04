@@ -32,6 +32,7 @@
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include "itkIntTypes.h"
+#include "ITKMeshExport.h"
 
 namespace itk
 {
@@ -48,7 +49,7 @@ namespace itk
  * \ingroup MeshObjects
  * \ingroup ITKMesh
  */
-class MeshRegion:public Region
+class ITKMesh_EXPORT MeshRegion:public Region
 {
 public:
   /** Standard class typedefs. */

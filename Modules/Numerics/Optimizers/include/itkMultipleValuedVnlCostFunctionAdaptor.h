@@ -20,6 +20,7 @@
 
 #include "itkMultipleValuedCostFunction.h"
 #include "vnl/vnl_least_squares_function.h"
+#include "ITKOptimizersExport.h"
 
 namespace itk
 {
@@ -33,7 +34,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class MultipleValuedVnlCostFunctionAdaptor:
+class ITKOptimizers_EXPORT MultipleValuedVnlCostFunctionAdaptor:
   public vnl_least_squares_function
 {
 public:
