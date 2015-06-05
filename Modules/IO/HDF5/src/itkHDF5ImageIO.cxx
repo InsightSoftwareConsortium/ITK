@@ -937,27 +937,34 @@ HDF5ImageIO
 
   const int HDFDim(this->GetNumberOfDimensions() +
                    (numComponents > 1 ? 1 : 0));
+
   hsize_t *offset = new hsize_t[HDFDim];
   hsize_t *HDFSize = new hsize_t[HDFDim];
-  int limit;
+  const int limit = regionToRead.GetImageDimension();
   //
   // fastest moving dimension is intra-voxel
   // index
+  int i = 0;
   if(numComponents > 1)
     {
-    limit = HDFDim - 1;
-    offset[limit] = 0;
-    HDFSize[limit] = numComponents;
+    offset[HDFDim - 1] = 0;
+    HDFSize[HDFDim - 1] = numComponents;
+    ++i;
     }
-  else
+
+  for(int j = 0; j < limit && i < HDFDim; ++i, ++j )
     {
-    limit = HDFDim;
+      offset[HDFDim - i - 1] = start[j];
+      HDFSize[HDFDim - i - 1] = size[j];
     }
-  for(int i=0; i < limit; i++)
+
+  while ( i < HDFDim )
     {
-    offset[limit - i - 1] = start[i];
-    HDFSize[limit - i - 1] = size[i];
+    offset[HDFDim - i - 1] = 0;
+    HDFSize[HDFDim - i - 1] = 1;
+    ++i;
     }
+
   slabSpace->setExtentSimple(HDFDim,HDFSize);
   imageSpace->selectHyperslab(H5S_SELECT_SET,HDFSize,offset);
   delete[] HDFSize;
