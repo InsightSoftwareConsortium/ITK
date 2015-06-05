@@ -196,7 +196,7 @@ macro(check_compiler_platform_flags)
       set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-array-bounds")
     endif()
 
-    if("${CMAKE_CXX_COMPILER_VERSION}" VERSION_GREATER "4.7" AND
+    if("${CMAKE_CXX_COMPILER_VERSION}" VERSION_GREATER "4.8.3" AND
        "${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
       ITK_CHECK_CXX_COMPILER_FLAG("-fuse-ld=gold" have_gold)
       if(have_gold)
