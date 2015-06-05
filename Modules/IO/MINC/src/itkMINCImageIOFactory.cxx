@@ -51,7 +51,7 @@ MINCImageIOFactory::GetDescription() const
 
 static bool MINCImageIOFactoryHasBeenRegistered;
 
-void MINCImageIOFactoryRegister__Private(void)
+void ITKIOMINC_EXPORT MINCImageIOFactoryRegister__Private(void)
 {
   if( !MINCImageIOFactoryHasBeenRegistered )
     {
