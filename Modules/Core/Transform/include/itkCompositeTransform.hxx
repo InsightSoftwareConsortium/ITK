@@ -790,36 +790,28 @@ CompositeTransform<TScalar, NDimensions>
   else
     {
     NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
-    typename TransformQueueType::const_iterator it;
-
-    it = transforms.end();
+    typename TransformQueueType::iterator it = transforms.end();
 
     do
       {
       it--;
-
       /* If inputParams is same object as m_Parameters, we just pass
        * each sub-transforms own m_Parameters in. This is needed to
        * avoid unnecessary copying of parameters in the sub-transforms,
        * while still allowing SetParameters to do any oeprations on the
        * parameters to update member variable states. A hack. */
-      ParametersType & subParameters =
-        const_cast<ParametersType &>( (*it)->GetParameters() );
       if( &inputParameters == &this->m_Parameters )
         {
-        (*it)->SetParameters( subParameters );
+        (*it)->SetParameters( (*it)->GetParameters() );
         }
       else
         {
-        /* New parameter data, so copy it in */
-        /* Use vnl_vector data_block() to get data ptr */
-        std::copy(&(inputParameters.data_block() )[offset],
-                  &(inputParameters.data_block() )[offset]+subParameters.Size(),
-                  subParameters.data_block());
-        /* Call SetParameters explicitly to include anything extra it does */
-        (*it)->SetParameters(subParameters);
-        offset += subParameters.Size();
+        const size_t parameterSize = (*it)->GetParameters().Size();
+        (*it)->CopyInParameters(&(inputParameters.data_block() )[offset],
+                                &(inputParameters.data_block() )[offset]+parameterSize );
+        offset += parameterSize;
         }
+
       }
     while( it != transforms.begin() );
     }
@@ -867,7 +859,6 @@ CompositeTransform<TScalar, NDimensions>
 
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
 
-  typename TransformQueueType::const_iterator it;
 
   /* Verify proper input size. */
   if( inputParameters.Size() != this->GetNumberOfFixedParameters() )
@@ -878,20 +869,15 @@ CompositeTransform<TScalar, NDimensions>
     }
   this->m_FixedParameters = inputParameters;
 
-  it = transforms.end();
+  typename TransformQueueType::const_iterator it = transforms.end();
 
   do
     {
     it--;
-    ParametersType & subFixedParameters =
-      const_cast<ParametersType &>( (*it)->GetFixedParameters() );
-    /* Use vnl_vector data_block() to get data ptr */
-    std::copy(&(this->m_FixedParameters.data_block() )[offset],
-              &(this->m_FixedParameters.data_block() )[offset]+subFixedParameters.Size(),
-              subFixedParameters.data_block());
-    /* Call SetParameters explicitly to include anything extra it does */
-    (*it)->SetFixedParameters(subFixedParameters);
-    offset += subFixedParameters.Size();
+    const size_t fixedParameterSize=(*it)->GetFixedParameters().Size();
+    (*it)->CopyInFixedParameters(&(this->m_FixedParameters.data_block() )[offset],
+              &(this->m_FixedParameters.data_block() )[offset]+fixedParameterSize);
+    offset += fixedParameterSize;
     }
   while( it != transforms.begin() );
 }
@@ -1066,7 +1052,7 @@ CompositeTransform<TScalar, NDimensions>
 
   for( SizeValueType m = 0; m < this->GetNumberOfTransforms(); m++ )
     {
-    Self * nestedCompositeTransform = dynamic_cast<Self *>( const_cast<TransformType *>( this->m_TransformQueue[m].GetPointer() ) );
+    Self * nestedCompositeTransform = dynamic_cast<Self *>( this->m_TransformQueue[m].GetPointer() );
     if( nestedCompositeTransform )
       {
       nestedCompositeTransform->FlattenTransformQueue();
