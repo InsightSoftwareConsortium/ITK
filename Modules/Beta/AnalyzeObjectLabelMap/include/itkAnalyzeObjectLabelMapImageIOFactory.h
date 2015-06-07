@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkAnalyzeObjectLabelMapImageIOFactory_h
-#define __itkAnalyzeObjectLabelMapImageIOFactory_h
+#ifndef itkAnalyzeObjectLabelMapImageIOFactory_h
+#define itkAnalyzeObjectLabelMapImageIOFactory_h
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )

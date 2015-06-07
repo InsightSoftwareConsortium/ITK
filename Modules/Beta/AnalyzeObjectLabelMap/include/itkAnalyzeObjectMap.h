@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkAnalyzeObjectMap_h
-#define __itkAnalyzeObjectMap_h
+#ifndef itkAnalyzeObjectMap_h
+#define itkAnalyzeObjectMap_h
 
 #include <stdio.h>
 #include <string>

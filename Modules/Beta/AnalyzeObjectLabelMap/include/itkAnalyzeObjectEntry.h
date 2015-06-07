@@ -15,8 +15,8 @@ PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
-#ifndef __itkAnalyzeObjectEntry_h
-#define __itkAnalyzeObjectEntry_h
+#ifndef itkAnalyzeObjectEntry_h
+#define itkAnalyzeObjectEntry_h
 
 #include <string>
 #include <stdio.h>

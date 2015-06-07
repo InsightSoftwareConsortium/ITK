@@ -18,8 +18,8 @@ PURPOSE.  See the above copyright notices for more information.
 // Acknowdlegment: Biomedical Imaging Resource
 //         Mayo Foundation
 // For lending us documention about the layout of an object map and the entries that correspond with the object map
-#ifndef __itkAnalyzeObjectMap_hxx
-#define __itkAnalyzeObjectMap_hxx
+#ifndef itkAnalyzeObjectMap_hxx
+#define itkAnalyzeObjectMap_hxx
 
 #include "itkAnalyzeObjectMap.h"
 #include "itkImageRegionIterator.h"

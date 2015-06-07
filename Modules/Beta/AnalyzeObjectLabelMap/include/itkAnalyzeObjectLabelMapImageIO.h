@@ -15,8 +15,8 @@ PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
-#ifndef __itkAnalyzeObjectLabelMapImageIO_h
-#define __itkAnalyzeObjectLabelMapImageIO_h
+#ifndef itkAnalyzeObjectLabelMapImageIO_h
+#define itkAnalyzeObjectLabelMapImageIO_h
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -132,4 +132,4 @@ private:
 
 } // end namespace itk
 
-#endif // __itkAnalyzeObjectLabelMapImageIO_h
+#endif //itkAnalyzeObjectLabelMapImageIO_h
