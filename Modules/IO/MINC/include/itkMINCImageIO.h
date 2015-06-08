@@ -33,7 +33,7 @@
 
 #include <itk_minc2.h>
 
-#include "itkIOMINCExport.h"
+#include "ITKIOMINCExport.h"
 
 namespace itk
 {
