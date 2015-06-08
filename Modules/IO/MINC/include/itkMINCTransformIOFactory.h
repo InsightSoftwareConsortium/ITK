@@ -21,7 +21,7 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
-#include "itkIOMINCExport.h"
+#include "ITKIOMINCExport.h"
 
 namespace itk
 {
