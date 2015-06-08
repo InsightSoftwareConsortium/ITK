@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKQuadEdgeMeshFilteringTests
 itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
 itkBorderQuadEdgeMeshFilterTest.cxx
+itkBorderQuadEdgeMeshFilterTest2.cxx
 itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
 itkCleanQuadEdgeMeshFilterTest.cxx
 itkDelaunayConformingQuadEdgeMeshFilterTest.cxx
@@ -24,30 +25,39 @@ CreateTestDriver(ITKQuadEdgeMeshFiltering  "${ITKQuadEdgeMeshFiltering-Test_LIBR
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
-itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest00
+itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest_0_0
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
               itkBorderQuadEdgeMeshFilterTest
             DATA{${INPUTDATA}/mushroom.vtk} 0 0 ${TEMP}/border00.vtk
 )
 
-itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest01
+itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest_0_1
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
               itkBorderQuadEdgeMeshFilterTest
             DATA{${INPUTDATA}/mushroom.vtk} 0 1 ${TEMP}/border01.vtk
 )
 
-itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest10
+itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest_1_0
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
               itkBorderQuadEdgeMeshFilterTest
             DATA{${INPUTDATA}/mushroom.vtk} 1 0 ${TEMP}/border10.vtk
 )
 
-itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest11
+itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest_1_1
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
               itkBorderQuadEdgeMeshFilterTest
             DATA{${INPUTDATA}/mushroom.vtk} 1 1 ${TEMP}/border11.vtk
 )
 
+itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest2_0
+      COMMAND ITKQuadEdgeMeshFilteringTestDriver
+              itkBorderQuadEdgeMeshFilterTest2 0
+)
+
+itk_add_test(NAME itkBorderQuadEdgeMeshFilterTest2_1
+      COMMAND ITKQuadEdgeMeshFilteringTestDriver
+              itkBorderQuadEdgeMeshFilterTest2 1
+)
 itk_add_test(NAME itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
           itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest

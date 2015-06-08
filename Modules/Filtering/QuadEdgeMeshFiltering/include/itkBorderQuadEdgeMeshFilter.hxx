@@ -106,6 +106,11 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
 
   InputEdgeListPointerType list = boundaryRepresentativeEdges->Evaluate(*input);
 
+  if( !list || list->empty() )
+    {
+    itkGenericExceptionMacro( << "This filter requires at least one boundary" );
+    }
+
   InputCoordRepType     max_length(0.0), length(0.0);
   InputEdgeListIterator oborder_it = list->begin();
 
@@ -156,6 +161,11 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()
   InputMeshConstPointer input = this->GetInput();
 
   InputEdgeListType *list = boundaryRepresentativeEdges->Evaluate(*input);
+
+  if( !list || list->empty() )
+    {
+    itkGenericExceptionMacro( << "This filter requires at least one boundary" );
+    }
 
   SizeValueType max_id = 0L;
   SizeValueType k = 0L;
