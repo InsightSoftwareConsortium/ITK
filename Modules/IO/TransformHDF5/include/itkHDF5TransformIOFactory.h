@@ -21,7 +21,6 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
-#include "ITKIOTransformHDF5Export.h"
 
 namespace itk
 {
@@ -30,7 +29,7 @@ namespace itk
    *
    * \ingroup ITKIOTransformHDF5
    */
-class ITKIOTransformHDF5_EXPORT HDF5TransformIOFactory:public ObjectFactoryBase
+class HDF5TransformIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -59,7 +59,7 @@ TxtTransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool TxtTransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformInsightLegacy_EXPORT TxtTransformIOFactoryRegister__Private(void)
+void TxtTransformIOFactoryRegister__Private(void)
 {
   if( ! TxtTransformIOFactoryHasBeenRegistered )
     {

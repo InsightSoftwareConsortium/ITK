@@ -297,6 +297,19 @@ void TransformFactoryBase::RegisterDefaultTransforms()
   TransformFactoryBasePrivate::DefaultTransformsRegistered = true;
 }
 
+TransformFactoryBase * TransformFactoryBase::GetFactory()
+{
+  if ( m_Factory == ITK_NULLPTR )
+    {
+    // Make and register the factory
+    Pointer p = New();
+    m_Factory = p.GetPointer();
+    ObjectFactoryBase::RegisterFactory (p);
+    p->RegisterDefaultTransforms ();
+    }
+  return m_Factory;
+}
+
 const char *
 TransformFactoryBase::GetITKSourceVersion(void) const
 {

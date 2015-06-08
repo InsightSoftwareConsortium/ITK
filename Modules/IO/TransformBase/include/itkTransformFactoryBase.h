@@ -61,18 +61,7 @@ public:
   static void RegisterDefaultTransforms();
 
   /** Register this transform */
-  static TransformFactoryBase * GetFactory()
-  {
-    if ( m_Factory == ITK_NULLPTR )
-      {
-      // Make and register the factory
-      Pointer p = New();
-      m_Factory = p.GetPointer();
-      ObjectFactoryBase::RegisterFactory (p);
-      p->RegisterDefaultTransforms ();
-      }
-    return m_Factory;
-  }
+  static TransformFactoryBase * GetFactory();
 
   void RegisterTransform(const char *classOverride,
                          const char *overrideClassName,
