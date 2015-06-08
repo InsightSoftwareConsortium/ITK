@@ -21,14 +21,31 @@
 #include "itkBorderQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 
-namespace itk
-{
-/**
- *  \class ParameterizationQuadEdgeMeshFilter
+namespace itk {
+
+/** \class ParameterizationQuadEdgeMeshFilter
  *
  *  \brief Compute a planar parameterization of the input mesh.
- *  \note Here we have only implemented some parameterizations with fixed
- *        boundary.
+ *
+ *  This filter computes a mapping in between a planar parametric domain and
+ *  one input mesh.
+ *
+ *  This filter is made for fixed boundary parameterization where the
+ *  parametric domain shape is given by the means of the border transform.
+ *  Then, the position of internal vertices (not on the boundary) is directly
+ *  connected to m_CoefficientsComputation.
+ *
+ *  This filter internally creates and solves a sparse linear system: storage
+ *  and computation can be set by the means of TSolverTraits. Since for 3D
+ *  meshes, this filter solves for similar sparse linear systemis for the three
+ *  dimensions, it is highly recommended to use one direct solver which would
+ *  first decompose sparse matrix (e.g. VNLSparseLUSolverTraits).
+ *
+ *
+ *  This implementation was taken from the Insight Journal paper:
+ *  http://hdl.handle.net/1926/1315 or
+ *  http://www.insight-journal.org/browse/publication/202
+ *
  * \ingroup ITKQuadEdgeMeshFiltering
  *
  * \wiki
