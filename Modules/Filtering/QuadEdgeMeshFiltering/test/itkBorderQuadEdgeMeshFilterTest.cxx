@@ -72,9 +72,7 @@ int itkBorderQuadEdgeMeshFilterTest( int argc, char* argv[] )
   border_transform->SetRadius( border_transform->GetRadius() );
   border_transform->GetNameOfClass();
 
-  int border;
-  std::stringstream ssout( argv[2] );
-  ssout >>border;
+  int border = atoi( argv[2] );
   switch( border )  // choose border type
     {
     case 0: // square shaped domain
@@ -85,28 +83,24 @@ int itkBorderQuadEdgeMeshFilterTest( int argc, char* argv[] )
         break;
     default: // handle .... user ....
         std::cerr << "2nd argument must be " << std::endl;
-        std::cerr << "0 for SQUARE BORDER TRANSFORM or "
-          << "1 for DISK BORDER TRANSFORM" << std::endl;
+        std::cerr << "0 for SQUARE BORDER TRANSFORM or 1 for DISK BORDER TRANSFORM" << std::endl;
         return EXIT_FAILURE;
     }
   std::cout << "Transform type is: " << border_transform->GetTransformType( );
   std::cout << std::endl;
 
-  int pick;
-  std::stringstream ssout2( argv[3] );
-  ssout2 >> pick;
-  switch( border )  // choose border type
+  int pick = atoi( argv[3] );
+  switch( pick )
     {
-    case 0: // square shaped domain
+    case 0:
         border_transform->SetBorderPick( BorderTransformType::LONGEST );
         break;
-    case 1: // disk shaped domain
+    case 1:
         border_transform->SetBorderPick( BorderTransformType::LARGEST );
         break;
     default: // handle .... user ....
         std::cerr << "3rd argument must be " << std::endl;
-        std::cerr << "0 for LONGEST BORDER or "
-          << "1 for LARGEST BORDER" << std::endl;
+        std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << std::endl;
         return EXIT_FAILURE;
     }
   std::cout << "Border picked is: " << border_transform->GetBorderPick( );
