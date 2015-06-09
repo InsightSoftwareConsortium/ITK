@@ -80,18 +80,18 @@ public:
 
   itkStaticConstMacro(InputVDimension, unsigned int, InputMeshType::PointDimension);
 
-  typedef typename InputMeshType::PointsContainer               InputPointsContainer;
-  typedef typename InputMeshType::PointsContainerConstIterator  InputPointsContainerConstIterator;
+  typedef typename InputMeshType::PointsContainer              InputPointsContainer;
+  typedef typename InputMeshType::PointsContainerConstIterator InputPointsContainerConstIterator;
 
-  typedef typename InputMeshType::CellsContainerConstIterator   InputCellsContainerConstIterator;
-  typedef typename InputMeshType::EdgeCellType                  InputEdgeCellType;
-  typedef typename InputMeshType::PolygonCellType               InputPolygonCellType;
-  typedef typename InputMeshType::PointIdList                   InputPointIdList;
+  typedef typename InputMeshType::CellsContainerConstIterator  InputCellsContainerConstIterator;
+  typedef typename InputMeshType::EdgeCellType                 InputEdgeCellType;
+  typedef typename InputMeshType::PolygonCellType              InputPolygonCellType;
+  typedef typename InputMeshType::PointIdList                  InputPointIdList;
 
-  typedef typename InputQEType::IteratorGeom                      InputQEIterator;
+  typedef typename InputQEType::IteratorGeom                     InputQEIterator;
 
-  typedef std::map< InputPointIdentifier, InputPointIdentifier >  InputMapPointIdentifier;
-  typedef typename InputMapPointIdentifier::iterator              InputMapPoinIdentifierIterator;
+  typedef std::map< InputPointIdentifier, InputPointIdentifier > InputMapPointIdentifier;
+  typedef typename InputMapPointIdentifier::iterator             InputMapPointIdentifierIterator;
 
   /** Output types. */
   typedef TOutputMesh                                      OutputMeshType;
