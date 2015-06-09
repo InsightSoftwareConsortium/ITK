@@ -59,7 +59,7 @@ MatlabTransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool MatlabTransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformMatlab_EXPORT MatlabTransformIOFactoryRegister__Private(void)
+void MatlabTransformIOFactoryRegister__Private(void)
 {
   if( ! MatlabTransformIOFactoryHasBeenRegistered )
     {
