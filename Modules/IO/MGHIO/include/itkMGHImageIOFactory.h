@@ -37,9 +37,9 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories **/
-  virtual const char * GetITKSourceVersion(void) const;
+  virtual const char * GetITKSourceVersion(void) const ITK_OVERRIDE;
 
-  virtual const char * GetDescription(void)  const;
+  virtual const char * GetDescription(void)  const ITK_OVERRIDE;
 
   /** Method for class instantiation **/
   itkFactorylessNewMacro(Self);
@@ -58,7 +58,7 @@ public:
 protected:
   MGHImageIOFactory();
   ~MGHImageIOFactory();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MGHImageIOFactory(const Self &);  //purposely not implemented
