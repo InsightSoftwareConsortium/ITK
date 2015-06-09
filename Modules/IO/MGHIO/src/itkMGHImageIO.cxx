@@ -537,7 +537,7 @@ MGHImageIO
   if(this->m_IsCompressed)
     {
     this->m_GZFile = gzopen(m_FileName.c_str(), "wb");
-    if( this->m_GZFile == 0 )
+    if( this->m_GZFile == ITK_NULLPTR )
       {
       itkExceptionMacro(<< " Failed to open gzFile for writing");
       itkExceptionMacro(<< " File cannot be written");

@@ -17,14 +17,10 @@
  *=========================================================================*/
 
 #include "itkMGHImageIOFactory.h"
-#include "itkMGHImageIO.h"
 #include "itkRandomImageSource.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 #include "itksys/SystemTools.hxx"
 #include "itkMetaDataObject.h"
-#include "itkDiffusionTensor3D.h"
 #include "itkIOCommon.h"
 
 #include "itkIOTestHelper.h"

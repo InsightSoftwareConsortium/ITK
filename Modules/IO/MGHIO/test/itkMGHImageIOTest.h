@@ -226,4 +226,4 @@ int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
   return EXIT_SUCCESS;
 }
 
-#endif // __itkMGHImageIOTest_h_
+#endif //itkMGHImageIOTest_h_
