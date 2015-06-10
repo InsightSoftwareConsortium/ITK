@@ -86,7 +86,7 @@ macro( itk_module_headertest _name )
         )
       add_executable( ${_test_name} ${_header_test_src} )
       target_link_libraries( ${_test_name} ${${_name}_LIBRARIES} )
-      add_dependencies(${_test_name} ${${_name}_LIBRARIES})
+
       add_dependencies(${_name}-all ${_test_name})
       math( EXPR _test_num "${_test_num} + 1" )
     endforeach()
