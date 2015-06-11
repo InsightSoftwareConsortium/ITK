@@ -18,6 +18,7 @@
 #ifndef itkBorderQuadEdgeMeshFilter_h
 #define itkBorderQuadEdgeMeshFilter_h
 
+#include "itkAutoPointer.h"
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
@@ -69,7 +70,7 @@ public:
   typedef typename InputQEType::IteratorGeom          InputIteratorGeom;
   typedef typename InputMeshType::VectorType          InputVectorType;
   typedef typename InputMeshType::EdgeListType        InputEdgeListType;
-  typedef typename InputMeshType::EdgeListPointerType InputEdgeListPointerType;
+  typedef AutoPointer< InputEdgeListType >            InputEdgeListPointerType;
   typedef typename InputEdgeListType::iterator        InputEdgeListIterator;
   typedef typename InputMeshType::EdgeCellType        InputEdgeCellType;
   typedef typename InputMeshType::PolygonCellType     InputPolygonCellType;
