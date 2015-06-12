@@ -40,18 +40,17 @@ namespace itk
  * \wikiexample{Registration/MutualInformation,Mutual Information}
  * \endwiki
  */
-template < typename TScalar = double,          // Data type for scalars (float or
-                                       // double)
+template<typename TParametersValueType=double,
            unsigned int NDimensions = 3>
 class TranslationTransform :
-  public Transform< TScalar, NDimensions, NDimensions >
+  public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef TranslationTransform                           Self;
-  typedef Transform< TScalar, NDimensions, NDimensions > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  typedef TranslationTransform                                      Self;
+  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);
@@ -67,7 +66,8 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
+  typedef typename Superclass::ParametersType      ParametersType;
 
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -76,20 +76,20 @@ public:
   typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalar, NDimensions> InputVectorType;
-  typedef Vector<TScalar, NDimensions> OutputVectorType;
+  typedef Vector<TParametersValueType, NDimensions> InputVectorType;
+  typedef Vector<TParametersValueType, NDimensions> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalar, NDimensions> InputCovariantVectorType;
-  typedef CovariantVector<TScalar, NDimensions> OutputCovariantVectorType;
+  typedef CovariantVector<TParametersValueType, NDimensions> InputCovariantVectorType;
+  typedef CovariantVector<TParametersValueType, NDimensions> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalar, NDimensions> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalar, NDimensions> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, NDimensions> InputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, NDimensions> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalar, NDimensions> InputPointType;
-  typedef Point<TScalar, NDimensions> OutputPointType;
+  typedef Point<TParametersValueType, NDimensions> InputPointType;
+  typedef Point<TParametersValueType, NDimensions> OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
@@ -203,14 +203,14 @@ public:
   /** Set the fixed parameters and update internal transformation.
    * The Translation Transform does not require fixed parameters,
    * therefore the implementation of this method is a null operation. */
-  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
+  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
   {
   }
 
   /** Get the Fixed Parameters. The TranslationTransform does not
    * require Fixed parameters, therefore this method returns an
    * parameters array of size zero. */
-  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE
+  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE
   {
     this->m_FixedParameters.SetSize(0);
     return this->m_FixedParameters;
@@ -231,37 +231,37 @@ private:
 };                           // class TranslationTransform
 
 // Back transform a point
-template <typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 inline
-typename TranslationTransform<TScalar, NDimensions>::InputPointType
-TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputPointType & point) const
+typename TranslationTransform<TParametersValueType, NDimensions>::InputPointType
+TranslationTransform<TParametersValueType, NDimensions>::BackTransform(const OutputPointType & point) const
 {
   return point - m_Offset;
 }
 
 // Back transform a vector
-template <typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 inline
-typename TranslationTransform<TScalar, NDimensions>::InputVectorType
-TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputVectorType & vect) const
+typename TranslationTransform<TParametersValueType, NDimensions>::InputVectorType
+TranslationTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVectorType & vect) const
 {
   return vect;
 }
 
 // Back transform a vnl_vector
-template <typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 inline
-typename TranslationTransform<TScalar, NDimensions>::InputVnlVectorType
-TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
+typename TranslationTransform<TParametersValueType, NDimensions>::InputVnlVectorType
+TranslationTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
 {
   return vect;
 }
 
 // Back Transform a CovariantVector
-template <typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 inline
-typename TranslationTransform<TScalar, NDimensions>::InputCovariantVectorType
-TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputCovariantVectorType & vect) const
+typename TranslationTransform<TParametersValueType, NDimensions>::InputCovariantVectorType
+TranslationTransform<TParametersValueType, NDimensions>::BackTransform(const OutputCovariantVectorType & vect) const
 {
   return vect;
 }

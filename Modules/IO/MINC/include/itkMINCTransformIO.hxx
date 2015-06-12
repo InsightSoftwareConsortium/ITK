@@ -37,23 +37,23 @@
 namespace itk
 {
 
-template< typename TInternalComputationValueType >
-MINCTransformIOTemplate< TInternalComputationValueType >
+template<typename TParametersValueType>
+MINCTransformIOTemplate<TParametersValueType>
 ::MINCTransformIOTemplate()
 {
   m_XFM_initialized=false;
 }
 
-template< typename TInternalComputationValueType >
-MINCTransformIOTemplate< TInternalComputationValueType >
+template<typename TParametersValueType>
+MINCTransformIOTemplate<TParametersValueType>
 ::~MINCTransformIOTemplate()
 {
   _cleanup();
 }
 
-template< typename TInternalComputationValueType >
+template<typename TParametersValueType>
 void
-MINCTransformIOTemplate< TInternalComputationValueType >
+MINCTransformIOTemplate<TParametersValueType>
 ::_cleanup(void)
 {
   if(m_XFM_initialized)
@@ -61,27 +61,27 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   m_XFM_initialized=false;
 }
 
-template< typename TInternalComputationValueType >
+template<typename TParametersValueType>
 bool
-MINCTransformIOTemplate< TInternalComputationValueType >
+MINCTransformIOTemplate<TParametersValueType>
 ::CanReadFile(const char *fileName)
 {
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
   return (ext == ".xfm" || ext==".XFM");
 }
 
-template< typename TInternalComputationValueType >
+template<typename TParametersValueType>
 bool
-MINCTransformIOTemplate< TInternalComputationValueType >
+MINCTransformIOTemplate<TParametersValueType>
 ::CanWriteFile(const char *fileName)
 {
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
   return (ext == ".xfm" || ext==".XFM");
 }
 
-template< typename TInternalComputationValueType >
+template<typename TParametersValueType>
 void
-MINCTransformIOTemplate< TInternalComputationValueType >
+MINCTransformIOTemplate<TParametersValueType>
 ::ReadOneTransform(VIO_General_transform *xfm)
 {
   const std::string typeNameString = Superclass::GetTypeNameString();
@@ -110,7 +110,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
 
       if(xfm->inverse_flag)
         {
-        typedef AffineTransform< TInternalComputationValueType, 3 > AffineTransformType;
+        typedef AffineTransform<TParametersValueType, 3> AffineTransformType;
         typename AffineTransformType::Pointer tmp = AffineTransformType::New();
         tmp->SetParametersByValue(parameterArray);
         tmp->GetInverse(static_cast< AffineTransformType* >( transform.GetPointer()) );
@@ -141,7 +141,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
     {
       if(xfm->displacement_volume_file)
         {
-        typedef DisplacementFieldTransform< TInternalComputationValueType, 3 > DisplacementFieldTransformType;
+        typedef DisplacementFieldTransform<TParametersValueType, 3> DisplacementFieldTransformType;
         typedef typename DisplacementFieldTransformType::DisplacementFieldType GridImageType;
         typedef ImageFileReader< GridImageType >                               MincReaderType;
 
@@ -183,9 +183,9 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   }
 }
 
-template< typename TInternalComputationValueType >
+template<typename TParametersValueType>
 void
-MINCTransformIOTemplate< TInternalComputationValueType >
+MINCTransformIOTemplate<TParametersValueType>
 ::Read()
 {
   if(input_transform_file((char*)this->GetFileName(), &m_XFM) != VIO_OK)
@@ -199,9 +199,9 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   _cleanup();
 }
 
-template< typename TInternalComputationValueType >
+template<typename TParametersValueType>
 void
-MINCTransformIOTemplate< TInternalComputationValueType >
+MINCTransformIOTemplate<TParametersValueType>
 ::WriteOneTransform(const int transformIndex,
                     const TransformType *curTransform,
                     std::vector<VIO_General_transform> &xfm,
@@ -253,7 +253,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
              && curTransform->GetFixedParameters().Size() == 18 )
       {
       bool _inverse_grid=false;
-      typedef DisplacementFieldTransform< TInternalComputationValueType, 3 > DisplacementFieldTransformType;
+      typedef DisplacementFieldTransform<TParametersValueType, 3> DisplacementFieldTransformType;
       typedef typename DisplacementFieldTransformType::DisplacementFieldType GridImageType;
       typedef ImageFileWriter< GridImageType > MincWriterType;
       DisplacementFieldTransformType* _grid_transform = static_cast< DisplacementFieldTransformType* >( const_cast< TransformType* >( curTransform ));
@@ -295,9 +295,9 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   }
 }
 
-template< typename TInternalComputationValueType >
+template<typename TParametersValueType>
 void
-MINCTransformIOTemplate< TInternalComputationValueType >
+MINCTransformIOTemplate<TParametersValueType>
 ::Write()
 {
   std::string xfm_filename = this->GetFileName();
@@ -316,7 +316,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
 
   std::string compositeTransformType = transformList.front()->GetTransformTypeAsString();
 
-  CompositeTransformIOHelperTemplate< TInternalComputationValueType > helper;
+  CompositeTransformIOHelperTemplate<TParametersValueType> helper;
 
   // if the first transform in the list is a
   // composite transform, use its internal list

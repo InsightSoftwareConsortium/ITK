@@ -33,18 +33,21 @@ namespace itk
    * \wikiexample{IO/TransformFileWriter,Write a transform to a file}
    * \endwiki
    */
-template<typename ScalarType>
+template<typename TParametersValueType>
 class TransformFileWriterTemplate:public LightProcessObject
 {
 public:
 
   /** SmartPointer typedef support */
-  typedef TransformFileWriterTemplate  Self;
-  typedef LightProcessObject           Superclass;
-  typedef SmartPointer< Self >         Pointer;
+  typedef TransformFileWriterTemplate Self;
+  typedef LightProcessObject          Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
-  typedef TransformBaseTemplate< ScalarType >              TransformType;
-  typedef TransformIOBaseTemplate< ScalarType >            TransformIOType;
+  typedef TParametersValueType                             ParametersValueType;
+  typedef ParametersValueType /* double */                 FixedParametersValueType;
+  typedef TransformBaseTemplate<ParametersValueType>       TransformType;
+  typedef TransformIOBaseTemplate<ParametersValueType>     TransformIOType;
   typedef typename TransformIOType::TransformPointer       TransformPointer;
   typedef typename TransformIOType::ConstTransformPointer  ConstTransformPointer;
   typedef typename TransformIOType::ConstTransformListType ConstTransformListType;

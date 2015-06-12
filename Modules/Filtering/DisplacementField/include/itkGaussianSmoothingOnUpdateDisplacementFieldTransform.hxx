@@ -32,23 +32,23 @@
 namespace itk
 {
 
-template<typename TScalar, unsigned int NDimensions>
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>
 ::GaussianSmoothingOnUpdateDisplacementFieldTransform()
 {
   this->m_GaussianSmoothingVarianceForTheUpdateField = 3.0;
   this->m_GaussianSmoothingVarianceForTheTotalField = 0.5;
 }
 
-template<typename TScalar, unsigned int NDimensions>
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
+template<typename TParametersValueType, unsigned int NDimensions>
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::
 ~GaussianSmoothingOnUpdateDisplacementFieldTransform()
 {
 }
 
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor)
 {
   DisplacementFieldPointer displacementField = this->GetModifiableDisplacementField();
@@ -126,9 +126,9 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     }
 }
 
-template<typename TScalar, unsigned int NDimensions>
-typename GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldPointer
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+typename GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::DisplacementFieldPointer
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>
 ::GaussianSmoothDisplacementField( DisplacementFieldType *field, ScalarType variance )
 {
   if( variance <= 0.0 )
@@ -214,9 +214,9 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   return field;
 }
 
-template <typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 typename LightObject::Pointer
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>
 ::InternalClone() const
 {
   LightObject::Pointer loPtr = Superclass::InternalClone();
@@ -243,9 +243,9 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   return loPtr;
 }
 
-template <typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::
 PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os,indent );

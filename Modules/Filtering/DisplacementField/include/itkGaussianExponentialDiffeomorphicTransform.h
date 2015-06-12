@@ -52,17 +52,16 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template
-  <class TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 class GaussianExponentialDiffeomorphicTransform :
-  public ConstantVelocityFieldTransform<TScalar, NDimensions>
+  public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianExponentialDiffeomorphicTransform                 Self;
-  typedef ConstantVelocityFieldTransform<TScalar, NDimensions>      Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  typedef GaussianExponentialDiffeomorphicTransform                         Self;
+  typedef ConstantVelocityFieldTransform<TParametersValueType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                                Pointer;
+  typedef SmartPointer<const Self>                                          ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( GaussianExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform );

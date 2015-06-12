@@ -60,42 +60,43 @@ namespace itk
  * \ingroup ITKTransform
  */
 template
-<class TScalar = double, unsigned int NDimensions = 3, unsigned int NSubDimensions = NDimensions>
+<typename TParametersValueType=double, unsigned int NDimensions=3, unsigned int NSubDimensions=NDimensions>
 class MultiTransform :
-  public Transform<TScalar, NDimensions, NDimensions>
+  public Transform<TParametersValueType, NDimensions, NSubDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiTransform                               Self;
-  typedef Transform<TScalar, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef MultiTransform                                               Self;
+  typedef Transform<TParametersValueType, NDimensions, NSubDimensions> Superclass;
+  typedef SmartPointer<Self>                                           Pointer;
+  typedef SmartPointer<const Self>                                     ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( MultiTransform, Transform );
 
   /** Sub transform type **/
-  typedef Transform<TScalar, NSubDimensions, NSubDimensions > TransformType;
+  typedef Transform<TParametersValueType, NSubDimensions, NSubDimensions > TransformType;
   typedef typename TransformType::Pointer                     TransformTypePointer;
 
   /* Types common to both container and sub transforms */
 
-  /** Scalar type. */
-  typedef typename Superclass::ScalarType          ScalarType;
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::ParametersValueType ParametersValueType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
+  typedef ParametersValueType                           ScalarType;
   /** Derivative type */
-  typedef typename Superclass::DerivativeType DerivativeType;
+  typedef typename Superclass::DerivativeType           DerivativeType;
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  typedef typename Superclass::JacobianType             JacobianType;
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  typedef typename Superclass::TransformCategoryType    TransformCategoryType;
 
   /* Types relative to the container transform. */
 
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer    InverseTransformBasePointer;
+  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
 
   /** Standard coordinate point type for this class. */
   typedef typename Superclass::InputPointType             InputPointType;
@@ -247,11 +248,11 @@ public:
 
   /* GetFixedParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
-  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /* SetFixedParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
-  virtual void SetFixedParameters(const ParametersType & fixedParameters) ITK_OVERRIDE;
+  virtual void SetFixedParameters(const FixedParametersType & fixedParameters) ITK_OVERRIDE;
 
   /* Get total number of parameters. Sum of all sub-transforms. */
   virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;

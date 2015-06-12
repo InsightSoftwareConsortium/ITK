@@ -83,17 +83,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template
-<class TScalar = double, unsigned int NDimensions = 3>
+template<typename TParametersValueType=double, unsigned int NDimensions = 3>
 class CompositeTransform :
-  public MultiTransform<TScalar, NDimensions>
+  public MultiTransform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef CompositeTransform                                  Self;
-  typedef MultiTransform<TScalar, NDimensions, NDimensions>   Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  typedef CompositeTransform                                              Self;
+  typedef MultiTransform<TParametersValueType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                              Pointer;
+  typedef SmartPointer<const Self>                                        ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( CompositeTransform, Transform );
@@ -109,6 +108,8 @@ public:
   /** Scalar type. */
   typedef typename Superclass::ScalarType                 ScalarType;
   /** Parameters type. */
+  typedef typename Superclass::FixedParametersType        FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType   FixedParametersValueType;
   typedef typename Superclass::ParametersType             ParametersType;
   typedef typename Superclass::ParametersValueType        ParametersValueType;
   /** Derivative type */
@@ -327,11 +328,11 @@ public:
 
   /* GetFixedParameters only for transforms that are set to be optimized
    * See GetParameters() for parameter ordering. */
-  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /* SetFixedParameters only for transforms that are set to be optimized.
    * See GetParameters() for parameter ordering. */
-  virtual void  SetFixedParameters(const ParametersType & fixedParameters) ITK_OVERRIDE;
+  virtual void  SetFixedParameters(const FixedParametersType & fixedParameters) ITK_OVERRIDE;
 
   /* Get total number of parameters for transforms that are set to be
    * optimized */

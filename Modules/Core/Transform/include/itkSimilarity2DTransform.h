@@ -58,16 +58,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
+template<typename TParametersValueType=double>
 class Similarity2DTransform :
-  public Rigid2DTransform< TScalar >
+  public Rigid2DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Similarity2DTransform       Self;
-  typedef Rigid2DTransform< TScalar > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef Similarity2DTransform                  Self;
+  typedef Rigid2DTransform<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -81,13 +81,14 @@ public:
   itkStaticConstMacro(OutputSpaceDimension,     unsigned int, 2);
   itkStaticConstMacro(ParametersDimension,      unsigned int, 4);
 
-  /** Data type for scalars (float or double). */
   typedef typename Superclass::ScalarType ScalarType;
-  typedef          TScalar                ScaleType;
+  typedef          TParametersValueType   ScaleType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::ParametersValueType ParametersValueType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;

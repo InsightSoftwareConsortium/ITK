@@ -83,16 +83,16 @@ namespace itk
  * \ingroup ITKDisplacementField
  */
 template
-<class TScalar, unsigned int NDimensions>
+<typename TParametersValueType, unsigned int NDimensions>
 class DisplacementFieldTransform :
-  public Transform<TScalar, NDimensions, NDimensions>
+  public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef DisplacementFieldTransform                   Self;
-  typedef Transform<TScalar, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef DisplacementFieldTransform                                Self;
+  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( DisplacementFieldTransform, Transform );
@@ -107,8 +107,10 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Type of the input parameters. */
-  typedef typename Superclass::ParametersType          ParametersType;
-  typedef typename Superclass::ParametersValueType     ParametersValueType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -289,7 +291,7 @@ public:
    * creates a new one with zero displacement (identity transform).  If
    * an inverse displacement field exists, a new one is also created.
    */
-  virtual void SetFixedParameters( const ParametersType & ) ITK_OVERRIDE;
+  virtual void SetFixedParameters( const FixedParametersType & ) ITK_OVERRIDE;
 
   /**
    * Compute the jacobian with respect to the parameters at a point.

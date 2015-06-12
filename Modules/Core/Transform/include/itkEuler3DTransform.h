@@ -43,17 +43,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
-// Data type for scalars (float or double)
+template<typename TParametersValueType=double >
 class Euler3DTransform :
-  public Rigid3DTransform< TScalar >
+  public Rigid3DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Euler3DTransform            Self;
-  typedef Rigid3DTransform< TScalar > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef Euler3DTransform                       Self;
+  typedef Rigid3DTransform<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -69,6 +68,8 @@ public:
 
   typedef typename Superclass::ParametersType            ParametersType;
   typedef typename Superclass::ParametersValueType       ParametersValueType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
   typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::ScalarType                ScalarType;
   typedef typename Superclass::InputVectorType           InputVectorType;

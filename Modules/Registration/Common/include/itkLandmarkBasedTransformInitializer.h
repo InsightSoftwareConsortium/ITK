@@ -86,8 +86,8 @@ public:
   /** Standard class typedefs. */
   typedef LandmarkBasedTransformInitializer Self;
   typedef Object                            Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -131,7 +131,7 @@ public:
   typedef typename LandmarkPointContainer::const_iterator PointsContainerConstIterator;
 
   typedef typename TransformType::ParametersType                  ParametersType;
-  typedef typename ParametersType::ValueType                      ParameterValueType;
+  typedef typename ParametersType::ValueType                      ParametersValueType;
   typedef std::vector< double >                                   LandmarkWeightType;
   typedef LandmarkWeightType::const_iterator                      LandmarkWeightConstIterator;
 
@@ -156,12 +156,12 @@ public:
   }
 
   /**  Supported Transform typedefs */
-  typedef VersorRigid3DTransform< ParameterValueType >                          VersorRigid3DTransformType;
-  typedef Rigid2DTransform< ParameterValueType >                                Rigid2DTransformType;
-  typedef AffineTransform< ParameterValueType, FixedImageType::ImageDimension > AffineTransformType;
+  typedef VersorRigid3DTransform< ParametersValueType >                          VersorRigid3DTransformType;
+  typedef Rigid2DTransform< ParametersValueType >                                Rigid2DTransformType;
+  typedef AffineTransform< ParametersValueType, FixedImageType::ImageDimension > AffineTransformType;
 
   const static unsigned int SplineOrder = 3;
-  typedef BSplineTransform< ParameterValueType,
+  typedef BSplineTransform< ParametersValueType,
                             FixedImageType::ImageDimension,
                             SplineOrder>                                        BSplineTransformType;
 

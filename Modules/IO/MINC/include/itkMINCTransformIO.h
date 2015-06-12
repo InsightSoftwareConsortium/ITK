@@ -37,13 +37,14 @@ namespace itk
 *
 * \ingroup ITKIOMINC
 */
-template< typename TInternalComputationValueType >
-class MINCTransformIOTemplate: public TransformIOBaseTemplate< TInternalComputationValueType >
+template<typename TParametersValueType>
+class MINCTransformIOTemplate: public TransformIOBaseTemplate<TParametersValueType>
 {
 public:
-  typedef MINCTransformIOTemplate                                  Self;
-  typedef TransformIOBaseTemplate< TInternalComputationValueType > Superclass;
-  typedef SmartPointer< Self >                                     Pointer;
+  typedef MINCTransformIOTemplate                         Self;
+  typedef TransformIOBaseTemplate< TParametersValueType > Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   typedef typename Superclass::TransformType          TransformType;
   typedef typename Superclass::TransformPointer       TransformPointer;
@@ -51,7 +52,7 @@ public:
   typedef typename Superclass::ConstTransformListType ConstTransformListType;
   typedef typename TransformType::ParametersType      ParametersType;
 
-  typedef MatrixOffsetTransformBase<TInternalComputationValueType, 3, 3> MatrixOffsetTransformBaseType;
+  typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> MatrixOffsetTransformBaseType;
 
   typedef typename MatrixOffsetTransformBaseType::MatrixType    MatrixType;
   typedef typename MatrixOffsetTransformBaseType::OffsetType    OffsetType;
@@ -91,7 +92,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef MINCTransformIOTemplate< double > MINCTransformIO;
+typedef MINCTransformIOTemplate<double> MINCTransformIO;
 
 } // end namespace itk
 

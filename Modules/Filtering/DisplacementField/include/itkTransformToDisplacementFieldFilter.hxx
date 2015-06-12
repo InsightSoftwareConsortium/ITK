@@ -28,8 +28,8 @@
 namespace itk
 {
 
-template< typename TOutputImage, typename TScalarType >
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::TransformToDisplacementFieldFilter():
   m_UseReferenceImage( false )
 {
@@ -49,9 +49,9 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
 }
 
 
-template< typename TOutputImage, typename TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -73,9 +73,9 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
 }
 
 
-template< typename TOutputImage, typename TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::SetOutputSpacing(const SpacePrecisionType *spacing)
 {
   SpacingType ss(spacing);
@@ -83,18 +83,18 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
 }
 
 
-template< typename TOutputImage, typename TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::SetOutputOrigin(const SpacePrecisionType *origin)
 {
   OriginType pp(origin);
   this->SetOutputOrigin(pp);
 }
 
-template< typename TOutputImage, typename TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::SetInput( const TransformInputType * input )
 {
   if( input != itkDynamicCastInDebugMode< TransformInputType * >( this->ProcessObject::GetPrimaryInput() ) )
@@ -105,18 +105,18 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
     }
 }
 
-template< typename TOutputImage, typename TScalarType >
-const typename TransformToDisplacementFieldFilter< TOutputImage, TScalarType >::TransformInputType *
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
+const typename TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>::TransformInputType *
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::GetInput() const
 {
   return itkDynamicCastInDebugMode< const TransformInputType * >( this->GetPrimaryInput() );
 }
 
 
-template< typename TOutputImage, typename TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::GenerateOutputInformation(void)
 {
   OutputImageType * output = this->GetOutput();
@@ -157,9 +157,9 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
 }
 
 
-template< typename TOutputImage, typename TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId )
 {
   const TransformType * transform = this->GetInput()->Get();
@@ -178,9 +178,9 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
 }
 
 
-template< typename TOutputImage, typename TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::NonlinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId )
 {
   // Get the output pointer
@@ -222,9 +222,9 @@ TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
 }
 
 
-template< typename TOutputImage, typename TScalarType >
+template< typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TScalarType >
+TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::LinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId )
 {
   // Get the output pointer

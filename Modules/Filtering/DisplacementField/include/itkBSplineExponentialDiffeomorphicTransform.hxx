@@ -31,8 +31,8 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TScalar, unsigned int NDimensions>
-BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::BSplineExponentialDiffeomorphicTransform() :
   m_SplineOrder( 3 )
 {
@@ -43,8 +43,8 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
 /**
  * Destructor
  */
-template<typename TScalar, unsigned int NDimensions>
-BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>::
+template<typename TParametersValueType, unsigned int NDimensions>
+BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::
 ~BSplineExponentialDiffeomorphicTransform()
 {
 }
@@ -52,9 +52,9 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>::
 /**
  * set mesh size for update field
  */
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
 {
   ArrayType numberOfControlPoints;
@@ -68,9 +68,9 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
 /**
  * set mesh size for update field
  */
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::SetMeshSizeForTheConstantVelocityField( const ArrayType &meshSize )
 {
   ArrayType numberOfControlPoints;
@@ -81,9 +81,9 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
   this->SetNumberOfControlPointsForTheConstantVelocityField( numberOfControlPoints );
 }
 
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
   //
@@ -183,9 +183,9 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
   this->IntegrateVelocityField();
 }
 
-template<typename TScalar, unsigned int NDimensions>
-typename BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>::ConstantVelocityFieldPointer
-BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+typename BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::ConstantVelocityFieldPointer
+BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::BSplineSmoothConstantVelocityField( const ConstantVelocityFieldType * field, const ArrayType &numberOfControlPoints )
 {
   typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
@@ -206,9 +206,9 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
 /**
  * Standard "PrintSelf" method
  */
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::PrintSelf( std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );

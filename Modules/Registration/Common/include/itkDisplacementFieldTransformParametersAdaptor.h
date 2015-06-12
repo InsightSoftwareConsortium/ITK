@@ -79,10 +79,12 @@ public:
   itkTypeMacro( DisplacementFieldTransformParametersAdaptor, TransformParametersAdaptor );
 
   /** Typedefs associated with the transform */
-  typedef TTransform                                     TransformType;
-  typedef typename TransformType::Pointer                TransformPointer;
-  typedef typename TransformType::ParametersType         ParametersType;
-  typedef typename TransformType::ParametersValueType    ParametersValueType;
+  typedef TTransform                                       TransformType;
+  typedef typename TransformType::Pointer                  TransformPointer;
+  typedef typename TransformType::FixedParametersType      FixedParametersType;
+  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
+  typedef typename TransformType::ParametersType           ParametersType;
+  typedef typename TransformType::ParametersValueType      ParametersValueType;
 
   typedef typename TransformType::DisplacementFieldType  DisplacementFieldType;
   typedef typename DisplacementFieldType::PointType      PointType;

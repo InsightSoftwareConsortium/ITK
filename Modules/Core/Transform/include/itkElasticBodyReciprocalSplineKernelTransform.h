@@ -34,21 +34,19 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double,   // Data type for scalars (float or
-                                        // double)
-          unsigned int NDimensions = 3 >
-// Number of dimensions
+template<typename TParametersValueType=double,
+          unsigned int NDimensions=3>
 class ElasticBodyReciprocalSplineKernelTransform:
-  public KernelTransform<  TScalar, NDimensions >
+  public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard class typedefs. */
   typedef ElasticBodyReciprocalSplineKernelTransform Self;
-  typedef KernelTransform<  TScalar,
-                            NDimensions > Superclass;
+  typedef KernelTransform<TParametersValueType,
+                           NDimensions> Superclass;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ElasticBodyReciprocalSplineKernelTransform, KernelTransform);
@@ -60,7 +58,8 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::ParametersType      ParametersType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -71,10 +70,10 @@ public:
   /** Set alpha.  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$\alpha = 8 ( 1 - \nu ) - 1\f$
    */
-  itkSetMacro(Alpha, TScalar);
+  itkSetMacro(Alpha, TParametersValueType);
 
   /** Get alpha */
-  itkGetConstMacro(Alpha, TScalar);
+  itkGetConstMacro(Alpha, TParametersValueType);
 
   typedef typename Superclass::InputPointType            InputPointType;
   typedef typename Superclass::OutputPointType           OutputPointType;
@@ -102,7 +101,7 @@ protected:
   virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const ITK_OVERRIDE;
 
   /** alpha, Poisson's ratio */
-  TScalar m_Alpha;
+  TParametersValueType m_Alpha;
 
 private:
   ElasticBodyReciprocalSplineKernelTransform(const Self &); //purposely not

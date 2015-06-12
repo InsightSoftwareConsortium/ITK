@@ -28,23 +28,23 @@
 namespace itk
 {
 
-template<typename TScalar, unsigned int NDimensions>
-GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::GaussianExponentialDiffeomorphicTransform():
   m_GaussianSmoothingVarianceForTheUpdateField( 0.5 ),
   m_GaussianSmoothingVarianceForTheConstantVelocityField( 0.5 )
 {
 }
 
-template<typename TScalar, unsigned int NDimensions>
-GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>::
+template<typename TParametersValueType, unsigned int NDimensions>
+GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::
 ~GaussianExponentialDiffeomorphicTransform()
 {
 }
 
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
+GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
   //
@@ -139,9 +139,9 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   this->IntegrateVelocityField();
 }
 
-template<typename TScalar, unsigned int NDimensions>
-typename GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>::ConstantVelocityFieldPointer
-GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+typename GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::ConstantVelocityFieldPointer
+GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::GaussianSmoothConstantVelocityField( ConstantVelocityFieldType *field, ScalarType variance )
 {
   if( variance <= 0.0 )
@@ -230,9 +230,9 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 /**
  * Standard "PrintSelf" method
  */
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
+GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::PrintSelf( std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );

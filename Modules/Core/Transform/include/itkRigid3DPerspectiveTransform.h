@@ -34,10 +34,9 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template< typename TScalar = double >
-// Data type for scalars (float or double)
+template<typename TParametersValueType=double>
 class Rigid3DPerspectiveTransform :
-  public Transform< TScalar, 3, 2 >
+  public Transform<TParametersValueType, 3, 2>
 {
 public:
   /** Dimension of the domain space. */
@@ -50,7 +49,7 @@ public:
 
   /** Standard class typedefs. */
   typedef Rigid3DPerspectiveTransform Self;
-  typedef Transform<TScalar,
+  typedef Transform<TParametersValueType,
                     itkGetStaticConstMacro(InputSpaceDimension),
                     itkGetStaticConstMacro(OutputSpaceDimension)> Superclass;
 
@@ -67,41 +66,43 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType ParametersType;
-  typedef typename ParametersType::ValueType  ParameterValueType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
+  typedef typename FixedParametersType::ValueType  FixedParametersValueType;
+  typedef typename Superclass::ParametersType      ParametersType;
+  typedef typename ParametersType::ValueType       ParametersValueType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard matrix type for this class. */
-  typedef Matrix<TScalar, itkGetStaticConstMacro(InputSpaceDimension),
+  typedef Matrix<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension),
                  itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalar, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
   typedef typename OffsetType::ValueType                                   OffsetValueType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalar, itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TScalar, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class */
   typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalar, itkGetStaticConstMacro(InputSpaceDimension)>  InputPointType;
-  typedef Point<TScalar, itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
+  typedef Point<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>  InputPointType;
+  typedef Point<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
 
   /** Standard vnl_quaternion type. */
-  typedef vnl_quaternion<TScalar> VnlQuaternionType;
+  typedef vnl_quaternion<TParametersValueType> VnlQuaternionType;
 
   /** Standard vnl_vector type for this class. */
   typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
   /** Versor type. */
-  typedef Versor< TScalar >               VersorType;
+  typedef Versor<TParametersValueType>    VersorType;
   typedef typename VersorType::VectorType AxisType;
   typedef typename VersorType::ValueType  AngleType;
   typedef typename AxisType::ValueType    AxisValueType;
@@ -133,7 +134,7 @@ public:
   /** Set the fixed parameters and update internal
    * transformation. This transform has no fixed paramaters
    */
-  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
+  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
   {
   }
 
@@ -152,12 +153,12 @@ public:
    * This method sets the rotation of an Rigid3DTransform to a
    * value specified by the user using the axis of rotation an
    * the angle. */
-  void SetRotation(const Vector<TScalar, 3> & axis, double angle);
+  void SetRotation(const Vector<TParametersValueType, 3> & axis, double angle);
 
   /** Set the Focal Distance of the projection
    * This method sets the focal distance for the perspective
    * projection to a value specified by the user. */
-  void SetFocalDistance(TScalar focalDistance)
+  void SetFocalDistance(TParametersValueType focalDistance)
   {
     m_FocalDistance = focalDistance;
   }
@@ -241,7 +242,7 @@ private:
   VersorType m_Versor;
 
   /** Set Focal distance of the projection. */
-  TScalar m_FocalDistance;
+  TParametersValueType m_FocalDistance;
 
   /** Matrix representation of the rotation. */
   MatrixType m_RotationMatrix;

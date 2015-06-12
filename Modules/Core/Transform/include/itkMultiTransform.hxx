@@ -24,8 +24,8 @@ namespace itk
 {
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
-MultiTransform<TScalar, NDimensions, NSubDimensions>::MultiTransform() : Superclass( 0 )
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::MultiTransform() : Superclass( 0 )
 {
   this->m_NumberOfLocalParameters = NumericTraits< NumberOfParametersType >::ZeroValue();
   this->m_LocalParametersUpdateTime = NumericTraits< ModifiedTimeType >::ZeroValue();
@@ -33,16 +33,16 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>::MultiTransform() : Supercl
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
-MultiTransform<TScalar, NDimensions, NSubDimensions>::
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::
 ~MultiTransform()
 {
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TScalar, NDimensions, NSubDimensions>::TransformCategoryType
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
+typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::TransformCategoryType
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::GetTransformCategory() const
 {
   // If all sub-transforms are the same, return that type. Otherwise
@@ -70,9 +70,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
 bool
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::IsLinear() const
 {
   // If all sub-transforms are linear, return true.
@@ -87,9 +87,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
-const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersType &
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
+const typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::ParametersType &
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::GetParameters() const
 {
   /* Resize destructively. But if it's already this size, nothing is done so
@@ -116,9 +116,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
 void
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::SetParameters(const ParametersType & inputParameters)
 {
   /* We do not copy inputParameters into m_Parameters,
@@ -163,9 +163,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
-const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersType &
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
+const typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::FixedParametersType &
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::GetFixedParameters() const
 {
   /* Resize destructively. But if it's already this size, nothing is done so
@@ -179,7 +179,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 
   do
     {
-    const ParametersType & subFixedParameters = (*it)->GetFixedParameters();
+    const FixedParametersType & subFixedParameters = (*it)->GetFixedParameters();
     /* use vnl_vector data_block() to get data ptr */
     std::copy(subFixedParameters.data_block(),
               subFixedParameters.data_block()+subFixedParameters.Size(),
@@ -193,10 +193,10 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
 void
-MultiTransform<TScalar, NDimensions, NSubDimensions>
-::SetFixedParameters(const ParametersType & inputParameters)
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
+::SetFixedParameters(const FixedParametersType & inputParameters)
 {
   /* Verify proper input size. */
   if( inputParameters.Size() != this->GetNumberOfFixedParameters() )
@@ -218,7 +218,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
   it = transforms.begin();
   do
     {
-    ParametersType & subFixedParameters = const_cast<ParametersType &>( (*it)->GetFixedParameters() );
+    FixedParametersType & subFixedParameters = const_cast<FixedParametersType &>( (*it)->GetFixedParameters() );
     /* Use vnl_vector data_block() to get data ptr */
     std::copy(&(this->m_FixedParameters.data_block() )[offset],
               &(this->m_FixedParameters.data_block() )[offset]+subFixedParameters.Size(),
@@ -232,9 +232,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TScalar, NDimensions, NSubDimensions>::NumberOfParametersType
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
+typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::NumberOfParametersType
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::GetNumberOfParameters() const
 {
   /* Returns to total number of params in all transforms currently
@@ -257,9 +257,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TScalar, NDimensions, NSubDimensions>::NumberOfParametersType
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
+typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::NumberOfParametersType
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::GetNumberOfLocalParameters() const
 {
   if ( this->GetMTime() == this->m_LocalParametersUpdateTime )
@@ -284,9 +284,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TScalar, NDimensions, NSubDimensions>::NumberOfParametersType
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
+typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::NumberOfParametersType
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::GetNumberOfFixedParameters() const
 {
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
@@ -300,9 +300,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
 void
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
   /* Update parameters within the sub-transforms. */
@@ -347,9 +347,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
 bool
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::GetInverse( Self *inverse ) const
 {
   typename TransformQueueType::const_iterator it;
@@ -377,9 +377,9 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 
-template <typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
 void
-MultiTransform<TScalar, NDimensions, NSubDimensions>
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

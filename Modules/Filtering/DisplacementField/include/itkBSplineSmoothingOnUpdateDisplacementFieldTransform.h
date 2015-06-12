@@ -48,16 +48,16 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 class BSplineSmoothingOnUpdateDisplacementFieldTransform :
-  public DisplacementFieldTransform<TScalar, NDimensions>
+  public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineSmoothingOnUpdateDisplacementFieldTransform    Self;
-  typedef DisplacementFieldTransform<TScalar, NDimensions>      Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef BSplineSmoothingOnUpdateDisplacementFieldTransform            Self;
+  typedef DisplacementFieldTransform<TParametersValueType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                            Pointer;
+  typedef SmartPointer<const Self>                                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineSmoothingOnUpdateDisplacementFieldTransform, DisplacementFieldTransform );
@@ -76,7 +76,7 @@ public:
   typedef typename Superclass::DisplacementFieldPointer      DisplacementFieldPointer;
   typedef typename Superclass::DisplacementFieldConstPointer DisplacementFieldConstPointer;
 
-  typedef typename Transform<TScalar,NDimensions,NDimensions>::Pointer
+  typedef typename Transform<TParametersValueType,NDimensions, NDimensions>::Pointer
              TransformPointer;
 
   /**

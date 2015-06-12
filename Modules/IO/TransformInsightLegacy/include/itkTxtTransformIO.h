@@ -25,18 +25,18 @@ namespace itk
    * \brief Create instances of TxtTransformIOTemplate objects.
    * \ingroup ITKIOTransformInsightLegacy
    */
-template<typename ParametersValueType>
-class TxtTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
+template<typename TParametersValueType>
+class TxtTransformIOTemplate:public TransformIOBaseTemplate<TParametersValueType>
 {
 public:
   typedef TxtTransformIOTemplate                        Self;
-  typedef TransformIOBaseTemplate<ParametersValueType>  Superclass;
-  typedef SmartPointer< Self >                          Pointer;
+  typedef TransformIOBaseTemplate<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                            Pointer;
   typedef typename Superclass::TransformType            TransformType;
   typedef typename Superclass::TransformPointer         TransformPointer;
   typedef typename Superclass::TransformListType        TransformListType;
-  typedef typename TransformIOBaseTemplate
-                      <ParametersValueType>::ConstTransformListType
+  typedef typename TransformIOBaseTemplate<
+                      TParametersValueType>::ConstTransformListType
                                                         ConstTransformListType;
 
   /** Run-time type information (and related methods). */

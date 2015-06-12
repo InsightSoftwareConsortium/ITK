@@ -22,9 +22,9 @@
 
 namespace itk
 {
-template <typename TScalar>
-typename CompositeTransformIOHelperTemplate<TScalar>::ConstTransformListType &
-CompositeTransformIOHelperTemplate<TScalar>
+template<typename TParametersValueType>
+typename CompositeTransformIOHelperTemplate<TParametersValueType>::ConstTransformListType &
+CompositeTransformIOHelperTemplate<TParametersValueType>
 ::GetTransformList(const TransformType *transform)
 {
   this->m_TransformList.clear();
@@ -45,9 +45,9 @@ CompositeTransformIOHelperTemplate<TScalar>
   return m_TransformList;
 }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-CompositeTransformIOHelperTemplate<TScalar>
+CompositeTransformIOHelperTemplate<TParametersValueType>
 ::SetTransformList(TransformType *transform,TransformListType &transformList)
 {
   // try each CompositeTransform Type, starting with
@@ -66,15 +66,15 @@ CompositeTransformIOHelperTemplate<TScalar>
     }
 }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 template <unsigned TDim>
 int
-CompositeTransformIOHelperTemplate<TScalar>
+CompositeTransformIOHelperTemplate<TParametersValueType>
 ::BuildTransformList(const TransformType *transform)
 {
   //
   // see if we've found the right type
-  typedef CompositeTransform<TScalar,TDim> CompositeType;
+  typedef CompositeTransform<TParametersValueType,TDim> CompositeType;
 
   const CompositeType *composite = dynamic_cast<const CompositeType *>(transform);
   if(composite == ITK_NULLPTR)
@@ -107,15 +107,15 @@ CompositeTransformIOHelperTemplate<TScalar>
   return 1;
 }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 template <unsigned TDim>
 int
-CompositeTransformIOHelperTemplate<TScalar>
+CompositeTransformIOHelperTemplate<TParametersValueType>
 ::InternalSetTransformList(TransformType *transform,TransformListType &transformList)
 {
   //
   // local composite transform type
-  typedef itk::CompositeTransform<TScalar,TDim>      CompositeType;
+  typedef itk::CompositeTransform<TParametersValueType,TDim>      CompositeType;
   typedef typename CompositeType::TransformType      ComponentTransformType;
 
   //

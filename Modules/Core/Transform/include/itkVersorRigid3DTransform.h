@@ -42,17 +42,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
-// Data type for scalars (float or double)
+template<typename TParametersValueType=double>
 class VersorRigid3DTransform :
-  public VersorTransform< TScalar >
+  public VersorTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef VersorRigid3DTransform     Self;
-  typedef VersorTransform< TScalar > Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef VersorRigid3DTransform                Self;
+  typedef VersorTransform<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -67,9 +66,10 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
   /** Parameters Type   */
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::ScalarType                ScalarType;
+  typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
+  typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::InputPointType            InputPointType;
   typedef typename Superclass::OutputPointType           OutputPointType;
   typedef typename Superclass::InputVectorType           InputVectorType;
@@ -93,9 +93,9 @@ public:
 
   typedef typename Superclass::AxisValueType        AxisValueType;
   typedef typename Superclass::TranslationValueType TranslationValueType;
-  typedef typename Superclass::ParameterValueType   ParameterValueType;
+  typedef typename Superclass::ParametersValueType  ParametersValueType;
 
-  typedef  Array<ParameterValueType>                DerivativeType;
+  typedef  Array<ParametersValueType>               DerivativeType;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -112,7 +112,7 @@ public:
    * SetParameters is called at the end of this method, to allow the transform
    * to perform any required operations on the updated parameters - typically
    * a conversion to member variables for use in TransformPoint. */
-  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 ) ITK_OVERRIDE;
+  virtual void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or

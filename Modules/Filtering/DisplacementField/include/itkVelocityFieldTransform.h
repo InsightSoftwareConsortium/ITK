@@ -32,17 +32,16 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template
-<class TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 class VelocityFieldTransform :
-  public DisplacementFieldTransform<TScalar, NDimensions>
+  public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef VelocityFieldTransform                            Self;
-  typedef DisplacementFieldTransform<TScalar, NDimensions>  Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef VelocityFieldTransform                                        Self;
+  typedef DisplacementFieldTransform<TParametersValueType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                            Pointer;
+  typedef SmartPointer<const Self>                                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( VelocityFieldTransform, DisplacementFieldTransform );
@@ -51,14 +50,16 @@ public:
   itkNewMacro( Self );
 
   /** InverseTransform type. */
-  typedef typename Superclass:: InverseTransformBasePointer InverseTransformBasePointer;
+  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Type of the input parameters. */
-  typedef typename Superclass::ParametersType          ParametersType;
-  typedef typename Superclass::ParametersValueType     ParametersValueType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
+  typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::ParametersValueType       ParametersValueType;
 
   /** Transform category type. */
   typedef typename Superclass::TransformCategoryType TransformCategoryType;
@@ -117,7 +118,7 @@ public:
   virtual void SetVelocityField( VelocityFieldType * );
   itkGetModifiableObjectMacro(VelocityField, VelocityFieldType );
 
-  virtual void SetFixedParameters( const ParametersType & ) ITK_OVERRIDE;
+  virtual void SetFixedParameters( const FixedParametersType & ) ITK_OVERRIDE;
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the velocity field */

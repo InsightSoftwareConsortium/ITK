@@ -57,17 +57,16 @@ namespace itkv3
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
-// type for scalars (float or double)
+template<typename TParametersValueType=double>
 class Rigid3DTransform:
-    public itk::Rigid3DTransform< TScalar >
+    public itk::Rigid3DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Rigid3DTransform                 Self;
-  typedef itk::Rigid3DTransform< TScalar > Superclass;
-  typedef itk::SmartPointer< Self >        Pointer;
-  typedef itk::SmartPointer< const Self >  ConstPointer;
+  typedef Rigid3DTransform                            Self;
+  typedef itk::Rigid3DTransform<TParametersValueType> Superclass;
+  typedef itk::SmartPointer<Self>                     Pointer;
+  typedef itk::SmartPointer<const Self>               ConstPointer;
 
 
   /** Run-time type information (and related methods). */
@@ -84,6 +83,8 @@ public:
 
   typedef typename Superclass::ParametersType            ParametersType;
   typedef typename Superclass::ParametersValueType       ParametersValueType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
   typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::ScalarType                ScalarType;
   typedef typename Superclass::InputVectorType           InputVectorType;

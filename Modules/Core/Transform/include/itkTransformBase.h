@@ -39,19 +39,22 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar >
+template<typename TParametersValueType>
 class TransformBaseTemplate:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef TransformBaseTemplate      Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef TransformBaseTemplate    Self;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Type of the input parameters. */
-  typedef  TScalar                                    ParametersValueType;
-  typedef  OptimizerParameters< ParametersValueType > ParametersType;
+
+  typedef  TParametersValueType                            ParametersValueType;
+  typedef  OptimizerParameters< ParametersValueType >      ParametersType;
+  typedef  ParametersValueType /* double */                FixedParametersValueType;
+  typedef  OptimizerParameters< FixedParametersValueType > FixedParametersType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformBaseTemplate, Object);
@@ -85,7 +88,7 @@ public:
   virtual void SetParametersByValue(const ParametersType & p) = 0;
 
   /** Set the fixed parameters. */
-  virtual void SetFixedParameters(const ParametersType &) = 0;
+  virtual void SetFixedParameters(const FixedParametersType &) = 0;
 
   /** This function allow copying a range of values into the Parameters
     * The range of values must conform to std::copy(begin, end, m_Parameters)
@@ -98,11 +101,11 @@ public:
     * The range of values must conform to std::copy(begin, end, m_FixedParameters)
     * requirements.
     */
-  virtual void CopyInFixedParameters(const ParametersValueType * const begin,
-                                     const ParametersValueType * const end) = 0;
+  virtual void CopyInFixedParameters(const FixedParametersValueType * const begin,
+                                     const FixedParametersValueType * const end) = 0;
 
   /** Get the fixed parameters. */
-  virtual const ParametersType & GetFixedParameters() const = 0;
+  virtual const FixedParametersType & GetFixedParameters() const = 0;
 
   /** Generate a platform independent name */
   virtual std::string GetTransformTypeAsString() const = 0;

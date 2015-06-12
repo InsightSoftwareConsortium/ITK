@@ -27,28 +27,27 @@ namespace itk
 {
 
 
-template< typename TScalar >
-TransformIOBaseTemplate< TScalar >
+template<typename TParametersValueType>
+TransformIOBaseTemplate<TParametersValueType>
 ::TransformIOBaseTemplate() :
   m_AppendMode(false)
 {
 }
 
-template< typename TScalar >
-TransformIOBaseTemplate< TScalar >
+template<typename TParametersValueType>
+TransformIOBaseTemplate<TParametersValueType>
 ::~TransformIOBaseTemplate()
 {
 }
 
-template< typename TScalar >
-void TransformIOBaseTemplate< TScalar >
+template<typename TParametersValueType>
+void TransformIOBaseTemplate<TParametersValueType>
 ::CreateTransform(TransformPointer & ptr, const std::string & ClassName)
 {
   //
   // call to GetFactory has side effect of initializing the
   // TransformFactory overrides
-  TransformFactoryBase *theFactory =
-  TransformFactoryBase::GetFactory();
+  TransformFactoryBase *theFactory = TransformFactoryBase::GetFactory();
 
   // Instantiate the transform
   itkDebugMacro ("About to call ObjectFactory");
@@ -58,11 +57,10 @@ void TransformIOBaseTemplate< TScalar >
   if ( ptr.IsNull() )
     {
     std::ostringstream msg;
-    msg << "Could not create an instance of " << ClassName << std::endl
+    msg << "Could not create an instance of \"" << ClassName << "\"" << std::endl
     << "The usual cause of this error is not registering the "
     << "transform with TransformFactory" << std::endl;
-    msg << "Currently registered Transforms: " << std::endl;
-    std::list< std::string >           names = theFactory->GetClassOverrideWithNames();
+    msg << "Currently registered Transforms: " << std::endl;    std::list< std::string > names = theFactory->GetClassOverrideWithNames();
     for ( std::list< std::string >::iterator it = names.begin(); it != names.end(); ++it )
       {
       msg << "\t\"" << *it << "\"" << std::endl;
@@ -73,8 +71,8 @@ void TransformIOBaseTemplate< TScalar >
   ptr->UnRegister();
   }
 
-template< typename TScalar >
-void TransformIOBaseTemplate< TScalar >
+template<typename TParametersValueType>
+void TransformIOBaseTemplate<TParametersValueType>
 ::OpenStream(std::ofstream & outputStream, bool binary)
 {
   std::ios::openmode mode(std::ios::out);
@@ -97,15 +95,15 @@ void TransformIOBaseTemplate< TScalar >
     }
 }
 
-template< typename TScalar >
-void TransformIOBaseTemplate< TScalar >
+template<typename TParametersValueType>
+void TransformIOBaseTemplate<TParametersValueType>
 ::SetTransformList(ConstTransformListType & transformList)
 {
   this->m_WriteTransformList = transformList;
 }
 
-template< typename TScalar >
-void TransformIOBaseTemplate< TScalar >
+template<typename TParametersValueType>
+void TransformIOBaseTemplate<TParametersValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
 Superclass::PrintSelf(os, indent);

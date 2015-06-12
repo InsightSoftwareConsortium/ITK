@@ -52,16 +52,16 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 class BSplineExponentialDiffeomorphicTransform :
-  public ConstantVelocityFieldTransform<TScalar, NDimensions>
+  public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineExponentialDiffeomorphicTransform              Self;
-  typedef ConstantVelocityFieldTransform<TScalar, NDimensions>  Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef BSplineExponentialDiffeomorphicTransform                          Self;
+  typedef ConstantVelocityFieldTransform<TParametersValueType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                                Pointer;
+  typedef SmartPointer<const Self>                                          ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform );
@@ -79,6 +79,11 @@ public:
   typedef typename Superclass::ScalarType               ScalarType;
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename DerivativeType::ValueType            DerivativeValueType;
+
+  typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::ParametersValueType       ParametersValueType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
 
   typedef typename Superclass::DisplacementFieldType        DisplacementFieldType;
   typedef typename Superclass::DisplacementFieldPointer     DisplacementFieldPointer;

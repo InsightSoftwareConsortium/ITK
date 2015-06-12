@@ -30,17 +30,18 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TScalar = double, unsigned int NDimensions = 3,
+template<typename TParametersValueType=double,
+           unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
 class BSplineBaseTransform :
-  public Transform<TScalar, NDimensions, NDimensions>
+  public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineBaseTransform                         Self;
-  typedef Transform<TScalar, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef BSplineBaseTransform                                      Self;
+  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineBaseTransform, Transform );
@@ -58,7 +59,8 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
+  typedef typename Superclass::ParametersType      ParametersType;
 
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -70,20 +72,20 @@ public:
   typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalar, itkGetStaticConstMacro( SpaceDimension )> InputVectorType;
-  typedef Vector<TScalar, itkGetStaticConstMacro( SpaceDimension )> OutputVectorType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> InputVectorType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalar, itkGetStaticConstMacro( SpaceDimension )> InputCovariantVectorType;
-  typedef CovariantVector<TScalar, itkGetStaticConstMacro( SpaceDimension )> OutputCovariantVectorType;
+  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> InputCovariantVectorType;
+  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalar, SpaceDimension> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalar, SpaceDimension> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, SpaceDimension> InputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, SpaceDimension> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point <TScalar, itkGetStaticConstMacro( SpaceDimension )> InputPointType;
-  typedef Point <TScalar, itkGetStaticConstMacro( SpaceDimension )> OutputPointType;
+  typedef Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> InputPointType;
+  typedef Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> OutputPointType;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
@@ -128,7 +130,7 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  virtual void SetFixedParameters( const ParametersType & parameters ) ITK_OVERRIDE = 0;
+  virtual void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE = 0;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
@@ -162,7 +164,7 @@ public:
   virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Get the Transformation Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType           ParametersValueType;
@@ -201,7 +203,7 @@ public:
    * a converion to member variables for use in TransformPoint.
    * Derived classes should override to provide specialized behavior.
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 ) ITK_OVERRIDE;
+  virtual void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Typedefs for specifying the extent of the grid. */
   typedef ImageRegion<itkGetStaticConstMacro( SpaceDimension )> RegionType;

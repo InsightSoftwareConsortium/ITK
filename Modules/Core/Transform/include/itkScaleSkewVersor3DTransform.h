@@ -50,17 +50,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
-// Data type for scalars:float or double
+template<typename TParametersValueType=double>
 class ScaleSkewVersor3DTransform :
-  public VersorRigid3DTransform< TScalar >
+  public VersorRigid3DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef ScaleSkewVersor3DTransform        Self;
-  typedef VersorRigid3DTransform< TScalar > Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  typedef ScaleSkewVersor3DTransform                   Self;
+  typedef VersorRigid3DTransform<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -75,6 +74,7 @@ public:
 
   /** Parameters Type   */
   typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
   typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::ScalarType                ScalarType;
   typedef typename Superclass::InputPointType            InputPointType;
@@ -96,15 +96,15 @@ public:
   typedef typename Superclass::AngleType  AngleType;
 
   /** Scale & Skew Vector Type. */
-  typedef Vector<TScalar, 3> ScaleVectorType;
-  typedef Vector<TScalar, 6> SkewVectorType;
+  typedef Vector<TParametersValueType, 3> ScaleVectorType;
+  typedef Vector<TParametersValueType, 6> SkewVectorType;
 
   typedef typename ScaleVectorType::ValueType ScaleVectorValueType;
   typedef typename SkewVectorType::ValueType  SkewVectorValueType;
   typedef typename TranslationType::ValueType TranslationValueType;
 
-  typedef typename Superclass::AxisValueType      AxisValueType;
-  typedef typename Superclass::ParameterValueType ParameterValueType;
+  typedef typename Superclass::AxisValueType       AxisValueType;
+  typedef typename Superclass::ParametersValueType ParametersValueType;
 
   /** Directly set the matrix of the transform.
    *

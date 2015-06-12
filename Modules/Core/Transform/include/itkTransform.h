@@ -60,7 +60,7 @@ namespace itk
  *   virtual OutputVnlVectorType       TransformVector(const InputVnlVectorType &) const<br>
  *   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const<br>
  *   virtual void                      SetParameters(const ParametersType &)<br>
- *   virtual void                      SetFixedParameters(const ParametersType &)<br>
+ *   virtual void                      SetFixedParameters(const FixedParametersType &)<br>
  *   virtual void                      ComputeJacobianWithRespectToParameters(
  *                                                             const InputPointType &,
  *                                                             JacobianType &) const<br>
@@ -76,17 +76,17 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TScalar,
+template<typename TParametersValueType,
           unsigned int NInputDimensions = 3,
           unsigned int NOutputDimensions = 3>
-class Transform : public TransformBaseTemplate< TScalar >
+class Transform : public TransformBaseTemplate<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Transform                        Self;
-  typedef TransformBaseTemplate< TScalar > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  typedef Transform                                   Self;
+  typedef TransformBaseTemplate<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Transform, TransformBaseTemplate);
@@ -110,59 +110,60 @@ public:
     return NOutputDimensions;
   }
 
-  /** Type of the scalar representing coordinate and vector elements. */
-  typedef  TScalar ScalarType;
-
   /** Type of the input parameters. */
-  typedef  typename Superclass::ParametersType      ParametersType;
-  typedef  typename Superclass::ParametersValueType ParametersValueType;
-  typedef  Array<ParametersValueType>               DerivativeType;
+  typedef  typename Superclass::FixedParametersType      FixedParametersType;
+  typedef  typename Superclass::FixedParametersValueType FixedParametersValueType;
+  typedef  typename Superclass::ParametersType           ParametersType;
+  typedef  typename Superclass::ParametersValueType      ParametersValueType;
+  typedef  Array<ParametersValueType>                    DerivativeType;
+
+  /** Type of the scalar representing coordinate and vector elements. */
+  typedef  ParametersValueType ScalarType;
 
   /** Type of the Jacobian matrix. */
   typedef  Array2D<ParametersValueType> JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalar, NInputDimensions>  InputVectorType;
-  typedef Vector<TScalar, NOutputDimensions> OutputVectorType;
+  typedef Vector<TParametersValueType, NInputDimensions>  InputVectorType;
+  typedef Vector<TParametersValueType, NOutputDimensions> OutputVectorType;
 
   /** Standard variable length vector type for this class
    *  this provides an interface for the VectorImage class */
-  typedef VariableLengthVector<TScalar> InputVectorPixelType;
-  typedef VariableLengthVector<TScalar> OutputVectorPixelType;
+  typedef VariableLengthVector<TParametersValueType> InputVectorPixelType;
+  typedef VariableLengthVector<TParametersValueType> OutputVectorPixelType;
 
   /* Standard symmetric second rank tenosr type for this class */
-  typedef SymmetricSecondRankTensor<TScalar,NInputDimensions>
+  typedef SymmetricSecondRankTensor<TParametersValueType,NInputDimensions>
     InputSymmetricSecondRankTensorType;
-  typedef SymmetricSecondRankTensor<TScalar,NOutputDimensions>
+  typedef SymmetricSecondRankTensor<TParametersValueType,NOutputDimensions>
     OutputSymmetricSecondRankTensorType;
 
   /* Standard tensor type for this class */
-  typedef DiffusionTensor3D<TScalar> InputDiffusionTensor3DType;
-  typedef DiffusionTensor3D<TScalar> OutputDiffusionTensor3DType;
+  typedef DiffusionTensor3D<TParametersValueType> InputDiffusionTensor3DType;
+  typedef DiffusionTensor3D<TParametersValueType> OutputDiffusionTensor3DType;
 
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TScalar, NInputDimensions>
+  typedef CovariantVector<TParametersValueType, NInputDimensions>
   InputCovariantVectorType;
-  typedef CovariantVector<TScalar, NOutputDimensions>
+  typedef CovariantVector<TParametersValueType, NOutputDimensions>
   OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalar, NInputDimensions>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalar, NOutputDimensions> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, NInputDimensions>  InputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, NOutputDimensions> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class */
-  typedef Point<TScalar, NInputDimensions>  InputPointType;
-  typedef Point<TScalar, NOutputDimensions> OutputPointType;
+  typedef Point<TParametersValueType, NInputDimensions>  InputPointType;
+  typedef Point<TParametersValueType, NOutputDimensions> OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  typedef Transform<
-    TScalar, NOutputDimensions, NInputDimensions> InverseTransformBaseType;
+  typedef Transform<TParametersValueType,
+                     NOutputDimensions, NInputDimensions> InverseTransformBaseType;
 
-  typedef typename InverseTransformBaseType::Pointer
-  InverseTransformBasePointer;
+  typedef typename InverseTransformBaseType::Pointer InverseTransformBasePointer;
 
-  typedef Matrix<TScalar,
+  typedef Matrix<TParametersValueType,
                  itkGetStaticConstMacro(OutputSpaceDimension),
                  itkGetStaticConstMacro(InputSpaceDimension)>     MatrixType;
 
@@ -367,8 +368,8 @@ public:
     * The range of values must conform to std::copy(begin, end, m_FixedParameters)
     * requirements.
     */
-  virtual void CopyInFixedParameters(const ParametersValueType * const begin,
-                                     const ParametersValueType * const end) ITK_OVERRIDE;
+  virtual void CopyInFixedParameters(const FixedParametersValueType * const begin,
+                                     const FixedParametersValueType * const end) ITK_OVERRIDE;
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE
@@ -377,10 +378,10 @@ public:
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE = 0;
+  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE = 0;
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters(void) const ITK_OVERRIDE
+  virtual const FixedParametersType & GetFixedParameters(void) const ITK_OVERRIDE
   {
     return m_FixedParameters;
   }
@@ -392,7 +393,8 @@ public:
    * SetParameters is called at the end of this method, to allow the transform
    * to perform any required operations on the updated parameters - typically
    * a conversion to member variables for use in TransformPoint. */
-  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update,
+                                          ParametersValueType factor = 1.0 );
 
   /** Return the number of local parameters that completely defines the
    *  Transform at an individual voxel.
@@ -559,8 +561,8 @@ protected:
   {
   }
 
-  mutable ParametersType m_Parameters;
-  mutable ParametersType m_FixedParameters;
+  mutable ParametersType      m_Parameters;
+  mutable FixedParametersType m_FixedParameters;
 
   OutputDiffusionTensor3DType PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(
     const InputDiffusionTensor3DType, const JacobianType ) const;

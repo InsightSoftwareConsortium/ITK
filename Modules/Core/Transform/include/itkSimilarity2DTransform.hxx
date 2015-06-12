@@ -24,16 +24,16 @@
 namespace itk
 {
 
-template <typename TScalar>
-Similarity2DTransform<TScalar>
+template<typename TParametersValueType>
+Similarity2DTransform<TParametersValueType>
 ::Similarity2DTransform() : Superclass(ParametersDimension)
 {
   m_Scale = 1.0f;
 }
 
 
-template <typename TScalar>
-Similarity2DTransform<TScalar>
+template<typename TParametersValueType>
+Similarity2DTransform<TParametersValueType>
 ::Similarity2DTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
@@ -41,8 +41,8 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
-Similarity2DTransform<TScalar>
+template<typename TParametersValueType>
+Similarity2DTransform<TParametersValueType>
 ::Similarity2DTransform(unsigned int , unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
@@ -50,9 +50,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
@@ -64,11 +64,11 @@ Similarity2DTransform<TScalar>
     }
 
   // Set scale
-  const TScalar scale = parameters[0];
+  const TParametersValueType scale = parameters[0];
   this->SetVarScale(scale);
 
   // Set angle
-  const TScalar angle = parameters[1];
+  const TParametersValueType angle = parameters[1];
   this->SetVarAngle(angle);
 
   // Set translation
@@ -90,9 +90,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
-const typename Similarity2DTransform<TScalar>::ParametersType &
-Similarity2DTransform<TScalar>
+template<typename TParametersValueType>
+const typename Similarity2DTransform<TParametersValueType>::ParametersType &
+Similarity2DTransform<TParametersValueType>
 ::GetParameters() const
 {
   itkDebugMacro(<< "Getting parameters ");
@@ -113,9 +113,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::SetScale(ScaleType scale)
 {
   m_Scale = scale;
@@ -124,9 +124,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::ComputeMatrix()
 {
   const double angle = this->GetAngle();
@@ -146,9 +146,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::ComputeMatrixParameters()
 {
   m_Scale = std::sqrt( vnl_math_sqr(this->GetMatrix()[0][0])
@@ -168,9 +168,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const double angle = this->GetAngle();
@@ -202,19 +202,19 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::SetIdentity()
 {
   this->Superclass::SetIdentity();
-  m_Scale = static_cast<TScalar>( 1.0f );
+  m_Scale = static_cast<TParametersValueType>( 1.0f );
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -222,9 +222,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::CloneInverseTo(Pointer & result) const
 {
   result = New();
@@ -232,9 +232,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 bool
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::GetInverse(Self *inverse) const
 {
   if( !inverse )
@@ -252,9 +252,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
-typename Similarity2DTransform<TScalar>::InverseTransformBasePointer
-Similarity2DTransform<TScalar>
+template<typename TParametersValueType>
+typename Similarity2DTransform<TParametersValueType>::InverseTransformBasePointer
+Similarity2DTransform<TParametersValueType>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
@@ -267,9 +267,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>::CloneTo(Pointer & result) const
+Similarity2DTransform<TParametersValueType>::CloneTo(Pointer & result) const
 {
   result = New();
   result->SetCenter( this->GetCenter() );
@@ -279,9 +279,9 @@ Similarity2DTransform<TScalar>::CloneTo(Pointer & result) const
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix)
 {
   const double tolerance = 1e-10;
@@ -289,9 +289,9 @@ Similarity2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity2DTransform<TScalar>
+Similarity2DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix, double tolerance)
 {
   itkDebugMacro("setting  m_Matrix  to " << matrix);

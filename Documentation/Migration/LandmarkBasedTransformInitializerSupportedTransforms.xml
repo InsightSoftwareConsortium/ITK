@@ -60,20 +60,20 @@
     <SampleCode>
       <Old>
         <![CDATA[
-          typedef VersorRigid3DTransform< ParameterValueType >                          VersorRigid3DTransformType;
-          typedef Rigid2DTransform< ParameterValueType >                                Rigid2DTransformType;
-          typedef AffineTransform< ParameterValueType, FixedImageType::ImageDimension > AffineTransformType;
+          typedef VersorRigid3DTransform< ParametersValueType >                          VersorRigid3DTransformType;
+          typedef Rigid2DTransform< ParametersValueType >                                Rigid2DTransformType;
+          typedef AffineTransform< ParametersValueType, FixedImageType::ImageDimension > AffineTransformType;
         ]]>
       </Old>
 
       <New>
         <![CDATA[
-          typedef VersorRigid3DTransform< ParameterValueType >                          VersorRigid3DTransformType;
-          typedef Rigid2DTransform< ParameterValueType >                                Rigid2DTransformType;
-          typedef AffineTransform< ParameterValueType, FixedImageType::ImageDimension > AffineTransformType;
+          typedef VersorRigid3DTransform< ParametersValueType >                          VersorRigid3DTransformType;
+          typedef Rigid2DTransform< ParametersValueType >                                Rigid2DTransformType;
+          typedef AffineTransform< ParametersValueType, FixedImageType::ImageDimension > AffineTransformType;
 
           const static unsigned int SplineOrder = 3;
-          typedef itk::BSplineTransform< ParameterValueType,
+          typedef itk::BSplineTransform< ParametersValueType,
                                          FixedImageType::ImageDimension,
                                          SplineOrder>                                   BSplineTransformType;
         ]]>

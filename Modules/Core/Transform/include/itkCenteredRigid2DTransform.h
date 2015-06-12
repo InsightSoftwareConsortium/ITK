@@ -48,16 +48,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
+template<typename TParametersValueType=double>
 class CenteredRigid2DTransform :
-  public Rigid2DTransform< TScalar >
+  public Rigid2DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef CenteredRigid2DTransform    Self;
-  typedef Rigid2DTransform< TScalar > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef CenteredRigid2DTransform               Self;
+  typedef Rigid2DTransform<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -70,12 +70,12 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
   itkStaticConstMacro(ParametersDimension, unsigned int, 5);
 
-  /** Data type for scalars. */
-  typedef typename Superclass::ScalarType ScalarType;
-
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::ParametersValueType ParametersValueType;
+  typedef typename Superclass::ScalarType               ScalarType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -135,11 +135,11 @@ public:
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
-  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE;
+  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
 
   /** Get the Fixed Parameters. An empty array is returned
    * as there are no fixed parameters. */
-  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object

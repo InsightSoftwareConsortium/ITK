@@ -44,17 +44,17 @@ namespace itk
   *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
   * \ingroup ITKIOMINC
   */
-template < class TScalarType=double, unsigned int NInputDimensions=3,unsigned int NOutputDimensions=3>
-  class MINCTransformAdapter : public Transform < TScalarType, NInputDimensions, NOutputDimensions>
+template<typename TParametersValueType=double, unsigned int NInputDimensions=3,unsigned int NOutputDimensions=3>
+  class MINCTransformAdapter : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
   /** Standard class typedefs. */
   typedef MINCTransformAdapter  Self;
 
-  typedef Transform < TScalarType, NInputDimensions, NOutputDimensions> Superclass;
+  typedef Transform<TParametersValueType, NInputDimensions, NOutputDimensions> Superclass;
 
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
 
@@ -72,32 +72,33 @@ public:
   typedef  double ScalarType;
 
   /** Type of the input parameters. */
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::ParametersType      ParametersType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
 
   /** Type of the Jacobian matrix. */
   typedef typename Superclass::JacobianType  JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
 
   /** Standard variable length vector type for this class
   *  this provides an interface for the VectorImage class */
-  typedef VariableLengthVector<TScalarType> InputVectorPixelType;
-  typedef VariableLengthVector<TScalarType> OutputVectorPixelType;
+  typedef VariableLengthVector<TParametersValueType> InputVectorPixelType;
+  typedef VariableLengthVector<TParametersValueType> OutputVectorPixelType;
 
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)>  InputCovariantVectorType;
+  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>  InputCovariantVectorType;
 
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
+  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
 
   /** Standard coordinate point type for this class */
-  typedef Point<TScalarType,NInputDimensions > InputPointType;
-  typedef Point<TScalarType,NInputDimensions > OutputPointType;
+  typedef Point<TParametersValueType,NInputDimensions > InputPointType;
+  typedef Point<TParametersValueType,NInputDimensions > OutputPointType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, NInputDimensions>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, NOutputDimensions> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, NInputDimensions>  InputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, NOutputDimensions> OutputVnlVectorType;
 
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  &point ) const ITK_OVERRIDE
@@ -224,7 +225,7 @@ public:
     cleanup();
   }
 
-  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
+  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
   }
@@ -278,7 +279,7 @@ public:
 
 protected:
   MINCTransformAdapter():
-    Transform< TScalarType, NInputDimensions, NOutputDimensions>(0),
+    Transform<TParametersValueType, NInputDimensions, NOutputDimensions>(0),
     m_Invert(false),
     m_Initialized(false),
     m_Initialized_invert(false)

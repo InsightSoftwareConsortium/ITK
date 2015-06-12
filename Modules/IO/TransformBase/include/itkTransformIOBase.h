@@ -42,21 +42,25 @@ namespace itk
  *
  * \ingroup ITKIOTransformBase
  */
-template<typename TScalar>
+template<typename TParametersValueType>
 class TransformIOBaseTemplate:public LightProcessObject
 {
 public:
   /** Standard class typedefs */
-  typedef TransformIOBaseTemplate   Self;
-  typedef LightProcessObject        Superclass;
-  typedef SmartPointer< Self >      Pointer;
+  typedef TransformIOBaseTemplate Self;
+  typedef LightProcessObject      Superclass;
+  typedef SmartPointer<Self>      Pointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformIOBaseTemplate, Superclass);
 
   /** Transform types */
-  typedef TScalar                           ScalarType;
-  typedef TransformBaseTemplate<ScalarType> TransformType;
+  typedef TParametersValueType              ScalarType; //For backwards compatibility
+  typedef TParametersValueType              ParametersValueType;
+  typedef double                            FixedParametersValueType;
+
+  typedef TransformBaseTemplate<ParametersValueType> TransformType;
+
   /** For writing, a const transform list gets passed in, for
    * reading, a non-const transform list is created from the file.
    */
