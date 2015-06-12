@@ -76,18 +76,17 @@ namespace itk
  * \wikiexample{Utilities/AzimuthElevationToCartesianTransform,Cartesian to AzimuthElevation and vice-versa}
  * \endwiki
  */
-template< typename TScalar = float,  // Data type for scalars
-          unsigned int NDimensions = 3 >
-// (e.g. float or double)
+template<typename TParametersValueType=double,
+         unsigned int NDimensions = 3>
 class AzimuthElevationToCartesianTransform:
-  public AffineTransform< TScalar, NDimensions >
+  public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard class typedefs.   */
-  typedef AzimuthElevationToCartesianTransform     Self;
-  typedef AffineTransform<  TScalar, NDimensions > Superclass;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
+  typedef AzimuthElevationToCartesianTransform               Self;
+  typedef AffineTransform<TParametersValueType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                 Pointer;
+  typedef SmartPointer<const Self>                           ConstPointer;
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
@@ -101,7 +100,8 @@ public:
   itkNewMacro(Self);
 
   /** Parameters type.   */
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::ParametersType      ParametersType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
 
   /** Jacobian type.   */
   typedef typename Superclass::JacobianType JacobianType;
@@ -114,7 +114,7 @@ public:
   typedef  typename Superclass::OutputPointType OutputPointType;
 
   /** Standard matrix type for this class.   */
-  typedef Matrix< TScalar, itkGetStaticConstMacro(SpaceDimension),
+  typedef Matrix< TParametersValueType, itkGetStaticConstMacro(SpaceDimension),
                   itkGetStaticConstMacro(SpaceDimension) > MatrixType;
 
   /** Set the transformation parameters. */

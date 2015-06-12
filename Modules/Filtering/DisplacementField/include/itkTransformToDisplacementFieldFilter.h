@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ITKDisplacementField
  */
 template< typename TOutputImage,
-          typename TScalar = double >
+          typename TParametersValueType = double>
 class TransformToDisplacementFieldFilter:
   public ImageSource< TOutputImage >
 {
@@ -60,8 +60,8 @@ public:
   /** Standard class typedefs. */
   typedef TransformToDisplacementFieldFilter Self;
   typedef ImageSource< TOutputImage >        Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
 
   typedef TOutputImage                           OutputImageType;
   typedef typename OutputImageType::RegionType   OutputImageRegionType;
@@ -76,8 +76,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** Typedefs for transform. */
-  typedef Transform< TScalar, ImageDimension, ImageDimension >  TransformType;
-  typedef DataObjectDecorator< TransformType >                  TransformInputType;
+  typedef Transform<TParametersValueType, ImageDimension, ImageDimension> TransformType;
+  typedef DataObjectDecorator< TransformType >                            TransformInputType;
 
   /** Typedefs for output image. */
   typedef typename OutputImageType::PixelType     PixelType;

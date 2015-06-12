@@ -23,42 +23,42 @@
 namespace itk
 {
 // Constructor with default arguments
-template< typename TScalar >
-Rigid3DTransform< TScalar >::Rigid3DTransform():
+template<typename TParametersValueType>
+Rigid3DTransform<TParametersValueType>::Rigid3DTransform():
   Superclass(ParametersDimension)
 {}
 
 // Constructor with default arguments
-template< typename TScalar >
-Rigid3DTransform< TScalar >::Rigid3DTransform(unsigned int paramDim):
+template<typename TParametersValueType>
+Rigid3DTransform<TParametersValueType>::Rigid3DTransform(unsigned int paramDim):
   Superclass(paramDim)
 {}
 
 // Constructor with default arguments
-template< typename TScalar >
-Rigid3DTransform< TScalar >::Rigid3DTransform(const MatrixType & matrix,
+template<typename TParametersValueType>
+Rigid3DTransform<TParametersValueType>::Rigid3DTransform(const MatrixType & matrix,
                                                   const OutputVectorType & offset):
   Superclass(matrix, offset)
 {}
 
 // Destructor
-template< typename TScalar >
-Rigid3DTransform< TScalar >::
+template<typename TParametersValueType>
+Rigid3DTransform<TParametersValueType>::
 ~Rigid3DTransform()
 {}
 
 // Print self
-template< typename TScalar >
+template<typename TParametersValueType>
 void
-Rigid3DTransform< TScalar >::PrintSelf(std::ostream & os, Indent indent) const
+Rigid3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 // Check if input matrix is orthogonal to within tolerance
-template< typename TScalar >
+template<typename TParametersValueType>
 bool
-Rigid3DTransform< TScalar >
+Rigid3DTransform<TParametersValueType>
 ::MatrixIsOrthogonal(
   const MatrixType & matrix,
   double tolerance)
@@ -75,18 +75,18 @@ Rigid3DTransform< TScalar >
 }
 
 // Directly set the rotation matrix
-template< typename TScalar >
+template<typename TParametersValueType>
 void
-Rigid3DTransform< TScalar >
+Rigid3DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix)
 {
   const double tolerance = 1e-10;
   this->SetMatrix( matrix, tolerance );
 }
 
-template< typename TScalar >
+template<typename TParametersValueType>
 void
-Rigid3DTransform< TScalar >
+Rigid3DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix, double tolerance)
 {
   if ( !this->MatrixIsOrthogonal(matrix, tolerance) )
@@ -98,9 +98,9 @@ Rigid3DTransform< TScalar >
 }
 
 // Set optimizable parameters from array
-template< typename TScalar >
+template<typename TParametersValueType>
 void
-Rigid3DTransform< TScalar >
+Rigid3DTransform<TParametersValueType>
 ::SetParameters(const ParametersType & parameters)
 {
   //Save parameters. Needed for proper operation of TransformUpdateParameters.
@@ -147,9 +147,9 @@ Rigid3DTransform< TScalar >
 }
 
 // Compose with a translation
-template< typename TScalar >
+template<typename TParametersValueType>
 void
-Rigid3DTransform< TScalar >::Translate(const OffsetType & offset, bool)
+Rigid3DTransform<TParametersValueType>::Translate(const OffsetType & offset, bool)
 {
   OutputVectorType newOffset = this->GetOffset();
 
@@ -160,31 +160,31 @@ Rigid3DTransform< TScalar >::Translate(const OffsetType & offset, bool)
 
 #ifdef ITKV3_COMPATIBILITY
 #if !defined(ITK_LEGACY_REMOVE)
-template< typename TScalar >
+template<typename TParametersValueType>
 bool
-Rigid3DTransform< TScalar >::GetInverse(Self *inverse) const
+Rigid3DTransform<TParametersValueType>::GetInverse(Self *inverse) const
 {
   return this->Superclass::GetInverse(inverse);
 }
 
-template< typename TScalar >
-typename Rigid3DTransform< TScalar >::InverseTransformBasePointer
-Rigid3DTransform< TScalar >::GetInverseTransform() const
+template<typename TParametersValueType>
+typename Rigid3DTransform<TParametersValueType>::InverseTransformBasePointer
+Rigid3DTransform<TParametersValueType>::GetInverseTransform() const
 {
   Pointer inv = New();
   return this->GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
 }
 
-template< typename TScalar >
-const typename Rigid3DTransform< TScalar >::MatrixType &
-Rigid3DTransform< TScalar >::GetRotationMatrix() const
+template<typename TParametersValueType>
+const typename Rigid3DTransform<TParametersValueType>::MatrixType &
+Rigid3DTransform<TParametersValueType>::GetRotationMatrix() const
 {
   return this->GetMatrix();
 }
 
-template< typename TScalar >
+template<typename TParametersValueType>
 void
-Rigid3DTransform< TScalar >::SetRotationMatrix(const MatrixType & matrix)
+Rigid3DTransform<TParametersValueType>::SetRotationMatrix(const MatrixType & matrix)
 {
   this->SetMatrix(matrix);
 }
@@ -193,9 +193,9 @@ Rigid3DTransform< TScalar >::SetRotationMatrix(const MatrixType & matrix)
 
 #if !defined(ITK_LEGACY_REMOVE)
 // Back transform a point
-template< typename TScalar >
-typename Rigid3DTransform< TScalar >::InputPointType
-Rigid3DTransform< TScalar >::BackTransform(const OutputPointType & point) const
+template<typename TParametersValueType>
+typename Rigid3DTransform<TParametersValueType>::InputPointType
+Rigid3DTransform<TParametersValueType>::BackTransform(const OutputPointType & point) const
 {
   itkWarningMacro(
     << "BackTransform(): This method is slated to be removed from ITK."
@@ -205,9 +205,9 @@ Rigid3DTransform< TScalar >::BackTransform(const OutputPointType & point) const
 }
 
 // Back transform a vector
-template< typename TScalar >
-typename Rigid3DTransform< TScalar >::InputVectorType
-Rigid3DTransform< TScalar >::BackTransform(const OutputVectorType & vect) const
+template<typename TParametersValueType>
+typename Rigid3DTransform<TParametersValueType>::InputVectorType
+Rigid3DTransform<TParametersValueType>::BackTransform(const OutputVectorType & vect) const
 {
   itkWarningMacro(
     << "BackTransform(): This method is slated to be removed from ITK."
@@ -217,9 +217,9 @@ Rigid3DTransform< TScalar >::BackTransform(const OutputVectorType & vect) const
 }
 
 // Back transform a vnl_vector
-template< typename TScalar >
-typename Rigid3DTransform< TScalar >::InputVnlVectorType
-Rigid3DTransform< TScalar >::BackTransform(const OutputVnlVectorType & vect) const
+template<typename TParametersValueType>
+typename Rigid3DTransform<TParametersValueType>::InputVnlVectorType
+Rigid3DTransform<TParametersValueType>::BackTransform(const OutputVnlVectorType & vect) const
 {
   itkWarningMacro(
     << "BackTransform(): This method is slated to be removed from ITK."
@@ -229,9 +229,9 @@ Rigid3DTransform< TScalar >::BackTransform(const OutputVnlVectorType & vect) con
 }
 
 // Back Transform a CovariantVector
-template< typename TScalar >
-typename Rigid3DTransform< TScalar >::InputCovariantVectorType
-Rigid3DTransform< TScalar >::BackTransform(const OutputCovariantVectorType & vect) const
+template<typename TParametersValueType>
+typename Rigid3DTransform<TParametersValueType>::InputCovariantVectorType
+Rigid3DTransform<TParametersValueType>::BackTransform(const OutputCovariantVectorType & vect) const
 {
   itkWarningMacro(
     << "BackTransform(): This method is slated to be removed from ITK."

@@ -43,16 +43,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
-// Data type for scalars (float or double)
-class VersorTransform : public Rigid3DTransform< TScalar >
+template<typename TParametersValueType=double>
+class VersorTransform : public Rigid3DTransform<TParametersValueType>
 {
 public:
   /** Standard Self Typedef */
-  typedef VersorTransform             Self;
-  typedef Rigid3DTransform< TScalar > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef VersorTransform                        Self;
+  typedef Rigid3DTransform<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   /** Run-time type information (and related methods).  */
   itkTypeMacro(VersorTransform, Rigid3DTransform);
@@ -67,9 +66,10 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, 3);
 
   /** Parameters Type   */
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::ScalarType                ScalarType;
+  typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
+  typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::InputPointType            InputPointType;
   typedef typename Superclass::OutputPointType           OutputPointType;
   typedef typename Superclass::InputVectorType           InputVectorType;
@@ -84,14 +84,14 @@ public:
   typedef typename Superclass::OffsetType                OffsetType;
 
   /** VnlQuaternion Type */
-  typedef vnl_quaternion< TScalar > VnlQuaternionType;
+  typedef vnl_quaternion<TParametersValueType> VnlQuaternionType;
 
   /** Versor Type */
-  typedef Versor< TScalar >                  VersorType;
+  typedef Versor<TParametersValueType>       VersorType;
   typedef typename VersorType::VectorType    AxisType;
   typedef typename VersorType::ValueType     AngleType;
   typedef typename AxisType::ValueType       AxisValueType;
-  typedef typename ParametersType::ValueType ParameterValueType;
+  typedef typename ParametersType::ValueType ParametersValueType;
 
   /**
    * Set the transformation from a container of parameters

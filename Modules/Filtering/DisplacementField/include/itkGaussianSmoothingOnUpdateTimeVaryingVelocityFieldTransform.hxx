@@ -31,8 +31,8 @@
 namespace itk
 {
 
-template<typename TScalar, unsigned int NDimensions>
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 ::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() :
   m_GaussianSmoothingTempFieldModifiedTime(0),
   m_GaussianSpatialSmoothingVarianceForTheUpdateField(3.0),
@@ -42,15 +42,15 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 {
 }
 
-template<typename TScalar, unsigned int NDimensions>
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>::
+template<typename TParametersValueType, unsigned int NDimensions>
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
 ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform()
 {
 }
 
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
   TimeVaryingVelocityFieldPointer velocityField = this->GetModifiableVelocityField();
@@ -132,9 +132,9 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   this->IntegrateVelocityField();
 }
 
-template<typename TScalar, unsigned int NDimensions>
-typename GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>::TimeVaryingVelocityFieldPointer
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+typename GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::TimeVaryingVelocityFieldPointer
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 ::GaussianSmoothTimeVaryingVelocityField( VelocityFieldType *field, ScalarType spatialVariance, ScalarType temporalVariance )
 {
   if( spatialVariance <= 0.0 && temporalVariance <= 0.0 )
@@ -226,9 +226,9 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   return field;
 }
 
-template <typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>::
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
 PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os,indent );

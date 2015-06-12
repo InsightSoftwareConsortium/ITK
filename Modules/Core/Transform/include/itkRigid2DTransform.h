@@ -52,19 +52,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
-// Data type for scalars (float or double)
+template<typename TParametersValueType=double>
 class Rigid2DTransform :
-  public MatrixOffsetTransformBase< TScalar, 2, 2 >        // Dimensions of
-                                                             // input and output
-                                                             // spaces
+  public MatrixOffsetTransformBase<TParametersValueType, 2, 2>
 {
 public:
   /** Standard class typedefs. */
-  typedef Rigid2DTransform                           Self;
-  typedef MatrixOffsetTransformBase< TScalar, 2, 2 > Superclass;
-  typedef SmartPointer< Self >                       Pointer;
-  typedef SmartPointer< const Self >                 ConstPointer;
+  typedef Rigid2DTransform                                      Self;
+  typedef MatrixOffsetTransformBase<TParametersValueType, 2, 2> Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Rigid2DTransform, MatrixOffsetTransformBase);
@@ -81,8 +78,10 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::ParametersValueType ParametersValueType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -171,21 +170,21 @@ public:
   inline InputCovariantVectorType BackTransform(const OutputCovariantVectorType & vector) const;
 
   /** Set/Get the angle of rotation in radians */
-  void SetAngle(TScalar angle);
+  void SetAngle(TParametersValueType angle);
 
-  itkGetConstReferenceMacro(Angle, TScalar);
+  itkGetConstReferenceMacro(Angle, TParametersValueType);
 
   /** Set the angle of rotation in degrees. */
-  void SetAngleInDegrees(TScalar angle);
+  void SetAngleInDegrees(TParametersValueType angle);
 
   /** Set/Get the angle of rotation in radians. These methods
    * are old and are retained for backward compatibility.
    * Instead, use SetAngle() and GetAngle(). */
-  void SetRotation(TScalar angle)
+  void SetRotation(TParametersValueType angle)
   {
     this->SetAngle(angle);
   }
-  virtual const TScalar & GetRotation() const
+  virtual const TParametersValueType & GetRotation() const
   {
     return m_Angle;
   }
@@ -270,7 +269,7 @@ protected:
   virtual void ComputeMatrixParameters() ITK_OVERRIDE;
 
   /** Update angle without recomputation of other internal variables. */
-  void SetVarAngle(TScalar angle)
+  void SetVarAngle(TParametersValueType angle)
   {
     m_Angle = angle;
   }
@@ -279,15 +278,15 @@ private:
   Rigid2DTransform(const Self &); // purposely not implemented
   void operator=(const Self &);   // purposely not implemented
 
-  TScalar m_Angle;
+  TParametersValueType m_Angle;
 
 }; // class Rigid2DTransform
 
 // Back transform a point
-template <typename TScalar>
+template<typename TParametersValueType>
 inline
-typename Rigid2DTransform<TScalar>::InputPointType
-Rigid2DTransform<TScalar>::BackTransform(const OutputPointType & point) const
+typename Rigid2DTransform<TParametersValueType>::InputPointType
+Rigid2DTransform<TParametersValueType>::BackTransform(const OutputPointType & point) const
 {
   itkWarningMacro(
     <<
@@ -297,10 +296,10 @@ Rigid2DTransform<TScalar>::BackTransform(const OutputPointType & point) const
 }
 
 // Back transform a vector
-template <typename TScalar>
+template<typename TParametersValueType>
 inline
-typename Rigid2DTransform<TScalar>::InputVectorType
-Rigid2DTransform<TScalar>::BackTransform(const OutputVectorType & vect) const
+typename Rigid2DTransform<TParametersValueType>::InputVectorType
+Rigid2DTransform<TParametersValueType>::BackTransform(const OutputVectorType & vect) const
 {
   itkWarningMacro(
     <<
@@ -310,10 +309,10 @@ Rigid2DTransform<TScalar>::BackTransform(const OutputVectorType & vect) const
 }
 
 // Back transform a vnl_vector
-template <typename TScalar>
+template<typename TParametersValueType>
 inline
-typename Rigid2DTransform<TScalar>::InputVnlVectorType
-Rigid2DTransform<TScalar>::BackTransform(const OutputVnlVectorType & vect) const
+typename Rigid2DTransform<TParametersValueType>::InputVnlVectorType
+Rigid2DTransform<TParametersValueType>::BackTransform(const OutputVnlVectorType & vect) const
 {
   itkWarningMacro(
     <<
@@ -323,10 +322,10 @@ Rigid2DTransform<TScalar>::BackTransform(const OutputVnlVectorType & vect) const
 }
 
 // Back Transform a CovariantVector
-template <typename TScalar>
+template<typename TParametersValueType>
 inline
-typename Rigid2DTransform<TScalar>::InputCovariantVectorType
-Rigid2DTransform<TScalar>::BackTransform(const OutputCovariantVectorType & vect) const
+typename Rigid2DTransform<TParametersValueType>::InputCovariantVectorType
+Rigid2DTransform<TParametersValueType>::BackTransform(const OutputCovariantVectorType & vect) const
 {
   itkWarningMacro(
     <<

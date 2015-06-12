@@ -23,32 +23,32 @@
 namespace itk
 {
 // Constructor with default arguments
-template <typename TScalar>
-VersorRigid3DTransform<TScalar>
+template<typename TParametersValueType>
+VersorRigid3DTransform<TParametersValueType>
 ::VersorRigid3DTransform() :
   Superclass(ParametersDimension)
 {
 }
 
 // Constructor with arguments
-template <typename TScalar>
-VersorRigid3DTransform<TScalar>::VersorRigid3DTransform(unsigned int paramDim) :
+template<typename TParametersValueType>
+VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(unsigned int paramDim) :
   Superclass(paramDim)
 {
 }
 
 // Constructor with arguments
-template <typename TScalar>
-VersorRigid3DTransform<TScalar>::VersorRigid3DTransform(const MatrixType & matrix,
+template<typename TParametersValueType>
+VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(const MatrixType & matrix,
                                                             const OutputVectorType & offset) :
   Superclass(matrix, offset)
 {
 }
 
 // Set Parameters
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-VersorRigid3DTransform<TScalar>
+VersorRigid3DTransform<TParametersValueType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
@@ -110,9 +110,9 @@ VersorRigid3DTransform<TScalar>
 // p[3:5} = translation components
 //
 
-template <typename TScalar>
-const typename VersorRigid3DTransform<TScalar>::ParametersType
-& VersorRigid3DTransform<TScalar>
+template<typename TParametersValueType>
+const typename VersorRigid3DTransform<TParametersValueType>::ParametersType
+& VersorRigid3DTransform<TParametersValueType>
 ::GetParameters(void) const
   {
   itkDebugMacro(<< "Getting parameters ");
@@ -131,10 +131,10 @@ const typename VersorRigid3DTransform<TScalar>::ParametersType
   return this->m_Parameters;
   }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-VersorRigid3DTransform<TScalar>
-::UpdateTransformParameters( const DerivativeType & update, TScalar factor )
+VersorRigid3DTransform<TParametersValueType>
+::UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor )
 {
   SizeValueType numberOfParameters = this->GetNumberOfParameters();
 
@@ -217,9 +217,9 @@ VersorRigid3DTransform<TScalar>
   this->Modified();
 }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-VersorRigid3DTransform<TScalar>
+VersorRigid3DTransform<TParametersValueType>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;
@@ -279,9 +279,9 @@ VersorRigid3DTransform<TScalar>
 }
 
 // Print self
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-VersorRigid3DTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
+VersorRigid3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

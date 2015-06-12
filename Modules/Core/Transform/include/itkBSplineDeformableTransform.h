@@ -110,17 +110,18 @@ namespace itk
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
  * \endwiki
  */
-template <typename TScalar = double, unsigned int NDimensions = 3,
+template<typename TParametersValueType=double,
+          unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
 class BSplineDeformableTransform :
-  public BSplineBaseTransform<TScalar,NDimensions,VSplineOrder>
+  public BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineDeformableTransform                             Self;
-  typedef BSplineBaseTransform<TScalar,NDimensions,VSplineOrder> Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
+  typedef BSplineDeformableTransform                                           Self;
+  typedef BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder> Superclass;
+  typedef SmartPointer<Self>                                                   Pointer;
+  typedef SmartPointer<const Self>                                             ConstPointer;
 
   /** New macro for creation of through the object factory. */
   // Explicit New() method, used here because we need to split the itkNewMacro()
@@ -151,10 +152,11 @@ public:
   itkStaticConstMacro( SplineOrder, unsigned int, VSplineOrder );
 
   /** Standard scalar type for this class. */
-  typedef typename Superclass::ScalarType ScalarType;
+  typedef TParametersValueType ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
+  typedef typename Superclass::ParametersType      ParametersType;
 
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -175,8 +177,8 @@ public:
   typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point <TScalar, itkGetStaticConstMacro( SpaceDimension )> InputPointType;
-  typedef Point <TScalar, itkGetStaticConstMacro( SpaceDimension )> OutputPointType;
+  typedef Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> InputPointType;
+  typedef Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> OutputPointType;
 
 
   /** This method sets the fixed parameters of the transform.
@@ -195,7 +197,7 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  virtual void SetFixedParameters( const ParametersType & parameters ) ITK_OVERRIDE;
+  virtual void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename Superclass::ParametersValueType   ParametersValueType;
@@ -295,7 +297,8 @@ public:
   /** Function to retrieve the transform domain mesh size. */
   itkGetConstMacro( GridRegion, RegionType );
 
-  typedef Transform<ScalarType, itkGetStaticConstMacro(SpaceDimension),
+  typedef Transform<TParametersValueType,
+                    itkGetStaticConstMacro(SpaceDimension),
                     itkGetStaticConstMacro(SpaceDimension)> BulkTransformType;
   typedef typename BulkTransformType::ConstPointer BulkTransformPointer;
   /** This method specifies the bulk transform to be applied.

@@ -27,8 +27,8 @@ namespace itk
 {
 
 
-template<typename ScalarType>
-TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+TransformFileWriterTemplate<TParametersValueType>
 ::TransformFileWriterTemplate() :
   m_FileName(""),
   m_AppendMode(false)
@@ -36,15 +36,15 @@ TransformFileWriterTemplate<ScalarType>
   TransformFactoryBase::RegisterDefaultTransforms();
 }
 
-template<typename ScalarType>
-TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+TransformFileWriterTemplate<TParametersValueType>
 ::~TransformFileWriterTemplate()
 {
 }
 
 /** Set the writer to append to the specified file */
-template<typename ScalarType>
-void TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileWriterTemplate<TParametersValueType>
 ::SetAppendOn()
 {
   this->SetAppendMode(true);
@@ -52,24 +52,24 @@ void TransformFileWriterTemplate<ScalarType>
 
 /** Set the writer to overwrite the specified file - This is the
 * default mode. */
-template<typename ScalarType>
-void TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileWriterTemplate<TParametersValueType>
 ::SetAppendOff()
 {
   this->SetAppendMode(false);
 }
 
 /** Set the writer mode (append/overwrite). */
-template<typename ScalarType>
-void TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileWriterTemplate<TParametersValueType>
 ::SetAppendMode(bool mode)
 {
   this->m_AppendMode = mode;
 }
 
 /** Get the writer mode. */
-template<typename ScalarType>
-bool TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+bool TransformFileWriterTemplate<TParametersValueType>
 ::GetAppendMode()
 {
   return ( this->m_AppendMode );
@@ -86,17 +86,17 @@ TransformFileWriterTemplate<float>
 ::PushBackTransformList(const Object *transObj);
 
 /** Set the input transform and reinitialize the list of transforms */
-template<typename ScalarType>
-void TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileWriterTemplate<TParametersValueType>
 ::SetInput(const Object *transform)
 {
   m_TransformList.clear();
   this->PushBackTransformList(transform);
 }
 
-template<typename ScalarType>
-const typename TransformFileWriterTemplate<ScalarType>::TransformType *
-TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+const typename TransformFileWriterTemplate<TParametersValueType>::TransformType *
+TransformFileWriterTemplate<TParametersValueType>
 ::GetInput()
 {
   ConstTransformPointer res = *(m_TransformList.begin());
@@ -104,8 +104,8 @@ TransformFileWriterTemplate<ScalarType>
 }
 
 /** Add a transform to be written */
-template<typename ScalarType>
-void TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileWriterTemplate<TParametersValueType>
 ::AddTransform(const Object *transform)
 {
   /* Check for a CompositeTransform.
@@ -125,8 +125,8 @@ void TransformFileWriterTemplate<ScalarType>
   this->PushBackTransformList(transform);
 }
 
-template<typename ScalarType>
-void TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileWriterTemplate<TParametersValueType>
 ::Update()
 {
   if ( m_FileName == "" )
@@ -136,7 +136,7 @@ void TransformFileWriterTemplate<ScalarType>
 
   if( m_TransformIO.IsNull() )
     {
-    typedef TransformIOFactoryTemplate< ScalarType > TransformFactoryIOType;
+    typedef TransformIOFactoryTemplate<TParametersValueType> TransformFactoryIOType;
     m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), WriteMode );
     if ( m_TransformIO.IsNull() )
       {
@@ -150,8 +150,8 @@ void TransformFileWriterTemplate<ScalarType>
   m_TransformIO->Write();
 }
 
-template<typename ScalarType>
-void TransformFileWriterTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileWriterTemplate<TParametersValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

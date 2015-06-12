@@ -110,7 +110,7 @@ BSplineTransformParametersAdaptor<TTransform>
 template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
-::SetRequiredFixedParameters( const ParametersType fixedParameters )
+::SetRequiredFixedParameters( const FixedParametersType fixedParameters )
 {
   Superclass::SetRequiredFixedParameters( fixedParameters );
 

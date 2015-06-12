@@ -50,16 +50,16 @@ namespace itk
  * \ingroup Transforms
  * \ingroup ITKDisplacementField
  */
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 class TimeVaryingVelocityFieldTransform :
-  public VelocityFieldTransform<TScalar, NDimensions>
+  public VelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef TimeVaryingVelocityFieldTransform                 Self;
-  typedef VelocityFieldTransform<TScalar, NDimensions>      Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef TimeVaryingVelocityFieldTransform                         Self;
+  typedef VelocityFieldTransform<TParametersValueType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( TimeVaryingVelocityFieldTransform, VelocityFieldTransform );
@@ -82,17 +82,19 @@ public:
   typedef typename VelocityFieldType::Pointer                       TimeVaryingVelocityFieldPointer;
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType          ScalarType;
+  typedef typename Superclass::ScalarType              ScalarType;
 
   /** Type of the input parameters. */
   typedef typename Superclass::ParametersType          ParametersType;
   typedef typename ParametersType::ValueType           ParametersValueType;
+  typedef typename Superclass::FixedParametersType     FixedParametersType;
+  typedef typename FixedParametersType::ValueType      FixedParametersValueType;
   typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
 
   /** Derivative type */
-  typedef typename Superclass::DerivativeType       DerivativeType;
+  typedef typename Superclass::DerivativeType          DerivativeType;
 
-  typedef typename Transform<TScalar,NDimensions,NDimensions>::Pointer TransformPointer;
+  typedef typename Transform<TParametersValueType,NDimensions, NDimensions>::Pointer TransformPointer;
 
   /** Get the time-varying velocity field. */
 #if ! defined ( ITK_FUTURE_LEGACY_REMOVE )

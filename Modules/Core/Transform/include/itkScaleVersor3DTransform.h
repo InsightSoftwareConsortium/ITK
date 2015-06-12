@@ -45,16 +45,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar = double >
-// Data type for scalars:float or double
-class ScaleVersor3DTransform : public VersorRigid3DTransform<TScalar>
+template<typename TParametersValueType=double>
+class ScaleVersor3DTransform : public VersorRigid3DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef ScaleVersor3DTransform            Self;
-  typedef VersorRigid3DTransform< TScalar > Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  typedef ScaleVersor3DTransform                       Self;
+  typedef VersorRigid3DTransform<TParametersValueType> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -69,6 +68,7 @@ public:
 
   /** Parameters Type   */
   typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
   typedef typename Superclass::JacobianType              JacobianType;
   typedef typename Superclass::ScalarType                ScalarType;
   typedef typename Superclass::InputPointType            InputPointType;
@@ -90,7 +90,7 @@ public:
   typedef typename Superclass::AngleType  AngleType;
 
   /** Scale Vector Type. */
-  typedef Vector<TScalar, 3> ScaleVectorType;
+  typedef Vector<TParametersValueType, 3> ScaleVectorType;
 
   /** Directly set the matrix of the transform.
    *

@@ -105,15 +105,16 @@ namespace itk
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,
  *   A global registration of two images}
  */
-template <typename TScalar = double, unsigned int NDimensions = 3,
+template<typename TParametersValueType=double,
+          unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
 class BSplineTransform :
-  public BSplineBaseTransform<TScalar,NDimensions,VSplineOrder>
+  public BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>
 {
 public:
   /** Standard class typedefs. */
   typedef BSplineTransform                                       Self;
-  typedef BSplineBaseTransform<TScalar,NDimensions,VSplineOrder> Superclass;
+  typedef BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder> Superclass;
   typedef SmartPointer<Self>                                     Pointer;
   typedef SmartPointer<const Self>                               ConstPointer;
 
@@ -133,7 +134,8 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
+  typedef typename Superclass::ParametersType      ParametersType;
 
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -180,7 +182,7 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  virtual void SetFixedParameters( const ParametersType & parameters ) ITK_OVERRIDE;
+  virtual void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename Superclass::ParametersValueType   ParametersValueType;

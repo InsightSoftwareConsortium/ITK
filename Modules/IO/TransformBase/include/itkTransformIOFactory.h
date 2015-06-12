@@ -31,15 +31,15 @@ typedef enum { ReadMode, WriteMode } TransformIOFactoryFileModeType;
  * \brief Create instances of TransformIO objects using an object factory.
  * \ingroup ITKIOTransformBase
  */
-template<typename ParametersValueType>
+template<typename TParametersValueType>
 class TransformIOFactoryTemplate:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef TransformIOFactoryTemplate          Self;
-  typedef Object                              Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  typedef TransformIOFactoryTemplate Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Class Methods used to interface with the registered factories */
 
@@ -47,7 +47,7 @@ public:
   itkTypeMacro(TransformIOFactoryTemplate, Object);
 
   /** Convenient typedefs. */
-  typedef typename TransformIOBaseTemplate<ParametersValueType>::Pointer TransformIOBasePointer;
+  typedef typename TransformIOBaseTemplate<TParametersValueType>::Pointer TransformIOBasePointer;
 
   /** Create the appropriate TransformIO depending on
    *  the particulars of the file.

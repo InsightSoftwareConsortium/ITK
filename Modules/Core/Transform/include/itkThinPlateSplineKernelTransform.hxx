@@ -21,23 +21,23 @@
 
 namespace itk
 {
-template< typename TScalar, unsigned int NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-ThinPlateSplineKernelTransform< TScalar, NDimensions >::ComputeG(const InputVectorType & x,
+ThinPlateSplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(const InputVectorType & x,
                                                                      GMatrixType & gmatrix) const
 {
-  const TScalar r = x.GetNorm();
+  const TParametersValueType r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits< TScalar >::ZeroValue());
+  gmatrix.fill(NumericTraits<TParametersValueType>::ZeroValue());
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     gmatrix[i][i] = r;
     }
 }
 
-template< typename TScalar, unsigned int NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-ThinPlateSplineKernelTransform< TScalar, NDimensions >::ComputeDeformationContribution(
+ThinPlateSplineKernelTransform<TParametersValueType, NDimensions>::ComputeDeformationContribution(
   const InputPointType  & thisPoint,
   OutputPointType & result)
 const
@@ -49,7 +49,7 @@ const
   for ( unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++ )
     {
     InputVectorType   position = thisPoint - sp->Value();
-    const TScalar r = position.GetNorm();
+    const TParametersValueType r = position.GetNorm();
 
     for ( unsigned int odim = 0; odim < NDimensions; odim++ )
       {

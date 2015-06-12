@@ -68,18 +68,16 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template <
-  typename TScalar = double,         // Data type for scalars
-  unsigned int NInputDimensions = 3,  // Number of dimensions in the input space
-  unsigned int NOutputDimensions = 3>
-// Number of dimensions in the output space
+template<typename TParametersValueType=double,
+         unsigned int NInputDimensions = 3,
+         unsigned int NOutputDimensions = 3>
 class MatrixOffsetTransformBase :
-  public Transform<TScalar, NInputDimensions, NOutputDimensions>
+  public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
   /** Standard typedefs   */
   typedef MatrixOffsetTransformBase Self;
-  typedef Transform<TScalar,
+  typedef Transform<TParametersValueType,
                     NInputDimensions,
                     NOutputDimensions>        Superclass;
 
@@ -99,8 +97,10 @@ public:
                        NOutputDimensions * ( NInputDimensions + 1 ) );
 
   /** Parameters Type   */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::ParametersValueType ParametersValueType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
 
   /** Jacobian Type   */
   typedef typename Superclass::JacobianType JacobianType;
@@ -112,17 +112,17 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Standard vector type for this class   */
-  typedef Vector<TScalar,
+  typedef Vector<TParametersValueType,
                  itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TScalar,
+  typedef Vector<TParametersValueType,
                  itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
   typedef typename OutputVectorType::ValueType OutputVectorValueType;
 
   /** Standard covariant vector type for this class   */
-  typedef CovariantVector<TScalar,
+  typedef CovariantVector<TParametersValueType,
                           itkGetStaticConstMacro(InputSpaceDimension)>
   InputCovariantVectorType;
-  typedef CovariantVector<TScalar,
+  typedef CovariantVector<TParametersValueType,
                           itkGetStaticConstMacro(OutputSpaceDimension)>
   OutputCovariantVectorType;
 
@@ -141,35 +141,35 @@ public:
   typedef typename Superclass::OutputSymmetricSecondRankTensorType
   OutputSymmetricSecondRankTensorType;
 
-  typedef CovariantVector<TScalar, InputDiffusionTensor3DType::Dimension>
+  typedef CovariantVector<TParametersValueType, InputDiffusionTensor3DType::Dimension>
   InputTensorEigenVectorType;
 
   /** Standard vnl_vector type for this class   */
-  typedef vnl_vector_fixed<TScalar,
+  typedef vnl_vector_fixed<TParametersValueType,
                            itkGetStaticConstMacro(InputSpaceDimension)>
   InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalar,
+  typedef vnl_vector_fixed<TParametersValueType,
                            itkGetStaticConstMacro(OutputSpaceDimension)>
   OutputVnlVectorType;
 
   /** Standard coordinate point type for this class   */
-  typedef Point<TScalar,
+  typedef Point<TParametersValueType,
                 itkGetStaticConstMacro(InputSpaceDimension)>
   InputPointType;
   typedef typename InputPointType::ValueType InputPointValueType;
-  typedef Point<TScalar,
+  typedef Point<TParametersValueType,
                 itkGetStaticConstMacro(OutputSpaceDimension)>
   OutputPointType;
   typedef typename OutputPointType::ValueType OutputPointValueType;
 
   /** Standard matrix type for this class   */
-  typedef Matrix<TScalar, itkGetStaticConstMacro(OutputSpaceDimension),
+  typedef Matrix<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension),
                  itkGetStaticConstMacro(InputSpaceDimension)>
   MatrixType;
   typedef typename MatrixType::ValueType MatrixValueType;
 
   /** Standard inverse matrix type for this class   */
-  typedef Matrix<TScalar, itkGetStaticConstMacro(InputSpaceDimension),
+  typedef Matrix<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension),
                  itkGetStaticConstMacro(OutputSpaceDimension)>
   InverseMatrixType;
 
@@ -326,10 +326,10 @@ public:
   const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE;
+  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /** Compose with another MatrixOffsetTransformBase
    *

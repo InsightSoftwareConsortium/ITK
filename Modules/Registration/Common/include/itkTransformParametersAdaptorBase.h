@@ -67,20 +67,22 @@ public:
   itkTypeMacro( TransformParametersAdaptorBase, Object );
 
   /** Typedefs associated with the transform */
-  typedef TTransform                                     TransformBaseType;
-  typedef typename TransformBaseType::Pointer            TransformBasePointer;
-  typedef typename TransformBaseType::ParametersType     ParametersType;
-  typedef typename ParametersType::ValueType             ParametersValueType;
+  typedef TTransform                                           TransformBaseType;
+  typedef typename TransformBaseType::Pointer                  TransformBasePointer;
+  typedef typename TransformBaseType::ParametersType           ParametersType;
+  typedef typename ParametersType::ValueType                   ParametersValueType;
+  typedef typename TransformBaseType::FixedParametersType      FixedParametersType;
+  typedef typename TransformBaseType::FixedParametersValueType FixedParametersValueType;
 
   // note: the void pointer is use to ensure this method has lower
   // overloaded priority and avoid an ambiguous overloaded method
   virtual void SetTransform( TransformBaseType *_arg, void * priorityLower = ITK_NULLPTR ) = 0;
 
   /** Set the fixed parameters */
-  itkSetMacro( RequiredFixedParameters, ParametersType );
+  itkSetMacro( RequiredFixedParameters, FixedParametersType );
 
   /** Get the fixed parameters */
-  itkGetConstReferenceMacro( RequiredFixedParameters, ParametersType );
+  itkGetConstReferenceMacro( RequiredFixedParameters, FixedParametersType );
 
   /** Initialize the transform using the specified fixed parameters */
   virtual void AdaptTransformParameters() = 0;
@@ -95,7 +97,7 @@ protected:
     os << "Fixed parameters" << this->m_RequiredFixedParameters << std::endl;
   }
 
-  ParametersType                             m_RequiredFixedParameters;
+  FixedParametersType m_RequiredFixedParameters;
 
 private:
   TransformParametersAdaptorBase( const Self & ); //purposely not implemented

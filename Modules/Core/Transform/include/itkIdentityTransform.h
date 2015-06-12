@@ -46,16 +46,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar,
-          unsigned int NDimensions = 3 >
-class IdentityTransform : public Transform< TScalar, NDimensions, NDimensions >
+template<typename TParametersValueType,
+          unsigned int NDimensions=3>
+class IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef IdentityTransform                              Self;
-  typedef Transform< TScalar, NDimensions, NDimensions > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  typedef IdentityTransform                                           Self;
+  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
@@ -68,39 +68,41 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
 
   /** Type of the input parameters. */
-  typedef  TScalar ScalarType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
+  typedef ParametersValueType                           ScalarType;
 
-  /** Type of the input parameters. */
-  typedef  typename Superclass::ParametersType ParametersType;
 
   /** Type of the Jacobian matrix. */
-  typedef  typename Superclass::JacobianType JacobianType;
+  typedef typename Superclass::JacobianType JacobianType;
 
   /** Transform category type. */
   typedef typename Superclass::TransformCategoryType TransformCategoryType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalar,
+  typedef Vector<TParametersValueType,
                  itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TScalar,
+  typedef Vector<TParametersValueType,
                  itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TScalar,
+  typedef CovariantVector<TParametersValueType,
                           itkGetStaticConstMacro(InputSpaceDimension)>  InputCovariantVectorType;
-  typedef CovariantVector<TScalar,
+  typedef CovariantVector<TParametersValueType,
                           itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalar,
+  typedef vnl_vector_fixed<TParametersValueType,
                            itkGetStaticConstMacro(InputSpaceDimension)>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalar,
+  typedef vnl_vector_fixed<TParametersValueType,
                            itkGetStaticConstMacro(OutputSpaceDimension)> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class */
-  typedef Point<TScalar,
+  typedef Point<TParametersValueType,
                 itkGetStaticConstMacro(InputSpaceDimension)> InputPointType;
-  typedef Point<TScalar,
+  typedef Point<TParametersValueType,
                 itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
@@ -216,13 +218,13 @@ public:
   }
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType & GetFixedParameters() const ITK_OVERRIDE
+  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE
   {
     return this->m_FixedParameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE
+  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
   {
   }
 
@@ -238,7 +240,7 @@ public:
   }
 
 protected:
-  IdentityTransform() : Transform<TScalar, NDimensions, NDimensions>(0),
+  IdentityTransform() : Transform<TParametersValueType, NDimensions, NDimensions>(0),
     m_IdentityJacobian(NDimensions, 0)
   {
     // The Jacobian is constant, therefore it can be initialized in the

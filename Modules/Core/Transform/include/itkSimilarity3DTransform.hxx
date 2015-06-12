@@ -25,8 +25,8 @@
 namespace itk
 {
 // Constructor with default arguments
-template <typename TScalar>
-Similarity3DTransform<TScalar>
+template<typename TParametersValueType>
+Similarity3DTransform<TParametersValueType>
 ::Similarity3DTransform() :
   Superclass(ParametersDimension),
   m_Scale(1.0)
@@ -34,8 +34,8 @@ Similarity3DTransform<TScalar>
 }
 
 // Constructor with arguments
-template <typename TScalar>
-Similarity3DTransform<TScalar>
+template<typename TParametersValueType>
+Similarity3DTransform<TParametersValueType>
 ::Similarity3DTransform(unsigned int paramDim) :
   Superclass(paramDim),
   m_Scale(1.0)
@@ -43,8 +43,8 @@ Similarity3DTransform<TScalar>
 }
 
 // Constructor with arguments
-template <typename TScalar>
-Similarity3DTransform<TScalar>
+template<typename TParametersValueType>
+Similarity3DTransform<TParametersValueType>
 ::Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset) :
   Superclass(matrix, offset),
   m_Scale(1.0)
@@ -52,9 +52,9 @@ Similarity3DTransform<TScalar>
 }
 
 // / Set the parameters to the IdentityTransform
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>
+Similarity3DTransform<TParametersValueType>
 ::SetIdentity(void)
 {
   this->Superclass::SetIdentity();
@@ -62,9 +62,9 @@ Similarity3DTransform<TScalar>
 }
 
 // Set the scale factor
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>
+Similarity3DTransform<TParametersValueType>
 ::SetScale(ScaleType scale)
 {
   m_Scale = scale;
@@ -72,18 +72,18 @@ Similarity3DTransform<TScalar>
 }
 
 // Directly set the matrix
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>
+Similarity3DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix)
 {
   const double tolerance = 1e-10;
   this->SetMatrix( matrix, tolerance );
 }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>
+Similarity3DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix, double tolerance)
 {
   //
@@ -122,14 +122,14 @@ Similarity3DTransform<TScalar>
     itkExceptionMacro(<< "Attempting to set a non-orthogonal matrix (after removing scaling)");
     }
 
-  typedef MatrixOffsetTransformBase<TScalar, 3> Baseclass;
+  typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> Baseclass;
   this->Baseclass::SetMatrix(matrix);
 }
 
 // Set Parameters
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>
+Similarity3DTransform<TParametersValueType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
@@ -193,9 +193,9 @@ Similarity3DTransform<TScalar>
 // p[6:6} = scaling factor (isotropic)
 //
 
-template <typename TScalar>
-const typename Similarity3DTransform<TScalar>::ParametersType
-& Similarity3DTransform<TScalar>
+template<typename TParametersValueType>
+const typename Similarity3DTransform<TParametersValueType>::ParametersType
+& Similarity3DTransform<TParametersValueType>
 ::GetParameters(void) const
   {
   itkDebugMacro(<< "Getting parameters ");
@@ -216,9 +216,9 @@ const typename Similarity3DTransform<TScalar>::ParametersType
   return this->m_Parameters;
   }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
+Similarity3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
                                                                            JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;
@@ -290,9 +290,9 @@ Similarity3DTransform<TScalar>::ComputeJacobianWithRespectToParameters(const Inp
 }
 
 // Set the scale factor
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>
+Similarity3DTransform<TParametersValueType>
 ::ComputeMatrix()
 {
   this->Superclass::ComputeMatrix();
@@ -302,9 +302,9 @@ Similarity3DTransform<TScalar>
 }
 
 /** Compute the matrix */
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>
+Similarity3DTransform<TParametersValueType>
 ::ComputeMatrixParameters(void)
 {
   MatrixType matrix = this->GetMatrix();
@@ -319,9 +319,9 @@ Similarity3DTransform<TScalar>
 }
 
 // Print self
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Similarity3DTransform<TScalar>
+Similarity3DTransform<TParametersValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

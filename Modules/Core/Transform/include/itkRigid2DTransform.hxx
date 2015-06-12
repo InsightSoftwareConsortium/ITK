@@ -24,43 +24,43 @@
 namespace itk
 {
 
-template <typename TScalar>
-Rigid2DTransform<TScalar>
+template<typename TParametersValueType>
+Rigid2DTransform<TParametersValueType>
 ::Rigid2DTransform() :
   Superclass(ParametersDimension)
 {
-  m_Angle = NumericTraits<TScalar>::ZeroValue();
+  m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
 }
 
 
-template <typename TScalar>
-Rigid2DTransform<TScalar>
+template<typename TParametersValueType>
+Rigid2DTransform<TParametersValueType>
 ::Rigid2DTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
-  m_Angle = NumericTraits<TScalar>::ZeroValue();
+  m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
 }
 
 
-template <typename TScalar>
-Rigid2DTransform<TScalar>
+template<typename TParametersValueType>
+Rigid2DTransform<TParametersValueType>
 ::Rigid2DTransform(unsigned int , unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
-  m_Angle = NumericTraits<TScalar>::ZeroValue();
+  m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
 }
 
 
-template <typename TScalar>
-Rigid2DTransform<TScalar>::
+template<typename TParametersValueType>
+Rigid2DTransform<TParametersValueType>::
 ~Rigid2DTransform()
 {
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -68,9 +68,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix)
 {
   const double tolerance = 1e-10;
@@ -78,9 +78,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix, double tolerance)
 {
   itkDebugMacro("setting  m_Matrix  to " << matrix);
@@ -102,17 +102,17 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::ComputeMatrixParameters()
 {
   // Extract the orthogonal part of the matrix
   //
-  vnl_matrix<TScalar> p(2, 2);
+  vnl_matrix<TParametersValueType> p(2, 2);
   p = this->GetMatrix().GetVnlMatrix();
-  vnl_svd<TScalar>    svd(p);
-  vnl_matrix<TScalar> r(2, 2);
+  vnl_svd<TParametersValueType>    svd(p);
+  vnl_matrix<TParametersValueType> r(2, 2);
   r = svd.U() * svd.V().transpose();
 
   m_Angle = std::acos(r[0][0]);
@@ -129,9 +129,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::Translate(const OffsetType & offset, bool)
 {
   OutputVectorType newOffset = this->GetOffset();
@@ -142,9 +142,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::CloneInverseTo(Pointer & result) const
 {
   result = New();
@@ -152,9 +152,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 bool
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::GetInverse(Self *inverse) const
 {
   if( !inverse )
@@ -171,9 +171,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
-typename Rigid2DTransform<TScalar>::InverseTransformBasePointer
-Rigid2DTransform<TScalar>
+template<typename TParametersValueType>
+typename Rigid2DTransform<TParametersValueType>::InverseTransformBasePointer
+Rigid2DTransform<TParametersValueType>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
@@ -182,9 +182,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::CloneTo(Pointer & result) const
 {
   result = New();
@@ -194,20 +194,20 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::SetIdentity()
 {
   this->Superclass::SetIdentity();
-  m_Angle = NumericTraits<TScalar>::ZeroValue();
+  m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
-::SetAngle(TScalar angle)
+Rigid2DTransform<TParametersValueType>
+::SetAngle(TParametersValueType angle)
 {
   m_Angle = angle;
   this->ComputeMatrix();
@@ -216,20 +216,20 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
-::SetAngleInDegrees(TScalar angle)
+Rigid2DTransform<TParametersValueType>
+::SetAngleInDegrees(TParametersValueType angle)
 {
-  const TScalar angleInRadians = angle * std::atan(1.0) / 45.0;
+  const TParametersValueType angleInRadians = angle * std::atan(1.0) / 45.0;
 
   this->SetAngle(angleInRadians);
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::ComputeMatrix()
 {
   const MatrixValueType ca = std::cos(m_Angle);
@@ -244,9 +244,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
@@ -258,7 +258,7 @@ Rigid2DTransform<TScalar>
     }
 
   // Set angle
-  const TScalar angle = parameters[0];
+  const TParametersValueType angle = parameters[0];
   this->SetVarAngle(angle);
 
   // Set translation
@@ -281,9 +281,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
-const typename Rigid2DTransform<TScalar>::ParametersType &
-Rigid2DTransform<TScalar>
+template<typename TParametersValueType>
+const typename Rigid2DTransform<TParametersValueType>::ParametersType &
+Rigid2DTransform<TParametersValueType>
 ::GetParameters() const
 {
   itkDebugMacro(<< "Getting parameters ");
@@ -302,9 +302,9 @@ Rigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & j ) const
 {
   j.SetSize( OutputSpaceDimension, this->GetNumberOfLocalParameters() );
@@ -330,17 +330,17 @@ Rigid2DTransform<TScalar>
 
 #ifdef ITKV3_COMPATIBILITY
 #if !defined(ITK_LEGACY_REMOVE)
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-Rigid2DTransform<TScalar>
+Rigid2DTransform<TParametersValueType>
 ::SetRotationMatrix(const MatrixType & matrix)
 {
   this->SetMatrix(matrix);
 }
 
-template <typename TScalar>
-const typename Rigid2DTransform<TScalar>::MatrixType &
-Rigid2DTransform<TScalar>
+template<typename TParametersValueType>
+const typename Rigid2DTransform<TParametersValueType>::MatrixType &
+Rigid2DTransform<TParametersValueType>
 ::GetRotationMatrix() const
 {
   return this->GetMatrix();

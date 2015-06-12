@@ -23,25 +23,25 @@
 namespace itk
 {
 
-template <typename TScalar>
-CenteredRigid2DTransform<TScalar>
+template<typename TParametersValueType>
+CenteredRigid2DTransform<TParametersValueType>
 ::CenteredRigid2DTransform() :
   Superclass(ParametersDimension)
 {
 }
 
 
-template <typename TScalar>
-CenteredRigid2DTransform<TScalar>::CenteredRigid2DTransform(unsigned int spaceDimension,
+template<typename TParametersValueType>
+CenteredRigid2DTransform<TParametersValueType>::CenteredRigid2DTransform(unsigned int spaceDimension,
                                                                 unsigned int parametersDimension) :
   Superclass(spaceDimension, parametersDimension)
 {
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-CenteredRigid2DTransform<TScalar>
+CenteredRigid2DTransform<TParametersValueType>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
@@ -60,7 +60,7 @@ CenteredRigid2DTransform<TScalar>
     }
 
   // Set the angle
-  const TScalar angle = parameters[0];
+  const TParametersValueType angle = parameters[0];
   this->SetVarAngle(angle);
   // Set the center
   InputPointType center;
@@ -90,9 +90,9 @@ CenteredRigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
-const typename CenteredRigid2DTransform<TScalar>::ParametersType
-& CenteredRigid2DTransform<TScalar>
+template<typename TParametersValueType>
+const typename CenteredRigid2DTransform<TParametersValueType>::ParametersType
+& CenteredRigid2DTransform<TParametersValueType>
 ::GetParameters() const
 {
   itkDebugMacro(<< "Getting parameters ");
@@ -122,9 +122,9 @@ const typename CenteredRigid2DTransform<TScalar>::ParametersType
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-CenteredRigid2DTransform<TScalar>
+CenteredRigid2DTransform<TParametersValueType>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const double ca = std::cos( this->GetAngle() );
@@ -158,18 +158,18 @@ CenteredRigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-CenteredRigid2DTransform<TScalar>
-::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
+CenteredRigid2DTransform<TParametersValueType>
+::SetFixedParameters( const FixedParametersType & itkNotUsed(parameters) )
 {
   // no fixed parameters
 }
 
 
-template <typename TScalar>
-const typename CenteredRigid2DTransform<TScalar>::ParametersType &
-CenteredRigid2DTransform<TScalar>
+template<typename TParametersValueType>
+const typename CenteredRigid2DTransform<TParametersValueType>::FixedParametersType &
+CenteredRigid2DTransform<TParametersValueType>
 ::GetFixedParameters() const
 {
   // return dummy parameters
@@ -177,9 +177,9 @@ CenteredRigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-CenteredRigid2DTransform<TScalar>
+CenteredRigid2DTransform<TParametersValueType>
 ::CloneInverseTo(Pointer & result) const
 {
   result = New();
@@ -187,9 +187,9 @@ CenteredRigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 bool
-CenteredRigid2DTransform<TScalar>
+CenteredRigid2DTransform<TParametersValueType>
 ::GetInverse(Self *inverse) const
 {
   if( !inverse )
@@ -206,9 +206,9 @@ CenteredRigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
-typename CenteredRigid2DTransform<TScalar>::InverseTransformBasePointer
-CenteredRigid2DTransform<TScalar>
+template<typename TParametersValueType>
+typename CenteredRigid2DTransform<TParametersValueType>::InverseTransformBasePointer
+CenteredRigid2DTransform<TParametersValueType>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
@@ -217,9 +217,9 @@ CenteredRigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-CenteredRigid2DTransform<TScalar>
+CenteredRigid2DTransform<TParametersValueType>
 ::CloneTo(Pointer & result) const
 {
   result = New();
@@ -229,9 +229,9 @@ CenteredRigid2DTransform<TScalar>
 }
 
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-CenteredRigid2DTransform<TScalar>
+CenteredRigid2DTransform<TParametersValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);

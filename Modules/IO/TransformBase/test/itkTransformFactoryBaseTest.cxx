@@ -185,53 +185,45 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   defaultTransforms.push_back("VersorRigid3DTransform_float_3_3");
   defaultTransforms.push_back("VersorTransform_float_3_3");
+  defaultTransforms.push_back("DisplacementFieldTransform_float_2_2");
+  defaultTransforms.push_back("DisplacementFieldTransform_float_3_3");
+  defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_float_2_2");
+  defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_float_3_3");
+  defaultTransforms.push_back("ConstantVelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("ConstantVelocityFieldTransform_float_3_3");
+  defaultTransforms.push_back("VelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("VelocityFieldTransform_float_3_3");
+  defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_float_3_3");
+  defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_float_3_3");
+  defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_float_2_2");
+  defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_float_3_3");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_float_2_2");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_float_3_3");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_float_3_3");
 
   defaultTransforms.push_back("DisplacementFieldTransform_double_2_2");
   defaultTransforms.push_back("DisplacementFieldTransform_double_3_3");
-
-  defaultTransforms.push_back("DisplacementFieldTransform_float_2_2");
-  defaultTransforms.push_back("DisplacementFieldTransform_float_3_3");
-
   defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_double_2_2");
   defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_double_3_3");
-  defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_float_2_2");
-  defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_float_3_3");
-
   defaultTransforms.push_back("ConstantVelocityFieldTransform_double_2_2");
   defaultTransforms.push_back("ConstantVelocityFieldTransform_double_3_3");
-  defaultTransforms.push_back("ConstantVelocityFieldTransform_float_2_2");
-  defaultTransforms.push_back("ConstantVelocityFieldTransform_float_3_3");
-
   defaultTransforms.push_back("VelocityFieldTransform_double_2_2");
   defaultTransforms.push_back("VelocityFieldTransform_double_3_3");
-  defaultTransforms.push_back("VelocityFieldTransform_float_2_2");
-  defaultTransforms.push_back("VelocityFieldTransform_float_3_3");
-
   defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_double_2_2");
   defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_double_3_3");
-  defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_float_2_2");
-  defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_float_3_3");
-
   defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_double_2_2");
   defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_double_3_3");
-  defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_float_2_2");
-  defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_float_3_3");
-
   defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_double_2_2");
   defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_double_3_3");
   defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_float_2_2");
   defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_float_3_3");
-
   defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_double_2_2");
   defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_double_3_3");
-  defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_float_2_2");
-  defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_float_3_3");
-
   defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_double_2_2");
   defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_double_3_3");
-  defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_float_2_2");
-  defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_float_3_3");
-
   int testReturnStatus = EXIT_SUCCESS;
 
   // check to make sure that all default transforms have been registered

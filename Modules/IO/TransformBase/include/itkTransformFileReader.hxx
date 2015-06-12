@@ -25,23 +25,23 @@
 namespace itk
 {
 
-template<typename ScalarType>
-TransformFileReaderTemplate<ScalarType>
+template<typename TParametersValueType>
+TransformFileReaderTemplate<TParametersValueType>
 ::TransformFileReaderTemplate() :
   m_FileName("") /* to be removed soon. See .h */
 {
 }
 
 
-template<typename ScalarType>
-TransformFileReaderTemplate<ScalarType>
+template<typename TParametersValueType>
+TransformFileReaderTemplate<TParametersValueType>
 ::~TransformFileReaderTemplate()
 {
 }
 
 
-template<typename ScalarType>
-void TransformFileReaderTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileReaderTemplate<TParametersValueType>
 ::Update()
 {
   if ( m_FileName == "" )
@@ -51,8 +51,8 @@ void TransformFileReaderTemplate<ScalarType>
 
   if( m_TransformIO.IsNull() )
     {
-    typedef TransformIOFactoryTemplate< ScalarType > TransformFactoryIOType;
-    m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), /*TransformIOFactoryTemplate<ScalarType>::*/ ReadMode );
+    typedef TransformIOFactoryTemplate< TParametersValueType > TransformFactoryIOType;
+    m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), /*TransformIOFactoryTemplate<TParametersValueType>::*/ ReadMode );
     if ( m_TransformIO.IsNull() )
       {
       itkExceptionMacro("Can't Create IO object for file " << m_FileName);
@@ -81,7 +81,7 @@ void TransformFileReaderTemplate<ScalarType>
 
     // CompositeTransformIOHelperTemplate knows how to assign to the composite
     // transform's internal list
-    CompositeTransformIOHelperTemplate<ScalarType> helper;
+    CompositeTransformIOHelperTemplate<TParametersValueType> helper;
     helper.SetTransformList(composite.GetPointer(),ioTransformList);
 
     this->m_TransformList.push_back( composite.GetPointer() );
@@ -98,8 +98,8 @@ void TransformFileReaderTemplate<ScalarType>
 }
 
 
-template<typename ScalarType>
-void TransformFileReaderTemplate<ScalarType>
+template<typename TParametersValueType>
+void TransformFileReaderTemplate<TParametersValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

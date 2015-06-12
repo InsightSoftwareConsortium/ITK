@@ -23,8 +23,9 @@
 namespace itk
 {
 // Constructor with default arguments
-template< typename TScalar, unsigned int NDimensions >
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::AzimuthElevationToCartesianTransform()
+template<typename TParametersValueType, unsigned int NDimensions>
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>
+::AzimuthElevationToCartesianTransform()
 // add this construction call when deriving from itk::Transform
 // :Superclass(ParametersDimension)
 {
@@ -38,16 +39,16 @@ AzimuthElevationToCartesianTransform< TScalar, NDimensions >::AzimuthElevationTo
 }
 
 // Destructor
-template< typename TScalar, unsigned int NDimensions >
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::
+template<typename TParametersValueType, unsigned int NDimensions>
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::
 ~AzimuthElevationToCartesianTransform()
 {
 }
 
 // Print self
-template< typename TScalar, unsigned int NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::PrintSelf(std::ostream & os, Indent indent) const
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -73,10 +74,10 @@ AzimuthElevationToCartesianTransform< TScalar, NDimensions >::PrintSelf(std::ost
   os << indent << std::endl;
 }
 
-template< typename TScalar, unsigned int NDimensions >
-typename AzimuthElevationToCartesianTransform< TScalar, NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
+typename AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>
 ::OutputPointType
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::TransformPoint(const InputPointType & point) const
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & point) const
 {
   OutputPointType result;
 
@@ -92,11 +93,12 @@ AzimuthElevationToCartesianTransform< TScalar, NDimensions >::TransformPoint(con
 }
 
 /** Transform a point, from azimuth-elevation to cartesian */
-template< typename TScalar, unsigned int NDimensions >
-typename AzimuthElevationToCartesianTransform< TScalar, NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
+typename AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>
 ::OutputPointType
-AzimuthElevationToCartesianTransform< TScalar,
-                                      NDimensions >::TransformAzElToCartesian(const InputPointType & point) const
+AzimuthElevationToCartesianTransform<TParametersValueType,
+                                      NDimensions >
+                                      ::TransformAzElToCartesian(const InputPointType & point) const
 {
   OutputPointType result;
   ScalarType      Azimuth = ( ( 2 * vnl_math::pi ) / 360 )
@@ -118,10 +120,10 @@ AzimuthElevationToCartesianTransform< TScalar,
   return result;
 }
 
-template< typename TScalar, unsigned int NDimensions >
-typename AzimuthElevationToCartesianTransform< TScalar, NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
+typename AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>
 ::OutputPointType
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::TransformCartesianToAzEl(
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::TransformCartesianToAzEl(
   const OutputPointType & point) const
 {
   InputPointType result;       // Converted point
@@ -138,9 +140,9 @@ AzimuthElevationToCartesianTransform< TScalar, NDimensions >::TransformCartesian
 }
 
 // Set parameters
-template< typename TScalar, unsigned int NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::SetAzimuthElevationToCartesianParameters(
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::SetAzimuthElevationToCartesianParameters(
   const double sampleSize,
   const double
   firstSampleDistance,
@@ -163,9 +165,9 @@ AzimuthElevationToCartesianTransform< TScalar, NDimensions >::SetAzimuthElevatio
   SetFirstSampleDistance(firstSampleDistance / sampleSize);
 }
 
-template< typename TScalar, unsigned int NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::SetAzimuthElevationToCartesianParameters(
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::SetAzimuthElevationToCartesianParameters(
   const double sampleSize,
   const double
   firstSampleDistance,
@@ -178,16 +180,16 @@ AzimuthElevationToCartesianTransform< TScalar, NDimensions >::SetAzimuthElevatio
                                            maxAzimuth, maxElevation, 1.0, 1.0);
 }
 
-template< typename TScalar, unsigned int NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::SetForwardAzimuthElevationToCartesian()
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::SetForwardAzimuthElevationToCartesian()
 {
   m_ForwardAzimuthElevationToPhysical = true;
 }
 
-template< typename TScalar, unsigned int NDimensions >
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-AzimuthElevationToCartesianTransform< TScalar, NDimensions >::SetForwardCartesianToAzimuthElevation()
+AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::SetForwardCartesianToAzimuthElevation()
 {
   m_ForwardAzimuthElevationToPhysical = false;
 }

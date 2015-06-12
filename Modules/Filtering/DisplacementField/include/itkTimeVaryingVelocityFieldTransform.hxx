@@ -28,8 +28,8 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TScalar, unsigned int NDimensions>
-TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 ::TimeVaryingVelocityFieldTransform()
 {
 }
@@ -37,15 +37,15 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 /**
  * Destructor
  */
-template<typename TScalar, unsigned int NDimensions>
-TimeVaryingVelocityFieldTransform<TScalar, NDimensions>::
+template<typename TParametersValueType, unsigned int NDimensions>
+TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
 ~TimeVaryingVelocityFieldTransform()
 {
 }
 
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
+TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 ::IntegrateVelocityField()
 {
   if( this->GetVelocityField() )

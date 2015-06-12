@@ -30,19 +30,18 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <
-  typename TScalar = double,      // Data type for scalars
-  unsigned int NDimensions = 3>
-// Number of dimensions in the input space
-class CenteredAffineTransform : public AffineTransform<TScalar,
-                                                                  NDimensions>
+template<typename TParametersValueType=double,
+         unsigned int NDimensions = 3>
+class CenteredAffineTransform : public AffineTransform<TParametersValueType,
+                                             NDimensions>
 {
 public:
   /** Standard typedefs   */
-  typedef CenteredAffineTransform               Self;
-  typedef AffineTransform<TScalar, NDimensions> Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef CenteredAffineTransform                Self;
+  typedef AffineTransform<TParametersValueType,
+                           NDimensions >         Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(CenteredAffineTransform, AffineTransform);
@@ -56,16 +55,16 @@ public:
                        NDimensions * ( NDimensions + 2 ) );
 
   /** Types taken from the Superclass */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::ParametersValueType ParametersValueType;
-  typedef typename Superclass::JacobianType        JacobianType;
-  typedef typename Superclass::ScalarType          ScalarType;
-  typedef typename Superclass::InputVectorType     InputVectorType;
-  typedef typename Superclass::OutputVectorType    OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType
-  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType
-  OutputCovariantVectorType;
+  typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::ParametersValueType       ParametersValueType;
+  typedef typename Superclass::FixedParametersType       FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
+  typedef typename Superclass::JacobianType              JacobianType;
+  typedef typename Superclass::ScalarType                ScalarType;
+  typedef typename Superclass::InputVectorType           InputVectorType;
+  typedef typename Superclass::OutputVectorType          OutputVectorType;
+  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
 
   typedef typename Superclass::InputVnlVectorType    InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType   OutputVnlVectorType;

@@ -33,8 +33,8 @@ namespace itk
 /**
  * Constructor
  */
-template<typename TScalar, unsigned int NDimensions>
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
+TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
 ::TimeVaryingBSplineVelocityFieldTransform()
 {
   this->m_SplineOrder = 3;
@@ -49,15 +49,15 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
 /**
  * Destructor
  */
-template<typename TScalar, unsigned int NDimensions>
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>::
+template<typename TParametersValueType, unsigned int NDimensions>
+TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>::
 ~TimeVaryingBSplineVelocityFieldTransform()
 {
 }
 
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
+TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
 ::IntegrateVelocityField()
 {
   if( !this->GetVelocityField() )
@@ -124,9 +124,9 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
   this->SetInverseDisplacementField( inverseDisplacementField );
 }
 
-template<typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
+TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
   NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
@@ -167,9 +167,9 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
   this->IntegrateVelocityField();
 }
 
-template <typename TScalar, unsigned int NDimensions>
+template<typename TParametersValueType, unsigned int NDimensions>
 void
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
+TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

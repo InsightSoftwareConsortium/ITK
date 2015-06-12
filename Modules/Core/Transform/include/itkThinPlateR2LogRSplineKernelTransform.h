@@ -32,18 +32,18 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename TScalar,         // Data type for scalars (float or double)
-          unsigned int NDimensions = 3 >
+template<typename TParametersValueType,
+          unsigned int NDimensions = 3>
 // Number of dimensions
 class ThinPlateR2LogRSplineKernelTransform:
-  public KernelTransform< TScalar, NDimensions >
+  public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef ThinPlateR2LogRSplineKernelTransform    Self;
-  typedef KernelTransform< TScalar, NDimensions > Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
+  typedef ThinPlateR2LogRSplineKernelTransform               Self;
+  typedef KernelTransform<TParametersValueType, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                 Pointer;
+  typedef SmartPointer<const Self>                           ConstPointer;
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
@@ -55,7 +55,8 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::ParametersType      ParametersType;
+  typedef typename Superclass::FixedParametersType FixedParametersType;
 
   /** Jacobian Type */
   typedef typename Superclass::JacobianType JacobianType;

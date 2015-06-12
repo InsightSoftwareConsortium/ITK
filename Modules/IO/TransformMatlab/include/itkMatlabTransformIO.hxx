@@ -123,8 +123,8 @@ MatlabTransformIOTemplate<ParametersValueType>
       itkExceptionMacro
         ("Only vector parameters supported");
       }
-    typename TransformType::ParametersType TmpFixedParameterArray( mathdr2.rows() );
-    ReadMat<ParametersValueType>(mathdr2, TmpFixedParameterArray);
+    typename TransformType::FixedParametersType TmpFixedParameterArray( mathdr2.rows() );
+    ReadMat<typename TransformType::FixedParametersValueType>(mathdr2, TmpFixedParameterArray);
     transform->SetFixedParameters(TmpFixedParameterArray);
     transform->SetParametersByValue(TmpParameterArray);
     }

@@ -28,19 +28,19 @@
 #include "itkNumberToString.h"
 namespace itk
 {
-template<typename ParametersValueType>
-TxtTransformIOTemplate<ParametersValueType>
+template<typename TParametersValueType>
+TxtTransformIOTemplate<TParametersValueType>
 ::TxtTransformIOTemplate()
 {}
 
-template<typename ParametersValueType>
-TxtTransformIOTemplate<ParametersValueType>
+template<typename TParametersValueType>
+TxtTransformIOTemplate<TParametersValueType>
 ::~TxtTransformIOTemplate()
 {}
 
-template<typename ParametersValueType>
+template<typename TParametersValueType>
 bool
-TxtTransformIOTemplate<ParametersValueType>
+TxtTransformIOTemplate<TParametersValueType>
 ::CanReadFile(const char *fileName)
 {
   bool recognizedExtension = false;
@@ -50,9 +50,9 @@ TxtTransformIOTemplate<ParametersValueType>
   return recognizedExtension;
 }
 
-template<typename ParametersValueType>
+template<typename TParametersValueType>
 bool
-TxtTransformIOTemplate<ParametersValueType>
+TxtTransformIOTemplate<TParametersValueType>
 ::CanWriteFile(const char *fileName)
 {
   bool recognizedExtension = false;
@@ -62,9 +62,9 @@ TxtTransformIOTemplate<ParametersValueType>
   return recognizedExtension;
 }
 
-template<typename ParametersValueType>
+template<typename TParametersValueType>
 std::string
-TxtTransformIOTemplate<ParametersValueType>
+TxtTransformIOTemplate<TParametersValueType>
 ::trim(std::string const & source, char const *delims)
 {
   std::string            result(source);
@@ -87,9 +87,9 @@ TxtTransformIOTemplate<ParametersValueType>
   return result;
 }
 
-template<typename ParametersValueType>
+template<typename TParametersValueType>
 void
-TxtTransformIOTemplate<ParametersValueType>
+TxtTransformIOTemplate<TParametersValueType>
 ::ReadComponentFile( std::string Value )
 {
   /* Used for reading component files listed in a composite transform
@@ -101,8 +101,8 @@ TxtTransformIOTemplate<ParametersValueType>
     itksys::SystemTools::GetFilenamePath( this->GetFileName() ) + "/";
 
   /* Use TransformFileReader to read each component file. */
-  typename TransformFileReaderTemplate<ParametersValueType>::Pointer reader =
-      TransformFileReaderTemplate<ParametersValueType>::New();
+  typename TransformFileReaderTemplate<TParametersValueType>::Pointer reader =
+      TransformFileReaderTemplate<TParametersValueType>::New();
   std::string componentFullPath = filePath + Value;
   reader->SetFileName( componentFullPath );
   try
@@ -118,9 +118,9 @@ TxtTransformIOTemplate<ParametersValueType>
   this->GetReadTransformList().push_back (transform);
 }
 
-template<typename ParametersValueType>
+template<typename TParametersValueType>
 void
-TxtTransformIOTemplate<ParametersValueType>
+TxtTransformIOTemplate<TParametersValueType>
 ::Read()
 {
   TransformPointer transform;
@@ -288,10 +288,10 @@ TxtTransformIOTemplate<ParametersValueType>
 }
 
 namespace {
-template<typename ParametersValueType>
-void print_vector(std::ofstream& s, vnl_vector<ParametersValueType> const &v)
+template<typename TParametersValueType>
+void print_vector(std::ofstream& s, vnl_vector<TParametersValueType> const &v)
 {
-  NumberToString<ParametersValueType> convert;
+  NumberToString<TParametersValueType> convert;
   for (unsigned i = 0; i+1 < v.size(); ++i)
     {
     s << convert(v[i]) << ' ';
@@ -303,9 +303,9 @@ void print_vector(std::ofstream& s, vnl_vector<ParametersValueType> const &v)
 }
 }
 
-template<typename ParametersValueType>
+template<typename TParametersValueType>
 void
-TxtTransformIOTemplate<ParametersValueType>
+TxtTransformIOTemplate<TParametersValueType>
 ::Write()
 {
   ConstTransformListType &transformList =
@@ -322,12 +322,12 @@ TxtTransformIOTemplate<ParametersValueType>
   // if the first transform in the list is a
   // composite transform, use its internal list
   // instead of the IO
-  CompositeTransformIOHelperTemplate<ParametersValueType> helper;
+  CompositeTransformIOHelperTemplate<TParametersValueType> helper;
   if(CompositeTransformTypeName.find("CompositeTransform") != std::string::npos)
     {
     transformList = helper.GetTransformList(transformList.front().GetPointer());
     }
-  vnl_vector< ParametersValueType > TempArray;
+  vnl_vector< TParametersValueType > TempArray;
   int count = 0;
 
   typename ConstTransformListType::const_iterator end = transformList.end();

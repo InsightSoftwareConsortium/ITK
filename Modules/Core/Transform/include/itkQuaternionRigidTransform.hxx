@@ -23,8 +23,8 @@
 namespace itk
 {
 // Constructor with default arguments
-template <typename TScalar>
-QuaternionRigidTransform<TScalar>
+template<typename TParametersValueType>
+QuaternionRigidTransform<TParametersValueType>
 ::QuaternionRigidTransform() :
   Superclass(ParametersDimension)
 {
@@ -33,8 +33,8 @@ QuaternionRigidTransform<TScalar>
 }
 
 // Constructor with default arguments
-template <typename TScalar>
-QuaternionRigidTransform<TScalar>::QuaternionRigidTransform(unsigned int parametersDimension) :
+template<typename TParametersValueType>
+QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
   m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * std::sin(t/2),
@@ -42,8 +42,8 @@ QuaternionRigidTransform<TScalar>::QuaternionRigidTransform(unsigned int paramet
 }
 
 // Constructor with explicit arguments
-template <typename TScalar>
-QuaternionRigidTransform<TScalar>::QuaternionRigidTransform(const MatrixType & matrix,
+template<typename TParametersValueType>
+QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(const MatrixType & matrix,
                                                                 const OutputVectorType & offset) :
   Superclass(matrix, offset)
 {
@@ -51,18 +51,18 @@ QuaternionRigidTransform<TScalar>::QuaternionRigidTransform(const MatrixType & m
 }
 
 // Print self
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-QuaternionRigidTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
+QuaternionRigidTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Rotation:    " << m_Rotation    << std::endl;
 }
 
 // Set rotation
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-QuaternionRigidTransform<TScalar>::SetRotation(const VnlQuaternionType & rotation)
+QuaternionRigidTransform<TParametersValueType>::SetRotation(const VnlQuaternionType & rotation)
 {
   m_Rotation        = rotation;
 
@@ -70,18 +70,18 @@ QuaternionRigidTransform<TScalar>::SetRotation(const VnlQuaternionType & rotatio
 }
 
 // Set the parameters in order to fit an Identity transform
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-QuaternionRigidTransform<TScalar>::SetIdentity(void)
+QuaternionRigidTransform<TParametersValueType>::SetIdentity(void)
 {
   m_Rotation = VnlQuaternionType(0, 0, 0, 1);
   this->Superclass::SetIdentity();
 }
 
 // Set Parameters
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-QuaternionRigidTransform<TScalar>
+QuaternionRigidTransform<TParametersValueType>
 ::SetParameters(const ParametersType & parameters)
 {
   OutputVectorType translation;
@@ -115,10 +115,10 @@ QuaternionRigidTransform<TScalar>
 }
 
 // Set Parameters
-template <typename TScalar>
+template<typename TParametersValueType>
 const
-typename QuaternionRigidTransform<TScalar>::ParametersType
-& QuaternionRigidTransform<TScalar>
+typename QuaternionRigidTransform<TParametersValueType>::ParametersType
+& QuaternionRigidTransform<TParametersValueType>
 ::GetParameters() const
   {
   VnlQuaternionType quaternion  = this->GetRotation();
@@ -141,18 +141,18 @@ typename QuaternionRigidTransform<TScalar>::ParametersType
   return this->m_Parameters;
   }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-QuaternionRigidTransform<TScalar>
+QuaternionRigidTransform<TParametersValueType>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   // compute derivatives with respect to rotation
   jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
   jacobian.Fill(0.0);
 
-  const TScalar x = p[0] - this->GetCenter()[0];
-  const TScalar y = p[1] - this->GetCenter()[1];
-  const TScalar z = p[2] - this->GetCenter()[2];
+  const TParametersValueType x = p[0] - this->GetCenter()[0];
+  const TParametersValueType y = p[1] - this->GetCenter()[1];
+  const TParametersValueType z = p[2] - this->GetCenter()[2];
 
   // compute Jacobian with respect to quaternion parameters
   jacobian[0][0] =   2.0 * (  m_Rotation.x() * x + m_Rotation.y() * y
@@ -182,9 +182,9 @@ QuaternionRigidTransform<TScalar>
     }
 }
 
-template <typename TScalar>
-const typename QuaternionRigidTransform<TScalar>::InverseMatrixType
-& QuaternionRigidTransform<TScalar>::GetInverseMatrix() const
+template<typename TParametersValueType>
+const typename QuaternionRigidTransform<TParametersValueType>::InverseMatrixType
+& QuaternionRigidTransform<TParametersValueType>::GetInverseMatrix() const
   {
   // If the transform has been modified we recompute the inverse
   if( this->InverseMatrixIsOld() )
@@ -198,9 +198,9 @@ const typename QuaternionRigidTransform<TScalar>::InverseMatrixType
   return this->GetVarInverseMatrix();
   }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-QuaternionRigidTransform<TScalar>::ComputeMatrix()
+QuaternionRigidTransform<TParametersValueType>::ComputeMatrix()
 {
   VnlQuaternionType conjugateRotation = m_Rotation.conjugate();
   // this is done to compensate for the transposed representation
@@ -211,9 +211,9 @@ QuaternionRigidTransform<TScalar>::ComputeMatrix()
   this->SetVarMatrix(newMatrix);
 }
 
-template <typename TScalar>
+template<typename TParametersValueType>
 void
-QuaternionRigidTransform<TScalar>::ComputeMatrixParameters()
+QuaternionRigidTransform<TParametersValueType>::ComputeMatrixParameters()
 {
   VnlQuaternionType quat( this->GetMatrix().GetVnlMatrix() );
 

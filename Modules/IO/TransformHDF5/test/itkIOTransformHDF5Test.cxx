@@ -34,20 +34,20 @@
 #include "itkGaussianExponentialDiffeomorphicTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 
-template < typename ScalarType, typename DisplacementTransformType >
+template<typename TParametersValueType, typename DisplacementTransformType >
 static int ReadWriteTest(const char * const fileName)
 {
   // Now test reading/writing many different transform types.
-  typedef itk::TransformFileReaderTemplate< ScalarType > TransformReaderType;
+  typedef itk::TransformFileReaderTemplate<TParametersValueType> TransformReaderType;
   typename TransformReaderType::Pointer reader = TransformReaderType::New();
 
-  typedef itk::TransformFileWriterTemplate< ScalarType > TransformWriterType;
+  typedef itk::TransformFileWriterTemplate<TParametersValueType> TransformWriterType;
   typename TransformWriterType::Pointer writer = TransformWriterType::New();
 
   reader->SetFileName( fileName );
   writer->SetFileName( fileName );
 
-  typedef itk::HDF5TransformIOTemplate< ScalarType > TransformIOType;
+  typedef itk::HDF5TransformIOTemplate<TParametersValueType> TransformIOType;
   typename TransformIOType::Pointer transformIO = TransformIOType::New();
   reader->SetTransformIO( transformIO );
   if( reader->GetTransformIO() != transformIO.GetPointer() )
@@ -106,11 +106,11 @@ static int ReadWriteTest(const char * const fileName)
   return EXIT_SUCCESS;
 }
 
-template<typename ScalarType>
+template<typename TParametersValueType>
 static int oneTest(const char *const goodname,const char *const badname)
 {
-  typedef typename itk::AffineTransform<ScalarType,4>  AffineTransformType;
-  typedef typename itk::AffineTransform<ScalarType,10> AffineTransformTypeNotRegistered;
+  typedef typename itk::AffineTransform<TParametersValueType,4>  AffineTransformType;
+  typedef typename itk::AffineTransform<TParametersValueType,10> AffineTransformTypeNotRegistered;
   typename AffineTransformType::Pointer        affine = AffineTransformType::New();
 
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5TransformIOFactory::New() );
@@ -128,10 +128,10 @@ static int oneTest(const char *const goodname,const char *const badname)
     p[i] = i;
     }
   affine->SetFixedParameters ( p );
-  typename itk::TransformFileWriterTemplate<ScalarType>::Pointer
-    writer = itk::TransformFileWriterTemplate<ScalarType>::New();
-  typename itk::TransformFileReaderTemplate<ScalarType>::Pointer
-    reader = itk::TransformFileReaderTemplate<ScalarType>::New();
+  typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer
+    writer = itk::TransformFileWriterTemplate<TParametersValueType>::New();
+  typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer
+    reader = itk::TransformFileReaderTemplate<TParametersValueType>::New();
 
   writer->AddTransform(affine);
 
@@ -158,8 +158,8 @@ static int oneTest(const char *const goodname,const char *const badname)
 
   try
     {
-    const typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType * list = reader->GetTransformList();
-    typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType::const_iterator lit = list->begin();
+    const typename itk::TransformFileReaderTemplate<TParametersValueType>::TransformListType * list = reader->GetTransformList();
+    typename itk::TransformFileReaderTemplate<TParametersValueType>::TransformListType::const_iterator lit = list->begin();
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );
@@ -192,10 +192,10 @@ static int oneTest(const char *const goodname,const char *const badname)
     }
   Bogus->SetFixedParameters ( p );
 
-  typename itk::TransformFileWriterTemplate<ScalarType>::Pointer
-    badwriter = itk::TransformFileWriterTemplate<ScalarType>::New();
-  typename itk::TransformFileReaderTemplate<ScalarType>::Pointer
-    badreader = itk::TransformFileReaderTemplate<ScalarType>::New();
+  typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer
+    badwriter = itk::TransformFileWriterTemplate<TParametersValueType>::New();
+  typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer
+    badreader = itk::TransformFileReaderTemplate<TParametersValueType>::New();
   badwriter->AddTransform(Bogus);
   badwriter->SetFileName(badname);
   badreader->SetFileName(badname);
