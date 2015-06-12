@@ -21,7 +21,6 @@
 
 #include "itkPolygonGroupSpatialObject.h"
 #include "itkXMLFile.h"
-#include "ITKIOSpatialObjectsExport.h"
 namespace itk
 {
 /* 3D Polygon Groups only ones that make sense for this data type */
@@ -33,7 +32,7 @@ typedef PolygonGroupSpatialObject< 3 > PGroupSpatialObjectType;
  * creates a corresponding PolygonGroupSpatialObject
  * \ingroup ITKIOSpatialObjects
  */
-class ITKIOSpatialObjects_EXPORT PolygonGroupSpatialObjectXMLFileReader:
+class PolygonGroupSpatialObjectXMLFileReader:
   public XMLReader< PGroupSpatialObjectType >
 {
 public:
@@ -85,7 +84,7 @@ private:
  * based on a PolygonGroupSpatialObject.
  * \ingroup ITKIOSpatialObjects
  */
-class ITKIOSpatialObjects_EXPORT PolygonGroupSpatialObjectXMLFileWriter:
+class PolygonGroupSpatialObjectXMLFileWriter:
   public XMLWriterBase< PGroupSpatialObjectType >
 {
 public:
