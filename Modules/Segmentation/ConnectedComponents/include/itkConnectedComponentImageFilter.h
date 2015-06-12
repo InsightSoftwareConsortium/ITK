@@ -43,6 +43,8 @@ namespace itk
  * component image filter which did not produce consecutive labels or
  * impose any particular ordering.
  *
+ * After the filter is executed, ObjectCount holds the number of connected components.
+ *
  * \sa ImageToImageFilter
  *
  * \ingroup SingleThreaded
