@@ -1168,6 +1168,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
                        << typeid( Self * ).name() );
     }
 
+  this->ReleaseCellsMemory();
   this->m_CellsContainer     = mesh->m_CellsContainer;
   this->m_CellDataContainer  = mesh->m_CellDataContainer;
   this->m_CellLinksContainer = mesh->m_CellLinksContainer;

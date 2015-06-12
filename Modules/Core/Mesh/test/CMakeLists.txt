@@ -5,6 +5,7 @@ itkImageToParametricSpaceFilterTest.cxx
 itkInteriorExteriorMeshFilterTest.cxx
 itkParametricSpaceToImageSpaceMeshFilterTest.cxx
 itkRegularSphereMeshSourceTest.cxx
+itkRegularSphereMeshSourceTest2.cxx
 itkSimplexMeshTest.cxx
 itkSimplexMeshAdaptTopologyFilterTest.cxx
 itkSimplexMeshToTriangleMeshFilterTest.cxx
@@ -51,6 +52,8 @@ itk_add_test(NAME itkInteriorExteriorMeshFilterTest
       COMMAND ITKMeshTestDriver itkInteriorExteriorMeshFilterTest)
 itk_add_test(NAME itkRegularSphereMeshSourceTest
       COMMAND ITKMeshTestDriver itkRegularSphereMeshSourceTest)
+itk_add_test(NAME itkRegularSphereMeshSourceTest2
+      COMMAND ITKMeshTestDriver itkRegularSphereMeshSourceTest2)
 itk_add_test(NAME itkSimplexMeshAdaptTopologyFilterTest
       COMMAND ITKMeshTestDriver itkSimplexMeshAdaptTopologyFilterTest)
 itk_add_test(NAME itkSimplexMeshToTriangleMeshFilterTest
