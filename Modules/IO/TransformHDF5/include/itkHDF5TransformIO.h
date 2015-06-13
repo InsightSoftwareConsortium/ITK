@@ -80,17 +80,19 @@ class HDF5TransformIOTemplate:public TransformIOBaseTemplate<TParametersValueTyp
 private HDF5CommonPathNames
 {
 public:
-  typedef HDF5TransformIOTemplate                       Self;
-  typedef TransformIOBaseTemplate<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef typename Superclass::TransformType            TransformType;
-  typedef typename Superclass::TransformPointer         TransformPointer;
-  typedef typename Superclass::TransformListType        TransformListType;
-  typedef typename TransformType::FixedParametersType   FixedParametersType;
-  typedef typename TransformType::ParametersType        ParametersType;
+  typedef HDF5TransformIOTemplate                          Self;
+  typedef TransformIOBaseTemplate<TParametersValueType>    Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef typename Superclass::TransformType               TransformType;
+  typedef typename Superclass::TransformPointer            TransformPointer;
+  typedef typename Superclass::TransformListType           TransformListType;
+  typedef typename TransformType::ParametersType           ParametersType;
+  typedef typename TransformType::ParametersValueType      ParametersValueType;
+  typedef typename TransformType::FixedParametersType      FixedParametersType;
+  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
 
   typedef typename TransformIOBaseTemplate
-                      <TParametersValueType>::ConstTransformListType
+                      <ParametersValueType>::ConstTransformListType
                                                                 ConstTransformListType;
 
   /** Run-time type information (and related methods). */
@@ -119,7 +121,8 @@ protected:
 
 private:
   /** Read a parameter array from the file location name */
-  ParametersType ReadParameters(const std::string &DataSetName);
+  ParametersType ReadParameters(const std::string &DataSetName) const;
+  FixedParametersType ReadFixedParameters(const std::string &DataSetName) const;
 
   /** Write a parameter array to the file location name */
   void WriteParameters(const std::string &name,

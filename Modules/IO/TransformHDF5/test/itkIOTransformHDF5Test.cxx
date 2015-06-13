@@ -116,18 +116,26 @@ static int oneTest(const char *const goodname,const char *const badname)
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5TransformIOFactory::New() );
 
   // Set it's parameters
-  typename AffineTransformType::ParametersType p = affine->GetParameters();
+  {
+  typename AffineTransformType::ParametersType p =
+           affine->GetParameters();
   for ( unsigned int i = 0; i < p.GetSize(); i++ )
     {
     p[i] = i;
     }
   affine->SetParameters ( p );
-  p = affine->GetFixedParameters ();
+
+
+  }
+  {
+  typename AffineTransformType::FixedParametersType p =
+           affine->GetFixedParameters ();
   for ( unsigned int i = 0; i < p.GetSize(); i++ )
     {
     p[i] = i;
     }
   affine->SetFixedParameters ( p );
+  }
   typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer
     writer = itk::TransformFileWriterTemplate<TParametersValueType>::New();
   typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer
@@ -179,19 +187,22 @@ static int oneTest(const char *const goodname,const char *const badname)
   typename AffineTransformTypeNotRegistered::Pointer Bogus = AffineTransformTypeNotRegistered::New();
 
   // Set it's parameters
-  p = Bogus->GetParameters();
+  {
+  typename AffineTransformType::ParametersType p = Bogus->GetParameters();
   for ( unsigned int i = 0; i < p.GetSize(); i++ )
     {
     p[i] = i;
     }
   Bogus->SetParameters ( p );
-  p = Bogus->GetFixedParameters ();
+   }
+  {
+  typename AffineTransformType::FixedParametersType p = Bogus->GetFixedParameters ();
   for ( unsigned int i = 0; i < p.GetSize(); i++ )
     {
     p[i] = i;
     }
   Bogus->SetFixedParameters ( p );
-
+  }
   typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer
     badwriter = itk::TransformFileWriterTemplate<TParametersValueType>::New();
   typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer

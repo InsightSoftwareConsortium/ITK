@@ -94,10 +94,10 @@ HDF5TransformIOTemplate<TParametersValueType>
 ::WriteParameters(const std::string &name,
                   const ParametersType &parameters)
 {
-  hsize_t dim(parameters.Size());
+  const hsize_t dim(parameters.Size());
 
   const std::string & NameParametersValueTypeString = Superclass::GetTypeNameString();
-  TParametersValueType *buf = new TParametersValueType[dim];
+  ParametersValueType *buf = new ParametersValueType[dim];
   if( ! NameParametersValueTypeString.compare( std::string("double") ))
     {
     for(unsigned i(0); i < dim; i++)
@@ -133,29 +133,75 @@ HDF5TransformIOTemplate<TParametersValueType>
   delete [] buf;
 }
 
+template<typename TParametersValueType>
+void
+HDF5TransformIOTemplate<TParametersValueType>
+::WriteFixedParameters(const std::string &name,
+                       const FixedParametersType &fixedParameters)
+{
+  const hsize_t dim(fixedParameters.Size());
+  FixedParametersValueType *buf = new FixedParametersValueType[dim];
+
+  const std::string & NameParametersValueTypeString = Superclass::GetTypeNameString();
+  if( ! NameParametersValueTypeString.compare( std::string("double") ))
+  {
+  for(unsigned i(0); i < dim; i++)
+    {
+    buf[i] = fixedParameters[i];
+    }
+  H5::DataSpace paramSpace(1,&dim);
+  H5::DataSet paramSet = this->m_H5File->createDataSet(name,
+    H5::PredType::NATIVE_DOUBLE,
+    paramSpace);
+  paramSet.write(buf,H5::PredType::NATIVE_DOUBLE);
+  paramSet.close();
+  }
+  else if( ! NameParametersValueTypeString.compare(std::string("float") ) )
+  {
+  for(unsigned i(0); i < dim; i++)
+    {
+    buf[i] = fixedParameters[i];
+    }
+  H5::DataSpace paramSpace(1,&dim);
+  H5::DataSet paramSet = this->m_H5File->createDataSet(name,
+    H5::PredType::NATIVE_FLOAT,
+    paramSpace);
+  paramSet.write(buf,H5::PredType::NATIVE_FLOAT);
+  paramSet.close();
+  }
+  else
+  {
+  itkExceptionMacro(<< "Wrong data precision type "
+    << NameParametersValueTypeString
+    << "for writing in HDF5 File");
+  }
+  delete [] buf;
+}
+
 /** read a parameter array from the location specified by name */
 template<typename TParametersValueType>
 typename HDF5TransformIOTemplate<TParametersValueType>::ParametersType
 HDF5TransformIOTemplate<TParametersValueType>
-::ReadParameters(const std::string &DataSetName)
+::ReadParameters(const std::string &DataSetName) const
 {
-  ParametersType ParameterArray;
-  hsize_t dim;
+
   H5::DataSet paramSet = this->m_H5File->openDataSet(DataSetName);
-  H5T_class_t Type = paramSet.getTypeClass();
+  const H5T_class_t Type = paramSet.getTypeClass();
   if(Type != H5T_FLOAT)
     {
     itkExceptionMacro(<< "Wrong data type for "
                       << DataSetName
                       << "in HDF5 File");
     }
-  H5::DataSpace Space = paramSet.getSpace();
+  const H5::DataSpace Space = paramSet.getSpace();
   if(Space.getSimpleExtentNdims() != 1)
     {
     itkExceptionMacro(<< "Wrong # of dims for TransformType "
                       << "in HDF5 File");
     }
+  hsize_t dim;
   Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
+  ParametersType ParameterArray;
   ParameterArray.SetSize(dim);
   H5::FloatType ParamType = paramSet.getFloatType();
 
@@ -165,7 +211,7 @@ HDF5TransformIOTemplate<TParametersValueType>
     paramSet.read(buf,H5::PredType::NATIVE_DOUBLE);
     for(unsigned i = 0; i < dim; i++)
       {
-      ParameterArray.SetElement(i,(TParametersValueType)(buf[i]));
+      ParameterArray.SetElement(i,static_cast<ParametersValueType>(buf[i]));
       }
     delete[] buf;
     }
@@ -175,13 +221,66 @@ HDF5TransformIOTemplate<TParametersValueType>
     paramSet.read(buf,H5::PredType::NATIVE_FLOAT);
     for(unsigned i = 0; i < dim; i++)
       {
-      ParameterArray.SetElement(i,(TParametersValueType)(buf[i]));
+      ParameterArray.SetElement(i,static_cast<ParametersValueType>(buf[i]));
       }
     delete[] buf;
     }
   paramSet.close();
   return ParameterArray;
 }
+
+  /** read a parameter array from the location specified by name */
+  template<typename TParametersValueType>
+  typename HDF5TransformIOTemplate<TParametersValueType>::FixedParametersType
+  HDF5TransformIOTemplate<TParametersValueType>
+  ::ReadFixedParameters(const std::string &DataSetName) const
+  {
+
+  H5::DataSet paramSet = this->m_H5File->openDataSet(DataSetName);
+  H5T_class_t Type = paramSet.getTypeClass();
+  if(Type != H5T_FLOAT)
+    {
+    itkExceptionMacro(<< "Wrong data type for "
+                      << DataSetName
+                      << "in HDF5 File");
+    }
+  const H5::DataSpace Space = paramSet.getSpace();
+  if(Space.getSimpleExtentNdims() != 1)
+    {
+    itkExceptionMacro(<< "Wrong # of dims for TransformType "
+                      << "in HDF5 File");
+    }
+  hsize_t dim;
+  Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
+  FixedParametersType FixedParameterArray;
+
+  FixedParameterArray.SetSize(dim);
+  const H5::FloatType ParamType = paramSet.getFloatType();
+
+  if( ParamType.getSize() == sizeof(double) )
+    {
+    double *buf = new double[dim];
+    paramSet.read(buf,H5::PredType::NATIVE_DOUBLE);
+    for(unsigned i = 0; i < dim; i++)
+      {
+      FixedParameterArray.SetElement(i,static_cast<FixedParametersValueType>(buf[i]));
+      }
+    delete[] buf;
+    }
+  else
+    {
+    float *buf = new float[dim];
+    paramSet.read(buf,H5::PredType::NATIVE_FLOAT);
+    for(unsigned i = 0; i < dim; i++)
+      {
+      FixedParameterArray.SetElement(i,static_cast<FixedParametersValueType>(buf[i]));
+      }
+    delete[] buf;
+    }
+  paramSet.close();
+  return FixedParameterArray;
+  }
+
 
 template<typename TParametersValueType>
 void
@@ -262,7 +361,7 @@ HDF5TransformIOTemplate<TParametersValueType>
         {
         std::string fixedParamsName(transformName);
         fixedParamsName += transformFixedName;
-        FixedParametersType fixedparams(this->ReadParameters(fixedParamsName));
+        FixedParametersType fixedparams(this->ReadFixedParameters(fixedParamsName));
         transform->SetFixedParameters(fixedparams);
 
         std::string paramsName(transformName);

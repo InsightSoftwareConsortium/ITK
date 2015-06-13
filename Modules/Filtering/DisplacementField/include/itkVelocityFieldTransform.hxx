@@ -227,7 +227,7 @@ VelocityFieldTransform<TParametersValueType, NDimensions>
   SizeType fieldSize = fieldRegion.GetSize();
   for( unsigned int i = 0; i < VelocityFieldDimension; i++ )
     {
-    this->m_FixedParameters[i] = static_cast<ParametersValueType>( fieldSize[i] );
+    this->m_FixedParameters[i] = static_cast<FixedParametersValueType>( fieldSize[i] );
     }
 
   // Set the origin parameters
@@ -241,7 +241,7 @@ VelocityFieldTransform<TParametersValueType, NDimensions>
   SpacingType fieldSpacing = this->m_VelocityField->GetSpacing();
   for( unsigned int i = 0; i < VelocityFieldDimension; i++ )
     {
-    this->m_FixedParameters[2 * VelocityFieldDimension + i] = static_cast<ParametersValueType>( fieldSpacing[i] );
+    this->m_FixedParameters[2 * VelocityFieldDimension + i] = static_cast<FixedParametersValueType>( fieldSpacing[i] );
     }
 
   // Set the direction parameters
@@ -251,7 +251,7 @@ VelocityFieldTransform<TParametersValueType, NDimensions>
     for( unsigned int dj = 0; dj < VelocityFieldDimension; dj++ )
       {
       this->m_FixedParameters[3 * VelocityFieldDimension + ( di * VelocityFieldDimension + dj )] =
-        static_cast<ParametersValueType>( fieldDirection[di][dj] );
+        static_cast<FixedParametersValueType>( fieldDirection[di][dj] );
       }
     }
 }

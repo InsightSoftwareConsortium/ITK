@@ -51,10 +51,10 @@ public:
 
   /** Type of the input parameters. */
 
-  typedef  TParametersValueType                            ParametersValueType;
-  typedef  OptimizerParameters< ParametersValueType >      ParametersType;
-  typedef  ParametersValueType /* double */                FixedParametersValueType;
-  typedef  OptimizerParameters< FixedParametersValueType > FixedParametersType;
+  typedef  TParametersValueType                          ParametersValueType;
+  typedef  OptimizerParameters<ParametersValueType>      ParametersType;
+  typedef  ParametersValueType                           FixedParametersValueType;
+  typedef  OptimizerParameters<FixedParametersValueType> FixedParametersType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformBaseTemplate, Object);

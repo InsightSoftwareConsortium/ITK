@@ -134,8 +134,10 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::FixedParametersType FixedParametersType;
-  typedef typename Superclass::ParametersType      ParametersType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
 
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -185,7 +187,6 @@ public:
   virtual void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
-  typedef typename Superclass::ParametersValueType   ParametersValueType;
   typedef typename Superclass::ImageType             ImageType;
   typedef typename Superclass::ImagePointer          ImagePointer;
   typedef typename Superclass::CoefficientImageArray CoefficientImageArray;
