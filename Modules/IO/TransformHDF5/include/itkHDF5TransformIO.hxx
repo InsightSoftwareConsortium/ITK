@@ -141,10 +141,6 @@ HDF5TransformIOTemplate<TParametersValueType>
 {
   const hsize_t dim(fixedParameters.Size());
   FixedParametersValueType *buf = new FixedParametersValueType[dim];
-
-  const std::string & NameParametersValueTypeString = Superclass::GetTypeNameString();
-  if( ! NameParametersValueTypeString.compare( std::string("double") ))
-  {
   for(unsigned i(0); i < dim; i++)
     {
     buf[i] = fixedParameters[i];
@@ -155,26 +151,6 @@ HDF5TransformIOTemplate<TParametersValueType>
     paramSpace);
   paramSet.write(buf,H5::PredType::NATIVE_DOUBLE);
   paramSet.close();
-  }
-  else if( ! NameParametersValueTypeString.compare(std::string("float") ) )
-  {
-  for(unsigned i(0); i < dim; i++)
-    {
-    buf[i] = fixedParameters[i];
-    }
-  H5::DataSpace paramSpace(1,&dim);
-  H5::DataSet paramSet = this->m_H5File->createDataSet(name,
-    H5::PredType::NATIVE_FLOAT,
-    paramSpace);
-  paramSet.write(buf,H5::PredType::NATIVE_FLOAT);
-  paramSet.close();
-  }
-  else
-  {
-  itkExceptionMacro(<< "Wrong data precision type "
-    << NameParametersValueTypeString
-    << "for writing in HDF5 File");
-  }
   delete [] buf;
 }
 
@@ -413,7 +389,7 @@ HDF5TransformIOTemplate<TParametersValueType>
     FixedParametersType FixedtmpArray = curTransform->GetFixedParameters();
     std::string fixedParamsName(transformName);
     fixedParamsName += transformFixedName;
-    this->WriteParameters(fixedParamsName,FixedtmpArray);
+    this->WriteFixedParameters(fixedParamsName,FixedtmpArray);
     // parameters
     ParametersType tmpArray = curTransform->GetParameters();
     std::string paramsName(transformName);
