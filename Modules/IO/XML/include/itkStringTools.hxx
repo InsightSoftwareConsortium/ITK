@@ -44,30 +44,27 @@ std::string&
 StringTools::ToData( std::string& s, std::vector<T>& data, int count )
 {
   std::istringstream iss( s, std::istringstream::in );
-  iss.exceptions( iss.failbit | iss.badbit );
 
   if ( count < 0 )
     {
     // compute the number of elements to be read from the input stream
-    try
+    while ( iss.good() ) // loop until error occured or reach end of stream
       {
-      while ( !iss.eof() ) // loop until error occured or reach end of stream
+      T value = T();
+      if (iss >> value)
         {
-        T value = T();
-        iss >> value;
         data.push_back( value );
         }
       }
-    catch ( const std::istringstream::failure& e )
+    if( !iss.eof() )
       {
-      if ( !iss.eof() )
-        {
-        throw e; // loop terminated abnomally if not because of EOF
-        }
+      iss.exceptions( iss.failbit | iss.badbit );
       }
     }
   else
     {
+    iss.exceptions( iss.failbit | iss.badbit );
+
     // the number of elements to be read is provided by count or, if count is 0, data.size()
     if ( count == 0 )
       {
@@ -85,14 +82,6 @@ StringTools::ToData( std::string& s, std::vector<T>& data, int count )
       }
     }
 
-  if ( iss.eof() )
-    {
-    s.clear();
-    }
-  else
-    {
-    s.erase( 0, iss.tellg() );
-    }
   return s;
 }
 
@@ -133,27 +122,24 @@ std::string&
 StringTools::ToData( std::string& s, Array<T>& data, int count )
 {
   std::istringstream iss( s, std::istringstream::in );
-  iss.exceptions( iss.failbit | iss.badbit );
+
 
   if ( count < 0 )
     {
     // compute the number of elements to be read from the input stream
     std::vector<T> v;
-    try
+    while ( iss.good() ) // loop until error occured or reach end of stream
       {
-      while ( !iss.eof() ) // loop until error occured or reach end of stream
+      T value = T();
+      if (iss >> value )
         {
-        T value = T();
-        iss >> value;
         v.push_back( value );
         }
       }
-    catch ( const std::istringstream::failure& e )
+
+    if( !iss.eof() )
       {
-      if ( !iss.eof() )
-        {
-        throw e; // loop terminated abnomally if not because of EOF
-        }
+      iss.exceptions( iss.failbit | iss.badbit );
       }
 
     data.SetSize( v.size() );
@@ -164,6 +150,7 @@ StringTools::ToData( std::string& s, Array<T>& data, int count )
     }
   else
     {
+    iss.exceptions( iss.failbit | iss.badbit );
     // the number of elements to be read is provided by count or, if count is 0, data.size()
     if ( count == 0 )
       {
@@ -181,14 +168,6 @@ StringTools::ToData( std::string& s, Array<T>& data, int count )
       }
     }
 
-  if ( iss.eof() )
-    {
-    s.clear();
-    }
-  else
-    {
-    s.erase( 0, iss.tellg() );
-    }
   return s;
 }
 
@@ -227,14 +206,6 @@ StringTools::ToData( std::string& s, T& data )
   iss.exceptions( iss.failbit | iss.badbit );
   iss >> data;
 
-  if ( iss.eof() )
-    {
-    s.clear();
-    }
-  else
-    {
-    s.erase( 0, iss.tellg() );
-    }
   return s;
 }
 
