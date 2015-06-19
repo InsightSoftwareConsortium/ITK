@@ -515,10 +515,14 @@ macro(itk_end_wrap_submodule_python group_name)
   list(APPEND ITK_WRAP_PYTHON_LIBRARY_DEPS "${python_file}" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i" "${cpp_file}")
 
   # add this wrap_*.cmake stuff to the list of modules to init in the main module.
-  # first the extern c declaration
-  set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS}extern \"C\" int init_${group_name}Python();\n")
-  # and the call of the extern function
-  set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS}  init_${group_name}Python();\n")
+  # first the extern c declaration and then the call of the extern function
+  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
+    set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" int PyInit__${group_name}Python();\n")
+    set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS} PyInit__${group_name}Python();\n")
+  else()
+    set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" int init_${group_name}Python();\n")
+    set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS} init_${group_name}Python();\n")
+  endif()
 
 endmacro()
 
