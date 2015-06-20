@@ -294,7 +294,7 @@ VTKPolyDataReader< TOutputMesh >
 
     CellAutoPointer   cell;
     TriangleCellType *triangleCell = new TriangleCellType;
-    for ( PointIdentifier k = 0; k < itk::Math::CastWithRangeCheck<PointIdentifier>( numberOfCellPoints ); k++ )
+    for ( PointIdentifier k = 0; k < 3; ++k )
       {
       triangleCell->SetPointId(k, ids[k]);
       }
