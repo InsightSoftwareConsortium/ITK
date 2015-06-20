@@ -1,8 +1,8 @@
-set(${itk-module}_SRCS
+set(AnisotropicDiffusionLBR_SRCS
 CoherenceEnhancingDiffusion.cxx
   )
 
-add_library(${itk-module} ${${itk-module}_SRCS})
+add_library(AnisotropicDiffusionLBR ${AnisotropicDiffusionLBR_SRCS})
 
-target_link_libraries(${itk-module}  ${${itk-module}_LIBRARIES})
-itk_module_target(${itk-module})
+target_link_libraries(AnisotropicDiffusionLBR  ${AnisotropicDiffusionLBR_LIBRARIES})
+itk_module_target(AnisotropicDiffusionLBR)
