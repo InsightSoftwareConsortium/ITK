@@ -28,6 +28,7 @@
 #include "itkAddImageFilter.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkGradientImageFilter.h"
+#include "itkSymmetricSecondRankTensor.h"
 
 namespace itk
 {

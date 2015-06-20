@@ -19,6 +19,8 @@
 #ifndef itkCoherenceEnhancingDiffusionFilter_hxx
 #define itkCoherenceEnhancingDiffusionFilter_hxx
 
+#include "itkCoherenceEnhancingDiffusionFilter.h"
+
 namespace itk
 {
 
