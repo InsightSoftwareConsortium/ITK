@@ -28,6 +28,7 @@
 #include "itkImageFileWriter.h"
 #include "itkCoherenceEnhancingDiffusionFilter.h"
 #include "LinearAnisotropicDiffusionCommandLine.h"
+#include "itkTimeProbe.h"
 
 namespace CoherenceEnhancingDiffusionCommandLine
 {
@@ -229,10 +230,11 @@ int Execute(int argc, char * argv[])
   writer->SetInput(caster->GetOutput());
   writer->SetFileName(outputFileName);
 
-  clock_t top=-clock();
+  itk::TimeProbe clock;
+  clock.Start();
   writer->Update();
-  top +=clock();
-  std::cout << "Took : " << top/double(CLOCKS_PER_SEC) << "s\n";
+  clock.Stop();
+  std::cout << "Took: " << clock.GetMean() << " seconds\n";
 
   return EXIT_SUCCESS;
 }
