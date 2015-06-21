@@ -67,45 +67,62 @@ int Execute(int argc, char * argv[])
   using std::endl;
   using namespace itk;
 
-  if(argc<2+1) {Usage(); return EXIT_SUCCESS ;}
-
-  const char *ImageFileName =argv[0+1];
-  typedef ImageFileReader<Image<unsigned char,3> > ReaderType;
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(ImageFileName);
-
-  reader->UpdateOutputInformation();
-
-  const ImageIOBase * io = reader->GetImageIO();
-  const int ImageDimension = io->GetNumberOfDimensions();
-  const itk::ImageIOBase::IOComponentType componentType = io->GetComponentType();
-  const int nComponents = io->GetNumberOfComponents();
-
-  switch (ImageDimension)
+  if(argc < 2 + 1 )
     {
-      case 2: return Execute<2>(argc,argv,componentType,nComponents);
-      case 3: return Execute<3>(argc,argv,componentType,nComponents);
-      default: itkGenericExceptionMacro("Sorry, unsupported image dimension.");
+    Usage();
+    return EXIT_SUCCESS;
+    }
+
+  const char * imageFileName = argv[1];
+
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO( imageFileName, itk::ImageIOFactory::ReadMode );
+  imageIO->SetFileName( imageFileName );
+  imageIO->ReadImageInformation();
+
+  const unsigned int imageDimension = imageIO->GetNumberOfDimensions();
+  const itk::ImageIOBase::IOComponentType componentType = imageIO->GetComponentType();
+  const unsigned int nComponents = imageIO->GetNumberOfComponents();
+
+  switch( imageDimension )
+    {
+    case 2:
+      return Execute<2>(argc,argv,componentType,nComponents);
+    case 3:
+      return Execute<3>(argc,argv,componentType,nComponents);
+    default:
+      itkGenericExceptionMacro("Sorry, unsupported image dimension.");
     }
 }
 
 template<int Dimension>
-int Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentType componentType, int nComponents){
-    switch (componentType) {
-        case itk::ImageIOBase::UCHAR: return Execute<Dimension, float, unsigned char>(argc,argv,nComponents);
-        case itk::ImageIOBase::FLOAT: return Execute<Dimension, float, float>(argc,argv,nComponents);
-        case itk::ImageIOBase::DOUBLE:return Execute<Dimension, double, double>(argc,argv,nComponents);
-        default: itkGenericExceptionMacro("Sorry, unsupported component type");
+int Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentType componentType, int nComponents)
+{
+  switch(componentType)
+    {
+    case itk::ImageIOBase::UCHAR:
+      return Execute<Dimension, float, unsigned char>(argc,argv,nComponents);
+    case itk::ImageIOBase::FLOAT:
+      return Execute<Dimension, float, float>(argc,argv,nComponents);
+    case itk::ImageIOBase::DOUBLE:
+      return Execute<Dimension, double, double>(argc,argv,nComponents);
+    default:
+      itkGenericExceptionMacro("Sorry, unsupported component type");
     }
 }
 
 template<int Dimension, typename ScalarType, typename ComponentType>
-int Execute(int argc, char * argv[], int nComponents){
-    switch (nComponents) {
-        case 1: return Execute<Dimension,ScalarType,ScalarType,ComponentType>(argc,argv);
-        case 2: return Execute<Dimension,ScalarType,Vector<ScalarType,2>,Vector<ComponentType,2> >(argc,argv);
-        case 3: return Execute<Dimension,ScalarType,Vector<ScalarType,3>,Vector<ComponentType,3> >(argc,argv);
-        default: itkGenericExceptionMacro("Sorry, unsupported number of components");
+int Execute(int argc, char * argv[], int nComponents)
+{
+  switch(nComponents)
+    {
+    case 1:
+      return Execute<Dimension,ScalarType,ScalarType,ComponentType>(argc,argv);
+    case 2:
+      return Execute<Dimension,ScalarType,Vector<ScalarType,2>,Vector<ComponentType,2> >(argc,argv);
+    case 3:
+      return Execute<Dimension,ScalarType,Vector<ScalarType,3>,Vector<ComponentType,3> >(argc,argv);
+    default:
+      itkGenericExceptionMacro("Sorry, unsupported number of components");
     }
 }
 
@@ -117,16 +134,9 @@ int Execute(int argc, char * argv[])
   typedef ImageFileReader<ImageType> ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
 
-  const char *imageFileName =argv[0+1];
-  const char *outputFileName =argv[1+1];
+  const char * imageFileName = argv[1];
+  const char * outputFileName = argv[2];
   reader->SetFileName(imageFileName);
-
-  /*{
-      reader->Update();
-      auto image = reader->GetOutput();
-      std::cerr << image->GetRequestedRegion() << "\n\n";
-      std::cerr << image->GetRequestedRegion() << "\n\n";
-  }*/
 
   typedef CoherenceEnhancingDiffusionFilter<ImageType,ScalarType> DiffusionFilterType;
   typename DiffusionFilterType::Pointer diffusionFilter = DiffusionFilterType::New();
@@ -136,55 +146,62 @@ int Execute(int argc, char * argv[])
   diffusionFilter->AddObserver(ProgressEvent(), reportDiffusionProgress);
 
   int argIndex = 3;
-  if(argIndex<argc){
-      const double diffusionTime = atof(argv[argIndex++]);
-      if(diffusionTime==0) itkGenericExceptionMacro("Error: Unrecognized diffusion time (third argument).\n");
-      diffusionFilter->SetDiffusionTime(diffusionTime);
-  }
+  if( argIndex < argc )
+    {
+    const double diffusionTime = atof(argv[argIndex++]);
+    if(diffusionTime==0) itkGenericExceptionMacro("Error: Unrecognized diffusion time (third argument).\n");
+    diffusionFilter->SetDiffusionTime(diffusionTime);
+    }
 
-  if(argIndex<argc){
-      const double lambda = atof(argv[argIndex++]);
-      if(lambda==0.) itkGenericExceptionMacro("Error: Unrecognized lambda (fourth argument).\n");
-      diffusionFilter->SetLambda(lambda);
-  }
+  if( argIndex < argc )
+    {
+    const double lambda = atof(argv[argIndex++]);
+    if(lambda==0.) itkGenericExceptionMacro("Error: Unrecognized lambda (fourth argument).\n");
+    diffusionFilter->SetLambda(lambda);
+    }
 
-  if(argIndex<argc){
-      const char * enhancement = argv[argIndex++];
-      if(!strcmp(enhancement,"EED"))
-          diffusionFilter->SetEnhancement(DiffusionFilterType::EED); // Weickert's exponent : 4.
-      else if(!strcmp(enhancement,"cEED"))
-          diffusionFilter->SetEnhancement(DiffusionFilterType::cEED); // Weickert's exponent : 4.
-      else if(!strcmp(enhancement,"CED"))
-          diffusionFilter->SetEnhancement(DiffusionFilterType::CED); // Weickert's exponent : 2.
-      else if(!strcmp(enhancement, "cCED"))
-          diffusionFilter->SetEnhancement(DiffusionFilterType::cCED); // Weickert's exponent : 2.
-      else if(!strcmp(enhancement, "Isotropic"))
-          diffusionFilter->SetEnhancement(DiffusionFilterType::Isotropic); //Perona-Mali's exponent: 2.
-      else
-          itkGenericExceptionMacro("Error: Unrecognized enhancement (fifth argument).\n");
-  }
+  if( argIndex < argc )
+    {
+    const char * enhancement = argv[argIndex++];
+    if(!strcmp(enhancement,"EED"))
+        diffusionFilter->SetEnhancement(DiffusionFilterType::EED); // Weickert's exponent : 4.
+    else if(!strcmp(enhancement,"cEED"))
+        diffusionFilter->SetEnhancement(DiffusionFilterType::cEED); // Weickert's exponent : 4.
+    else if(!strcmp(enhancement,"CED"))
+        diffusionFilter->SetEnhancement(DiffusionFilterType::CED); // Weickert's exponent : 2.
+    else if(!strcmp(enhancement, "cCED"))
+        diffusionFilter->SetEnhancement(DiffusionFilterType::cCED); // Weickert's exponent : 2.
+    else if(!strcmp(enhancement, "Isotropic"))
+        diffusionFilter->SetEnhancement(DiffusionFilterType::Isotropic); //Perona-Mali's exponent: 2.
+    else
+        itkGenericExceptionMacro("Error: Unrecognized enhancement (fifth argument).\n");
+    }
 
-  if(argIndex<argc){
-      const double noiseScale = atof(argv[argIndex++]);
-      if(noiseScale==0.) itkGenericExceptionMacro("Error: Unrecognized noiseScale (sixth argument).\n");
-      diffusionFilter->SetNoiseScale(noiseScale);
-  }
+  if( argIndex < argc )
+    {
+    const double noiseScale = atof(argv[argIndex++]);
+    if(noiseScale==0.) itkGenericExceptionMacro("Error: Unrecognized noiseScale (sixth argument).\n");
+    diffusionFilter->SetNoiseScale(noiseScale);
+    }
 
-  if(argIndex<argc){
-      const double featureScale = atof(argv[argIndex++]);
-      if(featureScale==0.) itkGenericExceptionMacro("Error: Unrecognized featureScale (seventh argument).\n");
-      diffusionFilter->SetFeatureScale(featureScale);
-  }
+  if( argIndex < argc )
+    {
+    const double featureScale = atof(argv[argIndex++]);
+    if(featureScale==0.) itkGenericExceptionMacro("Error: Unrecognized featureScale (seventh argument).\n");
+    diffusionFilter->SetFeatureScale(featureScale);
+    }
 
-  if(argIndex<argc){
-      const double exponent = atof(argv[argIndex++]);
-      if(exponent==0.) itkGenericExceptionMacro("Error: Unrecognized exponent (eighth argument).\n");
-      diffusionFilter->SetExponent(exponent);
-  }
+  if( argIndex < argc )
+    {
+    const double exponent = atof(argv[argIndex++]);
+    if(exponent==0.) itkGenericExceptionMacro("Error: Unrecognized exponent (eighth argument).\n");
+    diffusionFilter->SetExponent(exponent);
+    }
 
-  if(argIndex<argc){
-      itkGenericExceptionMacro("Error: excessive number of arguments");
-  }
+  if( argIndex < argc )
+    {
+    itkGenericExceptionMacro("Error: excessive number of arguments");
+    }
 
   /*{
       std::cerr <<
