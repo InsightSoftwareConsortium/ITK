@@ -538,7 +538,7 @@ const std::ostream &ImplicitDataElement::Write(std::ostream &os) const
     return os;
     }
   // Write Value Length
-  const SequenceOfItems *sqi = dynamic_cast<const SequenceOfItems*>(&GetValue()); //GetSequenceOfItems();
+  const SequenceOfItems *sqi = dynamic_cast<const SequenceOfItems*>( ValueField.GetPointer() ); //GetSequenceOfItems();
   if( sqi && !ValueLengthField.IsUndefined() )
     {
     // Hum, we might have to recompute the length:
