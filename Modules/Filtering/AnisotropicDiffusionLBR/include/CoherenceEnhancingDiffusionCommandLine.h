@@ -77,6 +77,11 @@ int Execute(int argc, char * argv[])
   const char * imageFileName = argv[1];
 
   itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO( imageFileName, itk::ImageIOFactory::ReadMode );
+  if( imageIO.IsNull() )
+    {
+    std::cerr << "Could not create ImageIO" << std::endl;
+    return EXIT_FAILURE;
+    }
   imageIO->SetFileName( imageFileName );
   imageIO->ReadImageInformation();
 
