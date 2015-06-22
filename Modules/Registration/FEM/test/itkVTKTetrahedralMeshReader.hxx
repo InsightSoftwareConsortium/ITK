@@ -304,7 +304,7 @@ VTKTetrahedralMeshReader<TOutputMesh>
       CellAutoPointer cell;
 
       TetrahedronCellType * tetrahedronCell = new TetrahedronCellType;
-      for( PointIdentifier pointId = 0; pointId < numberOfCellPoints; pointId++ )
+      for( PointIdentifier pointId = 0; pointId < 4; pointId++ )
         {
         tetrahedronCell->SetPointId( pointId, ids[pointId] );
         }

@@ -35,9 +35,8 @@ int itkIdentityTransformTest(int, char *[] )
   IdentityTransformType::Pointer transform = IdentityTransformType::New();
 
   std::cout << "Testing TransformPoint: ";
-  IdentityTransformType::InputPointType::ValueType pInit[2] = {10, 10};
-  IdentityTransformType::InputPointType            p = pInit;
-  IdentityTransformType::OutputPointType           r;
+  IdentityTransformType::InputPointType   p( 10 );
+  IdentityTransformType::OutputPointType  r;
 
   r = transform->TransformPoint( p );
   for( unsigned int i = 0; i < N; i++ )
