@@ -583,6 +583,9 @@ STLMeshIO ::WriteCellsAsBinary(void * buffer)
 
   for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
   {
+    // skip cell type and number of vertices in cell
+    index += 2;
+
     const PointType & p0 = m_Points[cellsBuffer[index++]];
     const PointType & p1 = m_Points[cellsBuffer[index++]];
     const PointType & p2 = m_Points[cellsBuffer[index++]];
