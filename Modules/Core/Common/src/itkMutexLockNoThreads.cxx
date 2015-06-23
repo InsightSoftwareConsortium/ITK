@@ -29,11 +29,6 @@
 
 namespace itk
 {
-// New for the SimpleMutex
-SimpleMutexLock * SimpleMutexLock::New()
-{
-  return new SimpleMutexLock;
-}
 
 // Construct a new MutexLock
 SimpleMutexLock::SimpleMutexLock()
@@ -56,19 +51,9 @@ bool SimpleMutexLock::TryLock()
   return true;
 }
 
-// Non-blocking TryLock the FastMutexLock
-bool SimpleFastMutexLock::TryLock() const
-{
-  return true;
-}
-
 // Unlock the MutexLock
 void SimpleMutexLock::Unlock()
 {
 }
 
-void MutexLock::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
 } //end namespace itk
