@@ -18,6 +18,7 @@
 
 #include "itkMultiThreader.h"
 #include "itkTimeProbe.h"
+#include "itkConfigure.h"
 
 void* execute(void *ptr)
 {
@@ -42,7 +43,7 @@ void* execute(void *ptr)
   return ITK_NULLPTR;
 }
 
-#if defined(_WIN32) || defined(_WIN64)
+#if !defined(ITK_USE_PTHREADS)
 int itkThreadPoolTest(int, char* [])
 {
 #else

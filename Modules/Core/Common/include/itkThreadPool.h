@@ -117,7 +117,7 @@ protected:
     semaphore_t           m_Semaphore;
 #elif defined(_WIN32) || defined(_WIN64)
     HANDLE               m_Semaphore;
-#else
+#elif defined(ITK_USE_PTHREADS)
     sem_t                m_Semaphore;
 #endif
 

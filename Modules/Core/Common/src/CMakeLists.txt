@@ -93,8 +93,11 @@ itkMath.cxx
 
 if(WIN32)
   list(APPEND ITKCommon_SRCS itkWin32OutputWindow.cxx)
-  list(APPEND ITKCommon_SRCS itkWin32OutputWindow.cxx itkWinThreadPool.cxx)
-else()
+endif()
+
+if(ITK_USE_WIN32_THREADS)
+  list(APPEND ITKCommon_SRCS itkWinThreadPool.cxx)
+elseif(ITK_USE_PTHREADS)
   list(APPEND ITKCommon_SRCS itkPThreadPool.cxx)
 endif()
 
