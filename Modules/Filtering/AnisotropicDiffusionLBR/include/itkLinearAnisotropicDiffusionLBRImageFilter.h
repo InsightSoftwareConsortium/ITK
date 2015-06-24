@@ -25,6 +25,7 @@
 
 
 #include "itkImageToImageFilter.h"
+#include "itkSymmetricSecondRankTensor.h"
 
 namespace itk
 {
