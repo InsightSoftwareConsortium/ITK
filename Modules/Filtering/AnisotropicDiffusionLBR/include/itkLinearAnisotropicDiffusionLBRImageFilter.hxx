@@ -28,8 +28,6 @@
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkCastImageFilter.h"
 #include "itkExtractImageFilter.h"
-#include "sys/time.h"
-
 
 #include "itkUnaryFunctorWithIndexImageFilter.h"
 #include "itkTernaryFunctorImageFilter.h"
@@ -90,22 +88,10 @@ void
 LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 ::GenerateData()
 {
-  timeval start;
-  timeval end;
-  gettimeofday(&start, NULL); // nullptr is not accepted by older compilers
-
   GenerateStencils();
   this->UpdateProgress(0.5);
 
-  gettimeofday(&end, NULL);
-  m_SparseMatrixAssemblyTimeCost = (end.tv_sec-start.tv_sec)+(end.tv_usec-start.tv_usec)/1000000.;
-  start=end;
-
-
-  ImageUpdateLoop();
-
-  gettimeofday(&end, NULL);
-  m_IterationsTimeCost = (end.tv_sec-start.tv_sec)+(end.tv_usec-start.tv_usec)/1000000.;
+  this->ImageUpdateLoop();
 }
 
 // **************************** Computation ***********************

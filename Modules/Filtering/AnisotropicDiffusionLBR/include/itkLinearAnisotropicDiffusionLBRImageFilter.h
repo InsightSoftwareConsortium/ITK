@@ -85,8 +85,6 @@ public:
   itkGetConstMacro(EffectiveDiffusionTime, ScalarType);
   itkGetConstMacro(EffectiveNumberOfTimeSteps, int);
 
-  itkGetConstMacro(SparseMatrixAssemblyTimeCost, ScalarType);
-  itkGetConstMacro(IterationsTimeCost, ScalarType);
 protected:
   LinearAnisotropicDiffusionLBRImageFilter();
   virtual ~LinearAnisotropicDiffusionLBRImageFilter(){}
@@ -147,8 +145,6 @@ protected:
   virtual RegionType GetRequestedRegion(){return GetInputImage()->GetRequestedRegion();}
 
   InternalSizeT OutsideBufferIndex() const {return NumericTraits<InternalSizeT>::max();}
-
-  ScalarType m_SparseMatrixAssemblyTimeCost, m_IterationsTimeCost;
 
   struct StencilFunctor;
   struct FunctorType;
