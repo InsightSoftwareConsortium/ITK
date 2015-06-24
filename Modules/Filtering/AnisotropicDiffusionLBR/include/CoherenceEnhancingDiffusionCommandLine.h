@@ -60,7 +60,7 @@ template<int VDimension, typename ScalarType, typename PixelType, typename Expor
 int Execute(int argc, char * argv[]);
 
 
-typedef LinearAnisotropicDiffusionCommandLine::ReportProgressToCErrType ReportProgressToCErrType;
+typedef LinearAnisotropicDiffusionCommandLine::ReportProgressToCOutType ReportProgressToCOutType;
 
 int Execute(int argc, char * argv[])
 {
@@ -148,7 +148,7 @@ int Execute(int argc, char * argv[])
   typename DiffusionFilterType::Pointer diffusionFilter = DiffusionFilterType::New();
   diffusionFilter->SetInput(reader->GetOutput());
 
-  ReportProgressToCErrType::Pointer reportDiffusionProgress = ReportProgressToCErrType::New();
+  ReportProgressToCOutType::Pointer reportDiffusionProgress = ReportProgressToCOutType::New();
   diffusionFilter->AddObserver(ProgressEvent(), reportDiffusionProgress);
 
   int argIndex = 3;

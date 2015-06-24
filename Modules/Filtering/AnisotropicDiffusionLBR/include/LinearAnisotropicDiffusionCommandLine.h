@@ -55,9 +55,9 @@ template<int VDimension, typename ScalarType, typename PixelType, typename Expor
 int Execute(int argc, char * argv[]);
 
 
-struct ReportProgressToCErrType : public itk::Command
+struct ReportProgressToCOutType : public itk::Command
 {
-    itkNewMacro(ReportProgressToCErrType);
+    itkNewMacro(ReportProgressToCOutType);
     void Execute(itk::Object *caller, const itk::EventObject & event){
         Execute( (const itk::Object *)caller, event);
     }
@@ -180,7 +180,7 @@ int Execute(int argc, char * argv[]){
     } else
         diffusionFilter->SetMaxNumberOfTimeSteps(200);
 
-    ReportProgressToCErrType::Pointer reportDiffusionProgress = ReportProgressToCErrType::New();
+    ReportProgressToCOutType::Pointer reportDiffusionProgress = ReportProgressToCOutType::New();
     diffusionFilter->AddObserver(ProgressEvent(), reportDiffusionProgress);
 
     typedef Image<ExportPixelType,Dimension> ExportImageType;
