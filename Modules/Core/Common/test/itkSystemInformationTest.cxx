@@ -82,8 +82,6 @@ int main(int argc, char* argv[])
     {
       "CMakeCache.txt",
       "Modules/Core/Common/itkConfigure.h",
-      "CMakeFiles/CMakeOutput.log",
-      "CMakeFiles/CMakeError.log",
       "ITKConfig.cmake",
       "ITKConfigVersion.cmake",
       "ITKTargets.cmake",
