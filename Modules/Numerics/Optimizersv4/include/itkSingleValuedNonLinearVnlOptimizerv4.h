@@ -18,6 +18,8 @@
 #ifndef itkSingleValuedNonLinearVnlOptimizerv4_h
 #define itkSingleValuedNonLinearVnlOptimizerv4_h
 
+#include "ITKOptimizersv4Export.h"
+
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkSingleValuedVnlCostFunctionAdaptorv4.h"
 #include "itkCommand.h"
@@ -32,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-class  SingleValuedNonLinearVnlOptimizerv4 :
+class ITKOptimizersv4_EXPORT SingleValuedNonLinearVnlOptimizerv4 :
     public ObjectToObjectOptimizerBaseTemplate<double>
 {
 public:
