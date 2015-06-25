@@ -19,7 +19,7 @@
 #include <fstream>
 #include "CoherenceEnhancingDiffusionCommandLine.h"
 
-int CoherenceEnhancingDiffusionTest(int argc, char **argv)
+int CoherenceEnhancingDiffusionTest( int argc, char * argv[] )
 {
   try
     {
