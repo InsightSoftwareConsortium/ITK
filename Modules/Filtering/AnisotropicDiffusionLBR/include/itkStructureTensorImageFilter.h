@@ -92,8 +92,12 @@ protected:
   ScalarType m_PostRescaling;
   bool       m_UseGradientRecursiveGaussianImageFilter;
 
-  template< typename Dummy=void, bool b=std::numeric_limits<PixelType>::is_specialized >
-  struct IntermediateFilter;
+  struct DispatchBase {};
+  template< bool >
+  struct Dispatch: public DispatchBase {};
+
+  void IntermediateFilter( const Dispatch< true > & );
+  void IntermediateFilter( const Dispatch< false > & );
   typename TensorImageType::Pointer m_IntermediateResult;
 
   typedef CovariantVector<ScalarType,Dimension> CovariantVectorType;
