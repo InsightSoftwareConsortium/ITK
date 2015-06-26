@@ -105,17 +105,6 @@ protected:
   typedef int                               InternalSizeT;
   typedef Vector<InternalSizeT,StencilSize> StencilBufferIndicesType;
 
-  // ****************** Stencil support ******************
-
-  template<unsigned int NDimension=Dimension, typename Dummy=void> struct GetDiffusion;
-
-  template<typename Dummy> struct GetDiffusion<2,Dummy>{
-      static void Stencil(const TensorType &, StencilOffsetsType &, StencilCoefficientsType &);
-  };
-
-  template<typename Dummy> struct GetDiffusion<3,Dummy>{
-      static void Stencil(const TensorType &, StencilOffsetsType &, StencilCoefficientsType &);
-  };
 
   // *************** Computation *****************
   virtual void GenerateData() ITK_OVERRIDE;

@@ -136,7 +136,7 @@ public:
     for(int i=0; i<Dimension; ++i)
         for(int j=i; j<Dimension; ++j)
             D(i,j)=tensor(i,j)*this->invSpacing[i]*this->invSpacing[j];
-    GetDiffusion<>::Stencil(D,offsets,stencil.second);
+    this->Stencil( Dispatch< Dimension >(), D, offsets, stencil.second );
 
     InternalSizeT * yIndex = &stencil.first[0];
 
@@ -156,6 +156,135 @@ public:
   }
 
 protected:
+  struct DispatchBase {};
+  template< unsigned int >
+  struct Dispatch: public DispatchBase {};
+
+  static void Stencil(const Dispatch< 2 > &, const TensorType & D, StencilOffsetsType & offsets, StencilCoefficientsType & coefficients)
+  {
+    // Construct a superbase, and make it obtuse with Selling's algorithm
+    VectorType sb[Dimension+1]; //SuperBase
+    for(int i=0; i<Dimension; ++i)
+      {
+      for(int j=0; j<Dimension; ++j)
+        {
+        sb[i][j]=(i==j);
+        }
+      }
+
+    sb[Dimension] = -(sb[0]+sb[1]);
+    const int maxIter=200;
+    int iter=0;
+    for(; iter<maxIter; ++iter)
+      {
+      bool same=true;
+      for(int i=1; i<=Dimension && same; ++i)
+        {
+        for(int j=0; j<i && same; ++j)
+          {
+          if( ScalarProduct(D,sb[i],sb[j]) > 0 )
+            {
+            const VectorType u=sb[i], v=sb[j];
+            sb[0]=v-u;
+            sb[1]=u;
+            sb[2]=-v;
+            same=false;
+            }
+          }
+        }
+      if(same)
+        {
+        break;
+        }
+      }
+    if( iter == maxIter )
+      {
+      std::cerr << "Warning: Selling's algorithm not stabilized." << std::endl;
+      }
+
+    for( int i = 0; i < 3; ++i )
+      {
+      coefficients[i] = (-0.5)*ScalarProduct(D,sb[(i+1)%3],sb[(i+2)%3]);
+      assert(coefficients[i]>=0);
+
+      offsets[i][0] = static_cast<OffsetValueType>(-sb[i][1]);
+      offsets[i][1] = static_cast<OffsetValueType>( sb[i][0]);
+      }
+  }
+  static void Stencil(const Dispatch< 3 > &, const TensorType & D, StencilOffsetsType & offsets, StencilCoefficientsType & coefficients)
+  {
+    // Construct a superbase, and make it obtuse with Selling's algorithm
+    typedef Vector<ScalarType,Dimension> VectorType;
+    VectorType sb[Dimension+1];
+    for(int i=0; i<Dimension; ++i)
+      {
+      for(int j=0; j<Dimension; ++j)
+        {
+        sb[i][j] = (i==j);
+        }
+      }
+    sb[Dimension]=-(sb[0]+sb[1]+sb[2]);
+
+    const int maxIter=200;
+    int iter=0;
+    for(; iter<maxIter; ++iter)
+      {
+      bool same=true;
+      for(int i=1; i<=Dimension && same; ++i)
+          for(int j=0; j<i && same; ++j)
+              if( ScalarProduct(D,sb[i],sb[j]) > 0 ){
+                  const VectorType u=sb[i], v=sb[j];
+                  for(int k=0,l=0; k<=Dimension; ++k)
+                      if(k!=i && k!=j)
+                          sb[l++]=sb[k]+u;
+                  sb[2]=-u;
+                  sb[3]=v;
+                  same=false;
+              }
+      if(same) break;
+      }
+    if(iter==maxIter)
+      {
+      std::cerr << "Warning: Selling's algorithm not stabilized." << std::endl;
+      }
+
+    // Computation of the weights
+    SymmetricSecondRankTensor<ScalarType,Dimension+1> Weights;
+    for(int i=1; i<Dimension+1; ++i)
+      {
+      for(int j=0; j<i; ++j)
+        {
+        Weights(i,j) = (-0.5)*ScalarProduct(D,sb[i],sb[j]);
+        }
+      }
+
+    // Now that the obtuse superbasis has been created, generate the stencil.
+    // First get the dual basis. Obtained by computing the comatrix of Basis[1..Dimension].
+
+    for(int i=0; i<Dimension; ++i)
+      {
+      for(int j=0; j<Dimension; ++j)
+        {
+          offsets[i][j] = sb[(i+1)%Dimension][(j+1)%Dimension]*sb[(i+2)%Dimension][(j+2)%Dimension]
+          - sb[(i+2)%Dimension][(j+1)%Dimension]*sb[(i+1)%Dimension][(j+2)%Dimension];
+        }
+      }
+
+    offsets[Dimension  ] = offsets[0]-offsets[1];
+    offsets[Dimension+1] = offsets[0]-offsets[2];
+    offsets[Dimension+2] = offsets[1]-offsets[2];
+
+    // The corresponding coefficients are given by the scalar products.
+    for(int i=0; i<Dimension; ++i)
+      {
+      coefficients[i]=Weights(i,3);
+      }
+
+    coefficients[Dimension]   = Weights(0,1);
+    coefficients[Dimension+1] = Weights(0,2);
+    coefficients[Dimension+2] = Weights(1,2);
+  }
+
   RegionType  region;
   IndexType   prod;
   SpacingType invSpacing;
@@ -399,147 +528,6 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar>
     }
   return result;
 }
-
-
-// 2D stencil construction.
-template< typename TImage, typename TScalar >
-template<typename Dummy>
-void
-LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
-::GetDiffusion<2,Dummy>
-::Stencil(const TensorType &D, StencilOffsetsType &Offsets, StencilCoefficientsType &Coefficients)
-{
-  // Construct a superbase, and make it obtuse with Selling's algorithm
-  VectorType sb[Dimension+1]; //SuperBase
-  for(int i=0; i<Dimension; ++i)
-    {
-    for(int j=0; j<Dimension; ++j)
-      {
-      sb[i][j]=(i==j);
-      }
-    }
-
-  sb[Dimension] = -(sb[0]+sb[1]);
-  const int maxIter=200;
-  int iter=0;
-  for(; iter<maxIter; ++iter)
-    {
-    bool same=true;
-    for(int i=1; i<=Dimension && same; ++i)
-      {
-      for(int j=0; j<i && same; ++j)
-        {
-        if( ScalarProduct(D,sb[i],sb[j]) > 0 )
-          {
-          const VectorType u=sb[i], v=sb[j];
-          sb[0]=v-u;
-          sb[1]=u;
-          sb[2]=-v;
-          same=false;
-          }
-        }
-      }
-    if(same)
-      {
-      break;
-      }
-    }
-  if( iter == maxIter )
-    {
-    std::cerr << "Warning: Selling's algorithm not stabilized." << std::endl;
-    }
-
-  for( int i = 0; i < 3; ++i )
-    {
-    Coefficients[i] = (-0.5)*ScalarProduct(D,sb[(i+1)%3],sb[(i+2)%3]);
-    assert(Coefficients[i]>=0);
-
-    Offsets[i][0] = static_cast<OffsetValueType>(-sb[i][1]);
-    Offsets[i][1] = static_cast<OffsetValueType>( sb[i][0]);
-    }
-
-} // 2D stencil construction
-
-
-// 3D stencil construction
-template< typename TImage, typename TScalar >
-template<typename Dummy>
-void
-LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
-::GetDiffusion<3,Dummy>::
-Stencil(const TensorType &D, StencilOffsetsType &Offsets, StencilCoefficientsType &Coefficients)
-{
-  // Construct a superbase, and make it obtuse with Selling's algorithm
-  typedef Vector<ScalarType,Dimension> VectorType;
-  VectorType sb[Dimension+1];
-  for(int i=0; i<Dimension; ++i)
-    {
-    for(int j=0; j<Dimension; ++j)
-      {
-      sb[i][j] = (i==j);
-      }
-    }
-  sb[Dimension]=-(sb[0]+sb[1]+sb[2]);
-
-  const int maxIter=200;
-  int iter=0;
-  for(; iter<maxIter; ++iter)
-    {
-    bool same=true;
-    for(int i=1; i<=Dimension && same; ++i)
-        for(int j=0; j<i && same; ++j)
-            if( ScalarProduct(D,sb[i],sb[j]) > 0 ){
-                const VectorType u=sb[i], v=sb[j];
-                for(int k=0,l=0; k<=Dimension; ++k)
-                    if(k!=i && k!=j)
-                        sb[l++]=sb[k]+u;
-                sb[2]=-u;
-                sb[3]=v;
-                same=false;
-            }
-    if(same) break;
-    }
-  if(iter==maxIter)
-    {
-    std::cerr << "Warning: Selling's algorithm not stabilized." << std::endl;
-    }
-
-  // Computation of the weights
-  SymmetricSecondRankTensor<ScalarType,Dimension+1> Weights;
-  for(int i=1; i<Dimension+1; ++i)
-    {
-    for(int j=0; j<i; ++j)
-      {
-      Weights(i,j) = (-0.5)*ScalarProduct(D,sb[i],sb[j]);
-      }
-    }
-
-  // Now that the obtuse superbasis has been created, generate the stencil.
-  // First get the dual basis. Obtained by computing the comatrix of Basis[1..Dimension].
-
-  for(int i=0; i<Dimension; ++i)
-    {
-    for(int j=0; j<Dimension; ++j)
-      {
-        Offsets[i][j] = sb[(i+1)%Dimension][(j+1)%Dimension]*sb[(i+2)%Dimension][(j+2)%Dimension]
-        - sb[(i+2)%Dimension][(j+1)%Dimension]*sb[(i+1)%Dimension][(j+2)%Dimension];
-      }
-    }
-
-  Offsets[Dimension  ] = Offsets[0]-Offsets[1];
-  Offsets[Dimension+1] = Offsets[0]-Offsets[2];
-  Offsets[Dimension+2] = Offsets[1]-Offsets[2];
-
-  // The corresponding coefficients are given by the scalar products.
-  for(int i=0; i<Dimension; ++i)
-    {
-    Coefficients[i]=Weights(i,3);
-    }
-
-  Coefficients[Dimension]   = Weights(0,1);
-  Coefficients[Dimension+1] = Weights(0,2);
-  Coefficients[Dimension+2] = Weights(1,2);
-} // 3D stencil construction
 
 } // end namespace itk
 
