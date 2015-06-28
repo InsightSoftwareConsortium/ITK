@@ -385,7 +385,7 @@ template< typename LocalInputImageType, typename LocalOutputImageType >
 typename LocalOutputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::CalculateInverseFFT(LocalInputImageType * inputImage, RealSizeType & combinedImageSize )
- {
+{
   // The inverse Fourier transform normalizes by the number of voxels in the Fourier image.
   // It also converts the image from complex (with small imaginary values since
   // the input to the original FFTs was real) to real.
@@ -415,7 +415,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   typename LocalOutputImageType::Pointer outputImage = extracter->GetOutput();
   outputImage->DisconnectPipeline();
   return outputImage;
- }
+}
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 template< typename LocalInputImageType, typename LocalOutputImageType >

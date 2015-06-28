@@ -143,7 +143,6 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
   const TInputImage *inputPtr  = this->GetInput();
@@ -157,11 +156,10 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
   inputRegionForThread.SetSize( outputRegionForThread.GetSize() );
 
   IndexType start;
-  IndexType roiStart( m_RegionOfInterest.GetIndex() );
-  IndexType threadStart( outputRegionForThread.GetIndex() );
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    start[i] = roiStart[i] + threadStart[i];
+    start[i] = m_RegionOfInterest.GetIndex()[i] +
+               outputRegionForThread.GetIndex()[i];
     }
 
   inputRegionForThread.SetIndex(start);
@@ -169,8 +167,8 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
   ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
 
   progress.CompletedPixel();
-
 }
+
 } // end namespace itk
 
 #endif
