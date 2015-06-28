@@ -66,7 +66,7 @@ void MultiThreader::MultipleMethodExecute()
   ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
 }
 
-ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
+ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType itkNotUsed( f ), void *UserData)
 {
   int id = 0;
 
@@ -128,7 +128,7 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 
 void
 MultiThreader
-::ThreadPoolWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+::ThreadPoolWaitForSingleMethodThread(ThreadProcessIdType itkNotUsed( threadHandle ))
 {
   // No threading library specified.  Do nothing.  No joining or waiting
   // necessary.
@@ -136,14 +136,15 @@ MultiThreader
 
 ThreadProcessIdType
 MultiThreader
-::ThreadPoolDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+::ThreadPoolDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct * itkNotUsed( threadInfo ))
 {
   // No threading library specified.  Do nothing.  The computation
   // will be run by the main execution thread.
+  return 0;
 }
 void
 MultiThreader
-::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+::SpawnWaitForSingleMethodThread(ThreadProcessIdType itkNotUsed( threadHandle ))
 {
   // No threading library specified.  Do nothing.  No joining or waiting
   // necessary.
@@ -151,9 +152,10 @@ MultiThreader
 
 ThreadProcessIdType
 MultiThreader
-::SpawnDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+::SpawnDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct * itkNotUsed( threadInfo ))
 {
   // No threading library specified.  Do nothing.  The computation
   // will be run by the main execution thread.
+  return 0;
 }
 } // end namespace itk
