@@ -20,6 +20,7 @@
 #define itkFEMItpackSparseMatrix_h
 
 #include "itkFEMException.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -36,7 +37,7 @@ namespace fem
 // Forward declaration of friend class
 class ItpackLinearSystemWrapper;
 
-class ItpackSparseMatrix
+class ITKFEM_EXPORT ItpackSparseMatrix
 {
 public:
 

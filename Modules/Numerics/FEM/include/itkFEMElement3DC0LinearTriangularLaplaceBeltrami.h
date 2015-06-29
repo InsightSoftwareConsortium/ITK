@@ -22,6 +22,7 @@
 #include "itkFEMElement3DC0LinearTriangular.h"
 #include "itkFEMElement3DMembrane.h"
 #include "itkFEMElement3DMembrane1DOF.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -38,7 +39,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class Element3DC0LinearTriangularLaplaceBeltrami : public Element3DMembrane1DOF<Element3DC0LinearTriangular>
+class ITKFEM_EXPORT Element3DC0LinearTriangularLaplaceBeltrami : public Element3DMembrane1DOF<Element3DC0LinearTriangular>
 {
 public:
   /** Standard class typedefs. */

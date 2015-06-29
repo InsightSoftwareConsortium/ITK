@@ -21,6 +21,7 @@
 
 #include "itkFEMElement3DC0LinearTetrahedron.h"
 #include "itkFEMElement3DMembrane.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -40,7 +41,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class Element3DC0LinearTetrahedronMembrane : public Element3DMembrane<Element3DC0LinearTetrahedron>
+class ITKFEM_EXPORT Element3DC0LinearTetrahedronMembrane : public Element3DMembrane<Element3DC0LinearTetrahedron>
 {
 public:
   /** Standard class typedefs. */

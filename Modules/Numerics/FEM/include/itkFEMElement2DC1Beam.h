@@ -22,6 +22,7 @@
 #include "itkFEMElementStd.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -35,7 +36,7 @@ namespace fem
  * and one rotational, degree of freedom.
  * \ingroup ITKFEM
  */
-class Element2DC1Beam : public ElementStd<2, 2>
+class ITKFEM_EXPORT Element2DC1Beam : public ElementStd<2, 2>
 {
 public:
   /** Standard class typedefs. */

@@ -20,6 +20,7 @@
 #define itkFEMLoadPoint_h
 
 #include "itkFEMLoadElementBase.h"
+#include "ITKFEMExport.h"
 #include "vnl/vnl_vector.h"
 
 namespace itk
@@ -32,7 +33,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class LoadPoint : public LoadElement
+class ITKFEM_EXPORT LoadPoint : public LoadElement
 {
 public:
   /** Standard class typedefs. */

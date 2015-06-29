@@ -21,6 +21,7 @@
 
 #include "itkFEMElement2DC0QuadraticTriangular.h"
 #include "itkFEMElement2DStress.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -55,7 +56,7 @@ namespace fem
  * \sa Element2DC0LinearTriangularStrain
  * \ingroup ITKFEM
  */
-class Element2DC0QuadraticTriangularStress : public Element2DStress<Element2DC0QuadraticTriangular>
+class ITKFEM_EXPORT Element2DC0QuadraticTriangularStress : public Element2DStress<Element2DC0QuadraticTriangular>
 {
 public:
   /** Standard class typedefs. */

@@ -19,6 +19,7 @@
 #define itkFEMElement3DC0LinearTetrahedron_h
 
 #include "itkFEMElementStd.h"
+#include "ITKFEMExport.h"
 // to make some checks in GetLocalFromGlobalCoordinates
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_matrix_inverse.h>
@@ -58,7 +59,7 @@ namespace fem
  *
  * \ingroup ITKFEM
  */
-class Element3DC0LinearTetrahedron : public ElementStd<4, 3>
+class ITKFEM_EXPORT Element3DC0LinearTetrahedron : public ElementStd<4, 3>
 {
 public:
   /** Standard class typedefs. */

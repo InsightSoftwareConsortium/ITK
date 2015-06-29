@@ -20,6 +20,7 @@
 #define itkFEMElement2DC0QuadraticTriangular_h
 
 #include "itkFEMElementStd.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -54,7 +55,7 @@ namespace fem
  * \sa Element2DC0QuadraticTriangularStrain
  * \sa Element2DC0QuadraticTriangularStress
  */
-class Element2DC0QuadraticTriangular : public ElementStd<6, 2>
+class ITKFEM_EXPORT Element2DC0QuadraticTriangular : public ElementStd<6, 2>
 {
 public:
   /** Standard class typedefs. */
