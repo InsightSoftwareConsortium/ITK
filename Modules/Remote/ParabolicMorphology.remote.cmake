@@ -5,5 +5,5 @@ itk_fetch_module(ParabolicMorphology
   http://www.insight-journal.org/browse/publication/228
   http://hdl.handle.net/1926/1370"
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/parabolicMorphology.git
-  GIT_TAG 25ce7abb79e2a250c23654b479872c0cc289ce12
+  GIT_TAG 73580cb6a9d9dc40dcdebedb73592aadb27da147
   )
