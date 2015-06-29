@@ -21,6 +21,7 @@
 #include <string>
 #include <iostream>
 #include "metaObject.h"
+#include "ITKFEMExport.h"
 
 class MetaObject;
 
@@ -42,7 +43,7 @@ namespace fem
  * Integrates function f(x) from x=a to x=b in n points.
  * \ingroup ITKFEM
  */
-class GaussIntegrate
+class ITKFEM_EXPORT GaussIntegrate
 {
 public:
   static const double zero;

@@ -20,6 +20,7 @@
 #define itkFEMElement2DC0LinearLine_h
 
 #include "itkFEMElementStd.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace fem
  *  takes loads only along the length of the axis
  * \ingroup ITKFEM
  */
-class Element2DC0LinearLine : public ElementStd<2, 2>
+class ITKFEM_EXPORT Element2DC0LinearLine : public ElementStd<2, 2>
 {
 public:
   /** Standard class typedefs. */

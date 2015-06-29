@@ -22,6 +22,7 @@
 #include "itkFEMElement3DC0LinearTriangular.h"
 #include "itkFEMElement3DMembrane.h"
 #include "itkFEMElement3DMembrane1DOF.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -37,7 +38,7 @@ namespace fem
  * degrees of freedom at each node.
  * \ingroup ITKFEM
  */
-class Element3DC0LinearTriangularMembrane : public Element3DMembrane<Element3DC0LinearTriangular>
+class ITKFEM_EXPORT Element3DC0LinearTriangularMembrane : public Element3DMembrane<Element3DC0LinearTriangular>
 {
 public:
   /** Standard class typedefs. */

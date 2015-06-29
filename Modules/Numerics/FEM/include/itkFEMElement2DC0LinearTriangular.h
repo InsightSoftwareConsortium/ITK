@@ -20,6 +20,7 @@
 #define itkFEMElement2DC0LinearTriangular_h
 
 #include "itkFEMElementStd.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -54,7 +55,7 @@ namespace fem
  * \sa Element2DC0LinearTriangularStrain
  * \sa Element2DC0LinearTriangularStress
  */
-class Element2DC0LinearTriangular : public ElementStd<3, 2>
+class ITKFEM_EXPORT Element2DC0LinearTriangular : public ElementStd<3, 2>
 {
 public:
   /** Standard class typedefs. */

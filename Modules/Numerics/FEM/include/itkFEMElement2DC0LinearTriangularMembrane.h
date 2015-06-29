@@ -21,6 +21,7 @@
 
 #include "itkFEMElement2DC0LinearTriangular.h"
 #include "itkFEMElement2DMembrane.h"
+#include "ITKFEMExport.h"
 
 namespace itk
 {
@@ -58,7 +59,7 @@ namespace fem
  * This element is combined from Element2DC0LinearTriangular and Element2DMembrane.
  * \ingroup ITKFEM
  */
-class Element2DC0LinearTriangularMembrane : public Element2DMembrane<Element2DC0LinearTriangular>
+class ITKFEM_EXPORT Element2DC0LinearTriangularMembrane : public Element2DMembrane<Element2DC0LinearTriangular>
 {
 public:
   /** Standard class typedefs. */
