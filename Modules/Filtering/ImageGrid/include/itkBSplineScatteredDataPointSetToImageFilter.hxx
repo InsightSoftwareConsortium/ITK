@@ -74,7 +74,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_PointWeights = WeightsContainerType::New();
   this->m_UsePointWeights = false;
 
-  this->m_BSplineEpsilon = std::numeric_limits<RealType>::epsilon();
+  this->m_BSplineEpsilon = 1e-3;
 
   this->m_IsFittingComplete = false;
   this->m_CurrentLevel = 0;
@@ -268,12 +268,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       {
       maximumNumberOfSpans = numberOfSpans;
       }
-    }
-  this->m_BSplineEpsilon = 100 * std::numeric_limits<RealType>::epsilon();
-  while( static_cast<RealType>( maximumNumberOfSpans ) ==
-    static_cast<RealType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
-    {
-    this->m_BSplineEpsilon *= 10;
     }
 
   this->m_InputPointData->Initialize();
@@ -589,6 +583,12 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       this->m_Spacing[i] );
     }
 
+  vnl_vector<RealType> epsilon( ImageDimension );
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    epsilon[i] = r[i] * this->m_Spacing[i] * this->m_BSplineEpsilon;
+    }
+
   /**
    * Determine which points should be handled by this particular thread.
    */
@@ -616,12 +616,12 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
 
       p[i] = ( point[i] - this->m_Origin[i] ) * r[i];
-      if( vnl_math_abs( p[i] - static_cast<RealType>( totalNumberOfSpans ) ) <=
-        this->m_BSplineEpsilon )
+      if( p[i] >= static_cast<RealType>( totalNumberOfSpans ) &&
+          p[i] <= static_cast<RealType>( totalNumberOfSpans ) + epsilon[i] )
         {
-        p[i] = static_cast<RealType>( totalNumberOfSpans )
-               - this->m_BSplineEpsilon;
+        p[i] = static_cast<RealType>( totalNumberOfSpans ) - epsilon[i];
         }
+
       if( p[i] >= static_cast<RealType>( totalNumberOfSpans ) )
         {
         itkExceptionMacro( "The reparameterized point component " << p[i]
@@ -743,6 +743,20 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         this->m_SplineOrder[i];
       }
     }
+
+  vnl_vector<RealType> r( ImageDimension );
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    r[i] = static_cast<RealType>( totalNumberOfSpans[i] ) /
+      ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
+    }
+
+  vnl_vector<RealType> epsilon( ImageDimension );
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    epsilon[i] = r[i] * this->m_Spacing[i] * this->m_BSplineEpsilon;
+    }
+
   FixedArray<RealType, ImageDimension> U;
   FixedArray<RealType, ImageDimension> currentU;
   currentU.Fill( -1 );
@@ -761,11 +775,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
         static_cast<RealType>( idx[i] - startIndex[i] ) /
         static_cast<RealType>( this->m_Size[i] - 1 );
-      if( vnl_math_abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
-        <= this->m_BSplineEpsilon )
+
+      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) &&
+          U[i] <= static_cast<RealType>( totalNumberOfSpans[i] ) + epsilon[i] )
         {
-        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
-          this->m_BSplineEpsilon;
+        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) - epsilon[i];
         }
       if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
@@ -1074,6 +1088,20 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         this->m_SplineOrder[i];
       }
     }
+
+  vnl_vector<RealType> r( ImageDimension );
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    r[i] = static_cast<RealType>( totalNumberOfSpans[i] ) /
+      ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
+    }
+
+  vnl_vector<RealType> epsilon( ImageDimension );
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    epsilon[i] = r[i] * this->m_Spacing[i] * this->m_BSplineEpsilon;
+    }
+
   FixedArray<RealType, ImageDimension> U;
   FixedArray<RealType, ImageDimension> currentU;
   currentU.Fill( -1 );
@@ -1095,11 +1123,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
         static_cast<RealType>( point[i] - this->m_Origin[i] ) /
         ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
-      if( vnl_math_abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
-        <= this->m_BSplineEpsilon )
+
+      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) &&
+          U[i] <= static_cast<RealType>( totalNumberOfSpans[i] ) + epsilon[i] )
         {
-        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
-          this->m_BSplineEpsilon;
+        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) - epsilon[i];
         }
       if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
@@ -1269,12 +1297,13 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   os << indent << "Number of control points: "
      << this->m_NumberOfControlPoints << std::endl;
   os << indent << "Close dimension: " << this->m_CloseDimension << std::endl;
-  os << indent << "Number of levels " << this->m_NumberOfLevels << std::endl;
+  os << indent << "Number of levels: " << this->m_NumberOfLevels << std::endl;
   os << indent << "Parametric domain" << std::endl;
   os << indent << "  Origin:    " << this->m_Origin << std::endl;
   os << indent << "  Spacing:   " << this->m_Spacing << std::endl;
   os << indent << "  Size:      " << this->m_Size << std::endl;
   os << indent << "  Direction: " << this->m_Direction << std::endl;
+  os << indent << "B-spline epsilon: " << this->m_BSplineEpsilon << std::endl;
 }
 } // end namespace itk
 
