@@ -147,9 +147,9 @@ public:
 
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's bulk
-   * data to used as its output's own bulk data. It also copies the
-   * region ivars (RequestedRegion, BufferedRegion,
-   * LargestPossibleRegion) and meta-data (Spacing, Origin) from the
+   * data to use as its output's own bulk data. It also copies the
+   * region ivars (RequestedRegion, BufferedRegion, LargestPossibleRegion)
+   * and meta-data (Spacing, Origin, Direction) from the
    * specified data object into this filter's output data object. Most
    * importantly, however, it leaves the Source ivar untouched so the
    * original pipeline routing is intact. This method is used when a
@@ -157,9 +157,12 @@ public:
    * defined in its GenerateData() method.  The usage is:
    *
    * \code
-   *    // setup the mini-pipeline to process the input to this filter
-   *    firstFilterInMiniPipeline->SetInput( this->GetInput() );
-
+   *    // Setup the mini-pipeline to process the input to this filter
+   *    // The input is not connected to the pipeline.
+   *    typename InputImageType::Pointer input = InputImageType::New();
+   *    input->Graft( const_cast< InputImageType * >( this->GetInput() );
+   *    firstFilterInMiniPipeline->SetInput( input );
+   *
    *    // setup the mini-pipeline to calculate the correct regions
    *    // and write to the appropriate bulk data block
    *    lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
