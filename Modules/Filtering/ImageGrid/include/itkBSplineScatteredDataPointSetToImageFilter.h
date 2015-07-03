@@ -242,6 +242,17 @@ public:
   void SetNumberOfLevels( const ArrayType & );
 
   /**
+   * Set/Get the epsilon used for B-splines.  The B-spline parametric domain in
+   * 1-D is defined on the half-closed interval [a,b).  Extension to n-D is
+   * defined similarly.  This presents some difficulty for defining the
+   * the image domain to be co-extensive with the parametric domain.  We use
+   * the B-spline epsilon to push the edge of the image boundary inside the
+   * B-spline parametric domain.
+   */
+  itkSetMacro( BSplineEpsilon, RealType );
+  itkGetConstMacro( BSplineEpsilon, RealType );
+
+  /**
    * Get the number of fitting levels for all parametric dimensions. Starting
    * with the mesh size implied by setting the number of control points, the
    * mesh size is doubled at each fitting level.  Default = 1 in all parametric
