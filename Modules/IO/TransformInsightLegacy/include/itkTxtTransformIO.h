@@ -39,6 +39,11 @@ public:
                       TParametersValueType>::ConstTransformListType
                                                         ConstTransformListType;
 
+  typedef typename TransformType::ParametersType           ParametersType;
+  typedef typename TransformType::ParametersValueType      ParametersValueType;
+  typedef typename TransformType::FixedParametersType      FixedParametersType;
+  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(TxtTransformIOTemplate, Superclass);
   itkNewMacro(Self);

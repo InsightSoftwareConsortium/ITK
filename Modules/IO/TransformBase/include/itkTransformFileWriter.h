@@ -45,7 +45,7 @@ public:
   typedef SmartPointer<const Self>    ConstPointer;
 
   typedef TParametersValueType                             ParametersValueType;
-  typedef ParametersValueType /* double */                 FixedParametersValueType;
+  typedef double                                           FixedParametersValueType;
   typedef TransformBaseTemplate<ParametersValueType>       TransformType;
   typedef TransformIOBaseTemplate<ParametersValueType>     TransformIOType;
   typedef typename TransformIOType::TransformPointer       TransformPointer;

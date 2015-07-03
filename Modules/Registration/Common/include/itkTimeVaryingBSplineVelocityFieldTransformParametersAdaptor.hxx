@@ -152,14 +152,14 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
     {
     FixedParametersValueType domainPhysicalDimensions = ( this->m_RequiredTransformDomainSize[i] - 1.0 ) * this->m_RequiredTransformDomainSpacing[i];
 
-    ParametersValueType gridSpacing = domainPhysicalDimensions /
-      static_cast<ParametersValueType>( this->m_RequiredTransformDomainMeshSize[i] );
+    FixedParametersValueType gridSpacing = domainPhysicalDimensions /
+      static_cast<FixedParametersValueType>( this->m_RequiredTransformDomainMeshSize[i] );
     origin[i] = -0.5 * gridSpacing * ( this->m_SplineOrder - 1 );
     }
   origin = this->m_RequiredTransformDomainDirection * origin;
   for( SizeValueType i = 0; i < TotalDimension; i++ )
     {
-    this->m_RequiredFixedParameters[TotalDimension + i] = static_cast<ParametersValueType>(
+    this->m_RequiredFixedParameters[TotalDimension + i] = static_cast<FixedParametersValueType>(
       origin[i] + this->m_RequiredTransformDomainOrigin[i] );
     }
 

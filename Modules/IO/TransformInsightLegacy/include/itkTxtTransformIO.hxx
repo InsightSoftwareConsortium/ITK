@@ -161,9 +161,9 @@ TxtTransformIOTemplate<TParametersValueType>
   typename TransformType::ParametersType   VectorBuffer;
   std::string::size_type position = 0;
 
-  typename TransformType::ParametersType TmpParameterArray;
-  typename TransformType::ParametersType TmpFixedParameterArray;
+  typename TransformType::ParametersType      TmpParameterArray;
   TmpParameterArray.clear();
+  typename TransformType::FixedParametersType TmpFixedParameterArray;
   TmpFixedParameterArray.clear();
   bool haveFixedParameters = false;
   bool haveParameters = false;
@@ -327,7 +327,6 @@ TxtTransformIOTemplate<TParametersValueType>
     {
     transformList = helper.GetTransformList(transformList.front().GetPointer());
     }
-  vnl_vector< TParametersValueType > TempArray;
   int count = 0;
 
   typename ConstTransformListType::const_iterator end = transformList.end();
@@ -351,14 +350,18 @@ TxtTransformIOTemplate<TParametersValueType>
       }
     else
       {
-      TempArray = ( *it )->GetParameters();
-      out << "Parameters: ";// << TempArray << std::endl;
-      print_vector(out,TempArray);
-      out << std::endl;
-      TempArray = ( *it )->GetFixedParameters();
-      out << "FixedParameters: ";// << TempArray << std::endl;
-      print_vector(out,TempArray);
-      out << std::endl;
+        {
+        vnl_vector< ParametersValueType > TempArray = ( *it )->GetParameters();
+        out << "Parameters: ";// << TempArray << std::endl;
+        print_vector(out,TempArray);
+        out << std::endl;
+        }
+        {
+        vnl_vector< FixedParametersValueType > FixedTempArray = ( *it )->GetFixedParameters();
+        out << "FixedParameters: ";// << FixedTempArray << std::endl;
+        print_vector(out,FixedTempArray);
+        out << std::endl;
+        }
       }
     }
   out.close();

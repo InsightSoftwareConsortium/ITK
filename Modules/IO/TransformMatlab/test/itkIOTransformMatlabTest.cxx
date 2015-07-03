@@ -42,18 +42,22 @@ static int oneTest(const char *goodname,const char *badname)
 
 
   // Set it's parameters
-  typename AffineTransformType::ParametersType p = affine->GetParameters();
-  for ( i = 0; i < p.GetSize(); i++ )
     {
-    p[i] = i;
+    typename AffineTransformType::ParametersType p = affine->GetParameters();
+    for ( i = 0; i < p.GetSize(); i++ )
+      {
+      p[i] = i;
+      }
+    affine->SetParameters ( p );
     }
-  affine->SetParameters ( p );
-  p = affine->GetFixedParameters ();
-  for ( i = 0; i < p.GetSize(); i++ )
     {
-    p[i] = i;
+    typename AffineTransformType::FixedParametersType p = affine->GetFixedParameters ();
+    for ( i = 0; i < p.GetSize(); i++ )
+      {
+      p[i] = i;
+      }
+    affine->SetFixedParameters ( p );
     }
-  affine->SetFixedParameters ( p );
   typename TransformWriterType::Pointer writer = TransformWriterType::New();
   typename TransformReaderType::Pointer reader = TransformReaderType::New();
 
@@ -106,18 +110,22 @@ static int oneTest(const char *goodname,const char *badname)
   typename AffineTransformTypeNotRegistered::Pointer Bogus = AffineTransformTypeNotRegistered::New();
 
   // Set it's parameters
-  p = Bogus->GetParameters();
-  for ( i = 0; i < p.GetSize(); i++ )
     {
-    p[i] = i;
+    typename AffineTransformType::ParametersType p = Bogus->GetParameters();
+    for ( i = 0; i < p.GetSize(); i++ )
+      {
+      p[i] = i;
+      }
+    Bogus->SetParameters ( p );
     }
-  Bogus->SetParameters ( p );
-  p = Bogus->GetFixedParameters ();
-  for ( i = 0; i < p.GetSize(); i++ )
     {
-    p[i] = i;
+    typename AffineTransformType::FixedParametersType p = Bogus->GetFixedParameters ();
+    for ( i = 0; i < p.GetSize(); i++ )
+      {
+      p[i] = i;
+      }
+    Bogus->SetFixedParameters ( p );
     }
-  Bogus->SetFixedParameters ( p );
 
   typename TransformWriterType::Pointer badwriter = TransformWriterType::New();
   typename TransformReaderType::Pointer badreader = TransformReaderType::New();

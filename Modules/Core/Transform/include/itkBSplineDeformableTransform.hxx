@@ -289,7 +289,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
   const SizeType & gridSize = this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize();
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
-    this->m_FixedParameters[i] = static_cast<ParametersValueType>(
+    this->m_FixedParameters[i] = static_cast<FixedParametersValueType>(
       gridSize[i] );
     }
 }
@@ -305,7 +305,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
 
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
-    this->m_FixedParameters[NDimensions + i] = static_cast<ParametersValueType>(
+    this->m_FixedParameters[NDimensions + i] = static_cast<FixedParametersValueType>(
       origin[i] );
     }
 }
@@ -319,8 +319,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
   const SpacingType & spacing = this->m_CoefficientImages[0]->GetSpacing();
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
-    this->m_FixedParameters[2 * NDimensions + i] =
-      static_cast<ParametersValueType>( spacing[i] );
+    this->m_FixedParameters[2 * NDimensions + i] = static_cast<FixedParametersValueType>( spacing[i] );
     }
 }
 
@@ -336,7 +335,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
     for( unsigned int dj = 0; dj < NDimensions; dj++ )
       {
       this->m_FixedParameters[3 * NDimensions + ( di * NDimensions + dj )] =
-        static_cast<ParametersValueType>( direction[di][dj] );
+        static_cast<FixedParametersValueType>( direction[di][dj] );
       }
     }
 }

@@ -51,10 +51,23 @@ public:
 
   /** Type of the input parameters. */
 
-  typedef  TParametersValueType                            ParametersValueType;
-  typedef  OptimizerParameters< ParametersValueType >      ParametersType;
-  typedef  ParametersValueType /* double */                FixedParametersValueType;
-  typedef  OptimizerParameters< FixedParametersValueType > FixedParametersType;
+  typedef  TParametersValueType                          ParametersValueType;
+  typedef  OptimizerParameters<ParametersValueType>      ParametersType;
+  typedef  double                                        FixedParametersValueType;
+  typedef  OptimizerParameters<FixedParametersValueType> FixedParametersType;
+
+// The ITK_FIXED_PARAMETERS_ARE_DOUBLE is intended
+// to facilitate transition of ITK for those very
+// rare cases where multiple versions of ITK
+// may need to be supported simultaneously.
+#if defined( ITK_LEGACY_REMOVE )
+  #undef  ITK_FIXED_PARAMETERS_ARE_DOUBLE
+#else
+  #define ITK_FIXED_PARAMETERS_ARE_DOUBLE
+  // #if !defined(ITK_FIXED_PARAMETERS_ARE_DOUBLE)
+  // typedef ParametersValueType FixedParametersValueType;
+  // #endif
+#endif
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformBaseTemplate, Object);
