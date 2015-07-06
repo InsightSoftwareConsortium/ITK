@@ -37,7 +37,7 @@ namespace itk
  * made to minimize memory consumption.
  *
  *
- * @article{Schavemaker2000,
+ * \@article{Schavemaker2000,
  *  author    = {Schavemaker, J. and Reinders, M. and Gerbrands, J. and Backer, E.
 },
  * title     = {Image sharpening by morphological filtering},
