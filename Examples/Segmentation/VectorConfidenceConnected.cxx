@@ -63,9 +63,11 @@ int main( int argc, char *argv[] )
   if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY multiplier iterations" << std::endl;
-    return 1;
+    std::cerr << "Usage: " << argv[0]
+              << " inputImage  outputImage"
+              << " seedX seedY"
+              << " multiplier iterations" << std::endl;
+    return EXIT_FAILURE;
     }
 
 
@@ -78,10 +80,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char                         PixelComponentType;
-  typedef   itk::RGBPixel< PixelComponentType >   InputPixelType;
-  const     unsigned int    Dimension = 2;
-  typedef itk::Image< InputPixelType, Dimension >  InputImageType;
+  const unsigned int Dimension = 2;
+
+  typedef unsigned char                           PixelComponentType;
+  typedef itk::RGBPixel< PixelComponentType >     InputPixelType;
+  typedef itk::Image< InputPixelType, Dimension > InputImageType;
   // Software Guide : EndCodeSnippet
 
   typedef unsigned char                            OutputPixelType;
@@ -90,8 +93,8 @@ int main( int argc, char *argv[] )
 
   // We instantiate reader and writer types
   //
-  typedef  itk::ImageFileReader<  InputImageType   > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -108,8 +111,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::VectorConfidenceConnectedImageFilter< InputImageType,
-                                    OutputImageType > ConnectedFilterType;
+  typedef itk::VectorConfidenceConnectedImageFilter< InputImageType,
+                                   OutputImageType > ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -139,7 +142,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The VectorConfidenceConnectedImageFilter requires two
+  //  \code{VectorConfidenceConnectedImageFilter} requires two
   //  parameters.  First, the multiplier factor $f$ defines how large the
   //  range of intensities will be. Small values of the multiplier will
   //  restrict the inclusion of pixels to those having similar intensities to
@@ -207,7 +210,7 @@ int main( int argc, char *argv[] )
   //  anatomical structure to be segmented. A small neighborhood around the
   //  seed point will be used to compute the initial mean and standard
   //  deviation for the inclusion criterion. The seed is passed in the form
-  //  of a \doxygen{Index} to the \code{SetSeed()} method.
+  //  of an \doxygen{Index} to the \code{SetSeed()} method.
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetSeed()}
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetInitialNeighborhoodRadius()}
@@ -303,21 +306,16 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef ConnectedFilterType::MeanVectorType   MeanVectorType;
+  typedef ConnectedFilterType::MeanVectorType       MeanVectorType;
+  typedef ConnectedFilterType::CovarianceMatrixType CovarianceMatrixType;
 
   const MeanVectorType & mean = confidenceConnected->GetMean();
-
-  std::cout << "Mean vector = " << std::endl;
-  std::cout << mean << std::endl;
-
-  typedef ConnectedFilterType::CovarianceMatrixType   CovarianceMatrixType;
-
   const CovarianceMatrixType & covariance
                                        = confidenceConnected->GetCovariance();
 
-  std::cout << "Covariance matrix = " << std::endl;
-  std::cout << covariance << std::endl;
+  std::cout << "Mean vector = "       << mean       << std::endl;
+  std::cout << "Covariance matrix = " << covariance << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

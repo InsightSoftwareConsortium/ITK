@@ -49,13 +49,14 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The next step is to decide which pixel types to use for the input and output
-  //  images.
+  //  images, and to define the image dimension.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef  unsigned char  InputPixelType;
   typedef  unsigned char  OutputPixelType;
+  const unsigned int      Dimension = 2;
   // Software Guide : EndCodeSnippet
 
 
@@ -67,8 +68,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -132,7 +133,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The image obtained with the reader is passed as input to the
-  //  OtsuThresholdImageFilter.
+  //  \code{OtsuThresholdImageFilter}.
   //
   //  \index{itk::Otsu\-Threshold\-Image\-Filter!SetInput()}
   //  \index{itk::FileImageReader!GetOutput()}
@@ -170,22 +171,30 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The execution of the filter is triggered by invoking the \code{Update()}
-  //  method.   If the filter's output has been passed as input to subsequent
-  //  filters, the \code{Update()} call on any downstream filters in the
-  //  pipeline will indirectly trigger the update of this filter.
+  //  Execution of the filter is triggered by invoking the \code{Update()}
+  //  method, which we wrap in a \code{try/catch} block.  If the filter's
+  //  output has been passed as input to subsequent filters, the \code{Update()}
+  //  call on any downstream filters in the pipeline will indirectly trigger
+  //  the update of this filter.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->Update();
+  try
+    {
+    filter->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Exception thrown " << excp << std::endl;
+    }
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  We print out here the Threshold value that was computed internally by the
-  //  filter. For this we invoke the \code{GetThreshold} method.
+  //  We can now retrieve the internally-computed threshold value with the
+  //  \code{GetThreshold()} method and print it to the console.
   //
   //  Software Guide : EndLatex
 
@@ -222,7 +231,14 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   writer->SetFileName( argv[2] );
-  writer->Update();
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Exception thrown " << excp << std::endl;
+    }
 
   return EXIT_SUCCESS;
 }

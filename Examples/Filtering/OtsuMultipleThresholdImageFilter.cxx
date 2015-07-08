@@ -60,10 +60,10 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginLatex
   //
-  // OtsuMultipleThresholdsCalculator calculates thresholds for a given
+  // \code{OtsuMultipleThresholdsCalculator} calculates thresholds for a given
   // histogram so as to maximize the between-class variance. We use
-  // ScalarImageToHistogramGenerator to generate histograms. The histogram type
-  // defined by the generator is then used to instantiate the type of the
+  // \code{ScalarImageToHistogramGenerator} to generate histograms. The histogram
+  // type defined by the generator is then used to instantiate the type of the
   // Otsu threshold calculator.
   //
   // Software Guide : EndLatex
@@ -83,8 +83,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Once thresholds are computed we will use BinaryThresholdImageFilter to
-  // segment the input image into segments.
+  // Once thresholds are computed we will use \code{BinaryThresholdImageFilter}
+  // to segment the input image.
   //
   // Software Guide : EndLatex
 
@@ -170,7 +170,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Thresholds are obtained using the \code{GetOutput} method.
+  // Here we obtain a \code{const} reference to the thresholds by calling
+  // the \code{GetOutput()} method.
   // \index{itk::OtsuMultipleThresholdsCalculator!GetOutput()}
   //
   // Software Guide : EndLatex
@@ -179,22 +180,26 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   const CalculatorType::OutputType &thresholdVector = calculator->GetOutput();
-  CalculatorType::OutputType::const_iterator itNum = thresholdVector.begin();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // Threshold into separate segments and write out as binary images.
+  // We now iterate through \code{thresholdVector}, printing each value to the
+  // console and writing an image thresholded with adjacent values from the
+  // container.  (In the edge cases, the minimum and maximum values of the
+  // \code{InternalPixelType} are used).
   //
   // Software Guide : EndLatex
 
   std::string outputFileBase = argv[2];
 
-  InputPixelType lowerThreshold = 0;
+  InputPixelType lowerThreshold = itk::NumericTraits<InputPixelType>::min();
   InputPixelType upperThreshold;
 
   // Software Guide : BeginCodeSnippet
-  for(; itNum < thresholdVector.end(); itNum++)
+  typedef CalculatorType::OutputType::const_iterator ThresholdItType;
+
+  for(ThresholdItType itNum = thresholdVector.begin(); itNum != thresholdVector.end(); ++itNum)
     {
     std::cout << "OtsuThreshold["
               << (int)(itNum - thresholdVector.begin())

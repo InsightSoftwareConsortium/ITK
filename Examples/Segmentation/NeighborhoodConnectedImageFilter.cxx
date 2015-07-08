@@ -21,19 +21,20 @@
 // The following example illustrates the use of the
 // \doxygen{NeighborhoodConnectedImageFilter}.  This filter is a close variant
 // of the \doxygen{ConnectedThresholdImageFilter}. On one hand, the
-// ConnectedThresholdImageFilter accepts a pixel in the region if its intensity
-// is in the interval defined by two user-provided threshold values.  The
-// NeighborhoodConnectedImageFilter, on the other hand, will only accept a
-// pixel if \textbf{all} its neighbors have intensities that fit in the
-// interval. The size of the neighborhood to be considered around each pixel is
-// defined by a user-provided integer radius.
+// \code{ConnectedThresholdImageFilter} considers only the value of the pixel
+// itself when determining whether it belongs to the region: if its value is
+// within the interval [lowerThreshold,upperThreshold] it is included,
+// otherwise it is excluded.  \code{NeighborhoodConnectedImageFilter},
+// on the other hand, considers a user-defined neighborhood surrounding the
+// pixel, requiring that the intensity of \textbf{each} neighbor be within
+// the interval for it to be included.
 //
 // The reason for considering the neighborhood intensities instead of only the
 // current pixel intensity is that small structures are less likely to be
 // accepted in the region. The operation of this filter is equivalent to
-// applying the ConnectedThresholdImageFilter followed by mathematical
+// applying \code{ConnectedThresholdImageFilter} followed by mathematical
 // morphology erosion using a structuring element of the same shape as
-// the neighborhood provided to the NeighborhoodConnectedImageFilter.
+// the neighborhood provided to the \code{NeighborhoodConnectedImageFilter}.
 //
 // Software Guide : EndLatex
 
@@ -58,19 +59,20 @@
 #include "itkCurvatureFlowImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-
 int main( int argc, char *argv[] )
 {
+
   if( argc < 7 )
     {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY lowerThreshold upperThreshold" << std::endl;
-    return 1;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0]
+              << " inputImage outputImage"
+              << " seedX seedY"
+              << " lowerThreshold upperThreshold" << std::endl;
+    return EXIT_FAILURE;
     }
 
 
@@ -117,7 +119,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>
+  typedef itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>
     CurvatureFlowImageFilterType;
   // Software Guide : EndCodeSnippet
 
@@ -179,8 +181,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The CurvatureFlowImageFilter requires a couple of parameters.
-  //  The following are typical values for $2D$ images. However
+  //  \code{CurvatureFlowImageFilter} requires a couple of parameters.
+  //  The following are typical values for $2D$ images. However,
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
   //
@@ -194,7 +196,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The NeighborhoodConnectedImageFilter requires that two main parameters
+  //  \code{NeighborhoodConnectedImageFilter} requires that two main parameters
   //  are specified. They are the lower and upper thresholds of the interval
   //  in which intensity values must fall to be included in the
   //  region. Setting these two values too close will not allow enough
@@ -210,8 +212,8 @@ int main( int argc, char *argv[] )
   const InternalPixelType upperThreshold = atof( argv[6] );
 
   // Software Guide : BeginCodeSnippet
-  neighborhoodConnected->SetLower(  lowerThreshold  );
-  neighborhoodConnected->SetUpper(  upperThreshold  );
+  neighborhoodConnected->SetLower( lowerThreshold );
+  neighborhoodConnected->SetUpper( upperThreshold );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -226,7 +228,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  InternalImageType::SizeType   radius;
+  InternalImageType::SizeType radius;
 
   radius[0] = 2;   // two pixels along X
   radius[1] = 2;   // two pixels along Y
@@ -237,16 +239,16 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  As in the ConnectedThresholdImageFilter we must now provide the
-  //  intensity value to be used for the output pixels accepted in the region
-  //  and at least one seed point to define the initial region.
+  //  As in the \code{ConnectedThresholdImageFilter} example, we must
+  //  provide the intensity value to be used for the output pixels accepted
+  //  in the region and at least one seed point to define the starting point.
   //
   //  \index{itk::NeighborhoodConnectedImageFilter!SetSeed()}
   //  \index{itk::NeighborhoodConnectedImageFilter!SetReplaceValue()}
   //
   //  Software Guide : EndLatex
 
-  InternalImageType::IndexType  index;
+  InternalImageType::IndexType index;
 
   index[0] = atoi( argv[3] );
   index[1] = atoi( argv[4] );
@@ -260,7 +262,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The invocation of the \code{Update()} method on the writer triggers the
+  //  Invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  It is usually wise to put update calls in a
   //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //
@@ -307,17 +309,17 @@ int main( int argc, char *argv[] )
   // \label{fig:NeighborhoodConnectedImageFilterOutput}
   // \end{figure}
   //
-  //  As with the ConnectedThresholdImageFilter, several seeds could
-  //  be provided to the filter by using the \code{AddSeed()} method.
-  //  Compare the output of Figure
-  //  \ref{fig:NeighborhoodConnectedImageFilterOutput} with those of Figure
-  //  \ref{fig:ConnectedThresholdOutput} produced by the
-  //  ConnectedThresholdImageFilter. You may want to play with the
-  //  value of the neighborhood radius and see how it affect the smoothness of
-  //  the segmented object borders, the size of the segmented region and how
-  //  much that costs in computing time.
+  //  As with the \code{ConnectedThresholdImageFilter} example, several seeds could
+  //  be provided to the filter by repetedly calling the \code{AddSeed()} method
+  //  with different indices.  Compare Figures
+  //  \ref{fig:NeighborhoodConnectedImageFilterOutput} and
+  //  \ref{fig:ConnectedThresholdOutput}, demonstrating the outputs of
+  //  \code{NeighborhoodConnectedThresholdImageFilter} and \code{ConnectedThresholdImageFilter},
+  //  respectively.  It is instructive to adjust the neighborhood radii and observe its
+  //  effect on the smoothness of segmented object borders, size of the segmented region, and
+  //  computing time.
   //
   //  Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }

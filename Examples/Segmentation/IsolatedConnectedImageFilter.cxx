@@ -66,7 +66,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage seedX1 seedY1";
     std::cerr << " lowerThreshold seedX2 seedY2" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -112,7 +112,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The IsolatedConnectedImageFilter is instantiated in the lines below.
+  //  The \code{IsolatedConnectedImageFilter} is instantiated in the lines below.
   //
   //  Software Guide : EndLatex
 
@@ -153,7 +153,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The IsolatedConnectedImageFilter expects the user to specify a
+  //  The \code{IsolatedConnectedImageFilter} expects the user to specify a
   //  threshold and two seeds. In this example, we take all of them from the
   //  command line arguments.
   //
@@ -286,5 +286,5 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
