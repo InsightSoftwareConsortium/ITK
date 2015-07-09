@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMGHImageIOTest_h
-#define __itkMGHImageIOTest_h
+#ifndef itkMGHImageIOTest_h
+#define itkMGHImageIOTest_h
 
 #include <fstream>
 #include <vector>
