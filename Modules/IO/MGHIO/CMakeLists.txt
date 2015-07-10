@@ -1,3 +1,3 @@
-project(MGHIO)
-set(MGHIO_LIBRARIES MGHIO)
+project(ITKIOMGH)
+set(ITKIOMGH_LIBRARIES ITKIOMGH)
 itk_module_impl()

@@ -20,14 +20,15 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
+#include "ITKIOMGHExport.h"
 
 namespace itk
 {
 /** \class MGHImageIOFactory
    * \brief Create instances of MGHImageIO objects using an object factory.
-   * \ingroup MGHIO
+   * \ingroup ITKIOMGH
    */
-class MGHImageIOFactory : public ObjectFactoryBase
+class ITKIOMGH_EXPORT MGHImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs */

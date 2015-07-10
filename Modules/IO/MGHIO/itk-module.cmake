@@ -1,7 +1,8 @@
 set(DOCUMENTATION "This modules contains an ImageIO class to read or write the
   MGH file format that is an integral part of FreeSurfer based tools.")
 
-itk_module(MGHIO
+itk_module(ITKIOMGH
+  ENABLE_SHARED
   DEPENDS
     ITKIOImageBase
     ITKZLIB
