@@ -19,6 +19,7 @@
 #include "itkMGHImageIO.h"
 #include "itkVersion.h"
 
+
 namespace itk
 {
 void MGHImageIOFactory::PrintSelf(std::ostream &, Indent) const
@@ -52,7 +53,7 @@ MGHImageIOFactory::GetDescription() const
 
 static bool MGHImageIOFactoryHasBeenRegistered=false;
 
-void MGHImageIOFactoryRegister__Private(void)
+void MGHIO_EXPORT MGHImageIOFactoryRegister__Private(void)
 {
   if( ! MGHImageIOFactoryHasBeenRegistered )
     {

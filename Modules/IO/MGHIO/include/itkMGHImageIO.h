@@ -23,6 +23,8 @@
 #include <fstream>
 #include "itk_zlib.h"
 
+#include "MGHIOExport.h"
+
 namespace itk
 {
 /** \class MGHImageIO
@@ -35,7 +37,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup MGHIO
  */
-class MGHImageIO:public ImageIOBase
+class MGHIO_EXPORT MGHImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
