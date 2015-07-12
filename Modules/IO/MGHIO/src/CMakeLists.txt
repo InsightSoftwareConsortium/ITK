@@ -1,8 +1,8 @@
-set(ITKIOMGH_SRC
+set(MGHIO_SRC
 itkMGHImageIOFactory.cxx
 itkMGHImageIO.cxx
 )
 
-add_library(ITKIOMGH ${ITKIOMGH_SRC})
-target_link_libraries(ITKIOMGH ${ITKIOImageBase_LIBRARIES} ${ITKZLIB_LIBRARIES})
-itk_module_target(ITKIOMGH)
+add_library(MGHIO ${MGHIO_SRC})
+target_link_libraries(MGHIO ${ITKIOImageBase_LIBRARIES} ${ITKZLIB_LIBRARIES})
+itk_module_target(MGHIO)
