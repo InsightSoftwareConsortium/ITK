@@ -35,7 +35,7 @@ void ConditionVariable::Broadcast()
 {
 }
 
-void ConditionVariable::Wait(SimpleMutexLock *mutex)
+void ConditionVariable::Wait(SimpleMutexLock *)
 {
 }
 } //end of namespace itk
