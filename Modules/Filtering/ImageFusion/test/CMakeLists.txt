@@ -13,7 +13,7 @@ itkLabelMapOverlayImageFilterTest2.cxx
 itkLabelMapOverlayImageFilterTest3.cxx
 )
 
-CreateTestDriver(ITKImageFusion  "${ITKBinaryMathematicalMorphology-Test_LIBRARIES}" "${ITKImageFusionTests}")
+CreateTestDriver(ITKImageFusion  "${ITKImageFusion-Test_LIBRARIES}" "${ITKImageFusionTests}")
 
 itk_add_test(NAME itkScalarToRGBPixelFunctorTest
       COMMAND ITKImageFusionTestDriver itkScalarToRGBPixelFunctorTest)
