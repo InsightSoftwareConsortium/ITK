@@ -36,7 +36,7 @@
 #include <time.h>
 #include <string.h>
 
-void itkSystemInformationPrintFile(const char* name, std::ostream& os)
+void itkCMakeInformationPrintFile(const char* name, std::ostream& os)
 {
   // Preserve valuable output regardless of the limits set in
   // CMake/CTestCustom.cmake
@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 {
   if(argc != 2)
     {
-    std::cerr << "Usage: itkSystemInformationTest <top-of-build-tree>\n";
+    std::cerr << "Usage: itkCMakeInformationTest <top-of-build-tree>\n";
     return EXIT_FAILURE;
     }
   std::string build_dir = argv[1];
@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
   for(const char** f = files; *f; ++f)
     {
     std::string fname = build_dir + *f;
-    itkSystemInformationPrintFile(fname.c_str(), std::cout);
+    itkCMakeInformationPrintFile(fname.c_str(), std::cout);
     }
   return EXIT_SUCCESS;
 }

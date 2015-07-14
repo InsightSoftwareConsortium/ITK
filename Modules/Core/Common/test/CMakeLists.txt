@@ -467,10 +467,10 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
 endif()
 
-add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
-itk_module_target_label(itkSystemInformationTest)
-itk_add_test(NAME itkSystemInformationTest
-         COMMAND itkSystemInformationTest ${CMAKE_BINARY_DIR})
+add_executable(itkCMakeConfigurationTest itkCMakeConfigurationTest.cxx)
+itk_module_target_label(itkCMakeConfigurationTest)
+itk_add_test(NAME itkCMakeConfigurationTest
+         COMMAND itkCMakeConfigurationTest ${CMAKE_BINARY_DIR})
 itk_add_test(NAME itkDataObjectAndProcessObjectTest COMMAND ITKCommon2TestDriver itkDataObjectAndProcessObjectTest)
 itk_add_test(NAME itkImageRegionConstIteratorWithOnlyIndexTest COMMAND ITKCommon2TestDriver itkImageRegionConstIteratorWithOnlyIndexTest)
 itk_add_test(NAME itkImageRandomConstIteratorWithOnlyIndexTest COMMAND ITKCommon2TestDriver itkImageRandomConstIteratorWithOnlyIndexTest)
