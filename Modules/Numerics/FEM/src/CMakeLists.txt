@@ -49,7 +49,8 @@ dsrc2c.c
 )
 
 add_library(ITKFEM ${ITKFEM_SRC})
-target_link_libraries(ITKFEM  ${ITKMetaIO_LIBRARIES} ${ITKImageFunction_LIBRARIES} ${ITKRegistrationCommon_LIBRARIES})
+itk_module_link_dependencies()
+target_link_libraries(ITKFEM LINK_PUBLIC ${ITKMetaIO_LIBRARIES})
 itk_module_target(ITKFEM)
 # not valid because of dsrc2c.c
 set_property(TARGET ITKFEM PROPERTY VISIBILITY_INLINES_HIDDEN 0)

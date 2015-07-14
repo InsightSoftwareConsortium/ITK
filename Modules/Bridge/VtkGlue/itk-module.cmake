@@ -5,10 +5,11 @@ itk_module(ITKVtkGlue
   ENABLE_SHARED
   DEPENDS
     ITKCommon
+    ITKVTK
+  COMPILE_DEPENDS
     ITKImageIntensity
     ITKImageAdaptors
     ITKImageGrid
-    ITKVTK
   TEST_DEPENDS
     ITKTestKernel
     ITKSmoothing

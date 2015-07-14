@@ -4,8 +4,9 @@ optimizers using a new hierarchy developed for the needs of registration with hi
 itk_module(ITKOptimizersv4
   ENABLE_SHARED
   DEPENDS
-    ITKCommon
     ITKOptimizers
+  COMPILE_DEPENDS
+    ITKCommon
     ITKTransform
     ITKImageGrid
     ITKDisplacementField

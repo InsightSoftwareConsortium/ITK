@@ -7,5 +7,5 @@ itkBioCellularAggregateBase.cxx
 )
 
 add_library(ITKBioCell ${ITKBioCell_SRC})
-target_link_libraries(ITKBioCell  ${ITKMesh_LIBRARIES})
+itk_module_link_dependencies()
 itk_module_target(ITKBioCell)

@@ -4,6 +4,7 @@ of itkTransform objects.")
 itk_module(ITKIOTransformBase
   DEPENDS
     ITKTransform
+  COMPILE_DEPENDS
     ITKDisplacementField
   TEST_DEPENDS
     ITKTestKernel

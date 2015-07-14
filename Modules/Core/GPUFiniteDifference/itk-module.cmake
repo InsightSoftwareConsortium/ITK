@@ -6,6 +6,7 @@ itk_module(ITKGPUFiniteDifference
   DEPENDS
     ITKCommon
     ITKGPUCommon
+  COMPILE_DEPENDS
     ITKFiniteDifference
   TEST_DEPENDS
     ITKTestKernel

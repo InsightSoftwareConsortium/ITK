@@ -5,9 +5,10 @@ data model and file format.")
 itk_module(ITKIOHDF5
   ENABLE_SHARED
   DEPENDS
-    ITKCommon
     ITKIOImageBase
     ITKHDF5
+  COMPILE_DEPENDS
+    ITKCommon
   TEST_DEPENDS
     ITKTestKernel
     ITKImageSources

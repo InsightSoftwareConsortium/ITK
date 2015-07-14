@@ -8,11 +8,12 @@ itk_module(ITKBiasCorrection
   ENABLE_SHARED
   DEPENDS
     ITKImageFilterBase
-    ITKImageGrid
-    ITKImageIntensity
     ITKPolynomials
     ITKStatistics
     ITKOptimizers
+  COMPILE_DEPENDS
+    ITKImageGrid
+    ITKImageIntensity
   TEST_DEPENDS
     ITKTestKernel
     ITKImageSources
