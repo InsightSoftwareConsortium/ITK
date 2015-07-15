@@ -7,7 +7,7 @@ set(ITKIODCMTK_SRC
 
 add_library(ITKIODCMTK ${ITK_LIBRARY_BUILD_TYPE} ${ITKIODCMTK_SRC})
 
-link_module_libraries()
+itk_module_link_dependencies()
 target_link_libraries(ITKIODCMTK LINK_PUBLIC ${ITKImageIntensity_LIBRARIES})
 
 if(DEFINED DCMTK_HAVE_CONFIG_H_OPTIONAL AND NOT DCMTK_HAVE_CONFIG_H_OPTIONAL)
