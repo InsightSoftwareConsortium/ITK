@@ -32,15 +32,17 @@ int itkImageToVTKImageFilterTest(int, char *[])
   source->SetSize(size);
 
   ConnectorType::Pointer connector = ConnectorType::New();
-  connector->SetInput (source->GetOutput());
+  connector->SetInput(source->GetOutput());
 
-  connector->Update();
+  connector->UpdateLargestPossibleRegion();
 
   connector->GetOutput()->Print(std::cout);
   connector->GetImporter()->Print(std::cout);
   connector->GetExporter()->Print(std::cout);
 
   connector->Print(std::cout);
+
+  connector->Update();
 
   return EXIT_SUCCESS;
 }

@@ -124,6 +124,18 @@ ImageToVTKImageFilter<TInputImage>
 {
   m_Importer->Update();
 }
+
+/**
+ * Delegate the UpdateLargestPossibleRegion to the importer
+ */
+template <typename TInputImage>
+void
+ImageToVTKImageFilter<TInputImage>
+::UpdateLargestPossibleRegion()
+{
+  m_Importer->UpdateWholeExtent();
+}
+
 } // end namespace itk
 
 #endif
