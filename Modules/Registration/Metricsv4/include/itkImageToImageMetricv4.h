@@ -464,11 +464,6 @@ public:
   virtual void SetMaximumNumberOfThreads( const ThreadIdType threads );
   virtual ThreadIdType GetMaximumNumberOfThreads() const;
 
-  /** Initialize per-thread components for computing metric
-    * some threads require initialzation of temporary buffers
-    * per thread before processing each thread.
-    */
-  virtual void InitializeThread( const ThreadIdType /*threadId*/ ) { /*Do nothing by default */ }
   /**
     * Finalize the per-thread components for computing
     * metric.  Some threads can accumulate their data

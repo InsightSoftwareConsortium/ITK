@@ -108,14 +108,6 @@ protected:
         DerivativeType &                  localDerivativeReturn,
         const ThreadIdType                threadId ) const ITK_OVERRIDE;
 
-  /** Compute PDF derivative contribution for each parameter of a global support transform type. */
-  virtual void ComputePDFDerivativesGlobalSupportTransform(const ThreadIdType &    threadId,
-                             const OffsetValueType &         fixedImageParzenWindowIndex,
-                             const JacobianType &            jacobian,
-                             const OffsetValueType &         pdfMovingIndex,
-                             const MovingImageGradientType & movingGradient,
-                             const PDFValueType &            cubicBSplineDerivativeValue) const;
-
   /** Compute PDF derivative contribution for each parameter of a displacement field. */
   virtual void ComputePDFDerivativesLocalSupportTransform(
                              const JacobianType &            jacobian,
