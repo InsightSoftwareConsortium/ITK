@@ -3,7 +3,7 @@ REC/PAR image files.")
 
 itk_module(ITKIOPhilipsREC
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKIOImageBase
     ITKZLIB
   TEST_DEPENDS

@@ -7,7 +7,7 @@ segmentation algorithms.")
 
 itk_module(ITKQuadEdgeMesh
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKMesh
   TEST_DEPENDS
     ITKTestKernel

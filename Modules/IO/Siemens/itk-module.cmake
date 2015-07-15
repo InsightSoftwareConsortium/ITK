@@ -3,9 +3,9 @@ medical file format.")
 
 itk_module(ITKIOSiemens
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
+    ITKIOImageBase
     ITKIOIPL
-    ITKIOGE
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

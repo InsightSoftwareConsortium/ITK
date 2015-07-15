@@ -3,9 +3,9 @@ files in the Portable Network Graphics (PNG) format.")
 
 itk_module(ITKIOPNG
   ENABLE_SHARED
-  DEPENDS
-    ITKPNG
+  PRIVATE_DEPENDS
     ITKIOImageBase
+    ITKPNG
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

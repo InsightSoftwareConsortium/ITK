@@ -4,7 +4,7 @@ differences. Most of the classes in this module are abstract and therefore are
 not intended to be instantiated by themselves.")
 
 itk_module(ITKFiniteDifference
-  DEPENDS
+  COMPILE_DEPENDS
     ITKCommon
   TEST_DEPENDS
     ITKTestKernel

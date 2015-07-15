@@ -3,12 +3,10 @@ files in the MINC 2 file Format (mnc) and transformations (xfm).")
 
 itk_module(ITKIOMINC
   ENABLE_SHARED
-  DEPENDS
-    ITKMINC
+  PRIVATE_DEPENDS
     ITKIOImageBase
+    ITKMINC
     ITKIOTransformBase
-  COMPILE_DEPENDS
-    ITKTransform
   TEST_DEPENDS
     ITKTestKernel
     ITKImageStatistics

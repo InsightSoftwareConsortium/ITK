@@ -3,7 +3,7 @@ files in the \"legacy\" (non-XML) VTK file format.")
 
 itk_module(ITKIOVTK
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel

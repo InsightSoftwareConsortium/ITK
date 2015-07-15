@@ -3,17 +3,15 @@ interface between ITK and VTK.")
 
 itk_module(ITKVtkGlue
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKCommon
     ITKVTK
   COMPILE_DEPENDS
     ITKImageIntensity
-    ITKImageAdaptors
-    ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
+    ITKVTK
     ITKSmoothing
-    ITKImageCompose
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}")

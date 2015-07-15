@@ -90,6 +90,7 @@ itk_module(ITKReview
     ITKTestKernel
     ITKIOMesh
     ITKIOCSV
+    ITKIOLSM
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT

@@ -3,6 +3,8 @@ of itkTransform objects.")
 
 itk_module(ITKIOTransformBase
   DEPENDS
+    ITKCommon
+  PRIVATE_DEPENDS
     ITKTransform
   COMPILE_DEPENDS
     ITKDisplacementField

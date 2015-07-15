@@ -20,7 +20,7 @@ include_directories( ${ITKIONIFTI_SOURCE_DIR}/test )
 
 add_library(ITKIONIFTI-TestSupport  itkNiftiImageIOTestHelper.cxx)
 itk_module_target_label(ITKIONIFTI-TestSupport)
-target_link_libraries(ITKIONIFTI-TestSupport LINK_PUBLIC ${ITKIONIFTI_LIBRARIES})
+target_link_libraries(ITKIONIFTI-TestSupport LINK_PUBLIC ${ITKIONIFTI-Test_LIBRARIES})
 
 list(APPEND ITKIONIFTI-Test_LIBRARIES ITKIONIFTI-TestSupport)
 

@@ -12,7 +12,7 @@ into an itk::Image, all without having to duplicate their buffers.")
 
 itk_module(ITKVTK
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKCommon
   DESCRIPTION
     "${DOCUMENTATION}"

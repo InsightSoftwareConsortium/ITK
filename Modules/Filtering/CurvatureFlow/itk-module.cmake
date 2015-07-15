@@ -6,8 +6,7 @@ find the \\\\ref ITKSmoothing and the \\\\ref ITKAnisotropicSmoothing useful as
 well.")
 
 itk_module(ITKCurvatureFlow
-  DEPENDS
-    ITKImageFilterBase
+  COMPILE_DEPENDS
     ITKFiniteDifference
   TEST_DEPENDS
     ITKTestKernel

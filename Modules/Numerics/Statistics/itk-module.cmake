@@ -14,6 +14,7 @@ itk_module(ITKStatistics
     ITKTestKernel
     ITKImageIntensity
     ITKImageCompose
+    ITKIOImageBase
   DESCRIPTION
     "${DOCUMENTATION}"
 )
