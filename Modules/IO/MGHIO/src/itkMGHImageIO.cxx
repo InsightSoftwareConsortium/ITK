@@ -28,6 +28,18 @@ static const std::string __MGH_EXT(".mgh");
 static const std::string __MGZ_EXT(".mgz");
 static const std::string __GZ_EXT(".gz");
 
+typedef itk::Matrix<double,3,3> MatrixType;
+typedef itk::Vector<double, 3> VectorType;
+
+static MatrixType GetRAS2LPS()
+  {
+  MatrixType RAS2LAS;
+  RAS2LAS.SetIdentity();
+  RAS2LAS[0][0]=-1.0;
+  RAS2LAS[1][1]=-1.0;
+  RAS2LAS[2][2]= 1.0;
+  return RAS2LAS;
+  }
 
 // -------------------------------
 //
@@ -287,71 +299,67 @@ MGHImageIO
       z_r z_a z_s
       c_r c_a c_s
     */
-    typedef itk::Matrix<double,3,3> MatrixType;
-    MatrixType matrix;
+    MatrixType MGHdirMatrix;
     // reading in x_r x_a x_s y_r y_a y_s z_r z_a z_s and putting it into the
     // matrix as:
     // x_r y_r z_r
     // x_a y_a z_a
     // x_s y_s z_s
-    for( unsigned int uj = 0; uj < 3; ++uj )
+    for( unsigned int c = 0; c < 3; ++c )
       {
-      for( unsigned int ui = 0; ui < 3; ++ui )
+      for( unsigned int r = 0; r < 3; ++r ) //NOTE: Data stored row-major form, so traverse rows first
         {
-        this->TRead<float,double>( matrix[ui][uj] );
-//      std::cout << "itkMGHImageIO ReadVolumeHeader: matrix[" << ui << "][" << uj << "] = " << matrix[ui][uj] << "\n";
+        this->TRead<float,double>( MGHdirMatrix[r][c] );
         }
-      }
-    double c[3]; //c_r c_a c_s
-    for( size_t ui = 0; ui < 3; ++ui )
+      } 
+    // getting orientation must be done before RAS->LAS conversion
+    // but  not used const std::string orientation = GetOrientation( MGHdirMatrix );
+    // convert the coordinates from RAS to LPS, as the ITK archetype assumes
+    // LPS volumes. volume orientation not related to scan order, always convert
+    MatrixType ITKdirMatrix=GetRAS2LPS()*MGHdirMatrix; // Pre-multipy by conversion
+    for( size_t c = 0; c < 3; ++c )
       {
-      this->TRead<float,double>( c[ui]);
+      // now take x_r, x_a, x_s out of the matrix and set it to the direction
+      // vector 0, same for y_* and direction vector 1, z_* and vector 2
+      std::vector<double> vDir;
+      for( size_t r = 0; r < 3; ++r )
+        {
+        vDir.push_back( ITKdirMatrix[r][c] );
+        }
+      SetDirection( c, vDir );
       }
 
-    const std::string orientation = GetOrientation( matrix );
-    // now take x_r, x_a, x_s out of the matrix and set it to the direction
-    // vector 0, same for y_* and direction vector 1, z_* and vector 2
+    VectorType MGHcenterVoxel; //c_r c_a c_s
     for( size_t ui = 0; ui < 3; ++ui )
       {
-      // convert the coordinates from RAS to LPS, as the ITK archetype assumes
-      // LPS volumes
-      // volume orientation not related to scan order, always convert
-      matrix[0][ui] *= -1.0; // R -> L
-      matrix[1][ui] *= -1.0; // A -> P
-      std::vector<double> vDir;
-      for( size_t uj = 0; uj < 3; ++uj )
-        {
-        vDir.push_back( matrix[uj][ui] );
-        }
-      // std::cout << "itkMGHImageIO ReadVolumeHeader: setting " << ui << " direction in LPS: " << vDir[0] << "," <<
-      // vDir[1] << "," << vDir[2] << "\n";
-      SetDirection( ui, vDir );
+      this->TRead<float,double>( MGHcenterVoxel[ui]);
       }
+    // convert C to from RAS to LPS
+    VectorType ITKcenterVoxel=GetRAS2LPS()*MGHcenterVoxel;
+
 
     // MriDirCos(); // convert direction cosines
-
     // finally, store the origin of the image -> only works
     // if the image is properly oriented in the sequel
     //
     // computed in CORONAL orientation = ITK_COORDINATE_ORIENTATION_LIA
-    // convert C to from RAS to LPS
-    c[0] *= -1.0; //R->L
-    c[1] *= -1.0; //A->P
-    const double fcx = m_Dimensions[0] * 0.5;
-    const double fcy = m_Dimensions[1] * 0.5;
-    const double fcz = m_Dimensions[2] * 0.5;
-    for( size_t ui = 0; ui < 3; ++ui )
-      {
-      m_Origin[ui] = c[ui]
-        - ( matrix[ui][0] * m_Spacing[0] * fcx
-            + matrix[ui][1] * m_Spacing[1] * fcy
-            + matrix[ui][2] * m_Spacing[2] * fcz );
-      }
+    VectorType fc;
+    fc[0] = m_Dimensions[0] * 0.5;
+    fc[1] = m_Dimensions[1] * 0.5;
+    fc[2] = m_Dimensions[2] * 0.5;
+    MatrixType spcing;
+    spcing[0][0] = m_Spacing[0];
+    spcing[1][1] = m_Spacing[1];
+    spcing[2][2] = m_Spacing[2];
+
+    VectorType ITKorigin = ITKcenterVoxel - ( ITKdirMatrix * spcing * fc );
+    m_Origin[0] = ITKorigin[0];
+    m_Origin[1] = ITKorigin[1];
+    m_Origin[2] = ITKorigin[2];
     }
 
   // ==================
   // read tags at the end of file
-
   const size_t numValues = m_Dimensions[0] * m_Dimensions[1] * m_Dimensions[2];
   gzseek(this->m_GZFile, FS_WHOLE_HEADER_SIZE
          + ( m_NumberOfComponents * numValues * this->GetComponentSize() ),
@@ -642,50 +650,47 @@ MGHImageIO
     }
 
   // get directions matrix
-  std::vector<std::vector<double> > vvRas;
-  for( unsigned int ui = 0; ui < 3; ++ui )
+  MatrixType ITKdirMatrix;
+  for( unsigned int c = 0; c < 3; ++c )
     {
-    vvRas.push_back( GetDirection(ui) );
-    }
-  // transpose data before writing it
-  std::vector<double> vBufRas;
-  // transpose the matrix
-  for( unsigned int ui(0); ui < 3; ++ui )
-    {
-    for( unsigned int uj(0); uj < 3; ++uj )
+    const std::vector<double> & dir_line=GetDirection(c);
+    for( unsigned int r = 0; r < 3; ++r )
       {
-      if( uj == 0 || uj == 1 )
-        {
-        // convert the coordinates from LPS to RAS
-        vBufRas.push_back(-1.0 * (float)vvRas[ui][uj] );
-        }
-      else
-        {
-        vBufRas.push_back( (float)vvRas[ui][uj] );
-        }
+      ITKdirMatrix[r][c] = dir_line[r];
       }
     }
-  for( std::vector<double>::const_iterator cit = vBufRas.begin(); cit != vBufRas.end(); ++cit )
+  MatrixType MGHdirMatrix=GetRAS2LPS()*ITKdirMatrix; //Pre-multipy by RAS2LPS
+  // writing in x_r x_a x_s y_r y_a y_s z_r z_a z_s and putting it into the
+  // matrix as:
+  // x_r y_r z_r
+  // x_a y_a z_a
+  // x_s y_s z_s
+  for( unsigned int c = 0; c < 3; ++c )
     {
-    this->TWrite<double,float>(*cit);
+    for( unsigned int r = 0; r < 3; ++r ) //Write in row-major order
+      {
+      this->TWrite<double,float>(MGHdirMatrix[r][c]);
+      }
     }
-
-  const double fcx = m_Dimensions[0] * 0.5;
-  const double fcy = m_Dimensions[1] * 0.5;
-  const double fcz = m_Dimensions[2] * 0.5;
-  double c[3];
+  
+  VectorType fc;
+  fc[0] = m_Dimensions[0] * 0.5;
+  fc[1] = m_Dimensions[1] * 0.5;
+  fc[2] = m_Dimensions[2] * 0.5;
+  VectorType ITKorigin;
+  ITKorigin[0]=m_Origin[0];
+  ITKorigin[1]=m_Origin[1];
+  ITKorigin[2]=m_Origin[2];
+  MatrixType spcing;
+  spcing.SetIdentity();
+  spcing[0][0] = m_Spacing[0];
+  spcing[1][1] = m_Spacing[1];
+  spcing[2][2] = m_Spacing[2];
+  const VectorType ITKcenterVoxel = ITKorigin + ( ITKdirMatrix * spcing * fc );
+  const VectorType MGHcenterVoxel=GetRAS2LPS()*ITKcenterVoxel;
   for( size_t ui = 0; ui < 3; ++ui )
     {
-    c[ui] = m_Origin[ui]
-      + ( vvRas[ui][0] * m_Spacing[0] * fcx
-          + vvRas[ui][1] * m_Spacing[1] * fcy
-          + vvRas[ui][2] * m_Spacing[2] * fcz );
-    }
-  c[0] *= -1.0;
-  c[1] *= -1.0;
-  for( size_t ui = 0; ui < 3; ++ui )
-    {
-    this->TWrite<double,float>(c[ui]);
+    this->TWrite<double,float>(MGHcenterVoxel[ui]);
     }
   // fill the rest of the buffer with zeros
   const char zerobyte(0);
@@ -861,7 +866,6 @@ MGHImageIO
       orientation += "I";
       }
     }
-  // std::cout << "GetOrientation returning " << orientation.c_str() << std::endl;
   return orientation;
 }
 } // end namespace itk

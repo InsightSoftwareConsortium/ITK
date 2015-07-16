@@ -38,7 +38,6 @@ template <class TPixelType, unsigned int VImageDimension>
 typename itk::Image<TPixelType, VImageDimension>::Pointer
 itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
 {
-
   typedef itk::Euler3DTransform<double> EulerTransformType;
   EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
   eulerTransform->SetIdentity();
@@ -81,20 +80,6 @@ itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
     spacing[i] = static_cast<float>(i+1.234567);
     origin[i]  = static_cast<float>(1234.5);
     }
-
-#if 0
-  //Make origin match numerical precision of MGH file
-  const double fcx = sz[0] * 0.5;
-  const double fcy = sz[1] * 0.5;
-  const double fcz = sz[2] * 0.5;
-  for( size_t ui = 0; ui < 3; ++ui )
-    {
-    origin[ui] = origin[ui]
-      + ( direction[ui][0] * spacing[0] * fcx
-          + direction[ui][1] * spacing[1] * fcy
-          + direction[ui][2] * spacing[2] * fcz );
-    }
-#endif
 
   typename itk::RandomImageSource<ImageType>::Pointer source
     = itk::RandomImageSource<ImageType>::New();
@@ -157,8 +142,8 @@ itkMGHImageIOTestGenerateRandomImage< itk::DiffusionTensor3D<float> , 3 >(unsign
   for(unsigned int i = 0; i < 3; ++i)
     {
     sz[i] = size;
-    spacing[i] = static_cast<double>(i + 1);
-    origin[i] = static_cast<double>( (i & 1) ? -i : i );
+    spacing[i] = static_cast<double>(i*3.21 + 1.0);
+    origin[i] = static_cast<double>( 1.23456 );
     }
 
   TensorImagePointer tensorImage = TensorImageType::New();
@@ -194,7 +179,7 @@ itkMGHImageIOTestGenerateRandomImage< itk::DiffusionTensor3D<float> , 3 >(unsign
 
 
 template<class TPixelType, unsigned int VImageDimension>
-int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
+bool itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
                                     std::string inputFile, bool compression=false)
 {
   typedef itk::Image<TPixelType, VImageDimension> ImageType;
@@ -301,7 +286,7 @@ int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
       isFailingSpacing = true;
       }
     if( ! itk::Math::FloatAlmostEqual( test_image->GetOrigin()[idx],
-        reference_image->GetOrigin()[idx], 4, 1e-7 ) )
+        reference_image->GetOrigin()[idx], 100000, 1e-1 ) )
       {
       isFailingOrigin = true;
       }
@@ -334,10 +319,7 @@ int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
       << test_image->GetDirection() <<  " ! = \n" << reference_image->GetDirection()
       << std::endl;
     }
-  return (isFailingPixelValues 
-    || isFailingOrigin 
-    || isFailingSpacing 
-    || isFailingDirection)? EXIT_FAILURE:EXIT_SUCCESS;
+  return ! (isFailingPixelValues || isFailingOrigin || isFailingSpacing || isFailingDirection);
 }
 
 #endif //itkMGHImageIOTest_h_

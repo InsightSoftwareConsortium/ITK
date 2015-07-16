@@ -53,14 +53,14 @@ int itkMGHImageIOTest(int ac, char* av[])
     }
   const std::string TestMode(av[2]);
 
-  int returnStatus = EXIT_SUCCESS;
+  bool returnSucceeded = true;
   if( TestMode == std::string("FactoryCreationTest"))
   //Tests added to increase code coverage.
     {
     itk::MGHImageIOFactory::Pointer MyFactoryTest=itk::MGHImageIOFactory::New();
     if(MyFactoryTest.IsNull())
       {
-      returnStatus = EXIT_FAILURE;
+      returnSucceeded &= false;
       }
     //This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
     }
@@ -68,14 +68,11 @@ int itkMGHImageIOTest(int ac, char* av[])
     {
     std::string fn("test.mgz");
     //TODO: Need to test with images of non-identity direction cosigns, spacing, origin
-    if( ( returnStatus = itkMGHImageIOTestReadWriteTest<unsigned char,3>(fn,3,"null", true) ) != EXIT_FAILURE &&
-        ( returnStatus = itkMGHImageIOTestReadWriteTest<short int,3>(fn,3,"null", true) ) != EXIT_FAILURE &&
-        ( returnStatus = itkMGHImageIOTestReadWriteTest<int,3>(fn,3,"null", true) ) != EXIT_FAILURE &&
-        ( returnStatus = itkMGHImageIOTestReadWriteTest<float,3>(fn,3,"null", true) ) != EXIT_FAILURE &&
-        ( returnStatus = itkMGHImageIOTestReadWriteTest<itk::DiffusionTensor3D<float>, 3>(fn,3,"null", true) ) != EXIT_FAILURE )
-      {
-      returnStatus = EXIT_SUCCESS;
-      }
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<unsigned char,3>(fn,3,"null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<short int,3>(fn,3,"null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<int,3>(fn,3,"null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<float,3>(fn,3,"null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<itk::DiffusionTensor3D<float>, 3>(fn,3,"null", true);
     }
   else if( TestMode == std::string("ReadImagesTest") ) //This is a mechanism for reading unsigned int images for testing.
     {
@@ -99,7 +96,7 @@ int itkMGHImageIOTest(int ac, char* av[])
     catch (itk::ExceptionObject &e)
       {
       e.Print(std::cerr);
-      returnStatus = EXIT_FAILURE;
+      returnSucceeded &= false;
       }
     }
   else if( TestMode == "TestOriginWriteTest" )
@@ -138,19 +135,19 @@ int itkMGHImageIOTest(int ac, char* av[])
                   << "written: " << reference_origin
                   << " read: " << test_origin << " distance: "
                   << dist << std::endl;
-        returnStatus = EXIT_FAILURE;
+        returnSucceeded &= false;
         }
       }
     catch (itk::ExceptionObject &e)
       {
       e.Print(std::cerr);
-      returnStatus = EXIT_FAILURE;
+      returnSucceeded &= false;
       }
     }
   else
     {
     std::cerr << "Invalid TestMode : " << TestMode << std::endl;
-    returnStatus = EXIT_FAILURE;
+    returnSucceeded &= false;
     }
-  return returnStatus;
+  return (returnSucceeded == true) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

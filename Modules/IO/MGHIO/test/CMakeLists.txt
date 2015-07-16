@@ -38,8 +38,3 @@ itk_add_test(NAME itkMGHIOOriginTest
   DATA{${MGH_DATA_ROOT}/T1_longname.mgh.gz} OriginTEST.mgh.gz
   )
 
-
-
-# "/Users/johnsonhj/Dropbox/DATA/wmparc_acpc_ref.mgz"
-# "/Users/johnsonhj/Dropbox/DATA/wmparc_acpc_ref.nii.gz"
-
