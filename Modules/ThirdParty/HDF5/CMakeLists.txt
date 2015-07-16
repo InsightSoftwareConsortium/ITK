@@ -5,7 +5,7 @@ option(ITK_USE_SYSTEM_HDF5 "Use an outside build of HDF5." ${ITK_USE_SYSTEM_LIBR
 mark_as_advanced(ITK_USE_SYSTEM_HDF5)
 
 if(ITK_USE_SYSTEM_HDF5)
-  find_package(HDF5 REQUIRED C CXX)
+  find_package(HDF5 REQUIRED CXX C)
   set(ITKHDF5_INCLUDE_DIRS
     ${ITKHDF5_BINARY_DIR}/src # itk_hdf5.h and itk_H5Cpp.h
   )
