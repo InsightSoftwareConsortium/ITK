@@ -291,7 +291,7 @@ MGHImageIO
       z_r z_a z_s
       c_r c_a c_s
     */
-    typedef itk::Matrix<double> MatrixType;
+    typedef itk::Matrix<double,3,3> MatrixType;
     MatrixType matrix;
     // reading in x_r x_a x_s y_r y_a y_s z_r z_a z_s and putting it into the
     // matrix as:
@@ -308,7 +308,7 @@ MGHImageIO
 //      std::cout << "itkMGHImageIO ReadVolumeHeader: matrix[" << ui << "][" << uj << "] = " << matrix[ui][uj] << "\n";
         }
       }
-    float c[3];
+    float c[3]; //c_r c_a c_s
     for( unsigned int ui = 0; ui < 3; ++ui )
       {
       this->TRead( c[ui]);
@@ -337,12 +337,12 @@ MGHImageIO
     // MriDirCos(); // convert direction cosines
 
     // finally, store the origin of the image -> only works
-    // if the image is properly orriented in the sequel
+    // if the image is properly oriented in the sequel
     //
     // computed in CORONAL orientation = ITK_COORDINATE_ORIENTATION_LIA
     // convert C to from RAS to LPS
-    c[0] *= -1;
-    c[1] *= -1;
+    c[0] *= -1; //R->L
+    c[1] *= -1; //A->P
     const float fcx = static_cast<float>(m_Dimensions[0]) / 2.0f;
     const float fcy = static_cast<float>(m_Dimensions[1]) / 2.0f;
     const float fcz = static_cast<float>(m_Dimensions[2]) / 2.0f;
@@ -353,7 +353,6 @@ MGHImageIO
             + matrix[ui][1] * m_Spacing[1] * fcy
             + matrix[ui][2] * m_Spacing[2] * fcz );
       }
-
     }
 
   // ==================

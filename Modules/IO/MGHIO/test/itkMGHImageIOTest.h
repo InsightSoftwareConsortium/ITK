@@ -20,6 +20,7 @@
 
 #include <fstream>
 #include <vector>
+#include <iomanip>
 #include "itkImageRegionIterator.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -29,30 +30,69 @@
 #include "itkRandomImageSource.h"
 #include "itkDiffusionTensor3D.h"
 
+#include "itkEuler3DTransform.h"
+
 template <class TPixelType, unsigned int VImageDimension>
 typename itk::Image<TPixelType, VImageDimension>::Pointer
-itkMGHImageIOTestGenerateRandomImage(unsigned int size)
+itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
 {
+
+  typedef itk::Euler3DTransform<double> EulerTransformType;
+  EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
+  eulerTransform->SetIdentity();
+
+  // 15 degrees in radians
+  const double angleX = 15.0 * std::atan( 1.0 ) / 45.0;
+  // 10 degrees in radians
+  const double angleY = 10.0 * std::atan( 1.0 ) / 45.0;
+  // 5 degrees in radians
+  const double angleZ = 5.0 * std::atan( 1.0 ) / 45.0;
+  eulerTransform->SetRotation(angleX, angleY, angleZ);
+ 
   typedef itk::Image<TPixelType, VImageDimension> ImageType;
 
-  const double dir1[3] = { 0, -1, 0 };
-  const double dir2[3] = { 1, 0, 0 };
-  const double dir3[3] = { 0, 0, -1 };
+  typename ImageType::DirectionType permuteDirections;
+  const double dir1[3] = { -1.,  0.,  0. };
+  const double dir2[3] = {  0.,  0.,  1. };
+  const double dir3[3] = {  0., -1.,  0.  };
+  permuteDirections.GetVnlMatrix().set_column(0,dir1);
+  permuteDirections.GetVnlMatrix().set_column(1,dir2);
+  permuteDirections.GetVnlMatrix().set_column(2,dir3);
 
-  typename ImageType::DirectionType direction;
-  direction.GetVnlMatrix().set_column(0,dir1);
-  direction.GetVnlMatrix().set_column(1,dir2);
-  direction.GetVnlMatrix().set_column(2,dir3);
+  typename ImageType::DirectionType direction = eulerTransform->GetMatrix()*permuteDirections;
+  
+  for (unsigned int i = 0; i < VImageDimension; ++i)
+    {
+    for (unsigned int j = 0; j < VImageDimension; ++j)
+      {
+      direction[i][j] = static_cast<float>(direction[i][j]); //Truncate for testing purposes
+      }
+    }
 
   typename ImageType::SizeType sz;
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType origin;
-  for (unsigned int i = 0; i < VImageDimension; i++)
+
+  for (unsigned int i = 0; i < VImageDimension; ++i)
     {
     sz[i]      = size;
-    spacing[i] = static_cast<float>(i+1);
-    origin[i]  = static_cast<float>(i);
+    spacing[i] = static_cast<float>(i+1.234567);
+    origin[i]  = static_cast<float>(1234.5);
     }
+
+#if 0
+  //Make origin match numerical precision of MGH file
+  const double fcx = sz[0] * 0.5;
+  const double fcy = sz[1] * 0.5;
+  const double fcz = sz[2] * 0.5;
+  for( size_t ui = 0; ui < 3; ++ui )
+    {
+    origin[ui] = origin[ui]
+      + ( direction[ui][0] * spacing[0] * fcx
+          + direction[ui][1] * spacing[1] * fcy
+          + direction[ui][2] * spacing[2] * fcz );
+    }
+#endif
 
   typename itk::RandomImageSource<ImageType>::Pointer source
     = itk::RandomImageSource<ImageType>::New();
@@ -140,7 +180,7 @@ int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
   reader->SetImageIO(io);
   writer->SetImageIO(io);
 
-  typename ImageType::Pointer image;
+  typename ImageType::Pointer reference_image;
 
   if (inputFile != "null")
     {
@@ -158,16 +198,15 @@ int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
       std::cerr << e << std::endl;
       return EXIT_FAILURE;
       }
-
-    image = tmpReader->GetOutput();
+    reference_image = tmpReader->GetOutput();
     }
   else
     {
-    // Generate a random image.
-    image = itkMGHImageIOTestGenerateRandomImage<TPixelType, VImageDimension>(size);
+    // Generate a random reference_image.
+    reference_image = itkMGHImageIOTestGenerateRandomImage<TPixelType, VImageDimension>(size);
     }
 
-  // Write, then read the image.
+  // Write, then read the reference_image.
   try
     {
     writer->SetFileName(fn.c_str());
@@ -178,7 +217,6 @@ int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
     reader->SetFileName(fn.c_str());
     //writer->SetFileName("testDebug.mhd");
     //reader->SetFileName("testDebug.mhd");
-
     }
   catch(itk::ExceptionObject &e)
     {
@@ -186,9 +224,8 @@ int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
     return EXIT_FAILURE;
     }
 
-    writer->SetInput(image);
-
-    image->Print(std::cout);
+    writer->SetInput(reference_image);
+    reference_image->Print(std::cout);
     std::cout << "----------" << std::endl;
 
   try
@@ -206,24 +243,73 @@ int itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
     return EXIT_FAILURE;
     }
 
-  // Print the image information.
+  // Print the reference_image information.
 
-  reader->GetOutput()->Print(std::cout);
+  typename ImageType::Pointer test_image=reader->GetOutput();
+  test_image->Print(std::cout);
   std::cout << std::endl;
 
+  bool isFailingPixelValues = false;
+  bool isFailingOrigin = false;
+  bool isFailingSpacing = false;
+  bool isFailingDirection = false;
   // Compare input and output images.
-  itk::ImageRegionIterator<ImageType> a(image, image->GetRequestedRegion());
-  itk::ImageRegionIterator<ImageType> b(reader->GetOutput(),
-                                        reader->GetOutput()->GetRequestedRegion());
+  itk::ImageRegionIterator<ImageType> a(reference_image, reference_image->GetRequestedRegion());
+  itk::ImageRegionIterator<ImageType> b(test_image, test_image->GetRequestedRegion());
   for (a.GoToBegin(), b.GoToBegin(); ! a.IsAtEnd(); ++a, ++b)
     {
     if ( b.Get() != a.Get() )
       {
       std::cerr << "At index " << b.GetIndex() << " value " << b.Get() << " should be " << a.Get() << std::endl;
-      return EXIT_FAILURE;
+      isFailingPixelValues = true;
       }
     }
-  return EXIT_SUCCESS;
+  for( int idx = 0 ; idx < 3; ++idx )
+    {
+    // itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat, 4, 0.1f)
+    if( ! itk::Math::FloatAlmostEqual( test_image->GetSpacing()[idx],
+        reference_image->GetSpacing()[idx], 4, 1e-7 ) )
+      {
+      isFailingSpacing = true;
+      }
+    if( ! itk::Math::FloatAlmostEqual( test_image->GetOrigin()[idx],
+        reference_image->GetOrigin()[idx], 4, 1e-7 ) )
+      {
+      isFailingOrigin = true;
+      }
+    for( int idx2 = 0; idx2 < 3; ++idx2 )
+      {
+      if( ! itk::Math::FloatAlmostEqual( test_image->GetDirection()[idx][idx2],
+          reference_image->GetDirection()[idx][idx2], 4, 1e-7 ) )
+        {
+        isFailingDirection = true;
+        }
+      }
+    }
+  std::cerr << std::fixed << std::setprecision(10) << std::endl;
+  //Report failure dianostics
+  if(isFailingSpacing)
+    {
+    std::cerr << "ERROR:  Invalid Spacing: " 
+      << test_image->GetSpacing() <<  " ! = " << reference_image->GetSpacing()
+      << std::endl;
+    }
+  if(isFailingOrigin)
+    {
+    std::cerr << "ERROR:  Invalid Origin: " 
+      << test_image->GetOrigin() <<  " ! = " << reference_image->GetOrigin()
+      << std::endl;
+    }
+  if(isFailingDirection)
+    {
+    std::cerr << "ERROR:  Invalid Direction: \n" 
+      << test_image->GetDirection() <<  " ! = \n" << reference_image->GetDirection()
+      << std::endl;
+    }
+  return (isFailingPixelValues 
+    || isFailingOrigin 
+    || isFailingSpacing 
+    || isFailingDirection)? EXIT_FAILURE:EXIT_SUCCESS;
 }
 
 #endif //itkMGHImageIOTest_h_
