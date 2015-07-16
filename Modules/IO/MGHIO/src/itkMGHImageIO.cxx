@@ -29,7 +29,7 @@ static const std::string __MGZ_EXT(".mgz");
 static const std::string __GZ_EXT(".gz");
 
 typedef itk::Matrix<double,3,3> MatrixType;
-typedef itk::Vector<double, 3> VectorType;
+typedef itk::Vector<double, 3>  VectorType;
 
 static MatrixType GetRAS2LPS()
   {
@@ -311,7 +311,7 @@ MGHImageIO
         {
         this->TRead<float,double>( MGHdirMatrix[r][c] );
         }
-      } 
+      }
     // getting orientation must be done before RAS->LAS conversion
     // but  not used const std::string orientation = GetOrientation( MGHdirMatrix );
     // convert the coordinates from RAS to LPS, as the ITK archetype assumes
@@ -672,7 +672,7 @@ MGHImageIO
       this->TWrite<double,float>(MGHdirMatrix[r][c]);
       }
     }
-  
+
   VectorType fc;
   fc[0] = m_Dimensions[0] * 0.5;
   fc[1] = m_Dimensions[1] * 0.5;
