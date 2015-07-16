@@ -35,7 +35,7 @@ namespace itk
 * \author Vladimir S. FONOV
 *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
 *
-* \ingroup ITKIOMINC
+* \ingroup ITKIOTransformMINC
 */
 template<typename TParametersValueType>
 class MINCTransformIOTemplate: public TransformIOBaseTemplate<TParametersValueType>

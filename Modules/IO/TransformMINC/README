@@ -1,0 +1,5 @@
+ITK4-IOMINC
+===========
+
+TransformMINC module for ITK integration, to read and write MINC-style .xfm
+files

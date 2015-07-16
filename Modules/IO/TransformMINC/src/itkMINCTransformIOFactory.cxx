@@ -61,7 +61,7 @@ namespace itk
   // DO NOT CALL DIRECTLY.
   static bool MINCTransformIOFactoryHasBeenRegistered;
 
-  void ITKIOMINC_EXPORT MINCTransformIOFactoryRegister__Private(void)
+  void MINCTransformIOFactoryRegister__Private(void)
   {
     if( ! MINCTransformIOFactoryHasBeenRegistered )
     {

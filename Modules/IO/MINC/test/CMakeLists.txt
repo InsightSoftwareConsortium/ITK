@@ -17,21 +17,7 @@ set(ITKIOMINCTests
    itkMINCImageIOTest_Labels.cxx
   )
 
-set(ITKIOTransformMINCTests
-    itkIOTransformMINCTest.cxx
-    itkMINCTransformAdapterTest.cxx
- )
-
 CreateTestDriver(ITKIOMINC "${ITKIOMINC-Test_LIBRARIES}" "${ITKIOMINCTests}")
-
-CreateTestDriver(ITKIOTransformMINC "${ITKIOMINC-Test_LIBRARIES}" "${ITKIOTransformMINCTests}")
-  TARGET_LINK_LIBRARIES(ITKIOTransformMINCTestDriver LINK_PUBLIC ITKIOTransformBase )
-
-itk_add_test(NAME itkIOTransformMINCTest
-      COMMAND ITKIOTransformMINCTestDriver itkIOTransformMINCTest)
-
-itk_add_test(NAME itkMINCTransformAdapterTest
-      COMMAND ITKIOTransformMINCTestDriver itkMINCTransformAdapterTest)
 
 itk_add_test(NAME itkMINCImageIOTest1
   COMMAND ITKIOMINCTestDriver itkMINCImageIOTest ${ITK_TEST_OUTPUT_DIR} )
