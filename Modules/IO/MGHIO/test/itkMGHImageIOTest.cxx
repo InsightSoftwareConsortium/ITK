@@ -27,9 +27,6 @@
 #include "itkMGHImageIOTest.h"
 #include <iomanip>
 
-#define SPECIFIC_IMAGEIO_MODULE_TEST
-
-
 int itkMGHImageIOTest(int ac, char* av[])
 {
   itk::ObjectFactoryBase::UnRegisterAllFactories();
@@ -56,43 +53,38 @@ int itkMGHImageIOTest(int ac, char* av[])
     }
   const std::string TestMode(av[2]);
 
-  int returnStatus = EXIT_SUCCESS;
+  bool returnSucceeded = true;
   if( TestMode == std::string("FactoryCreationTest"))
   //Tests added to increase code coverage.
     {
     itk::MGHImageIOFactory::Pointer MyFactoryTest=itk::MGHImageIOFactory::New();
     if(MyFactoryTest.IsNull())
       {
-      returnStatus = EXIT_FAILURE;
+      returnSucceeded &= false;
       }
     //This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
     }
   else if ( TestMode == std::string("TestReadWriteOfSmallImageOfAllTypes"))
     {
     std::string fn("test.mgz");
-    if( ( returnStatus = itkMGHImageIOTestReadWriteTest<unsigned char,3>(fn,3,"null", true) ) != EXIT_FAILURE &&
-        ( returnStatus = itkMGHImageIOTestReadWriteTest<short int,3>(fn,3,"null", true) ) != EXIT_FAILURE &&
-        ( returnStatus = itkMGHImageIOTestReadWriteTest<int,3>(fn,3,"null", true) ) != EXIT_FAILURE &&
-        ( returnStatus = itkMGHImageIOTestReadWriteTest<float,3>(fn,3,"null", true) ) != EXIT_FAILURE &&
-        ( returnStatus = itkMGHImageIOTestReadWriteTest<itk::DiffusionTensor3D<float>, 3>(fn,3,"null", true) ) != EXIT_FAILURE )
-      {
-      returnStatus = EXIT_SUCCESS;
-      }
     //TODO: Need to test with images of non-identity direction cosigns, spacing, origin
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<unsigned char,3>(fn,3,"null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<short int,3>(fn,3,"null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<int,3>(fn,3,"null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<float,3>(fn,3,"null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<itk::DiffusionTensor3D<float>, 3>(fn,3,"null", true);
     }
   else if( TestMode == std::string("ReadImagesTest") ) //This is a mechanism for reading unsigned int images for testing.
     {
     typedef itk::Image<int, 3> ImageType;
-    ImageType::Pointer input;
     const std::string imageToBeRead(av[3]);
     const std::string imageToBeWritten(av[4]);
     try
       {
       std::cout << "Reading Image: " << imageToBeRead << std::endl;
-      input = itk::IOTestHelper::ReadImage<ImageType>(imageToBeRead);
+      ImageType::Pointer input = itk::IOTestHelper::ReadImage<ImageType>(imageToBeRead);
       std::cout << input << std::endl;
       itk::ImageFileWriter<ImageType>::Pointer testFactoryWriter=itk::ImageFileWriter<ImageType>::New();
-
       testFactoryWriter->SetFileName(imageToBeWritten);
       testFactoryWriter->SetInput(input);
       testFactoryWriter->Update();
@@ -104,7 +96,7 @@ int itkMGHImageIOTest(int ac, char* av[])
     catch (itk::ExceptionObject &e)
       {
       e.Print(std::cerr);
-      returnStatus = EXIT_FAILURE;
+      returnSucceeded &= false;
       }
     }
   else if( TestMode == "TestOriginWriteTest" )
@@ -119,11 +111,11 @@ int itkMGHImageIOTest(int ac, char* av[])
       input = itk::IOTestHelper::ReadImage<ImageType>(imageToBeRead);
       std::cout << input << std::endl;
 
-      ImageType::PointType origin;
-      origin[0] = -123.4;
-      origin[1] = 456.7;
-      origin[2] = -890.0;
-      input->SetOrigin(origin);
+      ImageType::PointType reference_origin;
+      reference_origin[0] = -123.4;
+      reference_origin[1] = 456.7;
+      reference_origin[2] = -890.0;
+      input->SetOrigin(reference_origin);
 
       itk::ImageFileWriter<ImageType>::Pointer testFactoryWriter=itk::ImageFileWriter<ImageType>::New();
 
@@ -134,28 +126,28 @@ int itkMGHImageIOTest(int ac, char* av[])
       testFactoryReader->SetFileName(imageToBeWritten);
       testFactoryReader->Update();
       ImageType::Pointer new_image = testFactoryReader->GetOutput();
-      ImageType::PointType origin2 = new_image->GetOrigin();
-      double dist = origin.EuclideanDistanceTo(origin2);
+      const ImageType::PointType test_origin = new_image->GetOrigin();
+      const double dist = reference_origin.EuclideanDistanceTo(test_origin);
       if(dist > 1.0E-4)
         {
         std::cerr << std::setprecision(10)
                   << "Origin written and origin read do not match: "
-                  << "written: " << origin
-                  << " read: " << origin2 << " distance: "
+                  << "written: " << reference_origin
+                  << " read: " << test_origin << " distance: "
                   << dist << std::endl;
-        returnStatus = EXIT_FAILURE;
+        returnSucceeded &= false;
         }
       }
     catch (itk::ExceptionObject &e)
       {
       e.Print(std::cerr);
-      returnStatus = EXIT_FAILURE;
+      returnSucceeded &= false;
       }
     }
   else
     {
     std::cerr << "Invalid TestMode : " << TestMode << std::endl;
-    returnStatus = EXIT_FAILURE;
+    returnSucceeded &= false;
     }
-  return returnStatus;
+  return (returnSucceeded == true) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
