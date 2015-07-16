@@ -659,11 +659,11 @@ MGHImageIO
       if( uj == 0 || uj == 1 )
         {
         // convert the coordinates from LPS to RAS
-        vBufRas.push_back(-1.0 * (float)vvRas[uj][ui] );
+        vBufRas.push_back(-1.0 * (float)vvRas[ui][uj] );
         }
       else
         {
-        vBufRas.push_back( (float)vvRas[uj][ui] );
+        vBufRas.push_back( (float)vvRas[ui][uj] );
         }
       }
     }
