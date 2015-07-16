@@ -123,10 +123,12 @@ private:
   gzFile        m_GZFile;
   std::ofstream m_Output;
 
-  template <class T> int TWrite(T out);
+  // Utility function to assist with writing to disk in the 
+  // proper format.  TInType is static_cast<TDiskType> type.
+  template <class TInType,class TDiskType> int TWrite(const TInType inValue);
   template <class T> int TRead(T &out);
 
-  int TWrite(const char *buf,unsigned long count);
+  int TWrite(const char *buf,const unsigned long count);
   void OpenFile();
   void CloseFile();
 };

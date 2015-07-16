@@ -45,26 +45,27 @@ MGHImageIO
   return result;
 }
 
-template <class T>
+template <class TInType, class TDiskType>
 int
 MGHImageIO
-::TWrite(T out)
+::TWrite(const TInType inValue)
 {
-  itk::ByteSwapper<T>::SwapFromSystemToBigEndian(&out);
+  TDiskType onDiskValue = static_cast<TDiskType>(inValue);
+  itk::ByteSwapper<TDiskType>::SwapFromSystemToBigEndian(&onDiskValue);
   if(this->m_IsCompressed)
     {
-    return ::gzwrite(this->m_GZFile,&out,sizeof(T));
+    return ::gzwrite(this->m_GZFile,&onDiskValue,sizeof(TDiskType));
     }
   else
     {
-    this->m_Output.write(reinterpret_cast<char *>(&out),sizeof(T));
-    return this->m_Output.good() ? sizeof(T) : 0;
+    this->m_Output.write(reinterpret_cast<char *>(&onDiskValue),sizeof(TDiskType));
+    return this->m_Output.good() ? sizeof(TDiskType) : 0;
     }
 }
 
 int
 MGHImageIO
-::TWrite(const char *buf,unsigned long count)
+::TWrite(const char *buf,const unsigned long count)
 {
   if(this->m_IsCompressed)
     {
@@ -591,37 +592,37 @@ MGHImageIO
 {
   // version
   const int mghVersion = 1;
-  this->TWrite(mghVersion );
+  this->TWrite<int,int>( mghVersion );
   // dimensions
   for( unsigned int ui = 0; ui < 3; ++ui )
     {
-    this->TWrite((int)m_Dimensions[ui] );
+    this->TWrite<unsigned int, int>( m_Dimensions[ui] );
     }
 
   // nframes
-  this->TWrite((int)m_NumberOfComponents );
+  this->TWrite<size_t,int>( m_NumberOfComponents );
 
   // type
   switch( m_ComponentType )
     {
     case UCHAR:
       {
-      this->TWrite(MRI_UCHAR);
+      this->TWrite<int,int>(MRI_UCHAR);
       }
       break;
     case INT:
       {
-      this->TWrite(MRI_INT);
+      this->TWrite<int,int>(MRI_INT);
       }
       break;
     case FLOAT:
       {
-      this->TWrite(MRI_FLOAT);
+      this->TWrite<int,int>(MRI_FLOAT);
       }
       break;
     case SHORT:
       {
-      this->TWrite(MRI_SHORT);
+      this->TWrite<int,int>(MRI_SHORT);
       }
       break;
     default:
@@ -631,16 +632,16 @@ MGHImageIO
     }
 
   // dof !?! -> default value = 1
-  this->TWrite(1);
+  this->TWrite<int,int>(1);
 
   // write RAS and voxel size info
   // for now, RAS flag will be good
   // in the future, check if the m_Directions matrix is a permutation matrix
-  this->TWrite((short)1);
+  this->TWrite<int,short>(1);
   // spacing
   for( unsigned int ui = 0; ui < 3; ++ui )
     {
-    this->TWrite((float)m_Spacing[ui]);
+    this->TWrite<double,float>(m_Spacing[ui]);
     }
 
   // get directions matrix
@@ -669,7 +670,7 @@ MGHImageIO
     }
   for( std::vector<float>::const_iterator cit = vBufRas.begin(); cit != vBufRas.end(); ++cit )
     {
-    this->TWrite(*cit);
+    this->TWrite<float,float>(*cit);
     }
 
   const float fcx = static_cast<float>(m_Dimensions[0]) / 2.0f;
@@ -687,13 +688,13 @@ MGHImageIO
   c[1] *= -1.0;
   for( unsigned int ui = 0; ui < 3; ++ui )
     {
-    this->TWrite(c[ui]);
+    this->TWrite<float,float>(c[ui]);
     }
   // fill the rest of the buffer with zeros
   const char zerobyte(0);
   for(unsigned int i = 0; i < FS_UNUSED_HEADER_SIZE; ++i)
     {
-    this->TWrite(zerobyte);
+    this->TWrite<char,char>(zerobyte);
     }
 }
 
@@ -730,26 +731,26 @@ MGHImageIO
   float fScanBuffer = 0.0F;
   if( ExposeMetaData<float>(thisDic, "TR", fScanBuffer) )
     {
-    this->TWrite(fScanBuffer );
+    this->TWrite<float,float>(fScanBuffer );
     } // end TR
   if( ExposeMetaData<float>(thisDic, "FlipAngle", fScanBuffer) )
     {
-    this->TWrite(fScanBuffer);
+    this->TWrite<float,float>(fScanBuffer);
     } // end FlipAngle
 
   if( ExposeMetaData<float>(thisDic, "TE", fScanBuffer) )
     {
-    this->TWrite(fScanBuffer);
+    this->TWrite<float,float>(fScanBuffer);
     } // end TE
 
   if( ExposeMetaData<float>(thisDic, "TI", fScanBuffer) )
     {
-    this->TWrite(fScanBuffer);
+    this->TWrite<float,float>(fScanBuffer);
     } // end TI
 
   if( ExposeMetaData<float>(thisDic, "FoV", fScanBuffer) )
     {
-    this->TWrite(fScanBuffer);
+    this->TWrite<float,float>(fScanBuffer);
     } // end FoV
 
   // no need to close the stream
