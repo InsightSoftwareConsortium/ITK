@@ -4,7 +4,7 @@ itkTestingExtractSliceImageFilterTest.cxx
 itkTestingStretchIntensityImageFilterTest.cxx
 )
 
-CreateTestDriver(ITKTestKernel "${ITKCommon_LIBRARIES}" "${ITKTestKernelTests}")
+CreateTestDriver(ITKTestKernel "${ITKTestKernel-Test_LIBRARIES}" "${ITKTestKernelTests}")
 
 set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
