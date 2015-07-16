@@ -32,6 +32,8 @@
 
 #include "itkEuler3DTransform.h"
 
+
+
 template <class TPixelType, unsigned int VImageDimension>
 typename itk::Image<TPixelType, VImageDimension>::Pointer
 itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
@@ -103,7 +105,33 @@ itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
   source->SetSpacing(spacing);
 
   source->Update();
-  return (source->GetOutput());
+  typename ImageType::Pointer outImage=source->GetOutput();
+
+    {
+    itk::MetaDataDictionary & thisDic = outImage->GetMetaDataDictionary();
+    //Add meta data to dictionary
+    // set TR, Flip, TE, FI, FOV //TODO: Add code that verifies these values
+    float fBufTR = 2.0F;
+    float fBufFA=89.1F;
+    float fBufTE=1.5F;
+    float fBufTI=0.75F;
+    float fBufFOV=321.0F;
+    itk::EncapsulateMetaData<float>(thisDic,
+      std::string("TR"), fBufTR);
+    // try to read flipAngle
+    itk::EncapsulateMetaData<float>(thisDic,
+      std::string("FlipAngle"), fBufFA);
+    // TE
+    itk::EncapsulateMetaData<float>(thisDic,
+      std::string("TE"), fBufTE);
+    // TI
+    itk::EncapsulateMetaData<float>(thisDic,
+      std::string("TI"), fBufTI);
+    // FOV
+    itk::EncapsulateMetaData<float>(thisDic,
+      std::string("FoV"), fBufFOV);
+    }
+  return outImage;
 }
 
 //Template specialization for itkDiffusionTensor3D

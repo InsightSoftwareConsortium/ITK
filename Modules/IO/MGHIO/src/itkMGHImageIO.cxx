@@ -35,17 +35,19 @@ static const std::string __GZ_EXT(".gz");
 //
 // -------------------------------
 
-template <class T>
+template <typename TDiskType, typename TOutType>
 int
 MGHImageIO
-::TRead(T & out)
+::TRead(TOutType & outValue)
 {
-  const int result = ::gzread(this->m_GZFile, &out, sizeof(T) );
-  itk::ByteSwapper<T>::SwapFromSystemToBigEndian(&out);
+  TDiskType onDiskValue;
+  const int result = ::gzread(this->m_GZFile, &onDiskValue, sizeof(TDiskType) );
+  itk::ByteSwapper<TDiskType>::SwapFromSystemToBigEndian(&onDiskValue);
+  outValue = static_cast<TOutType>(onDiskValue);
   return result;
 }
 
-template <class TInType, class TDiskType>
+template <typename TInType, typename TDiskType>
 int
 MGHImageIO
 ::TWrite(const TInType inValue)
@@ -207,21 +209,16 @@ MGHImageIO
     return;
     }
   int   version;
-  this->TRead( version);
-  int   bufInt;        // buffer -> int type (most ITK types are unsigned)
-  this->TRead( bufInt);
-  m_Dimensions[0] = static_cast<unsigned int>(bufInt);
-  this->TRead( bufInt);
-  m_Dimensions[1] = static_cast<unsigned int>(bufInt);
-  this->TRead( bufInt);
-  m_Dimensions[2] = static_cast<unsigned int>(bufInt);
+  this->TRead<int,int>( version);
+  this->TRead<int,itk::SizeValueType>( m_Dimensions[0] );
+  this->TRead<int,itk::SizeValueType>( m_Dimensions[1] );
+  this->TRead<int,itk::SizeValueType>( m_Dimensions[2] );
   // next is nframes
-  this->TRead( bufInt);
-  m_NumberOfComponents = static_cast<unsigned int>(bufInt);
+  this->TRead<int,unsigned int>( m_NumberOfComponents );
   int   type;
-  this->TRead( type);
+  this->TRead<int,int>( type);
   int   dof;
-  this->TRead( dof);   // what does this do?
+  this->TRead<int,int>( dof);   // what does this do?
 
   // Convert type to an ITK type
   switch( type )
@@ -260,14 +257,12 @@ MGHImageIO
   // Next short says whether RAS registration information is good.
   // If so, read the voxel size and then the matrix
   short RASgood;
-  this->TRead( RASgood);
+  this->TRead<short,short>( RASgood);
   if( RASgood )
     {
-    for( int nSpacing = 0; nSpacing < 3; ++nSpacing )
+    for( size_t nSpacing = 0; nSpacing < 3; ++nSpacing )
       {
-      float spacing;
-      this->TRead( spacing); // type is different
-      m_Spacing[nSpacing] = spacing;
+      this->TRead<float,double>( m_Spacing[nSpacing] );
       }
     /*
       From http://www.nmr.mgh.harvard.edu/~tosa/#coords:
@@ -303,22 +298,20 @@ MGHImageIO
       {
       for( unsigned int ui = 0; ui < 3; ++ui )
         {
-        float fBuffer;
-        this->TRead( fBuffer);
-        matrix[ui][uj] = fBuffer;
+        this->TRead<float,double>( matrix[ui][uj] );
 //      std::cout << "itkMGHImageIO ReadVolumeHeader: matrix[" << ui << "][" << uj << "] = " << matrix[ui][uj] << "\n";
         }
       }
-    float c[3]; //c_r c_a c_s
-    for( unsigned int ui = 0; ui < 3; ++ui )
+    double c[3]; //c_r c_a c_s
+    for( size_t ui = 0; ui < 3; ++ui )
       {
-      this->TRead( c[ui]);
+      this->TRead<float,double>( c[ui]);
       }
 
     const std::string orientation = GetOrientation( matrix );
     // now take x_r, x_a, x_s out of the matrix and set it to the direction
     // vector 0, same for y_* and direction vector 1, z_* and vector 2
-    for( unsigned int ui = 0; ui < 3; ++ui )
+    for( size_t ui = 0; ui < 3; ++ui )
       {
       // convert the coordinates from RAS to LPS, as the ITK archetype assumes
       // LPS volumes
@@ -326,7 +319,7 @@ MGHImageIO
       matrix[0][ui] *= -1.0; // R -> L
       matrix[1][ui] *= -1.0; // A -> P
       std::vector<double> vDir;
-      for( unsigned int uj = 0; uj < 3; ++uj )
+      for( size_t uj = 0; uj < 3; ++uj )
         {
         vDir.push_back( matrix[uj][ui] );
         }
@@ -342,12 +335,12 @@ MGHImageIO
     //
     // computed in CORONAL orientation = ITK_COORDINATE_ORIENTATION_LIA
     // convert C to from RAS to LPS
-    c[0] *= -1; //R->L
-    c[1] *= -1; //A->P
-    const float fcx = static_cast<float>(m_Dimensions[0]) / 2.0f;
-    const float fcy = static_cast<float>(m_Dimensions[1]) / 2.0f;
-    const float fcz = static_cast<float>(m_Dimensions[2]) / 2.0f;
-    for( unsigned int ui = 0; ui < 3; ++ui )
+    c[0] *= -1.0; //R->L
+    c[1] *= -1.0; //A->P
+    const double fcx = m_Dimensions[0] * 0.5;
+    const double fcy = m_Dimensions[1] * 0.5;
+    const double fcz = m_Dimensions[2] * 0.5;
+    for( size_t ui = 0; ui < 3; ++ui )
       {
       m_Origin[ui] = c[ui]
         - ( matrix[ui][0] * m_Spacing[0] * fcx
@@ -359,44 +352,48 @@ MGHImageIO
   // ==================
   // read tags at the end of file
 
-  const unsigned long numValues = m_Dimensions[0] * m_Dimensions[1] * m_Dimensions[2];
+  const size_t numValues = m_Dimensions[0] * m_Dimensions[1] * m_Dimensions[2];
   gzseek(this->m_GZFile, FS_WHOLE_HEADER_SIZE
          + ( m_NumberOfComponents * numValues * this->GetComponentSize() ),
          SEEK_SET);
 
-  float fBuf;
+  float fBufTR;
   // read TR, Flip, TE, FI, FOV
-  if( this->TRead( fBuf) )
+  if( this->TRead<float,float>( fBufTR) )
     {
     itk::MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
     itk::EncapsulateMetaData<float>(thisDic,
                                     std::string("TR"),
-                                    fBuf);
+                                    fBufTR);
 
     // try to read flipAngle
-    if( this->TRead( fBuf ) )
+    float fBufFA;
+    if( this->TRead<float,float>( fBufFA ) )
       {
       itk::EncapsulateMetaData<float>(thisDic,
                                       std::string("FlipAngle"),
-                                      fBuf);
+                                      fBufFA);
       // TE
-      if( this->TRead( fBuf ) )
+      float fBufTE;
+      if( this->TRead<float,float>( fBufTE ) )
         {
         itk::EncapsulateMetaData<float>(thisDic,
                                         std::string("TE"),
-                                        fBuf);
+                                        fBufTE);
         // TI
-        if( this->TRead( fBuf) )
+        float fBufTI;
+        if( this->TRead<float,float>( fBufTI) )
           {
           itk::EncapsulateMetaData<float>(thisDic,
                                           std::string("TI"),
-                                          fBuf);
+                                          fBufTI);
           // FOV
-          if( this->TRead( fBuf) )
+          float fBufFOV;
+          if( this->TRead<float,float>( fBufFOV) )
             {
             itk::EncapsulateMetaData<float>(thisDic,
                                             std::string("FoV"),
-                                            fBuf);
+                                            fBufFOV);
             }
           }
         }
@@ -594,9 +591,9 @@ MGHImageIO
   const int mghVersion = 1;
   this->TWrite<int,int>( mghVersion );
   // dimensions
-  for( unsigned int ui = 0; ui < 3; ++ui )
+  for( size_t ui = 0; ui < 3; ++ui )
     {
-    this->TWrite<unsigned int, int>( m_Dimensions[ui] );
+    this->TWrite<size_t, int>( m_Dimensions[ui] );
     }
 
   // nframes
@@ -651,7 +648,7 @@ MGHImageIO
     vvRas.push_back( GetDirection(ui) );
     }
   // transpose data before writing it
-  std::vector<float> vBufRas;
+  std::vector<double> vBufRas;
   // transpose the matrix
   for( unsigned int ui(0); ui < 3; ++ui )
     {
@@ -668,16 +665,16 @@ MGHImageIO
         }
       }
     }
-  for( std::vector<float>::const_iterator cit = vBufRas.begin(); cit != vBufRas.end(); ++cit )
+  for( std::vector<double>::const_iterator cit = vBufRas.begin(); cit != vBufRas.end(); ++cit )
     {
-    this->TWrite<float,float>(*cit);
+    this->TWrite<double,float>(*cit);
     }
 
-  const float fcx = static_cast<float>(m_Dimensions[0]) / 2.0f;
-  const float fcy = static_cast<float>(m_Dimensions[1]) / 2.0f;
-  const float fcz = static_cast<float>(m_Dimensions[2]) / 2.0f;
-  float c[3];
-  for( unsigned int ui = 0; ui < 3; ++ui )
+  const double fcx = m_Dimensions[0] * 0.5;
+  const double fcy = m_Dimensions[1] * 0.5;
+  const double fcz = m_Dimensions[2] * 0.5;
+  double c[3];
+  for( size_t ui = 0; ui < 3; ++ui )
     {
     c[ui] = m_Origin[ui]
       + ( vvRas[ui][0] * m_Spacing[0] * fcx
@@ -686,13 +683,13 @@ MGHImageIO
     }
   c[0] *= -1.0;
   c[1] *= -1.0;
-  for( unsigned int ui = 0; ui < 3; ++ui )
+  for( size_t ui = 0; ui < 3; ++ui )
     {
-    this->TWrite<float,float>(c[ui]);
+    this->TWrite<double,float>(c[ui]);
     }
   // fill the rest of the buffer with zeros
   const char zerobyte(0);
-  for(unsigned int i = 0; i < FS_UNUSED_HEADER_SIZE; ++i)
+  for(size_t i = 0; i < FS_UNUSED_HEADER_SIZE; ++i)
     {
     this->TWrite<char,char>(zerobyte);
     }
