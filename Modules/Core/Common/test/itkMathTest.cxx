@@ -23,8 +23,35 @@
 
 #include <iostream>
 
+template< typename T1, typename T2>
+inline int TestIntegersAreSame(const T1 & v1, const T2 & v2)
+{
+  int passed=EXIT_SUCCESS;
+  if ( static_cast<T2>(v1) != v2 )
+    {
+    std::cout << "ERROR: static cast did not perform as expected for wrap arround." << std::endl;
+    std::cout << v1 << " static_cast " << static_cast<T2>(v1) << std::endl;
+    std::cout << v2 << std::endl;
+    passed=EXIT_FAILURE;
+    }
+  if ( itk::Math::EqualsComparison(v2,v1) == true  )
+    {
+    std::cout << "Error in " << "itk::Math::EqualsComparison(v2, v1) " << std::endl;
+    std::cout << __FILE__ << " " << __LINE__ << " " << v2 << " == " << v1 << std::endl;
+    passed=EXIT_FAILURE;
+    }
+  if ( itk::Math::EqualsComparison(v1,v2) == true )
+    {
+    std::cout << "Error in " << "itk::Math::EqualsComparison(v1, v2) " << std::endl;
+    std::cout << __FILE__ << " " << __LINE__ << " " << v1 << " == " << v2 << std::endl;
+    passed=EXIT_FAILURE;
+    }
+  return passed;
+}
+
 int main( int, char *[] )
 {
+  int testPassStatus = EXIT_SUCCESS;
 // Save the format stream variables for std::cout
 // They will be restored when coutState goes out of scope
 // scope.
@@ -74,7 +101,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != -1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
@@ -83,7 +110,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   floatRepresentationfx2.asFloat = floatRepresentationfx1.asFloat;
@@ -95,7 +122,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != 1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
@@ -104,7 +131,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   floatRepresentationfx1.asFloat = 1.0f;
@@ -121,7 +148,7 @@ int main( int, char *[] )
     {
     std::cout << " result is: " << itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) << std::endl;
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
@@ -130,7 +157,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   floatRepresentationfx2.asFloat = floatRepresentationfx1.asFloat;
@@ -142,7 +169,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != 1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
@@ -151,7 +178,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   // The default maxUlps is 4, so this should be considered almost equals.
@@ -164,12 +191,12 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != -6 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
     std::cout << "floatRepresentationfx1 is almost equal to floatRepresentationfx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   else
     {
@@ -185,12 +212,12 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != 6 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
     std::cout << "floatRepresentationfx1 is almost equal to floatRepresentationfx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   else
     {
@@ -208,7 +235,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) != 0 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) )
     {
@@ -217,7 +244,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   floatRepresentationfx1.asFloat = 0.0f;
@@ -239,7 +266,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   floatRepresentationfx1.asFloat = 1e-8f;
@@ -253,7 +280,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) < 0 )
     {
     std::cout << "Did not get the expected FloatDifferenceULP sign." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   else
     {
@@ -271,7 +298,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) > 0 )
     {
     std::cout << "Did not get the expected FloatDifferenceULP sign." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   else
     {
@@ -299,7 +326,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != -1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
     {
@@ -308,7 +335,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   floatRepresentationdx2.asFloat = floatRepresentationdx1.asFloat;
@@ -319,7 +346,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != 1 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
     {
@@ -328,7 +355,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   // The default maxUlps is 4, so this should be considered almost equals.
@@ -340,12 +367,12 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != -6 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
     {
     std::cout << "floatRepresentationdx1 is almost equal to floatRepresentationdx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   else
     {
@@ -360,12 +387,12 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != 6 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
     {
     std::cout << "floatRepresentationdx1 is almost equal to floatRepresentationdx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   else
     {
@@ -382,7 +409,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) != 0 )
     {
     std::cout << "Unexpected float distance." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) )
     {
@@ -391,7 +418,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   floatRepresentationdx1.asFloat = 0.0;
@@ -411,7 +438,7 @@ int main( int, char *[] )
   else
     {
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
 
   floatRepresentationdx1.asFloat = 1e-8f;
@@ -425,7 +452,7 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) < 0 )
     {
     std::cout << "Did not get the expected FloatDifferenceULP sign." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   else
     {
@@ -443,31 +470,67 @@ int main( int, char *[] )
   if( itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) > 0 )
     {
     std::cout << "Did not get the expected FloatDifferenceULP sign." << std::endl;
-    return EXIT_FAILURE;
+    testPassStatus=EXIT_FAILURE;
     }
   else
     {
     std::cout << "Got the expected FloatDifferenceULP sign.\n" << std::endl;
     }
 
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(0u) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(1u) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(2u));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(3u));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(4u) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(5u));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(6u) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(7u));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(8u) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(9u) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(10u) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(11u));
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(12u) == false);
-  TEST_EXPECT_TRUE(itk::Math::IsPrime(13u));
+    { // Test various equals operations.
+    //=========================
+    const signed char sc = -1;
+    const unsigned char uc = static_cast<unsigned char>(-1);
+    testPassStatus = ( TestIntegersAreSame(sc,uc) == EXIT_SUCCESS )?testPassStatus:EXIT_FAILURE;
+    //=========================
+    const int si= -1;
+    const unsigned long ul = static_cast<unsigned long>(-1);
+    testPassStatus = ( TestIntegersAreSame(si,ul) == EXIT_SUCCESS )?testPassStatus:EXIT_FAILURE;
+    //=========================
+    const unsigned int ui = static_cast<unsigned int>(-1);
+    testPassStatus = ( TestIntegersAreSame(si,ui) == EXIT_SUCCESS )?testPassStatus:EXIT_FAILURE;
+    //=========================
+    const size_t ust = static_cast<size_t>(-1);
+    testPassStatus = ( TestIntegersAreSame(si,ust) == EXIT_SUCCESS )?testPassStatus:EXIT_FAILURE;
 
-  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(12u), 3);
-  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(75u), 5);
-  TEST_EXPECT_EQUAL(itk::Math::GreatestPrimeFactor(1024u), 2);
+    //=========================
+    const float f=-1.0f;
+    const double d=1.01;
+    if ( itk::Math::EqualsComparison(f,d) == true || itk::Math::EqualsComparison(d,f) == true )
+      {
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    if ( itk::Math::EqualsComparison(f,sc) == false
+      || itk::Math::EqualsComparison(sc,f) == false
+      || itk::Math::EqualsComparison(1.0,1.0f) == false
+      || itk::Math::EqualsComparison(1,1.0) == false
+      || itk::Math::EqualsComparison(2.0,1.0) == true
+      || itk::Math::EqualsComparison(1,2) == true )
+      {
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    }
 
-  return EXIT_SUCCESS;
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(0u) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(1u) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(2u)), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(3u)), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(4u) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(5u)), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(6u) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(7u)), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(8u) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(9u) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(10u) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(11u)), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(12u) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(13u)), testPassStatus );
+
+  TEST_EXPECT_EQUAL_STATUS_VALUE( itk::Math::GreatestPrimeFactor(12u), 3, testPassStatus );
+  TEST_EXPECT_EQUAL_STATUS_VALUE( itk::Math::GreatestPrimeFactor(75u), 5, testPassStatus );
+  TEST_EXPECT_EQUAL_STATUS_VALUE( itk::Math::GreatestPrimeFactor(1024u), 2, testPassStatus );
+
+  return testPassStatus;
 }

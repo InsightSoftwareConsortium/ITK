@@ -31,6 +31,7 @@
 #include "itkIntTypes.h"
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -274,6 +275,241 @@ FloatAlmostEqual( T x1, T x2,
     ulps = -ulps;
     }
   return ulps <= maxUlps;
+}
+
+// The following code cannot be moved to the itkMathDetail.h file without introducing circular dependencies
+namespace Detail  // The Detail namespace holds the templates used by EqualsComparison
+{
+// The following structs and templates are used to choose
+// which version of the EqualsComparison function
+// should be implemented base on input parameter types
+
+// Structs for choosing EqualsComparison function
+
+struct EqualsComparisonFloatVsFloat
+{
+  template <typename TFloatType1, typename TFloatType2>
+  static bool EqualsComparisonFunction(TFloatType1 x1, TFloatType2 x2)
+  {
+    return FloatAlmostEqual<double>(x1, x2);
+  }
+
+  template <typename TFloatType1, typename TFloatType2>
+  static bool
+  EqualsComparisonFunction(double x1, double x2)
+  {
+    return FloatAlmostEqual<double>(x1, x2);
+  }
+
+  template <typename TFloatType1, typename TFloatType2>
+  static bool
+  EqualsComparisonFunction(double x1, float x2)
+  {
+    return FloatAlmostEqual<double>(x1, x2);
+  }
+
+  template <typename TFloatType1, typename TFloatType2>
+  static bool
+  EqualsComparisonFunction(float x1, double x2)
+  {
+    return FloatAlmostEqual<double>(x1, x2);
+  }
+
+  template <typename TFloatType1, typename TFloatType2>
+  static bool
+  EqualsComparisonFunction(float x1, float x2)
+  {
+    return FloatAlmostEqual<float>(x1, x2);
+  }
+};
+
+struct EqualsComparisonFloatVsInteger
+{
+  template <typename TFloatType, typename TIntType>
+  static bool EqualsComparisonFunction(TFloatType floatingVariable, TIntType integerVariable)
+  {
+    return FloatAlmostEqual<TFloatType> (floatingVariable, integerVariable);
+  }
+};
+
+struct EqualsComparisonIntegerVsFloat
+{
+  template <typename TIntType, typename TFloatType>
+  static bool EqualsComparisonFunction(TIntType integerVariable, TFloatType floatingVariable)
+  {
+    return EqualsComparisonFloatVsInteger::EqualsComparisonFunction(floatingVariable, integerVariable);
+  }
+};
+
+struct EqualsComparisonSignedVsUnsigned
+{
+  template <typename TSignedInt, typename TUnsignedInt>
+  static bool EqualsComparisonFunction(TSignedInt signedVariable, TUnsignedInt unsignedVariable)
+  {
+    if(signedVariable < 0) return false;
+    if( unsignedVariable > static_cast< size_t >(itk::NumericTraits<TSignedInt>::max()) ) return false;
+    return signedVariable == static_cast< TSignedInt >(unsignedVariable);
+  }
+};
+
+struct EqualsComparisonUnsignedVsSigned
+{
+  template <typename TUnsignedInt, typename TSignedInt>
+  static bool EqualsComparisonFunction(TUnsignedInt unsignedVariable, TSignedInt signedVariable)
+  {
+    return EqualsComparisonSignedVsUnsigned::EqualsComparisonFunction(signedVariable, unsignedVariable);
+  }
+};
+
+struct EqualsComparisonPlainOldEquals
+{
+  template <typename TIntegerType1, typename TIntegerType2>
+  static bool EqualsComparisonFunction(TIntegerType1 x1, TIntegerType2 x2)
+  {
+    return x1 == x2;
+  }
+};
+// end of structs that choose the specific EqualsComparison function
+
+// Selector structs, these select the correct case based on its types
+//        input1 is int?  input 1 is signed? input2 is int?  input 2 is signed?
+template<bool TInput1IsIntger, bool TInput1IsSigned, bool TInput2IsInteger, bool TInput2IsSigned>
+struct EqualsComparisonFunctionSelector
+{ // default case
+  typedef EqualsComparisonPlainOldEquals SelectedVersion;
+};
+
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+template<>
+struct EqualsComparisonFunctionSelector < false, true, false, true>
+// floating type v floating type
+{
+  typedef EqualsComparisonFloatVsFloat SelectedVersion;
+};
+
+template<>
+struct EqualsComparisonFunctionSelector <false, true, true, true>
+// float vs signed int
+{
+  typedef EqualsComparisonFloatVsInteger SelectedVersion;
+};
+
+template<>
+struct EqualsComparisonFunctionSelector <false, true, true,false>
+// float vs unsigned int
+{
+  typedef EqualsComparisonFloatVsInteger SelectedVersion;
+};
+
+template<>
+struct EqualsComparisonFunctionSelector <true, false, false, true>
+// unsigned int vs float
+{
+  typedef EqualsComparisonIntegerVsFloat SelectedVersion;
+};
+
+template<>
+struct EqualsComparisonFunctionSelector <true, true, false, true>
+// signed int vs float
+{
+  typedef EqualsComparisonIntegerVsFloat SelectedVersion;
+};
+
+template<>
+struct EqualsComparisonFunctionSelector<true, true, true, false>
+// signed vs unsigned
+{
+  typedef EqualsComparisonSignedVsUnsigned SelectedVersion;
+};
+
+template<>
+struct EqualsComparisonFunctionSelector<true, false, true, true>
+// unsigned vs signed
+{
+  typedef EqualsComparisonUnsignedVsSigned SelectedVersion;
+};
+
+template<>
+struct EqualsComparisonFunctionSelector<true, true, true, true>
+//   signed vs signed
+{
+  typedef EqualsComparisonPlainOldEquals SelectedVersion;
+};
+
+template<>
+struct EqualsComparisonFunctionSelector<true, false, true, false>
+// unsigned vs unsigned
+{
+  typedef EqualsComparisonPlainOldEquals SelectedVersion;
+};
+/** *\endcond*/
+// end of EqualsComparisonFunctionSelector structs
+
+ // The implementor tells the selector what to do
+template<typename TInputType1, typename TInputType2>
+struct EqualsComparisonImplementer
+{
+  static const bool TInputType1IsInteger = itk::NumericTraits<TInputType1>::IsInteger;
+  static const bool TInputType1IsSigned  = itk::NumericTraits<TInputType1>::IsSigned;
+  static const bool TInputType2IsInteger = itk::NumericTraits<TInputType2>::IsInteger;
+  static const bool TInputType2IsSigned  = itk::NumericTraits<TInputType2>::IsSigned;
+
+  typedef typename EqualsComparisonFunctionSelector< TInputType1IsInteger, TInputType1IsSigned,
+                   TInputType2IsInteger, TInputType2IsSigned>::SelectedVersion SelectedVersion;
+};
+} // end namespace Detail
+
+/** \brief Provide consistent equality checks between values of potentially different scalar types
+ *
+ * template< typename T1, typename T2 >
+ * EqualsComparison( T1 x1, T2 x2 )
+ *
+ * template< typename T1, typename T2 >
+ * NotEqualsComparison( T1 x1, T2 x2 )
+ *
+ * This function compares two scalar values of potentially different types.
+ * values of different types. For maximum extensibility the function is implemented through
+ * a series of templated structs which direct the EqualsComparison() call to the correct function
+ * by evaluating the parameter types.
+ *
+ * Overall algorithm:
+ *   To compare two floating point types...
+ *     use FloatAlmostEqual.
+ *
+ *   To compare a floating point and an integer type...
+ *     If the integer type value is 0 or 1 ...
+ *        use NumericTraits<FloatingPointType>::ZeroValue() or ::OneValue() and call
+ *        FloatAlmostEqual
+ *     Else
+ *        Use static_cast<FloatingPointType>(integerValue) and call FloatAlmostEqual
+ *
+ *   To compare signed and unsigned integers...
+ *     Check for negative value or overflow, then cast and use ==
+ *
+ *   To compare two signed or two unsigned integers ...
+ *     Use ==
+ *
+ *   To compare anything else ...
+ *     Use ==
+ *
+ * \param x1                    first scalar value to compare
+ * \param x2                    second scalar value to compare
+ */
+
+// The EqualsComparison function
+template <typename T1, typename T2>
+inline bool
+EqualsComparison( T1 x1, T2 x2 )
+{
+  return Detail::EqualsComparisonImplementer<T1,T2>::SelectedVersion::EqualsComparisonFunction(x1, x2);
+}
+
+// The NotEqualsComparison function
+template <typename T1, typename T2>
+inline bool
+NotEqualsComparison( T1 x1, T2 x2 )
+{
+  return ! EqualsComparison( x1, x2 );
 }
 
 /** Return whether the number in a prime number or not.
