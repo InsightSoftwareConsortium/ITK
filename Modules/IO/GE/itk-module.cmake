@@ -9,6 +9,7 @@ itk_module(ITKIOGE
     ITKIOIPL
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOIPL
     ITKIOSiemens
   DESCRIPTION
     "${DOCUMENTATION}"

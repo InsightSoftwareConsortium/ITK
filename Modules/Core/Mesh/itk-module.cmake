@@ -11,9 +11,11 @@ itk_module(ITKMesh
     ITKTransform
   TEST_DEPENDS
     ITKTestKernel
+    ITKSpatialObjects
     ITKIOSpatialObjects
     ITKIOMesh
     ITKMetaIO
+    ITKTransform
   DESCRIPTION
     "${DOCUMENTATION}"
 )

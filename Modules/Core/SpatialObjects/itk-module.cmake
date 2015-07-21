@@ -15,6 +15,7 @@ itk_module(ITKSpatialObjects
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
+    ITKMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )

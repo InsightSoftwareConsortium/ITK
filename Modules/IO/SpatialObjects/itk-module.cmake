@@ -9,11 +9,13 @@ itk_module(ITKIOSpatialObjects
   PRIVATE_DEPENDS
     ITKSpatialObjects
     ITKIOXML
+    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
     ITKSpatialObjects
     ITKIOXML
     ITKMetaIO
+    ITKMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )

@@ -8,6 +8,7 @@ well.")
 itk_module(ITKCurvatureFlow
   COMPILE_DEPENDS
     ITKFiniteDifference
+    ITKImageFilterBase
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

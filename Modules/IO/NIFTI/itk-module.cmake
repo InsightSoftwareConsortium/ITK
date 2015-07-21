@@ -10,6 +10,7 @@ itk_module(ITKIONIFTI
   TEST_DEPENDS
     ITKTestKernel
     ITKNIFTI
+    ITKTransform
   DESCRIPTION
     "${DOCUMENTATION}"
 )
