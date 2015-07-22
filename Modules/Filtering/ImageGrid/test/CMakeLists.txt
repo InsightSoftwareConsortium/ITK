@@ -7,6 +7,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest4.cxx
+itkBSplineScatteredDataPointSetToImageFilterTest5.cxx
 itkBSplineControlPointImageFilterTest.cxx
 itkBSplineControlPointImageFunctionTest.cxx
 itkChangeInformationImageFilterTest.cxx
@@ -77,6 +78,8 @@ itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
               DATA{${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt})
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest04
       COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest4)
+itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest05
+      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest5)
 itk_add_test(NAME itkBSplineControlPointImageFilterTest1
       COMMAND ITKImageGridTestDriver
     --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz
