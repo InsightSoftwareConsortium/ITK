@@ -15,10 +15,10 @@ set(ITKGPUPDEDeformableRegistration-tests
  itkGPUDemonsRegistrationFilterTest2.cxx
  )
 
-set(ITKGPUPDEDeformableTest_LIBRARIES ITKCommon;ITKGPUCommon;ITKGPUFiniteDifference;ITKGPUPDEDeformable;ITKStatistics;ITKSpatialObjects;ITKPath;ITKOptimizers;ITKIOBMP;ITKIOBioRad;ITKIOGDCM;ITKIOGIPL;ITKIOJPEG;ITKIOLSM;ITKIOMeta;ITKIONIFTI;ITKIONRRD;ITKIOPNG;ITKIOStimulate;ITKIOTIFF;ITKIOVTK;itksys)
+set(ITKGPUPDEDeformableRegistrationTest_LIBRARIES ITKCommon;ITKGPUCommon;ITKGPUFiniteDifference;ITKGPUPDEDeformableRegistration;ITKStatistics;ITKSpatialObjects;ITKPath;ITKOptimizers;ITKIOBMP;ITKIOBioRad;ITKIOGDCM;ITKIOGIPL;ITKIOJPEG;ITKIOLSM;ITKIOMeta;ITKIONIFTI;ITKIONRRD;ITKIOPNG;ITKIOStimulate;ITKIOTIFF;ITKIOVTK;itksys)
 
 CreateTestDriver(ITKGPUPDEDeformableRegistration
- "${ITKGPUPDEDeformableTest_LIBRARIES}"
+ "${ITKGPUPDEDeformableRegistrationTest_LIBRARIES}"
  "${ITKGPUPDEDeformableRegistration-tests}")
 
 itk_add_test(NAME itkGPUDemonsRegistrationFilterTestDim2
