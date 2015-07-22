@@ -477,10 +477,6 @@ struct EqualsComparisonImplementer
  *     use FloatAlmostEqual.
  *
  *   To compare a floating point and an integer type...
- *     If the integer type value is 0 or 1 ...
- *        use NumericTraits<FloatingPointType>::ZeroValue() or ::OneValue() and call
- *        FloatAlmostEqual
- *     Else
  *        Use static_cast<FloatingPointType>(integerValue) and call FloatAlmostEqual
  *
  *   To compare signed and unsigned integers...
