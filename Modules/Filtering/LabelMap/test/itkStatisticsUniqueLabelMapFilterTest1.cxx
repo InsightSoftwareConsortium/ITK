@@ -69,7 +69,7 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   StructuringElementType::RadiusType radius;
   radius.Fill( radiusValue );
 
-  StructuringElementType structuringElement = StructuringElementType::Ball( radius );
+  StructuringElementType structuringElement = StructuringElementType::Box( radius );
 
   typedef itk::GrayscaleDilateImageFilter< ImageType, ImageType, StructuringElementType > MorphologicalFilterType;
   MorphologicalFilterType::Pointer grayscaleDilateFilter = MorphologicalFilterType::New();
