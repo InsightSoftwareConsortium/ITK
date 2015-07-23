@@ -618,43 +618,43 @@ CompositeTransform<TParametersValueType, NDimensions>
   OutputPointType transformedPoint( p );
 
   /*
-   * Composite transform $T is composed of $T1(p1,x), $T2(p2,x) and $T3(p3, x) as:
+   * Composite transform $T is composed of $T0(p0,x), $T1(p1,x) and $T2(p2, x) as:
    *
-   * T(p1, p2, p3, x0)
-   * = T3(p3, T2(p2, T1(p1, x0)))
+   * T(p0, p1, p2, x)
+   * = T0(p0, T1(p1, T2(p2, x)))
    *
-   * p1, p2, p3 are the transform parameters for transform T1, T2, T3
+   * p0, p1, p2 are the transform parameters for transform T0, T1, T2
    * respectively.
    *
-   * Let p = (p1, p2, p3).
-   *  x1 = T1(p1, x0).
-   *  x2 = T2(p2, x1).
+   * Let p = (p0, p1, p2).
+   *  x2 = T2(p2, x).
+   *  x1 = T1(p1, x2).
    *
    *
    * The following loop computes dT/dp:
    *
    * dT/dp
-   * = (dT/dp1, dT/dp2, dT/dp3)
-   * = ( ( dT3/dT2 | x2 ) * ( dT2/dT1 | x1 ) * ( dT1/dp1 | x0 ),
-   *     ( dT3/dT2 | x2 ) * ( dT2/dp2 | x1 ),
-   *     ( dT3/dp3 | x2 )
+   * = (dT/dp0, dT/dp1, dT/dp2)
+   * = ( dT0/dp0 | x1 ),
+   *   ( dT0/dT1 | x1 ) * ( dT1/dp1 | x2 ),
+   *   ( ( dT0/dT1 | x1 ) * ( dT1/dT2 | x2 ) * ( dT2/dp2 | x )
    *
    * In the first iteration, it computes
-   *   dT1/dp1 | x0
+   *   dT2/dp2 | x
    *
    * In the second iteration, it computes
-   *   dT2/dp2 | x1
+   *   dT1/dp1 | x2
    *
    *  and it computes
-   *   dT2/dT1 | x1, and left multiplying to  dT1/dp1 | x0
+   *   dT1/dT2 | x2, and left multiplying to  dT2/dp2 | x
    *
    * In the third iteration, it computes
-   *   dT3/dp3 | x2,
+   *   dT0/dp0 | x1,
    *
    *  and it computes
-   *   dT3/dT2 | x2, and left multiplying to
-   *    ( dT2/dT1 | x1 ) * ( dT1/dp1 | x0 )
-   *    and ( dT2/dT1 | x1 )
+   *   dT0/dT1 | x1, and left multiplying to
+   *    ( dT1/dT2 | x2 ) * ( dT2/dp2 | x )
+   *    and ( dT1/dp1 | x2 )
    *
    */
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
@@ -671,7 +671,6 @@ CompositeTransform<TParametersValueType, NDimensions>
       /* The matrices are row-major, so block copy is less obviously
        * better */
 
-      // to do: why parameters are listed from N-1 to 1???
       const NumberOfParametersType numberOfLocalParameters = transform->GetNumberOfLocalParameters();
 
       typename TransformType::JacobianType current_jacobian( NDimensions, numberOfLocalParameters );
