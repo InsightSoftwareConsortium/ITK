@@ -163,9 +163,10 @@ macro(check_compiler_platform_flags)
   if(WIN32)
     # Some libraries (e.g. vxl libs) have no dllexport markup, so we can
     # build full shared libraries only with the GNU toolchain. For non
-    # gnu compilers on windows, only Common is shared.  This allows for
-    # plugin type applications to use a dll for ITKCommon which will contain
-    # the static for Modified time.
+    # gnu compilers on windows, only a few libraries are built shared.
+    # This is controlled with ITK_LIBRARY_BUILD_TYPE used in the add_library
+    # call. This allows for plugin type applications to use a dll for
+    # ITKCommon which will contain the static for Modified time.
     if(CMAKE_COMPILER_IS_GNUCXX)
       # CMake adds --enable-all-exports on Cygwin (since Cygwin is
       # supposed to be UNIX-like), but we need to add it explicitly for
@@ -178,12 +179,18 @@ macro(check_compiler_platform_flags)
         set(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
       endif()
     else()
-      if(BUILD_SHARED_LIBS)
-        set(ITK_LIBRARY_BUILD_TYPE "SHARED")
-      else()
-        set(ITK_LIBRARY_BUILD_TYPE "STATIC")
+      # if CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS is on, then
+      # BUILD_SHARED_LIBS works as it would on other systems
+      if(NOT CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS)
+        if(BUILD_SHARED_LIBS)
+          set(ITK_LIBRARY_BUILD_TYPE "SHARED")
+        else()
+          set(ITK_LIBRARY_BUILD_TYPE "STATIC")
+        endif()
+        # turn off BUILD_SHARED_LIBS as ITK_LIBRARY_BUILD_TYPE
+        # is used on the libraries that have markup.
+        set(BUILD_SHARED_LIBS OFF)
       endif()
-      set(BUILD_SHARED_LIBS OFF)
     endif()
   endif()
   #-----------------------------------------------------------------------------

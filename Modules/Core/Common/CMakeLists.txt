@@ -77,6 +77,7 @@ try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasGNUAttributeAligned.cxx
   CMAKE_FLAGS "-DCMAKE_BUILD_TYPE:STRING=Debug" )
 
+set(ITK_WINDOWS_EXPORT_ALL_SYMBOLS ${CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS})
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 
 set(ITKCommon_INCLUDE_DIRS

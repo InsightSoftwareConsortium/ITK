@@ -8,6 +8,12 @@ INCLUDE(${vxl_SOURCE_DIR}/config/cmake/config/vxl_utils.cmake)
 SET(VXL_CMAKE_DIR ${vxl_SOURCE_DIR}/config/cmake/Modules)
 SET(MODULE_PATH ${vxl_SOURCE_DIR}/config/cmake/Modules)
 
+# Use this variable in vxl_config.h to tell if it is a shared build
+set(VXL_BUILD_SHARED FALSE)
+if(BUILD_SHARED_LIBS)
+  set(VXL_BUILD_SHARED TRUE)
+endif()
+
 # Do platform-specific configuration.
 SUBDIRS(config/cmake/config)
 

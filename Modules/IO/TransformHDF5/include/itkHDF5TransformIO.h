@@ -20,6 +20,7 @@
 #include "itkTransformIOBase.h"
 #include "itkAutoPointer.h"
 #include <string>
+#include "itkHDF5TransformIOExport.h"
 
 // Avoids KWStyle error from forward declaration below.
 namespace itk
@@ -55,14 +56,14 @@ struct HDF5CommonPathNames
   // HDF uses hierarchical paths to find particular data
   // in a file. These strings are used by both reading and
   // writing.
-  static const std::string transformGroupName;
-  static const std::string transformTypeName;
-  static const std::string transformFixedName;
-  static const std::string transformParamsName;
-  static const std::string ItkVersion;
-  static const std::string HDFVersion;
-  static const std::string OSName;
-  static const std::string OSVersion;
+  static ITKHDF5TransformExport const std::string transformGroupName;
+  static ITKHDF5TransformExport const std::string transformTypeName;
+  static ITKHDF5TransformExport const std::string transformFixedName;
+  static ITKHDF5TransformExport const std::string transformParamsName;
+  static ITKHDF5TransformExport const std::string ItkVersion;
+  static ITKHDF5TransformExport const std::string HDFVersion;
+  static ITKHDF5TransformExport const std::string OSName;
+  static ITKHDF5TransformExport const std::string OSVersion;
   };
 
 

@@ -68,6 +68,8 @@ if(UNIX)
 endif()
 
 add_library(${SOCKETXX_LIBRARY_NAME} ${libsocket___la_SOURCES})
+set_target_properties (${SOCKETXX_LIBRARY_NAME}
+  PROPERTIES DEFINE_SYMBOL  "socketxx_EXPORTS" )
 if(WIN32)
   target_link_libraries(${SOCKETXX_LIBRARY_NAME} ws2_32.lib)
 endif()
