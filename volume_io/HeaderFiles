@@ -1,0 +1,22 @@
+# The master header gets installed into $(INSTALL_INCDIR), while the
+# rest go into a subdirectory, $(INSTALL_INCDIR)/volume_io
+
+MASTER_HEADER = Include/volume_io.h
+
+VOLIO_HEADERS = \
+   Include/alloc.h \
+   Include/arrays.h \
+   Include/basic.h \
+   Include/def_math.h \
+   Include/files.h \
+   Include/geom_structs.h \
+   Include/geometry.h \
+   Include/internal_volume_io.h \
+   Include/multidim.h \
+   Include/progress.h \
+   Include/string_funcs.h \
+   Include/system_dependent.h \
+   Include/transforms.h \
+   Include/vol_io_prototypes.h \
+   Include/volume.h \
+   Include/volume_cache.h

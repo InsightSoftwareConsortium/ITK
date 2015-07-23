@@ -1,0 +1,499 @@
+'\"
+'\" Copyright 1990-1992 Regents of the University of California
+'\" Permission to use, copy, modify, and distribute this
+'\" documentation for any purpose and without fee is hereby
+'\" granted, provided that this notice appears in all copies.
+'\" The University of California makes no representations about
+'\" the suitability of this material for any purpose.  It is
+'\" provided "as is" without express or implied warranty.
+'\" 
+'\" Modified to be used without tk or tcl (Peter Neelin, November 30,1992)
+'\" Based on tk 2.3 file :
+'\" $Header: /private-cvsroot/minc/libsrc/ParseArgv.man3,v 6.1 2002-01-14 21:28:26 neelin Exp $ SPRITE (Berkeley)
+'\" 
+.\" The definitions below are for supplemental macros used in Sprite
+.\" manual entries.
+.\"
+.\" .HS name section [date [version]]
+.\"	Replacement for .TH in other man pages.  See below for valid
+.\"	section names.
+.\"
+.\" .AP type name in/out [indent]
+.\"	Start paragraph describing an argument to a library procedure.
+.\"	type is type of argument (int, etc.), in/out is either "in", "out",
+.\"	or "in/out" to describe whether procedure reads or modifies arg,
+.\"	and indent is equivalent to second arg of .IP (shouldn't ever be
+.\"	needed;  use .AS below instead)
+.\"
+.\" .AS [type [name]]
+.\"	Give maximum sizes of arguments for setting tab stops.  Type and
+.\"	name are examples of largest possible arguments that will be passed
+.\"	to .AP later.  If args are omitted, default tab stops are used.
+.\"
+.\" .BS
+.\"	Start box enclosure.  From here until next .BE, everything will be
+.\"	enclosed in one large box.
+.\"
+.\" .BE
+.\"	End of box enclosure.
+.\"
+.\" .VS
+.\"	Begin vertical sidebar, for use in marking newly-changed parts
+.\"	of man pages.
+.\"
+.\" .VE
+.\"	End of vertical sidebar.
+.\"
+.\" .DS
+.\"	Begin an indented unfilled display.
+.\"
+.\" .DE
+.\"	End of indented unfilled display.
+.\"
+'\"	# Heading for Sprite man pages
+.de HS
+.if '\\$2'cmds'       .TH \\$1 1 \\$3 \\$4
+.if '\\$2'lib'        .TH \\$1 3 \\$3 \\$4
+.if '\\$2'tcl'        .TH \\$1 3 \\$3 \\$4
+.if '\\$2'tk'         .TH \\$1 3 \\$3 \\$4
+.if t .wh -1.3i ^B
+.nr ^l \\n(.l
+.ad b
+..
+'\"	# Start an argument description
+.de AP
+.ie !"\\$4"" .TP \\$4
+.el \{\
+.   ie !"\\$2"" .TP \\n()Cu
+.   el          .TP 15
+.\}
+.ie !"\\$3"" \{\
+.ta \\n()Au \\n()Bu
+\&\\$1	\\fI\\$2\\fP	(\\$3)
+.\".b
+.\}
+.el \{\
+.br
+.ie !"\\$2"" \{\
+\&\\$1	\\fI\\$2\\fP
+.\}
+.el \{\
+\&\\fI\\$1\\fP
+.\}
+.\}
+..
+'\"	# define tabbing values for .AP
+.de AS
+.nr )A 10n
+.if !"\\$1"" .nr )A \\w'\\$1'u+3n
+.nr )B \\n()Au+15n
+.\"
+.if !"\\$2"" .nr )B \\w'\\$2'u+\\n()Au+3n
+.nr )C \\n()Bu+\\w'(in/out)'u+2n
+..
+'\"	# BS - start boxed text
+'\"	# ^y = starting y location
+'\"	# ^b = 1
+.de BS
+.br
+.mk ^y
+.nr ^b 1u
+.if n .nf
+.if n .ti 0
+.if n \l'\\n(.lu\(ul'
+.if n .fi
+..
+'\"	# BE - end boxed text (draw box now)
+.de BE
+.nf
+.ti 0
+.mk ^t
+.ie n \l'\\n(^lu\(ul'
+.el \{\
+.\"	Draw four-sided box normally, but don't draw top of
+.\"	box if the box started on an earlier page.
+.ie !\\n(^b-1 \{\
+\h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.el \}\
+\h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.\}
+.fi
+.br
+.nr ^b 0
+..
+'\"	# VS - start vertical sidebar
+'\"	# ^Y = starting y location
+'\"	# ^v = 1 (for troff;  for nroff this doesn't matter)
+.de VS
+.mk ^Y
+.ie n 'mc \s12\(br\s0
+.el .nr ^v 1u
+..
+'\"	# VE - end of vertical sidebar
+.de VE
+.ie n 'mc
+.el \{\
+.ev 2
+.nf
+.ti 0
+.mk ^t
+\h'|\\n(^lu+3n'\L'|\\n(^Yu-1v\(bv'\v'\\n(^tu+1v-\\n(^Yu'\h'-|\\n(^lu+3n'
+.sp -1
+.fi
+.ev
+.\}
+.nr ^v 0
+..
+'\"	# Special macro to handle page bottom:  finish off current
+'\"	# box/sidebar if in box/sidebar mode, then invoked standard
+'\"	# page bottom macro.
+.de ^B
+.ev 2
+'ti 0
+'nf
+.mk ^t
+.if \\n(^b \{\
+.\"	Draw three-sided box if this is the box's first page,
+.\"	draw two sides but no top otherwise.
+.ie !\\n(^b-1 \h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.el \h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.\}
+.if \\n(^v \{\
+.nr ^x \\n(^tu+1v-\\n(^Yu
+\kx\h'-\\nxu'\h'|\\n(^lu+3n'\ky\L'-\\n(^xu'\v'\\n(^xu'\h'|0u'\c
+.\}
+.bp
+'fi
+.ev
+.if \\n(^b \{\
+.mk ^y
+.nr ^b 2
+.\}
+.if \\n(^v \{\
+.mk ^Y
+.\}
+..
+'\"	# DS - begin display
+.de DS
+.RS
+.nf
+.sp
+..
+'\"	# DE - end display
+.de DE
+.fi
+.RE
+.sp .5
+..
+.HS ParseArgv tk
+.BS
+.SH NAME
+ParseArgv \- process command-line options
+.SH SYNOPSIS
+\fB#include <ParseArgv.h>\fR
+.sp
+int
+.br
+\fBParseArgv\fR(\fIargcPtr, argv, argTable, flags\fR)
+.SH ARGUMENTS
+.AS ArgvInfo *argTable
+.AP int argcPtr in/out
+Pointer to number of arguments in argv;  gets modified to hold
+number of unprocessed arguments that remain after the call.
+.AP char **argv in/out
+Command line arguments passed to main program.  Modified to
+hold unprocessed arguments that remain after the call.
+.AP ArgvInfo *argTable in
+Array of argument descriptors, terminated by element with
+type ARGV_END.
+.AP int flags in
+If non-zero, then it specifies one or more flags that control the
+parsing of arguments.  Different flags may be OR'ed together.
+.na
+The flags currently defined are ARGV_DONT_SKIP_FIRST_ARG,
+ARGV_NO_ABBREV, ARGV_NO_LEFTOVERS, ARGV_NO_DEFAULTS and ARGV_NO_PRINT.
+.ad
+.BE
+.SH DESCRIPTION
+.PP
+\fBParseArgv\fR processes an array of command-line arguments according
+to a table describing the kinds of arguments that are expected.
+Each of the arguments in \fIargv\fR is processed in turn:  if it matches
+one of the entries in \fIargTable\fR, the argument is processed
+according to that entry and discarded.  The arguments that do not
+match anything in \fIargTable\fR are copied down to the beginning
+of \fIargv\fR (retaining their original order) and returned to
+the caller.  At the end of the call
+\fBParseArgv\fR sets \fI*argcPtr\fR to hold the number of
+arguments that are left in \fIargv\fR, and \fIargv[*argcPtr]\fR
+will hold the value NULL.  Normally, \fBParseArgv\fR
+assumes that \fIargv[0]\fR is a command name, so it is treated like
+an argument that doesn't match \fIargTable\fR and returned to the
+caller;  however, if the ARGV_DONT_SKIP_FIRST_ARG bit is set in
+\fIflags\fR then \fIargv[0]\fR will be processed just like the other
+elements of \fIargv\fR.
+.PP
+\fBParseArgv\fR normally returns the value FALSE (0).  If an error
+occurs while parsing the arguments, then TRUE (1) is returned and
+\fBParseArgv\fR will print an error message on stderr. In
+the event of an error return, \fI*argvPtr\fR will not have been
+modified, but \fIargv\fR could have been partially modified.  The
+possible causes of errors are explained below.
+.PP
+The \fIargTable\fR array specifies the kinds of arguments that are
+expected;  each of its entries has the following structure:
+.DS
+.ta 2c
+\fBtypedef struct\fR {
+    \fBchar\fR	*\fIkey\fR;
+    \fBint\fR	\fItype\fR;
+    \fBchar\fR	*\fIsrc\fR;
+    \fBchar\fR	*\fIdst\fR;
+    \fBchar\fR	*\fIhelp\fR;
+\fB} ArgvInfo;\fR
+.DE
+.LP
+The \fIkey\fR field is a string such as ``\-display'' or ``\-bg''
+that is compared with the values in \fIargv\fR.  \fIType\fR
+indicates how to process an argument that matches \fIkey\fR
+(more on this below).  \fISrc\fR and \fIdst\fR are additional
+values used in processing the argument.  Their exact usage
+depends on \fItype\fR, but typically \fIsrc\fR indicates
+a value and \fIdst\fR indicates where to store the
+value.  The \fBchar *\fR declarations for \fIsrc\fR and \fIdst\fR
+are placeholders:  the actual types may be different.  Lastly,
+\fIhelp\fR is a string giving a brief description
+of this option;  this string is printed when users ask for help
+about command-line options.
+.PP
+When processing an argument in \fIargv\fR, \fBParseArgv\fR
+compares the argument to each of the \fIkey\fR's in \fIargTable\fR.
+\fBParseArgv\fR selects the first specifier whose \fIkey\fR matches
+the argument exactly, if such a specifier exists.  Otherwise
+\fBParseArgv\fR selects a specifier for which the argument
+is a unique abbreviation.  If the argument is a unique abbreviation
+for more than one specifier, then an error is returned.  If there
+is no matching entry in \fIargTable\fR, then the argument is
+skipped and returned to the caller.
+.PP
+Once a matching argument specifier is found, \fBParseArgv\fR
+processes the argument according to the \fItype\fR field of the
+specifier.  The argument that matched \fIkey\fR is called ``the matching
+argument'' in the descriptions below.  As part of the processing,
+\fBParseArgv\fR may also use the next argument in \fIargv\fR
+after the matching argument, which is called ``the following
+argument''.  The legal values for \fItype\fR, and the processing
+that they cause, are as follows:
+.TP
+\fBARGV_END\fR
+Marks the end of the table.  The last entry in \fIargTable\fR
+must have this type;  all of its other fields are ignored and it
+will never match any arguments.
+.TP
+\fBARGV_CONSTANT\fR
+\fISrc\fR is treated as an integer and \fIdst\fR is treated
+as a pointer to an integer.  \fISrc\fR is stored at \fI*dst\fR.
+The matching argument is discarded.
+.TP
+\fBARGV_INT\fR
+The following argument must contain an
+integer string in the format accepted by \fBstrtol\fR (e.g. ``0''
+and ``0x'' prefixes may be used to specify octal or hexadecimal
+numbers, respectively).  \fIDst\fR is treated as a pointer to an
+integer;  the following argument is converted to an integer value
+and stored at \fI*dst\fR.  \fISrc\fR is treated as an integer count: if
+its value is greater than 1, then that many arguments are processed and 
+\fIDst\fR is treated as an array pointer.  The matching
+and following arguments are discarded from \fIargv\fR.
+.TP
+\fBARGV_FLOAT\fR
+The following argument must contain a floating-point number in
+the format accepted by \fBstrtol\fR.
+\fIDst\fR is treated as the address of an double-precision
+floating point value;  the following argument is converted to a
+double-precision value and stored at \fI*dst\fR.  \fISrc\fR is treated
+as an integer count: if its value is greater than 1, then that many
+arguments are processed and  
+\fIDst\fR is treated as an array pointer.  The matching
+and following arguments are discarded from \fIargv\fR.
+.TP
+\fBARGV_STRING\fR
+In this form, \fIdst\fR is treated as a pointer to a (char *);
+\fBParseArgv\fR stores at \fI*dst\fR a pointer to the following
+argument, and discards the matching and following arguments from
+\fIargv\fR.  \fISrc\fR is treated as an integer count: if
+its value is greater than 1, then that many arguments are processed and 
+\fIDst\fR is treated as an array pointer.
+.TP
+\fBARGV_HELP\fR
+When this kind of option is encountered, \fBParseArgv\fR uses the
+\fIhelp\fR fields of \fIargTable\fR to format a message describing
+all the valid arguments.  The message is written on stderr
+and \fBParseArgv\fR returns TRUE.  When this happens, the
+caller normally aborts.  If the \fIkey\fR
+field of a ARGV_HELP specifier is NULL, then the specifier will
+never match any arguments;  in this case the specifier simply provides
+extra documentation, which will be included when some other
+ARGV_HELP entry causes help information to be returned.
+.TP
+\fBARGV_REST\fR
+This option is used by programs or commands that allow the last
+several of their options to be the name and/or options for some
+other program.  If a \fBARGV_REST\fR argument is found, then
+\fBParseArgv\fR doesn't process any
+of the remaining arguments;  it returns them all at
+the beginning of \fIargv\fR (along with any other unprocessed arguments).
+In addition, \fBParseArgv\fR treats \fIdst\fR as the address of an
+integer value, and stores at \fI*dst\fR the index of the first of the
+\fBARGV_REST\fR options in the returned \fIargv\fR.  This allows the
+program to distinguish the \fBARGV_REST\fR options from other
+unprocessed options that preceeded the \fBARGV_REST\fR.
+.TP
+\fBARGV_FUNC\fR
+For this kind of argument, \fIsrc\fR is treated as the address of
+a procedure, which is invoked to process the following argument.
+The procedure should have the following structure:
+.DS
+.ta 1c 2c 3c 4c 5c 6c
+\fBint\fI
+func(dst, key, nextArg)
+    \fBchar\fR	*\fIdst\fR;
+    \fBchar\fR	*\fIkey\fR;
+    \fBchar\fR	*\fInextArg\fR;
+{
+}
+.DE
+.IP
+The \fIdst\fR and \fIkey\fR parameters will contain the
+corresponding fields from the \fIargTable\fR entry, and
+\fInextArg\fR will point to the following argument from \fIargv\fR
+(or NULL if there aren't any more arguments left in \fIargv\fR).
+If \fIfunc\fR uses \fInextArg\fR (so that
+\fBParseArgv\fR should discard it), then it should return 1.  Otherwise it
+should return 0 and \fBTkParseArgv\fR will process the following
+argument in the normal fashion.  In either event the matching argument
+is discarded.
+.TP
+\fBARGV_GENFUNC\fR
+This form provides a more general procedural escape.  It treats
+\fIsrc\fR as the address of a procedure, and passes that procedure
+all of the remaining arguments.  The procedure should have the following
+form:
+.DS
+.ta 1c 2c 3c 4c 5c 6c
+\fBint\fI
+genfunc(dst, key, argc, argv)
+    \fBchar\fR	*\fIdst\fR;
+    \fBchar\fR	*\fIkey\fR;
+    \fBint\fR	\fIargc\fR;
+    \fBchar\fR	**\fIargv\fR;
+{
+}
+.DE
+.IP
+The \fIdst\fR and \fIkey\fR parameters will contain the
+corresponding fields from the \fIargTable\fR entry.
+\fIArgc\fR and \fIargv\fR refer to all of the options after the
+matching one.  \fIGenfunc\fR should behave in a fashion similar
+to \fBParseArgv\fR:  parse as many of the remaining arguments as it can,
+then return any that are left by compacting them to the beginning of
+\fIargv\fR (starting at \fIargv\fR[0]).  \fIGenfunc\fR
+should return a count of how many arguments are left in \fIargv\fR;
+\fBParseArgv\fR will process them.  If \fIgenfunc\fR encounters
+an error then it should print an error message on stderr,
+and return -1;  when this happens
+\fBParseArgv\fR will abort its processing and return TRUE.
+
+.SH "FLAGS"
+.IP \fBARGV_DONT_SKIP_FIRST_ARG\fR
+\fBParseArgv\fR normally treats \fIargv[0]\fR as a program
+or command name, and returns it to the caller just as if it
+hadn't matched \fIargTable\fR.  If this flag is given, then
+\fIargv[0]\fR is not given special treatment.
+.IP \fBARGV_NO_ABBREV\fR
+Normally, \fBParseArgv\fR accepts unique abbreviations for
+\fIkey\fR values in \fIargTable\fR.  If this flag is given then
+only exact matches will be acceptable.
+.IP \fBARGV_NO_LEFTOVERS\fR
+Normally, \fBParseArgv\fR returns unrecognized arguments to the
+caller.  If this bit is set in \fIflags\fR then \fBParseArgv\fR
+will return an error if it encounters any argument that doesn't
+match \fIargTable\fR.  The only exception to this rule is \fIargv[0]\fR,
+which will be returned to the caller with no errors as
+long as ARGV_DONT_SKIP_FIRST_ARG isn't specified.
+.IP \fBARGV_NO_DEFAULTS\fR
+Normally, \fBParseArgv\fR searches an internal table of
+standard argument specifiers in addition to \fIargTable\fR.  If
+this bit is set in \fIflags\fR, then \fBParseArgv\fR will
+use only \fIargTable\fR and not its default table.
+.IP \fBARGV_NO_PRINT\fR
+Normally, \fBParseArgv\fR prints error message on stderr. If
+this bit is set in \fIflags\fR, then \fBParseArgv\fR will
+not print any error messages.
+
+.SH EXAMPLE
+.PP
+Here is an example definition of an \fIargTable\fR and
+some sample command lines that use the options.  Note the effect
+on \fIargc\fR and \fIargv\fR;  arguments processed by \fBParseArgv\fR
+are eliminated from \fIargv\fR, and \fIargc\fR
+is updated to reflect reduced number of arguments.
+.DS L
+\fC/*
+ * Define and set default values for globals.
+ */
+int debugFlag = 0;
+int numReps = 100;
+char defaultFileName[] = "out";
+char *fileName = defaultFileName;
+Boolean exec = FALSE;
+
+/*
+ * Define option descriptions.
+ */
+ArgvInfo argTable[] = {
+	{"-X", ARGV_CONSTANT, (char *) 1, (char *) &debugFlag,
+		"Turn on debugging printfs"},
+	{"-N", ARGV_INT, (char *) NULL, (char *) &numReps,
+		"Number of repetitions"},
+	{"-of", ARGV_STRING, (char *) NULL, (char *) &fileName,
+		"Name of file for output"},
+	{"x", ARGV_REST, (char *) NULL, (char *) &exec,
+		"File to exec, followed by any arguments (must be last argument)."},
+	{(char *) NULL, ARGV_END, (char *) NULL, (char *) NULL,
+	    (char *) NULL}
+};
+
+main(argc, argv)
+	int argc;
+	char *argv[];
+{
+	\&...
+
+	if (ParseArgv(&argc, argv, argTable, 0)) {
+		exit(1);
+	}
+
+	/*
+	 * Remainder of the program.
+	 */
+}\fR
+.DE
+.PP
+Note that default values can be assigned to variables named in
+\fIargTable\fR:  the variables will only be overwritten if the
+particular arguments are present in \fIargv\fR.
+Here are some example command lines and their effects.
+.DS
+\fCprog -N 200 infile		# just sets the numReps variable to 200
+prog -of out200 infile 	# sets fileName to reference "out200"
+prog -XN 10 infile		# sets the debug flag, also sets numReps\fR
+.DE
+In all of the above examples, \fIargc\fR will be set by \fBParseArgv\fR to 2,
+\fIargv\fR[0] will be ``prog'', \fIargv\fR[1] will be ``infile'',
+and \fIargv\fR[2] will be NULL.
+
+.SH KEYWORDS
+arguments, command line, options
