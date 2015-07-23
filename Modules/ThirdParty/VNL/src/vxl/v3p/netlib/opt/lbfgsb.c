@@ -4001,9 +4001,11 @@ L999:
 /* L55: */
     }
     if (dd_p__ > 0.) {
-        printf(" Positive dir derivative in projection ");
         dcopy_(n, &xp[1], &c__1, &x[1], &c__1);
-        printf(" Using the backtracking step ");
+        if (*iprint > 0) {
+            printf(" Positive dir derivative in projection ");
+            printf(" Using the backtracking step ");
+        }
     } else {
         goto L911;
     }
