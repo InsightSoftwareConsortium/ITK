@@ -306,10 +306,8 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Dimension: " << this->m_Dimension << std::endl;
-  os << indent << "InputFilter: " << this->m_InputFilter->GetNameOfClass()
-     << " " << this->m_InputFilter.GetPointer() << std::endl;
-  os << indent << "OutputFilter: " << this->m_OutputFilter->GetNameOfClass()
-     << " " << this->m_OutputFilter.GetPointer() << std::endl;
+  itkPrintSelfObjectMacro(InputFilter);
+  itkPrintSelfObjectMacro(OutputFilter);
   os << indent << "SliceIndex: " << m_SliceIndex << std::endl;
 }
 }
