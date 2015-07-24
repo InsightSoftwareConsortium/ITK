@@ -93,6 +93,7 @@ public:
       return *this;
     }
 
+#if !defined(ITK_LEGACY_REMOVE)
   void Dump()
   {
     for ( SizeValueType i = 0; i < m_Size; i++ )
@@ -102,12 +103,15 @@ public:
       std::cout << std::endl;
       }
   }
+#endif
 
   void SetPriority(SizeValueType i, SizeValueType priority)
   {
     if ( i > m_Size )
       {
-      std::cerr << "Error - i dont have " << i << " elements" << std::endl;
+      std::ostringstream ostrm;
+      ostrm << "Error: RandomPermuation does not have " << i << " elements" << std::endl;
+      throw std::runtime_error(ostrm.str());
       }
     else
       {
