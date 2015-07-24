@@ -37,12 +37,12 @@ namespace itk
 {
 
 /** \class MINCTransformAdapter
-  * \ingroup  ITKIOMINC
+  * \ingroup  ITKIOTransformMINC
   * \brief ITK wrapper around MINC general transform functions, supports all the transformations that MINC XFM supports
   *
   * \author Vladimir S. FONOV
   *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
-  * \ingroup ITKIOMINC
+  * \ingroup ITKIOTransformMINC
   */
 template<typename TParametersValueType=double, unsigned int NInputDimensions=3,unsigned int NOutputDimensions=3>
   class MINCTransformAdapter : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
