@@ -566,6 +566,7 @@ itk_add_test(NAME itkStatisticsUniqueLabelMapFilterTest2
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/cthead1Label-label-statistics-unique-labelmap-baseline2.png}
               ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest2.png
+    --compareNumberOfPixelsTolerance 35
     itkStatisticsUniqueLabelMapFilterTest1
       DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
