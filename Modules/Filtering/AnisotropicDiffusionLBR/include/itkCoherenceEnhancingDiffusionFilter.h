@@ -50,7 +50,7 @@ namespace itk
  *
  *   \f$\lambda_i := g(\mu_i - \mu_{\rm min})\f$, where \f$g(s) = 1 - (1-\alpha)*exp(-(\lambda/s)^m)\f$
  *
- * Note the limit values \f$g(0) = 1\f$, \f$g(\infty) = \alpha\f$.\br
+ * Note the limit values \f$g(0) = 1\f$, \f$g(\infty) = \alpha\f$.
  *
  * Edge enhancing diffusion:
  *
