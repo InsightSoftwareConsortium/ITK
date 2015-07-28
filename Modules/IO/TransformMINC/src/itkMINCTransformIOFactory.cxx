@@ -23,53 +23,55 @@
 
 namespace itk
 {
-  void MINCTransformIOFactory::PrintSelf(std::ostream &, Indent) const
-  {}
 
-  MINCTransformIOFactory::MINCTransformIOFactory()
-  {
-    this->RegisterOverride( "itkTransformIOBaseTemplate",
-                            "itkMINCTransformIO",
-                            "MINC XFM Transform float IO",
-                            1,
-                            CreateObjectFunction< MINCTransformIOTemplate< float > >::New() );
+void MINCTransformIOFactory::PrintSelf(std::ostream &, Indent) const
+{}
 
-    this->RegisterOverride( "itkTransformIOBaseTemplate",
-                            "itkMINCTransformIO",
-                            "MINC XFM Transform double IO",
-                            1,
-                            CreateObjectFunction< MINCTransformIOTemplate< double > >::New() );
-  }
+MINCTransformIOFactory::MINCTransformIOFactory()
+{
+  this->RegisterOverride( "itkTransformIOBaseTemplate",
+                          "itkMINCTransformIO",
+                          "MINC XFM Transform float IO",
+                          1,
+                          CreateObjectFunction< MINCTransformIOTemplate< float > >::New() );
 
-  MINCTransformIOFactory::~MINCTransformIOFactory()
-  {}
+  this->RegisterOverride( "itkTransformIOBaseTemplate",
+                          "itkMINCTransformIO",
+                          "MINC XFM Transform double IO",
+                          1,
+                          CreateObjectFunction< MINCTransformIOTemplate< double > >::New() );
+}
 
-  const char *
-  MINCTransformIOFactory::GetITKSourceVersion(void) const
-  {
-    return ITK_SOURCE_VERSION;
-  }
+MINCTransformIOFactory::~MINCTransformIOFactory()
+{}
 
-  const char *
-  MINCTransformIOFactory::GetDescription() const
-  {
-    return "MINC XFM TransformIO Factory, allows the"
-          " loading of Minc XFM transforms into insight";
-  }
+const char *
+MINCTransformIOFactory::GetITKSourceVersion(void) const
+{
+  return ITK_SOURCE_VERSION;
+}
 
-  // Undocumented API used to register during static initialization.
-  // DO NOT CALL DIRECTLY.
-  static bool MINCTransformIOFactoryHasBeenRegistered;
+const char *
+MINCTransformIOFactory::GetDescription() const
+{
+  return "MINC XFM TransformIO Factory, allows the"
+        " loading of Minc XFM transforms into insight";
+}
 
-  void MINCTransformIOFactoryRegister__Private(void)
-  {
-    if( ! MINCTransformIOFactoryHasBeenRegistered )
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool MINCTransformIOFactoryHasBeenRegistered;
+
+void MINCTransformIOFactoryRegister__Private(void)
+{
+  if( ! MINCTransformIOFactoryHasBeenRegistered )
     {
-      MINCTransformIOFactoryHasBeenRegistered = true;
-      MINCTransformIOFactory::RegisterOneFactory();
+    MINCTransformIOFactoryHasBeenRegistered = true;
+    MINCTransformIOFactory::RegisterOneFactory();
 
-      //TransformFactory< DisplacementFieldTransform<double,3> >::RegisterTransform ();
-      // register additional transform type
+    //TransformFactory< DisplacementFieldTransform<double,3> >::RegisterTransform ();
+    // register additional transform type
     }
-  }
+}
+
 } // end namespace itk
