@@ -150,13 +150,11 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::maskToOctree(const TPixel
 {
   if ( ( x >= xsize ) || ( y >= ysize ) || ( z >= zsize ) )
     {
-    return reinterpret_cast< OctreeNodeBranch * >( m_ColorTable
-                                                   + B2_MASKFILE_BLACK );
+    return m_ColorTable + B2_MASKFILE_BLACK;
     }
   if ( width == 1 )
     {
-    return reinterpret_cast< OctreeNodeBranch * >
-           ( m_ColorTable + m_MappingFunction.Evaluate(&Mask[z * ysize * xsize + y * xsize + x]) );
+    return m_ColorTable + m_MappingFunction.Evaluate(&Mask[z * ysize * xsize + y * xsize + x]);
     }
   width /= 2;
   OctreeNodeBranch *nodeArray[8];
@@ -334,7 +332,7 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::GetDepth()
 }
 
 template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
-const char *
+const OctreeNodeBranch *
 Octree< TPixel, ColorTableSize, MappingFunctionType >::GetColorTable() const
 {
   return m_ColorTable;
