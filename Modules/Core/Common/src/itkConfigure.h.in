@@ -51,6 +51,7 @@
 #cmakedefine ITK_HP_PTHREADS
 #cmakedefine ITK_USE_WIN32_THREADS
 
+#cmakedefine ITK_WINDOWS_EXPORT_ALL_SYMBOLS
 #cmakedefine ITK_BUILD_SHARED_LIBS
 #ifdef ITK_BUILD_SHARED_LIBS
 #define ITKDLL

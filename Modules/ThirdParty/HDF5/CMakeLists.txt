@@ -3,7 +3,9 @@ set(ITKHDF5_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_HDF5 "Use an outside build of HDF5." ${ITK_USE_SYSTEM_LIBRARIES})
 mark_as_advanced(ITK_USE_SYSTEM_HDF5)
-
+if (BUILD_SHARED_LIBS)
+   add_definitions(-DH5_BUILT_AS_DYNAMIC_LIB=1)
+endif()
 if(ITK_USE_SYSTEM_HDF5)
   find_package(HDF5 REQUIRED CXX C)
   set(ITKHDF5_INCLUDE_DIRS

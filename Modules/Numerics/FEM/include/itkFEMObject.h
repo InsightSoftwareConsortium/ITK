@@ -72,7 +72,7 @@ namespace fem
  */
 
 template <unsigned int VDimension = 3>
-class ITKFEM_EXPORT FEMObject : public DataObject
+class  FEMObject : public DataObject
 {
 public:
   /** Standard class typedefs. */
