@@ -3022,7 +3022,7 @@ L556:
         if (*gd >= 0.) {
 /*                               the directional derivative >=0. */
 /*                               Line search is impossible. */
-          printf(" ascent direction in projection gd = %lf", *gd );
+          /*printf(" ascent direction in projection gd = %lf", *gd );*/
             *info = -4;
             return 0;
         }
