@@ -64,12 +64,14 @@ Detail::AtomicOps<8>::AtomicType::~AtomicType()
 
 #if defined(ITK_LOCK_BASED_ATOMICS_32)
 Detail::AtomicOps<4>::AtomicType::AtomicType(int32_t init)
-  : var(init)
+  : var(init),
+  mutex( new SimpleFastMutexLock )
 {
 }
 
 Detail::AtomicOps<4>::AtomicType::~AtomicType()
 {
+  delete mutex;
 }
 #endif
 
