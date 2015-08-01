@@ -32,10 +32,9 @@ namespace itk
  *
  * The input mesh is assumed to represent pixels in some parametric space.
  * The output mesh is suitable to be superimposed as an overlay to the
- * associated image.
- * by the user.
+ * associated image specified by the user.
  *
- * The additional content of the mesh is passed untouched. Including the
+ * The additional content of the mesh is passed untouched, including the
  * connectivity and the additional information contained on cells and points.
  *
  * \warning This filter also assumes that the Output Mesh has as type
