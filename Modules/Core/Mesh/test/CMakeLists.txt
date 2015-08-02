@@ -168,6 +168,9 @@ itk_add_test(NAME itkMeshSpatialObjectIOTest1
 itk_add_test(NAME itkMeshSpatialObjectIOTest2
       COMMAND ITKMeshTestDriver itkMeshSpatialObjectIOTest
               ${ITK_TEST_OUTPUT_DIR}/metameshIOTest2.txt DATA{${ITK_DATA_ROOT}/Input/metamesh.txt})
+itk_add_test(NAME itkParametricSpaceToImageSpaceMeshFilterTest
+      COMMAND ITKMeshTestDriver itkParametricSpaceToImageSpaceMeshFilterTest
+      DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png})
 itk_add_test(NAME itkTriangleMeshToSimplexMeshFilter2Test
       COMMAND ITKMeshTestDriver itkTriangleMeshToSimplexMeshFilter2Test)
 
