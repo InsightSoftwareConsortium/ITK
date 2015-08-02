@@ -91,7 +91,7 @@ int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestM
     //When accumulation is done accross multiple threads, the accumulations can be done
     //in different orders resulting in slightly different numerical results.
     //The FloatAlmostEqual is used to address the multi-threaded accumulation differences
-    if( !itk::Math::FloatAlmostEqual( ResultOfGetDerivative[p], DerivResultOfGetValueAndDerivative[p], 8 ) )
+    if( !itk::Math::FloatAlmostEqual( ResultOfGetDerivative[p], DerivResultOfGetValueAndDerivative[p], 8, 1e-15 ) )
       {
       std::cerr << "Results do not match between GetValueAndDerivative and GetDerivative." << std::endl;
       std::cout << ResultOfGetDerivative << " != " << DerivResultOfGetValueAndDerivative << std::endl;
