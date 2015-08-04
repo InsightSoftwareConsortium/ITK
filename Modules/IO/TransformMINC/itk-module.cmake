@@ -4,8 +4,8 @@ of itkTransform object in MINC format (.xfm).")
 itk_module(ITKIOTransformMINC
   DEPENDS
     ITKIOTransformBase
-  PRIVATE_DEPENDS
     ITKMINC
+  PRIVATE_DEPENDS
     ITKIOMINC
   TEST_DEPENDS
     ITKTestKernel
