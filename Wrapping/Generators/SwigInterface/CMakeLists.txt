@@ -10,9 +10,9 @@ option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an externa
 # Minimal swig version
 set(swig_version_min 3.0.0)
 
-set(ITK_SWIG_VERSION 3.0.5)
-set(swig_md5     dcb9638324461b9baba8e044fe59031d)
-set(swigwin_md5  fd2e050f29e2a00b2348f5f7d3476490)
+set(ITK_SWIG_VERSION 3.0.7)
+set(swig_md5     7fff46c84b8c630ede5b0f0827e3d90a)
+set(swigwin_md5  d8b5a9ce49c819cc1bfc1e797b85ba7a)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
