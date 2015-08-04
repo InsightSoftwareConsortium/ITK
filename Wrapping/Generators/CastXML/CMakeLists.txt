@@ -178,9 +178,20 @@ macro(itk_end_wrap_submodule_castxml module)
     endif()
     set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
   endif()
+  set(_build_env)
+  if(APPLE)
+    # If building on OS X, make sure that CastXML's calls to the compiler have the
+    # settings that the output files will be compiled with.  This prevents headers
+    # from one version of OS X from being used when building for another version.
+    list(APPEND _build_env
+      env
+        "SDKROOT=${CMAKE_OSX_SYSROOT}"
+        "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+    )
+  endif()
   add_custom_command(
     OUTPUT ${xml_file}
-    COMMAND ${_ccache_cmd} ${CASTXML}
+    COMMAND ${_build_env} ${_ccache_cmd} ${CASTXML}
           -o ${xml_file}
           --castxml-gccxml
           ${_target}
