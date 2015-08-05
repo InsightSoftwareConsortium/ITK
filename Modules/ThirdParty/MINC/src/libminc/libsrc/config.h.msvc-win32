@@ -1,0 +1,41 @@
+/* Win32 config.h for MINC
+ *
+ * Author: Bert Vincent
+ *
+ * $Header: /private-cvsroot/minc/libsrc/config.h.msvc-win32,v 6.3 2005-07-18 22:19:01 bert Exp $
+ */
+
+#ifndef _CONFIG_H_
+#define _CONFIG_H_ 1
+
+#define HAVE_FCNTL_H 1
+#define HAVE_FLOAT_H 1
+#define HAVE_MEMORY_H 1
+#define HAVE_STDINT_H 1
+#define HAVE_STDLIB_H 1
+#define HAVE_STRING_H 1
+#define HAVE_SYS_STAT_H 1
+#define HAVE_SYS_TYPES_H 1
+#define HAVE_TEMPNAM 1
+#define HAVE_TMPNAM 1
+#define STDC_HEADERS 1
+#define VERSION "2.0.09"
+#define sleep(x) _sleep(x)
+#define snprintf _snprintf
+#define strncasecmp(x,y,z) strnicmp(x,y,z)
+#define tempnam(x,y) _tempnam(x,y)
+
+int __stdcall gethostname(char *name, int namelen);
+
+/* Quick implmentation of rint() for Intel, since thoughtless Microsoft
+ * programmers failed to provide us with one...
+ */
+__inline double rint(double dblvar)
+{
+  __asm fld dblvar
+  __asm frndint
+  __asm fst dblvar
+  return dblvar;
+}
+
+#endif /* _CONFIG_H_ not defined */
