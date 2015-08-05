@@ -16,7 +16,7 @@ except ImportError:
     from cStringIO import StringIO
 
 pygccxmlPath = sys.argv[1]
-gccxmlPath = sys.argv[2]
+castxmlPath = sys.argv[2]
 xmlFilePath = sys.argv[3]
 idxFilePath = sys.argv[4]
 
@@ -39,7 +39,7 @@ outputFile = StringIO()
 pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
 pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
 pygccxml_config = pygccxml.parser.config.gccxml_configuration_t(
-    gccxml_path=gccxmlPath)
+    gccxml_path=castxmlPath)
 pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(
     pygccxml_config)
 # and read a xml file

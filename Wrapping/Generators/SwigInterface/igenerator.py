@@ -122,10 +122,10 @@ optionParser.add_option(
     help="Path to pygccxml")
 optionParser.add_option(
     "-g",
-    "--gccxml-path",
+    "--castxml-path",
     action="store",
-    dest="gccxml_path",
-    help="Path to gccxml")
+    dest="castxml_path",
+    help="Path to castxml")
 options, args = optionParser.parse_args()
 
 sys.path.append(options.pygccxml_path)
@@ -724,7 +724,7 @@ def generate_method(typedef, method, indent, w):
 pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
 pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
 pygccxml_config = pygccxml.parser.config.gccxml_configuration_t(
-    gccxml_path=options.gccxml_path)
+    gccxml_path=options.castxml_path)
 # create a reader
 pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(
     pygccxml_config)
