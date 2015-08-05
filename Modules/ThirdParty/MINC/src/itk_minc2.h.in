@@ -29,7 +29,7 @@
 #ifndef itk_minc2_h
 #define itk_minc2_h
 
-/* Use the tiff library configured for ITK.  */
+/* Use the LIBMINC library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_MINC
 
 #ifndef HAVE_MINC1

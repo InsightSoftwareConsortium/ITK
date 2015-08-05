@@ -1,0 +1,56 @@
+
+# how to use git and the master and develop branches
+
+http://nvie.com/posts/a-successful-git-branching-model/
+
+
+# libtool and libraries
+
+We are using libtool to (possibly) generate a shared library
+for libminc with a three-component version string.
+
+	CURRENT[:REVISION[:AGE]]
+
+
+# Release procedure
+
+* Update NEWS from Changelog, add break mark in Changelog
+
+* Update the LIBMINC_SOVERSION in CMakeLists.txt according to the
+  following rules:
+
+  0. Each library's version should be updated according to these
+     rules INDEPENDENTLY!
+
+  1. If the library source code has changed at all since the last
+     update, then increment REVISION (`C:R:A' becomes `C:r+1:A').
+
+  2. If any interfaces have been added, removed, or changed since the
+     last update, increment CURRENT, and set REVISION to 0.
+
+  3. If any interfaces have been added since the last public release,
+     then increment AGE.
+
+  4. If any interfaces have been removed since the last public release,
+     then set AGE to 0.
+
+* ccmake, build, and install.
+
+* Update Documentation (AUTHORS, COPYING, NEWS, README)
+   Authors should be sourced from recent commits
+
+* Commit.
+
+* Run CPack to make .tar.gz
+
+* Test build from .tar.gz on another system.
+
+* Copy tar file to distribution site.
+
+* Tag the release branch as "libminc-x-y-z" (MINC x.y.z).
+
+* Update the version number in CMakeLists.txt for the next release in
+   order to avoid the problem of multiple releases with the same
+   version number
+
+* Commit.
