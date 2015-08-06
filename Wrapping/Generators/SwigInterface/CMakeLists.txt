@@ -97,6 +97,35 @@ else()
           "CPP=$ENV{CPP}"
           "CXXPP=$ENV{CXXPP}"
         )
+      if(APPLE)
+        # If building on OS X, the compiler must know what version of the OS X SDK to use
+        # without SDKROOT set, configuring PCRE fails.  The deployment target is set to
+        # ensure the built library is compatible with the correct OS X version.  This may
+        # not be strictly necessary for configure, but the compiler determines which
+        # header files to use based on both of these settings.  Adding it for safety.
+        set(pcre_env ${pcre_env}
+          "SDKROOT=${CMAKE_OSX_SYSROOT}"
+          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+        )
+      endif()
+    endif()
+    set(extra_external_project_commands)
+    if(APPLE)
+      # If building on OS X, we have to set the SDKROOT and DEPOLYMENT_TARGET environment variables
+      # so that XCode's compilers know which version of the OS X SDK to use.
+      list(APPEND extra_external_project_commands
+        BUILD_COMMAND
+          env
+            "SDKROOT=${CMAKE_OSX_SYSROOT}"
+            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+          make
+        INSTALL_COMMAND
+          env
+            "SDKROOT=${CMAKE_OSX_SYSROOT}"
+            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+          make
+            install
+      )
     endif()
     ExternalProject_Add(PCRE
     URL http://downloads.sourceforge.net/project/pcre/pcre/8.37/pcre-8.37.tar.gz
@@ -106,6 +135,7 @@ else()
       ../PCRE/configure
       --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
       --enable-shared=no
+    ${extra_external_project_commands}
     )
 
     # swig uses bison find it by cmake and pass it down
@@ -184,11 +214,25 @@ endif()
 
 message(STATUS \"Swig configure successfully completed.\")
 ")
+    set(extra_swig_configure_env)
+    if(APPLE)
+      # If building on OS X, the compiler must know what version of the OS X SDK to use
+      # without SDKROOT set, configuring swig fails.  The deployment target is set to
+      # ensure the built library is compatible with the correct OS X version.  This may
+      # not be strictly necessary for configure, but the compiler determines which
+      # header files to use based on both of these settings.  Adding it for safety.
+      list(APPEND extra_swig_configure_env
+        env
+          "SDKROOT=${CMAKE_OSX_SYSROOT}"
+          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+      )
+    endif()
     ExternalProject_Add(swig
     URL http://prdownloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz
     URL_MD5 ${swig_md5}
     CONFIGURE_COMMAND
-      ${CMAKE_COMMAND} -P "${_swig_configure_script}"
+      ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
+    ${extra_external_project_commands}
     DEPENDS PCRE
     )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
