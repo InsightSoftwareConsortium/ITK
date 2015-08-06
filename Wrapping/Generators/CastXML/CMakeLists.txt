@@ -17,8 +17,8 @@ if(ITK_USE_SYSTEM_CASTXML)
   endif()
 else()
   include(ExternalProject)
-  # If 64 bit Linux
-  if(CMAKE_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+  # If 64 bit Linux build host, use the CastXML binary
+  if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
     if(ITK_BINARY_DIR)
       itk_download_attempt_check(CastXML)
     endif()
@@ -29,8 +29,18 @@ else()
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
       )
-    set(CASTXML ${CMAKE_CURRENT_BINARY_DIR}/castxml/bin/castxml${exe})
-    set(CASTXML ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
+  # If 64 bit Windows build host, use the CastXML binary
+  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
+    if(ITK_BINARY_DIR)
+      itk_download_attempt_check(CastXML)
+    endif()
+    ExternalProject_Add(castxml
+      URL http://midas3.kitware.com/midas/download/bitstream/456387/castxml-windows.zip
+      URL_MD5 fc2213d4724de07b6ca7e00415f0b597
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
+      )
   # Build from source
   else()
     set(compiler_information)
@@ -108,9 +118,9 @@ else()
         -DLLVM_DIR:PATH=${LLVM_DIR}
       INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/castxml
       )
-    set(CASTXML ${CMAKE_CURRENT_BINARY_DIR}/castxml/bin/castxml${exe})
-    set(CASTXML ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
   endif()
+  set(CASTXML ${CMAKE_CURRENT_BINARY_DIR}/castxml/bin/castxml${exe})
+  set(CASTXML ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
 endif()
 mark_as_advanced(CASTXML)
 
