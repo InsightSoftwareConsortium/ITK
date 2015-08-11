@@ -21,6 +21,7 @@
 #include "itkNeighborhood.h"
 #include <vector>
 #include "itkVector.h"
+#include "itkImage.h"
 
 namespace itk
 {
@@ -117,6 +118,9 @@ public:
   typedef Vector< float, VDimension > LType;
   typedef std::vector< LType >        DecompType;
 
+  /** ImageType (PixelType is bool) */
+  typedef typename itk::Image< PixelType, VDimension > ImageType;
+
   /** Default destructor. */
   virtual ~FlatStructuringElement() {}
 
@@ -201,6 +205,9 @@ public:
   }
   itkBooleanMacro(RadiusIsParametric);
 
+  /** Create a FlatStructureElement from a bool
+   *  image. Image must be odd in all dimensions.*/
+  static Self FromImage(const ImageType * image);
 
 protected:
 
@@ -229,6 +236,9 @@ private:
 
   bool m_RadiusIsParametric;
 
+  /** Check for correct odd size image.
+   *  Return image size. Called in constructor FromImage.*/
+  static RadiusType CheckImageSize(const ImageType * image);
 };
 } // namespace itk
 

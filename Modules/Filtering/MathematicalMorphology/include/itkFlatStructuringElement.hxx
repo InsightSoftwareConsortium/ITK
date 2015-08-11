@@ -1016,6 +1016,58 @@ FlatStructuringElement< VDimension >::ComputeBufferFromLines()
     *kernel_it = oit.Get();
     }
 }
+
+/** Check if size of input Image is odd in all dimensions, throwing exception if even */
+template< unsigned int VDimension >
+typename FlatStructuringElement< VDimension >::RadiusType
+FlatStructuringElement< VDimension >::CheckImageSize(
+  const typename FlatStructuringElement< VDimension >::ImageType * image)
+{
+  const RadiusType &size = image->GetLargestPossibleRegion().GetSize();
+
+  for( unsigned int i = 0; i < VDimension; ++i )
+    {
+    if( ( size[i] % 2 ) == 0 )
+      {
+      itkGenericExceptionMacro( << "FlatStructuringElement constructor from image: size of input Image must be odd in all dimensions");
+      }
+    }
+  return size;
+}
+
+template< unsigned int VDimension >
+FlatStructuringElement< VDimension >
+FlatStructuringElement< VDimension >::FromImage(
+        const typename FlatStructuringElement< VDimension >::ImageType* image)
+{
+  Self res = Self();
+  RadiusType size = res.CheckImageSize(image);
+  Index< VDimension > centerIdx;
+
+  for( unsigned int i = 0; i < VDimension; ++i )
+    {
+    size[i] = size[i] / 2;
+    centerIdx[i] = size[i];
+    }
+  res.SetRadius( size );
+
+  for( unsigned int j = 0; j < res.Size(); ++j )
+    {
+    const PixelType& val = image->GetPixel( centerIdx + res.GetOffset( j ) );
+    // Neighbor (therefore PixelType) in FlatStructringElement is bool
+    if (val)
+      {
+      res[j] = true;
+      }
+    else
+      {
+      res[j] = false;
+      }
+    }
+
+  return res;
+}
+
 }
 
 #endif
