@@ -425,7 +425,17 @@ macro(itk_end_wrap_module_python)
       set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
     endif()
   endif()
-  target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
+
+  # Link the modules together
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+    # On OS X, do not link against a specific Python Library and use dynamic_lookup
+    # to be ABI compatible between Python versions.
+    set_target_properties(${lib} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
+  else()
+    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
+  endif()
+
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
   if(ITK_WRAP_DOC)
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
