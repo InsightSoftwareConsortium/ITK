@@ -11,7 +11,16 @@ foreach(p
   endif()
 endforeach()
 
-project(ITK)
+project(ITK NONE)
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to 'Release' as none was specified.")
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+enable_language(C)
+enable_language(CXX)
 
 include(CMakeDependentOption)
 #
@@ -85,15 +94,6 @@ macro(verify_itk_module_is_set)
     message(FATAL_ERROR "CMake variable itk-module is not set")
   endif()
 endmacro()
-
-#-----------------------------------------------------------------------------
-# Set a default build type if none was specified
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Setting build type to 'Release' as none was specified.")
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
-  # Set the possible values of build type for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
 
 #-----------------------------------------------------------------------------
 # Do we try to use system libraries by default?
