@@ -151,7 +151,7 @@ public:
   typedef typename LevelSetType::LayerIterator          LevelSetLayerIterator;
   typedef typename LevelSetType::LayerConstIterator     LevelSetLayerConstIterator;
 
-  typedef Image< char, ImageDimension >         InternalImageType;
+  typedef Image< signed char, ImageDimension >  InternalImageType;
   typedef typename InternalImageType::Pointer   InternalImagePointer;
 
   typedef std::pair< LevelSetInputType, LevelSetOutputType >  LayerPairType;

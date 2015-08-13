@@ -181,7 +181,7 @@ int itkSingleLevelSetWhitakerImage2DTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< char, Dimension > OutputImageType;
+  typedef itk::Image< signed char, Dimension > OutputImageType;
   OutputImageType::Pointer outputImage = OutputImageType::New();
   outputImage->SetRegions( input->GetLargestPossibleRegion() );
   outputImage->CopyInformation( input );
