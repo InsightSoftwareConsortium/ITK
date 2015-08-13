@@ -118,7 +118,7 @@ public:
   typedef Vector< float, VDimension > LType;
   typedef std::vector< LType >        DecompType;
 
-  /** ImageType (PixelType is bool) */
+  /** ImageType used in constructors */
   typedef typename itk::Image< PixelType, VDimension > ImageType;
 
   /** Default destructor. */

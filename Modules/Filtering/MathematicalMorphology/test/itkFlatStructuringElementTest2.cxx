@@ -28,16 +28,16 @@ using namespace itk;
  * Return bool image from input FlatStructuringElement kernel
  */
 template< unsigned int VDimension >
-typename itk::Image< bool, VDimension>::Pointer
+typename itk::Image< unsigned char, VDimension>::Pointer
 GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
 {
-  typedef typename FlatStructuringElement< VDimension >::ImageType
-                   ImageType;
-  typedef typename FlatStructuringElement< VDimension >::RadiusType
-                   RadiusType;
-  typedef typename FlatStructuringElement< VDimension >::ConstIterator
-                   ConstIterator;
-  typedef bool     PixelType;
+  typedef typename      itk::Image< unsigned char, VDimension>
+                        ImageType;
+  typedef typename      FlatStructuringElement< VDimension >::RadiusType
+                        RadiusType;
+  typedef typename      FlatStructuringElement< VDimension >::ConstIterator
+                        ConstIterator;
+  typedef unsigned char PixelType;
 
   typename ImageType::Pointer image = ImageType::New();
   typename ImageType::RegionType region;
@@ -59,7 +59,7 @@ GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
     {
     if(*kernel_it)
       {
-      img_it.Set( NumericTraits< PixelType >::OneValue() );
+      img_it.Set( 255 );
       }
     else
       {
@@ -81,15 +81,15 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
     }
   const static unsigned int Dimension = 2;
   /**********************************************************/
-  /*******Read test image as unsigned int********/
+  /*******Read test image as unsigned char********/
   /**********************************************************/
-  typedef itk::Image< unsigned short, Dimension >  Input2DImageType;
-  typedef itk::ImageFileReader< Input2DImageType > Reader2DType;
-  Reader2DType::Pointer reader2D = Reader2DType::New();
-  reader2D->SetFileName( argv[1] );
+  typedef itk::Image< unsigned char, Dimension > ImageUCType;
+  typedef itk::ImageFileReader< ImageUCType >    ReaderUCType;
+  ReaderUCType::Pointer reader = ReaderUCType::New();
+  reader->SetFileName( argv[1] );
   try
     {
-    reader2D->UpdateLargestPossibleRegion();
+    reader->UpdateLargestPossibleRegion();
     }
   catch (itk::ExceptionObject& e)
     {
@@ -98,7 +98,7 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
     return 1000;
     }
 
-  Input2DImageType::Pointer testImg = reader2D->GetOutput();
+  ImageUCType::Pointer testImg = reader->GetOutput();
   typedef itk::FlatStructuringElement< Dimension > FSEType;
 
   /**********************************************************/
@@ -106,42 +106,29 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
   /**********************************************************/
   typedef itk::Image< bool , Dimension> ImageBoolType;
 
-  typedef itk::RescaleIntensityImageFilter< Input2DImageType, Input2DImageType > RescaleType;
+  typedef itk::RescaleIntensityImageFilter< ImageUCType, ImageUCType > RescaleType;
   RescaleType::Pointer rescale = RescaleType::New();
   rescale->SetInput( testImg );
   rescale->SetOutputMinimum( itk::NumericTraits< bool >::ZeroValue()  );
   rescale->SetOutputMaximum( itk::NumericTraits< bool >::OneValue() );
 
-  typedef itk::CastImageFilter<Input2DImageType, ImageBoolType> castFilterType;
+  typedef itk::CastImageFilter<ImageUCType, ImageBoolType> castFilterType;
   castFilterType::Pointer cast = castFilterType::New();
   cast->SetInput(rescale->GetOutput());
   cast->Update();
   ImageBoolType::Pointer testImgBool = cast->GetOutput();
 
   FSEType flatStructure = FSEType::FromImage(testImgBool);
-  ImageBoolType::Pointer imgFromStructure = GetImage(flatStructure);
+  ImageUCType::Pointer imgFromStructure = GetImage(flatStructure);
 
-  /**********************************************************/
-  /**Cast back and write for comparisson with input image ***/
-  /**********************************************************/
+  /*****************************************************************/
+  /**Write result from GetImage for comparisson with input image ***/
+  /*****************************************************************/
 
-  typedef itk::CastImageFilter<ImageBoolType, Input2DImageType> castBackFilterType;
-  castBackFilterType::Pointer castBack = castBackFilterType::New();
-  castBack->SetInput(imgFromStructure);
-  castBack->Update();
-
-  typedef itk::RescaleIntensityImageFilter< Input2DImageType, Input2DImageType > RescaleBackType;
-  RescaleBackType::Pointer rescaleBack = RescaleBackType::New();
-  rescaleBack->SetInput( castBack->GetOutput() );
-  rescaleBack->SetOutputMinimum( 0  );
-  rescaleBack->SetOutputMaximum( 255 );
-
-  Input2DImageType::Pointer testImgAfter = rescaleBack->GetOutput();
-
-  typedef itk::ImageFileWriter< Input2DImageType > WriterType;
+  typedef itk::ImageFileWriter< ImageUCType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
-  writer->SetInput(testImgAfter);
+  writer->SetInput(imgFromStructure);
 
   try
     {
@@ -161,7 +148,7 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
     ConstPadFilterType;
   ConstPadFilterType::Pointer padFilter = ConstPadFilterType::New();
   padFilter->SetInput(testImgBool);
-  Input2DImageType::SizeType lowerExtendRegion;
+  ImageBoolType::SizeType lowerExtendRegion;
   lowerExtendRegion[0] = 1;
   lowerExtendRegion[1] = 1;
   padFilter->SetPadLowerBound(lowerExtendRegion);
@@ -169,11 +156,11 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
   padFilter->SetConstant(constPixel);
   padFilter->Update();
 
-  ImageBoolType::Pointer evenImg =  padFilter->GetOutput();
+  ImageBoolType::Pointer evenBoolImg =  padFilter->GetOutput();
   bool evenSizeImgGeneratesException = false;
   try
     {
-    FSEType flatSFromEven = FSEType::FromImage(evenImg);
+    FSEType flatSFromEven = FSEType::FromImage(evenBoolImg);
     }
   catch( itk::ExceptionObject & )
     {
