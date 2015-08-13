@@ -82,7 +82,7 @@ create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
 )
 add_library(ITKAnalyzeIO-TestHelper itkAnalyzeImageIOTestHelper.cxx)
 itk_module_target_label(ITKAnalyzeIO-TestHelper)
-target_link_libraries(ITKAnalyzeIO-TestHelper LINK_PUBLIC ${ITKDeprecated_LIBRARIES})
+target_link_libraries(ITKAnalyzeIO-TestHelper LINK_PRIVATE ${ITKDeprecated_LIBRARIES} itksys ${ITKZLIB_LIBRARIES})
 
 list(APPEND ITKDeprecated-Test_LIBRARIES ITKAnalyzeIO-TestHelper)
 add_executable(DeprecatedIOTestDriver DeprecatedIOTestDriver.cxx  ${DeprecatedIOTests})

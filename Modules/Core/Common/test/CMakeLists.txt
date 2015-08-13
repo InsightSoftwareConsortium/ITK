@@ -175,8 +175,8 @@ itkThreadPoolTest.cxx
 itkAtomicIntTest.cxx
 )
 
-CreateTestDriver(ITKCommon1 "${ITKCommon_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
-CreateTestDriver(ITKCommon2 "${ITKCommon_LIBRARIES}" "${ITKCommon2Tests}")
+CreateTestDriver(ITKCommon1 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
+CreateTestDriver(ITKCommon2 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon2Tests}")
 
 set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})

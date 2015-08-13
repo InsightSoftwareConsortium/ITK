@@ -11,6 +11,7 @@ itk_module(ITKImageFilterBase
   TEST_DEPENDS
     ITKTestKernel
     ITKImageIntensity
+    ITKIOImageBase
   DESCRIPTION
     "${DOCUMENTATION}"
 )

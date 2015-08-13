@@ -4,7 +4,7 @@ critical information like the pixel type, dimensions, spacing, origin, etc. when
 reading RAW files.")
 
 itk_module(ITKIORAW
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel

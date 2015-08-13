@@ -4,7 +4,8 @@ classes for the GE4, GE5, and GEAdw scanners.")
 
 itk_module(ITKIOGE
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
+    ITKIOImageBase
     ITKIOIPL
   TEST_DEPENDS
     ITKTestKernel

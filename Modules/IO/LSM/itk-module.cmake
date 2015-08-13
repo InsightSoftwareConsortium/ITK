@@ -5,8 +5,10 @@ stack file format.")
 
 itk_module(ITKIOLSM
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
+    ITKIOImageBase
     ITKIOTIFF
+    ITKTIFF
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

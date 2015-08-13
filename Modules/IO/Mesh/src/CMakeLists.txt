@@ -20,5 +20,4 @@ set(ITKIOMesh_SRC
 
 add_library(ITKIOMesh ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOMesh_SRC})
 itk_module_link_dependencies()
-
 itk_module_target(ITKIOMesh)

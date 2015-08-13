@@ -7,7 +7,7 @@ else()
   set(EXCLUDE_V3COMPATIBILITY "")
 endif()
 itk_module(ITKV3Compatibility
-  DEPENDS
+  COMPILE_DEPENDS
     ITKDisplacementField
   TEST_DEPENDS
     ITKTestKernel

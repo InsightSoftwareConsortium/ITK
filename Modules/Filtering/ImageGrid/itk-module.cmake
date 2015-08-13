@@ -12,6 +12,7 @@ itk_module(ITKImageGrid
     ITKSmoothing
     ITKImageSources
     ITKImageIntensity
+    ITKIOImageBase
   DESCRIPTION
     "${DOCUMENTATION}"
 )
