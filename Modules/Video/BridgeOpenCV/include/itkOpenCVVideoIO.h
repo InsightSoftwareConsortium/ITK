@@ -21,6 +21,7 @@
 #include "itkVideoIOBase.h"
 #include "cv.h"
 #include "highgui.h"
+#include "ITKVideoBridgeOpenCVExport.h"
 
 
 namespace itk
@@ -31,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeOpenCV
  */
-class OpenCVVideoIO:public VideoIOBase
+class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIO : public VideoIOBase
 {
 public:
   /** Standard class typedefs. */
