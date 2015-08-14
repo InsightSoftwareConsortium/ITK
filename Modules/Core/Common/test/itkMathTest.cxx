@@ -34,15 +34,15 @@ inline int TestIntegersAreSame(const T1 & v1, const T2 & v2)
     std::cout << v2 << std::endl;
     passed=EXIT_FAILURE;
     }
-  if ( itk::Math::EqualsComparison(v2,v1) == true  )
+  if ( itk::Math::AlmostEquals(v2,v1) == true  )
     {
-    std::cout << "Error in " << "itk::Math::EqualsComparison(v2, v1) " << std::endl;
+    std::cout << "Error in " << "itk::Math::AlmostEquals(v2, v1) " << std::endl;
     std::cout << __FILE__ << " " << __LINE__ << " " << v2 << " == " << v1 << std::endl;
     passed=EXIT_FAILURE;
     }
-  if ( itk::Math::EqualsComparison(v1,v2) == true )
+  if ( itk::Math::AlmostEquals(v1,v2) == true )
     {
-    std::cout << "Error in " << "itk::Math::EqualsComparison(v1, v2) " << std::endl;
+    std::cout << "Error in " << "itk::Math::AlmostEquals(v1, v2) " << std::endl;
     std::cout << __FILE__ << " " << __LINE__ << " " << v1 << " == " << v2 << std::endl;
     passed=EXIT_FAILURE;
     }
@@ -496,19 +496,59 @@ int main( int, char *[] )
     //=========================
     const float f=-1.0f;
     const double d=1.01;
-    if ( itk::Math::EqualsComparison(f,d) == true || itk::Math::EqualsComparison(d,f) == true )
+
+    // Test AlmostEquals()
+    if ( itk::Math::AlmostEquals(f,d) == true || itk::Math::AlmostEquals(d,f) == true )
       {
       std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
       testPassStatus=EXIT_FAILURE;
       }
-    if ( itk::Math::EqualsComparison(f,sc) == false
-      || itk::Math::EqualsComparison(sc,f) == false
-      || itk::Math::EqualsComparison(1.0,1.0f) == false
-      || itk::Math::EqualsComparison(1,1.0) == false
-      || itk::Math::EqualsComparison(2.0,1.0) == true
-      || itk::Math::EqualsComparison(1,2) == true )
+    if ( itk::Math::AlmostEquals(f,sc) == false
+      || itk::Math::AlmostEquals(sc,f) == false
+      || itk::Math::AlmostEquals(1.0,1.0f) == false
+      || itk::Math::AlmostEquals(1,1.0) == false
+      || itk::Math::AlmostEquals(2.0,1.0) == true
+      || itk::Math::AlmostEquals(1,2) == true )
       {
       std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+
+    // Test ExactlyEquals()  it should detect normal inequalities
+    if ( itk::Math::ExactlyEquals(f,d) == true || itk::Math::ExactlyEquals(d,f) == true )
+      {
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    // Test comparison values of different types
+    if ( itk::Math::NotExactlyEquals( itk::NumericTraits< float >::OneValue(), itk::NumericTraits< double >::OneValue() ) ||
+         itk::Math::NotExactlyEquals( itk::NumericTraits< double >::OneValue(), static_cast< float >( 1 ) ) )
+      {
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+
+    // Test comparison of very close values
+    FloatRepresentationD oneExact;
+    FloatRepresentationD oneAlmost;
+
+    oneExact.asFloat = itk::NumericTraits< double >::OneValue();
+    oneAlmost.asFloat = itk::NumericTraits< double >::OneValue();
+    oneAlmost.asInt += 1;
+
+    // Very close values should be AlmostEqual
+    if ( itk::Math::NotAlmostEquals( oneExact.asFloat, oneAlmost.asFloat ) )
+      {
+      std::cout << __FILE__ << " " << __LINE__ << " " << oneExact.asFloat <<" == " << oneAlmost.asFloat << std::endl;
+      std::cout << "AlmostEquals Test Failure" << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+
+    // Even very close values are not ExactlyEqual
+    if ( itk::Math::ExactlyEquals( oneExact.asFloat, oneAlmost.asFloat ) )
+      {
+      std::cout << __FILE__ << " " << __LINE__ << " " << oneExact.asFloat <<" == " << oneAlmost.asFloat << std::endl;
+      std::cout << "ExactlyEquals Test Failure" << std::endl;
       testPassStatus=EXIT_FAILURE;
       }
     }
