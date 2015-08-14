@@ -45,11 +45,35 @@ template< typename TTransform, typename TFixedImage, typename TMovingImage >
 template <typename TTransform2>
 void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
-::InternalInitializeTransform(TTransform *)
+::InternalInitializeTransform(TTransform2 *)
 {
-  itkWarningMacro( << "Unsupported Transform Type "
-                   << this->m_Transform->GetNameOfClass() );
-  m_Transform->SetIdentity();
+
+  if ( dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer()) != ITK_NULLPTR )
+    {
+    this->InternalInitializeTransform(static_cast<BSplineTransformType *>(ITK_NULLPTR));
+    return;
+    }
+
+  if ( dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer()) != ITK_NULLPTR )
+    {
+    this->InternalInitializeTransform(static_cast<AffineTransformType *>(ITK_NULLPTR));
+    return;
+    }
+
+  if ( dynamic_cast< VersorRigid3DTransformType * >( this->m_Transform.GetPointer() ) != ITK_NULLPTR )
+    {
+    this->InternalInitializeTransform(static_cast< VersorRigid3DTransformType*>(ITK_NULLPTR));
+    return;
+    }
+
+  if ( dynamic_cast< Rigid2DTransformType * >(this->m_Transform.GetPointer() ) != ITK_NULLPTR )
+    {
+    this->InternalInitializeTransform(static_cast<Rigid2DTransformType *>(ITK_NULLPTR));
+    return;
+    }
+
+  itkExceptionMacro( <<"Unsupported Transform Type " << this->m_Transform->GetNameOfClass() );
+
 }
 
 template< typename TTransform, typename TFixedImage, typename TMovingImage >
@@ -62,7 +86,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   if ( transform == ITK_NULLPTR )
     {
     itkExceptionMacro( << "BSplineTransform Expected but transform is "
-                      << this->m_Transform->GetNameOfClass() );
+                       << this->m_Transform->GetNameOfClass() );
     }
 
   if( m_MovingLandmarks.size() != m_FixedLandmarks.size() )
@@ -685,25 +709,8 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Transform   = " << std::endl;
-  if ( m_Transform )
-    {
-    os << indent << m_Transform  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
-
-  os << indent << "ReferenceImage   = " << std::endl;
-  if ( m_ReferenceImage )
-    {
-    os << indent << m_ReferenceImage  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
+  itkPrintSelfObjectMacro( Transform );
+  itkPrintSelfObjectMacro( ReferenceImage );
 
   os << indent << "Fixed Landmarks: " << std::endl;
   PointsContainerConstIterator fitr = m_FixedLandmarks.begin();
@@ -719,6 +726,16 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     os << indent << *mitr << std::endl;
     ++mitr;
     }
+  os << indent << "Landmark Weight: " << std::endl;
+  LandmarkWeightConstIterator witr = m_LandmarkWeight.begin();
+  while ( witr != m_LandmarkWeight.end() )
+    {
+    os << indent << *witr << std::endl;
+    ++witr;
+    }
+
+  os << indent << "BSplineNumberOfControlPoints: " << m_BSplineNumberOfControlPoints << std::endl;
+
 }
 }  // namespace itk
 

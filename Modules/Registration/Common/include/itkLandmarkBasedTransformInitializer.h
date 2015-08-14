@@ -77,8 +77,8 @@ namespace itk
  * \endwiki
  */
 template< typename TTransform,
-          typename TFixedImage,
-          typename TMovingImage >
+          typename TFixedImage = itk::ImageBase<TTransform::InputSpaceDimension > ,
+          typename TMovingImage = itk::ImageBase<TTransform::OutputSpaceDimension> >
 class LandmarkBasedTransformInitializer:
   public Object
 {
@@ -181,7 +181,7 @@ private:
 
   /** fallback Initializer just sets transform to identity */
   template <typename TTransform2>
-    void InternalInitializeTransform(TTransform *);
+  void InternalInitializeTransform(TTransform2 *);
   /** Initializer for VersorRigid3D */
   void InternalInitializeTransform(VersorRigid3DTransformType *);
   /** Initializer for Rigid2DTransform */
