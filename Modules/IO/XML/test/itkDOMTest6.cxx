@@ -24,6 +24,7 @@ This program tests operations of itk::StringTools.
 
 #include <iostream>
 #include "itkMacro.h"
+#include "itkMath.h"
 
 void testStringToolsWithBasicType();
 
@@ -128,7 +129,7 @@ void testStringToolsWithBasicType()
     itk::StringTools::ToData( s, dataOut );
 
     // check result
-    if ( dataIn != dataOut )
+    if ( itk::Math::NotAlmostEquals( dataIn, dataOut ) )
       {
       throw "double: input and output data do not match";
       }
@@ -161,7 +162,7 @@ void testStringToolsWithStdVector()
     }
   for ( size_t i = 0; i < dataIn.size(); i++ )
     {
-    if ( dataIn[i] != dataOut1[i] )
+    if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut1[i] ) )
       {
       throw "testStringToolsWithStdVector: failed reading all elements in the string (2)";
       }
@@ -179,7 +180,7 @@ void testStringToolsWithStdVector()
     }
   for ( size_t i = 0; i < dataOut2.size(); i++ )
     {
-    if ( dataIn[i] != dataOut2[i] )
+    if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut2[i] ) )
       {
       throw "testStringToolsWithStdVector: failed reading all elements for the output vector (2)";
       }
@@ -197,7 +198,7 @@ void testStringToolsWithStdVector()
     }
   for ( size_t i = 0; i < 5; i++ )
     {
-    if ( dataIn[i] != dataOut3[i] )
+    if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut3[i] ) )
       {
       throw "testStringToolsWithStdVector: failed reading user-specified number of elements (1.2)";
       }
@@ -215,7 +216,7 @@ void testStringToolsWithStdVector()
     }
   for ( size_t i = 0; i < 5; i++ )
     {
-    if ( dataIn[i] != dataOut4[i] )
+    if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut4[i] ) )
       {
       throw "testStringToolsWithStdVector: failed reading user-specified number of elements (2.2)";
       }
@@ -250,7 +251,7 @@ void testStringToolsWithItkArray()
     }
   for ( size_t i = 0; i < dataIn.GetSize(); i++ )
     {
-    if ( dataIn[i] != dataOut1[i] )
+    if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut1[i] ) )
       {
       throw "testStringToolsWithItkArray: failed reading all elements in the string (2)";
       }
@@ -269,7 +270,7 @@ void testStringToolsWithItkArray()
     }
   for ( size_t i = 0; i < dataOut2.GetSize(); i++ )
     {
-    if ( dataIn[i] != dataOut2[i] )
+    if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut2[i] ) )
       {
       throw "testStringToolsWithItkArray: failed reading all elements for the output vector (2)";
       }
@@ -288,7 +289,7 @@ void testStringToolsWithItkArray()
     }
   for ( size_t i = 0; i < 5; i++ )
     {
-    if ( dataIn[i] != dataOut3[i] )
+    if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut3[i] ) )
       {
       throw "testStringToolsWithItkArray: failed reading user-specified number of elements (1.2)";
       }
@@ -306,7 +307,7 @@ void testStringToolsWithItkArray()
     }
   for ( size_t i = 0; i < 5; i++ )
     {
-    if ( dataIn[i] != dataOut4[i] )
+    if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut4[i] ) )
       {
       throw "testStringToolsWithItkArray: failed reading user-specified number of elements (2.2)";
       }

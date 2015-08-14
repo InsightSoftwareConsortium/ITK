@@ -20,6 +20,7 @@
 #include "itkImageToRectilinearFEMObjectFilter.h"
 #include "itkImageFileReader.h"
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
+#include "itkMath.h"
 
 int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
 {
@@ -173,8 +174,8 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
     foundError = true;
     }
   else if ((m1->GetYoungsModulus() != 3000.0) ||
-           (m1->GetCrossSectionalArea() != 0.02) ||
-           (m1->GetMomentOfInertia() != 0.004) )
+           (itk::Math::NotExactlyEquals(m1->GetCrossSectionalArea(), 0.02)) ||
+           (itk::Math::NotExactlyEquals(m1->GetMomentOfInertia(), 0.004)) )
     {
     std::cout << " [FAILED]" << std::endl;
     std::cout << "\tExpected  3000.0, 0.02, 0.004" << " Obtained ";

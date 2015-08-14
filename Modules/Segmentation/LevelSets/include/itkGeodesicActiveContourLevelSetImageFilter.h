@@ -137,7 +137,7 @@ public:
    * derivatives  */
   void SetDerivativeSigma(float value)
   {
-    if ( value != m_GeodesicActiveContourFunction->GetDerivativeSigma() )
+    if ( Math::NotExactlyEquals(value, m_GeodesicActiveContourFunction->GetDerivativeSigma()) )
       {
       m_GeodesicActiveContourFunction->SetDerivativeSigma(value);
       this->Modified();
@@ -172,6 +172,7 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGeodesicActiveContourLevelSetImageFilter.hxx"
+#include "itkMath.h"
 #endif
 
 #endif

@@ -18,6 +18,7 @@
 #ifndef itkCurvesLevelSetFunction_hxx
 #define itkCurvesLevelSetFunction_hxx
 
+#include "itkMath.h"
 #include "itkCurvesLevelSetFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
@@ -59,7 +60,7 @@ void CurvesLevelSetFunction< TImageType, TFeatureImageType >
 
   typename VectorImageType::Pointer gradientImage;
 
-  if ( m_DerivativeSigma != NumericTraits< float >::ZeroValue() )
+  if ( Math::NotAlmostEquals( m_DerivativeSigma, NumericTraits< float >::ZeroValue() ) )
     {
     typedef GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >
     DerivativeFilterType;

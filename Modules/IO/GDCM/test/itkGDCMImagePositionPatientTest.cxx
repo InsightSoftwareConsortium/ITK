@@ -24,6 +24,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "itkMath.h"
 
 int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
 {
@@ -113,9 +114,9 @@ int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
 
   Image3DType::PointType readerOrigin3D;
   readerOrigin3D = reader->GetOutput()->GetOrigin();
-  if ((readerOrigin3D[0] != origin3D[0]) ||
-      (readerOrigin3D[1] != origin3D[1]) ||
-      (readerOrigin3D[2] != origin3D[2]))
+  if ((itk::Math::NotExactlyEquals(readerOrigin3D[0], origin3D[0])) ||
+      (itk::Math::NotExactlyEquals(readerOrigin3D[1], origin3D[1])) ||
+      (itk::Math::NotExactlyEquals(readerOrigin3D[2], origin3D[2])))
     {
     std::cout << "ERROR: read origin does not equal written origin: "
               << readerOrigin3D << " != ["

@@ -19,6 +19,7 @@
 #define itkCurvesLevelSetImageFilter_hxx
 
 #include "itkCurvesLevelSetImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -56,7 +57,7 @@ CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   // Make sure the SpeedImage is setup for the case when PropagationScaling
   // is zero
   if ( this->GetSegmentationFunction()
-       && this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
+       && Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
     {
     this->GetSegmentationFunction()->AllocateSpeedImage();
     this->GetSegmentationFunction()->CalculateSpeedImage();

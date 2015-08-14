@@ -25,6 +25,7 @@
 #include "itkDerivativeOperator.h"
 #include "itkSparseFieldLayer.h"
 #include "itkObjectStore.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -152,7 +153,7 @@ public:
   {
     for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
       {
-      if ( m_Variance[i] != v )
+      if ( Math::NotExactlyEquals(m_Variance[i], v) )
         {
         m_Variance.Fill(v);
         this->Modified();
@@ -167,7 +168,7 @@ public:
   {
     for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
       {
-      if ( m_MaximumError[i] != v )
+      if ( Math::NotExactlyEquals(m_MaximumError[i], v) )
         {
         m_MaximumError.Fill(v);
         this->Modified();

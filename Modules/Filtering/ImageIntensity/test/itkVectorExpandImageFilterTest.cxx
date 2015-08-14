@@ -22,6 +22,7 @@
 #include "itkVectorNearestNeighborInterpolateImageFunction.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkMath.h"
 
 // class to produce a linear image pattern
 template <int VDimension>
@@ -200,7 +201,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 
       for( k = 0; k < VectorDimension; k++ )
         {
-        if( value[k] != padValue[k] ){break;}
+        if( itk::Math::NotExactlyEquals(value[k], padValue[k]) ){break;}
         }
       if( k < VectorDimension )
         {
@@ -250,7 +251,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 
     for( k = 0; k < VectorDimension; k++ )
       {
-      if( outIter.Get()[k] != streamIter.Get()[k] )
+      if( itk::Math::NotExactlyEquals(outIter.Get()[k], streamIter.Get()[k]) )
         {
         testPassed = false;
         }

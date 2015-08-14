@@ -18,6 +18,7 @@
 
 
 #include "itkGaussianSpatialFunction.h"
+#include "itkMath.h"
 
 int itkGaussianSpatialFunctionTest(int, char* [] )
 {
@@ -81,7 +82,7 @@ int itkGaussianSpatialFunctionTest(int, char* [] )
 
   double scale2 = 19.0;
   spatialFunction->SetScale( scale2 );
-  if( spatialFunction->GetScale() != scale2 )
+  if( itk::Math::NotExactlyEquals(spatialFunction->GetScale(), scale2) )
     {
     std::cerr << "Error in Set/GetScale()" << std::endl;
     return EXIT_FAILURE;

@@ -27,6 +27,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkMaskImageFilter.h"
 #include "itkConnectedComponentAlgorithm.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -186,7 +187,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
       {
       InputImagePixelType PVal = inLineIt.Get();
 
-      if ( PVal == m_ForegroundValue )
+      if ( Math::AlmostEquals(PVal, m_ForegroundValue) )
         {
         // We've hit the start of a run
         SizeValueType length = 0;
@@ -199,7 +200,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
         ++outLineIt;
 
         while ( !inLineIt.IsAtEndOfLine()
-                && inLineIt.Get() == m_ForegroundValue )
+                && Math::AlmostEquals( inLineIt.Get(), m_ForegroundValue ) )
           {
           outLineIt.Set(m_BackgroundValue);
           ++length;
@@ -220,7 +221,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
         ++inLineIt;
         ++outLineIt;
         while ( !inLineIt.IsAtEndOfLine()
-                && inLineIt.Get() != m_ForegroundValue )
+                && Math::NotAlmostEquals( inLineIt.Get(), m_ForegroundValue ) )
           {
           outLineIt.Set( inLineIt.Get() );
           ++length;

@@ -21,7 +21,7 @@
  *
  */
 
-
+#include "itkMath.h"
 #include "itkPoint.h"
 #include "itkVectorContainer.h"
 #include <iostream>
@@ -162,7 +162,7 @@ int itkPointGeometryTest(int, char* [] )
     std::cout << "MidPoint = " << midpoint << std::endl;
     for(unsigned int i=0; i<N; i++ )
     {
-      if( midpoint[i] != (A[i]+B[i])/2.0 )
+      if( itk::Math::NotAlmostEquals( midpoint[i], (A[i]+B[i])/2.0 ) )
       {
         std::cerr << "Failure to compute MidPoint " << std::endl;
         return EXIT_FAILURE;

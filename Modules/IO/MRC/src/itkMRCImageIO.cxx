@@ -185,9 +185,9 @@ void MRCImageIO::ReadImageInformation(void)
       }
     }
 
-  if ( header.xlen == 0
-       && header.ylen == 0
-       && header.zlen == 0 )
+  if ( header.xlen == 0.0f
+       && header.ylen == 0.0f
+       && header.zlen == 0.0f )
     {
     // if the spacing was not set in the header then this is the
     // default

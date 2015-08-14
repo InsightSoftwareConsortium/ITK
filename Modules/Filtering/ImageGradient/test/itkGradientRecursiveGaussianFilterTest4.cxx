@@ -19,6 +19,7 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMath.h"
 
 
 int itkGradientRecursiveGaussianFilterTest4(int argc, char* argv[] )
@@ -95,7 +96,7 @@ int itkGradientRecursiveGaussianFilterTest4(int argc, char* argv[] )
   filter->SetSigmaArray(sigmas);
 
   sigmas = filter->GetSigmaArray();
-  if (sigmas[0] != 1.8 || sigmas[1] != 1.8 || filter->GetSigma() != 1.8)
+  if (itk::Math::NotExactlyEquals(sigmas[0], 1.8) || itk::Math::NotExactlyEquals(sigmas[1], 1.8) || itk::Math::NotExactlyEquals(filter->GetSigma() , 1.8))
   {
     std::cerr << "Exception detected: wrong sigmas after SetSigmaArray" << std::endl;
     std::cerr << "Sigma Array: " << sigmas[0] << ", " << sigmas[1] << std::endl;

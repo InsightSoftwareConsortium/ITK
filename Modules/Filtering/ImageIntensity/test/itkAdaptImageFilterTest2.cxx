@@ -35,6 +35,7 @@
 #include "itkNthElementPixelAccessor.h"
 
 #include "vnl/vnl_sample.h"
+#include "itkMath.h"
 
 
 //-------------------------------------
@@ -128,7 +129,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   while( !it.IsAtEnd() )
   {
   std::cout << it.Get()   << std::endl;
-  if (it.Get() != it1.Get()[0])
+  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[0]))
     {
     passed = false;
     }
@@ -151,7 +152,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   while( !it.IsAtEnd() )
   {
   std::cout << it.Get()   << std::endl;
-  if (it.Get() != it1.Get()[1])
+  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[1]))
     {
     passed = false;
     }
@@ -174,7 +175,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   while( !it.IsAtEnd() )
   {
   std::cout << it.Get()   << std::endl;
-  if (it.Get() != it1.Get()[2])
+  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[2]))
     {
     passed = false;
     }

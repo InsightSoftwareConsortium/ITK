@@ -25,6 +25,7 @@
 
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_vector.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -52,7 +53,7 @@ public:
    */
   bool operator>(const KLMDynamicBorderArray< TBorder > & rhs) const
   {
-    if ( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() )
+    if ( Math::ExactlyEquals(m_Pointer->GetLambda(), rhs.m_Pointer->GetLambda()) )
       {
       if ( m_Pointer->GetLambda() < 0 )
         {

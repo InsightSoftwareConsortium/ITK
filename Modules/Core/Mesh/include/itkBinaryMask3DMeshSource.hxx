@@ -21,6 +21,7 @@
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkContinuousIndex.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -1147,10 +1148,10 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     {
     vertexindex = 0;
 
-    if ( it1.Value() == m_ObjectValue ) { vertexindex += 1; }
-    if ( it2.Value() == m_ObjectValue ) { vertexindex += 8; }
-    if ( it3.Value() == m_ObjectValue ) { vertexindex += 16; }
-    if ( it4.Value() == m_ObjectValue ) { vertexindex += 128; }
+    if ( Math::ExactlyEquals(it1.Value(), m_ObjectValue) ) { vertexindex += 1; }
+    if ( Math::ExactlyEquals(it2.Value(), m_ObjectValue) ) { vertexindex += 8; }
+    if ( Math::ExactlyEquals(it3.Value(), m_ObjectValue) ) { vertexindex += 16; }
+    if ( Math::ExactlyEquals(it4.Value(), m_ObjectValue) ) { vertexindex += 128; }
     ++it1;
     ++it2;
     ++it3;
@@ -1159,10 +1160,10 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     if ( ( i % m_ImageWidth < m_ImageWidth - 1 )
          && ( ( i % ( m_ImageWidth * m_ImageHeight ) ) / m_ImageWidth < m_ImageHeight - 1 ) )
       {
-      if ( it1.Value() == m_ObjectValue ) { vertexindex += 2; }
-      if ( it2.Value() == m_ObjectValue ) { vertexindex += 4; }
-      if ( it3.Value() == m_ObjectValue ) { vertexindex += 32; }
-      if ( it4.Value() == m_ObjectValue ) { vertexindex += 64; }
+      if ( Math::ExactlyEquals(it1.Value(), m_ObjectValue) ) { vertexindex += 2; }
+      if ( Math::ExactlyEquals(it2.Value(), m_ObjectValue) ) { vertexindex += 4; }
+      if ( Math::ExactlyEquals(it3.Value(), m_ObjectValue) ) { vertexindex += 32; }
+      if ( Math::ExactlyEquals(it4.Value(), m_ObjectValue) ) { vertexindex += 64; }
       }
     else
       {
@@ -1170,8 +1171,8 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
         {
         if ( vertexindex > 50 ) { vertexindex -= 128; }
         if ( ( ( vertexindex > 7 ) && ( vertexindex < 10 ) ) || ( vertexindex > 17 ) ) { vertexindex -= 8; }
-        if ( it1.Value() == m_ObjectValue ) { vertexindex += 2; }
-        if ( it3.Value() == m_ObjectValue ) { vertexindex += 32; }
+        if ( Math::ExactlyEquals(it1.Value(), m_ObjectValue) ) { vertexindex += 2; }
+        if ( Math::ExactlyEquals(it3.Value(), m_ObjectValue) ) { vertexindex += 32; }
         }
       }
 

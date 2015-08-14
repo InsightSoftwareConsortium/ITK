@@ -22,6 +22,8 @@
 #include "itkLandweberDeconvolutionImageFilter.h"
 #include "itkDeconvolutionIterationCommand.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkMacro.h"
+#include "itkMath.h"
 
 int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
 {
@@ -61,7 +63,7 @@ int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
   deconvolutionFilter->SetKernelImage( kernelReader->GetOutput() );
   deconvolutionFilter->NormalizeOn();
   deconvolutionFilter->SetAlpha( atof( argv[5] ) );
-  if ( deconvolutionFilter->GetAlpha() != atof( argv[5] ) )
+  if ( itk::Math::NotExactlyEquals(deconvolutionFilter->GetAlpha(), atof( argv[5] )) )
     {
     std::cerr << "Set/GetAlpha() test failed." << std::endl;
     return EXIT_FAILURE;

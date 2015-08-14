@@ -89,8 +89,8 @@ public:
   {
     if ( m_LowerThreshold != other.m_LowerThreshold
          || m_UpperThreshold != other.m_UpperThreshold
-         || m_InsideValue    != other.m_InsideValue
-         || m_OutsideValue   != other.m_OutsideValue  )
+         || Math::NotExactlyEquals( m_InsideValue, other.m_InsideValue )
+         || Math::NotExactlyEquals( m_OutsideValue, other.m_OutsideValue ) )
       {
       return true;
       }

@@ -20,6 +20,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkMultiplyImageFilter.h"
+#include "itkMath.h"
 
 #include "itkCommand.h"
 
@@ -103,7 +104,7 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   isocontour->SetFarValue(10);
   //  isocontour->SetNumberOfThreads(8);
 
-  if( isocontour->GetFarValue() != 10 )
+  if( itk::Math::NotAlmostEquals( isocontour->GetFarValue(), 10 ) )
     {
     std::cout << "isocontour->GetFarValue() != 10" << std::endl;
     return EXIT_FAILURE;

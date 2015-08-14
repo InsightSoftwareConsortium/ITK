@@ -23,6 +23,9 @@
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"
 #include "itkIterationReporter.h"
+#include "itkMath.h"
+#include "itkNumericTraits.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -266,7 +269,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
       // Find the sum of the intensities in m_Seeds2.  If the second
       // seeds are not included, the sum should be zero.  Otherwise,
       // it will be other than zero.
-      InputRealType seedIntensitySum = 0;
+      InputRealType seedIntensitySum = NumericTraits< InputRealType >::ZeroValue();
       typename SeedsContainerType::const_iterator si = m_Seeds2.begin();
       typename SeedsContainerType::const_iterator li = m_Seeds2.end();
       while ( si != li )
@@ -277,7 +280,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
         si++;
         }
 
-      if ( seedIntensitySum != 0 )
+      if ( Math::NotExactlyEquals(seedIntensitySum, NumericTraits< InputRealType >::ZeroValue()) )
         {
         upper = guess;
         }
@@ -333,7 +336,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
       // Find the sum of the intensities in m_Seeds2.  If the second
       // seeds are not included, the sum should be zero.  Otherwise,
       // it will be other than zero.
-      InputRealType seedIntensitySum = 0;
+      InputRealType seedIntensitySum = NumericTraits< InputRealType >::ZeroValue();
       typename SeedsContainerType::const_iterator si = m_Seeds2.begin();
       typename SeedsContainerType::const_iterator li = m_Seeds2.end();
       while ( si != li )
@@ -344,7 +347,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
         si++;
         }
 
-      if ( seedIntensitySum != 0 )
+      if ( Math::NotExactlyEquals(seedIntensitySum, NumericTraits< InputRealType >::ZeroValue()) )
         {
         lower = guess;
         }
@@ -392,8 +395,8 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   // Find the sum of the intensities in m_Seeds2.  If the second
   // seeds are not included, the sum should be zero.  Otherwise,
   // it will be other than zero.
-  InputRealType seed1IntensitySum = 0;
-  InputRealType seed2IntensitySum = 0;
+  InputRealType seed1IntensitySum = NumericTraits< InputRealType >::ZeroValue();
+  InputRealType seed2IntensitySum = NumericTraits< InputRealType >::ZeroValue();
   typename SeedsContainerType::const_iterator si1 = m_Seeds1.begin();
   typename SeedsContainerType::const_iterator li1 = m_Seeds1.end();
   while ( si1 != li1 )
@@ -412,7 +415,8 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
     seed2IntensitySum += value;
     si2++;
     }
-  if ( seed1IntensitySum != m_ReplaceValue * m_Seeds1.size() || seed2IntensitySum != 0 )
+  if ( Math::NotAlmostEquals( seed1IntensitySum, m_ReplaceValue * m_Seeds1.size() ) ||
+       Math::NotExactlyEquals(seed2IntensitySum, NumericTraits< InputRealType >::ZeroValue()) )
     {
     m_ThresholdingFailed = true;
     }

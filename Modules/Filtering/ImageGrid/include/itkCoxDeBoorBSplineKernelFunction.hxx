@@ -19,6 +19,7 @@
 #define itkCoxDeBoorBSplineKernelFunction_hxx
 
 #include "itkCoxDeBoorBSplineKernelFunction.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -93,7 +94,8 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 
   // Term 1
   TRealValueType den = knots(i + p) - knots(i);
-  if ( den == NumericTraits< TRealValueType >::ZeroValue() )
+
+  if ( itk::Math::AlmostEquals(den, NumericTraits< TRealValueType >::ZeroValue()) )
     {
     PolynomialType poly( NumericTraits< TRealValueType >::ZeroValue() );
     poly1 = poly;
@@ -109,7 +111,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 
   // Term 2
   den = knots(i + p + 1) - knots(i + 1);
-  if ( den == NumericTraits< TRealValueType >::ZeroValue() )
+  if ( itk::Math::AlmostEquals(den, NumericTraits< TRealValueType >::ZeroValue()) )
     {
     PolynomialType poly( NumericTraits< TRealValueType >::ZeroValue() );
     poly2 = poly;

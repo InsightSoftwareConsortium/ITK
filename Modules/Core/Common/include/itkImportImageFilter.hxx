@@ -20,6 +20,7 @@
 
 #include "itkImportImageFilter.h"
 #include "itkObjectFactory.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -210,7 +211,7 @@ ImportImageFilter< TPixel, VImageDimension >
     {
     for ( unsigned int c = 0; c < VImageDimension; c++ )
       {
-      if ( m_Direction[r][c] != direction[r][c] )
+      if ( Math::NotExactlyEquals(m_Direction[r][c], direction[r][c]) )
         {
         m_Direction[r][c] = direction[r][c];
         modified = true;

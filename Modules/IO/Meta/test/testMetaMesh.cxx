@@ -22,6 +22,8 @@
 #include <metaMesh.h>
 #include <metaScene.h>
 #include "itksys/SystemTools.hxx"
+#include "itkMacro.h"
+#include "itkMath.h"
 
 
 bool TestingMetaMesh(MetaMesh* _mesh)
@@ -34,9 +36,9 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   for(j=0;j< static_cast<int>(_mesh->GetPoints().size());j++)
     {
     if( ((*it2)->m_Id != j)
-      || ((*it2)->m_X[0] != j)
-      || ((*it2)->m_X[1] != j)
-      || ((*it2)->m_X[2] != j)
+      || (itk::Math::NotExactlyEquals((*it2)->m_X[0], j))
+      || (itk::Math::NotExactlyEquals((*it2)->m_X[1], j))
+      || (itk::Math::NotExactlyEquals((*it2)->m_X[2], j))
       )
       {
       std::cout <<  (*it2)->m_Id << " : " << (*it2)->m_X[0]

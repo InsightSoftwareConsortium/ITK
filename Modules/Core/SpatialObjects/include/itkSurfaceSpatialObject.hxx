@@ -19,6 +19,7 @@
 #define itkSurfaceSpatialObject_hxx
 
 
+#include "itkMath.h"
 #include "itkSurfaceSpatialObject.h"
 
 namespace itk
@@ -308,14 +309,14 @@ SurfaceSpatialObject< TDimension >
           PointType p = m_Points[identifier[j]].GetPosition();
           float     d = ( pos2[0] - p[0] ) * ( pos2[0] - p[0] ) + ( pos2[1] - p[1] )
                         * ( pos2[1] - p[1] ) + ( pos2[2] - p[2] ) * ( pos2[2] - p[2] );
-          if ( d == 0 )
+          if ( Math::AlmostEquals( d, 0.0f ) )
             {
             valid = false;
             break;
             }
           }
 
-        if ( distance == 0 || !valid )
+        if ( Math::AlmostEquals( distance, 0.0f ) || !valid )
           {
           i++;
           it2++;
@@ -371,7 +372,7 @@ SurfaceSpatialObject< TDimension >
 
       absvec = -std::sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
 
-      if ( absvec == 0 )
+      if ( Math::AlmostEquals( absvec, 0.0 ) )
         {
         badId.push_back(identifier[2]);
         }
@@ -384,9 +385,9 @@ SurfaceSpatialObject< TDimension >
         ( *it ).SetNormal(normal);
         }
       }
-    while ( ( absvec == 0 ) && ( badId.size() < m_Points.size() - 1 ) );
+    while ( ( Math::AlmostEquals( absvec, 0.0 ) ) && ( badId.size() < m_Points.size() - 1 ) );
 
-    if ( absvec == 0 )
+    if ( Math::AlmostEquals( absvec, 0.0 ) )
       {
       std::cout << "Approximate3DNormals Failed!" << std::endl;
       std::cout << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << std::endl;

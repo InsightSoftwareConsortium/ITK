@@ -18,9 +18,13 @@
 
 #include <iostream>
 #include "itkVariableLengthVector.h"
+#include "itkMath.h"
 
-#define ASSERT(cond, text) \
-  if (!(cond))             \
+#define ASSERT(cond, text)  \
+CLANG_PRAGMA_PUSH           \
+CLANG_SUPPRESS_Wfloat_equal \
+  if (!(cond))              \
+CLANG_PRAGMA_POP            \
     std::cout << __FILE__ << ":" << __LINE__ << ":" << "Assertion failed: " << #cond << ": " << (text) << std::endl;
 
 int itkVariableLengthVectorTest(int, char*[])
@@ -59,7 +63,7 @@ int itkVariableLengthVectorTest(int, char*[])
     }
     {
     DoubleVariableLengthVectorType x( d, 3, false );
-    if( (d[0] != 0.1) || (x[0] != 0.1) )
+    if( (itk::Math::NotExactlyEquals(d[0], 0.1)) || (itk::Math::NotExactlyEquals(x[0], 0.1)) )
       {
       std::cerr << "Memory management(1): [FAILED]" << std::endl;
       }
@@ -68,13 +72,13 @@ int itkVariableLengthVectorTest(int, char*[])
     x[3] = 3.0;
     x[4] = 4.0;
     std::cout << d[0] << "->" << x << std::endl;
-    if( (d[0] != 0.1) || (x[0] != 0.1) ) // increase length but preserve existing data
+    if( itk::Math::NotExactlyEquals(d[0], 0.1) || itk::Math::NotExactlyEquals(x[0], 0.1) ) // increase length but preserve existing data
       {
       std::cerr << "Memory management(2): [FAILED]" << std::endl;
       }
     x.SetSize( 2 , false); // reduce length but preserve existing data
     std::cout << x << std::endl;
-    if( (x.GetSize() != 2) || (d[0] != 0.1) || (x[0] != 0.1) )
+    if( (x.GetSize() != 2) || (itk::Math::NotExactlyEquals(d[0], 0.1)) || (itk::Math::NotExactlyEquals(x[0], 0.1)) )
       {
       std::cerr << "Memory management(3): [FAILED]" << std::endl;
       }

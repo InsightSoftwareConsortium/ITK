@@ -24,6 +24,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -94,7 +95,7 @@ bool ImagesEqual(const TImage* img1, const TImage* img2,
 
   for(it1.GoToBegin(), it2.GoToBegin(); !it1.IsAtEnd(); ++it1, ++it2)
     {
-    if(it1.Get() != it2.Get())
+    if( itk::Math::NotExactlyEquals(it1.Get(), it2.Get()) )
       {
       return false;
       }

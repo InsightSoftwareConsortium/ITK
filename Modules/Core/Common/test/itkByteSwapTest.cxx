@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkByteSwapper.h"
+#include "itkMath.h"
 
 int itkByteSwapTest ( int, char*[] )
 {
@@ -129,7 +130,7 @@ int itkByteSwapTest ( int, char*[] )
       itk::ByteSwapper<float>::SwapFromSystemToBigEndian ( &f );
       itk::ByteSwapper<float>::SwapFromSystemToBigEndian ( &f );
       }
-    if ( f != f1 )
+    if ( itk::Math::NotExactlyEquals(f, f1) )
       {
       return EXIT_FAILURE;
       }
@@ -154,7 +155,7 @@ int itkByteSwapTest ( int, char*[] )
       itk::ByteSwapper<double>::SwapFromSystemToBigEndian ( &d );
       itk::ByteSwapper<double>::SwapFromSystemToBigEndian ( &d );
       }
-    if ( d != d1 )
+    if ( itk::Math::NotExactlyEquals(d, d1) )
       {
       return EXIT_FAILURE;
       }

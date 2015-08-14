@@ -31,6 +31,7 @@
 #ifdef GCC_USEDEMANGLE
 #include <cstdlib>
 #include <cxxabi.h>
+#include "itkMath.h"
 #endif
 
 template< typename T >
@@ -92,7 +93,7 @@ bool TestCastFromTo()
     /** Warning:
      * expectedValue == static_cast< TOutputPixelType( inValue ) is
      * false on some systems and compilers with some values of inValue. */
-    if ( outValue != expectedValue )
+    if ( itk::Math::NotExactlyEquals(outValue, expectedValue) )
       {
       success = false;
       break;

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkWhitakerSparseLevelSetImage.h"
+#include "itkMath.h"
 
 int itkWhitakerSparseLevelSetImageTest( int , char* [] )
 {
@@ -46,7 +47,7 @@ int itkWhitakerSparseLevelSetImageTest( int , char* [] )
   index[0] = 3;
   index[1] = 3;
 
-  if( phi->Evaluate( index ) != 3 )
+  if( itk::Math::NotExactlyEquals(phi->Evaluate( index ), 3) )
     {
     std::cout << index << ' ' << phi->Evaluate( index ) << " != 3" << std::endl;
     return EXIT_FAILURE;
@@ -54,7 +55,7 @@ int itkWhitakerSparseLevelSetImageTest( int , char* [] )
 
   index[0] = 3;
   index[1] = 4;
-  if( phi->Evaluate( index ) != -3 )
+  if( itk::Math::NotExactlyEquals(phi->Evaluate( index ), -3) )
     {
     std::cout << index << ' ' << phi->Evaluate( index ) << " != -3" << std::endl;
     return EXIT_FAILURE;

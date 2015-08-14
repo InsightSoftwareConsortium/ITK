@@ -18,6 +18,7 @@
 #include "itkCompensatedSummation.h"
 #include "itkStdStreamStateSave.h"
 
+#include "itkMath.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
 int itkCompensatedSummationTest( int, char * [] )
@@ -72,7 +73,7 @@ int itkCompensatedSummationTest( int, char * [] )
 
   // exercise other methods
   CompensatedSummationType floatAccumulatorCopy = floatAccumulator;
-  if( floatAccumulatorCopy.GetSum() != floatAccumulator.GetSum() )
+  if( itk::Math::NotExactlyEquals(floatAccumulatorCopy.GetSum(), floatAccumulator.GetSum()) )
     {
     std::cerr << "The copy constructor failed." << std::endl;
     return EXIT_FAILURE;
@@ -80,7 +81,7 @@ int itkCompensatedSummationTest( int, char * [] )
 
   CompensatedSummationType floatAccumulatorCopy2;
   floatAccumulatorCopy2 = floatAccumulator;
-  if( floatAccumulatorCopy2.GetSum() != floatAccumulator.GetSum() )
+  if( itk::Math::NotExactlyEquals(floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum()) )
     {
     std::cerr << "The assignment operator failed." << std::endl;
     return EXIT_FAILURE;
@@ -88,7 +89,7 @@ int itkCompensatedSummationTest( int, char * [] )
 
   floatAccumulator += randomNumber;
   floatAccumulator -= randomNumber;
-  if( floatAccumulatorCopy2.GetSum() != floatAccumulator.GetSum() )
+  if( itk::Math::NotAlmostEquals( floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum() ) )
     {
     std::cerr << "The operator+= and operator-= are not reversible." << std::endl;
     return EXIT_FAILURE;
@@ -96,14 +97,14 @@ int itkCompensatedSummationTest( int, char * [] )
 
   floatAccumulator *= randomNumber;
   floatAccumulator /= randomNumber;
-  if( floatAccumulatorCopy2.GetSum() != floatAccumulator.GetSum() )
+  if( itk::Math::NotAlmostEquals( floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum() ) )
     {
     std::cerr << "The operator*= and operator/= are not reversible." << std::endl;
     return EXIT_FAILURE;
     }
 
   floatAccumulator.ResetToZero();
-  if( floatAccumulator.GetSum() != itk::NumericTraits< FloatType >::ZeroValue() )
+  if( itk::Math::NotAlmostEquals( floatAccumulator.GetSum(), itk::NumericTraits< FloatType >::ZeroValue() ) )
     {
     std::cerr << "GetSize() did return the correct value!" << std::endl;
     return EXIT_FAILURE;

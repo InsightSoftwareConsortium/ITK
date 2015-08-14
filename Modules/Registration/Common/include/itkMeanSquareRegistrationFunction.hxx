@@ -20,6 +20,7 @@
 
 #include "itkMeanSquareRegistrationFunction.h"
 #include "itkMacro.h"
+#include "itkMath.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -148,7 +149,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     denominator = speedValue * speedValue * fixedGradientSquaredMagnitude;
     denominator = std::sqrt(denominator);
     }
-  if ( denominator == 0 )
+  if ( Math::AlmostEquals( denominator, 0.0 ) )
     {
     denominator = 1.0;
     }

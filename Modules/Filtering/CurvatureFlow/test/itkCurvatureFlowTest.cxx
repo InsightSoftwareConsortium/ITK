@@ -212,7 +212,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
   unsigned int failedPixels = 0;
   while( !it1.IsAtEnd() )
     {
-    if( it1.Get() != it2.Get() )
+    if( itk::Math::NotAlmostEquals( it1.Get(), it2.Get() ) )
       {
       if (failedPixels == 0)
         {

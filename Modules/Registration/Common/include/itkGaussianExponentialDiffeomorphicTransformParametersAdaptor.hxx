@@ -19,6 +19,7 @@
 #define itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_hxx
 
 #include "itkGaussianExponentialDiffeomorphicTransformParametersAdaptor.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -45,7 +46,7 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheConstantVelocityField( ScalarType variance )
 {
   this->m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime = this->GetMTime();
-  if( this->m_GaussianSmoothingVarianceForTheConstantVelocityField != variance )
+  if( Math::NotExactlyEquals(this->m_GaussianSmoothingVarianceForTheConstantVelocityField, variance) )
     {
     itkDebugMacro( "Setting GaussianSmoothingVarianceForTheConstantVelocityField to " << variance );
     this->m_GaussianSmoothingVarianceForTheConstantVelocityField = variance;
@@ -59,7 +60,7 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheUpdateField( ScalarType variance )
 {
   this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime = this->GetMTime();
-  if( this->m_GaussianSmoothingVarianceForTheUpdateField != variance )
+  if( Math::NotExactlyEquals(this->m_GaussianSmoothingVarianceForTheUpdateField, variance) )
     {
     itkDebugMacro( "Setting GaussianSmoothingVarianceForTheUpdateField to " << variance );
     this->m_GaussianSmoothingVarianceForTheUpdateField = variance;

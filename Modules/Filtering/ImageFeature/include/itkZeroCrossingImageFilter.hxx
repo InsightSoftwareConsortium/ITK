@@ -24,6 +24,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkFixedArray.h"
 #include "itkProgressReporter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -146,8 +147,8 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
         that = bit.GetPixel(center + offset[i]);
         if ( ( ( this_one < zero ) && ( that > zero ) )
              || ( ( this_one > zero ) && ( that < zero ) )
-             || ( ( this_one == zero ) && ( that != zero ) )
-             || ( ( this_one != zero ) && ( that == zero ) ) )
+             || ( ( Math::ExactlyEquals(this_one, zero) ) && ( Math::NotExactlyEquals(that, zero) ) )
+             || ( ( Math::NotExactlyEquals(this_one, zero) ) && ( Math::ExactlyEquals(that, zero) ) ) )
           {
           abs_this_one =  vnl_math_abs(this_one);
           abs_that = vnl_math_abs(that);
@@ -156,7 +157,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
             it.Set(m_ForegroundValue);
             break;
             }
-          else if ( abs_this_one == abs_that && i >= ImageDimension )
+          else if ( Math::ExactlyEquals(abs_this_one, abs_that) && i >= ImageDimension )
             {
             it.Set(m_ForegroundValue);
             break;

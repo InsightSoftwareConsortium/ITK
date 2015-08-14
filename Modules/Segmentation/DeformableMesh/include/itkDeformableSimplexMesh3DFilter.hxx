@@ -30,6 +30,7 @@
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 #include <set>
 
@@ -404,7 +405,8 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   data->internalForce.Fill(0.0);
 
   // quick hack fixing for div by zero error
-  if ( L_Ref != (double)NumericTraits< IdentifierType >::max() && L != (double)NumericTraits< IdentifierType >::max() )
+  if ( Math::NotAlmostEquals( L_Ref, (double)NumericTraits< IdentifierType >::max() )
+       && Math::NotAlmostEquals( L, (double)NumericTraits< IdentifierType >::max() ) )
     {
     data->internalForce += tangentForce + normalForce;
     }
@@ -596,7 +598,7 @@ double DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   if ( tmpSqr > 0 )
     {
     double denom = eps * ( std::sqrt(tmpSqr) + r );
-    if ( denom != 0 )
+    if ( Math::NotAlmostEquals( denom, 0.0 ) )
       {
       L = ( r2Minusd2 * tanPhi ) / denom;
       }

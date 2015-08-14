@@ -19,6 +19,7 @@
 #ifndef itkLevelSetEquationTermContainer_hxx
 #define itkLevelSetEquationTermContainer_hxx
 
+#include "itkMath.h"
 #include "itkLevelSetEquationTermContainer.h"
 #include "itkObject.h"
 
@@ -367,7 +368,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
     {
     LevelSetOutputRealType cfl = ( term_it->second )->GetCFLContribution();
 
-    if( cfl == NumericTraits< LevelSetOutputRealType >::ZeroValue() )
+    if( Math::AlmostEquals( cfl, NumericTraits< LevelSetOutputRealType >::ZeroValue() ) )
       {
       cfl = ( cfl_it->second );
       }

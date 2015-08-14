@@ -22,6 +22,7 @@
  */
 
 #include "itkSurfaceSpatialObject.h"
+#include "itkMath.h"
 
 int itkSurfaceSpatialObjectTest(int, char* [])
 {
@@ -85,13 +86,13 @@ int itkSurfaceSpatialObjectTest(int, char* [])
     {
     for(unsigned int d=0;d<3;d++)
       {
-      if((*it).GetPosition()[d] != i+d)
+      if(itk::Math::NotExactlyEquals((*it).GetPosition()[d], i+d))
         {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
         }
 
-      if((*it).GetNormal()[d] != d)
+      if(itk::Math::NotExactlyEquals((*it).GetNormal()[d], d))
         {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
@@ -144,7 +145,7 @@ int itkSurfaceSpatialObjectTest(int, char* [])
      return EXIT_FAILURE;
   }
 
-  if(value != 1)
+  if(itk::Math::NotExactlyEquals(value, 1))
   {
      std::cout<<"[FAILED]"<<std::endl;
      return EXIT_FAILURE;

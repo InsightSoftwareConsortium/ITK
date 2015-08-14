@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include <fstream>
+#include "itkMath.h"
 #include "itkZeroFluxNeumannPadImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
@@ -44,7 +45,7 @@ static bool VerifyFilterOutput(const ShortImage * inputImage,
     ShortImage::IndexType idx = outputIterator.GetIndex();
     if ( inputRegion.IsInside( idx ) )
       {
-      if ( outputIterator.Get() != inputImage->GetPixel( idx ) )
+      if ( itk::Math::NotAlmostEquals( outputIterator.Get(), inputImage->GetPixel( idx ) ) )
         {
         std::cerr << "Invalid output value at interior index "
                   << outputIterator.GetIndex() << ". Got "
@@ -69,7 +70,7 @@ static bool VerifyFilterOutput(const ShortImage * inputImage,
           }
         }
 
-      if ( outputIterator.Get() != inputImage->GetPixel( borderIdx ) )
+      if ( itk::Math::NotAlmostEquals( outputIterator.Get(), inputImage->GetPixel( borderIdx ) ) )
         {
         std::cerr << "Invalid output value at pad index "
                   << outputIterator.GetIndex() << ". Got "

@@ -19,6 +19,7 @@
 #define itkNarrowBandCurvesLevelSetImageFilter_hxx
 
 #include "itkNarrowBandCurvesLevelSetImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -53,7 +54,7 @@ NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   // Make sure the SpeedImage is setup for the case when PropagationScaling
   // is zero. This image is used by the curvature term.
   if ( this->GetSegmentationFunction()
-       && this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
+       && Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
     {
     this->GetSegmentationFunction()->AllocateSpeedImage();
     this->GetSegmentationFunction()->CalculateSpeedImage();

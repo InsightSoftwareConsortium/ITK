@@ -19,6 +19,7 @@
 #define itkHeavisideStepFunction_hxx
 
 #include "itkHeavisideStepFunction.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -46,7 +47,7 @@ typename HeavisideStepFunction< TInput, TOutput >::OutputType
 HeavisideStepFunction< TInput, TOutput >
 ::EvaluateDerivative(const InputType & input) const
 {
-  return ( input == NumericTraits< InputType >::ZeroValue() ) ?
+  return ( Math::ExactlyEquals(input, NumericTraits< InputType >::ZeroValue()) ) ?
     NumericTraits< OutputType >::OneValue() : NumericTraits< OutputType >::ZeroValue();
 }
 

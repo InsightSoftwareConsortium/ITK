@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkSimplexMeshGeometry.h"
+#include "itkMath.h"
 
 #include "vxl_version.h"
 #if VXL_VERSION_DATE_FULL > 20040406
@@ -106,9 +107,9 @@ SimplexMeshGeometry
 
   // fix for points which lay on their neighbors plane
   // necessary ??
-  if ( val == 0 )
+  if (Math::AlmostEquals( val, 0.0 ))
     {
-    val = 1; //  itkAssertInDebugAndIgnoreInReleaseMacro (val != 0 );
+    val = 1.0; //  itkAssertInDebugAndIgnoreInReleaseMacro (val != 0 );
     }
 
   sphereRadius = sphereTmp.GetNorm() / val;

@@ -21,6 +21,7 @@
 #include "itkDisplacementFieldTransform.h"
 #include "itkCenteredAffineTransform.h"
 #include "itkStdStreamStateSave.h"
+#include "itkMath.h"
 
 const unsigned int dimensions = 2;
 typedef itk::DisplacementFieldTransform<double, dimensions>
@@ -527,7 +528,7 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   for( unsigned int i = 0;
        i < displacementTransform->GetNumberOfParameters(); i++ )
     {
-    if( params[i] != updateTruth[i] )
+    if( itk::Math::NotExactlyEquals(params[i], updateTruth[i]) )
       {
       std::cout << "UpdateTransformParameters test failed: " << std::endl;
       std::cout << "params: " << std::endl << params << std::endl

@@ -88,7 +88,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
       }
     }
 
-  if (minNonZeroShift == NumericTraits<FloatType>::max())
+  if (Math::ExactlyEquals(minNonZeroShift, NumericTraits<FloatType>::max()))
     {
     itkWarningMacro(  << "Variation in any parameter won't change a voxel position. The default scales (1.0) are used to avoid division-by-zero." );
     parameterScales.Fill(NumericTraits< typename ScalesType::ValueType >::OneValue());

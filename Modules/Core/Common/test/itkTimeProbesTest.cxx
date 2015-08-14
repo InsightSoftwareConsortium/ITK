@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkNumericTraits.h"
 #include "itkTimeProbesCollectorBase.h"
 #include "itkImage.h"
 
@@ -49,15 +50,15 @@ void TestTransformPhysicalPointToIndex(T * image)
   typename T::IndexType index3D;
   typename T::PointType point3D;
 
-    for (double k = 0; k < 10; k++)
+    for (int k = 0; k < 10; k++)
     {
-    point3D[2] = k;
-    for (double j = 0; j < 1000; j++)
+    point3D[2] = static_cast <typename itk::NumericTraits <typename T::PointType>::ValueType> ( k );
+    for (int j = 0; j < 1000; j++)
       {
-      point3D[1] = j;
-      for (double i = 0; i < 1000; i++)
+      point3D[1] = static_cast <typename itk::NumericTraits <typename T::PointType>::ValueType> ( j );
+      for (int i = 0; i < 1000; i++)
         {
-        point3D[0] = i;
+        point3D[0] = static_cast <typename itk::NumericTraits <typename T::PointType>::ValueType> ( i );
         image->TransformPhysicalPointToIndex(point3D, index3D);
         }
       }

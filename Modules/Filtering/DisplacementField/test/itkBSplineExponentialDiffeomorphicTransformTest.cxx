@@ -18,6 +18,7 @@
 #include <iostream>
 
 #include "itkBSplineExponentialDiffeomorphicTransform.h"
+#include "itkMath.h"
 
 
 /**
@@ -133,7 +134,7 @@ int itkBSplineExponentialDiffeomorphicTransformTest(int ,char *[] )
       {
       unsigned int index = outlier + (unsigned int) (i * (signed int)(dimLength*dimensions) + j);
       std::cout << params(index) << " ";
-      if( params(index) == paramsFillValue )
+      if( itk::Math::AlmostEquals( params(index), paramsFillValue ) )
         {
         std::cout << "Expected to read a smoothed value at this index."
                   << " Instead, read " << params(index) << std::endl;
@@ -207,7 +208,7 @@ int itkBSplineExponentialDiffeomorphicTransformTest(int ,char *[] )
       unsigned int index = outlier +
         (unsigned int) (i * (signed int)(dimLength*dimensions) + j);
       std::cout << params(index) << " ";
-      if( params(index) == paramsFillValue )
+      if( itk::Math::AlmostEquals( params(index), paramsFillValue ) )
         {
         std::cout << "Expected to read a smoothed value at this index."
                   << " Instead, read " << params(index) << std::endl;

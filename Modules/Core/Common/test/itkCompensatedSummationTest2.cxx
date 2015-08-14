@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+#include "itkMath.h"
 #include "itkDomainThreader.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
 #include "itkCompensatedSummation.h"
@@ -166,7 +168,7 @@ int itkCompensatedSummationTest2(int, char* [])
             << domainThreader->GetNumberOfThreadsUsed() << "\n\n" << std::endl;
 
   /* Check results */
-  if( enclosingClass.GetCompensatedSumOfThreads() != enclosingClass.GetUncompensatedSumOfThreads() )
+  if( itk::Math::NotAlmostEquals( enclosingClass.GetCompensatedSumOfThreads(), enclosingClass.GetUncompensatedSumOfThreads() ) )
     {
     std::cerr << std::setprecision(20)
               << "Error. Expected the sum to be the same for compensated and uncompensated."

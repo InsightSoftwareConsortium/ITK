@@ -22,6 +22,7 @@
 #include "itkExpandImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkMath.h"
 
 // class to produce a linear image pattern
 template <int VDimension>
@@ -176,7 +177,7 @@ int itkExpandImageFilterTest(int, char* [] )
       }
     else
       {
-      if( value != padValue )
+      if( itk::Math::NotExactlyEquals(value, padValue) )
         {
         testPassed = false;
         std::cout << "Error at Index: " << index << " ";
@@ -222,7 +223,7 @@ int itkExpandImageFilterTest(int, char* [] )
 
   while( !outIter.IsAtEnd() )
     {
-    if( outIter.Get() != streamIter.Get() )
+    if( itk::Math::NotExactlyEquals(outIter.Get(), streamIter.Get()) )
       {
       testPassed = false;
       }

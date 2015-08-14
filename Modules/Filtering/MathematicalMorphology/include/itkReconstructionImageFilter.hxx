@@ -18,6 +18,7 @@
 #ifndef itkReconstructionImageFilter_hxx
 #define itkReconstructionImageFilter_hxx
 
+#include "itkMath.h"
 #include "itkReconstructionImageFilter.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkConnectedComponentAlgorithm.h"
@@ -352,7 +353,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
       InputImagePixelType VN = outNIt.GetPixel(*oLIt);
       InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
       // candidate for dilation via flooding
-      if ( compare(V, VN) && ( iN != VN ) )
+      if ( compare(V, VN) && Math::NotAlmostEquals( iN, VN ) )
         {
         if ( compare(iN, V) )
           {

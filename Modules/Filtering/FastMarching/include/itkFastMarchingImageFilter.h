@@ -25,6 +25,7 @@
 
 #include <functional>
 #include <queue>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -192,7 +193,7 @@ private:
 
     while( !b_it.IsAtEnd() )
       {
-      if( b_it.Get() == zero_value )
+      if( Math::ExactlyEquals(b_it.Get(), zero_value) )
         {
         if( NumberOfPoints == 0 )
           {

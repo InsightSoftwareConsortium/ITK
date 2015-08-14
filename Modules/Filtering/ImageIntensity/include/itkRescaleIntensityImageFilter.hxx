@@ -30,6 +30,7 @@
 
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -93,7 +94,7 @@ RescaleIntensityImageFilter< TInputImage, TOutputImage >
   m_InputMinimum = calculator->GetMinimum();
   m_InputMaximum = calculator->GetMaximum();
 
-  if ( m_InputMinimum != m_InputMaximum )
+  if ( itk::Math::NotAlmostEquals(m_InputMinimum, m_InputMaximum) )
     {
     m_Scale =
       ( static_cast< RealType >( m_OutputMaximum )
@@ -101,7 +102,7 @@ RescaleIntensityImageFilter< TInputImage, TOutputImage >
       / ( static_cast< RealType >( m_InputMaximum )
           - static_cast< RealType >( m_InputMinimum ) );
     }
-  else if ( m_InputMaximum != NumericTraits< InputPixelType >::ZeroValue() )
+  else if ( itk::Math::NotAlmostEquals(m_InputMaximum, NumericTraits<typename NumericTraits<InputPixelType>::ValueType >::ZeroValue()) )
     {
     m_Scale =
       ( static_cast< RealType >( m_OutputMaximum )

@@ -385,14 +385,14 @@ PowellOptimizerv4<TInternalComputationValueType>
         b = t;
         }
 
-      if ( functionValueOft <= functionValueOfW || w == x )
+      if ( functionValueOft <= functionValueOfW || Math::ExactlyEquals(w, x) )
         {
         v = w;
         w = t;
         functionValueOfV = functionValueOfW;
         functionValueOfW = functionValueOft;
         }
-      else if ( functionValueOft <= functionValueOfV || v == x || v == w )
+      else if ( functionValueOft <= functionValueOfV || Math::ExactlyEquals(v, x) || Math::ExactlyEquals(v, w) )
         {
         v = t;
         functionValueOfV = functionValueOft;

@@ -20,6 +20,7 @@
 #include "itkThresholdImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkCastImageFilter.h"
+#include "itkMath.h"
 
 int itkHoughTransform2DCirclesImageTest(int, char* [])
 {
@@ -183,7 +184,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   it_output.GoToBegin();
   for(it_input.GoToBegin();!it_input.IsAtEnd();++it_input)
   {
-    if(it_input.Get() == max)
+    if(itk::Math::ExactlyEquals(it_input.Get(), max))
     {
       it_output.Set(255);
       double radius2 = m_RadiusImage->GetPixel(it_output.GetIndex());

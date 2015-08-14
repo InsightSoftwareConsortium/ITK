@@ -19,6 +19,7 @@
 #define itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
 
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -45,7 +46,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheUpdateField( ScalarType variance )
 {
   this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime = this->GetMTime();
-  if( this->m_GaussianSmoothingVarianceForTheUpdateField != variance )
+  if( Math::NotExactlyEquals(this->m_GaussianSmoothingVarianceForTheUpdateField, variance) )
     {
     itkDebugMacro( "Setting GaussianSmoothingVarianceForTheUpdateField to " << variance );
     this->m_GaussianSmoothingVarianceForTheUpdateField = variance;
@@ -59,7 +60,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheTotalField( const ScalarType variance )
 {
   this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime = this->GetMTime();
-  if( this->m_GaussianSmoothingVarianceForTheTotalField != variance )
+  if( Math::NotExactlyEquals(this->m_GaussianSmoothingVarianceForTheTotalField, variance) )
     {
     itkDebugMacro( "Setting GaussianSmoothingVarianceForTheTotalField to " << variance );
     this->m_GaussianSmoothingVarianceForTheTotalField = variance;

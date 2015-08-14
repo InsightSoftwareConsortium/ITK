@@ -540,7 +540,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     actualBorderLength += tmpDblVal;
     }
 
-  if ( m_TotalBorderLength != actualBorderLength )
+  if ( Math::NotAlmostEquals( m_TotalBorderLength, actualBorderLength ) )
     {
     itkExceptionMacro(<< "KLM initialization is incorrect");
     } // end if

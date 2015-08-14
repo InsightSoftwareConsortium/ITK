@@ -20,6 +20,7 @@
 #include "itkVectorImageToImageAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 // This test tests the basic functionality of
 // VectorImageToImageAdaptor, espeically the Set/GetPixel() methods.
@@ -71,7 +72,7 @@ int itkVectorImageToImageAdaptorTest( int, char* [] )
   while (!adaptIt.IsAtEnd())
     {
     PixelType pixelV = adaptIt.Get();
-    if (pixelV != PixelType(componentToExtract))
+    if (itk::Math::NotAlmostEquals( pixelV, PixelType(componentToExtract) ))
       {
       std::cout << "Wrong Pixel Value: adaptIt(" << adaptIt.GetIndex() << ") = " << adaptIt.Get()
                  << std::endl;

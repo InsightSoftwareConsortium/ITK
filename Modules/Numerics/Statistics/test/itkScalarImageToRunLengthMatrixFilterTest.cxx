@@ -21,6 +21,7 @@
 
 
 #include "itkScalarImageToRunLengthMatrixFilter.h"
+#include "itkMath.h"
 
 int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
 {
@@ -211,14 +212,14 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
         << std::endl;
       passed = false;
       }
-    if( filter->GetMinDistance() != 0 )
+    if( itk::Math::NotExactlyEquals(filter->GetMinDistance(), 0) )
       {
       std::cerr << "Error: " << std::endl;
       std::cerr << "GetMinDistance() is not returning the expected value"
         << std::endl;
       passed = false;
       }
-    if( filter->GetMaxDistance() != 8 )
+    if( itk::Math::NotExactlyEquals(filter->GetMaxDistance(), 8) )
       {
       std::cerr << "Error: " << std::endl;
       std::cerr << "GetMaxDistance() is not returning the expected value"

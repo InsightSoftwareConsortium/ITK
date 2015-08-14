@@ -19,6 +19,7 @@
 #define itkTubeSpatialObject_hxx
 
 
+#include "itkMath.h"
 #include "itkTubeSpatialObject.h"
 
 namespace itk
@@ -409,7 +410,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       }
 
     l = std::sqrt(l);
-    if ( l == 0 )
+    if ( Math::AlmostEquals( l, 0.0 ) )
       {
       std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : ";
       std::cerr << "length between two consecutive points is 0";

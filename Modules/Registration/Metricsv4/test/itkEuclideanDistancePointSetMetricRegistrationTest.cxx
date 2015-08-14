@@ -21,6 +21,7 @@
 #include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkAffineTransform.h"
 #include "itkCommand.h"
+#include "itkMath.h"
 
 template<typename TFilter>
 class itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
@@ -149,7 +150,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
     for( itk::SizeValueType n = 0; n < transform->GetNumberOfParameters(); n += transform->GetNumberOfLocalParameters() )
       {
       typename TTransform::ParametersValueType zero = itk::NumericTraits<typename TTransform::ParametersValueType>::ZeroValue();
-      if( params[n] != zero && params[n+1] != zero )
+      if( itk::Math::NotExactlyEquals(params[n], zero) && itk::Math::NotExactlyEquals(params[n+1], zero) )
         {
         std::cout << n << ", " << n+1 << " : " << params[n] << ", " << params[n+1] << std::endl;
         }

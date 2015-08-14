@@ -21,6 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkTextOutput.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkMath.h"
 
 int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
 {
@@ -114,7 +115,7 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
     }
 
   // Test the GetMacros
-  if( filter->GetThreshold() != threshold )
+  if( itk::Math::NotExactlyEquals(filter->GetThreshold(), threshold) )
     {
     std::cerr << "Error GetThreshold returns a value";
     std::cerr << " different from the one in SetThreshold" << std::endl;

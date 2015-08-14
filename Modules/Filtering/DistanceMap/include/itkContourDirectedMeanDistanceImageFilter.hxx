@@ -27,6 +27,8 @@
 #include "itkImageRegionIterator.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkProgressReporter.h"
+#include "itkMacro.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -219,7 +221,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
       {
       // first test
       // if current pixel is not on, let's continue
-      if ( bit.GetCenterPixel() != NumericTraits< InputImage1PixelType >::ZeroValue() )
+      if ( Math::NotExactlyEquals(bit.GetCenterPixel(), NumericTraits< InputImage1PixelType >::ZeroValue()) )
         {
         bool bIsOnContour = false;
 
@@ -227,7 +229,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
           {
           // second test if at least one neighbour pixel is off
           // the center pixel belongs to contour
-          if ( bit.GetPixel(i) == NumericTraits< InputImage1PixelType >::ZeroValue() )
+          if ( Math::ExactlyEquals(bit.GetPixel(i), NumericTraits< InputImage1PixelType >::ZeroValue()) )
             {
             bIsOnContour = true;
             break;

@@ -24,6 +24,7 @@
 #include "itkSize.h"
 #include "itkExceptionObject.h"
 #include "itkImageRegistrationMethodImageSource.h"
+#include "itkMath.h"
 
 /**
  *  This is a test using GradientDescentOptimizerv4 and parameter scales
@@ -206,7 +207,7 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(
 
   if( ! estimateLearningRateOnce && ! estimateLearningRateAtEachIteration )
     {
-    if( optimizer->GetLearningRate() != fixedLearningRate )
+    if( itk::Math::NotExactlyEquals(optimizer->GetLearningRate(), fixedLearningRate) )
       {
       std::cerr << "Expected learning rate not to change." << std::endl;
       return EXIT_FAILURE;
@@ -219,7 +220,7 @@ int itkAutoScaledGradientDescentRegistrationTestTemplated(
     OptimizerType::ScalesType postScales = optimizer->GetScales();
     for( itk::SizeValueType s=0; s < postScales.Size(); s++ )
       {
-      if( initScales[s] != postScales[s] )
+      if( itk::Math::NotExactlyEquals(initScales[s], postScales[s]) )
         {
         std::cerr << "Scales were estimated by optimizer despite not being "
                   << "enabled to do so." << std::endl;

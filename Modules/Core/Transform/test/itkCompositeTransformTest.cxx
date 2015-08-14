@@ -21,6 +21,7 @@
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
 #include "itkTranslationTransform.h"
+#include "itkMath.h"
 
 namespace
 {
@@ -883,7 +884,7 @@ int itkCompositeTransformTest(int, char *[] )
   for( itk::SizeValueType n=0; n < 12; n++ )
     {
     const TranslationTransformType::ParametersType & params = translationTransformVector[n]->GetParameters();
-    if( params[0] != n )
+    if( itk::Math::NotExactlyEquals(params[0], n) )
       {
       passed = false;
       }

@@ -22,6 +22,7 @@
 #include "itkGenerateImageSource.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageDuplicator.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -196,7 +197,7 @@ int HDF5ReadWriteTest2(const char *fileName)
     {
     idx = it.GetIndex();
     origValue = idx[2]*100 + idx[1]*10 + idx[0];
-    if(it.Value() != origValue)
+    if(itk::Math::NotAlmostEquals( it.Value(), origValue) )
       {
       std::cout << "Original Pixel (" << origValue
                 << ") doesn't match read-in Pixel ("

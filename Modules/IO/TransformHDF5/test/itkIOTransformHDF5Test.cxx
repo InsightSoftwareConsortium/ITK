@@ -34,6 +34,7 @@
 #include "itkDisplacementFieldTransform.h"
 #include "itkGaussianExponentialDiffeomorphicTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
+#include "itkMath.h"
 
 template<typename TParametersValueType, typename DisplacementTransformType >
 static int ReadWriteTest(const char * const fileName, const bool isRealDisplacementField )
@@ -161,7 +162,7 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
       return EXIT_FAILURE;
       }
     if ( ( readDisplacement->GetOrigin() != knownField->GetOrigin() )
-        || ( readDisplacement->GetOrigin()[0] != requiredOrigin ) )
+        || ( itk::Math::NotExactlyEquals(readDisplacement->GetOrigin()[0], requiredOrigin) ) )
       {
       std::cerr << "Error invalid origin restored from disk" << std::endl;
       std::cerr << std::setprecision(17) << "\n"

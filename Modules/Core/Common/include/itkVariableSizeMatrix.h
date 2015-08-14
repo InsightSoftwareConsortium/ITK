@@ -25,6 +25,7 @@
 #include "vnl/vnl_transpose.h"
 #include "vnl/vnl_matrix.h"
 #include "itkArray.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -239,7 +240,7 @@ VariableSizeMatrix< T >
     {
     for ( unsigned int c = 0; c < this->Cols(); c++ )
       {
-      if ( m_Matrix(r, c) != matrix.m_Matrix(r, c) )
+      if ( Math::NotExactlyEquals(m_Matrix(r, c), matrix.m_Matrix(r, c)) )
         {
         equal = false;
         break;

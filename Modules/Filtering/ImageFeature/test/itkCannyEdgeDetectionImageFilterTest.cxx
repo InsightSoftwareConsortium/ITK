@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkMath.h"
 
 int itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[] )
 {
@@ -74,7 +75,7 @@ int itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[] )
     }
 
   // test for correct setting of non-macro methods
-  if (filter->GetVariance()[0] != 1.0f || filter->GetMaximumError()[0] != .01f)
+  if (filter->GetVariance()[0] != 1.0f || itk::Math::NotExactlyEquals(filter->GetMaximumError()[0], .01f))
     {
       return EXIT_FAILURE;
     }

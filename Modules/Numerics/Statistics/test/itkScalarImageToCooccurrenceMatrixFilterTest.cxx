@@ -18,7 +18,7 @@
 
 // Insight classes
 #include "itkImageRegionIterator.h"
-
+#include "itkMath.h"
 
 #include "itkScalarImageToCooccurrenceMatrixFilter.h"
 
@@ -179,7 +179,8 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
     float max = hist->GetBinMax(0,255);
     float min = hist->GetBinMin(0,255);
 
-    if(max != 256 || min != 255)
+    if(itk::Math::NotAlmostEquals(max, 256)
+    || itk::Math::NotAlmostEquals(min, 255))
       {
       std::cerr << "Error" << std::endl;
       std::cerr << "The calculated bin sizes are incorrect" << std::endl;
@@ -213,7 +214,11 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
     ttF = hist->GetFrequency(two_two);
     totalF = hist->GetTotalFrequency();
 
-    if( ooF != 24 || ttF != 16 || otF != 20 || toF != 20 || ooF + ttF + otF + toF != totalF)
+    if( itk::Math::NotAlmostEquals(ooF, 24.0f)
+     || itk::Math::NotAlmostEquals(ttF, 16.0f)
+     || itk::Math::NotAlmostEquals(otF, 20.0f)
+     || itk::Math::NotAlmostEquals(toF, 20.0f)
+     || itk::Math::NotAlmostEquals(ooF + ttF + otF + toF, totalF) )
       {
       std::cerr << "Error:" << std::endl;
       std::cerr << "The histogram was calculated incorrectly" << std::endl;
@@ -288,7 +293,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
     zzF = hist2->GetFrequency(zero_zero);
     totalF = hist2->GetTotalFrequency();
 
-    if( zzF != 40 || zzF != totalF)
+    if( itk::Math::NotAlmostEquals(zzF, 40.0f) || itk::Math::NotAlmostEquals(zzF, totalF))
       {
       std::cerr << "Error:" << std::endl;
       std::cerr << "The degenerate histogram was calculated incorrectly" << std::endl;
@@ -343,7 +348,11 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
     ooF = hist3->GetFrequency(one_one);
     totalF = hist3->GetTotalFrequency();
 
-    if( zzF != 0 || zoF != 16 || ozF != 16 || ooF != 0 || zzF + zoF + ozF + ooF != totalF)
+    if( itk::Math::NotAlmostEquals(zzF, 0.0f)
+     || itk::Math::NotAlmostEquals(zoF, 16.0f)
+     || itk::Math::NotAlmostEquals(ozF, 16.0f)
+     || itk::Math::NotAlmostEquals(ooF, 0.0f)
+     || itk::Math::NotAlmostEquals(zzF + zoF + ozF + ooF, totalF) )
       {
       std::cerr << "Error:" << std::endl;
       std::cerr << "The small size histogram was calculated incorrectly" << std::endl;
@@ -377,7 +386,11 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
     ooF = hist4->GetFrequency(one_one);
     totalF = hist4->GetTotalFrequency();
 
-    if( zzF != 0 || zoF != 0 || ozF != 0 || ooF != 24 || zzF + zoF + ozF + ooF != totalF)
+    if( itk::Math::NotAlmostEquals(zzF, 0.0f)
+     || itk::Math::NotAlmostEquals(zoF, 0.0f)
+     || itk::Math::NotAlmostEquals(ozF, 0.0f)
+     || itk::Math::NotAlmostEquals(ooF, 24.0f)
+     || itk::Math::NotAlmostEquals(zzF + zoF + ozF + ooF, totalF) )
       {
       std::cerr << "Error:" << std::endl;
       std::cerr << "The truncated range histogram was calculated incorrectly" << std::endl;

@@ -20,6 +20,7 @@
 
 #include "itkAffineTransform.h"
 #include "itkDisplacementFieldTransform.h"
+#include "itkMath.h"
 
 /**
  *  \class RegistrationParameterScalesFromIndexShiftTestMetric for test.
@@ -197,7 +198,7 @@ int itkRegistrationParameterScalesFromIndexShiftTest(int , char* [])
   bool nonUniformForAffine = false;
   for (itk::SizeValueType p = 1; p < movingScales.GetSize(); p++)
     {
-    if (movingScales[p] != movingScales[0])
+    if (itk::Math::NotExactlyEquals(movingScales[p], movingScales[0]))
       {
       nonUniformForAffine = true;
       break;
@@ -353,7 +354,7 @@ int itkRegistrationParameterScalesFromIndexShiftTest(int , char* [])
   bool uniformForTranslation = true;
   for (itk::SizeValueType p = 1; p < fixedScales.GetSize(); p++)
     {
-    if (fixedScales[p] != fixedScales[0])
+    if (itk::Math::NotExactlyEquals(fixedScales[p], fixedScales[0]))
       {
       uniformForTranslation = false;
       break;

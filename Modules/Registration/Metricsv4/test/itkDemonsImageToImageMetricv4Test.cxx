@@ -19,6 +19,7 @@
 #include "itkTranslationTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 /* Simple test to verify that class builds and runs.
  * Results are not verified. See ImageToImageMetricv4Test
@@ -181,7 +182,7 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
 
   // Test same value returned by different methods
   std::cout << "Check Value return values..." << std::endl;
-  if( valueReturn1 != valueReturn2 )
+  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturn2) )
     {
     std::cerr << "Results for Value don't match: " << valueReturn1
               << ", " << valueReturn2 << std::endl;
@@ -249,7 +250,7 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
 
   // Test same value returned by different methods
   std::cout << "Check Value return values..." << std::endl;
-  if( valueReturn1 != valueReturn2 )
+  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturn2) )
     {
     std::cerr << "Moving image gradient source: results for Value don't match: " << valueReturn1
               << ", " << valueReturn2 << std::endl;
@@ -262,7 +263,7 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
   /* Exercise accessor method */
   const MetricType::InternalComputationValueType testValue = static_cast<MetricType::InternalComputationValueType>(0.5);
   metric->SetIntensityDifferenceThreshold( testValue );
-  if( metric->GetIntensityDifferenceThreshold() != testValue )
+  if( itk::Math::NotExactlyEquals(metric->GetIntensityDifferenceThreshold(), testValue) )
     {
     std::cerr << "Set/GetIntensityDifferenceThreshold failed." << std::endl;
     return EXIT_FAILURE;

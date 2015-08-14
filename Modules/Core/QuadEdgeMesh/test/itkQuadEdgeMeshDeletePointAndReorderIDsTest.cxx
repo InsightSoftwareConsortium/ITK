@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkQuadEdgeMesh.h"
+#include "itkMath.h"
 
 int itkQuadEdgeMeshDeletePointAndReorderIDsTest( int , char* [] )
 {
@@ -88,7 +89,7 @@ int itkQuadEdgeMeshDeletePointAndReorderIDsTest( int , char* [] )
 
     // check data
     mesh->GetPointData( 0, &ptData );
-    if( ptData != 4 )
+    if( itk::Math::NotAlmostEquals( ptData, 4 ) )
     {
     return EXIT_FAILURE;
     }

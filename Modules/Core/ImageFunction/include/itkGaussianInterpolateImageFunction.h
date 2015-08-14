@@ -126,7 +126,7 @@ public:
   virtual void SetAlpha( const RealType a )
     {
     itkDebugMacro( "setting Alpha to " << a );
-    if( this->m_Alpha != a )
+    if( Math::NotExactlyEquals(this->m_Alpha, a) )
       {
       this->m_Alpha = a;
       this->ComputeBoundingBox();
@@ -187,6 +187,7 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGaussianInterpolateImageFunction.hxx"
+#include "itkMath.h"
 #endif
 
 #endif

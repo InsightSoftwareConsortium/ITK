@@ -19,6 +19,7 @@
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
+#include "itkMath.h"
 
 int itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest( int , char* [] )
 {
@@ -42,7 +43,7 @@ int itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest( int , char* [] 
 
   criterion->SetRMSChangeAccumulator( 0.1 );
 
-  if( criterion->GetRMSChangeAccumulator() != 0.1 )
+  if( itk::Math::NotExactlyEquals(criterion->GetRMSChangeAccumulator(), 0.1) )
     {
     return EXIT_FAILURE;
     }

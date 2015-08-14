@@ -19,6 +19,7 @@
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkMeshSpatialObject.h"
 #include "itkTetrahedronCell.h"
+#include "itkMath.h"
 
 int itkMeshSpatialObjectTest(int, char * [] )
 {
@@ -70,12 +71,12 @@ int itkMeshSpatialObjectTest(int, char * [] )
 
   std::cout << "Testing Bounding Box: ";
 
-  if( (meshSO->GetBoundingBox()->GetBounds()[0] != 0)
-   || (meshSO->GetBoundingBox()->GetBounds()[1] != 9)
-   || (meshSO->GetBoundingBox()->GetBounds()[2] != 0)
-   || (meshSO->GetBoundingBox()->GetBounds()[3] != 9)
-   || (meshSO->GetBoundingBox()->GetBounds()[4] != 0)
-   || (meshSO->GetBoundingBox()->GetBounds()[5] != 9)
+  if( (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[0], 0))
+   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[1], 9))
+   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[2], 0))
+   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[3], 9))
+   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[4], 0))
+   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[5], 9))
    )
     {
     std::cout<<"[FAILED]"<<std::endl;
