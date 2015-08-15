@@ -18,6 +18,8 @@
 #ifndef itkVariableLengthVector_h
 #define itkVariableLengthVector_h
 
+#include <cassert>
+#include <algorithm>
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -76,6 +78,203 @@ template< typename TValue >
 class VariableLengthVector
 {
 public:
+  /**\name Policies
+   * The following Policies will be used by \c itk::VariableLengthVector::SetSize
+   */
+  //@{
+  /** \c VariableLengthVector empty base-class for allocation policies.
+   * All Allocation Policies are expected to inherit from this empty base
+   * class.
+   *
+   * \sa \c itk::VariableLengthVector::SetSize
+   * \sa \c NeverReallocate
+   * \sa \c ShrinkToFit
+   * \sa \c DontShrinkToFit
+   * \ingroup ITKCommon
+   * \ingroup DataRepresentation
+   */
+  struct AllocateRootPolicy {};
+
+  /** \c VariableLengthVector Allocation Policy: Always reallocate memory.
+   * This policy, when used from \c VariableLengthVector::SetSize(), always
+   * implies that the previous internal buffer will be reallocated. Even if
+   * enough memory was available.
+   * \return true (always)
+   *
+   * \sa \c itk::VariableLengthVector::SetSize
+   * \sa \c NeverReallocate
+   * \sa \c ShrinkToFit
+   * \sa \c DontShrinkToFit
+   * \ingroup ITKCommon
+   * \ingroup DataRepresentation
+   */
+  struct AlwaysReallocate : AllocateRootPolicy
+    {
+    bool operator()(unsigned int itkNotUsed(newSize), unsigned int itkNotUsed(oldSize)) const ITK_NOEXCEPT
+      {
+      return true;
+      }
+    };
+
+  /** \c VariableLengthVector Allocation Policy: Never reallocate memory.
+   * This policy, when used from \c VariableLengthVector::SetSize(), always
+   * implies that the previous internal buffer will be kept. Even if not enough
+   * memory was available.
+   * \return false (always)
+   *
+   * \pre <tt>oldSize == newSize</tt>, checked by assertion
+   * This policy is expected to be used when we know by construction that the
+   * size of a \c VariableLengthVector never changes within a loop. For
+   * instance, a typical scenario would be:
+   * \code
+   * VariableLengthVector<...> v;
+   * v.SetSize(someFixedSize);
+   * for (auto && pixel : image) {
+   *     itkAssertInDebugAndIgnoreInReleaseMacro(expression.size() == someFixedSize);
+   *     v.FastAssign( expression ); // <-- NeverReallocate is used here
+   * }
+   * \endcode
+   *
+   * \sa \c itk::VariableLengthVector::SetSize
+   * \sa \c AlwaysReallocate
+   * \sa \c ShrinkToFit
+   * \sa \c DontShrinkToFit
+   * \ingroup ITKCommon
+   * \ingroup DataRepresentation
+   */
+  struct NeverReallocate : AllocateRootPolicy
+    {
+    bool operator()(unsigned int itkNotUsed(newSize), unsigned int itkNotUsed(oldSize)) const ITK_NOEXCEPT
+      {
+      itkAssertInDebugAndIgnoreInReleaseMacro(newSize == oldSize && "SetSize is expected to never change the VariableLengthVector size...");
+      return true;
+      }
+    };
+
+  /** \c VariableLengthVector Allocation Policy: reallocate memory only when
+   * size changes.
+   * This policy, when used from \c VariableLengthVector::SetSize(), will
+   * reallocate the internal buffer only if the size of the \c
+   * VariableLengthVector changes.
+   * \return whether \c newSize differs from \c oldSize
+   *
+   * \note The name is related to \c DontShrinkToFit reallocation policy that
+   * will avoid reallocating when enough memory has already been allocated.
+   *
+   * \sa \c itk::VariableLengthVector::SetSize
+   * \sa \c AlwaysReallocate
+   * \sa \c NeverReallocate
+   * \sa \c DontShrinkToFit
+   * \ingroup ITKCommon
+   * \ingroup DataRepresentation
+   */
+  struct ShrinkToFit : AllocateRootPolicy
+    {
+    bool operator()(unsigned int newSize, unsigned int oldSize) const ITK_NOEXCEPT
+      { return newSize != oldSize; }
+    };
+
+  /** \c VariableLengthVector Allocation Policy: reallocate memory only when
+   * size increases.
+   * This policy, when used from \c VariableLengthVector::SetSize(), will
+   * reallocate the internal buffer only if the new size requested for the \c
+   * VariableLengthVector increases.
+   * \return whether \c newSize is bigger than \c oldSize
+   *
+   * \warning Unlike classes like \c std::vector<>, \c VariableLengthVector has
+   * no capacity concept: the size of the \c VariableLengthVector is its
+   * capacity. However, this will help a class without capacity to emulate one.
+   * The consequence is that reallocations will occur with scenarios such as
+   * the following:
+   * \code
+   * VariableLengthVector<...> v;
+   * v.SetSize(42);
+   * v.SetSize(12); // no reallocation
+   * v.SetSize(42); // pointless reallocation (given this policy)
+   * \endcode
+   *
+   * \sa \c itk::VariableLengthVector::SetSize
+   * \sa \c AlwaysReallocate
+   * \sa \c NeverReallocate
+   * \sa \c ShrinkToFit
+   * \ingroup ITKCommon
+   * \ingroup DataRepresentation
+   */
+  struct DontShrinkToFit : AllocateRootPolicy
+    {
+    bool operator()(unsigned int newSize, unsigned int oldSize) const ITK_NOEXCEPT
+      { return newSize > oldSize; }
+    };
+
+  /** \c VariableLengthVector empty base-class for values Keeping policies.
+   * All Values Keeping Policies are expected to inherit from this empty base
+   * class.
+   *
+   * \sa \c itk::VariableLengthVector::SetSize
+   * \sa \c KeepOldValues
+   * \sa \c DumpOldValues
+   * \ingroup ITKCommon
+   * \ingroup DataRepresentation
+   */
+  struct KeepValuesRootPolicy {};
+
+  /** \c VariableLengthVector Invariability Policy: Always keep old values.
+   * This policy, when used from \c VariableLengthVector::SetSize(), always
+   * copies <tt>min(newSize,oldSize)</tt> previous values from the previous
+   * internal buffer to the new one
+   *
+   * \pre This policy is only meant to be used in case of reallocation, i.e. \c
+   * oldBuffer and \c newBuffer are expected to differ (unchecked).
+   * \pre This presumes \c TValue assignment is a \c noexcept operation.
+   *
+   * This behaviour mimics \c std::vector<>::resize() behaviour. However, it
+   * makes to sense from \c VariableLengthVector::operator=()
+   *
+   * \sa \c itk::VariableLengthVector::SetSize
+   * \sa \c KeepValuesRootPolicy
+   * \sa \c DumpOldValues
+   * \ingroup ITKCommon
+   * \ingroup DataRepresentation
+   */
+  struct KeepOldValues : KeepValuesRootPolicy
+    {
+    template <typename TValue2>
+      void operator()(
+        unsigned int newSize, unsigned int oldSize,
+        TValue2 * oldBuffer, TValue2 * newBuffer) const ITK_NOEXCEPT
+        {
+        const std::size_t nb = std::min(newSize, oldSize);
+        std::copy(oldBuffer, oldBuffer+nb, newBuffer);
+        }
+    };
+
+  /** \c VariableLengthVector Invariability Policy: Never keep old values.
+   * This policy, when used from \c VariableLengthVector::SetSize(), is a no-op.
+   * It won't try to copy previous values from the previous internal buffer to
+   * the new one.
+   *
+   * \pre This policy is only meant to be used in case of reallocation, i.e. \c
+   * oldBuffer and \c newBuffer are expected to differ (unchecked).
+   *
+   * This behaviour particularly fits \c VariableLengthVector::operator=()
+   *
+   * \sa \c itk::VariableLengthVector::SetSize
+   * \sa \c KeepValuesRootPolicy
+   * \sa \c DumpOldValues
+   * \ingroup ITKCommon
+   * \ingroup DataRepresentation
+   */
+  struct DumpOldValues : KeepValuesRootPolicy
+    {
+    template <typename TValue2>
+      void operator()(
+        unsigned int itkNotUsed(newSize), unsigned int itkNotUsed(oldSize),
+        TValue2 * itkNotUsed(oldBuffer), TValue2 * itkNotUsed(newBuffer)) const ITK_NOEXCEPT
+        {
+        }
+    };
+  //@}
+
 
   /** The element type stored at each location in the Array. */
   typedef TValue                                        ValueType;
@@ -126,56 +325,126 @@ public:
     m_NumElements = v.Size();
     m_Data = this->AllocateElements(m_NumElements);
     m_LetArrayManageMemory = true;
-    for ( ElementIdentifier i = 0; i < v.Size(); i++ )
+    for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
       {
       this->m_Data[i] = static_cast< ValueType >( v[i] );
       }
   }
 
-  /** Copy constructer.. Override the default non-templated copy constructor
+  /** Copy constructor. Overrides the default non-templated copy constructor
    * that the compiler provides */
   VariableLengthVector(const VariableLengthVector< TValue > & v);
 
   /** Set the all the elements of the array to the specified value */
-  void Fill(TValue const & v);
+  void Fill(TValue const & v) ITK_NOEXCEPT;
 
-  /** Assignment operator  */
+  /** Converting assignment operator.
+   * \note Ensures a <em>String Exception Guarantee</em>: resists to
+   * self-assignment, and no changed are made if memory cannot be allocated to
+   * hold the new elements. This presumes \c TValue assignment is a \c
+   * noexcept operation.
+   *
+   * \post if called on a \c VariableLengthVector proxy, the referenced values
+   * are left unchanged.
+   * \post \c m_LetArrayManageMemory is true
+   * \post <tt>GetSize() == v.GetSize()</tt>, modulo precision
+   * \post <tt>*this == v</tt>
+   */
   template< typename T >
-  const VariableLengthVector< TValue > & operator=
-    (const VariableLengthVector< T > & v)
-  {
-    if ( m_Data == static_cast< void * >( const_cast< T * >
-                                          ( ( const_cast< VariableLengthVector< T > & >( v ) ).GetDataPointer() ) ) )
-      {
-      return *this;
-      }
-    this->SetSize( v.Size() );
-    for ( ElementIdentifier i = 0; i < v.Size(); i++ )
+  Self & operator=(const VariableLengthVector< T > & v)
+    {
+    // No self assignment test is done. Indeed:
+    // - the operator already resists self assignment through a strong exception
+    // guarantee
+    // - the test becomes a pessimization as we never write
+    //    VLV<const TValue> vcref(v.GetDataPointer(), v.GetSize());
+    //    ...;
+    //    v = vcref;
+    ElementIdentifier const N = v.Size();
+    this->SetSize( N, DontShrinkToFit(), DumpOldValues() );
+    for ( ElementIdentifier i = 0; i < N; ++i )
       {
       this->m_Data[i] = static_cast< ValueType >( v[i] );
       }
     return *this;
   }
 
-  /** Assignment operators  */
-  const Self & operator=(const Self & v);
+  /** Assignment operator.
+   * \note Ensures a <em>String Exception Guarantee</em>: resists to
+   * self-assignment, and no changed are made is memory cannot be allocated to
+   * hold the new elements. This is excepting \c TValue assignment is a \c
+   * noexcept operation.
+   *
+   * \post if called on a \c VariableLengthVector proxy, the referenced values
+   * are left unchanged.
+   * \post \c m_LetArrayManageMemory is true
+   * \post <tt>GetSize() == v.GetSize()</tt>, modulo precision
+   * \post <tt>*this == v</tt>
+   */
+  Self & operator=(const Self & v);
 
-  const Self & operator=(TValue const & v);
+  /** Fast Assignment.
+   * \pre \c m_LetArrayManageMemory is true: the \c VariableLengthVector is not
+   * a proxy, checked with an assertion. Call <tt>SetSize(GetSize(), NeverReallocate(),
+   * DumpOldValues())</tt> to ensure a vector is not a proxy anymore.
+   * \pre current size is identical to the one from the right hand side
+   * operand, checked with an assertion.
+   */
+  Self & FastAssign(const Self & v) ITK_NOEXCEPT;
+
+  /** Assignment operator from a numeric value.
+   * \pre This assumes \c m_LetArrayManageMemory is true, but it is unchecked.
+   * If this operator is called on a \c VariableLengthVector proxy, referenced
+   * values will be overwritten.
+   */
+  Self & operator=(TValue const & v) ITK_NOEXCEPT;
 
   /** Return the number of elements in the Array  */
-  inline unsigned int Size(void) const { return m_NumElements; }
-  inline unsigned int GetNumberOfElements(void) const { return m_NumElements; }
+  inline unsigned int Size(void) const ITK_NOEXCEPT { return m_NumElements; }
+  inline unsigned int GetNumberOfElements(void) const ITK_NOEXCEPT { return m_NumElements; }
 
   /** Return reference to the element at specified index. No range checking. */
-  TValue       & operator[](unsigned int i) { return this->m_Data[i]; }
+  TValue       & operator[](unsigned int i) ITK_NOEXCEPT { return this->m_Data[i]; }
   /** Return reference to the element at specified index. No range checking. */
-  TValue const & operator[](unsigned int i) const { return this->m_Data[i]; }
+  TValue const & operator[](unsigned int i) const ITK_NOEXCEPT { return this->m_Data[i]; }
 
   /** Get one element */
-  inline const TValue & GetElement(unsigned int i) const { return m_Data[i]; }
+  inline const TValue & GetElement(unsigned int i) const ITK_NOEXCEPT { return m_Data[i]; }
 
   /** Set one element */
-  void SetElement(unsigned int i, const TValue & value) { m_Data[i] = value; }
+  void SetElement(unsigned int i, const TValue & value) ITK_NOEXCEPT { m_Data[i] = value; }
+
+  /** Resizes the vector.
+   * \tparam TReallocatePolicy Policy that determines precisely the conditions
+   * under which the internal buffer shall be reallocated. It shall inherit
+   * from \c AllocateRootPolicy.
+   * \tparam TKeepValuesPolicy Policy that determines whether old elements
+   * shall be kept. It shall inherit from \c KeepValuesRootPolicy.
+   *
+   * \internal
+   * The purpose of this overload is to fine tune what \c SetSize() does. Some
+   * users seem to need to always reallocate, or to maintain old elements.
+   * However, some usages require fast resizing. In the assignment operators
+   * cases, we don't need to reallocate anything if we have enough memory, and
+   * we certainly do not need to maintain previous values as they'll get
+   * overridden with new ones.
+   * \internal
+   * If we could assert that \c VariableLengthVector proxies would (shall!)
+   * never be assigned anything, we could benefit for a version that won't
+   * check \c m_LetArrayManageMemory.
+   *
+   * \post \c m_LetArrayManageMemory is true
+   * \sa \c AlwaysReallocate
+   * \sa \c NeverReallocate
+   * \sa \c ShrinkToFit
+   * \sa \c DontShrinkToFit
+   * \sa \c KeepOldValues
+   * \sa \c DumpOldValues
+   */
+  template <typename TReallocatePolicy, typename TKeepValuesPolicy>
+  void SetSize(unsigned int sz,
+          TReallocatePolicy reallocatePolicy,
+          TKeepValuesPolicy keepValues);
 
   /** Set the size to that given.
    *
@@ -187,20 +456,33 @@ public:
    *    If \c true, the size is set destructively to the length given. If the
    * length is different from the current length, existing data will be lost.
    * The default is \c true. */
-  void SetSize(unsigned int sz, bool destroyExistingData = true);
+  void SetSize(unsigned int sz, bool destroyExistingData = true)
+    {
+    // Stays compatible with previous code version
+    // And works around the fact C++03 template functions can't have default
+    // arguments on template types.
+    if (destroyExistingData)
+      {
+      SetSize(sz, AlwaysReallocate(), KeepOldValues());
+      }
+    else
+      {
+      SetSize(sz, ShrinkToFit(), KeepOldValues());
+      }
+    }
 
   /** Destroy data that is allocated internally, if LetArrayManageMemory is
    * true. */
-  void DestroyExistingData();
+  void DestroyExistingData() ITK_NOEXCEPT;
 
-  inline unsigned int GetSize(void) const { return m_NumElements; }
+  inline unsigned int GetSize(void) const ITK_NOEXCEPT { return m_NumElements; }
 
   /** Set the pointer from which the data is imported.
    * If "LetArrayManageMemory" is false, then the application retains
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  void SetData(TValue *data, bool LetArrayManageMemory = false);
+  void SetData(TValue *data, bool LetArrayManageMemory = false) ITK_NOEXCEPT;
 
   /** Similar to the previous method. In the above method, the size must be
    * separately set prior to using user-supplied data. This introduces an
@@ -211,7 +493,7 @@ public:
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  void SetData(TValue *data, unsigned int sz, bool LetArrayManageMemory = false);
+  void SetData(TValue *data, unsigned int sz, bool LetArrayManageMemory = false) ITK_NOEXCEPT;
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
@@ -228,7 +510,7 @@ public:
   /** Allocate memory of certain size and return it.  */
   TValue * AllocateElements(ElementIdentifier size) const;
 
-  const TValue * GetDataPointer() const { return m_Data; }
+  const TValue * GetDataPointer() const ITK_NOEXCEPT { return m_Data; }
 
   /** Element-wise vector addition. The vectors do not have to have
    * the same element type. The input vector elements are cast to the
@@ -239,12 +521,7 @@ public:
   template< typename T >
   inline Self operator+(const VariableLengthVector< T > & v) const
   {
-    // if( m_NumElements != v.GetSize() )
-    //   {
-    //   itkGenericExceptionMacro( << "Cannot add VariableLengthVector of length
-    // "
-    //                             << m_NumElements " and " << v.GetSize() );
-    //   }
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
     const ElementIdentifier length = v.Size();
     Self                    result(length);
 
@@ -265,12 +542,7 @@ public:
   template< typename T >
   inline Self operator-(const VariableLengthVector< T > & v) const
   {
-    // if( m_NumElements != v.GetSize() )
-    //   {
-    //   itkGenericExceptionMacro( << "Cannot add VariableLengthVector of length
-    // "
-    //                             << m_NumElements " and " << v.GetSize() );
-    //   }
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
     const ElementIdentifier length = v.Size();
     Self                    result(length);
 
@@ -341,7 +613,7 @@ public:
 
   /** Prefix operator that subtracts 1 from each element of the
    * vector. */
-  inline Self & operator--()
+  inline Self & operator--() ITK_NOEXCEPT
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -351,7 +623,7 @@ public:
   }
 
   /** Prefix operator that adds 1 to each element of the vector. */
-  inline Self & operator++() // prefix operator ++v;
+  inline Self & operator++() ITK_NOEXCEPT // prefix operator ++v;
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -388,7 +660,7 @@ public:
    * they are assumed to have the same length. */
   template< typename T >
   inline Self & operator-=
-    (const VariableLengthVector< T > & v)
+    (const VariableLengthVector< T > & v) ITK_NOEXCEPT
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -398,7 +670,7 @@ public:
   }
 
   /** Subtract scalar 's' from each element of the current vector. */
-  inline Self & operator-=(TValue s)
+  inline Self & operator-=(TValue s) ITK_NOEXCEPT
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -416,7 +688,7 @@ public:
    * they are assumed to have the same length. */
   template< typename T >
   inline Self & operator+=
-    (const VariableLengthVector< T > & v)
+    (const VariableLengthVector< T > & v) ITK_NOEXCEPT
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -426,7 +698,7 @@ public:
   }
 
   /** Add scalar 's' to each element of the vector. */
-  inline Self & operator+=(TValue s)
+  inline Self & operator+=(TValue s) ITK_NOEXCEPT
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -439,7 +711,7 @@ public:
    * value is cast to the current vector element type prior to
    * multiplication. */
   template< typename T >
-  inline Self & operator*=(T s)
+  inline Self & operator*=(T s) ITK_NOEXCEPT
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -453,7 +725,7 @@ public:
    * scalar and vector elements are cast to the RealValueType prior to
    * division, and the result is cast to the ValueType. */
   template< typename T >
-  inline Self & operator/=(T s)
+  inline Self & operator/=(T s) ITK_NOEXCEPT
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -464,19 +736,24 @@ public:
     return *this;
   }
 
-  /** Negates each vector element. */
+  /** Negates each vector element.
+   * \warning This operator has a non standard semantics. Instead of returning
+   * a new \c VariableLengthVector, it modifies the current object.
+   */
   Self & operator-();  // negation operator
 
-  bool operator==(const Self & v) const;
+  bool operator==(const Self & v) const ITK_NOEXCEPT;
 
-  bool operator!=(const Self & v) const;
+  bool operator!=(const Self & v) const ITK_NOEXCEPT;
 
   /** Returns vector's Euclidean Norm  */
-  RealValueType GetNorm() const;
+  RealValueType GetNorm() const ITK_NOEXCEPT;
 
   /** Returns vector's squared Euclidean Norm  */
-  RealValueType GetSquaredNorm() const;
+  RealValueType GetSquaredNorm() const ITK_NOEXCEPT;
 
+  /** letArrayManageMemory getter. */
+  bool IsAProxy() const ITK_NOEXCEPT { return ! m_LetArrayManageMemory;}
 private:
 
   bool              m_LetArrayManageMemory; // if true, the array is responsible

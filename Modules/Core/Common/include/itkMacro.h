@@ -153,6 +153,7 @@ namespace itk
 // throw, if it does throw then std::terminate will be called.
 // Use cautiously.
 #define ITK_NOEXCEPT noexcept
+#define ITK_HAS_CXX11_STATIC_ASSERT
 #else
 #define ITK_OVERRIDE
 #define ITK_NULLPTR  NULL
@@ -1115,19 +1116,24 @@ CLANG_PRAGMA_POP                                       \
     return this->m_##name;                 \
     }
 
-/** Construct a non-templatized helper class that
+/**\def itkGPUKernelClassMacro
+ * Construct a non-templatized helper class that
  * provides the GPU kernel source code as a const char*
  */
-#define itkGPUKernelClassMacro(kernel)   \
-class kernel                  \
-  {                                      \
-    public:                              \
+#define itkGPUKernelClassMacro(kernel)      \
+/**\class kernel                            \
+ * Workaround KWstyle bug                   \
+ * \ingroup ITKCommon                       \
+ */                                         \
+class kernel                                \
+  {                                         \
+    public:                                 \
       static const char* GetOpenCLSource(); \
-    private:                             \
-      kernel();                          \
-      virtual ~kernel();                 \
-      kernel(const kernel &);            \
-      void operator=(const kernel &);    \
+    private:                                \
+      kernel();                             \
+      virtual ~kernel();                    \
+      kernel(const kernel &);               \
+      void operator=(const kernel &);       \
   };
 
 #define itkGetOpenCLSourceFromKernelMacro(kernel) \
