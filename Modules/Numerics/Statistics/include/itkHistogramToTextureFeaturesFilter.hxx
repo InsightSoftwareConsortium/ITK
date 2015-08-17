@@ -133,7 +133,7 @@ HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
     {
     RelativeFrequencyType frequency = *rFreqIterator;
     ++rFreqIterator;
-    if ( frequency == 0 )
+    if ( Math::AlmostEquals( frequency, NumericTraits< RelativeFrequencyType >::ZeroValue() ) )
       {
       continue; // no use doing these calculations if we're just multiplying by
                 // zero.

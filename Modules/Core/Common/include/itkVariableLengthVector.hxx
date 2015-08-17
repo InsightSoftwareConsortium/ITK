@@ -24,6 +24,7 @@
 #include <cstdlib>
 #include "itkIsBaseOf.h"
 #include "itkStaticAssert.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -299,7 +300,7 @@ VariableLengthVector< TValue >
     }
   for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
     {
-    if ( m_Data[i] != v[i] )
+    if ( Math::NotExactlyEquals(m_Data[i], v[i]) )
       {
       return false;
       }
@@ -312,18 +313,7 @@ bool
 VariableLengthVector< TValue >
 ::operator!=(const Self & v) const ITK_NOEXCEPT
 {
-  if ( m_NumElements != v.Size() )
-    {
-    return true;
-    }
-  for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
-    {
-    if ( m_Data[i] != v[i] )
-      {
-      return true;
-      }
-    }
-  return false;
+  return ! operator==( v );
 }
 
 /**

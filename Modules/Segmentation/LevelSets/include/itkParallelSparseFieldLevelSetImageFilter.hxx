@@ -26,6 +26,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include <iostream>
 #include <fstream>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -391,7 +392,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt )
     {
     bounds_status = true;
-    if ( outputIt.GetCenterPixel() == m_ValueZero )
+    if ( Math::ExactlyEquals(outputIt.GetCenterPixel(), m_ValueZero) )
       {
       // Grab the neighborhood in the status image.
       center_index = outputIt.GetIndex();
@@ -430,7 +431,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
           {
           offset_index = center_index + m_NeighborList.GetNeighborhoodOffset(i);
 
-          if ( outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) != m_ValueZero
+          if ( Math::NotExactlyEquals(outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) ), m_ValueZero)
                && statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) == m_StatusNull )
             {
             value = shiftedIt.GetPixel( m_NeighborList.GetArrayIndex(i) );
@@ -1404,7 +1405,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     // neighborhood.  This is used by some level set functions in sampling a
     // speed, advection, or curvature term.
     if ( this->m_InterpolateSurfaceLocation
-         && ( centerValue = outputIt.GetCenterPixel() ) != NumericTraits< ValueType >::ZeroValue() )
+         && Math::NotExactlyEquals(( centerValue = outputIt.GetCenterPixel() ), NumericTraits< ValueType >::ZeroValue()) )
       {
       // Surface is at the zero crossing, so distance to surface is:
       // phi(x) / norm(grad(phi)), where phi(x) is the center of the

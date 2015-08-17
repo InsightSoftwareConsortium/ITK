@@ -27,6 +27,7 @@
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
+#include "itkMath.h"
 
 
 int itkSplineKernelTransformTest(int , char* [] )
@@ -189,7 +190,7 @@ int itkSplineKernelTransformTest(int , char* [] )
     const double TestValue = 0.012345;
     tps2D->SetStiffness(TestValue); //This value should not change the result at all.
 
-    if ( tps2D->GetStiffness() != TestValue )
+    if ( itk::Math::NotExactlyEquals(tps2D->GetStiffness(), TestValue) )
       {
       std::cout << "ERROR:  Explicitly set stiffness value not retained." << std::endl;
       return EXIT_FAILURE;

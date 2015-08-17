@@ -20,6 +20,7 @@
 
 #include "itkTranslationTransform.h"
 #include "itkMath.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -63,7 +64,7 @@ TranslationTransform<TParametersValueType, NDimensions>
   bool modified = false;
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
-    if( m_Offset[i] != parameters[i] )
+    if( Math::NotExactlyEquals(m_Offset[i], parameters[i]) )
       {
       m_Offset[i] = parameters[i];
       modified = true;

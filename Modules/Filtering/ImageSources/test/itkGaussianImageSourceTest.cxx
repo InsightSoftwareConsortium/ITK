@@ -19,6 +19,7 @@
 #include "itkFilterWatcher.h"
 #include "itkGaussianImageSource.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 int itkGaussianImageSourceTest(int, char* [] )
 {
@@ -73,19 +74,23 @@ int itkGaussianImageSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ( params[0] != sigma[0] || params[1] != sigma[1] || params[2] != sigma[2] )
+  if ( itk::Math::NotAlmostEquals( params[0], sigma[0] ) ||
+       itk::Math::NotAlmostEquals( params[1], sigma[1] ) ||
+       itk::Math::NotAlmostEquals( params[2], sigma[2] ) )
     {
     std::cerr << "Parameters have incorrect sigma value." << std::endl;
     return EXIT_FAILURE;
     }
 
-  if ( params[3] != mean[0] || params[4] != mean[1] || params[5] != mean[2] )
+  if ( itk::Math::NotAlmostEquals( params[3], mean[0] ) ||
+       itk::Math::NotAlmostEquals( params[4], mean[1] ) ||
+       itk::Math::NotAlmostEquals( params[5], mean[2] ) )
     {
     std::cerr << "Parameters have incorrect mean value." << std::endl;
     return EXIT_FAILURE;
     }
 
-  if ( params[6] != source->GetScale() )
+  if ( itk::Math::NotAlmostEquals( params[6], source->GetScale() ) )
     {
     std::cerr << "Parameters have incorrect scale value." << std::endl;
     return EXIT_FAILURE;
@@ -100,9 +105,9 @@ int itkGaussianImageSourceTest(int, char* [] )
   params[6] = 55.5;
   source->SetParameters( params );
 
-  if ( source->GetSigma()[0] != params[0] ||
-       source->GetSigma()[1] != params[1] ||
-       source->GetSigma()[2] != params[2] )
+  if ( itk::Math::NotAlmostEquals( source->GetSigma()[0], params[0] ) ||
+       itk::Math::NotAlmostEquals( source->GetSigma()[1], params[1] ) ||
+       itk::Math::NotAlmostEquals( source->GetSigma()[2], params[2] ) )
     {
     std::cerr << "Sigma disagrees with parameters array." << std::endl;
     std::cerr << "Sigma: " << source->GetSigma() << ", parameters: ["
@@ -111,9 +116,9 @@ int itkGaussianImageSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ( source->GetMean()[0] != params[3] ||
-       source->GetMean()[1] != params[4] ||
-       source->GetMean()[2] != params[5] )
+  if ( itk::Math::NotAlmostEquals( source->GetMean()[0], params[3] ) ||
+       itk::Math::NotAlmostEquals( source->GetMean()[1], params[4] ) ||
+       itk::Math::NotAlmostEquals( source->GetMean()[2], params[5] ) )
     {
     std::cerr << "Mean disagrees with parameters array." << std::endl;
     std::cerr << "Mean: " << source->GetMean() << ", parameters: ["
@@ -122,7 +127,7 @@ int itkGaussianImageSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ( source->GetScale() != params[6] )
+  if ( itk::Math::NotAlmostEquals( source->GetScale(), params[6] ) )
     {
     std::cerr << "Scale disagrees with parameters array." << std::endl;
     std::cerr << "Scale: " << source->GetScale() << ", parameters: "

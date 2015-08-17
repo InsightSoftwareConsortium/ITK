@@ -20,6 +20,7 @@
 
 #include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 #include "vnl/vnl_math.h"
 
 #include <set>
@@ -230,7 +231,8 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
     ImageVoxel *current;
     vpos[0] = ic[0]; vpos[1] = ic[1]; vpos[2] = ic[2];
 
-    if ( data->normal[0] == 0 )
+    if ( Math::AlmostEquals( data->normal[0],
+         itk::NumericTraits< itk::NumericTraits< SimplexMeshGeometry::CovariantVectorType >::ValueType >::ZeroValue() ) )
       {
       dp[0] = 1e-6;
       }
@@ -239,7 +241,8 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
       dp[0] = data->normal[0];
       }
 
-    if ( data->normal[1] == 0 )
+    if ( Math::AlmostEquals(data->normal[1],
+         itk::NumericTraits< itk::NumericTraits< SimplexMeshGeometry::CovariantVectorType >::ValueType >::ZeroValue() ) )
       {
       dp[1] = 1e-6;
       }
@@ -248,7 +251,8 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
       dp[1] = data->normal[1];
       }
 
-    if ( data->normal[2] == 0 )
+    if ( Math::AlmostEquals( data->normal[2],
+         itk::NumericTraits< itk::NumericTraits< SimplexMeshGeometry::CovariantVectorType >::ValueType >::ZeroValue() ) )
       {
       dp[2] = 1e-6;
       }

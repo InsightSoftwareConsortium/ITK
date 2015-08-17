@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkEuler2DTransform.h"
+#include "itkMath.h"
 
 
 namespace
@@ -165,7 +166,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
   EulerTransformType::JacobianType jacobian;
   eulerTransform->ComputeJacobianWithRespectToParameters(pInit, jacobian);
 
-  if( jacobian[0][0] != -10.0 || jacobian[0][1] != 1.0
+  if( itk::Math::NotExactlyEquals(jacobian[0][0], -10.0) || jacobian[0][1] != 1.0
       || jacobian[0][2] != 0.0
       || jacobian[1][0] != 10.0 || jacobian[1][1] != 0.0
       || jacobian[1][2] != 1.0

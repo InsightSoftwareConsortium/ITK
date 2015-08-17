@@ -19,6 +19,7 @@
 #ifndef itkLevelSetEquationAdvectionTerm_hxx
 #define itkLevelSetEquationAdvectionTerm_hxx
 
+#include "itkMath.h"
 #include "itkLevelSetEquationAdvectionTerm.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientImageFilter.h"
@@ -83,7 +84,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 
   AdvectionImagePointer gradientImage;
 
-  if ( m_DerivativeSigma != NumericTraits< LevelSetOutputRealType >::ZeroValue() )
+  if ( Math::NotAlmostEquals( m_DerivativeSigma, NumericTraits< LevelSetOutputRealType >::ZeroValue() ) )
     {
     typedef GradientRecursiveGaussianImageFilter< InputImageType, AdvectionImageType >
     DerivativeFilterType;

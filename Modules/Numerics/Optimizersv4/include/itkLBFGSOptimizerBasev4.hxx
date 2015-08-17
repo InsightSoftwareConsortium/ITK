@@ -155,7 +155,7 @@ void
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 ::SetGradientConvergenceTolerance(double f)
 {
-  if ( f == m_GradientConvergenceTolerance )
+  if ( Math::ExactlyEquals(f, m_GradientConvergenceTolerance) )
     {
     return;
     }

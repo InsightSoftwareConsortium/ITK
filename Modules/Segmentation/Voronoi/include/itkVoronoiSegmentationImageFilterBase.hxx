@@ -152,7 +152,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     RorL = 0;
     endy = leftendy;
     }
-  if ( leftP[1] == beginy )
+  if ( Math::AlmostEquals(leftP[1], beginy) )
     {
     leftDx = 1.0;
     }
@@ -161,7 +161,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     leftDx = ( leftP[0] - beginx ) / ( leftP[1] - beginy );
     }
 
-  if ( rightP[1] == beginy )
+  if ( Math::AlmostEquals(rightP[1], beginy) )
     {
     rightDx = 1.0;
     }
@@ -231,7 +231,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       endx = currP[0];
       beginx = leftheadx + leftDx * ( beginy - leftheady );
       rightP = vertlist.back();
-      if ( rightP[1] == currP[1] )
+      if ( Math::AlmostEquals(rightP[1], currP[1]) )
         {
         rightDx = 1.0;
         }
@@ -249,7 +249,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       beginx = currP[0];
       endx = rightheadx + rightDx * ( beginy - rightheady );
       leftP = vertlist.front();
-      if ( leftP[1] == currP[1] )
+      if ( Math::AlmostEquals(leftP[1], currP[1]) )
         {
         leftDx = 1.0;
         }
@@ -322,7 +322,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     {
     if ( RorL )
       {
-      if ( rightP[1] == leftP[1] )
+      if ( Math::AlmostEquals(rightP[1], leftP[1]) )
         {
         rightDx = 1.0;
         }
@@ -335,7 +335,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       }
     else
       {
-      if ( rightP[1] == leftP[1] )
+      if ( Math::AlmostEquals(rightP[1], leftP[1]) )
         {
         leftDx = 1.0;
         }
@@ -716,7 +716,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     RorL = 0;
     endy = leftendy;
     }
-  if ( leftP[1] == beginy )
+  if (Math::AlmostEquals( leftP[1], beginy ))
     {
     leftDx = 1.0;
     }
@@ -724,7 +724,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     {
     leftDx = ( leftP[0] - beginx ) / ( leftP[1] - beginy );
     }
-  if ( rightP[1] == beginy )
+  if (Math::AlmostEquals( rightP[1], beginy ))
     {
     rightDx = 1.0;
     }
@@ -793,7 +793,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       endx = currP[0];
       beginx = leftheadx + leftDx * ( beginy - leftheady );
       rightP = vertlist.back();
-      if ( rightP[1] == currP[1] )
+      if (Math::AlmostEquals( rightP[1], currP[1] ))
         {
         rightDx = 1.0;
         }
@@ -811,7 +811,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       beginx = currP[0];
       endx = rightheadx + rightDx * ( beginy - rightheady );
       leftP = vertlist.front();
-      if ( leftP[1] == currP[1] )
+      if (Math::AlmostEquals( leftP[1], currP[1] ))
         {
         leftDx = 1.0;
         }
@@ -884,7 +884,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     {
     if ( RorL )
       {
-      if ( rightP[1] == leftP[1] )
+      if (Math::AlmostEquals( rightP[1], leftP[1] ))
         {
         rightDx = 1.0;
         }
@@ -897,7 +897,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       }
     else
       {
-      if ( rightP[1] == leftP[1] )
+      if (Math::AlmostEquals( rightP[1], leftP[1] ))
         {
         leftDx = 1.0;
         }

@@ -31,6 +31,7 @@
 #ifdef GCC_USEDEMANGLE
 #include <cstdlib>
 #include <cxxabi.h>
+#include "itkMath.h"
 #endif
 
 template< typename T >
@@ -106,7 +107,7 @@ bool TestClampFromTo()
       expectedValue = static_cast< TOutputPixelType >( inValue );
       }
 
-    if ( outValue != expectedValue )
+    if ( itk::Math::NotExactlyEquals(outValue, expectedValue) )
       {
       success = false;
       break;
@@ -213,7 +214,7 @@ bool TestClampFromToWithCustomBounds()
       expectedValue = static_cast< TOutputPixelType >( inValue );
       }
 
-    if ( outValue != expectedValue )
+    if ( itk::Math::NotExactlyEquals(outValue, expectedValue) )
       {
       success = false;
       break;

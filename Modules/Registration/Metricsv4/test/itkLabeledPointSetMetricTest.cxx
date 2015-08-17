@@ -20,6 +20,7 @@
 #include "itkTranslationTransform.h"
 
 #include <fstream>
+#include "itkMath.h"
 
 template<unsigned int Dimension>
 int itkLabeledPointSetMetricTestRun()
@@ -107,7 +108,7 @@ int itkLabeledPointSetMetricTestRun()
     }
 
   // Check for the same results from different methods
-  if( value != value2 )
+  if( itk::Math::NotExactlyEquals(value, value2) )
     {
     std::cerr << "value does not match between calls to different methods: "
               << "value: " << value << " value2: " << value2 << std::endl;

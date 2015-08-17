@@ -19,6 +19,7 @@
 #ifndef itkUpdateMalcolmSparseLevelSet_hxx
 #define itkUpdateMalcolmSparseLevelSet_hxx
 
+#include "itkMath.h"
 #include "itkUpdateMalcolmSparseLevelSet.h"
 
 
@@ -330,7 +331,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
     LevelSetInputType currentIdx = nodeIt->first;
     LevelSetInputType inputIndex = currentIdx + this->m_Offset;
 
-    if( update != NumericTraits< LevelSetOutputRealType >::ZeroValue() )
+    if( Math::NotAlmostEquals( update, NumericTraits< LevelSetOutputRealType >::ZeroValue() ) )
       {
       // only allow positiveUpdate forces
       if( iContraction )

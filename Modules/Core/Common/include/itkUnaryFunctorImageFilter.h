@@ -18,6 +18,7 @@
 #ifndef itkUnaryFunctorImageFilter_h
 #define itkUnaryFunctorImageFilter_h
 
+#include "itkMath.h"
 #include "itkInPlaceImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
@@ -88,7 +89,7 @@ public:
    * appropriate). */
   void SetFunctor(const FunctorType & functor)
   {
-    if ( m_Functor != functor )
+    if ( Math::NotExactlyEquals( m_Functor, functor ) )
       {
       m_Functor = functor;
       this->Modified();

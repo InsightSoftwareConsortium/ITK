@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkMath.h"
 #include "itkHistogram.h"
 
 
@@ -158,13 +159,13 @@ int itkHistogramTest(int, char* [] )
 
   // Query the bounds of the bin using the index of the bin.
 
-  if ((lowerBound[0] + interval * 31) != histogram->GetBinMin(0,31))
+  if (itk::Math::NotAlmostEquals( (lowerBound[0] + interval * 31), histogram->GetBinMin(0,31) ))
     {
     pass = false;
     whereFail = "GetBinMin(Dimension, nthBin)";
     }
 
-  if ((lowerBound[0] + interval * 32) != histogram->GetBinMax(0,31))
+  if (itk::Math::NotAlmostEquals( (lowerBound[0] + interval * 32), histogram->GetBinMax(0,31) ))
     {
     pass = false;
     whereFail = "GetBinMax(Dimension, nthBin)";
@@ -172,30 +173,30 @@ int itkHistogramTest(int, char* [] )
 
   // Query the histogram bin extremes using a value within the bin
 
-  if ((lowerBound[0] + interval * 31         ) != histogram->GetBinMinFromValue(0, lowerBound[0] + interval * 31.5 )
-   || (lowerBound[0]                         ) != histogram->GetBinMinFromValue(0, itk::NumericTraits< float >::min()   )
-   || (lowerBound[0] + interval * (size[0]-1)) != histogram->GetBinMinFromValue(0, itk::NumericTraits< float >::max() ) )
+  if (itk::Math::NotAlmostEquals( (lowerBound[0] + interval * 31         ), histogram->GetBinMinFromValue(0, lowerBound[0] + interval * 31.5 ) )
+   || itk::Math::NotAlmostEquals( (lowerBound[0]                         ), histogram->GetBinMinFromValue(0, itk::NumericTraits< float >::min()   ) )
+   || itk::Math::NotAlmostEquals( (lowerBound[0] + interval * (size[0]-1)), histogram->GetBinMinFromValue(0, itk::NumericTraits< float >::max() ) ) )
     {
     pass = false;
     whereFail = "GetBinMinFromValue(Dimension, A Value Within The Nth Bin)";
     }
 
-  if ((lowerBound[0] + interval * 32         ) != histogram->GetBinMaxFromValue(0, lowerBound[0] + interval * 31.5 )
-   || (lowerBound[0] + interval              ) != histogram->GetBinMaxFromValue(0, itk::NumericTraits< float >::min()   )
-   || (upperBound[0]                         ) != histogram->GetBinMaxFromValue(0, itk::NumericTraits< float >::max() ) )
+  if (itk::Math::NotAlmostEquals( (lowerBound[0] + interval * 32         ), histogram->GetBinMaxFromValue(0, lowerBound[0] + interval * 31.5 ) )
+   || itk::Math::NotAlmostEquals( (lowerBound[0] + interval              ), histogram->GetBinMaxFromValue(0, itk::NumericTraits< float >::min()   ) )
+   || itk::Math::NotAlmostEquals( (upperBound[0]                         ), histogram->GetBinMaxFromValue(0, itk::NumericTraits< float >::max() ) ) )
     {
     pass = false;
     whereFail = "GetBinMaxFromValue(Dimension, A Value Within The Nth Bin)";
     }
 
   index.Fill(31);
-  if ((lowerBound[0] + interval * 31) != histogram->GetHistogramMinFromIndex(index)[0])
+  if (itk::Math::NotAlmostEquals( (lowerBound[0] + interval * 31), histogram->GetHistogramMinFromIndex(index)[0]) )
     {
     pass = false;
     whereFail = "GetHistogramMinFromIndex(Dimension, nthBin)";
     }
 
-  if ((lowerBound[0] + interval * 32) != histogram->GetHistogramMaxFromIndex(index)[0])
+  if (itk::Math::NotAlmostEquals( (lowerBound[0] + interval * 32), histogram->GetHistogramMaxFromIndex(index)[0]) )
     {
     pass = false;
     whereFail = "GetHistogramMaxFromIndex(Dimension, nthBin)";
@@ -216,7 +217,7 @@ int itkHistogramTest(int, char* [] )
     }
 
   double quantile1 = histogram->Quantile(0, 0.3);
-  if( quantile1 != 307.2)
+  if( itk::Math::NotAlmostEquals( quantile1, 307.2) )
     {
     std::cerr << "quantile1 = " << quantile1 << std::endl;
     pass = false;
@@ -232,7 +233,7 @@ int itkHistogramTest(int, char* [] )
     }
 
   double quantile3 = histogram->Quantile(0, 0.7);
-  if( quantile3 != 716.8)
+  if( itk::Math::NotAlmostEquals( quantile3, 716.8) )
     {
     std::cerr << "quantile3 = " << quantile3 << std::endl;
     pass = false;
@@ -297,13 +298,13 @@ int itkHistogramTest(int, char* [] )
     whereFail = "Sparse Histogram: GetSize()";
     }
 
-  if ((lowerBound[0] + interval * 31) != sparseHistogram->GetBinMin(0,31))
+  if (itk::Math::NotAlmostEquals( (lowerBound[0] + interval * 31), sparseHistogram->GetBinMin(0,31) ))
     {
     pass = false;
     whereFail = "Sparse Histogram: GetBinMin(Dimension, nthBin)";
     }
 
-  if ((lowerBound[0] + interval * 32) != sparseHistogram->GetBinMax(0,31))
+  if (itk::Math::NotAlmostEquals( (lowerBound[0] + interval * 32), sparseHistogram->GetBinMax(0,31) ))
     {
     pass = false;
     whereFail = "Sparse Histogram: GetBinMax(Dimension, nthBin)";
@@ -387,7 +388,7 @@ int itkHistogramTest(int, char* [] )
   MeasurementVectorType measurement = histogram->GetMeasurementVector( index );
   for( unsigned kid0 = 0; kid0 < numberOfComponents; kid0++ )
     {
-    if( measurement[kid0] != 8 )
+    if( itk::Math::NotAlmostEquals( measurement[kid0], 8 ))
       {
       std::cerr << "GetMeasurementVector() for index = ";
       std::cerr << index << std::endl;
@@ -402,7 +403,7 @@ int itkHistogramTest(int, char* [] )
   measurement = histogram->GetMeasurementVector( index );
   for( unsigned kid1 = 0; kid1 < numberOfComponents; kid1++ )
     {
-    if( measurement[kid1] != 8 )
+    if( itk::Math::NotAlmostEquals( measurement[kid1], 8 ) )
       {
       std::cerr << "GetMeasurementVector() for index = ";
       std::cerr << index << std::endl;
@@ -416,7 +417,7 @@ int itkHistogramTest(int, char* [] )
   measurement = histogram->GetMeasurementVector( instanceId );
   for( unsigned kid2 = 0; kid2 < numberOfComponents; kid2++ )
     {
-    if( measurement[kid2] != 8 )
+    if( itk::Math::NotAlmostEquals( measurement[kid2], 8 ) )
       {
       std::cerr << "GetMeasurementVector() for instanceId = ";
       std::cerr << instanceId << std::endl;

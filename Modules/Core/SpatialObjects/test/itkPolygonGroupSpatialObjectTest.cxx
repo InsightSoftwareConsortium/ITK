@@ -19,6 +19,7 @@
 #include "itkPolygonGroupSpatialObject.h"
 
 #include <iostream>
+#include "itkMath.h"
 
 static float testPoints[11][2] =
   {
@@ -68,7 +69,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       volume = strand->MeasureVolume();
       perimeter = strand->MeasurePerimeter();
       // since a slice is 1 unit thick, volume should equal area
-      if(area != volume)
+      if(itk::Math::NotAlmostEquals(area, volume))
         {
         std::cerr << "Polygon: area(" << area << ") != volume("
                   << volume << ")" << std::endl;
@@ -161,13 +162,13 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
           }
         double area2 =  strand->MeasureArea();
         double perimeter2 = strand->MeasurePerimeter();
-        if(area != area2)
+        if(itk::Math::NotExactlyEquals(area, area2))
           {
           std::cerr << "Area shouldn't have changed; old = "
                     << area << " new = " << area2 << std::endl;
           return -1;
           }
-        if(perimeter != perimeter2)
+        if(itk::Math::NotExactlyEquals(perimeter, perimeter2))
           {
           std::cerr << "Perimeter shouldn't have changed; old = "
                     << perimeter << " new = " << perimeter2 << std::endl;

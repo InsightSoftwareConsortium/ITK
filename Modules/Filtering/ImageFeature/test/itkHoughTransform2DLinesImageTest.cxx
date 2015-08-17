@@ -19,6 +19,7 @@
 #include "itkHoughTransform2DLinesImageFilter.h"
 #include "itkThresholdImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
+#include "itkMath.h"
 
 /**
  * This program looks for straight lines whithin an image
@@ -193,7 +194,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
 
     for(it_input.GoToBegin();!it_input.IsAtEnd();++it_input)
     {
-      if(it_input.Get() == max)
+      if(itk::Math::ExactlyEquals(it_input.Get(), max))
       {
         houghPoint m_HoughPoint;
         m_HoughPoint.radius = it_input.GetIndex()[0];

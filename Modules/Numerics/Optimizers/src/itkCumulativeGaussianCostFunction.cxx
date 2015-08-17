@@ -19,6 +19,7 @@
 #define _itkCumulativeGaussianCostFunction_cxx
 
 #include "itkCumulativeGaussianCostFunction.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -161,7 +162,7 @@ CumulativeGaussianCostFunction
     if ( argument > 0 )
       {
       int temp = (int)( argument * 100 );
-      if ( argument == (int)temp )
+      if (Math::AlmostEquals( argument, temp ))
         {
         erfValue = .999976474;
         }

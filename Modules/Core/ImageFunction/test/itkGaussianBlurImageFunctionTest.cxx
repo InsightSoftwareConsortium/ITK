@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkMath.h"
 #include "itkGaussianBlurImageFunction.h"
 
 int itkGaussianBlurImageFunctionTest(int, char* [] )
@@ -188,7 +189,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
 
   std::cout << "Testing Evaluate(), EvaluateAtIndex() and EvaluateIndex: ";
   if( (std::fabs(blurredvalue_index-blurredvalue_point)>0.01)
-     || blurredvalue_point != blurredvalue_continuousIndex)
+     || itk::Math::NotAlmostEquals(blurredvalue_point, blurredvalue_continuousIndex) )
     {
     std::cerr << "[FAILED] : "
               << blurredvalue_index << " : "

@@ -18,8 +18,10 @@
 
 #include <iostream>
 
+#include "itkMath.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 
 template <typename TPixelType>
@@ -65,7 +67,7 @@ class itkImageIteratorWithIndexTestIteratorTester
        PixelType value = it.Get();
        PixelType testValue = value * static_cast<typename itk::NumericTraits<PixelType>::ValueType>( 2 );
        it.Set( testValue);
-       if( it.Get() != testValue )
+       if( itk::Math::NotExactlyEquals(it.Get(), testValue) )
         {
         std::cerr << "TestIterator failed!" << std::endl;
         return false;
@@ -89,7 +91,7 @@ class itkImageIteratorWithIndexTestIteratorTester
      while( !it.IsAtEnd() )
        {
        PixelType value = it.Get();
-       if( value != it.Get() ) // check repeatibility
+       if( itk::Math::NotExactlyEquals(value, it.Get()) ) // check repeatibility
          {
          std::cerr << "TestConstIterator failed!" << std::endl;
          return false;
@@ -113,7 +115,7 @@ class itkImageIteratorWithIndexTestIteratorTester
      while( !it.IsAtReverseEnd() )
        {
        PixelType value = it.Get();
-       if( value != it.Get() ) // check repeatibility
+       if( itk::Math::NotExactlyEquals(value, it.Get()) ) // check repeatibility
          {
          std::cerr << "TestReverseIteration failed!" << std::endl;
          return false;

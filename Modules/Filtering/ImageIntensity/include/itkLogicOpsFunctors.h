@@ -19,6 +19,7 @@
 #define itkLogicOpsFunctors_h
 
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 
 namespace itk
@@ -131,7 +132,7 @@ public:
   }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
-    if( A == static_cast<TInput1>(B) )
+    if( Math::ExactlyEquals(A, static_cast<TInput1>(B)) )
       {
       return this->m_ForegroundValue;
       }
@@ -166,7 +167,7 @@ public:
   }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
-    if( A != B )
+    if( Math::NotExactlyEquals(A, B) )
       {
       return this->m_ForegroundValue;
       }

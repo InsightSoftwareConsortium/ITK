@@ -23,6 +23,7 @@
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
 #include <algorithm>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -311,7 +312,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     // does this node contain the current value ?
     currentValue = static_cast< double >( output->GetPixel( node.GetIndex() ) );
 
-    if ( node.GetValue() == currentValue )
+    if ( Math::ExactlyEquals(node.GetValue(), currentValue) )
       {
       // is this node already alive ?
       if ( m_LabelImage->GetPixel( node.GetIndex() ) != AlivePoint )

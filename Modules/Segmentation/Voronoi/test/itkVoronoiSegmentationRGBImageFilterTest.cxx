@@ -20,6 +20,7 @@
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include <iostream>
+#include "itkMath.h"
 
 // typedefs for all functions
 typedef itk::RGBPixel<unsigned char>    PixelType;
@@ -222,7 +223,7 @@ int TestNoPrior(ImageType::Pointer inputImage)
 
   // test GetMaxValueOfRGB
   std::cout << "Checking GetMaxValueOfRGB" << std::endl;
-  if (filter->GetMaxValueOfRGB() != 255)
+  if (itk::Math::NotExactlyEquals(filter->GetMaxValueOfRGB(), 255))
     {
     std::cout << "[FAILED] Didn't set max RGB correctly" << std::endl;
     return EXIT_FAILURE;
@@ -381,12 +382,12 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
   filter->SetMeanPercentError(meanPercentErrorIn);
   double meanPercentErrorOut[6];
   filter->GetMeanPercentError(meanPercentErrorOut);
-  if (meanPercentErrorOut[0] != 0.1 ||
-      meanPercentErrorOut[1] != 0.1 ||
-      meanPercentErrorOut[2] != 0.1 ||
-      meanPercentErrorOut[3] != 0.1 ||
-      meanPercentErrorOut[4] != 0.1 ||
-      meanPercentErrorOut[5] != 0.1)
+  if (itk::Math::NotExactlyEquals(meanPercentErrorOut[0], 0.1) ||
+      itk::Math::NotExactlyEquals(meanPercentErrorOut[1], 0.1) ||
+      itk::Math::NotExactlyEquals(meanPercentErrorOut[2], 0.1) ||
+      itk::Math::NotExactlyEquals(meanPercentErrorOut[3], 0.1) ||
+      itk::Math::NotExactlyEquals(meanPercentErrorOut[4], 0.1) ||
+      itk::Math::NotExactlyEquals(meanPercentErrorOut[5], 0.1))
     {
     std::cout << "[FAILED] Didn't set/get MeanPercentError correctly" << std::endl;
     return EXIT_FAILURE;
@@ -397,12 +398,12 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
   filter->SetSTDPercentError(stdPercentErrorIn);
   double stdPercentErrorOut[6];
   filter->GetSTDPercentError(stdPercentErrorOut);
-  if (stdPercentErrorOut[0] != 0.1 ||
-      stdPercentErrorOut[1] != 0.1 ||
-      stdPercentErrorOut[2] != 0.1 ||
-      stdPercentErrorOut[3] != 0.1 ||
-      stdPercentErrorOut[4] != 0.1 ||
-      stdPercentErrorOut[5] != 0.1)
+  if (itk::Math::NotExactlyEquals(stdPercentErrorOut[0], 0.1) ||
+      itk::Math::NotExactlyEquals(stdPercentErrorOut[1], 0.1) ||
+      itk::Math::NotExactlyEquals(stdPercentErrorOut[2], 0.1) ||
+      itk::Math::NotExactlyEquals(stdPercentErrorOut[3], 0.1) ||
+      itk::Math::NotExactlyEquals(stdPercentErrorOut[4], 0.1) ||
+      itk::Math::NotExactlyEquals(stdPercentErrorOut[5], 0.1))
     {
     std::cout << "[FAILED] Didn't set/get STDPercentError correctly" << std::endl;
     return EXIT_FAILURE;

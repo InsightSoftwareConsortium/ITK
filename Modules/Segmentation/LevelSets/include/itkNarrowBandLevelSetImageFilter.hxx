@@ -20,6 +20,7 @@
 
 #include "itkNarrowBandLevelSetImageFilter.h"
 #include <cstdio>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -88,12 +89,12 @@ NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOu
     }
 
   // Allocate the images from which speeds will be sampled.
-  if ( this->GetSegmentationFunction()->GetPropagationWeight() != 0 )
+  if ( Math::NotExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
     {
     m_SegmentationFunction->AllocateSpeedImage();
     m_SegmentationFunction->CalculateSpeedImage();
     }
-  if ( this->GetSegmentationFunction()->GetAdvectionWeight() != 0 )
+  if ( Math::NotExactlyEquals(this->GetSegmentationFunction()->GetAdvectionWeight(), 0) )
     {
     m_SegmentationFunction->AllocateAdvectionImage();
     m_SegmentationFunction->CalculateAdvectionImage();

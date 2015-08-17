@@ -19,6 +19,7 @@
 #define itkShapePriorSegmentationLevelSetFunction_hxx
 
 #include "itkShapePriorSegmentationLevelSetFunction.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -62,7 +63,7 @@ ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
   PixelType value = this->Superclass::ComputeUpdate(neighborhood, gd, offset);
 
   // Add the shape prior term
-  if ( m_ShapeFunction && m_ShapePriorWeight != NumericTraits< ScalarValueType >::ZeroValue() )
+  if ( m_ShapeFunction && Math::NotExactlyEquals(m_ShapePriorWeight, NumericTraits< ScalarValueType >::ZeroValue()) )
     {
     IndexType                                 idx = neighborhood.GetIndex();
     ContinuousIndex< double, ImageDimension > cdx;

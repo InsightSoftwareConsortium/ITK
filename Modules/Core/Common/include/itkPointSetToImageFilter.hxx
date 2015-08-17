@@ -23,6 +23,7 @@
 #include "itkBoundingBox.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -176,7 +177,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   bool specified = false;
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( m_Size[i] != 0 )
+    if ( m_Size[i] != NumericTraits<SizeValueType>::ZeroValue() )
       {
       specified = true;
       break;
@@ -202,7 +203,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   specified = false;
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( m_Spacing[i] != 0 )
+    if ( Math::NotExactlyEquals(m_Spacing[i], NumericTraits<typename NumericTraits<SpacingType>::ValueType>::ZeroValue()) )
       {
       specified = true;
       break;
@@ -217,7 +218,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   specified = false;
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( m_Origin[i] != 0 )
+    if ( Math::NotExactlyEquals(m_Origin[i], NumericTraits<typename NumericTraits<PointType>::ValueType>::ZeroValue()) )
       {
       specified = true;
       break;

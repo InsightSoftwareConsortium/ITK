@@ -73,7 +73,7 @@ int itkComposeDisplacementFieldsImageFilterTest( int, char * [] )
 
   VectorType v = composer->GetOutput()->GetPixel( index );
 
-  if( v[0] != 2 || v[1] != 2 )
+  if( itk::Math::NotAlmostEquals( v[0], 2 ) || itk::Math::NotAlmostEquals( v[1], 2 ) )
     {
     std::cerr << "Failed to compose properly." << std::endl;
     }

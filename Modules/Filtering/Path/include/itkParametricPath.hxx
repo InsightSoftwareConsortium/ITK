@@ -19,6 +19,7 @@
 #define itkParametricPath_hxx
 
 #include "itkParametricPath.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -74,7 +75,7 @@ ParametricPath< VDimension >
   currentImageIndex = this->EvaluateToIndex(input);
   finalImageIndex   = this->EvaluateToIndex(finalInputValue);
   offset            = finalImageIndex - currentImageIndex;
-  if ( ( offset == this->GetZeroOffset() && input != this->StartOfInput() )
+  if ( ( offset == this->GetZeroOffset() && Math::NotExactlyEquals(input, this->StartOfInput()) )
        || ( input >= finalInputValue ) )
     {
     return this->GetZeroOffset();

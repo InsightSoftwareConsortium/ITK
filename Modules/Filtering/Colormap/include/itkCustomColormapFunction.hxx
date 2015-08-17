@@ -20,6 +20,7 @@
 
 #include "itkCustomColormapFunction.h"
 #include "itkMath.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -39,7 +40,7 @@ CustomColormapFunction< TScalar, TRGBPixel >
   RealType     size = static_cast< RealType >( this->m_RedChannel.size() );
   unsigned int index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
 
-  if ( size == 1 || index < 1 )
+  if ( Math::AlmostEquals( size, itk::NumericTraits< RealType >::OneValue() ) || index < 1 )
     {
     red = this->m_RedChannel[0];
     }
@@ -57,7 +58,7 @@ CustomColormapFunction< TScalar, TRGBPixel >
   size = static_cast< RealType >( this->m_GreenChannel.size() );
   index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
 
-  if ( size == 1 || index < 1 )
+  if ( Math::AlmostEquals( size, itk::NumericTraits< RealType >::OneValue() || index < 1 ) )
     {
     green = this->m_GreenChannel[0];
     }
@@ -75,7 +76,7 @@ CustomColormapFunction< TScalar, TRGBPixel >
   size = static_cast< RealType >( this->m_BlueChannel.size() );
   index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
 
-  if ( size == 1 || index < 1 )
+  if ( Math::AlmostEquals( size, itk::NumericTraits< RealType >::OneValue() || index < 1 ) )
     {
     blue = this->m_BlueChannel[0];
     }

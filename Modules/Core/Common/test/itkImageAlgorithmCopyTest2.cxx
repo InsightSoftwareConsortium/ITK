@@ -25,6 +25,7 @@
 
 #include "itkImageAdaptor.h"
 #include "itkAbsImageAdaptor.h"
+#include "itkMath.h"
 
 namespace {
 
@@ -37,7 +38,7 @@ bool CheckBuffer( const TImageType* image, typename TImageType::PixelType p )
 
   while( !iter.IsAtEnd() )
     {
-    if (iter.Get() != p)
+    if (itk::Math::NotExactlyEquals(iter.Get(), p))
       return false;
     ++iter;
     }

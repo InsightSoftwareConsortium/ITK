@@ -746,7 +746,10 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     const DecoratorType *oldInput =                                  \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
+CLANG_PRAGMA_PUSH                                                    \
+CLANG_SUPPRESS_Wfloat_equal                                          \
     if ( oldInput && oldInput->Get() == _arg )                       \
+CLANG_PRAGMA_POP                                                     \
       {                                                              \
       return;                                                        \
       }                                                              \
@@ -1088,12 +1091,15 @@ CLANG_PRAGMA_POP                                       \
  * number of values into object.
  * Examples: void SetColor(c,3) */
 #define itkSetVectorMacro(name, type, count) \
-  virtual void Set##name(type data[])      \
+  virtual void Set##name(type data[])        \
     {                                        \
     unsigned int i;                          \
     for ( i = 0; i < count; i++ )            \
       {                                      \
-      if ( data[i] != this->m_##name[i] )  \
+CLANG_PRAGMA_PUSH                            \
+CLANG_SUPPRESS_Wfloat_equal                  \
+      if ( data[i] != this->m_##name[i] )    \
+CLANG_PRAGMA_POP                             \
         {                                    \
         break;                               \
         }                                    \
@@ -1103,7 +1109,7 @@ CLANG_PRAGMA_POP                                       \
       this->Modified();                      \
       for ( i = 0; i < count; i++ )          \
         {                                    \
-        this->m_##name[i] = data[i];       \
+        this->m_##name[i] = data[i];         \
         }                                    \
       }                                      \
     }

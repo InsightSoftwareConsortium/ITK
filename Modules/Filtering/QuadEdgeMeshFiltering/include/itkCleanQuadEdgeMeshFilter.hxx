@@ -19,6 +19,7 @@
 #define itkCleanQuadEdgeMeshFilter_hxx
 
 #include "itkCleanQuadEdgeMeshFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -48,7 +49,7 @@ CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   InputCoordRepType zeroValue = NumericTraits< InputCoordRepType >::ZeroValue();
 
   InputCoordRepType absoluteToleranceSquared = this->m_AbsoluteTolerance * this->m_AbsoluteTolerance;
-  if ( ( this->m_AbsoluteTolerance == zeroValue ) && ( this->m_RelativeTolerance != zeroValue ) )
+  if ( ( Math::ExactlyEquals(this->m_AbsoluteTolerance, zeroValue) ) && ( Math::NotExactlyEquals(this->m_RelativeTolerance, zeroValue) ) )
     {
     this->m_BoundingBox->SetPoints( this->GetInput()->GetPoints() );
     this->m_BoundingBox->ComputeBoundingBox();

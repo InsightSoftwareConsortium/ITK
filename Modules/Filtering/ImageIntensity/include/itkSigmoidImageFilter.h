@@ -19,6 +19,7 @@
 #define itkSigmoidImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -61,10 +62,10 @@ public:
   ~Sigmoid() {}
   bool operator!=(const Sigmoid & other) const
   {
-    if ( m_Alpha != other.m_Alpha
-         || m_Beta != other.m_Beta
-         || m_OutputMaximum != other.m_OutputMaximum
-         || m_OutputMinimum != other.m_OutputMinimum  )
+    if ( Math::NotExactlyEquals(m_Alpha, other.m_Alpha)
+         || Math::NotExactlyEquals(m_Beta, other.m_Beta)
+         || Math::NotExactlyEquals(m_OutputMaximum, other.m_OutputMaximum)
+         || Math::NotExactlyEquals(m_OutputMinimum, other.m_OutputMinimum)  )
       {
       return true;
       }
@@ -163,7 +164,7 @@ public:
 
   void SetAlpha(double alpha)
   {
-    if ( alpha == this->GetFunctor().GetAlpha() )
+    if ( Math::ExactlyEquals(alpha, this->GetFunctor().GetAlpha()) )
       {
       return;
       }
@@ -178,7 +179,7 @@ public:
 
   void SetBeta(double beta)
   {
-    if ( beta == this->GetFunctor().GetBeta() )
+    if ( Math::ExactlyEquals(beta, this->GetFunctor().GetBeta()) )
       {
       return;
       }
@@ -193,7 +194,7 @@ public:
 
   void SetOutputMinimum(OutputPixelType min)
   {
-    if ( min == this->GetFunctor().GetOutputMinimum() )
+    if ( Math::ExactlyEquals(min, this->GetFunctor().GetOutputMinimum()) )
       {
       return;
       }
@@ -208,7 +209,7 @@ public:
 
   void SetOutputMaximum(OutputPixelType max)
   {
-    if ( max == this->GetFunctor().GetOutputMaximum() )
+    if ( Math::ExactlyEquals(max, this->GetFunctor().GetOutputMaximum()) )
       {
       return;
       }

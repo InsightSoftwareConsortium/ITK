@@ -20,6 +20,7 @@
 
 #include "itkBSplineControlPointImageFunction.h"
 
+#include "itkMath.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
@@ -115,8 +116,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       }
     }
   this->m_BSplineEpsilon = 100 * std::numeric_limits<CoordRepType>::epsilon();
-  while( static_cast<CoordRepType>( maximumNumberOfSpans ) ==
-    static_cast<CoordRepType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
+  while( Math::AlmostEquals( static_cast<CoordRepType>( maximumNumberOfSpans ),
+    static_cast<CoordRepType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon ) )
     {
     this->m_BSplineEpsilon *= 10;
     }
@@ -194,7 +195,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( p[i] == NumericTraits<CoordRepType>::OneValue() )
+    if( Math::AlmostEquals( p[i], NumericTraits<CoordRepType>::OneValue() ) )
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
@@ -348,7 +349,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( p[i] == NumericTraits<CoordRepType>::OneValue() )
+    if( Math::AlmostEquals( p[i], NumericTraits<CoordRepType>::OneValue() ) )
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
@@ -522,7 +523,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( p[i] == NumericTraits<CoordRepType>::OneValue() )
+    if( Math::AlmostEquals( p[i], NumericTraits<CoordRepType>::OneValue() ) )
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }

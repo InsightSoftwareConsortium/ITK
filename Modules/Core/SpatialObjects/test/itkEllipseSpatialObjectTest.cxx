@@ -21,6 +21,7 @@
  */
 
 #include "itkEllipseSpatialObject.h"
+#include "itkMath.h"
 
 int itkEllipseSpatialObjectTest(int, char* [])
 {
@@ -43,7 +44,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
   EllipseType::ArrayType radius2 = myEllipse->GetRadius();
   for(unsigned int i = 0; i<4;i++)
   {
-    if(radius2[i]!=i)
+    if(itk::Math::NotExactlyEquals(radius2[i],i))
     {
       std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -56,7 +57,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
   std::cout << "Testing Global radii : ";
   for(unsigned int i = 0; i<4;i++)
   {
-    if(radius3[i]!=3)
+    if(itk::Math::NotExactlyEquals(radius3[i],3))
     {
       std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -108,8 +109,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
   EllipseType::TransformType::OffsetType offset3;
   offset3 = myEllipse2->GetObjectToParentTransform()->GetOffset();
 
-  if( (offset3[0]!=5) || (offset3[1]!=5)
-     ||(offset3[2]!=5) ||(offset3[3]!=5)
+  if( (itk::Math::NotExactlyEquals(offset3[0],5)) || (itk::Math::NotExactlyEquals(offset3[1],5))
+     ||(itk::Math::NotExactlyEquals(offset3[2],5)) ||(itk::Math::NotExactlyEquals(offset3[3],5))
      )
   {
     std::cout<<"[FAILED]"<<std::endl;
@@ -123,8 +124,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   for(unsigned int i=0;i<3;i++)
   {
-    if( (boundingBox->GetBounds()[2*i] != 7 )
-       || (boundingBox->GetBounds()[2*i+1] != 16 )
+    if(   itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i], 7 )
+       || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i+1], 16 )
        )
     {
       std::cout<<"[FAILED]"<<std::endl;

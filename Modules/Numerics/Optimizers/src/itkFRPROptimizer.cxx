@@ -192,7 +192,7 @@ FRPROptimizer
         }
       }
 
-    if ( gg == 0 )
+    if ( gg == 0.0 )
       {
       this->SetCurrentPosition(p);
       this->InvokeEvent( EndEvent() );

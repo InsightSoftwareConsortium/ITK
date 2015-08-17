@@ -23,6 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -711,7 +712,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt )
     {
-    if ( outputIt.GetCenterPixel() == m_ValueZero )
+    if ( Math::ExactlyEquals(outputIt.GetCenterPixel(), m_ValueZero) )
       {
       // Grab the neighborhood in the status image.
       center_index = outputIt.GetIndex();
@@ -747,7 +748,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         offset_index = center_index
                        + m_NeighborList.GetNeighborhoodOffset(i);
 
-        if ( outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) != m_ValueZero )
+        if ( Math::NotExactlyEquals(outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) ), m_ValueZero) )
           {
           value = shiftedIt.GetPixel( m_NeighborList.GetArrayIndex(i) );
 

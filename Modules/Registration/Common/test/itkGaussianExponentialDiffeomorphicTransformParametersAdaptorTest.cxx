@@ -18,6 +18,7 @@
 
 #include "itkGaussianExponentialDiffeomorphicTransform.h"
 #include "itkGaussianExponentialDiffeomorphicTransformParametersAdaptor.h"
+#include "itkMath.h"
 
 int itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest(int, char * [] )
 {
@@ -151,12 +152,14 @@ int itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest(int, char 
     std::cerr << "required direction conversion is incorrect." << std::endl;
     return EXIT_FAILURE;
     }
-  if( adaptor->GetGaussianSmoothingVarianceForTheUpdateField() != transform->GetGaussianSmoothingVarianceForTheUpdateField() )
+  if( itk::Math::NotAlmostEquals( adaptor->GetGaussianSmoothingVarianceForTheUpdateField(),
+                                      transform->GetGaussianSmoothingVarianceForTheUpdateField() ) )
     {
     std::cerr << "update field mesh conversion is incorrect." << std::endl;
     return EXIT_FAILURE;
     }
-  if( adaptor->GetGaussianSmoothingVarianceForTheConstantVelocityField() != transform->GetGaussianSmoothingVarianceForTheConstantVelocityField() )
+  if( itk::Math::NotAlmostEquals( adaptor->GetGaussianSmoothingVarianceForTheConstantVelocityField(),
+                                      transform->GetGaussianSmoothingVarianceForTheConstantVelocityField() ) )
     {
     std::cerr << "total field mesh conversion is incorrect." << std::endl;
     return EXIT_FAILURE;

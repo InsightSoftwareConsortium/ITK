@@ -21,6 +21,7 @@
 #include "itkNiftiImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkMath.h"
 
 namespace
 {
@@ -291,7 +292,7 @@ int itkNiftiReadAnalyzeTest(int ac, char *av[])
     // byte swapping on floats pulled from the little-endian array.
     float cur = *fPtr;
     itk::ByteSwapper<float>::SwapFromSystemToLittleEndian(&cur);
-    if(it.Get() != cur)
+    if(itk::Math::NotExactlyEquals(it.Get(), cur))
       {
       std::cerr << "expected pixel value "
                 << cur

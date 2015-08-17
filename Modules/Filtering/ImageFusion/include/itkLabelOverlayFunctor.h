@@ -19,6 +19,7 @@
 #define itkLabelOverlayFunctor_h
 
 #include "itkLabelToRGBFunctor.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -88,7 +89,7 @@ public:
 
   bool operator!=(const LabelOverlayFunctor & l) const
   {
-    bool areDifferent = l.m_Opacity != m_Opacity
+    bool areDifferent = Math::NotExactlyEquals(l.m_Opacity, m_Opacity)
                         || l.m_BackgroundValue != m_BackgroundValue
                         || l.m_RGBFunctor != m_RGBFunctor;
     return areDifferent;

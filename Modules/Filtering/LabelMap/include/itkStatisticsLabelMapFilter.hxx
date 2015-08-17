@@ -18,6 +18,7 @@
 #ifndef itkStatisticsLabelMapFilter_hxx
 #define itkStatisticsLabelMapFilter_hxx
 
+#include "itkMath.h"
 #include "itkStatisticsLabelMapFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkProgressReporter.h"
@@ -191,7 +192,8 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
 
   double elongation = 0;
   double flatness = 0;
-  if ( sum != 0 )
+
+  if ( Math::NotAlmostEquals(sum, 0.0 ) )
     {
     // Normalize using the total mass
     for ( unsigned int i = 0; i < ImageDimension; i++ )
@@ -249,7 +251,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
       elongation = 1;
       flatness = 1;
       }
-    else if ( principalMoments[0] != 0 )
+    else if ( Math::NotAlmostEquals( principalMoments[0], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
       {
       //    elongation = principalMoments[ImageDimension-1] /
       // principalMoments[0];

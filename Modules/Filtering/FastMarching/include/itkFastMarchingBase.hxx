@@ -23,6 +23,7 @@
 
 #include "itkProgressReporter.h"
 #include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -156,7 +157,7 @@ GenerateData()
       NodeType current_node = current_node_pair.GetNode();
       current_value = this->GetOutputValue( output, current_node );
 
-      if( current_value == current_node_pair.GetValue() )
+      if( Math::ExactlyEquals(current_value, current_node_pair.GetValue()) )
         {
         // is this node already alive ?
         if( this->GetLabelValueForGivenNode( current_node ) != Traits::Alive )

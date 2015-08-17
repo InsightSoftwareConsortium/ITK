@@ -29,6 +29,7 @@
 #define itkIPLFileNameList_h
 #include "ITKIOIPLExport.h"
 
+#include "itkMath.h"
 #include "itkMacro.h"
 #include "itkObject.h"
 
@@ -42,7 +43,10 @@
 #define IPLSetMacroDefinition(class, name, type)              \
   void class::Set##name (const type _arg) \
   {                                        \
+CLANG_PRAGMA_PUSH                          \
+CLANG_SUPPRESS_Wfloat_equal                \
     if ( this->m_##name != _arg )          \
+CLANG_PRAGMA_POP                           \
     {                                      \
       this->m_##name = _arg;               \
     }                                      \
@@ -198,7 +202,8 @@ public:
       {
       return false;
       }
-    else if(XRes != m_XRes || YRes != m_YRes)
+    else if(Math::NotAlmostEquals( XRes, m_XRes ) ||
+            Math::NotAlmostEquals( YRes, m_YRes) )
       {
       return false;
       }

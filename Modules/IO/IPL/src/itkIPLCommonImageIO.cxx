@@ -582,7 +582,7 @@ int IPLCommonImageIO
     {
     return 0;
     }
-  else if(XRes != m_FilenameList->GetXRes() || YRes != m_FilenameList->GetYRes()  )
+  else if( itk::Math::NotAlmostEquals( XRes, m_FilenameList->GetXRes() ) || itk::Math::NotAlmostEquals( YRes, m_FilenameList->GetYRes() )  )
     {
     return 0;
     }

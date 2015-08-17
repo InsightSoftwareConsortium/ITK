@@ -19,6 +19,7 @@
 #define itkBSplineKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -89,7 +90,7 @@ private:
       {
       return NumericTraits< TRealValueType >::OneValue();
       }
-    else if ( absValue == static_cast< TRealValueType >(0.5) )
+    else if ( Math::ExactlyEquals(absValue, static_cast< TRealValueType >(0.5)) )
       {
       return static_cast< TRealValueType >(0.5);
       }

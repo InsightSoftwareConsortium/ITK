@@ -24,6 +24,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "itkMath.h"
 
 int itkGDCMImageOrientationPatientTest( int argc, char* argv[] )
 {
@@ -122,12 +123,12 @@ int itkGDCMImageOrientationPatientTest( int argc, char* argv[] )
 
   Image3DType::DirectionType readerDirection3D;
   readerDirection3D = reader->GetOutput()->GetDirection();
-  if ((readerDirection3D[0][0] != direction3D[0][0]) ||
-      (readerDirection3D[1][0] != direction3D[1][0]) ||
-      (readerDirection3D[2][0] != direction3D[2][0]) ||
-      (readerDirection3D[0][1] != direction3D[0][1]) ||
-      (readerDirection3D[1][1] != direction3D[1][1]) ||
-      (readerDirection3D[2][1] != direction3D[2][1])
+  if ((itk::Math::NotExactlyEquals(readerDirection3D[0][0], direction3D[0][0])) ||
+      (itk::Math::NotExactlyEquals(readerDirection3D[1][0], direction3D[1][0])) ||
+      (itk::Math::NotExactlyEquals(readerDirection3D[2][0], direction3D[2][0])) ||
+      (itk::Math::NotExactlyEquals(readerDirection3D[0][1], direction3D[0][1])) ||
+      (itk::Math::NotExactlyEquals(readerDirection3D[1][1], direction3D[1][1])) ||
+      (itk::Math::NotExactlyEquals(readerDirection3D[2][1], direction3D[2][1]))
       )
     {
     std::cout << "ERROR: read directions does not equal written directions: "

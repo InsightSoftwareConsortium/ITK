@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFastChamferDistanceImageFilter.h"
+#include "itkMath.h"
 // simple signed distance function
 
 namespace {
@@ -193,7 +194,7 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
 
   std::cout << "outweights = " << outweights << std::endl;
 
-  if( filter->GetMaximumDistance() != 5 )
+  if( itk::Math::NotAlmostEquals( filter->GetMaximumDistance(), 5 ) )
     {
     std::cout << "filter->GetMaximumDistance() != 5" <<std::endl;
     returnVal = EXIT_FAILURE;

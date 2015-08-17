@@ -20,10 +20,12 @@
 
 #include "itkBSplineControlPointImageFilter.h"
 
+#include "itkMath.h"
 #include "itkImageDuplicator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
 
 /*
  *
@@ -210,8 +212,8 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
       }
     }
   this->m_BSplineEpsilon = 100 * std::numeric_limits<RealType>::epsilon();
-  while( static_cast<RealType>( maximumNumberOfSpans ) ==
-    static_cast<RealType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
+  while( Math::AlmostEquals( static_cast<RealType>( maximumNumberOfSpans ),
+    static_cast<RealType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon ) )
     {
     this->m_BSplineEpsilon *= 10;
     }
@@ -300,7 +302,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
       }
     for( int i = ImageDimension - 1; i >= 0; i-- )
       {
-      if( U[i] != currentU[i] )
+      if( Math::NotExactlyEquals(U[i], currentU[i]) )
         {
         for( int j = i; j >= 0; j-- )
           {

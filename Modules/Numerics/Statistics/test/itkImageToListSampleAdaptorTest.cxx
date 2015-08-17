@@ -19,6 +19,7 @@
 #include "itkImageToListSampleAdaptor.h"
 #include "itkRandomImageSource.h"
 #include "itkComposeImageFilter.h"
+#include "itkMath.h"
 
 template< typename TImage >
 int itkImageToListSampleAdaptorTestTemplate()
@@ -150,7 +151,7 @@ int itkImageToListSampleAdaptorTestTemplate()
 
         pixel = sample->GetImage()->GetPixel( index );
         iid = sample->GetImage()->ComputeOffset( index );
-        if ( sample->GetMeasurementVector(iid)[0] != pixel[0] )
+        if ( itk::Math::NotExactlyEquals(sample->GetMeasurementVector(iid)[0], pixel[0]) )
           {
           std::cerr << "Error in pixel value accessed using the adaptor" << std::endl;
           return EXIT_FAILURE;

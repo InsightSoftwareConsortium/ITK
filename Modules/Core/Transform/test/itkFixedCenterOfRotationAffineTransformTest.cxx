@@ -69,14 +69,14 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     }
 
   /* Create and show a simple 2D transform from given parameters */
-  matrix2[0][0] = 1;
-  matrix2[0][1] = 2;
-  matrix2[1][0] = 3;
-  matrix2[1][1] = 4;
-  vector2[0] = 5;
-  vector2[1] = 6;
-  point2[0] = 1;
-  point2[1] = 1;
+  matrix2[0][0] = 1.0;
+  matrix2[0][1] = 2.0;
+  matrix2[1][0] = 3.0;
+  matrix2[1][1] = 4.0;
+  vector2[0] = 5.0;
+  vector2[1] = 6.0;
+  point2[0] = 1.0;
+  point2[1] = 1.0;
 
   FCoRAffine2DType::Pointer aff2 = FCoRAffine2DType::New();
   aff2->SetCenterOfRotationComponent( point2 );
@@ -90,14 +90,14 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   point2 = aff2->GetCenterOfRotationComponent();
 
   if(
-    matrix2[0][0] != 1 ||
-    matrix2[0][1] != 2 ||
-    matrix2[1][0] != 3 ||
-    matrix2[1][1] != 4 ||
-    vector2[0] != 5 ||
-    vector2[1] != 6 ||
-    point2[0] != 1 ||
-    point2[1] != 1
+    matrix2[0][0] != 1.0 ||
+    matrix2[0][1] != 2.0 ||
+    matrix2[1][0] != 3.0 ||
+    matrix2[1][1] != 4.0 ||
+    vector2[0] != 5.0 ||
+    vector2[1] != 6.0 ||
+    point2[0] != 1.0 ||
+    point2[1] != 1.0
     )
     {
     std::cout << "[FAILURE]" << std::endl;
@@ -110,8 +110,8 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 
   /** Test set matrix after setting components */
   double scale[2];
-  scale[0]=2;
-  scale[1]=4;
+  scale[0]=2.0;
+  scale[1]=4.0;
 
   aff2->SetScaleComponent(scale);
   aff2->SetMatrix(matrix2);
@@ -123,16 +123,16 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   std::cout << "Modify the affine matrix: ";
 
   if(
-    matrix2[0][0] != 1 ||
-    matrix2[0][1] != 2 ||
-    matrix2[1][0] != 3 ||
-    matrix2[1][1] != 4 ||
-    vector2[0] != 5 ||
-    vector2[1] != 6 ||
-    point2[0] != 1 ||
-    point2[1] != 1 ||
-    resultingScale[0] !=2 ||
-    resultingScale[1] !=4
+    matrix2[0][0] != 1.0 ||
+    matrix2[0][1] != 2.0 ||
+    matrix2[1][0] != 3.0 ||
+    matrix2[1][1] != 4.0 ||
+    vector2[0] != 5.0 ||
+    vector2[1] != 6.0 ||
+    point2[0] != 1.0 ||
+    point2[1] != 1.0 ||
+    resultingScale[0] !=2.0 ||
+    resultingScale[1] !=4.0
     )
     {
     std::cout << "[FAILURE]" << std::endl;
@@ -151,10 +151,10 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   matrix2 = aff2->GetMatrix();
 
   if(
-      matrix2[0][0] != 2 ||
-      matrix2[0][1] != 0 ||
-      matrix2[1][0] != 0 ||
-      matrix2[1][1] != 4
+      itk::Math::NotAlmostEquals( matrix2[0][0], 2.0 ) ||
+      itk::Math::NotAlmostEquals( matrix2[0][1], 0.0 ) ||
+      itk::Math::NotAlmostEquals( matrix2[1][0], 0.0 ) ||
+      itk::Math::NotAlmostEquals( matrix2[1][1], 4.0 )
     )
     {
     std::cout << "[FAILURE]" << std::endl;
@@ -177,26 +177,26 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   aff2->SetCenterOfRotationComponent(point2);
 
   // Set the identity matrix
-  parameters[0]=1;
-  parameters[1]=2;
-  parameters[2]=3;
-  parameters[3]=4;
+  parameters[0]=1.0;
+  parameters[1]=2.0;
+  parameters[2]=3.0;
+  parameters[3]=4.0;
 
   // Set the offset
-  parameters[4]=3;
-  parameters[5]=4;
+  parameters[4]=3.0;
+  parameters[5]=4.0;
 
   aff2->SetParameters(parameters);
   FCoRAffine2DType::ParametersType parameters2;
   parameters2 = aff2->GetParameters();
 
   if(
-      parameters2[0] != 1 ||
-      parameters2[1] != 2 ||
-      parameters2[2] != 3 ||
-      parameters2[3] != 4 ||
-      parameters2[4] != 3 ||
-      parameters2[5] != 4
+      parameters2[0] != 1.0 ||
+      parameters2[1] != 2.0 ||
+      parameters2[2] != 3.0 ||
+      parameters2[3] != 4.0 ||
+      parameters2[4] != 3.0 ||
+      parameters2[5] != 4.0
     )
     {
     std::cout << "[FAILURE]" << std::endl;

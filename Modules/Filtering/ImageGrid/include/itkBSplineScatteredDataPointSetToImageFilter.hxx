@@ -24,11 +24,13 @@
 #include "itkImageDuplicator.h"
 #include "itkCastImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 #include "vnl/vnl_math.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/vnl_vector.h"
 #include "vcl_limits.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -790,7 +792,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       }
     for( int i = ImageDimension - 1; i >= 0; i-- )
       {
-      if( U[i] != currentU[i] )
+      if( Math::NotExactlyEquals(U[i], currentU[i]) )
         {
         for( int j = i; j >= 0; j-- )
           {
@@ -876,7 +878,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       {
       PointDataType P;
       P.Fill( 0 );
-      if( ItO.Get() != 0 )
+      if( Math::NotAlmostEquals( ItO.Get(), NumericTraits< typename PointDataType::ValueType >::ZeroValue() ) )
         {
         P = ItD.Get() / ItO.Get();
         for( unsigned int i = 0; i < P.Size(); i++ )
@@ -1138,7 +1140,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       }
     for( int i = ImageDimension - 1; i >= 0; i-- )
       {
-      if( U[i] != currentU[i] )
+      if( Math::NotExactlyEquals(U[i], currentU[i]) )
         {
         for( int j = i; j >= 0; j-- )
           {

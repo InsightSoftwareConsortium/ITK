@@ -19,6 +19,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageToParametricSpaceFilter.h"
 #include "itkMesh.h"
+#include "itkMath.h"
 
 int itkImageToParametricSpaceFilterTest(int, char* [] )
 {
@@ -149,17 +150,17 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   while( pointIt != endPoint )
     {
     PointType point = pointIt.Value();
-    if( point[0] != ix.Value() )
+    if( itk::Math::NotExactlyEquals(point[0], ix.Value()) )
       {
       ok = false;
       break;
       }
-    if( point[1] != iy.Value() )
+    if( itk::Math::NotExactlyEquals(point[1], iy.Value()) )
       {
       ok = false;
       break;
       }
-    if( point[2] != iz.Value() )
+    if( itk::Math::NotExactlyEquals(point[2], iz.Value()) )
       {
       ok = false;
       break;

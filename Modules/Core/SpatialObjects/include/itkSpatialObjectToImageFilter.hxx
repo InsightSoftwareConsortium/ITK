@@ -21,6 +21,7 @@
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -102,7 +103,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
   for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
-    if ( (double)spacing[i] != m_Spacing[i] )
+    if ( Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]) )
       {
       break;
       }
@@ -127,7 +128,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( spacing[i] != m_Spacing[i] )
+    if ( Math::NotExactlyEquals(spacing[i], m_Spacing[i]) )
       {
       break;
       }
@@ -151,7 +152,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( (double)spacing[i] != m_Spacing[i] )
+    if ( Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]) )
       {
       break;
       }
@@ -184,7 +185,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( (double)origin[i] != m_Origin[i] )
+    if ( Math::NotExactlyEquals((double)origin[i], m_Origin[i]) )
       {
       break;
       }
@@ -209,7 +210,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( origin[i] != m_Origin[i] )
+    if ( Math::NotExactlyEquals(origin[i], m_Origin[i]) )
       {
       break;
       }
@@ -233,7 +234,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( (double)origin[i] != m_Origin[i] )
+    if ( Math::NotExactlyEquals((double)origin[i], m_Origin[i]) )
       {
       break;
       }
@@ -341,7 +342,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   specified = false;
   for ( i = 0; i < OutputImageDimension; i++ )
     {
-    if ( m_Spacing[i] != 0 )
+    if ( Math::NotExactlyEquals(m_Spacing[i], 0) )
       {
       specified = true;
       break;
@@ -383,7 +384,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
     double val = 0;
 
     bool evaluable = InputObject->ValueAt(objectPoint, val, m_ChildrenDepth);
-    if ( m_InsideValue != 0 || m_OutsideValue != 0 )
+    if ( Math::NotExactlyEquals(m_InsideValue, NumericTraits< ValueType >:: ZeroValue()) || Math::NotExactlyEquals(m_OutsideValue, NumericTraits< ValueType >::ZeroValue()) )
       {
       if ( evaluable )
         {

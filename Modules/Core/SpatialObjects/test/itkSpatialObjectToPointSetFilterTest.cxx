@@ -19,6 +19,7 @@
 #include "itkTubeSpatialObject.h"
 #include "itkLineSpatialObject.h"
 #include "itkSpatialObjectToPointSetFilter.h"
+#include "itkMath.h"
 
 int itkSpatialObjectToPointSetFilterTest(int, char* [] )
 {
@@ -73,8 +74,8 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
   unsigned int val = 0;
   while( pointItr != pointEnd )
     {
-    if( (pointItr.Value()[0] != val)
-        || (pointItr.Value()[1] != val)
+    if( (itk::Math::NotExactlyEquals(pointItr.Value()[0], val))
+        || (itk::Math::NotExactlyEquals(pointItr.Value()[1], val))
       )
       {
       std::cout << "[FAILURE]" << std::endl;
@@ -161,9 +162,9 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
   val = 0;
   while( pointItr2 != pointEnd2 )
     {
-    if( (pointItr2.Value()[0] != val)
-        || (pointItr2.Value()[1] != val+1)
-        || (pointItr2.Value()[2] != val+2)
+    if( (itk::Math::NotExactlyEquals(pointItr2.Value()[0], val))
+        || (itk::Math::NotExactlyEquals(pointItr2.Value()[1], val+1))
+        || (itk::Math::NotExactlyEquals(pointItr2.Value()[2], val+2))
       )
       {
       std::cout << pointItr2.Value()[0] << " :" << pointItr2.Value()[1] << " : " << pointItr2.Value()[2] << std::endl;

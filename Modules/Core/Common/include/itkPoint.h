@@ -23,6 +23,7 @@
 #include "itkVector.h"
 
 #include "vnl/vnl_vector_ref.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -102,7 +103,7 @@ public:
     bool same = true;
 
     for ( unsigned int i = 0; i < NPointDimension && same; ++i )
-          { same = ( ( *this )[i] == pt[i] ); }
+          { same = ( Math::ExactlyEquals(( *this )[i], pt[i]) ); }
     return same;
   }
 
@@ -112,11 +113,8 @@ public:
   {
     bool same = true;
 
-CLANG_PRAGMA_PUSH
-CLANG_SUPPRESS_Wfloat_equal
     for ( unsigned int i = 0; i < NPointDimension && same; ++i )
-          { same = ( ( *this )[i] == pt[i] ); }
-CLANG_PRAGMA_POP
+          { same = ( Math::ExactlyEquals(( *this )[i], pt[i]) ); }
     return !same;
   }
 

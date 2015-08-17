@@ -57,7 +57,10 @@
 
 #define TEST_EXPECT_TRUE_STATUS_VALUE( command, statusVal )                                     \
   {                                                                     \
+CLANG_PRAGMA_PUSH    \
+CLANG_SUPPRESS_Wfloat_equal   \
   bool _TEST_EXPECT_TRUE_command(command);                              \
+CLANG_PRAGMA_POP    \
   if( !(_TEST_EXPECT_TRUE_command) )                                    \
     {                                                                   \
     std::cerr << "Error in " << #command << std::endl;                  \
@@ -70,7 +73,10 @@
 
 #define TEST_EXPECT_TRUE( command )                                     \
   {                                                                     \
+CLANG_PRAGMA_PUSH    \
+CLANG_SUPPRESS_Wfloat_equal   \
   bool _TEST_EXPECT_TRUE_command(command);                              \
+CLANG_PRAGMA_POP    \
   if( !(_TEST_EXPECT_TRUE_command) )                                    \
     {                                                                   \
     std::cerr << "Error in " << #command << std::endl;                  \
@@ -84,7 +90,10 @@
 
 #define TEST_EXPECT_EQUAL_STATUS_VALUE( lh, rh, statusVal )                                     \
   {                                                                     \
+CLANG_PRAGMA_PUSH    \
+CLANG_SUPPRESS_Wfloat_equal   \
     bool _TEST_EXPECT_EQUAL_result((lh) == (rh));                       \
+CLANG_PRAGMA_POP    \
     if( !(_TEST_EXPECT_EQUAL_result) )                                  \
     {                                                                   \
     std::cerr << "Error in " << #lh << " == " << #rh << std::endl;      \
@@ -98,7 +107,10 @@
 
 #define TEST_EXPECT_EQUAL( lh, rh )                                     \
   {                                                                     \
+CLANG_PRAGMA_PUSH    \
+CLANG_SUPPRESS_Wfloat_equal   \
     bool _TEST_EXPECT_EQUAL_result((lh) == (rh));                       \
+CLANG_PRAGMA_POP    \
     if( !(_TEST_EXPECT_EQUAL_result) )                                  \
     {                                                                   \
     std::cerr << "Error in " << #lh << " == " << #rh << std::endl;      \
@@ -123,7 +135,10 @@
 
 
 #define TEST_SET_GET_VALUE( variable, command ) \
+CLANG_PRAGMA_PUSH    \
+CLANG_SUPPRESS_Wfloat_equal   \
   if( variable != command )   \
+CLANG_PRAGMA_POP    \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \

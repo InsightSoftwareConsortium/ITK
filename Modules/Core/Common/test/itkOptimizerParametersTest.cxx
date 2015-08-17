@@ -19,6 +19,7 @@
 #include "itkOptimizerParameters.h"
 #include "itkIntTypes.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 template< typename TValue >
 bool runTestByType()
@@ -47,7 +48,7 @@ bool runTestByType()
   itk::OptimizerParameters<TValue> paramsCopy( params );
   for( itk::SizeValueType i=0; i < params.GetSize(); i++ )
     {
-    if( params[i] != paramsCopy[i] )
+    if( itk::Math::NotExactlyEquals(params[i], paramsCopy[i]) )
       {
       std::cerr << "Copy constructor failed. " << std::endl;
       passed = false;
@@ -63,7 +64,7 @@ bool runTestByType()
   itk::OptimizerParameters<TValue> paramsCopy( array );
   for( itk::SizeValueType i=0; i < params.GetSize(); i++ )
     {
-    if( array[i] != paramsCopy[i] )
+    if( itk::Math::NotExactlyEquals(array[i], paramsCopy[i]) )
       {
       std::cerr << "Constructor from Array failed. " << std::endl;
       passed = false;
@@ -78,7 +79,7 @@ bool runTestByType()
   paramsArray = array;
   for( itk::SizeValueType i=0; i < array.GetSize(); i++ )
     {
-    if( paramsArray[i] != array[i] )
+    if( itk::Math::NotExactlyEquals(paramsArray[i], array[i]) )
       {
       std::cerr << "Copy from Array via assignment failed. " << std::endl;
       passed = false;
@@ -94,7 +95,7 @@ bool runTestByType()
   paramsVnl = vector;
   for( itk::SizeValueType i=0; i < paramsVnl.GetSize(); i++ )
     {
-    if( vector[i] != paramsVnl[i] )
+    if( itk::Math::NotExactlyEquals(vector[i], paramsVnl[i]) )
       {
       std::cerr << "Assignment from VnlVector failed. " << std::endl;
       passed = false;
@@ -107,7 +108,7 @@ bool runTestByType()
   params.MoveDataPointer( block );
   for( int i=0; i < 10; i++)
     {
-    if( params[i] != 10-i )
+    if( itk::Math::NotExactlyEquals(params[i], 10-i) )
       {
       std::cerr << "Failed reading memory after MoveDataPointer." << std::endl
                 << "Expected: " << 10-i << ", got: " << params[i] << std::endl;
@@ -131,7 +132,7 @@ bool runTestByType()
   params2 = params1;
   for( itk::SizeValueType i=0; i < params1.GetSize(); i++ )
     {
-    if( params1[i] != params2[i] )
+    if( itk::Math::NotExactlyEquals(params1[i], params2[i]) )
       {
       std::cerr << "Copy operator failed:" << std::endl
               << "params1 " << params1 << std::endl

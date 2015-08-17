@@ -20,6 +20,7 @@
  * This is a test file for the itkCylinderSpatialObject class.
  */
 #include "itkCylinderSpatialObject.h"
+#include "itkMath.h"
 
 int itkCylinderSpatialObjectTest(int, char* [])
 {
@@ -36,7 +37,7 @@ int itkCylinderSpatialObjectTest(int, char* [])
 
   myCylinder->SetRadius(radius);
   double radius2 = myCylinder->GetRadius();
-  if(radius2 != radius)
+  if(itk::Math::NotExactlyEquals(radius2, radius))
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -71,12 +72,12 @@ int itkCylinderSpatialObjectTest(int, char* [])
   CylinderType::BoundingBoxType * boundingBox = myCylinder->GetBoundingBox();
 
 
-  if( (boundingBox->GetBounds()[0] != -3 )
-    || (boundingBox->GetBounds()[1] != 3 )
-    || (boundingBox->GetBounds()[2] != -6 )
-    || (boundingBox->GetBounds()[3] != 6 )
-    || (boundingBox->GetBounds()[4] != -3 )
-    || (boundingBox->GetBounds()[5] != 3 )
+  if(  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[0], -3.0 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[1],  3.0 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2], -6.0 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[3],  6.0 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[4], -3.0 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[5],  3.0 )
     )
    {
    std::cout<<"[FAILED]"<<std::endl;

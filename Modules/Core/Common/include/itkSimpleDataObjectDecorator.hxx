@@ -29,6 +29,7 @@
 #define itkSimpleDataObjectDecorator_hxx
 
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -61,7 +62,7 @@ void
 SimpleDataObjectDecorator< T >
 ::Set(const T & val)
 {
-  if ( !this->m_Initialized || ( this->m_Component != val ) )
+  if ( !this->m_Initialized || ( Math::NotExactlyEquals(this->m_Component, val) ) )
     {
     this->m_Component = val;
     this->m_Initialized = true;

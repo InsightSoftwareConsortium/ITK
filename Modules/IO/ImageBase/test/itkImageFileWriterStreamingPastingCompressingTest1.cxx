@@ -61,7 +61,7 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
   // compare spacing
   for( unsigned int i = 0; i < VDimension; i++ )
     {
-    if( testImageSpacing[i] != baselineImageSpacing[i] )
+    if( itk::Math::NotAlmostEquals( testImageSpacing[i], baselineImageSpacing[i]  ))
       {
       return false;
       }

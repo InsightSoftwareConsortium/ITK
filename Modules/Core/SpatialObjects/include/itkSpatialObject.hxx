@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include <algorithm>
 #include <string>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -561,8 +562,8 @@ SpatialObject< TDimension >
       bool bbDefined = false;
       for ( unsigned int i = 0; i < m_Dimension; i++ )
         {
-        if ( m_Bounds->GetBounds()[2 * i] != 0
-             || m_Bounds->GetBounds()[2 * i + 1] != 0 )
+        if ( Math::NotExactlyEquals(m_Bounds->GetBounds()[2 * i], 0)
+             || Math::NotExactlyEquals(m_Bounds->GetBounds()[2 * i + 1], 0) )
           {
           bbDefined = true;
           break;

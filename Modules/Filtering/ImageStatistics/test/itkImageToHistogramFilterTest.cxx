@@ -20,6 +20,8 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkIntTypes.h"
+#include "itkMacro.h"
+#include "itkMath.h"
 
 int itkImageToHistogramFilterTest( int , char * [] )
 {
@@ -113,7 +115,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   for( unsigned int k1 = 0; k1 < MeasurementVectorSize; k1++ )
     {
-    if( returnedHistogramBinMinimum[k1] != histogramBinMinimum1[k1] )
+    if( itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k1], histogramBinMinimum1[k1]) )
       {
       std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
@@ -128,7 +130,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   for( unsigned int k2 = 0; k2 < MeasurementVectorSize; k2++ )
     {
-    if( returnedHistogramBinMinimum[k2] != histogramBinMinimum2[k2] )
+    if( itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k2], histogramBinMinimum2[k2]) )
       {
       std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
@@ -150,7 +152,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   for( unsigned int k3 = 0; k3 < MeasurementVectorSize; k3++ )
     {
-    if( returnedHistogramBinMinimum[k3] != histogramBinMinimum1[k3] )
+    if( itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k3], histogramBinMinimum1[k3]) )
       {
       std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
@@ -173,7 +175,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   for( unsigned int k4 = 0; k4 < MeasurementVectorSize; k4++ )
     {
-    if( returnedHistogramBinMinimum[k4] != histogramBinMinimum2[k4] )
+    if( itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k4], histogramBinMinimum2[k4]) )
       {
       std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
@@ -209,7 +211,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   for( unsigned int k1 = 0; k1 < MeasurementVectorSize; k1++ )
     {
-    if( returnedHistogramBinMaximum[k1] != histogramBinMaximum1[k1] )
+    if( itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k1], histogramBinMaximum1[k1]) )
       {
       std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
@@ -223,7 +225,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   for( unsigned int k2 = 0; k2 < MeasurementVectorSize; k2++ )
     {
-    if( returnedHistogramBinMaximum[k2] != histogramBinMaximum2[k2] )
+    if( itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k2], histogramBinMaximum2[k2]) )
       {
       std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
@@ -247,7 +249,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   for( unsigned int k3 = 0; k3 < MeasurementVectorSize; k3++ )
     {
-    if( returnedHistogramBinMaximum[k3] != histogramBinMaximum1[k3] )
+    if( itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k3], histogramBinMaximum1[k3]) )
       {
       std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
@@ -270,7 +272,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   for( unsigned int k4 = 0; k4 < MeasurementVectorSize; k4++ )
     {
-    if( returnedHistogramBinMaximum[k4] != histogramBinMaximum2[k4] )
+    if( itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k4], histogramBinMaximum2[k4]) )
       {
       std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;

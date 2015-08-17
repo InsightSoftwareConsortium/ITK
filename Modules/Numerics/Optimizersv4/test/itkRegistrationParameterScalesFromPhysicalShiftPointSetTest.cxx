@@ -21,6 +21,7 @@
 #include "itkAffineTransform.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 /**
  *  \class RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric for test.
@@ -176,7 +177,7 @@ int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
   bool nonUniformForAffine = false;
   for (itk::SizeValueType p = 1; p < movingScales.GetSize(); p++)
     {
-    if ( movingScales[p] != movingScales[0] )
+    if ( itk::Math::NotExactlyEquals(movingScales[p], movingScales[0]) )
       {
       nonUniformForAffine = true;
       break;

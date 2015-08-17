@@ -23,6 +23,7 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkCastImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -295,7 +296,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
     found = false;
     for ( it_input.GoToBegin(); !it_input.IsAtEnd(); ++it_input )
       {
-      if ( it_input.Get() == max )
+      if ( Math::ExactlyEquals(it_input.Get(), max) )
         {
         // Create the line
         LineType::PointListType list; // insert two points per line

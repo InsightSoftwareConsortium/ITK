@@ -20,6 +20,7 @@
 
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 /**
  * Test program for ANTSNeighborhoodCorrelationImageToImageMetricv4,
@@ -309,7 +310,7 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
 
   // Test same value returned by different methods
   std::cout << "Check Value return values..." << std::endl;
-  if( valueReturn1 != valueReturn2 )
+  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturn2) )
     {
     std::cerr << "Results for Value don't match: " << valueReturn1
               << ", " << valueReturn2 << std::endl;
@@ -387,7 +388,7 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   std::cout << "Check Value return values between dense and sparse threader..." << std::endl;
   std::cout << "dense: " << valueReturn1
                 << ", sparse: " << valueReturnSparse << std::endl;
-  if( valueReturn1 != valueReturnSparse )
+  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturnSparse) )
     {
     std::cerr << "Results for Value don't match using dense and sparse threaders: " << valueReturn1
               << ", (sparse) " << valueReturnSparse << std::endl;
@@ -416,7 +417,7 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   metric->GetValueAndDerivative( valueReturn, derivativeReturn );
-  if( metric->GetNumberOfValidPoints() != 0 || valueReturn != expectedMetricMax )
+  if( metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax) )
     {
     std::cerr << "Failed testing for non-overlapping images. " << std::endl
               << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl

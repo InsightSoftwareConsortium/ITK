@@ -18,6 +18,7 @@
 
 #include "itkNaryMaximumImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
 
 
 // Create a namespace in order to avoid conflicts with other tests.
@@ -152,7 +153,7 @@ int itkNaryMaximumImageFilterTest(int, char* [] )
   it.GoToBegin();
   while( !it.IsAtEnd() )
   {
-    if (it.Get() != maxValue)
+    if (itk::Math::NotExactlyEquals(it.Get(), maxValue))
       {
       std::cerr << "Test Failed!" << std::endl;
       return -1;
@@ -175,7 +176,7 @@ int itkNaryMaximumImageFilterTest(int, char* [] )
   it2.GoToBegin();
   while( !it2.IsAtEnd() )
   {
-    if (it2.Get() != maxValue)
+    if (itk::Math::NotExactlyEquals(it2.Get(), maxValue))
     {
       std::cerr << "Test Failed!" << std::endl;
       return -1;

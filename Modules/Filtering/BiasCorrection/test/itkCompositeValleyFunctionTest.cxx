@@ -19,6 +19,7 @@
 #include <iostream>
 #include "vnl/vnl_math.h"
 
+#include "itkMath.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkStdStreamStateSave.h"
 
@@ -45,7 +46,7 @@ int itkCompositeValleyFunctionTest(int , char* [] )
     return EXIT_FAILURE;
     }
 
-  if ( function.GetLowerBound() != -180.0 )
+  if ( itk::Math::NotAlmostEquals( function.GetLowerBound(), -180.0 ) )
     {
     std::cout << "Test fails: GetLowerBound()" << std::endl;
     return EXIT_FAILURE;

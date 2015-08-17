@@ -21,6 +21,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkLabelOverlayImageFilter.h"
 #include "itkVectorImage.h"
+#include "itkMath.h"
 
 
 int itkLabelOverlayImageFilterTest(int argc, char * argv[])
@@ -64,13 +65,13 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
 
   // Exercise set/get opacity values
   filter->SetOpacity( 2 );
-  if( filter->GetOpacity() != 2 )
+  if( itk::Math::NotExactlyEquals(filter->GetOpacity(), 2) )
     {
     std::cerr << "Opacity Set/Get Problem" << std::endl;
     return EXIT_FAILURE;
     }
   filter->SetOpacity( 3 );
-  if( filter->GetOpacity() != 3 )
+  if( itk::Math::NotExactlyEquals(filter->GetOpacity(), 3) )
     {
     std::cerr << "Opacity Set/Get Problem" << std::endl;
     return EXIT_FAILURE;

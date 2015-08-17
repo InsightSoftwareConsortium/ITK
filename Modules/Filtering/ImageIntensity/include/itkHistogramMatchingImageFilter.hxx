@@ -21,6 +21,7 @@
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 #include <vector>
 
 namespace itk
@@ -205,7 +206,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
     {
     denominator = m_QuantileTable[0][j + 1]
                   - m_QuantileTable[0][j];
-    if ( denominator != 0 )
+    if ( Math::NotAlmostEquals( denominator, 0.0) )
       {
       m_Gradients[j] = m_QuantileTable[1][j + 1]
                        - m_QuantileTable[1][j];
@@ -218,7 +219,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
     }
 
   denominator = m_QuantileTable[0][0] - m_SourceMinValue;
-  if ( denominator != 0 )
+  if ( Math::NotAlmostEquals( denominator, 0.0 ) )
     {
     m_LowerGradient = m_QuantileTable[1][0] - m_ReferenceMinValue;
     m_LowerGradient /= denominator;
@@ -230,7 +231,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 
   denominator = m_QuantileTable[0][m_NumberOfMatchPoints + 1]
                 - m_SourceMaxValue;
-  if ( denominator != 0 )
+  if ( Math::NotAlmostEquals( denominator, 0.0 ) )
     {
     m_UpperGradient = m_QuantileTable[1][m_NumberOfMatchPoints + 1]
                       - m_ReferenceMaxValue;

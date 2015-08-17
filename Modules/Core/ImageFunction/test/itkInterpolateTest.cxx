@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+#include "itkMath.h"
 #include "itkImage.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
@@ -191,7 +192,7 @@ int itkInterpolateTest(int, char *[] )
 
   mindex.CopyWithRound( cindex );
   double expectedValue = mindex[0] + mindex[1] + mindex[2];
-  if ( interp->EvaluateAtIndex( mindex ) != expectedValue )
+  if ( itk::Math::NotAlmostEquals(interp->EvaluateAtIndex( mindex ), expectedValue) )
     {
     std::cout << "Index: " << index;
     std::cout << "Value: " << interp->EvaluateAtIndex(index) << std::endl;

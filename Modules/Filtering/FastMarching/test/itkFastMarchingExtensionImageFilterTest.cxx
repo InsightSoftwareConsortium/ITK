@@ -20,6 +20,7 @@
 #include "itkFastMarchingExtensionImageFilterBase.h"
 #include "itkFastMarchingThresholdStoppingCriterion.h"
 #include "itkCommand.h"
+#include "itkMath.h"
 
 
 namespace{
@@ -262,7 +263,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 
     outputValue = (float) iterator.Get();
 
-    if (distance != 0)
+    if ( itk::Math::NotAlmostEquals( distance, 0.0 ) )
       {
       if ( vnl_math_abs( outputValue ) / distance > 1.42 )
         {

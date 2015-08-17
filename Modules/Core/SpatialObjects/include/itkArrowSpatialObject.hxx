@@ -156,7 +156,7 @@ ArrowSpatialObject< TDimension >
     v.Normalize();
     v2.Normalize();
 
-    if ( dot_product( v.GetVnlVector(), v2.GetVnlVector() ) == 1 )
+    if ( Math::AlmostEquals( dot_product( v.GetVnlVector(), v2.GetVnlVector() ), NumericTraits< typename VectorType::ValueType >::OneValue() ) )
       {
       return true;
       }

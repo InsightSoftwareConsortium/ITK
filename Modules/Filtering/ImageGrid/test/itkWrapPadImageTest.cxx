@@ -20,6 +20,7 @@
 #include "itkStreamingImageFilter.h"
 #include "itkWrapPadImageFilter.h"
 #include "itkVectorImage.h"
+#include "itkMath.h"
 
 //
 // Check that val represents the correct pixel value.  This routine
@@ -36,7 +37,7 @@ int VerifyPixel(int row, int col, short val, float & expected)
   if (col > 11) col -= 12;
   if (col > 11) col -= 12;
   expected = 8*col+row;
-  return (val == expected);
+  return ( itk::Math::AlmostEquals( val, expected) );
 }
 
 

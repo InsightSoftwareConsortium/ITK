@@ -19,6 +19,7 @@
 #include "itkDivideOrZeroOutImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 int itkDivideOrZeroOutImageFilterTest(int, char* [])
 {
@@ -86,7 +87,7 @@ int itkDivideOrZeroOutImageFilterTest(int, char* [])
     }
 
   divider->SetConstant( -2.3f );
-  if ( divider->GetConstant() != -2.3f )
+  if ( itk::Math::NotExactlyEquals(divider->GetConstant(), -2.3f) )
     {
     std::cerr << "Constant not set correctly. Got " << divider->GetConstant()
               << ", expected -2.3 ." << std::endl;

@@ -23,6 +23,7 @@
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -93,7 +94,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 
   for ( j = 0; j < ImageDimension; j++ )
     {
-    if ( factor != m_ExpandFactors[j] ) { break; }
+    if ( Math::NotExactlyEquals(factor, m_ExpandFactors[j]) ) { break; }
     }
   if ( j < ImageDimension )
     {

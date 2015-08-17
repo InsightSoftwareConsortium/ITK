@@ -21,6 +21,7 @@
 #include "itkMetaImageConverter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -63,7 +64,7 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     size[i] = image->DimSize()[i];
-    if ( image->ElementSpacing()[i] == 0 )
+    if ( Math::ExactlyEquals(image->ElementSpacing()[i], NumericTraits< typename SpacingType::ValueType >::ZeroValue()) )
       {
       spacing[i] = 1;
       }
