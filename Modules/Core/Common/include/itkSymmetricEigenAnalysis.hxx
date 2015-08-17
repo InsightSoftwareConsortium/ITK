@@ -123,10 +123,14 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
     scale = 0.;
 
     /*     .......... scale row (algol tol then not needed) .......... */
-    for ( k = 0; k <= l; ++k )
-      {
-      scale += vnl_math_abs(d[k]);
-      }
+    if (l > 0)
+    {
+        for ( k = 0; k <= l; ++k )
+        {
+            scale += vnl_math_abs(d[k]);
+        }
+    }
+
     if ( scale == 0. )
       {
       for ( j = 0; j <= l; ++j )
@@ -243,10 +247,14 @@ const
     scale = 0.0;
 
     /*     .......... scale row (algol tol then not needed) .......... */
-    for ( k = 0; k <= l; ++k )
-      {
-      scale += vnl_math_abs(d[k]);
-      }
+    if (l > 0)
+    {
+        for ( k = 0; k <= l; ++k )
+        {
+            scale += vnl_math_abs(d[k]);
+        }
+    }
+
     if ( scale == 0.0 )
       {
       e[i] = d[l];
@@ -583,10 +591,10 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
       {
       do
         {
-        if ( j == 1000 )
+        if ( j == 30 )
           {
           /*     .......... set error -- no convergence to an */
-          /*                eigenvalue after 1000 iterations .......... */
+          /*                eigenvalue after 30 iterations .......... */
           ierr = l + 1;
           return ierr;
           }
