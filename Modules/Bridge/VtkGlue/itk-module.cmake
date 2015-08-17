@@ -3,7 +3,7 @@ interface between ITK and VTK.")
 
 itk_module(ITKVtkGlue
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKCommon
     ITKVTK
   COMPILE_DEPENDS
