@@ -561,6 +561,7 @@ inline long long          vnl_math_max(long long x, long long y)                
 inline unsigned long long vnl_math_max(unsigned long long x, unsigned long long y) { return (x > y) ? x : y; }
 inline float              vnl_math_max(float x, float y)                           { return (x < y) ? y : x; }
 inline double             vnl_math_max(double x, double y)                         { return (x < y) ? y : x; }
+inline long double        vnl_math_max(long double x, long double y)               { return (x < y) ? y : x; }
 
 // min
 inline int                vnl_math_min(int x, int y)                               { return (x < y) ? x : y; }
@@ -571,6 +572,7 @@ inline long long          vnl_math_min(long long x, long long y)                
 inline unsigned long long vnl_math_min(unsigned long long x, unsigned long long y) { return (x < y) ? x : y; }
 inline float              vnl_math_min(float x, float y)                           { return (x > y) ? y : x; }
 inline double             vnl_math_min(double x, double y)                         { return (x > y) ? y : x; }
+inline long double        vnl_math_min(long double x, long double y)               { return (x > y) ? y : x; }
 
 // sqr (square)
 inline bool               vnl_math_sqr(bool x)               { return x; }
@@ -626,9 +628,34 @@ inline float  vnl_math_cuberoot(float  a) { return float((a<0) ? -vcl_exp(vcl_lo
 inline double vnl_math_cuberoot(double a) { return       (a<0) ? -vcl_exp(vcl_log(-a)/3) : vcl_exp(vcl_log(a)/3); }
 
 // hypotenuse
-inline double      vnl_math_hypot(int         x, int         y) { return vcl_sqrt(double(x*x + y*y)); }
-inline float       vnl_math_hypot(float       x, float       y) { return float( vcl_sqrt(double(x*x + y*y)) ); }
-inline double      vnl_math_hypot(double      x, double      y) { return vcl_sqrt(x*x + y*y); }
-inline long double vnl_math_hypot(long double x, long double y) { return vcl_sqrt(x*x + y*y); }
+template <typename T> T vnl_math_hypot(T x, T y)
+{
+    T ret_val, d1, d2, d3;
+    T p, r, s, t, u;
+
+    d1 = vnl_math_abs(x), d2 = vnl_math_abs(y);
+    p = vnl_math_max(d1,d2);
+    if (p == 0)
+        return 0.0;
+
+    d2 = vnl_math_abs(x), d3 = vnl_math_abs(y);
+    d1 = vnl_math_min(d2,d3) / p;
+    r = d1 * d1;
+
+    t = r + 4.0;
+    while (t != 4.0)
+    {
+        s = r / t;
+        u = s * 2. + 1.;
+        p = u * p;
+        d1 = s / u;
+        r = d1 * d1 * r;
+
+        t = r + 4.0;
+    }
+
+    ret_val = p;
+    return ret_val;
+}
 
 #endif // vnl_math_h_
