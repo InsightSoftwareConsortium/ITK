@@ -144,8 +144,10 @@ public:
    */
   struct NeverReallocate : AllocateRootPolicy
     {
-    bool operator()(unsigned int itkNotUsed(newSize), unsigned int itkNotUsed(oldSize)) const ITK_NOEXCEPT
+    bool operator()(unsigned int newSize, unsigned int oldSize) const ITK_NOEXCEPT
       {
+      (void) newSize;
+      (void) oldSize;
       itkAssertInDebugAndIgnoreInReleaseMacro(newSize == oldSize && "SetSize is expected to never change the VariableLengthVector size...");
       return true;
       }
