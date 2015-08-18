@@ -79,7 +79,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
     int                 d, which_valid_axis, axis;
     int                 spatial_axis_indices[MAX_VAR_DIMS];
     minc_input_options  default_options;
-    VIO_BOOL            no_volume_data_type;
+    VIO_BOOL            no_volume_data_type = TRUE;
     double              *irr_starts[MAX_VAR_DIMS];
     double              *irr_widths[MAX_VAR_DIMS];
 
@@ -645,6 +645,7 @@ static  VIO_Status   input_minc2_hyperslab(
     VIO_Colour           colour;
     VIO_multidim_array   buffer_array, rgb_array;
 
+    n_tmp_dims = file->n_file_dimensions;
     n_file_dims = file->n_file_dimensions;
     direct_to_array = TRUE;
     expected_ind = n_array_dims-1;
@@ -1090,7 +1091,7 @@ static  VIO_BOOL  match_dimension_names(
 {
     int       i, j, iteration, n_matches, dummy;
     int       to_file_index[VIO_MAX_DIMENSIONS];
-    VIO_BOOL  match;
+    VIO_BOOL  match = FALSE;
     VIO_BOOL  volume_dim_found[VIO_MAX_DIMENSIONS];
 
     n_matches = 0;

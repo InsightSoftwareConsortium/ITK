@@ -147,9 +147,10 @@ nifti_image_to_minc_attributes(nifti_image *nii_ptr,
 
     print_error("No transform found in header, guessing.\n");
 
-    mnc_index_from_file[0] = VIO_X;
-    mnc_index_from_file[1] = VIO_Y;
-    mnc_index_from_file[2] = VIO_Z;
+    for (i = 0; i < VIO_MAX_DIMENSIONS; i++)
+    {
+      mnc_index_from_file[i] = i;
+    }
 
     Transform_elem(mnc_xform, 0, 0) *= nii_ptr->dx;
     Transform_elem(mnc_xform, 1, 1) *= nii_ptr->dy;
@@ -167,6 +168,7 @@ nifti_image_to_minc_attributes(nifti_image *nii_ptr,
                                           mnc_starts,
                                           mnc_steps,
                                           mnc_dircos);
+
   }
   else
   {
@@ -248,6 +250,45 @@ nifti_image_to_minc_attributes(nifti_image *nii_ptr,
         break;
       }
     }
+  }
+
+  /* Adjust start and step values if alternate units are specified.
+   */
+  switch (nii_ptr->xyz_units) {
+  case NIFTI_UNITS_METER:
+    for (i = 0; i < VIO_N_DIMENSIONS; i++)
+    {
+      mnc_starts[i] *= 1000.0;
+      mnc_steps[i] *= 1000.0;
+    }
+    break;
+  case NIFTI_UNITS_MICRON:
+    for (i = 0; i < VIO_N_DIMENSIONS; i++)
+    {
+      mnc_starts[i] /= 1000.0;
+      mnc_steps[i] /= 1000.0;
+    }
+    break;
+  default:
+    break;
+  }
+
+  /* Store the start and step values for the time dimension, adjusting
+   * the units as needed.
+   */
+  switch (nii_ptr->time_units) {
+  case NIFTI_UNITS_MSEC:
+    mnc_starts[3] = nii_ptr->toffset / 1000.0;
+    mnc_steps[3] = nii_ptr->dt / 1000.0;
+    break;
+  case NIFTI_UNITS_USEC:
+    mnc_starts[3] = nii_ptr->toffset / 1000000.0;
+    mnc_steps[3] = nii_ptr->dt / 1000000.0;
+    break;
+  default:                      /* Either seconds or unknown. */
+    mnc_starts[3] = nii_ptr->toffset;
+    mnc_steps[3] = nii_ptr->dt;
+    break;
   }
 }
 
@@ -507,8 +548,18 @@ input_more_nifti_format_file(
   int            indices[VIO_MAX_DIMENSIONS];
   VIO_Real       original_min_value, original_max_value;
   int            i;
+  int            total_slices;
 
-  if ( in_ptr->slice_index < in_ptr->sizes_in_file[2] )
+  total_slices = in_ptr->sizes_in_file[2];
+  if (get_volume_n_dimensions(volume) > 3)
+  {
+    /* If there is a time dimension, incorporate that into our slice
+     * count.
+     */
+    total_slices *= in_ptr->sizes_in_file[3];
+  }
+  
+  if ( in_ptr->slice_index < total_slices )
   {
     size_t     n_bytes_per_slice;
     size_t     n_bytes_read;
@@ -559,7 +610,18 @@ input_more_nifti_format_file(
      */
     inner_index = &indices[in_ptr->axis_index_from_file[0]];
 
-    indices[in_ptr->axis_index_from_file[2]] = in_ptr->slice_index;
+    if (get_volume_n_dimensions(volume) > 3)
+    {
+      /* If a time dimension is present, convert the slice index into
+       * both a time and slice coordinate using the number of slices.
+       */
+      indices[in_ptr->axis_index_from_file[3]] = in_ptr->slice_index / in_ptr->sizes_in_file[2];
+      indices[in_ptr->axis_index_from_file[2]] = in_ptr->slice_index % in_ptr->sizes_in_file[2];
+    }
+    else
+    {
+      indices[in_ptr->axis_index_from_file[2]] = in_ptr->slice_index;
+    }
 
     for_less( i, 0, in_ptr->sizes_in_file[1] )
     {
@@ -655,8 +717,8 @@ input_more_nifti_format_file(
                                 indices[VIO_X],
                                 indices[VIO_Y],
                                 indices[VIO_Z],
-                                0,
-                                0,
+                                indices[3],
+                                indices[4],
                                 value);
 
       }
@@ -665,9 +727,9 @@ input_more_nifti_format_file(
     in_ptr->slice_index++;      /* Advance to the next slice. */
   }
 
-  *fraction_done = (VIO_Real) in_ptr->slice_index / in_ptr->sizes_in_file[2];
+  *fraction_done = (VIO_Real) in_ptr->slice_index / total_slices;
 
-  if (in_ptr->slice_index >= in_ptr->sizes_in_file[2])
+  if (in_ptr->slice_index >= total_slices)
   {
     set_volume_voxel_range( volume, in_ptr->min_value, in_ptr->max_value );
 
