@@ -26,7 +26,6 @@
 #include "itkImageIORegion.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
-#include "itkVariableLengthVector.h"
 #include "itkCovariantVector.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkDiffusionTensor3D.h"
@@ -40,6 +39,9 @@
 
 namespace itk
 {
+// Forward reference for VariableLengthVector
+template <typename TValue> class VariableLengthVector;
+
 /** \class ImageIOBase
  * \brief Abstract superclass defines image IO interface.
  *
