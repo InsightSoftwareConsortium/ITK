@@ -19,8 +19,6 @@
 #define itkCustomColormapFunction_hxx
 
 #include "itkCustomColormapFunction.h"
-#include "itkMath.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -34,68 +32,37 @@ CustomColormapFunction< TScalar, TRGBPixel >
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
 
-  // Apply the color mapping.
-  RealType red = 0.0;
+  // Setup some arrays and apply color mapping
+  enum ColorNames { RED=0, GREEN=1, BLUE=2 };
+  RealType RGBValue[3] = { 0.0 };
+  const ChannelType * const ColorChannel[3] = { &m_RedChannel, &m_GreenChannel, &m_BlueChannel };
 
-  RealType     size = static_cast< RealType >( this->m_RedChannel.size() );
-  unsigned int index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
-
-  if ( Math::AlmostEquals( size, itk::NumericTraits< RealType >::OneValue() ) || index < 1 )
+  for(size_t color = RED; color <= BLUE; ++color) //Go through all the colors
     {
-    red = this->m_RedChannel[0];
-    }
-  else if ( size > 1 )
-    {
-    RealType     p1 = this->m_RedChannel[index];
-    RealType     m1 = this->m_RedChannel[index - 1u];
-    RealType     d = p1 - m1;
-    red = d * ( size - 1.0 ) * ( value - ( index - 1.0 ) / ( size - 1.0 ) )
-          + m1;
-    }
+    size_t size = ColorChannel[color]->size();
+    size_t index = Math::Ceil< size_t, RealType >( value * static_cast< RealType >( size - 1 ) );
 
-  RealType green = 0.0;
-
-  size = static_cast< RealType >( this->m_GreenChannel.size() );
-  index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
-
-  if ( Math::AlmostEquals( size, itk::NumericTraits< RealType >::OneValue() || index < 1 ) )
-    {
-    green = this->m_GreenChannel[0];
-    }
-  else if ( size > 1 )
-    {
-    RealType     p1 = this->m_GreenChannel[index];
-    RealType     m1 = this->m_GreenChannel[index - 1u];
-    RealType     d = p1 - m1;
-    green = d * ( size - 1.0 ) * ( value - ( index - 1.0 ) / ( size - 1.0 ) )
-            + m1;
-    }
-
-  RealType blue = 0.0;
-
-  size = static_cast< RealType >( this->m_BlueChannel.size() );
-  index = Math::Ceil< unsigned int >( value * ( size - 1.0 ) );
-
-  if ( Math::AlmostEquals( size, itk::NumericTraits< RealType >::OneValue() || index < 1 ) )
-    {
-    blue = this->m_BlueChannel[0];
-    }
-  else if ( size > 1 )
-    {
-    RealType     p1 = this->m_BlueChannel[index];
-    RealType     m1 = this->m_BlueChannel[index - 1u];
-    RealType     d = p1 - m1;
-    blue = d * ( size - 1.0 ) * ( value - ( index - 1.0 ) / ( size - 1.0 ) )
-           + m1;
+    if ( size == 1 || index < 1 )
+      {
+      RGBValue[color] = (*ColorChannel[color])[0];
+      }
+    else if ( size > 1 )
+      {
+      RealType     p1 = (*ColorChannel[color])[index];
+      RealType     m1 = (*ColorChannel[color])[index - 1u];
+      RealType     d = p1 - m1;
+      RGBValue[color] = d * ( size - 1 ) * ( value - ( index - 1 ) / static_cast< RealType >( size - 1 ) ) + m1;
+      }
     }
 
   // Set the RGB components after rescaling the values.
   RGBPixelType pixel;
   NumericTraits<TRGBPixel>::SetLength(pixel, 3);
 
-  pixel[0] = this->RescaleRGBComponentValue(red);
-  pixel[1] = this->RescaleRGBComponentValue(green);
-  pixel[2] = this->RescaleRGBComponentValue(blue);
+  for( size_t color = RED; color <= BLUE; color++)
+    {
+      pixel[color] = this->RescaleRGBComponentValue( RGBValue[color] );
+    }
 
   return pixel;
 }
