@@ -101,7 +101,7 @@ public:
   /** Evaluate the function at specified Index position */
   virtual TOutput EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
-  /** Evaluate the function at specified ContinousIndex position. */
+  /** Evaluate the function at specified ContinuousIndex position. */
   virtual TOutput EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE;
 

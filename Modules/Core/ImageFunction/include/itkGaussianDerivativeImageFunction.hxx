@@ -421,7 +421,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   return this->EvaluateAtIndex (index);
 }
 
-/** Evaluate the function at specified ContinousIndex position.*/
+/** Evaluate the function at specified ContinuousIndex position.*/
 template< typename TInputImage, typename TOutput >
 typename GaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 GaussianDerivativeImageFunction< TInputImage, TOutput >

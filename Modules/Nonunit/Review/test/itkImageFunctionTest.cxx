@@ -268,7 +268,7 @@ int itkImageFunctionTest( int , char*[] )
    * only run them when FPE are not enabled. */
   if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    std::cout << "ContinousIndex Tests. FPE's disabled." << std::endl;
+    std::cout << "ContinuousIndex Tests. FPE's disabled." << std::endl;
     if( ContinuousIndexNumericTraits::has_quiet_NaN )
       {
       indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();

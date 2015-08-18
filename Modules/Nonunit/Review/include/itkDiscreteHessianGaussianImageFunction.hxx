@@ -234,7 +234,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Evaluate the function at specified ContinousIndex position.*/
+/** Evaluate the function at specified ContinuousIndex position.*/
 template< typename TInputImage, typename TOutput >
 typename DiscreteHessianGaussianImageFunction< TInputImage, TOutput >::OutputType
 DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
