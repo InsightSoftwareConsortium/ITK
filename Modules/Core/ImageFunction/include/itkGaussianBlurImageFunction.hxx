@@ -424,7 +424,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
   return this->EvaluateAtContinuousIndex(cindex);
 }
 
-/** Evaluate the function at specified ContinousIndex position.*/
+/** Evaluate the function at specified ContinuousIndex position.*/
 template< typename TInputImage, typename TOutput >
 TOutput
 GaussianBlurImageFunction< TInputImage, TOutput >

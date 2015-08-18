@@ -235,7 +235,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Evaluate the function at specified ContinousIndex position.*/
+/** Evaluate the function at specified ContinuousIndex position.*/
 template< typename TInputImage, typename TOutput >
 typename DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >::OutputType
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
