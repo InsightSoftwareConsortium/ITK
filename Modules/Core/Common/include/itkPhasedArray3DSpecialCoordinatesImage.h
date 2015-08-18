@@ -178,10 +178,10 @@ public:
    *
    * Returns true if the resulting index is within the image, false otherwise.
    * \sa Transform */
-  template< typename TCoordRep >
+  template< typename TCoordRep, typename TIndexRep >
   bool TransformPhysicalPointToContinuousIndex(
     const Point< TCoordRep, 3 > & point,
-    ContinuousIndex< TCoordRep, 3 > & index) const
+    ContinuousIndex< TIndexRep, 3 > & index) const
   {
     RegionType region = this->GetLargestPossibleRegion();
     double     maxAzimuth =    region.GetSize(0) - 1;
@@ -249,9 +249,9 @@ public:
    * the origin and spacing information comes from)
    * from a continuous index (in the index space)
    * \sa Transform */
-  template< typename TCoordRep >
+  template< typename TCoordRep, typename TIndexRep >
   void TransformContinuousIndexToPhysicalPoint(
-    const ContinuousIndex< TCoordRep, 3 > & index,
+    const ContinuousIndex< TIndexRep, 3 > & index,
     Point< TCoordRep, 3 > & point) const
   {
     RegionType region = this->GetLargestPossibleRegion();
