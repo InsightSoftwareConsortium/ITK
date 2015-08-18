@@ -1,6 +1,10 @@
+2015-08-13  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * volume_io/Volumes/input_nifti.c: Fix loading of dynamic scans, handle
+	NIfTI units.
+
 2015-06-11  Robert D. Vincent <robert.d.vincent@mcgill.ca>
    * libsrc/minc.h, libsrc2/minc2_defs.h: Increase MI_MAX_NUM_ICV from 32
-	to 1000. This should improve the behavior of voxel_loop programs 
+	to 1000. This should improve the behavior of voxel_loop programs
 	when used with a large number of input files.
 
 2015-05-28  Robert D. Vincent <robert.d.vincent@mcgill.ca>
