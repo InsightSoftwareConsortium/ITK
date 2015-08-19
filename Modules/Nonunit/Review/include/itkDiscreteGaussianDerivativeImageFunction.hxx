@@ -203,7 +203,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Evaluate the function at specified ContinousIndex position.*/
+/** Evaluate the function at specified ContinuousIndex position.*/
 template< typename TInputImage, typename TOutput >
 typename DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
