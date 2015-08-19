@@ -23,7 +23,6 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkArray.h"
-#include "itkVariableLengthVector.h"
 #include "ITKStatisticsExport.h"
 
 namespace itk
