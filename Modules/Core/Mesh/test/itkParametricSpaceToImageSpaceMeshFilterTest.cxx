@@ -21,10 +21,47 @@
 #include "itkMesh.h"
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
 
-
-int itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
+template< class TPosition >
+struct helper
 {
+};
 
+template< unsigned int VDimension >
+struct helper< itk::Index< VDimension > >
+{
+  static const unsigned int Dimension = VDimension;
+  typedef itk::Index< VDimension > PositionType;
+
+  template< class TImage, class TIterator >
+  static PositionType GetPosition( const TImage* , const TIterator& it )
+  {
+    return it.GetIndex();
+  }
+};
+
+template< typename TCoord, unsigned int VDimension >
+struct helper< itk::Point< TCoord, VDimension > >
+{
+  static const unsigned int Dimension = VDimension;
+  typedef itk::Point< TCoord, VDimension > PositionType;
+
+  template< class TImage, class TIterator >
+  static PositionType GetPosition( const TImage* image, const TIterator& it )
+  {
+    typename TImage::PointType p;
+    image->TransformIndexToPhysicalPoint( it.GetIndex(), p );
+
+    PositionType point;
+    point.CastFrom( p );
+
+    return point;
+  }
+};
+
+
+template< class TPosition >
+int InternalTest(int argc, char* argv[])
+{
   if( argc != 2 )
     {
     std::cerr << "Usage: " << argv[0];
@@ -33,29 +70,19 @@ int itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 2;
+  typedef TPosition PositionType;
 
-  typedef unsigned char ImagePixelType;
+  const unsigned int ImageDimension = TPosition::Dimension;
+  typedef unsigned char                                 ImagePixelType;
+  typedef itk::Image< ImagePixelType, ImageDimension >  ImageType;
 
-  typedef itk::Image< ImagePixelType, Dimension >     ImageType;
-
-  // Declare the mesh pixel type.
-  typedef float MeshPixelType;
-
-  typedef   itk::Point< MeshPixelType, Dimension >    MeshPointDataType;
-
-  typedef itk::PointSet< MeshPixelType, Dimension >   PointSetType;
-  typedef PointSetType::PointType                     PointType;
-  typedef PointSetType::PointsContainerPointer        PointsContainerPointer;
-
-  typedef   itk::Mesh< MeshPointDataType, Dimension >
-    InputMeshType;
-  typedef   itk::Mesh< InputMeshType::PointType, Dimension >
-    ImageSpaceMeshType;
+  const unsigned int MeshDimension = TPosition::Dimension;
+  typedef itk::Mesh< PositionType, MeshDimension >                      InputMeshType;
+  typedef itk::Mesh< typename InputMeshType::PointType, MeshDimension > OutputMeshType;
 
   // Read the input image
   typedef itk::ImageFileReader< ImageType > ReaderType;
-  ReaderType::Pointer reader = ReaderType::New();
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   try
@@ -70,43 +97,54 @@ int itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
     }
 
   // Store the input image for convenience
-  ImageType::Pointer image = reader->GetOutput();
+  typename ImageType::Pointer image = reader->GetOutput();
 
-
-  InputMeshType::Pointer mesh = InputMeshType::New();
-
-  PointSetType::Pointer pointSet = PointSetType::New();
+  typename InputMeshType::Pointer mesh = InputMeshType::New();
 
   // Get the input image indexes for the mesh filter
-  itk::ImageRegionConstIterator<ImageType> imageIterator(
-    image, image->GetBufferedRegion() );
-
+  itk::ImageRegionConstIterator<ImageType> imageIterator( image, image->GetBufferedRegion() );
   imageIterator.GoToBegin();
 
-  typedef PointSetType::PointType PointType;
+  typedef typename InputMeshType::PointType PointType;
   PointType point;
+  point.Fill( 0. );
 
-  unsigned long pointId = 0;
+  typedef typename InputMeshType::PointDataContainer        PointDataContainer;
+  typedef typename InputMeshType::PointDataContainerPointer PointDataContainerPointer;
+
+  PointDataContainerPointer pointData = PointDataContainer::New();
+
+  // Define arbitrary initial value for mesh point data
+  typename InputMeshType::PointIdentifier pointId = 0;
+  imageIterator.GoToBegin();
+
+  typedef typename ImageType::PointType ImagePointType;
+
   while( !imageIterator.IsAtEnd() )
     {
     // Convert the pixel position into a Point
-    image->TransformIndexToPhysicalPoint( imageIterator.GetIndex() , point );
-    pointSet->SetPoint( pointId, point );
-    // Transfer the pixel data to the value associated with the point.
-    pointSet->SetPointData( pointId, imageIterator.Get() );
+    ImagePointType p = helper< ImagePointType >::GetPosition( image.GetPointer(), imageIterator );
+
+    for( unsigned int dim = 0; dim < ImageDimension; dim++ )
+      {
+      point[ dim ] = p[ dim ];
+      }
+    mesh->SetPoint( pointId, point );
+
+    // Transfer the data to the value associated with the elementId
+    PositionType position = helper< PositionType >::GetPosition( image.GetPointer(), imageIterator );
+    pointData->InsertElement( pointId, position );
     ++imageIterator;
     ++pointId;
     }
 
-  PointsContainerPointer points = pointSet->GetPoints();
-  mesh->SetPoints(points);
+  mesh->SetPointData(pointData.GetPointer());
 
-  typedef   itk::ParametricSpaceToImageSpaceMeshFilter<
-                                      InputMeshType,
-                                      ImageSpaceMeshType
-                                     > ParametricFilterType;
+  typedef itk::ParametricSpaceToImageSpaceMeshFilter<
+    InputMeshType,
+    OutputMeshType > ParametricFilterType;
 
-  ParametricFilterType::Pointer parametricFilter = ParametricFilterType::New();
+  typename ParametricFilterType::Pointer parametricFilter = ParametricFilterType::New();
 
   if( parametricFilter.IsNull() )
     {
@@ -116,12 +154,84 @@ int itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
   // Set the input mesh for the parametric filter
   parametricFilter->SetInput(mesh);
 
-  parametricFilter->Update();
+  try
+    {
+    parametricFilter->Update();
+    }
+  catch( itk::ExceptionObject& e )
+    {
+    std::cerr << "Error: " << e.what() << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  // Get some data about the output
-  std::cout << "Points = " << parametricFilter->GetOutput()->
-    GetNumberOfPoints() << std::endl;
+  if( parametricFilter->GetOutput()->GetNumberOfPoints() != mesh->GetNumberOfPoints() )
+    {
+    std::cerr << "Input and Output have different number of points" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( parametricFilter->GetOutput()->GetNumberOfCells() != mesh->GetNumberOfCells() )
+    {
+    std::cerr << "Input and Output have different number of cells" << std::endl;
+    return EXIT_FAILURE;
+    }
 
+  imageIterator.GoToBegin();
+  pointId = 0;
+
+  while( !imageIterator.IsAtEnd() )
+    {
+    // Convert the pixel position into a Point
+    ImagePointType p = helper< ImagePointType >::GetPosition( image.GetPointer(), imageIterator );
+    ImagePointType refData = parametricFilter->GetOutput()->GetPointData()->ElementAt( pointId );
+
+    typename OutputMeshType::PointType position = parametricFilter->GetOutput()->GetPoints()->ElementAt( pointId );
+    PositionType refPoint = helper< PositionType >::GetPosition( image.GetPointer(), imageIterator );
+
+    for( unsigned int dim = 0; dim < ImageDimension; dim++ )
+    {
+      if( static_cast< double >( position[dim] ) != static_cast< double >( refPoint[dim] ) )
+      {
+        std::cerr << "position " << position << " != ref " << refPoint << std::endl;
+        return EXIT_FAILURE;
+      }
+
+      if( p[dim] != refData[dim] )
+      {
+        std::cerr << "p " << p << " != refData " << refData << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+
+    ++imageIterator;
+    ++pointId;
+    }
+
+  return EXIT_SUCCESS;
+}
+
+int itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
+{
+  const unsigned int ImageDimension = 2;
+  typedef unsigned char                           PixelType;
+  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  typedef ImageType::IndexType                    IndexType;
+
+  if( InternalTest< IndexType >( argc, argv ) == EXIT_FAILURE )
+    {
+    std::cerr << "Failure for itk::Index" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test succeeded for itk::Image< unsigned char, 2 >::IndexType" << std::endl;
+
+  typedef ImageType::PointType  PointType;
+  if( InternalTest< PointType >( argc, argv ) == EXIT_FAILURE )
+    {
+    std::cerr << "Failure for itk::Point" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test succeeded for itk::Image< unsigned char, 2 >::PointType" << std::endl;
 
   return EXIT_SUCCESS;
 }
