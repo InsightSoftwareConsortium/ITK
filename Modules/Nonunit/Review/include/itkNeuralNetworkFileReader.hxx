@@ -18,7 +18,6 @@
 #ifndef itkNeuralNetworkFileReader_hxx
 #define itkNeuralNetworkFileReader_hxx
 
-#include "itksys/ios/sstream"
 #include "itkNeuralNetworkFileReader.h"
 
 namespace itk

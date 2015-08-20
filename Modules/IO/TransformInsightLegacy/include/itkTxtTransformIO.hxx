@@ -26,6 +26,7 @@
 #include "itkCompositeTransform.h"
 #include "itkCompositeTransformIOHelper.h"
 #include "itkNumberToString.h"
+#include <sstream>
 namespace itk
 {
 template<typename TParametersValueType>
@@ -216,7 +217,7 @@ TxtTransformIOTemplate<TParametersValueType>
     // Push back
     itkDebugMacro ("Name: \"" << Name << "\"");
     itkDebugMacro ("Value: \"" << Value << "\"");
-    itksys_ios::istringstream parse (Value);
+    std::istringstream parse (Value);
     VectorBuffer.clear();
     if ( Name == "Transform" )
       {

@@ -19,6 +19,7 @@
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
 
+#include <sstream>
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
@@ -95,7 +96,7 @@ int itkGDCMImageIOTest2(int argc, char *argv[] )
   value = "";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
   tagkey = "0018|0050"; // Slice Thickness
-  itksys_ios::ostringstream os;
+  std::ostringstream os;
   os << reader->GetImageIO()->GetSpacing(2);
   value = os.str();
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);

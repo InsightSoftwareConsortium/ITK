@@ -22,6 +22,7 @@
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
 #include <iostream>
+#include <sstream>
 #include <list>
 #include <string>
 #include <math.h>
@@ -64,7 +65,7 @@ public:
   std::string ReadHeader()
   {
     // Read everything up to the \f symbol
-    itksys_ios::ostringstream oss;
+    std::ostringstream oss;
     unsigned char             byte = ReadByte();
 
     while ( byte != '\f' )
@@ -125,7 +126,7 @@ public:
 
     if ( byte < 0 )
       {
-      itksys_ios::ostringstream oss;
+      std::ostringstream oss;
       oss << "Error reading byte from file at position: " << gztell(m_GzFile);
       ExceptionObject exception;
       exception.SetDescription( oss.str().c_str() );
@@ -147,7 +148,7 @@ public:
     SizeType     bread = gzread(m_GzFile, data, numberOfBytesToRead);
     if ( bread != bytes )
       {
-      itksys_ios::ostringstream oss;
+      std::ostringstream oss;
       oss << "File size does not match header: "
           << bytes << " bytes requested but only "
           << bread << " bytes available!" << std::endl
@@ -214,7 +215,7 @@ public:
 
     if ( byte == EOF )
       {
-      itksys_ios::ostringstream oss;
+      std::ostringstream oss;
       oss << "Error reading byte from file at position: " << ::ftell(m_File);
       ExceptionObject exception;
       exception.SetDescription( oss.str().c_str() );
@@ -236,7 +237,7 @@ public:
     SizeType     bread = fread(data, NumericTraits< SizeValueType >::OneValue(), numberOfBytesToRead, m_File);
     if ( bread != bytes )
       {
-      itksys_ios::ostringstream oss;
+      std::ostringstream oss;
       oss << "File size does not match header: "
           << bytes << " bytes requested but only "
           << bread << " bytes available!" << std::endl
@@ -594,7 +595,7 @@ void VoxBoCUBImageIO::ReadImageInformation()
         {
         // Encode the right hand side of the string in the meta-data dic
         std::string               word;
-        itksys_ios::ostringstream oss;
+        std::ostringstream oss;
         while ( iss >> word )
           {
           if ( oss.str().size() )
@@ -630,7 +631,7 @@ VoxBoCUBImageIO
     }
 
   // Put together a header
-  itksys_ios::ostringstream header;
+  std::ostringstream header;
 
   // Write the identifiers
   header << m_VB_IDENTIFIER_SYSTEM << std::endl;
