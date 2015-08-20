@@ -126,14 +126,14 @@ public:
    * This policy is expected to be used when we know by construction that the
    * size of a \c VariableLengthVector never changes within a loop. For
    * instance, a typical scenario would be:
-   * \code
-   * VariableLengthVector<...> v;
-   * v.SetSize(someFixedSize);
-   * for (auto && pixel : image) {
-   *     itkAssertInDebugAndIgnoreInReleaseMacro(expression.size() == someFixedSize);
-   *     v.FastAssign( expression ); // <-- NeverReallocate is used here
-   * }
-   * \endcode
+   \code
+   VariableLengthVector<...> v;
+   v.SetSize(someFixedSize);
+   for (auto && pixel : image) {
+       itkAssertInDebugAndIgnoreInReleaseMacro(expression.size() == someFixedSize);
+       v.FastAssign( expression ); // <-- NeverReallocate is used here
+   }
+   \endcode
    *
    * \sa \c itk::VariableLengthVector::SetSize
    * \sa \c AlwaysReallocate
@@ -188,12 +188,12 @@ public:
    * capacity. However, this will help a class without capacity to emulate one.
    * The consequence is that reallocations will occur with scenarios such as
    * the following:
-   * \code
-   * VariableLengthVector<...> v;
-   * v.SetSize(42);
-   * v.SetSize(12); // no reallocation
-   * v.SetSize(42); // pointless reallocation (given this policy)
-   * \endcode
+   \code
+   VariableLengthVector<...> v;
+   v.SetSize(42);
+   v.SetSize(12); // no reallocation
+   v.SetSize(42); // pointless reallocation (given this policy)
+   \endcode
    *
    * \sa \c itk::VariableLengthVector::SetSize
    * \sa \c AlwaysReallocate
@@ -291,7 +291,10 @@ public:
    *  it has to be allocated later by assignment              */
   VariableLengthVector();
 
-  /** Constructor with size. Size can only be changed by assignment */
+  /** Constructor with size.
+   * Size can only be changed by assignment.
+   * \post values are left uninitialized.
+   */
   explicit VariableLengthVector(unsigned int dimension);
 
   /** Constructor that initializes array with contents from a user supplied
@@ -315,15 +318,15 @@ public:
   /** Copy constructor. The reason why the copy constructor and the assignment
    * operator are templated is that it will allow implicit casts to be
    * performed. For instance
-   * \code
-   * VariableLengthVector< int > vI;
-   * VariableLengthVector< float > vF( vI );
-   * or for instance vF = static_cast< VariableLengthVector< float > >( vI );
-   * \endcode
+   \code
+   VariableLengthVector< int > vI;
+   VariableLengthVector< float > vF( vI );
+   or for instance vF = static_cast< VariableLengthVector< float > >( vI );
+   \endcode
    */
   template< typename T >
   VariableLengthVector(const VariableLengthVector< T > & v)
-  {
+    {
     m_NumElements = v.Size();
     m_Data = this->AllocateElements(m_NumElements);
     m_LetArrayManageMemory = true;
@@ -331,11 +334,41 @@ public:
       {
       this->m_Data[i] = static_cast< ValueType >( v[i] );
       }
-  }
+    }
 
   /** Copy constructor. Overrides the default non-templated copy constructor
    * that the compiler provides */
   VariableLengthVector(const VariableLengthVector< TValue > & v);
+
+  /** Swaps two \c VariableLengthVector 's.
+   * \pre Expects either none of the \c VariableLengthVector to act as a proxy,
+   * or both, checked with an assertion.
+   * \param[in,out] v  other \c VariableLengthVector to be swapped with.
+   * \throw None
+   * \sa \c itk::swap()
+   */
+  void Swap(Self & v) ITK_NOEXCEPT
+    {
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_LetArrayManageMemory == v.m_LetArrayManageMemory);
+    using std::swap;
+    swap(v.m_Data       , m_Data);
+    swap(v.m_NumElements, m_NumElements);
+    }
+
+#if defined(ITK_HAS_CXX11_RVREF)
+  /** C++11 Move Constructor.
+   * \post \c v is destructible and assignable.
+   * \post Built object contains old \c v data.
+   */
+  VariableLengthVector(Self && v) ITK_NOEXCEPT;
+
+  /** C++11 Move assignement operator.
+   * \pre \c v shall not be the same as the current object
+   * \post \c v is destructible and assignable.
+   * \post Current object contains old \c v data.
+   */
+  Self & operator=(Self && v) ITK_NOEXCEPT;
+#endif
 
   /** Set the all the elements of the array to the specified value */
   void Fill(TValue const & v) ITK_NOEXCEPT;
@@ -371,7 +404,7 @@ public:
     return *this;
   }
 
-  /** Assignment operator.
+  /** Copy-Assignment operator.
    * \note Ensures a <em>String Exception Guarantee</em>: resists to
    * self-assignment, and no changed are made is memory cannot be allocated to
    * hold the new elements. This is excepting \c TValue assignment is a \c
@@ -402,8 +435,8 @@ public:
   Self & operator=(TValue const & v) ITK_NOEXCEPT;
 
   /** Return the number of elements in the Array  */
-  inline unsigned int Size(void) const ITK_NOEXCEPT { return m_NumElements; }
-  inline unsigned int GetNumberOfElements(void) const ITK_NOEXCEPT { return m_NumElements; }
+  unsigned int Size(void) const ITK_NOEXCEPT { return m_NumElements; }
+  unsigned int GetNumberOfElements(void) const ITK_NOEXCEPT { return m_NumElements; }
 
   /** Return reference to the element at specified index. No range checking. */
   TValue       & operator[](unsigned int i) ITK_NOEXCEPT { return this->m_Data[i]; }
@@ -411,7 +444,7 @@ public:
   TValue const & operator[](unsigned int i) const ITK_NOEXCEPT { return this->m_Data[i]; }
 
   /** Get one element */
-  inline const TValue & GetElement(unsigned int i) const ITK_NOEXCEPT { return m_Data[i]; }
+  const TValue & GetElement(unsigned int i) const ITK_NOEXCEPT { return m_Data[i]; }
 
   /** Set one element */
   void SetElement(unsigned int i, const TValue & value) ITK_NOEXCEPT { m_Data[i] = value; }
@@ -477,7 +510,7 @@ public:
    * true. */
   void DestroyExistingData() ITK_NOEXCEPT;
 
-  inline unsigned int GetSize(void) const ITK_NOEXCEPT { return m_NumElements; }
+  unsigned int GetSize(void) const ITK_NOEXCEPT { return m_NumElements; }
 
   /** Set the pointer from which the data is imported.
    * If "LetArrayManageMemory" is false, then the application retains
@@ -514,6 +547,7 @@ public:
 
   const TValue * GetDataPointer() const ITK_NOEXCEPT { return m_Data; }
 
+#if ! defined(ITK_HAS_CXX11_RVREF)
   /** Element-wise vector addition. The vectors do not have to have
    * the same element type. The input vector elements are cast to the
    * output vector element type before the addition is performed.
@@ -521,8 +555,8 @@ public:
    * \note For efficiency, the length of the vectors is not checked;
    * they are assumed to have the same length. */
   template< typename T >
-  inline Self operator+(const VariableLengthVector< T > & v) const
-  {
+  Self operator+(const VariableLengthVector< T > & v) const
+    {
     itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
     const ElementIdentifier length = v.Size();
     Self                    result(length);
@@ -532,7 +566,7 @@ public:
       result[i] = ( *this )[i] + static_cast< ValueType >( v[i] );
       }
     return result;
-  }
+    }
 
   /** Element-wise subtraction of vectors. The vectors do not have to
    * have the same element type. The input vector elements are cast to
@@ -542,201 +576,202 @@ public:
    * \note For efficiency, the length of the vectors is not checked;
    * they are assumed to have the same length. */
   template< typename T >
-  inline Self operator-(const VariableLengthVector< T > & v) const
-  {
-    itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
+  Self operator-(const VariableLengthVector< T > & v) const
+    {
     const ElementIdentifier length = v.Size();
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == length );
     Self                    result(length);
 
     for ( ElementIdentifier i = 0; i < length; i++ )
       {
+      // Note. Why not static_cast<ValueType>((*this)[i] - v[i]) ?
       result[i] = ( *this )[i] - static_cast< ValueType >( v[i] );
       }
     return result;
-  }
+    }
 
   /** Multiply vector elements by a scalar 's'. The vector does not
    * have to have the same element type as the scalar type. The scalar
    * is cast to the output vector element type before the
    * multiplication is performed. */
   template< typename T >
-  inline Self operator*(T s) const
-  {
-    Self result(m_NumElements);
-
-    for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
+    Self operator*(T s) const
       {
-      result[i] = m_Data[i] * static_cast< ValueType >( s );
+      Self result(m_NumElements);
+
+      const ValueType & sc = static_cast<ValueType>(s);
+      for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
+        {
+        result[i] = m_Data[i] * sc;
+        }
+      return result;
       }
-    return result;
-  }
 
   /** Divide vector elements by a scalar 's'. The vector does not
    * have to have the same element type as the scalar type. Both the
    * scalar and vector elements are cast to the RealValueType prior to
    * division, and the result is cast to the ValueType. */
-  template< typename T >
-  inline Self operator/(T s) const
-  {
-    Self result(m_NumElements);
+      template< typename T >
+        Self operator/(T s) const
+          {
+          Self result(m_NumElements);
 
-    for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
-      {
-      result[i] = static_cast< ValueType >(
-        static_cast< RealValueType >( m_Data[i] )
-        / static_cast< RealValueType >( s ) );
-      }
-    return result;
-  }
-
-  /** Add scalar 's' to each element of the vector.*/
-  inline Self operator+(TValue s) const
-  {
-    Self result(m_NumElements);
-
-    for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
-      {
-      result[i] = m_Data[i] + s;
-      }
-    return result;
-  }
-
-  /** Subtract scalar 's' from each element of the vector.*/
-  inline Self operator-(TValue s) const
-  {
-    Self result(m_NumElements);
-
-    for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
-      {
-      result[i] = m_Data[i] - s;
-      }
-    return result;
-  }
+          for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
+            {
+            result[i] = static_cast< ValueType >(
+              static_cast< RealValueType >( m_Data[i] )
+              / static_cast< RealValueType >( s ) );
+            }
+          return result;
+          }
+#endif
 
   /** Prefix operator that subtracts 1 from each element of the
    * vector. */
-  inline Self & operator--() ITK_NOEXCEPT
-  {
+  Self & operator--() ITK_NOEXCEPT
+    {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
       this->m_Data[i] -= static_cast< ValueType >( 1.0 );
       }
     return *this;
-  }
+    }
 
   /** Prefix operator that adds 1 to each element of the vector. */
-  inline Self & operator++() ITK_NOEXCEPT // prefix operator ++v;
-  {
+  Self & operator++() ITK_NOEXCEPT // prefix operator ++v;
+    {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
       this->m_Data[i] += static_cast< ValueType >( 1.0 );
       }
     return *this;
-  }
+    }
 
   /** Postfix operator that subtracts 1 from each element of the
    * vector. */
-  inline Self operator--(int) // postfix operator v--;
-  {
+  Self operator--(int) // postfix operator v--;
+    {
     Self tmp(*this);
 
     --tmp;
     return tmp;
-  }
+    }
 
   /** Postfix operator that adds 1 to each element of the vector. */
-  inline Self operator++(int) // postfix operator v++;
-  {
+  Self operator++(int) // postfix operator v++;
+    {
     Self tmp(*this);
 
     ++tmp;
     return tmp;
-  }
+    }
 
   /** Element-wise subtraction of vector 'v' from the current
    * vector. The vectors do not have to have the same element
    * type. The input vector elements are cast to the current vector
    * element type before the subtraction is performed.
    *
+   * \throw None
    * \note For efficiency, the length of the vectors is not checked;
    * they are assumed to have the same length. */
   template< typename T >
-  inline Self & operator-=
+  Self & operator-=
     (const VariableLengthVector< T > & v) ITK_NOEXCEPT
-  {
+    {
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
       m_Data[i] -= static_cast< ValueType >( v[i] );
       }
     return *this;
-  }
+    }
 
   /** Subtract scalar 's' from each element of the current vector. */
-  inline Self & operator-=(TValue s) ITK_NOEXCEPT
-  {
+  Self & operator-=(TValue s) ITK_NOEXCEPT
+    {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
       m_Data[i] -= s;
       }
     return *this;
-  }
+    }
 
   /** Element-wise addition of vector 'v' to the current vector. The
    * vectors do not have to have the same element type. The input
    * vector elements are cast to the current vector element type
    * before the addition is performed.
    *
+   * \throw None
    * \note For efficiency, the length of the vectors is not checked;
    * they are assumed to have the same length. */
   template< typename T >
-  inline Self & operator+=
+  Self & operator+=
     (const VariableLengthVector< T > & v) ITK_NOEXCEPT
-  {
+    {
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
       m_Data[i] += static_cast< ValueType >( v[i] );
       }
     return *this;
-  }
+    }
 
   /** Add scalar 's' to each element of the vector. */
-  inline Self & operator+=(TValue s) ITK_NOEXCEPT
-  {
+  Self & operator+=(TValue s) ITK_NOEXCEPT
+    {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
       m_Data[i] += s;
       }
     return *this;
-  }
+    }
 
   /** Multiply each element of the vector by a scalar 's'. The scalar
    * value is cast to the current vector element type prior to
-   * multiplication. */
+   * multiplication.
+   * \throw None
+   */
   template< typename T >
-  inline Self & operator*=(T s) ITK_NOEXCEPT
-  {
+  Self & operator*=(T s) ITK_NOEXCEPT
+    {
+    const ValueType & sc = static_cast<ValueType>(s);
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
-      m_Data[i] *= ( static_cast< ValueType >( s ) );
+      m_Data[i] *= sc;
       }
     return *this;
-  }
+    }
+
+  /** Multiply each element of the vector by a scalar 's'.
+   * \throw None
+   */
+  Self & operator*=(TValue s) ITK_NOEXCEPT
+    {
+    for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
+      {
+      m_Data[i] *= s;
+      }
+    return *this;
+    }
 
   /** Divide vector elements by a scalar 's'. The vector does not
    * have to have the same element type as the scalar type. Both the
    * scalar and vector elements are cast to the RealValueType prior to
-   * division, and the result is cast to the ValueType. */
+   * division, and the result is cast to the ValueType.
+   * \throw None
+   */
   template< typename T >
-  inline Self & operator/=(T s) ITK_NOEXCEPT
-  {
+  Self & operator/=(T s) ITK_NOEXCEPT
+    {
+    const RealValueType sc = s;
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
       m_Data[i] = static_cast< ValueType >(
         static_cast< RealValueType >( m_Data[i] )
-        / static_cast< RealValueType >( s ) );
+        / sc );
       }
     return *this;
-  }
+    }
 
   /** Negates each vector element.
    * \warning This operator has a non standard semantics. Instead of returning
@@ -756,26 +791,509 @@ public:
 
   /** letArrayManageMemory getter. */
   bool IsAProxy() const ITK_NOEXCEPT { return ! m_LetArrayManageMemory;}
-private:
 
+private:
   bool              m_LetArrayManageMemory; // if true, the array is responsible
                                             // for memory of data
   TValue *          m_Data;                 // Array to hold data
   ElementIdentifier m_NumElements;
 };
 
-/** Premultiply Operator for product of a VariableLengthVector and a scalar.
- *  VariableLengthVector< TValue >  =  T * VariableLengthVector< TValue >
+/**\name Binary Arithmetic operations on VariableLengthVector
+ * \internal
+ * Performance considerations.
+ * - Binary operators must return by-value. Indeed, returning a
+ * rvalue-reference could result in a dangling reference.
+ * - In C++11, in order to maximize the reuse of temporaries, we need
+ *   four overloads as we cannot have `operator+(VLV, VLV const&)`
+ *   and `operator+(VLV const&, VLV)`.
+ * - The best performances have been observed on operators that take
+ * only lvalue if they:
+ *   - take their two parameters by const references ;
+ *   - create a copy of a parameter ;
+ *   - update this copy thank to compound operators (`+=`, `*=`, ...) --
+ *     We could also repeat yourselves by directly inserting the equivalent
+ *     code into the operator implemented ;
+ *   - return the copy by-value.
+ * - The best performances have been observed on operators that take
+ * rvalue references if they
+ *   - return the input rvalue-reference with an explicit `move` -- the
+ *   compiler is not authorized to elide the copy of the parameter
+ *   anyway, thus we can explicitly use `std::move()` without fear
+ *   to prevent RVO as RVO cannot be applied.
+ */
+///@{
+
+/** Addition \c VariableLengthVector + Scalar (lvalue reference).
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue>
+inline
+VariableLengthVector< TValue >
+operator+(VariableLengthVector< TValue > const& v, const TValue & scalar)
+{
+  VariableLengthVector< TValue > res(v);
+  res += scalar;
+  return res;
+}
+
+/** Addition Scalar + \c VariableLengthVector (lvalue reference).
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue>
+inline
+VariableLengthVector< TValue >
+operator+(const TValue & scalar, VariableLengthVector< TValue > const& v)
+{
+  VariableLengthVector< TValue > res(v);
+  res += scalar;
+  return res;
+}
+
+/** Substraction \c VariableLengthVector - Scalar (lvalue reference).
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue>
+inline
+VariableLengthVector< TValue >
+operator-(VariableLengthVector< TValue > const& v, const TValue & scalar)
+{
+  VariableLengthVector< TValue > res(v);
+  res -= scalar;
+  return res;
+}
+
+/** Substraction Scalar - \c VariableLengthVector (lvalue reference).
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue>
+inline
+VariableLengthVector< TValue >
+operator-(const TValue & scalar, VariableLengthVector< TValue > const& v)
+{
+  const unsigned int length = v.GetSize();
+  VariableLengthVector< TValue > res(length);
+  for ( typename VariableLengthVector< TValue >::ElementIdentifier i = 0; i < length; ++i )
+    {
+    res[i] = scalar - v[i];
+    }
+  return res;
+}
+
+/** Multiplication Scalar x \c VariableLengthVector (lvalue reference).
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue, typename T >
+inline
+  VariableLengthVector< TValue >
+operator*(const T & scalar, VariableLengthVector< TValue > const& v)
+{
+  VariableLengthVector< TValue > res(v);
+  res *= scalar;
+  return res;
+}
+
+#if defined(ITK_HAS_CXX11_RVREF)
+/** Multiplication \c VariableLengthVector x Scalar (lvalue reference).
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
+ */
+  template< typename TValue, typename T >
+  inline
+  VariableLengthVector< TValue >
+operator*(VariableLengthVector< TValue > const& v, const T & scalar)
+{
+  VariableLengthVector< TValue > res(v);
+  res *= scalar;
+  return res;
+}
+
+/** Division \c VariableLengthVector / Scalar (lvalue reference).
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
  */
 template< typename TValue, typename T >
 inline
 VariableLengthVector< TValue >
-operator*(const T & scalar, const VariableLengthVector< TValue > & v)
+operator/(VariableLengthVector< TValue > const& v, const T & scalar)
 {
-  return v.operator*(scalar);
+  VariableLengthVector< TValue > res(v);
+  res /= scalar;
+  return res;
 }
 
+// Additions between VariableLengthVector
+/** Addition between two \c VariableLengthVector lvalues on different types.
+ *
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \note This overload converts on-the-fly (no allocation will be done) the
+ * second argument into the type of the first
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue1, typename TValue2 >
+inline
+VariableLengthVector< TValue1 >
+operator+(
+  VariableLengthVector< TValue1 > const& v1,
+  VariableLengthVector< TValue2 > const& v2)
+{
+  VariableLengthVector< TValue1 > res(v1);
+  res += v2;
+  return res;
+}
 
+/** Addition between two \c VariableLengthVector of different types, the first
+ * is a rvalue reference.
+ *
+ * \note This overload converts on-the-fly (no allocation will be done) the
+ * second argument into the type of the first.
+ * \note The overload that take the second parameter as a rvalue reference
+ * makes no sense has we will always convert to the type of the left hand side
+ * argument.
+ * \throw None
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue1, typename TValue2 >
+inline
+VariableLengthVector< TValue1 >
+operator+(
+  VariableLengthVector< TValue1 >     && v1,
+  VariableLengthVector< TValue2 > const& v2) ITK_NOEXCEPT
+{
+  v1 += v2;
+  // RVO cannot work on v1. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v1);
+}
+
+/** Addition between two \c VariableLengthVector lvalues of same type.
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue >
+inline
+VariableLengthVector< TValue >
+operator+(
+  VariableLengthVector< TValue > const& v1,
+  VariableLengthVector< TValue > const& v2)
+{
+  VariableLengthVector< TValue > res(v1);
+  res += v2;
+  return res;
+}
+
+/** Addition between two \c VariableLengthVector of same type, the first being
+ * a rvalue reference.
+ * \throw None
+ * \pre \c v2 isn't expected to be the same object as \c v1. However, this
+ * won't cause any trouble.
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue >
+inline
+VariableLengthVector< TValue >
+operator+(
+  VariableLengthVector< TValue >     && v1,
+  VariableLengthVector< TValue > const& v2) ITK_NOEXCEPT
+{
+  v1 += v2;
+  // RVO cannot work on v1. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v1);
+}
+
+/** Addition between two \c VariableLengthVector of same type, the second being
+ * a rvalue reference.
+ * \throw None
+ * \pre \c v2 isn't expected to be the same object as \c v1. However, this
+ * won't cause any trouble.
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue >
+inline
+VariableLengthVector< TValue >
+operator+(
+  VariableLengthVector< TValue > const& v1,
+  VariableLengthVector< TValue >     && v2) ITK_NOEXCEPT
+{
+  v2 += v1;
+  // RVO cannot work on v1. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v2);
+}
+
+/** Addition between two \c VariableLengthVector rvalue references of same
+ * type.
+ * \throw None
+ * \pre \c v2 isn't expected to be the same object as \c v1. However, this
+ * won't cause any trouble.
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue >
+inline
+VariableLengthVector< TValue >
+operator+(
+  VariableLengthVector< TValue >     && v1,
+  VariableLengthVector< TValue >     && v2) ITK_NOEXCEPT
+{
+  v1 += v2;
+  // RVO cannot work on v1. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v1);
+}
+
+// Substractions between VariableLengthVector
+/** Substraction between two \c VariableLengthVector lvalues on different types.
+ *
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \note This overload converts on-the-fly (no allocation will be done) the
+ * second argument into the type of the first
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue1, typename TValue2 >
+inline
+VariableLengthVector< TValue1 >
+operator-(
+  VariableLengthVector< TValue1 > const& v1,
+  VariableLengthVector< TValue2 > const& v2)
+{
+  VariableLengthVector< TValue1 > res(v1);
+  res -= v2;
+  return res;
+}
+
+/** Substraction between two \c VariableLengthVector of different types, the first
+ * is a rvalue reference.
+ *
+ * \throw None
+ * \note This overload converts on-the-fly (no allocation will be done) the
+ * second argument into the type of the first.
+ * \note The overload that take the second parameter as a rvalue reference
+ * makes no sense has we will always convert to the type of the left hand side
+ * argument.
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue1, typename TValue2 >
+inline
+VariableLengthVector< TValue1 >
+operator-(
+  VariableLengthVector< TValue1 >     && v1,
+  VariableLengthVector< TValue2 > const& v2) ITK_NOEXCEPT
+{
+  v1 -= v2;
+  // RVO cannot work on v1. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v1);
+}
+
+/** Substraction between two \c VariableLengthVector lvalues of same type.
+ * \throw itk::Exception if no memory could be allocated to store the result
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue >
+inline
+VariableLengthVector< TValue >
+operator-(
+  VariableLengthVector< TValue > const& v1,
+  VariableLengthVector< TValue > const& v2)
+{
+  VariableLengthVector< TValue > res(v1);
+  res -= v2;
+  return res;
+}
+
+/** Substraction between two \c VariableLengthVector of same type, the first
+ * being a rvalue reference.
+ * \throw None
+ * \pre \c v2 isn't expected to be the same object as \c v1. However, this
+ * wont't cause any trouble.
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue >
+inline
+VariableLengthVector< TValue >
+operator-(
+  VariableLengthVector< TValue >     && v1,
+  VariableLengthVector< TValue > const& v2) ITK_NOEXCEPT
+{
+  v1 -= v2;
+  // RVO cannot work on v2. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v1);
+}
+
+/** Substraction between two \c VariableLengthVector of same type, the second
+ * being a rvalue reference.
+ * \throw None
+ * \pre \c v2 isn't expected to be the same object as \c v1. However, this
+ * won't cause any trouble.
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue >
+inline
+VariableLengthVector< TValue >
+operator-(
+  VariableLengthVector< TValue > const& v1,
+  VariableLengthVector< TValue >     && v2) ITK_NOEXCEPT
+{
+  const unsigned int size = v1.GetSize();
+  itkAssertInDebugAndIgnoreInReleaseMacro( size == v2.GetSize() );
+  for ( typename VariableLengthVector< TValue >::ElementIdentifier i = 0; i < size; i++ )
+    {
+    v2[i] = v1[i] - v2[i];
+    }
+  // RVO cannot work on v2. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v2);
+}
+
+/** Substraction between two \c VariableLengthVector rvalue references of same
+ * type.
+ * \throw None
+ * \pre \c v2 isn't expected to be the same object as \c v1. However, this
+ * won't cause any trouble.
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue >
+inline
+VariableLengthVector< TValue >
+operator-(
+  VariableLengthVector< TValue >     && v1,
+  VariableLengthVector< TValue >     && v2) ITK_NOEXCEPT
+{
+  v1 -= v2;
+  // RVO cannot work on v1. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v1);
+}
+
+// Additions between VariableLengthVector and Scalar
+/** Addition \c VariableLengthVector + Scalar (rvalue reference).
+ * \throw None
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue>
+inline
+VariableLengthVector< TValue >
+operator+(VariableLengthVector< TValue > && v, const TValue & scalar) ITK_NOEXCEPT
+{
+  v += scalar;
+  // RVO cannot work on v. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v);
+}
+
+/** Addition Scalar + \c VariableLengthVector (rvalue reference).
+ * \throw None
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue>
+inline
+VariableLengthVector< TValue >
+operator+(const TValue & scalar, VariableLengthVector< TValue > && v) ITK_NOEXCEPT
+{
+  v += scalar;
+  // RVO cannot work on v. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v);
+}
+
+// Substractions between VariableLengthVector and Scalar
+/** Substraction \c VariableLengthVector - Scalar (rvalue reference).
+ * \throw None
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue>
+inline
+VariableLengthVector< TValue >
+operator-(VariableLengthVector< TValue > && v, const TValue & scalar) ITK_NOEXCEPT
+{
+  v -= scalar;
+  // RVO cannot work on v. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v);
+}
+
+/** Substraction Scalar - \c VariableLengthVector (rvalue reference).
+ * \throw None
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue>
+inline
+VariableLengthVector< TValue >
+operator-(const TValue & scalar, VariableLengthVector< TValue > && v) ITK_NOEXCEPT
+{
+  const unsigned int length = v.GetSize();
+  for ( typename VariableLengthVector< TValue >::ElementIdentifier i = 0; i < length; ++i )
+    {
+    v[i] = scalar - v[i];
+    }
+  // RVO cannot work on v. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v);
+}
+
+// Other Multiplications by scalar
+/** Multiplication \c VariableLengthVector x Scalar (rvalue reference).
+ * \throw None
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue, typename T >
+inline
+VariableLengthVector< TValue >
+operator*(VariableLengthVector< TValue > && v, const T & scalar) ITK_NOEXCEPT
+{
+  v *= scalar;
+  // RVO cannot work on v. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v);
+}
+
+/** Multiplication Scalar x \c VariableLengthVector (rvalue reference).
+ * \throw None
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue, typename T >
+inline
+VariableLengthVector< TValue >
+operator*(const T & scalar, VariableLengthVector< TValue > && v) ITK_NOEXCEPT
+{
+  v *= scalar;
+  // RVO cannot work on v. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v);
+}
+
+// Divisions by scalar
+/** Division \c VariableLengthVector / Scalar (rvalue reference).
+ * \throw None
+ * \relates itk::VariableLengthVector
+ */
+template< typename TValue, typename T >
+inline
+VariableLengthVector< TValue >
+operator/(VariableLengthVector< TValue > && v, const T & scalar) ITK_NOEXCEPT
+{
+  v /= scalar;
+  // RVO cannot work on v. move can be done, but compilers won't do it
+  // implicitly. It has to be done explicitly.
+  return std::move(v);
+}
+
+#endif
+
+//@}
+
+/**\name Serialization */
+//@{
+/** Serialization of \c VariableLengthVector
+ * \relates itk::VariableLengthVector
+ */
 template< typename TValue >
 std::ostream & operator<<(std::ostream & os, const VariableLengthVector< TValue > & arr)
 {
@@ -794,6 +1312,35 @@ std::ostream & operator<<(std::ostream & os, const VariableLengthVector< TValue 
   os << "]";
   return os;
 }
+//@}
+
+/**\name Standard compliance functions */
+//@{
+/** \c swap() overload for \c VariableLengthVector
+ * \throw None
+ * \relates itk::VariableLengthVector
+ * \internal
+ * This overload follows C++ standard naming convention. This is required to
+ * permit \c VariableLengthVector to be exchanged by standard algorithms that
+ * take advantage of Koening Namespace Lookup (a.k.a. Argument Dependant
+ * Lookup). e.g.
+ \code
+ template <typename T> f(T & l, T & r)
+ {
+     using std::swap;
+     swap(l,r);
+     ...
+ }
+ * \endcode
+ */
+template <typename T>
+inline
+void swap(VariableLengthVector<T> &l_, VariableLengthVector<T> &r_) ITK_NOEXCEPT
+{
+  l_.Swap(r_);
+}
+//@}
+
 } // namespace itk
 
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
