@@ -166,7 +166,14 @@ public:
    * means that subclasses cannot allocate memory. */
   ~Array();
 
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   void swap(Array &other)
+    {
+      this->Swap(other);
+    }
+#endif
+
+  void Swap(Array &other)
     {
       using std::swap;
       this->VnlVectorType::swap(other);
@@ -204,7 +211,7 @@ template<> ITKCommon_EXPORT std::ostream & operator<< <float> (std::ostream & os
 template<typename T>
 inline void swap( Array<T> &a, Array<T> &b )
 {
-  a.swap(b);
+  a.Swap(b);
 }
 
 } // namespace itk
