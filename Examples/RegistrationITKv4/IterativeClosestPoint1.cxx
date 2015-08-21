@@ -43,16 +43,15 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  typedef CommandIterationUpdate  Self;
+  typedef itk::Command            Superclass;
+  typedef itk::SmartPointer<Self> Pointer;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-
   typedef itk::LevenbergMarquardtOptimizer     OptimizerType;
   typedef const OptimizerType *                OptimizerPointer;
 
@@ -63,7 +62,11 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( object );
+    if( optimizer == ITK_NULLPTR )
+      {
+      itkExceptionMacro( "Could not cast optimizer." );
+      }
 
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -73,9 +76,7 @@ public:
     std::cout << "Value = " << optimizer->GetCachedValue() << std::endl;
     std::cout << "Position = "  << optimizer->GetCachedCurrentPosition();
     std::cout << std::endl << std::endl;
-
     }
-
 };
 
 
