@@ -2308,7 +2308,8 @@ VIOAPI  void  set_volume_voxel_range(
     VIO_Real     voxel_min,
     VIO_Real     voxel_max )
 {
-    VIO_Real  real_min, real_max;
+    VIO_Real  real_min = 0.0;
+    VIO_Real  real_max = 0.0;
 
     if( voxel_min >= voxel_max ) /*VF: trying to fix the situation when whole volume have the same value all around*/
     {
