@@ -279,6 +279,44 @@ bool CheckAllSignedAndIntegerTraits()
   return didAllTestsPass;
 }
 
+// Check a few types and make sure that they have the correct value for IsComplex
+bool CheckIsComplexTraits()
+{
+  bool didTestsPass = true;
+  std::cout << "Testing non complex types for IsComplex trait" << std::endl;
+  if ( itk::NumericTraits< float >::IsComplex
+    || itk::NumericTraits< double >::IsComplex
+    || itk::NumericTraits< char >::IsComplex
+    || itk::NumericTraits< int >::IsComplex
+    || itk::NumericTraits< unsigned long >::IsComplex )
+    {
+    std::cout << "Test FAILED!!\n" << std::endl;
+    std::cout << "Not all non complex types have the correct IsComplex trait" << std::endl;
+    didTestsPass = false;
+    }
+  else
+    {
+    std::cout << "Test Passed\n" << std::endl;
+    }
+
+  std::cout << "Testing complex types for IsComplex trait" << std::endl;
+  if ( !itk::NumericTraits< std::complex< float > >::IsComplex
+    || !itk::NumericTraits< std::complex< double > >::IsComplex
+    || !itk::NumericTraits< std::complex< char > >::IsComplex
+    || !itk::NumericTraits< std::complex< int > >::IsComplex
+    || !itk::NumericTraits< std::complex< unsigned long > >::IsComplex )
+    {
+    std::cout << "Test FAILED!!\n" << std::endl;
+    std::cout << "Not all complex types have the correct IsComplex trait" << std::endl;
+    didTestsPass = false;
+    }
+  else
+    {
+    std::cout << "Test Passed\n" << std::endl;
+    }
+  return didTestsPass;
+} // End CheckIsComplexTraits()
+
 int itkNumericTraitsTest(int, char* [] )
 {
   bool testPassedStatus = true;
@@ -1162,6 +1200,9 @@ int itkNumericTraitsTest(int, char* [] )
 
   //  check the new Integer and Signed traits
   testPassedStatus &= CheckAllSignedAndIntegerTraits();
+
+  // Check IsComplex traits
+  testPassedStatus &= CheckIsComplexTraits();
 
   return ( testPassedStatus ) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

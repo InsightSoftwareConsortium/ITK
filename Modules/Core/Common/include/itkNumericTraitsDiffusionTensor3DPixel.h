@@ -138,6 +138,7 @@ public:
 
   static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
   static const bool IsInteger = false;
+  static const bool IsComplex = false;
 
   /** Fixed length vectors cannot be resized, so an exception will
    *  be thrown if the input size is not valid.  In this case, the
