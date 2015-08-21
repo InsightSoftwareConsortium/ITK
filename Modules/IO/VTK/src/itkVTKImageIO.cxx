@@ -653,8 +653,8 @@ void VTKImageIO::WriteImageInformation( const void *itkNotUsed(buffer) )
     file << "BINARY\n";
     }
 
-  file.setf(itksys_ios::ios::scientific,
-            itksys_ios::ios::floatfield);
+  file.setf(std::ios::scientific,
+            std::ios::floatfield);
 
   file.precision(16);
 

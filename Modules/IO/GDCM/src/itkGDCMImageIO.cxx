@@ -54,6 +54,7 @@
 #include "gdcmMediaStorage.h"
 
 #include <fstream>
+#include <sstream>
 
 namespace itk
 {
@@ -934,13 +935,13 @@ void GDCMImageIO::Write(const void *buffer)
   ExposeMetaData< std::string >(dict, "0028|1053", rescaleslope);
   if ( rescaleintercept != "" && rescaleslope != "" )
     {
-    itksys_ios::stringstream sstr1;
+    std::stringstream sstr1;
     sstr1 << rescaleintercept;
     if ( !( sstr1 >> m_RescaleIntercept ) )
       {
       itkExceptionMacro("Problem reading RescaleIntercept: " << rescaleintercept);
       }
-    itksys_ios::stringstream sstr2;
+    std::stringstream sstr2;
     sstr2 << rescaleslope;
     if ( !( sstr2 >> m_RescaleSlope ) )
       {

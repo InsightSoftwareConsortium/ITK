@@ -39,7 +39,7 @@
  */
 
 #include "itkImageToImageFilter.h"
-#include "itksys/ios/sstream"
+#include <sstream>
 
 /**
  * \class An example filter.
@@ -130,7 +130,7 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if((ImageDimension == 2) || (ImageDimension == 3))
     {
-    itksys_ios::ostringstream err;
+    std::ostringstream err;
     err << "Error: N-d filter implementation called for "
         << ImageDimension
         << "-d filter, even though specific implementation exists."
@@ -154,7 +154,7 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 2)
     {
-    itksys_ios::ostringstream err;
+    std::ostringstream err;
     err << "Error: 2-d filter implementation called for "
         << ImageDimension
         << "-d filter." << std::endl;
@@ -177,7 +177,7 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 3)
     {
-    itksys_ios::ostringstream err;
+    std::ostringstream err;
     err << "Error: 3-d filter implementation called for "
         << ImageDimension
         << "-d filter." << std::endl;
