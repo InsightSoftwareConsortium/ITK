@@ -136,6 +136,7 @@ public:
 
   static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
   static const bool IsInteger = false;
+  static const bool IsComplex = false;
 
   /** RGBA pixels must have 4 components, so the size cannot be
    *  set to anything besides 4.  If called with size of 4, this

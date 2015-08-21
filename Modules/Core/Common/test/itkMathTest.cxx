@@ -506,6 +506,7 @@ int main( int, char *[] )
     if ( itk::Math::AlmostEquals(f,sc) == false
       || itk::Math::AlmostEquals(sc,f) == false
       || itk::Math::AlmostEquals(1.0,1.0f) == false
+      || itk::Math::AlmostEquals(1.1,1.1f) == false
       || itk::Math::AlmostEquals(1,1.0) == false
       || itk::Math::AlmostEquals(2.0,1.0) == true
       || itk::Math::AlmostEquals(1,2) == true )
@@ -520,9 +521,10 @@ int main( int, char *[] )
       std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
       testPassStatus=EXIT_FAILURE;
       }
+
     // Test comparison values of different types
-    if ( itk::Math::NotExactlyEquals( itk::NumericTraits< float >::OneValue(), itk::NumericTraits< double >::OneValue() ) ||
-         itk::Math::NotExactlyEquals( itk::NumericTraits< double >::OneValue(), static_cast< float >( 1 ) ) )
+    if ( itk::Math::NotExactlyEquals( itk::NumericTraits< float >::OneValue(), itk::NumericTraits< double >::OneValue() )
+      || itk::Math::NotExactlyEquals( itk::NumericTraits< double >::OneValue(), static_cast< float >( 1 ) ) )
       {
       std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
       testPassStatus=EXIT_FAILURE;
@@ -540,7 +542,7 @@ int main( int, char *[] )
     if ( itk::Math::NotAlmostEquals( oneExact.asFloat, oneAlmost.asFloat ) )
       {
       std::cout << __FILE__ << " " << __LINE__ << " " << oneExact.asFloat <<" == " << oneAlmost.asFloat << std::endl;
-      std::cout << "AlmostEquals Test Failure" << std::endl;
+      std::cout << "AlmostEquals Test Failure\n" << std::endl;
       testPassStatus=EXIT_FAILURE;
       }
 
@@ -548,8 +550,116 @@ int main( int, char *[] )
     if ( itk::Math::ExactlyEquals( oneExact.asFloat, oneAlmost.asFloat ) )
       {
       std::cout << __FILE__ << " " << __LINE__ << " " << oneExact.asFloat <<" == " << oneAlmost.asFloat << std::endl;
-      std::cout << "ExactlyEquals Test Failure" << std::endl;
+      std::cout << "ExactlyEquals Test Failure\n" << std::endl;
       testPassStatus=EXIT_FAILURE;
+      }
+
+    // Test AlmostEquals complex comparisons
+    const std::complex< double > z1Double( 1.1, 2.1 );
+    const std::complex< float >  z1Float( 1.1f, 2.1f );
+    const std::complex< double > z2Double( 1.0, 3.0 );
+    const std::complex< int >    z2Int( 1, 3 );
+
+    // Test AlmostEquals with complex numbers of the same value and different types
+    std::cout << "Testing COMPLEX vs COMPLEX, DOUBLE vs FLOAT, SAME values " << std::endl;
+    if ( itk::Math::AlmostEquals( z1Double, z1Float ) == false )
+      {
+      std::cout << "Test FAILED!!\n" << std::endl;
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Test passed\n" << std::endl;
+      }
+
+    std::cout << "Testing COMPLEX vs COMPLEX, DOUBLE vs INT, SAME values " << std::endl;
+    if ( itk::Math::AlmostEquals( z2Double, z2Int ) == false )
+      {
+      std::cout << "Test FAILED!!\n" << std::endl;
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Test passed\n" << std::endl;
+      }
+
+    // Test Comparisons with complex values that are very close
+    FloatRepresentationD z1AlmostRealPart;
+    z1AlmostRealPart.asFloat = z1Double.real();
+    z1AlmostRealPart.asInt += 1;
+    const std::complex< double > z1DoubleAlmost( z1AlmostRealPart.asFloat, z1Double.imag() );
+
+    std::cout << "Testing COMPLEX vs COMPLEX, DOUBLE vs DOUBLE, VERYCLOSE values " << std::endl;
+    if ( itk::Math::NotAlmostEquals( z1Double, z1DoubleAlmost ) )
+      {
+      std::cout << "Test FAILED!!\n" << std::endl;
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Test passed\n" << std::endl;
+      }
+
+    //Test comparison between complex and real number with the same value
+    const std::complex< double > z3Double( 0.123, 0 );
+    const float r3Float = 0.123;
+    const double r3Double = 0.123;
+
+    std::cout << "Testing COMPLEX vs REAL, DOUBLE vs DOUBLE, SAME values " << std::endl;
+    if ( itk::Math::NotAlmostEquals( z3Double, r3Double) )
+      {
+      std::cout << "Test FAILED!!\n" << std::endl;
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Test passed\n" << std::endl;
+      }
+
+    std::cout << "Testing COMPLEX vs REAL, DOUBLE vs FLOAT, SAME values " << std::endl;
+    if ( itk::Math::NotAlmostEquals( z3Double, r3Float) )
+      {
+      std::cout << "Test FAILED!!\n" << std::endl;
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Test passed\n" << std::endl;
+      }
+
+    // Test comparison between complex and real numbers with very close values
+    const std::complex< float > z4Float( 0.123, 0 );
+    FloatRepresentationF r4FloatAlmost;
+    r4FloatAlmost.asFloat = z4Float.real();
+    r4FloatAlmost.asInt += 1;
+
+    std::cout << "Testing COMPLEX vs REAL, FLOAT vs FLOAT, VERYCLOSE values " << std::endl;
+    if ( itk::Math::NotAlmostEquals( z4Float, r4FloatAlmost.asFloat ) )
+      {
+      std::cout << "Test FAILED!!\n" << std::endl;
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Test passed\n" << std::endl;
+      }
+
+    std::cout << "Testing COMPLEX vs REAL, DOUBLE vs FLOAT, VERYCLOSE values " << std::endl;
+    if ( itk::Math::NotAlmostEquals( z3Double, r4FloatAlmost.asFloat ) )
+      {
+      std::cout << "Test FAILED!!\n" << std::endl;
+      std::cout << __FILE__ << " " << __LINE__ << " " << f  <<" == " << d << std::endl;
+      testPassStatus=EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Test passed\n" << std::endl;
       }
     }
 
