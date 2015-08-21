@@ -20,17 +20,21 @@
 #include "itkVariableLengthVector.h"
 #include "itkMath.h"
 
-#define ASSERT(cond, text)  \
-CLANG_PRAGMA_PUSH           \
-CLANG_SUPPRESS_Wfloat_equal \
-  if (!(cond))              \
-CLANG_PRAGMA_POP            \
-    std::cout << __FILE__ << ":" << __LINE__ << ":" << "Assertion failed: " << #cond << ": " << (text) << std::endl;
+#define ASSERT(cond, text)                                                                                           \
+CLANG_PRAGMA_PUSH                                                                                                    \
+CLANG_SUPPRESS_Wfloat_equal                                                                                          \
+  if (!(cond))                                                                                                       \
+CLANG_PRAGMA_POP                                                                                                     \
+    {                                                                                                                \
+    std::cerr << __FILE__ << ":" << __LINE__ << ":" << "Assertion failed: " << #cond << ": " << (text) << std::endl; \
+    result = EXIT_FAILURE;                                                                                           \
+    }
 
 int itkVariableLengthVectorTest(int, char*[])
 {
   typedef itk::VariableLengthVector<float>   FloatVariableLengthVectorType;
   typedef itk::VariableLengthVector<double>  DoubleVariableLengthVectorType;
+  int result = EXIT_SUCCESS;
 
   FloatVariableLengthVectorType f( 3 );
   f[0]=1.0; f[1] = 2.0; f[2] = 3.0;
@@ -157,19 +161,19 @@ int itkVariableLengthVectorTest(int, char*[])
     // ---[ ShrinkToFit
     x.SetSize(5, DoubleVariableLengthVectorType::ShrinkToFit(), DoubleVariableLengthVectorType::DumpOldValues());
     ASSERT(&x[0] != start, "ShrintToFit(bigger) => reallocate");
-    ASSERT( ref[0] != x[0], "Resize + Dump Old Value --> Old values shall be lost");
+    // ASSERT(x[0] is uninitialized);
     x[0] = ref[0];
     start = &x[0];
 
     x.SetSize(3, DoubleVariableLengthVectorType::ShrinkToFit(), DoubleVariableLengthVectorType::DumpOldValues());
     ASSERT(&x[0] != start, "ShrintToFit(smaller) => reallocate");
-    ASSERT( ref[0] != x[0], "Resize + Dump Old Value --> Old values shall be lost");
+    // ASSERT(x[0] is uninitialized);
     x[0] = ref[0];
     start = &x[0];
 
     x.SetSize(5, DoubleVariableLengthVectorType::DontShrinkToFit(), DoubleVariableLengthVectorType::DumpOldValues());
     ASSERT(&x[0] != start, "DontShrintToFit(bigger) => reallocate");
-    ASSERT( ref[0] != x[0], "Resize + Dump Old Value --> Old values shall be lost");
+    // ASSERT(x[0] is uninitialized);
     x[0] = ref[0];
     start = &x[0];
     }
@@ -240,8 +244,8 @@ int itkVariableLengthVectorTest(int, char*[])
   delete[] d;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << (result == EXIT_SUCCESS ? "[PASSED]" : "[FAILED]" )<< std::endl;
 
-  return EXIT_SUCCESS;
+  return result;
 
 }
