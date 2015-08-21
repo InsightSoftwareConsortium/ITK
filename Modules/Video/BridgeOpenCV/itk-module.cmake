@@ -4,8 +4,7 @@ bridges for both image data and video data.")
 
 itk_module(ITKVideoBridgeOpenCV
   ENABLE_SHARED
-  COMPILE_DEPENDS
-    ITKVideoCore
+  DEPENDS
     ITKVideoIO
   TEST_DEPENDS
     ITKTestKernel

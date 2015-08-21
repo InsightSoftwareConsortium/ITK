@@ -20,6 +20,7 @@
 
 #include "itkImageIOBase.h"
 #include "itkExceptionObject.h"
+#include "ITKVideoIOExport.h"
 #include "vnl/vnl_vector.h"
 
 #include <string>
@@ -45,7 +46,7 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-class VideoIOBase : public ImageIOBase
+class ITKVideoIO_EXPORT VideoIOBase : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
