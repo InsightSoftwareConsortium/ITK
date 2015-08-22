@@ -123,13 +123,10 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
     scale = 0.;
 
     /*     .......... scale row (algol tol then not needed) .......... */
-    if (l > 0)
-    {
-        for ( k = 0; k <= l; ++k )
-        {
-            scale += vnl_math_abs(d[k]);
-        }
-    }
+    for ( k = 0; k <= l; ++k )
+      {
+      scale += vnl_math_abs(d[k]);
+      }
 
     if ( scale == 0. )
       {
@@ -247,13 +244,10 @@ const
     scale = 0.0;
 
     /*     .......... scale row (algol tol then not needed) .......... */
-    if (l > 0)
-    {
-        for ( k = 0; k <= l; ++k )
-        {
-            scale += vnl_math_abs(d[k]);
-        }
-    }
+    for ( k = 0; k <= l; ++k )
+      {
+      scale += vnl_math_abs(d[k]);
+      }
 
     if ( scale == 0.0 )
       {
