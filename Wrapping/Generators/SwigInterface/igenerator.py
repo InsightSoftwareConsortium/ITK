@@ -26,26 +26,33 @@ def getType(v):
     return v
 
 
+class IdxGenerator(object):
+    """Generates a the .idx file for an ITK wrapping submodule (which usually
+    corresponds to a class)."""
+
+    def __init__(self, moduleName):
+        self.moduleName = moduleName
+        # the output file
+        self.outputFile = StringIO()
+
+    def create_idxfile(self, idxFilePath, wrappersNamespace):
+        # iterate over all the typedefs in the _wrapping_::wrappers namespace
+        for typedef in wrappersNamespace.typedefs():
+            n = typedef.name
+            s = getType(typedef).decl_string
+            # drop the :: prefix - it make swig produce invalid code
+            if s.startswith("::"):
+                s = s[2:]
+            self.outputFile.write("{%s} {%s} {%s}\n" % (s, n, self.moduleName))
+
+        content = self.outputFile.getvalue()
+
+        with open(idxFilePath, "w") as f:
+            f.write(content)
+
+
 class SwigInputGenerator(object):
     """Generates a swig input .i file for an ITK module."""
-
-    applyFileNames = []
-    # the output file
-    outputFile = StringIO()
-
-    # a dict to let us use the alias name instead of the full c++ name. Without
-    # that, in many cases, swig don't know that's the same type
-    aliases = {}
-
-    # a set of used types
-    usedTypes = set()
-
-    # a dict to store the file where the def comes from
-    typedefSource = {}
-
-    warnings = set()
-
-    verbose = False
 
     notWrapped = [
         "itk::MapContainer< unsigned long, itk::CellInterface<.+>",
@@ -132,11 +139,29 @@ class SwigInputGenerator(object):
      };
     """}
 
-    mdx_loaded = set()
-
     def __init__(self, moduleName, options):
         self.moduleName = moduleName
         self.options = options
+
+        self.outputFile = StringIO()
+        self.applyFileNames = []
+
+        # a dict to let us use the alias name instead of the full c++ name. Without
+        # that, in many cases, swig don't know that's the same type
+        self.aliases = {}
+
+        # a set of used types
+        self.usedTypes = set()
+
+        # a dict to store the file where the def comes from
+        self.typedefSource = {}
+
+        self.warnings = set()
+
+        self.mdx_loaded = set()
+
+        self.verbose = options.verbose
+
 
     def warn(self, id, msg, doWarn=True):
         if not doWarn:
@@ -156,11 +181,11 @@ class SwigInputGenerator(object):
                 if self.options.warningError:
                     print(
                         "%s: error(%s): %s" %
-                        (args[0], str(id), msg), file=sys.stderr)
+                        (self.moduleName, str(id), msg), file=sys.stderr)
                 else:
                     print(
                         "%s: warning(%s): %s" %
-                        (args[0], str(id), msg), file=sys.stderr)
+                        (self.moduleName, str(id), msg), file=sys.stderr)
 
     def info(self, msg):
         if self.verbose:
@@ -238,13 +263,12 @@ class SwigInputGenerator(object):
         (s, end) = SwigInputGenerator.typeAndDecorators(s)
 
         if s in self.aliases:
-            #    print(s, end, "        ", aliases[s], file=sys.stderr)
             self.usedTypes.add(self.aliases[s])
             return self.aliases[s] + end
 
         if s.startswith("itk::Templates::"):
             # that's a explicitly instantiated type. The name is the same than
-            # the WraITK one, so lets use it as a base for WrapITK
+            # the WrapITK one, so lets use it as a base for WrapITK
             # Ex: itk::Templates::RGBPixelUC
             # don't store the new string in s, because we need it unchanged if
             # the type is explicitly instantiated, but not wrapped
@@ -301,16 +325,24 @@ class SwigInputGenerator(object):
 
     def load_idx(self, file_name):
         with open(file_name, "r") as f:
-            for l in f:
+            for line in f:
                 (full_name, alias, module) = \
-                    re.findall(r'{(.*)} {(.*)} {(.*)}', l)[0]
+                    re.findall(r'{(.*)} {(.*)} {(.*)}', line)[0]
                 # workaround lack of :: prefix in idx files
                 # TODO: would it be better to remove the :: prefix in the output of
                 # pygccxml ?
                 # full_name = "::"+full_name
                 # normalize some basic type names
                 full_name = self.normalize(full_name)
-                # TODO: add a warning if the type is defined several times
+
+                if full_name in self.aliases:
+                    # If the full_name key alreay exists, do not overwrite the
+                    # value. load_idx() is called once before load_mdx(), making
+                    # sure the first aliases loaded are the ones belonging to
+                    # the current submodule (and the next load_idx() calls
+                    # should not overwrite these aliases.
+                    continue
+
                 self.aliases[full_name] = alias
                 # store the source of the def
                 if alias in self.typedefSource and file_name != self.typedefSource[alias]:
@@ -319,8 +351,6 @@ class SwigInputGenerator(object):
                         (alias, file_name, self.typedefSource[alias]))
                 else:
                     self.typedefSource[alias] = file_name
-                # don't declare the typedef - they are included from .include files
-                # outputFile.write("typedef %s %s;\n" % (full_name, alias))
 
     def load_mdx(self, file_name):
         if file_name in self.mdx_loaded:
@@ -328,16 +358,19 @@ class SwigInputGenerator(object):
             return
         self.mdx_loaded.add(file_name)
         with open(file_name, "r") as f:
-            ls = f.readlines()
-        for l in ls:
-            if l.startswith('%') or l.isspace():
+            lines = f.readlines()
+        for line in lines:
+            line_stripped = line.strip()
+            if line.startswith('%') or line.isspace():
                 # exclude the lines which are starting with % - that's not the idx
                 # files
                 pass
-            elif l.strip().endswith(".mdx"):
-                self.load_mdx(os.path.dirname(file_name) + os.sep + l.strip())
+            elif line_stripped.endswith(".mdx"):
+                self.load_mdx(os.path.dirname(file_name) + os.sep + line_stripped)
+            elif line_stripped[:-4] == self.moduleName:
+                continue
             else:
-                self.load_idx(os.path.dirname(file_name) + os.sep + l.strip())
+                self.load_idx(os.path.dirname(file_name) + os.sep + line_stripped)
 
     @staticmethod
     def normalize(name):
@@ -573,10 +606,9 @@ class SwigInputGenerator(object):
             if arg.type.__str__() == "std::string &":
                 self.applyFileNames.append(arg.name)
 
-    def generate_headerfile(self):
+    def generate_headerfile(self, idxFile, wrappersNamespace):
         # and begin to write the output
         headerFile = StringIO()
-        self.info("Generating %s header." % args[1])
         headerFile.write("// This file is automatically generated.\n")
         headerFile.write("// Do not modify this file manually.\n\n\n")
 
@@ -615,33 +647,22 @@ class SwigInputGenerator(object):
         s = set()
         headerFile.write("%{\n")
         # the include files passed in option
-        for f in self.options.includes:
-            i = '#include "%s"' % f
-            if i not in s:
-                headerFile.write(i + '\n')
-                s.add(i)
-        # and the includes files from other files
-        for file_name in options.take_includes:
-            with open(file_name, "r") as f:
-                for l in f:
-                    if l.startswith('#include'):
-                        i = " ".join(l.strip().split())
-                        if i not in s:
-                            headerFile.write(i + '\n')
-                            s.add(i)
+        include = self.moduleName + 'SwigInterface.h'
+        i = '#include "%s"' % include
+        if i not in s:
+            headerFile.write(i + '\n')
+            s.add(i)
         headerFile.write("%}\n\n\n")
 
         # load the aliases files
         headerFile.write("%{\n")
-        # the idx files passed in option
-        for f in self.options.idx:
-            self.load_idx(f)
+        self.load_idx(idxFile)
         # and the idx files in the mdx ones
         for f in self.options.mdx:
             self.load_mdx(f)
         # iterate over all the typedefs in the _wrapping_::wrappers namespace
         # to fill the alias dict
-        for typedef in wrappers_ns.typedefs():  # allow_empty=True):
+        for typedef in wrappersNamespace.typedefs():  # allow_empty=True):
             s = getType(typedef).decl_string
             # drop the :: prefix - it make swig produce invalid code
             if s.startswith("::"):
@@ -673,8 +694,10 @@ class SwigInputGenerator(object):
     def generate_includefile(self):
         # add the swig includes
         includeFile = StringIO()
+        includeFile.write("%include itk.i\n")
         for f in options.swig_includes:
             includeFile.write("%%include %s\n" % f)
+        includeFile.write("%%include %s\n" % (self.moduleName + "_ext.i"))
         includeFile.write('\n\n')
         return includeFile
 
@@ -694,28 +717,30 @@ class SwigInputGenerator(object):
         return applyFile
 
     def create_typedefheader(self, usedSources):
-    # create the typedef header
-        if self.options.typedef_output:
-            typedefFile = StringIO()
-            typedefFile.write("#ifndef __%sSwigInterface_h\n" % self.moduleName)
-            typedefFile.write("#define __%sSwigInterface_h\n" % self.moduleName)
-            if self.options.typedef_input:
-                with open(self.options.typedef_input, "r") as f:
-                    typedefFile.write(f.read() + '\n')
-            for src in usedSources:
-                typedefFile.write('#include "%sSwigInterface.h"\n' % src)
-            typedefFile.write("#endif\n")
-            with open(self.options.typedef_output, "w") as f:
-                f.write(typedefFile.getvalue())
+        # create the typedef header
+        typedefFile = StringIO()
+        typedefFile.write("#ifndef __%sSwigInterface_h\n" % self.moduleName)
+        typedefFile.write("#define __%sSwigInterface_h\n" % self.moduleName)
+        typedefInput = os.path.join(options.library_output_dir,
+                                    self.moduleName + 'SwigInterface.h.in')
+        with open(typedefInput, "r") as f:
+            typedefFile.write(f.read() + '\n')
+        for src in usedSources:
+            typedefFile.write('#include "%sSwigInterface.h"\n' % src)
+        typedefFile.write("#endif\n")
+        typedefOutput = os.path.join(options.interface_output_dir,
+                                     self.moduleName + 'SwigInterface.h')
+        with open(typedefOutput, "w") as f:
+            f.write(typedefFile.getvalue())
 
-    def create_interfacefile(self, interfacefile, wrappers_ns):
-        headerFile = self.generate_headerfile()
+    def create_interfacefile(self, interfaceFile, idxFile, wrappersNamespace):
+        headerFile = self.generate_headerfile(idxFile, wrappersNamespace)
 
         # iterate over all the typedefs in the _wrapping_::wrappers namespace
         # to build a list of classes with the dependecies
         # classes :: [(name, [dep_name], typedef)]
         classes = []
-        for typedef in wrappers_ns.typedefs():
+        for typedef in wrappersNamespace.typedefs():
             # begin a new class
             if isinstance(
                     getType(typedef),
@@ -770,7 +795,7 @@ class SwigInputGenerator(object):
                 idxName = os.path.basename(self.typedefSource[alias])
                 iName = idxName[:-len(".idx")]
                 usedSources.add(iName)
-        outputFileName = os.path.basename(interfacefile)
+        outputFileName = os.path.basename(interfaceFile)
         if outputFileName in usedSources:
             usedSources.remove(outputFileName)
 
@@ -784,28 +809,21 @@ class SwigInputGenerator(object):
         content = headerFile.getvalue() + importFile.getvalue() + \
             includeFile.getvalue() + applyFile.getvalue() + self.outputFile.getvalue()
 
-        if self.options.keep and os.path.exists(interfacefile):
-            with open(interfacefile, "r") as f:
+        if self.options.keep and os.path.exists(interfaceFile):
+            with open(interfaceFile, "r") as f:
                 filecontent = f.read()
 
-        if self.options.keep and os.path.exists(interfacefile) and \
+        if self.options.keep and os.path.exists(interfaceFile) and \
                 filecontent == content:
-            self.info("%s unchanged." % interfacefile)
+            self.info("%s unchanged." % interfaceFile)
         else:
-            self.info("Writing %s." % interfacefile)
-            with open(interfacefile, "w") as f:
+            self.info("Writing %s." % interfaceFile)
+            with open(interfaceFile, "w") as f:
                 f.write(content)
 
 
 if __name__ == '__main__':
     optionParser = OptionParser()
-    optionParser.add_option(
-        "--idx",
-        action="append",
-        dest="idx",
-        default=[],
-        metavar="FILE",
-        help="idx file to be used.")
     optionParser.add_option(
         "--mdx",
         action="append",
@@ -814,21 +832,12 @@ if __name__ == '__main__':
         metavar="FILE",
         help="master idx file to be used.")
     optionParser.add_option(
-        "--include",
+        "--import",
         action="append",
-        dest="includes",
+        dest="imports",
         default=[],
         metavar="FILE",
-        help="File to be included in the generated interface file.")
-    optionParser.add_option(
-        "--take-includes",
-        action="append",
-        dest="take_includes",
-        default=[],
-        metavar="FILE",
-        help=(
-            "File which contains the include to take, and include in the "
-            "generated interface file."))
+        help="File to be imported in the generated interface file.")
     optionParser.add_option(
         "--swig-include",
         action="append",
@@ -838,23 +847,6 @@ if __name__ == '__main__':
         help=(
             "File to be included by swig (%include) in the generated "
             "interface file."))
-    optionParser.add_option(
-        "--import",
-        action="append",
-        dest="imports",
-        default=[],
-        metavar="FILE",
-        help="File to be imported in the generated interface file.")
-    optionParser.add_option(
-        "--typedef-input",
-        action="store",
-        type="string",
-        dest="typedef_input")
-    optionParser.add_option(
-        "--typedef-output",
-        action="store",
-        type="string",
-        dest="typedef_output")
     optionParser.add_option(
         "-w",
         "--disable-warning",
@@ -903,6 +895,24 @@ if __name__ == '__main__':
         action="store",
         dest="castxml_path",
         help="Path to castxml")
+    optionParser.add_option(
+        "-o",
+        "--interface-output-dir",
+        action="store",
+        dest="interface_output_dir",
+        help="Directory to write the Swig input files")
+    optionParser.add_option(
+        "-l",
+        "--library-output-dir",
+        action="store",
+        dest="library_output_dir",
+        help="Directory to read the xml abstract syntax tree input files")
+    optionParser.add_option(
+        "-s",
+        "--submodule-order",
+        action="store",
+        dest="submodule_order",
+        help="List of submodules that must be wrapped in the given order")
     options, args = optionParser.parse_args()
 
     sys.path.insert(1, options.pygccxml_path)
@@ -915,20 +925,73 @@ if __name__ == '__main__':
 
     pygccxml_config = pygccxml.parser.config.gccxml_configuration_t(
         gccxml_path=options.castxml_path)
-    # create a reader
-    pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(
-        pygccxml_config)
-    # and read a xml file
-    res = pygccxml_reader.read_xml_file(args[0])
 
-    global_ns = pygccxml.declarations.get_global_namespace(res)
-    wrapping_ns = global_ns.namespace('_wrapping_')
-    wrappers_ns = wrapping_ns.namespace('wrappers')
+    moduleNames = []
+    # The first mdx file is the master index file for this module.
+    with open(options.mdx[0], 'r') as ff:
+        for line in ff.readlines():
+            stripped = line.strip()
+            if line.startswith('%') or line.isspace():
+                # exclude the lines which are starting with % - that's not the idx
+                # files
+                pass
+            elif stripped.endswith(".mdx"):
+                pass
+            else:
+                moduleName = stripped.rsplit('.')[0]
+                if moduleName.startswith('(const char*)'):
+                    moduleName = moduleName[len('(const char*)'):]
+                moduleName = moduleName.strip('"')
+                moduleNames.append(moduleName)
 
-    moduleName = wrapping_ns.variable('group').value
-    if moduleName.startswith('(const char*)'):
-        moduleName = moduleName[len('(const char*)'):]
-    moduleName = moduleName.strip('"')
+    def generate_wrapping_namespace(moduleName):
+        xmlFilePath = os.path.join(options.library_output_dir,
+                                   moduleName + '.xml')
+        pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(
+            pygccxml_config)
+        abstractSyntaxTree = pygccxml_reader.read_xml_file(xmlFilePath)
+        globalNamespace = pygccxml.declarations.get_global_namespace(abstractSyntaxTree)
+        wrappingNamespace = globalNamespace.namespace('_wrapping_')
+        return wrappingNamespace.namespace('wrappers')
 
-    swig_input_generator = SwigInputGenerator(moduleName, options)
-    swig_input_generator.create_interfacefile(args[1], wrappers_ns)
+    wrappingNamespaces = dict()
+    # Limit the number of cached, parsed abstract syntax trees to avoid very
+    # high memory usage
+    wrappingCacheLength = min(len(moduleNames), 20)
+    for ii in range(wrappingCacheLength):
+        moduleName = moduleNames[ii]
+        wrappingNamespace = generate_wrapping_namespace(moduleName)
+        wrappingNamespaces[moduleName] = wrappingNamespace
+
+    for moduleName in moduleNames:
+        if moduleName in wrappingNamespaces:
+            wrappersNamespace = wrappingNamespaces[moduleName]
+        else:
+            wrappersNamespace = generate_wrapping_namespace(moduleName)
+
+        idxFilePath = os.path.join(options.interface_output_dir,
+                                   moduleName + '.idx')
+        idx_generator = IdxGenerator(moduleName)
+        idx_generator.create_idxfile(idxFilePath, wrappersNamespace)
+
+    def generate_swig_input(moduleName):
+        if moduleName in wrappingNamespaces:
+            wrappersNamespace = wrappingNamespaces[moduleName]
+        else:
+            wrappersNamespace = generate_wrapping_namespace(moduleName)
+
+        idxFilePath = os.path.join(options.interface_output_dir,
+                                   moduleName + '.idx')
+        swigInputFilePath = os.path.join(options.interface_output_dir,
+                                   moduleName + '.i')
+
+        swig_input_generator = SwigInputGenerator(moduleName, options)
+        swig_input_generator.create_interfacefile(swigInputFilePath, idxFilePath,
+                wrappersNamespace)
+
+    if options.submodule_order:
+        for moduleName in options.submodule_order.split(';'):
+            generate_swig_input(moduleName)
+            moduleNames.remove(moduleName)
+    for moduleName in moduleNames:
+        generate_swig_input(moduleName)

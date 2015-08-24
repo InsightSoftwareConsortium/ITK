@@ -248,8 +248,7 @@ message(STATUS \"Swig configure successfully completed.\")
   mark_as_advanced(SWIG_EXECUTABLE)
 endif()
 
-###############################################################################
-set(IDX_GENERATOR ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "idx generator path")
+
 set(PYGCCXML_DIR ${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src CACHE INTERNAL "pygccxml path")
 
 
@@ -266,15 +265,13 @@ macro(itk_wrap_module_swig_interface library_name)
   set(SWIG_INTERFACE_MDX_CONTENT )
   # store the content of the .i file for the module - a set of import of all the .i files generated for the module
   set(SWIG_INTERFACE_MODULE_CONTENT )
-  # the list of .idx files generated for the module
-  set(SWIG_INTERFACE_IDX_FILES )
   # build a list of modules to create the igenerator custom command in
   # itk_end_wrap_module_swig_interface
   set(SWIG_INTERFACE_MODULES )
 endmacro()
 
-macro(itk_end_wrap_module_swig_interface)
 
+macro(itk_end_wrap_module_swig_interface)
   # Loop over the extra swig input files and copy them to the Typedefs directory
   foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
     file(COPY "${source}"
@@ -283,13 +280,9 @@ macro(itk_end_wrap_module_swig_interface)
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
   endforeach()
 
-  # the list of .i files generated for the module
-  set(SWIG_INTERFACE_FILES )
-
   # prepare dependencies
   set(DEPS )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-    list(APPEND DEPS ${${dep}IdxFiles} ${${dep}SwigFiles})
     set(SWIG_INTERFACE_MDX_CONTENT "${dep}.mdx\n${SWIG_INTERFACE_MDX_CONTENT}")
   endforeach()
 
@@ -303,100 +296,81 @@ macro(itk_end_wrap_module_swig_interface)
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
   endforeach()
 
-  # accumulate the idx files already generated before this module to generate usable depenencies
+  # the list of files generated for the module
+  set(i_files )
+  set(xml_files )
   set(idx_files )
-  foreach(module ${SWIG_INTERFACE_MODULES})
-    set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
-    list(APPEND idx_files ${idx_file})
-  endforeach()
+  set(typedef_in_files )
+  set(typedef_files )
+  set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+  set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+  set(module_interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}_ext.i")
+
   foreach(module ${SWIG_INTERFACE_MODULES})
     # create the swig interface
-    set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.i")
-    set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
-#    set(includes_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.includes")
-    set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
-    set(typedef_in_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
-    set(typedef_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}SwigInterface.h")
-    # prepare the options
-    set(opts )
-    foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-      list(APPEND opts --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
-#      list(APPEND opts --include "${dep}.includes")
-#      list(APPEND opts --import "${dep}.i")
-    endforeach()
-    # import the interface files previously defined instead of importing all the files defined
-    # in the module to avoid many warnings when running swig
-#    foreach(i ${SWIG_INTERFACE_FILES})
-#      get_filename_component(bi "${i}" NAME)
-#      list(APPEND opts --import "${bi}")
-#    endforeach()
+    list(APPEND i_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.i")
+    list(APPEND xml_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
+    list(APPEND idx_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
+    list(APPEND typedef_in_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
+    list(APPEND typedef_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}SwigInterface.h")
 
     if(ITK_WRAP_EXPLICIT)
       list(APPEND opts --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
     endif()
-
-    add_custom_command(
-      OUTPUT ${interface_file} ${typedef_file}
-      COMMAND ${PYTHON_EXECUTABLE} ${IGENERATOR}
-        ${opts}
-        --swig-include itk.i
-        ${swig_libs}
-        --mdx ${mdx_file}
-#        --include ${WRAPPER_LIBRARY_NAME}.includes
-#        --import ${module_interface_file}
-        --swig-include ${module}_ext.i
-        -w1 -w3 -w51 -w52 -w53 -w54
-        -A protected -A private
-        -p ${PYGCCXML_DIR}
-        -g ${CASTXML_EXECUTABLE}
-        --typedef-input ${typedef_in_file}
-        --typedef-output ${typedef_file}
-        --include ${module}SwigInterface.h
-        ${xml_file}
-        ${interface_file}
-      DEPENDS ${DEPS} ${idx_files} ${IGENERATOR} # ${SWIG_INTERFACE_IDX_FILES} ${SWIG_INTERFACE_FILES} ${typedef_in_file} # ${includes_file}
-      VERBATIM
-    )
-
-    list(APPEND SWIG_INTERFACE_FILES ${interface_file})
   endforeach()
 
-  # the mdx file
-  set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+  # the master idx file (mdx file)
+  set(mdx_opts )
+  set(deps_imports )
+
+  list(APPEND mdx_opts --mdx "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+  foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+    list(APPEND mdx_opts --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
+    list(APPEND deps_imports "%import ${dep}.i\n")
+  endforeach()
   set(CONFIG_INDEX_FILE_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}")
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/Master.mdx.in" "${mdx_file}"
      @ONLY)
   WRAP_ITK_INSTALL("/Configuration/Typedefs" "${mdx_file}")
 
-  set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
-  set(module_interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}_ext.i")
-  set(deps_imports )
-  set(deps_includes )
-  foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-    set(deps_imports "${deps_imports}%import ${dep}.i\n")
-  endforeach()
-
   set(CONFIG_MODULE_INTERFACE_CONTENT ) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}"
     @ONLY)
-  if(NOT TARGET ${WRAPPER_LIBRARY_NAME}Idx)
-    add_custom_target(${WRAPPER_LIBRARY_NAME}Idx DEPENDS ${SWIG_INTERFACE_IDX_FILES})
-    add_dependencies(${WRAPPER_LIBRARY_NAME}Idx ${WRAPPER_LIBRARY_NAME}CastXML)
-  endif()
-  set(${WRAPPER_LIBRARY_NAME}IdxFiles ${SWIG_INTERFACE_IDX_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Idx file list.")
 
-  if(NOT TARGET ${WRAPPER_LIBRARY_NAME}Swig)
-    add_custom_target(${WRAPPER_LIBRARY_NAME}Swig DEPENDS ${SWIG_INTERFACE_FILES})
-    add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${WRAPPER_LIBRARY_NAME}Idx)
+  list(LENGTH i_files number_interface_files)
+  if(number_interface_files GREATER 0)
+    add_custom_command(
+      OUTPUT ${i_files} ${typedef_files} ${idx_files}
+      COMMAND ${PYTHON_EXECUTABLE} ${IGENERATOR}
+        ${mdx_opts}
+        ${swig_libs}
+        -w1 -w3 -w51 -w52 -w53 -w54
+        -A protected -A private
+        -p ${PYGCCXML_DIR}
+        -g ${CASTXML_EXECUTABLE}
+        --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
+        --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
+        --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
+      DEPENDS ${xml_files} ${IGENERATOR} ${typedef_in_files}
+      VERBATIM
+    )
   endif()
-  set(${WRAPPER_LIBRARY_NAME}SwigFiles ${SWIG_INTERFACE_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Swig file list.")
+
+  # the ${WRAPPER_LIBRARY_NAME}Swig target
+  if(NOT TARGET ${WRAPPER_LIBRARY_NAME}Swig)
+    add_custom_target(${WRAPPER_LIBRARY_NAME}Swig DEPENDS ${mdx_file} ${i_files} ${typedef_files} ${idx_files})
+    add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${WRAPPER_LIBRARY_NAME}CastXML)
+  endif()
 
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-    # don't depends on the targets from wrapitk in external projects
+    # don't depend on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-      add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${dep}Swig ${dep}Idx)
+      add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${dep}Swig)
     endforeach()
   endif()
+
+  set(${WRAPPER_LIBRARY_NAME}IdxFiles ${idx_files} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Idx file list.")
+  set(${WRAPPER_LIBRARY_NAME}SwigFiles ${i_files} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Swig file list.")
 
 endmacro()
 
@@ -421,11 +395,7 @@ macro(itk_end_wrap_submodule_swig_interface module)
   # WRAPPER_MASTER_INDEX_OUTPUT_DIR
   # MODULE_INCLUDES
 
-
   set(SWIG_INTERFACE_INCLUDES_CONTENT )
-#  foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-#    set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${dep}.includes\"\n")
-#  endforeach()
   if(SWIG_INTERFACE_INCLUDES)
     list(REMOVE_DUPLICATES SWIG_INTERFACE_INCLUDES)
     foreach(include_file ${SWIG_INTERFACE_INCLUDES})
@@ -442,23 +412,8 @@ macro(itk_end_wrap_submodule_swig_interface module)
      ${includes_file}
      @ONLY)
 
-  # the master idx file
-  set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
-
-  # generate the idx file for all the groups of the module
-  set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
-  add_custom_command(
-    OUTPUT ${idx_file}
-    COMMAND ${IDX_GENERATOR}
-      ${PYGCCXML_DIR} ${CASTXML_EXECUTABLE} ${xml_file} ${idx_file}
-    DEPENDS ${IDX_GENERATOR} ${xml_file}
-    VERBATIM
-  )
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${idx_file}")
-
   # store the path of the idx file to store it in the mdx file
   set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}${module}.idx\n")
-  list(APPEND SWIG_INTERFACE_IDX_FILES ${idx_file})
 
   set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${module}.i\n")
 
