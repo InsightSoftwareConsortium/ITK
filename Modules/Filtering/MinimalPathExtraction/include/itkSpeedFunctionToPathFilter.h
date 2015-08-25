@@ -39,7 +39,7 @@ namespace itk
  * The speed function must be a real-valued (float or double) image
  * in the range [0,1]. If multiple PathInfo objects are added,
  * multiple paths are extracted and saved to separate filter outputs.
-
+ *
  * A cost function optimizer may also be provided. If an optimizer
  * is not given, a RegularStepGradientDescentOptimizer is created
  * with default settings. Other suitable optimizers include
@@ -55,7 +55,7 @@ namespace itk
  *
  * \author Dan Mueller, Queensland University of Technology, dan.muel[at]gmail.com
  *
- * \sa itkArrivalFunctionToPathFilter
+ * \sa ArrivalFunctionToPathFilter
  * \ingroup ImageToPathFilters
  *
  * \ingroup MinimalPathExtraction
