@@ -49,11 +49,13 @@ if( CMAKE_HOST_WIN32 )
 
 endif()
 
-set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
+set(ITK_CMAKE_DIR ${ITK_SOURCE_DIR}/CMake)
+set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
 include(ITKModuleMacros)
 include(ITKExternalData)
+include(ITKModuleTest)
 include(itkCheckSourceTree)
 
 set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
@@ -102,11 +104,6 @@ If this is not set during the initial configuration, it will have no effect." OF
 mark_as_advanced(ITK_USE_SYSTEM_LIBRARIES)
 
 #-----------------------------------------------------------------------------
-# Enable running cppcheck for each module on its source and test directories.
-option(ITK_CPPCHECK_TEST "Run cppcheck for static code analysis" OFF)
-mark_as_advanced(ITK_CPPCHECK_TEST)
-
-#-----------------------------------------------------------------------------
 # Forbid downloading resources from the network during a build. This helps
 # when building on systems without network connectivity to determine which
 # resources much be obtained manually and made available to the build.
@@ -129,46 +126,6 @@ if(ITK_BRAINWEB_DATA_ROOT)
     "Please update to ITK_USE_BRAINWEB_DATA."
     )
 endif()
-
-#-----------------------------------------------------------------------------
-# ITK wrapper for add_test that automatically sets the test's LABELS property
-# to the value of its containing module.
-#
-function(itk_add_test)
-  # Add tests with data in the ITKData group.
-  ExternalData_add_test(ITKData ${ARGN})
-
-  if("NAME" STREQUAL "${ARGV0}")
-    set(_iat_testname ${ARGV1})
-  else()
-    set(_iat_testname ${ARGV0})
-  endif()
-
-  if(itk-module)
-    set(_label ${itk-module})
-    if(TARGET ${itk-module}-all AND "${ARGN}" MATCHES "DATA{")
-      add_dependencies(${itk-module}-all ITKData)
-    endif()
-  else()
-    set(_label ${main_project_name})
-  endif()
-
-  set_property(TEST ${_iat_testname} PROPERTY LABELS ${_label})
-endfunction()
-
-#-----------------------------------------------------------------------------
-# ITK function to ignore a test
-#
-function(itk_tests_ignore)
-  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_TESTS_IGNORE ${ARGN})
-endfunction()
-
-#-----------------------------------------------------------------------------
-# ITK function to ignore a test during MemCheck
-#
-function(itk_memcheck_ignore)
-  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_MEMCHECK_IGNORE ${ARGN})
-endfunction()
 
 #-----------------------------------------------------------------------------
 # Wrapping options
@@ -222,8 +179,6 @@ if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
   option(BUILD_TESTING "Build the testing tree." OFF)
 endif()
 include(CTest)
-
-include(CppcheckTargets)
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
@@ -382,7 +337,8 @@ include(ITKModuleEnablement)
 # Generate ITKConfig.cmake for the build tree.
 set(ITK_CONFIG_CODE "
 set(ITK_MODULES_DIR \"${ITK_MODULES_DIR}\")")
-set(ITK_USE_FILE "${ITK_SOURCE_DIR}/CMake/UseITK.cmake")
+set(ITK_CONFIG_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
+set(ITK_USE_FILE "${ITK_CONFIG_CMAKE_DIR}/UseITK.cmake")
 set(ITK_CONFIG_TARGETS_CONDITION " AND NOT ITK_BINARY_DIR")
 set(ITK_CONFIG_TARGETS_FILE "${ITK_BINARY_DIR}/ITKTargets.cmake")
 set(ITK_CONFIG_MODULE_API_FILE "${ITK_SOURCE_DIR}/CMake/ITKModuleAPI.cmake")
@@ -402,6 +358,7 @@ endforeach()
 set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
 set(ITK_MODULES_DIR \"\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/Modules\")")
 set(ITK_USE_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/UseITK.cmake")
+set(ITK_CONFIG_CMAKE_DIR "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}")
 set(ITK_CONFIG_TARGETS_CONDITION "")
 set(ITK_CONFIG_TARGETS_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake")
 set(ITK_CONFIG_MODULE_API_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKModuleAPI.cmake")

@@ -15,8 +15,19 @@
 # Globally the ITK.kws.xml file is used to configure the expected
 #style.
 
+if(NOT DEFINED ITK_USE_KWSTYLE)
+  find_package(KWStyle 1.0.1
+    QUIET
+    )
+  option(ITK_USE_KWSTYLE
+    "Enable the use of KWStyle for checking coding style."
+    ${KWSTYLE_FOUND} # default
+    )
+  mark_as_advanced(ITK_USE_KWSTYLE)
+endif()
 
-macro( itk_module_kwstyle_test _name )
+
+macro(itk_module_kwstyle_test _name)
 
   set(_kwstyle_itk_configuration_file "${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml"  )
 
