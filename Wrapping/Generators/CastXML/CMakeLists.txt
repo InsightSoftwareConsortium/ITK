@@ -35,8 +35,8 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/456387/castxml-windows.zip
-      URL_MD5 fc2213d4724de07b6ca7e00415f0b597
+      URL http://midas3.kitware.com/midas/download/bitstream/456450/castxml-windows.zip
+      URL_MD5 ab1cff759d84caf41d54abb24183316c
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -189,7 +189,7 @@ macro(itk_end_wrap_submodule_castxml module)
     set(_ccache_cmd ${CCACHE_EXECUTABLE})
   endif()
   if(MSVC)
-    set(_castxml_cc --castxml-cc-msvc cl)
+    set(_castxml_cc --castxml-cc-msvc cl -fexceptions)
     if(MSVC90)
       # needed for VS2008 64 bit
       set(_castxml_cc ${_castxml_cc} -D"_HAS_TR1=0")
