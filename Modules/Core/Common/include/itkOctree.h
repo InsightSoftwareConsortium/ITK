@@ -90,13 +90,13 @@ public:
    *
    * Returns color table pointer for this tree.
    *
-   * Each Octree has an array of char whose size = the number of color table
-   * entries. Each Node in the Octree points either to 8 sub-nodes, or
-   * into the ColorTable;  The color table isn't actually used to hold
+   * Each Octree has an array of OctreeNodeBranch whose size = the number of
+   * color table entries. Each Node in the Octree points either to 8 sub-nodes,
+   * or into the ColorTable;  The color table isn't actually used to hold
    * data; it simply provides a range of unique addresses that are distinct
    * from the address of any valid subtree.
    */
-  virtual const char * GetColorTable() const = 0;
+  virtual const OctreeNodeBranch * GetColorTable() const = 0;
 
   /** Get the size of the Color Table  */
   virtual int GetColorTableSize() const = 0;
@@ -152,7 +152,7 @@ public:
 
   virtual OctreeNode * GetTree() ITK_OVERRIDE;
 
-  virtual const char * GetColorTable() const ITK_OVERRIDE;
+  virtual const OctreeNodeBranch * GetColorTable() const ITK_OVERRIDE;
 
   virtual int GetColorTableSize() const ITK_OVERRIDE;
 
@@ -168,9 +168,9 @@ private:
   unsigned int         m_Width; // The width of the Octree
                                 // ( This is always a power of 2, and large
                                 // enough to contain MAX(DIMS[1,2,3]))
-  unsigned int m_Depth;         // < The depth of the Octree
-  unsigned int m_TrueDims[3];   // The true dimensions of the image
-  char         m_ColorTable[ColorTableSize];
+  unsigned int          m_Depth;         // < The depth of the Octree
+  unsigned int          m_TrueDims[3];   // The true dimensions of the image
+  OctreeNodeBranch      m_ColorTable[ColorTableSize];
   OctreeNode   m_Tree;
   // OctreeColorMapFunction m_ColorMapFunction;
   MappingFunctionType m_MappingFunction;
