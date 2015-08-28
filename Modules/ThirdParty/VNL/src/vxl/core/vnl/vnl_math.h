@@ -628,34 +628,10 @@ inline float  vnl_math_cuberoot(float  a) { return float((a<0) ? -vcl_exp(vcl_lo
 inline double vnl_math_cuberoot(double a) { return       (a<0) ? -vcl_exp(vcl_log(-a)/3) : vcl_exp(vcl_log(a)/3); }
 
 // hypotenuse
-template <typename T> T vnl_math_hypot(T x, T y)
-{
-    T ret_val, d1, d2, d3;
-    T p, r, s, t, u;
+int vnl_math_hypot(int x, int y);
+float vnl_math_hypot(float x, float y);
+double vnl_math_hypot(double x, double y);
+long double vnl_math_hypot(long double x, long double y);
 
-    d1 = vnl_math_abs(x), d2 = vnl_math_abs(y);
-    p = vnl_math_max(d1,d2);
-    if (p == 0)
-        return 0.0;
-
-    d2 = vnl_math_abs(x), d3 = vnl_math_abs(y);
-    d1 = vnl_math_min(d2,d3) / p;
-    r = d1 * d1;
-
-    t = r + 4.0;
-    while (t != 4.0)
-    {
-        s = r / t;
-        u = s * 2. + 1.;
-        p = u * p;
-        d1 = s / u;
-        r = d1 * d1 * r;
-
-        t = r + 4.0;
-    }
-
-    ret_val = p;
-    return ret_val;
-}
 
 #endif // vnl_math_h_
