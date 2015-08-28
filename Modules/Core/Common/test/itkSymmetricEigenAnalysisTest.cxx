@@ -68,7 +68,7 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec3[i] - eigenvectors[2][i] ) > tolerance)
+    if (vnl_math_abs( eigvec3[i] - vnl_math_sgn0( eigenvectors[2][0] )*eigenvectors[2][i] ) > tolerance)
       {
       std::cout << "Eigen vector computation failed" << std::endl;
       return EXIT_FAILURE;
@@ -128,7 +128,7 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec3[i] - eigenvectors[2][i] ) > tolerance)
+     if (vnl_math_abs( eigvec3[i] - vnl_math_sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
       {
       std::cout << "Eigen vector computation failed" << std::endl;
       return EXIT_FAILURE;
@@ -188,7 +188,7 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec3[i] - eigenvectors[2][i] ) > tolerance)
+     if (vnl_math_abs( eigvec3[i] - vnl_math_sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
       {
       std::cout << "Eigen vector computation failed" << std::endl;
       return EXIT_FAILURE;
@@ -245,7 +245,7 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec3[i] - eigenvectors[2][i] ) > tolerance)
+     if (vnl_math_abs( eigvec3[i] - vnl_math_sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
       {
       std::cout << "Eigen vector computation failed" << std::endl;
       return EXIT_FAILURE;
@@ -259,13 +259,13 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   std::cout << "Testing ComputeEigenValuesAndVectors() "
     << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >"
     << std::endl;
-  typedef itk::Matrix< double, 3, 3 >               InputMatrixType;
-  typedef itk::FixedArray< double, 3 >              EigenValuesArrayType;
-  typedef itk::Matrix< double, 3, 3 >               EigenVectorMatrixType;
+  typedef itk::Matrix< float, 3, 3 >               InputMatrixType;
+  typedef itk::FixedArray< float, 3 >              EigenValuesArrayType;
+  typedef itk::Matrix< float, 3, 3 >               EigenVectorMatrixType;
   typedef itk::SymmetricEigenAnalysis< InputMatrixType,
       EigenValuesArrayType, EigenVectorMatrixType > SymmetricEigenAnalysisType;
 
-  double Sdata[9] = {
+  float Sdata[9] = {
     -7.31129000e+00,   2.33080000e+01,   0.00000000e+00,
     2.33080000e+01,  -4.64210000e-01,   0.00000000e+00,
     0.00000000e+00,   0.00000000e+00,  -3.26256000e-06
@@ -291,10 +291,10 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
   std::cout << eigenvectors << std::endl;
 
-  double eigvec2[3] = { -0.75674412, 0.6537112 , 0. };
-  double eigvals[3]= { -3.26256000e-06,   1.96703376e+01, -2.74458376e+01};
+  float eigvec2[3] = { 0.75674412, -0.6537112 , 0. };
+  float eigvals[3]= { -3.26256000e-06,   1.96703376e+01, -2.74458376e+01};
 
-  double tolerance = 0.01;
+  float tolerance = 0.01;
   for( unsigned int i=0; i<3; i++ )
     {
     if (vnl_math_abs( eigvals[i] - eigenvalues[i] ) > tolerance)
@@ -303,7 +303,7 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec2[i] - eigenvectors[2][i] ) > tolerance)
+     if (vnl_math_abs( eigvec2[i] - vnl_math_sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
       {
       std::cout << eigenvectors[2][i] << " "  << eigvec2[i]  << std::endl;
       std::cout << "Eigen vector computation failed" << std::endl;
