@@ -1,3 +1,4 @@
+#include "itk_png_mangle.h"
 /* pngconf.h - machine configurable file for libpng
  *
  * libpng 1.0.12beta1 - May 14, 2001
@@ -15,6 +16,8 @@
 
 #ifndef PNGCONF_H
 #define PNGCONF_H
+
+#include "itkpng/pngDllConfig.h"
 
 /* This is the size of the compression buffer, and thus the size of
  * an IDAT chunk.  Make this whatever size you feel is best for your
