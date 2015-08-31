@@ -3,7 +3,7 @@
 thirdparty_module_name='PNG'
 
 upstream_git_url='git://git.code.sf.net/p/libpng/code'
-upstream_git_branch='v1.0.12beta1'
+upstream_git_branch='v1.6.9'
 
 snapshot_author_name='LIBPNG Upstream'
 snapshot_author_email='png-mng-implement@lists.sourceforge.net'
@@ -14,6 +14,7 @@ snapshot_paths='
   png*.c
   png*.h
   LICENSE
+  scripts/pnglibconf.h.prebuilt
   '
 
 source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
