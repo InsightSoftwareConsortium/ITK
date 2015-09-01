@@ -199,7 +199,7 @@ private:
    *  Reference:
    *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
    *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
-  void ReduceToTridiagonalMatrix(double *inputMatrix, VectorType & d,
+  void ReduceToTridiagonalMatrix(double *inputMatrix, double *d,
                                  double *e, double *e2) const;
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
@@ -224,7 +224,7 @@ private:
    *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
    *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
   void ReduceToTridiagonalMatrixAndGetTransformation(
-    double *inputMatrix, VectorType & diagonalElements,
+    double *inputMatrix, double *diagonalElements,
     double *subDiagonalElements, double *transformMatrix) const;
 
   /** Finds the eigenvalues of a symmetric tridiagonal matrix by the ql method.
@@ -256,8 +256,7 @@ private:
    *  Function Adapted from netlib/tql1.c.
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary]                      */
-  unsigned int ComputeEigenValuesUsingQL(
-    VectorType & d, double *e) const;
+  unsigned int ComputeEigenValuesUsingQL(double *d, double *e) const;
 
   /** Finds the eigenvalues and eigenvectors of a symmetric tridiagonal matrix
    * by the ql method.
@@ -296,8 +295,7 @@ private:
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary]
    */
-  unsigned int ComputeEigenValuesAndVectorsUsingQL(
-    VectorType & d, double *e, double *z) const;
+  unsigned int ComputeEigenValuesAndVectorsUsingQL(double *d, double *e, double *z) const;
 };
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
