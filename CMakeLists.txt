@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 foreach(p
     CMP0025 # CMake 3.0
     CMP0042 # CMake 3.0
+    CMP0054 # CMake 3.1
     CMP0056 # CMake 3.2
     CMP0058 # CMake 3.3
     )
