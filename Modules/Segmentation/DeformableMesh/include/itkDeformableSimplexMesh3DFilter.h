@@ -256,7 +256,7 @@ protected:
   /**
    *  L function implemented following the paper of Delingette
    */
-  double L_Func(double r, double d, double phi);
+  bool L_Func(const double r, const double d, const double phi, double & output);
 
   /**
    *  Method computes the barycentric coordinates of the passed point

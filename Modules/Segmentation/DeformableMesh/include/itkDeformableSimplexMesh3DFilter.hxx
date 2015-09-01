@@ -358,56 +358,45 @@ void
 DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 ::ComputeInternalForce(SimplexMeshGeometry *data)
 {
-  VectorType tangentForce, normalForce;
-  double     eps1Diff, eps2Diff, eps3Diff;
-  //    double diffAbsSum;
-  double           d, phi, r;
-  NeighborSetType *neighborSet;
-  PointType        xOrig;
-  PointType        eps, epsRef;
-  double           phiRef;
-  PointType        f_int;
+  const double r = data->circleRadius;
+  const double d = data->distance;
+  const double phi = data->phi;
 
-  xOrig = data->pos;
-  eps = data->eps;
-  epsRef = data->referenceMetrics;
-
-  eps1Diff = epsRef[0] - eps[0];
-  eps2Diff = epsRef[1] - eps[1];
-  eps3Diff = epsRef[2] - eps[2];
-  //    diffAbsSum = std::abs(eps1Diff)+std::abs(eps2Diff)+std::abs(eps3Diff);
-
-  tangentForce.SetVnlVector(eps1Diff * ( data->neighbors[0] ).GetVnlVector()
-                              + eps2Diff * ( data->neighbors[1] ).GetVnlVector()
-                              + eps3Diff * ( data->neighbors[2] ).GetVnlVector()
-                              );
-
-  r = data->circleRadius;
-  d = data->distance;
-  phi = data->phi;
-
-  neighborSet = data->neighborSet;
+  const NeighborSetType *const neighborSet = data->neighborSet;
 
   NeighborSetIterator neighborIt = neighborSet->begin();
-  phiRef = 0.0;
 
+  double phiRef = 0.0;
   while ( neighborIt != neighborSet->end() )
     {
     phiRef += this->m_Data->GetElement(*neighborIt++)->phi;
     }
-  phiRef /= (double)neighborSet->size();
+  phiRef /= static_cast<double>(neighborSet->size());
 
-  double L = L_Func(r, d, phi);
-  double L_Ref = L_Func(r, d, phiRef);
-
-  normalForce.SetVnlVector( -1.0 * ( L_Ref - L ) * ( data->normal ).GetVnlVector() );
-
-  data->internalForce.Fill(0.0);
-
-  // quick hack fixing for div by zero error
-  if ( Math::NotAlmostEquals( L_Ref, (double)NumericTraits< IdentifierType >::max() )
-       && Math::NotAlmostEquals( L, (double)NumericTraits< IdentifierType >::max() ) )
+  double L=0.0;
+  double L_Ref=0.0;
+  if ( L_Func(r,d,phi,L) && L_Func(r,d,phi,L_Ref) )
     {
+    const PointType eps = data->eps;
+    const PointType epsRef = data->referenceMetrics;
+
+    const double eps1Diff = epsRef[0] - eps[0];
+    const double eps2Diff = epsRef[1] - eps[1];
+    const double eps3Diff = epsRef[2] - eps[2];
+    //    diffAbsSum = std::abs(eps1Diff)+std::abs(eps2Diff)+std::abs(eps3Diff);
+
+    VectorType tangentForce;
+    tangentForce.SetVnlVector(eps1Diff * ( data->neighbors[0] ).GetVnlVector()
+      + eps2Diff * ( data->neighbors[1] ).GetVnlVector()
+      + eps3Diff * ( data->neighbors[2] ).GetVnlVector()
+    );
+
+
+    VectorType normalForce;
+    normalForce.SetVnlVector( -1.0 * ( L_Ref - L ) * ( data->normal ).GetVnlVector() );
+
+    data->internalForce.Fill(0.0);
+
     data->internalForce += tangentForce + normalForce;
     }
 }
@@ -579,13 +568,13 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 }
 
 template< typename TInputMesh, typename TOutputMesh >
-double DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
-::L_Func(double r, double d, double phi)
+bool DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
+::L_Func(const double r, const double d, const double phi, double & output)
 {
-  double r2 = r * r;
-  double d2 = d * d;
-  double r2Minusd2 = r2 - d2;
-  double tanPhi = std::tan(phi);
+  const double r2 = r * r;
+  const double d2 = d * d;
+  const double r2Minusd2 = r2 - d2;
+  const double tanPhi = std::tan(phi);
 
   double eps = 1.0;
 
@@ -593,26 +582,17 @@ double DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     {
     eps = -1.0;
     }
-  double L;
   double tmpSqr = r2 + r2Minusd2 * tanPhi * tanPhi;
   if ( tmpSqr > 0 )
     {
-    double denom = eps * ( std::sqrt(tmpSqr) + r );
+    const double denom = eps * ( std::sqrt(tmpSqr) + r );
     if ( Math::NotAlmostEquals( denom, 0.0 ) )
       {
-      L = ( r2Minusd2 * tanPhi ) / denom;
-      }
-    else
-      {
-      L = (double)NumericTraits< IdentifierType >::max();
-      //          L = 0.0;
+      output = ( r2Minusd2 * tanPhi ) / denom;
+      return true;
       }
     }
-  else
-    {
-    L = (double)NumericTraits< IdentifierType >::max();
-    }
-  return L;
+  return false;
 }
 
 template< typename TInputMesh, typename TOutputMesh >
@@ -620,11 +600,9 @@ typename DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >::PointType
 DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 ::ComputeBarycentricCoordinates(PointType p, SimplexMeshGeometry *data)
 {
-  PointType a, b, c;
-
-  a = data->neighbors[0];
-  b = data->neighbors[1];
-  c = data->neighbors[2];
+  const PointType a = data->neighbors[0];
+  const PointType b = data->neighbors[1];
+  const PointType c = data->neighbors[2];
 
   VectorType n, na, nb, nc;
   n.SetVnlVector( itk_cross_3d( ( b - a ).GetVnlVector(), ( c - a ).GetVnlVector() ) );
