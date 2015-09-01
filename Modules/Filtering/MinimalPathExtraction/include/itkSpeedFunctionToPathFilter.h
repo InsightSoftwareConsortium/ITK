@@ -18,6 +18,7 @@
 #define __itkSpeedFunctionToPathFilter_h
 
 #include "itkArrivalFunctionToPathFilter.h"
+#include "itkSpeedFunctionPathInformation.h"
 
 namespace itk
 {
@@ -98,6 +99,9 @@ public:
   typedef typename Superclass::CostFunctionType    CostFunctionType;
   typedef typename Superclass::OptimizerType       OptimizerType;
 
+  /** Path information typedef. */
+  typedef SpeedFunctionPathInformation<PointType> PathInfo;
+
   /** Override superclass behaviour.
    *  Warning: SetPathEndPoint() is not valid for this filter.
    *  This method is provided by the superclass, however it is not
@@ -128,98 +132,56 @@ public:
     itkWarningMacro("ClearPathEndPoints() is not valid for this filter. Use ClearPathInfo() instead.");
   }
 
-  /** PathInfo class for encapsulating information about a path.
-   *  The points are stored as follows: end, start, way0, way1, way2, ..., wayN.
-   *  Fronts are propagated in reverse order: wayN, ..., way2, way1, way0, start.
-   *  (NOTE: a front is never propagated from end). */
-  class PathInfo
-  {
-  public:
-    PathInfo() { this->ClearInfo(); }
-    void
-    ClearInfo()
-    {
-      m_Info.clear();
-      m_Info.resize(2);
-      m_Front = 1;
-    }
-    void
-    SetStartPoint(const PointType & start)
-    {
-      m_Info[1] = start;
-    }
-    void
-    SetEndPoint(const PointType & end)
-    {
-      m_Info[0] = end;
-    }
-    void
-    AddWayPoint(const PointType & way)
-    {
-      m_Info.push_back(way);
-      m_Front++;
-    }
-    unsigned int
-    GetNumberOfPoints() const
-    {
-      return m_Info.size();
-    }
-    const PointType &
-    GetStartPoint() const
-    {
-      return m_Info[1];
-    }
-    const PointType &
-    GetEndPoint() const
-    {
-      return m_Info[0];
-    }
-    const PointType &
-    GetWayPoint(unsigned int i) const
-    {
-      return m_Info[2 + i];
-    }
-    bool
-    HasNextFront() const
-    {
-      return m_Front >= 1;
-    }
-    const PointType &
-    GetCurrentFrontAndAdvance()
-    {
-      return m_Info[m_Front--];
-    }
-    const PointType &
-    PeekCurrentFront()
-    {
-      return m_Info[m_Front];
-    }
-    const PointType &
-    PeekNextFront()
-    {
-      if (m_Front <= 1)
-        return m_Info[1];
-      else
-        return m_Info[m_Front - 1];
-    }
-    const PointType &
-    PeekPreviousFront()
-    {
-      if (m_Front == m_Info.size() - 1)
-        return m_Info[0];
-      else
-        return m_Info[m_Front + 1];
-    }
-
-  private:
-    std::vector<PointType> m_Info;
-    unsigned int           m_Front;
-  };
+  //   /** PathInfo class for encapsulating information about a path.
+  //    *  The points are stored as follows: end, start, way0, way1, way2, ..., wayN.
+  //    *  Fronts are propagated in reverse order: wayN, ..., way2, way1, way0, start.
+  //    *  (NOTE: a front is never propagated from end). */
+  //   class PathInfo
+  //   {
+  //   public:
+  //     PathInfo()
+  //       { this->ClearInfo(); }
+  //     void ClearInfo()
+  //       { m_Info.clear();  m_Info.resize(2); m_Front = 1; }
+  //     void SetStartPoint( const PointType & start )
+  //       { m_Info[1] = start; }
+  //     void SetEndPoint( const PointType & end )
+  //       { m_Info[0] = end; }
+  //     void AddWayPoint( const PointType & way )
+  //       { m_Info.push_back( way ); m_Front++; }
+  //     unsigned int GetNumberOfPoints( ) const
+  //       { return m_Info.size(); }
+  //     const PointType & GetStartPoint( ) const
+  //       { return m_Info[1]; }
+  //     const PointType & GetEndPoint( ) const
+  //       { return m_Info[0]; }
+  //     const PointType & GetWayPoint( unsigned int i ) const
+  //       { return m_Info[2+i]; }
+  //     bool HasNextFront( ) const
+  //       { return m_Front >= 1; }
+  //     const PointType & GetCurrentFrontAndAdvance( )
+  //       { return m_Info[m_Front--]; }
+  //     const PointType & PeekCurrentFront( )
+  //       { return m_Info[m_Front]; }
+  //     const PointType & PeekNextFront( )
+  //       {
+  //       if ( m_Front <= 1 ) return m_Info[1];
+  //       else return m_Info[m_Front-1];
+  //       }
+  //     const PointType & PeekPreviousFront( )
+  //       {
+  //       if ( m_Front == m_Info.size()-1 ) return m_Info[0];
+  //       else return m_Info[m_Front+1];
+  //       }
+  //   private:
+  //     std::vector< PointType > m_Info;
+  //     unsigned int m_Front;
+  //   };
 
   /** Add a path information object to process.
    *  At least one PathInfo object must be added before processing. */
   void
-  AddPathInfo(const PathInfo & info)
+  AddPathInfo(PathInfo * info)
   {
     m_Info.push_back(info);
   }
@@ -257,8 +219,8 @@ protected:
   virtual const PointType &
   GetNextEndPoint();
 
-  std::vector<PathInfo> m_Info;
-  InputImagePointer     m_CurrentArrivalFunction;
+  std::vector<typename PathInfo::Pointer> m_Info;
+  InputImagePointer                       m_CurrentArrivalFunction;
 
 private:
   SpeedFunctionToPathFilter(const Self &); // purposely not implemented

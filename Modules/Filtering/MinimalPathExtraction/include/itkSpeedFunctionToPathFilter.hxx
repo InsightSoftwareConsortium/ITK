@@ -23,6 +23,7 @@
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 #include "itkImageFileWriter.h"
 
+
 namespace itk
 {
 
@@ -62,7 +63,7 @@ template <class TInputImage, class TOutputPath>
 const typename SpeedFunctionToPathFilter<TInputImage, TOutputPath>::PointType &
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GetNextEndPoint()
 {
-  return m_Info[Superclass::m_CurrentOutput].GetEndPoint();
+  return m_Info[Superclass::m_CurrentOutput]->GetEndPoint();
 }
 
 
@@ -90,8 +91,8 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
   // limit the front propagation to just the required zones
   IndexType indexTargetPrevious;
   IndexType indexTargetNext;
-  speed->TransformPhysicalPointToIndex(m_Info[Superclass::m_CurrentOutput].PeekPreviousFront(), indexTargetPrevious);
-  speed->TransformPhysicalPointToIndex(m_Info[Superclass::m_CurrentOutput].PeekNextFront(), indexTargetNext);
+  speed->TransformPhysicalPointToIndex(m_Info[Superclass::m_CurrentOutput]->PeekPreviousFront(), indexTargetPrevious);
+  speed->TransformPhysicalPointToIndex(m_Info[Superclass::m_CurrentOutput]->PeekNextFront(), indexTargetNext);
   NodeType nodeTargetPrevious;
   NodeType nodeTargetNext;
   nodeTargetPrevious.SetValue(0.0);
@@ -106,7 +107,7 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
 
   // Get the next Front source point and add as trial point
   IndexType indexTrial;
-  speed->TransformPhysicalPointToIndex(m_Info[Superclass::m_CurrentOutput].GetCurrentFrontAndAdvance(), indexTrial);
+  speed->TransformPhysicalPointToIndex(m_Info[Superclass::m_CurrentOutput]->GetCurrentFrontAndAdvance(), indexTrial);
   NodeType nodeTrial;
   nodeTrial.SetValue(0.0);
   nodeTrial.SetIndex(indexTrial);
@@ -183,7 +184,7 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::Execute(const Object * obje
     return;
 
   // Check if we have reached the termination value
-  if (currentValue < Superclass::m_TerminationValue && m_Info[Superclass::m_CurrentOutput].HasNextFront())
+  if (currentValue < Superclass::m_TerminationValue && m_Info[Superclass::m_CurrentOutput]->HasNextFront())
   {
     // We have terminated the current path segment,
     // but there are more fronts to propagate

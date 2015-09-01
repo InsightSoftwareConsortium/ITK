@@ -38,6 +38,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkArrivalFunctionToPathFilter.h"
 #include "itkSpeedFunctionToPathFilter.h"
+#include "itkSpeedFunctionPathInformation.h"
 #include "itkPathIterator.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
@@ -49,7 +50,7 @@
 
 /////////////////////////////////////////////////////////////
 // Reads a *.path file and adds the path info to the given filter
-template <class PathFilterType>
+template <class PathFilterType, int VDimension>
 int
 ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFilter)
 {
@@ -58,7 +59,9 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
   // Path: [272.00, 128.00] [381.00, 001.00]
   // Path: [272.00, 128.00] [002.00, 130.00]
   // Path: [272.00, 128.00] [274.00, 268.00]
-
+  typedef itk::Point<double, VDimension>               PointType;
+  typedef itk::SpeedFunctionPathInformation<PointType> PathInfoType;
+  typename PathInfoType::Pointer                       info = PathInfoType::New();
   // NOTE: No checking is done on the path file: the user must ensure it is valid!!!
   std::string filename = PathFilename;
   if (!itksys::SystemTools::FileIsFullPath(PathFilename))
@@ -83,7 +86,6 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
   {
     if (has_newline)
     {
-      typename PathFilterType::PathInfo info;
       itksys::SystemTools::ReplaceString(line, "Path: ", "");
       itksys::SystemTools::ReplaceString(line, " ", "");
       itksys::SystemTools::ReplaceString(line, "[", "");
@@ -103,11 +105,11 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
           for (unsigned int j = 0; j < partsPoint.size(); j++)
             point[j] = atof(partsPoint[j].c_str());
           if (i == 0)
-            info.SetStartPoint(point);
+            info->SetStartPoint(point);
           else if (i == numNonNullParts - 1)
-            info.SetEndPoint(point);
+            info->SetEndPoint(point);
           else
-            info.AddWayPoint(point);
+            info->AddWayPoint(point);
         }
       }
       pathFilter->AddPathInfo(info);
@@ -189,7 +191,7 @@ Test_SpeedToPath_GradientDescent_ND(int argc, char * argv[])
     pathFilter->SetTerminationValue(TerminationValue);
 
     // Read path file
-    if (ReadPathFile<PathFilterType>(PathFilename, pathFilter) == EXIT_FAILURE)
+    if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
     {
       std::cerr << "Failed to read path file: " << PathFilename << std::endl;
       return EXIT_FAILURE;
@@ -337,7 +339,7 @@ Test_SpeedToPath_RegularStepGradientDescent_ND(int argc, char * argv[])
     pathFilter->SetTerminationValue(TerminationValue);
 
     // Read path file
-    if (ReadPathFile<PathFilterType>(PathFilename, pathFilter) == EXIT_FAILURE)
+    if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
     {
       std::cerr << "Failed to read path file: " << PathFilename << std::endl;
       return EXIT_FAILURE;
@@ -476,7 +478,7 @@ Test_SpeedToPath_IterateNeighborhood_ND(int argc, char * argv[])
     pathFilter->SetTerminationValue(TerminationValue);
 
     // Read path file
-    if (ReadPathFile<PathFilterType>(PathFilename, pathFilter) == EXIT_FAILURE)
+    if (ReadPathFile<PathFilterType, Dimension>(PathFilename, pathFilter) == EXIT_FAILURE)
     {
       std::cerr << "Failed to read path file: " << PathFilename << std::endl;
       return EXIT_FAILURE;
