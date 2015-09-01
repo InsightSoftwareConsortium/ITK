@@ -17,12 +17,15 @@
 #==========================================================================*/
 
 cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
-if(POLICY CMP0025)
-  cmake_policy(SET CMP0025 NEW)
-endif()
-if(POLICY CMP0042)
-  cmake_policy(SET CMP0042 NEW)
-endif()
+foreach(p
+    CMP0025 # CMake 3.0
+    CMP0042 # CMake 3.0
+    CMP0054 # CMake 3.1
+    )
+  if(POLICY ${p})
+    cmake_policy(SET ${p} NEW)
+  endif()
+endforeach()
 
 project(WrapITK)
 
