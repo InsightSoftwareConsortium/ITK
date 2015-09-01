@@ -1,8 +1,8 @@
 set(DOCUMENTATION "This module groups image sources which generate an image")
 
 itk_module(ITKImageSources
-  DEPENDS
-    ITKImageFunction
+  COMPILE_DEPENDS
+    ITKCommon
   TEST_DEPENDS
     ITKTestKernel
     ITKImageIntensity

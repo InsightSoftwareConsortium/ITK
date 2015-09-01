@@ -5,8 +5,9 @@ concept of iterators, polylines, and smooth approximations to paths.")
 
 itk_module(ITKPath
   ENABLE_SHARED
-  DEPENDS
-    ITKImageFilterBase
+  PRIVATE_DEPENDS
+    ITKCommon
+  COMPILE_DEPENDS
     ITKImageFunction
   TEST_DEPENDS
     ITKTestKernel

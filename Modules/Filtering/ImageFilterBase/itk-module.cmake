@@ -6,12 +6,11 @@ sources, recursive separable filters and the base classes for neighborhood
 filters.")
 
 itk_module(ITKImageFilterBase
-  DEPENDS
+  COMPILE_DEPENDS
     ITKCommon
   TEST_DEPENDS
     ITKTestKernel
     ITKImageIntensity
-    ITKIOImageBase
   DESCRIPTION
     "${DOCUMENTATION}"
 )
