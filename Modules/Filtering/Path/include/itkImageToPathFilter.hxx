@@ -31,9 +31,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputPath >
 ImageToPathFilter< TInputImage, TOutputPath >
 ::ImageToPathFilter()
@@ -42,17 +40,13 @@ ImageToPathFilter< TInputImage, TOutputPath >
   this->SetNumberOfRequiredInputs(1);
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputPath >
 ImageToPathFilter< TInputImage, TOutputPath >
 ::~ImageToPathFilter()
 {}
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputPath >
 void
 ImageToPathFilter< TInputImage, TOutputPath >
@@ -62,6 +56,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
   this->ProcessObject::SetNthInput( 0,
                                     const_cast< InputImageType * >( input ) );
 }
+
 
 /**
  * Connect one of the operands for pixel-wise addition
@@ -76,9 +71,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
                                     const_cast< TInputImage * >( image ) );
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputPath >
 const typename ImageToPathFilter< TInputImage, TOutputPath >::InputImageType *
 ImageToPathFilter< TInputImage, TOutputPath >
@@ -87,9 +80,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputPath >
 const typename ImageToPathFilter< TInputImage, TOutputPath >::InputImageType *
 ImageToPathFilter< TInputImage, TOutputPath >
@@ -97,6 +88,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
 {
   return itkDynamicCastInDebugMode< const TInputImage * >( this->ProcessObject::GetInput(idx) );
 }
+
 
 template< typename TInputImage, typename TOutputPath >
 void
