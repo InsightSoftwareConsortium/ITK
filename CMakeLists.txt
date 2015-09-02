@@ -30,19 +30,21 @@ set(GDCM_PACKAGE_CONTACT "GDCM Developers <gdcm-developers@lists.sourceforge.net
 # VTK source tree for "DELAYLOAD"
 
 #-----------------------------------------------------------------------------
-# Disallow insource build since I never test that
-string(COMPARE EQUAL "${GDCM_SOURCE_DIR}" "${GDCM_BINARY_DIR}" INSOURCE)
-get_filename_component(PARENTDIR ${GDCM_BINARY_DIR} PATH)
-string(COMPARE EQUAL "${GDCM_SOURCE_DIR}" "${PARENTDIR}" INSOURCESUBDIR)
-if(INSOURCE OR INSOURCESUBDIR)
-  message(FATAL_ERROR "GDCM requires an out of source Build. "
-    "Please create a separate binary directory and run CMake there.")
+if(NOT DEFINED GDCM_ALLOW_INSOURCE_BUILD)
+  # Disallow insource build since I never test that
+  string(COMPARE EQUAL "${GDCM_SOURCE_DIR}" "${GDCM_BINARY_DIR}" INSOURCE)
+  get_filename_component(PARENTDIR ${GDCM_BINARY_DIR} PATH)
+  string(COMPARE EQUAL "${GDCM_SOURCE_DIR}" "${PARENTDIR}" INSOURCESUBDIR)
+  if(INSOURCE OR INSOURCESUBDIR)
+    message(FATAL_ERROR "GDCM requires an out of source Build. "
+      "Please create a separate binary directory and run CMake there. "
+      "Or explicitly define GDCM_ALLOW_INSOURCE_BUILD")
+  endif()
 endif()
-
 #----------------------------------------------------------------------------
 set(GDCM_MAJOR_VERSION 2)
-set(GDCM_MINOR_VERSION 5)
-set(GDCM_BUILD_VERSION 0)
+set(GDCM_MINOR_VERSION 4)
+set(GDCM_BUILD_VERSION 6)
 set(GDCM_VERSION
   "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}.${GDCM_BUILD_VERSION}")
 # let advanced user the option to define GDCM_API_VERSION:
@@ -199,7 +201,7 @@ endif()
 #-----------------------------------------------------------------------------
 # Build the main lib...
 if(NOT GDCM_HAVE_STDINT_H)
-  if(MSVC)
+  if( MSVC OR "x${CMAKE_CXX_COMPILER_ID}x" MATCHES "Intel" )
     include_directories(
       "${GDCM_SOURCE_DIR}/Utilities/C99"
       )

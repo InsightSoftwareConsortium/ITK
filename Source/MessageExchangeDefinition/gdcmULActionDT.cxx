@@ -204,52 +204,6 @@ EStateID ULActionDT1::PerformAction(Subject *s, ULEvent& inEvent, ULConnection& 
     inConnection.GetProtocol()->flush();
   }
 
-  std::istream * pStream = inEvent.GetIStream() ;
-  if ( pStream )
-  {
-	  uint8_t prescontid = dynamic_cast<PDataTFPDU*>(theDataPDUs[0])->GetPresentationDataValue(0).GetPresentationContextID();
-	  size_t maxpdu = 16378;
-	  maxpdu = inConnection.GetMaxPDUSize() - 6;
-	  pStream->seekg( 0, std::ios::beg );
-	  pStream->seekg( 0, std::ios::end );
-	  std::streampos len = pStream->tellg();
-	  char * contents = new char [maxpdu];
-	  std::streampos cur = inEvent.GetDataSetPos() ;
-	  pStream->seekg( cur );
-	  PresentationDataValue thePDV;
-	  PDataTFPDU basePDU ;
-	  while( cur < len )
-	  {
-		  size_t remaining = std::min( maxpdu , (size_t)(len - cur) );
-		  pStream->read( contents, remaining );
-		  std::string sub( contents, remaining );
-		  std::string UIDString;
-		  thePDV.SetPresentationContextID( prescontid );
-		  thePDV.SetBlob( sub );
-
-		  if( remaining == maxpdu )
-			  thePDV.SetMessageHeader( 0 );
-		  else
-			  thePDV.SetMessageHeader( 2 );
-
-		  cur += remaining;
-		  basePDU = PDataTFPDU();
-		  basePDU.AddPresentationDataValue( thePDV );
-		  basePDU.Write(*inConnection.GetProtocol());
-		  Progress += progresstick;
-		  ProgressEvent pe;
-		  pe.SetProgress( Progress );
-		  s->InvokeEvent( pe );
-
-		  //if( !inConnection.GetProtocol()->good() );
-		  //  {
-		  //  throw new Exception("Protocol is not good.");
-		  //  return eStaDoesNotExist;
-		  //  }
-		  inConnection.GetProtocol()->flush();
-	  }
-	  delete [] contents ;
-  }
   // When doing a C-MOVE we recevie the Requested DataSet over
   // another chanel (technically this is send to an SCP)
   // in our case we use another port to receive it.

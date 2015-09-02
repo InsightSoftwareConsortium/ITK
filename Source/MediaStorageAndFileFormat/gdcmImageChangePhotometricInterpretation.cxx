@@ -125,12 +125,8 @@ bool ImageChangePhotometricInterpretation::Change()
     {
     return ChangeMonochrome();
     }
-  else
-    {
-    return false;
-    }
-
-  return true;
+  //else
+  return false;
 }
 
 

@@ -37,6 +37,7 @@ include_directories(
   "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition"
   "${GDCM_SOURCE_DIR}/Source/DataDictionary"
   "${GDCM_SOURCE_DIR}/Utilities"
+  "${GDCM_BINARY_DIR}/Utilities/gdcmexpat" # expat_mangle.h
   )
 if(GDCM_USE_SYSTEM_EXPAT)
   include_directories(
@@ -46,7 +47,11 @@ endif()
 
 add_library(gdcmIOD ${IOD_SRCS})
 target_link_libraries(gdcmIOD gdcmDSED gdcmCommon ${GDCM_EXPAT_LIBRARIES})
-set_target_properties(gdcmIOD PROPERTIES ${GDCM_LIBRARY_PROPERTIES} LINK_INTERFACE_LIBRARIES "gdcmDSED;gdcmCommon")
+set_target_properties(gdcmIOD PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
+if(BUILD_SHARED_LIBS)
+  set(_ill "gdcmDSED;gdcmCommon")
+  set_target_properties(gdcmIOD PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
+endif()
 
 # libs
 install_library(gdcmIOD)

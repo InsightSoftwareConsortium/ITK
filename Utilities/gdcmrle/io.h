@@ -44,6 +44,7 @@ public:
 
   virtual int write( const char * in, int len ) = 0;
   virtual bool seek( streampos_t abs_pos ) = 0; // seek to absolute position
+  virtual ~dest() {}
 };
 
 } // end namespace rle

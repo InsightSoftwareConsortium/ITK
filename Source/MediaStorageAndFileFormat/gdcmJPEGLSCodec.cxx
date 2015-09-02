@@ -166,6 +166,7 @@ bool JPEGLSCodec::DecodeByStreamsCommon(char *buffer, size_t totalLen, std::vect
 
   if (result != OK)
     {
+    gdcmErrorMacro( "Could not decode JPEG-LS stream" );
     return false;
     }
 
@@ -486,7 +487,7 @@ bool JPEGLSCodec::DecodeExtent(
 
     for( unsigned int z = zmin; z <= zmax; ++z )
       {
-      size_t curoffset = std::accumulate( offsets.begin(), offsets.begin() + z, 0 );
+      size_t curoffset = std::accumulate( offsets.begin(), offsets.begin() + z, size_t(0) );
       is.seekg( thestart + curoffset + 8 * z, std::ios::beg );
       is.seekg( 8, std::ios::cur );
 

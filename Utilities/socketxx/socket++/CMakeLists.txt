@@ -68,12 +68,15 @@ if(UNIX)
 endif()
 
 add_library(${SOCKETXX_LIBRARY_NAME} ${libsocket___la_SOURCES})
-set_target_properties(${SOCKETXX_LIBRARY_NAME} PROPERTIES ${SOCKETXX_LIBRARY_PROPERTIES} LINK_INTERFACE_LIBRARIES "")
 if(WIN32)
   target_link_libraries(${SOCKETXX_LIBRARY_NAME} ws2_32.lib)
 endif()
 if(CMAKE_SYSTEM MATCHES "SunOS.*")
   target_link_libraries(${SOCKETXX_LIBRARY_NAME} socket nsl)
+endif()
+set_target_properties(${SOCKETXX_LIBRARY_NAME} PROPERTIES ${SOCKETXX_LIBRARY_PROPERTIES})
+if(BUILD_SHARED_LIBS)
+  set_target_properties(${SOCKETXX_LIBRARY_NAME} PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
 endif()
 
 # Install library

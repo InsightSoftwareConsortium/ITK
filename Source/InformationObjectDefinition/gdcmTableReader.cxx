@@ -41,6 +41,13 @@ namespace gdcm
 #define BUFSIZ 4096
 #endif
 
+#ifndef XMLCALL
+#define XMLCALL
+#endif
+#ifndef XML_STATUS_ERROR
+#define XML_STATUS_ERROR 0
+#endif
+
 static void XMLCALL startElement(void *userData, const char *name, const char **atts)
 {
   TableReader *tr = reinterpret_cast<TableReader*>(userData);

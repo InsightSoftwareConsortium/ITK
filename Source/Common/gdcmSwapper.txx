@@ -22,7 +22,7 @@
 #define bswap_32(X) _byteswap_ulong(X)
 #define bswap_64(X) _byteswap_uint64(X)
 
-#elif defined(__GLIBC__) || defined(__CYGWIN__) // linux and al
+#elif defined(__GLIBC__) || defined(__CYGWIN__) || defined(__ANDROID__) || defined(__EMSCRIPTEN__) // linux and al
 
 #include <endian.h>
 #include <byteswap.h>
