@@ -21,7 +21,6 @@
 #include "vnl/vnl_math.h"
 #include "itkSpeedFunctionToPathFilter.h"
 #include "itkFastMarchingUpwindGradientImageFilter.h"
-#include "itkImageFileWriter.h"
 
 
 namespace itk

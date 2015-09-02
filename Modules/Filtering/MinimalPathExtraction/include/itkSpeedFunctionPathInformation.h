@@ -1,21 +1,36 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkSpeedFunctionPathInformation.h,v $
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
+ *  Program:   Insight Segmentation & Registration Toolkit
+ *  Module:    $RCSfile: itkSpeedFunctionPathInformation.h,v $
+ *  Language:  C++
+ *  Date:      $Date$
+ *  Version:   $Revision$
+
+ *  Copyright (c) Insight Software Consortium. All rights reserved.
+ *  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+ *  This software is distributed WITHOUT ANY WARRANTY; without even
+ *  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *  PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSpeedFunctionPathInformation_h
-#define __itkSpeedFunctionPathInformation_h
+#ifndef itkSpeedFunctionPathInformation_h
+#define itkSpeedFunctionPathInformation_h
 
 #include "itkLightObject.h"
 
@@ -37,12 +52,12 @@ namespace itk
  * \author Dan Mueller,
  * Queensland University of Technology, dan.muel[at]gmail.com
  *
- * \sa itkLightObject
+ * \sa LightObject
  *
  * \ingroup MinimalPathExtraction
  */
 
-template <class TPoint>
+template <typename TPoint>
 class SpeedFunctionPathInformation : public LightObject
 {
 public:
@@ -83,7 +98,7 @@ public:
   GetEndPoint() const;
 
   const PointType &
-  GetWayPoint(unsigned int i) const;
+  GetWayPoint(SizeValueType i) const;
 
   bool
   HasNextFront() const;
@@ -108,7 +123,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const;
 
   std::vector<PointType> m_Info;
-  unsigned int           m_Front;
+  SizeValueType          m_Front;
 
 
 private:
