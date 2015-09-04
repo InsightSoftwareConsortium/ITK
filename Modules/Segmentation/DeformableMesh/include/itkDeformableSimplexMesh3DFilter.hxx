@@ -364,7 +364,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
   const NeighborSetType *const neighborSet = data->neighborSet;
 
-  NeighborSetIterator neighborIt = neighborSet->begin();
+  NeighborSetType::const_iterator neighborIt = neighborSet->begin();
 
   double phiRef = 0.0;
   while ( neighborIt != neighborSet->end() )
