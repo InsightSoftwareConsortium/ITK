@@ -89,7 +89,7 @@ public:
    * appropriate). */
   void SetFunctor(const FunctorType & functor)
   {
-    if ( Math::NotExactlyEquals( m_Functor, functor ) )
+    if ( m_Functor != functor )
       {
       m_Functor = functor;
       this->Modified();
