@@ -13,6 +13,11 @@
 #define MI2_LENGTH "length"
 #define MI2_CLASS "class"
 
+/* So we build with 1.8.4 */  
+#ifndef H5F_LIBVER_18
+#define H5F_LIBVER_18 H5F_LIBVER_LATEST
+#endif
+
 /************************************************************************
  * Structures for files, variables, and dimensions.
  ************************************************************************/
