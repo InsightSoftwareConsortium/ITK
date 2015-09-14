@@ -426,7 +426,20 @@ Object
       }
     catch(...)
       {
-      itkWarningMacro("Exception occurred in DeleteEvent Observer!");
+      // The macro is not use to avoid a memory allocation, and reduce
+      // potential exceptions.
+      // itkWarningMacro("Exception occurred in DeleteEvent Observer!");
+      try
+        {
+        if ( GetGlobalWarningDisplay() )
+          {
+          ::itk::OutputWindowDisplayWarningText( "WARNING: Exception occurred in DeleteEvent Observer!" );
+          }
+        }
+      catch(...)
+        {
+        // ignore exception in warning display
+        }
       }
     }
 
