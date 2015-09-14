@@ -9,6 +9,7 @@ itk_module(ITKImageAdaptors
     ITKCommon
   TEST_DEPENDS
     ITKTestKernel
+    ITKCommon
   DESCRIPTION
   "${DOCUMENTATION}"
 )

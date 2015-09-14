@@ -12,6 +12,7 @@ itk_module(ITKImageStatistics
     ITKImageCompose
   TEST_DEPENDS
     ITKTestKernel
+    ITKGDCM
     ITKThresholding
     ITKImageLabel
   DESCRIPTION

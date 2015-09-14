@@ -8,6 +8,7 @@ min, max, principal), and normal computation, among others.")
 
 itk_module(ITKQuadEdgeMeshFiltering
   DEPENDS
+    ITKMesh
     ITKQuadEdgeMesh
   TEST_DEPENDS
     ITKTestKernel

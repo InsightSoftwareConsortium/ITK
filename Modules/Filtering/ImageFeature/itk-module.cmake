@@ -10,6 +10,8 @@ itk_module(ITKImageFeature
     ITKImageGradient
     ITKSpatialObjects
     ITKImageSources
+  COMPILE_DEPENDS
+    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
     ITKThresholding

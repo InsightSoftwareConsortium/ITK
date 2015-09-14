@@ -106,8 +106,15 @@ macro(itk_module _name)
     ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
     ${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}
   )
+  set(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS
+    ${ITK_MODULE_${itk-module}_LINK_DEPENDS}
+    ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
+  )
   unset(ITK_MODULE_${itk-module}_COMPILE_DEPENDS)
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
+  if(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Don't sort an empty list
+    list(SORT ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Deterministic order.
+  endif()
   list(SORT ITK_MODULE_${itk-module}_PRIVATE_DEPENDS) # Deterministic order.
   list(SORT ITK_MODULE_${itk-module-test}_DEPENDS) # Deterministic order.
 endmacro()
@@ -245,7 +252,7 @@ macro(itk_module_impl)
   set(itk-module-EXPORT_CODE-build "${${itk-module}_EXPORT_CODE_BUILD}")
   set(itk-module-EXPORT_CODE-install "${${itk-module}_EXPORT_CODE_INSTALL}")
 
-  set(itk-module-DEPENDS "${ITK_MODULE_${itk-module}_DEPENDS}")
+  set(itk-module-DEPENDS "${ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS}")
   set(itk-module-LIBRARIES "${${itk-module}_LIBRARIES}")
   set(itk-module-INCLUDE_DIRS-build "${${itk-module}_INCLUDE_DIRS}")
   set(itk-module-INCLUDE_DIRS-install "\${ITK_INSTALL_PREFIX}/${${itk-module}_INSTALL_INCLUDE_DIR}")

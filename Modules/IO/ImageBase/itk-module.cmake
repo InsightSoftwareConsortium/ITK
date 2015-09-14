@@ -13,6 +13,7 @@ itk_module(ITKIOImageBase
     ITKCommon
   TEST_DEPENDS
     ITKTestKernel
+    ITKGDCM
     ITKImageIntensity
   DESCRIPTION
     "${DOCUMENTATION}"
