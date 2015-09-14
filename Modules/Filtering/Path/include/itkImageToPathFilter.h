@@ -37,7 +37,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/72
  *
  * \ingroup ImageFilters
- * \ingroup ITKReview
+ * \ingroup ITKPath
  */
 template< typename TInputImage, typename TOutputPath >
 class ImageToPathFilter:public PathSource< TOutputPath >
@@ -75,7 +75,7 @@ public:
 
 protected:
   ImageToPathFilter();
-  ~ImageToPathFilter();
+  virtual ~ImageToPathFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
