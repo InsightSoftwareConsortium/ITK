@@ -132,8 +132,8 @@ int main(int argc, char* argv[])
 
   ReaderType::Pointer           reader      = ReaderType::New();
   CastToRealFilterType::Pointer toReal      = CastToRealFilterType::New();
-  CannyFilterType::Pointer      cannyFilter = CannyFilter::New();
-  RescaleFilterType::Pointer    rescale     = RescaleFilter::New();
+  CannyFilterType::Pointer      cannyFilter = CannyFilterType::New();
+  RescaleFilterType::Pointer    rescale     = RescaleFilterType::New();
   WriterType::Pointer           writer      = WriterType::New();
 
   reader->SetFileName( inputFilename  );
