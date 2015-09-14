@@ -199,7 +199,9 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef CalculatorType::OutputType::const_iterator ThresholdItType;
 
-  for(ThresholdItType itNum = thresholdVector.begin(); itNum != thresholdVector.end(); ++itNum)
+  for( ThresholdItType itNum = thresholdVector.begin();
+       itNum != thresholdVector.end();
+       ++itNum )
     {
     std::cout << "OtsuThreshold["
               << (int)(itNum - thresholdVector.begin())
