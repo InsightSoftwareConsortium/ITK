@@ -21,6 +21,7 @@ from __future__ import print_function
 import types
 import inspect
 import os
+import re
 import warnings
 import itkConfig
 from itkTypes import itkCType
@@ -143,7 +144,6 @@ class itkTemplate(object):
                 # we need to now the size of the name to keep only the suffix
                 # short name does not contain :: and nested namespace
                 # itk::Numerics::Sample -> itkSample
-                import re
                 shortNameSize = len(re.sub(r':.*:', '', self.__name__))
                 attributeName = cl.__name__[shortNameSize:]
         elif cl.__name__.startswith("vcl_complex"):
@@ -151,9 +151,12 @@ class itkTemplate(object):
             # expected vcl_complex
             attributeName = cl.__name__[len("vcl_complex"):]
         else:
-            import re
-            shortNameSize = len(re.sub(r'.*::', '', self.__name__))
-            attributeName = cl.__name__[shortNameSize:]
+            shortName = re.sub(r':.*:', '', self.__name__)
+
+            if not cl.__name__.startswith(shortName):
+                shortName = re.sub(r'.*::', '', self.__name__)
+
+            attributeName = cl.__name__[len(shortName):]
 
         if attributeName.isdigit():
             # the attribute name can't be a number
