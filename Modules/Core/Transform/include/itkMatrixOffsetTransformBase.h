@@ -27,6 +27,31 @@
 
 namespace itk
 {
+
+/* MatrixOrthogonalityTolerance is a utility to
+ * allow setting the tolerance limits used for
+ * checking if a matrix meet the orthogonality
+ * constraints of being a rigid rotation matrix.
+ * The tolerance needs to be different for
+ * matricies of type float vs. double.
+ */
+template<typename T>
+class MatrixOrthogonalityTolerance;
+
+template <>
+class MatrixOrthogonalityTolerance<double>
+{
+public:
+  static double GetTolerance() { return 1e-10; }
+};
+
+template <>
+class MatrixOrthogonalityTolerance<float>
+{
+public:
+  static float GetTolerance() { return 1e-5; }
+};
+
 /** \class MatrixOffsetTransformBase
  * \brief Matrix and Offset transformation of a vector space (e.g. space coordinates)
  *
