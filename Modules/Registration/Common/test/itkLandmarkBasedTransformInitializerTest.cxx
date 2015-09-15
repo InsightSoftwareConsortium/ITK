@@ -674,7 +674,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   }
 
   {
-  typedef itk::Transform< double, 3, 3 > TransformType;
+  typedef itk::Transform< float, 3, 3 > TransformType;
 
   typedef itk::LandmarkBasedTransformInitializer< TransformType > TransformInitializerType;
 
