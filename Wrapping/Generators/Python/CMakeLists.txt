@@ -527,10 +527,20 @@ macro(itk_end_wrap_submodule_python group_name)
   # add this wrap_*.cmake stuff to the list of modules to init in the main module.
   # first the extern c declaration and then the call of the extern function
   if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
-    set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" int PyInit__${group_name}Python();\n")
-    set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS} PyInit__${group_name}Python();\n")
+    set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" PyMODINIT_FUNC PyInit__${group_name}Python();\n")
+    set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS}
+  PyObject * ${group_name}SysModules = PyImport_GetModuleDict();
+  PyObject * ${group_name}AlreadyImported = PyDict_GetItemString(${group_name}SysModules, \"_${group_name}Python\");
+  if( ${group_name}AlreadyImported == NULL )
+    {
+    PyImport_AddModule( \"_${group_name}Python\" );
+    PyObject * ${group_name}Module = PyInit__${group_name}Python();
+    PyDict_SetItemString( ${group_name}SysModules, \"_${group_name}Python\", ${group_name}Module );
+    Py_DECREF( ${group_name}Module );
+    }
+")
   else()
-    set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" int init_${group_name}Python();\n")
+    set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" PyMODINIT_FUNC init_${group_name}Python();\n")
     set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS} init_${group_name}Python();\n")
   endif()
 
