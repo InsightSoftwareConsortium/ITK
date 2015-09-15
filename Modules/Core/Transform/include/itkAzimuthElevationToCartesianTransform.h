@@ -58,8 +58,8 @@ namespace itk
  *
  * There are two template parameters for this class:
  *
- * ScalarT       The type to be used for scalar numeric values.  Either
- *               float or double.
+ * TParametersValueType  The type to be used for scalar numeric
+ *                       values.  Either float or double.
  *
  * NDimensions   The number of dimensions of the vector space (must be >=3).
  *

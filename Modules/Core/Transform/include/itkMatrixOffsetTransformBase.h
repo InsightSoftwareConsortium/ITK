@@ -49,7 +49,7 @@ namespace itk
  * problem by referring to the order of application rather than the
  * textual order.)
  *
- * \tparam ScalarT            The type to be used for scalar numeric values.  Either
+ * \tparam TParametersValueType The type to be used for scalar numeric values.  Either
  *    float or double.
  *
  * \tparam NInputDimensions   The number of dimensions of the input vector space.
@@ -58,7 +58,7 @@ namespace itk
  *
  * This class provides several methods for setting the matrix and offset
  * defining the transform. To support the registration framework, the
- * transform parameters can also be set as an Array<double> of size
+ * transform parameters can also be set as an Array<TParametersValueType> of size
  * (NInputDimension + 1) * NOutputDimension using method SetParameters().
  * The first (NOutputDimension x NInputDimension) parameters defines the
  * matrix in row-major order (where the column index varies the fastest).
