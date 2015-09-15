@@ -16,6 +16,7 @@ itk_module(ITKDeprecated
     ITKZLIB
   COMPILE_DEPENDS
     ITKV3Compatibility      ## Note: Deprecated requires the ITKV3 compatibility layer
+    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
     ITKDICOMParser

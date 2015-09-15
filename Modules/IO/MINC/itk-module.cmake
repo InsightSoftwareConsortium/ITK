@@ -9,6 +9,7 @@ itk_module(ITKIOMINC
     ITKIOTransformBase
   TEST_DEPENDS
     ITKTestKernel
+    ITKMINC
     ITKImageStatistics
     ITKDisplacementField
   DESCRIPTION
