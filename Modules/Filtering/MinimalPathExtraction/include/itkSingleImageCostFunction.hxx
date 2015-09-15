@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSingleImageCostFunction_hxx
-#define __itkSingleImageCostFunction_hxx
+#ifndef itkSingleImageCostFunction_hxx
+#define itkSingleImageCostFunction_hxx
 
 #include "vnl/vnl_math.h"
 #include "itkSingleImageCostFunction.h"
@@ -137,9 +137,9 @@ SingleImageCostFunction<TImage>::GetDerivative(const ParametersType & parameters
     derivative[i] = static_cast<typename DerivativeType::ValueType>(output[i]);
 
     // NOTE: The cost function may undefined / unreachable areas
-    //		 (indicated by very large values) which may skew the gradient.
-    //		 To avoid this skewing effect, we reset gradient values larger
-    //		 than a given threshold.
+    //           (indicated by very large values) which may skew the gradient.
+    //           To avoid this skewing effect, we reset gradient values larger
+    //           than a given threshold.
     if (vnl_math_abs(derivative[i]) > DerivativeThreshold)
     {
       derivative[i] = 0.0;

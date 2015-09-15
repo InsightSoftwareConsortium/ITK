@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkIterateNeighborhoodOptimizer_h
-#define __itkIterateNeighborhoodOptimizer_h
+#ifndef itkIterateNeighborhoodOptimizer_h
+#define itkIterateNeighborhoodOptimizer_h
 
 #include "itkArray.h"
 #include "itkSingleValuedNonLinearOptimizer.h"

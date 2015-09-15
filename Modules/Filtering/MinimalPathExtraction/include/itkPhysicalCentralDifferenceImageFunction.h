@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkPhysicalCentralDifferenceImageFunction_h
-#define __itkPhysicalCentralDifferenceImageFunction_h
+#ifndef itkPhysicalCentralDifferenceImageFunction_h
+#define itkPhysicalCentralDifferenceImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkCovariantVector.h"

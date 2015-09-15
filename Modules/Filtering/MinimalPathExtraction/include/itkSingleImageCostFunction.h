@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSingleImageCostFunction_h
-#define __itkSingleImageCostFunction_h
+#ifndef itkSingleImageCostFunction_h
+#define itkSingleImageCostFunction_h
 
 #include "itkNumericTraits.h"
 #include "itkExceptionObject.h"

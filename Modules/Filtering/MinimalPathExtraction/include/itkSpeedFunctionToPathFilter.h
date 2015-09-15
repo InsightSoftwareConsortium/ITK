@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSpeedFunctionToPathFilter_h
-#define __itkSpeedFunctionToPathFilter_h
+#ifndef itkSpeedFunctionToPathFilter_h
+#define itkSpeedFunctionToPathFilter_h
 
 #include "itkArrivalFunctionToPathFilter.h"
 #include "itkSpeedFunctionPathInformation.h"

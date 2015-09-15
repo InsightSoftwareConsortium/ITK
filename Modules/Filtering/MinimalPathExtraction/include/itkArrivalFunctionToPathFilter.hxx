@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkArrivalFunctionToPathFilter_hxx
-#define __itkArrivalFunctionToPathFilter_hxx
+#ifndef itkArrivalFunctionToPathFilter_hxx
+#define itkArrivalFunctionToPathFilter_hxx
 
 #include "vnl/vnl_math.h"
 #include "itkArrivalFunctionToPathFilter.h"
