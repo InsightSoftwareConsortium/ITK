@@ -509,9 +509,9 @@ protected:
   /** Method used internally for getting an indexed input.
    */
   DataObject * GetInput(DataObjectPointerArraySizeType idx)
-  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : ITK_NULLPTR; }
+  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : ITK_NULLPTR; }
   const DataObject * GetInput(DataObjectPointerArraySizeType idx) const
-  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : ITK_NULLPTR; }
+  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : ITK_NULLPTR; }
 
   /** \brief Protected method for setting indexed and named inputs.
    *
