@@ -14,7 +14,6 @@ pngread.c   pngset.c   pngwio.c
 if(WIN32)
   if(BUILD_SHARED_LIBS)
     add_definitions(-DPNG_BUILD_DLL)
-    set(PNG_NO_MODULEDEF 1)
   else(BUILD_SHARED_LIBS)
     set(PNG_STATIC 1)
   endif(BUILD_SHARED_LIBS)
