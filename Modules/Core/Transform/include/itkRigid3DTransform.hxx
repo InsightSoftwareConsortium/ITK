@@ -61,7 +61,7 @@ bool
 Rigid3DTransform<TParametersValueType>
 ::MatrixIsOrthogonal(
   const MatrixType & matrix,
-  double tolerance)
+  const TParametersValueType tolerance)
 {
   typename MatrixType::InternalMatrixType test =
     matrix.GetVnlMatrix() * matrix.GetTranspose();
@@ -80,14 +80,14 @@ void
 Rigid3DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix)
 {
-  const double tolerance = 1e-10;
+  const TParametersValueType tolerance = MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance();
   this->SetMatrix( matrix, tolerance );
 }
 
 template<typename TParametersValueType>
 void
 Rigid3DTransform<TParametersValueType>
-::SetMatrix(const MatrixType & matrix, double tolerance)
+::SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance)
 {
   if ( !this->MatrixIsOrthogonal(matrix, tolerance) )
     {
@@ -128,7 +128,7 @@ Rigid3DTransform<TParametersValueType>
     ++par;
     }
 
-  const double tolerance = 1e-10;
+  const TParametersValueType tolerance = MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance();
   if ( !this->MatrixIsOrthogonal(matrix, tolerance) )
     {
     itkExceptionMacro(<< "Attempting to set a non-orthogonal rotation matrix");

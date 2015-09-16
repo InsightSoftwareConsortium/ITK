@@ -142,7 +142,7 @@ public:
    *
    * \sa MatrixOffsetTransformBase::SetMatrix()
    */
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
+  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance);
 
   /**
    * Compose the transformation with a translation
