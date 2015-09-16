@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkPhysicalCentralDifferenceImageFunction_txx
-#define __itkPhysicalCentralDifferenceImageFunction_txx
+#ifndef itkPhysicalCentralDifferenceImageFunction_txx
+#define itkPhysicalCentralDifferenceImageFunction_txx
 
 #include "itkPhysicalCentralDifferenceImageFunction.h"
 
