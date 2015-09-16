@@ -50,7 +50,9 @@ opts, args = parser.parse_args()
 # declares classes which will not be wrapped
 excluded = set([])
 if opts.exclude:
-    map(excluded.add, [c.strip() for c in file(opts.exclude).readlines()])
+    with open(opts.exclude, 'r') as fp:
+        to_exclude = [c.strip() for c in fp.readlines()]
+    map(excluded.add, to_exclude)
 
 # get classes from sources
 headers = []
