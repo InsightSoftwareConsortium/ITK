@@ -403,7 +403,7 @@ def New(self, *args, **kargs):
     else:
         callback = None
 
-    if callback:
+    if callback and not issubclass(self.__class__, itk.Command):
         try:
             name = self.__class__.__name__
 
