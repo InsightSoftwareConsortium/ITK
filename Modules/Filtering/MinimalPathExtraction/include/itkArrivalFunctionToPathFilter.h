@@ -30,7 +30,8 @@ namespace itk
 /**
  * \class ArrivalFunctionToPathCommand
  * \brief A command to listen for Optimizer Iteration events.
- * \author Dan Mueller, Queensland University of Technology, dan.muel[at]gmail.com
+ * \author Dan Mueller, Queensland University of Technology,
+ * dan.muel[at]gmail.com
  *
  *
  * \ingroup MinimalPathExtraction
