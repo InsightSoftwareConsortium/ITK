@@ -208,10 +208,19 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::EvaluateDisplacementAtPhysicalPoint(const PointType & point, DisplacementType &output)
+::EvaluateDisplacementAtPhysicalPoint(const PointType & point, DisplacementType & output)
 {
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+    this->EvaluateDisplacementAtPhysicalPoint(point, this->GetDisplacementField(), output);
+}
 
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+void
+WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
+::EvaluateDisplacementAtPhysicalPoint(
+  const PointType & point,
+  const DisplacementFieldType * fieldPtr,
+  DisplacementType & output)
+{
   ContinuousIndex< double, ImageDimension > index;
   fieldPtr->TransformPhysicalPointToContinuousIndex(point, index);
   unsigned int dim;  // index over dimension
@@ -308,9 +317,8 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType threadId)
 {
-  InputImageConstPointer  inputPtr = this->GetInput();
-  OutputImagePointer      outputPtr = this->GetOutput();
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  OutputImageType             *outputPtr = this->GetOutput();
+  const DisplacementFieldType *fieldPtr = this->GetDisplacementField();
 
   // support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
@@ -325,7 +333,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   if ( this->m_DefFieldSameInformation )
     {
     // iterator for the deformation field
-    ImageRegionIterator< DisplacementFieldType >
+    ImageRegionConstIterator< DisplacementFieldType >
     fieldIt(fieldPtr, outputRegionForThread);
 
     while ( !outputIt.IsAtEnd() )
@@ -367,7 +375,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       index = outputIt.GetIndex();
       outputPtr->TransformIndexToPhysicalPoint(index, point);
 
-      this->EvaluateDisplacementAtPhysicalPoint(point, displacement);
+      this->EvaluateDisplacementAtPhysicalPoint(point, fieldPtr, displacement);
       // compute the required input image point
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {

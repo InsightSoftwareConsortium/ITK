@@ -268,8 +268,19 @@ protected:
 
   /** This function should be in an interpolator but none of the ITK
    * interpolators at this point handle edge conditions properly
+   *
+   * If this method is called in a loop, the
+   * EvaluateDisplacementAtPhysicalPoint(const PointType &, const DisplacementFieldType *, DisplacementType &)
+   * overload will offer better performance. The displacement field
+   * can be obtained using the GetDisplacementField() method
    */
-  void EvaluateDisplacementAtPhysicalPoint(const PointType & p, DisplacementType &output);
+  void EvaluateDisplacementAtPhysicalPoint(const PointType & p, DisplacementType & output);
+
+  /** This function should be in an interpolator but none of the ITK
+   * interpolators at this point handle edge conditions properly
+   */
+  void EvaluateDisplacementAtPhysicalPoint(const PointType & p, const DisplacementFieldType * fieldPtr,
+                                           DisplacementType & output);
 
   bool                m_DefFieldSameInformation;
   // variables for deffield interpoator
