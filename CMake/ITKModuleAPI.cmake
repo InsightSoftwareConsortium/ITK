@@ -50,6 +50,13 @@ macro(itk_module_load mod)
     if(NOT ${mod}_LOADED)
       message(FATAL_ERROR "No such module: \"${mod}\"")
     endif()
+    # Include the targets file if it has been defined. Targets files other
+    # than ITKTargets.cmake are created when modules are built externally. Do not
+    # include the targets file inside the module itself -- which occurs in a module's
+    # test configuration.
+    if(EXISTS "${${mod}_TARGETS_FILE}" AND NOT itk-module STREQUAL mod)
+      include("${${mod}_TARGETS_FILE}")
+    endif()
   endif()
 endmacro()
 
