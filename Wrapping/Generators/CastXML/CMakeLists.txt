@@ -138,11 +138,6 @@ endif()
 set(ITK_WRAP_CASTXML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "castxml source dir")
 
 
-set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs")
-set(WRAPPER_SWIG_LIBRARY_OUTPUT_DIR "${PROJECT_BINARY_DIR}/SWIG")
-
-
-
 macro(itk_wrap_include_castxml include_file)
   if("${include_file}" MATCHES "<.*>")
     set(CASTXML_INCLUDES "${CASTXML_INCLUDES}#include ${include_file}\n")

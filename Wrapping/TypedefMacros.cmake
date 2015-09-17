@@ -53,7 +53,7 @@ macro(itk_wrap_module library_name)
 
   # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx
   # files will be placed.
-  set(WRAPPER_LIBRARY_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+  set(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_DIR}/Wrapping")
 
   # WRAPPER_LIBRARY_DEPENDS. List of names of other wrapper libraries that
   # define symbols used by this wrapper library.
@@ -62,7 +62,7 @@ macro(itk_wrap_module library_name)
 
   # WRAPPER_LIBRARY_LINK_LIBRARIES. List of other libraries that should
   # be linked to the wrapper library.
-  set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
+  set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES} ${${itk-module}_LIBRARIES})
 
   # WRAPPER_LIBRARY_GROUPS. List of *.wrap groups in the source dir
   # that should be included/wrapped before the rest. Just the group name is needed,

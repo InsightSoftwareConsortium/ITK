@@ -243,7 +243,7 @@ endif()
 ###############################################################################
 
 set(IDX_GENERATOR ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "idx generator path")
-set(PYGCCXML_DIR ${CMAKE_SOURCE_DIR}/Modules/ThirdParty/pygccxml/src CACHE INTERNAL "pygccxml path")
+set(PYGCCXML_DIR ${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src CACHE INTERNAL "pygccxml path")
 
 ###############################################################################
 # install the files requires for swiginterface
@@ -272,7 +272,7 @@ endif()
 set(ITK_WRAP_SWIGINTERFACE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "swig interface source dir")
 set(ITK_WRAP_SWIGINTERFACE_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "swig interface binary dir")
 
-set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs" CACHE INTERNAL "typedefs dir")
+set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${ITK_DIR}/Wrapping/Typedefs" CACHE INTERNAL "typedefs dir")
 set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path" FORCE)
 
 macro(itk_wrap_module_swig_interface library_name)
