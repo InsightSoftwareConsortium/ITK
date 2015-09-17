@@ -5,14 +5,7 @@ based on Fast Marching arrival functions.
 
 A more detailed description can be found in the Insight Journal article::
 
-  Mueller, D. "
-  Fast
-  Marching
-  Minimal
-  Path
-  Extraction
-  in
-  ITK"
+  Mueller, D. \"Fast Marching Minimal Path Extraction in ITK\"
   http://hdl.handle.net/1926/1332
   http://www.insight-journal.org/browse/publication/213
   March, 2008.
