@@ -61,7 +61,7 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
   // Path: [272.00, 128.00] [274.00, 268.00]
   typedef itk::Point<double, VDimension>               PointType;
   typedef itk::SpeedFunctionPathInformation<PointType> PathInfoType;
-  typename PathInfoType::Pointer                       info = PathInfoType::New();
+
   // NOTE: No checking is done on the path file: the user must ensure it is valid!!!
   std::string filename = PathFilename;
   if (!itksys::SystemTools::FileIsFullPath(PathFilename))
@@ -86,6 +86,7 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
   {
     if (has_newline)
     {
+      typename PathInfoType::Pointer info = PathInfoType::New();
       itksys::SystemTools::ReplaceString(line, "Path: ", "");
       itksys::SystemTools::ReplaceString(line, " ", "");
       itksys::SystemTools::ReplaceString(line, "[", "");
