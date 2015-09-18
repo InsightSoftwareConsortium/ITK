@@ -18,7 +18,6 @@
 
 from __future__ import print_function
 
-import types
 import inspect
 import os
 import re
@@ -240,8 +239,8 @@ class itkTemplate(object):
             - a list of elements (Ex: itk.Image[itk.UC, 2])
         """
 
-        isin = isinstance(parameters, types.TupleType)
-        if not isin and not isinstance(parameters, types.ListType):
+        parameters_type = type(parameters)
+        if not parameters_type is tuple and not parameters_type is list:
             # parameters is a single element.
             # include it in a list to manage the 2 cases in the same way
             parameters = [parameters]
@@ -407,7 +406,7 @@ def New(self, *args, **kargs):
     else:
         callback = None
 
-    if callback:
+    if callback and not issubclass(self.__class__, itk.Command):
         try:
             name = self.__class__.__name__
 

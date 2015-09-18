@@ -103,7 +103,7 @@ assert median.GetInput() is None
 # ImageSource
 
 median2 = itk.MedianImageFilter.IUC2IUC2.New()
-median.SetInput(median2)
+median.SetInput(median2.GetOutput())
 assert median.GetInput() == median2.GetOutput()
 
 
@@ -118,7 +118,9 @@ except RuntimeError as e:
 #   ----- keep that at the end! -----
 
 # pycommand masked
-median2.AddObserver(itk.DeleteEvent(), lambda: sys.exit(0))
+def exit():
+    sys.exit(0)
+median2.AddObserver(itk.DeleteEvent(), exit)
 del median
 
 # we shouldn't reach that point
