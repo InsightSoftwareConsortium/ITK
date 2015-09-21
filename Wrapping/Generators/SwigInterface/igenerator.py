@@ -662,7 +662,7 @@ class SwigInputGenerator(object):
         # and the idx files in the mdx ones
         for f in self.options.mdx:
             self.load_mdx(f)
-        # iterate over all the typedefs in the _cable_::wrappers namespace
+        # iterate over all the typedefs in the _wrapping_::wrappers namespace
         # to fill the alias dict
         for typedef in wrappers_ns.typedefs():  # allow_empty=True):
             s = getType(typedef).decl_string
@@ -734,7 +734,7 @@ class SwigInputGenerator(object):
     def create_interfacefile(self, interfacefile, wrappers_ns):
         headerFile = self.generate_headerfile()
 
-        # iterate over all the typedefs in the _cable_::wrappers namespace
+        # iterate over all the typedefs in the _wrapping_::wrappers namespace
         # to build a list of classes with the dependecies
         # classes :: [(name, [dep_name], typedef)]
         classes = []
@@ -945,10 +945,10 @@ if __name__ == '__main__':
     res = pygccxml_reader.read_xml_file(args[0])
 
     global_ns = pygccxml.declarations.get_global_namespace(res)
-    cable_ns = global_ns.namespace('_cable_')
-    wrappers_ns = cable_ns.namespace('wrappers')
+    wrapping_ns = global_ns.namespace('_wrapping_')
+    wrappers_ns = wrapping_ns.namespace('wrappers')
 
-    moduleName = cable_ns.variable('group').value
+    moduleName = wrapping_ns.variable('group').value
     if moduleName.startswith('(const char*)'):
         moduleName = moduleName[len('(const char*)'):]
     moduleName = moduleName.strip('"')

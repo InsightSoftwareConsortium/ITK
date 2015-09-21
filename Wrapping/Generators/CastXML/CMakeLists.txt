@@ -222,7 +222,7 @@ macro(itk_end_wrap_submodule_castxml module)
           -o ${xml_file}
           --castxml-gccxml
           ${_target}
-          --castxml-start _cable_
+          --castxml-start _wrapping_
           ${_castxml_cc}
           -w
           -c # needed for ccache to think we are not calling for link
