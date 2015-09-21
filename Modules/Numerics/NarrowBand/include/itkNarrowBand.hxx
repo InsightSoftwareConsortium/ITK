@@ -32,7 +32,7 @@
 
 namespace itk
 {
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 template< typename NodeType >
 std::vector< typename NarrowBand< NodeType >::RegionType >
 NarrowBand< NodeType >

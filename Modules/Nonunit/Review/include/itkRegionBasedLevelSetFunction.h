@@ -171,7 +171,7 @@ public:
       }
   }
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   void SetSharedData(SharedDataPointer sharedDataIn)
   {
     this->m_SharedData = sharedDataIn;

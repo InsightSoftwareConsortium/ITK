@@ -323,7 +323,7 @@ public:
 
   const CellDataContainer * GetCellData() const;
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   /**
    * Set/get the BoundaryAssignmentsContainer for a given dimension.
    * The BoundaryAssignmentsContainer is a MapContainer indexed by a
@@ -458,7 +458,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef CABLE_CONFIGURATION
+#ifndef ITK_WRAPPING_PARSER
 #include "itkMesh.hxx"
 #endif
 #endif

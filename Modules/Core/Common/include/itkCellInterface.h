@@ -415,7 +415,7 @@ protected:
    */
   virtual unsigned int GetNumberOfUsingCells();
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   /**
    * Get a begin iterator for the UsingCellsContainer.
    */
@@ -495,7 +495,7 @@ public:
   PointType, PointsContainer, UsingCellsContainer >
 } // end namespace itk
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCellInterface.hxx"
 #endif

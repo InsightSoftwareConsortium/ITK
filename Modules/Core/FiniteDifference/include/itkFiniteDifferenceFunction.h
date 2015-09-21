@@ -130,7 +130,7 @@ public:
    * of the solver.
    * \sa InitializeIteration
    * \sa ComputeGlobalTimeStep */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   virtual PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
                                     void *globalData,
                                     const FloatOffsetType & offset = FloatOffsetType(0.0) ) = 0;

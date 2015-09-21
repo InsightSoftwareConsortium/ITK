@@ -73,7 +73,7 @@ void SpatialObjectTreeNode< TDimension >
 }
 
 /** Get children given a name and a depth */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 template< unsigned int TDimension >
 typename SpatialObjectTreeNode< TDimension >::ChildrenListType *
 SpatialObjectTreeNode< TDimension >

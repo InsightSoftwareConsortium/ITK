@@ -1,6 +1,6 @@
 @CASTXML_INCLUDES@
 
-#ifdef CABLE_CONFIGURATION
+#ifdef ITK_WRAPPING_PARSER
 namespace _cable_
 {
   const char* const group = "@WRAPPER_MODULE_NAME@";

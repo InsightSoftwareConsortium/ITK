@@ -267,14 +267,14 @@ public:
   typename Barrier::Pointer m_Barrier;
 
   typename TInputImage::ConstPointer m_Input;
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   LineMapType m_LineMap;
 #endif
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 #include "itkConnectedComponentImageFilter.hxx"
 #endif
 #endif
