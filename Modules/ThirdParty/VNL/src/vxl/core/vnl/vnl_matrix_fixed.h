@@ -1044,7 +1044,7 @@ vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed<T,m,n>& mat)
 // compile time constant when used in the return parameter. So, we
 // have to introduce a helper class to do it.
 //
-#if defined(VCL_VC_6) && !defined(__GCCXML__)
+#if defined(VCL_VC_6) && !defined(CABLE_CONFIGURATION)
 
 template<class T, unsigned m, class FixedVector>
 struct outer_product_fixed_type_helper

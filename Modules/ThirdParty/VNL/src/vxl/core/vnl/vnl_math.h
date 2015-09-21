@@ -44,7 +44,7 @@
 #endif
 
 // Figure out when the fast implementation can be used
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && (!defined(__GCCXML__)) && defined(__SSE2__)
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && (!defined(CABLE_CONFIGURATION)) && defined(__SSE2__)
 # if !VXL_HAS_EMMINTRIN_H
 #   error "Required file emmintrin.h for SSE2 not found"
 # else
@@ -57,13 +57,13 @@
 // Turn on fast impl when using GCC on Intel-based machines with the following exception:
 //   PPC with Mac OS X
 //   GCCXML
-#if defined(__GNUC__) && (!defined(__GCCXML__)) &&  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64)) && (!defined(__APPLE__)  || !defined(__ppc__) )
+#if defined(__GNUC__) && (!defined(CABLE_CONFIGURATION)) &&  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64)) && (!defined(__APPLE__)  || !defined(__ppc__) )
 # define GCC_USE_FAST_IMPL 1
 #else
 # define GCC_USE_FAST_IMPL 0
 #endif
 // Turn on fast impl when using msvc on 32 bits windows
-#if defined(VCL_VC) && (!defined(__GCCXML__)) && !defined(_WIN64)
+#if defined(VCL_VC) && (!defined(CABLE_CONFIGURATION)) && !defined(_WIN64)
 # define VC_USE_FAST_IMPL 1
 #else
 # define VC_USE_FAST_IMPL 0
