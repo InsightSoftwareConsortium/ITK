@@ -100,7 +100,7 @@ public:
   typedef typename Superclass::OptimizerType       OptimizerType;
 
   /** Path information typedef. */
-  typedef SpeedFunctionPathInformation<PointType> PathInformation;
+  typedef SpeedFunctionPathInformation<PointType> PathInformationType;
 
   /** Override superclass behaviour.
    *  Warning: SetPathEndPoint() is not valid for this filter.
@@ -135,16 +135,16 @@ public:
   /** Add a path information object to process.
    *  At least one PathInfo object must be added before processing. */
   void
-  AddPathInfo(PathInformation * info)
+  AddPathInformation(PathInformationType * info)
   {
-    m_Info.push_back(info);
+    m_Information.push_back(info);
   }
 
   /** Clear the list of path information objects. */
   void
-  ClearPathInfo()
+  ClearPathInformation()
   {
-    m_Info.clear();
+    m_Information.clear();
   }
 
   /** Handle optimizer iteration events. */
@@ -173,8 +173,8 @@ protected:
   virtual const PointType &
   GetNextEndPoint();
 
-  std::vector<typename PathInformation::Pointer> m_Info;
-  InputImagePointer                              m_CurrentArrivalFunction;
+  std::vector<typename PathInformationType::Pointer> m_Information;
+  InputImagePointer                                  m_CurrentArrivalFunction;
 
 private:
   SpeedFunctionToPathFilter(const Self &); // purposely not implemented

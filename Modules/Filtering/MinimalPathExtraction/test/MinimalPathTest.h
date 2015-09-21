@@ -113,7 +113,7 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
             info->AddWayPoint(point);
         }
       }
-      pathFilter->AddPathInfo(info);
+      pathFilter->AddPathInformation(info);
     }
   }
 

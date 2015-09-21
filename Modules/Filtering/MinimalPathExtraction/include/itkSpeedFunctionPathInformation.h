@@ -107,7 +107,7 @@ protected:
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
-  std::vector<PointType> m_Info;
+  std::vector<PointType> m_Information;
   SizeValueType          m_Front;
 
 
