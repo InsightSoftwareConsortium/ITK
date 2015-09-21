@@ -323,7 +323,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 
 #if defined( ITK_CPP_FUNCTION )
   #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( CABLE_CONFIGURATION ) \
-  && !defined( __GCCXML__ )
+  && !defined( CABLE_CONFIGURATION )
     #define ITK_LOCATION __FUNCSIG__
   #elif defined( __GNUC__ )
     #define ITK_LOCATION __PRETTY_FUNCTION__
@@ -447,7 +447,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 //   itkLegacyMacro(void MyMethod());
 #if defined( ITK_LEGACY_REMOVE )
 #define itkLegacyMacro(method) /* no ';' */
-#elif defined( ITK_LEGACY_SILENT ) || defined( ITK_LEGACY_TEST ) || defined( __GCCXML__ )
+#elif defined( ITK_LEGACY_SILENT ) || defined( ITK_LEGACY_TEST ) || defined( CABLE_CONFIGURATION )
 // Provide legacy methods with no warnings.
 #define itkLegacyMacro(method) method
 #else
