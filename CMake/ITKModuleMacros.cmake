@@ -251,6 +251,14 @@ macro(itk_module_impl)
 
   set(itk-module-EXPORT_CODE-build "${${itk-module}_EXPORT_CODE_BUILD}")
   set(itk-module-EXPORT_CODE-install "${${itk-module}_EXPORT_CODE_INSTALL}")
+  if(ITK_SOURCE_DIR)
+    # Uses ITKTargets.cmake
+    set(itk-module-TARGETS_FILE-build "")
+    set(itk-module-TARGETS_FILE-install "")
+  else()
+    set(itk-module-TARGETS_FILE-build "${${itk-module}_TARGETS_FILE_BUILD}")
+    set(itk-module-TARGETS_FILE-install "${${itk-module}_TARGETS_FILE_INSTALL}")
+  endif()
 
   set(itk-module-DEPENDS "${ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS}")
   set(itk-module-LIBRARIES "${${itk-module}_LIBRARIES}")
@@ -263,9 +271,11 @@ macro(itk_module_impl)
   set(itk-module-LIBRARY_DIRS "${${itk-module}_SYSTEM_LIBRARY_DIRS}")
   set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-build}")
   set(itk-module-EXPORT_CODE "${itk-module-EXPORT_CODE-build}")
+  set(itk-module-TARGETS_FILE "${itk-module-TARGETS_FILE-build}")
   configure_file(${_ITKModuleMacros_DIR}/ITKModuleInfo.cmake.in ${ITK_MODULES_DIR}/${itk-module}.cmake @ONLY)
   set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-install}")
   set(itk-module-EXPORT_CODE "${itk-module-EXPORT_CODE-install}")
+  set(itk-module-TARGETS_FILE "${itk-module-TARGETS_FILE-install}")
   configure_file(${_ITKModuleMacros_DIR}/ITKModuleInfo.cmake.in CMakeFiles/${itk-module}.cmake @ONLY)
   install(FILES
     ${${itk-module}_BINARY_DIR}/CMakeFiles/${itk-module}.cmake
