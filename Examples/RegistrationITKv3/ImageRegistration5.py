@@ -16,17 +16,36 @@
 #
 #==========================================================================*/
 
-
-from InsightToolkit import *
-
+import itk
 from sys import argv
 
+
 #
-# Read the fixed and moving images using filenames
-# from the command line arguments
+#  Check input parameters
+#  INPUTS(fixedImage):  {BrainProtonDensitySliceBorder20.png}
+#  INPUTS(movingImage): {BrainProtonDensitySliceRotated10.png}
 #
-fixedImageReader = itkImageFileReaderF2_New()
-movingImageReader = itkImageFileReaderF2_New()
+if len(argv) < 4:
+    print 'Missing Parameters'
+    print 'Usage: ImageRegistration5.py fixedImageFile  movingImageFile outputImagefile'
+    exit()
+
+
+#
+#  Define data types
+#
+FixedImageType  = itk.Image[itk.F, 2]
+MovingImageType = itk.Image[itk.F, 2]
+OutputImageType = itk.Image[itk.UC, 2]
+TransformType   = itk.CenteredRigid2DTransform
+
+
+#
+#  Read the fixed and moving images using filenames
+#  from the command line arguments
+#
+fixedImageReader  = itk.ImageFileReader[FixedImageType].New()
+movingImageReader = itk.ImageFileReader[MovingImageType].New()
 
 fixedImageReader.SetFileName(  argv[1] )
 movingImageReader.SetFileName( argv[2] )
@@ -34,24 +53,27 @@ movingImageReader.SetFileName( argv[2] )
 fixedImageReader.Update()
 movingImageReader.Update()
 
-fixedImage = fixedImageReader.GetOutput()
-movingImage = movingImageReader.GetOutput()
+fixedImage   = fixedImageReader.GetOutput()
+movingImage  = movingImageReader.GetOutput()
+
 
 #
 #  Instantiate the classes for the registration framework
 #
-registration    = itkImageRegistrationMethodF2F2_New()
-imageMetric     = itkMeanSquaresImageToImageMetricF2F2_New()
-transform       = itkCenteredRigid2DTransform_New()
-optimizer       = itkRegularStepGradientDescentOptimizer_New()
-interpolator    = itkLinearInterpolateImageFunctionF2D_New()
+registration = itk.ImageRegistrationMethod[FixedImageType, MovingImageType].New()
+imageMetric  = itk.MeanSquaresImageToImageMetric[FixedImageType, MovingImageType].New()
+transform    = TransformType.New()
+optimizer    = itk.RegularStepGradientDescentOptimizer.New()
+interpolator = itk.LinearInterpolateImageFunction[FixedImageType, itk.D].New()
 
-registration.SetOptimizer(      optimizer.GetPointer() )
-registration.SetTransform(      transform.GetPointer() )
-registration.SetInterpolator(   interpolator.GetPointer() )
-registration.SetMetric(         imageMetric.GetPointer() )
-registration.SetFixedImage(  fixedImage )
-registration.SetMovingImage( movingImage )
+registration.SetOptimizer(      optimizer   )
+registration.SetTransform(      transform   )
+registration.SetInterpolator(   interpolator)
+registration.SetMetric(         imageMetric )
+
+registration.SetFixedImage(  fixedImage     )
+registration.SetMovingImage( movingImage    )
+
 registration.SetFixedImageRegion(  fixedImage.GetBufferedRegion() )
 
 
@@ -62,27 +84,27 @@ transform.SetAngle( 0.0 );
 
 # center of the fixed image
 fixedSpacing = fixedImage.GetSpacing()
-fixedOrigin = fixedImage.GetOrigin()
-fixedSize = fixedImage.GetLargestPossibleRegion().GetSize()
+fixedOrigin  = fixedImage.GetOrigin()
+fixedSize    = fixedImage.GetLargestPossibleRegion().GetSize()
 
-centerFixed = ( fixedOrigin.GetElement(0) + fixedSpacing.GetElement(0) * fixedSize.GetElement(0) / 2.0,
-                fixedOrigin.GetElement(1) + fixedSpacing.GetElement(1) * fixedSize.GetElement(1) / 2.0 )
+centerFixed  = ( fixedOrigin.GetElement(0) + fixedSpacing.GetElement(0) * fixedSize.GetElement(0) / 2.0,
+                 fixedOrigin.GetElement(1) + fixedSpacing.GetElement(1) * fixedSize.GetElement(1) / 2.0 )
 
 # center of the moving image
-movingSpacing = movingImage.GetSpacing()
+movingSpacing= movingImage.GetSpacing()
 movingOrigin = movingImage.GetOrigin()
-movingSize = movingImage.GetLargestPossibleRegion().GetSize()
+movingSize   = movingImage.GetLargestPossibleRegion().GetSize()
 
 centerMoving = ( movingOrigin.GetElement(0) + movingSpacing.GetElement(0) * movingSize.GetElement(0) / 2.0,
                  movingOrigin.GetElement(1) + movingSpacing.GetElement(1) * movingSize.GetElement(1) / 2.0  )
 
 # transform center
-center = transform.GetCenter()
+center       = transform.GetCenter()
 center.SetElement( 0, centerFixed[0] )
 center.SetElement( 1, centerFixed[1] )
 
 # transform translation
-translation = transform.GetTranslation()
+translation  = transform.GetTranslation()
 translation.SetElement( 0, centerMoving[0] - centerFixed[0] )
 translation.SetElement( 1, centerMoving[1] - centerFixed[1] )
 
@@ -95,6 +117,7 @@ print "Translation: %f, %f" % (initialParameters.GetElement(3), initialParameter
 
 registration.SetInitialTransformParameters( initialParameters )
 
+
 #
 # Define optimizer parameters
 #
@@ -102,7 +125,7 @@ registration.SetInitialTransformParameters( initialParameters )
 # optimizer scale
 translationScale = 1.0 / 1000.0
 
-optimizerScales = itkArrayD( transform.GetNumberOfParameters() )
+optimizerScales  = itk.Array[itk.D](transform.GetNumberOfParameters())
 optimizerScales.SetElement(0, 1.0)
 optimizerScales.SetElement(1, translationScale)
 optimizerScales.SetElement(2, translationScale)
@@ -113,6 +136,7 @@ optimizer.SetScales( optimizerScales )
 optimizer.SetMaximumStepLength( 0.1 )
 optimizer.SetMinimumStepLength( 0.001 )
 optimizer.SetNumberOfIterations( 200 )
+
 
 #
 # Iteration Observer
@@ -126,17 +150,18 @@ def iterationUpdate():
                                  currentParameter.GetElement(3),
                                  currentParameter.GetElement(4) )
 
-iterationCommand = itkPyCommand_New()
+iterationCommand = itk.PyCommand.New()
 iterationCommand.SetCommandCallable( iterationUpdate )
-optimizer.AddObserver( itkIterationEvent(), iterationCommand.GetPointer() )
+optimizer.AddObserver( itk.IterationEvent(), iterationCommand )
 
 print "Starting registration"
+
 
 #
 # Start the registration process
 #
-
 registration.Update()
+
 
 #
 # Get the final parameters of the transformation
@@ -151,28 +176,31 @@ print "Translation in  X = %f" % finalParameters.GetElement(3)
 print "Translation in  Y = %f" % finalParameters.GetElement(4)
 
 # Now, we use the final transform for resampling the moving image.
-resampler = itkResampleImageFilterF2F2_New()
-
-resampler.SetTransform( transform.GetPointer() )
-resampler.SetInput( movingImage )
+resampler = itk.ResampleImageFilter[MovingImageType, FixedImageType].New()
+resampler.SetTransform( transform    )
+resampler.SetInput(     movingImage  )
 
 region = fixedImage.GetLargestPossibleRegion()
 
 resampler.SetSize( region.GetSize() )
+
 resampler.SetOutputSpacing( fixedImage.GetSpacing() )
-resampler.SetOutputDirection( fixedImage.GetDirection() )
-resampler.SetOutputOrigin(  fixedImage.GetOrigin() )
+resampler.SetOutputOrigin(  fixedImage.GetOrigin()  )
+resampler.SetOutputDirection(  fixedImage.GetDirection()  )
 resampler.SetDefaultPixelValue( 100 )
+
 
 #
 # Cast for output
 #
-outputCast = itkRescaleIntensityImageFilterF2US2_New()
-outputCast.SetInput( resampler.GetOutput() )
-outputCast.SetOutputMinimum( 0 )
-outputCast.SetOutputMaximum( 65535 )
+outputCast = itk.RescaleIntensityImageFilter[FixedImageType, OutputImageType].New()
+outputCast.SetInput(resampler.GetOutput())
 
-writer = itkImageFileWriterUS2_New()
+
+#
+# Write the resampled image
+#
+writer = itk.ImageFileWriter[OutputImageType].New()
 
 writer.SetFileName( argv[3] )
 writer.SetInput( outputCast.GetOutput() )

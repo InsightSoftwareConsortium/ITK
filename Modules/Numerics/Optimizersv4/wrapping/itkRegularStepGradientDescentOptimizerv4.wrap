@@ -1,0 +1,6 @@
+itk_wrap_class("itk::RegularStepGradientDescentOptimizerv4" POINTER)
+  UNIQUE(types "D;${WRAP_ITK_REAL}")
+  foreach(t ${types})
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  endforeach()
+itk_end_wrap_class()

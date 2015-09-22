@@ -16,21 +16,43 @@
 #
 #==========================================================================*/
 
-from InsightToolkit import *
-
+import itk
 from sys import argv
 
+
+#
+#  Check input parameters
+#  INPUTS(fixedImage):  {BrainProtonDensitySliceBorder20.png}
+#  INPUTS(movingImage): {BrainProtonDensitySliceShifted13x17y.png}
+#
+if len(argv) < 4:
+    print 'Missing Parameters'
+    print 'Usage: ImageRegistration4.py fixedImageFile  movingImageFile outputImagefile'
+    exit()
+
+
+#
+#  Define data types
+#
+FixedImageType   = itk.Image[itk.F, 2]
+MovingImageType  = itk.Image[itk.F, 2]
+TransformType    = itk.TranslationTransform[itk.D, 2]
+OptimizerType    = itk.RegularStepGradientDescentOptimizerv4[itk.D]
+RegistrationType = itk.ImageRegistrationMethodv4[FixedImageType,
+                                                 MovingImageType]
+MetricType       = itk.MattesMutualInformationImageToImageMetricv4[FixedImageType,
+                                                                   MovingImageType]
 
 
 #
 #  Read the fixed and moving images using filenames
 #  from the command line arguments
 #
-fixedImageReader  = itkImageFileReaderF2_New()
-movingImageReader = itkImageFileReaderF2_New()
+fixedImageReader  = itk.ImageFileReader[FixedImageType].New()
+movingImageReader = itk.ImageFileReader[MovingImageType].New()
 
-fixedImageReader.SetFileName(  argv[1] )
-movingImageReader.SetFileName( argv[2] )
+fixedImageReader.SetFileName(  argv[1])
+movingImageReader.SetFileName( argv[2])
 
 fixedImageReader.Update()
 movingImageReader.Update()
@@ -39,106 +61,107 @@ fixedImage  = fixedImageReader.GetOutput()
 movingImage = movingImageReader.GetOutput()
 
 
-
-
 #
 #  Instantiate the classes for the registration framework
 #
-registration = itkImageRegistrationMethodF2F2_New()
-imageMetric  = itkMattesMutualInformationImageToImageMetricF2F2_New()
-transform    = itkTranslationTransform2_New()
-optimizer    = itkRegularStepGradientDescentOptimizer_New()
-interpolator = itkLinearInterpolateImageFunctionF2D_New()
+registration = RegistrationType.New()
+imageMetric  = MetricType.New()
+transform    = TransformType.New()
+optimizer    = OptimizerType.New()
 
+registration.SetOptimizer(optimizer)
+registration.SetMetric(imageMetric)
 
-imageMetric.SetNumberOfHistogramBins( 20 );
-imageMetric.SetNumberOfSpatialSamples( 10000 );
+numberOfBins = 24
 
-registration.SetOptimizer(    optimizer.GetPointer()    )
-registration.SetTransform(    transform.GetPointer()    )
-registration.SetInterpolator( interpolator.GetPointer() )
-registration.SetMetric(       imageMetric.GetPointer()  )
-registration.SetFixedImage(  fixedImage  )
-registration.SetMovingImage( movingImage )
+imageMetric.SetNumberOfHistogramBins( numberOfBins );
+imageMetric.SetUseMovingImageGradientFilter( False );
+imageMetric.SetUseFixedImageGradientFilter( False );
 
-registration.SetFixedImageRegion( fixedImage.GetBufferedRegion() )
+registration.SetFixedImage(fixedImage)
+registration.SetMovingImage(movingImage)
 
-transform.SetIdentity()
-initialParameters = transform.GetParameters()
-
-registration.SetInitialTransformParameters( initialParameters )
-
-#
-# Iteration Observer
-#
-def iterationUpdate():
-    currentParameter = transform.GetParameters()
-    print "M: %f   P: %f %f " % ( optimizer.GetValue(),
-                        currentParameter.GetElement(0),
-                        currentParameter.GetElement(1) )
-
-iterationCommand = itkPyCommand_New()
-iterationCommand.SetCommandCallable( iterationUpdate )
-optimizer.AddObserver( itkIterationEvent(), iterationCommand.GetPointer() )
-
+registration.SetInitialTransform(transform)
 
 
 #
 #  Define optimizer parameters
 #
-optimizer.SetMaximumStepLength(  4.00 )
-optimizer.SetMinimumStepLength(  0.01 )
-optimizer.SetNumberOfIterations( 200  )
+optimizer.SetLearningRate(8.00)
+optimizer.SetMinimumStepLength(0.001)
+optimizer.SetNumberOfIterations(100)
+optimizer.ReturnBestParametersAndValueOn();
+optimizer.SetRelaxationFactor(0.8)
 
+
+#
+# One level registration process without shrinking and smoothing.
+#
+registration.SetNumberOfLevels(1)
+registration.SetSmoothingSigmasPerLevel([0])
+registration.SetShrinkFactorsPerLevel([1])
+
+registration.SetMetricSamplingStrategy( RegistrationType.RANDOM );
+registration.SetMetricSamplingPercentage( 0.20 );
+
+
+#
+# Iteration Observer
+#
+def iterationUpdate():
+    currentParameter = registration.GetOutput().Get().GetParameters()
+    print "M: %f   P: %f %f " % ( optimizer.GetValue(),
+                                  currentParameter.GetElement(0),
+                                  currentParameter.GetElement(1))
+
+iterationCommand = itk.PyCommand.New()
+iterationCommand.SetCommandCallable(iterationUpdate)
+optimizer.AddObserver(itk.IterationEvent(),iterationCommand)
 
 print "Starting registration"
+
 
 #
 #  Start the registration process
 #
-
 registration.Update()
 
 
 #
 # Get the final parameters of the transformation
 #
-finalParameters = registration.GetLastTransformParameters()
+finalParameters = registration.GetOutput().Get().GetParameters()
 
 print "Final Registration Parameters "
 print "Translation X =  %f" % (finalParameters.GetElement(0),)
 print "Translation Y =  %f" % (finalParameters.GetElement(1),)
 
 
-
-
 #
 # Now, we use the final transform for resampling the
 # moving image.
 #
-resampler = itkResampleImageFilterF2F2_New()
-resampler.SetTransform( transform.GetPointer()    )
-resampler.SetInput(     movingImage  )
+resampler = itk.ResampleImageFilter[MovingImageType,FixedImageType].New()
+resampler.SetTransform(registration.GetTransform())
+resampler.SetInput(movingImageReader.GetOutput())
 
 region = fixedImage.GetLargestPossibleRegion()
 
-resampler.SetSize( region.GetSize() )
+resampler.SetSize(region.GetSize())
+resampler.SetOutputOrigin(fixedImage.GetOrigin())
+resampler.SetOutputSpacing(fixedImage.GetSpacing())
+resampler.SetOutputDirection(fixedImage.GetDirection())
+resampler.SetDefaultPixelValue(100)
 
-resampler.SetOutputSpacing( fixedImage.GetSpacing() )
-resampler.SetOutputDirection( fixedImage.GetDirection() )
-resampler.SetOutputOrigin(  fixedImage.GetOrigin()  )
-resampler.SetDefaultPixelValue( 100 )
-
-outputCast = itkRescaleIntensityImageFilterF2US2_New()
-outputCast.SetOutputMinimum(      0  )
-outputCast.SetOutputMaximum(  65535  )
+OutputImageType  = itk.Image[itk.UC, 2]
+outputCast = itk.CastImageFilter[FixedImageType, OutputImageType].New()
 outputCast.SetInput(resampler.GetOutput())
+
 
 #
 #  Write the resampled image
 #
-writer = itkImageFileWriterUS2_New()
-
+writer = itk.ImageFileWriter[OutputImageType].New()
 writer.SetFileName( argv[3] )
 writer.SetInput( outputCast.GetOutput() )
 writer.Update()

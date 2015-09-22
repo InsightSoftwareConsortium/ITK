@@ -1,0 +1,9 @@
+itk_wrap_class("itk::TransformParametersAdaptorBase" POINTER)
+  UNIQUE(real_types "${WRAP_ITK_REAL};D")
+  foreach(d ${ITK_WRAP_DIMS})
+    foreach(t ${real_types})
+      itk_wrap_template("${ITKM_${t}}${d}"
+                        "itk::Transform< ${ITKT_${t}},${d},${d} >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()

@@ -10,4 +10,12 @@ itk_wrap_class("itk::ImageSource" POINTER)
     endforeach(type)
     itk_wrap_template("${ITKM_ISSRT${ITKM_D}${d}${d}}"  "${ITKT_ISSRT${ITKM_D}${d}${d}}")
   endforeach()
+  itk_wrap_include("itkCovariantVector.h")
+
+  # Used in ImageRegistrationMethodv4
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("ICV${ITKM_D}${d}${d}"
+                      "itk::Image< itk::CovariantVector< ${ITKT_D},${d} >,${d} >")
+  endforeach()
+
 itk_end_wrap_class()
