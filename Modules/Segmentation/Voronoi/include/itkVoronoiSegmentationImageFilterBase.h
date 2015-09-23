@@ -170,7 +170,7 @@ public:
   VoronoiPointer GetVoronoiDiagram(void)
   { return m_WorkingVD; }
 
-#if !defined( CABLE_CONFIGURATION )  // generates invalid iterator instantiation
+#if !defined( ITK_WRAPPING_PARSER )  // generates invalid iterator instantiation
                                      // with msvc
   /** Seeds positions are randomly set.
    * If you need to set seeds position then use the SetSeeds method

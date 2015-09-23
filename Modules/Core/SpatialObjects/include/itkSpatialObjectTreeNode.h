@@ -67,7 +67,7 @@ public:
   void ComputeNodeToWorldTransform();
 
   /** Return a list of children (the list should be deleted by the user */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   virtual ChildrenListType * GetChildren(unsigned int depth = 0,
                                          char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 

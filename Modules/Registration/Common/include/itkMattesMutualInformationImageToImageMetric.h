@@ -340,7 +340,7 @@ private:
     MarginalPDFType FixedImageMarginalPDF;
   };
 
-#if !defined(__GCCXML__)
+#if !defined(ITK_WRAPPING_PARSER)
   itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, MMIMetricPerThreadStruct,
                                             PaddedMMIMetricPerThreadStruct);
   itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedMMIMetricPerThreadStruct,

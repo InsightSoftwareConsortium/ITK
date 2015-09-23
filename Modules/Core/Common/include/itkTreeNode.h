@@ -104,13 +104,13 @@ public:
   virtual void AddChild(ChildIdentifier number, Self *node);
 
   /** Get the children list */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   virtual ChildrenListType * GetChildren(unsigned int depth = 0, char *name = ITK_NULLPTR) const;
 
 #endif
 
   /** Get the internal list of children */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   virtual ChildrenListType & GetChildrenList() { return m_Children; }
 #endif
 

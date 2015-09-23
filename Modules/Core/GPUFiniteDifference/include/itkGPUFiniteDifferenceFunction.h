@@ -83,7 +83,7 @@ public:
     * interpolation among grid values in a neighborhood. */
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   /** Empty implementation - this will not be used by GPU filters */
   virtual PixelType  ComputeUpdate( const NeighborhoodType & itkNotUsed(neighborhood),
                                     void *itkNotUsed(globalData),

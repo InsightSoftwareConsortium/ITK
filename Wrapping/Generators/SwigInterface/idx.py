@@ -35,7 +35,7 @@ class IdxGenerator(object):
         self.moduleName = moduleName
 
     def create_idxfile(self, idxFilePath, wrappers_ns):
-        # iterate over all the typedefs in the _cable_::wrappers namespace
+        # iterate over all the typedefs in the _wrapping_::wrappers namespace
         for typedef in wrappers_ns.typedefs():
             n = typedef.name
             s = getType(typedef).decl_string
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     res = pygccxml_reader.read_xml_file(xmlFilePath)
 
     global_ns = pygccxml.declarations.get_global_namespace(res)
-    cable_ns = global_ns.namespace('_cable_')
+    cable_ns = global_ns.namespace('_wrapping_')
     wrappers_ns = cable_ns.namespace('wrappers')
 
     module = os.path.splitext(os.path.basename(xmlFilePath))[0]

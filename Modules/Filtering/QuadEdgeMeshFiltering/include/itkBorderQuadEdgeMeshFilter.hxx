@@ -94,7 +94,7 @@ void BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
 
 // ----------------------------------------------------------------------------
 // *** under testing ***
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 template< typename TInputMesh, typename TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputQEType*
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
@@ -149,7 +149,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
 #endif
 
 // ----------------------------------------------------------------------------
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 template< typename TInputMesh, typename TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputQEType*
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()

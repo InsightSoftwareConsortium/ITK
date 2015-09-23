@@ -229,7 +229,7 @@ public:
   virtual void SetStateToUninitialized();
 
   /** Set/Get the state of the filter. */
-#if !defined(CABLE_CONFIGURATION)
+#if !defined(ITK_WRAPPING_PARSER)
   itkSetMacro(State, FilterStateType);
   itkGetConstReferenceMacro(State, FilterStateType);
 #endif

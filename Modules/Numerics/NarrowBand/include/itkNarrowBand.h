@@ -77,7 +77,7 @@ public:
 
   /** Returns an array of RegionStructs which represent contiguous
    * arrays of nodes within the narrow band. */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   std::vector< RegionType > SplitBand(const SizeType&);
 
 #endif

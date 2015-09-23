@@ -222,7 +222,7 @@ macro(itk_end_wrap_submodule_castxml module)
           -o ${xml_file}
           --castxml-gccxml
           ${_target}
-          --castxml-start _cable_
+          --castxml-start _wrapping_
           ${_castxml_cc}
           -w
           -c # needed for ccache to think we are not calling for link
@@ -255,7 +255,7 @@ macro(itk_wrap_module_castxml library_name)
     set(c "${c}-I${dir}\n")
   endforeach()
   set(c "${c}-Qunused-arguments\n")
-  set(c "${c}-DCABLE_CONFIGURATION\n")
+  set(c "${c}-DWRAPPING\n")
   set(c "${c}-DITK_MANUAL_INSTANTIATION\n")
 
   set(CONFIG_CASTXML_INC_CONTENTS "${c}")

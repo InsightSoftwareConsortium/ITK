@@ -39,9 +39,9 @@
 #include <fenv.h> // should this be cfenv?
 #endif /* ITK_HAVE_FENV_H */
 
-#if defined( ITK_HAVE_EMMINTRIN_H ) && !defined( __GCCXML__ )
+#if defined( ITK_HAVE_EMMINTRIN_H ) && !defined( ITK_WRAPPING_PARSER )
 #include <emmintrin.h> // sse 2 intrinsics
-#endif /* ITK_HAVE_EMMINTRIN_H && ! __GCCXML__ */
+#endif /* ITK_HAVE_EMMINTRIN_H && ! ITK_WRAPPING_PARSER */
 
 // assume no SSE2:
 #define USE_SSE2_64IMPL 0
@@ -49,7 +49,7 @@
 
 // For apple assume sse2 is on for all intel builds, check for 64 and 32
 // bit versions
-#if defined(__APPLE__) && defined( __SSE2__ ) && !defined( __GCCXML__ )
+#if defined(__APPLE__) && defined( __SSE2__ ) && !defined( ITK_WRAPPING_PARSER )
 
 #  if defined( __i386__ )
 #    undef  USE_SSE2_32IMPL
@@ -72,11 +72,11 @@
 // try-compile set ITK_COMPILER_SUPPORTS_SSE2_32 and
 // ITK_COMPILER_SUPPORTS_SSE2_64 to set values:
 
-#  if defined(ITK_COMPILER_SUPPORTS_SSE2_32) && !defined( __GCCXML__ )
+#  if defined(ITK_COMPILER_SUPPORTS_SSE2_32) && !defined( ITK_WRAPPING_PARSER )
 #    undef  USE_SSE2_32IMPL
 #    define USE_SSE2_32IMPL 1
 #  endif
-#  if defined(ITK_COMPILER_SUPPORTS_SSE2_64) && !defined( __GCCXML__ )
+#  if defined(ITK_COMPILER_SUPPORTS_SSE2_64) && !defined( ITK_WRAPPING_PARSER )
 #    undef  USE_SSE2_64IMPL
 #    define USE_SSE2_64IMPL 1
 #  endif
@@ -87,7 +87,7 @@
 // Turn on 32-bit and 64-bit asm impl when using GCC on x86 platform with the
 // following exception:
 //   GCCXML
-#if defined( __GNUC__ ) && ( !defined( __GCCXML__ ) ) &&  ( defined( __i386__ ) || defined( __i386 ) \
+#if defined( __GNUC__ ) && ( !defined( ITK_WRAPPING_PARSER ) ) &&  ( defined( __i386__ ) || defined( __i386 ) \
   || defined( __x86_64__ ) || defined( __x86_64 ) )
 #define GCC_USE_ASM_32IMPL 1
 #define GCC_USE_ASM_64IMPL 1
@@ -96,7 +96,7 @@
 #define GCC_USE_ASM_64IMPL 0
 #endif
 // Turn on 32-bit and 64-bit asm impl when using msvc on 32 bits windows
-#if defined( VCL_VC ) && ( !defined( __GCCXML__ ) ) && !defined( _WIN64 )
+#if defined( VCL_VC ) && ( !defined( ITK_WRAPPING_PARSER ) ) && !defined( _WIN64 )
 #define VC_USE_ASM_32IMPL 1
 #define VC_USE_ASM_64IMPL 1
 #else
