@@ -323,8 +323,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 #define itkWarningStatement(x) x
 
 #if defined( ITK_CPP_FUNCTION )
-  #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( ITK_WRAPPING_PARSER ) \
-  && !defined( ITK_WRAPPING_PARSER )
+  #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( ITK_WRAPPING_PARSER )
     #define ITK_LOCATION __FUNCSIG__
   #elif defined( __GNUC__ )
     #define ITK_LOCATION __PRETTY_FUNCTION__
