@@ -116,6 +116,8 @@ public:
     m_SnapshotPath = "";
     m_SnapshotPrefix = "snapshot_";
     m_SnapshotExtension = "png";
+    m_NumberOfColumns = 4;
+    m_ViewPortSize = 300;
   }
   /** Add an image to be rendered. */
   template<typename TImage> void AddImage(
@@ -192,6 +194,18 @@ public:
           ::tolower );
   }
 
+  /** Set the number of columns, default 4.*/
+  void SetNumberOfColumns (const unsigned int columns)
+  {
+    m_NumberOfColumns = columns;
+  }
+
+  /** Set the viewport size, default 300.*/
+  void SetViewPortSize (const unsigned int size)
+  {
+    m_ViewPortSize = size;
+  }
+
 private:
   std::vector<ImageInfo>    Images;        // Container for images
   std::vector<RGBImageInfo> RGBImages;     // Container for rgb images
@@ -202,6 +216,8 @@ private:
   bool                      m_ShareCamera;
   bool                      m_Snapshot;
   bool                      m_Interpolate;
+  unsigned int              m_NumberOfColumns;
+  unsigned int              m_ViewPortSize;
 };
 
 #endif
