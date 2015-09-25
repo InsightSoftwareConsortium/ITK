@@ -1,5 +1,8 @@
 New in Release 2.3.00
 ---------------------
+* Removed interpretation of leading zero as specifying an octal constant
+on the command line (affects almost all minc-tools).
+* Volume_IO can now load NIfTI-1 and MGZ/MGH volumetric data.
 * many bugfixes for minc 2.0 code
 * Using features of HDF5 version 1.8, which allows permits attributes of unlitied size
 * some API functions signature have changed
