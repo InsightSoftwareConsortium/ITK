@@ -9,13 +9,13 @@ if(ITK_USE_SYSTEM_MINC)
     EXCLUDE_FROM_DEFAULT
     )
 else()
-itk_module(ITKMINC
-  DEPENDS
-    ITKHDF5
-    ITKKWSys
-    ITKZLIB
-  DESCRIPTION
-    "${DOCUMENTATION}"
-  EXCLUDE_FROM_DEFAULT
-)
+  itk_module(ITKMINC
+    DEPENDS
+      ITKHDF5
+      ITKKWSys
+      ITKZLIB
+    DESCRIPTION
+      "${DOCUMENTATION}"
+    EXCLUDE_FROM_DEFAULT
+  )
 endif()

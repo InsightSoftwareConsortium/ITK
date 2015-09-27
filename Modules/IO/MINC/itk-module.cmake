@@ -3,15 +3,14 @@ files in the MINC 2 file Format (mnc) and transformations (xfm).")
 
 itk_module(ITKIOMINC
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  COMPILE_DEPENDS
     ITKIOImageBase
+  PRIVATE_DEPENDS
     ITKMINC
-    ITKIOTransformBase
   TEST_DEPENDS
     ITKTestKernel
     ITKMINC
     ITKImageStatistics
-    ITKDisplacementField
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
