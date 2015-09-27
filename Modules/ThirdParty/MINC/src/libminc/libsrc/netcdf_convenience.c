@@ -457,6 +457,24 @@ MNCAPI char *miexpand_file(const char *path, char *tempfile, int header_only,
 
 }
 
+static int
+is_netcdf_file(const char *filename)
+{
+   unsigned char magic[4];
+   size_t nread;
+   FILE *fp = fopen(filename, "rb");
+   if (fp == NULL) {
+      return 0;
+   }
+   nread = fread(magic, 1, 4, fp);
+   fclose(fp);
+   if (nread != 4) {
+      return 0;
+   }
+   return (magic[0] == 'C' && magic[1] == 'D' && magic[2] == 'F' &&
+           (magic[3] == 1 || magic[3] == 2));
+}
+
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : miopen
 @INPUT      : path  - name of file to open
@@ -482,27 +500,25 @@ MNCAPI int miopen(const char *path, int mode)
 
    MI_SAVE_ROUTINE_NAME("miopen");
 
-   /* Try to open the file */
-   oldncopts = ncopts; ncopts = 0;
-   status = ncopen(path, mode);
-   ncopts = oldncopts;
+   if (is_netcdf_file(path)) {
+      /* Try to open the file */
+      oldncopts = ncopts; ncopts = 0;
+      status = ncopen(path, mode);
+      ncopts = oldncopts;
 
-#if MINC2
-   if (status != MI_ERROR) {
-     mi_nc_files++;             /* Count open netcdf files */
-     MI_RETURN(status);
+      if (status != MI_ERROR) {
+         mi_nc_files++;         /* Count open netcdf files */
+      }
+      MI_RETURN(status);
    }
 
+#if MINC2
    if (mode & NC_WRITE) {
      hmode = H5F_ACC_RDWR;
    } 
    else {
      hmode = H5F_ACC_RDONLY;
    }
-
-#if HDF5_MMAP_TEST
-   hmode = (mode & 0x8000);     /* !!!! Pass along magic memory-mapping bit */
-#endif /* HDF5_MMAP_TEST */
 
    status = hdf_open(path, hmode);
 
@@ -517,8 +533,8 @@ MNCAPI int miopen(const char *path, int mode)
     * we don't allow write access to compressed files.
     */
    if (mode & NC_WRITE) {
-       milog_message(MI_MSG_NOWRITECMP);
-       MI_RETURN(MI_ERROR);
+      milog_message(MI_MSG_NOWRITECMP);
+      MI_RETURN(MI_ERROR);
    }
 
    /* Try to expand the file */
@@ -531,20 +547,21 @@ MNCAPI int miopen(const char *path, int mode)
 
    /* Open the temporary file and unlink it so that it will disappear when
       the file is closed */
-   oldncopts = ncopts;
-   ncopts = 0;
-   status = ncopen(tempfile, mode);
-   ncopts = oldncopts;
-
-#if MINC2
-   if (status == MI_ERROR) {
-     status = hdf_open(tempfile, hmode);
-     if (status >= 0) {
-         mi_h5_files++;
-     }
+   if (is_netcdf_file(tempfile)) {
+      oldncopts = ncopts;
+      ncopts = 0;
+      status = ncopen(tempfile, mode);
+      ncopts = oldncopts;
+      if (status != MI_ERROR) {
+         mi_nc_files++;
+      }
    }
+#if MINC2
    else {
-       mi_nc_files++;
+      status = hdf_open(tempfile, hmode);
+      if (status >= 0) {
+         mi_h5_files++;
+      }
    }
 #endif /* MINC2 defined */
 
@@ -552,9 +569,8 @@ MNCAPI int miopen(const char *path, int mode)
       remove(tempfile);
    }
    
-   
    if (status < 0) {
-       milog_message(MI_MSG_OPENFILE, tempfile);
+      milog_message(MI_MSG_OPENFILE, tempfile);
    }
    
    free(tempfile);/*free memory allocated in miexpand_file*/

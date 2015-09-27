@@ -30,6 +30,11 @@
 #include "minc2.h"
 #include "minc2_private.h"
 
+/* So we build with 1.8.4 */  
+#ifndef H5F_LIBVER_18
+#define H5F_LIBVER_18 H5F_LIBVER_LATEST
+#endif
+
 /**
 * \defgroup mi2Vol MINC 2.0 Volume Functions
 */
@@ -203,7 +208,7 @@ static hid_t _hdf_create(const char *path, int cmode)
   hid_t fpid;
   
   fpid = H5Pcreate (H5P_FILE_ACCESS);
-  
+
   /*VF use all the features of new HDF5 1.8*/
   H5Pset_libver_bounds (fpid, H5F_LIBVER_18, H5F_LIBVER_18);
   
