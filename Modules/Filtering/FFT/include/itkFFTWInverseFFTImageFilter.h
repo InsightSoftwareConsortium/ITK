@@ -111,9 +111,10 @@ protected:
   FFTWInverseFFTImageFilter();
   virtual ~FFTWInverseFFTImageFilter() {}
 
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                            ThreadIdType threadId ) ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
