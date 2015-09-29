@@ -101,11 +101,12 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
     return;
     }
 
-  typename InputPointsContainer::ConstIterator inputPoint   = inPoints->Begin();
-  typename InputPointDataContainer::ConstIterator inputData    = inData->Begin();
+  typename InputPointsContainer::ConstIterator inputPointIt   = inPoints->Begin();
+  typename InputPointsContainer::ConstIterator inputPointEnd  = inPoints->End();
+  typename InputPointDataContainer::ConstIterator inputDataIt = inData->Begin();
 
-  typename OutputPointsContainer::Iterator outputPoint  = outPoints->Begin();
-  typename OutputPointDataContainer::Iterator outputData  = outData->Begin();
+  typename OutputPointsContainer::Iterator outputPointIt    = outPoints->Begin();
+  typename OutputPointDataContainer::Iterator outputDataIt  = outData->Begin();
 
   // support progress methods/callbacks
   ProgressReporter progress( this, 0, inPoints->Size() );
@@ -114,21 +115,21 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 
   typename TOutputMesh::PointType point;
 
-  while ( inputPoint != inPoints->End() )
+  while ( inputPointIt != inputPointEnd )
     {
     for ( unsigned int i = 0; i < OutputDimension; i++ )
       {
       // Conver Index coordinates to MeshSpace
-      point[i] = inputData.Value()[i];
+      point[i] = inputDataIt.Value()[i];
       }
 
-    outputPoint.Value() = point;
-    outputData.Value()  = inputPoint.Value();
+    outputPointIt.Value() = point;
+    outputDataIt.Value()  = inputPointIt.Value();
 
-    ++inputData;
-    ++inputPoint;
-    ++outputPoint;
-    ++outputData;
+    ++inputDataIt;
+    ++inputPointIt;
+    ++outputPointIt;
+    ++outputDataIt;
     progress.CompletedPixel();
     }
 }
