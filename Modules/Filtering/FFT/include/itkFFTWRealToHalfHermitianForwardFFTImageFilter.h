@@ -111,9 +111,9 @@ protected:
   FFTWRealToHalfHermitianForwardFFTImageFilter();
   ~FFTWRealToHalfHermitianForwardFFTImageFilter() {}
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
-  virtual void UpdateOutputData(DataObject *output);
+  virtual void UpdateOutputData(DataObject *output) ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
