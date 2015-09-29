@@ -33,13 +33,25 @@
 
 namespace itk
 {
+/** \class BinaryImageToLevelSetImageAdator
+ *  \brief Converts one binary image to the appropriate level-set type
+ *  provided by the template argument TLevelSet.
+ *
+ *  \tparam TInputImage Binary Input Image Type
+ *  \tparam TLevelSet   Output Level-Set Type
+ *
+ *  \note TLevelSet must inherits from LevelSetImage
+ *
+ *  \sa LevelSetImage
+ *
+ *  \ingroup ITKLevelSetsv4
+ */
 template< typename TInputImage, typename TLevelSet >
 class BinaryImageToLevelSetImageAdaptor
 {};
 
 
-/** \class BinaryImageToLevelSetImageAdaptorBase
- *  \ingroup ITKLevelSetsv4
+/** \brief Partial template specialization for LevelSetDenseImage
  */
 template< typename TInputImage, typename TLevelSetImage >
 class BinaryImageToLevelSetImageAdaptor<
@@ -107,6 +119,11 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/** \class BinaryImageToSparseLevelSetImageAdaptorBase
+ *  \brief Abstract class for converting binary image to sparse level-set
+ *
+ *  \ingroup ITKLevelSetsv4
+ */
 template< typename TInput, typename TOutput >
 class BinaryImageToSparseLevelSetImageAdaptorBase :
     public BinaryImageToLevelSetImageAdaptorBase< TInput, TOutput >
@@ -175,6 +192,8 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+/** \brief Partial template specialization for WhitakerSparseLevelSetImage
+ */
 template< typename TInput, typename TOutput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
@@ -265,6 +284,8 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+/** \brief Partial template specialization for ShiSparseLevelSetImage
+ */
 template< typename TInput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
@@ -349,6 +370,8 @@ private:
 
 
 ////////////////////////////////////////////////////////////////////////////////
+/** \brief Partial template specialization for MalcolmSparseLevelSetImage
+ */
 template< typename TInput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
