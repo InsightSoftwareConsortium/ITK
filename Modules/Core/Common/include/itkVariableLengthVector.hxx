@@ -40,7 +40,6 @@ VariableLengthVector< TValue >
 template< typename TValue >
 VariableLengthVector< TValue >
 ::VariableLengthVector(unsigned int length):
-  m_LetArrayManageMemory(true),
   m_Data(ITK_NULLPTR)
 {
   Reserve(length);
@@ -77,6 +76,63 @@ VariableLengthVector< TValue >
   std::copy(&v.m_Data[0], &v.m_Data[m_NumElements], &this->m_Data[0]);
 }
 
+#if defined(ITK_HAS_CXX11_RVREF)
+template< typename TValue >
+VariableLengthVector< TValue >
+::VariableLengthVector(Self && v) ITK_NOEXCEPT
+: m_LetArrayManageMemory(v.m_LetArrayManageMemory)
+, m_Data                (v.m_Data)
+, m_NumElements         (v.m_NumElements)
+{
+  v.m_LetArrayManageMemory = true;
+  v.m_Data                 = ITK_NULLPTR;
+  v.m_NumElements          = 0;
+}
+
+template< typename TValue >
+VariableLengthVector< TValue > &
+VariableLengthVector< TValue >
+::operator=(Self && v) ITK_NOEXCEPT
+{
+  itkAssertInDebugAndIgnoreInReleaseMacro(&v != this);
+
+  // Possible cases:
+  // - both are proxy
+  //   => a shallow assignment is enough
+  // - none are proxy
+  //   => this->m_Data is released, v content is stolen by *this
+  // - v is a proxy, but not *this
+  //   => Fall back to usual copy-assignement
+  // - *this is a proxy, but not v
+  //   => v content is stolen by *this, nothing to delete[]
+
+  if (!IsAProxy() && v.IsAProxy())
+    { // Fall back to usual copy-assignment
+    return *this = v;
+    }
+
+  // Delete old data, when data is stolen
+  if (!IsAProxy() && !v.IsAProxy())
+    {
+    delete[] m_Data;
+    }
+
+  // Shallow copy of the information
+  m_LetArrayManageMemory = v.m_LetArrayManageMemory;
+  m_Data                 = v.m_Data;
+  m_NumElements          = v.m_NumElements;
+
+  // Reset v to something assignable and destructible
+  // NB: It's not necessary to always reset v. The choice made is to avoid a
+  // test
+  v.m_LetArrayManageMemory = true;
+  v.m_Data                 = ITK_NULLPTR;
+  v.m_NumElements          = 0;
+
+  return *this;
+}
+
+#endif
 
 /** Destructor */
 template< typename TValue >
@@ -235,7 +291,7 @@ void VariableLengthVector< TValue >
   std::fill_n(&this->m_Data[0], m_NumElements, v);
 }
 
-/** Assignment operator */
+/** Copy-Assignment operator */
 template< typename TValue >
 VariableLengthVector< TValue > &
 VariableLengthVector< TValue >

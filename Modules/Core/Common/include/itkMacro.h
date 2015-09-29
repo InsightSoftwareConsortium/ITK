@@ -154,6 +154,7 @@ namespace itk
 // Use cautiously.
 #define ITK_NOEXCEPT noexcept
 #define ITK_HAS_CXX11_STATIC_ASSERT
+#define ITK_HAS_CXX11_RVREF
 #else
 #define ITK_OVERRIDE
 #define ITK_NULLPTR  NULL
