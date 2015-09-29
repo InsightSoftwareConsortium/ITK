@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKVtkGlueTests
+itkVtkConnectedComponentImageFilterTest
 itkVtkMedianFilterTest.cxx
 itkImageToVTKImageFilterTest.cxx
 itkVTKImageToImageFilterTest.cxx
@@ -31,3 +32,9 @@ itk_add_test(
                      ${ITK_TEST_OUTPUT_DIR}/QuickViewTest0.png
     QuickViewTest DATA{${ITK_DATA_ROOT}/Input/peppers.png} ${ITK_TEST_OUTPUT_DIR})
 set_property(TEST QuickViewTest APPEND PROPERTY LABELS REQUIRES_DISPLAY)
+
+itk_add_test(
+  NAME itkVtkConnectedComponentImageFilterTest
+  COMMAND ITKVtkGlueTestDriver
+    itkVtkConnectedComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png})
+set_property(TEST itkVtkConnectedComponentImageFilterTest APPEND PROPERTY LABELS REQUIRES_DISPLAY)
