@@ -66,12 +66,12 @@ ThreadedIteratorRangePartitioner< TIterator >
 
   const ThreadIdType startIndexCount = threadId * valuesPerThread;
   subDomain.m_Begin = completeDomain.Begin();
-  std::advance(subDomain.m_Begin, startIndexCount );
+  std::advance( subDomain.m_Begin, startIndexCount );
 
   if (threadId < maxThreadIdUsed)
     {
     subDomain.m_End = subDomain.m_Begin;
-    std::advance(subDomain.m_End, valuesPerThread );
+    std::advance( subDomain.m_End, valuesPerThread );
     }
   if (threadId == maxThreadIdUsed)
     {
