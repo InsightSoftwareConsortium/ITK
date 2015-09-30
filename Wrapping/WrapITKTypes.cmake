@@ -195,7 +195,9 @@ END_WRAP_TYPE()
 set(itk_Wrap_vcl_complex ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::SymmetricSecondRankTensor" "SSRT")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  # itkDiffusionTensor3D always needs SymmetricSecondRankTensor with dim 2 and 3
+  UNIQUE(image_dims "${ITK_WRAP_IMAGE_DIMS};2;3")
+  foreach(d ${image_dims})
     ADD_TEMPLATE("${ITKM_D}${d}" "${ITKT_D}, ${d}")
     ADD_TEMPLATE("${ITKM_F}${d}" "${ITKT_F}, ${d}")
   endforeach()
