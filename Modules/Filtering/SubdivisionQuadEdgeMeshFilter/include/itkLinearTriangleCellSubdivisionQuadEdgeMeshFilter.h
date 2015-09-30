@@ -86,7 +86,7 @@ protected:
   virtual ~LinearTriangleCellSubdivisionQuadEdgeMeshFilter() {}
 
   virtual void
-  AddNewCellPoints(InputCellType * cell);
+  AddNewCellPoints(InputCellType * cell) ITK_OVERRIDE;
 
 private:
   LinearTriangleCellSubdivisionQuadEdgeMeshFilter(const Self &);

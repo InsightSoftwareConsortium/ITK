@@ -100,9 +100,9 @@ protected:
   virtual void
   AddNewCellPoints(InputCellType * cell) = 0;
   virtual void
-  GenerateOutputPoints();
+  GenerateOutputPoints() ITK_OVERRIDE;
   virtual void
-  GenerateOutputCells();
+  GenerateOutputCells() ITK_OVERRIDE;
 
   void
   SplitTriangleFromOneEdge(OutputMeshType *              output,
@@ -120,7 +120,7 @@ protected:
                               const OutputPointIdentifier * edgePointIds);
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   SubdivisionCellContainer m_CellsToBeSubdivided;
   bool                     m_Uniform;

@@ -85,7 +85,7 @@ protected:
   virtual ~ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter() {}
 
   virtual void
-  AddNewEdgePoints(InputQEType * edge);
+  AddNewEdgePoints(InputQEType * edge) ITK_OVERRIDE;
 
 private:
   ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter(const Self &); // purposely not implement

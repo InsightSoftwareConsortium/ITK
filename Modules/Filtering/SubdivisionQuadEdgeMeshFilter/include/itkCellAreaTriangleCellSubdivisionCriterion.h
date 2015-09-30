@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   virtual void
-  Compute(MeshType * mesh, SubdivisionCellContainer & cellIds);
+  Compute(MeshType * mesh, SubdivisionCellContainer & cellIds) ITK_OVERRIDE;
 
   itkGetConstMacro(MaximumArea, CoordRepType);
   itkSetMacro(MaximumArea, CoordRepType);

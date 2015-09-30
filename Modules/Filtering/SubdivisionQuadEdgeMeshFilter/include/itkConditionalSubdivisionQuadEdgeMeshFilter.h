@@ -80,10 +80,10 @@ protected:
   virtual ~ConditionalSubdivisionQuadEdgeMeshFilter() {}
 
   virtual void
-  GenerateData();
+  GenerateData() ITK_OVERRIDE;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   SubdivisionFilterPointer m_SubdivisionFilter;
   SubdivisionCellContainer m_CellsToBeSubdivided;

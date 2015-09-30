@@ -79,10 +79,10 @@ protected:
   virtual ~IterativeTriangleCellSubdivisionQuadEdgeMeshFilter() {}
 
   virtual void
-  GenerateData();
+  GenerateData() ITK_OVERRIDE;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   CellSubdivisionFilterPointer m_CellSubdivisionFilter;
   SubdivisionCellContainer     m_CellsToBeSubdivided;
