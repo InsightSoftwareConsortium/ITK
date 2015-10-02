@@ -83,7 +83,7 @@ public:
 
   typedef typename Superclass::RandomGeneratorType RandomGeneratorType;
   /** Default sampling variance */
-  itkStaticConstMacro(DefaultVariance, RealType, 900);
+  itkStaticConstMacro(DefaultVariance, int, 900);
 
   /** Set the variance */
   itkSetMacro(Variance, RealType);

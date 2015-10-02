@@ -71,9 +71,16 @@ VariableLengthVector< TValue >
 ::VariableLengthVector(const VariableLengthVector< TValue > & v)
 {
   m_NumElements = v.Size();
-  m_Data = this->AllocateElements(m_NumElements);
   m_LetArrayManageMemory = true;
-  std::copy(&v.m_Data[0], &v.m_Data[m_NumElements], &this->m_Data[0]);
+  if (m_NumElements != 0)
+    {
+    m_Data = this->AllocateElements(m_NumElements);
+    std::copy(&v.m_Data[0], &v.m_Data[m_NumElements], &this->m_Data[0]);
+    }
+  else
+    {
+    m_Data = ITK_NULLPTR;
+    }
 }
 
 #if defined(ITK_HAS_CXX11_RVREF)
@@ -133,6 +140,35 @@ VariableLengthVector< TValue >
 }
 
 #endif
+
+template< typename TValue >
+template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename  TBinaryOp>
+VariableLengthVector< TValue >
+::VariableLengthVector(VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const& rhs_)
+{
+  m_NumElements = rhs_.Size();
+  m_Data = this->AllocateElements(m_NumElements);
+  m_LetArrayManageMemory = true;
+  for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
+    {
+    this->m_Data[i] = static_cast<TValue>(rhs_[i]);
+    }
+}
+
+template< typename TValue >
+template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename  TBinaryOp>
+VariableLengthVector< TValue > &
+VariableLengthVector< TValue >
+::operator=(VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const& rhs_)
+{
+  ElementIdentifier const N = rhs_.Size();
+  this->SetSize( N, DontShrinkToFit(), DumpOldValues() );
+  for ( ElementIdentifier i = 0; i < N; ++i )
+    {
+    this->m_Data[i] = static_cast<TValue>(rhs_[i]);
+    }
+  return *this;
+}
 
 /** Destructor */
 template< typename TValue >
@@ -262,10 +298,10 @@ void VariableLengthVector< TValue >
 ::SetSize(unsigned int sz, TReallocatePolicy reallocatePolicy, TKeepValuesPolicy keepValues)
 {
   itkStaticAssert(
-    (itk::IsBaseOf<AllocateRootPolicy, TReallocatePolicy>::Value),
+    (itk::mpl::IsBaseOf<AllocateRootPolicy, TReallocatePolicy>::Value),
     "The allocation policy does not inherit from itk::VariableLengthVector::AllocateRootPolicy as expected");
   itkStaticAssert(
-    (itk::IsBaseOf<KeepValuesRootPolicy, TKeepValuesPolicy>::Value),
+    (itk::mpl::IsBaseOf<KeepValuesRootPolicy, TKeepValuesPolicy>::Value),
     "The old values keeping policy does not inherit from itk::VariableLengthVector::KeepValuesRootPolicy as expected");
 
   if (reallocatePolicy(sz, m_NumElements) || ! m_LetArrayManageMemory)
@@ -288,7 +324,9 @@ template< typename TValue >
 void VariableLengthVector< TValue >
 ::Fill(TValue const & v) ITK_NOEXCEPT
 {
-  std::fill_n(&this->m_Data[0], m_NumElements, v);
+  // VC++ version of std::fill_n() expects the output iterator to be valid
+  // instead of expecting the range [OutIt, OutIt+n) to be valid.
+  std::fill(&this->m_Data[0], &this->m_Data[m_NumElements], v);
 }
 
 /** Copy-Assignment operator */
@@ -380,7 +418,8 @@ typename VariableLengthVector< TValue >::RealValueType
 VariableLengthVector< TValue >
 ::GetNorm(void) const ITK_NOEXCEPT
 {
-  return (RealValueType)( std::sqrt( double( this->GetSquaredNorm() ) ) );
+  using std::sqrt;
+  return static_cast<RealValueType>(sqrt( double( this->GetSquaredNorm() ) ) );
 }
 
 /**
@@ -400,6 +439,23 @@ VariableLengthVector< TValue >
     }
   return sum;
 }
+
+template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
+typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
+VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
+::GetNorm() const
+{
+  return itk::GetNorm(*this);
+}
+
+template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
+typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
+VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
+::GetSquaredNorm() const
+{
+  return itk::GetSquaredNorm(*this);
+}
+
 } // namespace itk
 
 #endif

@@ -35,6 +35,7 @@
 #   define itkStaticAssert(expr, str) static_assert(expr, str)
 #elif ((__GNUC__ * 100) + __GNUC_MINOR__ ) >= 403
 //  GCC 4.3 is enough for this trick
+//  But it restricts the static assertion to non global contexts (-> functions)
 #   define itkStaticAssert(expr,str)                                  \
       ({extern int __attribute__((error(str))) StaticAssertFailure(); \
        ((void)((expr) ? 0: StaticAssertFailure()), 0);                \
@@ -50,7 +51,7 @@ namespace itk {
 /** \cond HIDE_META_PROGRAMMING */
 /** Internal class to emulate static assertions of pre-C++11 compilers.
  * \sa \c itkStaticAssert
- * \ingroup Common
+ * \ingroup ITKCommon
  */
 template <bool V> struct StaticAssertFailure;
 template <> struct StaticAssertFailure<true>{};

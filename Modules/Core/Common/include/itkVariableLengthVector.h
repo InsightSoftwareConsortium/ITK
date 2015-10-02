@@ -21,9 +21,20 @@
 #include <cassert>
 #include <algorithm>
 #include "itkNumericTraits.h"
+#include "itkStaticAssert.h"
+#include "itkMetaProgrammingLibrary.h"
+#include "itkEnableIf.h"
+#include "itkIsBaseOf.h"
+#include "itkIsNumber.h"
+#include "itkPromoteType.h"
+#include "itkBinaryOperationConcept.h"
 
 namespace itk
 {
+
+template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
+struct VariableLengthVectorExpression;
+
 /** \class VariableLengthVector
  * \brief Represents an array whose length can be defined at run-time.
  *
@@ -323,6 +334,10 @@ public:
    VariableLengthVector< float > vF( vI );
    or for instance vF = static_cast< VariableLengthVector< float > >( vI );
    \endcode
+   * \note However that static casting in this way will imply the allocation of
+   * a temporary \c VariableLengthVector. Prefer to directly use the assignment
+   * converting operator in code where uses of \c static_cast<> would be
+   * required.
    */
   template< typename T >
   VariableLengthVector(const VariableLengthVector< T > & v)
@@ -369,6 +384,11 @@ public:
    */
   Self & operator=(Self && v) ITK_NOEXCEPT;
 #endif
+
+  template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
+      VariableLengthVector(VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const& rhs);
+  template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
+  Self & operator=(VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const& v);
 
   /** Set the all the elements of the array to the specified value */
   void Fill(TValue const & v) ITK_NOEXCEPT;
@@ -547,85 +567,6 @@ public:
 
   const TValue * GetDataPointer() const ITK_NOEXCEPT { return m_Data; }
 
-#if ! defined(ITK_HAS_CXX11_RVREF)
-  /** Element-wise vector addition. The vectors do not have to have
-   * the same element type. The input vector elements are cast to the
-   * output vector element type before the addition is performed.
-   *
-   * \note For efficiency, the length of the vectors is not checked;
-   * they are assumed to have the same length. */
-  template< typename T >
-  Self operator+(const VariableLengthVector< T > & v) const
-    {
-    itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
-    const ElementIdentifier length = v.Size();
-    Self                    result(length);
-
-    for ( ElementIdentifier i = 0; i < length; i++ )
-      {
-      result[i] = ( *this )[i] + static_cast< ValueType >( v[i] );
-      }
-    return result;
-    }
-
-  /** Element-wise subtraction of vectors. The vectors do not have to
-   * have the same element type. The input vector elements are cast to
-   * the output vector element type before the subtraction is
-   * performed.
-   *
-   * \note For efficiency, the length of the vectors is not checked;
-   * they are assumed to have the same length. */
-  template< typename T >
-  Self operator-(const VariableLengthVector< T > & v) const
-    {
-    const ElementIdentifier length = v.Size();
-    itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == length );
-    Self                    result(length);
-
-    for ( ElementIdentifier i = 0; i < length; i++ )
-      {
-      // Note. Why not static_cast<ValueType>((*this)[i] - v[i]) ?
-      result[i] = ( *this )[i] - static_cast< ValueType >( v[i] );
-      }
-    return result;
-    }
-
-  /** Multiply vector elements by a scalar 's'. The vector does not
-   * have to have the same element type as the scalar type. The scalar
-   * is cast to the output vector element type before the
-   * multiplication is performed. */
-  template< typename T >
-    Self operator*(T s) const
-      {
-      Self result(m_NumElements);
-
-      const ValueType & sc = static_cast<ValueType>(s);
-      for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
-        {
-        result[i] = m_Data[i] * sc;
-        }
-      return result;
-      }
-
-  /** Divide vector elements by a scalar 's'. The vector does not
-   * have to have the same element type as the scalar type. Both the
-   * scalar and vector elements are cast to the RealValueType prior to
-   * division, and the result is cast to the ValueType. */
-      template< typename T >
-        Self operator/(T s) const
-          {
-          Self result(m_NumElements);
-
-          for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
-            {
-            result[i] = static_cast< ValueType >(
-              static_cast< RealValueType >( m_Data[i] )
-              / static_cast< RealValueType >( s ) );
-            }
-          return result;
-          }
-#endif
-
   /** Prefix operator that subtracts 1 from each element of the
    * vector. */
   Self & operator--() ITK_NOEXCEPT
@@ -726,6 +667,26 @@ public:
     return *this;
     }
 
+  template <typename TExpr1, typename TExpr2, typename TBinaryOp>
+  Self& operator+=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& v)
+    {
+    for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
+      {
+      m_Data[i] += static_cast<ValueType>(v[i]);
+      }
+    return *this;
+    }
+
+  template <typename TExpr1, typename TExpr2, typename TBinaryOp>
+  Self& operator-=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& v)
+    {
+    for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
+      {
+      m_Data[i] -= static_cast<ValueType>(v[i]);
+      }
+    return *this;
+    }
+
   /** Multiply each element of the vector by a scalar 's'. The scalar
    * value is cast to the current vector element type prior to
    * multiplication.
@@ -799,495 +760,369 @@ private:
   ElementIdentifier m_NumElements;
 };
 
-/**\name Binary Arithmetic operations on VariableLengthVector
- * \internal
- * Performance considerations.
- * - Binary operators must return by-value. Indeed, returning a
- * rvalue-reference could result in a dangling reference.
- * - In C++11, in order to maximize the reuse of temporaries, we need
- *   four overloads as we cannot have `operator+(VLV, VLV const&)`
- *   and `operator+(VLV const&, VLV)`.
- * - The best performances have been observed on operators that take
- * only lvalue if they:
- *   - take their two parameters by const references ;
- *   - create a copy of a parameter ;
- *   - update this copy thank to compound operators (`+=`, `*=`, ...) --
- *     We could also repeat yourselves by directly inserting the equivalent
- *     code into the operator implemented ;
- *   - return the copy by-value.
- * - The best performances have been observed on operators that take
- * rvalue references if they
- *   - return the input rvalue-reference with an explicit `move` -- the
- *   compiler is not authorized to elide the copy of the parameter
- *   anyway, thus we can explicitly use `std::move()` without fear
- *   to prevent RVO as RVO cannot be applied.
+/** \cond HIDE_META_PROGRAMMING */
+namespace mpl {
+/** Tells whether a type is an array type for which the support of arithmetic
+ * operations is done with Expression Template.
+ * \note For the moment, only \c itk::VariableLengthVector<> is supported. It
+ * could be extented to other types of ITK arrays.
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
+ * \sa \c VariableLengthVector
+ * \sa \c VariableLengthVectorExpression
  */
-///@{
+template <typename T>
+struct IsArray : FalseType {};
 
-/** Addition \c VariableLengthVector + Scalar (lvalue reference).
- * \throw itk::Exception if no memory could be allocated to store the result
- * \relates itk::VariableLengthVector
- */
-template< typename TValue>
-inline
-VariableLengthVector< TValue >
-operator+(VariableLengthVector< TValue > const& v, const TValue & scalar)
-{
-  VariableLengthVector< TValue > res(v);
-  res += scalar;
-  return res;
-}
+/** \cond SPECIALIZATION_IMPLEMENTATION */
+template <typename T>
+struct IsArray<itk::VariableLengthVector<T> > : TrueType {};
 
-/** Addition Scalar + \c VariableLengthVector (lvalue reference).
- * \throw itk::Exception if no memory could be allocated to store the result
- * \relates itk::VariableLengthVector
- */
-template< typename TValue>
-inline
-VariableLengthVector< TValue >
-operator+(const TValue & scalar, VariableLengthVector< TValue > const& v)
-{
-  VariableLengthVector< TValue > res(v);
-  res += scalar;
-  return res;
-}
+template <typename TExpr1, typename TExpr2, typename TBinaryOp>
+struct IsArray<VariableLengthVectorExpression<TExpr1, TExpr2,TBinaryOp> > : TrueType {};
+/** \endcond */
+} // namespace mpl
+/** \endcond */
 
-/** Substraction \c VariableLengthVector - Scalar (lvalue reference).
- * \throw itk::Exception if no memory could be allocated to store the result
- * \relates itk::VariableLengthVector
- */
-template< typename TValue>
-inline
-VariableLengthVector< TValue >
-operator-(VariableLengthVector< TValue > const& v, const TValue & scalar)
+namespace Details
 {
-  VariableLengthVector< TValue > res(v);
-  res -= scalar;
-  return res;
-}
+/** \cond HIDE_META_PROGRAMMING */
+/** Helper Trait for VLV expression template: returns the value type.
+ * \tparam TExpr Expression type
+ * \return \c Type The value type behind \c TExpr (\c TExpr in case of a
+ * numerical type, \c TExpr::ValueType in case of the \c VariableLengthVector,
+ * etc.)
+ *
+ * Also defines \c Load() that permits to fetch the i-th element in case of an
+ * array, array expression, or just the number in case of a number.
+ * \ingroup ITKCommon
+ * \sa \c VariableLengthVector
+ * \sa \c VariableLengthVectorExpression
+ */
+template <typename TExpr> struct GetType
+  {
+  typedef TExpr Type;
+  /** Fetches the i-th element from an array (expression).
+   * \note the default unspecialized behaviour returns the input number \c v.
+   */
+  static Type Load(Type const& v, unsigned int idx)
+    { (void)idx; return v; }
+  };
 
-/** Substraction Scalar - \c VariableLengthVector (lvalue reference).
- * \throw itk::Exception if no memory could be allocated to store the result
- * \relates itk::VariableLengthVector
+/** Helper function for VLV expression templates: returns the common size.
+ * \param[in] lhs left hand side expression
+ * \param[in] rhs right hand side expression
+ * \note The default overload assumes both operands are \c VariableLengthVector
+ * (or expression) arrays
+ * \pre asserts both arrays have the same size.
+ * \ingroup ITKCommon
+ * \sa \c VariableLengthVector
+ * \sa \c VariableLengthVectorExpression
  */
-template< typename TValue>
+template <typename TExpr1, typename TExpr2>
 inline
-VariableLengthVector< TValue >
-operator-(const TValue & scalar, VariableLengthVector< TValue > const& v)
+typename mpl::EnableIf<mpl::And<mpl::IsArray<TExpr1>, mpl::IsArray<TExpr2> >, unsigned int>::Type
+GetSize(TExpr1 const& lhs, TExpr2 const& rhs)
+  {
+  (void)rhs;
+  itkAssertInDebugAndIgnoreInReleaseMacro(lhs.Size() == rhs.Size());
+  return lhs.Size();
+  }
+
+/** \cond SPECIALIZATION_IMPLEMENTATION */
+/** Helper function for VLV expression templates: returns the common size.
+ * \param[in] lhs left hand side expression
+ * \param[in] rhs right hand side expression
+ * \note This overload assumes that only the first operand is a \c
+ * VariableLengthVector (or expression) array.
+ * \ingroup ITKCommon
+ * \sa \c VariableLengthVector
+ * \sa \c VariableLengthVectorExpression
+ */
+template <typename TExpr1, typename TExpr2>
+inline
+typename mpl::EnableIf<mpl::And<mpl::IsArray<TExpr1>, mpl::Not<mpl::IsArray<TExpr2> > >, unsigned int>::Type
+GetSize(TExpr1 const& lhs, TExpr2 const& itkNotUsed(rhs))
+  {
+  return lhs.Size();
+  }
+
+/** Helper function for VLV expression templates: returns the common size.
+ * \param[in] lhs left hand side expression
+ * \param[in] rhs right hand side expression
+ * \note This overload assumes that only the second operand is a \c
+ * VariableLengthVector (or expression) array.
+ * \ingroup ITKCommon
+ * \sa \c VariableLengthVector
+ * \sa \c VariableLengthVectorExpression
+ */
+template <typename TExpr1, typename TExpr2>
+inline
+typename mpl::EnableIf<mpl::And<mpl::IsArray<TExpr2>, mpl::Not<mpl::IsArray<TExpr1> > >, unsigned int>::Type
+GetSize(TExpr1 const& itkNotUsed(lhs), TExpr2 const& rhs)
+  {
+  return rhs.Size();
+  }
+
+template <typename T>
+struct GetType<VariableLengthVector<T> >
+  {
+  typedef T Type;
+  static Type Load(VariableLengthVector<T> const& v, unsigned int idx)
+    { return v[idx]; }
+  };
+template <typename TExpr1, typename TExpr2, typename TBinaryOp>
+struct GetType<VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> >
+  {
+  typedef typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::ResType Type;
+  static Type Load(VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const& v, unsigned int idx)
+    { return v[idx]; }
+  };
+/**\endcond*/
+
+namespace op
 {
-  const unsigned int length = v.GetSize();
-  VariableLengthVector< TValue > res(length);
-  for ( typename VariableLengthVector< TValue >::ElementIdentifier i = 0; i < length; ++i )
+/** Tells whether objects from two types can be added or substracted.
+ * The operation is authorized if and only if:
+ * - both are arrays,
+ * - or one operand is an array while the second is a number.
+ * \note As this traits is dedicated to help overload binary operators, it
+ * shall not be used to help overload `operator+()` between floats for instance.
+ * Hence, the case where both operands are numbers is rejected.
+ *
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
+ */
+template <typename TExpr1, typename TExpr2>
+struct CanBeAddedOrSubstracted
+: mpl::Or< mpl::And<mpl::IsArray<TExpr1>, mpl::IsArray<TExpr2> >,
+            mpl::And<mpl::IsArray<TExpr1>, mpl::IsNumber<TExpr2> >,
+            mpl::And<mpl::IsNumber<TExpr1>, mpl::IsArray<TExpr2> >
+  >
+{};
+
+/** Tells whether objects from two types can be multiplied.
+ * The operation is authorized if and only if:
+ * - one operand is an array while the second is a number.
+ * \note As this traits is dedicated to help overload `operator*()`, it
+ * shall not be used to help overload the operator between floats for instance.
+ * Hence, the case where both operands are numbers is rejected.
+ *
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
+ */
+template <typename TExpr1, typename TExpr2>
+struct CanBeMultiplied
+: mpl::Or< mpl::And<mpl::IsArray<TExpr1>, mpl::IsNumber<TExpr2> >,
+            mpl::And<mpl::IsNumber<TExpr1>, mpl::IsArray<TExpr2> >
+  >
+{};
+
+/** Tells whether objects from two types can be multiplied.
+ * The operation is authorized if and only if:
+ * - the first operand is an array while the second is a number.
+ * \note As this traits is dedicated to help overload `operator/()`, it
+ * shall not be used to help overload the operator between floats for instance.
+ * Hence, the case where both operands are numbers is rejected.
+ *
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
+ */
+template <typename TExpr1, typename TExpr2>
+struct CanBeDivided
+: mpl::And<mpl::IsArray<TExpr1>, mpl::IsNumber<TExpr2> >
+{};
+
+} // op namespace
+} // Details namespace
+/**\endcond*/
+
+/** Expression Template for \c VariableLengthVector.
+ * Contains an expression template that models a binary operation between two
+ * sub expressions (of type \c VariableLengthVector, or \c VariableLengthVectorExpression)
+ * \tparam TExpr1 Type of the left sub-expression
+ * \tparam TExpr2 Type of the right sub-expression
+ * \tparam TBinaryOp Binary Operation to apply to both sub-expressions.
+ *
+ * \note We permit to add a `VariableLengthVector<float>` with a
+ * `VariableLengthVector<double>`, the result will be of type
+ * `VariableLengthVector<double>`.
+ *
+ * \warning Explicitly static casting an expression to a
+ * \c VariableLengthVector<> will defeat the purpose of the optimization
+ * implemented here. It's thus best to let the expression automatically adjust
+ * to the type with the most precision.
+ * Eventually, when assigning to the final destination (a
+ * \c VariableLengthVector<>), a casting on-the-fly could be realized by the
+ * assignment operator, or by the copy constructor.
+ *
+ * \todo Add support for unary operations like `operator-()`.
+ *
+ * \ingroup DataRepresentation
+ * \ingroup ITKCommon
+ */
+template <typename TExpr1, typename TExpr2, typename TBinaryOp>
+struct VariableLengthVectorExpression
+{
+  VariableLengthVectorExpression(TExpr1 const& lhs, TExpr2 const& rhs)
+    : m_lhs(lhs), m_rhs(rhs)
     {
-    res[i] = scalar - v[i];
+    // Not neccessary actually as end-user/developper is not expected to
+    // provide new BinaryOperations
+    itkStaticAssert(
+      (itk::mpl::IsBaseOf<Details::op::BinaryOperationConcept, TBinaryOp>::Value),
+      "The Binary Operation shall inherit from BinaryOperationConcept");
     }
-  return res;
-}
 
-/** Multiplication Scalar x \c VariableLengthVector (lvalue reference).
- * \throw itk::Exception if no memory could be allocated to store the result
+  /// Returns the size of the vector expression.
+  unsigned int Size() const { return Details::GetSize(m_lhs, m_rhs); }
+
+  /// Vector type of the Result Expression
+  typedef typename mpl::PromoteType<
+    typename Details::GetType<TExpr1>::Type,
+    typename Details::GetType<TExpr2>::Type>::Type     ResType;
+  /// Real type of the elements
+  typedef typename NumericTraits< ResType > ::RealType RealValueType;
+
+  /** Element access operator.
+   * \pre `idx < Size()`
+   * \internal
+   * This is where the magic happens. Instead of building a new vector based on
+   * the two input vectors, we compute each element on-the-fly when
+   * requested(by a \c VariableLengthVector constructor or an assignment
+   * operator).
+   *
+   * \c Load() is in charge of fetching the i-th element of the sub-expressions
+   */
+  ResType operator[](unsigned int idx) const {
+    itkAssertInDebugAndIgnoreInReleaseMacro(idx < Size());
+    return TBinaryOp::Apply(
+      Details::GetType<TExpr1>::Load(m_lhs, idx),
+      Details::GetType<TExpr2>::Load(m_rhs, idx));
+  }
+
+  /** Returns vector's Euclidean Norm  */
+  RealValueType GetNorm() const;
+
+  /** Returns vector's squared Euclidean Norm  */
+  RealValueType GetSquaredNorm() const;
+
+private:
+  TExpr1 const& m_lhs;
+  TExpr2 const& m_rhs;
+};
+
+/** Addition involving a \c VariableLengthVector.
+ * This operation is generic and takes:
+ * - two arrays,
+ * - or one array and one number (on either side)
+ * \return an expression template proxy object.
+ * \throw None As no allocation will be performed.
  * \relates itk::VariableLengthVector
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
  */
-template< typename TValue, typename T >
+template <typename TExpr1, typename TExpr2>
 inline
-  VariableLengthVector< TValue >
-operator*(const T & scalar, VariableLengthVector< TValue > const& v)
-{
-  VariableLengthVector< TValue > res(v);
-  res *= scalar;
-  return res;
-}
+typename mpl::EnableIf<Details::op::CanBeAddedOrSubstracted<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Plus> >::Type
+operator+(TExpr1 const& lhs, TExpr2 const& rhs)
+{ return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Plus>(lhs, rhs); }
 
-#if defined(ITK_HAS_CXX11_RVREF)
-/** Multiplication \c VariableLengthVector x Scalar (lvalue reference).
- * \throw itk::Exception if no memory could be allocated to store the result
+/** Substraction involving a \c VariableLengthVector.
+ * This operation is generic and takes:
+ * - two arrays,
+ * - or one array and one number (on either side)
+ * \return an expression template proxy object.
+ * \throw None As no allocation will be performed.
  * \relates itk::VariableLengthVector
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
  */
-  template< typename TValue, typename T >
-  inline
-  VariableLengthVector< TValue >
-operator*(VariableLengthVector< TValue > const& v, const T & scalar)
-{
-  VariableLengthVector< TValue > res(v);
-  res *= scalar;
-  return res;
-}
-
-/** Division \c VariableLengthVector / Scalar (lvalue reference).
- * \throw itk::Exception if no memory could be allocated to store the result
- * \relates itk::VariableLengthVector
- */
-template< typename TValue, typename T >
+template <typename TExpr1, typename TExpr2>
 inline
-VariableLengthVector< TValue >
-operator/(VariableLengthVector< TValue > const& v, const T & scalar)
-{
-  VariableLengthVector< TValue > res(v);
-  res /= scalar;
-  return res;
-}
+typename mpl::EnableIf<Details::op::CanBeAddedOrSubstracted<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Sub> >::Type
+operator-(TExpr1 const& lhs, TExpr2 const& rhs)
+{ return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Sub>(lhs, rhs); }
 
-// Additions between VariableLengthVector
-/** Addition between two \c VariableLengthVector lvalues on different types.
- *
- * \throw itk::Exception if no memory could be allocated to store the result
- * \note This overload converts on-the-fly (no allocation will be done) the
- * second argument into the type of the first
+/** Multiplication between a \c VariableLengthVector and a scalar.
+ * This operation is generic and takes one array and one number (on either
+ * side).
+ * \return an expression template proxy object.
+ * \throw None As no allocation will be performed.
  * \relates itk::VariableLengthVector
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
  */
-template< typename TValue1, typename TValue2 >
+template <typename TExpr1, typename TExpr2>
 inline
-VariableLengthVector< TValue1 >
-operator+(
-  VariableLengthVector< TValue1 > const& v1,
-  VariableLengthVector< TValue2 > const& v2)
-{
-  VariableLengthVector< TValue1 > res(v1);
-  res += v2;
-  return res;
-}
+typename mpl::EnableIf<Details::op::CanBeMultiplied<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Mult> >::Type
+operator*(TExpr1 const& lhs, TExpr2 const& rhs)
+{ return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Mult>(lhs, rhs); }
 
-/** Addition between two \c VariableLengthVector of different types, the first
- * is a rvalue reference.
- *
- * \note This overload converts on-the-fly (no allocation will be done) the
- * second argument into the type of the first.
- * \note The overload that take the second parameter as a rvalue reference
- * makes no sense has we will always convert to the type of the left hand side
- * argument.
- * \throw None
+/** Division of a \c VariableLengthVector by a scalar.
+ * This operation is generic and takes one array and one number.
+ * \return an expression template proxy object.
+ * \throw None As no allocation will be performed.
  * \relates itk::VariableLengthVector
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
  */
-template< typename TValue1, typename TValue2 >
+template <typename TExpr1, typename TExpr2>
 inline
-VariableLengthVector< TValue1 >
-operator+(
-  VariableLengthVector< TValue1 >     && v1,
-  VariableLengthVector< TValue2 > const& v2) ITK_NOEXCEPT
-{
-  v1 += v2;
-  // RVO cannot work on v1. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v1);
-}
+typename mpl::EnableIf<Details::op::CanBeDivided<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Div> >::Type
+operator/(TExpr1 const& lhs, TExpr2 const& rhs)
+{ return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Div>(lhs, rhs); }
 
-/** Addition between two \c VariableLengthVector lvalues of same type.
- * \throw itk::Exception if no memory could be allocated to store the result
- * \relates itk::VariableLengthVector
+/** Serialization of \c VariableLengthVectorExpression
+ * \relates itk::VariableLengthVectorExpression
  */
-template< typename TValue >
-inline
-VariableLengthVector< TValue >
-operator+(
-  VariableLengthVector< TValue > const& v1,
-  VariableLengthVector< TValue > const& v2)
+template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
+std::ostream & operator<<(std::ostream &os, VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const& v)
 {
-  VariableLengthVector< TValue > res(v1);
-  res += v2;
-  return res;
-}
-
-/** Addition between two \c VariableLengthVector of same type, the first being
- * a rvalue reference.
- * \throw None
- * \pre \c v2 isn't expected to be the same object as \c v1. However, this
- * won't cause any trouble.
- * \relates itk::VariableLengthVector
- */
-template< typename TValue >
-inline
-VariableLengthVector< TValue >
-operator+(
-  VariableLengthVector< TValue >     && v1,
-  VariableLengthVector< TValue > const& v2) ITK_NOEXCEPT
-{
-  v1 += v2;
-  // RVO cannot work on v1. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v1);
-}
-
-/** Addition between two \c VariableLengthVector of same type, the second being
- * a rvalue reference.
- * \throw None
- * \pre \c v2 isn't expected to be the same object as \c v1. However, this
- * won't cause any trouble.
- * \relates itk::VariableLengthVector
- */
-template< typename TValue >
-inline
-VariableLengthVector< TValue >
-operator+(
-  VariableLengthVector< TValue > const& v1,
-  VariableLengthVector< TValue >     && v2) ITK_NOEXCEPT
-{
-  v2 += v1;
-  // RVO cannot work on v1. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v2);
-}
-
-/** Addition between two \c VariableLengthVector rvalue references of same
- * type.
- * \throw None
- * \pre \c v2 isn't expected to be the same object as \c v1. However, this
- * won't cause any trouble.
- * \relates itk::VariableLengthVector
- */
-template< typename TValue >
-inline
-VariableLengthVector< TValue >
-operator+(
-  VariableLengthVector< TValue >     && v1,
-  VariableLengthVector< TValue >     && v2) ITK_NOEXCEPT
-{
-  v1 += v2;
-  // RVO cannot work on v1. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v1);
-}
-
-// Substractions between VariableLengthVector
-/** Substraction between two \c VariableLengthVector lvalues on different types.
- *
- * \throw itk::Exception if no memory could be allocated to store the result
- * \note This overload converts on-the-fly (no allocation will be done) the
- * second argument into the type of the first
- * \relates itk::VariableLengthVector
- */
-template< typename TValue1, typename TValue2 >
-inline
-VariableLengthVector< TValue1 >
-operator-(
-  VariableLengthVector< TValue1 > const& v1,
-  VariableLengthVector< TValue2 > const& v2)
-{
-  VariableLengthVector< TValue1 > res(v1);
-  res -= v2;
-  return res;
-}
-
-/** Substraction between two \c VariableLengthVector of different types, the first
- * is a rvalue reference.
- *
- * \throw None
- * \note This overload converts on-the-fly (no allocation will be done) the
- * second argument into the type of the first.
- * \note The overload that take the second parameter as a rvalue reference
- * makes no sense has we will always convert to the type of the left hand side
- * argument.
- * \relates itk::VariableLengthVector
- */
-template< typename TValue1, typename TValue2 >
-inline
-VariableLengthVector< TValue1 >
-operator-(
-  VariableLengthVector< TValue1 >     && v1,
-  VariableLengthVector< TValue2 > const& v2) ITK_NOEXCEPT
-{
-  v1 -= v2;
-  // RVO cannot work on v1. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v1);
-}
-
-/** Substraction between two \c VariableLengthVector lvalues of same type.
- * \throw itk::Exception if no memory could be allocated to store the result
- * \relates itk::VariableLengthVector
- */
-template< typename TValue >
-inline
-VariableLengthVector< TValue >
-operator-(
-  VariableLengthVector< TValue > const& v1,
-  VariableLengthVector< TValue > const& v2)
-{
-  VariableLengthVector< TValue > res(v1);
-  res -= v2;
-  return res;
-}
-
-/** Substraction between two \c VariableLengthVector of same type, the first
- * being a rvalue reference.
- * \throw None
- * \pre \c v2 isn't expected to be the same object as \c v1. However, this
- * wont't cause any trouble.
- * \relates itk::VariableLengthVector
- */
-template< typename TValue >
-inline
-VariableLengthVector< TValue >
-operator-(
-  VariableLengthVector< TValue >     && v1,
-  VariableLengthVector< TValue > const& v2) ITK_NOEXCEPT
-{
-  v1 -= v2;
-  // RVO cannot work on v2. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v1);
-}
-
-/** Substraction between two \c VariableLengthVector of same type, the second
- * being a rvalue reference.
- * \throw None
- * \pre \c v2 isn't expected to be the same object as \c v1. However, this
- * won't cause any trouble.
- * \relates itk::VariableLengthVector
- */
-template< typename TValue >
-inline
-VariableLengthVector< TValue >
-operator-(
-  VariableLengthVector< TValue > const& v1,
-  VariableLengthVector< TValue >     && v2) ITK_NOEXCEPT
-{
-  const unsigned int size = v1.GetSize();
-  itkAssertInDebugAndIgnoreInReleaseMacro( size == v2.GetSize() );
-  for ( typename VariableLengthVector< TValue >::ElementIdentifier i = 0; i < size; i++ )
+  os << "[";
+  if (v.Size() != 0)
     {
-    v2[i] = v1[i] - v2[i];
+    os << v[0];
+    for (unsigned int i = 1, N = v.Size(); i != N; ++i)
+      {
+      os << ", " << v[i];
+      }
     }
-  // RVO cannot work on v2. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v2);
+  return os << "]";
 }
 
-/** Substraction between two \c VariableLengthVector rvalue references of same
- * type.
- * \throw None
- * \pre \c v2 isn't expected to be the same object as \c v1. However, this
- * won't cause any trouble.
- * \relates itk::VariableLengthVector
+/** Returns vector's Euclidean Norm.
+ * \tparam TExpr must be an array
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
+ * \relates itk::VariableLengthVectorExpression
  */
-template< typename TValue >
+template <typename TExpr>
 inline
-VariableLengthVector< TValue >
-operator-(
-  VariableLengthVector< TValue >     && v1,
-  VariableLengthVector< TValue >     && v2) ITK_NOEXCEPT
+typename mpl::EnableIf<mpl::IsArray<TExpr>, typename TExpr::RealValueType>::Type
+GetNorm(TExpr const& v)
 {
-  v1 -= v2;
-  // RVO cannot work on v1. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v1);
+  return static_cast<typename TExpr::RealValueType>(
+    std::sqrt(static_cast<double>(GetSquaredNorm(v))));
 }
 
-// Additions between VariableLengthVector and Scalar
-/** Addition \c VariableLengthVector + Scalar (rvalue reference).
- * \throw None
- * \relates itk::VariableLengthVector
+/** Returns vector's squared Euclidean Norm.
+ * \tparam TExpr must be an array
+ * \sa \c mpl::IsArray<> to know the exact array types recognized as \em array by this traits
+ * \relates itk::VariableLengthVectorExpression
  */
-template< typename TValue>
+template <typename TExpr>
 inline
-VariableLengthVector< TValue >
-operator+(VariableLengthVector< TValue > && v, const TValue & scalar) ITK_NOEXCEPT
+typename mpl::EnableIf<mpl::IsArray<TExpr>, typename TExpr::RealValueType>::Type
+GetSquaredNorm(TExpr const& v)
 {
-  v += scalar;
-  // RVO cannot work on v. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v);
-}
-
-/** Addition Scalar + \c VariableLengthVector (rvalue reference).
- * \throw None
- * \relates itk::VariableLengthVector
- */
-template< typename TValue>
-inline
-VariableLengthVector< TValue >
-operator+(const TValue & scalar, VariableLengthVector< TValue > && v) ITK_NOEXCEPT
-{
-  v += scalar;
-  // RVO cannot work on v. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v);
-}
-
-// Substractions between VariableLengthVector and Scalar
-/** Substraction \c VariableLengthVector - Scalar (rvalue reference).
- * \throw None
- * \relates itk::VariableLengthVector
- */
-template< typename TValue>
-inline
-VariableLengthVector< TValue >
-operator-(VariableLengthVector< TValue > && v, const TValue & scalar) ITK_NOEXCEPT
-{
-  v -= scalar;
-  // RVO cannot work on v. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v);
-}
-
-/** Substraction Scalar - \c VariableLengthVector (rvalue reference).
- * \throw None
- * \relates itk::VariableLengthVector
- */
-template< typename TValue>
-inline
-VariableLengthVector< TValue >
-operator-(const TValue & scalar, VariableLengthVector< TValue > && v) ITK_NOEXCEPT
-{
-  const unsigned int length = v.GetSize();
-  for ( typename VariableLengthVector< TValue >::ElementIdentifier i = 0; i < length; ++i )
+  typedef typename TExpr::RealValueType RealValueType;
+  RealValueType sum = 0.0;
+  for ( unsigned int i = 0, N=v.Size(); i < N; ++i )
     {
-    v[i] = scalar - v[i];
+    const RealValueType value = v[i];
+    sum += value * value;
     }
-  // RVO cannot work on v. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v);
+  return sum;
 }
-
-// Other Multiplications by scalar
-/** Multiplication \c VariableLengthVector x Scalar (rvalue reference).
- * \throw None
- * \relates itk::VariableLengthVector
- */
-template< typename TValue, typename T >
-inline
-VariableLengthVector< TValue >
-operator*(VariableLengthVector< TValue > && v, const T & scalar) ITK_NOEXCEPT
-{
-  v *= scalar;
-  // RVO cannot work on v. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v);
-}
-
-/** Multiplication Scalar x \c VariableLengthVector (rvalue reference).
- * \throw None
- * \relates itk::VariableLengthVector
- */
-template< typename TValue, typename T >
-inline
-VariableLengthVector< TValue >
-operator*(const T & scalar, VariableLengthVector< TValue > && v) ITK_NOEXCEPT
-{
-  v *= scalar;
-  // RVO cannot work on v. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v);
-}
-
-// Divisions by scalar
-/** Division \c VariableLengthVector / Scalar (rvalue reference).
- * \throw None
- * \relates itk::VariableLengthVector
- */
-template< typename TValue, typename T >
-inline
-VariableLengthVector< TValue >
-operator/(VariableLengthVector< TValue > && v, const T & scalar) ITK_NOEXCEPT
-{
-  v /= scalar;
-  // RVO cannot work on v. move can be done, but compilers won't do it
-  // implicitly. It has to be done explicitly.
-  return std::move(v);
-}
-
-#endif
-
-//@}
 
 /**\name Serialization */
 //@{

@@ -22,8 +22,6 @@
 #include "itkCovariantVector.h"
 #include "itkInterpolateImageFunction.h"
 #include "itkDefaultConvertPixelTraits.h"
-#include "itkEnableIf.h"
-#include "itkIsSame.h"
 
 namespace itk
 {

@@ -468,7 +468,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   typename LineImageType::IndexType lIdx;
   typename LineImageType::SizeType lSize;
   RegionType boundingBox = labelObject->GetBoundingBox();
-  for( int i=0; i<ImageDimension-1; i++ )
+  for( unsigned int i=0; i<ImageDimension-1; i++ )
     {
     lIdx[i] = boundingBox.GetIndex()[i+1];
     lSize[i] = boundingBox.GetSize()[i+1];
@@ -493,7 +493,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   while( ! lit.IsAtEnd() )
     {
     const IndexType & idx = lit.GetLine().GetIndex();
-    for( int i=0; i<ImageDimension-1; i++ )
+    for( unsigned int i=0; i<ImageDimension-1; i++ )
       {
       lIdx[i] = idx[i+1];
       }
@@ -532,7 +532,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       // prepare the offset to be stored in the intercepts map
       typename LineImageType::OffsetType lno = ci.GetNeighborhoodOffset();
       no[0] = 0;
-      for( int i=0; i<ImageDimension-1; i++ )
+      for( unsigned int i=0; i<ImageDimension-1; i++ )
         {
         no[i+1] = vnl_math_abs(lno[i]);
         }

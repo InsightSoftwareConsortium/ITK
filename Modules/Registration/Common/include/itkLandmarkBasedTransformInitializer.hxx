@@ -248,7 +248,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   PointsContainerConstIterator fixedIt = m_FixedLandmarks.begin();
   for( size_t i = 0; fixedIt != m_FixedLandmarks.end(); ++i, ++fixedIt )
     {
-    for( int dim =0; dim< ImageDimension; dim++ )
+    for(unsigned int dim =0; dim< ImageDimension; dim++ )
       {
       q( dim,i ) = (*fixedIt)[dim];
       }

@@ -112,11 +112,8 @@ public:
    * pointers. */
   typedef NeighborhoodAccessorFunctor< Self > NeighborhoodAccessorFunctorType;
 
-  /** Dimension of the image.  This constant is used by functions that are
-   * templated over image type (as opposed to being templated over pixel type
-   * and dimension) when they need compile time access to the dimension of
-   * the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  /** Type of image dimension */
+  typedef typename Superclass::ImageDimensionType ImageDimensionType;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef typename Superclass::IndexType      IndexType;

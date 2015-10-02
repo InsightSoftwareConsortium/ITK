@@ -124,11 +124,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageBase, DataObject);
 
+  /** Type of image dimension */
+  typedef unsigned int ImageDimensionType;
+
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  itkStaticConstMacro(ImageDimension, ImageDimensionType, VImageDimension);
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index< VImageDimension >           IndexType;

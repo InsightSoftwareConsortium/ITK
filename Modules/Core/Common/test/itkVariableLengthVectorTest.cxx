@@ -20,14 +20,14 @@
 #include "itkVariableLengthVector.h"
 #include "itkMath.h"
 
-#define ASSERT(cond, text)                                                                                           \
-CLANG_PRAGMA_PUSH                                                                                                    \
-CLANG_SUPPRESS_Wfloat_equal                                                                                          \
-  if (!(cond))                                                                                                       \
-CLANG_PRAGMA_POP                                                                                                     \
-    {                                                                                                                \
-    std::cerr << __FILE__ << ":" << __LINE__ << ":" << "Assertion failed: " << #cond << ": " << (text) << std::endl; \
-    result = EXIT_FAILURE;                                                                                           \
+#define ASSERT(cond, text)                                                                                         \
+CLANG_PRAGMA_PUSH                                                                                                  \
+CLANG_SUPPRESS_Wfloat_equal                                                                                        \
+  if (!(cond))                                                                                                     \
+CLANG_PRAGMA_POP                                                                                                   \
+    {                                                                                                              \
+    std::cerr << __FILE__ << ":" << __LINE__ << ":" << "Assertion failed: " << #cond << ": " << text << std::endl; \
+    result = EXIT_FAILURE;                                                                                         \
     }
 
 int itkVariableLengthVectorTest(int, char*[])
@@ -341,6 +341,21 @@ int itkVariableLengthVectorTest(int, char*[])
     ASSERT(v[0]==1.0 && v[1]==2.0 && v[2]==3.0, "Division with scalar failed");
     }
 
+  }
+
+  {
+  // Testing arithmetic operations and on the fly conversions.
+    {
+    // f[0]=1.0; f[1] = 2.0; f[2] = 3.0;
+    // g[0]=4.0; g[1] = 5.0; g[2] = 6.0;
+    // g += f+1
+    FloatVariableLengthVectorType v = f + 2 * g;
+    ASSERT(v[0]==13.0 && v[1]==18.0 && v[2]==23.0, "On-the-fly conversion failed; v="<<v);
+    }
+    {
+    DoubleVariableLengthVectorType v = f + 2 * g;
+    ASSERT(v[0]==13.0 && v[1]==18.0 && v[2]==23.0, "On-the-fly conversion failed; v="<<v);
+    }
   }
 
   std::cout << (result == EXIT_SUCCESS ? "[PASSED]" : "[FAILED]" )<< std::endl;

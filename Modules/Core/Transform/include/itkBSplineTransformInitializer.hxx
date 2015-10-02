@@ -132,7 +132,7 @@ BSplineTransformInitializer<TTransform, TImage>
       BSplineTransformDomainEpsilon;
     }
 
-  for( unsigned int d = 0; d < std::pow( 2.0, SpaceDimension ); d++ )
+  for( unsigned int d = 0, N = 1 << SpaceDimension; d < N; d++ )
     {
     ContinuousIndexType whichIndex;
     for( unsigned int i = 0; i < SpaceDimension; i++ )
@@ -200,7 +200,7 @@ BSplineTransformInitializer<TTransform, TImage>
     for( unsigned int i = 0; i < SpaceDimension; i++ )
       {
       PointIdentifier oppositeCornerId = static_cast<PointIdentifier>(
-        std::pow( 2.0, static_cast<int>( i ) ) ) ^ transformDomainOriginId;
+        1 << i ) ^ transformDomainOriginId;
 
       PointType corner;
       corner.Fill( 0.0 );
