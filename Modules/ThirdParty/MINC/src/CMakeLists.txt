@@ -28,18 +28,18 @@ set(LIBRARY_OUTPUT_PATH    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 # Configuring locations of the libraries from ITK
 # TODO: check if the ITK module is enabled
-SET(ZLIB_FOUND ON)
-SET(HDF5_FOUND ON)
+set(ZLIB_FOUND ON)
+set(HDF5_FOUND ON)
 
-IF(NOT ITK_USE_SYSTEM_HDF5)
-  SET(HDF5_INCLUDE_DIR ${ITKHDF5_SOURCE_DIR}/src/itkhdf5)
+if(NOT ITK_USE_SYSTEM_HDF5)
+  set(HDF5_INCLUDE_DIR ${ITKHDF5_SOURCE_DIR}/src/itkhdf5)
   include_directories(
     "${ITKHDF5_SOURCE_DIR}/src/itkhdf5"
     "${ITKHDF5_SOURCE_DIR}/src/itkhdf5/src"
     "${ITKHDF5_BINARY_DIR}/src/itkhdf5"
     )
- SET(HDF5_LIBRARY itkhdf5)
-ENDIF()
+endif()
+set(HDF5_LIBRARY ${ITKHDF5_LIBRARIES})
 
 set(BUILD_TESTING OFF)
 add_subdirectory(libminc)

@@ -5,6 +5,8 @@ itk_module(ITKIOTransformMINC
   DEPENDS
     ITKIOTransformBase
     ITKMINC
+  COMPILE_DEPENDS
+    ITKIOImageBase
   PRIVATE_DEPENDS
     ITKIOMINC
   TEST_DEPENDS
