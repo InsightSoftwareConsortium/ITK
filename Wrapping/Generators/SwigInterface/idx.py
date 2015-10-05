@@ -55,7 +55,7 @@ if __name__ == '__main__':
     xmlFilePath = sys.argv[3]
     idxFilePath = sys.argv[4]
 
-    sys.path.append(pygccxmlPath)
+    sys.path.insert(1, pygccxmlPath)
     import pygccxml
     import logging
     pygccxml.utils.loggers.cxx_parser.setLevel(logging.CRITICAL)
