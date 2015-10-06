@@ -932,7 +932,7 @@ if __name__ == '__main__':
         help="Path to castxml")
     options, args = optionParser.parse_args()
 
-    sys.path.insert(0, options.pygccxml_path)
+    sys.path.insert(1, options.pygccxml_path)
     import pygccxml
     import logging
     # init the pygccxml stuff
