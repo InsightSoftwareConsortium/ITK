@@ -39,7 +39,7 @@ namespace
       typedef Superclass::DomainPartitionerType     DomainPartitionerType;
       typedef Superclass::DomainType                DomainType;
 
-      itkNewMacro( Self );
+      itkSimpleNewMacro( Self );
 
       typedef std::vector< int >              BorderValuesType;
       typedef std::vector< BorderValuesType > DomainBorderValuesInThreadedExecutionType;
