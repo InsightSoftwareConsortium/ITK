@@ -22,6 +22,13 @@ itk_wrap_class("itk::VectorContainer" POINTER)
   # used in FastMarchingExtensionImageFilter
   itk_wrap_template("${ITKM_UI}${ITKM_VUC1}"    "${ITKT_UI},${ITKT_VUC1}")
   itk_wrap_template("${ITKM_UL}SUL"    "${ITKT_UL}, std::set< unsigned long >")
+  #used  in ImageRegistrationMethodv4
+  UNIQUE(vectypes "UL;UI;${WRAP_ITK_USIGN_INT}")
+  foreach(t1 ${vectypes})
+    foreach(t2 ${vectypes})
+      itk_wrap_template("${ITKM_${t1}}${ITKM_${t2}}" "${ITKT_${t1}}, ${ITKT_${t2}}")
+    endforeach()
+  endforeach()
 itk_end_wrap_class()
 
 itk_wrap_class("itk::DataObjectDecorator" POINTER)

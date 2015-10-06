@@ -1,0 +1,8 @@
+itk_wrap_class("itk::ImageToImageMetricv4" POINTER_WITH_SUPERCLASS)
+  foreach(d ${ITK_WRAP_DIMS})
+    foreach(t ${WRAP_ITK_REAL})
+      itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}"
+                        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()

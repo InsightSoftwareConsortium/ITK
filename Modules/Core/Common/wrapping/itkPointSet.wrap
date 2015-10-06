@@ -5,6 +5,8 @@ itk_wrap_class("itk::PointSet" POINTER)
   UNIQUE(types "${WRAP_ITK_REAL};D")
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})
+      itk_wrap_template("${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}"
+        "${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d} >")
       itk_wrap_template("${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
         "${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} >")
       itk_wrap_template("${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
@@ -16,6 +18,8 @@ itk_wrap_class("itk::PointSet" POINTER)
     # which may be a bug in ITK but they're needed currently.
     itk_wrap_template("${ITKM_PD${d}}${d}ST${ITKM_D}${d}${d}${ITKM_D}${ITKM_D}"
       "${ITKT_PD${d}},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_D},${ITKT_D} >")
+    itk_wrap_template("${ITKM_UI}${d}DSM${ITKM_UI}${d}${d}${ITKM_F}${ITKM_F}${ITKM_UI}"
+      "${ITKT_UI},${d},itk::DefaultStaticMeshTraits<${ITKT_UI},${d},${d},${ITKT_F},${ITKT_F},${ITKT_UI} >")
   endforeach()
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     # Also wrap the point set type needed for the kernel transforms,

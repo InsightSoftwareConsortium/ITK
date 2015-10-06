@@ -22,7 +22,6 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
         endforeach()
       endforeach()
     endforeach()
-
   # *Vector <-> scalar
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_SCALAR}")
   itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
@@ -49,6 +48,13 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
         endforeach()
       endif(NOT "${d}" EQUAL "${d2}")
     endforeach()
+  endforeach()
+
+  # Real <-> CovariantVector
+  itk_wrap_include("itkCovariantVector.h")
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("I${ITKM_F}${d}ICV${ITKM_D}${d}${d}"
+                      "itk::Image<${ITKT_F}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
   endforeach()
 
 itk_end_wrap_class()

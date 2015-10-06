@@ -28,7 +28,7 @@
 #include "itkImageToImageMetricv4.h"
 #include "itkPointSetToPointSetMetricv4.h"
 #include "itkShrinkImageFilter.h"
-#include "itkTransform.h"
+#include "itkIdentityTransform.h"
 #include "itkTransformParametersAdaptorBase.h"
 
 #include <vector>
