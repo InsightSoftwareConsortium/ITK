@@ -6,15 +6,13 @@ that combine multiple images into images of multiple components, as well as
 filters that compute single scalar images from images of multiple components.")
 
 itk_module(ITKImageIntensity
-  DEPENDS
-    ITKImageFilterBase
+  COMPILE_DEPENDS
     ITKImageAdaptors
     ITKImageStatistics
     ITKImageGrid
     ITKPath
   TEST_DEPENDS
     ITKTestKernel
-    ITKSpatialObjects
     ITKDistanceMap
   DESCRIPTION
     "${DOCUMENTATION}"

@@ -5,14 +5,15 @@ projections, principal components analysis (PCA) for shape modeling,
 computation of label statistics and image accumulation.")
 
 itk_module(ITKImageStatistics
-  DEPENDS
+  COMPILE_DEPENDS
     ITKImageFilterBase
-    ITKStatistics
+    ITKTransform
     ITKSpatialObjects
     ITKImageCompose
   TEST_DEPENDS
     ITKTestKernel
     ITKGDCM
+    ITKImageIntensity
     ITKThresholding
     ITKImageLabel
   DESCRIPTION
