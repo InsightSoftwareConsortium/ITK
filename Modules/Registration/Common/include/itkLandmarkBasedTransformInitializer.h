@@ -111,7 +111,7 @@ public:
   typedef TMovingImage MovingImageType;
 
   /** Set the reference image to define the parametric domain for the BSpline transform */
-  itkSetObjectMacro(ReferenceImage,   FixedImageType);
+  itkSetConstObjectMacro(ReferenceImage,   FixedImageType);
 
   /** Set the number of control points to define the parametric domain for the BSpline transform */
   itkSetMacro(BSplineNumberOfControlPoints, unsigned int);
