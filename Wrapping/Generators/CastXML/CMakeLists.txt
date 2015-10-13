@@ -41,6 +41,18 @@ else()
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
       )
+  # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
+  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
+    if(ITK_BINARY_DIR)
+      itk_download_attempt_check(CastXML)
+    endif()
+    ExternalProject_Add(castxml
+      URL http://midas3.kitware.com/midas/download/item/318762/castxml-macosx.tar.gz
+      URL_MD5 78e7811f64eb51197e0ce8aa6323347d
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
+      )
   # Build from source
   else()
     set(compiler_information)
@@ -59,6 +71,11 @@ else()
       find_package(LLVM REQUIRED)
       set(castxml_deps)
     else()
+      # check the version of clang compiler
+      if(APPLE AND (((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") AND CMAKE_CXX_COMPILER_VERSION  VERSION_LESS "3.2") OR
+        ((CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") AND CMAKE_CXX_COMPILER_VERSION  VERSION_LESS "5.0")))
+        message(FATAL_ERROR "Mac OS X 10.9 (Mavericks) or newer is required to wrap ITK.")
+      endif()
       # If we are building ITK
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(LLVM)
