@@ -25,6 +25,7 @@ itkBinaryStatisticsOpeningImageFilterTest1.cxx
 itkChangeLabelLabelMapFilterTest.cxx
 itkChangeRegionLabelMapFilterTest1.cxx
 itkConvertLabelMapFilterTest1.cxx
+itkConvertLabelMapFilterTest2.cxx
 itkCropLabelMapFilterTest1.cxx
 itkLabelImageToLabelMapFilterTest.cxx
 itkLabelImageToShapeLabelMapFilterTest1.cxx
@@ -239,6 +240,13 @@ itk_add_test(NAME itkConvertLabelMapFilterTest1
             ${ITK_TEST_OUTPUT_DIR}/cthead1-convert.png
   itkConvertLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
   ${ITK_TEST_OUTPUT_DIR}/cthead1-convert.png
+  )
+itk_add_test(NAME itkConvertLabelMapFilterTest2
+      COMMAND ITKLabelMapTestDriver
+  --compare DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+            ${ITK_TEST_OUTPUT_DIR}/cthead1-convert-short.png
+  itkConvertLabelMapFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+  ${ITK_TEST_OUTPUT_DIR}/cthead1-convert-short.png
   )
 itk_add_test(NAME itkCropLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
