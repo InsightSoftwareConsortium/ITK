@@ -1,25 +1,10 @@
-# This project is designed to be built outside the Insight source tree.
-PROJECT(Cuberille)
+cmake_minimum_required(VERSION 2.9)
+project(Cuberille)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
-
-# Find ITK.
-FIND_PACKAGE(ITK REQUIRED)
-INCLUDE(${ITK_USE_FILE})
-
-SET(DATA_PATH ${Cuberille_SOURCE_DIR}/Data)
-SET(SOURCE_PATH ${Cuberille_SOURCE_DIR}/Source)
-SET(TESTING_PATH ${Cuberille_SOURCE_DIR}/Testing)
-
-INCLUDE_DIRECTORIES(
-  BEFORE
-  ${SOURCE_PATH}
-  ${TESTING_PATH}
-  )
-
-ADD_SUBDIRECTORY(Source)
-OPTION(BUILD_TESTING "Build the Testing directory." ON)
-IF(BUILD_TESTING)
-  ENABLE_TESTING()
-  SUBDIRS(Testing)
-ENDIF(BUILD_TESTING)
+if(NOT ITK_SOURCE_DIR)
+  find_package(ITK REQUIRED)
+  list(APPEND CMAKE_MODULE_PATH ${ITK_CMAKE_DIR})
+  include(ITKModuleExternal)
+else()
+  itk_module_impl()
+endif()
