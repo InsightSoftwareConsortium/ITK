@@ -14,12 +14,6 @@ See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
    PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
-#define _SCL_SECURE_NO_WARNINGS
-
 #define USE_BSPLINE_INTERPOLATOR 0
 #define USE_MARCHING_CUBES 0
 #define USE_QUAD_EDGE_MESH 0
@@ -27,10 +21,6 @@ See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
 #include <iostream>
 #include <sstream>
-
-#ifndef NO_TESTING
-#include "itkTestMain.h"
-#endif
 
 #include "itkTimeProbe.h"
 #include "itkImage.h"
@@ -47,14 +37,7 @@ See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 #include "itkQuadEdgeMeshQuadricDecimation.h"
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 
-#ifndef NO_TESTING
-void RegisterTests()
-{
-REGISTER_TEST( Test01 );
-}
-#endif
-
-int Test01(int argc, char * argv [])
+int CuberilleTest01(int argc, char * argv [])
 {
 try
   {

@@ -22,6 +22,10 @@ itk_module(Cuberille
     ITKMesh
   TEST_DEPENDS
     ITKTestKernel
+    ITKQuadEdgeMesh
+    ITKQuadEdgeMeshFiltering
+    ITKThresholding
+    ITKIOImageBase
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}"
