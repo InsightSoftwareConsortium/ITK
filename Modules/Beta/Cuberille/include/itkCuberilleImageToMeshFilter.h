@@ -1,21 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkCuberilleImageToMeshFilter.h,v $
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-#ifndef __itkCuberilleImageToMeshFilter_h
-#define __itkCuberilleImageToMeshFilter_h
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkCuberilleImageToMeshFilter_h
+#define itkCuberilleImageToMeshFilter_h
 
 #define DEBUG_PRINT 0
 #define USE_GRADIENT_RECURSIVE_GAUSSIAN 0
@@ -105,10 +106,12 @@ namespace itk
  *     http://hdl.handle.net/10380/3186
  *
  * \author Dan Mueller, Philips Healthcare, dan dot muel at gmail dot com
+ * 
+ * \ingroup Cuberille
  *
  */
 template < class TInputImage, class TOutputMesh, class TInterpolator=itk::LinearInterpolateImageFunction<TInputImage> >
-class ITK_EXPORT CuberilleImageToMeshFilter : public ImageToMeshFilter< TInputImage, TOutputMesh >
+class CuberilleImageToMeshFilter : public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

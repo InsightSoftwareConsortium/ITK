@@ -1,36 +1,24 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    $RCSfile: CuberilleTest01.cxx,v $
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-   This software is distributed WITHOUT ANY WARRANTY; without even 
-   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-   PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
-#define _SCL_SECURE_NO_WARNINGS
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #define USE_BSPLINE_INTERPOLATOR 0
 #define USE_MARCHING_CUBES 0
 #define USE_QUAD_EDGE_MESH 0
 #define USE_DECIMATION 0
-
-#include <iostream>
-#include <sstream>
-
-#ifndef NO_TESTING
-#include "itkTestMain.h"
-#endif
 
 #include "itkTimeProbe.h"
 #include "itkImage.h"
@@ -44,17 +32,10 @@ See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 #include "itkVTKPolyDataWriter.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
-#include "itkQuadEdgeMeshQuadricDecimation.h"
+#include "itkQuadricDecimationQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 
-#ifndef NO_TESTING
-void RegisterTests()
-{
-REGISTER_TEST( Test01 );
-}
-#endif
-
-int Test01(int argc, char * argv [])
+int CuberilleTest01(int argc, char * argv [])
 {
 try
   {
@@ -168,7 +149,7 @@ try
   DecimationCriterionType::Pointer decimateCriterion = DecimationCriterionType::New();
   decimateCriterion->SetTopologicalChange( false );
   decimateCriterion->SetNumberOfElements( 2000 );
-  typedef itk::QuadEdgeMeshQuadricDecimation< MeshType, MeshType, DecimationCriterionType > DecimationType;
+  typedef itk::QuadricDecimationQuadEdgeMeshFilter< MeshType, MeshType, DecimationCriterionType > DecimationType;
   DecimationType::Pointer decimate = DecimationType::New();
   decimate->SetInput( outputMesh );
   decimate->SetCriterion( decimateCriterion );
@@ -187,7 +168,7 @@ try
   writer->Update();
 
   // Assert number of points/cells
-  std::cout << "Polygonization took " << time.GetMeanTime() << " seconds" << std::endl;
+  std::cout << "Polygonization took " << time.GetMean() << " seconds" << std::endl;
   std::cout << "Mesh has " << outputMesh->GetNumberOfPoints() << " vertices ";
   std::cout << "and " << outputMesh->GetNumberOfCells() << " cells" << std::endl;
   if ( ExpectedNumberOfPoints > 0 && outputMesh->GetNumberOfPoints() != ExpectedNumberOfPoints )
