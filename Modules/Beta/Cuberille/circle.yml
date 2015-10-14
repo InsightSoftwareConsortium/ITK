@@ -1,0 +1,15 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - docker pull insighttoolkit/cuberille-test
+    - ~/ITKCuberille/test/Docker/build.sh
+
+test:
+  override:
+    - mkdir ~/ITKMinimialPathExtraction-build
+    - docker run -v ~/ITKCuberille:/usr/src/ITKCuberille -v ~/ITKCuberille-build:/usr/src/ITKCuberille-build insighttoolkit/cuberille-test /usr/src/ITKCuberille/test/Docker/test.sh
+
