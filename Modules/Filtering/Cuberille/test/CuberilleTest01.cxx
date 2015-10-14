@@ -20,9 +20,6 @@
 #define USE_QUAD_EDGE_MESH 0
 #define USE_DECIMATION 0
 
-#include <iostream>
-#include <sstream>
-
 #include "itkTimeProbe.h"
 #include "itkImage.h"
 #include "itkMesh.h"
