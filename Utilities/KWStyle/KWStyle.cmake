@@ -1,9 +1,4 @@
 if(ITK_USE_KWSTYLE)
-  find_package(KWStyle 1.0.1
-    QUIET
-    REQUIRED # throw a FATAL_ERROR if KWStyle isn't found
-    )
-
   # Define and configure configuration files
   set(kwstyle_itk_configuration_file
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml
