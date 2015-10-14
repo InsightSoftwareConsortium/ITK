@@ -4,7 +4,7 @@ itk_module_test()
 set(TESTING_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/Output")
 make_directory(${TESTING_OUTPUT_PATH})
 
-set(DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data)
+set(DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Input)
 
 set(
   _test
