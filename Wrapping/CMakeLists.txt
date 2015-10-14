@@ -115,6 +115,7 @@ set(WRAP_ITK_INSTALL_PREFIX "${path}" CACHE INTERNAL "subpath where where most o
 set(WRAP_ITK_CONFIG_DIR "${WrapITK_SOURCE_DIR}/")
 set(WRAP_ITK_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
 set(ITK_WRAP_JAVA_DIR "${WrapITK_BINARY_DIR}/Java")
+set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${ITK_DIR}/Wrapping/Typedefs" CACHE INTERNAL "typedefs dir")
 
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${WrapITK_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
@@ -145,7 +146,7 @@ install(FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
   DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/"
 )
 
-set(WRAP_ITK_TYPEDEFS_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Typedefs")
+set(WRAP_ITK_TYPEDEFS_DIRECTORY "${ITK_DIR}/Wrapping/Typedefs")
 set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
 ###############################################################################

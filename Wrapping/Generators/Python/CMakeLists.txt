@@ -21,9 +21,11 @@ include_directories(${PYTHON_INCLUDE_PATH})
 ###############################################################################
 # store the current dir, so it can be reused later
 set(ITK_WRAP_PYTHON_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "python source dir")
-set(ITK_WRAP_PYTHON_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "python binary dir")
-
-
+if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+  set(ITK_WRAP_PYTHON_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "python binary dir")
+else()
+  set(ITK_WRAP_PYTHON_BINARY_DIR "${ITK_DIR}/Wrapping/Generators/Python" CACHE INTERNAL "python binary dir")
+endif()
 ###############################################################################
 # create the python directory in the classindex dir
 file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python)
@@ -282,6 +284,8 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
     "${_swig_depend}")
 
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+    file(COPY ${WrapITK_SOURCE_DIR}/Generators/Python/PyBase/pyBase.i
+      DESTINATION "${WRAP_ITK_TYPEDEFS_DIRECTORY}")
     list(APPEND dependencies "${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i")
   endif()
 
