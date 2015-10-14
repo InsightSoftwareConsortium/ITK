@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCuberilleImageToMeshFilter_txx
-#define __itkCuberilleImageToMeshFilter_txx
+#ifndef itkCuberilleImageToMeshFilter_hxx
+#define itkCuberilleImageToMeshFilter_hxx
 
 #define SWAP(x,y) unsigned int t;t=x;x=y;y=t;
 

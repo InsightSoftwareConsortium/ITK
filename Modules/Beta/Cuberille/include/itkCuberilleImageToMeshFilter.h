@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCuberilleImageToMeshFilter_h
-#define __itkCuberilleImageToMeshFilter_h
+#ifndef itkCuberilleImageToMeshFilter_h
+#define itkCuberilleImageToMeshFilter_h
 
 #define DEBUG_PRINT 0
 #define USE_GRADIENT_RECURSIVE_GAUSSIAN 0
@@ -109,7 +109,7 @@ namespace itk
  *
  */
 template < class TInputImage, class TOutputMesh, class TInterpolator=itk::LinearInterpolateImageFunction<TInputImage> >
-class ITK_EXPORT CuberilleImageToMeshFilter : public ImageToMeshFilter< TInputImage, TOutputMesh >
+class CuberilleImageToMeshFilter : public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */
