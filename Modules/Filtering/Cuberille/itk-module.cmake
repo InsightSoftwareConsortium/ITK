@@ -26,6 +26,10 @@ itk_module(
     ITKMesh
   TEST_DEPENDS
     ITKTestKernel
+    ITKQuadEdgeMesh
+    ITKQuadEdgeMeshFiltering
+    ITKThresholding
+    ITKIOImageBase
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
