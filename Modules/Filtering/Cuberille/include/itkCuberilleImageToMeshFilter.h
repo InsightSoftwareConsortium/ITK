@@ -107,6 +107,8 @@ namespace itk
  *
  * \author Dan Mueller, Philips Healthcare, dan dot muel at gmail dot com
  *
+ * \ingroup Cuberille
+ *
  */
 template <class TInputImage, class TOutputMesh, class TInterpolator = itk::LinearInterpolateImageFunction<TInputImage>>
 class CuberilleImageToMeshFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
