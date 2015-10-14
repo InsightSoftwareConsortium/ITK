@@ -170,7 +170,7 @@ try
   writer->Update();
 
   // Assert number of points/cells
-  std::cout << "Polygonization took " << time.GetMeanTime() << " seconds" << std::endl;
+  std::cout << "Polygonization took " << time.GetMean() << " seconds" << std::endl;
   std::cout << "Mesh has " << outputMesh->GetNumberOfPoints() << " vertices ";
   std::cout << "and " << outputMesh->GetNumberOfCells() << " cells" << std::endl;
   if ( ExpectedNumberOfPoints > 0 && outputMesh->GetNumberOfPoints() != ExpectedNumberOfPoints )
