@@ -106,6 +106,8 @@ namespace itk
  *     http://hdl.handle.net/10380/3186
  *
  * \author Dan Mueller, Philips Healthcare, dan dot muel at gmail dot com
+ * 
+ * \ingroup Cuberille
  *
  */
 template < class TInputImage, class TOutputMesh, class TInterpolator=itk::LinearInterpolateImageFunction<TInputImage> >
