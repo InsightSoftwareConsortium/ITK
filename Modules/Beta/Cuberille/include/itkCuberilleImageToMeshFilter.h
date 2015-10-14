@@ -344,7 +344,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCuberilleImageToMeshFilter.txx"
+#include "itkCuberilleImageToMeshFilter.hxx"
 #endif
 
 #endif
