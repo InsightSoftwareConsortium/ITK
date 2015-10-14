@@ -34,7 +34,7 @@ See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 #include "itkVTKPolyDataWriter.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
-#include "itkQuadEdgeMeshQuadricDecimation.h"
+#include "itkQuadricDecimationQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 
 int CuberilleTest01(int argc, char * argv [])
@@ -151,7 +151,7 @@ try
   DecimationCriterionType::Pointer decimateCriterion = DecimationCriterionType::New();
   decimateCriterion->SetTopologicalChange( false );
   decimateCriterion->SetNumberOfElements( 2000 );
-  typedef itk::QuadEdgeMeshQuadricDecimation< MeshType, MeshType, DecimationCriterionType > DecimationType;
+  typedef itk::QuadricDecimationQuadEdgeMeshFilter< MeshType, MeshType, DecimationCriterionType > DecimationType;
   DecimationType::Pointer decimate = DecimationType::New();
   decimate->SetInput( outputMesh );
   decimate->SetCriterion( decimateCriterion );
