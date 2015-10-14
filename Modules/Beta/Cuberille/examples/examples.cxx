@@ -15,16 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
-#define _SCL_SECURE_NO_WARNINGS
-#define NO_TESTING
-
-#include <iostream>
-#include <sstream>
-
 #include "CuberilleTest01.cxx"
 
 int main(int argc, char * argv [])
