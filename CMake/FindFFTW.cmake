@@ -34,6 +34,7 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
 
   set(FFTW_LIB_SEARCHPATH
     ${FFTW_INSTALL_BASE_PATH}/lib
+    ${FFTW_INSTALL_BASE_PATH}/lib64
     /usr/lib/fftw
     /usr/local/lib/fftw
   )
