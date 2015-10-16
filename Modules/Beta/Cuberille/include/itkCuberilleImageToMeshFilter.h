@@ -184,6 +184,7 @@ public:
   itkSetMacro( IsoSurfaceValue, InputPixelType );
 
   /** Accept the input image. */
+  using Superclass::SetInput;
   virtual void SetInput( const InputImageType * inputImage );
 
   /** Get/set interpolate function. */
