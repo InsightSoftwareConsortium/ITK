@@ -7,9 +7,10 @@ include(${_ITKModuleMacros_DIR}/ITKModuleDoxygen.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleHeaderTest.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleKWStyleTest.cmake)
 
-# With Apple's GGC <=4.2 and LLVM-GCC <=4.2 visibility of template
-# don't work. Set the option to off and hide it.
-if(APPLE AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION  VERSION_LESS "4.3")
+# With Apple's (GGC <=4.2 and LLVM-GCC <=4.2) or (Clang < 3.2)
+# visibility of template  don't work. Set the option to off and hide it.
+if(APPLE AND ((CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION  VERSION_LESS "4.3")
+   OR ((CMAKE_CXX_COMPILER_ID MATCHES "Clang") AND CMAKE_CXX_COMPILER_VERSION  VERSION_LESS "3.2")))
   set( USE_COMPILER_HIDDEN_VISIBILITY OFF CACHE INTERNAL "" )
 endif()
 include(GenerateExportHeader)
