@@ -13,6 +13,8 @@ cd /usr/src/ITKCuberille-build || die "Could not cd into the build directory"
 cmake \
   -G Ninja \
   -DITK_DIR:PATH=/usr/src/ITK-build \
+  -DITK_USE_SYSTEM_SWIG:BOOL=ON \
+  -DSWIG_EXECUTABLE:FILEPATH=/usr/bin/swig3.0 \
   -DCMAKE_BUILD_TYPE:STRING=Release \
     /usr/src/ITKCuberille || die "CMake configuration failed"
 ctest -VV -D Experimental || die "ctest failed"

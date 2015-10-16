@@ -12,8 +12,9 @@ RUN apt-get update && apt-get install -y \
   libpng12-dev \
   libpython3-dev \
   libtiff5-dev \
-  python \
   ninja-build \
+  python3 \
+  swig3.0 \
   wget \
   vim \
   zlib1g-dev
@@ -35,10 +36,13 @@ RUN git clone git://itk.org/ITK.git && \
     -DBUILD_EXAMPLES:BOOL=OFF \
     -DBUILD_TESTING:BOOL=OFF \
     -DBUILD_SHARED_LIBS:BOOL=ON \
+    -DITK_WRAP_PYTHON:BOOL=ON \
     -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
     -DITK_LEGACY_REMOVE:BOOL=ON \
     -DITK_BUILD_DEFAULT_MODULES:BOOL=OFF \
     -DITK_USE_SYSTEM_LIBRARIES:BOOL=ON \
+    -DSWIG_EXECUTABLE:FILEPATH=/usr/bin/swig3.0 \
+    -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python3 \
     -DModule_ITKImageFunction:BOOL=ON \
     -DModule_ITKImageGradient:BOOL=ON \
     -DModule_ITKMesh:BOOL=ON \
