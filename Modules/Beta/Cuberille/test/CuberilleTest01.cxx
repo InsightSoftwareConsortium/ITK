@@ -57,8 +57,6 @@ try
   typedef itk::LinearInterpolateImageFunction< ImageType > InterpolatorType;
 #endif
   typedef itk::CuberilleImageToMeshFilter< ImageType, MeshType, InterpolatorType > CuberilleType;
-  typedef itk::BinaryMask3DMeshSource< ImageType, MeshType > MarchingCubesType;
-  typedef itk::BinaryThresholdImageFilter< ImageType, ImageType > BinaryThresholdFilterType;
 
   // Read command-line parameters
   if ( argc < 6 )
