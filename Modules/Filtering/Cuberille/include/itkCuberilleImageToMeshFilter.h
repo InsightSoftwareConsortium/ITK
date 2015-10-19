@@ -248,7 +248,8 @@ private:
   void
   operator=(const Self &); // purposely not implemented
 
-  /** A private class containing lookup details for vertices. */
+  /** \class VertexLookupNode A private class containing lookup details for vertices.
+   *  \ingroup Cuberille */
   class VertexLookupNode
   {
   public:
@@ -304,7 +305,8 @@ private:
     unsigned long m_Y;
   };
 
-  /** A private class providing vertex lookup functionality. */
+  /** \class VertexLookupMap A private class providing vertex lookup functionality.
+   *  \ingroup Cuberille */
   template <class TMeshType>
   class VertexLookupMap
   {
