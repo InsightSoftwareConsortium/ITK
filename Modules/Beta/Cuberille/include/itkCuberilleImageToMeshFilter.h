@@ -127,12 +127,12 @@ public:
   itkTypeMacro(CuberilleImageToMeshFilter, ImageToMeshFilter);
 
   /** Some convenient typedefs. */
-  typedef TOutputMesh                           OutputMeshType;
-  typedef typename OutputMeshType::Pointer      OutputMeshPointer;
-  typedef typename OutputMeshType::MeshTraits   OutputMeshTraits;
-  typedef typename OutputMeshType::PointType    OutputPointType;
-  typedef typename OutputMeshTraits::PixelType  OutputPixelType;
-  typedef typename OutputMeshType::CellTraits   CellTraits;
+  typedef TOutputMesh                                     OutputMeshType;
+  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
+  typedef typename OutputMeshType::MeshTraits             OutputMeshTraits;
+  typedef typename OutputMeshType::PointType              OutputPointType;
+  typedef typename OutputMeshTraits::PixelType            OutputPixelType;
+  typedef typename OutputMeshType::CellTraits             CellTraits;
   typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer        PointsContainer;
   typedef typename OutputMeshType::CellsContainerPointer  CellsContainerPointer;
@@ -157,23 +157,23 @@ public:
   typedef typename InputImageType::IndexType        IndexType;
   typedef typename OutputMeshType::PointType        PointType;
 
-  typedef TInterpolator                      InterpolatorType;
-  typedef typename InterpolatorType::Pointer InterpolatorPointer;
+  typedef TInterpolator                         InterpolatorType;
+  typedef typename InterpolatorType::Pointer    InterpolatorPointer;
   typedef typename InterpolatorType::OutputType InterpolatorOutputType;
 
   /** Other convenient typedefs. */
-  typedef ConstShapedNeighborhoodIterator< InputImageType > InputImageIteratorType;
+  typedef ConstShapedNeighborhoodIterator< InputImageType >              InputImageIteratorType;
 #if USE_GRADIENT_RECURSIVE_GAUSSIAN
-  typedef GradientRecursiveGaussianImageFilter< InputImageType > GradientFilterType;
+  typedef GradientRecursiveGaussianImageFilter< InputImageType >         GradientFilterType;
 #else
-  typedef GradientImageFilter< InputImageType >             GradientFilterType;
+  typedef GradientImageFilter< InputImageType >                          GradientFilterType;
 #endif
-  typedef typename GradientFilterType::Pointer              GradientFilterPointer;
-  typedef typename GradientFilterType::OutputImageType      GradientImageType;
-  typedef typename GradientImageType::Pointer               GradientImagePointer;
-  typedef typename GradientFilterType::OutputPixelType      GradientPixelType;
+  typedef typename GradientFilterType::Pointer                           GradientFilterPointer;
+  typedef typename GradientFilterType::OutputImageType                   GradientImageType;
+  typedef typename GradientImageType::Pointer                            GradientImagePointer;
+  typedef typename GradientFilterType::OutputPixelType                   GradientPixelType;
   typedef itk::VectorLinearInterpolateImageFunction< GradientImageType > GradientInterpolatorType;
-  typedef typename GradientInterpolatorType::Pointer        GradientInterpolatorPointer;
+  typedef typename GradientInterpolatorType::Pointer                     GradientInterpolatorPointer;
 
   /** Get/set the iso-surface value.
     * This parameter specifies the value of the iso-surface for which to
@@ -243,7 +243,8 @@ private:
   CuberilleImageToMeshFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** A private class containing lookup details for vertices. */
+  /** \class VertexLookupNode A private class containing lookup details for vertices.
+   *  \ingroup Cuberille */
   class VertexLookupNode
     {
     public:
@@ -273,14 +274,15 @@ private:
       unsigned long m_Y;
   };
 
-  /** A private class providing vertex lookup functionality. */
+  /** \class VertexLookupMap A private class providing vertex lookup functionality.
+   *  \ingroup Cuberille */
   template< class TMeshType >
   class VertexLookupMap
     {
     public:
       /** Convenient typedefs */
-      typedef VertexLookupMap Self;
-      typedef typename TMeshType::PointIdentifier PointIdentifier;
+      typedef VertexLookupMap                               Self;
+      typedef typename TMeshType::PointIdentifier           PointIdentifier;
       typedef std::map< VertexLookupNode, PointIdentifier > MapType;
 
       /** Constructors */
@@ -327,16 +329,16 @@ private:
   inline void AddVertex( PointIdentifier &id, IndexType index, const InputImageType* image, OutputMeshType* mesh );
   inline void AddQuadFace( CellIdentifier &id, PointIdentifier f[4], OutputMeshType* mesh );
 
-  InputPixelType m_IsoSurfaceValue;
-  InterpolatorPointer m_Interpolator;
+  InputPixelType              m_IsoSurfaceValue;
+  InterpolatorPointer         m_Interpolator;
   GradientInterpolatorPointer m_GradientInterpolator;
-  SpacingValueType m_MaxSpacing;
-  bool m_GenerateTriangleFaces;
-  bool m_ProjectVerticesToIsoSurface;
-  double m_ProjectVertexSurfaceDistanceThreshold;
-  double m_ProjectVertexStepLength;
-  double m_ProjectVertexStepLengthRelaxationFactor;
-  unsigned int m_ProjectVertexMaximumNumberOfSteps;
+  SpacingValueType            m_MaxSpacing;
+  bool                        m_GenerateTriangleFaces;
+  bool                        m_ProjectVerticesToIsoSurface;
+  double                      m_ProjectVertexSurfaceDistanceThreshold;
+  double                      m_ProjectVertexStepLength;
+  double                      m_ProjectVertexStepLengthRelaxationFactor;
+  unsigned int                m_ProjectVertexMaximumNumberOfSteps;
 #if DEBUG_PRINT
   unsigned int m_ProjectVertexTerminate[3];
 #endif
