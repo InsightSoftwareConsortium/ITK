@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /usr/src/ITKCuberille-build
 WORKDIR /usr/src
 
-# 2015-09-17
-ENV ITK_GIT_TAG 596a58c5e0713b189483c223109e711c68c89789
+# 2015-10-19
+ENV ITK_GIT_TAG bec8c1f596a4da63104a14e1040ef4f6f967390f
 RUN git clone git://itk.org/ITK.git && \
   cd ITK && \
   git checkout ${ITK_GIT_TAG} && \

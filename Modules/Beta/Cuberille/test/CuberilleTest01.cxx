@@ -49,7 +49,7 @@ try
 #else
   typedef itk::Mesh< PixelType, Dimension > MeshType;
 #endif
-  typedef itk::ImageFileReader< ImageType > ImageFileReaderType;
+  typedef itk::ImageFileReader< ImageType >  ImageFileReaderType;
   typedef itk::VTKPolyDataWriter< MeshType > MeshFileWriterType;
 #if USE_BSPLINE_INTERPOLATOR
   typedef itk::BSplineInterpolateImageFunction< ImageType, float, float > InterpolatorType;
