@@ -19,9 +19,11 @@
 
 #include "itkLightObject.h"
 
+#include <vector>
 
 namespace itk
 {
+
 /** \class SpeedFunctionPathInformation
  * \brief  PathInfo class for encapsulating information about a path
  * for a SpeedFunctionToPathFilter Object.
@@ -41,7 +43,6 @@ namespace itk
  *
  * \ingroup MinimalPathExtraction
  */
-
 template <typename TPoint>
 class SpeedFunctionPathInformation : public LightObject
 {
