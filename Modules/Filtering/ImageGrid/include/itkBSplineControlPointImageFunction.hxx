@@ -50,7 +50,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
 
   this->m_NeighborhoodWeightImage = ITK_NULLPTR;
 
-  this->m_BSplineEpsilon = std::numeric_limits<CoordRepType>::epsilon();
+  this->m_BSplineEpsilon = 1e-3;
 }
 
 template<typename TInputImage, typename TCoordRep>
@@ -80,8 +80,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
     {
     if( this->m_SplineOrder[i] == 0 )
       {
-      itkExceptionMacro(
-        "The spline order in each dimension must be greater than 0" );
+      itkExceptionMacro( "The spline order in each dimension must be greater than 0" );
       }
 
     this->m_Kernel[i] = KernelType::New();
@@ -114,12 +113,6 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       {
       maximumNumberOfSpans = numberOfSpans;
       }
-    }
-  this->m_BSplineEpsilon = 100 * std::numeric_limits<CoordRepType>::epsilon();
-  while( Math::AlmostEquals( static_cast<CoordRepType>( maximumNumberOfSpans ),
-    static_cast<CoordRepType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon ) )
-    {
-    this->m_BSplineEpsilon *= 10;
     }
 
   for( unsigned int i = 0; i < ImageDimension; i++)
@@ -195,14 +188,15 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( Math::AlmostEquals( p[i], NumericTraits<CoordRepType>::OneValue() ) )
+    if( std::abs( p[i] - NumericTraits<CoordRepType>::OneValue() ) <= this->m_BSplineEpsilon )
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
-    if( p[i] < 0.0 || p[i] >= 1.0 )
+    if( p[i] < NumericTraits<CoordRepType>::ZeroValue() ||
+        p[i] >= NumericTraits<CoordRepType>::OneValue() )
       {
       itkExceptionMacro( "The specified point " << params
-        << " is outside the reparameterized domain [0, 1]." );
+        << " is outside the reparameterized domain [0, 1)." );
       }
     CoordRepType numberOfSpans = static_cast<CoordRepType>(
       this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i] );
@@ -278,8 +272,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       idx[i] += static_cast<unsigned int>( p[i] );
       if( this->m_CloseDimension[i] )
         {
-        idx[i] %=
-          this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i];
+        idx[i] %= this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i];
         }
       }
     if( this->GetInputImage()->GetLargestPossibleRegion().IsInside( idx ) )
@@ -349,14 +342,15 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( Math::AlmostEquals( p[i], NumericTraits<CoordRepType>::OneValue() ) )
+    if( std::abs( p[i] - NumericTraits<CoordRepType>::OneValue() ) <= this->m_BSplineEpsilon )
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
-    if( p[i] < 0.0 || p[i] >= 1.0 )
+    if( p[i] < NumericTraits<CoordRepType>::ZeroValue() ||
+        p[i] >= NumericTraits<CoordRepType>::OneValue() )
       {
       itkExceptionMacro( "The specified point " << params
-        << " is outside the reparameterized domain [0, 1]." );
+        << " is outside the reparameterized domain [0, 1)." );
       }
     CoordRepType numberOfSpans = static_cast<CoordRepType>(
       this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i] );
@@ -523,14 +517,15 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     p[i] = params[i];
-    if( Math::AlmostEquals( p[i], NumericTraits<CoordRepType>::OneValue() ) )
+    if( std::abs( p[i] - NumericTraits<CoordRepType>::OneValue() ) <= this->m_BSplineEpsilon )
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
-    if( p[i] < 0.0 || p[i] >= 1.0 )
+    if( p[i] < NumericTraits<CoordRepType>::ZeroValue() ||
+        p[i] >= NumericTraits<CoordRepType>::OneValue() )
       {
       itkExceptionMacro( "The specified point " << params
-        << " is outside the reparameterized domain [0, 1]." );
+        << " is outside the reparameterized domain [0, 1)." );
       }
     CoordRepType numberOfSpans = static_cast<CoordRepType>(
       this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i] );
