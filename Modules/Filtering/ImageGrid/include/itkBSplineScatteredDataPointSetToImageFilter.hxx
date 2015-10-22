@@ -28,8 +28,6 @@
 
 #include "vnl/vnl_math.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
-#include "vnl/vnl_vector.h"
-#include "vcl_limits.h"
 #include "itkMath.h"
 
 namespace itk
@@ -572,9 +570,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   ImageRegionIteratorWithIndex<RealImageType> ItW(
     neighborhoodWeightImage, neighborhoodWeightImage->GetRequestedRegion() );
 
-  vnl_vector<RealType> p( ImageDimension );
-  vnl_vector<RealType> r( ImageDimension );
-  vnl_vector<RealType> epsilon( ImageDimension );
+  RealArrayType p;
+  RealArrayType r;
+  RealArrayType epsilon;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     r[i] = static_cast<RealType>( this->m_CurrentNumberOfControlPoints[i] -
@@ -738,14 +736,14 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       }
     }
 
-  vnl_vector<RealType> r( ImageDimension );
+  RealArrayType r;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     r[i] = static_cast<RealType>( totalNumberOfSpans[i] ) /
       ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
     }
 
-  vnl_vector<RealType> epsilon( ImageDimension );
+  RealArrayType epsilon;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     epsilon[i] = r[i] * this->m_Spacing[i] * this->m_BSplineEpsilon;
@@ -1083,14 +1081,14 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       }
     }
 
-  vnl_vector<RealType> r( ImageDimension );
+  RealArrayType r;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     r[i] = static_cast<RealType>( totalNumberOfSpans[i] ) /
       ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
     }
 
-  vnl_vector<RealType> epsilon( ImageDimension );
+  RealArrayType epsilon;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     epsilon[i] = r[i] * this->m_Spacing[i] * this->m_BSplineEpsilon;

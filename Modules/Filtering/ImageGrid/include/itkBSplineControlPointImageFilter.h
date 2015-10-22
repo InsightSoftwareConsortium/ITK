@@ -96,6 +96,8 @@ public:
 
   typedef FixedArray<unsigned,
     itkGetStaticConstMacro( ImageDimension )>       ArrayType;
+  typedef FixedArray<RealType,
+    itkGetStaticConstMacro( ImageDimension )>       RealArrayType;
 
   /** PointSet typedef support. */
   typedef PointSet<PixelType,

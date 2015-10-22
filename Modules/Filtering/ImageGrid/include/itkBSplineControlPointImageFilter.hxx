@@ -260,7 +260,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   typename PointDataImageType::IndexType startPhiIndex =
     inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  vnl_vector<RealType> epsilon( ImageDimension );
+  RealArrayType epsilon;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     RealType r = static_cast<RealType>( this->m_NumberOfControlPoints[i] -
