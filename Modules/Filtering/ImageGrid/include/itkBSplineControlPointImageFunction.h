@@ -52,11 +52,6 @@ namespace itk
  *      domain.
  *   3. Evaluation of the Hessian of the B-spline object at any point in the
  *      domain.
- *   4. Inverse estimation.  Given a user-specified data point, one can
- *      find the parameters which minimize the "distance" between the evaluated
- *      data point and the B-spline object evaluated at those parameters.
- *      This is useful, for example, in determining the parametric values of
- *      a point on the curve closest to a user-specified point.
  *
  * \author Nicholas J. Tustison
  *
@@ -74,7 +69,7 @@ public:
   typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Extract dimension from input image. */
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
@@ -103,6 +98,7 @@ public:
   typedef Image<CoordRepType, ImageDimension>        RealImageType;
   typedef typename RealImageType::Pointer            RealImagePointer;
   typedef typename Superclass::ContinuousIndexType   ContinuousIndexType;
+  typedef float                                      RealType;
 
   /** Interpolation kernel type (default spline order = 3) */
   typedef CoxDeBoorBSplineKernelFunction<3> KernelType;
@@ -158,34 +154,33 @@ public:
   itkGetConstReferenceMacro( CloseDimension, ArrayType );
 
   /**
-   * Set the parametric spacing of the B-spline object domain.
+   * Set/Get the parametric spacing of the B-spline object domain.
    */
   itkSetMacro( Spacing, SpacingType );
-
-  /**
-   * Get the parametric spacing of the B-spline object domain.
-   */
   itkGetConstMacro( Spacing, SpacingType );
 
   /**
-   * Set the parametric origin of the B-spline object domain.
+   * Set/Get the parametric origin of the B-spline object domain.
    */
   itkSetMacro( Origin, OriginType );
-
-  /**
-   * Get the parametric origin of the B-spline object domain.
-   */
   itkGetConstMacro( Origin, OriginType );
 
   /**
-   * Set the parametric size of the B-spline object domain.
+   * Set/Get the parametric size of the B-spline object domain.
    */
   itkSetMacro( Size, SizeType );
+  itkGetConstMacro( Size, SizeType );
 
   /**
-   * Get the parametric size of the B-spline object domain.
+   * Set/Get the epsilon used for B-splines.  The B-spline parametric domain in
+   * 1-D is defined on the half-closed interval [a,b).  Extension to n-D is
+   * defined similarly.  This presents some difficulty for defining the
+   * the image domain to be co-extensive with the parametric domain.  We use
+   * the B-spline epsilon to push the edge of the image boundary inside the
+   * B-spline parametric domain.
    */
-  itkGetConstMacro( Size, SizeType );
+  itkSetMacro( BSplineEpsilon, RealType );
+  itkGetConstMacro( BSplineEpsilon, RealType );
 
   /**
    * Evaluate the resulting B-spline object at a specified point in the
@@ -298,7 +293,6 @@ private:
   typename KernelOrder3Type::Pointer           m_KernelOrder3;
 
   CoordRepType                                 m_BSplineEpsilon;
-
 };
 
 } // end namespace itk

@@ -257,9 +257,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       }
     }
 
-  /**
-   * Calculate the appropriate epsilon value.
-   */
   unsigned int maximumNumberOfSpans = 0;
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
@@ -402,8 +399,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       this->m_PsiLattice->GetLargestPossibleRegion() );
     ImageRegionIterator<PointDataImageType> ItPhi( this->m_PhiLattice,
       this->m_PhiLattice->GetLargestPossibleRegion() );
-    for( ItPsi.GoToBegin(), ItPhi.GoToBegin(); !ItPsi.IsAtEnd();
-      ++ItPsi, ++ItPhi )
+    for( ItPsi.GoToBegin(), ItPhi.GoToBegin(); !ItPsi.IsAtEnd(); ++ItPsi, ++ItPhi )
       {
       ItPsi.Set( ItPhi.Get() + ItPsi.Get() );
       }
@@ -578,16 +574,12 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
   vnl_vector<RealType> p( ImageDimension );
   vnl_vector<RealType> r( ImageDimension );
+  vnl_vector<RealType> epsilon( ImageDimension );
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     r[i] = static_cast<RealType>( this->m_CurrentNumberOfControlPoints[i] -
       this->m_SplineOrder[i] ) / ( static_cast<RealType>( this->m_Size[i] - 1 ) *
       this->m_Spacing[i] );
-    }
-
-  vnl_vector<RealType> epsilon( ImageDimension );
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
     epsilon[i] = r[i] * this->m_Spacing[i] * this->m_BSplineEpsilon;
     }
 
@@ -618,17 +610,17 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
 
       p[i] = ( point[i] - this->m_Origin[i] ) * r[i];
-      if( p[i] >= static_cast<RealType>( totalNumberOfSpans ) &&
-          p[i] <= static_cast<RealType>( totalNumberOfSpans ) + epsilon[i] )
+      if( std::abs( p[i] - static_cast<RealType>( totalNumberOfSpans ) ) <= epsilon[i] )
         {
         p[i] = static_cast<RealType>( totalNumberOfSpans ) - epsilon[i];
         }
 
-      if( p[i] >= static_cast<RealType>( totalNumberOfSpans ) )
+      if( p[i] < NumericTraits<RealType>::ZeroValue() ||
+          p[i] >= static_cast<RealType>( totalNumberOfSpans ) )
         {
         itkExceptionMacro( "The reparameterized point component " << p[i]
           << " is outside the corresponding parametric domain of [0, "
-          << totalNumberOfSpans << "]." );
+          << totalNumberOfSpans << ")." );
         }
       }
 
@@ -778,16 +770,16 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         static_cast<RealType>( idx[i] - startIndex[i] ) /
         static_cast<RealType>( this->m_Size[i] - 1 );
 
-      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) &&
-          U[i] <= static_cast<RealType>( totalNumberOfSpans[i] ) + epsilon[i] )
+      if( std::abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) ) <= epsilon[i] )
         {
         U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) - epsilon[i];
         }
-      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
+      if( U[i] < NumericTraits<RealType>::ZeroValue() ||
+          U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
         itkExceptionMacro( "The collapse point component " << U[i]
           << " is outside the corresponding parametric domain of [0, "
-          << totalNumberOfSpans[i] << "]." );
+          << totalNumberOfSpans[i] << ")." );
         }
       }
     for( int i = ImageDimension - 1; i >= 0; i-- )
@@ -1126,16 +1118,16 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         static_cast<RealType>( point[i] - this->m_Origin[i] ) /
         ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
 
-      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) &&
-          U[i] <= static_cast<RealType>( totalNumberOfSpans[i] ) + epsilon[i] )
+      if( std::abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) ) <= epsilon[i] )
         {
         U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) - epsilon[i];
         }
-      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
+      if( U[i] < NumericTraits<RealType>::ZeroValue() ||
+          U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
         itkExceptionMacro( "The collapse point component " << U[i]
           << " is outside the corresponding parametric domain of [0, "
-          << totalNumberOfSpans[i] << "]." );
+          << totalNumberOfSpans[i] << ")." );
         }
       }
     for( int i = ImageDimension - 1; i >= 0; i-- )
