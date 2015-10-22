@@ -25,6 +25,7 @@
 #include "itkShapeLabelObjectAccessors.h"
 
 #include "itkBinaryDilateImageFilter.h"
+#include "itkFlatStructuringElement.h"
 
 
 int itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])

@@ -19,10 +19,11 @@
 #define itkKernelImageFilter_h
 
 #include "itkBoxImageFilter.h"
-#include "itkFlatStructuringElement.h"
 
 namespace itk
 {
+
+template< unsigned int VDimension > class FlatStructuringElement;
 /**
  * \class KernelImageFilter
  * \brief A base class for all the filters working on an arbitrary shaped neighborhood
@@ -31,7 +32,7 @@ namespace itk
  * neighborhood used in the subclasses.
  *
  * \author Gaetan Lehmann
- * \ingroup ITKMathematicalMorphology
+ * \ingroup ITKImageFilterBase
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel /*=Neighborhood<bool,
