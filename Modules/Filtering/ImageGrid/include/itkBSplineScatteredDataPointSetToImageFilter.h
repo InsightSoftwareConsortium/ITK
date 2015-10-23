@@ -170,6 +170,8 @@ public:
   typedef typename PointDataImageType::Pointer      PointDataImagePointer;
   typedef FixedArray<unsigned,
     itkGetStaticConstMacro( ImageDimension )>       ArrayType;
+  typedef FixedArray<RealType,
+    itkGetStaticConstMacro( ImageDimension )>       RealArrayType;
 
   /**
    * Interpolation kernel type (default spline order = 3)

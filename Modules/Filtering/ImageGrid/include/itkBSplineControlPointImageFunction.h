@@ -29,9 +29,6 @@
 #include "itkVector.h"
 #include "itkVectorContainer.h"
 
-#include "vnl/vnl_matrix.h"
-#include "vnl/vnl_vector.h"
-
 namespace itk
 {
 /**
