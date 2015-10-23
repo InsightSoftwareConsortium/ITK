@@ -20,7 +20,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkObjectByObjectLabelMapFilter.h"
-
+#include "itkFlatStructuringElement.h"
 #include "itkBinaryDilateImageFilter.h"
 
 
