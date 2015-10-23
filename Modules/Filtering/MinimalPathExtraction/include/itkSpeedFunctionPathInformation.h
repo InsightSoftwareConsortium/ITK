@@ -18,6 +18,7 @@
 #define itkSpeedFunctionPathInformation_h
 
 #include "itkLightObject.h"
+#include "itkObjectFactory.h"
 
 #include <vector>
 
