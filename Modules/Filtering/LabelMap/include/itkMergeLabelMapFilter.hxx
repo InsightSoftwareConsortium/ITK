@@ -87,7 +87,7 @@ MergeLabelMapFilter< TImage >
       {
       const LabelObjectType *lo = it2.GetLabelObject();
       LabelObjectPointer     newLo = LabelObjectType::New();
-      newLo->CopyAllFrom(lo);
+      newLo->template CopyAllFrom<LabelObjectType>(lo);
 
       if( ( output->GetBackgroundValue() != newLo->GetLabel() ) &&
           ( !output->HasLabel( newLo->GetLabel() ) ) )
@@ -132,7 +132,7 @@ MergeLabelMapFilter< TImage >
       {
       const LabelObjectType *lo = it2.GetLabelObject();
       LabelObjectPointer     newLo = LabelObjectType::New();
-      newLo->CopyAllFrom(lo);
+      newLo->template CopyAllFrom<LabelObjectType>(lo);
 
       if ( output->GetBackgroundValue() != newLo->GetLabel() )
         {
@@ -185,7 +185,7 @@ MergeLabelMapFilter< TImage >
         {
         // we can keep the label
         LabelObjectPointer newLo = LabelObjectType::New();
-        newLo->CopyAllFrom(lo);
+        newLo->template CopyAllFrom<LabelObjectType>(lo);
         output->AddLabelObject(newLo);
         }
       else
@@ -247,7 +247,7 @@ MergeLabelMapFilter< TImage >
       {
       const LabelObjectType *lo = it2.GetLabelObject();
       LabelObjectPointer     newLo = LabelObjectType::New();
-      newLo->CopyAllFrom(lo);
+      newLo->template CopyAllFrom<LabelObjectType>(lo);
       output->PushLabelObject(newLo);
 
       // go to the next label

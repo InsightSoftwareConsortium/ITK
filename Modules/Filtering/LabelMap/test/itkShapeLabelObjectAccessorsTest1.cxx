@@ -129,7 +129,7 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     {
     ShapeLabelObjectType *labelCopy = labelMap->GetNthLabelObject(n);
     ShapeLabelObjectType *labelObject = labelMap->GetNthLabelObject(0);
-    labelObject->CopyAttributesFrom(labelCopy);
+    labelObject->CopyAttributesFrom<ShapeLabelObjectType>(labelCopy);
     if (labelCopy->GetLabel() != labelObject->GetLabel())
       {
       std::cout << "CopyAttributesFrom failed for attribute: " << "Label" << std::endl;

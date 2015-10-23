@@ -113,18 +113,21 @@ public:
     return m_Attribute;
     }
 
-
-  virtual void CopyAttributesFrom( const LabelObjectType * lo ) ITK_OVERRIDE
+  template< typename TSourceLabelObject >
+  void CopyAttributesFrom( const TSourceLabelObject * src ) ITK_OVERRIDE
     {
-    Superclass::CopyAttributesFrom( lo );
+    itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+    Superclass::template CopyAttributesFrom<TSourceLabelObject>( src );
 
-    // copy the data of the current type if possible
-    const Self * src = dynamic_cast<const Self *>( lo );
-    if( src == ITK_NULLPTR )
-      {
-      return;
-      }
-    m_Attribute = src->m_Attribute;
+    m_Attribute = src->GetAttribute();
+    }
+
+  template< typename TSourceLabelObject >
+  void CopyAllFrom(const TSourceLabelObject *src) ITK_OVERRIDE
+    {
+    itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+    this->template CopyLinesFrom<TSourceLabelObject>( src );
+    this->template CopyAttributesFrom<TSourceLabelObject>( src );
     }
 
 protected:

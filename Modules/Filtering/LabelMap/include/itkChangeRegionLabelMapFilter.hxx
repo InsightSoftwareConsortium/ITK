@@ -99,7 +99,7 @@ ChangeRegionLabelMapFilter< TInputImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
 {
   typename LabelObjectType::Pointer tmp = LabelObjectType::New();
-  tmp->CopyAllFrom( labelObject );
+  tmp->template CopyAllFrom<LabelObjectType>( labelObject );
   labelObject->Clear();
 
   const IndexType idxMin = m_Region.GetIndex();

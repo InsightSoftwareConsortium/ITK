@@ -515,33 +515,36 @@ public:
     return inverse;
   }
 
-  virtual void CopyAttributesFrom(const LabelObjectType *lo) ITK_OVERRIDE
+  template< typename TSourceLabelObject >
+  void CopyAttributesFrom( const TSourceLabelObject * src ) ITK_OVERRIDE
   {
-    Superclass::CopyAttributesFrom(lo);
+    Superclass::template CopyAttributesFrom<TSourceLabelObject>(src);
 
-    // copy the data of the current type if possible
-    const Self *src = dynamic_cast< const Self * >( lo );
-    if ( src == ITK_NULLPTR )
-      {
-      return;
-      }
-    m_BoundingBox = src->m_BoundingBox;
-    m_NumberOfPixels = src->m_NumberOfPixels;
-    m_PhysicalSize = src->m_PhysicalSize;
-    m_Centroid = src->m_Centroid;
-    m_NumberOfPixelsOnBorder = src->m_NumberOfPixelsOnBorder;
-    m_PerimeterOnBorder = src->m_PerimeterOnBorder;
-    m_FeretDiameter = src->m_FeretDiameter;
-    m_PrincipalMoments = src->m_PrincipalMoments;
-    m_PrincipalAxes = src->m_PrincipalAxes;
-    m_Elongation = src->m_Elongation;
-    m_Perimeter = src->m_Perimeter;
-    m_Roundness = src->m_Roundness;
-    m_EquivalentSphericalRadius = src->m_EquivalentSphericalRadius;
-    m_EquivalentSphericalPerimeter = src->m_EquivalentSphericalPerimeter;
-    m_EquivalentEllipsoidDiameter = src->m_EquivalentEllipsoidDiameter;
-    m_Flatness = src->m_Flatness;
-    m_PerimeterOnBorderRatio = src->m_PerimeterOnBorderRatio;
+    m_BoundingBox = src->GetBoundingBox();
+    m_NumberOfPixels = src->GetNumberOfPixels();
+    m_PhysicalSize = src->GetPhysicalSize();
+    m_Centroid = src->GetCentroid();
+    m_NumberOfPixelsOnBorder = src->GetNumberOfPixelsOnBorder();
+    m_PerimeterOnBorder = src->GetPerimeterOnBorder();
+    m_FeretDiameter = src->GetFeretDiameter();
+    m_PrincipalMoments = src->GetPrincipalMoments();
+    m_PrincipalAxes = src->GetPrincipalAxes();
+    m_Elongation = src->GetElongation();
+    m_Perimeter = src->GetPerimeter();
+    m_Roundness = src->GetRoundness();
+    m_EquivalentSphericalRadius = src->GetEquivalentSphericalRadius();
+    m_EquivalentSphericalPerimeter = src->GetEquivalentSphericalPerimeter();
+    m_EquivalentEllipsoidDiameter = src->GetEquivalentEllipsoidDiameter();
+    m_Flatness = src->GetFlatness();
+    m_PerimeterOnBorderRatio = src->GetPerimeterOnBorderRatio();
+  }
+
+  template< typename TSourceLabelObject >
+  void CopyAllFrom(const TSourceLabelObject *src) ITK_OVERRIDE
+  {
+    itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+    this->template CopyLinesFrom<TSourceLabelObject>( src );
+    this->template CopyAttributesFrom<TSourceLabelObject>( src );
   }
 
 protected:

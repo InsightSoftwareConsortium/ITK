@@ -124,13 +124,13 @@ InPlaceLabelMapFilter< TInputImage >
     typename TInputImage::ConstIterator it( input );
     while ( ! it.IsAtEnd() )
       {
-      const LabelObjectType *labeObject = it.GetLabelObject();
+      const LabelObjectType *labelObject = it.GetLabelObject();
 
-      itkAssertInDebugAndIgnoreInReleaseMacro(labeObject != ITK_NULLPTR);
-      itkAssertInDebugAndIgnoreInReleaseMacro(labeObject->GetLabel() == it.GetLabel());
+      itkAssertInDebugAndIgnoreInReleaseMacro(labelObject != ITK_NULLPTR);
+      itkAssertInDebugAndIgnoreInReleaseMacro(labelObject->GetLabel() == it.GetLabel());
 
       typename LabelObjectType::Pointer newLabelObject = LabelObjectType::New();
-      newLabelObject->CopyAllFrom(labeObject);
+      newLabelObject->template CopyAllFrom<LabelObjectType>(labelObject);
 
       output->AddLabelObject(newLabelObject);
       ++it;
