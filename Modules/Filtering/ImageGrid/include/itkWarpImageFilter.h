@@ -240,7 +240,7 @@ public:
   itkConceptMacro( SameDimensionCheck2,
                    ( Concept::SameDimension< ImageDimension, DisplacementFieldDimension > ) );
   itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
+                   ( Concept::HasNumericTraits< typename TInputImage::InternalPixelType > ) );
   itkConceptMacro( DisplacementFieldHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename TDisplacementField::PixelType::ValueType > ) );
   // End concept checking
