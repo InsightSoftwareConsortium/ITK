@@ -358,6 +358,26 @@ int itkVariableLengthVectorTest(int, char*[])
     }
   }
 
+  {
+  // Testing empty vectors
+  FloatVariableLengthVectorType v1;
+  v1.Fill(0);
+  FloatVariableLengthVectorType v2 = v1;
+  v1 = v2;
+
+  FloatVariableLengthVectorType v3, v4;
+  v1 = 2*v2 + (v3-v4) / 6;
+
+  v1.SetSize(
+    0,
+    FloatVariableLengthVectorType::DontShrinkToFit(),
+    FloatVariableLengthVectorType::KeepOldValues());
+  v1.SetSize(
+    1,
+    FloatVariableLengthVectorType::DontShrinkToFit(),
+    FloatVariableLengthVectorType::KeepOldValues());
+  }
+
   std::cout << (result == EXIT_SUCCESS ? "[PASSED]" : "[FAILED]" )<< std::endl;
 
   return result;
