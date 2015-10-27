@@ -20,7 +20,7 @@ gccxmlPath = sys.argv[2]
 xmlFilePath = sys.argv[3]
 idxFilePath = sys.argv[4]
 
-sys.path.append(pygccxmlPath)
+sys.path.insert(1, pygccxmlPath)
 import pygccxml
 import logging
 

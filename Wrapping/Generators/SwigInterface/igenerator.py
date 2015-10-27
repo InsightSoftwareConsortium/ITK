@@ -128,7 +128,7 @@ optionParser.add_option(
     help="Path to gccxml")
 options, args = optionParser.parse_args()
 
-sys.path.append(options.pygccxml_path)
+sys.path.insert(1, options.pygccxml_path)
 import pygccxml
 import logging
 
