@@ -183,7 +183,7 @@ public:
    *     added to set the target landmarks similar to the
    *     SetParameters function setting the source landmarks
    */
-  virtual void SetFixedParameters(const ParametersType &) ITK_OVERRIDE;
+  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
 
   /** Update the Parameters array from the landmarks corrdinates. */
   virtual void UpdateParameters() const;
