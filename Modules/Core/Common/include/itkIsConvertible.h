@@ -18,15 +18,17 @@
 #ifndef itkIsConvertible_h
 #define itkIsConvertible_h
 
-#include "itkIsSame.h"
+#include "itkMetaProgrammingLibrary.h"
 
 namespace itk {
 
 /** \cond HIDE_META_PROGRAMMING */
 
+namespace mpl {
 namespace Details {
 /** Helper root class for Meta-programming purpose.
  * This class provides two types that help build SFINAE based meta-programs.
+ * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
 struct SfinaeTypes
@@ -42,23 +44,29 @@ struct SfinaeTypes
  * \return (in \c Value) whether \c TFrom objects can be converted into \c TTo
  * objects.
  * \warning This version does not support \c void, function pointers, nor arrays.
- * \author The definition provided follow the code snippet available in Andrei
+ * \author The definition provided follows the code snippet available in Andrei
  * Alexandrescu's <em>Modern C++ Design</em>.
- * \ingroup Common
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
  */
 template <typename TFrom, typename TTo>
 struct IsConvertible
 : private Details::SfinaeTypes
-  {
+{
 private:
   static TOne Test(TTo);
   static TTwo Test(...);
   static TFrom MakeT();
 public:
   static const bool Value = sizeof(Test(MakeT())) == sizeof(TOne);
-  };
+};
+
+} // itk::mpl namespace
+
+// itk::IsConvertible has moved to itk::mpl.
+// Expect itk::IsConvertible to be deprecated.
+using mpl::IsConvertible;
 
 /** \endcond */
-
 } // itk namespace
 #endif // itkIsConvertible_h

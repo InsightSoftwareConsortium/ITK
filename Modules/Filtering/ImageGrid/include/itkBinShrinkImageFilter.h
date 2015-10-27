@@ -20,7 +20,6 @@
 
 #include "itkShrinkImageFilter.h"
 #include "itkEnableIf.h"
-#include "itkIsSame.h"
 
 namespace itk
 {

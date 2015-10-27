@@ -102,8 +102,10 @@ VNLSparseLUSolverTraitsTest.cxx
 )
 
 set(ITKCommon2Tests
+itkMetaProgrammingLibraryTest.cxx
 itkIsConvertible.cxx
 itkIsBaseOf.cxx
+itkPromoteType.cxx
 itkThreadedIndexedContainerPartitionerTest.cxx
 itkThreadedIteratorRangePartitionerTest.cxx
 itkThreadedIteratorRangePartitionerTest2.cxx

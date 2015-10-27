@@ -18,41 +18,31 @@
 #ifndef itkIsSame_h
 #define itkIsSame_h
 
+#include "itkMetaProgrammingLibrary.h"
+
 namespace itk
 {
+/** \cond HIDE_META_PROGRAMMING */
+namespace mpl
+{
 
-  /** \cond HIDE_META_PROGRAMMING */
-  /** borrowed from type_traits */
-  struct TrueType
-  {
-    typedef bool     ValueType;
-    typedef TrueType Type;
+/** Tells whether two types are identical.
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
+ */
+template<typename, typename> struct IsSame : public FalseType { };
 
-    static const ValueType Value = true;
-    operator ValueType() { return Value; }
-  };
+/** \cond SPECIALIZATION_IMPLEMENTATION */
+template<typename T> struct IsSame<T, T> : public TrueType {};
+/**\endcond*/
 
-  struct FalseType
-  {
-    typedef bool      ValueType;
-    typedef FalseType Type;
-    static const ValueType Value = false;
-    operator ValueType() { return Value; }
-  };
+} // end namespace itk::mpl
 
-  template<typename, typename>
-  struct IsSame
-    : public FalseType
-  {
-  };
+// itk::IsSame have move to itk::mpl
+// Expect them to be deprecated.
+using mpl::IsSame;
 
-  template<typename T>
-  struct IsSame<T, T>
-    : public TrueType
-  {
-  };
-
-  /** \endcond */
+/** \endcond */
 
 } // end namespace itk
 

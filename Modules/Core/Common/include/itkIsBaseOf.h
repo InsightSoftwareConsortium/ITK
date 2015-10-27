@@ -19,16 +19,19 @@
 #define itkIsBaseOf_h
 
 #include "itkIsConvertible.h"
+#include "itkIsSame.h"
 
 namespace itk {
 /** \cond HIDE_META_PROGRAMMING */
+namespace mpl {
 /** Traits that emulates \c std::is_base_of<>.
  * \tparam TBase base type
  * \tparam TDerived derived type
  * \return (in \c Value) whether \c TDerived inherits (publicly) from \c TBase
  * (directly, or indirectly)
- * \author The definition provided follow the code snippet available in Andrei
+ * \author The definition provided follows the code snippet available in Andrei
  * Alexandrescu's <em>Modern C++ Design</em>.
+ * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
 template <typename TBase, typename TDerived>
@@ -38,8 +41,9 @@ struct IsBaseOf
     =    IsConvertible<const TDerived*, const TBase*>::Value
     && ! IsSame<const TBase*, const void*>::Value;
   };
-/** \endcond */
+} // itk::mpl namespace
 
+/** \endcond */
 } // itk namespace
 
 #endif // itkIsBaseOf_h

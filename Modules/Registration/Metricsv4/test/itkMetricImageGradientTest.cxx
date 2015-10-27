@@ -164,9 +164,9 @@ public:
   typedef typename Superclass::VirtualPointSetType        VirtualPointSetType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType, TVirtualImage::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType, TFixedImage::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType, TMovingImage::ImageDimension);
+  itkStaticConstMacro(VirtualImageDimension, typename TVirtualImage::ImageDimensionType, TVirtualImage::ImageDimension);
+  itkStaticConstMacro(FixedImageDimension,   typename TFixedImage::ImageDimensionType,   TFixedImage::ImageDimension);
+  itkStaticConstMacro(MovingImageDimension,  typename TMovingImage::ImageDimensionType,  TMovingImage::ImageDimension);
 
 protected:
   VanillaImageToImageMetricv4()
@@ -179,6 +179,8 @@ protected:
   {
   }
 
+  // template <unsigned int VVirtualImageDimension, typename TMovingTransformType>
+  // template <>
   friend double ::itkMetricImageGradientTestRunTest<VirtualImageDimension, MovingTransformType>(
       unsigned int imageSize, typename MovingTransformType::Pointer transform, double rotation, bool verbose,
       std::string & outputPath );

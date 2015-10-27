@@ -609,12 +609,11 @@ RegistrationParameterScalesEstimator< TMetric >
 
   this->m_SamplePoints.resize(cornerNumber);
 
-  for(int i=0; i<cornerNumber; i++)
+  for(unsigned int i=0; i<cornerNumber; i++)
     {
-    int bit;
-    for (int d=0; d<VirtualDimension; d++)
+    for (unsigned int d=0; d<VirtualDimension; d++)
       {
-      bit = (int) (( i & (1 << d) ) != 0); // 0 or 1
+      const unsigned int bit = (unsigned int) (( i & (1 << d) ) != 0); // 0 or 1
       corner[d] = firstCorner[d] + bit * (size[d] - 1);
       }
 

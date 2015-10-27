@@ -126,7 +126,7 @@ public:
   itkStaticConstMacro(NULL_LABEL, unsigned long, 0);
 
   /** A constant used in the labeling algorithm.  */
-  itkStaticConstMacro(NULL_FLOW, unsigned long, -1);
+  itkStaticConstMacro(NULL_FLOW, unsigned short, -1);
 
   /** Get/Set the input image.   */
   InputImageType * GetInputImage(void)

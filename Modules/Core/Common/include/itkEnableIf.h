@@ -20,8 +20,13 @@
 
 namespace itk
 {
+/** \cond HIDE_META_PROGRAMMING */
+namespace mpl
+{
 
-/* \brief This is an implementation of the enable if idiom.
+/** \brief This is an implementation of the enable if idiom.
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
  *
  * Enable if is a common C++ meta-programming technique for example
  * there is a boost implementation, for more information on its usage
@@ -33,38 +38,111 @@ namespace itk
  *
  * If the parameter V is true then the Type trait is the second
  * template parameter, otherwise an implementation does not exist and
- * with SFIANE another implementation may be choosen.
+ * with SFINAE another implementation may be choosen.
+ *
+ * Example:
+ \code
+ template< typename TType>
+   typename EnableIfC<
+     IsSame<TType, typename NumericTraits<TType>::ValueType>::Value,
+     TType >::Type
+ GetComponent(const TType pix,
+              unsigned int itkNotUsed( idx ) ) const
+ {
+   return pix;
+ }
+ \endcode
+ *
+ * \sa \c EnableIf
+ */
+template <bool V, typename TType = void> struct EnableIfC {};
+/** \cond SPECIALIZATION_IMPLEMENTATION */
+template <typename TType> struct EnableIfC<true, TType> { typedef TType Type; };
+/**\endcond*/
+
+
+/** \brief An implementation of the negation of the enable if idiom.
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
+ *
+ * \sa \c EnableIfC
+ * \sa \c DisableIf
+ */
+template <bool V, typename TType = void> struct DisableIfC {};
+/** \cond SPECIALIZATION_IMPLEMENTATION */
+template <typename TType> struct DisableIfC<false, TType> { typedef TType Type; };
+/**\endcond*/
+
+/** \brief simplified way to dispose of \c enable_if.
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
+ * \tparam TCondition Condition type. It's expected to provide a boolean value
+ * through its \c Value member.
+ * \tparam TType      Type to \em return when the \c TCondition is (a) true (type).
+ *
+ * This \em overload automatically fetches \c TCondition value. However, beware, it
+ * won't work with standard C++ traits or boost traits. Indeed, this \c
+ * enable_if overload expects the \em value to follow UpperCamelCase ITK naming
+ * policy instead of the standard snake_case policy.
  *
  * Example:
  * \code
- *
- * template< typename T>
- *   typename EnableIfC<
- *     IsSame<T, typename NumericTraits<T>::ValueType>::Value,
- *     T >::Type
- * GetComponent(const T pix,
+ * template< typename TType>
+ *   typename EnableIf<
+ *     IsSame<TType, typename NumericTraits<TType>::ValueType>,
+ *     TType >::Type
+ * GetComponent(const TType pix,
  *              unsigned int itkNotUsed( idx ) ) const
  * {
  *   return pix;
  * }
  * \endcode
- *
+ * \sa \c EnableIfC
+ * \sa \c DisableIf
  */
-template <bool V, typename T = void> struct EnableIfC {};
-/** \cond SPECIALIZATION_IMPLEMENTATION */
-template <typename T> struct EnableIfC<true, T> { typedef T Type; };
-/**\endcond*/
+template <class TCondition, class TType = void>
+struct EnableIf : public EnableIfC<TCondition::Value, TType> {};
 
-
-/* \brief An implementation of the negation of the enable if idiom.
+/** \brief simplified way to dispose of \c disable_if.
+ * \ingroup MetaProgrammingLibrary
+ * \ingroup ITKCommon
+ * \tparam TCondition Condition type. It's expected to provide a boolean value
+ * through its \c Value member.
+ * \tparam TType      Type to \em return when the \c TCondition is (a) false (type).
  *
- * \sa EnableIf
+ * This \em overload automatically fetches \c TCondition value. However, beware, it
+ * won't work with standard C++ traits or boost traits. Indeed, this \c
+ * enable_if overload expects the \em value to follow UpperCamelCase ITK naming
+ * policy instead of the standard snake_case policy.
+ *
+ * Example:
+ * \code
+ * template< typename TType>
+ *   typename DisableIf<
+ *     mpl::Not_<IsSame<TType, typename NumericTraits<TType>::ValueType>>,
+ *     TType >::Type
+ * GetComponent(const TType pix,
+ *              unsigned int itkNotUsed( idx ) ) const
+ * {
+ *   return pix;
+ * }
+ * \endcode
+ * \sa \c EnableIfC
+ * \sa \c DisableIf
  */
-template <bool V, typename T = void> struct DisableIfC {};
-/** \cond SPECIALIZATION_IMPLEMENTATION */
-template <typename T> struct DisableIfC<false, T> { typedef T Type; };
-/**\endcond*/
+template <class TCondition, class TType = void>
+struct DisableIf : public DisableIfC<TCondition::Value, TType> {};
 
-}
+} // namespace itk::mpl
+
+// itk::EnableIf(C), DisableIf(C) have move to itk::mpl
+// Expect them to be deprecated.
+using mpl::EnableIf;
+using mpl::DisableIf;
+using mpl::EnableIfC;
+using mpl::DisableIfC;
+
+/** \endcond */
+} // namespace itk
 
 #endif // itkEnableIf_h

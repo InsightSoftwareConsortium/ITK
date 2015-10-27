@@ -131,7 +131,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   itkDebugMacro( "Setting m_SplineOrder to " << order );
 
   this->m_SplineOrder = order;
-  for( int i = 0; i < ImageDimension; i++ )
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     if( this->m_SplineOrder[i] == 0 )
       {
