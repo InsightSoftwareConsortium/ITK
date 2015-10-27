@@ -22,6 +22,7 @@
 #include "itkWarpImageFilter.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkVectorImage.h"
 #include "itkMath.h"
 
 // class to produce a linear image pattern
@@ -97,8 +98,8 @@ int itkWarpImageFilterTest(int, char* [] )
   typedef float PixelType;
   enum { ImageDimension = 2 };
   typedef itk::Image<PixelType,ImageDimension> ImageType;
-
-  typedef itk::Vector<float,ImageDimension>     VectorType;
+  typedef itk::VectorImage<PixelType,ImageDimension> VectorImageType;
+  typedef itk::Vector<float,ImageDimension> VectorType;
   typedef itk::Image<VectorType,ImageDimension> FieldType;
 
   bool testPassed = true;
@@ -169,7 +170,13 @@ int itkWarpImageFilterTest(int, char* [] )
     }
 
   //=============================================================
+  std::cout << "Instanciate WarpImageFilter with VectorImage.";
+  std::cout << std::endl;
 
+  typedef itk::WarpImageFilter<VectorImageType,VectorImageType,VectorImageType> WarpVectorImageFilterType;
+  WarpVectorImageFilterType::Pointer warpVectorImageFilter = WarpVectorImageFilterType::New();
+
+  //=============================================================
   std::cout << "Run WarpImageFilter in standalone mode with progress.";
   std::cout << std::endl;
   typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;

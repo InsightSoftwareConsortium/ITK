@@ -43,7 +43,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
   m_OutputSize.Fill(0);
-  m_EdgePaddingValue = NumericTraits< PixelType >::ZeroValue();
+  m_EdgePaddingValue = NumericTraits< typename OutputImageType::InternalPixelType >::ZeroValue();
   m_OutputStartIndex.Fill(0);
   // Setup default interpolator
   typename DefaultInterpolatorType::Pointer interp =
@@ -179,6 +179,16 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     }
   DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
+
+  if (NumericTraits<PixelType>::GetLength(m_EdgePaddingValue)
+      != this->GetInput()->GetNumberOfComponentsPerPixel() )
+    {
+    // Assume EdgePaddingValue has not been set externally
+    // initialize it here with ZeroValue, when we know the number of components
+    const PixelType& pixel = this->GetInput()->GetPixel( this->GetInput()->GetBufferedRegion().GetIndex() );
+    m_EdgePaddingValue = NumericTraits<PixelType>::ZeroValue( pixel );
+    }
+
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
 
@@ -292,7 +302,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       {
       const DisplacementType input =
         fieldPtr->GetPixel(neighIndex);
-      for ( unsigned int k = 0; k < ImageDimension; k++ )
+      for ( unsigned int k = 0; k < NumericTraits<DisplacementType>::GetLength(input); k++ )
         {
         output[k] += overlap * static_cast< double >( input[k] );
         }
