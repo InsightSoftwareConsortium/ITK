@@ -53,6 +53,7 @@
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkCheckerBoardImageFilter.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 
 //  The following section of code implements a Command observer
@@ -105,6 +106,10 @@ int main( int argc, char *argv[] )
     std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
     return EXIT_FAILURE;
     }
+
+  // For consistent results when regression testing.
+  itk::Statistics::MersenneTwisterRandomVariateGenerator
+    ::GetInstance()->SetSeed( 121212 );
 
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;

@@ -67,6 +67,7 @@ MersenneTwisterRandomVariateGenerator
   if ( !m_StaticInstance )
     {
     m_StaticInstance  = MersenneTwisterRandomVariateGenerator::CreateInstance();
+    m_StaticInstance->SetSeed();
     }
 
   return m_StaticInstance;
