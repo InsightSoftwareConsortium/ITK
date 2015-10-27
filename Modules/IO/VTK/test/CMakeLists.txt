@@ -5,6 +5,7 @@ itkVTKImageIOTest.cxx
 itkVTKImageIO2Test2.cxx
 itkVTKImageIOTest2.cxx
 itkVTKImageIOStreamTest.cxx
+itkVTKImageIOFileReadTest.cxx
 )
 
 CreateTestDriver(ITKIOVTK  "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")
@@ -24,3 +25,6 @@ itk_add_test(NAME itkVTKImageIOTest2
 itk_add_test(NAME itkVTKImageIOStreamTest
       COMMAND ITKIOVTKTestDriver itkVTKImageIOStreamTest
               ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIOStreamTest.vtk)
+itk_add_test(NAME itkVTKImageIOFileReadTest
+      COMMAND ITKIOVTKTestDriver itkVTKImageIOFileReadTest
+              DATA{Input/matrix.vtk} DATA{Input/ironProt.vtk})
