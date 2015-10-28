@@ -435,7 +435,7 @@ KernelTransform<TParametersValueType, NDimensions>
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 KernelTransform<TParametersValueType, NDimensions>
-::SetFixedParameters(const ParametersType & parameters)
+::SetFixedParameters(const FixedParametersType & parameters)
 {
   // Set the fixed parameters
   // Since the API of the SetParameters() function sets the
