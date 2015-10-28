@@ -25,9 +25,9 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename CastLabelObjectFunctor >
+template< typename TInputImage, typename TOutputImage >
 void
-ConvertLabelMapFilter< TInputImage, TOutputImage, CastLabelObjectFunctor >
+ConvertLabelMapFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   this->AllocateOutputs();
@@ -44,10 +44,8 @@ ConvertLabelMapFilter< TInputImage, TOutputImage, CastLabelObjectFunctor >
        ++it)
     {
     const LabelObjectType * labelObject = it.GetLabelObject();
-
-    // use cast functor to convert
-    typename OutputLabelObjectType::Pointer newLabelObject = m_CastFunctor( labelObject );
-
+    typename OutputLabelObjectType::Pointer newLabelObject = OutputLabelObjectType::New();
+    newLabelObject->CopyAllFrom(labelObject);
     outputImage->AddLabelObject(newLabelObject);
     progress.CompletedPixel();
     }

@@ -51,8 +51,7 @@ int itkConvertLabelMapFilterTest1(int argc, char * argv[])
   typedef itk::LabelObject< PixelType, dim >     LabelObjectType;
   typedef itk::LabelMap< LabelObjectType >       LabelMapType;
 
-  typedef itk::Functor::CastLabelObjectFunctor<L2SType::OutputImageType::LabelObjectType, LabelMapType::LabelObjectType>   CastFunctorType;
-  typedef itk::ConvertLabelMapFilter< L2SType::OutputImageType, LabelMapType, CastFunctorType > CastType;
+  typedef itk::ConvertLabelMapFilter< L2SType::OutputImageType, LabelMapType > CastType;
   CastType::Pointer cast = CastType::New();
   cast->SetInput( l2s->GetOutput() );
   itk::SimpleFilterWatcher watcher(cast, "cast");
