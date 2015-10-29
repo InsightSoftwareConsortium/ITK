@@ -365,7 +365,7 @@ macro(itk_end_wrap_module_swig_interface)
         -w1 -w3 -w51 -w52 -w53 -w54
         -A protected -A private
         -p ${PYGCCXML_DIR}
-        -g ${CASTXML}
+        -g ${CASTXML_EXECUTABLE}
         --typedef-input ${typedef_in_file}
         --typedef-output ${typedef_file}
         --include ${module}SwigInterface.h
@@ -475,7 +475,7 @@ macro(itk_end_wrap_submodule_swig_interface module)
   add_custom_command(
     OUTPUT ${idx_file}
     COMMAND ${IDX_GENERATOR}
-      ${PYGCCXML_DIR} ${CASTXML} ${xml_file} ${idx_file}
+      ${PYGCCXML_DIR} ${CASTXML_EXECUTABLE} ${xml_file} ${idx_file}
     DEPENDS ${IDX_GENERATOR} ${xml_file}
     VERBATIM
   )
