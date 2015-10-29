@@ -605,7 +605,7 @@ RegistrationParameterScalesEstimator< TMetric >
   VirtualPointType point;
 
   VirtualSizeType size = region.GetSize();
-  const int cornerNumber = 1 << VirtualDimension; // 2^Dimension
+  const unsigned int cornerNumber = 1 << VirtualDimension; // 2^Dimension
 
   this->m_SamplePoints.resize(cornerNumber);
 

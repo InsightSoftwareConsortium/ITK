@@ -477,7 +477,7 @@ public:
    *
    * \sa gaussPoint
    */
-  itkStaticConstMacro(gaussMaxOrder, int, 10);
+  itkStaticConstMacro(gaussMaxOrder, unsigned int, 10);
 
   /**
    * Points for 1D Gauss-Legendre integration from -1 to 1. First
