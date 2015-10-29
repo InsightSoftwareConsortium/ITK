@@ -6,6 +6,7 @@ find_package(PythonInterp REQUIRED)
 # Build swig
 
 option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." ${ITK_USE_SYSTEM_LIBRARIES})
+mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 
 # Minimal swig version
 set(swig_version_min 3.0.0)
@@ -236,8 +237,10 @@ message(STATUS \"Swig configure successfully completed.\")
     DEPENDS PCRE
     )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
+    mark_as_advanced(SWIG_DIR)
   endif()
   set(SWIG_EXECUTABLE ${swig_ep} CACHE FILEPATH "swig executable." FORCE)
+  mark_as_advanced(SWIG_EXECUTABLE)
 endif()
 
 ###############################################################################
