@@ -8,11 +8,11 @@ set(castxml_ep ${CMAKE_CURRENT_BINARY_DIR}/castxml/bin/castxml${exe})
 
 if(ITK_USE_SYSTEM_CASTXML)
   # the path set for the EP build prevents find_program to do its job
-  if("${CASTXML}" STREQUAL "${castxml_ep}")
-    unset(CASTXML CACHE)
+  if("${CASTXML_EXECUTABLE}" STREQUAL "${castxml_ep}")
+    unset(CASTXML_EXECUTABLE CACHE)
   endif()
-  find_program(CASTXML castxml)
-  if(NOT CASTXML)
+  find_program(CASTXML_EXECUTABLE castxml)
+  if(NOT CASTXML_EXECUTABLE)
     message(FATAL_ERROR "Could NOT find castxml. Turn ITK_USE_SYSTEM_CASTXML to OFF to build it with ITK.")
   endif()
 else()
@@ -140,10 +140,10 @@ else()
       INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/castxml
       )
   endif()
-  set(CASTXML ${CMAKE_CURRENT_BINARY_DIR}/castxml/bin/castxml${exe})
-  set(CASTXML ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
+  set(CASTXML_EXECUTABLE ${CMAKE_CURRENT_BINARY_DIR}/castxml/bin/castxml${exe})
+  set(CASTXML_EXECUTABLE ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
 endif()
-mark_as_advanced(CASTXML)
+mark_as_advanced(CASTXML_EXECUTABLE)
 
 ###############################################################################
 # install the files required for castxml
@@ -236,7 +236,7 @@ macro(itk_end_wrap_submodule_castxml module)
   endif()
   add_custom_command(
     OUTPUT ${xml_file}
-    COMMAND ${_build_env} ${_ccache_cmd} ${CASTXML}
+    COMMAND ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE}
           -o ${xml_file}
           --castxml-gccxml
           ${_target}
