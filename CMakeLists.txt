@@ -50,6 +50,29 @@ if( CMAKE_HOST_WIN32 )
 
 endif()
 
+#-----------------------------------------------------------------------------
+# Forbid downloading resources from the network during a build. This helps
+# when building on systems without network connectivity to determine which
+# resources much be obtained manually and made available to the build.
+option(ITK_FORBID_DOWNLOADS "Do not download source code or data from the network" OFF)
+mark_as_advanced(ITK_FORBID_DOWNLOADS)
+macro(itk_download_attempt_check _name)
+  if(ITK_FORBID_DOWNLOADS)
+    message(SEND_ERROR "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
+  endif()
+endmacro()
+
+#-----------------------------------------------------------------------------
+if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
+  # This file is always present in version-controlled source trees
+  # so we must have been extracted from a source tarball with no
+  # data objects needed for testing.  Turn off tests by default
+  # since enabling them requires network access or manual data
+  # store configuration.
+  option(BUILD_TESTING "Build the testing tree." OFF)
+endif()
+include(CTest)
+
 set(ITK_CMAKE_DIR ${ITK_SOURCE_DIR}/CMake)
 set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
@@ -105,18 +128,6 @@ If this is not set during the initial configuration, it will have no effect." OF
 mark_as_advanced(ITK_USE_SYSTEM_LIBRARIES)
 
 #-----------------------------------------------------------------------------
-# Forbid downloading resources from the network during a build. This helps
-# when building on systems without network connectivity to determine which
-# resources much be obtained manually and made available to the build.
-option(ITK_FORBID_DOWNLOADS "Do not download source code or data from the network" OFF)
-mark_as_advanced(ITK_FORBID_DOWNLOADS)
-macro(itk_download_attempt_check _name)
-  if(ITK_FORBID_DOWNLOADS)
-    message(SEND_ERROR "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
-  endif()
-endmacro()
-
-#-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
 # When this data is available, additional 3D tests are enabled.
 option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)
@@ -169,17 +180,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
-
-#-----------------------------------------------------------------------------
-if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
-  # This file is always present in version-controlled source trees
-  # so we must have been extracted from a source tarball with no
-  # data objects needed for testing.  Turn off tests by default
-  # since enabling them requires network access or manual data
-  # store configuration.
-  option(BUILD_TESTING "Build the testing tree." OFF)
-endif()
-include(CTest)
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
