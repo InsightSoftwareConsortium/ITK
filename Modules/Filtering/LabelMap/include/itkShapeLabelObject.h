@@ -516,7 +516,7 @@ public:
   }
 
   template< typename TSourceLabelObject >
-  void CopyAttributesFrom( const TSourceLabelObject * src ) ITK_OVERRIDE
+  void CopyAttributesFrom( const TSourceLabelObject * src )
   {
     Superclass::template CopyAttributesFrom<TSourceLabelObject>(src);
 
@@ -540,7 +540,7 @@ public:
   }
 
   template< typename TSourceLabelObject >
-  void CopyAllFrom(const TSourceLabelObject *src) ITK_OVERRIDE
+  void CopyAllFrom(const TSourceLabelObject *src)
   {
     itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
     this->template CopyLinesFrom<TSourceLabelObject>( src );
