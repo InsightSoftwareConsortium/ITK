@@ -114,6 +114,7 @@ public:
   typedef typename OutputImageType::IndexValueType    IndexValueType;
   typedef typename OutputImageType::SizeType          SizeType;
   typedef typename OutputImageType::PixelType         PixelType;
+  typedef typename OutputImageType::InternalPixelType PixelComponentType;
   typedef typename OutputImageType::SpacingType       SpacingType;
 
   /** Determine the image dimension. */
