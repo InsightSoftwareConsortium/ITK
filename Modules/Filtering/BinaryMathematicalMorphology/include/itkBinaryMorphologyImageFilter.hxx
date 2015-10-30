@@ -100,10 +100,10 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   // position in a 1 dimensional buffer...! ) of the center element in
   // the SE neighbourhood
   IndexType centerElementPosition;
-  for ( i = 0; i < TInputImage::ImageDimension; ++i )
+  for ( unsigned int d = 0; d < TInputImage::ImageDimension; ++d )
     {
     // position of center in a given direction is the middle of the direction
-    centerElementPosition[i] = this->GetKernel().GetSize(i) / 2;
+    centerElementPosition[d] = this->GetKernel().GetSize(d) / 2;
     }
 
   // We have to detect the connected component of the structuring
