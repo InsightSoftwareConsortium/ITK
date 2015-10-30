@@ -43,6 +43,8 @@ VariableLengthVector< TValue >
   m_Data(ITK_NULLPTR)
 {
   Reserve(length);
+  // postcondition(s)
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
 }
 
 /** Constructor with user specified data */
@@ -75,6 +77,8 @@ VariableLengthVector< TValue >
   if (m_NumElements != 0)
     {
     m_Data = this->AllocateElements(m_NumElements);
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data != ITK_NULLPTR);
     std::copy(&v.m_Data[0], &v.m_Data[m_NumElements], &this->m_Data[0]);
     }
   else
@@ -144,14 +148,16 @@ VariableLengthVector< TValue >
 template< typename TValue >
 template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename  TBinaryOp>
 VariableLengthVector< TValue >
-::VariableLengthVector(VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const& rhs_)
+::VariableLengthVector(VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const& rhs)
 {
-  m_NumElements = rhs_.Size();
-  m_Data = this->AllocateElements(m_NumElements);
+  m_NumElements = rhs.Size();
   m_LetArrayManageMemory = true;
+  m_Data = this->AllocateElements(m_NumElements);
+  // allocate Elements post-condition
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
   for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
     {
-    this->m_Data[i] = static_cast<TValue>(rhs_[i]);
+    this->m_Data[i] = static_cast<TValue>(rhs[i]);
     }
 }
 
@@ -159,13 +165,13 @@ template< typename TValue >
 template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename  TBinaryOp>
 VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
-::operator=(VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const& rhs_)
+::operator=(VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const& rhs)
 {
-  ElementIdentifier const N = rhs_.Size();
+  ElementIdentifier const N = rhs.Size();
   this->SetSize( N, DontShrinkToFit(), DumpOldValues() );
   for ( ElementIdentifier i = 0; i < N; ++i )
     {
-    this->m_Data[i] = static_cast<TValue>(rhs_[i]);
+    this->m_Data[i] = static_cast<TValue>(rhs[i]);
     }
   return *this;
 }
@@ -192,6 +198,8 @@ void VariableLengthVector< TValue >
     if ( size > m_NumElements )
       {
       TValue *temp = this->AllocateElements(size);
+      itkAssertInDebugAndIgnoreInReleaseMacro(temp);
+      itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data != ITK_NULLPTR));
       // only copy the portion of the data used in the old buffer
       std::copy(m_Data,
                 m_Data+m_NumElements,
@@ -211,6 +219,7 @@ void VariableLengthVector< TValue >
     m_NumElements = size;
     m_LetArrayManageMemory = true;
     }
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
 }
 
 /** Allocate memory of certain size and return it */
@@ -307,6 +316,8 @@ void VariableLengthVector< TValue >
   if (reallocatePolicy(sz, m_NumElements) || ! m_LetArrayManageMemory)
     {
     TValue * temp = this->AllocateElements(sz); // may throw
+    itkAssertInDebugAndIgnoreInReleaseMacro(temp);
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0  && m_Data != ITK_NULLPTR));
     keepValues(sz, m_NumElements, m_Data, temp); // possible leak if TValue copy may throw
     // commit changes
     if (m_LetArrayManageMemory)
@@ -324,6 +335,7 @@ template< typename TValue >
 void VariableLengthVector< TValue >
 ::Fill(TValue const & v) ITK_NOEXCEPT
 {
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data!=ITK_NULLPTR));
   // VC++ version of std::fill_n() expects the output iterator to be valid
   // instead of expecting the range [OutIt, OutIt+n) to be valid.
   std::fill(&this->m_Data[0], &this->m_Data[m_NumElements], v);
@@ -341,8 +353,18 @@ VariableLengthVector< TValue >
   // - the test becomes a pessimization as we never write "v = v;".
   ElementIdentifier const N = v.Size();
   this->SetSize( N, DontShrinkToFit(), DumpOldValues() );
-  std::copy(&v.m_Data[0], &v.m_Data[N], &this->m_Data[0]);
 
+  // VC++ version of std::copy expects the input range to be valid, and the
+  // output iterator as well (as it's a pointer, it's expected non null)
+  // Hence the manual loop instead
+  itkAssertInDebugAndIgnoreInReleaseMacro(N==0 || this->m_Data != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(N==0 || v.m_Data     != ITK_NULLPTR);
+  for (ElementIdentifier i=0; i!=N; ++i)
+    {
+    this->m_Data[i] = v.m_Data[i];
+    }
+
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_LetArrayManageMemory);
   return *this;
 }
 
@@ -355,7 +377,12 @@ VariableLengthVector< TValue >
 {
   itkAssertInDebugAndIgnoreInReleaseMacro(this->m_LetArrayManageMemory);
   ElementIdentifier const N = v.Size();
+  itkAssertInDebugAndIgnoreInReleaseMacro(N > 0);
   itkAssertInDebugAndIgnoreInReleaseMacro(N == this->Size());
+  // Redundant precondition checks
+  itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data     != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(this->m_Data != ITK_NULLPTR);
+
   std::copy(&v.m_Data[0], &v.m_Data[N], &this->m_Data[0]);
 
   return *this;
@@ -374,7 +401,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
-::operator-()
+::operator-() ITK_NOEXCEPT
 {
   for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
     {
@@ -392,7 +419,7 @@ VariableLengthVector< TValue >
     {
     return false;
     }
-  for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
+  for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
     {
     if ( Math::NotExactlyEquals(m_Data[i], v[i]) )
       {
@@ -432,7 +459,7 @@ VariableLengthVector< TValue >
 {
   RealValueType sum = 0.0;
 
-  for ( unsigned int i = 0; i < this->m_NumElements; i++ )
+  for ( ElementIdentifier i = 0; i < this->m_NumElements; ++i )
     {
     const RealValueType value = ( *this )[i];
     sum += value * value;
@@ -443,7 +470,7 @@ VariableLengthVector< TValue >
 template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
 typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
 VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
-::GetNorm() const
+::GetNorm() const ITK_NOEXCEPT
 {
   return itk::GetNorm(*this);
 }
@@ -451,7 +478,7 @@ VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
 template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
 typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
 VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
-::GetSquaredNorm() const
+::GetSquaredNorm() const ITK_NOEXCEPT
 {
   return itk::GetSquaredNorm(*this);
 }

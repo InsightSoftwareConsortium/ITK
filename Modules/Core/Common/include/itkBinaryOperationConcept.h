@@ -46,7 +46,7 @@ struct BinaryOperationConcept { };
 struct Plus : BinaryOperationConcept
   {
   template <typename T1, typename T2>
-    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs)
+    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs) ITK_NOEXCEPT
       { return lhs + rhs; }
   };
 
@@ -57,7 +57,7 @@ struct Plus : BinaryOperationConcept
 struct Sub : BinaryOperationConcept
   {
   template <typename T1, typename T2>
-    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs)
+    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs) ITK_NOEXCEPT
       { return lhs - rhs; }
   };
 
@@ -68,7 +68,7 @@ struct Sub : BinaryOperationConcept
 struct Mult : BinaryOperationConcept
   {
   template <typename T1, typename T2>
-    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs)
+    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs) ITK_NOEXCEPT
       { return lhs * rhs; }
   };
 
@@ -79,7 +79,7 @@ struct Mult : BinaryOperationConcept
 struct Div : BinaryOperationConcept
   {
   template <typename T1, typename T2>
-    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs)
+    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs) ITK_NOEXCEPT
       { return lhs / rhs; }
   };
 
