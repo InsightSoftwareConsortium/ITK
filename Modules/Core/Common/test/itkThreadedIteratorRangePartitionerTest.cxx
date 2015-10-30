@@ -88,8 +88,8 @@ namespace
         }
 
       DomainBorderValuesInThreadedExecutionType m_DomainInThreadedExecution;
-      TestDomainThreader( const Self & ); // purposely not implemented
-      void operator=( const Self & );     // purposely not implemented
+      TestDomainThreader( const Self & ) ITK_DELETE_FUNCTION;
+      void operator=( const Self & ) ITK_DELETE_FUNCTION;
     }; // end TestDomainThreader class
 
     IteratorRangeDomainThreaderAssociate()

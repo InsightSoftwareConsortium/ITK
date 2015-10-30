@@ -112,8 +112,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ScaleLogarithmicTransform(const Self & other); // purposely not implemented
-  const Self & operator=(const Self &);          // purposely not implemented
+  ScaleLogarithmicTransform(const Self & other) ITK_DELETE_FUNCTION;
+  const Self & operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };                                               // class
                                                  // ScaleLogarithmicTransform

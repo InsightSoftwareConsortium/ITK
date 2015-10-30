@@ -113,8 +113,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  PolygonSpatialObject(const Self &); //purposely not implemented
-  void operator=(const Self &);       //purposely not implemented
+  PolygonSpatialObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PolygonGroupOrientation m_Orientation;
   double                  m_Thickness;

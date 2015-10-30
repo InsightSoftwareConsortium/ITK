@@ -146,8 +146,8 @@ protected:
   virtual void VerifyInputInformation() ITK_OVERRIDE {}
 
 private:
-  DemonsRegistrationFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  DemonsRegistrationFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool m_UseMovingImageGradient;
 };

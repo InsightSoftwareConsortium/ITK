@@ -80,8 +80,8 @@ protected:
   typedef typename HistogramType::MeasurementType             MeasurementType;
 
 private:
-  HuangThresholdCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  HuangThresholdCalculator(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   InstanceIdentifier  m_FirstBin;
   InstanceIdentifier  m_LastBin;

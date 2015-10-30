@@ -233,8 +233,8 @@ protected:
   bool m_UseShrinkImageFilter;
 
 private:
-  MultiResolutionPyramidImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  MultiResolutionPyramidImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // namespace itk
 

@@ -75,8 +75,8 @@ protected:
   virtual ~DecisionRule();
 
 private:
-  DecisionRule(const Self &);   //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  DecisionRule(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };                              // end of class
 } // end of namespace Statistics
 } // end of namespace itk

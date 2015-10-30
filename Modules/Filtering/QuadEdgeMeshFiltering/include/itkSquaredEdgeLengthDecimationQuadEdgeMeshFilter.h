@@ -101,8 +101,8 @@ protected:
   OutputPointType Relocate(OutputQEType *iEdge) ITK_OVERRIDE;
 
 private:
-  SquaredEdgeLengthDecimationQuadEdgeMeshFilter(const Self &); // purposely not implemented
-  void operator=(const Self &); // purposely not implemented
+  SquaredEdgeLengthDecimationQuadEdgeMeshFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };
 }

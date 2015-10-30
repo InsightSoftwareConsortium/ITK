@@ -94,8 +94,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  GaussianDerivativeSpatialFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  GaussianDerivativeSpatialFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Current direction */
   mutable unsigned int m_Direction;

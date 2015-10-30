@@ -90,8 +90,8 @@ protected:
   InputImagePixelType m_Boundary;
 
 private:
-  AnchorErodeDilateImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  AnchorErodeDilateImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef BresenhamLine< itkGetStaticConstMacro(InputImageDimension) > BresType;
 

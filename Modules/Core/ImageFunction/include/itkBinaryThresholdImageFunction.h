@@ -144,8 +144,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  BinaryThresholdImageFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  BinaryThresholdImageFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PixelType m_Lower;
   PixelType m_Upper;

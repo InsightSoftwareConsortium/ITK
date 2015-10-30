@@ -336,8 +336,8 @@ protected:
   double m_MaximumRMSError;
 
 private:
-  FiniteDifferenceImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  FiniteDifferenceImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Initialize the values of the Function coefficients. This function will
    * also take care of checking whether the image spacing should be taken into

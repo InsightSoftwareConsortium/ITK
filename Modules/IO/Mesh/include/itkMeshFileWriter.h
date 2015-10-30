@@ -176,8 +176,8 @@ protected:
   void WriteCellData();
 
 private:
-  MeshFileWriter(const Self &); // purposely not implemented
-  void operator=(const Self &); // purposely not implemented
+  MeshFileWriter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   std::string         m_FileName;
   MeshIOBase::Pointer m_MeshIO;

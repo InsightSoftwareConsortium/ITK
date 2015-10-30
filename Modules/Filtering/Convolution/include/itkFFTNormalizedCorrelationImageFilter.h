@@ -135,8 +135,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  FFTNormalizedCorrelationImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FFTNormalizedCorrelationImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   // Member variables.
 };

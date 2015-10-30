@@ -122,8 +122,8 @@ protected:
   virtual void GenerateData() {}
 
 private:
-  LightProcessObject(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  LightProcessObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /**
    * These support the progress method and aborting filter execution.

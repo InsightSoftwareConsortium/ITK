@@ -169,8 +169,7 @@ protected:
       m_InstanceIdentifier = iid;
     }
 
-    // This method is purposely not implemented
-    ConstIterator();
+    ConstIterator() ITK_DELETE_FUNCTION;
 
 private:
     PointsContainerConstIteratorType m_Iter;
@@ -200,12 +199,12 @@ public:
 
 protected:
     // To ensure const-correctness these method must not be in the public API.
-    // The are purposly not implemented, since they should never be called.
-    Iterator();
-    Iterator(const Self *adaptor);
-    Iterator(PointsContainerConstIteratorType iter, InstanceIdentifier iid);
-    Iterator(const ConstIterator & it);
-    ConstIterator & operator=(const ConstIterator & it);
+    // The are not implemented, since they should never be called.
+    Iterator() ITK_DELETE_FUNCTION;
+    Iterator(const Self *adaptor) ITK_DELETE_FUNCTION;
+    Iterator(PointsContainerConstIteratorType iter, InstanceIdentifier iid) ITK_DELETE_FUNCTION;
+    Iterator(const ConstIterator & it) ITK_DELETE_FUNCTION;
+    ConstIterator & operator=(const ConstIterator & it) ITK_DELETE_FUNCTION;
 
     Iterator(
       PointsContainerIteratorType iter,
@@ -259,8 +258,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  PointSetToListSampleAdaptor(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  PointSetToListSampleAdaptor(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** the PointSet data source pointer */
   PointSetConstPointer m_PointSet;

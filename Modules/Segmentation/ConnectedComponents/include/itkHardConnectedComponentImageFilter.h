@@ -128,8 +128,8 @@ protected:
   { Superclass::PrintSelf(os, indent); }
 
 private:
-  HardConnectedComponentImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  HardConnectedComponentImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ListType m_Seeds;
 };

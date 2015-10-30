@@ -226,8 +226,8 @@ protected:
 
 private:
 
-  BayesianClassifierImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  BayesianClassifierImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Boolean flag indicating that the user defined the Priors optional input */
   bool m_UserProvidedPriors;

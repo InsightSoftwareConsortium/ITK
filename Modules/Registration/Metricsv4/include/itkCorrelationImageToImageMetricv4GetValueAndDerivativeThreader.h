@@ -113,8 +113,8 @@ protected:
         const ThreadIdType                threadId ) const ITK_OVERRIDE;
 
 private:
-  CorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
-  void operator=( const Self & ); // purposely not implemented
+  CorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   /*
    * the per-thread memory for computing the correlation and its derivatives

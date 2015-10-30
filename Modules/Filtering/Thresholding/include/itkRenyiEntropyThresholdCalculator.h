@@ -94,8 +94,8 @@ protected:
                                               const std::vector< double >& P2 );
 
 private:
-  RenyiEntropyThresholdCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  RenyiEntropyThresholdCalculator(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   InstanceIdentifier  m_FirstBin;
   InstanceIdentifier  m_LastBin;

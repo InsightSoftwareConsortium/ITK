@@ -141,8 +141,8 @@ protected:
   double EvaluateAtNeighborhood(ConstNeighborhoodIteratorType & it) const;
 
 private:
-  WarpHarmonicEnergyCalculator(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  WarpHarmonicEnergyCalculator(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   double            m_HarmonicEnergy;
   ImageConstPointer m_Image;

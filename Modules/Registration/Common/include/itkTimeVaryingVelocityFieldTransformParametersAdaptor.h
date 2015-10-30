@@ -126,8 +126,8 @@ protected:
   ~TimeVaryingVelocityFieldTransformParametersAdaptor();
 
 private:
-  TimeVaryingVelocityFieldTransformParametersAdaptor( const Self & ); //purposely not implemented
-  void operator=( const Self & );             //purposely not implemented
+  TimeVaryingVelocityFieldTransformParametersAdaptor( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
 }; //class TimeVaryingVelocityFieldTransformParametersAdaptor
 }  // namespace itk

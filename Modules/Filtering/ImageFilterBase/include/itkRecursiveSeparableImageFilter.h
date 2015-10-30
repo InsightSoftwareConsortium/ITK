@@ -225,8 +225,8 @@ protected:
     }
 
 private:
-  RecursiveSeparableImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  RecursiveSeparableImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Direction in which the filter is to be applied
    * this should be in the range [0,ImageDimension-1]. */

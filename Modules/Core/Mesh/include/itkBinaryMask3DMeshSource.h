@@ -158,8 +158,8 @@ protected:
   virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing ITK_OVERRIDE
 
 private:
-  BinaryMask3DMeshSource(const Self &); //purposely not implemented
-  void operator=(const Self &);         //purposely not implemented
+  BinaryMask3DMeshSource(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef typename InputImageType::SizeType InputImageSizeType;
 

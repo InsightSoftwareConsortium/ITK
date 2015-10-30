@@ -128,8 +128,8 @@ protected:
   void PrintSelf( std::ostream &, Indent ) const ITK_OVERRIDE;
 
 private:
-  GaussianExponentialDiffeomorphicTransform( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  GaussianExponentialDiffeomorphicTransform( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
   ScalarType                              m_GaussianSmoothingVarianceForTheUpdateField;
   ScalarType                              m_GaussianSmoothingVarianceForTheConstantVelocityField;

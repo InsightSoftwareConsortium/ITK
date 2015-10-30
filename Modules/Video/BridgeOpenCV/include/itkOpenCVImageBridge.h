@@ -69,8 +69,8 @@ public:
   static cv::Mat ITKImageToCVMat(const TInputImageType* in, bool force3Channels = false);
 
 private:
-  OpenCVImageBridge(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  OpenCVImageBridge(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Steps involved in this method are:
     1) Handle converting between colorspaces

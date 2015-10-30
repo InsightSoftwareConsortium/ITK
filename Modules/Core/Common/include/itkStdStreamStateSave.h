@@ -59,8 +59,8 @@ public:
   }
 
 private:
-  StdStreamStateSave(const StdStreamStateSave &);   //purposely not implemented
-  void operator=(const StdStreamStateSave &); //purposely not implemented
+  StdStreamStateSave(const StdStreamStateSave &) ITK_DELETE_FUNCTION;
+  void operator=(const StdStreamStateSave &) ITK_DELETE_FUNCTION;
 
   std::ios& m_Ios;
   std::ios  m_State;

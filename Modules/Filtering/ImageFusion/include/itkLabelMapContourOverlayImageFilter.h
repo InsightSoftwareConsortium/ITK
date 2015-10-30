@@ -216,8 +216,8 @@ protected:
     }
 
 private:
-  LabelMapContourOverlayImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  LabelMapContourOverlayImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   double                    m_Opacity;
   typename Barrier::Pointer m_Barrier;

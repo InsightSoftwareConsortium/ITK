@@ -60,8 +60,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  ConstantImageSource(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  ConstantImageSource(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typename TOutputImage::PixelType m_Value;
 };

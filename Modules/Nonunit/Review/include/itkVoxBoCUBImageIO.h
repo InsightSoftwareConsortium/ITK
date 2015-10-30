@@ -91,8 +91,8 @@ public:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  VoxBoCUBImageIO(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  VoxBoCUBImageIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool CheckExtension(const char *, bool & isCompressed);
 

@@ -98,8 +98,8 @@ protected:
   virtual ~AbsImageAdaptor() {}
 
 private:
-  AbsImageAdaptor(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  AbsImageAdaptor(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

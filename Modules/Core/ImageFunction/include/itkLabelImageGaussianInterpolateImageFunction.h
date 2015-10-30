@@ -112,8 +112,8 @@ protected:
   ~LabelImageGaussianInterpolateImageFunction(){};
 
 private:
-  LabelImageGaussianInterpolateImageFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  LabelImageGaussianInterpolateImageFunction( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
   /**
    * Evaluate function value at the given index

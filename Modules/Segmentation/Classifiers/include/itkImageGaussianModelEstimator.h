@@ -131,8 +131,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  ImageGaussianModelEstimator(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  ImageGaussianModelEstimator(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef vnl_matrix< double > MatrixType;
 

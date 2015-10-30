@@ -361,9 +361,8 @@ private:
   static const SizeValueType  m_NumVertex;
   static const ValueType      m_DimConst;
 
-  SparseFieldFourthOrderLevelSetImageFilter(const Self &);
-  //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  SparseFieldFourthOrderLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

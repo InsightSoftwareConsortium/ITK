@@ -165,8 +165,8 @@ protected:
                       TOutputImage::ImageDimension);
 
 private:
-  KappaSigmaThresholdImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
+  KappaSigmaThresholdImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   MaskPixelType   m_MaskValue;
   double          m_SigmaFactor;

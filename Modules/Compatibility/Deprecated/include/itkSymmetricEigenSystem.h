@@ -113,8 +113,8 @@ protected:
   void GenerateData();
 
 private:
-  SymmetricEigenSystem(const Self &); //purposely not implemented
-  void operator=(const Self &);       //purposely not implemented
+  SymmetricEigenSystem(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** the target matrix */
   MatrixType *m_Matrix;

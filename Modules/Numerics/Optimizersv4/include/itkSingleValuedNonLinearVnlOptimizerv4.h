@@ -113,8 +113,8 @@ private:
    * iteration will generate a lot more of Iteration events here. */
   void IterationReport(const EventObject & event);
 
-  SingleValuedNonLinearVnlOptimizerv4(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  SingleValuedNonLinearVnlOptimizerv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   CostFunctionAdaptorType *m_CostFunctionAdaptor;
 

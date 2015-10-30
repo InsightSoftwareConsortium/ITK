@@ -141,6 +141,9 @@ namespace itk
 // is intended to override the base-class version.  This makes the code more
 // managable and fixes a set of common hard-to-find bugs.
 #define ITK_OVERRIDE override
+// In functions that should not be implemented, use the C++11 mechanism
+// to ensure that thye are purposely not implemented
+#define ITK_DELETE_FUNCTION =delete
 // In c++11 there is an explicit nullptr type that introduces a new keyword to
 // serve as a distinguished null pointer constant: nullptr. It is of type
 // nullptr_t, which is implicitly convertible and comparable to any pointer type
@@ -157,6 +160,7 @@ namespace itk
 #define ITK_HAS_CXX11_RVREF
 #else
 #define ITK_OVERRIDE
+#define ITK_DELETE_FUNCTION
 #define ITK_NULLPTR  NULL
 #define ITK_NOEXCEPT throw()
 #endif

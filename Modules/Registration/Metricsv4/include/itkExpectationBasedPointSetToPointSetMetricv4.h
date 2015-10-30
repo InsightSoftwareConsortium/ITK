@@ -117,8 +117,8 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  ExpectationBasedPointSetToPointSetMetricv4( const Self & ); //purposely not implemented
-  void operator=( const Self & );               //purposely not implemented
+  ExpectationBasedPointSetToPointSetMetricv4( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   typedef typename PointType::VectorType                    VectorType;
   typedef typename NeighborsIdentifierType::const_iterator  NeighborsIterator;

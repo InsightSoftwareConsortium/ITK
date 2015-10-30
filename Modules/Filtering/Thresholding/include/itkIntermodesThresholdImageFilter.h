@@ -137,8 +137,8 @@ protected:
     }
 
 private:
-  IntermodesThresholdImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  IntermodesThresholdImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   typename CalculatorType::Pointer m_IntermodesCalculator;
 

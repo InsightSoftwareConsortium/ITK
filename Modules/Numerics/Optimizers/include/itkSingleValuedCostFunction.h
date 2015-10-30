@@ -77,8 +77,8 @@ protected:
   virtual ~SingleValuedCostFunction();
 
 private:
-  SingleValuedCostFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  SingleValuedCostFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

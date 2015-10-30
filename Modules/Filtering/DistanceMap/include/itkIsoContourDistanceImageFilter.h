@@ -175,8 +175,8 @@ protected:
                      const std::vector< OffsetValueType >& stride );
 
 private:
-  IsoContourDistanceImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  IsoContourDistanceImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   InputPixelType m_LevelSetValue;
   PixelType      m_FarValue;

@@ -118,8 +118,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  FFTWRealToHalfHermitianForwardFFTImageFilter(const Self&); // purposely not implemented
-  void operator=(const Self&);            // purposely not implemented
+  FFTWRealToHalfHermitianForwardFFTImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   bool m_CanUseDestructiveAlgorithm;
 

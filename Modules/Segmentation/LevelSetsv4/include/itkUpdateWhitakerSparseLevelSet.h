@@ -158,8 +158,8 @@ protected:
   void MovePointFromPlus2();
 
 private:
-  UpdateWhitakerSparseLevelSet( const Self& ); // purposely not implemented
-  void operator = ( const Self& );  // purposely not implemented
+  UpdateWhitakerSparseLevelSet( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 
   LevelSetOutputType m_TimeStep;
   LevelSetOutputType m_RMSChangeAccumulator;

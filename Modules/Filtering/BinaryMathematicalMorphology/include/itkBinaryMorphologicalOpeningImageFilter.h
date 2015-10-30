@@ -104,10 +104,8 @@ protected:
   void  GenerateData() ITK_OVERRIDE;
 
 private:
-  BinaryMorphologicalOpeningImageFilter(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
-                                                       // implemented
+  BinaryMorphologicalOpeningImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PixelType m_ForegroundValue;
 

@@ -85,8 +85,8 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  EuclideanDistancePointSetToPointSetMetricv4(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  EuclideanDistancePointSetToPointSetMetricv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

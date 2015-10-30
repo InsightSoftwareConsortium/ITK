@@ -122,8 +122,8 @@ protected:
   TransformPointer                           m_Transform;
 
 private:
-  TransformParametersAdaptor( const Self & ); //purposely not implemented
-  void operator=( const Self & );             //purposely not implemented
+  TransformParametersAdaptor( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
 }; //class TransformParametersAdaptor
 }  // namespace itk

@@ -131,8 +131,8 @@ protected:
   void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
 private:
-  GradientMagnitudeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  GradientMagnitudeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool m_UseImageSpacing;
 };

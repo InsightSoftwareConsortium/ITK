@@ -351,9 +351,8 @@ protected:
 
 private:
 
-  //purposely not implemented
-  BSplineScatteredDataPointSetToImageFilter( const Self & );
-  void operator=( const Self & );
+  BSplineScatteredDataPointSetToImageFilter( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   /**
    * Function used to propagate the fitting solution at one fitting level

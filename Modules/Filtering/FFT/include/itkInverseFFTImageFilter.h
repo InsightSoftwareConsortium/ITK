@@ -84,8 +84,8 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
 
 private:
-  InverseFFTImageFilter(const Self &); // purposely not implemented
-  void operator=(const Self &);        // purposely not implemented
+  InverseFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

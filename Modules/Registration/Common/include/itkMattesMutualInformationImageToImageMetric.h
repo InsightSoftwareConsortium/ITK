@@ -253,11 +253,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-
-  // purposely not implemented
-  MattesMutualInformationImageToImageMetric(const Self &);
-  // purposely not implemented
-  void operator=(const Self &);
+  MattesMutualInformationImageToImageMetric(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef JointPDFType::IndexType             JointPDFIndexType;
   typedef JointPDFType::PixelType             JointPDFValueType;

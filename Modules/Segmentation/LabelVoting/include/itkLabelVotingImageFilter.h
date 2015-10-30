@@ -180,8 +180,8 @@ protected:
   InputPixelType ComputeMaximumInputValue();
 
 private:
-  LabelVotingImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);         //purposely not implemented
+  LabelVotingImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   OutputPixelType m_LabelForUndecidedPixels;
   bool            m_HasLabelForUndecidedPixels;

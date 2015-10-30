@@ -99,8 +99,8 @@ private:
 
   GeneratorPointer m_HistogramGenerator;
 
-  ScalarImageToHistogramGenerator(const Self &); //purposely not implemented
-  void operator=(const Self &);                  //purposely not implemented
+  ScalarImageToHistogramGenerator(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end of namespace Statistics
 } // end of namespace itk

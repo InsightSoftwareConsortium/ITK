@@ -608,8 +608,8 @@ private:
 
   void InitializeField();
 
-  FEMRegistrationFilter(const Self &); // purposely not implemented
-  void operator=(const Self &);        // purposely not implemented
+  FEMRegistrationFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   unsigned int m_DoLineSearchOnImageEnergy;
   unsigned int m_LineSearchMaximumIterations;

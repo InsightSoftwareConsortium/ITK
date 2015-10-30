@@ -88,11 +88,8 @@ protected:
   }
 
 private:
-  GPUGradientAnisotropicDiffusionImageFilter(const Self &); //purposely not
-                                                            // implemented
-  void operator=(const Self &);                             //purposely not
-
-  // implemented
+  GPUGradientAnisotropicDiffusionImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /**
@@ -134,11 +131,9 @@ public:
 
 private:
   GPUGradientAnisotropicDiffusionImageFilterFactory(const Self&); //purposely
-                                                                  // not
-                                                                  // implemented
+                                                                  // not implemented
   void operator=(const Self&);                                    //purposely
-                                                                  // not
-                                                                  // implemented
+                                                                  // not implemented
 
 #define GradientAnisotropicDiffusionImageFilterTypeMacro(ipt,opt,dm) \
     { \

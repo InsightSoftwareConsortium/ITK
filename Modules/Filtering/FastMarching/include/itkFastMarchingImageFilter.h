@@ -369,8 +369,8 @@ protected:
   itkGetConstReferenceMacro(LastIndex, LevelSetIndexType);
 
 private:
-  FastMarchingImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  FastMarchingImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   NodeContainerPointer m_AlivePoints;
   NodeContainerPointer m_TrialPoints;

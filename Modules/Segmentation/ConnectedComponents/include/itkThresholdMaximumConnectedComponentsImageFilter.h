@@ -175,9 +175,8 @@ private:
 
   typedef typename FilterImageType::Pointer FilterImagePointer;
 
-  //purposely not implemented
-  ThresholdMaximumConnectedComponentsImageFilter(const Self &);
-  void operator=(const Self &); //purposely not implemented
+  ThresholdMaximumConnectedComponentsImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   //
   // Binary Threshold Filter

@@ -154,8 +154,8 @@ protected:
   //--------------------------------------------------------------------------
 
 private:
-  ExtractOrthogonalSwath2DImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                      //purposely not implemented
+  ExtractOrthogonalSwath2DImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ImagePixelType m_DefaultPixelValue;
   SizeType       m_Size;

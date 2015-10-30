@@ -61,8 +61,8 @@ protected:
   ~NrrdImageIOFactory();
 
 private:
-  NrrdImageIOFactory(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  NrrdImageIOFactory(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

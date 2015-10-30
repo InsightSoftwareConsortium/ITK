@@ -740,8 +740,8 @@ protected:
     InstanceIdentifierVectorType & ) const;
 
 private:
-  KdTree( const Self & );         //purposely not implemented
-  void operator=( const Self & ); //purposely not implemented
+  KdTree( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   /** Pointer to the input sample */
   const TSample *m_Sample;

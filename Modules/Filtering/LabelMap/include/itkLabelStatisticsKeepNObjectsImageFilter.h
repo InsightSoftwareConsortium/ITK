@@ -180,10 +180,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  LabelStatisticsKeepNObjectsImageFilter(const Self &); //purposely not
-                                                        // implemented
-  void operator=(const Self &);                         //purposely not
-                                                        // implemented
+  LabelStatisticsKeepNObjectsImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   OutputImagePixelType m_BackgroundValue;
   SizeValueType        m_NumberOfObjects;

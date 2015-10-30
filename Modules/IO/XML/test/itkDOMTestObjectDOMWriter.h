@@ -51,8 +51,8 @@ protected:
   virtual void GenerateData( DOMNodeType* outputdom, const void* ) const ITK_OVERRIDE;
 
 private:
-  DOMTestObjectDOMWriter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  DOMTestObjectDOMWriter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 inline void

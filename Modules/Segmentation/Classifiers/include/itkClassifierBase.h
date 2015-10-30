@@ -157,8 +157,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE = 0;
 
 private:
-  ClassifierBase(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ClassifierBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Number of classes */
   unsigned int m_NumberOfClasses;

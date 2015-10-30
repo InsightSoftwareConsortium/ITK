@@ -266,8 +266,8 @@ protected:
   virtual void PrepareOutputs() ITK_OVERRIDE;
 
 private:
-  WatershedImageFilter(const Self &);  //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  WatershedImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** A Percentage of the maximum depth (max - min pixel value) in the input
    *  image.  This percentage will be used to threshold the minimum values in

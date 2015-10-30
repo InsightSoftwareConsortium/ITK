@@ -479,8 +479,8 @@ private:
 
   typename ImageBaseType::ConstPointer m_RealValuedInputImage;
 
-  VectorGradientMagnitudeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  VectorGradientMagnitudeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RadiusType m_NeighborhoodRadius;
 };

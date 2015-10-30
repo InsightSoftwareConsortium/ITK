@@ -199,8 +199,7 @@ public:
       m_InstanceIdentifier(iid)
     {}
 
-    // This method is purposely not implemented
-    ConstIterator();
+    ConstIterator() ITK_DELETE_FUNCTION;
 
   private:
     ImageConstIteratorType        m_Iter;
@@ -236,11 +235,11 @@ public:
   protected:
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
-    Iterator();
-    Iterator(const Self *adaptor);
-    Iterator(const ImageConstIteratorType & iter, InstanceIdentifier iid);
-    Iterator(const ConstIterator & it);
-    ConstIterator & operator=(const ConstIterator & it);
+    Iterator() ITK_DELETE_FUNCTION;
+    Iterator(const Self *adaptor) ITK_DELETE_FUNCTION;
+    Iterator(const ImageConstIteratorType & iter, InstanceIdentifier iid) ITK_DELETE_FUNCTION;
+    Iterator(const ConstIterator & it) ITK_DELETE_FUNCTION;
+    ConstIterator & operator=(const ConstIterator & it) ITK_DELETE_FUNCTION;
 
     Iterator(const ImageIteratorType & iter, InstanceIdentifier iid) :
       ConstIterator(iter, iid)
@@ -298,8 +297,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ImageToListSampleAdaptor(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  ImageToListSampleAdaptor(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ImageConstPointer             m_Image;
   mutable MeasurementVectorType m_MeasurementVectorInternal;

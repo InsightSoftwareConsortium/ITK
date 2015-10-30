@@ -119,8 +119,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  GaussianMembershipFunction(const Self &);   //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  GaussianMembershipFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   MeanVectorType       m_Mean;            // mean
   CovarianceMatrixType m_Covariance;      // covariance matrix

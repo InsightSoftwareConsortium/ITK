@@ -110,8 +110,8 @@ protected:
   void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  LabelToRGBImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  LabelToRGBImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   OutputPixelType m_BackgroundColor;
   LabelPixelType  m_BackgroundValue;

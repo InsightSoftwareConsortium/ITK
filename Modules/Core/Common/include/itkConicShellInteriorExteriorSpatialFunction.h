@@ -117,10 +117,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ConicShellInteriorExteriorSpatialFunction(const Self &); //not implemented
-  void operator=(const Self &);                            //purposely not
-
-  // implemented
+  ConicShellInteriorExteriorSpatialFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** The origin of the conic shell */
   InputType m_Origin;

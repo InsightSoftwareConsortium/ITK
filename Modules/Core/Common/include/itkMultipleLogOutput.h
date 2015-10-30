@@ -78,8 +78,8 @@ protected:
   virtual ~MultipleLogOutput();
 
 private:
-  MultipleLogOutput(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  MultipleLogOutput(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef std::set< OutputType::Pointer > ContainerType;
 

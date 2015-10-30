@@ -358,11 +358,11 @@ public:
 protected:
   virtual ~NarrowBandLevelSetImageFilter() {}
   NarrowBandLevelSetImageFilter();
-  NarrowBandLevelSetImageFilter(const Self &); //purposely not implemented
+  NarrowBandLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void operator=(const Self &); //purposely not implemented
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Overrides parent implementation */
   virtual void InitializeIteration() ITK_OVERRIDE

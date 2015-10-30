@@ -139,8 +139,8 @@ protected:
   void UpdatePixels();
 
 private:
-  GradientVectorFlowImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  GradientVectorFlowImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   // parameters;
   double m_TimeStep;                               // the timestep of each

@@ -172,8 +172,8 @@ protected:
 
 private:
 
-  SignedMaurerDistanceMapImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  SignedMaurerDistanceMapImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   void Voronoi(unsigned int, OutputIndexType idx, OutputImageType *output );
   bool Remove(OutputPixelType, OutputPixelType, OutputPixelType,

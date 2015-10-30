@@ -115,8 +115,8 @@ protected:
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 
 private:
-  LBFGSOptimizer(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  LBFGSOptimizer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool                       m_OptimizerInitialized;
   InternalOptimizerType *    m_VnlOptimizer;

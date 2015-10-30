@@ -444,8 +444,8 @@ protected:
   UsingCellsContainer m_UsingCells;
 
 private:
-  CellInterface(const Self &);  //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  CellInterface(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /** \class CellTraitsInfo

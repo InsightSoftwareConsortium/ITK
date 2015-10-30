@@ -203,8 +203,8 @@ protected:
   virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
-  ThresholdLabelerImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  ThresholdLabelerImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ThresholdVector     m_Thresholds;
   RealThresholdVector m_RealThresholds;

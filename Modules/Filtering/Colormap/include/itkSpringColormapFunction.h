@@ -66,8 +66,8 @@ protected:
   ~SpringColormapFunction() {}
 
 private:
-  SpringColormapFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  SpringColormapFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace functor
 } // end namespace itk

@@ -104,8 +104,8 @@ protected:
   virtual ~VectorMagnitudeImageFilter() {}
 
 private:
-  VectorMagnitudeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
+  VectorMagnitudeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

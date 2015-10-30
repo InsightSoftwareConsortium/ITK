@@ -116,8 +116,8 @@ protected:
   virtual GEImageHeader * ReadHeader(const char *FileNameToRead) ITK_OVERRIDE;
 
 private:
-  GEAdwImageIO(const Self &);   //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  GEAdwImageIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   enum GE_ADW_DEFINES {
     GE_ADW_SU_ID = 0,    /**< Site id - String  */

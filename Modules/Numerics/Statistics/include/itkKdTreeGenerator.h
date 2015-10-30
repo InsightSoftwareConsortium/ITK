@@ -164,8 +164,8 @@ protected:
                                     unsigned int level);
 
 private:
-  KdTreeGenerator(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  KdTreeGenerator(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Pointer to the input (source) sample */
   TSample *m_SourceSample;

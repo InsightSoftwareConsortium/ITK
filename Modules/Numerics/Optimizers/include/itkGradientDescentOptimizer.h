@@ -136,8 +136,8 @@ protected:
   double m_LearningRate;
 
 private:
-  GradientDescentOptimizer(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  GradientDescentOptimizer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool               m_Stop;
   double             m_Value;

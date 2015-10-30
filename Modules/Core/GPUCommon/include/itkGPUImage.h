@@ -184,9 +184,8 @@ protected:
 
 private:
 
-  // functions that are purposely not implemented
-  GPUImage(const Self&);
-  void operator=(const Self&);
+  GPUImage(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   typename GPUImageDataManager< GPUImage >::Pointer m_DataManager;
 };
@@ -222,8 +221,8 @@ public:
   }
 
 private:
-  GPUImageFactory(const Self&); //purposely not implemented
-  void operator=(const Self&);  //purposely not implemented
+  GPUImageFactory(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 #define OverrideImageTypeMacro(pt,dm)    this->RegisterOverride( \
     typeid(itk::Image<pt,dm>).name(), \

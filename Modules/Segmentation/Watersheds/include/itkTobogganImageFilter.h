@@ -112,8 +112,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  TobogganImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  TobogganImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };                                   // end of class
 } // end namespace itk
 

@@ -160,8 +160,8 @@ protected:
   static void SwapWrite8Range(void *p, BufferSizeType num, OStreamType *fp);
 
 private:
-  ByteSwapper(const ByteSwapper &);    //purposely not implemented
-  void operator=(const ByteSwapper &); //purposely not implemented
+  ByteSwapper(const ByteSwapper &) ITK_DELETE_FUNCTION;
+  void operator=(const ByteSwapper &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

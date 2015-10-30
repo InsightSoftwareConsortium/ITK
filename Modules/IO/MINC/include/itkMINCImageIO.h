@@ -152,8 +152,8 @@ protected:
   void CloseVolume();
 
 private:
-  MINCImageIO(const Self &);    //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  MINCImageIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };
 } // end namespace itk

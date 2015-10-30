@@ -132,8 +132,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  MorphologicalGradientImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                   //purposely not implemented
+  MorphologicalGradientImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   // the filters used internally
   typename HistogramFilterType::Pointer m_HistogramFilter;

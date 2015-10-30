@@ -249,8 +249,7 @@ protected:
       m_InstanceIdentifier = iid;
     }
 
-    // This method is purposely not implemented
-    ConstIterator();
+    ConstIterator() ITK_DELETE_FUNCTION;
 
 private:
     mutable MeasurementVectorType              m_MeasurementVectorCache;
@@ -283,10 +282,10 @@ public:
 protected:
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
-    Iterator();
-    Iterator(const Self *adaptor);
-    Iterator(const ConstIterator & it);
-    ConstIterator & operator=(const ConstIterator & it);
+    Iterator() ITK_DELETE_FUNCTION;
+    Iterator(const Self *adaptor) ITK_DELETE_FUNCTION;
+    Iterator(const ConstIterator & it) ITK_DELETE_FUNCTION;
+    ConstIterator & operator=(const ConstIterator & it) ITK_DELETE_FUNCTION;
 
     Iterator(
       const JointDomainImageToListSampleAdaptor *adaptor,
@@ -334,8 +333,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  JointDomainImageToListSampleAdaptor(const Self &); //purposely not implemented
-  void operator=(const Self &);                      //purposely not implemented
+  JointDomainImageToListSampleAdaptor(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   NormalizationFactorsType                 m_NormalizationFactors;
   mutable MeasurementVectorType            m_TempVector;

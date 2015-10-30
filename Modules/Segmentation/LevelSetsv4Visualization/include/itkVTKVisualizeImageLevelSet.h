@@ -96,8 +96,8 @@ protected:
   vtkSmartPointer< vtkRenderer >          m_Renderer;
 
 private:
-  VTKVisualizeImageLevelSet( const Self & ); // purposely not implemented
-  void operator=( const Self & ); // purposely not implemented
+  VTKVisualizeImageLevelSet( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   bool                               m_ScreenCapture;
   IdentifierType                     m_CurrentIteration;

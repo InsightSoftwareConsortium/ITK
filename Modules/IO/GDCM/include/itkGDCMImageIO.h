@@ -286,8 +286,8 @@ protected:
   bool m_LoadPrivateTags;
 
 private:
-  GDCMImageIO(const Self &);    //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  GDCMImageIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 #if defined( ITKIO_DEPRECATED_GDCM1_API )
   std::string m_PatientName;

@@ -127,8 +127,8 @@ protected:
   virtual ~MeanProjectionImageFilter() {}
 
 private:
-  MeanProjectionImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  MeanProjectionImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };                                         // end MeanProjectionImageFilter
 } //end namespace itk
 

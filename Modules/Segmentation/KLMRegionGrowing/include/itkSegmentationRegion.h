@@ -82,8 +82,8 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  SegmentationRegion(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  SegmentationRegion(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RegionLabelType m_RegionLabel;
   double          m_RegionArea;

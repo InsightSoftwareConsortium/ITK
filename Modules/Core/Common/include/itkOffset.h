@@ -208,9 +208,9 @@ public:
 // force gccxml to find the constructors found before the internal upgrade to
 // gcc 4.2
 #if defined( ITK_WRAPPING_PARSER )
-  Offset();                     //purposely not implemented
-  Offset(const Self &);         //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  Offset() ITK_DELETE_FUNCTION;
+  Offset(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 #endif
 };

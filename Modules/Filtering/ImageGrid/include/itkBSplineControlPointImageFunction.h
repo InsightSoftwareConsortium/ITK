@@ -269,8 +269,8 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  BSplineControlPointImageFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& );                 //purposely not implemented
+  BSplineControlPointImageFunction( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
   /** Parameters for the B-spline object domain */
   SizeType                                     m_Size;

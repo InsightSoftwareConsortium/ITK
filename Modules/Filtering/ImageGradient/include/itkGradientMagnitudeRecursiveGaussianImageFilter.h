@@ -162,11 +162,8 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
-  GradientMagnitudeRecursiveGaussianImageFilter(const Self &); //purposely not
-                                                               // implemented
-  void operator=(const Self &);                                //purposely not
-
-  // implemented
+  GradientMagnitudeRecursiveGaussianImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   class SqrSpacing
   {

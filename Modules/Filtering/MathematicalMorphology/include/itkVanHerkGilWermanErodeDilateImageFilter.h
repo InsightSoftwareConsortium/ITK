@@ -91,8 +91,8 @@ protected:
   InputImagePixelType m_Boundary;
 
 private:
-  VanHerkGilWermanErodeDilateImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                         //purposely not implemented
+  VanHerkGilWermanErodeDilateImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef BresenhamLine< itkGetStaticConstMacro(InputImageDimension) > BresType;
 

@@ -88,8 +88,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  AggregateLabelMapFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  AggregateLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 }; // end of class
 } // end namespace itk
 

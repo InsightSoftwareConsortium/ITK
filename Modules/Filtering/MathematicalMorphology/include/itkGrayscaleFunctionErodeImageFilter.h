@@ -125,8 +125,8 @@ protected:
                      const KernelIteratorType kernelEnd) ITK_OVERRIDE;
 
 private:
-  GrayscaleFunctionErodeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  GrayscaleFunctionErodeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   // Default boundary condition for erosion filter, defaults to
   // NumericTraits<PixelType>::max()

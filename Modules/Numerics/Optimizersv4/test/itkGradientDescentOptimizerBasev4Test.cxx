@@ -80,12 +80,12 @@ public:
   { Superclass::PrintSelf( os, indent ); }
 
 protected:
-  GradientDescentOptimizerBasev4TestMetric() {}
-  ~GradientDescentOptimizerBasev4TestMetric() {}//purposely not implemented
+  ~GradientDescentOptimizerBasev4TestMetric() {}
 
 private:
-  GradientDescentOptimizerBasev4TestMetric( const Self& ); //purposely not implemented
-  void operator = ( const Self& ); //purposely not implemented
+  GradientDescentOptimizerBasev4TestMetric() {}
+  GradientDescentOptimizerBasev4TestMetric( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 
   ParametersType m_Parameters;
 };
@@ -139,8 +139,8 @@ protected:
   ~GradientDescentOptimizerBasev4TestOptimizer(){}
 
 private:
-  GradientDescentOptimizerBasev4TestOptimizer(const Self& ); //purposely not implemented
-  void operator = (const Self&); //purposely not implemented
+  GradientDescentOptimizerBasev4TestOptimizer(const Self& ) ITK_DELETE_FUNCTION;
+  void operator = (const Self&) ITK_DELETE_FUNCTION;
 
 };
 

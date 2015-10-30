@@ -119,8 +119,8 @@ protected:
   bool       m_RadiusInitialized;
 
 private:
-  SpatialNeighborSubsampler(const Self&); // purposely not implemented
-  void operator=(const Self&); // purposely not implemented
+  SpatialNeighborSubsampler(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 }; // end of class SpatialNeighborSubsampler
 

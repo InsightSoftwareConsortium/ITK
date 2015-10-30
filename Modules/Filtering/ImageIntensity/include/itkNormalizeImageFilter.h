@@ -79,8 +79,8 @@ protected:
   void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  NormalizeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);       //purposely not implemented
+  NormalizeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typename StatisticsImageFilter< TInputImage >::Pointer m_StatisticsFilter;
 

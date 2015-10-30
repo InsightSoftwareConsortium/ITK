@@ -210,8 +210,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  CentralDifferenceImageFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
+  CentralDifferenceImageFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 
   /** Structure for specialization of Evaulate* methods on OutputType */

@@ -162,8 +162,8 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
-  DirectedHausdorffDistanceImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                       //purposely not implemented
+  DirectedHausdorffDistanceImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef Image< RealType, itkGetStaticConstMacro(ImageDimension) > DistanceMapType;
   typedef typename DistanceMapType::Pointer                         DistanceMapPointer;

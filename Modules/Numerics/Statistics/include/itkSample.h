@@ -186,8 +186,8 @@ protected:
   }
 
 private:
-  Sample(const Self &);         //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  Sample(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   MeasurementVectorSizeType m_MeasurementVectorSize;
 };  // end of class
