@@ -295,6 +295,7 @@ void
 RayCastHelper< TInputImage, TCoordRep >
 ::Initialise(void)
 {
+  (void)InputImageDimension; // use member variable
   // Save the dimensions of the volume and calculate the bounding box
   this->RecordVolumeDimensions();
 

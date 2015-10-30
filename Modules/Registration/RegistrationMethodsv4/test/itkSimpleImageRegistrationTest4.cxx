@@ -40,7 +40,11 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate()
+    {
+      // mark used to avoid warnings
+      (void) &Self::Clone;
+    };
 
 public:
 

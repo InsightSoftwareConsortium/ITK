@@ -164,6 +164,13 @@ int itkResampleImageTest2(int argc, char * argv [] )
   std::cout << "Test with NonlinearAffineTransform." << std::endl;
   NonlinearAffineTransformType::Pointer nonlinearAffineTransform =
                                     NonlinearAffineTransformType::New();
+  // mark as used
+  (void) NonlinearAffineTransformType::InputSpaceDimension;
+  (void) NonlinearAffineTransformType::OutputSpaceDimension;
+  (void) NonlinearAffineTransformType::SpaceDimension;
+  (void) NonlinearAffineTransformType::ParametersDimension;
+
+
   nonlinearAffineTransform->Scale(2.0);
   resample->SetTransform( nonlinearAffineTransform );
   writer2->SetInput( resample->GetOutput() );
