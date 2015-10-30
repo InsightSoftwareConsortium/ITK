@@ -753,8 +753,8 @@ protected:
     }
 
 private:
-  ImageBase(const Self &);      //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ImageBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   void InternalSetSpacing(const SpacingValueType spacing[VImageDimension])
     {

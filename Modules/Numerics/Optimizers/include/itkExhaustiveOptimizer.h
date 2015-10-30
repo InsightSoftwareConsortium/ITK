@@ -152,9 +152,8 @@ protected:
   ParametersType m_MaximumMetricValuePosition;
 
 private:
-  //purposely not implemented
-  ExhaustiveOptimizer(const Self &);
-  void operator=(const Self &);
+  ExhaustiveOptimizer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   std::ostringstream m_StopConditionDescription;
 };

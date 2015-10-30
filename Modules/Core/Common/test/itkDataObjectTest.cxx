@@ -45,8 +45,8 @@ protected:
     }
 
 private:
-  DataObjectTestHelper(const Self &); //purposely not implemented
-  void operator=(const Self &);       //purposely not implemented
+  DataObjectTestHelper(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };
 

@@ -86,8 +86,8 @@ protected:
   virtual ~ThreadedIndexedContainerPartitioner();
 
 private:
-  ThreadedIndexedContainerPartitioner(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ThreadedIndexedContainerPartitioner(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 };
 

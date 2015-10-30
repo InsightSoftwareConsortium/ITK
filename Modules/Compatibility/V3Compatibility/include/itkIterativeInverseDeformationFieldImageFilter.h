@@ -128,11 +128,8 @@ protected:
   double m_Time;
 
 private:
-  IterativeInverseDeformationFieldImageFilter(const Self &); //purposely not
-                                                             // implemented
-  void operator=(const Self &);                              //purposely not
-
-  // implemented
+  IterativeInverseDeformationFieldImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

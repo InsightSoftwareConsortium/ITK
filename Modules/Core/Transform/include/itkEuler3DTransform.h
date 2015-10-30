@@ -134,8 +134,8 @@ protected:
   void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
 private:
-  Euler3DTransform(const Self &); // purposely not implemented
-  void operator=(const Self &);   // purposely not implemented
+  Euler3DTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ScalarType m_AngleX;
   ScalarType m_AngleY;

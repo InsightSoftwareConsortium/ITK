@@ -138,8 +138,8 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  BinaryMedianImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  BinaryMedianImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   InputSizeType m_Radius;
 

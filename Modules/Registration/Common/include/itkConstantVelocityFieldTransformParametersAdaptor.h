@@ -125,8 +125,8 @@ protected:
   ~ConstantVelocityFieldTransformParametersAdaptor();
 
 private:
-  ConstantVelocityFieldTransformParametersAdaptor( const Self & ); //purposely not implemented
-  void operator=( const Self & );             //purposely not implemented
+  ConstantVelocityFieldTransformParametersAdaptor( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
 }; //class ConstantVelocityFieldTransformParametersAdaptor
 }  // namespace itk

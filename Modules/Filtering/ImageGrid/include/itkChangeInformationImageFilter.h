@@ -230,8 +230,8 @@ protected:
   virtual void VerifyInputInformation() ITK_OVERRIDE {}
 
 private:
-  ChangeInformationImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  ChangeInformationImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   InputImagePointer m_ReferenceImage;
 

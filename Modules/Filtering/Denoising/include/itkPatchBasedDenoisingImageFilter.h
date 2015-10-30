@@ -460,8 +460,8 @@ protected:
   typename ListAdaptorType::Pointer m_SearchSpaceList;
 
 private:
-  PatchBasedDenoisingImageFilter(const Self&); // purposely not implemented
-  void operator=(const Self&);                 // purposely not implemented
+  PatchBasedDenoisingImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ComputeSigma for processing. */

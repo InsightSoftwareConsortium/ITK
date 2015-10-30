@@ -139,8 +139,8 @@ protected:
   //void ComputeInternalFileName(unsigned long slice);
 
 private:
-  RawImageIO(const Self &);     //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  RawImageIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   std::string m_InternalFileName;
 
@@ -190,8 +190,8 @@ protected:
   const myProductType *m_MyProduct;
 
 private:
-  RawImageIOFactory(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  RawImageIOFactory(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // namespace itk
 

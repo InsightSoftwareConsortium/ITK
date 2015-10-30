@@ -98,8 +98,8 @@ protected:
 
 private:
 
-  FiniteCylinderSpatialFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  FiniteCylinderSpatialFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** The center of the cylinder. */
   InputType m_Center;

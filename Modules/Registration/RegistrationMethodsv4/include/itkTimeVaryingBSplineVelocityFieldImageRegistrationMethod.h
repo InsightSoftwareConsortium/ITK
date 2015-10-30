@@ -182,9 +182,8 @@ protected:
   virtual void StartOptimization();
 
 private:
-  TimeVaryingBSplineVelocityFieldImageRegistrationMethod( const Self & );   //purposely not
-                                                             // implemented
-  void operator=( const Self & );                            //purposely not
+  TimeVaryingBSplineVelocityFieldImageRegistrationMethod( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   RealType                                                        m_LearningRate;
 

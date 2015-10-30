@@ -171,8 +171,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  HistogramToRunLengthFeaturesFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  HistogramToRunLengthFeaturesFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   unsigned long                           m_TotalNumberOfRuns;
 

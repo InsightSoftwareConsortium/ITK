@@ -223,8 +223,8 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  TranslationTransform(const Self &); // purposely not implemented
-  void operator=(const Self &);       // purposely not implemented
+  TranslationTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   JacobianType     m_IdentityJacobian;
   OutputVectorType m_Offset; // Offset of the transformation

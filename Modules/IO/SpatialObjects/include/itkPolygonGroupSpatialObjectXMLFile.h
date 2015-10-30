@@ -67,10 +67,8 @@ protected:
   virtual void CharacterDataHandler(const char *inData, int inLength) ITK_OVERRIDE;
 
 private:
-  PolygonGroupSpatialObjectXMLFileReader(const Self &); //purposely not
-                                                        // implemented
-  void operator=(const Self &);                         //purposely not
-                                                        // implemented
+  PolygonGroupSpatialObjectXMLFileReader(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PGroupSpatialObjectType::Pointer  m_PGroup;
   PolygonSpatialObjectType::Pointer m_CurPoly;
@@ -112,10 +110,8 @@ protected:
   virtual ~PolygonGroupSpatialObjectXMLFileWriter() {}
 
 private:
-  PolygonGroupSpatialObjectXMLFileWriter(const Self &); //purposely not
-                                                        // implemented
-  void operator=(const Self &);                         //purposely not
-                                                        // implemented
+  PolygonGroupSpatialObjectXMLFileWriter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 }
 #endif

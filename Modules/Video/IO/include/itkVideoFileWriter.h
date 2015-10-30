@@ -144,8 +144,8 @@ protected:
   ImageIOBase::IOComponentType m_ComponentType;
 
 private:
-  VideoFileWriter(const Self &); // purposely not implemented
-  void operator=(const Self &);  // purposely not implemented
+  VideoFileWriter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };
 

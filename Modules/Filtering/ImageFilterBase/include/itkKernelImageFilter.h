@@ -101,8 +101,8 @@ protected:
   KernelType m_Kernel;
 
 private:
-  KernelImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  KernelImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   template<typename T> void MakeKernel( const RadiusType & radius, T & kernel )
   {

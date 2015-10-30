@@ -505,8 +505,8 @@ protected:
   CellsContainerPointer m_EdgeCellsContainer;
 
 private:
-  QuadEdgeMesh(const Self &);     //purposely not implemented
-  void operator=(const Self &);   //purposely not implemented
+  QuadEdgeMesh(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   CellIdentifier m_NumberOfFaces;
   CellIdentifier m_NumberOfEdges;

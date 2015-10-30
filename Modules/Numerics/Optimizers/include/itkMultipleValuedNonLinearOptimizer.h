@@ -76,8 +76,8 @@ protected:
   CostFunctionPointer m_CostFunction;
 
 private:
-  MultipleValuedNonLinearOptimizer(const Self &); //purposely not implemented
-  void operator=(const Self &);                   //purposely not implemented
+  MultipleValuedNonLinearOptimizer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

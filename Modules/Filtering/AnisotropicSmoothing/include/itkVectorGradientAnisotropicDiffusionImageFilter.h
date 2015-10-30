@@ -103,11 +103,8 @@ protected:
   ~VectorGradientAnisotropicDiffusionImageFilter() {}
 
 private:
-  VectorGradientAnisotropicDiffusionImageFilter(const Self &); //purposely not
-                                                               // implemented
-  void operator=(const Self &);                                //purposely not
-
-  // implemented
+  VectorGradientAnisotropicDiffusionImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namspace itk
 

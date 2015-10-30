@@ -67,11 +67,9 @@ protected:
   ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){}
 
 private:
-  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(const Self &);
-  //purposely not implemented
-  void operator=(const Self &);
+  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
-  //purposely not implemented
   PointIdentifier m_OldPointID;
 };
 } // namespace itk

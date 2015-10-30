@@ -121,8 +121,8 @@ protected:
   typename FastMutexLock::Pointer m_LabelObjectContainerLock;
 
 private:
-  LabelMapFilter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  LabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typename InputImageType::Iterator m_LabelObjectIterator;
   float                             m_InverseNumberOfLabelObjects;

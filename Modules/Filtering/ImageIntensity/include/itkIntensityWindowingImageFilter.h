@@ -197,8 +197,8 @@ protected:
   virtual ~IntensityWindowingImageFilter() {}
 
 private:
-  IntensityWindowingImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  IntensityWindowingImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RealType m_Scale;
   RealType m_Shift;

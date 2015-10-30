@@ -164,8 +164,8 @@ protected:
   void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
 private:
-  CollidingFrontsImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  CollidingFrontsImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   NodeContainerPointer m_SeedPoints1;
   NodeContainerPointer m_SeedPoints2;

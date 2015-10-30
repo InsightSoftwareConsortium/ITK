@@ -125,8 +125,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  KappaStatisticImageToImageMetric(const Self &); //purposely not implemented
-  void operator=(const Self &);                   //purposely not implemented
+  KappaStatisticImageToImageMetric(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RealType m_ForegroundValue;
   bool     m_Complement;

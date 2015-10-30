@@ -50,7 +50,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandProgressUpdate() {}; // purposely not implemented
+  CommandProgressUpdate() {};
 
   typedef const ReconstructionFilterType * ReconstructionFilterPointer;
 

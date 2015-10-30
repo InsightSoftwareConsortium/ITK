@@ -110,8 +110,8 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  CoxDeBoorBSplineKernelFunction( const Self & ); //purposely not implemented
-  void operator=( const Self & );                 //purposely not implemented
+  CoxDeBoorBSplineKernelFunction( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   /**
    * For a specific order, generate the (this->m_SplineOrder+1) pieces of

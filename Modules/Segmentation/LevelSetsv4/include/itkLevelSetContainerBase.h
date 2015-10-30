@@ -282,8 +282,8 @@ protected:
   void SetContainer( const LevelSetContainerType& iContainer );
 
 private:
-  LevelSetContainerBase( const Self & ); // purposely not implemented
-  void operator = ( const Self & ); // purposely not implemented
+  LevelSetContainerBase( const Self & ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self & ) ITK_DELETE_FUNCTION;
 
   HeavisideConstPointer         m_Heaviside;
   DomainMapImageFilterPointer   m_DomainMapFilter;

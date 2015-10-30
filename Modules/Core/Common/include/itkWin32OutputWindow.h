@@ -83,8 +83,8 @@ protected:
   static int Initialize();
 
 private:
-  Win32OutputWindow(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  Win32OutputWindow(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   static HWND m_OutputWindow;
 };

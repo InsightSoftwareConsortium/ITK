@@ -123,8 +123,8 @@ protected:
                             ThreadIdType threadId);
 
 private:
-  TwoOutputExampleImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  TwoOutputExampleImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PixelType m_OutsideValue;
   PixelType m_Lower;

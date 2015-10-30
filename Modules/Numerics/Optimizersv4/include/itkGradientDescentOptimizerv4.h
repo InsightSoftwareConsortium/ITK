@@ -242,8 +242,8 @@ protected:
 
 private:
 
-  GradientDescentOptimizerv4Template( const Self & ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  GradientDescentOptimizerv4Template( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 };
 
 /** This helps to meet backward compatibility */

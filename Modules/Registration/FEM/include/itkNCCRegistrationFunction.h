@@ -161,8 +161,8 @@ protected:
   };
 
 private:
-  NCCRegistrationFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  NCCRegistrationFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Cache fixed image information. */
   SpacingType m_FixedImageSpacing;

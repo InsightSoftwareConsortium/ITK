@@ -85,8 +85,8 @@ protected:
   void PopulateDomainWithKdTree();
 
 private:
-  LevelSetDomainPartitionImageWithKdTree(const Self &); // purposely not implemented
-  void operator=(const Self &); // purposely not implemented
+  LevelSetDomainPartitionImageWithKdTree(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   KdTreePointer     m_KdTree;
   NeighborsIdType   m_NumberOfNeighbors;

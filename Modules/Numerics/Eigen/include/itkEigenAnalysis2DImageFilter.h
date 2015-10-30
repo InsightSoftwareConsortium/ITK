@@ -121,8 +121,8 @@ protected:
   void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  EigenAnalysis2DImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  EigenAnalysis2DImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

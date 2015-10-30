@@ -113,8 +113,8 @@ protected:
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  PadImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  PadImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   SizeType m_PadLowerBound;
   SizeType m_PadUpperBound;

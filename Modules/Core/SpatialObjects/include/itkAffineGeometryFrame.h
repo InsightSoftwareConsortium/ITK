@@ -115,8 +115,8 @@ protected:
   typename TransformType::Pointer m_IndexToWorldTransform;
 
 private:
-  AffineGeometryFrame(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  AffineGeometryFrame(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // namespace itk
 

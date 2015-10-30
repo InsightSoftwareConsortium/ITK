@@ -89,8 +89,8 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
-  SpeckleNoiseImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&);          //purposely not implemented
+  SpeckleNoiseImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   double m_StandardDeviation;
 

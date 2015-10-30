@@ -78,8 +78,8 @@ protected:
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 
 private:
-  ConjugateGradientOptimizer(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  ConjugateGradientOptimizer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /**  The vnl optimization method for conjugate gradient. */
   bool                   m_OptimizerInitialized;

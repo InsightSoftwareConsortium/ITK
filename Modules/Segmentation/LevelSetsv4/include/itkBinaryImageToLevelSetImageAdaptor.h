@@ -111,8 +111,8 @@ protected:
   virtual ~BinaryImageToLevelSetImageAdaptor();
 
 private:
-  BinaryImageToLevelSetImageAdaptor( const Self& ); // purposely not implemented
-  void operator = ( const Self& ); // purposely not implemented
+  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 
   SignedDistanceTransformFilterPointer   m_SignedDistanceTransformFilter;
 };
@@ -269,8 +269,8 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ); // purposely not implemented
-  void operator = ( const Self& );  // purposely not implemented
+  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 
   /** Fill layer adjacent (OutputLayer) to the layer (LayerToBeScanned) */
   void PropagateToOuterLayers( LayerIdType LayerToBeScanned, LayerIdType OutputLayer, LayerIdType TestValue );
@@ -364,8 +364,8 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ); // purposely not implemented
-  void operator = ( const Self& );  // purposely not implemented
+  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 };
 
 
@@ -451,8 +451,8 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ); // purposely not implemented
-  void operator = ( const Self& );  // purposely not implemented
+  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 };
 
 }

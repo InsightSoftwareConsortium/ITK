@@ -79,9 +79,8 @@ protected:
   virtual ~AtanRegularizedHeavisideStepFunction();
 
 private:
-  /** purposely not implemented */
-  AtanRegularizedHeavisideStepFunction(const Self &);
-  void operator=(const Self &);
+  AtanRegularizedHeavisideStepFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 }
 

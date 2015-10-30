@@ -157,8 +157,8 @@ protected:
   void PrepareKernelBaseSpline();
 
 private:
-  LandmarkDisplacementFieldSource(const Self &); //purposely not implemented
-  void operator=(const Self &);         //purposely not implemented
+  LandmarkDisplacementFieldSource(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   KernelTransformPointerType m_KernelTransform;      // Coordinate transform to
                                                      // use

@@ -147,8 +147,8 @@ protected:
   virtual void VerifyInputInformation() ITK_OVERRIDE {}
 
 private:
-  TileImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  TileImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typename TileImageType::Pointer m_TileImage;
 

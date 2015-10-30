@@ -142,9 +142,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  //purposely not implemented purposely
-  BinaryMaskToNarrowBandPointSetFilter(const BinaryMaskToNarrowBandPointSetFilter &);
-  void operator=(const BinaryMaskToNarrowBandPointSetFilter &);
+  BinaryMaskToNarrowBandPointSetFilter(const BinaryMaskToNarrowBandPointSetFilter &) ITK_DELETE_FUNCTION;
+  void operator=(const BinaryMaskToNarrowBandPointSetFilter &) ITK_DELETE_FUNCTION;
 
   DistanceFilterPointer m_DistanceFilter;
   RescaleFilterPointer  m_RescaleFilter;

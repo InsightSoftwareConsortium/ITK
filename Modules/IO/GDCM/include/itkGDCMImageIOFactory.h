@@ -61,8 +61,8 @@ protected:
   ~GDCMImageIOFactory();
 
 private:
-  GDCMImageIOFactory(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  GDCMImageIOFactory(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

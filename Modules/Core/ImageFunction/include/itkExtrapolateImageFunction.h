@@ -114,8 +114,8 @@ protected:
   { Superclass::PrintSelf(os, indent); }
 
 private:
-  ExtrapolateImageFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  ExtrapolateImageFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

@@ -133,8 +133,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  HMinimaImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  HMinimaImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   InputImagePixelType m_Height;
   unsigned long       m_NumberOfIterationsUsed;

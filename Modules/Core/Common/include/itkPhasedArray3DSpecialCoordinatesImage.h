@@ -351,10 +351,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  PhasedArray3DSpecialCoordinatesImage(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-                                                      // implemented
+  PhasedArray3DSpecialCoordinatesImage(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   double m_AzimuthAngularSeparation;    // in radians
   double m_ElevationAngularSeparation;  // in radians

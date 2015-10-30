@@ -133,9 +133,9 @@ protected:
   virtual ~ThreadPool();
 
 private:
-  ThreadPool(ThreadPool const &); // purposely not implemented
+  ThreadPool(ThreadPool const &) ITK_DELETE_FUNCTION;
 
-  ThreadPool & operator=(ThreadPool const &); // purposely not implemented
+  ThreadPool & operator=(ThreadPool const &) ITK_DELETE_FUNCTION;
 
   /** Set when the thread pool is to be stopped */
   bool m_ScheduleForDestruction;

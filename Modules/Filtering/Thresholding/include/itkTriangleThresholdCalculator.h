@@ -74,8 +74,8 @@ protected:
   void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  TriangleThresholdCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  TriangleThresholdCalculator(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 };
 

@@ -413,8 +413,8 @@ protected:
   mutable TransformsToOptimizeFlagsType m_TransformsToOptimizeFlags;
 
 private:
-  CompositeTransform( const Self & ); // purposely not implemented
-  void operator=( const Self & );     // purposely not implemented
+  CompositeTransform( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   mutable ModifiedTimeType m_PreviousTransformsToOptimizeUpdateTime;
 

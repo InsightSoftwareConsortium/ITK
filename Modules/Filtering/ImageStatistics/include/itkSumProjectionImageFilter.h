@@ -117,8 +117,8 @@ protected:
   virtual ~SumProjectionImageFilter() {}
 
 private:
-  SumProjectionImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  SumProjectionImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };                                        // end SumProjectionImageFilter
 } //end namespace itk
 

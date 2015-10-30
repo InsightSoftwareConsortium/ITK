@@ -139,8 +139,8 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
-  HausdorffDistanceImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  HausdorffDistanceImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RealType m_HausdorffDistance;
   RealType m_AverageHausdorffDistance;

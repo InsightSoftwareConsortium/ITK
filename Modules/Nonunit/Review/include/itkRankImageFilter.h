@@ -128,8 +128,8 @@ protected:
   virtual void ConfigureHistogram( HistogramType & histogram ) ITK_OVERRIDE;
 
 private:
-  RankImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  RankImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   float m_Rank;
 }; // end of class

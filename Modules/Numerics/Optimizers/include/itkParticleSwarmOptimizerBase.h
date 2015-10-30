@@ -206,8 +206,8 @@ protected:
    * Implement your update rule in this function.*/
   virtual void UpdateSwarm() = 0;
 
-  ParticleSwarmOptimizerBase( const Self& ); //purposely not implemented
-  void operator=( const Self& );//purposely not implemented
+  ParticleSwarmOptimizerBase( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
   virtual void ValidateSettings();
 

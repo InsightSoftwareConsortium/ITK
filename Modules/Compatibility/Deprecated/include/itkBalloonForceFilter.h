@@ -192,8 +192,8 @@ protected:
   virtual void GenerateData();
 
 private:
-  BalloonForceFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  BalloonForceFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** These meshes are defined to hold the vectors as force, etc. */
   InputMeshPointer  m_Forces;

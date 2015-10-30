@@ -140,8 +140,8 @@ protected:
   virtual ~TransformBaseTemplate() {}
 
 private:
-  TransformBaseTemplate(const Self &);  //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  TransformBaseTemplate(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /** This helps to meet backward compatibility */

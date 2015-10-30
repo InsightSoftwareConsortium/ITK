@@ -116,8 +116,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  ChangeRegionLabelMapFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  ChangeRegionLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   OutputImageRegionType m_Region;
 };

@@ -593,8 +593,8 @@ protected:
   }
 
 private:
-  ShapeLabelObject(const Self &); //purposely not implemented
-  void operator=(const Self &);   //purposely not implemented
+  ShapeLabelObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RegionType    m_BoundingBox;
   SizeValueType m_NumberOfPixels;

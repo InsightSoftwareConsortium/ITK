@@ -92,8 +92,8 @@ protected:
   std::string                       m_FileName;
 
 private:
-  TransformFileReaderTemplate(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  TransformFileReaderTemplate(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /** This helps to meet backward compatibility */

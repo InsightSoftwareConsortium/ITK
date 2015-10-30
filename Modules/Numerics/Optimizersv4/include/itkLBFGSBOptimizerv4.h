@@ -168,8 +168,8 @@ protected:
   friend class LBFGSBOptimizerHelperv4;
 
 private:
-  LBFGSBOptimizerv4(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  LBFGSBOptimizerv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   unsigned int m_MaximumNumberOfCorrections;
 

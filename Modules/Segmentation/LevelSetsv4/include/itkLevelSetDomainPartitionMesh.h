@@ -72,8 +72,8 @@ protected:
   void AllocateListDomain();
 
 private:
-  LevelSetDomainPartitionMesh(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  LevelSetDomainPartitionMesh(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   MeshPointer     m_Mesh;
   ListMeshType    m_ListDomain;

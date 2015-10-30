@@ -149,8 +149,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  ImageClassifierBase(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  ImageClassifierBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef typename TInputImage::SizeType InputImageSizeType;
 

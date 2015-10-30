@@ -196,11 +196,8 @@ protected:
   };
 
 private:
-  FastSymmetricForcesDemonsRegistrationFunction(const Self &); //purposely not
-                                                               // implemented
-  void operator=(const Self &);                                //purposely not
-
-  // implemented
+  FastSymmetricForcesDemonsRegistrationFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Cache fixed image information. */
   double m_Normalizer;

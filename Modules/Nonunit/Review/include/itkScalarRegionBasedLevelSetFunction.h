@@ -72,7 +72,7 @@ public:
   typedef SmartPointer< Self >                                                   Pointer;
   typedef SmartPointer< const Self >                                             ConstPointer;
 
-  // itkNewMacro() is purposely not provided since this is an abstract class.
+  // itkNewMacro() is not provided since this is an abstract class.
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(ScalarRegionBasedLevelSetFunction, RegionBasedLevelSetFunction);
@@ -145,8 +145,8 @@ protected:
                                                  const FeaturePixelType & iVal, const ScalarValueType & iChange) = 0;
 
 private:
-  ScalarRegionBasedLevelSetFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  ScalarRegionBasedLevelSetFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 }
 

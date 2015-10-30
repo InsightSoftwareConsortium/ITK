@@ -135,8 +135,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  ClosingByReconstructionImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  ClosingByReconstructionImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** kernel or structuring element to use. */
   KernelType m_Kernel;

@@ -67,8 +67,8 @@ protected:
   typename TransformType::Pointer   m_Transform;
 
 private:
-  MeshSourceGraftOutputFilter(const MeshSourceGraftOutputFilter&); //purposely not implemented
-  void operator=(const MeshSourceGraftOutputFilter&); //purposely not implemented
+  MeshSourceGraftOutputFilter(const MeshSourceGraftOutputFilter&) ITK_DELETE_FUNCTION;
+  void operator=(const MeshSourceGraftOutputFilter&) ITK_DELETE_FUNCTION;
 
 };
 

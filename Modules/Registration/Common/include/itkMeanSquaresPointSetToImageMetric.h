@@ -91,8 +91,8 @@ protected:
   virtual ~MeanSquaresPointSetToImageMetric() {}
 
 private:
-  MeanSquaresPointSetToImageMetric(const Self &); //purposely not implemented
-  void operator=(const Self &);                   //purposely not implemented
+  MeanSquaresPointSetToImageMetric(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

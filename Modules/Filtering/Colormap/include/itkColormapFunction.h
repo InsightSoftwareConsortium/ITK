@@ -146,8 +146,8 @@ protected:
     }
 
 private:
-  ColormapFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  ColormapFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ScalarType m_MinimumInputValue;
   ScalarType m_MaximumInputValue;

@@ -281,8 +281,8 @@ protected:
     MeasureType &local_cc, const ThreadIdType threadId) const;
 
 private:
-  ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
-  void operator=( const Self & ); // purposely not implemented
+  ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */

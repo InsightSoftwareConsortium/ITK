@@ -147,8 +147,8 @@ protected:
   mutable double m_GradientStep;
 
 private:
-  PDEDeformableRegistrationFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  PDEDeformableRegistrationFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

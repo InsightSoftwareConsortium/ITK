@@ -148,8 +148,8 @@ protected:
                              const KernelIteratorType kernelEnd) = 0;
 
 private:
-  MorphologyImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  MorphologyImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */

@@ -157,8 +157,8 @@ protected:
   typename TInputImage::PixelType m_MarkerValue;
 
 private:
-  ReconstructionImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  ReconstructionImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool m_FullyConnected;
   bool m_UseInternalCopy;

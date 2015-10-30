@@ -110,8 +110,8 @@ protected:
   void Scan();
 
 private:
-  ArchetypeSeriesFileNames(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  ArchetypeSeriesFileNames(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** A string for formatting the names of files in the series. */
   std::string m_Archetype;

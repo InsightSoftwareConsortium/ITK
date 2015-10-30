@@ -138,8 +138,8 @@ protected:
     const ArrayType &, const WeightedMaskImageType *, const BSplinePointSetType * );
 
 private:
-  BSplineSyNImageRegistrationMethod( const Self & );   //purposely not implemented
-  void operator=( const Self & );               //purposely not implemented
+  BSplineSyNImageRegistrationMethod( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

@@ -96,8 +96,8 @@ protected:
   virtual void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType) ITK_OVERRIDE;
 
 private:
-  ComposeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  ComposeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 
   // we have to specialize the code for complex, because it provides no operator[]

@@ -97,8 +97,8 @@ protected:
   virtual void ReleaseInputs() ITK_OVERRIDE;
 
 private:
-  GPUInPlaceImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  GPUInPlaceImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };
 

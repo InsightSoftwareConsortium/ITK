@@ -82,8 +82,8 @@ protected:
   typename ImageFilterType::Pointer m_ImageFilter;
 
 private:
-  ImageFilterToVideoFilterWrapper(const Self &); // purposely not implemented
-  void operator=(const Self &);            // purposely not implemented
+  ImageFilterToVideoFilterWrapper(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 
 };  // end class ImageFilterToVideoFilterWrapper

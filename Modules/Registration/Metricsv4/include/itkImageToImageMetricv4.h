@@ -747,8 +747,8 @@ private:
    *  GetValue implementation is improved. */
   mutable bool m_HaveMadeGetValueWarning;
 
-  ImageToImageMetricv4(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ImageToImageMetricv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Keep track of the number of sampled fixed points that are
    * deemed invalid during conversion to virtual domain.

@@ -142,8 +142,8 @@ protected:
   virtual ~RegionBasedLevelSetFunctionData() {}
 
 private:
-  RegionBasedLevelSetFunctionData(const Self &); //purposely not implemented
-  void operator=(const Self &);                  //purposely not implemented
+  RegionBasedLevelSetFunctionData(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } //end namespace itk
 

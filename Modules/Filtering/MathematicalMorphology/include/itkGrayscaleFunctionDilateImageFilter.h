@@ -125,8 +125,8 @@ protected:
                      const KernelIteratorType kernelEnd) ITK_OVERRIDE;
 
 private:
-  GrayscaleFunctionDilateImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  GrayscaleFunctionDilateImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   // Default boundary condition for dilation filter, defaults to
   // NumericTraits<PixelType>::NonpositiveMin()

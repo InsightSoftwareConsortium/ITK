@@ -158,8 +158,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  RobustAutomaticThresholdImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                      //purposely not implemented
+  RobustAutomaticThresholdImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   double          m_Pow;
   InputPixelType  m_Threshold;

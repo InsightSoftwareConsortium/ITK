@@ -199,10 +199,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  BinaryStatisticsKeepNObjectsImageFilter(const Self &); //purposely not
-                                                         // implemented
-  void operator=(const Self &);                          //purposely not
-                                                         // implemented
+  BinaryStatisticsKeepNObjectsImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool                 m_FullyConnected;
   OutputImagePixelType m_BackgroundValue;

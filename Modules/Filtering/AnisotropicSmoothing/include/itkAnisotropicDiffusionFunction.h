@@ -242,8 +242,8 @@ protected:
   }
 
 private:
-  AnisotropicDiffusionFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  AnisotropicDiffusionFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   double       m_AverageGradientMagnitudeSquared;
   double       m_ConductanceParameter;

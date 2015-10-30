@@ -103,10 +103,8 @@ protected:
                                const NodeType& iNode );
 
 private:
-  FastMarchingUpwindGradientImageFilterBase(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
-                                                       // implemented
+  FastMarchingUpwindGradientImageFilterBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /* this class was made in the case where isotropic and anisotropic fast

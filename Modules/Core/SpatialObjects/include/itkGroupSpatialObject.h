@@ -59,8 +59,8 @@ public:
   bool ComputeLocalBoundingBox() const ITK_OVERRIDE { return false; }
 
 protected:
-  GroupSpatialObject(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  GroupSpatialObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   GroupSpatialObject();
   virtual ~GroupSpatialObject();

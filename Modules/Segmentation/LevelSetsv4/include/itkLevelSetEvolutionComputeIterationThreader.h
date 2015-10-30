@@ -84,8 +84,8 @@ protected:
   virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
-  LevelSetEvolutionComputeIterationThreader( const Self & ); // purposely not implemented
-  void operator=( const Self & ); // purposely not implemented
+  LevelSetEvolutionComputeIterationThreader( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 };
 
 // For dense image level set split by putting a level set domain in each thread.
@@ -136,8 +136,8 @@ protected:
   virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
-  LevelSetEvolutionComputeIterationThreader( const Self & ); // purposely not implemented
-  void operator=( const Self & ); // purposely not implemented
+  LevelSetEvolutionComputeIterationThreader( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 };
 
 // For Whitaker sparse level set split by putting part of the level set in each
@@ -194,8 +194,8 @@ protected:
   NodePairsPerThreadType m_NodePairsPerThread;
 
 private:
-  LevelSetEvolutionComputeIterationThreader( const Self & ); // purposely not implemented
-  void operator=( const Self & ); // purposely not implemented
+  LevelSetEvolutionComputeIterationThreader( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 };
 
 } // namespace itk

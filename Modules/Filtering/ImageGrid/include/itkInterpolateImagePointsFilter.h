@@ -184,8 +184,8 @@ private:
   typedef ImageRegionConstIterator< CoordImageType > CoordImageIterator;
   typedef typename CoordImageType::RegionType        CoordImageRegionType;
 
-  InterpolateImagePointsFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  InterpolateImagePointsFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   InterpolatorPointer m_Interpolator;
   PixelType           m_DefaultPixelValue;      // default pixel value if the

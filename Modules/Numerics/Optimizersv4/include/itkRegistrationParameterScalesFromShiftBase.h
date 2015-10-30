@@ -97,8 +97,8 @@ protected:
   virtual void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) = 0;
 
 private:
-  RegistrationParameterScalesFromShiftBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  RegistrationParameterScalesFromShiftBase(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   //A small variation of parameters
   ParametersValueType  m_SmallParameterVariation;

@@ -90,8 +90,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  VnlForwardFFTImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                          //purposely not implemented
+  VnlForwardFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef vnl_vector< vcl_complex< InputPixelType > > SignalVectorType;
 };

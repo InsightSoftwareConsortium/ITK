@@ -295,8 +295,8 @@ protected:
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  PDEDeformableRegistrationFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                  //purposely not implemented
+  PDEDeformableRegistrationFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Standard deviation for Gaussian smoothing */
   StandardDeviationsType m_StandardDeviations;

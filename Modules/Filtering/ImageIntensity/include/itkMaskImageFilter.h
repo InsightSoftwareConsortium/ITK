@@ -246,8 +246,8 @@ protected:
   }
 
 private:
-  MaskImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  MaskImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   template < typename TPixelType >
   void CheckOutsideValue( const TPixelType * ) {}

@@ -98,8 +98,8 @@ protected:
   typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;
 
 private:
-  IntermodesThresholdCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  IntermodesThresholdCalculator(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
   bool BimodalTest(const std::vector<double> & h);
 
   SizeValueType m_MaximumSmoothingIterations;

@@ -232,8 +232,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  Rigid3DPerspectiveTransform(const Self &); // purposely not implemented
-  void operator=(const Self &);              // purposely not implemented
+  Rigid3DPerspectiveTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Offset of the transformation. */
   OffsetType m_Offset;

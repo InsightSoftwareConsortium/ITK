@@ -143,8 +143,8 @@ protected:
   virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
 private:
-  GPUDemonsRegistrationFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  GPUDemonsRegistrationFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool m_UseMovingImageGradient;
 };
@@ -187,8 +187,8 @@ public:
   }
 
 private:
-  GPUDemonsRegistrationFilterFactory(const Self&); //purposely not implemented
-  void operator=(const Self&);                     //purposely not implemented
+  GPUDemonsRegistrationFilterFactory(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 #define OverrideDemonsRegistrationFilterTypeMacro(ipt,opt,dm) \
     { \

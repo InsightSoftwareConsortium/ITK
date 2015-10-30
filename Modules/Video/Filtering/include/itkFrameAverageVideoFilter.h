@@ -79,8 +79,8 @@ protected:
                 int threadId) ITK_OVERRIDE;
 
 private:
-  FrameAverageVideoFilter(const Self &);  // purposely not implemented
-  void operator=(const Self &);           // purposely not implemented
+  FrameAverageVideoFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 
 };  // end class FrameAverageVideoFilter

@@ -192,8 +192,8 @@ protected:
   virtual ~SymmetricEigenAnalysisImageFilter() {}
 
 private:
-  SymmetricEigenAnalysisImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  SymmetricEigenAnalysisImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

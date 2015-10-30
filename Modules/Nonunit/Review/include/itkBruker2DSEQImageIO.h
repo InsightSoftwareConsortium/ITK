@@ -182,8 +182,8 @@ protected:
 
 private:
 
-  Bruker2DSEQImageIO(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  Bruker2DSEQImageIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 

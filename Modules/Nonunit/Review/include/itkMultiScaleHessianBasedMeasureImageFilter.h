@@ -196,9 +196,8 @@ private:
 
   void AllocateUpdateBuffer();
 
-  //purposely not implemented
-  MultiScaleHessianBasedMeasureImageFilter(const Self &);
-  void operator=(const Self &); //purposely not implemented
+  MultiScaleHessianBasedMeasureImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool m_NonNegativeHessianBasedMeasure;
 

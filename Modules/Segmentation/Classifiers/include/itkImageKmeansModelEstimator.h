@@ -223,8 +223,8 @@ protected:
   void PrintKmeansAlgorithmResults();
 
 private:
-  ImageKmeansModelEstimator(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  ImageKmeansModelEstimator(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** A function that generates the cluster centers (model) corresponding to the
    * estimates of the cluster centers (in the initial codebook).

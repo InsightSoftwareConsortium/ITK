@@ -253,8 +253,8 @@ protected:
   }
 
 private:
-  IdentityTransform(const Self &); // purposely not implemented
-  void operator=(const Self &);    // purposely not implemented
+  IdentityTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   JacobianType m_IdentityJacobian;
 };

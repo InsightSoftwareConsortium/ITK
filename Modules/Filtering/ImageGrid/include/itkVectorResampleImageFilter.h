@@ -224,8 +224,8 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  VectorResampleImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  VectorResampleImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   SizeType                m_Size;       // Size of the output image
   TransformPointerType    m_Transform;  // Coordinate transform to use

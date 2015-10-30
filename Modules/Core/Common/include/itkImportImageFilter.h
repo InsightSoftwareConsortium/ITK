@@ -148,8 +148,8 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
-  ImportImageFilter(const ImportImageFilter &); //purposely not implemented
-  void operator=(const ImportImageFilter &);    //purposely not implemented
+  ImportImageFilter(const ImportImageFilter &) ITK_DELETE_FUNCTION;
+  void operator=(const ImportImageFilter &) ITK_DELETE_FUNCTION;
 
   RegionType    m_Region;
   SpacingType   m_Spacing;

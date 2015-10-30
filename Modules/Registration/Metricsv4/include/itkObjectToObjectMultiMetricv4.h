@@ -205,10 +205,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-
-  //purposely not implemented
-  ObjectToObjectMultiMetricv4(const Self &);
-  void operator=(const Self &);
+  ObjectToObjectMultiMetricv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   MetricQueueType               m_MetricQueue;
   WeightsArrayType              m_MetricWeights;

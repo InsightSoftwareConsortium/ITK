@@ -162,8 +162,8 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  GradientImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  GradientImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 

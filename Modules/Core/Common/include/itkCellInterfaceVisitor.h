@@ -72,8 +72,8 @@ protected:
   ~CellInterfaceVisitor() {}
 
 private:
-  CellInterfaceVisitor(const Self &); //purposely not implemented
-  void operator=(const Self &);       //purposely not implemented
+  CellInterfaceVisitor(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /** \class CellInterfaceVisitorImplementation
@@ -140,8 +140,8 @@ protected:
   ~CellInterfaceVisitorImplementation() {}
 
 private:
-  CellInterfaceVisitorImplementation(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  CellInterfaceVisitorImplementation(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

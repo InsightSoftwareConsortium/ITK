@@ -123,8 +123,8 @@ protected:
                                     outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  JoinSeriesImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  JoinSeriesImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** IndexValueType is used to switch among the inputs and
    * is used as the index value of the new dimension */

@@ -158,8 +158,8 @@ public:
 protected:
   DeformableMesh3DFilter();
   ~DeformableMesh3DFilter();
-  DeformableMesh3DFilter(const Self &); // purposely not implemented
-  void operator=(const Self &);         // purposely not implemented
+  DeformableMesh3DFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GenerateData();

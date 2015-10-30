@@ -175,8 +175,8 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  TimeVaryingBSplineVelocityFieldTransform( const Self& ); //purposely not implementen
-  void operator=( const Self& ); //purposely not implemented
+  TimeVaryingBSplineVelocityFieldTransform( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
   unsigned int                                                   m_SplineOrder;
   bool                                                           m_TemporalPeriodicity;

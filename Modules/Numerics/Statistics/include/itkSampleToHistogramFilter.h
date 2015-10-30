@@ -152,8 +152,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  SampleToHistogramFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  SampleToHistogramFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** SafeAssign -- avoid numeric overflow/underflow */
   HistogramMeasurementType SafeAssign(MeasurementType from) const

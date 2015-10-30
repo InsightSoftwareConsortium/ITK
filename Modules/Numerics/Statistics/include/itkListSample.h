@@ -190,8 +190,7 @@ protected:
       m_InstanceIdentifier = iid;
     }
 
-    // This method is purposely not implemented
-    ConstIterator();
+    ConstIterator() ITK_DELETE_FUNCTION;
 
 private:
     typedef typename InternalDataContainerType::const_iterator InternalIterator;
@@ -224,11 +223,11 @@ public:
 protected:
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
-    Iterator();
-    Iterator(const Self *sample);
-    Iterator(typename InternalDataContainerType::const_iterator iter, InstanceIdentifier iid);
-    Iterator(const ConstIterator & it);
-    ConstIterator & operator=(const ConstIterator & it);
+    Iterator() ITK_DELETE_FUNCTION;
+    Iterator(const Self *sample) ITK_DELETE_FUNCTION;
+    Iterator(typename InternalDataContainerType::const_iterator iter, InstanceIdentifier iid) ITK_DELETE_FUNCTION;
+    Iterator(const ConstIterator & it) ITK_DELETE_FUNCTION;
+    ConstIterator & operator=(const ConstIterator & it) ITK_DELETE_FUNCTION;
 
     Iterator(
       typename InternalDataContainerType::iterator iter,
@@ -277,8 +276,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ListSample(const Self &);     //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ListSample(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   InternalDataContainerType m_InternalContainer;
 };

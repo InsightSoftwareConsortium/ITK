@@ -239,8 +239,8 @@ protected:
   int m_ComputeUpdateGPUKernelHandle;
 
 private:
-  GPUDemonsRegistrationFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  GPUDemonsRegistrationFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Cache fixed image information. */
   //SpacingType                  m_FixedImageSpacing;

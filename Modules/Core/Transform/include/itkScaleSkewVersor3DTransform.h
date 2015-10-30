@@ -168,8 +168,8 @@ protected:
   void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
 private:
-  ScaleSkewVersor3DTransform(const Self &); // purposely not implemented
-  void operator=(const Self &);             // purposely not implemented
+  ScaleSkewVersor3DTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /**  Vector containing the scale. */
   ScaleVectorType m_Scale;

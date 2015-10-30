@@ -76,8 +76,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  FileFreeImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FileFreeImageIO(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   void SplitString (const std::string &text,
                     const std::string &separators,

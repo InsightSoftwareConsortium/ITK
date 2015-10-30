@@ -111,8 +111,8 @@ protected:
   void  GenerateData () ITK_OVERRIDE;
 
 private:
-  BinaryClosingByReconstructionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BinaryClosingByReconstructionImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   InputPixelType m_ForegroundValue;
 

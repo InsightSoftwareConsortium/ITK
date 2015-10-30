@@ -124,8 +124,8 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  UnaryFunctorImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  UnaryFunctorImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   FunctorType m_Functor;
 };

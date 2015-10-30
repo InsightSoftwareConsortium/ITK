@@ -74,8 +74,8 @@ protected:
   }
 
 private:
-  BSplineKernelFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  BSplineKernelFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Structures to control overloaded versions of Evaluate */
   struct DispatchBase {};

@@ -61,8 +61,8 @@ public:
   typedef TElement           Element;
 
 private:
-  MapContainer(const Self &);   //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  MapContainer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Quick access to the STL map type that was inherited. */
   typedef std::map< ElementIdentifier, Element > MapType;

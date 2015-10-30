@@ -150,8 +150,8 @@ protected:
   };
 
 private:
-  ObjectStore(const Self &);    //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ObjectStore(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   GrowthStrategyType m_GrowthStrategy;
 

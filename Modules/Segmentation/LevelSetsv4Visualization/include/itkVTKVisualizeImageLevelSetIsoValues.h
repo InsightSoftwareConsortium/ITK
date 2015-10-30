@@ -100,8 +100,8 @@ protected:
   virtual void PrepareVTKPipeline();
 
 private:
-  VTKVisualizeImageLevelSetIsoValues( const Self& ); // purposely not implemented
-  void operator= ( const Self& ); // purposely not implemented
+  VTKVisualizeImageLevelSetIsoValues( const Self& ) ITK_DELETE_FUNCTION;
+  void operator= ( const Self& ) ITK_DELETE_FUNCTION;
 
   typedef LevelSetTovtkImageData< LevelSetType >  LevelSetConverterType;
   typedef typename LevelSetConverterType::Pointer LevelSetConverterPointer;
@@ -173,8 +173,8 @@ protected:
   virtual void PrepareVTKPipeline();
 
 private:
-  VTKVisualizeImageLevelSetIsoValues( const Self& ); // purposely not implemented
-  void operator= ( const Self& ); // purposely not implemented
+  VTKVisualizeImageLevelSetIsoValues( const Self& ) ITK_DELETE_FUNCTION;
+  void operator= ( const Self& ) ITK_DELETE_FUNCTION;
 
   typedef LevelSetTovtkImageData< LevelSetType >  LevelSetConverterType;
   typedef typename LevelSetConverterType::Pointer LevelSetConverterPointer;

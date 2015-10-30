@@ -88,8 +88,8 @@ public:
   virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
 protected:
-  CylinderSpatialObject(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  CylinderSpatialObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   CylinderSpatialObject();
   ~CylinderSpatialObject();

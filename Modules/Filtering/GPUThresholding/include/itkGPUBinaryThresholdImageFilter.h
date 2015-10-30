@@ -141,8 +141,8 @@ protected:
   virtual void GPUGenerateData() ITK_OVERRIDE;
 
 private:
-  GPUBinaryThresholdImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  GPUBinaryThresholdImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };
 
@@ -185,8 +185,8 @@ public:
   }
 
 private:
-  GPUBinaryThresholdImageFilterFactory(const Self&); //purposely not implemented
-  void operator=(const Self&);                       //purposely not implemented
+  GPUBinaryThresholdImageFilterFactory(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 #define OverrideThresholdFilterTypeMacro(ipt,opt,dm) \
     { \

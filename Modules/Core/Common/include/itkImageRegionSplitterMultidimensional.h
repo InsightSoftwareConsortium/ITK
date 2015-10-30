@@ -89,9 +89,8 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ImageRegionSplitterMultidimensional(const Self &); //purposely not implemented
-  void operator=(const Self &);                      //purposely not
-                                                     //implemented
+  ImageRegionSplitterMultidimensional(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   static unsigned int ComputeSplits(unsigned int dim,
                                     unsigned int requestedNumber,

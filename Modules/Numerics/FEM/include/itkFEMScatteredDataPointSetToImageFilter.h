@@ -277,8 +277,8 @@ protected:
 
 private:
 
-  FEMScatteredDataPointSetToImageFilter( const Self & ); // purposely not implemented.
-  void operator=( const Self & ); // purposely not implemented
+  FEMScatteredDataPointSetToImageFilter( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   typename FEMObjectType::Pointer      m_FEMObject;
   typename FEMSolverType::Pointer      m_FEMSolver;

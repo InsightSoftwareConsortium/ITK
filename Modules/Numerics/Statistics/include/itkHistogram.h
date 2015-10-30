@@ -405,8 +405,7 @@ public:
     }
 
 protected:
-    // This method is purposely not implemented
-    ConstIterator();
+    ConstIterator() ITK_DELETE_FUNCTION;
 
     ConstIterator(InstanceIdentifier id, const Self *histogram):
       m_Id(id), m_Histogram(histogram)
@@ -452,12 +451,12 @@ public:
 
 protected:
     // To ensure const-correctness these method must not be in the public API.
-    // The are purposly not implemented, since they should never be called.
-    Iterator();
-    Iterator(const Self *histogram);
-    Iterator(InstanceIdentifier id, const Self *histogram);
-    Iterator(const ConstIterator & it);
-    ConstIterator & operator=(const ConstIterator & it);
+    // The are not implemented, since they should never be called.
+    Iterator(); //purposly not implemented
+    Iterator(const Self *histogram); //purposly not implemented
+    Iterator(InstanceIdentifier id, const Self *histogram); //purposly not implemented
+    Iterator(const ConstIterator & it); //purposly not implemented
+    ConstIterator & operator=(const ConstIterator & it); //purposly not implemented
 
 private:
   };   // end of iterator class
@@ -494,8 +493,8 @@ protected:
   SizeType m_Size;
 
 private:
-  Histogram(const Self &);      //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  Histogram(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef std::vector< InstanceIdentifier > OffsetTableType;
   OffsetTableType           m_OffsetTable;

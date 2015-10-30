@@ -84,8 +84,8 @@ protected:
   void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  ChainCodeToFourierSeriesPathFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  ChainCodeToFourierSeriesPathFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   unsigned int m_NumberOfHarmonics;
 };

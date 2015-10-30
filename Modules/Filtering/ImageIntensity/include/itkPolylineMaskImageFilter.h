@@ -125,8 +125,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  PolylineMaskImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  PolylineMaskImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /* viewing direction and up vector */
   VectorType m_ViewVector;

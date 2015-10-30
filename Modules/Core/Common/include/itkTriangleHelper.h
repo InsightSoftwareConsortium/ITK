@@ -85,8 +85,8 @@ public:
   static CoordRepType ComputeMixedArea( const PointType& iP1, const PointType& iP2, const PointType &iP3 );
 
 private:
-  TriangleHelper(const Self &);  // purposely not implemented
-  void operator=(const Self &);  // purposely not implemented
+  TriangleHelper(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 }
 

@@ -125,10 +125,10 @@ protected:
   virtual GEImageHeader * ReadHeader(const char *FileNameToRead) ITK_OVERRIDE;
 
 private:
-  GE4ImageIO(const Self &); //purposely not implemented
+  GE4ImageIO(const Self &) ITK_DELETE_FUNCTION;
   float MvtSunf(int numb);
 
-  void operator=(const Self &); //purposely not implemented
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

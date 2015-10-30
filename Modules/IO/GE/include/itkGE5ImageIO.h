@@ -124,8 +124,8 @@ private:
 
   int CheckGE5xImages(char const *const imageFileTemplate, std::string & reason);
 
-  GE5ImageIO(const Self &);     //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  GE5ImageIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

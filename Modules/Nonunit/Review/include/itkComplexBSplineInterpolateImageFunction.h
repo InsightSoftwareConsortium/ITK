@@ -124,13 +124,12 @@ public:
 protected:
   ComplexBSplineInterpolateImageFunction();
   virtual ~ComplexBSplineInterpolateImageFunction() {}
-  void operator=(const Self &);  //purposely not implemented
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ComplexBSplineInterpolateImageFunction(const Self &);  //purposely not
-                                                         // implemented
+  ComplexBSplineInterpolateImageFunction(const Self &) ITK_DELETE_FUNCTION;
 
   unsigned int m_SplineOrder;
 
