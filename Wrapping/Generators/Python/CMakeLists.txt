@@ -232,22 +232,6 @@ else()
 endif()
 
 ###############################################################################
-# Install python stuff for external projects
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Python
-    CMakeLists.txt
-    ExternalProjectConfig.pth.in
-    ExternalProjectConfig.py.in
-    ModuleConfig.py.in
-    ModuleLoader.py.in
-    WrapITK.pth.in
-    itkConfig.py.in
-    main_module_ext.i.in
-    module_ext.i.in
-  )
-endif()
-
-###############################################################################
 # Define the wrapping macros
 
 macro(itk_wrap_module_python library_name)
@@ -400,9 +384,6 @@ macro(itk_end_wrap_module_python)
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/main_module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i"
     @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/python"
-    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i"
-  )
 
   # set some var reused later
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
@@ -512,8 +493,6 @@ macro(itk_end_wrap_submodule_python group_name)
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/module_ext.i.in"
   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${group_name}_ext.i"
   @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/python" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${group_name}_ext.i"
-  )
 
   # prepare dependencies
   set(DEPS )

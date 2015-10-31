@@ -1,13 +1,4 @@
 ###############################################################################
-# install the files requires for explicit
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Explicit CMakeLists.txt)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Explicit Explicit.h.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Explicit Explicit.cxx.in)
-endif()
-
-
-###############################################################################
 # store the current dir, so it can be reused later
 set(ITK_WRAP_EXPLICIT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "explicit source dir")
 set(ITK_WRAP_EXPLICIT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "explicit binary dir")
@@ -128,7 +119,6 @@ macro(itk_end_wrap_module_explicit)
   configure_file("${ITK_WRAP_EXPLICIT_SOURCE_DIR}/Explicit.h.in"
     "${cxx_file}" @ONLY)
 
-  WRAP_ITK_INSTALL(/Configuration/Typedefs "${cxx_file}")
   if(EXPLICIT_EXPLICITS_FILES)
     add_library(${WRAPPER_LIBRARY_NAME}Explicit SHARED ${EXPLICIT_EXPLICITS_FILES})
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})

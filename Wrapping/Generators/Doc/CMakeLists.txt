@@ -3,16 +3,6 @@ find_package(Doxygen REQUIRED)
 option(ITK_WRAP_DOC_MAN "Generate unix manual pages." ON)
 
 ###############################################################################
-# install the files requires for doxygen
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Doc CMakeLists.txt)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Doc doxygen.config.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Doc itk_doxy2swig.conf.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Doc doxy2swig.py)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Doc itk_doxy2swig.py)
-endif()
-
-###############################################################################
 # store the current dir, so it can be reused later
 set(ITK_WRAP_DOC_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "doc source dir")
 set(ITK_WRAP_DOC_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "doc binary dir")
@@ -146,7 +136,4 @@ macro(itk_end_wrap_submodule_DOC)
 #    COMMENT "-- Wrapping library ${WRAPPER_MODULE_NAME}: Generating swig interface for inline documentation."
     )
     list(APPEND ITK_WRAP_DOC_DOCSTRING_FILES ${swig_doc_interface_file})
-
-    # install the produced file
-    WRAP_ITK_INSTALL(/Configuration/Typedefs "${swig_doc_interface_file}")
 endmacro()

@@ -133,18 +133,12 @@ set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 # Additional files for installation
 ###############################################################################
 
-install(FILES
-  CMakeUtilityFunctions.cmake
-  ConfigureWrapping.cmake
-  TypedefMacros.cmake
-  WrapBasicTypes.cmake
-  WrapITKTypes.cmake
-  DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration"
-)
-
-install(FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
-  DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/"
-)
+if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+  install(FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
+    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/"
+    COMPONENT Development
+    )
+endif()
 
 set(WRAP_ITK_TYPEDEFS_DIRECTORY "${ITK_DIR}/Wrapping/Typedefs")
 set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")

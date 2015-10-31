@@ -38,20 +38,7 @@ set(ITK_WRAP_JAVA_CORE_PACKAGE_NAME "org.itk" CACHE INTERNAL "")
 set(ITK_WRAP_JAVA_CORE_PACKAGE_PATH "org/itk" CACHE INTERNAL "") #TODO: this should be automated
 
 ###############################################################################
-# Install java stuff for external projects
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Java
-    CMakeLists.txt
-    java.i
-    module_ext.i.in
-    manifest.in
-  )
-endif()
-
-
-###############################################################################
 macro(CREATE_JAVA_DIRECTORY_STRUCTURE)
-
   message(STATUS "Creating wrapping Java wrapping directories.")
 
   file(MAKE_DIRECTORY ${ITK_WRAP_JAVA_OUT_DIR})
@@ -61,7 +48,6 @@ macro(CREATE_JAVA_DIRECTORY_STRUCTURE)
 
   # Packages output directory
   file(MAKE_DIRECTORY ${ITK_WRAP_JAVA_SRC_DIR}/${ITK_WRAP_JAVA_CORE_PACKAGE_PATH})
-
 endmacro()
 
 
@@ -135,9 +121,6 @@ macro(itk_end_wrap_module_java)
   configure_file("${ITK_WRAP_JAVA_SOURCE_DIR}/module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i"
     @ONLY)
-
-  WRAP_ITK_INSTALL(/Configuration/Typedefs/java
-    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i")
 
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}Module.i")
 
@@ -351,9 +334,6 @@ macro(itk_end_wrap_submodule_java group_name)
   configure_file("${ITK_WRAP_JAVA_SOURCE_DIR}/module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${group_name}_ext.i"
     @ONLY)
-
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/java"
-   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${group_name}_ext.i")
 
   list(APPEND ITK_WRAP_JAVA_LIBRARY_DEPS "${java_file}" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i")
 

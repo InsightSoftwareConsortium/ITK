@@ -19,15 +19,6 @@ include_directories(${TCL_INCLUDE_PATH} ${TK_INCLUDE_PATH})
 
 
 ###############################################################################
-# install the files requires for tcl
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Tcl CMakeLists.txt)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Tcl main_module_ext.i.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Tcl module_ext.i.in)
-endif()
-
-
-###############################################################################
 # store the current dir, so it can be reused later
 set(ITK_WRAP_TCL_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "tcl source dir")
 set(ITK_WRAP_TCL_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "tcl binary dir")
@@ -69,8 +60,6 @@ macro(itk_end_wrap_module_tcl)
   configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/main_module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${WRAPPER_LIBRARY_NAME}_ext.i"
     @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/tcl"
-    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${WRAPPER_LIBRARY_NAME}_ext.i"
   )
 
 
@@ -153,7 +142,6 @@ macro(itk_end_wrap_submodule_tcl group_name)
   configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/module_ext.i.in"
   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${group_name}_ext.i"
   @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/tcl" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${group_name}_ext.i"
   )
 
   # prepare dependencies

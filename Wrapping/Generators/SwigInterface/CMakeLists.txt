@@ -244,30 +244,8 @@ message(STATUS \"Swig configure successfully completed.\")
 endif()
 
 ###############################################################################
-
 set(IDX_GENERATOR ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "idx generator path")
 set(PYGCCXML_DIR ${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src CACHE INTERNAL "pygccxml path")
-
-###############################################################################
-# install the files requires for swiginterface
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/SwigInterface CMakeLists.txt)
-  WRAP_ITK_INSTALL(/Configuration/Generators/SwigInterface Master.mdx.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/SwigInterface empty.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/SwigInterface module.i.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/SwigInterface module.includes.in)
-
-  install(DIRECTORY ${PYGCCXML_DIR}
-    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Generators/SwigInterface"
-    PATTERN ".git" EXCLUDE
-  )
-
-  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/idx.py"
-                "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py"
-    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Generators/SwigInterface"
-  )
-
-endif()
 
 
 ###############################################################################
@@ -298,8 +276,6 @@ macro(itk_end_wrap_module_swig_interface)
          DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
     get_filename_component(basename ${source} NAME)
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
-    WRAP_ITK_INSTALL("/Configuration/Typedefs" "${dest}")
-#    set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${basename}\n")
   endforeach()
 
   # the list of .i files generated for the module
@@ -320,7 +296,6 @@ macro(itk_end_wrap_module_swig_interface)
     file(COPY "${swig_lib}"
       DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
-    WRAP_ITK_INSTALL("/Configuration/Typedefs" "${dest}")
   endforeach()
 
   # accumulate the idx files already generated before this module to generate usable depenencies
@@ -379,7 +354,6 @@ macro(itk_end_wrap_module_swig_interface)
     )
 
     list(APPEND SWIG_INTERFACE_FILES ${interface_file})
-    WRAP_ITK_INSTALL("/Configuration/Typedefs" "${interface_file}")
   endforeach()
 
   # the mdx file
@@ -395,21 +369,11 @@ macro(itk_end_wrap_module_swig_interface)
   set(deps_includes )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     set(deps_imports "${deps_imports}%import ${dep}.i\n")
-#    set(deps_includes "${deps_includes}#include \"${dep}.includes\"\n")
   endforeach()
 
-#  set(SWIG_INTERFACE_INCLUDES "${deps_includes}#include \"${WRAPPER_LIBRARY_NAME}.includes\"")
   set(CONFIG_MODULE_INTERFACE_CONTENT ) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}"
     @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${module_interface_file}")
-
-#  set(WRAP_ITK_FILE_CONTENT )
-#  configure_file("${WRAP_ITK_CONFIG_DIR}/empty.in" "${module_interface_ext_file}"
-#    @ONLY)
-#  install(FILES "${module_interface_ext_file}"
-#    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Typedefs/"
-#  )
 
   add_custom_target(${WRAPPER_LIBRARY_NAME}Idx DEPENDS ${SWIG_INTERFACE_IDX_FILES})
   add_dependencies(${WRAPPER_LIBRARY_NAME}Idx ${WRAPPER_LIBRARY_NAME}CastXML)
@@ -468,7 +432,6 @@ macro(itk_end_wrap_submodule_swig_interface module)
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.includes.in"
      ${includes_file}
      @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${includes_file}")
 
   # the master idx file
   set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
@@ -483,7 +446,6 @@ macro(itk_end_wrap_submodule_swig_interface module)
     VERBATIM
   )
   WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${idx_file}")
-#   add_custom_target(${module}Idx DEPENDS ${idx_file})
 
   # store the path of the idx file to store it in the mdx file
   set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}${module}.idx\n")
@@ -492,15 +454,6 @@ macro(itk_end_wrap_submodule_swig_interface module)
   set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${module}.i\n")
 
   list(APPEND SWIG_INTERFACE_MODULES ${module})
-
-#  set(interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}_ext.i")
-#  set(WRAP_ITK_FILE_CONTENT )
-#  configure_file("${WRAP_ITK_CONFIG_DIR}/empty.in" "${interface_ext_file}"
-#    @ONLY)
-#  install(FILES "${interface_ext_file}"
-#    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Typedefs/"
-#  )
-
 endmacro()
 
 
