@@ -213,6 +213,22 @@ int itkVariableLengthVectorTest(int, char*[])
     // been allocated.
     }
 
+  // Test Swap
+  {
+    DoubleVariableLengthVectorType ref1(3);
+    ref1[0] = 0.1; ref1[1] = 0.2; ref1[2] = 0.3;
+    DoubleVariableLengthVectorType ref2(3);
+    ref2[0] = 1.1; ref2[1] = 1.2; ref2[2] = 1.3;
+
+    ref1.Swap(ref2);
+    ASSERT(ref1[0]== 1.1, "Swap shall ... swap VLVs");
+    ASSERT(ref1[1]== 1.2, "Swap shall ... swap VLVs");
+    ASSERT(ref1[2]== 1.3, "Swap shall ... swap VLVs");
+    ASSERT(ref2[0]== 0.1, "Swap shall ... swap VLVs");
+    ASSERT(ref2[1]== 0.2, "Swap shall ... swap VLVs");
+    ASSERT(ref2[2]== 0.3, "Swap shall ... swap VLVs");
+  }
+
   // Test FastAssign
     {
     DoubleVariableLengthVectorType ref1(3);

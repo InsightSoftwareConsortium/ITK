@@ -391,7 +391,6 @@ public:
       {
       m_Data = this->AllocateElements(m_NumElements);
       itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
-      itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data != ITK_NULLPTR);
       for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
         {
         this->m_Data[i] = static_cast< ValueType >( v[i] );
