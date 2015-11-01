@@ -18,9 +18,9 @@ option(ITK_USE_KWSTYLE "Enable the use of KWStyle for checking coding style." ${
 mark_as_advanced(ITK_USE_KWSTYLE)
 find_package(KWStyle 1.0.1 QUIET)
 
-if(NOT KWSTYLE_FOUND AND BUILD_TESTING AND ITK_USE_KWSTYLE)
-  include(${ITK_SOURCE_DIR}/Utilities/KWStyle/BuildKWStyle.cmake)
-else()
+if(NOT KWSTYLE_FOUND AND BUILD_TESTING AND ITK_USE_KWSTYLE AND NOT CMAKE_CROSSCOMPILING)
+  include(${ITK_CMAKE_DIR}/../Utilities/KWStyle/BuildKWStyle.cmake)
+elseif(NOT KWSTYLE_FOUND)
   set(ITK_USE_KWSTYLE OFF)
 endif()
 
