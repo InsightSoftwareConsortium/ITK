@@ -16,7 +16,7 @@
 #
 #==========================================================================*/
 
-"""itk.py : Top-level container module for ITK wrappers."""
+"""itk.py : Top-level container package for ITK wrappers."""
 import itkBase
 import itkConfig
 import itkLazy
