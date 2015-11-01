@@ -18,6 +18,8 @@
 #ifndef itkPromoteType_h
 #define itkPromoteType_h
 
+#include "itkMacro.h"
+
 // Simplification of boost::common_type
 namespace itk {
 

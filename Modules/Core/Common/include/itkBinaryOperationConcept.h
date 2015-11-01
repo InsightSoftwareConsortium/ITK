@@ -19,7 +19,7 @@
 #ifndef itkBinaryOperationConcept_h
 #define itkBinaryOperationConcept_h
 
-#  include "itkPromoteType.h"
+#include "itkPromoteType.h"
 
 /** \cond HIDE_META_PROGRAMMING */
 namespace itk {
