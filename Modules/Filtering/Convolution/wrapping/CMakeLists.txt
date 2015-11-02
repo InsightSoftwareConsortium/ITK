@@ -1,5 +1,5 @@
 itk_wrap_module(ITKConvolution)
-set(WRAPPER_LIBRARY_GROUPS
+set(WRAPPER_SUBMODULE_ORDER
   itkConvolutionImageFilterBase
 )
 itk_auto_load_submodules()

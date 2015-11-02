@@ -1,5 +1,5 @@
 itk_wrap_module(ITKDisplacementField)
-set(WRAPPER_LIBRARY_GROUPS
+set(WRAPPER_SUBMODULE_ORDER
   itkTimeVaryingVelocityFieldTransform
 )
 itk_auto_load_submodules()
