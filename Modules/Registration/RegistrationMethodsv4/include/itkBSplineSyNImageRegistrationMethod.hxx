@@ -221,6 +221,15 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 
   typename WeightedMaskImageType::Pointer weightedMask = ITK_NULLPTR;
 
+  // We handle the point-set registration for this B-spline method as a special case.   A
+  // point-set is defined irregularly (i.e., not necessarily at voxel centers) over
+  // the fixed and moving image domains.  For the Gaussian smoothing of the gradient field
+  // with original SyN, the corresponding metric gradient values must be mapped to the closest
+  // voxel locations in the reference domain.  The rest of the gradient values are zeroed
+  // out prior to gaussian smoothing via convolution.  For the B-spline analog, the underlying
+  // smoothing operation is done using the BSplineScatteredDataPointSettoImageFilter so we
+  // don't need to artificially zero out "missing" values.
+
   if( this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC )
     {
     const DisplacementVectorType zeroVector( 0.0 );
@@ -240,12 +249,23 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
     dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
 
     dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetCalculateValueAndDerivativeInTangentSpace( true );
+    dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetStoreDerivativeAsSparseFieldForLocalSupportTransforms( false );
 
     this->m_Metric->Initialize();
-    dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->
-      SetStoreDerivativeAsSparseFieldForLocalSupportTransforms( false );
     typename ImageMetricType::DerivativeType metricDerivative;
     this->m_Metric->GetValueAndDerivative( value, metricDerivative );
+
+    if( !this->m_OptimizerWeightsAreIdentity && this->m_OptimizerWeights.Size() == ImageDimension )
+      {
+      typename DerivativeType::iterator it;
+      for( it = metricDerivative.begin(); it != metricDerivative.end(); it += ImageDimension )
+        {
+        for( unsigned int d = 0; d < ImageDimension; d++ )
+          {
+          *(it + d) *= this->m_OptimizerWeights[d];
+          }
+        }
+      }
 
     typename BSplinePointSetType::Pointer gradientPointSet = BSplinePointSetType::New();
     gradientPointSet->Initialize();
