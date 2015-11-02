@@ -820,12 +820,12 @@ public:
    * \note The elements of the expression template are evaluated one by one.
    */
   template <typename TExpr1, typename TExpr2, typename TBinaryOp>
-  Self& operator+=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& v) ITK_NOEXCEPT
+  Self& operator+=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& rhs) ITK_NOEXCEPT
     {
-    itkAssertInDebugAndIgnoreInReleaseMacro(v.Size() == Size());
+    itkAssertInDebugAndIgnoreInReleaseMacro(rhs.Size() == Size());
     for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
       {
-      m_Data[i] += static_cast<ValueType>(v[i]);
+      m_Data[i] += static_cast<ValueType>(rhs[i]);
       }
     return *this;
     }
@@ -840,12 +840,12 @@ public:
    * \note The elements of the expression template are evaluated one by one.
    */
   template <typename TExpr1, typename TExpr2, typename TBinaryOp>
-  Self& operator-=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& v) ITK_NOEXCEPT
+  Self& operator-=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& rhs) ITK_NOEXCEPT
     {
-    itkAssertInDebugAndIgnoreInReleaseMacro(v.Size() == Size());
+    itkAssertInDebugAndIgnoreInReleaseMacro(rhs.Size() == Size());
     for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
       {
-      m_Data[i] -= static_cast<ValueType>(v[i]);
+      m_Data[i] -= static_cast<ValueType>(rhs[i]);
       }
     return *this;
     }
