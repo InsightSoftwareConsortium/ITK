@@ -35,8 +35,8 @@ file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python)
 # Configure Python wrapping installation
 if(PYTHON_EXECUTABLE AND NOT PY_SITE_PACKAGES_PATH)
   set(python_check "from __future__ import print_function\ntry:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(plat_specific=1, prefix=''))\nexcept:\n    pass")
-  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/det_spp.py ${python_check})
-  execute_process(COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/det_spp.py"
+  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py ${python_check})
+  execute_process(COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py"
     OUTPUT_VARIABLE py_spp
     ERROR_VARIABLE py_spp
   )
@@ -50,7 +50,7 @@ if(PYTHON_EXECUTABLE AND NOT PY_SITE_PACKAGES_PATH)
     install(CODE "message(WARNING \"CMAKE_INSTALL_PREFIX, ${CMAKE_INSTALL_PREFIX}, does not match Python's prefix, ${py_prefix}\")")
   endif()
   string(REGEX REPLACE "\n" "" py_spp_no_newline "${py_spp}")
-  string(REGEX REPLACE "\\\\" "/" py_spp_nobackslashes "${py_spp_no_newline}")
+  file(TO_CMAKE_PATH "${py_spp_no_newline}" py_spp_nobackslashes)
 endif()
 
 set(PY_SITE_PACKAGES_PATH "${py_spp_nobackslashes}" CACHE STRING "Python site-packages directory to install Python bindings.")
