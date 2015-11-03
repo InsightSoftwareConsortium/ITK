@@ -136,6 +136,7 @@ protected:
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
+  void VerifyInputInformation() ITK_OVERRIDE;
   void GenerateData() ITK_OVERRIDE;
 
 private:
