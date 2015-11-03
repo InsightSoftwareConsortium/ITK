@@ -223,7 +223,7 @@ DiscreteGaussianDerivativeImageFilter< TInputImage, TOutputImage >
     if ( ImageDimension > 2 )
       {
       const unsigned int max_dim = ImageDimension - 1;
-      for ( unsigned int i = 1; i < max_dim; ++i )
+      for ( unsigned int i = 1; i != max_dim; ++i )
         {
         IntermediateFilterPointer f = IntermediateFilterType::New();
         f->SetOperator(oper[i]);
