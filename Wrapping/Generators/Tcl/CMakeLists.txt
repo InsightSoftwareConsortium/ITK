@@ -113,7 +113,10 @@ macro(itk_end_wrap_module_tcl)
     target_link_libraries(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
   endif()
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  install(TARGETS "${lib}" DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
+  install(TARGETS "${lib}"
+    DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl"
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    )
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
@@ -343,6 +346,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
                   ${ITK_WRAP_TCL_SOURCE_DIR}/itkdata.tcl
                   ${ITK_WRAP_TCL_SOURCE_DIR}/itkutils.tcl
                   DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl"
+                  COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
            )
 
   endmacro()

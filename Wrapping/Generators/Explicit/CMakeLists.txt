@@ -126,6 +126,9 @@ macro(itk_end_wrap_module_explicit)
     endforeach()
     target_link_libraries(${WRAPPER_LIBRARY_NAME}Explicit ${WRAPPER_LIBRARY_LINK_LIBRARIES} )
     set_target_properties(${WRAPPER_LIBRARY_NAME}Explicit PROPERTIES COMPILE_FLAGS -DWRAP_ITK_${WRAPPER_LIBRARY_NAME}_EXPORTS )
-    install(TARGETS ${WRAPPER_LIBRARY_NAME}Explicit DESTINATION "${ITK_INSTALL_LIBRARY_DIR}")
+    install(TARGETS ${WRAPPER_LIBRARY_NAME}Explicit
+      DESTINATION "${ITK_INSTALL_LIBRARY_DIR}"
+      COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+      )
   endif()
 endmacro()

@@ -60,7 +60,10 @@ if(NOT PY_SITE_PACKAGES_PATH)
 endif()
 
 macro(WRAP_ITK_PYTHON_BINDINGS_INSTALL path)
-  install(FILES ${ARGN} DESTINATION "${PY_SITE_PACKAGES_PATH}/${path}")
+  install(FILES ${ARGN}
+    DESTINATION "${PY_SITE_PACKAGES_PATH}/${path}"
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    )
 endmacro()
 
 
@@ -433,7 +436,10 @@ macro(itk_end_wrap_module_python)
     target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_NAME}Explicit)
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
   endif()
-  install(TARGETS "${lib}" DESTINATION "${PY_SITE_PACKAGES_PATH}/itk")
+  install(TARGETS "${lib}"
+    DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    )
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})

@@ -132,7 +132,10 @@ macro(itk_end_wrap_module_ruby)
   endif()
   target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${RUBY_LIBRARY})
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  install(TARGETS "${lib}" DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Ruby")
+  install(TARGETS "${lib}"
+    DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Ruby"
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    )
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})

@@ -125,6 +125,13 @@ if(NOT EXECUTABLE_OUTPUT_PATH)
   set(EXECUTABLE_OUTPUT_PATH ${WrapITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
 endif()
 
+# Set WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER to a non-null value, like
+# "Wrapping", which will be inserted into the wrapping install component name.
+# This can be used to split installation package components.
+if(NOT WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER)
+  set(WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER "")
+endif()
+
 mark_as_advanced(CMAKE_LIBRARY_OUTPUT_DIRECTORY EXECUTABLE_OUTPUT_PATH WRAP_ITK_INSTALL_PREFIX)
 
 set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
@@ -136,7 +143,7 @@ set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   install(FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/"
-    COMPONENT Development
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}Development
     )
 endif()
 
