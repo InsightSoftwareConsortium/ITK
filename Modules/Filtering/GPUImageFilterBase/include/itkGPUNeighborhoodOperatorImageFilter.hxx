@@ -130,7 +130,7 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
   typename NeighborhoodGPUBufferType::SizeType   size;
   typename NeighborhoodGPUBufferType::RegionType region;
 
-  for(int i=0; i<ImageDimension; i++)
+  for(unsigned int i=0; i<ImageDimension; i++)
     {
     index[i] = 0;
     size[i]  = (unsigned int)(p.GetSize(i) );
