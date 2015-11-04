@@ -23,6 +23,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageAlgorithm.h"
 #include "itkNumericTraits.h"
+#include "itkDefaultConvertPixelTraits.h"
 #include "itkProgressReporter.h"
 #include "itkContinuousIndex.h"
 #include "vnl/vnl_math.h"
@@ -43,7 +44,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
   m_OutputSize.Fill(0);
-  m_EdgePaddingValue = NumericTraits< PixelType >::ZeroValue();
+  m_EdgePaddingValue = NumericTraits< PixelType >::ZeroValue(m_EdgePaddingValue);
   m_OutputStartIndex.Fill(0);
   // Setup default interpolator
   typename DefaultInterpolatorType::Pointer interp =
@@ -179,6 +180,29 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     }
   DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
+  unsigned int nbComponents = DefaultConvertPixelTraits<PixelType>::GetNumberOfComponents(m_EdgePaddingValue);
+
+  if(nbComponents!= this->GetInput()->GetNumberOfComponentsPerPixel())
+    {
+    PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(zeroComponent);
+    nbComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+    NumericTraits<PixelType>::SetLength(m_EdgePaddingValue,nbComponents);
+
+    for(unsigned int n = 0; n < nbComponents;++n)
+      {
+      DefaultConvertPixelTraits<PixelType>::SetNthComponent(n,m_EdgePaddingValue,zeroComponent);
+      }
+    }
+
+  if (NumericTraits<PixelType>::GetLength(m_EdgePaddingValue)
+      != this->GetInput()->GetNumberOfComponentsPerPixel() )
+    {
+    // Assume EdgePaddingValue has not been set externally
+    // initialize it here with ZeroValue, when we know the number of components
+    const PixelType& pixel = this->GetInput()->GetPixel( this->GetInput()->GetBufferedRegion().GetIndex() );
+    m_EdgePaddingValue = NumericTraits<PixelType>::ZeroValue( pixel );
+    }
+
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
 
@@ -292,7 +316,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       {
       const DisplacementType input =
         fieldPtr->GetPixel(neighIndex);
-      for ( unsigned int k = 0; k < ImageDimension; k++ )
+      for ( unsigned int k = 0; k < NumericTraits<DisplacementType>::GetLength(input); k++ )
         {
         output[k] += overlap * static_cast< double >( input[k] );
         }
