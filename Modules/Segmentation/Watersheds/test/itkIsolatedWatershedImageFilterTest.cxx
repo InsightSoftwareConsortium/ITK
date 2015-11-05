@@ -98,10 +98,46 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage>::New();
-    writer->SetInput( filter->GetOutput() );
-    writer->SetFileName( av[2] );
-    writer->Update();
+  writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName( av[2] );
+  writer->Update();
+
+  //
+  // Test when lower and upper thresholds are "close", expect the
+  // filter not to crash, and complete
+  //
+
+  filter = FilterType::New();
+
+  filter->SetInput(input->GetOutput());
+
+  seed1[0] = atoi(av[3]); seed1[1] = atoi(av[4]);
+  filter->SetSeed1(seed1);
+
+  seed1[0] = atoi(av[5]); seed1[1] = atoi(av[6]);
+  filter->SetSeed2(seed1);
+
+  filter->SetThreshold(.1);
+  filter->SetIsolatedValueTolerance(1.0);
+  filter->SetReplaceValue1(255);
+  filter->SetReplaceValue2(127);
+  filter->SetUpperValueLimit(1);
+
+  try
+    {
+    filter->Update();
+    double isolatedValue = filter->GetIsolatedValue();
+    std::cout << "filter->GetIsolatedValue(): "
+              << isolatedValue
+              << std::endl;
+    }
+  catch (itk::ExceptionObject& e)
+    {
+    std::cerr << "Exception detected: "  << e.GetDescription();
+    return EXIT_FAILURE;
+    }
+
 
   return EXIT_SUCCESS;
 }

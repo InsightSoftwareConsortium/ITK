@@ -100,11 +100,36 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 IsolatedWatershedImageFilter< TInputImage, TOutputImage >
+::VerifyInputInformation()
+{
+  Superclass::VerifyInputInformation();
+
+  const InputImageType *inputImage = this->GetInput();
+
+  const InputImageRegionType region = inputImage->GetRequestedRegion();
+
+  // After the input's have had their output information updated, we
+  // check the seeds are valid
+  if ( !region.IsInside(m_Seed1) )
+    {
+    itkExceptionMacro("Seed1 is not within the input image!");
+    }
+  if ( !region.IsInside(m_Seed2) )
+    {
+    itkExceptionMacro("Seed2 is not within the input image!");
+    }
+
+}
+
+
+template< typename TInputImage, typename TOutputImage >
+void
+IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  InputImageConstPointer inputImage = this->GetInput();
-  OutputImagePointer     outputImage = this->GetOutput();
-  OutputImageRegionType  region = outputImage->GetRequestedRegion();
+  const InputImageType *inputImage = this->GetInput();
+  OutputImageType      *outputImage = this->GetOutput();
+  OutputImageRegionType region = outputImage->GetRequestedRegion();
 
   // Set up the pipeline
   m_GradientMagnitude->SetInput (inputImage);
@@ -151,9 +176,11 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
     iterate.CompletedStep();
     }
 
-  // See if the watersheds basins are separated. If not, then use lower.
-  if ( m_Watershed->GetOutput()->GetPixel(m_Seed1) ==
-       m_Watershed->GetOutput()->GetPixel(m_Seed2) )
+  // If the watershed basins are not separated or if the upper/lower
+  // threshold were not valid, then use lower.
+  if (  m_Watershed->GetOutput()->GetBufferedRegion() != region
+        || m_Watershed->GetOutput()->GetPixel(m_Seed1) ==
+        m_Watershed->GetOutput()->GetPixel(m_Seed2) )
     {
     m_Watershed->SetLevel (lower);
     m_Watershed->Update ();
