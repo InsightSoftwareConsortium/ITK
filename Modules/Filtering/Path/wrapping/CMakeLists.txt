@@ -1,6 +1,6 @@
 itk_wrap_module(ITKPath)
 
-set(WRAPPER_LIBRARY_GROUPS
+set(WRAPPER_SUBMODULE_ORDER
   itkPathBase
   itkParametricPath
   itkPolyLineParametricPath

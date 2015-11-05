@@ -1,6 +1,6 @@
 itk_wrap_module(ITKIOImageBase)
 
-set(WRAPPER_LIBRARY_GROUPS
+set(WRAPPER_SUBMODULE_ORDER
   ITKIOImageBaseBase
 )
 itk_auto_load_submodules()

@@ -64,10 +64,12 @@ macro(itk_wrap_module library_name)
   # be linked to the wrapper library.
   set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES} ${${itk-module}_LIBRARIES})
 
-  # WRAPPER_LIBRARY_GROUPS. List of *.wrap groups in the source dir
-  # that should be included/wrapped before the rest. Just the group name is needed,
-  # not the full path or file name.
-  set(WRAPPER_LIBRARY_GROUPS )
+  # WRAPPER_SUBMODULE_ORDER. List of *.wrap submodules in the source dir
+  # that should be included/wrapped before the rest in the given order.
+  # Just the submodule group name is needed, not the full path or file name.
+  set(WRAPPER_SUBMODULE_ORDER )
+  # WRAPPER_LIBRARY_GROUPS is a deprecated variable for this specification.
+  unset(WRAPPER_LIBRARY_GROUPS )
 
   # WRAPPER_LIBRARY_SWIG_INPUTS. List of C++ source files to be used
   # as input for Swig. This list is then appended to by
@@ -155,9 +157,14 @@ macro(itk_auto_load_submodules)
   # Finally, this macro causes the language support files for the templates and
   # library here defined to be created.
 
-  # Next, include modules already in WRAPPER_LIBRARY_GROUPS, because those are
+  # For backwards compatibility
+  if(WRAPPER_LIBRARY_GROUPS)
+    set(WRAPPER_SUBMODULE_ORDER ${WRAPPER_LIBRARY_GROUPS})
+  endif()
+
+  # Next, include modules already in WRAPPER_SUBMODULE_ORDER, because those are
   # guaranteed to be processed first.
-  foreach(module ${WRAPPER_LIBRARY_GROUPS})
+  foreach(module ${WRAPPER_SUBMODULE_ORDER})
     itk_load_submodule("${module}")
   endforeach()
 
@@ -175,7 +182,7 @@ macro(itk_auto_load_submodules)
     # if the module is already in the list, it means that it is already included
     # ... and do not include excluded modules
     set(will_include 1)
-    foreach(already_included ${WRAPPER_LIBRARY_GROUPS})
+    foreach(already_included ${WRAPPER_SUBMODULE_ORDER})
       if("${already_included}" STREQUAL "${module}")
         set(will_include 0)
       endif()
@@ -184,7 +191,7 @@ macro(itk_auto_load_submodules)
     if(${will_include})
       # Add the module name to the list. WRITE_MODULE_FILES uses this list
       # to create the master library wrapper file.
-      list(APPEND WRAPPER_LIBRARY_GROUPS "${module}")
+      list(APPEND WRAPPER_SUBMODULE_ORDER "${module}")
       itk_load_submodule("${module}")
     endif()
   endforeach()
@@ -204,7 +211,7 @@ macro(itk_auto_load_submodules)
     # if the module is already in the list, it means that it is already included
     # ... and do not include excluded modules
     set(will_include 1)
-    foreach(already_included ${WRAPPER_LIBRARY_GROUPS})
+    foreach(already_included ${WRAPPER_SUBMODULE_ORDER})
       if("${already_included}" STREQUAL "${module}")
         set(will_include 0)
       endif()
@@ -213,7 +220,7 @@ macro(itk_auto_load_submodules)
     if(${will_include})
       # Add the module name to the list. WRITE_MODULE_FILES uses this list
       # to create the master library wrapper file.
-      list(APPEND WRAPPER_LIBRARY_GROUPS "${module}")
+      list(APPEND WRAPPER_SUBMODULE_ORDER "${module}")
       itk_load_submodule("${module}")
     endif()
   endforeach()

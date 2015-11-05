@@ -1,6 +1,6 @@
 itk_wrap_module(ITKCommon)
 
-set(WRAPPER_LIBRARY_GROUPS
+set(WRAPPER_SUBMODULE_ORDER
   vcl_complex
   vnl_matrix
   vnl_vector
