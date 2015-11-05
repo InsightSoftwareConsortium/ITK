@@ -21,11 +21,12 @@
  *
  */
 
-
 #include "itkMath.h"
 #include "itkCovariantVector.h"
 #include <iostream>
 
+int itkCovariantVectorGeometryTest(int, char* [] )
+{
   // Dimension & Type
   const     unsigned int    N = 3;
   typedef   double          ValueType;
@@ -33,13 +34,6 @@
   //  Vector type
   typedef    itk::CovariantVector< ValueType, N >    VectorType;
 
-//-------------------------
-//
-//   Main code
-//
-//-------------------------
-int itkCovariantVectorGeometryTest(int, char* [] )
-{
 
   VectorType va;
   va[0] = 1.0;
