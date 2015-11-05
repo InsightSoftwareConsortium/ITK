@@ -20,12 +20,16 @@
 
 #include "itkMetaProgrammingLibrary.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \cond HIDE_META_PROGRAMMING */
 
-namespace mpl {
-namespace Details {
+namespace mpl
+{
+namespace Details
+{
+
 /** Helper root class for Meta-programming purpose.
  * This class provides two types that help build SFINAE based meta-programs.
  * \ingroup MetaProgrammingLibrary
