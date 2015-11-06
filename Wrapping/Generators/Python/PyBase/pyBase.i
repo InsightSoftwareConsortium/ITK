@@ -619,20 +619,21 @@ str = str
             if (PySequence_Check($input) && PyObject_Length($input) == dim) {
                 for (int i =0; i < dim; i++) {
                     PyObject *o = PySequence_GetItem($input,i);
-                    if (!PyInt_Check(o)) {
-                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int");
+                    if (PyInt_Check(o) || PyLong_Check(o)) {
+                        itks[i] = PyInt_AsLong(o);
+                    } else {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int (or long)");
                         return NULL;
                     }
-                    itks[i] = PyInt_AsLong(o);
                 }
                 $1 = &itks;
-            }else if (PyInt_Check($input)) {
+            }else if (PyInt_Check($input) || PyLong_Check($input)) {
                 for (int i =0; i < dim; i++) {
                     itks[i] = PyInt_AsLong($input);
                 }
                 $1 = &itks;
             } else {
-                PyErr_SetString(PyExc_TypeError,"Expecting an swig_name, an int or sequence of int");
+                PyErr_SetString(PyExc_TypeError,"Expecting an swig_name, an int or sequence of int (or long)");
                 SWIG_fail;
             }
         }
@@ -657,20 +658,21 @@ str = str
             if (PySequence_Check($input) && PyObject_Length($input) == dim) {
                 for (int i =0; i < dim; i++) {
                     PyObject *o = PySequence_GetItem($input,i);
-                    if (!PyInt_Check(o)) {
-                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int");
+                    if (PyInt_Check(o) || PyLong_Check(o)) {
+                        itks[i] = PyInt_AsLong(o);
+                    } else {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int (or long)");
                         return NULL;
                     }
-                    itks[i] = PyInt_AsLong(o);
                 }
                 $1 = itks;
-            }else if (PyInt_Check($input)) {
+            }else if (PyInt_Check($input) || PyLong_Check($input)) {
                 for (int i =0; i < dim; i++) {
                     itks[i] = PyInt_AsLong($input);
                 }
                 $1 = itks;
             } else {
-                PyErr_SetString(PyExc_TypeError,"Expecting an swig_name, an int or sequence of int");
+                PyErr_SetString(PyExc_TypeError,"Expecting an swig_name, an int or sequence of int (or long)");
                 SWIG_fail;
             }
         }else if( s != NULL ) {
@@ -685,7 +687,7 @@ str = str
         void *ptr;
         if (SWIG_ConvertPtr($input, &ptr, $descriptor(swig_name *), 0) == -1
             && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
-            && !PyInt_Check($input) ) {
+            && !(PyInt_Check($input) || PyLong_Check($input)) ) {
             _v = 0;
             PyErr_Clear();
         } else {
