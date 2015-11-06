@@ -63,6 +63,23 @@ macro(itk_download_attempt_check _name)
 endmacro()
 
 #-----------------------------------------------------------------------------
+if(NOT ITK_FORBID_DOWNLOADS)
+  find_package(Git)
+  set(ITK_USE_GIT_PROTOCOL_default "OFF")
+  if (GIT_VERSION_STRING VERSION_LESS "1.7.10")
+    # minimum version for https support
+    set(ITK_USE_GIT_PROTOCOL_default "ON")
+  endif()
+  option(ITK_USE_GIT_PROTOCOL "If behind a firewall turn this off to use https instead." ${ITK_USE_GIT_PROTOCOL_default})
+  mark_as_advanced(ITK_USE_GIT_PROTOCOL)
+  set(git_protocol "https")
+  if(ITK_USE_GIT_PROTOCOL)
+    set(git_protocol "git")
+  endif()
+endif()
+
+
+#-----------------------------------------------------------------------------
 if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
   # This file is always present in version-controlled source trees
   # so we must have been extracted from a source tarball with no

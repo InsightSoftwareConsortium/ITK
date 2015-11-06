@@ -14,7 +14,7 @@ configure_file("${ITK_SOURCE_DIR}/CMake/ITKKWStyleConfig.cmake.in"
 itk_download_attempt_check(KWStyle)
 
 ExternalProject_add(KWStyle
-  GIT_REPOSITORY "https://github.com/Kitware/KWStyle.git"
+  GIT_REPOSITORY "${git_protocol}://github.com/Kitware/KWStyle.git"
   GIT_TAG ea78cb4af42d1fd1eac5a6c9ca0d7d0a2e937321
   UPDATE_COMMAND ""
   DOWNLOAD_DIR ${KWStyle_SOURCE_DIR}
