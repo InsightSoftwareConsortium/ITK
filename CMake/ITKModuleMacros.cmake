@@ -102,13 +102,13 @@ macro(itk_module _name)
     endif()
   endforeach()
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
-  set(ITK_MODULE_${itk-module}_LINK_DEPENDS ${ITK_MODULE_${itk-module}_DEPENDS} )
+  set(ITK_MODULE_${itk-module}_PUBLIC_DEPENDS ${ITK_MODULE_${itk-module}_DEPENDS} )
   list(APPEND ITK_MODULE_${itk-module}_DEPENDS
     ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
     ${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}
   )
   set(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS
-    ${ITK_MODULE_${itk-module}_LINK_DEPENDS}
+    ${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}
     ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
   )
   unset(ITK_MODULE_${itk-module}_COMPILE_DEPENDS)
@@ -261,7 +261,10 @@ macro(itk_module_impl)
     set(itk-module-TARGETS_FILE-install "${${itk-module}_TARGETS_FILE_INSTALL}")
   endif()
 
-  set(itk-module-DEPENDS "${ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS}")
+  set(itk-module-DEPENDS "${ITK_MODULE_${itk-module}_DEPENDS}")
+  set(itk-module-PUBLIC_DEPENDS "${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}")
+  set(itk-module-TRANSITIVE_DEPENDS "${ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS}")
+  set(itk-module-PRIVATE_DEPENDS "${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}")
   set(itk-module-LIBRARIES "${${itk-module}_LIBRARIES}")
   set(itk-module-INCLUDE_DIRS-build "${${itk-module}_INCLUDE_DIRS}")
   set(itk-module-INCLUDE_DIRS-install "\${ITK_INSTALL_PREFIX}/${${itk-module}_INSTALL_INCLUDE_DIR}")
@@ -292,7 +295,7 @@ endmacro()
 # dependency given to itk_module either publicly or privately.
 macro(itk_module_link_dependencies)
   # link to public dependencies
-  foreach(dep IN LISTS ITK_MODULE_${itk-module}_LINK_DEPENDS)
+  foreach(dep IN LISTS ITK_MODULE_${itk-module}_PUBLIC_DEPENDS)
     if(${dep}_LIBRARIES)
       target_link_libraries(${itk-module} LINK_PUBLIC ${${dep}_LIBRARIES})
     elseif(${dep})
