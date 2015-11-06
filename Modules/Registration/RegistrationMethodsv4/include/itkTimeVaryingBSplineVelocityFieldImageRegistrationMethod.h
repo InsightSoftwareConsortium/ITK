@@ -110,45 +110,71 @@ public:
   /** Input typedefs for the images and transforms. */
   typedef TFixedImage                                                 FixedImageType;
   typedef typename FixedImageType::Pointer                            FixedImagePointer;
+  typedef typename Superclass::FixedImagesContainerType               FixedImagesContainerType;
   typedef TMovingImage                                                MovingImageType;
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
+  typedef typename Superclass::MovingImagesContainerType              MovingImagesContainerType;
+
+  typedef TPointSet                                                   InputPointSetType;
+  typedef typename InputPointSetType::Pointer                         InputPointSetPointer;
+  typedef typename Superclass::PointSetsContainerType                 PointSetsContainerType;
 
   /** Metric and transform typedefs */
   typedef typename Superclass::ImageMetricType                        ImageMetricType;
   typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
-  typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
+  typedef typename ImageMetricType::DerivativeType                    MetricDerivativeType;
+
+  typedef typename Superclass::VirtualImageType                       VirtualImageType;
+  typedef typename Superclass::VirtualImageBaseType                   VirtualImageBaseType;
+  typedef typename Superclass::VirtualImageBaseConstPointer           VirtualImageBaseConstPointer;
+
+  typedef typename Superclass::MetricType                             MetricType;
   typedef typename Superclass::MultiMetricType                        MultiMetricType;
+  typedef typename MetricType::Pointer                                MetricPointer;
+  typedef typename Superclass::PointSetMetricType                     PointSetMetricType;
+
   typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
   typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
   typedef ImageMaskSpatialObject<ImageDimension>                      ImageMaskSpatialObjectType;
   typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
 
+  typedef typename Superclass::InitialTransformType                                            InitialTransformType;
   typedef TOutputTransform                                                                     OutputTransformType;
   typedef typename OutputTransformType::Pointer                                                OutputTransformPointer;
   typedef typename OutputTransformType::ScalarType                                             RealType;
   typedef typename OutputTransformType::DerivativeType                                         DerivativeType;
   typedef typename DerivativeType::ValueType                                                   DerivativeValueType;
   typedef typename OutputTransformType::DisplacementFieldType                                  DisplacementFieldType;
+  typedef typename DisplacementFieldType::PointType                                            DisplacementFieldPointType;
+
+  typedef ContinuousIndex<typename DisplacementFieldPointType::CoordRepType, ImageDimension>   ContinuousIndexType;
+
   typedef typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticeType        TimeVaryingVelocityFieldControlPointLatticeType;
   typedef typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticePointer     TimeVaryingVelocityFieldControlPointLatticePointer;
   typedef typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticeType        TimeVaryingVelocityFieldType;
   typedef typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticePointer     TimeVaryingVelocityFieldPointer;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::PixelType                  DisplacementVectorType;
 
-  typedef typename Superclass::CompositeTransformType                                    CompositeTransformType;
+  typedef typename Superclass::CompositeTransformType                 CompositeTransformType;
+  typedef typename CompositeTransformType::TransformType              TransformBaseType;
 
   typedef typename Superclass::DecoratedOutputTransformType           DecoratedOutputTransformType;
   typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
 
   typedef Array<SizeValueType>                                        NumberOfIterationsArrayType;
 
-  typedef PointSet<DisplacementVectorType, ImageDimension + 1>                                  PointSetType;
-  typedef BSplineScatteredDataPointSetToImageFilter<PointSetType, TimeVaryingVelocityFieldType> BSplineFilterType;
-  typedef typename BSplineFilterType::WeightsContainerType                                      WeightsContainerType;
-  typedef typename WeightsContainerType::Element                                                WeightsElementType;
-  typedef Image<WeightsElementType, ImageDimension>                                             WeightedMaskImageType;
-  typedef Image<WeightsElementType, ImageDimension + 1>                                         TimeVaryingWeightedMaskImageType;
+  typedef DisplacementFieldTransform<RealType, ImageDimension>        DisplacementFieldTransformType;
+  typedef typename DisplacementFieldTransformType::Pointer            DisplacementFieldTransformPointer;
+
+  typedef PointSet<DisplacementVectorType, ImageDimension + 1>        VelocityFieldPointSetType;
+  typedef typename VelocityFieldPointSetType::Pointer                 VelocityFieldPointSetPointer;
+  typedef BSplineScatteredDataPointSetToImageFilter
+    <VelocityFieldPointSetType, TimeVaryingVelocityFieldType>         BSplineFilterType;
+  typedef typename BSplineFilterType::WeightsContainerType            WeightsContainerType;
+  typedef typename WeightsContainerType::Element                      WeightsElementType;
+  typedef Image<WeightsElementType, ImageDimension>                   WeightedMaskImageType;
+  typedef Image<WeightsElementType, ImageDimension + 1>               TimeVaryingWeightedMaskImageType;
 
   /** Set/Get the learning rate. */
   itkSetMacro( LearningRate, RealType );
@@ -181,18 +207,30 @@ protected:
   /** Handle optimization internally */
   virtual void StartOptimization();
 
+  /** Translate metrics to the point-set for building the (n+1)-D B-spline model */
+  void GetMetricDerivativePointSetForAllTimePoints( VelocityFieldPointSetType *, WeightsContainerType * );
+
+  void AttachMetricGradientPointSetAtSpecificTimePoint( const RealType,
+    VelocityFieldPointSetType *, WeightsContainerType *, const FixedImagesContainerType,
+    const PointSetsContainerType, const TransformBaseType *, const MovingImagesContainerType,
+    const PointSetsContainerType, const TransformBaseType *, const FixedImageMaskType * );
+
 private:
   TimeVaryingBSplineVelocityFieldImageRegistrationMethod( const Self & ) ITK_DELETE_FUNCTION;
   void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
-  RealType                                                        m_LearningRate;
+  DisplacementFieldTransformPointer                   m_IdentityDisplacementFieldTransform;
 
-  RealType                                                        m_ConvergenceThreshold;
-  unsigned int                                                    m_ConvergenceWindowSize;
+  RealType                                            m_LearningRate;
 
-  NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
+  RealType                                            m_ConvergenceThreshold;
+  unsigned int                                        m_ConvergenceWindowSize;
 
-  SizeValueType                                                   m_NumberOfTimePointSamples;
+  NumberOfIterationsArrayType                         m_NumberOfIterationsPerLevel;
+
+  SizeValueType                                       m_NumberOfTimePointSamples;
+
+  WeightsElementType                                  m_BoundaryWeight;
 };
 } // end namespace itk
 

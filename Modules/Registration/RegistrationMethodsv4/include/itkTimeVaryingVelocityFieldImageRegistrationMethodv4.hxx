@@ -99,7 +99,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       }
     else
       {
-      itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+      itkExceptionMacro( "ERROR: Invalid conversion from the multi metric queue." );
       }
     }
   else
@@ -111,7 +111,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       }
     else
       {
-      itkExceptionMacro("ERROR: Invalid metric conversion.");
+      itkExceptionMacro( "ERROR: Invalid metric conversion." );
       }
     }
 
