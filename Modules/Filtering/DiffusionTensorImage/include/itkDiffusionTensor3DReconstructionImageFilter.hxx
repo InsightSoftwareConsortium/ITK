@@ -65,13 +65,6 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   // gradient directions.
   const unsigned int numberOfInputs = this->GetNumberOfIndexedInputs();
 
-  // There need to be at least 6 gradient directions to be able to compute the
-  // tensor basis
-  if ( m_NumberOfGradientDirections < 6 )
-    {
-    itkExceptionMacro(<< "At least 6 gradient directions are required");
-    }
-
   // If there is only 1 gradient image, it must be an itk::VectorImage.
   // Otherwise
   // we must have a container of (numberOfInputs-1) itk::Image. Check to make
@@ -443,11 +436,6 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TMaskImageType >
 ::ComputeTensorBasis()
 {
-  if ( m_NumberOfGradientDirections < 6 )
-    {
-    itkExceptionMacro(<< "Not enough gradient directions supplied. Need to supply at least 6");
-    }
-
   // This is only important if we are using a vector image.  For
   // images added one at a time, this is not needed but doesn't hurt.
   std::vector< unsigned int > gradientind;
@@ -663,6 +651,28 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     os << indent << "A multicomponent gradient image has been supplied" << std::endl;
     }
 }
+
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
+void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
+                                                 TGradientImagePixelType,
+                                                 TTensorPixelType,
+                                                 TMaskImageType >
+::VerifyPreconditions()
+{
+  Superclass::VerifyPreconditions();
+
+  if ( this->m_NumberOfBaselineImages == 0 )
+    {
+    itkExceptionMacro(<< "Number of baseline images is null");
+    }
+  if ( this->m_NumberOfGradientDirections < 6 )
+    {
+    itkExceptionMacro(<< "Not enough gradient directions supplied. Need to supply at least 6");
+    }
+}
+
 }
 
 #endif
