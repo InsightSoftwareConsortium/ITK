@@ -288,6 +288,8 @@ protected:
   void ThreadedGenerateData(const
                             OutputImageRegionType & outputRegionForThread, ThreadIdType) ITK_OVERRIDE;
 
+  void VerifyPreconditions() ITK_OVERRIDE;
+
   /** enum to indicate if the gradient image is specified as a single multi-
    * component image or as several separate images */
   typedef enum {
