@@ -8,11 +8,16 @@
 # The tests will simply not be run if python is unavailable.
 find_package(PythonInterp)
 
+# Improve performance of MSVC GUI, by reducing number of header tests.
+set( MAXIMUM_NUMBER_OF_HEADERS_default 35 )
+if( MSVC )
+  set( MAXIMUM_NUMBER_OF_HEADERS_default 9999 )
+endif()
+
 # The maximum number of headers in a test.  This helps limit memory issues,
 # and the cppcheck tests.  However, if this is not unity, there is a slight
 # chance that problems may be hidden.  For a complete header check, set to "1".
-set( MAXIMUM_NUMBER_OF_HEADERS 35
-  CACHE STRING "The number of headers in a HeaderTest code." )
+set( MAXIMUM_NUMBER_OF_HEADERS ${MAXIMUM_NUMBER_OF_HEADERS_default} CACHE STRING "The number of headers in a HeaderTest code." )
 mark_as_advanced( MAXIMUM_NUMBER_OF_HEADERS )
 
 add_custom_target( ITKHeaderTests
