@@ -32,8 +32,7 @@
 
 namespace itk
 {
-StimulateImageIO::StimulateImageIO() :
-  m_DisplayThresh(0.0f)
+StimulateImageIO::StimulateImageIO()
 {
   m_DisplayRange[0] = 0;
   m_DisplayRange[1] = 0;
