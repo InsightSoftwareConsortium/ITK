@@ -175,9 +175,9 @@ macro(itk_auto_load_submodules)
   # - the order is important for the order of creation of python template
   # - the typemaps files are always the same, and the rebuild can be avoided
   list(SORT wrap_cmake_files)
-  foreach(file ${wrap_cmake_files})
+  foreach(_file ${wrap_cmake_files})
     # get the module name from module.wrap
-    get_filename_component(module "${file}" NAME_WE)
+    get_filename_component(module "${_file}" NAME_WE)
 
     # if the module is already in the list, it means that it is already included
     # ... and do not include excluded modules
@@ -195,36 +195,6 @@ macro(itk_auto_load_submodules)
       itk_load_submodule("${module}")
     endif()
   endforeach()
-
-  # Now search for other *.wrap files to include
-  file(GLOB wrap_cmake_files "${WRAPPER_LIBRARY_SOURCE_DIR}/*.wrap")
-  # sort the list of files so we are sure to always get the same order on all system
-  # and for all builds. That's important for several reasons:
-  # - the order is important for the order of creation of python template
-  # - the typemaps files are always the same, and the rebuild can be avoided
-  list(SORT wrap_cmake_files)
-  foreach(file ${wrap_cmake_files})
-    # get the module name from wrap_module.cmake
-    get_filename_component(module "${file}" NAME_WE)
-    string(REGEX REPLACE "^wrap_" "" module "${module}")
-
-    # if the module is already in the list, it means that it is already included
-    # ... and do not include excluded modules
-    set(will_include 1)
-    foreach(already_included ${WRAPPER_SUBMODULE_ORDER})
-      if("${already_included}" STREQUAL "${module}")
-        set(will_include 0)
-      endif()
-    endforeach()
-
-    if(${will_include})
-      # Add the module name to the list. WRITE_MODULE_FILES uses this list
-      # to create the master library wrapper file.
-      list(APPEND WRAPPER_SUBMODULE_ORDER "${module}")
-      itk_load_submodule("${module}")
-    endif()
-  endforeach()
-
 endmacro()
 
 
