@@ -90,7 +90,7 @@ struct ImageAlgorithm
     ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion );
   }
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
   template<typename TPixel1, typename TPixel2, unsigned int VImageDimension>
   static void Copy( const Image<TPixel1, VImageDimension> * inImage,
                                Image<TPixel2, VImageDimension> * outImage,
@@ -130,7 +130,7 @@ struct ImageAlgorithm
       );
   }
 
-/** \endcond */
+/// \endcond
 
   /**
    * \brief Sets the output region to the smallest
@@ -174,7 +174,7 @@ private:
     }
   };
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
   template <typename TPixelType, unsigned int VImageDimension>
   struct PixelSize< VectorImage<TPixelType, VImageDimension> >
   {
@@ -185,7 +185,7 @@ private:
       return vectorLength;
     }
   };
-/** \endcond */
+/// \endcond
 
   /** Unary functor just for static_cast operator */
   template<typename TInputType, typename TOutputType>
@@ -206,13 +206,13 @@ private:
       return std::copy(first, last, result);
     }
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
   template<typename TInputType, typename TOutputType>
   static TOutputType* CopyHelper(const TInputType *first, const TInputType *last, TOutputType *result)
     {
       return std::transform(first, last, result, StaticCast<TInputType,TOutputType>());
     }
-/** \endcond */
+/// \endcond
 
 
 };

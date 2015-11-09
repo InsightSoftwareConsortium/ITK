@@ -429,9 +429,9 @@ public:
   typedef TPixelType MeasurementVectorType;
 };
 
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 /**
- *  \cond HIDE_SPECIALIZATION_DOCUMENTATION
- *  \class MeasurementVectorPixelTraits
+ * \class MeasurementVectorPixelTraits
  * \ingroup ITKStatistics
  */
 template< >
@@ -525,7 +525,7 @@ public:
   typedef FixedArray< double, 1 > MeasurementVectorType;
 };
 
-/** \endcond*/
+/// \endcond
 
 } // namespace Statistics
 } // namespace itk

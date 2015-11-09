@@ -22,7 +22,7 @@
 
 namespace itk {
 
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 namespace mpl {
 
 /**\defgroup MetaProgrammingLibrary Meta Programming Library
@@ -64,10 +64,10 @@ struct FalseType
  * \ingroup ITKCommon
  */
 template <bool VP, typename T1, typename T2> struct If;
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <typename T1, typename T2> struct If<true , T1, T2>{ typedef T1 Type; };
 template <typename T1, typename T2> struct If<false, T1, T2>{ typedef T2 Type; };
-/**\endcond*/
+/// \endcond
 
 /** MPL \c OR operator on constants.
  * \tparam VF1 First boolean expression
@@ -77,9 +77,9 @@ template <typename T1, typename T2> struct If<false, T1, T2>{ typedef T2 Type; }
  * \ingroup ITKCommon
  */
 template < bool VF1, bool VF2, bool VF3=false> struct OrC : TrueType { };
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <> struct OrC<false, false,false> : FalseType {};
-/**\endcond*/
+/// \endcond
 /** MPL \c OR operator on types.
  * \tparam TF1 First boolean type
  * \tparam TF2 Second boolean type
@@ -102,9 +102,9 @@ template < typename TF1, typename TF2, typename TF3=FalseType> struct Or : OrC<T
  * \ingroup ITKCommon
  */
 template < bool VF1, bool VF2> struct AndC : FalseType { };
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <> struct AndC<true, true> : TrueType {};
-/**\endcond*/
+/// \endcond
 /** MPL \c AND operator on types.
  * \tparam TF1 First boolean type
  * \tparam TF2 Second boolean type
@@ -126,10 +126,10 @@ template < typename TF1, typename TF2> struct And : AndC<TF1::Value, TF2::Value>
  * \ingroup ITKCommon
  */
 template < bool VF1, bool VF2> struct XorC : FalseType { };
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <> struct XorC<true, false> : TrueType {};
 template <> struct XorC<false, true> : TrueType {};
-/**\endcond*/
+/// \endcond
 /** MPL \c XOR operator on types.
  * \tparam TF1 First boolean type
  * \tparam TF2 Second boolean type
@@ -150,10 +150,10 @@ template < typename TF1, typename TF2> struct Xor : XorC<TF1::Value, TF2::Value>
  * \ingroup ITKCommon
  */
 template < bool VF > struct NotC : FalseType { };
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <> struct NotC<false> : TrueType {};
 template <> struct NotC<true>  : FalseType {};
-/**\endcond*/
+/// \endcond
 /** MPL \c NOT operator on types.
  * \tparam TF Second boolean type
  *
@@ -174,6 +174,6 @@ template < typename TF> struct Not : NotC<TF::Value>
 using mpl::TrueType;
 using mpl::FalseType;
 
-/** \endcond */
+/// \endcond
 } // itk namespace
 #endif // itkMetaProgrammingLibrary_h

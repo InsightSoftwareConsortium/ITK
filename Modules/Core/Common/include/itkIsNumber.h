@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 namespace mpl
 {
 /** Tells whether a type is a number.
@@ -36,7 +36,7 @@ namespace mpl
 template <typename T>
 struct IsNumber : FalseType {};
 
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <> struct IsNumber<unsigned char>          : TrueType {};
 template <> struct IsNumber<signed   char>          : TrueType {};
 template <> struct IsNumber<unsigned short int>     : TrueType {};
@@ -50,10 +50,10 @@ template <> struct IsNumber<unsigned long long int> : TrueType {};
 template <> struct IsNumber<float>                  : TrueType {};
 template <> struct IsNumber<double>                 : TrueType {};
 template <> struct IsNumber<long double>            : TrueType {};
-/**\endcond*/
+/// \endcond
 
 } // itk::mpl namespace
-/**\endcond*/
+/// \endcond
 } // itk namespace
 
 #endif // itkIsNumber_h

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 namespace mpl
 {
 
@@ -32,9 +32,9 @@ namespace mpl
  */
 template<typename, typename> struct IsSame : public FalseType { };
 
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template<typename T> struct IsSame<T, T> : public TrueType {};
-/**\endcond*/
+/// \endcond
 
 } // end namespace itk::mpl
 
@@ -42,7 +42,7 @@ template<typename T> struct IsSame<T, T> : public TrueType {};
 // Expect them to be deprecated.
 using mpl::IsSame;
 
-/** \endcond */
+/// \endcond
 
 } // end namespace itk
 
