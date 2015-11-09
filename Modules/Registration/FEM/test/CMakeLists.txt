@@ -31,7 +31,7 @@ itk_add_test(NAME itkPhysicsBasedNonRigidRegistrationMethodTest
       COMMAND ITKFEMRegistrationTestDriver
     --compareRadiusTolerance 0
     --compareNumberOfPixelsTolerance 0
-    --compareIntensityTolerance 4
+    --compareIntensityTolerance 9
     --compare DATA{${CMAKE_CURRENT_SOURCE_DIR}/Baseline/itkPhysicsBasedNonRigidRegistrationMethodTest.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkPhysicsBasedNonRigidRegistrationMethodTest.mha
     itkPhysicsBasedNonRigidRegistrationMethodTest DATA{${CMAKE_CURRENT_SOURCE_DIR}/Input/PBNRRFixedImage.nii.gz}
