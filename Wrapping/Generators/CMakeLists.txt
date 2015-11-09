@@ -323,9 +323,3 @@ foreach(lang ${generators})
     include_directories(${inc})
   endif()
 endforeach()
-
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  install(FILES CMakeLists.txt itk.i
-    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Generators"
-  )
-endif()

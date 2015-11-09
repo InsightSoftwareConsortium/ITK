@@ -32,12 +32,47 @@ file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python)
 
 
 ###############################################################################
+# Configure Python wrapping installation
+if(PYTHON_EXECUTABLE AND NOT PY_SITE_PACKAGES_PATH)
+  set(python_check "from __future__ import print_function\ntry:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(plat_specific=1, prefix=''))\nexcept:\n    pass")
+  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py ${python_check})
+  execute_process(COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py"
+    OUTPUT_VARIABLE py_spp
+    ERROR_VARIABLE py_spp
+  )
+
+  execute_process(COMMAND "${PYTHON_EXECUTABLE}" -c "from __future__ import print_function\nimport sys\nprint(sys.prefix)"
+    OUTPUT_VARIABLE py_prefix
+    ERROR_VARIABLE py_prefix
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+  if(NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "${py_prefix}")
+    install(CODE "message(WARNING \"CMAKE_INSTALL_PREFIX, ${CMAKE_INSTALL_PREFIX}, does not match Python's prefix, ${py_prefix}\")")
+  endif()
+  string(REGEX REPLACE "\n" "" py_spp_no_newline "${py_spp}")
+  file(TO_CMAKE_PATH "${py_spp_no_newline}" py_spp_nobackslashes)
+endif()
+
+set(PY_SITE_PACKAGES_PATH "${py_spp_nobackslashes}" CACHE STRING "Python site-packages directory to install Python bindings.")
+mark_as_advanced(PY_SITE_PACKAGES_PATH)
+if(NOT PY_SITE_PACKAGES_PATH)
+  message(SEND_ERROR "Please set PY_SITE_PACKAGES_PATH to the Python bindings installation directory.")
+endif()
+
+macro(WRAP_ITK_PYTHON_BINDINGS_INSTALL path)
+  install(FILES ${ARGN}
+    DESTINATION "${PY_SITE_PACKAGES_PATH}/${path}"
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    )
+endmacro()
+
+
+###############################################################################
 # Configure the path-dependent itkConfig.py
 
 # we specify these directories with relative paths  so that the file can be
 # bundled up into an install conventiently. Python will take care of turning
 # the / path separator into \ on windows if needed.
-
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
   if(CMAKE_CONFIGURATION_TYPES)
@@ -75,7 +110,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
                  "${ITK_WRAP_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py"
                 @ONLY)
 
-  WRAP_ITK_BINDINGS_INSTALL(/Python "${ITK_WRAP_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py")
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${ITK_WRAP_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py")
 
   # copy the files to expose build options in python
   set(ITK_WRAP_PYTHON_VECTOR_REAL )
@@ -105,11 +140,11 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsPython.py.in"
                  "${ITK_WRAP_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py"
                 @ONLY)
-  WRAP_ITK_BINDINGS_INSTALL(/Python "${ITK_WRAP_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py")
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${ITK_WRAP_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py")
 
   file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py"
        DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Configuration/")
-  WRAP_ITK_BINDINGS_INSTALL(/Python/Configuration "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py")
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/Configuration "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py")
 
 endif()
 
@@ -122,7 +157,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   # Create a list of Python files.
   # WrapITK/Python/*.py
   set(ITK_PYTHON_FILES
-    itk
+    itk/__init__
     itkBase
     itkTemplate
     itkTypes
@@ -164,8 +199,11 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   endif()
 
   # Install the package python files.
-  WRAP_ITK_BINDINGS_INSTALL(/Python ${ITK_WRAP_PYTHON_INSTALL_FILES})
-
+  list(GET ITK_WRAP_PYTHON_INSTALL_FILES 0 init_file)
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk ${init_file})
+  set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
+  list(REMOVE_AT python_modules 0)
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ ${python_modules})
 endif()
 
 
@@ -194,56 +232,6 @@ else()
                  "${CMAKE_CURRENT_BINARY_DIR}/WrapITK.pth"
                  @ONLY)
 
-endif()
-
-set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Python")
-set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_INSTALL_PREFIX}/${ITK_INSTALL_LIBRARY_DIR}")
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
-            "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth"
-            @ONLY)
-
-if(PYTHON_EXECUTABLE)
-  set(python_check "from __future__ import print_function\ntry:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(plat_specific=1, prefix=''))\nexcept:\n    pass")
-  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/det_spp.py ${python_check})
-  execute_process(COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/det_spp.py"
-    OUTPUT_VARIABLE py_spp
-    ERROR_VARIABLE py_spp
-  )
-
-  execute_process(COMMAND "${PYTHON_EXECUTABLE}" -c "from __future__ import print_function\nimport sys\nprint(sys.prefix)"
-    OUTPUT_VARIABLE py_prefix
-    ERROR_VARIABLE py_prefix
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-  if(NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "${py_prefix}")
-    install(CODE "message(WARNING \"CMAKE_INSTALL_PREFIX, ${CMAKE_INSTALL_PREFIX}, does not match Python's prefix, ${py_prefix}\")")
-  endif()
-endif()
-
-string(REGEX REPLACE "\n" "" py_spp_no_newline "${py_spp}")
-string(REGEX REPLACE "\\\\" "/" py_spp_nobackslashes "${py_spp_no_newline}")
-set(PY_SITE_PACKAGES_PATH "${py_spp_nobackslashes}" CACHE STRING "Python site-packages directory to install a .pth file pointing at WrapITK Python modules.")
-mark_as_advanced(PY_SITE_PACKAGES_PATH)
-if(PY_SITE_PACKAGES_PATH)
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth"
-    DESTINATION "${PY_SITE_PACKAGES_PATH}"
-    )
-endif()
-
-###############################################################################
-# Install python stuff for external projects
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/Python
-    CMakeLists.txt
-    ExternalProjectConfig.pth.in
-    ExternalProjectConfig.py.in
-    ModuleConfig.py.in
-    ModuleLoader.py.in
-    WrapITK.pth.in
-    itkConfig.py.in
-    main_module_ext.i.in
-    module_ext.i.in
-  )
 endif()
 
 ###############################################################################
@@ -336,7 +324,7 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
     DEPENDS ${dependencies}
   )
-  WRAP_ITK_BINDINGS_INSTALL("/Python" "${python_file}")
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "${python_file}")
 
 endmacro()
 
@@ -376,7 +364,7 @@ macro(itk_end_wrap_module_python)
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/ModuleConfig.py.in"
     "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
     @ONLY)
-  WRAP_ITK_BINDINGS_INSTALL("/Python/Configuration"
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/Configuration
     "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
   )
 
@@ -387,7 +375,7 @@ macro(itk_end_wrap_module_python)
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/ModuleLoader.py.in"
     "${ITK_WRAP_PYTHON_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py"
     @ONLY)
-  WRAP_ITK_BINDINGS_INSTALL("/Python" "${ITK_WRAP_PYTHON_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${ITK_WRAP_PYTHON_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
 
   # Create the Python customization stuff in the main module
   # It allows to group the python submodules in a single shared lib (.so),
@@ -399,9 +387,6 @@ macro(itk_end_wrap_module_python)
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/main_module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i"
     @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/python"
-    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i"
-  )
 
   # set some var reused later
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
@@ -451,7 +436,10 @@ macro(itk_end_wrap_module_python)
     target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_NAME}Explicit)
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
   endif()
-  install(TARGETS "${lib}" DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Python")
+  install(TARGETS "${lib}"
+    DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    )
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
@@ -511,8 +499,6 @@ macro(itk_end_wrap_submodule_python group_name)
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/module_ext.i.in"
   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${group_name}_ext.i"
   @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/python" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${group_name}_ext.i"
-  )
 
   # prepare dependencies
   set(DEPS )

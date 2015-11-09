@@ -74,8 +74,6 @@ macro(itk_end_wrap_module_ruby)
   configure_file("${ITK_WRAP_RUBY_SOURCE_DIR}/main_module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/${WRAPPER_LIBRARY_NAME}_ext.i"
     @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/ruby"
-    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/${WRAPPER_LIBRARY_NAME}_ext.i"
   )
 
 
@@ -134,7 +132,10 @@ macro(itk_end_wrap_module_ruby)
   endif()
   target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${RUBY_LIBRARY})
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  install(TARGETS "${lib}" DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Ruby")
+  install(TARGETS "${lib}"
+    DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Ruby"
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    )
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
@@ -163,7 +164,6 @@ macro(itk_end_wrap_submodule_ruby group_name)
   configure_file("${ITK_WRAP_RUBY_SOURCE_DIR}/module_ext.i.in"
   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/wrap_${group_name}_ext.i"
   @ONLY)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/ruby" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/wrap_${group_name}_ext.i"
   )
 
   # prepare dependencies

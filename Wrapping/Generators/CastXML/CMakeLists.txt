@@ -146,15 +146,6 @@ endif()
 mark_as_advanced(CASTXML_EXECUTABLE)
 
 ###############################################################################
-# install the files required for castxml
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  WRAP_ITK_INSTALL(/Configuration/Generators/CastXML CMakeLists.txt)
-  WRAP_ITK_INSTALL(/Configuration/Generators/CastXML cast_xml.inc.in)
-  WRAP_ITK_INSTALL(/Configuration/Generators/CastXML wrap_.cxx.in)
-endif()
-
-
-###############################################################################
 # store the current dir, so it can be reused later
 set(ITK_WRAP_CASTXML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "castxml source dir")
 
