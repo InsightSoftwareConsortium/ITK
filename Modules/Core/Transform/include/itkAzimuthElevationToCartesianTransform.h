@@ -58,8 +58,8 @@ namespace itk
  *
  * There are two template parameters for this class:
  *
- * ScalarT       The type to be used for scalar numeric values.  Either
- *               float or double.
+ * TParametersValueType  The type to be used for scalar numeric
+ *                       values.  Either float or double.
  *
  * NDimensions   The number of dimensions of the vector space (must be >=3).
  *
@@ -212,11 +212,8 @@ protected:
   void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
 private:
-  AzimuthElevationToCartesianTransform(const Self &); // purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-
-  // implemented
+  AzimuthElevationToCartesianTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   long   m_MaxAzimuth;
   long   m_MaxElevation;

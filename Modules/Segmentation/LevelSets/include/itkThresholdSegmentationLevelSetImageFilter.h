@@ -195,9 +195,8 @@ protected:
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  ThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not impl.
-  void operator=(const Self &);                           //purposely not
-                                                          // implemented
+  ThresholdSegmentationLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 private:
   ThresholdFunctionPointer m_ThresholdFunction;

@@ -18,6 +18,7 @@
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 
 #include <iostream>
+#include "itkMath.h"
 namespace
 {
 
@@ -268,8 +269,8 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 
   for( j = 0; j < ImageDimension; j++ )
     {
-    if( outputSpacing[j] !=
-      inputSpacing[j] * (double) schedule[testLevel][j] )
+    if( itk::Math::NotAlmostEquals( outputSpacing[j],
+      inputSpacing[j] * (double) schedule[testLevel][j] ) )
       {
       break;
       }
@@ -320,7 +321,7 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 
   while( !iter1.IsAtEnd() )
     {
-    if( iter1.Get() != iter2.Get() )
+    if( itk::Math::NotExactlyEquals(iter1.Get(), iter2.Get()) )
       {
       std::cout << "Streamed output is different!!!" << std::endl;
       pass = false;

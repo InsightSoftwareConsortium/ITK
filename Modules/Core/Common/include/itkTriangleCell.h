@@ -133,8 +133,8 @@ protected:
   std::vector< PointIdentifier > m_PointIds;
 
 private:
-  TriangleCell(const Self &);   //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  TriangleCell(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Computes the SQUARED distance between a point and a line segment defined
    * by two other points */

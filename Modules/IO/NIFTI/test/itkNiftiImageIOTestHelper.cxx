@@ -36,6 +36,7 @@ int WriteNiftiTestFiles(const std::string & prefix)
     NiftiBigEndian.sform_code=NIFTI_XFORM_UNKNOWN;
     strncpy(NiftiBigEndian.magic,"ni1\0",4);
 #include "BigEndian_img.h"
+#include "itkMath.h"
     //Force to be Nifti-compliant
   std::ofstream little_hdr((prefix+"NiftiLittleEndian.hdr").c_str(), std::ios::binary | std::ios::out);
   if(!little_hdr.is_open())
@@ -96,7 +97,7 @@ int TestNiftiByteSwap(const std::string & prefix)
                                                        big->GetLargestPossibleRegion());
       while(!littleIter.IsAtEnd())
         {
-          if(littleIter.Get() != bigIter.Get())
+          if(itk::Math::NotExactlyEquals(littleIter.Get(), bigIter.Get()))
             break;
           ++littleIter;
           ++bigIter;

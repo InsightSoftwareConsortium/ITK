@@ -101,8 +101,8 @@ protected:
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  GenerateImageSource( const GenerateImageSource &); //purposely not implemented
-  void operator=( const GenerateImageSource &);  //purposely not implemented
+  GenerateImageSource( const GenerateImageSource &) ITK_DELETE_FUNCTION;
+  void operator=( const GenerateImageSource &) ITK_DELETE_FUNCTION;
 
   SizeType      m_Size;            //size of the output image
   SpacingType   m_Spacing;         //spacing

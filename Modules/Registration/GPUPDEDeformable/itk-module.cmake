@@ -7,8 +7,9 @@ itk_module(ITKGPUPDEDeformableRegistration
   DEPENDS
     ITKCommon
     ITKGPUCommon
-    ITKPDEDeformableRegistration
     ITKGPUFiniteDifference
+  COMPILE_DEPENDS
+    ITKPDEDeformableRegistration
     ITKGPURegistrationCommon
   TEST_DEPENDS
     ITKTestKernel

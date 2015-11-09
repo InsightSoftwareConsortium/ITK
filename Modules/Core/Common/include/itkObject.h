@@ -197,8 +197,8 @@ protected:
   virtual void SetTimeStamp( const TimeStamp & time );
 
 private:
-  Object(const Self &);         //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  Object(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Enable/Disable debug messages. */
   mutable bool m_Debug;

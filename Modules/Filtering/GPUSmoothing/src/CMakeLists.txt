@@ -9,7 +9,7 @@ if (ITK_USE_GPU)
   write_gpu_kernels("${ITKGPUSmoothing_Kernels}" ITKGPUSmoothing_SRC)
 
   add_library(ITKGPUSmoothing ${ITKGPUSmoothing_SRC})
-  target_link_libraries(ITKGPUSmoothing
-  ${ITKGPUImageFilterBase_LIBRARIES} ${ITKGPUCommon_LIBRARIES} ${ITKCommon_LIBRARIES} ${OPENCL_LIBRARIES} )
+  itk_module_link_dependencies()
+  target_link_libraries(ITKGPUSmoothing LINK_PUBLIC ${OPENCL_LIBRARIES})
   itk_module_target(ITKGPUSmoothing)
 endif()

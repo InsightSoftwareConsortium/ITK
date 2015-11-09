@@ -127,8 +127,8 @@ private:
 
   Array2DDataObjectPointer   m_Array2DDataObject;
 
-  CSVArray2DFileReader(const Self &);  //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  CSVArray2DFileReader(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 } //end namespace itk

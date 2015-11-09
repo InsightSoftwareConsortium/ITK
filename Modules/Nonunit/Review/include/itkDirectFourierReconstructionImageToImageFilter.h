@@ -179,9 +179,8 @@ private:
   RegionType m_InputRequestedRegion; /**< The region requested from* the input
                                        image   */
 
-  /**< purposely not implemented */
-  DirectFourierReconstructionImageToImageFilter(const Self &);
-  void operator=(const Self &);
+  DirectFourierReconstructionImageToImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // namespace itk
 

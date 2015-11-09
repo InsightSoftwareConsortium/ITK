@@ -19,6 +19,8 @@
 #define _itkPowellOptimizer_cxx
 
 #include "itkPowellOptimizer.h"
+#include "itkMath.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -384,14 +386,14 @@ PowellOptimizer
         b = t;
         }
 
-      if ( functionValueOft <= functionValueOfW || w == x )
+      if ( functionValueOft <= functionValueOfW || Math::ExactlyEquals(w, x) )
         {
         v = w;
         w = t;
         functionValueOfV = functionValueOfW;
         functionValueOfW = functionValueOft;
         }
-      else if ( functionValueOft <= functionValueOfV || v == x || v == w )
+      else if ( functionValueOft <= functionValueOfV || Math::AlmostEquals(v, x) || itk::Math::AlmostEquals(v, w) )
         {
         v = t;
         functionValueOfV = functionValueOft;

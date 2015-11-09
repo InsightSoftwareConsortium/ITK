@@ -2,6 +2,6 @@
 itk_fetch_module(MinimalPathExtraction
  "http://www.insight-journal.org/browse/publication/213
 "
-  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/MinimalPathExtraction.git
-  GIT_TAG 1065027b1fea00ca2353facdb2db9d1a5e724d27
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKMinimalPathExtraction.git
+  GIT_TAG 611676c916310b05ea6c5e6b7804df72f8d20807
   )

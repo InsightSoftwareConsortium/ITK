@@ -79,8 +79,8 @@ protected:
   virtual ~GradientToMagnitudeImageFilter() {}
 
 private:
-  GradientToMagnitudeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
+  GradientToMagnitudeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

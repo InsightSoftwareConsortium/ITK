@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkMath.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkScalarImageToHistogramGenerator.h"
@@ -76,7 +77,7 @@ int itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int arg
     std::cout << "Computed Otsu threshold using " << *binsIterator << " bins: " << otsuCalculator->GetThreshold() << std::endl;
     std::cout << "Computed Otsu multiple threshold using " << *binsIterator << " bins: " << otsuMultipleCalculator->GetOutput()[0] << std::endl;
 
-    if( otsuCalculator->GetThreshold() != otsuMultipleCalculator->GetOutput()[0] )
+    if( itk::Math::NotAlmostEquals( otsuCalculator->GetThreshold(), otsuMultipleCalculator->GetOutput()[0] ) )
     {
       std::cout << "Computed Otsu threshold (" << otsuCalculator->GetThreshold() << ") is different from computed Otsu multiple threshold ("
           << otsuMultipleCalculator->GetOutput()[0] << ")" << std::endl;

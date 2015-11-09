@@ -6,13 +6,14 @@ find_package(PythonInterp REQUIRED)
 # Build swig
 
 option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." ${ITK_USE_SYSTEM_LIBRARIES})
+mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 
 # Minimal swig version
 set(swig_version_min 3.0.0)
 
-set(ITK_SWIG_VERSION 3.0.5)
-set(swig_md5     dcb9638324461b9baba8e044fe59031d)
-set(swigwin_md5  fd2e050f29e2a00b2348f5f7d3476490)
+set(ITK_SWIG_VERSION 3.0.7)
+set(swig_md5     7fff46c84b8c630ede5b0f0827e3d90a)
+set(swigwin_md5  d8b5a9ce49c819cc1bfc1e797b85ba7a)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
@@ -236,14 +237,16 @@ message(STATUS \"Swig configure successfully completed.\")
     DEPENDS PCRE
     )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
+    mark_as_advanced(SWIG_DIR)
   endif()
   set(SWIG_EXECUTABLE ${swig_ep} CACHE FILEPATH "swig executable." FORCE)
+  mark_as_advanced(SWIG_EXECUTABLE)
 endif()
 
 ###############################################################################
 
 set(IDX_GENERATOR ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "idx generator path")
-set(PYGCCXML_DIR ${CMAKE_SOURCE_DIR}/Modules/ThirdParty/pygccxml/src CACHE INTERNAL "pygccxml path")
+set(PYGCCXML_DIR ${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src CACHE INTERNAL "pygccxml path")
 
 ###############################################################################
 # install the files requires for swiginterface
@@ -272,7 +275,7 @@ endif()
 set(ITK_WRAP_SWIGINTERFACE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "swig interface source dir")
 set(ITK_WRAP_SWIGINTERFACE_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "swig interface binary dir")
 
-set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs" CACHE INTERNAL "typedefs dir")
+set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${ITK_DIR}/Wrapping/Typedefs" CACHE INTERNAL "typedefs dir")
 set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path" FORCE)
 
 macro(itk_wrap_module_swig_interface library_name)
@@ -365,7 +368,7 @@ macro(itk_end_wrap_module_swig_interface)
         -w1 -w3 -w51 -w52 -w53 -w54
         -A protected -A private
         -p ${PYGCCXML_DIR}
-        -g ${CASTXML}
+        -g ${CASTXML_EXECUTABLE}
         --typedef-input ${typedef_in_file}
         --typedef-output ${typedef_file}
         --include ${module}SwigInterface.h
@@ -475,7 +478,7 @@ macro(itk_end_wrap_submodule_swig_interface module)
   add_custom_command(
     OUTPUT ${idx_file}
     COMMAND ${IDX_GENERATOR}
-      ${PYGCCXML_DIR} ${CASTXML} ${xml_file} ${idx_file}
+      ${PYGCCXML_DIR} ${CASTXML_EXECUTABLE} ${xml_file} ${idx_file}
     DEPENDS ${IDX_GENERATOR} ${xml_file}
     VERBATIM
   )

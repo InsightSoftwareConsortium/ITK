@@ -162,8 +162,8 @@ protected:
                      const IndexType currentIdx);
 
 private:
-  MaskedMovingHistogramImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                   //purposely not implemented
+  MaskedMovingHistogramImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool m_GenerateOutputMask;
 

@@ -221,8 +221,8 @@ protected:
 private:
   OverRideMap *m_OverrideMap;
 
-  ObjectFactoryBase(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  ObjectFactoryBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Initialize the static list of Factories. */
   static void InitializeFactoryList();

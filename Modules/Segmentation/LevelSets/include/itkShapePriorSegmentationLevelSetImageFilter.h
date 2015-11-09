@@ -22,6 +22,7 @@
 #include "itkShapePriorSegmentationLevelSetFunction.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkShapePriorMAPCostFunctionBase.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -144,7 +145,7 @@ public:
   /** Set/Get the scaling of the shape prior term. */
   void SetShapePriorScaling(ValueType v)
   {
-    if ( v != m_ShapePriorSegmentationFunction->GetShapePriorWeight() )
+    if ( Math::NotExactlyEquals(v, m_ShapePriorSegmentationFunction->GetShapePriorWeight()) )
       {
       m_ShapePriorSegmentationFunction->SetShapePriorWeight(v);
       this->Modified();
@@ -184,11 +185,8 @@ protected:
   void ExtractActiveRegion(NodeContainerType *ptr);
 
 private:
-  ShapePriorSegmentationLevelSetImageFilter(const Self &); //purposely not
-                                                           // implemented
-  void operator=(const Self &);                            //purposely not
-
-  // implemented
+  ShapePriorSegmentationLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ShapeFunctionPointer m_ShapeFunction;
   CostFunctionPointer  m_CostFunction;

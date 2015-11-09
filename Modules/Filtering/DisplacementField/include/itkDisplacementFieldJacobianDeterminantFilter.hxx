@@ -27,6 +27,7 @@
 #include "itkVectorCastImageFilter.h"
 
 #include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -54,7 +55,7 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
 
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    if ( m_DerivativeWeights[i] != data[i] )
+    if ( Math::NotExactlyEquals(m_DerivativeWeights[i], data[i]) )
       {
       this->Modified();
       m_DerivativeWeights[i] = data[i];

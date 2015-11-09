@@ -25,6 +25,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
+#include "itkMutexLockHolder.h"
 
 namespace itk
 {
@@ -140,9 +141,9 @@ public:
   typedef typename Superclass::FixedSampledPointSetPointer    FixedSampledPointSetPointer;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType, TVirtualImage::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,  TFixedImage::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType, TMovingImage::ImageDimension);
+  itkStaticConstMacro(VirtualImageDimension, typename TVirtualImage::ImageDimensionType, TVirtualImage::ImageDimension);
+  itkStaticConstMacro(FixedImageDimension,   typename TFixedImage::ImageDimensionType,   TFixedImage::ImageDimension);
+  itkStaticConstMacro(MovingImageDimension,  typename TMovingImage::ImageDimensionType,  TMovingImage::ImageDimension);
 
   /** Number of bins to used in the histogram. Typical value is
    * 50. The minimum value is 5 due to the padding required by the Parzen
@@ -169,11 +170,11 @@ public:
    */
   const typename JointPDFType::Pointer GetJointPDF () const
     {
-    if( this->m_AccumulatorJointPDF.IsNull() )
+    if( this->m_ThreaderJointPDF.size() == 0 )
       {
       return typename JointPDFType::Pointer(ITK_NULLPTR);
       }
-    return this->m_AccumulatorJointPDF;
+    return this->m_ThreaderJointPDF[0];
     }
 
   /**
@@ -184,18 +185,9 @@ public:
    */
   const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
     {
-    if( this->m_AccumulatorJointPDFDerivatives.IsNull() )
-      {
-      return typename JointPDFDerivativesType::Pointer(ITK_NULLPTR);
-      }
-    return this->m_AccumulatorJointPDFDerivatives;
+    return this->m_JointPDFDerivatives;
     }
 
-  /** Initialize per-thread components for computing metric
-    * some threads require initialzation of temporary buffers
-    * per thread before processing each thread.
-    */
-  virtual void InitializeThread( const ThreadIdType threadId ) ITK_OVERRIDE;
   virtual void FinalizeThread( const ThreadIdType threadId ) ITK_OVERRIDE;
 
 protected:
@@ -261,9 +253,92 @@ protected:
 
   /** The joint PDF and PDF derivatives. */
   typename std::vector<typename JointPDFType::Pointer>            m_ThreaderJointPDF;
-  typename std::vector<typename JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives;
-  typename JointPDFType::Pointer                                  m_AccumulatorJointPDF;
-  typename JointPDFDerivativesType::Pointer                       m_AccumulatorJointPDFDerivatives;
+
+  /* \class DerivativeBufferManager
+   * A helper class to manage complexities of minimizing memory
+   * needs for mattes mutual information derivative computations
+   * per thread.
+   *
+   * Thread safety note:
+   * A seperate object is used locally per each thread. Only the members
+   * m_ParentJointPDFDerivativesLockPtr and m_ParentJointPDFDerivatives
+   * are shared between threads and access to m_ParentJointPDFDerivatives
+   * is controlled with the m_ParentJointPDFDerivativesLockPtr mutex lock.
+   * \ingroup ITKMetricsv4
+   */
+  class DerivativeBufferManager
+  {
+    typedef DerivativeBufferManager Self;
+public:
+    /* All these methods are thread safe except ReduceBuffer */
+
+    void Initialize( size_t maxBufferLength, const size_t cachedNumberOfLocalParameters,
+                     SimpleFastMutexLock * parentDerivativeLockPtr,
+                     typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
+
+    void DoubleBufferSize();
+
+    DerivativeBufferManager() :
+      m_CurrentFillSize(0),
+      m_MemoryBlock(0)
+    {
+    }
+
+    ~DerivativeBufferManager()
+    {
+    }
+
+    size_t GetCachedNumberOfLocalParameters() const
+    {
+      return this->m_CachedNumberOfLocalParameters;
+    }
+
+    /**
+     * Attempt to dump the buffer if it is full.
+     * If the attempt to acquire the lock fails, double the buffer size and try again.
+     */
+    void CheckAndReduceIfNecessary();
+
+    /**
+     * Force the buffer to dump by blocking.
+     */
+    void BlockAndReduce();
+
+    // If offset is same as previous offset, then accumulate with previous
+    PDFValueType * GetNextElementAndAddOffset(const OffsetValueType & offset)
+    {
+      m_BufferOffsetContainer[m_CurrentFillSize] = offset;
+      PDFValueType * PDFBufferForWriting = m_BufferPDFValuesContainer[m_CurrentFillSize];
+      ++m_CurrentFillSize;
+      return PDFBufferForWriting;
+    }
+
+    /**
+     * Apply the operations stored in the buffer.
+     * This method is not thread safe and requires a lock while threading.
+     */
+    void ReduceBuffer();
+
+private:
+    // How many AccumlatorElements used
+    size_t                       m_CurrentFillSize;
+    // Continguous chunk of memory for efficiency
+    std::vector<PDFValueType>    m_MemoryBlock;
+    // The (number of lines in the buffer) * (cells per line)
+    size_t                       m_MemoryBlockSize;
+    std::vector<PDFValueType *>  m_BufferPDFValuesContainer;
+    std::vector<OffsetValueType> m_BufferOffsetContainer;
+    size_t                       m_CachedNumberOfLocalParameters;
+    size_t                       m_MaxBufferSize;
+    // Pointer handle to parent version
+    SimpleFastMutexLock *   m_ParentJointPDFDerivativesLockPtr;
+    // Smart pointer handle to parent version
+    typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
+  };
+
+  std::vector<DerivativeBufferManager>      m_ThreaderDerivativeManager;
+  SimpleFastMutexLock                       m_JointPDFDerivativesLock;
+  typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives;
 
   PDFValueType m_JointPDFSum;
 
@@ -272,16 +347,12 @@ protected:
   mutable std::vector<DerivativeType>              m_LocalDerivativeByParzenBin;
 
 private:
-  MattesMutualInformationImageToImageMetricv4(const Self &); //purposely not implemented
-  void operator = (const Self &); //purposely not implemented
+  MattesMutualInformationImageToImageMetricv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator = (const Self &) ITK_DELETE_FUNCTION;
 
   /** Perform the final step in computing results */
   virtual void ComputeResults() const;
 
-  std::vector< MutexLock::Pointer >  m_JointPDFSubsectionLocks;
-  std::vector< MutexLock::Pointer >  m_JointPDFDerivativeSubsectionLocks;
-
-  ThreadedIndexedContainerPartitioner::Pointer m_IndexedContainerPartitioner;
 };
 
 } // end namespace itk

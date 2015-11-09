@@ -18,6 +18,7 @@
 
 #include "itkMetaDataObject.h"
 #include "itkImage.h"
+#include "itkMath.h"
 
 template< typename TMetaData >
 int
@@ -30,7 +31,7 @@ testMetaData( const TMetaData & value )
   typename MetaDataObjectType::Pointer metaDataObject = MetaDataObjectType::New();
 
   metaDataObject->SetMetaDataObjectValue( value );
-  if( metaDataObject->GetMetaDataObjectValue() != value )
+  if( itk::Math::NotExactlyEquals(metaDataObject->GetMetaDataObjectValue(), value) )
     {
     std::cerr << "Set value does not equal original value!" << std::endl;
     return EXIT_FAILURE;

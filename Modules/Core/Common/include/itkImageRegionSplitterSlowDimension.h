@@ -75,8 +75,8 @@ protected:
                                          SizeValueType regionSize[] ) const ITK_OVERRIDE;
 
 private:
-  ImageRegionSplitterSlowDimension(const ImageRegionSplitterSlowDimension &); //purposely not implemented
-  void operator=(const ImageRegionSplitterSlowDimension &);      //purposely not implemented
+  ImageRegionSplitterSlowDimension(const ImageRegionSplitterSlowDimension &) ITK_DELETE_FUNCTION;
+  void operator=(const ImageRegionSplitterSlowDimension &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

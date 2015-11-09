@@ -18,6 +18,8 @@
 #include "itkImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
+#include "itkMath.h"
 
 /*
  * This test creates synthetic images and verifies numerical results
@@ -140,10 +142,8 @@ public:
   typedef typename Superclass::VirtualPointSetType
                                                       VirtualPointSetType;
 
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      TVirtualImage::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      TMovingImage::ImageDimension);
+  itkStaticConstMacro(VirtualImageDimension, typename TVirtualImage::ImageDimensionType, TVirtualImage::ImageDimension);
+  itkStaticConstMacro(MovingImageDimension,  typename TMovingImage::ImageDimensionType,  TMovingImage::ImageDimension);
 
 protected:
   friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
@@ -166,10 +166,8 @@ protected:
   }
 
 private:
-  //purposely not implemented
-  ImageToImageMetricv4TestMetric(const Self &);
-  //purposely not implemented
-  void operator=(const Self &);
+  ImageToImageMetricv4TestMetric(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 }; // Metric ///////////////////////////////////////////////////
 
@@ -376,7 +374,7 @@ int ImageToImageMetricv4TestRunSingleTest(
 
   // Test same value returned by different methods
   std::cout << "Check Value return values..." << std::endl;
-  if( valueReturn1 != valueReturn2 )
+  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturn2) )
     {
     std::cerr << "Results for Value don't match: " << valueReturn1
               << ", " << valueReturn2 << std::endl;
@@ -570,7 +568,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   expectedMetricMax = itk::NumericTraits<ImageToImageMetricv4TestMetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   if( ImageToImageMetricv4TestRunSingleTest( metric, truthValue, truthDerivative, 0, true ) != EXIT_SUCCESS ||
-      metric->GetValue() != expectedMetricMax )
+      itk::Math::NotAlmostEquals( metric->GetValue(), expectedMetricMax ) )
     {
     std::cerr << "Failed testing for non-overlapping images. " << std::endl
               << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl

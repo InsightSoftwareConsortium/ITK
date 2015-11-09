@@ -20,6 +20,7 @@
 
 #include "itkPolygonSpatialObject.h"
 #include "itkExceptionObject.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -56,15 +57,15 @@ PolygonSpatialObject< TDimension >
       }
     it++;
     }
-  if ( min[0] == max[0] && min[1] != max[1] && min[2] != max[2] )
+  if ( Math::ExactlyEquals(min[0], max[0]) && Math::NotExactlyEquals(min[1], max[1]) && Math::NotExactlyEquals(min[2], max[2]) )
     {
     plane = Sagittal;
     }
-  else if ( min[0] != max[0] && min[1] == max[1] && min[2] != max[2] )
+  else if ( Math::NotExactlyEquals(min[0], max[0]) && Math::ExactlyEquals(min[1], max[1]) && Math::NotExactlyEquals(min[2], max[2]) )
     {
     plane = Coronal;
     }
-  else if ( min[0] != max[0] && min[1] != max[1] && min[2] == max[2] )
+  else if ( Math::NotExactlyEquals(min[0], max[0]) && Math::NotExactlyEquals(min[1], max[1]) && Math::ExactlyEquals(min[2], max[2]) )
     {
     plane = Axial;
     }

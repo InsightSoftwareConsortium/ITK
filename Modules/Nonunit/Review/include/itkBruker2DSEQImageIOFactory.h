@@ -68,8 +68,8 @@ protected:
   virtual ~Bruker2DSEQImageIOFactory();
 
 private:
-  Bruker2DSEQImageIOFactory(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  Bruker2DSEQImageIOFactory(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

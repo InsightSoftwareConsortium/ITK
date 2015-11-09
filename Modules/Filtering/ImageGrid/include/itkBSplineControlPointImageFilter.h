@@ -96,6 +96,8 @@ public:
 
   typedef FixedArray<unsigned,
     itkGetStaticConstMacro( ImageDimension )>       ArrayType;
+  typedef FixedArray<RealType,
+    itkGetStaticConstMacro( ImageDimension )>       RealArrayType;
 
   /** PointSet typedef support. */
   typedef PointSet<PixelType,
@@ -131,7 +133,7 @@ public:
   itkGetConstReferenceMacro( SplineOrder, ArrayType );
 
   /**
-   * Set the boolean array indicating the periodicity of the B-spline object.
+   * Set/Get the boolean array indicating the periodicity of the B-spline object.
    * This array of 0/1 values defines whether a particular dimension of the
    * parametric space is to be considered periodic or not. For example, if you
    * are using interpolating along a 1D closed curve, the array type will have
@@ -147,40 +149,24 @@ public:
    * be reused will depend on the spline order. As a user, you don't need to
    * replicate the points, the filter will do this for you. */
   itkSetMacro( CloseDimension, ArrayType );
-
-  /**
-   * Get the boolean array indicating which dimensions are closed.
-   */
   itkGetConstReferenceMacro( CloseDimension, ArrayType );
 
   /**
-   * Set the parametric spacing of the B-spline object domain.
+   * Set/Get the parametric spacing of the B-spline object domain.
    */
   itkSetMacro( Spacing, SpacingType );
-
-  /**
-   * Get the parametric spacing of the B-spline object domain.
-   */
   itkGetConstMacro( Spacing, SpacingType );
 
   /**
-   * Set the parametric origin of the B-spline object domain.
+   * Set/Get the parametric origin of the B-spline object domain.
    */
   itkSetMacro( Origin, OriginType );
-
-  /**
-   * Get the parametric origin of the B-spline object domain.
-   */
   itkGetConstMacro( Origin, OriginType );
 
   /**
-   * Set the parametric size of the B-spline object domain.
+   * Set/Get the parametric size of the B-spline object domain.
    */
   itkSetMacro( Size, SizeType );
-
-  /**
-   * Get the parametric size of the B-spline object domain.
-   */
   itkGetConstMacro( Size, SizeType );
 
   /**
@@ -225,8 +211,8 @@ protected:
   void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType ) ITK_OVERRIDE;
 
 private:
-  BSplineControlPointImageFilter( const Self& ); //purposely not implemented
-  void operator=( const Self& );                 //purposely not implemented
+  BSplineControlPointImageFilter( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
 
   /**
@@ -274,7 +260,7 @@ private:
   typename KernelOrder2Type::Pointer           m_KernelOrder2;
   typename KernelOrder3Type::Pointer           m_KernelOrder3;
 
-  RealType m_BSplineEpsilon;
+  RealType                                     m_BSplineEpsilon;
 
   inline typename RealImageType::IndexType
   NumberToIndex( unsigned int number, typename RealImageType::SizeType size )

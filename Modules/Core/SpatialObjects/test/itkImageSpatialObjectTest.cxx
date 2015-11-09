@@ -108,7 +108,7 @@ int itkImageSpatialObjectTest(int, char* [])
     }
 
   std::cout<<"ValueAt()...";
-  if( returnedValue != expectedValue )
+  if( itk::Math::NotAlmostEquals( returnedValue, expectedValue ) )
     {
     std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
     std::cout <<"[FAILED]: " << std::endl;

@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkFlatStructuringElement.h"
 
 int itkMapGrayscaleMorphologicalOpeningImageFilterTest(int ac, char* av[] )
 {

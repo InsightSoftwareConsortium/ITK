@@ -116,8 +116,8 @@ protected:
   void  GenerateData () ITK_OVERRIDE;
 
 private:
-  BinaryOpeningByReconstructionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BinaryOpeningByReconstructionImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   PixelType  m_ForegroundValue;
 

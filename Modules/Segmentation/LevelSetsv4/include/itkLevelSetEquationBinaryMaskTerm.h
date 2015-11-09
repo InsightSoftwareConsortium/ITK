@@ -116,8 +116,8 @@ protected:
   InputImagePointer m_Mask;
 
 private:
-  LevelSetEquationBinaryMaskTerm( const Self& ); // purposely not implemented
-  void operator = ( const Self& ); // purposely not implemented
+  LevelSetEquationBinaryMaskTerm( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 };
 
 }

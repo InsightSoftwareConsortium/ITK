@@ -253,11 +253,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-
-  // purposely not implemented
-  MattesMutualInformationImageToImageMetric(const Self &);
-  // purposely not implemented
-  void operator=(const Self &);
+  MattesMutualInformationImageToImageMetric(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef JointPDFType::IndexType             JointPDFIndexType;
   typedef JointPDFType::PixelType             JointPDFValueType;
@@ -340,7 +337,7 @@ private:
     MarginalPDFType FixedImageMarginalPDF;
   };
 
-#if !defined(CABLE_CONFIGURATION)
+#if !defined(ITK_WRAPPING_PARSER)
   itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, MMIMetricPerThreadStruct,
                                             PaddedMMIMetricPerThreadStruct);
   itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedMMIMetricPerThreadStruct,

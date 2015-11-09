@@ -555,8 +555,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   // to [minX,minY],[minX,maxY],[maxX,minY],[maxX,maxY].
   // Loop through each dimension of the bounding box and find all of the
   // vertices.
-  unsigned int numberOfVertices =
-    (unsigned int)std::pow(2.0, (int)ImageDimension);
+  unsigned int numberOfVertices = 1 << ImageDimension;
   MatrixType     transformedBoundingBoxVertices(ImageDimension, numberOfVertices, 0);
   int            val;
   LabelIndexType binaryIndex;
@@ -907,11 +906,8 @@ typename LabelGeometryImageFilter< TLabelImage, TIntensityImage >::BoundingBoxVe
 LabelGeometryImageFilter< TLabelImage, TIntensityImage >
 ::GetOrientedBoundingBoxVertices(LabelPixelType label) const
 {
-  unsigned int numberOfVertices =
-    (unsigned int)std::pow(2.0, (int)ImageDimension);
-  MapConstIterator mapIt;
-
-  mapIt = m_LabelGeometryMapper.find(label);
+  unsigned int numberOfVertices = 1 << ImageDimension;
+  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
   if ( mapIt == m_LabelGeometryMapper.end() )
     {
     // label does not exist, return a default value

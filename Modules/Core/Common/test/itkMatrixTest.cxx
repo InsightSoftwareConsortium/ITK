@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkMatrix.h"
+#include "itkMath.h"
 
 int itkMatrixTest(int, char* [] )
 {
@@ -88,7 +89,7 @@ int itkMatrixTest(int, char* [] )
 
   const NumericType value = 2;
   matrix5[1][1] = value;
-  if( matrix5[1][1] != value )
+  if( itk::Math::NotExactlyEquals(matrix5[1][1], value) )
     {
     std::cerr << "Problem accessing matrix element " << std::endl;
     return EXIT_FAILURE;
@@ -97,12 +98,12 @@ int itkMatrixTest(int, char* [] )
   // Test access with the operator()(row,col)
   const NumericType value2 = 19;
   matrix5(1,1) = value2;
-  if( matrix5[1][1] != value2 )
+  if( itk::Math::NotExactlyEquals(matrix5[1][1], value2) )
     {
     std::cerr << "Problem accessing matrix element " << std::endl;
     return EXIT_FAILURE;
     }
-  if( matrix5(1,1) != value2 )
+  if( itk::Math::NotExactlyEquals(matrix5(1,1), value2) )
     {
     std::cerr << "Problem accessing matrix element " << std::endl;
     return EXIT_FAILURE;

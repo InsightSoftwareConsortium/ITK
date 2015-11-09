@@ -124,11 +124,8 @@ protected:
   virtual void InitializeIteration() ITK_OVERRIDE;
 
 private:
-  BinaryMinMaxCurvatureFlowImageFilter(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-
-  // implemented
+  BinaryMinMaxCurvatureFlowImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   double m_Threshold;
 };

@@ -22,6 +22,7 @@
 #include "itkSegmentationLevelSetFunction.h"
 #include "itkFastChamferDistanceImageFilter.h"
 #include "itkIsoContourDistanceImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -277,7 +278,7 @@ public:
       parameter overrides any previous values set for PropagationScaling. */
   void SetPropagationScaling(ValueType v)
   {
-    if ( v != m_SegmentationFunction->GetPropagationWeight() )
+    if ( Math::NotExactlyEquals(v, m_SegmentationFunction->GetPropagationWeight()) )
       {
       m_SegmentationFunction->SetPropagationWeight(v);
       }
@@ -292,7 +293,7 @@ public:
       parameter will override any existing value for AdvectionScaling. */
   void SetAdvectionScaling(ValueType v)
   {
-    if ( v != m_SegmentationFunction->GetAdvectionWeight() )
+    if ( Math::NotExactlyEquals(v, m_SegmentationFunction->GetAdvectionWeight()) )
       {
       m_SegmentationFunction->SetAdvectionWeight(v);
       }
@@ -309,7 +310,7 @@ public:
     *  smoother surfaces. */
   void SetCurvatureScaling(ValueType v)
   {
-    if ( v != m_SegmentationFunction->GetCurvatureWeight() )
+    if ( Math::NotExactlyEquals(v, m_SegmentationFunction->GetCurvatureWeight()) )
       {
       m_SegmentationFunction->SetCurvatureWeight(v);
       }
@@ -357,11 +358,11 @@ public:
 protected:
   virtual ~NarrowBandLevelSetImageFilter() {}
   NarrowBandLevelSetImageFilter();
-  NarrowBandLevelSetImageFilter(const Self &); //purposely not implemented
+  NarrowBandLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void operator=(const Self &); //purposely not implemented
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Overrides parent implementation */
   virtual void InitializeIteration() ITK_OVERRIDE

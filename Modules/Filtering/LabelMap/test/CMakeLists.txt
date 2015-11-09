@@ -25,6 +25,7 @@ itkBinaryStatisticsOpeningImageFilterTest1.cxx
 itkChangeLabelLabelMapFilterTest.cxx
 itkChangeRegionLabelMapFilterTest1.cxx
 itkConvertLabelMapFilterTest1.cxx
+itkConvertLabelMapFilterTest2.cxx
 itkCropLabelMapFilterTest1.cxx
 itkLabelImageToLabelMapFilterTest.cxx
 itkLabelImageToShapeLabelMapFilterTest1.cxx
@@ -239,6 +240,13 @@ itk_add_test(NAME itkConvertLabelMapFilterTest1
             ${ITK_TEST_OUTPUT_DIR}/cthead1-convert.png
   itkConvertLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
   ${ITK_TEST_OUTPUT_DIR}/cthead1-convert.png
+  )
+itk_add_test(NAME itkConvertLabelMapFilterTest2
+      COMMAND ITKLabelMapTestDriver
+  --compare DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+            ${ITK_TEST_OUTPUT_DIR}/cthead1-convert-short.png
+  itkConvertLabelMapFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+  ${ITK_TEST_OUTPUT_DIR}/cthead1-convert-short.png
   )
 itk_add_test(NAME itkCropLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
@@ -553,3 +561,28 @@ itk_add_test(NAME itkAutoCropLabelMapFilterTest2
     92
     163
     )
+itk_add_test(NAME itkStatisticsUniqueLabelMapFilterTest1
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/cthead1Label-label-statistics-unique-labelmap-baseline1.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest1.png
+    --compare DATA{Baseline/cthead1Label-label-statistics-unique-labelmap-dilate-baseline1.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterDilationStability1.png
+    itkStatisticsUniqueLabelMapFilterTest1
+      DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest1.png
+      ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterDilationStability1.png
+      0 100)
+itk_add_test(NAME itkStatisticsUniqueLabelMapFilterTest2
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/cthead1Label-label-statistics-unique-labelmap-baseline2.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest2.png
+    --compare DATA{Baseline/cthead1Label-label-statistics-unique-labelmap-dilate-baseline2.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterDilationStability2.png
+    --compareNumberOfPixelsTolerance 35
+    itkStatisticsUniqueLabelMapFilterTest1
+      DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest2.png
+      ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterDilationStability2.png
+      1 100)

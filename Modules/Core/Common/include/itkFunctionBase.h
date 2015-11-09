@@ -67,8 +67,8 @@ protected:
   ~FunctionBase(){}
 
 private:
-  FunctionBase(const Self &);   //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  FunctionBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

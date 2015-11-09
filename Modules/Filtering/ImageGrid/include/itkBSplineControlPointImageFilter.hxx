@@ -20,10 +20,12 @@
 
 #include "itkBSplineControlPointImageFilter.h"
 
+#include "itkMath.h"
 #include "itkImageDuplicator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
 
 /*
  *
@@ -67,7 +69,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   this->m_NumberOfLevels.Fill( 1 );
   this->m_CloseDimension.Fill( 0 );
 
-  this->m_BSplineEpsilon = std::numeric_limits<RealType>::epsilon();
+  this->m_BSplineEpsilon = 1e-3;
 }
 
 template<typename InputImage, typename TOutputImage>
@@ -129,7 +131,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   itkDebugMacro( "Setting m_SplineOrder to " << order );
 
   this->m_SplineOrder = order;
-  for( int i = 0; i < ImageDimension; i++ )
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     if( this->m_SplineOrder[i] == 0 )
       {
@@ -198,24 +200,6 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   outputPtr->SetDirection( this->m_Direction );
   outputPtr->Allocate();
 
-  unsigned int maximumNumberOfSpans = 0;
-  for( unsigned int d = 0; d < ImageDimension; d++ )
-    {
-    unsigned int numberOfSpans = this->m_NumberOfControlPoints[d] -
-      this->m_SplineOrder[d];
-    numberOfSpans <<= ( this->m_NumberOfLevels[d] - 1 );
-    if( numberOfSpans > maximumNumberOfSpans )
-      {
-      maximumNumberOfSpans = numberOfSpans;
-      }
-    }
-  this->m_BSplineEpsilon = 100 * std::numeric_limits<RealType>::epsilon();
-  while( static_cast<RealType>( maximumNumberOfSpans ) ==
-    static_cast<RealType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
-    {
-    this->m_BSplineEpsilon *= 10;
-    }
-
   for( unsigned int i = 0; i < ImageDimension; i++)
     {
     this->m_NumberOfControlPoints[i] =
@@ -276,6 +260,15 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   typename PointDataImageType::IndexType startPhiIndex =
     inputPtr->GetLargestPossibleRegion().GetIndex();
 
+  RealArrayType epsilon;
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    RealType r = static_cast<RealType>( this->m_NumberOfControlPoints[i] -
+      this->m_SplineOrder[i] ) / ( static_cast<RealType>( this->m_Size[i] - 1 ) *
+      this->m_Spacing[i] );
+    epsilon[i] = r * this->m_Spacing[i] * this->m_BSplineEpsilon;
+    }
+
   ImageRegionIteratorWithIndex<OutputImageType> It( outputPtr, region );
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
@@ -285,22 +278,21 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
       U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
         static_cast<RealType>( idx[i] - startIndex[i] ) /
         static_cast<RealType>( this->m_Size[i] - 1 );
-      if( vnl_math_abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
-        <= this->m_BSplineEpsilon )
+      if( std::abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) ) <= epsilon[i] )
         {
-        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
-          this->m_BSplineEpsilon;
+        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) - epsilon[i];
         }
-      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
+      if( U[i] < NumericTraits<RealType>::ZeroValue() ||
+          U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
         itkExceptionMacro( "The collapse point component " << U[i]
           << " is outside the corresponding parametric domain of [0, "
-          << totalNumberOfSpans[i] << "]." );
+          << totalNumberOfSpans[i] << ")." );
         }
       }
     for( int i = ImageDimension - 1; i >= 0; i-- )
       {
-      if( U[i] != currentU[i] )
+      if( Math::NotExactlyEquals(U[i], currentU[i]) )
         {
         for( int j = i; j >= 0; j-- )
           {
@@ -511,7 +503,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
         {
         if( m < this->m_NumberOfLevels[i] )
           {
-          idxPsi[i] = static_cast<unsigned int>( 0.5*idx[i] );
+          idxPsi[i] = static_cast<unsigned int>( 0.5 * idx[i] );
           }
         else
           {
@@ -572,8 +564,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
           RealType coeff = 1.0;
           for( unsigned int k = 0; k < ImageDimension; k++ )
             {
-            coeff *=
-              this->m_RefinedLatticeCoefficients[k]( off[k], offPsi[k] );
+            coeff *= this->m_RefinedLatticeCoefficients[k]( off[k], offPsi[k] );
             }
           val = psiLattice->GetPixel( tmpPsi );
           val *= coeff;
@@ -597,8 +588,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
           }
         }
       }
-    typename ImageDuplicatorType::Pointer duplicator2 =
-      ImageDuplicatorType::New();
+    typename ImageDuplicatorType::Pointer duplicator2 = ImageDuplicatorType::New();
     duplicator2->SetInputImage( refinedLattice );
     duplicator2->Update();
     psiLattice = duplicator2->GetModifiableOutput();
@@ -611,8 +601,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    RealType domain = this->m_Spacing[i] * static_cast<RealType>(
-      this->m_Size[i] - 1 );
+    RealType domain = this->m_Spacing[i] * static_cast<RealType>( this->m_Size[i] - 1 );
 
     unsigned int totalNumberOfSpans =
       psiLattice->GetLargestPossibleRegion().GetSize()[i];

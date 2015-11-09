@@ -56,20 +56,16 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 
   // Create images for storing result
   typedef typename ImageType::Pointer ImageTypePointer;
-  std::vector<ImageTypePointer> outputs;
-  for( unsigned int i=0; i<Dimension; i++ )
-    {
-    ImageTypePointer output = ImageType::New();
-    output->SetSpacing( reader->GetOutput()->GetSpacing() );
-    output->SetOrigin( reader->GetOutput()->GetOrigin() );
-    output->SetDirection( reader->GetOutput()->GetDirection() );
-    output->SetLargestPossibleRegion( reader->GetOutput()->GetLargestPossibleRegion() );
-    output->SetRequestedRegion( reader->GetOutput()->GetRequestedRegion() );
-    output->SetBufferedRegion( reader->GetOutput()->GetBufferedRegion() );
-    output->Allocate();
-    output->FillBuffer( itk::NumericTraits<PixelType>::ZeroValue() );
-    outputs.push_back( output );
-    }
+
+  ImageTypePointer output = ImageType::New();
+  output->SetSpacing( reader->GetOutput()->GetSpacing() );
+  output->SetOrigin( reader->GetOutput()->GetOrigin() );
+  output->SetDirection( reader->GetOutput()->GetDirection() );
+  output->SetLargestPossibleRegion( reader->GetOutput()->GetLargestPossibleRegion() );
+  output->SetRequestedRegion( reader->GetOutput()->GetRequestedRegion() );
+  output->SetBufferedRegion( reader->GetOutput()->GetBufferedRegion() );
+  output->Allocate();
+  output->FillBuffer( itk::NumericTraits<PixelType>::ZeroValue() );
 
   // Setup operator parameters
   double variance = atof( argv[3] );
@@ -109,13 +105,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 
   ConstIteratorType it ( reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
   it.GoToBegin();
-  std::vector< IteratorType > outs;
-  for( unsigned int i=0; i<Dimension; i++ )
-    {
-    IteratorType out( outputs[i], outputs[i]->GetRequestedRegion() );
-    out.GoToBegin();
-    outs.push_back( out );
-    }
+  IteratorType outIter( output, output->GetRequestedRegion() );
 
   typedef typename HessianGaussianImageFunctionType::PointType  PointType;
   PointType point;
@@ -143,51 +133,37 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 
     hessian.ComputeEigenValues( eigenValues );
 
-    for( unsigned int i=0; i<Dimension; i++ )
+    PixelType maxEigen = eigenValues[0];
+    for (unsigned int i = 1; i < Dimension; ++i)
       {
-      outs[i].Set( eigenValues[i] );
-      ++outs[i];
+      maxEigen = std::max(eigenValues[i], maxEigen);
       }
+
+    outIter.Set( maxEigen );
+    ++outIter;
+
     ++it;
     ++pixelNumber;
     }
 
   // Write outputs
-  typedef unsigned char                                  OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension >       OutputImageType;
-  typedef itk::ImageFileWriter< OutputImageType >        WriterType;
+  typedef itk::ImageFileWriter< ImageType >        WriterType;
 
   typename WriterType::Pointer writer = WriterType::New();
 
-  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType > RescaleType;
-
-  typename RescaleType::Pointer rescaler = RescaleType::New();
-
-  rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
-  rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
-
-  for( unsigned int i=0; i<Dimension; i++ )
+  try
     {
-    try
-      {
-      // Rescale
-      rescaler->SetInput( outputs[i] );
-
-      // Write
-      char filename[255];
-      sprintf( filename, argv[2], i );
-      writer->SetFileName( filename );
-      writer->SetInput( rescaler->GetOutput() );
-      writer->Update();
-      rescaler->GetOutput()->DisconnectPipeline( );
-      outputs[i]->DisconnectPipeline( );
-      }
-    catch ( itk::ExceptionObject &err)
-      {
-      std::cout << "ExceptionObject caught !" << std::endl;
-      std::cout << err << std::endl;
-      return EXIT_FAILURE;
-      }
+    // Write
+    writer->SetFileName( argv[2] );
+    writer->SetInput( output );
+    writer->Update();
+    std::cout << "Writing " << argv[2]<< std::endl;
+    }
+  catch ( itk::ExceptionObject &err)
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
     }
 
   const bool trueValue = true;

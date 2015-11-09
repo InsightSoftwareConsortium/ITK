@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include "itkMath.h"
+#include "itkNumericTraits.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
@@ -162,7 +164,8 @@ int itkLevelSetEquationChanAndVeseInternalTermTest( int argc, char* argv[] )
 
   cvInternalTerm0->Update();
 
-  if( cvInternalTerm0->GetMean() != 1 )
+  if( itk::Math::NotAlmostEquals( cvInternalTerm0->GetMean(),
+      itk::NumericTraits< ChanAndVeseInternalTermType::InputPixelRealType >::OneValue() ) )
     {
     return EXIT_FAILURE;
     }

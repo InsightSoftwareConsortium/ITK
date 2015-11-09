@@ -45,7 +45,7 @@ template< typename TImage >
 VnlFFTCommon::VnlFFTTransform< TImage >
 ::VnlFFTTransform(const typename TImage::SizeType & s)
 {
-  for( int i=0; i < TImage::ImageDimension; i++ )
+  for( unsigned int i=0; i < TImage::ImageDimension; i++ )
     {
     Base::factors_[TImage::ImageDimension - i - 1].resize(s[i]);
     }

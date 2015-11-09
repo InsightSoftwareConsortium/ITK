@@ -238,7 +238,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   // Set the grid size parameters
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
-    this->m_FixedParameters[i] = static_cast<ParametersValueType>(
+    this->m_FixedParameters[i] = static_cast<FixedParametersValueType>(
       this->m_TransformDomainMeshSize[i] + SplineOrder );
     }
 }
@@ -262,7 +262,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   origin = this->m_TransformDomainDirection * origin;
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
-    this->m_FixedParameters[NDimensions + i] = static_cast<ParametersValueType>(
+    this->m_FixedParameters[NDimensions + i] = static_cast<FixedParametersValueType>(
       origin[i] + this->m_TransformDomainOrigin[i] );
     }
 }
@@ -279,7 +279,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
       / static_cast<ScalarType>( this->m_TransformDomainMeshSize[i] );
 
     this->m_FixedParameters[2 * NDimensions + i] =
-      static_cast<ParametersValueType>( gridSpacing );
+      static_cast<FixedParametersValueType>( gridSpacing );
     }
 }
 
@@ -294,7 +294,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     for( unsigned int dj = 0; dj < NDimensions; dj++ )
       {
       this->m_FixedParameters[3 * NDimensions + ( di * NDimensions + dj )] =
-        static_cast<ParametersValueType>( this->m_TransformDomainDirection[di][dj] );
+        static_cast<FixedParametersValueType>( this->m_TransformDomainDirection[di][dj] );
       }
     }
 }
@@ -476,7 +476,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     {
     ScalarType maxLimit = static_cast<ScalarType>( gridSize[j] ) - 0.5
       * static_cast<ScalarType>( SplineOrder - 1 ) - 1.0;
-    if( index[j] == maxLimit  )
+    if(Math::AlmostEquals( index[j], maxLimit ))
       {
       index[j] -= 1e-6;
       }

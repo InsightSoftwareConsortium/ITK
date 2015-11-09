@@ -5,6 +5,7 @@ itkIntTypes\.h Typedefs Disable
 itkMacro\.h Comments Disable
 itkMacro\.h Indent Disable Comments
 itkMapContainer\.h InternalVariables Disable
+itkMapContainer\.h Typedefs Disable
 itkMersenneTwisterRandomVariateGenerator\.h InternalVariables Disable
 itkNeighborhoodAllocator\.h Typedefs Disable
 itkNeighborhoodIteratorTestCommon\.hxx Namespace Disable

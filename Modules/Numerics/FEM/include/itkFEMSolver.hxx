@@ -30,6 +30,7 @@
 #include "itkImageRegionIterator.h"
 
 #include <algorithm>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -328,7 +329,7 @@ Solver<VDimension>
        * element in Le is zero, to prevent zeros from being
        * allocated in sparse matrix.
        */
-      if( Le[j][k] != Float(0.0) )
+      if( Math::NotExactlyEquals(Le[j][k], Float(0.0)) )
         {
         this->m_ls->AddMatrixValue(e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Le[j][k]);
         }
@@ -367,7 +368,7 @@ Solver<VDimension>
        * element in Ke is zero, to prevent zeros from being
        * allocated in sparse matrix.
        */
-      if( Ke[j][k] != Float(0.0) )
+      if( Math::NotExactlyEquals(Ke[j][k], Float(0.0)) )
         {
         this->m_ls->AddMatrixValue(e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Ke[j][k]);
         }

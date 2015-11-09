@@ -35,15 +35,6 @@
 #      SET(KWSYS_HEADER_ROOT ${PROJECT_BINARY_DIR})
 #      INCLUDE_DIRECTORIES(${PROJECT_BINARY_DIR})
 #
-#  KWSYS_IOS_FORCE_OLD = Force use of old non-ANSI C++ streams even if
-#                        new streams are available.  This may be used
-#                        by projects that cannot configure their
-#                        streams library.
-#    Example:
-#
-#      SET(KWSYS_IOS_FORCE_OLD 1)
-#
-#
 # Optional settings to setup install rules are as follows:
 #
 #  KWSYS_INSTALL_BIN_DIR     = The installation target directories into
@@ -91,6 +82,7 @@ ENDIF()
 IF(POLICY CMP0056)
   CMAKE_POLICY(SET CMP0056 NEW)
 ENDIF()
+SET(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 #-----------------------------------------------------------------------------
 # If a namespace is not specified, use "kwsys" and enable testing.
@@ -311,6 +303,15 @@ IF(NOT CMAKE_COMPILER_IS_GNUCXX)
     ENDIF()
   ENDIF()
 ENDIF()
+IF(KWSYS_STANDALONE)
+  IF(CMAKE_CXX_COMPILER_ID STREQUAL SunPro)
+    IF(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.13)
+      SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++03")
+    ELSE()
+      SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -library=stlport4")
+    ENDIF()
+  ENDIF()
+ENDIF()
 
 #-----------------------------------------------------------------------------
 # Configure Large File Support.
@@ -340,105 +341,6 @@ ENDIF()
 # Configure the standard library header wrappers based on compiler's
 # capabilities and parent project's request.  Enforce 0/1 as only
 # possible values for configuration into Configure.hxx.
-
-KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAVE_STD
-  "Checking whether STL classes are in std namespace" DIRECT)
-
-IF(KWSYS_IOS_FORCE_OLD)
-  SET(KWSYS_IOS_USE_ANSI 0)
-ELSE()
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_IOS_USE_ANSI
-    "Checking whether ANSI stream headers are available" DIRECT)
-ENDIF()
-
-IF(KWSYS_IOS_USE_ANSI)
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_IOS_HAVE_STD
-    "Checking whether ANSI streams are in std namespace" DIRECT)
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_IOS_USE_SSTREAM
-    "Checking whether ANSI string stream is available" DIRECT)
-ELSE()
-  SET(KWSYS_IOS_HAVE_STD 0)
-  SET(KWSYS_IOS_USE_SSTREAM 0)
-ENDIF()
-
-IF(KWSYS_IOS_USE_SSTREAM)
-  SET(KWSYS_IOS_USE_STRSTREAM_H 0)
-  SET(KWSYS_IOS_USE_STRSTREA_H 0)
-ELSE()
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_IOS_USE_STRSTREAM_H
-    "Checking whether strstream.h is available" DIRECT)
-  IF(KWSYS_IOS_USE_STRSTREAM_H)
-    SET(KWSYS_IOS_USE_STRSTREA_H 0)
-  ELSE()
-    KWSYS_PLATFORM_CXX_TEST(KWSYS_IOS_USE_STRSTREA_H
-      "Checking whether strstrea.h is available" DIRECT)
-  ENDIF()
-ENDIF()
-
-KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_CSTDDEF
-  "Checking whether header cstddef is available" DIRECT)
-
-SET(KWSYS_PLATFORM_CXX_TEST_DEFINES
-  -DKWSYS_STL_HAVE_STD=${KWSYS_STL_HAVE_STD})
-KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_STRING_HAVE_NEQ_CHAR
-  "Checking whether stl string has operator!= for char*" DIRECT)
-KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS_ITERATOR_TRAITS
-  "Checking whether stl has iterator_traits" DIRECT)
-IF(KWSYS_STL_HAS_ITERATOR_TRAITS)
-  SET(KWSYS_STL_HAS_ITERATOR_CATEGORY 0)
-  SET(KWSYS_STL_HAS___ITERATOR_CATEGORY 0)
-ELSE()
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS_ITERATOR_CATEGORY
-    "Checking whether stl has old iterator_category" DIRECT)
-  IF(KWSYS_STL_HAS_ITERATOR_CATEGORY)
-    SET(KWSYS_STL_HAS___ITERATOR_CATEGORY 0)
-  ELSE()
-    KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS___ITERATOR_CATEGORY
-      "Checking whether stl has internal __iterator_category" DIRECT)
-  ENDIF()
-ENDIF()
-KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS_ALLOCATOR_TEMPLATE
-  "Checking whether stl has standard template allocator" DIRECT)
-IF(KWSYS_STL_HAS_ALLOCATOR_TEMPLATE)
-  SET(KWSYS_STL_HAS_ALLOCATOR_NONTEMPLATE 0)
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS_ALLOCATOR_REBIND
-    "Checking for rebind member of stl allocator" DIRECT)
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS_ALLOCATOR_MAX_SIZE_ARGUMENT
-    "Checking for non-standard argument to stl allocator<>::max_size" DIRECT)
-ELSE()
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS_ALLOCATOR_NONTEMPLATE
-    "Checking whether stl has old non-template allocator" DIRECT)
-  SET(KWSYS_STL_HAS_ALLOCATOR_REBIND 0)
-  SET(KWSYS_STL_HAS_ALLOCATOR_MAX_SIZE_ARGUMENT 0)
-ENDIF()
-KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS_ALLOCATOR_OBJECTS
-  "Checking whether stl containers support allocator objects." DIRECT)
-IF(KWSYS_IOS_USE_ANSI AND NOT WATCOM)
-  # ANSI streams always have string operators.
-  SET(KWSYS_STL_STRING_HAVE_OSTREAM 1)
-  SET(KWSYS_STL_STRING_HAVE_ISTREAM 1)
-ELSE()
-  # There may not be string operators for old streams.
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_STRING_HAVE_OSTREAM
-    "Checking whether stl string has ostream operator<<" DIRECT)
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_STRING_HAVE_ISTREAM
-    "Checking whether stl string has istream operator>>" DIRECT)
-ENDIF()
-SET(KWSYS_PLATFORM_CXX_TEST_DEFINES
-  -DKWSYS_IOS_USE_ANSI=${KWSYS_IOS_USE_ANSI}
-  -DKWSYS_IOS_HAVE_STD=${KWSYS_IOS_HAVE_STD})
-KWSYS_PLATFORM_CXX_TEST(KWSYS_IOS_HAVE_BINARY
-  "Checking whether ios has binary openmode" DIRECT)
-SET(KWSYS_PLATFORM_CXX_TEST_DEFINES)
-
-KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_NULL_TEMPLATE_ARGS
-  "Checking whether \"<>\" is needed for template friends" INVERT)
-KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_MEMBER_TEMPLATES
-  "Checking for member template support" DIRECT)
-KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_FULL_SPECIALIZATION
-  "Checking for standard template specialization syntax" DIRECT)
-KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_ARGUMENT_DEPENDENT_LOOKUP
-  "Checking whether argument dependent lookup is supported" DIRECT)
 
 IF(UNIX)
   KWSYS_PLATFORM_CXX_TEST(KWSYS_STAT_HAS_ST_MTIM
@@ -548,9 +450,6 @@ ENDIF()
 
 IF(KWSYS_USE_IOStream)
   # Determine whether iostreams support long long.
-  SET(KWSYS_PLATFORM_CXX_TEST_DEFINES
-    -DKWSYS_IOS_USE_ANSI=${KWSYS_IOS_USE_ANSI}
-    -DKWSYS_IOS_HAVE_STD=${KWSYS_IOS_HAVE_STD})
   IF(KWSYS_CXX_HAS_LONG_LONG)
     KWSYS_PLATFORM_CXX_TEST(KWSYS_IOS_HAS_ISTREAM_LONG_LONG
       "Checking if istream supports long long" DIRECT)
@@ -569,7 +468,6 @@ IF(KWSYS_USE_IOStream)
     SET(KWSYS_IOS_HAS_ISTREAM___INT64 0)
     SET(KWSYS_IOS_HAS_OSTREAM___INT64 0)
   ENDIF()
-  SET(KWSYS_PLATFORM_CXX_TEST_DEFINES)
 ENDIF()
 
 IF(KWSYS_NAMESPACE MATCHES "^kwsys$")
@@ -786,6 +684,15 @@ IF(KWSYS_USE_SystemInformation)
     SET_PROPERTY(SOURCE SystemInformation.cxx APPEND PROPERTY
       COMPILE_DEFINITIONS KWSYS_BUILD_SHARED=1)
   ENDIF()
+
+  IF(UNIX AND NOT CYGWIN)
+    KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_GETLOADAVG
+      "Checking whether CXX compiler has getloadavg" DIRECT)
+    IF(KWSYS_CXX_HAS_GETLOADAVG)
+      SET_PROPERTY(SOURCE SystemInformation.cxx APPEND PROPERTY
+        COMPILE_DEFINITIONS KWSYS_CXX_HAS_GETLOADAVG=1)
+    ENDIF()
+  ENDIF()
 ENDIF()
 
 #-----------------------------------------------------------------------------
@@ -811,84 +718,6 @@ IF(KWSYS_INSTALL_DOC_DIR)
     DESTINATION ${KWSYS_INSTALL_DOC_DIR}/${KWSYS_NAMESPACE}
     ${KWSYS_INSTALL_LICENSE_OPTIONS})
 ENDIF()
-
-#-----------------------------------------------------------------------------
-# Create STL header wrappers to block warnings in the STL headers and
-# give standard names by which they may be included.
-SET(KWSYS_STL_HEADER_EXTRA_string 1)
-FOREACH(header
-  algorithm
-  deque
-  exception
-  functional
-  iterator
-  list
-  map
-  memory
-  new
-  numeric
-  queue
-  set
-  stack
-  stdexcept
-  string
-  utility
-  vector
-  )
-  # Configure the header wrapper.
-  SET(KWSYS_STL_HEADER "${header}")
-  IF(KWSYS_STL_HEADER_EXTRA_${header})
-    SET(KWSYS_STL_HEADER_EXTRA
-      "#define ${KWSYS_NAMESPACE}_stl_${header}_including_hxx\n# include <${KWSYS_NAMESPACE}/stl/${header}.hxx>\n#undef ${KWSYS_NAMESPACE}_stl_${header}_including_hxx\n")
-    CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/kwsys_stl_${header}.hxx.in
-                   ${KWSYS_HEADER_DIR}/stl/${header}.hxx
-                   @ONLY IMMEDIATE)
-    IF(KWSYS_INSTALL_INCLUDE_DIR)
-      INSTALL(FILES ${KWSYS_HEADER_DIR}/stl/${header}.hxx
-        DESTINATION ${KWSYS_INSTALL_INCLUDE_DIR}/${KWSYS_NAMESPACE}/stl
-        ${KWSYS_INSTALL_INCLUDE_OPTIONS})
-    ENDIF()
-  ELSE()
-    SET(KWSYS_STL_HEADER_EXTRA "")
-  ENDIF()
-  CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/kwsys_stl.hxx.in
-                 ${KWSYS_HEADER_DIR}/stl/${header}
-                 @ONLY IMMEDIATE)
-
-  # Create an install target for the header wrapper.
-  IF(KWSYS_INSTALL_INCLUDE_DIR)
-    INSTALL(FILES ${KWSYS_HEADER_DIR}/stl/${header}
-      DESTINATION ${KWSYS_INSTALL_INCLUDE_DIR}/${KWSYS_NAMESPACE}/stl
-      ${KWSYS_INSTALL_INCLUDE_OPTIONS})
-  ENDIF()
-ENDFOREACH()
-
-# Provide cstddef header.
-CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/kwsys_cstddef.hxx.in
-               ${KWSYS_HEADER_DIR}/cstddef
-               @ONLY IMMEDIATE)
-IF(KWSYS_INSTALL_INCLUDE_DIR)
-  INSTALL(FILES ${KWSYS_HEADER_DIR}/cstddef
-    DESTINATION ${KWSYS_INSTALL_INCLUDE_DIR}/${KWSYS_NAMESPACE}
-    ${KWSYS_INSTALL_INCLUDE_OPTIONS})
-ENDIF()
-
-#-----------------------------------------------------------------------------
-# Create streams header wrappers to give standard names by which they
-# may be included.
-FOREACH(header iostream fstream sstream iosfwd)
-  # Configure the header wrapper.
-  CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/kwsys_ios_${header}.h.in
-                 ${KWSYS_HEADER_DIR}/ios/${header}
-                 @ONLY IMMEDIATE)
-
-  # Create an install target for the header wrapper.
-  IF(KWSYS_INSTALL_INCLUDE_DIR)
-    INSTALL(FILES ${KWSYS_HEADER_DIR}/ios/${header}
-      DESTINATION ${KWSYS_INSTALL_INCLUDE_DIR}/${KWSYS_NAMESPACE}/ios
-      ${KWSYS_INSTALL_INCLUDE_OPTIONS})
-  ENDIF()
-ENDFOREACH()
 
 #-----------------------------------------------------------------------------
 # Build a list of classes and headers we need to implement the
@@ -1062,7 +891,7 @@ IF(KWSYS_ENABLE_C AND KWSYS_C_SRCS)
 
   # Apply user-defined target properties to the library.
   IF(KWSYS_PROPERTIES_C)
-    SET_TARGET_PROPERTIES(${KWSYS_NAMESPACE} PROPERTIES
+    SET_TARGET_PROPERTIES(${KWSYS_NAMESPACE}_c PROPERTIES
       ${KWSYS_PROPERTIES_C}
       )
   ENDIF()
@@ -1228,7 +1057,7 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
     IF(NOT CYGWIN)
       SET(KWSYS_TEST_PROCESS_7 7)
     ENDIF()
-    FOREACH(n 1 2 3 4 5 6 ${KWSYS_TEST_PROCESS_7})
+    FOREACH(n 1 2 3 4 5 6 ${KWSYS_TEST_PROCESS_7} 9 10)
       ADD_TEST(kwsys.testProcess-${n} ${EXEC_DIR}/${KWSYS_NAMESPACE}TestProcess ${n})
       SET_PROPERTY(TEST kwsys.testProcess-${n} PROPERTY LABELS ${KWSYS_LABELS_TEST})
       SET_TESTS_PROPERTIES(kwsys.testProcess-${n} PROPERTIES TIMEOUT 120)
@@ -1260,6 +1089,10 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
       SET_TESTS_PROPERTIES(kwsys.testFail PROPERTIES MEASUREMENT "Some Key=Some Value")
       MESSAGE(STATUS "GET_TEST_PROPERTY returned: ${wfv}")
     ENDIF()
+
+    # Set up ctest custom configuration file.
+    CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/CTestCustom.cmake.in
+                   ${PROJECT_BINARY_DIR}/CTestCustom.cmake @ONLY)
 
     # Suppress known consistent failures on buggy systems.
     IF(KWSYS_TEST_BOGUS_FAILURES)

@@ -145,8 +145,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  ShapeRelabelImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  ShapeRelabelImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   OutputImagePixelType m_BackgroundValue;
   bool                 m_ReverseOrdering;

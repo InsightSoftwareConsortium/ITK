@@ -202,8 +202,8 @@ public:
 protected:
   DeformableSimplexMesh3DFilter();
   ~DeformableSimplexMesh3DFilter();
-  DeformableSimplexMesh3DFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  DeformableSimplexMesh3DFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -256,7 +256,7 @@ protected:
   /**
    *  L function implemented following the paper of Delingette
    */
-  double L_Func(double r, double d, double phi);
+  bool L_Func(const double r, const double d, const double phi, double & output);
 
   /**
    *  Method computes the barycentric coordinates of the passed point

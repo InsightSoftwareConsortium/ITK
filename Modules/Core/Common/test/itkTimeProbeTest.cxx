@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkTimeProbe.h"
+#include "itkMath.h"
 
 
 int itkTimeProbeTest( int, char * [] )
@@ -61,17 +62,17 @@ int itkTimeProbeTest( int, char * [] )
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
     }
-  if( localTimer.GetNumberOfStops() != 0 )
+  if( localTimer.GetNumberOfStops() != itk::NumericTraits< itk::TimeProbe::CountType >::ZeroValue() )
     {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
     }
-  if( localTimer.GetTotal() != 0 )
+ if( itk::Math::NotExactlyEquals(localTimer.GetTotal(), itk::NumericTraits< itk::TimeProbe::TimeStampType  >::ZeroValue()) )
     {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
     }
-  if( localTimer.GetMean() != 0 )
+  if( itk::Math::NotExactlyEquals(localTimer.GetMean(), itk::NumericTraits< itk::TimeProbe::TimeStampType >::ZeroValue()) )
     {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;

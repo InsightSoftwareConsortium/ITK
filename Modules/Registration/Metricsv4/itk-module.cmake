@@ -2,6 +2,7 @@ set(DOCUMENTATION "This module contains ITK metric classes using a new hierarchy
 
 itk_module(ITKMetricsv4
   DEPENDS
+    ITKCommon
     ITKRegistrationCommon
     ITKOptimizersv4
   TEST_DEPENDS

@@ -21,6 +21,7 @@
 #include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 #include <iostream>
 #include <iomanip>
@@ -288,7 +289,7 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 
   for ( iDimension = 0; iDimension < FixedImageDimension; iDimension++ )
     {
-    if ( m_Variance[iDimension] == NumericTraits< MovedGradientPixelType >::ZeroValue() )
+    if ( Math::AlmostEquals( m_Variance[iDimension], NumericTraits< MovedGradientPixelType >::ZeroValue() ) )
       {
       continue;
       }

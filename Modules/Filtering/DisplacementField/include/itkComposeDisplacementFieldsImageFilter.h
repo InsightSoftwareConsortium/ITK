@@ -138,8 +138,8 @@ protected:
   void ThreadedGenerateData( const RegionType &, ThreadIdType ) ITK_OVERRIDE;
 
 private:
-  ComposeDisplacementFieldsImageFilter( const Self& ); //purposely not implemented
-  void operator=( const Self& );                 //purposely not implemented
+  ComposeDisplacementFieldsImageFilter( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
   /** The interpolator. */
   typename InterpolatorType::Pointer             m_Interpolator;

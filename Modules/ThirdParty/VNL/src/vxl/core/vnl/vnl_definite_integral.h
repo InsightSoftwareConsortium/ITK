@@ -7,11 +7,12 @@
 // \brief the abstract 1D integrand function used for definite integral
 
 #include "vnl_integrant_fnct.h"
+#include "vnl/vnl_export.h"
 
 class vnl_definite_integral
 {
  protected:
-  static vnl_integrant_fnct *pfnct_;
+  static VNL_EXPORT vnl_integrant_fnct *pfnct_;
 
  public:
   vnl_definite_integral() { pfnct_ = 0; }

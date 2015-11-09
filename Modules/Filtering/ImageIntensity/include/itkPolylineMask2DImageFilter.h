@@ -108,8 +108,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  PolylineMask2DImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  PolylineMask2DImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

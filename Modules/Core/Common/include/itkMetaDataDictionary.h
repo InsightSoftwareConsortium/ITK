@@ -87,7 +87,7 @@ public:
    * context cannot be dereferenced safely */
 
   /** Returns an iterator to the beginning of the map */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   Iterator  Begin();
 
   ConstIterator  Begin() const;
@@ -95,7 +95,7 @@ public:
 #endif
 
   /** Returns an iterator to the end of the map */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   Iterator  End();
 
   ConstIterator  End() const;
@@ -103,7 +103,7 @@ public:
 #endif
 
   /** Returns an iterator matching the string key */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   Iterator  Find(const std::string & key);
 
   ConstIterator  Find(const std::string & key) const;

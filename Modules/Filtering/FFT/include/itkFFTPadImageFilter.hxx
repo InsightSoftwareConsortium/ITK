@@ -55,7 +55,7 @@ FFTPadImageFilter<TInputImage, TOutputImage>
   RegionType region0 = input0->GetLargestPossibleRegion();
   SizeType size;
   IndexType index;
-  for( int i=0; i<ImageDimension; ++i )
+  for( unsigned int i=0; i<ImageDimension; ++i )
     {
     SizeValueType padSize = 0;
     if( m_SizeGreatestPrimeFactor > 1 )

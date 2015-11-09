@@ -100,10 +100,10 @@ FixedArray< TValue, VLength >
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wfloat_equal
     if ( *i != *j )
+CLANG_PRAGMA_POP
       {
       return false;
       }
-CLANG_PRAGMA_POP
     ++j;
     ++i;
     }

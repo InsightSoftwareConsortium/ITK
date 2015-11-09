@@ -140,10 +140,8 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  HessianToObjectnessMeasureImageFilter(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
-                                                       // implemented
+  HessianToObjectnessMeasureImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   // functor used to sort the eigenvalues are to be sorted
   // |e1|<=|e2|<=...<=|eN|

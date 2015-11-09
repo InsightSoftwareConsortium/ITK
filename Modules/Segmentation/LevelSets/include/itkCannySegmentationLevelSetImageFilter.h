@@ -190,10 +190,8 @@ protected:
   CannySegmentationLevelSetImageFilter();
 
 private:
-  CannySegmentationLevelSetImageFilter(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-                                                      // implemented
+  CannySegmentationLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typename CannyFunctionType::Pointer m_CannyFunction;
 };

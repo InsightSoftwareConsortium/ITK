@@ -118,11 +118,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  StreamingImageFilter(const StreamingImageFilter &); //purposely not
-                                                      // implemented
-  void operator=(const StreamingImageFilter &);       //purposely not
-
-  // implemented
+  StreamingImageFilter(const StreamingImageFilter &) ITK_DELETE_FUNCTION;
+  void operator=(const StreamingImageFilter &) ITK_DELETE_FUNCTION;
 
   unsigned int          m_NumberOfStreamDivisions;
   RegionSplitterPointer m_RegionSplitter;

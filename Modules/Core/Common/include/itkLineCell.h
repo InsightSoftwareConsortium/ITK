@@ -54,9 +54,9 @@ public:
   typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
 
   /** Line-specific topology numbers. */
-  enum { NumberOfPoints   = 2,
-         NumberOfVertices = 2,
-         CellDimension    = 1 };
+  itkStaticConstMacro(NumberOfPoints, unsigned int, 2);
+  itkStaticConstMacro(NumberOfVertices, unsigned int, 2);
+  itkStaticConstMacro(CellDimension, unsigned int, 1);
 
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const ITK_OVERRIDE
@@ -107,8 +107,8 @@ protected:
   PointIdentifier m_PointIds[NumberOfPoints];
 
 private:
-  LineCell(const Self &);       //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  LineCell(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

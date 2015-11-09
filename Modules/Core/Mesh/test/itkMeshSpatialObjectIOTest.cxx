@@ -20,6 +20,7 @@
 #include "itkSpatialObjectReader.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include <iostream>
+#include "itkMath.h"
 
 
 int itkMeshSpatialObjectIOTest(int argc, char* argv[])
@@ -181,7 +182,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
       }
     for(i=0;i<3;i++)
       {
-      if(((*it_points)->Value())[i] != j+i)
+      if(itk::Math::NotExactlyEquals(((*it_points)->Value())[i], j+i))
         {
         std::cout<<" [FAILED]"<<std::endl;
         std::cout << "Value = " << (*it_points)->Value() << std::endl;

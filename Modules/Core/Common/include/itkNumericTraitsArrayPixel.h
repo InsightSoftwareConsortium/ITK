@@ -109,6 +109,10 @@ public:
     return b;
   }
 
+  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static const bool IsInteger = false;
+  static const bool IsComplex = false;
+
   /** Set the length of the input array and fill it with zeros. */
   static void SetLength(Array< T > & m, const unsigned int s)
   {

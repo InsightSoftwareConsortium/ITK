@@ -25,6 +25,7 @@
 
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_vector.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -52,7 +53,7 @@ public:
    */
   bool operator>(const KLMDynamicBorderArray< TBorder > & rhs) const
   {
-    if ( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() )
+    if ( Math::ExactlyEquals(m_Pointer->GetLambda(), rhs.m_Pointer->GetLambda()) )
       {
       if ( m_Pointer->GetLambda() < 0 )
         {
@@ -183,8 +184,8 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  KLMSegmentationBorder(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  KLMSegmentationBorder(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   double                 m_Lambda;
   KLMSegmentationRegion *m_Region1;

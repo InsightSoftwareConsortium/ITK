@@ -12,7 +12,16 @@ foreach(p
   endif()
 endforeach()
 
-project(ITK)
+project(ITK NONE)
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to 'Release' as none was specified.")
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+enable_language(C)
+enable_language(CXX)
 
 include(CMakeDependentOption)
 #
@@ -41,11 +50,36 @@ if( CMAKE_HOST_WIN32 )
 
 endif()
 
-set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
+#-----------------------------------------------------------------------------
+# Forbid downloading resources from the network during a build. This helps
+# when building on systems without network connectivity to determine which
+# resources much be obtained manually and made available to the build.
+option(ITK_FORBID_DOWNLOADS "Do not download source code or data from the network" OFF)
+mark_as_advanced(ITK_FORBID_DOWNLOADS)
+macro(itk_download_attempt_check _name)
+  if(ITK_FORBID_DOWNLOADS)
+    message(SEND_ERROR "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
+  endif()
+endmacro()
+
+#-----------------------------------------------------------------------------
+if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
+  # This file is always present in version-controlled source trees
+  # so we must have been extracted from a source tarball with no
+  # data objects needed for testing.  Turn off tests by default
+  # since enabling them requires network access or manual data
+  # store configuration.
+  option(BUILD_TESTING "Build the testing tree." OFF)
+endif()
+include(CTest)
+
+set(ITK_CMAKE_DIR ${ITK_SOURCE_DIR}/CMake)
+set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
 include(ITKModuleMacros)
 include(ITKExternalData)
+include(ITKModuleTest)
 include(itkCheckSourceTree)
 
 set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
@@ -53,8 +87,8 @@ set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 #-----------------------------------------------------------------------------
 # ITK version number.
 set(ITK_VERSION_MAJOR "4")
-set(ITK_VERSION_MINOR "8")
-set(ITK_VERSION_PATCH "1")
+set(ITK_VERSION_MINOR "9")
+set(ITK_VERSION_PATCH "0")
 
 if(NOT ITK_INSTALL_RUNTIME_DIR)
   set(ITK_INSTALL_RUNTIME_DIR bin)
@@ -88,36 +122,10 @@ macro(verify_itk_module_is_set)
 endmacro()
 
 #-----------------------------------------------------------------------------
-# Set a default build type if none was specified
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Setting build type to 'Release' as none was specified.")
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
-  # Set the possible values of build type for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
-
-#-----------------------------------------------------------------------------
 # Do we try to use system libraries by default?
 option(ITK_USE_SYSTEM_LIBRARIES "Use the system's libraries by default.
 If this is not set during the initial configuration, it will have no effect." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_LIBRARIES)
-
-#-----------------------------------------------------------------------------
-# Enable running cppcheck for each module on its source and test directories.
-option(ITK_CPPCHECK_TEST "Run cppcheck for static code analysis" OFF)
-mark_as_advanced(ITK_CPPCHECK_TEST)
-
-#-----------------------------------------------------------------------------
-# Forbid downloading resources from the network during a build. This helps
-# when building on systems without network connectivity to determine which
-# resources much be obtained manually and made available to the build.
-option(ITK_FORBID_DOWNLOADS "Do not download source code or data from the network" OFF)
-mark_as_advanced(ITK_FORBID_DOWNLOADS)
-macro(itk_download_attempt_check _name)
-  if(ITK_FORBID_DOWNLOADS)
-    message(SEND_ERROR "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
-  endif()
-endmacro()
 
 #-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
@@ -130,46 +138,6 @@ if(ITK_BRAINWEB_DATA_ROOT)
     "Please update to ITK_USE_BRAINWEB_DATA."
     )
 endif()
-
-#-----------------------------------------------------------------------------
-# ITK wrapper for add_test that automatically sets the test's LABELS property
-# to the value of its containing module.
-#
-function(itk_add_test)
-  # Add tests with data in the ITKData group.
-  ExternalData_add_test(ITKData ${ARGN})
-
-  if("NAME" STREQUAL "${ARGV0}")
-    set(_iat_testname ${ARGV1})
-  else()
-    set(_iat_testname ${ARGV0})
-  endif()
-
-  if(itk-module)
-    set(_label ${itk-module})
-    if(TARGET ${itk-module}-all AND "${ARGN}" MATCHES "DATA{")
-      add_dependencies(${itk-module}-all ITKData)
-    endif()
-  else()
-    set(_label ${main_project_name})
-  endif()
-
-  set_property(TEST ${_iat_testname} PROPERTY LABELS ${_label})
-endfunction()
-
-#-----------------------------------------------------------------------------
-# ITK function to ignore a test
-#
-function(itk_tests_ignore)
-  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_TESTS_IGNORE ${ARGN})
-endfunction()
-
-#-----------------------------------------------------------------------------
-# ITK function to ignore a test during MemCheck
-#
-function(itk_memcheck_ignore)
-  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_MEMCHECK_IGNORE ${ARGN})
-endfunction()
 
 #-----------------------------------------------------------------------------
 # Wrapping options
@@ -212,19 +180,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
-
-#-----------------------------------------------------------------------------
-if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
-  # This file is always present in version-controlled source trees
-  # so we must have been extracted from a source tarball with no
-  # data objects needed for testing.  Turn off tests by default
-  # since enabling them requires network access or manual data
-  # store configuration.
-  option(BUILD_TESTING "Build the testing tree." OFF)
-endif()
-include(CTest)
-
-include(CppcheckTargets)
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
@@ -383,7 +338,8 @@ include(ITKModuleEnablement)
 # Generate ITKConfig.cmake for the build tree.
 set(ITK_CONFIG_CODE "
 set(ITK_MODULES_DIR \"${ITK_MODULES_DIR}\")")
-set(ITK_USE_FILE "${ITK_SOURCE_DIR}/CMake/UseITK.cmake")
+set(ITK_CONFIG_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
+set(ITK_USE_FILE "${ITK_CONFIG_CMAKE_DIR}/UseITK.cmake")
 set(ITK_CONFIG_TARGETS_CONDITION " AND NOT ITK_BINARY_DIR")
 set(ITK_CONFIG_TARGETS_FILE "${ITK_BINARY_DIR}/ITKTargets.cmake")
 set(ITK_CONFIG_MODULE_API_FILE "${ITK_SOURCE_DIR}/CMake/ITKModuleAPI.cmake")
@@ -403,6 +359,7 @@ endforeach()
 set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
 set(ITK_MODULES_DIR \"\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/Modules\")")
 set(ITK_USE_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/UseITK.cmake")
+set(ITK_CONFIG_CMAKE_DIR "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}")
 set(ITK_CONFIG_TARGETS_CONDITION "")
 set(ITK_CONFIG_TARGETS_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake")
 set(ITK_CONFIG_MODULE_API_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKModuleAPI.cmake")

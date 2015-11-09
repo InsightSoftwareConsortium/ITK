@@ -99,7 +99,7 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
     imReader1->SetFileName(inputFiles[i]);
     imReader2->SetFileName(outputFiles[i]);
     differ->Update();
-    if (differ->GetTotalDifference() != 0)
+    if (itk::Math::NotAlmostEquals( differ->GetTotalDifference(), 0) )
       {
       std::cerr << "Frame " << i << " didn't produce the correct output. Difference = "
                 << differ->GetTotalDifference() << std::endl;

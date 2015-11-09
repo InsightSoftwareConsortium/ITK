@@ -240,11 +240,8 @@ private:
   }
 
 
-  GradientRecursiveGaussianImageFilter(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-
-  // implemented
+  GradientRecursiveGaussianImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   std::vector< GaussianFilterPointer > m_SmoothingFilters;
   DerivativeFilterPointer              m_DerivativeFilter;

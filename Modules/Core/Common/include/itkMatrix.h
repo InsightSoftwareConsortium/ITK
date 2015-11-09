@@ -25,6 +25,7 @@
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/algo/vnl_determinant.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -207,7 +208,7 @@ public:
       {
       for ( unsigned int c = 0; c < NColumns; c++ )
         {
-        if ( m_Matrix(r, c) != matrix.m_Matrix(r, c) )
+        if ( Math::NotExactlyEquals(m_Matrix(r, c), matrix.m_Matrix(r, c)) )
           {
           equal = false;
           break;

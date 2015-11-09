@@ -7,7 +7,7 @@ applications. Their main role is to assist in the implementation of ITK
 filters.")
 
 itk_module(ITKImageFunction
-  DEPENDS
+  COMPILE_DEPENDS
     ITKImageAdaptors
     ITKTransform
     ITKStatistics

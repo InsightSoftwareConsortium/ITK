@@ -5,5 +5,5 @@ itkMRCImageIOFactory.cxx
 )
 
 add_library(ITKIOMRC ${ITKIOMRC_SRC})
-target_link_libraries(ITKIOMRC  ${ITKIOImageBase_LIBRARIES})
+itk_module_link_dependencies()
 itk_module_target(ITKIOMRC)

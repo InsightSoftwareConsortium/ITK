@@ -21,6 +21,7 @@
 #include "itkVideoIOBase.h"
 #include "cv.h"
 #include "highgui.h"
+#include "ITKVideoBridgeOpenCVExport.h"
 
 
 namespace itk
@@ -31,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeOpenCV
  */
-class OpenCVVideoIO:public VideoIOBase
+class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIO : public VideoIOBase
 {
 public:
   /** Standard class typedefs. */
@@ -140,8 +141,8 @@ protected:
   void OpenWriter();
 
 private:
-  OpenCVVideoIO(const Self &);     //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  OpenCVVideoIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Member Variables */
   IplImage*           m_CVImage;

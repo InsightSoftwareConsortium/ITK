@@ -79,8 +79,8 @@ protected:
   typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
 
 private:
-  IsoDataThresholdCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  IsoDataThresholdCalculator(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 };
 

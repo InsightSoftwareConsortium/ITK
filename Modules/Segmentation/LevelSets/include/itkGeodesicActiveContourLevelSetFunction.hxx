@@ -24,6 +24,7 @@
 #include "itkGradientImageFilter.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkImageAlgorithm.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -46,7 +47,7 @@ void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
 
   typename VectorImageType::Pointer gradientImage;
 
-  if ( m_DerivativeSigma != NumericTraits< float >::ZeroValue() )
+  if ( Math::NotAlmostEquals( m_DerivativeSigma, NumericTraits< float >::ZeroValue() ) )
     {
     typedef GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >
     DerivativeFilterType;

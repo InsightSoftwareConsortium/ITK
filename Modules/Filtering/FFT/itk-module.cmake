@@ -11,12 +11,13 @@ endif()
 
 itk_module(ITKFFT
   ${FFT_ENABLE_SHARED}
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKCommon
+  COMPILE_DEPENDS
     ITKImageGrid
   TEST_DEPENDS
-    ITKImageCompare
     ITKTestKernel
+    ITKImageCompare
   DESCRIPTION
     "${DOCUMENTATION}"
 )

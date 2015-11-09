@@ -209,10 +209,10 @@ public:
 
 // force gccxml to find the constructors found before the internal upgrade to
 // gcc 4.2
-#if defined( CABLE_CONFIGURATION )
-  Size();                       //purposely not implemented
-  Size(const Self &);           //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+#if defined( ITK_WRAPPING_PARSER )
+  Size() ITK_DELETE_FUNCTION;
+  Size(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 #endif
 };

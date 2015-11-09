@@ -77,8 +77,8 @@ namespace itk
  * \endwiki
  */
 template< typename TTransform,
-          typename TFixedImage,
-          typename TMovingImage >
+          typename TFixedImage = itk::ImageBase<TTransform::InputSpaceDimension > ,
+          typename TMovingImage = itk::ImageBase<TTransform::OutputSpaceDimension> >
 class LandmarkBasedTransformInitializer:
   public Object
 {
@@ -175,13 +175,13 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  LandmarkBasedTransformInitializer(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  LandmarkBasedTransformInitializer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 
   /** fallback Initializer just sets transform to identity */
   template <typename TTransform2>
-    void InternalInitializeTransform(TTransform *);
+  void InternalInitializeTransform(TTransform2 *);
   /** Initializer for VersorRigid3D */
   void InternalInitializeTransform(VersorRigid3DTransformType *);
   /** Initializer for Rigid2DTransform */

@@ -70,8 +70,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  GetAverageSliceImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  GetAverageSliceImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   unsigned int m_AveragedOutDimension;
 };

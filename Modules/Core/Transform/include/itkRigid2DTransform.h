@@ -142,7 +142,7 @@ public:
    *
    * \sa MatrixOffsetTransformBase::SetMatrix()
    */
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance);
+  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance);
 
   /**
    * Compose the transformation with a translation
@@ -275,8 +275,8 @@ protected:
   }
 
 private:
-  Rigid2DTransform(const Self &); // purposely not implemented
-  void operator=(const Self &);   // purposely not implemented
+  Rigid2DTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   TParametersValueType m_Angle;
 

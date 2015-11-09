@@ -7,12 +7,15 @@ representing the outcome of image segmentation.")
 
 itk_module(ITKMesh
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKTransform
   TEST_DEPENDS
     ITKTestKernel
+    ITKSpatialObjects
     ITKIOSpatialObjects
     ITKIOMesh
+    ITKMetaIO
+    ITKTransform
   DESCRIPTION
     "${DOCUMENTATION}"
 )

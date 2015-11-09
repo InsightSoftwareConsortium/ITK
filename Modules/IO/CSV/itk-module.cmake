@@ -1,6 +1,6 @@
 itk_module(ITKIOCSV
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel

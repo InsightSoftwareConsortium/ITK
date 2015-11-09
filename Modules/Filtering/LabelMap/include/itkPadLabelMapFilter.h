@@ -119,8 +119,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  PadLabelMapFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  PadLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   SizeType m_UpperBoundaryPadSize;
   SizeType m_LowerBoundaryPadSize;

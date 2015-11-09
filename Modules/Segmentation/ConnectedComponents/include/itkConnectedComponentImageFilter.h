@@ -196,8 +196,8 @@ protected:
   bool m_FullyConnected;
 
 private:
-  ConnectedComponentImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ConnectedComponentImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   LabelType            m_ObjectCount;
   OutputImagePixelType m_BackgroundValue;
@@ -267,14 +267,14 @@ public:
   typename Barrier::Pointer m_Barrier;
 
   typename TInputImage::ConstPointer m_Input;
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   LineMapType m_LineMap;
 #endif
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 #include "itkConnectedComponentImageFilter.hxx"
 #endif
 #endif

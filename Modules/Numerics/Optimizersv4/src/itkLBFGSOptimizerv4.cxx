@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 #include "itkLBFGSOptimizerv4.h"
+#include "itkMacro.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -89,7 +91,7 @@ void
 LBFGSOptimizerv4
 ::SetLineSearchAccuracy(double f)
 {
-  if ( f == m_LineSearchAccuracy )
+  if ( Math::ExactlyEquals(f, m_LineSearchAccuracy) )
     {
     return;
     }
@@ -107,7 +109,7 @@ void
 LBFGSOptimizerv4
 ::SetDefaultStepLength(double f)
 {
-  if ( f == m_DefaultStepLength )
+  if ( Math::ExactlyEquals(f, m_DefaultStepLength) )
     {
     return;
     }

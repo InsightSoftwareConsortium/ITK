@@ -50,8 +50,8 @@ protected:
   virtual void GenerateData( const DOMNodeType* inputdom, const void* ) ITK_OVERRIDE;
 
 private:
-  DOMTestObjectDOMReader(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  DOMTestObjectDOMReader(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 inline void

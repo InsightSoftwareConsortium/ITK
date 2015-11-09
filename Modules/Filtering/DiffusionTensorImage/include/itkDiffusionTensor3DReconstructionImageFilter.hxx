@@ -18,6 +18,7 @@
 #ifndef itkDiffusionTensor3DReconstructionImageFilter_hxx
 #define itkDiffusionTensor3DReconstructionImageFilter_hxx
 
+#include "itkMath.h"
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
@@ -259,13 +260,14 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
         unmaskedPixel = maskSpatialObject->IsInside(point);
         }
 
-      if ( ( b0 != 0 ) && unmaskedPixel && ( b0 >= m_Threshold ) )
+      if ( Math::NotAlmostEquals( b0, itk::NumericTraits< ReferencePixelType >::ZeroValue() ) &&
+           unmaskedPixel && ( b0 >= m_Threshold ) )
         {
         for ( unsigned int i = 0; i < m_NumberOfGradientDirections; i++ )
           {
           GradientPixelType b = gradientItContainer[i]->Get();
 
-          if ( b == 0 )
+          if ( Math::AlmostEquals( b, itk::NumericTraits< GradientPixelType >::ZeroValue() ) )
             {
             B[i] = 0;
             }
@@ -383,11 +385,12 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
         unmaskedPixel = maskSpatialObject->IsInside(point);
         }
 
-      if ( ( b0 != 0 ) && unmaskedPixel && ( b0 >= m_Threshold ) )
+      if ( Math::NotAlmostEquals( b0, NumericTraits< ReferencePixelType >::ZeroValue() ) &&
+           unmaskedPixel && ( b0 >= m_Threshold ) )
         {
         for ( unsigned int i = 0; i < m_NumberOfGradientDirections; i++ )
           {
-          if ( b[gradientind[i]] == 0 )
+          if ( Math::AlmostEquals( b[gradientind[i]], NumericTraits< typename GradientVectorType::ValueType >::ZeroValue() ) )
             {
             B[i] = 0;
             }

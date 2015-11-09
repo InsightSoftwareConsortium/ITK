@@ -85,10 +85,8 @@ protected:
   OutputType Process(QEType *h);
 
 private:
-  //purposely not implemented
-  QuadEdgeMeshEulerOperatorFlipEdgeFunction(const Self &);
-  //purposely not implemented
-  void operator=(const Self &);
+  QuadEdgeMeshEulerOperatorFlipEdgeFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // namespace itkQE
 

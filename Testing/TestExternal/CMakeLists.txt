@@ -5,6 +5,9 @@ cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 foreach(p
     CMP0025 # CMake 3.0
     CMP0042 # CMake 3.0
+    CMP0054 # CMake 3.1
+    CMP0056 # CMake 3.2
+    CMP0058 # CMake 3.3
     )
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
@@ -25,6 +28,7 @@ set(ExternalData_SOURCE_ROOT ${ITK_TOP_DIR})
 # Load module infrastructure macros.
 include(${ITK_TOP_DIR}/CMake/ITKModuleMacros.cmake)
 include(${ITK_TOP_DIR}/CMake/ITKExternalData.cmake)
+include(${ITK_TOP_DIR}/CMake/ITKModuleTest.cmake)
 
 # Tell modules how to add their tests.
 function(itk_add_test)
@@ -73,7 +77,6 @@ endforeach()
 set(ITK_DATA_ROOT ${ITK_TOP_DIR}/Testing/Data)
 set(ITK_EXAMPLE_DATA_ROOT ${ITK_TOP_DIR}/Examples/Data)
 set(ITK_TEST_OUTPUT_DIR "${ITKTestExternal_BINARY_DIR}/Testing/Temporary")
-include(${ITK_TOP_DIR}/Modules/Core/TestKernel/CreateTestDriver.cmake)
 
 # Add the test directory for each enabled module that has tests.
 foreach(itk-module ${ITK_MODULES_ENABLED})
@@ -82,6 +85,7 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
                      ${ITKTestExternal_BINARY_DIR}/${${itk-module}_TEST_DIR})
   endif()
 endforeach()
+
 
 # Create target to download data from the ITKData group.  This must come after
 # all tests have been added that reference the group, so we put it last.

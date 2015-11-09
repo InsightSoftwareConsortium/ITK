@@ -211,7 +211,7 @@ ALIASES                = "wikimainaddress{1}=<a href=\"\1\">All Examples</a>" \
 # directories that contain image that are included in the documentation (see
 # the \image command).
 
-IMAGE_PATH             = "@ITK_SOURCE_DIR@/Documentation/Art" \
+IMAGE_PATH             = "@ITK_CMAKE_DIR@/../Documentation/Art" \
                          "@ITK_BINARY_DIR@/Utilities/Doxygen/Modules"
 
 # The ENABLE_SECTIONS tag can be used to enable conditional

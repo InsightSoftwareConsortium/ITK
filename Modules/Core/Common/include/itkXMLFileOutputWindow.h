@@ -89,8 +89,8 @@ protected:
   virtual void DisplayXML(const char *, const char *);
 
 private:
-  XMLFileOutputWindow(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  XMLFileOutputWindow(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

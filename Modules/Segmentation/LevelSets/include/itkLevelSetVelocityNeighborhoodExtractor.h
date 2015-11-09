@@ -133,10 +133,8 @@ protected:
   virtual double CalculateDistance(Index & index) ITK_OVERRIDE;
 
 private:
-  LevelSetVelocityNeighborhoodExtractor(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
-                                                       // implemented
+  LevelSetVelocityNeighborhoodExtractor(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typename AuxValueContainer::Pointer m_AuxInsideValues;
   typename AuxValueContainer::Pointer m_AuxOutsideValues;

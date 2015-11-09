@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include <fstream>
+#include "itkFlatStructuringElement.h"
 #include "itkGrayscaleDilateImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

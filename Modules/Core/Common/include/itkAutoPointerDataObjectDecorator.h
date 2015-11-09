@@ -92,8 +92,8 @@ protected:
 protected:
 
 private:
-  AutoPointerDataObjectDecorator(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
+  AutoPointerDataObjectDecorator(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ComponentPointer m_Component;
 };

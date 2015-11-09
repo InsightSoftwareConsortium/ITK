@@ -110,12 +110,9 @@ public:
   typedef typename Superclass::VirtualPointSetType        VirtualPointSetType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      TVirtualImage::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      TFixedImage::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      TMovingImage::ImageDimension);
+  itkStaticConstMacro(VirtualImageDimension, typename TVirtualImage::ImageDimensionType, TVirtualImage::ImageDimension);
+  itkStaticConstMacro(FixedImageDimension,   typename TFixedImage::ImageDimensionType,   TFixedImage::ImageDimension);
+  itkStaticConstMacro(MovingImageDimension,  typename TMovingImage::ImageDimensionType,  TMovingImage::ImageDimension);
 
 protected:
   CorrelationImageToImageMetricv4();
@@ -159,8 +156,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  CorrelationImageToImageMetricv4(const Self &); //purposely not implemented
-  void operator = (const Self &); //purposely not implemented
+  CorrelationImageToImageMetricv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator = (const Self &) ITK_DELETE_FUNCTION;
 };
 
 } // end namespace itk

@@ -20,6 +20,7 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -39,7 +40,7 @@ public:
 
   bool operator!=(const ExpNegative & other) const
   {
-    if ( m_Factor != other.m_Factor )
+    if ( Math::NotExactlyEquals(m_Factor, other.m_Factor) )
       {
       return true;
       }
@@ -137,8 +138,8 @@ protected:
   virtual ~ExpNegativeImageFilter() {}
 
 private:
-  ExpNegativeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);         //purposely not implemented
+  ExpNegativeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

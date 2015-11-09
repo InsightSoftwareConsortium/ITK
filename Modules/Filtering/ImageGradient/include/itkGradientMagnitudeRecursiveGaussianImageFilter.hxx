@@ -21,6 +21,7 @@
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressAccumulator.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -84,7 +85,7 @@ void
 GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::SetSigma(RealType sigma)
 {
-  if ( sigma != this->GetSigma() )
+  if ( Math::NotExactlyEquals(sigma, this->GetSigma()) )
     {
     for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
       {

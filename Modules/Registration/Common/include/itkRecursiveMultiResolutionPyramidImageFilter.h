@@ -117,10 +117,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  RecursiveMultiResolutionPyramidImageFilter(const Self &); //purposely not
-                                                            // implemented
-  void operator=(const Self &);                             //purposely not
-                                                            // implemented
+  RecursiveMultiResolutionPyramidImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // namespace itk
 

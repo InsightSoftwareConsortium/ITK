@@ -85,8 +85,8 @@ protected:
   virtual ~HeavisideStepFunctionBase() {}
 
 private:
-  HeavisideStepFunctionBase(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  HeavisideStepFunctionBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 }
 

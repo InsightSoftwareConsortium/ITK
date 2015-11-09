@@ -18,6 +18,7 @@
 #include "itkMetaArrowConverter.h"
 #include "itkGroupSpatialObject.h"
 #include <iostream>
+#include "itkMath.h"
 
 /**
  * This is a test file for the itkMetaArrowConverter class.
@@ -135,8 +136,8 @@ int itkMetaArrowConverterTest(int ac, char* av[])
 
   // check color
   const float* newMetaColor = newMetaArrow->Color();
-  if (newMetaColor[0] != color[0] || newMetaColor[1] != color[1] ||
-      newMetaColor[2] != color[2] || newMetaColor[3] != color[3])
+  if (itk::Math::NotExactlyEquals(newMetaColor[0], color[0]) || itk::Math::NotExactlyEquals(newMetaColor[1], color[1]) ||
+      itk::Math::NotExactlyEquals(newMetaColor[2], color[2]) || itk::Math::NotExactlyEquals(newMetaColor[3], color[3]))
     {
     std::cout << "Conversion to MetaArrow failed to convert color [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -172,7 +173,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   newMetaDirectionNorm[2] = newMetaDirection[2];
 
   // normalize if the vector isn't all zeros
-  if (newMetaDirection[0] != 0 || newMetaDirection[1] != 0 || newMetaDirection[2] != 0)
+  if (newMetaDirection[0] != 0.0 || newMetaDirection[1] != 0.0 || newMetaDirection[2] != 0.0)
     {
     newMetaDirectionNorm.Normalize();
     }
@@ -210,10 +211,10 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   delete metaArrow;
 
   // check color
-  if (newItkArrow->GetProperty()->GetRed() != color[0] ||
-      newItkArrow->GetProperty()->GetGreen() != color[1] ||
-      newItkArrow->GetProperty()->GetBlue() != color[2] ||
-      newItkArrow->GetProperty()->GetAlpha() != color[3])
+  if (itk::Math::NotExactlyEquals(newItkArrow->GetProperty()->GetRed(), color[0]) ||
+      itk::Math::NotExactlyEquals(newItkArrow->GetProperty()->GetGreen(), color[1]) ||
+      itk::Math::NotExactlyEquals(newItkArrow->GetProperty()->GetBlue(), color[2]) ||
+      itk::Math::NotExactlyEquals(newItkArrow->GetProperty()->GetAlpha(), color[3]))
     {
     std::cout << "Conversion to SpatialObject failed to convert color [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -246,7 +247,9 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   mDirectionNorm[0] = mDirection[0];
   mDirectionNorm[1] = mDirection[1];
   mDirectionNorm[2] = mDirection[2];
-  if (mDirection[0] != 0 || mDirection[1] != 0 || mDirection[2] != 0)
+  if (itk::Math::NotExactlyEquals(mDirection[0], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()) ||
+      itk::Math::NotExactlyEquals(mDirection[1], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()) ||
+      itk::Math::NotExactlyEquals(mDirection[2], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()))
     {
     mDirectionNorm.Normalize();
     }
@@ -286,10 +289,10 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   std::cout << "[PASSED] Reading: length" << std::endl;
 
   // check color
-  if (reLoad->GetProperty()->GetRed() != color[0] ||
-      reLoad->GetProperty()->GetGreen() != color[1] ||
-      reLoad->GetProperty()->GetBlue() != color[2] ||
-      reLoad->GetProperty()->GetAlpha() != color[3])
+  if (itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetRed(), color[0]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetGreen(), color[1]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetBlue(), color[2]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetAlpha(), color[3]))
     {
     std::cout << "Didn't read color properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -317,7 +320,9 @@ int itkMetaArrowConverterTest(int ac, char* av[])
 
   // check direction (note: need to normalize before comparing)
   SpatialObjectType::VectorType reLoadDirectionNorm = reLoad->GetDirection();
-  if (reLoadDirectionNorm[0] != 0 || reLoadDirectionNorm[1] != 0 || reLoadDirectionNorm[2] != 0)
+  if (itk::Math::NotExactlyEquals(reLoadDirectionNorm[0], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()) ||
+      itk::Math::NotExactlyEquals(reLoadDirectionNorm[1], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()) ||
+      itk::Math::NotExactlyEquals(reLoadDirectionNorm[2], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()))
     {
     reLoadDirectionNorm.Normalize();
     }

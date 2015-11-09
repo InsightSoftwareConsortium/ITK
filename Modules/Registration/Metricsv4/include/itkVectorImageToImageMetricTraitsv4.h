@@ -20,7 +20,6 @@
 
 #include "itkImage.h"
 #include "itkCovariantVector.h"
-#include "itkVariableLengthVector.h"
 #include "itkObjectToObjectMetricBase.h"
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"

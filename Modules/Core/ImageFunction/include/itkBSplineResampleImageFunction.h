@@ -90,7 +90,7 @@ protected:
   virtual ~BSplineResampleImageFunction() {}
 
 private:
-  BSplineResampleImageFunction(const Self &); //purposely not implemented
+  BSplineResampleImageFunction(const Self &) ITK_DELETE_FUNCTION;
 };
 } // namespace itk
 

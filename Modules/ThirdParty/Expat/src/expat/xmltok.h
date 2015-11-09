@@ -6,6 +6,7 @@ See the file COPYING for copying permission.
 #ifndef XmlTok_INCLUDED
 #define XmlTok_INCLUDED 1
 
+#include "itk_expat_mangle.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -22,7 +22,7 @@
 int itkMathRoundTestHelperFunction( double x )
 {
   x += 0.5;
-  return static_cast<int>(x>=0.?x:(x==static_cast<int>(x)?x:x-1.));
+  return static_cast<int>(x>=0.?x:(itk::Math::ExactlyEquals(x,static_cast<int>(x))?x:x-1.));
 }
 
 #define itkRoundMacro( x, y )                 \
@@ -32,7 +32,10 @@ int itkMathRoundTestHelperFunction( double x )
       }                                       \
     else                                      \
       {                                       \
+CLANG_PRAGMA_PUSH                             \
+CLANG_SUPPRESS_Wfloat_equal                     \
       if( (x+0.5) == static_cast<int>(x+0.5) )  \
+CLANG_PRAGMA_POP                              \
         {                                     \
         y = static_cast< int >( x + 0.5 );    \
         }                                     \
@@ -138,7 +141,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     while( inpItr != inputEnd )
       {
       const double x = (*inpItr++) + 0.5;
-      *outItr3nc++ = static_cast<int>(x>=0.?x:(x==static_cast<int>(x)?x:x-1.));
+      *outItr3nc++ = static_cast<int>(x>=0.?x:(itk::Math::ExactlyEquals(x,static_cast<int>(x))?x:x-1.));
       }
 
     chronometer.Stop("Functor");

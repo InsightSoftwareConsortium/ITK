@@ -18,6 +18,7 @@
 #ifndef itkWatershedSegmenter_hxx
 #define itkWatershedSegmenter_hxx
 
+#include "itkMath.h"
 #include "itkWatershedSegmenter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
@@ -176,8 +177,11 @@ void Segmenter< TInputImage >::GenerateData()
   Self::MinMax(input, regionToProcess, minimum, maximum);
   // cap the maximum in the image so that we can always define a pixel
   // value that is one greater than the maximum value in the image.
-  if ( NumericTraits< InputPixelType >::is_integer
+  if ( NumericTraits< InputPixelType >::IsInteger
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
        && maximum == NumericTraits< InputPixelType >::max() )
+CLANG_PRAGMA_POP
     {
     maximum -= NumericTraits< InputPixelType >::OneValue();
     }
@@ -484,7 +488,7 @@ void Segmenter< TInputImage >
       while ( !searchIt.IsAtEnd() )
         {
         // Is this a flat connection?
-        if ( searchIt.GetPixel(nCenter) == searchIt.GetPixel(cPos) )
+        if ( Math::AlmostEquals( searchIt.GetPixel(nCenter), searchIt.GetPixel(cPos) ) )
           {
           // Fill in the boundary flow information.
           // Labels will be collected later.
@@ -498,7 +502,7 @@ void Segmenter< TInputImage >
           for ( i = 0; i < m_Connectivity.size; i++ )
             {
             nPos = m_Connectivity.index[i];
-            if (   searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos)
+            if (   Math::AlmostEquals( searchIt.GetPixel(nCenter), searchIt.GetPixel(nPos) )
                    && labelIt.GetPixel(nPos) != Self::NULL_LABEL
                    && labelIt.GetPixel(nPos) != labelIt.GetPixel(nCenter)
                    )
@@ -566,8 +570,8 @@ void Segmenter< TInputImage >
             for ( i = 0; i < m_Connectivity.size; i++ )
               {
               nPos = m_Connectivity.index[i];
-              if ( searchIt.GetPixel(nPos) ==
-                   searchIt.GetPixel(nCenter) )
+              if ( Math::AlmostEquals( searchIt.GetPixel(nPos),
+                   searchIt.GetPixel(nCenter) ) )
                 {
                 tempFlatRegion.bounds_min = max;
                 tempFlatRegion.min_label_ptr =
@@ -710,7 +714,7 @@ void Segmenter< TInputImage >
     for ( i = 0; i < m_Connectivity.size; ++i )
       {
       nPos = m_Connectivity.index[i];
-      if ( currentValue == searchIt.GetPixel(nPos) )
+      if ( Math::AlmostEquals( currentValue, searchIt.GetPixel(nPos) ) )
         {
         foundFlatRegion  = true;
         break;
@@ -746,7 +750,7 @@ void Segmenter< TInputImage >
       for ( i++; i < m_Connectivity.size; ++i )
         {
         nPos = m_Connectivity.index[i];
-        if (   searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos)
+        if (   Math::AlmostEquals( searchIt.GetPixel(nCenter), searchIt.GetPixel(nPos) )
                && labelIt.GetPixel(nPos) != Self::NULL_LABEL
                && labelIt.GetPixel(nPos) != labelIt.GetPixel(nCenter)
                )
@@ -791,7 +795,7 @@ void Segmenter< TInputImage >
           ( *flatPtr ).second.bounds_min = searchIt.GetPixel(nPos);
           ( *flatPtr ).second.min_label_ptr = labelIt[nPos];
           }
-        if ( searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos) )
+        if ( Math::AlmostEquals( searchIt.GetPixel(nCenter), searchIt.GetPixel(nPos) ) )
           {
           if ( labelIt.GetPixel(nPos) != NULL_LABEL )
             {
@@ -1198,7 +1202,10 @@ void Segmenter< TInputImage >::Threshold(InputImageTypePointer destination,
         {
         dIt.Set(threshold);
         }
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
       else if ( tmp == NumericTraits< InputPixelType >::max() )
+CLANG_PRAGMA_POP
         {
         dIt.Set(tmp - NumericTraits< InputPixelType >::OneValue());
         }

@@ -69,8 +69,8 @@ protected:
   { this->FillCenteredDirectional(coeff); }
 
 private:
-  BackwardDifferenceOperator(const Self & other); //purposely not implemented
-  Self & operator=(const Self & other);           //purposely not implemented
+  BackwardDifferenceOperator(const Self & other) ITK_DELETE_FUNCTION;
+  Self & operator=(const Self & other) ITK_DELETE_FUNCTION;
 };
 } // namespace itk
 

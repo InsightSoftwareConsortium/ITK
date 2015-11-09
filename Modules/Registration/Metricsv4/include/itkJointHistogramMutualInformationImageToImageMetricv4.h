@@ -92,10 +92,8 @@ public:
   typedef typename Superclass::VirtualPointSetType      VirtualPointSetType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      TVirtualImage::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      TMovingImage::ImageDimension);
+  itkStaticConstMacro(VirtualImageDimension, typename TVirtualImage::ImageDimensionType, TVirtualImage::ImageDimension);
+  itkStaticConstMacro(MovingImageDimension,  typename TMovingImage::ImageDimensionType,  TMovingImage::ImageDimension);
 
   /** Value type of the PDF */
   typedef TInternalComputationValueType                  PDFValueType;
@@ -191,8 +189,8 @@ protected:
   SizeValueType   m_JointHistogramTotalCount;
 
 private:
-  JointHistogramMutualInformationImageToImageMetricv4(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  JointHistogramMutualInformationImageToImageMetricv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** The fixed image marginal PDF */
   typename MarginalPDFType::Pointer m_FixedImageMarginalPDF;

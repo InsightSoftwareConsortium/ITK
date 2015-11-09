@@ -193,8 +193,8 @@ protected:
                           const THistogramMeasurement maxValue);
 
 private:
-  HistogramMatchingImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  HistogramMatchingImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   SizeValueType m_NumberOfHistogramLevels;
   SizeValueType m_NumberOfMatchPoints;

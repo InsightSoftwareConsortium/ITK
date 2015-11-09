@@ -3,9 +3,8 @@ with a kernel. Convolution is a fundamental operation in many image
 analysis algorithms.")
 
 itk_module(ITKConvolution
-  DEPENDS
+  COMPILE_DEPENDS
     ITKFFT
-    ITKImageGrid
     ITKImageIntensity
     ITKThresholding
   TEST_DEPENDS

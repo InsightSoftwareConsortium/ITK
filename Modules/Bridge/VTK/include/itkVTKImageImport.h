@@ -158,17 +158,17 @@ protected:
   ~VTKImageImport() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void PropagateRequestedRegion(DataObject *);
+  virtual void PropagateRequestedRegion(DataObject *) ITK_OVERRIDE;
 
-  virtual void UpdateOutputInformation();
+  virtual void UpdateOutputInformation() ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  VTKImageImport(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  VTKImageImport(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   void *                            m_CallbackUserData;
   UpdateInformationCallbackType     m_UpdateInformationCallback;

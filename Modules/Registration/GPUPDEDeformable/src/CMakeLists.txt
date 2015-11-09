@@ -1,15 +1,16 @@
 if (ITK_USE_GPU)
-  set(ITKGPUPDEDeformable_SRC
+  set(ITKGPUPDEDeformableRegistration_SRC
    )
 
-  set(ITKGPUPDEDeformable_Kernels
+  set(ITKGPUPDEDeformableRegistration_Kernels
     GPUDemonsRegistrationFunction.cl
     GPUPDEDeformableRegistrationFilter.cl
     )
 
-  write_gpu_kernels("${ITKGPUPDEDeformable_Kernels}" ITKGPUPDEDeformable_SRC)
+  write_gpu_kernels("${ITKGPUPDEDeformableRegistration_Kernels}" ITKGPUPDEDeformableRegistration_SRC)
 
-  add_library(ITKGPUPDEDeformable ${ITKGPUPDEDeformable_SRC})
-  target_link_libraries(ITKGPUPDEDeformable ${ITKGPUFiniteDifference} ${ITKGPUCommon_LIBRARIES} ${ITKCommon_LIBRARIES} ${OPENCL_LIBRARIES})
-  itk_module_target(ITKGPUPDEDeformable)
+  add_library(ITKGPUPDEDeformableRegistration ${ITKGPUPDEDeformableRegistration_SRC})
+  itk_module_link_dependencies()
+  target_link_libraries(ITKGPUPDEDeformableRegistration LINK_PUBLIC ${OPENCL_LIBRARIES})
+  itk_module_target(ITKGPUPDEDeformableRegistration)
 endif()

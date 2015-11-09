@@ -21,6 +21,7 @@
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -136,7 +137,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 ::ComparePoints2D(Point2DType a, Point2DType b)
 {
   // sort xy points by ascending y value, then x
-  if ( a[1] == b[1] )
+  if ( Math::ExactlyEquals(a[1], b[1]) )
     {
     return ( a[0] < b[0] );
     }
@@ -280,7 +281,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
     area += ( v1y * v2z - v2y * v1z );
 
     // skip any line segments that are perfectly horizontal
-    if ( p1[2] == p2[2] )
+    if ( Math::ExactlyEquals(p1[2], p2[2]) )
       {
       p1 = coords[i];
       continue;
@@ -365,7 +366,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
       double        X2 = p2D2[0];
       double        Y2 = p2D2[1];
 
-      if ( Y2 == Y1 )
+      if ( Math::ExactlyEquals(Y2, Y1) )
         {
         continue;
         }

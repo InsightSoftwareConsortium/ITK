@@ -125,8 +125,8 @@ private:
   StringVectorType          m_ColumnHeaders;
   StringVectorType          m_RowHeaders;
 
-  CSVNumericObjectFileWriter(const Self &);  //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  CSVNumericObjectFileWriter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 } //end namespace itk

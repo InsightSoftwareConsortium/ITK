@@ -109,8 +109,8 @@ protected:
   bool m_ReverseOrdering;
 
 private:
-  AttributeUniqueLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AttributeUniqueLabelMapFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   struct LineOfLabelObject
     {

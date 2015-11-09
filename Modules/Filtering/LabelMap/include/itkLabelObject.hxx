@@ -278,26 +278,46 @@ LabelObject< TLabel, VImageDimension >
   itkGenericExceptionMacro(<< "Invalid offset: " << offset);
 }
 
-/** Copy the attributes of another node to this one */
+/** Copy the lines from another node. */
 template< typename TLabel, unsigned int VImageDimension >
+template<typename TSourceLabelObject>
 void
 LabelObject< TLabel, VImageDimension >
-::CopyAttributesFrom(const Self *src)
+::CopyLinesFrom(const TSourceLabelObject *src)
 {
   itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
-  m_Label = src->m_Label;
+  // clear original lines and copy lines
+  m_LineContainer.clear();
+  for( size_t i = 0; i < src->GetNumberOfLines(); ++i )
+    {
+    this->AddLine( src->GetLine(i) );
+    }
+  this->Optimize();
+}
+
+/** Copy the attributes of another node to this one */
+template< typename TLabel, unsigned int VImageDimension >
+template<typename TSourceLabelObject>
+void
+LabelObject< TLabel, VImageDimension >
+::CopyAttributesFrom(const TSourceLabelObject *src)
+{
+  itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+  m_Label = src->GetLabel();
 }
 
 /** Copy the lines, the label and the attributes from another node. */
 template< typename TLabel, unsigned int VImageDimension >
+template<typename TSourceLabelObject>
 void
 LabelObject< TLabel, VImageDimension >
-::CopyAllFrom(const Self *src)
+::CopyAllFrom(const TSourceLabelObject *src)
 {
   itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
-  m_LineContainer = src->m_LineContainer;
-  // also copy the attributes
-  this->CopyAttributesFrom(src);
+  // Basically all derived class just need to copy the following two
+  // lines to copy all data members
+  this->template CopyLinesFrom<TSourceLabelObject>( src );
+  this->template CopyAttributesFrom<TSourceLabelObject>( src );
 }
 
 /** Reorder the lines, merge the touching lines and ensure that no

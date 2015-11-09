@@ -142,8 +142,8 @@ protected:
   Array< OutputPixelType >    m_ThreadMaximumDifference;
 
 private:
-  ComparisonImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  ComparisonImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool m_IgnoreBoundaryPixels;
 };

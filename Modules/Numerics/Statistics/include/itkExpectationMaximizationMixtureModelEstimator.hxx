@@ -20,6 +20,7 @@
 
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -339,7 +340,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
       tempSum /= totalFrequency;
       }
 
-    if ( tempSum != m_Proportions[i] )
+    if ( Math::NotAlmostEquals( tempSum, m_Proportions[i] ) )
       {
       m_Proportions[i] = tempSum;
       updated = true;

@@ -31,6 +31,7 @@
 #include "itkIntTypes.h"
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -40,6 +41,7 @@ namespace Math
 // moved here to improve visibility, and to ensure that the constants
 // are available during compile time ( as opposed to static const
 // member vaiables ).
+
 
 /** \brief \f[e\f] The base of the natural logarithm or Euler's number */
 static const double e                = 2.7182818284590452354;
@@ -80,15 +82,15 @@ static const double sqrt1_2          = 0.70710678118654752440;
                                                                                     \
     if ( sizeof( TReturn ) <= 4 )                                                   \
       {                                                                             \
-      return static_cast< TReturn >( Detail::name##_32(x) );                      \
+      return static_cast< TReturn >( Detail::name##_32(x) );                        \
       }                                                                             \
     else if ( sizeof( TReturn ) <= 8 )                                              \
       {                                                                             \
-      return static_cast< TReturn >( Detail::name##_64(x) );                      \
+      return static_cast< TReturn >( Detail::name##_64(x) );                        \
       }                                                                             \
     else                                                                            \
       {                                                                             \
-      return static_cast< TReturn >( Detail::name##_base< TReturn, TInput >(x) ); \
+      return static_cast< TReturn >( Detail::name##_base< TReturn, TInput >(x) );   \
       }                                                                             \
     }
 
@@ -275,6 +277,393 @@ FloatAlmostEqual( T x1, T x2,
     }
   return ulps <= maxUlps;
 }
+
+// The following code cannot be moved to the itkMathDetail.h file without introducing circular dependencies
+namespace Detail  // The Detail namespace holds the templates used by AlmostEquals
+{
+// The following structs and templates are used to choose
+// which version of the AlmostEquals function
+// should be implemented base on input parameter types
+
+// Structs for choosing AlmostEquals function
+
+struct AlmostEqualsFloatVsFloat
+{
+  template <typename TFloatType1, typename TFloatType2>
+  static bool AlmostEqualsFunction(TFloatType1 x1, TFloatType2 x2)
+  {
+    return FloatAlmostEqual<double>(x1, x2);
+  }
+
+  template <typename TFloatType1, typename TFloatType2>
+  static bool
+  AlmostEqualsFunction(double x1, double x2)
+  {
+    return FloatAlmostEqual<double>(x1, x2);
+  }
+
+  template <typename TFloatType1, typename TFloatType2>
+  static bool
+  AlmostEqualsFunction(double x1, float x2)
+  {
+    return FloatAlmostEqual<float>(x1, x2);
+  }
+
+  template <typename TFloatType1, typename TFloatType2>
+  static bool
+  AlmostEqualsFunction(float x1, double x2)
+  {
+    return FloatAlmostEqual<float>(x1, x2);
+  }
+
+  template <typename TFloatType1, typename TFloatType2>
+  static bool
+  AlmostEqualsFunction(float x1, float x2)
+  {
+    return FloatAlmostEqual<float>(x1, x2);
+  }
+};
+
+struct AlmostEqualsFloatVsInteger
+{
+  template <typename TFloatType, typename TIntType>
+  static bool AlmostEqualsFunction(TFloatType floatingVariable, TIntType integerVariable)
+  {
+    return FloatAlmostEqual<TFloatType> (floatingVariable, integerVariable);
+  }
+};
+
+struct AlmostEqualsIntegerVsFloat
+{
+  template <typename TIntType, typename TFloatType>
+  static bool AlmostEqualsFunction(TIntType integerVariable, TFloatType floatingVariable)
+  {
+    return AlmostEqualsFloatVsInteger::AlmostEqualsFunction(floatingVariable, integerVariable);
+  }
+};
+
+struct AlmostEqualsSignedVsUnsigned
+{
+  template <typename TSignedInt, typename TUnsignedInt>
+  static bool AlmostEqualsFunction(TSignedInt signedVariable, TUnsignedInt unsignedVariable)
+  {
+    if(signedVariable < 0) return false;
+    if( unsignedVariable > static_cast< size_t >(itk::NumericTraits<TSignedInt>::max()) ) return false;
+    return signedVariable == static_cast< TSignedInt >(unsignedVariable);
+  }
+};
+
+struct AlmostEqualsUnsignedVsSigned
+{
+  template <typename TUnsignedInt, typename TSignedInt>
+  static bool AlmostEqualsFunction(TUnsignedInt unsignedVariable, TSignedInt signedVariable)
+  {
+    return AlmostEqualsSignedVsUnsigned::AlmostEqualsFunction(signedVariable, unsignedVariable);
+  }
+};
+
+struct AlmostEqualsPlainOldEquals
+{
+  template <typename TIntegerType1, typename TIntegerType2>
+  static bool AlmostEqualsFunction(TIntegerType1 x1, TIntegerType2 x2)
+  {
+    return x1 == x2;
+  }
+};
+// end of structs that choose the specific AlmostEquals function
+
+// Selector structs, these select the correct case based on its types
+//        input1 is int?  input 1 is signed? input2 is int?  input 2 is signed?
+template<bool TInput1IsIntger, bool TInput1IsSigned, bool TInput2IsInteger, bool TInput2IsSigned>
+struct AlmostEqualsFunctionSelector
+{ // default case
+  typedef AlmostEqualsPlainOldEquals SelectedVersion;
+};
+
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+template<>
+struct AlmostEqualsFunctionSelector < false, true, false, true>
+// floating type v floating type
+{
+  typedef AlmostEqualsFloatVsFloat SelectedVersion;
+};
+
+template<>
+struct AlmostEqualsFunctionSelector <false, true, true, true>
+// float vs signed int
+{
+  typedef AlmostEqualsFloatVsInteger SelectedVersion;
+};
+
+template<>
+struct AlmostEqualsFunctionSelector <false, true, true,false>
+// float vs unsigned int
+{
+  typedef AlmostEqualsFloatVsInteger SelectedVersion;
+};
+
+template<>
+struct AlmostEqualsFunctionSelector <true, false, false, true>
+// unsigned int vs float
+{
+  typedef AlmostEqualsIntegerVsFloat SelectedVersion;
+};
+
+template<>
+struct AlmostEqualsFunctionSelector <true, true, false, true>
+// signed int vs float
+{
+  typedef AlmostEqualsIntegerVsFloat SelectedVersion;
+};
+
+template<>
+struct AlmostEqualsFunctionSelector<true, true, true, false>
+// signed vs unsigned
+{
+  typedef AlmostEqualsSignedVsUnsigned SelectedVersion;
+};
+
+template<>
+struct AlmostEqualsFunctionSelector<true, false, true, true>
+// unsigned vs signed
+{
+  typedef AlmostEqualsUnsignedVsSigned SelectedVersion;
+};
+
+template<>
+struct AlmostEqualsFunctionSelector<true, true, true, true>
+//   signed vs signed
+{
+  typedef AlmostEqualsPlainOldEquals SelectedVersion;
+};
+
+template<>
+struct AlmostEqualsFunctionSelector<true, false, true, false>
+// unsigned vs unsigned
+{
+  typedef AlmostEqualsPlainOldEquals SelectedVersion;
+};
+// end of AlmostEqualsFunctionSelector structs
+
+ // The implementor tells the selector what to do
+template<typename TInputType1, typename TInputType2>
+struct AlmostEqualsScalarImplementer
+{
+  static const bool TInputType1IsInteger = itk::NumericTraits<TInputType1>::IsInteger;
+  static const bool TInputType1IsSigned  = itk::NumericTraits<TInputType1>::IsSigned;
+  static const bool TInputType2IsInteger = itk::NumericTraits<TInputType2>::IsInteger;
+  static const bool TInputType2IsSigned  = itk::NumericTraits<TInputType2>::IsSigned;
+
+  typedef typename AlmostEqualsFunctionSelector< TInputType1IsInteger, TInputType1IsSigned,
+                                                 TInputType2IsInteger, TInputType2IsSigned >::SelectedVersion SelectedVersion;
+};
+
+// The AlmostEqualsScalarComparer returns the result of an
+// approximate comparison between two scalar values of
+// potentially different data types.
+template <typename TScalarType1, typename TScalarType2>
+static bool
+AlmostEqualsScalarComparer( TScalarType1 x1, TScalarType2 x2 )
+{
+  return AlmostEqualsScalarImplementer<TScalarType1, TScalarType2>::SelectedVersion:: template AlmostEqualsFunction<TScalarType1, TScalarType2>(x1, x2);
+}
+
+// The following structs are used to evaluate approximate comparisons between
+// complex and scalar values of potentially different types.
+
+// Comparisons between scalar types use the AlmostEqualsScalarComparer function.
+struct AlmostEqualsScalarVsScalar
+{
+  template <typename TScalarType1, typename TScalarType2>
+  static bool
+  AlmostEqualsFunction(TScalarType1 x1, TScalarType2 x2)
+  {
+    return AlmostEqualsScalarComparer(x1, x2);
+  }
+};
+
+// Comparisons between two complex values compare the real and imaginary components
+// separately with the AlmostEqualsScalarComparer function.
+struct AlmostEqualsComplexVsComplex
+{
+  template <typename TComplexType1, typename TComplexType2>
+  static bool
+  AlmostEqualsFunction(TComplexType1 x1, TComplexType2 x2)
+  {
+    return AlmostEqualsScalarComparer(x1.real(), x2.real()) && AlmostEqualsScalarComparer( x1.imag(), x2.imag() );
+  }
+};
+
+// Comparisons between complex and scalar values first check to see if the imaginary component
+// of the complex value is approximately 0. Then a ScalarComparison is done between the real
+// part of the complex number and the scalar value.
+struct AlmostEqualsScalarVsComplex
+{
+  template <typename TScalarType, typename TComplexType>
+  static bool
+  AlmostEqualsFunction(TScalarType scalarVariable, TComplexType complexVariable)
+  {
+    if( !AlmostEqualsScalarComparer( complexVariable.imag(), itk::NumericTraits< typename itk::NumericTraits< TComplexType >::ValueType >::ZeroValue() ) )
+      {
+      return false;
+      }
+    return AlmostEqualsScalarComparer(scalarVariable, complexVariable.real());
+  }
+};
+
+struct AlmostEqualsComplexVsScalar
+{
+  template <typename TComplexType, typename TScalarType>
+  static bool
+  AlmostEqualsFunction(TComplexType complexVariable, TScalarType scalarVariable)
+  {
+    return AlmostEqualsScalarVsComplex::AlmostEqualsFunction(scalarVariable, complexVariable);
+  }
+};
+
+// The AlmostEqualsComplexChooser structs choose the correct case
+// from the input parameter types' IsComplex property
+// The default case is scalar vs scalar
+template < bool T1IsComplex, bool T2IsComplex > //Default is false, false
+struct AlmostEqualsComplexChooser
+{
+  typedef AlmostEqualsScalarVsScalar ChosenVersion;
+};
+
+template <>
+struct AlmostEqualsComplexChooser< true, true >
+{
+  typedef AlmostEqualsComplexVsComplex ChosenVersion;
+};
+
+template <>
+struct AlmostEqualsComplexChooser< false, true >
+{
+  typedef AlmostEqualsScalarVsComplex ChosenVersion;
+};
+
+template <>
+struct AlmostEqualsComplexChooser< true, false>
+{
+  typedef AlmostEqualsComplexVsScalar ChosenVersion;
+};
+// End of AlmostEqualsComplexChooser structs.
+
+// The AlmostEqualsComplexImplementer determines which of the input
+// parameters are complex and which are real, and sends that information
+// to the AlmostEqualsComplexChooser structs to determine the proper
+// type of evaluation.
+template <typename T1, typename T2>
+struct AlmostEqualsComplexImplementer
+{
+  static const bool T1IsComplex = NumericTraits< T1 >::IsComplex;
+  static const bool T2IsComplex = NumericTraits< T2 >::IsComplex;
+
+  typedef typename AlmostEqualsComplexChooser< T1IsComplex, T2IsComplex >::ChosenVersion ChosenVersion;
+};
+/** *\endcond*/
+
+} // end namespace Detail
+
+/** \brief Provide consistent equality checks between values of potentially different scalar or complex types
+ *
+ * template< typename T1, typename T2 >
+ * AlmostEquals( T1 x1, T2 x2 )
+ *
+ * template< typename T1, typename T2 >
+ * NotAlmostEquals( T1 x1, T2 x2 )
+ *
+ * This function compares two scalar or complex values of potentially different types.
+ * For maximum extensibility the function is implemented through a series of templated
+ * structs which direct the AlmostEquals() call to the correct function by evaluating
+ * the parameter's types.
+ *
+ * Overall algorithm:
+ *   If both values are complex...
+ *     separate values into real and imaginary components and compare them separately
+ *
+ *   If one of the values is complex..
+ *     see if the imaginary part of the complex value is approximately 0 ...
+ *       compare real part of complex value with scalar value
+ *
+ *   If both values are scalars...
+ *
+ *   To compare two floating point types...
+ *     use FloatAlmostEqual.
+ *
+ *   To compare a floating point and an integer type...
+ *        Use static_cast<FloatingPointType>(integerValue) and call FloatAlmostEqual
+ *
+ *   To compare signed and unsigned integers...
+ *     Check for negative value or overflow, then cast and use ==
+ *
+ *   To compare two signed or two unsigned integers ...
+ *     Use ==
+ *
+ *   To compare anything else ...
+ *     Use ==
+ *
+ * \param x1                    first scalar value to compare
+ * \param x2                    second scalar value to compare
+ */
+
+// The AlmostEquals function
+template <typename T1, typename T2>
+inline bool
+AlmostEquals( T1 x1, T2 x2 )
+{
+  return Detail::AlmostEqualsComplexImplementer<T1,T2>::ChosenVersion::AlmostEqualsFunction(x1, x2);
+}
+
+// The NotAlmostEquals function
+template <typename T1, typename T2>
+inline bool
+NotAlmostEquals( T1 x1, T2 x2 )
+{
+  return ! AlmostEquals( x1, x2 );
+}
+
+
+/** \brief  Return the result of an exact comparison between two scalar values of potetially different types.
+ *
+ * template <typename TInput1, typename TInput2>
+ * inline bool
+ * ExactlyEquals( const TInput & x1, const TInput & x2 )
+ *
+ * template <typename TInput1, typename TInput2>
+ * inline bool
+ * NotExactlyEquals( const TInput & x1, const TInput & x2 )
+ *
+ * These functions complement the EqualsComparison functions and determine if two scalar
+ * values are exactly equal using the compilers casting rules when comparing two different types.
+ * While this is also easily accomplished by using the equality operators,
+ * use of this function demonstrates the intent of an exact equality check and thus improves
+ * readability and clarity of code. In addition, this function suppresses float-equal warnings
+ * produced when using Clang.
+ *
+ * \param x1                    first floating point value to compare
+ * \param x2                    second floating point value to compare
+ */
+
+// The ExactlyEquals function
+template <typename TInput1, typename TInput2>
+inline bool
+ExactlyEquals( const TInput1 & x1, const TInput2 & x2 )
+{
+CLANG_PRAGMA_PUSH
+CLANG_SUPPRESS_Wfloat_equal
+  return x1 == x2;
+CLANG_PRAGMA_POP
+}
+
+//The NotExactlyEquals function
+template <typename TInput1, typename TInput2>
+inline bool
+NotExactlyEquals( const TInput1 & x1, const TInput2 & x2 )
+{
+  return !ExactlyEquals(x1, x2);
+}
+
 
 /** Return whether the number in a prime number or not.
  *

@@ -122,11 +122,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  GrayscaleConnectedOpeningImageFilter(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-
-  // implemented
+  GrayscaleConnectedOpeningImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   unsigned long       m_NumberOfIterationsUsed;
   InputImageIndexType m_Seed;

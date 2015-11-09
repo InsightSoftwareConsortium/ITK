@@ -66,8 +66,8 @@ protected:
   ~Command();
 
 private:
-  Command(const Self &);        //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  Command(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 // some implementations for several callback types
@@ -148,8 +148,8 @@ protected:
   virtual ~MemberCommand(){}
 
 private:
-  MemberCommand(const Self &);  //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  MemberCommand(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /** \class ReceptorMemberCommand
@@ -217,8 +217,8 @@ protected:
   virtual ~ReceptorMemberCommand() {}
 
 private:
-  ReceptorMemberCommand(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  ReceptorMemberCommand(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /** \class SimpleMemberCommand
@@ -284,8 +284,8 @@ protected:
   virtual ~SimpleMemberCommand() {}
 
 private:
-  SimpleMemberCommand(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  SimpleMemberCommand(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /** \class SimpleConstMemberCommand
@@ -351,8 +351,8 @@ protected:
   virtual ~SimpleConstMemberCommand() {}
 
 private:
-  SimpleConstMemberCommand(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  SimpleConstMemberCommand(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 
 /** \class CStyleCommand

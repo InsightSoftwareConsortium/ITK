@@ -212,8 +212,8 @@ protected:
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  GPUPDEDeformableRegistrationFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  GPUPDEDeformableRegistrationFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Temporary deformation field use for smoothing the
    * the deformation field. */

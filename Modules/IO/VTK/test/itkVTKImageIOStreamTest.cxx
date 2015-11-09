@@ -24,6 +24,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -59,8 +60,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  ConstantImageSource(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  ConstantImageSource(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typename TOutputImage::PixelType m_Value;
 };
@@ -94,7 +95,7 @@ bool ImagesEqual(const TImage* img1, const TImage* img2,
 
   for(it1.GoToBegin(), it2.GoToBegin(); !it1.IsAtEnd(); ++it1, ++it2)
     {
-    if(it1.Get() != it2.Get())
+    if( itk::Math::NotExactlyEquals(it1.Get(), it2.Get()) )
       {
       return false;
       }

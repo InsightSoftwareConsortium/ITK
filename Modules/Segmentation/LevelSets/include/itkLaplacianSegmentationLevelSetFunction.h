@@ -78,7 +78,7 @@ public:
    */
   void SetAdvectionWeight(const ScalarValueType value) ITK_OVERRIDE
   {
-    if ( value == NumericTraits< ScalarValueType >::ZeroValue() )
+    if ( Math::ExactlyEquals(value, NumericTraits< ScalarValueType >::ZeroValue()) )
       {
       Superclass::SetAdvectionWeight(value);
       }
@@ -95,15 +95,14 @@ protected:
 
   virtual ~LaplacianSegmentationLevelSetFunction() {}
 
-  LaplacianSegmentationLevelSetFunction(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
-                                                       // implemented
+  LaplacianSegmentationLevelSetFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLaplacianSegmentationLevelSetFunction.hxx"
+#include "itkMath.h"
 #endif
 
 #endif

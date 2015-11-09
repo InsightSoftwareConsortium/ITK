@@ -170,6 +170,8 @@ public:
   typedef typename PointDataImageType::Pointer      PointDataImagePointer;
   typedef FixedArray<unsigned,
     itkGetStaticConstMacro( ImageDimension )>       ArrayType;
+  typedef FixedArray<RealType,
+    itkGetStaticConstMacro( ImageDimension )>       RealArrayType;
 
   /**
    * Interpolation kernel type (default spline order = 3)
@@ -240,6 +242,17 @@ public:
    * parametric dimensions.
    */
   void SetNumberOfLevels( const ArrayType & );
+
+  /**
+   * Set/Get the epsilon used for B-splines.  The B-spline parametric domain in
+   * 1-D is defined on the half-closed interval [a,b).  Extension to n-D is
+   * defined similarly.  This presents some difficulty for defining the
+   * the image domain to be co-extensive with the parametric domain.  We use
+   * the B-spline epsilon to push the edge of the image boundary inside the
+   * B-spline parametric domain.
+   */
+  itkSetMacro( BSplineEpsilon, RealType );
+  itkGetConstMacro( BSplineEpsilon, RealType );
 
   /**
    * Get the number of fitting levels for all parametric dimensions. Starting
@@ -338,9 +351,8 @@ protected:
 
 private:
 
-  //purposely not implemented
-  BSplineScatteredDataPointSetToImageFilter( const Self & );
-  void operator=( const Self & );
+  BSplineScatteredDataPointSetToImageFilter( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   /**
    * Function used to propagate the fitting solution at one fitting level

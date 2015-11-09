@@ -164,8 +164,8 @@ protected:
   void PrintSelf( std::ostream &, Indent ) const ITK_OVERRIDE;
 
 private:
-  BSplineExponentialDiffeomorphicTransform( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  BSplineExponentialDiffeomorphicTransform( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
   ArrayType                               m_NumberOfControlPointsForTheConstantVelocityField;
   ArrayType                               m_NumberOfControlPointsForTheUpdateField;

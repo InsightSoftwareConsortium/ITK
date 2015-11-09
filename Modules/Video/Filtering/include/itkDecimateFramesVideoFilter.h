@@ -76,8 +76,8 @@ protected:
                 int threadId) ITK_OVERRIDE;
 
 private:
-  DecimateFramesVideoFilter(const Self &); // purposely not implemented
-  void operator=(const Self &);            // purposely not implemented
+  DecimateFramesVideoFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 
 };  // end class DecimateFramesVideoFilter

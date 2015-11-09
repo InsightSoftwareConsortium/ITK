@@ -27,6 +27,31 @@
 
 namespace itk
 {
+
+/* MatrixOrthogonalityTolerance is a utility to
+ * allow setting the tolerance limits used for
+ * checking if a matrix meet the orthogonality
+ * constraints of being a rigid rotation matrix.
+ * The tolerance needs to be different for
+ * matricies of type float vs. double.
+ */
+template<typename T>
+class MatrixOrthogonalityTolerance;
+
+template <>
+class MatrixOrthogonalityTolerance<double>
+{
+public:
+  static double GetTolerance() { return 1e-10; }
+};
+
+template <>
+class MatrixOrthogonalityTolerance<float>
+{
+public:
+  static float GetTolerance() { return 1e-5; }
+};
+
 /** \class MatrixOffsetTransformBase
  * \brief Matrix and Offset transformation of a vector space (e.g. space coordinates)
  *
@@ -49,7 +74,7 @@ namespace itk
  * problem by referring to the order of application rather than the
  * textual order.)
  *
- * \tparam ScalarT            The type to be used for scalar numeric values.  Either
+ * \tparam TParametersValueType The type to be used for scalar numeric values.  Either
  *    float or double.
  *
  * \tparam NInputDimensions   The number of dimensions of the input vector space.
@@ -58,7 +83,7 @@ namespace itk
  *
  * This class provides several methods for setting the matrix and offset
  * defining the transform. To support the registration framework, the
- * transform parameters can also be set as an Array<double> of size
+ * transform parameters can also be set as an Array<TParametersValueType> of size
  * (NInputDimension + 1) * NOutputDimension using method SetParameters().
  * The first (NOutputDimension x NInputDimension) parameters defines the
  * matrix in row-major order (where the column index varies the fastest).

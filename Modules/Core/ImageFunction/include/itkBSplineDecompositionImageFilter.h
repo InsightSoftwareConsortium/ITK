@@ -150,8 +150,8 @@ protected:
                                              // incrementing
 
 private:
-  BSplineDecompositionImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                  //purposely not implemented
+  BSplineDecompositionImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Determines the poles given the Spline Order. */
   virtual void SetPoles();

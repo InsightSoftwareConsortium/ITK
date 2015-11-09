@@ -98,8 +98,8 @@ protected:
   virtual ~LogImageFilter() {}
 
 private:
-  LogImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  LogImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

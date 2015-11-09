@@ -18,9 +18,12 @@
 
 #include <iostream>
 
+#include "itkMath.h"
 #include "itkWarpImageFilter.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkVectorImage.h"
+#include "itkMath.h"
 
 // class to produce a linear image pattern
 template <int VDimension>
@@ -94,10 +97,10 @@ int itkWarpImageFilterTest(int, char* [] )
 {
   typedef float PixelType;
   enum { ImageDimension = 2 };
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-
-  typedef itk::Vector<float,ImageDimension>     VectorType;
-  typedef itk::Image<VectorType,ImageDimension> FieldType;
+  typedef itk::Image<PixelType,ImageDimension>       ImageType;
+  typedef itk::VectorImage<PixelType,ImageDimension> VectorImageType;
+  typedef itk::Vector<float,ImageDimension>          VectorType;
+  typedef itk::Image<VectorType,ImageDimension>      FieldType;
 
   bool testPassed = true;
 
@@ -167,7 +170,13 @@ int itkWarpImageFilterTest(int, char* [] )
     }
 
   //=============================================================
+  std::cout << "Instantiate WarpImageFilter with VectorImage.";
+  std::cout << std::endl;
 
+  typedef itk::WarpImageFilter<VectorImageType,VectorImageType,VectorImageType> WarpVectorImageFilterType;
+  WarpVectorImageFilterType::Pointer warpVectorImageFilter = WarpVectorImageFilterType::New();
+
+  //=============================================================
   std::cout << "Run WarpImageFilter in standalone mode with progress.";
   std::cout << std::endl;
   typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
@@ -282,7 +291,7 @@ int itkWarpImageFilterTest(int, char* [] )
     else
       {
 
-      if( value != padValue )
+      if( itk::Math::NotExactlyEquals(value, padValue) )
         {
         testPassed = false;
         std::cout << "Error at Index: " << index << " ";
@@ -326,7 +335,7 @@ int itkWarpImageFilterTest(int, char* [] )
 
   while( !outIter.IsAtEnd() )
     {
-    if( outIter.Get() != streamIter.Get() )
+    if( itk::Math::NotAlmostEquals( outIter.Get(), streamIter.Get() ) )
       {
       std::cout << "Error C at Index: " << outIter.GetIndex() << " ";
       std::cout << "Expected: " << outIter.Get() << " ";

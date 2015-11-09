@@ -140,8 +140,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  IsolatedWatershedImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);               //purposely not implemented
+  IsolatedWatershedImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

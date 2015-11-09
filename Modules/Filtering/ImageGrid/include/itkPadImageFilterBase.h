@@ -108,8 +108,8 @@ protected:
   void InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition );
 
 private:
-  PadImageFilterBase(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  PadImageFilterBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   BoundaryConditionPointerType m_BoundaryCondition;
 };

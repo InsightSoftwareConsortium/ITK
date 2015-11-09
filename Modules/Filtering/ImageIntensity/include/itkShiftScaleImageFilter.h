@@ -121,8 +121,8 @@ protected:
                              ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  ShiftScaleImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  ShiftScaleImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RealType m_Shift;
   RealType m_Scale;

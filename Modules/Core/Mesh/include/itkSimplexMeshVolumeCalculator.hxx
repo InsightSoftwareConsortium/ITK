@@ -19,6 +19,7 @@
 #define itkSimplexMeshVolumeCalculator_hxx
 
 #include "itkSimplexMeshVolumeCalculator.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -178,19 +179,19 @@ SimplexMeshVolumeCalculator< TInputMesh >
     {
     m_Muncz++;
     }
-  else if ( ( absu[0] == absu[1] ) && ( absu[0] == absu[2] ) )
+  else if ( Math::AlmostEquals( absu[0], absu[1] ) && itk::Math::AlmostEquals( absu[0], absu[2] ) )
     {
     m_Wxyz++;
     }
-  else if ( ( absu[0] == absu[1] ) && ( absu[0] > absu[2] ) )
+  else if ( Math::AlmostEquals( absu[0], absu[1] ) && ( absu[0] > absu[2] ) )
     {
     m_Wxy++;
     }
-  else if ( ( absu[0] == absu[2] ) && ( absu[0] > absu[1] ) )
+  else if ( Math::AlmostEquals( absu[0], absu[2] ) && ( absu[0] > absu[1] ) )
     {
     m_Wxz++;
     }
-  else if ( ( absu[1] == absu[2] ) && ( absu[0] < absu[2] ) )
+  else if ( Math::AlmostEquals( absu[1], absu[2] ) && ( absu[0] < absu[2] ) )
     {
     m_Wyz++;
     }

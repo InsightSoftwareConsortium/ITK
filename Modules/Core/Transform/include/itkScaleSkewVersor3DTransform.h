@@ -112,7 +112,7 @@ public:
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
   virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance) ITK_OVERRIDE;
+  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) ITK_OVERRIDE;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -168,8 +168,8 @@ protected:
   void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
 private:
-  ScaleSkewVersor3DTransform(const Self &); // purposely not implemented
-  void operator=(const Self &);             // purposely not implemented
+  ScaleSkewVersor3DTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /**  Vector containing the scale. */
   ScaleVectorType m_Scale;

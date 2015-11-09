@@ -1,6 +1,10 @@
 set(@itk-module@_LOADED 1)
 set(@itk-module@_DEPENDS "@itk-module-DEPENDS@")
+set(@itk-module@_PUBLIC_DEPENDS "@itk-module-PUBLIC_DEPENDS@")
+set(@itk-module@_TRANSITIVE_DEPENDS "@itk-module-TRANSITIVE_DEPENDS@")
+set(@itk-module@_PRIVATE_DEPENDS "@itk-module-PRIVATE_DEPENDS@")
 set(@itk-module@_LIBRARIES "@itk-module-LIBRARIES@")
 set(@itk-module@_INCLUDE_DIRS "@itk-module-INCLUDE_DIRS@")
 set(@itk-module@_LIBRARY_DIRS "@itk-module-LIBRARY_DIRS@")
+set(@itk-module@_TARGETS_FILE "@itk-module-TARGETS_FILE@")
 @itk-module-EXPORT_CODE@

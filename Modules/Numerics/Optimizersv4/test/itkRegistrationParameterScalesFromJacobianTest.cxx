@@ -20,6 +20,7 @@
 
 #include "itkAffineTransform.h"
 #include "itkDisplacementFieldTransform.h"
+#include "itkMath.h"
 
 /**
  *  \class RegistrationParameterScalesFromJacobianTestMetric for test.
@@ -201,7 +202,7 @@ int itkRegistrationParameterScalesFromJacobianTest(int , char* [])
   bool nonUniformForJacobian = false;
   for (itk::SizeValueType p = 1; p < jacobianScales.GetSize(); p++)
     {
-    if (jacobianScales[p] != jacobianScales[0])
+    if (itk::Math::NotExactlyEquals(jacobianScales[p], jacobianScales[0]))
       {
       nonUniformForJacobian = true;
       break;

@@ -22,6 +22,7 @@
  */
 
 #include "itkPlaneSpatialObject.h"
+#include "itkMath.h"
 
 int itkPlaneSpatialObjectTest(int, char* [])
 {
@@ -97,7 +98,7 @@ int itkPlaneSpatialObjectTest(int, char* [])
      return EXIT_FAILURE;
   }
 
-  if(value != 1)
+  if(itk::Math::NotExactlyEquals(value, 1))
   {
      std::cout<<"[FAILED]"<<std::endl;
      return EXIT_FAILURE;

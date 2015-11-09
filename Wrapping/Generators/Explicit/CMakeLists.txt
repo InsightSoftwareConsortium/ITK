@@ -13,10 +13,6 @@ set(ITK_WRAP_EXPLICIT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "e
 set(ITK_WRAP_EXPLICIT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "explicit binary dir")
 
 
-set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs")
-
-
-
 macro(itk_wrap_include_explicit include_file)
   list(APPEND EXPLICIT_INCLUDES ${include_file})
 endmacro()

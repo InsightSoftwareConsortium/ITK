@@ -80,8 +80,8 @@ protected:
                                   const ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
-  JointHistogramMutualInformationComputeJointPDFThreader( const Self & ); // purposely not implemented
-  void operator=( const Self & ); // purposely not implemented
+  JointHistogramMutualInformationComputeJointPDFThreader( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 };
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreader
@@ -123,8 +123,8 @@ protected:
                                   const ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
-  JointHistogramMutualInformationComputeJointPDFThreader( const Self & ); // purposely not implemented
-  void operator=( const Self & ); // purposely not implemented
+  JointHistogramMutualInformationComputeJointPDFThreader( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

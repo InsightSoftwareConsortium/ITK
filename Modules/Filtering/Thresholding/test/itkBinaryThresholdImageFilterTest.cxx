@@ -18,6 +18,7 @@
 
 #include "itkRandomImageSource.h"
 #include "itkBinaryThresholdImageFilter.h"
+#include "itkMath.h"
 
 
 int itkBinaryThresholdImageFilterTest(int, char* [] )
@@ -120,12 +121,12 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
     bool pass = true;
     if( lower <= input && input <= upper )
       {
-      if ( output != inside )
+      if ( itk::Math::NotExactlyEquals(output, inside) )
         {
         pass = false;
         }
       }
-    else if ( output != outside )
+    else if ( itk::Math::NotExactlyEquals(output, outside) )
       {
       pass = false;
       }

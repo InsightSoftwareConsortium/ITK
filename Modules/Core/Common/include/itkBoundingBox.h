@@ -177,8 +177,8 @@ protected:
   typedef typename PointsContainer::ConstIterator ConstIterator;
 
 private:
-  BoundingBox(const Self &);    //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  BoundingBox(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PointsContainerConstPointer m_PointsContainer;
   PointsContainerPointer      m_CornersContainer;

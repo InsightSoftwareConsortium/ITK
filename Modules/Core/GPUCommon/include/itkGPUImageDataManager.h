@@ -78,7 +78,7 @@ protected:
   virtual ~GPUImageDataManager() {}
 
 private:
-  GPUImageDataManager(const Self&);   //purposely not implemented
+  GPUImageDataManager(const Self&) ITK_DELETE_FUNCTION;
   void operator=(const Self&);
 
   WeakPointer<ImageType>            m_Image;   // WeakPointer has to be used here

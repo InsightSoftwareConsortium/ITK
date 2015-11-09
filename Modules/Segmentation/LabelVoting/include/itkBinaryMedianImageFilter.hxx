@@ -28,6 +28,7 @@
 
 #include <vector>
 #include <algorithm>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -136,7 +137,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
       for ( unsigned int i = 0; i < neighborhoodSize; ++i )
         {
         InputPixelType value = bit.GetPixel(i);
-        if ( value == m_ForegroundValue )
+        if ( Math::ExactlyEquals(value, m_ForegroundValue) )
           {
           count++;
           }

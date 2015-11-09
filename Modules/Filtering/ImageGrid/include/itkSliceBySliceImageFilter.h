@@ -170,8 +170,8 @@ protected:
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  SliceBySliceImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  SliceBySliceImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   unsigned int m_Dimension;
 

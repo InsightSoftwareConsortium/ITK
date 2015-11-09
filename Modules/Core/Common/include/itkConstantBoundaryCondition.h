@@ -20,10 +20,12 @@
 
 #include "itkNumericTraits.h"
 #include "itkImageBoundaryCondition.h"
-#include "itkVariableLengthVector.h"
 
 namespace itk
 {
+// Forward reference for VariableLengthVector
+template <typename TValue> class VariableLengthVector;
+
 /** \class ConstantBoundaryCondition
  * \brief This boundary condition returns a constant value for out-of-bounds
  * image pixels.

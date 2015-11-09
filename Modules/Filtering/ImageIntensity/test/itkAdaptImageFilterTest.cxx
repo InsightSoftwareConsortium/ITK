@@ -38,6 +38,7 @@
 #include "itkFilterWatcher.h"
 
 #include "vnl/vnl_sample.h"
+#include "itkMath.h"
 
 
 //-------------------------------------
@@ -126,7 +127,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
   while( !it.IsAtEnd() )
   {
   std::cout << it.Get()   << std::endl;
-  if (it.Get() != it1.Get().GetRed())
+  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetRed()))
     {
     passed = false;
     }
@@ -151,7 +152,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
   while( !it.IsAtEnd() )
   {
   std::cout << it.Get()   << std::endl;
-  if (it.Get() != it1.Get().GetGreen())
+  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetGreen()))
     {
     passed = false;
     }
@@ -176,7 +177,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
   while( !it.IsAtEnd() )
   {
   std::cout << it.Get()   << std::endl;
-  if (it.Get() != it1.Get().GetBlue())
+  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetBlue()))
     {
     passed = false;
     }

@@ -108,7 +108,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage seedX seedY " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -123,7 +123,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   // Software Guide : EndCodeSnippet
 
   typedef unsigned char                            OutputPixelType;
@@ -136,8 +136,8 @@ int main( int argc, char *argv[] )
 
   // We instantiate reader and writer types
   //
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  typedef itk::ImageFileReader< InternalImageType > ReaderType;
+  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -175,7 +175,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  We now declare the type of the region growing filter. In this case it is
-  //  the ConfidenceConnectedImageFilter.
+  //  the \code{ConfidenceConnectedImageFilter}.
   //
   //  Software Guide : EndLatex
 
@@ -217,7 +217,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The CurvatureFlowImageFilter requires two parameters.  The
+  //  \code{CurvatureFlowImageFilter} requires two parameters.  The
   //  following are typical values for $2D$ images. However they may have to
   //  be adjusted depending on the amount of noise present in the input
   //  image.
@@ -232,7 +232,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The ConfidenceConnectedImageFilter requires two parameters.
+  //  \code{ConfidenceConnectedImageFilter} also requires two parameters.
   //  First, the factor $f$ defines how large the range of
   //  intensities will be. Small values of the multiplier will restrict the
   //  inclusion of pixels to those having very similar intensities to those
@@ -259,8 +259,8 @@ int main( int argc, char *argv[] )
   //  with ramp effects, like MRI images with inhomogeneous fields, may
   //  require more iterations. In practice, it seems to be more important to
   //  carefully select the multiplier factor than the number of iterations.
-  //  However, keep in mind that there is no reason to assume that this
-  //  algorithm should converge to a stable region. It is possible that by
+  //  However, keep in mind that there is no guarantee that this
+  //  algorithm will converge on a stable region. It is possible that by
   //  letting the algorithm run for more iterations the region will end up
   //  engulfing the entire image.
   //
@@ -296,7 +296,7 @@ int main( int argc, char *argv[] )
   //  \emph{typical} region of the anatomical structure to be segmented. A
   //  small neighborhood around the seed point will be used to compute the
   //  initial mean and standard deviation for the inclusion criterion. The
-  //  seed is passed in the form of a \doxygen{Index} to the \code{SetSeed()}
+  //  seed is passed in the form of an \doxygen{Index} to the \code{SetSeed()}
   //  method.
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetSeed()}
@@ -387,5 +387,5 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }

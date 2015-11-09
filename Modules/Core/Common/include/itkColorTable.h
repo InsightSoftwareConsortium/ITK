@@ -116,8 +116,8 @@ protected:
   std::vector<RGBPixel< TPixel > > m_Color;
 
 private:
-  ColorTable(const Self &);     //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ColorTable(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   void DeleteColors();
 };

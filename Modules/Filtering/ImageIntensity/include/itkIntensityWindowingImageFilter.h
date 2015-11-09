@@ -42,12 +42,12 @@ public:
   ~IntensityWindowingTransform() {}
   bool operator!=(const IntensityWindowingTransform & other) const
   {
-    if ( m_Factor         != other.m_Factor
-         || m_Offset         != other.m_Offset
-         || m_OutputMaximum  != other.m_OutputMaximum
-         || m_OutputMinimum  != other.m_OutputMinimum
-         || m_WindowMaximum  != other.m_WindowMaximum
-         || m_WindowMinimum  != other.m_WindowMinimum )
+    if (    Math::NotExactlyEquals( m_Factor     , other.m_Factor )
+         || Math::NotExactlyEquals( m_Offset     , other.m_Offset )
+         || Math::NotExactlyEquals( m_OutputMaximum, other.m_OutputMaximum )
+         || Math::NotExactlyEquals( m_OutputMinimum, other.m_OutputMinimum )
+         || Math::NotExactlyEquals( m_WindowMaximum, other.m_WindowMaximum )
+         || Math::NotExactlyEquals( m_WindowMinimum, other.m_WindowMinimum ) )
       {
       return true;
       }
@@ -197,8 +197,8 @@ protected:
   virtual ~IntensityWindowingImageFilter() {}
 
 private:
-  IntensityWindowingImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                //purposely not implemented
+  IntensityWindowingImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RealType m_Scale;
   RealType m_Shift;

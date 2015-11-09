@@ -89,8 +89,8 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ImageDuplicator(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  ImageDuplicator(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ImageConstPointer m_InputImage;
   ImagePointer      m_Output;

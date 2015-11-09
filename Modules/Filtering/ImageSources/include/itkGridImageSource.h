@@ -125,8 +125,8 @@ protected:
   virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
-  GridImageSource(const GridImageSource &); //purposely not implemented
-  void operator=(const GridImageSource &);  //purposely not implemented
+  GridImageSource(const GridImageSource &) ITK_DELETE_FUNCTION;
+  void operator=(const GridImageSource &) ITK_DELETE_FUNCTION;
 
   /** Parameters for the grid. */
 

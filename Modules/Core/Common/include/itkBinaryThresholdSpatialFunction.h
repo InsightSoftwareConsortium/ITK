@@ -99,8 +99,8 @@ protected:
   typename FunctionType::Pointer m_Function;
 
 private:
-  BinaryThresholdSpatialFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
+  BinaryThresholdSpatialFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

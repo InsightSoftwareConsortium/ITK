@@ -22,6 +22,7 @@
 #include "itkIntTypes.h"
 #include <algorithm>
 #include "vnl/vnl_sample.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -578,7 +579,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::insertPQ(FortuneHalfEdge *he, Fortun
 
   while ( ( ( enext = ( last->m_Next ) ) != ITK_NULLPTR )
           && ( ( ( he->m_Ystar ) > ( enext->m_Ystar ) )
-               || ( ( ( he->m_Ystar ) == ( enext->m_Ystar ) )
+               || ( ( Math::ExactlyEquals(( he->m_Ystar ), ( enext->m_Ystar )) )
                     && ( ( v->m_Coord[0] ) > ( enext->m_Vert->m_Coord[0] ) ) ) ) )
     {
     last = enext;

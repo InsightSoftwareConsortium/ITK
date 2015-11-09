@@ -159,8 +159,8 @@ protected:
 
 private:
 
-  ImagePCAShapeModelEstimator(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  ImagePCAShapeModelEstimator(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Local variable typedefs */
   typedef std::vector< InputImageConstPointer >  InputImagePointerArray;

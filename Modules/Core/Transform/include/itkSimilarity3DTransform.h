@@ -108,7 +108,7 @@ public:
    * to within the specified tolerance, else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance) ITK_OVERRIDE;
+  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) ITK_OVERRIDE;
 
   /** Set the transformation from a container of parameters This is typically
    * used by optimizers.  There are 7 parameters. The first three represent the
@@ -147,8 +147,8 @@ protected:
   void ComputeMatrixParameters() ITK_OVERRIDE;
 
 private:
-  Similarity3DTransform(const Self &); // purposely not implemented
-  void operator=(const Self &);        // purposely not implemented
+  Similarity3DTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ScaleType m_Scale;
 }; // class Similarity3DTransform

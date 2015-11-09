@@ -25,6 +25,7 @@
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 #include "itkFEMLoadLandmark.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -161,7 +162,7 @@ SolverCrankNicolson<VDimension>
          * element in Ke is zero, to prevent zeros from being
          * allocated in sparse matrix.
          */
-        if( Ke(j, k) != Float(0.0) || Me(j, k) != Float(0.0) )
+        if( Math::NotExactlyEquals(Ke(j, k), Float(0.0)) || Math::NotExactlyEquals(Me(j, k), Float(0.0)) )
           {
           // left hand side matrix
           lhsval = ( Me(j, k) + m_Alpha * m_TimeStep * Ke(j, k) );
@@ -205,7 +206,7 @@ SolverCrankNicolson<VDimension>
 
           // Now update the corresponding element in the master
           // stiffness matrix and omit the zeros for the sparseness
-          if( Le(j, k) != Float(0.0) )
+          if( Math::NotExactlyEquals(Le(j, k), Float(0.0)) )
             {
             // lhs matrix
             lhsval = m_Alpha * m_TimeStep * Le(j, k);
@@ -529,14 +530,14 @@ SolverCrankNicolson<VDimension>
         {
         b = u;
         }
-      if( fu <= fw || w == x )
+      if( fu <= fw || Math::ExactlyEquals(w, x) )
         {
         v = w;
         w = u;
         fv = fw;
         fw = fu;
         }
-      else if( fu <= fv || v == x || v == w )
+      else if( fu <= fv || Math::ExactlyEquals(v, x) || Math::ExactlyEquals(v, w) )
         {
         v = u;
         fv = fu;

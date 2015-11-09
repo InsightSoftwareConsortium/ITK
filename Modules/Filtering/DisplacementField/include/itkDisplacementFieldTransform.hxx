@@ -635,7 +635,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
   SizeType fieldSize = fieldRegion.GetSize();
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
-    this->m_FixedParameters[i] = static_cast<ParametersValueType>( fieldSize[i] );
+    this->m_FixedParameters[i] = static_cast<FixedParametersValueType>( fieldSize[i] );
     }
 
   // Set the origin parameters
@@ -649,7 +649,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
   SpacingType fieldSpacing = this->m_DisplacementField->GetSpacing();
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
-    this->m_FixedParameters[2 * NDimensions + i] = static_cast<ParametersValueType>( fieldSpacing[i] );
+    this->m_FixedParameters[2 * NDimensions + i] = static_cast<FixedParametersValueType>( fieldSpacing[i] );
     }
 
   // Set the direction parameters
@@ -659,7 +659,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
     for( unsigned int dj = 0; dj < NDimensions; dj++ )
       {
       this->m_FixedParameters[3 * NDimensions + ( di * NDimensions + dj )] =
-        static_cast<ParametersValueType>( fieldDirection[di][dj] );
+        static_cast<FixedParametersValueType>( fieldDirection[di][dj] );
       }
     }
 }

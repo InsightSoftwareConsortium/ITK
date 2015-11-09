@@ -78,8 +78,8 @@ protected:
   virtual ~MultipleValuedCostFunction();
 
 private:
-  MultipleValuedCostFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  MultipleValuedCostFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

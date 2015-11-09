@@ -30,15 +30,18 @@ namespace itk
     public:
       TanHelper() {}
       ~TanHelper() {}
-      bool operator!=(const TanHelper &) const
+      bool operator!=(const TanHelper & rhs) const
       {
-        return false;
+        return this != & rhs;
       }
 
+      /* NOTE: operator== purposefully NOT defined. It is not required
+       * as part of the defined specification for a Function.
       bool operator==(const TanHelper & other) const
       {
         return !( *this != other );
       }
+      */
 
       inline TOutput operator()(const TInput & A) const
       { return (TOutput)std::tan( (double)A ); }
@@ -81,8 +84,8 @@ namespace itk
     TanHelperImageFilter() {}
     virtual ~TanHelperImageFilter() {}
   private:
-    TanHelperImageFilter(const Self &); //purposely not implemented
-    void operator=(const Self &); //purposely not implemented
+    TanHelperImageFilter(const Self &) ITK_DELETE_FUNCTION;
+    void operator=(const Self &) ITK_DELETE_FUNCTION;
   };
 
 }
@@ -165,6 +168,9 @@ int itkSimpleFilterWatcherTest (int, char*[])
     std::cout << "GetProcess() failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+  //Test the SetFunctor operation
+  filter->SetFunctor(itk::Function::TanHelper< ImageType::PixelType, ImageType::PixelType >() );
 
   // Return success.
   std::cout << "SimpleFilterWatcher test PASSED ! " << std::endl;

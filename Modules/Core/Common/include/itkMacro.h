@@ -141,6 +141,9 @@ namespace itk
 // is intended to override the base-class version.  This makes the code more
 // managable and fixes a set of common hard-to-find bugs.
 #define ITK_OVERRIDE override
+// In functions that should not be implemented, use the C++11 mechanism
+// to ensure that thye are purposely not implemented
+#define ITK_DELETE_FUNCTION =delete
 // In c++11 there is an explicit nullptr type that introduces a new keyword to
 // serve as a distinguished null pointer constant: nullptr. It is of type
 // nullptr_t, which is implicitly convertible and comparable to any pointer type
@@ -153,8 +156,11 @@ namespace itk
 // throw, if it does throw then std::terminate will be called.
 // Use cautiously.
 #define ITK_NOEXCEPT noexcept
+#define ITK_HAS_CXX11_STATIC_ASSERT
+#define ITK_HAS_CXX11_RVREF
 #else
 #define ITK_OVERRIDE
+#define ITK_DELETE_FUNCTION
 #define ITK_NULLPTR  NULL
 #define ITK_NOEXCEPT throw()
 #endif
@@ -322,8 +328,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 #define itkWarningStatement(x) x
 
 #if defined( ITK_CPP_FUNCTION )
-  #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( CABLE_CONFIGURATION ) \
-  && !defined( CABLE_CONFIGURATION )
+  #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( ITK_WRAPPING_PARSER )
     #define ITK_LOCATION __FUNCSIG__
   #elif defined( __GNUC__ )
     #define ITK_LOCATION __PRETTY_FUNCTION__
@@ -447,7 +452,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 //   itkLegacyMacro(void MyMethod());
 #if defined( ITK_LEGACY_REMOVE )
 #define itkLegacyMacro(method) /* no ';' */
-#elif defined( ITK_LEGACY_SILENT ) || defined( ITK_LEGACY_TEST ) || defined( CABLE_CONFIGURATION )
+#elif defined( ITK_LEGACY_SILENT ) || defined( ITK_LEGACY_TEST ) || defined( ITK_WRAPPING_PARSER )
 // Provide legacy methods with no warnings.
 #define itkLegacyMacro(method) method
 #else
@@ -693,10 +698,12 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 //  !!  The ITK Get/Set Macros for various types !!
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//This is probably better, but requires a lot of extra work
-//for gettting ExplicitInstantiation to work properly. \#define
-// itkStaticConstMacro(name, type, value) static const type name = value
-#define itkStaticConstMacro(name, type, value) enum { name = value }
+/** Portable definition of static constants.
+ * \pre \c type shall be an integral type (\c bool and enums are accepted as
+ * well).
+ * \ingroup ITKCommon
+ */
+#define itkStaticConstMacro(name,type,value) static const type name = value
 
 #define itkGetStaticConstMacro(name) (Self::name)
 
@@ -742,7 +749,10 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     const DecoratorType *oldInput =                                  \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
+CLANG_PRAGMA_PUSH                                                    \
+CLANG_SUPPRESS_Wfloat_equal                                          \
     if ( oldInput && oldInput->Get() == _arg )                       \
+CLANG_PRAGMA_POP                                                     \
       {                                                              \
       return;                                                        \
       }                                                              \
@@ -880,7 +890,7 @@ CLANG_PRAGMA_POP                                    \
     }
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
- * This should be use when the type is an enum. It is use to avoid warnings on
+ * This should be used when the type is an enum. It is used to avoid warnings on
  * some compilers with non specified enum types passed to
  * itkDebugMacro. */
 #define itkSetEnumMacro(name, type)                                           \
@@ -1084,12 +1094,15 @@ CLANG_PRAGMA_POP                                       \
  * number of values into object.
  * Examples: void SetColor(c,3) */
 #define itkSetVectorMacro(name, type, count) \
-  virtual void Set##name(type data[])      \
+  virtual void Set##name(type data[])        \
     {                                        \
     unsigned int i;                          \
     for ( i = 0; i < count; i++ )            \
       {                                      \
-      if ( data[i] != this->m_##name[i] )  \
+CLANG_PRAGMA_PUSH                            \
+CLANG_SUPPRESS_Wfloat_equal                  \
+      if ( data[i] != this->m_##name[i] )    \
+CLANG_PRAGMA_POP                             \
         {                                    \
         break;                               \
         }                                    \
@@ -1099,7 +1112,7 @@ CLANG_PRAGMA_POP                                       \
       this->Modified();                      \
       for ( i = 0; i < count; i++ )          \
         {                                    \
-        this->m_##name[i] = data[i];       \
+        this->m_##name[i] = data[i];         \
         }                                    \
       }                                      \
     }
@@ -1112,19 +1125,24 @@ CLANG_PRAGMA_POP                                       \
     return this->m_##name;                 \
     }
 
-/** Construct a non-templatized helper class that
+/**\def itkGPUKernelClassMacro
+ * Construct a non-templatized helper class that
  * provides the GPU kernel source code as a const char*
  */
-#define itkGPUKernelClassMacro(kernel)   \
-class kernel                  \
-  {                                      \
-    public:                              \
+#define itkGPUKernelClassMacro(kernel)      \
+/**\class kernel                            \
+ * Workaround KWstyle bug                   \
+ * \ingroup ITKCommon                       \
+ */                                         \
+class kernel                                \
+  {                                         \
+    public:                                 \
       static const char* GetOpenCLSource(); \
-    private:                             \
-      kernel();                          \
-      virtual ~kernel();                 \
-      kernel(const kernel &);            \
-      void operator=(const kernel &);    \
+    private:                                \
+      kernel();                             \
+      virtual ~kernel();                    \
+      kernel(const kernel &);               \
+      void operator=(const kernel &);       \
   };
 
 #define itkGetOpenCLSourceFromKernelMacro(kernel) \

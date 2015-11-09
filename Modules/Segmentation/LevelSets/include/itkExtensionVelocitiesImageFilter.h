@@ -124,8 +124,8 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
 private:
-  ExtensionVelocitiesImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
+  ExtensionVelocitiesImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Internal typedefs. */
   typedef Image< float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;

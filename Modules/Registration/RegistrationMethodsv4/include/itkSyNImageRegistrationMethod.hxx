@@ -345,6 +345,18 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
 
       dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetCalculateValueAndDerivativeInTangentSpace( true );
+
+      // The following boolean variable is on by default.  However, I set it explicitly here
+      // to note behavioral differences between the Gaussian (original) SyN and B-spline
+      // SyN.  A point-set is defined irregularly (i.e., not necessarily at voxel centers) over
+      // the fixed and moving image domains.  For the Gaussian smoothing of the gradient field
+      // with original SyN, the corresponding metric gradient values must be mapped to the closest
+      // voxel locations in the reference domain.  The rest of the gradient values are zeroed
+      // out prior to gaussian smoothing via convolution.  For the B-spline analog, the underlying
+      // smoothing operation is done using the BSplineScatteredDataPointSettoImageFilter so we
+      // don't need to artificially zero out "missing" values.
+
+      dynamic_cast<PointSetMetricType *>( this->m_Metric.GetPointer() )->SetStoreDerivativeAsSparseFieldForLocalSupportTransforms( true );
       }
     else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
       {

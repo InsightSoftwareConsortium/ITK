@@ -51,8 +51,8 @@ public:
 private:
   DOMTestObject() {}
 
-  DOMTestObject(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  DOMTestObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   std::string m_FooValue;
   std::string m_FooFileName;

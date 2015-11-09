@@ -19,6 +19,7 @@
 #define itkBSplineDerivativeKernelFunction_h
 
 #include "itkBSplineKernelFunction.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -74,8 +75,8 @@ protected:
     }
 
 private:
-  BSplineDerivativeKernelFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                  //purposely not implemented
+  BSplineDerivativeKernelFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Structures to control overloaded versions of Evaluate */
   struct DispatchBase {};
@@ -92,7 +93,7 @@ private:
   /** Evaluate the function:  first order spline */
   inline TRealValueType Evaluate( const Dispatch<1>&, const TRealValueType& u ) const
     {
-    if( u == -NumericTraits< TRealValueType >::OneValue() )
+    if( Math::ExactlyEquals(u, -NumericTraits< TRealValueType >::OneValue()) )
       {
       return static_cast< TRealValueType >(0.5);
       }
@@ -100,7 +101,7 @@ private:
       {
       return NumericTraits< TRealValueType >::OneValue();
       }
-    else if( u == NumericTraits< TRealValueType >::ZeroValue() )
+    else if( Math::ExactlyEquals(u, NumericTraits< TRealValueType >::ZeroValue()) )
       {
       return NumericTraits< TRealValueType >::ZeroValue();
       }
@@ -108,7 +109,7 @@ private:
       {
       return -NumericTraits< TRealValueType >::OneValue();
       }
-    else if( u == NumericTraits< TRealValueType >::OneValue() )
+    else if( Math::ExactlyEquals(u, NumericTraits< TRealValueType >::OneValue()) )
       {
       return static_cast< TRealValueType >(-0.5);
       }

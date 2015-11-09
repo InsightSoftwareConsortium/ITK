@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 
 static unsigned int m_CallNumber;
@@ -242,25 +243,26 @@ public:
         switch (cnt%4)
           {
           case 0:
-            if (iter.Get() != itk::NumericTraits<PixelType>::ZeroValue())
+// Comparison with complex???
+            if (itk::Math::NotExactlyEquals(iter.Get(), itk::NumericTraits<PixelType>::ZeroValue()))
               {
               pixelsGood = false;
               }
             break;
           case 1:
-            if (iter.Get() != itk::NumericTraits<PixelType>::OneValue())
+            if (itk::Math::NotExactlyEquals(iter.Get(), itk::NumericTraits<PixelType>::OneValue()))
               {
               pixelsGood = false;
               }
             break;
           case 2:
-            if (iter.Get() != itk::NumericTraits<PixelType>::OneValue())
+            if (itk::Math::NotExactlyEquals(iter.Get(), itk::NumericTraits<PixelType>::OneValue()))
               {
               pixelsGood = false;
               }
             break;
           case 3:
-            if (iter.Get() != itk::NumericTraits<PixelType>::ZeroValue())
+            if (itk::Math::NotExactlyEquals(iter.Get(), itk::NumericTraits<PixelType>::ZeroValue()))
               {
               pixelsGood = false;
               }

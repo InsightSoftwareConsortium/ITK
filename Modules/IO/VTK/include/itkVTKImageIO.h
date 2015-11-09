@@ -140,8 +140,8 @@ protected:
     StreamingImageIOBase::SizeType num);
 
 private:
-  VTKImageIO(const Self &);    //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  VTKImageIO(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
   void SetPixelTypeFromString(const std::string & pixelType);
 
   /** Return the number of pixels in the IOregion. */

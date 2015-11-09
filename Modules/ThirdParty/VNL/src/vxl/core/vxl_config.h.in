@@ -230,4 +230,7 @@
 /* true if wchar_t overloading functions are supported on Windows */
 #define VXL_USE_WIN_WCHAR_T @VXL_USE_WIN_WCHAR_T@
 
+/* true if VXL is built shared */
+#cmakedefine VXL_BUILD_SHARED
+
 #endif /* vxl_config_h_ */

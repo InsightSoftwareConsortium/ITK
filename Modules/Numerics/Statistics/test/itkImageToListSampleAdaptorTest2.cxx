@@ -20,6 +20,7 @@
 
 #include "itkImageToListSampleAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
 
 int itkImageToListSampleAdaptorTest2(int, char* [] )
 {
@@ -177,7 +178,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
         vId = vImage->ComputeOffset( vIndex );
         for ( unsigned int m=0; m < vAdaptor->GetMeasurementVectorSize(); m++ )
           {
-          if ( vAdaptor->GetMeasurementVector(vId)[m] != vPixel[m] )
+          if ( itk::Math::NotExactlyEquals(vAdaptor->GetMeasurementVector(vId)[m], vPixel[m]) )
             {
             std::cerr << "Error in vPixel value accessed using the vAdaptor" << std::endl;
             return EXIT_FAILURE;

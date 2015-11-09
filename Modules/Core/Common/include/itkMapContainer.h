@@ -61,8 +61,8 @@ public:
   typedef TElement           Element;
 
 private:
-  MapContainer(const Self &);   //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  MapContainer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Quick access to the STL map type that was inherited. */
   typedef std::map< ElementIdentifier, Element > MapType;
@@ -156,8 +156,16 @@ public:
   class Iterator
   {
 public:
+    typedef typename MapIterator::iterator_category iterator_category;
+    typedef typename MapIterator::value_type        value_type;
+    typedef typename MapIterator::difference_type   difference_type;
+    typedef typename MapIterator::pointer           pointer;
+    typedef typename MapIterator::reference         reference;
+
     Iterator() {}
+    Iterator(const Iterator & i):m_Iter(i.m_Iter) {}
     Iterator(const MapIterator & i):m_Iter(i) {}
+    Iterator & operator=(const Iterator & r ) { m_Iter = r.m_Iter; return *this; }
 
     Iterator & operator*()    { return *this; }
     Iterator * operator->()   { return this; }
@@ -189,9 +197,16 @@ private:
   class ConstIterator
   {
 public:
+    typedef typename MapConstIterator::iterator_category iterator_category;
+    typedef typename MapConstIterator::value_type        value_type;
+    typedef typename MapConstIterator::difference_type   difference_type;
+    typedef typename MapConstIterator::pointer           pointer;
+    typedef typename MapConstIterator::reference         reference;
+
     ConstIterator() {}
     ConstIterator(const MapConstIterator & ci):m_Iter(ci) {}
-    ConstIterator(const Iterator & r) { m_Iter = r.m_Iter; }
+    ConstIterator(const Iterator & r) : m_Iter( r.m_Iter ) {}
+    ConstIterator & operator=(const ConstIterator & r ) { m_Iter = r.m_Iter; return *this; }
 
     ConstIterator & operator*()    { return *this; }
     ConstIterator * operator->()   { return this; }

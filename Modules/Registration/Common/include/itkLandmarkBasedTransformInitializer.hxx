@@ -45,11 +45,35 @@ template< typename TTransform, typename TFixedImage, typename TMovingImage >
 template <typename TTransform2>
 void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
-::InternalInitializeTransform(TTransform *)
+::InternalInitializeTransform(TTransform2 *)
 {
-  itkWarningMacro( << "Unsupported Transform Type "
-                   << this->m_Transform->GetNameOfClass() );
-  m_Transform->SetIdentity();
+
+  if ( dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer()) != ITK_NULLPTR )
+    {
+    this->InternalInitializeTransform(static_cast<BSplineTransformType *>(ITK_NULLPTR));
+    return;
+    }
+
+  if ( dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer()) != ITK_NULLPTR )
+    {
+    this->InternalInitializeTransform(static_cast<AffineTransformType *>(ITK_NULLPTR));
+    return;
+    }
+
+  if ( dynamic_cast< VersorRigid3DTransformType * >( this->m_Transform.GetPointer() ) != ITK_NULLPTR )
+    {
+    this->InternalInitializeTransform(static_cast< VersorRigid3DTransformType*>(ITK_NULLPTR));
+    return;
+    }
+
+  if ( dynamic_cast< Rigid2DTransformType * >(this->m_Transform.GetPointer() ) != ITK_NULLPTR )
+    {
+    this->InternalInitializeTransform(static_cast<Rigid2DTransformType *>(ITK_NULLPTR));
+    return;
+    }
+
+  itkExceptionMacro( <<"Unsupported Transform Type " << this->m_Transform->GetNameOfClass() );
+
 }
 
 template< typename TTransform, typename TFixedImage, typename TMovingImage >
@@ -62,7 +86,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   if ( transform == ITK_NULLPTR )
     {
     itkExceptionMacro( << "BSplineTransform Expected but transform is "
-                      << this->m_Transform->GetNameOfClass() );
+                       << this->m_Transform->GetNameOfClass() );
     }
 
   if( m_MovingLandmarks.size() != m_FixedLandmarks.size() )
@@ -196,7 +220,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   //[Set Landmark Weight]
   //:: If no landmark weights are given, weight matrix is identity matrix
-  vnl_matrix<double> vnlWeight( numberOfLandmarks,numberOfLandmarks,0);
+  vnl_matrix<ParametersValueType> vnlWeight( numberOfLandmarks,numberOfLandmarks,0);
   vnlWeight.set_identity();
 
   if( !m_LandmarkWeight.empty() )
@@ -220,11 +244,11 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   // q
   // dim+1=4 * numberOfLandmarks matrix
-  vnl_matrix< double > q( ImageDimension+1, numberOfLandmarks, 0.0F);
+  vnl_matrix< ParametersValueType > q( ImageDimension+1, numberOfLandmarks, 0.0F);
   PointsContainerConstIterator fixedIt = m_FixedLandmarks.begin();
   for( size_t i = 0; fixedIt != m_FixedLandmarks.end(); ++i, ++fixedIt )
     {
-    for( int dim =0; dim< ImageDimension; dim++ )
+    for(unsigned int dim =0; dim< ImageDimension; dim++ )
       {
       q( dim,i ) = (*fixedIt)[dim];
       }
@@ -234,7 +258,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   // p
   // dim=3 * numberOfLandmarks matrix
-  vnl_matrix< double > p( ImageDimension, numberOfLandmarks,0.0F);
+  vnl_matrix< ParametersValueType > p( ImageDimension, numberOfLandmarks,0.0F);
   PointsContainerConstIterator movingIt = m_MovingLandmarks.begin();
   for( size_t i = 0; movingIt != m_MovingLandmarks.end(); ++i, ++movingIt )
     {
@@ -264,27 +288,27 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   // [Q]
   //
-  vnl_matrix<double> Q( ImageDimension+1,ImageDimension+1, 0.0F );
+  vnl_matrix<ParametersValueType> Q( ImageDimension+1,ImageDimension+1, 0.0F );
   for( size_t i =0; i<numberOfLandmarks; i++)
     { // Iterate for the number of landmakrs
-    vnl_matrix< double > qTemp( ImageDimension+1, 1 );
+    vnl_matrix< ParametersValueType > qTemp( ImageDimension+1, 1 );
     // convert vector to colume matrix
     for( unsigned int k=0; k<ImageDimension+1;k++ )
       {
       qTemp(k,0)=q.get(k,i);
       }
-    vnl_matrix< double > qTempT( 1, ImageDimension+1 );
+    vnl_matrix< ParametersValueType > qTempT( 1, ImageDimension+1 );
     qTempT= qTemp.transpose();
     Q = Q +  qTemp*qTempT;
     }
 
   // [C]
   //
-  vnl_matrix<double> C( ImageDimension+1,ImageDimension, 0 );
+  vnl_matrix<ParametersValueType> C( ImageDimension+1,ImageDimension, 0 );
   for( size_t i =0; i<numberOfLandmarks; i++ )
     {
-    vnl_matrix< double > qTemp( ImageDimension+1, 1 );
-    vnl_matrix< double > pTemp( 1, ImageDimension );
+    vnl_matrix< ParametersValueType > qTemp( ImageDimension+1, 1 );
+    vnl_matrix< ParametersValueType > pTemp( 1, ImageDimension );
     // convert vector to colume matrix
     for( unsigned int k=0; k<ImageDimension+1;k++ )
       {
@@ -301,20 +325,20 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   // [Solve Qa=C]
   // :: Solving code is from
   // http://www.itk.org/pipermail/insight-users/2008-December/028207.html
-  vnl_matrix<double> transposeAffine =
-    vnl_qr<double> ( Q ).solve( C );
-  vnl_matrix<double> Affine= transposeAffine.transpose();
+  vnl_matrix<ParametersValueType> transposeAffine =
+    vnl_qr<ParametersValueType> ( Q ).solve( C );
+  vnl_matrix<ParametersValueType> Affine= transposeAffine.transpose();
 
-  vnl_matrix<double> AffineRotation =
-    vnl_matrix<double>(Affine.get_n_columns(0,ImageDimension));
+  vnl_matrix<ParametersValueType> AffineRotation =
+    vnl_matrix<ParametersValueType>(Affine.get_n_columns(0,ImageDimension));
 
   // [Convert ITK Affine Transformation from vnl]
   //
   // Define Matrix Type
   //
-  itk::Matrix<double,ImageDimension,ImageDimension> mA =
-    itk::Matrix<double,ImageDimension,ImageDimension>(AffineRotation);
-  itk::Vector<double,ImageDimension> mT;
+  itk::Matrix<ParametersValueType,ImageDimension,ImageDimension> mA =
+    itk::Matrix<ParametersValueType,ImageDimension,ImageDimension>(AffineRotation);
+  itk::Vector<ParametersValueType,ImageDimension> mT;
   for( unsigned int t=0;t<ImageDimension;t++ )
     {
     mT[t] = Affine(t,ImageDimension);
@@ -414,7 +438,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   // Otherwise the versor will be an identity versor.
   if ( m_FixedLandmarks.size() >= ImageDimension )
     {
-    itk::Matrix< double, ImageDimension, ImageDimension > M;
+    itk::Matrix< ParametersValueType, ImageDimension, ImageDimension > M;
 
     fixedItr  = m_FixedLandmarks.begin();
     movingItr = m_MovingLandmarks.begin();
@@ -455,7 +479,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
     // -- build the 4x4 matrix N --
 
-    itk::Matrix< double, 4, 4 > N;
+    itk::Matrix< ParametersValueType, 4, 4 > N;
 
     // on-diagonal elements
     N[0][0] =  M[0][0] + M[1][1] + M[2][2];
@@ -475,13 +499,13 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     itkDebugMacro(<< "M matrix " << M);
     itkDebugMacro(<< "N matrix " << N);
 
-    vnl_matrix< double > eigenVectors(4, 4);
-    vnl_vector< double > eigenValues(4);
+    vnl_matrix< ParametersValueType > eigenVectors(4, 4);
+    vnl_vector< ParametersValueType > eigenValues(4);
 
     typedef itk::SymmetricEigenAnalysis<
-      itk::Matrix< double, 4, 4 >,
-      vnl_vector< double >,
-      vnl_matrix< double > > SymmetricEigenAnalysisType;
+      itk::Matrix< ParametersValueType, 4, 4 >,
+      vnl_vector< ParametersValueType >,
+      vnl_matrix< ParametersValueType > > SymmetricEigenAnalysisType;
     SymmetricEigenAnalysisType symmetricEigenSystem(4);
 
     symmetricEigenSystem.ComputeEigenValuesAndVectors(N, eigenValues, eigenVectors);
@@ -607,7 +631,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     movingCentered.Fill(0.0);
 
     itkDebugStatement(int ii = 0; )
-      double s_dot   = 0;
+    double s_dot   = 0;
     double s_cross = 0;
     // Computations are relative to the Center of Rotation.
     while ( movingItr != m_MovingLandmarks.end() )
@@ -685,25 +709,8 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Transform   = " << std::endl;
-  if ( m_Transform )
-    {
-    os << indent << m_Transform  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
-
-  os << indent << "ReferenceImage   = " << std::endl;
-  if ( m_ReferenceImage )
-    {
-    os << indent << m_ReferenceImage  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
+  itkPrintSelfObjectMacro( Transform );
+  itkPrintSelfObjectMacro( ReferenceImage );
 
   os << indent << "Fixed Landmarks: " << std::endl;
   PointsContainerConstIterator fitr = m_FixedLandmarks.begin();
@@ -719,6 +726,16 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     os << indent << *mitr << std::endl;
     ++mitr;
     }
+  os << indent << "Landmark Weight: " << std::endl;
+  LandmarkWeightConstIterator witr = m_LandmarkWeight.begin();
+  while ( witr != m_LandmarkWeight.end() )
+    {
+    os << indent << *witr << std::endl;
+    ++witr;
+    }
+
+  os << indent << "BSplineNumberOfControlPoints: " << m_BSplineNumberOfControlPoints << std::endl;
+
 }
 }  // namespace itk
 

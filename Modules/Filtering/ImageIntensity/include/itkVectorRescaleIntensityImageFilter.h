@@ -18,6 +18,7 @@
 #ifndef itkVectorRescaleIntensityImageFilter_h
 #define itkVectorRescaleIntensityImageFilter_h
 
+#include "itkMath.h"
 #include "itkUnaryFunctorImageFilter.h"
 
 namespace itk
@@ -37,7 +38,7 @@ public:
   itkStaticConstMacro(VectorDimension, unsigned int, TInput::Dimension);
   bool operator!=(const VectorMagnitudeLinearTransform & other) const
   {
-    if ( m_Factor != other.m_Factor )
+    if ( Math::NotExactlyEquals(m_Factor, other.m_Factor) )
       {
       return true;
       }
@@ -157,8 +158,8 @@ protected:
   virtual ~VectorRescaleIntensityImageFilter() {}
 
 private:
-  VectorRescaleIntensityImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  VectorRescaleIntensityImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   InputRealType m_Scale;
   InputRealType m_Shift;

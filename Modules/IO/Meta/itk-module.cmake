@@ -6,12 +6,13 @@ file (usually .mhd + .raw) or the header inline with the data (usually .mha).")
 
 itk_module(ITKIOMeta
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKMetaIO
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
     ITKSmoothing
+    ITKMetaIO
   DESCRIPTION
     "${DOCUMENTATION}"
 )

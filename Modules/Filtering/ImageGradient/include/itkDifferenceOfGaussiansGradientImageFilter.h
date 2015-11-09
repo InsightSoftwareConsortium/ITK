@@ -92,11 +92,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  DifferenceOfGaussiansGradientImageFilter(const Self &); //purposely not
-                                                          // implemented
-  void operator=(const Self &);                           //purposely not
-
-  // implemented
+  DifferenceOfGaussiansGradientImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   unsigned int m_Width;
 };

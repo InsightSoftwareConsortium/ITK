@@ -7,6 +7,8 @@ itk_module(ITKBioCell
   ENABLE_SHARED
   DEPENDS
     ITKMesh
+  PRIVATE_DEPENDS
+    ITKCommon
   TEST_DEPENDS
     ITKTestKernel
   DESCRIPTION

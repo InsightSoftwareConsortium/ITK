@@ -17,7 +17,7 @@
 /* Use the expat library configured for gdcm.  */
 #include "gdcmTypes.h"
 #ifdef GDCM_USE_SYSTEM_EXPAT
-# include <expat.h>
+# include "expat.h"
 #else
 # include <gdcmexpat/lib/expat.h>
 #endif

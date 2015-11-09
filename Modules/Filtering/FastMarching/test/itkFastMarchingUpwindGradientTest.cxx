@@ -19,6 +19,7 @@
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkMath.h"
 
 
 //namespace{
@@ -181,7 +182,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
 
     double outputPixelNorm = (double) outputPixel.GetNorm();
 
-    if (distance == 0)
+    if (distance == 0.0)
       {
       continue;
       }
@@ -209,7 +210,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
 
 
   // Test that the stopping value of the algorithm is the one passed in.
-  if( marcher->GetStoppingValue() != stoppingValue )
+  if( itk::Math::NotAlmostEquals( marcher->GetStoppingValue(), stoppingValue ) )
     {
     std::cerr << "ERROR: Output stopping value does not equal initial stopping value!" << std::endl;
     passed = false;
@@ -255,7 +256,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   // Since the algorithm is in OneTarget mode and the
   // TargetOffset is set to 0, the TargetValue should be equal to
   // the reaching time of the closest TargetPoint.
-  if( smallestReachingTime != marcher->GetTargetValue() )
+  if( itk::Math::NotAlmostEquals( smallestReachingTime, marcher->GetTargetValue() ) )
     {
     std::cerr << "ERROR: TargetValue does not equal reaching time of closest point!" << std::endl;
     passed = false;
@@ -280,7 +281,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   // Since the algorithm is now in AllTargets mode and the
   // TargetOffset is set to 0, the TargetValue should be equal to
   // the largest reaching time of the TargetPoints.
-  if( largestReachingTime != marcher->GetTargetValue() )
+  if( itk::Math::NotAlmostEquals( largestReachingTime, marcher->GetTargetValue() ) )
     {
     std::cerr << "ERROR: TargetValue does not equal reaching time of farthest point!" << std::endl;
     passed = false;
@@ -292,7 +293,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   marcher->SetStoppingValue( newStoppingValue );
   marcher->Update();
 
-  if( marcher->GetStoppingValue() != newStoppingValue )
+  if( itk::Math::NotExactlyEquals(marcher->GetStoppingValue(), newStoppingValue) )
     {
     std::cerr << "ERROR: Output stopping value does not equal new stopping value!" << std::endl;
     passed = false;

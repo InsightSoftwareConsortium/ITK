@@ -45,7 +45,7 @@ ConvertLabelMapFilter< TInputImage, TOutputImage >
     {
     const LabelObjectType * labelObject = it.GetLabelObject();
     typename OutputLabelObjectType::Pointer newLabelObject = OutputLabelObjectType::New();
-    newLabelObject->CopyAllFrom(labelObject);
+    newLabelObject->template CopyAllFrom<typename TInputImage::LabelObjectType>(labelObject);
     outputImage->AddLabelObject(newLabelObject);
     progress.CompletedPixel();
     }

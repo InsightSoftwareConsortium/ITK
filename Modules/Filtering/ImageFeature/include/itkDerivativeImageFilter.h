@@ -134,8 +134,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  DerivativeImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  DerivativeImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** The order of the derivative. */
   unsigned int m_Order;

@@ -88,8 +88,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  VnlRealToHalfHermitianForwardFFTImageFilter(const Self &); // purposely not implemented
-  void operator=(const Self &);           // purposely not implemented
+  VnlRealToHalfHermitianForwardFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef vnl_vector< vcl_complex< InputPixelType > > SignalVectorType;
 };

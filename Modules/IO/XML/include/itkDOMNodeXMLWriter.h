@@ -101,8 +101,8 @@ protected:
   DOMNodeXMLWriter();
 
 private:
-  DOMNodeXMLWriter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  DOMNodeXMLWriter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Variable to hold the output XML file name. */
   std::string m_FileName;

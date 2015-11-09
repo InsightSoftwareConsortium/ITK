@@ -32,21 +32,28 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(con
 
   // Copy the input matrix
   double *inputMatrix = new double[m_Dimension * m_Dimension];
+  double *dVector = new double[m_Dimension];
 
   unsigned int k = 0;
 
   for ( unsigned int row = 0; row < m_Dimension; row++ )
     {
+      dVector[row] = D[row];
+
     for ( unsigned int col = 0; col < m_Dimension; col++ )
       {
       inputMatrix[k++] = A(row, col);
       }
     }
 
-  ReduceToTridiagonalMatrix(inputMatrix, D, workArea1, workArea1);
+  ReduceToTridiagonalMatrix(inputMatrix, dVector, workArea1, workArea1);
   const unsigned int eigenErrIndex =
-    ComputeEigenValuesUsingQL(D, workArea1);
+    ComputeEigenValuesUsingQL(dVector, workArea1);
 
+  for ( unsigned int i = 0; i < m_Dimension; i++ )
+      D[i] = dVector[i];
+
+  delete[] dVector;
   delete[] workArea1;
   delete[] inputMatrix;
 
@@ -65,11 +72,14 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
 
   // Copy the input matrix
   double *inputMatrix = new double[m_Dimension * m_Dimension];
+  double *dVector = new double[m_Dimension];
 
   unsigned int k = 0;
 
   for ( unsigned int row = 0; row < m_Dimension; row++ )
     {
+      dVector[row] = EigenValues[row];
+
     for ( unsigned int col = 0; col < m_Dimension; col++ )
       {
       inputMatrix[k++] = A(row, col);
@@ -77,20 +87,22 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
     }
 
   ReduceToTridiagonalMatrixAndGetTransformation(
-    inputMatrix, EigenValues, workArea1, workArea2);
+    inputMatrix, dVector, workArea1, workArea2);
   const unsigned int eigenErrIndex =
-    ComputeEigenValuesAndVectorsUsingQL(EigenValues, workArea1, workArea2);
+    ComputeEigenValuesAndVectorsUsingQL(dVector, workArea1, workArea2);
 
   // Copy eigenVectors
   k = 0;
   for ( unsigned int row = 0; row < m_Dimension; row++ )
     {
+      EigenValues[row] = dVector[row];
     for ( unsigned int col = 0; col < m_Dimension; col++ )
       {
       EigenVectors[row][col] = workArea2[k++];
       }
     }
 
+  delete[] dVector;
   delete[] workArea2;
   delete[] workArea1;
   delete[] inputMatrix;
@@ -100,7 +112,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 void
-SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMatrix(double *a, VectorType & d,
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMatrix(double *a, double *d,
                                                                                     double *e, double *e2) const
 {
   double d__1;
@@ -127,6 +139,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
       {
       scale += vnl_math_abs(d[k]);
       }
+
     if ( scale == 0. )
       {
       for ( j = 0; j <= l; ++j )
@@ -215,7 +228,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 void
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMatrixAndGetTransformation(double *a,
-                                                                                                        VectorType & d,
+                                                                                                        double *d,
                                                                                                         double *e,
                                                                                                         double *z)
 const
@@ -247,6 +260,7 @@ const
       {
       scale += vnl_math_abs(d[k]);
       }
+
     if ( scale == 0.0 )
       {
       e[i] = d[l];
@@ -378,7 +392,7 @@ const
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
-SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsingQL(VectorType & d, double *e) const
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsingQL(double *d, double *e) const
 {
   const double c_b10 = 1.0;
 
@@ -526,7 +540,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
-SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectorsUsingQL(VectorType & d,
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectorsUsingQL(double *d,
                                                                                               double *e,
                                                                                               double *z) const
 {
@@ -583,10 +597,10 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
       {
       do
         {
-        if ( j == 1000 )
+        if ( j == 30 )
           {
           /*     .......... set error -- no convergence to an */
-          /*                eigenvalue after 1000 iterations .......... */
+          /*                eigenvalue after 30 iterations .......... */
           ierr = l + 1;
           return ierr;
           }

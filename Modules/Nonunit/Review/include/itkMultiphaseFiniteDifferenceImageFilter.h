@@ -510,9 +510,8 @@ protected:
   virtual void PostProcessOutput() {}
 
 private:
-  MultiphaseFiniteDifferenceImageFilter(const Self &);
-  //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  MultiphaseFiniteDifferenceImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */

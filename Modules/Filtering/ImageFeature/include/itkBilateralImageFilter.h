@@ -203,8 +203,8 @@ protected:
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  BilateralImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);       //purposely not implemented
+  BilateralImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** The standard deviation of the gaussian blurring kernel in the image
       range. Units are intensity. */

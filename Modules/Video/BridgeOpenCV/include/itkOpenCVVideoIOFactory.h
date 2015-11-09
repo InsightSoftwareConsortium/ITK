@@ -20,6 +20,7 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkVideoIOBase.h"
+#include "ITKVideoBridgeOpenCVExport.h"
 
 namespace itk
 {
@@ -28,7 +29,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeOpenCV
  */
-class OpenCVVideoIOFactory:public ObjectFactoryBase
+class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIOFactory: public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
@@ -61,8 +62,8 @@ protected:
   ~OpenCVVideoIOFactory();
 
 private:
-  OpenCVVideoIOFactory(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  OpenCVVideoIOFactory(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

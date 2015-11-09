@@ -115,10 +115,8 @@ protected:
   virtual ~ScalarChanAndVeseLevelSetFunctionData() {}
 
 private:
-  ScalarChanAndVeseLevelSetFunctionData(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
-                                                       // implemented
+  ScalarChanAndVeseLevelSetFunctionData(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } //end namespace itk
 

@@ -20,6 +20,7 @@
 #include "itkMetaGaussianConverter.h"
 #include "itkGroupSpatialObject.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 
 /**
@@ -148,8 +149,8 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
 
   // Check color
   const float* newMetaColor = newMetaGaussian->Color();
-  if (newMetaColor[0] != color[0] || newMetaColor[1] != color[1] ||
-      newMetaColor[2] != color[2] || newMetaColor[3] != color[3])
+  if (itk::Math::NotExactlyEquals(newMetaColor[0], color[0]) || itk::Math::NotExactlyEquals(newMetaColor[1], color[1]) ||
+      itk::Math::NotExactlyEquals(newMetaColor[2], color[2]) || itk::Math::NotExactlyEquals(newMetaColor[3], color[3]))
     {
     std::cout << "[FAILED] Conversion to MetaGaussian failed to convert color"
       << std::endl;
@@ -226,10 +227,10 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
 
 
   // Check color
-  if (newGaussianSpatialObj->GetProperty()->GetRed() != color[0] ||
-      newGaussianSpatialObj->GetProperty()->GetGreen() != color[1] ||
-      newGaussianSpatialObj->GetProperty()->GetBlue() != color[2] ||
-      newGaussianSpatialObj->GetProperty()->GetAlpha() != color[3])
+  if (itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty()->GetRed(), color[0]) ||
+      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty()->GetGreen(), color[1]) ||
+      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty()->GetBlue(), color[2]) ||
+      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty()->GetAlpha(), color[3]))
     {
     std::cout << "[FAILED] Conversion to SpatialObject failed to convert color"
       << std::endl;
@@ -298,10 +299,10 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
   std::cout << "[PASSED] Reading: sigma: " << reLoad->GetSigma() << std::endl;
 
   // Check color
-  if (reLoad->GetProperty()->GetRed() != color[0] ||
-      reLoad->GetProperty()->GetGreen() != color[1] ||
-      reLoad->GetProperty()->GetBlue() != color[2] ||
-      reLoad->GetProperty()->GetAlpha() != color[3])
+  if (itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetRed(), color[0]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetGreen(), color[1]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetBlue(), color[2]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetAlpha(), color[3]))
     {
     std::cout << "[FAILED] Didn't read color properly" << std::endl;
     return EXIT_FAILURE;

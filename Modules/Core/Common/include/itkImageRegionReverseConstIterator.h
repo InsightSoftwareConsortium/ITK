@@ -107,12 +107,6 @@ public:
   typedef ImageRegionReverseConstIterator     Self;
   typedef ImageReverseConstIterator< TImage > Superclass;
 
-  /** Dimension of the image the iterator walks.  This enum is needed so that
-   * functions that are templated over image iterator type (as opposed to
-   * being templated over pixel type and dimension) can have compile time
-   * access to the dimension of the image that the iterator walks. */
-  enum { ImageIteratorDimension = Superclass::ImageIteratorDimension };
-
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename Superclass::IndexType      IndexType;
@@ -284,7 +278,7 @@ public:
       // Check to see if we are past the first pixel in the region
       // Note that --ind[0] moves to the previous pixel along the row.
       done = ( --ind[0] == startIndex[0] - 1 );
-      for ( unsigned int i = 1; done && i < ImageIteratorDimension; i++ )
+      for ( unsigned int i = 1; done && i < this->ImageIteratorDimension; i++ )
         {
         done = ( ind[i] == startIndex[i] );
         }
@@ -294,7 +288,7 @@ public:
       dim = 0;
       if ( !done )
         {
-        while ( ( dim < ImageIteratorDimension - 1 )
+        while ( ( dim < this->ImageIteratorDimension - 1 )
                 && ( ind[dim] < startIndex[dim] ) )
           {
           ind[dim] = startIndex[dim] + static_cast< OffsetValueType >( size[dim] ) - 1;
@@ -342,7 +336,7 @@ public:
       // Check to see if we are past the last pixel in the region
       // Note that ++ind[0] moves to the next pixel along the row.
       done = ( ++ind[0] == startIndex[0] + static_cast< OffsetValueType >( size[0] ) );
-      for ( unsigned int i = 1; done && i < ImageIteratorDimension; i++ )
+      for ( unsigned int i = 1; done && i < this->ImageIteratorDimension; i++ )
         {
         done = ( ind[i] == startIndex[i] + static_cast< OffsetValueType >( size[i] ) - 1 );
         }
@@ -352,7 +346,7 @@ public:
       dim = 0;
       if ( !done )
         {
-        while ( ( dim < ImageIteratorDimension - 1 )
+        while ( ( dim < this->ImageIteratorDimension - 1 )
                 && ( ind[dim] > startIndex[dim] + static_cast< OffsetValueType >( size[dim] ) - 1 ) )
           {
           ind[dim] = startIndex[dim];

@@ -137,7 +137,7 @@ public:
    * derivatives  */
   void SetDerivativeSigma(float value)
   {
-    if ( value != m_GeodesicActiveContourFunction->GetDerivativeSigma() )
+    if ( Math::NotExactlyEquals(value, m_GeodesicActiveContourFunction->GetDerivativeSigma()) )
       {
       m_GeodesicActiveContourFunction->SetDerivativeSigma(value);
       this->Modified();
@@ -155,11 +155,8 @@ protected:
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  GeodesicActiveContourLevelSetImageFilter(const Self &); // purposely not
-                                                          // implemented
-  void operator=(const Self &);                           //purposely not
-
-  // implemented
+  GeodesicActiveContourLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Overridden from Superclass to handle the case when PropagationScaling is
     zero.*/
@@ -172,6 +169,7 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGeodesicActiveContourLevelSetImageFilter.hxx"
+#include "itkMath.h"
 #endif
 
 #endif

@@ -150,8 +150,8 @@ protected:
   virtual ~ImageClassifierFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  ImageClassifierFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  ImageClassifierFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Starts the classification process */
   void GenerateData() ITK_OVERRIDE;

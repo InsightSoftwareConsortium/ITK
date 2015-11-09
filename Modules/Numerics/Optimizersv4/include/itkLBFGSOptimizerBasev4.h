@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template< typename TInternalVnlOptimizerType >
-class ITKOptimizersv4_EXPORT LBFGSOptimizerBaseHelperv4;
+class  LBFGSOptimizerBaseHelperv4;
 
 /** \class LBFGSOptimizerBasev4
  * \brief Abstract base for vnl lbfgs algorithm optimizers in ITKv4 registration framework.
@@ -70,7 +70,7 @@ class ITKOptimizersv4_EXPORT LBFGSOptimizerBaseHelperv4;
  * \ingroup ITKOptimizersv4
  */
 template< typename TInternalVnlOptimizerType >
-class ITKOptimizersv4_EXPORT LBFGSOptimizerBasev4:
+class  LBFGSOptimizerBasev4:
     public SingleValuedNonLinearVnlOptimizerv4
 {
 public:
@@ -156,8 +156,8 @@ protected:
   friend class LBFGSBOptimizerHelperv4;
 
 private:
-  LBFGSOptimizerBasev4(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  LBFGSOptimizerBasev4(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };
 } // end namespace itk

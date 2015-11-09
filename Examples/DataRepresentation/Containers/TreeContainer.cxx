@@ -197,9 +197,12 @@ int main(int, char* [])
   // Software Guide : BeginCodeSnippet
   std::cout << "Is this a leaf node? " << childIt.IsLeaf() << std::endl;
   std::cout << "Is this the root node? " << childIt.IsRoot() << std::endl;
-  std::cout << "Does this node have a parent? " << childIt.HasParent() << std::endl;
-  std::cout << "How many children does this node have? " << childIt.CountChildren() << std::endl;
-  std::cout << "Does this node have a child 1? " << childIt.HasChild(1) << std::endl;
+  std::cout << "Does this node have a parent? " << childIt.HasParent()
+            << std::endl;
+  std::cout << "How many children does this node have? "
+            << childIt.CountChildren() << std::endl;
+  std::cout << "Does this node have a child 1? " << childIt.HasChild(1)
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   std::cout << std::endl;

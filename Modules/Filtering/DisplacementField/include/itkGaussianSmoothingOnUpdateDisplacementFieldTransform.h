@@ -123,8 +123,8 @@ protected:
   GaussianSmoothingOperatorType                    m_GaussianSmoothingOperator;
 
 private:
-  GaussianSmoothingOnUpdateDisplacementFieldTransform( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  GaussianSmoothingOnUpdateDisplacementFieldTransform( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
 };
 

@@ -225,20 +225,26 @@ void ITKVtkGlue_EXPORT QuickView::AddImage<FloatRGBImageType>(
 
 void QuickView::Visualize(bool interact)
 {
-  unsigned int rendererSize = 300;
+  unsigned int rendererSize = this->m_ViewPortSize;
   unsigned int numberOfImages = this->Images.size() + this->RGBImages.size();
+  unsigned int numberOfRows = (numberOfImages - 1) / this->m_NumberOfColumns + 1;
+  unsigned int numberOfColumns = numberOfImages / (numberOfRows) + 1;
+  if (numberOfColumns > numberOfImages)
+    {
+    numberOfColumns = numberOfImages;
+    }
 
   // Setup the render window and interactor
   vtkSmartPointer<vtkRenderWindow> renderWindow =
     vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(rendererSize * numberOfImages, rendererSize);
+  renderWindow->SetSize(rendererSize * numberOfColumns,
+                        rendererSize * numberOfRows);
 
   vtkSmartPointer<vtkRenderWindowInteractor> interactor =
     vtkSmartPointer<vtkRenderWindowInteractor>::New();
   interactor->SetRenderWindow(renderWindow);
 
   // Render all of the images
-  double step = 1./(static_cast<double>(numberOfImages));
   std::vector<double*> viewports;
 
   typedef itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2> >
@@ -253,150 +259,164 @@ void QuickView::Visualize(bool interact)
   vtkSmartPointer<vtkCamera> sharedCamera =
     vtkSmartPointer<vtkCamera>::New();
 
-  for(unsigned int i = 0; i < this->Images.size(); i++)
+  for(unsigned int row = 0; row < numberOfRows; ++row)
     {
-    ConnectorType::Pointer connector = ConnectorType::New();
-    connectors.push_back(connector);
-    connector->SetInput(this->Images[i].m_Image);
+    for(unsigned int col = 0; col < numberOfColumns; ++col)
+      {
+      size_t i = row * numberOfColumns + col;
+      // (xmin, ymin, xmax, ymax)
+      double viewport[4] =
+        {static_cast<double>(col) * rendererSize / (numberOfColumns * rendererSize),
+         static_cast<double>(numberOfRows - (row+1)) * rendererSize / (numberOfRows * rendererSize),
+         static_cast<double>(col+1)*rendererSize / (numberOfColumns * rendererSize),
+         static_cast<double>(numberOfRows - row) * rendererSize / (numberOfRows * rendererSize)};
+      viewports.push_back(viewport);
 
-    // (xmin, ymin, xmax, ymax)
-    double viewport[4] =
-      {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
-    viewports.push_back(viewport);
-    vtkSmartPointer<vtkImageActor> actor =
-      vtkSmartPointer<vtkImageActor>::New();
+      // Grayscale images
+      if (i < this->Images.size())
+        {
+        ConnectorType::Pointer connector = ConnectorType::New();
+        connectors.push_back(connector);
+        connector->SetInput(this->Images[i].m_Image);
+
+        vtkSmartPointer<vtkImageActor> actor =
+          vtkSmartPointer<vtkImageActor>::New();
 #if VTK_MAJOR_VERSION <= 5
-    actor->SetInput(connector->GetOutput());
+        actor->SetInput(connector->GetOutput());
 #else
-    connector->Update();
-    actor->GetMapper()->SetInputData(connector->GetOutput());
+        connector->Update();
+        actor->GetMapper()->SetInputData(connector->GetOutput());
 #endif
 
-    // Setup renderer
-    vtkSmartPointer<vtkRenderer> renderer =
-      vtkSmartPointer<vtkRenderer>::New();
-    renderWindow->AddRenderer(renderer);
-    renderer->SetViewport(viewports[i]);
-    renderer->SetBackground(background);
-    if (m_ShareCamera)
-      {
-      renderer->SetActiveCamera(sharedCamera);
-      }
-    else
-      {
-      vtkSmartPointer<vtkCamera> aCamera =
-        vtkSmartPointer<vtkCamera>::New();
-      renderer->SetActiveCamera(aCamera);
-      }
-    std::rotate(background, background + 1, background + 6);
+        // Setup renderer
+        vtkSmartPointer<vtkRenderer> renderer =
+          vtkSmartPointer<vtkRenderer>::New();
+        renderWindow->AddRenderer(renderer);
+        renderer->SetViewport(viewports[i]);
+        renderer->SetBackground(background);
+        if (m_ShareCamera)
+          {
+          renderer->SetActiveCamera(sharedCamera);
+          }
+        else
+          {
+          vtkSmartPointer<vtkCamera> aCamera =
+            vtkSmartPointer<vtkCamera>::New();
+          renderer->SetActiveCamera(aCamera);
+          }
+        std::rotate(background, background + 1, background + 6);
 
-    if (this->Images[i].m_Description != "")
-      {
-      vtkSmartPointer<vtkTextProperty> textProperty =
-        vtkSmartPointer<vtkTextProperty>::New();
-      textProperty->SetFontSize(10);
-      textProperty->SetFontFamilyToCourier();
-      textProperty->SetJustificationToCentered();
+        if (this->Images[i].m_Description != "")
+          {
+          vtkSmartPointer<vtkTextProperty> textProperty =
+            vtkSmartPointer<vtkTextProperty>::New();
+          textProperty->SetFontSize(10);
+          textProperty->SetFontFamilyToCourier();
+          textProperty->SetJustificationToCentered();
 
-      vtkSmartPointer<vtkTextMapper> textMapper =
-        vtkSmartPointer<vtkTextMapper>::New();
-      textMapper->SetTextProperty(textProperty);
-      textMapper->SetInput(this->Images[i].m_Description.c_str());
+          vtkSmartPointer<vtkTextMapper> textMapper =
+            vtkSmartPointer<vtkTextMapper>::New();
+          textMapper->SetTextProperty(textProperty);
+          textMapper->SetInput(this->Images[i].m_Description.c_str());
 
-      vtkSmartPointer<vtkActor2D> textActor =
-        vtkSmartPointer<vtkActor2D>::New();
-      textActor->SetMapper(textMapper);
-      textActor->SetPosition(rendererSize/2, 16);
-      renderer->AddActor(textActor);
-      }
+          vtkSmartPointer<vtkActor2D> textActor =
+            vtkSmartPointer<vtkActor2D>::New();
+          textActor->SetMapper(textMapper);
+          textActor->SetPosition(rendererSize/2, 16);
+          renderer->AddActor(textActor);
+          }
+        if (m_Interpolate)
+          {
+          actor->InterpolateOn();
+          }
+        else
+          {
+          actor->InterpolateOff();
+          }
+        renderer->AddActor(actor);
+        renderer->ResetCamera();
+        }
+      // RGB Images
+      else if (i >= this->Images.size() && i < numberOfImages)
+        {
+        unsigned int j = row * numberOfColumns + col - this->Images.size();
+        RGBConnectorType::Pointer connector = RGBConnectorType::New();
+        RGBconnectors.push_back(connector);
+        connector->SetInput(this->RGBImages[j].m_Image);
 
-    if (m_Interpolate)
-      {
-      actor->InterpolateOn();
-      }
-    else
-      {
-      actor->InterpolateOff();
-      }
-    renderer->AddActor(actor);
-    renderer->ResetCamera();
-    }
-
-  unsigned int j = 0;
-  for(unsigned int i = this->Images.size();
-      i < this->RGBImages.size() + this->Images.size();
-      i++, j++)
-    {
-    RGBConnectorType::Pointer connector = RGBConnectorType::New();
-    RGBconnectors.push_back(connector);
-    connector->SetInput(this->RGBImages[j].m_Image);
-
-    // (xmin, ymin, xmax, ymax)
-    double viewport[4] =
-      {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
-    viewports.push_back(viewport);
-    vtkSmartPointer<vtkImageActor> actor =
-      vtkSmartPointer<vtkImageActor>::New();
+        vtkSmartPointer<vtkImageActor> actor =
+          vtkSmartPointer<vtkImageActor>::New();
 #if VTK_MAJOR_VERSION <= 5
-    actor->SetInput(connector->GetOutput());
+        actor->SetInput(connector->GetOutput());
 #else
-    connector->Update();
-    actor->GetMapper()->SetInputData(connector->GetOutput());
+        connector->Update();
+        actor->GetMapper()->SetInputData(connector->GetOutput());
 #endif
 
-    // Setup renderer
-    vtkSmartPointer<vtkRenderer> renderer =
-      vtkSmartPointer<vtkRenderer>::New();
-    renderWindow->AddRenderer(renderer);
-    renderer->SetViewport(viewports[i]);
-    renderer->SetBackground(background);
-    if (m_ShareCamera)
-      {
-      renderer->SetActiveCamera(sharedCamera);
-      }
-    else
-      {
-      vtkSmartPointer<vtkCamera> aCamera =
-        vtkSmartPointer<vtkCamera>::New();
-      renderer->SetActiveCamera(aCamera);
-      }
-    std::rotate(background, background + 1, background + 6);
+        // Setup renderer
+        vtkSmartPointer<vtkRenderer> renderer =
+          vtkSmartPointer<vtkRenderer>::New();
+        renderWindow->AddRenderer(renderer);
+        renderer->SetViewport(viewports[i]);
+        renderer->SetBackground(background);
+        if (m_ShareCamera)
+          {
+          renderer->SetActiveCamera(sharedCamera);
+          }
+        else
+          {
+          vtkSmartPointer<vtkCamera> aCamera =
+            vtkSmartPointer<vtkCamera>::New();
+          renderer->SetActiveCamera(aCamera);
+          }
+        std::rotate(background, background + 1, background + 6);
 
-    if (this->RGBImages[j].m_Description != "")
-      {
-      vtkSmartPointer<vtkTextProperty> textProperty =
-        vtkSmartPointer<vtkTextProperty>::New();
-      textProperty->SetFontSize(10);
-      textProperty->SetFontFamilyToCourier();
-      textProperty->SetJustificationToCentered();
+        if (this->RGBImages[j].m_Description != "")
+          {
+          vtkSmartPointer<vtkTextProperty> textProperty =
+            vtkSmartPointer<vtkTextProperty>::New();
+          textProperty->SetFontSize(10);
+          textProperty->SetFontFamilyToCourier();
+          textProperty->SetJustificationToCentered();
 
-      vtkSmartPointer<vtkTextMapper> textMapper =
-        vtkSmartPointer<vtkTextMapper>::New();
-      textMapper->SetTextProperty(textProperty);
-      textMapper->SetInput(this->RGBImages[j].m_Description.c_str());
+          vtkSmartPointer<vtkTextMapper> textMapper =
+            vtkSmartPointer<vtkTextMapper>::New();
+          textMapper->SetTextProperty(textProperty);
+          textMapper->SetInput(this->RGBImages[j].m_Description.c_str());
 
-      vtkSmartPointer<vtkActor2D> textActor =
-        vtkSmartPointer<vtkActor2D>::New();
-      textActor->SetMapper(textMapper);
-      textActor->SetPosition(rendererSize/2, 16);
-      renderer->AddActor(textActor);
-      }
+          vtkSmartPointer<vtkActor2D> textActor =
+            vtkSmartPointer<vtkActor2D>::New();
+          textActor->SetMapper(textMapper);
+          textActor->SetPosition(rendererSize/2, 16);
+          renderer->AddActor(textActor);
+          }
 
-    if (m_Interpolate)
-      {
-      actor->InterpolateOn();
+        if (m_Interpolate)
+          {
+          actor->InterpolateOn();
+          }
+        else
+          {
+          actor->InterpolateOff();
+          }
+        renderer->AddActor(actor);
+        renderer->ResetCamera();
+        }
+      else
+        {
+        // Fill empty viewports
+        vtkSmartPointer<vtkRenderer> renderer =
+          vtkSmartPointer<vtkRenderer>::New();
+        renderWindow->AddRenderer(renderer);
+        renderer->SetViewport(viewports[i]);
+        renderer->SetBackground(background);
+        continue;
+        }
       }
-    else
-      {
-      actor->InterpolateOff();
-      }
-    renderer->AddActor(actor);
-    renderer->ResetCamera();
     }
+    renderWindow->Render();
 
-  renderWindow->Render();
-
-  if( m_Snapshot )
+    if( m_Snapshot )
     {
     std::string filename;
     std::stringstream temp;

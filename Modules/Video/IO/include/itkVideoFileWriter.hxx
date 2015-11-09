@@ -23,6 +23,7 @@
 
 #include "itkNumericTraits.h"
 #include "itkTemporalDataObject.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -146,7 +147,7 @@ VideoFileWriter< TInputVideoStream >
     }
 
   // Make sure FramesPerSecond and FourCC have been set
-  if (m_FramesPerSecond == 0 || m_FourCC.length() == 0)
+  if (Math::ExactlyEquals(m_FramesPerSecond, NumericTraits< TemporalRatioType >::ZeroValue()) || m_FourCC.length() == 0)
     {
     itkExceptionMacro("Cannot write with FramesPerSecond or FourCC unset");
     }

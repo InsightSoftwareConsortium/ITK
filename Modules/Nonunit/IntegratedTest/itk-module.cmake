@@ -58,6 +58,7 @@ itk_module(ITKIntegratedTest
     ITKKLMRegionGrowing
     ITKLabelVoting
     ITKLevelSets
+    ITKIOLSM
     ITKMarkovRandomFieldsClassifiers
     ITKMathematicalMorphology
     ITKMesh

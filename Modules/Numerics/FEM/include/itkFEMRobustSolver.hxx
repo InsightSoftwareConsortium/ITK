@@ -25,6 +25,7 @@
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 #include "itkFEMLoadLandmark.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -678,7 +679,7 @@ RobustSolver<VDimension>
         throw FEMExceptionSolution(__FILE__, __LINE__, "Solver::AssembleElementMatrix()", "Illegal GFN!");
         }
 
-      if( Ke[j][k] != Float(0.0) )
+      if( Math::NotExactlyEquals(Ke[j][k], Float(0.0)) )
         {
         this->m_ls->AddMatrixValue(dofj, dofk, Ke[j][k], matrixIndex);
         }

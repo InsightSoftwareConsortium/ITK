@@ -119,8 +119,8 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
 protected:
-  ImageSpatialObject(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  ImageSpatialObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ImagePointer m_Image;
 

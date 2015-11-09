@@ -102,8 +102,14 @@ VNLSparseLUSolverTraitsTest.cxx
 )
 
 set(ITKCommon2Tests
+itkMetaProgrammingLibraryTest.cxx
+itkIsConvertible.cxx
+itkIsBaseOf.cxx
+itkPromoteType.cxx
 itkThreadedIndexedContainerPartitionerTest.cxx
 itkThreadedIteratorRangePartitionerTest.cxx
+itkThreadedIteratorRangePartitionerTest2.cxx
+itkThreadedIteratorRangePartitionerTest3.cxx
 itkThreadedImageRegionPartitionerTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkStdStreamLogOutputTest.cxx
@@ -175,8 +181,8 @@ itkThreadPoolTest.cxx
 itkAtomicIntTest.cxx
 )
 
-CreateTestDriver(ITKCommon1 "${ITKCommon_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
-CreateTestDriver(ITKCommon2 "${ITKCommon_LIBRARIES}" "${ITKCommon2Tests}")
+CreateTestDriver(ITKCommon1 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
+CreateTestDriver(ITKCommon2 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon2Tests}")
 
 set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
@@ -184,12 +190,12 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 add_executable(itkMathTest itkMathTest.cxx )
 itk_module_target_label(itkMathTest)
-target_link_libraries(itkMathTest ${ITKCommon_LIBRARIES})
+target_link_libraries(itkMathTest LINK_PUBLIC ${ITKCommon_LIBRARIES})
 itk_add_test(NAME itkMathTest COMMAND itkMathTest)
 
 add_executable(itkSystemInformation itkSystemInformation.cxx)
 itk_module_target_label(itkSystemInformation)
-target_link_libraries(itkSystemInformation ${ITKCommon_LIBRARIES})
+target_link_libraries(itkSystemInformation LINK_PUBLIC ${ITKCommon_LIBRARIES})
 itk_add_test(NAME SystemInformation COMMAND itkSystemInformation)
 
 if(ITK_BUILD_SHARED_LIBS)
@@ -197,7 +203,7 @@ if(ITK_BUILD_SHARED_LIBS)
   set(FactoryTest_Source itkFactoryTestLib.cxx)
   add_library(FactoryTestLib MODULE ${FactoryTest_Source})
   itk_module_target_label(FactoryTestLib)
-  target_link_libraries(FactoryTestLib ${ITKCommon_LIBRARIES})
+  target_link_libraries(FactoryTestLib LINK_PUBLIC ${ITKCommon_LIBRARIES})
   set_property(TARGET FactoryTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
@@ -207,6 +213,8 @@ itk_add_test(NAME itkCommandObserverObjectTest COMMAND ITKCommon1TestDriver itkC
 itk_add_test(NAME itkAdaptorComparisonTest COMMAND ITKCommon1TestDriver itkAdaptorComparisonTest)
 itk_add_test(NAME itkThreadedIndexedContainerPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedIndexedContainerPartitionerTest)
 itk_add_test(NAME itkThreadedIteratorRangePartitionerTest COMMAND ITKCommon2TestDriver itkThreadedIteratorRangePartitionerTest)
+itk_add_test(NAME itkThreadedIteratorRangePartitionerTest2 COMMAND ITKCommon2TestDriver itkThreadedIteratorRangePartitionerTest2)
+itk_add_test(NAME itkThreadedIteratorRangePartitionerTest3 COMMAND ITKCommon2TestDriver itkThreadedIteratorRangePartitionerTest3)
 
 itk_add_test(NAME itkImageAdaptorPipeLineTest COMMAND ITKCommon1TestDriver itkImageAdaptorPipeLineTest)
 itk_add_test(NAME itkThreadedImageRegionPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedImageRegionPartitionerTest)
@@ -467,10 +475,10 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
 endif()
 
-add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
-itk_module_target_label(itkSystemInformationTest)
-itk_add_test(NAME itkSystemInformationTest
-         COMMAND itkSystemInformationTest ${CMAKE_BINARY_DIR})
+add_executable(itkCMakeConfigurationTest itkCMakeConfigurationTest.cxx)
+itk_module_target_label(itkCMakeConfigurationTest)
+itk_add_test(NAME itkCMakeConfigurationTest
+         COMMAND itkCMakeConfigurationTest ${CMAKE_BINARY_DIR})
 itk_add_test(NAME itkDataObjectAndProcessObjectTest COMMAND ITKCommon2TestDriver itkDataObjectAndProcessObjectTest)
 itk_add_test(NAME itkImageRegionConstIteratorWithOnlyIndexTest COMMAND ITKCommon2TestDriver itkImageRegionConstIteratorWithOnlyIndexTest)
 itk_add_test(NAME itkImageRandomConstIteratorWithOnlyIndexTest COMMAND ITKCommon2TestDriver itkImageRandomConstIteratorWithOnlyIndexTest)

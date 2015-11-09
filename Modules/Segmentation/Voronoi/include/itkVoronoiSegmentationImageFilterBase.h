@@ -170,7 +170,7 @@ public:
   VoronoiPointer GetVoronoiDiagram(void)
   { return m_WorkingVD; }
 
-#if !defined( CABLE_CONFIGURATION )  // generates invalid iterator instantiation
+#if !defined( ITK_WRAPPING_PARSER )  // generates invalid iterator instantiation
                                      // with msvc
   /** Seeds positions are randomly set.
    * If you need to set seeds position then use the SetSeeds method
@@ -263,8 +263,8 @@ protected:
   void drawVDline(VDImagePointer result, PointType p1, PointType p2, unsigned char color);
 
 private:
-  VoronoiSegmentationImageFilterBase(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  VoronoiSegmentationImageFilterBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } //end namespace
 

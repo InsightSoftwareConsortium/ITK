@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkComposeImageFilter.h"
+#include "itkMath.h"
 
 int itkCompose2DVectorImageFilterTest(int , char * [])
 {
@@ -95,12 +96,12 @@ int itkCompose2DVectorImageFilterTest(int , char * [])
   while( !ot.IsAtEnd() )
     {
     OutputPixelType outp = ot.Get();
-    if( i0.Get() != outp[0] )
+    if( itk::Math::NotExactlyEquals(i0.Get(), outp[0]) )
       {
       std::cerr << "Error in zeroth component" << std::endl;
       return EXIT_FAILURE;
       }
-    if( i1.Get() != outp[1] )
+    if( itk::Math::NotExactlyEquals(i1.Get(), outp[1]) )
       {
       std::cerr << "Error in first component" << std::endl;
       return EXIT_FAILURE;

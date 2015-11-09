@@ -173,8 +173,8 @@ protected:
   DisplacementFieldInterpolatorPointer      m_DisplacementFieldInterpolator;
 
 private:
-  TimeVaryingVelocityFieldIntegrationImageFilter( const Self & ); //purposely not implemented
-  void operator=( const Self & );         //purposely not implemented
+  TimeVaryingVelocityFieldIntegrationImageFilter( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   VelocityFieldInterpolatorPointer          m_VelocityFieldInterpolator;
 };

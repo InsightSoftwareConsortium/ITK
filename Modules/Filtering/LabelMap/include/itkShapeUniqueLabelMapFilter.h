@@ -22,6 +22,7 @@
 #include "itkShapeLabelObjectAccessors.h"
 #include "itkProgressReporter.h"
 #include <queue>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -199,7 +200,7 @@ protected:
           typename TAttributeAccessor::AttributeValueType attr = accessor(l.labelObject);
           // this may be changed to a single boolean expression, but may become
           // quite difficult to read
-          if ( attr == prevAttr  )
+          if ( Math::ExactlyEquals(attr, prevAttr)  )
             {
             if ( l.labelObject->GetLabel() > prev.labelObject->GetLabel() )
               {
@@ -318,8 +319,8 @@ protected:
   AttributeType m_Attribute;
 
 private:
-  ShapeUniqueLabelMapFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  ShapeUniqueLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool m_ReverseOrdering;
   struct LineOfLabelObject {

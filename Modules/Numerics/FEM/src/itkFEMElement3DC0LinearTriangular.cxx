@@ -16,6 +16,8 @@
 *
 *=========================================================================*/
 
+#include "itkMath.h"
+
 #include "itkFEMElement3DC0LinearTriangular.h"
 
 #include "vnl/algo/vnl_qr.h"
@@ -341,7 +343,7 @@ void Element3DC0LinearTriangular::GeneralizedProjectPoint(const VectorType & x, 
   t = normal[0] * xo[0] + normal[1] * xo[1] + normal[2] * xo[2];
   n2 = normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2];
 
-  if( n2 != 0 )
+  if( Math::NotAlmostEquals(n2, 0) )
     {
     xproj[0] = x[0] - t * normal[0] / n2;
     xproj[1] = x[1] - t * normal[1] / n2;

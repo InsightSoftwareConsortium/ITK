@@ -69,8 +69,8 @@ protected:
   virtual ~LevelSetIterationUpdateCommand();
 
 private:
-  LevelSetIterationUpdateCommand( const Self& ); // purposely not implemented
-  void operator= ( const Self& ); // purposely not implemented
+  LevelSetIterationUpdateCommand( const Self& ) ITK_DELETE_FUNCTION;
+  void operator= ( const Self& ) ITK_DELETE_FUNCTION;
 
   WeakPointer< FilterToUpdateType >  m_FilterToUpdate;
   IdentifierType                     m_UpdatePeriod;

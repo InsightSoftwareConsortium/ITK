@@ -22,6 +22,7 @@
 #include "itkGenerateImageSource.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageDuplicator.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -77,8 +78,8 @@ class DemoImageSource:public GenerateImageSource< TOutputImage >
     };
 
   private:
-    DemoImageSource(const Self &); //purposely not implemented
-    void operator=(const Self &);  //purposely not implemented
+    DemoImageSource(const Self &) ITK_DELETE_FUNCTION;
+    void operator=(const Self &) ITK_DELETE_FUNCTION;
 
     typename TOutputImage::PixelType m_Value;
 };
@@ -196,7 +197,7 @@ int HDF5ReadWriteTest2(const char *fileName)
     {
     idx = it.GetIndex();
     origValue = idx[2]*100 + idx[1]*10 + idx[0];
-    if(it.Value() != origValue)
+    if(itk::Math::NotAlmostEquals( it.Value(), origValue) )
       {
       std::cout << "Original Pixel (" << origValue
                 << ") doesn't match read-in Pixel ("

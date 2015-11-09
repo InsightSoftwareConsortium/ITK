@@ -1,0 +1,743 @@
+New in Release 2.3.00
+---------------------
+* Removed interpretation of leading zero as specifying an octal constant
+on the command line (affects almost all minc-tools).
+* Volume_IO can now load NIfTI-1 and MGZ/MGH volumetric data.
+* many bugfixes for minc 2.0 code
+* Using features of HDF5 version 1.8, which allows permits attributes of unlitied size
+* some API functions signature have changed
+* MINC2 API can now open MINC1 files by converting it and storing in a temporary file
+* LIBMINC can be compiled without netcdf library, without MINC1 support
+* Volume_IO can work directly with MINC2 files if MINC1 API is not available
+* build system is CMAKE only 
+
+New in Release 2.2.00
+---------------------
+* added mincmorph, mincblob and mincsample
+* many bugfixes for minc 2.0 code
+* last release before split of libminc from minc-tools
+
+New in Release 2.1.10
+---------------------
+* added imin() and imax() operators to minccalc
+* added a minc_version global to files created with minc
+* Fixed a few HDF5 error output bugs
+* mincview is now coded in sh, not csh also shifted from xv to display
+* Fixed bug in dicom_to_minc.c for segmentation fault on undefined sequence
+  (initialization of gi_ptr->cur_size)
+* Fixed some memory leaks (thanks Jim Nikelski) 
+* Added b-matrix field for Siemens diffusion scans (version >= VB
+  only). (thanks to Ilana Leppert)
+* Made changes to ordering of slices: e.g. a descending acquisition
+  now has negative slice step. This was an issue with MOSAIC, in
+  which the ordering of the slices in the MOSAIC image is ascending,
+  even though the acquisition is descending (version >= VA25 and
+  >= VB11). (thanks to Ilana Leppert)
+
+New in Release 2.1.00
+---------------------
+* Improved convergence and accuracy for application of non-linear 
+  transformation (especially for 2-d slices) - Claude
+* Set default volume_io caching to none
+* Added pod2man for man page generation of help for perl scripts
+* Added minccmp and xfm2def man man pages
+* Added checks for outfiles to minccalc
+* Added taking first time point for 4D files, -test_size and
+    -sagittal_offset_perc to mincpik
+* ported some HDF calls to 1.8.x (must now use 1.8.X; 1.6.X no
+  longer supported from now on)
+* Added libtoolize/glibtoolize logic in autogen.sh (thanks Sean)
+* Fixed bug in multidim_array_is_alloced for correct check of
+  memory allocation of image data. Return volume=NULL when memory
+  allocation fails.
+* Fixed a bug in upet2mnc on 64 bit platforms (thanks John Cupitt)
+
+New in Release 2.0.18
+---------------------
+* Fixed bug with chunking for internal file compression using hdf5
+  (now makes the code faster for large files)
+* Smarter utilization of buffer in input_mnc.c and output_mnc.c
+
+New in Release 2.0.17
+---------------------
+* Fix for argument handling on 64 bit systems, previously the order of
+  arguments could cause some arguments to be missed.
+* New tests for argument parsing, mincheader and mincdiff
+* Cosmetic fixes for a lot of manpages
+* Fixed a bunch of warnings for cleaner Debian and Ubuntu builds
+
+New in Release 2.0.16
+---------------------
+* new option for mincpik (-anot_bar) and two bugs fixed for lookup triplanars
+* updates to dcm2mnc for 64bit machines thanks to Claude
+* 64bit bug fixes for rawtominc
+* added -clobber and -verbose options to xfmconcat
+
+New in Release 2.0.15
+---------------------
+* MINC2 is now built by default (or disabled with --disable-minc2).
+* Began to aggregate and update all docs for a clean(er) 2.1 release
+* Added cubic interpoation in mincresample for x-y slices
+* Fixed a seg-fault with null history strings
+* Changed all global variables to static to avoid linking problems
+   with other libraries (eg: libz)
+* new version of mincedit/mincheader in sh instead of csh
+* Many fixes to remove compile warnings
+* removed all rcsid's in files given that we have a -version argument
+* Added preservation of "patient name" in nii2mnc (where patient name 
+   is the descriptor field in a nifti/analyze file)
+* xfmconcat now records history in the output file
+* removed all fortran build bits. This code was both out of date and
+   not ever built
+* removed get_image_offset as with a MINC2 file this would not work
+   as it was it wouldn't work that well with MINC1 let along MINC2
+* changed --enable-minc2 to --disable-minc2 in configure.ac
+   (come what may....)
+
+New in Release 2.0.14
+---------------------
+* Added files needed for a CMake build of MINC
+* Fixed a linking problem with nii2mnc mnc2nii
+
+New in Release 2.0.13
+---------------------
+* Fixed a few small build errors for make check
+* Changes to ensure there is a clean ITK minc build
+* added xfmflip 
+* Fixed buffering and chunking for fast internal file compression
+* updated nii2mnc and mnc2nii with the latest version of niftilib
+
+New in Release 2.0.12
+---------------------
+* Fixed a bug causing dump_acr_nema to skip all elements 
+with element number 0x0010.
+
+New in Release 2.0.11
+---------------------
+* Many small fixes
+* fix to mincresample
+* Small fix to mincconvert
+* -like flag added to rawtominc
+* Added additional tests for minc2 files.
+
+New in Release 2.0.10
+---------------------
+* Many small fixes to dcm2mnc
+* Fix mincgen HDF5 support
+* Fix upet2mnc handling of single-frame files
+* Fix mincgen -o option to imply -b
+* Fix duplicate symbols of solve_linear_system and
+  scaled_maximal_pivoting_gaussian_elimination in
+  volume_io/Geometry/gaussian.c and libsrc.2.
+
+New in Release 2.0.09
+---------------------
+This release is primarily a bug fix release for the core MINC libraries,
+as well as an opportunity to port library changes from the 1.X series.
+One of the most important changes involves support for HDF5 versions
+subsequent to version 1.6.2.  Previous releases of MINC 2 would not work
+properly with HDF5 1.6.3 or later, but these issues should now be fixed.
+
+Additional major changes include:
+
+New converters added in this release:
+ * minctoecat, as contributed by Anthonin Reilhac.
+ * dcm2mnc
+
+mincresample now supports "windowed sinc" interpolation. See the man
+page for more details.
+
+mincconcat now has a "-filestarts" option for greater flexibility in
+combining files.  This is especially useful for concatenating functional
+runs.
+
+* mincresample now supports the sinc interpolant
+* mincconcat has new -filestarts option
+* Many updates and fixes to upet2mnc (Concorde microPET conversion)
+* Fixes to the MINC 2.0 library (libminc2) courtesy of Leila Baghdadi
+* Some progress on documentation
+* Improved nii2mnc, Analyze and NIfTI-1 conversion utility
+* Fix MINC 2 code to work with HDF5 1.6.4 as well as 1.6.2.  There is a
+  problem with the  "make check" self-test code when using HDF5 1.6.3,
+  but this problem should not affect normal operation of the code.
+
+New in Release 2.0.08
+---------------------
+Several major changes are incorporated into this release.
+
+First, the "simplified" MINC interface is now included in the
+release. This interface, which is still under development, is intended
+to provide easier access for software that does not need to use MINC's
+more advanced features.
+
+Second, we are beginning to include conversion programs with MINC.  For
+this release, we are including converters for the new NIfTI-1 format,
+created as a successor to Analyze.  FSL 3.2 and other popular fMRI
+packages now support this format.  For PET users we are also including the 
+ECAT to MINC format converter, with updates from Anthonin Reilhac
+
+Third, some new tool features have been added and bugs have been fixed.
+ * The mincstats bimodal threshold calculation has been fixed and
+ improved.  Mincstats now supports multiple algorithms for calculating
+ the bimodal threshold.  The default is still the "Otsu '97" algorithm,
+ where the code for this has been corrected to give more reasonable
+ results. In addition we have implemented the "Kittler & Illingworth
+ '86", the "Kapur et al. '85", and a simple "mean of means" algorithms 
+ as options.
+* mincmakescalar now warns the user if an attempt is made to convert
+a file that has a vector_dimension that is NOT the fastest-varying 
+dimension in the image.  Previously the program would simply copy the
+input file to the output unmodified, without warning the user.
+
+In addition to these changes, many bugs and issues with the MINC 2.0
+format and interface have been fixed. 
+
+* Added conversion subdirectory with PRELIMINARY converters for ECAT, 
+Concorde microPET, and NIfTI-1 data files.
+* Simplified MINC programming interface.
+* Many bug fixes
+* See WHATSNEW-2.0 for additional details
+
+New in Release 2.0.07
+---------------------
+* Added automatic creation of "ident" attribute in all MINC files.
+* Added -sappend and -dappend arguments to minc_modify_header
+* Most man pages updated
+* Fixed endian-ness issues which could affect interoperability in 
+  MINC 2.0 format
+* Changed volume_io caching defaults
+
+New in Release 2.0.06
+---------------------
+* No functional changes - this release is intended only to address compilation
+  issues found with the SGI IRIX MIPSpro compiler.
+
+New in Release 2.0.05
+---------------------
+This version represents several weeks of effort cleaning up the
+existing code and trying to put things into better shape for a
+release.  In particular, the existing test suites ("make check") now
+run for both MINC 1.0 and MINC 2.0 format files.
+
+One functional change is that the MINC 2.0 tools should now create
+MINC 2.0 format files by default if all of the input files are
+themselves in MINC 2.0 format.  In other words, you only have to
+specify the "-2" option to force a MINC 2.0 file if one or more of
+your input files are MINC 1.0 format.  The environment variable
+"MINC_FORCE_V2" should force all output to MINC 2.0 even if MINC 1.0
+files are present at the input.
+
+There is additional documentation on the new "2.0" MINC programming
+interface.  This is still very much a work in progress so your
+feedback is very much appreciated, both as to the form and content of
+these documents:
+
+libsrc2/doc/minc_20.tex - Interface reference
+libsrc2/doc/minc2_uguide.tex - Programmer's guide
+
+This distribution will build its libraries as "libminc2.a" and
+"libvolume_io2.a", rather than the previous "libminc.a" and
+"libvolume_io.a".  This decission was intended to make it easier to
+keep both MINC1 and MINC2 libraries installed simultaneously, but this
+may prove to be unwieldy or unnecessary.  We welcome suggestions from
+beta testers.
+
+* More bugs fixed
+* "make check" expanded to test MINC 2.0 format.
+* "mincdump" added to the distribution.
+* Almost all MINC 2.0 specific changes are now surrounded by "#ifdef MINC2"
+
+New in Release 2.0.04
+---------------------
+* More bugs fixed
+* mincconvert now takes a -compress and -chunk option to force the output
+file to take on a desired structure.
+* User's guide to MINC 2.0 library is now in doc/minc2_uguide.tex.  It's a
+work in progress but it should contain some useful information.
+
+New in Release 2.0.03
+---------------------
+* Actually implemented MINC_COMPRESS
+
+* Many bugs fixed
+
+New in Release 2.0.02
+---------------------
+* Several bug fixes
+
+* Even newer error handling
+
+New in Release 2.0.01
+---------------------
+* Support for HDF5 "MINC 2.0" format files.
+
+* Revised error message handling.  Some new, unwanted messages are probably 
+present.
+
+* Tentative .mincrc and environment variable support.
+
+* New programming interface.
+
+New in Release 1.3
+------------------
+* Build fixes.
+
+
+New in Release 1.2
+------------------
+* New tools: mincpik, minchistory.
+* Rawtominc has new options -dimorder and -swap_bytes.
+* Ability to easily create binary packages; see README.binary_packaging.
+
+New in Release 1.1
+------------------
+* All MINC programs now ship with a man page.
+* Rawtominc has new "-skip" option, to allow skipping header information.
+* Mincstats option "-max_bins" renamed to "-int_max_bins", to avoid clash
+  with "-max".
+* Minccalc has new functions: tan, asin, acos, and atan.
+
+
+************************************************************************
+
+Wed Jan 16 08:43:28 EST 2002 *** RELEASE OF MINC 1.0
+
+Tue Jan 15 12:55:21 EST 2002
+   - Modified libsrc/Makefile to install ParseArgv man pages.
+
+Tue Jan 15 10:40:49 EST 2002
+   - Updated README to include minccalc and mincstats.
+
+Mon Jan 14 16:26:53
+   - Moved nd_loop, voxel_loop, ParseArgv and time_stamp to the libsrc
+     directory for inclusion in the minc library. The header files will
+     continue to be separate from minc.h
+
+Mon Jan 14 15:02:39 EST 2002
+   - Modified voxel_loop so that input buffers have a minimum size (1K 
+     voxels). This prevents large output images from forcing buffers to 
+     contain only one voxel when the requested memory is not large enough.
+
+Wed Jan  9 08:58:27 EST 2002
+   - Modified mincstats to only print a blank line after the histogram info
+     if -quiet is not specified.
+
+Fri Dec 14 12:12:42 EST 2001
+   - Removed rcsid variables from volume_io .h files.
+
+Mon Dec 10 09:11:58 EST 2001
+   - Sped up mincstats by only doing centre-of-mass summing when it is
+     needed (thanks to Andrew Janke for the suggestion).
+
+Thu Dec  6 16:55:50 EST 2001
+   - extensive modifications to mincstats to get it working properly and
+     to add support for multiple volume and mask ranges.
+
+Thu Dec  6 09:14:22 EST 2001
+   - Corrected return from mivar_exists in minc library to use MI_RETURN
+     so that ncopts is properly restored.
+
+Tue Dec  4 12:24:29 EST 2001
+   - No code changes, but checked in lex.c and gram.c in progs/minccalc.
+     This fixes an interaction problem between make and CVS. When
+     exporting the minc tree the file dates are set to the commit time. 
+     If the generated .c files were previously committed at the same time
+     as the generating files (.l and .y), then later makes on the exported
+     files might try to rebuild the .c files. Since these file dates tend 
+     to end up in the distribution, the distribution will not build cleanly
+     without bison and flex being installed.
+
+Wed Nov 28 10:36:13 EST 2001
+   - Removed limit on number of icv's that can exist at one time.
+     The definition of MI_MAX_NUM_ICV remains, but it is no longer
+     enforced.
+   - Added function set_minc_input_user_real_range to allow users
+     to set the scaling for input to integers. This forces the Volume
+     real range to a particular pair of values, rather than using the full 
+     range of the file.
+   - Added get_info_voxel_index to voxel_loop to allow users to get the
+     full multi-dimensional file index of the current voxel.
+   - Allow arg_string in voxel_loop to be NULL.
+
+Tue Nov 13 16:04:36 EST 2001
+   - Modified icv normalization handling in minc library. When the icv
+     type is floating point, normalization is always done (scaling to real 
+     values), regardless of the normalization setting. When the file type
+     is floating point, rescaling of internal integers are done using 
+     the slice real range (image-max/min). Thus image-max/min are only
+     completely ignored for integer to integer conversion. This fixes
+     some problems that appeared when converting from int to float or float 
+     to int with mincrehape.
+
+Tue Nov 13 09:17:17 EST 2001
+   - Added functions miget_image_range and mivar_exists to minc_convenience.c.
+   - In mincreshape, set output valid range correctly for conversion from 
+     int to float types.
+
+Wed Oct 31 14:40:30 EST 2001
+   - Fixed mincinfo printing of sign for default output. Change to
+     miget_datatype had messed this up.
+   - Changed names of macros _R and _P in volume_io/Include/geometry.h to 
+     avoid clashes with macro in ctype.h.
+
+Wed Oct 17 14:33:00 EDT 2001
+   - Modified miset_valid_range to write out valid_range as double in all
+     cases except float. Unfortunately, writing out values in a type that
+     matched the type of the image variable caused problems with programs
+     linked against old minc libraries.
+
+Tue Sep 18 11:47:13 EDT 2001
+   - In library function miset_valid_range, changed output type of 
+     valid_range from byte to short when image type is byte.
+
+Tue Sep 18 11:34:16 EDT 2001
+   - Always create image variable last in order to allow images > 2GB on
+     64-bit machines (offset to variable must be < 2GB, but size can be 
+     greater). This also fixes a compatibility problem between NetCDF 3.x 
+     and 2.3, in which 3.x can create files that cause 2.3-linked programs
+     to crash (when NC_NOFILL is set). Putting the image variable at the end
+     ensures that data is always written to the end of the file, assuming 
+     that the image data will always be completely written.
+
+Mon Aug 20 09:20:04 EDT 2001
+   - more fixes to valid_range handling functions
+   - added function miattget_with_sign
+
+Thu Aug 16 12:47:32 EDT 2001
+   - added library functions to handle reading and writing of valid_range
+     and reading of type and sign, as well as setting of default range
+     values for a given type. These routines properly handle type differences
+     between valid_range and the image variable. For the case of a float image
+     and a double valid_range attribute, valid data can go out of range 
+     and appear invalid through rounding in the conversion from double to 
+     float and back. Writing of the valid_range attribute now follows the
+     NetCDF convention of having the same type for variables and valid_range.
+     Modified volume_io, voxel_loop and programs to use these functions.
+   - modified minctoraw so that user must specify either -normalize or
+     -nonormalize
+
+Mon Aug 13 09:44:13 EDT 2001
+   - Changed use of floorf to floor in macro SCALAR_ROUND of node.h in
+     minccalc.
+   - Added invocation of ranlib when installing minc and volume_io libraries.
+
+************************************************************************
+
+Fri Aug 10 08:49:54 EDT 2001 *** RELEASE OF MINC 0.8
+
+Fri Aug 10 08:49:34 EDT 2001
+   - Fixed Makefiles in doc directories so that they build properly
+
+Tue Apr 24 14:18:07 EDT 2001
+   - Added minccalc from Andrew Janke to progs directory.
+
+Tue Apr 24 12:21:42 EDT 2001
+   - Fixed bug in execute_decompress_command in libsrc/netcdf_convenience.c
+     that caused multiple stdio buffer flushing when opening compressed files 
+     (particularly with mincinfo).
+   - Moved volume_io documentation build from doc directory to
+     volume_io/Documentation, and added install-docs target to
+     top-level Makefile.
+
+Tue Apr 24 09:43:38 EDT 2001
+   - Replaced NC_NAT by MI_ORIGINAL_TYPE since NC_NAT is not defined for
+     NetCDF 3.1-3.4. Because NC_NAT and NC_UNSPECIFIED are defined through
+     enums, they cannot be detected by the preprocessor. So we just define
+     MI_ORIGINAL_TYPE to the same value ((nc_type) 0).
+
+Mon Apr 23 09:20:36 EDT 2001
+   - Fixed volume_io/Volumes/output_mnc.c to pass cdfid to mivarput* instead
+     of minc_icv id (patch from Steve Robbins). Problems showed up when
+     used NetCDF 3.x
+
+Tue Apr 17 15:00:48 EDT 2001
+   - Modified to build with NetCDF 3.x.
+     Changed NC_LONG to NC_INT, as well as corresponding longs to ints.
+     Replaced NC_UNSPECIFIED with NC_NAT (not-a-type).
+     Changed volume_io to use UNSIGNED_INT instead of UNSIGNED_LONG.
+     Added appropriate definitions to support both of these with both
+     NetCDF 2.x and 3.x.
+     Changed error handling to be independent of NetCDF library apart
+     from use of ncopts and ncerr. Uses old style NetCDF2 error handling
+     still, but no longer makes use of NetCDF internals.
+     Removed all prototype wrappers to only support ANSI C.
+     Changed fortran build - no longer generate .c from .src with m4
+     since fortran support mechanism under NetCDF has changed. 
+     Keeping irix5 .c file for backwards compatibility. Only build when 
+     BUILD_FORTRAN is set to "yes".
+
+Mon Apr  2 11:35:29 EDT 2001
+   - Added -keep_real_range option to mincresample for resampling labels.
+
+Fri Nov  3 11:44:38 EST 2000
+   - Modified -dinsert option to minc_modify_header to allow multiple values.
+
+Tue Sep 19 11:37:41 EDT 2000
+   - Added option for user-defined allocation function to voxel_loop code
+   - Added LICENSE file to top-level directory
+
+Wed Sep 13 11:38:49 EDT 2000
+   - added bzip support (patches from Steve Robbins)
+   - modified TMPDIR to look in /var/tmp, /usr/tmp, /tmp in scripts
+     mincdiff, mincheader, mincview and mincedit (Steve Robbins)
+   - converted mincheader and mincdiff to Bourne shell (Steve Robbins)
+
+Fri Jul  7 09:34:17 EDT 2000
+   - added -filelist option to mincaverage, mincmath, mincconcat to read
+     input file names from a file. This gets around command-line length
+     limits.
+
+Wed Apr 26 15:36:04 EDT 2000
+   - modified mincinfo to handle multiple files (patch from Steve Robbins)
+
+Wed Apr  5 09:02:55 EDT 2000
+   - fixed bug in mincresample to properly handle valid fillvalues in slices
+     containing no original data.
+
+************************************************************************
+
+Tue Mar 21 10:03:15 EST 2000 *** RELEASE OF MINC 0.7
+
+Wed Feb  2 13:43:43 EST 2000
+   - modified miexpand_file in library so that fclose is not called with a
+     NULL fp when the file does not exist. This would cause a seg fault with
+     newer versions of glibc.
+
+Thu Jan 20 15:36:04 EST 2000
+   - Re-arranged headers in volume_io so that only volume_io.h needs to be 
+     on the search path. Other header files are installed in the 
+     volume_io subdirectory and found by volume_io.h. 
+     (Patch from Steve Robbins.)
+
+Tue Oct 19 14:45:27 1999
+   - Completed conversion from RCS to CVS
+
+Fri Oct 15 15:25:56 EST 1999
+   - Moved the Acr_nema libraries and conversion programs out of the minc
+     package.
+
+Fri Nov 13 11:02:51 EST 1998
+   - Modified acrnema library to support asynchronous transfers in the
+     client routines (allow sending of next message before receiving 
+     reply to previous one).
+
+Wed Nov 11 11:28:34 EST 1998
+   - Modifications to acrnema library: Added functions acr_find_group and 
+     acr_group_steal_element. Increased default buffer size to 64KB.
+
+Thu Feb 19 09:06:38 EDT 1998
+   - Fixes to internals of mincreshape that had not yet shown symptoms,
+     but appeared with insure++.
+
+Thu Aug 13 15:35:15 EDT 1998
+   - Modified mincconcat so that the coordinate variable corresponding
+     to the concatenation dimension is always created, subscripted
+     with by the dimension (like an irregularly-spaced
+     dimension). This is required by some programs that want all of
+     the time points (in particular) to be stored even for a
+     regularly-spaced dimension.
+
+Mon Jun 22 10:06:29 EDT 1998
+   - Fixed bug in rawtominc in handling of default types and signs. This
+     bug showed up when options -short and -scan_range were used with data 
+     containing negative values.
+
+Wed Apr 22 16:23:06 EDT 1998
+   - Fixed a bug in fortran test program minc_ftest.f in which an 
+     insufficient number of arguments were being passed to miclos.
+
+Mon Mar 23 15:17:49 EST 1998
+   - Moved some functions in the acr-nema library from one file to another.
+
+Tue Mar 17 12:05:43 EST 1998
+   - Modified acrnema library so that default maximum length for client
+     connections is 1MB to fix problems with servers that do not handle
+     maximum length 0 (unlimited).
+
+Tue Mar 10 12:07:28 EST 1998
+   - Fixed more bugs in acrnema library to prevent core dumps under Linux 
+     when a protocol error occurs while reading a message. Also fixed handling
+     of last fragment bit for DICOM command PDV's. Re-organized code to
+     use watchpoints more consistently in dicom_network.c
+
+Fri Feb 20 12:29:18 EST 1998
+   - Fixed bug in acrnema library (dicom_client_routines) that sometimes
+     caused write errors under irix 5.3.
+
+Thu Feb 19 10:05:34 EST 1998
+   - Minor bug fixes.
+
+Wed Feb 18 15:29:28 EST 1998
+   - Minor bug fixes in libacrnema.
+
+Mon Sep 29 08:24:20 EDT 1997
+   - Modified rawtominc so that its argument error messages are more explicit.
+
+Wed Sep 17 09:24:32 EDT 1997
+   - Modified gcomserver to do conversions to dicom and retransmit data
+     to a dicom server.
+
+************************************************************************
+
+Fri Sep 12 13:24:48 EDT 1997 *** RELEASE OF MINC 0.6
+
+Thu Sep 11 10:54:41 EDT 1997
+   - Copied in new version of volume_io. The version released with minc 0.5
+     was missing function set_volume_translation. It has been re-instated.
+
+Thu Sep 11 09:46:51 EDT 1997
+   - Modified gcomserver to have project file syntax that allows different
+     things to be done to the data. The old syntax is still supported.
+
+Wed Sep 10 15:31:27 EDT 1997
+   - Small modification to dicomserver (siemens_dicom_read.c) to 
+     set default direction cosines properly if they are absent from
+     the dicom data.
+
+Mon Sep 08 17:52:21 EDT 1997
+   - Added dicom client routines to acr_nema library.
+   - Added new status for connection timeout to acr_nema library.
+
+Tue Sep 02 18:52:12 EDT 1997
+   - Fixed acr_nema library (element.c) padding of UI-type elements
+     (pad with NUL instead of blank).
+
+************************************************************************
+
+Thu Aug 21 09:22:18 EDT 1997 *** RELEASE OF MINC 0.5
+
+Wed Aug 13 19:30:00 EDT 1997
+   - Changes to acr-nema library: Fixed bug that was causing the loss of
+     PDU items on read in dicom_network.c. Added function 
+     acr_group_remove_element to group.c.
+Wed Aug 13 12:09:37 EDT 1997
+   - Copied in new release of volume_io
+Wed Aug 13 11:44:38 EDT 1997
+   - Fixed initialization bug in mincresample that caused it to always
+     crash under Linux
+Tue Aug 12 11:44:38 EDT 1997
+   - Added new program mincmakevector for assembling a list of scalar
+     files into one vector file.
+Thu Aug  7 11:44:38 EDT 1997
+   - Added new program mincmakescalar for converting vector volumes
+     to scalar by various schemes.
+Fri Jun 20 09:59:47 EDT 1997
+   - Fixed bug in voxel_loop that affected mincconcat when concatenating
+     4D (or greater) files. Basically, when there are no output files
+     and accumulation is used, then an outer loop over files is done
+     (process each file in order). With 4D or greater input files, the first
+     volume of each file would be handled correctly, but subsequent volumes
+     would only have the last slice read in.
+Tue Jun  3 10:59:29 EDT 1997
+   - Really corrected dimension width suffix added by mincconcat. 
+     Changed to _width to -width (fix of Aug 27, 1996 was not complete)
+
+************************************************************************
+
+Wed May  7 16:05:05 EDT 1997 *** RELEASE OF MINC 0.4
+
+Wed May  7 15:09:58 EDT 1997
+   - Changed distribution script to use gzip instead of compress.
+Thu Apr 24 13:48:51 EDT 1997
+   - Added mincmath options: -maximum, -minimum, -abs, 
+     -illegal_value and -count_valid.
+Wed Apr 23 10:58:02 EDT 1997
+   - Added code to volume_io/Prog_utils/files.c to handle missing strerror
+     (on SunOS). Modified configure.in and Make_machine_specific.in to 
+     define constant in this case (through GLOBAL_CDEFINES).
+   - Fixed progs install so that directories with more than one binary 
+     will get them all installed under linux (bash seems to have a problem
+     with my Bourne shell code).
+   - Added dependencies for install targets. They were removed at one
+     point, but it seems safer to have them in. They'll probably disappear
+     at a later point, and perhaps I'll make a note of the reason...!
+   - Added options -maximum, -minimum, -abs, -illegal_value and -count_valid
+     to mincmath. Fixed handling of invalid or uninitialized data for
+     cumulative operations.
+Mon Apr 21 13:33:55 EDT 1997
+   - Fixed icv calculation of scale so that values are never re-scaled
+     from their internal "real" value to an external floating-point type
+     (or the other way around). Previously, this re-scaling could occur if
+     normalization was turned off and a valid range was set in the file.
+Thu Apr 17 14:45:18 EDT 1997
+   - Added option of setting BUILD_FORTRAN to "no" for configure.
+   - Moved building of volume_io documentations to docs directory.
+   - Added explicit path to run_tests script
+Thu Apr 10 15:23:32 EDT 1997
+   - Fixed icv handling of invalid data when the scale factor is zero. When
+     this happens fillvalue checking is turned on (for both input and
+     output) regardless of the user setting. This fixes problems when
+     mincmath is writing out a uniform image that contains invalid data
+     as well.
+   - Removed redefinition of NULL from library header file and added
+     casts to pointer types in places where it matters.
+Mon Mar 10 15:23:32 EDT 1997
+   - Updated ACR-NEMA library to handle dicom messages.
+Wed Jan 15 11:26:28 EST 1997
+   - Fixed small bug in test program minc_types.c so that handling of FLT_MAX
+     is done properly and output agrees with original output and
+Tue Jan 14 14:47:40 EST 1997
+   - Added Fortran wrappers miopn, micre and miclos
+Tue Jan  7 14:47:40 EST 1997
+   - Added -origin option to rawtominc.
+Tue Dec 10 09:30:21 EST 1996
+   - Modified top-level Makefile
+      - added targets libs, programs, test and docs
+      - default make no longer does make in docs directory
+Tue Aug 27 13:08:18 EDT 1996
+   - Corrected dimension width suffix added by mincconcat. Changed to _width 
+     to -width.
+Wed Jul 10 13:08:18 EDT 1996
+   - Modified minclookup:
+      - added output type options
+      - added -lut_string
+      - added handling of duplicate first or last lookup table entries
+      - added man page
+Wed Jun 19 14:26:33 EDT 1996
+   - Catch errors in opening file specified with -input for rawtominc
+Tue Jan 16 08:30:08 EST 1996
+   - Added -invert option to mincmath
+Wed Dec 13 08:47:26 EST 1995
+   - Added -check_dimensions and -nocheck_dimensions options to mincmath.
+   - Improved tmp dir cleanup in mincview when an error occurs.
+   - Small changes to minc_modify_header man page.
+Tue Dec 12 14:19:07 EST 1995
+   - Added convert_origin_to_start routines to Proglib to handle conversion
+     of a point to a start value given 3 direction cosines
+   - Modified mincresample:
+      - modified argument parsing so that only one pass is done
+      - changed default to transform input sampling when -transformation
+        is specified and added options -tfm_input_sampling (to get above 
+        behaviour) and -use_input_sampling (to get old behaviour).
+      - added -origin option to specify a coordinate instead of dimension
+        start values.
+      - added -standard_sampling option.
+      - added -invert_transformation option.
+      - added -spacetype, -talairach and -units options.
+Mon Nov 20 14:24:47 EST 1995
+   - Added -weights option to mincaverage.
+Thu Nov 16 13:11:16 EST 1995
+   - Include math.h in rawtominc, mincwindow, mincinfo, mincconcat 
+     and Acr_nema library to get declaration of strtod under SunOs.
+Wed Oct  4 19:05:25 EDT 1995
+   - Fixed default minimum for signed long.
+Fri Sep 29 12:59:06 EDT 1995
+   - Modified micopy_all_atts in library to handle MI_ERROR being passed
+     as a variable id.
+   - Fixed handling of image-min/max in mincconcat when the variables are
+     not present in the input files.
+Wed Aug  2 13:41:36
+   - Added -prefix option to gyrotominc.
+Fri Jun 16 08:28:39 EDT 1995
+   - Modified mincview so that file name appears in xv window frame.
+Tue Jun 13 16:44:28 EDT 1995
+   - Improved test for ANSI compiler in configure script. Check that
+     (signed char *) is handled properly (since the Solaris compiler
+     doesn't handle it from what I've been told).
+   - Improved configuration for fortran compilation. Set FORTRAN_SUBDIR
+     and FORTRAN_OBJ from configure only if f77 is found and the system
+     is irix.
+Mon Jun 12 13:32:53 EDT 1995
+   - Added MI_LABEL modality to minc.h
+   - Modified miexpand_file and miopen to try adding compression
+     extensions to filenames if the first open fails.

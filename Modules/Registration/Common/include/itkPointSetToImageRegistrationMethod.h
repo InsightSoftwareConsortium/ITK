@@ -188,8 +188,8 @@ protected:
   virtual void  GenerateData() ITK_OVERRIDE;
 
 private:
-  PointSetToImageRegistrationMethod(const Self &); //purposely not implemented
-  void operator=(const Self &);                    //purposely not implemented
+  PointSetToImageRegistrationMethod(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   MetricPointer          m_Metric;
   OptimizerType::Pointer m_Optimizer;

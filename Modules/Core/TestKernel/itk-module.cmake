@@ -5,19 +5,20 @@ system supporting ITK.")
 
 itk_module(ITKTestKernel
   DEPENDS
-    ITKIOBioRad
+    ITKIOImageBase
     ITKIOBMP
     ITKIOGDCM
     ITKIOGIPL
     ITKIOJPEG
-    ITKIOLSM
     ITKIOMeta
     ITKIONIFTI
     ITKIONRRD
     ITKIOPNG
-    ITKIOStimulate
     ITKIOTIFF
     ITKIOVTK
+  PRIVATE_DEPENDS
+    ITKCommon
+  COMPILE_DEPENDS
     ITKKWSys
     ITKDoubleConversion
   TEST_DEPENDS

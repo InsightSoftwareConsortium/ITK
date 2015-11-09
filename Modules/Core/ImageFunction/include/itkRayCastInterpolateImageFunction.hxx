@@ -295,6 +295,7 @@ void
 RayCastHelper< TInputImage, TCoordRep >
 ::Initialise(void)
 {
+  (void)InputImageDimension; // use member variable
   // Save the dimensions of the volume and calculate the bounding box
   this->RecordVolumeDimensions();
 
@@ -437,7 +438,7 @@ RayCastHelper< TInputImage, TCoordRep >
     m_BoundingPlane[j][2] = C / std::sqrt(A * A + B * B + C * C);
     m_BoundingPlane[j][3] = D / std::sqrt(A * A + B * B + C * C);
 
-    if ( ( A * A + B * B + C * C ) == 0 )
+    if ( itk::Math::AlmostEquals( ( A * A + B * B + C * C ), itk::NumericTraits< double >::ZeroValue() ) )
       {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);

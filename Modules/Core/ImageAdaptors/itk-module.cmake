@@ -5,10 +5,11 @@ ITK filter may imply. They are also very useful for implementing casting
 operations on the fly.")
 
 itk_module(ITKImageAdaptors
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKCommon
   TEST_DEPENDS
     ITKTestKernel
+    ITKCommon
   DESCRIPTION
   "${DOCUMENTATION}"
 )

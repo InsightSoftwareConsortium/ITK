@@ -76,7 +76,7 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
-  // itkNewMacro() is purposely not provided since this is an abstract class.
+  // itkNewMacro() is not provided since this is an abstract class.
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(RegionBasedLevelSetFunction, FiniteDifferenceFunction);
@@ -171,7 +171,7 @@ public:
       }
   }
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   void SetSharedData(SharedDataPointer sharedDataIn)
   {
     this->m_SharedData = sharedDataIn;
@@ -417,8 +417,8 @@ protected:
   static VectorType m_ZeroVectorConstant;
 
 private:
-  RegionBasedLevelSetFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  RegionBasedLevelSetFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

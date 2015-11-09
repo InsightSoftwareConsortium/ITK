@@ -91,8 +91,8 @@ protected:
   void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  BoxMeanImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  BoxMeanImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };                                  // end of class
 } // end namespace itk
 

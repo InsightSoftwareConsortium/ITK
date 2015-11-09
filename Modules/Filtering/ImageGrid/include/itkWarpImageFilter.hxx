@@ -23,6 +23,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageAlgorithm.h"
 #include "itkNumericTraits.h"
+#include "itkDefaultConvertPixelTraits.h"
 #include "itkProgressReporter.h"
 #include "itkContinuousIndex.h"
 #include "vnl/vnl_math.h"
@@ -43,7 +44,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
   m_OutputSize.Fill(0);
-  m_EdgePaddingValue = NumericTraits< PixelType >::ZeroValue();
+  m_EdgePaddingValue = NumericTraits< PixelType >::ZeroValue(m_EdgePaddingValue);
   m_OutputStartIndex.Fill(0);
   // Setup default interpolator
   typename DefaultInterpolatorType::Pointer interp =
@@ -179,6 +180,28 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     }
   DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
+  unsigned int numberOfComponents = DefaultConvertPixelTraits<PixelType>::GetNumberOfComponents(m_EdgePaddingValue);
+
+  if( numberOfComponents != this->GetInput()->GetNumberOfComponentsPerPixel() )
+    {
+    PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(zeroComponent);
+    numberOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+    NumericTraits<PixelType>::SetLength(m_EdgePaddingValue,numberOfComponents);
+
+    for( unsigned int n = 0; n < numberOfComponents; ++n )
+      {
+      DefaultConvertPixelTraits<PixelType>::SetNthComponent(n,m_EdgePaddingValue,zeroComponent);
+      }
+    }
+
+  if( NumericTraits<PixelType>::GetLength(m_EdgePaddingValue) != this->GetInput()->GetNumberOfComponentsPerPixel() )
+    {
+    // Assume EdgePaddingValue has not been set externally
+    // initialize it here with ZeroValue, when we know the number of components
+    const PixelType& pixel = this->GetInput()->GetPixel( this->GetInput()->GetBufferedRegion().GetIndex() );
+    m_EdgePaddingValue = NumericTraits<PixelType>::ZeroValue( pixel );
+    }
+
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
 
@@ -208,10 +231,19 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::EvaluateDisplacementAtPhysicalPoint(const PointType & point, DisplacementType &output)
+::EvaluateDisplacementAtPhysicalPoint(const PointType & point, DisplacementType & output)
 {
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+    this->EvaluateDisplacementAtPhysicalPoint(point, this->GetDisplacementField(), output);
+}
 
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+void
+WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
+::EvaluateDisplacementAtPhysicalPoint(
+  const PointType & point,
+  const DisplacementFieldType * fieldPtr,
+  DisplacementType & output)
+{
   ContinuousIndex< double, ImageDimension > index;
   fieldPtr->TransformPhysicalPointToContinuousIndex(point, index);
   unsigned int dim;  // index over dimension
@@ -281,9 +313,9 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     // get neighbor value only if overlap is not zero
     if ( overlap )
       {
-      const DisplacementType input =
-        fieldPtr->GetPixel(neighIndex);
-      for ( unsigned int k = 0; k < ImageDimension; k++ )
+      const DisplacementType input = fieldPtr->GetPixel(neighIndex);
+      const unsigned int displacementComponent = NumericTraits<DisplacementType>::GetLength(input);
+      for ( unsigned int k = 0; k < displacementComponent; ++k )
         {
         output[k] += overlap * static_cast< double >( input[k] );
         }
@@ -308,9 +340,8 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType threadId)
 {
-  InputImageConstPointer  inputPtr = this->GetInput();
-  OutputImagePointer      outputPtr = this->GetOutput();
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  OutputImageType             *outputPtr = this->GetOutput();
+  const DisplacementFieldType *fieldPtr = this->GetDisplacementField();
 
   // support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
@@ -325,7 +356,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   if ( this->m_DefFieldSameInformation )
     {
     // iterator for the deformation field
-    ImageRegionIterator< DisplacementFieldType >
+    ImageRegionConstIterator< DisplacementFieldType >
     fieldIt(fieldPtr, outputRegionForThread);
 
     while ( !outputIt.IsAtEnd() )
@@ -367,7 +398,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       index = outputIt.GetIndex();
       outputPtr->TransformIndexToPhysicalPoint(index, point);
 
-      this->EvaluateDisplacementAtPhysicalPoint(point, displacement);
+      this->EvaluateDisplacementAtPhysicalPoint(point, fieldPtr, displacement);
       // compute the required input image point
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {

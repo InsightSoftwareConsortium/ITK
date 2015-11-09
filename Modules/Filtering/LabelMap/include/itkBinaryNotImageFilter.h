@@ -152,8 +152,8 @@ protected:
     }
 
 private:
-  BinaryNotImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BinaryNotImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   PixelType m_ForegroundValue;
   PixelType m_BackgroundValue;

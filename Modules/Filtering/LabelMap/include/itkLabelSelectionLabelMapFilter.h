@@ -126,8 +126,8 @@ protected:
   ~LabelSelectionLabelMapFilter() {};
 
 private:
-  LabelSelectionLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  LabelSelectionLabelMapFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 }; // end of class
 

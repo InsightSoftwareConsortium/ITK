@@ -187,7 +187,7 @@ public:
    * allocated yet. */
   void SetPixel(const IndexType & index, const TPixel & value)
   {
-    OffsetValueType offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->FastComputeOffset(index);
     ( *m_Buffer )[offset] = value;
   }
 
@@ -197,7 +197,7 @@ public:
    * image has actually been allocated yet. */
   const TPixel & GetPixel(const IndexType & index) const
   {
-    OffsetValueType offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->FastComputeOffset(index);
     return ( ( *m_Buffer )[offset] );
   }
 
@@ -207,7 +207,7 @@ public:
    * image has actually been allocated yet. */
   TPixel & GetPixel(const IndexType & index)
   {
-    OffsetValueType offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->FastComputeOffset(index);
     return ( ( *m_Buffer )[offset] );
   }
 
@@ -286,8 +286,8 @@ protected:
   virtual ~SpecialCoordinatesImage() {}
 
 private:
-  SpecialCoordinatesImage(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  SpecialCoordinatesImage(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;

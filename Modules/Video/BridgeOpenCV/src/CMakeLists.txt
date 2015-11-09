@@ -4,9 +4,6 @@ itkOpenCVVideoIOFactory.cxx
 )
 
 add_library(ITKVideoBridgeOpenCV ${ITKVideoBridgeOpenCV_SRC})
-target_link_libraries(ITKVideoBridgeOpenCV
-  ITKVideoCore
-  ITKVideoIO
-  ${OpenCV_LIBS}
-)
+itk_module_link_dependencies()
+target_link_libraries(ITKVideoBridgeOpenCV LINK_PUBLIC ${OpenCV_LIBS})
 itk_module_target(ITKVideoBridgeOpenCV)

@@ -243,7 +243,7 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(QuadEdgeMesh, Mesh);
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   /** FrontIterator definitions */
   itkQEDefineFrontIteratorMethodsMacro(Self);
 #endif
@@ -283,7 +283,7 @@ public:
   /** overloaded method for backward compatibility */
   void BuildCellLinks() {}
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   /** overloaded method for backward compatibility */
   void SetBoundaryAssignments(int dimension,
                               BoundaryAssignmentsContainer *container)
@@ -505,8 +505,8 @@ protected:
   CellsContainerPointer m_EdgeCellsContainer;
 
 private:
-  QuadEdgeMesh(const Self &);     //purposely not implemented
-  void operator=(const Self &);   //purposely not implemented
+  QuadEdgeMesh(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   CellIdentifier m_NumberOfFaces;
   CellIdentifier m_NumberOfEdges;

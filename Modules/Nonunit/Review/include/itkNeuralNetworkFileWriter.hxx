@@ -18,7 +18,6 @@
 #ifndef itkNeuralNetworkFileWriter_hxx
 #define itkNeuralNetworkFileWriter_hxx
 
-#include "itksys/ios/sstream"
 #include "itkNeuralNetworkFileWriter.h"
 
 namespace itk

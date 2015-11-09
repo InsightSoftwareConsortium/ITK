@@ -93,8 +93,8 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  PeakSignalToNoiseRatioCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&);                   //purposely not implemented
+  PeakSignalToNoiseRatioCalculator(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   bool   m_Valid;                              // Have moments been computed
                                                // yet?

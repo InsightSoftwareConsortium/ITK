@@ -139,7 +139,7 @@ CellInterface< TPixelType, TCellTraits >
   return static_cast< unsigned int >( m_UsingCells.size() );
 }
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 
 /**
  * Get a begin iterator for the UsingCellsContainer.

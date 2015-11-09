@@ -135,8 +135,8 @@ protected:
   virtual ~InvertIntensityImageFilter() {}
 
 private:
-  InvertIntensityImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  InvertIntensityImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   InputPixelType m_Maximum;
 };

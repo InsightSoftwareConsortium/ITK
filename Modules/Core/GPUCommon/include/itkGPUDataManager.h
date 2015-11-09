@@ -123,7 +123,7 @@ protected:
 
 private:
 
-  GPUDataManager(const Self&);   //purposely not implemented
+  GPUDataManager(const Self&) ITK_DELETE_FUNCTION;
   void operator=(const Self&);
 
 protected:

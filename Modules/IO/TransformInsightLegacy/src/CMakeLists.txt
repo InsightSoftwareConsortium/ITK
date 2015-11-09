@@ -3,6 +3,5 @@ itkTxtTransformIOFactory.cxx
 )
 
 add_library(ITKIOTransformInsightLegacy ${ITKIOTransformInsightLegacy_SRC})
-target_link_libraries(ITKIOTransformInsightLegacy
-  ${ITKIOTransformBase_LIBRARIES} ${ITKDoubleConversion_LIBRARIES})
+itk_module_link_dependencies()
 itk_module_target(ITKIOTransformInsightLegacy)

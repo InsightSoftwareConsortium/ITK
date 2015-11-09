@@ -19,6 +19,7 @@
 #include "itkSymmetricSigmoidTransferFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
 #include "itkListSample.h"
+#include "itkMath.h"
 #include <fstream>
 
 #define ROUND(x) (floor(x+0.5))
@@ -156,11 +157,11 @@ QPropXORTest1(int argc, char* argv[])
         {
         flag = 1;
         }
-      if (flag == 1 && tv[0] == 0.5)
+      if (flag == 1 &&  itk::Math::AlmostEquals(tv[0], 0.5) )
         {
         ++error1;
         }
-      else if (flag == 1 && tv[0] == -0.5)
+      else if (flag == 1 &&  itk::Math::AlmostEquals(tv[0], -0.5) )
         {
         ++error2;
         }

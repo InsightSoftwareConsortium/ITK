@@ -28,6 +28,7 @@
 #include "itkMultiThreader.h"
 #include "itkNumericTraits.h"
 #include <iostream>
+#include <string>
 #include "vcl_algorithm.h"
 
 #if defined(ITK_USE_PTHREADS)
@@ -178,7 +179,7 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
    * environmental variable "NSLOTS" by default
    */
   std::vector<std::string> ITK_NUMBER_OF_THREADS_ENV_LIST;
-  itksys_stl::string       itkNumberOfThreadsEvnListString = "";
+  std::string       itkNumberOfThreadsEvnListString = "";
   if( itksys::SystemTools::GetEnv("ITK_NUMBER_OF_THREADS_ENV_LIST",
                                   itkNumberOfThreadsEvnListString) )
     {
@@ -202,7 +203,7 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
       }
     }
   // first, check for environment variable
-  itksys_stl::string itkGlobalDefaultNumberOfThreadsEnv = "0";
+  std::string itkGlobalDefaultNumberOfThreadsEnv = "0";
   for( std::vector<std::string>::const_iterator lit = ITK_NUMBER_OF_THREADS_ENV_LIST.begin();
        lit != ITK_NUMBER_OF_THREADS_ENV_LIST.end();
        ++lit )

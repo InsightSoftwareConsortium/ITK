@@ -105,8 +105,11 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   FilterType::ArrayType ncps;
   ncps.Fill( 4 );
   filter->SetNumberOfControlPoints( ncps );
-  filter->SetNumberOfLevels( 5 );
-  filter->SetGenerateOutputImage( false );
+
+  // We set an extreme number of levels to show how this
+  // fails because of the choice of B-spline epsilon
+  filter->SetNumberOfLevels( 15 );
+  filter->SetGenerateOutputImage( true );
 
   try
     {

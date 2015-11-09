@@ -285,7 +285,7 @@ TreeNode< TValue >
 }
 
 /** Get children given a name and a depth */
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 template< typename TValue >
 typename TreeNode< TValue >::ChildrenListType *
 TreeNode< TValue >

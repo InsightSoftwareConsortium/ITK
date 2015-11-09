@@ -105,8 +105,8 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  MaximumRatioDecisionRule(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  MaximumRatioDecisionRule(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PriorProbabilityVectorType m_PriorProbabilities;
 

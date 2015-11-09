@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 
+#include "itkMath.h"
 #include "itkDerivativeOperator.h"
 
 namespace itk {
@@ -31,7 +32,7 @@ public:
     {
     CoefficientVector coefficients = this->GenerateCoefficients();
 
-    if( expected.size() != coefficients.size() )
+    if( itk::Math::NotAlmostEquals( expected.size(), coefficients.size() ) )
       {
       std::cerr << "Wrong coefficient vector size" << std::endl;
       std::cerr << "expected " << expected.size() << std::endl;
@@ -41,7 +42,7 @@ public:
 
     for( unsigned int i=0; i < expected.size(); i++ )
       {
-      if( expected[i] != coefficients[i] )
+      if( itk::Math::NotAlmostEquals( expected[i], coefficients[i] ) )
         {
         std::cerr << "Wrong coefficient value at " << i << std::endl;
         std::cerr << "expected " << expected[i] << std::endl;

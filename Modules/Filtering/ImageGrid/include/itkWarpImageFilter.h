@@ -114,6 +114,7 @@ public:
   typedef typename OutputImageType::IndexValueType    IndexValueType;
   typedef typename OutputImageType::SizeType          SizeType;
   typedef typename OutputImageType::PixelType         PixelType;
+  typedef typename OutputImageType::InternalPixelType PixelComponentType;
   typedef typename OutputImageType::SpacingType       SpacingType;
 
   /** Determine the image dimension. */
@@ -240,7 +241,7 @@ public:
   itkConceptMacro( SameDimensionCheck2,
                    ( Concept::SameDimension< ImageDimension, DisplacementFieldDimension > ) );
   itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
+                   ( Concept::HasNumericTraits< typename TInputImage::InternalPixelType > ) );
   itkConceptMacro( DisplacementFieldHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename TDisplacementField::PixelType::ValueType > ) );
   // End concept checking
@@ -268,16 +269,27 @@ protected:
 
   /** This function should be in an interpolator but none of the ITK
    * interpolators at this point handle edge conditions properly
+   *
+   * If this method is called in a loop, the
+   * EvaluateDisplacementAtPhysicalPoint(const PointType &, const DisplacementFieldType *, DisplacementType &)
+   * overload will offer better performance. The displacement field
+   * can be obtained using the GetDisplacementField() method
    */
-  void EvaluateDisplacementAtPhysicalPoint(const PointType & p, DisplacementType &output);
+  void EvaluateDisplacementAtPhysicalPoint(const PointType & p, DisplacementType & output);
+
+  /** This function should be in an interpolator but none of the ITK
+   * interpolators at this point handle edge conditions properly
+   */
+  void EvaluateDisplacementAtPhysicalPoint(const PointType & p, const DisplacementFieldType * fieldPtr,
+                                           DisplacementType & output);
 
   bool                m_DefFieldSameInformation;
   // variables for deffield interpoator
   IndexType m_StartIndex, m_EndIndex;
 
 private:
-  WarpImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  WarpImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PixelType     m_EdgePaddingValue;
   SpacingType   m_OutputSpacing;

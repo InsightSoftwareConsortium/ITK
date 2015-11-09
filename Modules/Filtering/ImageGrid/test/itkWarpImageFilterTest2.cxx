@@ -20,6 +20,7 @@
 #include "itkStreamingImageFilter.h"
 
 #include "itkPipelineMonitorImageFilter.h"
+#include "itkMath.h"
 
 typedef itk::Image<float,3>                    ImageType;
 typedef itk::Image<itk::Vector<double,3> , 3 > DisplacementFieldType;
@@ -127,7 +128,7 @@ itkWarpImageFilterTest2(int, char * [])
       !it1.IsAtEnd() && !it2.IsAtEnd();
       ++it1, ++it2)
     {
-    if(it1.Value() != it2.Value())
+    if(itk::Math::NotAlmostEquals( it1.Value(), it2.Value() ))
       {
       std::cout << "Pixels differ " << it1.Value() << " "
                 << it2.Value()
@@ -165,7 +166,7 @@ itkWarpImageFilterTest2(int, char * [])
       !streamIt.IsAtEnd() && !it2.IsAtEnd();
       ++streamIt, ++it2)
     {
-    if(streamIt.Value() != it2.Value())
+    if(itk::Math::NotAlmostEquals( streamIt.Value(), it2.Value() ))
       {
       std::cout << "Pixels differ " << streamIt.Value() << " "
                 << it2.Value()

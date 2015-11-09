@@ -68,7 +68,7 @@ ScaleVersor3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 ScaleVersor3DTransform<TParametersValueType>
-::SetMatrix(const MatrixType & matrix, double itkNotUsed( tolerance ))
+::SetMatrix(const MatrixType & matrix, const TParametersValueType itkNotUsed( tolerance ))
 {
   // Any matrix should work - bypass orthogonality testing
   typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> Baseclass;
@@ -104,7 +104,7 @@ ScaleVersor3DTransform<TParametersValueType>
     norm = std::sqrt(norm);
     }
 
-  double epsilon = 1e-10;
+  const double epsilon = 1e-10;
   if( norm >= 1.0 - epsilon )
     {
     axis = axis / ( norm + epsilon * norm );

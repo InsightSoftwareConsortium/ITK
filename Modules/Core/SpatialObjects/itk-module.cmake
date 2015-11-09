@@ -6,13 +6,16 @@ approximations of shape by combining them into hierarchical structures similar
 to scene graphs.")
 
 itk_module(ITKSpatialObjects
-  DEPENDS
-    ITKImageFunction
+  PRIVATE_DEPENDS
     ITKMesh
-    ITKIOImageBase
+    ITKCommon
+  COMPILE_DEPENDS
+    ITKImageFunction
     ITKMetaIO
   TEST_DEPENDS
     ITKTestKernel
+    ITKMetaIO
+    ITKMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )

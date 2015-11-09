@@ -18,6 +18,7 @@
 #include "itkTDistribution.h"
 #include "itkGaussianDistribution.h"
 #include "vnl/vnl_erf.h"
+#include "itkMath.h"
 
 extern "C" double dbetai_(double *x, double *pin, double *qin);
 
@@ -42,7 +43,7 @@ TDistribution
 
   if ( m_Parameters.GetSize() > 0 )
     {
-    if ( m_Parameters[0] != static_cast< double >( dof ) )
+    if ( Math::NotExactlyEquals(m_Parameters[0], static_cast< double >( dof )) )
       {
       modified = true;
       }

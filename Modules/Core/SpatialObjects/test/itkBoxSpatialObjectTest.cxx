@@ -85,10 +85,10 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   std::cout << box2->GetBoundingBox()->GetBounds() << std::endl;
   BoxType::BoundingBoxType * boundingBox = box1->GetBoundingBox();
 
-  if(     (boundingBox->GetBounds()[0] != 29)
-      ||  (boundingBox->GetBounds()[1] != 59)
-      ||  (boundingBox->GetBounds()[2] != 29)
-      ||  (boundingBox->GetBounds()[3] != 59) )
+  if(     itk::Math::NotAlmostEquals(boundingBox->GetBounds()[0], 29)
+      ||  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[1], 59)
+      ||  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2], 29)
+      ||  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[3], 59) )
     {
     std::cout << "[FAILED] Test returned" << std::endl;
     std::cout << box1->GetBoundingBox()->GetBounds() << std::endl;
@@ -97,10 +97,10 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
     }
 
   BoxType::BoundingBoxType * boundingBox2 = box2->GetBoundingBox();
-  if(     (boundingBox2->GetBounds()[0] != 50)
-      ||  (boundingBox2->GetBounds()[1] != 80)
-      ||  (boundingBox2->GetBounds()[2] != 50)
-      ||  (boundingBox2->GetBounds()[3] != 80) )
+  if(     itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[0], 50)
+      ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[1], 80)
+      ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[2], 50)
+      ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[3], 80) )
     {
     std::cout << "[FAILED] Test returned" << std::endl;
     std::cout << box2->GetBoundingBox()->GetBounds() << std::endl;

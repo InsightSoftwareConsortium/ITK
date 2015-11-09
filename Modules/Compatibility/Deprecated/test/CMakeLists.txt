@@ -82,12 +82,12 @@ create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
 )
 add_library(ITKAnalyzeIO-TestHelper itkAnalyzeImageIOTestHelper.cxx)
 itk_module_target_label(ITKAnalyzeIO-TestHelper)
-target_link_libraries(ITKAnalyzeIO-TestHelper  ${ITKDeprecated_LIBRARIES})
+target_link_libraries(ITKAnalyzeIO-TestHelper LINK_PRIVATE ${ITKDeprecated_LIBRARIES} itksys ${ITKZLIB_LIBRARIES})
 
 list(APPEND ITKDeprecated-Test_LIBRARIES ITKAnalyzeIO-TestHelper)
 add_executable(DeprecatedIOTestDriver DeprecatedIOTestDriver.cxx  ${DeprecatedIOTests})
 itk_module_target_label(DeprecatedIOTestDriver)
-target_link_libraries(DeprecatedIOTestDriver ${ITKDeprecated-Test_LIBRARIES})
+target_link_libraries(DeprecatedIOTestDriver LINK_PUBLIC ${ITKDeprecated-Test_LIBRARIES})
 
 
 ##Analyze Test Suite
@@ -157,17 +157,17 @@ itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection002Test
 
 ## The following an expample of how to write a program that uses the deprecated AnalyzeIO class.
 add_executable(ConvertAnalyzeFile ConvertAnalyzeFile.cxx)
-target_link_libraries(ConvertAnalyzeFile ${ITKDeprecated-Test_LIBRARIES})
+target_link_libraries(ConvertAnalyzeFile LINK_PUBLIC ${ITKDeprecated-Test_LIBRARIES})
 
 ## The following example showed how to deform a MeshModel
 add_executable(DeformableModel1 DeformableModel1.cxx )
-target_link_libraries(DeformableModel1 ${ITKDeprecated-Test_LIBRARIES})
+target_link_libraries(DeformableModel1 LINK_PUBLIC ${ITKDeprecated-Test_LIBRARIES})
 
 add_executable(DeformableModel2 DeformableModel2.cxx )
-target_link_libraries(DeformableModel2 ${ITKDeprecated-Test_LIBRARIES})
+target_link_libraries(DeformableModel2 LINK_PUBLIC ${ITKDeprecated-Test_LIBRARIES})
 
 # temporary solution for all print tests. Each module should have its own print test later.
 add_executable(itkDeprecatedPrintTest  itkDeprecatedPrintTest.cxx)
 itk_module_target_label(itkDeprecatedPrintTest)
-target_link_libraries(itkDeprecatedPrintTest ${ITKDeprecated-Test_LIBRARIES})
+target_link_libraries(itkDeprecatedPrintTest LINK_PUBLIC ${ITKDeprecated-Test_LIBRARIES})
 itk_add_test(NAME itkDeprecatedPrintTest COMMAND itkDeprecatedPrintTest)

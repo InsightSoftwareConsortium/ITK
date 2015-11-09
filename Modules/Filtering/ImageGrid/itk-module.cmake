@@ -4,9 +4,8 @@ image, permuting axis, padding, cropping, pasting, tiling, resampling,
 shrinking, and changing its origin or spacing or orientation.")
 
 itk_module(ITKImageGrid
-  DEPENDS
+  COMPILE_DEPENDS
     ITKImageFunction
-    ITKImageFilterBase
   TEST_DEPENDS
     ITKTestKernel
     ITKSmoothing

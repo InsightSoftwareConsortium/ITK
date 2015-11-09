@@ -28,6 +28,9 @@ set(ITK_LEGACY_SILENT "@ITK_LEGACY_SILENT@")
 # Remove code that will become legacy in future releases completely.
 set(ITK_FUTURE_LEGACY_REMOVE "@ITK_FUTURE_LEGACY_REMOVE@")
 
+# ITK's CMake directory with modules ITK uses.
+set(ITK_CMAKE_DIR "@ITK_CONFIG_CMAKE_DIR@")
+
 # The location of the UseITK.cmake file.
 set(ITK_USE_FILE "@ITK_USE_FILE@")
 

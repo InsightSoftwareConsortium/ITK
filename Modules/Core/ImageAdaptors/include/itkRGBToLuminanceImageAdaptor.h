@@ -94,8 +94,8 @@ protected:
   virtual ~RGBToLuminanceImageAdaptor() {}
 
 private:
-  RGBToLuminanceImageAdaptor(const Self &); //purposely not implemented
-  void operator=(const Self &);             //purposely not implemented
+  RGBToLuminanceImageAdaptor(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

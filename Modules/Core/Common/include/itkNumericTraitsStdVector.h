@@ -127,6 +127,10 @@ public:
     return b;
   }
 
+  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static const bool IsInteger = false;
+  static const bool IsComplex = false;
+
   /** Resize the input vector to the specified size */
   static void SetLength(std::vector< T > & m, const unsigned int s)
   {

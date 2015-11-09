@@ -78,8 +78,8 @@ protected:
   ~SinRegularizedHeavisideStepFunction();
 
 private:
-  SinRegularizedHeavisideStepFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                      //purposely not implemented
+  SinRegularizedHeavisideStepFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 }
 

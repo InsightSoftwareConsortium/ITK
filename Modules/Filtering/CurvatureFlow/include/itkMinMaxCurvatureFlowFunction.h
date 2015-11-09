@@ -99,8 +99,8 @@ protected:
   void InitializeStencilOperator();
 
 private:
-  MinMaxCurvatureFlowFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  MinMaxCurvatureFlowFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   RadiusValueType m_StencilRadius;
 

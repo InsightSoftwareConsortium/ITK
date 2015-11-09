@@ -229,7 +229,7 @@ public:
   virtual void SetStateToUninitialized();
 
   /** Set/Get the state of the filter. */
-#if !defined(CABLE_CONFIGURATION)
+#if !defined(ITK_WRAPPING_PARSER)
   itkSetMacro(State, FilterStateType);
   itkGetConstReferenceMacro(State, FilterStateType);
 #endif
@@ -340,8 +340,8 @@ protected:
   OutputImageType      *m_OutputImage;
 
 private:
-  PatchBasedDenoisingBaseImageFilter(const Self&); // purposely not implemented
-  void operator=(const Self&);                     // purposely not implemented
+  PatchBasedDenoisingBaseImageFilter(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
   FilterStateType m_State;

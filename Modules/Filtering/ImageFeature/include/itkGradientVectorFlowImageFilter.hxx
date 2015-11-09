@@ -59,7 +59,7 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
  *
  * See wikipedia article on Courant-Friedrichs-Lewy for more information.
  */
-  m_TimeStep = 1/(std::pow(2.0, ImageDimension) * m_NoiseLevel);
+  m_TimeStep = 1.0/((1 << ImageDimension) * m_NoiseLevel);
 
   int i = 0;
 

@@ -23,6 +23,7 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkGaussianDerivativeImageFunction.h"
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -240,7 +241,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
     found = false;
     for ( it_input.GoToBegin(); !it_input.IsAtEnd(); ++it_input )
       {
-      if ( it_input.Get() == max )
+      if ( Math::ExactlyEquals(it_input.Get(), max) )
         {
         // Create a Line Spatial Object
         CirclePointer Circle = CircleType::New();

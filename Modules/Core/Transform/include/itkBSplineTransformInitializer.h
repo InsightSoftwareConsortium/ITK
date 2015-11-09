@@ -103,10 +103,8 @@ protected:
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  BSplineTransformInitializer( const Self & ); //purposely not
-                                                         // implemented
-  void operator=( const Self & );                        //purposely not
-                                                         // implemented
+  BSplineTransformInitializer( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   ImagePointer                    m_Image;
   TransformPointer                m_Transform;

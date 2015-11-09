@@ -129,7 +129,7 @@ public:
    * else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix, double tolerance );
+  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance );
 
   /**
    * Compose the transformation with a translation
@@ -144,7 +144,9 @@ public:
    * Utility function to test if a matrix is orthogonal within a specified
    * tolerance
    */
-  bool MatrixIsOrthogonal(const MatrixType & matrix, double tolerance = 1e-10);
+  bool MatrixIsOrthogonal(const MatrixType & matrix,
+              const TParametersValueType tolerance =
+                  MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance());
 
 #ifdef ITKV3_COMPATIBILITY
   /** Get an inverse of this transform. */
@@ -215,8 +217,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  Rigid3DTransform(const Self &); //purposely not implemented
-  void operator=(const Self &);   //purposely not implemented
+  Rigid3DTransform(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };                                //class Rigid3DTransform
 }  // namespace itk
 

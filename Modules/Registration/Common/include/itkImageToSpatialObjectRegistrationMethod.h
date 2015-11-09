@@ -212,10 +212,8 @@ protected:
   ParametersType m_LastTransformParameters;
 
 private:
-  ImageToSpatialObjectRegistrationMethod(const Self &); //purposely not
-                                                        // implemented
-  void operator=(const Self &);                         //purposely not
-                                                        // implemented
+  ImageToSpatialObjectRegistrationMethod(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   MetricPointer          m_Metric;
   OptimizerType::Pointer m_Optimizer;

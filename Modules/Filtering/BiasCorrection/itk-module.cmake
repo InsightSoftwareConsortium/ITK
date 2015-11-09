@@ -6,18 +6,17 @@ uniform across the field of view.")
 
 itk_module(ITKBiasCorrection
   ENABLE_SHARED
-  DEPENDS
-    ITKImageFilterBase
+  PRIVATE_DEPENDS
+    ITKCommon
+  COMPILE_DEPENDS
+    ITKOptimizers
     ITKImageGrid
     ITKImageIntensity
     ITKPolynomials
-    ITKStatistics
-    ITKOptimizers
   TEST_DEPENDS
     ITKTestKernel
-    ITKImageSources
-    ITKImageIntensity
-    ITKImageGrid
+    ITKOptimizers
+    ITKPolynomials
     ITKThresholding
   DESCRIPTION
     "${DOCUMENTATION}"

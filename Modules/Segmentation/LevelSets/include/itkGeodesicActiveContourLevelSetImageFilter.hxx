@@ -19,6 +19,7 @@
 #define itkGeodesicActiveContourLevelSetImageFilter_hxx
 
 #include "itkGeodesicActiveContourLevelSetImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -53,7 +54,7 @@ GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputTyp
   // Make sure the SpeedImage is setup for the case when PropagationScaling
   // is zero
   if ( this->GetSegmentationFunction()
-       && this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
+       && Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
     {
     this->GetSegmentationFunction()->AllocateSpeedImage();
     this->GetSegmentationFunction()->CalculateSpeedImage();

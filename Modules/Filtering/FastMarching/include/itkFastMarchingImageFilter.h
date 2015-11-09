@@ -25,6 +25,7 @@
 
 #include <functional>
 #include <queue>
+#include "itkMath.h"
 
 namespace itk
 {
@@ -192,7 +193,7 @@ private:
 
     while( !b_it.IsAtEnd() )
       {
-      if( b_it.Get() == zero_value )
+      if( Math::ExactlyEquals(b_it.Get(), zero_value) )
         {
         if( NumberOfPoints == 0 )
           {
@@ -368,8 +369,8 @@ protected:
   itkGetConstReferenceMacro(LastIndex, LevelSetIndexType);
 
 private:
-  FastMarchingImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);          //purposely not implemented
+  FastMarchingImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   NodeContainerPointer m_AlivePoints;
   NodeContainerPointer m_TrialPoints;

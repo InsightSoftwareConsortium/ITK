@@ -561,8 +561,8 @@ protected:
 
 private:
 
-  SpatialObject(const Self &);  //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  SpatialObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   BoundingBoxPointer       m_Bounds;
   mutable ModifiedTimeType m_BoundsMTime;
@@ -612,7 +612,7 @@ private:
 };
 } // end of namespace itk
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSpatialObject.hxx"
 #endif

@@ -22,6 +22,9 @@
 #include "vnl/vnl_math.h"
 #include <cstring>
 #include <cstdlib>
+#include "itkIsBaseOf.h"
+#include "itkStaticAssert.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -37,10 +40,11 @@ VariableLengthVector< TValue >
 template< typename TValue >
 VariableLengthVector< TValue >
 ::VariableLengthVector(unsigned int length):
-  m_LetArrayManageMemory(true),
   m_Data(ITK_NULLPTR)
 {
   Reserve(length);
+  // postcondition(s)
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
 }
 
 /** Constructor with user specified data */
@@ -62,19 +66,114 @@ VariableLengthVector< TValue >
   m_NumElements = sz;
 }
 
-/** Copy constructer.. Override the default non-templated copy constructor
+/** Copy constructor. Overrides the default non-templated copy constructor
  * that the compiler provides */
 template< typename TValue >
 VariableLengthVector< TValue >
 ::VariableLengthVector(const VariableLengthVector< TValue > & v)
 {
   m_NumElements = v.Size();
-  m_Data = this->AllocateElements(m_NumElements);
   m_LetArrayManageMemory = true;
-  for ( ElementIdentifier i = 0; i < v.Size(); i++ )
+  if (m_NumElements != 0)
     {
-    this->m_Data[i] = v[i];
+    m_Data = this->AllocateElements(m_NumElements);
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data != ITK_NULLPTR);
+    std::copy(&v.m_Data[0], &v.m_Data[m_NumElements], &this->m_Data[0]);
     }
+  else
+    {
+    m_Data = ITK_NULLPTR;
+    }
+}
+
+#if defined(ITK_HAS_CXX11_RVREF)
+template< typename TValue >
+VariableLengthVector< TValue >
+::VariableLengthVector(Self && v) ITK_NOEXCEPT
+: m_LetArrayManageMemory(v.m_LetArrayManageMemory)
+, m_Data                (v.m_Data)
+, m_NumElements         (v.m_NumElements)
+{
+  v.m_LetArrayManageMemory = true;
+  v.m_Data                 = ITK_NULLPTR;
+  v.m_NumElements          = 0;
+}
+
+template< typename TValue >
+VariableLengthVector< TValue > &
+VariableLengthVector< TValue >
+::operator=(Self && v) ITK_NOEXCEPT
+{
+  itkAssertInDebugAndIgnoreInReleaseMacro(&v != this);
+
+  // Possible cases:
+  // - both are proxy
+  //   => a shallow assignment is enough
+  // - none are proxy
+  //   => this->m_Data is released, v content is stolen by *this
+  // - v is a proxy, but not *this
+  //   => Fall back to usual copy-assignement
+  // - *this is a proxy, but not v
+  //   => v content is stolen by *this, nothing to delete[]
+
+  if (!IsAProxy() && v.IsAProxy())
+    { // Fall back to usual copy-assignment
+    return *this = v;
+    }
+
+  // Delete old data, when data is stolen
+  if (!IsAProxy() && !v.IsAProxy())
+    {
+    delete[] m_Data;
+    }
+
+  // Shallow copy of the information
+  m_LetArrayManageMemory = v.m_LetArrayManageMemory;
+  m_Data                 = v.m_Data;
+  m_NumElements          = v.m_NumElements;
+
+  // Reset v to something assignable and destructible
+  // NB: It's not necessary to always reset v. The choice made is to avoid a
+  // test
+  v.m_LetArrayManageMemory = true;
+  v.m_Data                 = ITK_NULLPTR;
+  v.m_NumElements          = 0;
+
+  return *this;
+}
+
+#endif
+
+template< typename TValue >
+template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename  TBinaryOp>
+VariableLengthVector< TValue >
+::VariableLengthVector(VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const& rhs)
+{
+  m_NumElements = rhs.Size();
+  m_LetArrayManageMemory = true;
+  m_Data = this->AllocateElements(m_NumElements);
+  // allocate Elements post-condition
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
+  for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
+    {
+    this->m_Data[i] = static_cast<TValue>(rhs[i]);
+    }
+}
+
+template< typename TValue >
+template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename  TBinaryOp>
+VariableLengthVector< TValue > &
+VariableLengthVector< TValue >
+::operator=(VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const& rhs)
+{
+  ElementIdentifier const N = rhs.Size();
+  this->SetSize( N, DontShrinkToFit(), DumpOldValues() );
+  for ( ElementIdentifier i = 0; i < N; ++i )
+    {
+    this->m_Data[i] = static_cast<TValue>(rhs[i]);
+    }
+  return *this;
 }
 
 /** Destructor */
@@ -99,6 +198,8 @@ void VariableLengthVector< TValue >
     if ( size > m_NumElements )
       {
       TValue *temp = this->AllocateElements(size);
+      itkAssertInDebugAndIgnoreInReleaseMacro(temp);
+      itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data != ITK_NULLPTR));
       // only copy the portion of the data used in the old buffer
       std::copy(m_Data,
                 m_Data+m_NumElements,
@@ -118,6 +219,7 @@ void VariableLengthVector< TValue >
     m_NumElements = size;
     m_LetArrayManageMemory = true;
     }
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
 }
 
 /** Allocate memory of certain size and return it */
@@ -125,22 +227,17 @@ template< typename TValue >
 TValue *VariableLengthVector< TValue >
 ::AllocateElements(ElementIdentifier size) const
 {
-  TValue *data;
-
   try
     {
-    data = new TValue[size];
+    return new TValue[size];
     }
-  catch ( ... )
+  catch (...)
     {
-    data = ITK_NULLPTR;
-    }
-  if ( !data )
-    {
+    // Intercept std::bad_alloc and any exception thrown from TValue
+    // default constructor.
     itkGenericExceptionMacro(<< "Failed to allocate memory of length " << size
                              << " for VariableLengthVector.");
     }
-  return data;
 }
 
 /** Set the pointer from which the data is imported.
@@ -152,7 +249,7 @@ TValue *VariableLengthVector< TValue >
 template< typename TValue >
 void
 VariableLengthVector< TValue >
-::SetData(TValue *datain, bool LetArrayManageMemory)
+::SetData(TValue *datain, bool LetArrayManageMemory) ITK_NOEXCEPT
 {
   // Free any existing data if we manage its memory
   if ( m_LetArrayManageMemory )
@@ -176,7 +273,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 void
 VariableLengthVector< TValue >
-::SetData(TValue *datain, unsigned int sz, bool LetArrayManageMemory)
+::SetData(TValue *datain, unsigned int sz, bool LetArrayManageMemory) ITK_NOEXCEPT
 {
   // Free any existing data if we manage its memory
   if ( m_LetArrayManageMemory )
@@ -192,104 +289,110 @@ VariableLengthVector< TValue >
 
 template< typename TValue >
 void VariableLengthVector< TValue >
-::DestroyExistingData()
+::DestroyExistingData() ITK_NOEXCEPT
 {
-    // Free any existing data if we manage its memory.
-  if ( !m_LetArrayManageMemory )
-    {
-    m_Data = ITK_NULLPTR;
-    m_NumElements = 0;
-    return;
-    }
-
-  if ( m_Data )
-    {
-    if ( m_NumElements > 0 )
-      {
-      delete[] m_Data;
-      m_Data = ITK_NULLPTR;
-      m_NumElements = 0;
-      }
-    }
-}
-
-template< typename TValue >
-void VariableLengthVector< TValue >
-::SetSize(unsigned int sz, bool destroyExistingData)
-{
-  if ( destroyExistingData )
-    {
-    this->DestroyExistingData();
-    }
-
-  if ( !m_Data )
-    {
-    m_Data = this->AllocateElements(sz);
-    m_NumElements = sz;
-    m_LetArrayManageMemory = true;
-    return;
-    }
-
-  TValue *temp = this->AllocateElements(sz);
-
-  if ( sz > m_NumElements )
-    {
-    // only copy the portion of the data used in the old buffer
-    std::copy(m_Data,
-              m_Data+m_NumElements,
-              temp);
-    }
-  else
-    {
-    // only copy elements 0...size-1
-    std::copy(m_Data,
-              m_Data+sz,
-              temp);
-    }
-
+  // Free any existing data if we manage its memory.
   if ( m_LetArrayManageMemory )
     {
     delete[] m_Data;
     }
 
-  m_Data = temp;
-  m_LetArrayManageMemory = true;
+  m_Data = ITK_NULLPTR;
+  m_NumElements = 0;
+}
+
+template< typename TValue >
+template <typename TReallocatePolicy, typename TKeepValuesPolicy>
+void VariableLengthVector< TValue >
+::SetSize(unsigned int sz, TReallocatePolicy reallocatePolicy, TKeepValuesPolicy keepValues)
+{
+  itkStaticAssert(
+    (itk::mpl::IsBaseOf<AllocateRootPolicy, TReallocatePolicy>::Value),
+    "The allocation policy does not inherit from itk::VariableLengthVector::AllocateRootPolicy as expected");
+  itkStaticAssert(
+    (itk::mpl::IsBaseOf<KeepValuesRootPolicy, TKeepValuesPolicy>::Value),
+    "The old values keeping policy does not inherit from itk::VariableLengthVector::KeepValuesRootPolicy as expected");
+
+  if (reallocatePolicy(sz, m_NumElements) || ! m_LetArrayManageMemory)
+    {
+    TValue * temp = this->AllocateElements(sz); // may throw
+    itkAssertInDebugAndIgnoreInReleaseMacro(temp);
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0  && m_Data != ITK_NULLPTR));
+    keepValues(sz, m_NumElements, m_Data, temp); // possible leak if TValue copy may throw
+    // commit changes
+    if (m_LetArrayManageMemory)
+      {
+      delete[] m_Data;
+      }
+    m_Data = temp;
+    m_LetArrayManageMemory = true;
+    }
   m_NumElements = sz;
 }
 
 /** Set the all the elements of the array to the specified value */
 template< typename TValue >
 void VariableLengthVector< TValue >
-::Fill(TValue const & v)
+::Fill(TValue const & v) ITK_NOEXCEPT
 {
-  for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
-    {
-    this->m_Data[i] = v;
-    }
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data!=ITK_NULLPTR));
+  // VC++ version of std::fill_n() expects the output iterator to be valid
+  // instead of expecting the range [OutIt, OutIt+n) to be valid.
+  std::fill(&this->m_Data[0], &this->m_Data[m_NumElements], v);
 }
 
-/** Assignment operator */
+/** Copy-Assignment operator */
 template< typename TValue >
-const VariableLengthVector< TValue > &
+VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
 ::operator=(const Self & v)
 {
-  if ( this != &v )
+  // No self assignment test is done. Indeed:
+  // - the operator already resists self assignment through a strong exception
+  // guarantee
+  // - the test becomes a pessimization as we never write "v = v;".
+  ElementIdentifier const N = v.Size();
+  this->SetSize( N, DontShrinkToFit(), DumpOldValues() );
+
+  // VC++ version of std::copy expects the input range to be valid, and the
+  // output iterator as well (as it's a pointer, it's expected non null)
+  // Hence the manual loop instead
+  itkAssertInDebugAndIgnoreInReleaseMacro(N==0 || this->m_Data != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(N==0 || v.m_Data     != ITK_NULLPTR);
+  for (ElementIdentifier i=0; i!=N; ++i)
     {
-    this->SetSize( v.Size() );
-    for ( ElementIdentifier i = 0; i < v.Size(); i++ )
-      {
-      this->m_Data[i] = v[i];
-      }
+    this->m_Data[i] = v.m_Data[i];
     }
+
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_LetArrayManageMemory);
+  return *this;
+}
+
+/** Fast Assignment */
+template< typename TValue >
+inline
+VariableLengthVector< TValue > &
+VariableLengthVector< TValue >
+::FastAssign(const Self & v) ITK_NOEXCEPT
+{
+  itkAssertInDebugAndIgnoreInReleaseMacro(this->m_LetArrayManageMemory);
+  ElementIdentifier const N = v.Size();
+  itkAssertInDebugAndIgnoreInReleaseMacro(N > 0);
+  itkAssertInDebugAndIgnoreInReleaseMacro(N == this->Size());
+  // Redundant precondition checks
+  itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data     != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(this->m_Data != ITK_NULLPTR);
+
+  std::copy(&v.m_Data[0], &v.m_Data[N], &this->m_Data[0]);
+
   return *this;
 }
 
 /** Assignment operator */
 template< typename TValue >
-const VariableLengthVector< TValue > &
+VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
-::operator=(TValue const & v)
+::operator=(TValue const & v) ITK_NOEXCEPT
 {
   this->Fill(v);
   return *this;
@@ -298,7 +401,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
-::operator-()
+::operator-() ITK_NOEXCEPT
 {
   for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
     {
@@ -310,15 +413,15 @@ VariableLengthVector< TValue >
 template< typename TValue >
 bool
 VariableLengthVector< TValue >
-::operator==(const Self & v) const
+::operator==(const Self & v) const ITK_NOEXCEPT
 {
   if ( m_NumElements != v.Size() )
     {
     return false;
     }
-  for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
+  for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
     {
-    if ( m_Data[i] != v[i] )
+    if ( Math::NotExactlyEquals(m_Data[i], v[i]) )
       {
       return false;
       }
@@ -329,20 +432,9 @@ VariableLengthVector< TValue >
 template< typename TValue >
 bool
 VariableLengthVector< TValue >
-::operator!=(const Self & v) const
+::operator!=(const Self & v) const ITK_NOEXCEPT
 {
-  if ( m_NumElements != v.Size() )
-    {
-    return true;
-    }
-  for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
-    {
-    if ( m_Data[i] != v[i] )
-      {
-      return true;
-      }
-    }
-  return false;
+  return ! operator==( v );
 }
 
 /**
@@ -351,9 +443,10 @@ VariableLengthVector< TValue >
 template< typename TValue >
 typename VariableLengthVector< TValue >::RealValueType
 VariableLengthVector< TValue >
-::GetNorm(void) const
+::GetNorm(void) const ITK_NOEXCEPT
 {
-  return (RealValueType)( std::sqrt( double( this->GetSquaredNorm() ) ) );
+  using std::sqrt;
+  return static_cast<RealValueType>(sqrt( double( this->GetSquaredNorm() ) ) );
 }
 
 /**
@@ -362,17 +455,34 @@ VariableLengthVector< TValue >
 template< typename TValue >
 typename VariableLengthVector< TValue >::RealValueType
 VariableLengthVector< TValue >
-::GetSquaredNorm(void) const
+::GetSquaredNorm(void) const ITK_NOEXCEPT
 {
   RealValueType sum = 0.0;
 
-  for ( unsigned int i = 0; i < this->m_NumElements; i++ )
+  for ( ElementIdentifier i = 0; i < this->m_NumElements; ++i )
     {
     const RealValueType value = ( *this )[i];
     sum += value * value;
     }
   return sum;
 }
+
+template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
+typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
+VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
+::GetNorm() const ITK_NOEXCEPT
+{
+  return itk::GetNorm(*this);
+}
+
+template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
+typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
+VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
+::GetSquaredNorm() const ITK_NOEXCEPT
+{
+  return itk::GetSquaredNorm(*this);
+}
+
 } // namespace itk
 
 #endif

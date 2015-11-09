@@ -22,6 +22,7 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkImageFileWriter.h"
+#include "itkMath.h"
 
 
 namespace{
@@ -295,7 +296,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   unsigned int numPixelsDifferent = 0;
   while( !fixedIter.IsAtEnd() )
     {
-    if( fixedIter.Get() != warpedIter.Get() )
+    if( itk::Math::NotAlmostEquals( fixedIter.Get(), warpedIter.Get() ) )
       {
       numPixelsDifferent++;
       }

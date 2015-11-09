@@ -20,6 +20,7 @@
 
 #include "itkPadImageFilter.h"
 
+#include "itkMath.h"
 #include "itkConstantBoundaryCondition.h"
 
 namespace itk
@@ -84,7 +85,7 @@ public:
   /** Set/Get the pad value.  Default is Zero. */
   void SetConstant( OutputImagePixelType constant )
   {
-    if ( constant != m_InternalBoundaryCondition.GetConstant() )
+    if ( Math::NotExactlyEquals(constant, m_InternalBoundaryCondition.GetConstant()) )
       {
       m_InternalBoundaryCondition.SetConstant( constant );
       this->Modified();
@@ -114,8 +115,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ConstantPadImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);         //purposely not implemented
+  ConstantPadImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   ConstantBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
 };

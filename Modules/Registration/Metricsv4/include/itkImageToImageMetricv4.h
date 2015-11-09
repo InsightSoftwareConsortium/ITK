@@ -464,11 +464,6 @@ public:
   virtual void SetMaximumNumberOfThreads( const ThreadIdType threads );
   virtual ThreadIdType GetMaximumNumberOfThreads() const;
 
-  /** Initialize per-thread components for computing metric
-    * some threads require initialzation of temporary buffers
-    * per thread before processing each thread.
-    */
-  virtual void InitializeThread( const ThreadIdType /*threadId*/ ) { /*Do nothing by default */ }
   /**
     * Finalize the per-thread components for computing
     * metric.  Some threads can accumulate their data
@@ -752,8 +747,8 @@ private:
    *  GetValue implementation is improved. */
   mutable bool m_HaveMadeGetValueWarning;
 
-  ImageToImageMetricv4(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ImageToImageMetricv4(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Keep track of the number of sampled fixed points that are
    * deemed invalid during conversion to virtual domain.

@@ -18,6 +18,7 @@
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 #include "itkVectorImageToImageMetricTraitsv4.h"
+#include "itkMath.h"
 
 /* Simple test to verify that class builds and runs.
  * Results are not verified. See ImageToImageObjectMetricTest
@@ -176,7 +177,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
 
   /* Test same value returned by different methods */
   std::cout << "Check Value return values..." << std::endl;
-  if( valueReturn1 != valueReturn2 )
+  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturn2) )
     {
     std::cerr << "Results for Value don't match: " << valueReturn1
               << ", " << valueReturn2 << std::endl;

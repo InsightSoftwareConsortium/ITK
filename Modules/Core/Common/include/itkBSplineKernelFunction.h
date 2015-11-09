@@ -19,6 +19,7 @@
 #define itkBSplineKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -73,8 +74,8 @@ protected:
   }
 
 private:
-  BSplineKernelFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  BSplineKernelFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Structures to control overloaded versions of Evaluate */
   struct DispatchBase {};
@@ -89,7 +90,7 @@ private:
       {
       return NumericTraits< TRealValueType >::OneValue();
       }
-    else if ( absValue == static_cast< TRealValueType >(0.5) )
+    else if ( Math::ExactlyEquals(absValue, static_cast< TRealValueType >(0.5)) )
       {
       return static_cast< TRealValueType >(0.5);
       }

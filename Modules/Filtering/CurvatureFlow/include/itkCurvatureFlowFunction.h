@@ -140,8 +140,8 @@ protected:
   ~CurvatureFlowFunction() {}
 
 private:
-  CurvatureFlowFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  CurvatureFlowFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   TimeStepType m_TimeStep;
 };

@@ -1,6 +1,6 @@
 itk_wrap_module(ITKCurvatureFlow)
 
-set(WRAPPER_LIBRARY_GROUPS
+set(WRAPPER_SUBMODULE_ORDER
   itkCurvatureFlowImageFilter
   itkMinMaxCurvatureFlowImageFilter
 )

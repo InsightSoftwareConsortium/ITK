@@ -277,8 +277,8 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  ExtractImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  ExtractImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   DIRECTIONCOLLAPSESTRATEGY m_DirectionCollapseStrategy;
 };

@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkSample.h"
 #include "itkObjectFactory.h"
+#include "itkMath.h"
 
 namespace itk {
 namespace Statistics {
@@ -161,7 +162,7 @@ int itkSampleTest(int, char* [] )
 
   for( unsigned int j=0; j<MeasurementVectorSize; j++)
     {
-    if( measureBack[j] != measure[j] )
+    if( itk::Math::NotExactlyEquals(measureBack[j], measure[j]) )
       {
       std::cerr << "Error in Set/Get MeasurementVector()" << std::endl;
       return EXIT_FAILURE;

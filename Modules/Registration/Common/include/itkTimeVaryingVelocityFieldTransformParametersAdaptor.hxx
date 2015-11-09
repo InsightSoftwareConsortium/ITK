@@ -23,6 +23,7 @@
 #include "itkIdentityTransform.h"
 #include "itkVectorResampleImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -49,7 +50,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   bool isModified = false;
   for( SizeValueType d = 0; d < TotalDimension; d++ )
     {
-    if( this->m_RequiredFixedParameters[d] != size[d] )
+    if( Math::NotExactlyEquals(this->m_RequiredFixedParameters[d], size[d]) )
       {
       isModified = true;
       }
@@ -84,7 +85,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   bool isModified = false;
   for( SizeValueType d = 0; d < TotalDimension; d++ )
     {
-    if( this->m_RequiredFixedParameters[TotalDimension + d] != origin[d] )
+    if( Math::NotExactlyEquals(this->m_RequiredFixedParameters[TotalDimension + d], origin[d]) )
       {
       isModified = true;
       }
@@ -119,7 +120,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   bool isModified = false;
   for( SizeValueType d = 0; d < TotalDimension; d++ )
     {
-    if( this->m_RequiredFixedParameters[2*TotalDimension + d] != spacing[d] )
+    if( Math::NotExactlyEquals(this->m_RequiredFixedParameters[2*TotalDimension + d], spacing[d]) )
       {
       isModified = true;
       }
@@ -156,7 +157,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
     {
     for( SizeValueType dj = 0; dj < TotalDimension; dj++ )
       {
-      if( this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )] != direction[di][dj] )
+      if( Math::NotExactlyEquals(this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )], direction[di][dj]) )
         {
         isModified = true;
         }

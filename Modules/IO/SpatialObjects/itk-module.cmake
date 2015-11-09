@@ -6,12 +6,16 @@ format.")
 
 
 itk_module(ITKIOSpatialObjects
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKSpatialObjects
     ITKIOXML
-    ITKIOImageBase
+    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
+    ITKSpatialObjects
+    ITKIOXML
+    ITKMetaIO
+    ITKMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )

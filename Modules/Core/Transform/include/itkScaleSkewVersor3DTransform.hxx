@@ -66,7 +66,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>
 template<typename TParametersValueType>
 void
 ScaleSkewVersor3DTransform<TParametersValueType>
-::SetMatrix(const MatrixType & matrix, double itkNotUsed( tolerance ))
+::SetMatrix(const MatrixType & matrix, const TParametersValueType itkNotUsed( tolerance ))
 {
   // Any matrix should work - bypass orthogonality testing
   typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> Baseclass;

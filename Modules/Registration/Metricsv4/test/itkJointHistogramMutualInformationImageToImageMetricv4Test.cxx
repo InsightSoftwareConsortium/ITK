@@ -16,8 +16,10 @@
  *
  *=========================================================================*/
 
+#include "itkMath.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
+#include "itkMath.h"
 
 /* Simple test to verify that class builds and runs.
  * Results are not verified. See ImageToImageMetricv4Test
@@ -138,7 +140,7 @@ int itkJointHistogramMutualInformationImageToImageMetricv4Test( int , char * [] 
     return EXIT_FAILURE;
     }
 
-  if( valueReturn1 != valueReturn2 )
+  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturn2) )
     {
     std::cerr << "Value return results are not identical: " << valueReturn1
               << ", " << valueReturn2 << std::endl;
@@ -153,7 +155,7 @@ int itkJointHistogramMutualInformationImageToImageMetricv4Test( int , char * [] 
   expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   metric->GetValueAndDerivative( valueReturn2, derivativeReturn );
-  if( metric->GetNumberOfValidPoints() != 0 || valueReturn2 != expectedMetricMax )
+  if( metric->GetNumberOfValidPoints() != 0 || itk::Math::NotAlmostEquals( valueReturn2, expectedMetricMax ) )
     {
     std::cerr << "Failed testing for non-overlapping images. " << std::endl
               << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl

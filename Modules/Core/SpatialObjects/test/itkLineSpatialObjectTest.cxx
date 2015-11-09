@@ -21,6 +21,7 @@
  */
 
 #include "itkLineSpatialObject.h"
+#include "itkMath.h"
 
 int itkLineSpatialObjectTest(int, char* [])
 {
@@ -88,19 +89,19 @@ int itkLineSpatialObjectTest(int, char* [])
     {
     for(unsigned int d=0;d<3;d++)
       {
-      if((*it).GetPosition()[d] != i+d)
+      if(itk::Math::NotExactlyEquals((*it).GetPosition()[d], i+d))
         {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
         }
 
-      if(((*it).GetNormal(0))[d] != d)
+      if(itk::Math::NotExactlyEquals(((*it).GetNormal(0))[d], d))
         {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
         }
 
-      if(((*it).GetNormal(1))[d] != 2*d)
+      if(itk::Math::NotExactlyEquals(((*it).GetNormal(1))[d], 2*d))
         {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
@@ -153,7 +154,7 @@ int itkLineSpatialObjectTest(int, char* [])
      return EXIT_FAILURE;
   }
 
-  if(value != 1)
+  if(itk::Math::NotExactlyEquals(value, 1))
   {
      std::cout<<"[FAILED]"<<std::endl;
      return EXIT_FAILURE;

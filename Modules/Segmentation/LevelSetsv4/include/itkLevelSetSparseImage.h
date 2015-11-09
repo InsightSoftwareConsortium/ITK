@@ -125,8 +125,8 @@ protected:
   virtual void CopyInformation( const DataObject* data ) ITK_OVERRIDE;
 
 private:
-  LevelSetSparseImage( const Self& ); // purposely not implemented
-  void operator = ( const Self& ); // purposely not implemented
+  LevelSetSparseImage( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 };
 
 }

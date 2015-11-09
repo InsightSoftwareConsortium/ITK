@@ -21,6 +21,7 @@
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itksys/SystemTools.hxx"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -1212,12 +1213,10 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
       {
       for ( unsigned int i = 0; i < this->GetNumberOfDimensions(); ++i )
         {
-CLANG_PRAGMA_PUSH
-CLANG_SUPPRESS_Wfloat_equal
         // 4)size/origin/spacing
         if ( headerImageIOReader->GetDimensions(i) != this->GetDimensions(i)
-             || headerImageIOReader->GetSpacing(i) != this->GetSpacing(i)
-             || headerImageIOReader->GetOrigin(i) != this->GetOrigin(i) )
+             || Math::NotExactlyEquals(headerImageIOReader->GetSpacing(i), this->GetSpacing(i))
+             || Math::NotExactlyEquals(headerImageIOReader->GetOrigin(i), this->GetOrigin(i)) )
           {
           errorMessage = "Size, spacing or origin does not match in file: " + m_FileName;
           break;
@@ -1229,7 +1228,6 @@ CLANG_SUPPRESS_Wfloat_equal
           break;
           }
         }
-CLANG_PRAGMA_POP
       }
 
     if ( errorMessage.size() )

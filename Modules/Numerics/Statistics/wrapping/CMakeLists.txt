@@ -1,6 +1,6 @@
 itk_wrap_module(ITKStatistics)
 
-set(WRAPPER_LIBRARY_GROUPS
+set(WRAPPER_SUBMODULE_ORDER
   itkSample
   itkHistogram
   itkListSample

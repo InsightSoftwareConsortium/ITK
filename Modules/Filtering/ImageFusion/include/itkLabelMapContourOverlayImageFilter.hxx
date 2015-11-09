@@ -84,7 +84,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   typename OBOType::Pointer obo = OBOType::New();
   obo->SetInput( this->GetInput() );
   SizeType rad = m_DilationRadius;
-  for( int i=0; i<ImageDimension; i++ )
+  for(unsigned int i=0; i<ImageDimension; i++ )
     {
     rad[i]++;
     }

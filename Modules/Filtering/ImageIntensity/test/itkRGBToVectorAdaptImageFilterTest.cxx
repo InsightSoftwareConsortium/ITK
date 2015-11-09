@@ -33,6 +33,7 @@
 #include "itkRGBToVectorPixelAccessor.h"
 
 #include "vnl/vnl_sample.h"
+#include "itkMath.h"
 
 
 //-------------------------
@@ -118,9 +119,9 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
   VectorPixelType v =   it.Get();
   RGBPixelType    c =  it1.Get();
 
-  if ( v[0] != c.GetRed()   ||
-       v[1] != c.GetGreen() ||
-       v[2] != c.GetBlue()     )
+  if ( itk::Math::NotExactlyEquals(v[0], c.GetRed())   ||
+       itk::Math::NotExactlyEquals(v[1], c.GetGreen()) ||
+       itk::Math::NotExactlyEquals(v[2], c.GetBlue())     )
     {
     std::cerr << "Vector pixel = " << v << std::endl;
     std::cerr << "does not match " << std::endl;

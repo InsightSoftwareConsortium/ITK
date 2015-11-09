@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 int main(int argc, char *argv[])
 {
@@ -60,7 +61,7 @@ int main(int argc, char *argv[])
 
   writer->SetInput(baselineReader->GetOutput());
 
-  itksys_ios::ostringstream baseName;
+  std::ostringstream baseName;
   baseName << argv[1] << ".base.png";
 
   try

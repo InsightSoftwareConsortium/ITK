@@ -31,3 +31,6 @@ CMakeLists.txt.user*
 
 # back-up files when conflicts occur
 *.orig
+
+# Clion editor internal project information
+.idea

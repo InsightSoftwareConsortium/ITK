@@ -21,6 +21,7 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -171,7 +172,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
       m_CountOfImage1[threadId]++;
       nonzero = true;
       }
-    if ( it2.Get() != NumericTraits< InputImage2PixelType >::ZeroValue() )
+    if ( Math::NotExactlyEquals(it2.Get(), NumericTraits< InputImage2PixelType >::ZeroValue()) )
       {
       m_CountOfImage2[threadId]++;
       if ( nonzero )

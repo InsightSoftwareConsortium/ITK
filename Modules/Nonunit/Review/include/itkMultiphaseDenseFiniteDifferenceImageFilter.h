@@ -211,7 +211,7 @@ protected:
 
 private:
   MultiphaseDenseFiniteDifferenceImageFilter(const Self &);
-  void operator=(const Self &); //purposely not implemented
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */

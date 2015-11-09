@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include "itkMath.h"
+#include "itkNumericTraits.h"
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEquationOverlapPenaltyTerm.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
@@ -189,7 +191,8 @@ int itkLevelSetEquationOverlapPenaltyTermTest( int argc, char* argv[] )
   index[1] = 5;
 
   std::cout << penaltyTerm0->Evaluate( index ) << std::endl;
-  if ( penaltyTerm0->Evaluate( index ) != 0 )
+  if ( itk::Math::NotAlmostEquals( penaltyTerm0->Evaluate( index ),
+       itk::NumericTraits< OverlapPenaltyTermType::LevelSetOutputRealType >::ZeroValue() ) )
     {
     return EXIT_FAILURE;
     }
@@ -198,7 +201,7 @@ int itkLevelSetEquationOverlapPenaltyTermTest( int argc, char* argv[] )
   index[1] = 20;
 
   std::cout << penaltyTerm0->Evaluate( index ) << std::endl;
-  if ( penaltyTerm0->Evaluate( index ) != 1000 )
+  if ( itk::Math::NotAlmostEquals( penaltyTerm0->Evaluate( index ), 1000 ) )
     {
     return EXIT_FAILURE;
     }

@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -61,7 +62,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   ot.GoToBegin();
   for (; !it.IsAtEnd(); ++it, ++ot )
     {
-    if ( it.Get() != 0 )
+    if ( Math::NotExactlyEquals(it.Get(), itk::NumericTraits< typename itk::ImageRegionConstIterator< TInputImage >::PixelType >::ZeroValue()) )
       {
       ot.Set( NumericTraits< unsigned short >::max() );
       }

@@ -8,17 +8,18 @@
 #include <vnl/vnl_rational.h>
 #include <vnl/vnl_numeric_traits.h>
 #include <vcl_iosfwd.h>
+#include <vnl/vnl_export.h>
 
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<vnl_rational>
 {
  public:
   //: Additive identity
-  static const vnl_rational zero; // = 0L
+  static VNL_EXPORT const vnl_rational zero; // = 0L
   //: Multiplicative identity
-  static const vnl_rational one; // = 1L
+  static VNL_EXPORT const vnl_rational one; // = 1L
   //: Maximum value which this type can assume
-  static const vnl_rational maxval; // = vnl_numeric_traits<long>::maxval;
+  static VNL_EXPORT const vnl_rational maxval; // = vnl_numeric_traits<long>::maxval;
   //: Return value of abs()
   typedef vnl_rational abs_t;
   //: Name of a type twice as long as this one for accumulators and products.

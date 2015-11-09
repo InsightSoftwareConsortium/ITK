@@ -4,13 +4,5 @@ itkHDF5ImageIO.cxx
 )
 
 add_library(ITKIOHDF5 ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOHDF5_SRC})
-
-target_link_libraries(ITKIOHDF5
-${ITKHDF5_LIBRARIES}
-${ITKIOImageBase_LIBRARIES}
-${TEST_DEPENDS_LIBRARIES}
-${ITKTestKernel_LIBRARIES}
-${ITKHDF5_LIBRARIES}
-)
-
+itk_module_link_dependencies()
 itk_module_target(ITKIOHDF5)

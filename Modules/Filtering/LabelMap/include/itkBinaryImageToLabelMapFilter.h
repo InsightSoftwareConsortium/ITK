@@ -183,8 +183,8 @@ protected:
   virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const ITK_OVERRIDE;
 
 private:
-  BinaryImageToLabelMapFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  BinaryImageToLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   // some additional types
   typedef typename TOutputImage::RegionType::SizeType OutSizeType;
@@ -251,14 +251,14 @@ private:
 
   ImageRegionSplitterDirection::Pointer m_ImageRegionSplitter;
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   LineMapType m_LineMap;
 #endif
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
 #include "itkBinaryImageToLabelMapFilter.hxx"
 #endif
 #endif

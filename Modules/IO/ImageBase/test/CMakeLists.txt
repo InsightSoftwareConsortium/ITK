@@ -286,7 +286,7 @@ if(ITK_BUILD_SHARED_LIBS)
   set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
   add_library(FileFreeTestLib MODULE ${FileFreeTest_Source})
   itk_module_target_label(FileFreeTestLib)
-  target_link_libraries(FileFreeTestLib ${ITKIOImageBase_LIBRARIES})
+  target_link_libraries(FileFreeTestLib LINK_PUBLIC ${ITKIOImageBase_LIBRARIES})
   set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITKIOImageBaseTestDriver FileFreeTestLib)
 

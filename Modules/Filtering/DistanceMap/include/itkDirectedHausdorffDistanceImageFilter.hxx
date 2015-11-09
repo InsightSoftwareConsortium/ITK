@@ -22,6 +22,8 @@
 #include "itkImageRegionIterator.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkProgressReporter.h"
+#include "itkMacro.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -200,11 +202,12 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   // do the work
   while ( !it1.IsAtEnd() )
     {
-    if ( it1.Get() != NumericTraits< InputImage1PixelType >::ZeroValue() )
+    if ( Math::NotExactlyEquals(it1.Get(), NumericTraits< InputImage1PixelType >::ZeroValue()) )
       {
       // The signed distance map is calculated, but we want the calculation based on the
       // unsigned distance map.  Therefore, we set all distance map values less than 0 to 0.
-      const RealType val2 = (static_cast< RealType >( it2.Get() ) < 0) ? 0 : static_cast< RealType >( it2.Get() );
+      const RealType val2 = (static_cast< RealType >( it2.Get() ) < NumericTraits< RealType >::ZeroValue() ) ?
+                             NumericTraits< RealType >::ZeroValue() : static_cast< RealType >( it2.Get() );
       if ( val2 > m_MaxDistance[threadId] )
         {
         m_MaxDistance[threadId] = val2;

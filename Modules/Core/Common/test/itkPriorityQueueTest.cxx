@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+#include "itkMath.h"
 #include "itkPriorityQueueContainer.h"
 
 int itkPriorityQueueTest( int, char * [] )
@@ -64,7 +66,7 @@ int itkPriorityQueueTest( int, char * [] )
   std::cout <<"Min Priority Queue   ";
   while( !min_priority_queue->Empty() )
     {
-    if( min_priority_queue->Peek().m_Priority != *it )
+    if( itk::Math::NotAlmostEquals( min_priority_queue->Peek().m_Priority, *it ) )
       {
       std::cout <<min_priority_queue->Peek().m_Priority <<" " <<*it <<std::endl;
       return EXIT_FAILURE;
@@ -83,7 +85,7 @@ int itkPriorityQueueTest( int, char * [] )
   std::cout <<"Max Priority Queue   ";
   while( !max_priority_queue->Empty() )
     {
-    if( max_priority_queue->Peek().m_Priority != sequence.back() )
+    if( itk::Math::NotAlmostEquals( max_priority_queue->Peek().m_Priority, sequence.back() ) )
       {
       std::cout <<max_priority_queue->Peek().m_Priority <<" " <<sequence.back() <<std::endl;
       return EXIT_FAILURE;

@@ -323,7 +323,7 @@ public:
 
   const CellDataContainer * GetCellData() const;
 
-#if !defined( CABLE_CONFIGURATION )
+#if !defined( ITK_WRAPPING_PARSER )
   /**
    * Set/get the BoundaryAssignmentsContainer for a given dimension.
    * The BoundaryAssignmentsContainer is a MapContainer indexed by a
@@ -450,15 +450,15 @@ protected:
   BoundingBoxPointer m_BoundingBox;
 
 private:
-  Mesh(const Self &);           //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  Mesh(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   CellsAllocationMethodType m_CellsAllocationMethod;
 }; // End Class: Mesh
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef CABLE_CONFIGURATION
+#ifndef ITK_WRAPPING_PARSER
 #include "itkMesh.hxx"
 #endif
 #endif

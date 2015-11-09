@@ -47,8 +47,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  FEMSpatialObjectReader(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  FEMSpatialObjectReader(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   std::string m_FileName;
 

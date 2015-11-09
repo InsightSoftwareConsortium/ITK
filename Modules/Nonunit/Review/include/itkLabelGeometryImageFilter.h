@@ -192,7 +192,7 @@ public:
       m_Orientation = 0;
       LabelPointType emptyPoint;
       emptyPoint.Fill(0);
-      unsigned int numberOfVertices = (unsigned int)std::pow( (double)2, (int)ImageDimension );
+      unsigned int numberOfVertices = 1 << ImageDimension;
       m_OrientedBoundingBoxVertices.resize(numberOfVertices, emptyPoint);
       m_OrientedBoundingBoxVolume = 0;
       m_OrientedBoundingBoxSize.Fill(0);
@@ -472,8 +472,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  LabelGeometryImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  LabelGeometryImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   bool CalculateOrientedBoundingBoxVertices(vnl_symmetric_eigensystem< double > eig, LabelGeometry & m_LabelGeometry);
 

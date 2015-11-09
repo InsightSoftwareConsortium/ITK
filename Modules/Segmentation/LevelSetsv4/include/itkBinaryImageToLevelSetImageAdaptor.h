@@ -33,13 +33,25 @@
 
 namespace itk
 {
+/** \class BinaryImageToLevelSetImageAdator
+ *  \brief Converts one binary image to the appropriate level-set type
+ *  provided by the template argument TLevelSet.
+ *
+ *  \tparam TInputImage Binary Input Image Type
+ *  \tparam TLevelSet   Output Level-Set Type
+ *
+ *  \note TLevelSet must inherits from LevelSetImage
+ *
+ *  \sa LevelSetImage
+ *
+ *  \ingroup ITKLevelSetsv4
+ */
 template< typename TInputImage, typename TLevelSet >
 class BinaryImageToLevelSetImageAdaptor
 {};
 
 
-/** \class BinaryImageToLevelSetImageAdaptorBase
- *  \ingroup ITKLevelSetsv4
+/** \brief Partial template specialization for LevelSetDenseImage
  */
 template< typename TInputImage, typename TLevelSetImage >
 class BinaryImageToLevelSetImageAdaptor<
@@ -99,14 +111,19 @@ protected:
   virtual ~BinaryImageToLevelSetImageAdaptor();
 
 private:
-  BinaryImageToLevelSetImageAdaptor( const Self& ); // purposely not implemented
-  void operator = ( const Self& ); // purposely not implemented
+  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 
   SignedDistanceTransformFilterPointer   m_SignedDistanceTransformFilter;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/** \class BinaryImageToSparseLevelSetImageAdaptorBase
+ *  \brief Abstract class for converting binary image to sparse level-set
+ *
+ *  \ingroup ITKLevelSetsv4
+ */
 template< typename TInput, typename TOutput >
 class BinaryImageToSparseLevelSetImageAdaptorBase :
     public BinaryImageToLevelSetImageAdaptorBase< TInput, TOutput >
@@ -151,7 +168,7 @@ public:
   typedef typename LevelSetType::LayerIterator          LevelSetLayerIterator;
   typedef typename LevelSetType::LayerConstIterator     LevelSetLayerConstIterator;
 
-  typedef Image< char, ImageDimension >         InternalImageType;
+  typedef Image< signed char, ImageDimension >  InternalImageType;
   typedef typename InternalImageType::Pointer   InternalImagePointer;
 
   typedef std::pair< LevelSetInputType, LevelSetOutputType >  LayerPairType;
@@ -175,6 +192,8 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+/** \brief Partial template specialization for WhitakerSparseLevelSetImage
+ */
 template< typename TInput, typename TOutput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
@@ -250,8 +269,8 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ); // purposely not implemented
-  void operator = ( const Self& );  // purposely not implemented
+  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 
   /** Fill layer adjacent (OutputLayer) to the layer (LayerToBeScanned) */
   void PropagateToOuterLayers( LayerIdType LayerToBeScanned, LayerIdType OutputLayer, LayerIdType TestValue );
@@ -265,6 +284,8 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+/** \brief Partial template specialization for ShiSparseLevelSetImage
+ */
 template< typename TInput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
@@ -343,12 +364,14 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ); // purposely not implemented
-  void operator = ( const Self& );  // purposely not implemented
+  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 };
 
 
 ////////////////////////////////////////////////////////////////////////////////
+/** \brief Partial template specialization for MalcolmSparseLevelSetImage
+ */
 template< typename TInput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
@@ -428,8 +451,8 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ); // purposely not implemented
-  void operator = ( const Self& );  // purposely not implemented
+  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 };
 
 }

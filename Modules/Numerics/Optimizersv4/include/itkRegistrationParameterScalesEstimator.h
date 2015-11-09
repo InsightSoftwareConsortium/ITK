@@ -261,8 +261,8 @@ protected:
   static const SizeValueType    SizeOfSmallDomain = 1000;
 
 private:
-  RegistrationParameterScalesEstimator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  RegistrationParameterScalesEstimator(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
   /** m_TransformForward specifies which transform scales to be estimated.
    * m_TransformForward = true (default) for the moving transform parameters.

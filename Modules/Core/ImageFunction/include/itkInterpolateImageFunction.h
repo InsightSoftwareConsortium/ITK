@@ -130,8 +130,8 @@ protected:
   { Superclass::PrintSelf(os, indent); }
 
 private:
-  InterpolateImageFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  InterpolateImageFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

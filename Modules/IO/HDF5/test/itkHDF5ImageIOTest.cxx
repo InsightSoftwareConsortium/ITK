@@ -20,6 +20,7 @@
 #include "itkHDF5ImageIOFactory.h"
 #include "itkIOTestHelper.h"
 #include "itkMetaDataObject.h"
+#include "itkMath.h"
 
 template <typename TPixel>
 int HDF5ReadWriteTest(const char *fileName)
@@ -252,7 +253,7 @@ int HDF5ReadWriteTest(const char *fileName)
 
   float metaDataFloat2(0.0f);
   if(!itk::ExposeMetaData<float>(metaDict2,"TestFloat",metaDataFloat2) ||
-     metaDataFloat2 != metaDataFloat)
+     itk::Math::NotAlmostEquals( metaDataFloat2, metaDataFloat) )
     {
     std::cerr << "Failure Reading metaData " << "TestFloat "
               << metaDataFloat2 << " " << metaDataFloat
@@ -262,7 +263,7 @@ int HDF5ReadWriteTest(const char *fileName)
 
   double metaDataDouble2(0.0);
   if(!itk::ExposeMetaData<double>(metaDict2,"TestDouble",metaDataDouble2) ||
-     metaDataDouble2 != metaDataDouble)
+     itk::Math::NotAlmostEquals( metaDataDouble2, metaDataDouble) )
     {
     std::cerr << "Failure reading metaData " << "TestDouble "
               << metaDataDouble2 << " " << metaDataDouble
@@ -307,7 +308,7 @@ int HDF5ReadWriteTest(const char *fileName)
   itk::ImageRegionIterator<ImageType> it2(im2,im2->GetLargestPossibleRegion());
   for(it.GoToBegin(),it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it,++it2)
     {
-    if(it.Value() != it2.Value())
+    if(itk::Math::NotAlmostEquals( it.Value(), it2.Value()) )
       {
       std::cout << "Original Pixel (" << it.Value()
                 << ") doesn't match read-in Pixel ("

@@ -21,7 +21,6 @@
 #include "itkDisplacementFieldToBSplineImageFilter.h"
 
 #include "itkContinuousIndex.h"
-#include "itkDisplacementFieldToBSplineImageFilter.h"
 #include "itkImportImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 

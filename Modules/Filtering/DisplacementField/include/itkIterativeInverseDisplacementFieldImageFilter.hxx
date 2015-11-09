@@ -20,6 +20,7 @@
 
 #include "itkIterativeInverseDisplacementFieldImageFilter.h"
 #include "itkProgressReporter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -209,7 +210,7 @@ void IterativeInverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
         stillSamePoint = 1;
         for ( unsigned int j = 0; j < ImageDimension; j++ )
           {
-          if ( newPoint[j] != mappedPoint[j] )
+          if ( Math::NotExactlyEquals(newPoint[j], mappedPoint[j]) )
             {
             stillSamePoint = 0;
             }

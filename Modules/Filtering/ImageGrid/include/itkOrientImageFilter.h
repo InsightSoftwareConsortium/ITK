@@ -291,8 +291,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  OrientImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);    //purposely not implemented
+  OrientImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   std::string GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
 

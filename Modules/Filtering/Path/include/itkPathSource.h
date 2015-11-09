@@ -181,8 +181,8 @@ protected:
   // (Image replaces w/ empty function)
 
 private:
-  PathSource(const Self &);     //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  PathSource(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

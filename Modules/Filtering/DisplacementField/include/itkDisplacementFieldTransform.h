@@ -447,8 +447,8 @@ protected:
   JacobianType m_IdentityJacobian;
 
 private:
-  DisplacementFieldTransform( const Self & ); // purposely not implemented
-  void operator=( const Self & );             // purposely not implemented
+  DisplacementFieldTransform( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   /** Internal method for calculating either forward or inverse jacobian,
    * depending on state of \c doInverseJacobian. Used by

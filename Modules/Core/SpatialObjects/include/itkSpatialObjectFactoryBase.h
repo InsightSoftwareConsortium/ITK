@@ -29,6 +29,7 @@
 #define itkSpatialObjectFactoryBase_h
 
 #include "itkObjectFactoryBase.h"
+#include "itkSpatialObjectExport.h"
 
 namespace itk
 {
@@ -89,10 +90,10 @@ protected:
   virtual ~SpatialObjectFactoryBase();
 
 private:
-  SpatialObjectFactoryBase(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  SpatialObjectFactoryBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
-  static SpatialObjectFactoryBase *m_Factory;
+  static ITKSpatialObjectExport SpatialObjectFactoryBase *m_Factory;
 };
 } // end namespace itk
 #endif

@@ -108,8 +108,8 @@ protected:
   ~DummySpatialObject() {}
 
 private:
-  DummySpatialObject(const Self &); //purposely not implemented
-  void operator=(const Self &);     //purposely not implemented
+  DummySpatialObject(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
   float m_Value;
 };
 
@@ -197,8 +197,8 @@ protected:
   ~MetaDummyConverter() {}
 
 private:
-  MetaDummyConverter(const Self &);   //purposely not implemented
-  void operator=(const Self &);       //purposely not implemented
+  MetaDummyConverter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
 };
 

@@ -143,8 +143,8 @@ protected:
   void CompactLayersToSinglePixelThickness();
 
 private:
-  UpdateMalcolmSparseLevelSet( const Self& ); // purposely not implemented
-  void operator = ( const Self& );            // purposely not implemented
+  UpdateMalcolmSparseLevelSet( const Self& ) ITK_DELETE_FUNCTION;
+  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
 
   // input
   LevelSetPointer   m_InputLevelSet;

@@ -251,8 +251,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  DiscreteGaussianImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  DiscreteGaussianImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** The variance of the gaussian blurring kernel in each dimensional
     direction. */

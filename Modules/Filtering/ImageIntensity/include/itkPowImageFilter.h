@@ -126,8 +126,8 @@ protected:
   // virtual ~PowImageFilter() {} default implementation OK
 
 private:
-  PowImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  PowImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

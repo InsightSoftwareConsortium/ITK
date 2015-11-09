@@ -195,7 +195,9 @@ END_WRAP_TYPE()
 set(itk_Wrap_vcl_complex ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::SymmetricSecondRankTensor" "SSRT")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  # itkDiffusionTensor3D always needs SymmetricSecondRankTensor with dim 2 and 3
+  UNIQUE(image_dims "${ITK_WRAP_IMAGE_DIMS};2;3")
+  foreach(d ${image_dims})
     ADD_TEMPLATE("${ITKM_D}${d}" "${ITKT_D}, ${d}")
     ADD_TEMPLATE("${ITKM_F}${d}" "${ITKT_F}, ${d}")
   endforeach()
@@ -205,8 +207,8 @@ set(itk_Wrap_SymmetricSecondRankTensor ${WRAPPER_TEMPLATES})
 WRAP_TYPE("itk::Image" "I")
   # Make a list of all of the selected image pixel types and also double (for
   # BSplineDeformableTransform), uchar (for 8-bit image output), ulong
-  # (for the watershed and relabel filters)
-  UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL;RGBUC;RGBAUC;VD")
+  # (for the watershed and relabel filters), bool for (FlatStructuringElement)
+  UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL;RGBUC;RGBAUC;VD;B")
 
   set(defined_vector_list )
   foreach(d ${ITK_WRAP_IMAGE_DIMS})

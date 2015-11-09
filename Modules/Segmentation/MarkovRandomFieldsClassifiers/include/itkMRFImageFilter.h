@@ -357,8 +357,8 @@ protected:
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  MRFImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  MRFImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   typedef typename TInputImage::SizeType InputImageSizeType;
 

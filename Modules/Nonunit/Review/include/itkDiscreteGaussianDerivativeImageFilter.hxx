@@ -160,7 +160,7 @@ DiscreteGaussianDerivativeImageFilter< TInputImage, TOutputImage >
     //
     // This is to say oper[0] = Z, oper[1] = Y, oper[2] = X for the
     // 3D case.
-    unsigned int reverse_i = ImageDimension - i - 1;
+    const unsigned int reverse_i = ImageDimension - i - 1;
 
     // Set up the operator for this dimension
     oper[reverse_i].SetDirection(i);
@@ -222,7 +222,8 @@ DiscreteGaussianDerivativeImageFilter< TInputImage, TOutputImage >
     std::vector< IntermediateFilterPointer > intermediateFilters;
     if ( ImageDimension > 2 )
       {
-      for ( int i = 1; i < ImageDimension - 1; ++i )
+      const unsigned int max_dim = ImageDimension - 1;
+      for ( unsigned int i = 1; i != max_dim; ++i )
         {
         IntermediateFilterPointer f = IntermediateFilterType::New();
         f->SetOperator(oper[i]);
@@ -248,7 +249,7 @@ DiscreteGaussianDerivativeImageFilter< TInputImage, TOutputImage >
     lastFilter->ReleaseDataFlagOn();
     if ( ImageDimension > 2 )
       {
-      int temp_dim = static_cast< int >( ImageDimension ) - 3;
+      const unsigned int temp_dim = ImageDimension - 3;
       lastFilter->SetInput( intermediateFilters[temp_dim]->GetOutput() );
       }
     else

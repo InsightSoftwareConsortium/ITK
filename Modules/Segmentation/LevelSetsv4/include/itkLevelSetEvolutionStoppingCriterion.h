@@ -85,8 +85,8 @@ namespace itk
    IterationIdType          m_CurrentIteration;
 
  private:
-   LevelSetEvolutionStoppingCriterion( const Self& ); // purposely not implemented
-    void operator = ( const Self& ); // purposely not implemented
+   LevelSetEvolutionStoppingCriterion( const Self& ) ITK_DELETE_FUNCTION;
+    void operator = ( const Self& ) ITK_DELETE_FUNCTION;
  };
  }
 #ifndef ITK_MANUAL_INSTANTIATION

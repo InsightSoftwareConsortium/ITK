@@ -124,11 +124,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageBase, DataObject);
 
+  /** Type of image dimension */
+  typedef unsigned int ImageDimensionType;
+
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  itkStaticConstMacro(ImageDimension, ImageDimensionType, VImageDimension);
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index< VImageDimension >           IndexType;
@@ -707,9 +710,51 @@ protected:
    * \sa  ReleaseData, Initialize, SetBufferedRegion */
   virtual void InitializeBufferedRegion();
 
+  /** Directly computes an offset from the beginning of the buffer for a pixel
+   * at the specified index.
+   * The index is not checked as to whether it is inside the current buffer, so
+   * the computed offset could conceivably be outside the buffer. If bounds
+   * checking is needed, one can call \c ImageRegion::IsInside(ind) on the
+   * BufferedRegion prior to calling ComputeOffset.
+   * \warning unlike \c ComputeOffset(), this version does not incur a
+   * virtual call. It's meant to be used only for \c itk::Image<>, \c
+   * itk::VectorImage<> and \c itk::SpecialCoordinatesImage<>.
+   */
+  OffsetValueType FastComputeOffset(const IndexType &ind) const
+    {
+    OffsetValueType offset = 0;
+    ImageHelper<VImageDimension,VImageDimension>::ComputeOffset(Self::GetBufferedRegion().GetIndex(),
+                                                                ind,
+                                                                m_OffsetTable,
+                                                                offset);
+    return offset;
+    }
+
+  /** Directly computes the index of the pixel at a specified offset from the
+   * beginning of the buffered region.
+   * Bounds checking is not performed. Thus, the computed index could be
+   * outside the BufferedRegion. To ensure a valid index, the parameter
+   * \c offset should be between 0 and the number of pixels in the
+   * BufferedRegion (the latter can be found using
+   * \c ImageRegion::GetNumberOfPixels()).
+   * \warning unlike \c ComputeOffset(), this version does not incur a
+   * virtual call. It's meant to be used only for \c itk::Image<>, \c
+   * itk::VectorImage<> and \c itk::SpecialCoordinatesImage<>.
+   */
+  IndexType FastComputeIndex(OffsetValueType offset) const
+    {
+    IndexType index;
+    const IndexType &bufferedRegionIndex = Self::GetBufferedRegion().GetIndex();
+    ImageHelper<VImageDimension,VImageDimension>::ComputeIndex(bufferedRegionIndex,
+                                                               offset,
+                                                               m_OffsetTable,
+                                                               index);
+    return index;
+    }
+
 private:
-  ImageBase(const Self &);      //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ImageBase(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   void InternalSetSpacing(const SpacingValueType spacing[VImageDimension])
     {

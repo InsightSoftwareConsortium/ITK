@@ -20,6 +20,7 @@
 
 #include "itkDiffusionTensor3D.h"
 #include "itkImageRegionIterator.h"
+#include "itkMath.h"
 
 int itkDiffusionTensor3DTest(int, char* [] )
 {
@@ -49,7 +50,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
   bool passed = true;
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
-    if (pixel.GetNthComponent(i) != val[i])
+    if (itk::Math::NotExactlyEquals(pixel.GetNthComponent(i), val[i]))
       {
       std::cout << "Float3DTensorType pixel(val) failed." << std::endl
                 << "\tExpected val["

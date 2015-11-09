@@ -101,8 +101,8 @@ protected:
   virtual ~Log10ImageFilter() {}
 
 private:
-  Log10ImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);   //purposely not implemented
+  Log10ImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

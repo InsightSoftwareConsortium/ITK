@@ -1,6 +1,6 @@
 itk_wrap_module(ITKLabelVoting)
 
-set(WRAPPER_LIBRARY_GROUPS
+set(WRAPPER_SUBMODULE_ORDER
   itkVotingBinaryImageFilter
 )
 itk_auto_load_submodules()

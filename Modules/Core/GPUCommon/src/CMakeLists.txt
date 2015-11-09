@@ -14,6 +14,7 @@ if (ITK_USE_GPU)
   write_gpu_kernels("${ITKGPUCommon_Kernels}" ITKGPUCommon_SRC)
 
   add_library(ITKGPUCommon ${ITKGPUCommon_SRC})
-  target_link_libraries(ITKGPUCommon ${ITKCommon_LIBRARIES} ${OPENCL_LIBRARIES} )
+  itk_module_link_dependencies()
+  target_link_libraries(ITKGPUCommon LINK_PUBLIC ${OPENCL_LIBRARIES})
   itk_module_target(ITKGPUCommon)
 endif()

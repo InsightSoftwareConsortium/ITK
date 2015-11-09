@@ -83,7 +83,7 @@ public:
 
   typedef typename Superclass::RandomGeneratorType RandomGeneratorType;
   /** Default sampling variance */
-  itkStaticConstMacro(DefaultVariance, RealType, 900);
+  itkStaticConstMacro(DefaultVariance, int, 900);
 
   /** Set the variance */
   itkSetMacro(Variance, RealType);
@@ -114,8 +114,8 @@ protected:
   RealType m_Variance;
 
 private:
-  GaussianRandomSpatialNeighborSubsampler(const Self&); // purposely not implemented
-  void operator=(const Self&); // purposely not implemented
+  GaussianRandomSpatialNeighborSubsampler(const Self&) ITK_DELETE_FUNCTION;
+  void operator=(const Self&) ITK_DELETE_FUNCTION;
 
 }; // end of class GaussianRandomSpatialNeighborSubsampler
 

@@ -101,13 +101,13 @@ int main(int argc, char* argv[])
   typedef unsigned char CharPixelType;  //  IO
   typedef double        RealPixelType;  //  Operations
 
-  typedef itk::Image<CharPixelType, Dimension> CharImageType;
-  typedef itk::Image<RealPixelType, Dimension> RealImageType;
+  typedef itk::Image< CharPixelType, Dimension > CharImageType;
+  typedef itk::Image< RealPixelType, Dimension > RealImageType;
 
   //  Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader<CharImageType> ReaderType;
-  typedef itk::ImageFileWriter<CharImageType> WriterType;
+  typedef itk::ImageFileReader< CharImageType > ReaderType;
+  typedef itk::ImageFileWriter< CharImageType > WriterType;
 
   //  Software Guide : BeginLatex
   //
@@ -119,12 +119,12 @@ int main(int argc, char* argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter<CharImageType, RealImageType>
-                                                         CastToRealFilterType;
-
-  typedef itk::CannyEdgeDetectionImageFilter<RealImageType, RealImageType> CannyFilter;
-
-  typedef itk::RescaleIntensityImageFilter<RealImageType, CharImageType> RescaleFilter;
+  typedef itk::CastImageFilter< CharImageType, RealImageType >
+    CastToRealFilterType;
+  typedef itk::CannyEdgeDetectionImageFilter< RealImageType, RealImageType >
+    CannyFilterType;
+  typedef itk::RescaleIntensityImageFilter< RealImageType, CharImageType >
+    RescaleFilterType;
 
   //  Software Guide : EndCodeSnippet
 
@@ -132,8 +132,8 @@ int main(int argc, char* argv[])
 
   ReaderType::Pointer           reader      = ReaderType::New();
   CastToRealFilterType::Pointer toReal      = CastToRealFilterType::New();
-  CannyFilter::Pointer          cannyFilter = CannyFilter::New();
-  RescaleFilter::Pointer        rescale     = RescaleFilter::New();
+  CannyFilterType::Pointer      cannyFilter = CannyFilterType::New();
+  RescaleFilterType::Pointer    rescale     = RescaleFilterType::New();
   WriterType::Pointer           writer      = WriterType::New();
 
   reader->SetFileName( inputFilename  );

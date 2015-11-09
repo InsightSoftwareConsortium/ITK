@@ -112,8 +112,8 @@ protected:
     }
 
 private:
-  GaborKernelFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  GaborKernelFunction(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Standard deviation of the Gaussian envelope */
   TRealValueType m_Sigma;

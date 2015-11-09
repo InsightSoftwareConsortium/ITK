@@ -20,6 +20,7 @@
 #include "itkTransformIOBase.h"
 #include "itkAutoPointer.h"
 #include <string>
+#include "itkHDF5TransformIOExport.h"
 
 // Avoids KWStyle error from forward declaration below.
 namespace itk
@@ -55,14 +56,14 @@ struct HDF5CommonPathNames
   // HDF uses hierarchical paths to find particular data
   // in a file. These strings are used by both reading and
   // writing.
-  static const std::string transformGroupName;
-  static const std::string transformTypeName;
-  static const std::string transformFixedName;
-  static const std::string transformParamsName;
-  static const std::string ItkVersion;
-  static const std::string HDFVersion;
-  static const std::string OSName;
-  static const std::string OSVersion;
+  static ITKHDF5TransformExport const std::string transformGroupName;
+  static ITKHDF5TransformExport const std::string transformTypeName;
+  static ITKHDF5TransformExport const std::string transformFixedName;
+  static ITKHDF5TransformExport const std::string transformParamsName;
+  static ITKHDF5TransformExport const std::string ItkVersion;
+  static ITKHDF5TransformExport const std::string HDFVersion;
+  static ITKHDF5TransformExport const std::string OSName;
+  static ITKHDF5TransformExport const std::string OSVersion;
   };
 
 
@@ -80,17 +81,19 @@ class HDF5TransformIOTemplate:public TransformIOBaseTemplate<TParametersValueTyp
 private HDF5CommonPathNames
 {
 public:
-  typedef HDF5TransformIOTemplate                       Self;
-  typedef TransformIOBaseTemplate<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef typename Superclass::TransformType            TransformType;
-  typedef typename Superclass::TransformPointer         TransformPointer;
-  typedef typename Superclass::TransformListType        TransformListType;
-  typedef typename TransformType::FixedParametersType   FixedParametersType;
-  typedef typename TransformType::ParametersType        ParametersType;
+  typedef HDF5TransformIOTemplate                          Self;
+  typedef TransformIOBaseTemplate<TParametersValueType>    Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef typename Superclass::TransformType               TransformType;
+  typedef typename Superclass::TransformPointer            TransformPointer;
+  typedef typename Superclass::TransformListType           TransformListType;
+  typedef typename TransformType::ParametersType           ParametersType;
+  typedef typename TransformType::ParametersValueType      ParametersValueType;
+  typedef typename TransformType::FixedParametersType      FixedParametersType;
+  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
 
   typedef typename TransformIOBaseTemplate
-                      <TParametersValueType>::ConstTransformListType
+                      <ParametersValueType>::ConstTransformListType
                                                                 ConstTransformListType;
 
   /** Run-time type information (and related methods). */
@@ -119,7 +122,8 @@ protected:
 
 private:
   /** Read a parameter array from the file location name */
-  ParametersType ReadParameters(const std::string &DataSetName);
+  ParametersType ReadParameters(const std::string &DataSetName) const;
+  FixedParametersType ReadFixedParameters(const std::string &DataSetName) const;
 
   /** Write a parameter array to the file location name */
   void WriteParameters(const std::string &name,

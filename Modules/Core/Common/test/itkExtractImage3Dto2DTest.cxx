@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkExtractImageFilter.h"
 #include "itkRandomImageSource.h"
+#include "itkMath.h"
 
 int itkExtractImage3Dto2DTest(int, char* [] )
 {
@@ -87,10 +88,10 @@ int itkExtractImage3Dto2DTest(int, char* [] )
   // remove first column/row, should obtain :
   // 0 1
   // 1 0
-  if (extract->GetOutput()->GetDirection()[0][0] != 0 ||
-      extract->GetOutput()->GetDirection()[1][1] != 0 ||
-      extract->GetOutput()->GetDirection()[0][1] != 1 ||
-      extract->GetOutput()->GetDirection()[1][0] != 1)
+  if (itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[0][0], 0) ||
+      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[1][1], 0) ||
+      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[0][1], 1) ||
+      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[1][0], 1))
   {
     return EXIT_FAILURE;
   }

@@ -373,10 +373,8 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  N4BiasFieldCorrectionImageFilter( const Self& ); //purposely not
-                                                      // implemented
-  void operator=( const Self& );                      //purposely not
-                                                      // implemented
+  N4BiasFieldCorrectionImageFilter( const Self& ) ITK_DELETE_FUNCTION;
+  void operator=( const Self& ) ITK_DELETE_FUNCTION;
 
   // N4 algorithm functions:  The basic algorithm iterates between sharpening
   // the intensity histogram of the corrected input image and spatially

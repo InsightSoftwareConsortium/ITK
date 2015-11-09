@@ -176,8 +176,8 @@ protected:
   void SetImportPointer(TElement *ptr){ m_ImportPointer = ptr; }
 
 private:
-  ImportImageContainer(const Self &); //purposely not implemented
-  void operator=(const Self &);       //purposely not implemented
+  ImportImageContainer(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   TElement *         m_ImportPointer;
   TElementIdentifier m_Size;

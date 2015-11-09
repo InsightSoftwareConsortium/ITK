@@ -20,6 +20,7 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkFilterWatcher.h"
+#include "itkMath.h"
 
 int itkConstantPadImageTest(int, char* [] )
 {
@@ -111,7 +112,7 @@ int itkConstantPadImageTest(int, char* [] )
       column = iteratorIn1.GetIndex()[1];
       if ((row < 0) || (row>7) || (column < 0) || (column > 11))
         {
-        if ( iteratorIn1.Get() != constant )
+        if ( itk::Math::NotExactlyEquals(iteratorIn1.Get(), constant) )
           {
           passed = false;
           }
@@ -119,7 +120,7 @@ int itkConstantPadImageTest(int, char* [] )
       else
         {
         int nextVal = 8*column+row;
-        if (iteratorIn1.Get() != nextVal)
+        if (itk::Math::NotExactlyEquals(iteratorIn1.Get(), nextVal))
           {
           std::cout << "Error: (" << row << ", " << column
                     << "), expected " << nextVal << " got "
@@ -187,7 +188,7 @@ int itkConstantPadImageTest(int, char* [] )
         column = iteratorIn2.GetIndex()[1];
         if ((row < 0) || (row>7) || (column < 0) || (column > 11))
           {
-          if ( iteratorIn2.Get() != constant )
+          if ( itk::Math::NotExactlyEquals(iteratorIn2.Get(), constant) )
             {
             passed = false;
             }
@@ -195,7 +196,7 @@ int itkConstantPadImageTest(int, char* [] )
         else
           {
           int nextVal = 8*column+row;
-          if (iteratorIn2.Get() != nextVal)
+          if (itk::Math::NotExactlyEquals(iteratorIn2.Get(), nextVal))
             {
             std::cout << "Error: (" << row << ", " << column
                       << "), expected " << nextVal << " got "

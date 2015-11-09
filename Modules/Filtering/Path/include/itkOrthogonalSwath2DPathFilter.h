@@ -94,8 +94,8 @@ protected:
   void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  OrthogonalSwath2DPathFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);              //purposely not implemented
+  OrthogonalSwath2DPathFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   // Find the "L" for the maximum merit over the range L-1 to L+1 at F & x.
   // This value is both returned and stored in m_StepValues.

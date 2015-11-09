@@ -44,7 +44,7 @@
 #endif
 
 // Figure out when the fast implementation can be used
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && (!defined(CABLE_CONFIGURATION)) && defined(__SSE2__)
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && (!defined(ITK_WRAPPING_PARSER)) && defined(__SSE2__)
 # if !VXL_HAS_EMMINTRIN_H
 #   error "Required file emmintrin.h for SSE2 not found"
 # else
@@ -57,13 +57,13 @@
 // Turn on fast impl when using GCC on Intel-based machines with the following exception:
 //   PPC with Mac OS X
 //   GCCXML
-#if defined(__GNUC__) && (!defined(CABLE_CONFIGURATION)) &&  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64)) && (!defined(__APPLE__)  || !defined(__ppc__) )
+#if defined(__GNUC__) && (!defined(ITK_WRAPPING_PARSER)) &&  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64)) && (!defined(__APPLE__)  || !defined(__ppc__) )
 # define GCC_USE_FAST_IMPL 1
 #else
 # define GCC_USE_FAST_IMPL 0
 #endif
 // Turn on fast impl when using msvc on 32 bits windows
-#if defined(VCL_VC) && (!defined(CABLE_CONFIGURATION)) && !defined(_WIN64)
+#if defined(VCL_VC) && (!defined(ITK_WRAPPING_PARSER)) && !defined(_WIN64)
 # define VC_USE_FAST_IMPL 1
 #else
 # define VC_USE_FAST_IMPL 0
@@ -561,6 +561,7 @@ inline long long          vnl_math_max(long long x, long long y)                
 inline unsigned long long vnl_math_max(unsigned long long x, unsigned long long y) { return (x > y) ? x : y; }
 inline float              vnl_math_max(float x, float y)                           { return (x < y) ? y : x; }
 inline double             vnl_math_max(double x, double y)                         { return (x < y) ? y : x; }
+inline long double        vnl_math_max(long double x, long double y)               { return (x < y) ? y : x; }
 
 // min
 inline int                vnl_math_min(int x, int y)                               { return (x < y) ? x : y; }
@@ -571,6 +572,7 @@ inline long long          vnl_math_min(long long x, long long y)                
 inline unsigned long long vnl_math_min(unsigned long long x, unsigned long long y) { return (x < y) ? x : y; }
 inline float              vnl_math_min(float x, float y)                           { return (x > y) ? y : x; }
 inline double             vnl_math_min(double x, double y)                         { return (x > y) ? y : x; }
+inline long double        vnl_math_min(long double x, long double y)               { return (x > y) ? y : x; }
 
 // sqr (square)
 inline bool               vnl_math_sqr(bool x)               { return x; }
@@ -626,9 +628,10 @@ inline float  vnl_math_cuberoot(float  a) { return float((a<0) ? -vcl_exp(vcl_lo
 inline double vnl_math_cuberoot(double a) { return       (a<0) ? -vcl_exp(vcl_log(-a)/3) : vcl_exp(vcl_log(a)/3); }
 
 // hypotenuse
-inline double      vnl_math_hypot(int         x, int         y) { return vcl_sqrt(double(x*x + y*y)); }
-inline float       vnl_math_hypot(float       x, float       y) { return float( vcl_sqrt(double(x*x + y*y)) ); }
-inline double      vnl_math_hypot(double      x, double      y) { return vcl_sqrt(x*x + y*y); }
-inline long double vnl_math_hypot(long double x, long double y) { return vcl_sqrt(x*x + y*y); }
+int vnl_math_hypot(int x, int y);
+float vnl_math_hypot(float x, float y);
+double vnl_math_hypot(double x, double y);
+long double vnl_math_hypot(long double x, long double y);
+
 
 #endif // vnl_math_h_

@@ -100,8 +100,8 @@ protected:
   virtual ~TernaryMagnitudeSquaredImageFilter() {}
 
 private:
-  TernaryMagnitudeSquaredImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                     //purposely not implemented
+  TernaryMagnitudeSquaredImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // end namespace itk
 

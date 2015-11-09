@@ -3,17 +3,18 @@ set(ITKRegistrationMethodsv4Tests
 itkSimpleImageRegistrationTest.cxx
 itkSimpleImageRegistrationTest2.cxx
 itkSimpleImageRegistrationTest3.cxx
+itkSimpleImageRegistrationTest4.cxx
 itkSimpleImageRegistrationTestWithMaskAndSampling.cxx
 itkSimplePointSetRegistrationTest.cxx
 itkExponentialImageRegistrationTest.cxx
 itkBSplineExponentialImageRegistrationTest.cxx
 itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
 itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
-itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
 itkSyNImageRegistrationTest.cxx
 itkSyNPointSetRegistrationTest.cxx
 itkBSplineSyNImageRegistrationTest.cxx
 itkBSplineSyNPointSetRegistrationTest.cxx
+itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest.cxx
 itkQuasiNewtonOptimizerv4RegistrationTest.cxx
 itkBSplineImageRegistrationTest.cxx
 )
@@ -111,6 +112,16 @@ itk_add_test(NAME itkSimpleImageRegistrationTest3
               )
 set_property(TEST itkSimpleImageRegistrationTest3 APPEND PROPERTY LABELS RUNS_LONG)
 
+itk_add_test(NAME itkSimpleImageRegistrationTest4
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+              itkSimpleImageRegistrationTest4
+              2 # number of dimensions
+              DATA{Input/Blob1.mha}
+              DATA{Input/Blob2.mha}
+              )
+
+
 itk_add_test(NAME itkSimplePointSetRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
       --with-threads 1
@@ -131,6 +142,13 @@ itk_add_test(NAME itkBSplineSyNPointSetRegistrationTest
       itkBSplineSyNPointSetRegistrationTest
       )
 set_property(TEST itkBSplineSyNPointSetRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
+
+itk_add_test(NAME itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+      itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest
+      )
+set_property(TEST itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
 
 
 itk_add_test(NAME itkExponentialImageRegistrationTest

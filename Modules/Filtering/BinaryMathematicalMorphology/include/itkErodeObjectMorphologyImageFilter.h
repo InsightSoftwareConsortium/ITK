@@ -117,8 +117,8 @@ protected:
                 const KernelType & kernel) ITK_OVERRIDE;
 
 private:
-  ErodeObjectMorphologyImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                   //purposely not implemented
+  ErodeObjectMorphologyImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   PixelType m_BackgroundValue;
 

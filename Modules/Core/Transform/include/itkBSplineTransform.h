@@ -134,8 +134,10 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::FixedParametersType FixedParametersType;
-  typedef typename Superclass::ParametersType      ParametersType;
+  typedef typename Superclass::ParametersType           ParametersType;
+  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
 
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
@@ -185,7 +187,6 @@ public:
   virtual void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
-  typedef typename Superclass::ParametersValueType   ParametersValueType;
   typedef typename Superclass::ImageType             ImageType;
   typedef typename Superclass::ImagePointer          ImagePointer;
   typedef typename Superclass::CoefficientImageArray CoefficientImageArray;
@@ -294,8 +295,8 @@ private:
   /** Construct control point grid size from transform domain information */
   virtual void SetCoefficientImageInformationFromFixedParameters() ITK_OVERRIDE;
 
-  BSplineTransform( const Self & ); // purposely not implemented
-  void operator=( const Self & );   // purposely not implemented
+  BSplineTransform( const Self & ) ITK_DELETE_FUNCTION;
+  void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
   /** Check if a continuous index is inside the valid region. */
   virtual bool InsideValidRegion( ContinuousIndexType & ) const ITK_OVERRIDE;

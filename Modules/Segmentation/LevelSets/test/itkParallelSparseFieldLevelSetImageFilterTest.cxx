@@ -197,7 +197,7 @@ protected:
     this->SetDifferenceFunction(p);
     m_Iterations = 0;
   }
-  MorphFilter(const Self &); // purposely not implemented
+  MorphFilter(const Self &) ITK_DELETE_FUNCTION;
 
 private:
   unsigned int m_Iterations;

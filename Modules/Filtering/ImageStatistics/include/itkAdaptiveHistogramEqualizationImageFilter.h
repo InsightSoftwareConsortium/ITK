@@ -18,7 +18,8 @@
 #ifndef itkAdaptiveHistogramEqualizationImageFilter_h
 #define itkAdaptiveHistogramEqualizationImageFilter_h
 
-#include "itkBoxImageFilter.h"
+#include "itkMovingHistogramImageFilter.h"
+#include "itkAdaptiveEqualizationHistogram.h"
 #include "itkImage.h"
 
 namespace itk
@@ -51,6 +52,10 @@ namespace itk
  * By altering alpha, beta and window, a host of equalization and unsharp
  * masking filters is available.
  *
+ * The boundary condition ignores the part of the neighborhood
+ * outside the image, and over-weights the valid part of the
+ * neighborhood.
+ *
  * For detail description, reference "Adaptive Image Contrast
  * Enhancement using Generalizations of Histogram Equalization."
  * J.Alex Stark. IEEE Transactions on Image Processing, May 2000.
@@ -62,16 +67,26 @@ namespace itk
  * \wikiexample{NeedDemo/ImageProcessing/AdaptiveHistogramEqualizationImageFilter,Adaptive histogram equalization}
  * \endwiki
  */
-template< typename TImageType >
+template< typename TImageType , typename TKernel = Neighborhood<bool, TImageType::ImageDimension> >
 class AdaptiveHistogramEqualizationImageFilter:
-  public BoxImageFilter< TImageType, TImageType >
+  public MovingHistogramImageFilter< TImageType,
+                                     TImageType,
+                                     TKernel,
+                                     typename Function::AdaptiveEqualizationHistogram< typename TImageType::PixelType,
+                                                                                       typename TImageType::PixelType > >
+
 {
 public:
   /**
    * Standard class typedefs
    */
   typedef AdaptiveHistogramEqualizationImageFilter     Self;
-  typedef ImageToImageFilter< TImageType, TImageType > Superclass;
+  typedef MovingHistogramImageFilter< TImageType,
+                                     TImageType,
+                                     TKernel,
+                                     typename Function::AdaptiveEqualizationHistogram< typename TImageType::PixelType,
+                                                                                       typename TImageType::PixelType > >
+                                                       Superclass;
   typedef SmartPointer< Self >                         Pointer;
   typedef SmartPointer< const Self >                   ConstPointer;
 
@@ -85,8 +100,9 @@ public:
   itkTypeMacro(AdaptiveHistogramEqualizationImageFilter, ImageToImageFilter);
 
   /** Image type typedef support. */
-  typedef TImageType                   ImageType;
-  typedef typename ImageType::SizeType ImageSizeType;
+  typedef TImageType                    ImageType;
+  typedef typename ImageType::PixelType InputPixelType;
+  typedef typename ImageType::SizeType  ImageSizeType;
 
   /** Set/Get the value of alpha.  Alpha=0 produces the adaptive
    * histogram equalization (provided beta=0).  Alpha=1 produces an
@@ -101,11 +117,39 @@ public:
   itkSetMacro(Beta, float);
   itkGetConstMacro(Beta, float);
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   /** Set/Get whether an optimized lookup table for the intensity
-   * mapping function is used.  Default is off. */
-  itkSetMacro(UseLookupTable, bool);
+   * mapping function is used.  Default is off.
+   *  @deprecated
+   */
+  virtual void SetUseLookupTable( const bool _arg )
+    {
+  itkDebugMacro("setting UseLookupTable to " << _arg );
+  itkGenericLegacyReplaceBodyMacro( "UseLookupTable", "", "nothing" );
+  if (this->m_UseLookupTable != _arg)
+    {
+    this->m_UseLookupTable = _arg;
+  this->Modified();
+    }
+  }
   itkGetConstMacro(UseLookupTable, bool);
   itkBooleanMacro(UseLookupTable);
+#endif
+
+  virtual void ConfigureHistogram( typename Superclass::HistogramType &h)
+    {
+      h.SetAlpha( this->m_Alpha );
+      h.SetBeta( this->m_Beta );
+      h.SetMinimum( this->m_InputMinimum );
+      h.SetMaximum( this->m_InputMaximum );
+
+      typename Superclass::HistogramType::RealType kernelSize = 1;
+      for ( unsigned int i = 0; i < ImageDimension; i++ )
+        {
+        kernelSize *= ( 2 * this->GetRadius()[i] + 1 );
+        }
+      h.SetKernelSize(kernelSize);
+    }
 
 protected:
   AdaptiveHistogramEqualizationImageFilter()
@@ -122,14 +166,11 @@ protected:
   /**
    * Standard pipeline method
    */
-  void GenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
-  AdaptiveHistogramEqualizationImageFilter(const Self &); //purposely not
-                                                          // implemented
-  void operator=(const Self &);                           //purposely not
-
-  // implemented
+  AdaptiveHistogramEqualizationImageFilter(const Self &) ITK_DELETE_FUNCTION;
+  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** The beta parameter of the AdaptiveHistogramEqualization. */
   float m_Alpha;
@@ -137,12 +178,13 @@ private:
   /** The alpha parameter of the AdaptiveHistogramEqualization. */
   float m_Beta;
 
+  InputPixelType m_InputMinimum;
+  InputPixelType m_InputMaximum;
+
   /** Should we use a lookup table to optimize the use of the
    * intensity mapping function? */
   bool m_UseLookupTable;
 
-  /** A function which is used in GenerateData(). */
-  float CumulativeFunction(float u, float v);
 };
 } // end namespace itk
 

@@ -119,7 +119,7 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   LabelObjectPointer labelObject = LabelObjectType::New();
   LabelObjectPointer labelObjectSrc = sparseLevelSet->GetAsLabelObject<unsigned long>();
-  labelObject->CopyAllFrom( labelObjectSrc );
+  labelObject->CopyAllFrom<LabelObjectType>( labelObjectSrc );
   labelObject->SetLabel( sparseLevelSet->PlusOneLayer() );
 
   labelObject->Optimize();
