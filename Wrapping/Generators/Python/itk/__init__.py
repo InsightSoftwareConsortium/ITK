@@ -16,7 +16,7 @@
 #
 #==========================================================================*/
 
-"""itk.py : Top-level container package for ITK wrappers."""
+"""itk: Top-level container package for ITK wrappers."""
 import itkBase
 import itkConfig
 import itkLazy
@@ -39,6 +39,7 @@ if itkConfig.LazyLoading:
         templateNames = [t[0] for t in data['templates']]
         attributes = dict([(n, module) for n in templateNames])
         lazyAttributes.update(attributes)
+
     if isinstance(thisModule, itkLazy.LazyITKModule):
         # Handle reload case where we've already done this once.
         # If we made a new module every time, multiple reload()s would fail
@@ -62,11 +63,22 @@ for k, v in itkExtras.__dict__.items():
     if not k.startswith('_'):
         setattr(thisModule, k, v)
 
+# Populate itk.ITKModuleName
+for module, data in itkBase.module_data.items():
+    templateNames = [t[0] for t in data['templates']]
+    attributes = dict([(n, module) for n in templateNames])
+    itkModule = itkLazy.LazyITKModule(module, attributes)
+    setattr(thisModule, module, itkModule)
+
+# Set the __path__ attribute, which is required for this module to be used as a
+# package
+setattr(thisModule, '__path__', __path__)
+
 if itkConfig.LazyLoading:
     # this has to be the last step, else python gets confused about itkTypes
     # and itkExtras above. I'm not sure why...
     sys.modules[__name__] = thisModule
 else:
     # do some cleanup
-    del module, thisModule
+    del module, thisModule, itkModule
     del itkBase, itkConfig, itkLazy, itkTypes, itkExtras, os, sys

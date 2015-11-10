@@ -21,10 +21,6 @@ from __future__ import print_function
 import itk
 import re
 import sys
-try:
-    import itkvtk
-except:
-    pass
 from itkTemplate import itkTemplate
 from optparse import OptionParser
 

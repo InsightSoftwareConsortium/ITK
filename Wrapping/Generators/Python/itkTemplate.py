@@ -26,19 +26,6 @@ import itkConfig
 from itkTypes import itkCType
 
 
-def itkFormatWarning(msg, *a):
-    """"Format the warnings issued by itk to display only the message.
-
-    This will ignore the filename and the linenumber where the warning was
-    triggered. The message is returned to the warnings module.
-    """
-
-    return str(msg) + '\n'
-
-# Redefine the format of the warnings
-warnings.formatwarning = itkFormatWarning
-
-
 def registerNoTpl(name, cl):
     """Register a class without template
 
@@ -440,8 +427,6 @@ def output(input):
 
 
 def image(input):
-    import sys
-    print(
-        ("WrapITK warning: itk.image() is deprecated. "
-            "Use itk.output() instead."), file=sys.stderr)
+    warnings.warn("WrapITK warning: itk.image() is deprecated. "
+            "Use itk.output() instead.")
     return output(input)
