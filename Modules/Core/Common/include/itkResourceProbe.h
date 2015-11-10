@@ -21,6 +21,7 @@
 #include "itkMacro.h"
 #include "itkIntTypes.h"
 #include <string>
+#include <vector>
 
 namespace itk
 {
@@ -59,14 +60,14 @@ public:
   std::string GetUnit() const;
 
   /** Start counting the change of value */
-  void        Start();
+  virtual void Start();
 
   /** Stop counting the change of value.
    *
    * If a matching Start() has not been called before, there is no
    * effect.
    **/
-  void        Stop();
+  virtual void Stop();
 
   /** Returns the number of times that the probe has been started */
   CountType   GetNumberOfStarts() const;
@@ -74,32 +75,105 @@ public:
   /** Returns the number of times that the probe has been stopped */
   CountType   GetNumberOfStops() const;
 
+  /** Returns the number of iteration of the probe */
+  CountType   GetNumberOfIteration() const;
+
   /** Returns the instant value of the probed system.
    */
   virtual ValueType   GetInstantValue(void) const = 0;
 
   /** Returns the accumulated value changes between the starts and stops
    *  of the probe */
-  ValueType    GetTotal() const;
+  virtual ValueType    GetTotal() const;
 
   /** Returns the average value changes between the starts and stops
    *  of the probe. Stop() has to be called at least once, returns 0 otherwise.
    */
-  MeanType    GetMean() const;
+  virtual MeanType     GetMean() const;
 
   /** Reset the probe */
-  void        Reset();
+  virtual void Reset();
+
+  /** Returns the min value changes between the starts and stops
+   *  of the probe */
+  virtual ValueType GetMinimum() const;
+
+  /** Returns the max value changes between the starts and stops
+   *  of the probe */
+  virtual ValueType GetMaximum() const;
+
+  /** Returns the standard deviation value changes between the starts and stops
+   *  of the probe. */
+  virtual ValueType GetStandardDeviation();
+
+  /** Set name of probe */
+  virtual void SetNameOfProbe(const char* nameOfProbe);
+
+  /** Set name of probe */
+  virtual std::string GetNameOfProbe() const;
+
+  /** Print System information */
+  virtual void PrintSystemInformation(std::ostream & os = std::cout);
+
+  /** Print Probe Results. */
+  virtual void Report(std::ostream & os =std::cout, bool printSystemInfo = true,
+                      bool printReportHead = true);
+
+  /** Print Probe Results. */
+  virtual void ExpandedReport(std::ostream & os =std::cout, bool printSystemInfo = true,
+                              bool printReportHead = true);
+
+protected:
+  /** Update the Min and Max values with an input value */
+  virtual void UpdateMinimumMaximumMeasuredValue(ValueType value);
+
+  /** Print Probe Results. */
+  virtual void PrintReportHead(std::ostream & os =std::cout);
+
+  /** Print Probe Results. */
+  virtual void PrintExpandedReportHead(std::ostream & os =std::cout);
+
+  /** Get System information */
+  virtual void GetSystemInformation();
 
 private:
 
-  ValueType m_StartValue;
-  ValueType m_TotalValue;
+  ValueType                  m_StartValue;
+  ValueType                  m_TotalValue;
+  ValueType                  m_MinimumValue;
+  ValueType                  m_MaximumValue;
+  ValueType                  m_MeanValue;
+  ValueType                  m_StandardDeviation;
 
-  CountType m_NumberOfStarts;
-  CountType m_NumberOfStops;
+  CountType                  m_NumberOfStarts;
+  CountType                  m_NumberOfStops;
+  CountType                  m_NumberOfIteration;
 
-  std::string m_TypeString;
-  std::string m_UnitString;
+  std::vector<ValueType>     m_ProbeValueList;
+
+  std::string                m_NameOfProbe;
+  std::string                m_TypeString;
+  std::string                m_UnitString;
+
+  std::string                m_SystemName;
+  std::string                m_ProcessorName;
+  int                        m_ProcessorCacheSize;
+  float                      m_ProcessorClockFrequency;
+  unsigned int               m_NumberOfPhysicalCPU;
+  unsigned int               m_NumberOfLogicalCPU;
+  unsigned int               m_NumberOfAvailableCore;
+  std::string                m_OSName;
+  std::string                m_OSRelease;
+  std::string                m_OSVersion;
+  std::string                m_OSPlatform;
+  bool                       m_Is64Bits;
+  std::string                m_ITKVersion;
+  size_t                     m_TotalVirtualMemory;
+  size_t                     m_AvailableVirtualMemory;
+  size_t                     m_TotalPhysicalMemory;
+  size_t                     m_AvailablePhysicalMemory;
+
+  static const unsigned int  tabwidth  = 15;
 };
 } // end namespace itk
 

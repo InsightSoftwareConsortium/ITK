@@ -97,6 +97,7 @@ itkPointGeometryTest.cxx
 itkMersenneTwisterRandomVariateGeneratorTest.cxx
 itkNumberToStringTest.cxx
 itkTimeProbeTest.cxx
+itkTimeProbeTest2.cxx
 itkStdStreamStateSaveTest.cxx
 VNLSparseLUSolverTraitsTest.cxx
 )
@@ -386,6 +387,7 @@ itk_add_test(NAME itkRealTimeClockTest COMMAND ITKCommon1TestDriver itkRealTimeC
 itk_add_test(NAME itkRealTimeStampTest COMMAND ITKCommon1TestDriver itkRealTimeStampTest)
 itk_add_test(NAME itkRealTimeIntervalTest COMMAND ITKCommon1TestDriver itkRealTimeIntervalTest)
 itk_add_test(NAME itkTimeProbeTest COMMAND ITKCommon1TestDriver itkTimeProbeTest)
+itk_add_test(NAME itkTimeProbeTest2 COMMAND ITKCommon1TestDriver itkTimeProbeTest2)
 itk_add_test(NAME itkRGBPixelTest COMMAND ITKCommon1TestDriver itkRGBPixelTest)
 itk_add_test(NAME itkSparseImageTest COMMAND ITKCommon1TestDriver itkSparseImageTest)
 itk_add_test(NAME itkSimpleFilterWatcherTest COMMAND ITKCommon1TestDriver itkSimpleFilterWatcherTest)
