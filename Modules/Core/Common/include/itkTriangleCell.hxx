@@ -596,8 +596,7 @@ TriangleCell< TCellInterface >
         dist2Point = 0;
         for ( i = 0; i < PointDimension; i++ )
           {
-          const double value = x[i] - pt3[i];
-          dist2Point += value * value;
+          dist2Point += (x[i] - pt3[i]) * (x[i] - pt3[i]);
           }
         dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
         dist2Line2 = this->DistanceToLine(x, pt3, pt2, lt, closestPoint2);
@@ -630,7 +629,7 @@ TriangleCell< TCellInterface >
         dist2Point = 0;
         for ( i = 0; i < PointDimension; i++ )
           {
-          dist2Point += x[i] - pt1[i] * x[i] - pt1[i];
+          dist2Point += (x[i] - pt1[i]) * (x[i] - pt1[i]);
           }
         dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
         dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
