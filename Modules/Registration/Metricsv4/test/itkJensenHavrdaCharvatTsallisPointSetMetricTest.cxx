@@ -85,9 +85,9 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   // check various alpha values between accepted values of [1.0, 2.0]
 
   unsigned int numberOfAlphaValues = 6;
-  float alphaValues[] = { 1.0, 1.2, 1.4, 1.6, 1.8, 2.0 };
-  float metricValues2D[] = { 0.143842, -0.0129571, -0.00105768, -0.000115118, -1.40956e-05, -1.84099e-06 };
-  float metricValues3D[] = { 0.175588, -0.0086854, -0.000475248, -3.46729e-05, -2.84585e-06, -2.49151e-07 };
+  float alphaValues[] = { 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f };
+  float metricValues2D[] = { 0.143842f, -0.0129571f, -0.00105768f, -0.000115118f, -1.40956e-05f, -1.84099e-06f };
+  float metricValues3D[] = { 0.175588f, -0.0086854f, -0.000475248f, -3.46729e-05f, -2.84585e-06f, -2.49151e-07f };
 
   for( unsigned int i = 0; i < numberOfAlphaValues; i++ )
     {

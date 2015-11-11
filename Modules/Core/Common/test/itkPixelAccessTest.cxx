@@ -48,8 +48,8 @@ int itkPixelAccessTest(int, char* [] )
   itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer
     o3 = itk::Image<itk::Vector<unsigned short, 5>, 3>::New();
 
-  float origin3D[3] = { 5, 2.1, 8.1};
-  float spacing3D[3] = { 1.5, 2.1, 1};
+  float origin3D[3] = { 5.0f, 2.1f, 8.1f};
+  float spacing3D[3] = { 1.5f, 2.1f, 1.0f};
 
   itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType imageSize3D = {{ 20, 40, 60 }};
   itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType bufferSize3D = {{ 8, 20, 14 }};

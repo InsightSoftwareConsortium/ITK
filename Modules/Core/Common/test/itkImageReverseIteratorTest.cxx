@@ -55,8 +55,8 @@ int itkImageReverseIteratorTest(int, char* [] )
   std::cout << "Creating an image" << std::endl;
   ImageType::Pointer o3 = ImageType::New();
 
-  float origin3D[3] = { 5, 2.1, 8.1};
-  float spacing3D[3] = { 1.5, 2.1, 1};
+  float origin3D[3] = { 5.0f, 2.1f, 8.1f};
+  float spacing3D[3] = { 1.5f, 2.1f, 1.0f};
 
   ImageType::SizeType imageSize3D = {{ 20, 40, 60 }};
   ImageType::SizeType bufferSize3D = {{ 8, 20, 14 }};
