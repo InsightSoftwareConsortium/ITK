@@ -201,7 +201,7 @@ def DebugPrintError(error):
 class LibraryLoader(object):
 
     """Do all the work to set up the environment so that a SWIG-generated
-    library can be properly loaded. This invloves setting paths defined in
+    library can be properly loaded. This involves setting paths defined in
     itkConfig."""
 
     def setup(self):
@@ -212,7 +212,7 @@ class LibraryLoader(object):
             # silently pass to avoid the case where the dir is not there
             pass
         self.old_path = sys.path
-        sys.path = [itkConfig.swig_lib, itkConfig.swig_py] + sys.path
+        sys.path = [itkConfig.swig_lib, itkConfig.swig_py, itkConfig.path] + sys.path
 
     def load(self, name):
         self.setup()

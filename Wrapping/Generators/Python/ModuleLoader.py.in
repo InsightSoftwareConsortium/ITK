@@ -1,3 +1,8 @@
+import itkConfig
+import warnings
+
+warnings.warn("@CONFIG_LIBRARY_NAME@ is deprecated; Use from itk import @CONFIG_LIBRARY_NAME@' instead.")
+
 import itkBase
 itkBase.LoadModule('@CONFIG_LIBRARY_NAME@')
 del itkBase
