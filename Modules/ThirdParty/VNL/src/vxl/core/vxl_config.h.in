@@ -28,6 +28,16 @@
 # define VXL_BIG_ENDIAN    @VXL_BIG_ENDIAN@
 #endif
 
+/* When using C++11 or greater, constexpr
+ * may be necessary for static const float initialization
+ * and is benificial in other cases where
+ * a value can be constant. */
+#if  __cplusplus >= 201103L
+# define VCL_CONSTEXPR constexpr
+#else
+# define VCL_CONSTEXPR const
+#endif
+
 /* we can't just use typedefs, because on systems where there are   */
 /* no 64bit integers we have to #define vxl_int_64 to `void' in     */
 /* order to catch illegitimate uses. However, typedefs are superior */
@@ -210,7 +220,7 @@
 #ifdef __APPLE__
 /* true if in OsX <math.h> declares __isnand() */
 #define VXL_APPLE_HAS_ISNAND @VXL_APPLE_HAS_ISNAND@
-#endif 
+#endif
 
 /* true if <emmintrin.h> is available */
 #define VXL_HAS_EMMINTRIN_H   @VXL_HAS_EMMINTRIN_H@
