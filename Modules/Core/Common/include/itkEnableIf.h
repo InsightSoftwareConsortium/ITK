@@ -20,7 +20,7 @@
 
 namespace itk
 {
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 namespace mpl
 {
 
@@ -56,9 +56,9 @@ namespace mpl
  * \sa \c EnableIf
  */
 template <bool V, typename TType = void> struct EnableIfC {};
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <typename TType> struct EnableIfC<true, TType> { typedef TType Type; };
-/**\endcond*/
+/// \endcond
 
 
 /** \brief An implementation of the negation of the enable if idiom.
@@ -69,9 +69,9 @@ template <typename TType> struct EnableIfC<true, TType> { typedef TType Type; };
  * \sa \c DisableIf
  */
 template <bool V, typename TType = void> struct DisableIfC {};
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <typename TType> struct DisableIfC<false, TType> { typedef TType Type; };
-/**\endcond*/
+/// \endcond
 
 /** \brief simplified way to dispose of \c enable_if.
  * \ingroup MetaProgrammingLibrary
@@ -142,7 +142,7 @@ using mpl::DisableIf;
 using mpl::EnableIfC;
 using mpl::DisableIfC;
 
-/** \endcond */
+/// \endcond
 } // namespace itk
 
 #endif // itkEnableIf_h

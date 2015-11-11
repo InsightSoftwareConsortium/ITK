@@ -21,7 +21,7 @@
 
 #include "itkPromoteType.h"
 
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 namespace itk {
 namespace Details {
 namespace op {
@@ -86,6 +86,6 @@ struct Div : BinaryOperationConcept
 } // itk::Details::op namespace
 } // itk::Details namespace
 } // itk namespace
-/** \endcond */
+/// \endcond
 
 #endif // itkBinaryOperationConcept_h

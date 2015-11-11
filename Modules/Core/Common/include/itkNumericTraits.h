@@ -209,7 +209,7 @@ public:
 
 };
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 
 /** \class NumericTraits<bool>
  * \brief Define traits for type bool.
@@ -1737,7 +1737,7 @@ public:
   }
 };
 
-/** \endcond */
+/// \endcond
 
 } // end namespace itk
 

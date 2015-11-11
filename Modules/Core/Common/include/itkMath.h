@@ -380,7 +380,7 @@ struct AlmostEqualsFunctionSelector
   typedef AlmostEqualsPlainOldEquals SelectedVersion;
 };
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 template<>
 struct AlmostEqualsFunctionSelector < false, true, false, true>
 // floating type v floating type
@@ -561,7 +561,7 @@ struct AlmostEqualsComplexImplementer
 
   typedef typename AlmostEqualsComplexChooser< T1IsComplex, T2IsComplex >::ChosenVersion ChosenVersion;
 };
-/** *\endcond*/
+/// \endcond
 
 } // end namespace Detail
 

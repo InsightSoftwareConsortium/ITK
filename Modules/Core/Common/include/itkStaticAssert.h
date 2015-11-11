@@ -48,14 +48,14 @@
 #   define ITK_DO_JOIN2(X,Y) X##Y
 
 namespace itk {
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 /** Internal class to emulate static assertions of pre-C++11 compilers.
  * \sa \c itkStaticAssert
  * \ingroup ITKCommon
  */
 template <bool V> struct StaticAssertFailure;
 template <> struct StaticAssertFailure<true>{};
-/** \endcond */
+/// \endcond
 } // itk namespace
 
 #   define itkStaticAssert(expr,str) \

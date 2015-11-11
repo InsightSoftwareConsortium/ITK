@@ -188,13 +188,13 @@ public:
     typedef itk::VectorImage<UPixelType, NUImageDimension>  Type;
   };
 
-  /** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+  /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
   template <typename UElementType, unsigned int NUImageDimension>
   struct Rebind< VariableLengthVector< UElementType >, NUImageDimension>
   {
     typedef itk::VectorImage<UElementType, NUImageDimension>  Type;
   };
-  /** \endcond */
+  /// \endcond
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */

@@ -22,7 +22,7 @@
 #include "itkIsSame.h"
 
 namespace itk {
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 namespace mpl {
 /** Traits that emulates \c std::is_base_of<>.
  * \tparam TBase base type
@@ -43,7 +43,7 @@ struct IsBaseOf
   };
 } // itk::mpl namespace
 
-/** \endcond */
+/// \endcond
 } // itk namespace
 
 #endif // itkIsBaseOf_h

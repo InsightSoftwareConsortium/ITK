@@ -23,7 +23,7 @@
 // Simplification of boost::common_type
 namespace itk {
 
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 namespace mpl {
 
 namespace Details {
@@ -128,7 +128,7 @@ public:
 };
 } // itk::mpl namespace
 
-/** \endcond */
+/// \endcond
 } // itk namespace
 
 #endif // itkPromoteType_h

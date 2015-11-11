@@ -373,7 +373,7 @@ private:
 // now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram
 // as base class
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 
 template<>
 class RankHistogram<unsigned char>:
@@ -393,7 +393,7 @@ class RankHistogram<bool>:
 {
 };
 
-/** \endcond */
+/// \endcond
 
 } // end namespace Function
 } // end namespace itk

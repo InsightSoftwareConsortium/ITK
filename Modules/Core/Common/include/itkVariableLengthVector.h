@@ -923,7 +923,7 @@ private:
   ElementIdentifier m_NumElements;
 };
 
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 namespace mpl {
 /** Tells whether a type is an array type for which the support of arithmetic
  * operations is done with Expression Template.
@@ -937,19 +937,19 @@ namespace mpl {
 template <typename T>
 struct IsArray : FalseType {};
 
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 template <typename T>
 struct IsArray<itk::VariableLengthVector<T> > : TrueType {};
 
 template <typename TExpr1, typename TExpr2, typename TBinaryOp>
 struct IsArray<VariableLengthVectorExpression<TExpr1, TExpr2,TBinaryOp> > : TrueType {};
-/** \endcond */
+/// \endcond
 } // namespace mpl
-/** \endcond */
+/// \endcond
 
 namespace Details
 {
-/** \cond HIDE_META_PROGRAMMING */
+/// \cond HIDE_META_PROGRAMMING
 /** Helper Trait for VLV expression template: returns the value type.
  * \tparam TExpr Expression type
  * \return \c Type The value type behind \c TExpr (\c TExpr in case of a
@@ -992,7 +992,7 @@ GetSize(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
   return lhs.Size();
   }
 
-/** \cond SPECIALIZATION_IMPLEMENTATION */
+/// \cond SPECIALIZATION_IMPLEMENTATION
 /** Helper function for VLV expression templates: returns the common size.
  * \param[in] lhs left hand side expression
  * \param[in] rhs right hand side expression
@@ -1041,7 +1041,7 @@ struct GetType<VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> >
   static Type Load(VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const& v, unsigned int idx) ITK_NOEXCEPT
     { return v[idx]; }
   };
-/**\endcond*/
+/// \endcond
 
 namespace op
 {
@@ -1101,7 +1101,7 @@ struct CanBeDivided
 
 } // op namespace
 } // Details namespace
-/**\endcond*/
+/// \endcond
 
 /** Expression Template for \c VariableLengthVector.
  * Contains an expression template that models a binary operation between two

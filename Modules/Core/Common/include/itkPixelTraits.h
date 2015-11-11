@@ -52,7 +52,7 @@ public:
   typedef typename TPixelType::ValueType ValueType;
 };
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 
 /** \class PixelTraits<bool>
  * Specialization of PixelTraits for scalar images.
@@ -171,7 +171,7 @@ public:
   typedef double ValueType;
 };
 
-/** \endcond */
+/// \endcond
 
 /** \class JoinTraits
  * \brief Trait to determine what datatype is needed if the specified
@@ -198,7 +198,7 @@ public:
   typedef TValue1 ValueType;
 };
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 
 /** \class JoinTraits
  * Specializations for bool.
@@ -1445,7 +1445,7 @@ public:
   typedef double ValueType;
 };
 
-/** \endcond */
+/// \endcond
 
 } // end namespace itk
 
