@@ -81,7 +81,7 @@ int itkFEMElement3DC0LinearTetrahedronStrainTest(int argc, char *argv[])
   int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
 
-  float exectedResult[12] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.33333e-05, 7.01453e-22, -8.70691e-38};
+  float exectedResult[12] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 4.33333e-05f, 7.01453e-22f, -8.70691e-38f};
 
   bool foundError = false;
   for( int i = 0; i < numDOF; i++ )

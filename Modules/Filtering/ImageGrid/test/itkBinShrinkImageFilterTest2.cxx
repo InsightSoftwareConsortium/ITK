@@ -76,7 +76,7 @@ int itkBinShrinkImageFilterTest2( int , char *[] )
   SourceType::SizeValueType size[] = {512,509};
   source->SetSize( size );
 
-  float origin[] = {1.1, 2.22};
+  float origin[] = {1.1f, 2.22f};
   source->SetOrigin( origin );
 
   unsigned int factors[] = {1,1};

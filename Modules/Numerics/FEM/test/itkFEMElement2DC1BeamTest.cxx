@@ -80,7 +80,7 @@ int itkFEMElement2DC1BeamTest(int argc, char *argv[])
   int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
   float             expectedResult[12] =
-  {0.0917665, -0.00103585, -0.00138737, 0.0901188, -0.00178768, -3.88301e-05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+  {0.0917665f, -0.00103585f, -0.00138737f, 0.0901188f, -0.00178768f, -3.88301e-05f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
   bool foundError = false;
   for( int i = 0; i < numDOF; i++ )

@@ -81,8 +81,8 @@ int itkFEMSolverTest3D(int argc, char *argv[])
   vnl_vector<float> soln(numDOF);
 
   bool  foundError = false;
-  float exectedResult[24] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                             0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0};
+  float exectedResult[24] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                             0.00133333f, 0.0f, 0.0f, 0.00133333f, 0.0f, 0.0f, 0.00133333f, 0.0f, 0.0f, 0.00133333f, 0.0f, 0.0f};
   for( int i = 0; i < numDOF; i++ )
     {
     soln[i] = solver->GetSolution(i);

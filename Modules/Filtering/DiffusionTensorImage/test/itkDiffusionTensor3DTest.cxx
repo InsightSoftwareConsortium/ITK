@@ -24,7 +24,7 @@
 int itkDiffusionTensor3DTest(int, char* [] )
 {
   // Test it all
-  float val[6] = {1.8, 0.2, 0.5, 3.4, 2.0, 1.2};
+  float val[6] = {1.8f, 0.2f, 0.5f, 3.4f, 2.0f, 1.2f};
 
   typedef itk::DiffusionTensor3D<float>         Float3DTensorType;
   typedef itk::DiffusionTensor3D<unsigned char> Uchar3DTensorType;

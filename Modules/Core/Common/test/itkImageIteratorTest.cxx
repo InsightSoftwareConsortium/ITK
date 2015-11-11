@@ -51,8 +51,8 @@ int itkImageIteratorTest(int, char* [] )
   itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::Pointer
     o3 = itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::New();
 
-  float origin3D[ImageDimension] = { 5, 2.1, 8.1};
-  float spacing3D[ImageDimension] = { 1.5, 2.1, 1};
+  float origin3D[ImageDimension] = { 5.0f, 2.1f, 8.1f};
+  float spacing3D[ImageDimension] = { 1.5f, 2.1f, 1.0f};
 
   itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::SizeType imageSize3D = {{ 20, 40, 60 }};
 

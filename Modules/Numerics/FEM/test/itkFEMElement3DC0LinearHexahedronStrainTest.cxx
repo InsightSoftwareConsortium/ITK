@@ -77,10 +77,10 @@ int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 
   int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
-  float             exectedResult[24] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                                         0.00597587, 0.000594286, 0.00250921, 0.00597587, -0.000594286,
-                                         -0.00250921, 0.00597587, 0.000594286, -0.00250921, 0.00597587,
-                                         -0.000594286, 0.00250921};
+  float             exectedResult[24] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                                         0.00597587f, 0.000594286f, 0.00250921f, 0.00597587f, -0.000594286f,
+                                         -0.00250921f, 0.00597587f, 0.000594286f, -0.00250921f, 0.00597587f,
+                                         -0.000594286f, 0.00250921f};
 
   bool foundError = false;
   for( int i = 0; i < numDOF; i++ )

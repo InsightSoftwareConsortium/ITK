@@ -208,7 +208,7 @@ int itkFEMLoadBCMFCTestUser(int argc, char *[])
 
   int               numDOF = femObject->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
-  float             expectedResult[10] = {0.283525, 0.0, 0.283525, 1.70115, 0.283525, 0.0, 0.0, 0.0, 0.0, 0.0};
+  float             expectedResult[10] = {0.283525f, 0.0f, 0.283525f, 1.70115f, 0.283525f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
   bool foundError = false;
   for( int i = 0; i < numDOF; i++ )
