@@ -78,7 +78,7 @@ int itkFEMElement2DC0LinearLineStressTest(int argc, char *argv[])
 
   int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
-  float             expectedResult[6] = {0.0, 0.0, 1.66667e-07, 0.0, 5e-07, 0.0};
+  float             expectedResult[6] = {0.0f, 0.0f, 1.66667e-07f, 0.0f, 5e-07f, 0.0f};
 
   bool foundError = false;
   for( int i = 0; i < numDOF; i++ )
