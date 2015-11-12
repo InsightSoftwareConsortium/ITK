@@ -269,6 +269,17 @@ int main() { return f(&A::x); }
 //-------------------------------------
 
 #ifdef VCL_STATIC_CONST_INIT_FLOAT
+
+// Duplicated form vxl_config.h.in to break circular dependancy
+/* When using C++11 or greater, constexpr
+ * may be necessary for static const float initialization
+ * and is benificial in other cases where
+ * a value can be constant. */
+#if  __cplusplus >= 201103L
+# define VCL_CONSTEXPR constexpr
+#else
+# define VCL_CONSTEXPR const
+#endif
 // If __cplusplus is greater than 201103 date, then floating point initialization is supported.
 #if ( defined(__GNUC__) && !defined(__clang__) ) || ( __cplusplus >= 201103L )
 // As stated in vxl/vcl/vcl_config_compiler.h.in
@@ -276,8 +287,8 @@ int main() { return f(&A::x); }
 // Again, we'll use it if we've got it.
 class A {
  public:
-  static const float x = 27.0f;
-  static const double y = 27.0;
+  static VCL_CONSTEXPR float x = 27.0f;
+  static VCL_CONSTEXPR double y = 27.0;
 };
 int main() { return A::x == 27.0f && A::y == 27.0 ? 0 : 1; }
 #else
