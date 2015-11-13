@@ -207,7 +207,7 @@ ResourceProbe< ValueType, MeanType >
                  diff.begin(),
                  std::bind2nd(std::minus<ValueType>(),
                               this->m_MeanValue ));
-  ValueType sq_sum =
+  ValueType sqsum =
     std::inner_product(diff.begin(),diff.end(),
                        diff.begin(),
                        0.0);
@@ -220,8 +220,7 @@ ResourceProbe< ValueType, MeanType >
   else
     {
     this->m_StandardDeviation =
-      std::sqrt(sq_sum /
-               (static_cast<ValueType>(sz)));
+      static_cast<ValueType>(std::sqrt(static_cast<double>(sqsum /(static_cast<ValueType>(sz)))));
     }
   return this->m_StandardDeviation;
 }
