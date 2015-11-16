@@ -21,14 +21,14 @@ from __future__ import print_function
 import itk
 import sys
 
-import ITKCommon
-import ITKBinaryMathematicalMorphology
-import ITKImageStatistics
-import ITKSmoothing
-import ITKDistanceMap
-import ITKImageIntensity
-import ITKThresholding
-import ITKImageGrid
+from itk import ITKCommon
+from itk import ITKBinaryMathematicalMorphology
+from itk import ITKImageStatistics
+from itk import ITKSmoothing
+from itk import ITKDistanceMap
+from itk import ITKImageIntensity
+from itk import ITKThresholding
+from itk import ITKImageGrid
 
 inputImage = sys.argv[1]
 radiusValue = int(sys.argv[2])
