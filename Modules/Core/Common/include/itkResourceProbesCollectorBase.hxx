@@ -29,14 +29,17 @@ ResourceProbesCollectorBase< TProbe >
 ::~ResourceProbesCollectorBase()
 {}
 
+
 template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
 ::Start(const char *id)
 {
   // if the probe does not exist yet, it is created.
+  this->m_Probes[id].SetNameOfProbe(id);
   this->m_Probes[id].Start();
 }
+
 
 template< typename TProbe >
 void
@@ -54,12 +57,13 @@ ResourceProbesCollectorBase< TProbe >
   pos->second.Stop();
 }
 
+
 template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
-::Report(std::ostream & os) const
+::Report(std::ostream & os, bool printSystemInfo, bool printReportHead)
 {
-  typename MapType::const_iterator probe = this->m_Probes.begin();
+  typename MapType::iterator probe = this->m_Probes.begin();
   typename MapType::const_iterator end   = this->m_Probes.end();
 
   if ( probe == end )
@@ -68,30 +72,93 @@ ResourceProbesCollectorBase< TProbe >
     return;
     }
 
-  os.width(20);
-  os <<  " Probe Tag ";
-  os.width(10);
-  os <<  " Starts ";
-  os.width(10);
-  os <<  " Stops  ";
-  os.width(15);
-  os <<  probe->second.GetType() << " (" << probe->second.GetUnit() << ")";
-  os << std::endl;
-
+  bool firstProbe = true;
   while ( probe != end )
     {
-    os.width(20);
-    os <<  probe->first << "  ";
-    os.width(10);
-    os <<  probe->second.GetNumberOfStarts() <<  "   ";
-    os.width(10);
-    os <<  probe->second.GetNumberOfStops() <<  "   ";
-    os.width(15);
-    os <<  probe->second.GetMean();
-    os << std::endl;
-    probe++;
+    if(firstProbe)
+      {
+      probe->second.Report(os, printSystemInfo, printReportHead);
+      firstProbe = false;
+      }
+    else
+      {
+      probe->second.Report(os, false, false);
+      }
+
+    ++probe;
     }
 }
+
+
+template< typename TProbe >
+void
+ResourceProbesCollectorBase< TProbe >
+::Report(const char *name, std::ostream & os, bool printSystemInfo, bool printReportHead)
+{
+  const IdType tid = name;
+
+  typename MapType::iterator pos = this->m_Probes.find(tid);
+  if ( pos == this->m_Probes.end() )
+    {
+    os << "The probe \"" << name << "\" does not exist. It's report is not available" <<std::endl;
+    return;
+    }
+
+  pos->second.Report(os, printSystemInfo, printReportHead);
+
+}
+
+
+template< typename TProbe >
+void
+ResourceProbesCollectorBase< TProbe >
+::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead)
+{
+  typename MapType::iterator probe = this->m_Probes.begin();
+  typename MapType::const_iterator end = this->m_Probes.end();
+
+  if ( probe == end )
+    {
+    os << "No probes have been created" << std::endl;
+    return;
+    }
+
+  bool firstProbe = true;
+  while ( probe != end )
+    {
+    if(firstProbe)
+      {
+      probe->second.ExpandedReport(os, printSystemInfo, printReportHead);
+      firstProbe = false;
+      }
+    else
+      {
+      probe->second.ExpandedReport(os, false, false);
+      }
+
+    ++probe;
+    }
+}
+
+
+template< typename TProbe >
+void
+ResourceProbesCollectorBase< TProbe >
+::ExpandedReport(const char *name, std::ostream & os, bool printSystemInfo, bool printReportHead)
+{
+  const IdType tid = name;
+
+  typename MapType::iterator pos = this->m_Probes.find(tid);
+  if ( pos == this->m_Probes.end() )
+    {
+    os << "The probe \"" << name << "\" does not exist. It's report is not available" <<std::endl;
+    return;
+    }
+
+  pos->second.ExpandedReport(os, printSystemInfo, printReportHead);
+
+}
+
 
 template< typename TProbe >
 void
@@ -100,6 +167,7 @@ ResourceProbesCollectorBase< TProbe >
 {
   this->m_Probes.clear();
 }
+
 
 } // end namespace itk
 

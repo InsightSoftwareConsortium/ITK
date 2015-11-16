@@ -51,8 +51,21 @@ public:
   /** Stop a time probe identified with a name */
   virtual void Stop(const char *name);
 
-  /** Report the summary of results from the probes */
-  virtual void Report(std::ostream & os = std::cout) const;
+  /** Report the summary of results from all probes */
+  virtual void Report(std::ostream & os = std::cout,bool printSystemInfo = true,
+                      bool printReportHead = true);
+
+  /** Report the summary of results from a specific probe */
+  virtual void Report(const char *name, std::ostream & os = std::cout,
+                      bool printSystemInfo = true, bool printReportHead = true);
+
+  /** Expanded report the summary of results from all  probes */
+  virtual void ExpandedReport(std::ostream & os = std::cout,bool printSystemInfo = true,
+                              bool printReportHead = true);
+
+  /** Expanded report the summary of results from a specific probes */
+  virtual void ExpandedReport(const char *name, std::ostream & os = std::cout,
+                              bool printSystemInfo = true, bool printReportHead = true);
 
   /** Destroy the set of probes. New probes can be created after invoking this
     method. */
