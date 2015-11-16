@@ -142,7 +142,7 @@ private:
   ValueType                  m_TotalValue;
   ValueType                  m_MinimumValue;
   ValueType                  m_MaximumValue;
-  ValueType                  m_MeanValue;
+  MeanType                   m_MeanValue;
   ValueType                  m_StandardDeviation;
 
   CountType                  m_NumberOfStarts;

@@ -67,7 +67,7 @@ ResourceProbe< ValueType, MeanType >
   this->m_StartValue        = NumericTraits< ValueType >::ZeroValue();
   this->m_MinimumValue      = NumericTraits< ValueType >::max();
   this->m_MaximumValue      = NumericTraits< ValueType >::min();
-  this->m_MeanValue         = NumericTraits< ValueType >::ZeroValue();
+  this->m_MeanValue         = NumericTraits< MeanType >::ZeroValue();
   this->m_StandardDeviation = NumericTraits< ValueType >::ZeroValue();
 
   this->m_NumberOfStarts    = NumericTraits< CountType >::ZeroValue();
@@ -206,7 +206,7 @@ ResourceProbe< ValueType, MeanType >
                  this->m_ProbeValueList.end(),
                  diff.begin(),
                  std::bind2nd(std::minus<ValueType>(),
-                              this->m_MeanValue ));
+                              static_cast<ValueType>(this->m_MeanValue ) ));
   ValueType sqsum =
     std::inner_product(diff.begin(),diff.end(),
                        diff.begin(),
