@@ -62,7 +62,7 @@ cd "$toplevel_path"
 ## Validate ##
 local required_commands=( git grep sed egrep tar dirname basename )
 for required_command in ${required_commands[@]}; do
-  $required_command --version >/dev/null 2>&1
+  type -p $required_command >/dev/null 2>&1
   if [[ $? -ne 0 ]]; then
     die "Command \"$required_command\" not found"
   fi
