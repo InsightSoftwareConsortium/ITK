@@ -3,7 +3,7 @@ files in the MINC 2 file Format (mnc) and transformations (xfm).")
 
 itk_module(ITKIOMINC
   ENABLE_SHARED
-  COMPILE_DEPENDS
+  DEPENDS
     ITKIOImageBase
   PRIVATE_DEPENDS
     ITKMINC
