@@ -59,5 +59,9 @@ endif()
 
 configure_file(src/itk_minc2.h.in ${ITKMINC_BINARY_DIR}/itk_minc2.h)
 
-
 itk_module_impl()
+
+install(FILES ${ITKMINC_BINARY_DIR}/itk_minc2.h
+  DESTINATION ${ITKMINC_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
+  )
