@@ -93,21 +93,21 @@ template <typename TA, typename TB> struct PromoteType
   static TB b;
 
   // Aimed at supporting overloads
-  template <typename T> static Details::Identity<1>::Type& check(typename Details::SizeToType<1,  TA, TB>::Type, T);
-  template <typename T> static Details::Identity<2>::Type& check(typename Details::SizeToType<2,  TA, TB>::Type, T);
+  template <typename T> static Details::Identity<1>::Type& Check(typename Details::SizeToType<1,  TA, TB>::Type, T);
+  template <typename T> static Details::Identity<2>::Type& Check(typename Details::SizeToType<2,  TA, TB>::Type, T);
 
   // Common numeric types
-  static Details::Identity<3 >::Type& check(typename Details::SizeToType<3,  TA, TB>::Type, int);
-  static Details::Identity<4 >::Type& check(typename Details::SizeToType<4,  TA, TB>::Type, int);
-  static Details::Identity<5 >::Type& check(typename Details::SizeToType<5,  TA, TB>::Type, int);
-  static Details::Identity<6 >::Type& check(typename Details::SizeToType<6,  TA, TB>::Type, int);
-  static Details::Identity<7 >::Type& check(typename Details::SizeToType<7,  TA, TB>::Type, int);
-  static Details::Identity<8 >::Type& check(typename Details::SizeToType<8,  TA, TB>::Type, int);
-  static Details::Identity<9 >::Type& check(typename Details::SizeToType<9,  TA, TB>::Type, int);
-  static Details::Identity<10>::Type& check(typename Details::SizeToType<10, TA, TB>::Type, int);
-  static Details::Identity<11>::Type& check(typename Details::SizeToType<11, TA, TB>::Type, int);
-  static Details::Identity<12>::Type& check(typename Details::SizeToType<12, TA, TB>::Type, int);
-  static Details::Identity<13>::Type& check(typename Details::SizeToType<13, TA, TB>::Type, int);
+  static Details::Identity<3 >::Type& Check(typename Details::SizeToType<3,  TA, TB>::Type, int);
+  static Details::Identity<4 >::Type& Check(typename Details::SizeToType<4,  TA, TB>::Type, int);
+  static Details::Identity<5 >::Type& Check(typename Details::SizeToType<5,  TA, TB>::Type, int);
+  static Details::Identity<6 >::Type& Check(typename Details::SizeToType<6,  TA, TB>::Type, int);
+  static Details::Identity<7 >::Type& Check(typename Details::SizeToType<7,  TA, TB>::Type, int);
+  static Details::Identity<8 >::Type& Check(typename Details::SizeToType<8,  TA, TB>::Type, int);
+  static Details::Identity<9 >::Type& Check(typename Details::SizeToType<9,  TA, TB>::Type, int);
+  static Details::Identity<10>::Type& Check(typename Details::SizeToType<10, TA, TB>::Type, int);
+  static Details::Identity<11>::Type& Check(typename Details::SizeToType<11, TA, TB>::Type, int);
+  static Details::Identity<12>::Type& Check(typename Details::SizeToType<12, TA, TB>::Type, int);
+  static Details::Identity<13>::Type& Check(typename Details::SizeToType<13, TA, TB>::Type, int);
 public:
   /** Type result of operations between \c TA and \c TB.
    * \internal
@@ -117,14 +117,14 @@ public:
    * arguments»</em>, that's why \c ITK_ASSOCIATE() is not used with \c char
    * nor \c short.
    *
-   * Then, we let the compiler choose the right \c check() overload. From here,
+   * Then, we let the compiler choose the right \c Check() overload. From here,
    * it'll know which \c Detail::Identity<> specialization is returned.
    * \c sizeof can thus be used to extract the size of the specialization.
    *
    * Finally, \c Details::SizeToType<> returns the type that holds the result
    * of `a+b`.
    */
-  typedef typename Details::SizeToType<sizeof check(a+b, 0), TA, TB>::Type Type;
+  typedef typename Details::SizeToType<sizeof Check(a+b, 0), TA, TB>::Type Type;
 };
 } // itk::mpl namespace
 
