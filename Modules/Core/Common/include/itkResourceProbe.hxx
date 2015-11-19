@@ -210,9 +210,9 @@ ResourceProbe< ValueType, MeanType >
   ValueType sqsum =
     std::inner_product(diff.begin(),diff.end(),
                        diff.begin(),
-                       0.0);
+                       NumericTraits< ValueType >::ZeroValue());
 
-  int sz = this->m_ProbeValueList.size()-1;
+  int sz = static_cast<int>(this->m_ProbeValueList.size())-1;
   if (sz <=0)
     {
     this->m_StandardDeviation = NumericTraits< ValueType >::ZeroValue();
