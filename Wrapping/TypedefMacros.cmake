@@ -559,12 +559,6 @@ endmacro()
 # string or just a set of separate parameters), or something of the form "n+"
 # (where n is a number) indicating that instantiations are allowed for dimension
 # n and above.
-#
-# E.g., if only ITK_WRAP_unsigned_char is selected and 2- and 3-dimensional images
-# are selected, then itk_wrap_image_filter_USIGN_INT(2)  will create instantiations for
-# filter<itk::Image<unsigned char, 2>, itk::Image<unsigned char, 2> >
-# and
-# filter<itk::Image<unsigned char, 3>, itk::Image<unsigned char, 3> >
 
 macro(itk_wrap_image_filter param_types param_count)
   # itk_wrap_image_filter is a more general macro for wrapping image filters that
