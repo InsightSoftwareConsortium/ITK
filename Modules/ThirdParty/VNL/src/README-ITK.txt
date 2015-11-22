@@ -20,7 +20,7 @@ Update vxl from upstream as follows.  Create a local branch to
 explicitly name the branch (commit L in above diagram):
 
  cd /path/to/top/of/src/ITK
- git branch vxl-upstream 9c5b855f           # (*)
+ git branch vxl-upstream 03fff203           # (*)
 
 The above example shows the real commit hash.  Use it literally.
 
