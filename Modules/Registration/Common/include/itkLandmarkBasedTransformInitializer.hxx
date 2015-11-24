@@ -211,11 +211,14 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
                        << this->m_Transform->GetNameOfClass() );
     }
 
-  if( m_MovingLandmarks.size() != m_FixedLandmarks.size() )
-    {
-    itkExceptionMacro( << " size mismatch between Fixed and Moving Landmarks" );
-    }
   const unsigned int numberOfLandmarks = m_MovingLandmarks.size();
+
+  if( numberOfLandmarks < LandmarkPointContainer::value_type::GetPointDimension()+1 )
+    {
+    itkExceptionMacro( << " insufficient number of landmarks, expected "
+                       <<  LandmarkPointContainer::value_type::GetPointDimension()+1
+                       << " got "<< numberOfLandmarks );
+    }
 
 
   //[Set Landmark Weight]

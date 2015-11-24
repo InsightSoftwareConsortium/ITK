@@ -378,7 +378,24 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   typedef itk::LandmarkBasedTransformInitializer< TransformType,
                                                   ImageType, ImageType > TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  bool pass = false;
 
+  //Test that an exception is thrown if there aren't enough points
+  try {
+    initializer->SetTransform(transform);
+    initializer->InitializeTransform();
+    }
+    catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught expected ExceptionObject";
+    std::cout << err << std::endl;
+    pass = true;
+    }
+  if( !pass )
+    {
+    std::cout << "LandmarkBasedTransformInitializer did not throw expected exception [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   const unsigned int numLandmarks(8);
   double fixedLandMarkInit[numLandmarks][3] =
