@@ -1,6 +1,9 @@
 project(ITKVNL)
 set(ITKVNL_THIRD_PARTY 1)
 
+# ITK and several external packages still use legacy method signatures for VNL
+set(VNL_CONFIG_LEGACY_METHODS CACHE BOOL "Whether backward-compatibility methods are provided by vnl." FORCE ON)
+
 option(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_VXL)
 

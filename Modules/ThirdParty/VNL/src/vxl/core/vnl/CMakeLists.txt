@@ -3,8 +3,12 @@
 # Create vnl_config.h
 OPTION(VNL_CONFIG_CHECK_BOUNDS
   "Whether vnl_vector/vnl_matrix accessor methods check index bounds." ON)
-OPTION(VNL_CONFIG_LEGACY_METHODS
-  "Whether backward-compatibility methods are provided by vnl." OFF)
+
+if(NOT VNL_CONFIG_LEGACY_METHODS)
+  OPTION(VNL_CONFIG_LEGACY_METHODS
+    "Whether backward-compatibility methods are provided by vnl." OFF)
+endif()
+
 OPTION(VNL_CONFIG_THREAD_SAFE
   "Whether thread-safe vnl implementations are used." ON)
 
