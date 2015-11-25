@@ -49,7 +49,13 @@ namespace itk
  *
  * An equal number of fixed and moving landmarks need to be specified using
  * SetFixedLandmarks() and SetMovingLandmarks(). Any number of landmarks may
- * be specified.
+ * be specified. In the case of the Affine transformation the number
+ * of landmarks must be greater than the landmark dimensionality. If
+ * this is not the case an exception is thrown. In the case of the
+ * VersorRigid3DTransform and Rigid2DTransform the number of landmarks
+ * must be equal or greater than the landmark dimensionality. If this
+ * is not the case, only the translational component of the
+ * transformation is computed and the rotation is the identity.
  * In the case of using Affine or BSpline transforms, each landmark pair can
  * contribute in the final transform based on its defined weight. Number of
  * weights should be equal to the number of landmarks and can be specified using
