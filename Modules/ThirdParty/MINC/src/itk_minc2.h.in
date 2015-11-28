@@ -40,7 +40,7 @@
 # include <minc2.h>
 # include <volume_io.h>
 #else
-# include "libsrc2/minc2.h"
+# include "minc2.h"
 # include "volume_io.h"
 #endif
 
