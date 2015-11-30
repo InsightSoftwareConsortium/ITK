@@ -197,11 +197,11 @@ int HDF5ReadWriteTest2(const char *fileName)
     {
     idx = it.GetIndex();
     origValue = idx[2]*100 + idx[1]*10 + idx[0];
-    if(itk::Math::NotAlmostEquals( it.Value(), origValue) )
+    if(itk::Math::NotAlmostEquals( it.Get(), origValue) )
       {
       std::cout << "Original Pixel (" << origValue
                 << ") doesn't match read-in Pixel ("
-                << it.Value() << std::endl;
+                << it.Get() << std::endl;
       return EXIT_FAILURE;
       }
     }
