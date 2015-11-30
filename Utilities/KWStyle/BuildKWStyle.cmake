@@ -15,7 +15,7 @@ itk_download_attempt_check(KWStyle)
 
 ExternalProject_add(KWStyle
   GIT_REPOSITORY "https://github.com/Kitware/KWStyle.git"
-  GIT_TAG 22f2e0bd4ec4c94ca85af0ce24747e67a17b4c52
+  GIT_TAG ea78cb4af42d1fd1eac5a6c9ca0d7d0a2e937321
   UPDATE_COMMAND ""
   DOWNLOAD_DIR ${KWStyle_SOURCE_DIR}
   SOURCE_DIR ${KWStyle_SOURCE_DIR}
