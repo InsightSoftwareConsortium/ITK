@@ -88,11 +88,11 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     itkExceptionMacro( << "BSplineTransform Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
     }
-
-  if( m_MovingLandmarks.size() != m_FixedLandmarks.size() )
+  if( m_ReferenceImage.IsNull() )
     {
-    itkExceptionMacro( << " size mismatch between Fixed and Moving Landmarks" );
+    itkExceptionMacro( << "Reference image required for BSplineTransform initialization is NULL (not set or set to NULL)." );
     }
+
   const unsigned int numberOfLandMarks = m_MovingLandmarks.size();
 
   // Instantiating B-spline filter and creating B-spline domain
