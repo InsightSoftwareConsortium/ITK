@@ -113,6 +113,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   "checking maximum warning verbosity option.*"
 
   "warning: Using 'getpwnam' in statically linked applications requires at runtime the shared libraries"
+
+  # Doxygen warnings
+  "include/itkIsConvertible.h:[0-9]+: warning: Conditional section with label HIDE_META_PROGRAMMING"
   )
 
 if(APPLE)
