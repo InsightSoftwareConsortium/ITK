@@ -38,7 +38,7 @@ public:
   ImagePattern()
   {
     m_Offset = 0.0;
-    for( int j = 0; j < VDimension; j++ )
+    for( unsigned int j = 0; j < VDimension; ++j )
       {
       m_Coeff[j] = 0.0;
       }
@@ -48,7 +48,7 @@ public:
                    const SizeType& clampSize, const PixelType& padValue)
   {
     double accum = m_Offset;
-    for( int j = 0; j < VDimension; j++ )
+    for( unsigned int j = 0; j < VDimension; ++j )
       {
          if ( index[j] < static_cast<IndexValueType>(size[j]) )
            {
@@ -221,7 +221,7 @@ int itkWarpImageFilterTest(int, char* [] )
 
   // compute non-padded output region
   ImageType::RegionType validRegion;
-  ImageType::SizeType validSize = validRegion.GetSize();
+  ImageType::SizeType validSize;
 
   //Needed to deal with incompatibility of various IsInside()s &
   //nearest-neighbour type interpolation on half-band at perimeter of

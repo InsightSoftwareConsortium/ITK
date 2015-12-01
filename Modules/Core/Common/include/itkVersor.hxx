@@ -28,13 +28,12 @@ namespace itk
 /** Constructor to initialize entire vector to one value. */
 template< typename T >
 Versor< T >
-::Versor()
-{
-  m_X = NumericTraits< T >::ZeroValue();
-  m_Y = NumericTraits< T >::ZeroValue();
-  m_Z = NumericTraits< T >::ZeroValue();
-  m_W = NumericTraits< T >::OneValue();
-}
+::Versor() :
+  m_X(NumericTraits< T >::ZeroValue()),
+  m_Y(NumericTraits< T >::ZeroValue()),
+  m_Z(NumericTraits< T >::ZeroValue()),
+  m_W(NumericTraits< T >::OneValue())
+{}
 
 /** Copy Constructor */
 template< typename T >

@@ -84,7 +84,9 @@ int itkHashTableTest(int, char* [] )
   Set.end();
   Set.size();
   Set.max_size();
-  Set.empty();
+  // CppCheck gives us a warning if the return value isn't used.
+  // This is to prevent the user from calling empty() when they mean clear().
+  if (Set.empty()) std::cout << "Set is empty." << std::endl;
   Set.bucket_count();
   Set.resize(50);
   Set.insert("the horror");
@@ -123,7 +125,9 @@ int itkHashTableTest(int, char* [] )
   months.end();
   months.size();
   months.max_size();
-  months.empty();
+  // CppCheck gives us a warning if the return value isn't used.
+  // This is to prevent the user from calling empty() when they mean clear().
+  if (months.empty()) std::cout << "Set is empty." << std::endl;
   months.bucket_count();
   months.resize(50);
   HashMapType::value_type p("psychotic break", 2);
