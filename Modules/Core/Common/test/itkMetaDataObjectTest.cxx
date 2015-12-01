@@ -41,7 +41,7 @@ testMetaData( const TMetaData & value )
   std::cout << "The metadata object: " << std::endl;
   metaDataObject->Print( std::cout );
 
-  std::cout << "\n" << std::endl;
+  std::cout << std::endl << std::endl;
 
   return EXIT_SUCCESS;
 }
@@ -63,7 +63,7 @@ int itkMetaDataObjectTest( int , char * [] )
   result += testMetaData< std::string >( "I T K" );
 
   typedef itk::Image< unsigned short, 3 > ImageType;
-  ImageType::Pointer image;
+  ImageType::Pointer image = ITK_NULLPTR;
   result += testMetaData< ImageType::Pointer >( image );
 
   return result;

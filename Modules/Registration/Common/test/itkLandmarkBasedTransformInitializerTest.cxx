@@ -128,7 +128,8 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   typedef itk::VersorRigid3DTransform< double > TransformType;
   TransformType::Pointer transform = TransformType::New();
   typedef itk::LandmarkBasedTransformInitializer< TransformType,
-                                                  FixedImageType, MovingImageType > TransformInitializerType;
+                                                  FixedImageType,
+                                                  MovingImageType > TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   // Set fixed and moving landmarks
