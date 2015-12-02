@@ -119,13 +119,15 @@ public:
   itkSetGetDecoratedInputMacro(MarginalScale, HistogramMeasurementType);
 
   /** Methods for setting and getting the Minimum and Maximum values of the
-   * histogram bins. */
+   * histogram bins.
+   \warning To use those values you need to set the AutoMinimumMaximum flag to false.*/
   itkSetGetDecoratedInputMacro(HistogramBinMinimum, HistogramMeasurementVectorType);
   itkSetGetDecoratedInputMacro(HistogramBinMaximum, HistogramMeasurementVectorType);
 
   /** Methods for setting and getting the boolean flag that defines whether the
    * minimum and maximum of the histogram are going to be computed
-   * automatically from the values of the sample */
+   * automatically from the values of the sample.
+   \warning If the flag is set to false, it is required to set HistogramBinMinimum and HistogramBinMaximum. */
   itkSetGetDecoratedInputMacro(AutoMinimumMaximum, bool);
 
   /** Method that facilitates the use of this filter in the internal

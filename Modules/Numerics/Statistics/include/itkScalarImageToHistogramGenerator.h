@@ -82,11 +82,20 @@ public:
   /** Set marginal scale value to be passed to the histogram generator */
   void SetMarginalScale(double marginalScale);
 
-  /** Set the minimum value from which the bins will be computed */
+  /** Set the minimum value from which the bins will be computed.
+   \warning This requires to set the automatic computation of the histogram minimum/maximum to Off.
+   \sa SetAutoHistogramMinimumMaximum */
   void SetHistogramMin(RealPixelType minimumValue);
 
-  /** Set the maximum value from which the bins will be computed */
+  /** Set the maximum value from which the bins will be computed.
+   \warning This requires to set the automatic computation of the histogram minimum/maximum to Off.
+   \sa SetAutoHistogramMinimumMaximum */
   void SetHistogramMax(RealPixelType maximumValue);
+
+  /** Computes the histogram minimum and maximum bin values automatically.
+   \warning If set to Off, the values must be manually specified with SetHistogramMin() and SetHistogramMax().
+   \sa SetHistogramMin SetHistogramMax */
+  void SetAutoHistogramMinimumMaximum(bool autoOnOff);
 
 protected:
   ScalarImageToHistogramGenerator();

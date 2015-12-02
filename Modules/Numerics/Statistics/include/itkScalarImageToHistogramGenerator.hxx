@@ -95,6 +95,14 @@ ScalarImageToHistogramGenerator< TImage >
 template< typename TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
+::SetAutoHistogramMinimumMaximum(bool autoOnOff)
+{
+  m_HistogramGenerator->SetAutoMinimumMaximum(autoOnOff);
+}
+
+template< typename TImage >
+void
+ScalarImageToHistogramGenerator< TImage >
 ::SetMarginalScale(double marginalScale)
 {
   m_HistogramGenerator->SetMarginalScale(marginalScale);
