@@ -3,8 +3,6 @@ set(ITKReviewTests
 itkAddConstantToImageFilterTest.cxx
 itkAreaClosingImageFilterTest.cxx
 itkAreaOpeningImageFilterTest.cxx
-itkBoxMeanImageFilterTest.cxx
-itkBoxSigmaImageFilterTest.cxx
 itkBruker2DSEQImageIOTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
@@ -100,26 +98,6 @@ itk_add_test(NAME itkAreaOpeningImageFilterTest0
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkAreaOpeningImageFilterTest0.png}
               ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png
     itkAreaOpeningImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png 1000 0 1)
-itk_add_test(NAME itkBoxMeanImageFilterTest3
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkBoxMeanImageFilter3.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter3.png
-    itkBoxMeanImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter3.png 3)
-itk_add_test(NAME itkBoxMeanImageFilterTest10
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkBoxMeanImageFilter10.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter10.png
-    itkBoxMeanImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter10.png 10)
-itk_add_test(NAME itkBoxSigmaImageFilterTest3
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkBoxSigmaImageFilter3.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter3.png
-    itkBoxSigmaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter3.png 3)
-itk_add_test(NAME itkBoxSigmaImageFilterTest10
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkBoxSigmaImageFilter10.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter10.png
-    itkBoxSigmaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter10.png 10)
 itk_add_test(NAME itkBruker2DSEQImageIOTest1
       COMMAND ITKReviewTestDriver itkBruker2DSEQImageIOTest
               ${ITK_DATA_ROOT}/Input/DCB120604.t61/11/pdata/1/2dseq ${ITK_TEST_OUTPUT_DIR}/itkBruker2DSEQImageIOTest1.mha)

@@ -36,7 +36,7 @@ namespace itk
  *
  *
  * \author Richard Beare
- * \ingroup ITKReview
+ * \ingroup ITKSmoothing
  */
 
 template< typename TInputImage, typename TOutputImage = TInputImage >
