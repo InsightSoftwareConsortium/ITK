@@ -28,7 +28,7 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
 ::BinaryImageToShapeLabelMapFilter()
 {
   m_OutputBackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
-  m_InputForegroundValue = NumericTraits< OutputImagePixelType >::max();
+  m_InputForegroundValue = NumericTraits< InputImagePixelType >::max();
   m_FullyConnected = false;
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = true;
@@ -104,7 +104,7 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_OutputBackgroundValue )
      << std::endl;
   os << indent << "ForegroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_InputForegroundValue ) << std::endl;
+     << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_InputForegroundValue ) << std::endl;
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
 }
