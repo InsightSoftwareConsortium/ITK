@@ -142,6 +142,8 @@ public:
                    ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
   itkConceptMacro( IntConvertibleToOutputCheck,
                    ( Concept::Convertible< int, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( PixelDimensionCheck,
+                   ( Concept::SameDimension< PixelType::Dimension, 3u > ) );
   // End concept checking
 #endif
 
