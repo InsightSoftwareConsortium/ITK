@@ -135,8 +135,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 
   TransformQueueType transforms = this->GetTransformQueue();
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
-  typename TransformQueueType::const_iterator it;
-  it = transforms.begin();
+  typename TransformQueueType::iterator it = transforms.begin();
 
   do
     {
@@ -145,18 +144,17 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
      * avoid unnecessary copying of parameters in the sub-transforms,
      * while still allowing SetParameters to do any oprations on the
      * parameters to update member variable states. A hack. */
-    ParametersType & subParameters = const_cast<ParametersType &>( (*it)->GetParameters() );
-    if( &inputParameters != &this->m_Parameters )
+    if( &inputParameters == &this->m_Parameters )
       {
-      /* New parameter data, so copy it in */
-      /* Use vnl_vector data_block() to get data ptr */
-      std::copy(&(inputParameters.data_block() )[offset],
-                &(inputParameters.data_block() )[offset]+subParameters.Size(),
-                subParameters.data_block());
-      offset += subParameters.Size();
+      (*it)->SetParameters( (*it)->GetParameters() );
       }
-      /* Call SetParameters explicitly to include anything extra it does */
-    (*it)->SetParameters(subParameters);
+    else
+      {
+      const size_t parameterSize = (*it)->GetParameters().Size();
+      (*it)->CopyInParameters( &( inputParameters.data_block() )[offset],
+                              &( inputParameters.data_block() )[offset] + parameterSize );
+      offset += parameterSize;
+      }
     ++it;
     }
   while( it != transforms.end() );
@@ -210,22 +208,17 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
    * sub transforms. */
   TransformQueueType transforms = this->GetTransformQueue();
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
-  typename TransformQueueType::const_iterator it;
 
   /* Why is this done? Seems unnecessary. */
   this->m_FixedParameters = inputParameters;
 
-  it = transforms.begin();
+  typename TransformQueueType::iterator it = transforms.begin();
   do
     {
-    FixedParametersType & subFixedParameters = const_cast<FixedParametersType &>( (*it)->GetFixedParameters() );
-    /* Use vnl_vector data_block() to get data ptr */
-    std::copy(&(this->m_FixedParameters.data_block() )[offset],
-              &(this->m_FixedParameters.data_block() )[offset]+subFixedParameters.Size(),
-              subFixedParameters.data_block());
-    /* Call SetParameters explicitly to include anything extra it does */
-    (*it)->SetFixedParameters(subFixedParameters);
-    offset += subFixedParameters.Size();
+    const size_t fixedParameterSize = (*it)->GetFixedParameters().Size();
+    (*it)->CopyInFixedParameters( &( this->m_FixedParameters.data_block() )[offset],
+              &( this->m_FixedParameters.data_block() )[offset] + fixedParameterSize );
+    offset += fixedParameterSize;
     ++it;
     }
   while( it != transforms.end() );
