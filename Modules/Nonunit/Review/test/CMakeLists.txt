@@ -20,7 +20,6 @@ itkDiscreteHessianGaussianImageFunctionTest.cxx
 itkDivideByConstantImageFilterTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
 itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
-itkGaussianDerivativeOperatorTest.cxx
 itkGridForwardWarpImageFilterTest.cxx
 itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkImageFunctionTest.cxx
@@ -259,8 +258,6 @@ itk_add_test(NAME itkFastApproximateRankImageFilterTest10
     itkFastApproximateRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter10.png 10)
 itk_add_test(NAME itkFastSymmetricForcesDemonsRegistrationFilterTest
       COMMAND ITKReviewTestDriver itkFastSymmetricForcesDemonsRegistrationFilterTest)
-itk_add_test(NAME itkGaussianDerivativeOperatorTest
-      COMMAND ITKReviewTestDriver itkGaussianDerivativeOperatorTest)
 itk_add_test(NAME itkGridForwardWarpImageFilterTest
       COMMAND ITKReviewTestDriver itkGridForwardWarpImageFilterTest)
 itk_add_test(NAME itkImageFunctionTest
