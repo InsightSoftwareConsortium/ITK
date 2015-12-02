@@ -115,7 +115,7 @@ public:
   { m_Matrix *= value; }
 
   /** Matrix by scalar multiplication.  */
-  Self operator*(const T & value)
+  Self operator*(const T & value) const
   {
     Self result(*this);
 
@@ -130,7 +130,7 @@ public:
   }
 
   /** Matrix by scalar division. */
-  Self operator/(const T & value)
+  Self operator/(const T & value) const
   {
     Self result(*this);
 
