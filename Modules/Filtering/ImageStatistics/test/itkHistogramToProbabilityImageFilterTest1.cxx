@@ -71,6 +71,7 @@ int itkHistogramToProbabilityImageFilterTest1( int argc, char * argv [] )
 
   histogramGenerator->SetHistogramMin( imageMin );
   histogramGenerator->SetHistogramMax( imageMax );
+  histogramGenerator->SetAutoHistogramMinimumMaximum( false );
 
   histogramGenerator->Compute();
 
