@@ -22,7 +22,7 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
   if(NOT ${_module_was_requested} EQUAL -1)
     # note: this is an internal CMake variable and should not be used outside ITK
     set(_abi)
-    if(ITK_MODULE_${_module_name}_ENABLE_SHARED AND BUILD_SHARED_LIBS)
+    if(${_module_name}_ENABLE_SHARED AND BUILD_SHARED_LIBS)
       set(_abi "ITK_ABI_IMPORT")
     endif()
     set(${_registration_list_var}
