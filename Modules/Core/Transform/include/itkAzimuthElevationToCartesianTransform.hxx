@@ -54,10 +54,10 @@ AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::PrintSe
 
   os << indent << "x = z*tan(Azimuth)" << std::endl;
   os << indent << "y = z*tan(Elevation)" << std::endl;
-  os << indent << "z = sqrt(r*r * cos(Azimuth)*cos(Azimuth) "
-     << " / (1 + cos(Azimuth) * cos(Azimuth) * tan(Elevation)"
+  os << indent << "z = r * cos(Azimuth) "
+     << " / sqrt((1 + cos(Azimuth) * cos(Azimuth) * tan(Elevation)"
      << "* tan(Elevation)))" << std::endl;
-  os << indent << "Azimuth = 1 / (tan(x/y))" << std::endl;
+  os << indent << "Azimuth = 1 / (tan(x/z))" << std::endl;
   os << indent << "Elevation = 1 / (tan(y/z))" << std::endl;
   os << indent << "r = sqrt(x*x + y*y + z*z)" << std::endl;
   os << indent << "m_MaxAzimuth = " << m_MaxAzimuth << std::endl;
@@ -101,10 +101,10 @@ AzimuthElevationToCartesianTransform<TParametersValueType,
                                       ::TransformAzElToCartesian(const InputPointType & point) const
 {
   OutputPointType result;
-  ScalarType      Azimuth = ( ( 2 * vnl_math::pi ) / 360 )
+  ScalarType Azimuth = ( ( 2 * vnl_math::pi ) / 360 )
                             * ( point[0] * m_AzimuthAngularSeparation
                                 - ( ( m_MaxAzimuth - 1 ) / 2.0 ) );
-  ScalarType Elevation   = ( ( 2 * vnl_math::pi ) / 360 )
+  ScalarType Elevation = ( ( 2 * vnl_math::pi ) / 360 )
                            * ( point[1] * m_ElevationAngularSeparation
                                - ( ( m_MaxElevation - 1 ) / 2.0 ) );
   ScalarType r = ( m_FirstSampleDistance + point[2] ) * m_RadiusSampleSize;
@@ -112,8 +112,8 @@ AzimuthElevationToCartesianTransform<TParametersValueType,
   ScalarType cosOfAzimuth = std::cos(Azimuth);
   ScalarType tanOfElevation = std::tan(Elevation);
 
-  result[2] = std::sqrt( ( r * r * cosOfAzimuth * cosOfAzimuth )
-                        / ( 1 + cosOfAzimuth * cosOfAzimuth * tanOfElevation
+  result[2] = (r * cosOfAzimuth)
+               / std::sqrt(( 1 + cosOfAzimuth * cosOfAzimuth * tanOfElevation
                             * tanOfElevation ) );
   result[0] = result[2] * std::tan(Azimuth);
   result[1] = result[2] * tanOfElevation;
@@ -128,10 +128,10 @@ AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::Transfo
 {
   InputPointType result;       // Converted point
 
-  result[0] = ( std::atan(point[0] / point[2]) ) * ( 360 / ( 2 * vnl_math::pi ) )
-              + ( ( m_MaxAzimuth - 1 ) / 2.0 );
-  result[1] = ( std::atan(point[1] / point[2]) ) * ( 360 / ( 2 * vnl_math::pi ) )
-              + ( ( m_MaxElevation - 1 ) / 2.0 );
+  result[0] = std::atan2(point[0], point[2]) * (360 / (2 * vnl_math::pi))
+            + ((m_MaxAzimuth - 1) / 2.0);
+  result[1] = std::atan2(point[1], point[2]) * (360 / (2 * vnl_math::pi))
+            + ((m_MaxElevation - 1) / 2.0);
   result[2] = ( ( std::sqrt(point[0] * point[0]
                            + point[1] * point[1]
                            + point[2] * point[2]) / m_RadiusSampleSize )

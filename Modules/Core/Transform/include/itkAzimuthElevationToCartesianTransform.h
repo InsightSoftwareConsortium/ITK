@@ -70,6 +70,10 @@ namespace itk
  * \todo  Derive this class from a yet undefined TransformBase class.
  *        Currently, this class derives from AffineTransform, although
  *        it is not an affine transform.
+ *
+ * \todo  Add a figure in the documentation that informs the formulas used in this class
+ *        that are used to transform Cartesian to azimuth-elevation-radius
+ *
  * \ingroup ITKTransform
  *
  * \wiki
