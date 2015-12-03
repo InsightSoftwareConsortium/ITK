@@ -261,6 +261,7 @@ macro(itk_module_impl)
     set(itk-module-TARGETS_FILE-install "${${itk-module}_TARGETS_FILE_INSTALL}")
   endif()
 
+  set(itk-module-ENABLE_SHARED "${ITK_MODULE_${itk-module}_ENABLE_SHARED}")
   set(itk-module-DEPENDS "${ITK_MODULE_${itk-module}_DEPENDS}")
   set(itk-module-PUBLIC_DEPENDS "${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}")
   set(itk-module-TRANSITIVE_DEPENDS "${ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS}")
