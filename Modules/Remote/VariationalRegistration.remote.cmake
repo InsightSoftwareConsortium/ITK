@@ -4,6 +4,6 @@
 #          Rene Werner <r.werner@uke.de>
 itk_fetch_module(VariationalRegistration
   "A module to perform variational image registration. http://hdl.handle.net/10380/3460"
-  GIT_REPOSITORY https://github.com/VariationalRegistration/VariationalRegistration.git
+  GIT_REPOSITORY ${git_protocol}://github.com/VariationalRegistration/VariationalRegistration.git
   GIT_TAG 706be428e5e90791005a0924fbc3dd8b2428bf11
   )

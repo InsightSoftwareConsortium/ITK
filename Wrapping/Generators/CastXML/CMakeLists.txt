@@ -125,7 +125,7 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      GIT_REPOSITORY https://github.com/CastXML/CastXML.git
+      GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
       # CastXML master, 2015-09-30
       GIT_TAG 552dd691215cdafdbe6706e6f76be9d392fb3ffe
       UPDATE_COMMAND ""
