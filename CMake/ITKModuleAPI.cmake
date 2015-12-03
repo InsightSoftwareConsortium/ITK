@@ -27,6 +27,7 @@ macro(_itk_module_config_recurse ns mod)
     list(APPEND ${ns}_LIBRARIES ${${mod}_LIBRARIES})
     list(APPEND ${ns}_INCLUDE_DIRS ${${mod}_INCLUDE_DIRS})
     list(APPEND ${ns}_LIBRARY_DIRS ${${mod}_LIBRARY_DIRS})
+    list(APPEND ${ns}_RUNTIME_LIBRARY_DIRS ${${mod}_RUNTIME_LIBRARY_DIRS})
     foreach(dep IN LISTS ${mod}_TRANSITIVE_DEPENDS)
       _itk_module_config_recurse("${ns}" "${dep}")
     endforeach()
@@ -47,6 +48,7 @@ endmacro()
 #  <module>_LIBRARIES          = Libraries to link
 #  <module>_INCLUDE_DIRS       = Header search path
 #  <module>_LIBRARY_DIRS       = Library search path (for outside dependencies)
+#  <module>_RUNTIME_LIBRARY_DIRS = Runtime linker search path
 macro(itk_module_load mod)
   if(NOT ${mod}_LOADED)
     include("${ITK_MODULES_DIR}/${mod}.cmake" OPTIONAL)
@@ -69,11 +71,13 @@ endmacro()
 #  <namespace>_LIBRARIES    = Libraries to link
 #  <namespace>_INCLUDE_DIRS = Header search path
 #  <namespace>_LIBRARY_DIRS = Library search path (for outside dependencies)
+#  <namespace>_RUNTIME_LIBRARY_DIRS = Runtime linker search path
 # Do not name a module as the namespace.
 macro(itk_module_config ns)
   set(${ns}_LIBRARIES "")
   set(${ns}_INCLUDE_DIRS "")
   set(${ns}_LIBRARY_DIRS "")
+  set(${ns}_RUNTIME_LIBRARY_DIRS "")
 
   set(_${ns}_USED_MODULES "")
   foreach(mod ${ARGN})
@@ -84,7 +88,8 @@ macro(itk_module_config ns)
   endforeach()
   unset(_${ns}_USED_MODULES)
 
-  foreach(v ${ns}_LIBRARIES ${ns}_INCLUDE_DIRS ${ns}_LIBRARY_DIRS)
+  foreach(v ${ns}_LIBRARIES ${ns}_INCLUDE_DIRS ${ns}_LIBRARY_DIRS
+            ${ns}_RUNTIME_LIBRARY_DIRS)
     if(${v})
       list(REMOVE_DUPLICATES ${v})
     endif()
