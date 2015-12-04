@@ -7,6 +7,6 @@ set(ITKIOXML_SRC
   itkFancyString.cxx
 )
 
-add_library(ITKIOXML ${ITKIOXML_SRC})
+add_library(ITKIOXML ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOXML_SRC})
 itk_module_link_dependencies()
 itk_module_target(ITKIOXML)
