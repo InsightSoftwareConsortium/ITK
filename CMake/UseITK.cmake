@@ -37,6 +37,7 @@ set(LIST_OF_IMAGEIO_FORMATS
     Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC GE4 GE5
     MINC
     MGH SCIFIO FDF
+    PhilipsREC
     )
 
 # Set each IO format's module name and factory name

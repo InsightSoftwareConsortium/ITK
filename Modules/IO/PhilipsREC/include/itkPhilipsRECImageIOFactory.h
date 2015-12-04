@@ -65,7 +65,7 @@ public:
     PhilipsRECImageIOFactory::Pointer factory =
       PhilipsRECImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(factory);
+    ObjectFactoryBase::RegisterFactoryInternal(factory);
   }
 
 protected:
