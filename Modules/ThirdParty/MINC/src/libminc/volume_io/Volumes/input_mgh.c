@@ -8,7 +8,12 @@
 
 #include "input_mgh.h"
 
-#include <arpa/inet.h> /* for ntohl and ntohs */
+#ifdef _WIN32
+#  define WIN32_LEAN_AND_MEAN
+#  include <Winsock2.h>
+#else
+#  include <arpa/inet.h> /* for ntohl and ntohs */
+#endif
 #include "znzlib.h"
 #include "errno.h"
 
