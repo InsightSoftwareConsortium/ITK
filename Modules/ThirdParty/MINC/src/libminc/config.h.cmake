@@ -23,6 +23,9 @@
 #cmakedefine HAVE_STRERROR 1 
 #cmakedefine HAVE_FLOAT_H 1 
 
+#cmakedefine HAVE_COPYSIGN 1 
+#cmakedefine HAVE_ROUND 1 
+
 #cmakedefine HAVE_DIRENT_H 1 
 #cmakedefine HAVE_DLFCN_H 1 
 #cmakedefine HAVE_FCNTL_H 1 
