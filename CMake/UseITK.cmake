@@ -43,21 +43,20 @@ set(LIST_OF_IMAGEIO_FORMATS
 # Set each IO format's module name and factory name
 # Most IO modules have consistent string charactors between their module names
 # and their factory class names, except those:
+
 set(Nifti_module_name  ITKIONIFTI)
+
 set(Nrrd_module_name ITKIONRRD)
+
 set(Gipl_module_name ITKIOGIPL)
 
 set(MGH_module_name MGHIO)
-set(MGH_factory_name MGHImageIO)
 
 set(GE4_module_name ITKIOGE)
-set(GE4_factory_name GE4ImageIO)
 set(GE5_module_name ITKIOGE)
-set(GE5_factory_name GE5ImageIO)
-
 
 set(SCIFIO_module_name SCIFIO)
-set(SCIFIO_factory_name SCIFIOImageIO)
+
 set(FDF_module_name IOFDF)
 
 foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
