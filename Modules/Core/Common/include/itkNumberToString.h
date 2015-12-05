@@ -18,7 +18,6 @@
 #ifndef itkNumberToString_h
 #define itkNumberToString_h
 
-#include "double-conversion.h"
 #include "itkMacro.h"
 #include <string>
 
@@ -43,15 +42,10 @@ template< typename TValue>
 class NumberToString
 {
 public:
-  NumberToString() :
-    m_DoubleToStringConverter(double_conversion::DoubleToStringConverter::EcmaScriptConverter())
-    {
-    }
   std::string operator() (TValue val);
 
 private:
   NumberToString & operator=(const NumberToString &); // not defined
-  const double_conversion::DoubleToStringConverter &m_DoubleToStringConverter;
 };
 
 // declaration of specialization
