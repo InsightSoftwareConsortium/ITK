@@ -127,7 +127,7 @@ int itkAzimuthElevationToCartesianTransformTest(int, char *[])
       std::cout << "\n\n--------\n\n";
 
       bool same = true;
-      for (unsigned int i = 0; i < p.at(j).PointDimension && same; i++)
+      for (unsigned int i = 0; i < PointType::PointDimension && same; i++)
       {
           same = ((vnl_math_abs(p.at(j)[i] - answerBackwards[i]) < ACCEPTABLE_ERROR) &&
               (vnl_math_abs(p.at(j)[i] - reverseDirectionAnswerBackwards[i]) < ACCEPTABLE_ERROR) &&
