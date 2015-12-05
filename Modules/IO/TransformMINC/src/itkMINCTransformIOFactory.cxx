@@ -62,7 +62,7 @@ MINCTransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool MINCTransformIOFactoryHasBeenRegistered;
 
-void MINCTransformIOFactoryRegister__Private(void)
+void ITKIOTransformMINC_EXPORT MINCTransformIOFactoryRegister__Private(void)
 {
   if( ! MINCTransformIOFactoryHasBeenRegistered )
     {

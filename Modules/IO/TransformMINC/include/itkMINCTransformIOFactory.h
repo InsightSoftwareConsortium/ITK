@@ -18,6 +18,7 @@
 
 #ifndef itkMINCTransformIOFactory_h
 #define itkMINCTransformIOFactory_h
+#include "ITKIOTransformMINCExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
@@ -29,7 +30,7 @@ namespace itk
    *
    * \ingroup ITKIOTransformMINC
    */
-  class MINCTransformIOFactory:public ObjectFactoryBase
+  class ITKIOTransformMINC_EXPORT MINCTransformIOFactory:public ObjectFactoryBase
   {
   public:
     /** Standard class typedefs. */
