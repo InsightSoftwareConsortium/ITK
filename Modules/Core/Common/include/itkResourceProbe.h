@@ -36,28 +36,6 @@ namespace itk
   *
   * \ingroup ITKCommon
   */
-
-struct ITKSystemInfomation
-{
-  std::string                SystemName;
-  std::string                ProcessorName;
-  SizeValueType              ProcessorCacheSize;
-  float                      ProcessorClockFrequency;
-  unsigned int               NumberOfPhysicalCPU;
-  unsigned int               NumberOfLogicalCPU;
-  unsigned int               NumberOfAvailableCore;
-  std::string                OSName;
-  std::string                OSRelease;
-  std::string                OSVersion;
-  std::string                OSPlatform;
-  bool                       Is64Bits;
-  std::string                ITKVersion;
-  size_t                     TotalVirtualMemory;
-  size_t                     AvailableVirtualMemory;
-  size_t                     TotalPhysicalMemory;
-  size_t                     AvailablePhysicalMemory;
-};
-
 template< typename ValueType, typename MeanType >
 class ResourceProbe
 {
@@ -145,9 +123,6 @@ public:
   virtual void ExpandedReport(std::ostream & os =std::cout, bool printSystemInfo = true,
                               bool printReportHead = true);
 
-  /** Get System information */
-  virtual const ITKSystemInfomation& GetSystemInformation() const;
-
 protected:
   /** Update the Min and Max values with an input value */
   virtual void UpdateMinimumMaximumMeasuredValue(ValueType value);
@@ -158,8 +133,8 @@ protected:
   /** Print Probe Results. */
   virtual void PrintExpandedReportHead(std::ostream & os =std::cout);
 
-  /** RetrieveS System information */
-  virtual void RetrieveSystemInformation();
+  /** Get System information */
+  virtual void GetSystemInformation();
 
 private:
 
@@ -180,7 +155,23 @@ private:
   std::string                m_TypeString;
   std::string                m_UnitString;
 
-  ITKSystemInfomation        m_ITKSystemInfomation;
+  std::string                m_SystemName;
+  std::string                m_ProcessorName;
+  int                        m_ProcessorCacheSize;
+  float                      m_ProcessorClockFrequency;
+  unsigned int               m_NumberOfPhysicalCPU;
+  unsigned int               m_NumberOfLogicalCPU;
+  unsigned int               m_NumberOfAvailableCore;
+  std::string                m_OSName;
+  std::string                m_OSRelease;
+  std::string                m_OSVersion;
+  std::string                m_OSPlatform;
+  bool                       m_Is64Bits;
+  std::string                m_ITKVersion;
+  size_t                     m_TotalVirtualMemory;
+  size_t                     m_AvailableVirtualMemory;
+  size_t                     m_TotalPhysicalMemory;
+  size_t                     m_AvailablePhysicalMemory;
 
   static const unsigned int  tabwidth  = 15;
 };

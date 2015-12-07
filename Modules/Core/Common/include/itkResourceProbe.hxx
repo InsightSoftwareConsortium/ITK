@@ -47,7 +47,7 @@ ResourceProbe< ValueType, MeanType >
 ::ResourceProbe(const std::string & type, const std::string & unit):
   m_TypeString(type), m_UnitString(unit)
 {
-  this->RetrieveSystemInformation();
+  this->GetSystemInformation();
   this->Reset();
 }
 
@@ -248,31 +248,31 @@ void
 ResourceProbe< ValueType, MeanType >
 ::PrintSystemInformation(std::ostream & os)
 {
-  os << "System:              " << m_ITKSystemInfomation.SystemName << std::endl;
-  os << "Processor:           " << m_ITKSystemInfomation.ProcessorName << std::endl;
-  os << "    Cache:           " << m_ITKSystemInfomation.ProcessorCacheSize << std::endl;
-  os << "    Clock:           " << m_ITKSystemInfomation.ProcessorClockFrequency << std::endl;
-  os << "    Cores:           " << m_ITKSystemInfomation.NumberOfPhysicalCPU
-     << " cpus x " << m_ITKSystemInfomation.NumberOfLogicalCPU
-     << " Cores = "<< m_ITKSystemInfomation.NumberOfAvailableCore << std::endl;
+  os << "System:              " << m_SystemName << std::endl;
+  os << "Processor:           " << m_ProcessorName << std::endl;
+  os << "    Cache:           " << m_ProcessorCacheSize << std::endl;
+  os << "    Clock:           " << m_ProcessorClockFrequency << std::endl;
+  os << "    Cores:           " << m_NumberOfPhysicalCPU
+     << " cpus x " << m_NumberOfLogicalCPU
+     << " Cores = "<< m_NumberOfAvailableCore << std::endl;
   // Retrieve memory information in megabyte.
   os << "    Virtual Memory:  Total: "
-     << m_ITKSystemInfomation.TotalVirtualMemory
-     <<" Available: "<< m_ITKSystemInfomation.AvailableVirtualMemory << std::endl;
+     << m_TotalVirtualMemory
+     <<" Available: "<< m_AvailableVirtualMemory << std::endl;
   os << "    Physical Memory: Total:"
-     << m_ITKSystemInfomation.TotalPhysicalMemory
-     <<" Available: "<< m_ITKSystemInfomation.AvailablePhysicalMemory << std::endl;
+     << m_TotalPhysicalMemory
+     <<" Available: "<< m_AvailablePhysicalMemory << std::endl;
 
-  os << "OSName:              "<< m_ITKSystemInfomation.OSName << std::endl;
-  os << "    Release:         "<< m_ITKSystemInfomation.OSRelease << std::endl;
-  os << "    Version:         "<< m_ITKSystemInfomation.OSVersion << std::endl;
-  os << "    Platform:        "<< m_ITKSystemInfomation.OSPlatform << std::endl;
+  os << "OSName:              "<< m_OSName << std::endl;
+  os << "    Release:         "<< m_OSRelease << std::endl;
+  os << "    Version:         "<< m_OSVersion << std::endl;
+  os << "    Platform:        "<< m_OSPlatform << std::endl;
 
   os << "    Operating System is "
-     << (m_ITKSystemInfomation.Is64Bits?"64 bit":"32 bit") << std::endl;
+     << (m_Is64Bits?"64 bit":"32 bit") << std::endl;
 
   os << "ITK Version: "
-     << m_ITKSystemInfomation.ITKVersion << std::endl;
+     << m_ITKVersion << std::endl;
 }
 
 
@@ -334,13 +334,6 @@ ResourceProbe< ValueType, MeanType >
   os << ss.str() << std::endl;
 }
 
-template< typename ValueType, typename MeanType >
-const ITKSystemInfomation&
-ResourceProbe< ValueType, MeanType >
-::GetSystemInformation() const
-{
-  return m_ITKSystemInfomation;
-}
 
 template< typename ValueType, typename MeanType >
 void
@@ -403,36 +396,36 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::RetrieveSystemInformation()
+::GetSystemInformation()
 {
   itksys::SystemInformation systeminfo;
   systeminfo.RunCPUCheck();
   systeminfo.RunMemoryCheck();
   systeminfo.RunOSCheck();
 
-  m_ITKSystemInfomation.SystemName              = systeminfo.GetHostname();
-  m_ITKSystemInfomation.ProcessorName           = systeminfo.GetExtendedProcessorName();
-  m_ITKSystemInfomation.ProcessorCacheSize      = static_cast<SizeValueType>(systeminfo.GetProcessorCacheSize());
-  m_ITKSystemInfomation.ProcessorClockFrequency = systeminfo.GetProcessorClockFrequency();
-  m_ITKSystemInfomation.NumberOfPhysicalCPU     = systeminfo.GetNumberOfPhysicalCPU();
-  m_ITKSystemInfomation.NumberOfLogicalCPU      = systeminfo.GetNumberOfLogicalCPU();
-  m_ITKSystemInfomation.NumberOfAvailableCore   = m_ITKSystemInfomation.NumberOfPhysicalCPU*m_ITKSystemInfomation.NumberOfLogicalCPU;
+  m_SystemName              = systeminfo.GetHostname();
+  m_ProcessorName           = systeminfo.GetExtendedProcessorName();
+  m_ProcessorCacheSize      = systeminfo.GetProcessorCacheSize();
+  m_ProcessorClockFrequency = systeminfo.GetProcessorClockFrequency();
+  m_NumberOfPhysicalCPU     = systeminfo.GetNumberOfPhysicalCPU();
+  m_NumberOfLogicalCPU      = systeminfo.GetNumberOfLogicalCPU();
+  m_NumberOfAvailableCore   = m_NumberOfPhysicalCPU*m_NumberOfLogicalCPU;
 
-  m_ITKSystemInfomation.OSName                  = systeminfo.GetOSName();
-  m_ITKSystemInfomation.OSRelease               = systeminfo.GetOSRelease();
-  m_ITKSystemInfomation.OSVersion               = systeminfo.GetOSVersion();
-  m_ITKSystemInfomation.OSPlatform              = systeminfo.GetOSPlatform();
+  m_OSName                  = systeminfo.GetOSName();
+  m_OSRelease               = systeminfo.GetOSRelease();
+  m_OSVersion               = systeminfo.GetOSVersion();
+  m_OSPlatform              = systeminfo.GetOSPlatform();
 
-  m_ITKSystemInfomation.Is64Bits                = systeminfo.Is64Bits();
+  m_Is64Bits                = systeminfo.Is64Bits();
   std::ostringstream        itkversion;
   itkversion << ITK_VERSION_MAJOR << "." << ITK_VERSION_MINOR << "." << ITK_VERSION_PATCH;
-  m_ITKSystemInfomation.ITKVersion              = itkversion.str();
+  m_ITKVersion              = itkversion.str();
 
  // Retrieve memory information in megabyte.
-  m_ITKSystemInfomation.TotalVirtualMemory      = systeminfo.GetTotalVirtualMemory();
-  m_ITKSystemInfomation.AvailableVirtualMemory  = systeminfo.GetAvailableVirtualMemory();
-  m_ITKSystemInfomation.TotalPhysicalMemory     = systeminfo.GetTotalPhysicalMemory();
-  m_ITKSystemInfomation.AvailablePhysicalMemory = systeminfo.GetAvailablePhysicalMemory();
+  m_TotalVirtualMemory      = systeminfo.GetTotalVirtualMemory();
+  m_AvailableVirtualMemory  = systeminfo.GetAvailableVirtualMemory();
+  m_TotalPhysicalMemory     = systeminfo.GetTotalPhysicalMemory();
+  m_AvailablePhysicalMemory = systeminfo.GetAvailablePhysicalMemory();
 }
 
 } // end namespace itk
