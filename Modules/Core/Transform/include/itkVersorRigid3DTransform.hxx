@@ -181,7 +181,16 @@ VersorRigid3DTransform<TParametersValueType>
   // direction.
 
   VersorType gradientRotation;
-  gradientRotation.Set( axis, factor * axis.GetNorm() );
+  const TParametersValueType norm = axis.GetNorm();
+  if (Math::FloatAlmostEqual<TParametersValueType>(norm, 0.0))
+    {
+    axis[2] = 1;
+    gradientRotation.Set(axis, 0.0);
+    }
+  else
+    {
+    gradientRotation.Set(axis, factor * norm);
+    }
 
   //
   // Composing the currentRotation with the gradientRotation
