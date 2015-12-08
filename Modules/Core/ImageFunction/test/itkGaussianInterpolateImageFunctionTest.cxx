@@ -139,7 +139,7 @@ int RunTest( void )
  const AccumulatorType tolerance = 5e-6;
 
  PointType point;
- unsigned int testLengths[4] = {1,1,1,1};
+ AccumulatorType testLengths[4] = {1,1,1,1};
  for( unsigned int ind = 0; ind < Dimensions; ind++ )
   {
   testLengths[ind] = dimMaxLength-1;
