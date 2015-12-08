@@ -61,7 +61,7 @@ DCMTKTransformIOFactory ::PrintSelf(std::ostream &, Indent) const
 // DO NOT CALL DIRECTLY.
 static bool DCMTKTransformIOFactoryHasBeenRegistered;
 
-void
+void IOTransformDCMTK_EXPORT
 DCMTKTransformIOFactoryRegister__Private(void)
 {
   if (!DCMTKTransformIOFactoryHasBeenRegistered)

@@ -18,6 +18,8 @@
 #ifndef __itkDCMTKTransformIO_h
 #define __itkDCMTKTransformIO_h
 
+#include "IOTransformDCMTKExport.h"
+
 #include "itkTransformIOBase.h"
 
 namespace itk
@@ -32,7 +34,7 @@ namespace itk
  * \ingroup IOTransformDCMTK
  */
 template <typename TInternalComputationValueType>
-class DCMTKTransformIO : public TransformIOBaseTemplate<TInternalComputationValueType>
+class IOTransformDCMTK_EXPORT DCMTKTransformIO : public TransformIOBaseTemplate<TInternalComputationValueType>
 {
 public:
   typedef DCMTKTransformIO                                       Self;
@@ -87,8 +89,6 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkDCMTKTransformIO.hxx"
-#endif
+// Note: Explicit instantiation is done in itkDCMTKTransformIOInstantiation.cxx
 
 #endif // __itkDCMTKTransformIO_h

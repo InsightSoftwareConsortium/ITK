@@ -6,6 +6,7 @@ stored in DICOM files."
 
 itk_module(
   IOTransformDCMTK
+  ENABLE_SHARED
   DEPENDS
     ITKIOTransformBase
     ITKDCMTK
