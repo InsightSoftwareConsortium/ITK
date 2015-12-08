@@ -96,7 +96,6 @@ protected:
 
 private:
   void PushBackTransformList(const Object *transObj);
-  void OpenStream(std::ofstream & out, bool binary);
 
   std::string                       m_FileName;
   ConstTransformListType            m_TransformList;
