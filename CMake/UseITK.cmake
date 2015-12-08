@@ -31,6 +31,42 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
   endif()
 endmacro()
 
+function(_configure_IOFactoryRegisterManager factory_type formats)
+  set(LIST_OF_FACTORIES_REGISTRATION "")
+  set(LIST_OF_FACTORY_NAMES "")
+
+  string(TOLOWER ${factory_type} factory_type_lc)
+  set(_qualifier "_${factory_type_lc}")
+
+  # See below for explanation.
+  if("${factory_type}" STREQUAL "Image")
+    set(_qualifier "")
+  endif()
+
+  foreach (format ${formats})
+    set(_module_name ${${format}${_qualifier}_module_name})
+    set(_factory_name ${${format}${_qualifier}_factory_name})
+    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
+      ${_module_name} ${_factory_name})
+  endforeach()
+
+  get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+  configure_file(${_selfdir}/itk${factory_type}IOFactoryRegisterManager.h.in
+   "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itk${factory_type}IOFactoryRegisterManager.h" @ONLY)
+
+endfunction()
+
+#
+# Infrastructure for registering automatically the factories of commonly used IO formats
+#
+
+# Set each IO format's module name and factory name
+# Most IO modules have consistent string characters between their module names
+# and their factory class names, except the one listed below.
+
+#-----------------------------------------------------------------------------
+# ImageIO
+#-----------------------------------------------------------------------------
 
 # a list of image IOs to be registered when the corresponding modules are enabled
 set(LIST_OF_IMAGEIO_FORMATS
@@ -40,9 +76,10 @@ set(LIST_OF_IMAGEIO_FORMATS
     PhilipsREC
     )
 
-# Set each IO format's module name and factory name
-# Most IO modules have consistent string charactors between their module names
-# and their factory class names, except those:
+# For backward compatibility, ImageIO exceptions are set as
+# "<format>_(module|factory)_name" instead of "<format>_image_(module|factory)_name".
+
+# Exceptions:
 
 set(Nifti_module_name  ITKIONIFTI)
 
@@ -69,43 +106,12 @@ foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
 endforeach()
 
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
-  #
-  # Infrastructure for registering automatically the factories of commonly used IO formats
-  #
+  _configure_IOFactoryRegisterManager("Image" "${LIST_OF_IMAGEIO_FORMATS}")
+endif()
 
-  #for Image IO
-  set(LIST_OF_FACTORIES_REGISTRATION "")
-  set(LIST_OF_FACTORY_NAMES "")
+#-----------------------------------------------------------------------------
+if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
 
-  foreach (ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
-    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
-      ${${ImageFormat}_module_name} ${${ImageFormat}_factory_name})
-  endforeach()
-
-  get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
-  configure_file(${_selfdir}/itkImageIOFactoryRegisterManager.h.in
-   "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itkImageIOFactoryRegisterManager.h" @ONLY)
-  unset(LIST_OF_FACTORIES_REGISTRATION)
-  unset(LIST_OF_FACTORY_NAMES)
-
-  # for Transform IO Template
-  set(LIST_OF_FACTORIES_REGISTRATION "")
-  set(LIST_OF_FACTORY_NAMES "")
-
-  foreach (TransformFormat  Matlab Txt HDF5 MINC)
-    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
-      ITKIOTransform${TransformFormat} ${TransformFormat}TransformIO)
-  endforeach()
-  ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
-    ITKIOTransformInsightLegacy TxtTransformIO)
-
-  get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
-  configure_file(${_selfdir}/itkTransformIOFactoryRegisterManager.h.in
-    "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itkTransformIOFactoryRegisterManager.h" @ONLY)
-  unset(LIST_OF_FACTORIES_REGISTRATION)
-  unset(LIST_OF_FACTORY_NAMES)
-
-  #-------------------
   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_IO_FACTORY_REGISTER_MANAGER)
   include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration)
 
