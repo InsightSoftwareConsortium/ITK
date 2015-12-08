@@ -26,15 +26,15 @@ namespace itk
 {
 template< typename TInputImage, typename TMaskImage >
 KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
-::KappaSigmaThresholdImageCalculator(void)
+::KappaSigmaThresholdImageCalculator()
+: m_Valid(false)
+, m_MaskValue(NumericTraits<MaskPixelType>::max())
+, m_SigmaFactor(2)
+, m_NumberOfIterations(2)
+, m_Output(NumericTraits<InputPixelType>::ZeroValue())
+, m_Image(ITK_NULLPTR)
+, m_Mask(ITK_NULLPTR)
 {
-  this->m_Valid = false;
-  this->m_Image = ITK_NULLPTR;
-  this->m_Mask = ITK_NULLPTR;
-  this->m_MaskValue = NumericTraits< MaskPixelType >::max();
-  this->m_Output = NumericTraits< InputPixelType >::ZeroValue();
-  this->m_SigmaFactor = 2;
-  this->m_NumberOfIterations = 2;
 }
 
 template< typename TInputImage, typename TMaskImage >

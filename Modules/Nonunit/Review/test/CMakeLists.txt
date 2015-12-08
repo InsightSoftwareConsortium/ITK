@@ -33,8 +33,6 @@ itkJPEG2000ImageIOTest03.cxx
 itkJPEG2000ImageIOTest04.cxx
 itkJPEG2000ImageIOTest05.cxx
 itkJPEG2000ImageIOTest06.cxx
-itkKappaSigmaThresholdImageCalculatorTest.cxx
-itkKappaSigmaThresholdImageFilterTest.cxx
 itkLabelGeometryImageFilterTest.cxx
 itkMapMaskedRankImageFilterTest.cxx
 itkMapRankImageFilterTest.cxx
@@ -287,18 +285,6 @@ itk_add_test(NAME itkJPEG2000Test06
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
               ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
     itkJPEG2000ImageIOTest06 DATA{${ITK_DATA_ROOT}/Input/cthead1.j2k} ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
-itk_add_test(NAME itkKappaSigmaThresholdImageCalculatorTest01
-      COMMAND ITKReviewTestDriver itkKappaSigmaThresholdImageCalculatorTest
-              DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} 10 3.5 19)
-itk_add_test(NAME itkKappaSigmaThresholdImageCalculatorTest02
-      COMMAND ITKReviewTestDriver itkKappaSigmaThresholdImageCalculatorTest
-              DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence2.png} 10 3.0 19)
-itk_add_test(NAME itkKappaSigmaThresholdImageFilterTest01
-      COMMAND ITKReviewTestDriver itkKappaSigmaThresholdImageFilterTest
-              DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest01.mha 10 3.5)
-itk_add_test(NAME itkKappaSigmaThresholdImageFilterTest02
-      COMMAND ITKReviewTestDriver itkKappaSigmaThresholdImageFilterTest
-              DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence2.png} ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest02.mha 10 3.0)
 itk_add_test(NAME itkLabelGeometryImageFilterTest
       COMMAND ITKReviewTestDriver
     --compare DATA{${BASELINE}/itkLabelGeometryImageFilterTest.png}
