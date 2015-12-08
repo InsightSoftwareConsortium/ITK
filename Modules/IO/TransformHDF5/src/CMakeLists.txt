@@ -1,6 +1,7 @@
 set(ITKIOTransformHDF5_SRC
 itkHDF5TransformIO.cxx
 itkHDF5TransformIOFactory.cxx
+itkHDF5TransformIOInstantiation.cxx
 )
 
 add_library(ITKIOTransformHDF5 ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOTransformHDF5_SRC})

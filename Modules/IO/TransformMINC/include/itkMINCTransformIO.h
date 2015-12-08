@@ -96,8 +96,6 @@ typedef MINCTransformIOTemplate<double> MINCTransformIO;
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMINCTransformIO.hxx"
-#endif
+// Note: Explicit instantiation is done in itkMINCTransformIOInstantiation.cxx
 
 #endif // itkMINCTransformIO_h

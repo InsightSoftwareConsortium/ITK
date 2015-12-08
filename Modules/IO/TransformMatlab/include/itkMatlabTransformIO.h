@@ -70,8 +70,6 @@ typedef MatlabTransformIOTemplate<double> MatlabTransformIO;
 
 }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMatlabTransformIO.hxx"
-#endif
+// Note: Explicit instantiation is done in itkMatlabTransformIOInstantiation.cxx
 
 #endif // itkMatlabTransformIO_h

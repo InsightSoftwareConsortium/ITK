@@ -78,7 +78,7 @@ struct ITKIOTransformHDF5_EXPORT HDF5CommonPathNames
  * \ingroup ITKIOTransformHDF5
  */
 template<typename TParametersValueType>
-class HDF5TransformIOTemplate:public TransformIOBaseTemplate<TParametersValueType>,
+class ITKIOTransformHDF5_EXPORT HDF5TransformIOTemplate:public TransformIOBaseTemplate<TParametersValueType>,
 private HDF5CommonPathNames
 {
 public:
@@ -147,8 +147,6 @@ typedef HDF5TransformIOTemplate<double> HDF5TransformIO;
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHDF5TransformIO.hxx"
-#endif
+// Note: Explicit instantiation is done in itkHDF5TransformIOInstantiation.cxx
 
 #endif // itkHDF5TransformIO_h

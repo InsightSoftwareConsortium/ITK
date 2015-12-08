@@ -18,6 +18,8 @@
 #ifndef itkTransformIOBase_h
 #define itkTransformIOBase_h
 
+#include "ITKIOTransformBaseExport.h"
+
 #include "itkLightProcessObject.h"
 #include "itkTransformBase.h"
 #include <list>
@@ -43,7 +45,7 @@ namespace itk
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class TransformIOBaseTemplate:public LightProcessObject
+class ITKIOTransformBase_EXPORT TransformIOBaseTemplate:public LightProcessObject
 {
 public:
   /** Standard class typedefs */
@@ -183,8 +185,6 @@ typedef itk::TransformIOBaseTemplate<double> TransformIOBase;
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformIOBase.hxx"
-#endif
+// Note: Explicit instantiation is done in itkTransformFactoryBaseInstantiation.cxx
 
 #endif // itkTransformIOBase_h

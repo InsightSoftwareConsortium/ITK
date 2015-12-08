@@ -1,5 +1,6 @@
 set(ITKIOTransformInsightLegacy_SRC
 itkTxtTransformIOFactory.cxx
+itkTxtTransformIOInstantiation.cxx
 )
 
 add_library(ITKIOTransformInsightLegacy ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOTransformInsightLegacy_SRC})
