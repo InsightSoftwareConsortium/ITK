@@ -85,7 +85,6 @@ protected:
 
   TransformFileReaderTemplate();
   virtual ~TransformFileReaderTemplate();
-  void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
   TransformListType                 m_TransformList;
   typename TransformIOType::Pointer m_TransformIO;
