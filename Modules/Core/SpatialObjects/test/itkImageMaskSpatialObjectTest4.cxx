@@ -88,13 +88,15 @@ int Test3dImageMask()
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
 
-  itk::Size<3> size;
-  size.Fill(10);
+  // note visual studio 2015 u1  (release mode) fails to exectute .Fill properly here by not initializing the last member. With initializer it is happy.
+  itk::Size<3> size = { {10, 10 ,10} };
+//size.Fill(10)
+
+
   //  The SpatialObjectToImageFilter requires that the user defines the grid
   //  parameters of the output image. This includes the number of pixels along
   //  each dimension, the pixel spacing, image direction and
   imageFilter->SetSize( size );
-
   double origin[3];
   origin[0] = 5;
   origin[1] = 5;
