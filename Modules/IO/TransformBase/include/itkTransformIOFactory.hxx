@@ -22,6 +22,19 @@
 
 namespace itk
 {
+
+template<typename TParametersValueType>
+TransformIOFactoryTemplate<TParametersValueType>
+::TransformIOFactoryTemplate()
+{
+}
+
+template<typename TParametersValueType>
+TransformIOFactoryTemplate<TParametersValueType>
+::~TransformIOFactoryTemplate()
+{
+}
+
 template<typename TParametersValueType>
 typename TransformIOBaseTemplate<TParametersValueType>::Pointer
 TransformIOFactoryTemplate<TParametersValueType>
