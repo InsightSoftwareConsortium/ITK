@@ -55,9 +55,6 @@ public:
   static TransformIOBasePointer
   CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode);
 
-  /** Register Built-in factories */
-  static void RegisterBuiltInFactories();
-
 protected:
   TransformIOFactoryTemplate();
   ~TransformIOFactoryTemplate();
