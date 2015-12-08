@@ -110,6 +110,37 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
 endif()
 
 #-----------------------------------------------------------------------------
+# TransformIO
+#-----------------------------------------------------------------------------
+
+# a list of transform IOs to be registered when the corresponding modules are enabled
+set(LIST_OF_TRANSFORMIO_FORMATS
+  HDF5
+  Matlab
+  MINC
+  Txt
+  )
+
+# Exceptions:
+
+set(Txt_transform_module_name ITKIOTransformInsightLegacy)
+set(Txt_transform_factory_name TxtTransformIO)
+
+foreach(TransformFormat ${LIST_OF_TRANSFORMIO_FORMATS})
+  if (NOT ${TransformFormat}_transform_module_name )
+    set(${TransformFormat}_transform_module_name ITKIOTransform${TransformFormat})
+  endif()
+  if (NOT ${TransformFormat}_transform_factory_name)
+    set(${TransformFormat}_transform_factory_name ${TransformFormat}TransformIO)
+  endif()
+endforeach()
+
+if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+  _configure_IOFactoryRegisterManager("Transform" "${LIST_OF_TRANSFORMIO_FORMATS}")
+endif()
+
+
+#-----------------------------------------------------------------------------
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
 
   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_IO_FACTORY_REGISTER_MANAGER)
