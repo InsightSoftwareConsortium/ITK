@@ -24,8 +24,8 @@
 #include <stdint.h>
 #else
 // the system doesn't have the C or C++ version of stdint so lets use
-// itksys's types for fixed widths
-#include "itksys/FundamentalType.h"
+// KWIML's macros for fixed widths
+#include "itk_kwiml.h"
 
 #ifdef ITK_HAVE_STDDEF_H
 #include <cstddef>
@@ -79,14 +79,14 @@ typedef::uintptr_t uintptr_t;
 #else // ITK_HAVE_STDINT_H
 
 /** Fixed width integer types. */
-typedef::itksysFundamentalType_Int8   int8_t;
-typedef::itksysFundamentalType_UInt8  uint8_t;
-typedef::itksysFundamentalType_Int16  int16_t;
-typedef::itksysFundamentalType_UInt16 uint16_t;
-typedef::itksysFundamentalType_Int32  int32_t;
-typedef::itksysFundamentalType_UInt32 uint32_t;
-typedef::itksysFundamentalType_Int64  int64_t;
-typedef::itksysFundamentalType_UInt64 uint64_t;
+typedef KWIML_INT_int8_t   int8_t;
+typedef KWIML_INT_uint8_t  uint8_t;
+typedef KWIML_INT_int16_t  int16_t;
+typedef KWIML_INT_uint16_t uint16_t;
+typedef KWIML_INT_int32_t  int32_t;
+typedef KWIML_INT_uint32_t uint32_t;
+typedef KWIML_INT_int64_t  int64_t;
+typedef KWIML_INT_uint64_t uint64_t;
 
 /** Types which are at least a certain size, these are preferred over
  *  fixed width. */
