@@ -31,6 +31,11 @@ OFFMeshIO
   m_TriangleCellType = true;
 }
 
+OFFMeshIO
+::~OFFMeshIO()
+{
+}
+
 bool
 OFFMeshIO
 ::CanReadFile(const char *fileName)

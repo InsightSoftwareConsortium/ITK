@@ -137,7 +137,7 @@ protected:
 
 protected:
   BYUMeshIO();
-  virtual ~BYUMeshIO(){}
+  virtual ~BYUMeshIO();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

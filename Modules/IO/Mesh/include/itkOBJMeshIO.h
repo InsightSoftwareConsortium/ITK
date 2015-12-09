@@ -153,7 +153,7 @@ protected:
 
 protected:
   OBJMeshIO();
-  virtual ~OBJMeshIO(){}
+  virtual ~OBJMeshIO();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

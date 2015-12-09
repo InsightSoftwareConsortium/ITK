@@ -166,7 +166,7 @@ protected:
 
 protected:
   FreeSurferBinaryMeshIO();
-  virtual ~FreeSurferBinaryMeshIO(){}
+  virtual ~FreeSurferBinaryMeshIO();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
