@@ -53,7 +53,7 @@ public:
     {
     OFFMeshIOFactory::Pointer offFactory = OFFMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(offFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(offFactory);
     }
 
 protected:

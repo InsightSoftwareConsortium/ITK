@@ -53,7 +53,7 @@ public:
   {
     GiftiMeshIOFactory::Pointer giftiFactory = GiftiMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(giftiFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(giftiFactory);
   }
 
 protected:
