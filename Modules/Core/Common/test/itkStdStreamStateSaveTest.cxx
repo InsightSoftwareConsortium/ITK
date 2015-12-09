@@ -24,6 +24,9 @@
 
 int itkStdStreamStateSaveTest(int, char* [] )
 {
+  // Set the fillch of std::cout with an explicit default fill character
+  std::cout.fill(' ');
+
   // Get the state for each format state variable for std::cout
   std::streamsize         defaultPrecision = std::cout.precision();
   std::streamsize         defaultWidth = std::cout.width();
@@ -52,6 +55,9 @@ int itkStdStreamStateSaveTest(int, char* [] )
   } // coutState goes out of scope and will restore original format state
 
   std::stringstream stream;
+  // Set the fillch of std::stringstream with an explicit default fill character
+  stream.fill(' ');
+
   int originalInt = 10;
   {
   itk::StdStreamStateSave sstreamState(stream);
