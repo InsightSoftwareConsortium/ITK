@@ -30,6 +30,8 @@
 #include "itkImageToImageFilter.h"
 #include "itkInputDataObjectIterator.h"
 
+#include <cmath>
+
 namespace itk
 {
 /**
@@ -211,7 +213,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
       // tolerance for origin and spacing depends on the size of pixel
       // tolerance for directions a fraction of the unit cube.
       const SpacePrecisionType coordinateTol
-        = this->m_CoordinateTolerance * inputPtr1->GetSpacing()[0]; // use first dimension spacing
+        = std::abs(this->m_CoordinateTolerance * inputPtr1->GetSpacing()[0]); // use first dimension spacing
 
       if ( !inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) ||
            !inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol) ||
