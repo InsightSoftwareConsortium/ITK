@@ -227,9 +227,18 @@ public:
   itkSetMacro(ComponentWeights, WeightsType);
   itkGetConstReferenceMacro(ComponentWeights, WeightsType);
 
-  /** Get/Set the neighborhood radius used for gradient computation */
-  itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);
-  itkSetMacro(NeighborhoodRadius, RadiusType);
+#ifndef ITK_LEGACY_REMOVE
+  /** Get the neighborhood radius - always 1 */
+  virtual const RadiusType GetNeighborhoodRadius() const
+  {
+    RadiusType r1;
+    r1.Fill(1);
+    return r1;
+  }
+
+  /** Set the neighborhood radius - ignored */
+  virtual void SetNeighborhoodRadius(const RadiusType) {}
+#endif
 
   /** Set/Get principle components calculation mode.  When this is set to TRUE/ON,
       the gradient calculation will involve a priniciple component analysis of
@@ -481,8 +490,6 @@ private:
 
   VectorGradientMagnitudeImageFilter(const Self &) ITK_DELETE_FUNCTION;
   void operator=(const Self &) ITK_DELETE_FUNCTION;
-
-  RadiusType m_NeighborhoodRadius;
 };
 } // end namespace itk
 

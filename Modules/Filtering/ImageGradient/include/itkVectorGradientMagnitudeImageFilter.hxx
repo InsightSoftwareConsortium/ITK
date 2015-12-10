@@ -56,8 +56,6 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
     os << m_ComponentWeights[i] << " ";
     }
   os << std::endl;
-  os << indent << "m_NeighborhoodRadius = "          << m_NeighborhoodRadius
-     << std::endl;
   os << indent << "m_RealValuedInputImage = "          << m_RealValuedInputImage.GetPointer()
      << std::endl;
 }
@@ -73,7 +71,6 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   m_RequestedNumberOfThreads = this->GetNumberOfThreads();
   for ( i = 0; i < ImageDimension; i++ )
     {
-    m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use
     m_DerivativeWeights[i] = static_cast< TRealType >( 1.0 );
     }
   for ( i = 0; i < VectorDimension; i++ )
@@ -126,8 +123,10 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   typename TInputImage::RegionType inputRequestedRegion;
   inputRequestedRegion = inputPtr->GetRequestedRegion();
 
+  RadiusType r1;
+  r1.Fill(1);
   // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius(m_NeighborhoodRadius);
+  inputRequestedRegion.PadByRadius(r1);
 
   // crop the input requested region at the input's largest possible region
   if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
@@ -223,8 +222,10 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< RealVectorImageType >::
   FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< RealVectorImageType > bC;
+  RadiusType r1;
+  r1.Fill(1);
   faceList = bC(dynamic_cast< const RealVectorImageType * >( m_RealValuedInputImage.GetPointer() ),
-                outputRegionForThread, m_NeighborhoodRadius);
+                outputRegionForThread, r1);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< RealVectorImageType >::
   FaceListType::iterator fit;
@@ -238,7 +239,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   // conditions.
   for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
-    bit = ConstNeighborhoodIteratorType(m_NeighborhoodRadius,
+    bit = ConstNeighborhoodIteratorType(r1,
                                         dynamic_cast< const RealVectorImageType * >( m_RealValuedInputImage.GetPointer() ),
                                         *fit);
     it = ImageRegionIterator< TOutputImage >(this->GetOutput(), *fit);
