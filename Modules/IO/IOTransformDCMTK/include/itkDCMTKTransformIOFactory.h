@@ -18,6 +18,7 @@
 #ifndef __itkDCMTKTransformIOFactory_h
 #define __itkDCMTKTransformIOFactory_h
 
+#include "IOTransformDCMTKExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkTransformIOBase.h"
@@ -31,7 +32,7 @@ namespace itk
  *
  * \ingroup IOTransformDCMTK
  */
-class DCMTKTransformIOFactory : public ObjectFactoryBase
+class IOTransformDCMTK_EXPORT DCMTKTransformIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
