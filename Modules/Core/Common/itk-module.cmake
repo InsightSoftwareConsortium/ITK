@@ -8,7 +8,7 @@ depend on this one.")
 
 itk_module(ITKCommon
   ENABLE_SHARED
-  DEPENDS
+  PRIVATE_DEPENDS
     ITKDoubleConversion
   COMPILE_DEPENDS
     ITKKWSys
