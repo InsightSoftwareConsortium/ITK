@@ -174,7 +174,7 @@ int RunTest( void )
  const AccumulatorType normTolerance = std::sqrt(4.0f*tolerance*tolerance);
 
  PointType point;
- unsigned int testLengths[4] = {1,1,1,1};
+ AccumulatorType testLengths[4] = {1,1,1,1};
  for( unsigned int ind = 0; ind < Dimensions; ind++ )
   {
   testLengths[ind] = dimMaxLength-1;
