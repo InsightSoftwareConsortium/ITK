@@ -55,7 +55,7 @@ namespace itk
     {
       MINCTransformIOFactory::Pointer metaFactory = MINCTransformIOFactory::New();
 
-      ObjectFactoryBase::RegisterFactory(metaFactory);
+      ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
     }
 
   protected:

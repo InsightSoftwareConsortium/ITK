@@ -28,6 +28,8 @@
 #ifndef itkTransformFactory_h
 #define itkTransformFactory_h
 
+#include "ITKIOTransformBaseExport.h"
+
 #include "itkTransformFactoryBase.h"
 
 namespace itk
@@ -38,7 +40,7 @@ namespace itk
  */
 
 template< typename T >
-class TransformFactory:public TransformFactoryBase
+class ITKIOTransformBase_EXPORT TransformFactory:public TransformFactoryBase
 {
 public:
   static void RegisterTransform()

@@ -22,7 +22,7 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
   if(NOT ${_module_was_requested} EQUAL -1)
     # note: this is an internal CMake variable and should not be used outside ITK
     set(_abi)
-    if(ITK_MODULE_${_module_name}_ENABLE_SHARED AND BUILD_SHARED_LIBS)
+    if(${_module_name}_ENABLE_SHARED AND BUILD_SHARED_LIBS)
       set(_abi "ITK_ABI_IMPORT")
     endif()
     set(${_registration_list_var}
@@ -31,32 +31,69 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
   endif()
 endmacro()
 
+function(_configure_IOFactoryRegisterManager factory_type formats)
+  set(LIST_OF_FACTORIES_REGISTRATION "")
+  set(LIST_OF_FACTORY_NAMES "")
+
+  string(TOLOWER ${factory_type} factory_type_lc)
+  set(_qualifier "_${factory_type_lc}")
+
+  # See below for explanation.
+  if("${factory_type}" STREQUAL "Image")
+    set(_qualifier "")
+  endif()
+
+  foreach (format ${formats})
+    set(_module_name ${${format}${_qualifier}_module_name})
+    set(_factory_name ${${format}${_qualifier}_factory_name})
+    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
+      ${_module_name} ${_factory_name})
+  endforeach()
+
+  get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+  configure_file(${_selfdir}/itk${factory_type}IOFactoryRegisterManager.h.in
+   "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itk${factory_type}IOFactoryRegisterManager.h" @ONLY)
+
+endfunction()
+
+#
+# Infrastructure for registering automatically the factories of commonly used IO formats
+#
+
+# Set each IO format's module name and factory name
+# Most IO modules have consistent string characters between their module names
+# and their factory class names, except the one listed below.
+
+#-----------------------------------------------------------------------------
+# ImageIO
+#-----------------------------------------------------------------------------
 
 # a list of image IOs to be registered when the corresponding modules are enabled
 set(LIST_OF_IMAGEIO_FORMATS
     Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC GE4 GE5
     MINC
     MGH SCIFIO FDF
+    PhilipsREC
     )
 
-# Set each IO format's module name and factory name
-# Most IO modules have consistent string charactors between their module names
-# and their factory class names, except those:
+# For backward compatibility, ImageIO exceptions are set as
+# "<format>_(module|factory)_name" instead of "<format>_image_(module|factory)_name".
+
+# Exceptions:
+
 set(Nifti_module_name  ITKIONIFTI)
+
 set(Nrrd_module_name ITKIONRRD)
+
 set(Gipl_module_name ITKIOGIPL)
 
 set(MGH_module_name MGHIO)
-set(MGH_factory_name MGHImageIO)
 
 set(GE4_module_name ITKIOGE)
-set(GE4_factory_name GE4ImageIO)
 set(GE5_module_name ITKIOGE)
-set(GE5_factory_name GE5ImageIO)
-
 
 set(SCIFIO_module_name SCIFIO)
-set(SCIFIO_factory_name SCIFIOImageIO)
+
 set(FDF_module_name IOFDF)
 
 foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
@@ -69,43 +106,43 @@ foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
 endforeach()
 
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
-  #
-  # Infrastructure for registering automatically the factories of commonly used IO formats
-  #
+  _configure_IOFactoryRegisterManager("Image" "${LIST_OF_IMAGEIO_FORMATS}")
+endif()
 
-  #for Image IO
-  set(LIST_OF_FACTORIES_REGISTRATION "")
-  set(LIST_OF_FACTORY_NAMES "")
+#-----------------------------------------------------------------------------
+# TransformIO
+#-----------------------------------------------------------------------------
 
-  foreach (ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
-    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
-      ${${ImageFormat}_module_name} ${${ImageFormat}_factory_name})
-  endforeach()
+# a list of transform IOs to be registered when the corresponding modules are enabled
+set(LIST_OF_TRANSFORMIO_FORMATS
+  HDF5
+  Matlab
+  MINC
+  Txt
+  )
 
-  get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
-  configure_file(${_selfdir}/itkImageIOFactoryRegisterManager.h.in
-   "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itkImageIOFactoryRegisterManager.h" @ONLY)
-  unset(LIST_OF_FACTORIES_REGISTRATION)
-  unset(LIST_OF_FACTORY_NAMES)
+# Exceptions:
 
-  # for Transform IO Template
-  set(LIST_OF_FACTORIES_REGISTRATION "")
-  set(LIST_OF_FACTORY_NAMES "")
+set(Txt_transform_module_name ITKIOTransformInsightLegacy)
+set(Txt_transform_factory_name TxtTransformIO)
 
-  foreach (TransformFormat  Matlab Txt HDF5 MINC)
-    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
-      ITKIOTransform${TransformFormat} ${TransformFormat}TransformIO)
-  endforeach()
-  ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
-    ITKIOTransformInsightLegacy TxtTransformIO)
+foreach(TransformFormat ${LIST_OF_TRANSFORMIO_FORMATS})
+  if (NOT ${TransformFormat}_transform_module_name )
+    set(${TransformFormat}_transform_module_name ITKIOTransform${TransformFormat})
+  endif()
+  if (NOT ${TransformFormat}_transform_factory_name)
+    set(${TransformFormat}_transform_factory_name ${TransformFormat}TransformIO)
+  endif()
+endforeach()
 
-  get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
-  configure_file(${_selfdir}/itkTransformIOFactoryRegisterManager.h.in
-    "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itkTransformIOFactoryRegisterManager.h" @ONLY)
-  unset(LIST_OF_FACTORIES_REGISTRATION)
-  unset(LIST_OF_FACTORY_NAMES)
+if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+  _configure_IOFactoryRegisterManager("Transform" "${LIST_OF_TRANSFORMIO_FORMATS}")
+endif()
 
-  #-------------------
+
+#-----------------------------------------------------------------------------
+if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+
   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_IO_FACTORY_REGISTER_MANAGER)
   include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration)
 

@@ -18,6 +18,8 @@
 #ifndef itkCompositeTransformIOHelper_h
 #define itkCompositeTransformIOHelper_h
 
+#include "ITKIOTransformBaseExport.h"
+
 #include "itkTransformIOBase.h"
 #include "itkCompositeTransform.h"
 
@@ -43,7 +45,7 @@ namespace itk
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class CompositeTransformIOHelperTemplate
+class ITKIOTransformBase_EXPORT CompositeTransformIOHelperTemplate
 {
 public:
   typedef typename TransformIOBaseTemplate<TParametersValueType>::TransformType          TransformType;
@@ -93,8 +95,6 @@ typedef CompositeTransformIOHelperTemplate<double> CompositeTransformIOHelper;
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCompositeTransformIOHelper.hxx"
-#endif
+// Note: Explicit instantiation is done in itkTransformFactoryBaseInstantiation.cxx
 
 #endif //  itkCompositeTransformIOHelper_h

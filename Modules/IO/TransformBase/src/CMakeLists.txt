@@ -1,8 +1,9 @@
 set(ITKIOTransformBase_SRC
 itkTransformFactoryBase.cxx
+itkTransformFactoryBaseInstantiation.cxx
 itkTransformFileWriterSpecializations.cxx
 )
 
-add_library(ITKIOTransformBase ${ITKIOTransformBase_SRC})
+add_library(ITKIOTransformBase ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOTransformBase_SRC})
 itk_module_link_dependencies()
 itk_module_target(ITKIOTransformBase)

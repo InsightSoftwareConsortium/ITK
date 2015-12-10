@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "ITKIOPhilipsRECExport.h"
+
 #include "itkPhilipsRECImageIOFactory.h"
 #include "itkPhilipsRECImageIO.h"
 #include "itkVersion.h"
@@ -54,4 +56,19 @@ PhilipsRECImageIOFactory::GetDescription(void) const
   return "Philips REC ImageIO Factory, allows the loading of Philips REC images"
          " into Insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool PhilipsRECImageIOFactoryHasBeenRegistered;
+
+void ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactoryRegister__Private(void)
+{
+  if( ! PhilipsRECImageIOFactoryHasBeenRegistered )
+    {
+    PhilipsRECImageIOFactoryHasBeenRegistered = true;
+    PhilipsRECImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

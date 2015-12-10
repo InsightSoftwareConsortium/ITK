@@ -1,4 +1,5 @@
 set(@itk-module@_LOADED 1)
+set(@itk-module@_ENABLE_SHARED "@itk-module-ENABLE_SHARED@")
 set(@itk-module@_DEPENDS "@itk-module-DEPENDS@")
 set(@itk-module@_PUBLIC_DEPENDS "@itk-module-PUBLIC_DEPENDS@")
 set(@itk-module@_TRANSITIVE_DEPENDS "@itk-module-TRANSITIVE_DEPENDS@")

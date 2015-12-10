@@ -81,8 +81,6 @@ typedef TxtTransformIOTemplate<double> TxtTransformIO;
 
 }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTxtTransformIO.hxx"
-#endif
+// Note: Explicit instantiation is done in itkTxtTransformIOInstantiation.cxx
 
 #endif // itkTxtTransformIO_h

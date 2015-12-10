@@ -18,6 +18,8 @@
 #ifndef itkTransformIOFactory_h
 #define itkTransformIOFactory_h
 
+#include "ITKIOTransformBaseExport.h"
+
 #include "itkObject.h"
 #include "itkTransformIOBase.h"
 
@@ -32,7 +34,7 @@ typedef enum { ReadMode, WriteMode } TransformIOFactoryFileModeType;
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class TransformIOFactoryTemplate:public Object
+class ITKIOTransformBase_EXPORT TransformIOFactoryTemplate:public Object
 {
 public:
   /** Standard class typedefs. */
@@ -55,12 +57,9 @@ public:
   static TransformIOBasePointer
   CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode);
 
-  /** Register Built-in factories */
-  static void RegisterBuiltInFactories();
-
 protected:
   TransformIOFactoryTemplate();
-  ~TransformIOFactoryTemplate();
+  virtual ~TransformIOFactoryTemplate();
 
 private:
   TransformIOFactoryTemplate(const Self &) ITK_DELETE_FUNCTION;
@@ -72,8 +71,7 @@ typedef TransformIOFactoryTemplate<double> TransformIOFactory;
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformIOFactory.hxx"
-#endif
+
+// Note: Explicit instantiation is done in itkTransformFactoryBaseInstantiation.cxx
 
 #endif

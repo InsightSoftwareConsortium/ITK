@@ -18,6 +18,8 @@
 #ifndef itkTransformFileReader_h
 #define itkTransformFileReader_h
 
+#include "ITKIOTransformBaseExport.h"
+
 #include "itkTransformIOBase.h"
 
 namespace itk
@@ -32,7 +34,7 @@ namespace itk
    * \endwiki
    */
 template<typename TParametersValueType>
-class TransformFileReaderTemplate: public LightProcessObject
+class ITKIOTransformBase_EXPORT TransformFileReaderTemplate: public LightProcessObject
 {
 public:
 
@@ -85,7 +87,6 @@ protected:
 
   TransformFileReaderTemplate();
   virtual ~TransformFileReaderTemplate();
-  void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
   TransformListType                 m_TransformList;
   typename TransformIOType::Pointer m_TransformIO;
@@ -105,8 +106,6 @@ typedef itk::TransformFileReaderTemplate<double> TransformFileReader;
 #include "itkTransformIOFactoryRegisterManager.h"
 #endif
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformFileReader.hxx"
-#endif
+// Note: Explicit instantiation is done in itkTransformFactoryBaseInstantiation.cxx
 
 #endif // itkTransformFileReade_h

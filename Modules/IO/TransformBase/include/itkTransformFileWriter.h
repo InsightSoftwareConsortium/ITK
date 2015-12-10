@@ -18,6 +18,8 @@
 #ifndef itkTransformFileWriter_h
 #define itkTransformFileWriter_h
 
+#include "ITKIOTransformBaseExport.h"
+
 #include "itkTransformIOBase.h"
 #include <iostream>
 #include <fstream>
@@ -34,7 +36,7 @@ namespace itk
    * \endwiki
    */
 template<typename TParametersValueType>
-class TransformFileWriterTemplate:public LightProcessObject
+class ITKIOTransformBase_EXPORT TransformFileWriterTemplate:public LightProcessObject
 {
 public:
 
@@ -96,7 +98,6 @@ protected:
 
 private:
   void PushBackTransformList(const Object *transObj);
-  void OpenStream(std::ofstream & out, bool binary);
 
   std::string                       m_FileName;
   ConstTransformListType            m_TransformList;
@@ -116,8 +117,6 @@ typedef itk::TransformFileWriterTemplate<double> TransformFileWriter;
 #include "itkTransformIOFactoryRegisterManager.h"
 #endif
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformFileWriter.hxx"
-#endif
+// Note: Explicit instantiation is done in itkTransformFactoryBaseInstantiation.cxx
 
 #endif // itkTransformFileWriter_h
