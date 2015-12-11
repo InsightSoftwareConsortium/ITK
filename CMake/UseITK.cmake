@@ -207,6 +207,24 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
   endif()
 endmacro()
 
+# _set_module_and_factory_names(<factory_type> <module_name_prefix> <factory_name_suffix>)
+#
+# Set default factory and module names associated with the <factory_type> formats
+# while considering exceptions already set.
+#
+macro(_set_module_and_factory_names factory_type module_name_prefix factory_name_suffix)
+  string(TOUPPER ${factory_type} _qualifier_uc)
+  string(TOLOWER ${factory_type} _qualifier_lc)
+  foreach(format ${LIST_OF_${_qualifier_uc}IO_FORMATS})
+    if (NOT ${format}_${_qualifier_lc}_module_name )
+       set(${format}_${_qualifier_lc}_module_name ${module_name_prefix}${format})
+    endif()
+    if (NOT ${format}_${_qualifier_lc}_factory_name)
+       set(${format}_${_qualifier_lc}_factory_name ${format}${factory_name_suffix})
+    endif()
+  endforeach()
+endmacro()
+
 #-----------------------------------------------------------------------------
 # ImageIO
 #-----------------------------------------------------------------------------
@@ -238,14 +256,7 @@ set(SCIFIO_image_module_name SCIFIO)
 
 set(FDF_image_module_name IOFDF)
 
-foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
-  if (NOT ${ImageFormat}_image_module_name )
-     set(${ImageFormat}_image_module_name ITKIO${ImageFormat})
-  endif()
-  if (NOT ${ImageFormat}_image_factory_name)
-     set(${ImageFormat}_image_factory_name ${ImageFormat}ImageIO)
-  endif()
-endforeach()
+_set_module_and_factory_names("Image" "ITKIO" "ImageIO")
 
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   _configure_IOFactoryRegisterManager("Image" "${LIST_OF_IMAGEIO_FORMATS}")
@@ -289,14 +300,7 @@ set(OFF_mesh_factory_name OFFMeshIO)
 set(VTKPolyData_mesh_module_name ITKIOMesh)
 set(VTKPolyData_mesh_factory_name VTKPolyDataMeshIO)
 
-foreach(MeshFormat ${LIST_OF_MESHIO_FORMATS})
-  if (NOT ${MeshFormat}_mesh_module_name )
-    set(${MeshFormat}_mesh_module_name ITKIOMesh${MeshFormat})
-  endif()
-  if (NOT ${MeshFormat}_mesh_factory_name)
-    set(${MeshFormat}_mesh_factory_name ${MeshFormat}MeshIO)
-  endif()
-endforeach()
+_set_module_and_factory_names("Mesh" "ITKIOMesh" "MeshIO")
 
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   _configure_IOFactoryRegisterManager("Mesh" "${LIST_OF_MESHIO_FORMATS}")
@@ -319,14 +323,8 @@ set(LIST_OF_TRANSFORMIO_FORMATS
 set(Txt_transform_module_name ITKIOTransformInsightLegacy)
 set(Txt_transform_factory_name TxtTransformIO)
 
-foreach(TransformFormat ${LIST_OF_TRANSFORMIO_FORMATS})
-  if (NOT ${TransformFormat}_transform_module_name )
-    set(${TransformFormat}_transform_module_name ITKIOTransform${TransformFormat})
-  endif()
-  if (NOT ${TransformFormat}_transform_factory_name)
-    set(${TransformFormat}_transform_factory_name ${TransformFormat}TransformIO)
-  endif()
-endforeach()
+
+_set_module_and_factory_names("Transform" "ITKIOTransform" "TransformIO")
 
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   _configure_IOFactoryRegisterManager("Transform" "${LIST_OF_TRANSFORMIO_FORMATS}")
