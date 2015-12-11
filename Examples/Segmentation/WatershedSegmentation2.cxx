@@ -41,14 +41,13 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage lowerThreshold  outputScaleLevel" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   typedef float                             InternalPixelType;
   typedef itk::RGBPixel<unsigned char>      RGBPixelType;
 
   const   unsigned int                      Dimension = 3;
-
 
   typedef itk::Image< InternalPixelType,  Dimension >  InternalImageType;
   typedef itk::Image< RGBPixelType,       Dimension >  RGBImageType;
@@ -128,9 +127,10 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
 
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }

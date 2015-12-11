@@ -67,7 +67,7 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   LineType::PointListType list;
 
-  for(unsigned int i=0; i<3; i++)
+  for (unsigned int i=0; i<3; ++i)
     {
     LinePointType p;
     p.SetPosition(i,i+1,i+2);
@@ -75,7 +75,7 @@ int main( int , char *[] )
 
     VectorType normal1;
     VectorType normal2;
-    for(unsigned int j=0;j<3;j++)
+    for (unsigned int j=0; j<3; ++j)
       {
       normal1[j]=j;
       normal2[j]=j*2;
@@ -126,16 +126,16 @@ int main( int , char *[] )
 
 // Software Guide : BeginCodeSnippet
    LineType::PointListType::const_iterator it = Line->GetPoints().begin();
-   while(it != Line->GetPoints().end())
+   while (it != Line->GetPoints().end())
      {
      std::cout << "Position = " << (*it).GetPosition() << std::endl;
      std::cout << "Color = " << (*it).GetColor() << std::endl;
      std::cout << "First normal = " << (*it).GetNormal(0) << std::endl;
      std::cout << "Second normal = " << (*it).GetNormal(1) << std::endl;
      std::cout << std::endl;
-     it++;
+     ++it;
      }
 // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

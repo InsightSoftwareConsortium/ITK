@@ -115,7 +115,7 @@ int main( int argc, char *argv[] )
     std::cerr << argv[0]
               << " inputImageFile outputImageFile"
               << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 // Software Guide : BeginLatex
@@ -150,9 +150,9 @@ int main( int argc, char *argv[] )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught a !" << std::endl;
-    std::cout << err << std::endl;
-    return -1;
+    std::cerr << "ExceptionObject caught a !" << std::endl;
+    std::cerr << err << std::endl;
+    return EXIT_FAILURE;
     }
 
 // Software Guide : BeginLatex
@@ -217,9 +217,9 @@ int main( int argc, char *argv[] )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return -1;
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
+    return EXIT_FAILURE;
     }
 
 // Software Guide : BeginLatex
@@ -231,5 +231,5 @@ int main( int argc, char *argv[] )
 // \index{itk::ImageLinearIteratorWithIndex!example of using|)}
 // Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -69,14 +69,14 @@ int main( int , char *[] )
 
 // Software Guide : BeginCodeSnippet
   TubeType::PointListType list;
-  for( i=0; i<5; i++)
+  for (i=0; i<5; ++i)
     {
     TubePointType p;
     p.SetPosition(i,i+1,i+2);
     p.SetRadius(1);
     VectorType normal1;
     VectorType normal2;
-    for(unsigned int j=0;j<3;j++)
+    for (unsigned int j=0; j<3; ++j)
       {
       normal1[j]=j;
       normal2[j]=j*2;
@@ -156,5 +156,5 @@ int main( int , char *[] )
     }
 // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

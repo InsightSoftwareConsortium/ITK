@@ -63,7 +63,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Missing command line arguments" << std::endl;
     std::cerr << "Usage :  ImageHistogram1  inputImageFileName " << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex
@@ -136,7 +136,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Problem reading image file : " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 
@@ -222,12 +222,13 @@ int main( int argc, char * argv [] )
 
   std::cout << "Histogram size " << histogramSize << std::endl;
 
-  for( unsigned int bin=0; bin < histogramSize; bin++ )
+  for (unsigned int bin=0; bin < histogramSize; ++bin)
     {
     std::cout << "bin = " << bin << " frequency = ";
     std::cout << histogram->GetFrequency( bin, 0 ) <<std::endl;
     }
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
+
 }

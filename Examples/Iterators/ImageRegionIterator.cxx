@@ -61,7 +61,7 @@ int main( int argc, char *argv[] )
       std::cerr << argv[0]
                 << " inputImageFile outputImageFile startX startY sizeX sizeY"
                 << std::endl;
-      return -1;
+      return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex
@@ -140,7 +140,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
     // Check that the region is contained within the input image.
@@ -149,7 +149,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Error" << std::endl;
     std::cerr << "The region " << inputRegion << "is not contained within the input image region "
               << reader->GetOutput()->GetRequestedRegion() << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex
@@ -235,7 +235,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex
@@ -268,5 +268,5 @@ int main( int argc, char *argv[] )
   //
   // Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }

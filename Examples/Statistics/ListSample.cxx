@@ -193,5 +193,5 @@ int main()
   std::cout << "Total frequency = "
             << sample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
-  return 0;
+  return EXIT_SUCCESS;
 }

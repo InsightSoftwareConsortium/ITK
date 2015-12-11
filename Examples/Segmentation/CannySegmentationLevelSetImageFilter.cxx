@@ -104,7 +104,7 @@ int main( int argc, char *argv[] )
     std::cerr << " InitialModelIsovalue";
     std::cerr << " MaximumIterations";
     std::cerr << " [OutputSpeedImage]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   //  Software Guide : BeginLatex
@@ -273,6 +273,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 
@@ -369,9 +370,10 @@ int main( int argc, char *argv[] )
       std::cerr << "Exception caught ! while writing the speed image" << std::endl;
       std::cerr << "Filename : " << speedImageFileName << std::endl;
       std::cerr << excep << std::endl;
+      return EXIT_FAILURE;
       }
 
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

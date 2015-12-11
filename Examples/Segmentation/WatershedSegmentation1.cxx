@@ -70,7 +70,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage outputImage conductanceTerm diffusionIterations lowerThreshold outputScaleLevel gradientMode " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex
@@ -222,9 +222,10 @@ int main( int argc, char *argv[] )
   catch (itk::ExceptionObject &e)
     {
     std::cerr << e << std::endl;
+    return EXIT_FAILURE;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 //

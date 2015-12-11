@@ -318,7 +318,7 @@ int main( int,  char *[])
   MembershipFunctionVectorType membershipFunctionVector =
     membershipFunctionVectorObject->Get();
 
-  for ( unsigned int i = 0; i < 2; i++ )
+  for (unsigned int i = 0; i < 2; ++i)
     {
     MembershipFunctionType::Pointer membershipFunction =
       MembershipFunctionType::New();
@@ -354,5 +354,6 @@ int main( int,  char *[])
     }
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
+
 }

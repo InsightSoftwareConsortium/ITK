@@ -238,5 +238,5 @@ int main()
   std::cout << "50th percentile along the first dimension = "
             << histogram->Quantile(0, 0.5) << std::endl;
   // Software Guide : EndCodeSnippet
-  return 0;
+  return EXIT_SUCCESS;
 }

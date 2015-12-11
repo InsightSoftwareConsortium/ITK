@@ -190,7 +190,7 @@ int main( int argc, char *argv[] )
   catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception caught " << excp << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 

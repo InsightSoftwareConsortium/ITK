@@ -46,7 +46,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  seedX seedY seedZ lowThreshold highThreshold iterations outputMesh.vtk" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -227,7 +227,7 @@ int main( int argc, char *argv[] )
 
   std::cout << "numberOfIterations " << numberOfIterations << std::endl;
 
-  for(unsigned int i=0; i<numberOfIterations; i++)
+  for (unsigned int i=0; i<numberOfIterations; ++i)
     {
     cellularAggregate->AdvanceTimeStep();
     }

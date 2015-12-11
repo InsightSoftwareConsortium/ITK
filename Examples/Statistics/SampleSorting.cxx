@@ -143,13 +143,13 @@ int main()
   SampleType::Pointer sample = SampleType::New();
 
   MeasurementVectorType mv;
-  for ( unsigned int i = 5; i > 0; --i )
+  for (unsigned int i = 5; i > 0; --i )
     {
-    for (unsigned int j = 0; j < 2; j++ )
+    for (unsigned int j = 0; j < 2; ++j)
       {
       mv[j] = ( MeasurementType ) i;
       }
-    for ( unsigned int j = 0; j < i; j++ )
+    for (unsigned int j = 0; j < i; ++j)
       {
       sample->PushBack(mv);
       }
@@ -252,5 +252,5 @@ int main()
   std::cout << "Quick Select: median = " << median << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

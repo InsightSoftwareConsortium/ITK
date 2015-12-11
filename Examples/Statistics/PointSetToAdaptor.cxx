@@ -130,5 +130,5 @@ int main()
   sample->SetPointSet( caster->GetOutput() );
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

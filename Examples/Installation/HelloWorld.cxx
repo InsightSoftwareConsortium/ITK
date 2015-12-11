@@ -35,7 +35,7 @@ int main()
 
   std::cout << "ITK Hello World !" << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 // Software Guide : EndCodeSnippet
 
