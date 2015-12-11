@@ -228,7 +228,7 @@ int main()
 
   estimator->SetInitialProportions( initialProportions );
 
-  for ( unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
     {
     estimator->AddComponent( (ComponentType::Superclass*)
                              (components[i]).GetPointer() );
@@ -244,7 +244,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for ( unsigned int i = 0; i < numberOfClasses; i++ )
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
     {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
@@ -255,5 +255,5 @@ int main()
     }
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

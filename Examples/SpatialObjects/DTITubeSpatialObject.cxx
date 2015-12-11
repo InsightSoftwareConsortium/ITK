@@ -74,7 +74,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginCodeSnippet
   DTITubeType::PointListType list;
-  for( i=0; i<5; i++)
+  for (i=0; i<5; ++i)
     {
     DTITubePointType p;
     p.SetPosition(i,i+1,i+2);
@@ -154,10 +154,11 @@ int main( int , char *[] )
     std::cout << (*it).GetTensorMatrix()[4] << " : ";
     std::cout << (*it).GetTensorMatrix()[5] << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
-    it++;
-    i++;
+    ++it;
+    ++i;
     }
 // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
+
 }

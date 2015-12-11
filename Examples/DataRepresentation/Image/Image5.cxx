@@ -51,7 +51,7 @@ int main(int argc, char * argv[])
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  outputImageFile" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex
@@ -252,6 +252,7 @@ int main(int argc, char * argv[])
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << exp << std::endl;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex

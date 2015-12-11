@@ -115,7 +115,7 @@ int main( int argc, char *argv[] )
     std::cerr << " UpperThreshold";
     std::cerr << " [CurvatureScaling == 1.0]";
     std::cerr << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   //  Software Guide : BeginLatex
@@ -348,6 +348,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 
@@ -421,5 +422,5 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }

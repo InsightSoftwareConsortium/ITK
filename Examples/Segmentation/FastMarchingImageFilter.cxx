@@ -184,7 +184,7 @@ static void PrintCommandLineUsage( const int argc, const char * const argv[] )
   std::cerr << " Sigma SigmoidAlpha SigmoidBeta TimeThreshold StoppingValue";
   std::cerr << " smoothingOutputImage gradientMagnitudeOutputImage sigmoidOutputImage" << std::endl;
 
-  for(int qq=0; qq< argc; ++qq)
+  for (int qq=0; qq< argc; ++qq)
     {
     std::cout << "argv[" << qq << "] = " << argv[qq] << std::endl;
     }
@@ -192,7 +192,7 @@ static void PrintCommandLineUsage( const int argc, const char * const argv[] )
 
 int main( int argc, char *argv[] )
 {
-  if( argc != 13 )
+  if (argc != 13)
     {
     PrintCommandLineUsage(argc, argv);
     return EXIT_FAILURE;
@@ -590,8 +590,8 @@ int main( int argc, char *argv[] )
     }
   catch( itk::ExceptionObject & err )
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -608,8 +608,8 @@ int main( int argc, char *argv[] )
     }
   catch( itk::ExceptionObject & err )
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -626,8 +626,8 @@ int main( int argc, char *argv[] )
     }
   catch( itk::ExceptionObject & err )
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -686,6 +686,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 
@@ -702,8 +703,8 @@ int main( int argc, char *argv[] )
     }
   catch( itk::ExceptionObject & err )
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -805,5 +806,5 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  Software Guide : EndLatex
-  return 0;
+  return EXIT_SUCCESS;
 }

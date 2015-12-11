@@ -158,5 +158,5 @@ int main( int , char *[] )
 // \normalsize
 // Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }

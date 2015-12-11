@@ -217,5 +217,5 @@ int main()
             << subsample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

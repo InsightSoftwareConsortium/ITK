@@ -67,7 +67,7 @@ int main( int argc, char ** argv )
     std::cerr << argv[0]
               << " inputImageFile outputImageFile direction"
               << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   typedef float                             PixelType;
@@ -85,9 +85,9 @@ int main( int argc, char ** argv )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return -1;
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
+    return EXIT_FAILURE;
     }
 
   ImageType::Pointer output = ImageType::New();
@@ -217,10 +217,10 @@ int main( int argc, char ** argv )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return -1;
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
+    return EXIT_FAILURE;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -207,7 +207,7 @@ int main( int argc, char *argv[] )
     std::cerr << " propagationScaling shapePriorScaling";
     std::cerr << " meanShapeImage numberOfModes shapeModeFilePattern";
     std::cerr << " startX startY" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -654,7 +654,7 @@ int main( int argc, char *argv[] )
   const std::vector<std::string> & shapeModeFileNames =
           fileNamesCreator->GetFileNames();
 
-  for ( unsigned int k = 0; k < numberOfPCAModes; k++ )
+  for (unsigned int k = 0; k < numberOfPCAModes; ++k )
     {
     ReaderType::Pointer shapeModeReader = ReaderType::New();
     shapeModeReader->SetFileName( shapeModeFileNames[k].c_str() );
@@ -913,6 +913,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 
@@ -1075,6 +1076,6 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
+  return EXIT_SUCCESS;
 
-  return 0;
 }

@@ -52,7 +52,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
   EllipseType::ArrayType radius;
-  for(unsigned int i = 0; i<3; i++)
+  for (unsigned int i = 0; i<3; ++i)
     {
     radius[i] = i;
     }
@@ -90,7 +90,7 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   itk::Point<double,3> insidePoint;
   insidePoint.Fill(1.0);
-  if(myEllipse->IsInside(insidePoint))
+  if (myEllipse->IsInside(insidePoint))
     {
     std::cout << "The point " << insidePoint;
     std::cout << " is really inside the ellipse" << std::endl;
@@ -98,7 +98,7 @@ int main( int , char *[] )
 
   itk::Point<double,3> outsidePoint;
   outsidePoint.Fill(3.0);
-  if(!myEllipse->IsInside(outsidePoint))
+  if (!myEllipse->IsInside(outsidePoint))
     {
     std::cout << "The point " << outsidePoint;
     std::cout << " is really outside the ellipse" << std::endl;
@@ -114,7 +114,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-   if(myEllipse->IsEvaluableAt(insidePoint))
+   if (myEllipse->IsEvaluableAt(insidePoint))
     {
     std::cout << "The point " << insidePoint;
     std::cout << " is evaluable at the point " << insidePoint << std::endl;
@@ -152,5 +152,5 @@ int main( int , char *[] )
   std::cout << "Bounding Box: " << boundingBox->GetBounds() << std::endl;
 // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

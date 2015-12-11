@@ -57,7 +57,7 @@ int main( int argc, char *argv[] )
     std::cerr << " SigmaGradient (default = 1) " << std::endl;
     std::cerr << " variance of the accumulator blurring (default = 5) " << std::endl;
     std::cerr << " radius of the disk to remove from the accumulator (default = 10) "<< std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   //  Software Guide : BeginLatex
@@ -94,6 +94,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
   ImageType::Pointer localImage = reader->GetOutput();
   // Software Guide : EndCodeSnippet
@@ -267,8 +268,9 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -157,5 +157,5 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }

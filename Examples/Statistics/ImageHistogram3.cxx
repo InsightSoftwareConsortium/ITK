@@ -54,7 +54,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Missing command line arguments" << std::endl;
     std::cerr << "Usage :  ImageHistogram3  inputRGBImageFileName " << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -92,7 +92,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -253,7 +253,7 @@ int main( int argc, char * argv [] )
 
   std::cout << "Histogram of the red component" << std::endl;
 
-  for( unsigned int bin=0; bin < histogramSize; bin++ )
+  for (unsigned int bin=0; bin < histogramSize; ++bin)
     {
     std::cout << "bin = " << bin << " frequency = ";
     std::cout << histogram->GetFrequency( bin, channel ) << std::endl;
@@ -294,7 +294,7 @@ int main( int argc, char * argv [] )
 
   std::cout << "Histogram of the green component" << std::endl;
 
-  for( unsigned int bin=0; bin < histogramSize; bin++ )
+  for (unsigned int bin=0; bin < histogramSize; ++bin)
     {
     std::cout << "bin = " << bin << " frequency = ";
     std::cout << histogram->GetFrequency( bin, channel ) << std::endl;
@@ -333,13 +333,13 @@ int main( int argc, char * argv [] )
 
   std::cout << "Histogram of the blue component" << std::endl;
 
-  for( unsigned int bin=0; bin < histogramSize; bin++ )
+  for (unsigned int bin=0; bin < histogramSize; ++bin)
     {
     std::cout << "bin = " << bin << " frequency = ";
     std::cout << histogram->GetFrequency( bin, channel ) << std::endl;
     }
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }

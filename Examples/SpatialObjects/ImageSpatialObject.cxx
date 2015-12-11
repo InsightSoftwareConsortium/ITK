@@ -60,8 +60,8 @@ int main( int , char *[] )
   typedef itk::ImageRegionIterator<Image> Iterator;
   Iterator it(image,region);
   short pixelValue =0;
-  it.GoToBegin();
-  for(; !it.IsAtEnd(); ++it, ++pixelValue)
+
+  for(it.GoToBegin(); !it.IsAtEnd(); ++it, ++pixelValue)
     {
     it.Set(pixelValue);
     }
@@ -142,5 +142,5 @@ int main( int , char *[] )
   std::cout << " = " << returnedDerivative << std::endl;
 // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -81,7 +81,7 @@ int main(int argc, char * argv[] )
     std::cerr
       << "Usage:  IterativeClosestPoint1   fixedPointsFile  movingPointsFile "
       << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 // Software Guide : BeginCodeSnippet
@@ -116,7 +116,7 @@ int main(int argc, char * argv[] )
     {
     std::cerr << "Error opening points file with name : " << std::endl;
     std::cerr << argv[1] << std::endl;
-    return 2;
+    return EXIT_FAILURE;
     }
 
   unsigned int pointId = 0;
@@ -146,7 +146,7 @@ int main(int argc, char * argv[] )
     {
     std::cerr << "Error opening points file with name : " << std::endl;
     std::cerr << argv[2] << std::endl;
-    return 2;
+    return EXIT_FAILURE;
     }
 
   pointId = 0;

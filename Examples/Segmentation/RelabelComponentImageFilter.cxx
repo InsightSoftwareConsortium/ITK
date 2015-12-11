@@ -50,8 +50,8 @@ int main( int argc, char * argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile   outputImageFile" << std::endl;
-    return 1;
+    std::cerr << argv[0] << " inputImageFile outputImageFile" << std::endl;
+    return EXIT_FAILURE;
     }
 
 
@@ -135,7 +135,7 @@ int main( int argc, char * argv[] )
   SizesInPixelsType::const_iterator sizeEnd = sizesInPixels.end();
   std::cout << "Number of pixels per class " << std::endl;
   unsigned int kclass = 0;
-  while( sizeItr != sizeEnd )
+  while (sizeItr != sizeEnd)
     {
     std::cout << "Class " << kclass << " = " << *sizeItr << std::endl;
     ++kclass;
@@ -163,5 +163,5 @@ int main( int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

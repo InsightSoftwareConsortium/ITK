@@ -58,7 +58,7 @@ int main( int argc, char ** argv )
     std::cerr << argv[0]
               << " outputImageFile startX startY"
               << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   typedef float                                  PixelType;
@@ -117,6 +117,7 @@ int main( int argc, char ** argv )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
 
   ImageType::Pointer input = adder->GetOutput();
@@ -228,9 +229,9 @@ int main( int argc, char ** argv )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return -1;
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
+    return EXIT_FAILURE;
     }
-  return 0;
+  return EXIT_SUCCESS;
 }

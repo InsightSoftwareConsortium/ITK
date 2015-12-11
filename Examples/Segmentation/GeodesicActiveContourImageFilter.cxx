@@ -119,7 +119,7 @@
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 10 )
+  if ( argc < 10 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
@@ -127,7 +127,7 @@ int main( int argc, char *argv[] )
     std::cerr << " seedX seedY InitialDistance";
     std::cerr << " Sigma SigmoidAlpha SigmoidBeta";
     std::cerr << " PropagationScaling"  << std::endl;
-    return 1;
+    return EXIT_SUCCESS;
     }
 
 
@@ -487,6 +487,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
 
@@ -604,5 +605,5 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  return 0;
+  return EXIT_SUCCESS;
 }

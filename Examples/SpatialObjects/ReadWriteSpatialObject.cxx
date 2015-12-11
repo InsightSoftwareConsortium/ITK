@@ -124,6 +124,6 @@ int main( int , char *[] )
   std::cout << group->GetNumberOfChildren() << std::endl;
 // Software Guide : EndCodeSnippet
 
+  return EXIT_SUCCESS;
 
-  return 0;
 }

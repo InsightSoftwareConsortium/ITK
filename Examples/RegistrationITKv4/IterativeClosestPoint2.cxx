@@ -87,7 +87,7 @@ int main(int argc, char * argv[] )
     std::cerr <<
       "Usage:  IterativeClosestPoint2   fixedPointsFile  movingPointsFile "
       << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   const unsigned int Dimension = 3;
@@ -122,7 +122,7 @@ int main(int argc, char * argv[] )
     {
     std::cerr << "Error opening points file with name : " << std::endl;
     std::cerr << argv[1] << std::endl;
-    return 2;
+    return EXIT_FAILURE;
     }
 
   unsigned int pointId = 0;
@@ -145,7 +145,7 @@ int main(int argc, char * argv[] )
     {
     std::cerr << "Error opening points file with name : " << std::endl;
     std::cerr << argv[2] << std::endl;
-    return 2;
+    return EXIT_FAILURE;
     }
 
   pointId = 0;
@@ -285,11 +285,12 @@ int main(int argc, char * argv[] )
     }
   catch( itk::ExceptionObject & e )
     {
-    std::cout << e << std::endl;
+    std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
   std::cout << "Stopping condition: " << optimizer->GetStopConditionDescription() << std::endl;
+
   return EXIT_SUCCESS;
 }

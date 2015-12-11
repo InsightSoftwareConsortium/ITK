@@ -53,7 +53,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Missing command line arguments" << std::endl;
     std::cerr << "Usage :  ImageHistogram1  inputImageFileName " << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -87,7 +87,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Problem reading image file : " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -205,6 +205,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
