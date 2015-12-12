@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMeshFileReader_h
 #define itkMeshFileReader_h
-#include "ITKIOMeshExport.h"
 
 #include "itkMeshFileReaderException.h"
 #include "itkMacro.h"
@@ -142,7 +141,7 @@ public:
 
 protected:
   MeshFileReader();
-  ~MeshFileReader(){}
+  virtual ~MeshFileReader();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Convert a block of pixels from one type to another. */
@@ -174,8 +173,10 @@ private:
 };
 } // namespace ITK
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshFileReader.hxx"
+// Note: Explicit instantiation is done in itkMeshIOInstantiation.cxx
+
+#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#include "itkMeshIOFactoryRegisterManager.h"
 #endif
 
 #endif

@@ -10,6 +10,7 @@ set(ITKIOMesh_SRC
   itkGiftiMeshIO.cxx
   itkGiftiMeshIOFactory.cxx
   itkMeshIOBase.cxx
+  itkMeshIOInstantiation.cxx
   itkMeshIOFactory.cxx
   itkOBJMeshIO.cxx
   itkOBJMeshIOFactory.cxx

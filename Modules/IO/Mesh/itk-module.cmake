@@ -2,15 +2,17 @@ set(DOCUMENTATION "This module contains classes for reading and writing
 Meshes as opposed to general images.")
 itk_module(ITKIOMesh
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
+    ITKCommon
     ITKIOImageBase
+    ITKQuadEdgeMesh
+    ITKMesh
+    ITKVoronoi
+  PRIVATE_DEPENDS
     ITKDoubleConversion
     ITKGIFTI
-  COMPILE_DEPENDS
-    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
-    ITKQuadEdgeMesh
   DESCRIPTION
     "${DOCUMENTATION}"
 )

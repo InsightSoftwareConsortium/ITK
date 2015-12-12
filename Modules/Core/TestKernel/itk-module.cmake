@@ -16,6 +16,7 @@ itk_module(ITKTestKernel
     ITKIOPNG
     ITKIOTIFF
     ITKIOVTK
+    ITKIOMesh
   PRIVATE_DEPENDS
     ITKCommon
   COMPILE_DEPENDS

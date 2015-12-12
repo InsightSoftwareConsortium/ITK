@@ -252,6 +252,57 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
 endif()
 
 #-----------------------------------------------------------------------------
+# MeshIO
+#-----------------------------------------------------------------------------
+
+# a list of mesh IOs to be registered when the corresponding modules are enabled
+set(LIST_OF_MESHIO_FORMATS
+  BYU
+  FreeSurferAscii
+  FreeSurferBinary
+  Gifti
+  OBJ
+  OFF
+  VTKPolyData
+  )
+
+# Exceptions:
+
+set(BYU_mesh_module_name ITKIOMesh)
+set(BYU_mesh_factory_name MeshIO)
+
+set(FreeSurferAscii_mesh_module_name ITKIOMesh)
+set(FreeSurferAscii_mesh_factory_name MeshIO)
+
+set(FreeSurferBinary_mesh_module_name ITKIOMesh)
+set(FreeSurferBinary_mesh_factory_name MeshIO)
+
+set(Gifti_mesh_module_name ITKIOMesh)
+set(Gifti_mesh_factory_name MeshIO)
+
+set(OBJ_mesh_module_name ITKIOMesh)
+set(OBJ_mesh_factory_name MeshIO)
+
+set(OFF_mesh_module_name ITKIOMesh)
+set(OFF_mesh_factory_name MeshIO)
+
+set(VTKPolyData_mesh_module_name ITKIOMesh)
+set(VTKPolyData_mesh_factory_name MeshIO)
+
+foreach(MeshFormat ${LIST_OF_MESHIO_FORMATS})
+  if (NOT ${MeshFormat}_mesh_module_name )
+    set(${MeshFormat}_mesh_module_name ITKIOMesh${MeshFormat})
+  endif()
+  if (NOT ${MeshFormat}_mesh_factory_name)
+    set(${MeshFormat}_mesh_factory_name ${MeshFormat}MeshIO)
+  endif()
+endforeach()
+
+if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+  _configure_IOFactoryRegisterManager("Mesh" "${LIST_OF_MESHIO_FORMATS}")
+endif()
+
+#-----------------------------------------------------------------------------
 # TransformIO
 #-----------------------------------------------------------------------------
 

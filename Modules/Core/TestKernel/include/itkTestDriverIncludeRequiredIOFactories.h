@@ -18,6 +18,7 @@
 #ifndef itkTestDriverIncludeRequiredIOFactories_h
 #define itkTestDriverIncludeRequiredIOFactories_h
 
+// ImageIO
 #include "itkGDCMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
@@ -28,6 +29,16 @@
 #include "itkNrrdImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
 #include "itkNiftiImageIOFactory.h"
+
+// MeshIO
+#include "itkBYUMeshIOFactory.h"
+#include "itkFreeSurferAsciiMeshIOFactory.h"
+#include "itkFreeSurferBinaryMeshIOFactory.h"
+#include "itkGiftiMeshIOFactory.h"
+#include "itkOBJMeshIOFactory.h"
+#include "itkOFFMeshIOFactory.h"
+#include "itkVTKPolyDataMeshIOFactory.h"
+
 #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
@@ -38,6 +49,7 @@
 void
 RegisterRequiredFactories()
 {
+  // ImageIO
   itk::ObjectFactoryBase::RegisterFactory( itk::MetaImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::GDCMImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );
@@ -48,6 +60,14 @@ RegisterRequiredFactories()
   itk::ObjectFactoryBase::RegisterFactory( itk::NrrdImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::GiplImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::NiftiImageIOFactory::New() );
+  // MeshIO
+  itk::ObjectFactoryBase::RegisterFactory( itk::BYUMeshIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::FreeSurferAsciiMeshIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::FreeSurferBinaryMeshIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::GiftiMeshIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::OBJMeshIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::OFFMeshIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::VTKPolyDataMeshIOFactory::New() );
 }
 
 void

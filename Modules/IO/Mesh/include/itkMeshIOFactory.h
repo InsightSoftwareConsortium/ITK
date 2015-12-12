@@ -61,8 +61,20 @@ public:
   /** Create the appropriate MeshIO depending on the particulars of the file. */
   static MeshIOBasePointer CreateMeshIO(const char *path, FileModeType mode);
 
-  /** Register Built-in factories */
+  /**
+   * \sa deprecated
+   * This method is deprecated, MeshIO factories are registered during
+   * static initialization.
+   * \sa RegisterFactories()
+   */
   static void RegisterBuiltInFactories();
+
+  /**
+   * Register Mesh factories.
+   *
+   * This method is automatically called during static initialization.
+   */
+  static void RegisterFactories();
 
 protected:
   MeshIOFactory();

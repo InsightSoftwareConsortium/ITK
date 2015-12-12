@@ -39,6 +39,13 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
   m_MeshIO = ITK_NULLPTR;
   m_FileName = "";
   m_UserSpecifiedMeshIO = false;
+
+}
+
+template< typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits >
+MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
+::~MeshFileReader()
+{
 }
 
 template< typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits >

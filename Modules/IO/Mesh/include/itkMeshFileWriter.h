@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 template< typename TInputMesh >
-class ITKIOMesh_HIDDEN MeshFileWriter:public ProcessObject
+class ITKIOMesh_EXPORT MeshFileWriter:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
@@ -127,7 +127,7 @@ public:
 
 protected:
   MeshFileWriter();
-  ~MeshFileWriter();
+  virtual ~MeshFileWriter();
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   template< typename Output >
@@ -164,8 +164,10 @@ private:
 };
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshFileWriter.hxx"
+// Note: Explicit instantiation is done in itkMeshIOInstantiation.cxx
+
+#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#include "itkMeshIOFactoryRegisterManager.h"
 #endif
 
 #endif // itkMeshFileWriter_h

@@ -16,15 +16,14 @@
  *
  *=========================================================================*/
 
+#include "itkMeshIOFactory.h"
+
 #include "itkBYUMeshIOFactory.h"
 #include "itkFreeSurferAsciiMeshIOFactory.h"
 #include "itkFreeSurferBinaryMeshIOFactory.h"
 #include "itkGiftiMeshIOFactory.h"
-#include "itkMeshIOFactory.h"
 #include "itkOBJMeshIOFactory.h"
 #include "itkOFFMeshIOFactory.h"
-#include "itkMutexLock.h"
-#include "itkMutexLockHolder.h"
 #include "itkVTKPolyDataMeshIOFactory.h"
 
 namespace itk
@@ -45,8 +44,6 @@ MeshIOBase::Pointer
 MeshIOFactory
 ::CreateMeshIO(const char *path, FileModeType mode)
 {
-  RegisterBuiltInFactories();
-
   std::list< MeshIOBase::Pointer >  possibleMeshIO;
   std::list< LightObject::Pointer > allobjects = ObjectFactoryBase::CreateAllInstance("itkMeshIOBase");
 
@@ -87,32 +84,37 @@ MeshIOFactory
   return ITK_NULLPTR;
 }
 
-
 void
 MeshIOFactory
 ::RegisterBuiltInFactories()
 {
-  static SimpleMutexLock mutex;
-
-    {
-    static bool firstTime = true;
-    // This helper class makes sure the Mutex is unlocked
-    // in the event an exception is thrown.
-    MutexLockHolder< SimpleMutexLock > mutexHolder(mutex);
-    if ( firstTime )
-      {
-      ObjectFactoryBase::RegisterFactory( BYUMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( FreeSurferAsciiMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( FreeSurferBinaryMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( GiftiMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( OBJMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( OFFMeshIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( VTKPolyDataMeshIOFactory::New() );
-
-      firstTime = false;
-      }
-    }
+  // deprecated
 }
 
+void
+MeshIOFactory
+::RegisterFactories()
+{
+  ObjectFactoryBase::RegisterFactoryInternal( BYUMeshIOFactory::New() );
+  ObjectFactoryBase::RegisterFactoryInternal( FreeSurferAsciiMeshIOFactory::New() );
+  ObjectFactoryBase::RegisterFactoryInternal( FreeSurferBinaryMeshIOFactory::New() );
+  ObjectFactoryBase::RegisterFactoryInternal( GiftiMeshIOFactory::New() );
+  ObjectFactoryBase::RegisterFactoryInternal( OBJMeshIOFactory::New() );
+  ObjectFactoryBase::RegisterFactoryInternal( OFFMeshIOFactory::New() );
+  ObjectFactoryBase::RegisterFactoryInternal( VTKPolyDataMeshIOFactory::New() );
+}
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool MeshIOFactoryHasBeenRegistered;
+
+void ITKIOMesh_EXPORT MeshIOFactoryRegister__Private(void)
+{
+  if( ! MeshIOFactoryHasBeenRegistered )
+    {
+    MeshIOFactoryHasBeenRegistered = true;
+    MeshIOFactory::RegisterFactories();
+    }
+}
 
 } // end namespace itk
