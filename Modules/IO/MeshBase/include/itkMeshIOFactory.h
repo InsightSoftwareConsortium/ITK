@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkMeshIOFactory_h
 #define itkMeshIOFactory_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshBaseExport.h"
 
 #include "itkObject.h"
 #include "itkMeshIOBase.h"
@@ -35,9 +35,9 @@ namespace itk
  * Object file format (*.obj)
  * VTK legacy file format (*.vtk)
  *
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshBase
  */
-class ITKIOMesh_EXPORT MeshIOFactory:public Object
+class ITKIOMeshBase_EXPORT MeshIOFactory:public Object
 {
 public:
   /** Standard class typedefs. */
@@ -68,13 +68,6 @@ public:
    * \sa RegisterFactories()
    */
   static void RegisterBuiltInFactories();
-
-  /**
-   * Register Mesh factories.
-   *
-   * This method is automatically called during static initialization.
-   */
-  static void RegisterFactories();
 
 protected:
   MeshIOFactory();

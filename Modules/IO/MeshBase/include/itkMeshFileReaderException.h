@@ -15,38 +15,39 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMeshFileWriterException_h
-#define itkMeshFileWriterException_h
-#include "ITKIOMeshExport.h"
+#ifndef itkMeshFileReaderException_h
+#define itkMeshFileReaderException_h
+#include "ITKIOMeshBaseExport.h"
 
 #include "itkMacro.h"
 #include "itkExceptionObject.h"
 
 namespace itk
 {
-/** \class MeshFileWriterException.
- * \brief Base exception class for IO problems during writing.
+/** \class MeshFileReaderException
  *
- * \ingroup ITKIOMesh
+ * \brief Base exception class for IO conflicts.
+ * \ingroup ITKIOMeshBase
  */
-class ITKIOMesh_EXPORT MeshFileWriterException:public ExceptionObject
+class ITKIOMeshBase_EXPORT MeshFileReaderException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
-  virtual ~MeshFileWriterException() throw();
+  virtual ~MeshFileReaderException() throw();
 
   /** Run-time information. */
-  itkTypeMacro(MeshFileWriterException, ExceptionObject);
+  itkTypeMacro(MeshFileReaderException, ExceptionObject);
 
   /** Constructor. */
-  MeshFileWriterException(const char *file, unsigned int line,
+  MeshFileReaderException(const char *file, unsigned int line,
                           const char *message = "Error in IO",
                           const char *loc = "Unknown");
 
   /** Constructor. */
-  MeshFileWriterException(const std::string & file, unsigned int line,
+  MeshFileReaderException(const std::string & file, unsigned int line,
                           const char *message = "Error in IO",
                           const char *loc = "Unknown");
+
 };
 
 } // namespace ITK

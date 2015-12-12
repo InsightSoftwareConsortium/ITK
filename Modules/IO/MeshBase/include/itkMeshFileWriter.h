@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkMeshFileWriter_h
 #define itkMeshFileWriter_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshBaseExport.h"
 
 #include "itkMeshFileWriterException.h"
 #include "itkProcessObject.h"
@@ -46,10 +46,10 @@ namespace itk
  * \sa MeshIOBase
  *
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshBase
  */
 template< typename TInputMesh >
-class ITKIOMesh_EXPORT MeshFileWriter:public ProcessObject
+class ITKIOMeshBase_EXPORT MeshFileWriter:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

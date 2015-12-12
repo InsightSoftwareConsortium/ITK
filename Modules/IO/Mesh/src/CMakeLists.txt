@@ -1,6 +1,4 @@
 set(ITKIOMesh_SRC
-  itkMeshFileReaderException.cxx
-  itkMeshFileWriterException.cxx
   itkBYUMeshIO.cxx
   itkBYUMeshIOFactory.cxx
   itkFreeSurferAsciiMeshIO.cxx
@@ -9,9 +7,6 @@ set(ITKIOMesh_SRC
   itkFreeSurferBinaryMeshIOFactory.cxx
   itkGiftiMeshIO.cxx
   itkGiftiMeshIOFactory.cxx
-  itkMeshIOBase.cxx
-  itkMeshIOInstantiation.cxx
-  itkMeshIOFactory.cxx
   itkOBJMeshIO.cxx
   itkOBJMeshIOFactory.cxx
   itkOFFMeshIO.cxx

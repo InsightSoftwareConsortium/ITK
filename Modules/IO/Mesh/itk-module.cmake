@@ -4,10 +4,7 @@ itk_module(ITKIOMesh
   ENABLE_SHARED
   DEPENDS
     ITKCommon
-    ITKIOImageBase
-    ITKQuadEdgeMesh
-    ITKMesh
-    ITKVoronoi
+    ITKIOMeshBase
   PRIVATE_DEPENDS
     ITKDoubleConversion
     ITKGIFTI

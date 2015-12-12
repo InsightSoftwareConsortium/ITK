@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "ITKIOMeshExport.h"
 
 #include "itkFreeSurferAsciiMeshIO.h"
 #include "itkFreeSurferAsciiMeshIOFactory.h"
@@ -54,4 +55,18 @@ FreeSurferAsciiMeshIOFactory
 {
   return "FreeSurfer ASCII Mesh IO Factory, allows the loading of FreeSurfer Ascii mesh into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool FreeSurferAsciiMeshIOFactoryHasBeenRegistered;
+
+void ITKIOMesh_EXPORT FreeSurferAsciiMeshIOFactoryRegister__Private(void)
+{
+  if( ! FreeSurferAsciiMeshIOFactoryHasBeenRegistered )
+    {
+    FreeSurferAsciiMeshIOFactoryHasBeenRegistered = true;
+    FreeSurferAsciiMeshIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

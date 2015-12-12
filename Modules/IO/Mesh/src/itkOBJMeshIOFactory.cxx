@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "ITKIOMeshExport.h"
 
 #include "itkOBJMeshIO.h"
 #include "itkOBJMeshIOFactory.h"
@@ -54,4 +55,18 @@ OBJMeshIOFactory
 {
   return "OBJ Mesh IO Factory, allows the loading of OBJ mesh into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool OBJMeshIOFactoryHasBeenRegistered;
+
+void ITKIOMesh_EXPORT OBJMeshIOFactoryRegister__Private(void)
+{
+  if( ! OBJMeshIOFactoryHasBeenRegistered )
+    {
+    OBJMeshIOFactoryHasBeenRegistered = true;
+    OBJMeshIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

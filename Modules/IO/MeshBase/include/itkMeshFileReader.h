@@ -64,7 +64,7 @@ namespace itk
  * \sa MeshIOBase
  *
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshBase
  *
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
  */

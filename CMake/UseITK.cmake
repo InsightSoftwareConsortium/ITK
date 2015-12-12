@@ -269,25 +269,25 @@ set(LIST_OF_MESHIO_FORMATS
 # Exceptions:
 
 set(BYU_mesh_module_name ITKIOMesh)
-set(BYU_mesh_factory_name MeshIO)
+set(BYU_mesh_factory_name BYUMeshIO)
 
 set(FreeSurferAscii_mesh_module_name ITKIOMesh)
-set(FreeSurferAscii_mesh_factory_name MeshIO)
+set(FreeSurferAscii_mesh_factory_name FreeSurferAsciiMeshIO)
 
 set(FreeSurferBinary_mesh_module_name ITKIOMesh)
-set(FreeSurferBinary_mesh_factory_name MeshIO)
+set(FreeSurferBinary_mesh_factory_name FreeSurferBinaryMeshIO)
 
 set(Gifti_mesh_module_name ITKIOMesh)
-set(Gifti_mesh_factory_name MeshIO)
+set(Gifti_mesh_factory_name GiftiMeshIO)
 
 set(OBJ_mesh_module_name ITKIOMesh)
-set(OBJ_mesh_factory_name MeshIO)
+set(OBJ_mesh_factory_name OBJMeshIO)
 
 set(OFF_mesh_module_name ITKIOMesh)
-set(OFF_mesh_factory_name MeshIO)
+set(OFF_mesh_factory_name OFFMeshIO)
 
 set(VTKPolyData_mesh_module_name ITKIOMesh)
-set(VTKPolyData_mesh_factory_name MeshIO)
+set(VTKPolyData_mesh_factory_name VTKPolyDataMeshIO)
 
 foreach(MeshFormat ${LIST_OF_MESHIO_FORMATS})
   if (NOT ${MeshFormat}_mesh_module_name )

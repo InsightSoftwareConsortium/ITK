@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkConvertVariableLengthVectorPixelBuffer_h
-#define itkConvertVariableLengthVectorPixelBuffer_h
+#ifndef itkConvertArrayPixelBuffer_h
+#define itkConvertArrayPixelBuffer_h
 
 #include "itkConvertPixelBuffer.h"
-#include "itkVariableLengthVector.h"
+#include "itkArray.h"
 
 namespace itk
 {
@@ -28,11 +28,11 @@ namespace itk
  *  \brief Class to convert blocks of data from one type to another.
  *
  * Derived from ConvertPixelBuffer has a static method Convert().  It is used
- * to work with pixel type as VariableLengthVector type.
- * \ingroup ITKIOMesh
+ * to work with pixel type as Array type.
+ * \ingroup ITKIOMeshBase
  */
 template <typename InputPixelType, typename T, typename OutputConvertTraits>
-class ConvertPixelBuffer<InputPixelType, VariableLengthVector<T>, OutputConvertTraits>
+class ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>
 {
 public:
   /** Determine the output data type. */
@@ -41,7 +41,7 @@ public:
   /** General method converts from one type to another. */
   static void Convert(InputPixelType* inputData,
                       int inputNumberOfComponents,
-                      VariableLengthVector<T>* outputData ,
+                      Array<T>* outputData ,
                       size_t size);
 
 private:
@@ -51,7 +51,7 @@ private:
 } //namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConvertVariableLengthVectorPixelBuffer.hxx"
+#include "itkConvertArrayPixelBuffer.hxx"
 #endif
 
-#endif // itkConvertVariableLengthVectorPixelBuffer_h
+#endif // itkConvertArrayPixelBuffer_h

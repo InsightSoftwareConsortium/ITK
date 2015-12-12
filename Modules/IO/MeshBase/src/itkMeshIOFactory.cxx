@@ -18,14 +18,6 @@
 
 #include "itkMeshIOFactory.h"
 
-#include "itkBYUMeshIOFactory.h"
-#include "itkFreeSurferAsciiMeshIOFactory.h"
-#include "itkFreeSurferBinaryMeshIOFactory.h"
-#include "itkGiftiMeshIOFactory.h"
-#include "itkOBJMeshIOFactory.h"
-#include "itkOFFMeshIOFactory.h"
-#include "itkVTKPolyDataMeshIOFactory.h"
-
 namespace itk
 {
 
@@ -89,32 +81,6 @@ MeshIOFactory
 ::RegisterBuiltInFactories()
 {
   // deprecated
-}
-
-void
-MeshIOFactory
-::RegisterFactories()
-{
-  ObjectFactoryBase::RegisterFactoryInternal( BYUMeshIOFactory::New() );
-  ObjectFactoryBase::RegisterFactoryInternal( FreeSurferAsciiMeshIOFactory::New() );
-  ObjectFactoryBase::RegisterFactoryInternal( FreeSurferBinaryMeshIOFactory::New() );
-  ObjectFactoryBase::RegisterFactoryInternal( GiftiMeshIOFactory::New() );
-  ObjectFactoryBase::RegisterFactoryInternal( OBJMeshIOFactory::New() );
-  ObjectFactoryBase::RegisterFactoryInternal( OFFMeshIOFactory::New() );
-  ObjectFactoryBase::RegisterFactoryInternal( VTKPolyDataMeshIOFactory::New() );
-}
-
-// Undocumented API used to register during static initialization.
-// DO NOT CALL DIRECTLY.
-static bool MeshIOFactoryHasBeenRegistered;
-
-void ITKIOMesh_EXPORT MeshIOFactoryRegister__Private(void)
-{
-  if( ! MeshIOFactoryHasBeenRegistered )
-    {
-    MeshIOFactoryHasBeenRegistered = true;
-    MeshIOFactory::RegisterFactories();
-    }
 }
 
 } // end namespace itk

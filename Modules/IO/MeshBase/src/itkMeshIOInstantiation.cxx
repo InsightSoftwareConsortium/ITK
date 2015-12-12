@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshBaseExport.h"
 
 // Mesh Types
 #include "itkMesh.h"
@@ -54,16 +54,16 @@
   , QuadEdgeMeshExtendedTraits< PIXEL_TYPE, DIMENSION, 2, CoordType, CoordType, PIXEL_TYPE, bool, bool>
 
 #define ITKIOMESH_INSTANTIATE_Reader(MESH_TYPE, PIXEL_TYPE, DIMENSION, TRAITS) \
-  template class ITKIOMesh_EXPORT MeshSource< \
+  template class ITKIOMeshBase_EXPORT MeshSource< \
     MESH_TYPE<PIXEL_TYPE, DIMENSION ITKIOMESH_##TRAITS##_TRAITS(PIXEL_TYPE, DIMENSION) > \
   >;\
-  template class ITKIOMesh_EXPORT MeshFileReader< \
+  template class ITKIOMeshBase_EXPORT MeshFileReader< \
     MESH_TYPE<PIXEL_TYPE, DIMENSION ITKIOMESH_##TRAITS##_TRAITS(PIXEL_TYPE, DIMENSION) >, \
     MeshConvertPixelTraits< PIXEL_TYPE >, MeshConvertPixelTraits< PIXEL_TYPE > \
   >;
 
 #define ITKIOMESH_INSTANTIATE_Writer(MESH_TYPE, PIXEL_TYPE, DIMENSION, TRAITS) \
-  template class ITKIOMesh_EXPORT MeshFileWriter< \
+  template class ITKIOMeshBase_EXPORT MeshFileWriter< \
     MESH_TYPE<PIXEL_TYPE, DIMENSION ITKIOMESH_##TRAITS##_TRAITS(PIXEL_TYPE, DIMENSION) > \
   >;
 
@@ -114,6 +114,6 @@ ITKIOMESH_INSTANTIATE_IOS(Mesh, VariableLengthVector_float_3, 3, DefaultTraits)
 
 // Required by ITKVoronoi itkVoronoiDiagram2DTest
 template class MeshFileReader< VoronoiDiagram2D< double > >;
-template class ITKIOMesh_EXPORT MeshFileWriter< VoronoiDiagram2D< double > >;
+template class ITKIOMeshBase_EXPORT MeshFileWriter< VoronoiDiagram2D< double > >;
 
 }  // end namespace itk

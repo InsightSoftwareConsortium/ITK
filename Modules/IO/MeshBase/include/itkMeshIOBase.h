@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkMeshIOBase_h
 #define itkMeshIOBase_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshBaseExport.h"
 
 #include "itkByteSwapper.h"
 #include "itkCellInterface.h"
@@ -62,11 +62,11 @@ namespace itk
  * \sa MeshFileReader
  *
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshBase
  *
  */
 
-class ITKIOMesh_EXPORT MeshIOBase:public LightProcessObject
+class ITKIOMeshBase_EXPORT MeshIOBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */
@@ -86,7 +86,7 @@ public:
   /**
     * \class UnknownType
     * Used to return information when types are unknown.
-    * \ingroup ITKIOMesh
+    * \ingroup ITKIOMeshBase
     */
   class UnknownType {};
 
