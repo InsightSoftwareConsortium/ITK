@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "ITKIOMeshExport.h"
 
 #include "itkGiftiMeshIO.h"
 #include "itkGiftiMeshIOFactory.h"
@@ -54,4 +55,18 @@ GiftiMeshIOFactory
 {
   return "Gifti MeshIO Factory, allows the loading of Gifti meshs into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool GiftiMeshIOFactoryHasBeenRegistered;
+
+void ITKIOMesh_EXPORT GiftiMeshIOFactoryRegister__Private(void)
+{
+  if( ! GiftiMeshIOFactoryHasBeenRegistered )
+    {
+    GiftiMeshIOFactoryHasBeenRegistered = true;
+    GiftiMeshIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

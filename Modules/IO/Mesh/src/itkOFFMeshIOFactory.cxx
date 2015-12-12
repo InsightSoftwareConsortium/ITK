@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "ITKIOMeshExport.h"
 
 #include "itkOFFMeshIO.h"
 #include "itkOFFMeshIOFactory.h"
@@ -54,4 +55,18 @@ OFFMeshIOFactory
 {
   return "OFF Mesh IO Factory, allows the loading of OFF mesh into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+static bool OFFMeshIOFactoryHasBeenRegistered;
+
+void ITKIOMesh_EXPORT OFFMeshIOFactoryRegister__Private(void)
+{
+  if( ! OFFMeshIOFactoryHasBeenRegistered )
+    {
+    OFFMeshIOFactoryHasBeenRegistered = true;
+    OFFMeshIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk
