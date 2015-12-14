@@ -149,7 +149,7 @@ void testFancyStringWithStdVector()
   std::vector<float> dataIn( 10, -0.1f );
   svalue << dataIn;
   // add one more data element to the end of the string
-  svalue.append( " 10 " );
+  svalue.Append( " 10 " );
 
   // read all data elements in the string
   std::vector<float> dataOut1;
@@ -238,7 +238,7 @@ void testFancyStringWithItkArray()
   dataIn.Fill( -0.1 );
   svalue << dataIn;
   // add one more data element to the end of the string
-  svalue.append( " 10 " );
+  svalue.Append( " 10 " );
 
   // read all data elements in the string
   DataType dataOut1;

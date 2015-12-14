@@ -82,7 +82,7 @@ DOMTestObjectDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
   s = foo->GetAttribute("fname");
   output->SetFooFileName( s );
   // read the foo value from file
-  ifs.open( s );
+  ifs.open( s.ToString().c_str() );
   if ( !ifs.is_open() )
     {
     itkExceptionMacro( "cannot read foo file" );

@@ -45,7 +45,7 @@ operator<<( FancyString& s, void (*mf)(FancyString&) )
 inline void
 ClearContent( FancyString& input )
 {
-  input.clear();
+  input.ClearContent();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ template < typename T >
 FancyString&
 FancyString::ToData( std::vector<T>& outputData, int count )
 {
-  StringTools::ToData( *this, outputData, count );
+  StringTools::ToData( this->m_Value, outputData, count );
   return *this;
 }
 
@@ -77,7 +77,7 @@ template < typename T >
 FancyString&
 FancyString::FromData( const std::vector<T>& inputData )
 {
-  StringTools::FromData( *this, inputData );
+  StringTools::FromData( this->m_Value, inputData );
   return *this;
 }
 
@@ -98,7 +98,7 @@ template < typename T >
 FancyString&
 FancyString::ToData( Array<T>& outputData, int count )
 {
-  StringTools::ToData( *this, outputData, count );
+  StringTools::ToData( this->m_Value, outputData, count );
   return *this;
 }
 
@@ -110,7 +110,7 @@ template < typename T >
 FancyString&
 FancyString::FromData( const Array<T>& inputData )
 {
-  StringTools::FromData( *this, inputData );
+  StringTools::FromData( this->m_Value, inputData );
   return *this;
 }
 
@@ -126,7 +126,7 @@ template < typename T >
 FancyString&
 FancyString::ToData( T& outputData )
 {
-  StringTools::ToData( *this, outputData );
+  StringTools::ToData( this->m_Value, outputData );
   return *this;
 }
 
@@ -138,7 +138,7 @@ template < typename T >
 FancyString&
 FancyString::FromData( const T& inputData )
 {
-  StringTools::FromData( *this, inputData );
+  StringTools::FromData( this->m_Value, inputData );
   return *this;
 }
 

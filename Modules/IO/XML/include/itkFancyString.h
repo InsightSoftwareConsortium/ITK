@@ -23,7 +23,7 @@
 #include <vector>
 #include <map>
 #include "itkArray.h"
-#include "itkIOXMLTemplateExport.h"
+#include "ITKIOXMLExport.h"
 
 namespace itk
 {
@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-class ITKIOXML_EXPORT_INHERIT_TEMPLATE FancyString : public std::string
+class ITKIOXML_EXPORT FancyString
 {
 public:
   FancyString();
@@ -106,6 +106,16 @@ public:
   /////////////////////////////////////////////////////////////////////////////
 
   /**
+   * Function to convert this value to a "std::string".
+   */
+  operator const std::string& () const;
+
+  /**
+   * Function to convert this value to a "std::string".
+   */
+  const std::string& ToString() const;
+
+  /**
    * Functions to convert a string to a value of basic data type.
    * An exception will be thrown if errors were encountered during the conversion.
    */
@@ -122,6 +132,12 @@ public:
   /////////////////////////////////////////////////////////////////////////////
   // helper functions for string manipulations
   /////////////////////////////////////////////////////////////////////////////
+
+  /** Clear all characters. */
+  void ClearContent();
+
+  /** Extend the string by appending additional characters. */
+  void Append(const FancyString& str);
 
   /** Method to trim the spaces or user-specified characters on both ends of a string. */
   FancyString& Trim( const std::string& dislike = " \t\n\r" );
@@ -161,13 +177,29 @@ public:
 
   /** Method to test whether a string contains a user-given sub-string. */
   bool ContainSub( const std::string& s2, bool ignoreCase = true );
+
+private:
+
+  std::string m_Value;
+
 }; // class FancyString
 
 } // namespace itk
 
+/////////////////////////////////////////////////////////////////////////////
+// helper function to compare FancyString with std::string and char*
+/////////////////////////////////////////////////////////////////////////////
+
+bool ITKIOXML_EXPORT operator!=( itk::FancyString& s, const std::string& );
+bool ITKIOXML_EXPORT operator!=( itk::FancyString& s, const char* );
+bool ITKIOXML_EXPORT operator!=( itk::FancyString& s, const itk::FancyString&);
+
+bool ITKIOXML_EXPORT operator==( itk::FancyString& s, const std::string& );
+bool ITKIOXML_EXPORT operator==( itk::FancyString& s, const char* );
+bool ITKIOXML_EXPORT operator==( itk::FancyString& s, const itk::FancyString&);
+
 namespace itk
 {
-
 /////////////////////////////////////////////////////////////////////////////
 // manipulators for FancyString (currently only one is defined)
 /////////////////////////////////////////////////////////////////////////////

@@ -135,7 +135,7 @@ DOMWriter<TInput>::Update()
 
   // write the newly updated DOM object to the output XML file
   typename DOMNodeXMLWriter::Pointer writer = DOMNodeXMLWriter::New();
-  writer->SetFileName( fn );
+  writer->SetFileName( fn.ToString() );
   writer->SetInput( this->m_IntermediateDOM );
   writer->Update();
 }
