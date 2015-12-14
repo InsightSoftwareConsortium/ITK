@@ -74,7 +74,7 @@ DOMTestObjectDOMWriter::GenerateData( DOMNodeType* outputdom, const void* ) cons
   // create the output file if it does not exist
   FileTools::CreateFile( fn );
   // write the foo value to file
-  ofs.open( fn );
+  ofs.open( fn.ToString().c_str() );
   if ( !ofs.is_open() )
     {
     itkExceptionMacro( "cannot write foo file" );

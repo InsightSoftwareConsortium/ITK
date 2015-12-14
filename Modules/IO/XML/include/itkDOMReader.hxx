@@ -133,7 +133,7 @@ DOMReader<TOutput>::Update()
   // read the input XML file and update the DOM object
   typename DOMNodeXMLReader::Pointer reader = DOMNodeXMLReader::New();
   reader->SetOutput( this->m_IntermediateDOM );
-  reader->SetFileName( fn );
+  reader->SetFileName( fn.ToString() );
   reader->Update();
 
   // save the current working directory (WD), and change the WD to where the XML file is located

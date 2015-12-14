@@ -22,47 +22,75 @@
 namespace itk
 {
 
-FancyString::FancyString() : std::string()
+FancyString::FancyString()// : std::string()
 {
 }
 
-FancyString::FancyString( const std::string& str ) : std::string( str )
+FancyString::FancyString( const std::string& str )// : std::string( str )
 {
+  this->m_Value = str;
 }
 
-FancyString::FancyString( const char* s ) : std::string( s )
+FancyString::FancyString( const char* s )// : std::string( s )
 {
+  this->m_Value = std::string( s );
 }
 
 FancyString&
 FancyString::operator=( const std::string& str )
 {
-  this->std::string::operator=( str );
+  this->m_Value = str;
   return *this;
 }
 
 FancyString&
 FancyString::operator=( const char* s )
 {
-  this->std::string::operator=( s );
+  this->m_Value = std::string( s );
   return *this;
 }
 
 /** Function to cast this type to "const char *". */
 FancyString::operator const char * () const
 {
-  return this->c_str();
+  return this->m_Value.c_str();
+}
+
+/** Function to convert this value to a "std::string". */
+FancyString::operator const std::string & () const
+{
+  return this->ToString();
+}
+
+/** Function to convert this value to a "std::string". */
+const std::string& FancyString::ToString() const
+{
+  return this->m_Value;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // helper functions for string manipulations
 /////////////////////////////////////////////////////////////////////////////
 
+/** Clear all characters. */
+void
+FancyString::ClearContent()
+{
+  this->m_Value.clear();
+}
+
+/** Extend the string by appending additional characters. */
+void
+FancyString::Append(const FancyString& str)
+{
+  this->m_Value.append(str.ToString());
+}
+
 /** Method to trim the spaces or user-specified characters on both ends of a string. */
 FancyString&
 FancyString::Trim( const std::string& dislike )
 {
-  StringTools::Trim( *this, dislike );
+  StringTools::Trim( this->m_Value, dislike );
   return *this;
 }
 
@@ -70,7 +98,7 @@ FancyString::Trim( const std::string& dislike )
 FancyString&
 FancyString::TrimLeft( const std::string& dislike )
 {
-  StringTools::TrimLeft( *this, dislike );
+  StringTools::TrimLeft( this->m_Value, dislike );
   return *this;
 }
 
@@ -78,7 +106,7 @@ FancyString::TrimLeft( const std::string& dislike )
 FancyString&
 FancyString::TrimRight( const std::string& dislike )
 {
-  StringTools::TrimRight( *this, dislike );
+  StringTools::TrimRight( this->m_Value, dislike );
   return *this;
 }
 
@@ -86,7 +114,7 @@ FancyString::TrimRight( const std::string& dislike )
 FancyString&
 FancyString::ToUpperCase()
 {
-  StringTools::ToUpperCase( *this );
+  StringTools::ToUpperCase( this->m_Value );
   return *this;
 }
 
@@ -94,7 +122,7 @@ FancyString::ToUpperCase()
 FancyString&
 FancyString::ToLowerCase()
 {
-  StringTools::ToLowerCase( *this );
+  StringTools::ToLowerCase( this->m_Value );
   return *this;
 }
 
@@ -102,14 +130,14 @@ FancyString::ToLowerCase()
 void
 FancyString::Split( std::string& lpart, std::string& rpart, const std::string& delims ) const
 {
-  StringTools::Split( *this, lpart, rpart, delims );
+  StringTools::Split( this->m_Value, lpart, rpart, delims );
 }
 
 /** Method to split a string into a sequence of strings with user-defined delimiters. */
 void
 FancyString::Split( std::vector<std::string>& result, const std::string& delims ) const
 {
-  StringTools::Split( *this, result, delims );
+  StringTools::Split( this->m_Value, result, delims );
 }
 
 /**
@@ -119,35 +147,65 @@ FancyString::Split( std::vector<std::string>& result, const std::string& delims 
 void
 FancyString::Split( std::map<std::string,std::string>& result, const std::string& delims )
 {
-  StringTools::Split( *this, result, delims );
+  StringTools::Split( this->m_Value, result, delims );
 }
 
 /** Method to test whether one string matches with another. */
 bool
 FancyString::MatchWith( const std::string& s2, bool ignoreCase )
 {
-  return StringTools::MatchWith( *this, s2, ignoreCase );
+  return StringTools::MatchWith( this->m_Value, s2, ignoreCase );
 }
 
 /** Method to test whether a string starts with a user-given sub-string. */
 bool
 FancyString::StartWith( const std::string& s2, bool ignoreCase )
 {
-  return StringTools::StartWith( *this, s2, ignoreCase );
+  return StringTools::StartWith( this->m_Value, s2, ignoreCase );
 }
 
 /** Method to test whether a string ends with a user-given sub-string. */
 bool
 FancyString::EndWith( const std::string& s2, bool ignoreCase )
 {
-  return StringTools::EndWith( *this, s2, ignoreCase );
+  return StringTools::EndWith( this->m_Value, s2, ignoreCase );
 }
 
 /** Method to test whether a string contains a user-given sub-string. */
 bool
 FancyString::ContainSub( const std::string& s2, bool ignoreCase )
 {
-  return StringTools::ContainSub( *this, s2, ignoreCase );
+  return StringTools::ContainSub( this->m_Value, s2, ignoreCase );
 }
 
 } // namespace itk
+
+bool operator!=( itk::FancyString& s, const std::string& str)
+{
+  return s.ToString() != str;
+}
+
+bool operator!=( itk::FancyString& s, const char* str)
+{
+  return s.ToString() != str;
+}
+
+bool operator!=( itk::FancyString& s, const  itk::FancyString& str)
+{
+  return s.ToString() != str.ToString();
+}
+
+bool operator==( itk::FancyString& s, const std::string& str)
+{
+  return s.ToString() == str;
+}
+
+bool operator==( itk::FancyString& s, const char* str)
+{
+  return s.ToString() == str;
+}
+
+bool operator==( itk::FancyString& s, const  itk::FancyString& str)
+{
+  return s.ToString() == str.ToString();
+}
