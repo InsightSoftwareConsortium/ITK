@@ -8,6 +8,8 @@ depend on this one.")
 
 itk_module(ITKCommon
   ENABLE_SHARED
+  DEPENDS
+    ITKKWIML
   PRIVATE_DEPENDS
     ITKDoubleConversion
   COMPILE_DEPENDS

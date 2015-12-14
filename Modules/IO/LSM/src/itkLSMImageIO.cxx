@@ -27,8 +27,8 @@
  *=========================================================================*/
 #include "itkLSMImageIO.h"
 #include "itkByteSwapper.h"
-#include "itksys/FundamentalType.h"
 
+#include "itk_kwiml.h"
 #include "itk_tiff.h"
 
 /* Structure with LSM-specific data ( only in the first image directory). */
@@ -52,8 +52,8 @@ static void TagExtender(TIFF *tiff)
 }
 }
 
-typedef itksysFundamentalType_Int32  Int32_t;
-typedef itksysFundamentalType_UInt32 UInt32_t;
+typedef KWIML_INT_int32_t  Int32_t;
+typedef KWIML_INT_uint32_t UInt32_t;
 
 typedef float       Float32_t;
 typedef double      Float64_t;

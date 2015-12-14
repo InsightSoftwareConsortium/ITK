@@ -8,6 +8,7 @@ itk_module(ITKIOLSM
   PRIVATE_DEPENDS
     ITKIOImageBase
     ITKIOTIFF
+    ITKKWIML
     ITKTIFF
   TEST_DEPENDS
     ITKTestKernel
