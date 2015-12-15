@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKTransformIO_h
-#define __itkDCMTKTransformIO_h
+#ifndef itkDCMTKTransformIO_h
+#define itkDCMTKTransformIO_h
 
 #include "IOTransformDCMTKExport.h"
 
@@ -91,4 +91,4 @@ private:
 
 // Note: Explicit instantiation is done in itkDCMTKTransformIOInstantiation.cxx
 
-#endif // __itkDCMTKTransformIO_h
+#endif // itkDCMTKTransformIO_h
