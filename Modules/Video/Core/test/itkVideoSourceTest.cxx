@@ -62,6 +62,7 @@ protected:
     this->TemporalProcessObject::m_UnitOutputNumberOfFrames = 1;
     this->TemporalProcessObject::m_FrameSkipPerOutput = 1;
     this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 1;
+    this->m_Mutex = itk::MutexLock::New();
   }
 
   /** Override ThreadedGenerateData to set all pixels in the requested region
@@ -72,7 +73,9 @@ protected:
   {
 
     // Print out your threadId
+    this->m_Mutex->Lock();
     std::cout << "Working on thread " << threadId << std::endl;
+    this->m_Mutex->Unlock();
 
     OutputVideoStreamType* video = this->GetOutput();
     typename OutputVideoStreamType::TemporalRegionType requestedTemporalRegion =
@@ -101,6 +104,8 @@ protected:
         }
       }
   }
+
+  itk::MutexLock::Pointer m_Mutex;
 
 };
 
