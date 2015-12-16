@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKTransformIO_hxx
-#define __itkDCMTKTransformIO_hxx
+#ifndef itkDCMTKTransformIO_hxx
+#define itkDCMTKTransformIO_hxx
 
 #include "itkDCMTKTransformIO.h"
 

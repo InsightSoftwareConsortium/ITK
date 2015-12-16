@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDCMTKTransformIOFactory_h
-#define __itkDCMTKTransformIOFactory_h
+#ifndef itkDCMTKTransformIOFactory_h
+#define itkDCMTKTransformIOFactory_h
 
 #include "IOTransformDCMTKExport.h"
 
