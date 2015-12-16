@@ -86,7 +86,7 @@ set(${itk-module}-targets-build "${ITK_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules/$
 set(${itk-module}_TARGETS_FILE_BUILD "${${itk-module}-targets-build}")
 itk_module_impl()
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_NO_SRC)
+if(EXISTS ${CMAKE_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_NO_SRC AND "${${itk-module}-targets}")
   install(EXPORT ${${itk-module}-targets} DESTINATION "${ITK_INSTALL_PACKAGE_DIR}/Modules"
           COMPONENT Development)
 endif()
