@@ -34,7 +34,7 @@ namespace itk
  * \ingroup IOTransformDCMTK
  */
 template <typename TInternalComputationValueType>
-class IOTransformDCMTK_EXPORT DCMTKTransformIO : public TransformIOBaseTemplate<TInternalComputationValueType>
+class DCMTKTransformIO : public TransformIOBaseTemplate<TInternalComputationValueType>
 {
 public:
   typedef DCMTKTransformIO                                       Self;
@@ -87,8 +87,23 @@ private:
   std::string m_FrameOfReferenceUID;
 };
 
+#ifndef ITK_TEMPLATE_EXPLICIT_DCMTKTransformIO
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#  if defined(IOTransformDCMTK_EXPORTS)
+//   We are building this library
+#    define IOTransformDCMTK_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define IOTransformDCMTK_EXPORT_EXPLICIT IOTransformDCMTK_EXPORT
+#  endif
+extern template class IOTransformDCMTK_EXPORT_EXPLICIT DCMTKTransformIO<double>;
+extern template class IOTransformDCMTK_EXPORT_EXPLICIT DCMTKTransformIO<float>;
+#  undef IOTransformDCMTK_EXPORT_EXPLICIT
+#endif
+
 } // end namespace itk
 
-// Note: Explicit instantiation is done in itkDCMTKTransformIOInstantiation.cxx
+// Note: Explicit instantiation is done in itkDCMTKTransformIO.cxx
 
 #endif // itkDCMTKTransformIO_h

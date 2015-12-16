@@ -15,7 +15,24 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+#define ITK_TEMPLATE_EXPLICIT_DCMTKTransformIO
 #include "itkDCMTKTransformIO.h"
+#include "itkDCMTKTransformIO.hxx"
 
 namespace itk
-{} // end namespace itk
+{
+
+#if defined(__GNUC__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wattributes"
+#endif
+
+template class IOTransformDCMTK_EXPORT DCMTKTransformIO<double>;
+template class IOTransformDCMTK_EXPORT DCMTKTransformIO<float>;
+
+#if defined(__GNUC__)
+#  pragma GCC diagnostic pop
+#endif
+
+} // end namespace itk

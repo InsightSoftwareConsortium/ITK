@@ -11,6 +11,7 @@ itk_module(
     ITKIOTransformBase
     ITKDCMTK
   TEST_DEPENDS
+    ITKIOTransformBase
     ITKTestKernel
     ITKIODCMTK
     ITKIOGDCM
