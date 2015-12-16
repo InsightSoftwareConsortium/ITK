@@ -155,23 +155,20 @@ public:
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
 
 protected:
-
   SignedMaurerDistanceMapImageFilter();
-
   virtual ~SignedMaurerDistanceMapImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateData() ITK_OVERRIDE;
+  virtual void GenerateData() ITK_OVERRIDE;
 
-  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num,
+  virtual unsigned int SplitRequestedRegion(unsigned int i, unsigned int num,
     OutputImageRegionType & splitRegion) ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-
   SignedMaurerDistanceMapImageFilter(const Self &) ITK_DELETE_FUNCTION;
   void operator=(const Self &) ITK_DELETE_FUNCTION;
 
