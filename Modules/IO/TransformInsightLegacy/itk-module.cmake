@@ -3,12 +3,12 @@ of itkTransform object in txt format.")
 
 itk_module(ITKIOTransformInsightLegacy
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKIOTransformBase
+  PRIVATE_DEPENDS
     ITKDoubleConversion
   TEST_DEPENDS
     ITKTestKernel
-    ITKIOTransformBase
   DESCRIPTION
     "${DOCUMENTATION}"
 )

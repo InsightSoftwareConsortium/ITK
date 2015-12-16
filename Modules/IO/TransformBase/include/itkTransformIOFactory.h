@@ -69,9 +69,24 @@ private:
 /** This helps to meet backward compatibility */
 typedef TransformIOFactoryTemplate<double> TransformIOFactory;
 
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_TransformIOFactory
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#  if defined( ITKIOTransformBase_EXPORTS )
+//   We are building this library
+#    define ITKIOTransformBase_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#  endif
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOFactoryTemplate< double >;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOFactoryTemplate< float >;
+#  undef ITKIOTransformBase_EXPORT_EXPLICIT
+#endif
+
 } // end namespace itk
 
-
-// Note: Explicit instantiation is done in itkTransformFactoryBaseInstantiation.cxx
+// Note: Explicit instantiation is done in itkTransformIOFactory.cxx
 
 #endif

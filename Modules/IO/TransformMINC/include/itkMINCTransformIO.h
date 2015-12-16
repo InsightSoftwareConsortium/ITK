@@ -18,6 +18,8 @@
 #ifndef itkMINCTransformIO_h
 #define itkMINCTransformIO_h
 
+#include "ITKIOTransformMINCExport.h"
+
 #include "itkTransformIOBase.h"
 
 #include <string>
@@ -94,8 +96,24 @@ private:
 /** This helps to meet backward compatibility */
 typedef MINCTransformIOTemplate<double> MINCTransformIO;
 
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_MINCTransformIO
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#  if defined( ITKIOTransformMINC_EXPORTS )
+//   We are building this library
+#    define ITKIOTransformMINC_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKIOTransformMINC_EXPORT_EXPLICIT ITKIOTransformMINC_EXPORT
+#  endif
+extern template class ITKIOTransformMINC_EXPORT_EXPLICIT MINCTransformIOTemplate< double >;
+extern template class ITKIOTransformMINC_EXPORT_EXPLICIT MINCTransformIOTemplate< float >;
+#  undef ITKIOTransformMINC_EXPORT_EXPLICIT
+#endif
+
 } // end namespace itk
 
-// Note: Explicit instantiation is done in itkMINCTransformIOInstantiation.cxx
+// Note: Explicit instantiation is done in itkMINCTransformIO.cxx
 
 #endif // itkMINCTransformIO_h

@@ -16,37 +16,23 @@
  *
  *=========================================================================*/
 
-#include "itkCompositeTransformIOHelper.h"
-#include "itkCompositeTransformIOHelper.hxx"
-
+#define ITK_TEMPLATE_EXPLICIT_TransformFileReader
 #include "itkTransformFileReader.h"
 #include "itkTransformFileReader.hxx"
-
-#include "itkTransformFileWriter.h"
-#include "itkTransformFileWriter.hxx"
-
-#include "itkTransformIOBase.h"
-#include "itkTransformIOBase.hxx"
-
-#include "itkTransformIOFactory.h"
-#include "itkTransformIOFactory.hxx"
 
 namespace itk
 {
 
-template class CompositeTransformIOHelperTemplate< double >;
-template class CompositeTransformIOHelperTemplate< float >;
+#if defined( __GNUC__ )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
 
-template class TransformFileReaderTemplate< double >;
-template class TransformFileReaderTemplate< float >;
+template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate< double >;
+template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate< float >;
 
-template class TransformFileWriterTemplate< double >;
-template class TransformFileWriterTemplate< float >;
-
-template class TransformIOBaseTemplate< double >;
-template class TransformIOBaseTemplate< float >;
-
-template class TransformIOFactoryTemplate< double >;
-template class TransformIOFactoryTemplate< float >;
+#if defined( __GNUC__ )
+#pragma GCC diagnostic pop
+#endif
 
 }  // end namespace itk

@@ -18,6 +18,8 @@
 #ifndef itkTransformBase_h
 #define itkTransformBase_h
 
+#include "ITKTransformExport.h"
+
 #include "itkObject.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
@@ -146,6 +148,22 @@ private:
 
 /** This helps to meet backward compatibility */
 typedef TransformBaseTemplate< double > TransformBase;
+
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_TransformBase
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#  if defined( ITKTransform_EXPORTS )
+//   We are building this library
+#    define ITKTransform_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKTransform_EXPORT_EXPLICIT ITKTransform_EXPORT
+#  endif
+extern template class ITKTransform_EXPORT_EXPLICIT TransformBaseTemplate< double >;
+extern template class ITKTransform_EXPORT_EXPLICIT TransformBaseTemplate< float >;
+#  undef ITKTransform_EXPORT_EXPLICIT
+#endif
 
 } // end namespace itk
 

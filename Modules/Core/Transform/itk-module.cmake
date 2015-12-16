@@ -7,6 +7,9 @@ are a large family in ITK and form a prolific group of classes in the
 toolkit.")
 
 itk_module(ITKTransform
+  ENABLE_SHARED
+  DEPENDS
+    ITKCommon
   COMPILE_DEPENDS
     ITKStatistics
     ITKImageFilterBase

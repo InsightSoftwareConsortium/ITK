@@ -3,12 +3,12 @@ of itkTransform object in HDF5 format.")
 
 itk_module(ITKIOTransformHDF5
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKIOTransformBase
+  PRIVATE_DEPENDS
     ITKHDF5
   TEST_DEPENDS
     ITKTestKernel
-    ITKIOTransformBase
     ITKHDF5
   DESCRIPTION
     "${DOCUMENTATION}"

@@ -111,12 +111,43 @@ private:
 /** This helps to meet backward compatibility */
 typedef itk::TransformFileWriterTemplate<double> TransformFileWriter;
 
+#if defined( __GNUC__ )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
+
+/** Declare specializations */
+template<> void ITKIOTransformBase_EXPORT TransformFileWriterTemplate< double >::PushBackTransformList(const Object *transObj);
+template<> void ITKIOTransformBase_EXPORT TransformFileWriterTemplate< float >::PushBackTransformList(const Object *transObj);
+
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_TransformFileWriter
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#  if defined( ITKIOTransformBase_EXPORTS )
+//   We are building this library
+#    define ITKIOTransformBase_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#  endif
+
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemplate< double >;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemplate< float >;
+
+#  undef ITKIOTransformBase_EXPORT_EXPLICIT
+#endif
+
+#if defined( __GNUC__ )
+#pragma GCC diagnostic push
+#endif
+
 } // namespace itk
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
 #include "itkTransformIOFactoryRegisterManager.h"
 #endif
 
-// Note: Explicit instantiation is done in itkTransformFactoryBaseInstantiation.cxx
+// Note: Explicit instantiation is done in itkTransformFileWriterSpecializations.cxx
 
 #endif // itkTransformFileWriter_h

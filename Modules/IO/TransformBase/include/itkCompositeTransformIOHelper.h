@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class ITKIOTransformBase_EXPORT CompositeTransformIOHelperTemplate
+class CompositeTransformIOHelperTemplate
 {
 public:
   typedef typename TransformIOBaseTemplate<TParametersValueType>::TransformType          TransformType;
@@ -93,8 +93,24 @@ private:
 /** This helps to meet backward compatibility */
 typedef CompositeTransformIOHelperTemplate<double> CompositeTransformIOHelper;
 
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_CompositeTransformIOHelper
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#  if defined( ITKIOTransformBase_EXPORTS )
+//   We are building this library
+#    define ITKIOTransformBase_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#  endif
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT CompositeTransformIOHelperTemplate< double >;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT CompositeTransformIOHelperTemplate< float >;
+#  undef ITKIOTransformBase_EXPORT_EXPLICIT
+#endif
+
 } // namespace itk
 
-// Note: Explicit instantiation is done in itkTransformFactoryBaseInstantiation.cxx
+// Note: Explicit instantiation is done in itkCompositeTransformIOHelper.cxx
 
 #endif //  itkCompositeTransformIOHelper_h

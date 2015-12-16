@@ -3,11 +3,10 @@ of itkTransform object in  Matlab format.")
 
 itk_module(ITKIOTransformMatlab
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKIOTransformBase
   TEST_DEPENDS
     ITKTestKernel
-    ITKIOTransformBase
   DESCRIPTION
     "${DOCUMENTATION}"
 )
