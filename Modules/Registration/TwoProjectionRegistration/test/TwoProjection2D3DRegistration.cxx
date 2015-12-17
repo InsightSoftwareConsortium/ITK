@@ -169,10 +169,10 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
 
   double scd = 1000.; // Source to isocenter distance
 
-  double image1centerX;
-  double image1centerY;
-  double image2centerX;
-  double image2centerY;
+  double image1centerX = 0.0;
+  double image1centerY = 0.0;
+  double image2centerX = 0.0;
+  double image2centerY = 0.0;
 
   double image1resX = 1.0;
   double image1resY = 1.0;
