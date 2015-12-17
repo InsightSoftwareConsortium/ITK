@@ -6,8 +6,9 @@ file (usually .mhd + .raw) or the header inline with the data (usually .mha).")
 
 itk_module(ITKIOMeta
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKMetaIO
+  PRIVATE_DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
