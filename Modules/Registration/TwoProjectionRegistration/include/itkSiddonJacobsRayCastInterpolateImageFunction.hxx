@@ -161,9 +161,9 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
   rayVector[1] = drrPixelWorld[1] - sourceWorld[1];
   rayVector[2] = drrPixelWorld[2] - sourceWorld[2];
 
-  /* Calculate the parametric	values of the first	and	the	last
-  intersection points of	the	ray	with the X,	Y, and Z-planes	that
-  define	the	CT volume. */
+  /* Calculate the parametric  values of the first  and  the  last
+  intersection points of  the  ray  with the X,  Y, and Z-planes  that
+  define  the  CT volume. */
   if (rayVector[0] != 0)
   {
     alphaX1 = (0.0 - sourceWorld[0]) / rayVector[0];
