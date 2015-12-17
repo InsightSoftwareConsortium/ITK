@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 TwoImageToOneImageMetric<TFixedImage, TMovingImage>::TwoImageToOneImageMetric()
 {
   m_FixedImage1 = 0;           // has to be provided by the user.
@@ -43,7 +43,7 @@ TwoImageToOneImageMetric<TFixedImage, TMovingImage>::TwoImageToOneImageMetric()
 /*
  * Set the parameters that define a unique transform
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 TwoImageToOneImageMetric<TFixedImage, TMovingImage>::SetTransformParameters(const ParametersType & parameters) const
 {
@@ -55,12 +55,9 @@ TwoImageToOneImageMetric<TFixedImage, TMovingImage>::SetTransformParameters(cons
 }
 
 
-/*
- * Initialize
- */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
-TwoImageToOneImageMetric<TFixedImage, TMovingImage>::Initialize(void) throw(ExceptionObject)
+TwoImageToOneImageMetric<TFixedImage, TMovingImage>::Initialize()
 {
 
   if (!m_Transform)
@@ -163,10 +160,7 @@ TwoImageToOneImageMetric<TFixedImage, TMovingImage>::Initialize(void) throw(Exce
 }
 
 
-/*
- * PrintSelf
- */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 TwoImageToOneImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {

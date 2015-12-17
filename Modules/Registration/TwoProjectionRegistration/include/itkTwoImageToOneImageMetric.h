@@ -49,7 +49,7 @@ namespace itk
  *
  */
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 class TwoImageToOneImageMetric : public SingleValuedCostFunction
 {
 public:
@@ -202,7 +202,7 @@ public:
 
   /** Return the number of parameters required by the Transform */
   unsigned int
-  GetNumberOfParameters(void) const
+  GetNumberOfParameters() const
   {
     return m_Transform->GetNumberOfParameters();
   }
@@ -210,12 +210,12 @@ public:
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
   virtual void
-  Initialize(void) throw(ExceptionObject);
+  Initialize();
 
 protected:
   TwoImageToOneImageMetric();
   virtual ~TwoImageToOneImageMetric() {};
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   mutable unsigned long m_NumberOfPixelsCounted;

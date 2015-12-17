@@ -40,9 +40,8 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup TwoProjectionRegistration
  */
-template <class TFixedImage, class TMovingImage>
-class ITK_EXPORT NormalizedCorrelationTwoImageToOneImageMetric
-  : public TwoImageToOneImageMetric<TFixedImage, TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
+class NormalizedCorrelationTwoImageToOneImageMetric : public TwoImageToOneImageMetric<TFixedImage, TMovingImage>
 {
 public:
   /** Standard class typedefs. */
@@ -100,7 +99,7 @@ public:
 protected:
   NormalizedCorrelationTwoImageToOneImageMetric();
   virtual ~NormalizedCorrelationTwoImageToOneImageMetric() {};
-  void
+  virtual void
   PrintSelf(std::ostream & os, Indent indent) const;
 
 private:

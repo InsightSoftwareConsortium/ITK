@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage,
                                               TMovingImage>::NormalizedCorrelationTwoImageToOneImageMetric()
 {
@@ -32,7 +32,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage,
 }
 
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 typename NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::MeasureType
 NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetValue(
   const TransformParametersType & parameters) const
@@ -69,11 +69,11 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
 
   this->SetTransformParameters(parameters);
 
-  AccumulateType                      sff = NumericTraits<AccumulateType>::Zero;
-  AccumulateType                      smm = NumericTraits<AccumulateType>::Zero;
-  AccumulateType                      sfm = NumericTraits<AccumulateType>::Zero;
-  AccumulateType                      sf = NumericTraits<AccumulateType>::Zero;
-  AccumulateType                      sm = NumericTraits<AccumulateType>::Zero;
+  AccumulateType                      sff = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType                      smm = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType                      sfm = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType                      sf = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType                      sm = NumericTraits<AccumulateType>::ZeroValue();
   typename Superclass::InputPointType inputPoint;
 
   while (!ti1.IsAtEnd())
@@ -144,11 +144,11 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
 
   this->SetTransformParameters(parameters);
 
-  sff = NumericTraits<AccumulateType>::Zero;
-  smm = NumericTraits<AccumulateType>::Zero;
-  sfm = NumericTraits<AccumulateType>::Zero;
-  sf = NumericTraits<AccumulateType>::Zero;
-  sm = NumericTraits<AccumulateType>::Zero;
+  sff = NumericTraits<AccumulateType>::ZeroValue();
+  smm = NumericTraits<AccumulateType>::ZeroValue();
+  sfm = NumericTraits<AccumulateType>::ZeroValue();
+  sf = NumericTraits<AccumulateType>::ZeroValue();
+  sm = NumericTraits<AccumulateType>::ZeroValue();
 
   while (!ti2.IsAtEnd())
   {
@@ -213,7 +213,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
 }
 
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetDerivative(
   const TransformParametersType & parameters,
@@ -223,7 +223,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetDer
 }
 
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   const TransformParametersType & parameters,
@@ -234,7 +234,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
 }
 
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
                                                                                     Indent         indent) const

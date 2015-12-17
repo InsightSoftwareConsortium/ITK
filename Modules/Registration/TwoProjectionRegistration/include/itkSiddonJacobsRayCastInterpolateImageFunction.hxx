@@ -44,7 +44,7 @@ CIT 6, 89-94 (1998).
 namespace itk
 {
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::SiddonJacobsRayCastInterpolateImageFunction()
 {
   m_scd = 1000.;          // Focal point to isocenter distance in mm.
@@ -80,7 +80,7 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::SiddonJacob
 }
 
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 void
 SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -91,7 +91,7 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::PrintSelf(s
 }
 
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 typename SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::OutputType
 SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointType & point) const
 {
@@ -358,7 +358,7 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
 }
 
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 typename SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::OutputType
 SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & index) const
@@ -370,7 +370,7 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtC
 }
 
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 void
 SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::ComputeInverseTransform() const
 {
@@ -407,7 +407,7 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::ComputeInve
 }
 
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 void
 SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Initialize()
 {

@@ -53,7 +53,7 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup TwoProjectionRegistration
  */
-template <class TInputImage, class TCoordRep = float>
+template <typename TInputImage, typename TCoordRep = float>
 class SiddonJacobsRayCastInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:

@@ -27,7 +27,6 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::TwoProjectionImageRegistrationMethod()
 {
-
   this->SetNumberOfRequiredOutputs(1); // for the Transform
 
   m_FixedImage1 = 0;   // has to be provided by the user.
@@ -119,9 +118,6 @@ TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::GetMTime() cons
 }
 
 
-/*
- * Set the initial transform parameters
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::SetInitialTransformParameters(
@@ -162,7 +158,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::SetFixedImageRe
  */
 template <typename TFixedImage, typename TMovingImage>
 void
-TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize() throw(ExceptionObject)
+TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
 {
 
   if (!m_FixedImage1)
