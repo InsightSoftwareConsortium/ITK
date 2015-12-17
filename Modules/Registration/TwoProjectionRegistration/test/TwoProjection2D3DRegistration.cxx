@@ -930,7 +930,6 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   }
   catch (itk::ExceptionObject & err)
   {
-
     std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
   }
@@ -945,11 +944,9 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   }
   catch (itk::ExceptionObject & err)
   {
-
     std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
   }
-
   timer.Report();
 
   return EXIT_SUCCESS;

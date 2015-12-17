@@ -138,7 +138,6 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
 
   PointType SourceWorld = m_InverseTransform->TransformPoint(m_SourcePoint);
 
-
   // Get ths input pointers
   InputImageConstPointer inputPtr = this->GetInputImage();
 
@@ -231,7 +230,9 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
 
 
   if (rayVector[0] == 0)
+  {
     alphaX = 2;
+  }
   else
   {
     alphaIntersectionUp[0] = (firstIntersectionIndexUp[0] * ctPixelSpacing[0] - SourceWorld[0]) / rayVector[0];
@@ -240,7 +241,9 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
   }
 
   if (rayVector[1] == 0)
+  {
     alphaY = 2;
+  }
   else
   {
     alphaIntersectionUp[1] = (firstIntersectionIndexUp[1] * ctPixelSpacing[1] - SourceWorld[1]) / rayVector[1];
@@ -249,7 +252,9 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
   }
 
   if (rayVector[2] == 0)
+  {
     alphaZ = 2;
+  }
   else
   {
     alphaIntersectionUp[2] = (firstIntersectionIndexUp[2] * ctPixelSpacing[2] - SourceWorld[2]) / rayVector[2];
@@ -259,35 +264,55 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
 
   /* Calculate alpha incremental values when the ray intercepts with x, y, and z-planes */
   if (rayVector[0] != 0)
+  {
     alphaUx = ctPixelSpacing[0] / fabs(rayVector[0]);
+  }
   else
+  {
     alphaUx = 999;
-
+  }
   if (rayVector[1] != 0)
+  {
     alphaUy = ctPixelSpacing[1] / fabs(rayVector[1]);
+  }
   else
+  {
     alphaUy = 999;
-
+  }
   if (rayVector[2] != 0)
+  {
     alphaUz = ctPixelSpacing[2] / fabs(rayVector[2]);
+  }
   else
+  {
     alphaUz = 999;
-
+  }
   /* Calculate voxel index incremental values along the ray path. */
   if (SourceWorld[0] < drrPixelWorld[0])
+  {
     iU = 1;
+  }
   else
+  {
     iU = -1;
-
+  }
   if (SourceWorld[1] < drrPixelWorld[1])
+  {
     jU = 1;
+  }
   else
+  {
     jU = -1;
+  }
 
   if (SourceWorld[2] < drrPixelWorld[2])
+  {
     kU = 1;
+  }
   else
+  {
     kU = -1;
+  }
 
   d12 = 0.0; /* Initialize the sum of the voxel intensities along the ray path to zero. */
 
@@ -334,7 +359,9 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
       /* If it is a valid index, get the voxel intensity. */
       value = static_cast<float>(inputPtr->GetPixel(cIndex));
       if (value > m_Threshold) /* Ignore voxels whose intensities are below the threshold. */
+      {
         d12 += (alphaCmin - alphaCminPrev) * (value - m_Threshold);
+      }
     }
   }
 
