@@ -5,7 +5,6 @@ itk_module(ITKIOTransformBase
   ENABLE_SHARED
   DEPENDS
     ITKCommon
-  PRIVATE_DEPENDS
     ITKTransform
   COMPILE_DEPENDS
     ITKDisplacementField

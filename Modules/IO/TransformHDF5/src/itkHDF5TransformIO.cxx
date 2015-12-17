@@ -15,7 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+#define ITK_TEMPLATE_EXPLICIT_HDF5TransformIO
 #include "itkHDF5TransformIO.h"
+#include "itkHDF5TransformIO.hxx"
 
 namespace itk
 {
@@ -47,5 +50,17 @@ GetTransformName(int i)
   s << i;
   return s.str();
 }
+
+#if defined( __GNUC__ )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
+
+template class ITKIOTransformHDF5_EXPORT HDF5TransformIOTemplate< double >;
+template class ITKIOTransformHDF5_EXPORT HDF5TransformIOTemplate< float >;
+
+#if defined( __GNUC__ )
+#pragma GCC diagnostic pop
+#endif
 
 } // end namespace itk

@@ -16,13 +16,23 @@
  *
  *=========================================================================*/
 
-#include "itkMatlabTransformIO.h"
-#include "itkMatlabTransformIO.hxx"
+#define ITK_TEMPLATE_EXPLICIT_TxtTransformIO
+#include "itkTxtTransformIO.h"
+#include "itkTxtTransformIO.hxx"
 
 namespace itk
 {
 
-template class MatlabTransformIOTemplate< double >;
-template class MatlabTransformIOTemplate< float >;
+#if defined( __GNUC__ )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
+
+template class ITKIOTransformInsightLegacy_EXPORT TxtTransformIOTemplate< double >;
+template class ITKIOTransformInsightLegacy_EXPORT TxtTransformIOTemplate< float >;
+
+#if defined( __GNUC__ )
+#pragma GCC diagnostic pop
+#endif
 
 }  // end namespace itk

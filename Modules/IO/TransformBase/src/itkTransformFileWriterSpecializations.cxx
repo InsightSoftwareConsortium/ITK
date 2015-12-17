@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+#define ITK_TEMPLATE_EXPLICIT_TransformFileWriter
+#include "itkTransformFileWriter.h"
 #include "itkTransformFileWriter.hxx"
 #include <string>
 
@@ -237,5 +240,17 @@ void TransformFileWriterTemplate<float>
       }
     }
 }
+
+#if defined( __GNUC__ )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
+
+template class ITKIOTransformBase_EXPORT TransformFileWriterTemplate< double >;
+template class ITKIOTransformBase_EXPORT TransformFileWriterTemplate< float >;
+
+#if defined( __GNUC__ )
+#pragma GCC diagnostic pop
+#endif
 
 }

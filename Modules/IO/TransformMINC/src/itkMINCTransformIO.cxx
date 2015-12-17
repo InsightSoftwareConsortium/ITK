@@ -16,13 +16,23 @@
  *
  *=========================================================================*/
 
-#include "itkTxtTransformIO.h"
-#include "itkTxtTransformIO.hxx"
+#define ITK_TEMPLATE_EXPLICIT_MINCTransformIO
+#include "itkMINCTransformIO.h"
+#include "itkMINCTransformIO.hxx"
 
 namespace itk
 {
 
-template class TxtTransformIOTemplate< double >;
-template class TxtTransformIOTemplate< float >;
+#if defined( __GNUC__ )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
+
+template class ITKIOTransformMINC_EXPORT MINCTransformIOTemplate< double >;
+template class ITKIOTransformMINC_EXPORT MINCTransformIOTemplate< float >;
+
+#if defined( __GNUC__ )
+#pragma GCC diagnostic pop
+#endif
 
 }  // end namespace itk
