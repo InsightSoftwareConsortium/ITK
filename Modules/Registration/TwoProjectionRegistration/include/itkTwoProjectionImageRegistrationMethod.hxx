@@ -210,8 +210,8 @@ TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
   }
 
   // Store user-defined image origin
-  typename FixedImageType::PointType fixedOrigin1 = m_FixedImage1->GetOrigin();
-  typename FixedImageType::PointType fixedOrigin2 = m_FixedImage2->GetOrigin();
+  // typename FixedImageType::PointType fixedOrigin1 = m_FixedImage1->GetOrigin();
+  // typename FixedImageType::PointType fixedOrigin2 = m_FixedImage2->GetOrigin();
 
   // Setup the metric
   m_Metric->SetMovingImage(m_MovingImage);

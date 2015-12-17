@@ -216,8 +216,8 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
 template <typename TFixedImage, typename TMovingImage>
 void
 NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetDerivative(
-  const TransformParametersType & parameters,
-  DerivativeType &                derivative) const
+  const TransformParametersType & itkNotUsed(parameters),
+  DerivativeType &                itkNotUse(derivative)) const
 {
   // under construction
 }
@@ -226,9 +226,9 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetDer
 template <typename TFixedImage, typename TMovingImage>
 void
 NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
-  const TransformParametersType & parameters,
+  const TransformParametersType & itkNotUsed(parameters),
   MeasureType &                   value,
-  DerivativeType &                derivative) const
+  DerivativeType &                itkNotUse(derivative)) const
 {
   // under construction
 }

@@ -332,8 +332,9 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
       alphaZ = alphaZ + alphaUz;
     }
 
-    if ((cIndex[0] >= 0) && (cIndex[0] < sizeCT[0]) && (cIndex[1] >= 0) && (cIndex[1] < sizeCT[1]) &&
-        (cIndex[2] >= 0) && (cIndex[2] < sizeCT[2]))
+    if ((cIndex[0] >= 0) && (cIndex[0] < static_cast<IndexValueType>(sizeCT[0])) && (cIndex[1] >= 0) &&
+        (cIndex[1] < static_cast<IndexValueType>(sizeCT[1])) && (cIndex[2] >= 0) &&
+        (cIndex[2] < static_cast<IndexValueType>(sizeCT[2])))
     {
       /* If it is a valid index, get the voxel intensity. */
       value = static_cast<float>(inputPtr->GetPixel(cIndex));
