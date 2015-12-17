@@ -8,7 +8,12 @@
 
 #include "input_mgh.h"
 
-#include <arpa/inet.h> /* for ntohl and ntohs */
+#ifdef _WIN32
+#  define WIN32_LEAN_AND_MEAN
+#  include <Winsock2.h>
+#else
+#  include <arpa/inet.h> /* for ntohl and ntohs */
+#endif
 #include "znzlib.h"
 #include "errno.h"
 
@@ -110,12 +115,6 @@ input_next_slice(
   size_t n_bytes_per_voxel;
   znzFile fp = (znzFile) in_ptr->volume_file;
 
-  if (in_ptr->slice_index >= in_ptr->sizes_in_file[2])
-  {
-    fprintf(stderr, "Read past final slice.\n");
-    return VIO_ERROR;
-  }
-
   n_bytes_per_voxel = get_type_size(in_ptr->file_data_type);
   n_voxels_in_slice = (in_ptr->sizes_in_file[0] *
                        in_ptr->sizes_in_file[1]);
@@ -128,7 +127,6 @@ input_next_slice(
     return VIO_ERROR;
   }
 
-  ++in_ptr->slice_index;
   return VIO_OK;
 }
 
@@ -191,7 +189,7 @@ mgh_header_to_linear_transform(const struct mgh_header *hdr_ptr,
     double temp = 0.0;
     for (j = 0; j < MGH_N_SPATIAL; j++)
     {
-      temp += hdr_ptr->dircos[j][i] * (hdr_ptr->sizes[j] / 2.0);
+      temp += mgh_xform[i][j] * (hdr_ptr->sizes[j] / 2.0);
     }
 
     /* Set the origin for the voxel-to-world transform .
@@ -340,11 +338,20 @@ mgh_scan_for_voxel_range(volume_input_struct *in_ptr,
   int i;
   void *data_ptr;
   long int data_offset = znztell((znzFile) fp);
+  int total_slices = in_ptr->sizes_in_file[2];
+
+  if (in_ptr->sizes_in_file[3] > 1)
+  {
+    /* If there is a time dimension, incorporate that into our slice
+     * count.
+     */
+    total_slices *= in_ptr->sizes_in_file[3];
+  }
 
   if (data_offset < 0)
     return FALSE;
   
-  for (slice = 0; slice < in_ptr->sizes_in_file[2]; slice++)
+  for (slice = 0; slice < total_slices; slice++)
   {
     input_next_slice( in_ptr );
     data_ptr = in_ptr->generic_slice_buffer;
@@ -514,7 +521,11 @@ initialize_mgh_format_input(VIO_STR             filename,
     in_ptr->axis_index_from_file[axis] = spatial_axis;
   }
 
-  mgh_header_to_linear_transform(&hdr, in_ptr, TRUE, &mnc_native_xform);
+  /* Record the time axis, if present.
+   */
+  in_ptr->axis_index_from_file[3] = 3;
+
+  mgh_header_to_linear_transform(&hdr, in_ptr, FALSE, &mnc_native_xform);
 
   convert_transform_to_starts_and_steps(&mnc_native_xform,
                                         VIO_N_DIMENSIONS,
@@ -549,14 +560,21 @@ initialize_mgh_format_input(VIO_STR             filename,
            mnc_dircos[volume_axis][2]);
   }
 #endif // DEBUG
+  /* If there is a time axis, just assign a default step size of one.
+   */
+  mnc_steps[3] = 1;
   set_volume_separations( volume, mnc_steps );
+
+  /* If there is a time axis, just assign a default start time of zero.
+   */
+  mnc_starts[3] = 0;
   set_volume_starts( volume, mnc_starts );
+
+  set_volume_type( volume, desired_nc_type, signed_flag, 0.0, 0.0 );
 
   /* If we are a 4D image, we need to copy the size here.
    */
   sizes[3] = in_ptr->sizes_in_file[3];
-
-  set_volume_type( volume, desired_nc_type, signed_flag, 0.0, 0.0 );
   set_volume_sizes( volume, sizes );
 
   n_bytes_per_voxel = get_type_size( in_ptr->file_data_type );
@@ -620,8 +638,17 @@ input_more_mgh_format_file(
   int            *inner_index, indices[VIO_MAX_DIMENSIONS];
   void           *data_ptr;
   int            data_ind;
+  int            total_slices = in_ptr->sizes_in_file[2];
 
-  if ( in_ptr->slice_index < in_ptr->sizes_in_file[2] )
+  if (in_ptr->sizes_in_file[3] > 1)
+  {
+    /* If there is a time dimension, incorporate that into our slice
+     * count.
+     */
+    total_slices *= in_ptr->sizes_in_file[3];
+  }
+
+  if ( in_ptr->slice_index < total_slices )
   {
     /* If the memory for the volume has not been allocated yet,
      * initialize that memory now.
@@ -660,7 +687,18 @@ input_more_mgh_format_file(
      */
     inner_index = &indices[in_ptr->axis_index_from_file[0]];
 
-    indices[in_ptr->axis_index_from_file[2]] = in_ptr->slice_index - 1;
+    if (in_ptr->sizes_in_file[3] > 1)
+    {
+      /* If a time dimension is present, convert the slice index into
+       * both a time and slice coordinate using the number of slices.
+       */
+      indices[in_ptr->axis_index_from_file[3]] = in_ptr->slice_index / in_ptr->sizes_in_file[2];
+      indices[in_ptr->axis_index_from_file[2]] = in_ptr->slice_index % in_ptr->sizes_in_file[2];
+    }
+    else
+    {
+      indices[in_ptr->axis_index_from_file[2]] = in_ptr->slice_index;
+    }
 
     if ( status == VIO_OK )
     {
@@ -703,20 +741,21 @@ input_more_mgh_format_file(
                                   indices[VIO_X],
                                   indices[VIO_Y],
                                   indices[VIO_Z],
-                                  0,
+                                  indices[3],
                                   0,
                                   value);
         }
       }
     }
+    in_ptr->slice_index++;      /* Advance to the next slice. */
   }
 
-  *fraction_done = (VIO_Real) in_ptr->slice_index / in_ptr->sizes_in_file[2];
+  *fraction_done = (VIO_Real) in_ptr->slice_index / total_slices;
 
   /* See if we are all done. If so, we need to perform a final check
    * of the volume to set the ranges appropriately.
    */
-  if (in_ptr->slice_index == in_ptr->sizes_in_file[2])
+  if (in_ptr->slice_index == total_slices)
   {
     set_volume_voxel_range( volume, in_ptr->min_value, in_ptr->max_value );
 

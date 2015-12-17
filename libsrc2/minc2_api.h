@@ -890,6 +890,22 @@ int miget_props_blocking(mivolumeprops_t props, int *edge_count, int *edge_lengt
                                 int max_lengths);
 
 
+
+
+/** Set checksumming for volume
+ * \param on A volume property list handle
+ * \ingroup mi2VPrp
+ */
+int miset_props_checksum(mivolumeprops_t props, int on);
+
+
+/** Get checksumming for volume
+ * \ingroup mi2VPrp
+ */
+int miget_props_checksum(mivolumeprops_t props, int *on);
+
+
+
 /** Set properties for uniform/nonuniform record dimension
  * \ingroup mi2VPrp
  */

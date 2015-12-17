@@ -407,10 +407,16 @@ initialize_nifti_format_input(VIO_STR             filename,
 
   n_dimensions = nii_ptr->dim[0];
 
+  /* Treat 1D or 2D files as 3D */
+  if (n_dimensions < VIO_N_DIMENSIONS)
+  {
+    n_dimensions = VIO_N_DIMENSIONS;
+  }
+
   /* Ignore trailing dimensions of length 1 or less. The library
    * does not set the "ndim" field correctly in all cases.
    */
-  while (n_dimensions > 1 && nii_ptr->dim[n_dimensions] <= 1)
+  while (n_dimensions > VIO_N_DIMENSIONS && nii_ptr->dim[n_dimensions] <= 1)
   {
     n_dimensions--;
   }
@@ -418,6 +424,8 @@ initialize_nifti_format_input(VIO_STR             filename,
   for (axis = 0; axis < n_dimensions; axis++)
   {
     in_ptr->sizes_in_file[axis] = nii_ptr->dim[axis + 1];
+    if (in_ptr->sizes_in_file[axis] <= 0)
+      in_ptr->sizes_in_file[axis] = 1;
   }
 
   /* Decide how to store data in memory. */

@@ -96,7 +96,9 @@ typedef enum mimsgcode {
     MI_MSG_BADPROP,
     MI_MSG_ICVNOTATTACHED,
     MI_MSG_ICVCOORDS,
-    MI_MSG_BADOP
+    MI_MSG_BADOP,
+    MI_MSG_NCOPTS_STACK_OVER,
+    MI_MSG_NCOPTS_STACK_UNDER
 } mimsgcode_t;
 
 MNCAPI int milog_message(mimsgcode_t code, ...);

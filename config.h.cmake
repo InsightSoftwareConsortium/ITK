@@ -14,6 +14,7 @@
 
 #cmakedefine HAVE_MINC1 1 
 #cmakedefine HAVE_MINC2 1
+#cmakedefine LIBMINC_NIFTI_SUPPORT 1
 
 #ifndef H5Acreate_vers
 #define H5Acreate_vers 2
@@ -22,6 +23,9 @@
 #cmakedefine HAVE_MKSTEMP 1 
 #cmakedefine HAVE_STRERROR 1 
 #cmakedefine HAVE_FLOAT_H 1 
+
+#cmakedefine HAVE_COPYSIGN 1 
+#cmakedefine HAVE_ROUND 1 
 
 #cmakedefine HAVE_DIRENT_H 1 
 #cmakedefine HAVE_DLFCN_H 1 

@@ -20,6 +20,32 @@
 #define MIRW_OP_READ 1
 #define MIRW_OP_WRITE 2
 
+#ifndef HAVE_COPYSIGN
+double
+copysign(double x, double y)
+{
+    /* use atan2 to distinguish -0. from 0. */
+    if (y > 0. || (y == 0. && atan2(y, -1.) > 0.)) {
+        return fabs(x);
+    } else {
+        return -fabs(x);
+    }
+}
+#endif /* HAVE_COPYSIGN */
+
+#ifndef HAVE_ROUND
+double
+round(double x)
+{
+    double absx, y;
+    absx = fabs(x);
+    y = floor(absx);
+    if (absx - y >= 0.5)
+    y += 1.0;
+    return copysign(y, x);
+}
+#endif /* HAVE_ROUND */
+
 /** Calculates and returns the number of bytes required to store the
  * hyperslab specified by the \a n_dimensions and the
  * \a count parameters, using hdf type id
