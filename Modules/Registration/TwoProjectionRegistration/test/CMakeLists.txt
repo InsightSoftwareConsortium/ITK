@@ -1,11 +1,15 @@
 itk_module_test()
 
-set(TwoProjectionRegistrationTests TwoProjection2D3DRegistration.cxx)
+set(
+  TwoProjectionRegistrationTests
+  TwoProjection2D3DRegistration.cxx
+  GetDRRSiddonJacobsRayTracing.cxx
+)
 
 createtestdriver(TwoProjectionRegistration "${TwoProjectionRegistration_LIBRARIES}" "${TwoProjectionRegistrationTests}")
 
 itk_add_test(
-  NAME TwoProjection2D3DRegistrationTest1
+  NAME TwoProjection2D3DRegistrationDownSizedCTTest
   COMMAND
     TwoProjectionRegistrationTestDriver
     TwoProjection2D3DRegistration
@@ -29,7 +33,7 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME TwoProjection2D3DRegistrationTest2
+  NAME TwoProjection2D3DRegistrationFullSizeCTTest
   COMMAND
     TwoProjectionRegistrationTestDriver
     TwoProjection2D3DRegistration
@@ -53,9 +57,137 @@ itk_add_test(
 )
 set_property(
   TEST
-    TwoProjection2D3DRegistrationTest2
+    TwoProjection2D3DRegistrationFullSizeCTTest
   APPEND
   PROPERTY
     LABELS
       RUNS_LONG
+)
+
+itk_add_test(
+  NAME GetDRRSiddonJacobsRayTracingDownSizedCTTest1
+  COMMAND
+    TwoProjectionRegistrationTestDriver
+    GetDRRSiddonJacobsRayTracing
+    -rp
+    0
+    -rx
+    -3
+    -ry
+    4
+    -rz
+    2
+    -t
+    5
+    5
+    5
+    -iso
+    99.62
+    101.18
+    65
+    -res
+    1
+    1
+    -size
+    256
+    256
+    -o
+    ${ITK_TEST_OUTPUT_DIR}/boxheadDRRDev1_G0.tif
+    DATA{Input/BoxheadCT.img,BoxheadCT.hdr}
+)
+
+itk_add_test(
+  NAME GetDRRSiddonJacobsRayTracingDownSizedCTTest2
+  COMMAND
+    TwoProjectionRegistrationTestDriver
+    GetDRRSiddonJacobsRayTracing
+    -rp
+    90
+    -rx
+    -3
+    -ry
+    4
+    -rz
+    2
+    -t
+    5
+    5
+    5
+    -iso
+    99.62
+    101.18
+    65
+    -res
+    1
+    1
+    -size
+    256
+    256
+    -o
+    ${ITK_TEST_OUTPUT_DIR}/boxheadDRRDev1_G90.tif
+    DATA{Input/BoxheadCT.img,BoxheadCT.hdr}
+)
+
+itk_add_test(
+  NAME GetDRRSiddonJacobsRayTracingFullSizedCTTest1
+  COMMAND
+    TwoProjectionRegistrationTestDriver
+    GetDRRSiddonJacobsRayTracing
+    -rp
+    0
+    -rx
+    -3
+    -ry
+    4
+    -rz
+    2
+    -t
+    5
+    5
+    5
+    -iso
+    255
+    259
+    130
+    -res
+    0.5
+    0.5
+    -size
+    512
+    512
+    -o
+    ${ITK_TEST_OUTPUT_DIR}/BoxheadDRRFullDev1_G0.tif
+    DATA{Input/BoxheadCTFull.img,BoxheadCTFull.hdr}
+)
+
+itk_add_test(
+  NAME GetDRRSiddonJacobsRayTracingFullSizedCTTest2
+  COMMAND
+    TwoProjectionRegistrationTestDriver
+    GetDRRSiddonJacobsRayTracing
+    -rp
+    90
+    -rx
+    -3
+    -ry
+    4
+    -rz
+    2
+    -t
+    5
+    5
+    5
+    -iso
+    255
+    259
+    130
+    -res
+    0.5
+    0.5
+    -size
+    512
+    512
+    -o
+    ${ITK_TEST_OUTPUT_DIR}/BoxheadDRRFullDev1_G90.tif
+    DATA{Input/BoxheadCTFull.img,BoxheadCTFull.hdr}
 )
