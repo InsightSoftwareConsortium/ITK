@@ -727,7 +727,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
 
   // 2D Image 1
   interpolator1->SetProjectionAngle(dtr * projAngle1);
-  interpolator1->Setscd(scd);
+  interpolator1->SetFocalPointToIsocenterDistance(scd);
   interpolator1->SetThreshold(threshold);
   interpolator1->SetTransform(transform);
 
@@ -735,7 +735,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
 
   // 2D Image 2
   interpolator2->SetProjectionAngle(dtr * projAngle2);
-  interpolator2->Setscd(scd);
+  interpolator2->SetFocalPointToIsocenterDistance(scd);
   interpolator2->SetThreshold(threshold);
   interpolator2->SetTransform(transform);
 
@@ -855,7 +855,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   resampleFilter1->SetInput(caster3D->GetOutput()); // Link the 3D volume.
   resampleFilter1->SetDefaultPixelValue(0);
 
-  // The parameters of interpolator1, such as ProjectionAngle and scd
+  // The parameters of interpolator1, such as ProjectionAngle and FocalPointToIsocenterDistance
   // have been set before registration. Here we only need to replace the initial
   // transform with the final transform.
   interpolator1->SetTransform(finalTransform);
@@ -873,7 +873,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
   resampleFilter2->SetInput(caster3D->GetOutput());
   resampleFilter2->SetDefaultPixelValue(0);
 
-  // The parameters of interpolator2, such as ProjectionAngle and scd
+  // The parameters of interpolator2, such as ProjectionAngle and FocalPointToIsocenterDistance
   // have been set before registration. Here we only need to replace the initial
   // transform with the final transform.
   interpolator2->SetTransform(finalTransform);

@@ -15,14 +15,6 @@ file format.
 This program was modified from the ITK example--DicomSeriesReadSeriesWrite.cxx
 
 =========================================================================*/
-#if defined(_MSC_VER)
-#  pragma warning(disable : 4786)
-#endif
-
-#ifdef __BORLANDC__
-#  define ITK_LEAN_AND_MEAN
-#endif
-
 //  Software Guide : BeginLatex
 //
 //  Probably the most common representation of datasets in clinical

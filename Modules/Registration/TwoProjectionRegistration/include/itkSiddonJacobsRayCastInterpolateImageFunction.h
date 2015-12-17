@@ -154,8 +154,8 @@ public:
   itkGetObjectMacro(Transform, TransformType);
 
   /** Set and get the focal point to isocenter distance in mm */
-  itkSetMacro(scd, double);
-  itkGetMacro(scd, double);
+  itkSetMacro(FocalPointToIsocenterDistance, double);
+  itkGetMacro(FocalPointToIsocenterDistance, double);
 
   /** Set and get the Lianc grantry rotation angle in radians */
   itkSetMacro(ProjectionAngle, double);
@@ -199,8 +199,8 @@ protected:
 
   // The threshold above which voxels along the ray path are integrated
   double m_Threshold;
-  double m_scd;             // Focal point to isocenter distance
-  double m_ProjectionAngle; // Linac gantry rotation angle in radians
+  double m_FocalPointToIsocenterDistance; // Focal point to isocenter distance
+  double m_ProjectionAngle;               // Linac gantry rotation angle in radians
 
 private:
   SiddonJacobsRayCastInterpolateImageFunction(const Self &); // purposely not implemented
@@ -212,8 +212,8 @@ private:
   TransformPointer m_CamShiftTransform;  // Camera shift transform camRotTransform
   TransformPointer m_CamRotTransform;    // Camera rotation transform
   TransformPointer m_ComposedTransform;  // Composed transform
-  PointType        m_sourcePoint;        // Coordinate of the source in the standard Z projection geometry
-  PointType        m_sourceWorld;        // Coordinate of the source in the world coordinate system
+  PointType        m_SourcePoint;        // Coordinate of the source in the standard Z projection geometry
+  PointType        m_SourceWorld;        // Coordinate of the source in the world coordinate system
 };
 
 } // namespace itk
