@@ -22,7 +22,6 @@ Wu, J. \"ITK-Based Implementation of Two-Projection 2D/3D Registration Method wi
 itk_module(
   TwoProjectionRegistration
   DEPENDS
-    ITKCommon
     ITKImageFunction
     ITKImageGradient
     ITKOptimizers
