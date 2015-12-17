@@ -292,14 +292,12 @@ GetDRRSiddonJacobsRayTracing(int argc, char * argv[])
 
     if (ok == false)
     {
-
       if (input_name == NULL)
       {
         input_name = argv[1];
         argc--;
         argv++;
       }
-
       else
       {
         std::cerr << "ERROR: Can not parse argument " << argv[1] << std::endl;
@@ -333,7 +331,6 @@ GetDRRSiddonJacobsRayTracing(int argc, char * argv[])
 
   if (input_name)
   {
-
     timer.Start("Loading Input Image");
     typedef itk::ImageFileReader<InputImageType> ReaderType;
     ReaderType::Pointer                          reader = ReaderType::New();
@@ -343,7 +340,6 @@ GetDRRSiddonJacobsRayTracing(int argc, char * argv[])
     {
       reader->Update();
     }
-
     catch (itk::ExceptionObject & err)
     {
       std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
