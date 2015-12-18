@@ -29,7 +29,7 @@ itk_add_test(NAME itkFEMRegistrationFilterTest2
       ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField3DMultiRes ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3DMultiRes)
 itk_add_test(NAME itkPhysicsBasedNonRigidRegistrationMethodTest
       COMMAND ITKFEMRegistrationTestDriver
-    --compareRadiusTolerance 0
+    --compareRadiusTolerance 5
     --compareNumberOfPixelsTolerance 0
     --compareIntensityTolerance 9
     --compare DATA{${CMAKE_CURRENT_SOURCE_DIR}/Baseline/itkPhysicsBasedNonRigidRegistrationMethodTest.mha}
