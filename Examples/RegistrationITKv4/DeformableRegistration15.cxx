@@ -64,9 +64,9 @@
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
+#include "itkSqrtImageFilter.h"
 
-
-#include "itkTransformFileReader.h"
+#include "itkTransformFileWriter.h"
 
 //  The following section of code implements a Command observer
 //  used to monitor the evolution of the registration process.
@@ -113,9 +113,9 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
     std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
-    std::cerr << " [deformationField] ";
-    std::cerr << " [useExplicitPDFderivatives ] [useCachingBSplineWeights ] ";
     std::cerr << " [filenameForFinalTransformParameters] ";
+    std::cerr << " [useExplicitPDFderivatives ] [useCachingBSplineWeights ] ";
+    std::cerr << " [deformationField] ";
     std::cerr << " [numberOfGridNodesInsideImageInOneDimensionCoarse] ";
     std::cerr << " [numberOfGridNodesInsideImageInOneDimensionFine] ";
     std::cerr << " [maximumStepLength] [maximumNumberOfIterations]";
@@ -541,7 +541,7 @@ int main( int argc, char *argv[] )
 
   DeformableTransformType::Pointer  bsplineTransformFine = DeformableTransformType::New();
 
-  unsigned int numberOfGridNodesInOneDimensionFine = 5;
+  unsigned int numberOfGridNodesInOneDimensionFine = 20;
 
   meshSize.Fill( numberOfGridNodesInOneDimensionFine - SplineOrder );
 
@@ -740,9 +740,14 @@ int main( int argc, char *argv[] )
                                   OutputImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  typedef itk::SqrtImageFilter<OutputImageType, OutputImageType> SqrtFilterType;
+  SqrtFilterType::Pointer sqrtFilter = SqrtFilterType::New();
+  sqrtFilter->SetInput(difference->GetOutput());
 
-  WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );
+  typedef itk::ImageFileWriter< OutputImageType >  DifferenceImageWriterType;
+
+  DifferenceImageWriterType::Pointer writer2 = DifferenceImageWriterType::New();
+  writer2->SetInput(sqrtFilter->GetOutput());
 
 
   // Compute the difference image between the
@@ -796,7 +801,7 @@ int main( int argc, char *argv[] )
 
   // Generate the explicit deformation field resulting from
   // the registration.
-  if( argc > 6 )
+  if( argc > 9 )
     {
 
     typedef itk::Vector< float, ImageDimension >      VectorType;
@@ -835,7 +840,7 @@ int main( int argc, char *argv[] )
 
     fieldWriter->SetInput( field );
 
-    fieldWriter->SetFileName( argv[6] );
+    fieldWriter->SetFileName( argv[9] );
 
     std::cout << "Writing deformation field ...";
 
@@ -854,13 +859,14 @@ int main( int argc, char *argv[] )
     }
 
   // Optionally, save the transform parameters in a file
-  if( argc > 9 )
+  if( argc > 6 )
     {
     std::cout << "Writing transform parameter file ...";
-    std::ofstream parametersFile;
-    parametersFile.open( argv[9] );
-    parametersFile << finalParameters << std::endl;
-    parametersFile.close();
+    typedef itk::TransformFileWriter               TransformWriterType;
+    TransformWriterType::Pointer transformWriter = TransformWriterType::New();
+    transformWriter->AddTransform(bsplineTransformFine);
+    transformWriter->SetFileName(argv[6]);
+    transformWriter->Update();
     std::cout << " Done!" << std::endl;
     }
 
