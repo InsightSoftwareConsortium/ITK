@@ -36,7 +36,7 @@ namespace itk
    * \endwiki
    */
 template<typename TParametersValueType>
-class ITKIOTransformBase_EXPORT TransformFileWriterTemplate:public LightProcessObject
+class TransformFileWriterTemplate:public LightProcessObject
 {
 public:
 
@@ -111,10 +111,10 @@ private:
 /** This helps to meet backward compatibility */
 typedef itk::TransformFileWriterTemplate<double> TransformFileWriter;
 
-#if defined( __GNUC__ )
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wattributes"
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
 #endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 /** Declare specializations */
 template<> void ITKIOTransformBase_EXPORT TransformFileWriterTemplate< double >::PushBackTransformList(const Object *transObj);
@@ -138,8 +138,10 @@ extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemp
 #  undef ITKIOTransformBase_EXPORT_EXPLICIT
 #endif
 
-#if defined( __GNUC__ )
-#pragma GCC diagnostic push
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
 #endif
 
 } // namespace itk

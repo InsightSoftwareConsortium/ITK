@@ -51,16 +51,18 @@ GetTransformName(int i)
   return s.str();
 }
 
-#if defined( __GNUC__ )
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wattributes"
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
 #endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 template class ITKIOTransformHDF5_EXPORT HDF5TransformIOTemplate< double >;
 template class ITKIOTransformHDF5_EXPORT HDF5TransformIOTemplate< float >;
 
-#if defined( __GNUC__ )
-#pragma GCC diagnostic pop
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
 #endif
 
 } // end namespace itk
