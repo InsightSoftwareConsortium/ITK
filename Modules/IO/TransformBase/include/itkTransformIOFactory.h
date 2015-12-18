@@ -34,7 +34,7 @@ typedef enum { ReadMode, WriteMode } TransformIOFactoryFileModeType;
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class ITKIOTransformBase_EXPORT TransformIOFactoryTemplate:public Object
+class TransformIOFactoryTemplate:public Object
 {
 public:
   /** Standard class typedefs. */
