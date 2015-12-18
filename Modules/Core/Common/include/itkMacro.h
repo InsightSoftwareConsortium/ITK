@@ -65,16 +65,21 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
+// Define ITK_PRAGMA macro.
+//
+// It sets "#pragma" preprocessor directives without expecting the arguments
+// to be quoted.
+#define ITK_PRAGMA(x) _Pragma (#x)
 
 // The clang compiler has many useful non-default compiler warnings
 // that tend to have a high false positive rate.
 // The following set of defines allows us to suppress false positives
 // and still track down suspicious code
 #if defined(__clang__) && defined(__has_warning)
-#define CLANG_PRAGMA_PUSH _Pragma("clang diagnostic push")
-#define CLANG_PRAGMA_POP  _Pragma("clang diagnostic pop")
+#define CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
+#define CLANG_PRAGMA_POP  ITK_PRAGMA(clang diagnostic pop)
 # if __has_warning("-Wfloat-equal")
-#define CLANG_SUPPRESS_Wfloat_equal _Pragma("clang diagnostic ignored \"-Wfloat-equal\"" )
+#define CLANG_SUPPRESS_Wfloat_equal ITK_PRAGMA( clang diagnostic ignored "-Wfloat-equal" )
 # endif
 #else
 #define CLANG_PRAGMA_PUSH
@@ -82,6 +87,44 @@ namespace itk
 #define CLANG_SUPPRESS_Wfloat_equal
 #endif
 
+// Define ITK_GCC_PRAGMA_DIAG(param1 [param2 [...]]) macro.
+//
+// This macros sets a pragma diagnostic if it supported by the version
+// of GCC being used otherwise it is a no-op.
+//
+// GCC diagnostics pragma supported only with GCC >= 4.2
+#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
+#  if ( __GNUC__ > 4 ) || (( __GNUC__ >= 4 ) && ( __GNUC_MINOR__ >= 2 ))
+#    define ITK_GCC_PRAGMA_DIAG(x) ITK_PRAGMA(GCC diagnostic x)
+#  else
+#    define ITK_GCC_PRAGMA_DIAG(x)
+#  endif
+#else
+#  define ITK_GCC_PRAGMA_DIAG(x)
+#endif
+
+// Define ITK_GCC_PRAGMA_DIAG_(PUSH|POP) macros.
+//
+// These macros respectively push and pop the diagnostic context
+// if it is supported by the version of GCC being used
+// otherwise it is a no-op.
+//
+// GCC push/pop diagnostics pragma are supported only with GCC >= 4.6
+//
+// Define macro ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP if it is supported.
+#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
+#  if ( __GNUC__ > 4 ) || (( __GNUC__ >= 4 ) && ( __GNUC_MINOR__ >= 6 ))
+#    define ITK_GCC_PRAGMA_DIAG_PUSH() ITK_GCC_PRAGMA_DIAG(push)
+#    define ITK_GCC_PRAGMA_DIAG_POP() ITK_GCC_PRAGMA_DIAG(pop)
+#    define ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+#  else
+#    define ITK_GCC_PRAGMA_DIAG_PUSH()
+#    define ITK_GCC_PRAGMA_DIAG_POP()
+#  endif
+#else
+#  define ITK_GCC_PRAGMA_DIAG_PUSH()
+#  define ITK_GCC_PRAGMA_DIAG_POP()
+#endif
 
 /*
  * ITK only supports MSVC++ 7.1 and greater
