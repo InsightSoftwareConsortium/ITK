@@ -4,10 +4,10 @@ set(
   itkDCMTKTransformIOFactory.cxx
 )
 
-add_library(IOTransformDCMTK ${IOTransformDCMTK_SRCS})
-target_link_libraries(
+add_library(
   IOTransformDCMTK
-  ${IOTransformBase_LIBRARIES}
-  ${ITKDCMTK_LIBRARIES}
+  ${ITK_LIBRARY_BUILD_TYPE}
+  ${IOTransformDCMTK_SRCS}
 )
+itk_module_link_dependencies()
 itk_module_target(IOTransformDCMTK)
