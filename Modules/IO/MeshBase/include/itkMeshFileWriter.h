@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKIOMeshBase
  */
 template< typename TInputMesh >
-class ITKIOMeshBase_EXPORT MeshFileWriter:public ProcessObject
+class MeshFileWriter:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
@@ -162,9 +162,29 @@ private:
   bool                m_UseCompression;
   bool                m_FileTypeIsBINARY;
 };
+
 } // end namespace itk
 
-// Note: Explicit instantiation is done in itkMeshIOInstantiation.cxx
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_MeshIOInstantiation
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#  if defined( ITKIOMeshBase_EXPORTS )
+//   We are building this library
+#    define ITKIOMeshBase_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKIOMeshBase_EXPORT_EXPLICIT ITKIOMeshBase_EXPORT
+#  endif
+
+#  define ITKMeshIOInstantiation_IO_TYPE MeshFileWriter
+#  include "itkMeshIOInstantiation.inc"
+#  undef ITKMeshIOInstantiation_IO_TYPE
+
+#  undef ITKIOMeshBase_EXPORT_EXPLICIT
+#endif
+
+// Note: Explicit instantiation is done in itkMeshFileWriter.cxx
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
 #include "itkMeshIOFactoryRegisterManager.h"

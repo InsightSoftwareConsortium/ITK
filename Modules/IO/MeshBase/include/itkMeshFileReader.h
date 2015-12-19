@@ -171,9 +171,29 @@ private:
 
   std::string m_ExceptionMessage;
 };
+
 } // namespace ITK
 
-// Note: Explicit instantiation is done in itkMeshIOInstantiation.cxx
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_MeshIOInstantiation
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+#  if defined( ITKIOMeshBase_EXPORTS )
+//   We are building this library
+#    define ITKIOMeshBase_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKIOMeshBase_EXPORT_EXPLICIT ITKIOMeshBase_EXPORT
+#  endif
+
+#  define ITKMeshIOInstantiation_IO_TYPE MeshFileReader
+#  include "itkMeshIOInstantiation.inc"
+#  undef ITKMeshIOInstantiation_IO_TYPE
+
+#  undef ITKIOMeshBase_EXPORT_EXPLICIT
+#endif
+
+// Note: Explicit instantiation is done in itkMeshFileReader.cxx
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
 #include "itkMeshIOFactoryRegisterManager.h"

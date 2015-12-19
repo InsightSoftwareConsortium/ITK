@@ -1,9 +1,10 @@
 set(ITKIOMeshBase_SRC
+  itkMeshFileReader.cxx
   itkMeshFileReaderException.cxx
+  itkMeshFileWriter.cxx
   itkMeshFileWriterException.cxx
   itkMeshIOBase.cxx
   itkMeshIOFactory.cxx
-  itkMeshIOInstantiation.cxx
 )
 
 add_library(ITKIOMeshBase ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOMeshBase_SRC})
