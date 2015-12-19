@@ -71,10 +71,22 @@ protected:
 /** This helps to meet backward compatibility */
 typedef MatlabTransformIOTemplate<double> MatlabTransformIO;
 
+}
+
+// Note: Explicit instantiation is done in itkMatlabTransformIO.cxx
+
+#endif // itkMatlabTransformIO_h
+
 /** Explicit instantiations */
 #ifndef ITK_TEMPLATE_EXPLICIT_MatlabTransformIO
 // Explicit instantiation is required to ensure correct dynamic_cast
 // behavior across shared libraries.
+//
+// IMPORTANT: Since within the same compilation unit,
+//            ITK_TEMPLATE_EXPLICIT_<classname> defined and undefined states
+//            need to be considered. This code *MUST* be *OUTSIDE* the header
+//            guards.
+//
 #  if defined( ITKIOTransformMatlab_EXPORTS )
 //   We are building this library
 #    define ITKIOTransformMatlab_EXPORT_EXPLICIT
@@ -82,13 +94,19 @@ typedef MatlabTransformIOTemplate<double> MatlabTransformIO;
 //   We are using this library
 #    define ITKIOTransformMatlab_EXPORT_EXPLICIT ITKIOTransformMatlab_EXPORT
 #  endif
+namespace itk
+{
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 extern template class ITKIOTransformMatlab_EXPORT_EXPLICIT MatlabTransformIOTemplate< double >;
 extern template class ITKIOTransformMatlab_EXPORT_EXPLICIT MatlabTransformIOTemplate< float >;
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
+#endif
+} // end namespace itk
 #  undef ITKIOTransformMatlab_EXPORT_EXPLICIT
 #endif
-
-}
-
-// Note: Explicit instantiation is done in itkMatlabTransformIO.cxx
-
-#endif // itkMatlabTransformIO_h

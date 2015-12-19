@@ -146,10 +146,22 @@ const std::string ITKIOTransformHDF5_EXPORT GetTransformName(int);
 /** This helps to meet backward compatibility */
 typedef HDF5TransformIOTemplate<double> HDF5TransformIO;
 
+} // end namespace itk
+
+// Note: Explicit instantiation is done in itkHDF5TransformIO.cxx
+
+#endif // itkHDF5TransformIO_h
+
 /** Explicit instantiations */
 #ifndef ITK_TEMPLATE_EXPLICIT_HDF5TransformIO
 // Explicit instantiation is required to ensure correct dynamic_cast
 // behavior across shared libraries.
+//
+// IMPORTANT: Since within the same compilation unit,
+//            ITK_TEMPLATE_EXPLICIT_<classname> defined and undefined states
+//            need to be considered. This code *MUST* be *OUTSIDE* the header
+//            guards.
+//
 #  if defined( ITKIOTransformHDF5_EXPORTS )
 //   We are building this library
 #    define ITKIOTransformHDF5_EXPORT_EXPLICIT
@@ -157,13 +169,22 @@ typedef HDF5TransformIOTemplate<double> HDF5TransformIO;
 //   We are using this library
 #    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITKIOTransformHDF5_EXPORT
 #  endif
+namespace itk
+{
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+
 extern template class ITKIOTransformHDF5_EXPORT_EXPLICIT HDF5TransformIOTemplate< double >;
 extern template class ITKIOTransformHDF5_EXPORT_EXPLICIT HDF5TransformIOTemplate< float >;
-#  undef ITKIOTransformHDF5_EXPORT_EXPLICIT
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
 #endif
 
 } // end namespace itk
-
-// Note: Explicit instantiation is done in itkHDF5TransformIO.cxx
-
-#endif // itkHDF5TransformIO_h
+#  undef ITKIOTransformHDF5_EXPORT_EXPLICIT
+#endif

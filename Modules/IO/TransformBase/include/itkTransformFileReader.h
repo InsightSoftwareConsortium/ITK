@@ -100,22 +100,6 @@ private:
 /** This helps to meet backward compatibility */
 typedef itk::TransformFileReaderTemplate<double> TransformFileReader;
 
-/** Explicit instantiations */
-#ifndef ITK_TEMPLATE_EXPLICIT_TransformFileReader
-// Explicit instantiation is required to ensure correct dynamic_cast
-// behavior across shared libraries.
-#  if defined( ITKIOTransformBase_EXPORTS )
-//   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT
-#  else
-//   We are using this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
-#  endif
-extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileReaderTemplate< double >;
-extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileReaderTemplate< float >;
-#  undef ITKIOTransformBase_EXPORT_EXPLICIT
-#endif
-
 } // namespace itk
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
@@ -125,3 +109,41 @@ extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileReaderTemp
 // Note: Explicit instantiation is done in itkTransformFileReader.cxx
 
 #endif // itkTransformFileReade_h
+
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_TransformFileReader
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+//
+// IMPORTANT: Since within the same compilation unit,
+//            ITK_TEMPLATE_EXPLICIT_<classname> defined and undefined states
+//            need to be considered. This code *MUST* be *OUTSIDE* the header
+//            guards.
+//
+#  if defined( ITKIOTransformBase_EXPORTS )
+//   We are building this library
+#    define ITKIOTransformBase_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#  endif
+namespace itk
+{
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileReaderTemplate< double >;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileReaderTemplate< float >;
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
+#endif
+
+} // end namespace itk
+#  undef ITKIOTransformBase_EXPORT_EXPLICIT
+#endif

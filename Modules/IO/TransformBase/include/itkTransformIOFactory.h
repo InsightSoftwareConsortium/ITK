@@ -69,10 +69,22 @@ private:
 /** This helps to meet backward compatibility */
 typedef TransformIOFactoryTemplate<double> TransformIOFactory;
 
+} // end namespace itk
+
+// Note: Explicit instantiation is done in itkTransformIOFactory.cxx
+
+#endif
+
 /** Explicit instantiations */
 #ifndef ITK_TEMPLATE_EXPLICIT_TransformIOFactory
 // Explicit instantiation is required to ensure correct dynamic_cast
 // behavior across shared libraries.
+//
+// IMPORTANT: Since within the same compilation unit,
+//            ITK_TEMPLATE_EXPLICIT_<classname> defined and undefined states
+//            need to be considered. This code *MUST* be *OUTSIDE* the header
+//            guards.
+//
 #  if defined( ITKIOTransformBase_EXPORTS )
 //   We are building this library
 #    define ITKIOTransformBase_EXPORT_EXPLICIT
@@ -80,13 +92,23 @@ typedef TransformIOFactoryTemplate<double> TransformIOFactory;
 //   We are using this library
 #    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
 #  endif
+namespace itk
+{
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+
 extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOFactoryTemplate< double >;
 extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOFactoryTemplate< float >;
-#  undef ITKIOTransformBase_EXPORT_EXPLICIT
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
 #endif
 
 } // end namespace itk
-
-// Note: Explicit instantiation is done in itkTransformIOFactory.cxx
-
+#  undef ITKIOTransformBase_EXPORT_EXPLICIT
 #endif
