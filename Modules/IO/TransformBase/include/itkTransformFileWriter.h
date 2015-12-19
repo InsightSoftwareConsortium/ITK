@@ -36,7 +36,7 @@ namespace itk
    * \endwiki
    */
 template<typename TParametersValueType>
-class TransformFileWriterTemplate:public LightProcessObject
+class ITKIOTransformBase_EXPORT TransformFileWriterTemplate:public LightProcessObject
 {
 public:
 
