@@ -181,7 +181,7 @@ bool OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat& image, int itkNotUsed(c
 
   // Pass off to the Mat
   image.create(size[0], size[1], matrixType);
-  image = iplImg;
+  image = cv::cvarrToMat(iplImg, true);
 
   // Return success
   return true;
