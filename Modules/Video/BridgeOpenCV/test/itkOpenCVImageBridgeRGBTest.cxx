@@ -23,6 +23,10 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
 
+#if CV_VERSION_MAJOR > 2
+#include "opencv2/opencv.hpp" // cv::imread
+#endif
+
 //-----------------------------------------------------------------------------
 // Compare RGBPixel Images
 //
