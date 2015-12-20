@@ -85,9 +85,8 @@ public:
 
   /**
    * Set/Get the ordering of the objects. By default, the objects with
-   * an attribute value smaller than Lamba are removed. Turning ReverseOrdering
-   * to true make this filter remove the object with an attribute value greater
-   * than Lambda instead.
+   * a the largest attribute value are kept. If set to true, the filter
+   * to keeps the object with the smallest attribute instead.
    */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
@@ -140,7 +139,7 @@ protected:
         ++lit;
         }
 
-      // clear the lines to readd them later
+      // clear the lines to read them later
       labelObject->Clear();
 
       // go to the next label
