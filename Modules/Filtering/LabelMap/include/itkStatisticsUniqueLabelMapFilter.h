@@ -60,15 +60,13 @@ public:
   typedef typename LabelObjectType::AttributeType AttributeType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsUniqueLabelMapFilter,
-               ShapeUniqueLabelMapFilter);
+  itkTypeMacro(StatisticsUniqueLabelMapFilter, ShapeUniqueLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -85,12 +83,12 @@ protected:
   StatisticsUniqueLabelMapFilter();
   ~StatisticsUniqueLabelMapFilter() {}
 
-  void GenerateData() ITK_OVERRIDE;
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   StatisticsUniqueLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
   void operator=(const Self &) ITK_DELETE_FUNCTION;
-};                                              // end of class
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
