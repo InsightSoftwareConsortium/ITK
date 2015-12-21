@@ -126,6 +126,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
   velocityFieldRegistration->SetMovingInitialTransform( transform );
   velocityFieldRegistration->SetMetric( metric );
   velocityFieldRegistration->SetLearningRate( 0.25 );
+  velocityFieldRegistration->SetNumberOfTimePointSamples(3);
   outputTransform->SetSplineOrder( 3 );
   outputTransform->SetLowerTimeBound( 0.0 );
   outputTransform->SetUpperTimeBound( 1.0 );

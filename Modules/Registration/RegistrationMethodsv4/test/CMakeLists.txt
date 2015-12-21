@@ -145,7 +145,6 @@ set_property(TEST itkBSplineSyNPointSetRegistrationTest APPEND PROPERTY LABELS R
 
 itk_add_test(NAME itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
-      --with-threads 1
       itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest
       )
 set_property(TEST itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)

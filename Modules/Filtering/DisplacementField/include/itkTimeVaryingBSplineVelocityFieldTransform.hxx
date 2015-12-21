@@ -84,10 +84,13 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
   bspliner->SetCloseDimension( closeDimensions );
   bspliner->Update();
 
+  typename VelocityFieldType::Pointer bsplinerOutput = bspliner->GetOutput();
+  bsplinerOutput->DisconnectPipeline();
+
   typedef TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType> IntegratorType;
 
   typename IntegratorType::Pointer integrator = IntegratorType::New();
-  integrator->SetInput( bspliner->GetOutput() );
+  integrator->SetInput( bsplinerOutput );
   integrator->SetLowerTimeBound( this->GetLowerTimeBound() );
   integrator->SetUpperTimeBound( this->GetUpperTimeBound() );
 
@@ -106,7 +109,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
   this->GetModifiableInterpolator()->SetInputImage( displacementField );
 
   typename IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
-  inverseIntegrator->SetInput( bspliner->GetOutput() );
+  inverseIntegrator->SetInput( bsplinerOutput );
   inverseIntegrator->SetLowerTimeBound( this->GetUpperTimeBound() );
   inverseIntegrator->SetUpperTimeBound( this->GetLowerTimeBound() );
 
