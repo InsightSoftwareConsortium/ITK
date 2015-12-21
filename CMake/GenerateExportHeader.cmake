@@ -13,6 +13,7 @@
 #    GENERATE_EXPORT_HEADER( LIBRARY_TARGET
 #              [BASE_NAME <base_name>]
 #              [EXPORT_MACRO_NAME <export_macro_name>]
+#              [TEMPLATE_EXPORT_MACRO_NAME <template_export_macro_name>]
 #              [EXPORT_FILE_NAME <export_file_name>]
 #              [DEPRECATED_MACRO_NAME <deprecated_macro_name>]
 #              [NO_EXPORT_MACRO_NAME <no_export_macro_name>]
@@ -59,9 +60,10 @@
 #
 # The CMake fragment will generate a file in the
 # ``${CMAKE_CURRENT_BINARY_DIR}`` called ``somelib_export.h`` containing the
-# macros ``SOMELIB_EXPORT``, ``SOMELIB_NO_EXPORT``, ``SOMELIB_DEPRECATED``,
-# ``SOMELIB_DEPRECATED_EXPORT`` and ``SOMELIB_DEPRECATED_NO_EXPORT``.  The
-# resulting file should be installed with other headers in the library.
+# macros ``SOMELIB_EXPORT``, ``SOMELIB_TEMPLATE_EXPORT``, ``SOMELIB_NO_EXPORT``,
+# ``SOMELIB_DEPRECATED``, ``SOMELIB_DEPRECATED_EXPORT`` and
+# ``SOMELIB_DEPRECATED_NO_EXPORT``.
+# The resulting file should be installed with other headers in the library.
 #
 # The ``BASE_NAME`` argument can be used to override the file name and the
 # names used for the macros:
@@ -257,6 +259,8 @@ macro(_DO_SET_MACRO_VALUES TARGET_LIBRARY)
   set(DEFINE_DEPRECATED)
   set(DEFINE_EXPORT)
   set(DEFINE_IMPORT)
+  set(DEFINE_TEMPLATE_EXPORT)
+  set(DEFINE_TEMPLATE_IMPORT)
   set(DEFINE_NO_EXPORT)
 
   if (COMPILER_HAS_DEPRECATED_ATTR)
@@ -271,9 +275,13 @@ macro(_DO_SET_MACRO_VALUES TARGET_LIBRARY)
     if(WIN32 OR CYGWIN)
       set(DEFINE_EXPORT "__declspec(dllexport)")
       set(DEFINE_IMPORT "__declspec(dllimport)")
+      set(DEFINE_TEMPLATE_EXPORT)
+      set(DEFINE_TEMPLATE_IMPORT)
     elseif(COMPILER_HAS_HIDDEN_VISIBILITY AND USE_COMPILER_HIDDEN_VISIBILITY)
       set(DEFINE_EXPORT "__attribute__((visibility(\"default\")))")
       set(DEFINE_IMPORT "__attribute__((visibility(\"default\")))")
+      set(DEFINE_TEMPLATE_EXPORT "${DEFINE_EXPORT}")
+      set(DEFINE_TEMPLATE_IMPORT "${DEFINE_IMPORT}")
       set(DEFINE_NO_EXPORT "__attribute__((visibility(\"hidden\")))")
     endif()
   endif()
@@ -282,7 +290,8 @@ endmacro()
 macro(_DO_GENERATE_EXPORT_HEADER TARGET_LIBRARY)
   # Option overrides
   set(options DEFINE_NO_DEPRECATED)
-  set(oneValueArgs PREFIX_NAME BASE_NAME EXPORT_MACRO_NAME EXPORT_FILE_NAME
+  set(oneValueArgs PREFIX_NAME BASE_NAME EXPORT_MACRO_NAME
+    TEMPLATE_EXPORT_MACRO_NAME EXPORT_FILE_NAME
     DEPRECATED_MACRO_NAME NO_EXPORT_MACRO_NAME STATIC_DEFINE
     NO_DEPRECATED_MACRO_NAME)
   set(multiValueArgs)
@@ -301,6 +310,7 @@ macro(_DO_GENERATE_EXPORT_HEADER TARGET_LIBRARY)
 
   # Default options
   set(EXPORT_MACRO_NAME "${_GEH_PREFIX_NAME}${BASE_NAME_UPPER}_EXPORT")
+  set(TEMPLATE_EXPORT_MACRO_NAME "${_GEH_PREFIX_NAME}${BASE_NAME_UPPER}_TEMPLATE_EXPORT")
   set(NO_EXPORT_MACRO_NAME "${_GEH_PREFIX_NAME}${BASE_NAME_UPPER}_NO_EXPORT")
   set(EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/${BASE_NAME_LOWER}_export.h")
   set(DEPRECATED_MACRO_NAME "${_GEH_PREFIX_NAME}${BASE_NAME_UPPER}_DEPRECATED")
@@ -314,6 +324,9 @@ macro(_DO_GENERATE_EXPORT_HEADER TARGET_LIBRARY)
 
   if(_GEH_EXPORT_MACRO_NAME)
     set(EXPORT_MACRO_NAME ${_GEH_PREFIX_NAME}${_GEH_EXPORT_MACRO_NAME})
+  endif()
+  if(_GEH_TEMPLATE_EXPORT_MACRO_NAME)
+    set(TEMPLATE_EXPORT_MACRO_NAME ${_GEH_PREFIX_NAME}${_GEH_TEMPLATE_EXPORT_MACRO_NAME})
   endif()
   string(MAKE_C_IDENTIFIER ${EXPORT_MACRO_NAME} EXPORT_MACRO_NAME)
   if(_GEH_EXPORT_FILE_NAME)
