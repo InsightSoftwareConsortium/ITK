@@ -85,9 +85,8 @@ public:
 
   /**
    * Set/Get the ordering of the objects. By default, the objects with
-   * an attribute value smaller than Lamba are removed. Turning ReverseOrdering
-   * to true make this filter remove the object with an attribute value greater
-   * than Lambda instead.
+   * a the largest attribute value are kept. If set to true, the filter
+   * to keeps the object with the smallest attribute instead.
    */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
@@ -108,7 +107,7 @@ protected:
   ShapeUniqueLabelMapFilter();
   ~ShapeUniqueLabelMapFilter() {}
 
-  void GenerateData() ITK_OVERRIDE;
+  virtual void GenerateData() ITK_OVERRIDE;
 
   template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor & accessor)
@@ -119,35 +118,35 @@ protected:
     // the priority queue to store all the lines of all the objects sorted
     typedef typename std::priority_queue< LineOfLabelObject, std::vector< LineOfLabelObject >,
                                           LineOfLabelObjectComparator > PriorityQueueType;
-    PriorityQueueType pq;
+    PriorityQueueType priorityQueue;
 
     ProgressReporter progress(this, 0, 1);
     // TODO: really report the progress
 
-    for ( typename ImageType::Iterator it2( this->GetLabelMap() );
-          ! it2.IsAtEnd();
-          ++it2 )
+    for ( typename ImageType::Iterator it( this->GetLabelMap() );
+          ! it.IsAtEnd();
+          ++it )
       {
-      LabelObjectType *lo = it2.GetLabelObject();
+      LabelObjectType *labelObject = it.GetLabelObject();
 
       // may reduce the number of lines to proceed
-      lo->Optimize();
+      labelObject->Optimize();
 
-      typename LabelObjectType::ConstLineIterator lit( lo );
+      typename LabelObjectType::ConstLineIterator lit( labelObject );
       while( ! lit.IsAtEnd() )
         {
-        pq.push( LineOfLabelObject(lit.GetLine(), lo) );
+        priorityQueue.push( LineOfLabelObject(lit.GetLine(), labelObject) );
         ++lit;
         }
 
-      // clear the lines to readd them later
-      lo->Clear();
+      // clear the lines to read them later
+      labelObject->Clear();
 
       // go to the next label
       // progress.CompletedPixel();
       }
 
-    if ( pq.empty() )
+    if ( priorityQueue.empty() )
       {
       // nothing to do
       return;
@@ -156,16 +155,16 @@ protected:
     typedef typename std::deque< LineOfLabelObject > LinesType;
     LinesType lines;
 
-    lines.push_back( pq.top() );
+    lines.push_back( priorityQueue.top() );
     LineOfLabelObject prev = lines.back();
     IndexType         prevIdx = prev.line.GetIndex();
-    pq.pop();
+    priorityQueue.pop();
 
-    while ( !pq.empty() )
+    while ( !priorityQueue.empty() )
       {
-      LineOfLabelObject l = pq.top();
+      LineOfLabelObject l = priorityQueue.top();
       IndexType         idx = l.line.GetIndex();
-      pq.pop();
+      priorityQueue.pop();
 
       bool newMainLine = false;
       // don't check dim 0!
@@ -238,7 +237,7 @@ protected:
               IndexType newIdx = idx;
               newIdx[0] = idx[0] + length;
               OffsetValueType newLength = prevIdx[0] + prevLength - newIdx[0];
-              pq.push( LineOfLabelObject(LineType(newIdx, newLength), prev.labelObject) );
+              priorityQueue.push( LineOfLabelObject(LineType(newIdx, newLength), prev.labelObject) );
               }
             // truncate the previous line to let some place for the current one
             prevLength = idx[0] - prevIdx[0];
@@ -287,7 +286,7 @@ protected:
       }
 
     // put the lines in their object
-    for ( unsigned int i = 0; i < lines.size(); i++ )
+    for ( size_t i = 0; i < lines.size(); ++i )
       {
       LineOfLabelObject & l = lines[i];
       l.labelObject->AddLine(l.line);
@@ -314,7 +313,7 @@ protected:
       }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   AttributeType m_Attribute;
 

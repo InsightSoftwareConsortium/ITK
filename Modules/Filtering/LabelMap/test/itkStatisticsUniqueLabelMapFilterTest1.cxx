@@ -41,22 +41,27 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
+  const char * inputImage = argv[1];
+  const char * featureImage = argv[2];
+  const char * outputImage = argv[3];
+  const char * dilationOutput = argv[4];
+  const bool reverseOrdering = atoi( argv[5] );
+  const unsigned int attribute = atoi( argv[6] );
 
-  const unsigned int dim = 2;
+  const unsigned int Dimension = 2;
 
   typedef unsigned char PixelType;
 
-  typedef itk::Image< PixelType, dim > ImageType;
-
-  typedef itk::StatisticsLabelObject< PixelType, dim >           StatisticsLabelObjectType;
-  typedef itk::LabelMap< StatisticsLabelObjectType >             LabelMapType;
+  typedef itk::Image< PixelType, Dimension >                 ImageType;
+  typedef itk::StatisticsLabelObject< PixelType, Dimension > StatisticsLabelObjectType;
+  typedef itk::LabelMap< StatisticsLabelObjectType >         LabelMapType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName( inputImage );
 
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[2] );
+  reader2->SetFileName( featureImage );
 
 
   // Dilate each label object to form overlapping label objects.
@@ -65,9 +70,9 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType > LabelImageToLabelMapFilterType;
   LabelImageToLabelMapFilterType::Pointer labelMapConverter = LabelImageToLabelMapFilterType::New();
   labelMapConverter->SetInput( reader->GetOutput() );
-  labelMapConverter->SetBackgroundValue( itk::NumericTraits< PixelType >::Zero );
+  labelMapConverter->SetBackgroundValue( itk::NumericTraits< PixelType >::ZeroValue() );
 
-  typedef itk::FlatStructuringElement< dim > StructuringElementType;
+  typedef itk::FlatStructuringElement< Dimension > StructuringElementType;
   StructuringElementType::RadiusType radius;
   radius.Fill( radiusValue );
 
@@ -84,10 +89,10 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   objectByObjectLabelMapFilter->SetBinaryInternalOutput( false );
   objectByObjectLabelMapFilter->SetFilter( grayscaleDilateFilter );
 
-  typedef itk::StatisticsLabelMapFilter< LabelMapType, ImageType > I2LType;
-  I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput1( objectByObjectLabelMapFilter->GetOutput()  );
-  i2l->SetFeatureImage( reader2->GetOutput() );
+  typedef itk::StatisticsLabelMapFilter< LabelMapType, ImageType > StatisticsFilterType;
+  StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
+  statisticsFilter->SetInput1( objectByObjectLabelMapFilter->GetOutput()  );
+  statisticsFilter->SetFeatureImage( reader2->GetOutput() );
 
   typedef itk::StatisticsUniqueLabelMapFilter< LabelMapType > LabelUniqueType;
   LabelUniqueType::Pointer unique = LabelUniqueType::New();
@@ -102,7 +107,6 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   //testing get and set macros for ReverseOrdering
   // ToDo: decrease reverseOrdering argv index once the JIRA issue 3370 has been solved
   // Then, argv[4]
-  bool reverseOrdering = atoi( argv[5] );
   unique->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , unique->GetReverseOrdering() );
 
@@ -110,23 +114,21 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   //testing get and set macros for Attribute
   // ToDo: decrease attribute argv index once the JIRA issue 3370 has been solved
   // Then, argv[5]
-  LabelUniqueType::AttributeType attribute = atoi( argv[6] );
   unique->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, unique->GetAttribute() );
 
-  unique->SetInput( i2l->GetOutput() );
+  unique->SetInput( statisticsFilter->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(unique, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
-  L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( unique->GetOutput() );
+  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> LabelMapToImageFilterType;
+  LabelMapToImageFilterType::Pointer labelMapToImageFilter = LabelMapToImageFilterType::New();
+  labelMapToImageFilter->SetInput( unique->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
-
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
-  writer->SetFileName( argv[3] );
+  writer->SetInput( labelMapToImageFilter->GetOutput() );
+  writer->SetFileName( outputImage );
   writer->UseCompressionOn();
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
@@ -135,7 +137,7 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   // WARNING: TEMPORARY: JIRA ISSUE 3370
   // Writing an additional output of just the dilated label
   writer->SetInput( grayscaleDilateFilter->GetOutput() );
-  writer->SetFileName( argv[4] );
+  writer->SetFileName( dilationOutput );
   writer->UseCompressionOn();
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
