@@ -60,24 +60,26 @@ int itkDisplacementFieldToBSplineImageFilterTest( int, char * [] )
   PointSetType::Pointer pointSet = PointSetType::New();
   pointSet->Initialize();
 
+  VectorType ones_points( 1.0 );
+
   // Assign some random points within the b-spline domain
   PointSetType::PointType point1;
   point1[0] = 23.75;
   point1[1] = 5.125;
   pointSet->SetPoint( 0, point1 );
-  pointSet->SetPointData( 0, ones );
+  pointSet->SetPointData( 0, ones_points );
 
   PointSetType::PointType point2;
   point2[0] = 1.75;
   point2[1] = 45.125;
   pointSet->SetPoint( 1, point2 );
-  pointSet->SetPointData( 1, ones );
+  pointSet->SetPointData( 1, ones_points );
 
   PointSetType::PointType point3;
   point3[0] = 45.75;
   point3[1] = 2.125;
   pointSet->SetPoint( 2, point3 );
-  pointSet->SetPointData( 2, ones );
+  pointSet->SetPointData( 2, ones_points );
 
   BSplineFilterType::ArrayType numberOfControlPoints;
   numberOfControlPoints.Fill( 4 );
