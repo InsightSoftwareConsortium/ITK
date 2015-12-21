@@ -3,6 +3,7 @@ itkCompositeTransformIOHelper.cxx
 itkTransformFactoryBase.cxx
 itkTransformFileReader.cxx
 itkTransformFileWriterSpecializations.cxx
+itkTransformIOBase.cxx
 itkTransformIOFactory.cxx
 )
 
