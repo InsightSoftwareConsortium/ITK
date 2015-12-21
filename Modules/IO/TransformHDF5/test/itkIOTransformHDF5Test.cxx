@@ -129,10 +129,10 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
     const typename itk::TransformFileReaderTemplate<TParametersValueType>::TransformListType *
     list = reader->GetTransformList();
     typename DisplacementTransformType::ConstPointer readDisplacementTransform =
-    dynamic_cast<DisplacementTransformType *>( (*(list->begin())).GetPointer() );
+    static_cast<DisplacementTransformType *>( (*(list->begin())).GetPointer() );
     if (readDisplacementTransform.IsNull() )
       {
-      std::cerr << " ERROR: dynamic_cast failed! " << std::endl;
+      std::cerr << " ERROR: Read DisplacementTransform is null! " << std::endl;
       std::cerr << typeid(TParametersValueType).name() << std::endl;
       std::cerr << typeid(DisplacementTransformType).name() << std::endl;
       return EXIT_FAILURE;
