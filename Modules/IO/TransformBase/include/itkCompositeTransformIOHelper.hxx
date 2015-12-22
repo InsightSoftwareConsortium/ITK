@@ -20,6 +20,81 @@
 
 #include "itkCompositeTransformIOHelper.h"
 
+namespace
+{
+  template <unsigned int VDimension>
+  std::string GetTransformDimensionAsString()
+  {
+    std::string rval("unknown");
+    return rval;
+  }
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wunused-function")
+  template<>
+  std::string GetTransformDimensionAsString<2>()
+  {
+    std::string rval("2_2");
+    return rval;
+  }
+
+  template<>
+  std::string GetTransformDimensionAsString<3>()
+  {
+    std::string rval("3_3");
+    return rval;
+  }
+
+  template<>
+  std::string GetTransformDimensionAsString<4>()
+  {
+    std::string rval("4_4");
+    return rval;
+  }
+
+  template<>
+  std::string GetTransformDimensionAsString<5>()
+  {
+    std::string rval("5_5");
+    return rval;
+  }
+
+  template<>
+  std::string GetTransformDimensionAsString<6>()
+  {
+    std::string rval("6_6");
+    return rval;
+  }
+
+  template<>
+  std::string GetTransformDimensionAsString<7>()
+  {
+    std::string rval("7_7");
+    return rval;
+  }
+
+  template<>
+  std::string GetTransformDimensionAsString<8>()
+  {
+    std::string rval("8_8");
+    return rval;
+  }
+
+  template<>
+  std::string GetTransformDimensionAsString<9>()
+  {
+    std::string rval("9_9");
+    return rval;
+  }
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wunused-function")
+#endif
+}
+
 namespace itk
 {
 template<typename TParametersValueType>
@@ -28,6 +103,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
 ::GetTransformList(const TransformType *transform)
 {
   this->m_TransformList.clear();
+
   // try each CompositeTransform Type, starting with
   // most common
   if(this->BuildTransformList<3>(transform) == 0 &&
@@ -67,22 +143,21 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
 }
 
 template<typename TParametersValueType>
-template <unsigned TDim>
+template <unsigned int VDimension>
 int
 CompositeTransformIOHelperTemplate<TParametersValueType>
 ::BuildTransformList(const TransformType *transform)
 {
   //
   // see if we've found the right type
-  typedef CompositeTransform<TParametersValueType,TDim> CompositeType;
+  typedef CompositeTransform<TParametersValueType, VDimension> CompositeType;
 
-  const CompositeType *composite = dynamic_cast<const CompositeType *>(transform);
-  if(composite == ITK_NULLPTR)
+  const std::string CompositeTransformTypeName = transform->GetTransformTypeAsString();
+  if(CompositeTransformTypeName.find("CompositeTransform") == std::string::npos || CompositeTransformTypeName.find(GetTransformDimensionAsString<VDimension>()) == std::string::npos)
     {
-    //
-    // if not, return zero
     return 0;
     }
+  const CompositeType *composite = static_cast<const CompositeType *>(transform);
 
   //
   // push the composite on the list first, as per the convention for
@@ -94,13 +169,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
   for(typename CompositeType::TransformQueueType::const_iterator it =
       transforms.begin(); it != transforms.end(); ++it)
     {
-    const TransformType *curTransform = dynamic_cast<const TransformType *>((*it).GetPointer());
-    if(curTransform == ITK_NULLPTR)
-      {
-      itkGenericExceptionMacro(<< "Failure to convert transform of type "
-                               << (*it)->GetTransformTypeAsString()
-                               << " to itk::TransformBase");
-      }
+    const TransformType *curTransform = static_cast<const TransformType *>((*it).GetPointer());
     ConstTransformPointer curPtr = curTransform;
     this->m_TransformList.push_back(curPtr);
     }
@@ -108,40 +177,34 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
 }
 
 template<typename TParametersValueType>
-template <unsigned TDim>
+template <unsigned int VDimension>
 int
 CompositeTransformIOHelperTemplate<TParametersValueType>
 ::InternalSetTransformList(TransformType *transform,TransformListType &transformList)
 {
   //
   // local composite transform type
-  typedef itk::CompositeTransform<TParametersValueType,TDim>      CompositeType;
-  typedef typename CompositeType::TransformType      ComponentTransformType;
+  typedef itk::CompositeTransform<TParametersValueType, VDimension> CompositeType;
+  typedef typename CompositeType::TransformType              ComponentTransformType;
 
   //
   // see if we've found the right type
-  CompositeType *composite = dynamic_cast<CompositeType *>(transform);
-  if(composite == ITK_NULLPTR)
+  const std::string CompositeTransformTypeName = transform->GetTransformTypeAsString();
+  if(CompositeTransformTypeName.find("CompositeTransform") == std::string::npos || CompositeTransformTypeName.find(GetTransformDimensionAsString<VDimension>()) == std::string::npos)
     {
     //
     // if not, we'll try then next dim down
     return 0;
     }
+  CompositeType *composite = static_cast<CompositeType *>(transform);
+
   //
   // iterate thru transform list and assign into Composite
   typename TransformListType::iterator it = transformList.begin();
   ++it;                         // skip the composite transform
   for(; it != transformList.end(); ++it)
     {
-    ComponentTransformType *component =
-    dynamic_cast<ComponentTransformType *>((*it).GetPointer());
-    if(component == ITK_NULLPTR)
-      {
-      itkGenericExceptionMacro(<< "Can't assign transform of type "
-                               << (*it)->GetTransformTypeAsString()
-                               << " to a Composite Transform of type "
-                               << composite->GetTransformTypeAsString());
-      }
+    ComponentTransformType *component = static_cast<ComponentTransformType *>((*it).GetPointer());
     composite->AddTransform(component);
     }
   return 1;
