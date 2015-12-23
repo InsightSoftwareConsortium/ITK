@@ -77,7 +77,7 @@ private:
    ** queue. A cascade of calls with different template parameters
    ** selects the correct concrete type for CompositeTransform.
    */
-  template <unsigned TDim>
+  template <unsigned int VDimension>
   int BuildTransformList(const TransformType *transform);
 
   /** Sets a CompositeTransform's TransformQueue from the
@@ -85,9 +85,8 @@ private:
    **  if the scalar type or dimension of the transform being added
    **  doesn't match that of the concrete CompositeTransform's type.
    */
-  template <unsigned TDim>
+  template <unsigned int VDimension>
   int InternalSetTransformList(TransformType *transform,TransformListType &transformList);
-
 };
 
 /** This helps to meet backward compatibility */
