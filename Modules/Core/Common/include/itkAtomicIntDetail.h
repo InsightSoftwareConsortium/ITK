@@ -39,11 +39,7 @@
 #include "itkConceptChecking.h"
 
 
-// Assume 64-bit atomic operations are not available on 32 bit platforms
-#if defined(ITK_HAVE_SYNC_BUILTINS)
-# define ITK_GCC_ATOMICS_32
-# define ITK_GCC_ATOMICS_64
-#elif defined(__APPLE__)
+#if defined(__APPLE__)
 # include <libkern/OSAtomic.h>
 # define ITK_APPLE_ATOMICS_32
 # if ITK_SIZEOF_VOID_P == 8 || defined(__i386__)
@@ -54,6 +50,9 @@
 # if ITK_SIZEOF_VOID_P == 8
 #   define ITK_WINDOWS_ATOMICS_64
 # endif
+#elif defined(ITK_HAVE_SYNC_BUILTINS)
+# define ITK_GCC_ATOMICS_32
+# define ITK_GCC_ATOMICS_64
 #endif
 
 
@@ -165,13 +164,13 @@ public:
     return ++val;
   }
 
-  static int64_t Load(const int64_t *ref);
+  static int64_t Load(const int64_t *ref)
   {
     OSMemoryBarrier();
     return *static_cast<const volatile int64_t*>(ref);
   }
 
-  static void Store(int64_t *ref, int64_t val);
+  static void Store(int64_t *ref, int64_t val)
   {
     *static_cast<volatile int64_t*>(ref) = val;
     OSMemoryBarrier();
@@ -255,13 +254,13 @@ public:
     return ++val;
   }
 
-  static int32_t Load(const int32_t *ref);
+  static int32_t Load(const int32_t *ref)
   {
     OSMemoryBarrier();
     return *static_cast<const volatile int32_t*>(ref);
   }
 
-  static void Store(int32_t *ref, int32_t val);
+  static void Store(int32_t *ref, int32_t val)
   {
     *static_cast<volatile int32_t*>(ref) = val;
     OSMemoryBarrier();
