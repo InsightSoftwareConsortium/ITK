@@ -561,7 +561,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
         velocityFieldPointSet, velocityFieldWeights,
         this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
         this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
-        ITK_NULLPTR );
+        this->m_FixedImageMasks );
       }
 
     // After calculating the velocity field points for a specific parameterized time point,
@@ -608,8 +608,9 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 ::AttachMetricGradientPointSetAtSpecificTimePoint( const RealType normalizedTimePoint,
   VelocityFieldPointSetType *velocityFieldPoints, WeightsContainerType *velocityFieldWeights,
   const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
-  const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
-  const TransformBaseType * movingTransform, const FixedImageMaskType * fixedImageMask )
+  const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages,
+  const PointSetsContainerType movingPointSets, const TransformBaseType * movingTransform,
+  const FixedImageMasksContainerType fixedImageMasks )
 {
   VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
 
@@ -731,12 +732,12 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     }
 
   typename WeightedMaskImageType::Pointer  fixedWeightedImageMask = ITK_NULLPTR;
-  if( fixedImageMask )
+  if( fixedImageMasks[0] )
     {
     typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType, RealType> FixedMaskResamplerType;
     typename FixedMaskResamplerType::Pointer fixedMaskResampler = FixedMaskResamplerType::New();
     fixedMaskResampler->SetTransform( fixedTransform );
-    fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMask) )->GetImage() );
+    fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[0].GetPointer() ) )->GetImage() );
     fixedMaskResampler->SetSize( virtualDomainImage->GetRequestedRegion().GetSize() );
     fixedMaskResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
     fixedMaskResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );

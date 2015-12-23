@@ -187,12 +187,12 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     DisplacementFieldPointer fixedToMiddleSmoothUpdateField = this->ComputeUpdateField(
       this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
       this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
-      ITK_NULLPTR, movingMetricValue );
+      this->m_FixedImageMasks, this->m_MovingImageMasks, movingMetricValue );
 
     DisplacementFieldPointer movingToMiddleSmoothUpdateField = this->ComputeUpdateField(
       this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
       this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
-      ITK_NULLPTR, fixedMetricValue );
+      this->m_MovingImageMasks, this->m_FixedImageMasks, fixedMetricValue );
 
     if ( this->m_AverageMidPointGradients )
       {
@@ -257,10 +257,12 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::ComputeUpdateField( const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
   const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
-  const TransformBaseType * movingTransform, const FixedImageMaskType * mask, MeasureType & value )
+  const TransformBaseType * movingTransform, const FixedImageMasksContainerType fixedImageMasks, const MovingImageMasksContainerType movingImageMasks,
+  MeasureType & value )
 {
   DisplacementFieldPointer metricGradientField = this->ComputeMetricGradientField(
-      fixedImages, fixedPointSets, fixedTransform, movingImages, movingPointSets, movingTransform, mask, value );
+      fixedImages, fixedPointSets, fixedTransform, movingImages, movingPointSets, movingTransform,
+      fixedImageMasks, movingImageMasks, value );
 
   DisplacementFieldPointer updateField = this->GaussianSmoothDisplacementField( metricGradientField,
     this->m_GaussianSmoothingVarianceForTheUpdateField );
@@ -275,7 +277,8 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::ComputeMetricGradientField( const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
   const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
-  const TransformBaseType * movingTransform, const FixedImageMaskType * itkNotUsed( mask ), MeasureType & value )
+  const TransformBaseType * movingTransform, const FixedImageMasksContainerType fixedImageMasks, const MovingImageMasksContainerType movingImageMasks,
+  MeasureType & value )
 {
   typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
 
@@ -303,6 +306,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
           multiMetric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
           multiMetric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
+
+          dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedImageMask( fixedImageMasks[n] );
+          dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetMovingImageMask( movingImageMasks[n] );
           }
         else
           {
@@ -326,6 +332,50 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
           multiMetric->GetMetricQueue()[n]->SetFixedObject( fixedResampler->GetOutput() );
           multiMetric->GetMetricQueue()[n]->SetMovingObject( movingResampler->GetOutput() );
+
+          if( fixedImageMasks[n] )
+            {
+            typedef NearestNeighborInterpolateImageFunction<FixedMaskImageType, RealType> NearestNeighborInterpolatorType;
+            typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
+            nearestNeighborInterpolator->SetInputImage( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[n].GetPointer() ) )->GetImage() );
+
+            typedef ResampleImageFilter<FixedMaskImageType, FixedMaskImageType, RealType> FixedMaskResamplerType;
+            typename FixedMaskResamplerType::Pointer fixedMaskResampler = FixedMaskResamplerType::New();
+            fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[n].GetPointer() ) )->GetImage() );
+            fixedMaskResampler->SetTransform( fixedTransform );
+            fixedMaskResampler->SetInterpolator( nearestNeighborInterpolator );
+            fixedMaskResampler->UseReferenceImageOn();
+            fixedMaskResampler->SetReferenceImage( virtualDomainImage );
+            fixedMaskResampler->SetDefaultPixelValue( 0 );
+            fixedMaskResampler->Update();
+
+            typename ImageMaskSpatialObjectType::Pointer resampledFixedImageMask = ImageMaskSpatialObjectType::New();
+            resampledFixedImageMask->SetImage( fixedMaskResampler->GetOutput() );
+
+            dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedImageMask( resampledFixedImageMask );
+            }
+
+          if( movingImageMasks[n] )
+            {
+            typedef NearestNeighborInterpolateImageFunction<MovingMaskImageType, RealType> NearestNeighborInterpolatorType;
+            typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
+            nearestNeighborInterpolator->SetInputImage( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<MovingImageMaskType *>( movingImageMasks[n].GetPointer() ) )->GetImage() );
+
+            typedef ResampleImageFilter<MovingMaskImageType, MovingMaskImageType, RealType> MovingMaskResamplerType;
+            typename MovingMaskResamplerType::Pointer movingMaskResampler = MovingMaskResamplerType::New();
+            movingMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<MovingImageMaskType *>( movingImageMasks[n].GetPointer() ) )->GetImage() );
+            movingMaskResampler->SetTransform( movingTransform );
+            movingMaskResampler->SetInterpolator( nearestNeighborInterpolator );
+            movingMaskResampler->UseReferenceImageOn();
+            movingMaskResampler->SetReferenceImage( virtualDomainImage );
+            movingMaskResampler->SetDefaultPixelValue( 0 );
+            movingMaskResampler->Update();
+
+            typename ImageMaskSpatialObjectType::Pointer resampledMovingImageMask = ImageMaskSpatialObjectType::New();
+            resampledMovingImageMask->SetImage( movingMaskResampler->GetOutput() );
+
+            dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetMovingImageMask( resampledMovingImageMask );
+            }
           }
         }
       else
@@ -360,12 +410,17 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       }
     else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
       {
+
       if( !this->m_DownsampleImagesForMetricDerivatives )
         {
         this->m_Metric->SetFixedObject( fixedImages[0] );
         this->m_Metric->SetMovingObject( movingImages[0] );
+
         dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
         dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
+
+        dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedImageMask( fixedImageMasks[0] );
+        dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingImageMask( movingImageMasks[0] );
         }
       else
         {
@@ -389,6 +444,50 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
         this->m_Metric->SetFixedObject( fixedResampler->GetOutput() );
         this->m_Metric->SetMovingObject( movingResampler->GetOutput() );
+
+        if( fixedImageMasks[0] )
+          {
+          typedef NearestNeighborInterpolateImageFunction<FixedMaskImageType, RealType> NearestNeighborInterpolatorType;
+          typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
+          nearestNeighborInterpolator->SetInputImage( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[0].GetPointer() ) )->GetImage() );
+
+          typedef ResampleImageFilter<FixedMaskImageType, FixedMaskImageType, RealType> FixedMaskResamplerType;
+          typename FixedMaskResamplerType::Pointer fixedMaskResampler = FixedMaskResamplerType::New();
+          fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[0].GetPointer() ) )->GetImage() );
+          fixedMaskResampler->SetTransform( fixedTransform );
+          fixedMaskResampler->SetInterpolator( nearestNeighborInterpolator );
+          fixedMaskResampler->UseReferenceImageOn();
+          fixedMaskResampler->SetReferenceImage( virtualDomainImage );
+          fixedMaskResampler->SetDefaultPixelValue( 0 );
+          fixedMaskResampler->Update();
+
+          typename ImageMaskSpatialObjectType::Pointer resampledFixedImageMask = ImageMaskSpatialObjectType::New();
+          resampledFixedImageMask->SetImage( fixedMaskResampler->GetOutput() );
+
+          dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedImageMask( resampledFixedImageMask );
+          }
+
+        if( movingImageMasks[0] )
+          {
+          typedef NearestNeighborInterpolateImageFunction<MovingMaskImageType, RealType> NearestNeighborInterpolatorType;
+          typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
+          nearestNeighborInterpolator->SetInputImage( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<MovingImageMaskType *>( movingImageMasks[0].GetPointer() ) )->GetImage() );
+
+          typedef ResampleImageFilter<MovingMaskImageType, MovingMaskImageType, RealType> MovingMaskResamplerType;
+          typename MovingMaskResamplerType::Pointer movingMaskResampler = MovingMaskResamplerType::New();
+          movingMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<MovingImageMaskType *>( movingImageMasks[0].GetPointer() ) )->GetImage() );
+          movingMaskResampler->SetTransform( movingTransform );
+          movingMaskResampler->SetInterpolator( nearestNeighborInterpolator );
+          movingMaskResampler->UseReferenceImageOn();
+          movingMaskResampler->SetReferenceImage( virtualDomainImage );
+          movingMaskResampler->SetDefaultPixelValue( 0 );
+          movingMaskResampler->Update();
+
+          typename ImageMaskSpatialObjectType::Pointer resampledMovingImageMask = ImageMaskSpatialObjectType::New();
+          resampledMovingImageMask->SetImage( movingMaskResampler->GetOutput() );
+
+          dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingImageMask( resampledMovingImageMask );
+          }
         }
       }
     else

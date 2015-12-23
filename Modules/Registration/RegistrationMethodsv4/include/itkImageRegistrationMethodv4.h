@@ -149,6 +149,13 @@ public:
   typedef ImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>        ImageMetricType;
   typedef PointSetToPointSetMetricv4<PointSetType, PointSetType, RealType>                         PointSetMetricType;
 
+  typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
+  typedef typename FixedImageMaskType::ConstPointer                   FixedImageMaskConstPointer;
+  typedef std::vector<FixedImageMaskConstPointer>                     FixedImageMasksContainerType;
+  typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
+  typedef typename MovingImageMaskType::ConstPointer                  MovingImageMaskConstPointer;
+  typedef std::vector<MovingImageMaskConstPointer>                    MovingImageMasksContainerType;
+
   /**
    * Type for the output: Using Decorator pattern for enabling the transform to be
    * passed in the data pipeline
@@ -448,7 +455,7 @@ protected:
   /** Initialize by setting the interconnects between the components. */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
-  /** Initialize by setting the interconnects between the components. */
+  /** Get the virtual domain image from the metric(s) */
   virtual VirtualImageBaseConstPointer GetCurrentLevelVirtualDomainImage();
 
   /** Get metric samples. */
@@ -463,6 +470,8 @@ protected:
 
   FixedImagesContainerType                                        m_FixedSmoothImages;
   MovingImagesContainerType                                       m_MovingSmoothImages;
+  FixedImageMasksContainerType                                    m_FixedImageMasks;
+  MovingImageMasksContainerType                                   m_MovingImageMasks;
   VirtualImagePointer                                             m_VirtualDomainImage;
   PointSetsContainerType                                          m_FixedPointSets;
   PointSetsContainerType                                          m_MovingPointSets;
@@ -503,12 +512,12 @@ private:
   template<typename TTransform>
   static void MakeOutputTransform(SmartPointer<TTransform> &ptr)
     {
-      ptr = TTransform::New();
+    ptr = TTransform::New();
     }
 
   static void MakeOutputTransform(SmartPointer<InitialTransformType> &ptr)
     {
-      ptr = IdentityTransform<RealType, ImageDimension>::New().GetPointer();
+    ptr = IdentityTransform<RealType, ImageDimension>::New().GetPointer();
     }
 
 };
