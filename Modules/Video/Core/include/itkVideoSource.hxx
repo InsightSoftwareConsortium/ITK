@@ -322,8 +322,19 @@ SplitRequestedSpatialRegion(int i, int num,
 
   // determine the actual number of pieces that will be generated
   typename TOutputVideoStream::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  int valuesPerThread = Math::Ceil< int >(range / (double)num);
-  int maxThreadIdUsed = Math::Ceil< int >(range / (double)valuesPerThread) - 1;
+
+  int valuesPerThread;
+  int maxThreadIdUsed;
+  if (range == 0)
+    {
+    valuesPerThread = 0;
+    maxThreadIdUsed = 0;
+    }
+  else
+    {
+    valuesPerThread = Math::Ceil< int >(range / (double)num);
+    maxThreadIdUsed = Math::Ceil< int >(range / (double)valuesPerThread) - 1;
+    }
 
   // Split the region
   if ( i < maxThreadIdUsed )
