@@ -268,7 +268,7 @@ opj_stream_t* opj_stream_create(OPJ_UINT32 p_size,bool l_is_input)
  * Creates an abstract stream. This function does nothing except allocating memory and initializing the abstract stream.
  * @return a stream object.
 */
-opj_stream_t* opj_stream_default_create(bool l_is_input)
+OPJ_API opj_stream_t* OPJ_CALLCONV opj_stream_default_create(bool l_is_input)
 {
   return opj_stream_create(J2K_STREAM_CHUNK_SIZE,l_is_input);
 }
