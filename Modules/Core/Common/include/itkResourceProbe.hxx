@@ -319,15 +319,36 @@ ResourceProbe< ValueType, MeanType >
     }
 
   std::stringstream ss;
+
+  ValueType ratioOfMeanToMinimum;
+  if(this->GetMinimum() == 0)
+    {
+    ratioOfMeanToMinimum = 0.0;
+    }
+ else
+    {
+    ratioOfMeanToMinimum = this->GetMean()/this->GetMinimum();
+    }
+
+  ValueType ratioOfMaximumToMean;
+  if(this->GetMean() == 0)
+    {
+    ratioOfMaximumToMean = 0.0;
+    }
+ else
+    {
+    ratioOfMaximumToMean = this->GetMaximum()/this->GetMean();
+    }
+
   ss << std::left << std::setw( tabwidth *2 ) << this->m_NameOfProbe
      << std::left << std::setw( tabwidth    ) << this->m_NumberOfIteration
      << std::left << std::setw( tabwidth    ) << this->GetTotal()
      << std::left << std::setw( tabwidth    ) << this->GetMinimum()
      << std::left << std::setw( tabwidth    ) << this->GetMean() - this->GetMinimum()
-     << std::left << std::setw( tabwidth    ) << (this->GetMean()/this->GetMinimum())*100
+     << std::left << std::setw( tabwidth    ) << ratioOfMeanToMinimum*100
      << std::left << std::setw( tabwidth    ) << this->GetMean()
      << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMean()
-     << std::left << std::setw( tabwidth    ) << (this->GetMaximum()/this->GetMean())*100
+     << std::left << std::setw( tabwidth    ) << ratioOfMaximumToMean*100
      << std::left << std::setw( tabwidth    ) << this->GetMaximum()
      << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMinimum()
      << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation();
