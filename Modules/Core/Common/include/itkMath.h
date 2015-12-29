@@ -259,7 +259,7 @@ template <typename T>
 inline bool
 FloatAlmostEqual( T x1, T x2,
   typename Detail::FloatIEEE<T>::IntType maxUlps = 4,
-  typename Detail::FloatIEEE<T>::FloatType maxAbsoluteDifference = 0.1*NumericTraits<T>::epsilon() )
+  typename Detail::FloatIEEE<T>::FloatType maxAbsoluteDifference = 0.1*itk::NumericTraits<T>::epsilon() )
 {
   // Check if the numbers are really close -- needed
   // when comparing numbers near zero.
@@ -269,13 +269,26 @@ FloatAlmostEqual( T x1, T x2,
     return true;
     }
 
-  typename Detail::FloatIEEE<T>::IntType
+#if defined(__APPLE__) && (__clang_major__ == 3) && (__clang_minor__ == 0) && defined(NDEBUG) && defined(__x86_64__)
+  Detail::FloatIEEE<T> x1f(x1);
+  Detail::FloatIEEE<T> x2f(x2);
+  double x1fAsULP = static_cast<double>(x1f.AsULP());
+  double x2fAsULP = static_cast<double>(x2f.AsULP());
+  double ulps = x1fAsULP - x2fAsULP;
+  if(ulps < 0)
+    {
+    ulps = -ulps;
+    }
+  return ulps <= static_cast<double>(maxUlps);
+#else
+   typename Detail::FloatIEEE<T>::IntType
     ulps = FloatDifferenceULP(x1, x2);
   if(ulps < 0)
     {
     ulps = -ulps;
     }
   return ulps <= maxUlps;
+#endif
 }
 
 // The following code cannot be moved to the itkMathDetail.h file without introducing circular dependencies
