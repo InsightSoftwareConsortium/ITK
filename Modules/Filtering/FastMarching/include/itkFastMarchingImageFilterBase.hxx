@@ -338,7 +338,11 @@ Solve( OutputImageType* oImage,
     {
     cc = static_cast< double >( m_InputCache->GetPixel(iNode) ) /
         this->m_NormalizationFactor;
+#if defined(__APPLE__) && (__clang_major__ == 3) && (__clang_minor__ == 0) && defined(NDEBUG) && defined(__x86_64__)
+    cc = -1.0 * vnl_math_sqr(1.0 / (cc + vnl_math::eps) );
+#else
     cc = -1.0 * vnl_math_sqr(1.0 / cc);
+#endif
     }
 
   double discrim = 0.;
