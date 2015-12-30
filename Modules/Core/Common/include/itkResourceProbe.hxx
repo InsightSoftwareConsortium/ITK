@@ -38,6 +38,7 @@
 #include "itkNumericTraits.h"
 #include "itkMultiThreader.h"
 #include "itksys/SystemInformation.hxx"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -321,23 +322,23 @@ ResourceProbe< ValueType, MeanType >
   std::stringstream ss;
 
   ValueType ratioOfMeanToMinimum;
-  if(this->GetMinimum() == 0)
+  if(Math::ExactlyEquals( this->GetMinimum() , 0.0) )
     {
-    ratioOfMeanToMinimum = 0.0;
+    ratioOfMeanToMinimum = NumericTraits<ValueType>::ZeroValue();
     }
  else
     {
-    ratioOfMeanToMinimum = this->GetMean()/this->GetMinimum();
+    ratioOfMeanToMinimum = static_cast<ValueType>(this->GetMean())/this->GetMinimum();
     }
 
   ValueType ratioOfMaximumToMean;
-  if(this->GetMean() == 0)
+  if(Math::ExactlyEquals( this->GetMean() , 0.0) )
     {
-    ratioOfMaximumToMean = 0.0;
+    ratioOfMaximumToMean = NumericTraits<ValueType>::ZeroValue();
     }
  else
     {
-    ratioOfMaximumToMean = this->GetMaximum()/this->GetMean();
+    ratioOfMaximumToMean = this->GetMaximum()/static_cast<ValueType>(this->GetMean());
     }
 
   ss << std::left << std::setw( tabwidth *2 ) << this->m_NameOfProbe
