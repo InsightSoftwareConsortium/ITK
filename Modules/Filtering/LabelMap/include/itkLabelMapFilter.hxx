@@ -83,7 +83,15 @@ LabelMapFilter< TInputImage, TOutputImage >
   // and the mutex
   m_LabelObjectContainerLock = FastMutexLock::New();
 
-  m_InverseNumberOfLabelObjects = 1.0f/this->GetLabelMap()->GetNumberOfLabelObjects();
+  if(Math::ExactlyEquals(this->GetLabelMap()->GetNumberOfLabelObjects(), 0.0))
+    {
+    m_InverseNumberOfLabelObjects = NumericTraits<float>::max();
+    }
+  else
+    {
+    m_InverseNumberOfLabelObjects = 1.0f/this->GetLabelMap()->GetNumberOfLabelObjects();
+    }
+
   m_NumberOfLabelObjectsProcessed = 0;
 }
 
