@@ -1,7 +1,7 @@
 itk_wrap_module(ITKVtkGlue)
-  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
+  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0 AND "${VTK_VERSION}" VERSION_LESS 7.0.0)
     message(WARNING
-      "The ITKVtkGlue module can not be built with Python 3.\n"
+      "The ITKVtkGlue module can only built with Python 3 and VTK >= 7.\n"
       "Only the c++ version of the module will be built.")
   else()
     list(APPEND WRAPPER_SWIG_LIBRARY_FILES "${CMAKE_CURRENT_SOURCE_DIR}/VtkGlue.i")
