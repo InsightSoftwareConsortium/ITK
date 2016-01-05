@@ -2,6 +2,8 @@
 Welcome to the Insight Registration and Segmentation Toolkit (ITK)
 -----------------------------------------------------------------
 
+Testing the new gerrit and github plugin!
+
 Here are suggested steps for the ITK beginner. Please refer to
 http://itk.org for more information.
 
