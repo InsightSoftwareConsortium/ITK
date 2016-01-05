@@ -581,21 +581,21 @@ private:
   void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   template <typename TType>
-  std::string GetTransformTypeAsString(TType *) const
+  static std::string GetTransformTypeAsString(TType *)
   {
     std::string rval("other");
 
     return rval;
   }
 
-  std::string GetTransformTypeAsString(float *) const
+  static std::string GetTransformTypeAsString(float *)
   {
     std::string rval("float");
 
     return rval;
   }
 
-  std::string GetTransformTypeAsString(double *) const
+  static std::string GetTransformTypeAsString(double *)
   {
     std::string rval("double");
 
