@@ -197,6 +197,14 @@ CORDirCosines()
  * Could probably be made to fo the image of vector test as well
  */
 
+/* VS 2015 has a bug when building release with the heavly nested for
+ * loops iterating too many times.  This turns off optimization to
+ * allow the tests to pass.
+*/
+#if _MSC_VER == 1900
+# pragma optimize( "", off )
+#endif
+
 template <typename PixelType, unsigned VDimension>
 int
 TestImageOfSymMats(const std::string &fname)
