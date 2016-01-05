@@ -23,7 +23,7 @@ else()
 endif()
 
 configure_file(src/itk_zlib.h.in src/itk_zlib.h)
-
+set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 itk_module_impl()
 
 install(FILES ${ITKZLIB_BINARY_DIR}/src/itk_zlib.h

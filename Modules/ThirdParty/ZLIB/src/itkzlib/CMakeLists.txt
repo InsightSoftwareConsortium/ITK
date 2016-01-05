@@ -9,7 +9,7 @@ set(ZLIB_SRCS
   inflate.c  inftrees.c  trees.c  uncompr.c  zutil.c
   )
 
-# for windows add the .def and .rc files to the source list
+# for windows add the .rc file to the source list
 # if building shared libs
 if(WIN32)
   if(BUILD_SHARED_LIBS)
@@ -17,7 +17,7 @@ if(WIN32)
     if(NOT UNIX)
       if(NOT BORLAND)
         if(NOT MINGW)
-          set(ZLIB_SRCS ${ZLIB_SRCS} zlib.def zlib.rc  )
+          set(ZLIB_SRCS ${ZLIB_SRCS} zlib.rc  )
         endif(NOT MINGW)
       endif(NOT BORLAND)
     endif(NOT UNIX)
