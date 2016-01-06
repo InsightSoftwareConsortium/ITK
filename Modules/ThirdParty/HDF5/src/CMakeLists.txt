@@ -57,3 +57,6 @@ foreach(lib
     )
   itk_module_target(${lib} NO_INSTALL)
 endforeach()
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(itkhdf5 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif()
