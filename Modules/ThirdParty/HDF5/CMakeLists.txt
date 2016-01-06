@@ -27,8 +27,8 @@ endif()
 
 configure_file(src/itk_hdf5.h.in src/itk_hdf5.h)
 configure_file(src/itk_H5Cpp.h.in src/itk_H5Cpp.h)
+set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 itk_module_impl()
-set_target_properties(itkhdf5 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 
 install(FILES ${ITKHDF5_BINARY_DIR}/src/itk_hdf5.h
               ${ITKHDF5_BINARY_DIR}/src/itk_H5Cpp.h
