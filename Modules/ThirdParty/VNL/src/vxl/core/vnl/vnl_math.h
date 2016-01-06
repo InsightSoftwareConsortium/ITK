@@ -633,5 +633,26 @@ float vnl_math_hypot(float x, float y);
 double vnl_math_hypot(double x, double y);
 long double vnl_math_hypot(long double x, long double y);
 
+// truncated remainder
+inline int                vnl_math_remainder_truncated(int x, int y)                               { return x % y; }
+inline unsigned int       vnl_math_remainder_truncated(unsigned int x, unsigned int y)             { return x % y; }
+inline long               vnl_math_remainder_truncated(long x, long y)                             { return x % y; }
+inline unsigned long      vnl_math_remainder_truncated(unsigned long x, unsigned long y)           { return x % y; }
+inline long long          vnl_math_remainder_truncated(long long x, long long y)                   { return x % y; }
+inline unsigned long long vnl_math_remainder_truncated(unsigned long long x, unsigned long long y) { return x % y; }
+inline float              vnl_math_remainder_truncated(float x, float y)                           { return fmod(x,y); }
+inline double             vnl_math_remainder_truncated(double x, double y)                         { return fmod(x,y); }
+inline long double        vnl_math_remainder_truncated(long double x, long double y)               { return fmod(x,y); }
+
+// floored remainder
+inline int                vnl_math_remainder_floored(int x, int y)                               { return ((x % y) + y) % y; }
+inline unsigned int       vnl_math_remainder_floored(unsigned int x, unsigned int y)             { return x % y; }
+inline long               vnl_math_remainder_floored(long x, long y)                             { return ((x % y) + y) % y; }
+inline unsigned long      vnl_math_remainder_floored(unsigned long x, unsigned long y)           { return x % y; }
+inline long long          vnl_math_remainder_floored(long long x, long long y)                   { return ((x % y) + y) % y; }
+inline unsigned long long vnl_math_remainder_floored(unsigned long long x, unsigned long long y) { return x % y; }
+inline float              vnl_math_remainder_floored(float x, float y)                           { return fmod(fmod(x,y)+y,y); }
+inline double             vnl_math_remainder_floored(double x, double y)                         { return fmod(fmod(x,y)+y,y); }
+inline long double        vnl_math_remainder_floored(long double x, long double y)               { return fmod(fmod(x,y)+y,y); }
 
 #endif // vnl_math_h_
