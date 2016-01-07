@@ -14,7 +14,13 @@ static int int_pow(int a, unsigned int b)
 {
   if (b==0) return 1;
   else if (b==1) return a;
-  else return int_pow(a*a,b/2) * int_pow(a, b%2);
+  else
+    {
+    long asquare = static_cast<long>(a)*static_cast<long>(a);
+    long r1      = static_cast<long>(int_pow(static_cast<int>(asquare),b/2));
+    long r2      = static_cast<long>(int_pow(a, b%2));
+    return static_cast<int>(r1*r2);
+    }
 }
 
 // A recursive implementation for a^b with a double and b integer;
