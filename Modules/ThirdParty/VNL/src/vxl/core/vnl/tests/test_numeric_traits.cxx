@@ -28,7 +28,7 @@ void test_static_const_definition()
     check_pointer( &vnl_numeric_traits< const Type >::maxval );\
   } while (false)
   // The Intel compiler has problems resolving static consts with this test
-  // as it stands 
+  // as it stands
 #if !defined(__INTEL_COMPILER)
   ALL(bool);
   ALL(char);
@@ -52,7 +52,7 @@ void test_static_const_definition()
 #undef ALL
 }
 
-extern "C" { long increment(long x) { return x+1; } }
+extern "C" { long double increment(long double x) { return x+1; } }
 
 void test_numeric_traits()
 {
