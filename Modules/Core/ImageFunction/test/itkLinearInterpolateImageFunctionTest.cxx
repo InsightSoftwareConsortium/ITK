@@ -22,6 +22,13 @@
 #include "itkVectorImage.h"
 #include "itkLinearInterpolateImageFunction.h"
 
+/* VS 2015 has a bug when building release with the heavly nested for
+ * loops iterating too many times.  This turns off optimization to
+ * allow the tests to pass.
+*/
+#if _MSC_VER == 1900
+# pragma optimize( "", off )
+#endif
 
 /* Allows testing up to TDimension=4 */
 template< unsigned int TDimension >
