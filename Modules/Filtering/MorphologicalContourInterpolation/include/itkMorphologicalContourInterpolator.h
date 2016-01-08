@@ -143,15 +143,29 @@ protected:
                   typename TImage::Pointer        jConn,
                   PixelList                       jRegionIds);
 
+  /** Returns squared distance in index space between two pixel indices */
+  IdentifierType
+  Distance2(typename TImage::IndexType t1, typename TImage::IndexType t2);
+
+  /** Returns the centroid of given regions */
+  typename TImage::IndexType
+  Centroid(typename TImage::Pointer conn, PixelList regionIds);
+
+  /** Returns number of intersecting pixels */
+  IdentifierType
+  Intersection(typename TImage::Pointer   iConn,
+               typename TImage::PixelType iRegionId,
+               typename TImage::Pointer   jConn,
+               PixelList                  jRegionIds,
+               typename TImage::IndexType translation);
+
   /** How much j needs to be translated to best align with i */
   typename TImage::IndexType
-  Align(int                             axis,
-        typename TImage::IndexValueType i,
-        typename TImage::IndexValueType j,
-        typename TImage::Pointer        iConn,
-        typename TImage::PixelType      iRegionId,
-        typename TImage::Pointer        jConn,
-        PixelList                       jRegionIds);
+  Align(int                        axis,
+        typename TImage::Pointer   iConn,
+        typename TImage::PixelType iRegionId,
+        typename TImage::Pointer   jConn,
+        PixelList                  jRegionIds);
 
   typedef itk::FixedArray<bool, TImage::ImageDimension>                 OrientationType;
   typedef itksys::hash_map<typename TImage::PixelType, OrientationType> OrientationsType;
@@ -160,7 +174,7 @@ protected:
   typedef itksys::hash_map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
   BoundingBoxesType m_BoundingBoxes; // bounding box for each label
 
-  // calculate bounding box for each region (connected component)
+  // calculate bounding box for each region (connected component) //not used?!
   BoundingBoxesType &
   CalculateBoundingBoxes(typename TImage::Pointer image, const PixelList & regions);
 
