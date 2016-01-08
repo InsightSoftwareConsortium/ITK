@@ -177,11 +177,7 @@ endif()
 
 #-----------------------------------------------------------------------------
 # ITK build configuration options.
-if(ITK_WRAPPING)
-  option(BUILD_SHARED_LIBS "Build ITK with shared libraries." ON)
-else()
-  option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
-endif()
+option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
 option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
@@ -309,10 +305,7 @@ mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
 # These are not correctly set when using cmake without the -DITK_WRAP_PYTHON:BOOL=ON flag.
 # In this case we need to tell the user that he has to change the flags manually to the right values.
 if(ITK_WRAPPING)
-
-  if(NOT ITK_BUILD_SHARED_LIBS)
-    message(FATAL_ERROR "Wrapping requires shared libs, please set BUILD_SHARED_LIBS=ON")
-  endif()
+  set(CMAKE_POSITION_INDEPENDENT_CODE 1)
 
   if(ITK_USE_64BITS_IDS AND WIN32)
     message(FATAL_ERROR "Wrapping with ITK_USE_64BITS_IDS is not supported on Windows, please set ITK_USE_64BITS_IDS=OFF")
@@ -321,7 +314,6 @@ if(ITK_WRAPPING)
   if(NOT ITK_LEGACY_SILENT)
     message(FATAL_ERROR "Wrapping requires to disable legacy code, please set ITK_LEGACY_SILENT=ON")
   endif()
-
 endif()
 
 #----------------------------------------------------------------------------
