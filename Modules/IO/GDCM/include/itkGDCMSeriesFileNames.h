@@ -30,19 +30,19 @@ namespace itk
 /** \class GDCMSeriesFileNames
  * \brief Generate a sequence of filenames from a DICOM series.
  *
- * This class generate a sequence of files whose filenames points to
+ * This class generates a sequence of files whose filenames point to
  * a DICOM file. The ordering is based on the following strategy:
- * Read all images in the directory (assuming there is only one study/serie)
+ * Read all images in the directory (assuming there is only one study/series)
  *
  *   1. Extract Image Orientation & Image Position from DICOM images, and then
- *      calculate the ordering based on the 3D coordinate of the slice
+ *      calculate the ordering based on the 3D coordinate of the slice.
  *   2. If for some reason this information is not found or failed, another
- *      strategy is used: the ordering is based on 'Image Number'
+ *      strategy is used: the ordering is based on 'Image Number'.
  *   3. If this strategy also failed, then the filenames are ordered by
  *      lexicographical order.
  *
  *  If multiple volumes are being grouped as a single series for your
- *    dicom objects, you may want to try calling ->SetUseSeriesDetails(true)
+ *    DICOM objects, you may want to try calling SetUseSeriesDetails(true)
  *    prior to calling SetDirectory().
  *
  * \ingroup IOFilters
