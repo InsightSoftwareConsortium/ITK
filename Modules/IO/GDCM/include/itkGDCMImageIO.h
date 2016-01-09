@@ -40,36 +40,23 @@ namespace itk
 /** \class GDCMImageIO
  *
  *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA 1&2 uncompressed images
- *  This class is only an adaptor to the gdcm library (currently gdcm 1.2.x is used by default):
+ *  This class is only an adaptor to the gdcm library (currently gdcm circa 2.4.5 is used):
  *
- * GDCM 1.2 can be found at:
- *   http://www.creatis.insa-lyon.fr/software/public/Gdcm/
+ * GDCM can be found at:
+ *   http://sourceforge.net/projects/gdcm
  *
- *  CREATIS INSA - Lyon 2003-2008
- *    http://www.creatis.insa-lyon.fr/site/en
- *
- * Using the CMake variable: ITK_USE_SYSTEM_GDCM it is now possible to use a system installed
- * GDCM 2.x release. GDCM 2.x is now being developed on sourceforge.net :
- *
- *         http://gdcm.sourceforge.net
- *
- * Documentation:
- * -
- *
- * http://sourceforge.net/apps/mediawiki/gdcm/index.php?title=ITK_USE_SYSTEM_GDCM
- * -
- *
- * http://sourceforge.net/apps/mediawiki/gdcm/index.php?title=GDCM_Release_2.0
+ * Using the CMake variable ITK_USE_SYSTEM_GDCM, it is possible to use a system installed
+ * GDCM build, instead of the one included within ITK itself.
  *
  *  \warning There are several restrictions to this current writer:
  *           -  Even though during the writing process you pass in a DICOM file as input
  *              The output file may not contains ALL DICOM field from the input file.
  *              In particular:
  *                             - The SeQuence DICOM field (SQ).
- *                             - Fields from Private Dictionary
+ *                             - Fields from Private Dictionary.
  *           -  Some very long (>0xfff) binary fields are not loaded (typically 0029|0010),
  *              you need to explicitely set the maximum length of elements to load to be bigger
- *              (see Get/SetMaxSizeLoadEntry)
+ *              (see Get/SetMaxSizeLoadEntry).
  *           - In DICOM some fields are stored directly using their binary representation. When loaded into
  *             the MetaDataDictionary some fields are converted to ASCII (only VR: OB/OW/OF and UN are encoded as
  *             mime64).
