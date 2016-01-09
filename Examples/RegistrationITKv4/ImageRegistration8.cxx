@@ -533,9 +533,9 @@ int main( int argc, char *argv[] )
   //
   //  Shell and Gnuplot scripts for generating the diagrams in
   //  Figure~\ref{fig:ImageRegistration8Plots} are available in the \code{ITKSoftwareGuide}
-  //  repository under the directory
+  //  Git repository under the directory
   //
-  //  \code{SoftwareGuide/Art}.
+  //  \code{ITKSoftwareGuide/SoftwareGuide/Art}.
   //
   //  You are strongly encouraged to run the example code, since only in this
   //  way can you gain first-hand experience with the behavior of the

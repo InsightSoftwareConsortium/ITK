@@ -220,7 +220,7 @@ int main( int argc, char * argv[] )
 // generating the graphics in Figure~\ref{fig:MeanSquaresMetricPlot} are
 // available in the directory
 //
-//             \code{InsightDocuments/SoftwareGuide/Art}
+//             \code{ITKSoftwareGuide/SoftwareGuide/Art}
 //
 // Of course, this plotting exercise becomes more challenging when the
 // transform has more than three parameters, and when those parameters have

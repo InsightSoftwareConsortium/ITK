@@ -537,9 +537,9 @@ int main( int argc, char *argv[] )
   //  The plots in Figures~\ref{fig:ImageRegistration4TraceTranslations}
   //  and~\ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} were
   //  generated using Gnuplot. The scripts used for this purpose are available
-  //  in the \code{InsightDocuments} CVS module under the directory
+  //  in the \code{ITKSoftwareGuide} Git repository under the directory
   //
-  //  ~\code{InsightDocuments/SoftwareGuide/Art}.
+  //  ~\code{ITKSoftwareGuide/SoftwareGuide/Art}.
   //
   //  The use of these scripts was similar to what was described at the end of
   //  section~\ref{sec:MultiModalityRegistrationViolaWells}.

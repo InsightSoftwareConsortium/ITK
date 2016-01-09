@@ -480,9 +480,10 @@ int main( int argc, char *argv[] )
   //  registration are plotted at every iteration too.
   //
   //  Shell and Gnuplot scripts for generating the diagrams in
-  //  Figure~\ref{fig:ImageRegistration8Plots} are available in the directory
+  //  Figure~\ref{fig:ImageRegistration8Plots} are available in the \code{ITKSoftwareGuide}
+  //  Git repository under the directory
   //
-  //  \code{InsightDocuments/SoftwareGuide/Art}
+  //  \code{ITKSoftwareGuide/SoftwareGuide/Art}.
   //
   //  You are strongly encouraged to run the example code, since only in this
   //  way you can gain a first hand experience with the behavior of the

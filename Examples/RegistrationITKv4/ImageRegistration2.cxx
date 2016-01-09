@@ -658,10 +658,10 @@ int main( int argc, char *argv[] )
   //  The plots in Figures~\ref{fig:ImageRegistration2TraceTranslations}
   //  and~\ref{fig:ImageRegistration2TraceMetric} were generated using
   //  Gnuplot\footnote{\url{http://www.gnuplot.info/}}.  The scripts used for
-  //  this purpose are available in the \code{InsightDocuments} CVS module
+  //  this purpose are available in the \code{ITKSoftwareGuide} Git repository
   //  under the directory
   //
-  //  ~\code{InsightDocuments/SoftwareGuide/Art}
+  //  ~\code{ITKSoftwareGuide/SoftwareGuide/Art}.
   //
   //  Data for the plots was taken directly from the output that the
   //  Command/Observer in this example prints out to the console. The output
