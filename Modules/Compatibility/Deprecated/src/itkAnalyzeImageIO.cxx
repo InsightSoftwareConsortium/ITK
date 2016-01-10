@@ -84,7 +84,10 @@ GetExtension(const std::string & filename)
     fileExt += ".gz";
     }
   //Check that a valid extension was found.
-  if ( fileExt != ".img.gz" && fileExt != ".img" && fileExt != ".hdr" )
+  const char* fileExtension = fileExt.c_str();
+  if ( itksys::SystemTools::Strucmp(fileExtension, ".img.gz") != 0
+       && itksys::SystemTools::Strucmp(fileExtension, ".img") != 0
+       && itksys::SystemTools::Strucmp(fileExtension, ".hdr") != 0 )
     {
     return ( "" );
     }
@@ -797,10 +800,11 @@ bool AnalyzeImageIO::CanReadFile(const char *FileNameToRead)
   // we check that the correct extension is given by the user
   std::string filenameext = GetExtension(filename);
 
-  if ( filenameext != std::string(".hdr")
-       && filenameext != std::string(".img.gz")
-       && filenameext != std::string(".img")
-       )
+  const char* filenameExtension = filenameext.c_str();
+
+  if ( itksys::SystemTools::Strucmp(filenameExtension, ".hdr") != 0
+       && itksys::SystemTools::Strucmp(filenameExtension, ".img.gz") != 0
+       && itksys::SystemTools::Strucmp(filenameExtension, ".img") != 0 )
     {
     return false;
     }
