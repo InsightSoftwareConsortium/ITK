@@ -598,9 +598,9 @@ int main( int argc, char *argv[] )
   //  and~\ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} were
   //  generated using Gnuplot\footnote{\url{http://www.gnuplot.info/}}.
   //  The scripts used for this purpose are available
-  //  in the \code{ITKSoftwareGuide} git repository under the directory
+  //  in the \code{ITKSoftwareGuide} Git repository under the directory
   //
-  //  ~\code{SoftwareGuide/Art}.
+  //  ~\code{ITKSoftwareGuide/SoftwareGuide/Art}.
   //
   //  Data for the plots were taken directly from the output that the
   //  Command/Observer in this example prints out to the console. The output

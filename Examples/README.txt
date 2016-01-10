@@ -4,8 +4,7 @@ ITK Examples Directory
 This directory contains simple, companion examples to the Insight
 Segmentation and Registration Toolkit (ITK). These examples are designed to
 demonstrate features of the system; they are not meant to be significant
-applications of the software (see the separate checkout InsightApplications
-for such applications).
+applications of the software.
 
 Specifically, the purpose of these examples is as follows:
 
@@ -15,7 +14,7 @@ Specifically, the purpose of these examples is as follows:
 
    * Provide a consistent set of examples that will work in conjunctions with
      the ITK Software Guide. (The ITK Software Guide is found in the
-     separate checkout InsightDocuments/SoftwareGuide.)
+     separate checkout ITKSoftwareGuide/SoftwareGuide.)
 
    * Provide a consistent set of examples that will work with ITK tutorials
      and courses.
@@ -54,6 +53,6 @@ found in them.
      (e.q., Tcl and Python code)
 
 To learn the software from these examples, you may wish to refer to the
-"Insight Software Guide" found in the InsightDocuments/SoftwareGuide
-directory. (Note: InsightDocuments is a separate cvs checkout as descriped in
-the Insight/Documentation/InsightStart.pdf document.)
+"ITK Software Guide" found in the ITKSoftwareGuide/SoftwareGuide
+directory. (Note: ITKSoftwareGuide is a separate Git clone found at
+http://itk.org/ITKSoftwareGuide.git).
