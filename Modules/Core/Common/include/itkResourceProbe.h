@@ -20,8 +20,11 @@
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
+
 #include <string>
 #include <vector>
+
+#include "ITKCommonExport.h"
 
 namespace itk
 {
@@ -37,7 +40,7 @@ namespace itk
   * \ingroup ITKCommon
   */
 template< typename ValueType, typename MeanType >
-class ResourceProbe
+class ITKCommon_TEMPLATE_EXPORT ResourceProbe
 {
 public:
 
