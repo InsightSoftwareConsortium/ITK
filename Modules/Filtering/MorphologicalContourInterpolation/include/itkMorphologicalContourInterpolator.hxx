@@ -267,41 +267,6 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
   // split the bigger region and do N 1-to-1 interpolations
 }
 
-
-// not used? delete
-template <class TImage>
-typename MorphologicalContourInterpolator<TImage>::BoundingBoxesType &
-MorphologicalContourInterpolator<TImage>::CalculateBoundingBoxes(typename TImage::Pointer image,
-                                                                 const PixelList &        regions)
-{
-  BoundingBoxesType           bb; // result
-  typename TImage::RegionType zeroRegion;
-  zeroRegion.GetIndex().Fill(0);
-  zeroRegion.GetSize().Fill(0);
-  for (int i = 0; i < regions.size(); i++)
-  {
-    bb[regions[i]] = zeroRegion;
-  }
-
-  ImageRegionConstIteratorWithIndex<TImage> it(image, image->GetLargestPossibleRegion());
-  for (; !it.IsAtEnd(); ++it)
-  {
-    typename const TImage::IndexType ind = it.GetIndex();
-    typename const TImage::PixelType val = it.Value();
-    if (val == 0)
-    {
-      continue; // next pixel
-    }
-    BoundingBoxesType::iterator bbi = bb.find(val);
-    if (bbi == bb.end() || bbi->second == zeroRegion)
-    {
-      continue; // next pixel
-    }
-    ExpandRegion(bbi->second, ind);
-  }
-  return bb;
-}
-
 template <class TImage>
 typename TImage::RegionType
 MorphologicalContourInterpolator<TImage>::MergeBoundingBoxes(const BoundingBoxesType & boundingBoxes)
@@ -367,19 +332,6 @@ MorphologicalContourInterpolator<TImage>::Intersection(typename TImage::Pointer 
     ++jIt;
   }
   return count;
-}
-
-// unused
-template <class TImage>
-IdentifierType
-MorphologicalContourInterpolator<TImage>::Distance2(typename TImage::IndexType t1, typename TImage::IndexType t2)
-{
-  IdentifierType dist = 0;
-  for (unsigned d = 0; d < TImage::ImageDimension; d++)
-  {
-    dist += (t1[d] - t2[d]) * (t1[d] - t2[d]);
-  }
-  return dist;
 }
 
 template <class TImage>

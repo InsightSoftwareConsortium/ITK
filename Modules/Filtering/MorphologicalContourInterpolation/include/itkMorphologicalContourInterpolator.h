@@ -145,10 +145,6 @@ protected:
                   PixelList                       jRegionIds,
                   typename TImage::IndexType      translation);
 
-  /** Returns squared distance in index space between two pixel indices */
-  IdentifierType
-  Distance2(typename TImage::IndexType t1, typename TImage::IndexType t2);
-
   /** Returns the centroid of given regions */
   typename TImage::IndexType
   Centroid(typename TImage::Pointer conn, PixelList regionIds);
@@ -175,10 +171,6 @@ protected:
 
   typedef itksys::hash_map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
   BoundingBoxesType m_BoundingBoxes; // bounding box for each label
-
-  // calculate bounding box for each region (connected component) //not used?!
-  BoundingBoxesType &
-  CalculateBoundingBoxes(typename TImage::Pointer image, const PixelList & regions);
 
   typename TImage::RegionType
   MergeBoundingBoxes(const BoundingBoxesType & boundingBoxes);
