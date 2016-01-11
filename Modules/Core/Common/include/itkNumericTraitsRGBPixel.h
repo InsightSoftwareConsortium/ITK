@@ -135,8 +135,8 @@ public:
   }
 
   static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = false;
+  static const bool IsInteger = NumericTraits< ValueType >::IsInteger;
+  static const bool IsComplex = NumericTraits< ValueType >::IsComplex;
 
   /** RGB pixels must have 3 components, so the size cannot be
    *  set to anything besides 3.  If called with size of 3, this
