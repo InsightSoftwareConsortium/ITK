@@ -128,8 +128,8 @@ public:
   }
 
   static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = false;
+  static const bool IsInteger = NumericTraits< ValueType >::IsInteger;
+  static const bool IsComplex = NumericTraits< ValueType >::IsComplex;
 
   /** Resize the input vector to the specified size */
   static void SetLength(std::vector< T > & m, const unsigned int s)
