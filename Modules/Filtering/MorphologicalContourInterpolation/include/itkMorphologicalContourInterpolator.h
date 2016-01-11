@@ -128,7 +128,8 @@ protected:
                   typename TImage::Pointer        iConn,
                   typename TImage::PixelType      iRegionId,
                   typename TImage::Pointer        jConn,
-                  typename TImage::PixelType      jRegionId);
+                  typename TImage::PixelType      jRegionId,
+                  typename TImage::IndexType      translation);
 
   typedef std::vector<typename TImage::PixelType> PixelList;
 
@@ -141,7 +142,8 @@ protected:
                   typename TImage::Pointer        iConn,
                   typename TImage::PixelType      iRegionId,
                   typename TImage::Pointer        jConn,
-                  PixelList                       jRegionIds);
+                  PixelList                       jRegionIds,
+                  typename TImage::IndexType      translation);
 
   /** Returns squared distance in index space between two pixel indices */
   IdentifierType
