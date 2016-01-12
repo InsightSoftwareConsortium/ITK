@@ -72,17 +72,20 @@ public:
 
   TOutputPixel GetValue(const TInputPixel &pixel)
     {
-      const RealType iscale = (RealType)m_Maximum - m_Minimum;
-      const RealType scale = 1.0 / iscale;
 
-      RealType sum = 0;
+      // Normalize input pixels to [-0.5 0.5] gray level.
+      // AdaptiveHistogramEqualization compute kernel components with
+      // float, but use double for accumulate and temporaries.
+      const double iscale = (double)m_Maximum - m_Minimum;
+
+      double sum = 0.0;
       typename MapType::iterator itMap = m_Map.begin();
-      const RealType u = scale * ( (RealType)pixel - m_Minimum ) - 0.5;
+      const RealType u = ( (double)pixel - m_Minimum ) / iscale - 0.5;
       while ( itMap != m_Map.end() )
         {
-        const RealType v =  scale * ( (RealType)itMap->first - m_Minimum ) - 0.5;
-        const RealType kernel = 1.0 / (m_KernelSize - m_BoundaryCount);
-        sum += kernel * itMap->second * CumulativeFunction(u,v);
+        const RealType v =  ( (double)itMap->first - m_Minimum ) / iscale - 0.5;
+        const double ikernel =  m_KernelSize - m_BoundaryCount;
+        sum += itMap->second * CumulativeFunction(u,v) / ikernel;
 
         ++itMap;
         }
