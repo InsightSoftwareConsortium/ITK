@@ -65,14 +65,14 @@ if(ITK_USE_SYSTEM_DCMTK)
   # When this module is loaded by an app, load DCMTK too.
   set(ITKDCMTK_EXPORT_CODE_INSTALL "
 set(DCMTK_DIR \"${DCMTK_DIR}\")
-find_package(DCMTK REQUIRED)
+find_package(DCMTK REQUIRED NO_MODULE)
 ")
   set(ITKDCMTK_EXPORT_CODE_BUILD "
 if(NOT ITK_BINARY_DIR)
   set(CMAKE_MODULE_PATH
     \"${CMAKE_CURRENT_SOURCE_DIR}/CMake\" \${CMAKE_MODULE_PATH})
   set(DCMTK_DIR \"${DCMTK_DIR}\")
-  find_package(DCMTK REQUIRED)
+  find_package(DCMTK REQUIRED NO_MODULE)
 endif()
 ")
 
