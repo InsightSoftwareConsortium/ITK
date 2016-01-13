@@ -14,6 +14,7 @@ A more detailed description can be found in the Insight Journal article::
 
 itk_module(
   MinimalPathExtraction
+  ENABLE_SHARED
   DEPENDS
     ITKCommon
     ITKOptimizers

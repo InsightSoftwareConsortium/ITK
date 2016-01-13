@@ -17,6 +17,8 @@
 #ifndef itkIterateNeighborhoodOptimizer_h
 #define itkIterateNeighborhoodOptimizer_h
 
+#include "MinimalPathExtractionExport.h"
+
 #include "itkArray.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 
@@ -35,7 +37,7 @@ namespace itk
  *
  * \ingroup MinimalPathExtraction
  */
-class IterateNeighborhoodOptimizer : public SingleValuedNonLinearOptimizer
+class MinimalPathExtraction_EXPORT IterateNeighborhoodOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard class typedefs. */
