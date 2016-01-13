@@ -131,6 +131,7 @@ protected:
 
   typedef std::vector<typename TImage::PixelType> PixelList;
 
+  /** Splits the bigger region and does N 1-to-1 interpolations */
   void
   Interpolate1toN(int                             axis,
                   TImage *                        out,

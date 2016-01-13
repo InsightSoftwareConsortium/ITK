@@ -26,6 +26,8 @@
 #include "itkBinaryDilateImageFilter.h"
 #include "itkBinaryCrossStructuringElement.h"
 // #include "itkBinaryBallStructuringElement.h"
+#include "itkUnaryFunctorImageFilter.h"
+#include "itkAndImageFilter.h"
 #include "itkCastImageFilter.h"
 #include <utility>
 #include <algorithm>
@@ -289,13 +291,42 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
                                                           PixelList                       jRegionIds,
                                                           typename TImage::IndexType      translation)
 {
-  // split the bigger region and do N 1-to-1 interpolations
-  typedef itk::Image<bool, TImage::ImageDimension>    BoolImageType;
-  typedef itk::CastImageFilter<TImage, BoolImageType> CastType;
-  CastType::Pointer                                   caster = CastType::New();
+  // first convert iConn into binary mask
+  class MatchesID
+  {
+    typename TImage::PixelType _id;
+
+  public:
+    MatchesID() {}
+    MatchesID(typename TImage::PixelType id)
+      : _id(id)
+    {}
+    bool
+    operator!=(const MatchesID & other)
+    {
+      return _id != other._id;
+    }
+    bool
+    operator==(const MatchesID & other)
+    {
+      return _id == other._id;
+    }
+    inline bool
+    operator()(const typename TImage::PixelType & val) const
+    {
+      return val == _id;
+    }
+  } matchesID(iRegionId);
+  typedef itk::Image<bool, TImage::ImageDimension>                       BoolImageType;
+  typedef itk::UnaryFunctorImageFilter<TImage, BoolImageType, MatchesID> CastType;
+  CastType::Pointer                                                      caster = CastType::New();
+  caster->SetFunctor(matchesID);
   caster->SetInput(iConn);
   caster->Update();
   BoolImageType::Pointer mask = caster->GetOutput();
+  // WriteDebug(mask, "C:\\mask.nrrd");
+  // WriteDebug<TImage>(iConn, "C:\\iConn.nrrd");
+  // WriteDebug<TImage>(jConn, "C:\\jConn.nrrd");
 
   typename TImage::RegionType iRegion, jRegion, newjRegion;
   iRegion = iConn->GetLargestPossibleRegion();
@@ -342,9 +373,9 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
     ++jIt;
     ++belongInit;
   }
-  // WriteDebug<TImage>(belongs, "C:\\belongs.nrrd");
+  WriteDebug<TImage>(belongs, "C:\\belongs.nrrd");
 
-  // prepare belonging image and dilation filter
+  // prepare dilation filter
   iRegion = iConn->GetLargestPossibleRegion(); // expand to full i image
   for (unsigned x = 0; x < jRegionIds.size(); x++)
   {
@@ -375,10 +406,10 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
     {
       dilate->SetInput(blobs[x]);
       and->SetInput(1, dilate->GetOutput());
-      // and->Update();
-      // blobs[x] = and->GetOutput();
-      dilate->Update();
-      blobs[x] = dilate->GetOutput();
+      and->Update();
+      blobs[x] = and->GetOutput();
+      // dilate->Update();
+      // blobs[x] = dilate->GetOutput();
       blobs[x]->DisconnectPipeline();
       // WriteDebug(blobs[x], (std::string("C:\\blob") + char('0' + x) + ".nrrd").c_str());
     }
@@ -387,7 +418,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
     maskIt2.GoToBegin();
     jIt2.GoToBegin();
     belongIt.GoToBegin();
-    while (!maskIt2.IsAtEnd())
+    while (!maskIt2.IsAtEnd()) // hollow out the big mask with dilated seeds while avoiding conflicts
     {
       if (maskIt2.Get())
       {
@@ -425,13 +456,6 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
               blobs[x]->SetPixel(jIt2.GetIndex(), false);
             }
           }
-        }
-      }
-      else // clip blobs by the original mask
-      {
-        for (unsigned x = 0; x < jRegionIds.size(); x++)
-        {
-          blobs[x]->SetPixel(jIt2.GetIndex(), false);
         }
       }
       ++maskIt2;
