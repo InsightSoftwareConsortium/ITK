@@ -26,7 +26,8 @@
 
 namespace itk
 {
-template <class TImage>
+
+template <typename TImage>
 class MorphologicalContourInterpolator : public ImageToImageFilter<TImage, TImage>
 {
 public:
@@ -215,6 +216,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMorphologicalContourInterpolator.hxx"
 #endif
-
 
 #endif // itkMorphologicalContourInterpolator_h
