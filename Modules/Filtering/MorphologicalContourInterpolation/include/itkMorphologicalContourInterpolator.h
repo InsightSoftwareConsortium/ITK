@@ -96,10 +96,7 @@ protected:
   DetermineSliceOrientations();
 
   void
-  InterpolateBetweenTwo(int                             axis,
-                        typename TImage *               out,
-                        typename TImage::IndexValueType i,
-                        typename TImage::IndexValueType j);
+  InterpolateBetweenTwo(int axis, TImage * out, typename TImage::IndexValueType i, typename TImage::IndexValueType j);
 
   /** If interpolation is done along more than one axis,
   the interpolations are merged using a modified "or" rule:
@@ -112,7 +109,7 @@ protected:
   /** Slice i has a region, slice j does not */
   void
   Extrapolate(int                             axis,
-              typename TImage *               out,
+              TImage *                        out,
               typename TImage::PixelType      label,
               typename TImage::IndexValueType i,
               typename TImage::IndexValueType j,
@@ -121,7 +118,7 @@ protected:
 
   void
   Interpolate1to1(int                             axis,
-                  typename TImage *               out,
+                  TImage *                        out,
                   typename TImage::PixelType      label,
                   typename TImage::IndexValueType i,
                   typename TImage::IndexValueType j,
@@ -135,7 +132,7 @@ protected:
 
   void
   Interpolate1toN(int                             axis,
-                  typename TImage *               out,
+                  TImage *                        out,
                   typename TImage::PixelType      label,
                   typename TImage::IndexValueType i,
                   typename TImage::IndexValueType j,
@@ -198,14 +195,14 @@ protected:
                               typename TImage::PixelType        label,
                               IdentifierType &                  objectCount);
 
-  typedef ExtractImageFilter<typename TImage, typename TImage> RoiType;
-  typename RoiType::Pointer                                    m_RoI;
+  typedef ExtractImageFilter<TImage, TImage> RoiType;
+  typename RoiType::Pointer                  m_RoI;
 
-  typedef BinaryThresholdImageFilter<typename TImage, BoolImageType> BinarizerType;
-  typename BinarizerType::Pointer                                    m_Binarizer;
+  typedef BinaryThresholdImageFilter<TImage, BoolImageType> BinarizerType;
+  typename BinarizerType::Pointer                           m_Binarizer;
 
-  typedef ConnectedComponentImageFilter<BoolImageType, typename TImage> ConnectedComponentsType;
-  typename ConnectedComponentsType::Pointer                             m_ConnectedComponents;
+  typedef ConnectedComponentImageFilter<BoolImageType, TImage> ConnectedComponentsType;
+  typename ConnectedComponentsType::Pointer                    m_ConnectedComponents;
 
 private:
   MorphologicalContourInterpolator(const Self &); // purposely not implemented
