@@ -142,8 +142,8 @@ private:
     for (int i = 0; i < current->height; ++i)
       {
       memcpy(&(reinterpret_cast<TPixel*>(unpaddedBuffer)[unpaddedBufPos]),
-             &(reinterpret_cast<TPixel*>(current->imageData)[paddedBufPos]),
-             lineLength);
+             reinterpret_cast<TPixel*>(current->imageData + paddedBufPos),
+             lineLength*sizeof(TPixel) );
       paddedBufPos += current->widthStep;
       unpaddedBufPos += lineLength;
       }

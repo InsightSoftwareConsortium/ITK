@@ -220,7 +220,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
              paddedRowBytes);
        }
     }
-  // BGR output
+  // RGB output
   else
     {
     // Set up an IplImage ponting at the input's buffer. It's ok to do the
