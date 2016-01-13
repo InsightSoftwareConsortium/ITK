@@ -107,7 +107,7 @@ protected:
   -if just one image has a non-zero label, then that label is chosen
   -if more than one image has a non-zero label, median label is chosen */
   void
-  InterpolateAlong(int axis, typename TImage * out);
+  InterpolateAlong(int axis, TImage * out);
 
   /** Slice i has a region, slice j does not */
   void

@@ -128,8 +128,8 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   for (; !it.IsAtEnd(); ++it)
   {
     typename TImage::IndexType       indPrev, indNext;
-    typename const TImage::IndexType ind = it.GetIndex();
-    typename const TImage::PixelType val = m_Input->GetPixel(ind);
+    const typename TImage::IndexType ind = it.GetIndex();
+    const typename TImage::PixelType val = m_Input->GetPixel(ind);
     if (val != 0 || (m_Label != 0 && val == m_Label))
     {
       typename TImage::RegionType boundingBox1;
