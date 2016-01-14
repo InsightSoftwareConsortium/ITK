@@ -21,7 +21,11 @@ from __future__ import print_function
 import os
 import os.path
 import sys
-import imp
+if sys.version_info >= (3, 4):
+    import importlib
+    import types
+else:
+    import imp
 import inspect
 import itkConfig
 import itkTemplate
@@ -42,14 +46,20 @@ def LoadModule(name, namespace=None):
     This later submodule will be created if it does not already exist."""
 
     # find the module's name in sys.modules, or create a new module so named
-    this_module = sys.modules.setdefault(name, imp.new_module(name))
+    if sys.version_info >= (3, 4):
+        this_module = sys.modules.setdefault(name, types.ModuleType(name))
+    else:
+        this_module = sys.modules.setdefault(name, imp.new_module(name))
 
     # if this library and it's template instantiations have already been loaded
     # into sys.modules, bail out after loading the defined symbols into
     # 'namespace'
     if hasattr(this_module, '__templates_loaded'):
         if namespace is not None:
-            swig = namespace.setdefault('swig', imp.new_module('swig'))
+            if sys.version_info >= (3, 4):
+                swig = namespace.setdefault('swig', types.ModuleType('swig'))
+            else:
+                swig = namespace.setdefault('swig', imp.new_module('swig'))
             swig.__dict__.update(this_module.swig.__dict__)
 
             # don't worry about overwriting the symbols in namespace -- any
@@ -128,9 +138,17 @@ def LoadModule(name, namespace=None):
     # stomp on an existing 'swig' module, nor do we want to share 'swig'
     # modules between this_module and namespace.
 
-    this_module.swig = imp.new_module('swig')
+    if sys.version_info >= (3, 4):
+        this_module.swig = types.ModuleType('swig')
+    else:
+        this_module.swig = imp.new_module('swig')
+
     if namespace is not None:
-        swig = namespace.setdefault('swig', imp.new_module('swig'))
+        if sys.version_info >= (3, 4):
+            swig = namespace.setdefault('swig', types.ModuleType('swig'))
+        else:
+            swig = namespace.setdefault('swig', imp.new_module('swig'))
+
     for k, v in module.__dict__.items():
         if not k.startswith('__'):
             setattr(this_module.swig, k, v)
@@ -217,15 +235,19 @@ class LibraryLoader(object):
     def load(self, name):
         self.setup()
         try:
-            # needed in case next line raises exception, so that finally block
-            # works
-            fp = None
-            fp, pathname, description = imp.find_module(name)
-            return imp.load_module(name, fp, pathname, description)
+            if sys.version_info >= (3, 4):
+                return importlib.import_module(name)
+            else:
+                # needed in case next line raises exception, so that finally block
+                # works
+                fp = None
+                fp, pathname, description = imp.find_module(name)
+                return imp.load_module(name, fp, pathname, description)
         finally:
-            # Since we may exit via an exception, close fp explicitly.
-            if fp:
-                fp.close()
+            if sys.version_info < (3, 4):
+                # Since we may exit via an exception, close fp explicitly.
+                if fp:
+                    fp.close()
             self.cleanup()
 
     def cleanup(self):
