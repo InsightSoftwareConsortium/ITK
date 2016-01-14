@@ -12,7 +12,7 @@ option(DCMTK_USE_LIBICONV "Use IConv Library in DCMTK" OFF)
 if(ITK_USE_SYSTEM_DCMTK)
   # Use local FindDCMTK.cmake.
   list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/CMake")
-  find_package(DCMTK REQUIRED)
+  find_package(DCMTK REQUIRED NO_MODULE)
 else(ITK_USE_SYSTEM_DCMTK)
   if(MSVC)
     message(FATAL_ERROR "The ITKDCMTK module requires ITK_USE_SYSTEM_DCMTK to be ON for MSVC.")
