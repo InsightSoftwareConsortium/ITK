@@ -16,6 +16,7 @@
 // Set to 1 if "long long" is accepted by the compiler as a built-in type.
 #define VCL_HAS_LONG_LONG @VCL_HAS_LONG_LONG@
 
+
 //: VCL_HAS_DYNAMIC_CAST
 //
 // True if the compiler supports dynamic cast.
@@ -85,6 +86,18 @@
 
 //----------------------------------------------------------------------
 // constant initializer issues.
+
+/* When using C++11 or greater, constexpr
+ * may be necessary for static const float initialization
+ * and is benificial in other cases where
+ * a value can be constant. */
+#if  __cplusplus >= 201103L
+# define VCL_CONSTEXPR constexpr
+# define VCL_CAN_STATIC_CONST_INIT_INT 1
+# define VCL_CAN_STATIC_CONST_INIT_FLOAT 1
+#else
+# define VCL_CONSTEXPR const
+#endif
 
 //: VCL_STATIC_CONST_INIT_INT_DECL(x)
 //
@@ -600,6 +613,7 @@ text { return ret; }
 //: VCL_ALLOWS_NAMESPACE_STD
 // Set to true if the compiler allows namespace std:: for the standard library.
 #define VCL_ALLOWS_NAMESPACE_STD @VCL_ALLOWS_NAMESPACE_STD@
+
 
 
 //: VCL_NEEDS_NAMESPACE_STD
