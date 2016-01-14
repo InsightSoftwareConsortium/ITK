@@ -154,8 +154,8 @@ minc_file_size(char *path,
         return (MINC_STATUS_ERROR);
     }
     
-    old_ncopts = ncopts;
-    ncopts = 0;
+    old_ncopts =get_ncopts();
+    set_ncopts(0);
 
     for (i = 0; i < MI_S_NDIMS; i++) {
         dim_id[i] = ncdimid(fd, minc_dimnames[i]);
@@ -167,7 +167,7 @@ minc_file_size(char *path,
         }
     }
 
-    ncopts = old_ncopts;
+    set_ncopts(old_ncopts);
 
     if (ct != NULL) {
         *ct = dim_len[MI_S_T];
@@ -243,8 +243,8 @@ minc_load_data(char *path, void *dataptr, int datatype,
         return (MINC_STATUS_ERROR);
     }
 
-    old_ncopts = ncopts;
-    ncopts = 0;
+    old_ncopts =get_ncopts();
+    set_ncopts(0);
 
     for (i = 0; i < MI_S_NDIMS; i++) {
         dim_id[i] = ncdimid(fd, minc_dimnames[i]);
@@ -287,7 +287,7 @@ minc_load_data(char *path, void *dataptr, int datatype,
         }
     }
 
-    ncopts = old_ncopts;
+    set_ncopts(old_ncopts);
 
     var_id = ncvarid(fd, MIimage);
 
@@ -400,8 +400,8 @@ minc_load_data(char *path, void *dataptr, int datatype,
     miicv_detach(icv);
     miicv_free(icv);
 
-    old_ncopts = ncopts;
-    ncopts = 0;
+    old_ncopts =get_ncopts();
+    set_ncopts(0);
 
     /* Generate the complete infoptr array.
      * This is essentially an in-memory copy of the variables and attributes
@@ -466,7 +466,7 @@ minc_load_data(char *path, void *dataptr, int datatype,
 
     *infoptr = p_file;
 
-    ncopts = old_ncopts;
+    set_ncopts(old_ncopts);
 
     miclose(fd);
 
@@ -537,12 +537,12 @@ minc_save_start(char *path,     /* Path to the file */
     char *signstr;
     nc_type nctype;
 
-    old_ncopts = ncopts;
-    ncopts = 0;
+    old_ncopts =get_ncopts();
+    set_ncopts(0);
 
     fd = micreate(path, NC_CLOBBER);
 
-    ncopts = old_ncopts;
+    set_ncopts(old_ncopts);
     
     if (fd < 0) {
         return (MINC_STATUS_ERROR);
@@ -618,8 +618,8 @@ minc_save_start(char *path,     /* Path to the file */
     /* Copy information from the infoptr to the output. 
      */
     if ((p_file = infoptr) != NULL) {
-        old_ncopts = ncopts;
-        ncopts = 0;
+        old_ncopts =get_ncopts();
+        set_ncopts(0);
 
         for (i = 0; i < p_file->file_natts; i++) {
             p_att = &p_file->file_atts[i];
@@ -644,7 +644,7 @@ minc_save_start(char *path,     /* Path to the file */
             }
         }
         
-        ncopts = old_ncopts;
+        set_ncopts(old_ncopts);
     }
 
     miattputstr(fd, ncvarid(fd, MIimage), MIcomplete, MI_FALSE);
@@ -803,14 +803,14 @@ minc_save_data(int fd, void *dataptr, int datatype,
     long index;
     int dtbytes;                /* Length of datatype in bytes */
 
-    old_ncopts = ncopts;
-    ncopts = 0;
+    old_ncopts =get_ncopts();
+    set_ncopts(0);
 
     var_id = ncvarid(fd, MIimage);
 
     ncvarinq(fd, var_id, NULL, NULL, &var_ndims, var_dims, NULL);
 
-    ncopts = old_ncopts;
+    set_ncopts(old_ncopts);
     
     if (var_ndims < 2 || var_ndims > 4) {
         return (MINC_STATUS_ERROR);
@@ -958,12 +958,12 @@ minc_get_world_transform(char *path, double transform[MINC_3D][MINC_3D+1])
     int varid;
     int old_ncopts;
 
-    old_ncopts = ncopts;
-    ncopts = 0;
+    old_ncopts =get_ncopts();
+    set_ncopts(0);
 
     fd = miopen(path, NC_NOWRITE);
     if (fd < 0) {
-	ncopts = old_ncopts;
+	set_ncopts(old_ncopts);
         return (MINC_STATUS_ERROR);
     }
 
@@ -1001,7 +1001,7 @@ minc_get_world_transform(char *path, double transform[MINC_3D][MINC_3D+1])
 
    }
 
-   ncopts = old_ncopts;
+   set_ncopts(old_ncopts);
    return (MINC_STATUS_OK);
 }
 

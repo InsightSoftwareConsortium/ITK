@@ -18,8 +18,11 @@
 
 
 #include  <internal_volume_io.h>
+
+#ifdef LIBMINC_NIFTI_SUPPORT
 #include "input_mgh.h"
 #include "input_nifti.h"
+#endif /*LIBMINC_NIFTI_SUPPORT*/
 
 #ifdef HAVE_MINC1
 #include  <minc.h>
@@ -137,6 +140,7 @@ VIOAPI  VIO_Status  start_volume_input(
     if (filename_extension_matches( expanded_filename, FREE_ENDING ) ) {
         input_info->file_format = FREE_FORMAT;
     }
+#ifdef LIBMINC_NIFTI_SUPPORT
     else if (filename_extension_matches( expanded_filename, "mgh" ) ||
              filename_extension_matches( expanded_filename, "mgz" )
              ) {
@@ -146,6 +150,7 @@ VIOAPI  VIO_Status  start_volume_input(
              filename_extension_matches( expanded_filename, "hdr" )) {
         input_info->file_format = NII_FORMAT; /* NIfTI-1 */
     }
+#endif /*LIBMINC_NIFTI_SUPPORT*/
     else {
 #ifdef HAVE_MINC1
         input_info->file_format = MNC_FORMAT;
@@ -192,6 +197,8 @@ VIOAPI  VIO_Status  start_volume_input(
         status = initialize_free_format_input( expanded_filename,
                                                *volume, input_info );
         break;
+        
+#ifdef LIBMINC_NIFTI_SUPPORT
       case MGH_FORMAT:
         status = initialize_mgh_format_input( expanded_filename,
                                               *volume, input_info );
@@ -200,6 +207,7 @@ VIOAPI  VIO_Status  start_volume_input(
         status = initialize_nifti_format_input( expanded_filename,
                                                 *volume, input_info );
         break;
+#endif /*LIBMINC_NIFTI_SUPPORT*/
       default:
         /*Unsupported file format*/
         status = VIO_ERROR;
@@ -244,12 +252,14 @@ VIOAPI  void  delete_volume_input(
     case  FREE_FORMAT:
         delete_free_format_input( input_info );
         break;
+#ifdef LIBMINC_NIFTI_SUPPORT
     case MGH_FORMAT:
         delete_mgh_format_input ( input_info );
         break;
     case NII_FORMAT:
         delete_nifti_format_input ( input_info );
         break;
+#endif /*LIBMINC_NIFTI_SUPPORT*/
     }
 }
 
@@ -294,7 +304,7 @@ VIOAPI  VIO_BOOL  input_more_of_volume(
         more_to_do = input_more_free_format_file( volume, input_info,
                                                   fraction_done );
         break;
-
+#ifdef LIBMINC_NIFTI_SUPPORT
     case MGH_FORMAT:
         more_to_do = input_more_mgh_format_file( volume, input_info,
                                                  fraction_done );
@@ -304,6 +314,7 @@ VIOAPI  VIO_BOOL  input_more_of_volume(
         more_to_do = input_more_nifti_format_file( volume, input_info,
                                                    fraction_done );
         break;
+#endif /*LIBMINC_NIFTI_SUPPORT*/
     }
 
     return( more_to_do );
