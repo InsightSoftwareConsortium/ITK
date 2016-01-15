@@ -129,8 +129,8 @@ else()
       )
     endif()
     ExternalProject_Add(PCRE
-    URL http://downloads.sourceforge.net/project/pcre/pcre/8.37/pcre-8.37.tar.gz
-    URL_MD5 6e0cc6d1bdac7a4308151f9b3571b86e
+    URL http://downloads.sourceforge.net/project/pcre/pcre/8.38/pcre-8.38.tar.gz
+    URL_MD5 8a353fe1450216b6655dfcf3561716d9
     CONFIGURE_COMMAND
       ${pcre_env}
       ../PCRE/configure
