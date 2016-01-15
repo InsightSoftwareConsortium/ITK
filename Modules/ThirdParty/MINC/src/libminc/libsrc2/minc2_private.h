@@ -66,6 +66,7 @@ struct mivolprops {
     misize_t record_length;
     char *record_name;
     int  template_flag;
+    int checksum;               /*FLETCHER32 checksum is enabled*/
 }; 
 
 /** \internal

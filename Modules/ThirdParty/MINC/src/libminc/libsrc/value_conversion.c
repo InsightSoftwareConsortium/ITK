@@ -196,10 +196,10 @@ SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
    /* Try to find out the sign of the variable using MIsigntype.
       To avoid programs dying unexpectedly, we must change ncopts,
       then restore it */
-   oldncopts = ncopts;
-   ncopts = 0;
+   oldncopts =get_ncopts();
+   set_ncopts(0);
    string=miattgetstr(cdfid, varid, MIsigntype, MI_MAX_ATTSTR_LEN, string);
-   ncopts = oldncopts;
+   set_ncopts(oldncopts);
 
    /* Get the signs */
    strc.var_sign  = MI_get_sign_from_string(strc.var_type, string);

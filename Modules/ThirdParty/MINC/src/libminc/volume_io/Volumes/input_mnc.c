@@ -52,7 +52,7 @@ VIOAPI  int   get_minc_file_n_dimensions(
     nc_type   file_datatype;
     VIO_STR    expanded;
 
-    ncopts = NC_VERBOSE;
+    set_ncopts(NC_VERBOSE);
 
     expanded = expand_filename( filename );
 
@@ -594,7 +594,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
 
     file->end_volume_flag = FALSE;
 
-    ncopts = NC_VERBOSE | NC_FATAL;
+    set_ncopts(NC_VERBOSE | NC_FATAL);
 
     /* --- decide how many full dimensions to read in at a time 
        to max out the read/write buffer and make it like the 
@@ -662,7 +662,7 @@ VIOAPI  Minc_file  initialize_minc_input(
     int          minc_id;
     VIO_STR       expanded;
 
-    ncopts = 0;
+    set_ncopts(0);
 
     expanded = expand_filename( filename );
 

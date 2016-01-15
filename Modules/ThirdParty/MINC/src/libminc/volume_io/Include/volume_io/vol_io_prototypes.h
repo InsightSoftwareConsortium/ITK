@@ -1969,7 +1969,7 @@ VIOAPI  void  set_volume_sizes(
     VIO_Volume   volume,
     int          sizes[] );
 
-VIOAPI  unsigned int  get_volume_total_n_voxels(
+VIOAPI  size_t  get_volume_total_n_voxels(
     VIO_Volume    volume );
 
 VIOAPI  void  compute_world_transform(
@@ -2173,6 +2173,9 @@ VIOAPI  VIO_Volume   copy_volume_definition(
 
 VIOAPI  VIO_Volume  copy_volume(
     VIO_Volume   volume );
+
+VIOAPI  VIO_Volume  copy_volume_new_type(
+    VIO_Volume volume, nc_type nc_data_type, VIO_BOOL signed_flag );
 
 VIOAPI  VIO_Status  grid_transform_point(
     VIO_General_transform   *transform,

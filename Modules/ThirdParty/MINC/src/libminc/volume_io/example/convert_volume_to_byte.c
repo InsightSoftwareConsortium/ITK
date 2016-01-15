@@ -4,9 +4,9 @@ int  main(
     int   argc,
     char  *argv[] )
 {
-    Volume     volume;
-    VIO_Status     status;
-    int        x, y, z, sizes[N_DIMENSIONS];
+    VIO_Volume volume;
+    VIO_Status status;
+    int        x, y, z, sizes[VIO_N_DIMENSIONS];
     char       *input_filename, *output_filename, *history;
     double     min_value, max_value, value, new_value, new_voxel;
     VIO_BOOL    thresholding;
@@ -32,7 +32,7 @@ int  main(
         thresholding = FALSE;
 
     status = input_volume( input_filename, 3, File_order_dimension_names,
-                      NC_UNSPECIFIED, FALSE, 0.0, 0.0,
+                      0, FALSE, 0.0, 0.0,
                       TRUE, &volume, (minc_input_options *) NULL ) ;
 
     if( status != VIO_OK )
@@ -46,11 +46,11 @@ int  main(
 
     if( thresholding )
     {
-        for_less( x, 0, sizes[X] )
+        for_less( x, 0, sizes[VIO_X] )
         {
-            for_less( y, 0, sizes[Y] )
+            for_less( y, 0, sizes[VIO_Y] )
             {
-                for_less( z, 0, sizes[Z] )
+                for_less( z, 0, sizes[VIO_Z] )
                 {
                     GET_VALUE_3D( value, volume, x, y, z );
                     if( value < min_value || value > max_value )
