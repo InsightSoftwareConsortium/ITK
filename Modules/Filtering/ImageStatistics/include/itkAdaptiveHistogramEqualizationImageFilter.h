@@ -136,7 +136,7 @@ public:
   itkBooleanMacro(UseLookupTable);
 #endif
 
-  virtual void ConfigureHistogram( typename Superclass::HistogramType &h)
+  virtual void ConfigureHistogram( typename Superclass::HistogramType &h) ITK_OVERRIDE
     {
       h.SetAlpha( this->m_Alpha );
       h.SetBeta( this->m_Beta );
