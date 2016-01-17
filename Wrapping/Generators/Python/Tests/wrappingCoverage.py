@@ -52,7 +52,7 @@ excluded = set([])
 if opts.exclude:
     with open(opts.exclude, 'r') as fp:
         to_exclude = [c.strip() for c in fp.readlines()]
-    map(excluded.add, to_exclude)
+        excluded.update(set(to_exclude))
 
 # get classes from sources
 headers = []
