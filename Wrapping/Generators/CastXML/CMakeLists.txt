@@ -23,8 +23,8 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/456386/castxml-linux.tar.gz
-      URL_MD5 bf47e1944f7e57a15c55c344734bcb7a
+      URL http://midas3.kitware.com/midas/download/bitstream/457653/castxml-linux.tar.gz
+      URL_MD5 740fadc0504fc9677769a1b678ce79f6
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -35,8 +35,8 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/456450/castxml-windows.zip
-      URL_MD5 ab1cff759d84caf41d54abb24183316c
+      URL http://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip
+      URL_MD5 9c317c45c93f94619f0879da6af058b0
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -47,8 +47,8 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/item/318762/castxml-macosx.tar.gz
-      URL_MD5 78e7811f64eb51197e0ce8aa6323347d
+      URL http://midas3.kitware.com/midas/download/item/457654/castxml-macosx.tar.gz
+      URL_MD5 05dc4e70084f66e9c86f0659b784a36f
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -127,7 +127,7 @@ else()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
       # CastXML master, 2015-09-30
-      GIT_TAG 552dd691215cdafdbe6706e6f76be9d392fb3ffe
+      GIT_TAG f57109f31b94d0410e091a549a4aa0febc4140d6
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev

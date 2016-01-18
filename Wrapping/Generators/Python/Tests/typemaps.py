@@ -119,8 +119,9 @@ except RuntimeError as e:
 
 # pycommand masked
 def exit():
+    print('exitting on delete...')
     sys.exit(0)
-median2.AddObserver(itk.DeleteEvent(), exit)
+median.AddObserver(itk.DeleteEvent(), exit)
 del median
 
 # we shouldn't reach that point
