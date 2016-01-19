@@ -153,7 +153,7 @@ MorphologicalContourInterpolator<TImage>::ExpandRegion(typename TImage::RegionTy
       region.SetSize(a, region.GetSize(a) + region.GetIndex(a) - index[a]);
       region.SetIndex(a, index[a]);
     }
-    else if (region.GetIndex(a) + region.GetSize(a) <= index[a])
+    else if (region.GetIndex(a) + (typename TImage::IndexValueType)region.GetSize(a) <= index[a])
     {
       region.SetSize(a, index[a] - region.GetIndex(a) + 1);
     }
@@ -279,6 +279,8 @@ MorphologicalContourInterpolator<TImage>::Extrapolate(int                       
 
   // add a phantom point to the center of a newly constructed slice
   phSlice->SetPixel(centroid, 1);
+  jRegionIds.clear();
+  jRegionIds.push_back(1);
   // WriteDebug<TImage>(iConn, "C:\\iConn.nrrd");
   // WriteDebug<TImage>(phSlice, "C:\\phSlice.nrrd");
   typename TImage::IndexType translation = Align(axis, iConn, iRegionId, phSlice, jRegionIds);
@@ -357,21 +359,22 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   typename TImage::IndexType  jTrans;
   typename TImage::RegionType iRegion = iConn->GetLargestPossibleRegion();
   typename TImage::RegionType jRegion = jConn->GetLargestPossibleRegion();
-  typename TImage::RegionType newRegion = iRegion;
-  ExpandRegion(newRegion, jRegion.GetIndex());
-  typename TImage::IndexType jBottom = jRegion.GetIndex();
+  typename TImage::IndexType  jBottom = jRegion.GetIndex();
 
   for (unsigned d = 0; d < TImage::ImageDimension; d++)
   {
     iTrans[d] = translation[d] / 2;
     jTrans[d] = iTrans[d] - translation[d];
-    // newRegion.SetIndex(d, (iRegion.GetIndex()[d] + jRegion.GetIndex()[d]) / 2);
-    // newRegion.SetSize(d, std::max(iRegion.GetSize(d), jRegion.GetSize(d)));
-    jBottom[d] += jRegion.GetSize(d) - 1;
+    iRegion.SetIndex(d, iRegion.GetIndex()[d] + iTrans[d]);
+    jRegion.SetIndex(d, jRegion.GetIndex()[d] + jTrans[d]);
+    jBottom[d] = jRegion.GetIndex()[d] + jRegion.GetSize(d) - 1;
   }
+  typename TImage::RegionType newRegion = iRegion;
+  ExpandRegion(newRegion, jRegion.GetIndex());
   ExpandRegion(newRegion, jBottom);
-  newRegion.SetIndex(axis, (i + j) / 2);
-  newRegion.SetSize(axis, 1);
+
+  WriteDebug<TImage>(iConn, "C:\\iConn.nrrd");
+  WriteDebug<TImage>(jConn, "C:\\jConn.nrrd");
   typename TImage::Pointer iConnT = TranslateImage(iConn, iTrans, newRegion);
   typename TImage::Pointer jConnT = TranslateImage(jConn, jTrans, newRegion);
   WriteDebug<TImage>(iConnT, "C:\\iConnT.nrrd");
@@ -394,10 +397,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   jMask->DisconnectPipeline();
 
   // generate sequence
-  // WriteDebug<TImage>(iConn, "C:\\iConn.nrrd");
-  // WriteDebug<TImage>(jConn, "C:\\jConn.nrrd");
-  // WriteDebug(iMask, "C:\\iMask.nrrd");
-  // WriteDebug(jMask, "C:\\jMask.nrrd");
+  WriteDebug(iMask, "C:\\iMask.nrrd");
+  WriteDebug(jMask, "C:\\jMask.nrrd");
   m_And->SetInput(0, iMask);
   m_And->SetInput(1, jMask);
   m_And->GetOutput()->SetRegions(newRegion);
@@ -475,27 +476,29 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   typename TImage::IndexValueType mid = (i + j) / 2;
   if (abs(i - j) > 2)
   {
-    typename TImage::Pointer midConn = TImage::New();
-    midConn->CopyInformation(seq[minIndex]);
-    midConn->SetRegions(newRegion);
-    midConn->Allocate(true);
-    ImageAlgorithm::Copy<TImage, TImage>(out, midConn.GetPointer(), newRegion, newRegion);
-    WriteDebug<TImage>(out, "C:\\midConnSource.nrrd");
+    typedef itk::CastImageFilter<BoolImageType, TImage> InvertCastType;
+    typename InvertCastType::Pointer                    invCaster = InvertCastType::New();
+    invCaster->SetInput(seq[minIndex]);
+    invCaster->Update();
+    typename TImage::Pointer midConn = invCaster->GetOutput();
+    // midConn->DisconnectPipeline(); //not needed?
+
     WriteDebug<TImage>(midConn, "C:\\midConn.nrrd");
     PixelList regionIDs;
-    regionIDs.push_back(label);
+    regionIDs.push_back(1);
 
     if (abs(i - mid) > 1)
     {
       // typename TImage::IndexType tRecurse = Align(axis, iConn, iRegionId, midConn, regionIDs);
-      Interpolate1to1(axis, out, label, i, mid, iConn, iRegionId, midConn, label, iTrans);
+      Interpolate1to1(axis, out, label, i, mid, iConn, iRegionId, midConn, 1, iTrans);
     }
     if (abs(j - mid) > 1)
     {
       // typename TImage::IndexType tRecurse = Align(axis, jConn, jRegionId, midConn, regionIDs);
-      Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, label, jTrans);
+      Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, 1, jTrans);
     }
   }
+  WriteDebug<TImage>(out, "C:\\intermediateResult.nrrd");
 }
 
 
@@ -703,17 +706,16 @@ MorphologicalContourInterpolator<TImage>::TranslateImage(typename TImage::Pointe
   result->SetRegions(newRegion);
   result->Allocate(true); // initialize to zero (false)
   typename TImage::RegionType inRegion = image->GetLargestPossibleRegion();
-  typename TImage::RegionType rRegion = image->GetLargestPossibleRegion();
   IntersectionRegions(translation, inRegion, newRegion);
-  ImageRegionIterator<TImage>      resultIt(result, newRegion);
-  ImageRegionConstIterator<TImage> inIt(image, inRegion);
-
-  while (!resultIt.IsAtEnd())
-  {
-    resultIt.Set(inIt.Get());
-    ++resultIt;
-    ++inIt;
-  }
+  ImageAlgorithm::Copy<TImage, TImage>(image.GetPointer(), result.GetPointer(), inRegion, newRegion);
+  // ImageRegionIterator<TImage> resultIt(result, newRegion);
+  // ImageRegionConstIterator<TImage> inIt(image, inRegion);
+  // while (!resultIt.IsAtEnd())
+  //   {
+  //   resultIt.Set(inIt.Get());
+  //   ++resultIt;
+  //   ++inIt;
+  //   }
   return result;
 }
 
