@@ -19,6 +19,7 @@ function(JustInputTest ImageName Ext)
 endfunction()
 
 # Handcrafted tests
+justinputtest(Micro1 nrrd)
 justinputtest(SimplestOneToOne nrrd)
 justinputtest(OneToOne nrrd)
 justinputtest(OneToThree nrrd)
@@ -29,7 +30,6 @@ justinputtest(ThreeAxisFourLabelConflict nrrd)
 justinputtest(AccidentalMiddleSliceSegmentation nrrd)
 justinputtest(FullEndSevenLabels nrrd)
 justinputtest(ManyToMany nrrd)
-justinputtest(Micro1 nrrd)
 
 # Paul's tests
 justinputtest(105769moving_resliced_to_fixedhz2_segmentation nii.gz)

@@ -282,7 +282,18 @@ MorphologicalContourInterpolator<TImage>::Extrapolate(int                       
   // WriteDebug<TImage>(iConn, "C:\\iConn.nrrd");
   // WriteDebug<TImage>(phSlice, "C:\\phSlice.nrrd");
   typename TImage::IndexType translation = Align(axis, iConn, iRegionId, phSlice, jRegionIds);
-  Interpolate1to1(axis, out, label, i, j, iConn, iRegionId, phSlice, 1, translation);
+
+  // now translate the phantom slice for best alignment
+  for (unsigned d = 0; d < TImage::ImageDimension; d++)
+  {
+    phIndex[d] -= translation[d];
+  }
+  phIndex[axis] = j;
+  reg3.SetIndex(phIndex);
+  phSlice->SetRegions(reg3);
+  typename TImage::IndexType t0 = { 0 };
+  t0[axis] = j - i;
+  Interpolate1to1(axis, out, label, i, j, iConn, iRegionId, phSlice, 1, t0);
 }
 
 
@@ -303,10 +314,10 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolImageType::Pointe
   m_And->Update();
   typename BoolImageType::Pointer result = m_And->GetOutput();
   result->DisconnectPipeline();
-  WriteDebug(seed, "C:\\seed.nrrd");
-  WriteDebug(mask, "C:\\mask.nrrd");
-  WriteDebug(temp, "C:\\temp.nrrd");
-  WriteDebug(result, "C:\\result.nrrd");
+  // WriteDebug(seed, "C:\\seed.nrrd");
+  // WriteDebug(mask, "C:\\mask.nrrd");
+  // WriteDebug(temp, "C:\\temp.nrrd");
+  // WriteDebug(result, "C:\\result.nrrd");
   return result;
 }
 
@@ -346,16 +357,21 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   typename TImage::IndexType  jTrans;
   typename TImage::RegionType iRegion = iConn->GetLargestPossibleRegion();
   typename TImage::RegionType jRegion = jConn->GetLargestPossibleRegion();
-  typename TImage::RegionType newRegion;
-  // translation[axis] = j - i;
+  typename TImage::RegionType newRegion = iRegion;
+  ExpandRegion(newRegion, jRegion.GetIndex());
+  typename TImage::IndexType jBottom = jRegion.GetIndex();
+
   for (unsigned d = 0; d < TImage::ImageDimension; d++)
   {
     iTrans[d] = translation[d] / 2;
     jTrans[d] = iTrans[d] - translation[d];
-    newRegion.SetIndex(d, (iRegion.GetIndex()[d] + jRegion.GetIndex()[d]) / 2);
-    newRegion.SetSize(d, std::max(iRegion.GetSize(d), jRegion.GetSize(d)));
+    // newRegion.SetIndex(d, (iRegion.GetIndex()[d] + jRegion.GetIndex()[d]) / 2);
+    // newRegion.SetSize(d, std::max(iRegion.GetSize(d), jRegion.GetSize(d)));
+    jBottom[d] += jRegion.GetSize(d) - 1;
   }
-  // newRegion.SetIndex(axis, (i + j) / 2); //redundant
+  ExpandRegion(newRegion, jBottom);
+  newRegion.SetIndex(axis, (i + j) / 2);
+  newRegion.SetSize(axis, 1);
   typename TImage::Pointer iConnT = TranslateImage(iConn, iTrans, newRegion);
   typename TImage::Pointer jConnT = TranslateImage(jConn, jTrans, newRegion);
   WriteDebug<TImage>(iConnT, "C:\\iConnT.nrrd");
@@ -378,10 +394,10 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   jMask->DisconnectPipeline();
 
   // generate sequence
-  WriteDebug<TImage>(iConn, "C:\\iConn.nrrd");
-  WriteDebug<TImage>(jConn, "C:\\jConn.nrrd");
-  WriteDebug(iMask, "C:\\iMask.nrrd");
-  WriteDebug(jMask, "C:\\jMask.nrrd");
+  // WriteDebug<TImage>(iConn, "C:\\iConn.nrrd");
+  // WriteDebug<TImage>(jConn, "C:\\jConn.nrrd");
+  // WriteDebug(iMask, "C:\\iMask.nrrd");
+  // WriteDebug(jMask, "C:\\jMask.nrrd");
   m_And->SetInput(0, iMask);
   m_And->SetInput(1, jMask);
   m_And->GetOutput()->SetRegions(newRegion);
@@ -399,6 +415,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   {
     m_Or->SetInput(0, iSeq[x]);
     m_Or->SetInput(1, jSeq[x]);
+    WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('A' + x) + ".nrrd").c_str());
+    WriteDebug(jSeq[x], (std::string("C:\\jSeq") + char('A' + x) + ".nrrd").c_str());
     m_Or->GetOutput()->SetRegions(newRegion);
     m_Or->Update();
     seq.push_back(m_Or->GetOutput());
@@ -409,6 +427,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     for (unsigned x = minSeq; x < maxSeq; x++)
     {
       seq.push_back(jSeq[x]);
+      WriteDebug(jSeq[x], (std::string("C:\\jSeq") + char('A' + x) + ".nrrd").c_str());
     }
   }
   else
@@ -416,6 +435,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     for (unsigned x = minSeq; x < maxSeq; x++)
     {
       seq.push_back(iSeq[x]);
+      WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('A' + x) + ".nrrd").c_str());
     }
   }
 
@@ -462,31 +482,18 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     ImageAlgorithm::Copy<TImage, TImage>(out, midConn.GetPointer(), newRegion, newRegion);
     WriteDebug<TImage>(out, "C:\\midConnSource.nrrd");
     WriteDebug<TImage>(midConn, "C:\\midConn.nrrd");
-    // seqIt.GoToBegin();
-    // ImageRegionIterator<TImage> outIt(midConn, newRegion);
-    // while (!outIt.IsAtEnd())
-    //   {
-    //   if (seqIt.Get())
-    //     {
-    //     outIt.Set(label);
-    //     }
-    //   ++outIt;
-    //   ++seqIt;
-    //   }
     PixelList regionIDs;
     regionIDs.push_back(label);
 
     if (abs(i - mid) > 1)
     {
-      typename TImage::IndexType tRecurse = Align(axis, iConn, iRegionId, midConn, regionIDs);
-      // optimization tRecurse=iTrans
-      Interpolate1to1(axis, out, label, i, mid, iConn, iRegionId, midConn, label, tRecurse);
+      // typename TImage::IndexType tRecurse = Align(axis, iConn, iRegionId, midConn, regionIDs);
+      Interpolate1to1(axis, out, label, i, mid, iConn, iRegionId, midConn, label, iTrans);
     }
     if (abs(j - mid) > 1)
     {
-      typename TImage::IndexType tRecurse = Align(axis, jConn, jRegionId, midConn, regionIDs);
-      // optimization tRecurse=jTrans
-      Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, label, tRecurse);
+      // typename TImage::IndexType tRecurse = Align(axis, jConn, jRegionId, midConn, regionIDs);
+      Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, label, jTrans);
     }
   }
 }
@@ -662,9 +669,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
   // make n 1-to-1 interpolations
   for (unsigned x = 0; x < jRegionIds.size(); x++)
   {
-    typename TImage::IndexType t0 = { 0 };
-    typename TImage::Pointer   temp = TranslateImage(conns[x], t0, iRegion);
-    Interpolate1to1(axis, out, label, i, j, temp, iRegionId, jConn, jRegionIds[x], translation);
+    Interpolate1to1(axis, out, label, i, j, conns[x], iRegionId, jConn, jRegionIds[x], translation);
     // TODO: call sequence construction directly from here!
   }
 }
@@ -693,7 +698,6 @@ MorphologicalContourInterpolator<TImage>::TranslateImage(typename TImage::Pointe
                                                          typename TImage::IndexType  translation,
                                                          typename TImage::RegionType newRegion)
 {
-  // needed?
   typename TImage::Pointer result = TImage::New();
   result->CopyInformation(image);
   result->SetRegions(newRegion);
@@ -724,13 +728,13 @@ MorphologicalContourInterpolator<TImage>::IntersectionRegions(typename TImage::I
   typename TImage::IndexType jBegin = jRegion.GetIndex();
   for (IdentifierType d = 0; d < TImage::ImageDimension; d++)
   {
-    IdentifierType iSize = iRegion.GetSize(d);
-    IdentifierType jSize = jRegion.GetSize(d);
-    jBegin[d] -= translation[d];
+    IndexValueType iSize = iRegion.GetSize(d);
+    IndexValueType jSize = jRegion.GetSize(d);
+    iBegin[d] += translation[d];
     IndexValueType t = std::max(iBegin[d], jBegin[d]);
-    iRegion.SetSize(d, std::min(iSize - (t - iBegin[d]), jSize - (t - jBegin[d])));
-    iRegion.SetIndex(d, t);
-    jRegion.SetIndex(d, t + translation[d]);
+    iRegion.SetSize(d, std::min(IndexValueType(iSize) - (t - iBegin[d]), IndexValueType(jSize) - (t - jBegin[d])));
+    iRegion.SetIndex(d, t - translation[d]);
+    jRegion.SetIndex(d, t);
   }
   jRegion.SetSize(iRegion.GetSize()); // size is the same
 }
@@ -839,13 +843,12 @@ MorphologicalContourInterpolator<TImage>::Align(int                        axis,
   typename TImage::IndexType iCentroid = Centroid(iConn, iRegionIds);
   typename TImage::IndexType jCentroid = Centroid(jConn, jRegionIds);
 
-  typename TImage::IndexType ind, centroidInd;
+  typename TImage::IndexType ind;
   for (unsigned d = 0; d < TImage::ImageDimension; d++)
   {
     ind[d] = jCentroid[d] - iCentroid[d];
   }
   // ind[axis] = 0; //i and j have different coordinate along this axis
-  centroidInd = ind;
 
   // construct an image with all possible translations
   typename TImage::RegionType searchRegion;
@@ -853,28 +856,35 @@ MorphologicalContourInterpolator<TImage>::Align(int                        axis,
   typename TImage::RegionType jLPR = jConn->GetLargestPossibleRegion();
   for (IdentifierType d = 0; d < TImage::ImageDimension; d++)
   {
-    searchRegion.SetIndex(d, /*jLPR.GetIndex()[d]*/ -iLPR.GetIndex()[d] - jLPR.GetSize(d) + 1);
+    searchRegion.SetIndex(d, jLPR.GetIndex()[d] - iLPR.GetIndex()[d] - iLPR.GetSize(d) + 1);
     searchRegion.SetSize(d, iLPR.GetSize(d) + jLPR.GetSize(d) - 1);
   }
   // searchRegion.SetSize(axis, 1);
   // searchRegion.SetIndex(axis, 0);
-  typedef Image<bool, TImage::ImageDimension> BitmapType;
-  typename BitmapType::Pointer                searched = BitmapType::New();
+
+  typename BoolImageType::Pointer searched = BoolImageType::New();
   searched->SetRegions(searchRegion);
   searched->Allocate(true); // initialize to zero (false)
 
-  // breadth first search starting from centroid
+  // breadth first search starting from centroid, implicitly:
+  // when intersection scores are equal, chooses the one closer to centroid
   std::queue<typename TImage::IndexType> uncomputed;
   uncomputed.push(ind);
   searched->SetPixel(ind, true);
   IdentifierType             score, maxScore = 0;
   typename TImage::IndexType bestIndex;
 
+  // debug: construct and later fill the image with intersection scores
+  typename TImage::Pointer scoreImage = TImage::New();
+  scoreImage->SetRegions(searchRegion);
+  scoreImage->Allocate(true);
+
   while (!uncomputed.empty())
   {
     ind = uncomputed.front();
     uncomputed.pop();
     score = Intersection(iConn, iRegionId, jConn, jRegionIds, ind);
+    scoreImage->SetPixel(ind, score); // debug
     if (score > maxScore)
     {
       maxScore = score;
@@ -906,7 +916,8 @@ MorphologicalContourInterpolator<TImage>::Align(int                        axis,
       }
     }
   }
-  WriteDebug(searched, "C:\\searched.nrrd");
+  // WriteDebug(searched, "C:\\searched.nrrd");
+  WriteDebug<TImage>(scoreImage, "C:\\scoreImage.nrrd");
   return bestIndex;
 }
 
