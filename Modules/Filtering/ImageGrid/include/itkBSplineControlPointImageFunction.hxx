@@ -192,6 +192,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
+    if( p[i] < NumericTraits<RealType>::ZeroValue() && std::abs( p[i] ) <= this->m_BSplineEpsilon )
+      {
+      p[i] = NumericTraits<RealType>::ZeroValue();
+      }
+
     if( p[i] < NumericTraits<CoordRepType>::ZeroValue() ||
         p[i] >= NumericTraits<CoordRepType>::OneValue() )
       {
@@ -346,6 +351,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
+    if( p[i] < NumericTraits<RealType>::ZeroValue() && std::abs( p[i] ) <= this->m_BSplineEpsilon )
+      {
+      p[i] = NumericTraits<RealType>::ZeroValue();
+      }
+
     if( p[i] < NumericTraits<CoordRepType>::ZeroValue() ||
         p[i] >= NumericTraits<CoordRepType>::OneValue() )
       {
@@ -521,6 +531,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
       }
+    if( p[i] < NumericTraits<RealType>::ZeroValue() && std::abs( p[i] ) <= this->m_BSplineEpsilon )
+      {
+      p[i] = NumericTraits<RealType>::ZeroValue();
+      }
+
     if( p[i] < NumericTraits<CoordRepType>::ZeroValue() ||
         p[i] >= NumericTraits<CoordRepType>::OneValue() )
       {

@@ -612,6 +612,10 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         {
         p[i] = static_cast<RealType>( totalNumberOfSpans ) - epsilon[i];
         }
+      if( p[i] < NumericTraits<RealType>::ZeroValue() && std::abs( p[i] ) <= epsilon[i] )
+        {
+        p[i] = NumericTraits<RealType>::ZeroValue();
+        }
 
       if( p[i] < NumericTraits<RealType>::ZeroValue() ||
           p[i] >= static_cast<RealType>( totalNumberOfSpans ) )
@@ -772,6 +776,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         {
         U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) - epsilon[i];
         }
+      if( U[i] < NumericTraits<RealType>::ZeroValue() && std::abs( U[i] ) <= epsilon[i] )
+        {
+        U[i] = NumericTraits<RealType>::ZeroValue();
+        }
+
       if( U[i] < NumericTraits<RealType>::ZeroValue() ||
           U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
@@ -1120,6 +1129,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         {
         U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) - epsilon[i];
         }
+      if( U[i] < NumericTraits<RealType>::ZeroValue() && std::abs( U[i] ) <= epsilon[i] )
+        {
+        U[i] = NumericTraits<RealType>::ZeroValue();
+        }
+
       if( U[i] < NumericTraits<RealType>::ZeroValue() ||
           U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {

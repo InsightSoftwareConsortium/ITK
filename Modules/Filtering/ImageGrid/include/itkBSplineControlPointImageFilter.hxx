@@ -282,6 +282,11 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
         {
         U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) - epsilon[i];
         }
+      if( U[i] < NumericTraits<RealType>::ZeroValue() && std::abs( U[i] ) <= epsilon[i] )
+        {
+        U[i] = NumericTraits<RealType>::ZeroValue();
+        }
+
       if( U[i] < NumericTraits<RealType>::ZeroValue() ||
           U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
