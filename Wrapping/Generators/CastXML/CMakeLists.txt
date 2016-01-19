@@ -47,7 +47,7 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/item/457654/castxml-macosx.tar.gz
+      URL http://midas3.kitware.com/midas/download/bitstream/457654/castxml-macosx.tar.gz
       URL_MD5 05dc4e70084f66e9c86f0659b784a36f
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
