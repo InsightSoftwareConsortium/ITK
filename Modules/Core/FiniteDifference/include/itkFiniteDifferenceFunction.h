@@ -130,12 +130,10 @@ public:
    * of the solver.
    * \sa InitializeIteration
    * \sa ComputeGlobalTimeStep */
-#if !defined( ITK_WRAPPING_PARSER )
   virtual PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
                                     void *globalData,
                                     const FloatOffsetType & offset = FloatOffsetType(0.0) ) = 0;
 
-#endif
 
   /** Sets the radius of the neighborhood this FiniteDifferenceFunction
    * needs to perform its calculations. */
