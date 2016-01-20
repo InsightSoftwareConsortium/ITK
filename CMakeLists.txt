@@ -89,6 +89,7 @@ if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
   option(BUILD_TESTING "Build the testing tree." OFF)
 endif()
 include(CTest)
+mark_as_advanced(CLEAR BUILD_TESTING)
 
 set(ITK_CMAKE_DIR ${ITK_SOURCE_DIR}/CMake)
 set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
