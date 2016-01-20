@@ -62,7 +62,7 @@ endif()
 set(ITK_MODULES_DIR "${ITK_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
 include(ITKExternalData)
-if(EXISTS ${CMAKE_SOURCE_DIR}/test/CMakeLists.txt)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt)
   include(CTest)
   include(ITKModuleTest)
   if(NOT DEFINED ITK_USE_KWSTYLE)
@@ -86,13 +86,13 @@ set(${itk-module}-targets-build "${ITK_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules/$
 set(${itk-module}_TARGETS_FILE_BUILD "${${itk-module}-targets-build}")
 itk_module_impl()
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_NO_SRC AND "${${itk-module}-targets}")
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_NO_SRC AND "${${itk-module}-targets}")
   install(EXPORT ${${itk-module}-targets} DESTINATION "${ITK_INSTALL_PACKAGE_DIR}/Modules"
           COMPONENT Development)
 endif()
 
 set(ITK_TEST_OUTPUT_DIR "${CMAKE_BINARY_DIR}/Testing/Temporary")
-if(EXISTS "${CMAKE_SOURCE_DIR}/test/CMakeLists.txt")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt")
   add_subdirectory(test)
 endif()
 
@@ -113,7 +113,7 @@ mark_as_advanced(
   ITK_WRAP_TCL
   ITK_WRAP_EXPLICIT
   )
-if(ITK_WRAPPING AND EXISTS "${CMAKE_SOURCE_DIR}/wrapping/CMakeLists.txt")
+if(ITK_WRAPPING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wrapping/CMakeLists.txt")
   set(EXTERNAL_WRAP_ITK_PROJECT ON)
   set(WRAP_ITK_CMAKE_DIR "${ITK_CMAKE_DIR}/../Wrapping")
   include("${WRAP_ITK_CMAKE_DIR}/TypedefMacros.cmake")
