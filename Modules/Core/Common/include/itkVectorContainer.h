@@ -181,16 +181,18 @@ public:
     Iterator operator++(int) { Iterator temp(*this); ++m_Pos; ++m_Iter; return temp; }
     Iterator & operator--()   { --m_Pos; --m_Iter; return *this; }
     Iterator operator--(int) { Iterator temp(*this); --m_Pos; --m_Iter; return temp; }
+
+    difference_type operator-(const Iterator & r) const { return static_cast< difference_type >( this->m_Pos ) - static_cast< difference_type >( r.m_Pos ); }
+
     bool operator==(const Iterator & r) const { return m_Iter == r.m_Iter; }
     bool operator!=(const Iterator & r) const { return m_Iter != r.m_Iter; }
     bool operator==(const ConstIterator & r) const { return m_Iter == r.m_Iter; }
     bool operator!=(const ConstIterator & r) const { return m_Iter != r.m_Iter; }
-    bool operator<(const Iterator & r) const { return ( r - this ) > 0; }
-    bool operator>(const Iterator & r) const { return ( r < this ); }
-    bool operator>=(const Iterator & r) const { return !( this < r ); }
-    bool operator<=(const Iterator & r) const { return !( this < r ); }
+    bool operator<(const Iterator & r) const { return ( this->operator-( r ) ) < 0; }
+    bool operator>(const Iterator & r) const { return ( r < *this ); }
+    bool operator>=(const Iterator & r) const { return !( *this < r ); }
+    bool operator<=(const Iterator & r) const { return !( *this < r ); }
 
-    difference_type operator-(const Iterator & r) { return static_cast< difference_type >( m_Pos ) - static_cast< difference_type >( r.m_Pos ); }
     Iterator & operator+=(difference_type n) { m_Pos += n; m_Iter += n; return *this; };
 
     /** Get the index into the VectorContainer associated with this iterator.
@@ -230,17 +232,19 @@ public:
     ConstIterator & operator--()   { --m_Pos; --m_Iter; return *this; }
     ConstIterator operator--(int) { ConstIterator temp(*this); --m_Pos; --m_Iter; return temp; }
     ConstIterator & operator=(const Iterator & r) { m_Pos = r.m_Pos; m_Iter = r.m_Iter; return *this; }
+    ConstIterator & operator+=(difference_type n) { m_Pos += n; m_Iter += n; return *this; };
+
+    difference_type operator-(const ConstIterator & r) const { return static_cast< difference_type >( m_Pos ) - static_cast< difference_type >( r.m_Pos ); }
+
     bool operator==(const Iterator & r) const { return m_Iter == r.m_Iter; }
     bool operator!=(const Iterator & r) const { return m_Iter != r.m_Iter; }
     bool operator==(const ConstIterator & r) const { return m_Iter == r.m_Iter; }
     bool operator!=(const ConstIterator & r) const { return m_Iter != r.m_Iter; }
-    bool operator<(const ConstIterator & r) const { return ( r - this ) > 0; }
-    bool operator>(const ConstIterator & r) const { return ( r < this ); }
-    bool operator>=(const ConstIterator & r) const { return !( this < r ); }
-    bool operator<=(const ConstIterator & r) const { return !( this < r ); }
+    bool operator<(const ConstIterator & r) const { return ( this->operator-(r) < 0 ); }
+    bool operator>(const ConstIterator & r) const { return ( r < *this ); }
+    bool operator<=(const ConstIterator & r) const { return !( *this > r ); }
+    bool operator>=(const ConstIterator & r) const { return !( *this < r ); }
 
-    difference_type operator-(const ConstIterator & r) { return static_cast< difference_type >( m_Pos ) - static_cast< difference_type >( r.m_Pos ); }
-    ConstIterator & operator+=(difference_type n) { m_Pos += n; m_Iter += n; return *this; };
 
     /** Get the index into the VectorContainer associated with this iterator.
         */
