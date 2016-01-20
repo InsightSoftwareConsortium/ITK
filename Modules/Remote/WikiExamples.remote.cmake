@@ -5,6 +5,6 @@
 itk_fetch_module(WikiExamples
   "A collection of examples that illustrate how to use ITK."
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKWikiExamples.git
-  # September 27, 2015
-  GIT_TAG 29f456945d7ff9a35ac8bfaf8985601f8ddf9cba
+  # January 20, 2016
+  GIT_TAG a34ad855f68996cf289b94af5e3a8fdb375cd170
   )
