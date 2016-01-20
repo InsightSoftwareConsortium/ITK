@@ -67,7 +67,7 @@ auto
 VectorContainer< TElementIdentifier, TElement >
 ::CreateElementAt(ElementIdentifier id) -> reference
 {
-  if ( id >= this->VectorType::size() )
+  if ( id >= static_cast<ElementIdentifier>(this->VectorType::size()) )
     {
     this->CreateIndex(id);
     }
@@ -129,7 +129,7 @@ VectorContainer< TElementIdentifier, TElement >
 ::IndexExists(ElementIdentifier identifier) const
 {
   return ( NumericTraits< ElementIdentifier >::IsNonnegative(identifier)
-           && ( identifier < this->VectorType::size() ) );
+           && ( identifier < static_cast<ElementIdentifier>(this->VectorType::size()) ) );
 }
 
 /**
@@ -143,7 +143,7 @@ VectorContainer< TElementIdentifier, TElement >
 ::GetElementIfIndexExists(ElementIdentifier identifier, Element *element) const
 {
   if ( NumericTraits< ElementIdentifier >::IsNonnegative(identifier)
-       && ( identifier < this->VectorType::size() ) )
+       && ( identifier < static_cast<ElementIdentifier>(this->VectorType::size()) ) )
     {
     if ( element )
       {
