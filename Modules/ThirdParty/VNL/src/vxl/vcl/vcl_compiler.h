@@ -133,6 +133,13 @@
 #  else
 #   define VCL_GCC_50
 #  endif
+# elif (__GNUC__==6)
+#  define VCL_GCC_6
+#  if (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_61
+#  else
+#   define VCL_GCC_60
+#  endif
 # else
 #  error "Dunno about this gcc"
 # endif
@@ -252,7 +259,7 @@
 
 // This *needs* to come after vcl_config_headers.h
 #if defined(__GNUC__) && !defined(__INTEL_COMPILER)
-# if defined(VCL_GCC_3) || defined(VCL_GCC_4) || defined(VCL_GCC_5)
+# if defined(VCL_GCC_3) || defined(VCL_GCC_4) || defined(VCL_GCC_5) || defined(VCL_GCC_6)
 #  define GNU_LIBSTDCXX_V3 1
 # elif !defined(GNU_LIBSTDCXX_V3) && defined(VCL_GCC_295) && VCL_CXX_HAS_HEADER_ISTREAM
 // One difference between v2 and v3 is that the former has
