@@ -23,59 +23,48 @@ endif()
 
 set(MessageExchangeDefinition_SRCS
   gdcmAAbortPDU.cxx
+  gdcmRoleSelectionSub.cxx
+  gdcmSOPClassExtendedNegociationSub.cxx
+  gdcmPresentationContextGenerator.cxx
   gdcmAAssociateACPDU.cxx
   gdcmAAssociateRJPDU.cxx
   gdcmAAssociateRQPDU.cxx
-  gdcmAbstractSyntax.cxx
-  gdcmApplicationContext.cxx
+  gdcmARTIMTimer.cxx
   gdcmAReleaseRPPDU.cxx
   gdcmAReleaseRQPDU.cxx
-  gdcmARTIMTimer.cxx
+  gdcmAbstractSyntax.cxx
+  gdcmApplicationContext.cxx
   gdcmAsynchronousOperationsWindowSub.cxx
-  gdcmBaseQuery.cxx
+  gdcmQueryBase.cxx
   gdcmBaseRootQuery.cxx
   gdcmCEchoMessages.cxx
   gdcmCFindMessages.cxx
   gdcmCMoveMessages.cxx
+  gdcmCStoreMessages.cxx
   gdcmCommandDataSet.cxx
   gdcmCompositeMessageFactory.cxx
   gdcmCompositeNetworkFunctions.cxx
-  gdcmCStoreMessages.cxx
-  gdcmFindPatientRootQuery.cxx
-  gdcmFindStudyRootQuery.cxx
   gdcmImplementationClassUIDSub.cxx
   gdcmImplementationUIDSub.cxx
   gdcmImplementationVersionNameSub.cxx
   gdcmMaximumLengthSub.cxx
-  gdcmModalityPerformedProcedureStepCreateQuery.cxx
-  gdcmModalityPerformedProcedureStepSetQuery.cxx
-  gdcmMovePatientRootQuery.cxx
-  gdcmMoveStudyRootQuery.cxx
-  gdcmNActionMessages.cxx
-  gdcmNCreateMessages.cxx
-  gdcmNDeleteMessages.cxx
-  gdcmNEventReportMessages.cxx
-  gdcmNGetMessages.cxx
-  gdcmNormalizedMessageFactory.cxx
-  gdcmNormalizedNetworkFunctions.cxx
-  gdcmNSetMessages.cxx
-  gdcmPDataTFPDU.cxx
   gdcmPDUFactory.cxx
+  gdcmPDataTFPDU.cxx
+  gdcmFindPatientRootQuery.cxx
+  gdcmMovePatientRootQuery.cxx
   gdcmPresentationContext.cxx
-  gdcmPresentationContextAC.cxx
-  gdcmPresentationContextGenerator.cxx
   gdcmPresentationContextRQ.cxx
+  gdcmPresentationContextAC.cxx
   gdcmPresentationDataValue.cxx
-  gdcmQueryBase.cxx
   gdcmQueryFactory.cxx
   gdcmQueryImage.cxx
   gdcmQueryPatient.cxx
   gdcmQuerySeries.cxx
   gdcmQueryStudy.cxx
-  gdcmRoleSelectionSub.cxx
-  gdcmServiceClassApplicationInformation.cxx
   gdcmServiceClassUser.cxx
-  gdcmSOPClassExtendedNegociationSub.cxx
+  gdcmServiceClassApplicationInformation.cxx
+  gdcmFindStudyRootQuery.cxx
+  gdcmMoveStudyRootQuery.cxx
   gdcmTransferSyntaxSub.cxx
   gdcmULActionAA.cxx
   gdcmULActionAE.cxx
@@ -88,7 +77,6 @@ set(MessageExchangeDefinition_SRCS
   gdcmULTransitionTable.cxx
   gdcmULWritingCallback.cxx
   gdcmUserInformation.cxx
-  gdcmWLMFindQuery.cxx
   )
 
 add_library(gdcmMEXD ${MessageExchangeDefinition_SRCS})

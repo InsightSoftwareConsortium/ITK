@@ -20,7 +20,7 @@
 
 #include "gdcmDataSet.h"
 #include "gdcmUIDs.h"
-#include "gdcmBaseQuery.h"
+#include "gdcmObject.h"
 #include "gdcmQueryPatient.h"
 #include "gdcmQueryStudy.h"
 #include "gdcmQuerySeries.h"
@@ -41,9 +41,8 @@ namespace gdcm
     };
   enum EQueryType
     {
-    eFind= 0,
-    eMove,
-    eWLMFind
+    eFind = 0,
+    eMove
     };
 
 /**
@@ -63,7 +62,7 @@ namespace gdcm
  * The dataset held by this object (or, really, one of its derivates) should be
  * passed to a c-find or c-move query.
  */
-class GDCM_EXPORT BaseRootQuery : public BaseQuery
+class GDCM_EXPORT BaseRootQuery : public Object
 {
   //these four classes contain the required, unique, and optional tags from the standard.
   //used both to list the tags as well as to validate a dataset, if ever we were to do so.
@@ -73,14 +72,31 @@ protected:
   QuerySeries mSeries;
   QueryImage mImage;
 
+  DataSet mDataSet;
   friend class QueryFactory;
   BaseRootQuery();
 
   ERootType mRootType; //set in construction, and it's something else in the study root type
   std::string mHelpDescription; //used when generating the help output
 
+  void SetSearchParameter(const Tag& inTag, const DictEntry& inDictEntry, const std::string& inValue);
 public:
   virtual ~BaseRootQuery();
+
+  void SetSearchParameter(const Tag& inTag, const std::string& inValue);
+  void SetSearchParameter(const std::string& inKeyword, const std::string& inValue);
+
+  const std::ostream &WriteHelpFile(std::ostream &os);
+
+  //this function allows writing of the query to disk for storing for future use
+  //virtual in case it needs to be overiden
+  //returns false if the operation failed
+  bool WriteQuery(const std::string& inFileName);
+
+  /// Set/Get the internal representation of the query as a DataSet
+  DataSet const & GetQueryDataSet() const;
+  DataSet & GetQueryDataSet();
+  void AddQueryDataSet(const DataSet & ds);
 
   ///this function will return all tags at a given query level, so that
   ///they maybe selected for searching.  The boolean forFind is true
@@ -105,7 +121,11 @@ public:
   ///So, if 'inStrict' is false, then tags from the current level and all higher levels
   ///are now considered valid.  So, if you're doing a non-strict series-level query,
   ///tags from the patient and study level can be passed along as well.
-  virtual bool ValidateQuery( bool inStrict = true ) const = 0;
+  virtual bool ValidateQuery(bool inStrict = true) const = 0;
+
+  virtual UIDs::TSName GetAbstractSyntaxUID() const = 0;
+
+  void Print(std::ostream &os) const;
 
   static const char *GetQueryLevelString( EQueryLevel ql );
   static int GetQueryLevelFromString( const char * str );

@@ -307,7 +307,7 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
           unsigned long check =
             (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
             * el_us3.GetValue(2) / 8;
-          assert( check == lut_raw->GetLength()
+          assert( check == lut_raw->GetLength() || 2 * check == lut_raw->GetLength()
             || check + 1 == lut_raw->GetLength() ); (void)check;
           }
         else if( ds.FindDataElement( seglut ) )
@@ -546,7 +546,7 @@ bool DoOverlays(const DataSet& ds, Pixmap& pixeldata)
 
         if( !ov.GrabOverlayFromPixelData(ds) )
           {
-          gdcmErrorMacro( "Could not extract Overlay from Pixel Data" );
+          gdcmWarningMacro( "Could not extract Overlay from Pixel Data" );
           //throw Exception("TODO: Could not extract Overlay Data");
           }
         updateoverlayinfo = true;
@@ -942,7 +942,7 @@ bool PixmapReader::ReadImageInternal(MediaStorage const &ms, bool handlepixeldat
         }
       else
         {
-        assert(0);
+        gdcmAssertAlwaysMacro(0);
         }
       }
     if( ! lut->Initialized() ) return false;

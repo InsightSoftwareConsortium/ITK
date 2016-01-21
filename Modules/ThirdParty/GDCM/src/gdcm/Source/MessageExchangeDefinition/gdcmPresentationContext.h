@@ -58,7 +58,7 @@ public:
     return AbstractSyntax == pc.AbstractSyntax && TransferSyntaxes == pc.TransferSyntaxes;
     }
 
-protected :
+private:
   std::string AbstractSyntax;
   std::vector<std::string> TransferSyntaxes;
   uint8_t /*PresentationContext*/ID;
