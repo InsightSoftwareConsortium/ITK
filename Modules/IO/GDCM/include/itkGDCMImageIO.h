@@ -39,8 +39,8 @@ namespace itk
 {
 /** \class GDCMImageIO
  *
- *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA 1&2 uncompressed images
- *  This class is only an adaptor to the gdcm library (currently gdcm circa 2.4.5 is used):
+ *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA 1&2 uncompressed images.
+ *  This class is only an adaptor to the GDCM library. Currently GDCM 2.4.6 (git SHA 1efe9e28) is used.
  *
  * GDCM can be found at:
  *   http://sourceforge.net/projects/gdcm
