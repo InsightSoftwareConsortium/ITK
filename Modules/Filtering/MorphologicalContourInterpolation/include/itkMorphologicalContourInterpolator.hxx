@@ -40,6 +40,7 @@ template <typename TImage>
 void
 WriteDebug(typename TImage::Pointer out, const char * filename)
 {
+  // return; //tests run much faster
   typedef ImageFileWriter<TImage> WriterType;
   typename WriterType::Pointer    w = WriterType::New();
   w->SetInput(out);
@@ -48,19 +49,20 @@ WriteDebug(typename TImage::Pointer out, const char * filename)
   {
     w->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (ExceptionObject & error)
   {
     std::cerr << "Error: " << error << std::endl;
   }
 }
 
 void
-WriteDebug(itk::Image<bool, 3>::Pointer out, const char * filename)
+WriteDebug(Image<bool, 3>::Pointer out, const char * filename)
 {
-  typedef itk::Image<bool, 3>                                 BoolImageType;
-  typedef itk::Image<unsigned char, 3>                        ucharImageType;
-  typedef itk::CastImageFilter<BoolImageType, ucharImageType> CastType;
-  CastType::Pointer                                           caster = CastType::New();
+  // return; //tests run much faster
+  typedef Image<bool, 3>                                 BoolImageType;
+  typedef Image<unsigned char, 3>                        ucharImageType;
+  typedef CastImageFilter<BoolImageType, ucharImageType> CastType;
+  CastType::Pointer                                      caster = CastType::New();
   caster->SetInput(out);
   WriteDebug<ucharImageType>(caster->GetOutput(), filename);
 }
@@ -329,6 +331,11 @@ std::vector<typename MorphologicalContourInterpolator<TImage>::BoolImageType::Po
 MorphologicalContourInterpolator<TImage>::GenerateDilationSequence(typename BoolImageType::Pointer begin,
                                                                    typename BoolImageType::Pointer end)
 {
+  // typedef Testing::HashImageFilter<BoolImageType> HashType;
+  // HashType::Pointer hasher = HashType::New();
+  // hasher->SetInPlace(true);
+  // std::vector<std::string> hashes;
+  // TODO: optimization: replace ImagesEqual call with hash comparison?
   std::vector<typename BoolImageType::Pointer> seq;
   seq.push_back(Dilate1(begin, end));
   do
@@ -381,10 +388,10 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   WriteDebug<TImage>(jConnT, "C:\\jConnT.nrrd");
 
   // convert to binary masks
-  MatchesID                                                              matchesIDi(iRegionId);
-  MatchesID                                                              matchesIDj(jRegionId);
-  typedef itk::UnaryFunctorImageFilter<TImage, BoolImageType, MatchesID> CastType;
-  typename CastType::Pointer                                             caster = CastType::New();
+  MatchesID                                                         matchesIDi(iRegionId);
+  MatchesID                                                         matchesIDj(jRegionId);
+  typedef UnaryFunctorImageFilter<TImage, BoolImageType, MatchesID> CastType;
+  typename CastType::Pointer                                        caster = CastType::New();
   caster->SetFunctor(matchesIDi);
   caster->SetInput(iConnT);
   caster->Update();
@@ -476,8 +483,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   typename TImage::IndexValueType mid = (i + j) / 2;
   if (abs(i - j) > 2)
   {
-    typedef itk::CastImageFilter<BoolImageType, TImage> InvertCastType;
-    typename InvertCastType::Pointer                    invCaster = InvertCastType::New();
+    typedef CastImageFilter<BoolImageType, TImage> InvertCastType;
+    typename InvertCastType::Pointer               invCaster = InvertCastType::New();
     invCaster->SetInput(seq[minIndex]);
     invCaster->Update();
     typename TImage::Pointer midConn = invCaster->GetOutput();
@@ -518,8 +525,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
   // first convert iConn into binary mask
   MatchesID matchesID(iRegionId);
 
-  typedef itk::UnaryFunctorImageFilter<TImage, BoolImageType, MatchesID> CastType;
-  typename CastType::Pointer                                             caster = CastType::New();
+  typedef UnaryFunctorImageFilter<TImage, BoolImageType, MatchesID> CastType;
+  typename CastType::Pointer                                        caster = CastType::New();
   caster->SetFunctor(matchesID);
   caster->SetInput(iConn);
   caster->Update();
@@ -1226,8 +1233,8 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
   }
 
   // set up structuring element for dilation
-  typedef itk::Size<TImage::ImageDimension> SizeType;
-  SizeType                                  size;
+  typedef Size<TImage::ImageDimension> SizeType;
+  SizeType                             size;
   size.Fill(1);
   size[axis] = 0;
   m_StructuringElement.SetRadius(size);
