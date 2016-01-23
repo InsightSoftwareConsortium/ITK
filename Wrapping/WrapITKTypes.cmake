@@ -322,15 +322,13 @@ if(ITK_BUILD_DEFAULT_MODULES OR ITKGroup_Filtering)
   set(itk_Wrap_LevelSetNode ${WRAPPER_TEMPLATES})
 endif()
 
-if(ITK_BUILD_DEFAULT_MODULES OR ITKGroup_Filtering)
-  # Needed by Modules/Filtering/MathematicalMorphology/wrapping/itkFlatStructuringElement.wrap
-  WRAP_TYPE("itk::FlatStructuringElement" "SE")
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-      ADD_TEMPLATE("${d}"  "${d}")
-    endforeach()
-  END_WRAP_TYPE()
-  set(itk_Wrap_StructuringElement ${WRAPPER_TEMPLATES})
-endif()
+# Needed by Modules/Filtering/MathematicalMorphology/wrapping/itkFlatStructuringElement.wrap
+WRAP_TYPE("itk::FlatStructuringElement" "SE")
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    ADD_TEMPLATE("${d}"  "${d}")
+  endforeach()
+END_WRAP_TYPE()
+set(itk_Wrap_StructuringElement ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::SpatialObject" "SO")
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
