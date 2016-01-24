@@ -1,3 +1,0 @@
-itk_wrap_class("itk::FlatStructuringElement")
-  set(WRAPPER_TEMPLATES "${itk_Wrap_StructuringElement}")
-itk_end_wrap_class()
