@@ -1346,7 +1346,7 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     std::vector<typename TImage::PixelType> values;
     values.reserve(perAxisInterpolates.size());
 
-    tempOut->Allocate();
+    tempOut->Allocate(true);
     ImageRegionIterator<TImage> it(tempOut, m_Output->GetRequestedRegion());
     while (!it.IsAtEnd())
     {
@@ -1356,22 +1356,8 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
         typename TImage::PixelType val = iterators[i].Get();
         if (val != 0)
         {
-          values.push_back(val);
+          it.Set(val); // last written value stays
         }
-      }
-
-      if (values.size() == 0)
-      {
-        it.Set(0); // all were zero
-      }
-      else if (values.size() == 1)
-      {
-        it.Set(values[0]); // the only non-zero
-      }
-      else // median
-      {
-        std::nth_element(values.begin(), values.begin() + values.size() / 2, values.end());
-        it.Set(values[values.size() / 2]);
       }
 
       // next pixel
