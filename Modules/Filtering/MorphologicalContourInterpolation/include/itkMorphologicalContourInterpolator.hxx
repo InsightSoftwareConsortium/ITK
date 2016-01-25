@@ -414,42 +414,30 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   WriteDebug(intersection, "C:\\intersection.nrrd");
   std::vector<typename BoolImageType::Pointer> iSeq = GenerateDilationSequence(intersection, iMask);
   std::vector<typename BoolImageType::Pointer> jSeq = GenerateDilationSequence(intersection, jMask);
-  unsigned                                     minSeq = std::min(iSeq.size(), jSeq.size());
-  unsigned                                     maxSeq = std::max(iSeq.size(), jSeq.size());
   std::reverse(iSeq.begin(), iSeq.end()); // we want to start from i and end at intersection
+  if (iSeq.size() < jSeq.size())
+  {
+    iSeq.swap(jSeq); // swap so iSeq.size() >= jSeq.size()
+  }
+  float                                        ratio = float(jSeq.size()) / iSeq.size();
   std::vector<typename BoolImageType::Pointer> seq;
-  for (unsigned x = 0; x < minSeq; x++)
+  for (unsigned x = 0; x < iSeq.size(); x++)
   {
     m_Or->SetInput(0, iSeq[x]);
-    m_Or->SetInput(1, jSeq[x]);
+    unsigned xj = ratio * x;
+    m_Or->SetInput(1, jSeq[xj]);
     WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('a' + x) + ".nrrd").c_str());
-    WriteDebug(jSeq[x], (std::string("C:\\jSeq") + char('a' + x) + ".nrrd").c_str());
+    WriteDebug(jSeq[xj], (std::string("C:\\jSeq") + char('a' + x) + ".nrrd").c_str());
     m_Or->GetOutput()->SetRegions(newRegion);
     m_Or->Update();
     seq.push_back(m_Or->GetOutput());
     seq.back()->DisconnectPipeline();
   }
-  if (iSeq.size() < jSeq.size())
-  {
-    for (unsigned x = minSeq; x < maxSeq; x++)
-    {
-      seq.push_back(jSeq[x]);
-      WriteDebug(jSeq[x], (std::string("C:\\jSeq") + char('a' + x) + ".nrrd").c_str());
-    }
-  }
-  else
-  {
-    for (unsigned x = minSeq; x < maxSeq; x++)
-    {
-      seq.push_back(iSeq[x]); // seq.push_back(iSeq[0]); //error in paper?
-      WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('a' + x) + ".nrrd").c_str());
-    }
-  }
 
   // find median
   unsigned       minIndex;
   IdentifierType min = newRegion.GetNumberOfPixels();
-  for (unsigned x = 0; x < maxSeq; x++)
+  for (unsigned x = 0; x < iSeq.size(); x++)
   {
     WriteDebug(seq[x], (std::string("C:\\seq") + char('a' + x) + ".nrrd").c_str());
     IdentifierType iS = CardSymDifference(seq[x], iMask);
