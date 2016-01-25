@@ -45,7 +45,7 @@ justinputtest(ManyToMany nrrd) #TODO: debug
 # Paul's tests
 justinputtest(105769moving_resliced_to_fixedhz2_segmentation nii.gz)
 justinputtest(105769fixed_segmentation nii.gz)
-justinputtest(64816L_amygdala_fin nii.gz)
 justinputtest(64816L_amygdala_int nii.gz)
-justinputtest(65239R_amygdala_fin nii.gz)
+justinputtest(64816L_amygdala_fin nii.gz)
 justinputtest(65239R_amygdala_int nii.gz)
+justinputtest(65239R_amygdala_fin nii.gz)
