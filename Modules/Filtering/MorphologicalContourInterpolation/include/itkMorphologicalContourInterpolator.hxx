@@ -40,7 +40,7 @@ template <typename TImage>
 void
 WriteDebug(typename TImage::Pointer out, const char * filename)
 {
-  // return; //tests run much faster
+  return; // tests run much faster
   typedef ImageFileWriter<TImage> WriterType;
   typename WriterType::Pointer    w = WriterType::New();
   w->SetInput(out);
@@ -58,7 +58,6 @@ WriteDebug(typename TImage::Pointer out, const char * filename)
 void
 WriteDebug(Image<bool, 3>::Pointer out, const char * filename)
 {
-  // return; //tests run much faster
   typedef Image<bool, 3>                                 BoolImageType;
   typedef Image<unsigned char, 3>                        ucharImageType;
   typedef CastImageFilter<BoolImageType, ucharImageType> CastType;
@@ -423,8 +422,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   {
     m_Or->SetInput(0, iSeq[x]);
     m_Or->SetInput(1, jSeq[x]);
-    WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('A' + x) + ".nrrd").c_str());
-    WriteDebug(jSeq[x], (std::string("C:\\jSeq") + char('A' + x) + ".nrrd").c_str());
+    WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('a' + x) + ".nrrd").c_str());
+    WriteDebug(jSeq[x], (std::string("C:\\jSeq") + char('a' + x) + ".nrrd").c_str());
     m_Or->GetOutput()->SetRegions(newRegion);
     m_Or->Update();
     seq.push_back(m_Or->GetOutput());
@@ -435,15 +434,15 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     for (unsigned x = minSeq; x < maxSeq; x++)
     {
       seq.push_back(jSeq[x]);
-      WriteDebug(jSeq[x], (std::string("C:\\jSeq") + char('A' + x) + ".nrrd").c_str());
+      WriteDebug(jSeq[x], (std::string("C:\\jSeq") + char('a' + x) + ".nrrd").c_str());
     }
   }
   else
   {
     for (unsigned x = minSeq; x < maxSeq; x++)
     {
-      seq.push_back(iSeq[x]);
-      WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('A' + x) + ".nrrd").c_str());
+      seq.push_back(iSeq[x]); // seq.push_back(iSeq[0]); //error in paper?
+      WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('a' + x) + ".nrrd").c_str());
     }
   }
 
@@ -452,7 +451,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   IdentifierType min = newRegion.GetNumberOfPixels();
   for (unsigned x = 0; x < maxSeq; x++)
   {
-    WriteDebug(seq[x], (std::string("C:\\seq") + char('A' + x) + ".nrrd").c_str());
+    WriteDebug(seq[x], (std::string("C:\\seq") + char('a' + x) + ".nrrd").c_str());
     IdentifierType iS = CardSymDifference(seq[x], iMask);
     IdentifierType jS = CardSymDifference(seq[x], jMask);
     IdentifierType xScore = iS >= jS ? iS - jS : jS - iS; // abs(iS-jS)
@@ -480,7 +479,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   }
 
   // recurse if needed
-  typename TImage::IndexValueType mid = (i + j) / 2;
+  typename TImage::IndexValueType mid = newRegion.GetIndex()[axis];
   if (abs(i - j) > 2)
   {
     typedef CastImageFilter<BoolImageType, TImage> InvertCastType;
@@ -490,7 +489,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     typename TImage::Pointer midConn = invCaster->GetOutput();
     // midConn->DisconnectPipeline(); //not needed?
 
-    WriteDebug<TImage>(midConn, "C:\\midConn.nrrd");
+    // WriteDebug<TImage>(midConn, "C:\\midConn.nrrd");
     PixelList regionIDs;
     regionIDs.push_back(1);
 
@@ -603,6 +602,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
       // TODO: save these in a sequence so we don't have to recalculate it!
     }
 
+    // TODO: replace this loop by LabelErodeDilate filters?
     hollowedMaskEmpty = true;
     maskIt2.GoToBegin();
     jIt2.GoToBegin();
