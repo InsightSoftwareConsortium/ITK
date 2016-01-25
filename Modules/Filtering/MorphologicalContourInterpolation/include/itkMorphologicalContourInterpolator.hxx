@@ -366,10 +366,31 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   typename TImage::RegionType iRegion = iConn->GetLargestPossibleRegion();
   typename TImage::RegionType jRegion = jConn->GetLargestPossibleRegion();
   typename TImage::IndexType  jBottom = jRegion.GetIndex();
+  bool                        carry = false;
 
   for (unsigned d = 0; d < TImage::ImageDimension; d++)
   {
-    iTrans[d] = translation[d] / 2;
+    if (!carry)
+    {
+      iTrans[d] = translation[d] / 2;
+      carry = translation[d] % 2;
+    }
+    else if (translation[d] % 2 == 0)
+    {
+      iTrans[d] = translation[d] / 2;
+    }
+    else // use carry
+    {
+      if (translation[d] > 0)
+      {
+        iTrans[d] = translation[d] / 2 + 1;
+      }
+      else
+      {
+        iTrans[d] = translation[d] / 2 - 1;
+      }
+      carry = false;
+    }
     jTrans[d] = iTrans[d] - translation[d];
     iRegion.SetIndex(d, iRegion.GetIndex()[d] + iTrans[d]);
     jRegion.SetIndex(d, jRegion.GetIndex()[d] + jTrans[d]);
