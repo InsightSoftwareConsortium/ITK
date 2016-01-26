@@ -695,23 +695,6 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
 
 
 template <typename TImage>
-typename TImage::RegionType
-MorphologicalContourInterpolator<TImage>::MergeBoundingBoxes(const BoundingBoxesType & boundingBoxes)
-{
-  typename BoundingBoxesType::iterator it = m_BoundingBoxes.begin();
-  typename TImage::RegionType          result = it->second;
-  typename TImage::SizeType            minusOne;
-  minusOne.Fill(-1);
-  for (++it; it != m_BoundingBoxes.end(); ++it)
-  {
-    ExpandRegion(result, it->second.GetIndex());
-    ExpandRegion(result, it->second.GetIndex() + it->second.GetSize() + minusOne);
-  }
-  return result;
-}
-
-
-template <typename TImage>
 typename TImage::Pointer
 MorphologicalContourInterpolator<TImage>::TranslateImage(typename TImage::Pointer    image,
                                                          typename TImage::IndexType  translation,
@@ -724,14 +707,6 @@ MorphologicalContourInterpolator<TImage>::TranslateImage(typename TImage::Pointe
   typename TImage::RegionType inRegion = image->GetLargestPossibleRegion();
   IntersectionRegions(translation, inRegion, newRegion);
   ImageAlgorithm::Copy<TImage, TImage>(image.GetPointer(), result.GetPointer(), inRegion, newRegion);
-  // ImageRegionIterator<TImage> resultIt(result, newRegion);
-  // ImageRegionConstIterator<TImage> inIt(image, inRegion);
-  // while (!resultIt.IsAtEnd())
-  //   {
-  //   resultIt.Set(inIt.Get());
-  //   ++resultIt;
-  //   ++inIt;
-  //   }
   return result;
 }
 
@@ -975,6 +950,7 @@ template <typename TImage>
 void
 MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int                             axis,
                                                                 TImage *                        out,
+                                                                typename TImage::PixelType      label,
                                                                 typename TImage::IndexValueType i,
                                                                 typename TImage::IndexValueType j)
 {
@@ -987,221 +963,140 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     return; // nothing to do
   }
 
-  // compare slices i and j
-  typename TImage::RegionType ri = m_TotalBoundingBox; // smaller than or equal to requested region
+  // determine inter-slice region correspondences
+  typename TImage::RegionType ri;
+  ri = m_BoundingBoxes[label];
+  ri.SetSize(axis, 1);
   ri.SetIndex(axis, i);
-  ri.SetSize(axis, 1); // 1 slice
   typename TImage::RegionType rj = ri;
   rj.SetIndex(axis, j);
 
-  typename BoolImageType::Pointer eqResult = BoolImageType::New();
-  typename TImage::RegionType     rr = rj;
-  rr.SetIndex(axis, 0);
-  eqResult->CopyInformation(m_Input);
-  eqResult->SetRegions(rr);
-  eqResult->Allocate();
+  // execute connected components
+  IdentifierType           iCount, jCount;
+  typename TImage::Pointer iconn = this->RegionedConnectedComponents(ri, label, iCount);
+  iconn->DisconnectPipeline();
+  typename TImage::Pointer jconn = this->RegionedConnectedComponents(rj, label, jCount);
+  jconn->DisconnectPipeline();
+  WriteDebug<TImage>(iconn, "C:\\iconn.nrrd");
+  WriteDebug<TImage>(jconn, "C:\\jconn.nrrd");
 
-  typedef std::set<typename TImage::PixelType> LabelSetType;
-  LabelSetType                                 overlaps; // which labels have overlaps from slice i to slice j
-
-  ImageRegionConstIterator<TImage>   iti(m_Input, ri);
-  ImageRegionConstIterator<TImage>   itj(m_Input, rj);
-  ImageRegionIterator<BoolImageType> itr(eqResult, rr);
-  while (!itr.IsAtEnd())
+  // go through comparison image and create correspondence pairs
+  typedef std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>> PairSet;
+  PairSet                          pairs, unwantedPairs, uncleanPairs;
+  ImageRegionConstIterator<TImage> iti(iconn, ri);
+  ImageRegionConstIterator<TImage> itj(jconn, rj);
+  while (!iti.IsAtEnd())
   {
-    bool eq = (iti.Get() == itj.Get() && iti.Get() != 0); // are the pixels equal and non-zero?
-    itr.Set(eq);
-    if (eq) // exclude background label
+    if (iti.Get() != 0 || itj.Get() != 0)
     {
-      overlaps.insert(iti.Get());
+      uncleanPairs.insert(std::make_pair(iti.Get(), itj.Get()));
+      // std::cout << " iti:" << iti.GetIndex() << iti.Get() <<
+      //   " itj:" << itj.GetIndex() << itj.Get() << std::endl;
+      if (iti.Get() != 0 && itj.Get() != 0)
+      {
+        unwantedPairs.insert(std::make_pair(0, itj.Get()));
+        unwantedPairs.insert(std::make_pair(iti.Get(), 0));
+      }
     }
-    // next pixel
     ++iti;
     ++itj;
-    ++itr;
   }
-  // typedef unsigned char instead of bool to write it as nrrd
-  // WriteDebug<BoolImageType>(eqResult,"C:\\Temp\\eqResult.nrrd");
+  std::set_difference(uncleanPairs.begin(),
+                      uncleanPairs.end(),
+                      unwantedPairs.begin(),
+                      unwantedPairs.end(),
+                      std::inserter(pairs, pairs.end()));
 
-  // for each label with overlaps determine inter-slice region correspondences
-  for (typename LabelSetType::iterator it = overlaps.begin(); it != overlaps.end(); ++it)
+  // first do extrapolation for components without overlaps
+  typename PairSet::iterator p = pairs.begin();
+  while (p != pairs.end())
   {
-    if (m_Label != 0 && *it != m_Label)
-      continue; // label was specified, and it was not this one, so skip
-
-    // first determine disjoint regions
-    ri = m_BoundingBoxes[*it]; // even smaller than m_TotalBoundingBox
-    ri.SetSize(axis, 1);
-    ri.SetIndex(axis, i);
-    rj = ri;
-    rj.SetIndex(axis, j);
-    rr = rj;
-    rr.SetIndex(axis, 0);
-
-    // execute connected components
-    IdentifierType           iCount, jCount;
-    typename TImage::Pointer iconn = this->RegionedConnectedComponents(ri, *it, iCount);
-    iconn->DisconnectPipeline();
-    typename TImage::Pointer jconn = this->RegionedConnectedComponents(rj, *it, jCount);
-    jconn->DisconnectPipeline();
-    // WriteDebug<TImage>(iconn, "C:\\Temp\\iconn.nrrd");
-    // WriteDebug<TImage>(jconn, "C:\\Temp\\jconn.nrrd");
-
-    // go through comparison image and create correspondence pairs
-    typedef std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>> PairSet;
-    PairSet                                                                             pairs;
-    itr.SetRegion(rr);
-    itr.GoToBegin();
-    ImageRegionConstIterator<TImage> iti(iconn, ri);
-    ImageRegionConstIterator<TImage> itj(jconn, rj);
-    while (!itr.IsAtEnd())
+    if (p->second == 0)
     {
-      if (itr.Get() && iti.Get() != 0 && itj.Get() != 0)
-      {
-        pairs.insert(std::make_pair(iti.Get(), itj.Get()));
-        // std::cout << "itr:" << itr.GetIndex() <<
-        //   " iti:" << iti.GetIndex() << iti.Get() <<
-        //   " itj:" << itj.GetIndex() << itj.Get() << std::endl;
-      }
-      ++iti;
-      ++itj;
-      ++itr; // next pixel
+      Extrapolate(axis, out, label, i, j, iconn, p->first);
+      pairs.erase(p++);
     }
-
-    typedef std::map<typename TImage::PixelType, IdentifierType> CountMap;
-    CountMap                                                     iCounts, jCounts;
-    typename PairSet::iterator                                   p;
-    for (p = pairs.begin(); p != pairs.end(); ++p)
+    else if (p->first == 0)
     {
-      iCounts[p->first]++;
-      jCounts[p->second]++;
+      Extrapolate(axis, out, label, j, i, jconn, p->second);
+      pairs.erase(p++);
     }
-
-    // first do extrapolation for components without overlaps
-    typename CountMap::iterator iMapIt = iCounts.begin();
-    for (IdentifierType ic = 1; ic <= iCount; ++ic) // component labels
+    else
     {
-      if (iMapIt == iCounts.end() || ic < iMapIt->first)
-      {
-        Extrapolate(axis, out, *it, i, j, iconn, ic);
-      }
-      else // ic==iMapIt->first
-      {
-        ++iMapIt;
-      }
+      ++p;
     }
-    typename CountMap::iterator jMapIt = jCounts.begin();
-    for (IdentifierType jc = 1; jc <= jCount; ++jc) // component labels
+  }
+
+  // count ocurrances of each component
+  typedef std::map<typename TImage::PixelType, IdentifierType> CountMap;
+  CountMap                                                     iCounts, jCounts;
+  for (p = pairs.begin(); p != pairs.end(); ++p)
+  {
+    iCounts[p->first]++;
+    jCounts[p->second]++;
+  }
+
+  // now handle 1 to 1 correspondences
+  p = pairs.begin();
+  while (p != pairs.end())
+  {
+    if (iCounts[p->first] == 1 && jCounts[p->second] == 1)
     {
-      if (jMapIt == jCounts.end() || jc < jMapIt->first)
-      {
-        Extrapolate(axis, out, *it, j, i, jconn, jc);
-      }
-      else // jc==jMapIt->first
-      {
-        ++jMapIt;
-      }
+      PixelList regionIDs;
+      regionIDs.push_back(p->second);
+      typename TImage::IndexType translation = Align(axis, iconn, p->first, jconn, regionIDs);
+      Interpolate1to1(axis, out, label, i, j, iconn, p->first, jconn, p->second, translation);
+      iCounts.erase(p->first);
+      jCounts.erase(p->second);
+      pairs.erase(p++);
     }
-
-    // now handle 1 to 1 correspondences
-    p = pairs.begin();
-    while (p != pairs.end())
+    else
     {
-      if (iCounts[p->first] == 1 && jCounts[p->second] == 1)
-      {
-        PixelList regionIDs;
-        regionIDs.push_back(p->second);
-        typename TImage::IndexType translation = Align(axis, iconn, p->first, jconn, regionIDs);
-        Interpolate1to1(axis, out, *it, i, j, iconn, p->first, jconn, p->second, translation);
-        iCounts.erase(p->first);
-        jCounts.erase(p->second);
-        pairs.erase(p++);
-      }
-      else
-      {
-        ++p;
-      }
+      ++p;
     }
+  }
 
-    PixelList regionIDs(pairs.size()); // preallocate
-    // now do 1-to-N and M-to-1 cases
-    p = pairs.begin();
-    while (p != pairs.end())
+  PixelList regionIDs(pairs.size()); // preallocate
+  // now do 1-to-N and M-to-1 cases
+  p = pairs.begin();
+  while (p != pairs.end())
+  {
+    regionIDs.clear();
+
+    if (iCounts[p->first] == 1) // M-to-1
     {
-      regionIDs.clear();
-
-      if (iCounts[p->first] == 1) // M-to-1
+      for (typename PairSet::iterator rest = p; rest != pairs.end(); ++rest)
       {
-        for (typename PairSet::iterator rest = p; rest != pairs.end(); ++rest)
+        if (rest->second == p->second)
         {
-          if (rest->second == p->second)
-          {
-            regionIDs.push_back(rest->first);
-          }
+          regionIDs.push_back(rest->first);
         }
-
-        typename TImage::IndexType translation = Align(axis, jconn, p->second, iconn, regionIDs);
-        Interpolate1toN(axis, out, *it, j, i, jconn, p->second, iconn, regionIDs, translation);
-
-        typename PairSet::iterator rest = p;
-        ++rest;
-        while (rest != pairs.end())
-        {
-          if (rest->second == p->second)
-          {
-            --iCounts[rest->first];
-            --jCounts[rest->second];
-            pairs.erase(rest++);
-          }
-          else
-          {
-            ++rest;
-          }
-        }
-        pairs.erase(p++);
-      } // M-to-1
-      else if (jCounts[p->second] == 1) // 1-to-N
-      {
-        for (typename PairSet::iterator rest = p; rest != pairs.end(); ++rest)
-        {
-          if (rest->first == p->first)
-          {
-            regionIDs.push_back(rest->second);
-          }
-        }
-
-        typename TImage::IndexType translation = Align(axis, iconn, p->first, jconn, regionIDs);
-        Interpolate1toN(axis, out, *it, i, j, iconn, p->first, jconn, regionIDs, translation);
-
-        typename PairSet::iterator rest = p;
-        ++rest;
-        while (rest != pairs.end())
-        {
-          if (rest->first == p->first)
-          {
-            --iCounts[rest->first];
-            --jCounts[rest->second];
-            pairs.erase(rest++);
-          }
-          else
-          {
-            ++rest;
-          }
-        }
-        pairs.erase(p++);
-      } // 1-to-N
-      else
-      {
-        ++p;
       }
-    } // 1-to-N and M-to-1
 
-    // only M-to-N correspondences remain
-    // we turn each M-to-N case into m 1-to-N cases
-    p = pairs.begin();
-    while (p != pairs.end())
+      typename TImage::IndexType translation = Align(axis, jconn, p->second, iconn, regionIDs);
+      Interpolate1toN(axis, out, label, j, i, jconn, p->second, iconn, regionIDs, translation);
+
+      typename PairSet::iterator rest = p;
+      ++rest;
+      while (rest != pairs.end())
+      {
+        if (rest->second == p->second)
+        {
+          --iCounts[rest->first];
+          --jCounts[rest->second];
+          pairs.erase(rest++);
+        }
+        else
+        {
+          ++rest;
+        }
+      }
+      --iCounts[p->first];
+      --jCounts[p->second];
+      pairs.erase(p++);
+    } // M-to-1
+    else if (jCounts[p->second] == 1) // 1-to-N
     {
-      regionIDs.clear();
       for (typename PairSet::iterator rest = p; rest != pairs.end(); ++rest)
       {
         if (rest->first == p->first)
@@ -1211,7 +1106,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       }
 
       typename TImage::IndexType translation = Align(axis, iconn, p->first, jconn, regionIDs);
-      Interpolate1toN(axis, out, *it, i, j, iconn, p->first, jconn, regionIDs, translation);
+      Interpolate1toN(axis, out, label, i, j, iconn, p->first, jconn, regionIDs, translation);
 
       typename PairSet::iterator rest = p;
       ++rest;
@@ -1219,6 +1114,8 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       {
         if (rest->first == p->first)
         {
+          --iCounts[rest->first];
+          --jCounts[rest->second];
           pairs.erase(rest++);
         }
         else
@@ -1226,10 +1123,49 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
           ++rest;
         }
       }
-      // counts no longer matter, do not waste time deleting them
+      --iCounts[p->first];
+      --jCounts[p->second];
       pairs.erase(p++);
-    } // M-to-N
-  } // for each label with overlaps
+    } // 1-to-N
+    else
+    {
+      ++p;
+    }
+  } // 1-to-N and M-to-1
+
+  // only M-to-N correspondences remain
+  // we turn each M-to-N case into m 1-to-N cases
+  p = pairs.begin();
+  while (p != pairs.end())
+  {
+    regionIDs.clear();
+    for (typename PairSet::iterator rest = p; rest != pairs.end(); ++rest)
+    {
+      if (rest->first == p->first)
+      {
+        regionIDs.push_back(rest->second);
+      }
+    }
+
+    typename TImage::IndexType translation = Align(axis, iconn, p->first, jconn, regionIDs);
+    Interpolate1toN(axis, out, label, i, j, iconn, p->first, jconn, regionIDs, translation);
+
+    typename PairSet::iterator rest = p;
+    ++rest;
+    while (rest != pairs.end())
+    {
+      if (rest->first == p->first)
+      {
+        pairs.erase(rest++);
+      }
+      else
+      {
+        ++rest;
+      }
+    }
+    // counts no longer matter, do not waste time deleting them
+    pairs.erase(p++);
+  } // M-to-N
 } // void MorphologicalContourInterpolator::InterpolateBetweenTwo()
 
 
@@ -1237,25 +1173,6 @@ template <typename TImage>
 void
 MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * out)
 {
-  SliceSetType aggregate;
-  if (m_Label == 0) // all labels
-  {
-    for (typename LabeledSlicesType::iterator it = m_LabeledSlices[axis].begin(); it != m_LabeledSlices[axis].end();
-         ++it)
-    {
-      aggregate.insert(it->second.begin(), it->second.end());
-    }
-  }
-  else // we only care about m_Label
-  {
-    aggregate = m_LabeledSlices[axis][m_Label];
-  }
-  typename SliceSetType::iterator prev = aggregate.begin();
-  if (prev == aggregate.end())
-  {
-    return; // nothing to do
-  }
-
   // set up structuring element for dilation
   typedef Size<TImage::ImageDimension> SizeType;
   SizeType                             size;
@@ -1265,11 +1182,22 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
   m_StructuringElement.CreateStructuringElement();
   m_Dilator->SetKernel(m_StructuringElement);
 
-  typename SliceSetType::iterator it = aggregate.begin();
-  for (++it; it != aggregate.end(); ++it)
+  for (typename LabeledSlicesType::iterator it = m_LabeledSlices[axis].begin(); it != m_LabeledSlices[axis].end(); ++it)
   {
-    InterpolateBetweenTwo(axis, out, *prev, *it);
-    prev = it;
+    if (m_Label == 0 || m_Label == it->first) // label needs to be interpolated
+    {
+      typename SliceSetType::iterator prev = it->second.begin();
+      if (prev == it->second.end())
+      {
+        return; // nothing to do
+      }
+      typename SliceSetType::iterator next = it->second.begin();
+      for (++next; next != it->second.end(); ++next)
+      {
+        InterpolateBetweenTwo(axis, out, it->first, *prev, *next);
+        prev = next;
+      }
+    }
   }
 }
 
@@ -1325,10 +1253,6 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     this->GraftOutput(m_Output);
     this->m_Output = ITK_NULLPTR;
     return; // nothing to process
-  }
-  else
-  {
-    m_TotalBoundingBox = MergeBoundingBoxes(m_BoundingBoxes);
   }
 
   if (m_Axis == -1) // interpolate along all axes

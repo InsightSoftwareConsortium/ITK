@@ -103,7 +103,11 @@ protected:
   DetermineSliceOrientations();
 
   void
-  InterpolateBetweenTwo(int axis, TImage * out, typename TImage::IndexValueType i, typename TImage::IndexValueType j);
+  InterpolateBetweenTwo(int                             axis,
+                        TImage *                        out,
+                        typename TImage::PixelType      label,
+                        typename TImage::IndexValueType i,
+                        typename TImage::IndexValueType j);
 
   /** If interpolation is done along more than one axis,
   the interpolations are merged using a modified "or" rule:
@@ -207,9 +211,6 @@ protected:
   typedef itksys::hash_map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
   BoundingBoxesType m_BoundingBoxes; // bounding box for each label
 
-  typename TImage::RegionType
-  MergeBoundingBoxes(const BoundingBoxesType & boundingBoxes);
-
   // each label gets a set of slices in which it is present
   typedef std::set<typename TImage::IndexValueType>                  SliceSetType;
   typedef itksys::hash_map<typename TImage::PixelType, SliceSetType> LabeledSlicesType;
@@ -224,8 +225,7 @@ protected:
 
   // assumes both valid region and valid index
   void
-                              ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
-  typename TImage::RegionType m_TotalBoundingBox;
+  ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
 
   typename TImage::Pointer
   RegionedConnectedComponents(const typename TImage::RegionType region,
