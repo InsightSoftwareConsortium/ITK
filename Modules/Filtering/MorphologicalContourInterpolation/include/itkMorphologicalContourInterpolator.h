@@ -24,8 +24,8 @@
 #include "itkExtractImageFilter.h"
 #include "itksys/hash_map.hxx"
 #include "itkBinaryDilateImageFilter.h"
-#include "itkBinaryCrossStructuringElement.h"
-// #include "itkBinaryBallStructuringElement.h"
+// #include "itkBinaryCrossStructuringElement.h"
+#include "itkBinaryBallStructuringElement.h"
 #include "itkAndImageFilter.h"
 #include "itkOrImageFilter.h"
 
@@ -245,8 +245,9 @@ protected:
   typedef ConnectedComponentImageFilter<BoolImageType, TImage> ConnectedComponentsType;
   typename ConnectedComponentsType::Pointer                    m_ConnectedComponents;
 
-  typedef BinaryCrossStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
-  StructuringElementType                                              m_StructuringElement;
+  // typedef BinaryCrossStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
+  typedef BinaryBallStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
+  StructuringElementType                                             m_StructuringElement;
 
   typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, StructuringElementType> DilateType;
   typename DilateType::Pointer                                                          m_Dilator;
