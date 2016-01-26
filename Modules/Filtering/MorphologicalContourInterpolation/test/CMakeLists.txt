@@ -42,9 +42,7 @@ justinputtest(SevenLabels nrrd)
 justinputtest(FullEnd nrrd)
 justinputtest(ManyToMany16 nrrd)
 justinputtest(ManyToMany nrrd)
-justinputtest(FaceRoI nrrd) #TODO: convert into regression test with FaceRoIFinished.nrrd as expected output
-justinputtest(GridSeg nrrd) #TODO: debug
-justinputtest(BigZ nrrd) #TODO: debug
+justinputtest(GridSeg nrrd)
 
 # Paul's tests
 justinputtest(105769moving_resliced_to_fixedhz2_segmentation nii.gz)
@@ -53,3 +51,7 @@ justinputtest(64816L_amygdala_int nii.gz)
 justinputtest(64816L_amygdala_fin nii.gz)
 justinputtest(65239R_amygdala_int nii.gz)
 justinputtest(65239R_amygdala_fin nii.gz)
+
+# Long-running handcrafted tests
+justinputtest(BigZ nrrd)
+justinputtest(FaceRoI nrrd) #TODO: convert into regression test with FaceRoIFinished.nrrd as expected output

@@ -447,8 +447,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     m_Or->SetInput(0, iSeq[x]);
     unsigned xj = ratio * x;
     m_Or->SetInput(1, jSeq[xj]);
-    WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('a' + x) + ".nrrd").c_str());
-    WriteDebug(jSeq[xj], (std::string("C:\\jSeq") + char('a' + x) + ".nrrd").c_str());
+    // WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('a' + x) + ".nrrd").c_str());
+    // WriteDebug(jSeq[xj], (std::string("C:\\jSeq") + char('a' + x) + ".nrrd").c_str());
     m_Or->GetOutput()->SetRegions(newRegion);
     m_Or->Update();
     seq.push_back(m_Or->GetOutput());
@@ -460,7 +460,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   IdentifierType min = newRegion.GetNumberOfPixels();
   for (unsigned x = 0; x < iSeq.size(); x++)
   {
-    WriteDebug(seq[x], (std::string("C:\\seq") + char('a' + x) + ".nrrd").c_str());
+    // WriteDebug(seq[x], (std::string("C:\\seq") + char('a' + x) + ".nrrd").c_str());
     IdentifierType iS = CardSymDifference(seq[x], iMask);
     IdentifierType jS = CardSymDifference(seq[x], jMask);
     IdentifierType xScore = iS >= jS ? iS - jS : jS - iS; // abs(iS-jS)
