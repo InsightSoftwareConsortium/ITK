@@ -1,0 +1,23 @@
+itk_wrap_class("itk::FlatStructuringElement")
+  set(WRAPPER_TEMPLATES "${itk_Wrap_StructuringElement}")
+itk_end_wrap_class()
+
+itk_wrap_include("itkKernelImageFilter.h")
+itk_wrap_class("itk::KernelImageFilter" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d}}${ITKM_SE${d}}"
+        "${ITKT_I${t}${d}},${ITKT_I${t}${d}},${ITKT_SE${d}}")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_include("itkMovingHistogramImageFilterBase.h")
+itk_wrap_class("itk::MovingHistogramImageFilterBase" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d}}${ITKM_SE${d}}"
+        "${ITKT_I${t}${d}},${ITKT_I${t}${d}},${ITKT_SE${d}}")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
