@@ -900,7 +900,7 @@ MorphologicalContourInterpolator<TImage>::Align(int                        axis,
     }
 
     // we breadth this search
-    if (!m_HeuristicAlignment || maxScore == 0 || score > maxScore / 2)
+    if (!m_HeuristicAlignment || maxScore == 0 || score > maxScore * 0.8)
     {
       for (unsigned d = 0; d < TImage::ImageDimension; d++)
       {

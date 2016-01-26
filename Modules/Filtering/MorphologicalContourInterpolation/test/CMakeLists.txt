@@ -38,10 +38,12 @@ justinputtest(DoubleTwoLabelBranching nrrd)
 justinputtest(TwoAxisDoubleTwoLabelBranchingConflict nrrd)
 justinputtest(ThreeAxisFourLabelConflict nrrd)
 justinputtest(AccidentalMiddleSliceSegmentation nrrd)
-justinputtest(SevenLabels nrrd) #TODO: debug
-justinputtest(FullEnd nrrd) #TODO: debug
-justinputtest(ManyToMany16 nrrd) #TODO: debug
-justinputtest(ManyToMany nrrd) #TODO: debug
+justinputtest(SevenLabels nrrd)
+justinputtest(FullEnd nrrd)
+justinputtest(ManyToMany16 nrrd)
+justinputtest(ManyToMany nrrd)
+justinputtest(FaceRoI nrrd) #TODO: convert into regression test with FaceRoIFinished.nrrd as expected output
+justinputtest(GridSeg nrrd) #TODO: debug
 justinputtest(BigZ nrrd) #TODO: debug
 
 # Paul's tests
