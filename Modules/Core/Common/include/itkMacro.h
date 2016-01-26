@@ -742,11 +742,26 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 /** Portable definition of static constants.
+ *
  * \pre \c type shall be an integral type (\c bool and enums are accepted as
- * well).
- * \ingroup ITKCommon
- */
-#define itkStaticConstMacro(name,type,value) static const type name = value
+ * well). If using C++, float may be valid (see below).
+ *
+ * \warning If the compiler does not support in-class member initialization,
+ * the constants will be signed integers. You may observe warnings due to signed /
+ * unsigned comparisons.
+ *
+ * When using C++11 or greater, constexpr
+ * may be necessary for static const float initialization
+ * and is beneficial in other cases where a value can be constant.
+ *
+ * \ingroup ITKCommon */
+#if __cplusplus >= 201103L
+#  define itkStaticConstMacro(name,type,value) static constexpr type name = value
+#elif defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
+#  define itkStaticConstMacro(name,type,value) enum { name = value }
+#else
+#  define itkStaticConstMacro(name,type,value) static const type name = value
+#endif
 
 #define itkGetStaticConstMacro(name) (Self::name)
 
