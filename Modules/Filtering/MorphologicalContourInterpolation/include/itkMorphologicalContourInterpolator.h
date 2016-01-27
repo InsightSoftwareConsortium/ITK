@@ -23,6 +23,12 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itksys/hash_map.hxx"
+#include "itkBinaryDilateImageFilter.h"
+// #include "itkBinaryCrossStructuringElement.h"
+#include "itkBinaryBallStructuringElement.h"
+#include "itkAndImageFilter.h"
+#include "itkOrImageFilter.h"
+
 
 namespace itk
 {
@@ -97,7 +103,11 @@ protected:
   DetermineSliceOrientations();
 
   void
-  InterpolateBetweenTwo(int axis, TImage * out, typename TImage::IndexValueType i, typename TImage::IndexValueType j);
+  InterpolateBetweenTwo(int                             axis,
+                        TImage *                        out,
+                        typename TImage::PixelType      label,
+                        typename TImage::IndexValueType i,
+                        typename TImage::IndexValueType j);
 
   /** If interpolation is done along more than one axis,
   the interpolations are merged using a modified "or" rule:
@@ -117,6 +127,14 @@ protected:
               typename TImage::Pointer        iConn,
               typename TImage::PixelType      iRegionId);
 
+  typedef Image<bool, TImage::ImageDimension> BoolImageType;
+
+  /** A sequence of conditional dilations starting with begin and reaching end.
+  begin and end must cover the same region (size and index the same) */
+  std::vector<typename BoolImageType::Pointer>
+  GenerateDilationSequence(typename BoolImageType::Pointer begin, typename BoolImageType::Pointer end);
+
+  /** Build transition sequence and pick the median */
   void
   Interpolate1to1(int                             axis,
                   TImage *                        out,
@@ -131,6 +149,7 @@ protected:
 
   typedef std::vector<typename TImage::PixelType> PixelList;
 
+  /** Splits the bigger region and does N 1-to-1 interpolations */
   void
   Interpolate1toN(int                             axis,
                   TImage *                        out,
@@ -143,9 +162,31 @@ protected:
                   PixelList                       jRegionIds,
                   typename TImage::IndexType      translation);
 
+  typename TImage::Pointer
+  TranslateImage(typename TImage::Pointer    image,
+                 typename TImage::IndexType  translation,
+                 typename TImage::RegionType newRegion);
+
+  /** The returns cardingal of the symmetric distance between images.
+  The images must cover the same region */
+  IdentifierType
+  CardSymDifference(typename BoolImageType::Pointer shape1, typename BoolImageType::Pointer shape2);
+
+  /** Writes into m_Output.
+  Copies non-zeroes from m_Input, and fills zeroes from interpolate. */
+  void
+  CombineInputAndInterpolate(typename TImage::Pointer interpolate);
+
   /** Returns the centroid of given regions */
   typename TImage::IndexType
   Centroid(typename TImage::Pointer conn, PixelList regionIds);
+
+  /** Calculates maximum intersection region for both slices given a translation.
+  Both inputs are modified so that jRegion is a translated version of iRegion. */
+  void
+  IntersectionRegions(typename TImage::IndexType    translation,
+                      typename TImage::RegionType & iRegion,
+                      typename TImage::RegionType & jRegion);
 
   /** Returns number of intersecting pixels */
   IdentifierType
@@ -163,15 +204,12 @@ protected:
         typename TImage::Pointer   jConn,
         PixelList                  jRegionIds);
 
-  typedef itk::FixedArray<bool, TImage::ImageDimension>                 OrientationType;
+  typedef FixedArray<bool, TImage::ImageDimension>                      OrientationType;
   typedef itksys::hash_map<typename TImage::PixelType, OrientationType> OrientationsType;
   OrientationsType                                                      m_Orientations;
 
   typedef itksys::hash_map<typename TImage::PixelType, typename TImage::RegionType> BoundingBoxesType;
   BoundingBoxesType m_BoundingBoxes; // bounding box for each label
-
-  typename TImage::RegionType
-  MergeBoundingBoxes(const BoundingBoxesType & boundingBoxes);
 
   // each label gets a set of slices in which it is present
   typedef std::set<typename TImage::IndexValueType>                  SliceSetType;
@@ -187,14 +225,16 @@ protected:
 
   // assumes both valid region and valid index
   void
-                              ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
-  typename TImage::RegionType m_TotalBoundingBox;
+  ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
 
-  typedef Image<bool, TImage::ImageDimension> BoolImageType;
   typename TImage::Pointer
   RegionedConnectedComponents(const typename TImage::RegionType region,
                               typename TImage::PixelType        label,
                               IdentifierType &                  objectCount);
+
+  /** seed and mask must cover the same region (size and index the same) */
+  typename BoolImageType::Pointer
+  Dilate1(typename BoolImageType::Pointer seed, typename BoolImageType::Pointer mask);
 
   typedef ExtractImageFilter<TImage, TImage> RoiType;
   typename RoiType::Pointer                  m_RoI;
@@ -204,6 +244,45 @@ protected:
 
   typedef ConnectedComponentImageFilter<BoolImageType, TImage> ConnectedComponentsType;
   typename ConnectedComponentsType::Pointer                    m_ConnectedComponents;
+
+  // typedef BinaryCrossStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
+  typedef BinaryBallStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
+  StructuringElementType                                             m_StructuringElement;
+
+  typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, StructuringElementType> DilateType;
+  typename DilateType::Pointer                                                          m_Dilator;
+
+  typedef AndImageFilter<BoolImageType, BoolImageType, BoolImageType> AndFilterType;
+  typename AndFilterType::Pointer                                     m_And;
+
+  typedef OrImageFilter<BoolImageType> OrType;
+  typename OrType::Pointer             m_Or;
+
+  class MatchesID
+  {
+    typename TImage::PixelType m_ID;
+
+  public:
+    MatchesID() {}
+    MatchesID(typename TImage::PixelType id)
+      : m_ID(id)
+    {}
+    bool
+    operator!=(const MatchesID & other)
+    {
+      return m_ID != other.m_ID;
+    }
+    bool
+    operator==(const MatchesID & other)
+    {
+      return m_ID == other.m_ID;
+    }
+    inline bool
+    operator()(const typename TImage::PixelType & val) const
+    {
+      return val == m_ID;
+    }
+  };
 
 private:
   MorphologicalContourInterpolator(const Self &) ITK_DELETE_FUNCTION;
