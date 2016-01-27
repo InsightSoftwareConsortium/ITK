@@ -19,7 +19,7 @@ target_link_libraries(
 
 function(JustInputTest ImageName Ext)
   itk_add_test(
-    NAME itkMorphologicalContourInterpolationTest_${ImageName}
+    NAME itkMorphologicalContourInterpolation_JustInputTest_${ImageName}
     COMMAND
       MorphologicalContourInterpolationTestDriver
       itkMorphologicalContourInterpolationTest
@@ -28,12 +28,28 @@ function(JustInputTest ImageName Ext)
   )
 endfunction()
 
+function(RegressionTest ImageName Ext)
+  itk_add_test(
+    NAME itkMorphologicalContourInterpolation_RegressionTest_${ImageName}
+    COMMAND
+      MorphologicalContourInterpolationTestDriver
+      --compare
+      DATA{Baseline/${ImageName}.${Ext}}
+      ${ITK_TEST_OUTPUT_DIR}/${ImageName}_interpolated.${Ext}
+      itkMorphologicalContourInterpolationTest
+      DATA{Input/${ImageName}.${Ext}}
+      ${ITK_TEST_OUTPUT_DIR}/${ImageName}_interpolated.${Ext}
+  )
+endfunction()
+
 # Handcrafted tests
-justinputtest(Micro1 nrrd)
-justinputtest(SimplestOneToOne nrrd)
-justinputtest(OneToOne nrrd)
-justinputtest(OneToThree nrrd)
-justinputtest(ExtrapolationAppearing nrrd)
+regressiontest(Empty nrrd)
+regressiontest(NoSlices nrrd) #interpolation should not be invoked (output==input)
+regressiontest(Micro1 nrrd)
+regressiontest(SimplestOneToOne nrrd)
+regressiontest(OneToOne nrrd)
+regressiontest(OneToThree nrrd)
+regressiontest(ExtrapolationAppearing nrrd)
 justinputtest(DoubleTwoLabelBranching nrrd)
 justinputtest(TwoAxisDoubleTwoLabelBranchingConflict nrrd)
 justinputtest(ThreeAxisFourLabelConflict nrrd)
@@ -41,7 +57,7 @@ justinputtest(AccidentalMiddleSliceSegmentation nrrd)
 justinputtest(SevenLabels nrrd)
 justinputtest(FullEnd nrrd)
 justinputtest(ManyToMany16 nrrd)
-justinputtest(ManyToMany nrrd)
+regressiontest(ManyToMany nrrd)
 justinputtest(GridSeg nrrd)
 
 # Paul's tests
