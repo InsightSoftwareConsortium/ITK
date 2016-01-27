@@ -111,7 +111,6 @@ public:
       (pos2 == std::string::npos) ? (str.size() - 1) : (pos2 - pos1 + 1));
     return str;
   }
-
 };
 template <char TDelimiter, unsigned int TMaxLength, char TPadChar>
 inline std::istream& operator>>(std::istream &is, String<TDelimiter,TMaxLength,TPadChar> &ms)

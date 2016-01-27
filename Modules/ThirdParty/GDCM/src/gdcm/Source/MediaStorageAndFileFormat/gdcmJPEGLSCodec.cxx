@@ -166,6 +166,7 @@ bool JPEGLSCodec::DecodeByStreamsCommon(char *buffer, size_t totalLen, std::vect
 
   if (result != OK)
     {
+    gdcmErrorMacro( "Could not decode JPEG-LS stream" );
     return false;
     }
 

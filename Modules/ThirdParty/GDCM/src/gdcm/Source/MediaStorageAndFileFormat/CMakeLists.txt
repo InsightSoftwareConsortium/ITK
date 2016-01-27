@@ -24,6 +24,7 @@ set(MSFF_SRCS
   gdcmPixmapToPixmapFilter.cxx
   gdcmImageChangeTransferSyntax.cxx
   gdcmImageApplyLookupTable.cxx
+  gdcmFileDecompressLookupTable.cxx
   gdcmOrientation.cxx
   gdcmDataSetHelper.cxx
   gdcmImageChangePlanarConfiguration.cxx

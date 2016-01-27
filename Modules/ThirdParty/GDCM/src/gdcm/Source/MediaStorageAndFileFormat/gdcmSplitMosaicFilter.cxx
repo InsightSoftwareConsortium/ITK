@@ -58,32 +58,47 @@ bool SplitMosaicFilter::ComputeMOSAICDimensions( unsigned int dims[3] )
   DataSet& ds = GetFile().GetDataSet();
 
   const PrivateTag &t1 = csa.GetCSAImageHeaderInfoTag();
-  if( !csa.LoadFromDataElement( ds.GetDataElement( t1 ) ) )
+  int numberOfImagesInMosaic = 0;
+  if( csa.LoadFromDataElement( ds.GetDataElement( t1 ) ) )
+  {
+    // SliceThickness ??
+    if( csa.FindCSAElementByName( "NumberOfImagesInMosaic" ) )
     {
-    return false;
+      const CSAElement &csael4 = csa.GetCSAElementByName( "NumberOfImagesInMosaic" );
+      if( !csael4.IsEmpty() )
+      {
+        Element<VR::IS, VM::VM1> el4 = {{ 0 }};
+        el4.Set( csael4.GetValue() );
+        numberOfImagesInMosaic = el4.GetValue();
+      }
     }
+  }
+  else
+  {
+    // Some weird anonymizer remove the private creator but leave the actual element.
+    // oh well, let try harder:
+    // (0019,100a) US 72   # 2,1 NumberOfImagesInMosaic
+    PrivateTag t2 (0x0019,0x0a, "SIEMENS MR HEADER");
+    const DataElement &de = ds.GetDataElement( t2 );
+    const ByteValue * bv = de.GetByteValue();
+    Element<VR::US, VM::VM1> el1 = {};
+    std::istringstream is;
+    is.str( std::string( bv->GetPointer(), bv->GetLength() ) );
+    el1.Read( is );
+    numberOfImagesInMosaic = el1.GetValue();
+  }
+  if( !numberOfImagesInMosaic )
+  {
+    gdcmErrorMacro( "Could not find NumberOfImagesInMosaic" );
+    return false;
+  }
 
   std::vector<unsigned int> colrow =
     ImageHelper::GetDimensionsValue( GetFile() );
   dims[0] = colrow[0];
   dims[1] = colrow[1];
 
-  // SliceThickness ??
-  int numberOfImagesInMosaic = 0;
-  if( csa.FindCSAElementByName( "NumberOfImagesInMosaic" ) )
-    {
-    const CSAElement &csael4 = csa.GetCSAElementByName( "NumberOfImagesInMosaic" );
-    if( !csael4.IsEmpty() )
-      {
-        Element<VR::IS, VM::VM1> el4 = {{ 0 }};
-      el4.Set( csael4.GetValue() );
-      numberOfImagesInMosaic = el4.GetValue();
-      }
-    }
-
-  if( !numberOfImagesInMosaic ) return false;
-
-  unsigned int div = (unsigned int )ceil(sqrt( (double)numberOfImagesInMosaic ) );
+  const unsigned int div = (unsigned int )ceil(sqrt( (double)numberOfImagesInMosaic ) );
   dims[0] /= div;
   dims[1] /= div;
   dims[2] = numberOfImagesInMosaic;
