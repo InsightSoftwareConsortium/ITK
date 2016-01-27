@@ -220,7 +220,7 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
         {
           next = m_Input->GetPixel(indNext);
         }
-        if (prev == 0 && next == 0)
+        if (prev == 0 && next == 0) //&& - isolated slices only, || - flat edges too
         {
           axis = a;
           ++cTrue;
