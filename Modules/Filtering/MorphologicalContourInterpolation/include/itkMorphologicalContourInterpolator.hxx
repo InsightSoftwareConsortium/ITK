@@ -883,20 +883,20 @@ MorphologicalContourInterpolator<TImage>::Align(int                        axis,
   typename TImage::IndexType bestIndex;
 
   // debug: construct and later fill the image with intersection scores
-#ifdef _DEBUG
+#ifndef NDEBUG
   typename TImage::Pointer scoreImage = TImage::New();
   scoreImage->SetRegions(searchRegion);
   scoreImage->Allocate(true);
-#endif // _DEBUG
+#endif // NDEBUG
 
   while (!uncomputed.empty())
   {
     ind = uncomputed.front();
     uncomputed.pop();
     score = Intersection(iConn, iRegionId, jConn, jRegionIds, ind);
-#ifdef _DEBUG
+#ifndef NDEBUG
     scoreImage->SetPixel(ind, score + 1); // unexplored=0, noIntersection=1
-#endif                                    // _DEBUG
+#endif                                    // NDEBUG
 
     if (score > maxScore)
     {
@@ -930,9 +930,9 @@ MorphologicalContourInterpolator<TImage>::Align(int                        axis,
     }
   }
   // WriteDebug(searched, "C:\\searched.nrrd");
-#ifdef _DEBUG
+#ifndef NDEBUG
   WriteDebug<TImage>(scoreImage, "C:\\scoreImage.nrrd");
-#endif // _DEBUG
+#endif // NDEBUG
   return bestIndex;
 }
 
@@ -1342,7 +1342,7 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
   } // interpolate along all axes
   else // interpolate along the specified axis
   {
-    tempOut->Allocate();
+    tempOut->Allocate(true);
     this->InterpolateAlong(m_Axis, tempOut);
   }
   CombineInputAndInterpolate(tempOut);

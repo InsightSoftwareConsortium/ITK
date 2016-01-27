@@ -19,6 +19,14 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMorphologicalContourInterpolator.h"
+#include <cstdlib>
+
+long int
+string2int(char * number)
+{
+  long res = strtol(number, NULL, 10);
+  return res;
+}
 
 int
 itkMorphologicalContourInterpolationTest(int argc, char * argv[])
@@ -26,7 +34,8 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage outputImage";
+    std::cerr << " inputImage outputImage [axis] [label]\n";
+    std::cerr << " defaults: axis == -1 (all axes), label == 0 (all labels)";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
@@ -44,7 +53,14 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
   typedef itk::MorphologicalContourInterpolator<ImageType> mciType;
   mciType::Pointer                                         mci = mciType::New();
   mci->SetInput(reader->GetOutput());
-  mci->SetLabel(0);
+  if (argc >= 4)
+  {
+    mci->SetAxis(strtol(argv[3], NULL, 10));
+  }
+  if (argc >= 5)
+  {
+    mci->SetLabel(strtol(argv[4], NULL, 10));
+  }
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer                     writer = WriterType::New();
