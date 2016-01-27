@@ -119,13 +119,19 @@ public:
   /** Is a given value nonnegative? */
   static bool IsNonnegative(T val) { return val >= Zero; }
 
-  /** Is a given type signed? -- default is no. */
+  /** Is a given type signed? -- default is no.
+      For uniform array data types in ITK, the value of IsSigned
+      is determined by the component elements of the array.*/
   static const bool IsSigned = false;
 
-  /** Is a given type an integer? -- default is no. */
+  /** Is a given type an integer? -- default is no.
+      For uniform array data types in ITK, the value of IsInteger
+      is determined by the component elements of the array.*/
   static const bool IsInteger = false;
 
-  /** Is a given type complex? -- default is no. */
+  /** Is a given type complex? -- default is no.
+      For uniform array data types in ITK, the value of IsComplex
+      is determined by the component elements of the array.*/
   static const bool IsComplex = false;
 
   /** Return zero value. This function should be used to support
