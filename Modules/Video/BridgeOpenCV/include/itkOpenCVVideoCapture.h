@@ -23,7 +23,7 @@
 #include "highgui.h"
 #include "itkVideoStream.h"
 
-#if CV_VERSION_MAJOR > 2
+#if CV_VERSION_EPOCH > 2
 #include "opencv2/videoio.hpp"
 #endif
 

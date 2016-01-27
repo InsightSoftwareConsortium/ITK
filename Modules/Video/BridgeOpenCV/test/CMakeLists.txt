@@ -31,7 +31,7 @@ itk_add_test(NAME
 
 # OpenCVImageBridge:
 #   NOTE: For some reason, ITK reads jpg files slightly differently than
-#   OpenCV, so we need both jpg and mha versions to guanrantee consistency
+#   OpenCV, so we need both jpg and mha versions to guarantee consistency
 itk_add_test(
   NAME OpenCVImageBridgeGrayScaleTest
   COMMAND ITKVideoBridgeOpenCVTestDriver
@@ -40,6 +40,8 @@ itk_add_test(
       DATA{Input/frame0_gray.jpg}
       # Input Grayscale Image jpg 2, with odd pixel dimension
       DATA{Input/peppers_513x512.jpg}
+      # Input Grayscale Image png, with two-byte pixels
+      DATA{Input/IM11.png}
     )
 
 itk_add_test(

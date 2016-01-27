@@ -24,7 +24,7 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
 
-#if CV_VERSION_MAJOR > 2
+#if CV_VERSION_EPOCH > 2
 #include "opencv2/opencv.hpp" // cv::imread
 #endif
 
@@ -96,12 +96,13 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
 
   reader->Update();
   typename ImageType::Pointer baselineImage = reader->GetOutput();
+  std::cout << "Read image with pixel type "
+    << typeid(PixelType).name()
+    << " and dimension " << VDimension << std::endl;
 
-  //
-  // Test IplImage -> itk::Image
-  //
+  std::cout << "Test IplImage -> itk::Image..." << std::endl;
   IplImage* inIpl;
-  inIpl = cvLoadImage(argv, CV_LOAD_IMAGE_GRAYSCALE);
+  inIpl = cvLoadImage(argv, CV_LOAD_IMAGE_ANYDEPTH);
   if (!inIpl)
     {
     std::cerr << "Could not load input as IplImage" << std::endl;
@@ -126,17 +127,16 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
 
   if (total != 0)
     {
-    std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name()
+    std::cerr << "Images didn't match for pixel type "
+      << typeid(PixelType).name()
       << " for IplImage -> ITK (scalar)" << std::endl;
     cvReleaseImage(&inIpl);
     return EXIT_FAILURE;
     }
 
-  //
-  // Test cv::Mat -> itk::Image
-  //
+  std::cout << "Test cv::Mat -> itk::Image..." << std::endl;
   cv::Mat inMat;
-  inMat = cv::imread(argv);
+  inMat = cv::imread(argv, CV_LOAD_IMAGE_ANYDEPTH);
   typename ImageType::Pointer outMatITK =
     itk::OpenCVImageBridge::CVMatToITKImage< ImageType >(inMat);
 
@@ -146,15 +146,14 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
   total = differ->GetTotalDifference();
   if (total != 0)
     {
-    std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name()
+    std::cerr << "Images didn't match for pixel type "
+      << typeid(PixelType).name()
       << " for cv::Mat -> ITK (scalar)" << std::endl;
     cvReleaseImage(&inIpl);
     return EXIT_FAILURE;
     }
 
-  //
-  // Test itk::Image -> IplImage
-  //
+  std::cout << "Test itk::Image -> IplImage..." << std::endl;
   IplImage* outIpl = itk::OpenCVImageBridge::ITKImageToIplImage< ImageType >(baselineImage);
 
   // check results of itk::Image -> IplImage
@@ -163,8 +162,10 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
 
   if (itkIplDiff != 0.0)
     {
-    std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name()
-      << " for ITK -> IplImage (scalar)" <<";  itkIplDiff = "<<itkIplDiff<< std::endl;
+    std::cerr << "Images didn't match for pixel type "
+      << typeid(PixelType).name()
+      << " for ITK -> IplImage (scalar)" << "; itkIplDiff = "
+      << itkIplDiff<< std::endl;
     cvReleaseImage(&dataConvertedInIpl);
     cvReleaseImage(&inIpl);
     cvReleaseImage(&outIpl);
@@ -188,9 +189,7 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
       }
     }
 
-  //
-  // Test itk::Image -> cv::Mat
-  //
+  std::cout << "Test itk::Image -> cv::Mat..." << std::endl;
   cv::Mat outMat = itk::OpenCVImageBridge::ITKImageToCVMat< ImageType >(baselineImage);
 
   // check results of itk::Image -> IplImage
@@ -198,7 +197,8 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
   double itkMatDiff = cvNorm(&outMatAsIpl, dataConvertedInIpl);
   if (itkMatDiff != 0.0)
     {
-    std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name()
+    std::cerr << "Images didn't match for pixel type "
+      << typeid(PixelType).name()
       << " for ITK -> cv::Mat (scalar)" << std::endl;
     cvReleaseImage(&dataConvertedInIpl);
     cvReleaseImage(&inIpl);
@@ -239,9 +239,9 @@ int itkOpenCVImageBridgeGrayScaleTest ( int argc, char *argv[] )
   //
   // Check arguments
   //
-  if (argc != 3)
+  if (argc != 4)
     {
-    std::cerr << "Usage: " << argv[0] << "scalar_image1 scalar_image2 " << std::endl;
+    std::cerr << "Usage: " << argv[0] << "scalar_image1 scalar_image2 scalar_image3" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -251,7 +251,7 @@ int itkOpenCVImageBridgeGrayScaleTest ( int argc, char *argv[] )
   // Note: We don't test signed char because ITK seems to have trouble reading
   //       images with char pixels.
   //
-  std::cout << "scalar" << std::endl;
+  std::cout << "\n================================" << std::endl;
   if( itkRunScalarTest< unsigned char >( argv[1] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
@@ -273,6 +273,7 @@ int itkOpenCVImageBridgeGrayScaleTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  std::cout << "\n================================" << std::endl;
   std::cout << "scalar 513x512" << std::endl;
   if( itkRunScalarTest< unsigned char >( argv[2] ) == EXIT_FAILURE )
     {
@@ -291,6 +292,21 @@ int itkOpenCVImageBridgeGrayScaleTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
   if( itkRunScalarTest< double >( argv[2] ) == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "\n================================" << std::endl;
+  std::cout << "two-byte pixel image" << std::endl;
+  if( itkRunScalarTest< unsigned short >( argv[3] ) == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+  if( itkRunScalarTest< float >( argv[3] ) == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+  if( itkRunScalarTest< double >( argv[3] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
