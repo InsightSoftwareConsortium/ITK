@@ -23,8 +23,8 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/457653/castxml-linux.tar.gz
-      URL_MD5 740fadc0504fc9677769a1b678ce79f6
+      URL http://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz
+      URL_MD5 52e5429fa7c0cc42bf2dbd06ce5cb930
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -126,8 +126,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2015-09-30
-      GIT_TAG f57109f31b94d0410e091a549a4aa0febc4140d6
+      # CastXML master, 2016-01-28
+      GIT_TAG fc71eb983ff8e5665d7fc24818993d43b7137b39
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
