@@ -22,15 +22,11 @@ function(JustInputTest ImageName Ext) #optional: Axis Label
   foreach(f ${ARGN}) #create unique test name
     set(optArgs "${optArgs}_${f}")
   endforeach()
-  set(
-    outImage
-    "${ITK_TEST_OUTPUT_DIR}/${ImageName}_interpolated${optArgs}.${Ext}"
-  )
+  set(outImage "${ITK_TEST_OUTPUT_DIR}/${ImageName}${optArgs}.${Ext}")
   # set(imageNameOpt "${ImageName}${optArgs}") # only used for regression
 
   itk_add_test(
-    NAME
-      itkMorphologicalContourInterpolation_RegressionTest_${ImageName}${optArgs}
+    NAME itkMorphologicalContourInterpolation_JustInOut_${ImageName}${optArgs}
     COMMAND
       MorphologicalContourInterpolationTestDriver
       # --compare DATA{Baseline/${imageNameOpt}.${Ext}} ${outImage} # no regression
@@ -45,15 +41,11 @@ function(RegressionTest ImageName Ext) #optional: Axis Label
   foreach(f ${ARGN}) #create unique test name
     set(optArgs "${optArgs}_${f}")
   endforeach()
-  set(
-    outImage
-    "${ITK_TEST_OUTPUT_DIR}/${ImageName}_interpolated${optArgs}.${Ext}"
-  )
+  set(outImage "${ITK_TEST_OUTPUT_DIR}/${ImageName}${optArgs}.${Ext}")
   set(imageNameOpt "${ImageName}${optArgs}")
 
   itk_add_test(
-    NAME
-      itkMorphologicalContourInterpolation_RegressionTest_${ImageName}${optArgs}
+    NAME itkMorphologicalContourInterpolation_Regression_${ImageName}${optArgs}
     COMMAND
       MorphologicalContourInterpolationTestDriver
       --compare
@@ -103,21 +95,100 @@ regressiontest(ThreeAxisFourLabelConflict nrrd 0 4) # equals to _0
 regressiontest(ThreeAxisFourLabelConflict nrrd 1 2)
 regressiontest(ThreeAxisFourLabelConflict nrrd 2 2) # does not modify image
 
-# Paul's tests
-justinputtest(105769moving_resliced_to_fixedhz2_segmentation nii.gz)
-justinputtest(105769fixed_segmentation nii.gz)
-justinputtest(64816L_amygdala_int nii.gz)
-justinputtest(64816L_amygdala_fin nii.gz)
-justinputtest(65239R_amygdala_int nii.gz)
-justinputtest(65239R_amygdala_fin nii.gz)
-#TODO: make different combinations of axis and label parameters
+# Paul's single axis tests
+regressiontest(105769moving nii.gz) #defaults: all axes all labels
+regressiontest(105769moving nii.gz 2) #axis 2
+regressiontest(105769moving nii.gz -1 0) #all axes all labels
+regressiontest(105769moving nii.gz -1 1) #all axes label 1
+regressiontest(105769moving nii.gz -1 2) #all axes label 2
+regressiontest(105769moving nii.gz 2 1) #axis 2 label 1
+regressiontest(105769moving nii.gz 2 2) #axis 2 label 2
+regressiontest(105769fixed nii.gz) #defaults: all axes all labels
+regressiontest(105769fixed nii.gz 2) #axis 2
+regressiontest(105769fixed nii.gz -1 0) #all axes all labels
+regressiontest(105769fixed nii.gz -1 1) #all axes label 1
+regressiontest(105769fixed nii.gz -1 2) #all axes label 2
+regressiontest(105769fixed nii.gz 2 1) #axis 2 label 1
+regressiontest(105769fixed nii.gz 2 2) #axis 2 label 2
+
+# 64816L_amygdala_int
+regressiontest(64816L_amygdala_int nii.gz)
+regressiontest(64816L_amygdala_int nii.gz 0)
+regressiontest(64816L_amygdala_int nii.gz 1)
+regressiontest(64816L_amygdala_int nii.gz 2)
+regressiontest(64816L_amygdala_int nii.gz 0 1)
+regressiontest(64816L_amygdala_int nii.gz 0 2)
+regressiontest(64816L_amygdala_int nii.gz 0 3)
+regressiontest(64816L_amygdala_int nii.gz 0 4)
+regressiontest(64816L_amygdala_int nii.gz 1 1)
+regressiontest(64816L_amygdala_int nii.gz 1 2)
+regressiontest(64816L_amygdala_int nii.gz 1 3)
+regressiontest(64816L_amygdala_int nii.gz 1 4)
+regressiontest(64816L_amygdala_int nii.gz 2 1)
+regressiontest(64816L_amygdala_int nii.gz 2 2)
+regressiontest(64816L_amygdala_int nii.gz 2 3)
+regressiontest(64816L_amygdala_int nii.gz 2 4)
+
+# 64816L_amygdala_fin
+regressiontest(64816L_amygdala_fin nii.gz)
+regressiontest(64816L_amygdala_fin nii.gz 0)
+regressiontest(64816L_amygdala_fin nii.gz 1)
+regressiontest(64816L_amygdala_fin nii.gz 2)
+regressiontest(64816L_amygdala_fin nii.gz 0 1)
+regressiontest(64816L_amygdala_fin nii.gz 0 2)
+regressiontest(64816L_amygdala_fin nii.gz 0 3)
+regressiontest(64816L_amygdala_fin nii.gz 0 4)
+regressiontest(64816L_amygdala_fin nii.gz 1 1)
+regressiontest(64816L_amygdala_fin nii.gz 1 2)
+regressiontest(64816L_amygdala_fin nii.gz 1 3)
+regressiontest(64816L_amygdala_fin nii.gz 1 4)
+regressiontest(64816L_amygdala_fin nii.gz 2 1)
+regressiontest(64816L_amygdala_fin nii.gz 2 2)
+regressiontest(64816L_amygdala_fin nii.gz 2 3)
+regressiontest(64816L_amygdala_fin nii.gz 2 4)
+
+# 65239R_amygdala_int
+regressiontest(65239R_amygdala_int nii.gz)
+regressiontest(65239R_amygdala_int nii.gz 0)
+regressiontest(65239R_amygdala_int nii.gz 1)
+regressiontest(65239R_amygdala_int nii.gz 2)
+regressiontest(65239R_amygdala_int nii.gz 0 1)
+regressiontest(65239R_amygdala_int nii.gz 0 2)
+regressiontest(65239R_amygdala_int nii.gz 0 3)
+regressiontest(65239R_amygdala_int nii.gz 0 4)
+regressiontest(65239R_amygdala_int nii.gz 1 1)
+regressiontest(65239R_amygdala_int nii.gz 1 2)
+regressiontest(65239R_amygdala_int nii.gz 1 3)
+regressiontest(65239R_amygdala_int nii.gz 1 4)
+regressiontest(65239R_amygdala_int nii.gz 2 1)
+regressiontest(65239R_amygdala_int nii.gz 2 2)
+regressiontest(65239R_amygdala_int nii.gz 2 3)
+regressiontest(65239R_amygdala_int nii.gz 2 4)
+
+# 65239R_amygdala_fin
+regressiontest(65239R_amygdala_fin nii.gz)
+regressiontest(65239R_amygdala_fin nii.gz 0)
+regressiontest(65239R_amygdala_fin nii.gz 1)
+regressiontest(65239R_amygdala_fin nii.gz 2)
+regressiontest(65239R_amygdala_fin nii.gz 0 1)
+regressiontest(65239R_amygdala_fin nii.gz 0 2)
+regressiontest(65239R_amygdala_fin nii.gz 0 3)
+regressiontest(65239R_amygdala_fin nii.gz 0 4)
+regressiontest(65239R_amygdala_fin nii.gz 1 1)
+regressiontest(65239R_amygdala_fin nii.gz 1 2)
+regressiontest(65239R_amygdala_fin nii.gz 1 3)
+regressiontest(65239R_amygdala_fin nii.gz 1 4)
+regressiontest(65239R_amygdala_fin nii.gz 2 1)
+regressiontest(65239R_amygdala_fin nii.gz 2 2)
+regressiontest(65239R_amygdala_fin nii.gz 2 3)
+regressiontest(65239R_amygdala_fin nii.gz 2 4)
 
 # Long-running handcrafted tests
-regressiontest(FaceRoI nrrd)
-regressiontest(FaceRoI nrrd 0)
-regressiontest(FaceRoI nrrd 1)
-regressiontest(FaceRoI nrrd 2)
 regressiontest(BigZ nrrd)
 regressiontest(BigZ nrrd 0)
 regressiontest(BigZ nrrd 1)
 regressiontest(BigZ nrrd 2)
+regressiontest(FaceRoI nrrd)
+regressiontest(FaceRoI nrrd 0)
+regressiontest(FaceRoI nrrd 1)
+regressiontest(FaceRoI nrrd 2)
