@@ -86,6 +86,8 @@ protected:
   typename TImage::PixelType m_Label;
   int                        m_Axis;
   bool                       m_HeuristicAlignment;
+  IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
+  IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
 
   // grafted input and output to prevent unnecessary pipeline modification checks
   typename TImage::Pointer m_Input;
