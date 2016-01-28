@@ -23,7 +23,8 @@
 #include "highgui.h"
 #include "itkVideoStream.h"
 
-#if CV_VERSION_EPOCH > 2
+// Include the required header with OpenCV > 2.X
+#if !defined( CV_VERSION_EPOCH )
 #include "opencv2/videoio.hpp"
 #endif
 

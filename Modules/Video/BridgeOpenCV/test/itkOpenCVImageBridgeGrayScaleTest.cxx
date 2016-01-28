@@ -24,9 +24,10 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
 
-#if CV_VERSION_EPOCH > 2
-#include "opencv2/opencv.hpp" // cv::imread
+#if !defined( CV_VERSION_EPOCH )
+#include "opencv2/imgcodecs.hpp" // cv::imread
 #endif
+
 
 //-----------------------------------------------------------------------------
 // Convert the data in the IplImage to the templated type
