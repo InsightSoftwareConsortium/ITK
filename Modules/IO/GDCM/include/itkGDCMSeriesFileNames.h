@@ -146,11 +146,9 @@ public:
    *   dicom tag values prior to reading the series.   Such querying is
    *   useful to determine which series should be read - e.g., to determine
    *   which is the T2 scan, etc.
+   * \deprecated because SerieHelper is deprecated in GDCM itself.
    */
-  gdcm::SerieHelper * GetSeriesHelper(void)
-  {
-    return m_SerieHelper;
-  }
+  itkLegacyMacro(gdcm::SerieHelper * GetSeriesHelper(void));
 
   /** Add more restriction on the selection of a Series. This follow the same
    * approach as SetUseSeriesDetails, but allow a user to add even more DICOM

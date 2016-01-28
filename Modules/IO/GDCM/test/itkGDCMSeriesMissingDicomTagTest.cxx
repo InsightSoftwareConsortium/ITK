@@ -23,6 +23,7 @@
 //  It makes use of the GDCM library
 //
 
+#define ITK_LEGACY_TEST
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
