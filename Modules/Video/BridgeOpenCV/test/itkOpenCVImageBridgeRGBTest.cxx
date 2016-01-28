@@ -23,8 +23,9 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
 
-#if CV_VERSION_EPOCH > 2
-#include "opencv2/opencv.hpp" // cv::imread
+// Include the required header with OpenCV > 2.X
+#if !defined( CV_VERSION_EPOCH )
+#include "opencv2/imgcodecs.hpp" // cv::imread
 #endif
 
 //-----------------------------------------------------------------------------
