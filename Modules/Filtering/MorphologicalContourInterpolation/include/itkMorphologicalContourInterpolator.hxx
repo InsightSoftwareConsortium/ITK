@@ -40,7 +40,7 @@ template <typename TImage>
 void
 WriteDebug(typename TImage::Pointer out, const char * filename)
 {
-  return; // tests run much faster
+  // return; //tests run much faster
   typedef ImageFileWriter<TImage> WriterType;
   typename WriterType::Pointer    w = WriterType::New();
   w->SetInput(out);
@@ -447,8 +447,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     m_Or->SetInput(0, iSeq[x]);
     unsigned xj = ratio * x;
     m_Or->SetInput(1, jSeq[xj]);
-    // WriteDebug(iSeq[x], (std::string("C:\\iSeq") + char('a' + x) + ".nrrd").c_str());
-    // WriteDebug(jSeq[xj], (std::string("C:\\jSeq") + char('a' + x) + ".nrrd").c_str());
+    WriteDebug(iSeq[x], (std::string("C:\\iSeq") + std::to_string(x) + ".nrrd").c_str());
+    WriteDebug(jSeq[xj], (std::string("C:\\jSeq") + std::to_string(x) + ".nrrd").c_str());
     m_Or->GetOutput()->SetRegions(newRegion);
     m_Or->Update();
     seq.push_back(m_Or->GetOutput());
@@ -460,7 +460,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   IdentifierType min = newRegion.GetNumberOfPixels();
   for (unsigned x = 0; x < iSeq.size(); x++)
   {
-    // WriteDebug(seq[x], (std::string("C:\\seq") + char('a' + x) + ".nrrd").c_str());
+    WriteDebug(seq[x], (std::string("C:\\seq") + std::to_string(x) + ".nrrd").c_str());
     IdentifierType iS = CardSymDifference(seq[x], iMask);
     IdentifierType jS = CardSymDifference(seq[x], jMask);
     IdentifierType xScore = iS >= jS ? iS - jS : jS - iS; // abs(iS-jS)
@@ -1072,7 +1072,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
 
     if (iCounts[p->first] == 1) // M-to-1
     {
-      for (typename PairSet::iterator rest = p; rest != pairs.end(); ++rest)
+      for (typename PairSet::iterator rest = pairs.begin(); rest != pairs.end(); ++rest)
       {
         if (rest->second == p->second)
         {
@@ -1083,11 +1083,10 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       typename TImage::IndexType translation = Align(axis, jconn, p->second, iconn, regionIDs);
       Interpolate1toN(axis, out, label, j, i, jconn, p->second, iconn, regionIDs, translation);
 
-      typename PairSet::iterator rest = p;
-      ++rest;
+      typename PairSet::iterator rest = pairs.begin();
       while (rest != pairs.end())
       {
-        if (rest->second == p->second)
+        if (rest != p && rest->second == p->second)
         {
           --iCounts[rest->first];
           --jCounts[rest->second];
@@ -1104,7 +1103,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     } // M-to-1
     else if (jCounts[p->second] == 1) // 1-to-N
     {
-      for (typename PairSet::iterator rest = p; rest != pairs.end(); ++rest)
+      for (typename PairSet::iterator rest = pairs.begin(); rest != pairs.end(); ++rest)
       {
         if (rest->first == p->first)
         {
@@ -1115,11 +1114,11 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       typename TImage::IndexType translation = Align(axis, iconn, p->first, jconn, regionIDs);
       Interpolate1toN(axis, out, label, i, j, iconn, p->first, jconn, regionIDs, translation);
 
-      typename PairSet::iterator rest = p;
+      typename PairSet::iterator rest = pairs.begin();
       ++rest;
       while (rest != pairs.end())
       {
-        if (rest->first == p->first)
+        if (rest != p && rest->first == p->first)
         {
           --iCounts[rest->first];
           --jCounts[rest->second];
