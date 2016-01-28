@@ -17,8 +17,8 @@ target_link_libraries(
   ${MorphologicalContourInterpolation-Test_LIBRARIES}
 )
 
+# used to produce an output which is then taken as a baseline for a regression test
 function(JustInputTest ImageName Ext) #optional: Axis Label
-  # used to produce an output which is then taken as a baseline for a regression test
   foreach(f ${ARGN}) #create unique test name
     set(optArgs "${optArgs}_${f}")
   endforeach()
@@ -117,7 +117,7 @@ regressiontest(FaceRoI nrrd)
 regressiontest(FaceRoI nrrd 0)
 regressiontest(FaceRoI nrrd 1)
 regressiontest(FaceRoI nrrd 2)
-justinputtest(BigZ nrrd)
-justinputtest(BigZ nrrd 0)
-justinputtest(BigZ nrrd 1)
-justinputtest(BigZ nrrd 2)
+regressiontest(BigZ nrrd)
+regressiontest(BigZ nrrd 0)
+regressiontest(BigZ nrrd 1)
+regressiontest(BigZ nrrd 2)
