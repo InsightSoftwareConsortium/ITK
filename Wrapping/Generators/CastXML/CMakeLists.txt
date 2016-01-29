@@ -183,7 +183,6 @@ macro(itk_end_wrap_submodule_castxml module)
   configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
 
   # generate the xml file
-  set(castxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml.inc")
   set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
 
   set(_castxml_depends)
@@ -255,7 +254,7 @@ endmacro()
 
 macro(itk_wrap_module_castxml library_name)
   # create the files used to pass the file to include to castxml
-  set(castxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml.inc")
+  set(castxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${library_name}.castxml.inc")
   get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
   list(REMOVE_DUPLICATES include_dir_list)
 
