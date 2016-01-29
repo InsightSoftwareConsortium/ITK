@@ -39,6 +39,7 @@ int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+#if ! defined ( ITK_LEGACY_REMOVE )
   typedef itk::Image<unsigned short,3>            ImageType;
   typedef itk::ImageSeriesReader< ImageType >     ReaderType;
   typedef itk::GDCMImageIO                        ImageIOType;
@@ -135,5 +136,7 @@ int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
+#endif
+
   return EXIT_SUCCESS;
 }
