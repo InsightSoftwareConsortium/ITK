@@ -642,7 +642,7 @@ void MINCImageIO::ReadImageInformation()
   if(miget_attr_length(m_Volume,"","history",&minc_history_length) == MI_NOERROR)
     {
     char *minc_history=new char[minc_history_length+1];
-    if( miget_attr_values(m_Volume,MI_TYPE_STRING,"","history",minc_history_length,minc_history) == MI_NOERROR)
+    if( miget_attr_values(m_Volume,MI_TYPE_STRING,"","history",minc_history_length+1,minc_history) == MI_NOERROR)
       {
       EncapsulateMetaData<std::string>(thisDic,"history", std::string(minc_history) );
       }
@@ -740,7 +740,7 @@ void MINCImageIO::ReadImageInformation()
               case MI_TYPE_STRING:
                 {
                 char *tmp=new char[att_length+1];
-                if(miget_attr_values(m_Volume,att_data_type,group_name,attribute,att_length,tmp) == MI_NOERROR )
+                if(miget_attr_values(m_Volume,att_data_type,group_name,attribute,att_length+1,tmp) == MI_NOERROR )
                   {
                   EncapsulateMetaData< std::string >( thisDic, entry_key, std::string(tmp) );
                   }
