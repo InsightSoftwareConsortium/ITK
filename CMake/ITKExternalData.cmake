@@ -38,7 +38,7 @@ if(NOT ITK_FORBID_DOWNLOADS)
     "http://www.itk.org/files/ExternalData/%(algo)/%(hash)"
 
     # Mirror supported by the Slicer community.
-    "http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&checksum=%(hash)&algorithm=%(algo)"
+    "https://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&checksum=%(hash)&algorithm=%(algo)"
     )
 endif()
 
