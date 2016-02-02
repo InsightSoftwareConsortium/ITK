@@ -31,11 +31,8 @@ file:///var/bigharddrive/%(algo)/%(hash)")
 mark_as_advanced(ExternalData_URL_TEMPLATES)
 if(NOT ITK_FORBID_DOWNLOADS)
   list(APPEND ExternalData_URL_TEMPLATES
-    # Data published on Azure
-    "http://itkexternaldata.blob.core.windows.net/%(algo:lower)/%(hash)"
-
     # Data published on MIDAS
-    "http://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=%(hash)&algorithm=%(algo)"
+    "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=%(hash)&algorithm=%(algo)"
 
     # Data published by developers using git-gerrit-push.
     "http://www.itk.org/files/ExternalData/%(algo)/%(hash)"
