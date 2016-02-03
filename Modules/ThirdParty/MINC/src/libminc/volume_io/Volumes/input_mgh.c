@@ -582,8 +582,8 @@ initialize_mgh_format_input(VIO_STR             filename,
   n_voxels_in_slice = (in_ptr->sizes_in_file[0] *
                        in_ptr->sizes_in_file[1]);
 
-  in_ptr->min_value = FLT_MAX;
-  in_ptr->max_value = -FLT_MAX;
+  in_ptr->min_value = DBL_MAX;
+  in_ptr->max_value = -DBL_MAX;
 
   /* Allocate the slice buffer. */
 

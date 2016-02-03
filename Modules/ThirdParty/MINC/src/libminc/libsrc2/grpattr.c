@@ -868,7 +868,7 @@ int miget_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
 
   /* make sure string is zero terminated if there is enough space in the input buffer */
   if( data_type == MI_TYPE_STRING && length > hdf_attr_size )
-    ( ( char * ) values ) [hdf_attr_size+1] = '\0';
+    ( ( char * ) values ) [hdf_attr_size] = '\0';
 
   status = MI_NOERROR;
 

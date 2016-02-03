@@ -1596,32 +1596,32 @@ void miinit_default_range(mitype_t mitype, double *valid_max, double *valid_min)
 {
   switch (mitype) {
   case MI_TYPE_BYTE:
-    *valid_min = CHAR_MIN;
-    *valid_max = CHAR_MAX;
+    *valid_min = (double)CHAR_MIN;
+    *valid_max = (double)CHAR_MAX;
     break;
   case MI_TYPE_SHORT:
-    *valid_min = SHRT_MIN;
-    *valid_max = SHRT_MAX;
+    *valid_min = (double)SHRT_MIN;
+    *valid_max = (double)SHRT_MAX;
     break;
   case MI_TYPE_INT:
-    *valid_min = INT_MIN;
-    *valid_max = INT_MAX;
+    *valid_min = (double)INT_MIN;
+    *valid_max = (double)INT_MAX;
     break;
   case MI_TYPE_UBYTE:
-    *valid_min = 0;
-    *valid_max = UCHAR_MAX;
+    *valid_min = 0.0;
+    *valid_max = (double)UCHAR_MAX;
     break;
   case MI_TYPE_USHORT:
-    *valid_min = 0;
-    *valid_max = USHRT_MAX;
+    *valid_min = 0.0;
+    *valid_max = (double)USHRT_MAX;
     break;
   case MI_TYPE_UINT:
-    *valid_min = 0;
-    *valid_max = UINT_MAX;
+    *valid_min = 0.0;
+    *valid_max = (double)UINT_MAX;
     break;
   case MI_TYPE_FLOAT:
-    *valid_min = -FLT_MAX;
-    *valid_max = FLT_MAX;
+    *valid_min = (double)-FLT_MAX;
+    *valid_max = (double)FLT_MAX;
     break;
   case MI_TYPE_DOUBLE:
     *valid_min = -DBL_MAX;
@@ -1632,12 +1632,12 @@ void miinit_default_range(mitype_t mitype, double *valid_max, double *valid_min)
     *valid_max = DBL_MAX;
     break;
   case MI_TYPE_FCOMPLEX:
-    *valid_min = -FLT_MAX;
-    *valid_max = FLT_MAX;
-    break;      
+    *valid_min = (double)-FLT_MAX;
+    *valid_max = (double)FLT_MAX;
+    break;
   default:
-    *valid_min = 0;
-    *valid_max = 1;
+    *valid_min = 0.0;
+    *valid_max = 1.0;
     MI_LOG_ERROR(MI2_MSG_BADTYPE,mitype);
     break;
   }
