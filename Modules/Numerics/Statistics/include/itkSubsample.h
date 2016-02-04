@@ -97,7 +97,7 @@ public:
   /** Clear the subsample */
   void Clear();
 
-  /** retunrs the measurement of the instance which is identified
+  /** returns the measurement of the instance which is identified
    * by the 'id' */
   const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
 

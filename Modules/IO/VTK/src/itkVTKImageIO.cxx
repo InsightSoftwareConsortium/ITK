@@ -44,7 +44,6 @@ int VTKImageIO::GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCas
   if(count >5)
     {
     itkExceptionMacro(<<"Error of GetNextLine due to consecutive 5 empty lines in the given .*vtk file ");
-    return 0;
     }
 
   // Get a next line from a given *.vtk file
@@ -54,7 +53,6 @@ int VTKImageIO::GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCas
   if(ifs.eof())
     {
     itkExceptionMacro(<<"Premature EOF in reading a line");
-    return 0;
     }
 
   // Convert characters of the line to lowercas
