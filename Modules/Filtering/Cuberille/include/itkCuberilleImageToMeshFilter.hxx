@@ -47,7 +47,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CuberilleIm
 template <class TInputImage, class TOutputMesh, class TInterpolator>
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::~CuberilleImageToMeshFilter()
 {
-  m_GradientInterpolator = NULL;
+  m_GradientInterpolator = ITK_NULLPTR;
 }
 
 template <class TInputImage, class TOutputMesh, class TInterpolator>
@@ -613,7 +613,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ComputeGrad
     m_GradientInterpolator = GradientInterpolatorType::New();
     m_GradientInterpolator->SetInputImage(gradientFilter->GetOutput());
     gradientFilter->GetOutput()->DisconnectPipeline();
-    gradientFilter = NULL;
+    gradientFilter = ITK_NULLPTR;
   }
 }
 
