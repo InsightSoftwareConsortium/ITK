@@ -150,35 +150,30 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
         typedef unsigned char PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::CHAR:
         {
         typedef char PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::USHORT:
         {
         typedef unsigned short PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::SHORT:
         {
         typedef short PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::FLOAT:
         {
         typedef float PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
         default:
@@ -194,35 +189,30 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
         typedef itk::RGBPixel<unsigned char> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::CHAR:
         {
         typedef itk::RGBPixel<char> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::USHORT:
         {
         typedef itk::RGBPixel<unsigned short> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::SHORT:
         {
         typedef itk::RGBPixel<short> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::FLOAT:
         {
         typedef itk::RGBPixel<float> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
         default:
@@ -238,35 +228,30 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
         typedef itk::RGBAPixel<unsigned char> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::CHAR:
         {
         typedef itk::RGBAPixel<char> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::USHORT:
         {
         typedef itk::RGBAPixel<unsigned short> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::SHORT:
         {
         typedef itk::RGBAPixel<short> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::FLOAT:
         {
         typedef itk::RGBAPixel<float> PixelType;
         itk::Image<PixelType, 2>::Pointer dummy;
         return DoIt<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality, dummy );
-        break;
         }
         case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
         default:

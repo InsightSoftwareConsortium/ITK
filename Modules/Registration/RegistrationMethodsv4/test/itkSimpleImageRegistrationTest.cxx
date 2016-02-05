@@ -407,7 +407,7 @@ int itkSimpleImageRegistrationTest( int argc, char *argv[] )
        {
        return PerformSimpleImageRegistration<2,double>( argc, argv );
        }
-     break;
+
    case 3:
      if( strcmp( argv[1], "float") == 0 )
        {
@@ -417,7 +417,7 @@ int itkSimpleImageRegistrationTest( int argc, char *argv[] )
        {
        return PerformSimpleImageRegistration<3,double>( argc, argv );
        }
-     break;
+
    default:
       std::cerr << "Unsupported dimension" << std::endl;
       exit( EXIT_FAILURE );

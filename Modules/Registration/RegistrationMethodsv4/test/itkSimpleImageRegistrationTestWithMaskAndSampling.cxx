@@ -424,7 +424,7 @@ int itkSimpleImageRegistrationTestWithMaskAndSampling( int argc, char *argv[] )
        {
        return PerformSimpleImageRegistrationWithMaskAndSampling<2,double>( argc, argv );
        }
-     break;
+
    case 3:
      if( strcmp( argv[1], "float") == 0 )
        {
@@ -434,7 +434,7 @@ int itkSimpleImageRegistrationTestWithMaskAndSampling( int argc, char *argv[] )
        {
        return PerformSimpleImageRegistrationWithMaskAndSampling<3,double>( argc, argv );
        }
-     break;
+
    default:
       std::cerr << "Unsupported dimension" << std::endl;
       exit( EXIT_FAILURE );

@@ -93,10 +93,8 @@ int itkVnlComplexToComplexFFTImageFilterTest( int argc, char * argv[] )
       {
     case 2:
       return transformImage< float, 2 >( inputImageFileName, outputImageFileName );
-      break;
     case 3:
       return transformImage< float, 3 >( inputImageFileName, outputImageFileName );
-      break;
     default:
       std::cerr << "Unknown image dimension." << std::endl;
       return EXIT_FAILURE;
@@ -109,10 +107,8 @@ int itkVnlComplexToComplexFFTImageFilterTest( int argc, char * argv[] )
       {
     case 2:
       return transformImage< double, 2 >( inputImageFileName, outputImageFileName );
-      break;
     case 3:
       return transformImage< double, 3 >( inputImageFileName, outputImageFileName );
-      break;
     default:
       std::cerr << "Unknown image dimension." << std::endl;
       return EXIT_FAILURE;
