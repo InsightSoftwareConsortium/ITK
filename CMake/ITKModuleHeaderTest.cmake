@@ -20,9 +20,11 @@ endif()
 set( MAXIMUM_NUMBER_OF_HEADERS ${MAXIMUM_NUMBER_OF_HEADERS_default} CACHE STRING "The number of headers in a HeaderTest code." )
 mark_as_advanced( MAXIMUM_NUMBER_OF_HEADERS )
 
-add_custom_target( ITKHeaderTests
-  ${CMAKE_COMMAND} --build ${ITK_BINARY_DIR}
-  COMMENT "Regenerating and building the header tests." )
+if(NOT TARGET ITKHeaderTests)
+  add_custom_target( ITKHeaderTests
+    ${CMAKE_COMMAND} --build ${ITK_BINARY_DIR}
+    COMMENT "Regenerating and building the header tests." )
+endif()
 
 macro( itk_module_headertest _name )
   if( NOT ${_name}_THIRD_PARTY

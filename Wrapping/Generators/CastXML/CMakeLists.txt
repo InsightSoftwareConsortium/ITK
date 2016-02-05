@@ -46,7 +46,7 @@ else()
   endif()
 
   # Download binaries
-  if(_download_castxml_binaries)
+  if(_download_castxml_binaries AND NOT TARGET castxml)
     if(ITK_BINARY_DIR)
       itk_download_attempt_check(CastXML)
     endif()
@@ -58,7 +58,7 @@ else()
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
       )
   # Build from source
-  else()
+  elseif(NOT TARGET castxml)
     set(compiler_information)
     if(NOT CMAKE_CROSSCOMPILING)
       set(compiler_information
