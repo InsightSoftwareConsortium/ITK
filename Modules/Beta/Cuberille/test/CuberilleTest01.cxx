@@ -96,7 +96,7 @@ try
   input->DisconnectPipeline();
 
   // Create output mesh
-  MeshType::Pointer outputMesh = NULL;
+  MeshType::Pointer outputMesh = ITK_NULLPTR;
   itk::TimeProbe time;
 #if USE_MARCHING_CUBES
 
