@@ -17,38 +17,42 @@ if(ITK_USE_SYSTEM_CASTXML)
   endif()
 else()
   include(ExternalProject)
+
+  set(_download_castxml_binaries 0)
+  set(_castxml_url )
+  set(_castxml_hash_or_tag )
+
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
-    if(ITK_BINARY_DIR)
-      itk_download_attempt_check(CastXML)
-    endif()
-    ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz
-      URL_MD5 52e5429fa7c0cc42bf2dbd06ce5cb930
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND ""
-      INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
-      )
+
+    set(_castxml_url http://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz)
+    set(_castxml_hash_or_tag 52e5429fa7c0cc42bf2dbd06ce5cb930)
+    set(_download_castxml_binaries 1)
+
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
-    if(ITK_BINARY_DIR)
-      itk_download_attempt_check(CastXML)
-    endif()
-    ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip
-      URL_MD5 9c317c45c93f94619f0879da6af058b0
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND ""
-      INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
-      )
+
+    set(_castxml_url http://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip)
+    set(_castxml_hash_or_tag 9c317c45c93f94619f0879da6af058b0)
+    set(_download_castxml_binaries 1)
+
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
+
+    set(_castxml_url http://midas3.kitware.com/midas/download/bitstream/457654/castxml-macosx.tar.gz)
+    set(_castxml_hash_or_tag 05dc4e70084f66e9c86f0659b784a36f)
+    set(_download_castxml_binaries 1)
+
+  endif()
+
+  # Download binaries
+  if(_download_castxml_binaries)
     if(ITK_BINARY_DIR)
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/457654/castxml-macosx.tar.gz
-      URL_MD5 05dc4e70084f66e9c86f0659b784a36f
+      URL ${_castxml_url}
+      URL_MD5 ${_castxml_hash_or_tag}
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
