@@ -74,7 +74,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
 
   // Compute maximum spacing
   m_MaxSpacing = image->GetSpacing()[0];
-  for (int i = 1; i < InputImageType::ImageDimension; i++)
+  for (unsigned int i = 1; i < InputImageType::ImageDimension; ++i)
   {
     m_MaxSpacing = vnl_math_max(m_MaxSpacing, image->GetSpacing()[i]);
   }
@@ -157,11 +157,11 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
 
     // Re-initialize for new pixel
     numFaces = 0;
-    for (i = 0; i < 6; i++)
+    for (i = 0; i < 6; ++i)
     {
       faceHasQuad[i] = false;
     }
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < 8; ++i)
     {
       vertexHasQuad[i] = false;
     }
@@ -176,7 +176,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
     }
 
     // Compute which faces (if any) have quads
-    for (i = 0; i < 6; i++)
+    for (i = 0; i < 6; ++i)
     {
       // NOTE: suitability check above means center <= m_IsoSurfaceValue
       faceHasQuad[i] = (it.GetPixel(offset[i]) < m_IsoSurfaceValue);
@@ -191,7 +191,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
     if (numFaces > 0)
     {
       // Create vertices
-      for (i = 0; i < 8; i++)
+      for (i = 0; i < 8; ++i)
       {
         if (vertexHasQuad[i])
         {
@@ -392,7 +392,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::AddQuadFace
   {
     // Get vertices
     PointType v[4];
-    for (unsigned int i = 0; i < 4; i++)
+    for (unsigned int i = 0; i < 4; ++i)
     {
       v[i] = mesh->GetPoints()->GetElement(face[i]);
     }
@@ -469,7 +469,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
     normal.Normalize();
 
     // Step along both directions of normal
-    for (i = 0; i < InputImageType::ImageDimension; i++)
+    for (i = 0; i < InputImageType::ImageDimension; ++i)
     {
       temp[0][i] = vertex[i] + (normal[i] * +1.0 * step);
       temp[1][i] = vertex[i] + (normal[i] * -1.0 * step);
@@ -531,11 +531,11 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
   for (sign = -1.0; sign <= 1.0; sign += 2.0)
   {
     k = (sign == -1.0) ? 0 : 1;
-    for (j = 1; j < m_ProjectVertexMaximumNumberOfSteps / 2; j++)
+    for (j = 1; j < m_ProjectVertexMaximumNumberOfSteps / 2; ++j)
     {
       // Compute current location along line
       d = (double)j / ((double)m_ProjectVertexMaximumNumberOfSteps / 2.0);
-      for (i = 0; i < InputImageType::ImageDimension; i++)
+      for (i = 0; i < InputImageType::ImageDimension; ++i)
       {
         temp[i] = vertex[i] + (normal[i] * sign * m_ProjectVertexStepLength * d);
       }
@@ -582,7 +582,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
 
     // Step along the normal towards the iso-surface value
     sign = (value < m_IsoSurfaceValue) ? +1.0 : -1.0;
-    for (i = 0; i < InputImageType::ImageDimension; i++)
+    for (i = 0; i < InputImageType::ImageDimension; ++i)
     {
       vertex[i] += (normal[i] * sign * step);
     }
