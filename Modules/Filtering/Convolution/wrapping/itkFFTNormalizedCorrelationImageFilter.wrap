@@ -1,0 +1,3 @@
+itk_wrap_class("itk::FFTNormalizedCorrelationImageFilter" POINTER)
+  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_REAL}" "2;3;4")
+itk_end_wrap_class()
