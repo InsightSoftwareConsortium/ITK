@@ -21,7 +21,6 @@
 #include "itkSyNImageRegistrationMethod.h"
 
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
-#include "itkImageMaskSpatialObject.h"
 
 namespace itk
 {
@@ -82,8 +81,15 @@ public:
   typedef typename Superclass::ImageMetricType                        ImageMetricType;
   typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
-  typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
-  typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
+
+  typedef typename Superclass::ImageMaskSpatialObjectType             ImageMaskSpatialObjectType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
+  typedef typename Superclass::FixedImageMaskType                     FixedImageMaskType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              FixedMaskImageType;
+  typedef typename Superclass::FixedImageMasksContainerType           FixedImageMasksContainerType;
+  typedef typename Superclass::MovingImageMaskType                    MovingImageMaskType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              MovingMaskImageType;
+  typedef typename Superclass::MovingImageMasksContainerType          MovingImageMasksContainerType;
 
   typedef typename Superclass::VirtualImageType                       VirtualImageType;
   typedef typename Superclass::VirtualImageBaseType                   VirtualImageBaseType;
@@ -111,9 +117,6 @@ public:
   typedef typename BSplineFilterType::RealImageType                     WeightedMaskImageType;
   typedef typename BSplineFilterType::InputPointSetType                 BSplinePointSetType;
 
-  typedef ImageMaskSpatialObject<ImageDimension>                      ImageMaskSpatialObjectType;
-  typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
-
   typedef typename Superclass::CompositeTransformType                 CompositeTransformType;
   typedef typename Superclass::DisplacementFieldTransformType         DisplacementFieldTransformType;
   typedef typename Superclass::DisplacementFieldTransformPointer      DisplacementFieldTransformPointer;
@@ -133,7 +136,8 @@ protected:
 
   virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const PointSetsContainerType,
     const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,
-    const TransformBaseType *, const FixedImageMaskType *, MeasureType & ) ITK_OVERRIDE;
+    const TransformBaseType *, const FixedImageMasksContainerType, const MovingImageMasksContainerType,
+    MeasureType & ) ITK_OVERRIDE;
   virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *,
     const ArrayType &, const WeightedMaskImageType *, const BSplinePointSetType * );
 

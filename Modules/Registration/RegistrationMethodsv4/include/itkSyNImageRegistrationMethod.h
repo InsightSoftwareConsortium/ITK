@@ -20,6 +20,7 @@
 
 #include "itkImageRegistrationMethodv4.h"
 
+#include "itkImageMaskSpatialObject.h"
 #include "itkDisplacementFieldTransform.h"
 
 namespace itk
@@ -102,8 +103,14 @@ public:
   typedef typename Superclass::ImageMetricType                        ImageMetricType;
   typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
-  typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
-  typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
+
+  typedef ImageMaskSpatialObject<ImageDimension>                      ImageMaskSpatialObjectType;
+  typedef typename Superclass::FixedImageMaskType                     FixedImageMaskType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              FixedMaskImageType;
+  typedef typename Superclass::FixedImageMasksContainerType           FixedImageMasksContainerType;
+  typedef typename Superclass::MovingImageMaskType                    MovingImageMaskType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              MovingMaskImageType;
+  typedef typename Superclass::MovingImageMasksContainerType          MovingImageMasksContainerType;
 
   typedef typename Superclass::VirtualImageType                       VirtualImageType;
   typedef typename Superclass::VirtualImageBaseType                   VirtualImageBaseType;
@@ -205,10 +212,11 @@ protected:
 
   virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const PointSetsContainerType,
     const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,
-    const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
+    const TransformBaseType *, const FixedImageMasksContainerType, const MovingImageMasksContainerType, MeasureType & );
   virtual DisplacementFieldPointer ComputeMetricGradientField( const FixedImagesContainerType,
     const PointSetsContainerType, const TransformBaseType *, const MovingImagesContainerType,
-    const PointSetsContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
+    const PointSetsContainerType, const TransformBaseType *, const FixedImageMasksContainerType,
+    const MovingImageMasksContainerType, MeasureType & );
 
   virtual DisplacementFieldPointer ScaleUpdateField( const DisplacementFieldType * );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );

@@ -424,7 +424,38 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         this->m_VirtualDomainImage->SetRegions( virtualDomainBaseImage->GetLargestPossibleRegion() );
         this->m_VirtualDomainImage->Allocate();
         }
+      }
 
+    this->m_FixedImageMasks.clear();
+    this->m_FixedImageMasks.resize( this->m_NumberOfMetrics );
+    this->m_MovingImageMasks.clear();
+    this->m_MovingImageMasks.resize( this->m_NumberOfMetrics );
+
+    for( SizeValueType n = 0; n < this->m_NumberOfMetrics; n++ )
+      {
+      this->m_FixedImageMasks[n] = ITK_NULLPTR;
+      this->m_MovingImageMasks[n] = ITK_NULLPTR;
+
+      if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC ||
+          ( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC &&
+            multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC ) )
+        {
+
+        if( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC )
+          {
+          this->m_FixedImageMasks[n] = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->GetFixedImageMask();
+          this->m_MovingImageMasks[n] = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->GetMovingImageMask();
+          }
+        else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
+          {
+          this->m_FixedImageMasks[n] = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetFixedImageMask();
+          this->m_MovingImageMasks[n] = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetMovingImageMask();
+          }
+        else
+          {
+          itkExceptionMacro( "Invalid metric type." )
+          }
+        }
       }
     }
   this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
@@ -616,11 +647,17 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         {
         multiMetric->GetMetricQueue()[n]->SetFixedObject( this->m_FixedSmoothImages[n] );
         multiMetric->GetMetricQueue()[n]->SetMovingObject( this->m_MovingSmoothImages[n] );
+
+        dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedImageMask( this->m_FixedImageMasks[n] );
+        dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetMovingImageMask( this->m_MovingImageMasks[n] );
         }
       else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
         {
         this->m_Metric->SetFixedObject( this->m_FixedSmoothImages[n] );
         this->m_Metric->SetMovingObject( this->m_MovingSmoothImages[n] );
+
+        dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedImageMask( this->m_FixedImageMasks[n] );
+        dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingImageMask( this->m_MovingImageMasks[n] );
         }
       else
         {
@@ -847,9 +884,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 {
   typedef typename ImageMetricType::VirtualImageType    VirtualDomainImageType;
   typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
-  const VirtualDomainImageType * virtualImage = ITK_NULLPTR;
 
-  typedef typename ImageMetricType::FixedImageMaskType  FixedImageMaskType;
+  const VirtualDomainImageType * virtualImage = ITK_NULLPTR;
   const FixedImageMaskType * fixedMaskImage = ITK_NULLPTR;
 
   SizeValueType numberOfLocalMetrics = 1;

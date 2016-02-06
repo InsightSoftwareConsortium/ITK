@@ -25,7 +25,6 @@
 
 namespace gdcm{
   class BaseRootQuery;
-  class BaseQuery;
   class File;
   namespace network{
     class BasePDU;
@@ -48,18 +47,10 @@ namespace gdcm{
       //the connection is necessary to construct the stream of PDVs that will
       //be then placed into the vector of PDUs
       static std::vector<BasePDU*> CreateCEchoPDU(const ULConnection& inConnection);
-      static std::vector<BasePDU*> CreateCStoreRQPDU(const ULConnection& inConnection, const File &file, bool writeDataSet = true );
+      static std::vector<BasePDU*> CreateCStoreRQPDU(const ULConnection& inConnection, const File &file);
       static std::vector<BasePDU*> CreateCStoreRSPPDU(const DataSet *inDataSet, const BasePDU* inPC);
       static std::vector<BasePDU*> CreateCFindPDU(const ULConnection& inConnection, const BaseRootQuery* inRootQuery);
       static std::vector<BasePDU*> CreateCMovePDU(const ULConnection& inConnection, const BaseRootQuery* inRootQuery);
-
-	  static std::vector<BasePDU*> CreateNEventReportPDU	(const ULConnection& inConnection, const BaseQuery *inQuery);
-	  static std::vector<BasePDU*> CreateNGetPDU			(const ULConnection& inConnection, const BaseQuery *inQuery);
-	  static std::vector<BasePDU*> CreateNSetPDU			(const ULConnection& inConnection, const BaseQuery *inQuery);
-	  static std::vector<BasePDU*> CreateNActionPDU			(const ULConnection& inConnection, const BaseQuery *inQuery);
-	  static std::vector<BasePDU*> CreateNCreatePDU			(const ULConnection& inConnection, const BaseQuery *inQuery);
-	  static std::vector<BasePDU*> CreateNDeletePDU			(const ULConnection& inConnection, const BaseQuery *inQuery);
-	  
 
       //given data pdus, produce the presentation data values stored within.
       //all operations have these as the payload of the data sending operation

@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKCommon1Tests
+itkImageRegionExplicitTest.cxx
 itkAbortProcessObjectTest.cxx
 itkCommandObserverObjectTest.cxx
 itkAdaptorComparisonTest.cxx

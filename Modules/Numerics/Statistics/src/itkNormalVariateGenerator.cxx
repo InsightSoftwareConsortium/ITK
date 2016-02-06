@@ -100,6 +100,7 @@ void NormalVariateGenerator::Initialize(int randomSeed)
 
 double NormalVariateGenerator::GetVariate()
 {
+
   if ( --m_Gaussfaze )
     {
     return m_GScale * m_Gausssave[m_Gaussfaze];
@@ -148,9 +149,10 @@ startpass:
   /*    Reset index into Saved values   */
   m_Gaussfaze = m_TLEN - 1; /* We will steal the last one   */
   /*    Update pseudo-random and use to choose type of rotation  */
-  m_Lseed = 69069 * m_Lseed + 33331;
+  m_Lseed = static_cast<int>(69069 * static_cast<long>(m_Lseed) + 33331);
+
   m_Irs = SignedShiftXOR(m_Irs);
-  t = m_Irs + m_Lseed;
+  t = static_cast<int>(static_cast<long>(m_Irs) + static_cast<long>(m_Lseed));
   if ( t < 0 ) { t = ~t; }
   /*    This gives us 31 random bits in t       */
   /*    We need ELEN to fix initial index into LEN, ELEN-1 to fix an odd
@@ -163,10 +165,11 @@ startpass:
   stride = ( m_LEN / 2 - 1 ) & t;     t = t >> ( m_ELEN - 1 );
   stride = 8 * stride + 4;      /* To give an odd num of 4-groups */
   mtype = t & 3;
-  /*    Leaves a bit for stype, but not currently used   */
 
+  /*    Leaves a bit for stype, but not currently used   */
   /*    Use last bits of m_Nslew to determine scanning pattern   */
   stype = m_Nslew & 3;
+
   switch ( stype )
     {
     case 0:               /*   From consecutive in top to scattered in bot  */
@@ -288,11 +291,13 @@ mpass3:
   t = ( p + q + r + s ) >> 1;
   p = t - p;  q = t - q;  r = t - r;  s = t - s;
   /*    Have new values in p,q,r,s.  Place and save replaced vals  */
+
   t = -*pe;  *pe = p;   pe += inc;
   p =  *pe;  *pe = q;   pe += inc;
   q =  *pe;  *pe = r;   pe += inc;
   r = -*pe;  *pe = s;
   /*    Have vals in p,q,r,t    */
+
   s = ( p + q + r + t ) >> 1;
   *pa = s - q;   pa += inc;
   *pb = s - r;   pb += inc;
@@ -319,19 +324,19 @@ renormalize:
   ts = 0.0;
   p = 0;
 nextpair:
-  m_Lseed = 69069 * m_Lseed + 33331;
+  m_Lseed = static_cast<int>(69069 * static_cast<long>(m_Lseed) + 33331);
   m_Irs = SignedShiftXOR(m_Irs);
-  r = m_Irs + m_Lseed;
+  r = static_cast<int>(static_cast<long>(m_Irs) + static_cast<long>(m_Lseed));
   tx = m_Rcons * r;
-  m_Lseed = 69069 * m_Lseed + 33331;
+  m_Lseed = static_cast<int>(69069 * static_cast<long>(m_Lseed) + 33331);
   m_Irs = SignedShiftXOR(m_Irs);
-  r = m_Irs + m_Lseed;
+  r = static_cast<int>(static_cast<long>(m_Irs) + static_cast<long>(m_Lseed));
   ty = m_Rcons * r;
   tr = tx * tx + ty * ty;
   if ( ( tr > 1.0 ) || ( tr < 0.1 ) ) { goto nextpair; }
-  m_Lseed = 69069 * m_Lseed + 33331;
+  m_Lseed = static_cast<int>(69069 * static_cast<long>(m_Lseed) + 33331);
   m_Irs = SignedShiftXOR(m_Irs);
-  r = m_Irs + m_Lseed;
+  r = static_cast<int>(static_cast<long>(m_Irs) + static_cast<long>(m_Lseed));
   if ( r < 0 ) { r = ~r; }
   tz = -2.0 * std::log( ( r + 0.5 ) * m_Rcons );   /* Sum of squares */
   ts += tz;

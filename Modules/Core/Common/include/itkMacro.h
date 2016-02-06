@@ -491,8 +491,10 @@ itkTypeMacro(newexcp, parentexcp);                                              
 // Define itkLegacyMacro to mark legacy methods where they are
 // declared in their class.  Example usage:
 //
-//   // @deprecated Replaced by MyOtherMethod() as of ITK 2.0.
+//   // \deprecated Replaced by MyOtherMethod() as of ITK 2.0.
 //   itkLegacyMacro(void MyMethod());
+//
+// See below for what to do for the method definition.
 #if defined( ITK_LEGACY_REMOVE )
 #define itkLegacyMacro(method) /* no ';' */
 #elif defined( ITK_LEGACY_SILENT ) || defined( ITK_LEGACY_TEST ) || defined( ITK_WRAPPING_PARSER )
@@ -513,6 +515,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 // Macros to create runtime deprecation warning messages in function
 // bodies.  Example usage:
 //
+//   #if !defined( ITK_LEGACY_REMOVE )
 //   void itkMyClass::MyOldMethod()
 //     {
 //     itkLegacyBodyMacro(itkMyClass::MyOldMethod, 2.0);
@@ -523,6 +526,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 //     itkLegacyReplaceBodyMacro(itkMyClass::MyMethod, 2.0,
 //                               itkMyClass::MyOtherMethod);
 //     }
+//   #endif
 #if defined( ITK_LEGACY_REMOVE ) || defined( ITK_LEGACY_SILENT )
 #define itkLegacyBodyMacro(method, version)
 #define itkLegacyReplaceBodyMacro(method, version, replace)

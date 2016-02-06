@@ -9,7 +9,7 @@ SET(LIBMINC_PACKAGE_VERSION_MAJOR 2)
 SET(LIBMINC_PACKAGE_VERSION_MINOR 3)
 SET(LIBMINC_PACKAGE_VERSION_PATCH 01)
 
-SET(LIBMINC_SOVERSION "4.0.0")
+SET(LIBMINC_SOVERSION "5.0.1")
 
 SET(LIBMINC_PACKAGE "libminc")
 SET(LIBMINC_PACKAGE_BUGREPORT "a.janke@gmail.com")
@@ -45,6 +45,8 @@ IF(NOT LIBMINC_EXTERNALLY_CONFIGURED)
 
 
   OPTION(LIBMINC_MINC1_SUPPORT           "Support minc1 file format, requires NETCDF" OFF)
+  OPTION(LIBMINC_NIFTI_SUPPORT           "Support nifti file format" OFF)
+  
   OPTION(LIBMINC_BUILD_EZMINC_EXAMPLES   "Build EZminc examples" OFF)
 
   SET (LIBMINC_EXPORTED_TARGETS "LIBMINC-targets")
@@ -64,6 +66,8 @@ IF(NOT LIBMINC_EXTERNALLY_CONFIGURED)
 ELSE(NOT LIBMINC_EXTERNALLY_CONFIGURED)
   #TODO: set paths for HDF5 etc
 ENDIF(NOT LIBMINC_EXTERNALLY_CONFIGURED)
+
+set(CMAKE_MACOSX_RPATH ON)
 
 # Configure libminc
 IF(LIBMINC_BUILD_SHARED_LIBS)
@@ -174,15 +178,21 @@ INCLUDE_DIRECTORIES(
    ${CMAKE_CURRENT_SOURCE_DIR}/libsrc
    ${CMAKE_CURRENT_SOURCE_DIR}/volume_io/Include
    ${CMAKE_CURRENT_SOURCE_DIR}/ezminc
-   ${CMAKE_CURRENT_SOURCE_DIR}/nifti
    ${HDF5_INCLUDE_DIR}
    )
+
+IF(LIBMINC_NIFTI_SUPPORT)
+  INCLUDE_DIRECTORIES(
+   ${CMAKE_CURRENT_SOURCE_DIR}/nifti
+  )
+ENDIF(LIBMINC_NIFTI_SUPPORT)
 
 SET(minc_common_SRCS
    libsrc/time_stamp.c
    libsrc/read_file_names.c
    libsrc/ParseArgv.c
    libsrc/restructure.c
+   libsrc/minc_config.c
 )
 
 SET(minc_common_HEADERS
@@ -191,10 +201,16 @@ SET(minc_common_HEADERS
   libsrc/read_file_names.h
   libsrc/restructure.h
   volume_io/Include/volume_io.h
-  nifti/nifti1.h
-  nifti/nifti1_io.h
-  nifti/znzlib.h
+  libsrc/minc_config.h  
 )
+
+IF(LIBMINC_NIFTI_SUPPORT)
+  SET(minc_common_HEADERS ${minc_common_HEADERS}
+    nifti/nifti1.h
+    nifti/nifti1_io.h
+    nifti/znzlib.h
+  )
+ENDIF(LIBMINC_NIFTI_SUPPORT)
 
 # some variables
 SET(minc1_LIB_SRCS
@@ -284,11 +300,16 @@ SET(volume_io_LIB_SRCS
    volume_io/Volumes/volumes.c
    volume_io/Volumes/input_mnc2.c
    volume_io/Volumes/output_mnc2.c
-   volume_io/Volumes/input_mgh.c
+)
+
+IF(LIBMINC_NIFTI_SUPPORT)
+  SET(volume_io_LIB_SRCS ${volume_io_LIB_SRCS}
    volume_io/Volumes/input_nifti.c
    nifti/nifti1_io.c
    nifti/znzlib.c
-)
+   volume_io/Volumes/input_mgh.c
+  )
+ENDIF(LIBMINC_NIFTI_SUPPORT)
 
 SET(volume_io_HEADERS
     volume_io/Include/volume_io/alloc.h
@@ -336,6 +357,7 @@ ENDIF(LIBMINC_MINC1_SUPPORT)
 
 # Keep this variable for compatibility
 SET(VOLUME_IO_LIBRARY ${LIBMINC_EXTERNAL_LIB_PREFIX}minc2)
+SET(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
 
 ADD_LIBRARY(${LIBMINC_LIBRARY} ${LIBRARY_TYPE} ${minc_LIB_SRCS} ${minc_HEADERS} ${volume_io_LIB_SRCS} ${volume_io_HEADERS} )
 TARGET_LINK_LIBRARIES(${LIBMINC_LIBRARY} ${HDF5_LIBRARY} ${ZLIB_LIBRARY} ${RT_LIBRARY}) # 
@@ -395,8 +417,13 @@ SET(LIBMINC_INCLUDE_DIRS_CONFIG
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/libsrc2
   ${CMAKE_CURRENT_SOURCE_DIR}/volume_io/Include
-  ${CMAKE_CURRENT_SOURCE_DIR}/nifti
 )
+
+IF(LIBMINC_NIFTI_SUPPORT)
+  SET(LIBMINC_INCLUDE_DIRS_CONFIG  ${LIBMINC_INCLUDE_DIRS_CONFIG}
+      ${CMAKE_CURRENT_SOURCE_DIR}/nifti
+  )
+ENDIF(LIBMINC_NIFTI_SUPPORT)
 
 IF(LIBMINC_MINC1_SUPPORT)
   SET(LIBMINC_INCLUDE_DIRS_CONFIG

@@ -64,12 +64,8 @@ public :
 
   /// construct a list of filenames and subdirectory beneath directory: name
   /// \warning: hidden file and hidden directory are not loaded.
-  unsigned int Load(FilenameType const &name, bool recursive = false) {
-    Filenames.clear(); // clear previous
-    Directories.clear(); // clear previous
-    Toplevel = name;
-    return Explore( Toplevel, recursive );
-  }
+  unsigned int Load(FilenameType const &name, bool recursive = false);
+
   // \todo later: GLOB
   // The glob() function searches for all the pathnames matching pattern according to
   // the rules used by the shell (see glob(7)).  No tilde expansion or parameter

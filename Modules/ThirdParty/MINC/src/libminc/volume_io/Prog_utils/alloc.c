@@ -508,7 +508,7 @@ VIOAPI  void  *alloc_memory_5d(
               line_number
 @OUTPUT     : 
 @RETURNS    : 
-@DESCRIPTION: VIO_Reallocates the ptr.
+@DESCRIPTION: Reallocates the ptr.
 @METHOD     : 
 @GLOBALS    : 
 @CALLS      : 

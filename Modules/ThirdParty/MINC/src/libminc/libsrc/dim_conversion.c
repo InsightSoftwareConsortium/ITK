@@ -246,9 +246,9 @@ PRIVATE int MI_icv_get_dim(mi_icv_type *icvp, int cdfid, int varid)
    for (idim=0; idim < icvp->user_num_imgdims; idim++) {
       {MI_CHK_ERR(ncdiminq(cdfid, icvp->var_dim[subsc[idim]], dimname, 
                        &(icvp->var_dim_size[idim])))};
-      oldncopts = ncopts; ncopts = 0;
+      oldncopts =get_ncopts(); set_ncopts(0);
       dimvid[idim] = ncvarid(cdfid, dimname);
-      ncopts = oldncopts;
+      set_ncopts(oldncopts);
    }
 
    /* Check for flipping */
@@ -323,9 +323,9 @@ PRIVATE int MI_get_dim_flip(mi_icv_type *icvp, int cdfid, int dimvid[],
             provided. */
          dimstep = 1.0;
          if (dimvid[idim] != MI_ERROR) {   /* if dimension exists */
-            oldncopts = ncopts; ncopts = 0;
+            oldncopts =get_ncopts(); set_ncopts(0);
             (void) miattget1(cdfid, dimvid[idim], MIstep, NC_DOUBLE, &dimstep);
-            ncopts = oldncopts;
+            set_ncopts(oldncopts);
          }                           /* if dimension exists */
          if (dim_dir == MI_ICV_POSITIVE)
             icvp->derv_dim_flip[idim] = (dimstep<0.0);
@@ -460,7 +460,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
       /* Get pixel step and start for variable and calculate for user.
          Look for them in the dimension variable (if MIstep is not
          there, then use defaults step = 1.0, start = 0.0 */
-      oldncopts = ncopts; ncopts = 0;
+      oldncopts =get_ncopts(); set_ncopts(0);
       dimstep = 1.0;
       (void) miattget1(cdfid, dimvid[idim], MIstep, NC_DOUBLE, &dimstep);
       /* Flip dimstep if needed */
@@ -481,7 +481,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
       icvp->derv_dim_start[idim] = dimstart + 
          (icvp->derv_dim_step[idim] - dimstep) / 2.0 -
             icvp->derv_dim_off[idim] * icvp->derv_dim_step[idim];
-      ncopts = oldncopts;
+      set_ncopts(oldncopts);
 
    }                 /* for each dimension */
 

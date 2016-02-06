@@ -86,29 +86,6 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
     itkExceptionMacro( "The virtual domain image is not found." );
     }
 
-  typename MovingImageMaskType::ConstPointer movingImageMask = ITK_NULLPTR;
-  typename FixedImageMaskType::ConstPointer fixedImageMask = ITK_NULLPTR;
-
-  typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
-  if( multiMetric )
-    {
-    typename ImageMetricType::Pointer metricQueue = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() );
-    if( metricQueue.IsNotNull() )
-      {
-      fixedImageMask = metricQueue->GetFixedImageMask();
-      movingImageMask = metricQueue->GetMovingImageMask();
-      }
-    }
-  else
-    {
-    typename ImageMetricType::Pointer metric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
-    if( metric.IsNotNull() )
-      {
-      fixedImageMask = metric->GetFixedImageMask();
-      movingImageMask = metric->GetMovingImageMask();
-      }
-    }
-
   InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
 
   // Monitor the convergence
@@ -144,12 +121,12 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
     DisplacementFieldPointer fixedToMiddleSmoothUpdateField = this->ComputeUpdateField(
       this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
       this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
-      fixedImageMask, movingMetricValue );
+      this->m_FixedImageMasks, this->m_MovingImageMasks, movingMetricValue );
 
     DisplacementFieldPointer movingToMiddleSmoothUpdateField = this->ComputeUpdateField(
       this->m_MovingSmoothImages, this->m_MovingPointSets, movingComposite,
       this->m_FixedSmoothImages, this->m_FixedPointSets, fixedComposite,
-      movingImageMask, fixedMetricValue );
+      this->m_MovingImageMasks, this->m_FixedImageMasks, fixedMetricValue );
 
     if ( this->m_AverageMidPointGradients )
       {
@@ -214,7 +191,8 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
 BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::ComputeUpdateField( const FixedImagesContainerType fixedImages, const PointSetsContainerType fixedPointSets,
   const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages, const PointSetsContainerType movingPointSets,
-  const TransformBaseType * movingTransform, const FixedImageMaskType * mask, MeasureType & value )
+  const TransformBaseType * movingTransform, const FixedImageMasksContainerType fixedImageMasks, const MovingImageMasksContainerType movingImageMasks,
+  MeasureType & value )
 {
   DisplacementFieldPointer metricGradientField = ITK_NULLPTR;
   DisplacementFieldPointer updateField = ITK_NULLPTR;
@@ -301,21 +279,21 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
   else
     {
     metricGradientField = this->ComputeMetricGradientField(
-        fixedImages, fixedPointSets, fixedTransform, movingImages, movingPointSets, movingTransform, mask, value );
+        fixedImages, fixedPointSets, fixedTransform, movingImages, movingPointSets, movingTransform, fixedImageMasks, movingImageMasks, value );
 
-    if( mask )
+    if( fixedImageMasks[0] )
       {
       VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
 
       typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType, typename TOutputTransform::ScalarType> MaskResamplerType;
-      typename MaskResamplerType::Pointer maskResampler = MaskResamplerType::New();
-      maskResampler->SetTransform( fixedTransform );
-      maskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( mask ) )->GetImage() );
-      maskResampler->UseReferenceImageOn();
-      maskResampler->SetReferenceImage( virtualDomainImage );
-      maskResampler->SetSize( virtualDomainImage->GetBufferedRegion().GetSize() );
-      maskResampler->SetDefaultPixelValue( 0 );
-      weightedMask = maskResampler->GetOutput();
+      typename MaskResamplerType::Pointer fixedMaskResampler = MaskResamplerType::New();
+      fixedMaskResampler->SetTransform( fixedTransform );
+      fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[0].GetPointer() ) )->GetImage() );
+      fixedMaskResampler->UseReferenceImageOn();
+      fixedMaskResampler->SetReferenceImage( virtualDomainImage );
+      fixedMaskResampler->SetSize( virtualDomainImage->GetBufferedRegion().GetSize() );
+      fixedMaskResampler->SetDefaultPixelValue( 0 );
+      weightedMask = fixedMaskResampler->GetOutput();
       weightedMask->Update();
       weightedMask->DisconnectPipeline();
       }
@@ -331,9 +309,8 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::DisplacementFieldPointer
 BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
-::BSplineSmoothDisplacementField( const DisplacementFieldType * field,
-  const ArrayType & numberOfControlPoints, const WeightedMaskImageType * mask,
-  const BSplinePointSetType * gradientPointSet )
+::BSplineSmoothDisplacementField( const DisplacementFieldType * field, const ArrayType & numberOfControlPoints,
+  const WeightedMaskImageType * mask, const BSplinePointSetType * gradientPointSet )
 {
   typedef ImageDuplicator<DisplacementFieldType> DuplicatorType;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();

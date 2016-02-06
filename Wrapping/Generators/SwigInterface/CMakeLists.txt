@@ -11,9 +11,9 @@ mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 # Minimal swig version
 set(swig_version_min 3.0.0)
 
-set(ITK_SWIG_VERSION 3.0.7)
-set(swig_md5     7fff46c84b8c630ede5b0f0827e3d90a)
-set(swigwin_md5  d8b5a9ce49c819cc1bfc1e797b85ba7a)
+set(ITK_SWIG_VERSION 3.0.8)
+set(swig_md5     c96a1d5ecb13d38604d7e92148c73c97)
+set(swigwin_md5  07bc00f7511b7d57516c50f59d705efa)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
@@ -132,8 +132,8 @@ else()
     endif()
     if(NOT TARGET PCRE)
       ExternalProject_Add(PCRE
-        URL http://downloads.sourceforge.net/project/pcre/pcre/8.37/pcre-8.37.tar.gz
-        URL_MD5 6e0cc6d1bdac7a4308151f9b3571b86e
+        URL http://downloads.sourceforge.net/project/pcre/pcre/8.38/pcre-8.38.tar.gz
+        URL_MD5 8a353fe1450216b6655dfcf3561716d9
         CONFIGURE_COMMAND
           ${pcre_env}
           ../PCRE/configure
