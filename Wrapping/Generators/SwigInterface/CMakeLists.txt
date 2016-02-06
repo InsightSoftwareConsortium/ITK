@@ -54,14 +54,16 @@ else()
     if(ITK_BINARY_DIR)
       itk_download_attempt_check(SWIG)
     endif()
-    ExternalProject_Add(swig
-      URL http://prdownloads.sourceforge.net/swig/swigwin-${SWIG_VERSION}.zip
-      URL_MD5 ${swigwin_md5}
-      SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND ""
-      INSTALL_COMMAND ""
-      )
+    if(NOT TARGET swig)
+      ExternalProject_Add(swig
+        URL http://prdownloads.sourceforge.net/swig/swigwin-${SWIG_VERSION}.zip
+        URL_MD5 ${swigwin_md5}
+        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ""
+        INSTALL_COMMAND ""
+        )
+    endif()
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
   else()
     # From PCRE configure
@@ -128,16 +130,18 @@ else()
             install
       )
     endif()
-    ExternalProject_Add(PCRE
-    URL http://downloads.sourceforge.net/project/pcre/pcre/8.38/pcre-8.38.tar.gz
-    URL_MD5 8a353fe1450216b6655dfcf3561716d9
-    CONFIGURE_COMMAND
-      ${pcre_env}
-      ../PCRE/configure
-      --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
-      --enable-shared=no
-    ${extra_external_project_commands}
-    )
+    if(NOT TARGET PCRE)
+      ExternalProject_Add(PCRE
+        URL http://downloads.sourceforge.net/project/pcre/pcre/8.38/pcre-8.38.tar.gz
+        URL_MD5 8a353fe1450216b6655dfcf3561716d9
+        CONFIGURE_COMMAND
+          ${pcre_env}
+          ../PCRE/configure
+          --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
+          --enable-shared=no
+        ${extra_external_project_commands}
+        )
+    endif()
 
     # swig uses bison find it by cmake and pass it down
     find_package ( BISON )
@@ -228,14 +232,16 @@ message(STATUS \"Swig configure successfully completed.\")
           "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
       )
     endif()
-    ExternalProject_Add(swig
-    URL http://prdownloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz
-    URL_MD5 ${swig_md5}
-    CONFIGURE_COMMAND
-      ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
-    ${extra_external_project_commands}
-    DEPENDS PCRE
-    )
+    if(NOT TARGET swig)
+      ExternalProject_Add(swig
+        URL http://prdownloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz
+        URL_MD5 ${swig_md5}
+        CONFIGURE_COMMAND
+          ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
+        ${extra_external_project_commands}
+        DEPENDS PCRE
+        )
+    endif()
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
     mark_as_advanced(SWIG_DIR)
   endif()
