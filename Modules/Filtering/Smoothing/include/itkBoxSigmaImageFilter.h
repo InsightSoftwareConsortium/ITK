@@ -34,7 +34,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/160
  *
  * \author Gaetan Lehmann
- * \ingroup ITKReview
+ * \ingroup ITKSmoothing
  */
 
 template< typename TInputImage, typename TOutputImage = TInputImage >

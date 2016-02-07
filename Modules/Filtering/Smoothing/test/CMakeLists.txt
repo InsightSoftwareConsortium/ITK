@@ -1,5 +1,7 @@
 itk_module_test()
 set(ITKSmoothingTests
+itkBoxMeanImageFilterTest.cxx
+itkBoxSigmaImageFilterTest.cxx
 itkDiscreteGaussianImageFilterTest2.cxx
 itkSmoothingRecursiveGaussianImageFilterTest.cxx
 itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest.cxx
@@ -15,7 +17,26 @@ itkRecursiveGaussianScaleSpaceTest1.cxx
 )
 
 CreateTestDriver(ITKSmoothing  "${ITKSmoothing-Test_LIBRARIES}" "${ITKSmoothingTests}")
-
+itk_add_test(NAME itkBoxMeanImageFilterTest3
+      COMMAND ITKSmoothingTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkBoxMeanImageFilter3.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter3.png
+    itkBoxMeanImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter3.png 3)
+itk_add_test(NAME itkBoxMeanImageFilterTest10
+      COMMAND ITKSmoothingTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkBoxMeanImageFilter10.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter10.png
+    itkBoxMeanImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter10.png 10)
+itk_add_test(NAME itkBoxSigmaImageFilterTest3
+      COMMAND ITKSmoothingTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkBoxSigmaImageFilter3.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter3.png
+    itkBoxSigmaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter3.png 3)
+itk_add_test(NAME itkBoxSigmaImageFilterTest10
+      COMMAND ITKSmoothingTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkBoxSigmaImageFilter10.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter10.png
+    itkBoxSigmaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter10.png 10)
 itk_add_test(NAME itkDiscreteGaussianImageFilterTest2
       COMMAND ITKSmoothingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/DiscreteGaussianImageFilterTest2_OutputA.mha}
