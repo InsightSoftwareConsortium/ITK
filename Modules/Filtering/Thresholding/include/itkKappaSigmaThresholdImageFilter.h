@@ -24,27 +24,22 @@
 namespace itk
 {
 /** \class KappaSigmaThresholdImageFilter
- * \brief Threshold an image using multiple Otsu Thresholds.
+ * \brief Threshold an image using Kappa-Sigma-Clipping.
  *
- * This filter creates a labeled image that separates the input
- * image into various classes. The filter
- * computes the thresholds using the MaximumEntropyThresholdImageCalculator and
- * applies those thesholds to the input image using the
- * ThresholdLabelerImageFilter. The NumberOfHistogramBins and
- * NumberOfThresholds can be set
- * for the Calculator. The LabelOffset can be set
- * for the ThresholdLabelerImageFilter.
+ * This filter creates a binary thresholded image which separates background and
+ * foreground modes by iteratively rejecting pixels that do not belong to
+ * the dominant mode. The filter computes the threshold using the KappaSigmaThre-
+ * sholdImageCalculator and applies that threshold to the input image using the
+ * BinaryThresholdImageFilter.
  *
  * \author Gaetan Lehmann
  *
- * This class was taken from the Insight Journal paper:
+ * \note This class was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/367
  *
- * \sa ScalarImageToHistogramGenerator
- * \sa MaximumEntropyThresholdImageCalculator
- * \sa ThresholdLabelerImageFilter
- * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITKReview
+ * \sa KappaSigmaThresholdImageCalculator
+ * \ingroup IntensityImageFilters
+ * \ingroup ITKThresholding
  */
 
 template< typename TInputImage,
@@ -97,12 +92,16 @@ public:
   /** Get the computed threshold. */
   itkGetConstMacro(Threshold, InputPixelType);
 
+  /** Set the mask value used to select which pixels will be considered in the
+   * threshold computation (optional, only in case a MaskImage is set). */
   itkSetMacro(MaskValue, MaskPixelType);
   itkGetConstMacro(MaskValue, MaskPixelType);
 
+  /** Set the Sigma multiplier (Kappa) to adjust the pixel rejection rate. */
   itkSetMacro(SigmaFactor, double);
   itkGetConstMacro(SigmaFactor, double);
 
+  /** Set the number of rejection passes. */
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetConstMacro(NumberOfIterations, unsigned int);
 
@@ -143,11 +142,11 @@ public:
 protected:
   KappaSigmaThresholdImageFilter();
   ~KappaSigmaThresholdImageFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  void GenerateData() ITK_OVERRIDE;
+  virtual void GenerateData() ITK_OVERRIDE;
 
   typedef typename TInputImage::SizeType    InputSizeType;
   typedef typename TInputImage::IndexType   InputIndexType;
