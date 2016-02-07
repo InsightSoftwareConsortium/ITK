@@ -19,6 +19,8 @@
 #ifndef itkFileTools_h
 #define itkFileTools_h
 
+#include <string>
+
 namespace itk
 {
 
@@ -30,18 +32,19 @@ namespace itk
 class FileTools
 {
 public:
+
   /** Helper function to create the directory, if it does not exist. */
-  static void CreateDirectory( const char* fn );
+  static void CreateDirectory( const std::string &fn );
 
   /** Function to create a file, if it does not exist. */
-  static void CreateFile( const char* fn );
+  static void CreateFile( const std::string &fn );
+
 };
 
 } // namespace itk
 
 // here comes the implementation
 
-#include <string>
 #include "itksys/SystemTools.hxx"
 #include "itkMacro.h"
 
@@ -50,26 +53,25 @@ namespace itk
 
 /** Helper function to create the directory, if it does not exist. */
 inline void
-FileTools::CreateDirectory( const char* dir )
+FileTools::CreateDirectory( const std::string &dir )
 {
-  if ( dir == ITK_NULLPTR || itksys::SystemTools::FileExists(dir,true) )
+  if ( dir.empty() || itksys::SystemTools::FileExists(dir.c_str(),true) )
     {
     ExceptionObject eo( __FILE__, __LINE__, "directory cannot be created" );
     throw eo;
     }
 
   // do nothing if it already exists
-  std::string s(dir);
-  if ( s == "" || s == "." || itksys::SystemTools::FileIsDirectory(dir) )
+  if ( "" == dir || "." == dir || itksys::SystemTools::FileIsDirectory(dir.c_str()) )
     {
     return;
     }
 
   // create it
-  itksys::SystemTools::MakeDirectory( dir );
+  itksys::SystemTools::MakeDirectory( dir.c_str() );
 
   // check successful or not
-  if ( !itksys::SystemTools::FileIsDirectory(dir) )
+  if ( !itksys::SystemTools::FileIsDirectory( dir.c_str() ) )
     {
     ExceptionObject eo( __FILE__, __LINE__, "directory cannot be created" );
     throw eo;
@@ -78,29 +80,29 @@ FileTools::CreateDirectory( const char* dir )
 
 /** Helper function to create a file, if it does not exist. */
 inline void
-FileTools::CreateFile( const char* fn )
+FileTools::CreateFile( const std::string &fn )
 {
-  if ( fn == ITK_NULLPTR || *fn == 0 || itksys::SystemTools::FileIsDirectory(fn) )
+  if ( fn.empty() || itksys::SystemTools::FileIsDirectory( fn.c_str() ) )
     {
     ExceptionObject eo( __FILE__, __LINE__, "file cannot be created" );
     throw eo;
     }
 
   // do nothing if it already exists
-  if ( itksys::SystemTools::FileExists(fn,true) )
+  if ( itksys::SystemTools::FileExists(fn.c_str() ,true) )
     {
     return;
     }
 
   // make sure the directory exists
-  std::string dir = itksys::SystemTools::GetFilenamePath( fn );
-  FileTools::CreateDirectory( dir.c_str() );
+  std::string dir = itksys::SystemTools::GetFilenamePath( fn.c_str() );
+  FileTools::CreateDirectory( dir );
 
   // create the file
-  itksys::SystemTools::Touch( fn, true );
+  itksys::SystemTools::Touch( fn.c_str(), true );
 
   // check successful or not
-  if ( !itksys::SystemTools::FileExists(fn,true) )
+  if ( !itksys::SystemTools::FileExists( fn.c_str(), true) )
     {
     ExceptionObject eo( __FILE__, __LINE__, "file cannot be created" );
     throw eo;
