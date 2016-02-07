@@ -16,10 +16,9 @@ macro(WRAP_TYPE class prefix)
    set(itk_Wrap_Prefix "${prefix}")
    set(itk_Wrap_Class "${class}")
 
-   # If the type is ITK class, add apropriate include file
-   if("${class}" MATCHES "itk::")
-     string(REGEX REPLACE "itk.*::(.*)" "itk\\1" includeFileName "${class}")
-     list(APPEND WRAPPER_DEFAULT_INCLUDE "${includeFileName}.h")
+   # Add any include's specified in ARGN to WRAPPER_DEFAULT_INCLUDE
+   if(NOT "${ARGN}" STREQUAL "")
+     list(APPEND WRAPPER_DEFAULT_INCLUDE ${ARGN})
    endif()
 endmacro()
 
@@ -60,7 +59,7 @@ endmacro()
 # to be wrapped in their own file, most of the time in Common.
 
 
-WRAP_TYPE("itk::Offset" "O")
+WRAP_TYPE("itk::Offset" "O" "itkOffset.h")
   UNIQUE(dims "${ITK_WRAP_IMAGE_DIMS_INCREMENTED};1;2")
   foreach(d ${dims})
     ADD_TEMPLATE("${d}"  "${d}")
@@ -68,7 +67,7 @@ WRAP_TYPE("itk::Offset" "O")
 END_WRAP_TYPE()
 set(itk_Wrap_Offset ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::Vector" "V")
+WRAP_TYPE("itk::Vector" "V" "itkVector.h")
   # dim 6 is used by ScaleSkewVersor3DTransform
   UNIQUE(vector_dims "1;${ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED};6")
   UNIQUE(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
@@ -82,7 +81,7 @@ WRAP_TYPE("itk::Vector" "V")
 END_WRAP_TYPE()
 set(itk_Wrap_Vector ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::CovariantVector" "CV")
+WRAP_TYPE("itk::CovariantVector" "CV" "itkCovariantVector.h")
   foreach(vector_dim ${ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED})
     ADD_TEMPLATE(
       "${ITKM_F}${vector_dim}"
@@ -94,7 +93,7 @@ WRAP_TYPE("itk::CovariantVector" "CV")
 END_WRAP_TYPE()
 set(itk_Wrap_CovariantVector ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::ContinuousIndex" "CI")
+WRAP_TYPE("itk::ContinuousIndex" "CI" "itkContinuousIndex.h")
 foreach(d ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
     ADD_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     ADD_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
@@ -102,7 +101,7 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
 END_WRAP_TYPE()
 set(itk_Wrap_ContinuousIndex ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::Array" "A")
+WRAP_TYPE("itk::Array" "A" "itkArray.h")
   ADD_TEMPLATE("${ITKM_D}" "${ITKT_D}")
   ADD_TEMPLATE("${ITKM_F}" "${ITKT_F}")
   ADD_TEMPLATE("${ITKM_UL}" "${ITKT_UL}")
@@ -110,7 +109,7 @@ WRAP_TYPE("itk::Array" "A")
 END_WRAP_TYPE()
 set(itk_Wrap_Array ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::FixedArray" "FA")
+WRAP_TYPE("itk::FixedArray" "FA" "itkFixedArray.h")
 
   set(dims ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
@@ -147,7 +146,7 @@ WRAP_TYPE("itk::FixedArray" "FA")
 END_WRAP_TYPE()
 set(itk_Wrap_FixedArray ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::RGBPixel" "RGB")
+WRAP_TYPE("itk::RGBPixel" "RGB" "itkRGBPixel.h")
 
   # Required by InterpolateImageFunction
   ADD_TEMPLATE("${ITKM_D}" "${ITKT_D}")
@@ -165,7 +164,7 @@ WRAP_TYPE("itk::RGBPixel" "RGB")
 END_WRAP_TYPE()
 set(itk_Wrap_RGBPixel ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::RGBAPixel" "RGBA")
+WRAP_TYPE("itk::RGBAPixel" "RGBA" "itkRGBAPixel.h")
 
   # Required by InterpolateImageFunction
   ADD_TEMPLATE("${ITKM_D}" "${ITKT_D}")
@@ -184,7 +183,7 @@ WRAP_TYPE("itk::RGBAPixel" "RGBA")
 END_WRAP_TYPE()
 set(itk_Wrap_RGBAPixel ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("std::complex" "C")
+WRAP_TYPE("std::complex" "C" "complex")
   if(ITK_WRAP_complex_float)
     ADD_TEMPLATE("${ITKM_F}"  "${ITKT_F}")
   endif()
@@ -194,7 +193,7 @@ WRAP_TYPE("std::complex" "C")
 END_WRAP_TYPE()
 set(itk_Wrap_vcl_complex ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::SymmetricSecondRankTensor" "SSRT")
+WRAP_TYPE("itk::SymmetricSecondRankTensor" "SSRT" "itkSymmetricSecondRankTensor.h")
   # itkDiffusionTensor3D always needs SymmetricSecondRankTensor with dim 2 and 3
   UNIQUE(image_dims "${ITK_WRAP_IMAGE_DIMS};2;3")
   foreach(d ${image_dims})
@@ -204,7 +203,7 @@ WRAP_TYPE("itk::SymmetricSecondRankTensor" "SSRT")
 END_WRAP_TYPE()
 set(itk_Wrap_SymmetricSecondRankTensor ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::Image" "I")
+WRAP_TYPE("itk::Image" "I" "itkImage.h")
   # Make a list of all of the selected image pixel types and also double (for
   # BSplineDeformableTransform), uchar (for 8-bit image output), ulong
   # (for the watershed and relabel filters), bool for (FlatStructuringElement)
@@ -277,7 +276,7 @@ WRAP_TYPE("itk::Image" "I")
 END_WRAP_TYPE()
 set(itk_Wrap_Image ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::VectorImage" "VI")
+WRAP_TYPE("itk::VectorImage" "VI" "itkVectorImage.h")
   # Make a list of all of the selected image pixel types and also uchar
   # (for 8-bit image output)
   UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC")
@@ -290,7 +289,7 @@ WRAP_TYPE("itk::VectorImage" "VI")
 END_WRAP_TYPE()
 set(itk_Wrap_VectorImage ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::VariableLengthVector" "VLV")
+WRAP_TYPE("itk::VariableLengthVector" "VLV" "itkVariableLengthVector.h")
   # Make a list of all of the selected image pixel types and also uchar
   # (for 8-bit image output)
   UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC;D")
@@ -301,7 +300,7 @@ WRAP_TYPE("itk::VariableLengthVector" "VLV")
 END_WRAP_TYPE()
 set(itk_Wrap_VariableLengthVector ${WRAPPER_TEMPLATES})
 
-WRAP_TYPE("itk::Point" "P")
+WRAP_TYPE("itk::Point" "P" "itkPoint.h")
   foreach(d ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
     ADD_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     ADD_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
@@ -309,18 +308,16 @@ WRAP_TYPE("itk::Point" "P")
 END_WRAP_TYPE()
 set(itk_Wrap_Point ${WRAPPER_TEMPLATES})
 
-if(ITK_BUILD_DEFAULT_MODULES OR ITKGroup_Filtering)
-  # Needed by Modules/Filtering/FastMarching/wrapping/itkLevelSetNode.wrap
-  WRAP_TYPE("itk::LevelSetNode" "LSN")
-    # Only make level set nodes for the selected image pixel types
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-      foreach(type ${WRAP_ITK_SCALAR})
-        ADD_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
-      endforeach()
+# Needed by Modules/Filtering/FastMarching/wrapping/itkLevelSetNode.wrap
+WRAP_TYPE("itk::LevelSetNode" "LSN")
+  # Only make level set nodes for the selected image pixel types
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(type ${WRAP_ITK_SCALAR})
+      ADD_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
     endforeach()
-  END_WRAP_TYPE()
-  set(itk_Wrap_LevelSetNode ${WRAPPER_TEMPLATES})
-endif()
+  endforeach()
+END_WRAP_TYPE()
+set(itk_Wrap_LevelSetNode ${WRAPPER_TEMPLATES})
 
 # Needed by Modules/Filtering/MathematicalMorphology/wrapping/itkFlatStructuringElement.wrap
 WRAP_TYPE("itk::FlatStructuringElement" "SE")
@@ -343,14 +340,12 @@ WRAP_TYPE("itk::Statistics::Histogram" "H")
 END_WRAP_TYPE()
 set(itk_Wrap_Histogram ${WRAPPER_TEMPLATES})
 
-if(ITK_BUILD_DEFAULT_MODULES OR ITKGroup_Filtering)
-  # Needed by Modules/Filtering/LabelMap/wrapping/ITKLabelMapBase.wrap
-  WRAP_TYPE("itk::LabelMap" "LM")
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-      ADD_TEMPLATE("${d}" "itk::StatisticsLabelObject< ${ITKT_UL}, ${d} >")
-  endforeach()
-  END_WRAP_TYPE()
-  set(itk_Wrap_LabelMap ${WRAPPER_TEMPLATES})
-endif()
+# Needed by Modules/Filtering/LabelMap/wrapping/ITKLabelMapBase.wrap
+WRAP_TYPE("itk::LabelMap" "LM")
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    ADD_TEMPLATE("${d}" "itk::StatisticsLabelObject< ${ITKT_UL}, ${d} >")
+endforeach()
+END_WRAP_TYPE()
+set(itk_Wrap_LabelMap ${WRAPPER_TEMPLATES})
 
 #------------------------------------------------------------------------------

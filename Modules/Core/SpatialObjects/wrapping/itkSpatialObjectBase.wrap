@@ -1,3 +1,4 @@
+itk_wrap_include("itkSpatialObject.h")
 itk_wrap_simple_class("itk::MetaEvent")
 
 itk_wrap_class("itk::SpatialObject" POINTER_WITH_EXPLICIT_SPECIALIZATION)

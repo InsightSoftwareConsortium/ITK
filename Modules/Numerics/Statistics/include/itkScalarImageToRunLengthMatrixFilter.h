@@ -22,6 +22,7 @@
 #include "itkHistogram.h"
 #include "itkNumericTraits.h"
 #include "itkVectorContainer.h"
+#include "itkProcessObject.h"
 
 namespace itk
 {
