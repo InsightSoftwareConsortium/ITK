@@ -27,7 +27,7 @@ static integer c__3 = 3;
 
 /*<       subroutine dgpfa3f(a,b,trigs,inc,jump,n,mm,lot,isign) >*/
 /* Subroutine */ int dgpfa3f_(doublereal *a, doublereal *b, doublereal *trigs,
-         integer *inc, integer *jump, integer *n, integer *mm, integer *lot, 
+         integer *inc, integer *jump, integer *n, integer *mm, integer *lot,
         integer *isign)
 {
     /* Initialized data */
@@ -47,9 +47,9 @@ static integer c__3 = 3;
     integer n3;
     doublereal t1, t2, t3, u1, u2, u3;
     integer ja, jb, la, jc, jd, nb, je, jf, jg, jh, mh, kk, ji, ll, mu, nu;
-    doublereal co1, co2, si1, si2, aja, ajb, ajc, bjb, bjc, bja, ajd, bjd, 
+    doublereal co1, co2, si1, si2, aja, ajb, ajc, bjb, bjc, bja, ajd, bjd,
             aje, ajf, ajh, bje, bjf, bjh, aji, ajg, bji, bjg;
-    integer jjj, ink, inq, ninc, left, nvex, ipass, nblox, jstep, laincl, 
+    integer jjj, ink, inq, ninc, left, nvex, ipass, nblox, jstep, laincl,
             jstepl, istart, jstepx;
 
 /*<       double precision a(*), b(*), trigs(*) >*/
@@ -95,7 +95,7 @@ static integer c__3 = 3;
 /*<       mh = (m+1)/2 >*/
     mh = (m + 1) / 2;
 /*<       s = dfloat(isign) >*/
-    s = (doublereal) (*isign);
+//    s = (doublereal) (*isign);
 /*<       c1 = sin60 >*/
     c1 = sin60;
 /*<       if (mu.eq.2) c1 = -c1 >*/
@@ -268,7 +268,7 @@ static integer c__3 = 3;
 /*<       do 140 jjj = k , (n-1)*inc , 3*jstep >*/
                 i__5 = (*n - 1) * *inc;
                 i__6 = jstep * 3;
-                for (jjj = k; i__6 < 0 ? jjj >= i__5 : jjj <= i__5; jjj += 
+                for (jjj = k; i__6 < 0 ? jjj >= i__5 : jjj <= i__5; jjj +=
                         i__6) {
 /*<       ja = istart + jjj >*/
                     ja = istart + jjj;
@@ -392,7 +392,7 @@ static integer c__3 = 3;
 /*<       do 420 jjj = ll , (n-1)*inc , 3*la*ink >*/
                 i__6 = (*n - 1) * *inc;
                 i__5 = la * 3 * ink;
-                for (jjj = ll; i__5 < 0 ? jjj >= i__6 : jjj <= i__6; jjj += 
+                for (jjj = ll; i__5 < 0 ? jjj >= i__6 : jjj <= i__6; jjj +=
                         i__5) {
 /*<       ja = istart + jjj >*/
                     ja = istart + jjj;
@@ -643,7 +643,7 @@ static integer c__3 = 3;
 /*<       do 450 jjj = ll , (n-1)*inc , 3*la*ink >*/
                     i__7 = (*n - 1) * *inc;
                     i__8 = la * 3 * ink;
-                    for (jjj = ll; i__8 < 0 ? jjj >= i__7 : jjj <= i__7; jjj 
+                    for (jjj = ll; i__8 < 0 ? jjj >= i__7 : jjj <= i__7; jjj
                             += i__8) {
 /*<       ja = istart + jjj >*/
                         ja = istart + jjj;

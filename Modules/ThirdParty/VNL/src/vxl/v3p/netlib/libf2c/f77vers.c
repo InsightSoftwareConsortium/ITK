@@ -1,4 +1,4 @@
- char 
+ char
 _libf77_version_f2c[] = "\n@(#) LIBF77 VERSION (f2c) 20051004\n";
 
 /*

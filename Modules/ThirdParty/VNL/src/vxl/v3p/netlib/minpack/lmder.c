@@ -34,7 +34,7 @@ static logical c_true = TRUE_;
         doublereal *fvec, doublereal *fjac, integer *ldfjac, doublereal *ftol,
          doublereal *xtol, doublereal *gtol, integer *maxfev, doublereal *
         diag, integer *mode, doublereal *factor, integer *nprint, integer *
-        info, integer *nfev, integer *njev, integer *ipvt, doublereal *qtf, 
+        info, integer *nfev, integer *njev, integer *ipvt, doublereal *qtf,
         doublereal *wa1, doublereal *wa2, doublereal *wa3, doublereal *wa4,
         void* userdata)
 {
@@ -62,15 +62,15 @@ static logical c_true = TRUE_;
     doublereal temp=0, temp1, temp2;
     integer iflag;
     doublereal delta;
-    extern /* Subroutine */ int qrfac_(integer *, integer *, doublereal *, 
-            integer *, logical *, integer *, integer *, doublereal *, 
-            doublereal *, doublereal *), lmpar_(integer *, doublereal *, 
-            integer *, integer *, doublereal *, doublereal *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int qrfac_(integer *, integer *, doublereal *,
+            integer *, logical *, integer *, integer *, doublereal *,
+            doublereal *, doublereal *), lmpar_(integer *, doublereal *,
+            integer *, integer *, doublereal *, doublereal *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *);
     doublereal ratio;
     extern doublereal enorm_(integer *, doublereal *);
-    doublereal fnorm, gnorm, pnorm, xnorm=0, fnorm1, actred, dirder, epsmch, 
+    doublereal fnorm, gnorm, pnorm, xnorm=0, fnorm1, actred, dirder, epsmch,
             prered;
     extern doublereal dpmpar_(integer *);
 
@@ -292,7 +292,7 @@ static logical c_true = TRUE_;
 /*     check the input parameters for errors. */
 
 /*<    >*/
-    if (*n <= 0 || *m < *n || *ldfjac < *m || *ftol < zero || *xtol < zero || 
+    if (*n <= 0 || *m < *n || *ldfjac < *m || *ftol < zero || *xtol < zero ||
             *gtol < zero || *maxfev <= 0 || *factor <= zero) {
         goto L300;
     }
@@ -748,7 +748,7 @@ L290:
         *info = 2;
     }
 /*<    >*/
-    if (abs(actred) <= *ftol && prered <= *ftol && p5 * ratio <= one && *info 
+    if (abs(actred) <= *ftol && prered <= *ftol && p5 * ratio <= one && *info
             == 2) {
         *info = 3;
     }

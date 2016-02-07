@@ -23,7 +23,7 @@ static integer c__3 = 3;
 static integer c__2 = 2;
 
 /*<       SUBROUTINE ZUNGQR( M, N, K, A, LDA, TAU, WORK, LWORK, INFO ) >*/
-/* Subroutine */ int zungqr_(integer *m, integer *n, integer *k, 
+/* Subroutine */ int zungqr_(integer *m, integer *n, integer *k,
         doublecomplex *a, integer *lda, doublecomplex *tau, doublecomplex *
         work, integer *lwork, integer *info)
 {
@@ -32,18 +32,18 @@ static integer c__2 = 2;
 
     /* Local variables */
     integer i__, j, l, ib, nb, ki=0, kk, nx, iws, nbmin, iinfo;
-    extern /* Subroutine */ int zung2r_(integer *, integer *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
+    extern /* Subroutine */ int zung2r_(integer *, integer *, integer *,
+            doublecomplex *, integer *, doublecomplex *, doublecomplex *,
             integer *), xerbla_(char *, integer *, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
-    extern /* Subroutine */ int zlarfb_(char *, char *, char *, char *, 
-            integer *, integer *, integer *, doublecomplex *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, integer *, 
+    extern /* Subroutine */ int zlarfb_(char *, char *, char *, char *,
+            integer *, integer *, integer *, doublecomplex *, integer *,
+            doublecomplex *, integer *, doublecomplex *, integer *,
             doublecomplex *, integer *, ftnlen, ftnlen, ftnlen, ftnlen);
     integer ldwork;
-    extern /* Subroutine */ int zlarft_(char *, char *, integer *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
+    extern /* Subroutine */ int zlarft_(char *, char *, integer *, integer *,
+            doublecomplex *, integer *, doublecomplex *, doublecomplex *,
             integer *, ftnlen, ftnlen);
     integer lwkopt;
     logical lquery;
@@ -318,7 +318,7 @@ static integer c__2 = 2;
 
 /*<    >*/
                 i__2 = *m - i__ + 1;
-                zlarft_("Forward", "Columnwise", &i__2, &ib, &a[i__ + i__ * 
+                zlarft_("Forward", "Columnwise", &i__2, &ib, &a[i__ + i__ *
                         a_dim1], lda, &tau[i__], &work[1], &ldwork, (ftnlen)7,
                          (ftnlen)10);
 

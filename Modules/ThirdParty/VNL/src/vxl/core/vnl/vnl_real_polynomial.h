@@ -89,6 +89,15 @@ class vnl_real_polynomial
   // Since a primitive function is not unique, the one with constant = 0 is returned
   vnl_real_polynomial primitive() const;
 
+  //: Add rhs to this and return *this
+  vnl_real_polynomial& operator+=(vnl_real_polynomial const& rhs);
+
+  //: Subtract rhs from this and return *this
+  vnl_real_polynomial& operator-=(vnl_real_polynomial const& rhs);
+
+  //: Multiply rhs with this and return *this
+  vnl_real_polynomial& operator*=(vnl_real_polynomial const& rhs);
+
   // Data Access---------------------------------------------------------------
 
   //: Return the degree (highest power of x) of the polynomial.

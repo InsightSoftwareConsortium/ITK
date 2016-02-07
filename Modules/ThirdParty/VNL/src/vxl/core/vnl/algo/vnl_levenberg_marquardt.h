@@ -45,35 +45,6 @@ class vnl_levenberg_marquardt : public vnl_nonlinear_minimizer
   //: Initialize with the function object that is to be minimized.
   vnl_levenberg_marquardt(vnl_least_squares_function& f) { init(&f); }
 
-#if 0
-  //: Initialize as above, and then run minimization.
-  //
-  // obsolete, as virtuals in base class vnl_nonlinear_minimizer not valid...
-  // i.e. if minimize() calls base::get_covariance(), it will call the
-  // base version rather than any overridden here or in classes derived
-  // from this.  This is an argument against computation in constructors.
-  // You should replace code like
-  // \code
-  //    vnl_levenberg_marquardt lm(f, x);
-  // \endcode
-  // with
-  // \code
-  //    vnl_levenberg_marquardt lm(f);
-  //    lm.minimize(x);
-  // \endcode
-  // Or
-  // \code
-  //    x = vnl_levenberg_marquardt_minimize(f, x);
-  // \endcode
-
-  vnl_levenberg_marquardt(vnl_least_squares_function& f,
-                          vnl_vector<double>& x)
-  {
-    init(&f);
-    minimize(x);
-  }
-#endif
-
   ~vnl_levenberg_marquardt();
 
   //: Minimize the function supplied in the constructor until convergence or failure.
@@ -88,7 +59,7 @@ class vnl_levenberg_marquardt : public vnl_nonlinear_minimizer
   //  The cost function must provide a gradient.
   bool minimize_using_gradient  (vnl_vector<double>& x);
 
-  //: Calls minimize_using_gradient() or minimize_without_gradient(), 
+  //: Calls minimize_using_gradient() or minimize_without_gradient(),
   // depending on whether the cost function provides a gradient.
   bool minimize(vnl_vector<double>& x);
   bool minimize(vnl_vector_fixed<double,1>& x) { vnl_vector<double> y=x.extract(1); bool b=minimize(y); x=y; return b; }
@@ -103,7 +74,7 @@ class vnl_levenberg_marquardt : public vnl_nonlinear_minimizer
   void diagnose_outcome(vcl_ostream&) const;
 
   //: Return J'*J computed at last minimum.
-  //  it is an approximation of inverse of covariance 
+  //  it is an approximation of inverse of covariance
   vnl_matrix<double> const& get_JtJ();
 
  protected:

@@ -23,12 +23,12 @@ static integer c__1 = 1;
 
 /*<    >*/
 /* Subroutine */ int dgghrd_(char *compq, char *compz, integer *n, integer *
-        ilo, integer *ihi, doublereal *a, integer *lda, doublereal *b, 
+        ilo, integer *ihi, doublereal *a, integer *lda, doublereal *b,
         integer *ldb, doublereal *q, integer *ldq, doublereal *z__, integer *
         ldz, integer *info, ftnlen compq_len, ftnlen compz_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1,
             z_offset, i__1, i__2, i__3;
 
     /* Local variables */
@@ -36,13 +36,13 @@ static integer c__1 = 1;
     logical ilq=0, ilz=0;
     integer jcol;
     doublereal temp;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *);
     integer jrow;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dlaset_(char *, integer *, integer *, 
-            doublereal *, doublereal *, doublereal *, integer *, ftnlen), 
-            dlartg_(doublereal *, doublereal *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlaset_(char *, integer *, integer *,
+            doublereal *, doublereal *, doublereal *, integer *, ftnlen),
+            dlartg_(doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *), xerbla_(char *, integer *, ftnlen);
     integer icompq, icompz;
     (void)compq_len;
@@ -353,7 +353,7 @@ static integer c__1 = 1;
 /*<             TEMP = A( JROW-1, JCOL ) >*/
             temp = a[jrow - 1 + jcol * a_dim1];
 /*<    >*/
-            dlartg_(&temp, &a[jrow + jcol * a_dim1], &c__, &s, &a[jrow - 1 + 
+            dlartg_(&temp, &a[jrow + jcol * a_dim1], &c__, &s, &a[jrow - 1 +
                     jcol * a_dim1]);
 /*<             A( JROW, JCOL ) = ZERO >*/
             a[jrow + jcol * a_dim1] = 0.;
@@ -367,7 +367,7 @@ static integer c__1 = 1;
                     jrow - 1) * b_dim1], ldb, &c__, &s);
 /*<    >*/
             if (ilq) {
-                drot_(n, &q[(jrow - 1) * q_dim1 + 1], &c__1, &q[jrow * q_dim1 
+                drot_(n, &q[(jrow - 1) * q_dim1 + 1], &c__1, &q[jrow * q_dim1
                         + 1], &c__1, &c__, &s);
             }
 
@@ -376,20 +376,20 @@ static integer c__1 = 1;
 /*<             TEMP = B( JROW, JROW ) >*/
             temp = b[jrow + jrow * b_dim1];
 /*<    >*/
-            dlartg_(&temp, &b[jrow + (jrow - 1) * b_dim1], &c__, &s, &b[jrow 
+            dlartg_(&temp, &b[jrow + (jrow - 1) * b_dim1], &c__, &s, &b[jrow
                     + jrow * b_dim1]);
 /*<             B( JROW, JROW-1 ) = ZERO >*/
             b[jrow + (jrow - 1) * b_dim1] = 0.;
 /*<             CALL DROT( IHI, A( 1, JROW ), 1, A( 1, JROW-1 ), 1, C, S ) >*/
-            drot_(ihi, &a[jrow * a_dim1 + 1], &c__1, &a[(jrow - 1) * a_dim1 + 
+            drot_(ihi, &a[jrow * a_dim1 + 1], &c__1, &a[(jrow - 1) * a_dim1 +
                     1], &c__1, &c__, &s);
 /*<    >*/
             i__3 = jrow - 1;
-            drot_(&i__3, &b[jrow * b_dim1 + 1], &c__1, &b[(jrow - 1) * b_dim1 
+            drot_(&i__3, &b[jrow * b_dim1 + 1], &c__1, &b[(jrow - 1) * b_dim1
                     + 1], &c__1, &c__, &s);
 /*<    >*/
             if (ilz) {
-                drot_(n, &z__[jrow * z_dim1 + 1], &c__1, &z__[(jrow - 1) * 
+                drot_(n, &z__[jrow * z_dim1 + 1], &c__1, &z__[(jrow - 1) *
                         z_dim1 + 1], &c__1, &c__, &s);
             }
 /*<    30    CONTINUE >*/

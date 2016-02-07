@@ -24,23 +24,23 @@ static doublereal c_b25 = -1.;
 /*<    >*/
 /* Subroutine */ int dlarfb_(char *side, char *trans, char *direct, char *
         storev, integer *m, integer *n, integer *k, doublereal *v, integer *
-        ldv, doublereal *t, integer *ldt, doublereal *c__, integer *ldc, 
-        doublereal *work, integer *ldwork, ftnlen side_len, ftnlen trans_len, 
+        ldv, doublereal *t, integer *ldt, doublereal *c__, integer *ldc,
+        doublereal *work, integer *ldwork, ftnlen side_len, ftnlen trans_len,
         ftnlen direct_len, ftnlen storev_len)
 {
     /* System generated locals */
-    integer c_dim1, c_offset, t_dim1, t_offset, v_dim1, v_offset, work_dim1, 
+    integer c_dim1, c_offset, t_dim1, t_offset, v_dim1, v_offset, work_dim1,
             work_offset, i__1, i__2;
 
     /* Local variables */
     integer i__, j;
-    extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
-            integer *, doublereal *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *,
+            integer *, doublereal *, doublereal *, integer *, doublereal *,
             integer *, doublereal *, doublereal *, integer *, ftnlen, ftnlen);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-            doublereal *, integer *), dtrmm_(char *, char *, char *, char *, 
-            integer *, integer *, doublereal *, doublereal *, integer *, 
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
+            doublereal *, integer *), dtrmm_(char *, char *, char *, char *,
+            integer *, integer *, doublereal *, doublereal *, integer *,
             doublereal *, integer *, ftnlen, ftnlen, ftnlen, ftnlen);
     char transt[1];
     (void)side_len;
@@ -229,7 +229,7 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *m - *k;
                     dgemm_("Transpose", "No transpose", n, k, &i__1, &c_b14, &
-                            c__[*k + 1 + c_dim1], ldc, &v[*k + 1 + v_dim1], 
+                            c__[*k + 1 + c_dim1], ldc, &v[*k + 1 + v_dim1],
                             ldv, &c_b14, &work[work_offset], ldwork, (ftnlen)
                             9, (ftnlen)12);
 /*<                END IF >*/
@@ -252,7 +252,7 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *m - *k;
                     dgemm_("No transpose", "Transpose", &i__1, n, k, &c_b25, &
-                            v[*k + 1 + v_dim1], ldv, &work[work_offset], 
+                            v[*k + 1 + v_dim1], ldv, &work[work_offset],
                             ldwork, &c_b14, &c__[*k + 1 + c_dim1], ldc, (
                             ftnlen)12, (ftnlen)9);
 /*<                END IF >*/
@@ -295,7 +295,7 @@ static doublereal c_b25 = -1.;
                 i__1 = *k;
                 for (j = 1; j <= i__1; ++j) {
 /*<                   CALL DCOPY( M, C( 1, J ), 1, WORK( 1, J ), 1 ) >*/
-                    dcopy_(m, &c__[j * c_dim1 + 1], &c__1, &work[j * 
+                    dcopy_(m, &c__[j * c_dim1 + 1], &c__1, &work[j *
                             work_dim1 + 1], &c__1);
 /*<    40          CONTINUE >*/
 /* L40: */
@@ -315,8 +315,8 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *n - *k;
                     dgemm_("No transpose", "No transpose", m, k, &i__1, &
-                            c_b14, &c__[(*k + 1) * c_dim1 + 1], ldc, &v[*k + 
-                            1 + v_dim1], ldv, &c_b14, &work[work_offset], 
+                            c_b14, &c__[(*k + 1) * c_dim1 + 1], ldc, &v[*k +
+                            1 + v_dim1], ldv, &c_b14, &work[work_offset],
                             ldwork, (ftnlen)12, (ftnlen)12);
 /*<                END IF >*/
                 }
@@ -338,7 +338,7 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *n - *k;
                     dgemm_("No transpose", "Transpose", m, &i__1, k, &c_b25, &
-                            work[work_offset], ldwork, &v[*k + 1 + v_dim1], 
+                            work[work_offset], ldwork, &v[*k + 1 + v_dim1],
                             ldv, &c_b14, &c__[(*k + 1) * c_dim1 + 1], ldc, (
                             ftnlen)12, (ftnlen)9);
 /*<                END IF >*/
@@ -391,7 +391,7 @@ static doublereal c_b25 = -1.;
                 i__1 = *k;
                 for (j = 1; j <= i__1; ++j) {
 /*<                   CALL DCOPY( N, C( M-K+J, 1 ), LDC, WORK( 1, J ), 1 ) >*/
-                    dcopy_(n, &c__[*m - *k + j + c_dim1], ldc, &work[j * 
+                    dcopy_(n, &c__[*m - *k + j + c_dim1], ldc, &work[j *
                             work_dim1 + 1], &c__1);
 /*<    70          CONTINUE >*/
 /* L70: */
@@ -401,7 +401,7 @@ static doublereal c_b25 = -1.;
 
 /*<    >*/
                 dtrmm_("Right", "Upper", "No transpose", "Unit", n, k, &c_b14,
-                         &v[*m - *k + 1 + v_dim1], ldv, &work[work_offset], 
+                         &v[*m - *k + 1 + v_dim1], ldv, &work[work_offset],
                         ldwork, (ftnlen)5, (ftnlen)5, (ftnlen)12, (ftnlen)4);
 /*<                IF( M.GT.K ) THEN >*/
                 if (*m > *k) {
@@ -443,7 +443,7 @@ static doublereal c_b25 = -1.;
 
 /*<    >*/
                 dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b14, &
-                        v[*m - *k + 1 + v_dim1], ldv, &work[work_offset], 
+                        v[*m - *k + 1 + v_dim1], ldv, &work[work_offset],
                         ldwork, (ftnlen)5, (ftnlen)5, (ftnlen)9, (ftnlen)4);
 
 /*              C2 := C2 - W' */
@@ -455,7 +455,7 @@ static doublereal c_b25 = -1.;
                     i__2 = *n;
                     for (i__ = 1; i__ <= i__2; ++i__) {
 /*<                      C( M-K+J, I ) = C( M-K+J, I ) - WORK( I, J ) >*/
-                        c__[*m - *k + j + i__ * c_dim1] -= work[i__ + j * 
+                        c__[*m - *k + j + i__ * c_dim1] -= work[i__ + j *
                                 work_dim1];
 /*<    80             CONTINUE >*/
 /* L80: */
@@ -487,7 +487,7 @@ static doublereal c_b25 = -1.;
 
 /*<    >*/
                 dtrmm_("Right", "Upper", "No transpose", "Unit", m, k, &c_b14,
-                         &v[*n - *k + 1 + v_dim1], ldv, &work[work_offset], 
+                         &v[*n - *k + 1 + v_dim1], ldv, &work[work_offset],
                         ldwork, (ftnlen)5, (ftnlen)5, (ftnlen)12, (ftnlen)4);
 /*<                IF( N.GT.K ) THEN >*/
                 if (*n > *k) {
@@ -530,7 +530,7 @@ static doublereal c_b25 = -1.;
 
 /*<    >*/
                 dtrmm_("Right", "Upper", "Transpose", "Unit", m, k, &c_b14, &
-                        v[*n - *k + 1 + v_dim1], ldv, &work[work_offset], 
+                        v[*n - *k + 1 + v_dim1], ldv, &work[work_offset],
                         ldwork, (ftnlen)5, (ftnlen)5, (ftnlen)9, (ftnlen)4);
 
 /*              C2 := C2 - W */
@@ -542,7 +542,7 @@ static doublereal c_b25 = -1.;
                     i__2 = *m;
                     for (i__ = 1; i__ <= i__2; ++i__) {
 /*<                      C( I, N-K+J ) = C( I, N-K+J ) - WORK( I, J ) >*/
-                        c__[i__ + (*n - *k + j) * c_dim1] -= work[i__ + j * 
+                        c__[i__ + (*n - *k + j) * c_dim1] -= work[i__ + j *
                                 work_dim1];
 /*<   110             CONTINUE >*/
 /* L110: */
@@ -598,7 +598,7 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *m - *k;
                     dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b14, &
-                            c__[*k + 1 + c_dim1], ldc, &v[(*k + 1) * v_dim1 + 
+                            c__[*k + 1 + c_dim1], ldc, &v[(*k + 1) * v_dim1 +
                             1], ldv, &c_b14, &work[work_offset], ldwork, (
                             ftnlen)9, (ftnlen)9);
 /*<                END IF >*/
@@ -621,7 +621,7 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *m - *k;
                     dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b25, &v[(
-                            *k + 1) * v_dim1 + 1], ldv, &work[work_offset], 
+                            *k + 1) * v_dim1 + 1], ldv, &work[work_offset],
                             ldwork, &c_b14, &c__[*k + 1 + c_dim1], ldc, (
                             ftnlen)9, (ftnlen)9);
 /*<                END IF >*/
@@ -664,7 +664,7 @@ static doublereal c_b25 = -1.;
                 i__1 = *k;
                 for (j = 1; j <= i__1; ++j) {
 /*<                   CALL DCOPY( M, C( 1, J ), 1, WORK( 1, J ), 1 ) >*/
-                    dcopy_(m, &c__[j * c_dim1 + 1], &c__1, &work[j * 
+                    dcopy_(m, &c__[j * c_dim1 + 1], &c__1, &work[j *
                             work_dim1 + 1], &c__1);
 /*<   160          CONTINUE >*/
 /* L160: */
@@ -684,8 +684,8 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *n - *k;
                     dgemm_("No transpose", "Transpose", m, k, &i__1, &c_b14, &
-                            c__[(*k + 1) * c_dim1 + 1], ldc, &v[(*k + 1) * 
-                            v_dim1 + 1], ldv, &c_b14, &work[work_offset], 
+                            c__[(*k + 1) * c_dim1 + 1], ldc, &v[(*k + 1) *
+                            v_dim1 + 1], ldv, &c_b14, &work[work_offset],
                             ldwork, (ftnlen)12, (ftnlen)9);
 /*<                END IF >*/
                 }
@@ -707,8 +707,8 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *n - *k;
                     dgemm_("No transpose", "No transpose", m, &i__1, k, &
-                            c_b25, &work[work_offset], ldwork, &v[(*k + 1) * 
-                            v_dim1 + 1], ldv, &c_b14, &c__[(*k + 1) * c_dim1 
+                            c_b25, &work[work_offset], ldwork, &v[(*k + 1) *
+                            v_dim1 + 1], ldv, &c_b14, &c__[(*k + 1) * c_dim1
                             + 1], ldc, (ftnlen)12, (ftnlen)12);
 /*<                END IF >*/
                 }
@@ -760,7 +760,7 @@ static doublereal c_b25 = -1.;
                 i__1 = *k;
                 for (j = 1; j <= i__1; ++j) {
 /*<                   CALL DCOPY( N, C( M-K+J, 1 ), LDC, WORK( 1, J ), 1 ) >*/
-                    dcopy_(n, &c__[*m - *k + j + c_dim1], ldc, &work[j * 
+                    dcopy_(n, &c__[*m - *k + j + c_dim1], ldc, &work[j *
                             work_dim1 + 1], &c__1);
 /*<   190          CONTINUE >*/
 /* L190: */
@@ -824,7 +824,7 @@ static doublereal c_b25 = -1.;
                     i__2 = *n;
                     for (i__ = 1; i__ <= i__2; ++i__) {
 /*<                      C( M-K+J, I ) = C( M-K+J, I ) - WORK( I, J ) >*/
-                        c__[*m - *k + j + i__ * c_dim1] -= work[i__ + j * 
+                        c__[*m - *k + j + i__ * c_dim1] -= work[i__ + j *
                                 work_dim1];
 /*<   200             CONTINUE >*/
 /* L200: */
@@ -888,7 +888,7 @@ static doublereal c_b25 = -1.;
 /*<    >*/
                     i__1 = *n - *k;
                     dgemm_("No transpose", "No transpose", m, &i__1, k, &
-                            c_b25, &work[work_offset], ldwork, &v[v_offset], 
+                            c_b25, &work[work_offset], ldwork, &v[v_offset],
                             ldv, &c_b14, &c__[c_offset], ldc, (ftnlen)12, (
                             ftnlen)12);
 /*<                END IF >*/
@@ -911,7 +911,7 @@ static doublereal c_b25 = -1.;
                     i__2 = *m;
                     for (i__ = 1; i__ <= i__2; ++i__) {
 /*<                      C( I, N-K+J ) = C( I, N-K+J ) - WORK( I, J ) >*/
-                        c__[i__ + (*n - *k + j) * c_dim1] -= work[i__ + j * 
+                        c__[i__ + (*n - *k + j) * c_dim1] -= work[i__ + j *
                                 work_dim1];
 /*<   230             CONTINUE >*/
 /* L230: */

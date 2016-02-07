@@ -24,14 +24,14 @@ static integer c_n1 = -1;
 static integer c__4 = 4;
 
 /*<    >*/
-/* Subroutine */ int zgeev_(char *jobvl, char *jobvr, integer *n, 
-        doublecomplex *a, integer *lda, doublecomplex *w, doublecomplex *vl, 
-        integer *ldvl, doublecomplex *vr, integer *ldvr, doublecomplex *work, 
-        integer *lwork, doublereal *rwork, integer *info, ftnlen jobvl_len, 
+/* Subroutine */ int zgeev_(char *jobvl, char *jobvr, integer *n,
+        doublecomplex *a, integer *lda, doublecomplex *w, doublecomplex *vl,
+        integer *ldvl, doublecomplex *vr, integer *ldvr, doublecomplex *work,
+        integer *lwork, doublereal *rwork, integer *info, ftnlen jobvl_len,
         ftnlen jobvr_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, vl_dim1, vl_offset, vr_dim1, vr_offset, i__1, 
+    integer a_dim1, a_offset, vl_dim1, vl_offset, vr_dim1, vr_offset, i__1,
             i__2, i__3, i__4;
     doublereal d__1, d__2;
     doublecomplex z__1, z__2;
@@ -52,48 +52,48 @@ static integer c__4 = 4;
     doublereal anrm;
     integer ierr, itau, iwrk, nout;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
+    extern /* Subroutine */ int zscal_(integer *, doublecomplex *,
             doublecomplex *, integer *), dlabad_(doublereal *, doublereal *);
     extern doublereal dznrm2_(integer *, doublecomplex *, integer *);
     logical scalea;
     extern doublereal dlamch_(char *, ftnlen);
     doublereal cscale;
-    extern /* Subroutine */ int zgebak_(char *, char *, integer *, integer *, 
-            integer *, doublereal *, integer *, doublecomplex *, integer *, 
-            integer *, ftnlen, ftnlen), zgebal_(char *, integer *, 
-            doublecomplex *, integer *, integer *, integer *, doublereal *, 
+    extern /* Subroutine */ int zgebak_(char *, char *, integer *, integer *,
+            integer *, doublereal *, integer *, doublecomplex *, integer *,
+            integer *, ftnlen, ftnlen), zgebal_(char *, integer *,
+            doublecomplex *, integer *, integer *, integer *, doublereal *,
             integer *, ftnlen);
     extern integer idamax_(integer *, doublereal *, integer *);
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
     logical select[1];
-    extern /* Subroutine */ int zdscal_(integer *, doublereal *, 
+    extern /* Subroutine */ int zdscal_(integer *, doublereal *,
             doublecomplex *, integer *);
     doublereal bignum;
-    extern doublereal zlange_(char *, integer *, integer *, doublecomplex *, 
+    extern doublereal zlange_(char *, integer *, integer *, doublecomplex *,
             integer *, doublereal *, ftnlen);
-    extern /* Subroutine */ int zgehrd_(integer *, integer *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
-            integer *, integer *), zlascl_(char *, integer *, integer *, 
+    extern /* Subroutine */ int zgehrd_(integer *, integer *, integer *,
+            doublecomplex *, integer *, doublecomplex *, doublecomplex *,
+            integer *, integer *), zlascl_(char *, integer *, integer *,
             doublereal *, doublereal *, integer *, integer *, doublecomplex *,
-             integer *, integer *, ftnlen), zlacpy_(char *, integer *, 
+             integer *, integer *, ftnlen), zlacpy_(char *, integer *,
             integer *, doublecomplex *, integer *, doublecomplex *, integer *,
              ftnlen);
     integer minwrk, maxwrk=0;
     logical wantvl;
     doublereal smlnum;
     integer hswork, irwork=0;
-    extern /* Subroutine */ int zhseqr_(char *, char *, integer *, integer *, 
-            integer *, doublecomplex *, integer *, doublecomplex *, 
+    extern /* Subroutine */ int zhseqr_(char *, char *, integer *, integer *,
+            integer *, doublecomplex *, integer *, doublecomplex *,
             doublecomplex *, integer *, doublecomplex *, integer *, integer *,
-             ftnlen, ftnlen), ztrevc_(char *, char *, logical *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, integer *, 
+             ftnlen, ftnlen), ztrevc_(char *, char *, logical *, integer *,
+            doublecomplex *, integer *, doublecomplex *, integer *,
             doublecomplex *, integer *, integer *, integer *, doublecomplex *,
              doublereal *, integer *, ftnlen, ftnlen);
     logical lquery, wantvr;
-    extern /* Subroutine */ int zunghr_(integer *, integer *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
+    extern /* Subroutine */ int zunghr_(integer *, integer *, integer *,
+            doublecomplex *, integer *, doublecomplex *, doublecomplex *,
             integer *, integer *);
     (void)jobvl_len;
     (void)jobvr_len;
@@ -329,7 +329,7 @@ static integer c__4 = 4;
             minwrk = max(i__1,i__2);
 /*<    >*/
 /* Computing MAX */
-            i__1 = maxwrk, i__2 = *n + (*n - 1) * ilaenv_(&c__1, "ZUNGHR", 
+            i__1 = maxwrk, i__2 = *n + (*n - 1) * ilaenv_(&c__1, "ZUNGHR",
                     " ", n, &c__1, n, &c_n1, (ftnlen)6, (ftnlen)1);
             maxwrk = max(i__1,i__2);
 /*<             MAXB = MAX( ILAENV( 8, 'ZHSEQR', 'SV', N, 1, N, -1 ), 2 ) >*/
@@ -564,7 +564,7 @@ static integer c__4 = 4;
         irwork = ibal + *n;
 /*<    >*/
         ztrevc_(side, "B", select, n, &a[a_offset], lda, &vl[vl_offset], ldvl,
-                 &vr[vr_offset], ldvr, n, &nout, &work[iwrk], &rwork[irwork], 
+                 &vr[vr_offset], ldvr, n, &nout, &work[iwrk], &rwork[irwork],
                 &ierr, (ftnlen)1, (ftnlen)1);
 /*<       END IF >*/
     }
@@ -577,7 +577,7 @@ static integer c__4 = 4;
 /*        (RWorkspace: need N) */
 
 /*<    >*/
-        zgebak_("B", "L", n, &ilo, &ihi, &rwork[ibal], n, &vl[vl_offset], 
+        zgebak_("B", "L", n, &ilo, &ihi, &rwork[ibal], n, &vl[vl_offset],
                 ldvl, &ierr, (ftnlen)1, (ftnlen)1);
 
 /*        Normalize left eigenvectors and make largest component real */
@@ -631,7 +631,7 @@ static integer c__4 = 4;
 /*        (RWorkspace: need N) */
 
 /*<    >*/
-        zgebak_("B", "R", n, &ilo, &ihi, &rwork[ibal], n, &vr[vr_offset], 
+        zgebak_("B", "R", n, &ilo, &ihi, &rwork[ibal], n, &vr[vr_offset],
                 ldvr, &ierr, (ftnlen)1, (ftnlen)1);
 
 /*        Normalize right eigenvectors and make largest component real */

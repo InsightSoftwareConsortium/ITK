@@ -8,8 +8,6 @@
 
 #if !VCL_CXX_HAS_HEADER_CLIMITS
 # include <limits.h>
-#elif defined(VCL_SUNPRO_CC_5)
-# include <limits.h> // <climits> is broken -- mismatched braces.
 #else
 # include "iso/vcl_climits.h"
 #endif

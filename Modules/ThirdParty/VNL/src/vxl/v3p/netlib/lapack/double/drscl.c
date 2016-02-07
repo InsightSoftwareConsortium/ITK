@@ -16,13 +16,13 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE DRSCL( N, SA, SX, INCX ) >*/
-/* Subroutine */ int drscl_(integer *n, doublereal *sa, doublereal *sx, 
+/* Subroutine */ int drscl_(integer *n, doublereal *sa, doublereal *sx,
         integer *incx)
 {
     doublereal mul, cden;
     logical done;
     doublereal cnum, cden1, cnum1;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *), dlabad_(doublereal *, doublereal *);
     extern doublereal dlamch_(char *, ftnlen);
     doublereal bignum, smlnum;

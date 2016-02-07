@@ -8,12 +8,8 @@
 
 // Purpose: provide access to the <time.h> standard C header.
 
-#if !VCL_CXX_HAS_HEADER_CTIME || defined(VCL_METRO_WERKS)
+#if !VCL_CXX_HAS_HEADER_CTIME
 # include <time.h>
-# define vcl_generic_ctime_STD /* */
-# include "generic/vcl_ctime.h"
-#elif defined(VCL_VC60)
-# include <ctime>
 # define vcl_generic_ctime_STD /* */
 # include "generic/vcl_ctime.h"
 #else

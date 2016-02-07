@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE DLASWP( N, A, LDA, K1, K2, IPIV, INCX ) >*/
-/* Subroutine */ int dlaswp_(integer *n, doublereal *a, integer *lda, integer 
+/* Subroutine */ int dlaswp_(integer *n, doublereal *a, integer *lda, integer
         *k1, integer *k2, integer *ipiv, integer *incx)
 {
     /* System generated locals */
@@ -139,7 +139,7 @@ extern "C" {
 /*<             DO 20 I = I1, I2, INC >*/
             i__2 = i2;
             i__3 = inc;
-            for (i__ = i1; i__3 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__3) 
+            for (i__ = i1; i__3 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__3)
                     {
 /*<                IP = IPIV( IX ) >*/
                 ip = ipiv[ix];

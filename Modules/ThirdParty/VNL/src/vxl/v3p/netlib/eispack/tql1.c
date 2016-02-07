@@ -20,7 +20,7 @@ extern "C" {
 static doublereal c_b10 = 1.;
 
 /*<       subroutine tql1(n,d,e,ierr) >*/
-/* Subroutine */ int tql1_(integer *n, doublereal *d__, doublereal *e, 
+/* Subroutine */ int tql1_(integer *n, doublereal *d__, doublereal *e,
         integer *ierr)
 {
     /* System generated locals */

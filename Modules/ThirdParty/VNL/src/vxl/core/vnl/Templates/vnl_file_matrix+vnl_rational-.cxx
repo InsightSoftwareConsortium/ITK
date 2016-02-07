@@ -1,4 +1,4 @@
-#include <vnl/vnl_file_matrix.txx>
+#include <vnl/vnl_file_matrix.hxx>
 #include <vnl/vnl_rational.h>
 #include <vnl/vnl_rational_traits.h>
 

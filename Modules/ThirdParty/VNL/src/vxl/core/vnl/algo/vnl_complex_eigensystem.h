@@ -28,7 +28,7 @@
 //
 //  Computed right eigenvectors are stored in the **ROWS** of the
 //  member 'R' and computed left eigenvectors are stored in the **ROWS**
-//  of the member 'L'. When eigenvectors are not requested, the 
+//  of the member 'L'. When eigenvectors are not requested, the
 //  corresponding matrices L and R will be empty.
 //
 //  The ith right eigenvector v satisfies A*v = W[i]*v   \n

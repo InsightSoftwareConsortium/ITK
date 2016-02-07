@@ -16,13 +16,14 @@
 //   Mar.2009 - Peter Vanroose - added arg_min() and arg_max()
 //   Oct.2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
+# include <vnl/vnl_error.h>
 
 #include <vcl_iosfwd.h>
 #include <vnl/vnl_tag.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_config.h>
+#include <vnl/vnl_error.h>
 #ifndef NDEBUG
-# include <vnl/vnl_error.h>
 # if VNL_CONFIG_CHECK_BOUNDS
 #  include <vcl_cassert.h>
 # endif
@@ -35,8 +36,8 @@
 # include <vcl_deprecated.h>
 #endif
 
-template <class T> class vnl_vector;
-template <class T> class vnl_matrix;
+VCL_TEMPLATE_EXPORT template <class T> class vnl_vector;
+VCL_TEMPLATE_EXPORT template <class T> class vnl_matrix;
 
 //----------------------------------------------------------------------
 
@@ -78,17 +79,24 @@ class vnl_vector
   friend class vnl_matrix<T>;
 
   //: Creates an empty vector. O(1).
-  vnl_vector() : num_elmts(0) , data(0) {}
+  vnl_vector() : num_elmts(0) , data(VXL_NULLPTR) {}
 
-  //: Creates vector containing n elements.
-  // Elements are not initialized.
-  explicit vnl_vector(unsigned len);
+  //: Creates a vector containing n uninitialized elements.
+  explicit vnl_vector(unsigned int len);
 
-  //: Creates vector of len elements, all set to v0
-  vnl_vector(unsigned len, T const& v0);
+  //: Creates a vector containing n elements, all set to v0.
+  vnl_vector(unsigned int len, T const& v0);
 
-  //: Creates a vector of specified length and initialize first n elements with values. O(n).
-  vnl_vector(unsigned len, int n, T const values[]);
+  //: Creates a vector containing len elements, with the first n
+  // elements taken from the array values[]. O(n).
+  vnl_vector(unsigned int len, int n, T const values[]);
+
+  //: Creates a vector containing len elements, initialized with values from
+  // a data block.
+  vnl_vector(T const* data_block,unsigned int n);
+
+  //: Copy constructor.
+  vnl_vector(vnl_vector<T> const&);
 
 #if VNL_CONFIG_LEGACY_METHODS // these constructors are deprecated and should not be used
   //: Creates a vector of length 2 and initializes with the arguments, px,py.
@@ -109,12 +117,6 @@ class vnl_vector
   // \deprecated
   vnl_vector(unsigned len, T const& px, T const& py, T const& pz, T const& pw);
 #endif
-
-  //: Create n element vector and copy data from data_block
-  vnl_vector(T const* data_block,unsigned int n);
-
-  //: Copy constructor
-  vnl_vector(vnl_vector<T> const&);
 
 #ifndef VXL_DOXYGEN_SHOULD_SKIP_THIS
 // <internal>
@@ -143,10 +145,10 @@ class vnl_vector
   ~vnl_vector();
 
   //: Return the length, number of elements, dimension of this vector.
-  unsigned size() const { return num_elmts; }
+  unsigned int size() const { return this->num_elmts; }
 
   //: Put value at given position in vector.
-  inline void put(unsigned int i, T const&);
+  inline void put(unsigned int i, T const& v);
 
   //: Get value at element i
   inline T get(unsigned int i) const;
@@ -339,7 +341,25 @@ class vnl_vector
 
   //: Reverse the order of the elements
   //  Element i swaps with element size()-1-i
-  vnl_vector& flip();
+  vnl_vector<T>& flip();
+
+  //: Reverse the order of the elements from index b to 1-e, inclusive.
+  //  When b = 0 and e = size(), this is equivalent to flip();
+  vnl_vector<T>& flip(const unsigned int &b, const unsigned int &e);
+
+  //: Roll the vector forward by the specified shift.
+  //  The shift is cyclical, such that the elements which
+  //  are displaced from the end reappear at the beginning.
+  //  Negative shifts and shifts >= the length of the array are supported.
+  //  A new vector is returned; the underlying data is unchanged.
+  vnl_vector<T> roll(const int &shift) const;
+
+  //: Roll the vector forward by the specified shift.
+  //  The shift is cyclical, such that the elements which
+  //  are displaced from the end reappear at the beginning.
+  //  Negative shifts and shifts >= the length of the array are supported.
+  //
+  vnl_vector& roll_inplace(const int &shift);
 
   //: Set this to that and that to this
   void swap(vnl_vector<T> & that);
@@ -373,11 +393,9 @@ class vnl_vector
 
   //: Check that size()==sz if not, abort();
   // This function does or tests nothing if NDEBUG is defined
-  void assert_size(unsigned sz) const {
+  void assert_size(unsigned VXL_USED_IN_DEBUG(sz) ) const {
 #ifndef NDEBUG
     assert_size_internal(sz);
-#else
-    (void)sz;
 #endif
   }
 
@@ -400,7 +418,7 @@ class vnl_vector
 
   //:  Return true if all elements of vectors are equal, within given tolerance
   bool is_equal(vnl_vector<T> const& rhs, double tol) const;
-  
+
   //: Return true if *this == v
   bool operator_eq(vnl_vector<T> const& v) const;
 
@@ -472,26 +490,28 @@ class vnl_vector
 // Range check is performed.
 
 template <class T>
-inline T vnl_vector<T>::get(unsigned int index) const
+inline T vnl_vector<T>
+::get(unsigned int i) const
 {
-#ifdef ERROR_CHECKING
-  if (index >= this->num_elmts)     // If invalid index specified
-    vnl_error_vector_index("get", index);  // Raise exception
+#if VNL_CONFIG_CHECK_BOUNDS
+  if (i >= this->size())     // If invalid index specified
+    vnl_error_vector_index("get", i);  // Raise exception
 #endif
-  return this->data[index];
+  return this->data[i];
 }
 
 //: Puts the value at specified index. O(1).
 // Range check is performed.
 
 template <class T>
-inline void vnl_vector<T>::put(unsigned int index, T const& value)
+inline void vnl_vector<T>
+::put(unsigned int i, T const& v)
 {
-#ifdef ERROR_CHECKING
-  if (index >= this->num_elmts)     // If invalid index specified
-    vnl_error_vector_index("put", index); // Raise exception
+#if VNL_CONFIG_CHECK_BOUNDS
+  if (i >= this->size())     // If invalid index specified
+    vnl_error_vector_index("put", i); // Raise exception
 #endif
-  this->data[index] = value;    // Assign data value
+  this->data[i] = v;    // Assign data value
 }
 
 //: multiply matrix and (column) vector. O(m*n).
@@ -549,9 +569,9 @@ inline T vnl_vector_ssd(vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 
 //: Write vector to a vcl_ostream
 // \relatesalso vnl_vector
-template <class T> vcl_ostream& operator<<(vcl_ostream &, vnl_vector<T> const&);
+VCL_TEMPLATE_EXPORT template <class T> vcl_ostream& operator<<(vcl_ostream &, vnl_vector<T> const&);
 //: Read vector from a vcl_istream
 // \relatesalso vnl_vector
-template <class T> vcl_istream& operator>>(vcl_istream &, vnl_vector<T>      &);
+VCL_TEMPLATE_EXPORT template <class T> vcl_istream& operator>>(vcl_istream &, vnl_vector<T>      &);
 
 #endif // vnl_vector_h_

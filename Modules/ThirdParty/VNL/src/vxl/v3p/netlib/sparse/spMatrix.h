@@ -48,17 +48,17 @@
  */
 
 /* Begin error macros. */
-#define  spOKAY         0  /*!<
+#define  spOKAY                0  /*!<
                             * Error code that indicates that no error has
                             * occurred.
                             */
-#define  spSMALL_PIVOT  1  /*!<
+#define  spSMALL_PIVOT        1  /*!<
                             * Non-fatal error code that indicates that, when
                             * reordering the matrix, no element was found that
                             * satisfies the absolute threshold criteria. The
                             * largest element in the matrix was chosen as pivot.
                             */
-#define  spZERO_DIAG    2  /*!<
+#define  spZERO_DIAG        2  /*!<
                             * Fatal error code that indicates that, a zero was
                             * encountered on the diagonal the matrix. This does
                             * not necessarily imply that the matrix is singular.
@@ -66,16 +66,16 @@
                             * reconstructed and factored using
                             * spOrderAndFactor().
                             */
-#define  spSINGULAR     3  /*!<
+#define  spSINGULAR        3  /*!<
                             * Fatal error code that indicates that, matrix is
                             * singular, so no unique solution exists.
                             */
-#define  spMANGLED      4  /*!<
+#define  spMANGLED        4  /*!<
                             * Fatal error code that indicates that, matrix has
                             * been mangled, results of requested operation are
                             * garbage.
                             */
-#define  spNO_MEMORY    5  /*!<
+#define  spNO_MEMORY        5  /*!<
                             * Fatal error code that indicates that not enough
                             * memory is available.
                             */
@@ -134,19 +134,19 @@
 
 /* Begin partition keywords. */
 
-#define spDEFAULT_PARTITION     0 /*!<
+#define spDEFAULT_PARTITION        0 /*!<
                                    * Partition code for spPartition().
                                    * Indicates that the default partitioning
                                    * mode should be used.
                                    * \see spPartition()
                                    */
-#define spDIRECT_PARTITION      1 /*!<
+#define spDIRECT_PARTITION        1 /*!<
                                    * Partition code for spPartition().
                                    * Indicates that all rows should be placed
                                    * in the direct addressing partition.
                                    * \see spPartition()
                                    */
-#define spINDIRECT_PARTITION    2 /*!<
+#define spINDIRECT_PARTITION        2 /*!<
                                    * Partition code for spPartition().
                                    * Indicates that all rows should be placed
                                    * in the indirect addressing partition.
@@ -253,10 +253,10 @@ typedef int spError;
 
 /* Begin `spTemplate'. */
 struct  spTemplate
-{   spElement   *Element1;
-    spElement   *Element2;
-    spElement   *Element3Negated;
-    spElement   *Element4Negated;
+{   spElement        *Element1;
+    spElement        *Element2;
+    spElement        *Element3Negated;
+    spElement        *Element4Negated;
 };
 
 
@@ -275,13 +275,6 @@ spcEXTERN  void       spDeleteRowAndCol( spMatrix, int, int );
 spcEXTERN  void       spDestroy( spMatrix );
 spcEXTERN  int        spElementCount( spMatrix );
 spcEXTERN  spError    spErrorState( spMatrix );
-#if 0 // Remove Borland error
-#ifdef EOF
-    spcEXTERN void    spErrorMessage( spMatrix, FILE*, char* );
-#else
-#   define spErrorMessage(a,b,c) spcFUNC_NEEDS_FILE(_spErrorMessage,stdio)
-#endif
-#endif // Remove Borland error
 
 spcEXTERN  spError    spFactor( spMatrix );
 /*  Remove file IO due to archaic fopen method which gives warnings in windoz

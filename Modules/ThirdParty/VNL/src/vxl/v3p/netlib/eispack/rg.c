@@ -17,7 +17,7 @@ extern "C" {
 
 /*<       subroutine rg(nm,n,a,wr,wi,matz,z,iv1,fv1,ierr) >*/
 /* Subroutine */ int rg_(integer *nm, integer *n, doublereal *a, doublereal *
-        wr, doublereal *wi, integer *matz, doublereal *z__, integer *iv1, 
+        wr, doublereal *wi, integer *matz, doublereal *z__, integer *iv1,
         doublereal *fv1, integer *ierr)
 {
     /* System generated locals */
@@ -25,15 +25,15 @@ extern "C" {
 
     /* Local variables */
     integer is1, is2;
-    extern /* Subroutine */ int hqr_(integer *, integer *, integer *, integer 
+    extern /* Subroutine */ int hqr_(integer *, integer *, integer *, integer
             *, doublereal *, doublereal *, doublereal *, integer *), hqr2_(
-            integer *, integer *, integer *, integer *, doublereal *, 
+            integer *, integer *, integer *, integer *, doublereal *,
             doublereal *, doublereal *, doublereal *, integer *), balbak_(
-            integer *, integer *, integer *, integer *, doublereal *, integer 
-            *, doublereal *), balanc_(integer *, integer *, doublereal *, 
+            integer *, integer *, integer *, integer *, doublereal *, integer
+            *, doublereal *), balanc_(integer *, integer *, doublereal *,
             integer *, integer *, doublereal *), elmhes_(integer *, integer *,
              integer *, integer *, doublereal *, integer *), eltran_(integer *
-            , integer *, integer *, integer *, doublereal *, integer *, 
+            , integer *, integer *, integer *, doublereal *, integer *,
             doublereal *);
 
 
@@ -129,7 +129,7 @@ L10:
 L20:
     eltran_(nm, n, &is1, &is2, &a[a_offset], &iv1[1], &z__[z_offset]);
 /*<       call  hqr2(nm,n,is1,is2,a,wr,wi,z,ierr) >*/
-    hqr2_(nm, n, &is1, &is2, &a[a_offset], &wr[1], &wi[1], &z__[z_offset], 
+    hqr2_(nm, n, &is1, &is2, &a[a_offset], &wr[1], &wi[1], &z__[z_offset],
             ierr);
 /*<       if (ierr .ne. 0) go to 50 >*/
     if (*ierr != 0) {

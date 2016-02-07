@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       subroutine dposl(a,lda,n,b) >*/
-/* Subroutine */ int dposl_(doublereal *a, integer *lda, integer *n, 
+/* Subroutine */ int dposl_(doublereal *a, integer *lda, integer *n,
         doublereal *b)
 {
     /* System generated locals */
@@ -30,9 +30,9 @@ static integer c__1 = 1;
     integer k;
     doublereal t;
     integer kb;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *);
 
 /*<       integer lda,n >*/

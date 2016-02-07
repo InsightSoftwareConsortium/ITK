@@ -28,7 +28,7 @@ double vnl_cost_function::f(vnl_vector<double> const& x)
     assert(!"vnl_cost_function: RECURSION");
   double val;
   f_calling_compute = true;
-  this->compute(x, &val, 0);
+  this->compute(x, &val, VXL_NULLPTR);
   f_calling_compute = false;
   return val;
 }
@@ -39,7 +39,7 @@ void vnl_cost_function::gradf(vnl_vector<double> const& x, vnl_vector<double>& g
   if (f_calling_compute)
     assert(!"vnl_cost_function: RECURSION");
   f_calling_compute = true;
-  this->compute(x, 0, &g);
+  this->compute(x, VXL_NULLPTR, &g);
   f_calling_compute = false;
 }
 

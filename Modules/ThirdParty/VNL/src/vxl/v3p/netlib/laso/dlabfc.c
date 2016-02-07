@@ -24,13 +24,13 @@ static integer c__1 = 1;
 /* *********************************************************************** */
 
 /*<    >*/
-/* Subroutine */ int dlabfc_(integer *n, integer *nband, doublereal *a, 
-        doublereal *sigma, integer *number, integer *lde, doublereal *eigvec, 
-        integer *numl, integer *ldad, doublereal *atemp, doublereal *d__, 
+/* Subroutine */ int dlabfc_(integer *n, integer *nband, doublereal *a,
+        doublereal *sigma, integer *number, integer *lde, doublereal *eigvec,
+        integer *numl, integer *ldad, doublereal *atemp, doublereal *d__,
         doublereal *atol)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, eigvec_dim1, eigvec_offset, atemp_dim1, 
+    integer a_dim1, a_offset, eigvec_dim1, eigvec_offset, atemp_dim1,
             atemp_offset, d_dim1, d_offset, i__1, i__2, i__3;
     doublereal d__1, d__2;
 
@@ -40,9 +40,9 @@ static integer c__1 = 1;
     /* Local variables */
     integer i__, j, k, l, m, la, ld, kk, nb1, lpm;
     doublereal zero[1];
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-            doublereal *, integer *), dswap_(integer *, doublereal *, integer 
-            *, doublereal *, integer *), daxpy_(integer *, doublereal *, 
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
+            doublereal *, integer *), dswap_(integer *, doublereal *, integer
+            *, doublereal *, integer *), daxpy_(integer *, doublereal *,
             doublereal *, integer *, doublereal *, integer *);
 
 
@@ -175,8 +175,8 @@ L40:
                 goto L50;
             }
 /*<    >*/
-            if ((d__[i__ + *nband * d_dim1] < 0. && d__[i__ + i__ * d_dim1] < 
-                    0.) || (d__[i__ + *nband * d_dim1] > 0. && d__[i__ + i__ * 
+            if ((d__[i__ + *nband * d_dim1] < 0. && d__[i__ + i__ * d_dim1] <
+                    0.) || (d__[i__ + *nband * d_dim1] > 0. && d__[i__ + i__ *
                     d_dim1] >= 0.)) {
                 lpm = -lpm;
             }
@@ -185,7 +185,7 @@ L40:
             dswap_(&i__3, &d__[i__ + i__ * d_dim1], &c__1, &d__[i__ + *nband *
                      d_dim1], &c__1);
 /*<             CALL DSWAP(NUMBER, EIGVEC(L,1), LDE, EIGVEC(K,1), LDE) >*/
-            dswap_(number, &eigvec[l + eigvec_dim1], lde, &eigvec[k + 
+            dswap_(number, &eigvec[l + eigvec_dim1], lde, &eigvec[k +
                     eigvec_dim1], lde);
 /*<    >*/
 L50:
@@ -195,7 +195,7 @@ L50:
                     i__ + 1 + *nband * d_dim1], &c__1);
 /*<    >*/
             d__1 = -d__[i__ + *nband * d_dim1] / d__[i__ + i__ * d_dim1];
-            daxpy_(number, &d__1, &eigvec[l + eigvec_dim1], lde, &eigvec[k + 
+            daxpy_(number, &d__1, &eigvec[l + eigvec_dim1], lde, &eigvec[k +
                     eigvec_dim1], lde);
 /*<    60    CONTINUE >*/
 L60:
@@ -241,7 +241,7 @@ L80:
         for (i__ = 1; i__ <= i__2; ++i__) {
 /*<             CALL DCOPY(LDAD-I, D(I+1,I+1), 1, D(I,I), 1) >*/
             i__3 = *ldad - i__;
-            dcopy_(&i__3, &d__[i__ + 1 + (i__ + 1) * d_dim1], &c__1, &d__[i__ 
+            dcopy_(&i__3, &d__[i__ + 1 + (i__ + 1) * d_dim1], &c__1, &d__[i__
                     + i__ * d_dim1], &c__1);
 /*<             D(LDAD,I) = 0.0D0 >*/
             d__[*ldad + i__ * d_dim1] = 0.;
@@ -263,7 +263,7 @@ L110:
         l = *n - *nband + i__;
 /*<          CALL DCOPY(NBAND-I+1, D(I,I), 1, ATEMP(1,L), 1) >*/
         i__2 = *nband - i__ + 1;
-        dcopy_(&i__2, &d__[i__ + i__ * d_dim1], &c__1, &atemp[l * atemp_dim1 
+        dcopy_(&i__2, &d__[i__ + i__ * d_dim1], &c__1, &atemp[l * atemp_dim1
                 + 1], &c__1);
 /*<   120 CONTINUE >*/
 /* L120: */
@@ -282,7 +282,7 @@ L110:
         k = *n - kk + 1;
 /*<    >*/
         if ((d__1 = atemp[k * atemp_dim1 + 1], abs(d__1)) <= *atol) {
-            atemp[k * atemp_dim1 + 1] = d_sign(atol, &atemp[k * atemp_dim1 + 
+            atemp[k * atemp_dim1 + 1] = d_sign(atol, &atemp[k * atemp_dim1 +
                     1]);
         }
 

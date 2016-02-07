@@ -31,7 +31,7 @@
 //  Matrix.
 //
 
-template <class T, unsigned int R, unsigned int C>
+VCL_TEMPLATE_EXPORT template <class T, unsigned int R, unsigned int C>
 class vnl_svd_fixed
 {
  public:
@@ -173,7 +173,7 @@ vnl_matrix_fixed<T,C,R> vnl_svd_fixed_inverse(vnl_matrix_fixed<T,R,C> const& m)
   return vnl_svd_fixed<T,R,C>(m).inverse();
 }
 
-template <class T, unsigned int R, unsigned int C>
+VCL_TEMPLATE_EXPORT template <class T, unsigned int R, unsigned int C>
 vcl_ostream& operator<<(vcl_ostream&, vnl_svd_fixed<T,R,C> const& svd);
 
 #endif // vnl_svd_fixed_h_

@@ -84,7 +84,7 @@ doublereal slamch_(char *cmach, ftnlen cmach_len)
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     real small;
     static real sfmin; /* runtime-initialized constant */
-    extern /* Subroutine */ int slamc2_(integer *, integer *, logical *, real 
+    extern /* Subroutine */ int slamc2_(integer *, integer *, logical *, real
             *, integer *, real *, integer *, real *);
     (void)cmach_len;
 
@@ -263,7 +263,7 @@ doublereal slamch_(char *cmach, ftnlen cmach_len)
 /* *********************************************************************** */
 
 /*<       SUBROUTINE SLAMC1( BETA, T, RND, IEEE1 ) >*/
-/* Subroutine */ int slamc1_(integer *beta, integer *t, logical *rnd, logical 
+/* Subroutine */ int slamc1_(integer *beta, integer *t, logical *rnd, logical
         *ieee1)
 {
     /* Initialized data */
@@ -572,11 +572,11 @@ L30:
     static real lrmin, lrmax; /* runtime-initialized constant */
     real sixth;
     logical lieee1;
-    extern /* Subroutine */ int slamc1_(integer *, integer *, logical *, 
+    extern /* Subroutine */ int slamc1_(integer *, integer *, logical *,
             logical *);
     extern doublereal slamc3_(real *, real *);
-    extern /* Subroutine */ int slamc4_(integer *, real *, integer *), 
-            slamc5_(integer *, integer *, integer *, logical *, integer *, 
+    extern /* Subroutine */ int slamc4_(integer *, real *, integer *),
+            slamc5_(integer *, integer *, integer *, logical *, integer *,
             real *);
     integer ngnmin, ngpmin;
 
@@ -1129,7 +1129,7 @@ L10:
 /* *********************************************************************** */
 
 /*<       SUBROUTINE SLAMC5( BETA, P, EMIN, IEEE, EMAX, RMAX ) >*/
-/* Subroutine */ int slamc5_(integer *beta, integer *p, integer *emin, 
+/* Subroutine */ int slamc5_(integer *beta, integer *p, integer *emin,
         logical *ieee, integer *emax, real *rmax)
 {
     /* System generated locals */

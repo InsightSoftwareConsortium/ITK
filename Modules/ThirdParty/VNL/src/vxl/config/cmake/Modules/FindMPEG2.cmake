@@ -14,39 +14,39 @@
 # VXL_USING_NATIVE_MPEG2  - True if we are using a MPEG2 library provided outside vxl (or v3p)
 
 # If this FORCE variable is unset or is FALSE, try to find a native library.
-IF( VXL_FORCE_V3P_MPEG2 )
-ELSE( VXL_FORCE_V3P_MPEG2 )
-  FIND_PACKAGE( MPEG2 QUIET )
-ENDIF( VXL_FORCE_V3P_MPEG2 )
+if( VXL_FORCE_V3P_MPEG2 )
+else()
+  find_package( MPEG2 QUIET )
+endif()
 
-IF( MPEG2_FOUND )
+if( MPEG2_FOUND )
 
-  SET(VXL_USING_NATIVE_MPEG2 "YES")
+  set(VXL_USING_NATIVE_MPEG2 "YES")
 
-ELSE( MPEG2_FOUND )
+else()
 
   #
   # At some point, in a "release" version, it is possible that someone
   # will not have the v3p mpeg2 library
   #
 
-  IF(EXISTS ${vxl_SOURCE_DIR}/v3p/mpeg2/include/mpeg2dec/mpeg2.h)
+  if(EXISTS ${VXL_ROOT_SOURCE_DIR}/v3p/mpeg2/include/mpeg2dec/mpeg2.h)
 
-    SET( MPEG2_FOUND "YES" )
-    SET( MPEG2_LIBRARIES mpeg2 vo )
-    SET( MPEG2_INCLUDE_DIR
-      ${vxl_SOURCE_DIR}/v3p/mpeg2/include
+    set( MPEG2_FOUND "YES" )
+    set( MPEG2_LIBRARIES mpeg2 vo )
+    set( MPEG2_INCLUDE_DIR
+      ${VXL_ROOT_SOURCE_DIR}/v3p/mpeg2/include
       # use of the following is deprecated
       # it is better to use #include <mpeg2dec/mpeg2.h> in client code
-      ${vxl_SOURCE_DIR}/v3p/mpeg2/include/mpeg2dec
+      ${VXL_ROOT_SOURCE_DIR}/v3p/mpeg2/include/mpeg2dec
     )
-    SET( MPEG2_INSTALL_INCLUDE_DIR
+    set( MPEG2_INSTALL_INCLUDE_DIR
       ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/mpeg2/include
       # use of the following is deprecated
       # it is better to use #include <mpeg2dec/mpeg2.h> in client code
       ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/mpeg2/include/mpeg2dec
     )
 
-  ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/mpeg2/include/mpeg2dec/mpeg2.h)
+  endif()
 
-ENDIF( MPEG2_FOUND )
+endif()

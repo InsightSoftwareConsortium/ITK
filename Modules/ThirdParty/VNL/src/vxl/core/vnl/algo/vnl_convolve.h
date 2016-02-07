@@ -105,6 +105,6 @@ vnl_convolve(vnl_matrix<T> const& v1, vnl_vector<T> const& v2,
              int use_fft = 0);
 
 #define VNL_CONVOLVE_INSTANTIATE(T) \
-extern "please include vnl/algo/vnl_convolve.txx first"
+extern "please include vnl/algo/vnl_convolve.hxx first"
 
 #endif // vnl_convolve_h_

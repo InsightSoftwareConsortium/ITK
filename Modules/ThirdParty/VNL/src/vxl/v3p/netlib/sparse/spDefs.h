@@ -92,21 +92,21 @@
 #endif
 
 /* Define macros for validating matrix. */
-#define  SPARSE_ID                      0xDeadBeef      /* Arbitrary. */
-#define  IS_SPARSE(matrix)              (((matrix) != NULL) AND \
+#define  SPARSE_ID                        0xDeadBeef        /* Arbitrary. */
+#define  IS_SPARSE(matrix)                (((matrix) != NULL) AND \
                                          ((matrix)->ID == SPARSE_ID))
-#define  NO_ERRORS(matrix)              (((matrix)->Error >= spOKAY) AND \
-                                         ((matrix)->Error < spFATAL))
+#define  NO_ERRORS(matrix)                (((matrix)->Error >= spOKAY) AND \
+                                          ((matrix)->Error < spFATAL))
 #define  IS_FACTORED(matrix)            ((matrix)->Factored AND \
                                          NOT (matrix)->NeedsOrdering)
 
-#define  ASSERT_IS_SPARSE(matrix)       vASSERT( IS_SPARSE(matrix), \
+#define  ASSERT_IS_SPARSE(matrix)        vASSERT( IS_SPARSE(matrix), \
                                          spcMatrixIsNotValid )
-#define  ASSERT_NO_ERRORS(matrix)       vASSERT( NO_ERRORS(matrix), \
+#define  ASSERT_NO_ERRORS(matrix)        vASSERT( NO_ERRORS(matrix), \
                                          spcErrorsMustBeCleared )
-#define  ASSERT_IS_FACTORED(matrix)     vASSERT( IS_FACTORED(matrix), \
+#define  ASSERT_IS_FACTORED(matrix)        vASSERT( IS_FACTORED(matrix), \
                                          spcMatrixMustBeFactored )
-#define  ASSERT_IS_NOT_FACTORED(matrix) vASSERT( NOT (matrix)->Factored, \
+#define  ASSERT_IS_NOT_FACTORED(matrix)        vASSERT( NOT (matrix)->Factored, \
                                          spcMatrixMustNotBeFactored )
 
 /* Macro commands */
@@ -363,22 +363,22 @@
  */
 
 #if DEBUG
-#define ASSERT(condition)       \
-{   if (NOT(condition))         \
-    {   (void)fflush(stdout);   \
+#define ASSERT(condition)        \
+{   if (NOT(condition))                \
+    {   (void)fflush(stdout);        \
         (void)fprintf(stderr, "sparse: internal error detected in file `%s' at line %d.\n    assertion `%s' failed.\n",\
         __FILE__, __LINE__, spcQUOTE(condition) ); \
-        (void)fflush(stderr);   \
+        (void)fflush(stderr);        \
         abort();                \
-    }                           \
+    }                                \
 }
 #else
 #define ASSERT(condition)
 #endif
 
 #if DEBUG
-#define vASSERT(condition,message)      \
-{   if (NOT(condition))                 \
+#define vASSERT(condition,message)        \
+{   if (NOT(condition))                        \
         vABORT(message);                \
 }
 #else
@@ -387,17 +387,17 @@
 
 #if DEBUG
 #define  vABORT(message)        \
-{   (void)fflush(stdout);       \
+{   (void)fflush(stdout);        \
     (void)fprintf(stderr, "sparse: internal error detected in file `%s' at line %d.\n    %s.\n", __FILE__, __LINE__, message );\
-    (void)fflush(stderr);       \
-    abort();                    \
+    (void)fflush(stderr);        \
+    abort();                        \
 }
 
 #define  ABORT()                \
-{   (void)fflush(stdout);       \
-    (void)fprintf(stderr, "sparse: internal error detected in file `%s' at line %d.\n", __FILE__, __LINE__ );   \
-    (void)fflush(stderr);       \
-    abort();                    \
+{   (void)fflush(stdout);        \
+    (void)fprintf(stderr, "sparse: internal error detected in file `%s' at line %d.\n", __FILE__, __LINE__ );        \
+    (void)fflush(stderr);        \
+    abort();                        \
 }
 #else
 #define  vABORT(message)        abort()

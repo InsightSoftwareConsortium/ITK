@@ -24,7 +24,7 @@ static integer c__2 = 2;
 
 /*<       SUBROUTINE DORGQR( M, N, K, A, LDA, TAU, WORK, LWORK, INFO ) >*/
 /* Subroutine */ int dorgqr_(integer *m, integer *n, integer *k, doublereal *
-        a, integer *lda, doublereal *tau, doublereal *work, integer *lwork, 
+        a, integer *lda, doublereal *tau, doublereal *work, integer *lwork,
         integer *info)
 {
     /* System generated locals */
@@ -32,15 +32,15 @@ static integer c__2 = 2;
 
     /* Local variables */
     integer i__, j, l, ib, nb, ki=0, kk, nx, iws, nbmin, iinfo;
-    extern /* Subroutine */ int dorg2r_(integer *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, doublereal *, integer *), 
-            dlarfb_(char *, char *, char *, char *, integer *, integer *, 
-            integer *, doublereal *, integer *, doublereal *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, ftnlen, ftnlen, 
-            ftnlen, ftnlen), dlarft_(char *, char *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, doublereal *, integer *, 
+    extern /* Subroutine */ int dorg2r_(integer *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *),
+            dlarfb_(char *, char *, char *, char *, integer *, integer *,
+            integer *, doublereal *, integer *, doublereal *, integer *,
+            doublereal *, integer *, doublereal *, integer *, ftnlen, ftnlen,
+            ftnlen, ftnlen), dlarft_(char *, char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
             ftnlen, ftnlen), xerbla_(char *, integer *, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
     integer ldwork, lwkopt;
     logical lquery;
@@ -314,7 +314,7 @@ static integer c__2 = 2;
 
 /*<    >*/
                 i__2 = *m - i__ + 1;
-                dlarft_("Forward", "Columnwise", &i__2, &ib, &a[i__ + i__ * 
+                dlarft_("Forward", "Columnwise", &i__2, &ib, &a[i__ + i__ *
                         a_dim1], lda, &tau[i__], &work[1], &ldwork, (ftnlen)7,
                          (ftnlen)10);
 

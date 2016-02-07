@@ -349,13 +349,10 @@ class vnl_matrix_fixed_ref_const
 
   //: abort if size is not as expected
   // This function does or tests nothing if NDEBUG is defined
-#ifdef NDEBUG
-  void assert_size(unsigned, unsigned ) const
+  void assert_size(unsigned rowz, unsigned colz) const
   {
-#else
-  void assert_size(unsigned r, unsigned c) const
-  {
-    assert_size_internal(r, c);
+#ifndef NDEBUG
+    assert_size_internal(rowz, colz);
 #endif
   }
   //: abort if matrix contains any INFs or NANs.
@@ -587,19 +584,6 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
     return *this;
   }
 
-#ifdef VCL_VC_6
-  template<unsigned o>
-  vnl_matrix_fixed<T,num_rows,o> operator*( vnl_matrix_fixed_fake_base<o,num_cols,T> const& mat ) const
-  {
-    vnl_matrix_fixed<T,num_cols,o> const& b = static_cast<vnl_matrix_fixed<T,num_cols,o> const&>(mat);
-    return vnl_matrix_fixed_mat_mat_mult<T,num_rows,num_cols,o>( *this, b );
-  }
-  vnl_vector_fixed<T, num_rows> operator*( vnl_vector_fixed_ref_const<T, num_cols> const& b) const
-  {
-    return vnl_matrix_fixed_mat_vec_mult<T,num_rows,num_cols>(*this,b);
-  }
-#endif
-
   //: Set values of this matrix to those of M, starting at [top,left]
   vnl_matrix_fixed_ref const & update (vnl_matrix<T> const&, unsigned top=0, unsigned left=0) const;
 
@@ -769,8 +753,6 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
 //--------------------------------------------------------------------------------
 };
 
-#undef VNL_MATRIX_FIXED_VCL60_WORKAROUND
-
   // Helper routines for arithmetic. These routines know the size from
   // the template parameters. The vector-vector operations are
   // element-wise.
@@ -923,7 +905,6 @@ vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed_ref_const<T, M, N>& a,
   return out;
 }
 
-#ifndef VCL_VC_6
 // The version for correct compilers
 
 //: Multiply  conformant vnl_matrix_fixed (M x N) and vector_fixed (N)
@@ -944,8 +925,6 @@ vnl_matrix_fixed<T, M, O> operator*(const vnl_matrix_fixed_ref_const<T, M, N>& a
 {
   return vnl_matrix_fixed_mat_mat_mult(a,b);
 }
-#endif // ! VCL_VC_6
-
 
 // These overloads for the common case of mixing a fixed with a
 // non-fixed. Because the operator* are templated, the fixed will not

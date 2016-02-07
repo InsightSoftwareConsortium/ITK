@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE SGERQ2( M, N, A, LDA, TAU, WORK, INFO ) >*/
-/* Subroutine */ int sgerq2_(integer *m, integer *n, real *a, integer *lda, 
+/* Subroutine */ int sgerq2_(integer *m, integer *n, real *a, integer *lda,
         real *tau, real *work, integer *info)
 {
     /* System generated locals */
@@ -25,9 +25,9 @@ extern "C" {
     /* Local variables */
     integer i__, k;
     real aii;
-    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *, 
+    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *,
             integer *, real *, real *, integer *, real *, ftnlen), xerbla_(
-            char *, integer *, ftnlen), slarfg_(integer *, real *, real *, 
+            char *, integer *, ftnlen), slarfg_(integer *, real *, real *,
             integer *, real *);
 
 
@@ -161,7 +161,7 @@ extern "C" {
 
 /*<    >*/
         i__1 = *n - k + i__;
-        slarfg_(&i__1, &a[*m - k + i__ + (*n - k + i__) * a_dim1], &a[*m - k 
+        slarfg_(&i__1, &a[*m - k + i__ + (*n - k + i__) * a_dim1], &a[*m - k
                 + i__ + a_dim1], lda, &tau[i__]);
 
 /*        Apply H(i) to A(1:m-k+i-1,1:n-k+i) from the right */

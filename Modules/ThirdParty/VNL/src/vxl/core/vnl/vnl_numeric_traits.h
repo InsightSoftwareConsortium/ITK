@@ -108,7 +108,7 @@ class vnl_numeric_traits<char>
   static VNL_EXPORT const char maxval VCL_STATIC_CONST_INIT_INT_DECL(127);
 #endif
 #else
-  static VNL_EXPORT const char maxval VCL_STATIC_CONST_INIT_INT_DECL(char(255)<0?127:255);
+  static VNL_EXPORT const char maxval VCL_STATIC_CONST_INIT_INT_DECL(char(255)<char(0)?char(127):char(255));
 #endif
   //: Return value of abs()
   typedef unsigned char abs_t;

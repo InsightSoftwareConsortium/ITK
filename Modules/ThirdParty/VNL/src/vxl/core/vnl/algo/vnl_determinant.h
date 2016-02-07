@@ -58,6 +58,6 @@ inline T vnl_determinant(vnl_matrix_fixed<T,m,n> const &M, bool balance = false)
 
 
 #define VNL_DETERMINANT_INSTANTIATE(T) \
-extern "you must include vnl/algo/vnl_determinant.txx first"
+extern "you must include vnl/algo/vnl_determinant.hxx first"
 
 #endif // vnl_algo_determinant_h_

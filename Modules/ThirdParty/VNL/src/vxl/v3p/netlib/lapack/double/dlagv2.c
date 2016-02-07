@@ -21,7 +21,7 @@ static integer c__2 = 2;
 static integer c__1 = 1;
 
 /*<    >*/
-/* Subroutine */ int dlagv2_(doublereal *a, integer *lda, doublereal *b, 
+/* Subroutine */ int dlagv2_(doublereal *a, integer *lda, doublereal *b,
         integer *ldb, doublereal *alphar, doublereal *alphai, doublereal *
         beta, doublereal *csl, doublereal *snl, doublereal *csr, doublereal *
         snr)
@@ -32,20 +32,20 @@ static integer c__1 = 1;
 
     /* Local variables */
     doublereal r__, t, h1, h2, h3, wi, qq, rr, wr1, wr2, ulp;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *), dlag2_(
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *);
     doublereal anorm, bnorm, scale1, scale2;
-    extern /* Subroutine */ int dlasv2_(doublereal *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlasv2_(doublereal *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *, doublereal *, doublereal *);
     extern doublereal dlapy2_(doublereal *, doublereal *);
     doublereal ascale, bscale;
     extern doublereal dlamch_(char *, ftnlen);
     doublereal safmin;
-    extern /* Subroutine */ int dlartg_(doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlartg_(doublereal *, doublereal *,
             doublereal *, doublereal *, doublereal *);
 
 
@@ -178,7 +178,7 @@ static integer c__1 = 1;
 /*<    >*/
 /* Computing MAX */
     d__5 = (d__1 = a[a_dim1 + 1], abs(d__1)) + (d__2 = a[a_dim1 + 2], abs(
-            d__2)), d__6 = (d__3 = a[(a_dim1 << 1) + 1], abs(d__3)) + (d__4 = 
+            d__2)), d__6 = (d__3 = a[(a_dim1 << 1) + 1], abs(d__3)) + (d__4 =
             a[(a_dim1 << 1) + 2], abs(d__4)), d__5 = max(d__5,d__6);
     anorm = max(d__5,safmin);
 /*<       ASCALE = ONE / ANORM >*/
@@ -196,8 +196,8 @@ static integer c__1 = 1;
 
 /*<    >*/
 /* Computing MAX */
-    d__4 = (d__3 = b[b_dim1 + 1], abs(d__3)), d__5 = (d__1 = b[(b_dim1 << 1) 
-            + 1], abs(d__1)) + (d__2 = b[(b_dim1 << 1) + 2], abs(d__2)), d__4 
+    d__4 = (d__3 = b[b_dim1 + 1], abs(d__3)), d__5 = (d__1 = b[(b_dim1 << 1)
+            + 1], abs(d__1)) + (d__2 = b[(b_dim1 << 1) + 2], abs(d__2)), d__4
             = max(d__4,d__5);
     bnorm = max(d__4,safmin);
 /*<       BSCALE = ONE / BNORM >*/
@@ -322,10 +322,10 @@ static integer c__1 = 1;
 /*<             SNR = -SNR >*/
             *snr = -(*snr);
 /*<             CALL DROT( 2, A( 1, 1 ), 1, A( 1, 2 ), 1, CSR, SNR ) >*/
-            drot_(&c__2, &a[a_dim1 + 1], &c__1, &a[(a_dim1 << 1) + 1], &c__1, 
+            drot_(&c__2, &a[a_dim1 + 1], &c__1, &a[(a_dim1 << 1) + 1], &c__1,
                     csr, snr);
 /*<             CALL DROT( 2, B( 1, 1 ), 1, B( 1, 2 ), 1, CSR, SNR ) >*/
-            drot_(&c__2, &b[b_dim1 + 1], &c__1, &b[(b_dim1 << 1) + 1], &c__1, 
+            drot_(&c__2, &b[b_dim1 + 1], &c__1, &b[(b_dim1 << 1) + 1], &c__1,
                     csr, snr);
 
 /*           compute inf norms of A and B */
@@ -379,7 +379,7 @@ static integer c__1 = 1;
 /*           first compute the SVD of the matrix B */
 
 /*<    >*/
-            dlasv2_(&b[b_dim1 + 1], &b[(b_dim1 << 1) + 1], &b[(b_dim1 << 1) + 
+            dlasv2_(&b[b_dim1 + 1], &b[(b_dim1 << 1) + 1], &b[(b_dim1 << 1) +
                     2], &r__, &t, snr, csr, snl, csl);
 
 /*           Form (A,B) := Q(A,B)Z' where Q is left rotation matrix and */
@@ -390,10 +390,10 @@ static integer c__1 = 1;
 /*<             CALL DROT( 2, B( 1, 1 ), LDB, B( 2, 1 ), LDB, CSL, SNL ) >*/
             drot_(&c__2, &b[b_dim1 + 1], ldb, &b[b_dim1 + 2], ldb, csl, snl);
 /*<             CALL DROT( 2, A( 1, 1 ), 1, A( 1, 2 ), 1, CSR, SNR ) >*/
-            drot_(&c__2, &a[a_dim1 + 1], &c__1, &a[(a_dim1 << 1) + 1], &c__1, 
+            drot_(&c__2, &a[a_dim1 + 1], &c__1, &a[(a_dim1 << 1) + 1], &c__1,
                     csr, snr);
 /*<             CALL DROT( 2, B( 1, 1 ), 1, B( 1, 2 ), 1, CSR, SNR ) >*/
-            drot_(&c__2, &b[b_dim1 + 1], &c__1, &b[(b_dim1 << 1) + 1], &c__1, 
+            drot_(&c__2, &b[b_dim1 + 1], &c__1, &b[(b_dim1 << 1) + 1], &c__1,
                     csr, snr);
 
 /*<             B( 2, 1 ) = ZERO >*/

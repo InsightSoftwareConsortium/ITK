@@ -22,12 +22,12 @@ static complex c_b8 = {(float)1.,(float)0.};
 static complex c_b53 = {(float)-1.,(float)0.};
 
 /*<       subroutine csvdc(x,ldx,n,p,s,e,u,ldu,v,ldv,work,job,info) >*/
-/* Subroutine */ int csvdc_(complex *x, integer *ldx, integer *n, integer *p, 
-        complex *s, complex *e, complex *u, integer *ldu, complex *v, integer 
+/* Subroutine */ int csvdc_(complex *x, integer *ldx, integer *n, integer *p,
+        complex *s, complex *e, complex *u, integer *ldu, complex *v, integer
         *ldv, complex *work, integer *job, integer *info)
 {
     /* System generated locals */
-    integer x_dim1, x_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2, 
+    integer x_dim1, x_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2,
             i__3, i__4;
     real r__1, r__2, r__3, r__4;
     complex q__1, q__2, q__3;
@@ -53,17 +53,17 @@ static complex c_b53 = {(float)-1.,(float)0.};
     integer kase, jobu, iter;
     real test;
     integer nctp1, nrtp1;
-    extern /* Subroutine */ int cscal_(integer *, complex *, complex *, 
+    extern /* Subroutine */ int cscal_(integer *, complex *, complex *,
             integer *);
     real scale;
-    extern /* Complex */ VOID cdotc_(complex *, integer *, complex *, integer 
+    extern /* Complex */ VOID cdotc_(complex *, integer *, complex *, integer
             *, complex *, integer *);
     real shift;
-    extern /* Subroutine */ int cswap_(integer *, complex *, integer *, 
+    extern /* Subroutine */ int cswap_(integer *, complex *, integer *,
             complex *, integer *);
     integer maxit;
-    extern /* Subroutine */ int caxpy_(integer *, complex *, complex *, 
-            integer *, complex *, integer *), csrot_(integer *, complex *, 
+    extern /* Subroutine */ int caxpy_(integer *, complex *, complex *,
+            integer *, complex *, integer *), csrot_(integer *, complex *,
             integer *, complex *, integer *, real *, real *);
     logical wantu, wantv;
     extern /* Subroutine */ int srotg_(real *, real *, real *, real *);
@@ -670,14 +670,14 @@ L300:
         for (j = lp1; j <= i__2; ++j) {
 /*<                   t = -cdotc(p-l,v(lp1,l),1,v(lp1,j),1)/v(lp1,l) >*/
             i__3 = *p - l;
-            cdotc_(&q__3, &i__3, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j * 
+            cdotc_(&q__3, &i__3, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j *
                     v_dim1], &c__1);
             q__2.r = -q__3.r, q__2.i = -q__3.i;
             c_div(&q__1, &q__2, &v[lp1 + l * v_dim1]);
             t.r = q__1.r, t.i = q__1.i;
 /*<                   call caxpy(p-l,t,v(lp1,l),1,v(lp1,j),1) >*/
             i__3 = *p - l;
-            caxpy_(&i__3, &t, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j * 
+            caxpy_(&i__3, &t, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j *
                     v_dim1], &c__1);
 /*<   310          continue >*/
 /* L310: */
@@ -759,7 +759,7 @@ L360:
 /*<             s(i+1) = s(i+1)*r >*/
         i__2 = i__ + 1;
         i__3 = i__ + 1;
-        q__1.r = s[i__3].r * r__.r - s[i__3].i * r__.i, q__1.i = s[i__3].r * 
+        q__1.r = s[i__3].r * r__.r - s[i__3].i * r__.i, q__1.i = s[i__3].r *
                 r__.i + s[i__3].i * r__.r;
         s[i__2].r = q__1.r, s[i__2].i = q__1.i;
 /*<             if (wantv) call cscal(p,r,v(1,i+1),1) >*/
@@ -1045,8 +1045,8 @@ L580:
 
 /*<    >*/
 /* Computing MAX */
-    r__1 = c_abs(&s[m]), r__2 = c_abs(&s[m - 1]), r__1 = max(r__1,r__2), r__2 
-            = c_abs(&e[m - 1]), r__1 = max(r__1,r__2), r__2 = c_abs(&s[l]), 
+    r__1 = c_abs(&s[m]), r__2 = c_abs(&s[m - 1]), r__1 = max(r__1,r__2), r__2
+            = c_abs(&e[m - 1]), r__1 = max(r__1,r__2), r__2 = c_abs(&s[l]),
             r__1 = max(r__1,r__2), r__2 = c_abs(&e[l]);
     scale = dmax(r__1,r__2);
 /*<             sm = real(s(m))/scale >*/

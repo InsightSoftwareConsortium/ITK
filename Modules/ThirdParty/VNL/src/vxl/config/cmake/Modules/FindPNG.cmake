@@ -16,49 +16,49 @@
 
 
 # If this FORCE variable is unset or is FALSE, try to find a native library.
-IF( VXL_FORCE_V3P_PNG )
-ELSE( VXL_FORCE_V3P_PNG )
+if( VXL_FORCE_V3P_PNG )
+else()
 # Suppress not found messages
-  SET( ZLIB_FIND_QUIETLY "YES" )
-  FIND_PACKAGE( PNG QUIET )
-  SET( ZLIB_FIND_QUIETLY )
-ENDIF( VXL_FORCE_V3P_PNG )
+  set( ZLIB_FIND_QUIETLY "YES" )
+  find_package( PNG QUIET )
+  set( ZLIB_FIND_QUIETLY )
+endif()
 
-IF(PNG_FOUND)
+if(PNG_FOUND)
 
-  SET(VXL_USING_NATIVE_PNG "YES")
+  set(VXL_USING_NATIVE_PNG "YES")
 
-ELSE(PNG_FOUND)
+else()
 
-  INCLUDE( ${MODULE_PATH}/FindZLIB.cmake ) 
-  IF(ZLIB_FOUND)
+  include( ${MODULE_PATH}/FindZLIB.cmake )
+  if(ZLIB_FOUND)
 
   #
   # At some point, in a "release" version, it is possible that someone
   # will not have the v3p png library, so make sure the headers
   # exist.
   #
-  
 
-    IF(EXISTS ${vxl_SOURCE_DIR}/v3p/png/png.h)
 
-      SET( PNG_FOUND "YES" )
-      SET( PNG_LIBRARIES png)
-      SET( PNG_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/png ${ZLIB_INCLUDE_DIR} )
-      SET( PNG_INSTALL_INCLUDE_DIR 
+    if(EXISTS ${VXL_ROOT_SOURCE_DIR}/v3p/png/png.h)
+
+      set( PNG_FOUND "YES" )
+      set( PNG_LIBRARIES png)
+      set( PNG_INCLUDE_DIR ${VXL_ROOT_SOURCE_DIR}/v3p/png ${ZLIB_INCLUDE_DIR} )
+      set( PNG_INSTALL_INCLUDE_DIR
         ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/png
         ${ZLIB_INSTALL_INCLUDE_DIR}
       )
 
-      IF (CYGWIN)
-        IF(BUILD_SHARED_LIBS)
+      if(CYGWIN)
+        if(VXL_BUILD_SHARED_LIBS)
            # No need to define PNG_USE_DLL here, because it's default for Cygwin.
-        ELSE(BUILD_SHARED_LIBS)
-          SET (PNG_DEFINITIONS  ${PNG_DEFINITIONS} -DPNG_STATIC)
-        ENDIF(BUILD_SHARED_LIBS)
-      ENDIF (CYGWIN)
+        else()
+          set(PNG_DEFINITIONS  ${PNG_DEFINITIONS} -DPNG_STATIC)
+        endif()
+      endif()
 
-    ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/png/png.h)
+    endif()
 
-  ENDIF(ZLIB_FOUND)
-ENDIF(PNG_FOUND)
+  endif()
+endif()

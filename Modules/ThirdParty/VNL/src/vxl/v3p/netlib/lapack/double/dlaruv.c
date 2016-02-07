@@ -351,7 +351,7 @@ L20:
 /*     Return final value of seed */
 
 /*<       ISEED( 1 ) = IT1 >*/
-    iseed[1] = it1;
+//    iseed[1] = it1;
 /*<       ISEED( 2 ) = IT2 >*/
     iseed[2] = it2;
 /*<       ISEED( 3 ) = IT3 >*/

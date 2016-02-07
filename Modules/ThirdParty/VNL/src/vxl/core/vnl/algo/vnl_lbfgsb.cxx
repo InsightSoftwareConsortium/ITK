@@ -17,12 +17,6 @@
 #include <vnl/algo/vnl_netlib.h> // setulb_()
 
 //----------------------------------------------------------------------------
-vnl_lbfgsb::vnl_lbfgsb(): f_(0)
-{
-  init_parameters();
-}
-
-//----------------------------------------------------------------------------
 vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function& f): f_(&f)
 {
   init_parameters();
@@ -31,12 +25,12 @@ vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function& f): f_(&f)
 //----------------------------------------------------------------------------
 void vnl_lbfgsb::init_parameters()
 {
-  long n = this->f_->get_number_of_unknowns();
-  this->bound_selection_.set_size(n);
-  this->bound_selection_.fill(0);
-  this->max_corrections_ = 5;
-  this->convergence_factor_ = 1e+7;
-  this->projected_gradient_tolerance_ = 1e-5;
+    long n = this->f_->get_number_of_unknowns();
+    this->bound_selection_.set_size(n);
+    this->bound_selection_.fill(0);
+    this->max_corrections_ = 5;
+    this->convergence_factor_ = 1e+7;
+    this->projected_gradient_tolerance_ = 1e-5;
 }
 
 //----------------------------------------------------------------------------

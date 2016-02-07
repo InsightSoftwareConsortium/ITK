@@ -29,9 +29,9 @@ static integer c__1 = 1;
 
     /* Local variables */
     integer i__, j, l;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-            integer *), dlarf_(char *, integer *, integer *, doublereal *, 
-            integer *, doublereal *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
+            integer *), dlarf_(char *, integer *, integer *, doublereal *,
+            integer *, doublereal *, doublereal *, integer *, doublereal *,
             ftnlen), xerbla_(char *, integer *, ftnlen);
 
 

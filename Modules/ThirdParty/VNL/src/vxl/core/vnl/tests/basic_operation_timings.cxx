@@ -189,10 +189,6 @@ void run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const 
   vcl_cout<<"Matrix x Vector multiplication  " << vcl_flush;
   mat_x_vec(A,x,n_loops/n+1);
   print_pointers(z, y, x, v, A, vcl_string("testD")+type+size);
-#if 0
-  vcl_cout<<"Vector x Matrix multiplication  " << vcl_flush;
-  vec_x_mat(y,A,n_loops/n+1);
-#endif
   print_pointers(z, y, x, v, A, vcl_string("testE")+type+size);
 }
 

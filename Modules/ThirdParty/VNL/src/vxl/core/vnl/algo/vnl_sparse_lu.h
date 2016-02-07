@@ -80,11 +80,6 @@ class vnl_sparse_lu
   // Not calculated unless operation mode at construction includes estimate_condition.
   double max_error_bound();
 
-#if 0 // not immediately useful but left for future development
-  //: Return the matrix after pivoting
-  vnl_sparse_matrix<double> lu_matrix();
-#endif
-
  protected:
   // Internals
   void decompose_matrix();

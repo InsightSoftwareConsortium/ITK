@@ -11,6 +11,7 @@
 
 #include <vsl/vsl_binary_io.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
+#include <vcl_string.h>
 
 //: Base for objects which provide IO
 //  for classes derived from vnl_nonlinear_minimizer

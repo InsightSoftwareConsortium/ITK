@@ -76,10 +76,10 @@ inline bool vnl_generalized_schur(vnl_matrix<vcl_complex<T> > *A,
 
   alpha->set_size(alpha_.size());
   vcl_transform(alpha_.begin(), alpha_.end(), alpha->begin(), vnl_complex_generalized_schur_convert_cast<T>);
-  
+
   beta->set_size(beta_.size());
   vcl_transform(beta_.begin(), beta_.end(), beta->begin(), vnl_complex_generalized_schur_convert_cast<T>);
-  
+
   L->set_size(L_.rows(), L_.cols());
   vcl_transform(L_.begin(), L_.end(), L->begin(), vnl_complex_generalized_schur_convert_cast<T>);
 

@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       subroutine dpodi(a,lda,n,det,job) >*/
-/* Subroutine */ int dpodi_(doublereal *a, integer *lda, integer *n, 
+/* Subroutine */ int dpodi_(doublereal *a, integer *lda, integer *n,
         doublereal *det, integer *job)
 {
     /* System generated locals */
@@ -31,8 +31,8 @@ static integer c__1 = 1;
     integer i__, j, k;
     doublereal s, t;
     integer jm1, kp1;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-            integer *), daxpy_(integer *, doublereal *, doublereal *, integer 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
+            integer *), daxpy_(integer *, doublereal *, doublereal *, integer
             *, doublereal *, integer *);
 
 /*<       integer lda,n,job >*/

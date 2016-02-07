@@ -20,6 +20,7 @@
 //  vnl_sym_matrix stores a symmetric matrix for time and space efficiency.
 //  Specifically, only the diagonal and lower triangular elements are stored.
 
+VCL_TEMPLATE_EXPORT
 template <class T>
 class vnl_sym_matrix
 {
@@ -100,10 +101,46 @@ class vnl_sym_matrix
   inline const_iterator begin() const { return data_; }
   inline const_iterator end() const { return data_ + size(); }
 
-  unsigned long size() const { return nn_ * (nn_ + 1) / 2; }
-  unsigned rows() const { return nn_; }
-  unsigned cols() const { return nn_; }
-  unsigned columns() const { return nn_; }
+  //: Return the total number of elements stored by the matrix.
+  // Since vnl_sym_matrix only stores the diagonal and lower
+  // triangular elements and must be square, this returns
+  // n*(n+1)/2, where n == rows() == cols().
+  inline unsigned int size() const { return nn_ * (nn_ + 1) / 2; }
+
+  //: Return the number of rows.
+  inline unsigned int rows() const { return nn_; }
+
+  //: Return the number of columns.
+  // A synonym for columns().
+  inline unsigned int cols() const { return nn_; }
+
+  //: Return the number of columns.
+  // A synonym for cols().
+  inline unsigned int columns() const { return nn_; }
+
+  //: set element
+  inline void put (unsigned r, unsigned c, T const& v)
+  {
+#if VNL_CONFIG_CHECK_BOUNDS
+    if (r >= this->nn_)                // If invalid size specified
+      vnl_error_matrix_row_index("put", r); // Raise exception
+    if (c >= this->nn_)                // If invalid size specified
+      vnl_error_matrix_col_index("put", c); // Raise exception
+#endif
+    (r > c) ? index_[r][c] = v : index_[c][r] = v;
+  }
+
+  //: get element
+  inline T get (unsigned r, unsigned c) const
+  {
+#if VNL_CONFIG_CHECK_BOUNDS
+    if (r >= this->nn_)                // If invalid size specified
+      vnl_error_matrix_row_index("get", r); // Raise exception
+    if (c >= this->nn_)                // If invalid size specified
+      vnl_error_matrix_col_index("get", c); // Raise exception
+#endif
+    return (r > c) ? index_[r][c] : index_[c][r];
+  }
 
   // Need this until we add a vnl_sym_matrix ctor to vnl_matrix;
   inline vnl_matrix<T> as_matrix() const;

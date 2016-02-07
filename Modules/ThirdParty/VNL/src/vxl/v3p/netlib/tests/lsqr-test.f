@@ -36,7 +36,7 @@
       SUBROUTINE APROD1( M, N, X, Y, D, HY, HZ, W )
       INTEGER            M, N
       DOUBLE PRECISION   X(N), Y(M), D(N), HY(M), HZ(N), W(M)
-      
+
 *     ------------------------------------------------------------------
 *     APROD1  computes  Y = Y + A*X  for subroutine APROD,
 *     where A is a test matrix of the form  A = HY*D*HZ,
@@ -57,7 +57,7 @@
       DO 200 I = N + 1, M
          W(I)  = ZERO
   200 CONTINUE
-      
+
       CALL HPROD ( M, HY, W, W )
 
       DO 600 I = 1, M
@@ -130,7 +130,7 @@
 *     ------------------------------------------------------------------
 *     LSTP  generates a sparse least-squares test problem of the form
 *
-*                (   A    )*X = ( B ) 
+*                (   A    )*X = ( B )
 *                ( DAMP*I )     ( 0 )
 *
 *     having a specified solution X.  The matrix A is constructed
@@ -171,13 +171,13 @@
 
       DO 200 I = 1, N
          HZ(I) = COS( I * BETA )
-  200 CONTINUE                
+  200 CONTINUE
 
       ALFA   = DNRM2 ( M, HY, 1 )
       BETA   = DNRM2 ( N, HZ, 1 )
       CALL DSCAL ( M, (- ONE / ALFA), HY, 1 )
       CALL DSCAL ( N, (- ONE / BETA), HZ, 1 )
-*            
+*
 *     ------------------------------------------------------------------
 *     Set the diagonal matrix  D.  These are the singular values of  A.
 *     ------------------------------------------------------------------
@@ -245,7 +245,7 @@
       EXTERNAL           APROD
       INTEGER            ISTOP, ITNLIM, J, NOUT
       DOUBLE PRECISION   DNRM2
-    
+
       PARAMETER        ( MAXM = 200,  MAXN = 100 )
       DOUBLE PRECISION   B(MAXM),  U(MAXM),
      $                   V(MAXN),  W(MAXN), X(MAXN),
@@ -350,7 +350,7 @@
       WRITE(NOUT, 2600) (J, SE(J), J = 1, N)
 
 *     Print a clue about whether the solution looks OK.
-                 
+
       DO 500 J = 1, N
          W(J)  = X(J) - XTRUE(J)
   500 CONTINUE
@@ -364,7 +364,7 @@
 
   900 WRITE(NOUT, 9000) LTOTAL
       RETURN
-                                 
+
  1000 FORMAT(1P
      $ // 1X, 2A
      $ /  ' Least-Squares Test Problem      P(', 4I5, E12.2, ' )'
@@ -374,7 +374,7 @@
      $ // 22X, ' Residual norm    Residual norm    Solution norm'
      $  / 22X, '(Abar X - bbar)   (Normal eqns)         (X)' /)
  2100 FORMAT(1P, ' Estimated by LSQR', 3E17.5)
- 2200 FORMAT(1P, ' Computed from  X ', 3E17.5) 
+ 2200 FORMAT(1P, ' Computed from  X ', 3E17.5)
  2500 FORMAT(//' Solution  X' / 4(I6, G14.6))
  2600 FORMAT(/ ' Standard errors  SE' / 4(I6, G14.6))
  3000 FORMAT(1P / ' LSQR  appears to be successful.',

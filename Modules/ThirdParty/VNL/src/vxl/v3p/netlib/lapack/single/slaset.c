@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE SLASET( UPLO, M, N, ALPHA, BETA, A, LDA ) >*/
-/* Subroutine */ int slaset_(char *uplo, integer *m, integer *n, real *alpha, 
+/* Subroutine */ int slaset_(char *uplo, integer *m, integer *n, real *alpha,
         real *beta, real *a, integer *lda, ftnlen uplo_len)
 {
     /* System generated locals */

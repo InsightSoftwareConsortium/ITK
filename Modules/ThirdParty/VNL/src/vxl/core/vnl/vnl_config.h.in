@@ -7,7 +7,7 @@
 
 //: Set to 0 to disable bounds checks in vnl_matrix<T>::operator() and vnl_vector<T>::operator().
 // Note that operator[] never performs bounds checks.
-// This is not intended to also control *size* checks when doing matrix-vector arithmetic.
+// This is not intended to also control \e size checks when doing matrix-vector arithmetic.
 #define VNL_CONFIG_CHECK_BOUNDS   @VNL_CONFIG_CHECK_BOUNDS@
 
 //: Set to 1 to enable the deprecated methods vnl_vector<T>::set_[xyzt]().

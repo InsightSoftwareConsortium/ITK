@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       SUBROUTINE ZGEHD2( N, ILO, IHI, A, LDA, TAU, WORK, INFO ) >*/
-/* Subroutine */ int zgehd2_(integer *n, integer *ilo, integer *ihi, 
+/* Subroutine */ int zgehd2_(integer *n, integer *ilo, integer *ihi,
         doublecomplex *a, integer *lda, doublecomplex *tau, doublecomplex *
         work, integer *info)
 {
@@ -34,10 +34,10 @@ static integer c__1 = 1;
     /* Local variables */
     integer i__;
     doublecomplex alpha;
-    extern /* Subroutine */ int zlarf_(char *, integer *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
-            integer *, doublecomplex *, ftnlen), xerbla_(char *, integer *, 
-            ftnlen), zlarfg_(integer *, doublecomplex *, doublecomplex *, 
+    extern /* Subroutine */ int zlarf_(char *, integer *, integer *,
+            doublecomplex *, integer *, doublecomplex *, doublecomplex *,
+            integer *, doublecomplex *, ftnlen), xerbla_(char *, integer *,
+            ftnlen), zlarfg_(integer *, doublecomplex *, doublecomplex *,
             integer *, doublecomplex *);
 
 

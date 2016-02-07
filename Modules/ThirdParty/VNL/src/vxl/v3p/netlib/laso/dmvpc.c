@@ -23,8 +23,8 @@ static integer c__1 = 1;
 /* ------------------------------------------------------------------ */
 
 /*<    >*/
-/* Subroutine */ int dmvpc_(integer *nblock, doublereal *bet, integer *maxj, 
-        integer *j, doublereal *s, integer *number, doublereal *resnrm, 
+/* Subroutine */ int dmvpc_(integer *nblock, doublereal *bet, integer *maxj,
+        integer *j, doublereal *s, integer *number, doublereal *resnrm,
         doublereal *orthcf, doublereal *rv)
 {
     /* System generated locals */
@@ -33,7 +33,7 @@ static integer c__1 = 1;
 
     /* Local variables */
     integer i__, k, m;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *), dnrm2_(integer *, doublereal *, integer *);
 
 
@@ -72,7 +72,7 @@ static integer c__1 = 1;
         i__2 = *nblock;
         for (k = 1; k <= i__2; ++k) {
 /*<             RV(K) = DDOT(NBLOCK,S(M,I),1,BET(K,1),NBLOCK) >*/
-            rv[k] = ddot_(nblock, &s[m + i__ * s_dim1], &c__1, &bet[k + 
+            rv[k] = ddot_(nblock, &s[m + i__ * s_dim1], &c__1, &bet[k +
                     bet_dim1], nblock);
 /*<             IF (K.EQ.1) ORTHCF(I) = DABS(RV(K)) >*/
             if (k == 1) {

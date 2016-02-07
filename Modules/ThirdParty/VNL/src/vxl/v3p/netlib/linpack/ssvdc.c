@@ -35,12 +35,12 @@ static integer c__1 = 1;
 static real c_b44 = (float)-1.;
 
 /*<       subroutine ssvdc(x,ldx,n,p,s,e,u,ldu,v,ldv,work,job,info) >*/
-/* Subroutine */ int ssvdc_(real *x, integer *ldx, integer *n, integer *p, 
+/* Subroutine */ int ssvdc_(real *x, integer *ldx, integer *n, integer *p,
         real *s, real *e, real *u, integer *ldu, real *v, integer *ldv, real *
         work, integer *job, integer *info)
 {
     /* System generated locals */
-    integer x_dim1, x_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2, 
+    integer x_dim1, x_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2,
             i__3;
     real r__1, r__2, r__3, r__4, r__5, r__6, r__7;
 
@@ -62,7 +62,7 @@ static real c_b44 = (float)-1.;
     integer kase, jobu, iter;
     extern doublereal sdot_(integer *, real *, integer *, real *, integer *);
     real test;
-    extern /* Subroutine */ int srot_(integer *, real *, integer *, real *, 
+    extern /* Subroutine */ int srot_(integer *, real *, integer *, real *,
             integer *, real *, real *);
     integer nctp1;
     extern doublereal snrm2_(integer *, real *, integer *);
@@ -71,10 +71,10 @@ static real c_b44 = (float)-1.;
     extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *);
     real shift;
     integer maxit;
-    extern /* Subroutine */ int sswap_(integer *, real *, integer *, real *, 
+    extern /* Subroutine */ int sswap_(integer *, real *, integer *, real *,
             integer *);
     logical wantu, wantv;
-    extern /* Subroutine */ int srotg_(real *, real *, real *, real *), 
+    extern /* Subroutine */ int srotg_(real *, real *, real *, real *),
             saxpy_(integer *, real *, real *, integer *, real *, integer *);
     real ztest;
 
@@ -597,11 +597,11 @@ L300:
         for (j = lp1; j <= i__2; ++j) {
 /*<                   t = -sdot(p-l,v(lp1,l),1,v(lp1,j),1)/v(lp1,l) >*/
             i__3 = *p - l;
-            t = -sdot_(&i__3, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j * 
+            t = -sdot_(&i__3, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j *
                     v_dim1], &c__1) / v[lp1 + l * v_dim1];
 /*<                   call saxpy(p-l,t,v(lp1,l),1,v(lp1,j),1) >*/
             i__3 = *p - l;
-            saxpy_(&i__3, &t, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j * 
+            saxpy_(&i__3, &t, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j *
                     v_dim1], &c__1);
 /*<   310          continue >*/
 /* L310: */
@@ -874,8 +874,8 @@ L540:
 
 /*<    >*/
 /* Computing MAX */
-    r__6 = (r__1 = s[m], dabs(r__1)), r__7 = (r__2 = s[m - 1], dabs(r__2)), 
-            r__6 = max(r__6,r__7), r__7 = (r__3 = e[m - 1], dabs(r__3)), r__6 
+    r__6 = (r__1 = s[m], dabs(r__1)), r__7 = (r__2 = s[m - 1], dabs(r__2)),
+            r__6 = max(r__6,r__7), r__7 = (r__3 = e[m - 1], dabs(r__3)), r__6
             = max(r__6,r__7), r__7 = (r__4 = s[l], dabs(r__4)), r__6 = max(
             r__6,r__7), r__7 = (r__5 = e[l], dabs(r__5));
     scale = dmax(r__6,r__7);

@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE ZLASET( UPLO, M, N, ALPHA, BETA, A, LDA ) >*/
-/* Subroutine */ int zlaset_(char *uplo, integer *m, integer *n, 
+/* Subroutine */ int zlaset_(char *uplo, integer *m, integer *n,
         doublecomplex *alpha, doublecomplex *beta, doublecomplex *a, integer *
         lda, ftnlen uplo_len)
 {

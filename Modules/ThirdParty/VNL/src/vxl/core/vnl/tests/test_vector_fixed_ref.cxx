@@ -46,12 +46,6 @@ void test_vector_fixed_ref()
   //    assign from vec
   vf other;
   vcl_generate(other.begin(),other.end(),vcl_rand);
-#if 0 // assignment is ambiguous
-  ref = other;
-  TEST("assign_vf", ref, other);
-  // test different addresses
-  TEST("assign_vf address", (ref.begin() != other.begin()), true);
-#endif // 0
 
   {
   //    assign from const vfr
@@ -61,18 +55,6 @@ void test_vector_fixed_ref()
   TEST("assign_const_ref", ref, other);
   // test different addresses
   TEST("assign_const_ref address", (ref.begin() != other.begin()), true);
-  }
-
-  {
-#if 0 // cannot assign to a vnl_vector_fixed_ref_const
-  //    assign from vfr
-  vcl_generate(other.begin(),other.end(),vcl_rand);
-  vfr ref2(other);
-  ref = ref2;
-  TEST("assign_ref", ref, other);
-  // test different addresses
-  TEST("assign_ref address", (ref.begin() != other.begin()), true);
-#endif // 0
   }
 
   // arithmetic

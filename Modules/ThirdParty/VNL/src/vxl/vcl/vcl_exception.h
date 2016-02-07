@@ -37,7 +37,7 @@ struct vcl_throw_handler {
   vcl_ostream& s() { return vcl_cerr; }
 };
 
-# define vcl_throw        vcl_throw_handler(__LINE__,__FILE__).s() << 
+# define vcl_throw        vcl_throw_handler(__LINE__,__FILE__).s() <<
 # define vcl_try          if (0/* setjmp(buf) */) { /* handle longjmp */ } else
 # define vcl_catch(x)     for ( x = 0; false; )
 # define vcl_catch_all    if (1) /* nothing */ ; else

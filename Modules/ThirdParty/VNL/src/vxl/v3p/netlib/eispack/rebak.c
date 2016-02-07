@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine rebak(nm,n,b,dl,m,z) >*/
-/* Subroutine */ int rebak_(integer *nm, integer *n, doublereal *b, 
+/* Subroutine */ int rebak_(integer *nm, integer *n, doublereal *b,
         doublereal *dl, integer *m, doublereal *z__)
 {
     /* System generated locals */

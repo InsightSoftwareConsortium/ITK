@@ -84,7 +84,7 @@ doublereal dlamch_(char *cmach, ftnlen cmach_len)
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal small;
     static doublereal sfmin; /* runtime-initialized constant */
-    extern /* Subroutine */ int dlamc2_(integer *, integer *, logical *, 
+    extern /* Subroutine */ int dlamc2_(integer *, integer *, logical *,
             doublereal *, integer *, doublereal *, integer *, doublereal *);
 
     (void)cmach_len;
@@ -263,7 +263,7 @@ doublereal dlamch_(char *cmach, ftnlen cmach_len)
 /* *********************************************************************** */
 
 /*<       SUBROUTINE DLAMC1( BETA, T, RND, IEEE1 ) >*/
-/* Subroutine */ int dlamc1_(integer *beta, integer *t, logical *rnd, logical 
+/* Subroutine */ int dlamc1_(integer *beta, integer *t, logical *rnd, logical
         *ieee1)
 {
     /* Initialized data */
@@ -537,8 +537,8 @@ L30:
 /* *********************************************************************** */
 
 /*<       SUBROUTINE DLAMC2( BETA, T, RND, EPS, EMIN, RMIN, EMAX, RMAX ) >*/
-/* Subroutine */ int dlamc2_(integer *beta, integer *t, logical *rnd, 
-        doublereal *eps, integer *emin, doublereal *rmin, integer *emax, 
+/* Subroutine */ int dlamc2_(integer *beta, integer *t, logical *rnd,
+        doublereal *eps, integer *emin, doublereal *rmin, integer *emax,
         doublereal *rmax)
 {
     /* Initialized data */
@@ -573,12 +573,12 @@ L30:
     doublereal third;
     static doublereal lrmin, lrmax; /* runtime-initialized constant */
     doublereal sixth;
-    extern /* Subroutine */ int dlamc1_(integer *, integer *, logical *, 
+    extern /* Subroutine */ int dlamc1_(integer *, integer *, logical *,
             logical *);
     extern doublereal dlamc3_(doublereal *, doublereal *);
     logical lieee1;
-    extern /* Subroutine */ int dlamc4_(integer *, doublereal *, integer *), 
-            dlamc5_(integer *, integer *, integer *, logical *, integer *, 
+    extern /* Subroutine */ int dlamc4_(integer *, doublereal *, integer *),
+            dlamc5_(integer *, integer *, integer *, logical *, integer *,
             doublereal *);
     integer ngnmin, ngpmin;
 
@@ -1131,7 +1131,7 @@ L10:
 /* *********************************************************************** */
 
 /*<       SUBROUTINE DLAMC5( BETA, P, EMIN, IEEE, EMAX, RMAX ) >*/
-/* Subroutine */ int dlamc5_(integer *beta, integer *p, integer *emin, 
+/* Subroutine */ int dlamc5_(integer *beta, integer *p, integer *emin,
         logical *ieee, integer *emax, doublereal *rmax)
 {
     /* System generated locals */

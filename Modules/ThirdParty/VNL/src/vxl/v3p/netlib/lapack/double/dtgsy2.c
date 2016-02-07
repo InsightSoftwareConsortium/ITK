@@ -27,14 +27,14 @@ static integer c__0 = 0;
 
 /*<    >*/
 /* Subroutine */ int dtgsy2_(char *trans, integer *ijob, integer *m, integer *
-        n, doublereal *a, integer *lda, doublereal *b, integer *ldb, 
-        doublereal *c__, integer *ldc, doublereal *d__, integer *ldd, 
+        n, doublereal *a, integer *lda, doublereal *b, integer *ldb,
+        doublereal *c__, integer *ldc, doublereal *d__, integer *ldd,
         doublereal *e, integer *lde, doublereal *f, integer *ldf, doublereal *
-        scale, doublereal *rdsum, doublereal *rdscal, integer *iwork, integer 
+        scale, doublereal *rdsum, doublereal *rdscal, integer *iwork, integer
         *pq, integer *info, ftnlen trans_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1,
             d_offset, e_dim1, e_offset, f_dim1, f_offset, i__1, i__2, i__3;
 
     /* Local variables */
@@ -43,25 +43,25 @@ static integer c__0 = 0;
     integer ie, je, mb, nb, ii, jj, is, js;
     doublereal rhs[8];
     integer isp1, jsp1;
-    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *, 
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
             integer *);
     integer ierr, zdim, ipiv[8], jpiv[8];
     doublereal alpha;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *), dgemm_(char *, char *, integer *, integer *, integer *
-            , doublereal *, doublereal *, integer *, doublereal *, integer *, 
+            , doublereal *, doublereal *, integer *, doublereal *, integer *,
             doublereal *, doublereal *, integer *, ftnlen, ftnlen);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-            doublereal *, doublereal *, integer *, doublereal *, integer *, 
-            doublereal *, doublereal *, integer *, ftnlen), dcopy_(integer *, 
-            doublereal *, integer *, doublereal *, integer *), daxpy_(integer 
+    extern /* Subroutine */ int dgemv_(char *, integer *, integer *,
+            doublereal *, doublereal *, integer *, doublereal *, integer *,
+            doublereal *, doublereal *, integer *, ftnlen), dcopy_(integer *,
+            doublereal *, integer *, doublereal *, integer *), daxpy_(integer
             *, doublereal *, doublereal *, integer *, doublereal *, integer *)
-            , dgesc2_(integer *, doublereal *, integer *, doublereal *, 
-            integer *, integer *, doublereal *), dgetc2_(integer *, 
-            doublereal *, integer *, integer *, integer *, integer *), 
-            dlatdf_(integer *, integer *, doublereal *, integer *, doublereal 
+            , dgesc2_(integer *, doublereal *, integer *, doublereal *,
+            integer *, integer *, doublereal *), dgetc2_(integer *,
+            doublereal *, integer *, integer *, integer *, integer *),
+            dlatdf_(integer *, integer *, doublereal *, integer *, doublereal
             *, doublereal *, doublereal *, integer *, integer *);
     doublereal scaloc;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
@@ -517,7 +517,7 @@ L40:
 /*<                   ELSE >*/
                     } else {
 /*<    >*/
-                        dlatdf_(ijob, &zdim, z__, &c__8, rhs, rdsum, rdscal, 
+                        dlatdf_(ijob, &zdim, z__, &c__8, rhs, rdsum, rdscal,
                                 ipiv, jpiv);
 /*<                   END IF >*/
                     }
@@ -550,11 +550,11 @@ L40:
                     if (j < q) {
 /*<    >*/
                         i__2 = *n - je;
-                        daxpy_(&i__2, &rhs[1], &b[js + (je + 1) * b_dim1], 
+                        daxpy_(&i__2, &rhs[1], &b[js + (je + 1) * b_dim1],
                                 ldb, &c__[is + (je + 1) * c_dim1], ldc);
 /*<    >*/
                         i__2 = *n - je;
-                        daxpy_(&i__2, &rhs[1], &e[js + (je + 1) * e_dim1], 
+                        daxpy_(&i__2, &rhs[1], &e[js + (je + 1) * e_dim1],
                                 lde, &f[is + (je + 1) * f_dim1], ldf);
 /*<                   END IF >*/
                     }
@@ -644,7 +644,7 @@ L40:
 /*<                   ELSE >*/
                     } else {
 /*<    >*/
-                        dlatdf_(ijob, &zdim, z__, &c__8, rhs, rdsum, rdscal, 
+                        dlatdf_(ijob, &zdim, z__, &c__8, rhs, rdsum, rdscal,
                                 ipiv, jpiv);
 /*<                   END IF >*/
                     }
@@ -667,7 +667,7 @@ L40:
                     if (i__ > 1) {
 /*<    >*/
                         i__2 = is - 1;
-                        dger_(&i__2, &nb, &c_b27, &a[is * a_dim1 + 1], &c__1, 
+                        dger_(&i__2, &nb, &c_b27, &a[is * a_dim1 + 1], &c__1,
                                 rhs, &c__1, &c__[js * c_dim1 + 1], ldc);
 /*<    >*/
                         i__2 = is - 1;
@@ -679,19 +679,19 @@ L40:
                     if (j < q) {
 /*<    >*/
                         i__2 = *n - je;
-                        daxpy_(&i__2, &rhs[2], &b[js + (je + 1) * b_dim1], 
+                        daxpy_(&i__2, &rhs[2], &b[js + (je + 1) * b_dim1],
                                 ldb, &c__[is + (je + 1) * c_dim1], ldc);
 /*<    >*/
                         i__2 = *n - je;
-                        daxpy_(&i__2, &rhs[2], &e[js + (je + 1) * e_dim1], 
+                        daxpy_(&i__2, &rhs[2], &e[js + (je + 1) * e_dim1],
                                 lde, &f[is + (je + 1) * f_dim1], ldf);
 /*<    >*/
                         i__2 = *n - je;
-                        daxpy_(&i__2, &rhs[3], &b[jsp1 + (je + 1) * b_dim1], 
+                        daxpy_(&i__2, &rhs[3], &b[jsp1 + (je + 1) * b_dim1],
                                 ldb, &c__[is + (je + 1) * c_dim1], ldc);
 /*<    >*/
                         i__2 = *n - je;
-                        daxpy_(&i__2, &rhs[3], &e[jsp1 + (je + 1) * e_dim1], 
+                        daxpy_(&i__2, &rhs[3], &e[jsp1 + (je + 1) * e_dim1],
                                 lde, &f[is + (je + 1) * f_dim1], ldf);
 /*<                   END IF >*/
                     }
@@ -780,7 +780,7 @@ L40:
 /*<                   ELSE >*/
                     } else {
 /*<    >*/
-                        dlatdf_(ijob, &zdim, z__, &c__8, rhs, rdsum, rdscal, 
+                        dlatdf_(ijob, &zdim, z__, &c__8, rhs, rdsum, rdscal,
                                 ipiv, jpiv);
 /*<                   END IF >*/
                     }
@@ -803,7 +803,7 @@ L40:
                     if (i__ > 1) {
 /*<    >*/
                         i__2 = is - 1;
-                        dgemv_("N", &i__2, &mb, &c_b27, &a[is * a_dim1 + 1], 
+                        dgemv_("N", &i__2, &mb, &c_b27, &a[is * a_dim1 + 1],
                                 lda, rhs, &c__1, &c_b42, &c__[js * c_dim1 + 1]
                                 , &c__1, (ftnlen)1);
 /*<    >*/
@@ -817,13 +817,13 @@ L40:
                     if (j < q) {
 /*<    >*/
                         i__2 = *n - je;
-                        dger_(&mb, &i__2, &c_b42, &rhs[2], &c__1, &b[js + (je 
-                                + 1) * b_dim1], ldb, &c__[is + (je + 1) * 
+                        dger_(&mb, &i__2, &c_b42, &rhs[2], &c__1, &b[js + (je
+                                + 1) * b_dim1], ldb, &c__[is + (je + 1) *
                                 c_dim1], ldc);
 /*<    >*/
                         i__2 = *n - je;
-                        dger_(&mb, &i__2, &c_b42, &rhs[2], &c__1, &e[js + (je 
-                                + 1) * e_dim1], ldb, &f[is + (je + 1) * 
+                        dger_(&mb, &i__2, &c_b42, &rhs[2], &c__1, &e[js + (je
+                                + 1) * e_dim1], ldb, &f[is + (je + 1) *
                                 f_dim1], ldc);
 /*<                   END IF >*/
                     }
@@ -955,7 +955,7 @@ L40:
 /*<                   ELSE >*/
                     } else {
 /*<    >*/
-                        dlatdf_(ijob, &zdim, z__, &c__8, rhs, rdsum, rdscal, 
+                        dlatdf_(ijob, &zdim, z__, &c__8, rhs, rdsum, rdscal,
                                 ipiv, jpiv);
 /*<                   END IF >*/
                     }
@@ -970,10 +970,10 @@ L40:
                     i__2 = nb - 1;
                     for (jj = 0; jj <= i__2; ++jj) {
 /*<                      CALL DCOPY( MB, RHS( K ), 1, C( IS, JS+JJ ), 1 ) >*/
-                        dcopy_(&mb, &rhs[k - 1], &c__1, &c__[is + (js + jj) * 
+                        dcopy_(&mb, &rhs[k - 1], &c__1, &c__[is + (js + jj) *
                                 c_dim1], &c__1);
 /*<                      CALL DCOPY( MB, RHS( II ), 1, F( IS, JS+JJ ), 1 ) >*/
-                        dcopy_(&mb, &rhs[ii - 1], &c__1, &f[is + (js + jj) * 
+                        dcopy_(&mb, &rhs[ii - 1], &c__1, &f[is + (js + jj) *
                                 f_dim1], &c__1);
 /*<                      K = K + MB >*/
                         k += mb;
@@ -990,13 +990,13 @@ L40:
                     if (i__ > 1) {
 /*<    >*/
                         i__2 = is - 1;
-                        dgemm_("N", "N", &i__2, &nb, &mb, &c_b27, &a[is * 
-                                a_dim1 + 1], lda, rhs, &mb, &c_b42, &c__[js * 
+                        dgemm_("N", "N", &i__2, &nb, &mb, &c_b27, &a[is *
+                                a_dim1 + 1], lda, rhs, &mb, &c_b42, &c__[js *
                                 c_dim1 + 1], ldc, (ftnlen)1, (ftnlen)1);
 /*<    >*/
                         i__2 = is - 1;
-                        dgemm_("N", "N", &i__2, &nb, &mb, &c_b27, &d__[is * 
-                                d_dim1 + 1], ldd, rhs, &mb, &c_b42, &f[js * 
+                        dgemm_("N", "N", &i__2, &nb, &mb, &c_b27, &d__[is *
+                                d_dim1 + 1], ldd, rhs, &mb, &c_b42, &f[js *
                                 f_dim1 + 1], ldf, (ftnlen)1, (ftnlen)1);
 /*<                   END IF >*/
                     }
@@ -1153,7 +1153,7 @@ L40:
                         alpha = -rhs[1];
 /*<    >*/
                         i__3 = *m - ie;
-                        daxpy_(&i__3, &alpha, &d__[is + (ie + 1) * d_dim1], 
+                        daxpy_(&i__3, &alpha, &d__[is + (ie + 1) * d_dim1],
                                 ldd, &c__[ie + 1 + js * c_dim1], &c__1);
 /*<                   END IF >*/
                     }
@@ -1255,7 +1255,7 @@ L40:
                     if (j > p + 2) {
 /*<    >*/
                         i__3 = js - 1;
-                        daxpy_(&i__3, rhs, &b[js * b_dim1 + 1], &c__1, &f[is 
+                        daxpy_(&i__3, rhs, &b[js * b_dim1 + 1], &c__1, &f[is
                                 + f_dim1], ldf);
 /*<    >*/
                         i__3 = js - 1;
@@ -1275,13 +1275,13 @@ L40:
                     if (i__ < p) {
 /*<    >*/
                         i__3 = *m - ie;
-                        dger_(&i__3, &nb, &c_b27, &a[is + (ie + 1) * a_dim1], 
-                                lda, rhs, &c__1, &c__[ie + 1 + js * c_dim1], 
+                        dger_(&i__3, &nb, &c_b27, &a[is + (ie + 1) * a_dim1],
+                                lda, rhs, &c__1, &c__[ie + 1 + js * c_dim1],
                                 ldc);
 /*<    >*/
                         i__3 = *m - ie;
                         dger_(&i__3, &nb, &c_b27, &d__[is + (ie + 1) * d_dim1]
-                                , ldd, &rhs[2], &c__1, &c__[ie + 1 + js * 
+                                , ldd, &rhs[2], &c__1, &c__[ie + 1 + js *
                                 c_dim1], ldc);
 /*<                   END IF >*/
                     }
@@ -1384,11 +1384,11 @@ L40:
                     if (j > p + 2) {
 /*<    >*/
                         i__3 = js - 1;
-                        dger_(&mb, &i__3, &c_b42, rhs, &c__1, &b[js * b_dim1 
+                        dger_(&mb, &i__3, &c_b42, rhs, &c__1, &b[js * b_dim1
                                 + 1], &c__1, &f[is + f_dim1], ldf);
 /*<    >*/
                         i__3 = js - 1;
-                        dger_(&mb, &i__3, &c_b42, &rhs[2], &c__1, &e[js * 
+                        dger_(&mb, &i__3, &c_b42, &rhs[2], &c__1, &e[js *
                                 e_dim1 + 1], &c__1, &f[is + f_dim1], ldf);
 /*<                   END IF >*/
                     }
@@ -1396,13 +1396,13 @@ L40:
                     if (i__ < p) {
 /*<    >*/
                         i__3 = *m - ie;
-                        dgemv_("T", &mb, &i__3, &c_b27, &a[is + (ie + 1) * 
-                                a_dim1], lda, rhs, &c__1, &c_b42, &c__[ie + 1 
+                        dgemv_("T", &mb, &i__3, &c_b27, &a[is + (ie + 1) *
+                                a_dim1], lda, rhs, &c__1, &c_b42, &c__[ie + 1
                                 + js * c_dim1], &c__1, (ftnlen)1);
 /*<    >*/
                         i__3 = *m - ie;
-                        dgemv_("T", &mb, &i__3, &c_b27, &d__[is + (ie + 1) * 
-                                d_dim1], ldd, &rhs[2], &c__1, &c_b42, &c__[ie 
+                        dgemv_("T", &mb, &i__3, &c_b27, &d__[is + (ie + 1) *
+                                d_dim1], ldd, &rhs[2], &c__1, &c_b42, &c__[ie
                                 + 1 + js * c_dim1], &c__1, (ftnlen)1);
 /*<                   END IF >*/
                     }
@@ -1541,10 +1541,10 @@ L40:
                     i__3 = nb - 1;
                     for (jj = 0; jj <= i__3; ++jj) {
 /*<                      CALL DCOPY( MB, RHS( K ), 1, C( IS, JS+JJ ), 1 ) >*/
-                        dcopy_(&mb, &rhs[k - 1], &c__1, &c__[is + (js + jj) * 
+                        dcopy_(&mb, &rhs[k - 1], &c__1, &c__[is + (js + jj) *
                                 c_dim1], &c__1);
 /*<                      CALL DCOPY( MB, RHS( II ), 1, F( IS, JS+JJ ), 1 ) >*/
-                        dcopy_(&mb, &rhs[ii - 1], &c__1, &f[is + (js + jj) * 
+                        dcopy_(&mb, &rhs[ii - 1], &c__1, &f[is + (js + jj) *
                                 f_dim1], &c__1);
 /*<                      K = K + MB >*/
                         k += mb;
@@ -1561,7 +1561,7 @@ L40:
                     if (j > p + 2) {
 /*<    >*/
                         i__3 = js - 1;
-                        dgemm_("N", "T", &mb, &i__3, &nb, &c_b42, &c__[is + 
+                        dgemm_("N", "T", &mb, &i__3, &nb, &c_b42, &c__[is +
                                 js * c_dim1], ldc, &b[js * b_dim1 + 1], ldb, &
                                 c_b42, &f[is + f_dim1], ldf, (ftnlen)1, (
                                 ftnlen)1);
@@ -1577,15 +1577,15 @@ L40:
                     if (i__ < p) {
 /*<    >*/
                         i__3 = *m - ie;
-                        dgemm_("T", "N", &i__3, &nb, &mb, &c_b27, &a[is + (ie 
-                                + 1) * a_dim1], lda, &c__[is + js * c_dim1], 
-                                ldc, &c_b42, &c__[ie + 1 + js * c_dim1], ldc, 
+                        dgemm_("T", "N", &i__3, &nb, &mb, &c_b27, &a[is + (ie
+                                + 1) * a_dim1], lda, &c__[is + js * c_dim1],
+                                ldc, &c_b42, &c__[ie + 1 + js * c_dim1], ldc,
                                 (ftnlen)1, (ftnlen)1);
 /*<    >*/
                         i__3 = *m - ie;
                         dgemm_("T", "N", &i__3, &nb, &mb, &c_b27, &d__[is + (
-                                ie + 1) * d_dim1], ldd, &f[is + js * f_dim1], 
-                                ldf, &c_b42, &c__[ie + 1 + js * c_dim1], ldc, 
+                                ie + 1) * d_dim1], ldd, &f[is + js * f_dim1],
+                                ldf, &c_b42, &c__[ie + 1 + js * c_dim1], ldc,
                                 (ftnlen)1, (ftnlen)1);
 /*<                   END IF >*/
                     }

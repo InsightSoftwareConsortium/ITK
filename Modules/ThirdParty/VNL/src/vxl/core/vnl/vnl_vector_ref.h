@@ -13,7 +13,7 @@
 // \verbatim
 //  Modifications
 //   LSB (Manchester) 19/03/2001: Tidied up the documentation
-//   Peter Vanroose   27-Jun-2003 Removed .txx as all methods are inlined
+//   Peter Vanroose   27-Jun-2003 Removed .hxx as all methods are inlined
 // \endverbatim
 //-----------------------------------------------------------------------------
 
@@ -22,14 +22,14 @@
 //: vnl_vector using user-supplied storage
 //   vnl_vector for which the data space has
 //   been supplied externally.
-template <class T>
+VCL_TEMPLATE_EXPORT template <class T>
 class vnl_vector_ref : public vnl_vector<T>
 {
  public:
   typedef vnl_vector<T> Base;
 
   //: Constructor
-  // Do *not* call anything else than the default constructor of vnl_vector<T>
+  // Do \e not call anything else than the default constructor of vnl_vector<T>
   vnl_vector_ref(unsigned n, T *space) : vnl_vector<T>() {
     Base::data = space;
     Base::num_elmts = n;
@@ -39,8 +39,8 @@ class vnl_vector_ref : public vnl_vector<T>
   }
 
   //: Copy constructor
-  // Do *not* call anything else than the default constructor of vnl_vector<T>
-  // (That is why the default copy constructor is *not* good.)
+  // Do \e not call anything else than the default constructor of vnl_vector<T>
+  // (That is why the default copy constructor is \e not good.)
   vnl_vector_ref(vnl_vector_ref<T> const& v) : vnl_vector<T>() {
     Base::data = const_cast<T*>(v.data_block()); // const incorrect!
     Base::num_elmts = v.size();
@@ -52,7 +52,7 @@ class vnl_vector_ref : public vnl_vector<T>
   //: Destructor
   // Prevents base destructor from releasing memory we don't own
   ~vnl_vector_ref() {
-    Base::data = 0;
+    Base::data = VXL_NULLPTR;
   }
 
   //: Reference to self to make non-const temporaries.
@@ -76,18 +76,6 @@ class vnl_vector_ref : public vnl_vector<T>
   //: Copy constructor from vnl_vector<T> is disallowed:
   vnl_vector_ref(vnl_vector<T> const&) {}
 
-#if 0 // NOW COMMENTED OUT - PVR, may 97
-  // Private operator new because deleting a pointer to
-  // one of these through a baseclass pointer will attempt
-  // to free the referenced memory.
-  // Therefore disallow newing of these -- if you're paying for
-  // one malloc, you can afford two.
-  void* operator new(vcl_size_t) { return 0; }
-
- public:
-  // Privatizing other new means we must offer placement new for STL
-  void* operator new(vcl_size_t, void* space) { return space; }
-#endif
 };
 
 //: Create a reference vector with part of an existing vector.

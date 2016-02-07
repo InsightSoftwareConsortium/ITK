@@ -1,4 +1,4 @@
-#include <vnl/vnl_sparse_matrix.txx>
+#include <vnl/vnl_sparse_matrix.hxx>
 
 template class vnl_sparse_matrix<int>;
 

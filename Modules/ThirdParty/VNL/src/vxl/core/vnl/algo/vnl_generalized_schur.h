@@ -14,7 +14,7 @@
 #include <vnl/vnl_vector.h>
 
 //:
-// For a *real* scalar type T, this function uses orthogonal
+// For a \e real scalar type T, this function uses orthogonal
 // matrices L, R to reduce the (square) matrices A, B to generalized
 // (real) Schur form. This means that B is upper triangular and A is
 // block upper triangular with blocks of size at most 2x2 such that
@@ -87,13 +87,13 @@ inline bool vnl_generalized_schur(vnl_matrix<T> *A,
 
   alphar->set_size(alphar_.size());
   vcl_transform(alphar_.begin(), alphar_.end(), alphar->begin(), vnl_generalized_schur_convert_cast<T>);
-  
+
   alphai->set_size(alphai_.size());
   vcl_transform(alphai_.begin(), alphai_.end(), alphai->begin(), vnl_generalized_schur_convert_cast<T>);
-  
+
   beta  ->set_size(beta_  .size());
   vcl_transform(beta_  .begin(), beta_  .end(), beta  ->begin(), vnl_generalized_schur_convert_cast<T>);
-  
+
   L->set_size(L_.rows(), L_.cols());
   vcl_transform(L_.begin(), L_.end(), L->begin(), vnl_generalized_schur_convert_cast<T>);
 

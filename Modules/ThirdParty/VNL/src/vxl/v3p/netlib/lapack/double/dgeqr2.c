@@ -29,9 +29,9 @@ static integer c__1 = 1;
     /* Local variables */
     integer i__, k;
     doublereal aii;
-    extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, doublereal *, integer *, 
-            doublereal *, ftnlen), dlarfg_(integer *, doublereal *, 
+    extern /* Subroutine */ int dlarf_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, ftnlen), dlarfg_(integer *, doublereal *,
             doublereal *, integer *, doublereal *), xerbla_(char *, integer *,
              ftnlen);
 

@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_vector.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 class vnl_cost_function;
 class vnl_least_squares_function;
@@ -63,10 +64,11 @@ class vnl_amoeba
   //  I.e. the i'th vertex has x[i] = x0[i]*(1+relative_diameter)
   void set_relative_diameter(double r) { relative_diameter = r; }
 
+  void set_zero_term_delta(double d) { zero_term_delta = d; }
   //: Scaling used to select starting vertices relative to initial x0.
   //  I.e. the i'th vertex has x[i] = x0[i]*(1+relative_diameter)
   double relative_diameter;
-
+  double zero_term_delta;
   //: Construct and supply function to be minimized
   vnl_amoeba(vnl_cost_function& f);
 
@@ -77,6 +79,8 @@ class vnl_amoeba
   //: Perform optimisation.
   //  Start simplex defined by adding dx[i] to each x[i]
   void minimize(vnl_vector<double>& x, const vnl_vector<double>& dx);
+
+  double get_end_error() const { return end_error_; }
 
   //: Number of evaluations used in last call to minimize
   int get_num_evaluations() const { return num_evaluations_; }
@@ -99,10 +103,11 @@ class vnl_amoeba
   //: Modify x so as to minimise f(x)
   static void minimize(vnl_least_squares_function& f, vnl_vector<double>& x);
 
-  static bool default_verbose;
+  static VNL_ALGO_EXPORT bool default_verbose;
 
  protected:
   vnl_cost_function* fptr;
+  double end_error_;
   int num_evaluations_;
 };
 

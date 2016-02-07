@@ -31,15 +31,15 @@ static integer c__2 = 2;
 
     /* Local variables */
     integer i__, k, ib, nb, nx, iws, nbmin, iinfo;
-    extern /* Subroutine */ int dgeqr2_(integer *, integer *, doublereal *, 
+    extern /* Subroutine */ int dgeqr2_(integer *, integer *, doublereal *,
             integer *, doublereal *, doublereal *, integer *), dlarfb_(char *,
-             char *, char *, char *, integer *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
-            integer *, doublereal *, integer *, ftnlen, ftnlen, ftnlen, 
-            ftnlen), dlarft_(char *, char *, integer *, integer *, doublereal 
-            *, integer *, doublereal *, doublereal *, integer *, ftnlen, 
+             char *, char *, char *, integer *, integer *, integer *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
+            integer *, doublereal *, integer *, ftnlen, ftnlen, ftnlen,
+            ftnlen), dlarft_(char *, char *, integer *, integer *, doublereal
+            *, integer *, doublereal *, doublereal *, integer *, ftnlen,
             ftnlen), xerbla_(char *, integer *, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
     integer ldwork, lwkopt;
     logical lquery;
@@ -278,7 +278,7 @@ static integer c__2 = 2;
 
 /*<    >*/
                 i__3 = *m - i__ + 1;
-                dlarft_("Forward", "Columnwise", &i__3, &ib, &a[i__ + i__ * 
+                dlarft_("Forward", "Columnwise", &i__3, &ib, &a[i__ + i__ *
                         a_dim1], lda, &tau[i__], &work[1], &ldwork, (ftnlen)7,
                          (ftnlen)10);
 
@@ -289,7 +289,7 @@ static integer c__2 = 2;
                 i__4 = *n - i__ - ib + 1;
                 dlarfb_("Left", "Transpose", "Forward", "Columnwise", &i__3, &
                         i__4, &ib, &a[i__ + i__ * a_dim1], lda, &work[1], &
-                        ldwork, &a[i__ + (i__ + ib) * a_dim1], lda, &work[ib 
+                        ldwork, &a[i__ + (i__ + ib) * a_dim1], lda, &work[ib
                         + 1], &ldwork, (ftnlen)4, (ftnlen)9, (ftnlen)7, (
                         ftnlen)10);
 /*<             END IF >*/

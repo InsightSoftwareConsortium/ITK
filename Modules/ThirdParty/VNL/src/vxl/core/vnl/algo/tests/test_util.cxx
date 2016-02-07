@@ -1,4 +1,5 @@
 // This is core/vnl/algo/tests/test_util.cxx
+#include "test_util.h"
 #include <vcl_complex.h>
 #include <vnl/vnl_random.h>
 

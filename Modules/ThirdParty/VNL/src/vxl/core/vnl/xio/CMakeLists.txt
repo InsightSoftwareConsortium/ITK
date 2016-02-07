@@ -1,20 +1,18 @@
 # vxl/vnl/xio/CMakeLists.txt
 
-SET(vnl_xio_sources
-  vnl_xio_matrix_fixed.txx         vnl_xio_matrix_fixed.h
-  vnl_xio_vector_fixed.txx         vnl_xio_vector_fixed.h
-  vnl_xio_quaternion.txx           vnl_xio_quaternion.h  
-  vnl_xio_vector.txx               vnl_xio_vector.h 
+set(vnl_xio_sources
+  vnl_xio_matrix_fixed.hxx   vnl_xio_matrix_fixed.h
+  vnl_xio_matrix.hxx         vnl_xio_matrix.h
+  vnl_xio_vector_fixed.hxx   vnl_xio_vector_fixed.h
+  vnl_xio_vector.hxx         vnl_xio_vector.h
+  vnl_xio_quaternion.hxx     vnl_xio_quaternion.h
 )
 
-AUX_SOURCE_DIRECTORY(Templates vnl_xio_sources)
+aux_source_directory(Templates vnl_xio_sources)
 
-ADD_LIBRARY(vnl_xio ${vnl_xio_sources} )
-TARGET_LINK_LIBRARIES( vnl_xio vnl vsl )
+vxl_add_library(LIBNAME ${VXL_LIB_PREFIX}vnl_xio LIBSRCS ${vnl_xio_sources} )
+target_link_libraries( ${VXL_LIB_PREFIX}vnl_xio ${VXL_LIB_PREFIX}vnl ${VXL_LIB_PREFIX}vsl )
 
-INSTALL(TARGETS vnl_xio DESTINATION lib)
-INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vnl/xio ${vnl_xio_sources})
-
-#IF(BUILD_TESTING)
-#  SUBDIRS(tests)
-#ENDIF(BUILD_TESTING)
+if(BUILD_TESTING)
+  add_subdirectory(tests)
+endif()

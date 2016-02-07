@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<    >*/
-/* Subroutine */ int sorm2r_(char *side, char *trans, integer *m, integer *n, 
+/* Subroutine */ int sorm2r_(char *side, char *trans, integer *m, integer *n,
         integer *k, real *a, integer *lda, real *tau, real *c__, integer *ldc,
          real *work, integer *info, ftnlen side_len, ftnlen trans_len)
 {
@@ -32,7 +32,7 @@ static integer c__1 = 1;
     real aii;
     logical left;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *, 
+    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *,
             integer *, real *, real *, integer *, real *, ftnlen), xerbla_(
             char *, integer *, ftnlen);
     logical notran;

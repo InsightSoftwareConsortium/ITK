@@ -89,6 +89,9 @@ class vnl_real_npolynomial
   vnl_real_npolynomial operator+(vnl_real_npolynomial const& ) const;
   vnl_real_npolynomial operator-(vnl_real_npolynomial const& ) const;
   vnl_real_npolynomial operator*(vnl_real_npolynomial const& ) const;
+  vnl_real_npolynomial& operator+=(vnl_real_npolynomial const& rhs);
+  vnl_real_npolynomial& operator-=(vnl_real_npolynomial const& rhs);
+  vnl_real_npolynomial& operator*=(vnl_real_npolynomial const& rhs);
   vnl_real_npolynomial operator+(double ) const;
   vnl_real_npolynomial operator-(double P) const { return operator+(-P); }
   vnl_real_npolynomial operator*(double ) const;

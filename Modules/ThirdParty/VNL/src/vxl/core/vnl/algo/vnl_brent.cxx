@@ -57,7 +57,8 @@ double vnl_brent::minimize(double x)
 {
   double ax=x-1.0;
   double xx=x+1.0;
-  double bx,fa,fx,fb;
+  double bx = 0.0;
+  double fa,fx,fb;
   bracket_minimum(&ax,&xx,&bx,&fa,&fx,&fb);
   minimize_given_bounds(bx,xx,ax,ftol,&x);
   return x;

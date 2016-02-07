@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       double precision function ddot(n,dx,incx,dy,incy) >*/
-doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, 
+doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy,
         integer *incy)
 {
     /* System generated locals */
@@ -118,7 +118,7 @@ L40:
     for (i__ = mp1; i__ <= i__1; i__ += 5) {
 /*<    >*/
         dtemp = dtemp + dx[i__] * dy[i__] + dx[i__ + 1] * dy[i__ + 1] + dx[
-                i__ + 2] * dy[i__ + 2] + dx[i__ + 3] * dy[i__ + 3] + dx[i__ + 
+                i__ + 2] * dy[i__ + 2] + dx[i__ + 3] * dy[i__ + 3] + dx[i__ +
                 4] * dy[i__ + 4];
 /*<    50 continue >*/
 /* L50: */

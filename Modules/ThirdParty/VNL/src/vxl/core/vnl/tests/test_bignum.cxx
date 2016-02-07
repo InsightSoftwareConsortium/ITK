@@ -9,10 +9,8 @@
 
 #include <vcl_iostream.h>
 #include <vcl_limits.h> // for vcl_numeric_limits<double>::infinity()
-#ifndef __alpha__ // On Alpha, compiler runs out of memory when including these
-# include <vcl_sstream.h>
-# include <vcl_iomanip.h>
-#endif
+#include <vcl_sstream.h>
+#include <vcl_iomanip.h>
 #include <vnl/vnl_bignum.h>
 #include <vnl/vnl_bignum_traits.h>
 #include <vnl/vnl_numeric_traits.h> // for vnl_numeric_traits<double>::maxval
@@ -30,13 +28,13 @@ static vnl_bignum factorial(int n)
 
 // Combinations (n choose k)
 static vnl_bignum Combinations(int n, int k)
-{ 
+{
   vnl_bignum CC(1);
   if (k >= n || k <= 0) return CC;
-  else 
+  else
   {
     for (int i = n; i > n - k; --i)
-      CC *= i; 
+      CC *= i;
     CC /= factorial(k);
     return CC;
   }
@@ -88,7 +86,6 @@ static void run_constructor_tests()
   {vnl_bignum b("123e5"); TEST("vnl_bignum b(\"123e5\");", b, 12300000L);}
   {vnl_bignum b("-123e+4"); TEST("vnl_bignum b(\"-123e+4\");", b, -1230000L);}
   {vnl_bignum b("123e12"); TEST("vnl_bignum b(\"123e12\");", (double)b, 123e12);}
-#ifndef __alpha__ // On Alpha, compiler runs out of memory when using <sstream>
   {vnl_bignum b("-1e120"); vcl_stringstream s; s << b; vcl_cout << b << '\n';
    // verify that b outputs as  "-1000...00" (120 zeros)
    bool t = s.str()[0] == '-' && s.str()[1] == '1';
@@ -102,9 +99,6 @@ static void run_constructor_tests()
    TEST("vnl_bignum b(\"-1e120\") outputs a length 122 string", s.str().length(), 122);
    vcl_cout << "length of string: " << s.str().length() << vcl_endl;
   }
-#else
-  {vnl_bignum b("-1e120"); vcl_cout << b << '\n';}
-#endif
   {vnl_bignum b("0x0"); TEST("vnl_bignum b(\"0x0\");", b, 0x0);}
   {vnl_bignum b("0x9"); TEST("vnl_bignum b(\"0x9\");", b, 0x9);}
   {vnl_bignum b("0xa"); TEST("vnl_bignum b(\"0xa\");", b, 0xa);}
@@ -122,7 +116,6 @@ static void run_constructor_tests()
   {vnl_bignum b("Infinity"); TEST("vnl_bignum b(\"Infinity\");", b.is_plus_infinity(), true);}
   {vnl_bignum b("-Infin"); TEST("vnl_bignum b(\"-Infin\");", b.is_minus_infinity(), true);}
 
-#ifndef __alpha__ // On Alpha, compiler runs out of memory when using <sstream>
   vcl_cout << "reading from istream:\n";
   {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
    is << "+1"; is >> b; TEST("\"+1\" >> b;", b, 1L);}
@@ -158,7 +151,6 @@ static void run_constructor_tests()
    is << '9'; is >> b; TEST("\"9\" >> b;", b, 9L);}
   {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
    is << " 9"; is >> b; TEST("\" 9\" >> b;", b, 9L);}
-#endif
 
   vcl_cout << "vnl_bignum& constructor:\n";
   {vnl_bignum b50(vnl_bignum(0L));
@@ -394,19 +386,15 @@ static void run_division_tests()
           vnl_bignum b3(long((i+k)/(j+l)));
           if (b1/b2 != b3) {
             TEST("(vnl_bignum(i+k)/vnl_bignum(j+l)) == vnl_bignum(long((i+k)/(j+l)))", false, true);
-#ifndef __alpha__ // On Alpha, compiler runs out of memory when using <iomanip>
             vcl_cout<<vcl_hex<< "i=0x"<<i<<", j=0x"<<j<<", k=0x"<<k<<", l="<<l
                     <<vcl_dec<<", b1="<<b1<<", b2="<<b2<<", b3="<<b3<<'\n';
-#endif
             ++div_errors;
           }
           b3 = vnl_bignum(long((i+k)%(j+l)));
           if (b1%b2 != b3) {
             TEST("(vnl_bignum(i+k)%vnl_bignum(j+l)) == vnl_bignum(long((i+k)%(j+l)))", false, true);
-#ifndef __alpha__ // On Alpha, compiler runs out of memory when using <iomanip>
             vcl_cout<<vcl_hex<< "i=0x"<<i<<", j=0x"<<j<<", k=0x"<<k<<", l="<<l
                     <<vcl_dec<<", b1="<<b1<<", b2="<<b2<<", b3="<<b3<<'\n';
-#endif
             ++mod_errors;
           }
         }

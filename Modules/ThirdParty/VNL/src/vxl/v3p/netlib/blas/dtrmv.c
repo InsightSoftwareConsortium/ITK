@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE DTRMV ( UPLO, TRANS, DIAG, N, A, LDA, X, INCX ) >*/
-/* Subroutine */ int dtrmv_(char *uplo, char *trans, char *diag, integer *n, 
-        doublereal *a, integer *lda, doublereal *x, integer *incx, ftnlen 
+/* Subroutine */ int dtrmv_(char *uplo, char *trans, char *diag, integer *n,
+        doublereal *a, integer *lda, doublereal *x, integer *incx, ftnlen
         uplo_len, ftnlen trans_len, ftnlen diag_len)
 {
     /* System generated locals */
@@ -165,13 +165,13 @@ extern "C" {
 /*<          INFO = 1 >*/
         info = 1;
 /*<    >*/
-    } else if (! lsame_(trans, "N", (ftnlen)1, (ftnlen)1) && ! lsame_(trans, 
+    } else if (! lsame_(trans, "N", (ftnlen)1, (ftnlen)1) && ! lsame_(trans,
             "T", (ftnlen)1, (ftnlen)1) && ! lsame_(trans, "C", (ftnlen)1, (
             ftnlen)1)) {
 /*<          INFO = 2 >*/
         info = 2;
 /*<    >*/
-    } else if (! lsame_(diag, "U", (ftnlen)1, (ftnlen)1) && ! lsame_(diag, 
+    } else if (! lsame_(diag, "U", (ftnlen)1, (ftnlen)1) && ! lsame_(diag,
             "N", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = 3 >*/
         info = 3;

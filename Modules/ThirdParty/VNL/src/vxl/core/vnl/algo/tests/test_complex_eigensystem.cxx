@@ -40,12 +40,6 @@ void test_complex_eigensystem1()
                               true,  // left and right
                               true); // eigenvectors
   TEST("vnl_complex_eigensystem constructor", eig.N, N);
-#if 0
-  vcl_cout << "A = " << A << '\n'
-           << "eigenvalues = " << eig.W << '\n'
-           << "L = " << eig.L << '\n'
-           << "R = " << eig.R << '\n';
-#endif
   for (unsigned i=0;i<N;i++) {
     vcl_complex<double> w = eig.W[i];
     vcl_cout << "  W[" << i << "] = " << w << '\n';

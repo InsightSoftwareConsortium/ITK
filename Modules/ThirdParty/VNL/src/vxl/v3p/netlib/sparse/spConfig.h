@@ -461,24 +461,24 @@
     /*
      * Definitions for C++
      */
-#   define spcEXTERN            extern "C"
+#   define spcEXTERN                extern "C"
 #   define spcNO_ARGS
-#   define spcCONST             const
+#   define spcCONST                const
     typedef void *spGenericPtr;
 #else
 #ifdef __STDC__
     /*
      * Definitions for ANSI C
      */
-#   define spcEXTERN            extern
-#   define spcNO_ARGS           void
-#   define spcCONST             const
+#   define spcEXTERN                extern
+#   define spcNO_ARGS                void
+#   define spcCONST                const
     typedef void *spGenericPtr;
 #   else
     /*
      * Definitions for K&R C -- ignore function prototypes
      */
-#   define spcEXTERN            extern
+#   define spcEXTERN                extern
 #   define spcNO_ARGS
 #   define spcCONST
     typedef char *spGenericPtr;

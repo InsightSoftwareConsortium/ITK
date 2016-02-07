@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE ZGERC ( M, N, ALPHA, X, INCX, Y, INCY, A, LDA ) >*/
-/* Subroutine */ int zgerc_(integer *m, integer *n, doublecomplex *alpha, 
-        doublecomplex *x, integer *incx, doublecomplex *y, integer *incy, 
+/* Subroutine */ int zgerc_(integer *m, integer *n, doublecomplex *alpha,
+        doublecomplex *x, integer *incx, doublecomplex *y, integer *incy,
         doublecomplex *a, integer *lda)
 {
     /* System generated locals */
@@ -195,7 +195,7 @@ extern "C" {
             if (y[i__2].r != 0. || y[i__2].i != 0.) {
 /*<                TEMP = ALPHA*DCONJG( Y( JY ) ) >*/
                 d_cnjg(&z__2, &y[jy]);
-                z__1.r = alpha->r * z__2.r - alpha->i * z__2.i, z__1.i = 
+                z__1.r = alpha->r * z__2.r - alpha->i * z__2.i, z__1.i =
                         alpha->r * z__2.i + alpha->i * z__2.r;
                 temp.r = z__1.r, temp.i = z__1.i;
 /*<                DO 10, I = 1, M >*/
@@ -239,7 +239,7 @@ extern "C" {
             if (y[i__2].r != 0. || y[i__2].i != 0.) {
 /*<                TEMP = ALPHA*DCONJG( Y( JY ) ) >*/
                 d_cnjg(&z__2, &y[jy]);
-                z__1.r = alpha->r * z__2.r - alpha->i * z__2.i, z__1.i = 
+                z__1.r = alpha->r * z__2.r - alpha->i * z__2.i, z__1.i =
                         alpha->r * z__2.i + alpha->i * z__2.r;
                 temp.r = z__1.r, temp.i = z__1.i;
 /*<                IX   = KX >*/

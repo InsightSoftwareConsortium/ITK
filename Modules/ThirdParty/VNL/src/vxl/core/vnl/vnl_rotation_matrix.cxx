@@ -31,18 +31,6 @@ bool vnl_rotation_matrix(double const x[3], double **R)
   R[1][0] += sin_angle*u[2]; /* */                      R[1][2] -= sin_angle*u[0];
   R[2][0] -= sin_angle*u[1]; R[2][1] += sin_angle*u[0]; /* */
 
-#if 0
-  vcl_cerr << "axis = [" << axis[0] << ' ' << axis[1] << ' ' << axis[2] << "];\n";
-
-  vcl_cerr << "R=[\n";
-  for (unsigned i=0; i<3; ++i) {
-    for (unsigned j=0; j<3; ++j)
-      vcl_cerr << ' ' << R[i][j];
-    vcl_cerr << vcl_endl;
-  }
-  vcl_cerr << "];\n";
-  vcl_exit(1);
-#endif
   return true;
 }
 

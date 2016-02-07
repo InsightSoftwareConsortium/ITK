@@ -94,7 +94,7 @@ static integer c__1 = 1;
 /*     **************** */
 
 /*<       SUBROUTINE LBFGS(N,M,X,F,G,DIAGCO,DIAG,IPRINT,EPS,XTOL,W,IFLAG) >*/
-/* Subroutine */ int lbfgs_(integer *n, integer *m, doublereal *x, doublereal 
+/* Subroutine */ int lbfgs_(integer *n, integer *m, doublereal *x, doublereal
         *f, doublereal *g, logical *diagco, doublereal *diag, integer *iprint,
          doublereal *eps, doublereal *xtol, doublereal *w, integer *iflag,
          v3p_netlib_lbfgs_global_t* v3p_netlib_lbfgs_global_arg)
@@ -117,9 +117,9 @@ static integer c__1 = 1;
     extern /* Subroutine */ int lb1_(
       integer *iprint, integer *n, integer *m, doublereal *x, doublereal *f,
       doublereal *g, v3p_netlib_lbfgs_global_t* v3p_netlib_lbfgs_global_arg);
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *);
     extern /* Subroutine */ int mcsrch_(integer *, doublereal *, doublereal *,
                                         doublereal *, doublereal *,
@@ -1162,7 +1162,7 @@ static void write50(double* v, int n)
 
 /*     CHECK THE INPUT PARAMETERS FOR ERRORS. */
 
-/*<    >*/ if (*n <= 0 || stp <= zero || ftol < zero || lb3_1.gtol < zero || *xtol 
+/*<    >*/ if (*n <= 0 || stp <= zero || ftol < zero || lb3_1.gtol < zero || *xtol
             < zero || lb3_1.stpmin < zero || lb3_1.stpmax < lb3_1.stpmin ||
         maxfev <= 0) {
         return 0;
@@ -1271,7 +1271,7 @@ L30:
 /*        STP BE THE LOWEST POINT OBTAINED SO FAR. */
 
 /*<    >*/
-    if ((brackt && (stp <= stmin || stp >= stmax)) || nfev >= maxfev - 1 || 
+    if ((brackt && (stp <= stmin || stp >= stmax)) || nfev >= maxfev - 1 ||
             infoc == 0 || (brackt && stmax - stmin <= *xtol * stmax)) {
         stp = stx;
     }
@@ -1447,7 +1447,7 @@ L45:
     double sqrt(doublereal);
 
     /* Local variables */
-    doublereal p, q, r__, s, sgnd, stpc, stpf, stpq, gammavalue, theta;
+    doublereal p, q, r__, s, sgnd, stpc, stpf, stpq, gamma, theta;
     logical mcbound;
 
 /*<       INTEGER INFOC >*/
@@ -1548,21 +1548,21 @@ L45:
 /*<          GAMMA = S*SQRT((THETA/S)**2 - (DX/S)*(DP/S)) >*/
 /* Computing 2nd power */
         d__1 = theta / s;
-        gammavalue = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
+        gamma = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
 /*<          IF (STP .LT. STX) GAMMA = -GAMMA >*/
         if (stp < stx) {
-            gammavalue = -gammavalue;
+            gamma = -gamma;
         }
 /*<          P = (GAMMA - DX) + THETA >*/
-        p = gammavalue - *dx + theta;
+        p = gamma - *dx + theta;
 /*<          Q = ((GAMMA - DX) + GAMMA) + DP >*/
-        q = gammavalue - *dx + gammavalue + *dp;
+        q = gamma - *dx + gamma + *dp;
 /*<          R = P/Q >*/
         r__ = p / q;
 /*<          STPC = STX + R*(STP - STX) >*/
         stpc = stx + r__ * (stp - stx);
 /*<          STPQ = STX + ((DX/((FX-FP)/(STP-STX)+DX))/2)*(STP - STX) >*/
-        stpq = stx + *dx / ((fx - *fp) / (stp - stx) + *dx) / 2 * (stp - 
+        stpq = stx + *dx / ((fx - *fp) / (stp - stx) + *dx) / 2 * (stp -
                 stx);
 /*<          IF (ABS(STPC-STX) .LT. ABS(STPQ-STX)) THEN >*/
         if ((d__1 = stpc - stx, abs(d__1)) < (d__2 = stpq - stx, abs(d__2)))
@@ -1599,15 +1599,15 @@ L45:
 /*<          GAMMA = S*SQRT((THETA/S)**2 - (DX/S)*(DP/S)) >*/
 /* Computing 2nd power */
         d__1 = theta / s;
-        gammavalue = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
+        gamma = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
 /*<          IF (STP .GT. STX) GAMMA = -GAMMA >*/
         if (stp > stx) {
-            gammavalue = -gammavalue;
+            gamma = -gamma;
         }
 /*<          P = (GAMMA - DP) + THETA >*/
-        p = gammavalue - *dp + theta;
+        p = gamma - *dp + theta;
 /*<          Q = ((GAMMA - DP) + GAMMA) + DX >*/
-        q = gammavalue - *dp + gammavalue + *dx;
+        q = gamma - *dp + gamma + *dx;
 /*<          R = P/Q >*/
         r__ = p / q;
 /*<          STPC = STP + R*(STX - STP) >*/
@@ -1659,19 +1659,19 @@ L45:
 /* Computing 2nd power */
         d__3 = theta / s;
         d__1 = 0., d__2 = d__3 * d__3 - *dx / s * (*dp / s);
-        gammavalue = s * sqrt((max(d__1,d__2)));
+        gamma = s * sqrt((max(d__1,d__2)));
 /*<          IF (STP .GT. STX) GAMMA = -GAMMA >*/
         if (stp > stx) {
-            gammavalue = -gammavalue;
+            gamma = -gamma;
         }
 /*<          P = (GAMMA - DP) + THETA >*/
-        p = gammavalue - *dp + theta;
+        p = gamma - *dp + theta;
 /*<          Q = (GAMMA + (DX - DP)) + GAMMA >*/
-        q = gammavalue + (*dx - *dp) + gammavalue;
+        q = gamma + (*dx - *dp) + gamma;
 /*<          R = P/Q >*/
         r__ = p / q;
 /*<          IF (R .LT. 0.0 .AND. GAMMA .NE. 0.0) THEN >*/
-        if (r__ < (float)0. && gammavalue != (float)0.) {
+        if (r__ < (float)0. && gamma != (float)0.) {
 /*<             STPC = STP + R*(STX - STP) >*/
             stpc = stp + r__ * (stx - stp);
 /*<          ELSE IF (STP .GT. STX) THEN >*/
@@ -1732,21 +1732,21 @@ L45:
             theta = (*fp - fy) * 3 / (sty - stp) + *dy + *dp;
 /*<             S = MAX(ABS(THETA),ABS(DY),ABS(DP)) >*/
 /* Computing MAX */
-            d__1 = abs(theta), d__2 = abs(*dy), d__1 = max(d__1,d__2), d__2 = 
+            d__1 = abs(theta), d__2 = abs(*dy), d__1 = max(d__1,d__2), d__2 =
                     abs(*dp);
             s = max(d__1,d__2);
 /*<             GAMMA = S*SQRT((THETA/S)**2 - (DY/S)*(DP/S)) >*/
 /* Computing 2nd power */
             d__1 = theta / s;
-            gammavalue = s * sqrt(d__1 * d__1 - *dy / s * (*dp / s));
+            gamma = s * sqrt(d__1 * d__1 - *dy / s * (*dp / s));
 /*<             IF (STP .GT. STY) GAMMA = -GAMMA >*/
             if (stp > sty) {
-                gammavalue = -gammavalue;
+                gamma = -gamma;
             }
 /*<             P = (GAMMA - DP) + THETA >*/
-            p = gammavalue - *dp + theta;
+            p = gamma - *dp + theta;
 /*<             Q = ((GAMMA - DP) + GAMMA) + DY >*/
-            q = gammavalue - *dp + gammavalue + *dy;
+            q = gamma - *dp + gamma + *dy;
 /*<             R = P/Q >*/
             r__ = p / q;
 /*<             STPC = STP + R*(STY - STP) >*/

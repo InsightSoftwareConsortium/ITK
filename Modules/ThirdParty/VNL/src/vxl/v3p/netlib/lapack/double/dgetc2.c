@@ -21,7 +21,7 @@ static integer c__1 = 1;
 static doublereal c_b10 = -1.;
 
 /*<       SUBROUTINE DGETC2( N, A, LDA, IPIV, JPIV, INFO ) >*/
-/* Subroutine */ int dgetc2_(integer *n, doublereal *a, integer *lda, integer 
+/* Subroutine */ int dgetc2_(integer *n, doublereal *a, integer *lda, integer
         *ipiv, integer *jpiv, integer *info)
 {
     /* System generated locals */
@@ -32,11 +32,11 @@ static doublereal c_b10 = -1.;
     integer i__, j, ip, jp;
     doublereal eps;
     integer ipv=0, jpv=0;
-    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *, 
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
             integer *);
     doublereal smin=0, xmax;
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *,
             doublereal *, integer *), dlabad_(doublereal *, doublereal *);
     extern doublereal dlamch_(char *, ftnlen);
     doublereal bignum, smlnum;
@@ -225,8 +225,8 @@ static doublereal c_b10 = -1.;
 /*<    >*/
         i__2 = *n - i__;
         i__3 = *n - i__;
-        dger_(&i__2, &i__3, &c_b10, &a[i__ + 1 + i__ * a_dim1], &c__1, &a[i__ 
-                + (i__ + 1) * a_dim1], lda, &a[i__ + 1 + (i__ + 1) * a_dim1], 
+        dger_(&i__2, &i__3, &c_b10, &a[i__ + 1 + i__ * a_dim1], &c__1, &a[i__
+                + (i__ + 1) * a_dim1], lda, &a[i__ + 1 + (i__ + 1) * a_dim1],
                 lda);
 /*<    40 CONTINUE >*/
 /* L40: */

@@ -21,7 +21,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 
 /*<       SUBROUTINE ZUNGHR( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO ) >*/
-/* Subroutine */ int zunghr_(integer *n, integer *ilo, integer *ihi, 
+/* Subroutine */ int zunghr_(integer *n, integer *ilo, integer *ihi,
         doublecomplex *a, integer *lda, doublecomplex *tau, doublecomplex *
         work, integer *lwork, integer *info)
 {
@@ -31,12 +31,12 @@ static integer c_n1 = -1;
     /* Local variables */
     integer i__, j, nb, nh, iinfo;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
     integer lwkopt=0;
     logical lquery;
-    extern /* Subroutine */ int zungqr_(integer *, integer *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
+    extern /* Subroutine */ int zungqr_(integer *, integer *, integer *,
+            doublecomplex *, integer *, doublecomplex *, doublecomplex *,
             integer *, integer *);
 
 

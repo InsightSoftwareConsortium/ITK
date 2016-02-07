@@ -3,7 +3,7 @@
 *  -- LAPACK auxiliary routine (version 1.1) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
 *     Courant Institute, Argonne National Lab, and Rice University
-*     October 31, 1992 
+*     October 31, 1992
 *
 *     .. Scalar Arguments ..
       CHARACTER          CMACH

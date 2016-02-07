@@ -22,8 +22,8 @@ static integer c__1 = 1;
 /*<       subroutine fdjac2(fcn,m,n,x,fvec,fjac,ldfjac,iflag,epsfcn,wa) >*/
 /* Subroutine */ int fdjac2_(
         void (*fcn)(integer*,integer*,doublereal*,doublereal*,integer*,void*),
-        integer *m, integer *n, doublereal *x, 
-        doublereal *fvec, doublereal *fjac, integer *ldfjac, integer *iflag, 
+        integer *m, integer *n, doublereal *x,
+        doublereal *fvec, doublereal *fjac, integer *ldfjac, integer *iflag,
         doublereal *epsfcn, doublereal *wa, void* userdata)
 {
     /* Initialized data */

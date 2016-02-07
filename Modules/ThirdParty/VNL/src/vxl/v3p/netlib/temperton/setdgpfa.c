@@ -49,7 +49,7 @@ static integer c__5 = 5;
 /* ---------------------------------------------------------------------- */
 
 /*<       SUBROUTINE SETDGPFA(TRIGS,N,NPQR,INFO) >*/
-/* Subroutine */ int setdgpfa_(doublereal *trigs, integer *n, integer *npqr, 
+/* Subroutine */ int setdgpfa_(doublereal *trigs, integer *n, integer *npqr,
         integer *info)
 {
     /* System generated locals */

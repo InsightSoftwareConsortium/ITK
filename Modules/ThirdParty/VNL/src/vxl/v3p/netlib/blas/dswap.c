@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine  dswap (n,dx,incx,dy,incy) >*/
-/* Subroutine */ int dswap_(integer *n, doublereal *dx, integer *incx, 
+/* Subroutine */ int dswap_(integer *n, doublereal *dx, integer *incx,
         doublereal *dy, integer *incy)
 {
     /* System generated locals */

@@ -331,7 +331,7 @@ static integer c__65 = 65;
 /*<       ELSE >*/
     } else {
 /*<          IWS = NW >*/
-        iws = nw;
+//        iws = nw;
 /*<       END IF >*/
     }
 

@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       DOUBLE PRECISION FUNCTION ZLANGE( NORM, M, N, A, LDA, WORK ) >*/
-doublereal zlange_(char *norm, integer *m, integer *n, doublecomplex *a, 
+doublereal zlange_(char *norm, integer *m, integer *n, doublecomplex *a,
         integer *lda, doublereal *work, ftnlen norm_len)
 {
     /* System generated locals */

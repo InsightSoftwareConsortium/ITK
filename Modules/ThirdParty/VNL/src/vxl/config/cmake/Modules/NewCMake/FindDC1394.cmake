@@ -7,25 +7,25 @@
 #
 
 # Look for one of the header files
-FIND_PATH( DC1394_INCLUDE_DIR dc1394/dc1394.h)
+find_path( DC1394_INCLUDE_DIR dc1394/dc1394.h)
 
 # Look for the library
-FIND_LIBRARY( DC1394_LIBRARIES dc1394)
+find_library( DC1394_LIBRARIES dc1394)
 
-# handle the QUIETLY and REQUIRED arguments and set DC1394_FOUND to TRUE if 
+# handle the QUIETLY and REQUIRED arguments and set DC1394_FOUND to TRUE if
 # all listed variables are TRUE
-INCLUDE(FindPackageHandleStandardArgs)
+include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(DC1394 DEFAULT_MSG DC1394_LIBRARIES DC1394_INCLUDE_DIR)
 
-MARK_AS_ADVANCED(DC1394_INCLUDE_DIR DC1394_LIBRARIES )
+mark_as_advanced(DC1394_INCLUDE_DIR DC1394_LIBRARIES )
 
 
 # Find Apple Framework dependencies
-IF(APPLE AND DC1394_FOUND)
-  SET(DC1394_LIBRARIES ${DC1394_LIBRARIES} 
-                       "-framework CoreServices" 
+if(APPLE AND DC1394_FOUND)
+  set(DC1394_LIBRARIES ${DC1394_LIBRARIES}
+                       "-framework CoreServices"
                        "-framework IOKit" )
-ENDIF(APPLE AND DC1394_FOUND)
+endif()
 
 
 

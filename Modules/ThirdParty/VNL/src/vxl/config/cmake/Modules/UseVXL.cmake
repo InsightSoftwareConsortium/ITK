@@ -7,135 +7,85 @@
 #
 # The preferred way to use VXL from an outside project with UseVXL.cmake:
 #
-#  FIND_PACKAGE(VXL)
-#  IF(VXL_FOUND)
-#    INCLUDE(${VXL_CMAKE_DIR}/UseVXL.cmake)
-#  ELSE(VXL_FOUND)
-#    MESSAGE("VXL_DIR should be set to the VXL build directory.")
-#  ENDIF(VXL_FOUND)
+#  find_package(VXL)
+#  if(VXL_FOUND)
+#    include(${VXL_CMAKE_DIR}/UseVXL.cmake)
+#  else()
+#    message("VXL_DIR should be set to the VXL build directory.")
+#  endif()
 #
 # Read vxl/config/cmake/VXLConfig.cmake for the list of variables
 # provided.  The names have changed to reduce namespace pollution.
 # The old names can be made available by placing this line before
 # including UseVXL.cmake:
 #
-#  SET(VXL_PROVIDE_OLD_CACHE_NAMES 1)
-#
 # This UseVXL.cmake no longer adds options and testing features automatically
 # to projects including it unless this line appears before including it:
 #
-#  SET(VXL_PROVIDE_STANDARD_OPTIONS 1)
+#  set(VXL_PROVIDE_STANDARD_OPTIONS 1)
 #
 # For example, in order to enable full backward-compatibility while
 # still using FIND_PACKAGE, use these lines:
 #
-#  FIND_PACKAGE(VXL)
-#  IF(VXL_FOUND)
-#    SET(VXL_PROVIDE_OLD_CACHE_NAMES 1)
-#    SET(VXL_PROVIDE_STANDARD_OPTIONS 1)
-#    INCLUDE(${VXL_CMAKE_DIR}/UseVXL.cmake)
-#  ELSE(VXL_FOUND)
-#    MESSAGE("VXL_DIR should be set to the VXL build directory.")
-#  ENDIF(VXL_FOUND)
+#  find_package(VXL)
+#  if(VXL_FOUND)
+#    set(VXL_PROVIDE_STANDARD_OPTIONS 1)
+#    include(${VXL_CMAKE_DIR}/UseVXL.cmake)
+#  else()
+#    message("VXL_DIR should be set to the VXL build directory.")
+#  endif()
 #
 # The old way to use VXL from an outside project with UseVXL.cmake is
 # also supported for backward-compatibility:
 #
-#  SET(VXL_BINARY_PATH "" CACHE PATH "VXL build directory (location of UseVXL.cmake)")
-#  IF(VXL_BINARY_PATH)
-#    INCLUDE(${VXL_BINARY_PATH}/UseVXL.cmake)
-#  ELSE(VXL_BINARY_PATH)
-#    MESSAGE("VXL_BINARY_PATH should be set to the VXL build directory (location of UseVXL.cmake)" )
-#  ENDIF(VXL_BINARY_PATH)
+#  set(VXL_BINARY_PATH "" CACHE PATH "VXL build directory (location of UseVXL.cmake)")
+#  if(VXL_BINARY_PATH)
+#    include(${VXL_BINARY_PATH}/UseVXL.cmake)
+#  else()
+#    message("VXL_BINARY_PATH should be set to the VXL build directory (location of UseVXL.cmake)" )
+#  endif()
 #
 
 # If this file has been included directly by a user project instead of
 # through VXL_USE_FILE from VXLConfig.cmake, simulate old behavior.
-IF(NOT VXL_CONFIG_CMAKE)
-  IF(VXL_BINARY_PATH)
-    
+if(NOT VXL_CONFIG_CMAKE)
+  if(VXL_BINARY_PATH)
+
     # Let FIND_PACKAGE import the VXLConfig.cmake module.
-    SET(VXL_DIR ${VXL_BINARY_PATH})
-    FIND_PACKAGE(VXL)
-    
+    set(VXL_DIR ${VXL_BINARY_PATH})
+    find_package(VXL)
+
     # Enable compatibility mode.
-    SET(VXL_PROVIDE_OLD_CACHE_NAMES 1)
-    SET(VXL_PROVIDE_STANDARD_OPTIONS 1)
-    
-  ENDIF(VXL_BINARY_PATH)
-ENDIF(NOT VXL_CONFIG_CMAKE)
+    set(VXL_PROVIDE_STANDARD_OPTIONS 1)
+
+  endif()
+endif()
 
 # VXLConfig.cmake has now been included.  Use its settings.
-IF(VXL_CONFIG_CMAKE)
+if(VXL_CONFIG_CMAKE)
   # Load the compiler settings used for VXL.
-  IF(VXL_BUILD_SETTINGS_FILE)
-    OPTION( VXL_IMPORT_BUILD_SETTINGS "Import build settings (compiler flags, generator) from VXL?" YES )
-    MARK_AS_ADVANCED( VXL_IMPORT_BUILD_SETTINGS )
-    IF( VXL_IMPORT_BUILD_SETTINGS )
-      INCLUDE(${CMAKE_ROOT}/Modules/CMakeImportBuildSettings.cmake)
+  if(VXL_BUILD_SETTINGS_FILE)
+    option( VXL_IMPORT_BUILD_SETTINGS "Import build settings (compiler flags, generator) from VXL?" YES )
+    mark_as_advanced( VXL_IMPORT_BUILD_SETTINGS )
+    if( VXL_IMPORT_BUILD_SETTINGS )
+      include(${CMAKE_ROOT}/Modules/CMakeImportBuildSettings.cmake)
       CMAKE_IMPORT_BUILD_SETTINGS(${VXL_BUILD_SETTINGS_FILE})
-    ENDIF( VXL_IMPORT_BUILD_SETTINGS )
-  ENDIF(VXL_BUILD_SETTINGS_FILE)
-  
+    endif()
+  endif()
+
   # Use the standard VXL include directories.
-  INCLUDE_DIRECTORIES(${VXL_VCL_INCLUDE_DIR} ${VXL_CORE_INCLUDE_DIR})
-  
+  include_directories(${VXL_VCL_INCLUDE_DIR} ${VXL_CORE_INCLUDE_DIR})
+
   # Add link directories needed to use VXL.
-  LINK_DIRECTORIES(${VXL_LIBRARY_DIR})
-  
-  # Provide backwards compatibility if it is requested.
-  IF(VXL_PROVIDE_OLD_CACHE_NAMES)
-    # Translate include directory variables back to old names.
-    SET(VTHREEP_INCLUDE_DIR ${VXL_V3P_INCLUDE_DIR_deprecated})
-    SET(VCL_INCLUDE_DIR ${VXL_VCL_INCLUDE_DIR})
-    SET(VXLCORE_INCLUDE_DIR ${VXL_CORE_INCLUDE_DIR})
-    SET(BRL_INCLUDE_DIR ${VXL_BRL_INCLUDE_DIR})
-    SET(GEL_INCLUDE_DIR ${VXL_GEL_INCLUDE_DIR})
-    SET(MUL_INCLUDE_DIR ${VXL_MUL_INCLUDE_DIR})
-    SET(OUL_INCLUDE_DIR ${VXL_OUL_INCLUDE_DIR})
-    SET(OXL_INCLUDE_DIR ${VXL_OXL_INCLUDE_DIR})
-    SET(RPL_INCLUDE_DIR ${VXL_RPL_INCLUDE_DIR})
-    SET(TBL_INCLUDE_DIR ${VXL_TBL_INCLUDE_DIR})
-    SET(PYTHON_INCLUDE_PATH ${VXL_PYTHON_INCLUDE_PATH})	
-    SET(CONVERSIONS_INCLUDE_DIR ${VXL_CONVERSIONS_INCLUDE_DIR})
-    
-    SET(BUILD_VGUI ${VXL_VGUI_FOUND})
-    SET(BUILD_BRL ${VXL_BRL_FOUND})
-    SET(BUILD_BGUI3D ${VXL_BGUI3D_FOUND})
-    SET(COIN3D_FOUND ${VXL_COIN3D_FOUND})
-    SET(PYTHON_FOUND ${VXL_PYTHON_FOUND})
-    SET(BUILD_OUL ${VXL_OUL_FOUND})
-    SET(BUILD_CONTRIB ${VXL_CONTRIB_FOUND})
-    SET(BUILD_TARGETJR ${VXL_TARGETJR_FOUND})
-    # These were excluded by LOAD_CACHE in old UseVXL.cmake.
-    # SET(BUILD_CONVERSIONS ${VXL_CONVERSIONS_FOUND})
-    # SET(BUILD_GEL ${VXL_GEL_FOUND})
-    # SET(BUILD_MUL ${VXL_MUL_FOUND})
-    # SET(BUILD_OXL ${VXL_OXL_FOUND})
-    # SET(BUILD_RPL ${VXL_RPL_FOUND})
-    # SET(BUILD_TBL ${VXL_TBL_FOUND})
-    
-    SET(VGUI_USE_GLUT ${VXL_VGUI_USE_GLUT_deprecated})
-    SET(VGUI_USE_QT ${VXL_VGUI_USE_QT_deprecated})
-    SET(VGUI_USE_MFC ${VXL_VGUI_USE_MFC_deprecated})
-    SET(VGUI_USE_GTK ${VXL_VGUI_USE_GTK_deprecated})
-    SET(VGUI_USE_GTK2 ${VXL_VGUI_USE_GTK2_deprecated})
+  link_directories(${VXL_LIBRARY_DIR})
 
-    SET(VXL_FORCE_V3P_ZLIB ${VXL_FORCE_V3P_ZLIB_deprecated})
-    SET(VXL_FORCE_V3P_JPEG ${VXL_FORCE_V3P_JPEG_deprecated})
-    SET(VXL_FORCE_V3P_TIFF ${VXL_FORCE_V3P_TIFF_deprecated})
-    SET(VXL_FORCE_V3P_PNG ${VXL_FORCE_V3P_PNG_deprecated})
-    SET(VXL_FORCE_V3P_MPEG2 ${VXL_FORCE_V3P_MPEG2_deprecated})
+  if(VXL_CMAKE_DOXYGEN_DIR)
+    # Allow use of VXL's cmake/doxygen framework
+    include(${VXL_CMAKE_DOXYGEN_DIR}/doxygen.cmake)
+  endif()
 
-    SET(MODULE_PATH ${VXL_CMAKE_DIR})
-    SET(VXL_LIBRARY_PATH ${VXL_LIBRARY_DIR})
-  ENDIF(VXL_PROVIDE_OLD_CACHE_NAMES)
-
-  # Allow use of VXL's cmake/doxygen framework
-  INCLUDE(${VXL_CMAKE_DOXYGEN_DIR}/doxygen.cmake)
-
-  IF(VXL_PROVIDE_STANDARD_OPTIONS)
+  if(VXL_PROVIDE_STANDARD_OPTIONS)
     # Provide the standard set of VXL CMake options to the project.
-    INCLUDE(${VXL_CMAKE_DIR}/VXLStandardOptions.cmake)  
-  ENDIF(VXL_PROVIDE_STANDARD_OPTIONS)
-ENDIF(VXL_CONFIG_CMAKE)
+    include(${VXL_CMAKE_DIR}/VXLStandardOptions.cmake)
+  endif()
+endif()

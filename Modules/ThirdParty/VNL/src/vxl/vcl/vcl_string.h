@@ -4,31 +4,11 @@
 
 #include "vcl_compiler.h"
 
-#if defined(VCL_GCC) && !defined(GNU_LIBSTDCXX_V3)
-# include "iso/vcl_string.h"
-# undef  vcl_char_traits
-# define vcl_char_traits   string_char_traits
-
-#elif defined(VCL_VC60)
-# include "win32-vc60/vcl_string.h"
-
-#elif defined(VCL_SGI_CC_7)
-# include "sgi/vcl_string.h"
-
-#else
-# include "iso/vcl_string.h"
-#endif
-
-//// who needs to know this?
-//#if defined(VCL_GCC_EGCS) || defined(VCL_SUNPRO_CC)
-//# define VCL_STRING_IS_TYPEDEF 1
-//#endif
+#include "iso/vcl_string.h"
 
 #define VCL_BASIC_STRING_INSTANTIATE \
-extern "include vcl_string.txx instead"
+extern "include vcl_string.hxx instead"
 
-#if VCL_USE_IMPLICIT_TEMPLATES
-# include "vcl_string.txx"
-#endif
+#include "vcl_string.hxx"
 
 #endif // vcl_string_h_

@@ -16,13 +16,13 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int ztrmm_(char *side, char *uplo, char *transa, char *diag, 
-        integer *m, integer *n, doublecomplex *alpha, doublecomplex *a, 
-        integer *lda, doublecomplex *b, integer *ldb, ftnlen side_len, ftnlen 
+/* Subroutine */ int ztrmm_(char *side, char *uplo, char *transa, char *diag,
+        integer *m, integer *n, doublecomplex *alpha, doublecomplex *a,
+        integer *lda, doublecomplex *b, integer *ldb, ftnlen side_len, ftnlen
         uplo_len, ftnlen transa_len, ftnlen diag_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2, i__3, i__4, i__5, 
+    integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2, i__3, i__4, i__5,
             i__6;
     doublecomplex z__1, z__2, z__3;
 
@@ -233,7 +233,7 @@ extern "C" {
 /*<          INFO = 3 >*/
         info = 3;
 /*<    >*/
-    } else if (! lsame_(diag, "U", (ftnlen)1, (ftnlen)1) && ! lsame_(diag, 
+    } else if (! lsame_(diag, "U", (ftnlen)1, (ftnlen)1) && ! lsame_(diag,
             "N", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = 4 >*/
         info = 4;
@@ -318,7 +318,7 @@ extern "C" {
 /*<                         TEMP = ALPHA*B( K, J ) >*/
                             i__3 = k + j * b_dim1;
                             z__1.r = alpha->r * b[i__3].r - alpha->i * b[i__3]
-                                    .i, z__1.i = alpha->r * b[i__3].i + 
+                                    .i, z__1.i = alpha->r * b[i__3].i +
                                     alpha->i * b[i__3].r;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<                         DO 30, I = 1, K - 1 >*/
@@ -329,7 +329,7 @@ extern "C" {
                                 i__5 = i__ + j * b_dim1;
                                 i__6 = i__ + k * a_dim1;
                                 z__2.r = temp.r * a[i__6].r - temp.i * a[i__6]
-                                        .i, z__2.i = temp.r * a[i__6].i + 
+                                        .i, z__2.i = temp.r * a[i__6].i +
                                         temp.i * a[i__6].r;
                                 z__1.r = b[i__5].r + z__2.r, z__1.i = b[i__5]
                                         .i + z__2.i;
@@ -341,7 +341,7 @@ extern "C" {
                             if (nounit) {
                                 i__3 = k + k * a_dim1;
                                 z__1.r = temp.r * a[i__3].r - temp.i * a[i__3]
-                                        .i, z__1.i = temp.r * a[i__3].i + 
+                                        .i, z__1.i = temp.r * a[i__3].i +
                                         temp.i * a[i__3].r;
                                 temp.r = z__1.r, temp.i = z__1.i;
                             }
@@ -369,7 +369,7 @@ extern "C" {
 /*<                         TEMP      = ALPHA*B( K, J ) >*/
                             i__2 = k + j * b_dim1;
                             z__1.r = alpha->r * b[i__2].r - alpha->i * b[i__2]
-                                    .i, z__1.i = alpha->r * b[i__2].i + 
+                                    .i, z__1.i = alpha->r * b[i__2].i +
                                     alpha->i * b[i__2].r;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<                         B( K, J ) = TEMP >*/
@@ -380,7 +380,7 @@ extern "C" {
                                 i__2 = k + j * b_dim1;
                                 i__3 = k + j * b_dim1;
                                 i__4 = k + k * a_dim1;
-                                z__1.r = b[i__3].r * a[i__4].r - b[i__3].i * 
+                                z__1.r = b[i__3].r * a[i__4].r - b[i__3].i *
                                         a[i__4].i, z__1.i = b[i__3].r * a[
                                         i__4].i + b[i__3].i * a[i__4].r;
                                 b[i__2].r = z__1.r, b[i__2].i = z__1.i;
@@ -393,7 +393,7 @@ extern "C" {
                                 i__4 = i__ + j * b_dim1;
                                 i__5 = i__ + k * a_dim1;
                                 z__2.r = temp.r * a[i__5].r - temp.i * a[i__5]
-                                        .i, z__2.i = temp.r * a[i__5].i + 
+                                        .i, z__2.i = temp.r * a[i__5].i +
                                         temp.i * a[i__5].r;
                                 z__1.r = b[i__4].r + z__2.r, z__1.i = b[i__4]
                                         .i + z__2.i;
@@ -432,7 +432,7 @@ extern "C" {
                             if (nounit) {
                                 i__2 = i__ + i__ * a_dim1;
                                 z__1.r = temp.r * a[i__2].r - temp.i * a[i__2]
-                                        .i, z__1.i = temp.r * a[i__2].i + 
+                                        .i, z__1.i = temp.r * a[i__2].i +
                                         temp.i * a[i__2].r;
                                 temp.r = z__1.r, temp.i = z__1.i;
                             }
@@ -442,10 +442,10 @@ extern "C" {
 /*<                            TEMP = TEMP + A( K, I )*B( K, J ) >*/
                                 i__3 = k + i__ * a_dim1;
                                 i__4 = k + j * b_dim1;
-                                z__2.r = a[i__3].r * b[i__4].r - a[i__3].i * 
+                                z__2.r = a[i__3].r * b[i__4].r - a[i__3].i *
                                         b[i__4].i, z__2.i = a[i__3].r * b[
                                         i__4].i + a[i__3].i * b[i__4].r;
-                                z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                                z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                         z__2.i;
                                 temp.r = z__1.r, temp.i = z__1.i;
 /*<    90                   CONTINUE >*/
@@ -456,8 +456,8 @@ extern "C" {
 /*<    >*/
                             if (nounit) {
                                 d_cnjg(&z__2, &a[i__ + i__ * a_dim1]);
-                                z__1.r = temp.r * z__2.r - temp.i * z__2.i, 
-                                        z__1.i = temp.r * z__2.i + temp.i * 
+                                z__1.r = temp.r * z__2.r - temp.i * z__2.i,
+                                        z__1.i = temp.r * z__2.i + temp.i *
                                         z__2.r;
                                 temp.r = z__1.r, temp.i = z__1.i;
                             }
@@ -468,9 +468,9 @@ extern "C" {
                                 d_cnjg(&z__3, &a[k + i__ * a_dim1]);
                                 i__3 = k + j * b_dim1;
                                 z__2.r = z__3.r * b[i__3].r - z__3.i * b[i__3]
-                                        .i, z__2.i = z__3.r * b[i__3].i + 
+                                        .i, z__2.i = z__3.r * b[i__3].i +
                                         z__3.i * b[i__3].r;
-                                z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                                z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                         z__2.i;
                                 temp.r = z__1.r, temp.i = z__1.i;
 /*<   100                   CONTINUE >*/
@@ -480,8 +480,8 @@ extern "C" {
                         }
 /*<                      B( I, J ) = ALPHA*TEMP >*/
                         i__2 = i__ + j * b_dim1;
-                        z__1.r = alpha->r * temp.r - alpha->i * temp.i, 
-                                z__1.i = alpha->r * temp.i + alpha->i * 
+                        z__1.r = alpha->r * temp.r - alpha->i * temp.i,
+                                z__1.i = alpha->r * temp.i + alpha->i *
                                 temp.r;
                         b[i__2].r = z__1.r, b[i__2].i = z__1.i;
 /*<   110             CONTINUE >*/
@@ -507,7 +507,7 @@ extern "C" {
                             if (nounit) {
                                 i__3 = i__ + i__ * a_dim1;
                                 z__1.r = temp.r * a[i__3].r - temp.i * a[i__3]
-                                        .i, z__1.i = temp.r * a[i__3].i + 
+                                        .i, z__1.i = temp.r * a[i__3].i +
                                         temp.i * a[i__3].r;
                                 temp.r = z__1.r, temp.i = z__1.i;
                             }
@@ -517,10 +517,10 @@ extern "C" {
 /*<                            TEMP = TEMP + A( K, I )*B( K, J ) >*/
                                 i__4 = k + i__ * a_dim1;
                                 i__5 = k + j * b_dim1;
-                                z__2.r = a[i__4].r * b[i__5].r - a[i__4].i * 
+                                z__2.r = a[i__4].r * b[i__5].r - a[i__4].i *
                                         b[i__5].i, z__2.i = a[i__4].r * b[
                                         i__5].i + a[i__4].i * b[i__5].r;
-                                z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                                z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                         z__2.i;
                                 temp.r = z__1.r, temp.i = z__1.i;
 /*<   130                   CONTINUE >*/
@@ -531,8 +531,8 @@ extern "C" {
 /*<    >*/
                             if (nounit) {
                                 d_cnjg(&z__2, &a[i__ + i__ * a_dim1]);
-                                z__1.r = temp.r * z__2.r - temp.i * z__2.i, 
-                                        z__1.i = temp.r * z__2.i + temp.i * 
+                                z__1.r = temp.r * z__2.r - temp.i * z__2.i,
+                                        z__1.i = temp.r * z__2.i + temp.i *
                                         z__2.r;
                                 temp.r = z__1.r, temp.i = z__1.i;
                             }
@@ -543,9 +543,9 @@ extern "C" {
                                 d_cnjg(&z__3, &a[k + i__ * a_dim1]);
                                 i__4 = k + j * b_dim1;
                                 z__2.r = z__3.r * b[i__4].r - z__3.i * b[i__4]
-                                        .i, z__2.i = z__3.r * b[i__4].i + 
+                                        .i, z__2.i = z__3.r * b[i__4].i +
                                         z__3.i * b[i__4].r;
-                                z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                                z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                         z__2.i;
                                 temp.r = z__1.r, temp.i = z__1.i;
 /*<   140                   CONTINUE >*/
@@ -555,8 +555,8 @@ extern "C" {
                         }
 /*<                      B( I, J ) = ALPHA*TEMP >*/
                         i__3 = i__ + j * b_dim1;
-                        z__1.r = alpha->r * temp.r - alpha->i * temp.i, 
-                                z__1.i = alpha->r * temp.i + alpha->i * 
+                        z__1.r = alpha->r * temp.r - alpha->i * temp.i,
+                                z__1.i = alpha->r * temp.i + alpha->i *
                                 temp.r;
                         b[i__3].r = z__1.r, b[i__3].i = z__1.i;
 /*<   150             CONTINUE >*/
@@ -585,7 +585,7 @@ extern "C" {
 /*<    >*/
                     if (nounit) {
                         i__1 = j + j * a_dim1;
-                        z__1.r = temp.r * a[i__1].r - temp.i * a[i__1].i, 
+                        z__1.r = temp.r * a[i__1].r - temp.i * a[i__1].i,
                                 z__1.i = temp.r * a[i__1].i + temp.i * a[i__1]
                                 .r;
                         temp.r = z__1.r, temp.i = z__1.i;
@@ -596,7 +596,7 @@ extern "C" {
 /*<                      B( I, J ) = TEMP*B( I, J ) >*/
                         i__2 = i__ + j * b_dim1;
                         i__3 = i__ + j * b_dim1;
-                        z__1.r = temp.r * b[i__3].r - temp.i * b[i__3].i, 
+                        z__1.r = temp.r * b[i__3].r - temp.i * b[i__3].i,
                                 z__1.i = temp.r * b[i__3].i + temp.i * b[i__3]
                                 .r;
                         b[i__2].r = z__1.r, b[i__2].i = z__1.i;
@@ -612,7 +612,7 @@ extern "C" {
 /*<                         TEMP = ALPHA*A( K, J ) >*/
                             i__2 = k + j * a_dim1;
                             z__1.r = alpha->r * a[i__2].r - alpha->i * a[i__2]
-                                    .i, z__1.i = alpha->r * a[i__2].i + 
+                                    .i, z__1.i = alpha->r * a[i__2].i +
                                     alpha->i * a[i__2].r;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<                         DO 180, I = 1, M >*/
@@ -623,7 +623,7 @@ extern "C" {
                                 i__4 = i__ + j * b_dim1;
                                 i__5 = i__ + k * b_dim1;
                                 z__2.r = temp.r * b[i__5].r - temp.i * b[i__5]
-                                        .i, z__2.i = temp.r * b[i__5].i + 
+                                        .i, z__2.i = temp.r * b[i__5].i +
                                         temp.i * b[i__5].r;
                                 z__1.r = b[i__4].r + z__2.r, z__1.i = b[i__4]
                                         .i + z__2.i;
@@ -649,7 +649,7 @@ extern "C" {
 /*<    >*/
                     if (nounit) {
                         i__2 = j + j * a_dim1;
-                        z__1.r = temp.r * a[i__2].r - temp.i * a[i__2].i, 
+                        z__1.r = temp.r * a[i__2].r - temp.i * a[i__2].i,
                                 z__1.i = temp.r * a[i__2].i + temp.i * a[i__2]
                                 .r;
                         temp.r = z__1.r, temp.i = z__1.i;
@@ -660,7 +660,7 @@ extern "C" {
 /*<                      B( I, J ) = TEMP*B( I, J ) >*/
                         i__3 = i__ + j * b_dim1;
                         i__4 = i__ + j * b_dim1;
-                        z__1.r = temp.r * b[i__4].r - temp.i * b[i__4].i, 
+                        z__1.r = temp.r * b[i__4].r - temp.i * b[i__4].i,
                                 z__1.i = temp.r * b[i__4].i + temp.i * b[i__4]
                                 .r;
                         b[i__3].r = z__1.r, b[i__3].i = z__1.i;
@@ -676,7 +676,7 @@ extern "C" {
 /*<                         TEMP = ALPHA*A( K, J ) >*/
                             i__3 = k + j * a_dim1;
                             z__1.r = alpha->r * a[i__3].r - alpha->i * a[i__3]
-                                    .i, z__1.i = alpha->r * a[i__3].i + 
+                                    .i, z__1.i = alpha->r * a[i__3].i +
                                     alpha->i * a[i__3].r;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<                         DO 220, I = 1, M >*/
@@ -687,7 +687,7 @@ extern "C" {
                                 i__5 = i__ + j * b_dim1;
                                 i__6 = i__ + k * b_dim1;
                                 z__2.r = temp.r * b[i__6].r - temp.i * b[i__6]
-                                        .i, z__2.i = temp.r * b[i__6].i + 
+                                        .i, z__2.i = temp.r * b[i__6].i +
                                         temp.i * b[i__6].r;
                                 z__1.r = b[i__5].r + z__2.r, z__1.i = b[i__5]
                                         .i + z__2.i;
@@ -733,8 +733,8 @@ extern "C" {
                             } else {
 /*<                            TEMP = ALPHA*DCONJG( A( J, K ) ) >*/
                                 d_cnjg(&z__2, &a[j + k * a_dim1]);
-                                z__1.r = alpha->r * z__2.r - alpha->i * 
-                                        z__2.i, z__1.i = alpha->r * z__2.i + 
+                                z__1.r = alpha->r * z__2.r - alpha->i *
+                                        z__2.i, z__1.i = alpha->r * z__2.i +
                                         alpha->i * z__2.r;
                                 temp.r = z__1.r, temp.i = z__1.i;
 /*<                         END IF >*/
@@ -747,7 +747,7 @@ extern "C" {
                                 i__5 = i__ + j * b_dim1;
                                 i__6 = i__ + k * b_dim1;
                                 z__2.r = temp.r * b[i__6].r - temp.i * b[i__6]
-                                        .i, z__2.i = temp.r * b[i__6].i + 
+                                        .i, z__2.i = temp.r * b[i__6].i +
                                         temp.i * b[i__6].r;
                                 z__1.r = b[i__5].r + z__2.r, z__1.i = b[i__5]
                                         .i + z__2.i;
@@ -768,7 +768,7 @@ extern "C" {
                         if (noconj) {
 /*<                         TEMP = TEMP*A( K, K ) >*/
                             i__2 = k + k * a_dim1;
-                            z__1.r = temp.r * a[i__2].r - temp.i * a[i__2].i, 
+                            z__1.r = temp.r * a[i__2].r - temp.i * a[i__2].i,
                                     z__1.i = temp.r * a[i__2].i + temp.i * a[
                                     i__2].r;
                             temp.r = z__1.r, temp.i = z__1.i;
@@ -776,8 +776,8 @@ extern "C" {
                         } else {
 /*<                         TEMP = TEMP*DCONJG( A( K, K ) ) >*/
                             d_cnjg(&z__2, &a[k + k * a_dim1]);
-                            z__1.r = temp.r * z__2.r - temp.i * z__2.i, 
-                                    z__1.i = temp.r * z__2.i + temp.i * 
+                            z__1.r = temp.r * z__2.r - temp.i * z__2.i,
+                                    z__1.i = temp.r * z__2.i + temp.i *
                                     z__2.r;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<                      END IF >*/
@@ -792,7 +792,7 @@ extern "C" {
 /*<                         B( I, K ) = TEMP*B( I, K ) >*/
                             i__3 = i__ + k * b_dim1;
                             i__4 = i__ + k * b_dim1;
-                            z__1.r = temp.r * b[i__4].r - temp.i * b[i__4].i, 
+                            z__1.r = temp.r * b[i__4].r - temp.i * b[i__4].i,
                                     z__1.i = temp.r * b[i__4].i + temp.i * b[
                                     i__4].r;
                             b[i__3].r = z__1.r, b[i__3].i = z__1.i;
@@ -826,8 +826,8 @@ extern "C" {
                             } else {
 /*<                            TEMP = ALPHA*DCONJG( A( J, K ) ) >*/
                                 d_cnjg(&z__2, &a[j + k * a_dim1]);
-                                z__1.r = alpha->r * z__2.r - alpha->i * 
-                                        z__2.i, z__1.i = alpha->r * z__2.i + 
+                                z__1.r = alpha->r * z__2.r - alpha->i *
+                                        z__2.i, z__1.i = alpha->r * z__2.i +
                                         alpha->i * z__2.r;
                                 temp.r = z__1.r, temp.i = z__1.i;
 /*<                         END IF >*/
@@ -840,7 +840,7 @@ extern "C" {
                                 i__4 = i__ + j * b_dim1;
                                 i__5 = i__ + k * b_dim1;
                                 z__2.r = temp.r * b[i__5].r - temp.i * b[i__5]
-                                        .i, z__2.i = temp.r * b[i__5].i + 
+                                        .i, z__2.i = temp.r * b[i__5].i +
                                         temp.i * b[i__5].r;
                                 z__1.r = b[i__4].r + z__2.r, z__1.i = b[i__4]
                                         .i + z__2.i;
@@ -861,7 +861,7 @@ extern "C" {
                         if (noconj) {
 /*<                         TEMP = TEMP*A( K, K ) >*/
                             i__1 = k + k * a_dim1;
-                            z__1.r = temp.r * a[i__1].r - temp.i * a[i__1].i, 
+                            z__1.r = temp.r * a[i__1].r - temp.i * a[i__1].i,
                                     z__1.i = temp.r * a[i__1].i + temp.i * a[
                                     i__1].r;
                             temp.r = z__1.r, temp.i = z__1.i;
@@ -869,8 +869,8 @@ extern "C" {
                         } else {
 /*<                         TEMP = TEMP*DCONJG( A( K, K ) ) >*/
                             d_cnjg(&z__2, &a[k + k * a_dim1]);
-                            z__1.r = temp.r * z__2.r - temp.i * z__2.i, 
-                                    z__1.i = temp.r * z__2.i + temp.i * 
+                            z__1.r = temp.r * z__2.r - temp.i * z__2.i,
+                                    z__1.i = temp.r * z__2.i + temp.i *
                                     z__2.r;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<                      END IF >*/
@@ -885,7 +885,7 @@ extern "C" {
 /*<                         B( I, K ) = TEMP*B( I, K ) >*/
                             i__2 = i__ + k * b_dim1;
                             i__3 = i__ + k * b_dim1;
-                            z__1.r = temp.r * b[i__3].r - temp.i * b[i__3].i, 
+                            z__1.r = temp.r * b[i__3].r - temp.i * b[i__3].i,
                                     z__1.i = temp.r * b[i__3].i + temp.i * b[
                                     i__3].r;
                             b[i__2].r = z__1.r, b[i__2].i = z__1.i;

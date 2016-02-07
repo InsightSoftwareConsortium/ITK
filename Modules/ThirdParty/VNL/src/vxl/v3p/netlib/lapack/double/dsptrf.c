@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       SUBROUTINE DSPTRF( UPLO, N, AP, IPIV, INFO ) >*/
-/* Subroutine */ int dsptrf_(char *uplo, integer *n, doublereal *ap, integer *ipiv, 
+/* Subroutine */ int dsptrf_(char *uplo, integer *n, doublereal *ap, integer *ipiv,
 integer *info, ftnlen uplo_len)
 {
     /* System generated locals */
@@ -35,20 +35,20 @@ integer *info, ftnlen uplo_len)
     integer j, k;
     doublereal s, t, r1, r2;
     integer kc, kk, kp, kx, knc, kpc=0, npp, imax=0, jmax;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *), dspr_(char *
-            , integer *, doublereal *, doublereal *, integer *, doublereal *, 
+            , integer *, doublereal *, doublereal *, integer *, doublereal *,
             ftnlen);
     doublereal alpha;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *,
             doublereal *, integer *);
     integer kstep;
     logical upper;
-    extern /* Subroutine */ int dlaev2_(doublereal *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlaev2_(doublereal *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *);
     doublereal absakk;
     extern integer idamax_(integer *, doublereal *, integer *);
@@ -298,7 +298,7 @@ L10:
 /*<                ROWMAX = ZERO >*/
                 rowmax = 0.;
 /*<                JMAX = IMAX >*/
-                jmax = imax;
+//                jmax = imax;
 /*<                KX = IMAX*( IMAX+1 ) / 2 + IMAX >*/
                 kx = imax * (imax + 1) / 2 + imax;
 /*<                DO 20 J = IMAX + 1, K >*/
@@ -309,7 +309,7 @@ L10:
 /*<                      ROWMAX = ABS( AP( KX ) ) >*/
                         rowmax = (d__1 = ap[kx], abs(d__1));
 /*<                      JMAX = J >*/
-                        jmax = j;
+//                        jmax = j;
 /*<                   END IF >*/
                     }
 /*<                   KX = KX + J >*/
@@ -340,7 +340,7 @@ L10:
 /*<                   KP = K >*/
                     kp = k;
 /*<                ELSE IF( ABS( AP( KPC+IMAX-1 ) ).GE.ALPHA*ROWMAX ) THEN >*/
-                } else if ((d__1 = ap[kpc + imax - 1], abs(d__1)) >= alpha * 
+                } else if ((d__1 = ap[kpc + imax - 1], abs(d__1)) >= alpha *
                         rowmax) {
 
 /*                 interchange rows and columns K and IMAX, use 1-by-1 */
@@ -607,7 +607,7 @@ L40:
 /*<                      ROWMAX = ABS( AP( KX ) ) >*/
                         rowmax = (d__1 = ap[kx], abs(d__1));
 /*<                      JMAX = J >*/
-                        jmax = j;
+//                        jmax = j;
 /*<                   END IF >*/
                     }
 /*<                   KX = KX + N - J >*/
@@ -736,7 +736,7 @@ L40:
 /*<    >*/
                     i__1 = *n - k;
                     d__1 = -r1;
-                    dspr_(uplo, &i__1, &d__1, &ap[kc + 1], &c__1, &ap[kc + *n 
+                    dspr_(uplo, &i__1, &d__1, &ap[kc + 1], &c__1, &ap[kc + *n
                             - k + 1], (ftnlen)1);
 
 /*                 Store L(k) in column K */

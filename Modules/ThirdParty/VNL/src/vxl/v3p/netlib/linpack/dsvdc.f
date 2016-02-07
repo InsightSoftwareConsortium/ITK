@@ -59,7 +59,7 @@ c                   the first min(n,p) entries of s contain the
 c                   singular values of x arranged in descending
 c                   order of magnitude.
 c
-c         e         double precision(p), 
+c         e         double precision(p),
 c                   e ordinarily contains zeros.  however see the
 c                   discussion of info for exceptions.
 c

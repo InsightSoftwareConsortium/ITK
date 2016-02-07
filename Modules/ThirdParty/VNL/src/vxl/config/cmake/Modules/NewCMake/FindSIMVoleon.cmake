@@ -1,75 +1,75 @@
-# find SimVoleon library for Coin3D based Volume Rendering 
+# find SimVoleon library for Coin3D based Volume Rendering
 # Once done this will define
 #
 # SIMVOLEON_FOUND        - system has SIMVOLEON - volume rendering library
 # SIMVOLEON_INCLUDE_DIR  - where the SimVoleon include directory can be found
 # SIMVOLEON_LIBRARY      - Linking library
 #
-IF(COIN3D_FOUND)
-  IF (WIN32)
-    IF (CYGWIN)
+if(COIN3D_FOUND)
+  if(WIN32)
+    if(CYGWIN)
 
-      FIND_PATH(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
+      find_path(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
         /usr/include/
         /usr/local/include/
       )
 
-      FIND_LIBRARY(SIMVOLEON_LIBRARY SIMVoleon
+      find_library(SIMVOLEON_LIBRARY SIMVoleon
         /usr/lib
         /usr/local/lib
       )
 
-    ELSE (CYGWIN)
+    else()
 
-       FIND_PATH(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
+       find_path(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
         "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Coin3D;InstallPath]/include"
 
        )
 
-       FIND_LIBRARY(SIMVOLEON_LIBRARY simvoleon2
+       find_library(SIMVOLEON_LIBRARY simvoleon2
         "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Coin3D;InstallPath]/lib"
        )
 
-       IF (SIMVOLEON_LIBRARY)
-         ADD_DEFINITIONS ( -DSIMVOLEON_NOT_DLL )
-       ELSE (SIMVOLEON_LIBRARY)
-         SET (SIMVOLEON_LIBRARY simvoleon2 CACHE STRING "SIMVoleon Library - Coin3D based Volume Rendering API")
-       ENDIF (SIMVOLEON_LIBRARY)
+       if(SIMVOLEON_LIBRARY)
+         add_definitions( -DSIMVOLEON_NOT_DLL )
+       else()
+         set(SIMVOLEON_LIBRARY simvoleon2 CACHE STRING "SIMVoleon Library - Coin3D based Volume Rendering API")
+       endif()
 
-    ENDIF (CYGWIN)
+    endif()
 
-  ELSE (WIN32)
-    IF(APPLE)
-      FIND_PATH(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
+  else()
+    if(APPLE)
+      find_path(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
         /usr/include
         /usr/local/include
       )
 
-      FIND_LIBRARY(SIMVOLEON_LIBRARY SimVoleon
+      find_library(SIMVOLEON_LIBRARY SimVoleon
         /usr/lib
         /usr/local/lib
-      )   
+      )
 
-    ELSE(APPLE)
+    else()
 
-      FIND_PATH(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
+      find_path(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
         /usr/include
         /usr/local/include
       )
 
-      FIND_LIBRARY(SIMVOLEON_LIBRARY SimVoleon
+      find_library(SIMVOLEON_LIBRARY SimVoleon
         /usr/lib
         /usr/local/lib
-      )   
+      )
 
-    ENDIF(APPLE)
+    endif()
 
-  ENDIF (WIN32)
+  endif()
 
-ENDIF(COIN3D_FOUND)
+endif()
 
-  SET( SIMVOLEON_FOUND "NO" )
-  IF(SIMVOLEON_LIBRARY)
-    SET( SIMVOLEON_FOUND "YES" )
-  ENDIF(SIMVOLEON_LIBRARY)
+  set( SIMVOLEON_FOUND "NO" )
+  if(SIMVOLEON_LIBRARY)
+    set( SIMVOLEON_FOUND "YES" )
+  endif()
 

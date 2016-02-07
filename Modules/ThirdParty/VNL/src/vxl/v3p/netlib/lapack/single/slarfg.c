@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE SLARFG( N, ALPHA, X, INCX, TAU ) >*/
-/* Subroutine */ int slarfg_(integer *n, real *alpha, real *x, integer *incx, 
+/* Subroutine */ int slarfg_(integer *n, real *alpha, real *x, integer *incx,
         real *tau)
 {
     /* System generated locals */

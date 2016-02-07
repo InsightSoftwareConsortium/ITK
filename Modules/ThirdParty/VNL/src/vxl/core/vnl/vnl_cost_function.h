@@ -29,7 +29,7 @@ class vnl_cost_function : public vnl_unary_function<double, vnl_vector<double> >
 {
  public:
 
-  //! Default constructor   
+  //! Default constructor
   vnl_cost_function():dim(0) {}
 
   //! Construct with a specified number of unknowns
@@ -62,7 +62,7 @@ class vnl_cost_function : public vnl_unary_function<double, vnl_vector<double> >
 
 protected:
 
-    //! Set number of unknowns. 
+    //! Set number of unknowns.
     void set_number_of_unknowns(int number_of_unknowns) { dim=number_of_unknowns; }
 
 public:

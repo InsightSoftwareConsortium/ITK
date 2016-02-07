@@ -1,6 +1,3 @@
-#include <vcl_iostream.h>
-// not used? #include <vcl_iomanip.h>
-#include <vcl_limits.h>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_random.h>
@@ -8,6 +5,8 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_rotation_matrix.h>
+#include <vcl_iostream.h>
+#include <vcl_limits.h>
 
 // Tolerance between doubles. This was inferred by trial and error.
 // Could be derived mathematically?
@@ -61,9 +60,9 @@ static void test_random_euler_near_zero()
   for (unsigned i=0;i<1000;++i)
   {
     // Need to be careful abount wrap around - don't test with angles that are too big
-    vnl_vector_fixed<double,3> euler(rng.normal()*vnl_math::pi/180.0,
-                                     rng.normal()*vnl_math::pi/180.0,
-                                     rng.normal()*vnl_math::pi/180.0);
+    vnl_vector_fixed<double,3> euler(rng.normal()*vnl_math::pi_over_180,
+                                     rng.normal()*vnl_math::pi_over_180,
+                                     rng.normal()*vnl_math::pi_over_180);
     vnl_quaternion<double> quat(euler(0), euler(1), euler(2));
     if (quat.angle() > vnl_math::pi/36.0)
     {
@@ -91,7 +90,7 @@ static void test_random_quat_near_zero()
   for (unsigned i=0;i<1000;++i)
   {
     vnl_quaternion<double> quat(rng.normal()/1000.0, rng.normal()/1000.0, rng.normal()/1000.0,
-                                vnl_math_sgn0(rng.normal()) * (1.0+rng.normal()/1000.0) );
+                                vnl_math::sgn0(rng.normal()) * (1.0+rng.normal()/1000.0) );
     quat.normalize();
 
     vnl_vector_fixed<double,3> euler = quat.rotation_euler_angles();
@@ -197,7 +196,7 @@ static void test_rotations()
 
   // The axis replacing rotation - i.e. 120 degrees about (1,1,1)
   vnl_vector_fixed<double,3> e1(vnl_math::pi/2, 0, vnl_math::pi/2);
-  vnl_quaternion<double> q1(p1/p1.magnitude(), vnl_math::pi * 2.0 / 3.0);
+  vnl_quaternion<double> q1(p1/p1.magnitude(), vnl_math::twopi / 3.0);
   TEST_NEAR("rotate p1 using q1", vnl_vector_ssd(q1.rotate(p1),p1), 0.0, 1e-8);
   TEST_NEAR("rotate p2 using q1", vnl_vector_ssd(q1.rotate(p2),p3), 0.0, 1e-8);
   vnl_vector_fixed<double,3> e1_b = q1.rotation_euler_angles();

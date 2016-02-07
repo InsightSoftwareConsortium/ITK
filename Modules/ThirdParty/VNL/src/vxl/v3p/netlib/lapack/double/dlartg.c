@@ -26,7 +26,7 @@ void v3p_netlib_dlartg_init()
 }
 
 /*<       SUBROUTINE DLARTG( F, G, CS, SN, R ) >*/
-/* Subroutine */ int dlartg_(doublereal *f, doublereal *g, doublereal *cs, 
+/* Subroutine */ int dlartg_(doublereal *f, doublereal *g, doublereal *cs,
         doublereal *sn, doublereal *r__)
 {
     /* Initialized data */
@@ -134,7 +134,7 @@ void v3p_netlib_dlartg_init()
         eps = dlamch_("E", (ftnlen)1);
 /*<    >*/
         d__1 = dlamch_("B", (ftnlen)1);
-        i__1 = (integer) (log(safmin / eps) / log(dlamch_("B", (ftnlen)1)) / 
+        i__1 = (integer) (log(safmin / eps) / log(dlamch_("B", (ftnlen)1)) /
                 2.);
         safmn2 = pow_di(&d__1, &i__1);
 /*<          SAFMX2 = ONE / SAFMN2 >*/

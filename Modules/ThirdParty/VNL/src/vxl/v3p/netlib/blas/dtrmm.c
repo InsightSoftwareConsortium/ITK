@@ -16,9 +16,9 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int dtrmm_(char *side, char *uplo, char *transa, char *diag, 
+/* Subroutine */ int dtrmm_(char *side, char *uplo, char *transa, char *diag,
         integer *m, integer *n, doublereal *alpha, doublereal *a, integer *
-        lda, doublereal *b, integer *ldb, ftnlen side_len, ftnlen uplo_len, 
+        lda, doublereal *b, integer *ldb, ftnlen side_len, ftnlen uplo_len,
         ftnlen transa_len, ftnlen diag_len)
 {
     /* System generated locals */
@@ -224,7 +224,7 @@ extern "C" {
 /*<          INFO = 3 >*/
         info = 3;
 /*<    >*/
-    } else if (! lsame_(diag, "U", (ftnlen)1, (ftnlen)1) && ! lsame_(diag, 
+    } else if (! lsame_(diag, "U", (ftnlen)1, (ftnlen)1) && ! lsame_(diag,
             "N", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = 4 >*/
         info = 4;
@@ -310,7 +310,7 @@ extern "C" {
                             i__3 = k - 1;
                             for (i__ = 1; i__ <= i__3; ++i__) {
 /*<                            B( I, J ) = B( I, J ) + TEMP*A( I, K ) >*/
-                                b[i__ + j * b_dim1] += temp * a[i__ + k * 
+                                b[i__ + j * b_dim1] += temp * a[i__ + k *
                                         a_dim1];
 /*<    30                   CONTINUE >*/
 /* L30: */
@@ -350,7 +350,7 @@ extern "C" {
                             i__2 = *m;
                             for (i__ = k + 1; i__ <= i__2; ++i__) {
 /*<                            B( I, J ) = B( I, J ) + TEMP*A( I, K ) >*/
-                                b[i__ + j * b_dim1] += temp * a[i__ + k * 
+                                b[i__ + j * b_dim1] += temp * a[i__ + k *
                                         a_dim1];
 /*<    60                   CONTINUE >*/
 /* L60: */
@@ -469,7 +469,7 @@ extern "C" {
                             i__2 = *m;
                             for (i__ = 1; i__ <= i__2; ++i__) {
 /*<                            B( I, J ) = B( I, J ) + TEMP*B( I, K ) >*/
-                                b[i__ + j * b_dim1] += temp * b[i__ + k * 
+                                b[i__ + j * b_dim1] += temp * b[i__ + k *
                                         b_dim1];
 /*<   160                   CONTINUE >*/
 /* L160: */
@@ -512,7 +512,7 @@ extern "C" {
                             i__3 = *m;
                             for (i__ = 1; i__ <= i__3; ++i__) {
 /*<                            B( I, J ) = B( I, J ) + TEMP*B( I, K ) >*/
-                                b[i__ + j * b_dim1] += temp * b[i__ + k * 
+                                b[i__ + j * b_dim1] += temp * b[i__ + k *
                                         b_dim1];
 /*<   200                   CONTINUE >*/
 /* L200: */
@@ -548,7 +548,7 @@ extern "C" {
                             i__3 = *m;
                             for (i__ = 1; i__ <= i__3; ++i__) {
 /*<                            B( I, J ) = B( I, J ) + TEMP*B( I, K ) >*/
-                                b[i__ + j * b_dim1] += temp * b[i__ + k * 
+                                b[i__ + j * b_dim1] += temp * b[i__ + k *
                                         b_dim1];
 /*<   230                   CONTINUE >*/
 /* L230: */
@@ -594,7 +594,7 @@ extern "C" {
                             i__2 = *m;
                             for (i__ = 1; i__ <= i__2; ++i__) {
 /*<                            B( I, J ) = B( I, J ) + TEMP*B( I, K ) >*/
-                                b[i__ + j * b_dim1] += temp * b[i__ + k * 
+                                b[i__ + j * b_dim1] += temp * b[i__ + k *
                                         b_dim1];
 /*<   270                   CONTINUE >*/
 /* L270: */

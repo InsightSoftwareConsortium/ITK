@@ -490,7 +490,7 @@
       ILAENV = 2
       RETURN
 *
-  600 CONTINUE 
+  600 CONTINUE
 *
 *     ISPEC = 6:  crossover point for SVD (used by xGELSS and xGESVD)
 *
@@ -527,7 +527,7 @@
 C     ILAENV = 0
       ILAENV = 1
       IF( ILAENV.EQ.1 ) THEN
-         ILAENV = IEEECK( 0, 0.0, 1.0 ) 
+         ILAENV = IEEECK( 0, 0.0, 1.0 )
       END IF
       RETURN
 *
@@ -538,7 +538,7 @@ C     ILAENV = 0
 C     ILAENV = 0
       ILAENV = 1
       IF( ILAENV.EQ.1 ) THEN
-         ILAENV = IEEECK( 1, 0.0, 1.0 ) 
+         ILAENV = IEEECK( 1, 0.0, 1.0 )
       END IF
       RETURN
 *

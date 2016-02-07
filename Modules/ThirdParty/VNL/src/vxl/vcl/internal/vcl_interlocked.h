@@ -24,29 +24,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
  //
 
-// for the problematic Visual Studio 6
-#if defined(_WIN32) || defined(WIN32)
-#  if _MSC_VER < 1300
-#    define VCL_INTERLOCKED_VC6
-#  endif
-#endif
-
-//
-// Do we need this?
-#if defined( __BORLANDC__ ) || defined( VCL_INTERLOCKED_VC6 )
-
-# define NOMINMAX
-# include <windows.h>
-
-# define BOOST_INTERLOCKED_INCREMENT InterlockedIncrement
-# define BOOST_INTERLOCKED_DECREMENT InterlockedDecrement
-# define BOOST_INTERLOCKED_COMPARE_EXCHANGE InterlockedCompareExchange
-# define BOOST_INTERLOCKED_EXCHANGE InterlockedExchange
-# define BOOST_INTERLOCKED_EXCHANGE_ADD InterlockedExchangeAdd
-# define BOOST_INTERLOCKED_COMPARE_EXCHANGE_POINTER InterlockedCompareExchangePointer
-# define BOOST_INTERLOCKED_EXCHANGE_POINTER InterlockedExchangePointer
-
-#elif defined(_WIN32_WCE)
+#if defined(_WIN32_WCE)
 
 // under Windows CE we still have old-style Interlocked* functions
 

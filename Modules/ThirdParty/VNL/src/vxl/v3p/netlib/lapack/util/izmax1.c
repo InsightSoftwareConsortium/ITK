@@ -1,13 +1,13 @@
 /* lapack/util/izmax1.f -- translated by f2c (version 20090411).
    You must link the resulting object file with libf2c:
-	on Microsoft Windows system, link with libf2c.lib;
-	on Linux or Unix systems, link with .../path/to/libf2c.a -lm
-	or, if you install libf2c.a in a standard place, with -lf2c -lm
-	-- in that order, at the end of the command line, as in
-		cc *.o -lf2c -lm
-	Source for libf2c is in /netlib/f2c/libf2c.zip, e.g.,
+        on Microsoft Windows system, link with libf2c.lib;
+        on Linux or Unix systems, link with .../path/to/libf2c.a -lm
+        or, if you install libf2c.a in a standard place, with -lf2c -lm
+        -- in that order, at the end of the command line, as in
+                cc *.o -lf2c -lm
+        Source for libf2c is in /netlib/f2c/libf2c.zip, e.g.,
 
-		http://www.netlib.org/f2c/libf2c.zip
+                http://www.netlib.org/f2c/libf2c.zip
 */
 
 #ifdef __cplusplus
@@ -92,17 +92,17 @@ integer izmax1_(integer *n, doublecomplex *cx, integer *incx)
     ret_val = 0;
 /*<    >*/
     if (*n < 1) {
-	return ret_val;
+        return ret_val;
     }
 /*<       IZMAX1 = 1 >*/
     ret_val = 1;
 /*<    >*/
     if (*n == 1) {
-	return ret_val;
+        return ret_val;
     }
 /*<    >*/
     if (*incx == 1) {
-	goto L30;
+        goto L30;
     }
 
 /*     CODE FOR INCREMENT NOT EQUAL TO 1 */
@@ -117,17 +117,17 @@ integer izmax1_(integer *n, doublecomplex *cx, integer *incx)
     i__1 = *n;
     for (i__ = 2; i__ <= i__1; ++i__) {
 /*<    >*/
-	if (z_abs(&cx[ix]) <= smax) {
-	    goto L10;
-	}
+        if (z_abs(&cx[ix]) <= smax) {
+            goto L10;
+        }
 /*<          IZMAX1 = I >*/
-	ret_val = i__;
+        ret_val = i__;
 /*<          SMAX = CABS1( CX( IX ) ) >*/
-	smax = z_abs(&cx[ix]);
+        smax = z_abs(&cx[ix]);
 /*<    10    CONTINUE >*/
 L10:
 /*<          IX = IX + INCX >*/
-	ix += *incx;
+        ix += *incx;
 /*<    20 CONTINUE >*/
 /* L20: */
     }
@@ -144,16 +144,16 @@ L30:
     i__1 = *n;
     for (i__ = 2; i__ <= i__1; ++i__) {
 /*<    >*/
-	if (z_abs(&cx[i__]) <= smax) {
-	    goto L40;
-	}
+        if (z_abs(&cx[i__]) <= smax) {
+            goto L40;
+        }
 /*<          IZMAX1 = I >*/
-	ret_val = i__;
+        ret_val = i__;
 /*<          SMAX = CABS1( CX( I ) ) >*/
-	smax = z_abs(&cx[i__]);
+        smax = z_abs(&cx[i__]);
 /*<    40 CONTINUE >*/
 L40:
-	;
+        ;
     }
 /*<       RETURN >*/
     return ret_val;
@@ -164,5 +164,5 @@ L40:
 } /* izmax1_ */
 
 #ifdef __cplusplus
-	}
+        }
 #endif

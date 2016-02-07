@@ -18,9 +18,9 @@ class gaussian_integrant : public vnl_analytic_integrant
  public:
   gaussian_integrant(double sr, double sz,  vnl_double_3 p0) : sr_(sr), sz_(sz), p0_(p0)
   {
-    oneoversr2_ = 1 / vcl_pow(sr_, 2);
-    oneoversz2_ = 1 / vcl_pow(sz_, 2);
-    normalizer_ = -vcl_pow(sr_,2) / (sz_ * 2 * vcl_sqrt(2*vnl_math::pi));
+    oneoversr2_ = 1.0 / sr_ / sr_;
+    oneoversz2_ = 1.0 / sz_ / sz_;
+    normalizer_ = -sr_ * sr_ / (sz_ * 2 * vnl_math::sqrt2pi);
   }
 
   void set_varying_params(double theta, double phi)

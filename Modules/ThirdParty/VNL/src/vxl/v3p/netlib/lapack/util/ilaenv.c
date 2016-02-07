@@ -23,8 +23,8 @@ static real c_b163 = (float)1.;
 static integer c__1 = 1;
 
 /*<    >*/
-integer ilaenv_(integer *ispec, char *name__, char *opts, integer *n1, 
-        integer *n2, integer *n3, integer *n4, ftnlen name_len, ftnlen 
+integer ilaenv_(integer *ispec, char *name__, char *opts, integer *n1,
+        integer *n2, integer *n3, integer *n4, ftnlen name_len, ftnlen
         opts_len)
 {
     /* System generated locals */
@@ -227,7 +227,7 @@ L100:
 /*        EBCDIC character set */
 
 /*<    >*/
-        if ((ic >= 129 && ic <= 137) || (ic >= 145 && ic <= 153) || (ic >= 162 && 
+        if ((ic >= 129 && ic <= 137) || (ic >= 145 && ic <= 153) || (ic >= 162 &&
                 ic <= 169)) {
 /*<             SUBNAM( 1:1 ) = CHAR( IC+64 ) >*/
             *(unsigned char *)subnam = (unsigned char) (ic + 64);
@@ -236,7 +236,7 @@ L100:
 /*<                IC = ICHAR( SUBNAM( I:I ) ) >*/
                 ic = *(unsigned char *)&subnam[i__ - 1];
 /*<    >*/
-                if ((ic >= 129 && ic <= 137) || (ic >= 145 && ic <= 153) || (ic >= 
+                if ((ic >= 129 && ic <= 137) || (ic >= 145 && ic <= 153) || (ic >=
                         162 && ic <= 169)) {
                     *(unsigned char *)&subnam[i__ - 1] = (unsigned char) (ic + 64);
                 }
@@ -322,9 +322,9 @@ L110:
 /*<             END IF >*/
             }
 /*<    >*/
-        } else if (s_cmp(c3, "QRF", (ftnlen)3, (ftnlen)3) == 0 || s_cmp(c3, 
+        } else if (s_cmp(c3, "QRF", (ftnlen)3, (ftnlen)3) == 0 || s_cmp(c3,
                 "RQF", (ftnlen)3, (ftnlen)3) == 0 || s_cmp(c3, "LQF", (ftnlen)
-                3, (ftnlen)3) == 0 || s_cmp(c3, "QLF", (ftnlen)3, (ftnlen)3) 
+                3, (ftnlen)3) == 0 || s_cmp(c3, "QLF", (ftnlen)3, (ftnlen)3)
                 == 0) {
 /*<             IF( SNAME ) THEN >*/
             if (sname) {
@@ -435,7 +435,7 @@ L110:
 /*<          IF( C3( 1:1 ).EQ.'G' ) THEN >*/
         if (*(unsigned char *)c3 == 'G') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -448,7 +448,7 @@ L110:
 /*<          ELSE IF( C3( 1:1 ).EQ.'M' ) THEN >*/
         } else if (*(unsigned char *)c3 == 'M') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -465,7 +465,7 @@ L110:
 /*<          IF( C3( 1:1 ).EQ.'G' ) THEN >*/
         if (*(unsigned char *)c3 == 'G') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -478,7 +478,7 @@ L110:
 /*<          ELSE IF( C3( 1:1 ).EQ.'M' ) THEN >*/
         } else if (*(unsigned char *)c3 == 'M') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -696,7 +696,7 @@ L200:
 /*<          IF( C3( 1:1 ).EQ.'G' ) THEN >*/
         if (*(unsigned char *)c3 == 'G') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -709,7 +709,7 @@ L200:
 /*<          ELSE IF( C3( 1:1 ).EQ.'M' ) THEN >*/
         } else if (*(unsigned char *)c3 == 'M') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -726,7 +726,7 @@ L200:
 /*<          IF( C3( 1:1 ).EQ.'G' ) THEN >*/
         if (*(unsigned char *)c3 == 'G') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -739,7 +739,7 @@ L200:
 /*<          ELSE IF( C3( 1:1 ).EQ.'M' ) THEN >*/
         } else if (*(unsigned char *)c3 == 'M') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -829,7 +829,7 @@ L300:
 /*<          IF( C3( 1:1 ).EQ.'G' ) THEN >*/
         if (*(unsigned char *)c3 == 'G') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(
@@ -846,7 +846,7 @@ L300:
 /*<          IF( C3( 1:1 ).EQ.'G' ) THEN >*/
         if (*(unsigned char *)c3 == 'G') {
 /*<    >*/
-            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ", 
+            if (s_cmp(c4, "QR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "RQ",
                     (ftnlen)2, (ftnlen)2) == 0 || s_cmp(c4, "LQ", (ftnlen)2, (
                     ftnlen)2) == 0 || s_cmp(c4, "QL", (ftnlen)2, (ftnlen)2) ==
                      0 || s_cmp(c4, "HR", (ftnlen)2, (ftnlen)2) == 0 || s_cmp(

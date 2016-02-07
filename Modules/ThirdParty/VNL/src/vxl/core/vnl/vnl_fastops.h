@@ -51,19 +51,6 @@ class vnl_fastops
   static void dec_X_by_AtB(vnl_vector<double>& X, const vnl_matrix<double>& A, const vnl_vector<double>& b);
   static void dec_X_by_ABt(vnl_matrix<double>& X, const vnl_matrix<double>& A, const vnl_matrix<double>& B);
 
-#if 0 // deprecated; use the ref-style versions instead!
-  static void AtA(const vnl_matrix<double>& A, vnl_matrix<double>* out) {
-    VXL_DEPRECATED("vnl_fastops::AtA"); AtA(*out, A); }
-  static void AB (const vnl_matrix<double>& A, const vnl_matrix<double>& B, vnl_matrix<double>* out) {
-    VXL_DEPRECATED("vnl_fastops::AA"); AB(*out, A,B); }
-  static void AtB(const vnl_matrix<double>& A, const vnl_matrix<double>& B, vnl_matrix<double>* out) {
-    VXL_DEPRECATED("vnl_fastops::AtB"); AtB(*out, A,B); }
-  static void AtB(const vnl_matrix<double>& A, const vnl_vector<double>& b, vnl_vector<double>* out) {
-    VXL_DEPRECATED("vnl_fastops::AtB"); AtB(*out, A,b); }
-  static void ABt(const vnl_matrix<double>& A, const vnl_matrix<double>& B, vnl_matrix<double>* out) {
-    VXL_DEPRECATED("vnl_fastops::ABt"); ABt(*out, A,B); }
-#endif // 0
-
  private:
   // BLAS-like operations
   static double dot(const double* a, const double* b, unsigned int n);

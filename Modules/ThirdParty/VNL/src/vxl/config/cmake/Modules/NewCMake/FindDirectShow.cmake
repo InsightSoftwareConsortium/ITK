@@ -4,12 +4,12 @@
 #   DIRECTSHOW_INCLUDE_DIRS - include directory for DirectShow
 #   DIRECTSHOW_LIBRARIES    - libraries you need to link to
 
-SET(DIRECTSHOW_FOUND "NO")
+set(DIRECTSHOW_FOUND "NO")
 
 # DirectShow is only available on Windows platforms
-IF(MSVC)
+if(MSVC)
   # Find DirectX Include Directory (dshow depends on it)
-  FIND_PATH(DIRECTX_INCLUDE_DIR ddraw.h
+  find_path(DIRECTX_INCLUDE_DIR ddraw.h
     # WindowsSDK: includes ddraw and dshow
     "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Microsoft SDKs\\Windows;CurrentInstallFolder]/Include"
     # VS 7.1 PlatformSDK: includes ddraw and dshow
@@ -23,8 +23,8 @@ IF(MSVC)
   )
 
   # if DirectX found, then find DirectShow include directory
-  IF(DIRECTX_INCLUDE_DIR)
-    FIND_PATH(DIRECTSHOW_INCLUDE_DIR dshow.h
+  if(DIRECTX_INCLUDE_DIR)
+    find_path(DIRECTSHOW_INCLUDE_DIR dshow.h
       "${DIRECTX_INCLUDE_DIR}"
       "C:/Program Files/Microsoft Platform SDK for Windows Server 2003 R2/Include"
       "C:/Program Files/Microsoft Platform SDK/Include"
@@ -33,52 +33,53 @@ IF(MSVC)
     )
 
     # if DirectShow include dir found, then find DirectShow libraries
-    IF(DIRECTSHOW_INCLUDE_DIR)
-      IF(CMAKE_CL_64)
-        FIND_LIBRARY(DIRECTSHOW_STRMIIDS_LIBRARY strmiids
+    if(DIRECTSHOW_INCLUDE_DIR)
+      if(CMAKE_CL_64)
+        find_library(DIRECTSHOW_STRMIIDS_LIBRARY strmiids
           "${DIRECTSHOW_INCLUDE_DIR}/../Lib/x64"
           DOC "Where can the DirectShow strmiids library be found"
           NO_DEFAULT_PATH
           )
-        FIND_LIBRARY(DIRECTSHOW_QUARTZ_LIBRARY quartz
+        find_library(DIRECTSHOW_QUARTZ_LIBRARY quartz
           "${DIRECTSHOW_INCLUDE_DIR}/../Lib/x64"
           DOC "Where can the DirectShow quartz library be found"
           NO_DEFAULT_PATH
           )
-      ELSE(CMAKE_CL_64)
-        FIND_LIBRARY(DIRECTSHOW_STRMIIDS_LIBRARY strmiids
+      else()
+        find_library(DIRECTSHOW_STRMIIDS_LIBRARY strmiids
           "${DIRECTSHOW_INCLUDE_DIR}/../Lib"
           "${DIRECTSHOW_INCLUDE_DIR}/../Lib/x86"
           DOC "Where can the DirectShow strmiids library be found"
           NO_DEFAULT_PATH
           )
-        FIND_LIBRARY(DIRECTSHOW_QUARTZ_LIBRARY quartz
+        find_library(DIRECTSHOW_QUARTZ_LIBRARY quartz
           "${DIRECTSHOW_INCLUDE_DIR}/../Lib"
           "${DIRECTSHOW_INCLUDE_DIR}/../Lib/x86"
           DOC "Where can the DirectShow quartz library be found"
           NO_DEFAULT_PATH
           )
-      ENDIF(CMAKE_CL_64)
-    ENDIF(DIRECTSHOW_INCLUDE_DIR)
-  ENDIF(DIRECTX_INCLUDE_DIR)
-ENDIF(MSVC)
+      endif()
+    endif()
+  endif()
+endif()
 
+if(DIRECTSHOW_INCLUDE_DIR)
 #---------------------------------------------------------------------
-SET(DIRECTSHOW_INCLUDE_DIRS
+set(DIRECTSHOW_INCLUDE_DIRS
   "${DIRECTX_INCLUDE_DIR}"
   "${DIRECTSHOW_INCLUDE_DIR}"
   )
 
-SET(DIRECTSHOW_LIBRARIES
+set(DIRECTSHOW_LIBRARIES
   "${DIRECTSHOW_STRMIIDS_LIBRARY}"
   "${DIRECTSHOW_QUARTZ_LIBRARY}"
   )
 
 #---------------------------------------------------------------------
-INCLUDE (CheckCXXSourceCompiles)
+include(CheckCXXSourceCompiles)
 
-SET(CMAKE_REQUIRED_INCLUDES  ${DIRECTSHOW_INCLUDE_DIRS})
-SET(CMAKE_REQUIRED_LIBRARIES ${DIRECTSHOW_LIBRARIES})
+set(CMAKE_REQUIRED_INCLUDES  ${DIRECTSHOW_INCLUDE_DIRS})
+set(CMAKE_REQUIRED_LIBRARIES ${DIRECTSHOW_LIBRARIES})
 CHECK_CXX_SOURCE_COMPILES("
   #include <atlbase.h>
   #include <dshow.h>
@@ -91,56 +92,50 @@ CHECK_CXX_SOURCE_COMPILES("
     return 0;
   }
 " DIRECTSHOW_SOURCE_COMPILES)
-SET(CMAKE_REQUIRED_INCLUDES)
-SET(CMAKE_REQUIRED_LIBRARIES)
+set(CMAKE_REQUIRED_INCLUDES)
+set(CMAKE_REQUIRED_LIBRARIES)
 
-#---------------------------------------------------------------------
-# FIXME: When cmake_minimum_version reaches 2.6.0 the
-#        FindPackageHandleStandardArgs module can be used.
-IF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER 2.5)
-  MESSAGE(FATAL_ERROR
-    "Uncomment code below: FindPackageHandleStandardArgs is now available.")
-ENDIF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER 2.5)
+include(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(
+  DIRECTSHOW
+  DEFAULT_MSG
+  DIRECTX_INCLUDE_DIR
+  DIRECTSHOW_INCLUDE_DIR
+  DIRECTSHOW_STRMIIDS_LIBRARY
+  DIRECTSHOW_QUARTZ_LIBRARY
+  DIRECTSHOW_SOURCE_COMPILES
+  )
 
-#INCLUDE(FindPackageHandleStandardArgs)
-#FIND_PACKAGE_HANDLE_STANDARD_ARGS(
-#  DIRECTSHOW
-#  DEFAULT_MSG
-#  DIRECTX_INCLUDE_DIR
-#  DIRECTSHOW_INCLUDE_DIR
-#  DIRECTSHOW_STRMIIDS_LIBRARY
-#  DIRECTSHOW_QUARTZ_LIBRARY
-#  DIRECTSHOW_SOURCE_COMPILES
-#  )
-
-SET(_NAME DIRECTSHOW)
-SET(_NAME_UPPER DIRECTSHOW)
-SET(MISSING_VARS "")
+set(_NAME DIRECTSHOW)
+set(_NAME_UPPER DIRECTSHOW)
+set(MISSING_VARS "")
 # check if all passed variables are valid
-SET(${_NAME_UPPER}_FOUND TRUE)
-FOREACH(_CURRENT_VAR
+set(${_NAME_UPPER}_FOUND TRUE)
+foreach(_CURRENT_VAR
     DIRECTX_INCLUDE_DIR
     DIRECTSHOW_INCLUDE_DIR
     DIRECTSHOW_STRMIIDS_LIBRARY
     DIRECTSHOW_QUARTZ_LIBRARY
     DIRECTSHOW_SOURCE_COMPILES
     )
-  IF(NOT "${_CURRENT_VAR}")
-    SET(${_NAME_UPPER}_FOUND FALSE)
-    SET(MISSING_VARS "${MISSING_VARS} ${_CURRENT_VAR}")
-  ENDIF(NOT "${_CURRENT_VAR}")
-ENDFOREACH(_CURRENT_VAR)
+  if(NOT "${_CURRENT_VAR}")
+    set(${_NAME_UPPER}_FOUND FALSE)
+    set(MISSING_VARS "${MISSING_VARS} ${_CURRENT_VAR}")
+  endif()
+endforeach()
 
-IF (${_NAME_UPPER}_FOUND)
-  IF(NOT ${_NAME}_FIND_QUIETLY)
-    MESSAGE(STATUS "Found ${_NAME}")
-  ENDIF(NOT ${_NAME}_FIND_QUIETLY)
-ELSE (${_NAME_UPPER}_FOUND)
-  IF (${_NAME}_FIND_REQUIRED)
-    MESSAGE(FATAL_ERROR "Could NOT find ${_NAME} (missing: ${MISSING_VARS})")
-  ELSE (${_NAME}_FIND_REQUIRED)
-    IF (NOT ${_NAME}_FIND_QUIETLY)
-      MESSAGE(STATUS "Could NOT find ${_NAME} (missing: ${MISSING_VARS})")
-    ENDIF (NOT ${_NAME}_FIND_QUIETLY)
-  ENDIF (${_NAME}_FIND_REQUIRED)
-ENDIF (${_NAME_UPPER}_FOUND)
+if(${_NAME_UPPER}_FOUND)
+  if(NOT ${_NAME}_FIND_QUIETLY)
+    message(STATUS "Found ${_NAME}")
+  endif()
+else()
+  if(${_NAME}_FIND_REQUIRED)
+    message(FATAL_ERROR "Could NOT find ${_NAME} (missing: ${MISSING_VARS})")
+  else()
+    if(NOT ${_NAME}_FIND_QUIETLY)
+      message(STATUS "Could NOT find ${_NAME} (missing: ${MISSING_VARS})")
+    endif()
+  endif()
+endif()
+
+endif()

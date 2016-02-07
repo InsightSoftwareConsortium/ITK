@@ -21,7 +21,7 @@
 // memory is set to 5, line_search_accuracy to 0.9.
 // Calls init_parameters
 vnl_lbfgs::vnl_lbfgs():
-  f_(0)
+  f_(VXL_NULLPTR)
 {
   init_parameters();
 }
