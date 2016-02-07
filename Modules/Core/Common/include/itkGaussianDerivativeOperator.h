@@ -68,7 +68,7 @@ namespace itk
  * \sa Neighborhood
  *
  * \ingroup Operators
- * \ingroup ITKReview
+ * \ingroup ITKCommon
  *
  * \wiki
  * \wikiexample{Operators/GaussianDerivativeOperator,Create a Gaussian derivative kernel}
