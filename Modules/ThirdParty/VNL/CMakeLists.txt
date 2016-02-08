@@ -1,9 +1,6 @@
 project(ITKVNL)
 set(ITKVNL_THIRD_PARTY 1)
 
-# ITK and several external packages still use legacy method signatures for VNL
-set(VNL_CONFIG_LEGACY_METHODS CACHE BOOL "Whether backward-compatibility methods are provided by vnl." FORCE ON)
-
 option(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_VXL)
 
@@ -18,6 +15,18 @@ if(ITK_USE_SYSTEM_VXL)
   set(ITKVNL_SYSTEM_LIBRARY_DIRS "${VXL_LIBRARY_DIR}")
   set(ITKVNL_NO_SRC 1)
 else()
+
+  # ITK and several external packages still use legacy method signatures for VNL
+  set(VNL_CONFIG_LEGACY_METHODS CACHE BOOL "Whether backward-compatibility methods are provided by vnl." FORCE ON)
+  set(BUILD_CORE_GEOMETRY       CACHE BOOL "VXL configuration for ITK" FORCE OFF)
+  set(BUILD_CORE_IMAGING        CACHE BOOL "VXL configuration for ITK" FORCE OFF)
+  set(BUILD_CORE_NUMERICS       CACHE BOOL "VXL configuration for ITK" FORCE ON)
+  set(BUILD_CORE_SERIALISATION  CACHE BOOL "VXL configuration for ITK" FORCE OFF)
+  set(BUILD_CORE_UTILITIES      CACHE BOOL "VXL configuration for ITK" FORCE OFF)
+  set(BUILD_CORE_VIDEO          CACHE BOOL "VXL configuration for ITK" FORCE OFF)
+  set(VXL_LIB_PREFIX            "itk")
+  set(VXL_LIBRARY_PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+
   set(ITKVNL_INCLUDE_DIRS
     ${ITKVNL_SOURCE_DIR}/src/vxl/v3p/netlib
     ${ITKVNL_SOURCE_DIR}/src/vxl/vcl
