@@ -398,51 +398,53 @@ macro(itk_end_wrap_module_python)
   itk_setup_swig_python("Module" ${base_name} ${interface_file} ${python_file} ${cpp_file} "")
 
   # build all the c++ files from this module in a common lib
-  add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
-  set_target_properties(${lib} PROPERTIES PREFIX "_")
-  # gcc 4.4 complains a lot without this flag when building in release mode
-  if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -w")
-  endif()
-  # extension is not the same on windows
-  if(WIN32)
-    set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
-    if(MSVC)
-      # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
-      set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
+  if(NOT TARGET ${lib})
+    add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
+    set_target_properties(${lib} PROPERTIES PREFIX "_")
+    # gcc 4.4 complains a lot without this flag when building in release mode
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+      set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -w")
     endif()
-  endif()
-
-  # Link the modules together
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-    # On OS X, do not link against a specific Python Library and use dynamic_lookup
-    # to be ABI compatible between Python versions.
-    set_target_properties(${lib} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
-  else()
-    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
-  endif()
-
-  add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  if(ITK_WRAP_DOC)
-    add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
-  endif()
-  if(ITK_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKPyBase)
-    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_NAME}Explicit)
-    add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
-  endif()
-  install(TARGETS "${lib}"
-    DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
-    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
-    )
-  if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-    # don't depends on the targets from wrapitk in external projects
-    foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-      add_dependencies(${lib} ${dep}Swig)
-      if(ITK_WRAP_DOC)
-        add_dependencies(${lib} ${dep}Doxygen)
+    # extension is not the same on windows
+    if(WIN32)
+      set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
+      if(MSVC)
+        # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
+        set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
       endif()
-    endforeach()
+    endif()
+
+    # Link the modules together
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+      # On OS X, do not link against a specific Python Library and use dynamic_lookup
+      # to be ABI compatible between Python versions.
+      set_target_properties(${lib} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
+    else()
+      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
+    endif()
+
+    add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
+    if(ITK_WRAP_DOC)
+      add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
+    endif()
+    if(ITK_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKPyBase)
+      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_NAME}Explicit)
+      add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
+    endif()
+    install(TARGETS "${lib}"
+      DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
+      COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+      )
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      # don't depends on the targets from wrapitk in external projects
+      foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+        add_dependencies(${lib} ${dep}Swig)
+        if(ITK_WRAP_DOC)
+          add_dependencies(${lib} ${dep}Doxygen)
+        endif()
+      endforeach()
+    endif()
   endif()
 
 endmacro()
