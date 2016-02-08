@@ -371,7 +371,14 @@ macro(itk_module_target_name _name)
   else()
     set(_itk "itk")
   endif()
-  set_property(TARGET ${_name} PROPERTY OUTPUT_NAME ${_itk}${_name}-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
+  # Support custom library suffix names, for other projects wanting to inject
+  # their own version numbers etc.
+  if(DEFINED ITK_CUSTOM_LIBRARY_SUFFIX)
+    set(_lib_suffix "${ITK_CUSTOM_LIBRARY_SUFFIX}")
+  else()
+    set(_lib_suffix "-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+  endif()
+  set_property(TARGET ${_name} PROPERTY OUTPUT_NAME ${_itk}${_name}${_lib_suffix})
 endmacro()
 
 macro(itk_module_target_export _name)
