@@ -210,7 +210,6 @@ ComponentToPredType(ImageIOBase::IOComponentType cType)
     default:
       itkGenericExceptionMacro(<< "unsupported IOComponentType"
                                << cType);
-      break;
     }
   // never reached but silences warning.
   return H5::PredType::NATIVE_UCHAR;

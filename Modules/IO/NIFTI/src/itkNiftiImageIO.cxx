@@ -565,10 +565,8 @@ void NiftiImageIO::Read(void *buffer)
         break;
       case FLOAT:
         itkExceptionMacro(<< "FLOAT pixels do not need Casting to float");
-        break;
       case DOUBLE:
         itkExceptionMacro(<< "DOUBLE pixels do not need Casting to float");
-        break;
       case UNKNOWNCOMPONENTTYPE:
         itkExceptionMacro(<< "Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
       }
@@ -1544,8 +1542,6 @@ NiftiImageIO
     default:
       itkExceptionMacro(
         << "Can not process this pixel type for writing into nifti");
-
-      break;
     }
   //     -----------------------------------------------------
   //     vox_offset    required for an "n+1" header

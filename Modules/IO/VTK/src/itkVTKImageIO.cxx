@@ -920,7 +920,6 @@ void VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream & os, const voi
       }
     default :
       itkExceptionMacro(<< "Unsupported tensor dimension.");
-      break;
     }
 
   if( os.fail() )
