@@ -18,6 +18,7 @@ set(swigwin_md5  07bc00f7511b7d57516c50f59d705efa)
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
 else()
+
     # follow the standard EP_PREFIX locations
     set ( swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build )
     set ( swig_source_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig )
@@ -44,17 +45,16 @@ if(ITK_USE_SYSTEM_SWIG)
   endif()
 
 else()
+  if(NOT TARGET swig)
+    # Install swig ourselves
+    set(SWIG_VERSION ${ITK_SWIG_VERSION})
 
-  # Install swig ourselves
-  set(SWIG_VERSION ${ITK_SWIG_VERSION})
-
-  include(ExternalProject)
-  if(WIN32)
-    # If we are building ITK
-    if(ITK_BINARY_DIR)
-      itk_download_attempt_check(SWIG)
-    endif()
-    if(NOT TARGET swig)
+    include(ExternalProject)
+    if(WIN32)
+      # If we are building ITK
+      if(ITK_BINARY_DIR)
+        itk_download_attempt_check(SWIG)
+      endif()
       ExternalProject_Add(swig
         URL http://prdownloads.sourceforge.net/swig/swigwin-${SWIG_VERSION}.zip
         URL_MD5 ${swigwin_md5}
@@ -63,74 +63,72 @@ else()
         BUILD_COMMAND ""
         INSTALL_COMMAND ""
         )
-    endif()
-    set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
-  else()
-    # From PCRE configure
-    # Some influential environment variables:
-    #  CC          C compiler command
-    #  CFLAGS      C compiler flags
-    #  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
-    #              nonstandard directory <lib dir>
-    #  LIBS        libraries to pass to the linker, e.g. -l<library>
-    #  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
-    #              you have headers in a nonstandard directory <include dir>
-    #  CXX         C++ compiler command
-    #  CXXFLAGS    C++ compiler flags
-    #  CPP         C preprocessor
-    #  CXXCPP      C++ preprocessor
+      set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
+    else()
+      # From PCRE configure
+      # Some influential environment variables:
+      #  CC          C compiler command
+      #  CFLAGS      C compiler flags
+      #  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+      #              nonstandard directory <lib dir>
+      #  LIBS        libraries to pass to the linker, e.g. -l<library>
+      #  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
+      #              you have headers in a nonstandard directory <include dir>
+      #  CXX         C++ compiler command
+      #  CXXFLAGS    C++ compiler flags
+      #  CPP         C preprocessor
+      #  CXXCPP      C++ preprocessor
 
-    # build swig as an external project
+      # build swig as an external project
 
-    # If we are building ITK
-    if(ITK_BINARY_DIR)
-      itk_download_attempt_check(PCRE)
-    endif()
-    set(pcre_env)
-    if(NOT CMAKE_CROSSCOMPILING)
-      set(pcre_env
-        env
-          "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-          "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
-          "LDFLAGS=$ENV{LDFLAGS}"
-          "LIBS=$ENV{LIBS}"
-          "CPPFLAGS=$ENV{CPPFLAGS}"
-          "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
-          "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
-          "CPP=$ENV{CPP}"
-          "CXXPP=$ENV{CXXPP}"
-        )
+      # If we are building ITK
+      if(ITK_BINARY_DIR)
+        itk_download_attempt_check(PCRE)
+      endif()
+      set(pcre_env)
+      if(NOT CMAKE_CROSSCOMPILING)
+        set(pcre_env
+          env
+            "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
+            "LDFLAGS=$ENV{LDFLAGS}"
+            "LIBS=$ENV{LIBS}"
+            "CPPFLAGS=$ENV{CPPFLAGS}"
+            "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
+            "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
+            "CPP=$ENV{CPP}"
+            "CXXPP=$ENV{CXXPP}"
+          )
+        if(APPLE)
+          # If building on OS X, the compiler must know what version of the OS X SDK to use
+          # without SDKROOT set, configuring PCRE fails.  The deployment target is set to
+          # ensure the built library is compatible with the correct OS X version.  This may
+          # not be strictly necessary for configure, but the compiler determines which
+          # header files to use based on both of these settings.  Adding it for safety.
+          set(pcre_env ${pcre_env}
+            "SDKROOT=${CMAKE_OSX_SYSROOT}"
+            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+          )
+        endif()
+      endif()
+      set(extra_external_project_commands)
       if(APPLE)
-        # If building on OS X, the compiler must know what version of the OS X SDK to use
-        # without SDKROOT set, configuring PCRE fails.  The deployment target is set to
-        # ensure the built library is compatible with the correct OS X version.  This may
-        # not be strictly necessary for configure, but the compiler determines which
-        # header files to use based on both of these settings.  Adding it for safety.
-        set(pcre_env ${pcre_env}
-          "SDKROOT=${CMAKE_OSX_SYSROOT}"
-          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+        # If building on OS X, we have to set the SDKROOT and DEPOLYMENT_TARGET environment variables
+        # so that XCode's compilers know which version of the OS X SDK to use.
+        list(APPEND extra_external_project_commands
+          BUILD_COMMAND
+            env
+              "SDKROOT=${CMAKE_OSX_SYSROOT}"
+               "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+            make
+          INSTALL_COMMAND
+            env
+              "SDKROOT=${CMAKE_OSX_SYSROOT}"
+              "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+            make
+              install
         )
       endif()
-    endif()
-    set(extra_external_project_commands)
-    if(APPLE)
-      # If building on OS X, we have to set the SDKROOT and DEPOLYMENT_TARGET environment variables
-      # so that XCode's compilers know which version of the OS X SDK to use.
-      list(APPEND extra_external_project_commands
-        BUILD_COMMAND
-          env
-            "SDKROOT=${CMAKE_OSX_SYSROOT}"
-            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-          make
-        INSTALL_COMMAND
-          env
-            "SDKROOT=${CMAKE_OSX_SYSROOT}"
-            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-          make
-            install
-      )
-    endif()
-    if(NOT TARGET PCRE)
       ExternalProject_Add(PCRE
         URL http://downloads.sourceforge.net/project/pcre/pcre/8.38/pcre-8.38.tar.gz
         URL_MD5 8a353fe1450216b6655dfcf3561716d9
@@ -141,45 +139,44 @@ else()
           --enable-shared=no
         ${extra_external_project_commands}
         )
-    endif()
 
-    # swig uses bison find it by cmake and pass it down
-    find_package ( BISON )
-    set ( BISON_FLAGS "" CACHE STRING "Flags used by bison" )
-    mark_as_advanced ( BISON_FLAGS )
+      # swig uses bison find it by cmake and pass it down
+      find_package ( BISON )
+      set ( BISON_FLAGS "" CACHE STRING "Flags used by bison" )
+      mark_as_advanced ( BISON_FLAGS )
 
 
-    # From SWIG configure
-    # Some influential environment variables:
-    #  CC          C compiler command
-    #  CFLAGS      C compiler flags
-    #  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
-    #              nonstandard directory <lib dir>
-    #  LIBS        libraries to pass to the linker, e.g. -l<library>
-    #  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
-    #              you have headers in a nonstandard directory <include dir>
-    #  CXX         C++ compiler command
-    #  CXXFLAGS    C++ compiler flags
-    #  CPP         C preprocessor
-    #  PCRE_CONFIG config script used for pcre
-    #  PCRE_CFLAGS CFLAGS used for pcre
-    #  PCRE_LIBS   LIBS used for pcre
-    #  YACC        The `Yet Another C Compiler' implementation to use. Defaults to
-    #              the first program found out of: `bison -y', `byacc', `yacc'.
-    #  YFLAGS      The list of arguments that will be passed by default to $YACC.
-    #              This script will default YFLAGS to the empty string to avoid a
-    #              default value of `-d' given by some make applications.
+      # From SWIG configure
+      # Some influential environment variables:
+      #  CC          C compiler command
+      #  CFLAGS      C compiler flags
+      #  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+      #              nonstandard directory <lib dir>
+      #  LIBS        libraries to pass to the linker, e.g. -l<library>
+      #  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
+      #              you have headers in a nonstandard directory <include dir>
+      #  CXX         C++ compiler command
+      #  CXXFLAGS    C++ compiler flags
+      #  CPP         C preprocessor
+      #  PCRE_CONFIG config script used for pcre
+      #  PCRE_CFLAGS CFLAGS used for pcre
+      #  PCRE_LIBS   LIBS used for pcre
+      #  YACC        The `Yet Another C Compiler' implementation to use. Defaults to
+      #              the first program found out of: `bison -y', `byacc', `yacc'.
+      #  YFLAGS      The list of arguments that will be passed by default to $YACC.
+      #              This script will default YFLAGS to the empty string to avoid a
+      #              default value of `-d' given by some make applications.
 
-    # If we are building ITK
-    if(ITK_BINARY_DIR)
-      itk_download_attempt_check(SWIG)
-    endif()
-    # Swig configure step
-    # Run in a CMake script because it will be flagged as a false-positive
-    # warning when executed with CTEST_USE_LAUNCHERS
-    set(swig_env)
-    if(NOT CMAKE_CROSSCOMPILING)
-      set(swig_env
+      # If we are building ITK
+      if(ITK_BINARY_DIR)
+        itk_download_attempt_check(SWIG)
+      endif()
+      # Swig configure step
+      # Run in a CMake script because it will be flagged as a false-positive
+      # warning when executed with CTEST_USE_LAUNCHERS
+      set(swig_env)
+      if(NOT CMAKE_CROSSCOMPILING)
+        set(swig_env
 "
 set(ENV{CC} \"${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}\")
 set(ENV{CFLAGS} \"${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w\")
@@ -192,11 +189,11 @@ set(ENV{CPP} \"$ENV{CPP}\")
 set(ENV{YACC} \"${BISON_EXECUTABLE}\")
 set(ENV{YFLAGS} \"${BISON_FLAGS}\")
 "
-        )
-    endif()
-    set(_swig_configure_script ${CMAKE_CURRENT_BINARY_DIR}/swig_configure_step.cmake)
-    file(WRITE ${_swig_configure_script} "
-    ${swig_env}
+          )
+      endif()
+      set(_swig_configure_script ${CMAKE_CURRENT_BINARY_DIR}/swig_configure_step.cmake)
+      file(WRITE ${_swig_configure_script} "
+      ${swig_env}
 execute_process(COMMAND ../swig/configure
         \"--prefix=${CMAKE_CURRENT_BINARY_DIR}/swig\"
         \"--with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE\"
@@ -219,20 +216,20 @@ endif()
 
 message(STATUS \"Swig configure successfully completed.\")
 ")
-    set(extra_swig_configure_env)
-    if(APPLE)
-      # If building on OS X, the compiler must know what version of the OS X SDK to use
-      # without SDKROOT set, configuring swig fails.  The deployment target is set to
-      # ensure the built library is compatible with the correct OS X version.  This may
-      # not be strictly necessary for configure, but the compiler determines which
-      # header files to use based on both of these settings.  Adding it for safety.
-      list(APPEND extra_swig_configure_env
-        env
-          "SDKROOT=${CMAKE_OSX_SYSROOT}"
-          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-      )
-    endif()
-    if(NOT TARGET swig)
+      set(extra_swig_configure_env)
+      if(APPLE)
+        # If building on OS X, the compiler must know what version of the OS X SDK to use
+        # without SDKROOT set, configuring swig fails.  The deployment target is set to
+        # ensure the built library is compatible with the correct OS X version.  This may
+        # not be strictly necessary for configure, but the compiler determines which
+        # header files to use based on both of these settings.  Adding it for safety.
+        list(APPEND extra_swig_configure_env
+          env
+            "SDKROOT=${CMAKE_OSX_SYSROOT}"
+            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+        )
+      endif()
+
       ExternalProject_Add(swig
         URL http://prdownloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz
         URL_MD5 ${swig_md5}
@@ -242,10 +239,12 @@ message(STATUS \"Swig configure successfully completed.\")
         DEPENDS PCRE
         )
     endif()
+
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
     mark_as_advanced(SWIG_DIR)
+    set(SWIG_EXECUTABLE ${swig_ep} CACHE FILEPATH "swig executable." FORCE)
+
   endif()
-  set(SWIG_EXECUTABLE ${swig_ep} CACHE FILEPATH "swig executable." FORCE)
   mark_as_advanced(SWIG_EXECUTABLE)
 endif()
 
@@ -380,14 +379,18 @@ macro(itk_end_wrap_module_swig_interface)
   set(CONFIG_MODULE_INTERFACE_CONTENT ) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}"
     @ONLY)
-
-  add_custom_target(${WRAPPER_LIBRARY_NAME}Idx DEPENDS ${SWIG_INTERFACE_IDX_FILES})
-  add_dependencies(${WRAPPER_LIBRARY_NAME}Idx ${WRAPPER_LIBRARY_NAME}CastXML)
+  if(NOT TARGET ${WRAPPER_LIBRARY_NAME}Idx)
+    add_custom_target(${WRAPPER_LIBRARY_NAME}Idx DEPENDS ${SWIG_INTERFACE_IDX_FILES})
+    add_dependencies(${WRAPPER_LIBRARY_NAME}Idx ${WRAPPER_LIBRARY_NAME}CastXML)
+  endif()
   set(${WRAPPER_LIBRARY_NAME}IdxFiles ${SWIG_INTERFACE_IDX_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Idx file list.")
 
-  add_custom_target(${WRAPPER_LIBRARY_NAME}Swig DEPENDS ${SWIG_INTERFACE_FILES})
+  if(NOT TARGET ${WRAPPER_LIBRARY_NAME}Swig)
+    add_custom_target(${WRAPPER_LIBRARY_NAME}Swig DEPENDS ${SWIG_INTERFACE_FILES})
+    add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${WRAPPER_LIBRARY_NAME}Idx)
+  endif()
   set(${WRAPPER_LIBRARY_NAME}SwigFiles ${SWIG_INTERFACE_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Swig file list.")
-  add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${WRAPPER_LIBRARY_NAME}Idx)
+
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
