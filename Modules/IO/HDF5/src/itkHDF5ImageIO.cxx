@@ -207,12 +207,13 @@ ComponentToPredType(ImageIOBase::IOComponentType cType)
       return H5::PredType::NATIVE_FLOAT;
     case ImageIOBase::DOUBLE:
       return H5::PredType::NATIVE_DOUBLE;
-    default:
+    case ImageIOBase::UNKNOWNCOMPONENTTYPE:
       itkGenericExceptionMacro(<< "unsupported IOComponentType"
                                << cType);
     }
-  // never reached but silences warning.
-  return H5::PredType::NATIVE_UCHAR;
+
+    itkGenericExceptionMacro(<< "unsupported IOComponentType"
+                             << cType);
 }
 
 std::string
