@@ -297,8 +297,6 @@ public:
       std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
     }
 
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE {return ParametricSpaceDimension;}
-
   /** Get the Derivatives of the Match Measure */
   void GetDerivative( const ParametersType &, DerivativeType & ) const ITK_OVERRIDE
     {
