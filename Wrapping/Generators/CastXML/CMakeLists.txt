@@ -57,6 +57,8 @@ else()
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
       )
+    set(CASTXML_EXECUTABLE ${castxml_ep})
+    set(CASTXML_EXECUTABLE ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
   # Build from source
   elseif(NOT TARGET castxml)
     set(compiler_information)
@@ -143,9 +145,9 @@ else()
         -DLLVM_DIR:PATH=${LLVM_DIR}
       INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/castxml
       )
+    set(CASTXML_EXECUTABLE ${castxml_ep})
+    set(CASTXML_EXECUTABLE ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
   endif()
-  set(CASTXML_EXECUTABLE ${CMAKE_CURRENT_BINARY_DIR}/castxml/bin/castxml${exe})
-  set(CASTXML_EXECUTABLE ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
 endif()
 mark_as_advanced(CASTXML_EXECUTABLE)
 
