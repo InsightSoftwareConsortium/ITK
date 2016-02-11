@@ -1,3 +1,4 @@
+itk_wrap_include("itkTransform.h")
 itk_wrap_class("itk::TransformParametersAdaptorBase" POINTER)
   UNIQUE(real_types "${WRAP_ITK_REAL};D")
   foreach(d ${ITK_WRAP_DIMS})
