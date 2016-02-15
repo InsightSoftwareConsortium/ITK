@@ -43,7 +43,7 @@ namespace itk
  * one of: float, double, char, unsigned char, short, unsigned short,
  * int, unsigned int, long, unsigned long.
  *
- * Currently VTKImageExport does not support pixel types with multiple
+ * VTKImageExport also supports pixel types with multiple
  * components (like RGBPixel).
  *
  * \ingroup IOFilters
