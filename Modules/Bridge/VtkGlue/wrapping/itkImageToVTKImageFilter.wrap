@@ -1,4 +1,14 @@
 itk_wrap_class("itk::ImageToVTKImageFilter" POINTER)
-  UNIQUE(image_types "UC;UL;${WRAP_ITK_SCALAR}")
-  itk_wrap_image_filter("${image_types}" 1 "1;2;3")
+  UNIQUE(image_types "UC;UL;${WRAP_ITK_SCALAR};${WRAP_ITK_COLOR}")
+  itk_wrap_filter_dims(dims "1;2;3")
+
+  itk_wrap_image_filter("${image_types}" 1 "${dims}")
+
+  foreach(t ${WRAP_ITK_VECTOR})
+    foreach(vec_dim ${ITK_WRAP_VECTOR_COMPONENTS})
+      foreach(d ${dims})
+        itk_wrap_template("${ITKM_I${t}${vec_dim}${d}}" "${ITKT_I${t}${vec_dim}${d}}")
+      endforeach()
+    endforeach()
+  endforeach()
 itk_end_wrap_class()
