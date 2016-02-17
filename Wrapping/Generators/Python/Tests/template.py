@@ -88,6 +88,14 @@ except:
 median = itk.MedianImageFilter[ImageType, ImageType].New(reader)
 assert reader.GetOutput() == median.GetInput()
 
+# filter type determined by the input passed as an arg
+median_args = itk.MedianImageFilter.New(reader.GetOutput())
+assert itk.class_(median) == itk.class_(median_args)
+
+# filter type determined by the input passed as a primary method input
+median_kwarg = itk.MedianImageFilter.New(Input=reader.GetOutput())
+assert itk.class_(median) == itk.class_(median_kwarg)
+
 # to a filter with a SetImage method
 calculator = itk.MinimumMaximumImageCalculator[ImageType].New(reader)
 # not GetImage() method here to verify it's the right image
