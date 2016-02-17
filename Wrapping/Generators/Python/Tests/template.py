@@ -19,32 +19,32 @@
 import itk
 
 dim = 2
-PType = itk.UC
+PixelType = itk.UC
 
 # check the repr string
 assert "<itkTemplate itk::Image>" == repr(itk.Image)
 
 # template should work with CType instance and with numbers
-IType = itk.Image[PType, dim]
+ImageType = itk.Image[PixelType, dim]
 
 # template should return the same class with a class as parameter
 # or with an object of this class, and should also be the same
 # with the attribute
 
 # create instances of image for the next tests
-im = IType.New()
-im2 = IType.New()
+im = ImageType.New()
+im2 = ImageType.New()
 
-readerType = itk.ImageFileReader[IType]
+readerType = itk.ImageFileReader[ImageType]
 readerType2 = itk.ImageFileReader[im]
 readerType3 = itk.ImageFileReader.IUC2
 
 assert readerType == readerType2 == readerType3
 
 # we should be able to get the template and its parameters from the class
-(tpl, parameters) = itk.template(IType)
+(tpl, parameters) = itk.template(ImageType)
 assert tpl == itk.Image
-assert parameters == (PType, dim)
+assert parameters == (PixelType, dim)
 
 # the template must raise a KeyError exception if the template parameter
 # is unknown
@@ -85,43 +85,43 @@ except:
 
 # pass filter as argument for input
 # to a filter with SetInput method
-median = itk.MedianImageFilter[IType, IType].New(reader)
+median = itk.MedianImageFilter[ImageType, ImageType].New(reader)
 assert reader.GetOutput() == median.GetInput()
 
 # to a filter with a SetImage method
-calculator = itk.MinimumMaximumImageCalculator[IType].New(reader)
+calculator = itk.MinimumMaximumImageCalculator[ImageType].New(reader)
 # not GetImage() method here to verify it's the right image
 
 # to a filter with several inputs
-sub = itk.SubtractImageFilter[IType, IType, IType].New(reader, reader2)
+sub = itk.SubtractImageFilter[ImageType, ImageType, ImageType].New(reader, reader2)
 assert reader.GetOutput() == sub.GetInput(0)
 assert reader2.GetOutput() == sub.GetInput(1)
 
 
 # pass image as argument for input
 # to a filter with SetInput method
-median = itk.MedianImageFilter[IType, IType].New(im)
+median = itk.MedianImageFilter[ImageType, ImageType].New(im)
 assert im == median.GetInput()
 
 # to a filter with a SetImage method
-calculator = itk.MinimumMaximumImageCalculator[IType].New(im)
+calculator = itk.MinimumMaximumImageCalculator[ImageType].New(im)
 # not GetImage() method here to verify it's the right image
 
 # to a filter with several inputs
-sub = itk.SubtractImageFilter[IType, IType, IType].New(im, im2)
+sub = itk.SubtractImageFilter[ImageType, ImageType, ImageType].New(im, im2)
 assert im == sub.GetInput(0)
 assert im2 == sub.GetInput(1)
 
 
 # pass invalid input
 try:
-    itk.MedianImageFilter[IType, IType].New(1)
+    itk.MedianImageFilter[ImageType, ImageType].New(1)
     raise Exception('no exception sent for wrong input type')
 except:
     pass
 
 try:
-    itk.SubtractImageFilter[IType, IType, IType].New(im, "wrong")
+    itk.SubtractImageFilter[ImageType, ImageType, ImageType].New(im, "wrong")
     raise Exception('no exception sent for wrong 2nd input type')
 except TypeError:
     pass
@@ -129,7 +129,7 @@ except TypeError:
 
 # pass both input and attribute
 recons = itk.ReconstructionByDilationImageFilter[
-    IType, IType].New(reader.GetOutput(), im, FullyConnected=True)
+    ImageType, ImageType].New(reader.GetOutput(), im, FullyConnected=True)
 assert reader.GetOutput() == recons.GetInput(0)
 assert im == recons.GetInput(1)
 assert recons.GetFullyConnected()
@@ -137,7 +137,7 @@ assert recons.GetFullyConnected()
 
 # pass input to object which do not take one
 try:
-    IType.New(im)
+    ImageType.New(im)
     raise Exception('no exception sent for object without input')
 except AttributeError:
     pass
