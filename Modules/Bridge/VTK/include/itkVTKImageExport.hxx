@@ -21,6 +21,16 @@
 #include "itkVTKImageExport.h"
 
 #include "itkPixelTraits.h"
+#include "itkNumericTraits.h"
+#include "itkNumericTraitsArrayPixel.h"
+#include "itkNumericTraitsCovariantVectorPixel.h"
+#include "itkNumericTraitsDiffusionTensor3DPixel.h"
+#include "itkNumericTraitsFixedArrayPixel.h"
+#include "itkNumericTraitsPointPixel.h"
+#include "itkNumericTraitsRGBPixel.h"
+#include "itkNumericTraitsRGBAPixel.h"
+#include "itkNumericTraitsTensorPixel.h"
+#include "itkNumericTraitsVectorPixel.h"
 
 namespace itk
 {
@@ -275,11 +285,8 @@ const char *VTKImageExport< TInputImage >::ScalarTypeCallback()
 template< typename TInputImage >
 int VTKImageExport< TInputImage >::NumberOfComponentsCallback()
 {
-  typedef typename TInputImage::PixelType              PixelType;
-  typedef typename PixelTraits< PixelType >::ValueType ValueType;
-
-  // on the assumption that there is no padding in this pixel type...
-  return sizeof( PixelType ) / sizeof( ValueType );
+  typedef typename TInputImage::PixelType PixelType;
+  return static_cast< int >( NumericTraits< PixelType >::GetLength() );
 }
 
 /**

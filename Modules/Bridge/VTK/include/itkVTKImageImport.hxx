@@ -20,6 +20,16 @@
 
 #include "itkVTKImageImport.h"
 #include "itkPixelTraits.h"
+#include "itkNumericTraits.h"
+#include "itkNumericTraitsArrayPixel.h"
+#include "itkNumericTraitsCovariantVectorPixel.h"
+#include "itkNumericTraitsDiffusionTensor3DPixel.h"
+#include "itkNumericTraitsFixedArrayPixel.h"
+#include "itkNumericTraitsPointPixel.h"
+#include "itkNumericTraitsRGBPixel.h"
+#include "itkNumericTraitsRGBAPixel.h"
+#include "itkNumericTraitsTensorPixel.h"
+#include "itkNumericTraitsVectorPixel.h"
 
 namespace itk
 {
@@ -231,9 +241,7 @@ VTKImageImport< TOutputImage >
       (m_NumberOfComponentsCallback)( m_CallbackUserData );
 
     typedef typename TOutputImage::PixelType             PixelType;
-    typedef typename PixelTraits< PixelType >::ValueType ScalarType;
-
-    const unsigned int estimatedNumberOfComponents = sizeof( PixelType ) / sizeof( ScalarType );
+    const unsigned int estimatedNumberOfComponents = NumericTraits< PixelType >::GetLength();
 
     if ( components != estimatedNumberOfComponents )
       {
