@@ -325,7 +325,7 @@ class itkTemplate(object):
             keys = [k for k in self.keys() if k[0] == input_type]
         elif set(primary_input_methods).intersection(kwargs.keys()):
             for method in primary_input_methods:
-                if kwargs.has_key(method):
+                if method in kwargs:
                     input_type = output(kwargs[method]).__class__
                     keys = [k for k in self.keys() if k[0] == input_type]
                     break
