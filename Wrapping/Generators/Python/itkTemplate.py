@@ -287,23 +287,56 @@ class itkTemplate(object):
         else:
             return object.__getattribute__(self, attr)
 
-    def New(self, *args, **kargs):
-        """TODO: some doc! Don't call it __call__ as it break the __doc__
+    def New(self, *args, **kwargs):
+        """Instantiate the template with a type implied from its input.
+
+        Template type specification can be avoided by assuming that the type's
+        first template argument should have the same type as its primary input.
+        This is generally true. If it is not true, then specify the types
+        explicitly.
+
+        For example, instead of the explicit type specification::
+
+          median = itk.MedianImageFilter[ImageType, ImageType].New()
+          median.SetInput(reader.GetOutput())
+
+        call::
+
+          median = itk.MedianImageFilter.New(Input=reader.GetOutput())
+
+        or, the shortened::
+
+          median = itk.MedianImageFilter.New(reader.GetOutput())
+
+        or:
+
+          median = itk.MedianImageFilter.New(reader)
+
+        TODO: Don't call it __call__ as it break the __doc__
         attribute feature in ipython"""
         import itk
         keys = self.keys()
+        cur = itk.auto_pipeline.current
+        primary_input_methods = ('Input', 'InputImage', 'Input1')
+
         if len(args) != 0:
-            # try to find a type suitable for the input provided
+            # try to find a type suitable for the primary input provided
             input_types = [output(f).__class__ for f in args]
             keys = [k for k in self.keys() if k[0] == input_types[0]]
-        cur = itk.auto_pipeline.current
-        if cur is not None and len(cur) != 0:
+        elif set(primary_input_methods).intersection(kwargs.keys()):
+            for method in primary_input_methods:
+                if kwargs.has_key(method):
+                    input_type = output(kwargs[method]).__class__
+                    keys = [k for k in self.keys() if k[0] == input_type]
+                    break
+        elif cur is not None and len(cur) != 0:
             # try to find a type suitable for the input provided
             input_type = output(cur).__class__
             keys = [k for k in self.keys() if k[0] == input_type]
+
         if len(keys) == 0:
             raise RuntimeError("No suitable template parameter can be found.")
-        return self[keys[0]].New(*args, **kargs)
+        return self[keys[0]].New(*args, **kwargs)
 
     def keys(self):
         return self.__template__.keys()
