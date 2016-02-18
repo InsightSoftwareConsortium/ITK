@@ -321,8 +321,8 @@ class itkTemplate(object):
 
         if len(args) != 0:
             # try to find a type suitable for the primary input provided
-            input_types = [output(f).__class__ for f in args]
-            keys = [k for k in self.keys() if k[0] == input_types[0]]
+            input_type = output(args[0]).__class__
+            keys = [k for k in self.keys() if k[0] == input_type]
         elif set(primary_input_methods).intersection(kwargs.keys()):
             for method in primary_input_methods:
                 if kwargs.has_key(method):
