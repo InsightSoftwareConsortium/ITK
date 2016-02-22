@@ -33,7 +33,7 @@ namespace itk
  *        to pixels.
  *
  * Contributed as a paper to the Insight Journal:
- *  http://hdl.handle.net/1926/1320
+ *  https://hdl.handle.net/1926/1320
  *
  * \ingroup ImageIterators
  *

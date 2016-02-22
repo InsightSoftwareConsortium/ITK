@@ -16,7 +16,7 @@ itk_fetch_module(AnisotropicDiffusionLBR
     \"Anisotropic Diffusion in ITK\"
     Mirebeau J., Fehrenbach J., Risser L., Tobji S.
     The Insight Journal. 2014 January-December.
-    http://hdl.handle.net/10380/3505
+    https://hdl.handle.net/10380/3505
     http://insight-journal.org/browse/publication/953
   "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKAnisotropicDiffusionLBR.git

@@ -37,7 +37,7 @@ namespace itk
  * This class was contributed to the Insight Journal by author Gaetan Lehmann.
  * Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas,
  * France. The paper can be found at
- * http://hdl.handle.net/1926/153
+ * https://hdl.handle.net/1926/153
  *
  * \sa ValuedRegionalMaximaImageFilter
  * \sa HConvexImageFilter

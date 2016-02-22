@@ -1,6 +1,6 @@
 set(DOCUMENTATION "This module contains classes to simulate and
 evaluate noise. These classes were originally contributed via the
-Insight Journal (http://hdl.handle.net/10380/3158).")
+Insight Journal (https://hdl.handle.net/10380/3158).")
 
 itk_module(ITKImageNoise
   COMPILE_DEPENDS

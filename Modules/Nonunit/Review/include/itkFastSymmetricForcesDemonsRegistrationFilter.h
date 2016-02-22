@@ -59,7 +59,7 @@ namespace itk
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/510
+ * https://hdl.handle.net/1926/510
  *
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.

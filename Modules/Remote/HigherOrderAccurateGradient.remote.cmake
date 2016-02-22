@@ -5,7 +5,7 @@ itk_fetch_module(HigherOrderAccurateGradient
   field from a displacement field image.
   Higher Order Accurate Derivative and Gradient Calculation in ITK
   http://www.insight-journal.org/browse/publication/775
-  http://hdl.handle.net/10380/3231"
+  https://hdl.handle.net/10380/3231"
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient.git
   GIT_TAG 25e3ff135678fad2492db6aa5aa9fadc26d725e8
   )

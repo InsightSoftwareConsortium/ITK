@@ -43,7 +43,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "Generalizing vesselness with respect to dimensionality and shape"
  * by Antiga L.
- * http://hdl.handle.net/1926/576
+ * https://hdl.handle.net/1926/576
  * http://www.insight-journal.org/browse/publication/175
  *
  *

@@ -67,7 +67,7 @@ namespace itk
  * and deformation field type all have the same number of dimensions.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/510
+ * https://hdl.handle.net/1926/510
  *
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction

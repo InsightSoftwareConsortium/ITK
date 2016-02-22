@@ -33,7 +33,7 @@ namespace Functor
  * This code was contributed in the Insight Journal paper:
  * "The watershed transform in ITK - discussion and new developments"
  * by Beare R., Lehmann G.
- * http://hdl.handle.net/1926/202
+ * https://hdl.handle.net/1926/202
  * http://www.insight-journal.org/browse/publication/92
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,

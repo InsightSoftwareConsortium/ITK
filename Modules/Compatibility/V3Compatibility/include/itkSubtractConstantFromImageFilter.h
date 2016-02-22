@@ -42,7 +42,7 @@ namespace itk
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  *
  * Based on filters from the Insight Journal paper:
- * http://hdl.handle.net/1926/510
+ * https://hdl.handle.net/1926/510
  *
  * \deprecated
  * \ingroup ITKV3Compatibility

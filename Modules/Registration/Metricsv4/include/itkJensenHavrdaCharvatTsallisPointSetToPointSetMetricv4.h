@@ -48,7 +48,7 @@ namespace itk {
  * k-d tree from the transformed points.
  *
  * Contributed by Nicholas J. Tustison, James C. Gee in the Insight Journal
- * paper:  http://hdl.handle.net/1926/1524
+ * paper:  https://hdl.handle.net/1926/1524
  *
  * \note The original work reported in Tustison et al. 2011 optionally employed
  * a regularization term to prevent the moving point set(s) from coalescing

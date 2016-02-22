@@ -44,7 +44,7 @@ namespace itk
  * \author Ivan Macia, VICOMTech, Spain, http://www.vicomtech.es
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/1290
+ * https://hdl.handle.net/1926/1290
  *
  * \sa GaussianDerivativeOperator
  * \sa Image

@@ -30,7 +30,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "Robust Automatic Threshold Selection"
  * by Lehmann G.
- * http://hdl.handle.net/1926/370
+ * https://hdl.handle.net/1926/370
  * http://www.insight-journal.org/browse/publication/134
  *
  *
