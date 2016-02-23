@@ -12,7 +12,7 @@ if(GIT_EXECUTABLE)
     RESULT_VARIABLE result
     OUTPUT_VARIABLE output)
   if(${result} EQUAL 0 AND "${output}" MATCHES "Modules/Remote")
-    string(REGEX MATCHALL "^Modules/Remote/.*[.]remote[.]cmake" remote_paths "${output}")
+    string(REGEX MATCHALL "Modules/Remote/.*[.]remote[.]cmake" remote_paths "${output}")
     foreach(remote ${remote_paths})
       string(REGEX REPLACE "Modules/Remote/(.*)[.]remote[.]cmake" "Module_\\1:BOOL=ON" module_enable "${remote}")
       message(STATUS "Remote module change detected. Adding: ${module_enable}")
