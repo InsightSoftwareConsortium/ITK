@@ -340,9 +340,9 @@ cleanup:
       for(_j=0;_j<image_slice_length;_j++)\
       {\
         double _temp;\
-        _temp=*_buffer;\
-        _temp= _temp*_scale  + _offset ; \
-        *_buffer =(type_in)(_temp); \
+        _temp=(double)*_buffer;\
+        _temp=_temp*_scale  + _offset ; \
+        *_buffer=(type_in)(_temp); \
         _buffer++;\
       }\
     }\
@@ -801,7 +801,7 @@ cleanup:
     hsize_t _i,_j;\
     double voxel_offset=voxel_min;\
     double voxel_range=voxel_max-voxel_min;\
-    double norm_offset=norm_min;\
+    double norm_offset=(double)norm_min;\
     double norm_range=(double)norm_max-(double)norm_min;\
     double data_offset=data_min;\
     double data_range=(double)data_max-(double)data_min;\

@@ -105,7 +105,7 @@ nifti_find_data_range(nifti_image *nii_ptr,
       default:
         fprintf(stderr, "NIfTI-1 data type %d not handled\n", 
                 nii_ptr->datatype);
-        break;
+        return;
       }
       if (tmp < *min_value_ptr)
       {
@@ -398,6 +398,11 @@ initialize_nifti_format_input(VIO_STR             filename,
     file_nc_type = NC_DOUBLE;
     signed_flag = TRUE;
     break;
+  case DT_RGB24:
+    in_ptr->file_data_type = VIO_UNSIGNED_INT;
+    file_nc_type = NC_INT;
+    signed_flag = FALSE;
+    break;
   default:
     print_error("Unknown NIfTI-1 data type.\n");
     nifti_image_free(nii_ptr);
@@ -500,11 +505,14 @@ initialize_nifti_format_input(VIO_STR             filename,
 
   n_voxels_in_slice = (in_ptr->sizes_in_file[0] * in_ptr->sizes_in_file[1]);
 
+  set_rgb_volume_flag( volume, nii_ptr->datatype == DT_RGB24 );
+
   /* If the data must be converted to byte, read the entire image file simply
    * to find the max and min values. This allows us to set the value_scale and
    * value_translation properly when we read the file.
    */
-  if (get_volume_data_type(volume) != in_ptr->file_data_type )
+  if (get_volume_data_type(volume) != in_ptr->file_data_type &&
+      !is_an_rgb_volume( volume ))
   {
     VIO_Real original_min_value, original_max_value;
 
@@ -566,7 +574,7 @@ input_more_nifti_format_file(
      */
     total_slices *= in_ptr->sizes_in_file[3];
   }
-  
+
   if ( in_ptr->slice_index < total_slices )
   {
     size_t     n_bytes_per_slice;
@@ -599,7 +607,8 @@ input_more_nifti_format_file(
      * needed if the volume voxel type is not the same as the file
      * voxel type. THIS IS ONLY REALLY LEGAL FOR BYTE VOLUME TYPES.
      */
-    if (get_volume_data_type(volume) != in_ptr->file_data_type)
+    if (get_volume_data_type(volume) != in_ptr->file_data_type &&
+        !is_an_rgb_volume( volume ))
     {
       get_volume_voxel_range(volume, &original_min_value, &original_max_value);
 
@@ -636,31 +645,66 @@ input_more_nifti_format_file(
       indices[in_ptr->axis_index_from_file[1]] = i;
       for_less( *inner_index, 0, in_ptr->sizes_in_file[0] )
       {
-        switch ( in_ptr->file_data_type )
+        switch ( nii_ptr->datatype )
         {
-        case VIO_UNSIGNED_BYTE:
+        case DT_UINT8:
           value = ((unsigned char *) data_ptr)[data_ind++];
           break;
-        case VIO_SIGNED_BYTE:
+        case DT_INT8:
           value = ((char *) data_ptr)[data_ind++];
           break;
-        case VIO_UNSIGNED_SHORT:
+        case DT_UINT16:
           value = ((unsigned short *) data_ptr)[data_ind++];
           break;
-        case VIO_SIGNED_SHORT:
+        case DT_INT16:
           value = ((short *) data_ptr)[data_ind++];
           break;
-        case VIO_UNSIGNED_INT:
+        case DT_UINT32:
           value = ((unsigned int *) data_ptr)[data_ind++];
           break;
-        case VIO_SIGNED_INT:
+        case DT_INT32:
           value = ((int *) data_ptr)[data_ind++];
           break;
-        case VIO_FLOAT:
+        case DT_FLOAT32:
           value = ((float *) data_ptr)[data_ind++];
           break;
-        case VIO_DOUBLE:
+        case DT_FLOAT64:
           value = ((double *)data_ptr)[data_ind++];
+          break;
+        case DT_RGB24:
+          /* The only RGB-valued NIfTI files I have found to date organize
+           * the data in an unexpected manner. Each "slice" consists of three
+           * adjacent slices, each consisting of all of the of R, G, and B 
+           * values for the slice. This is different from what I expected, 
+           * which was to find the RGB triple in three adjacent bytes.
+           *
+           * Some comments I have seen suggest that the "adjacent"
+           * byte format is also possible, so there may be a need to
+           * allow the user to choose how RGB data is loaded (since there
+           * is probably no easy way to tell what one has, short of 
+           * some complex calculation).
+           *
+           * One guess is that if the intent code is set to 'none',
+           * the most common case, we're dealing with one of these
+           * oddly-organized files.
+           */
+          if (nii_ptr->intent_code == NIFTI_INTENT_NONE)
+          {
+            int n = n_bytes_per_slice / 3;
+            unsigned char r = ((unsigned char *)data_ptr)[data_ind + (n * 0)];
+            unsigned char g = ((unsigned char *)data_ptr)[data_ind + (n * 1)];
+            unsigned char b = ((unsigned char *)data_ptr)[data_ind + (n * 2)];
+            value = (double) make_Colour( r, g, b );
+            data_ind += 1;
+          }
+          else
+          {
+            unsigned char r = ((unsigned char *)data_ptr)[data_ind + 0];
+            unsigned char g = ((unsigned char *)data_ptr)[data_ind + 1];
+            unsigned char b = ((unsigned char *)data_ptr)[data_ind + 2];
+            value = (double) make_Colour( r, g, b );
+            data_ind += 3;
+          }
           break;
         default:
           handle_internal_error( "input_more_nifti_format_file" );
