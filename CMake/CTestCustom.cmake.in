@@ -116,6 +116,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
 
   # Doxygen warnings
   "include/itkIsConvertible.h:[0-9]+: warning: Conditional section with label HIDE_META_PROGRAMMING"
+
+  # KWstyle's internal boost
+  "KWStyle/Utilities/boost"
   )
 
 if(APPLE)
