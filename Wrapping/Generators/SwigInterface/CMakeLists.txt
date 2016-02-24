@@ -56,7 +56,7 @@ else()
         itk_download_attempt_check(SWIG)
       endif()
       ExternalProject_Add(swig
-        URL http://prdownloads.sourceforge.net/swig/swigwin-${SWIG_VERSION}.zip
+        URL https://midas3.kitware.com/midas/download/bitstream/458374/swigwin-3.0.8.zip
         URL_MD5 ${swigwin_md5}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
@@ -130,7 +130,7 @@ else()
         )
       endif()
       ExternalProject_Add(PCRE
-        URL http://downloads.sourceforge.net/project/pcre/pcre/8.38/pcre-8.38.tar.gz
+        URL https://midas3.kitware.com/midas/download/bitstream/458372/pcre-8.38.tar.gz
         URL_MD5 8a353fe1450216b6655dfcf3561716d9
         CONFIGURE_COMMAND
           ${pcre_env}
@@ -231,7 +231,7 @@ message(STATUS \"Swig configure successfully completed.\")
       endif()
 
       ExternalProject_Add(swig
-        URL http://prdownloads.sourceforge.net/swig/swig-${SWIG_VERSION}.tar.gz
+        URL https://midas3.kitware.com/midas/download/bitstream/458373/swig-3.0.8.tar.gz
         URL_MD5 ${swig_md5}
         CONFIGURE_COMMAND
           ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
