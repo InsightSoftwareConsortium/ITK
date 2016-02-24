@@ -47,7 +47,7 @@ namespace itk
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/510
+ * https://hdl.handle.net/1926/510
  *
  * \ingroup ITKReview
  */

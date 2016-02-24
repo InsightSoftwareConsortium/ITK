@@ -33,7 +33,7 @@ namespace itk
  *
  * In this context output mesh vertices are exactly constrained to provided output locations.
  *
- *  For details, see http://hdl.handle.net/10380/3410
+ *  For details, see https://hdl.handle.net/10380/3410
  *
  *  \ingroup ITKQuadEdgeMeshFiltering
  */

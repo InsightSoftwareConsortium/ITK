@@ -44,7 +44,7 @@ namespace itk
  * scalar images use LinearInterpolateImageFunction.
  *
  *  This paper was contributed in the Insight Journal paper:
- *  http://hdl.handle.net/1926/510
+ *  https://hdl.handle.net/1926/510
  *
  * \ingroup ImageFunctions ImageInterpolators
  * \ingroup ITKImageFunction

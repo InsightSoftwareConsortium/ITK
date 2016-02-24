@@ -48,7 +48,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "BinShrink: A multi-resolution filter with cache efficient averaging"
  *  by Lowekamp B., Chen D.
- * http://hdl.handle.net/10380/3450
+ * https://hdl.handle.net/10380/3450
  *
  * \ingroup ITKImageGrid
  * \ingroup Streamed

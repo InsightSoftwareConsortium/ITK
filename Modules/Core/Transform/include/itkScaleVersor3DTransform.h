@@ -40,7 +40,7 @@ namespace itk
  * College of Medicine, Department of Psychiatry NeuroImaging Center
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/1291  or
+ * https://hdl.handle.net/1926/1291  or
  * http://www.insight-journal.org/browse/publication/180
  *
  * \ingroup ITKTransform

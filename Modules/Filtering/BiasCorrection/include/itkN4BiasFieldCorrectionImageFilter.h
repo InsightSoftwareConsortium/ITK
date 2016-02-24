@@ -72,7 +72,7 @@ namespace itk {
  * \author Nicholas J. Tustison
  *
  * Contributed by Nicholas J. Tustison, James C. Gee in the Insight Journal
- * paper: http://hdl.handle.net/10380/3053
+ * paper: https://hdl.handle.net/10380/3053
  *
  * \par REFERENCE
  *

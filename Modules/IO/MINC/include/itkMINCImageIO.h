@@ -55,7 +55,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "MINC2.0 IO Support for ITK"
  * by Baghdadi L.
- * http://hdl.handle.net/1926/191
+ * https://hdl.handle.net/1926/191
  * http://www.insight-journal.org/browse/publication/88
  *
  * \ingroup IOFilters

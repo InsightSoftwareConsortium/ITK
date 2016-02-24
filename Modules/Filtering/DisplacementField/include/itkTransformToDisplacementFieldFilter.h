@@ -46,7 +46,7 @@ namespace itk
  * \author Marius Staring, Leiden University Medical Center, The Netherlands.
  *
  * This class was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/1387
+ * https://hdl.handle.net/1926/1387
  *
  * \ingroup GeometricTransform
  * \ingroup ITKDisplacementField

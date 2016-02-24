@@ -35,7 +35,7 @@ namespace itk
  * Derivative support is currently not implemented
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/585
+ * https://hdl.handle.net/1926/585
  *
  * \ingroup ImageInterpolators
  * \ingroup ITKReview

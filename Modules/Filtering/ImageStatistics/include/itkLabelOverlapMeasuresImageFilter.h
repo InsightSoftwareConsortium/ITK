@@ -32,7 +32,7 @@ namespace itk {
  * This code was contributed in the Insight Journal paper:
  * "Introducing Dice, Jaccard, and Other Label Overlap Measures To ITK"
  * by Nicholas J. Tustison, James C. Gee
- * http://hdl.handle.net/10380/3141
+ * https://hdl.handle.net/10380/3141
  * http://www.insight-journal.org/browse/publication/707
  *
  * \author Nicholas J. Tustison

@@ -35,7 +35,7 @@ namespace itk
  * \author Gaetan Lehmann
  *
  * \note This class was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/367
+ * https://hdl.handle.net/1926/367
  *
  * \sa KappaSigmaThresholdImageCalculator
  * \ingroup IntensityImageFilters

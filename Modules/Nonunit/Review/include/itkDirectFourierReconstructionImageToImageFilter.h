@@ -42,7 +42,7 @@ namespace itk
  * by D. Zosso, M. Bach Cuadra and J. Thiran, August 2007
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/585
+ * https://hdl.handle.net/1926/585
  *
  * \ingroup ImageFilters
  * \ingroup ITKReview

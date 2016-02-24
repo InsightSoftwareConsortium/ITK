@@ -80,7 +80,7 @@ namespace itk
  * must be set at the filter level.
  *
  * This class was contributed to the Insight Journal by Zachary Pincus.
- *       http://hdl.handle.net/1926/165
+ *       https://hdl.handle.net/1926/165
  *
  * \sa Image
  * \sa Path
