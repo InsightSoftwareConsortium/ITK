@@ -191,7 +191,7 @@ CellBase
   if ( !m_ScheduleApoptosis )
     {
     if ( m_ChemoAttractantLevel > ChemoAttractantLowThreshold
-         && m_ChemoAttractantLevel < ChemoAttractantHighThreshold    )
+         && m_ChemoAttractantLevel < ChemoAttractantHighThreshold )
       {
       goodCellMatrix = true;
       }
@@ -315,7 +315,7 @@ CellBase
     }
 
   if ( m_NutrientsReserveLevel > NutrientSelfRepairLevel
-       && m_EnergyReserveLevel    > EnergySelfRepairLevel       )
+       && m_EnergyReserveLevel > EnergySelfRepairLevel )
     {
     m_Radius += GrowthRadiusIncrement;
     if ( m_Radius > GrowthRadiusLimit )
