@@ -4,6 +4,7 @@ itkCosImageFilterAndAdaptorTest.cxx
 itkExpImageFilterAndAdaptorTest.cxx
 itkVectorRescaleIntensityImageFilterTest.cxx
 itkTernaryMagnitudeSquaredImageFilterTest.cxx
+itkTernaryOperatorImageFilterTest.cxx
 itkMinimumImageFilterTest.cxx
 itkLog10ImageFilterAndAdaptorTest.cxx
 itkVectorIndexSelectionCastImageFilterTest.cxx
@@ -101,6 +102,8 @@ itk_add_test(NAME itkVectorRescaleIntensityImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkVectorRescaleIntensityImageFilterTest)
 itk_add_test(NAME itkTernaryMagnitudeSquaredImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkTernaryMagnitudeSquaredImageFilterTest)
+itk_add_test(NAME itkTernaryOperatorImageFilterTest
+      COMMAND ITKImageIntensityTestDriver itkTernaryOperatorImageFilterTest)
 itk_add_test(NAME itkMinimumImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkMinimumImageFilterTest)
 itk_add_test(NAME itkLog10ImageFilterAndAdaptorTest
