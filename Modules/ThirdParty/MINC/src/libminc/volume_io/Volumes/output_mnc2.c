@@ -639,6 +639,7 @@ VIOAPI  VIO_Status  add_minc2_history(
 {
     VIO_STR   new_history;
     size_t    minc_history_length=0;
+    size_t    new_history_length=0;
 
     if( file->end_def_done )
     {
@@ -648,12 +649,13 @@ VIOAPI  VIO_Status  add_minc2_history(
     
     if(miget_attr_length(file->minc2id,"","history",&minc_history_length) == MI_NOERROR)
     {
-      new_history=alloc_string(minc_history_length+strlen(history_string)+1);
+      new_history_length=minc_history_length+strlen(history_string)+1;
+      new_history=alloc_string(new_history_length);
       
       if( miget_attr_values(file->minc2id,MI_TYPE_STRING,"","history",minc_history_length,new_history) == MI_NOERROR)
       {
         concat_to_string( &new_history, history_string );
-        miset_attr_values(file->minc2id,MI_TYPE_STRING,"","history",minc_history_length+strlen(history_string),new_history);
+        miset_attr_values(file->minc2id,MI_TYPE_STRING,"","history",new_history_length,new_history);
       }
       delete_string( new_history );
     }

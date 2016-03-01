@@ -51,7 +51,11 @@ int midelete_attr(mihandle_t vol, const char *path, const char *name);
  */
 int midelete_group(mihandle_t vol, const char *path, const char *name);
 
-/** Delete the subgroup \a name from the group \a path
+/**
+ * Returns the length in bytes of the attribute \a name in the
+ * group or dataset at \a path. For strings, this length will reflect
+ * the number of characters actually stored, which may not include the
+ * terminating null character.
  * \ingroup mi2Group
  */
 int miget_attr_length(mihandle_t vol, const char *path, 
@@ -69,6 +73,8 @@ int miget_attr_type(mihandle_t vol, const char *path, const char *name,
 int micopy_attr(mihandle_t vol, const char *path, mihandle_t new_vol);
 
 /** Get the values of an attribute.
+ * Note: for MI_TYPE_STRING data_type, the length and values buffer
+ * should include space for the null termination.
  * \ingroup mi2Group
  */
 int miget_attr_values(mihandle_t vol, mitype_t data_type,
