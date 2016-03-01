@@ -18,8 +18,13 @@
 
 #include "itkPhilipsRECImageIO.h"
 #include "itkMetaDataObject.h"
-#include "vnl/vnl_vector_fixed.txx"
 
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL < 20160229
+#include "vnl/vnl_matrix_fixed.txx" // Get the templates
+#else
+#include "vnl/vnl_vector_fixed.hxx" // Get the templates
+#endif
 VNL_VECTOR_FIXED_INSTANTIATE(int,8);
 
 int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )

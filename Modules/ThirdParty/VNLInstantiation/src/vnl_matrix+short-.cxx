@@ -15,5 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL < 20160229
 #include "vnl/vnl_matrix.txx"
+#else
+#include "vnl/vnl_matrix.hxx"
+#endif
 VNL_MATRIX_INSTANTIATE(signed short);
