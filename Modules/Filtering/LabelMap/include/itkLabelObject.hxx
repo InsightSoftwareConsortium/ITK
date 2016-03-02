@@ -366,7 +366,7 @@ LabelObject< TLabel, VImageDimension >
         {
         // we may expand the line
         LengthType newLength = idx[0] + (OffsetValueType)length - currentIdx[0];
-        currentLength = vnl_math_max(newLength, currentLength);
+        currentLength = std::max(newLength, currentLength);
         }
       else
         {

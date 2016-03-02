@@ -148,7 +148,7 @@ protected:
 
   virtual OutputCurvatureType ComputeDelta()
   {
-    return vnl_math_max( static_cast<OutputCurvatureType>( 0. ),
+    return std::max( static_cast<OutputCurvatureType>( 0. ),
                          m_Mean * m_Mean - m_Gaussian );
   }
 

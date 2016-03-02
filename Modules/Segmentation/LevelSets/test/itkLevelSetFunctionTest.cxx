@@ -38,7 +38,7 @@ namespace LSFT { // local namespace for helper test functions
 const unsigned int HEIGHT = (256);
 const unsigned int WIDTH  = (256);
 
-#define RADIUS (vnl_math_min(HEIGHT, WIDTH)/4)
+#define RADIUS (std::min(HEIGHT, WIDTH)/4)
 
 // Distance transform function for circle
 float circle(unsigned x, unsigned y)
@@ -58,7 +58,7 @@ float square(unsigned x, unsigned y)
   Y = std::fabs(y - (float)HEIGHT/2.0);
   float dis;
   if (!((X > RADIUS)&&(Y > RADIUS)))
-    dis = RADIUS - vnl_math_max(X, Y);
+    dis = RADIUS - std::max(X, Y);
   else
     dis = -std::sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
   return dis;

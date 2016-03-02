@@ -79,7 +79,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
   if ( global_nb_threads != 0 )
     {
-    nbOfThreads = vnl_math_min( nbOfThreads, global_nb_threads );
+    nbOfThreads = std::min( nbOfThreads, global_nb_threads );
     }
 
   // number of threads can be constrained by the region size, so call the

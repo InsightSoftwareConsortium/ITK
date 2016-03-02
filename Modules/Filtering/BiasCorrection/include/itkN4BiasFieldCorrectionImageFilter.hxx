@@ -382,7 +382,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   fft.bwd_transform( U );
   for( unsigned int n = 0; n < paddedHistogramSize; n++ )
     {
-    U[n] = vcl_complex<RealType>( vnl_math_max( U[n].real(),
+    U[n] = vcl_complex<RealType>( std::max( U[n].real(),
       static_cast<RealType>( 0.0 ) ), 0.0 );
     }
 

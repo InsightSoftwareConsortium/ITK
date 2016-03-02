@@ -109,8 +109,8 @@ protected:
     RealType value = ( static_cast< RealType >( v ) -
       static_cast< RealType >( minInputValue ) ) / d;
 
-    value = vnl_math_max(0.0, value);
-    value = vnl_math_min(1.0, value);
+    value = std::max(0.0, value);
+    value = std::min(1.0, value);
     return value;
     }
 

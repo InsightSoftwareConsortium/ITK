@@ -111,9 +111,9 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     {
     int boundingBoxSize = static_cast<int>(
       this->m_BoundingBoxEnd[d] - this->m_BoundingBoxStart[d] + 0.5 );
-    int begin = vnl_math_max( 0, static_cast<int>( std::floor( cindex[d] -
+    int begin = std::max( 0, static_cast<int>( std::floor( cindex[d] -
       this->m_BoundingBoxStart[d] - this->m_CutoffDistance[d] ) ) );
-    int end = vnl_math_min( boundingBoxSize, static_cast<int>( std::ceil(
+    int end = std::min( boundingBoxSize, static_cast<int>( std::ceil(
       cindex[d] - this->m_BoundingBoxStart[d] + this->m_CutoffDistance[d] ) ) );
     region.SetIndex( d, begin );
     region.SetSize( d, end - begin );
@@ -189,10 +189,10 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   int boundingBoxSize = static_cast<int>(
     this->m_BoundingBoxEnd[dimension] - this->m_BoundingBoxStart[dimension] +
     0.5 );
-  int begin = vnl_math_max( 0, static_cast<int>( std::floor( cindex -
+  int begin = std::max( 0, static_cast<int>( std::floor( cindex -
     this->m_BoundingBoxStart[dimension] -
     this->m_CutoffDistance[dimension] ) ) );
-  int end = vnl_math_min( boundingBoxSize, static_cast<int>( std::ceil( cindex -
+  int end = std::min( boundingBoxSize, static_cast<int>( std::ceil( cindex -
     this->m_BoundingBoxStart[dimension] +
     this->m_CutoffDistance[dimension] ) ) );
 

@@ -92,7 +92,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   ThreadIdType maxNumberOfThreads = itk::MultiThreader::GetGlobalMaximumNumberOfThreads();
   if ( maxNumberOfThreads != 0 )
     {
-    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), maxNumberOfThreads );
+    nbOfThreads = std::min( this->GetNumberOfThreads(), maxNumberOfThreads );
     }
   // number of threads can be constrained by the region size, so call the
   // SplitRequestedRegion

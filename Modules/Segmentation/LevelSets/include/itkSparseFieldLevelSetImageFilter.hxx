@@ -536,7 +536,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     SpacePrecisionType minSpacing = NumericTraits< SpacePrecisionType >::max();
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      minSpacing = vnl_math_min(minSpacing, this->GetInput()->GetSpacing()[i]);
+      minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
       }
     m_ConstantGradientValue = minSpacing;
     }
@@ -830,7 +830,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     SpacePrecisionType minSpacing = NumericTraits< SpacePrecisionType >::max();
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      minSpacing = vnl_math_min(minSpacing, this->GetInput()->GetSpacing()[i]);
+      minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
       }
     MIN_NORM *= minSpacing;
     }
@@ -878,7 +878,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     distance = shiftedIt.GetCenterPixel() / length;
 
     output->SetPixel( activeIt->m_Value,
-                      vnl_math_min(vnl_math_max(-CHANGE_FACTOR, distance), CHANGE_FACTOR) );
+                      std::min(std::max(-CHANGE_FACTOR, distance), CHANGE_FACTOR) );
     }
 }
 
@@ -914,7 +914,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     SpacePrecisionType minSpacing = NumericTraits< SpacePrecisionType >::max();
     for ( i = 0; i < ImageDimension; i++ )
       {
-      minSpacing = vnl_math_min(minSpacing, this->GetInput()->GetSpacing()[i]);
+      minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
       }
     MIN_NORM *= minSpacing;
     }

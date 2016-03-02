@@ -510,7 +510,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     SpacePrecisionType minSpacing = NumericTraits< SpacePrecisionType >::max();
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      minSpacing = vnl_math_min(minSpacing, this->GetInput()->GetSpacing()[i]);
+      minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
       }
     MIN_NORM *= minSpacing;
     }
@@ -555,7 +555,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     distance = shiftedIt.GetCenterPixel() / length;
 
     m_OutputImage->SetPixel( activeIt->m_Index,
-                             vnl_math_min(vnl_math_max(-CHANGE_FACTOR, distance), CHANGE_FACTOR) );
+                             std::min(std::max(-CHANGE_FACTOR, distance), CHANGE_FACTOR) );
     }
 }
 
@@ -1375,7 +1375,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     SpacePrecisionType minSpacing = NumericTraits< SpacePrecisionType >::max();
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      minSpacing = vnl_math_min(minSpacing, this->GetInput()->GetSpacing()[i]);
+      minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
       }
     MIN_NORM *= minSpacing;
     }

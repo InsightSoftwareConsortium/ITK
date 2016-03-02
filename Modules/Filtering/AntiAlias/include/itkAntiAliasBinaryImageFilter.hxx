@@ -48,11 +48,11 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
 
   if ( Math::ExactlyEquals(binary_val, m_UpperBinaryValue) )
     {
-    return ( vnl_math_max( new_value, this->GetValueZero() ) );
+    return ( std::max( new_value, this->GetValueZero() ) );
     }
   else
     {
-    return ( vnl_math_min( new_value, this->GetValueZero() ) );
+    return ( std::min( new_value, this->GetValueZero() ) );
     }
 }
 

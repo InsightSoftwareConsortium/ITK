@@ -98,11 +98,11 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
     {
     if (queryIndex[dim] < static_cast<IndexValueType>(this->m_Radius[dim]))
       {
-      searchStartIndex[dim] = vnl_math_max(NumericTraits<IndexValueType>::ZeroValue(), constraintIndex[dim]);
+      searchStartIndex[dim] = std::max(NumericTraits<IndexValueType>::ZeroValue(), constraintIndex[dim]);
       }
     else
       {
-      searchStartIndex[dim] = vnl_math_max(static_cast<IndexValueType>(queryIndex[dim] - this->m_Radius[dim]),
+      searchStartIndex[dim] = std::max(static_cast<IndexValueType>(queryIndex[dim] - this->m_Radius[dim]),
                                            constraintIndex[dim]);
       }
 

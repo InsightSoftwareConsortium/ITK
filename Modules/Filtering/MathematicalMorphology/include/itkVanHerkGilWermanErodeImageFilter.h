@@ -32,7 +32,7 @@ public:
   ~MinFunctor(){}
   inline TPixel operator()(const TPixel & A, const TPixel & B) const
   {
-    return vnl_math_min(A, B);
+    return std::min(A, B);
   }
 };
 

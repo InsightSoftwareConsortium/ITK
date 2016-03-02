@@ -118,7 +118,7 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
     if ( numiterfloat >= 0.0 )
       {
       // take the ceil and threshold
-      numiter = vnl_math_min(
+      numiter = std::min(
         static_cast< unsigned int >( numiterfloat + 1.0 ),
         m_MaximumNumberOfIterations);
       }

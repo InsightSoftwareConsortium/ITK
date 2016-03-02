@@ -152,8 +152,8 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
     for ( i = 0; i < ImageDimension; i++ )
       {
       propagation_gradient +=
-        vnl_math_sqr( vnl_math_min(dx_backward[i], 0.0) )
-        + vnl_math_sqr( vnl_math_max(dx_forward[i],  0.0) );
+        vnl_math_sqr( std::min(dx_backward[i], 0.0) )
+        + vnl_math_sqr( std::max(dx_forward[i],  0.0) );
       }
     }
   else
@@ -161,8 +161,8 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
     for ( i = 0; i < ImageDimension; i++ )
       {
       propagation_gradient +=
-        vnl_math_sqr( vnl_math_max(dx_backward[i], 0.0) )
-        + vnl_math_sqr( vnl_math_min(dx_forward[i],  0.0) );
+        vnl_math_sqr( std::max(dx_backward[i], 0.0) )
+        + vnl_math_sqr( std::min(dx_forward[i],  0.0) );
       }
     }
   return static_cast< PixelType >( std::sqrt(propagation_gradient) * speed );

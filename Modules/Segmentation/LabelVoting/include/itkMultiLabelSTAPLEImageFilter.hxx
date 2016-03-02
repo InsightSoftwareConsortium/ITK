@@ -78,7 +78,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
 
     for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
       {
-      maxLabel = vnl_math_max( maxLabel, it.Get() );
+      maxLabel = std::max( maxLabel, it.Get() );
       }
     }
 
@@ -347,7 +347,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
             vnl_math_abs( this->m_UpdatedConfusionMatrixArray[k][j][ci] -
            this->m_ConfusionMatrixArray[k][j][ci] );
 
-            maximumUpdate = vnl_math_max( maximumUpdate, thisParameterUpdate );
+            maximumUpdate = std::max( maximumUpdate, thisParameterUpdate );
 
           this->m_ConfusionMatrixArray[k][j][ci] =
             this->m_UpdatedConfusionMatrixArray[k][j][ci];

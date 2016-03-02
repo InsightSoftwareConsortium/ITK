@@ -111,8 +111,8 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     propagation_gradient +=
-      vnl_math_sqr( vnl_math_max( backwardGradient[i], zero ) ) +
-      vnl_math_sqr( vnl_math_min( forwardGradient[i],  zero ) );
+      vnl_math_sqr( std::max( backwardGradient[i], zero ) ) +
+      vnl_math_sqr( std::min( forwardGradient[i],  zero ) );
     }
 
   propagation_gradient *= this->PropagationSpeed( iP );
@@ -132,8 +132,8 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     propagation_gradient +=
-      vnl_math_sqr( vnl_math_max( iData.BackwardGradient.m_Value[i], zero ) ) +
-      vnl_math_sqr( vnl_math_min( iData.ForwardGradient.m_Value[i],  zero ) );
+      vnl_math_sqr( std::max( iData.BackwardGradient.m_Value[i], zero ) ) +
+      vnl_math_sqr( std::min( iData.ForwardGradient.m_Value[i],  zero ) );
     }
 
   propagation_gradient *= this->PropagationSpeed( iP );

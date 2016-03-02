@@ -245,7 +245,7 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   // The user can either specify the required number of overlapping pixels or the required fraction of overlapping pixels (or both).
   // Here, we calculate the number of required pixels resulting from both of these methods and choose the one that gives the largest number of pixels.
   // These both default to 0 so that if a user only sets one, the other is ignored.
-  SizeValueType requiredNumberOfOverlappingPixels = vnl_math_max((SizeValueType)(m_RequiredFractionOfOverlappingPixels*m_MaximumNumberOfOverlappingPixels), m_RequiredNumberOfOverlappingPixels);
+  SizeValueType requiredNumberOfOverlappingPixels = std::max((SizeValueType)(m_RequiredFractionOfOverlappingPixels*m_MaximumNumberOfOverlappingPixels), m_RequiredNumberOfOverlappingPixels);
 
   // The correlation must be between -1 and 1 by definition.  But
   // numerical errors can cause the values to be large values (for
