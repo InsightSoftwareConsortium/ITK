@@ -47,7 +47,7 @@ public:
   }
 
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)std::tan( (double)A ); }
+  { return static_cast<TOutput>( std::tan( static_cast<double>( A ) ) ); }
 };
 }
 /** \class TanImageFilter

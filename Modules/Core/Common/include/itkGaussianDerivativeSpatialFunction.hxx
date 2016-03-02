@@ -78,7 +78,7 @@ GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >
   double value = -2 * ( position[m_Direction] - m_Mean[m_Direction] ) * m_Scale * ( 1 / prefixDenom ) * std::exp(
     -1 * suffixExp);
 
-  return (TOutput)value;
+  return static_cast<TOutput>(value);
 }
 
 /** Evaluate the function at a given position and return a vector */

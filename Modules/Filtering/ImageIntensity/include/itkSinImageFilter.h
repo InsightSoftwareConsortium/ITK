@@ -47,7 +47,7 @@ public:
   }
 
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)std::sin( (double)A ); }
+  { return static_cast<TOutput>(std::sin( static_cast<double>( A ) ) ); }
 };
 }
 /** \class SinImageFilter
