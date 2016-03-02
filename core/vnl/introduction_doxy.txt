@@ -1,0 +1,131 @@
+// The following text is included in the main documentation page by doxygen
+/*! \mainpage vnl : Numerics Library
+* The numerics library, vnl is intended to provide an environment for numerical
+* programming which combines the ease of use of packages like Mathematica and
+* Matlab with the speed of C and the elegance of C++.
+* Its dependent, vnl_algo, provides a C++ interface to the high-quality Fortran
+* routines made available in the public domain by numerical analysis researchers.
+*
+* Matrix and vector classes include
+* - vnl_vector<T>  : Standard vector class
+* - vnl_matrix<T>  : Standard matrix class
+* - vnl_vector_fixed<T,N> : Fixed size vector class (of length N)
+* - vnl_matrix_fixed<T,N,M> : Fixed size NxM matrix class
+* - vnl_vector_ref<T> : Wrap user-supplied memory chunk as a vector
+* - vnl_matrix_ref<T> : Wrap user-supplied memory chunk as a matrix
+* - vnl_c_vector<T> : underlying implementor class: math on blocks of memory
+* - vnl_diag_matrix<T> : Diagonal matrix class
+* - vnl_diag_matrix_fixed<T,N> : Fixed size NxN diagonal matrix class
+* - vnl_sym_matrix<T> : Symmetric matrix class
+* - vnl_sparse_matrix<T> : Efficient storage for matrices with many zeroes
+* - vnl_crs_index : like vnl_sparse_matrix<T>, but without the data
+* - vnl_linear_system : interface for large, sparse systems of linear equations
+*
+* Functions to generate special matrixes or vectors:
+* - vnl_identity_3x3
+* - vnl_rotation_matrix
+* - vnl_cross_product_matrix
+* - vnl_int_matrix
+* - vnl_double_2, vnl_float_3, vnl_int_4, ...: fixed-size, fixed-type vectors
+* - vnl_double_2x3, vnl_float_3x3, vnl_int_4x3, ...: fixed-size, fixed-type matrices
+*
+* Polynomial representations:
+* - vnl_real_polynomial
+* - vnl_real_npolynomial
+*
+* Useful utility functions and constants
+* - Common functions and constants (in vnl_math), like pi, sqrt2, ln10, euler, ...
+* - vnl_random : random number generation, with normal and box distributions.
+* - vnl_gamma, vnl_gamma_p, vnl_gamma_q, vnl_beta : gamma and beta functions
+* - vnl_erf
+* - vnl_bessel
+* - vnl_matrix_exp : compute the exponential of a square matrix
+* - vnl_power : compute the nth power of a small vnl_matrix_fixed
+* - vnl_operators.h contains vector and matrix comparison functions
+* - vnl_copy : easy conversion between vectors/matrices with different datatypes
+*
+* Computational functionality:
+* - vnl_definite_integral : computes the surface area under a given function
+*   (see also vnl_simpson_integral in vnl_algo)
+*
+* Simple matrix operations
+* - vnl_transpose : transpose of a matrix for direct use in a multiplication
+* - vnl_rank, vnl_rank_row_reduce and vnl_rank_column_reduce
+* - vnl_trace
+* - vnl_cross
+* - vnl_det and vnl_determinant
+* - vnl_inverse, vnl_inverse_transpose and vnl_matrix_inverse
+* - vnl_orthogonal_complement
+* - vnl_file_matrix and vnl_file_vector : load from a file
+* - class vnl_fastops, with functions like AtA, ABt, Ab, inc_X_by_AtA, ...
+* - vnl_linear_operators_3.h : contains 3D linear algebra operations
+*
+* Alternative number representations
+* - vnl_complex, vnl_complexify, vnl_real, vnl_imag : represent and manipulate complex numbers
+* - vnl_quaternion<T>
+* - vnl_rational : numbers represented as the quotient of two integers
+* - vnl_bignum : arbitrary size integers, binary representation
+* - vnl_decnum : arbitrary size integers, decimal representation and arithmetic
+* - vnl_finite<N> : modulo-N arithmetic, e.g. for finite fields
+*
+* Mapping functionality
+* - vnl_cost_function : R^n --> R. Used by minimizers
+* - vnl_least_squares_function, vnl_least_squares_cost_function : minimizer interface
+* - vnl_identity
+* - vnl_hungarian_algorithm : Find best column to row assignment given a cost matrix
+*
+* Miscellaneous
+* - vnl_sample : sampling from uniform, binomial and normal distributions
+* - vnl_matlab_print : pretty-print matrices and vectors in matlab-style format
+* - vnl_matlab_read : import data from files in the .mat format of Matlab
+* - vnl_matlab_write, vnl_matlab_filewrite : export data in the .mat format of Matlab
+*
+* \htmlonly
+* <hr/>
+* \endhtmlonly
+* \section vnl_algo vnl_algo : Computational Numerics Library
+*
+* Matrix decompositions include:
+* - vnl_svd, vnl_svd_fixed, and vnl_svd_economy : Singular value decomposition
+* - vnl_qr : QR decomposition
+* - vnl_cholesky : Cholesky decomposition (for symmetric matrices)
+* - vnl_ldl_cholesky : Variant on Cholesky, allowing fast updating
+* - vnl_symmetric_eigensystem : Eigen-decomposition
+* - vnl_real_eigensystem : Eigen-decomposition
+* - vnl_complex_eigensystem : Eigen-decomposition
+* - vnl_generalized_eigensystem : Eigen-decomposition
+* - vnl_sparse_symmetric_eigensystem
+* - vnl_generalized_schur
+*
+* Optimisation routines include:
+* - vnl_amoeba : Downhill simplex algorithm
+* - vnl_lsqr : least squares algorithm for (large, sparse) linear systems
+* - vnl_sparse_lu : LU decomposition to solve a (sparse) linear system
+* - vnl_brent_minimizer : minimizes a 1D function without using derivatives
+* - vnl_powell : minimizes an N-D function without using derivatives
+* - vnl_conjugate_gradient
+* - vnl_lbfgs, vnl_lbfgsb : Broyden Fletcher Goldfarb Shannon minimization
+* - vnl_levenberg_marquardt and vnl_sparse_lm : Levenberg-Marquardt nonlinear least squares
+* - vnl_bracket_minimum : bracket a minimum of a 1D function
+* - vnl_solve_qp : several quadratic programming problem solving functions
+*
+* Support for manipulating polynomials:
+* - vnl_rnpoly_solve
+* - vnl_rpoly_roots
+* - vnl_cpoly_roots
+*
+* Useful utility functions:
+* - vnl_fft_1d : 1D Fast Fourier Transform
+* - vnl_fft_2d : 2D Fast Fourier Transform
+* - vnl_determinant (but see also vnl_determinant in library vnl)
+* - vnl_matrix_inverse (but see also vnl_matrix_inverse in library vnl)
+* - vnl_adjugate : return the adjugate (or adjoint, or cofactors) matrix
+* - vnl_convolve
+* - vnl_chi_squared : CDF of chi-squared distribution
+* - vnl_fit_parabola : given three points, return 2nd degree fitting polynomial
+*
+* \section Lead Developers
+* Gehua Yang and Peter Vanroose are responsible for co-ordinating significant changes to vnl.
+* http://sourceforge.net/sendmessage.php?touser=717688
+* http://sourceforge.net/sendmessage.php?touser=290414
+*/

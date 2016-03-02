@@ -1,4 +1,0 @@
-itk_wrap_class("itk::GeometricalQuadEdge" EXPLICIT_SPECIALIZATION)
-  itk_wrap_template("ULULBBF" "unsigned long, unsigned long, bool, bool, true")
-  itk_wrap_template("ULULBBT" "unsigned long, unsigned long, bool, bool, false")
-itk_end_wrap_class()

@@ -1,9 +1,0 @@
-itk_wrap_class("itk::RelabelComponentImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 2)
-  itk_wrap_image_filter("${WRAP_ITK_SIGN_INT}" 2)
-
-  # Wrap from ulong to other integral types, even if ulong isn't wrapped. This
-  # is needed to be able to use image from watershed image filter.
-  remove(types "${WRAP_ITK_INT}" UL)
-  itk_wrap_image_filter_combinations("UL" "${types}")
-itk_end_wrap_class()

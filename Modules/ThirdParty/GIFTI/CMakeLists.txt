@@ -1,8 +1,0 @@
-project(ITKGIFTI)
-set(ITKGIFTI_THIRD_PARTY 1)
-
-set(ITKGIFTI_INCLUDE_DIRS
-  ${ITKGIFTI_SOURCE_DIR}/src/gifticlib
-)
-set(ITKGIFTI_LIBRARIES ITKgiftiio)
-itk_module_impl()

@@ -1,0 +1,13 @@
+#include <@FILE@>
+
+@CHECK_PROTOTYPE_EXISTS_CXX_EXTERNC_BEGIN@
+
+typedef union { int member; } dummyStruct;
+
+dummyStruct @FUNC@( dummyStruct );
+
+@CHECK_PROTOTYPE_EXISTS_CXX_EXTERNC_END@
+
+int main() {
+  return 0;
+}

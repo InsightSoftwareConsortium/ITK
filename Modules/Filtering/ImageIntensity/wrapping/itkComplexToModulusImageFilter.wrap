@@ -1,9 +1,0 @@
-itk_wrap_class("itk::ComplexToModulusImageFilter" POINTER_WITH_SUPERCLASS)
-  if(ITK_WRAP_complex_float AND ITK_WRAP_float)
-    itk_wrap_image_filter_types(CF F)
-  endif(ITK_WRAP_complex_float AND ITK_WRAP_float)
-
-  if(ITK_WRAP_complex_double AND ITK_WRAP_double)
-    itk_wrap_image_filter_types(CD D)
-  endif(ITK_WRAP_complex_double AND ITK_WRAP_double)
-itk_end_wrap_class()

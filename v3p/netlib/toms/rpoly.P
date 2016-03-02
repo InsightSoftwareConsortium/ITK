@@ -1,0 +1,1 @@
+extern int rpoly_(doublereal *op, integer *degree, doublereal *zeror, doublereal *zeroi, logical *fail);

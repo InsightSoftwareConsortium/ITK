@@ -1,2 +1,0 @@
-test/.*\.cxx Namespace Disable
-itkImageAdaptor\.h Template Disable

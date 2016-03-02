@@ -1,8 +1,0 @@
-#!/bin/sh
-echo 'Your work tree has not been configured for ITK development.
-Paste the following commands into a shell:
-
- ./Utilities/SetupForDevelopment.sh
-
-See http://www.itk.org/Wiki/ITK/Git/Develop for more details.'
-exit 1

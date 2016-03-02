@@ -1,3 +1,0 @@
-test/.*\.cxx Namespace Disable
-Examples/.*\.cxx Namespace Disable
-QuickView.h Namespace Disable

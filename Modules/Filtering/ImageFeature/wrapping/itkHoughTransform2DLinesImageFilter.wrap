@@ -1,8 +1,0 @@
-itk_wrap_class("itk::HoughTransform2DLinesImageFilter" POINTER)
-  itk_wrap_filter_dims(d2 2)
-  if(d2)
-    foreach(t ${WRAP_ITK_REAL})
-      itk_wrap_template("${ITKM_${t}}${ITKM_${t}}" "${ITKT_${t}}, ${ITKT_${t}}")
-    endforeach()
-  endif()
-itk_end_wrap_class()

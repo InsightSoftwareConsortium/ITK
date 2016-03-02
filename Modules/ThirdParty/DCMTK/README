@@ -1,1 +1,0 @@
-To build DCMTK on Windows see ITK/Modules/ThirdParty/DCMTK/WindowsBuild/CMakeLists.txt -- it should have no trouble building a version of DCMTK libraries linkable to ITK.

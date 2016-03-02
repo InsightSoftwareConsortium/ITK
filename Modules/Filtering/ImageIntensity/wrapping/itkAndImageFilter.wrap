@@ -1,6 +1,0 @@
-itk_wrap_class("itk::AndImageFilter" POINTER_WITH_SUPERCLASS)
-
-  itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 3)
-  itk_wrap_image_filter("${WRAP_ITK_SIGN_INT}" 3)
-
-itk_end_wrap_class()

@@ -1,2 +1,0 @@
-itk_wrap_simple_class("itk::JPEG2000ImageIO" POINTER)
-itk_wrap_simple_class("itk::JPEG2000ImageIOFactory" POINTER)

@@ -1,5 +1,0 @@
-itk_wrap_class("itk::MaskNegatedImageFilter" POINTER_WITH_SUPERCLASS)
-  foreach(t ${WRAP_ITK_ALL_TYPES})
-    itk_wrap_image_filter_combinations("${t}" "${WRAP_ITK_INT}" "${t}")
-  endforeach()
-itk_end_wrap_class()

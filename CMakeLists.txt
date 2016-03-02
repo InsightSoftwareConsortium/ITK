@@ -1,438 +1,240 @@
-cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+#message(FATAL_ERROR "VXL has moved!
+#VXL is now hosted in a GitHub repository at:
+# https://github.com/vxl/vxl
+#Run:
+# git config --unset remote.origin.pushurl
+# git remote set-url origin https://github.com/vxl/vxl.git
+# git fetch origin
+# git checkout master
+# git reset --hard origin/master
+#")
+#
+# Root vxl
+#
+#   vxl-maintainers@lists.sf.net
+cmake_minimum_required(VERSION 2.8.9)
 
-foreach(p
-    CMP0025 # CMake 3.0
-    CMP0042 # CMake 3.0
-    CMP0054 # CMake 3.1
-    CMP0056 # CMake 3.2
-    CMP0058 # CMake 3.3
-    )
-  if(POLICY ${p})
-    cmake_policy(SET ${p} NEW)
-  endif()
-endforeach()
-
-project(ITK NONE)
-# Set a default build type if none was specified
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Setting build type to 'Release' as none was specified.")
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
-  # Set the possible values of build type for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+# Set policies for cmake
+if( POLICY CMP0003 )
+  cmake_policy(SET CMP0003 NEW)
 endif()
-enable_language(C)
-enable_language(CXX)
+if( POLICY CMP0033 )
+  ####
+  # Remove warning by disabling test.  The proper fix
+  # will require careful effort.
+  # Documentation for what would be a better solution
+  # is given at https://github.com/vxl/vxl/issues/127
+  # and https://github.com/vxl/vxl/pull/122
+  cmake_policy(SET CMP0033 OLD)
+endif()
+# Use @rpath on OS X
+if( POLICY CMP0042 )
+  cmake_policy(SET CMP0042 NEW)
+endif()
+
+project(vxl)
 
 include(CMakeDependentOption)
+
+find_program( MEMORYCHECK_COMMAND valgrind )
+if(MEMORYCHECK_COMMAND)
+  set( MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full --malloc-fill=0xFF" )
+  set( MEMORYCHECK_SUPPRESSIONS_FILE "${CMAKE_CURRENT_LIST_DIR}/config/valgrind.supp" )
+endif()
+
+#-----------------------------------------------------------------------------
+if(NOT COMMAND SETIFEMPTY)
+  macro(SETIFEMPTY)
+    set(KEY ${ARGV0})
+    set(VALUE ${ARGV1})
+    if(NOT ${KEY})
+      set(${ARGV})
+    endif()
+  endmacro()
+endif()
+
+
+#-----------------------------------------------------------------------------
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib CACHE PATH
+     "Output directory for the vxl module libraries" )
+set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib CACHE PATH
+     "Output directory for the vxl static libraries" )
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin CACHE PATH
+     "Output directory for the vxl executables" )
+
+#-----------------------------------------------------------------------------
+SETIFEMPTY(CMAKE_INSTALL_LIBRARY_DESTINATION lib)
+SETIFEMPTY(CMAKE_INSTALL_ARCHIVE_DESTINATION lib)
+SETIFEMPTY(CMAKE_INSTALL_RUNTIME_DESTINATION bin)
+
+# Allow external project to override the export target
+if(NOT VXL_NO_EXPORT)
+  SETIFEMPTY(VXL_INSTALL_EXPORT_NAME VXLTargets)
+endif()
+
+if(NOT VXL_INSTALL_RUNTIME_DIR)
+  set(VXL_INSTALL_RUNTIME_DIR bin)
+endif()
+if(NOT VXL_INSTALL_LIBRARY_DIR)
+  set(VXL_INSTALL_LIBRARY_DIR lib)
+endif()
+if(NOT VXL_INSTALL_ARCHIVE_DIR)
+  set(VXL_INSTALL_ARCHIVE_DIR lib)
+endif()
+if(NOT VXL_LIB_PREFIX)
+  set( VXL_LIB_PREFIX "") # This is typically empty
+endif()
+
+# CMake support directory.
+set(VXL_ROOT_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(VXL_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR}/config/cmake/Modules)
+
+include( ${VXL_CMAKE_DIR}/VXLStandardOptions.cmake )
+include( ${CMAKE_CURRENT_LIST_DIR}/config/cmake/config/vxl_utils.cmake )
+include(${CMAKE_CURRENT_LIST_DIR}/config/cmake/doxygen/doxygen.cmake)
+
+# Location of VXL's FindXXX.cmake CMake modules.
+# This is identical to VXL_CMAKE_DIR.  Perhaps we should eliminate MODULE_PATH?
+set( MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/config/cmake/Modules CACHE STATIC "VXL module path" )
+
+# Options to add extra compiler and linker flags
 #
-# use ExternalProject
-include(ExternalProject)
+# These options allow you to specify additional flags without
+# affecting the default flags for a particular platform or build type.
+# This is especially useful for adding extra warning flags.
+set( VXL_EXTRA_CMAKE_C_FLAGS             CACHE STRING "Extra flags appended to CMAKE_C_FLAGS" )
+set( VXL_EXTRA_CMAKE_CXX_FLAGS           CACHE STRING "Extra flags appended to CMAKE_CXX_FLAGS" )
+set( VXL_EXTRA_CMAKE_EXE_LINKER_FLAGS    CACHE STRING "Extra flags appended to CMAKE_EXE_LINKER_FLAGS" )
+set( VXL_EXTRA_CMAKE_MODULE_LINKER_FLAGS CACHE STRING "Extra flags appended to CMAKE_MODULE_LINKER_FLAGS" )
+set( VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS CACHE STRING "Extra flags appended to CMAKE_SHARED_LINKER_FLAGS" )
+set( CMAKE_C_FLAGS             "${CMAKE_C_FLAGS} ${VXL_EXTRA_CMAKE_C_FLAGS}" )
+set( CMAKE_CXX_FLAGS           "${CMAKE_CXX_FLAGS} ${VXL_EXTRA_CMAKE_CXX_FLAGS}" )
+set( CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_EXE_LINKER_FLAGS}" )
+set( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_MODULE_LINKER_FLAGS}" )
+set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS}" )
 
-if( CMAKE_HOST_WIN32 )
 
-  string( LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n )
-  if( n GREATER 50 )
-    message(
-      FATAL_ERROR
-      "ITK source code directory path length is too long (${n} > 50)."
-      "Please move the ITK source code directory to a directory with a shorter path."
-      )
+#-------------------------------------------------------------------
+#-- BUILD CONFIG OPTIONS
+
+# Optionally use old error reporting methods, rather than exceptions.
+# The main use is in vil which often uses/used null images to imply an error.
+option(VXL_LEGACY_ERROR_REPORTING "Use old error reporting methods rather than exceptions?" ON)
+if(VXL_LEGACY_ERROR_REPORTING)
+  add_definitions( -DVXL_LEGACY_ERROR_REPORTING )
+endif()
+
+# Option to build Windows Unicode support, the string
+# type of which is wchar_t, each character is a 16-bit unsigned integer.
+if(WIN32)
+  if(VXL_HAS_WIN_WCHAR_T)
+    option( VXL_USE_WIN_WCHAR_T "Build overloading functions that accept Windows wide char strings?" ON )
+    if(VXL_USE_WIN_WCHAR_T)   # Force it to be 0/1
+      set(VXL_USE_WIN_WCHAR_T 1)
+    else()
+      set(VXL_USE_WIN_WCHAR_T 0)
+    endif()
+  else()
+    set(VXL_USE_WIN_WCHAR_T 0)
   endif()
-
-  string( LENGTH "${CMAKE_CURRENT_BINARY_DIR}" n )
-  if( n GREATER 50 )
-    message(
-      FATAL_ERROR
-      "ITK build directory path length is too long (${n} > 50)."
-      "Please set the ITK build directory to a directory with a shorter path."
-      )
-  endif()
-
-endif()
-
-#-----------------------------------------------------------------------------
-# Forbid downloading resources from the network during a build. This helps
-# when building on systems without network connectivity to determine which
-# resources much be obtained manually and made available to the build.
-option(ITK_FORBID_DOWNLOADS "Do not download source code or data from the network" OFF)
-mark_as_advanced(ITK_FORBID_DOWNLOADS)
-macro(itk_download_attempt_check _name)
-  if(ITK_FORBID_DOWNLOADS)
-    message(SEND_ERROR "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
-  endif()
-endmacro()
-
-#-----------------------------------------------------------------------------
-if(NOT ITK_FORBID_DOWNLOADS)
-  find_package(Git)
-  set(ITK_USE_GIT_PROTOCOL_default "OFF")
-  if (GIT_VERSION_STRING VERSION_LESS "1.7.10")
-    # minimum version for https support
-    set(ITK_USE_GIT_PROTOCOL_default "ON")
-  endif()
-  option(ITK_USE_GIT_PROTOCOL "If behind a firewall turn this off to use https instead." ${ITK_USE_GIT_PROTOCOL_default})
-  mark_as_advanced(ITK_USE_GIT_PROTOCOL)
-  set(git_protocol "https")
-  if(ITK_USE_GIT_PROTOCOL)
-    set(git_protocol "git")
-  endif()
-endif()
-
-
-#-----------------------------------------------------------------------------
-if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
-  # This file is always present in version-controlled source trees
-  # so we must have been extracted from a source tarball with no
-  # data objects needed for testing.  Turn off tests by default
-  # since enabling them requires network access or manual data
-  # store configuration.
-  option(BUILD_TESTING "Build the testing tree." OFF)
-endif()
-include(CTest)
-mark_as_advanced(CLEAR BUILD_TESTING)
-
-set(ITK_CMAKE_DIR ${ITK_SOURCE_DIR}/CMake)
-set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
-include(PreventInSourceBuilds)
-include(PreventInBuildInstalls)
-include(ITKModuleMacros)
-include(ITKExternalData)
-include(ITKModuleTest)
-include(itkCheckSourceTree)
-
-set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
-
-#-----------------------------------------------------------------------------
-# ITK version number.
-set(ITK_VERSION_MAJOR "4")
-set(ITK_VERSION_MINOR "10")
-set(ITK_VERSION_PATCH "0")
-
-if(NOT ITK_INSTALL_RUNTIME_DIR)
-  set(ITK_INSTALL_RUNTIME_DIR bin)
-endif()
-if(NOT ITK_INSTALL_LIBRARY_DIR)
-  set(ITK_INSTALL_LIBRARY_DIR lib)
-endif()
-if(NOT ITK_INSTALL_ARCHIVE_DIR)
-  set(ITK_INSTALL_ARCHIVE_DIR lib)
-endif()
-if(NOT ITK_INSTALL_INCLUDE_DIR)
-  set(ITK_INSTALL_INCLUDE_DIR include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
-endif()
-if(NOT ITK_INSTALL_DATA_DIR)
-  set(ITK_INSTALL_DATA_DIR share/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
-endif()
-if(NOT ITK_INSTALL_DOC_DIR)
-  set(ITK_INSTALL_DOC_DIR share/doc/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
-endif()
-if(NOT ITK_INSTALL_PACKAGE_DIR)
-  set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
-endif()
-
-# Override CMake's built-in add_* commands: assign LABELS to tests and targets
-# automatically. Depends on the CMake variable itk-module being set to the
-# "current" module when add_* is called.
-macro(verify_itk_module_is_set)
-  if("" STREQUAL "${itk-module}")
-    message(FATAL_ERROR "CMake variable itk-module is not set")
-  endif()
-endmacro()
-
-#-----------------------------------------------------------------------------
-# Do we try to use system libraries by default?
-option(ITK_USE_SYSTEM_LIBRARIES "Use the system's libraries by default.
-If this is not set during the initial configuration, it will have no effect." OFF)
-mark_as_advanced(ITK_USE_SYSTEM_LIBRARIES)
-
-#-----------------------------------------------------------------------------
-# Enable the download and use of BrainWeb datasets.
-# When this data is available, additional 3D tests are enabled.
-option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)
-mark_as_advanced(ITK_USE_BRAINWEB_DATA)
-if(ITK_BRAINWEB_DATA_ROOT)
-  message(WARNING
-    "ITK_BRAINWEB_DATA_ROOT is not longer supported!"
-    "Please update to ITK_USE_BRAINWEB_DATA."
-    )
-endif()
-
-#-----------------------------------------------------------------------------
-# Wrapping options
-option(ITK_WRAP_PYTHON "Build Python support" OFF)
-option(ITK_WRAP_JAVA "Build Java support (Currently not supported)" OFF)
-option(ITK_WRAP_RUBY "Build Ruby support (Currently not supported)" OFF)
-option(ITK_WRAP_PERL "Build Perl support (Currently not supported)" OFF)
-option(ITK_WRAP_TCL "Build Tcl support (Currently not supported)" OFF)
-mark_as_advanced(ITK_WRAP_JAVA)
-mark_as_advanced(ITK_WRAP_RUBY)
-mark_as_advanced(ITK_WRAP_PERL)
-mark_as_advanced(ITK_WRAP_TCL)
-
-if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRAP_TCL)
-  # ITK_WRAPPING is an internal variable
-  set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
 else()
-  set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
+  # avoid empty macro definition
+  set(VXL_USE_WIN_WCHAR_T 0)
 endif()
 
-#-----------------------------------------------------------------------------
-# ITK build configuration options.
-option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
-set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
-
-option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
-mark_as_advanced(ITK_DYNAMIC_LOADING)
-
-include(ITKSetStandardCompilerFlags)
-#---------------------------------------------------------------
-# run try compiles and tests for ITK
-include(itkTestFriendTemplatedFunction)
-
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
-set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
-
-# Setup build locations.
-if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/bin)
-endif()
-if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib)
-endif()
-if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib)
-endif()
-set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
-
-
-#-----------------------------------------------------------------------------
-# Provide compatibility options.
-option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
-option(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
-if(ITK_WRAPPING)
-  option(ITK_LEGACY_SILENT "Silence all legacy code messages." ON)
-else()
-  option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
-endif()
-# The ITK_FUTURE_LEGACY_REMOVE is a very advanced feature only
-# available to developers at configuration time by manually
-# adding this to the CMakeCache.txt -DITK_FUTURE_LEGACY_REMOVE:BOOL=ON
-set( ITK_FUTURE_LEGACY_REMOVE 0 CACHE INTERNAL "Remove code that will become legacy in future releases completely." )
-mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_V3_COMPATIBILITY)
-
-# The disabling of legacy code, and the ITKv3 compatibility option can not both be
-# requested. If removal of legacy code is requested, then ITKV3_COMPATIBILITY must
-# be off.
-if(ITKV3_COMPATIBILITY AND ITK_LEGACY_REMOVE)
-  message(FATAL_ERROR "Invlaid configuration: ITKV3_COMPATIBILITY AND ITK_LEGACY_REMOVE can not both be ON")
-endif()
-
-#-----------------------------------------------------------------------------
-# ITK build classes that are in the review process
-# ITK_USE_REVIEW is deprecated, only kept for backward compatibility
-if (ITK_USE_REVIEW AND NOT Module_ITKReview)
-  message(WARNING "ITK_USE_REVIEW is deprecated, please use Module_ITKReview to turn Review module ON/OFF")
-  set(Module_ITKReview ON CACHE BOOL "Module containing code from the Review directory of ITKv3." FORCE)
-endif()
-
-#-----------------------------------------------------------------------------
-# ITK uses KWStyle for checking the coding style
-include(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
-
-#-----------------------------------------------------------------------------
-# Build the Examples that are illustrated in the Software Guide.
-option(BUILD_EXAMPLES "Build the examples from the ITK Software Guide." OFF)
-
-#-----------------------------------------------------------------------------
-# Enable GPU support. Requires OpenCL to be installed
-option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
-mark_as_advanced(ITK_USE_GPU)
-
-if( ITK_USE_GPU )
-   include(itkOpenCL)
-endif()
-
-#-----------------------------------------------------------------------------
-# Manage FFT v3 Options
-#
-# ITK_USE_FFTWD -- use double precision fftw
-if(DEFINED USE_FFTWD)
-  set(ITK_USE_FFTWD_DEFAULT ${USE_FFTWD})
-else()
-  set(ITK_USE_FFTWD_DEFAULT OFF)
-endif()
-option(ITK_USE_FFTWD "Use double precision fftw if found" ${ITK_USE_FFTWD_DEFAULT})
-mark_as_advanced(ITK_USE_FFTWD)
-#
-# ITK_USE_FFTWF -- use single precision fftw
-if(DEFINED USE_FFTWF)
-  set(ITK_USE_FFTWF_DEFAULT ${USE_FFTWF})
-else()
-  set(ITK_USE_FFTWF_DEFAULT OFF)
-endif()
-option(ITK_USE_FFTWF "Use single precision fftw if found" ${ITK_USE_FFTWF_DEFAULT})
-mark_as_advanced(ITK_USE_FFTWF)
-
-# ITK_USE_SYSTEM_FFTW -- locate a readybuilt fftw installation
-if(DEFINED USE_SYSTEM_FFTW)
-  set(ITK_USE_SYSTEM_FFTW_DEFAULT ${USE_SYSTEM_FFTW})
-else()
-  set(ITK_USE_SYSTEM_FFTW_DEFAULT ${ITK_USE_SYSTEM_LIBRARIES})
-endif()
-option(ITK_USE_SYSTEM_FFTW "Use an installed version of fftw" ${ITK_USE_SYSTEM_FFTW_DEFAULT})
-mark_as_advanced(ITK_USE_SYSTEM_FFTW)
-
-
-if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
-  include(itkExternal_FFTW)
-endif()
-
-if(NOT ITKV3_COMPATIBILITY)
-  option(ITK_USE_64BITS_IDS "When ON, ITK will use 64 bits integers to index pixels. This is needed for managing images larger than 4Gb in some platforms." OFF)
-  mark_as_advanced(ITK_USE_64BITS_IDS)
-endif()
-
-# ITK turn on concept checking
-option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
-mark_as_advanced(ITK_USE_CONCEPT_CHECKING)
-option(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
-mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
-
-#-----------------------------------------------------------------------------
-# Mandatory wrapping options.
-# These are not correctly set when using cmake without the -DITK_WRAP_PYTHON:BOOL=ON flag.
-# In this case we need to tell the user that he has to change the flags manually to the right values.
-if(ITK_WRAPPING)
-  set(CMAKE_POSITION_INDEPENDENT_CODE 1)
-
-  if(ITK_USE_64BITS_IDS AND WIN32)
-    message(FATAL_ERROR "Wrapping with ITK_USE_64BITS_IDS is not supported on Windows, please set ITK_USE_64BITS_IDS=OFF")
-  endif()
-
-  if(NOT ITK_LEGACY_SILENT)
-    message(FATAL_ERROR "Wrapping requires to disable legacy code, please set ITK_LEGACY_SILENT=ON")
+# In order to be able to link vxl libraries into shared libraries on 64 bit linux, the -fPIC
+# compiler flag must be added.  Only do this if we are on a x86_64 *nix platform, we're building
+# static libraries, and the user has not explicitly requested position dependent code.
+if(UNIX)
+  if(NOT VXL_BUILD_SHARED_LIBS AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+    option(BUILD_POSITION_DEPENDENT_CODE "Generate position dependent code (i.e. code cannot be used in shared library)" OFF)
+    mark_as_advanced(BUILD_POSITION_DEPENDENT_CODE)
+    if(NOT BUILD_POSITION_DEPENDENT_CODE)
+      message(STATUS "Adding -fPIC compiler flag to generate position independent code.")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}-fPIC")
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}-fPIC")
+    endif()
   endif()
 endif()
 
-#----------------------------------------------------------------------------
-set(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
 
-# Configure the default ITK_DATA_ROOT for the location of ITK Data.
-set(ITK_DATA_ROOT ${ITK_SOURCE_DIR}/Testing/Data)
-
-# Location of ITK Example Data.
-set(ITK_EXAMPLE_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
-
-#This flag is used in particular, to enable some tests that require large memory to run.
-# This probably can be discovered at configuration time by CMake. (Check with CMake developers).
-set(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes")
-mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
-
-#This flag sets the floating point type used in itk::ImageBase for
-# spacing/direction/origin to single precision
-option(ITK_USE_FLOAT_SPACE_PRECISION "Use single precision for origin/spacing/directions in itk::Image" OFF)
-mark_as_advanced(ITK_USE_FLOAT_SPACE_PRECISION)
-
-#----------------------------------------------------------------------
-# Make sure remote modules are downloaded before sorting out the module
-# dependencies.
-add_subdirectory(Modules/Remote)
-
-# Enable modules according to user inputs and the module dependency DAG.
-include(ITKModuleEnablement)
-
-#----------------------------------------------------------------------
-# Generate ITKConfig.cmake for the build tree.
-set(ITK_CONFIG_CODE "
-set(ITK_MODULES_DIR \"${ITK_MODULES_DIR}\")")
-set(ITK_CONFIG_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
-set(ITK_USE_FILE "${ITK_CONFIG_CMAKE_DIR}/UseITK.cmake")
-set(ITK_CONFIG_TARGETS_CONDITION " AND NOT ITK_BINARY_DIR")
-set(ITK_CONFIG_TARGETS_FILE "${ITK_BINARY_DIR}/ITKTargets.cmake")
-set(ITK_CONFIG_MODULE_API_FILE "${ITK_SOURCE_DIR}/CMake/ITKModuleAPI.cmake")
-configure_file(CMake/ITKConfig.cmake.in ITKConfig.cmake @ONLY)
-
-# Generate ITKConfig.cmake for the install tree.
-set(ITK_CONFIG_CODE "
-# Compute the installation prefix from this ITKConfig.cmake file location.
-get_filename_component(ITK_INSTALL_PREFIX \"\${CMAKE_CURRENT_LIST_FILE}\" PATH)")
-# Construct the proper number of get_filename_component(... PATH)
-# calls to compute the installation prefix.
-string(REGEX REPLACE "/" ";" _count "${ITK_INSTALL_PACKAGE_DIR}")
-foreach(p ${_count})
-  set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
-get_filename_component(ITK_INSTALL_PREFIX \"\${ITK_INSTALL_PREFIX}\" PATH)")
-endforeach()
-set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
-set(ITK_MODULES_DIR \"\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/Modules\")")
-set(ITK_USE_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/UseITK.cmake")
-set(ITK_CONFIG_CMAKE_DIR "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}")
-set(ITK_CONFIG_TARGETS_CONDITION "")
-set(ITK_CONFIG_TARGETS_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake")
-set(ITK_CONFIG_MODULE_API_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKModuleAPI.cmake")
-if(NOT ITK_USE_SYSTEM_FFTW)
-  # Location installed with the FFTW ExternalProject.
-  set(FFTW_LIBDIR "\${ITK_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
-  set(FFTW_INCLUDE_PATH "\${ITK_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Algorithms")
+# Some types of path names can cause havoc with regular expressions,
+# so avoid those.
+if( ${PROJECT_BINARY_DIR} MATCHES  \\+ )
+  message(SEND_ERROR "You cannot have a + in your binary path")
 endif()
-configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
+if( ${CMAKE_CURRENT_LIST_DIR} MATCHES  \\+ )
+  message(SEND_ERROR "You cannot have a + in your source path")
+endif()
 
-#----------------------------------------------------------------------------
-# Configure maintenance scripts
-configure_file(Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh.in
-  Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh @ONLY)
-
-#-----------------------------------------------------------------------------
-configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
-
-install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
-              ${ITK_BINARY_DIR}/ITKConfigVersion.cmake
-              CMake/ITKModuleAPI.cmake
-              CMake/UseITK.cmake
-              CMake/itkImageIOFactoryRegisterManager.h.in
-              CMake/itkTransformIOFactoryRegisterManager.h.in
-  DESTINATION ${ITK_INSTALL_PACKAGE_DIR}
-  COMPONENT Development)
-get_property(ITKTargets_MODULES GLOBAL PROPERTY ITKTargets_MODULES)
-if(ITKTargets_MODULES)
-  install(EXPORT ITKTargets DESTINATION ${ITK_INSTALL_PACKAGE_DIR}
-          COMPONENT Development)
+# include CMakeListsLocal.txt from source directory if it exists
+# also include it from the binary dir if different from source dir
+if( ${PROJECT_BINARY_DIR} MATCHES ${CMAKE_CURRENT_LIST_DIR} )
+  include( ${CMAKE_CURRENT_LIST_DIR}/CMakeListsLocal.txt OPTIONAL )
 else()
-  set(CMAKE_CONFIGURABLE_FILE_CONTENT "# No targets!")
-  configure_file(${CMAKE_ROOT}/Modules/CMakeConfigurableFile.in
-                 ${ITK_BINARY_DIR}/CMakeFiles/ITKTargets.cmake @ONLY)
-  install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKTargets.cmake
-          DESTINATION ${ITK_INSTALL_PACKAGE_DIR} COMPONENT Development)
+  include( ${CMAKE_CURRENT_LIST_DIR}/CMakeListsLocal.txt OPTIONAL )
+  include( ${PROJECT_BINARY_DIR}/CMakeListsLocal.txt OPTIONAL )
 endif()
 
-install(FILES "LICENSE" "NOTICE" "README.txt" DESTINATION ${ITK_INSTALL_DOC_DIR} COMPONENT Runtime)
+# Standard include directories.
+set(VXLCORE_INCLUDE_DIR ${PROJECT_BINARY_DIR}/core ${CMAKE_CURRENT_LIST_DIR}/core)
+set(VXLCORE_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/core)
+set(VCL_INCLUDE_DIR ${PROJECT_BINARY_DIR}/vcl ${CMAKE_CURRENT_LIST_DIR}/vcl)
+set(VCL_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/vcl)
 
-if(BUILD_TESTING)
-  add_subdirectory(Utilities/InstallTest)
+include_directories(${VCL_INCLUDE_DIR} ${VXLCORE_INCLUDE_DIR})
+
+# Do platform-specific configuration.
+include(${CMAKE_CURRENT_LIST_DIR}/config/cmake/config/VXLIntrospectionConfig.cmake)
+
+#-------------------------------------------------------------------
+#-- BUILD SELECTION OPTIONS
+# Options for selecting the core core libraries
+option( BUILD_CORE_GEOMETRY "Build VXL's geometry libraries" ON )
+option( BUILD_CORE_NUMERICS "Build VXL's numerics libraries" ON )
+option( BUILD_CORE_SERIALISATION "Build VXL's serialisation libraries" ON )
+option( BUILD_CORE_UTILITIES "Build VXL's utility libraries" ON )
+option( BUILD_CORE_IMAGING "Build VXL's imaging libraries" ON )
+
+# By default, build examples when building tests. Examples require most of the core libraries
+CMAKE_DEPENDENT_OPTION( BUILD_EXAMPLES "Should the examples be built?" ${BUILD_TESTING}
+                      "BUILD_CORE_GEOMETRY;BUILD_CORE_NUMERICS;BUILD_CORE_UTILITIES;BUILD_CORE_SERIALISATION;BUILD_CORE_IMAGING" OFF)
+
+# Option to specify whether this is a build for the dashboard.  Each
+# dashboard build should set BUILD_FOR_VXL_DASHBOARD to ON in the
+# initial cache (set in the CTest script).
+option( BUILD_FOR_VXL_DASHBOARD "Enable deprecated code and known failing test?)" OFF )
+option( BUILD_NONDEPRECATED_ONLY "Build only nondeprecated libraries (Experimental)" ON )
+
+CMAKE_DEPENDENT_OPTION(BUILD_CORE_PROBABILITY "Build VXL's probability libraries (Experimental)" ON "BUILD_CORE_NUMERICS;BUILD_FOR_VXL_DASHBOARD" OFF)
+
+# Build the core vxl + support libraries
+add_subdirectory(vcl)
+add_subdirectory(v3p)
+add_subdirectory(core)
+
+# Optionally build the contributed libraries
+if( EXISTS ${CMAKE_CURRENT_LIST_DIR}/contrib/CMakeLists.txt )
+  CMAKE_DEPENDENT_OPTION(BUILD_CONTRIB "Build the contributed libraries?" ON "BUILD_CORE_GEOMETRY;BUILD_CORE_NUMERICS;BUILD_CORE_UTILITIES;BUILD_CORE_SERIALISATION;BUILD_CORE_IMAGING" OFF)
+  add_subdirectory(contrib)
 endif()
 
+# Generate Project files dependacy generation for now for downstream packages
 
+# Copy the UseVXL.cmake file to the binary directory so that client
+# projects don't need to find the source directory first. They can run
+# the UseVXL.cmake from the vxl binary directory, and determine the
+# vxl source directory by loading the cache.
+configure_file( ${VXL_CMAKE_DIR}/UseVXL.cmake
+                ${vxl_BINARY_DIR}/UseVXL.cmake COPYONLY )
+# For use in client projects that call UseVXL.cmake
+set(VXL_LIBRARY_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} CACHE STATIC "Where all the vxl libraries are, for clients to use." )
 
-#-----------------------------------------------------------------------------
-# The subdirectories added below this line should use only the public
-# interface with find_package(ITK). Set ITK_DIR to use this ITK build.
-set(ITK_DIR "${ITK_BINARY_DIR}")
+# Copy CTestCustom.cmake to top of build tree
+configure_file( ${VXL_CMAKE_DIR}/CTestCustom.cmake
+  ${vxl_BINARY_DIR}/CTestCustom.cmake COPYONLY )
 
-if(ITK_WRAPPING)
-  add_subdirectory(Wrapping)
+# This command must be the last command in this file
+if(NOT VXL_NO_EXPORT)
+  include(${CMAKE_CURRENT_LIST_DIR}/config/cmake/export/VXLCreateProject.cmake)
 endif()
-
-if(BUILD_EXAMPLES)
-  add_subdirectory(Examples)
-endif()
-
-#----------------------------------------------------------------------
-# Provide an option for generating documentation.
-add_subdirectory(Utilities/Doxygen)
-
-# Create target to download data from the ITKData group. This must come after
-# all tests have been added that reference the group, so we put it last.
-ExternalData_Add_Target(ITKData)

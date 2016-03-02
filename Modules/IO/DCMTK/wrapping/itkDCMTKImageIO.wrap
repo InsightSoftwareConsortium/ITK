@@ -1,3 +1,0 @@
-itk_wrap_simple_class("itk::DCMTKImageIO" POINTER)
-itk_wrap_simple_class("itk::DCMTKImageIOFactory" POINTER)
-itk_wrap_simple_class("itk::DCMTKSeriesFileNames" POINTER)

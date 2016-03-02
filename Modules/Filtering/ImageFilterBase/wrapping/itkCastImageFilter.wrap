@@ -1,6 +1,0 @@
-itk_wrap_class("itk::CastImageFilter" POINTER_WITH_SUPERCLASS)
-  # Create cast filters between all scalar types. Also force that cast-to-uchar
-  # filters are created for all scalar types.
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC")
-  itk_wrap_image_filter_combinations("${types}" "${types}")
-itk_end_wrap_class()

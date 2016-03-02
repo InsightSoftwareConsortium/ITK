@@ -1,3 +1,0 @@
-project(ITKKLMRegionGrowing)
-set(ITKKLMRegionGrowing_LIBRARIES ITKKLMRegionGrowing)
-itk_module_impl()

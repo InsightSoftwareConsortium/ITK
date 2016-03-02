@@ -1,7 +1,0 @@
-# DemonsRegistrationFilter is wrapped with POINTER_WITH_SUPERCLASS
-# so this class is not.
-itk_wrap_class("itk::SymmetricForcesDemonsRegistrationFilter" POINTER)
-  foreach(s ${WRAP_ITK_SCALAR})
-    itk_wrap_image_filter_combinations("${s}" "${s}" "${WRAP_ITK_VECTOR_REAL}" 2+)
-  endforeach(s)
-itk_end_wrap_class()

@@ -1,3 +1,0 @@
-itk_wrap_class("itk::VectorImage" POINTER)
-  set(WRAPPER_TEMPLATES "${itk_Wrap_VectorImage}")
-itk_end_wrap_class()

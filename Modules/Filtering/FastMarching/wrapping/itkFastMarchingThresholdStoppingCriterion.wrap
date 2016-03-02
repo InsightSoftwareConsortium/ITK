@@ -1,5 +1,0 @@
-itk_wrap_class("itk::FastMarchingThresholdStoppingCriterion" POINTER)
-#   itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 2)
-#   itk_wrap_image_filter("${WRAP_ITK_SIGN_INT}" 2)
-  itk_wrap_image_filter("${WRAP_ITK_REAL}" 2)
-itk_end_wrap_class()

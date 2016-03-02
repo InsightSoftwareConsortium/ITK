@@ -1,9 +1,0 @@
-set(ITK_SOURCE_DIR "@ITK_SOURCE_DIR@")
-set(KWSTYLE_EXECUTABLE "@KWSTYLE_EXECUTABLE@")
-
-find_package( Git )
-if( GIT_FOUND )
-  execute_process( COMMAND ${GIT_EXECUTABLE} config hooks.KWStyle.path
-    "${KWSTYLE_EXECUTABLE}"
-    WORKING_DIRECTORY ${ITK_SOURCE_DIR} )
-endif( GIT_FOUND )

@@ -1,5 +1,0 @@
-itk_wrap_class("itk::ImageSeriesReader" POINTER)
-  # Force uchar image IO
-  UNIQUE(image_types "UC;${WRAP_ITK_ALL_TYPES}")
-  itk_wrap_image_filter("${image_types}" 1)
-itk_end_wrap_class()
