@@ -968,37 +968,15 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
                                                                 TImage *                        out,
                                                                 typename TImage::PixelType      label,
                                                                 typename TImage::IndexValueType i,
-                                                                typename TImage::IndexValueType j)
+                                                                typename TImage::IndexValueType j,
+                                                                typename TImage::Pointer        iconn,
+                                                                typename TImage::Pointer        jconn)
 {
-  if (i > j)
-  {
-    std::swap(i, j);
-  }
-  if (i == j || i + 1 == j)
-  {
-    return; // nothing to do
-  }
-
-  // determine inter-slice region correspondences
-  typename TImage::RegionType ri;
-  ri = m_BoundingBoxes[label];
-  ri.SetSize(axis, 1);
-  ri.SetIndex(axis, i);
-  typename TImage::RegionType rj = ri;
-  rj.SetIndex(axis, j);
-
-  // execute connected components
-  IdentifierType           iCount, jCount;
-  typename TImage::Pointer iconn = this->RegionedConnectedComponents(ri, label, iCount);
-  iconn->DisconnectPipeline();
-  typename TImage::Pointer jconn = this->RegionedConnectedComponents(rj, label, jCount);
-  jconn->DisconnectPipeline();
-  WriteDebug<TImage>(iconn, "C:\\iconn.nrrd");
-  WriteDebug<TImage>(jconn, "C:\\jconn.nrrd");
-
   // go through comparison image and create correspondence pairs
   typedef std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>> PairSet;
   PairSet                          pairs, unwantedPairs, uncleanPairs;
+  typename TImage::RegionType      ri = iconn->GetRequestedRegion();
+  typename TImage::RegionType      rj = jconn->GetRequestedRegion();
   ImageRegionConstIterator<TImage> iti(iconn, ri);
   ImageRegionConstIterator<TImage> itj(jconn, rj);
   while (!iti.IsAtEnd())
@@ -1204,12 +1182,33 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
       typename SliceSetType::iterator prev = it->second.begin();
       if (prev == it->second.end())
       {
-        return; // nothing to do
+        continue; // nothing to do for this label
       }
+
+      typename TImage::RegionType ri;
+      ri = m_BoundingBoxes[it->first];
+      ri.SetSize(axis, 1);
+      ri.SetIndex(axis, *prev);
+      IdentifierType           xCount;
+      typename TImage::Pointer iconn = this->RegionedConnectedComponents(ri, it->first, xCount);
+      iconn->DisconnectPipeline();
+
       typename SliceSetType::iterator next = it->second.begin();
       for (++next; next != it->second.end(); ++next)
       {
-        InterpolateBetweenTwo(axis, out, it->first, *prev, *next);
+        typename TImage::RegionType rj = ri;
+        rj.SetIndex(axis, *next);
+        typename TImage::Pointer jconn = this->RegionedConnectedComponents(rj, it->first, xCount);
+        jconn->DisconnectPipeline();
+
+        WriteDebug<TImage>(iconn, "C:\\iconn.nrrd");
+        WriteDebug<TImage>(jconn, "C:\\jconn.nrrd");
+
+        if (*prev + 1 < *next) // only if there are not adjacent slices
+        {
+          InterpolateBetweenTwo(axis, out, it->first, *prev, *next, iconn, jconn);
+        }
+        iconn = jconn;
         prev = next;
       }
     }

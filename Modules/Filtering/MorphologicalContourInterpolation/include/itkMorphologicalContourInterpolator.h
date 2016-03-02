@@ -109,7 +109,9 @@ protected:
                         TImage *                        out,
                         typename TImage::PixelType      label,
                         typename TImage::IndexValueType i,
-                        typename TImage::IndexValueType j);
+                        typename TImage::IndexValueType j,
+                        typename TImage::Pointer        iconn,
+                        typename TImage::Pointer        jconn);
 
   /** If interpolation is done along more than one axis,
   the interpolations are merged using a modified "or" rule:
