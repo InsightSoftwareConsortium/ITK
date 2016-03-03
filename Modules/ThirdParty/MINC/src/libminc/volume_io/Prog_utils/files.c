@@ -2259,7 +2259,7 @@ VIOAPI  VIO_Status  output_float(
 {
     VIO_Status   status;
 
-    if( fprintf( file, " %g", f ) > 0 )
+    if( fprintf( file, " %g", (double)f ) > 0 )
         status = VIO_OK;
     else
     {

@@ -1,3 +1,8 @@
+2016-02-09  Robert D. Vincent <robert.d.vincent@mcgill.ca>
+   * libsrc2/dimension.c, libsrc2/volume.c, testdir/minc2-dimension-test.c:
+	Existing code did not properly implement miset_dimension_widths()
+	and miget_dimension_widths().
+
 2015-11-16  Robert D. Vincent <robert.d.vincent@mcgill.ca>
    * volume_io/Volumes/volumes.c,
      volume_io/Include/volume_io/vol_io_protoypes.h: Added
