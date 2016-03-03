@@ -1,4 +1,4 @@
 #include <vcl_complex.h>
-#include <vnl/vnl_det.txx>
+#include <vnl/vnl_det.hxx>
 
 VNL_DET_INSTANTIATE(vcl_complex<float>);

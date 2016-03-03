@@ -18,6 +18,7 @@
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_matrix.h>
+#include <vnl/vnl_error.h>
 
 //: Specializes vnl_matrix for integers, adding a vnl_matrix<double> ctor.
 class vnl_int_matrix : public vnl_matrix<int>

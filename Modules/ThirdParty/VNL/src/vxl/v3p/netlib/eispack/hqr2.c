@@ -193,7 +193,7 @@ L70:
             goto L100;
         }
 /*<          s = dabs(h(l-1,l-1)) + dabs(h(l,l)) >*/
-        s = (d__1 = h__[l - 1 + (l - 1) * h_dim1], abs(d__1)) + (d__2 = h__[l 
+        s = (d__1 = h__[l - 1 + (l - 1) * h_dim1], abs(d__1)) + (d__2 = h__[l
                 + l * h_dim1], abs(d__2));
 /*<          if (s .eq. 0.0d0) s = norm >*/
         if (s == 0.) {
@@ -247,7 +247,7 @@ L100:
     }
 
 /*<       s = dabs(h(en,na)) + dabs(h(na,enm2)) >*/
-    s = (d__1 = h__[en + na * h_dim1], abs(d__1)) + (d__2 = h__[na + enm2 * 
+    s = (d__1 = h__[en + na * h_dim1], abs(d__1)) + (d__2 = h__[na + enm2 *
             h_dim1], abs(d__2));
 /*<       x = 0.75d0 * s >*/
     x = s * .75;
@@ -275,7 +275,7 @@ L130:
 /*<          s = y - zz >*/
         s = y - zz;
 /*<          p = (r * s - w) / h(m+1,m) + h(m,m+1) >*/
-        p = (r__ * s - w) / h__[m + 1 + m * h_dim1] + h__[m + (m + 1) * 
+        p = (r__ * s - w) / h__[m + 1 + m * h_dim1] + h__[m + (m + 1) *
                 h_dim1];
 /*<          q = h(m+1,m+1) - zz - r - s >*/
         q = h__[m + 1 + (m + 1) * h_dim1] - zz - r__ - s;
@@ -294,10 +294,10 @@ L130:
             goto L150;
         }
 /*<          tst1 = dabs(p)*(dabs(h(m-1,m-1)) + dabs(zz) + dabs(h(m+1,m+1))) >*/
-        tst1 = abs(p) * ((d__1 = h__[m - 1 + (m - 1) * h_dim1], abs(d__1)) + 
+        tst1 = abs(p) * ((d__1 = h__[m - 1 + (m - 1) * h_dim1], abs(d__1)) +
                 abs(zz) + (d__2 = h__[m + 1 + (m + 1) * h_dim1], abs(d__2)));
 /*<          tst2 = tst1 + dabs(h(m,m-1))*(dabs(q) + dabs(r)) >*/
-        tst2 = tst1 + (d__1 = h__[m + (m - 1) * h_dim1], abs(d__1)) * (abs(q) 
+        tst2 = tst1 + (d__1 = h__[m + (m - 1) * h_dim1], abs(d__1)) * (abs(q)
                 + abs(r__));
 /*<          if (tst2 .eq. tst1) go to 150 >*/
         if (tst2 == tst1) {
@@ -467,7 +467,7 @@ L225:
         i__2 = j;
         for (i__ = 1; i__ <= i__2; ++i__) {
 /*<             p = x * h(i,k) + y * h(i,k+1) + zz * h(i,k+2) >*/
-            p = x * h__[i__ + k * h_dim1] + y * h__[i__ + (k + 1) * h_dim1] + 
+            p = x * h__[i__ + k * h_dim1] + y * h__[i__ + (k + 1) * h_dim1] +
                     zz * h__[i__ + (k + 2) * h_dim1];
 /*<             h(i,k) = h(i,k) - p >*/
             h__[i__ + k * h_dim1] -= p;
@@ -483,7 +483,7 @@ L225:
         i__2 = *igh;
         for (i__ = *low; i__ <= i__2; ++i__) {
 /*<             p = x * z(i,k) + y * z(i,k+1) + zz * z(i,k+2) >*/
-            p = x * z__[i__ + k * z_dim1] + y * z__[i__ + (k + 1) * z_dim1] + 
+            p = x * z__[i__ + k * z_dim1] + y * z__[i__ + (k + 1) * z_dim1] +
                     zz * z__[i__ + (k + 2) * z_dim1];
 /*<             z(i,k) = z(i,k) - p >*/
             z__[i__ + k * z_dim1] -= p;
@@ -787,7 +787,7 @@ L710:
 /*<          h(na,na) = q / h(en,na) >*/
         h__[na + na * h_dim1] = q / h__[en + na * h_dim1];
 /*<          h(na,en) = -(h(en,en) - p) / h(en,na) >*/
-        h__[na + en * h_dim1] = -(h__[en + en * h_dim1] - p) / h__[en + na * 
+        h__[na + en * h_dim1] = -(h__[en + en * h_dim1] - p) / h__[en + na *
                 h_dim1];
 /*<          go to 730 >*/
         goto L730;
@@ -854,7 +854,7 @@ L770:
 /*<             call cdiv(-ra,-sa,w,q,h(i,na),h(i,en)) >*/
             d__1 = -ra;
             d__2 = -sa;
-            cdiv_(&d__1, &d__2, &w, &q, &h__[i__ + na * h_dim1], &h__[i__ + 
+            cdiv_(&d__1, &d__2, &w, &q, &h__[i__ + na * h_dim1], &h__[i__ +
                     en * h_dim1]);
 /*<             go to 790 >*/
             goto L790;
@@ -889,17 +889,17 @@ L783:
 L784:
             d__1 = x * r__ - zz * ra + q * sa;
             d__2 = x * s - zz * sa - q * ra;
-            cdiv_(&d__1, &d__2, &vr, &vi, &h__[i__ + na * h_dim1], &h__[i__ + 
+            cdiv_(&d__1, &d__2, &vr, &vi, &h__[i__ + na * h_dim1], &h__[i__ +
                     en * h_dim1]);
 /*<             if (dabs(x) .le. dabs(zz) + dabs(q)) go to 785 >*/
             if (abs(x) <= abs(zz) + abs(q)) {
                 goto L785;
             }
 /*<             h(i+1,na) = (-ra - w * h(i,na) + q * h(i,en)) / x >*/
-            h__[i__ + 1 + na * h_dim1] = (-ra - w * h__[i__ + na * h_dim1] + 
+            h__[i__ + 1 + na * h_dim1] = (-ra - w * h__[i__ + na * h_dim1] +
                     q * h__[i__ + en * h_dim1]) / x;
 /*<             h(i+1,en) = (-sa - w * h(i,en) - q * h(i,na)) / x >*/
-            h__[i__ + 1 + en * h_dim1] = (-sa - w * h__[i__ + en * h_dim1] - 
+            h__[i__ + 1 + en * h_dim1] = (-sa - w * h__[i__ + en * h_dim1] -
                     q * h__[i__ + na * h_dim1]) / x;
 /*<             go to 790 >*/
             goto L790;
@@ -914,7 +914,7 @@ L785:
 /*<   790       t = dmax1(dabs(h(i,na)), dabs(h(i,en))) >*/
 L790:
 /* Computing MAX */
-            d__3 = (d__1 = h__[i__ + na * h_dim1], abs(d__1)), d__4 = (d__2 = 
+            d__3 = (d__1 = h__[i__ + na * h_dim1], abs(d__1)), d__4 = (d__2 =
                     h__[i__ + en * h_dim1], abs(d__2));
             t = max(d__3,d__4);
 /*<             if (t .eq. 0.0d0) go to 795 >*/

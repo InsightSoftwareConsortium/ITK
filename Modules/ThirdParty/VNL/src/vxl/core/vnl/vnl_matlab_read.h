@@ -70,7 +70,7 @@ class vnl_matlab_readhdr
  public: \
   bool read_data(T &); \
   bool read_data(T *); \
-  bool read_data(T * const *) // no ; here, please. SunPro 5.0 barfs.
+  bool read_data(T * const *) // no ; here, please.
 fsm_declare_methods(float);
 fsm_declare_methods(double);
 fsm_declare_methods(vcl_complex<float>);

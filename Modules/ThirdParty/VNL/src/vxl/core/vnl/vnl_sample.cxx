@@ -22,7 +22,7 @@ static unsigned long vnl_sample_seed = 12345;
 void vnl_sample_reseed()
 {
 #if VXL_STDLIB_HAS_SRAND48
-  srand48( vcl_time(0) );
+  srand48( vcl_time(VXL_NULLPTR) );
 #elif !VXL_STDLIB_HAS_DRAND48
   vnl_sample_seed = (unsigned long)vcl_time(0);
 #endif
@@ -53,7 +53,7 @@ double vnl_sample_uniform(double a, double b)
 void vnl_sample_normal_2(double *x, double *y)
 {
   double u     = vnl_sample_uniform(1, 0); // not (0,1): should not return 0
-  double theta = vnl_sample_uniform(0, 2 * vnl_math::pi);
+  double theta = vnl_sample_uniform(0, vnl_math::twopi);
 
   double r = vcl_sqrt(-2*vcl_log(u));
 
@@ -64,7 +64,7 @@ void vnl_sample_normal_2(double *x, double *y)
 double vnl_sample_normal(double mean, double sigma)
 {
   double x;
-  vnl_sample_normal_2(&x, 0);
+  vnl_sample_normal_2(&x, VXL_NULLPTR);
   return mean + sigma * x;
 }
 

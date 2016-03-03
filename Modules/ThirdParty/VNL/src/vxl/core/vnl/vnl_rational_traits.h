@@ -65,7 +65,10 @@ class vnl_numeric_traits<vcl_complex<vnl_rational> const> : public vnl_numeric_t
 };
 #endif
 
-vnl_rational vnl_math_squared_magnitude(vcl_complex<vnl_rational> const& );
-vnl_rational vnl_math_abs(vcl_complex<vnl_rational> const& );
+namespace vnl_math
+{
+  vnl_rational squared_magnitude(vcl_complex<vnl_rational> const& );
+  vnl_rational abs(vcl_complex<vnl_rational> const& );
+}
 
 #endif // vnl_rational_traits_h_

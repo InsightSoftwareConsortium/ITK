@@ -153,9 +153,9 @@ class vnl_finite_int
   //: Pre-decrement (--r).
   inline Base& operator--() { mo_=lp1_=0; if (val_==0) val_=N; --val_; return *this; }
   //: Post-increment (r++).
-  inline Base operator++(int){Base b=*this; mo_=lp1_=0; ++val_; if (val_==N) val_=0; return b; }
+  inline Base operator++(int) {Base b=*this; mo_=lp1_=0; ++val_; if (val_==N) val_=0; return b; }
   //: Post-decrement (r--).
-  inline Base operator--(int){Base b=*this; mo_=lp1_=0; if (val_==0) val_=N; --val_; return b;}
+  inline Base operator--(int) {Base b=*this; mo_=lp1_=0; if (val_==0) val_=N; --val_; return b;}
 
   //: Write N as the unique product of prime factors.
   static vcl_vector<unsigned int> decompose() {
@@ -197,7 +197,7 @@ class vnl_finite_int
   //: Return the smallest multiplicative generator of the units in this ring.
   //  This is only possible if the units form a cyclic group for multiplication.
   //  If not, smallest_generator() returns 1 to indicate this fact.
-  //  Note that the multiplication group of a finite *field* is always cyclic.
+  //  Note that the multiplication group of a finite \e field is always cyclic.
   static Base smallest_generator() {
     static Base gen_ = 0; // cached value
     if (gen_ != 0) return gen_;
@@ -384,25 +384,29 @@ inline bool operator== (int  r1, vnl_finite_int<N> const& r2) { return r2==r1; }
 template <int N>
 inline bool operator!= (int  r1, vnl_finite_int<N> const& r2) { return r2!=r1; }
 
-//:
-// \relatesalso vnl_finite_int
-template <int N>
-inline vnl_finite_int<N> vnl_math_squared_magnitude(vnl_finite_int<N> const& x) { return x*x; }
+namespace vnl_math
+{
+  //:
+  // \relatesalso vnl_finite_int
+  template <int N>
+  inline vnl_finite_int<N> squared_magnitude(vnl_finite_int<N> const& x) { return x*x; }
 
-//:
-// \relatesalso vnl_finite_int
-template <int N>
-inline vnl_finite_int<N> vnl_math_sqr(vnl_finite_int<N> const& x) { return x*x; }
+  //:
+  // \relatesalso vnl_finite_int
+  template <int N>
+  inline vnl_finite_int<N> sqr(vnl_finite_int<N> const& x) { return x*x; }
 
-//:
-// \relatesalso vnl_finite_int
-template <int N>
-inline bool vnl_math_isnan(vnl_finite_int<N> const& ){return false;}
+  //:
+  // \relatesalso vnl_finite_int
+  template <int N>
+  inline bool isnan(vnl_finite_int<N> const& ) {return false;}
 
-//:
-// \relatesalso vnl_finite_int
-template <int N>
-inline bool vnl_math_isfinite(vnl_finite_int<N> const& x){return true;}
+  //:
+  // \relatesalso vnl_finite_int
+  template <int N>
+  inline bool isfinite(vnl_finite_int<N> const& x) {return true;}
+
+ } // end namespace vnl_math
 
 //: finite modulo-N arithmetic with polynomials of degree < M
 //
@@ -556,7 +560,7 @@ class vnl_finite_int_poly
   //: Return the smallest multiplicative generator of the units in this ring.
   //  This is only possible if the units form a cyclic group for multiplication.
   //  If not, smallest_generator() returns 1 to indicate this fact.
-  //  Note that the multiplication group of a finite *field* is always cyclic.
+  //  Note that the multiplication group of a finite \e field is always cyclic.
   static Base smallest_generator() {
     if (!Base::is_field()) return Scalar(1);
     vcl_vector<Scalar> mod_p = Base::modulo_polynomial();

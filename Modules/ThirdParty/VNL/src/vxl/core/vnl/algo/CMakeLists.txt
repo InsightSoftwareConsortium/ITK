@@ -1,12 +1,12 @@
 # vxl/vnl/algo/CMakeLists.txt
 
-PROJECT(vnl_algo)
+project(vnl_algo)
 
 
-INCLUDE( ${MODULE_PATH}/FindNetlib.cmake )
+include( ${VXL_CMAKE_DIR}/FindNetlib.cmake )
 
 # most of vnl_algo is simply a wrapper around netlib, so we must have netlib.
-IF(NETLIB_FOUND)
+if(NETLIB_FOUND)
 
 # Direct netlib dependencies are:
 # vnl_chi_squared                  dchscdf_
@@ -31,30 +31,26 @@ IF(NETLIB_FOUND)
 # vnl_svd_fixed                    csvdc_ dsvdc_ ssvdc_ zsvdc_
 # vnl_symmetric_eigensystem        rs_
 
-  INCLUDE_DIRECTORIES( 
-    ${NETLIB_INCLUDE_DIR}
-    ${NETLIB_INCLUDE_DIR}/linalg
-    )
+  include_directories( ${NETLIB_INCLUDE_DIR} )
 
-  SET( vnl_algo_sources
-    dll.h
-
+  set( vnl_algo_sources
+    vnl_algo_export.h
     vnl_algo_fwd.h
     vnl_netlib.h
 
     # matrix decompositions
-    vnl_svd.txx vnl_svd.h
-    vnl_svd_economy.txx vnl_svd_economy.h
-    vnl_svd_fixed.txx vnl_svd_fixed.h
-    vnl_matrix_inverse.txx vnl_matrix_inverse.h
-    vnl_qr.txx vnl_qr.h
-    vnl_scatter_3x3.txx vnl_scatter_3x3.h
+    vnl_svd.hxx vnl_svd.h
+    vnl_svd_economy.hxx vnl_svd_economy.h
+    vnl_svd_fixed.hxx vnl_svd_fixed.h
+    vnl_matrix_inverse.hxx vnl_matrix_inverse.h
+    vnl_qr.hxx vnl_qr.h
+    vnl_scatter_3x3.hxx vnl_scatter_3x3.h
     vnl_cholesky.cxx vnl_cholesky.h
     vnl_ldl_cholesky.cxx vnl_ldl_cholesky.h
     vnl_sparse_lu.cxx vnl_sparse_lu.h
     vnl_real_eigensystem.cxx vnl_real_eigensystem.h
     vnl_complex_eigensystem.cxx vnl_complex_eigensystem.h
-    vnl_symmetric_eigensystem.txx vnl_symmetric_eigensystem.h
+    vnl_symmetric_eigensystem.hxx vnl_symmetric_eigensystem.h
     vnl_generalized_eigensystem.cxx vnl_generalized_eigensystem.h
     vnl_sparse_symmetric_eigensystem.cxx vnl_sparse_symmetric_eigensystem.h
     vnl_generalized_schur.cxx vnl_generalized_schur.h
@@ -76,24 +72,25 @@ IF(NETLIB_FOUND)
     vnl_brent_minimizer.cxx vnl_brent_minimizer.h
 
     # equation solvers
+    vnl_rpoly_roots.cxx vnl_rpoly_roots.h
     vnl_cpoly_roots.cxx vnl_cpoly_roots.h
     vnl_rnpoly_solve.cxx vnl_rnpoly_solve.h
     vnl_fit_parabola.h
 
     # fft
     vnl_fft.cxx vnl_fft.h
-    vnl_fft_base.txx vnl_fft_base.h
-    vnl_fft_1d.txx vnl_fft_1d.h
-    vnl_fft_2d.txx vnl_fft_2d.h
-    vnl_fft_prime_factors.txx vnl_fft_prime_factors.h
+    vnl_fft_base.hxx vnl_fft_base.h
+    vnl_fft_1d.hxx vnl_fft_1d.h
+    vnl_fft_2d.hxx vnl_fft_2d.h
+    vnl_fft_prime_factors.hxx vnl_fft_prime_factors.h
 
     # stuff
-    vnl_convolve.txx vnl_convolve.h
-    vnl_determinant.cxx vnl_determinant.txx vnl_determinant.h
-    vnl_chi_squared.txx vnl_chi_squared.h
+    vnl_convolve.hxx vnl_convolve.h
+    vnl_determinant.cxx vnl_determinant.hxx vnl_determinant.h
+    vnl_chi_squared.hxx vnl_chi_squared.h
     vnl_gaussian_kernel_1d.cxx vnl_gaussian_kernel_1d.h
-    vnl_adjugate.txx vnl_adjugate.h
-    vnl_orthogonal_complement.txx vnl_orthogonal_complement.h
+    vnl_adjugate.hxx vnl_adjugate.h
+    vnl_orthogonal_complement.hxx vnl_orthogonal_complement.h
     vnl_matrix_update.h
 
     # integral
@@ -101,27 +98,14 @@ IF(NETLIB_FOUND)
     vnl_adaptsimpson_integral.cxx vnl_adaptsimpson_integral.h
   )
 
-  AUX_SOURCE_DIRECTORY(Templates vnl_algo_sources)
+  aux_source_directory(Templates vnl_algo_sources)
 
-  ADD_LIBRARY( itkvnl_algo ${vnl_algo_sources})
-  TARGET_LINK_LIBRARIES( itkvnl_algo ${NETLIB_LIBRARIES} itkvnl itkv3p_lsqr )
-  IF(ITK_LIBRARY_PROPERTIES)
-    SET_TARGET_PROPERTIES(itkvnl_algo PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-  ENDIF(ITK_LIBRARY_PROPERTIES)
+  vxl_add_library( LIBNAME ${VXL_LIB_PREFIX}vnl_algo LIBSRCS ${vnl_algo_sources})
+  target_link_libraries( ${VXL_LIB_PREFIX}vnl_algo ${NETLIB_LIBRARIES} ${VXL_LIB_PREFIX}vnl )
+  include(GenerateExportHeader)
+  generate_export_header(${VXL_LIB_PREFIX}vnl_algo BASE_NAME vnl_algo)
 
-  IF(NOT VXL_INSTALL_NO_LIBRARIES)
-    INSTALL(TARGETS itkvnl_algo
-      EXPORT ${VXL_INSTALL_EXPORT_NAME}
-      RUNTIME DESTINATION ${VXL_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
-      LIBRARY DESTINATION ${VXL_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
-      ARCHIVE DESTINATION ${VXL_INSTALL_ARCHIVE_DIR} COMPONENT Development)
-  ENDIF(NOT VXL_INSTALL_NO_LIBRARIES)
-  IF(NOT VXL_INSTALL_NO_DEVELOPMENT)
-    INSTALL_NOBASE_HEADER_FILES(${VXL_INSTALL_INCLUDE_DIR}/vnl/algo ${vnl_algo_sources})
-  ENDIF(NOT VXL_INSTALL_NO_DEVELOPMENT)
-
-  IF( BUILD_TESTING )
-    SUBDIRS(tests)
-  ENDIF( BUILD_TESTING )
-
-ENDIF(NETLIB_FOUND)
+  if( BUILD_TESTING )
+    add_subdirectory(tests)
+  endif()
+endif()

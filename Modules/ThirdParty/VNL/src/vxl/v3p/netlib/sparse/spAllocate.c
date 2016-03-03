@@ -43,13 +43,6 @@
  *  Copyright (c) 1985-2003 by Kenneth S. Kundert
  */
 
-#if 0
-static char copyright[] =
-    "Sparse1.4: Copyright (c) 1985-2003 by Kenneth S. Kundert";
-#endif
-
-
-
 /*
  *  IMPORTS
  *
@@ -88,9 +81,6 @@ char spcMatrixMustNotBeFactored[] = "Matrix must not be factored";
  *  Function declarations
  */
 
-#if 0 //not used so eliminate warning - JLM
-static spError ReserveElements( MatrixPtr, int );
-#endif
 static void InitializeElementBlocks( MatrixPtr, int, int );
 static void RecordAllocation( MatrixPtr, void* );
 static void AllocateBlockOfAllocationList( MatrixPtr );
@@ -551,7 +541,7 @@ RecordAllocation(
 
 
 /*
- *  ADD A BLOCK OF SLOTS TO ALLOCATION LIST     
+ *  ADD A BLOCK OF SLOTS TO ALLOCATION LIST
  *
  *  This routine increases the size of the allocation list.
  *

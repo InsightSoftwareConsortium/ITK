@@ -32,7 +32,7 @@
 // packed form, which is most easily used via the "solve" and
 // "determinant" methods.
 
-template <class T>
+VCL_TEMPLATE_EXPORT template <class T>
 class vnl_qr
 {
  public:
@@ -85,7 +85,7 @@ inline T vnl_qr_determinant(vnl_matrix<T> const& m)
   return vnl_qr<T>(m).determinant();
 }
 
-template <class T>
+VCL_TEMPLATE_EXPORT template <class T>
 vcl_ostream& operator<<(vcl_ostream&, vnl_qr<T> const & qr);
 
 #endif // vnl_qr_h_

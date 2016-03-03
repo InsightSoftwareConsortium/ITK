@@ -22,16 +22,16 @@ static integer c__2 = 2;
 static doublereal c_b28 = 1.;
 
 /*<    >*/
-/* Subroutine */ int dtgsen_(integer *ijob, logical *wantq, logical *wantz, 
+/* Subroutine */ int dtgsen_(integer *ijob, logical *wantq, logical *wantz,
         logical *select, integer *n, doublereal *a, integer *lda, doublereal *
         b, integer *ldb, doublereal *alphar, doublereal *alphai, doublereal *
-        beta, doublereal *q, integer *ldq, doublereal *z__, integer *ldz, 
-        integer *m, doublereal *pl, doublereal *pr, doublereal *dif, 
-        doublereal *work, integer *lwork, integer *iwork, integer *liwork, 
+        beta, doublereal *q, integer *ldq, doublereal *z__, integer *ldz,
+        integer *m, doublereal *pl, doublereal *pr, doublereal *dif,
+        doublereal *work, integer *lwork, integer *iwork, integer *liwork,
         integer *info)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1,
             z_offset, i__1, i__2;
     doublereal d__1;
 
@@ -46,7 +46,7 @@ static doublereal c_b28 = 1.;
     integer ierr;
     doublereal dsum;
     logical swap;
-    extern /* Subroutine */ int dlag2_(doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dlag2_(doublereal *, integer *, doublereal *,
             integer *, doublereal *, doublereal *, doublereal *, doublereal *,
              doublereal *, doublereal *);
     logical wantd;
@@ -57,17 +57,17 @@ static doublereal c_b28 = 1.;
     extern /* Subroutine */ int dlacon_(integer *, doublereal *, doublereal *,
              integer *, doublereal *, integer *);
     doublereal rdscal;
-    extern /* Subroutine */ int dlacpy_(char *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, ftnlen), 
-            xerbla_(char *, integer *, ftnlen), dtgexc_(logical *, logical *, 
-            integer *, doublereal *, integer *, doublereal *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, integer *, 
+    extern /* Subroutine */ int dlacpy_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, integer *, ftnlen),
+            xerbla_(char *, integer *, ftnlen), dtgexc_(logical *, logical *,
+            integer *, doublereal *, integer *, doublereal *, integer *,
+            doublereal *, integer *, doublereal *, integer *, integer *,
             integer *, doublereal *, integer *, integer *), dlassq_(integer *,
              doublereal *, integer *, doublereal *, doublereal *);
     integer liwmin;
-    extern /* Subroutine */ int dtgsyl_(char *, integer *, integer *, integer 
+    extern /* Subroutine */ int dtgsyl_(char *, integer *, integer *, integer
             *, doublereal *, integer *, doublereal *, integer *, doublereal *,
-             integer *, doublereal *, integer *, doublereal *, integer *, 
+             integer *, doublereal *, integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *, doublereal *,
              integer *, integer *, integer *, ftnlen);
     doublereal smlnum;
@@ -558,7 +558,7 @@ static doublereal c_b28 = 1.;
     if (*ijob == 1 || *ijob == 2 || *ijob == 4) {
 /*<          LWMIN = MAX( 1, 4*N+16, 2*M*( N-M ) ) >*/
 /* Computing MAX */
-        i__1 = 1, i__2 = (*n << 2) + 16, i__1 = max(i__1,i__2), i__2 = (*m << 
+        i__1 = 1, i__2 = (*n << 2) + 16, i__1 = max(i__1,i__2), i__2 = (*m <<
                 1) * (*n - *m);
         lwmin = max(i__1,i__2);
 /*<          LIWMIN = MAX( 1, N+6 ) >*/
@@ -569,12 +569,12 @@ static doublereal c_b28 = 1.;
     } else if (*ijob == 3 || *ijob == 5) {
 /*<          LWMIN = MAX( 1, 4*N+16, 4*M*( N-M ) ) >*/
 /* Computing MAX */
-        i__1 = 1, i__2 = (*n << 2) + 16, i__1 = max(i__1,i__2), i__2 = (*m << 
+        i__1 = 1, i__2 = (*n << 2) + 16, i__1 = max(i__1,i__2), i__2 = (*m <<
                 2) * (*n - *m);
         lwmin = max(i__1,i__2);
 /*<          LIWMIN = MAX( 1, 2*M*( N-M ), N+6 ) >*/
 /* Computing MAX */
-        i__1 = 1, i__2 = (*m << 1) * (*n - *m), i__1 = max(i__1,i__2), i__2 = 
+        i__1 = 1, i__2 = (*m << 1) * (*n - *m), i__1 = max(i__1,i__2), i__2 =
                 *n + 6;
         liwmin = max(i__1,i__2);
 /*<       ELSE >*/
@@ -702,8 +702,8 @@ static doublereal c_b28 = 1.;
                 kk = k;
 /*<    >*/
                 if (k != ks) {
-                    dtgexc_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset], 
-                            ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &kk, 
+                    dtgexc_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset],
+                            ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &kk,
                             &ks, &work[1], lwork, &ierr);
                 }
 
@@ -764,12 +764,12 @@ static doublereal c_b28 = 1.;
         dlacpy_("Full", &n1, &n2, &a[i__ * a_dim1 + 1], lda, &work[1], &n1, (
                 ftnlen)4);
 /*<    >*/
-        dlacpy_("Full", &n1, &n2, &b[i__ * b_dim1 + 1], ldb, &work[n1 * n2 + 
+        dlacpy_("Full", &n1, &n2, &b[i__ * b_dim1 + 1], ldb, &work[n1 * n2 +
                 1], &n1, (ftnlen)4);
 /*<    >*/
         i__1 = *lwork - (n1 << 1) * n2;
         dtgsyl_("N", &ijb, &n1, &n2, &a[a_offset], lda, &a[i__ + i__ * a_dim1]
-                , lda, &work[1], &n1, &b[b_offset], ldb, &b[i__ + i__ * 
+                , lda, &work[1], &n1, &b[b_offset], ldb, &b[i__ + i__ *
                 b_dim1], ldb, &work[n1 * n2 + 1], &n1, &dscale, &dif[1], &
                 work[(n1 * n2 << 1) + 1], &i__1, &iwork[1], &ierr, (ftnlen)1);
 
@@ -837,8 +837,8 @@ static doublereal c_b28 = 1.;
 
 /*<    >*/
             i__1 = *lwork - (n1 << 1) * n2;
-            dtgsyl_("N", &ijb, &n1, &n2, &a[a_offset], lda, &a[i__ + i__ * 
-                    a_dim1], lda, &work[1], &n1, &b[b_offset], ldb, &b[i__ + 
+            dtgsyl_("N", &ijb, &n1, &n2, &a[a_offset], lda, &a[i__ + i__ *
+                    a_dim1], lda, &work[1], &n1, &b[b_offset], ldb, &b[i__ +
                     i__ * b_dim1], ldb, &work[n1 * n2 + 1], &n1, &dscale, &
                     dif[1], &work[(n1 << 1) * n2 + 1], &i__1, &iwork[1], &
                     ierr, (ftnlen)1);
@@ -848,8 +848,8 @@ static doublereal c_b28 = 1.;
 /*<    >*/
             i__1 = *lwork - (n1 << 1) * n2;
             dtgsyl_("N", &ijb, &n2, &n1, &a[i__ + i__ * a_dim1], lda, &a[
-                    a_offset], lda, &work[1], &n2, &b[i__ + i__ * b_dim1], 
-                    ldb, &b[b_offset], ldb, &work[n1 * n2 + 1], &n2, &dscale, 
+                    a_offset], lda, &work[1], &n2, &b[i__ + i__ * b_dim1],
+                    ldb, &b[b_offset], ldb, &work[n1 * n2 + 1], &n2, &dscale,
                     &dif[2], &work[(n1 << 1) * n2 + 1], &i__1, &iwork[1], &
                     ierr, (ftnlen)1);
 /*<          ELSE >*/
@@ -890,10 +890,10 @@ L40:
 
 /*<    >*/
                     i__1 = *lwork - (n1 << 1) * n2;
-                    dtgsyl_("N", &ijb, &n1, &n2, &a[a_offset], lda, &a[i__ + 
-                            i__ * a_dim1], lda, &work[1], &n1, &b[b_offset], 
-                            ldb, &b[i__ + i__ * b_dim1], ldb, &work[n1 * n2 + 
-                            1], &n1, &dscale, &dif[1], &work[(n1 << 1) * n2 + 
+                    dtgsyl_("N", &ijb, &n1, &n2, &a[a_offset], lda, &a[i__ +
+                            i__ * a_dim1], lda, &work[1], &n1, &b[b_offset],
+                            ldb, &b[i__ + i__ * b_dim1], ldb, &work[n1 * n2 +
+                            1], &n1, &dscale, &dif[1], &work[(n1 << 1) * n2 +
                             1], &i__1, &iwork[1], &ierr, (ftnlen)1);
 /*<                ELSE >*/
                 } else {
@@ -902,10 +902,10 @@ L40:
 
 /*<    >*/
                     i__1 = *lwork - (n1 << 1) * n2;
-                    dtgsyl_("T", &ijb, &n1, &n2, &a[a_offset], lda, &a[i__ + 
-                            i__ * a_dim1], lda, &work[1], &n1, &b[b_offset], 
-                            ldb, &b[i__ + i__ * b_dim1], ldb, &work[n1 * n2 + 
-                            1], &n1, &dscale, &dif[1], &work[(n1 << 1) * n2 + 
+                    dtgsyl_("T", &ijb, &n1, &n2, &a[a_offset], lda, &a[i__ +
+                            i__ * a_dim1], lda, &work[1], &n1, &b[b_offset],
+                            ldb, &b[i__ + i__ * b_dim1], ldb, &work[n1 * n2 +
+                            1], &n1, &dscale, &dif[1], &work[(n1 << 1) * n2 +
                             1], &i__1, &iwork[1], &ierr, (ftnlen)1);
 /*<                END IF >*/
                 }
@@ -932,10 +932,10 @@ L50:
 
 /*<    >*/
                     i__1 = *lwork - (n1 << 1) * n2;
-                    dtgsyl_("N", &ijb, &n2, &n1, &a[i__ + i__ * a_dim1], lda, 
-                            &a[a_offset], lda, &work[1], &n2, &b[i__ + i__ * 
-                            b_dim1], ldb, &b[b_offset], ldb, &work[n1 * n2 + 
-                            1], &n2, &dscale, &dif[2], &work[(n1 << 1) * n2 + 
+                    dtgsyl_("N", &ijb, &n2, &n1, &a[i__ + i__ * a_dim1], lda,
+                            &a[a_offset], lda, &work[1], &n2, &b[i__ + i__ *
+                            b_dim1], ldb, &b[b_offset], ldb, &work[n1 * n2 +
+                            1], &n2, &dscale, &dif[2], &work[(n1 << 1) * n2 +
                             1], &i__1, &iwork[1], &ierr, (ftnlen)1);
 /*<                ELSE >*/
                 } else {
@@ -944,10 +944,10 @@ L50:
 
 /*<    >*/
                     i__1 = *lwork - (n1 << 1) * n2;
-                    dtgsyl_("T", &ijb, &n2, &n1, &a[i__ + i__ * a_dim1], lda, 
-                            &a[a_offset], lda, &work[1], &n2, &b[i__ + i__ * 
-                            b_dim1], ldb, &b[b_offset], ldb, &work[n1 * n2 + 
-                            1], &n2, &dscale, &dif[2], &work[(n1 << 1) * n2 + 
+                    dtgsyl_("T", &ijb, &n2, &n1, &a[i__ + i__ * a_dim1], lda,
+                            &a[a_offset], lda, &work[1], &n2, &b[i__ + i__ *
+                            b_dim1], ldb, &b[b_offset], ldb, &work[n1 * n2 +
+                            1], &n2, &dscale, &dif[2], &work[(n1 << 1) * n2 +
                             1], &i__1, &iwork[1], &ierr, (ftnlen)1);
 /*<                END IF >*/
                 }

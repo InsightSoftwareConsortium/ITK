@@ -45,7 +45,7 @@
 // platforms with vcl_vector<vnl_rational>.
 # define VNL_SSE_FORCE_INLINE /* __attribute__((always_inline)) */ inline
 # define VNL_SSE_STACK_ALIGNED(x)  __attribute__((aligned(x)))
-#elif defined VCL_VC || defined VCL_ICC
+#elif defined VCL_VC
 # define VNL_SSE_FORCE_INLINE __forceinline
 # define VNL_SSE_STACK_ALIGNED(x)  __declspec(align(x))
 #else
@@ -55,58 +55,32 @@
 #endif
 
 
-static VNL_SSE_FORCE_INLINE void vnl_sse_free( void* v, unsigned n, unsigned s )
-{
-#if VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_MM_MALLOC
-  (void)n;
-  (void)s;
-  _mm_free(v);
-#elif VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_ALIGNED_MALLOC
-  (void)n;
-  (void)s;
-  _aligned_free(v);
-#elif VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_MINGW_ALIGNED_MALLOC
-  (void)n;
-  (void)s;
-  __mingw_aligned_free(v);
-#elif VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_POSIX_MEMALIGN
-  (void)n;
-  (void)s;
-  vcl_free(v);
-#else // sse2 disabled or could not get memory alignment support, use slower unaligned based intrinsics
-# if VNL_CONFIG_THREAD_SAFE
-  (void)n;
-  (void)s;
-   delete [] static_cast<char*>(v);
-# else
-  if (v) vnl_alloc::deallocate(v, (n == 0) ? 8 : (n * s));
-# endif
-#endif
-}
-
-
-# define VNL_SSE_FREE(v,n,s)  vnl_sse_free(v,n,s);
-
 // SSE operates faster with 16 byte aligned memory addresses.
 // Check what memory alignment function is supported
 #if VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_MM_MALLOC
 # define VNL_SSE_ALLOC(n,s,a) _mm_malloc(n*s,a)
+# define VNL_SSE_FREE(v,n,s) _mm_free(v)
 #elif VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_ALIGNED_MALLOC
 # include <malloc.h>
 # define VNL_SSE_ALLOC(n,s,a) _aligned_malloc(n*s,a)
+# define VNL_SSE_FREE(v,n,s) _aligned_free(v)
 #elif VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_MINGW_ALIGNED_MALLOC
 # include <malloc.h>
 # define VNL_SSE_ALLOC(n,s,a) __mingw_aligned_malloc(n*s,a)
+# define VNL_SSE_FREE(v,n,s) __mingw_aligned_free(v)
 #elif VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_POSIX_MEMALIGN
 # include <vcl_cstdlib.h>
 # define VNL_SSE_ALLOC(n,s,a) memalign(a,n*s)
+# define VNL_SSE_FREE(v,n,s) vcl_free(v)
 #else // sse2 disabled or could not get memory alignment support, use slower unaligned based intrinsics
 # define VNL_SSE_HEAP_STORE(pf) _mm_storeu_##pf
 # define VNL_SSE_HEAP_LOAD(pf) _mm_loadu_##pf
 # if VNL_CONFIG_THREAD_SAFE
 #   define VNL_SSE_ALLOC(n,s,a) new char[n*s]
+#   define VNL_SSE_FREE(v,n,s) delete [] static_cast<char*>(v)
 # else
 #   define VNL_SSE_ALLOC(n,s,a) vnl_alloc::allocate((n == 0) ? 8 : (n * s));
+#   define VNL_SSE_FREE(v,n,s) if (v) vnl_alloc::deallocate(v, (n == 0) ? 8 : (n * s));
 # endif
 #endif
 
@@ -194,13 +168,6 @@ class vnl_sse
   {
     // IMS: Unable to optimise this any further for MSVC compiler
     T sum(0);
-  #ifdef VCL_VC_6
-    for (unsigned i=0; i<n; ++i)
-    {
-      const T diff = x[i] - y[i];
-      sum += diff*diff;
-    }
-  #else
     --x;
     --y;
     while (n!=0)
@@ -209,7 +176,6 @@ class vnl_sse
       sum += diff*diff;
       --n;
     }
-  #endif
     return sum;
   }
 

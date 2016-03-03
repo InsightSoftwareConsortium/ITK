@@ -24,12 +24,7 @@
 
 #include <vcl_string.h>
 
-#if 0 // ifdef VCL_VC - gives compiler errors - PVr
-typedef int ( (__cdecl *const) TestMainFunction)( int, char*[] );
-#else
 typedef int (*TestMainFunction)( int, char*[] );
-#endif
-
 
 //: Declare the existence of the test.
 // If you DECLARE( x ), then you will need to define a function int x_main(int,char*[]).

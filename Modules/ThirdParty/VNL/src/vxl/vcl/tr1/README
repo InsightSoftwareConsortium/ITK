@@ -1,6 +1,6 @@
 This directory is for compilers that are ISO and provide TR1
 extensions for the upcoming C++0x standard.  This assumes
-the TR1 extensions for <blah> are in <tr1/blah> and defined in 
+the TR1 extensions for <blah> are in <tr1/blah> and defined in
 namespace std::tr1
 
 (in vcl_blah.h)
@@ -15,13 +15,6 @@ If your compiler is ISO compliant with TR1 extensions then
 
 #include "tr1/vcl_blah.h"
 #include "iso/vcl_blah.h"
-
-If your compiler is ISO compliant with no 0x support then
-
-#include "emulation/vcl_new_blah_related_files.h"
-#include "iso/vcl_blah.h"
-
-
 
 All of the .h files in this directory should look like this:
   #include <tr1/blah>

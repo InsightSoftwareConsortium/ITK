@@ -9,7 +9,7 @@
 // \author Aaron Kotcheff (Manchester)
 // \brief A superior random number generator
 
-const int vnl_random_array_size = 37;
+const unsigned int vnl_random_array_size = 37;
 
 //: A superior random number generator.
 // Implements a new random number generator that
@@ -26,7 +26,7 @@ class vnl_random
     unsigned long linear_congruential_previous;
     unsigned long mz_seed_array[vnl_random_array_size];
     unsigned long mz_array[vnl_random_array_size];
-    int mz_array_position;
+    unsigned int mz_array_position;
     int mz_borrow;
     unsigned long linear_congruential_lrand32();
 

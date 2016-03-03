@@ -7,7 +7,7 @@
 
 #include "vnl_io_nonlinear_minimizer.h"
 #include <vsl/vsl_binary_io.h>
-#include <vsl/vsl_clipon_binary_loader.txx>
+#include <vsl/vsl_clipon_binary_loader.hxx>
 
 //: Create new object of type vnl_nonlinear_minimizer on heap
 vnl_nonlinear_minimizer* vnl_io_nonlinear_minimizer::new_object() const

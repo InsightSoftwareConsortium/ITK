@@ -299,7 +299,7 @@
 //: VCL_NULL_TMPL_ARGS
 //
 // Define to <> for compilers that require them in friend template function
-// declarations (i.e., EGCS, VC C++.NET 2003).
+// declarations (i.e., VC C++.NET 2003).
 
 //#define VCL_NULL_TMPL_ARGS /* <> */
 //#define VCL_NULL_TMPL_ARGS <>
@@ -474,7 +474,7 @@ text { return ret; }
 
 //: VCL_OVERLOAD_CAST
 //
-// Some compilers (gcc 2.7.2.3 and SGI native 6.0) often won't perform
+// Some compilers (gcc 2.7.2.3) often won't perform
 // certain implicit casts. E.g. casting a templated derived class to a
 // templated base class (see above), or even realizing that
 // "template void foo(float const * const *, float * const *, int, int)"
@@ -540,17 +540,6 @@ text { return ret; }
 #define VCL_CAN_DO_COMPLETE_DEFAULT_TYPE_PARAMETER @VCL_CAN_DO_COMPLETE_DEFAULT_TYPE_PARAMETER@
 #define VCL_CAN_DO_TEMPLATE_DEFAULT_TYPE_PARAMETER @VCL_CAN_DO_TEMPLATE_DEFAULT_TYPE_PARAMETER@
 
-// VCL_DFL_TYPE_PARAM_STLDECL(A, a) and VCL_DFL_TMPL_PARAM_STLDECL(A, a)
-// EGCS doesn't like definition of default types, viz:
-// \code
-//   template <class A = default> class vector;
-//   template <class A = default> class vector { ... };
-// \endcode
-// This macro is used to say "define if not previously defined, like
-// \code
-//   template <VCL_DFL_TYPE_PARAM_STLDECL(A,a)> class vector { ... };
-// \endcode
-
 //#define VCL_DFL_TYPE_PARAM_STLDECL(A,a) A = a
 //#define VCL_DFL_TYPE_PARAM_STLDECL(A,a) A /* = a */
 //#define VCL_DFL_TYPE_PARAM_STLDECL(A,a) __DFL_TYPE_PARAM(A,a)
@@ -578,24 +567,6 @@ text { return ret; }
 //FIXME #define VCL_DFL_TMPL_ARG(classname) @VCL_DFL_TMPL_ARG@
 
 
-//: VCL_SUNPRO_CLASS_SCOPE_HACK(A)
-//
-// Nice one.  Can't use std::vector<T> in a class on SunPro 5, must use
-// std::vector<T, std::allocator<T> >.  Of course, we cannot expect that other
-// compilers call the default allocator std::allocator<T>, so we must use
-// a macro.  I could call it something generic, like
-// VCL_CLASS_SCOPE_HACK, but to be honest, it's a sunpro problem,
-// they deserve the blame.
-// Usage (the comma is inside the macro) :
-// \code
-//    vector<T VCL_SUNPRO_CLASS_SCOPE_HACK(std::allocator<T >)>
-// \endcode
-
-//#define VCL_SUNPRO_CLASS_SCOPE_HACK(A) /* , A */
-//#define VCL_SUNPRO_CLASS_SCOPE_HACK(A) , A
-#define VCL_SUNPRO_CLASS_SCOPE_HACK(A) @VCL_SUNPRO_CLASS_SCOPE_HACK@
-
-
 //----------------------------------------------------------------------
 // exception and namespace issues
 
@@ -615,23 +586,9 @@ text { return ret; }
 #define VCL_ALLOWS_NAMESPACE_STD @VCL_ALLOWS_NAMESPACE_STD@
 
 
-
 //: VCL_NEEDS_NAMESPACE_STD
 // Set to true if the compiler needs namespace std:: for the standard library.
 #define VCL_NEEDS_NAMESPACE_STD @VCL_NEEDS_NAMESPACE_STD@
-
-//----------------------------------------------------------------------
-// infinity issues
-
-//: VCL_NUMERIC_LIMITS_HAS_INFINITY
-// Set to true if there is a numeric_limits and it reports having an floating point infinity.
-#define VCL_NUMERIC_LIMITS_HAS_INFINITY @VCL_NUMERIC_LIMITS_HAS_INFINITY@
-
-//: VCL_PROCESSOR_HAS_INFINITY
-// Set to true if the processor really does have an infinity.
-// Although this is strictly not a C++ issue, some platforms' versions of
-// numeric_limits<double> imply that there is no infinity, when there is.
-#define VCL_PROCESSOR_HAS_INFINITY @VCL_PROCESSOR_HAS_INFINITY@
 
 //----------------------------------------------------------------------
 // signedness of char

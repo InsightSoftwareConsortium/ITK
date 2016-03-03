@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE DLASCL( TYPE, KL, KU, CFROM, CTO, M, N, A, LDA, INFO ) >*/
-/* Subroutine */ int dlascl_(char *type__, integer *kl, integer *ku, 
-        doublereal *cfrom, doublereal *cto, integer *m, integer *n, 
+/* Subroutine */ int dlascl_(char *type__, integer *kl, integer *ku,
+        doublereal *cfrom, doublereal *cto, integer *m, integer *n,
         doublereal *a, integer *lda, integer *info, ftnlen type_len)
 {
     /* System generated locals */
@@ -212,7 +212,7 @@ extern "C" {
         } else /* if(complicated condition) */ {
 /* Computing MAX */
             i__1 = *n - 1;
-            if (*ku < 0 || *ku > max(i__1,0) || ((itype == 4 || itype == 5) && 
+            if (*ku < 0 || *ku > max(i__1,0) || ((itype == 4 || itype == 5) &&
                     *kl != *ku)) {
 /*<             INFO = -3 >*/
                 *info = -3;

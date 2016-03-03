@@ -14,33 +14,33 @@
 
 
 # If this FORCE variable is unset or is FALSE, try to find a native library.
-IF( VXL_FORCE_V3P_ZLIB )
-ELSE( VXL_FORCE_V3P_ZLIB )
+if( VXL_FORCE_V3P_ZLIB )
+else()
   # Suppress not found messages
-  FIND_PACKAGE( ZLIB QUIET )
-ENDIF( VXL_FORCE_V3P_ZLIB )
+  find_package( ZLIB QUIET )
+endif()
 
-  
-IF(ZLIB_FOUND)
 
-  SET(VXL_USING_NATIVE_ZLIB "YES")
+if(ZLIB_FOUND)
+
+  set(VXL_USING_NATIVE_ZLIB "YES")
   # All the other variables are set by CMake's FindZLIB. Don't
   # set them here.
 
-ELSE(ZLIB_FOUND)
+else()
 
   #
   # At some point, in a "release" version, it is possible that someone
   # will not have the v3p ZLIB library, so make sure the headers
   # exist.
   #
-  
-  IF(EXISTS ${vxl_SOURCE_DIR}/v3p/zlib/zlib.h)
 
-    SET( ZLIB_FOUND "YES" )
-    SET( ZLIB_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/zlib)  
-    SET( ZLIB_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/zlib)  
-    SET( ZLIB_LIBRARIES z )
-  
-  ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/zlib/zlib.h)
-ENDIF(ZLIB_FOUND)
+  if(EXISTS ${VXL_ROOT_SOURCE_DIR}/v3p/zlib/zlib.h)
+
+    set( ZLIB_FOUND "YES" )
+    set( ZLIB_INCLUDE_DIR ${VXL_ROOT_SOURCE_DIR}/v3p/zlib)
+    set( ZLIB_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/zlib)
+    set( ZLIB_LIBRARIES z )
+
+  endif()
+endif()

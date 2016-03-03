@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       subroutine sqrdc(x,ldx,n,p,qraux,jpvt,work,job) >*/
-/* Subroutine */ int sqrdc_(real *x, integer *ldx, integer *n, integer *p, 
+/* Subroutine */ int sqrdc_(real *x, integer *ldx, integer *n, integer *p,
         real *qraux, integer *jpvt, real *work, integer *job)
 {
     /* System generated locals */
@@ -38,14 +38,14 @@ static integer c__1 = 1;
     integer lp1, lup;
     logical negj;
     integer maxj;
-    extern doublereal sdot_(integer *, real *, integer *, real *, integer *), 
+    extern doublereal sdot_(integer *, real *, integer *, real *, integer *),
             snrm2_(integer *, real *, integer *);
     extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *);
     logical swapj;
-    extern /* Subroutine */ int sswap_(integer *, real *, integer *, real *, 
+    extern /* Subroutine */ int sswap_(integer *, real *, integer *, real *,
             integer *);
     real nrmxl;
-    extern /* Subroutine */ int saxpy_(integer *, real *, real *, integer *, 
+    extern /* Subroutine */ int saxpy_(integer *, real *, real *, integer *,
             real *, integer *);
     real maxnrm;
 

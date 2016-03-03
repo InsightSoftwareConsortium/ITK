@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       DOUBLE COMPLEX   FUNCTION ZLADIV( X, Y ) >*/
-/* Double Complex */ VOID zladiv_(doublecomplex * ret_val, doublecomplex *x, 
+/* Double Complex */ VOID zladiv_(doublecomplex * ret_val, doublecomplex *x,
         doublecomplex *y)
 {
     /* System generated locals */
@@ -28,7 +28,7 @@ extern "C" {
 
     /* Local variables */
     doublereal zi, zr;
-    extern /* Subroutine */ int dladiv_(doublereal *, doublereal *, 
+    extern /* Subroutine */ int dladiv_(doublereal *, doublereal *,
             doublereal *, doublereal *, doublereal *, doublereal *);
 
 

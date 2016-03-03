@@ -85,7 +85,7 @@ void test_real_polynomial()
   f8[1] = 0;
   { vcl_stringstream testStream;
     f8.print(testStream);
-    vcl_string expected = "0 ";
+    vcl_string expected = " 0";
     TEST("f8 prints as 0", testStream.str(), expected);
     vcl_cout << "Actual:\t\t\"" << testStream.str() << '"' << vcl_endl
              << "Expected:\t\"" << expected << '"' << vcl_endl;

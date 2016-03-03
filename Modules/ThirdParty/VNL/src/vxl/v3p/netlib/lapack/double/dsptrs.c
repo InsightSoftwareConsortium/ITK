@@ -22,8 +22,8 @@ static integer c__1 = 1;
 static doublereal c_b19 = 1.;
 
 /*<       SUBROUTINE DSPTRS( UPLO, N, NRHS, AP, IPIV, B, LDB, INFO ) >*/
-/* Subroutine */ int dsptrs_(char *uplo, integer *n, integer *nrhs, 
-        doublereal *ap, integer *ipiv, doublereal *b, integer *ldb, integer * 
+/* Subroutine */ int dsptrs_(char *uplo, integer *n, integer *nrhs,
+        doublereal *ap, integer *ipiv, doublereal *b, integer *ldb, integer *
         info, ftnlen uplo_len)
 {
     /* System generated locals */
@@ -35,17 +35,17 @@ static doublereal c_b19 = 1.;
     doublereal ak, bk;
     integer kc, kp;
     doublereal akm1, bkm1;
-    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *, 
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
             integer *);
     doublereal akm1k;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal denom;
-    extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-            doublereal *, doublereal *, integer *, doublereal *, integer *, 
-            doublereal *, doublereal *, integer *, ftnlen), dswap_(integer *, 
+    extern /* Subroutine */ int dgemv_(char *, integer *, integer *,
+            doublereal *, doublereal *, integer *, doublereal *, integer *,
+            doublereal *, doublereal *, integer *, ftnlen), dswap_(integer *,
             doublereal *, integer *, doublereal *, integer *);
     logical upper;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
@@ -256,7 +256,7 @@ L10:
                     b_dim1 + 1], ldb);
 /*<    >*/
             i__1 = k - 2;
-            dger_(&i__1, nrhs, &c_b7, &ap[kc - (k - 1)], &c__1, &b[k - 1 + 
+            dger_(&i__1, nrhs, &c_b7, &ap[kc - (k - 1)], &c__1, &b[k - 1 +
                     b_dim1], ldb, &b[b_dim1 + 1], ldb);
 
 /*           Multiply by the inverse of the diagonal block. */
@@ -353,7 +353,7 @@ L40:
                     , &c__1, &c_b19, &b[k + b_dim1], ldb, (ftnlen)9);
 /*<    >*/
             i__1 = k - 1;
-            dgemv_("Transpose", &i__1, nrhs, &c_b7, &b[b_offset], ldb, &ap[kc 
+            dgemv_("Transpose", &i__1, nrhs, &c_b7, &b[b_offset], ldb, &ap[kc
                     + k], &c__1, &c_b19, &b[k + 1 + b_dim1], ldb, (ftnlen)9);
 
 /*           Interchange rows K and -IPIV(K). */
@@ -421,7 +421,7 @@ L60:
 /*<    >*/
             if (k < *n) {
                 i__1 = *n - k;
-                dger_(&i__1, nrhs, &c_b7, &ap[kc + 1], &c__1, &b[k + b_dim1], 
+                dger_(&i__1, nrhs, &c_b7, &ap[kc + 1], &c__1, &b[k + b_dim1],
                         ldb, &b[k + 1 + b_dim1], ldb);
             }
 
@@ -455,11 +455,11 @@ L60:
             if (k < *n - 1) {
 /*<    >*/
                 i__1 = *n - k - 1;
-                dger_(&i__1, nrhs, &c_b7, &ap[kc + 2], &c__1, &b[k + b_dim1], 
+                dger_(&i__1, nrhs, &c_b7, &ap[kc + 2], &c__1, &b[k + b_dim1],
                         ldb, &b[k + 2 + b_dim1], ldb);
 /*<    >*/
                 i__1 = *n - k - 1;
-                dger_(&i__1, nrhs, &c_b7, &ap[kc + *n - k + 2], &c__1, &b[k + 
+                dger_(&i__1, nrhs, &c_b7, &ap[kc + *n - k + 2], &c__1, &b[k +
                         1 + b_dim1], ldb, &b[k + 2 + b_dim1], ldb);
 /*<             END IF >*/
             }
@@ -532,8 +532,8 @@ L90:
 /*<    >*/
             if (k < *n) {
                 i__1 = *n - k;
-                dgemv_("Transpose", &i__1, nrhs, &c_b7, &b[k + 1 + b_dim1], 
-                        ldb, &ap[kc + 1], &c__1, &c_b19, &b[k + b_dim1], ldb, 
+                dgemv_("Transpose", &i__1, nrhs, &c_b7, &b[k + 1 + b_dim1],
+                        ldb, &ap[kc + 1], &c__1, &c_b19, &b[k + b_dim1], ldb,
                         (ftnlen)9);
             }
 
@@ -559,13 +559,13 @@ L90:
             if (k < *n) {
 /*<    >*/
                 i__1 = *n - k;
-                dgemv_("Transpose", &i__1, nrhs, &c_b7, &b[k + 1 + b_dim1], 
-                        ldb, &ap[kc + 1], &c__1, &c_b19, &b[k + b_dim1], ldb, 
+                dgemv_("Transpose", &i__1, nrhs, &c_b7, &b[k + 1 + b_dim1],
+                        ldb, &ap[kc + 1], &c__1, &c_b19, &b[k + b_dim1], ldb,
                         (ftnlen)9);
 /*<    >*/
                 i__1 = *n - k;
-                dgemv_("Transpose", &i__1, nrhs, &c_b7, &b[k + 1 + b_dim1], 
-                        ldb, &ap[kc - (*n - k)], &c__1, &c_b19, &b[k - 1 + 
+                dgemv_("Transpose", &i__1, nrhs, &c_b7, &b[k + 1 + b_dim1],
+                        ldb, &ap[kc - (*n - k)], &c__1, &c_b19, &b[k - 1 +
                         b_dim1], ldb, (ftnlen)9);
 /*<             END IF >*/
             }
@@ -604,4 +604,3 @@ L100:
 #ifdef __cplusplus
         }
 #endif
- 

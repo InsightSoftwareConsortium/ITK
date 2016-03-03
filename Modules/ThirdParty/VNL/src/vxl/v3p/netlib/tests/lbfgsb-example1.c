@@ -159,10 +159,6 @@
   16  format(/,5x, 'Solving sample problem.',
      +       /,5x, ' (f = 0.0 at the optimal solution.)',/)
 */
-#if 0
-    printf("     Solving sample problem.\n"
-           "      (f = 0.0 at the optimal solution.)\n");
-#endif
 /*<    >*/
 /*     We start the iteration by initializing task. */
 

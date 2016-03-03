@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       DOUBLE PRECISION FUNCTION ZLANHS( NORM, N, A, LDA, WORK ) >*/
-doublereal zlanhs_(char *norm, integer *n, doublecomplex *a, integer *lda, 
+doublereal zlanhs_(char *norm, integer *n, doublecomplex *a, integer *lda,
         doublereal *work, ftnlen norm_len)
 {
     /* System generated locals */

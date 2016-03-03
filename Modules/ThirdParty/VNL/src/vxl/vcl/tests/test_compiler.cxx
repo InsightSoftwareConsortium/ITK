@@ -2,8 +2,6 @@
 
 // ------------------------------------------------
 
-// this *does* work for SGI CC 7.2.1 -- fsm
-
 template <class T>
 struct X
 {
@@ -18,7 +16,7 @@ X<T>::X() : x(1728) { }
 
 // definition (not specialization) of static template member.
 template <class T>
-X<T> *X<T>::pl = 0;
+X<T> *X<T>::pl = VXL_NULLPTR;
 
 // explicit instantiation of class also instantiates statics.
 template struct X<int>;
@@ -46,7 +44,7 @@ int test_compiler_main(int /*argc*/,char* /*argv*/[])
   int result = 0;
 
   vcl_cout << "Testing static template member..." << vcl_flush;
-  if ( X<int>::pl == 0 ) {
+  if ( X<int>::pl == VXL_NULLPTR ) {
     vcl_cout << "  PASSED" << vcl_endl;
   }
   else {
@@ -62,7 +60,6 @@ int test_compiler_main(int /*argc*/,char* /*argv*/[])
   return result;
 }
 
-#if defined(VCL_USE_IMPLICIT_TEMPLATES) && VCL_USE_IMPLICIT_TEMPLATES
 #include <vcl_vector.h>
 #include <vcl_map.h>
 #include <vcl_algorithm.h>
@@ -118,7 +115,3 @@ bool operator==(mystery_type const &x, mystery_type const &y)
 
 bool operator< (mystery_type const &x, mystery_type const &y)
 { return (x.a <  y.b) || ((x.a == y.a) && (x.b < y.b)); }
-
-#else
-void vcl_test_implicit_instantiation(int) { }
-#endif

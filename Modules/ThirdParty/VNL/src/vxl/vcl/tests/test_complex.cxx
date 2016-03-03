@@ -39,7 +39,7 @@ int test_complex_main(int /*argc*/,char* /*argv*/[])
 
   // complex should have a type called value_type;
   vcl_complex<float>::value_type tmp = 1.0f;
-  tmp += 2.0f; // to avoid unused variable warnings.
+  (void)tmp; // to avoid unused variable warnings.
 
 
   // Test the vcl_pow functions
@@ -61,7 +61,7 @@ int test_complex_main(int /*argc*/,char* /*argv*/[])
 
   const vcl_complex<double> half(0.5,0.0);
   sqrt_neg1 = vcl_pow(neg1, half);
-  vcl_cout << "pow("<<neg1<<","<<half<<") = "<<sqrt_neg1<<
+  vcl_cout << "pow("<<neg1<<','<<half<<") = "<<sqrt_neg1<<
     " and should be (0,1)"<<vcl_endl;
   error = vcl_abs(sqrt_neg1-i);
   if ( error < 0.0  || 1e-6 < error)
@@ -77,8 +77,8 @@ int test_complex_main(int /*argc*/,char* /*argv*/[])
   {
     vcl_complex<double> x(2, 3);
     vcl_complex<double> xc = vcl_conj(x);
-    vcl_cout << "Conjugate " << x << " = " << xc << "\n";
-    if( xc != vcl_complex<double>(2,-3) ) {
+    vcl_cout << "Conjugate " << x << " = " << xc << '\n';
+    if ( xc != vcl_complex<double>(2,-3) ) {
       success = false;
     }
   }

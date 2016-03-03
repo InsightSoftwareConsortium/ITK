@@ -6,9 +6,13 @@
 // \file
 
 #include "vnl_na.h"
+
 #include <vxl_config.h>
 #include <vcl_istream.h>
-#include <vcl_ios.h>
+#include <vcl_sstream.h>
+#include <vcl_cctype.h>
+#include <vcl_string.h>
+#include <vnl/vnl_math.h>
 
 //: A particular qNaN to indicate not available.
 // This returns the bit pattern 0x7ff00000000007a2, as used by Octave and R
@@ -36,7 +40,6 @@ double vnl_na(double)
 }
 
 
-
 //: A particular qNaN to indicate not available.
 // This returns the bit pattern 0x7f8007a2
 // Don't assume that any VXL functions will treat the value as NA rather than NaN, unless
@@ -49,7 +52,6 @@ float vnl_na(float)
 
   return a;
 }
-
 
 //: True if parameter is specific NA qNaN.
 // Tests for bit pattern 0x7ff00000000007a2, as used by Octave and R
@@ -72,31 +74,82 @@ bool vnl_na_isna(float x)
     == 0x7f8007a2L;
 }
 
+
+//: Replace NaNs with NA, leave other values alone.
+double vnl_na_nan_to_na(double v)
+{
+  return vnl_math::isnan(v) ? vnl_na(double()) : v;
+}
+
+//: Replace NaNs with NA, leave other values alone.
+float vnl_na_nan_to_na(float v)
+{
+  return vnl_math::isnan(v) ? vnl_na(float()) : v;
+}
+
 //: Read a floating point number or "NA" from a stream.
-template <class T> inline void vnl_na_extract_type(vcl_istream &is, T& x)
+template <class T> inline void vnl_na_extract_type(vcl_istream &is, T& value)
 {
   if (!is) return;
-  is >> x;
+  vcl_stringstream oneToken("");
+  unsigned int char_processed_count = 0;
+  bool period_found = false;
+  bool current_location_is_delimiter = false;
 
-  if (!!is || is.eof()) return;
-  is.clear();
-
-  char c=' ';
-  is >> c;
-  if (c != 'N' && c!='n')
-  {
-    is.putback(c);
-    is.clear(vcl_ios::badbit);
-    return;
+  while (!is.eof()) {
+    vcl_stringstream::char_type c;
+    vcl_istream::int_type p = is.peek();
+    if ( char_processed_count == 0 ) { //The first character is the start of the token of interest.
+      if (vcl_isspace(p)) {
+        is.get(c); // Gobble up the peeked at character
+        continue; //Gobble up preceeding white space
+      }
+      if ( p == 'N' || p == 'n' ) {
+        is.get(c);// Gobble up the N
+        p = is.peek();
+        if (p == 'A' || p == 'a') {
+          is.get(c); // Gobble up the A
+          value = vnl_na(T());
+          return;
+        }
+        else
+        {
+          vcl_string checkForNAString;
+          is >> checkForNAString; //Gobble up the rest of the token, whatever that is
+          value = 999.999; // Invalid parsing occured
+          return;
+        }
+      }
+    }
+    // Find if character is candidate for float values
+    if (vcl_isdigit(p) || p == '-' || p == '+' || p == '.') {
+      // After the first character, sign character is delimiter
+      if ((char_processed_count != 0) && ((p == '-') || (p == '+'))) {
+        current_location_is_delimiter = true;
+      }
+      if (p == '.') {
+        if (period_found) //Second period encountered is a delimiter
+        {
+          current_location_is_delimiter = true;
+        }
+        period_found = true;
+      }
+    }
+    else // All other characters are delimiters
+    {
+      current_location_is_delimiter = true;
+    }
+    if ( current_location_is_delimiter) {
+      break;
+    }
+    else {
+      vcl_stringstream::char_type pp=' ';
+      is.get(pp); //Gobble up peeked character
+      oneToken << pp;
+    }
+    ++char_processed_count;
   }
-  is >> c;
-  if (c != 'A' && c!='a')
-  {
-    is.putback(c);
-    is.clear(vcl_ios::badbit);
-    return;
-  }
-  x = vnl_na(T());
+  oneToken >> value;
 }
 
 void vnl_na_extract(vcl_istream &is, double& x) { vnl_na_extract_type(is, x); }

@@ -21,15 +21,15 @@ static real c_b12 = (float)0.;
 static real c_b22 = (float)1.;
 
 /*<    >*/
-/* Subroutine */ int sggsvp_(const char *jobu, const char *jobv, const char *jobq, integer *m, 
-        integer *p, integer *n, real *a, integer *lda, real *b, integer *ldb, 
+/* Subroutine */ int sggsvp_(const char *jobu, const char *jobv, const char *jobq, integer *m,
+        integer *p, integer *n, real *a, integer *lda, real *b, integer *ldb,
         real *tola, real *tolb, integer *k, integer *l, real *u, integer *ldu,
          real *v, integer *ldv, real *q, integer *ldq, integer *iwork, real *
-        tau, real *work, integer *info, ftnlen jobu_len, ftnlen jobv_len, 
+        tau, real *work, integer *info, ftnlen jobu_len, ftnlen jobv_len,
         ftnlen jobq_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1,
             u_offset, v_dim1, v_offset, i__1, i__2, i__3;
     real r__1;
 
@@ -37,18 +37,18 @@ static real c_b22 = (float)1.;
     integer i__, j;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     logical wantq, wantu, wantv;
-    extern /* Subroutine */ int sgeqr2_(integer *, integer *, real *, integer 
-            *, real *, real *, integer *), sgerq2_(integer *, integer *, real 
-            *, integer *, real *, real *, integer *), sorg2r_(integer *, 
+    extern /* Subroutine */ int sgeqr2_(integer *, integer *, real *, integer
+            *, real *, real *, integer *), sgerq2_(integer *, integer *, real
+            *, integer *, real *, real *, integer *), sorg2r_(integer *,
             integer *, integer *, real *, integer *, real *, real *, integer *
             ), sorm2r_(char *, char *, integer *, integer *, integer *, real *
             , integer *, real *, real *, integer *, real *, integer *, ftnlen,
              ftnlen), sormr2_(char *, char *, integer *, integer *, integer *,
-             real *, integer *, real *, real *, integer *, real *, integer *, 
+             real *, integer *, real *, real *, integer *, real *, integer *,
             ftnlen, ftnlen), xerbla_(char *, integer *, ftnlen), sgeqpf_(
             integer *, integer *, real *, integer *, integer *, real *, real *
-            , integer *), slacpy_(char *, integer *, integer *, real *, 
-            integer *, real *, integer *, ftnlen), slaset_(char *, integer *, 
+            , integer *), slacpy_(char *, integer *, integer *, real *,
+            integer *, real *, integer *, ftnlen), slaset_(char *, integer *,
             integer *, real *, real *, real *, integer *, ftnlen), slapmt_(
             logical *, integer *, integer *, real *, integer *, integer *);
     logical forwrd;
@@ -353,7 +353,7 @@ static real c_b22 = (float)1.;
 /*<    >*/
         if (*p > 1) {
             i__1 = *p - 1;
-            slacpy_("Lower", &i__1, n, &b[b_dim1 + 2], ldb, &v[v_dim1 + 2], 
+            slacpy_("Lower", &i__1, n, &b[b_dim1 + 2], ldb, &v[v_dim1 + 2],
                     ldv, (ftnlen)5);
         }
 /*<          CALL SORG2R( P, P, MIN( P, N ), V, LDV, TAU, WORK, INFO ) >*/
@@ -547,7 +547,7 @@ static real c_b22 = (float)1.;
     if (*m > *k) {
         i__1 = *m - *k;
         i__2 = *n - *l;
-        slaset_("Full", &i__1, &i__2, &c_b12, &c_b12, &a[*k + 1 + a_dim1], 
+        slaset_("Full", &i__1, &i__2, &c_b12, &c_b12, &a[*k + 1 + a_dim1],
                 lda, (ftnlen)4);
     }
 
@@ -617,8 +617,8 @@ static real c_b22 = (float)1.;
 /* Computing MIN */
             i__3 = *m - *k;
             i__2 = min(i__3,*l);
-            sorm2r_("Right", "No transpose", m, &i__1, &i__2, &a[*k + 1 + (*n 
-                    - *l + 1) * a_dim1], lda, &tau[1], &u[(*k + 1) * u_dim1 + 
+            sorm2r_("Right", "No transpose", m, &i__1, &i__2, &a[*k + 1 + (*n
+                    - *l + 1) * a_dim1], lda, &tau[1], &u[(*k + 1) * u_dim1 +
                     1], ldu, &work[1], info, (ftnlen)5, (ftnlen)12);
 /*<          END IF >*/
         }

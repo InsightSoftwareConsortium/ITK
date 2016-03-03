@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine  dscal(n,da,dx,incx) >*/
-/* Subroutine */ int dscal_(integer *n, doublereal *da, doublereal *dx, 
+/* Subroutine */ int dscal_(integer *n, doublereal *da, doublereal *dx,
         integer *incx)
 {
     /* System generated locals */

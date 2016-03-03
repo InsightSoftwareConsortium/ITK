@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine saxpy(n,sa,sx,incx,sy,incy) >*/
-/* Subroutine */ int saxpy_(integer *n, real *sa, real *sx, integer *incx, 
+/* Subroutine */ int saxpy_(integer *n, real *sa, real *sx, integer *incx,
         real *sy, integer *incy)
 {
     /* System generated locals */

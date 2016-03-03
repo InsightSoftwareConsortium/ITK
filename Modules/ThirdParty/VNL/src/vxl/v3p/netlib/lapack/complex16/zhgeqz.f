@@ -26,18 +26,18 @@
 *  using the single-shift QZ method.
 *  Matrix pairs of this type are produced by the reduction to
 *  generalized upper Hessenberg form of a complex matrix pair (A,B):
-*  
+*
 *     A = Q1*H*Z1**H,  B = Q1*T*Z1**H,
-*  
+*
 *  as computed by ZGGHRD.
-*  
+*
 *  If JOB='S', then the Hessenberg-triangular pair (H,T) is
 *  also reduced to generalized Schur form,
-*  
+*
 *     H = Q*S*Z**H,  T = Q*P*Z**H,
-*  
+*
 *  where Q and Z are unitary matrices and S and P are upper triangular.
-*  
+*
 *  Optionally, the unitary matrix Q from the generalized Schur
 *  factorization may be postmultiplied into an input matrix Q1, and the
 *  unitary matrix Z may be postmultiplied into an input matrix Z1.
@@ -45,9 +45,9 @@
 *  the matrix pair (A,B) to generalized Hessenberg form, then the output
 *  matrices Q1*Q and Z1*Z are the unitary factors from the generalized
 *  Schur factorization of (A,B):
-*  
+*
 *     A = (Q1*Q)*S*(Z1*Z)**H,  B = (Q1*Q)*P*(Z1*Z)**H.
-*  
+*
 *  To avoid overflow, eigenvalues of the matrix pair (H,T)
 *  (equivalently, of (A,B)) are computed as a pair of complex values
 *  (alpha,beta).  If beta is nonzero, lambda = alpha / beta is an

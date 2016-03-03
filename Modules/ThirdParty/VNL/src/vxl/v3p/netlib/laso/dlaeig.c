@@ -18,9 +18,9 @@ extern "C" {
 
 
 /*<    >*/
-/* Subroutine */ int dlaeig_(integer *n, integer *nband, integer *nl, integer 
+/* Subroutine */ int dlaeig_(integer *n, integer *nband, integer *nl, integer
         *nr, doublereal *a, doublereal *eigval, integer *lde, doublereal *
-        eigvec, doublereal *bound, doublereal *atemp, doublereal *d__, 
+        eigvec, doublereal *bound, doublereal *atemp, doublereal *d__,
         doublereal *vtemp, doublereal *eps, doublereal *tmin, doublereal *
         tmax)
 {
@@ -36,9 +36,9 @@ extern "C" {
     doublereal atol;
     integer nval;
     doublereal artol;
-    extern /* Subroutine */ int dlabcm_(integer *, integer *, integer *, 
-            integer *, doublereal *, doublereal *, integer *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlabcm_(integer *, integer *, integer *,
+            integer *, doublereal *, doublereal *, integer *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *, doublereal *);
 
 

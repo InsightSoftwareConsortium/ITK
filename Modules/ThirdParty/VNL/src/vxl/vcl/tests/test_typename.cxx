@@ -14,7 +14,7 @@ class vcl_test_vec
 };
 
 template <class T>
-struct vcl_test_type_templ 
+struct vcl_test_type_templ
 {
   typedef vcl_test_vec<T> type;
 };
@@ -25,7 +25,7 @@ class vcl_test_typename
  public:
   typedef typename vcl_test_type_templ<T>::type vector;
   vector v;
-  
+
   vcl_test_typename() { if (vcl_test_typename_func(v) < 1) v = 1; }
 };
 

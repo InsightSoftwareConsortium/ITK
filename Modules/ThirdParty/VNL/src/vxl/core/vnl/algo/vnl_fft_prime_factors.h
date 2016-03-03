@@ -21,7 +21,7 @@
 //   $N = 2^P 3^Q 5^R$
 // split N into its primefactors (2, 3, 5)
 
-template <class T>
+VCL_TEMPLATE_EXPORT template <class T>
 struct vnl_fft_prime_factors
 {
 private:
@@ -44,7 +44,7 @@ public:
   long const *pqr () const { return pqr_; }
 
   operator safe_bool () const
-    { return (trigs_ && info_ >= 0)? VCL_SAFE_BOOL_TRUE : 0; }
+    { return (trigs_ && info_ >= 0)? VCL_SAFE_BOOL_TRUE : VXL_NULLPTR; }
   bool operator!() const
     { return (trigs_ && info_ >= 0)? false : true; }
 

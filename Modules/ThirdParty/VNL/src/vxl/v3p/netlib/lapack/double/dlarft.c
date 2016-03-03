@@ -22,7 +22,7 @@ static doublereal c_b8 = 0.;
 
 /*<       SUBROUTINE DLARFT( DIRECT, STOREV, N, K, V, LDV, TAU, T, LDT ) >*/
 /* Subroutine */ int dlarft_(char *direct, char *storev, integer *n, integer *
-        k, doublereal *v, integer *ldv, doublereal *tau, doublereal *t, 
+        k, doublereal *v, integer *ldv, doublereal *tau, doublereal *t,
         integer *ldt, ftnlen direct_len, ftnlen storev_len)
 {
     /* System generated locals */
@@ -33,10 +33,10 @@ static doublereal c_b8 = 0.;
     integer i__, j;
     doublereal vii;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-            doublereal *, doublereal *, integer *, doublereal *, integer *, 
-            doublereal *, doublereal *, integer *, ftnlen), dtrmv_(char *, 
-            char *, char *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dgemv_(char *, integer *, integer *,
+            doublereal *, doublereal *, integer *, doublereal *, integer *,
+            doublereal *, doublereal *, integer *, ftnlen), dtrmv_(char *,
+            char *, char *, integer *, doublereal *, integer *, doublereal *,
             integer *, ftnlen, ftnlen, ftnlen);
     (void)direct_len;
     (void)storev_len;
@@ -226,7 +226,7 @@ static doublereal c_b8 = 0.;
                     i__2 = i__ - 1;
                     i__3 = *n - i__ + 1;
                     d__1 = -tau[i__];
-                    dgemv_("No transpose", &i__2, &i__3, &d__1, &v[i__ * 
+                    dgemv_("No transpose", &i__2, &i__3, &d__1, &v[i__ *
                             v_dim1 + 1], ldv, &v[i__ + i__ * v_dim1], ldv, &
                             c_b8, &t[i__ * t_dim1 + 1], &c__1, (ftnlen)12);
 /*<                END IF >*/
@@ -286,7 +286,7 @@ static doublereal c_b8 = 0.;
                         i__1 = *n - *k + i__;
                         i__2 = *k - i__;
                         d__1 = -tau[i__];
-                        dgemv_("Transpose", &i__1, &i__2, &d__1, &v[(i__ + 1) 
+                        dgemv_("Transpose", &i__1, &i__2, &d__1, &v[(i__ + 1)
                                 * v_dim1 + 1], ldv, &v[i__ * v_dim1 + 1], &
                                 c__1, &c_b8, &t[i__ + 1 + i__ * t_dim1], &
                                 c__1, (ftnlen)9);
@@ -306,7 +306,7 @@ static doublereal c_b8 = 0.;
                         i__1 = *k - i__;
                         i__2 = *n - *k + i__;
                         d__1 = -tau[i__];
-                        dgemv_("No transpose", &i__1, &i__2, &d__1, &v[i__ + 
+                        dgemv_("No transpose", &i__1, &i__2, &d__1, &v[i__ +
                                 1 + v_dim1], ldv, &v[i__ + v_dim1], ldv, &
                                 c_b8, &t[i__ + 1 + i__ * t_dim1], &c__1, (
                                 ftnlen)12);
@@ -319,7 +319,7 @@ static doublereal c_b8 = 0.;
 
 /*<    >*/
                     i__1 = *k - i__;
-                    dtrmv_("Lower", "No transpose", "Non-unit", &i__1, &t[i__ 
+                    dtrmv_("Lower", "No transpose", "Non-unit", &i__1, &t[i__
                             + 1 + (i__ + 1) * t_dim1], ldt, &t[i__ + 1 + i__ *
                              t_dim1], &c__1, (ftnlen)5, (ftnlen)12, (ftnlen)8)
                             ;

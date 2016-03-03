@@ -6,7 +6,7 @@ exec perl -w -x $0 ${1+"$@"}
 # If Windows barfs at line 3 here, you will need to run perl -x this_file.pl
 # You can set up as a permanent file association using the following commands
 #  >assoc .pl-PerlScript
-#  >ftype PerlScript=Perl=C:\Perl\bin\Perl.exe -x "%1" %* 
+#  >ftype PerlScript=Perl=C:\Perl\bin\Perl.exe -x "%1" %*
 
 # Script to change the perceps documentation format to Doxygen (JavaDoc) format
 # Authors:
@@ -46,8 +46,6 @@ $debug = 0;
 while (<>)
 {
     # preprocessing
-    s/\bVCL_SUNPRO_CLASS_SCOPE_HACK\s*\([^()]*\)//g;
-    s/\bVCL_SUNPRO_ALLOCATOR_HACK\s*\(([^()]*)\)/$1/g;
     s/\bVCL_CAN_STATIC_CONST_INIT_(INT|FLOAT)\b/1/g;
     s/\bVCL_STATIC_CONST_INIT_(INT|FLOAT)\s*\(([^()]*)\)/= $2/g;
     s/\bVCL_DFL_TYPE_PARAM_STLDECL\s*\(([^,()]*),([^,()]*)\)/class $1 = $2 /g;

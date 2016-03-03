@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine tred2(nm,n,a,d,e,z) >*/
-/* Subroutine */ int tred2_(integer *nm, integer *n, doublereal *a, 
+/* Subroutine */ int tred2_(integer *nm, integer *n, doublereal *a,
         doublereal *d__, doublereal *e, doublereal *z__)
 {
     /* System generated locals */
@@ -262,7 +262,7 @@ L220:
             for (k = j; k <= i__3; ++k) {
 /*<   260       z(k,j) = z(k,j) - f * e(k) - g * d(k) >*/
 /* L260: */
-                z__[k + j * z_dim1] = z__[k + j * z_dim1] - f * e[k] - g * 
+                z__[k + j * z_dim1] = z__[k + j * z_dim1] - f * e[k] - g *
                         d__[k];
             }
 

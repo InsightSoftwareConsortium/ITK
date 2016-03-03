@@ -1,0 +1,4 @@
+extern int lsqr_(integer *m, integer *n, S_fp aprod, doublereal *damp, integer *leniw, integer *lenrw, integer *iw, doublereal *rw, doublereal *u, doublereal *v, doublereal *w, doublereal *x, doublereal *se, doublereal *atol, doublereal *btol, doublereal *conlim, integer *itnlim, integer *nout, integer *istop, integer *itn, doublereal *anorm, doublereal *acond, doublereal *rnorm, doublereal *arnorm, doublereal *xnorm);
+/*:ref: dnrm2_ 7 3 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */

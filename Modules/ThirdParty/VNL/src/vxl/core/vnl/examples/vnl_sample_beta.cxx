@@ -11,7 +11,7 @@
 // are independent uniform [0,1] random variables, then the following r.v. is
 // Beta(a,a):
 // $\frac12 + \frac12 \sin(2\pi V) \sqrt{1-U^{\frac2{2a-1}}}$.
-// 
+//
 // \author Peter Vanroose, ABIS, Leuven, Belgium
 // \date   November 2009
 //-----------------------------------------------------------------------------
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
   int n = vcl_atoi(argv[2]);
   while (n--) {
     double u = vnl_sample_uniform(0,1);
-    double v = vnl_sample_uniform(0,2*vnl_math::pi);
+    double v = vnl_sample_uniform(0,vnl_math::twopi);
     vcl_cout << 0.5+0.5*vcl_sin(v)*vcl_sqrt(1.0-vcl_pow(u,1.0/(a-0.5))) << '\n';
   }
   return 0;

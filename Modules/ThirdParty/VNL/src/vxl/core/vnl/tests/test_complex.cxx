@@ -9,6 +9,7 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_random.h>
+#include <vnl/vnl_math.h>
 
 //: inverse cosine for complex numbers.
 // The implementation is at the bottom of this file.
@@ -24,19 +25,25 @@ static void fill_rand(vcl_complex<double> *b, vcl_complex<double> *e, vnl_random
 
 static void test_operators()
 {
-  vcl_complex<double> a(-5), b(7,-1), c;
-  c = a + b;
-  c = a - b;
-  c = a * b;
-  c = a / b;
-  a += b;
-  a -= b;
-  a *= b;
-  a /= b;
-  vcl_cout << "a=" << a << '\n'
-           << "b=" << b << '\n'
-           << "c=" << c << '\n'
-           << '\n';
+  vcl_complex<double> a(-5.);
+  vcl_complex<double> b(7.,-1.);
+  vcl_complex<double> c;
+  //Numerically deterministic double precision
+  c = a + b; TEST("sum", c, vcl_complex<double>(2.,-1.));
+  c = a - b; TEST("difference", c, vcl_complex<double>(-12.,1.));
+  c = a * b; TEST("product", c, vcl_complex<double>(-35.,5.));
+  //Numerically could have small floating point truncation errors
+  c = a / b; TEST_NEAR("quotient", c, vcl_complex<double>(-0.7,-0.1), 1e-12);
+  //Numerically deterministic double precision
+  a += b; TEST("+=", a, vcl_complex<double>(2.,-1.));
+  a -= b; TEST("-=", a, vcl_complex<double>(-5.));
+  a *= b; TEST("*=", a, vcl_complex<double>(-35.,5.));
+  //Numerically could have small floating point truncation errors
+  vcl_complex<double> a_pre = a;
+  a /= b; TEST_NEAR("/=", a, vcl_complex<double>(-5.),1e-12);
+  vcl_cout << "a /= b " << a_pre << " /= " << b
+           << "\n         --> " << a << " diff: "<< (a-vcl_complex<double>(-5))
+           <<'\n';
 }
 
 static void test_vector()
@@ -46,20 +53,17 @@ static void test_vector()
   vnl_vector<vcl_complex<double> > b(5); fill_rand(b.begin(), b.end(), rng);
 
   vcl_cout << "a=" << a << '\n'
-           << "b=" << b << '\n';
+           << "b=" << b << '\n'
+           << "dot_product(a,b)=" << dot_product(a,b) << '\n'
+           << "inner_product(a,b)=" << inner_product(a,b) << '\n';
 
   vcl_complex<double> i(0,1);
 
-  vcl_cout << dot_product(a,b) << '\n';
-  TEST_NEAR("inner_product() conjugates correctly",
-            inner_product(i*a,b), i*inner_product(a,b), 1e-12);
-  TEST_NEAR("inner_product() conjugates correctly",
-            inner_product(a,i*b),-i*inner_product(a,b), 1e-12);
+  TEST("inner_product() conjugates correctly", inner_product(i*a,b), i*inner_product(a,b));
+  TEST("inner_product() conjugates correctly", inner_product(a,i*b),-i*inner_product(a,b));
 
-  TEST_NEAR("dot_product() does not conjugate",
-            dot_product(i*a,b), i*dot_product(a,b), 1e-12);
-  TEST_NEAR("dot_product() does not conjugate",
-            dot_product(a,i*b), i*dot_product(a,b), 1e-12);
+  TEST("dot_product() does not conjugate", dot_product(i*a,b), i*dot_product(a,b));
+  TEST("dot_product() does not conjugate", dot_product(a,i*b), i*dot_product(a,b));
 
   double norma=0;
   for (unsigned n=0; n<a.size(); ++n)
@@ -70,14 +74,11 @@ static void test_vector()
 
 static void test_cosine()
 {
-  int seed = 12345;
+  vnl_random rng(1234567);
   for (int i=0; i<20; ++i)
   {
-    seed = static_cast<int>((static_cast<long>(seed)*16807)%2147483647L);
-    double u = double(seed)/1367130552L;
-    if (u<0) u = -u; // between 0 and pi/2
-    seed = static_cast<int>((static_cast<long>(seed)*16807)%2147483647L);
-    double v = double(seed)/1000000000L;
+    double u = rng.drand32(vnl_math::pi_over_2);
+    double v = rng.drand32(2.0);
     vcl_complex<double> c(u,v);
     vcl_complex<double> d = vcl_cos(c);
     vcl_complex<double> e = tc_acos(d);

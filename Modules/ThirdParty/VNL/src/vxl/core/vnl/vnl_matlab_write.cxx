@@ -20,36 +20,33 @@
 # define native_BYTE_ORDER vnl_matlab_header::vnl_BIG_ENDIAN
 #endif
 
-// SGI needs char * as first argument to vcl_ostream::write
-void vnl_write_bytes(vcl_ostream &s, void const *p, unsigned bytes)
+static void vnl_write_bytes(vcl_ostream &s, void const *p, unsigned bytes)
 {
   s.write((char const *)p, bytes);
 }
 
 // ------------------------------ traits without tears ------------------------------
 
-//awf: these cannot be static for sunpro 5...
-
 // template <class T> long scalar_precision(T const &);
-long vnl_scalar_precision(float  const &) { return vnl_matlab_header::vnl_SINGLE_PRECISION; }
-long vnl_scalar_precision(double const &) { return vnl_matlab_header::vnl_DOUBLE_PRECISION; }
-long vnl_scalar_precision(vcl_complex<float>  const &) { return vnl_matlab_header::vnl_SINGLE_PRECISION; }
-long vnl_scalar_precision(vcl_complex<double> const &) { return vnl_matlab_header::vnl_DOUBLE_PRECISION; }
+static long vnl_scalar_precision(float  const &) { return vnl_matlab_header::vnl_SINGLE_PRECISION; }
+static long vnl_scalar_precision(double const &) { return vnl_matlab_header::vnl_DOUBLE_PRECISION; }
+static long vnl_scalar_precision(vcl_complex<float>  const &) { return vnl_matlab_header::vnl_SINGLE_PRECISION; }
+static long vnl_scalar_precision(vcl_complex<double> const &) { return vnl_matlab_header::vnl_DOUBLE_PRECISION; }
 
 // template <class T> long is_complex(T const &);
-long vnl_is_complex(float  const &) { return 0; }
-long vnl_is_complex(double const &) { return 0; }
-long vnl_is_complex(vcl_complex<float>  const &) { return 1; }
-long vnl_is_complex(vcl_complex<double> const &) { return 1; }
+static long vnl_is_complex(float  const &) { return 0; }
+static long vnl_is_complex(double const &) { return 0; }
+static long vnl_is_complex(vcl_complex<float>  const &) { return 1; }
+static long vnl_is_complex(vcl_complex<double> const &) { return 1; }
 
 // template <class T> void vnl_write_real(vcl_ostream &, T const *, unsigned );
-void vnl_write_real(vcl_ostream &s, float const *data, unsigned n)
+static void vnl_write_real(vcl_ostream &s, float const *data, unsigned n)
 { ::vnl_write_bytes(s, data, n*sizeof(*data)); }
 
-void vnl_write_real(vcl_ostream &s, double const *data, unsigned n)
+static void vnl_write_real(vcl_ostream &s, double const *data, unsigned n)
 { ::vnl_write_bytes(s, data, n*sizeof(*data)); }
 
-void vnl_write_real(vcl_ostream &s, vcl_complex<float> const *data, unsigned n)
+static void vnl_write_real(vcl_ostream &s, vcl_complex<float> const *data, unsigned n)
 {
   float dummy;
   for (unsigned i=0; i<n; ++i) { // real block
@@ -58,7 +55,7 @@ void vnl_write_real(vcl_ostream &s, vcl_complex<float> const *data, unsigned n)
   }
 }
 
-void vnl_write_real(vcl_ostream &s, vcl_complex<double> const *data, unsigned n)
+static void vnl_write_real(vcl_ostream &s, vcl_complex<double> const *data, unsigned n)
 {
   double dummy;
   for (unsigned i=0; i<n; ++i) { // real block
@@ -69,11 +66,11 @@ void vnl_write_real(vcl_ostream &s, vcl_complex<double> const *data, unsigned n)
 
 // template <class T> void vnl_write_imag(vcl_ostream &, T const *, unsigned );
 
-void vnl_write_imag(vcl_ostream &, float const *, unsigned ) { }
+static void vnl_write_imag(vcl_ostream &, float const *, unsigned ) { }
 
-void vnl_write_imag(vcl_ostream &, double const *, unsigned ) { }
+static void vnl_write_imag(vcl_ostream &, double const *, unsigned ) { }
 
-void vnl_write_imag(vcl_ostream &s, vcl_complex<float> const *data, unsigned n)
+static void vnl_write_imag(vcl_ostream &s, vcl_complex<float> const *data, unsigned n)
 {
   float dummy;
   for (unsigned i=0; i<n; ++i) { // imag block
@@ -82,7 +79,7 @@ void vnl_write_imag(vcl_ostream &s, vcl_complex<float> const *data, unsigned n)
   }
 }
 
-void vnl_write_imag(vcl_ostream &s, vcl_complex<double> const *data, unsigned n)
+static void vnl_write_imag(vcl_ostream &s, vcl_complex<double> const *data, unsigned n)
 {
   double dummy;
   for (unsigned i=0; i<n; ++i) { // imag block

@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE ZLASSQ( N, X, INCX, SCALE, SUMSQ ) >*/
-/* Subroutine */ int zlassq_(integer *n, doublecomplex *x, integer *incx, 
+/* Subroutine */ int zlassq_(integer *n, doublecomplex *x, integer *incx,
         doublereal *scale, doublereal *sumsq)
 {
     /* System generated locals */

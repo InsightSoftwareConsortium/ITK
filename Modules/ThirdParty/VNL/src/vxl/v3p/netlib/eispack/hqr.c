@@ -166,7 +166,7 @@ L70:
             goto L100;
         }
 /*<          s = dabs(h(l-1,l-1)) + dabs(h(l,l)) >*/
-        s = (d__1 = h__[l - 1 + (l - 1) * h_dim1], abs(d__1)) + (d__2 = h__[l 
+        s = (d__1 = h__[l - 1 + (l - 1) * h_dim1], abs(d__1)) + (d__2 = h__[l
                 + l * h_dim1], abs(d__2));
 /*<          if (s .eq. 0.0d0) s = norm >*/
         if (s == 0.) {
@@ -220,7 +220,7 @@ L100:
     }
 
 /*<       s = dabs(h(en,na)) + dabs(h(na,enm2)) >*/
-    s = (d__1 = h__[en + na * h_dim1], abs(d__1)) + (d__2 = h__[na + enm2 * 
+    s = (d__1 = h__[en + na * h_dim1], abs(d__1)) + (d__2 = h__[na + enm2 *
             h_dim1], abs(d__2));
 /*<       x = 0.75d0 * s >*/
     x = s * .75;
@@ -248,7 +248,7 @@ L130:
 /*<          s = y - zz >*/
         s = y - zz;
 /*<          p = (r * s - w) / h(m+1,m) + h(m,m+1) >*/
-        p = (r__ * s - w) / h__[m + 1 + m * h_dim1] + h__[m + (m + 1) * 
+        p = (r__ * s - w) / h__[m + 1 + m * h_dim1] + h__[m + (m + 1) *
                 h_dim1];
 /*<          q = h(m+1,m+1) - zz - r - s >*/
         q = h__[m + 1 + (m + 1) * h_dim1] - zz - r__ - s;
@@ -267,10 +267,10 @@ L130:
             goto L150;
         }
 /*<          tst1 = dabs(p)*(dabs(h(m-1,m-1)) + dabs(zz) + dabs(h(m+1,m+1))) >*/
-        tst1 = abs(p) * ((d__1 = h__[m - 1 + (m - 1) * h_dim1], abs(d__1)) + 
+        tst1 = abs(p) * ((d__1 = h__[m - 1 + (m - 1) * h_dim1], abs(d__1)) +
                 abs(zz) + (d__2 = h__[m + 1 + (m + 1) * h_dim1], abs(d__2)));
 /*<          tst2 = tst1 + dabs(h(m,m-1))*(dabs(q) + dabs(r)) >*/
-        tst2 = tst1 + (d__1 = h__[m + (m - 1) * h_dim1], abs(d__1)) * (abs(q) 
+        tst2 = tst1 + (d__1 = h__[m + (m - 1) * h_dim1], abs(d__1)) * (abs(q)
                 + abs(r__));
 /*<          if (tst2 .eq. tst1) go to 150 >*/
         if (tst2 == tst1) {
@@ -427,7 +427,7 @@ L225:
         i__2 = j;
         for (i__ = l; i__ <= i__2; ++i__) {
 /*<             p = x * h(i,k) + y * h(i,k+1) + zz * h(i,k+2) >*/
-            p = x * h__[i__ + k * h_dim1] + y * h__[i__ + (k + 1) * h_dim1] + 
+            p = x * h__[i__ + k * h_dim1] + y * h__[i__ + (k + 1) * h_dim1] +
                     zz * h__[i__ + (k + 2) * h_dim1];
 /*<             h(i,k) = h(i,k) - p >*/
             h__[i__ + k * h_dim1] -= p;

@@ -30,7 +30,7 @@ void test_fastops()
     for (unsigned int j=0; j<2; ++j)
       m10x2[i][j] = m2x10[j][i] = (i+1)*1.5 + (j+1)*(j+i);
 
-  // First test: $I \times I$ 
+  // First test: $I \times I$
   result_m.set_size(1,1);
   vnl_fastops::AtA(result_m, id1x1);
   TEST("vnl_fastops::AtA(id1x1)", result_m, id1x1);

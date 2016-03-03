@@ -1,13 +1,13 @@
 /* blas/zgeru.f -- translated by f2c (version 20090411).
    You must link the resulting object file with libf2c:
-	on Microsoft Windows system, link with libf2c.lib;
-	on Linux or Unix systems, link with .../path/to/libf2c.a -lm
-	or, if you install libf2c.a in a standard place, with -lf2c -lm
-	-- in that order, at the end of the command line, as in
-		cc *.o -lf2c -lm
-	Source for libf2c is in /netlib/f2c/libf2c.zip, e.g.,
+        on Microsoft Windows system, link with libf2c.lib;
+        on Linux or Unix systems, link with .../path/to/libf2c.a -lm
+        or, if you install libf2c.a in a standard place, with -lf2c -lm
+        -- in that order, at the end of the command line, as in
+                cc *.o -lf2c -lm
+        Source for libf2c is in /netlib/f2c/libf2c.zip, e.g.,
 
-		http://www.netlib.org/f2c/libf2c.zip
+                http://www.netlib.org/f2c/libf2c.zip
 */
 
 #ifdef __cplusplus
@@ -16,9 +16,9 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE ZGERU(M,N,ALPHA,X,INCX,Y,INCY,A,LDA) >*/
-/* Subroutine */ int zgeru_(integer *m, integer *n, doublecomplex *alpha, 
-	doublecomplex *x, integer *incx, doublecomplex *y, integer *incy, 
-	doublecomplex *a, integer *lda)
+/* Subroutine */ int zgeru_(integer *m, integer *n, doublecomplex *alpha,
+        doublecomplex *x, integer *incx, doublecomplex *y, integer *incy,
+        doublecomplex *a, integer *lda)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3, i__4, i__5;
@@ -137,31 +137,31 @@ extern "C" {
 /*<       IF (M.LT.0) THEN >*/
     if (*m < 0) {
 /*<           INFO = 1 >*/
-	info = 1;
+        info = 1;
 /*<       ELSE IF (N.LT.0) THEN >*/
     } else if (*n < 0) {
 /*<           INFO = 2 >*/
-	info = 2;
+        info = 2;
 /*<       ELSE IF (INCX.EQ.0) THEN >*/
     } else if (*incx == 0) {
 /*<           INFO = 5 >*/
-	info = 5;
+        info = 5;
 /*<       ELSE IF (INCY.EQ.0) THEN >*/
     } else if (*incy == 0) {
 /*<           INFO = 7 >*/
-	info = 7;
+        info = 7;
 /*<       ELSE IF (LDA.LT.MAX(1,M)) THEN >*/
     } else if (*lda < max(1,*m)) {
 /*<           INFO = 9 >*/
-	info = 9;
+        info = 9;
 /*<       END IF >*/
     }
 /*<       IF (INFO.NE.0) THEN >*/
     if (info != 0) {
 /*<           CALL XERBLA('ZGERU ',INFO) >*/
-	xerbla_("ZGERU ", &info, (ftnlen)6);
+        xerbla_("ZGERU ", &info, (ftnlen)6);
 /*<           RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 
@@ -169,7 +169,7 @@ extern "C" {
 
 /*<       IF ((M.EQ.0) .OR. (N.EQ.0) .OR. (ALPHA.EQ.ZERO)) RETURN >*/
     if (*m == 0 || *n == 0 || (alpha->r == 0. && alpha->i == 0.)) {
-	return 0;
+        return 0;
     }
 
 /*     Start the operations. In this version the elements of A are */
@@ -178,95 +178,95 @@ extern "C" {
 /*<       IF (INCY.GT.0) THEN >*/
     if (*incy > 0) {
 /*<           JY = 1 >*/
-	jy = 1;
+        jy = 1;
 /*<       ELSE >*/
     } else {
 /*<           JY = 1 - (N-1)*INCY >*/
-	jy = 1 - (*n - 1) * *incy;
+        jy = 1 - (*n - 1) * *incy;
 /*<       END IF >*/
     }
 /*<       IF (INCX.EQ.1) THEN >*/
     if (*incx == 1) {
 /*<           DO 20 J = 1,N >*/
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
 /*<               IF (Y(JY).NE.ZERO) THEN >*/
-	    i__2 = jy;
-	    if (y[i__2].r != 0. || y[i__2].i != 0.) {
+            i__2 = jy;
+            if (y[i__2].r != 0. || y[i__2].i != 0.) {
 /*<                   TEMP = ALPHA*Y(JY) >*/
-		i__2 = jy;
-		z__1.r = alpha->r * y[i__2].r - alpha->i * y[i__2].i, z__1.i =
-			 alpha->r * y[i__2].i + alpha->i * y[i__2].r;
-		temp.r = z__1.r, temp.i = z__1.i;
+                i__2 = jy;
+                z__1.r = alpha->r * y[i__2].r - alpha->i * y[i__2].i, z__1.i =
+                         alpha->r * y[i__2].i + alpha->i * y[i__2].r;
+                temp.r = z__1.r, temp.i = z__1.i;
 /*<                   DO 10 I = 1,M >*/
-		i__2 = *m;
-		for (i__ = 1; i__ <= i__2; ++i__) {
+                i__2 = *m;
+                for (i__ = 1; i__ <= i__2; ++i__) {
 /*<                       A(I,J) = A(I,J) + X(I)*TEMP >*/
-		    i__3 = i__ + j * a_dim1;
-		    i__4 = i__ + j * a_dim1;
-		    i__5 = i__;
-		    z__2.r = x[i__5].r * temp.r - x[i__5].i * temp.i, z__2.i =
-			     x[i__5].r * temp.i + x[i__5].i * temp.r;
-		    z__1.r = a[i__4].r + z__2.r, z__1.i = a[i__4].i + z__2.i;
-		    a[i__3].r = z__1.r, a[i__3].i = z__1.i;
+                    i__3 = i__ + j * a_dim1;
+                    i__4 = i__ + j * a_dim1;
+                    i__5 = i__;
+                    z__2.r = x[i__5].r * temp.r - x[i__5].i * temp.i, z__2.i =
+                             x[i__5].r * temp.i + x[i__5].i * temp.r;
+                    z__1.r = a[i__4].r + z__2.r, z__1.i = a[i__4].i + z__2.i;
+                    a[i__3].r = z__1.r, a[i__3].i = z__1.i;
 /*<    10             CONTINUE >*/
 /* L10: */
-		}
+                }
 /*<               END IF >*/
-	    }
+            }
 /*<               JY = JY + INCY >*/
-	    jy += *incy;
+            jy += *incy;
 /*<    20     CONTINUE >*/
 /* L20: */
-	}
+        }
 /*<       ELSE >*/
     } else {
 /*<           IF (INCX.GT.0) THEN >*/
-	if (*incx > 0) {
+        if (*incx > 0) {
 /*<               KX = 1 >*/
-	    kx = 1;
+            kx = 1;
 /*<           ELSE >*/
-	} else {
+        } else {
 /*<               KX = 1 - (M-1)*INCX >*/
-	    kx = 1 - (*m - 1) * *incx;
+            kx = 1 - (*m - 1) * *incx;
 /*<           END IF >*/
-	}
+        }
 /*<           DO 40 J = 1,N >*/
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
 /*<               IF (Y(JY).NE.ZERO) THEN >*/
-	    i__2 = jy;
-	    if (y[i__2].r != 0. || y[i__2].i != 0.) {
+            i__2 = jy;
+            if (y[i__2].r != 0. || y[i__2].i != 0.) {
 /*<                   TEMP = ALPHA*Y(JY) >*/
-		i__2 = jy;
-		z__1.r = alpha->r * y[i__2].r - alpha->i * y[i__2].i, z__1.i =
-			 alpha->r * y[i__2].i + alpha->i * y[i__2].r;
-		temp.r = z__1.r, temp.i = z__1.i;
+                i__2 = jy;
+                z__1.r = alpha->r * y[i__2].r - alpha->i * y[i__2].i, z__1.i =
+                         alpha->r * y[i__2].i + alpha->i * y[i__2].r;
+                temp.r = z__1.r, temp.i = z__1.i;
 /*<                   IX = KX >*/
-		ix = kx;
+                ix = kx;
 /*<                   DO 30 I = 1,M >*/
-		i__2 = *m;
-		for (i__ = 1; i__ <= i__2; ++i__) {
+                i__2 = *m;
+                for (i__ = 1; i__ <= i__2; ++i__) {
 /*<                       A(I,J) = A(I,J) + X(IX)*TEMP >*/
-		    i__3 = i__ + j * a_dim1;
-		    i__4 = i__ + j * a_dim1;
-		    i__5 = ix;
-		    z__2.r = x[i__5].r * temp.r - x[i__5].i * temp.i, z__2.i =
-			     x[i__5].r * temp.i + x[i__5].i * temp.r;
-		    z__1.r = a[i__4].r + z__2.r, z__1.i = a[i__4].i + z__2.i;
-		    a[i__3].r = z__1.r, a[i__3].i = z__1.i;
+                    i__3 = i__ + j * a_dim1;
+                    i__4 = i__ + j * a_dim1;
+                    i__5 = ix;
+                    z__2.r = x[i__5].r * temp.r - x[i__5].i * temp.i, z__2.i =
+                             x[i__5].r * temp.i + x[i__5].i * temp.r;
+                    z__1.r = a[i__4].r + z__2.r, z__1.i = a[i__4].i + z__2.i;
+                    a[i__3].r = z__1.r, a[i__3].i = z__1.i;
 /*<                       IX = IX + INCX >*/
-		    ix += *incx;
+                    ix += *incx;
 /*<    30             CONTINUE >*/
 /* L30: */
-		}
+                }
 /*<               END IF >*/
-	    }
+            }
 /*<               JY = JY + INCY >*/
-	    jy += *incy;
+            jy += *incy;
 /*<    40     CONTINUE >*/
 /* L40: */
-	}
+        }
 /*<       END IF >*/
     }
 
@@ -279,5 +279,5 @@ extern "C" {
 } /* zgeru_ */
 
 #ifdef __cplusplus
-	}
+        }
 #endif

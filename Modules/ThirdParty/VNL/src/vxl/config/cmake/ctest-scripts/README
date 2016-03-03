@@ -1,0 +1,7 @@
+The ctest-scripts files
+
+ dash_example.cmake
+ vxl_common.cmake
+
+have been moved into a dedicated "dashboard" branch.
+See <https://sourceforge.net/p/vxl/wiki/Git-Dashboard-Client/>.

@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int slags2_(logical *upper, real *a1, real *a2, real *a3, 
+/* Subroutine */ int slags2_(logical *upper, real *a1, real *a2, real *a3,
         real *b1, real *b2, real *b3, real *csu, real *snu, real *csv, real *
         snv, real *csq, real *snq)
 {
@@ -24,7 +24,7 @@ extern "C" {
     real r__1;
 
     /* Local variables */
-    real a, b, c__, d__, r__, s1, s2, ua11, ua12, ua21, ua22, vb11, vb12, 
+    real a, b, c__, d__, r__, s1, s2, ua11, ua12, ua21, ua22, vb11, vb12,
             vb21, vb22, csl, csr, snl, snr, aua11, aua12, aua21, aua22, avb11,
              avb12, avb21, avb22, ua11r, ua22r, vb11r, vb22r;
     extern /* Subroutine */ int slasv2_(real *, real *, real *, real *, real *
@@ -222,7 +222,7 @@ extern "C" {
 /*<             IF( ( ABS( UA21 )+ABS( UA22 ) ).NE.ZERO ) THEN >*/
             if (dabs(ua21) + dabs(ua22) != (float)0.) {
 /*<    >*/
-                if (aua22 / (dabs(ua21) + dabs(ua22)) <= avb22 / (dabs(vb21) 
+                if (aua22 / (dabs(ua21) + dabs(ua22)) <= avb22 / (dabs(vb21)
                         + dabs(vb22))) {
 /*<                   CALL SLARTG( -UA21, UA22, CSQ, SNQ, R ) >*/
                     r__1 = -ua21;
@@ -303,7 +303,7 @@ extern "C" {
 /*<             IF( ( ABS( UA21 )+ABS( UA22R ) ).NE.ZERO ) THEN >*/
             if (dabs(ua21) + dabs(ua22r) != (float)0.) {
 /*<    >*/
-                if (aua21 / (dabs(ua21) + dabs(ua22r)) <= avb21 / (dabs(vb21) 
+                if (aua21 / (dabs(ua21) + dabs(ua22r)) <= avb21 / (dabs(vb21)
                         + dabs(vb22r))) {
 /*<                   CALL SLARTG( UA22R, UA21, CSQ, SNQ, R ) >*/
                     slartg_(&ua22r, &ua21, csq, snq, &r__);
@@ -355,7 +355,7 @@ extern "C" {
 /*<             IF( ( ABS( UA11 )+ABS( UA12 ) ).NE.ZERO ) THEN >*/
             if (dabs(ua11) + dabs(ua12) != (float)0.) {
 /*<    >*/
-                if (aua11 / (dabs(ua11) + dabs(ua12)) <= avb11 / (dabs(vb11) 
+                if (aua11 / (dabs(ua11) + dabs(ua12)) <= avb11 / (dabs(vb11)
                         + dabs(vb12))) {
 /*<                   CALL SLARTG( UA12, UA11, CSQ, SNQ, R ) >*/
                     slartg_(&ua12, &ua11, csq, snq, &r__);

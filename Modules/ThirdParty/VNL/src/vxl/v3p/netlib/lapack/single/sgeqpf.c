@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       SUBROUTINE SGEQPF( M, N, A, LDA, JPVT, TAU, WORK, INFO ) >*/
-/* Subroutine */ int sgeqpf_(integer *m, integer *n, real *a, integer *lda, 
+/* Subroutine */ int sgeqpf_(integer *m, integer *n, real *a, integer *lda,
         integer *jpvt, real *tau, real *work, integer *info)
 {
     /* System generated locals */
@@ -36,14 +36,14 @@ static integer c__1 = 1;
     integer pvt;
     real temp, temp2;
     extern doublereal snrm2_(integer *, real *, integer *);
-    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *, 
+    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *,
             integer *, real *, real *, integer *, real *, ftnlen);
     integer itemp;
-    extern /* Subroutine */ int sswap_(integer *, real *, integer *, real *, 
-            integer *), sgeqr2_(integer *, integer *, real *, integer *, real 
-            *, real *, integer *), sorm2r_(char *, char *, integer *, integer 
+    extern /* Subroutine */ int sswap_(integer *, real *, integer *, real *,
+            integer *), sgeqr2_(integer *, integer *, real *, integer *, real
+            *, real *, integer *), sorm2r_(char *, char *, integer *, integer
             *, integer *, real *, integer *, real *, real *, integer *, real *
-            , integer *, ftnlen, ftnlen), xerbla_(char *, integer *, ftnlen), 
+            , integer *, ftnlen, ftnlen), xerbla_(char *, integer *, ftnlen),
             slarfg_(integer *, real *, real *, integer *, real *);
     extern integer isamax_(integer *, real *, integer *);
 
@@ -298,7 +298,7 @@ static integer c__1 = 1;
             if (i__ < *m) {
 /*<                CALL SLARFG( M-I+1, A( I, I ), A( I+1, I ), 1, TAU( I ) ) >*/
                 i__2 = *m - i__ + 1;
-                slarfg_(&i__2, &a[i__ + i__ * a_dim1], &a[i__ + 1 + i__ * 
+                slarfg_(&i__2, &a[i__ + i__ * a_dim1], &a[i__ + 1 + i__ *
                         a_dim1], &c__1, &tau[i__]);
 /*<             ELSE >*/
             } else {
@@ -351,7 +351,7 @@ static integer c__1 = 1;
                         if (*m - i__ > 0) {
 /*<                         WORK( J ) = SNRM2( M-I, A( I+1, J ), 1 ) >*/
                             i__3 = *m - i__;
-                            work[j] = snrm2_(&i__3, &a[i__ + 1 + j * a_dim1], 
+                            work[j] = snrm2_(&i__3, &a[i__ + 1 + j * a_dim1],
                                     &c__1);
 /*<                         WORK( N+J ) = WORK( J ) >*/
                             work[*n + j] = work[j];

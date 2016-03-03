@@ -16,7 +16,7 @@ int test_sstream_main(int /*argc*/,char* /*argv*/[])
 
   vcl_istringstream s("wilma");
 
-  char w;
+  char w = '?';
   s >> w; AssertEq((int)w,'w');
   s >> w; AssertEq((int)w,'i');
   s >> w; AssertEq((int)w,'l');

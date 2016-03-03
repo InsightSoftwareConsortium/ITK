@@ -35,6 +35,7 @@
 #include <vnl/algo/vnl_qr.h>
 #include <vnl/algo/vnl_real_eigensystem.h>
 #include <vnl/algo/vnl_rnpoly_solve.h>
+#include <vnl/algo/vnl_rpoly_roots.h>
 #include <vnl/algo/vnl_scatter_3x3.h>
 #include <vnl/algo/vnl_simpson_integral.h>
 #include <vnl/algo/vnl_solve_qp.h>

@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine qrsolv(n,r,ldr,ipvt,diag,qtb,x,sdiag,wa) >*/
-/* Subroutine */ int qrsolv_(integer *n, doublereal *r__, integer *ldr, 
-        integer *ipvt, doublereal *diag, doublereal *qtb, doublereal *x, 
+/* Subroutine */ int qrsolv_(integer *n, doublereal *r__, integer *ldr,
+        integer *ipvt, doublereal *diag, doublereal *qtb, doublereal *x,
         doublereal *sdiag, doublereal *wa)
 {
     /* Initialized data */
@@ -201,7 +201,7 @@ extern "C" {
                 goto L70;
             }
 /*<             if (dabs(r(k,k)) .ge. dabs(sdiag(k))) go to 40 >*/
-            if ((d__1 = r__[k + k * r_dim1], abs(d__1)) >= (d__2 = sdiag[k], 
+            if ((d__1 = r__[k + k * r_dim1], abs(d__1)) >= (d__2 = sdiag[k],
                     abs(d__2))) {
                 goto L40;
             }

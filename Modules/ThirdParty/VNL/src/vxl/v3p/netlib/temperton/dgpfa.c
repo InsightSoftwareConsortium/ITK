@@ -68,7 +68,7 @@ static integer c__3 = 3;
 /* ---------------------------------------------------------------------- */
 
 /*<       SUBROUTINE DGPFA(A,B,TRIGS,INC,JUMP,N,LOT,ISIGN,NPQR) >*/
-/* Subroutine */ int dgpfa_(doublereal *a, doublereal *b, doublereal *trigs, 
+/* Subroutine */ int dgpfa_(doublereal *a, doublereal *b, doublereal *trigs,
         integer *inc, integer *jump, integer *n, integer *lot, integer *isign,
          integer *npqr)
 {
@@ -77,11 +77,11 @@ static integer c__3 = 3;
 
     /* Local variables */
     integer i__, ip, iq, ir;
-    extern /* Subroutine */ int dgpfa2f_(doublereal *, doublereal *, 
-            doublereal *, integer *, integer *, integer *, integer *, integer 
-            *, integer *), dgpfa3f_(doublereal *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dgpfa2f_(doublereal *, doublereal *,
+            doublereal *, integer *, integer *, integer *, integer *, integer
+            *, integer *), dgpfa3f_(doublereal *, doublereal *, doublereal *,
             integer *, integer *, integer *, integer *, integer *, integer *),
-             dgpfa5f_(doublereal *, doublereal *, doublereal *, integer *, 
+             dgpfa5f_(doublereal *, doublereal *, doublereal *, integer *,
             integer *, integer *, integer *, integer *, integer *);
 
 

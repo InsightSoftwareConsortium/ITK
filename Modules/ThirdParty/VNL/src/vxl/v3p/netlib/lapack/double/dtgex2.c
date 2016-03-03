@@ -27,13 +27,13 @@ static doublereal c_b38 = 1.;
 static doublereal c_b44 = -1.;
 
 /*<    >*/
-/* Subroutine */ int dtgex2_(logical *wantq, logical *wantz, integer *n, 
+/* Subroutine */ int dtgex2_(logical *wantq, logical *wantz, integer *n,
         doublereal *a, integer *lda, doublereal *b, integer *ldb, doublereal *
         q, integer *ldq, doublereal *z__, integer *ldz, integer *j1, integer *
         n1, integer *n2, doublereal *work, integer *lwork, integer *info)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1,
             z_offset, i__1, i__2;
     doublereal d__1;
 
@@ -44,54 +44,54 @@ static doublereal c_b44 = -1.;
     doublereal f, g;
     integer i__, m;
     doublereal s[16]    /* was [4][4] */, t[16] /* was [4][4] */, be[2], ai[2]
-            , ar[2], sa, sb, li[16]     /* was [4][4] */, ir[16]        /* 
+            , ar[2], sa, sb, li[16]     /* was [4][4] */, ir[16]        /*
             was [4][4] */, ss, ws, eps;
     logical weak;
     doublereal ddum;
     integer idum;
     doublereal taul[4], dsum;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *);
-    doublereal taur[4], scpy[16]        /* was [4][4] */, tcpy[16]      /* 
+    doublereal taur[4], scpy[16]        /* was [4][4] */, tcpy[16]      /*
             was [4][4] */;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     doublereal scale, bqra21, brqa21;
-    extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
-            integer *, doublereal *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *,
+            integer *, doublereal *, doublereal *, integer *, doublereal *,
             integer *, doublereal *, doublereal *, integer *, ftnlen, ftnlen);
     doublereal licop[16]        /* was [4][4] */;
     integer linfo;
     doublereal ircop[16]        /* was [4][4] */;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
             doublereal *, integer *);
     doublereal dnorm;
     integer iwork[4];
     extern /* Subroutine */ int dlagv2_(doublereal *, integer *, doublereal *,
              integer *, doublereal *, doublereal *, doublereal *, doublereal *
-            , doublereal *, doublereal *, doublereal *), dgeqr2_(integer *, 
-            integer *, doublereal *, integer *, doublereal *, doublereal *, 
+            , doublereal *, doublereal *, doublereal *), dgeqr2_(integer *,
+            integer *, doublereal *, integer *, doublereal *, doublereal *,
             integer *), dgerq2_(integer *, integer *, doublereal *, integer *,
-             doublereal *, doublereal *, integer *), dorg2r_(integer *, 
-            integer *, integer *, doublereal *, integer *, doublereal *, 
+             doublereal *, doublereal *, integer *), dorg2r_(integer *,
+            integer *, integer *, doublereal *, integer *, doublereal *,
             doublereal *, integer *), dorgr2_(integer *, integer *, integer *,
-             doublereal *, integer *, doublereal *, doublereal *, integer *), 
-            dorm2r_(char *, char *, integer *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, doublereal *, integer *, 
-            doublereal *, integer *, ftnlen, ftnlen), dormr2_(char *, char *, 
-            integer *, integer *, integer *, doublereal *, integer *, 
-            doublereal *, doublereal *, integer *, doublereal *, integer *, 
-            ftnlen, ftnlen), dtgsy2_(char *, integer *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
-            integer *, doublereal *, integer *, doublereal *, integer *, 
+             doublereal *, integer *, doublereal *, doublereal *, integer *),
+            dorm2r_(char *, char *, integer *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, integer *, ftnlen, ftnlen), dormr2_(char *, char *,
+            integer *, integer *, integer *, doublereal *, integer *,
+            doublereal *, doublereal *, integer *, doublereal *, integer *,
+            ftnlen, ftnlen), dtgsy2_(char *, integer *, integer *, integer *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
+            integer *, doublereal *, integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *, doublereal *,
              integer *, integer *, integer *, ftnlen);
     extern doublereal dlamch_(char *, ftnlen);
     doublereal dscale;
-    extern /* Subroutine */ int dlacpy_(char *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, ftnlen), 
-            dlartg_(doublereal *, doublereal *, doublereal *, doublereal *, 
-            doublereal *), dlassq_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dlacpy_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, integer *, ftnlen),
+            dlartg_(doublereal *, doublereal *, doublereal *, doublereal *,
+            doublereal *), dlassq_(integer *, doublereal *, integer *,
             doublereal *, doublereal *);
     logical dtrong;
     doublereal thresh, smlnum;
@@ -302,9 +302,9 @@ static doublereal c_b44 = -1.;
     }
 
 /*<       WEAK = .FALSE. >*/
-    weak = FALSE_;
+//    weak = FALSE_;
 /*<       DTRONG = .FALSE. >*/
-    dtrong = FALSE_;
+//    dtrong = FALSE_;
 
 /*     Make a local copy of selected block */
 
@@ -408,7 +408,7 @@ static doublereal c_b44 = -1.;
 /*             F-norm((A-QL'*S*QR, B-QL'*T*QR)) <= O(EPS*F-norm((A,B))) */
 
 /*<    >*/
-            dlacpy_("Full", &m, &m, &a[*j1 + *j1 * a_dim1], lda, &work[m * m 
+            dlacpy_("Full", &m, &m, &a[*j1 + *j1 * a_dim1], lda, &work[m * m
                     + 1], &m, (ftnlen)4);
 /*<    >*/
             dgemm_("N", "N", &m, &m, &m, &c_b38, li, &c__4, s, &c__4, &c_b3, &
@@ -425,7 +425,7 @@ static doublereal c_b44 = -1.;
             dlassq_(&i__1, &work[m * m + 1], &c__1, &dscale, &dsum);
 
 /*<    >*/
-            dlacpy_("Full", &m, &m, &b[*j1 + *j1 * b_dim1], ldb, &work[m * m 
+            dlacpy_("Full", &m, &m, &b[*j1 + *j1 * b_dim1], ldb, &work[m * m
                     + 1], &m, (ftnlen)4);
 /*<    >*/
             dgemm_("N", "N", &m, &m, &m, &c_b38, li, &c__4, t, &c__4, &c_b3, &
@@ -452,19 +452,19 @@ static doublereal c_b44 = -1.;
 
 /*<    >*/
         i__1 = *j1 + 1;
-        drot_(&i__1, &a[*j1 * a_dim1 + 1], &c__1, &a[(*j1 + 1) * a_dim1 + 1], 
+        drot_(&i__1, &a[*j1 * a_dim1 + 1], &c__1, &a[(*j1 + 1) * a_dim1 + 1],
                 &c__1, ir, &ir[1]);
 /*<    >*/
         i__1 = *j1 + 1;
-        drot_(&i__1, &b[*j1 * b_dim1 + 1], &c__1, &b[(*j1 + 1) * b_dim1 + 1], 
+        drot_(&i__1, &b[*j1 * b_dim1 + 1], &c__1, &b[(*j1 + 1) * b_dim1 + 1],
                 &c__1, ir, &ir[1]);
 /*<    >*/
         i__1 = *n - *j1 + 1;
-        drot_(&i__1, &a[*j1 + *j1 * a_dim1], lda, &a[*j1 + 1 + *j1 * a_dim1], 
+        drot_(&i__1, &a[*j1 + *j1 * a_dim1], lda, &a[*j1 + 1 + *j1 * a_dim1],
                 lda, li, &li[1]);
 /*<    >*/
         i__1 = *n - *j1 + 1;
-        drot_(&i__1, &b[*j1 + *j1 * b_dim1], ldb, &b[*j1 + 1 + *j1 * b_dim1], 
+        drot_(&i__1, &b[*j1 + *j1 * b_dim1], ldb, &b[*j1 + 1 + *j1 * b_dim1],
                 ldb, li, &li[1]);
 
 /*        Set  N1-by-N2 (2,1) - blocks to ZERO. */
@@ -478,12 +478,12 @@ static doublereal c_b44 = -1.;
 
 /*<    >*/
         if (*wantz) {
-            drot_(n, &z__[*j1 * z_dim1 + 1], &c__1, &z__[(*j1 + 1) * z_dim1 + 
+            drot_(n, &z__[*j1 * z_dim1 + 1], &c__1, &z__[(*j1 + 1) * z_dim1 +
                     1], &c__1, ir, &ir[1]);
         }
 /*<    >*/
         if (*wantq) {
-            drot_(n, &q[*j1 * q_dim1 + 1], &c__1, &q[(*j1 + 1) * q_dim1 + 1], 
+            drot_(n, &q[*j1 * q_dim1 + 1], &c__1, &q[(*j1 + 1) * q_dim1 + 1],
                     &c__1, li, &li[1]);
         }
 
@@ -579,13 +579,13 @@ static doublereal c_b44 = -1.;
         dgemm_("T", "N", &m, &m, &m, &c_b38, li, &c__4, s, &c__4, &c_b3, &
                 work[1], &m, (ftnlen)1, (ftnlen)1);
 /*<    >*/
-        dgemm_("N", "T", &m, &m, &m, &c_b38, &work[1], &m, ir, &c__4, &c_b3, 
+        dgemm_("N", "T", &m, &m, &m, &c_b38, &work[1], &m, ir, &c__4, &c_b3,
                 s, &c__4, (ftnlen)1, (ftnlen)1);
 /*<    >*/
         dgemm_("T", "N", &m, &m, &m, &c_b38, li, &c__4, t, &c__4, &c_b3, &
                 work[1], &m, (ftnlen)1, (ftnlen)1);
 /*<    >*/
-        dgemm_("N", "T", &m, &m, &m, &c_b38, &work[1], &m, ir, &c__4, &c_b3, 
+        dgemm_("N", "T", &m, &m, &m, &c_b38, &work[1], &m, ir, &c__4, &c_b3,
                 t, &c__4, (ftnlen)1, (ftnlen)1);
 /*<          CALL DLACPY( 'F', M, M, S, LDST, SCPY, LDST ) >*/
         dlacpy_("F", &m, &m, s, &c__4, scpy, &c__4, (ftnlen)1);
@@ -715,7 +715,7 @@ static doublereal c_b44 = -1.;
 /*              F-norm((A-QL*S*QR', B-QL*T*QR')) <= O(EPS*F-norm((A,B))) */
 
 /*<    >*/
-            dlacpy_("Full", &m, &m, &a[*j1 + *j1 * a_dim1], lda, &work[m * m 
+            dlacpy_("Full", &m, &m, &a[*j1 + *j1 * a_dim1], lda, &work[m * m
                     + 1], &m, (ftnlen)4);
 /*<    >*/
             dgemm_("N", "N", &m, &m, &m, &c_b38, li, &c__4, s, &c__4, &c_b3, &
@@ -732,7 +732,7 @@ static doublereal c_b44 = -1.;
             dlassq_(&i__1, &work[m * m + 1], &c__1, &dscale, &dsum);
 
 /*<    >*/
-            dlacpy_("Full", &m, &m, &b[*j1 + *j1 * b_dim1], ldb, &work[m * m 
+            dlacpy_("Full", &m, &m, &b[*j1 + *j1 * b_dim1], ldb, &work[m * m
                     + 1], &m, (ftnlen)4);
 /*<    >*/
             dgemm_("N", "N", &m, &m, &m, &c_b38, li, &c__4, t, &c__4, &c_b3, &
@@ -792,7 +792,7 @@ static doublereal c_b44 = -1.;
 /*<          IF( N2.GT.1 ) THEN >*/
         if (*n2 > 1) {
 /*<    >*/
-            dlagv2_(&a[*j1 + *j1 * a_dim1], lda, &b[*j1 + *j1 * b_dim1], ldb, 
+            dlagv2_(&a[*j1 + *j1 * a_dim1], lda, &b[*j1 + *j1 * b_dim1], ldb,
                     ar, ai, be, &work[1], &work[2], t, &t[1]);
 /*<             WORK( M+1 ) = -WORK( 2 ) >*/
             work[m + 1] = -work[2];
@@ -812,8 +812,8 @@ static doublereal c_b44 = -1.;
 /*<          IF( N1.GT.1 ) THEN >*/
         if (*n1 > 1) {
 /*<    >*/
-            dlagv2_(&a[*j1 + *n2 + (*j1 + *n2) * a_dim1], lda, &b[*j1 + *n2 + 
-                    (*j1 + *n2) * b_dim1], ldb, taur, taul, &work[m * m + 1], 
+            dlagv2_(&a[*j1 + *n2 + (*j1 + *n2) * a_dim1], lda, &b[*j1 + *n2 +
+                    (*j1 + *n2) * b_dim1], ldb, taur, taul, &work[m * m + 1],
                     &work[*n2 * m + *n2 + 1], &work[*n2 * m + *n2 + 2], &t[*
                     n2 + 1 + ((*n2 + 1) << 2) - 5], &t[m + ((m - 1) << 2) - 5]);
 /*<             WORK( M*M ) = WORK( N2*M+N2+1 ) >*/
@@ -831,14 +831,14 @@ static doublereal c_b44 = -1.;
                 n2) * a_dim1], lda, &c_b3, &work[m * m + 1], n2, (ftnlen)1, (
                 ftnlen)1);
 /*<    >*/
-        dlacpy_("Full", n2, n1, &work[m * m + 1], n2, &a[*j1 + (*j1 + *n2) * 
+        dlacpy_("Full", n2, n1, &work[m * m + 1], n2, &a[*j1 + (*j1 + *n2) *
                 a_dim1], lda, (ftnlen)4);
 /*<    >*/
         dgemm_("T", "N", n2, n1, n2, &c_b38, &work[1], &m, &b[*j1 + (*j1 + *
                 n2) * b_dim1], ldb, &c_b3, &work[m * m + 1], n2, (ftnlen)1, (
                 ftnlen)1);
 /*<    >*/
-        dlacpy_("Full", n2, n1, &work[m * m + 1], n2, &b[*j1 + (*j1 + *n2) * 
+        dlacpy_("Full", n2, n1, &work[m * m + 1], n2, &b[*j1 + (*j1 + *n2) *
                 b_dim1], ldb, (ftnlen)4);
 /*<    >*/
         dgemm_("N", "N", &m, &m, &m, &c_b38, li, &c__4, &work[1], &m, &c_b3, &
@@ -846,18 +846,18 @@ static doublereal c_b44 = -1.;
 /*<          CALL DLACPY( 'Full', M, M, WORK( M*M+1 ), M, LI, LDST ) >*/
         dlacpy_("Full", &m, &m, &work[m * m + 1], &m, li, &c__4, (ftnlen)4);
 /*<    >*/
-        dgemm_("N", "N", n2, n1, n1, &c_b38, &a[*j1 + (*j1 + *n2) * a_dim1], 
+        dgemm_("N", "N", n2, n1, n1, &c_b38, &a[*j1 + (*j1 + *n2) * a_dim1],
                 lda, &t[*n2 + 1 + ((*n2 + 1) << 2) - 5], &c__4, &c_b3, &work[1],
                  n2, (ftnlen)1, (ftnlen)1);
 /*<          CALL DLACPY( 'Full', N2, N1, WORK, N2, A( J1, J1+N2 ), LDA ) >*/
-        dlacpy_("Full", n2, n1, &work[1], n2, &a[*j1 + (*j1 + *n2) * a_dim1], 
+        dlacpy_("Full", n2, n1, &work[1], n2, &a[*j1 + (*j1 + *n2) * a_dim1],
                 lda, (ftnlen)4);
 /*<    >*/
-        dgemm_("N", "N", n2, n1, n1, &c_b38, &b[*j1 + (*j1 + *n2) * b_dim1], 
+        dgemm_("N", "N", n2, n1, n1, &c_b38, &b[*j1 + (*j1 + *n2) * b_dim1],
                 lda, &t[*n2 + 1 + ((*n2 + 1) << 2) - 5], &c__4, &c_b3, &work[1],
                  n2, (ftnlen)1, (ftnlen)1);
 /*<          CALL DLACPY( 'Full', N2, N1, WORK, N2, B( J1, J1+N2 ), LDB ) >*/
-        dlacpy_("Full", n2, n1, &work[1], n2, &b[*j1 + (*j1 + *n2) * b_dim1], 
+        dlacpy_("Full", n2, n1, &work[1], n2, &b[*j1 + (*j1 + *n2) * b_dim1],
                 ldb, (ftnlen)4);
 /*<    >*/
         dgemm_("T", "N", &m, &m, &m, &c_b38, ir, &c__4, t, &c__4, &c_b3, &
@@ -882,7 +882,7 @@ static doublereal c_b44 = -1.;
 /*<          IF( WANTZ ) THEN >*/
         if (*wantz) {
 /*<    >*/
-            dgemm_("N", "N", n, &m, &m, &c_b38, &z__[*j1 * z_dim1 + 1], ldz, 
+            dgemm_("N", "N", n, &m, &m, &c_b38, &z__[*j1 * z_dim1 + 1], ldz,
                     ir, &c__4, &c_b3, &work[1], n, (ftnlen)1, (ftnlen)1);
 /*<             CALL DLACPY( 'Full', N, M, WORK, N, Z( 1, J1 ), LDZ ) >*/
             dlacpy_("Full", n, &m, &work[1], n, &z__[*j1 * z_dim1 + 1], ldz, (
@@ -900,19 +900,19 @@ static doublereal c_b44 = -1.;
         if (i__ <= *n) {
 /*<    >*/
             i__1 = *n - i__ + 1;
-            dgemm_("T", "N", &m, &i__1, &m, &c_b38, li, &c__4, &a[*j1 + i__ * 
+            dgemm_("T", "N", &m, &i__1, &m, &c_b38, li, &c__4, &a[*j1 + i__ *
                     a_dim1], lda, &c_b3, &work[1], &m, (ftnlen)1, (ftnlen)1);
 /*<             CALL DLACPY( 'Full', M, N-I+1, WORK, M, A( J1, I ), LDA ) >*/
             i__1 = *n - i__ + 1;
-            dlacpy_("Full", &m, &i__1, &work[1], &m, &a[*j1 + i__ * a_dim1], 
+            dlacpy_("Full", &m, &i__1, &work[1], &m, &a[*j1 + i__ * a_dim1],
                     lda, (ftnlen)4);
 /*<    >*/
             i__1 = *n - i__ + 1;
-            dgemm_("T", "N", &m, &i__1, &m, &c_b38, li, &c__4, &b[*j1 + i__ * 
+            dgemm_("T", "N", &m, &i__1, &m, &c_b38, li, &c__4, &b[*j1 + i__ *
                     b_dim1], lda, &c_b3, &work[1], &m, (ftnlen)1, (ftnlen)1);
 /*<             CALL DLACPY( 'Full', M, N-I+1, WORK, M, B( J1, I ), LDA ) >*/
             i__1 = *n - i__ + 1;
-            dlacpy_("Full", &m, &i__1, &work[1], &m, &b[*j1 + i__ * b_dim1], 
+            dlacpy_("Full", &m, &i__1, &work[1], &m, &b[*j1 + i__ * b_dim1],
                     lda, (ftnlen)4);
 /*<          END IF >*/
         }
@@ -921,16 +921,16 @@ static doublereal c_b44 = -1.;
 /*<          IF( I.GT.0 ) THEN >*/
         if (i__ > 0) {
 /*<    >*/
-            dgemm_("N", "N", &i__, &m, &m, &c_b38, &a[*j1 * a_dim1 + 1], lda, 
+            dgemm_("N", "N", &i__, &m, &m, &c_b38, &a[*j1 * a_dim1 + 1], lda,
                     ir, &c__4, &c_b3, &work[1], &i__, (ftnlen)1, (ftnlen)1);
 /*<             CALL DLACPY( 'Full', I, M, WORK, I, A( 1, J1 ), LDA ) >*/
-            dlacpy_("Full", &i__, &m, &work[1], &i__, &a[*j1 * a_dim1 + 1], 
+            dlacpy_("Full", &i__, &m, &work[1], &i__, &a[*j1 * a_dim1 + 1],
                     lda, (ftnlen)4);
 /*<    >*/
-            dgemm_("N", "N", &i__, &m, &m, &c_b38, &b[*j1 * b_dim1 + 1], ldb, 
+            dgemm_("N", "N", &i__, &m, &m, &c_b38, &b[*j1 * b_dim1 + 1], ldb,
                     ir, &c__4, &c_b3, &work[1], &i__, (ftnlen)1, (ftnlen)1);
 /*<             CALL DLACPY( 'Full', I, M, WORK, I, B( 1, J1 ), LDB ) >*/
-            dlacpy_("Full", &i__, &m, &work[1], &i__, &b[*j1 * b_dim1 + 1], 
+            dlacpy_("Full", &i__, &m, &work[1], &i__, &b[*j1 * b_dim1 + 1],
                     ldb, (ftnlen)4);
 /*<          END IF >*/
         }

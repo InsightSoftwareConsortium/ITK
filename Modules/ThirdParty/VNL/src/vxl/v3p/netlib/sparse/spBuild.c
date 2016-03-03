@@ -42,13 +42,6 @@
  *  Copyright (c) 1985-2003 by Kenneth S. Kundert
  */
 
-#if 0
-static char copyright[] =
-    "Sparse1.4: Copyright (c) 1985-2003 by Kenneth S. Kundert";
-#endif
-
-
-
 
 /*
  *  IMPORTS
@@ -160,7 +153,7 @@ register  int  I;
  *  A pointer to the desired element, or \a NULL if it does not exist.
  *
  *  \param eMatrix
- *      Pointer to matrix.
+ *        Pointer to matrix.
  *  \param Row
  *      Row index for element.
  *  \param Col
@@ -183,10 +176,10 @@ spFindElement(
 MatrixPtr  Matrix = (MatrixPtr)eMatrix;
 register ElementPtr  pElement;
 int StartAt=0, Min = LARGEST_INTEGER;
-#define BorderRight 0   /* Start at left border, move right. */
-#define BorderDown  1   /* Start at top border, move down. */
-#define DiagRight   2   /* Start at diagonal, move right. */
-#define DiagDown    3   /* Start at diagonal, move down. */
+#define BorderRight 0        /* Start at left border, move right. */
+#define BorderDown  1        /* Start at top border, move down. */
+#define DiagRight   2        /* Start at diagonal, move right. */
+#define DiagDown    3        /* Start at diagonal, move down. */
 
 /* Begin `spFindElement'. */
     if (Row == Col) return &Matrix->Diag[Row]->Real;
@@ -208,7 +201,7 @@ int StartAt=0, Min = LARGEST_INTEGER;
     }
     else if (Row < Min)
         StartAt = BorderDown;
-    
+
 /* Search column for element. */
     if ((StartAt == BorderDown) OR (StartAt == DiagDown))
     {   if (StartAt == BorderDown)
@@ -378,7 +371,7 @@ ElementPtr pElement;
  */
 
 static void
-Translate( 
+Translate(
     MatrixPtr Matrix,
     int *Row,
     int *Col
@@ -679,7 +672,7 @@ spGetOnes(
  *
  *  >>> Arguments:
  *  Matrix  <input>  (MatrixPtr)
- *      Pointer to matrix.
+ *        Pointer to matrix.
  *  Index  <input>  (int)
  *      Row, Col index for diagonal element.
  *
@@ -726,21 +719,21 @@ register ElementPtr  pElement;
  *
  *  >>> Arguments:
  *  Matrix  <input>  (MatrixPtr)
- *      Pointer to matrix.
+ *        Pointer to matrix.
  *  Row  <input>  (int)
  *      Row index for element.
  *  Col  <input>  (int)
  *      Column index for element.
  *  ppToLeft  <input-output>  (ElementPtr *)
  *      This contains the address of the pointer to an element to the left
- *      of the one being created.  It is used to speed the search and if it
- *      is immediately to the left, it is updated with address of the
- *      created element.
+ *        of the one being created.  It is used to speed the search and if it
+ *        is immediately to the left, it is updated with address of the
+ *        created element.
  *  ppAbove  <input-output> (ElementPtr *)
  *      This contains the address of the pointer to an element above the
  *      one being created.  It is used to speed the search and it if it
- *      is immediatley above, it is updated with address of the created
- *      element.
+ *        is immediatley above, it is updated with address of the created
+ *        element.
  *  Fillin  <input>  (BOOLEAN)
  *      Flag that indicates if created element is to be a fill-in.
  *
@@ -1091,7 +1084,7 @@ register int I, OldAllocatedSize = Matrix->AllocatedExtSize;
  *   the matrix to be \a spMANGLED, and returns the error code.
  *
  *   \return
- *      Returns the return value of the \a pInit() function.
+ *        Returns the return value of the \a pInit() function.
  *   \param eMatrix
  *      Pointer to matrix.
  *   \param pInit
@@ -1200,7 +1193,7 @@ spInstallInitInfo(
 
 /*!
  *   This function returns a pointer to a data structure that is used
- *   to contain initialization information to a matrix element. 
+ *   to contain initialization information to a matrix element.
  *
  *   \return
  *       The pointer to the initialiation information data structure

@@ -11,9 +11,6 @@
 #include "vnl_generalized_eigensystem.h"
 
 #include <vcl_iostream.h>
-#ifdef VCL_SGI_CC_730
-# include <vcl_cmath.h>
-#endif
 
 #include <vnl/vnl_fortran_copy.h>
 #include <vnl/vnl_matlab_print.h>
@@ -56,38 +53,7 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
       vcl_cerr << "**** eigenvalues(B) = " << eig.D << vcl_endl;
       return;
     }
-    // hmmmmm - all this crap below is worse than whatever the default is...
     return;
-#if 0 // so don't compile it then...
-    int rank_deficiency = 0;
-    while (eig.D(rank_deficiency,rank_deficiency) < THRESH)
-      ++rank_deficiency;
-    int rank = B.columns() - rank_deficiency;
-
-    vcl_cerr << "vnl_generalized_eigensystem: B rank def by " << rank_deficiency << vcl_endl;
-    // M is basis for non-nullspace of B
-    vnl_matrix<double> M = eig.V.get_n_columns(rank_deficiency, rank);
-    vnl_matrix<double> N = eig.V.get_n_columns(0, rank_deficiency);
-
-    vnl_svd<double> svd(vnl_transpose(M)*A*N);
-
-    vnl_generalized_eigensystem reduced(vnl_transpose(M) * A * M,
-                                        vnl_transpose(M) * B * M);
-
-    vcl_cerr << "AN: " << reduced.D << vcl_endl;
-
-    vnl_matrix<double> V05 = M * vnl_transpose(reduced.V);
-    vnl_svd<double> sv6(V05.transpose());
-    V.update(V05, 0, 0);
-    V.update(sv6.nullspace(), 0, rank - 1);
-    for (int i = 0; i < rank; ++i)
-      D(i,i) = reduced.D(i,i);
-    for (unsigned i = rank; i < B.columns(); ++i)
-      D(i,i) = 0;
-    vcl_cerr << "AN: " << D << vcl_endl;
-
-    return;
-#endif
   }
 
   // transpose-copy V1 to V

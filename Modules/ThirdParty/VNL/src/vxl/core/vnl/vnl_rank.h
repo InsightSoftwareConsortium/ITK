@@ -66,6 +66,6 @@ template <class T>
 vnl_matrix<T> vnl_rank_row_column_reduce(vnl_matrix<T> const& mat,
                                          vnl_rank_pivot_type = vnl_rank_pivot_all);
 
-#define VNL_RANK_INSTANTIATE(T) extern "please #include vnl/vnl_rank.txx instead"
+#define VNL_RANK_INSTANTIATE(T) extern "please #include vnl/vnl_rank.hxx instead"
 
 #endif // vnl_rank_h_

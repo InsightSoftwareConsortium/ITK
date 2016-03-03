@@ -18,6 +18,8 @@
 #include <vnl/vnl_crs_index.h>
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_cross_product_matrix.h>
+#include <vnl/vnl_decnum.h>
+#include <vnl/vnl_decnum_traits.h>
 #include <vnl/vnl_definite_integral.h>
 #include <vnl/vnl_det.h>
 #include <vnl/vnl_diag_matrix.h>
@@ -63,6 +65,7 @@
 #include <vnl/vnl_identity.h>
 #include <vnl/vnl_identity_3x3.h>
 #include <vnl/vnl_imag.h>
+#include <vnl/vnl_index_sort.h>
 #include <vnl/vnl_int_1x1.h>
 #include <vnl/vnl_int_2.h>
 #include <vnl/vnl_int_2x2.h>
@@ -94,6 +97,7 @@
 #include <vnl/vnl_nonlinear_minimizer.h>
 #include <vnl/vnl_numeric_traits.h>
 #include <vnl/vnl_operators.h>
+#include <vnl/vnl_polynomial.h>
 #include <vnl/vnl_power.h>
 #include <vnl/vnl_quaternion.h>
 #include <vnl/vnl_rank.h>
@@ -119,13 +123,6 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector_ref.h>
 #include <vnl/vnl_vector_fixed_ref.h>
-
-#if 0 // ITK does not build vnl_xio
-#include <vnl/xio/vnl_xio_matrix_fixed.h>
-#include <vnl/xio/vnl_xio_quaternion.h>
-#include <vnl/xio/vnl_xio_vector.h>
-#include <vnl/xio/vnl_xio_vector_fixed.h>
-#endif
 
 // Put vnl_config.h at the end, to verify that none of the above implicitly depend on it
 #include <vnl/vnl_config.h>

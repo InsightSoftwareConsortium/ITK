@@ -102,9 +102,9 @@ L40:
     i__2 = *n;
     for (i__ = mp1; i__ <= i__2; i__ += 6) {
 /*<    >*/
-        dtemp = dtemp + (d__1 = dx[i__], abs(d__1)) + (d__2 = dx[i__ + 1], 
-                abs(d__2)) + (d__3 = dx[i__ + 2], abs(d__3)) + (d__4 = dx[i__ 
-                + 3], abs(d__4)) + (d__5 = dx[i__ + 4], abs(d__5)) + (d__6 = 
+        dtemp = dtemp + (d__1 = dx[i__], abs(d__1)) + (d__2 = dx[i__ + 1],
+                abs(d__2)) + (d__3 = dx[i__ + 2], abs(d__3)) + (d__4 = dx[i__
+                + 3], abs(d__4)) + (d__5 = dx[i__ + 4], abs(d__5)) + (d__6 =
                 dx[i__ + 5], abs(d__6));
 /*<    50 continue >*/
 /* L50: */

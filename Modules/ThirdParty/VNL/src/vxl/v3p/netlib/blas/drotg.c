@@ -20,7 +20,7 @@ extern "C" {
 static doublereal c_b4 = 1.;
 
 /*<       subroutine drotg(da,db,c,s) >*/
-/* Subroutine */ int drotg_(doublereal *da, doublereal *db, doublereal *c__, 
+/* Subroutine */ int drotg_(doublereal *da, doublereal *db, doublereal *c__,
         doublereal *s)
 {
     /* System generated locals */

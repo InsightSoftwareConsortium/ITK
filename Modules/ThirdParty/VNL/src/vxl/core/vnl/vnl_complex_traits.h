@@ -17,17 +17,6 @@
 
 #include <vcl_complex.h>
 
-#if 0 // The old implementation
-  //: Whether complex or not
-  enum { isreal = true };
-
-  //: Complex conjugation.
-  static T conjugate(T x);
-
-  //: Complexification.
-  static vcl_complex<T> complexify(T x);
-#endif
-
 template <class T> // the primary template is empty, by design.
 struct vnl_complex_traits;
 
@@ -45,6 +34,9 @@ makro(char);
 makro(short);
 makro(int);
 makro(long);
+#if VCL_HAS_LONG_LONG
+makro(long long);
+#endif
 #undef makro
 #undef macro
 

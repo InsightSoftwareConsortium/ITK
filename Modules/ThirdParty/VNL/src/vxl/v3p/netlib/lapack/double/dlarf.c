@@ -23,7 +23,7 @@ static integer c__1 = 1;
 
 /*<       SUBROUTINE DLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK ) >*/
 /* Subroutine */ int dlarf_(char *side, integer *m, integer *n, doublereal *v,
-         integer *incv, doublereal *tau, doublereal *c__, integer *ldc, 
+         integer *incv, doublereal *tau, doublereal *c__, integer *ldc,
         doublereal *work, ftnlen side_len)
 {
     /* System generated locals */
@@ -31,12 +31,12 @@ static integer c__1 = 1;
     doublereal d__1;
 
     /* Local variables */
-    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *, 
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
             integer *);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-            doublereal *, doublereal *, integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dgemv_(char *, integer *, integer *,
+            doublereal *, doublereal *, integer *, doublereal *, integer *,
             doublereal *, doublereal *, integer *, ftnlen);
     (void)side_len;
 
@@ -144,7 +144,7 @@ static integer c__1 = 1;
 
 /*<             CALL DGER( M, N, -TAU, V, INCV, WORK, 1, C, LDC ) >*/
             d__1 = -(*tau);
-            dger_(m, n, &d__1, &v[1], incv, &work[1], &c__1, &c__[c_offset], 
+            dger_(m, n, &d__1, &v[1], incv, &work[1], &c__1, &c__[c_offset],
                     ldc);
 /*<          END IF >*/
         }
@@ -159,14 +159,14 @@ static integer c__1 = 1;
 /*           w := C * v */
 
 /*<    >*/
-            dgemv_("No transpose", m, n, &c_b4, &c__[c_offset], ldc, &v[1], 
+            dgemv_("No transpose", m, n, &c_b4, &c__[c_offset], ldc, &v[1],
                     incv, &c_b5, &work[1], &c__1, (ftnlen)12);
 
 /*           C := C - w * v' */
 
 /*<             CALL DGER( M, N, -TAU, WORK, 1, V, INCV, C, LDC ) >*/
             d__1 = -(*tau);
-            dger_(m, n, &d__1, &work[1], &c__1, &v[1], incv, &c__[c_offset], 
+            dger_(m, n, &d__1, &work[1], &c__1, &v[1], incv, &c__[c_offset],
                     ldc);
 /*<          END IF >*/
         }

@@ -114,10 +114,6 @@ class vnl_scalar_join_iterator
   // Postfix ++ is private as it would be costly to implement.
   vnl_scalar_join_iterator<T> operator++ (int);
 
-#if 0
-  T object1() const { return *I1[index1].object; }
-  T object2() const { return *I2[index2].object; }
-#endif
 };
 
 //: Helper class to hold the sorted arrays of indices.

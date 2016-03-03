@@ -16,9 +16,9 @@ C        LIMITED MEMORY BFGS METHOD FOR LARGE SCALE OPTIMIZATION
 C                          JORGE NOCEDAL
 C                        *** July 1990 ***
 C
-C 
+C
 C     This subroutine solves the unconstrained minimization problem
-C 
+C
 C                      min F(x),    x= (x1,x2,...,xN),
 C
 C      using the limited memory BFGS method. The routine is especially
@@ -32,48 +32,48 @@ C      diagonal matrices Hk0 if not satisfied with the default choice.
 C      The algorithm is described in "On the limited memory BFGS method
 C      for large scale optimization", by D. Liu and J. Nocedal,
 C      Mathematical Programming B 45 (1989) 503-528.
-C 
+C
 C      The user is required to calculate the function value F and its
 C      gradient G. In order to allow the user complete control over
 C      these computations, reverse  communication is used. The routine
 C      must be called repeatedly under the control of the parameter
-C      IFLAG. 
+C      IFLAG.
 C
 C      The steplength is determined at each iteration by means of the
 C      line search routine MCVSRCH, which is a slight modification of
 C      the routine CSRCH written by More' and Thuente.
-C 
-C      The calling statement is 
-C 
+C
+C      The calling statement is
+C
 C          CALL LBFGS(N,M,X,F,G,DIAGCO,DIAG,IPRINT,EPS,XTOL,W,IFLAG)
-C 
+C
 C      where
-C 
+C
 C     N       is an INTEGER variable that must be set by the user to the
 C             number of variables. It is not altered by the routine.
 C             Restriction: N>0.
-C 
+C
 C     M       is an INTEGER variable that must be set by the user to
 C             the number of corrections used in the BFGS update. It
 C             is not altered by the routine. Values of M less than 3 are
 C             not recommended; large values of M will result in excessive
 C             computing time. 3<= M <=7 is recommended. Restriction: M>0.
-C 
+C
 C     X       is a DOUBLE PRECISION array of length N. On initial entry
 C             it must be set by the user to the values of the initial
 C             estimate of the solution vector. On exit with IFLAG=0, it
 C             contains the values of the variables at the best point
 C             found (usually a solution).
-C 
+C
 C     F       is a DOUBLE PRECISION variable. Before initial entry and on
 C             a re-entry with IFLAG=1, it must be set by the user to
 C             contain the value of the function F at the point X.
-C 
+C
 C     G       is a DOUBLE PRECISION array of length N. Before initial
 C             entry and on a re-entry with IFLAG=1, it must be set by
 C             the user to contain the components of the gradient G at
 C             the point X.
-C 
+C
 C     DIAGCO  is a LOGICAL variable that must be set to .TRUE. if the
 C             user  wishes to provide the diagonal matrix Hk0 at each
 C             iteration. Otherwise it should be set to .FALSE., in which
@@ -81,24 +81,24 @@ C             case  LBFGS will use a default value described below. If
 C             DIAGCO is set to .TRUE. the routine will return at each
 C             iteration of the algorithm with IFLAG=2, and the diagonal
 C              matrix Hk0  must be provided in the array DIAG.
-C 
-C 
+C
+C
 C     DIAG    is a DOUBLE PRECISION array of length N. If DIAGCO=.TRUE.,
 C             then on initial entry or on re-entry with IFLAG=2, DIAG
-C             it must be set by the user to contain the values of the 
+C             it must be set by the user to contain the values of the
 C             diagonal matrix Hk0.  Restriction: all elements of DIAG
 C             must be positive.
-C 
+C
 C     IPRINT  is an INTEGER array of length two which must be set by the
 C             user.
-C 
+C
 C             IPRINT(1) specifies the frequency of the output:
 C                IPRINT(1) < 0 : no output is generated,
 C                IPRINT(1) = 0 : output only at first and last iteration,
 C                IPRINT(1) > 0 : output every IPRINT(1) iterations.
-C 
+C
 C             IPRINT(2) specifies the type of output generated:
-C                IPRINT(2) = 0 : iteration count, number of function 
+C                IPRINT(2) = 0 : iteration count, number of function
 C                                evaluations, function value, norm of the
 C                                gradient, and steplength,
 C                IPRINT(2) = 1 : same as IPRINT(2)=0, plus vector of
@@ -107,8 +107,8 @@ C                                initial point,
 C                IPRINT(2) = 2 : same as IPRINT(2)=1, plus vector of
 C                                variables,
 C                IPRINT(2) = 3 : same as IPRINT(2)=2, plus gradient vector.
-C 
-C 
+C
+C
 C     EPS     is a positive DOUBLE PRECISION variable that must be set by
 C             the user, and determines the accuracy with which the solution
 C             is to be found. The subroutine terminates when
@@ -116,27 +116,27 @@ C
 C                         ||G|| < EPS max(1,||X||),
 C
 C             where ||.|| denotes the Euclidean norm.
-C 
+C
 C     XTOL    is a  positive DOUBLE PRECISION variable that must be set by
 C             the user to an estimate of the machine precision (e.g.
 C             10**(-16) on a SUN station 3/60). The line search routine will
 C             terminate if the relative width of the interval of uncertainty
 C             is less than XTOL.
-C 
+C
 C     W       is a DOUBLE PRECISION array of length N(2M+1)+2M used as
 C             workspace for LBFGS. This array must not be altered by the
 C             user.
-C 
+C
 C     IFLAG   is an INTEGER variable that must be set to 0 on initial entry
 C             to the subroutine. A return with IFLAG<0 indicates an error,
 C             and IFLAG=0 indicates that the routine has terminated without
 C             detecting errors. On a return with IFLAG=1, the user must
 C             evaluate the function F and gradient G. On a return with
 C             IFLAG=2, the user must provide the diagonal matrix Hk0.
-C 
+C
 C             The following negative values of IFLAG, detecting an error,
 C             are possible:
-C 
+C
 C              IFLAG=-1  The line search routine MCSRCH failed. The
 C                        parameter INFO provides more detailed information
 C                        (see also the documentation of MCSRCH):
@@ -153,19 +153,19 @@ C                       INFO = 4  THE STEP IS TOO SMALL.
 C
 C                       INFO = 5  THE STEP IS TOO LARGE.
 C
-C                       INFO = 6  ROUNDING ERRORS PREVENT FURTHER PROGRESS. 
+C                       INFO = 6  ROUNDING ERRORS PREVENT FURTHER PROGRESS.
 C                                 THERE MAY NOT BE A STEP WHICH SATISFIES
 C                                 THE SUFFICIENT DECREASE AND CURVATURE
 C                                 CONDITIONS. TOLERANCES MAY BE TOO SMALL.
 C
-C 
+C
 C              IFLAG=-2  The i-th diagonal element of the diagonal inverse
 C                        Hessian approximation, given in DIAG, is not
 C                        positive.
-C           
+C
 C              IFLAG=-3  Improper input parameters for LBFGS (N or M are
 C                        not positive).
-C 
+C
 C
 C
 C    ON THE DRIVER:
@@ -175,25 +175,25 @@ C
 C                       EXTERNAL LB2
 C
 C    LB2 is a BLOCK DATA that defines the default values of several
-C    parameters described in the COMMON section. 
+C    parameters described in the COMMON section.
 C
-C 
-C 
+C
+C
 C    COMMON:
-C 
+C
 C     The subroutine contains one common area, which the user may wish to
 C    reference:
-C 
+C
          COMMON /LB3/MP,LP,GTOL,STPMIN,STPMAX
-C 
+C
 C    MP  is an INTEGER variable with default value 6. It is used as the
 C        unit number for the printing of the monitoring information
 C        controlled by IPRINT.
-C 
+C
 C    LP  is an INTEGER variable with default value 6. It is used as the
 C        unit number for the printing of error messages. This printing
 C        may be suppressed by setting LP to a non-positive value.
-C 
+C
 C    GTOL is a DOUBLE PRECISION variable with default value 0.9, which
 C        controls the accuracy of the line search routine MCSRCH. If the
 C        function and gradient evaluations are inexpensive with respect
@@ -201,29 +201,29 @@ C        to the cost of the iteration (which is sometimes the case when
 C        solving very large problems) it may be advantageous to set GTOL
 C        to a small value. A typical small value is 0.1.  Restriction:
 C        GTOL should be greater than 1.D-04.
-C 
+C
 C    STPMIN and STPMAX are non-negative DOUBLE PRECISION variables which
 C        specify lower and uper bounds for the step in the line search.
 C        Their default values are 1.D-20 and 1.D+20, respectively. These
 C        values need not be modified unless the exponents are too large
 C        for the machine being used, or unless the problem is extremely
 C        badly scaled (in which case the exponents should be increased).
-C 
+C
 C
 C  MACHINE DEPENDENCIES
 C
 C        The only variables that are machine-dependent are XTOL,
 C        STPMIN and STPMAX.
-C 
+C
 C
 C  GENERAL INFORMATION
-C 
+C
 C    Other routines called directly:  DAXPY, DDOT, LB1, MCSRCH
-C 
+C
 C    Input/Output  :  No input; diagnostic messages on unit MP and
 C                     error messages on unit LP.
-C 
-C 
+C
+C
 C     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 C
       DOUBLE PRECISION GTOL,ONE,ZERO,GNORM,DDOT,STP1,FTOL,STPMIN,
@@ -273,14 +273,14 @@ C     THE SEARCH STEPS AND GRADIENT DIFFERENCES ARE STORED IN A
 C     CIRCULAR ORDER CONTROLLED BY THE PARAMETER POINT.
 C
       ISPT= N+2*M
-      IYPT= ISPT+N*M     
+      IYPT= ISPT+N*M
       DO 50 I=1,N
  50   W(ISPT+I)= -G(I)*DIAG(I)
       GNORM= DSQRT(DDOT(N,G,1,G,1))
       STP1= ONE/GNORM
 C
 C     PARAMETERS FOR LINE SEARCH ROUTINE
-C     
+C
       FTOL= 1.0D-4
       MAXFEV= 20
 C
@@ -353,7 +353,7 @@ C
        DO 160 I=1,N
  160   W(ISPT+POINT*N+I)= W(I)
 C
-C     OBTAIN THE ONE-DIMENSIONAL MINIMIZER OF THE FUNCTION 
+C     OBTAIN THE ONE-DIMENSIONAL MINIMIZER OF THE FUNCTION
 C     BY USING THE LINE SEARCH ROUTINE MCSRCH
 C     ----------------------------------------------------
  165  NFEV=0
@@ -371,7 +371,7 @@ C     ----------------------------------------------------
       IF (INFO .NE. 1) GO TO 190
       NFUN= NFUN + NFEV
 C
-C     COMPUTE THE NEW STEP AND GRADIENT CHANGE 
+C     COMPUTE THE NEW STEP AND GRADIENT CHANGE
 C     -----------------------------------------
 C
       NPT=POINT*N
@@ -502,7 +502,7 @@ C     ******
 C
 C
 C   ----------------------------------------------------------
-C     DATA 
+C     DATA
 C   ----------------------------------------------------------
 C
       BLOCK DATA LB2
@@ -525,10 +525,10 @@ C
       SAVE
 C
 C                     SUBROUTINE MCSRCH
-C                
+C
 C     A slight modification of the subroutine CSRCH of More' and Thuente.
 C     The changes are to allow reverse communication, and do not affect
-C     the performance of the routine. 
+C     the performance of the routine.
 C
 C     THE PURPOSE OF MCSRCH IS TO FIND A STEP WHICH SATISFIES
 C     A SUFFICIENT DECREASE CONDITION AND A CURVATURE CONDITION.

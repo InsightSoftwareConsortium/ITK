@@ -77,9 +77,9 @@ vnl_vector<double> camera_diff(const vnl_vector<double>& a1,
   for (unsigned int i=0; i<da.size(); i+=3)
   {
     if ( da[i] > vnl_math::pi )
-      da[i] -= vnl_math::pi*2;
+      da[i] -= vnl_math::twopi;
     if ( da[i] < -vnl_math::pi )
-      da[i] += vnl_math::pi*2;
+      da[i] += vnl_math::twopi;
   }
   return da;
 }
@@ -789,7 +789,7 @@ void test_prob3()
     double rms_error_a = camera_diff(a,pa).rms();
     double rms_error_b = (b-pb).rms();
     vcl_cout << "RMS camera error: "<<rms_error_a
-             << "\nRMS points error: "<<rms_error_a << vcl_endl;
+             << "\nRMS points error: "<<rms_error_b << vcl_endl;
     TEST("convergence with missing projections and noise",
          rms_error_a <1e-4 && rms_error_b < 1e-4, true);
   }

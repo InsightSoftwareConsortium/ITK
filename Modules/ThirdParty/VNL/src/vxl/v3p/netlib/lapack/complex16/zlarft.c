@@ -33,11 +33,11 @@ static integer c__1 = 1;
     integer i__, j;
     doublecomplex vii;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int zgemv_(char *, integer *, integer *, 
-            doublecomplex *, doublecomplex *, integer *, doublecomplex *, 
-            integer *, doublecomplex *, doublecomplex *, integer *, ftnlen), 
-            ztrmv_(char *, char *, char *, integer *, doublecomplex *, 
-            integer *, doublecomplex *, integer *, ftnlen, ftnlen, ftnlen), 
+    extern /* Subroutine */ int zgemv_(char *, integer *, integer *,
+            doublecomplex *, doublecomplex *, integer *, doublecomplex *,
+            integer *, doublecomplex *, doublecomplex *, integer *, ftnlen),
+            ztrmv_(char *, char *, char *, integer *, doublecomplex *,
+            integer *, doublecomplex *, integer *, ftnlen, ftnlen, ftnlen),
             zlacgv_(integer *, doublecomplex *, integer *);
     (void)direct_len;
     (void)storev_len;
@@ -220,7 +220,7 @@ static integer c__1 = 1;
                     i__3 = i__ - 1;
                     i__4 = i__;
                     z__1.r = -tau[i__4].r, z__1.i = -tau[i__4].i;
-                    zgemv_("Conjugate transpose", &i__2, &i__3, &z__1, &v[i__ 
+                    zgemv_("Conjugate transpose", &i__2, &i__3, &z__1, &v[i__
                             + v_dim1], ldv, &v[i__ + i__ * v_dim1], &c__1, &
                             c_b2, &t[i__ * t_dim1 + 1], &c__1, (ftnlen)19);
 /*<                ELSE >*/
@@ -238,7 +238,7 @@ static integer c__1 = 1;
                     i__3 = *n - i__ + 1;
                     i__4 = i__;
                     z__1.r = -tau[i__4].r, z__1.i = -tau[i__4].i;
-                    zgemv_("No transpose", &i__2, &i__3, &z__1, &v[i__ * 
+                    zgemv_("No transpose", &i__2, &i__3, &z__1, &v[i__ *
                             v_dim1 + 1], ldv, &v[i__ + i__ * v_dim1], ldv, &
                             c_b2, &t[i__ * t_dim1 + 1], &c__1, (ftnlen)12);
 /*<    >*/
@@ -312,7 +312,7 @@ static integer c__1 = 1;
                         i__3 = i__;
                         z__1.r = -tau[i__3].r, z__1.i = -tau[i__3].i;
                         zgemv_("Conjugate transpose", &i__1, &i__2, &z__1, &v[
-                                (i__ + 1) * v_dim1 + 1], ldv, &v[i__ * v_dim1 
+                                (i__ + 1) * v_dim1 + 1], ldv, &v[i__ * v_dim1
                                 + 1], &c__1, &c_b2, &t[i__ + 1 + i__ * t_dim1]
                                 , &c__1, (ftnlen)19);
 /*<                      V( N-K+I, I ) = VII >*/
@@ -338,7 +338,7 @@ static integer c__1 = 1;
                         i__2 = *n - *k + i__;
                         i__3 = i__;
                         z__1.r = -tau[i__3].r, z__1.i = -tau[i__3].i;
-                        zgemv_("No transpose", &i__1, &i__2, &z__1, &v[i__ + 
+                        zgemv_("No transpose", &i__1, &i__2, &z__1, &v[i__ +
                                 1 + v_dim1], ldv, &v[i__ + v_dim1], ldv, &
                                 c_b2, &t[i__ + 1 + i__ * t_dim1], &c__1, (
                                 ftnlen)12);
@@ -355,7 +355,7 @@ static integer c__1 = 1;
 
 /*<    >*/
                     i__1 = *k - i__;
-                    ztrmv_("Lower", "No transpose", "Non-unit", &i__1, &t[i__ 
+                    ztrmv_("Lower", "No transpose", "Non-unit", &i__1, &t[i__
                             + 1 + (i__ + 1) * t_dim1], ldt, &t[i__ + 1 + i__ *
                              t_dim1], &c__1, (ftnlen)5, (ftnlen)12, (ftnlen)8)
                             ;

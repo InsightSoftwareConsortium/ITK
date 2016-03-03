@@ -28,7 +28,7 @@ void vnl_fastops::AtA(vnl_matrix<double>& out, const vnl_matrix<double>& A)
   double const* const* a = A.data_array();
   double** ata = out.data_array();
 
-#if 0
+/* Simple Implementation for reference:
     for (unsigned int i = 0; i < n; ++i)
       for (unsigned int j = i; j < n; ++j) {
         double accum = 0;
@@ -36,11 +36,12 @@ void vnl_fastops::AtA(vnl_matrix<double>& out, const vnl_matrix<double>& A)
           accum += a[k][i] * a[k][j];
         ata[i][j] = ata[j][i] = accum;
       }
-#else // 5 times faster on 600 Mhz Pentium III for m = 10000, n = 50
+ Next is 5 times faster on 600 Mhz Pentium III for m = 10000, n = 50
+*/
     vcl_memset(ata[0], 0, n * n * sizeof ata[0][0]);
     for (unsigned int k = 0; k < m; ++k)
       for (unsigned int i = 0; i < n; ++i) {
-        double aki = a[k][i];
+        const double aki = a[k][i];
         double const* arow = a[k] + i;
         double* atarow = ata[i] + i;
         double const* arowend = a[k] + n;
@@ -50,7 +51,6 @@ void vnl_fastops::AtA(vnl_matrix<double>& out, const vnl_matrix<double>& A)
       for (unsigned int i = 0; i < n; ++i)
         for (unsigned int j = i+1; j < n; ++j)
           ata[j][i] = ata[i][j];
-#endif // 0
 }
 
 //: Compute AxB.

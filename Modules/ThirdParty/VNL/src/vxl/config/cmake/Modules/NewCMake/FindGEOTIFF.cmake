@@ -7,22 +7,24 @@
 # also defined, but not for general use are
 #  GEOTIFF_LIBRARY, where to find the GEOTIFF library.
 
-FIND_PATH(GEOTIFF_INCLUDE_DIR geotiff.h
-  /usr/local/include
-  /usr/include
+find_path(GEOTIFF_INCLUDE_DIR geotiff.h
+  PATH_SUFFIXES geotiff
+  PATHS
+    /usr/local/include
+    /usr/include
 )
 
-SET(GEOTIFF_NAMES ${GEOTIFF_NAMES} geotiff)
-FIND_LIBRARY(GEOTIFF_LIBRARY
+set(GEOTIFF_NAMES ${GEOTIFF_NAMES} geotiff)
+find_library(GEOTIFF_LIBRARY
   NAMES ${GEOTIFF_NAMES}
   PATHS /usr/lib /usr/local/lib
   )
 
-SET( GEOTIFF_FOUND "NO" )
-IF(GEOTIFF_INCLUDE_DIR)
-  IF(GEOTIFF_LIBRARY)
-    SET( GEOTIFF_FOUND "YES" )
-    SET( GEOTIFF_LIBRARIES ${GEOTIFF_LIBRARY} )
-  ENDIF(GEOTIFF_LIBRARY)
-ENDIF(GEOTIFF_INCLUDE_DIR)
+set( GEOTIFF_FOUND "NO" )
+if(GEOTIFF_INCLUDE_DIR)
+  if(GEOTIFF_LIBRARY)
+    set( GEOTIFF_FOUND "YES" )
+    set( GEOTIFF_LIBRARIES ${GEOTIFF_LIBRARY} )
+  endif()
+endif()
 

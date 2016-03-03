@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       subroutine dpoco(a,lda,n,rcond,z,info) >*/
-/* Subroutine */ int dpoco_(doublereal *a, integer *lda, integer *n, 
+/* Subroutine */ int dpoco_(doublereal *a, integer *lda, integer *n,
         doublereal *rcond, doublereal *z__, integer *info)
 {
     /* System generated locals */
@@ -37,13 +37,13 @@ static integer c__1 = 1;
     doublereal ek, sm, wk;
     integer jm1, kp1;
     doublereal wkm;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *), dpofa_(doublereal *, integer *, integer *, integer *);
     extern doublereal dasum_(integer *, doublereal *, integer *);
     doublereal anorm;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *);
     doublereal ynorm;
 
