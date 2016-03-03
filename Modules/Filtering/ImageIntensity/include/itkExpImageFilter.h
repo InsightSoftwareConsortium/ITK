@@ -48,7 +48,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)std::exp( (double)A );
+    return static_cast<TOutput>( std::exp( static_cast<double>( A ) ) );
   }
 };
 }
