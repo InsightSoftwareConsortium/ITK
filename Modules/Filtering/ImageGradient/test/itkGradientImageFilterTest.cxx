@@ -20,6 +20,7 @@
 #include "itkVectorImage.h"
 #include "itkGradientImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
+#include "itkTestingMacros.h"
 
 inline std::ostream& operator<<(std::ostream &o, const itk::CovariantVector<float, 3> &v)
 {
@@ -38,7 +39,9 @@ int itkGradientImageFilterTest(int , char * [] )
     // Set up filter
     FilterType::Pointer filter = FilterType::New();
 
-    // Run Test
+    EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
+
+    // Run test
     itk::Size<2> sz;
     sz[0] = 100;
     sz[1] = 100;
@@ -63,16 +66,17 @@ int itkGradientImageFilterTest(int , char * [] )
 
     FilterType::Pointer filter = FilterType::New();
 
+    EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
 
-      // Run Test
-      itk::Size<3> sz;
-      sz[0] = 25;
-      sz[1] = 25;
-      sz[2] = 25;
-      itk::NullImageToImageFilterDriver< InputImageType, OutputImageType > test1;
-      test1.SetImageSize(sz);
-      test1.SetFilter(filter.GetPointer());
-      test1.Execute();
+    // Run test
+    itk::Size<3> sz;
+    sz[0] = 25;
+    sz[1] = 25;
+    sz[2] = 25;
+    itk::NullImageToImageFilterDriver< InputImageType, OutputImageType > test1;
+    test1.SetImageSize(sz);
+    test1.SetFilter(filter.GetPointer());
+    test1.Execute();
     }
   catch(itk::ExceptionObject &err)
     {

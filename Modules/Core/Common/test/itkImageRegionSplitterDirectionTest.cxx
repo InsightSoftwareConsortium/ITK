@@ -24,9 +24,11 @@
 int itkImageRegionSplitterDirectionTest(int, char*[])
 {
 
-  itk::ImageRegionSplitterDirection::Pointer splitter = itk::ImageRegionSplitterDirection::New();
+  itk::ImageRegionSplitterDirection::Pointer splitter =
+    itk::ImageRegionSplitterDirection::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( splitter,ImageRegionSplitterDirection );
+  EXERCISE_BASIC_OBJECT_METHODS( splitter, ImageRegionSplitterDirection,
+    ImageRegionSplitterBase );
 
   itk::ImageRegion<2> region;
   region.SetSize(0, 10);

@@ -25,20 +25,20 @@ namespace itk
 {
 namespace fem
 {
-template <unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, typename TBaseClass>
-ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
+template< unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass >
+ElementStd< VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass >
 ::ElementStd()
 {
-  // Set all node ids to 0 (undefined).
+  // Set all node ids to 0 (undefined)
   for( int i = 0; i < NumberOfNodes; i++ )
     {
     this->m_node[i] = ITK_NULLPTR;
     }
 }
 
-template <unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, typename TBaseClass>
+template<unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass >
 void
-ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
+ElementStd< VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -49,7 +49,7 @@ ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
     }
 }
 
-}
-}  // end namespace itk::fem
+}  // end namespace fem
+}  // end namespace itk
 
 #endif // #ifndef itkFEMElementStd_hxx

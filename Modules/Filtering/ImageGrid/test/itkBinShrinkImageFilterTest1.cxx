@@ -49,17 +49,23 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
     }
 
   // assemple pipeline
-  typedef itk::PipelineMonitorImageFilter<InputImageType> InputMonitorFilterType;
+  typedef itk::PipelineMonitorImageFilter<InputImageType>
+    InputMonitorFilterType;
   InputMonitorFilterType::Pointer monitor1 = InputMonitorFilterType::New();
   monitor1->SetInput( sourceImage );
 
-  typedef itk::BinShrinkImageFilter< InputImageType, OutputImageType > BinShinkFilterType;
-  BinShinkFilterType::Pointer bin = BinShinkFilterType::New();
+  typedef itk::BinShrinkImageFilter< InputImageType, OutputImageType >
+    BinShrinkFilterType;
+  BinShrinkFilterType::Pointer bin = BinShrinkFilterType::New();
+
+  // Exercise some methods for coverage
+  EXERCISE_BASIC_OBJECT_METHODS( bin, BinShrinkImageFilter,
+    ImageToImageFilter );
+
   bin->SetInput( monitor1->GetOutput() );
 
   itk::ModifiedTimeType t = bin->GetMTime();
-  // Exercise some methods for coverage
-  EXERCISE_BASIC_OBJECT_METHODS(bin, BinShrinkImageFilter);
+
   std::cout << bin;
   TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
 

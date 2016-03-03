@@ -37,7 +37,7 @@ class ITKCommon_EXPORT ImageRegionSplitterDirection
 public:
   /** Standard class typedefs. */
   typedef ImageRegionSplitterDirection Self;
-  typedef Object                       Superclass;
+  typedef ImageRegionSplitterBase      Superclass;
   typedef SmartPointer< Self >         Pointer;
   typedef SmartPointer< const Self >   ConstPointer;
 
@@ -45,7 +45,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegionSplitterDirection, Object);
+  itkTypeMacro(ImageRegionSplitterDirection, ImageRegionSplitterBase);
 
   /** Get the direction in which not to split the image.*
    *

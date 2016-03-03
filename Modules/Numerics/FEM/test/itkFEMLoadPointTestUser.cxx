@@ -117,7 +117,7 @@ int itkFEMLoadPointTestUser(int, char *[])
 
   itk::fem::LoadPoint::Pointer lm0 = itk::fem::LoadPoint::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( lm0, itk::fem::LoadPoint )
+  EXERCISE_BASIC_OBJECT_METHODS( lm0, LoadPoint, LoadElement );
 
   lm0->SetGlobalNumber(1);
   vnl_vector<double> pt1(2);

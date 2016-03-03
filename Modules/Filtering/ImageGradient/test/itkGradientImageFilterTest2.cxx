@@ -35,12 +35,17 @@ int DoIt( const std::string &infname,
   const unsigned int ImageDimension = InputImageType::ImageDimension;
   typedef typename InputImageType::PixelType InputPixelType;
 
-  typedef itk::ImageFileReader<InputImageType>  ReaderType;
+  typedef itk::ImageFileReader<InputImageType> ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( infname );
 
   typedef itk::GradientImageFilter<InputImageType > FilterType;
   typename FilterType::Pointer filter = FilterType::New();
+
+#if __GNUC__ != 4 && __GNUC_MINOR__ < 8
+  EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
+#endif
+
   filter->SetInput( reader->GetOutput() );
 
   typedef typename FilterType::OutputImageType  OutputImageType;
@@ -50,10 +55,6 @@ int DoIt( const std::string &infname,
   writer->SetFileName( outfname );
   writer->SetNumberOfStreamDivisions( 5 );
   writer->Update();
-
-
-  // excersie some methods to improve coverage
-  EXERCISE_BASIC_OBJECT_METHODS( filter, FilterType )
 
   std::cout << filter;
 
@@ -66,10 +67,12 @@ int DoIt( const std::string &infname,
 
   filter->UpdateLargestPossibleRegion();
 
-  itk::ImageRegionConstIterator<OutputImageType> iter( filter->GetOutput(), filter->GetOutput()->GetBufferedRegion() );
-  itk::ImageRegionConstIterator<VectorImageType>  viter( vectorFilter->GetOutput(), vectorFilter->GetOutput()->GetBufferedRegion() );
+  itk::ImageRegionConstIterator<OutputImageType> iter( filter->GetOutput(),
+    filter->GetOutput()->GetBufferedRegion() );
+  itk::ImageRegionConstIterator<VectorImageType> viter( vectorFilter->GetOutput(),
+    vectorFilter->GetOutput()->GetBufferedRegion() );
 
-  // check the at
+  // Check the filter output
   bool diff = false;
   while( !iter.IsAtEnd() )
     {
@@ -80,7 +83,6 @@ int DoIt( const std::string &infname,
         {
         diff = true;
         }
-
       }
 
     ++viter;
@@ -89,13 +91,12 @@ int DoIt( const std::string &infname,
 
   if ( diff )
     {
-    std::cerr << "VectorImage output does not match covarient!" << std::endl;
+    std::cerr << "VectorImage output does not match covariant!" << std::endl;
     return EXIT_FAILURE;
     }
   return EXIT_SUCCESS;
 
 }
-
 
 }
 
@@ -112,7 +113,6 @@ int itkGradientImageFilterTest2(int argc, char * argv[] )
   const std::string infname = argv[1];
   const std::string outfname = argv[2];
 
-
   itk::ImageIOBase::Pointer iobase =
     itk::ImageIOFactory::CreateImageIO( infname.c_str(), itk::ImageIOFactory::ReadMode);
 
@@ -121,14 +121,12 @@ int itkGradientImageFilterTest2(int argc, char * argv[] )
     itkGenericExceptionMacro( "Unable to determine ImageIO reader for \"" << infname << "\"" );
     }
 
-
   const unsigned int dimension = iobase->GetNumberOfDimensions();
 
   if ( dimension == 2 )
     return DoIt< itk::Image<float, 2> >( infname, outfname );
   else if ( dimension == 3 )
     return DoIt< itk::Image<float, 3> >( infname, outfname );
-
 
   return EXIT_FAILURE;
 }

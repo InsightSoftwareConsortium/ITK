@@ -52,7 +52,7 @@ namespace fem
  *                If not specified, it defaults to the Element class.
  * \ingroup ITKFEM
  */
-template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass = Element>
+template< unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass = Element >
 class ElementStd : public TBaseClass
 {
 public:
@@ -79,34 +79,22 @@ public:
   typedef typename Superclass::Node                  Node;
   enum { InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
 
-  /**
-   * Number of nodes that define the element.
-   */
+  /** Number of nodes that define the element. */
   enum { NumberOfNodes = VNumberOfNodes };
 
-  /**
-   * Number of dimensions of space in which element can exist.
-   */
+  /** Number of dimensions of space in which element can exist. */
   enum { NumberOfSpatialDimensions = VNumberOfSpatialDimensions };
 
-  /**
-   * Default constructor just clears the ivars
-   */
+  /** Default constructor. Just clears the ivars. */
   ElementStd();
 
-  // ////////////////////////////////////////////////////////////////////////
-  /**
-   * Methods that define the geometry of an element
-   */
+  /** Methods that define the geometry of an element. */
   virtual unsigned int GetNumberOfNodes(void) const ITK_OVERRIDE
   {
     return NumberOfNodes;
   }
 
-  /**
-   * Get/Set the Nodes that define the element
-   */
-
+  /** Get/Set the Nodes that define the element. */
   virtual NodeIDType GetNode(unsigned int n) const ITK_OVERRIDE
   {
     if( n >= NumberOfNodes )
@@ -125,19 +113,18 @@ public:
     this->SetNodeInternal(n,node);
   }
 
-  /** Get the nodal coordinates */
+  /** Get the nodal coordinates. */
   virtual const VectorType & GetNodeCoordinates(unsigned int n) const ITK_OVERRIDE
   {
     return m_node[n]->GetCoordinates();
   }
 
-  /** Get the number of spatial dimensions */
+  /** Get the number of spatial dimensions. */
   virtual unsigned int GetNumberOfSpatialDimensions() const ITK_OVERRIDE
   {
     return NumberOfSpatialDimensions;
   }
 
-  // ////////////////////////////////////////////////////////////////////////
 
 protected:
 
@@ -151,14 +138,13 @@ protected:
       }
     this->m_node[n] = node;
   }
-  /**
-   * Array of pointers to point objects that define the element
-   */
+
+  // Array of pointers to point objects that define the element
   const Node *m_node[NumberOfNodes];
 };
 
-}
-}  // end namespace itk::fem
+}  // end namespace fem
+}  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMElementStd.hxx"

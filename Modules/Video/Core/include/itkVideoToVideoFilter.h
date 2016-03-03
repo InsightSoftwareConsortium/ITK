@@ -45,8 +45,6 @@ class VideoToVideoFilter : public VideoSource< TOutputVideoStream >
 {
 public:
 
-  /*-TYPEDEFS----------------------------------------------------------------*/
-
   /** Standard class typedefs */
   typedef TInputVideoStream                           InputVideoStreamType;
   typedef TOutputVideoStream                          OutputVideoStreamType;
@@ -75,8 +73,6 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoToVideoFilter, VideoSource);
-
-  /*-PUBLIC METHODS----------------------------------------------------------*/
 
   /** Set the input VideoStream for this temporal process object */
   using Superclass::SetInput;

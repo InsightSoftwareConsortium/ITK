@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinShrinkImageFilter, ShrinkImageFilter);
+  itkTypeMacro(BinShrinkImageFilter, ImageToImageFilter);
 
   /** Typedef to images */
   typedef TOutputImage                          OutputImageType;

@@ -471,7 +471,8 @@ int itkMRCImageIOTest(int argc, char* argv[])
   //
   typedef itk::MRCImageIO IOType;
   IOType::Pointer mrcIO = IOType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( mrcIO, IOType );
+
+  EXERCISE_BASIC_OBJECT_METHODS( mrcIO, MRCImageIO, StreamingImageIOBase );
 
   //
   // All tests succeeded

@@ -69,9 +69,9 @@ InputFrameType::Pointer CreateInputFrame(InputPixelType val)
 /** \class DummyVideoToVideoFilter
  * \brief A simple implementation of VideoTOVideoFilter for the test
  */
-template<typename TInputVideoStream, typename TOutputVideoStream>
+template< typename TInputVideoStream, typename TOutputVideoStream >
 class DummyVideoToVideoFilter :
-  public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
+  public VideoToVideoFilter< TInputVideoStream, TOutputVideoStream >
 {
 public:
 
@@ -80,7 +80,8 @@ public:
   typedef TOutputVideoStream                               OutputVideoStreamType;
   typedef DummyVideoToVideoFilter< InputVideoStreamType,
                                    OutputVideoStreamType > Self;
-  typedef VideoSource< OutputVideoStreamType >             Superclass;
+  typedef VideoToVideoFilter< TInputVideoStream,
+                             TOutputVideoStream >          Superclass;
   typedef SmartPointer< Self >                             Pointer;
   typedef SmartPointer< const Self >                       ConstPointer;
   typedef WeakPointer< const Self >                        ConstWeakPointer;
@@ -183,7 +184,7 @@ int itkVideoToVideoFilterTest( int, char* [] )
   DummyVideoToVideoFilter< InputVideoType, OutputVideoType > VideoFilterType;
   VideoFilterType::Pointer filter = VideoFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, VideoFilterType);
+  EXERCISE_BASIC_OBJECT_METHODS( filter, DummyVideoToVideoFilter, VideoToVideoFilter );
 
   // Set up an input video stream
   InputVideoType::Pointer inputVideo = InputVideoType::New();
