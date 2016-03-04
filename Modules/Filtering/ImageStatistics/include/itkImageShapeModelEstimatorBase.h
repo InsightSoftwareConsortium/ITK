@@ -29,7 +29,7 @@ namespace itk
  * ImageShapeModelEstimator objects. It provides the basic function
  * definitions that are inherent to a ImageShapeModelEstimator objects.
  *
- * This is the SuperClass for the ImageShapeModelEstimator
+ * This is the Superclass for the ImageShapeModelEstimator
  * framework. This is an abstract class defining an interface for all
  * such objects available through the ImageShapeModelEstimator
  * framework in the ITK toolkit.

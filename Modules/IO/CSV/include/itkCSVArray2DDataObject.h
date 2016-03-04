@@ -48,7 +48,7 @@ class CSVArray2DDataObject:public DataObject
 public:
   /* Standard class typedefs */
   typedef CSVArray2DDataObject        Self;
-  typedef DataObject                  SuperClass;
+  typedef DataObject                  Superclass;
   typedef SmartPointer<Self>          Pointer;
   typedef SmartPointer<const Self>    ConstPointer;
 

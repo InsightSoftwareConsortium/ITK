@@ -45,7 +45,7 @@ public:
   typedef LinearSystemWrapper::Float Float;
 
   /* superclass */
-  typedef LinearSystemWrapper SuperClass;
+  typedef LinearSystemWrapper Superclass;
 
   /* matrix typedef */
   typedef vnl_sparse_matrix<Float> MatrixRepresentation;

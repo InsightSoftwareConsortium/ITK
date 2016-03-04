@@ -69,7 +69,7 @@ BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  // Iterator for walking the output region is defined in the SuperClass
+  // Iterator for walking the output region is defined in the Superclass
   OutputImageIterator outIt = OutputImageIterator( outputPtr,
                                                    outputPtr->GetRequestedRegion() );
 

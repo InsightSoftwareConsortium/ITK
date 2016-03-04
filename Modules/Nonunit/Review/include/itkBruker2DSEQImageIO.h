@@ -113,8 +113,6 @@ namespace itk
 class Bruker2DSEQImageIO:public ImageIOBase
 {
 public:
-  typedef ImageIOBase SuperClass;
-
   /** Standard class typedefs. */
   typedef Bruker2DSEQImageIO   Self;
   typedef ImageIOBase          Superclass;
