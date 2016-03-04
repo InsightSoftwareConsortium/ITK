@@ -274,7 +274,7 @@ int main( int argc, char *argv[] )
       {
       while ( !inputIt.IsAtEndOfLine() )
         {
-        outputIt.Set( vnl_math_max( outputIt.Get(), inputIt.Get() ));
+        outputIt.Set( std::max( outputIt.Get(), inputIt.Get() ));
         ++inputIt;
         ++outputIt;
         }

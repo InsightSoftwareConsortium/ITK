@@ -31,7 +31,7 @@ public:
   ~MaxFunctor(){}
   inline TPixel operator()(const TPixel & A, const TPixel & B) const
   {
-    return vnl_math_max(A, B);
+    return std::max(A, B);
   }
 };
 

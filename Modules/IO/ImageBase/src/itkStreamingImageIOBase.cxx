@@ -391,7 +391,7 @@ bool StreamingImageIOBase::RequestedToStream(void) const
   // This enables a 2D request from a 3D volume to get the first slice,
   // and a 4D with a 1-sized 4th dimension to equal the 3D volume
   // as well.
-  unsigned int maxNumberOfDimension = vnl_math_max( this->GetNumberOfDimensions(),
+  unsigned int maxNumberOfDimension = std::max( this->GetNumberOfDimensions(),
                                                     this->GetIORegion().GetImageDimension() );
 
   ImageIORegion ioregion(maxNumberOfDimension);

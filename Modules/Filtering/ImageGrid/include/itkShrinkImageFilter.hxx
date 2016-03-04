@@ -159,7 +159,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     // It is plausible that due to small amounts of loss of numerical
     // precision that the offset it negaive, this would cause sampling
     // out of out region, this is insurance against that possibility
-    offsetIndex[i] = vnl_math_max(zeroOffset, offsetIndex[i]);
+    offsetIndex[i] = std::max(zeroOffset, offsetIndex[i]);
     }
 
   // Support progress methods/callbacks
@@ -250,7 +250,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     // It is plausible that due to small amounts of loss of numerical
     // precision that the offset it negaive, this would cause sampling
     // out of out region, this is insurance against that possibility
-    offsetIndex[i] = vnl_math_max(zeroOffset, offsetIndex[i]);
+    offsetIndex[i] = std::max(zeroOffset, offsetIndex[i]);
     }
 
   inputRequestedRegionIndex = outputRequestedRegionStartIndex * factorSize + offsetIndex;

@@ -162,7 +162,7 @@ FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
       }
 
     // Compute upwind finite differences
-    if ( vnl_math_max(dx_backward, -dx_forward) < ZERO )
+    if ( std::max(dx_backward, -dx_forward) < ZERO )
       {
       gradientPixel[j] = ZERO;
       }

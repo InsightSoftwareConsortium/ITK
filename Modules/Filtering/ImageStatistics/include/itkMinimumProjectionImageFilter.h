@@ -58,7 +58,7 @@ public:
 
   inline void operator()(const TInputPixel & input)
   {
-    m_Minimum = vnl_math_min(m_Minimum, input);
+    m_Minimum = std::min(m_Minimum, input);
   }
 
   inline TInputPixel GetValue()

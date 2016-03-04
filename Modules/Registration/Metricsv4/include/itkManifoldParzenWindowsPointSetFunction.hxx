@@ -172,7 +172,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
     itkExceptionMacro( "The input point set has not been specified." );
     }
 
-  unsigned int numberOfNeighbors = vnl_math_min(
+  unsigned int numberOfNeighbors = std::min(
     this->m_EvaluationKNeighborhood,
     static_cast<unsigned int>( this->m_Gaussians.size() ) );
 

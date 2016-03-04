@@ -256,10 +256,10 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
   m_CurrentLevel = 0;
   m_StopRegistrationFlag = false;
 
-  unsigned int movingLevel = vnl_math_min( (int)m_CurrentLevel,
+  unsigned int movingLevel = std::min( (int)m_CurrentLevel,
                                            (int)m_MovingImagePyramid->GetNumberOfLevels() );
 
-  unsigned int fixedLevel = vnl_math_min( (int)m_CurrentLevel,
+  unsigned int fixedLevel = std::min( (int)m_CurrentLevel,
                                           (int)m_FixedImagePyramid->GetNumberOfLevels() );
 
   DisplacementFieldPointer tempField = ITK_NULLPTR;
@@ -380,9 +380,9 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 
     // Increment level counter.
     m_CurrentLevel++;
-    movingLevel = vnl_math_min( (int)m_CurrentLevel,
+    movingLevel = std::min( (int)m_CurrentLevel,
                                 (int)m_MovingImagePyramid->GetNumberOfLevels() );
-    fixedLevel = vnl_math_min( (int)m_CurrentLevel,
+    fixedLevel = std::min( (int)m_CurrentLevel,
                                (int)m_FixedImagePyramid->GetNumberOfLevels() );
 
     // Invoke an iteration event.

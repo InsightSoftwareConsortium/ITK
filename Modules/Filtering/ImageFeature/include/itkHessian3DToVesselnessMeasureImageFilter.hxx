@@ -77,7 +77,7 @@ Hessian3DToVesselnessMeasureImageFilter< TPixel >
     eigenValue = it.Get();
 
     // normalizeValue <= 0 for bright line structures
-    double normalizeValue = vnl_math_min(-1.0 * eigenValue[1], -1.0 * eigenValue[0]);
+    double normalizeValue = std::min(-1.0 * eigenValue[1], -1.0 * eigenValue[0]);
 
     // Similarity measure to a line structure
     if ( normalizeValue > 0 )

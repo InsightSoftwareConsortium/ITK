@@ -35,7 +35,7 @@ CopperColormapFunction< TScalar, TRGBPixel >
   // Apply the color map.
   RealType red = 1.2 * value;
 
-  red = vnl_math_min(1.0, red);
+  red = std::min(1.0, red);
 
   RealType green = 0.8 * value;
 
