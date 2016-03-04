@@ -136,7 +136,7 @@ protected:
   /** A sequence of conditional dilations starting with begin and reaching end.
   begin and end must cover the same region (size and index the same) */
   std::vector<typename BoolImageType::Pointer>
-  GenerateDilationSequence(typename BoolImageType::Pointer begin, typename BoolImageType::Pointer end);
+  GenerateDilationSequence(typename BoolImageType::Pointer begin, typename BoolImageType::Pointer end, int axis);
 
   /** Build transition sequence and pick the median */
   void
@@ -238,7 +238,7 @@ protected:
 
   /** seed and mask must cover the same region (size and index the same) */
   typename BoolImageType::Pointer
-  Dilate1(typename BoolImageType::Pointer seed, typename BoolImageType::Pointer mask);
+  Dilate1(typename BoolImageType::Pointer seed, typename BoolImageType::Pointer mask, int axis);
 
   typedef ExtractImageFilter<TImage, TImage> RoiType;
   typename RoiType::Pointer                  m_RoI;
@@ -251,16 +251,12 @@ protected:
 
   // typedef BinaryCrossStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
   typedef BinaryBallStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
-  StructuringElementType                                             m_StructuringElement;
 
   typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, StructuringElementType> DilateType;
-  typename DilateType::Pointer                                                          m_Dilator;
 
   typedef AndImageFilter<BoolImageType, BoolImageType, BoolImageType> AndFilterType;
-  typename AndFilterType::Pointer                                     m_And;
 
   typedef OrImageFilter<BoolImageType> OrType;
-  typename OrType::Pointer             m_Or;
 
   class MatchesID
   {
