@@ -176,7 +176,7 @@ private:
   size_t                     m_TotalPhysicalMemory;
   size_t                     m_AvailablePhysicalMemory;
 
-  static const unsigned int  tabwidth  = 15;
+  static ITK_CONSTEXPR unsigned int  tabwidth  = 15;
 };
 } // end namespace itk
 

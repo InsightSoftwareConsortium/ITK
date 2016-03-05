@@ -30,8 +30,8 @@
 #include "vnl/vnl_math.h"
 
 
-static const double tolerance = 1e-5;
-static const int    point_counter=1000;
+static ITK_CONSTEXPR double tolerance = 1e-5;
+static ITK_CONSTEXPR int    point_counter=1000;
 
 
 template<typename T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,

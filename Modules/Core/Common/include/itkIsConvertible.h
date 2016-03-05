@@ -62,7 +62,7 @@ private:
   static TTwo Test(...);
   static TFrom MakeT();
 public:
-  static const bool Value = sizeof(Test(MakeT())) == sizeof(TOne);
+  static ITK_CONSTEXPR bool Value = sizeof(Test(MakeT())) == sizeof(TOne);
 };
 
 } // itk::mpl namespace
