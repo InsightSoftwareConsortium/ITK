@@ -61,7 +61,7 @@ else()
     ${ITKVNL_BINARY_DIR}/src/vxl/vcl
     ${ITKVNL_BINARY_DIR}/src/vxl/core
     )
-  set(ITKVNL_LIBRARIES itkvnl_algo itkvnl itkv3p_netlib)
+  set(ITKVNL_LIBRARIES itkvnl_algo itkvnl itkv3p_netlib itknetlib itkvcl)
 endif()
 
 itk_module_impl()
