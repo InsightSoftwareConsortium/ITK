@@ -749,7 +749,7 @@ void AnalyzeImageIO::Read(void *buffer)
     // will be read as several chunks.
     //This is due to the limitation of 'unsigned int' in  the gzread()
     //  function.
-    static const unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
+    static ITK_CONSTEXPR unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
 
     char *p = static_cast< char * >( buffer );
 
@@ -1513,7 +1513,7 @@ AnalyzeImageIO
       // read in a single operation on some platforms to a different limit
       // than the corresponding fread operation.
 
-      static const unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
+      static ITK_CONSTEXPR unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
 
       SizeType bytesRemaining = this->GetImageSizeInBytes();
       while ( bytesRemaining )
