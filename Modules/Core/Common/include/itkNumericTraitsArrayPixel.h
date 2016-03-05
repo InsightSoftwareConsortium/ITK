@@ -109,9 +109,9 @@ public:
     return b;
   }
 
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = NumericTraits< ValueType >::IsInteger;
-  static const bool IsComplex = NumericTraits< ValueType >::IsComplex;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = NumericTraits< ValueType >::IsInteger;
+  static ITK_CONSTEXPR bool IsComplex = NumericTraits< ValueType >::IsComplex;
 
   /** Set the length of the input array and fill it with zeros. */
   static void SetLength(Array< T > & m, const unsigned int s)

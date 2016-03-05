@@ -201,11 +201,15 @@ namespace itk
 #define ITK_NOEXCEPT noexcept
 #define ITK_HAS_CXX11_STATIC_ASSERT
 #define ITK_HAS_CXX11_RVREF
+#define ITK_CONSTEXPR constexpr
+#define ITK_CONSTEXPR_FUNC constexpr
 #else
 #define ITK_OVERRIDE
 #define ITK_DELETE_FUNCTION
 #define ITK_NULLPTR  NULL
 #define ITK_NOEXCEPT throw()
+#define ITK_CONSTEXPR const
+#define ITK_CONSTEXPR_FUNC
 #endif
 
 
@@ -759,12 +763,10 @@ TTarget itkDynamicCastInDebugMode(TSource x)
  * and is beneficial in other cases where a value can be constant.
  *
  * \ingroup ITKCommon */
-#if __cplusplus >= 201103L
-#  define itkStaticConstMacro(name,type,value) static constexpr type name = value
-#elif defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
+#if defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
 #  define itkStaticConstMacro(name,type,value) enum { name = value }
 #else
-#  define itkStaticConstMacro(name,type,value) static const type name = value
+#  define itkStaticConstMacro(name,type,value) static ITK_CONSTEXPR type name = value
 #endif
 
 #define itkGetStaticConstMacro(name) (Self::name)

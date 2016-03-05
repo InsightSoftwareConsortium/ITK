@@ -810,7 +810,7 @@ void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedAllocateData(ThreadIdType ThreadId)
 {
-  static const float SAFETY_FACTOR = 4.0;
+  static ITK_CONSTEXPR float SAFETY_FACTOR = 4.0;
   unsigned int       i, j;
 
   m_Data[ThreadId].m_Condition[0] = ConditionVariable::New();

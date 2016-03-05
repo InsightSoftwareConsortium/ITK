@@ -25,7 +25,7 @@
 int itkGetAverageSliceImageFilterTest(int argc, char *argv[] )
 {
   typedef short PixelType;
-  static const int ImageDimension = 3;
+  static ITK_CONSTEXPR int ImageDimension = 3;
 
   typedef itk::Image<PixelType,ImageDimension>     InputImageType;
   typedef itk::Image<PixelType,ImageDimension>     OutputImageType;

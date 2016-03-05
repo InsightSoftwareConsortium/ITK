@@ -37,7 +37,7 @@ namespace mpl {
 template <typename TBase, typename TDerived>
 struct IsBaseOf
   {
-  static const bool Value
+  static ITK_CONSTEXPR bool Value
     =    IsConvertible<const TDerived*, const TBase*>::Value
     && ! IsSame<const TBase*, const void*>::Value;
   };

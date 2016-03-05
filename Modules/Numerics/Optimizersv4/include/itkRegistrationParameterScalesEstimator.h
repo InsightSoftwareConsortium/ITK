@@ -258,7 +258,7 @@ protected:
   typename VirtualPointSetType::ConstPointer  m_VirtualDomainPointSet;
 
   // the threadhold to decide if the number of random samples uses logarithm
-  static const SizeValueType    SizeOfSmallDomain = 1000;
+  static ITK_CONSTEXPR SizeValueType    SizeOfSmallDomain = 1000;
 
 private:
   RegistrationParameterScalesEstimator(const Self&) ITK_DELETE_FUNCTION;
