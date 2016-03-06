@@ -33,7 +33,7 @@ IsPrime( T n )
   {
     return false;
   }
-  const T last = (T)vcl_sqrt( (double)n );
+  const T last = (T)std::sqrt( (double)n );
   for( T x=2; x<=last; ++x )
     {
     if( n%x == 0 )

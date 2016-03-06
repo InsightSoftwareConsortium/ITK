@@ -93,7 +93,7 @@ private:
   VnlForwardFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
   void operator=(const Self &) ITK_DELETE_FUNCTION;
 
-  typedef vnl_vector< vcl_complex< InputPixelType > > SignalVectorType;
+  typedef vnl_vector< std::complex< InputPixelType > > SignalVectorType;
 };
 }
 
