@@ -57,11 +57,11 @@ int itkSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed( a
 
     PointType fixedPoint;
     float radius = 100.0;
-    fixedPoint[0] = radius * vcl_cos( theta );
-    fixedPoint[1] = radius * vcl_sin( theta );
+    fixedPoint[0] = radius * std::cos( theta );
+    fixedPoint[1] = radius * std::sin( theta );
     if( PointSetType::PointDimension > 2 )
       {
-      fixedPoint[2] = radius * vcl_sin( theta );
+      fixedPoint[2] = radius * std::sin( theta );
       }
     fixedPoints->SetPoint( count, fixedPoint );
     fixedPoints->SetPointData( count, label );

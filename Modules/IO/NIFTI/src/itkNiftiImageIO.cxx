@@ -1118,7 +1118,7 @@ NiftiImageIO
   else
     {
     this->m_RescaleSlope = this->m_NiftiImage->scl_slope;
-    if ( vcl_abs( this->m_RescaleSlope ) < NumericTraits<double>::epsilon() )
+    if ( std::abs( this->m_RescaleSlope ) < NumericTraits<double>::epsilon() )
       {
       this->m_RescaleSlope = 1;
       }

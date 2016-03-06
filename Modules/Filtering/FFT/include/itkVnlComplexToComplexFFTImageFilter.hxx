@@ -60,7 +60,7 @@ VnlComplexToComplexFFTImageFilter< TImage >
   // Copy the input to the output, and we will work in place on the output.
   ImageAlgorithm::Copy< ImageType, ImageType >( input, output, bufferedRegion, bufferedRegion );
 
-  typedef vcl_complex< typename PixelType::value_type > VclPixelType;
+  typedef std::complex< typename PixelType::value_type > VclPixelType;
   VclPixelType * outputBuffer = static_cast< VclPixelType * >( output->GetBufferPointer() );
 
   // call the proper transform, based on compile type template parameter
