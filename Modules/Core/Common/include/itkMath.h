@@ -32,6 +32,7 @@
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
 #include "itkNumericTraits.h"
+#include <vnl/vnl_math.h>
 
 namespace itk
 {
@@ -44,33 +45,52 @@ namespace Math
 
 
 /** \brief \f[e\f] The base of the natural logarithm or Euler's number */
-static ITK_CONSTEXPR double e                = 2.7182818284590452354;
+static ITK_CONSTEXPR double e                = vnl_math::e;
 /** \brief  \f[ \log_2 e \f] */
-static ITK_CONSTEXPR double log2e            = 1.4426950408889634074;
+static ITK_CONSTEXPR double log2e            = vnl_math::log2e;
 /** \brief \f[ \log_{10} e \f] */
-static ITK_CONSTEXPR double log10e           = 0.43429448190325182765;
+static ITK_CONSTEXPR double log10e           = vnl_math::log10e;
 /** \brief \f[ \log_e 2 \f] */
-static ITK_CONSTEXPR double ln2              = 0.69314718055994530942;
+static ITK_CONSTEXPR double ln2              = vnl_math::ln2;
 /** \brief \f[ \log_e 10 \f] */
-static ITK_CONSTEXPR double ln10             = 2.30258509299404568402;
+static ITK_CONSTEXPR double ln10             = vnl_math::ln10;
 /** \brief \f[ \pi \f]  */
-static ITK_CONSTEXPR double pi               = 3.14159265358979323846;
+static ITK_CONSTEXPR double pi               = vnl_math::pi;
+/** \brief \f[ 2\pi \f]  */
+static ITK_CONSTEXPR double twopi            = vnl_math::twopi;
 /** \brief \f[ \frac{\pi}{2} \f]  */
-static ITK_CONSTEXPR double pi_over_2        = 1.57079632679489661923;
+static ITK_CONSTEXPR double pi_over_2        = vnl_math::pi_over_2;
 /** \brief \f[ \frac{\pi}{4} \f]  */
-static ITK_CONSTEXPR double pi_over_4        = 0.78539816339744830962;
+static ITK_CONSTEXPR double pi_over_4        = vnl_math::pi_over_4;
+/** \brief \f[ \frac{\pi}{180} \f]  */
+static ITK_CONSTEXPR double pi_over_180      = vnl_math::pi_over_180;
 /** \brief \f[ \frac{1}{\pi} \f]  */
-static ITK_CONSTEXPR double one_over_pi      = 0.31830988618379067154;
+static ITK_CONSTEXPR double one_over_pi      = vnl_math::one_over_pi;
 /** \brief \f[ \frac{2}{\pi} \f]  */
-static ITK_CONSTEXPR double two_over_pi      = 0.63661977236758134308;
+static ITK_CONSTEXPR double two_over_pi      = vnl_math::two_over_pi;
+/** \brief \f[ \frac{180}{\pi} \f]  */
+static ITK_CONSTEXPR double deg_per_rad      = vnl_math::deg_per_rad;
+/** \brief \f[ \sqrt{2\pi} \f]  */
+static ITK_CONSTEXPR double sqrt2pi          = vnl_math::sqrt2pi;
 /** \brief \f[ \frac{2}{\sqrt{\pi}} \f]  */
-static ITK_CONSTEXPR double two_over_sqrtpi  = 1.12837916709551257390;
+static ITK_CONSTEXPR double two_over_sqrtpi  = vnl_math::two_over_sqrtpi;
 /** \brief \f[ \frac{2}{\sqrt{2\pi}} \f]  */
-static ITK_CONSTEXPR double one_over_sqrt2pi = 0.39894228040143267794;
+static ITK_CONSTEXPR double one_over_sqrt2pi = vnl_math::one_over_sqrt2pi;
 /** \brief \f[ \sqrt{2} \f]  */
-static ITK_CONSTEXPR double sqrt2            = 1.41421356237309504880;
+static ITK_CONSTEXPR double sqrt2            = vnl_math::sqrt2;
 /** \brief \f[ \sqrt{ \frac{1}{2}} \f] */
-static ITK_CONSTEXPR double sqrt1_2          = 0.70710678118654752440;
+static ITK_CONSTEXPR double sqrt1_2          = vnl_math::sqrt1_2;
+/** \brief \f[ \sqrt{ \frac{1}{3}} \f] */
+static ITK_CONSTEXPR double sqrt1_3          = vnl_math::sqrt1_3;
+/** \brief euler constant */
+static ITK_CONSTEXPR double euler            = vnl_math::euler;
+
+//: IEEE double machine precision
+static ITK_CONSTEXPR double eps              = vnl_math::eps;
+static ITK_CONSTEXPR double sqrteps          = vnl_math::sqrteps;
+//: IEEE single machine precision
+static ITK_CONSTEXPR float  float_eps        = vnl_math::float_eps;
+static ITK_CONSTEXPR float  float_sqrteps    = vnl_math::float_sqrteps;
 
 /** A useful macro to generate a template floating point to integer
  *  conversion templated on the return type and using either the 32
