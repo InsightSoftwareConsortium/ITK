@@ -145,7 +145,7 @@ public:
   // Get number of colors in the LUT
   unsigned int GetNumberOfColors() const
   {
-    return m_Colors.size();
+    return static_cast<unsigned int>( m_Colors.size() );
   }
 
   bool operator!=(const Self & l) const

@@ -534,7 +534,7 @@ typename LabelMap< TLabelObject >::SizeValueType
 LabelMap< TLabelObject >
 ::GetNumberOfLabelObjects() const
 {
-  return m_LabelObjectContainer.size();
+  return static_cast<typename LabelMap< TLabelObject >::SizeValueType>( m_LabelObjectContainer.size() );
 }
 
 

@@ -76,7 +76,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    unsigned int size = m_Thresholds.size();
+    size_t size = m_Thresholds.size();
 
     if ( size == 0 )
       {
@@ -86,7 +86,7 @@ public:
       {
       return m_LabelOffset;
       }
-    for ( unsigned int i = 0; i < size - 1; i++ )
+    for ( size_t i = 0; i < size - 1; i++ )
       {
       /* Value is in this class if it equals the upper bound. */
       if ( m_Thresholds[i] < A && A <= m_Thresholds[i + 1] )

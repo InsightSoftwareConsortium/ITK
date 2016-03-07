@@ -212,7 +212,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
   int StencilId = 0;
   it.GoToBegin();
 
-  int n = m_StencilIndex.size();
+  size_t n = m_StencilIndex.size();
   if ( n == 0 )
     {
     itkWarningMacro(<< "No Image Indices Found.");
@@ -511,8 +511,8 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
       // surface
 
       std::vector< double > nlist;
-      int                   m = xlist.size();
-      for ( int j = 1; j < m; j++ )
+      size_t               m = xlist.size();
+      for ( size_t j = 1; j < m; j++ )
         {
         Point1D p1D = xlist[j];
         double  x = p1D.m_X;

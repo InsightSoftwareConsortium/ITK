@@ -77,7 +77,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
   this->Superclass::GenerateOutputInformation();
 
   OutputImageType *output = this->GetOutput();
-  output->SetNumberOfComponentsPerPixel( this->GetNumberOfIndexedInputs() );
+  output->SetNumberOfComponentsPerPixel( static_cast<unsigned int>( this->GetNumberOfIndexedInputs() ) );
 }
 
 //----------------------------------------------------------------------------
@@ -88,7 +88,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
 {
   // Check to verify all inputs are specified and have the same metadata,
   // spacing etc...
-  const unsigned int numberOfInputs = this->GetNumberOfIndexedInputs();
+  const unsigned int numberOfInputs = static_cast<const unsigned int>( this->GetNumberOfIndexedInputs() );
   RegionType         region;
 
   for ( unsigned int i = 0; i < numberOfInputs; i++ )
@@ -137,7 +137,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
     }
 
   OutputPixelType pix;
-  NumericTraits<OutputPixelType>::SetLength( pix, this->GetNumberOfIndexedInputs() );
+  NumericTraits<OutputPixelType>::SetLength( pix, static_cast<unsigned int>(this->GetNumberOfIndexedInputs() ) );
   while ( !oit.IsAtEnd() )
     {
     ComputeOutputPixel( pix, inputItContainer );

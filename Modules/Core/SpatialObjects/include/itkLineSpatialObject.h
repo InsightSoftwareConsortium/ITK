@@ -83,7 +83,10 @@ public:
   SpatialObjectPointType * GetPoint(IdentifierType id) ITK_OVERRIDE { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints(void) const ITK_OVERRIDE { return m_Points.size(); }
+  SizeValueType GetNumberOfPoints(void) const ITK_OVERRIDE
+  {
+    return static_cast<SizeValueType>( m_Points.size() );
+  }
 
   /** Returns true if the line is evaluable at the requested point,
    *  false otherwise. */

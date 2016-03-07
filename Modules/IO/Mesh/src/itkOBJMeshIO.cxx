@@ -295,7 +295,7 @@ OBJMeshIO
           idList.push_back(id);
           }
 
-        data[index++] = idList.size();
+        data[index++] = static_cast<long>( idList.size() );
         for ( std::vector< long >::const_iterator it = idList.begin(); it != idList.end(); ++it )
           {
           data[index++] = ( *it - 1 );

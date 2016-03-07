@@ -255,7 +255,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //Validation with initial Kmeans estimate provided as input by the user
   error =0;
   meanCDBKvalue = 0;
-  const unsigned int test = membershipFunctions.size();
+  const size_t test = membershipFunctions.size();
   for(unsigned int classIndex=0; classIndex < test; classIndex++ )
     {
     kmeansResultForClass = membershipFunctions[classIndex]->GetCentroid();

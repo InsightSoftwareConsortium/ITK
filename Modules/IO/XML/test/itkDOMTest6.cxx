@@ -249,7 +249,7 @@ void testStringToolsWithItkArray()
     {
     throw "testStringToolsWithItkArray: failed reading all elements in the string (1)";
     }
-  for ( size_t i = 0; i < dataIn.GetSize(); i++ )
+  for ( unsigned int i = 0; i < dataIn.GetSize(); i++ )
     {
     if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut1[i] ) )
       {
@@ -268,7 +268,7 @@ void testStringToolsWithItkArray()
     {
     throw "testStringToolsWithItkArray: failed reading all elements for the output vector (1)";
     }
-  for ( size_t i = 0; i < dataOut2.GetSize(); i++ )
+  for ( unsigned int i = 0; i < dataOut2.GetSize(); i++ )
     {
     if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut2[i] ) )
       {
@@ -287,7 +287,7 @@ void testStringToolsWithItkArray()
     {
     throw "testStringToolsWithItkArray: failed reading user-specified number of elements (1.1)";
     }
-  for ( size_t i = 0; i < 5; i++ )
+  for ( unsigned int i = 0; i < 5; i++ )
     {
     if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut3[i] ) )
       {
@@ -305,7 +305,7 @@ void testStringToolsWithItkArray()
     {
     throw "testStringToolsWithItkArray: failed reading user-specified number of elements (2.1)";
     }
-  for ( size_t i = 0; i < 5; i++ )
+  for ( unsigned int i = 0; i < 5; i++ )
     {
     if ( itk::Math::NotAlmostEquals( dataIn[i], dataOut4[i] ) )
       {

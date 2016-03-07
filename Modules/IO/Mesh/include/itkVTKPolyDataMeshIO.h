@@ -114,12 +114,12 @@ protected:
   template< typename T >
   void UpdateCellInformation(T *buffer)
   {
-    unsigned int numberOfVertices = 0;
-    unsigned int numberOfVertexIndices = 0;
-    unsigned int numberOfLines = 0;
-    unsigned int numberOfLineIndices = 0;
-    unsigned int numberOfPolygons = 0;
-    unsigned int numberOfPolygonIndices = 0;
+    unsigned int  numberOfVertices = 0;
+    unsigned int  numberOfVertexIndices = 0;
+    unsigned int  numberOfLines = 0;
+    SizeValueType numberOfLineIndices = 0;
+    unsigned int  numberOfPolygons = 0;
+    unsigned int  numberOfPolygonIndices = 0;
 
     SizeValueType index = 0;
 
@@ -530,7 +530,7 @@ protected:
       outputFile << "LINES " << numberOfLines << " " << numberOfLineIndices << '\n';
       for ( SizeValueType ii = 0; ii < polylines->Size(); ++ii )
         {
-        unsigned int nn = polylines->ElementAt(ii).size();
+        unsigned int nn = static_cast<unsigned int>( polylines->ElementAt(ii).size() );
         outputFile << nn;
         for ( unsigned int jj = 0; jj < nn; ++jj )
           {
@@ -659,7 +659,7 @@ protected:
       unsigned long outputIndex = 0;
       for ( SizeValueType ii = 0; ii < polylines->Size(); ++ii )
         {
-        unsigned int nn = polylines->ElementAt(ii).size();
+        unsigned int nn = static_cast<unsigned int>( polylines->ElementAt(ii).size() );
         data[outputIndex++] = nn;
         for ( unsigned int jj = 0; jj < nn; ++jj )
           {

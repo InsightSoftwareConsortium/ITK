@@ -54,7 +54,7 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
   // will improve cache performance when working along non raster
   // directions.
 
-  ProgressReporter progress(this, threadId, this->GetKernel().GetLines().size() + 1);
+  ProgressReporter progress(this, threadId, static_cast<SizeValueType>( this->GetKernel().GetLines().size() )+ 1);
 
   InputImageConstPointer input = this->GetInput();
 

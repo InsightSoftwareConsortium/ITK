@@ -118,9 +118,11 @@ int ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << "  <ParametersConvergenceTolerance>";
 
     Array<double> ptols = this->m_InputObject->GetParametersConvergenceTolerance();
-    for ( size_t i = 0; i < ptols.GetSize(); i++ )
+    // Note: The data-cast to unsigned int is required
+    //       because itk::Array only supports 'unsigned int' number of elements.
+    for ( unsigned int i = 0; i < ptols.GetSize(); i++ )
       {
-      ofs << " " << ptols[i];
+      ofs << " " << ptols[ i ];
       }
 
     ofs << "</ParametersConvergenceTolerance>";

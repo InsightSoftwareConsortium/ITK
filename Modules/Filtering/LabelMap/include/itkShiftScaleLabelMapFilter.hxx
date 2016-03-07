@@ -45,7 +45,7 @@ ShiftScaleLabelMapFilter< TImage >
   // get the label objects
   typename ImageType::LabelObjectVectorType labelObjects = output->GetLabelObjects();
 
-  ProgressReporter progress( this, 0, labelObjects.size() );
+  ProgressReporter progress( this, 0, static_cast<SizeValueType>( labelObjects.size() ) );
 
   // change the background, if requested
   if ( m_ChangeBackgroundValue )

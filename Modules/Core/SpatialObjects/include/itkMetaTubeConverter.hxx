@@ -201,7 +201,7 @@ MetaTubeConverter< NDimensions >
     tubeMO->ParentID( tubeSO->GetParent()->GetId() );
     }
   tubeMO->ParentPoint( tubeSO->GetParentPoint() );
-  tubeMO->NPoints( tubeMO->GetPoints().size() );
+  tubeMO->NPoints(static_cast<int>( tubeMO->GetPoints().size() ) );
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {

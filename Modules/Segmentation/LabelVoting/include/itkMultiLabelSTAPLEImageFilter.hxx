@@ -83,9 +83,9 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
   InputPixelType maxLabel = 0;
 
   // Record the number of input files.
-  const unsigned int numberOfInputs = this->GetNumberOfInputs();
+  const size_t numberOfInputs = this->GetNumberOfInputs();
 
-  for ( unsigned int k = 0; k < numberOfInputs; ++k )
+  for ( size_t k = 0; k < numberOfInputs; ++k )
     {
     InputConstIteratorType it( this->GetInput( k ), this->GetInput( k )->GetBufferedRegion() );
 
@@ -104,7 +104,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
 ::AllocateConfusionMatrixArray()
 {
   // we need one confusion matrix for every input
-  const unsigned int numberOfInputs = this->GetNumberOfInputs();
+  const ProcessObject::DataObjectPointerArraySizeType numberOfInputs = this->GetNumberOfInputs();
 
   this->m_ConfusionMatrixArray.clear();
   this->m_UpdatedConfusionMatrixArray.clear();
@@ -117,9 +117,11 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
     // one more column to accomodate "reject" classifications by the combined
     // classifier.
     this->m_ConfusionMatrixArray.push_back
-      ( ConfusionMatrixType( this->m_TotalLabelCount+1, this->m_TotalLabelCount ) );
+      ( ConfusionMatrixType(static_cast<unsigned int>( this->m_TotalLabelCount )+1,
+                            static_cast<unsigned int>( this->m_TotalLabelCount ) ) );
     this->m_UpdatedConfusionMatrixArray.push_back
-      ( ConfusionMatrixType( this->m_TotalLabelCount+1, this->m_TotalLabelCount ) );
+      ( ConfusionMatrixType(static_cast<unsigned int>( this->m_TotalLabelCount )+1,
+                            static_cast<unsigned int>( this->m_TotalLabelCount ) ) );
     }
 }
 
@@ -128,7 +130,7 @@ void
 MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
 ::InitializeConfusionMatrixArrayFromVoting()
 {
-  const unsigned int numberOfInputs = this->GetNumberOfInputs();
+  const unsigned int numberOfInputs = static_cast<const unsigned int>( this->GetNumberOfInputs() );
 
   typedef LabelVotingImageFilter<TInputImage, TOutputImage> LabelVotingFilterType;
   typedef typename LabelVotingFilterType::Pointer           LabelVotingFilterPointer;
@@ -202,11 +204,11 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
     }
   else
     {
-    this->m_PriorProbabilities.SetSize( 1+this->m_TotalLabelCount );
+    this->m_PriorProbabilities.SetSize( 1+ static_cast<SizeValueType>( this->m_TotalLabelCount ) );
     this->m_PriorProbabilities.Fill( 0.0 );
 
-    const unsigned int numberOfInputs = this->GetNumberOfInputs();
-    for ( unsigned int k = 0; k < numberOfInputs; ++k )
+    const size_t numberOfInputs = this->GetNumberOfInputs();
+    for (size_t k = 0; k < numberOfInputs; ++k )
       {
       InputConstIteratorType in = InputConstIteratorType( this->GetInput( k ), this->GetOutput()->GetRequestedRegion() );
       for ( in.GoToBegin(); ! in.IsAtEnd(); ++in )
@@ -234,7 +236,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
 
   if ( ! this->m_HasLabelForUndecidedPixels )
     {
-    this->m_LabelForUndecidedPixels = this->m_TotalLabelCount;
+    this->m_LabelForUndecidedPixels = static_cast<OutputPixelType>( this->m_TotalLabelCount );
     }
 
   // allocate and initialize the confusion matrices
@@ -251,11 +253,11 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
   output->Allocate();
 
   // Record the number of input files.
-  const unsigned int numberOfInputs = this->GetNumberOfInputs();
+  const size_t numberOfInputs = this->GetNumberOfInputs();
 
   // create and initialize all input image iterators
   InputConstIteratorType *it = new InputConstIteratorType[numberOfInputs];
-  for ( unsigned int k = 0; k < numberOfInputs; ++k )
+  for (size_t k = 0; k < numberOfInputs; ++k )
     {
     it[k] = InputConstIteratorType
       ( this->GetInput( k ), output->GetRequestedRegion() );
@@ -415,7 +417,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
       }
 
     // now determine the label with the maximum W
-    OutputPixelType winningLabel = this->m_TotalLabelCount;
+    OutputPixelType winningLabel = static_cast<OutputPixelType>( this->m_TotalLabelCount );
     WeightsType winningLabelW = 0;
     for ( OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci )
       {
@@ -426,7 +428,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
         }
       else if ( ! ( W[ci] < winningLabelW ) )
         {
-        winningLabel = this->m_TotalLabelCount;
+        winningLabel = static_cast<OutputPixelType>( this->m_TotalLabelCount );
         }
       }
 

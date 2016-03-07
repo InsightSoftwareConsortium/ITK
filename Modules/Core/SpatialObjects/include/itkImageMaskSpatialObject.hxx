@@ -288,7 +288,7 @@ ImageMaskSpatialObject< TDimension >
     // Next Transform the corners of the bounding box
     typedef typename BoundingBoxType::PointsContainer PointsContainer;
     typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
-    transformedCorners->Reserve(cornerInds->size());
+    transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>( cornerInds->size() ) );
 
     typename IndexContainerType::const_iterator it = cornerInds->begin();
     typename PointsContainer::iterator itTrans = transformedCorners->begin();

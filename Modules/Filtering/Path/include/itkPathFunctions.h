@@ -92,7 +92,7 @@ void MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath & FSPath,
   VectorType  sinCoefficient;
   FSInputType theta;
   int         dimension =     OffsetType::GetOffsetDimension();
-  unsigned    numSteps  =     chainPath.NumberOfSteps();
+  size_t      numSteps  =     chainPath.NumberOfSteps();
 
   const double PI = 4.0 * std::atan(1.0);
 

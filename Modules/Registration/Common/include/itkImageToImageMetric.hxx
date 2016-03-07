@@ -533,7 +533,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 {
   typename FixedImageSampleContainer::iterator iter;
 
-  SizeValueType len = m_FixedImageIndexes.size();
+  SizeValueType len = static_cast<SizeValueType>( m_FixedImageIndexes.size() );
   if ( len != m_NumberOfFixedImageSamples
        || samples.size() != m_NumberOfFixedImageSamples )
     {

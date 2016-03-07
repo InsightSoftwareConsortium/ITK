@@ -28,7 +28,7 @@
 
 namespace itk
 {
-/**
+/**\class NumericTraits
  * \brief Define numeric traits for std::vector.
  * \tparam T Component type of std::vector
  *
@@ -143,7 +143,7 @@ public:
   /** Return the size of the vector. */
   static unsigned int GetLength(const std::vector< T > & m)
   {
-    return m.size();
+    return itk::Math::CastWithRangeCheck<unsigned int>( m.size() );
   }
 
   static void AssignToArray( const Self & v, MeasurementVectorType & mv )

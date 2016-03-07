@@ -153,7 +153,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
       const size_t parameterSize = (*it)->GetParameters().Size();
       (*it)->CopyInParameters( &( inputParameters.data_block() )[offset],
                               &( inputParameters.data_block() )[offset] + parameterSize );
-      offset += parameterSize;
+      offset += static_cast<NumberOfParametersType>(parameterSize);
       }
     ++it;
     }
@@ -218,7 +218,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
     const size_t fixedParameterSize = (*it)->GetFixedParameters().Size();
     (*it)->CopyInFixedParameters( &( this->m_FixedParameters.data_block() )[offset],
               &( this->m_FixedParameters.data_block() )[offset] + fixedParameterSize );
-    offset += fixedParameterSize;
+    offset += static_cast<NumberOfParametersType>(fixedParameterSize);
     ++it;
     }
   while( it != transforms.end() );

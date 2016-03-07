@@ -205,7 +205,7 @@ typename LabelObject< TLabel, VImageDimension >::SizeValueType
 LabelObject< TLabel, VImageDimension >
 ::GetNumberOfLines() const
 {
-  return m_LineContainer.size();
+  return static_cast<typename LabelObject< TLabel, VImageDimension >::SizeValueType>( m_LineContainer.size());
 }
 
 template< typename TLabel, unsigned int VImageDimension >
@@ -290,7 +290,7 @@ LabelObject< TLabel, VImageDimension >
   m_LineContainer.clear();
   for( size_t i = 0; i < src->GetNumberOfLines(); ++i )
     {
-    this->AddLine( src->GetLine(i) );
+    this->AddLine( src->GetLine( static_cast< SizeValueType >( i ) ) );
     }
   this->Optimize();
 }

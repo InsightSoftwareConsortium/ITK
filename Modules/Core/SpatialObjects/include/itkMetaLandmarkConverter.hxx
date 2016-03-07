@@ -153,7 +153,7 @@ MetaLandmarkConverter< NDimensions >
     {
     landmarkMO->ParentID( landmarkSO->GetParent()->GetId() );
     }
-  landmarkMO->NPoints( landmarkMO->GetPoints().size() );
+  landmarkMO->NPoints(static_cast<int>( landmarkMO->GetPoints().size() ) );
   landmarkMO->BinaryData(true);
 
   return landmarkMO;

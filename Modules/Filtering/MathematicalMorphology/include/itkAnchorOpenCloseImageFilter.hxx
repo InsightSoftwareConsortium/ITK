@@ -59,7 +59,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 
   AnchorLineOpenType AnchorLineOpen;
 
-  ProgressReporter progress(this, threadId, this->GetKernel().GetLines().size() * 2 + 1);
+  ProgressReporter progress(this, threadId, static_cast<SizeValueType>( this->GetKernel().GetLines().size() )* 2 + 1);
 
   InputImageConstPointer input = this->GetInput();
 
@@ -120,7 +120,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
     }
   // now do the opening in the middle of the chain
     {
-    unsigned    i = decomposition.size() - 1;
+    unsigned    i = static_cast<unsigned>( decomposition.size() ) - 1;
     KernelLType ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
     unsigned int SELength = GetLinePixels< KernelLType >(ThisLine);
@@ -144,7 +144,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
     }
 
   // Now for the rest of the dilations -- note that i needs to be signed
-  for ( int i = decomposition.size() - 2; i >= 0; --i )
+  for ( int i = static_cast<int>( decomposition.size() ) - 2; i >= 0; --i )
     {
     KernelLType ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);

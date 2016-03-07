@@ -248,7 +248,7 @@ private:
   /** returns an iterator that points to the end of the container */
   Iterator End()
   {
-    Iterator iter( m_InternalContainer.end(), m_InternalContainer.size() );
+    Iterator iter( m_InternalContainer.end(), static_cast<InstanceIdentifier>( m_InternalContainer.size() ) );
 
     return iter;
   }
@@ -264,7 +264,7 @@ private:
   /** returns an iterator that points to the end of the container */
   ConstIterator End() const
   {
-    ConstIterator iter( m_InternalContainer.end(), m_InternalContainer.size() );
+    ConstIterator iter( m_InternalContainer.end(), static_cast<InstanceIdentifier>( m_InternalContainer.size() ) );
 
     return iter;
   }

@@ -136,8 +136,8 @@ public:
   LinesListType & GetLines(unsigned int n = 0);
 
   /** Set/Get the number of lines to extract */
-  itkSetMacro(NumberOfLines, unsigned int);
-  itkGetConstMacro(NumberOfLines, unsigned int);
+  itkSetMacro(NumberOfLines, LinesListSizeType);
+  itkGetConstMacro(NumberOfLines, LinesListSizeType);
 
   /** Set/Get the radius of the disc to remove from the accumulator
    *  for each line found */

@@ -178,7 +178,7 @@ MetaLineConverter< NDimensions >
     {
     lineMO->ParentID( lineSO->GetParent()->GetId() );
     }
-  lineMO->NPoints( linePoints.size() );
+  lineMO->NPoints(static_cast<int>( linePoints.size() ) );
   lineMO->BinaryData(true);
   return lineMO;
 }

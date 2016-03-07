@@ -87,7 +87,7 @@ void LoadBCMFC::AddRightHandSideTerm(Element::Float term)
 
 int LoadBCMFC::GetNumberOfLeftHandSideTerms() const
 {
-  return this->m_LeftHandSide.size();
+  return static_cast<int>( this->m_LeftHandSide.size() );
 }
 
 int LoadBCMFC::GetNumberOfRightHandSideTerms() const

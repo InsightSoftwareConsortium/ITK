@@ -148,7 +148,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
         }
 
       //bounding box is min,max pairs
-      int dimension = labelStats.m_BoundingBox.size() / 2;
+      int dimension = static_cast<int>( labelStats.m_BoundingBox.size() ) / 2;
       for ( int ii = 0; ii < ( dimension * 2 ); ii += 2 )
         {
         if ( labelStats.m_BoundingBox[ii] > ( *threadIt ).second.m_BoundingBox[ii] )
@@ -244,7 +244,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 
   // support progress methods/callbacks
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+  ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
   // do the work
   while ( !it.IsAtEnd() )
@@ -478,7 +478,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
     IndexType       index;
     SizeType        size;
 
-    unsigned int dimension = bbox.size() / 2;
+    unsigned int dimension = static_cast<unsigned int>( bbox.size() ) / 2;
 
     for ( unsigned int i = 0; i < dimension; i++ )
       {

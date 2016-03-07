@@ -138,7 +138,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
     return;
     }
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess  );
+  ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
   const size_t ln =  outputRegionForThread.GetSize(0);
 

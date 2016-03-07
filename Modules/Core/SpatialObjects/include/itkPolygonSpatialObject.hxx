@@ -94,7 +94,7 @@ unsigned int
 PolygonSpatialObject< TDimension >
 ::NumberOfPoints() const
 {
-  return ( this->GetPoints() ).size();
+  return static_cast<unsigned int>( ( this->GetPoints() ).size() );
 }
 
 template< unsigned int TDimension >

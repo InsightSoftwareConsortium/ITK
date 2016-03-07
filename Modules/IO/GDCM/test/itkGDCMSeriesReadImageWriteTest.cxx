@@ -60,7 +60,7 @@ int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
   ReaderType::Pointer reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & fileNames = it->GetInputFileNames();
-  const unsigned int numberOfFileNames =  fileNames.size();
+  const size_t numberOfFileNames = fileNames.size();
   std::cout << numberOfFileNames << std::endl;
   for( unsigned int fni = 0; fni < numberOfFileNames; ++fni )
     {

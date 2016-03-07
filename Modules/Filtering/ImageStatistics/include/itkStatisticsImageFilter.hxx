@@ -322,7 +322,7 @@ StatisticsImageFilter< TInputImage >
 
   // support progress methods/callbacks
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+  ProgressReporter progress( this, threadId, static_cast<itk::SizeValueType>( numberOfLinesToProcess ) );
 
   // do the work
   while ( !it.IsAtEnd() )

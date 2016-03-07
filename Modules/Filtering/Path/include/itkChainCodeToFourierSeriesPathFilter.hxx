@@ -48,7 +48,7 @@ ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPat
   VectorType          sinCoefficient;
   OutputPathInputType theta;
 
-  unsigned int numSteps;
+  size_t               numSteps;
   unsigned int numHarmonics = m_NumberOfHarmonics;        // private copy
   int          dimension = OffsetType::GetOffsetDimension();
 

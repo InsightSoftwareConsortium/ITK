@@ -23,8 +23,8 @@ int itkPriorityQueueTest( int, char * [] )
 {
   typedef itk::IdentifierType    ElementIdentifier;
 
-  typedef itk::MinPriorityQueueElementWrapper< int, double, ElementIdentifier > MinPQElementType;
-  typedef itk::MaxPriorityQueueElementWrapper< int, double, ElementIdentifier > MaxPQElementType;
+  typedef itk::MinPriorityQueueElementWrapper< size_t, double, ElementIdentifier > MinPQElementType;
+  typedef itk::MaxPriorityQueueElementWrapper< size_t, double, ElementIdentifier > MaxPQElementType;
 
   typedef itk::PriorityQueueContainer<
     MinPQElementType, MinPQElementType, double, ElementIdentifier > MinPQType;
@@ -52,7 +52,7 @@ int itkPriorityQueueTest( int, char * [] )
   sequence.push_back( -1. );
 
   std::list< double >::const_iterator it = sequence.begin();
-  ElementIdentifier i = 0;
+  size_t i = 0;
   for(; it != sequence.end(); ++it, i++ )
     {
     min_priority_queue->Push( MinPQElementType( i, *it ) );
@@ -61,7 +61,7 @@ int itkPriorityQueueTest( int, char * [] )
 
   sequence.sort();
   it = sequence.begin();
-  i = sequence.size();
+  i  = sequence.size();
 
   std::cout <<"Min Priority Queue   ";
   while( !min_priority_queue->Empty() )

@@ -159,7 +159,7 @@ template< typename TInputImage, typename TOutputImage >
 bool
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TestHomogeneity(IndexList & Plist)
 {
-  int         num = Plist.size();
+  int         num = static_cast<int>( Plist.size() );
   int         i, j;
   RGBHCVPixel getp;
   double      addp[6] = { 0, 0, 0, 0, 0, 0 };

@@ -304,7 +304,7 @@ void IPLCommonImageIO::ReadImageInformation()
 
   for ( i = 0, numfiles = Dir->GetNumberOfFiles(); i < numfiles; i++ )
     {
-    const char *curFname =  Dir->GetFile(i);
+    const char *curFname =  Dir->GetFile(static_cast<unsigned int>( i ) );
     char        fullPath[IOCommon::ITK_MAXPATHLEN + 1];
     sprintf(fullPath, "%s/%s", imagePath, curFname);
 
@@ -354,7 +354,7 @@ void IPLCommonImageIO::ReadImageInformation()
   // set the image properties
   this->SetDimensions(0, m_ImageHeader->imageXsize);
   this->SetDimensions(1, m_ImageHeader->imageYsize);
-  this->SetDimensions( 2, m_FilenameList->NumFiles() );
+  this->SetDimensions( 2, static_cast<unsigned int>( m_FilenameList->NumFiles() ) );
   this->SetSpacing(0, m_ImageHeader->imageXres);
   this->SetSpacing(1, m_ImageHeader->imageYres);
   this->SetSpacing(2, m_ImageHeader->sliceThickness + m_ImageHeader->sliceGap);

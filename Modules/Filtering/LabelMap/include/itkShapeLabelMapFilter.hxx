@@ -520,7 +520,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     no.Fill(0);
     no[0] = 1;
     // std::cout << no << "-> " << 2 * ls.size() << std::endl;
-    intercepts[no] += 2 * ls.size();
+    intercepts[no] += 2 * static_cast<SizeValueType>( ls.size() );
 
     // and look at the neighbors
     typename LineImageIteratorType::ConstIterator ci;

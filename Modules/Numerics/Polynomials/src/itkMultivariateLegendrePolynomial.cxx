@@ -127,8 +127,8 @@ throw ( MultivariateLegendrePolynomial::CoefficientVectorSizeMismatch )
 {
   if ( coefficients.size() != m_NumberOfCoefficients )
     {
-    throw CoefficientVectorSizeMismatch(coefficients.size(),
-                                        m_NumberOfCoefficients);
+    throw CoefficientVectorSizeMismatch(static_cast<int>( coefficients.size() ),
+                                        static_cast<int>( m_NumberOfCoefficients) );
     }
 
   // copy coefficients to array of double

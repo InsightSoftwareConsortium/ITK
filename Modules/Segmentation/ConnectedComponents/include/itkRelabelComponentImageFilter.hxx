@@ -146,8 +146,8 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
 
   // create a lookup table to map the input label to the output label.
   // cache the object sizes for later access by the user
-  m_NumberOfObjects = sizeVector.size();
-  m_OriginalNumberOfObjects = sizeVector.size();
+  m_NumberOfObjects = static_cast<LabelType>( sizeVector.size() );
+  m_OriginalNumberOfObjects = static_cast<LabelType>( sizeVector.size() );
   m_SizeOfObjectsInPixels.clear();
   m_SizeOfObjectsInPixels.resize(m_NumberOfObjects);
   m_SizeOfObjectsInPhysicalUnits.clear();
@@ -246,7 +246,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   LabelType numPrint = m_NumberOfObjectsToPrint;
   if ( numPrint > m_SizeOfObjectsInPixels.size() )
     {
-    numPrint = m_SizeOfObjectsInPixels.size();
+    numPrint = static_cast<LabelType>( m_SizeOfObjectsInPixels.size() );
     }
 
   for ( i = 0, it = m_SizeOfObjectsInPixels.begin(),

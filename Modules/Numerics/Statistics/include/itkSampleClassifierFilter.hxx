@@ -192,8 +192,7 @@ SampleClassifierFilter< TSample >
                               * membershipFunctions[i]->Evaluate(measurements);
       }
 
-    unsigned int classIndex;
-    classIndex = m_DecisionRule->Evaluate(discriminantScores);
+    const size_t classIndex = m_DecisionRule->Evaluate(discriminantScores);
 
     output->AddInstance( classLabels[classIndex], iter.GetInstanceIdentifier() );
     ++iter;

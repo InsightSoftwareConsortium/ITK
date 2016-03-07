@@ -184,7 +184,7 @@ int N4( int argc, char *argv[] )
     numIters = ConvertVector<unsigned int>( argv[5] );
     }
   typename CorrecterType::VariableSizeArrayType
-  maximumNumberOfIterations( numIters.size() );
+  maximumNumberOfIterations( static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>( numIters.size() ) );
   for( unsigned int d = 0; d < numIters.size(); d++ )
     {
     maximumNumberOfIterations[d] = numIters[d];
@@ -192,7 +192,7 @@ int N4( int argc, char *argv[] )
   correcter->SetMaximumNumberOfIterations( maximumNumberOfIterations );
 
   typename CorrecterType::ArrayType numberOfFittingLevels;
-  numberOfFittingLevels.Fill( numIters.size() );
+  numberOfFittingLevels.Fill(static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>( numIters.size() ) );
   correcter->SetNumberOfFittingLevels( numberOfFittingLevels );
 
   /* B-spline options -- we place this here to take care of the case where

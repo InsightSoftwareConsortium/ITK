@@ -817,7 +817,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   // Print the stats associated with all the regions
   for ( unsigned int k = 0; k < m_InitialNumberOfRegions; k++ )
     {
-    int i = m_RegionsPointer[k]->GetRegionBorderSize();
+    int i = static_cast<int>( m_RegionsPointer[k]->GetRegionBorderSize() );
     if ( i > 0 )
       {
       std::cout << "Stats for Region No: "

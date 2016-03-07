@@ -58,7 +58,7 @@ RegistrationParameterScalesFromIndexShift< TMetric >
                                                   const_cast<TransformBaseTemplate<typename TMetric::MeasureType> *>(this->GetTransform());
   const ParametersType oldParameters = transform->GetParameters();
 
-  const SizeValueType numSamples = this->m_SamplePoints.size();
+  const SizeValueType numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
 
   VirtualPointType point;
   TransformOutputType newMappedVoxel;

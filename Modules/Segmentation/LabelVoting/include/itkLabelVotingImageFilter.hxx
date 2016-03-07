@@ -60,9 +60,9 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   typedef ImageRegionConstIterator< TInputImage > IteratorType;
 
   // Record the number of input files.
-  const unsigned int numberOfInputFiles = this->GetNumberOfIndexedInputs();
+  const size_t numberOfInputFiles = this->GetNumberOfIndexedInputs();
 
-  for ( unsigned int i = 0; i < numberOfInputFiles; ++i )
+  for ( size_t i = 0; i < numberOfInputFiles; ++i )
     {
     const InputImageType *inputImage =  this->GetInput(i);
     IteratorType          it( inputImage, inputImage->GetBufferedRegion() );
@@ -92,7 +92,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
       {
       itkWarningMacro("No new label for undecided pixels, using zero.");
       }
-    this->m_LabelForUndecidedPixels = this->m_TotalLabelCount;
+    this->m_LabelForUndecidedPixels = static_cast<OutputPixelType>( this->m_TotalLabelCount );
     }
 
   // Allocate the output image.
@@ -115,11 +115,11 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer output = this->GetOutput();
 
   // Record the number of input files.
-  const unsigned int numberOfInputFiles = this->GetNumberOfIndexedInputs();
+  const size_t numberOfInputFiles =this->GetNumberOfIndexedInputs();
 
   //  create and initialize all input image iterators
   IteratorType *it = new IteratorType[numberOfInputFiles];
-  for ( unsigned int i = 0; i < numberOfInputFiles; ++i )
+  for ( size_t i = 0; i < numberOfInputFiles; ++i )
     {
     it[i] = IteratorType(this->GetInput(i),
                          outputRegionForThread);

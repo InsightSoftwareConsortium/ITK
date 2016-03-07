@@ -133,8 +133,8 @@ public:
   CirclesListType & GetCircles(unsigned int n = 0);
 
   /** Set/Get the number of circles to extract */
-  itkSetMacro(NumberOfCircles, unsigned int);
-  itkGetConstMacro(NumberOfCircles, unsigned int);
+  itkSetMacro(NumberOfCircles, CirclesListSizeType);
+  itkGetConstMacro(NumberOfCircles, CirclesListSizeType);
 
   /** Set/Get the radius of the disc to remove from the accumulator
    *  for each circle found */

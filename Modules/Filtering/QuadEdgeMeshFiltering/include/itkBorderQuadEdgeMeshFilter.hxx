@@ -206,7 +206,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
   InputMeshConstPointer input = this->GetInput();
 
-  InputPointIdentifier NbBoundaryPt = this->m_BoundaryPtMap.size();
+  InputPointIdentifier NbBoundaryPt = static_cast<InputPointIdentifier>( this->m_BoundaryPtMap.size() );
 
   InputCoordRepType r = this->RadiusMaxSquare();
 
@@ -380,7 +380,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
   InputQEType *bdryEdge = *( list->begin() );
 
-  InputPointIdentifier NbBoundaryPt = this->m_BoundaryPtMap.size();
+  InputPointIdentifier NbBoundaryPt = static_cast<InputPointIdentifier>( this->m_BoundaryPtMap.size() );
 
   std::vector< InputCoordRepType > Length(NbBoundaryPt + 1, 0.0);
 

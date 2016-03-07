@@ -119,7 +119,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
 
-  const ThreadIdType nbOfThreads = m_NumberOfLabels.size();
+  const ThreadIdType nbOfThreads = static_cast<const ThreadIdType>( m_NumberOfLabels.size() );
 
   // create a line iterator
   typedef itk::ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
