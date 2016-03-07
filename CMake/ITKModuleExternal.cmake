@@ -61,25 +61,9 @@ if(ITK_MODULES_DIR)
 endif()
 set(ITK_MODULES_DIR "${ITK_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
+include(CTest)
 include(ITKExternalData)
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt)
-  include(CTest)
-  include(ITKModuleTest)
-  if(NOT DEFINED ITK_USE_KWSTYLE)
-    find_package(KWStyle 1.0.1
-      QUIET
-      )
-    option(ITK_USE_KWSTYLE
-      "Enable the use of KWStyle for checking coding style."
-      ${KWSTYLE_FOUND} # default
-      )
-    mark_as_advanced(ITK_USE_KWSTYLE)
-  endif()
-else()
-  if(NOT DEFINED BUILD_TESTING)
-    set(BUILD_TESTING 0)
-  endif()
-endif()
+include(ITKModuleTest)
 
 include(ITKModuleMacros)
 include(itk-module.cmake)
