@@ -22,8 +22,14 @@
 #include "itkPolyLineParametricPath.h"
 #include "itkConceptChecking.h"
 #include "itksys/hash_map.hxx"
-#include "vcl_deque.h"
-#include "vcl_list.h"
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include "vcl_deque.h"
+#endif
+#include <deque>
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include "vcl_list.h"
+#endif
+#include <list>
 
 namespace itk
 {
@@ -218,7 +224,7 @@ private:
   // pixel traversed = first pixel in contour) would be possible by either
   // changing the merging rules, which would make the contouring operation
   //slower, or by storing additional data as to which pixel was first.
-  class ContourType:public vcl_deque< VertexType >
+  class ContourType:public std::deque< VertexType >
   {
 public:
     unsigned int m_ContourNumber;
@@ -227,7 +233,7 @@ public:
   // Store all the growing contours in a list. We may need to delete contours
   // from anywhere in the sequence (when we merge them together), so we need to
   // use a list instead of a vector or similar.
-  typedef vcl_list< ContourType >             ContourContainer;
+  typedef std::list< ContourType >            ContourContainer;
   typedef typename ContourContainer::iterator ContourRef;
 
   // declare the hash function we are using for the hash_map.

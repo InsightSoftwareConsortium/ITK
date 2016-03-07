@@ -18,7 +18,10 @@
 #ifndef itkQuadEdgeMesh_h
 #define itkQuadEdgeMesh_h
 
-#include "vcl_cstdarg.h"
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include "vcl_cstdarg.h"
+#endif
+#include <cstdarg>
 #include <queue>
 #include <vector>
 #include <list>
